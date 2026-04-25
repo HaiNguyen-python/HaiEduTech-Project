@@ -135,8 +135,8 @@ export const vffModules: VFFModule[] = [
     lessons: [
       {
         id: "vff-greet-1",
-        title: "Anh, Chị, Em — Hệ thống đại từ",
-        titleEn: "Anh, Chị, Em — The Pronoun System",
+        title: "Anh, Chị, Em - Hệ thống đại từ",
+        titleEn: "Anh, Chị, Em - The Pronoun System",
         icon: "👥",
         objectives: ["Hiểu hệ thống xưng hô Việt Nam", "Sử dụng đúng đại từ theo tuổi và giới tính"],
         objectivesEn: ["Understand Vietnamese pronoun system", "Use correct pronouns based on age and gender"],
@@ -179,8 +179,8 @@ export const vffModules: VFFModule[] = [
           { speaker: "B", vi: "Cảm ơn, tôi khỏe. Còn bạn?", en: "Thank you, I'm fine. And you?" },
           { speaker: "A", vi: "Tôi cũng khỏe. Tạm biệt nhé!", en: "I'm also fine. Goodbye!" },
         ],
-        culturalNote: "Người Việt thường chào bằng 'Ăn cơm chưa?' (Đã ăn cơm chưa?) — nghĩa là quan tâm, không phải mời ăn.",
-        culturalNoteEn: "Vietnamese often greet with 'Have you eaten yet?' — it shows care, not an actual dinner invitation.",
+        culturalNote: "Người Việt thường chào bằng 'Ăn cơm chưa?' (Đã ăn cơm chưa?) - nghĩa là quan tâm, không phải mời ăn.",
+        culturalNoteEn: "Vietnamese often greet with 'Have you eaten yet?' - it shows care, not an actual dinner invitation.",
         quiz: [
           { question: "'Tạm biệt' nghĩa là gì?", questionEn: "What does 'Tạm biệt' mean?", options: ["Hello", "Thank you", "Goodbye", "Sorry"], answer: 2 },
         ],

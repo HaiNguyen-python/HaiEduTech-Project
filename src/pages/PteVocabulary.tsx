@@ -1,6 +1,6 @@
 /**
  * @file PteVocabulary.tsx
- * @description PTE Academic Vocabulary — 150 words with list, flashcard, search, mastery, and quiz modes.
+ * @description PTE Academic Vocabulary - 150 words with list, flashcard, search, mastery, and quiz modes.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useState, useMemo, useEffect } from "react";
@@ -255,7 +255,7 @@ const PteVocabulary = () => {
           {syncing
             ? "Syncing your progress…"
             : userId
-            ? "☁️ Synced to your account — progress follows you across devices."
+            ? "☁️ Synced to your account - progress follows you across devices."
             : "💾 Saved on this device. Sign in to sync progress across devices."}
         </p>
       </div>

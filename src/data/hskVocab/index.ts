@@ -1,5 +1,5 @@
 // ============================================================
-// HSK Vocabulary Index — Aggregates all HSK 1-6 data
+// HSK Vocabulary Index - Aggregates all HSK 1-6 data
 // Lazy-loaded per level for performance optimization
 // ============================================================
 export type { HskWord } from "./types";

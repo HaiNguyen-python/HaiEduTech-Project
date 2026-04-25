@@ -253,7 +253,7 @@ const ChineseConversationalLessonView = () => {
                         </div>
                       )}
 
-                      {/* Sample dialogue — chat bubble style */}
+                      {/* Sample dialogue - chat bubble style */}
                       <div className="space-y-4">
                         {situation.sampleDialogue.map((line, i) => {
                           // Alternate sides: even index = left, odd = right (zig-zag for readability)

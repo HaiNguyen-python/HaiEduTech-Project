@@ -11,15 +11,15 @@ const SITE_URL = "https://haiedutech.com";
 const DEFAULT_OG = `${SITE_URL}/og-image.webp?v=4`;
 
 interface SEOProps {
-  /** Page title — keep under 60 chars, include primary keyword. */
+  /** Page title - keep under 60 chars, include primary keyword. */
   title: string;
-  /** Meta description — keep under 160 chars, compelling summary. */
+  /** Meta description - keep under 160 chars, compelling summary. */
   description: string;
-  /** Path only, e.g. "/english/ielts" — used to build canonical URL. */
+  /** Path only, e.g. "/english/ielts" - used to build canonical URL. */
   path?: string;
   /** Optional OG image (full URL). Defaults to site og-image.webp. */
   image?: string;
-  /** Optional JSON-LD structured data object — e.g. Course, FAQPage, BreadcrumbList. */
+  /** Optional JSON-LD structured data object - e.g. Course, FAQPage, BreadcrumbList. */
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   /** Default "website"; set to "article" for blog/lessons. */
   type?: "website" | "article" | "course";

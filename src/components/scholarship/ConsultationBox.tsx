@@ -80,8 +80,8 @@ const ConsultationBox = ({ onSubmit, loading }: ConsultationBoxProps) => {
           </h2>
           <p className="text-xs sm:text-sm text-muted-foreground">
             {t(
-              "Điền hồ sơ — Mr. Hai sẽ tìm 5 học bổng phù hợp & lộ trình ứng tuyển",
-              "Share your profile — Mr. Hai finds 5 matched scholarships + roadmap",
+              "Điền hồ sơ - Mr. Hai sẽ tìm 5 học bổng phù hợp & lộ trình ứng tuyển",
+              "Share your profile - Mr. Hai finds 5 matched scholarships + roadmap",
             )}
           </p>
         </div>

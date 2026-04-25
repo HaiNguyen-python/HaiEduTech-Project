@@ -1,4 +1,4 @@
-// TOEIC Essential Vocabulary Database — 300+ business keywords
+// TOEIC Essential Vocabulary Database - 300+ business keywords
 // Organized by 10 professional categories with IPA, bilingual definitions, examples, synonyms & collocations
 import { toeicVocabExpansion } from "./toeicVocabExpansion";
 

@@ -9,7 +9,7 @@
 import type { CambridgeLecture } from "./cambridgeLecturesData";
 
 // ============================================================
-// STARTERS — 2 bài
+// STARTERS - 2 bài
 // ============================================================
 const startersAnimalsZoo: CambridgeLecture = {
   id: "cam-starters-animals-zoo",
@@ -19,8 +19,8 @@ const startersAnimalsZoo: CambridgeLecture = {
   skill: "vocabulary",
   icon: "🦁",
   duration: "15 min",
-  description: "Meet 15 animal friends and learn their sounds, sizes, and homes — perfect for Reading & Writing Part 2.",
-  descriptionVi: "Gặp 15 bạn động vật và học âm thanh, kích thước, nơi ở — hoàn hảo cho Đọc & Viết Phần 2.",
+  description: "Meet 15 animal friends and learn their sounds, sizes, and homes - perfect for Reading & Writing Part 2.",
+  descriptionVi: "Gặp 15 bạn động vật và học âm thanh, kích thước, nơi ở - hoàn hảo cho Đọc & Viết Phần 2.",
   learningObjective: "Students can name 15 zoo animals and describe one feature for each.",
   learningObjectiveVi: "Học sinh đọc tên 15 con vật ở sở thú và mô tả 1 đặc điểm.",
   examPattern: "Starters R&W Part 2: True/False questions about a picture with animals. Look carefully at COLOR, NUMBER, and PLACE.",
@@ -60,8 +60,8 @@ const startersAnimalsZoo: CambridgeLecture = {
     { question: "Picture shows 4 red parrots IN a cage. Sentence: '4 red parrots in a cage.' True or False?", options: ["TRUE", "FALSE", "Cannot tell", "Maybe"], answer: 0, explanation: "Color, number, place all match → TRUE." },
     { question: "Best rule for True/False questions?", options: ["Always say TRUE", "Check color, number, place", "Read fast", "Look only at color"], answer: 1, explanation: "Check all three details before deciding." },
   ],
-  parentInfo: "Builds Reading & Writing Part 2 skills. Children learn to verify multiple details before committing to an answer — a key academic discipline.",
-  parentInfoVi: "Xây dựng kỹ năng Đọc & Viết Phần 2. Trẻ học cách xác minh nhiều chi tiết trước khi chốt đáp án — kỷ luật học thuật quan trọng.",
+  parentInfo: "Builds Reading & Writing Part 2 skills. Children learn to verify multiple details before committing to an answer - a key academic discipline.",
+  parentInfoVi: "Xây dựng kỹ năng Đọc & Viết Phần 2. Trẻ học cách xác minh nhiều chi tiết trước khi chốt đáp án - kỷ luật học thuật quan trọng.",
   illustrationKey: "starters",
   isNew: true,
 };
@@ -74,14 +74,14 @@ const startersFamilyHome: CambridgeLecture = {
   skill: "speaking",
   icon: "👨‍👩‍👧‍👦",
   duration: "15 min",
-  description: "Learn family words (mum, dad, brother, sister) and rooms in the house — for Speaking Part 4.",
-  descriptionVi: "Học từ về gia đình (mum, dad, brother, sister) và các phòng trong nhà — cho Nói Phần 4.",
+  description: "Learn family words (mum, dad, brother, sister) and rooms in the house - for Speaking Part 4.",
+  descriptionVi: "Học từ về gia đình (mum, dad, brother, sister) và các phòng trong nhà - cho Nói Phần 4.",
   learningObjective: "Students can introduce family members and say which room each person is in.",
   learningObjectiveVi: "Học sinh giới thiệu thành viên gia đình và nói mỗi người ở phòng nào.",
   examPattern: "Starters Speaking Part 4: Personal questions like 'Who is in your family?' and 'Where is your mum?'.",
   examPatternVi: "Starters Nói Phần 4: Câu hỏi cá nhân như 'Who is in your family?' và 'Where is your mum?'.",
-  secretTip: "🔑 Use full sentences: 'My mum is in the kitchen.' — not just 'kitchen'. Examiners reward full sentences!",
-  secretTipVi: "🔑 Dùng câu đầy đủ: 'My mum is in the kitchen.' — đừng chỉ nói 'kitchen'. Giám khảo thưởng câu đầy đủ!",
+  secretTip: "🔑 Use full sentences: 'My mum is in the kitchen.' - not just 'kitchen'. Examiners reward full sentences!",
+  secretTipVi: "🔑 Dùng câu đầy đủ: 'My mum is in the kitchen.' - đừng chỉ nói 'kitchen'. Giám khảo thưởng câu đầy đủ!",
   welcomeMessage: "Hello! 👋 Tell me about your family! Who lives with you?",
   welcomeMessageVi: "Chào bạn! 👋 Kể tôi nghe về gia đình! Ai sống cùng bạn?",
   stepByStep: [
@@ -121,7 +121,7 @@ const startersFamilyHome: CambridgeLecture = {
 };
 
 // ============================================================
-// MOVERS — 2 bài
+// MOVERS - 2 bài
 // ============================================================
 const moversAdjectivesCompare: CambridgeLecture = {
   id: "cam-movers-adjectives-compare",
@@ -131,16 +131,16 @@ const moversAdjectivesCompare: CambridgeLecture = {
   skill: "reading-writing",
   icon: "📏",
   duration: "18 min",
-  description: "Master comparative & superlative adjectives — the secret weapon for Movers Reading Part 4 & Writing Part 6.",
-  descriptionVi: "Làm chủ tính từ so sánh hơn & nhất — vũ khí bí mật cho Movers Đọc Phần 4 & Viết Phần 6.",
+  description: "Master comparative & superlative adjectives - the secret weapon for Movers Reading Part 4 & Writing Part 6.",
+  descriptionVi: "Làm chủ tính từ so sánh hơn & nhất - vũ khí bí mật cho Movers Đọc Phần 4 & Viết Phần 6.",
   learningObjective: "Students can form -er/-est for short adjectives and 'more/most' for long adjectives correctly.",
   learningObjectiveVi: "Học sinh dùng đúng -er/-est cho tính từ ngắn và 'more/most' cho tính từ dài.",
   examPattern: "Movers Reading Part 4: Choose words to fill a story. Writing Part 6: Describe a picture using comparisons.",
   examPatternVi: "Movers Đọc Phần 4: Chọn từ điền vào truyện. Viết Phần 6: Mô tả tranh dùng so sánh.",
   secretTip: "🔑 1-2 syllable adjective → add -er/-est. 3+ syllables → use more/most. Always say it OUT LOUD to hear what sounds right!",
   secretTipVi: "🔑 Tính từ 1-2 âm tiết → thêm -er/-est. 3+ âm tiết → dùng more/most. Luôn nói TO để cảm nhận đúng!",
-  welcomeMessage: "Today we discover the magic of comparing things! 📏 Bigger, better, best — let's go!",
-  welcomeMessageVi: "Hôm nay khám phá phép thuật so sánh! 📏 To hơn, tốt hơn, tốt nhất — đi nào!",
+  welcomeMessage: "Today we discover the magic of comparing things! 📏 Bigger, better, best - let's go!",
+  welcomeMessageVi: "Hôm nay khám phá phép thuật so sánh! 📏 To hơn, tốt hơn, tốt nhất - đi nào!",
   stepByStep: [
     { step: 1, title: "Count syllables", titleVi: "Đếm âm tiết", detail: "BIG = 1, HAPPY = 2, BEAUTIFUL = 4. Count the parts.", detailVi: "BIG = 1, HAPPY = 2, BEAUTIFUL = 4. Đếm phần." },
     { step: 2, title: "Apply the rule", titleVi: "Áp dụng quy tắc", detail: "1-2 syllables → -er/-est. 3+ → more/most.", detailVi: "1-2 âm tiết → -er/-est. 3+ → more/most." },
@@ -187,12 +187,12 @@ const moversWeatherSeasons: CambridgeLecture = {
   skill: "listening",
   icon: "☀️",
   duration: "16 min",
-  description: "Listen to weather forecasts and pick the right symbol — Listening Part 5 made easy!",
-  descriptionVi: "Nghe dự báo thời tiết và chọn biểu tượng đúng — Nghe Phần 5 dễ như chơi!",
+  description: "Listen to weather forecasts and pick the right symbol - Listening Part 5 made easy!",
+  descriptionVi: "Nghe dự báo thời tiết và chọn biểu tượng đúng - Nghe Phần 5 dễ như chơi!",
   learningObjective: "Students recognize 12 weather words and 4 seasons by listening.",
   learningObjectiveVi: "Học sinh nhận diện 12 từ thời tiết và 4 mùa qua nghe.",
-  examPattern: "Movers Listening Part 5: Color and write — listen for the weather described and color the correct picture.",
-  examPatternVi: "Movers Nghe Phần 5: Tô và viết — nghe thời tiết được mô tả và tô đúng tranh.",
+  examPattern: "Movers Listening Part 5: Color and write - listen for the weather described and color the correct picture.",
+  examPatternVi: "Movers Nghe Phần 5: Tô và viết - nghe thời tiết được mô tả và tô đúng tranh.",
   secretTip: "🔑 The weather word always comes with 'It is/was ___'. Listen for THIS pattern!",
   secretTipVi: "🔑 Từ thời tiết luôn đi kèm 'It is/was ___'. Nghe theo MẪU này!",
   welcomeMessage: "Brrr! ❄️ Wow! ☀️ Today we become weather wizards!",
@@ -236,7 +236,7 @@ const moversWeatherSeasons: CambridgeLecture = {
 };
 
 // ============================================================
-// FLYERS — 2 bài
+// FLYERS - 2 bài
 // ============================================================
 const flyersStoryWriting: CambridgeLecture = {
   id: "cam-flyers-story-writing",
@@ -246,8 +246,8 @@ const flyersStoryWriting: CambridgeLecture = {
   skill: "reading-writing",
   icon: "📖",
   duration: "20 min",
-  description: "Master the 3-picture story task — Reading & Writing Part 7 — with the BEGINNING-MIDDLE-END formula.",
-  descriptionVi: "Làm chủ bài viết 3 tranh — Đọc & Viết Phần 7 — với công thức MỞ-THÂN-KẾT.",
+  description: "Master the 3-picture story task - Reading & Writing Part 7 - with the BEGINNING-MIDDLE-END formula.",
+  descriptionVi: "Làm chủ bài viết 3 tranh - Đọc & Viết Phần 7 - với công thức MỞ-THÂN-KẾT.",
   learningObjective: "Students write a 20-35 word story describing 3 pictures with correct sequence words.",
   learningObjectiveVi: "Học sinh viết truyện 20-35 từ mô tả 3 tranh với từ chỉ trình tự đúng.",
   examPattern: "Flyers R&W Part 7: 3 pictures shown. Write a story (20-35 words). Use sequence words: First, Then, Finally.",
@@ -346,7 +346,7 @@ const flyersListeningTraps: CambridgeLecture = {
 };
 
 // ============================================================
-// KET — 2 bài
+// KET - 2 bài
 // ============================================================
 const ketWritingMessage: CambridgeLecture = {
   id: "cam-ket-writing-message",
@@ -356,8 +356,8 @@ const ketWritingMessage: CambridgeLecture = {
   skill: "reading-writing",
   icon: "✉️",
   duration: "22 min",
-  description: "Write a perfect short message (25-35 words) covering ALL three points — the highest-scoring formula.",
-  descriptionVi: "Viết tin nhắn ngắn hoàn hảo (25-35 từ) phủ CẢ ba ý — công thức điểm cao nhất.",
+  description: "Write a perfect short message (25-35 words) covering ALL three points - the highest-scoring formula.",
+  descriptionVi: "Viết tin nhắn ngắn hoàn hảo (25-35 từ) phủ CẢ ba ý - công thức điểm cao nhất.",
   learningObjective: "Students cover all 3 content points within 25-35 words while maintaining correct grammar.",
   learningObjectiveVi: "Học sinh phủ cả 3 ý trong 25-35 từ với ngữ pháp đúng.",
   examPattern: "KET R&W Part 6: Email/note with 3 bullet points to cover. Score = 5 marks (content + language).",
@@ -372,7 +372,7 @@ const ketWritingMessage: CambridgeLecture = {
     { step: 3, title: "Count words & check grammar", titleVi: "Đếm từ & soát ngữ pháp", detail: "25-35 words. Check verbs (am/is/are, was/were) and prepositions (in/on/at).", detailVi: "25-35 từ. Soát động từ và giới từ." },
   ],
   illustratedRules: [
-    { icon: "👋", rule: "Opening: 'Hi [name],' — informal & friendly", ruleVi: "Mở: 'Hi [tên],' — thân mật", example: "Hi Anna," },
+    { icon: "👋", rule: "Opening: 'Hi [name],' - informal & friendly", ruleVi: "Mở: 'Hi [tên],' - thân mật", example: "Hi Anna," },
     { icon: "📝", rule: "Body: 1 sentence per bullet point (3 sentences total)", ruleVi: "Thân: 1 câu/ý (tổng 3 câu)", example: "Thanks for inviting me. I will come at 7 pm. I'll bring a cake." },
     { icon: "👋", rule: "Closing: 'See you soon, [your name]' OR 'Bye, [name]'", ruleVi: "Kết: 'See you soon, [tên bạn]' HOẶC 'Bye, [tên]'", example: "See you soon, Tom" },
   ],
@@ -411,8 +411,8 @@ const ketReadingSigns: CambridgeLecture = {
   skill: "reading-writing",
   icon: "🚸",
   duration: "20 min",
-  description: "Match signs and short messages to their meaning — Part 1 done in under 5 minutes.",
-  descriptionVi: "Nối biển báo và tin ngắn với nghĩa — Phần 1 hoàn thành dưới 5 phút.",
+  description: "Match signs and short messages to their meaning - Part 1 done in under 5 minutes.",
+  descriptionVi: "Nối biển báo và tin ngắn với nghĩa - Phần 1 hoàn thành dưới 5 phút.",
   learningObjective: "Students decode the function (warning, instruction, info) of any short text or sign.",
   learningObjectiveVi: "Học sinh giải mã chức năng (cảnh báo, hướng dẫn, thông tin) của mọi văn bản/biển ngắn.",
   examPattern: "KET R&W Part 1: 6 short texts (signs, notes, ads). Match each to one of 8 meanings (A-H).",
@@ -433,7 +433,7 @@ const ketReadingSigns: CambridgeLecture = {
   ],
   watchOut: [
     { mistake: "Reading the sign word-by-word", mistakeVi: "Đọc biển từng từ", tip: "Read the WHOLE sign once, then decide the type. Don't get stuck on one word.", tipVi: "Đọc CẢ biển 1 lần rồi quyết định loại. Đừng kẹt ở 1 từ." },
-    { mistake: "Picking a meaning that uses similar words", mistakeVi: "Chọn nghĩa dùng từ giống", tip: "Cambridge tests PARAPHRASING. The right answer rephrases — it doesn't repeat.", tipVi: "Cambridge test viết LẠI. Đáp án đúng diễn đạt khác — không lặp." },
+    { mistake: "Picking a meaning that uses similar words", mistakeVi: "Chọn nghĩa dùng từ giống", tip: "Cambridge tests PARAPHRASING. The right answer rephrases - it doesn't repeat.", tipVi: "Cambridge test viết LẠI. Đáp án đúng diễn đạt khác - không lặp." },
   ],
   practiceSet: [
     { instruction: "Decode the sign", instructionVi: "Giải mã biển", question: "Sign in a shop: 'Buy one get one free!' Best meaning:", options: ["Pay double", "Take 2 items, pay for 1", "Shop is closed", "No entry"], answer: 1, explanation: "BOGOF = 2 for the price of 1.", explanationVi: "BOGOF = 2 với giá 1." },
@@ -450,14 +450,14 @@ const ketReadingSigns: CambridgeLecture = {
     { question: "'No parking' means:", options: ["You can park", "You cannot park here", "Parking is free", "Park anywhere"], answer: 1, explanation: "'No' + verb = cannot do." },
     { question: "Best strategy for KET Part 1:", options: ["Read every word twice", "Categorize sign type FIRST", "Pick the longest option", "Always pick A"], answer: 1, explanation: "Type-categorization is fastest." },
   ],
-  parentInfo: "Reading Part 1 is the easiest section to maximize — strategy alone can lift score from 4/6 to 6/6.",
-  parentInfoVi: "Đọc Phần 1 là phần dễ tối đa điểm — chiến lược nâng điểm từ 4/6 lên 6/6.",
+  parentInfo: "Reading Part 1 is the easiest section to maximize - strategy alone can lift score from 4/6 to 6/6.",
+  parentInfoVi: "Đọc Phần 1 là phần dễ tối đa điểm - chiến lược nâng điểm từ 4/6 lên 6/6.",
   illustrationKey: "ket",
   isNew: true,
 };
 
 // ============================================================
-// PET — 2 bài
+// PET - 2 bài
 // ============================================================
 const petEmailWriting: CambridgeLecture = {
   id: "cam-pet-email-writing",
@@ -467,8 +467,8 @@ const petEmailWriting: CambridgeLecture = {
   skill: "reading-writing",
   icon: "📧",
   duration: "25 min",
-  description: "Plan and write a 100-word email that responds to all 4 prompts — the B1-level writing benchmark.",
-  descriptionVi: "Lập kế hoạch và viết email 100 từ trả lời cả 4 gợi ý — chuẩn viết B1.",
+  description: "Plan and write a 100-word email that responds to all 4 prompts - the B1-level writing benchmark.",
+  descriptionVi: "Lập kế hoạch và viết email 100 từ trả lời cả 4 gợi ý - chuẩn viết B1.",
   learningObjective: "Students respond to all 4 underlined prompts in clear, organized paragraphs (~100 words).",
   learningObjectiveVi: "Học sinh trả lời cả 4 gợi ý gạch chân trong các đoạn rõ ràng (~100 từ).",
   examPattern: "PET R&W Part 1: Email with 4 underlined notes (e.g., 'Yes, please!', 'Tell me more!', 'Sorry…', 'Great idea!'). Write 100 words.",
@@ -486,7 +486,7 @@ const petEmailWriting: CambridgeLecture = {
     { icon: "✅", rule: "Note 'Yes, please!' → ACCEPT and add 1 detail", ruleVi: "Ghi chú 'Yes, please!' → CHẤP NHẬN + 1 chi tiết", example: "Yes, I'd love to come! I'm free on Saturday." },
     { icon: "❓", rule: "Note 'Tell me more!' → ASK 1-2 questions", ruleVi: "Ghi chú 'Tell me more!' → HỎI 1-2 câu", example: "Could you tell me what time it starts? And where exactly?" },
     { icon: "🙅", rule: "Note 'Sorry, I can't!' → DECLINE + REASON + ALTERNATIVE", ruleVi: "Ghi chú 'Sorry, I can't!' → TỪ CHỐI + LÝ DO + GIẢI PHÁP", example: "Unfortunately, I can't make it because I have an exam. Can we meet next week instead?" },
-    { icon: "💡", rule: "Note 'Great idea!' → PRAISE + 1 suggestion", ruleVi: "Ghi chú 'Great idea!' → KHEN + 1 đề xuất", example: "Brilliant idea! We could also invite Maria — she loves picnics." },
+    { icon: "💡", rule: "Note 'Great idea!' → PRAISE + 1 suggestion", ruleVi: "Ghi chú 'Great idea!' → KHEN + 1 đề xuất", example: "Brilliant idea! We could also invite Maria - she loves picnics." },
   ],
   watchOut: [
     { mistake: "Writing only 60 words", mistakeVi: "Viết chỉ 60 từ", tip: "Below 80 = automatic mark drop. Aim for 90-110 words.", tipVi: "Dưới 80 = tự động mất điểm. Nhắm 90-110 từ." },
@@ -523,8 +523,8 @@ const petListeningPart3: CambridgeLecture = {
   skill: "listening",
   icon: "📝",
   duration: "22 min",
-  description: "Master gap-fill notes from a monologue — Part 3 of PET Listening — with the 'predict-listen-verify' method.",
-  descriptionVi: "Làm chủ điền chỗ trống từ độc thoại — Phần 3 PET Nghe — với phương pháp 'đoán-nghe-xác minh'.",
+  description: "Master gap-fill notes from a monologue - Part 3 of PET Listening - with the 'predict-listen-verify' method.",
+  descriptionVi: "Làm chủ điền chỗ trống từ độc thoại - Phần 3 PET Nghe - với phương pháp 'đoán-nghe-xác minh'.",
   learningObjective: "Students fill 6 gaps with the EXACT word/number heard, including correct spelling.",
   learningObjectiveVi: "Học sinh điền 6 chỗ trống bằng từ/số CHÍNH XÁC nghe được, đúng chính tả.",
   examPattern: "PET Listening Part 3: A monologue (announcement, talk). 6 sentences with gaps. Listen TWICE.",

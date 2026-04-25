@@ -1,4 +1,4 @@
-// YKI A2 Finnish Lessons Data — Grammar & speaking strategies with expanded quizzes
+// YKI A2 Finnish Lessons Data - Grammar & speaking strategies with expanded quizzes
 import type { FinnishModule } from "./types";
 
 export const finnishLessonModules: FinnishModule[] = [
@@ -8,8 +8,8 @@ export const finnishLessonModules: FinnishModule[] = [
     titleEn: "Local Cases (Missä, Mistä, Mihin)",
     icon: "📍",
     color: "from-blue-600 to-cyan-500",
-    description: "Master Finnish local cases — the key to expressing location and direction.",
-    descriptionEn: "Master Finnish local cases — the key to expressing location and direction.",
+    description: "Master Finnish local cases - the key to expressing location and direction.",
+    descriptionEn: "Master Finnish local cases - the key to expressing location and direction.",
     pillar: "lessons",
     lessons: [
       {
@@ -89,12 +89,12 @@ Vowel harmony: back vowels (a, o, u) use -ssa/-sta; front vowels (ä, ö, y) use
         ],
         quiz: [
           { question: "Mikä sija ilmaisee 'sisältä pois'?", options: ["Inessiivi", "Elatiivi", "Illatiivi", "Adessiivi"], answer: 1, explanation: "Elatiivi (-sta/-stä) ilmaisee liikettä paikasta pois." },
-          { question: "'Olen koulussa' — mikä sija on 'koulussa'?", options: ["Illatiivi", "Inessiivi", "Elatiivi", "Partitiivi"], answer: 1, explanation: "'koulussa' on inessiivissä (-ssa), eli 'koulussa/school at'." },
-          { question: "'Menen kauppaan' — mikä sija on 'kauppaan'?", options: ["Inessiivi", "Elatiivi", "Illatiivi", "Adessiivi"], answer: 2, explanation: "'kauppaan' on illatiivissa (-an), eli 'into the store'." },
+          { question: "'Olen koulussa' - mikä sija on 'koulussa'?", options: ["Illatiivi", "Inessiivi", "Elatiivi", "Partitiivi"], answer: 1, explanation: "'koulussa' on inessiivissä (-ssa), eli 'koulussa/school at'." },
+          { question: "'Menen kauppaan' - mikä sija on 'kauppaan'?", options: ["Inessiivi", "Elatiivi", "Illatiivi", "Adessiivi"], answer: 2, explanation: "'kauppaan' on illatiivissa (-an), eli 'into the store'." },
           { question: "Mikä pääte on inessiivissä (takavokaali)?", options: ["-ssa", "-ssä", "-sta", "-seen"], answer: 0, explanation: "Inessiivi takavokaalilla = -ssa." },
-          { question: "'Tulen Turusta' — mikä sija?", options: ["Illatiivi", "Inessiivi", "Elatiivi", "Ablatiivi"], answer: 2, explanation: "'Turusta' on elatiivissa — tulen Turusta (from Turku)." },
+          { question: "'Tulen Turusta' - mikä sija?", options: ["Illatiivi", "Inessiivi", "Elatiivi", "Ablatiivi"], answer: 2, explanation: "'Turusta' on elatiivissa - tulen Turusta (from Turku)." },
           { question: "Miten sanot 'in Helsinki'?", options: ["Helsinkiin", "Helsingissä", "Helsingistä", "Helsinkillä"], answer: 1, explanation: "'Helsingissä' = in Helsinki (inessiivi)." },
-          { question: "'Muutin Helsinkiin' — mikä muoto?", options: ["Inessiivi", "Elatiivi", "Illatiivi", "Essiivi"], answer: 2, explanation: "'Helsinkiin' on illatiivi — muutin Helsinkiin (moved to Helsinki)." },
+          { question: "'Muutin Helsinkiin' - mikä muoto?", options: ["Inessiivi", "Elatiivi", "Illatiivi", "Essiivi"], answer: 2, explanation: "'Helsinkiin' on illatiivi - muutin Helsinkiin (moved to Helsinki)." },
         ],
       },
       {
@@ -157,11 +157,11 @@ Outer local cases express being **on** a surface or **at** a place:
           },
         ],
         quiz: [
-          { question: "'Kirja on pöydällä' — mikä sija?", options: ["Adessiivi", "Inessiivi", "Allatiivi", "Ablatiivi"], answer: 0, explanation: "'pöydällä' on adessiivissa (-llä) = on the table." },
+          { question: "'Kirja on pöydällä' - mikä sija?", options: ["Adessiivi", "Inessiivi", "Allatiivi", "Ablatiivi"], answer: 0, explanation: "'pöydällä' on adessiivissa (-llä) = on the table." },
           { question: "Miten sanot 'from the table'?", options: ["pöydällä", "pöydälle", "pöydältä", "pöydässä"], answer: 2, explanation: "'pöydältä' = from the table (ablatiivi)." },
-          { question: "'Minulla on auto' — mikä sija on 'minulla'?", options: ["Allatiivi", "Ablatiivi", "Adessiivi", "Inessiivi"], answer: 2, explanation: "'Minulla' on adessiivissa — omistusrakenne." },
+          { question: "'Minulla on auto' - mikä sija on 'minulla'?", options: ["Allatiivi", "Ablatiivi", "Adessiivi", "Inessiivi"], answer: 2, explanation: "'Minulla' on adessiivissa - omistusrakenne." },
           { question: "Mihin menet? 'Menen Tampere___'", options: ["-lla", "-lta", "-lle", "-ssa"], answer: 2, explanation: "'Tampereelle' = to Tampere (allatiivi)." },
-          { question: "'Tulen Tampereelta' — mikä sija?", options: ["Allatiivi", "Adessiivi", "Ablatiivi", "Elatiivi"], answer: 2, explanation: "'Tampereelta' on ablatiivissa." },
+          { question: "'Tulen Tampereelta' - mikä sija?", options: ["Allatiivi", "Adessiivi", "Ablatiivi", "Elatiivi"], answer: 2, explanation: "'Tampereelta' on ablatiivissa." },
         ],
       },
     ],
@@ -210,10 +210,10 @@ Consonant gradation is a sound change that occurs when adding suffixes. The cons
 | t → d | katu → ka**d**ulla | (on the street) |`,
         quiz: [
           { question: "Mitä tapahtuu 'kk':lle astevaihtelussa?", options: ["kk → g", "kk → k", "kk → ∅", "kk → kk"], answer: 1, explanation: "Geminaatta kk heikentyy muotoon k." },
-          { question: "'kauppa' → 'kaupassa' — mikä muutos?", options: ["pp → p", "pp → v", "pp → bb", "Ei muutosta"], answer: 0, explanation: "'kauppa' → 'kaupassa': pp heikentyy muotoon p." },
-          { question: "'katu' → 'kadulla' — mikä muutos?", options: ["t → d", "t → tt", "k → ∅", "t → s"], answer: 0, explanation: "'katu' → 'kadulla': t heikentyy muotoon d." },
-          { question: "'puku' → 'puussa' — mikä muutos?", options: ["k → kk", "k → g", "k → ∅", "p → v"], answer: 2, explanation: "'puku' → 'puussa': k katoaa kokonaan (k → ∅)." },
-          { question: "'tupa' → 'tuvassa' — mikä muutos?", options: ["t → d", "p → v", "p → b", "pp → p"], answer: 1, explanation: "'tupa' → 'tuvassa': p heikentyy muotoon v." },
+          { question: "'kauppa' → 'kaupassa' - mikä muutos?", options: ["pp → p", "pp → v", "pp → bb", "Ei muutosta"], answer: 0, explanation: "'kauppa' → 'kaupassa': pp heikentyy muotoon p." },
+          { question: "'katu' → 'kadulla' - mikä muutos?", options: ["t → d", "t → tt", "k → ∅", "t → s"], answer: 0, explanation: "'katu' → 'kadulla': t heikentyy muotoon d." },
+          { question: "'puku' → 'puussa' - mikä muutos?", options: ["k → kk", "k → g", "k → ∅", "p → v"], answer: 2, explanation: "'puku' → 'puussa': k katoaa kokonaan (k → ∅)." },
+          { question: "'tupa' → 'tuvassa' - mikä muutos?", options: ["t → d", "p → v", "p → b", "pp → p"], answer: 1, explanation: "'tupa' → 'tuvassa': p heikentyy muotoon v." },
           { question: "Milloin astevaihtelu tapahtuu?", options: ["Aina", "Kun muodostuu suljettu tavu", "Vain verbeissä", "Vain substantiiveissa"], answer: 1, explanation: "Astevaihtelu tapahtuu kun muodostuu suljettu tavu." },
         ],
       },
@@ -270,7 +270,7 @@ The imperfect is used to talk about completed actions in the past.
           { question: "Mikä on 'hän syö' imperfektissä?", options: ["hän söi", "hän syöi", "hän syödi", "hän syön"], answer: 0, explanation: "'Syö' → 'söi': y → ö vokaalinmuutos + i." },
           { question: "Miten muodostetaan imperfekti?", options: ["vartalo + -i- + pääte", "vartalo + -si- + pääte", "vartalo + -in", "vartalo + -nut"], answer: 0, explanation: "Imperfekti: vartalo + -i- + persoonapääte." },
           { question: "Mikä on 'me menemme' imperfektissä?", options: ["me menimme", "me meniimme", "me mennimme", "me menemme"], answer: 0, explanation: "'Menemme' → 'menimme'." },
-          { question: "'Söin aamupalaa' — mikä aika?", options: ["Preesens", "Imperfekti", "Perfekti", "Konditionaali"], answer: 1, explanation: "'Söin' on imperfektimuoto (simple past)." },
+          { question: "'Söin aamupalaa' - mikä aika?", options: ["Preesens", "Imperfekti", "Perfekti", "Konditionaali"], answer: 1, explanation: "'Söin' on imperfektimuoto (simple past)." },
           { question: "Mikä on 'he tulevat' imperfektissä?", options: ["he tulivat", "he tullivat", "he tulevat", "he tuleivat"], answer: 0, explanation: "'Tulevat' → 'tulivat'." },
         ],
       },
@@ -278,8 +278,8 @@ The imperfect is used to talk about completed actions in the past.
   },
   {
     id: "yki-speaking-strategies",
-    title: "Puhuminen — Strategiat",
-    titleEn: "Speaking — Strategies",
+    title: "Puhuminen - Strategiat",
+    titleEn: "Speaking - Strategies",
     icon: "🗣️",
     color: "from-teal-500 to-emerald-600",
     description: "Practical speaking strategies for real YKI situations: post office, doctor, job interview.",
@@ -314,7 +314,7 @@ The imperfect is used to talk about completed actions in the past.
           { question: "Miten kysyt 'How long does it take?' suomeksi?", options: ["Kuinka paljon se maksaa?", "Kuinka kauan se kestää?", "Missä se on?", "Milloin se tulee?"], answer: 1, explanation: "'Kuinka kauan se kestää?' = How long does it take?" },
           { question: "Mitä tarkoittaa 'lähettää'?", options: ["To receive", "To send", "To buy", "To open"], answer: 1, explanation: "'Lähettää' = to send." },
           { question: "Mitä tarvitset kirjeen lähettämiseen?", options: ["Avaimen", "Postimerkin", "Lipun", "Kartan"], answer: 1, explanation: "Tarvitset postimerkin (stamp)." },
-          { question: "'Haluaisin lähettää paketin' — mikä muoto on 'haluaisin'?", options: ["Preesens", "Imperfekti", "Konditionaali", "Imperatiivi"], answer: 2, explanation: "'Haluaisin' on konditionaalimuoto (I would like)." },
+          { question: "'Haluaisin lähettää paketin' - mikä muoto on 'haluaisin'?", options: ["Preesens", "Imperfekti", "Konditionaali", "Imperatiivi"], answer: 2, explanation: "'Haluaisin' on konditionaalimuoto (I would like)." },
           { question: "Kuinka paljon paketti maksaa esimerkissä?", options: ["10 euroa", "15 euroa", "20 euroa", "5 euroa"], answer: 1, explanation: "Paketti maksaa 15 euroa." },
         ],
       },
@@ -341,7 +341,7 @@ The imperfect is used to talk about completed actions in the past.
           { question: "Miten lääkäri kysyy 'What's the problem?'", options: ["Mitä kuuluu?", "Mitä vaivaa?", "Mitä maksaa?", "Mitä etsit?"], answer: 1, explanation: "'Mitä vaivaa?' on vakiotapa kysyä vaivasta." },
           { question: "Mitä tarkoittaa 'oireet'?", options: ["Medicine", "Symptoms", "Pain", "Fever"], answer: 1, explanation: "'Oireet' = symptoms." },
           { question: "Mitä lääkäri kirjoittaa?", options: ["Kirjeen", "Reseptin", "Lomakkeen", "Laskun"], answer: 1, explanation: "Lääkäri kirjoittaa reseptin (prescription)." },
-          { question: "'Minulla on kuumetta' — mitä sinulla on?", options: ["Päänsärky", "Kuume", "Yskä", "Allergia"], answer: 1, explanation: "'Kuumetta' = fever." },
+          { question: "'Minulla on kuumetta' - mitä sinulla on?", options: ["Päänsärky", "Kuume", "Yskä", "Allergia"], answer: 1, explanation: "'Kuumetta' = fever." },
           { question: "Kuinka kauan oireet ovat kestäneet?", options: ["Yhden päivän", "Kaksi päivää", "Kolme päivää", "Viikon"], answer: 2, explanation: "Oireet ovat kestäneet kolme päivää." },
         ],
       },
@@ -366,9 +366,9 @@ The imperfect is used to talk about completed actions in the past.
           },
         ],
         quiz: [
-          { question: "'Kerro itsestäsi' — mitä sinun pitää tehdä?", options: ["Kysy kysymys", "Kerro itsestäsi", "Kirjoita viesti", "Lue teksti"], answer: 1, explanation: "'Kerro itsestäsi' = Tell about yourself." },
+          { question: "'Kerro itsestäsi' - mitä sinun pitää tehdä?", options: ["Kysy kysymys", "Kerro itsestäsi", "Kirjoita viesti", "Lue teksti"], answer: 1, explanation: "'Kerro itsestäsi' = Tell about yourself." },
           { question: "Miksi Maria hakee työtä?", options: ["Hän tarvitsee rahaa", "Hän pitää asiakaspalvelusta", "Hän on opiskelija", "Hän asuu lähellä"], answer: 1, explanation: "Maria pitää asiakaspalvelusta ja haluaa oppia lisää." },
-          { question: "'Milloin voit aloittaa?' — mitä kysytään?", options: ["Palkkaa", "Aloitusaikaa", "Kokemusta", "Koulutusta"], answer: 1, explanation: "'Milloin voit aloittaa?' kysyy aloitusaikaa." },
+          { question: "'Milloin voit aloittaa?' - mitä kysytään?", options: ["Palkkaa", "Aloitusaikaa", "Kokemusta", "Koulutusta"], answer: 1, explanation: "'Milloin voit aloittaa?' kysyy aloitusaikaa." },
           { question: "Mikä on 'asiakaspalvelu'?", options: ["Customer service", "Sales", "Marketing", "Management"], answer: 0, explanation: "'Asiakaspalvelu' = customer service." },
           { question: "Milloin Maria voi aloittaa?", options: ["Heti", "Ensi viikolla", "Ensi kuussa", "Kesällä"], answer: 1, explanation: "Maria voi aloittaa ensi viikolla." },
         ],

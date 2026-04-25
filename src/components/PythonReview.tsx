@@ -17,7 +17,7 @@ skills = ["Python", "AI"] # list
 print(f"Name: {name}, Age: {age}")
 print(type(gpa))  # <class 'float'>`,
     noteVi: "Python tự nhận diện kiểu dữ liệu, không cần khai báo kiểu.",
-    noteEn: "Python infers types automatically — no type declaration needed.",
+    noteEn: "Python infers types automatically - no type declaration needed.",
   },
   {
     titleVi: "Vòng lặp For & While",

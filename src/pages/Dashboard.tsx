@@ -93,7 +93,7 @@ const formatRelativeTime = (date: string, isVi: boolean) => {
   return new Date(date).toLocaleDateString();
 };
 
-// Daily motivation pool — picked deterministically by name + date
+// Daily motivation pool - picked deterministically by name + date
 const MOTIVATIONS_VI = [
   "Mỗi bước nhỏ hôm nay là bước nhảy lớn của ngày mai.",
   "Học không phải là cuộc đua, mà là hành trình của riêng em.",
@@ -105,7 +105,7 @@ const MOTIVATIONS_VI = [
 ];
 const MOTIVATIONS_EN = [
   "Small steps today become giant leaps tomorrow.",
-  "Learning is not a race — it's your unique journey.",
+  "Learning is not a race - it's your unique journey.",
   "Consistency beats raw talent every time.",
   "A little today, much stronger tomorrow.",
   "You're doing better than you think. Trust yourself!",
@@ -315,7 +315,7 @@ const Dashboard = () => {
       return { skill, value: avg, fullMark: 100 };
     });
 
-    // Weekly study minutes — last 7 days
+    // Weekly study minutes - last 7 days
     const weeklyMinutes: { day: string; minutes: number }[] = [];
     const dayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     for (let i = 6; i >= 0; i--) {
@@ -331,10 +331,10 @@ const Dashboard = () => {
       weeklyMinutes.push({ day: dayLabels[date.getDay()], minutes });
     }
 
-    // Active course cards — derived from progress in major systems
+    // Active course cards - derived from progress in major systems
     const courses: CourseProgress[] = [];
 
-    // IELTS Lectures — total ~80
+    // IELTS Lectures - total ~80
     if ((ieltsLectureCount || 0) > 0) {
       const total = 80;
       const c = Math.min(ieltsLectureCount || 0, total);
@@ -350,7 +350,7 @@ const Dashboard = () => {
       });
     }
 
-    // TOEIC Lectures — total ~50
+    // TOEIC Lectures - total ~50
     if ((toeicLectureCount || 0) > 0) {
       const total = 50;
       const c = Math.min(toeicLectureCount || 0, total);
@@ -417,7 +417,7 @@ const Dashboard = () => {
       });
     }
 
-    // Recent activities (last 5 only — full log on /activity-log page)
+    // Recent activities (last 5 only - full log on /activity-log page)
     const recentActivities = [...allEvents]
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
       .slice(0, 5);
@@ -431,7 +431,7 @@ const Dashboard = () => {
       metadata?: Record<string, any> | null;
     }>);
 
-    // AI summary — find biggest improvement domain over the last 14 days
+    // AI summary - find biggest improvement domain over the last 14 days
     let aiSummary = "Keep going! Every small step builds your future.";
     const last14 = allEvents.filter(
       (e) => Date.now() - new Date(e.date).getTime() < 14 * 86400000
@@ -555,7 +555,7 @@ const Dashboard = () => {
                 {t("Đang tải dữ liệu...", "Loading data...")}
               </div>
             ) : !hasData ? (
-              /* Empty state — no activity yet */
+              /* Empty state - no activity yet */
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -614,7 +614,7 @@ const Dashboard = () => {
                     {
                       icon: Award,
                       label: t("Điểm TB", "Avg Score"),
-                      value: stats!.avgScore > 0 ? `${stats!.avgScore}%` : "—",
+                      value: stats!.avgScore > 0 ? `${stats!.avgScore}%` : "-",
                       color: "text-primary",
                     },
                   ].map((s, i) => (
@@ -632,7 +632,7 @@ const Dashboard = () => {
                   ))}
                 </div>
 
-                {/* Daily Motivation — personalized by name */}
+                {/* Daily Motivation - personalized by name */}
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -648,7 +648,7 @@ const Dashboard = () => {
                         {t("Lời chúc hôm nay", "Daily Motivation")}
                       </p>
                       <p className="text-base text-foreground font-medium leading-relaxed">
-                        "{pickMotivation(displayName, lang === "vi")}" — {displayName}.
+                        "{pickMotivation(displayName, lang === "vi")}" - {displayName}.
                       </p>
                     </div>
                   </div>
@@ -729,7 +729,7 @@ const Dashboard = () => {
                   </div>
                 )}
 
-                {/* PTE Skill Progress — synced with /pte */}
+                {/* PTE Skill Progress - synced with /pte */}
                 {(pteStats.totalAttempts > 0 || pteStats.skills.some(s => s.completed > 0)) && (
                   <div className="mb-6">
                     <div className="flex items-center justify-between mb-3">
@@ -761,7 +761,7 @@ const Dashboard = () => {
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-6 mb-6">
-                  {/* Skill Radar — 4 programs */}
+                  {/* Skill Radar - 4 programs */}
                   <div className="rounded-2xl bg-card p-6 border border-border">
                     <h3 className="text-sm font-bold text-foreground mb-4 flex items-center gap-2">
                       <Target className="w-4 h-4 text-primary" /> {t("Biểu đồ kỹ năng", "Skill Radar")}
@@ -812,7 +812,7 @@ const Dashboard = () => {
                   </div>
                 </div>
 
-                {/* Recent activities — 5 most recent + View All */}
+                {/* Recent activities - 5 most recent + View All */}
                 {stats!.recentActivities.length > 0 && (
                   <div className="rounded-2xl bg-card p-6 border border-border mb-6">
                     <div className="flex items-center justify-between mb-4">

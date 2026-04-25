@@ -51,7 +51,7 @@ const shuffle = <T,>(arr: T[]): T[] => {
 };
 
 // Flashcard component
-// Flashcard component — auto-height, no internal scrollbar, high-contrast text
+// Flashcard component - auto-height, no internal scrollbar, high-contrast text
 const Flashcard = ({ word }: { word: IeltsWord }) => {
   const [flipped, setFlipped] = useState(false);
   return (
@@ -102,7 +102,7 @@ const Flashcard = ({ word }: { word: IeltsWord }) => {
   );
 };
 
-// Exercise component — MCQ quiz from vocabulary
+// Exercise component - MCQ quiz from vocabulary
 const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: IeltsWord[]; t: (vi: string, en: string) => string }) => {
   const [questions, setQuestions] = useState<{ word: IeltsWord; options: string[]; correct: number }[]>([]);
   const [current, setCurrent] = useState(0);
@@ -341,8 +341,8 @@ const IeltsVocabulary = () => {
               </h1>
               <p className="text-muted-foreground">
                 {t(
-                  `${ieltsVocabData.length} từ vựng thiết yếu — Lọc, học flashcard, luyện tập, nghe phát âm`,
-                  `${ieltsVocabData.length} essential words — Filter, flashcard, exercises, pronunciation`
+                  `${ieltsVocabData.length} từ vựng thiết yếu - Lọc, học flashcard, luyện tập, nghe phát âm`,
+                  `${ieltsVocabData.length} essential words - Filter, flashcard, exercises, pronunciation`
                 )}
               </p>
               <div className="flex flex-wrap items-center gap-3 mt-3 text-sm">
@@ -405,7 +405,7 @@ const IeltsVocabulary = () => {
             {viewMode === "exercise" ? (
               <VocabExercise words={ieltsVocabData.filter(w => mastered.has(w.word))} allWords={ieltsVocabData} t={t} />
             ) : viewMode === "flashcard" ? (
-              /* Flashcard grid — generous gap, responsive columns */
+              /* Flashcard grid - generous gap, responsive columns */
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <AnimatePresence mode="popLayout">
                   {paginated.map(w => (
@@ -416,7 +416,7 @@ const IeltsVocabulary = () => {
                 </AnimatePresence>
               </div>
             ) : (
-              /* List grid — 1 col mobile, 2 tablet, 3 desktop */
+              /* List grid - 1 col mobile, 2 tablet, 3 desktop */
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {paginated.map(w => (
                   <motion.div
@@ -459,14 +459,14 @@ const IeltsVocabulary = () => {
                       <Badge variant="outline" className="text-xs">{w.category}</Badge>
                     </div>
 
-                    {/* Definition — high contrast */}
+                    {/* Definition - high contrast */}
                     <p className="min-w-0 break-words font-semibold leading-relaxed whitespace-normal" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6, overflowWrap: "break-word", wordBreak: "normal" }}>{w.definition.en}</p>
                     <p className="mt-1 min-w-0 break-words font-bold whitespace-normal" style={{ fontSize: "1.1875rem", color: "#1d4ed8", lineHeight: 1.6, overflowWrap: "break-word", wordBreak: "normal" }}>{w.definition.vi}</p>
 
                     {/* Example sentence */}
                     <p className="mt-3 min-w-0 break-words italic leading-relaxed whitespace-normal" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6, overflowWrap: "break-word", wordBreak: "normal" }}>&quot;{w.example}&quot;</p>
 
-                    {/* Synonyms & Collocations — compact wrap layout */}
+                    {/* Synonyms & Collocations - compact wrap layout */}
                     {(w.synonyms?.length || w.collocations?.length) ? (
                      <div className="mt-4 min-w-0 space-y-3 rounded-xl p-4" style={{ backgroundColor: "#ecfdf5", border: "1.5px solid #6ee7b7" }}>
                         {w.synonyms && w.synonyms.length > 0 && (

@@ -1,6 +1,6 @@
 /**
  * @file EnglishFunFacts.tsx
- * @description Interactive "English Fun Fact" module — masonry grid, category
+ * @description Interactive "English Fun Fact" module - masonry grid, category
  * filters, flip-card reveal, share-to-clipboard, daily fact widget, and
  * reaction buttons (🤯 / 😂 / 🔥) persisted in localStorage.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
@@ -126,7 +126,7 @@ const EnglishFunFacts = () => {
   };
 
   const handleShare = async (fact: FunFact) => {
-    const text = `${fact.emoji} ${t(fact.headlineVi, fact.headline)}\n\n${t(fact.revealVi, fact.reveal)}\n\n— ${t("Khám phá thêm tại", "Discover more at")} https://haiedutech.com/english/fun-facts`;
+    const text = `${fact.emoji} ${t(fact.headlineVi, fact.headline)}\n\n${t(fact.revealVi, fact.reveal)}\n\n- ${t("Khám phá thêm tại", "Discover more at")} https://haiedutech.com/english/fun-facts`;
     try {
       if (navigator.share) {
         await navigator.share({ title: t(fact.headlineVi, fact.headline), text });
@@ -140,7 +140,7 @@ const EnglishFunFacts = () => {
       });
       setTimeout(() => setCopiedId((c) => (c === fact.id ? null : c)), 2000);
     } catch {
-      // User cancelled share — silent
+      // User cancelled share - silent
     }
   };
 
@@ -177,8 +177,8 @@ const EnglishFunFacts = () => {
             </h1>
             <p className="text-base sm:text-lg text-muted-foreground max-w-2xl">
               {t(
-                "Những điều kỳ lạ, thú vị và hài hước về tiếng Anh — học mà cười, cười mà nhớ.",
-                "The strange, surprising and hilarious side of English — learn while you smile, smile while you remember.",
+                "Những điều kỳ lạ, thú vị và hài hước về tiếng Anh - học mà cười, cười mà nhớ.",
+                "The strange, surprising and hilarious side of English - learn while you smile, smile while you remember.",
               )}
             </p>
           </motion.div>
@@ -398,8 +398,8 @@ const EnglishFunFacts = () => {
               </h3>
               <p className="text-sm text-muted-foreground">
                 {t(
-                  "Hãy chia sẻ với Thầy Hải — fact của bạn có thể sẽ xuất hiện ở đây cho hàng ngàn học viên khác cùng học hỏi!",
-                  "Tell Teacher Hai — your fact might appear here for thousands of students to learn from!",
+                  "Hãy chia sẻ với Thầy Hải - fact của bạn có thể sẽ xuất hiện ở đây cho hàng ngàn học viên khác cùng học hỏi!",
+                  "Tell Teacher Hai - your fact might appear here for thousands of students to learn from!",
                 )}
               </p>
             </div>

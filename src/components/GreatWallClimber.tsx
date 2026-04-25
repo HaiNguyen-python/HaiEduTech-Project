@@ -1,4 +1,4 @@
-// Great Wall Climber progress visualization — Chinese cultural theme for HSK vocab mastery
+// Great Wall Climber progress visualization - Chinese cultural theme for HSK vocab mastery
 import { useMemo, useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import greatWallBg from "@/assets/great-wall-bg.webp";
@@ -256,7 +256,7 @@ const GreatWallClimber = ({ mastered, total, flyingStars, onStarLanded, containe
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
       >
-        🏔️ {currentMilestone.label} — {currentMilestone.band}
+        🏔️ {currentMilestone.label} - {currentMilestone.band}
       </motion.div>
 
       {/* Flying stars animation */}

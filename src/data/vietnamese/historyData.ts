@@ -1,4 +1,4 @@
-// Expanded Vietnamese history data — timeline, 4-month roadmap with 10 lessons each
+// Expanded Vietnamese history data - timeline, 4-month roadmap with 10 lessons each
 import type { HistoryEvent, HistoryMonth } from "./types";
 
 export const historyTimeline: HistoryEvent[] = [

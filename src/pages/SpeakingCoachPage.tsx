@@ -33,22 +33,22 @@ const SpeakingCoachPage = () => {
 
   const titles: Record<string, { title: string; subtitle: string; back: string }> = {
     english: {
-      title: "AI Speaking Coach — English",
+      title: "AI Speaking Coach - English",
       subtitle: t("Luyện phát âm tiếng Anh với trí tuệ nhân tạo", "Practice English pronunciation with AI"),
       back: "/english",
     },
     chinese: {
-      title: "AI Speaking Coach — 中文",
+      title: "AI Speaking Coach - 中文",
       subtitle: t("Luyện phát âm tiếng Trung với trí tuệ nhân tạo", "Practice Chinese pronunciation with AI"),
       back: "/chinese",
     },
     finnish: {
-      title: "AI Speaking Coach — Suomi",
+      title: "AI Speaking Coach - Suomi",
       subtitle: t("Luyện phát âm tiếng Phần Lan với trí tuệ nhân tạo", "Practice Finnish pronunciation with AI"),
       back: "/finnish/yki-dashboard",
     },
     vietnamese: {
-      title: "AI Speaking Coach — Tiếng Việt",
+      title: "AI Speaking Coach - Tiếng Việt",
       subtitle: t("Luyện phát âm tiếng Việt với trí tuệ nhân tạo", "Practice Vietnamese pronunciation with AI"),
       back: "/learn-vietnamese",
     },

@@ -1,4 +1,4 @@
-// IELTS Lecture Detail View — Rich content with strategy steps, vocab highlighter, quiz, cheat sheet
+// IELTS Lecture Detail View - Rich content with strategy steps, vocab highlighter, quiz, cheat sheet
 import { useState, useMemo } from "react";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { useParams, Link } from "react-router-dom";
@@ -22,7 +22,7 @@ import IeltsLectureDiagram from "@/components/ielts/IeltsLectureDiagram";
 import IeltsLectureExpansionPanel from "@/components/ielts/IeltsLectureExpansionPanel";
 import { lectureExpansions } from "@/data/ieltsLectureExpansion";
 
-// Vocab Highlighter component — inline word with click-to-see definition
+// Vocab Highlighter component - inline word with click-to-see definition
 const VocabWord = ({ vocab }: { vocab: VocabHighlight }) => {
   const [show, setShow] = useState(false);
   const { t } = useLanguage();

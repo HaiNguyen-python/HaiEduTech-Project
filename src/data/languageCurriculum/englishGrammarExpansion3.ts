@@ -1,4 +1,4 @@
-// Grammar Expansion 3 — Advanced & High-Frequency Topics
+// Grammar Expansion 3 - Advanced & High-Frequency Topics
 // New modules: Inversion, Subjunctive & Unreal, Cleft Sentences, Participle Clauses,
 // Phrasal Verbs, Question Forms & Tags, Linking & Discourse Markers, Word Order & Adverbs,
 // Common Confusions (Confusing Pairs), Noun Clauses & Reported Questions.
@@ -25,7 +25,7 @@ export const grammarExpansionModules3: LanguageModule[] = [
         difficulty: "advanced",
         theory: `## Đảo ngữ với trạng từ phủ định
 
-Khi đặt một trạng từ/cụm trạng từ mang nghĩa phủ định hoặc giới hạn ở **đầu câu**, ta phải đảo trợ động từ lên trước chủ ngữ — giống cấu trúc câu hỏi.
+Khi đặt một trạng từ/cụm trạng từ mang nghĩa phủ định hoặc giới hạn ở **đầu câu**, ta phải đảo trợ động từ lên trước chủ ngữ - giống cấu trúc câu hỏi.
 
 ### Các cụm thường gặp
 - **Never / Rarely / Seldom / Hardly ever**
@@ -48,10 +48,10 @@ Khi đặt một trạng từ/cụm trạng từ mang nghĩa phủ định hoặ
 
 ### Lưu ý quan trọng
 - Nếu không có trợ động từ sẵn, dùng **do/does/did** như câu hỏi.
-- Đảo ngữ KHÔNG áp dụng khi trạng từ phủ định bổ nghĩa cho danh từ ('No student passed' — không đảo).`,
+- Đảo ngữ KHÔNG áp dụng khi trạng từ phủ định bổ nghĩa cho danh từ ('No student passed' - không đảo).`,
         theoryEn: `## Inversion with Negative Adverbials
 
-When a negative or restrictive adverbial is placed at the **start of the sentence**, we invert the auxiliary and the subject — like a question.
+When a negative or restrictive adverbial is placed at the **start of the sentence**, we invert the auxiliary and the subject - like a question.
 
 ### Common triggers
 - Never / Rarely / Seldom / Hardly ever
@@ -72,12 +72,12 @@ When a negative or restrictive adverbial is placed at the **start of the sentenc
         proTips: [
           "Nếu câu gốc không có trợ động từ, mượn do/does/did.",
           "'Not only ... but also' đảo ở mệnh đề ĐẦU; 'but also' giữ nguyên.",
-          "Inversion làm câu trang trọng — phù hợp Writing Task 2 và Speaking Part 3."
+          "Inversion làm câu trang trọng - phù hợp Writing Task 2 và Speaking Part 3."
         ],
         proTipsEn: [
           "If no auxiliary exists, borrow do/does/did.",
           "Invert the FIRST clause of 'Not only ... but also'; the second stays normal.",
-          "Inversion adds formality — great for IELTS Writing Task 2 and Speaking Part 3."
+          "Inversion adds formality - great for IELTS Writing Task 2 and Speaking Part 3."
         ],
         vocabulary: [
           { word: "scarcely", meaning: "hầu như không", example: "Scarcely had I sat down when the phone rang." },
@@ -116,14 +116,14 @@ When a negative or restrictive adverbial is placed at the **start of the sentenc
 
 Trong văn phong trang trọng, ta có thể bỏ 'if' và đảo trợ động từ lên trước chủ ngữ.
 
-### Type 1 — với 'should'
+### Type 1 - với 'should'
 - *If you **should need** help, call me.* → ***Should you need** help, call me.*
 
-### Type 2 — với 'were'
+### Type 2 - với 'were'
 - *If I **were** you, I would resign.* → ***Were I** you, I would resign.*
 - *If she **were to** call, ...* → ***Were she to** call, ...*
 
-### Type 3 — với 'had'
+### Type 3 - với 'had'
 - *If I **had known**, I would have come.* → ***Had I known**, I would have come.*
 
 ### Lưu ý
@@ -139,14 +139,14 @@ In formal English, we can omit 'if' and invert the auxiliary.
 
 Negatives are NOT contracted: *Had it not been for ...* (NOT 'Hadn't it been for').`,
         proTips: [
-          "Đảo ngữ điều kiện = trang trọng — chỉ dùng văn viết hoặc thuyết trình.",
+          "Đảo ngữ điều kiện = trang trọng - chỉ dùng văn viết hoặc thuyết trình.",
           "KHÔNG dùng dạng rút gọn 'hadn't / shouldn't' khi đảo.",
-          "'Were it not for X' = 'If it weren't for X' — cấu trúc đẹp trong essay."
+          "'Were it not for X' = 'If it weren't for X' - cấu trúc đẹp trong essay."
         ],
         proTipsEn: [
-          "Inverted conditionals are formal — best in writing or presentations.",
+          "Inverted conditionals are formal - best in writing or presentations.",
           "Do NOT use contractions ('hadn't / shouldn't') after inversion.",
-          "'Were it not for X' = 'If it weren't for X' — elegant in essays."
+          "'Were it not for X' = 'If it weren't for X' - elegant in essays."
         ],
         vocabulary: [
           { word: "should", meaning: "(trợ từ giả định)", example: "Should you require help, contact us." },
@@ -195,7 +195,7 @@ Negatives are NOT contracted: *Had it not been for ...* (NOT 'Hadn't it been for
         difficulty: "advanced",
         theory: `## Subjunctive trong mệnh đề 'that'
 
-Sau các động từ/tính từ chỉ đề nghị, yêu cầu, lệnh, cần thiết — mệnh đề 'that' dùng động từ ở dạng **NGUYÊN MẪU không 'to'** (base form), bất kể chủ ngữ là gì.
+Sau các động từ/tính từ chỉ đề nghị, yêu cầu, lệnh, cần thiết - mệnh đề 'that' dùng động từ ở dạng **NGUYÊN MẪU không 'to'** (base form), bất kể chủ ngữ là gì.
 
 ### Động từ kích hoạt
 suggest, recommend, propose, insist, demand, request, require, urge, advise, ask, command, order, move
@@ -230,13 +230,13 @@ suggest, recommend, propose, insist, demand, request, require, urge, advise, ask
 - *They demanded that the policy be reviewed.*
 - Negative: *We suggest that he not attend the meeting.*`,
         proTips: [
-          "Đừng chia ngôi: 'that he be / she go / it have' — luôn nguyên mẫu.",
-          "Phủ định: 'that S not + V' — KHÔNG dùng don't/doesn't.",
+          "Đừng chia ngôi: 'that he be / she go / it have' - luôn nguyên mẫu.",
+          "Phủ định: 'that S not + V' - KHÔNG dùng don't/doesn't.",
           "Văn phong Anh-Mỹ ưa subjunctive; Anh-Anh có thể dùng 'should + V' thay thế."
         ],
         proTipsEn: [
-          "Do NOT conjugate: 'that he be / she go / it have' — always base form.",
-          "Negative: 'that S not + V' — NOT don't/doesn't.",
+          "Do NOT conjugate: 'that he be / she go / it have' - always base form.",
+          "Negative: 'that S not + V' - NOT don't/doesn't.",
           "American English prefers subjunctive; British English may use 'should + V' instead."
         ],
         vocabulary: [
@@ -267,8 +267,8 @@ suggest, recommend, propose, insist, demand, request, require, urge, advise, ask
       },
       {
         id: "subjunctive-wish-if-only",
-        title: "'Wish' và 'If only' — câu ước",
-        titleEn: "'Wish' and 'If only' — Unreal Wishes",
+        title: "'Wish' và 'If only' - câu ước",
+        titleEn: "'Wish' and 'If only' - Unreal Wishes",
         level: 4,
         difficulty: "intermediate",
         theory: `## 'Wish' và 'If only'
@@ -276,9 +276,9 @@ suggest, recommend, propose, insist, demand, request, require, urge, advise, ask
 ### 1. Ước ở hiện tại (trái với hiện tại)
 **S + wish(es) / If only + S + V (past simple)**
 - *I wish I **knew** the answer.* (Tôi ước mình biết câu trả lời.)
-- *If only she **were** here.* (Dùng 'were' cho mọi ngôi — formal/correct.)
+- *If only she **were** here.* (Dùng 'were' cho mọi ngôi - formal/correct.)
 
-### 2. Ước ở quá khứ (trái với quá khứ — hối tiếc)
+### 2. Ước ở quá khứ (trái với quá khứ - hối tiếc)
 **S + wish + S + had + V3**
 - *I wish I **had studied** harder.* (Tiếc là đã không học chăm.)
 - *If only we **hadn't missed** the bus.*
@@ -289,18 +289,18 @@ suggest, recommend, propose, insist, demand, request, require, urge, advise, ask
 - *I wish you **wouldn't interrupt** me.*
 
 ### Lưu ý
-- KHÔNG dùng 'I wish I would ...' — vì bạn không thể yêu cầu chính mình.
+- KHÔNG dùng 'I wish I would ...' - vì bạn không thể yêu cầu chính mình.
 - 'If only' nhấn mạnh hơn 'wish'; thường đứng đầu câu, có thể đứng độc lập.`,
         theoryEn: `## 'Wish' and 'If only'
 
 ### 1. Wish about NOW (unreal present)
-**S + wish + S + past simple** — *I wish I knew the answer.* (Use 'were' for all persons.)
+**S + wish + S + past simple** - *I wish I knew the answer.* (Use 'were' for all persons.)
 
 ### 2. Wish about PAST (regret)
-**S + wish + S + had + V3** — *I wish I had studied harder.*
+**S + wish + S + had + V3** - *I wish I had studied harder.*
 
 ### 3. Wish about FUTURE (annoyance / desire for change)
-**S + wish + S + would + V** — *I wish it would stop raining.*
+**S + wish + S + would + V** - *I wish it would stop raining.*
 
 NOT used: *I wish I would ...* (you can't request yourself).`,
         proTips: [
@@ -327,7 +327,7 @@ NOT used: *I wish I would ...* (you can't request yourself).`,
             sentences: [
               { text: "I wish I ___ (can) speak French fluently.", textEn: "I wish I ___ (can) speak French fluently.", answer: "could" },
               { text: "If only I ___ (study) harder for the exam yesterday.", textEn: "If only I ___ (study) harder for the exam yesterday.", answer: "had studied" },
-              { text: "I wish you ___ (not / drive) so fast — it scares me.", textEn: "I wish you ___ (not / drive) so fast.", answer: "wouldn't drive" },
+              { text: "I wish you ___ (not / drive) so fast - it scares me.", textEn: "I wish you ___ (not / drive) so fast.", answer: "wouldn't drive" },
               { text: "She wishes she ___ (be) taller.", textEn: "She wishes she ___ (be) taller.", answer: "were" }
             ]
           }
@@ -359,7 +359,7 @@ NOT used: *I wish I would ...* (you can't request yourself).`,
         titleEn: "It-cleft & What-cleft (Pseudo-cleft)",
         level: 4,
         difficulty: "advanced",
-        theory: `## Câu chẻ — nhấn mạnh thông tin
+        theory: `## Câu chẻ - nhấn mạnh thông tin
 
 ### 1. It-cleft
 **It + be + [phần nhấn mạnh] + that/who + phần còn lại**
@@ -383,7 +383,7 @@ NOT used: *I wish I would ...* (you can't request yourself).`,
 ### Lưu ý
 - Trong It-cleft, dùng **was** với danh từ số ít/đếm được/người, **were** với số nhiều.
 - What-cleft nhấn mạnh **vật/sự việc** (KHÔNG nhấn mạnh người trực tiếp).`,
-        theoryEn: `## Cleft Sentences — emphasizing information
+        theoryEn: `## Cleft Sentences - emphasizing information
 
 ### 1. It-cleft
 **It + be + [emphasized part] + that/who + rest**
@@ -402,12 +402,12 @@ Notes: 'was' for singular/people, 'were' for plural; What-cleft emphasizes thing
         proTips: [
           "It-cleft phổ biến trong nói; What-cleft trang trọng hơn, hợp viết.",
           "All-cleft = mạnh nhất, ngụ ý 'chỉ duy nhất điều này'.",
-          "Tránh lạm dụng — 1-2 cleft mỗi đoạn essay là đủ."
+          "Tránh lạm dụng - 1-2 cleft mỗi đoạn essay là đủ."
         ],
         proTipsEn: [
           "It-cleft is common in speech; What-cleft is more formal/written.",
           "All-cleft is the strongest; implies 'only this one thing'.",
-          "Don't overuse — 1-2 clefts per essay paragraph is enough."
+          "Don't overuse - 1-2 clefts per essay paragraph is enough."
         ],
         vocabulary: [
           { word: "emphasize", meaning: "nhấn mạnh", example: "Cleft sentences emphasize information." },
@@ -457,19 +457,19 @@ Notes: 'was' for singular/people, 'were' for plural; What-cleft emphasizes thing
         difficulty: "advanced",
         theory: `## Mệnh đề phân từ
 
-### 1. Present participle (V-ing) — chủ động / đồng thời
+### 1. Present participle (V-ing) - chủ động / đồng thời
 - *While he **was walking** home, he met an old friend.*
   → ***Walking** home, he met an old friend.*
 - *Because she **felt** tired, she went to bed.*
   → ***Feeling** tired, she went to bed.*
 
-### 2. Past participle (V3/ed) — bị động
+### 2. Past participle (V3/ed) - bị động
 - *The book, **which was written** by Orwell, is famous.*
   → *The book, **written** by Orwell, is famous.*
 - *Because she **was injured** in the accident, she couldn't walk.*
   → ***Injured** in the accident, she couldn't walk.*
 
-### 3. Perfect participle (Having + V3) — hành động xảy ra TRƯỚC
+### 3. Perfect participle (Having + V3) - hành động xảy ra TRƯỚC
 - *After he **had finished** dinner, he watched TV.*
   → ***Having finished** dinner, he watched TV.*
 - *After he **had been warned**, he stayed away.*
@@ -477,31 +477,31 @@ Notes: 'was' for singular/people, 'were' for plural; What-cleft emphasizes thing
 
 ### Quy tắc quan trọng
 - **CÙNG chủ ngữ**: chủ ngữ của mệnh đề phân từ phải là chủ ngữ của mệnh đề chính.
-- ❌ *Walking down the street, the rain started.* (rain không 'walk') — gọi là "dangling participle".
+- ❌ *Walking down the street, the rain started.* (rain không 'walk') - gọi là "dangling participle".
 - ✅ *Walking down the street, **I** felt the rain start.*`,
         theoryEn: `## Participle Clauses
 
-### 1. Present participle (V-ing) — active / simultaneous
+### 1. Present participle (V-ing) - active / simultaneous
 *Walking home, he met a friend.*
 
-### 2. Past participle (V3/ed) — passive
+### 2. Past participle (V3/ed) - passive
 *Written by Orwell, the book is famous.*
 
-### 3. Perfect participle (Having + V3) — earlier action
+### 3. Perfect participle (Having + V3) - earlier action
 *Having finished dinner, he watched TV.*
 
-### Key rule — same subject
+### Key rule - same subject
 The implied subject of the participle MUST be the subject of the main clause.
 ❌ *Walking down the street, the rain started.* (dangling)
 ✅ *Walking down the street, I felt the rain.*`,
         proTips: [
-          "Dùng phân từ để câu gọn và sang — rất hợp Writing Task 1 (mô tả biểu đồ).",
-          "Tránh 'dangling participle' — luôn kiểm tra ai là chủ ngữ thật.",
+          "Dùng phân từ để câu gọn và sang - rất hợp Writing Task 1 (mô tả biểu đồ).",
+          "Tránh 'dangling participle' - luôn kiểm tra ai là chủ ngữ thật.",
           "'Having + V3' = nhấn mạnh thứ tự thời gian; tránh nếu hai hành động xảy ra cùng lúc."
         ],
         proTipsEn: [
-          "Participle clauses make writing concise — great for Writing Task 1.",
-          "Avoid dangling participles — check the real subject.",
+          "Participle clauses make writing concise - great for Writing Task 1.",
+          "Avoid dangling participles - check the real subject.",
           "Use 'Having + V3' only when actions are sequential."
         ],
         vocabulary: [
@@ -561,7 +561,7 @@ The implied subject of the participle MUST be the subject of the main clause.
         difficulty: "intermediate",
         theory: `## Cấu trúc Phrasal Verb
 
-Phrasal verb = **động từ + tiểu từ (particle)** — particle là giới từ hoặc trạng từ. Nghĩa thường KHÁC với nghĩa từng từ riêng lẻ.
+Phrasal verb = **động từ + tiểu từ (particle)** - particle là giới từ hoặc trạng từ. Nghĩa thường KHÁC với nghĩa từng từ riêng lẻ.
 
 ### 4 loại chính
 
@@ -572,15 +572,15 @@ Phrasal verb = **động từ + tiểu từ (particle)** — particle là giới
 | 3. Không có tân ngữ (nội động) | Không cần tân ngữ | *wake up, sit down* |
 | 4. Ba phần (verb + particle + prep) | Tân ngữ luôn sau prep | *put up with sb / look forward to sth* |
 
-### Quy tắc đại từ — RẤT QUAN TRỌNG
+### Quy tắc đại từ - RẤT QUAN TRỌNG
 Khi tân ngữ là **đại từ** (it, him, her, them ...), với loại 1 (tách được) **PHẢI tách**:
 - ✅ *Turn **it** off.* / *Pick **them** up.*
 - ❌ *Turn off **it**.* / *Pick up **them**.*
 
 ### Một số phrasal verbs cực thông dụng
-- **give up** = từ bỏ — *Don't give up!*
-- **find out** = phát hiện — *I found out the truth.*
-- **set up** = thành lập — *They set up a company.*
+- **give up** = từ bỏ - *Don't give up!*
+- **find out** = phát hiện - *I found out the truth.*
+- **set up** = thành lập - *They set up a company.*
 - **come across** = tình cờ thấy (không tách)
 - **look forward to** = mong chờ (3 phần, +V-ing)`,
         theoryEn: `## Phrasal Verb Structure
@@ -606,7 +606,7 @@ With separable verbs, **pronoun objects MUST be between**:
           "Phrasal verb 3 phần luôn đi cùng nhau như cụm cố định: 'look forward to', 'put up with'."
         ],
         proTipsEn: [
-          "Learn phrasal verbs by THEME (health, work, travel) — more effective than isolated lists.",
+          "Learn phrasal verbs by THEME (health, work, travel) - more effective than isolated lists.",
           "Pronoun objects ALWAYS go between: 'turn it off', not 'turn off it'.",
           "Three-part phrasal verbs are fixed chunks: 'look forward to', 'put up with'."
         ],
@@ -635,7 +635,7 @@ With separable verbs, **pronoun objects MUST be between**:
         quiz: [
           { question: "Which is correct?", options: ["Turn off it.", "Turn it off.", "Off turn it.", "It turn off."], answer: 1, explanation: "Pronoun objects must go BETWEEN verb and particle." },
           { question: "'I look forward ___ you next week.'", options: ["see", "to see", "to seeing", "seeing"], answer: 2, explanation: "'look forward to' takes V-ing (to is preposition)." },
-          { question: "'She looks after ___' — choose correct phrasing.", options: ["after them", "them after", "them", "for them"], answer: 0, explanation: "Inseparable: object stays AFTER particle." }
+          { question: "'She looks after ___' - choose correct phrasing.", options: ["after them", "them after", "them", "for them"], answer: 0, explanation: "Inseparable: object stays AFTER particle." }
         ]
       },
       {
@@ -686,13 +686,13 @@ With separable verbs, **pronoun objects MUST be between**:
 
 Same lists as Vietnamese version. Memorize 5-8 per theme and use in your Part 1/2 answers.`,
         proTips: [
-          "Học 5-8 phrasal verb / chủ đề và viết 1 ví dụ riêng — nhớ lâu gấp 3.",
+          "Học 5-8 phrasal verb / chủ đề và viết 1 ví dụ riêng - nhớ lâu gấp 3.",
           "Trong Speaking, dùng 1-2 phrasal verb tự nhiên / câu trả lời để Lexical Resource +0.5.",
           "Tránh phrasal verb quá lóng (slangy) trong Writing học thuật."
         ],
         proTipsEn: [
-          "Learn 5-8 phrasal verbs per theme and write your own example — 3× retention.",
-          "In Speaking, use 1-2 natural phrasal verbs per answer — +0.5 Lexical Resource.",
+          "Learn 5-8 phrasal verbs per theme and write your own example - 3× retention.",
+          "In Speaking, use 1-2 natural phrasal verbs per answer - +0.5 Lexical Resource.",
           "Avoid overly slangy phrasal verbs in academic Writing."
         ],
         vocabulary: [
@@ -711,7 +711,7 @@ Same lists as Vietnamese version. Memorize 5-8 per theme and use in your Part 1/
             sentences: [
               { text: "I'm ___ ___ ___ a holiday in Italy. (saving)", textEn: "I'm ___ ___ ___ a holiday in Italy.", answer: "saving up for" },
               { text: "She doesn't ___ ___ ___ her sister; they argue a lot.", textEn: "She doesn't ___ ___ ___ her sister.", answer: "get on with" },
-              { text: "I need to ___ ___ ___ caffeine — too much coffee!", textEn: "I need to ___ ___ ___ caffeine.", answer: "cut down on" }
+              { text: "I need to ___ ___ ___ caffeine - too much coffee!", textEn: "I need to ___ ___ ___ caffeine.", answer: "cut down on" }
             ]
           }
         ],
@@ -752,7 +752,7 @@ Same lists as Vietnamese version. Memorize 5-8 per theme and use in your Part 1/
 **WH + AUX + S + V?**
 - *Where do you live?* / *Why is she crying?*
 
-### 3. WH- là chủ ngữ — KHÔNG đảo
+### 3. WH- là chủ ngữ - KHÔNG đảo
 **WH (subject) + V?**
 - *Who **called** you?* (KHÔNG: Who did call you?)
 - *What **happened**?*
@@ -773,7 +773,7 @@ Trong câu hỏi gián tiếp hoặc sau 'I wonder / Could you tell me ...', **K
 
 1. **Yes/No**: AUX + S + V?
 2. **WH-**: WH + AUX + S + V?
-3. **WH as subject** — NO inversion: *Who called you?*
+3. **WH as subject** - NO inversion: *Who called you?*
 4. **Indirect/embedded**: NO inversion, NO do/does/did:
    - Could you tell me where he lives? (NOT: where does he live)
    - I wonder if she called.
@@ -820,7 +820,7 @@ Trong câu hỏi gián tiếp hoặc sau 'I wonder / Could you tell me ...', **K
         difficulty: "beginner",
         theory: `## Câu hỏi đuôi
 
-### Quy tắc vàng — TRÁI DẤU
+### Quy tắc vàng - TRÁI DẤU
 - **Câu khẳng định → đuôi phủ định**: *You are tired, **aren't you**?*
 - **Câu phủ định → đuôi khẳng định**: *You don't smoke, **do you**?*
 
@@ -841,7 +841,7 @@ Trong câu hỏi gián tiếp hoặc sau 'I wonder / Could you tell me ...', **K
 - **Đuôi lên ↗** = thật sự hỏi, không chắc: *You're coming, aren't you ↗?*`,
         theoryEn: `## Tag Questions
 
-### Golden rule — opposite polarity
+### Golden rule - opposite polarity
 - Affirmative → negative tag: *You are tired, aren't you?*
 - Negative → affirmative tag: *You don't smoke, do you?*
 
@@ -946,7 +946,7 @@ Trong câu hỏi gián tiếp hoặc sau 'I wonder / Could you tell me ...', **K
 - in conclusion, to sum up, overall, all in all, in short
 
 ### Lưu ý dấu câu
-- **However**, **Therefore**, **Moreover** — khi đứng đầu câu, theo sau bằng dấu phẩy.
+- **However**, **Therefore**, **Moreover** - khi đứng đầu câu, theo sau bằng dấu phẩy.
 - **Although** + clause; **Despite/In spite of** + N/V-ing.`,
         theoryEn: `## Linking Words by Function
 
@@ -962,12 +962,12 @@ Trong câu hỏi gián tiếp hoặc sau 'I wonder / Could you tell me ...', **K
 Punctuation: 'However', 'Therefore' followed by comma when sentence-initial.`,
         proTips: [
           "Đa dạng từ nối = +0.5 Cohesion. Đừng lặp 'and', 'but' liên tục.",
-          "'Although' + clause; 'Despite' + danh từ / V-ing — đừng lẫn lộn.",
+          "'Although' + clause; 'Despite' + danh từ / V-ing - đừng lẫn lộn.",
           "Dấu chấm phẩy ; trước 'however / therefore' khi nối hai mệnh đề độc lập."
         ],
         proTipsEn: [
           "Variety of linkers = +0.5 Cohesion. Don't overuse 'and' or 'but'.",
-          "'Although' + clause; 'Despite' + noun/V-ing — don't confuse.",
+          "'Although' + clause; 'Despite' + noun/V-ing - don't confuse.",
           "Use semicolon ; before 'however / therefore' when joining two independent clauses."
         ],
         vocabulary: [
@@ -1019,7 +1019,7 @@ Punctuation: 'However', 'Therefore' followed by comma when sentence-initial.`,
         difficulty: "intermediate",
         theory: `## Vị trí trạng từ
 
-### 1. Trật tự cuối câu — MPT
+### 1. Trật tự cuối câu - MPT
 **M**anner → **P**lace → **T**ime
 
 *She sang **beautifully** (M) **at the concert** (P) **last night** (T).*
@@ -1042,7 +1042,7 @@ always, usually, often, sometimes, rarely, never, hardly ever
 - Hoặc giữa câu giữa hai dấu phẩy: *He, however, disagreed.*`,
         theoryEn: `## Adverb Position
 
-### 1. End-position order — MPT
+### 1. End-position order - MPT
 **M**anner → **P**lace → **T**ime
 *She sang beautifully at the concert last night.*
 
@@ -1052,14 +1052,14 @@ always, usually, often, sometimes, rarely, never, hardly ever
 - BETWEEN aux + main: *I have never seen it.*
 
 ### 3. Degree (very, quite, really)
-Before adjective/adverb only — NOT before plain verbs.
+Before adjective/adverb only - NOT before plain verbs.
 
 ### 4. Conjunctive adverbs (however, therefore)
 Sentence-initial + comma; or mid-sentence between two commas.`,
         proTips: [
           "Học thuộc M-P-T: Manner → Place → Time.",
           "Frequency adverbs trước V thường, sau 'be'.",
-          "'Very' KHÔNG đặt trước động từ thường — sai 100%."
+          "'Very' KHÔNG đặt trước động từ thường - sai 100%."
         ],
         proTipsEn: [
           "Memorize M-P-T order: Manner → Place → Time.",
@@ -1105,7 +1105,7 @@ Sentence-initial + comma; or mid-sentence between two commas.`,
         titleEn: "Adjective Order",
         level: 3,
         difficulty: "intermediate",
-        theory: `## Trật tự tính từ — OSASCOMP
+        theory: `## Trật tự tính từ - OSASCOMP
 
 Khi có nhiều tính từ đứng trước một danh từ, ta theo trật tự:
 
@@ -1129,7 +1129,7 @@ Khi có nhiều tính từ đứng trước một danh từ, ta theo trật tự
 ### Quy tắc thực dụng
 - Trong giao tiếp, hiếm khi dùng quá 3-4 tính từ. Hai tính từ khác loại → KHÔNG cần dấu phẩy.
 - Hai tính từ cùng loại (cùng opinion) → có thể dùng dấu phẩy hoặc 'and': *a kind, generous teacher / a kind and generous teacher.*`,
-        theoryEn: `## Adjective Order — OSASCOMP
+        theoryEn: `## Adjective Order - OSASCOMP
 
 **O**pinion → **S**ize → **A**ge → **S**hape → **C**olour → **O**rigin → **M**aterial → **P**urpose → **N**oun
 
@@ -1191,7 +1191,7 @@ In real speech, rarely use more than 3-4 adjectives. No comma between different 
         titleEn: "Set 1: say/tell, make/do, fewer/less, much/many",
         level: 2,
         difficulty: "intermediate",
-        theory: `## Cặp từ dễ nhầm — Bộ 1
+        theory: `## Cặp từ dễ nhầm - Bộ 1
 
 ### 1. say vs tell
 - **say** + (to sb) + nội dung: *He **said** (to me) that he was tired.*
@@ -1211,7 +1211,7 @@ In real speech, rarely use more than 3-4 adjectives. No comma between different 
 - **many** + đếm được số nhiều: *many books*
 - **much** + KHÔNG đếm được: *much money*
 - Trong câu khẳng định, dùng **a lot of / lots of** thay vì much/many: *I have **a lot of** friends.*`,
-        theoryEn: `## Confusing Pairs — Set 1
+        theoryEn: `## Confusing Pairs - Set 1
 
 ### say vs tell
 - say + (to sb) + content
@@ -1257,7 +1257,7 @@ In real speech, rarely use more than 3-4 adjectives. No comma between different 
               { text: "I want to ___ a cup of tea.", textEn: "I want to ___ a cup of tea.", answer: "make" },
               { text: "There is ___ noise in this room. (uncountable)", textEn: "There is ___ noise in this room.", answer: "much" },
               { text: "We need ___ chairs for the meeting. (countable)", textEn: "We need ___ chairs for the meeting.", answer: "many" },
-              { text: "Use ___ sugar — it's healthier. (uncountable)", textEn: "Use ___ sugar — it's healthier.", answer: "less" }
+              { text: "Use ___ sugar - it's healthier. (uncountable)", textEn: "Use ___ sugar - it's healthier.", answer: "less" }
             ]
           }
         ],
@@ -1273,7 +1273,7 @@ In real speech, rarely use more than 3-4 adjectives. No comma between different 
         titleEn: "Set 2: since/for, during/while, used to/be used to, lie/lay",
         level: 3,
         difficulty: "intermediate",
-        theory: `## Cặp từ dễ nhầm — Bộ 2
+        theory: `## Cặp từ dễ nhầm - Bộ 2
 
 ### 1. since vs for
 - **since** + mốc thời gian: *since 2010 / since Monday / since I was a child*
@@ -1296,7 +1296,7 @@ In real speech, rarely use more than 3-4 adjectives. No comma between different 
 ### 5. its vs it's
 - **its** = thuộc về nó (sở hữu): *The dog wagged **its** tail.*
 - **it's** = it is / it has: ***It's** raining. / **It's** been ages.*`,
-        theoryEn: `## Confusing Pairs — Set 2
+        theoryEn: `## Confusing Pairs - Set 2
 
 ### since (point) vs for (duration)
 - since 2010 / for 9 years.
@@ -1367,17 +1367,17 @@ In real speech, rarely use more than 3-4 adjectives. No comma between different 
     lessons: [
       {
         id: "noun-clauses-overview",
-        title: "Mệnh đề danh từ — chức năng & loại",
-        titleEn: "Noun Clauses — Functions & Types",
+        title: "Mệnh đề danh từ - chức năng & loại",
+        titleEn: "Noun Clauses - Functions & Types",
         level: 4,
         difficulty: "advanced",
         theory: `## Mệnh đề danh từ
 
-Một mệnh đề danh từ hoạt động như một danh từ trong câu — có thể làm **chủ ngữ**, **tân ngữ**, **bổ ngữ**, hoặc **tân ngữ của giới từ**.
+Một mệnh đề danh từ hoạt động như một danh từ trong câu - có thể làm **chủ ngữ**, **tân ngữ**, **bổ ngữ**, hoặc **tân ngữ của giới từ**.
 
 ### 1. Bắt đầu bằng 'that'
 - **Tân ngữ**: *I know **that he is honest**.* ('that' có thể bỏ trong informal.)
-- **Chủ ngữ**: ***That she lied** surprised everyone.* (rất trang trọng — thường dùng 'It' giả: *It surprised everyone that she lied.*)
+- **Chủ ngữ**: ***That she lied** surprised everyone.* (rất trang trọng - thường dùng 'It' giả: *It surprised everyone that she lied.*)
 - **Bổ ngữ**: *The truth is **that we lost**.*
 
 ### 2. Bắt đầu bằng wh- (what, who, where, when, why, how)
@@ -1402,8 +1402,8 @@ Một mệnh đề danh từ hoạt động như một danh từ trong câu — 
 A noun clause acts as a noun: subject, object, complement, or object of preposition.
 
 ### 1. that-clauses
-- *I know that he is honest.* (object — 'that' optional informal)
-- *That she lied surprised everyone.* (subject — formal)
+- *I know that he is honest.* (object - 'that' optional informal)
+- *That she lied surprised everyone.* (subject - formal)
 - Pattern: *It surprised everyone that she lied.* (extraposition)
 
 ### 2. wh-clauses

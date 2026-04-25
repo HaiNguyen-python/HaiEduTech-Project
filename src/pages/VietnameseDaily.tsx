@@ -57,7 +57,7 @@ const VietnameseDaily = () => {
               </h1>
             </div>
             <p className="text-muted-foreground text-lg">
-              {t("30 ngày, mỗi ngày 1 phút — xây dựng thói quen học tiếng Việt", "30 days, 1 minute each — build a Vietnamese learning habit")}
+              {t("30 ngày, mỗi ngày 1 phút - xây dựng thói quen học tiếng Việt", "30 days, 1 minute each - build a Vietnamese learning habit")}
             </p>
           </motion.div>
 
@@ -162,7 +162,7 @@ const VietnameseDaily = () => {
                     size="lg"
                   >
                     <CheckCircle2 className="w-5 h-5 mr-2" />
-                    {isDone ? t("✓ Đã hoàn thành — Bấm để bỏ chọn", "✓ Completed — Click to undo") : t("Đánh dấu hoàn thành", "Mark as Complete")}
+                    {isDone ? t("✓ Đã hoàn thành - Bấm để bỏ chọn", "✓ Completed - Click to undo") : t("Đánh dấu hoàn thành", "Mark as Complete")}
                   </Button>
                 </CardContent>
               </Card>

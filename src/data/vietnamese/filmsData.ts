@@ -1,4 +1,4 @@
-// Vietnamese Films & Real Conversations — clip excerpts with bilingual subtitles for listening practice
+// Vietnamese Films & Real Conversations - clip excerpts with bilingual subtitles for listening practice
 export interface FilmClip {
   id: string;
   title: string;

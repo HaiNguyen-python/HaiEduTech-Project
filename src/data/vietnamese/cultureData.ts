@@ -1,4 +1,4 @@
-// Vietnamese Culture & Customs — Áo dài, Tết, weddings, ancestral worship, traditional crafts
+// Vietnamese Culture & Customs - Áo dài, Tết, weddings, ancestral worship, traditional crafts
 export interface CultureTopic {
   id: string;
   emoji: string;
@@ -15,8 +15,8 @@ export const cultureTopics: CultureTopic[] = [
   {
     id: "ao-dai",
     emoji: "👘",
-    title: "Áo dài — Trang phục truyền thống",
-    titleEn: "Áo Dài — Traditional Dress",
+    title: "Áo dài - Trang phục truyền thống",
+    titleEn: "Áo Dài - Traditional Dress",
     category: "attire",
     summary: "Áo dài là biểu tượng văn hóa Việt: ôm sát thân, hai tà dài bay tha thướt, mặc trong lễ cưới, khai giảng, tốt nghiệp.",
     summaryEn: "The áo dài is Vietnam's cultural icon: form-fitting silk gown with two flowing panels, worn at weddings, school openings, graduations.",
@@ -44,8 +44,8 @@ export const cultureTopics: CultureTopic[] = [
   {
     id: "tet",
     emoji: "🧧",
-    title: "Tết Nguyên Đán — Năm mới âm lịch",
-    titleEn: "Tết — Lunar New Year",
+    title: "Tết Nguyên Đán - Năm mới âm lịch",
+    titleEn: "Tết - Lunar New Year",
     category: "festival",
     summary: "Lễ hội lớn nhất năm: dọn nhà, cúng tổ tiên, mừng tuổi, ăn bánh chưng/bánh tét, kiêng nói điều xui.",
     summaryEn: "The biggest festival: house cleaning, ancestor worship, lucky money, banh chung/banh tet cakes, avoiding bad omens.",
@@ -83,8 +83,8 @@ export const cultureTopics: CultureTopic[] = [
     title: "Đám cưới truyền thống",
     titleEn: "Traditional Wedding",
     category: "ritual",
-    summary: "Gồm 3 nghi lễ chính: dạm ngõ, ăn hỏi (đính hôn), lễ cưới — nhà trai mang lễ vật sang nhà gái.",
-    summaryEn: "Three main rites: proposal visit, engagement (ăn hỏi), wedding ceremony — groom's family brings gifts to bride's family.",
+    summary: "Gồm 3 nghi lễ chính: dạm ngõ, ăn hỏi (đính hôn), lễ cưới - nhà trai mang lễ vật sang nhà gái.",
+    summaryEn: "Three main rites: proposal visit, engagement (ăn hỏi), wedding ceremony - groom's family brings gifts to bride's family.",
     details: [
       {
         heading: "Lễ ăn hỏi",

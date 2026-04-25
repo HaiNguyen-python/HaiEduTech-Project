@@ -1,4 +1,4 @@
-// IELTS Vocabulary Database — 800 essential academic words
+// IELTS Vocabulary Database - 800 essential academic words
 // Organized by topic with IPA, CEFR level, bilingual definitions, and example sentences
 
 export interface IeltsWord {

@@ -1,6 +1,6 @@
 /**
  * @file ykiB1Expansion.ts
- * @description Massive YKI B1 (Keskitaso) content expansion — additional reading,
+ * @description Massive YKI B1 (Keskitaso) content expansion - additional reading,
  *   listening, writing, speaking, and vocabulary pool. All Finnish text is meant
  *   to be played via the Finnish TTS pipeline (proxy → Google fi → native fi-FI).
  * @author Teacher Hai (HaiEduTech)
@@ -15,7 +15,7 @@ import type {
 } from "./ykiB1Data";
 
 /* ============================================================
- * READING — extra news, emails, letters, notices (B1 level)
+ * READING - extra news, emails, letters, notices (B1 level)
  * ============================================================ */
 export const B1_READING_EXPANSION: B1ReadingPassage[] = [
   {
@@ -54,7 +54,7 @@ export const B1_READING_EXPANSION: B1ReadingPassage[] = [
       "Suomi on jälleen valittu maailman onnellisimmaksi maaksi YK:n vuosittaisessa raportissa. Tutkijoiden mukaan suomalaisten onnellisuuden taustalla ovat luottamus toisiin, hyvä koulutus, terveydenhuolto ja luonnon läheisyys. Toisaalta moni suomalainen yllättyy tuloksista, sillä talvi on pitkä ja pimeä. Asiantuntijat painottavat, että onnellisuus ei tarkoita pelkästään iloa, vaan tyytyväisyyttä elämään.",
     hintVi: "Tin: Phần Lan là nước hạnh phúc nhất thế giới.",
     questions: [
-      { q: "Mikä EI kuulu suomalaisten onnellisuuden syihin?", options: ["Luottamus", "Koulutus", "Lämmin sää", "Luonto"], answer: 2, explanationFi: "Sää ei ole syy — päinvastoin, talvi on pitkä." },
+      { q: "Mikä EI kuulu suomalaisten onnellisuuden syihin?", options: ["Luottamus", "Koulutus", "Lämmin sää", "Luonto"], answer: 2, explanationFi: "Sää ei ole syy - päinvastoin, talvi on pitkä." },
       { q: "Mitä onnellisuus tutkijoiden mukaan tarkoittaa?", options: ["Aina iloa", "Tyytyväisyyttä elämään", "Paljon rahaa", "Lomamatkoja"], answer: 1, explanationFi: "'tyytyväisyyttä elämään'." },
       { q: "Kuka julkaisee raportin?", options: ["EU", "WHO", "YK", "Eduskunta"], answer: 2, explanationFi: "'YK:n vuosittaisessa raportissa'." },
     ],
@@ -117,7 +117,7 @@ export const B1_READING_EXPANSION: B1ReadingPassage[] = [
 ];
 
 /* ============================================================
- * LISTENING — extra dialogues (TTS-driven)
+ * LISTENING - extra dialogues (TTS-driven)
  * ============================================================ */
 export const B1_LISTENING_EXPANSION: B1ListeningClip[] = [
   {
@@ -198,13 +198,13 @@ export const B1_LISTENING_EXPANSION: B1ListeningClip[] = [
 ];
 
 /* ============================================================
- * WRITING — extra B1 templates
+ * WRITING - extra B1 templates
  * ============================================================ */
 export const B1_WRITING_EXPANSION: B1WritingTemplate[] = [
   {
     id: "write-tarina",
     type: "mielipide",
-    title: "Kertomus — Story / personal narrative",
+    title: "Kertomus - Story / personal narrative",
     promptFi:
       "Kerro tilanteesta, jossa opit jotakin tärkeää itsestäsi. Mitä tapahtui ja mitä opit?",
     promptVi: "Hãy kể về một tình huống bạn học được điều quan trọng về bản thân. Đã xảy ra chuyện gì và bạn học được gì?",
@@ -230,7 +230,7 @@ export const B1_WRITING_EXPANSION: B1WritingTemplate[] = [
   {
     id: "write-suositus",
     type: "mielipide",
-    title: "Suosituskirje — Recommendation",
+    title: "Suosituskirje - Recommendation",
     promptFi: "Kirjoita ystävällesi suositus hyvästä ravintolasta tai paikasta. Perustele, miksi suosittelet sitä.",
     promptVi: "Viết thư giới thiệu cho bạn về một nhà hàng/địa điểm yêu thích và giải thích lý do.",
     minWords: 80,
@@ -255,7 +255,7 @@ export const B1_WRITING_EXPANSION: B1WritingTemplate[] = [
   {
     id: "write-uutiskirje",
     type: "mielipide",
-    title: "Lyhyt uutinen — Short news report",
+    title: "Lyhyt uutinen - Short news report",
     promptFi: "Kirjoita lyhyt uutinen tapahtumasta omassa kaupungissasi (esim. konsertti, festivaali, urheilutapahtuma).",
     promptVi: "Viết bản tin ngắn về một sự kiện ở thành phố bạn (concert, lễ hội, sự kiện thể thao).",
     minWords: 80,
@@ -274,13 +274,13 @@ export const B1_WRITING_EXPANSION: B1WritingTemplate[] = [
       { fi: "Suosio yllätti…", meaning: "The popularity surprised…" },
       { fi: "Tapahtuma jatkuu ensi vuonna…", meaning: "The event will continue next year…" },
     ],
-    teacherTipFi: "Vastaa kysymyksiin: Kuka? Mitä? Missä? Milloin? Miksi? — viiden W:n sääntö (5W).",
-    teacherTipVi: "Trả lời 5W: Ai? Cái gì? Ở đâu? Khi nào? Tại sao? — quy tắc tin tức.",
+    teacherTipFi: "Vastaa kysymyksiin: Kuka? Mitä? Missä? Milloin? Miksi? - viiden W:n sääntö (5W).",
+    teacherTipVi: "Trả lời 5W: Ai? Cái gì? Ở đâu? Khi nào? Tại sao? - quy tắc tin tức.",
   },
   {
     id: "write-kuvaus",
     type: "mielipide",
-    title: "Henkilökuvaus — Describing a person",
+    title: "Henkilökuvaus - Describing a person",
     promptFi: "Kuvaile henkilöä, joka on vaikuttanut elämääsi (esimerkiksi opettaja, perheenjäsen tai ystävä).",
     promptVi: "Mô tả một người đã ảnh hưởng đến cuộc sống bạn (giáo viên, người thân, bạn bè).",
     minWords: 90,
@@ -300,12 +300,12 @@ export const B1_WRITING_EXPANSION: B1WritingTemplate[] = [
       { fi: "Olen kiitollinen…", meaning: "I am grateful…" },
     ],
     teacherTipFi: "Käytä adjektiiveja monipuolisesti. Vältä toistoa: 'kiva → mukava, mukavaa, ystävällinen, lämmin'.",
-    teacherTipVi: "Dùng tính từ đa dạng. Tránh lặp 'kiva' — thay bằng 'mukava, ystävällinen, lämmin'.",
+    teacherTipVi: "Dùng tính từ đa dạng. Tránh lặp 'kiva' - thay bằng 'mukava, ystävällinen, lämmin'.",
   },
 ];
 
 /* ============================================================
- * SPEAKING — extra B1 situations
+ * SPEAKING - extra B1 situations
  * ============================================================ */
 export const B1_SPEAKING_EXPANSION: B1SpeakingSituation[] = [
   {
@@ -371,7 +371,7 @@ export const B1_SPEAKING_EXPANSION: B1SpeakingSituation[] = [
 ];
 
 /* ============================================================
- * VOCABULARY — extra B1 word pool (rotates)
+ * VOCABULARY - extra B1 word pool (rotates)
  * ============================================================ */
 export const B1_WORD_POOL_EXPANSION: B1WordOfDay[] = [
   { fi: "asenne", partOfSpeech: "noun", meaningEn: "attitude", meaningVi: "thái độ",

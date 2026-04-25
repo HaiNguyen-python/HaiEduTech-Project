@@ -1,7 +1,7 @@
 /**
  * @file PreDepartureChecklist.tsx
  * @description Interactive pre-departure checklist for Finland, China, UK, USA.
- *   Backed by `pre_departure_progress` table — requires authentication.
+ *   Backed by `pre_departure_progress` table - requires authentication.
  */
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";

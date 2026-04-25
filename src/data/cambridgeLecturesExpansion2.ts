@@ -1,6 +1,6 @@
 import { CambridgeLecture } from "./cambridgeLecturesData";
 
-// ==================== STARTERS — 3 new lectures (Batch 2) ====================
+// ==================== STARTERS - 3 new lectures (Batch 2) ====================
 
 const startersFood: CambridgeLecture = {
   id: "cam-starters-food-drinks",
@@ -10,8 +10,8 @@ const startersFood: CambridgeLecture = {
   skill: "listening",
   icon: "🍎",
   duration: "15 min",
-  description: "Learn food and drink vocabulary — listen and identify what people like to eat and drink!",
-  descriptionVi: "Học từ vựng đồ ăn và đồ uống — nghe và nhận biết mọi người thích ăn uống gì!",
+  description: "Learn food and drink vocabulary - listen and identify what people like to eat and drink!",
+  descriptionVi: "Học từ vựng đồ ăn và đồ uống - nghe và nhận biết mọi người thích ăn uống gì!",
   learningObjective: "Students can identify common food and drink items and express preferences using 'I like / I don't like'.",
   learningObjectiveVi: "Học sinh nhận diện đồ ăn, đồ uống phổ biến và diễn đạt sở thích bằng 'I like / I don't like'.",
   examPattern: "Starters Listening Part 3: Listen and tick the correct picture. Part 4: Listen and colour the food items.",
@@ -49,8 +49,8 @@ const startersFood: CambridgeLecture = {
   ],
   quiz: [
     { question: "Which one is a fruit?", options: ["chicken", "bread", "mango", "rice"], answer: 2, explanation: "Mango (xoài) is a fruit!" },
-    { question: "'I like ___ milk.' — Choose the correct word.", options: ["a", "an", "some", "two"], answer: 2, explanation: "Milk is uncountable → use 'some'." },
-    { question: "What is 'cơm' in English?", options: ["bread", "rice", "fish", "egg"], answer: 1, explanation: "Rice = cơm — a staple food in Vietnam!" },
+    { question: "'I like ___ milk.' - Choose the correct word.", options: ["a", "an", "some", "two"], answer: 2, explanation: "Milk is uncountable → use 'some'." },
+    { question: "What is 'cơm' in English?", options: ["bread", "rice", "fish", "egg"], answer: 1, explanation: "Rice = cơm - a staple food in Vietnam!" },
   ],
   parentInfo: "This lesson teaches essential food & drink vocabulary for the Starters Listening test. Children practice identifying items and expressing preferences using 'I like / I don't like'.",
   parentInfoVi: "Bài này dạy từ vựng đồ ăn & đồ uống thiết yếu cho bài thi Nghe Starters. Trẻ luyện nhận biết món ăn và diễn đạt sở thích bằng 'I like / I don't like'.",
@@ -64,12 +64,12 @@ const startersClothes: CambridgeLecture = {
   skill: "speaking",
   icon: "👕",
   duration: "15 min",
-  description: "Name clothes and describe what people are wearing — perfect for Speaking Part 1!",
-  descriptionVi: "Gọi tên quần áo và mô tả mọi người đang mặc gì — hoàn hảo cho Nói Phần 1!",
+  description: "Name clothes and describe what people are wearing - perfect for Speaking Part 1!",
+  descriptionVi: "Gọi tên quần áo và mô tả mọi người đang mặc gì - hoàn hảo cho Nói Phần 1!",
   learningObjective: "Students can name clothes, describe what someone is wearing, and answer 'What is he/she wearing?'",
   learningObjectiveVi: "Học sinh gọi tên quần áo, mô tả người khác đang mặc gì, trả lời 'What is he/she wearing?'",
-  examPattern: "Starters Speaking Part 1: Describe differences between two pictures — often involves clothes and colors.",
-  examPatternVi: "Starters Nói Phần 1: Mô tả sự khác nhau giữa hai hình — thường liên quan đến quần áo và màu sắc.",
+  examPattern: "Starters Speaking Part 1: Describe differences between two pictures - often involves clothes and colors.",
+  examPatternVi: "Starters Nói Phần 1: Mô tả sự khác nhau giữa hai hình - thường liên quan đến quần áo và màu sắc.",
   secretTip: "👗 Always say the COLOR before the CLOTHES: 'a red dress', 'blue shoes'. This is how English works!",
   secretTipVi: "👗 Luôn nói MÀU trước QUẦN ÁO: 'a red dress', 'blue shoes'. Tiếng Anh hoạt động như vậy!",
   welcomeMessage: "Let's go shopping! 👕 Today we learn all about clothes and what people wear!",
@@ -102,12 +102,12 @@ const startersClothes: CambridgeLecture = {
     { word: "sweater", meaning: "áo len", meaningVi: "áo len", example: "My sweater is warm and soft." },
   ],
   quiz: [
-    { question: "'She ___ wearing a blue hat.' — Fill in.", options: ["am", "is", "are", "was"], answer: 1, explanation: "She → is wearing." },
+    { question: "'She ___ wearing a blue hat.' - Fill in.", options: ["am", "is", "are", "was"], answer: 1, explanation: "She → is wearing." },
     { question: "Which is correct?", options: ["a trousers", "trousers", "an trousers", "the trouser"], answer: 1, explanation: "Trousers is always plural, no 'a' needed." },
     { question: "What colour order is correct?", options: ["dress pink", "pink dress", "a pink a dress", "dress a pink"], answer: 1, explanation: "Colour before noun: pink dress!" },
   ],
-  parentInfo: "This lesson teaches clothes vocabulary and the 'is/are wearing' structure. Children practice describing pictures — a key skill for the Starters Speaking test.",
-  parentInfoVi: "Bài này dạy từ vựng quần áo và cấu trúc 'is/are wearing'. Trẻ luyện mô tả hình — kỹ năng quan trọng cho bài thi Nói Starters.",
+  parentInfo: "This lesson teaches clothes vocabulary and the 'is/are wearing' structure. Children practice describing pictures - a key skill for the Starters Speaking test.",
+  parentInfoVi: "Bài này dạy từ vựng quần áo và cấu trúc 'is/are wearing'. Trẻ luyện mô tả hình - kỹ năng quan trọng cho bài thi Nói Starters.",
 };
 
 const startersPlaces: CambridgeLecture = {
@@ -118,8 +118,8 @@ const startersPlaces: CambridgeLecture = {
   skill: "vocabulary",
   icon: "🏫",
   duration: "15 min",
-  description: "Learn room names and school places — essential for Reading & Writing Part 3!",
-  descriptionVi: "Học tên phòng và nơi ở trường — thiết yếu cho Đọc & Viết Phần 3!",
+  description: "Learn room names and school places - essential for Reading & Writing Part 3!",
+  descriptionVi: "Học tên phòng và nơi ở trường - thiết yếu cho Đọc & Viết Phần 3!",
   learningObjective: "Students can name rooms at home and places at school, and answer 'Where is...?'",
   learningObjectiveVi: "Học sinh gọi tên các phòng ở nhà và nơi ở trường, trả lời 'Where is...?'",
   examPattern: "Starters Reading & Writing Part 3: Read a short text about a place and answer Yes/No. Part 4: Read and choose the correct word for each gap.",
@@ -130,7 +130,7 @@ const startersPlaces: CambridgeLecture = {
   welcomeMessageVi: "Cùng khám phá nhà và trường! 🏫 Bạn có thể gọi tên tất cả các phòng không?",
   stepByStep: [
     { step: 1, title: "Think about your own home", titleVi: "Nghĩ về nhà bạn", detail: "What rooms do you have? Kitchen, bedroom, bathroom, living room?", detailVi: "Nhà bạn có phòng gì? Bếp, phòng ngủ, phòng tắm, phòng khách?" },
-    { step: 2, title: "Think about your school", titleVi: "Nghĩ về trường bạn", detail: "Where do you eat? Study? Play? — canteen, classroom, playground.", detailVi: "Bạn ăn ở đâu? Học ở đâu? Chơi ở đâu? — canteen, classroom, playground." },
+    { step: 2, title: "Think about your school", titleVi: "Nghĩ về trường bạn", detail: "Where do you eat? Study? Play? - canteen, classroom, playground.", detailVi: "Bạn ăn ở đâu? Học ở đâu? Chơi ở đâu? - canteen, classroom, playground." },
     { step: 3, title: "Use 'in', 'on', 'next to'", titleVi: "Dùng 'in', 'on', 'next to'", detail: "The cat is IN the kitchen. The book is ON the desk.", detailVi: "Con mèo ở TRONG bếp. Quyển sách ở TRÊN bàn." },
   ],
   illustratedRules: [
@@ -156,15 +156,15 @@ const startersPlaces: CambridgeLecture = {
     { word: "library", meaning: "thư viện", meaningVi: "thư viện", example: "I read books in the library." },
   ],
   quiz: [
-    { question: "Where do you cook food?", options: ["bedroom", "kitchen", "bathroom", "garden"], answer: 1, explanation: "Kitchen = nhà bếp — where you cook!" },
-    { question: "'The book is ___ the desk.' — Choose:", options: ["on", "at", "to", "for"], answer: 0, explanation: "On = trên bề mặt. The book is ON the desk." },
-    { question: "What is 'thư viện' in English?", options: ["canteen", "classroom", "library", "toilet"], answer: 2, explanation: "Library = thư viện — full of books!" },
+    { question: "Where do you cook food?", options: ["bedroom", "kitchen", "bathroom", "garden"], answer: 1, explanation: "Kitchen = nhà bếp - where you cook!" },
+    { question: "'The book is ___ the desk.' - Choose:", options: ["on", "at", "to", "for"], answer: 0, explanation: "On = trên bề mặt. The book is ON the desk." },
+    { question: "What is 'thư viện' in English?", options: ["canteen", "classroom", "library", "toilet"], answer: 2, explanation: "Library = thư viện - full of books!" },
   ],
   parentInfo: "This lesson teaches place vocabulary for home and school. Children learn prepositions of place (in, on, under) which are tested throughout the Starters exam.",
-  parentInfoVi: "Bài này dạy từ vựng địa điểm ở nhà và trường. Trẻ học giới từ chỉ nơi chốn (in, on, under) — xuất hiện nhiều trong kỳ thi Starters.",
+  parentInfoVi: "Bài này dạy từ vựng địa điểm ở nhà và trường. Trẻ học giới từ chỉ nơi chốn (in, on, under) - xuất hiện nhiều trong kỳ thi Starters.",
 };
 
-// ==================== MOVERS — 3 new lectures (Batch 2) ====================
+// ==================== MOVERS - 3 new lectures (Batch 2) ====================
 
 const moversHealthBody: CambridgeLecture = {
   id: "cam-movers-health-body",
@@ -174,18 +174,18 @@ const moversHealthBody: CambridgeLecture = {
   skill: "speaking",
   icon: "🏥",
   duration: "20 min",
-  description: "Learn to talk about health problems and give advice — key for Movers Speaking!",
-  descriptionVi: "Học cách nói về vấn đề sức khỏe và đưa lời khuyên — quan trọng cho Nói Movers!",
+  description: "Learn to talk about health problems and give advice - key for Movers Speaking!",
+  descriptionVi: "Học cách nói về vấn đề sức khỏe và đưa lời khuyên - quan trọng cho Nói Movers!",
   learningObjective: "Students can describe health problems and give simple advice using 'should/shouldn't'.",
   learningObjectiveVi: "Học sinh mô tả vấn đề sức khỏe và đưa lời khuyên đơn giản bằng 'should/shouldn't'.",
-  examPattern: "Movers Speaking Part 2: Tell a story from picture cards — characters often feel sick or get hurt.",
-  examPatternVi: "Movers Nói Phần 2: Kể chuyện từ thẻ hình — nhân vật thường bị ốm hoặc bị thương.",
+  examPattern: "Movers Speaking Part 2: Tell a story from picture cards - characters often feel sick or get hurt.",
+  examPatternVi: "Movers Nói Phần 2: Kể chuyện từ thẻ hình - nhân vật thường bị ốm hoặc bị thương.",
   secretTip: "🩺 Learn the pattern: Problem + Advice = 'I have a headache.' → 'You should rest.' This is the GOLDEN formula!",
   secretTipVi: "🩺 Học mẫu: Vấn đề + Lời khuyên = 'I have a headache.' → 'You should rest.' Đây là công thức VÀNG!",
   welcomeMessage: "Oh no, someone is sick! 🏥 Let's learn how to help and give advice in English!",
   welcomeMessageVi: "Ôi không, có người bị ốm! 🏥 Cùng học cách giúp đỡ và đưa lời khuyên bằng tiếng Anh!",
   stepByStep: [
-    { step: 1, title: "Identify the problem", titleVi: "Nhận diện vấn đề", detail: "Look at the picture — is the person holding their head? Their stomach?", detailVi: "Nhìn hình — người đó đang ôm đầu? Bụng?" },
+    { step: 1, title: "Identify the problem", titleVi: "Nhận diện vấn đề", detail: "Look at the picture - is the person holding their head? Their stomach?", detailVi: "Nhìn hình - người đó đang ôm đầu? Bụng?" },
     { step: 2, title: "Say the problem", titleVi: "Nói vấn đề", detail: "'He has a headache.' 'She has a stomachache.' 'His arm hurts.'", detailVi: "'He has a headache.' 'She has a stomachache.' 'His arm hurts.'" },
     { step: 3, title: "Give advice", titleVi: "Đưa lời khuyên", detail: "'He should go to the doctor.' 'She should drink some water.'", detailVi: "'He should go to the doctor.' 'She should drink some water.'" },
   ],
@@ -195,7 +195,7 @@ const moversHealthBody: CambridgeLecture = {
     { icon: "🚫", rule: "Negative advice: You shouldn't eat ice cream / run / go to school when you're sick", ruleVi: "Lời khuyên phủ định: You shouldn't eat ice cream / run / go to school khi bị ốm", example: "You shouldn't play outside in the rain." },
   ],
   watchOut: [
-    { mistake: "Saying 'I have headache' (no article)", mistakeVi: "Nói 'I have headache' (thiếu mạo từ)", tip: "Say 'I have A headache' — always use 'a' with aches!", tipVi: "Nói 'I have A headache' — luôn dùng 'a' với các cơn đau!" },
+    { mistake: "Saying 'I have headache' (no article)", mistakeVi: "Nói 'I have headache' (thiếu mạo từ)", tip: "Say 'I have A headache' - always use 'a' with aches!", tipVi: "Nói 'I have A headache' - luôn dùng 'a' với các cơn đau!" },
     { mistake: "Confusing 'should' and 'must'", mistakeVi: "Nhầm 'should' và 'must'", tip: "'Should' = advice (nên). 'Must' = very strong/necessary (phải).", tipVi: "'Should' = lời khuyên (nên). 'Must' = rất mạnh/bắt buộc (phải)." },
     { mistake: "Saying 'He should to rest'", mistakeVi: "Nói 'He should to rest'", tip: "No 'to' after should! 'He should rest.'", tipVi: "Không có 'to' sau should! 'He should rest.'" },
   ],
@@ -212,8 +212,8 @@ const moversHealthBody: CambridgeLecture = {
     { word: "medicine", meaning: "thuốc", meaningVi: "thuốc", example: "Take this medicine and you'll feel better." },
   ],
   quiz: [
-    { question: "'I have ___ headache.' — Fill in.", options: ["the", "a", "an", "—"], answer: 1, explanation: "Always 'a headache', 'a stomachache', etc." },
-    { question: "'You should ___ to the doctor.' — Choose:", options: ["going", "to go", "go", "goes"], answer: 2, explanation: "After 'should', use the base form: should go." },
+    { question: "'I have ___ headache.' - Fill in.", options: ["the", "a", "an", "-"], answer: 1, explanation: "Always 'a headache', 'a stomachache', etc." },
+    { question: "'You should ___ to the doctor.' - Choose:", options: ["going", "to go", "go", "goes"], answer: 2, explanation: "After 'should', use the base form: should go." },
     { question: "What is 'đau họng' in English?", options: ["headache", "toothache", "sore throat", "cough"], answer: 2, explanation: "Sore throat = đau họng!" },
   ],
   parentInfo: "This lesson covers health vocabulary and the modal verb 'should' for giving advice. These are common topics in Movers Speaking picture stories.",
@@ -228,12 +228,12 @@ const moversTransport: CambridgeLecture = {
   skill: "vocabulary",
   icon: "🚌",
   duration: "20 min",
-  description: "Learn transport words and 'by + transport' pattern — essential for Movers Listening!",
-  descriptionVi: "Học từ vựng phương tiện và mẫu 'by + transport' — thiết yếu cho Nghe Movers!",
+  description: "Learn transport words and 'by + transport' pattern - essential for Movers Listening!",
+  descriptionVi: "Học từ vựng phương tiện và mẫu 'by + transport' - thiết yếu cho Nghe Movers!",
   learningObjective: "Students can name vehicles and describe how people travel using 'by bus/car/train'.",
   learningObjectiveVi: "Học sinh gọi tên phương tiện và mô tả cách di chuyển bằng 'by bus/car/train'.",
-  examPattern: "Movers Listening Part 1: Listen and draw lines — often matching people to vehicles or places they travel to.",
-  examPatternVi: "Movers Nghe Phần 1: Nghe và kẻ đường nối — thường nối người với phương tiện hoặc nơi họ đến.",
+  examPattern: "Movers Listening Part 1: Listen and draw lines - often matching people to vehicles or places they travel to.",
+  examPatternVi: "Movers Nghe Phần 1: Nghe và kẻ đường nối - thường nối người với phương tiện hoặc nơi họ đến.",
   secretTip: "🚗 'By + transport' has NO article: by bus, by car, by plane. BUT: on foot (not 'by foot')!",
   secretTipVi: "🚗 'By + phương tiện' KHÔNG có mạo từ: by bus, by car, by plane. NHƯNG: on foot (không phải 'by foot')!",
   welcomeMessage: "Beep beep! 🚌 Let's learn about all the ways to travel and get around!",
@@ -255,7 +255,7 @@ const moversTransport: CambridgeLecture = {
   ],
   practiceSet: [
     { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "How do you go to school? (picture: a yellow bus)", options: ["I go to school by bus.", "N/A", "N/A", "N/A"], answer: 0, explanation: "By bus = bằng xe buýt. No article needed!", explanationVi: "By bus = bằng xe buýt. Không cần mạo từ!" },
-    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Fix: 'She goes to work by the car.'", options: ["She goes to work by car.", "N/A", "N/A", "N/A"], answer: 0, explanation: "Remove 'the' — by + transport has no article.", explanationVi: "Bỏ 'the' — by + phương tiện không có mạo từ." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Fix: 'She goes to work by the car.'", options: ["She goes to work by car.", "N/A", "N/A", "N/A"], answer: 0, explanation: "Remove 'the' - by + transport has no article.", explanationVi: "Bỏ 'the' - by + phương tiện không có mạo từ." },
     { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "How do you say 'đi bộ' in English?", options: ["on foot", "N/A", "N/A", "N/A"], answer: 0, explanation: "On foot = đi bộ. NOT 'by foot'!", explanationVi: "On foot = đi bộ. KHÔNG phải 'by foot'!" },
   ],
   vocabulary: [
@@ -266,9 +266,9 @@ const moversTransport: CambridgeLecture = {
     { word: "boat", meaning: "thuyền", meaningVi: "thuyền", example: "We sailed on a small boat." },
   ],
   quiz: [
-    { question: "'I go to school ___ bus.' — Fill in.", options: ["by", "by the", "on", "in"], answer: 0, explanation: "By + transport, no article: by bus." },
+    { question: "'I go to school ___ bus.' - Fill in.", options: ["by", "by the", "on", "in"], answer: 0, explanation: "By + transport, no article: by bus." },
     { question: "How do you say walking?", options: ["by foot", "on foot", "by walk", "on walk"], answer: 1, explanation: "On foot = walking. Always 'on foot'!" },
-    { question: "Which one flies?", options: ["bus", "boat", "plane", "bicycle"], answer: 2, explanation: "Plane = máy bay — it flies!" },
+    { question: "Which one flies?", options: ["bus", "boat", "plane", "bicycle"], answer: 2, explanation: "Plane = máy bay - it flies!" },
   ],
   parentInfo: "This lesson teaches transport vocabulary and the 'by + transport' pattern. Children also learn the important exception 'on foot'. These appear frequently in Movers Listening.",
   parentInfoVi: "Bài này dạy từ vựng phương tiện và mẫu 'by + phương tiện'. Trẻ cũng học ngoại lệ quan trọng 'on foot'. Chúng xuất hiện nhiều trong Nghe Movers.",
@@ -282,8 +282,8 @@ const moversStorytelling: CambridgeLecture = {
   skill: "reading-writing",
   icon: "📖",
   duration: "20 min",
-  description: "Learn to tell a story from pictures using past tense — the core of Movers Speaking Part 2!",
-  descriptionVi: "Học kể chuyện từ hình bằng thì quá khứ — cốt lõi của Nói Movers Phần 2!",
+  description: "Learn to tell a story from pictures using past tense - the core of Movers Speaking Part 2!",
+  descriptionVi: "Học kể chuyện từ hình bằng thì quá khứ - cốt lõi của Nói Movers Phần 2!",
   learningObjective: "Students can describe a sequence of events using past tense and time connectors.",
   learningObjectiveVi: "Học sinh mô tả chuỗi sự kiện dùng thì quá khứ và từ nối thời gian.",
   examPattern: "Movers Speaking Part 2: Look at 4 pictures telling a story. Describe what happened in each picture.",
@@ -304,7 +304,7 @@ const moversStorytelling: CambridgeLecture = {
   ],
   watchOut: [
     { mistake: "Only describing what you SEE, not what HAPPENED", mistakeVi: "Chỉ mô tả những gì THẤY, không nói chuyện gì ĐÃ XẢY RA", tip: "Don't say 'There is a boy.' Say 'The boy went to the park.'", tipVi: "Đừng nói 'There is a boy.' Nói 'The boy went to the park.'" },
-    { mistake: "Forgetting to use past tense", mistakeVi: "Quên dùng thì quá khứ", tip: "Stories happened in the past! Use went, played, was — not go, play, is.", tipVi: "Câu chuyện xảy ra trong quá khứ! Dùng went, played, was — không phải go, play, is." },
+    { mistake: "Forgetting to use past tense", mistakeVi: "Quên dùng thì quá khứ", tip: "Stories happened in the past! Use went, played, was - not go, play, is.", tipVi: "Câu chuyện xảy ra trong quá khứ! Dùng went, played, was - không phải go, play, is." },
     { mistake: "Not using connectors between pictures", mistakeVi: "Không dùng từ nối giữa các hình", tip: "Connect pictures: 'First... Then... After that... Finally...'", tipVi: "Nối các hình: 'First... Then... After that... Finally...'" },
   ],
   practiceSet: [
@@ -321,14 +321,14 @@ const moversStorytelling: CambridgeLecture = {
   ],
   quiz: [
     { question: "Which is the correct order?", options: ["Then, First, Finally", "First, Then, Finally", "Finally, First, Then", "Then, Finally, First"], answer: 1, explanation: "First → Then → Finally is the correct story order!" },
-    { question: "'The boy ___ to school yesterday.' — Choose:", options: ["go", "goes", "went", "going"], answer: 2, explanation: "Past tense of 'go' = 'went'." },
-    { question: "Which word describes a feeling?", options: ["walked", "excited", "finally", "school"], answer: 1, explanation: "Excited = hào hứng — it's a feeling word!" },
+    { question: "'The boy ___ to school yesterday.' - Choose:", options: ["go", "goes", "went", "going"], answer: 2, explanation: "Past tense of 'go' = 'went'." },
+    { question: "Which word describes a feeling?", options: ["walked", "excited", "finally", "school"], answer: 1, explanation: "Excited = hào hứng - it's a feeling word!" },
   ],
-  parentInfo: "This lesson teaches story-telling skills for Movers Speaking Part 2. Children learn time connectors, past tense verbs, and how to describe feelings — all essential for scoring well.",
-  parentInfoVi: "Bài này dạy kỹ năng kể chuyện cho Nói Movers Phần 2. Trẻ học từ nối thời gian, động từ quá khứ, và cách mô tả cảm xúc — tất cả đều cần thiết để đạt điểm cao.",
+  parentInfo: "This lesson teaches story-telling skills for Movers Speaking Part 2. Children learn time connectors, past tense verbs, and how to describe feelings - all essential for scoring well.",
+  parentInfoVi: "Bài này dạy kỹ năng kể chuyện cho Nói Movers Phần 2. Trẻ học từ nối thời gian, động từ quá khứ, và cách mô tả cảm xúc - tất cả đều cần thiết để đạt điểm cao.",
 };
 
-// ==================== FLYERS — 3 new lectures (Batch 2) ====================
+// ==================== FLYERS - 3 new lectures (Batch 2) ====================
 
 const flyersConversation: CambridgeLecture = {
   id: "cam-flyers-conversation",
@@ -338,14 +338,14 @@ const flyersConversation: CambridgeLecture = {
   skill: "speaking",
   icon: "🛒",
   duration: "25 min",
-  description: "Practice real-life conversations for shopping and ordering food — Flyers Speaking Part 2!",
-  descriptionVi: "Luyện hội thoại thực tế khi mua sắm và gọi món — Nói Flyers Phần 2!",
+  description: "Practice real-life conversations for shopping and ordering food - Flyers Speaking Part 2!",
+  descriptionVi: "Luyện hội thoại thực tế khi mua sắm và gọi món - Nói Flyers Phần 2!",
   learningObjective: "Students can handle simple transactional conversations using polite language.",
   learningObjectiveVi: "Học sinh xử lý hội thoại giao dịch đơn giản bằng ngôn ngữ lịch sự.",
   examPattern: "Flyers Speaking Part 2: Answer questions about a picture story. Part 4: Answer personal questions about shopping, food, etc.",
   examPatternVi: "Flyers Nói Phần 2: Trả lời câu hỏi về chuyện tranh. Phần 4: Trả lời câu hỏi cá nhân về mua sắm, ăn uống.",
-  secretTip: "🛍️ Learn these 3 POWER phrases: 'How much is...?', 'Can I have...?', 'I'd like...' — they work in ANY shop or restaurant!",
-  secretTipVi: "🛍️ Học 3 cụm QUYỀN LỰC: 'How much is...?', 'Can I have...?', 'I'd like...' — dùng được ở BẤT KỲ cửa hàng hay nhà hàng nào!",
+  secretTip: "🛍️ Learn these 3 POWER phrases: 'How much is...?', 'Can I have...?', 'I'd like...' - they work in ANY shop or restaurant!",
+  secretTipVi: "🛍️ Học 3 cụm QUYỀN LỰC: 'How much is...?', 'Can I have...?', 'I'd like...' - dùng được ở BẤT KỲ cửa hàng hay nhà hàng nào!",
   welcomeMessage: "Welcome, shoppers! 🛒 Let's learn how to buy things and order food in English!",
   welcomeMessageVi: "Chào các tín đồ mua sắm! 🛒 Cùng học cách mua đồ và gọi món bằng tiếng Anh!",
   stepByStep: [
@@ -355,13 +355,13 @@ const flyersConversation: CambridgeLecture = {
   ],
   illustratedRules: [
     { icon: "🛍️", rule: "Asking: 'Can I have...?' / 'I'd like...' / 'Do you have...?'", ruleVi: "Hỏi: 'Can I have...?' / 'I'd like...' / 'Do you have...?'", example: "Can I have a glass of water, please?" },
-    { icon: "💰", rule: "Price: 'How much is it?' / 'How much are they?' / 'It's £5.'", ruleVi: "Giá: 'How much is it?' / 'How much are they?' / 'It's £5.'", example: "How much is this T-shirt? — It's £10." },
+    { icon: "💰", rule: "Price: 'How much is it?' / 'How much are they?' / 'It's £5.'", ruleVi: "Giá: 'How much is it?' / 'How much are they?' / 'It's £5.'", example: "How much is this T-shirt? - It's £10." },
     { icon: "🙏", rule: "Polite words: please, thank you, excuse me, you're welcome", ruleVi: "Từ lịch sự: please, thank you, excuse me, you're welcome", example: "Excuse me, can I have the menu, please?" },
   ],
   watchOut: [
-    { mistake: "Forgetting 'please' at the end", mistakeVi: "Quên 'please' ở cuối", tip: "Always add 'please' — it makes you sound polite and scores better!", tipVi: "Luôn thêm 'please' — giúp bạn lịch sự hơn và được điểm cao hơn!" },
+    { mistake: "Forgetting 'please' at the end", mistakeVi: "Quên 'please' ở cuối", tip: "Always add 'please' - it makes you sound polite and scores better!", tipVi: "Luôn thêm 'please' - giúp bạn lịch sự hơn và được điểm cao hơn!" },
     { mistake: "Saying 'How much is they?'", mistakeVi: "Nói 'How much is they?'", tip: "Plural items: 'How much ARE they?' Singular: 'How much IS it?'", tipVi: "Số nhiều: 'How much ARE they?' Số ít: 'How much IS it?'" },
-    { mistake: "Using 'I want' instead of 'I'd like'", mistakeVi: "Dùng 'I want' thay vì 'I'd like'", tip: "'I'd like' is more polite than 'I want' — use it in exams!", tipVi: "'I'd like' lịch sự hơn 'I want' — dùng trong thi!" },
+    { mistake: "Using 'I want' instead of 'I'd like'", mistakeVi: "Dùng 'I want' thay vì 'I'd like'", tip: "'I'd like' is more polite than 'I want' - use it in exams!", tipVi: "'I'd like' lịch sự hơn 'I want' - dùng trong thi!" },
   ],
   practiceSet: [
     { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "You want to buy 2 oranges. What do you say?", options: ["Can I have two oranges, please?", "N/A", "N/A", "N/A"], answer: 0, explanation: "'Can I have' + item + 'please' = perfect!", explanationVi: "'Can I have' + món + 'please' = hoàn hảo!" },
@@ -371,14 +371,14 @@ const flyersConversation: CambridgeLecture = {
   vocabulary: [
     { word: "menu", meaning: "thực đơn", meaningVi: "thực đơn", example: "Can I see the menu, please?" },
     { word: "price", meaning: "giá", meaningVi: "giá", example: "What's the price of this book?" },
-    { word: "change", meaning: "tiền thối", meaningVi: "tiền thối", example: "Here's your change — £2." },
+    { word: "change", meaning: "tiền thối", meaningVi: "tiền thối", example: "Here's your change - £2." },
     { word: "receipt", meaning: "hóa đơn", meaningVi: "hóa đơn", example: "Can I have a receipt, please?" },
     { word: "order", meaning: "gọi món", meaningVi: "gọi món", example: "Are you ready to order?" },
   ],
   quiz: [
     { question: "Which is more polite?", options: ["I want a cake.", "Give me a cake.", "I'd like a cake, please.", "A cake."], answer: 2, explanation: "'I'd like... please' is the most polite way!" },
-    { question: "'How much ___ these shoes?' — Fill in.", options: ["is", "are", "do", "does"], answer: 1, explanation: "Shoes = plural → How much ARE these shoes?" },
-    { question: "You give money to the cashier. What do you say?", options: ["Take it.", "Here you are.", "This is money.", "Pay now."], answer: 1, explanation: "'Here you are' — polite way to hand over money." },
+    { question: "'How much ___ these shoes?' - Fill in.", options: ["is", "are", "do", "does"], answer: 1, explanation: "Shoes = plural → How much ARE these shoes?" },
+    { question: "You give money to the cashier. What do you say?", options: ["Take it.", "Here you are.", "This is money.", "Pay now."], answer: 1, explanation: "'Here you are' - polite way to hand over money." },
   ],
   parentInfo: "This lesson teaches transactional English for shops and restaurants. Children practice polite requests, asking prices, and real-world conversation skills tested in Flyers Speaking.",
   parentInfoVi: "Bài này dạy tiếng Anh giao dịch cho cửa hàng và nhà hàng. Trẻ luyện yêu cầu lịch sự, hỏi giá, và kỹ năng hội thoại thực tế trong thi Nói Flyers.",
@@ -392,8 +392,8 @@ const flyersLetterWriting: CambridgeLecture = {
   skill: "reading-writing",
   icon: "✉️",
   duration: "25 min",
-  description: "Learn to write short notes, messages, and postcards — Flyers Writing Part 7!",
-  descriptionVi: "Học viết ghi chú ngắn, tin nhắn, và bưu thiếp — Viết Flyers Phần 7!",
+  description: "Learn to write short notes, messages, and postcards - Flyers Writing Part 7!",
+  descriptionVi: "Học viết ghi chú ngắn, tin nhắn, và bưu thiếp - Viết Flyers Phần 7!",
   learningObjective: "Students can write short messages (20-25 words) with correct grammar and spelling.",
   learningObjectiveVi: "Học sinh viết tin nhắn ngắn (20-25 từ) với ngữ pháp và chính tả đúng.",
   examPattern: "Flyers Reading & Writing Part 7: Write a short note or message based on a prompt (e.g., invite a friend, say thank you).",
@@ -409,7 +409,7 @@ const flyersLetterWriting: CambridgeLecture = {
   ],
   illustratedRules: [
     { icon: "📝", rule: "Message structure: Dear [name], + message body + From [your name]", ruleVi: "Cấu trúc: Dear [tên], + nội dung + From [tên bạn]", example: "Dear Tom, Let's meet at the park at 3pm. From, Anna" },
-    { icon: "✅", rule: "Include ALL information from the prompt — don't miss any point!", ruleVi: "Bao gồm TẤT CẢ thông tin từ yêu cầu — đừng bỏ sót điểm nào!", example: "If it says 'invite + when + where' → include all three!" },
+    { icon: "✅", rule: "Include ALL information from the prompt - don't miss any point!", ruleVi: "Bao gồm TẤT CẢ thông tin từ yêu cầu - đừng bỏ sót điểm nào!", example: "If it says 'invite + when + where' → include all three!" },
     { icon: "📏", rule: "Word count: 20-25 words. Too short = missing info. Too long = errors.", ruleVi: "Số từ: 20-25 từ. Quá ngắn = thiếu thông tin. Quá dài = nhiều lỗi.", example: "Count your words before finishing!" },
   ],
   watchOut: [
@@ -446,8 +446,8 @@ const flyersListeningMaps: CambridgeLecture = {
   skill: "listening",
   icon: "🗺️",
   duration: "25 min",
-  description: "Practice listening and labelling maps — essential for Flyers Listening Part 1!",
-  descriptionVi: "Luyện nghe và ghi chú trên bản đồ — thiết yếu cho Nghe Flyers Phần 1!",
+  description: "Practice listening and labelling maps - essential for Flyers Listening Part 1!",
+  descriptionVi: "Luyện nghe và ghi chú trên bản đồ - thiết yếu cho Nghe Flyers Phần 1!",
   learningObjective: "Students can listen to descriptions of locations and label them on a map.",
   learningObjectiveVi: "Học sinh nghe mô tả vị trí và ghi chú trên bản đồ.",
   examPattern: "Flyers Listening Part 1: Listen and write the names/labels on a map or picture of a town/building.",
@@ -459,12 +459,12 @@ const flyersListeningMaps: CambridgeLecture = {
   stepByStep: [
     { step: 1, title: "Study the map before listening", titleVi: "Nghiên cứu bản đồ trước khi nghe", detail: "Look at what's already labelled. Find streets, buildings, parks.", detailVi: "Nhìn những gì đã được ghi chú. Tìm đường, tòa nhà, công viên." },
     { step: 2, title: "Listen for location words", titleVi: "Nghe từ chỉ vị trí", detail: "'next to', 'opposite', 'between', 'on the corner', 'behind'", detailVi: "'next to', 'opposite', 'between', 'on the corner', 'behind'" },
-    { step: 3, title: "Write the label clearly", titleVi: "Viết nhãn rõ ràng", detail: "Spell the word correctly. You can listen TWICE — use the second time to check.", detailVi: "Viết chính tả đúng. Bạn được nghe 2 lần — dùng lần 2 để kiểm tra." },
+    { step: 3, title: "Write the label clearly", titleVi: "Viết nhãn rõ ràng", detail: "Spell the word correctly. You can listen TWICE - use the second time to check.", detailVi: "Viết chính tả đúng. Bạn được nghe 2 lần - dùng lần 2 để kiểm tra." },
   ],
   illustratedRules: [
     { icon: "📍", rule: "Position words: next to, opposite, between, behind, in front of, on the corner of", ruleVi: "Từ chỉ vị trí: next to, opposite, between, behind, in front of, on the corner of", example: "The library is next to the bank." },
     { icon: "🏢", rule: "Town places: bank, hospital, museum, cinema, supermarket, post office, station", ruleVi: "Nơi trong thị trấn: bank, hospital, museum, cinema, supermarket, post office, station", example: "The hospital is opposite the park." },
-    { icon: "🔤", rule: "Spelling matters! Listen carefully for names — you may need to write them exactly.", ruleVi: "Chính tả quan trọng! Nghe kỹ tên — bạn có thể phải viết chính xác.", example: "'The café is called Sunshine Café — that's S-U-N-S-H-I-N-E.'" },
+    { icon: "🔤", rule: "Spelling matters! Listen carefully for names - you may need to write them exactly.", ruleVi: "Chính tả quan trọng! Nghe kỹ tên - bạn có thể phải viết chính xác.", example: "'The café is called Sunshine Café - that's S-U-N-S-H-I-N-E.'" },
   ],
   watchOut: [
     { mistake: "Not studying the map before listening", mistakeVi: "Không nghiên cứu bản đồ trước khi nghe", tip: "Use the preparation time! Look at the map and predict what might go where.", tipVi: "Dùng thời gian chuẩn bị! Nhìn bản đồ và dự đoán vị trí." },
@@ -484,15 +484,15 @@ const flyersListeningMaps: CambridgeLecture = {
     { word: "station", meaning: "nhà ga", meaningVi: "nhà ga", example: "The train station is near my house." },
   ],
   quiz: [
-    { question: "'The park is ___ the school.' (It's across the road.) — Choose:", options: ["next to", "behind", "opposite", "between"], answer: 2, explanation: "Opposite = đối diện, across the road." },
+    { question: "'The park is ___ the school.' (It's across the road.) - Choose:", options: ["next to", "behind", "opposite", "between"], answer: 2, explanation: "Opposite = đối diện, across the road." },
     { question: "What does 'between' mean?", options: ["phía trước", "phía sau", "bên cạnh", "ở giữa"], answer: 3, explanation: "Between = ở giữa (hai thứ)." },
-    { question: "In Flyers Listening Part 1, how many times do you hear the audio?", options: ["1", "2", "3", "4"], answer: 1, explanation: "You hear it TWICE — use the second time to check!" },
+    { question: "In Flyers Listening Part 1, how many times do you hear the audio?", options: ["1", "2", "3", "4"], answer: 1, explanation: "You hear it TWICE - use the second time to check!" },
   ],
   parentInfo: "This lesson teaches map-reading and location vocabulary for Flyers Listening Part 1. Children learn prepositions of place and practice labelling maps from audio descriptions.",
   parentInfoVi: "Bài này dạy đọc bản đồ và từ vựng vị trí cho Nghe Flyers Phần 1. Trẻ học giới từ nơi chốn và luyện ghi nhãn bản đồ từ mô tả nghe.",
 };
 
-// ==================== KET — 3 new lectures (Batch 2) ====================
+// ==================== KET - 3 new lectures (Batch 2) ====================
 
 const ketReadingMultipleChoice: CambridgeLecture = {
   id: "cam-ket-reading-mc",
@@ -502,8 +502,8 @@ const ketReadingMultipleChoice: CambridgeLecture = {
   skill: "reading-writing",
   icon: "📋",
   duration: "25 min",
-  description: "Master KET Reading Part 1 — understand short notices, signs, and messages!",
-  descriptionVi: "Thành thạo Đọc KET Phần 1 — hiểu thông báo ngắn, biển hiệu, và tin nhắn!",
+  description: "Master KET Reading Part 1 - understand short notices, signs, and messages!",
+  descriptionVi: "Thành thạo Đọc KET Phần 1 - hiểu thông báo ngắn, biển hiệu, và tin nhắn!",
   learningObjective: "Students can understand the main message of short notices, signs, emails, and messages.",
   learningObjectiveVi: "Học sinh hiểu ý chính của thông báo ngắn, biển hiệu, email, và tin nhắn.",
   examPattern: "KET Reading Part 1: Read 6 short texts (signs, notices, messages) and choose A, B, or C for what each text means.",
@@ -544,8 +544,8 @@ const ketReadingMultipleChoice: CambridgeLecture = {
     { question: "Notice: 'Sale! 50% off all shoes this weekend!' What is the notice about?", options: ["Shoes are expensive.", "There's a discount on shoes.", "The shoe shop is closing.", "You must buy shoes."], answer: 1, explanation: "50% off = a discount = shoes are cheaper!" },
     { question: "What does 'by Friday' mean?", options: ["After Friday", "Only on Friday", "Before or on Friday", "Next Friday"], answer: 2, explanation: "'By Friday' = trước hoặc vào thứ Sáu." },
   ],
-  parentInfo: "This lesson teaches reading comprehension for KET Part 1. Children practice understanding real-world texts like signs, notices, and short messages — a skill used daily in English-speaking environments.",
-  parentInfoVi: "Bài này dạy đọc hiểu cho KET Phần 1. Trẻ luyện hiểu văn bản thực tế như biển hiệu, thông báo, và tin nhắn ngắn — kỹ năng dùng hàng ngày trong môi trường nói tiếng Anh.",
+  parentInfo: "This lesson teaches reading comprehension for KET Part 1. Children practice understanding real-world texts like signs, notices, and short messages - a skill used daily in English-speaking environments.",
+  parentInfoVi: "Bài này dạy đọc hiểu cho KET Phần 1. Trẻ luyện hiểu văn bản thực tế như biển hiệu, thông báo, và tin nhắn ngắn - kỹ năng dùng hàng ngày trong môi trường nói tiếng Anh.",
 };
 
 const ketListeningGap: CambridgeLecture = {
@@ -556,8 +556,8 @@ const ketListeningGap: CambridgeLecture = {
   skill: "listening",
   icon: "🎧",
   duration: "25 min",
-  description: "Practice listening for specific details and filling in gaps — KET Listening Part 5!",
-  descriptionVi: "Luyện nghe chi tiết cụ thể và điền vào chỗ trống — Nghe KET Phần 5!",
+  description: "Practice listening for specific details and filling in gaps - KET Listening Part 5!",
+  descriptionVi: "Luyện nghe chi tiết cụ thể và điền vào chỗ trống - Nghe KET Phần 5!",
   learningObjective: "Students can listen for specific information (names, numbers, times, places) and write short answers.",
   learningObjectiveVi: "Học sinh nghe thông tin cụ thể (tên, số, giờ, nơi) và viết đáp án ngắn.",
   examPattern: "KET Listening Part 5: Listen to a conversation and fill in gaps in a form/notes with one or two words or a number.",
@@ -574,7 +574,7 @@ const ketListeningGap: CambridgeLecture = {
   illustratedRules: [
     { icon: "🔢", rule: "Numbers: Listen for phone numbers, ages, prices, dates, room numbers", ruleVi: "Số: Nghe số điện thoại, tuổi, giá, ngày, số phòng", example: "'The class is in Room 14.' → Write: 14" },
     { icon: "📅", rule: "Days & Times: Monday, Tuesday... / 3 o'clock, half past 4, quarter to 5", ruleVi: "Ngày & Giờ: Monday, Tuesday... / 3 o'clock, half past 4, quarter to 5", example: "'We meet on Wednesday at 2:30.' → Day: Wednesday, Time: 2:30" },
-    { icon: "🔤", rule: "Names & Spelling: Listen for 'My name is... that's B-R-O-W-N'", ruleVi: "Tên & Chính tả: Nghe 'My name is... that's B-R-O-W-N'", example: "'My surname is Parker — P-A-R-K-E-R.' → Write: Parker" },
+    { icon: "🔤", rule: "Names & Spelling: Listen for 'My name is... that's B-R-O-W-N'", ruleVi: "Tên & Chính tả: Nghe 'My name is... that's B-R-O-W-N'", example: "'My surname is Parker - P-A-R-K-E-R.' → Write: Parker" },
   ],
   watchOut: [
     { mistake: "Writing too many words", mistakeVi: "Viết quá nhiều từ", tip: "Gaps need only ONE or TWO words (or a number). Keep it short!", tipVi: "Chỗ trống chỉ cần MỘT hoặc HAI từ (hoặc số). Viết ngắn!" },
@@ -583,7 +583,7 @@ const ketListeningGap: CambridgeLecture = {
   ],
   practiceSet: [
     { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "You hear: 'The swimming class is at half past three on Tuesdays.' Fill in: Day: ___ Time: ___", options: ["Day: Tuesday, Time: 3:30", "N/A", "N/A", "N/A"], answer: 0, explanation: "Half past three = 3:30. On Tuesdays = every Tuesday.", explanationVi: "Half past three = 3:30. On Tuesdays = mỗi thứ Ba." },
-    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "You hear: 'My name is Thompson — that's T-H-O-M-P-S-O-N.' Write the name:", options: ["Thompson", "N/A", "N/A", "N/A"], answer: 0, explanation: "The speaker spelled it out! Write exactly: Thompson.", explanationVi: "Người nói đã đánh vần! Viết chính xác: Thompson." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "You hear: 'My name is Thompson - that's T-H-O-M-P-S-O-N.' Write the name:", options: ["Thompson", "N/A", "N/A", "N/A"], answer: 0, explanation: "The speaker spelled it out! Write exactly: Thompson.", explanationVi: "Người nói đã đánh vần! Viết chính xác: Thompson." },
     { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "You hear: 'Tickets cost twelve pounds fifty.' Write the price:", options: ["£12.50", "N/A", "N/A", "N/A"], answer: 0, explanation: "Twelve pounds fifty = £12.50", explanationVi: "Twelve pounds fifty = £12.50" },
   ],
   vocabulary: [
@@ -598,8 +598,8 @@ const ketListeningGap: CambridgeLecture = {
     { question: "In KET Listening Part 5, how many words should you write in each gap?", options: ["3-4 words", "A full sentence", "1-2 words or a number", "As many as you want"], answer: 2, explanation: "Keep it to 1-2 words or a number!" },
     { question: "'Quarter to six' = ?", options: ["5:15", "5:45", "6:15", "6:45"], answer: 1, explanation: "Quarter to six = 15 minutes before 6 = 5:45." },
   ],
-  parentInfo: "This lesson prepares children for KET Listening Part 5 — gap-filling from a recorded conversation. They practice listening for numbers, times, names, and spelling — critical micro-skills for the exam.",
-  parentInfoVi: "Bài này chuẩn bị cho trẻ KET Nghe Phần 5 — điền từ từ hội thoại. Trẻ luyện nghe số, giờ, tên, và chính tả — kỹ năng vi mô quan trọng cho kỳ thi.",
+  parentInfo: "This lesson prepares children for KET Listening Part 5 - gap-filling from a recorded conversation. They practice listening for numbers, times, names, and spelling - critical micro-skills for the exam.",
+  parentInfoVi: "Bài này chuẩn bị cho trẻ KET Nghe Phần 5 - điền từ từ hội thoại. Trẻ luyện nghe số, giờ, tên, và chính tả - kỹ năng vi mô quan trọng cho kỳ thi.",
 };
 
 const ketVocabPhrases: CambridgeLecture = {
@@ -614,10 +614,10 @@ const ketVocabPhrases: CambridgeLecture = {
   descriptionVi: "Học các cụm từ và kết hợp từ phổ biến nhất trong KET!",
   learningObjective: "Students can use common collocations and fixed phrases accurately in context.",
   learningObjectiveVi: "Học sinh dùng đúng kết hợp từ và cụm từ cố định trong ngữ cảnh.",
-  examPattern: "KET Reading Part 3: Multiple choice cloze — choose the correct word to complete sentences. Tests collocations and fixed phrases.",
-  examPatternVi: "KET Đọc Phần 3: Trắc nghiệm điền từ — chọn từ đúng hoàn thành câu. Kiểm tra kết hợp từ và cụm từ cố định.",
-  secretTip: "💬 Learn words IN PHRASES, not alone! Don't just learn 'make' — learn 'make a mistake', 'make friends', 'make a decision'!",
-  secretTipVi: "💬 Học từ TRONG CỤM TỪ, không học riêng lẻ! Đừng chỉ học 'make' — học 'make a mistake', 'make friends', 'make a decision'!",
+  examPattern: "KET Reading Part 3: Multiple choice cloze - choose the correct word to complete sentences. Tests collocations and fixed phrases.",
+  examPatternVi: "KET Đọc Phần 3: Trắc nghiệm điền từ - chọn từ đúng hoàn thành câu. Kiểm tra kết hợp từ và cụm từ cố định.",
+  secretTip: "💬 Learn words IN PHRASES, not alone! Don't just learn 'make' - learn 'make a mistake', 'make friends', 'make a decision'!",
+  secretTipVi: "💬 Học từ TRONG CỤM TỪ, không học riêng lẻ! Đừng chỉ học 'make' - học 'make a mistake', 'make friends', 'make a decision'!",
   welcomeMessage: "Word power up! 💬 Let's learn phrases that will boost your KET score!",
   welcomeMessageVi: "Tăng sức mạnh từ vựng! 💬 Cùng học cụm từ giúp tăng điểm KET!",
   stepByStep: [
@@ -636,8 +636,8 @@ const ketVocabPhrases: CambridgeLecture = {
     { mistake: "Saying 'go to shopping'", mistakeVi: "Nói 'go to shopping'", tip: "No 'to'! Just 'go shopping'.", tipVi: "Không 'to'! Chỉ 'go shopping'." },
   ],
   practiceSet: [
-    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "I need to ___ my homework. (do / make)", options: ["do", "N/A", "N/A", "N/A"], answer: 0, explanation: "DO homework — do is for tasks and duties.", explanationVi: "DO homework — do dùng cho nhiệm vụ." },
-    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "She ___ a lot of friends at the new school. (made / did)", options: ["made", "N/A", "N/A", "N/A"], answer: 0, explanation: "MAKE friends — make is for creating something new.", explanationVi: "MAKE friends — make dùng cho tạo cái mới." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "I need to ___ my homework. (do / make)", options: ["do", "N/A", "N/A", "N/A"], answer: 0, explanation: "DO homework - do is for tasks and duties.", explanationVi: "DO homework - do dùng cho nhiệm vụ." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "She ___ a lot of friends at the new school. (made / did)", options: ["made", "N/A", "N/A", "N/A"], answer: 0, explanation: "MAKE friends - make is for creating something new.", explanationVi: "MAKE friends - make dùng cho tạo cái mới." },
     { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Let's go ___ this weekend! (shop / shopping / to shop)", options: ["shopping", "N/A", "N/A", "N/A"], answer: 0, explanation: "Go + -ing: go shopping, go swimming, go running.", explanationVi: "Go + -ing: go shopping, go swimming, go running." },
   ],
   vocabulary: [
@@ -648,15 +648,15 @@ const ketVocabPhrases: CambridgeLecture = {
     { word: "make a decision", meaning: "đưa ra quyết định", meaningVi: "đưa ra quyết định", example: "It's hard to make a decision." },
   ],
   quiz: [
-    { question: "'I ___ a terrible mistake on the test.' — Choose:", options: ["did", "made", "had", "went"], answer: 1, explanation: "MAKE a mistake — always 'make', never 'do'!" },
-    { question: "'Let's go ___!' — Choose:", options: ["swim", "to swim", "swimming", "to swimming"], answer: 2, explanation: "Go + -ing: go swimming!" },
-    { question: "'We ___ a great time at the party.' — Choose:", options: ["made", "did", "had", "went"], answer: 2, explanation: "HAVE a great time — fixed phrase!" },
+    { question: "'I ___ a terrible mistake on the test.' - Choose:", options: ["did", "made", "had", "went"], answer: 1, explanation: "MAKE a mistake - always 'make', never 'do'!" },
+    { question: "'Let's go ___!' - Choose:", options: ["swim", "to swim", "swimming", "to swimming"], answer: 2, explanation: "Go + -ing: go swimming!" },
+    { question: "'We ___ a great time at the party.' - Choose:", options: ["made", "did", "had", "went"], answer: 2, explanation: "HAVE a great time - fixed phrase!" },
   ],
   parentInfo: "This lesson teaches essential collocations (make/do/have/go) tested in KET Reading Part 3. Learning words in phrases rather than isolation greatly improves exam performance and natural English use.",
   parentInfoVi: "Bài này dạy kết hợp từ thiết yếu (make/do/have/go) trong KET Đọc Phần 3. Học từ trong cụm từ thay vì riêng lẻ giúp cải thiện đáng kể kết quả thi và sử dụng tiếng Anh tự nhiên.",
 };
 
-// ==================== PET — 3 new lectures (Batch 2) ====================
+// ==================== PET - 3 new lectures (Batch 2) ====================
 
 const petWritingEmail: CambridgeLecture = {
   id: "cam-pet-writing-email",
@@ -689,10 +689,10 @@ const petWritingEmail: CambridgeLecture = {
   watchOut: [
     { mistake: "Missing one of the required content points", mistakeVi: "Thiếu một trong các điểm nội dung yêu cầu", tip: "Check the prompt again after writing. Tick off each point.", tipVi: "Kiểm tra lại yêu cầu sau khi viết. Đánh dấu từng điểm." },
     { mistake: "Writing too formally for an email to a friend", mistakeVi: "Viết quá trang trọng cho email gửi bạn", tip: "Use informal language: Hi (not Dear Sir), contractions (I'm, don't), casual tone.", tipVi: "Dùng ngôn ngữ thân mật: Hi (không phải Dear Sir), viết tắt (I'm, don't), giọng thoải mái." },
-    { mistake: "No paragraphs — writing everything in one block", mistakeVi: "Không chia đoạn — viết tất cả trong một khối", tip: "Use 3 paragraphs! It looks organized and is easier to read.", tipVi: "Dùng 3 đoạn! Trông có tổ chức và dễ đọc hơn." },
+    { mistake: "No paragraphs - writing everything in one block", mistakeVi: "Không chia đoạn - viết tất cả trong một khối", tip: "Use 3 paragraphs! It looks organized and is easier to read.", tipVi: "Dùng 3 đoạn! Trông có tổ chức và dễ đọc hơn." },
   ],
   practiceSet: [
-    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Write an opening for this email: Your friend told you about their new pet.", options: ["Hi Tom! Thanks for your email. Wow, a new puppy — that's so exciting!", "N/A", "N/A", "N/A"], answer: 0, explanation: "Greet + thank + react to their news = perfect opening!", explanationVi: "Chào + cảm ơn + phản hồi tin = mở đầu hoàn hảo!" },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Write an opening for this email: Your friend told you about their new pet.", options: ["Hi Tom! Thanks for your email. Wow, a new puppy - that's so exciting!", "N/A", "N/A", "N/A"], answer: 0, explanation: "Greet + thank + react to their news = perfect opening!", explanationVi: "Chào + cảm ơn + phản hồi tin = mở đầu hoàn hảo!" },
     { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Write a closing sentence with a question back:", options: ["What name did you choose for your puppy? Write back and tell me! Love, [name]", "N/A", "N/A", "N/A"], answer: 0, explanation: "Question + request to write back + sign off.", explanationVi: "Câu hỏi + yêu cầu viết lại + ký tên." },
     { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Connect these ideas: 'I went to the park. The weather was nice.'", options: ["I went to the park because the weather was nice.", "N/A", "N/A", "N/A"], answer: 0, explanation: "'Because' connects the reason to the action.", explanationVi: "'Because' nối lý do với hành động." },
   ],
@@ -705,11 +705,11 @@ const petWritingEmail: CambridgeLecture = {
   ],
   quiz: [
     { question: "How many words should a PET Part 2 email have?", options: ["50", "75", "100", "150"], answer: 2, explanation: "About 100 words is the target for PET Writing Part 2." },
-    { question: "Which opening is best for an email to a friend?", options: ["Dear Sir/Madam,", "To Whom It May Concern,", "Hi Sarah!", "Respected Sir,"], answer: 2, explanation: "'Hi [name]!' — friendly and informal, perfect for a friend!" },
+    { question: "Which opening is best for an email to a friend?", options: ["Dear Sir/Madam,", "To Whom It May Concern,", "Hi Sarah!", "Respected Sir,"], answer: 2, explanation: "'Hi [name]!' - friendly and informal, perfect for a friend!" },
     { question: "How many paragraphs should you write?", options: ["1", "2", "3", "5"], answer: 2, explanation: "3 paragraphs: opening, body, closing." },
   ],
-  parentInfo: "This lesson teaches email writing for PET Part 2. Children learn the 3-paragraph structure, informal tone, and how to include all required content points — the key to scoring well.",
-  parentInfoVi: "Bài này dạy viết email cho PET Phần 2. Trẻ học cấu trúc 3 đoạn, giọng thân mật, và cách bao gồm tất cả nội dung yêu cầu — chìa khóa để đạt điểm cao.",
+  parentInfo: "This lesson teaches email writing for PET Part 2. Children learn the 3-paragraph structure, informal tone, and how to include all required content points - the key to scoring well.",
+  parentInfoVi: "Bài này dạy viết email cho PET Phần 2. Trẻ học cấu trúc 3 đoạn, giọng thân mật, và cách bao gồm tất cả nội dung yêu cầu - chìa khóa để đạt điểm cao.",
 };
 
 const petListeningMC: CambridgeLecture = {
@@ -720,8 +720,8 @@ const petListeningMC: CambridgeLecture = {
   skill: "listening",
   icon: "🎵",
   duration: "30 min",
-  description: "Practice PET Listening Part 1 — short conversations with picture-based multiple choice!",
-  descriptionVi: "Luyện Nghe PET Phần 1 — hội thoại ngắn với trắc nghiệm dựa trên hình!",
+  description: "Practice PET Listening Part 1 - short conversations with picture-based multiple choice!",
+  descriptionVi: "Luyện Nghe PET Phần 1 - hội thoại ngắn với trắc nghiệm dựa trên hình!",
   learningObjective: "Students can listen to short conversations and choose the correct picture answer.",
   learningObjectiveVi: "Học sinh nghe hội thoại ngắn và chọn đáp án hình đúng.",
   examPattern: "PET Listening Part 1: Listen to 7 short recordings. For each, choose the correct picture (A, B, or C).",
@@ -746,7 +746,7 @@ const petListeningMC: CambridgeLecture = {
     { mistake: "Panicking when you hear all options mentioned", mistakeVi: "Hoảng khi nghe tất cả lựa chọn được nhắc", tip: "This is NORMAL in PET! They always mention all options. Stay calm and listen for the conclusion.", tipVi: "Đây là BÌNH THƯỜNG trong PET! Họ luôn nhắc tất cả lựa chọn. Bình tĩnh và nghe kết luận." },
   ],
   practiceSet: [
-    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Conversation: 'Shall we take the bus?' 'It's too slow. Let's drive.' 'Actually, let's cycle — it's a nice day.' → What transport?", options: ["Cycle / bicycle", "N/A", "N/A", "N/A"], answer: 0, explanation: "'Actually, let's cycle' = the final decision. Not bus, not car!", explanationVi: "'Actually, let's cycle' = quyết định cuối. Không phải bus, không phải car!" },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Conversation: 'Shall we take the bus?' 'It's too slow. Let's drive.' 'Actually, let's cycle - it's a nice day.' → What transport?", options: ["Cycle / bicycle", "N/A", "N/A", "N/A"], answer: 0, explanation: "'Actually, let's cycle' = the final decision. Not bus, not car!", explanationVi: "'Actually, let's cycle' = quyết định cuối. Không phải bus, không phải car!" },
     { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Conversation: 'I'll wear my blue dress.' 'But it might rain.' 'OK, I'll wear jeans and my red jacket.' → What is she wearing?", options: ["Jeans and a red jacket", "N/A", "N/A", "N/A"], answer: 0, explanation: "She changed her mind from the blue dress to jeans + red jacket.", explanationVi: "Cô ấy đổi ý từ váy xanh sang quần jeans + áo khoác đỏ." },
     { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "What word signals a change of mind?", options: ["Actually", "N/A", "N/A", "N/A"], answer: 0, explanation: "'Actually' often introduces the REAL/FINAL answer in PET Listening.", explanationVi: "'Actually' thường giới thiệu đáp án THẬT/CUỐI CÙNG trong Nghe PET." },
   ],
@@ -760,10 +760,10 @@ const petListeningMC: CambridgeLecture = {
   quiz: [
     { question: "In PET Listening Part 1, what is a 'distractor'?", options: ["A wrong answer mentioned in the recording", "A picture you don't need", "A word you don't understand", "Background noise"], answer: 0, explanation: "Distractors are wrong options mentioned to confuse you!" },
     { question: "Which word often signals the FINAL answer?", options: ["Firstly", "Maybe", "Actually", "Perhaps"], answer: 2, explanation: "'Actually' often introduces the real/final decision." },
-    { question: "'Let's take the bus. No wait, the train is faster.' What's the answer?", options: ["bus", "car", "train", "walk"], answer: 2, explanation: "The speaker changed to train — 'No wait' signals a change!" },
+    { question: "'Let's take the bus. No wait, the train is faster.' What's the answer?", options: ["bus", "car", "train", "walk"], answer: 2, explanation: "The speaker changed to train - 'No wait' signals a change!" },
   ],
-  parentInfo: "This lesson teaches strategies for PET Listening Part 1. Children learn to identify distractors, wait for final answers, and use preparation time wisely — skills that significantly improve listening scores.",
-  parentInfoVi: "Bài này dạy chiến lược cho Nghe PET Phần 1. Trẻ học nhận biết bẫy, đợi đáp án cuối, và dùng thời gian chuẩn bị — kỹ năng giúp tăng đáng kể điểm nghe.",
+  parentInfo: "This lesson teaches strategies for PET Listening Part 1. Children learn to identify distractors, wait for final answers, and use preparation time wisely - skills that significantly improve listening scores.",
+  parentInfoVi: "Bài này dạy chiến lược cho Nghe PET Phần 1. Trẻ học nhận biết bẫy, đợi đáp án cuối, và dùng thời gian chuẩn bị - kỹ năng giúp tăng đáng kể điểm nghe.",
 };
 
 const petSpeakingDiscussion: CambridgeLecture = {
@@ -774,8 +774,8 @@ const petSpeakingDiscussion: CambridgeLecture = {
   skill: "speaking",
   icon: "🗣️",
   duration: "30 min",
-  description: "Master PET Speaking Part 4 — discuss topics, give opinions, and agree/disagree politely!",
-  descriptionVi: "Thành thạo Nói PET Phần 4 — thảo luận chủ đề, đưa ý kiến, đồng ý/không đồng ý lịch sự!",
+  description: "Master PET Speaking Part 4 - discuss topics, give opinions, and agree/disagree politely!",
+  descriptionVi: "Thành thạo Nói PET Phần 4 - thảo luận chủ đề, đưa ý kiến, đồng ý/không đồng ý lịch sự!",
   learningObjective: "Students can express and justify opinions, agree/disagree politely, and maintain a discussion.",
   learningObjectiveVi: "Học sinh diễn đạt và giải thích ý kiến, đồng ý/không đồng ý lịch sự, và duy trì thảo luận.",
   examPattern: "PET Speaking Part 4: The examiner asks you and your partner to discuss a topic related to Part 3. Give your opinion and respond to your partner.",
@@ -814,10 +814,10 @@ const petSpeakingDiscussion: CambridgeLecture = {
   quiz: [
     { question: "Which is the MOST polite way to disagree?", options: ["You're wrong!", "No way!", "I see your point, but I think differently.", "That's stupid."], answer: 2, explanation: "'I see your point, but...' is polite and respectful." },
     { question: "What should you add after giving your opinion?", options: ["Nothing", "A reason (because...)", "An apology", "A question"], answer: 1, explanation: "Opinion + reason = strong answer. Add an example for bonus points!" },
-    { question: "Which phrase introduces an example?", options: ["However", "Although", "For instance", "Nevertheless"], answer: 2, explanation: "'For instance' = 'for example' — introduces a specific example." },
+    { question: "Which phrase introduces an example?", options: ["However", "Although", "For instance", "Nevertheless"], answer: 2, explanation: "'For instance' = 'for example' - introduces a specific example." },
   ],
-  parentInfo: "This lesson teaches discussion skills for PET Speaking Part 4. Children learn to express opinions with reasons, agree/disagree politely, and develop their ideas — crucial skills for achieving a good speaking score.",
-  parentInfoVi: "Bài này dạy kỹ năng thảo luận cho Nói PET Phần 4. Trẻ học diễn đạt ý kiến có lý do, đồng ý/không đồng ý lịch sự, và phát triển ý — kỹ năng quan trọng để đạt điểm nói cao.",
+  parentInfo: "This lesson teaches discussion skills for PET Speaking Part 4. Children learn to express opinions with reasons, agree/disagree politely, and develop their ideas - crucial skills for achieving a good speaking score.",
+  parentInfoVi: "Bài này dạy kỹ năng thảo luận cho Nói PET Phần 4. Trẻ học diễn đạt ý kiến có lý do, đồng ý/không đồng ý lịch sự, và phát triển ý - kỹ năng quan trọng để đạt điểm nói cao.",
 };
 
 // === Export all 15 new lectures (Batch 2) ===

@@ -1,4 +1,4 @@
-// YKI Finnish Prep Dashboard — Vocabulary, Grammar, Mock Exams with progress tracking
+// YKI Finnish Prep Dashboard - Vocabulary, Grammar, Mock Exams with progress tracking
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import finnishFlagImg from "@/assets/finnish-flag.png";
 import { useSearchParams } from "react-router-dom";
@@ -591,7 +591,7 @@ const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocab
     >
       {/* Two-column layout: text left, image right */}
       <div className="flex flex-col sm:flex-row">
-        {/* Left column — text content (60%) */}
+        {/* Left column - text content (60%) */}
         <div className="flex-1 p-5 sm:p-6 min-w-0">
           {/* Top row: Word + POS + Category badges */}
           <div className="flex items-start gap-2 mb-3 flex-wrap">
@@ -682,7 +682,7 @@ const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocab
           )}
         </div>
 
-        {/* Right column — illustration image (35-40%) */}
+        {/* Right column - illustration image (35-40%) */}
         <div className="sm:w-[38%] shrink-0 relative">
           {/* Mobile: image on top; Desktop: image on right */}
           <div className="w-full h-48 sm:h-full sm:min-h-[220px] relative overflow-hidden">
@@ -908,7 +908,7 @@ const FlashcardView = ({
                 <p className="text-xs text-gray-500 italic mt-1">{vocab.exampleEn}</p>
               </div>
 
-              {/* SR Answer Buttons — shown on back of card */}
+              {/* SR Answer Buttons - shown on back of card */}
               {srMode && isFlipped && onSRAnswer && (
                 <div className="mt-4 pt-3 border-t border-gray-200 w-full">
                   <p className="text-xs text-muted-foreground mb-2">Muistitko tämän sanan?</p>
@@ -1282,12 +1282,12 @@ const analyzeWriting = (text: string, lessonId: string, showTranslation: boolean
   if (sentences.length >= 3) totalPoints += 1;
   
   const overallLabel = totalPoints >= 4
-    ? (showTranslation ? "Excellent — A2+ level! 🌟" : "Erinomainen — A2+ taso! 🌟")
+    ? (showTranslation ? "Excellent - A2+ level! 🌟" : "Erinomainen - A2+ taso! 🌟")
     : totalPoints >= 3
-    ? (showTranslation ? "Good — A2 level 👍" : "Hyvä — A2-taso 👍")
+    ? (showTranslation ? "Good - A2 level 👍" : "Hyvä - A2-taso 👍")
     : totalPoints >= 2
-    ? (showTranslation ? "Okay — Keep improving 💪" : "Ihan ok — Harjoittele lisää 💪")
-    : (showTranslation ? "Needs work — Review the model answer 📖" : "Tarvitsee harjoitusta — Katso mallivastaus 📖");
+    ? (showTranslation ? "Okay - Keep improving 💪" : "Ihan ok - Harjoittele lisää 💪")
+    : (showTranslation ? "Needs work - Review the model answer 📖" : "Tarvitsee harjoitusta - Katso mallivastaus 📖");
 
   return {
     wordCount,
@@ -1962,7 +1962,7 @@ const YkiDashboard = () => {
     setFlyingStars((prev) => prev.filter((s) => s.id !== id));
   };
 
-  // Handle exam completion — link to skier progress
+  // Handle exam completion - link to skier progress
   const handleExamComplete = (lessonId: string, score: number, total: number) => {
     const newScores = { ...examScores, [lessonId]: { score, total } };
     setExamScores(newScores);
@@ -2125,7 +2125,7 @@ const YkiDashboard = () => {
                   YKI Finnish Prep Dashboard
                 </h1>
                 <p className="text-sm text-muted-foreground">
-                  {t("Perustaso — Trình độ A2", "Perustaso — Level A2")}
+                  {t("Perustaso - Trình độ A2", "Perustaso - Level A2")}
                 </p>
               </div>
             </div>
@@ -2218,7 +2218,7 @@ const YkiDashboard = () => {
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                 <div className="mb-6">
                   <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
-                    ⭐ Kertaus — Starred Words Review
+                    ⭐ Kertaus - Starred Words Review
                   </h2>
                   <p className="text-sm text-muted-foreground mt-1">
                     {t(`Sinulla on ${starredVocab.length} tähdellä merkittyä sanaa. Kertaa ja harjoittele niitä täällä.`, `You have ${starredVocab.length} starred words. Review and practice them here.`)}
@@ -2345,11 +2345,11 @@ const YkiDashboard = () => {
                     </div>
                   )}
 
-                  {/* Writing Exam — show writing section */}
+                  {/* Writing Exam - show writing section */}
                   {isWritingExam ? (
                     <WritingSection lesson={selectedLesson} />
                   ) : isSpeakingExam ? (
-                    /* Speaking Exam — show speaking recorder */
+                    /* Speaking Exam - show speaking recorder */
                     <SpeakingRecorder lesson={selectedLesson} />
                   ) : (
                     <>
@@ -2383,7 +2383,7 @@ const YkiDashboard = () => {
                         </Card>
                       )}
 
-                      {/* Theory/Grammar — show Finnish for exams */}
+                      {/* Theory/Grammar - show Finnish for exams */}
                       {selectedLesson.theory && !isWritingExam && !isSpeakingExam && (
                         <Card className="mb-6 border-[#003580]/10">
                           <CardContent className="p-6 prose prose-sm dark:prose-invert max-w-none text-[18px]">
@@ -2412,7 +2412,7 @@ const YkiDashboard = () => {
                                         <Volume2 className="w-3.5 h-3.5 text-[#003580]" />
                                       </button>
                                       <span className="font-medium text-foreground">{ex.finnish}</span>
-                                      <span className="text-muted-foreground">— {ex.english}</span>
+                                      <span className="text-muted-foreground">- {ex.english}</span>
                                     </div>
                                   ))}
                                 </div>
@@ -2512,7 +2512,7 @@ const YkiDashboard = () => {
                                 if (correct) {
                                   toast.success(`✅ "${word}" → Box ${result.box} (${SR_BOX_LABELS[result.box]})`, { style: { fontSize: "14px" } });
                                 } else {
-                                  toast.info(`🔁 "${word}" → Box ${result.box} — yritetään uudelleen!`, { style: { fontSize: "14px" } });
+                                  toast.info(`🔁 "${word}" → Box ${result.box} - yritetään uudelleen!`, { style: { fontSize: "14px" } });
                                 }
                               }}
                             />
@@ -2534,7 +2534,7 @@ const YkiDashboard = () => {
                         </div>
                       )}
 
-                      {/* Quiz — Finnish-first for mock exams */}
+                      {/* Quiz - Finnish-first for mock exams */}
                       {selectedLesson.quiz && selectedLesson.quiz.length > 0 && (
                         <div className="mb-6">
                           <QuizSection
@@ -2701,13 +2701,13 @@ const YkiDashboard = () => {
                 </div>
                 {activePillar === "vocabulary" && (
                   <div className="hidden lg:block w-72 flex-shrink-0 sticky top-24 self-start">
-                    <VocabMasteryLeaderboard subject="finnish" currentCount={masteredWords.length} label="🏆 Sanasto — BXH" />
+                    <VocabMasteryLeaderboard subject="finnish" currentCount={masteredWords.length} label="🏆 Sanasto - BXH" />
                   </div>
                 )}
                 </div>
                 {activePillar === "vocabulary" && (
                   <div className="lg:hidden mt-6">
-                    <VocabMasteryLeaderboard subject="finnish" currentCount={masteredWords.length} label="🏆 Sanasto — BXH" />
+                    <VocabMasteryLeaderboard subject="finnish" currentCount={masteredWords.length} label="🏆 Sanasto - BXH" />
                   </div>
                 )}
                 </>

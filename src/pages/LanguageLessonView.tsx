@@ -1,4 +1,4 @@
-// Language Lesson Viewer — renders theory, vocabulary, exercises, and quiz inline
+// Language Lesson Viewer - renders theory, vocabulary, exercises, and quiz inline
 import { useState, useEffect, useMemo } from "react";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { boldAndSanitize } from "@/lib/utils";

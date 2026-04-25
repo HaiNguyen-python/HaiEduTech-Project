@@ -124,7 +124,7 @@ const Contact = () => {
             </div>
           </motion.div>
 
-          {/* AdSense — informational page, below contact form */}
+          {/* AdSense - informational page, below contact form */}
           <AdSlot />
         </div>
       </div>

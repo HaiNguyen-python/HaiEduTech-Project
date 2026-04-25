@@ -1,4 +1,4 @@
-// Natural Language Processing curriculum — 6 expert-level lessons (English long-read).
+// Natural Language Processing curriculum - 6 expert-level lessons (English long-read).
 // Bridges Deep Learning (RNN/Transformers) and applied Software Engineering.
 // Audience: students who finished Python basics and want to understand how
 // search engines, voice assistants, and LLMs actually read human text in 2026.
@@ -11,12 +11,12 @@ export const nlpModules: ExtendedProgrammingModule[] = [
     titleEn: "Natural Language Processing",
     icon: "🗣️",
     color: "from-cyan-500 to-blue-600",
-    description: "How computers read, write, and understand human language — from tokens to LLMs.",
-    descriptionEn: "How computers read, write, and understand human language — from tokens to LLMs.",
+    description: "How computers read, write, and understand human language - from tokens to LLMs.",
+    descriptionEn: "How computers read, write, and understand human language - from tokens to LLMs.",
     course: "nlp",
     lessons: [
       // ========================================================================
-      // Lesson 1 — Introduction to NLP
+      // Lesson 1 - Introduction to NLP
       // ========================================================================
       {
         id: "nlp-1",
@@ -24,11 +24,11 @@ export const nlpModules: ExtendedProgrammingModule[] = [
         titleEn: "Introduction to NLP",
         level: 4,
         difficulty: "intermediate",
-        theory: `> 💡 **Prerequisites** — Comfort with Python (lists, dicts, list-comprehensions). No linguistics background required.
+        theory: `> 💡 **Prerequisites** - Comfort with Python (lists, dicts, list-comprehensions). No linguistics background required.
 
 ## 1. What is NLP?
 
-**Natural Language Processing (NLP)** is the branch of AI that teaches machines to read, write, and reason about *human* language — the messy kind, full of slang, sarcasm, and grammar that breaks its own rules. NLP powers Google Search, Gmail's autocomplete, Siri, ChatGPT, real-time translation, spam filters, and the AI Speaking Coach you are using on **HaiEduTech** right now.
+**Natural Language Processing (NLP)** is the branch of AI that teaches machines to read, write, and reason about *human* language - the messy kind, full of slang, sarcasm, and grammar that breaks its own rules. NLP powers Google Search, Gmail's autocomplete, Siri, ChatGPT, real-time translation, spam filters, and the AI Speaking Coach you are using on **HaiEduTech** right now.
 
 Formally, NLP sits at the intersection of three fields:
 
@@ -53,11 +53,11 @@ Computers are great at numbers and rigid grammars (Python, SQL). Human language 
 | **Sarcasm & idioms** | *"Great, another Monday."* | Surface-positive, real sentiment negative. |
 | **Code-switching** | *"Tao đi học bài rồi vibing chill."* | Mixes Vietnamese + English in one sentence. |
 
-> 🎯 **Key insight** — NLP is not just *parsing English*. It is teaching a model to handle **every** human language with all its quirks. Finnish, Chinese, and Vietnamese are excellent stress-tests precisely because they break the assumptions an English-only system makes.
+> 🎯 **Key insight** - NLP is not just *parsing English*. It is teaching a model to handle **every** human language with all its quirks. Finnish, Chinese, and Vietnamese are excellent stress-tests precisely because they break the assumptions an English-only system makes.
 
 ## 3. The classical NLP pipeline
 
-Before LLMs, every NLP system followed roughly the same five-stage pipeline. You still see it inside modern systems — it just runs *under* a neural network now.
+Before LLMs, every NLP system followed roughly the same five-stage pipeline. You still see it inside modern systems - it just runs *under* a neural network now.
 
 \`\`\`mermaid
 graph LR
@@ -76,18 +76,18 @@ graph LR
 | **Statistical (2000s–2017)** | Count words, n-grams, logistic regression | Robust to noise | Misses long-range meaning |
 | **Neural (2018+)** | Word embeddings, RNNs, **Transformers, LLMs** | Captures context, multilingual | Huge compute, opaque, can hallucinate |
 
-The 2017 paper *"Attention Is All You Need"* (Transformers) is the inflection point. Everything you call "AI" today — ChatGPT, Gemini, Claude, Copilot — is a Transformer trained on terabytes of text.
+The 2017 paper *"Attention Is All You Need"* (Transformers) is the inflection point. Everything you call "AI" today - ChatGPT, Gemini, Claude, Copilot - is a Transformer trained on terabytes of text.
 
-## 5. Real-world use case — How Google Search reads your query
+## 5. Real-world use case - How Google Search reads your query
 
 When you type *"best phở near me open now"*, Google does NOT do a literal string match. Behind the scenes:
 
-1. **Tokenize** — split into ["best", "phở", "near", "me", "open", "now"].
-2. **Normalize** — lowercase, handle the diacritic *ở*.
-3. **Embed** — convert each word into a 768-dimensional vector that captures *meaning*.
-4. **Intent classify** — recognise this as a *local restaurant search*.
-5. **Entity extract** — *phở* = cuisine, *near me* = location, *open now* = filter.
-6. **Rank** — combine semantic similarity with location and opening hours.
+1. **Tokenize** - split into ["best", "phở", "near", "me", "open", "now"].
+2. **Normalize** - lowercase, handle the diacritic *ở*.
+3. **Embed** - convert each word into a 768-dimensional vector that captures *meaning*.
+4. **Intent classify** - recognise this as a *local restaurant search*.
+5. **Entity extract** - *phở* = cuisine, *near me* = location, *open now* = filter.
+6. **Rank** - combine semantic similarity with location and opening hours.
 
 That entire flow is NLP. We will build simplified versions of every step in this module.
 
@@ -102,11 +102,11 @@ That entire flow is NLP. We will build simplified versions of every step in this
 | 5 | **Sequence Modeling** | LSTM that finishes a sentence |
 | 6 | **Transformers & LLMs** | Fine-tune BERT, prompt a 2026 LLM |
 
-> 🏆 **Capstone** — At the end of Lesson 6 you will build a *Finnish-to-English sentiment analyser* that demonstrates every concept in one notebook.
+> 🏆 **Capstone** - At the end of Lesson 6 you will build a *Finnish-to-English sentiment analyser* that demonstrates every concept in one notebook.
 
 ## 7. Key Concept
 
-> 🎯 **Key Concept** — NLP turns **unstructured text** (human messy language) into **structured signals** (numbers, labels, vectors) that downstream code can act on. Every NLP system is some variant of *text → tokens → vectors → model → answer*.`,
+> 🎯 **Key Concept** - NLP turns **unstructured text** (human messy language) into **structured signals** (numbers, labels, vectors) that downstream code can act on. Every NLP system is some variant of *text → tokens → vectors → model → answer*.`,
         theoryEn: "",
         code: `# A 60-second taste of NLP using only the Python standard library.
 # We classify a movie review as positive / negative using a hand-crafted lexicon.
@@ -134,7 +134,7 @@ def naive_sentiment(text: str) -> str:
 
 # Try it on three reviews
 reviews = [
-    "Teacher Hai's lesson was AMAZING — I love how clearly he explains tokenization.",
+    "Teacher Hai's lesson was AMAZING - I love how clearly he explains tokenization.",
     "The chatbot was boring and the answers were terrible.",
     "It exists. I have no opinion.",
 ]
@@ -147,7 +147,7 @@ for r in reviews:
 #   - Cannot generalise to a word it has never seen ("phenomenal", "lit")
 # Lessons 2-6 fix every one of these problems with real NLP techniques.`,
         codeLanguage: "python",
-        exercise: "Run the snippet on the 3 sample reviews. Then add the sentence *\"This is not bad at all.\"* — explain why the naive lexicon fails on negation, and propose **two** rules you could add to fix it (without using machine learning yet).",
+        exercise: "Run the snippet on the 3 sample reviews. Then add the sentence *\"This is not bad at all.\"* - explain why the naive lexicon fails on negation, and propose **two** rules you could add to fix it (without using machine learning yet).",
         exerciseEn: "",
         quiz: [
           {
@@ -159,7 +159,7 @@ for r in reviews:
               "Chinese is read right-to-left",
             ],
             answer: 1,
-            explanation: "Languages like English use spaces as natural word boundaries. Chinese (and Japanese, Thai) write characters continuously — '我喜欢学习' has 4 'words' but no spaces, so a Chinese tokenizer must use a dictionary or a learned segmenter (e.g., jieba).",
+            explanation: "Languages like English use spaces as natural word boundaries. Chinese (and Japanese, Thai) write characters continuously - '我喜欢学习' has 4 'words' but no spaces, so a Chinese tokenizer must use a dictionary or a learned segmenter (e.g., jieba).",
           },
           {
             question: "Why do we say modern NLP is 'neural'?",
@@ -182,7 +182,7 @@ for r in reviews:
       },
 
       // ========================================================================
-      // Lesson 2 — Text Preprocessing (with Finnish & Chinese examples)
+      // Lesson 2 - Text Preprocessing (with Finnish & Chinese examples)
       // ========================================================================
       {
         id: "nlp-2",
@@ -190,7 +190,7 @@ for r in reviews:
         titleEn: "Text Preprocessing",
         level: 4,
         difficulty: "intermediate",
-        theory: `> 💡 **Prerequisites** — Lesson 1 (Introduction to NLP) and Python list comprehensions.
+        theory: `> 💡 **Prerequisites** - Lesson 1 (Introduction to NLP) and Python list comprehensions.
 
 ## 1. Why preprocess at all?
 
@@ -205,7 +205,7 @@ graph LR
     L --> O["love nlp"]
 \`\`\`
 
-## 2. Tokenization — splitting text into atoms
+## 2. Tokenization - splitting text into atoms
 
 A **token** is the smallest unit a model sees. For English this is *usually* a word, but the right strategy depends on the language.
 
@@ -215,14 +215,14 @@ A **token** is the smallest unit a model sees. For English this is *usually* a w
 | **Finnish** | Whitespace, but lemmatize hard | \`spacy "fi_core_news_sm"\` or **Voikko** | Heavy inflection: *taloissani* → *talo* (house). |
 | **Chinese** | **Word segmentation** (no spaces!) | \`jieba\` | *"我喜欢学习NLP"* must be split into *我 / 喜欢 / 学习 / NLP*. |
 | Vietnamese | Whitespace + multi-syllable joiner | \`underthesea\` | *"học sinh"* (student) is **one** word, not two. |
-| Modern LLMs | **Subword (BPE / SentencePiece)** | \`tiktoken\`, \`tokenizers\` | Splits *unhappiness* → *un*, *happi*, *ness* — works for every language and every typo. |
+| Modern LLMs | **Subword (BPE / SentencePiece)** | \`tiktoken\`, \`tokenizers\` | Splits *unhappiness* → *un*, *happi*, *ness* - works for every language and every typo. |
 
-> 🇫🇮 **Finnish challenge — Consonant Gradation** — Finnish nouns change *inside* the word as they decline:
+> 🇫🇮 **Finnish challenge - Consonant Gradation** - Finnish nouns change *inside* the word as they decline:
 > *katu* (street) → *kadulla* (on the street). The \`t\` becomes a \`d\`. A naive splitter would treat these as two unrelated words. A real Finnish tokenizer (or a subword tokenizer) lets the model recognise the shared root.
 
-> 🇨🇳 **Chinese challenge — Word segmentation** — *"上海大学城书店"* could mean *"Shanghai University Town Bookstore"* or *"Shanghai University City Bookstore"*. \`jieba\` uses a dictionary + statistical model to pick the most likely split.
+> 🇨🇳 **Chinese challenge - Word segmentation** - *"上海大学城书店"* could mean *"Shanghai University Town Bookstore"* or *"Shanghai University City Bookstore"*. \`jieba\` uses a dictionary + statistical model to pick the most likely split.
 
-## 3. Normalization — collapsing surface forms
+## 3. Normalization - collapsing surface forms
 
 Same meaning, many spellings:
 
@@ -235,13 +235,13 @@ Same meaning, many spellings:
 
 Common normalization steps: **lowercase**, **Unicode NFC**, expand contractions, strip URLs/HTML, and handle emojis (delete or convert to text).
 
-## 4. Stop-word removal — the boring 100 words
+## 4. Stop-word removal - the boring 100 words
 
 A handful of words (*the, a, is, of, và, không, ja, että*) appear in almost every sentence and carry **almost no signal** for tasks like topic classification. Removing them shrinks the vocabulary and speeds up training.
 
-> ⚠️ **Trap** — Do **not** remove stop-words for **sentiment** or **machine translation** tasks. *"This is **not** good"* and *"This is good"* differ by exactly one stop-word. NLTK's default list strips *not* — disaster.
+> ⚠️ **Trap** - Do **not** remove stop-words for **sentiment** or **machine translation** tasks. *"This is **not** good"* and *"This is good"* differ by exactly one stop-word. NLTK's default list strips *not* - disaster.
 
-## 5. Stemming vs Lemmatization — getting to the root
+## 5. Stemming vs Lemmatization - getting to the root
 
 Both reduce *running, ran, runs* to the root *run*. The difference matters:
 
@@ -269,7 +269,7 @@ graph TD
 
 ## 7. Key Concept
 
-> 🎯 **Key Concept** — Preprocessing is **task-dependent and language-dependent**. The right pipeline for **English topic classification** is the wrong pipeline for **Finnish translation** or **Chinese sentiment**. Modern subword tokenizers (used by every LLM) sidestep most of these problems by working below the word level.`,
+> 🎯 **Key Concept** - Preprocessing is **task-dependent and language-dependent**. The right pipeline for **English topic classification** is the wrong pipeline for **Finnish translation** or **Chinese sentiment**. Modern subword tokenizers (used by every LLM) sidestep most of these problems by working below the word level.`,
         theoryEn: "",
         code: `# A multilingual preprocessing pipeline using NLTK + a tiny demo of jieba (Chinese).
 # Install (run once in a notebook):  pip install nltk jieba
@@ -304,7 +304,7 @@ print("English  :", preprocess_english(review))
 # → ['love', 'teacher', 'hai', "'s", 'nlp', 'lesson', 'visit', 'haiedutech.com']
 
 # ------------------------------------------------------------------
-# Chinese segmentation — the killer demo. Spaces don't exist in Chinese.
+# Chinese segmentation - the killer demo. Spaces don't exist in Chinese.
 # ------------------------------------------------------------------
 import jieba
 chinese = "我喜欢在HaiEduTech学习自然语言处理"
@@ -312,14 +312,14 @@ print("Chinese  :", list(jieba.cut(chinese)))
 # → ['我', '喜欢', '在', 'HaiEduTech', '学习', '自然语言', '处理']
 
 # ------------------------------------------------------------------
-# Finnish — heavy morphology. Without a lemmatizer, every inflected form
+# Finnish - heavy morphology. Without a lemmatizer, every inflected form
 # looks like a brand-new word to the model.
 # ------------------------------------------------------------------
 finnish_words = ["talo", "talossa", "taloissanikin"]   # house, in the house, in my houses too
 print("Finnish (raw)        :", finnish_words)
 # A real Finnish lemmatizer (spaCy + fi_core_news_sm or Voikko) would map all three to 'talo'.`,
         codeLanguage: "python",
-        exercise: "Modify `preprocess_english` to **also strip emojis**. Then run it on a multilingual sentence: *\"Học NLP cùng Teacher Hai is amazing 🚀\"*. Explain in 2 sentences why an English-only pipeline mangles Vietnamese diacritics — and what you would change to handle both.",
+        exercise: "Modify `preprocess_english` to **also strip emojis**. Then run it on a multilingual sentence: *\"Học NLP cùng Teacher Hai is amazing 🚀\"*. Explain in 2 sentences why an English-only pipeline mangles Vietnamese diacritics - and what you would change to handle both.",
         exerciseEn: "",
         quiz: [
           {
@@ -331,7 +331,7 @@ print("Finnish (raw)        :", finnish_words)
               "Lemmatizing verbs",
             ],
             answer: 1,
-            explanation: "Default stop-word lists usually include negations. 'I do not like this' becomes 'like this' after stop-word removal — flipping the label. Always curate the stop-word list per task.",
+            explanation: "Default stop-word lists usually include negations. 'I do not like this' becomes 'like this' after stop-word removal - flipping the label. Always curate the stop-word list per task.",
           },
           {
             question: "Why is `jieba` (or a similar segmenter) mandatory for Chinese NLP?",
@@ -359,7 +359,7 @@ print("Finnish (raw)        :", finnish_words)
       },
 
       // ========================================================================
-      // Lesson 3 — Text Representation
+      // Lesson 3 - Text Representation
       // ========================================================================
       {
         id: "nlp-3",
@@ -367,7 +367,7 @@ print("Finnish (raw)        :", finnish_words)
         titleEn: "Text Representation: BoW, TF-IDF & Embeddings",
         level: 4,
         difficulty: "intermediate",
-        theory: `> 💡 **Prerequisites** — Lesson 2 (Preprocessing) and basic NumPy / vectors.
+        theory: `> 💡 **Prerequisites** - Lesson 2 (Preprocessing) and basic NumPy / vectors.
 
 ## 1. The core problem
 
@@ -379,7 +379,7 @@ graph LR
     TFIDF --> EMB[Word Embeddings<br/>Word2Vec, GloVe, BERT]
 \`\`\`
 
-## 2. Bag of Words (BoW) — the "hello world" of text vectors
+## 2. Bag of Words (BoW) - the "hello world" of text vectors
 
 Build a vocabulary of every unique token in the corpus, then represent each document as a vector of **counts**.
 
@@ -398,17 +398,17 @@ Doc2 vector: [1, 1, 0, 1]
 | Works with classical ML (logistic regression, SVM) | Vectors get huge and sparse (vocab can hit 100k+) |
 | Great baseline | "love" and "adore" are completely unrelated |
 
-## 3. TF-IDF — the smart count
+## 3. TF-IDF - the smart count
 
 **TF-IDF** = *Term Frequency × Inverse Document Frequency*. It down-weights words that appear everywhere ("the", "is") and boosts words that are rare-but-meaningful ("transformer", "lemmatize").
 
 The formula in plain text: $tfidf(t, d) = tf(t, d) \\times \\log(N / df(t))$, where $tf$ counts how often term $t$ appears in document $d$, $N$ is the total number of documents, and $df$ counts how many documents contain $t$.
 
-> 🎯 **Intuition** — A word that appears in *every* document is worthless for telling documents apart. A word that appears in only *one* is a strong fingerprint. TF-IDF rewards the second.
+> 🎯 **Intuition** - A word that appears in *every* document is worthless for telling documents apart. A word that appears in only *one* is a strong fingerprint. TF-IDF rewards the second.
 
 TF-IDF is still the **default baseline in 2026** for tasks like search ranking, FAQ matching, and small-data classification. It is hard to beat without a lot of data.
 
-## 4. Word embeddings — geometry of meaning
+## 4. Word embeddings - geometry of meaning
 
 BoW and TF-IDF give every word an **independent** dimension. *"king"* and *"queen"* are as unrelated as *"king"* and *"banana"*. **Word embeddings** instead place each word at a point in a low-dimensional space (typically 100-300 dimensions) where **distance = semantic similarity**.
 
@@ -432,7 +432,7 @@ graph TD
     B -.short distance.-> E[princess]
 \`\`\`
 
-## 5. Real-world use case — Semantic search on HaiEduTech
+## 5. Real-world use case - Semantic search on HaiEduTech
 
 The Global Search bar (Cmd/Ctrl+K) on this very site uses TF-IDF + cosine similarity to match your query against ~500 lessons. A 2026 upgrade path is to switch to **OpenAI \`text-embedding-3-small\`** or **Google \`text-embedding-004\`**: pre-compute one 1536-d vector per lesson, store it in **pgvector**, and the search query gets the same treatment. Cosine distance ranks the results.
 
@@ -447,7 +447,7 @@ The Global Search bar (Cmd/Ctrl+K) on this very site uses TF-IDF + cosine simila
 
 ## 7. Key Concept
 
-> 🎯 **Key Concept** — Going from **BoW → TF-IDF → embeddings** is a journey from *counting words* to *measuring meaning*. Modern systems still use all three: TF-IDF for fast filtering, embeddings for ranking, LLMs for generation.`,
+> 🎯 **Key Concept** - Going from **BoW → TF-IDF → embeddings** is a journey from *counting words* to *measuring meaning*. Modern systems still use all three: TF-IDF for fast filtering, embeddings for ranking, LLMs for generation.`,
         theoryEn: "",
         code: `# Compare BoW, TF-IDF, and a small Word2Vec embedding on 4 mini-documents.
 # pip install scikit-learn gensim
@@ -478,10 +478,10 @@ print("\\nTF-IDF cosine similarity (Doc 0 vs others):", sim.round(3))
 # 3. Word2Vec ------------------------------------------------------------
 sentences = [s.lower().split() for s in corpus]
 w2v = Word2Vec(sentences, vector_size=50, window=3, min_count=1, epochs=200, sg=1)
-print("\\nWord2Vec — words most similar to 'nlp':")
+print("\\nWord2Vec - words most similar to 'nlp':")
 print(w2v.wv.most_similar("nlp", topn=3))
 
-# 4. Vector arithmetic — the famous king − man + woman demo
+# 4. Vector arithmetic - the famous king − man + woman demo
 # (works only with a much larger pre-trained model, e.g. Google News)
 # from gensim.downloader import load
 # big_w2v = load("word2vec-google-news-300")
@@ -527,7 +527,7 @@ print(w2v.wv.most_similar("nlp", topn=3))
       },
 
       // ========================================================================
-      // Lesson 4 — Sentiment Analysis
+      // Lesson 4 - Sentiment Analysis
       // ========================================================================
       {
         id: "nlp-4",
@@ -535,7 +535,7 @@ print(w2v.wv.most_similar("nlp", topn=3))
         titleEn: "Sentiment Analysis",
         level: 4,
         difficulty: "intermediate",
-        theory: `> 💡 **Prerequisites** — Lesson 3 (Text Representation) and basic scikit-learn.
+        theory: `> 💡 **Prerequisites** - Lesson 3 (Text Representation) and basic scikit-learn.
 
 ## 1. What problem are we solving?
 
@@ -569,14 +569,14 @@ graph LR
 
 Lesson 1 showed a lexicon classifier. Real sentences fool it:
 
-- *"This is **not** great."* — positive lexicon hit, real sentiment negative.
-- *"The phone is light, but the battery dies in 2 hours."* — mixed.
-- *"Sure, the lectures are 'free'."* — sarcasm.
-- *"Phim hay ghê!"* — Vietnamese, lexicon doesn't speak it.
+- *"This is **not** great."* - positive lexicon hit, real sentiment negative.
+- *"The phone is light, but the battery dies in 2 hours."* - mixed.
+- *"Sure, the lectures are 'free'."* - sarcasm.
+- *"Phim hay ghê!"* - Vietnamese, lexicon doesn't speak it.
 
-Modern systems handle these by learning patterns from labelled data — they discover *negation*, *contrast*, and *irony* from millions of examples instead of from rules.
+Modern systems handle these by learning patterns from labelled data - they discover *negation*, *contrast*, and *irony* from millions of examples instead of from rules.
 
-## 4. Building a real classifier — the recipe
+## 4. Building a real classifier - the recipe
 
 \`\`\`mermaid
 graph TD
@@ -594,12 +594,12 @@ graph TD
 
 For balanced datasets, **accuracy** is fine. For imbalanced ones (e.g. 95% positive reviews), accuracy lies. Use:
 
-- **Precision** — of the reviews you called negative, how many actually were?
-- **Recall** — of the truly negative reviews, how many did you catch?
-- **F1** — harmonic mean of the two. Good single number.
-- **Confusion matrix** — visualise the mistakes per class.
+- **Precision** - of the reviews you called negative, how many actually were?
+- **Recall** - of the truly negative reviews, how many did you catch?
+- **F1** - harmonic mean of the two. Good single number.
+- **Confusion matrix** - visualise the mistakes per class.
 
-## 6. Real-world use case — How HaiEduTech could grade lesson feedback
+## 6. Real-world use case - How HaiEduTech could grade lesson feedback
 
 \`student_activity_log\` already stores feedback strings. A pipeline:
 
@@ -608,11 +608,11 @@ For balanced datasets, **accuracy** is fine. For imbalanced ones (e.g. 95% posit
 3. Aggregate per lesson → flag any lesson with >20% negative feedback.
 4. Surface the alert in the Teacher Admin dashboard.
 
-Teacher Hai then knows *exactly* which lesson to revise — closing the human-in-the-loop feedback we already use for the RL system.
+Teacher Hai then knows *exactly* which lesson to revise - closing the human-in-the-loop feedback we already use for the RL system.
 
 ## 7. Key Concept
 
-> 🎯 **Key Concept** — Sentiment analysis is **supervised classification** on text. The pipeline is always *clean → vectorise → train → evaluate*. The huge leaps (lexicon → ML → BERT → LLM) are about *which vector you use* and *which model consumes it*. The framework stays the same.`,
+> 🎯 **Key Concept** - Sentiment analysis is **supervised classification** on text. The pipeline is always *clean → vectorise → train → evaluate*. The huge leaps (lexicon → ML → BERT → LLM) are about *which vector you use* and *which model consumes it*. The framework stays the same.`,
         theoryEn: "",
         code: `# Train a real sentiment classifier on a tiny dataset of HaiEduTech-style reviews.
 # pip install scikit-learn pandas
@@ -633,7 +633,7 @@ data = pd.DataFrame({
         "Best EdTech site I've used.",
         "The lesson was confusing and the audio was too quiet.",
         "Boring, slow, and full of typos.",
-        "I hated the quiz — questions were ambiguous.",
+        "I hated the quiz - questions were ambiguous.",
         "Terrible UX, the chatbot kept crashing.",
         "Worst experience, would not recommend.",
     ],
@@ -657,7 +657,7 @@ print(classification_report(y_test, y_pred))
 
 # 4. Try it on brand-new sentences
 new_reviews = [
-    "I am not happy with this lesson.",                # negation — tricky
+    "I am not happy with this lesson.",                # negation - tricky
     "Phenomenal teacher, learned so much!",
     "The course was OK, nothing special.",
 ]
@@ -675,7 +675,7 @@ for r, p in zip(new_reviews, clf.predict(new_reviews)):
             question: "Why is accuracy a misleading metric for a sentiment dataset that is 95% positive?",
             options: [
               "Accuracy is always misleading",
-              "A trivial 'always predict positive' model would score 95% but catch zero negatives — F1 / recall reveal the failure",
+              "A trivial 'always predict positive' model would score 95% but catch zero negatives - F1 / recall reveal the failure",
               "Accuracy ignores the test set",
               "Accuracy only works for regression",
             ],
@@ -708,7 +708,7 @@ for r, p in zip(new_reviews, clf.predict(new_reviews)):
       },
 
       // ========================================================================
-      // Lesson 5 — Sequence Modeling: RNN & LSTM
+      // Lesson 5 - Sequence Modeling: RNN & LSTM
       // ========================================================================
       {
         id: "nlp-5",
@@ -716,11 +716,11 @@ for r, p in zip(new_reviews, clf.predict(new_reviews)):
         titleEn: "Sequence Modeling: RNNs & LSTMs",
         level: 4,
         difficulty: "advanced",
-        theory: `> 💡 **Prerequisites** — Deep Learning Lessons 1-2 (neural networks, PyTorch) and NLP Lesson 3 (embeddings).
+        theory: `> 💡 **Prerequisites** - Deep Learning Lessons 1-2 (neural networks, PyTorch) and NLP Lesson 3 (embeddings).
 
 ## 1. Why a sequence model?
 
-A logistic regression on TF-IDF treats *"dog bites man"* and *"man bites dog"* as identical. For tasks where **order matters** — translation, summarisation, voice assistants, autocomplete — we need a model that reads text **left-to-right** and remembers what came before.
+A logistic regression on TF-IDF treats *"dog bites man"* and *"man bites dog"* as identical. For tasks where **order matters** - translation, summarisation, voice assistants, autocomplete - we need a model that reads text **left-to-right** and remembers what came before.
 
 \`\`\`mermaid
 graph LR
@@ -734,13 +734,13 @@ graph LR
 
 This is the **Recurrent Neural Network (RNN)** idea: at every step, the network's hidden state $h_t$ depends on the new input $x_t$ **and** the previous hidden state $h_{t-1}$.
 
-## 2. Vanilla RNN — the math in one line
+## 2. Vanilla RNN - the math in one line
 
 $$h_t = \\tanh(W_{xh} x_t + W_{hh} h_{t-1} + b)$$
 
-The same weight matrix is reused at every timestep — that is what makes it "recurrent" and what lets it process sentences of any length.
+The same weight matrix is reused at every timestep - that is what makes it "recurrent" and what lets it process sentences of any length.
 
-> 🇫🇮 **Why this matters for Finnish** — Finnish word order is much freer than English. Sentence-level meaning often comes from agreement features spread across the whole sentence. A model that *remembers* prior words handles this far better than a bag-of-words.
+> 🇫🇮 **Why this matters for Finnish** - Finnish word order is much freer than English. Sentence-level meaning often comes from agreement features spread across the whole sentence. A model that *remembers* prior words handles this far better than a bag-of-words.
 
 ## 3. The vanishing gradient problem
 
@@ -765,7 +765,7 @@ graph TD
     O --> H2[h_t]
 \`\`\`
 
-The **gates** are tiny sigmoid networks that output a number in [0, 1] — they decide *how much* of the cell state to keep, add, or expose. With this, LSTMs reliably handle 100+ token sequences.
+The **gates** are tiny sigmoid networks that output a number in [0, 1] - they decide *how much* of the cell state to keep, add, or expose. With this, LSTMs reliably handle 100+ token sequences.
 
 ## 4. What can you build with an RNN/LSTM?
 
@@ -776,7 +776,7 @@ The **gates** are tiny sigmoid networks that output a number in [0, 1] — they 
 | **Encoder-Decoder** | Sequence → sequence (different length) | Translation, summarisation |
 | **One-to-many** | Single seed → sequence | Text generation, music generation |
 
-The classic 2014 **Sequence-to-Sequence** paper (Sutskever et al.) used two LSTMs — one as encoder, one as decoder — to do English → French translation. It powered Google Translate from 2016 to 2018.
+The classic 2014 **Sequence-to-Sequence** paper (Sutskever et al.) used two LSTMs - one as encoder, one as decoder - to do English → French translation. It powered Google Translate from 2016 to 2018.
 
 ## 5. Why LSTMs lost the crown in 2017
 
@@ -784,13 +784,13 @@ LSTMs read **strictly left-to-right** (or right-to-left). Each step depends on t
 
 The **Transformer** (Lesson 6) replaced sequential recurrence with **attention**: every word looks at every other word in **one parallel step**. Modern speech recognition, translation, and chat assistants all use Transformers. LSTMs remain useful for **edge devices** (small models, low latency, no GPU) and **streaming** scenarios.
 
-## 6. Real-world use case — Predictive text on your phone
+## 6. Real-world use case - Predictive text on your phone
 
 When you start typing "good mor…", your phone suggests "morning". That suggestion is generated by a tiny LSTM (or, on newer phones, a small Transformer) trained on your past messages. The model is small (a few MB), runs on-device for privacy, and predicts one token at a time.
 
 ## 7. Key Concept
 
-> 🎯 **Key Concept** — RNNs and LSTMs were the workhorse of NLP from 2014-2017. They process tokens **sequentially**, carrying a hidden state forward. **LSTMs add gates** to fight vanishing gradients and remember longer context. They are still excellent for small, low-latency on-device tasks, but Transformers (Lesson 6) won the cloud.`,
+> 🎯 **Key Concept** - RNNs and LSTMs were the workhorse of NLP from 2014-2017. They process tokens **sequentially**, carrying a hidden state forward. **LSTMs add gates** to fight vanishing gradients and remember longer context. They are still excellent for small, low-latency on-device tasks, but Transformers (Lesson 6) won the cloud.`,
         theoryEn: "",
         code: `# A character-level LSTM that learns to continue a sentence.
 # We train on a tiny corpus and let the model 'dream' the next 100 characters.
@@ -876,7 +876,7 @@ print(sample("teacher hai ", 80))`,
             question: "Which gate decides what information to discard from an LSTM cell state?",
             options: ["Input gate", "Output gate", "Forget gate", "Tanh gate"],
             answer: 2,
-            explanation: "The forget gate outputs values in [0,1] that multiply the previous cell state — 0 wipes information, 1 keeps it. The input gate decides what *new* info to add; the output gate decides what to expose as the hidden state.",
+            explanation: "The forget gate outputs values in [0,1] that multiply the previous cell state - 0 wipes information, 1 keeps it. The input gate decides what *new* info to add; the output gate decides what to expose as the hidden state.",
           },
           {
             question: "What is the main reason Transformers (Lesson 6) replaced LSTMs for large-scale NLP?",
@@ -887,13 +887,13 @@ print(sample("teacher hai ", 80))`,
               "LSTMs cannot handle English",
             ],
             answer: 1,
-            explanation: "LSTMs are inherently sequential — token t depends on token t-1. Transformers compute attention across all tokens simultaneously, which is what makes training huge models on huge corpora practical.",
+            explanation: "LSTMs are inherently sequential - token t depends on token t-1. Transformers compute attention across all tokens simultaneously, which is what makes training huge models on huge corpora practical.",
           },
         ],
       },
 
       // ========================================================================
-      // Lesson 6 — Modern NLP: Transformers, BERT & LLMs
+      // Lesson 6 - Modern NLP: Transformers, BERT & LLMs
       // ========================================================================
       {
         id: "nlp-6",
@@ -901,11 +901,11 @@ print(sample("teacher hai ", 80))`,
         titleEn: "Transformers, BERT & Large Language Models",
         level: 5,
         difficulty: "advanced",
-        theory: `> 💡 **Prerequisites** — Lessons 1-5 of this module and Deep Learning Lessons 1-2.
+        theory: `> 💡 **Prerequisites** - Lessons 1-5 of this module and Deep Learning Lessons 1-2.
 
 ## 1. The 2017 inflection point
 
-In June 2017 a Google team published *"Attention Is All You Need"*. They threw away recurrence and convolutions and replaced them with **self-attention**. The result — the **Transformer** — became the foundation of every modern LLM: BERT (2018), GPT-2 (2019), GPT-3 (2020), ChatGPT (2022), GPT-5 / Gemini 2.5 / Claude 4 (2025-2026).
+In June 2017 a Google team published *"Attention Is All You Need"*. They threw away recurrence and convolutions and replaced them with **self-attention**. The result - the **Transformer** - became the foundation of every modern LLM: BERT (2018), GPT-2 (2019), GPT-3 (2020), ChatGPT (2022), GPT-5 / Gemini 2.5 / Claude 4 (2025-2026).
 
 \`\`\`mermaid
 graph TD
@@ -919,32 +919,32 @@ graph TD
 
 ## 2. Self-attention in plain English
 
-Imagine reading the sentence *"The animal didn't cross the street because it was too tired."* When your eyes hit *"it"*, you instantly look back at *"animal"* — not at *"street"*. Self-attention is exactly this: at every position, the model computes a weighted sum of **all other positions**, where the weights say "how much should this token pay attention to that token?".
+Imagine reading the sentence *"The animal didn't cross the street because it was too tired."* When your eyes hit *"it"*, you instantly look back at *"animal"* - not at *"street"*. Self-attention is exactly this: at every position, the model computes a weighted sum of **all other positions**, where the weights say "how much should this token pay attention to that token?".
 
 For each token the model produces three vectors:
 
-- **Query (Q)** — "what am I looking for?"
-- **Key (K)** — "what do I represent?"
-- **Value (V)** — "what information do I carry?"
+- **Query (Q)** - "what am I looking for?"
+- **Key (K)** - "what do I represent?"
+- **Value (V)** - "what information do I carry?"
 
 The attention weight from token A to token B is $\\text{softmax}(Q_A \\cdot K_B / \\sqrt{d})$, and the output for A is the weighted sum of all $V$s.
 
-> 🎯 **Why it changed everything** — All these dot products run **in parallel** on a GPU. LSTMs had to wait for token t-1 before computing token t. Transformers do the whole sentence at once. That is how 100-billion-parameter models became practical.
+> 🎯 **Why it changed everything** - All these dot products run **in parallel** on a GPU. LSTMs had to wait for token t-1 before computing token t. Transformers do the whole sentence at once. That is how 100-billion-parameter models became practical.
 
 ## 3. The two flavours of Transformer
 
 | Family | Architecture | Trained to | Famous example |
 |---|---|---|---|
-| **Encoder-only** | Bidirectional self-attention | Predict masked words | **BERT** — best for *understanding* (classification, NER, search) |
-| **Decoder-only** | Causal self-attention (no peeking ahead) | Predict the next word | **GPT, Llama, Gemini, Claude** — best for *generation* |
-| **Encoder-decoder** | Both halves | Map input seq → output seq | **T5, BART** — translation, summarisation |
+| **Encoder-only** | Bidirectional self-attention | Predict masked words | **BERT** - best for *understanding* (classification, NER, search) |
+| **Decoder-only** | Causal self-attention (no peeking ahead) | Predict the next word | **GPT, Llama, Gemini, Claude** - best for *generation* |
+| **Encoder-decoder** | Both halves | Map input seq → output seq | **T5, BART** - translation, summarisation |
 
 ## 4. BERT and the pre-train / fine-tune recipe
 
 BERT pioneered the **two-stage** pattern that still dominates:
 
-1. **Pre-training** (done once, by a big lab) — Read the entire English Wikipedia + 11k books, predict masked-out words. The model learns grammar, world knowledge, and word meaning *for free*.
-2. **Fine-tuning** (done by you, in minutes) — Add a tiny classification head on top of BERT and train on **your** small labelled dataset (sentiment, intent, support ticket category, …). You typically need only a few thousand examples to beat any classical model.
+1. **Pre-training** (done once, by a big lab) - Read the entire English Wikipedia + 11k books, predict masked-out words. The model learns grammar, world knowledge, and word meaning *for free*.
+2. **Fine-tuning** (done by you, in minutes) - Add a tiny classification head on top of BERT and train on **your** small labelled dataset (sentiment, intent, support ticket category, …). You typically need only a few thousand examples to beat any classical model.
 
 \`\`\`mermaid
 graph LR
@@ -957,9 +957,9 @@ graph LR
 
 Modern LLMs (GPT-5, Gemini 2.5, Claude 4, Llama 4) are **decoder-only Transformers** with 70B–2T parameters. Three superpowers:
 
-1. **In-context learning** — solve new tasks by showing 0-3 examples in the prompt. No training needed.
-2. **Tool use** — call APIs, browse, run code, query databases (the **agentic** pattern).
-3. **Multimodal** — Gemini 2.5 reads text + images + audio + video in one shot.
+1. **In-context learning** - solve new tasks by showing 0-3 examples in the prompt. No training needed.
+2. **Tool use** - call APIs, browse, run code, query databases (the **agentic** pattern).
+3. **Multimodal** - Gemini 2.5 reads text + images + audio + video in one shot.
 
 The **lifecycle** of a 2026 LLM:
 
@@ -971,24 +971,24 @@ graph TD
     D --> E[Deployed model<br/>API / on-device]
 \`\`\`
 
-> 🇻🇳 **Vietnamese context** — Open models like *Vistral-7B*, *PhoGPT*, and *VinaLLaMA* are LLMs **fine-tuned on Vietnamese data**. They are how a startup builds a chatbot that speaks natural Vietnamese without re-training a 100B-parameter model from scratch.
+> 🇻🇳 **Vietnamese context** - Open models like *Vistral-7B*, *PhoGPT*, and *VinaLLaMA* are LLMs **fine-tuned on Vietnamese data**. They are how a startup builds a chatbot that speaks natural Vietnamese without re-training a 100B-parameter model from scratch.
 
-## 6. Real-world use case — How HaiEduTech's AI Speaking Coach works
+## 6. Real-world use case - How HaiEduTech's AI Speaking Coach works
 
 The Speaking Coach you can use in the IELTS section is a **Transformer pipeline**:
 
-1. **Speech-to-text** — *Whisper* (OpenAI's encoder-decoder Transformer) transcribes your audio.
-2. **Pronunciation scoring** — A *Wav2Vec2* model compares phoneme alignment.
-3. **Grammar feedback** — A small fine-tuned BERT (or a Lovable AI Gateway call to *gemini-2.5-flash*) flags mistakes.
-4. **Band score & coaching tips** — A prompted LLM produces structured JSON feedback.
+1. **Speech-to-text** - *Whisper* (OpenAI's encoder-decoder Transformer) transcribes your audio.
+2. **Pronunciation scoring** - A *Wav2Vec2* model compares phoneme alignment.
+3. **Grammar feedback** - A small fine-tuned BERT (or a Lovable AI Gateway call to *gemini-2.5-flash*) flags mistakes.
+4. **Band score & coaching tips** - A prompted LLM produces structured JSON feedback.
 
 Every box in that flow is a Transformer.
 
-## 7. 🏆 Capstone — Finnish-to-English Sentiment Analyser
+## 7. 🏆 Capstone - Finnish-to-English Sentiment Analyser
 
 Combine **all 6 lessons** into one notebook:
 
-1. Tokenize Finnish input (Lesson 2 — handle morphology).
+1. Tokenize Finnish input (Lesson 2 - handle morphology).
 2. Embed it with a multilingual model like \`xlm-roberta-base\` (Lesson 3).
 3. Fine-tune a sentiment head on a tiny Finnish review dataset (Lesson 4).
 4. Compare against an LSTM baseline (Lesson 5).
@@ -999,9 +999,9 @@ Earn the **🎓 Linguistics Architect** badge by completing this capstone.
 
 ## 8. Key Concept
 
-> 🎯 **Key Concept** — The Transformer's superpower is **parallel self-attention**: every token attends to every other token in one shot. Pre-train once on the internet, fine-tune on your tiny dataset, or just **prompt** the model. This pattern (BERT → GPT → ChatGPT → Gemini → Claude) is the entire roadmap of NLP from 2018 to 2026.`,
+> 🎯 **Key Concept** - The Transformer's superpower is **parallel self-attention**: every token attends to every other token in one shot. Pre-train once on the internet, fine-tune on your tiny dataset, or just **prompt** the model. This pattern (BERT → GPT → ChatGPT → Gemini → Claude) is the entire roadmap of NLP from 2018 to 2026.`,
         theoryEn: "",
-        code: `# Three lines of modern NLP — fine-tune-free, multilingual, 2026-style.
+        code: `# Three lines of modern NLP - fine-tune-free, multilingual, 2026-style.
 # pip install transformers torch
 from transformers import pipeline
 
@@ -1022,7 +1022,7 @@ for s in samples:
 translator = pipeline("translation", model="Helsinki-NLP/opus-mt-fi-en")
 print("\\n", translator("Opettaja Hai opettaa luonnollisen kielen käsittelyä."))
 
-# 3. Generative LLM — a small open model running locally
+# 3. Generative LLM - a small open model running locally
 gen = pipeline("text-generation", model="distilgpt2", max_new_tokens=40)
 print("\\n", gen("In 2026, the most exciting NLP application is")[0]["generated_text"])
 
@@ -1031,14 +1031,14 @@ print("\\n", gen("In 2026, the most exciting NLP application is")[0]["generated_
 #   instead of running a 70B model yourself. The Lovable AI Gateway in this very
 #   project lets you call google/gemini-2.5-flash without managing a single server.`,
         codeLanguage: "python",
-        exercise: "🏆 **Capstone challenge** — In your own notebook, replace the `cardiffnlp/twitter-xlm-roberta-base-sentiment` model with a model fine-tuned for **Finnish** sentiment (search Hugging Face for `finnish sentiment`). Run the same 3 sample sentences. Report which model performs better on the Finnish line **and** explain why a multilingual model can sometimes beat a language-specific one.",
+        exercise: "🏆 **Capstone challenge** - In your own notebook, replace the `cardiffnlp/twitter-xlm-roberta-base-sentiment` model with a model fine-tuned for **Finnish** sentiment (search Hugging Face for `finnish sentiment`). Run the same 3 sample sentences. Report which model performs better on the Finnish line **and** explain why a multilingual model can sometimes beat a language-specific one.",
         exerciseEn: "",
         quiz: [
           {
             question: "What is the core innovation of the Transformer architecture (2017)?",
             options: [
               "It uses LSTMs more efficiently",
-              "Self-attention lets every token attend to every other token in parallel — no recurrence required",
+              "Self-attention lets every token attend to every other token in parallel - no recurrence required",
               "It uses convolutions like a CNN",
               "It eliminates the need for training data",
             ],
@@ -1054,7 +1054,7 @@ print("\\n", gen("In 2026, the most exciting NLP application is")[0]["generated_
               "RNN-Transformer hybrid",
             ],
             answer: 1,
-            explanation: "Decoder-only models predict the next token from the previous tokens (causal masking) — exactly what generation needs. BERT-style encoders are bidirectional and better for understanding tasks like classification or search.",
+            explanation: "Decoder-only models predict the next token from the previous tokens (causal masking) - exactly what generation needs. BERT-style encoders are bidirectional and better for understanding tasks like classification or search.",
           },
           {
             question: "What does 'fine-tuning' a pre-trained Transformer mean in practice?",
@@ -1065,7 +1065,7 @@ print("\\n", gen("In 2026, the most exciting NLP application is")[0]["generated_
               "Compressing the model to run on a phone",
             ],
             answer: 1,
-            explanation: "The expensive pre-training has already learned grammar and world knowledge. Fine-tuning nudges the weights with your labelled data so the model excels at your specific task — usually in hours on a single GPU.",
+            explanation: "The expensive pre-training has already learned grammar and world knowledge. Fine-tuning nudges the weights with your labelled data so the model excels at your specific task - usually in hours on a single GPU.",
           },
         ],
       },

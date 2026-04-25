@@ -4,8 +4,8 @@ export const finnishMockExamExpansion2Modules: FinnishModule[] = [
   // ─── READING ───
   {
     id: "yki-mock-reading-exp2",
-    title: "Luetun ymmärtäminen — lisää",
-    titleEn: "Reading Comprehension — Extra Sets",
+    title: "Luetun ymmärtäminen - lisää",
+    titleEn: "Reading Comprehension - Extra Sets",
     icon: "📰",
     color: "from-blue-500 to-indigo-600",
     description: "Lisää luetun ymmärtämisen tehtäviä",
@@ -66,8 +66,8 @@ export const finnishMockExamExpansion2Modules: FinnishModule[] = [
   // ─── LISTENING ───
   {
     id: "yki-mock-listening-exp2",
-    title: "Kuullun ymmärtäminen — lisää",
-    titleEn: "Listening Comprehension — Extra Sets",
+    title: "Kuullun ymmärtäminen - lisää",
+    titleEn: "Listening Comprehension - Extra Sets",
     icon: "🎧",
     color: "from-emerald-500 to-teal-600",
     description: "Lisää kuullun ymmärtämisen tehtäviä",
@@ -128,8 +128,8 @@ export const finnishMockExamExpansion2Modules: FinnishModule[] = [
   // ─── WRITING ───
   {
     id: "yki-mock-writing-exp2",
-    title: "Kirjoittaminen — lisää",
-    titleEn: "Writing Practice — Extra Sets",
+    title: "Kirjoittaminen - lisää",
+    titleEn: "Writing Practice - Extra Sets",
     icon: "✍️",
     color: "from-amber-500 to-orange-600",
     description: "Lisää kirjoitustehtäviä",
@@ -193,8 +193,8 @@ export const finnishMockExamExpansion2Modules: FinnishModule[] = [
   // ─── SPEAKING ───
   {
     id: "yki-mock-speaking-exp2",
-    title: "Puhuminen — lisää",
-    titleEn: "Speaking Practice — Extra Sets",
+    title: "Puhuminen - lisää",
+    titleEn: "Speaking Practice - Extra Sets",
     icon: "🎤",
     color: "from-rose-500 to-pink-600",
     description: "Lisää puhumisharjoituksia",

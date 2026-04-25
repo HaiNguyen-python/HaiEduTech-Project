@@ -28,7 +28,7 @@ import TheorySections from "@/components/TheorySections";
 import GitBranchingSimulator from "@/components/se/GitBranchingSimulator";
 import { trackLessonCompletion, LEAD_ENGINEER_BADGE } from "@/lib/badgeAwards";
 
-// IDs of every lesson inside the Software Engineering module — used to auto-award
+// IDs of every lesson inside the Software Engineering module - used to auto-award
 // the "Lead Engineer" badge once a learner completes the full set.
 const SE_LESSON_IDS = [
   "se-sdlc",
@@ -124,7 +124,7 @@ const ProgrammingLessonPage = () => {
   const [enhancedMd, setEnhancedMd] = useState<string | null>(null);
   const [enhanceLoading, setEnhanceLoading] = useState(false);
   const [useEnhanced, setUseEnhanced] = useState(true);
-  // Set of cached lesson keys "moduleId::lessonId" — drives the sidebar ✨ Enhanced badge
+  // Set of cached lesson keys "moduleId::lessonId" - drives the sidebar ✨ Enhanced badge
   const [cachedLessonKeys, setCachedLessonKeys] = useState<Set<string>>(new Set());
   // Admin batch illustration generation
   const { isTeacher } = useUserRole();
@@ -151,7 +151,7 @@ const ProgrammingLessonPage = () => {
       .maybeSingle()
       .then(({ data }) => {
         if (!data?.enhanced_markdown) {
-          // No cache at all — auto-generate Deep-Dive + illustrations on first view
+          // No cache at all - auto-generate Deep-Dive + illustrations on first view
           void handleEnhanceTheory(false);
           return;
         }
@@ -246,7 +246,7 @@ const ProgrammingLessonPage = () => {
     }
 
     setBatchRunning(false);
-    toast.success(`🎨 Illustrations done — ${successCount} ok, ${failCount} failed.`);
+    toast.success(`🎨 Illustrations done - ${successCount} ok, ${failCount} failed.`);
     // Refresh sidebar badges
     const moduleIds = pillarModules.map((mm) => mm.id);
     if (moduleIds.length > 0) {
@@ -437,7 +437,7 @@ const ProgrammingLessonPage = () => {
               {/* Left side: Sidebar + Lesson content */}
               <div className={`${showIDE && !isMobile ? "w-3/5 xl:w-[62%]" : "w-full"} min-w-0`}>
             <div className="flex flex-col lg:flex-row gap-6 programming-lesson-shell">
-              {/* Sidebar - Roadmap with ALL pillar modules — visually lighter than main lesson body */}
+              {/* Sidebar - Roadmap with ALL pillar modules - visually lighter than main lesson body */}
               <div className="lg:w-72 shrink-0">
                 <div className="rounded-xl border border-border/70 bg-muted/30 p-4 overflow-visible">
                   <div className="flex items-center gap-2 mb-4">
@@ -548,7 +548,7 @@ const ProgrammingLessonPage = () => {
                     {mod.icon} {t(lesson.title, lesson.titleEn)}
                   </h1>
 
-                  {/* Theory — document-style reading card with extra breathing room */}
+                  {/* Theory - document-style reading card with extra breathing room */}
                   <div className="rounded-2xl border border-border bg-card shadow-sm p-6 sm:p-8 lg:p-10">
                     <div className="flex items-center justify-between flex-wrap gap-3 mb-5 pb-3 border-b border-border">
                       <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
@@ -615,14 +615,14 @@ const ProgrammingLessonPage = () => {
                     />
                   </div>
 
-                  {/* Interactive Git simulator — only on the Git lesson */}
+                  {/* Interactive Git simulator - only on the Git lesson */}
                   {lesson.id === "se-git" && (
                     <div className="space-y-3">
                       <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
                         🌿 Interactive Git Playground
                       </h2>
                       <p className="text-sm text-muted-foreground">
-                        Bấm các nút bên dưới để commit, tạo branch, hoặc merge — rồi xem đồ thị Gitflow tự cập nhật cùng terminal log JetBrains Mono.
+                        Bấm các nút bên dưới để commit, tạo branch, hoặc merge - rồi xem đồ thị Gitflow tự cập nhật cùng terminal log JetBrains Mono.
                       </p>
                       <GitBranchingSimulator />
                     </div>
@@ -890,7 +890,7 @@ const ProgrammingLessonPage = () => {
               </div>
             </div>
 
-              {/* Right side: IDE Panel — 40% default, sticky for easy reading */}
+              {/* Right side: IDE Panel - 40% default, sticky for easy reading */}
               <AnimatePresence>
                 {showIDE && !isMobile && (
                   <motion.div

@@ -1,7 +1,7 @@
-// IELTS Reading & Listening Expansion 2 — 10 new lessons
+// IELTS Reading & Listening Expansion 2 - 10 new lessons
 import type { LanguageLesson } from "./types";
 
-// ===== IELTS READING — 5 new lessons =====
+// ===== IELTS READING - 5 new lessons =====
 
 export const ieltsReadingExpansion2Lessons: LanguageLesson[] = [
   {
@@ -13,10 +13,10 @@ export const ieltsReadingExpansion2Lessons: LanguageLesson[] = [
     theory: `**Diagram / Flow-chart Completion** yêu cầu điền nhãn vào sơ đồ hoặc lưu đồ dựa trên passage.
 
 **Chiến lược:**
-1. **Xác định loại sơ đồ** — linear flow-chart hay cyclical diagram
+1. **Xác định loại sơ đồ** - linear flow-chart hay cyclical diagram
 2. **Đọc nhãn đã cho** để định hướng vùng đọc trong passage
-3. **Tìm sequence markers** — "firstly, then, subsequently, finally"
-4. **Chú ý word limit** — câu trả lời thường 1-3 từ
+3. **Tìm sequence markers** - "firstly, then, subsequently, finally"
+4. **Chú ý word limit** - câu trả lời thường 1-3 từ
 
 **Lỗi thường gặp:**
 - Viết quá số từ cho phép
@@ -25,22 +25,22 @@ export const ieltsReadingExpansion2Lessons: LanguageLesson[] = [
     theoryEn: `**Diagram / Flow-chart Completion** requires labelling a diagram or flow-chart using information from the passage.
 
 **Strategies:**
-1. **Identify diagram type** — linear flow-chart or cyclical diagram
+1. **Identify diagram type** - linear flow-chart or cyclical diagram
 2. **Read existing labels** to locate the relevant section in the passage
-3. **Look for sequence markers** — "firstly, then, subsequently, finally"
-4. **Watch the word limit** — answers are typically 1-3 words
+3. **Look for sequence markers** - "firstly, then, subsequently, finally"
+4. **Watch the word limit** - answers are typically 1-3 words
 
 **Common mistakes:**
 - Exceeding the word limit
 - Not maintaining the correct word form (noun/verb)
 - Ignoring the order of steps in the process`,
     proTips: [
-      "Sơ đồ thường follow thứ tự trong passage — đọc lần lượt theo flow",
+      "Sơ đồ thường follow thứ tự trong passage - đọc lần lượt theo flow",
       "Dùng existing labels làm 'anchor' để tìm đoạn chứa câu trả lời",
       "Nếu đề cho 'NO MORE THAN TWO WORDS', 3 từ sẽ sai dù đúng nghĩa",
     ],
     proTipsEn: [
-      "Diagrams usually follow passage order — read sequentially with the flow",
+      "Diagrams usually follow passage order - read sequentially with the flow",
       "Use existing labels as anchors to locate answer sections",
       "If instructions say 'NO MORE THAN TWO WORDS', three words is wrong even if correct in meaning",
     ],
@@ -93,10 +93,10 @@ export const ieltsReadingExpansion2Lessons: LanguageLesson[] = [
     theory: `**Short-answer Questions** yêu cầu trả lời ngắn gọn bằng từ lấy trực tiếp từ passage.
 
 **Chiến lược:**
-1. **Đọc câu hỏi trước** — xác định What, Who, Where, When, How
+1. **Đọc câu hỏi trước** - xác định What, Who, Where, When, How
 2. **Xác định keywords** trong câu hỏi để scan passage
-3. **Trả lời đúng dạng từ** — câu hỏi "How many?" → số, "Where?" → địa điểm
-4. **Copy chính xác từ passage** — không paraphrase
+3. **Trả lời đúng dạng từ** - câu hỏi "How many?" → số, "Where?" → địa điểm
+4. **Copy chính xác từ passage** - không paraphrase
 
 **Lỗi thường gặp:**
 - Viết câu trả lời dài hơn word limit
@@ -105,10 +105,10 @@ export const ieltsReadingExpansion2Lessons: LanguageLesson[] = [
     theoryEn: `**Short-answer Questions** require brief answers using words directly from the passage.
 
 **Strategies:**
-1. **Read questions first** — identify What, Who, Where, When, How
+1. **Read questions first** - identify What, Who, Where, When, How
 2. **Identify keywords** in questions to scan the passage
-3. **Match answer form** — "How many?" → number, "Where?" → place
-4. **Copy exactly from the passage** — do not paraphrase
+3. **Match answer form** - "How many?" → number, "Where?" → place
+4. **Copy exactly from the passage** - do not paraphrase
 
 **Common mistakes:**
 - Exceeding the word limit
@@ -116,12 +116,12 @@ export const ieltsReadingExpansion2Lessons: LanguageLesson[] = [
 - Wrong word form (capitalisation, plurals)`,
     proTips: [
       "Question words cho bạn biết dạng câu trả lời: Who=người, When=thời gian",
-      "Câu trả lời nằm theo thứ tự trong passage — question 1 trước question 2",
+      "Câu trả lời nằm theo thứ tự trong passage - question 1 trước question 2",
       "Không bao giờ thêm từ không có trong passage vào câu trả lời",
     ],
     proTipsEn: [
       "Question words tell you the answer type: Who=person, When=time",
-      "Answers appear in passage order — question 1 before question 2",
+      "Answers appear in passage order - question 1 before question 2",
       "Never add words not found in the passage",
     ],
     vocabulary: [
@@ -156,7 +156,7 @@ export const ieltsReadingExpansion2Lessons: LanguageLesson[] = [
     ],
     quiz: [
       { question: "What must short answers be based on?", options: ["Your own knowledge", "Words from the passage", "General vocabulary", "The title only"], answer: 1, explanation: "Answers must use words directly from the passage." },
-      { question: "'How many researchers participated?' — the answer should be:", options: ["A name", "A number", "A place", "A date"], answer: 1, explanation: "'How many' requires a numerical answer." },
+      { question: "'How many researchers participated?' - the answer should be:", options: ["A name", "A number", "A place", "A date"], answer: 1, explanation: "'How many' requires a numerical answer." },
       { question: "Can you paraphrase your answer?", options: ["Yes, always", "No, use passage words exactly", "Only for names", "Only if under word limit"], answer: 1, explanation: "Short-answer questions require verbatim words from the passage." },
       { question: "Answers in this question type follow:", options: ["Random order", "Passage order", "Alphabetical order", "Reverse order"], answer: 1, explanation: "Answers appear sequentially in the passage." },
       { question: "If the limit is 'ONE WORD ONLY', which is correct?", options: ["two words", "a short phrase", "one single word", "a full sentence"], answer: 2, explanation: "ONE WORD ONLY means exactly one word." },
@@ -171,8 +171,8 @@ export const ieltsReadingExpansion2Lessons: LanguageLesson[] = [
     theory: `**Table Completion** yêu cầu điền thông tin còn thiếu vào bảng dựa trên passage.
 
 **Chiến lược:**
-1. **Đọc tiêu đề cột/hàng** — hiểu bảng đang so sánh điều gì
-2. **Xác định pattern** — bảng thường so sánh, phân loại hoặc liệt kê
+1. **Đọc tiêu đề cột/hàng** - hiểu bảng đang so sánh điều gì
+2. **Xác định pattern** - bảng thường so sánh, phân loại hoặc liệt kê
 3. **Dùng thông tin đã có** trong bảng để locate đoạn cần đọc
 4. **Chú ý word limit** và dạng từ phù hợp với cột
 
@@ -183,8 +183,8 @@ export const ieltsReadingExpansion2Lessons: LanguageLesson[] = [
     theoryEn: `**Table Completion** requires filling in missing information in a table using the passage.
 
 **Strategies:**
-1. **Read column/row headers** — understand what the table compares
-2. **Identify the pattern** — tables typically compare, classify, or list
+1. **Read column/row headers** - understand what the table compares
+2. **Identify the pattern** - tables typically compare, classify, or list
 3. **Use existing information** to locate the relevant passage section
 4. **Watch word limits** and match word forms to the column
 
@@ -195,12 +195,12 @@ export const ieltsReadingExpansion2Lessons: LanguageLesson[] = [
     proTips: [
       "Bảng so sánh thường tương ứng với các đoạn liên tiếp trong passage",
       "Nếu cột chứa toàn danh từ, câu trả lời của bạn cũng phải là danh từ",
-      "Đọc dọc theo cột trước khi điền — giữ nhất quán dạng từ",
+      "Đọc dọc theo cột trước khi điền - giữ nhất quán dạng từ",
     ],
     proTipsEn: [
       "Comparison tables typically correspond to consecutive passage paragraphs",
       "If a column contains only nouns, your answer must also be a noun",
-      "Read down a column first before filling — maintain consistent word forms",
+      "Read down a column first before filling - maintain consistent word forms",
     ],
     vocabulary: [
       { word: "column", meaning: "cột", meaningEn: "a vertical section of a table", example: "Look at the column headers first.", partOfSpeech: "noun" },
@@ -237,7 +237,7 @@ export const ieltsReadingExpansion2Lessons: LanguageLesson[] = [
       { question: "If all cells in a column are nouns, your answer should be:", options: ["A verb", "An adjective", "A noun", "A full sentence"], answer: 2, explanation: "Maintain consistency with the column's word form." },
       { question: "Table rows typically correspond to:", options: ["Random passage sections", "Consecutive paragraphs or sections", "Only the introduction", "Footnotes"], answer: 1, explanation: "Information for table rows usually appears in order in the passage." },
       { question: "Which is a common mistake?", options: ["Reading headers", "Filling in the wrong column", "Checking word limits", "Scanning for keywords"], answer: 1, explanation: "Mixing up categories leads to wrong-column errors." },
-      { question: "Word limit 'NO MORE THAN THREE WORDS' means:", options: ["Exactly three words", "Up to three words", "At least three words", "Three sentences"], answer: 1, explanation: "You can use one, two, or three words — but not more." },
+      { question: "Word limit 'NO MORE THAN THREE WORDS' means:", options: ["Exactly three words", "Up to three words", "At least three words", "Three sentences"], answer: 1, explanation: "You can use one, two, or three words - but not more." },
     ],
   },
   {
@@ -249,10 +249,10 @@ export const ieltsReadingExpansion2Lessons: LanguageLesson[] = [
     theory: `**List Selection** yêu cầu chọn mục đúng từ danh sách đã cho để trả lời câu hỏi.
 
 **Chiến lược:**
-1. **Đọc danh sách options trước** — hiểu các lựa chọn có gì
-2. **Đọc câu hỏi/statement** — xác định thông tin cần tìm
+1. **Đọc danh sách options trước** - hiểu các lựa chọn có gì
+2. **Đọc câu hỏi/statement** - xác định thông tin cần tìm
 3. **Scan passage** tìm đoạn liên quan đến mỗi statement
-4. **So khớp meaning** — đáp án thường paraphrase, không copy nguyên văn
+4. **So khớp meaning** - đáp án thường paraphrase, không copy nguyên văn
 
 **Phân biệt với Matching Information:**
 - List Selection: chọn từ danh sách cố định (A-F)
@@ -260,21 +260,21 @@ export const ieltsReadingExpansion2Lessons: LanguageLesson[] = [
     theoryEn: `**List Selection** requires choosing correct items from a given list to answer questions.
 
 **Strategies:**
-1. **Read the options list first** — understand what choices exist
-2. **Read each question/statement** — identify what info is needed
+1. **Read the options list first** - understand what choices exist
+2. **Read each question/statement** - identify what info is needed
 3. **Scan the passage** for sections related to each statement
-4. **Match meaning** — answers are typically paraphrased, not verbatim
+4. **Match meaning** - answers are typically paraphrased, not verbatim
 
 **Difference from Matching Information:**
 - List Selection: choose from a fixed list (A-F)
 - Matching Information: match questions to paragraphs (i-viii)`,
     proTips: [
-      "Một option có thể được dùng nhiều lần — đọc kỹ instructions",
+      "Một option có thể được dùng nhiều lần - đọc kỹ instructions",
       "Loại trừ options rõ ràng sai để thu hẹp phạm vi",
       "Chú ý synonyms giữa list options và passage text",
     ],
     proTipsEn: [
-      "An option may be used more than once — read instructions carefully",
+      "An option may be used more than once - read instructions carefully",
       "Eliminate clearly wrong options to narrow the range",
       "Watch for synonyms between list options and passage text",
     ],
@@ -310,7 +310,7 @@ export const ieltsReadingExpansion2Lessons: LanguageLesson[] = [
     ],
     quiz: [
       { question: "In List Selection, what should you read first?", options: ["The passage", "The options list", "The title", "The conclusion"], answer: 1, explanation: "Reading options first helps you know what to look for." },
-      { question: "Can one option be used for multiple questions?", options: ["Never", "Only if stated in instructions", "Always", "Only for the last question"], answer: 1, explanation: "Check instructions — some allow reuse, some don't." },
+      { question: "Can one option be used for multiple questions?", options: ["Never", "Only if stated in instructions", "Always", "Only for the last question"], answer: 1, explanation: "Check instructions - some allow reuse, some don't." },
       { question: "Answers in List Selection are usually:", options: ["Verbatim copies", "Paraphrased versions of passage text", "Made up by the test taker", "Numbers only"], answer: 1, explanation: "Options paraphrase passage content rather than copying exactly." },
       { question: "How does List Selection differ from Matching Information?", options: ["They are identical", "List Selection uses a fixed list; Matching Information uses paragraphs", "List Selection is easier", "There is no difference"], answer: 1, explanation: "List Selection matches to list items; Matching Info matches to paragraphs." },
       { question: "A good strategy is to:", options: ["Read the passage three times", "Eliminate obviously wrong options first", "Answer randomly", "Only read the first paragraph"], answer: 1, explanation: "Elimination narrows choices and saves time." },
@@ -325,10 +325,10 @@ export const ieltsReadingExpansion2Lessons: LanguageLesson[] = [
     theory: `**Inference & Author Purpose** là dạng câu hỏi nâng cao yêu cầu suy luận từ passage.
 
 **Chiến lược:**
-1. **Inference (Suy luận):** Đáp án không được nói trực tiếp — phải "đọc giữa các dòng"
+1. **Inference (Suy luận):** Đáp án không được nói trực tiếp - phải "đọc giữa các dòng"
 2. **Author Purpose:** Xác định tại sao tác giả viết đoạn/bài đó
 3. **Tìm signpost language:** "This suggests that...", "It can be inferred..."
-4. **Loại trừ đáp án quá cực đoan** — "always", "never" thường sai
+4. **Loại trừ đáp án quá cực đoan** - "always", "never" thường sai
 
 **Mức Band 7.0+ cần:**
 - Phân biệt fact vs opinion
@@ -337,10 +337,10 @@ export const ieltsReadingExpansion2Lessons: LanguageLesson[] = [
     theoryEn: `**Inference & Author Purpose** are advanced question types requiring deduction from the passage.
 
 **Strategies:**
-1. **Inference:** The answer is not stated directly — you must "read between the lines"
+1. **Inference:** The answer is not stated directly - you must "read between the lines"
 2. **Author Purpose:** Determine why the author wrote that section/passage
 3. **Find signpost language:** "This suggests that...", "It can be inferred..."
-4. **Eliminate extreme answers** — "always", "never" are usually wrong
+4. **Eliminate extreme answers** - "always", "never" are usually wrong
 
 **Band 7.0+ requirements:**
 - Distinguish fact vs opinion
@@ -349,12 +349,12 @@ export const ieltsReadingExpansion2Lessons: LanguageLesson[] = [
     proTips: [
       "Đáp án inference đúng phải có evidence trong passage, dù không nói trực tiếp",
       "Author purpose thường liên quan đến: inform, persuade, compare, argue, describe",
-      "Đáp án chứa 'always', 'never', 'all' thường là trap — quá tuyệt đối",
+      "Đáp án chứa 'always', 'never', 'all' thường là trap - quá tuyệt đối",
     ],
     proTipsEn: [
       "Correct inferences must have supporting evidence in the passage",
       "Author purpose usually relates to: inform, persuade, compare, argue, describe",
-      "Answers containing 'always', 'never', 'all' are usually traps — too absolute",
+      "Answers containing 'always', 'never', 'all' are usually traps - too absolute",
     ],
     vocabulary: [
       { word: "inference", meaning: "suy luận", meaningEn: "a conclusion drawn from evidence", example: "What inference can be drawn from paragraph 3?", partOfSpeech: "noun" },
@@ -398,7 +398,7 @@ export const ieltsReadingExpansion2Lessons: LanguageLesson[] = [
   },
 ];
 
-// ===== IELTS LISTENING — 5 new lessons =====
+// ===== IELTS LISTENING - 5 new lessons =====
 
 export const ieltsListeningExpansion2Lessons: LanguageLesson[] = [
   {
@@ -407,39 +407,39 @@ export const ieltsListeningExpansion2Lessons: LanguageLesson[] = [
     titleEn: "Form & Note Completion",
     level: 2,
     difficulty: "beginner",
-    theory: `**Form & Note Completion** là dạng phổ biến nhất ở Section 1 — điền thông tin vào form/note.
+    theory: `**Form & Note Completion** là dạng phổ biến nhất ở Section 1 - điền thông tin vào form/note.
 
 **Chiến lược:**
-1. **Đọc form trước khi nghe** — dự đoán loại thông tin cần điền (tên, số, ngày)
-2. **Chú ý spelling** — tên riêng thường được đánh vần letter by letter
+1. **Đọc form trước khi nghe** - dự đoán loại thông tin cần điền (tên, số, ngày)
+2. **Chú ý spelling** - tên riêng thường được đánh vần letter by letter
 3. **Nghe signpost phrases:** "Can I take your name?", "What's the address?"
-4. **Viết nhanh** — dùng abbreviation rồi kiểm tra sau
+4. **Viết nhanh** - dùng abbreviation rồi kiểm tra sau
 
 **Loại thông tin thường gặp:**
 - Names, addresses, phone numbers, dates
 - Prices, times, reference numbers
 - Simple descriptions (colour, size)`,
-    theoryEn: `**Form & Note Completion** is the most common type in Section 1 — filling in forms or notes.
+    theoryEn: `**Form & Note Completion** is the most common type in Section 1 - filling in forms or notes.
 
 **Strategies:**
-1. **Read the form before listening** — predict what info is needed (name, number, date)
-2. **Pay attention to spelling** — proper nouns are often spelled out letter by letter
+1. **Read the form before listening** - predict what info is needed (name, number, date)
+2. **Pay attention to spelling** - proper nouns are often spelled out letter by letter
 3. **Listen for signpost phrases:** "Can I take your name?", "What's the address?"
-4. **Write quickly** — use abbreviations and check later
+4. **Write quickly** - use abbreviations and check later
 
 **Common information types:**
 - Names, addresses, phone numbers, dates
 - Prices, times, reference numbers
 - Simple descriptions (colour, size)`,
     proTips: [
-      "Section 1 luôn là cuộc hội thoại 2 người — thường về booking, inquiry, registration",
+      "Section 1 luôn là cuộc hội thoại 2 người - thường về booking, inquiry, registration",
       "Nếu nghe đánh vần: viết từng chữ cái, đừng cố đoán cả từ",
-      "Chú ý 'correction' — người nói thường sửa lại: 'No wait, it's actually...'",
+      "Chú ý 'correction' - người nói thường sửa lại: 'No wait, it's actually...'",
     ],
     proTipsEn: [
-      "Section 1 is always a two-person conversation — usually about booking, inquiry, registration",
+      "Section 1 is always a two-person conversation - usually about booking, inquiry, registration",
       "When they spell: write each letter, don't try to guess the whole word",
-      "Watch for corrections — speakers often self-correct: 'No wait, it's actually...'",
+      "Watch for corrections - speakers often self-correct: 'No wait, it's actually...'",
     ],
     vocabulary: [
       { word: "registration", meaning: "đăng ký", meaningEn: "the act of signing up", example: "Please complete the registration form.", partOfSpeech: "noun" },
@@ -513,12 +513,12 @@ export const ieltsListeningExpansion2Lessons: LanguageLesson[] = [
 - Use context around the gap to guess word form`,
     proTips: [
       "'However' và 'But' thường báo hiệu thông tin quan trọng tiếp theo",
-      "Khi nghe 'The key point is...' — tập trung cao độ, answer thường ở ngay sau",
+      "Khi nghe 'The key point is...' - tập trung cao độ, answer thường ở ngay sau",
       "Prediction giúp bạn biết LOẠI từ cần nghe (noun, number, adjective)",
     ],
     proTipsEn: [
       "'However' and 'But' often signal important information ahead",
-      "When you hear 'The key point is...' — focus hard, the answer usually follows",
+      "When you hear 'The key point is...' - focus hard, the answer usually follows",
       "Prediction helps you know the TYPE of word to listen for (noun, number, adjective)",
     ],
     vocabulary: [
@@ -554,7 +554,7 @@ export const ieltsListeningExpansion2Lessons: LanguageLesson[] = [
     quiz: [
       { question: "'On the other hand' signals:", options: ["Agreement", "A contrast", "An example", "A conclusion"], answer: 1, explanation: "'On the other hand' introduces an opposing idea." },
       { question: "Prediction means:", options: ["Listening twice", "Guessing the answer type before hearing it", "Writing slowly", "Skipping questions"], answer: 1, explanation: "Prediction helps you know what to listen for." },
-      { question: "'What's particularly important is...' — you should:", options: ["Relax", "Focus intensely on what follows", "Skip ahead", "Write nothing"], answer: 1, explanation: "Emphasis phrases signal that key information is coming." },
+      { question: "'What's particularly important is...' - you should:", options: ["Relax", "Focus intensely on what follows", "Skip ahead", "Write nothing"], answer: 1, explanation: "Emphasis phrases signal that key information is coming." },
       { question: "Sequence signposts include:", options: ["However, but", "Firstly, moving on to, finally", "For instance, such as", "In my opinion"], answer: 1, explanation: "These words indicate the order of points being made." },
       { question: "Why is prediction important?", options: ["It saves ink", "It reduces listening fatigue", "It tells you the word TYPE to listen for", "It replaces listening"], answer: 2, explanation: "Predicting the word form helps you catch the answer." },
     ],
@@ -571,11 +571,11 @@ export const ieltsListeningExpansion2Lessons: LanguageLesson[] = [
 1. **Self-correction:** "It's on Monday... no, sorry, Tuesday" → đáp án là Tuesday
 2. **Negation:** "I thought it was expensive, but actually it's quite reasonable" → reasonable
 3. **Multiple speakers:** Người A nói giá $50, người B sửa thành $45 → $45
-4. **Conditional:** "If it rains, we'll meet indoors" — chưa chắc đã xảy ra
+4. **Conditional:** "If it rains, we'll meet indoors" - chưa chắc đã xảy ra
 
 **Nguyên tắc vàng:**
 - Đáp án CUỐI CÙNG sau khi sửa mới là đáp án đúng
-- Chú ý "but", "actually", "in fact", "no wait" — thường intro đáp án thật
+- Chú ý "but", "actually", "in fact", "no wait" - thường intro đáp án thật
 - Đừng vội chọn thông tin đầu tiên nghe được`,
     theoryEn: `**Distractors** are incorrect information deliberately included to mislead you.
 
@@ -583,19 +583,19 @@ export const ieltsListeningExpansion2Lessons: LanguageLesson[] = [
 1. **Self-correction:** "It's on Monday... no, sorry, Tuesday" → answer is Tuesday
 2. **Negation:** "I thought it was expensive, but actually it's quite reasonable" → reasonable
 3. **Multiple speakers:** Speaker A says $50, Speaker B corrects to $45 → $45
-4. **Conditional:** "If it rains, we'll meet indoors" — may not happen
+4. **Conditional:** "If it rains, we'll meet indoors" - may not happen
 
 **Golden rules:**
 - The FINAL answer after corrections is the correct one
-- Watch for "but", "actually", "in fact", "no wait" — they often introduce the real answer
+- Watch for "but", "actually", "in fact", "no wait" - they often introduce the real answer
 - Don't rush to select the first piece of information you hear`,
     proTips: [
-      "Nếu đáp án đến quá dễ và quá sớm — rất có thể đó là distractor",
+      "Nếu đáp án đến quá dễ và quá sớm - rất có thể đó là distractor",
       "'Actually' và 'In fact' gần như luôn đi trước đáp án đúng",
       "Conditional (If...) thường KHÔNG phải đáp án vì chưa xác nhận",
     ],
     proTipsEn: [
-      "If an answer comes too easily and too early — it's likely a distractor",
+      "If an answer comes too easily and too early - it's likely a distractor",
       "'Actually' and 'In fact' almost always precede the correct answer",
       "Conditional statements (If...) are usually NOT the answer as they're unconfirmed",
     ],
@@ -630,7 +630,7 @@ export const ieltsListeningExpansion2Lessons: LanguageLesson[] = [
       },
     ],
     quiz: [
-      { question: "'It's on Monday... no, Tuesday' — the answer is:", options: ["Monday", "Tuesday", "Both", "Neither"], answer: 1, explanation: "The corrected information (Tuesday) is the real answer." },
+      { question: "'It's on Monday... no, Tuesday' - the answer is:", options: ["Monday", "Tuesday", "Both", "Neither"], answer: 1, explanation: "The corrected information (Tuesday) is the real answer." },
       { question: "Which word usually introduces the correct answer?", options: ["Maybe", "If", "Actually", "Perhaps"], answer: 2, explanation: "'Actually' typically precedes the corrected, true answer." },
       { question: "A conditional statement ('If it rains...') is:", options: ["Always the answer", "Never mentioned", "Usually NOT the answer", "The best answer"], answer: 2, explanation: "Conditionals are hypothetical and unconfirmed." },
       { question: "If an answer seems too easy and comes early:", options: ["It's definitely correct", "It's likely a distractor", "Write it immediately", "Ignore the rest"], answer: 1, explanation: "Easy early answers are often distractors to trap careless listeners." },
@@ -646,10 +646,10 @@ export const ieltsListeningExpansion2Lessons: LanguageLesson[] = [
     theory: `**Sentence Completion** yêu cầu nghe và điền từ để hoàn thành câu.
 
 **Chiến lược:**
-1. **Đọc câu trước khi nghe** — xác định vị trí gap và dự đoán word form
+1. **Đọc câu trước khi nghe** - xác định vị trí gap và dự đoán word form
 2. **Grammar clues:** Article (a/an) trước gap → noun; to + gap → verb
 3. **Paraphrasing:** Câu trong đề thường paraphrase từ audio
-4. **Word limit:** Tuân thủ nghiêm ngặt — "NO MORE THAN TWO WORDS"
+4. **Word limit:** Tuân thủ nghiêm ngặt - "NO MORE THAN TWO WORDS"
 
 **Mẹo quan trọng:**
 - Gap ở cuối câu → thường là noun hoặc noun phrase
@@ -658,24 +658,24 @@ export const ieltsListeningExpansion2Lessons: LanguageLesson[] = [
     theoryEn: `**Sentence Completion** requires listening and filling in words to complete sentences.
 
 **Strategies:**
-1. **Read sentences before listening** — identify gap positions and predict word forms
+1. **Read sentences before listening** - identify gap positions and predict word forms
 2. **Grammar clues:** Article (a/an) before gap → noun; "to" + gap → verb
 3. **Paraphrasing:** The written sentence often paraphrases the audio
-4. **Word limit:** Follow strictly — "NO MORE THAN TWO WORDS"
+4. **Word limit:** Follow strictly - "NO MORE THAN TWO WORDS"
 
 **Key tips:**
 - Gap at end of sentence → usually a noun or noun phrase
 - Gap after "very" or "quite" → adjective
 - Gap after "to" → verb (infinitive)`,
     proTips: [
-      "Câu trong đề KHÔNG giống y chang audio — luôn có paraphrasing",
+      "Câu trong đề KHÔNG giống y chang audio - luôn có paraphrasing",
       "Dùng grammar context để thu hẹp loại từ cần nghe",
-      "Nếu nghe được từ đúng nhưng vượt word limit — tìm phiên bản ngắn hơn",
+      "Nếu nghe được từ đúng nhưng vượt word limit - tìm phiên bản ngắn hơn",
     ],
     proTipsEn: [
-      "Written sentences are NEVER identical to audio — there's always paraphrasing",
+      "Written sentences are NEVER identical to audio - there's always paraphrasing",
       "Use grammar context to narrow down the word type needed",
-      "If you hear the right word but it exceeds the limit — look for a shorter version",
+      "If you hear the right word but it exceeds the limit - look for a shorter version",
     ],
     vocabulary: [
       { word: "completion", meaning: "hoàn thành", meaningEn: "the act of finishing", example: "Sentence completion requires careful listening.", partOfSpeech: "noun" },
@@ -724,10 +724,10 @@ export const ieltsListeningExpansion2Lessons: LanguageLesson[] = [
     theory: `**Plan & Map Labelling nâng cao** xử lý các bản đồ phức tạp hơn với nhiều landmarks.
 
 **Chiến lược nâng cao:**
-1. **Xác định orientation** — North/South/East/West, entrance, main road
+1. **Xác định orientation** - North/South/East/West, entrance, main road
 2. **Theo dõi movement words:** "go past", "turn left at", "opposite to", "adjacent to"
 3. **Landmarks làm anchor:** "next to the library", "between X and Y"
-4. **Multiple options:** Khi có nhiều label cần gán — đánh dấu đã dùng
+4. **Multiple options:** Khi có nhiều label cần gán - đánh dấu đã dùng
 
 **Từ vựng vị trí quan trọng:**
 - Adjacent to = bên cạnh
@@ -738,10 +738,10 @@ export const ieltsListeningExpansion2Lessons: LanguageLesson[] = [
     theoryEn: `**Advanced Plan & Map Labelling** handles more complex maps with multiple landmarks.
 
 **Advanced strategies:**
-1. **Identify orientation** — North/South/East/West, entrance, main road
+1. **Identify orientation** - North/South/East/West, entrance, main road
 2. **Track movement words:** "go past", "turn left at", "opposite to", "adjacent to"
 3. **Use landmarks as anchors:** "next to the library", "between X and Y"
-4. **Multiple options:** When assigning many labels — mark used ones
+4. **Multiple options:** When assigning many labels - mark used ones
 
 **Key position vocabulary:**
 - Adjacent to = next to
@@ -750,13 +750,13 @@ export const ieltsListeningExpansion2Lessons: LanguageLesson[] = [
 - At the far end = at the furthest point
 - On the corner of = at the junction`,
     proTips: [
-      "Bắt đầu từ entrance hoặc 'you are here' marker — follow hướng di chuyển",
-      "Dùng bút chì đánh dấu trên map khi nghe — trace the route",
+      "Bắt đầu từ entrance hoặc 'you are here' marker - follow hướng di chuyển",
+      "Dùng bút chì đánh dấu trên map khi nghe - trace the route",
       "'Go past X' nghĩa là X ở bên cạnh đường đi, nhưng KHÔNG PHẢI đáp án",
     ],
     proTipsEn: [
-      "Start from the entrance or 'you are here' marker — follow the movement",
-      "Use pencil to mark on the map as you listen — trace the route",
+      "Start from the entrance or 'you are here' marker - follow the movement",
+      "Use pencil to mark on the map as you listen - trace the route",
       "'Go past X' means X is beside the path but is NOT the answer",
     ],
     vocabulary: [
@@ -773,7 +773,7 @@ export const ieltsListeningExpansion2Lessons: LanguageLesson[] = [
         instructionEn: "Fill in the blanks",
         sentences: [
           { text: "The pharmacy is ___ to the supermarket.", textEn: "The pharmacy is ___ to the supermarket.", answer: "adjacent", hint: "a______t" },
-          { text: "The school is ___ the hospital — directly across the road.", textEn: "The school is ___ the hospital.", answer: "opposite", hint: "o______e" },
+          { text: "The school is ___ the hospital - directly across the road.", textEn: "The school is ___ the hospital.", answer: "opposite", hint: "o______e" },
           { text: "Walk ___ the library and the museum is on your left.", textEn: "Walk ___ the library.", answer: "past", hint: "p__t" },
           { text: "The garden is at the ___ end of the campus.", textEn: "The garden is at the ___ end.", answer: "far", hint: "f_r" },
           { text: "Turn left at the ___ where the two roads meet.", textEn: "Turn left at the ___.", answer: "intersection", hint: "i___________n" },

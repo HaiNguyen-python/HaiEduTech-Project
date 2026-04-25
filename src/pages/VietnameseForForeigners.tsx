@@ -31,7 +31,7 @@ const toneColors: Record<string, string> = {
 };
 
 const toneSymbols: Record<string, string> = {
-  ngang: "—",
+  ngang: "-",
   huyen: "↘",
   sac: "↗",
   hoi: "↘↗",
@@ -438,7 +438,7 @@ const VietnameseForForeigners = () => {
               </h1>
             </div>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              {t("Chương trình song ngữ Việt-Anh — từ con số 0 đến giao tiếp thành thạo", "A bilingual Vietnamese-English course — from zero to confident communication")}
+              {t("Chương trình song ngữ Việt-Anh - từ con số 0 đến giao tiếp thành thạo", "A bilingual Vietnamese-English course - from zero to confident communication")}
             </p>
           </motion.div>
 

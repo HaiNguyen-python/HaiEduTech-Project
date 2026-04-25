@@ -1,4 +1,4 @@
-// Vietnamese Major Holidays page — hub + detail view
+// Vietnamese Major Holidays page - hub + detail view
 import { useState, useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -306,7 +306,7 @@ const VietnameseHolidays = () => {
                 <p className="text-muted-foreground max-w-2xl mx-auto">
                   {t(
                     "Khám phá 12 ngày lễ truyền thống và quốc lễ quan trọng nhất – câu chuyện, phong tục, ẩm thực và từ vựng chủ điểm.",
-                    "Explore 12 most important traditional and national holidays — stories, customs, foods, and key vocabulary."
+                    "Explore 12 most important traditional and national holidays - stories, customs, foods, and key vocabulary."
                   )}
                 </p>
               </motion.div>

@@ -1,4 +1,4 @@
-// YKI A2 Finnish Vocabulary Data — 200+ words across 8 themes
+// YKI A2 Finnish Vocabulary Data - 200+ words across 8 themes
 import type { FinnishModule } from "./types";
 
 export const finnishVocabModules: FinnishModule[] = [
@@ -37,7 +37,7 @@ export const finnishVocabModules: FinnishModule[] = [
         ],
         quiz: [
           { question: "Mikä on 'keittiö' englanniksi?", options: ["Bedroom", "Kitchen", "Bathroom", "Living room"], answer: 1, explanation: "'Keittiö' tarkoittaa 'kitchen'." },
-          { question: "'Nukun makuuhuoneessa' — mitä se tarkoittaa?", options: ["Syön keittiössä", "Nukun makuuhuoneessa", "Luen olohuoneessa", "Käyn suihkussa"], answer: 1, explanation: "'Nukun makuuhuoneessa' = I sleep in the bedroom." },
+          { question: "'Nukun makuuhuoneessa' - mitä se tarkoittaa?", options: ["Syön keittiössä", "Nukun makuuhuoneessa", "Luen olohuoneessa", "Käyn suihkussa"], answer: 1, explanation: "'Nukun makuuhuoneessa' = I sleep in the bedroom." },
           { question: "Missä taulu on?", options: ["Lattialla", "Pöydällä", "Seinällä", "Tuolilla"], answer: 2, explanation: "Taulu on seinällä (on the wall)." },
           { question: "Mikä on 'ovi'?", options: ["Window", "Door", "Floor", "Wall"], answer: 1, explanation: "'Ovi' = door." },
           { question: "Mitä tarkoittaa 'Avaa ikkuna'?", options: ["Close the door", "Open the window", "Turn on the lamp", "Sit on the chair"], answer: 1, explanation: "'Avaa ikkuna' = Open the window." },
@@ -183,7 +183,7 @@ export const finnishVocabModules: FinnishModule[] = [
           { word: "sairausloma", partOfSpeech: "noun", meaningEn: "sick leave", meaningVi: "nghỉ ốm", example: "Olen sairauslomalla.", exampleEn: "I am on sick leave.", puhekieli: "saikku", category: "Health" },
         ],
         quiz: [
-          { question: "'Olen sairas' — mitä se tarkoittaa?", options: ["Olen väsynyt", "Olen sairas", "Olen iloinen", "Olen nälkäinen"], answer: 1, explanation: "'Olen sairas' = I am sick." },
+          { question: "'Olen sairas' - mitä se tarkoittaa?", options: ["Olen väsynyt", "Olen sairas", "Olen iloinen", "Olen nälkäinen"], answer: 1, explanation: "'Olen sairas' = I am sick." },
           { question: "Mikä on 'päivystys'?", options: ["Apteekki", "Päivystys", "Ambulanssi", "Sairaala"], answer: 1, explanation: "'Päivystys' = emergency room." },
           { question: "Mikä on 'päivystyksen' puhekieli?", options: ["päikkäri", "päikky", "päivis", "päike"], answer: 0, explanation: "'Päikkäri' on puhekielen muoto." },
           { question: "Mitä tarkoittaa 'ajanvaraus'?", options: ["Lääke", "Ajanvaraus", "Oireet", "Resepti"], answer: 1, explanation: "'Ajanvaraus' = appointment." },
@@ -211,7 +211,7 @@ export const finnishVocabModules: FinnishModule[] = [
         ],
         quiz: [
           { question: "Mikä on 'silmä'?", options: ["Ear", "Eye", "Nose", "Mouth"], answer: 1, explanation: "'Silmä' = eye." },
-          { question: "'Pese kädet!' — mitä pitää tehdä?", options: ["Avaa suu", "Pese kädet", "Sulje ovi", "Istu alas"], answer: 1, explanation: "'Pese kädet!' = Wash your hands!" },
+          { question: "'Pese kädet!' - mitä pitää tehdä?", options: ["Avaa suu", "Pese kädet", "Sulje ovi", "Istu alas"], answer: 1, explanation: "'Pese kädet!' = Wash your hands!" },
           { question: "Mikä on 'jalka'?", options: ["Hand", "Head", "Foot/leg", "Back"], answer: 2, explanation: "'Jalka' = foot/leg." },
           { question: "Jos 'nenä vuotaa', mitä se tarkoittaa?", options: ["Nose is running", "Ear hurts", "Eye is red", "Mouth is dry"], answer: 0, explanation: "'Nenä vuotaa' = nose is running." },
           { question: "Mikä on 'hammas'?", options: ["Stomach", "Back", "Tooth", "Head"], answer: 2, explanation: "'Hammas' = tooth." },
@@ -297,7 +297,7 @@ export const finnishVocabModules: FinnishModule[] = [
         ],
         quiz: [
           { question: "Mikä on 'ruoan' puhekieli?", options: ["safka", "sapuska", "murkina", "kaikki edellä"], answer: 0, explanation: "'Safka' on yleisin puhekielen muoto." },
-          { question: "'Voisinko saada laskun?' — mitä se tarkoittaa?", options: ["Saanko menun?", "Saanko laskun?", "Missä on uloskäynti?", "Onko tämä tarjouksessa?"], answer: 1, explanation: "'Voisinko saada laskun?' = Could I get the bill?" },
+          { question: "'Voisinko saada laskun?' - mitä se tarkoittaa?", options: ["Saanko menun?", "Saanko laskun?", "Missä on uloskäynti?", "Onko tämä tarjouksessa?"], answer: 1, explanation: "'Voisinko saada laskun?' = Could I get the bill?" },
           { question: "Mikä on 'lohi'?", options: ["Tuna", "Salmon", "Cod", "Herring"], answer: 1, explanation: "'Lohi' = salmon." },
           { question: "Mitä tarkoittaa 'tarjous'?", options: ["Price", "Bill", "Offer/discount", "Menu"], answer: 2, explanation: "'Tarjous' = offer/discount." },
           { question: "Mikä kala on suosittu Suomessa?", options: ["Tonnikala", "Lohi", "Turska", "Hauki"], answer: 1, explanation: "Lohi (salmon) on suosittu kala Suomessa." },
@@ -342,7 +342,7 @@ export const finnishVocabModules: FinnishModule[] = [
           { question: "Mitä tarkoittaa 'herätä'?", options: ["To sleep", "To wake up", "To eat", "To leave"], answer: 1, explanation: "'Herätä' = to wake up." },
           { question: "Milloin syöt aamupalaa?", options: ["Illalla", "Aamulla", "Yöllä", "Iltapäivällä"], answer: 1, explanation: "Aamupalaa syödään aamulla (in the morning)." },
           { question: "Mikä on 'lounas'?", options: ["Breakfast", "Lunch", "Dinner", "Snack"], answer: 1, explanation: "'Lounas' = lunch." },
-          { question: "'Hyvää yötä!' — milloin sanotaan?", options: ["Aamulla", "Päivällä", "Illalla nukkumaan mentäessä", "Lounaalla"], answer: 2, explanation: "'Hyvää yötä!' sanotaan nukkumaan mentäessä." },
+          { question: "'Hyvää yötä!' - milloin sanotaan?", options: ["Aamulla", "Päivällä", "Illalla nukkumaan mentäessä", "Lounaalla"], answer: 2, explanation: "'Hyvää yötä!' sanotaan nukkumaan mentäessä." },
           { question: "Mitä tarkoittaa 'palata'?", options: ["To leave", "To arrive", "To return", "To stay"], answer: 2, explanation: "'Palata' = to return." },
           { question: "Monelta lähdet töihin?", options: ["Kello viisi", "Kello kahdeksan", "Kello kaksitoista", "Kello kymmenen"], answer: 1, explanation: "Esimerkissä: 'Lähden töihin kello kahdeksan'." },
         ],
@@ -407,7 +407,7 @@ export const finnishVocabModules: FinnishModule[] = [
         ],
         quiz: [
           { question: "Mikä on 'kyllän' puhekieli?", options: ["joo", "juu", "jep", "kaikki edellä"], answer: 0, explanation: "'Joo' on yleisin puhekielen muoto." },
-          { question: "'Anteeksi, missä on posti?' — mitä kysyt?", options: ["Hintaa", "Osoitetta", "Postin sijaintia", "Aikaa"], answer: 2, explanation: "Kysyt postin sijaintia (where is the post office)." },
+          { question: "'Anteeksi, missä on posti?' - mitä kysyt?", options: ["Hintaa", "Osoitetta", "Postin sijaintia", "Aikaa"], answer: 2, explanation: "Kysyt postin sijaintia (where is the post office)." },
           { question: "Mikä on 'syntymäpäivän' puhekieli?", options: ["synttärit", "syntsu", "syntikka", "päivis"], answer: 0, explanation: "'Synttärit' on puhekielen muoto." },
           { question: "Miten sanot 'goodbye'?", options: ["Tervetuloa", "Näkemiin", "Anteeksi", "Kiitos"], answer: 1, explanation: "'Näkemiin' = goodbye." },
           { question: "Mikä on 'ystävän' puhekieli?", options: ["kaveri", "frendi", "Molemmat A ja B", "ystis"], answer: 2, explanation: "Sekä 'kaveri' että 'frendi' ovat puhekielen muotoja." },
@@ -435,7 +435,7 @@ export const finnishVocabModules: FinnishModule[] = [
           { question: "Miten maksat ravintolassa?", options: ["Kortilla tai käteisellä", "Puhelimella", "Kirjeellä", "Shekillä"], answer: 0, explanation: "Voit maksaa kortilla tai käteisellä." },
           { question: "Mitä tarkoittaa 'varata'?", options: ["To pay", "To book", "To eat", "To leave"], answer: 1, explanation: "'Varata' = to book/reserve." },
           { question: "Mitä tarkoittaa 'kuitti'?", options: ["Bill", "Receipt", "Menu", "Card"], answer: 1, explanation: "'Kuitti' = receipt." },
-          { question: "'Odota hetki' — mitä se tarkoittaa?", options: ["Come here", "Go away", "Wait a moment", "Sit down"], answer: 2, explanation: "'Odota hetki' = wait a moment." },
+          { question: "'Odota hetki' - mitä se tarkoittaa?", options: ["Come here", "Go away", "Wait a moment", "Sit down"], answer: 2, explanation: "'Odota hetki' = wait a moment." },
           { question: "Miten valitat huonosta palvelusta?", options: ["'Haluan valittaa palvelusta'", "'Kiitos palvelusta'", "'Palvelu oli hyvä'", "'Anteeksi'"], answer: 0, explanation: "'Haluan valittaa palvelusta' = I want to complain about the service." },
         ],
       },
@@ -443,8 +443,8 @@ export const finnishVocabModules: FinnishModule[] = [
   },
   {
     id: "yki-vocab-puhekieli",
-    title: "Puhekieli — Spoken Finnish",
-    titleEn: "Puhekieli — Spoken Finnish",
+    title: "Puhekieli - Spoken Finnish",
+    titleEn: "Puhekieli - Spoken Finnish",
     icon: "🗣️",
     color: "from-orange-500 to-red-500",
     description: "Essential spoken Finnish forms vs standard written Finnish. The biggest YKI challenge!",
@@ -473,11 +473,11 @@ export const finnishVocabModules: FinnishModule[] = [
         ],
         quiz: [
           { question: "Mikä on 'minän' puhekieli?", options: ["mä", "mi", "mu", "mie"], answer: 0, explanation: "'Mä' (Helsingin alue) on yleisin puhekielen muoto." },
-          { question: "'Ooksä tulossa?' — mitä se tarkoittaa?", options: ["Oletko valmis?", "Oletko tulossa?", "Lähdetkö?", "Oletko suomalainen?"], answer: 1, explanation: "'Ooksä tulossa?' = 'Oletko sinä tulossa?' = Are you coming?" },
+          { question: "'Ooksä tulossa?' - mitä se tarkoittaa?", options: ["Oletko valmis?", "Oletko tulossa?", "Lähdetkö?", "Oletko suomalainen?"], answer: 1, explanation: "'Ooksä tulossa?' = 'Oletko sinä tulossa?' = Are you coming?" },
           { question: "Puhekielessä 'hän' muuttuu muotoon...", options: ["he", "se", "hei", "tuo"], answer: 1, explanation: "Puhekielessä 'hän' korvataan sanalla 'se'." },
-          { question: "'Mun pitää mennä nyt' — mitä se tarkoittaa?", options: ["I want to go", "I must go now", "I can go", "I will go later"], answer: 1, explanation: "'Mun pitää mennä nyt' = I must go now." },
+          { question: "'Mun pitää mennä nyt' - mitä se tarkoittaa?", options: ["I want to go", "I must go now", "I can go", "I will go later"], answer: 1, explanation: "'Mun pitää mennä nyt' = I must go now." },
           { question: "Mikä on 'tämän' puhekieli?", options: ["toi", "tää", "se", "tuo"], answer: 1, explanation: "'Tää' on puhekielen muoto sanasta 'tämä'." },
-          { question: "'Sit me mennään' — mikä on 'sit'?", options: ["now", "here", "then", "there"], answer: 2, explanation: "'Sit' = sitten = then." },
+          { question: "'Sit me mennään' - mikä on 'sit'?", options: ["now", "here", "then", "there"], answer: 2, explanation: "'Sit' = sitten = then." },
         ],
       },
     ],

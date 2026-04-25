@@ -1,4 +1,4 @@
-// Phrasebook expansion — 6 chủ đề thực tiễn thêm
+// Phrasebook expansion - 6 chủ đề thực tiễn thêm
 import type { PhrasebookCategory } from "./phrasebookData";
 
 export const phrasebookExpansion: PhrasebookCategory[] = [

@@ -40,7 +40,7 @@ const li = (q: string, geo = "100456013") =>
 // geoId 100456013 = Finland
 
 export const jobCompanies: JobCompany[] = [
-  // ============ 🇫🇮 FINLAND — AI / ML / Data ============
+  // ============ 🇫🇮 FINLAND - AI / ML / Data ============
   {
     id: "silo-ai",
     name: "Silo AI",
@@ -407,7 +407,7 @@ export const jobCompanies: JobCompany[] = [
     liveJobsUrl: li("Nightingale Health"),
   },
 
-  // ============ 🏛️ FINLAND — Research / Academic ============
+  // ============ 🏛️ FINLAND - Research / Academic ============
   {
     id: "fcai",
     name: "FCAI (Finnish Center for AI)",
@@ -485,7 +485,7 @@ export const jobCompanies: JobCompany[] = [
     liveJobsUrl: "https://www.csc.fi/en/career",
   },
 
-  // ============ 🇫🇮 FINLAND — Big Tech offices ============
+  // ============ 🇫🇮 FINLAND - Big Tech offices ============
   {
     id: "microsoft-fi",
     name: "Microsoft Finland",
@@ -973,7 +973,7 @@ export const jobResources: JobResource[] = [
   },
   {
     id: "linkedin-fi-tech",
-    name: "LinkedIn — Finland Tech Jobs",
+    name: "LinkedIn - Finland Tech Jobs",
     emoji: "💼",
     description: "Pre-filtered LinkedIn search for AI/Data roles in Finland.",
     url: "https://www.linkedin.com/jobs/search/?keywords=data%20engineer%20OR%20AI%20engineer&geoId=100456013",
@@ -999,7 +999,7 @@ export const jobResources: JobResource[] = [
     id: "fcai-com",
     name: "FCAI Community",
     emoji: "🎓",
-    description: "Finnish Center for AI — academic + industry collaboration, postdoc and engineer roles.",
+    description: "Finnish Center for AI - academic + industry collaboration, postdoc and engineer roles.",
     url: "https://fcai.fi/",
     category: "community",
   },
@@ -1032,7 +1032,7 @@ export const jobResources: JobResource[] = [
 export const tipsForFinland = [
   {
     title: "Do I need to speak Finnish?",
-    body: "For most tech roles at international companies (Wolt, Aiven, Silo AI, Smartly, Reaktor, etc.) — English is the working language and Finnish is not required. Finnish helps a lot for public sector, healthcare, smaller local consultancies, and customer-facing positions.",
+    body: "For most tech roles at international companies (Wolt, Aiven, Silo AI, Smartly, Reaktor, etc.) - English is the working language and Finnish is not required. Finnish helps a lot for public sector, healthcare, smaller local consultancies, and customer-facing positions.",
   },
   {
     title: "Visa & Residence Permit",
@@ -1048,6 +1048,6 @@ export const tipsForFinland = [
   },
   {
     title: "Best time to apply",
-    body: "Big hiring waves: late August–October and January–March. Avoid mid-June to early August (Finnish summer holiday — almost everyone is off).",
+    body: "Big hiring waves: late August–October and January–March. Avoid mid-June to early August (Finnish summer holiday - almost everyone is off).",
   },
 ];

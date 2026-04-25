@@ -1,6 +1,6 @@
 /**
  * @file LifeInFinland.tsx
- * @description Newcomer guide hub for life in Finland — admin, daily life, work, health.
+ * @description Newcomer guide hub for life in Finland - admin, daily life, work, health.
  *              Bilingual VI/EN with key Finnish terms, interactive 30-day checklist,
  *              PDF download, and "Integrated Resident" badge award.
  * @author HaiEduTech
@@ -98,8 +98,8 @@ const LifeInFinland = () => {
       toast({
         title: t("🎉 Huy hiệu mới!", "🎉 New Badge!"),
         description: t(
-          "Bạn đã trở thành Integrated Resident — chúc mừng đã làm chủ cuộc sống ở Phần Lan!",
-          "You're now an Integrated Resident — congrats on mastering life in Finland!"
+          "Bạn đã trở thành Integrated Resident - chúc mừng đã làm chủ cuộc sống ở Phần Lan!",
+          "You're now an Integrated Resident - congrats on mastering life in Finland!"
         ),
       });
     }
@@ -127,7 +127,7 @@ const LifeInFinland = () => {
   const handleDownloadPdf = () => {
     const doc = new jsPDF();
     doc.setFontSize(18);
-    doc.text("First 30 Days in Finland — HaiEduTech", 14, 20);
+    doc.text("First 30 Days in Finland - HaiEduTech", 14, 20);
     doc.setFontSize(11);
     doc.setTextColor(100);
     doc.text("Personalised checklist generated for your move to Finland", 14, 28);
@@ -153,7 +153,7 @@ const LifeInFinland = () => {
 
     doc.setFontSize(9);
     doc.setTextColor(120);
-    doc.text("© HaiEduTech — haiedutech.com", 14, 290);
+    doc.text("© HaiEduTech - haiedutech.com", 14, 290);
     doc.save("first-30-days-finland.pdf");
   };
 
@@ -293,7 +293,7 @@ const LifeInFinland = () => {
                                 {guide.keyTerms.map((term) => (
                                   <div key={term.fi} className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-lg px-2 py-1 text-xs">
                                     <span className="font-bold text-blue-700 dark:text-blue-300">{term.fi}</span>
-                                    <span className="text-muted-foreground"> — {t(term.vi, term.en)}</span>
+                                    <span className="text-muted-foreground"> - {t(term.vi, term.en)}</span>
                                   </div>
                                 ))}
                               </div>
@@ -343,7 +343,7 @@ const LifeInFinland = () => {
                                 size="sm"
                                 variant="outline"
                                 className="gap-1"
-                                onClick={() => askChatbot(`${guide.titleEn}: ${guide.summaryEn} — what documents and steps do I need?`)}
+                                onClick={() => askChatbot(`${guide.titleEn}: ${guide.summaryEn} - what documents and steps do I need?`)}
                               >
                                 <MessageCircle className="w-3.5 h-3.5" /> {t("Hỏi Mr. Hai", "Ask Mr. Hai")}
                               </Button>
@@ -377,7 +377,7 @@ const LifeInFinland = () => {
                         ✅ {t("30 ngày đầu tại Phần Lan", "First 30 Days in Finland")}
                       </CardTitle>
                       <CardDescription className="mt-1">
-                        {t("Đánh dấu mỗi nhiệm vụ khi hoàn thành — tiến độ được lưu tự động.", "Tick each task as you finish — progress saves automatically.")}
+                        {t("Đánh dấu mỗi nhiệm vụ khi hoàn thành - tiến độ được lưu tự động.", "Tick each task as you finish - progress saves automatically.")}
                       </CardDescription>
                     </div>
                     <Button onClick={handleDownloadPdf} className="gap-2">
@@ -386,7 +386,7 @@ const LifeInFinland = () => {
                   </div>
                   <Progress value={progressPct} className="mt-3 h-2" />
                   <p className="text-sm text-muted-foreground mt-1">
-                    {progressPct}% — {completed.length} / {FIRST_30_DAYS_CHECKLIST.length} {t("hoàn thành", "completed")}
+                    {progressPct}% - {completed.length} / {FIRST_30_DAYS_CHECKLIST.length} {t("hoàn thành", "completed")}
                   </p>
                 </CardHeader>
                 <CardContent className="space-y-6">

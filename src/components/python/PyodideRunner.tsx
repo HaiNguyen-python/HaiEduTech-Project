@@ -86,7 +86,7 @@ async function ensurePyodide(needsScientific: boolean, onStatus: (s: string) => 
 
 /**
  * Preload Pyodide in the background as soon as the user lands on a Python lesson.
- * Safe to call multiple times — uses the same singleton promise.
+ * Safe to call multiple times - uses the same singleton promise.
  */
 export function preloadPyodide() {
   if (typeof window === "undefined") return;

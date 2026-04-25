@@ -1,4 +1,4 @@
-// Cambridge Lecture Detail View — Kid-friendly, Exam-ready with Learning Objectives
+// Cambridge Lecture Detail View - Kid-friendly, Exam-ready with Learning Objectives
 import { useState, useMemo } from "react";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { useParams, useNavigate, Link } from "react-router-dom";
@@ -130,7 +130,7 @@ const CambridgeLectureView = () => {
               {t(lecture.descriptionVi, lecture.description)}
             </p>
 
-            {/* Lesson context bar — explains what this lecture really is */}
+            {/* Lesson context bar - explains what this lecture really is */}
             <div className="mt-5 flex items-start gap-3 p-4 rounded-xl bg-gradient-to-r from-[#A855F7]/10 to-[#3B82F6]/5 border border-[#A855F7]/20">
               <GraduationCap className="w-5 h-5 text-[#C4B5FD] flex-shrink-0 mt-0.5" />
               <p className="text-[#CBD5E1] text-sm leading-relaxed">
@@ -250,7 +250,7 @@ const CambridgeLectureView = () => {
             </motion.div>
           )}
 
-          {/* Deep Dive — Strategy Breakdown (auto-enriched, bilingual) */}
+          {/* Deep Dive - Strategy Breakdown (auto-enriched, bilingual) */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -261,13 +261,13 @@ const CambridgeLectureView = () => {
               <div className="flex items-center gap-2 mb-1">
                 <Sparkles className="w-5 h-5 text-indigo-300" />
                 <span className="text-sm font-bold text-indigo-200 uppercase tracking-wide">
-                  {t("Phân tích chuyên sâu", "Deep Dive — Strategy Breakdown")}
+                  {t("Phân tích chuyên sâu", "Deep Dive - Strategy Breakdown")}
                 </span>
               </div>
               <p className="text-xs text-[#94A3B8] leading-relaxed">
                 {t(
-                  "Bốn góc nhìn giúp bạn hiểu sâu mục đích và chiến thuật của bài học này — đọc trước khi vào phần Quy tắc & Luyện tập.",
-                  "Four perspectives that help you understand the purpose and strategy of this lecture — read this BEFORE going into Rules & Practice."
+                  "Bốn góc nhìn giúp bạn hiểu sâu mục đích và chiến thuật của bài học này - đọc trước khi vào phần Quy tắc & Luyện tập.",
+                  "Four perspectives that help you understand the purpose and strategy of this lecture - read this BEFORE going into Rules & Practice."
                 )}
               </p>
             </div>
@@ -375,12 +375,12 @@ const CambridgeLectureView = () => {
                 <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="text-red-200 font-bold text-sm mb-1">
-                    {t("Lỗi học sinh hay mắc — đọc kỹ để tránh!", "Common Mistakes — read carefully to avoid them!")}
+                    {t("Lỗi học sinh hay mắc - đọc kỹ để tránh!", "Common Mistakes - read carefully to avoid them!")}
                   </p>
                   <p className="text-[#94A3B8] text-sm leading-relaxed">
                     {t(
                       "Mỗi mục bên dưới gồm: ❌ Lỗi sai phổ biến và ✅ Cách khắc phục mà thầy Hải đã tổng hợp từ hàng trăm bài thi thật.",
-                      "Each item below shows: ❌ The common mistake and ✅ How to fix it — collected by Teacher Hai from hundreds of real exam papers."
+                      "Each item below shows: ❌ The common mistake and ✅ How to fix it - collected by Teacher Hai from hundreds of real exam papers."
                     )}
                   </p>
                 </div>
@@ -448,7 +448,7 @@ const CambridgeLectureView = () => {
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      {/* Picture / context box — visually separated */}
+                      {/* Picture / context box - visually separated */}
                       <div className="mb-4 p-4 rounded-xl bg-gradient-to-br from-amber-500/[0.06] to-orange-500/[0.03] border border-amber-500/20">
                         <div className="flex items-center gap-2 mb-2">
                           <ImageIcon className="w-4 h-4 text-amber-400" />
@@ -571,7 +571,7 @@ const CambridgeLectureView = () => {
                 <div className="flex-1">
                   <div className="flex items-center gap-2 flex-wrap mb-1">
                     <p className="text-amber-200 font-bold text-sm">
-                      {t("Quiz đánh giá nhanh — đã mở rộng", "Quick Assessment Quiz — expanded")}
+                      {t("Quiz đánh giá nhanh - đã mở rộng", "Quick Assessment Quiz - expanded")}
                     </p>
                     {lecture.generatedQuizCount > 0 && (
                       <Badge variant="outline" className="text-[10px] font-bold uppercase px-2 py-0.5 bg-emerald-500/10 border-emerald-500/30 text-emerald-300">
@@ -581,8 +581,8 @@ const CambridgeLectureView = () => {
                   </div>
                   <p className="text-[#94A3B8] text-sm leading-relaxed">
                     {t(
-                      `${lecture.quiz.length} câu hỏi tổng kết toàn bài (gồm câu hỏi gốc + câu hỏi mở rộng từ từ vựng, quy tắc và lỗi thường gặp). Chọn đáp án cho mỗi câu rồi bấm "Nộp bài" ở cuối — bạn sẽ thấy điểm số và giải thích cho từng câu.`,
-                      `${lecture.quiz.length} questions to consolidate the lecture (original + bonus questions auto-generated from vocabulary, rules and common mistakes). Select an answer for each, then tap "Submit Quiz" at the bottom — you'll see your score and an explanation for every item.`
+                      `${lecture.quiz.length} câu hỏi tổng kết toàn bài (gồm câu hỏi gốc + câu hỏi mở rộng từ từ vựng, quy tắc và lỗi thường gặp). Chọn đáp án cho mỗi câu rồi bấm "Nộp bài" ở cuối - bạn sẽ thấy điểm số và giải thích cho từng câu.`,
+                      `${lecture.quiz.length} questions to consolidate the lecture (original + bonus questions auto-generated from vocabulary, rules and common mistakes). Select an answer for each, then tap "Submit Quiz" at the bottom - you'll see your score and an explanation for every item.`
                     )}
                   </p>
                 </div>

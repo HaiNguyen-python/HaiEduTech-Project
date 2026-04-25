@@ -1,4 +1,4 @@
-// Software Engineering curriculum — 7 industry-standard lessons (2026 trends)
+// Software Engineering curriculum - 7 industry-standard lessons (2026 trends)
 // Author: HaiEduTech · Each lesson follows the 8-section bilingual format used across the curriculum
 import type { ExtendedProgrammingModule } from "./types";
 
@@ -23,11 +23,11 @@ export const softwareEngModules: ExtendedProgrammingModule[] = [
         codeLanguage: "markdown",
         theory: `## 1. 🚦 Vấn đề đời thường
 
-Một startup hứa giao app trong 6 tháng. 6 tháng sau: code chạy nhưng **sai yêu cầu**, khách hàng không dùng. Vì sao? Vì team **không có quy trình** — viết code trước, hỏi sau. SDLC chính là "công thức nấu ăn" giúp đội 1 người hay 100 người cùng nhịp.
+Một startup hứa giao app trong 6 tháng. 6 tháng sau: code chạy nhưng **sai yêu cầu**, khách hàng không dùng. Vì sao? Vì team **không có quy trình** - viết code trước, hỏi sau. SDLC chính là "công thức nấu ăn" giúp đội 1 người hay 100 người cùng nhịp.
 
 ## 2. 💡 Khái niệm chính
 
-**SDLC** = Software Development Life Cycle — chuỗi 6 giai đoạn: Requirement → Design → Implement → Test → Deploy → Maintain.
+**SDLC** = Software Development Life Cycle - chuỗi 6 giai đoạn: Requirement → Design → Implement → Test → Deploy → Maintain.
 
 3 mô hình phổ biến nhất:
 
@@ -39,9 +39,9 @@ Một startup hứa giao app trong 6 tháng. 6 tháng sau: code chạy nhưng **
 
 ## 3. 🧰 Vai trò trong Scrum
 
-- **Product Owner** — quyết định "làm cái gì".
-- **Scrum Master** — bảo vệ quy trình, gỡ blocker.
-- **Dev Team** — quyết định "làm như thế nào".
+- **Product Owner** - quyết định "làm cái gì".
+- **Scrum Master** - bảo vệ quy trình, gỡ blocker.
+- **Dev Team** - quyết định "làm như thế nào".
 - **Sprint** = chu kỳ 2 tuần giao 1 phần chạy được.
 
 ## 4. 🎯 Ví dụ thực tế
@@ -60,17 +60,17 @@ Mỗi cuối sprint → demo cho khách hàng → điều chỉnh. **Không bao 
 ## 5. ⚠️ Hiểu nhầm thường gặp
 
 > ⚠️ **Cảnh báo:**
-> - "Agile = không có tài liệu" — sai. Agile **giảm** tài liệu thừa, không bỏ.
-> - "Scrum = họp nhiều" — Daily Standup chỉ 15 phút.
-> - "Waterfall đã chết" — vẫn dùng cho hệ thống tên lửa, máy bay.
+> - "Agile = không có tài liệu" - sai. Agile **giảm** tài liệu thừa, không bỏ.
+> - "Scrum = họp nhiều" - Daily Standup chỉ 15 phút.
+> - "Waterfall đã chết" - vẫn dùng cho hệ thống tên lửa, máy bay.
 
 ## 6. ✅ Best practice của thầy Hải
 
 > 💡 **Mẹo:**
 > - Mỗi user story phải có **acceptance criteria** rõ ràng ("Khi user bấm X, thấy Y").
 > - **Definition of Done** = code + test + review + deploy staging.
-> - Retrospective cuối sprint quan trọng hơn cả planning — nó là cách team **học**.
-> - **2026 trend:** AI-augmented Scrum — dùng GitHub Copilot/Cursor để giảm 30-50% thời gian implement, dành thời gian cho review & design.
+> - Retrospective cuối sprint quan trọng hơn cả planning - nó là cách team **học**.
+> - **2026 trend:** AI-augmented Scrum - dùng GitHub Copilot/Cursor để giảm 30-50% thời gian implement, dành thời gian cho review & design.
 
 ## 7. 🤔 Áp dụng
 
@@ -85,11 +85,11 @@ SDLC là **công thức** giúp dự án không "đẻ non". Agile/Scrum là chu
 `,
         theoryEn: `## 1. 🚦 Real-world Problem
 
-A startup promises to ship an app in 6 months. 6 months later: code works but **doesn't match requirements**, customers won't use it. Why? Because the team had **no process** — wrote code first, asked questions later. SDLC is the "recipe" that keeps a team of 1 or 100 in sync.
+A startup promises to ship an app in 6 months. 6 months later: code works but **doesn't match requirements**, customers won't use it. Why? Because the team had **no process** - wrote code first, asked questions later. SDLC is the "recipe" that keeps a team of 1 or 100 in sync.
 
 ## 2. 💡 Core Concepts
 
-**SDLC** = Software Development Life Cycle — six phases: Requirement → Design → Implement → Test → Deploy → Maintain.
+**SDLC** = Software Development Life Cycle - six phases: Requirement → Design → Implement → Test → Deploy → Maintain.
 
 The three most common models:
 
@@ -101,9 +101,9 @@ The three most common models:
 
 ## 3. 🧰 Scrum Roles
 
-- **Product Owner** — decides "what to build".
-- **Scrum Master** — protects the process, removes blockers.
-- **Dev Team** — decides "how to build it".
+- **Product Owner** - decides "what to build".
+- **Scrum Master** - protects the process, removes blockers.
+- **Dev Team** - decides "how to build it".
 - **Sprint** = a 2-week cycle delivering one shippable increment.
 
 ## 4. 🎯 Real Example
@@ -122,17 +122,17 @@ End of every sprint → demo to customer → adjust. **Never** code 6 months the
 ## 5. ⚠️ Common Misconceptions
 
 > ⚠️ **Warning:**
-> - "Agile = no documentation" — wrong. Agile **reduces** wasteful docs, doesn't drop them.
-> - "Scrum = endless meetings" — Daily Standup is only 15 minutes.
-> - "Waterfall is dead" — still used for rockets, aircraft software.
+> - "Agile = no documentation" - wrong. Agile **reduces** wasteful docs, doesn't drop them.
+> - "Scrum = endless meetings" - Daily Standup is only 15 minutes.
+> - "Waterfall is dead" - still used for rockets, aircraft software.
 
 ## 6. ✅ Best Practice from Teacher Hai
 
 > 💡 **Tips:**
 > - Every user story needs **acceptance criteria** ("When user clicks X, sees Y").
 > - **Definition of Done** = code + test + review + staging deploy.
-> - End-of-sprint retrospectives matter more than planning — that's how a team **learns**.
-> - **2026 trend:** AI-augmented Scrum — use GitHub Copilot/Cursor to cut implementation time 30-50%, reinvest in review & design.
+> - End-of-sprint retrospectives matter more than planning - that's how a team **learns**.
+> - **2026 trend:** AI-augmented Scrum - use GitHub Copilot/Cursor to cut implementation time 30-50%, reinvest in review & design.
 
 ## 7. 🤔 Apply
 
@@ -145,9 +145,9 @@ When starting a project, ask:
 
 SDLC is the **recipe** that prevents a stillborn project. Agile/Scrum is the 2026 default for most products. Waterfall still rules safety-critical systems.
 `,
-        code: `# SDLC Phase Tracker — minimal Scrum board in Python
+        code: `# SDLC Phase Tracker - minimal Scrum board in Python
 sprint = {
-    "name": "Sprint 3 — Payment",
+    "name": "Sprint 3 - Payment",
     "duration_days": 14,
     "stories": [
         {"id": "PAY-1", "title": "Stripe integration", "status": "done"},
@@ -168,10 +168,10 @@ print(f"\\n🏁 Velocity: {velocity(sprint)}")`,
         exercise: "Mô tả lại 1 dự án bạn từng làm theo 6 giai đoạn SDLC. Giai đoạn nào bị bỏ qua? Hậu quả?",
         exerciseEn: "Describe a past project you worked on through the 6 SDLC phases. Which phase was skipped? What was the consequence?",
         quiz: [
-          { question: "Sprint mặc định trong Scrum dài bao lâu?", options: ["1 ngày", "2 tuần", "2 tháng", "6 tháng"], answer: 1, explanation: "Sprint chuẩn dài 2 tuần — đủ ngắn để thích ứng, đủ dài để giao 1 tính năng có ý nghĩa." },
-          { question: "Vai trò nào QUYẾT ĐỊNH sản phẩm sẽ làm gì?", options: ["Scrum Master", "Product Owner", "Tech Lead", "QA"], answer: 1, explanation: "Product Owner sở hữu Product Backlog và quyết định ưu tiên — 'làm cái gì'." },
+          { question: "Sprint mặc định trong Scrum dài bao lâu?", options: ["1 ngày", "2 tuần", "2 tháng", "6 tháng"], answer: 1, explanation: "Sprint chuẩn dài 2 tuần - đủ ngắn để thích ứng, đủ dài để giao 1 tính năng có ý nghĩa." },
+          { question: "Vai trò nào QUYẾT ĐỊNH sản phẩm sẽ làm gì?", options: ["Scrum Master", "Product Owner", "Tech Lead", "QA"], answer: 1, explanation: "Product Owner sở hữu Product Backlog và quyết định ưu tiên - 'làm cái gì'." },
           { question: "Mô hình nào phù hợp dự án có yêu cầu CỐ ĐỊNH (vd: phần mềm máy bay)?", options: ["Agile", "Scrum", "Waterfall", "Kanban"], answer: 2, explanation: "Waterfall tuần tự, có tài liệu chặt chẽ → phù hợp safety-critical systems nơi yêu cầu khó thay đổi." },
-          { question: "Definition of Done KHÔNG bao gồm điều nào sau đây?", options: ["Code đã viết", "Đã test", "Đã review", "Đã có 1000 user"], answer: 3, explanation: "DoD là chuẩn nội bộ team: code + test + review + deploy staging — không phụ thuộc kết quả thị trường." },
+          { question: "Definition of Done KHÔNG bao gồm điều nào sau đây?", options: ["Code đã viết", "Đã test", "Đã review", "Đã có 1000 user"], answer: 3, explanation: "DoD là chuẩn nội bộ team: code + test + review + deploy staging - không phụ thuộc kết quả thị trường." },
           { question: "Daily Standup dài tối đa bao nhiêu phút?", options: ["5", "15", "30", "60"], answer: 1, explanation: "Standup chỉ 15 phút, mỗi người trả lời 3 câu: hôm qua làm gì, hôm nay làm gì, có blocker gì." }
         ]
       },
@@ -199,10 +199,10 @@ Bạn xây website bán hàng. Lúc đầu 100 user → 1 server đủ. 1 năm s
 
 ## 3. 🧰 UML tối thiểu cần biết
 
-- **Use Case Diagram** — ai làm gì với hệ thống.
-- **Class Diagram** — quan hệ giữa các đối tượng.
-- **Sequence Diagram** — thứ tự gọi giữa service A → B → C.
-- **Component Diagram** — bức tranh kiến trúc tổng.
+- **Use Case Diagram** - ai làm gì với hệ thống.
+- **Class Diagram** - quan hệ giữa các đối tượng.
+- **Sequence Diagram** - thứ tự gọi giữa service A → B → C.
+- **Component Diagram** - bức tranh kiến trúc tổng.
 
 ## 4. 🎯 Ví dụ trực quan
 
@@ -217,14 +217,14 @@ graph LR
   Order -. event .-> Notify[📧 Notification]
 \`\`\`
 
-Mỗi ô vuông là **1 microservice** — team riêng, repo riêng, deploy riêng.
+Mỗi ô vuông là **1 microservice** - team riêng, repo riêng, deploy riêng.
 
 ## 5. ⚠️ Hiểu nhầm thường gặp
 
 > ⚠️ **Cảnh báo:**
-> - "Microservices luôn tốt hơn" — sai. Cho dự án nhỏ, microservices = tự bắn vào chân.
-> - "Microservices = nhiều REST API" — không. Có thể giao tiếp qua message queue (Kafka, RabbitMQ).
-> - "1 service 1 database" là quy tắc cứng — quan trọng để tránh coupling.
+> - "Microservices luôn tốt hơn" - sai. Cho dự án nhỏ, microservices = tự bắn vào chân.
+> - "Microservices = nhiều REST API" - không. Có thể giao tiếp qua message queue (Kafka, RabbitMQ).
+> - "1 service 1 database" là quy tắc cứng - quan trọng để tránh coupling.
 
 ## 6. ✅ Best practice của thầy Hải
 
@@ -262,10 +262,10 @@ You build an e-commerce site. Day 1: 100 users → 1 server is fine. A year late
 
 ## 3. 🧰 Minimum UML to Know
 
-- **Use Case Diagram** — who does what with the system.
-- **Class Diagram** — relationships between objects.
-- **Sequence Diagram** — call order across services A → B → C.
-- **Component Diagram** — high-level architecture.
+- **Use Case Diagram** - who does what with the system.
+- **Class Diagram** - relationships between objects.
+- **Sequence Diagram** - call order across services A → B → C.
+- **Component Diagram** - high-level architecture.
 
 ## 4. 🎯 Visual Example
 
@@ -280,14 +280,14 @@ graph LR
   Order -. event .-> Notify[📧 Notification]
 \`\`\`
 
-Each box is **one microservice** — own team, own repo, own deploy.
+Each box is **one microservice** - own team, own repo, own deploy.
 
 ## 5. ⚠️ Common Misconceptions
 
 > ⚠️ **Warning:**
-> - "Microservices are always better" — wrong. For small projects, they shoot you in the foot.
-> - "Microservices = many REST APIs" — no. They can talk through message queues (Kafka, RabbitMQ).
-> - "One service, one database" is a hard rule — critical to avoid coupling.
+> - "Microservices are always better" - wrong. For small projects, they shoot you in the foot.
+> - "Microservices = many REST APIs" - no. They can talk through message queues (Kafka, RabbitMQ).
+> - "One service, one database" is a hard rule - critical to avoid coupling.
 
 ## 6. ✅ Best Practice from Teacher Hai
 
@@ -327,11 +327,11 @@ for c in cases:
         exercise: "Vẽ kiến trúc cho 1 app chat 100k user/ngày. Tách ra: Auth, Message, Notification, Storage. Service nào cần message queue?",
         exerciseEn: "Draft an architecture for a chat app with 100k DAU. Separate: Auth, Message, Notification, Storage. Which services need a message queue?",
         quiz: [
-          { question: "Lợi ích LỚN NHẤT của microservices?", options: ["Code ít hơn", "Scale từng phần độc lập", "Deploy 1 lần", "Không cần Docker"], answer: 1, explanation: "Bạn có thể scale Order service x10 mà không cần đụng Auth — đó là khác biệt cốt lõi với monolith." },
+          { question: "Lợi ích LỚN NHẤT của microservices?", options: ["Code ít hơn", "Scale từng phần độc lập", "Deploy 1 lần", "Không cần Docker"], answer: 1, explanation: "Bạn có thể scale Order service x10 mà không cần đụng Auth - đó là khác biệt cốt lõi với monolith." },
           { question: "Trong CAP Theorem, hệ thống ngân hàng ưu tiên gì?", options: ["Consistency + Availability", "Consistency + Partition tolerance", "Availability + Partition tolerance", "Cả 3"], answer: 1, explanation: "Ngân hàng KHÔNG được cho phép số dư sai → ưu tiên CP. Hệ thống mạng xã hội ưu tiên AP." },
           { question: "Khi nào nên DỪNG dùng microservices?", options: ["Khi team <10 và không có DevOps", "Khi user > 1 triệu", "Khi có Kubernetes", "Không bao giờ"], answer: 0, explanation: "Microservices đòi hỏi observability, CI/CD, container orchestration. Team nhỏ sẽ chìm trong overhead." },
           { question: "Sequence Diagram dùng để mô tả gì?", options: ["Class hierarchy", "Thứ tự gọi giữa các thành phần theo thời gian", "Database schema", "UI flow"], answer: 1, explanation: "Sequence diagram trục dọc = thời gian, các cột là service/actor. Rất hữu ích khi debug interaction phức tạp." },
-          { question: "Modular Monolith khác Monolith truyền thống ở điểm nào?", options: ["Không khác", "Code chia thành module với boundary rõ, dễ tách microservices sau", "Không có database", "Chạy trên cloud"], answer: 1, explanation: "Modular Monolith giữ deploy đơn giản nhưng tổ chức code theo bounded context — đường tách microservices đã sẵn." }
+          { question: "Modular Monolith khác Monolith truyền thống ở điểm nào?", options: ["Không khác", "Code chia thành module với boundary rõ, dễ tách microservices sau", "Không có database", "Chạy trên cloud"], answer: 1, explanation: "Modular Monolith giữ deploy đơn giản nhưng tổ chức code theo bounded context - đường tách microservices đã sẵn." }
         ]
       },
       // ──────────────────────────── LESSON 3 ────────────────────────────
@@ -348,14 +348,14 @@ for c in cases:
 
 ## 2. 💡 Khái niệm Git cốt lõi
 
-- **Repository (repo)** — thư mục được Git theo dõi.
-- **Commit** — snapshot của code tại 1 thời điểm.
-- **Branch** — nhánh song song, không ảnh hưởng nhánh chính.
-- **Merge** — gộp branch vào nhánh khác.
-- **Pull Request (PR)** — đề nghị merge, kèm review.
-- **Conflict** — khi 2 người sửa cùng dòng, Git nhờ con người quyết.
+- **Repository (repo)** - thư mục được Git theo dõi.
+- **Commit** - snapshot của code tại 1 thời điểm.
+- **Branch** - nhánh song song, không ảnh hưởng nhánh chính.
+- **Merge** - gộp branch vào nhánh khác.
+- **Pull Request (PR)** - đề nghị merge, kèm review.
+- **Conflict** - khi 2 người sửa cùng dòng, Git nhờ con người quyết.
 
-## 3. 🧰 Gitflow — chiến lược chuẩn
+## 3. 🧰 Gitflow - chiến lược chuẩn
 
 \`\`\`text
 main      ← production (luôn deploy được)
@@ -369,10 +369,10 @@ main      ← production (luôn deploy được)
     hotfix/bug-123   ← sửa khẩn cấp lên main
 \`\`\`
 
-## 4. 🎯 Ví dụ thực tế — workflow 1 ngày
+## 4. 🎯 Ví dụ thực tế - workflow 1 ngày
 
 \`\`\`bash
-# Sáng — kéo code mới nhất
+# Sáng - kéo code mới nhất
 git checkout develop
 git pull origin develop
 
@@ -392,16 +392,16 @@ git push origin feature/user-profile
 ## 5. ⚠️ Hiểu nhầm thường gặp
 
 > ⚠️ **Cảnh báo:**
-> - "git push --force lên main là OK" — TUYỆT ĐỐI KHÔNG. Mất history team.
-> - "Commit message thế nào cũng được" — sai. Dùng **Conventional Commits**: \`feat:\`, \`fix:\`, \`refactor:\`.
-> - "Merge thẳng vào main" — không. Phải qua PR + review.
-> - "Branch để mãi cũng OK" — sai. Branch sống lâu = conflict to.
+> - "git push --force lên main là OK" - TUYỆT ĐỐI KHÔNG. Mất history team.
+> - "Commit message thế nào cũng được" - sai. Dùng **Conventional Commits**: \`feat:\`, \`fix:\`, \`refactor:\`.
+> - "Merge thẳng vào main" - không. Phải qua PR + review.
+> - "Branch để mãi cũng OK" - sai. Branch sống lâu = conflict to.
 
 ## 6. ✅ Best practice của thầy Hải
 
 > 💡 **Mẹo:**
 > - Commit **nhỏ và thường xuyên**: mỗi commit 1 ý.
-> - PR **nhỏ** (<400 dòng) — review nhanh, ít bug.
+> - PR **nhỏ** (<400 dòng) - review nhanh, ít bug.
 > - **Squash merge** để main history sạch.
 > - **Code review checklist:** logic đúng? test đủ? naming rõ? security OK?
 > - **2026 trend:** AI Code Review (CodeRabbit, GitHub Copilot Review) catch 60% bug trước khi human review.
@@ -409,9 +409,9 @@ git push origin feature/user-profile
 ## 7. 🤔 Áp dụng
 
 3 lệnh Git bạn dùng mỗi ngày:
-1. \`git status\` — kiểm tra đã thay đổi gì.
-2. \`git diff\` — xem cụ thể.
-3. \`git log --oneline --graph\` — xem lịch sử dạng cây.
+1. \`git status\` - kiểm tra đã thay đổi gì.
+2. \`git diff\` - xem cụ thể.
+3. \`git log --oneline --graph\` - xem lịch sử dạng cây.
 
 ## 8. 📌 Tóm tắt 30 giây
 
@@ -423,14 +423,14 @@ Git = "máy thời gian" cho code. Branch + PR + Code Review là quy trình **b�
 
 ## 2. 💡 Core Git Concepts
 
-- **Repository (repo)** — directory tracked by Git.
-- **Commit** — snapshot of code at one moment.
-- **Branch** — parallel line that doesn't affect main.
-- **Merge** — fold one branch into another.
-- **Pull Request (PR)** — proposal to merge, with review.
-- **Conflict** — when two devs edit the same line; Git asks a human to decide.
+- **Repository (repo)** - directory tracked by Git.
+- **Commit** - snapshot of code at one moment.
+- **Branch** - parallel line that doesn't affect main.
+- **Merge** - fold one branch into another.
+- **Pull Request (PR)** - proposal to merge, with review.
+- **Conflict** - when two devs edit the same line; Git asks a human to decide.
 
-## 3. 🧰 Gitflow — the standard strategy
+## 3. 🧰 Gitflow - the standard strategy
 
 \`\`\`text
 main      ← production (always deployable)
@@ -447,7 +447,7 @@ main      ← production (always deployable)
 ## 4. 🎯 A Day in the Workflow
 
 \`\`\`bash
-# Morning — pull latest
+# Morning - pull latest
 git checkout develop
 git pull origin develop
 
@@ -467,16 +467,16 @@ git push origin feature/user-profile
 ## 5. ⚠️ Common Misconceptions
 
 > ⚠️ **Warning:**
-> - "git push --force to main is fine" — ABSOLUTELY NOT. Destroys team history.
-> - "Any commit message works" — wrong. Use **Conventional Commits**: \`feat:\`, \`fix:\`, \`refactor:\`.
-> - "Merge straight into main" — no. Always go through PR + review.
-> - "Long-lived branches are OK" — false. Long branches = giant conflicts.
+> - "git push --force to main is fine" - ABSOLUTELY NOT. Destroys team history.
+> - "Any commit message works" - wrong. Use **Conventional Commits**: \`feat:\`, \`fix:\`, \`refactor:\`.
+> - "Merge straight into main" - no. Always go through PR + review.
+> - "Long-lived branches are OK" - false. Long branches = giant conflicts.
 
 ## 6. ✅ Best Practice from Teacher Hai
 
 > 💡 **Tips:**
 > - Commit **small and often**: one idea per commit.
-> - Keep PRs **small** (<400 LOC) — fast review, fewer bugs.
+> - Keep PRs **small** (<400 LOC) - fast review, fewer bugs.
 > - **Squash merge** to keep main history clean.
 > - **Review checklist:** logic correct? tests adequate? naming clear? security OK?
 > - **2026 trend:** AI Code Review (CodeRabbit, GitHub Copilot Review) catches ~60% of issues before a human reviews.
@@ -484,15 +484,15 @@ git push origin feature/user-profile
 ## 7. 🤔 Apply
 
 Three Git commands you use daily:
-1. \`git status\` — what has changed.
-2. \`git diff\` — show the change.
-3. \`git log --oneline --graph\` — see history as a tree.
+1. \`git status\` - what has changed.
+2. \`git diff\` - show the change.
+3. \`git log --oneline --graph\` - see history as a tree.
 
 ## 8. 📌 30-Second Summary
 
 Git is a **time machine** for code. Branch + PR + Code Review is a **mandatory** workflow at every 2026 tech company. Conventional Commits + AI Review = a high-velocity team.
 `,
-        code: `# Daily Git cheatsheet — keep these commands in muscle memory
+        code: `# Daily Git cheatsheet - keep these commands in muscle memory
 
 # Pull latest develop and start a new branch
 git checkout develop && git pull origin develop
@@ -534,9 +534,9 @@ git log --oneline --graph --all -20`,
         codeLanguage: "typescript",
         theory: `## 1. 🚦 Vấn đề đời thường
 
-Sau 6 tháng, bạn quay lại đọc code cũ của chính mình → **không hiểu**. Đó là dấu hiệu code chưa "clean". Code clean **đọc như văn xuôi** — đồng nghiệp tiếp quản trong 1 ngày, không phải 1 tháng.
+Sau 6 tháng, bạn quay lại đọc code cũ của chính mình → **không hiểu**. Đó là dấu hiệu code chưa "clean". Code clean **đọc như văn xuôi** - đồng nghiệp tiếp quản trong 1 ngày, không phải 1 tháng.
 
-## 2. 💡 Clean Code — 5 quy tắc vàng
+## 2. 💡 Clean Code - 5 quy tắc vàng
 
 1. **Đặt tên có nghĩa**: \`d\` ❌ → \`daysSinceLastLogin\` ✅
 2. **Hàm ngắn**: <20 dòng, làm 1 việc.
@@ -544,7 +544,7 @@ Sau 6 tháng, bạn quay lại đọc code cũ của chính mình → **không h
 4. **DRY** (Don't Repeat Yourself): copy-paste = nợ kỹ thuật.
 5. **Magic number** → constant: \`if (age > 18)\` → \`if (age > LEGAL_AGE)\`.
 
-## 3. 🧰 SOLID — 5 nguyên lý OOP
+## 3. 🧰 SOLID - 5 nguyên lý OOP
 
 | Chữ | Tên | Ý nghĩa |
 |---|---|---|
@@ -556,7 +556,7 @@ Sau 6 tháng, bạn quay lại đọc code cũ của chính mình → **không h
 
 ## 4. 🎯 Ví dụ trực quan
 
-❌ **Vi phạm SRP** — 1 class làm 3 việc:
+❌ **Vi phạm SRP** - 1 class làm 3 việc:
 
 \`\`\`typescript
 class User {
@@ -578,9 +578,9 @@ class ReportService { generate(u: User) { /* ... */ } }
 ## 5. ⚠️ Hiểu nhầm thường gặp
 
 > ⚠️ **Cảnh báo:**
-> - "Clean Code = ít code" — sai. Clean = **dễ hiểu**, đôi khi viết DÀI hơn.
-> - "Áp dụng cứng SOLID khắp nơi" — sai. SOLID là **kim chỉ nam**, không phải luật cứng. Over-engineering còn tệ hơn.
-> - "Comment càng nhiều càng tốt" — sai. Code rõ → ít comment hơn.
+> - "Clean Code = ít code" - sai. Clean = **dễ hiểu**, đôi khi viết DÀI hơn.
+> - "Áp dụng cứng SOLID khắp nơi" - sai. SOLID là **kim chỉ nam**, không phải luật cứng. Over-engineering còn tệ hơn.
+> - "Comment càng nhiều càng tốt" - sai. Code rõ → ít comment hơn.
 
 ## 6. ✅ Best practice của thầy Hải
 
@@ -588,7 +588,7 @@ class ReportService { generate(u: User) { /* ... */ } }
 > - Quy tắc **Boy Scout**: rời codebase sạch hơn lúc bạn đến.
 > - **Code review** với AI (Copilot, Cursor) trước khi đẩy PR.
 > - **Lint + Format tự động**: ESLint + Prettier (JS/TS), Black + Ruff (Python).
-> - **Refactor** mỗi sprint — đừng tích nợ kỹ thuật.
+> - **Refactor** mỗi sprint - đừng tích nợ kỹ thuật.
 > - **2026 trend:** AI sinh code → human đảm nhiệm **review chất lượng** và **kiến trúc**.
 
 ## 7. 🤔 Áp dụng
@@ -606,9 +606,9 @@ Clean Code = code đọc như văn xuôi. SOLID = 5 nguyên lý OOP giúp code d
 `,
         theoryEn: `## 1. 🚦 Real-world Problem
 
-Six months later you reopen your own code and **don't understand it**. That's a sign it isn't clean. Clean code **reads like prose** — a teammate takes over in a day, not a month.
+Six months later you reopen your own code and **don't understand it**. That's a sign it isn't clean. Clean code **reads like prose** - a teammate takes over in a day, not a month.
 
-## 2. 💡 Clean Code — 5 Golden Rules
+## 2. 💡 Clean Code - 5 Golden Rules
 
 1. **Meaningful names**: \`d\` ❌ → \`daysSinceLastLogin\` ✅
 2. **Short functions**: <20 lines, one job.
@@ -616,7 +616,7 @@ Six months later you reopen your own code and **don't understand it**. That's a 
 4. **DRY** (Don't Repeat Yourself): copy-paste is technical debt.
 5. **Magic numbers** → constants: \`if (age > 18)\` → \`if (age > LEGAL_AGE)\`.
 
-## 3. 🧰 SOLID — 5 OOP Principles
+## 3. 🧰 SOLID - 5 OOP Principles
 
 | Letter | Name | Meaning |
 |---|---|---|
@@ -628,7 +628,7 @@ Six months later you reopen your own code and **don't understand it**. That's a 
 
 ## 4. 🎯 Visual Example
 
-❌ **SRP violation** — one class doing three jobs:
+❌ **SRP violation** - one class doing three jobs:
 
 \`\`\`typescript
 class User {
@@ -650,9 +650,9 @@ class ReportService { generate(u: User) { /* ... */ } }
 ## 5. ⚠️ Common Misconceptions
 
 > ⚠️ **Warning:**
-> - "Clean = less code" — wrong. Clean = **understandable**, sometimes longer.
-> - "Apply SOLID rigidly everywhere" — wrong. SOLID is a **compass**, not a law. Over-engineering hurts more.
-> - "More comments = better" — wrong. Clear code needs fewer comments.
+> - "Clean = less code" - wrong. Clean = **understandable**, sometimes longer.
+> - "Apply SOLID rigidly everywhere" - wrong. SOLID is a **compass**, not a law. Over-engineering hurts more.
+> - "More comments = better" - wrong. Clear code needs fewer comments.
 
 ## 6. ✅ Best Practice from Teacher Hai
 
@@ -660,7 +660,7 @@ class ReportService { generate(u: User) { /* ... */ } }
 > - **Boy Scout rule**: leave the codebase cleaner than you found it.
 > - **AI code review** (Copilot, Cursor) before opening a PR.
 > - **Lint + format automatically**: ESLint + Prettier (JS/TS), Black + Ruff (Python).
-> - **Refactor each sprint** — don't accrue technical debt.
+> - **Refactor each sprint** - don't accrue technical debt.
 > - **2026 trend:** AI writes code → humans own **quality review** and **architecture**.
 
 ## 7. 🤔 Apply
@@ -718,7 +718,7 @@ class OrderService {
         exercise: "Lấy 1 hàm bạn từng viết dài >50 dòng. Refactor thành 3-4 hàm nhỏ, đặt tên rõ, áp dụng SRP.",
         exerciseEn: "Take one function you wrote that is >50 lines. Refactor into 3-4 small functions with clear names, applying SRP.",
         quiz: [
-          { question: "Chữ 'S' trong SOLID nghĩa là gì?", options: ["Simple", "Single Responsibility", "Static", "Synchronous"], answer: 1, explanation: "Single Responsibility Principle — 1 class chỉ có 1 lý do để thay đổi." },
+          { question: "Chữ 'S' trong SOLID nghĩa là gì?", options: ["Simple", "Single Responsibility", "Static", "Synchronous"], answer: 1, explanation: "Single Responsibility Principle - 1 class chỉ có 1 lý do để thay đổi." },
           { question: "Hàm CLEAN nên dài tối đa bao nhiêu dòng?", options: ["~20", "~100", "~500", "Không giới hạn"], answer: 0, explanation: "Robert C. Martin (Clean Code) khuyến nghị hàm <20 dòng và làm đúng 1 việc." },
           { question: "Comment KIỂU NÀO là tốt nhất?", options: ["Giải thích từng dòng", "Mô tả WHY (lý do quyết định)", "Mô tả WHAT (việc gì đang làm)", "Càng nhiều càng tốt"], answer: 1, explanation: "Code đã nói WHAT. Comment hữu ích nhất giải thích WHY (vì sao chọn algorithm này, business rule...)." },
           { question: "DIP (Dependency Inversion Principle) nghĩa là gì?", options: ["Đảo ngược chu trình", "Module cao phụ thuộc abstraction, không phải concrete", "Bỏ dependency", "Phụ thuộc vào AI"], answer: 1, explanation: "Class nên phụ thuộc Interface/Abstract, không phải implementation cụ thể → dễ test, dễ swap." },
@@ -755,16 +755,16 @@ Bạn fix bug A → tính năng B vỡ. Fix B → C vỡ. Vòng luẩn quẩn n�
 | **Integration** | Nhiều module + DB | giây | 20% |
 | **E2E** | Toàn user flow (browser) | phút | 10% |
 
-## 3. 🧰 TDD — Red, Green, Refactor
+## 3. 🧰 TDD - Red, Green, Refactor
 
-1. **Red** — viết test, **chạy fail**.
-2. **Green** — viết code tối thiểu để test **pass**.
-3. **Refactor** — dọn code mà không phá test.
+1. **Red** - viết test, **chạy fail**.
+2. **Green** - viết code tối thiểu để test **pass**.
+3. **Refactor** - dọn code mà không phá test.
 
 ## 4. 🎯 Ví dụ TDD với Vitest
 
 \`\`\`typescript
-// 1. RED — viết test trước
+// 1. RED - viết test trước
 import { describe, it, expect } from "vitest";
 import { add } from "./calc";
 
@@ -777,10 +777,10 @@ describe("add", () => {
   });
 });
 
-// 2. GREEN — code tối thiểu
+// 2. GREEN - code tối thiểu
 export const add = (a: number, b: number) => a + b;
 
-// 3. REFACTOR — thêm validation, vẫn giữ test pass
+// 3. REFACTOR - thêm validation, vẫn giữ test pass
 export const add = (a: number, b: number): number => {
   if (!Number.isFinite(a) || !Number.isFinite(b)) {
     throw new TypeError("Cần số hợp lệ");
@@ -792,9 +792,9 @@ export const add = (a: number, b: number): number => {
 ## 5. ⚠️ Hiểu nhầm thường gặp
 
 > ⚠️ **Cảnh báo:**
-> - "Test 100% coverage = code không bug" — sai. Coverage cao chỉ nói "đã chạy", không nói "đúng".
-> - "TDD chậm hơn" — sai. Đo thực tế: TDD chậm tuần đầu, **nhanh hơn 30-50%** sau 1 tháng vì ít bug.
-> - "QA mới phải viết test" — sai. **Dev viết unit test**. QA viết E2E + manual test phức tạp.
+> - "Test 100% coverage = code không bug" - sai. Coverage cao chỉ nói "đã chạy", không nói "đúng".
+> - "TDD chậm hơn" - sai. Đo thực tế: TDD chậm tuần đầu, **nhanh hơn 30-50%** sau 1 tháng vì ít bug.
+> - "QA mới phải viết test" - sai. **Dev viết unit test**. QA viết E2E + manual test phức tạp.
 
 ## 6. ✅ Best practice của thầy Hải
 
@@ -838,16 +838,16 @@ You fix bug A → feature B breaks. Fix B → C breaks. That cycle is **regressi
 | **Integration** | multiple modules + DB | seconds | 20% |
 | **E2E** | full user flow (browser) | minutes | 10% |
 
-## 3. 🧰 TDD — Red, Green, Refactor
+## 3. 🧰 TDD - Red, Green, Refactor
 
-1. **Red** — write a test, watch it **fail**.
-2. **Green** — write the minimum code that **passes**.
-3. **Refactor** — clean up without breaking tests.
+1. **Red** - write a test, watch it **fail**.
+2. **Green** - write the minimum code that **passes**.
+3. **Refactor** - clean up without breaking tests.
 
 ## 4. 🎯 TDD with Vitest
 
 \`\`\`typescript
-// 1. RED — write the test first
+// 1. RED - write the test first
 import { describe, it, expect } from "vitest";
 import { add } from "./calc";
 
@@ -860,10 +860,10 @@ describe("add", () => {
   });
 });
 
-// 2. GREEN — minimal code
+// 2. GREEN - minimal code
 export const add = (a: number, b: number) => a + b;
 
-// 3. REFACTOR — add validation, tests still pass
+// 3. REFACTOR - add validation, tests still pass
 export const add = (a: number, b: number): number => {
   if (!Number.isFinite(a) || !Number.isFinite(b)) {
     throw new TypeError("Need valid numbers");
@@ -875,9 +875,9 @@ export const add = (a: number, b: number): number => {
 ## 5. ⚠️ Common Misconceptions
 
 > ⚠️ **Warning:**
-> - "100% coverage = bug-free" — wrong. Coverage tells you "executed", not "correct".
-> - "TDD is slower" — wrong. Measured: TDD is slower week 1, but **30-50% faster** after a month thanks to fewer bugs.
-> - "QA writes the tests" — wrong. **Devs write unit tests**. QA owns E2E and complex manual scenarios.
+> - "100% coverage = bug-free" - wrong. Coverage tells you "executed", not "correct".
+> - "TDD is slower" - wrong. Measured: TDD is slower week 1, but **30-50% faster** after a month thanks to fewer bugs.
+> - "QA writes the tests" - wrong. **Devs write unit tests**. QA owns E2E and complex manual scenarios.
 
 ## 6. ✅ Best Practice from Teacher Hai
 
@@ -899,7 +899,7 @@ Before writing a new function, ask:
 
 Test pyramid: many units, few E2E. TDD: Red-Green-Refactor. Automation = sleep well, deploy without fear.
 `,
-        code: `// Vitest example — full TDD cycle for a Cart class
+        code: `// Vitest example - full TDD cycle for a Cart class
 import { describe, it, expect, beforeEach } from "vitest";
 
 class Cart {
@@ -936,8 +936,8 @@ describe("Cart", () => {
           { question: "Tỷ lệ Unit/Integration/E2E lý tưởng?", options: ["10/20/70", "70/20/10", "50/30/20", "100/0/0"], answer: 1, explanation: "Test Pyramid: ~70% Unit (nhanh, rẻ), ~20% Integration, ~10% E2E (đắt, chậm)." },
           { question: "Bước đầu tiên của TDD?", options: ["Code", "Viết test FAIL (Red)", "Refactor", "Deploy"], answer: 1, explanation: "Red → Green → Refactor. Viết test fail trước → biết đích cần đến → mới code." },
           { question: "AAA Pattern là gì?", options: ["Arrange-Act-Assert", "Always-Already-Asynchronous", "Auto-AI-Async", "Apple-Amazon-Adobe"], answer: 0, explanation: "Arrange (chuẩn bị data) → Act (gọi hàm) → Assert (kiểm tra kết quả). Cấu trúc test rõ ràng, dễ đọc." },
-          { question: "100% test coverage có đảm bảo không có bug?", options: ["Có, hoàn toàn", "Không — chỉ đảm bảo code đã chạy, không đảm bảo đúng", "Tùy ngôn ngữ", "Chỉ với Python"], answer: 1, explanation: "Coverage = % dòng được test thực thi. Có thể đạt 100% mà vẫn miss edge case (đầu vào null, race condition...)." },
-          { question: "Loại test nào CHẬM nhất nhưng GẦN với user nhất?", options: ["Unit", "Integration", "E2E", "Smoke"], answer: 2, explanation: "E2E chạy qua browser thật (Playwright, Cypress) — gần user nhất nhưng chậm và brittle nhất." }
+          { question: "100% test coverage có đảm bảo không có bug?", options: ["Có, hoàn toàn", "Không - chỉ đảm bảo code đã chạy, không đảm bảo đúng", "Tùy ngôn ngữ", "Chỉ với Python"], answer: 1, explanation: "Coverage = % dòng được test thực thi. Có thể đạt 100% mà vẫn miss edge case (đầu vào null, race condition...)." },
+          { question: "Loại test nào CHẬM nhất nhưng GẦN với user nhất?", options: ["Unit", "Integration", "E2E", "Smoke"], answer: 2, explanation: "E2E chạy qua browser thật (Playwright, Cypress) - gần user nhất nhưng chậm và brittle nhất." }
         ]
       },
       // ──────────────────────────── LESSON 6 ────────────────────────────
@@ -970,7 +970,7 @@ graph LR
   D --> E[5. Deploy]
 \`\`\`
 
-## 4. 🎯 Ví dụ — GitHub Actions
+## 4. 🎯 Ví dụ - GitHub Actions
 
 \`\`\`yaml
 name: CI/CD
@@ -1003,9 +1003,9 @@ jobs:
 ## 5. ⚠️ Hiểu nhầm thường gặp
 
 > ⚠️ **Cảnh báo:**
-> - "Auto-deploy = nguy hiểm" — sai, nếu có test đủ mạnh + canary release.
-> - "Pipeline càng nhiều stage càng tốt" — sai. Pipeline >15 phút = dev mất kiên nhẫn.
-> - "Secrets để trong .yaml" — TUYỆT ĐỐI KHÔNG. Dùng GitHub Secrets / Vault.
+> - "Auto-deploy = nguy hiểm" - sai, nếu có test đủ mạnh + canary release.
+> - "Pipeline càng nhiều stage càng tốt" - sai. Pipeline >15 phút = dev mất kiên nhẫn.
+> - "Secrets để trong .yaml" - TUYỆT ĐỐI KHÔNG. Dùng GitHub Secrets / Vault.
 
 ## 6. ✅ Best practice của thầy Hải
 
@@ -1014,7 +1014,7 @@ jobs:
 > - **Cache** node_modules, Docker layers → giảm 50% thời gian.
 > - **Branch protection**: cấm merge khi CI fail.
 > - **Canary / Blue-Green deploy** → giảm rủi ro production.
-> - **2026 trend:** GitOps (ArgoCD, Flux) — Git là source of truth, deploy bằng cách merge PR vào branch \`main\`.
+> - **2026 trend:** GitOps (ArgoCD, Flux) - Git là source of truth, deploy bằng cách merge PR vào branch \`main\`.
 
 ## 7. 🤔 Áp dụng
 
@@ -1083,9 +1083,9 @@ jobs:
 ## 5. ⚠️ Common Misconceptions
 
 > ⚠️ **Warning:**
-> - "Auto-deploy is dangerous" — false, given strong tests + canary release.
-> - "More stages = better pipeline" — false. A pipeline >15 min loses developer patience.
-> - "Secrets in .yaml" — ABSOLUTELY NOT. Use GitHub Secrets / Vault.
+> - "Auto-deploy is dangerous" - false, given strong tests + canary release.
+> - "More stages = better pipeline" - false. A pipeline >15 min loses developer patience.
+> - "Secrets in .yaml" - ABSOLUTELY NOT. Use GitHub Secrets / Vault.
 
 ## 6. ✅ Best Practice from Teacher Hai
 
@@ -1094,7 +1094,7 @@ jobs:
 > - **Cache** node_modules, Docker layers → cut runtime by ~50%.
 > - **Branch protection**: block merge when CI fails.
 > - **Canary / Blue-Green deploys** → de-risk production.
-> - **2026 trend:** GitOps (ArgoCD, Flux) — Git is the source of truth; deploys happen by merging into \`main\`.
+> - **2026 trend:** GitOps (ArgoCD, Flux) - Git is the source of truth; deploys happen by merging into \`main\`.
 
 ## 7. 🤔 Apply
 
@@ -1108,7 +1108,7 @@ Before designing a pipeline, list:
 
 CI/CD is the 24/7 robot that tests + ships your code. The classic 5-stage pipeline: checkout → install → lint+test → build → deploy. GitHub Actions / GitLab CI / Jenkins are the three top picks.
 `,
-        code: `# .github/workflows/ci-cd.yml — production-grade pipeline
+        code: `# .github/workflows/ci-cd.yml - production-grade pipeline
 name: CI/CD
 
 on:
@@ -1157,9 +1157,9 @@ jobs:
         exercise: "Thiết kế pipeline cho 1 React app: trigger trên PR, chạy ESLint + Vitest + build, deploy preview lên Vercel.",
         exerciseEn: "Design a pipeline for a React app: trigger on PR, run ESLint + Vitest + build, deploy a preview to Vercel.",
         quiz: [
-          { question: "CI viết tắt của gì?", options: ["Code Inspection", "Continuous Integration", "Cloud Infrastructure", "Container Image"], answer: 1, explanation: "Continuous Integration — mỗi commit tự động build + test để phát hiện lỗi sớm." },
+          { question: "CI viết tắt của gì?", options: ["Code Inspection", "Continuous Integration", "Cloud Infrastructure", "Container Image"], answer: 1, explanation: "Continuous Integration - mỗi commit tự động build + test để phát hiện lỗi sớm." },
           { question: "Stage nào nên chạy SỚM nhất trong pipeline?", options: ["Deploy", "Build", "Lint + Unit Test (rẻ + nhanh)", "Security scan"], answer: 2, explanation: "Fail Fast: lint + unit test rẻ và nhanh → fail sớm → tiết kiệm CI minutes." },
-          { question: "Secrets (API key, password) NÊN lưu ở đâu trong CI/CD?", options: ["Hardcode trong .yaml", ".env commit lên Git", "GitHub Secrets / Vault", "README"], answer: 2, explanation: "Dùng vault chuyên dụng (GitHub Secrets, AWS Secrets Manager, HashiCorp Vault) — không bao giờ hardcode hay commit." },
+          { question: "Secrets (API key, password) NÊN lưu ở đâu trong CI/CD?", options: ["Hardcode trong .yaml", ".env commit lên Git", "GitHub Secrets / Vault", "README"], answer: 2, explanation: "Dùng vault chuyên dụng (GitHub Secrets, AWS Secrets Manager, HashiCorp Vault) - không bao giờ hardcode hay commit." },
           { question: "Canary Deployment là gì?", options: ["Deploy cho chim hoàng yến", "Deploy version mới cho 5% user trước, theo dõi metrics, rồi mở rộng", "Deploy chỉ cuối tuần", "Deploy bằng tay"], answer: 1, explanation: "Canary release: triển khai dần (5% → 25% → 100%) để phát hiện lỗi production trên ít user trước." },
           { question: "Continuous Deployment khác Continuous Delivery?", options: ["Không khác", "Deployment auto deploy lên PRODUCTION; Delivery dừng ở staging chờ approve", "Deployment chỉ dùng cho mobile", "Delivery nhanh hơn"], answer: 1, explanation: "Continuous Delivery: tự động đến staging, cần human approve để lên prod. Continuous Deployment: hoàn toàn tự động đến prod." }
         ]
@@ -1174,15 +1174,15 @@ jobs:
         codeLanguage: "typescript",
         theory: `## 1. 🚦 Vấn đề đời thường
 
-2024: 1 startup Việt Nam mất 2 tỷ vì hacker khai thác lỗi **SQL Injection** đơn giản. 2025: 1 ngân hàng bị **XSS** đánh cắp session 10k user. Bảo mật **không phải tính năng** — là **mặc định** trong mọi dòng code 2026.
+2024: 1 startup Việt Nam mất 2 tỷ vì hacker khai thác lỗi **SQL Injection** đơn giản. 2025: 1 ngân hàng bị **XSS** đánh cắp session 10k user. Bảo mật **không phải tính năng** - là **mặc định** trong mọi dòng code 2026.
 
-## 2. 💡 OWASP Top 10 — 5 lỗ hổng cốt lõi
+## 2. 💡 OWASP Top 10 - 5 lỗ hổng cốt lõi
 
-1. **Broken Access Control** — user xem được data của user khác.
-2. **Injection (SQL/NoSQL/Command)** — \`query("SELECT * FROM users WHERE id=" + input)\`.
-3. **XSS** (Cross-Site Scripting) — chèn \`<script>\` vào input.
-4. **Insecure Design** — thiếu rate limit, thiếu MFA.
-5. **Vulnerable Components** — dependency cũ có CVE.
+1. **Broken Access Control** - user xem được data của user khác.
+2. **Injection (SQL/NoSQL/Command)** - \`query("SELECT * FROM users WHERE id=" + input)\`.
+3. **XSS** (Cross-Site Scripting) - chèn \`<script>\` vào input.
+4. **Insecure Design** - thiếu rate limit, thiếu MFA.
+5. **Vulnerable Components** - dependency cũ có CVE.
 
 ## 3. 🧰 4 Design Pattern bắt buộc biết
 
@@ -1193,7 +1193,7 @@ jobs:
 | **Observer** | Subscriber nhận thông báo khi state đổi | Pub/Sub, React state |
 | **Strategy** | Đổi thuật toán runtime | Payment (Stripe/Paypal/MoMo) |
 
-## 4. 🎯 Ví dụ — Phòng SQL Injection
+## 4. 🎯 Ví dụ - Phòng SQL Injection
 
 ❌ **Nguy hiểm:**
 
@@ -1202,26 +1202,26 @@ const user = await db.query(\`SELECT * FROM users WHERE id = \${userId}\`);
 // userId = "1 OR 1=1" → trả về TOÀN BỘ user
 \`\`\`
 
-✅ **An toàn — parameterized query:**
+✅ **An toàn - parameterized query:**
 
 \`\`\`typescript
 const user = await db.query("SELECT * FROM users WHERE id = $1", [userId]);
-// Driver tự escape — input chỉ được coi là DỮ LIỆU
+// Driver tự escape - input chỉ được coi là DỮ LIỆU
 \`\`\`
 
 ## 5. ⚠️ Hiểu nhầm thường gặp
 
 > ⚠️ **Cảnh báo:**
-> - "HTTPS đủ rồi" — sai. HTTPS chỉ bảo mật đường truyền, không bảo vệ logic app.
-> - "Hash password = secure" — chỉ khi dùng bcrypt/argon2 + salt. MD5/SHA1 = crack được trong giây.
-> - "Hide URL = security" — sai (Security through obscurity ≠ security).
-> - "Singleton dùng cho mọi thứ" — sai. Singleton tạo coupling, khó test → dùng có chọn lọc.
+> - "HTTPS đủ rồi" - sai. HTTPS chỉ bảo mật đường truyền, không bảo vệ logic app.
+> - "Hash password = secure" - chỉ khi dùng bcrypt/argon2 + salt. MD5/SHA1 = crack được trong giây.
+> - "Hide URL = security" - sai (Security through obscurity ≠ security).
+> - "Singleton dùng cho mọi thứ" - sai. Singleton tạo coupling, khó test → dùng có chọn lọc.
 
 ## 6. ✅ Best practice của thầy Hải
 
 > 💡 **Mẹo:**
-> - **Defense in Depth** — nhiều lớp bảo mật (firewall + WAF + auth + RLS + input validation).
-> - **Least Privilege** — user chỉ có quyền tối thiểu.
+> - **Defense in Depth** - nhiều lớp bảo mật (firewall + WAF + auth + RLS + input validation).
+> - **Least Privilege** - user chỉ có quyền tối thiểu.
 > - Quét dependency hàng tuần (\`npm audit\`, \`snyk\`).
 > - **CSP header** chặn XSS bài bản.
 > - **2026 trend:** Zero Trust Architecture, AI threat detection (Wiz, Snyk AI), passkeys thay password.
@@ -1236,19 +1236,19 @@ Mỗi PR liên quan auth/data, hỏi:
 
 ## 8. 📌 Tóm tắt 30 giây
 
-OWASP Top 10 là checklist bảo mật bắt buộc. 4 design pattern: Singleton, Factory, Observer, Strategy — đủ cho 80% case. Bảo mật là **mindset**, không phải tính năng cộng vào cuối.
+OWASP Top 10 là checklist bảo mật bắt buộc. 4 design pattern: Singleton, Factory, Observer, Strategy - đủ cho 80% case. Bảo mật là **mindset**, không phải tính năng cộng vào cuối.
 `,
         theoryEn: `## 1. 🚦 Real-world Problem
 
-2024: a Vietnamese startup lost ~$80k to a trivial **SQL Injection**. 2025: a bank's **XSS** stole 10k user sessions. Security in 2026 is **not a feature** — it's the **default** in every line of code.
+2024: a Vietnamese startup lost ~$80k to a trivial **SQL Injection**. 2025: a bank's **XSS** stole 10k user sessions. Security in 2026 is **not a feature** - it's the **default** in every line of code.
 
-## 2. 💡 OWASP Top 10 — 5 Core Vulnerabilities
+## 2. 💡 OWASP Top 10 - 5 Core Vulnerabilities
 
-1. **Broken Access Control** — users can read other users' data.
-2. **Injection (SQL/NoSQL/Command)** — \`query("SELECT * FROM users WHERE id=" + input)\`.
-3. **XSS** (Cross-Site Scripting) — \`<script>\` injected via input.
-4. **Insecure Design** — missing rate limit, missing MFA.
-5. **Vulnerable Components** — outdated deps with CVEs.
+1. **Broken Access Control** - users can read other users' data.
+2. **Injection (SQL/NoSQL/Command)** - \`query("SELECT * FROM users WHERE id=" + input)\`.
+3. **XSS** (Cross-Site Scripting) - \`<script>\` injected via input.
+4. **Insecure Design** - missing rate limit, missing MFA.
+5. **Vulnerable Components** - outdated deps with CVEs.
 
 ## 3. 🧰 4 Must-know Design Patterns
 
@@ -1259,7 +1259,7 @@ OWASP Top 10 là checklist bảo mật bắt buộc. 4 design pattern: Singleton
 | **Observer** | Subscribers notified on state change | Pub/Sub, React state |
 | **Strategy** | Swap algorithms at runtime | Payment (Stripe/Paypal/MoMo) |
 
-## 4. 🎯 Example — Preventing SQL Injection
+## 4. 🎯 Example - Preventing SQL Injection
 
 ❌ **Dangerous:**
 
@@ -1268,26 +1268,26 @@ const user = await db.query(\`SELECT * FROM users WHERE id = \${userId}\`);
 // userId = "1 OR 1=1" → returns EVERY user
 \`\`\`
 
-✅ **Safe — parameterized:**
+✅ **Safe - parameterized:**
 
 \`\`\`typescript
 const user = await db.query("SELECT * FROM users WHERE id = $1", [userId]);
-// Driver escapes for you — input is treated strictly as DATA
+// Driver escapes for you - input is treated strictly as DATA
 \`\`\`
 
 ## 5. ⚠️ Common Misconceptions
 
 > ⚠️ **Warning:**
-> - "HTTPS is enough" — wrong. HTTPS only protects transport, not application logic.
-> - "Hashed passwords are safe" — only with bcrypt/argon2 + salt. MD5/SHA1 cracks in seconds.
-> - "Hidden URLs = security" — false (security through obscurity ≠ security).
-> - "Singleton everywhere" — wrong. Singletons cause coupling and hurt testing — use sparingly.
+> - "HTTPS is enough" - wrong. HTTPS only protects transport, not application logic.
+> - "Hashed passwords are safe" - only with bcrypt/argon2 + salt. MD5/SHA1 cracks in seconds.
+> - "Hidden URLs = security" - false (security through obscurity ≠ security).
+> - "Singleton everywhere" - wrong. Singletons cause coupling and hurt testing - use sparingly.
 
 ## 6. ✅ Best Practice from Teacher Hai
 
 > 💡 **Tips:**
-> - **Defense in Depth** — layers (firewall + WAF + auth + RLS + input validation).
-> - **Least Privilege** — minimum permissions per user.
+> - **Defense in Depth** - layers (firewall + WAF + auth + RLS + input validation).
+> - **Least Privilege** - minimum permissions per user.
 > - Audit dependencies weekly (\`npm audit\`, \`snyk\`).
 > - **CSP header** to lock down XSS.
 > - **2026 trend:** Zero Trust Architecture, AI threat detection (Wiz, Snyk AI), passkeys replacing passwords.
@@ -1306,7 +1306,7 @@ OWASP Top 10 is the mandatory checklist. Singleton, Factory, Observer, Strategy 
 `,
         code: `// Singleton + Factory + Observer + Strategy in <60 lines
 
-// 1. SINGLETON — single DB connection per process
+// 1. SINGLETON - single DB connection per process
 class DB {
   private static instance: DB;
   private constructor() { /* connect once */ }
@@ -1316,7 +1316,7 @@ class DB {
   }
 }
 
-// 2. FACTORY — pick the right Notifier without hard-coding
+// 2. FACTORY - pick the right Notifier without hard-coding
 interface Notifier { send(msg: string): void; }
 class EmailNotifier implements Notifier { send(m: string) { /* SMTP */ } }
 class SmsNotifier   implements Notifier { send(m: string) { /* Twilio */ } }
@@ -1327,7 +1327,7 @@ class NotifierFactory {
   }
 }
 
-// 3. OBSERVER — pub/sub for order events
+// 3. OBSERVER - pub/sub for order events
 type Listener<T> = (event: T) => void;
 class EventBus<T> {
   private listeners: Listener<T>[] = [];
@@ -1335,7 +1335,7 @@ class EventBus<T> {
   publish(e: T) { this.listeners.forEach(fn => fn(e)); }
 }
 
-// 4. STRATEGY — swap payment provider at runtime
+// 4. STRATEGY - swap payment provider at runtime
 interface PaymentStrategy { pay(amount: number): boolean; }
 class StripePay  implements PaymentStrategy { pay(a: number) { return true; } }
 class MomoPay    implements PaymentStrategy { pay(a: number) { return true; } }
@@ -1348,11 +1348,11 @@ class Checkout {
         exercise: "Liệt kê 5 endpoint trong 1 dự án bạn từng làm. Mỗi endpoint chỉ ra: Authentication? Authorization? Input validation? Rate limit?",
         exerciseEn: "List 5 endpoints from a past project. For each: Authentication? Authorization? Input validation? Rate limit?",
         quiz: [
-          { question: "Cách CHẮC CHẮN phòng SQL Injection?", options: ["Escape bằng tay", "Parameterized queries / Prepared statements", "Đổi tên table", "Dùng NoSQL"], answer: 1, explanation: "Parameterized queries để driver tự escape, input được coi là dữ liệu thuần — không bao giờ là code SQL." },
-          { question: "Pattern nào dùng cho 1 instance toàn app?", options: ["Factory", "Observer", "Singleton", "Strategy"], answer: 2, explanation: "Singleton đảm bảo class chỉ có 1 instance — phù hợp DB pool, Config, Logger." },
+          { question: "Cách CHẮC CHẮN phòng SQL Injection?", options: ["Escape bằng tay", "Parameterized queries / Prepared statements", "Đổi tên table", "Dùng NoSQL"], answer: 1, explanation: "Parameterized queries để driver tự escape, input được coi là dữ liệu thuần - không bao giờ là code SQL." },
+          { question: "Pattern nào dùng cho 1 instance toàn app?", options: ["Factory", "Observer", "Singleton", "Strategy"], answer: 2, explanation: "Singleton đảm bảo class chỉ có 1 instance - phù hợp DB pool, Config, Logger." },
           { question: "OWASP Top 10 là gì?", options: ["Top 10 game OWASP", "Danh sách 10 lỗ hổng web nguy hiểm nhất", "Top 10 framework", "Top 10 ngôn ngữ"], answer: 1, explanation: "OWASP Top 10 là tài liệu được cập nhật mỗi 3-4 năm, liệt kê 10 lỗ hổng web phổ biến và nguy hiểm nhất." },
           { question: "Hash password NÊN dùng thuật toán nào?", options: ["MD5", "SHA1", "bcrypt / argon2", "Base64"], answer: 2, explanation: "bcrypt và argon2 chậm có chủ đích + có salt → kháng brute-force và rainbow table. MD5/SHA1 lỗi thời." },
-          { question: "Strategy Pattern hữu ích KHI nào?", options: ["Khi cần đổi thuật toán runtime mà không sửa client", "Khi chỉ có 1 instance", "Khi cần singleton", "Khi không có test"], answer: 0, explanation: "Strategy đóng gói nhiều thuật toán cùng interface, client chọn instance lúc runtime — vd: 3 cổng thanh toán cùng trả về boolean pay()." }
+          { question: "Strategy Pattern hữu ích KHI nào?", options: ["Khi cần đổi thuật toán runtime mà không sửa client", "Khi chỉ có 1 instance", "Khi cần singleton", "Khi không có test"], answer: 0, explanation: "Strategy đóng gói nhiều thuật toán cùng interface, client chọn instance lúc runtime - vd: 3 cổng thanh toán cùng trả về boolean pay()." }
         ]
       }
     ]

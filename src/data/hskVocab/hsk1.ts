@@ -1,5 +1,5 @@
 // ============================================================
-// HSK 1 Vocabulary — ~170 words (Official HSK 1 scope)
+// HSK 1 Vocabulary - ~170 words (Official HSK 1 scope)
 // ============================================================
 import type { HskWord } from "./types";
 

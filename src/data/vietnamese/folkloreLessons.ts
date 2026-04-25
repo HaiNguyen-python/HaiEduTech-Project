@@ -1,4 +1,4 @@
-// Vietnamese folklore language lessons — 20 lessons across 2 modules (10 per module)
+// Vietnamese folklore language lessons - 20 lessons across 2 modules (10 per module)
 import type { VietnameseModule } from "./types";
 
 export const folkloreLanguageModules: VietnameseModule[] = [

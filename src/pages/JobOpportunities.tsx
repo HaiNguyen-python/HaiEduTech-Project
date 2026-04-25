@@ -1,6 +1,6 @@
 /**
  * @file JobOpportunities.tsx
- * @description Job Opportunities Hub — Finland-first tech jobs for Data/AI/Language Technology.
+ * @description Job Opportunities Hub - Finland-first tech jobs for Data/AI/Language Technology.
  */
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
@@ -141,7 +141,7 @@ const JobOpportunities = () => {
             </h1>
             <p className="text-muted-foreground text-sm max-w-2xl mx-auto">
               Curated companies hiring <strong>Data Engineers</strong>, <strong>AI Engineers</strong> and{" "}
-              <strong>Language Technology</strong> talent — Finland-first, plus Nordic and EU Remote.
+              <strong>Language Technology</strong> talent - Finland-first, plus Nordic and EU Remote.
             </p>
 
             {/* Quick stats */}
@@ -174,12 +174,12 @@ const JobOpportunities = () => {
                 </h3>
                 <p className="text-xs text-muted-foreground leading-relaxed">
                   This hub shows a <strong>curated list of companies</strong> that consistently hire for Data, AI, and Language Tech roles in Finland.
-                  The companies don't change often, but <strong>actual job openings update every day</strong> — just click{" "}
+                  The companies don't change often, but <strong>actual job openings update every day</strong> - just click{" "}
                   <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-primary/10 text-primary font-semibold">
                     <Linkedin className="w-3 h-3" /> Live Jobs
                   </span>{" "}
                   on any card to see today's openings (the LinkedIn search is pre-filtered by company + Finland and refreshes in real time).
-                  For broader hunting, use the <strong>Top Resources</strong> below — Duunitori and Work in Finland are updated by employers daily.
+                  For broader hunting, use the <strong>Top Resources</strong> below - Duunitori and Work in Finland are updated by employers daily.
                 </p>
               </div>
             </div>

@@ -1,6 +1,6 @@
 /**
  * @file mockExamExpansion.ts
- * @description Expanded mock exam content — additional reading, listening, writing, speaking sets.
+ * @description Expanded mock exam content - additional reading, listening, writing, speaking sets.
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  * @license Private / Proprietary - No unauthorized copying or distribution.
@@ -27,7 +27,7 @@ export const finnishMockExamExpansionModules: FinnishModule[] = [
         level: "A2",
         theory: `### Lue ilmoitus ja vastaa kysymyksiin.
 
-**Espoon terveyskeskus — Rokotustiedote**
+**Espoon terveyskeskus - Rokotustiedote**
 
 Hyvät asiakkaat!
 
@@ -86,7 +86,7 @@ Yhteydenotot: vuokra@asunnot.fi tai puh. 040-1234567`,
         level: "A2",
         theory: `### Lue Kelan esite ja vastaa kysymyksiin.
 
-**Opintotuki — tietoa opiskelijoille**
+**Opintotuki - tietoa opiskelijoille**
 
 Opintotuki on Kelan maksama tuki opiskelijoille. Se koostuu:
 1. **Opintorahasta** (max 268,23 €/kk)
@@ -116,7 +116,7 @@ Opintotuki on Kelan maksama tuki opiskelijoille. Se koostuu:
         level: "A2",
         theory: `### Lue ohjeet ja vastaa kysymyksiin.
 
-**HSL — Matkakortin käyttöohjeet**
+**HSL - Matkakortin käyttöohjeet**
 
 1. Lataa kortti automaatilla, R-kioskilla tai HSL-sovelluksella
 2. Näytä kortti lukijalle noustessasi bussiin
@@ -156,7 +156,7 @@ Asiakaspalvelu: 09-4766 4000 | hsl.fi`,
 - To klo 17–18:30, 12 kertaa, 70 €
 - Huom: Ota oma matto mukaan!
 
-🍳 **Suomalainen ruokakulttuuri — kokkikurssi**
+🍳 **Suomalainen ruokakulttuuri - kokkikurssi**
 - La klo 10–14, 5 kertaa, 120 € (sisältää raaka-aineet)
 
 **Ilmoittautuminen:** espoo.fi/kansalaisopisto tai puh. 09-8765 4321
@@ -180,8 +180,8 @@ Asiakaspalvelu: 09-4766 4000 | hsl.fi`,
     titleEn: "More Listening Tasks",
     icon: "🎧",
     color: "from-violet-500 to-purple-600",
-    description: "Lisää arkipäivän keskusteluja ja kuulutuksia — puhelin, kauppa, virasto.",
-    descriptionEn: "More everyday conversations and announcements — phone, shop, office.",
+    description: "Lisää arkipäivän keskusteluja ja kuulutuksia - puhelin, kauppa, virasto.",
+    descriptionEn: "More everyday conversations and announcements - phone, shop, office.",
     pillar: "mock-exams",
     lessons: [
       {
@@ -496,7 +496,7 @@ Asiakaspalvelu: 09-4766 4000 | hsl.fi`,
         titleEn: "At the Doctor",
         icon: "🩺",
         level: "A2",
-        theory: `### Puhumistehtävä 6: Reagoi tilanteeseen — Lääkärissä
+        theory: `### Puhumistehtävä 6: Reagoi tilanteeseen - Lääkärissä
 
 **Ohje:** Olet lääkärin vastaanotolla. **30 sekuntia** per kohta.
 
@@ -509,7 +509,7 @@ Asiakaspalvelu: 09-4766 4000 | hsl.fi`,
 
 **Kohta C:** Lääkäri sanoo: "Kirjoitan reseptin. Lepää muutama päivä."
 - Kiitä ja kysy saatko sairauslomatodistuksen`,
-        theoryEn: `### Speaking Task 6: At the doctor's office — describe symptoms and ask about treatment (30s per part)`,
+        theoryEn: `### Speaking Task 6: At the doctor's office - describe symptoms and ask about treatment (30s per part)`,
         sampleAnswer: "Minulla on kuumetta ja kovaa yskää. Oireet ovat kestäneet kolme päivää. En käytä mitään lääkkeitä. Mitä lääkettä suosittelette? Kiitos paljon, saanko sairauslomatodistuksen?",
         quiz: [
           { question: "'Sairauslomatodistus' tarkoittaa...", options: ["Prescription", "Sick leave certificate", "Health insurance card", "Medical report"], answer: 1, explanation: "'Sairauslomatodistus' = sick leave certificate." },
@@ -521,7 +521,7 @@ Asiakaspalvelu: 09-4766 4000 | hsl.fi`,
         titleEn: "Store Complaint",
         icon: "🛍️",
         level: "A2",
-        theory: `### Puhumistehtävä 7: Reagoi tilanteeseen — Kaupassa
+        theory: `### Puhumistehtävä 7: Reagoi tilanteeseen - Kaupassa
 
 **Ohje:** Ostit kengät viikko sitten, mutta ne ovat rikki. Menet takaisin kauppaan. **30 sekuntia** per kohta.
 
@@ -547,7 +547,7 @@ Asiakaspalvelu: 09-4766 4000 | hsl.fi`,
         titleEn: "Visiting Kela Office",
         icon: "🏛️",
         level: "A2",
-        theory: `### Puhumistehtävä 8: Reagoi tilanteeseen — Kelassa
+        theory: `### Puhumistehtävä 8: Reagoi tilanteeseen - Kelassa
 
 **Ohje:** Olet Kelassa hakemassa asumistukea. **30 sekuntia** per kohta.
 
@@ -572,7 +572,7 @@ Asiakaspalvelu: 09-4766 4000 | hsl.fi`,
         titleEn: "Helping a Neighbor",
         icon: "🏘️",
         level: "A2",
-        theory: `### Puhumistehtävä 9: Reagoi tilanteeseen — Naapurin auttaminen
+        theory: `### Puhumistehtävä 9: Reagoi tilanteeseen - Naapurin auttaminen
 
 **Ohje:** Naapurisi pyytää apua. **40 sekuntia.**
 

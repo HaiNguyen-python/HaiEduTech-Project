@@ -101,7 +101,7 @@ const KidsFlashcard = ({ items, title }: KidsFlashcardProps) => {
           transition={{ duration: 0.6, type: "spring", stiffness: 80 }}
           style={{ transformStyle: "preserve-3d" }}
         >
-          {/* FRONT — Big emoji + Vietnamese word */}
+          {/* FRONT - Big emoji + Vietnamese word */}
           <div
             className="absolute inset-0 bg-white dark:bg-card rounded-2xl shadow-xl border-4 border-pink-200 dark:border-pink-900 flex flex-col items-center justify-center p-4 sm:p-6"
             style={{ backfaceVisibility: "hidden" }}
@@ -124,7 +124,7 @@ const KidsFlashcard = ({ items, title }: KidsFlashcardProps) => {
             </div>
           </div>
 
-          {/* BACK — Vietnamese example & illustration */}
+          {/* BACK - Vietnamese example & illustration */}
           <div
             className="absolute inset-0 bg-gradient-to-br from-emerald-50 to-sky-50 dark:from-emerald-950/40 dark:to-sky-950/40 rounded-2xl shadow-xl border-4 border-emerald-300 dark:border-emerald-800 flex flex-col items-center justify-center p-5 sm:p-6 text-center"
             style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}

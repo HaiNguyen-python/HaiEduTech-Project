@@ -1,4 +1,4 @@
-// Films expansion — 5 clip thực tế thêm: gia đình, hài, công sở, du lịch, lễ hội
+// Films expansion - 5 clip thực tế thêm: gia đình, hài, công sở, du lịch, lễ hội
 import type { FilmClip } from "./filmsData";
 
 export const filmsExpansion: FilmClip[] = [

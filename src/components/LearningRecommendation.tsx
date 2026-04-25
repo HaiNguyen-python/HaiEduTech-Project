@@ -36,10 +36,10 @@ function getRecommendation(modules: ExtendedProgrammingModule[], currentModuleId
     if (mod) {
       const reason = target.score === 0
         ? "Chưa bắt đầu"
-        : `Điểm hiện tại: ${target.score}% — cần cải thiện`;
+        : `Điểm hiện tại: ${target.score}% - cần cải thiện`;
       const reasonEn = target.score === 0
         ? "Not started yet"
-        : `Current score: ${target.score}% — needs improvement`;
+        : `Current score: ${target.score}% - needs improvement`;
       return { module: mod, reason, reasonEn, type: "weakness" as const };
     }
   }

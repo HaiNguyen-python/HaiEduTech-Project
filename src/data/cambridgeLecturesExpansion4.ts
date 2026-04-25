@@ -1,6 +1,6 @@
 import { CambridgeLecture } from "./cambridgeLecturesData";
 
-// ==================== STARTERS — 5 new lectures ====================
+// ==================== STARTERS - 5 new lectures ====================
 
 const startersMyBody: CambridgeLecture = {
   id: "cam-starters-my-body",
@@ -16,12 +16,12 @@ const startersMyBody: CambridgeLecture = {
   learningObjectiveVi: "Học sinh đọc tên và nhận diện các bộ phận cơ thể chính.",
   examPattern: "Starters Reading & Writing Part 1: Match words to pictures of body parts.",
   examPatternVi: "Starters Đọc & Viết Phần 1: Nối từ với hình các bộ phận cơ thể.",
-  secretTip: "🔑 Touch each body part as you say the word — your muscles will remember!",
-  secretTipVi: "🔑 Chạm vào từng bộ phận cơ thể khi nói từ đó — cơ bắp sẽ giúp bạn nhớ!",
+  secretTip: "🔑 Touch each body part as you say the word - your muscles will remember!",
+  secretTipVi: "🔑 Chạm vào từng bộ phận cơ thể khi nói từ đó - cơ bắp sẽ giúp bạn nhớ!",
   welcomeMessage: "Let's learn about our body! 🧍 Touch your head!",
   welcomeMessageVi: "Cùng tìm hiểu về cơ thể nào! 🧍 Chạm vào đầu bạn!",
   stepByStep: [
-    { step: 1, title: "Learn the big parts", titleVi: "Học các phần lớn", detail: "Head, body, arms, legs — these are the main parts.", detailVi: "Head, body, arms, legs — đây là các phần chính." },
+    { step: 1, title: "Learn the big parts", titleVi: "Học các phần lớn", detail: "Head, body, arms, legs - these are the main parts.", detailVi: "Head, body, arms, legs - đây là các phần chính." },
     { step: 2, title: "Learn the details", titleVi: "Học chi tiết", detail: "Eyes, ears, nose, mouth, hands, feet, fingers, toes.", detailVi: "Eyes, ears, nose, mouth, hands, feet, fingers, toes." },
     { step: 3, title: "Describe yourself", titleVi: "Mô tả bản thân", detail: "I have two eyes. I have ten fingers.", detailVi: "I have two eyes. I have ten fingers." },
   ],
@@ -31,12 +31,12 @@ const startersMyBody: CambridgeLecture = {
     { icon: "🔢", rule: "Use numbers: two eyes, one nose, ten toes", ruleVi: "Dùng số đếm: two eyes, one nose, ten toes", example: "She has two ears and one mouth." },
   ],
   watchOut: [
-    { mistake: "Confusing 'foot' and 'feet'", mistakeVi: "Nhầm 'foot' (1 bàn chân) và 'feet' (2 bàn chân)", tip: "One foot, two feet — it's irregular!", tipVi: "One foot, two feet — bất quy tắc!" },
+    { mistake: "Confusing 'foot' and 'feet'", mistakeVi: "Nhầm 'foot' (1 bàn chân) và 'feet' (2 bàn chân)", tip: "One foot, two feet - it's irregular!", tipVi: "One foot, two feet - bất quy tắc!" },
     { mistake: "Mixing 'fingers' and 'toes'", mistakeVi: "Nhầm 'fingers' (ngón tay) và 'toes' (ngón chân)", tip: "Fingers are on your hands. Toes are on your feet.", tipVi: "Fingers ở tay. Toes ở chân." },
   ],
   practiceSet: [
     { instruction: "Choose", instructionVi: "Chọn", question: "What do you see with?", options: ["ears", "eyes", "nose", "mouth"], answer: 1, explanation: "We see with our eyes.", explanationVi: "Chúng ta nhìn bằng mắt." },
-    { instruction: "Choose", instructionVi: "Chọn", question: "How many fingers do you have?", options: ["five", "eight", "ten", "twelve"], answer: 2, explanation: "We have ten fingers — five on each hand.", explanationVi: "Chúng ta có mười ngón tay — năm ở mỗi bàn tay." },
+    { instruction: "Choose", instructionVi: "Chọn", question: "How many fingers do you have?", options: ["five", "eight", "ten", "twelve"], answer: 2, explanation: "We have ten fingers - five on each hand.", explanationVi: "Chúng ta có mười ngón tay - năm ở mỗi bàn tay." },
     { instruction: "Choose", instructionVi: "Chọn", question: "Which is on your face?", options: ["knee", "elbow", "nose", "foot"], answer: 2, explanation: "Your nose is on your face.", explanationVi: "Mũi ở trên mặt bạn." },
   ],
   vocabulary: [
@@ -89,14 +89,14 @@ const startersWeather: CambridgeLecture = {
   ],
   practiceSet: [
     { instruction: "Choose", instructionVi: "Chọn", question: "It's raining outside. The weather is ___.", options: ["sunny", "rainy", "snowy", "windy"], answer: 1, explanation: "Rain = rainy weather.", explanationVi: "Mưa = thời tiết rainy." },
-    { instruction: "Choose", instructionVi: "Chọn", question: "In winter, sometimes white things fall from the sky. It's ___.", options: ["hot", "sunny", "snowy", "cloudy"], answer: 2, explanation: "White things falling from the sky is snow — snowy.", explanationVi: "Những thứ trắng rơi từ trời là tuyết — snowy." },
+    { instruction: "Choose", instructionVi: "Chọn", question: "In winter, sometimes white things fall from the sky. It's ___.", options: ["hot", "sunny", "snowy", "cloudy"], answer: 2, explanation: "White things falling from the sky is snow - snowy.", explanationVi: "Những thứ trắng rơi từ trời là tuyết - snowy." },
     { instruction: "Choose", instructionVi: "Chọn", question: "The sun is shining. The weather is ___.", options: ["rainy", "cloudy", "sunny", "cold"], answer: 2, explanation: "When the sun shines, it's sunny.", explanationVi: "Khi mặt trời chiếu sáng, trời sunny." },
   ],
   vocabulary: [
-    { word: "umbrella", meaning: "you hold it over your head when it rains", meaningVi: "ô/dù", example: "Take your umbrella — it's rainy!" },
+    { word: "umbrella", meaning: "you hold it over your head when it rains", meaningVi: "ô/dù", example: "Take your umbrella - it's rainy!" },
     { word: "rainbow", meaning: "colourful arc in the sky after rain", meaningVi: "cầu vồng", example: "Look! A rainbow after the rain!" },
     { word: "cloud", meaning: "white or grey thing in the sky", meaningVi: "đám mây", example: "There are many clouds today." },
-    { word: "windy", meaning: "lots of wind blowing", meaningVi: "có gió", example: "Hold your hat — it's windy!" },
+    { word: "windy", meaning: "lots of wind blowing", meaningVi: "có gió", example: "Hold your hat - it's windy!" },
   ],
   quiz: [
     { question: "What weather word means 'water falls from the sky'?", options: ["sunny", "snowy", "rainy", "windy"], answer: 2, explanation: "Rainy means rain (water) falls from the sky." },
@@ -197,7 +197,7 @@ const startersTime: CambridgeLecture = {
     { instruction: "Choose", instructionVi: "Chọn", question: "The short hand is between 3 and 4, and the long hand is on 6. What time is it?", options: ["3 o'clock", "6 o'clock", "half past 3", "half past 6"], answer: 2, explanation: "Long hand on 6 = half past. Short hand near 3 = half past 3.", explanationVi: "Kim dài ở 6 = half past. Kim ngắn gần 3 = half past 3." },
   ],
   vocabulary: [
-    { word: "clock", meaning: "shows you the time", meaningVi: "đồng hồ (treo tường)", example: "Look at the clock — it's 3 o'clock!" },
+    { word: "clock", meaning: "shows you the time", meaningVi: "đồng hồ (treo tường)", example: "Look at the clock - it's 3 o'clock!" },
     { word: "watch", meaning: "a small clock you wear on your wrist", meaningVi: "đồng hồ đeo tay", example: "I have a new watch!" },
     { word: "morning", meaning: "the first part of the day", meaningVi: "buổi sáng", example: "I wake up in the morning." },
     { word: "afternoon", meaning: "after 12 o'clock until evening", meaningVi: "buổi chiều", example: "We play football in the afternoon." },
@@ -226,8 +226,8 @@ const startersDaysMonths: CambridgeLecture = {
   learningObjectiveVi: "Học sinh đọc tên các ngày trong tuần và tháng trong năm.",
   examPattern: "Starters Reading & Writing: Recognise and write day/month words.",
   examPatternVi: "Starters Đọc & Viết: Nhận diện và viết từ ngày/tháng.",
-  secretTip: "🔑 Sing the days song every morning: 'Monday, Tuesday, Wednesday...' — singing helps memory!",
-  secretTipVi: "🔑 Hát bài hát ngày mỗi sáng: 'Monday, Tuesday, Wednesday...' — hát giúp nhớ lâu!",
+  secretTip: "🔑 Sing the days song every morning: 'Monday, Tuesday, Wednesday...' - singing helps memory!",
+  secretTipVi: "🔑 Hát bài hát ngày mỗi sáng: 'Monday, Tuesday, Wednesday...' - hát giúp nhớ lâu!",
   welcomeMessage: "What day is it today? 📅 Let's learn all the days and months!",
   welcomeMessageVi: "Hôm nay là thứ mấy? 📅 Cùng học tất cả ngày và tháng!",
   stepByStep: [
@@ -265,7 +265,7 @@ const startersDaysMonths: CambridgeLecture = {
   isNew: true,
 };
 
-// ==================== MOVERS — 5 new lectures ====================
+// ==================== MOVERS - 5 new lectures ====================
 
 const moversDirections: CambridgeLecture = {
   id: "cam-movers-directions",
@@ -296,7 +296,7 @@ const moversDirections: CambridgeLecture = {
     { icon: "🚶", rule: "Go past = walk past without stopping", ruleVi: "Go past = đi qua không dừng lại", example: "Go past the cinema. The shop is on your right." },
   ],
   watchOut: [
-    { mistake: "Confusing 'left' and 'right'", mistakeVi: "Nhầm 'left' và 'right'", tip: "Hold up your hands — your LEFT hand makes an 'L' shape!", tipVi: "Giơ hai tay — tay TRÁI tạo hình chữ 'L'!" },
+    { mistake: "Confusing 'left' and 'right'", mistakeVi: "Nhầm 'left' và 'right'", tip: "Hold up your hands - your LEFT hand makes an 'L' shape!", tipVi: "Giơ hai tay - tay TRÁI tạo hình chữ 'L'!" },
     { mistake: "Forgetting 'the' before places", mistakeVi: "Quên 'the' trước tên nơi", tip: "Say 'the hospital', 'the park' (not just 'hospital', 'park').", tipVi: "Nói 'the hospital', 'the park'." },
   ],
   practiceSet: [
@@ -406,11 +406,11 @@ const moversShoppingMoney: CambridgeLecture = {
   ],
   practiceSet: [
     { instruction: "Choose", instructionVi: "Chọn", question: "'___ is this book?' 'It's 5 pounds.'", options: ["How many", "How much", "How old", "How far"], answer: 1, explanation: "We ask 'How much' for the price.", explanationVi: "Dùng 'How much' để hỏi giá." },
-    { instruction: "Choose", instructionVi: "Chọn", question: "A car costs £20,000. It's very ___.", options: ["cheap", "free", "expensive", "small"], answer: 2, explanation: "£20,000 is a lot of money — very expensive.", explanationVi: "£20,000 là rất nhiều tiền — rất expensive." },
+    { instruction: "Choose", instructionVi: "Chọn", question: "A car costs £20,000. It's very ___.", options: ["cheap", "free", "expensive", "small"], answer: 2, explanation: "£20,000 is a lot of money - very expensive.", explanationVi: "£20,000 là rất nhiều tiền - rất expensive." },
   ],
   vocabulary: [
     { word: "receipt", meaning: "paper that shows what you bought", meaningVi: "hóa đơn", example: "Keep your receipt in case you want to return it." },
-    { word: "change", meaning: "money you get back after paying", meaningVi: "tiền thối", example: "Here's your change — 2 pounds." },
+    { word: "change", meaning: "money you get back after paying", meaningVi: "tiền thối", example: "Here's your change - 2 pounds." },
     { word: "discount", meaning: "a lower price", meaningVi: "giảm giá", example: "This shirt has a 50% discount!" },
     { word: "queue", meaning: "a line of people waiting", meaningVi: "hàng chờ", example: "There's a long queue at the checkout." },
   ],
@@ -438,8 +438,8 @@ const moversJobsPeople: CambridgeLecture = {
   learningObjectiveVi: "Học sinh đọc tên nghề nghiệp phổ biến và mô tả công việc.",
   examPattern: "Movers Reading & Writing Part 3: Read about people's jobs and answer questions.",
   examPatternVi: "Movers Đọc & Viết Phần 3: Đọc về nghề nghiệp và trả lời câu hỏi.",
-  secretTip: "🔑 Think about jobs you see every day — what does the person at the shop do? The person at school?",
-  secretTipVi: "🔑 Nghĩ về nghề bạn thấy hàng ngày — người ở cửa hàng làm gì? Người ở trường?",
+  secretTip: "🔑 Think about jobs you see every day - what does the person at the shop do? The person at school?",
+  secretTipVi: "🔑 Nghĩ về nghề bạn thấy hàng ngày - người ở cửa hàng làm gì? Người ở trường?",
   welcomeMessage: "What do you want to be? 👨‍⚕️ Let's learn about jobs!",
   welcomeMessageVi: "Bạn muốn làm gì? 👨‍⚕️ Cùng học về nghề nghiệp!",
   stepByStep: [
@@ -448,9 +448,9 @@ const moversJobsPeople: CambridgeLecture = {
     { step: 3, title: "Talk about jobs", titleVi: "Nói về nghề", detail: "What does your mum/dad do? She's a nurse.", detailVi: "Mẹ/bố bạn làm gì? She's a nurse." },
   ],
   illustratedRules: [
-    { icon: "🏥", rule: "Health: doctor, nurse, dentist — they help sick people", ruleVi: "Y tế: doctor, nurse, dentist — họ giúp người bệnh", example: "The doctor works at the hospital." },
-    { icon: "🏫", rule: "Education: teacher, professor — they help people learn", ruleVi: "Giáo dục: teacher, professor — họ giúp người học", example: "My teacher is very kind." },
-    { icon: "🍳", rule: "Service: chef, waiter, shop assistant — they serve people", ruleVi: "Dịch vụ: chef, waiter, shop assistant — họ phục vụ", example: "The chef cooks delicious food." },
+    { icon: "🏥", rule: "Health: doctor, nurse, dentist - they help sick people", ruleVi: "Y tế: doctor, nurse, dentist - họ giúp người bệnh", example: "The doctor works at the hospital." },
+    { icon: "🏫", rule: "Education: teacher, professor - they help people learn", ruleVi: "Giáo dục: teacher, professor - họ giúp người học", example: "My teacher is very kind." },
+    { icon: "🍳", rule: "Service: chef, waiter, shop assistant - they serve people", ruleVi: "Dịch vụ: chef, waiter, shop assistant - họ phục vụ", example: "The chef cooks delicious food." },
   ],
   watchOut: [
     { mistake: "Saying 'He is doctor' without 'a'", mistakeVi: "Nói 'He is doctor' thiếu 'a'", tip: "Always use 'a/an': He is A doctor. She is AN artist.", tipVi: "Luôn dùng 'a/an': He is A doctor. She is AN artist." },
@@ -491,8 +491,8 @@ const moversEnvironment: CambridgeLecture = {
   learningObjectiveVi: "Học sinh mô tả động vật, môi trường sống và khái niệm môi trường cơ bản.",
   examPattern: "Movers Reading & Writing Part 5: Read about animals and answer comprehension questions.",
   examPatternVi: "Movers Đọc & Viết Phần 5: Đọc về động vật và trả lời câu hỏi đọc hiểu.",
-  secretTip: "🔑 Watch nature documentaries in English with subtitles — you'll learn amazing animal words!",
-  secretTipVi: "🔑 Xem phim tài liệu thiên nhiên bằng tiếng Anh có phụ đề — bạn sẽ học từ vựng động vật tuyệt vời!",
+  secretTip: "🔑 Watch nature documentaries in English with subtitles - you'll learn amazing animal words!",
+  secretTipVi: "🔑 Xem phim tài liệu thiên nhiên bằng tiếng Anh có phụ đề - bạn sẽ học từ vựng động vật tuyệt vời!",
   welcomeMessage: "Welcome to the jungle! 🌿 Let's meet amazing animals!",
   welcomeMessageVi: "Chào mừng đến rừng nhiệt đới! 🌿 Cùng gặp những động vật tuyệt vời!",
   stepByStep: [
@@ -506,7 +506,7 @@ const moversEnvironment: CambridgeLecture = {
     { icon: "🌍", rule: "Protect: recycle, save water, plant trees, don't litter", ruleVi: "Bảo vệ: tái chế, tiết kiệm nước, trồng cây, không xả rác", example: "We should recycle paper and plastic." },
   ],
   watchOut: [
-    { mistake: "Confusing 'desert' and 'dessert'", mistakeVi: "Nhầm 'desert' (sa mạc) và 'dessert' (tráng miệng)", tip: "Desert = hot, sandy place (1 's'). Dessert = sweet food (2 's's — you want more!).", tipVi: "Desert = sa mạc (1 chữ 's'). Dessert = tráng miệng (2 chữ 's' — bạn muốn thêm!)." },
+    { mistake: "Confusing 'desert' and 'dessert'", mistakeVi: "Nhầm 'desert' (sa mạc) và 'dessert' (tráng miệng)", tip: "Desert = hot, sandy place (1 's'). Dessert = sweet food (2 's's - you want more!).", tipVi: "Desert = sa mạc (1 chữ 's'). Dessert = tráng miệng (2 chữ 's' - bạn muốn thêm!)." },
   ],
   practiceSet: [
     { instruction: "Choose", instructionVi: "Chọn", question: "Where do penguins live?", options: ["Desert", "Jungle", "Ice/Antarctica", "Forest"], answer: 2, explanation: "Penguins live in cold places like Antarctica.", explanationVi: "Chim cánh cụt sống ở nơi lạnh như Nam Cực." },
@@ -529,7 +529,7 @@ const moversEnvironment: CambridgeLecture = {
   isNew: true,
 };
 
-// ==================== FLYERS — 5 new lectures ====================
+// ==================== FLYERS - 5 new lectures ====================
 
 const flyersMoviesEntertainment: CambridgeLecture = {
   id: "cam-flyers-movies-ent",
@@ -545,8 +545,8 @@ const flyersMoviesEntertainment: CambridgeLecture = {
   learningObjectiveVi: "Học sinh thảo luận sở thích giải trí và mô tả phim/chương trình.",
   examPattern: "Flyers Listening Part 2: Listen to people talking about entertainment and answer questions.",
   examPatternVi: "Flyers Nghe Phần 2: Nghe mọi người nói về giải trí và trả lời câu hỏi.",
-  secretTip: "🔑 After watching a movie, describe it in 3 sentences in English — plot, characters, your opinion!",
-  secretTipVi: "🔑 Sau khi xem phim, mô tả bằng 3 câu tiếng Anh — cốt truyện, nhân vật, ý kiến bạn!",
+  secretTip: "🔑 After watching a movie, describe it in 3 sentences in English - plot, characters, your opinion!",
+  secretTipVi: "🔑 Sau khi xem phim, mô tả bằng 3 câu tiếng Anh - cốt truyện, nhân vật, ý kiến bạn!",
   welcomeMessage: "Action! 🎬 Let's talk about movies and entertainment!",
   welcomeMessageVi: "Hành động! 🎬 Cùng nói về phim ảnh và giải trí!",
   stepByStep: [
@@ -555,7 +555,7 @@ const flyersMoviesEntertainment: CambridgeLecture = {
     { step: 3, title: "Give your opinion", titleVi: "Đưa ra ý kiến", detail: "I loved it! / It was boring. / I recommend it.", detailVi: "Tôi thích! / Phim chán. / Tôi đề xuất." },
   ],
   illustratedRules: [
-    { icon: "🎭", rule: "Genres: comedy (funny), action (exciting), horror (scary)", ruleVi: "Thể loại: comedy (vui), action (hấp dẫn), horror (đáng sợ)", example: "I love comedy movies — they make me laugh!" },
+    { icon: "🎭", rule: "Genres: comedy (funny), action (exciting), horror (scary)", ruleVi: "Thể loại: comedy (vui), action (hấp dẫn), horror (đáng sợ)", example: "I love comedy movies - they make me laugh!" },
     { icon: "⭐", rule: "Opinion phrases: I think it's..., My favourite is..., I recommend...", ruleVi: "Câu ý kiến: I think it's..., My favourite is..., I recommend...", example: "I think it's a great movie. I recommend it!" },
     { icon: "🎵", rule: "Music words: song, singer, band, concert, instrument", ruleVi: "Từ âm nhạc: bài hát, ca sĩ, ban nhạc, buổi hòa nhạc, nhạc cụ", example: "My favourite singer is very popular." },
   ],
@@ -596,8 +596,8 @@ const flyersTechnology: CambridgeLecture = {
   learningObjectiveVi: "Học sinh thảo luận công nghệ và an toàn trực tuyến với từ vựng phù hợp.",
   examPattern: "Flyers Reading & Writing Part 7: Read about technology topics and write responses.",
   examPatternVi: "Flyers Đọc & Viết Phần 7: Đọc về công nghệ và viết phản hồi.",
-  secretTip: "🔑 Change your phone language to English for 1 week — you'll learn tech words naturally!",
-  secretTipVi: "🔑 Đổi ngôn ngữ điện thoại sang tiếng Anh 1 tuần — bạn sẽ học từ công nghệ tự nhiên!",
+  secretTip: "🔑 Change your phone language to English for 1 week - you'll learn tech words naturally!",
+  secretTipVi: "🔑 Đổi ngôn ngữ điện thoại sang tiếng Anh 1 tuần - bạn sẽ học từ công nghệ tự nhiên!",
   welcomeMessage: "Welcome to the digital world! 💻 Let's learn about technology!",
   welcomeMessageVi: "Chào mừng đến thế giới số! 💻 Cùng học về công nghệ!",
   stepByStep: [
@@ -647,8 +647,8 @@ const flyersHealthFitness: CambridgeLecture = {
   learningObjectiveVi: "Học sinh thảo luận thói quen sức khỏe, nhóm thực phẩm và lịch tập.",
   examPattern: "Flyers Speaking Part 3: Discuss health topics and give opinions about food/exercise.",
   examPatternVi: "Flyers Nói Phần 3: Thảo luận chủ đề sức khỏe và đưa ý kiến về thức ăn/thể dục.",
-  secretTip: "🔑 Keep a food diary in English for one week — write what you eat for breakfast, lunch and dinner!",
-  secretTipVi: "🔑 Viết nhật ký ăn uống bằng tiếng Anh 1 tuần — ghi bữa sáng, trưa, tối!",
+  secretTip: "🔑 Keep a food diary in English for one week - write what you eat for breakfast, lunch and dinner!",
+  secretTipVi: "🔑 Viết nhật ký ăn uống bằng tiếng Anh 1 tuần - ghi bữa sáng, trưa, tối!",
   welcomeMessage: "Let's get healthy! 🥗 Good food + exercise = strong body!",
   welcomeMessageVi: "Cùng sống khỏe! 🥗 Thức ăn tốt + tập thể dục = cơ thể khỏe mạnh!",
   stepByStep: [
@@ -659,13 +659,13 @@ const flyersHealthFitness: CambridgeLecture = {
   illustratedRules: [
     { icon: "🥦", rule: "Eat 5 portions of fruit and vegetables every day", ruleVi: "Ăn 5 phần trái cây và rau mỗi ngày", example: "I eat fruit at breakfast and vegetables at dinner." },
     { icon: "🏃", rule: "Exercise at least 30 minutes every day", ruleVi: "Tập thể dục ít nhất 30 phút mỗi ngày", example: "I run for 30 minutes after school." },
-    { icon: "💧", rule: "Drink lots of water — not too much juice or soda", ruleVi: "Uống nhiều nước — không quá nhiều nước ép hoặc nước ngọt", example: "Water is the best drink for your body." },
+    { icon: "💧", rule: "Drink lots of water - not too much juice or soda", ruleVi: "Uống nhiều nước - không quá nhiều nước ép hoặc nước ngọt", example: "Water is the best drink for your body." },
   ],
   watchOut: [
     { mistake: "Confusing 'healthy' and 'health'", mistakeVi: "Nhầm 'healthy' (adj) và 'health' (n)", tip: "'Health' = noun (My health is good). 'Healthy' = adjective (healthy food).", tipVi: "'Health' = danh từ. 'Healthy' = tính từ." },
   ],
   practiceSet: [
-    { instruction: "Choose", instructionVi: "Chọn", question: "Which food is healthiest?", options: ["chips", "candy", "salad", "soda"], answer: 2, explanation: "Salad is the healthiest option — it's full of vitamins.", explanationVi: "Salad là lựa chọn lành mạnh nhất — đầy vitamin." },
+    { instruction: "Choose", instructionVi: "Chọn", question: "Which food is healthiest?", options: ["chips", "candy", "salad", "soda"], answer: 2, explanation: "Salad is the healthiest option - it's full of vitamins.", explanationVi: "Salad là lựa chọn lành mạnh nhất - đầy vitamin." },
     { instruction: "Choose", instructionVi: "Chọn", question: "How often should you exercise?", options: ["Never", "Once a year", "Every day", "Only on birthdays"], answer: 2, explanation: "You should exercise every day for at least 30 minutes.", explanationVi: "Nên tập thể dục mỗi ngày ít nhất 30 phút." },
   ],
   vocabulary: [
@@ -750,8 +750,8 @@ const flyersReportedSpeech: CambridgeLecture = {
   learningObjectiveVi: "Học sinh chuyển đổi lời nói trực tiếp sang câu tường thuật ở mức cơ bản.",
   examPattern: "Flyers Reading & Writing Part 5: Transform sentences using reported speech.",
   examPatternVi: "Flyers Đọc & Viết Phần 5: Chuyển đổi câu dùng câu tường thuật.",
-  secretTip: "🔑 Play the 'telephone game': whisper a sentence to a friend, they tell someone else — that's reported speech!",
-  secretTipVi: "🔑 Chơi trò 'điện thoại': thì thầm câu cho bạn, bạn ấy kể lại cho người khác — đó là câu tường thuật!",
+  secretTip: "🔑 Play the 'telephone game': whisper a sentence to a friend, they tell someone else - that's reported speech!",
+  secretTipVi: "🔑 Chơi trò 'điện thoại': thì thầm câu cho bạn, bạn ấy kể lại cho người khác - đó là câu tường thuật!",
   welcomeMessage: "What did they say? 💬 Let's learn to report!",
   welcomeMessageVi: "Họ nói gì? 💬 Cùng học cách tường thuật!",
   stepByStep: [
@@ -788,7 +788,7 @@ const flyersReportedSpeech: CambridgeLecture = {
   isNew: true,
 };
 
-// ==================== KET — 5 new lectures ====================
+// ==================== KET - 5 new lectures ====================
 
 const ketReadingGapped: CambridgeLecture = {
   id: "cam-ket-reading-gapped",
@@ -798,28 +798,28 @@ const ketReadingGapped: CambridgeLecture = {
   skill: "reading-writing",
   icon: "📄",
   duration: "22 min",
-  description: "Master the KET gapped text exercise — fill in missing sentences in a passage!",
-  descriptionVi: "Thành thạo bài tập điền chỗ trống KET — điền câu thiếu vào đoạn văn!",
+  description: "Master the KET gapped text exercise - fill in missing sentences in a passage!",
+  descriptionVi: "Thành thạo bài tập điền chỗ trống KET - điền câu thiếu vào đoạn văn!",
   learningObjective: "Students can identify where sentences fit in a text using context clues.",
   learningObjectiveVi: "Học sinh xác định vị trí câu phù hợp trong văn bản dùng manh mối ngữ cảnh.",
   examPattern: "KET Reading Part 5: Choose the correct sentence for each gap in the text.",
   examPatternVi: "KET Đọc Phần 5: Chọn câu đúng cho mỗi chỗ trống trong đoạn văn.",
-  secretTip: "🔑 Read the sentences BEFORE and AFTER the gap — the answer must connect both!",
-  secretTipVi: "🔑 Đọc câu TRƯỚC và SAU chỗ trống — đáp án phải kết nối cả hai!",
+  secretTip: "🔑 Read the sentences BEFORE and AFTER the gap - the answer must connect both!",
+  secretTipVi: "🔑 Đọc câu TRƯỚC và SAU chỗ trống - đáp án phải kết nối cả hai!",
   welcomeMessage: "Let's fill the gaps! 📄 Read carefully and find where each sentence goes!",
   welcomeMessageVi: "Cùng điền chỗ trống! 📄 Đọc kỹ và tìm vị trí mỗi câu!",
   stepByStep: [
     { step: 1, title: "Read the whole text first", titleVi: "Đọc toàn bộ trước", detail: "Understand the general meaning before filling gaps.", detailVi: "Hiểu ý chung trước khi điền chỗ trống." },
-    { step: 2, title: "Look at connecting words", titleVi: "Nhìn từ nối", detail: "however, also, then, because — these show how ideas connect.", detailVi: "however, also, then, because — những từ này cho thấy ý tưởng kết nối." },
+    { step: 2, title: "Look at connecting words", titleVi: "Nhìn từ nối", detail: "however, also, then, because - these show how ideas connect.", detailVi: "however, also, then, because - những từ này cho thấy ý tưởng kết nối." },
     { step: 3, title: "Check pronouns", titleVi: "Kiểm tra đại từ", detail: "If the gap sentence has 'he', the sentence before should mention a man.", detailVi: "Nếu câu trống có 'he', câu trước phải đề cập đến một người đàn ông." },
   ],
   illustratedRules: [
     { icon: "🔗", rule: "Linking words: however (contrast), also (addition), so (result)", ruleVi: "Từ nối: however (tương phản), also (bổ sung), so (kết quả)", example: "She was tired. However, she kept studying." },
-    { icon: "👆", rule: "Reference words: this, that, these, it, he, she, they", ruleVi: "Từ tham chiếu: this, that, these, it, he, she, they", example: "'It was built in 1900.' — 'It' refers to the building mentioned before." },
+    { icon: "👆", rule: "Reference words: this, that, these, it, he, she, they", ruleVi: "Từ tham chiếu: this, that, these, it, he, she, they", example: "'It was built in 1900.' - 'It' refers to the building mentioned before." },
     { icon: "⏰", rule: "Time markers: first, then, after that, finally", ruleVi: "Đánh dấu thời gian: first, then, after that, finally", example: "First, mix the eggs. Then, add the flour." },
   ],
   watchOut: [
-    { mistake: "Only reading the sentence before the gap", mistakeVi: "Chỉ đọc câu trước chỗ trống", tip: "Read BOTH before AND after — the sentence must fit both!", tipVi: "Đọc CẢ trước VÀ sau — câu phải phù hợp cả hai!" },
+    { mistake: "Only reading the sentence before the gap", mistakeVi: "Chỉ đọc câu trước chỗ trống", tip: "Read BOTH before AND after - the sentence must fit both!", tipVi: "Đọc CẢ trước VÀ sau - câu phải phù hợp cả hai!" },
     { mistake: "Ignoring pronouns and reference words", mistakeVi: "Bỏ qua đại từ và từ tham chiếu", tip: "If the gap starts with 'They', look for a plural noun before it.", tipVi: "Nếu chỗ trống bắt đầu bằng 'They', tìm danh từ số nhiều trước đó." },
   ],
   practiceSet: [
@@ -850,14 +850,14 @@ const ketListeningNote: CambridgeLecture = {
   skill: "listening",
   icon: "📝",
   duration: "22 min",
-  description: "Learn to take notes while listening — catch names, numbers, dates and key details!",
-  descriptionVi: "Học cách ghi chú khi nghe — bắt tên, số, ngày và chi tiết quan trọng!",
+  description: "Learn to take notes while listening - catch names, numbers, dates and key details!",
+  descriptionVi: "Học cách ghi chú khi nghe - bắt tên, số, ngày và chi tiết quan trọng!",
   learningObjective: "Students can extract specific information from listening passages for note completion.",
   learningObjectiveVi: "Học sinh trích xuất thông tin cụ thể từ đoạn nghe để hoàn thành ghi chú.",
   examPattern: "KET Listening Part 3: Listen and complete notes with missing information.",
   examPatternVi: "KET Nghe Phần 3: Nghe và hoàn thành ghi chú với thông tin thiếu.",
-  secretTip: "🔑 Read the notes BEFORE listening — predict what kind of word is missing (name? number? day?)",
-  secretTipVi: "🔑 Đọc ghi chú TRƯỚC khi nghe — dự đoán loại từ thiếu (tên? số? ngày?)",
+  secretTip: "🔑 Read the notes BEFORE listening - predict what kind of word is missing (name? number? day?)",
+  secretTipVi: "🔑 Đọc ghi chú TRƯỚC khi nghe - dự đoán loại từ thiếu (tên? số? ngày?)",
   welcomeMessage: "Get your pencil ready! 📝 Let's practice note-taking!",
   welcomeMessageVi: "Chuẩn bị bút chì! 📝 Cùng luyện ghi chú!",
   stepByStep: [
@@ -867,8 +867,8 @@ const ketListeningNote: CambridgeLecture = {
   ],
   illustratedRules: [
     { icon: "📋", rule: "Look for: names, phone numbers, addresses, dates, times", ruleVi: "Tìm: tên, số điện thoại, địa chỉ, ngày, giờ", example: "Name: ___  Phone: ___  Date: ___" },
-    { icon: "✍️", rule: "Write clearly — the examiner must read your handwriting", ruleVi: "Viết rõ ràng — giám khảo phải đọc được chữ viết", example: "SMITH not SmITh" },
-    { icon: "🔢", rule: "Numbers: listen carefully for teen vs ty (15 vs 50)", ruleVi: "Số: nghe kỹ teen vs ty (15 vs 50)", example: "Fifteen (15) vs Fifty (50) — the stress is different!" },
+    { icon: "✍️", rule: "Write clearly - the examiner must read your handwriting", ruleVi: "Viết rõ ràng - giám khảo phải đọc được chữ viết", example: "SMITH not SmITh" },
+    { icon: "🔢", rule: "Numbers: listen carefully for teen vs ty (15 vs 50)", ruleVi: "Số: nghe kỹ teen vs ty (15 vs 50)", example: "Fifteen (15) vs Fifty (50) - the stress is different!" },
   ],
   watchOut: [
     { mistake: "Confusing 13/30, 14/40, 15/50, etc.", mistakeVi: "Nhầm 13/30, 14/40, 15/50, v.v.", tip: "teen numbers stress the SECOND syllable: thir-TEEN. ty numbers stress the FIRST: THIR-ty.", tipVi: "Số teen nhấn âm CUỐI: thir-TEEN. Số ty nhấn âm ĐẦU: THIR-ty." },
@@ -902,14 +902,14 @@ const ketConversationSkills: CambridgeLecture = {
   skill: "speaking",
   icon: "🗣️",
   duration: "22 min",
-  description: "Build natural conversation skills — asking follow-up questions and showing interest!",
-  descriptionVi: "Xây dựng kỹ năng hội thoại tự nhiên — hỏi câu tiếp theo và thể hiện sự quan tâm!",
+  description: "Build natural conversation skills - asking follow-up questions and showing interest!",
+  descriptionVi: "Xây dựng kỹ năng hội thoại tự nhiên - hỏi câu tiếp theo và thể hiện sự quan tâm!",
   learningObjective: "Students can maintain a natural conversation with follow-up questions and reactions.",
   learningObjectiveVi: "Học sinh duy trì hội thoại tự nhiên với câu hỏi tiếp theo và phản ứng.",
   examPattern: "KET Speaking Part 1: Answer personal questions and have a natural conversation with the examiner.",
   examPatternVi: "KET Nói Phần 1: Trả lời câu hỏi cá nhân và hội thoại tự nhiên với giám khảo.",
-  secretTip: "🔑 Don't just answer Yes/No — always add extra information! 'Yes, I do. I play football every Saturday.'",
-  secretTipVi: "🔑 Đừng chỉ trả lời Yes/No — luôn thêm thông tin! 'Yes, I do. I play football every Saturday.'",
+  secretTip: "🔑 Don't just answer Yes/No - always add extra information! 'Yes, I do. I play football every Saturday.'",
+  secretTipVi: "🔑 Đừng chỉ trả lời Yes/No - luôn thêm thông tin! 'Yes, I do. I play football every Saturday.'",
   welcomeMessage: "Let's have a chat! 🗣️ The best conversations have great questions!",
   welcomeMessageVi: "Cùng trò chuyện! 🗣️ Hội thoại hay nhất có những câu hỏi tuyệt vời!",
   stepByStep: [
@@ -954,8 +954,8 @@ const ketWritingStory: CambridgeLecture = {
   skill: "reading-writing",
   icon: "✏️",
   duration: "22 min",
-  description: "Write a short story for the KET exam — learn structure, vocabulary and connectors!",
-  descriptionVi: "Viết truyện ngắn cho đề thi KET — học cấu trúc, từ vựng và từ nối!",
+  description: "Write a short story for the KET exam - learn structure, vocabulary and connectors!",
+  descriptionVi: "Viết truyện ngắn cho đề thi KET - học cấu trúc, từ vựng và từ nối!",
   learningObjective: "Students can write a coherent short story of 35+ words with clear structure.",
   learningObjectiveVi: "Học sinh viết truyện ngắn mạch lạc 35+ từ với cấu trúc rõ ràng.",
   examPattern: "KET Writing Part 7: Write a short story based on 3 picture prompts.",
@@ -1012,8 +1012,8 @@ const ketGrammarReview: CambridgeLecture = {
   learningObjectiveVi: "Học sinh áp dụng quy tắc ngữ pháp KET quan trọng trong đọc và viết.",
   examPattern: "KET Reading Part 3: Choose the correct grammar option to complete sentences.",
   examPatternVi: "KET Đọc Phần 3: Chọn đáp án ngữ pháp đúng để hoàn thành câu.",
-  secretTip: "🔑 Make a grammar mistakes diary — write down mistakes you make and review them weekly!",
-  secretTipVi: "🔑 Làm nhật ký lỗi ngữ pháp — ghi lỗi bạn mắc và ôn lại hàng tuần!",
+  secretTip: "🔑 Make a grammar mistakes diary - write down mistakes you make and review them weekly!",
+  secretTipVi: "🔑 Làm nhật ký lỗi ngữ pháp - ghi lỗi bạn mắc và ôn lại hàng tuần!",
   welcomeMessage: "Let's review grammar! 📚 Small rules = big results!",
   welcomeMessageVi: "Cùng ôn ngữ pháp! 📚 Quy tắc nhỏ = kết quả lớn!",
   stepByStep: [
@@ -1038,7 +1038,7 @@ const ketGrammarReview: CambridgeLecture = {
   vocabulary: [
     { word: "tense", meaning: "the form of a verb that shows time", meaningVi: "thì (ngữ pháp)", example: "Past tense shows things that already happened." },
     { word: "preposition", meaning: "a small word showing place/time (in, on, at)", meaningVi: "giới từ", example: "Prepositions can be tricky: in the morning, at night." },
-    { word: "article", meaning: "a, an, the — used before nouns", meaningVi: "mạo từ", example: "Use 'an' before vowel sounds: an apple." },
+    { word: "article", meaning: "a, an, the - used before nouns", meaningVi: "mạo từ", example: "Use 'an' before vowel sounds: an apple." },
     { word: "conjugate", meaning: "to change a verb form", meaningVi: "chia động từ", example: "Conjugate 'go': I go, she goes, they went." },
   ],
   quiz: [
@@ -1051,7 +1051,7 @@ const ketGrammarReview: CambridgeLecture = {
   isNew: true,
 };
 
-// ==================== PET — 5 new lectures ====================
+// ==================== PET - 5 new lectures ====================
 
 const petReadingMC: CambridgeLecture = {
   id: "cam-pet-reading-mc-detail",
@@ -1061,14 +1061,14 @@ const petReadingMC: CambridgeLecture = {
   skill: "reading-writing",
   icon: "🔍",
   duration: "25 min",
-  description: "Master PET multiple choice questions — find specific details in long texts!",
-  descriptionVi: "Thành thạo trắc nghiệm PET — tìm chi tiết cụ thể trong đoạn dài!",
+  description: "Master PET multiple choice questions - find specific details in long texts!",
+  descriptionVi: "Thành thạo trắc nghiệm PET - tìm chi tiết cụ thể trong đoạn dài!",
   learningObjective: "Students can locate specific details in texts and eliminate wrong answers in MC questions.",
   learningObjectiveVi: "Học sinh tìm chi tiết cụ thể trong văn bản và loại bỏ đáp án sai trong trắc nghiệm.",
   examPattern: "PET Reading Part 4: Read a long text and answer 5 multiple-choice questions.",
   examPatternVi: "PET Đọc Phần 4: Đọc đoạn dài và trả lời 5 câu trắc nghiệm.",
-  secretTip: "🔑 Questions follow the text ORDER — Q1 answer is near the start, Q5 is near the end!",
-  secretTipVi: "🔑 Câu hỏi theo THỨ TỰ đoạn văn — đáp án Q1 ở gần đầu, Q5 ở gần cuối!",
+  secretTip: "🔑 Questions follow the text ORDER - Q1 answer is near the start, Q5 is near the end!",
+  secretTipVi: "🔑 Câu hỏi theo THỨ TỰ đoạn văn - đáp án Q1 ở gần đầu, Q5 ở gần cuối!",
   welcomeMessage: "Let's become detail detectives! 🔍 Find the answers hidden in the text!",
   welcomeMessageVi: "Cùng trở thành thám tử chi tiết! 🔍 Tìm đáp án ẩn trong đoạn văn!",
   stepByStep: [
@@ -1083,20 +1083,20 @@ const petReadingMC: CambridgeLecture = {
   ],
   watchOut: [
     { mistake: "Choosing an answer because it uses the same words as the text", mistakeVi: "Chọn đáp án vì dùng cùng từ với đoạn văn", tip: "Same words ≠ correct answer! The text might say 'She didn't like it'.", tipVi: "Cùng từ ≠ đáp án đúng! Đoạn có thể nói 'She didn't like it'." },
-    { mistake: "Not reading all 4 options", mistakeVi: "Không đọc hết 4 lựa chọn", tip: "Always read ALL options before choosing — the last one might be correct!", tipVi: "Luôn đọc TẤT CẢ lựa chọn trước khi chọn!" },
+    { mistake: "Not reading all 4 options", mistakeVi: "Không đọc hết 4 lựa chọn", tip: "Always read ALL options before choosing - the last one might be correct!", tipVi: "Luôn đọc TẤT CẢ lựa chọn trước khi chọn!" },
   ],
   practiceSet: [
     { instruction: "Choose", instructionVi: "Chọn", question: "When doing PET MC questions, you should ___.", options: ["Read the text first then questions", "Read questions first then the text", "Only read the questions", "Skip the text"], answer: 1, explanation: "Reading questions first helps you know what to look for.", explanationVi: "Đọc câu hỏi trước giúp biết cần tìm gì." },
-    { instruction: "Choose", instructionVi: "Chọn", question: "Wrong answers in MC often ___.", options: ["Are completely different from the text", "Use words from the text but change meaning", "Are obvious", "Have spelling mistakes"], answer: 1, explanation: "Wrong answers are tricky — they often use text words but twist the meaning.", explanationVi: "Đáp án sai thường dùng từ trong đoạn nhưng xoắn nghĩa." },
+    { instruction: "Choose", instructionVi: "Chọn", question: "Wrong answers in MC often ___.", options: ["Are completely different from the text", "Use words from the text but change meaning", "Are obvious", "Have spelling mistakes"], answer: 1, explanation: "Wrong answers are tricky - they often use text words but twist the meaning.", explanationVi: "Đáp án sai thường dùng từ trong đoạn nhưng xoắn nghĩa." },
   ],
   vocabulary: [
     { word: "eliminate", meaning: "to remove wrong answers", meaningVi: "loại bỏ", example: "Eliminate options that are clearly wrong." },
     { word: "paraphrase", meaning: "to say the same thing with different words", meaningVi: "diễn đạt lại", example: "The correct answer often paraphrases the text." },
-    { word: "distractor", meaning: "a wrong answer designed to trick you", meaningVi: "phương án nhiễu", example: "Don't fall for the distractor — check the text carefully!" },
+    { word: "distractor", meaning: "a wrong answer designed to trick you", meaningVi: "phương án nhiễu", example: "Don't fall for the distractor - check the text carefully!" },
     { word: "skim", meaning: "to read quickly for the main idea", meaningVi: "đọc lướt", example: "Skim the text first, then read carefully for details." },
   ],
   quiz: [
-    { question: "In PET Reading Part 4, questions follow ___.", options: ["Random order", "The order of the text", "Reverse order", "Alphabetical order"], answer: 1, explanation: "Questions follow the text order — Q1 is about the beginning, Q5 about the end." },
+    { question: "In PET Reading Part 4, questions follow ___.", options: ["Random order", "The order of the text", "Reverse order", "Alphabetical order"], answer: 1, explanation: "Questions follow the text order - Q1 is about the beginning, Q5 about the end." },
     { question: "A 'distractor' is ___.", options: ["The correct answer", "A wrong answer that looks right", "A grammar rule", "A vocabulary word"], answer: 1, explanation: "Distractors are wrong answers designed to trick test-takers." },
     { question: "If you can't find the answer, you should ___.", options: ["Leave it blank", "Eliminate wrong answers and guess", "Skip the whole text", "Ask the examiner"], answer: 1, explanation: "Eliminate obviously wrong answers, then make an educated guess." },
   ],
@@ -1113,12 +1113,12 @@ const petWritingReview: CambridgeLecture = {
   skill: "reading-writing",
   icon: "📝",
   duration: "25 min",
-  description: "Write a review or opinion essay for PET — structure, vocabulary and persuasion!",
-  descriptionVi: "Viết bài đánh giá hoặc bài luận ý kiến cho PET — cấu trúc, từ vựng và thuyết phục!",
+  description: "Write a review or opinion essay for PET - structure, vocabulary and persuasion!",
+  descriptionVi: "Viết bài đánh giá hoặc bài luận ý kiến cho PET - cấu trúc, từ vựng và thuyết phục!",
   learningObjective: "Students can write a structured review/opinion essay of 100+ words.",
   learningObjectiveVi: "Học sinh viết bài đánh giá/ý kiến có cấu trúc 100+ từ.",
-  examPattern: "PET Writing Part 2: Write about 100 words — a review, article, or story.",
-  examPatternVi: "PET Viết Phần 2: Viết khoảng 100 từ — bài đánh giá, bài báo, hoặc truyện.",
+  examPattern: "PET Writing Part 2: Write about 100 words - a review, article, or story.",
+  examPatternVi: "PET Viết Phần 2: Viết khoảng 100 từ - bài đánh giá, bài báo, hoặc truyện.",
   secretTip: "🔑 Use the OREO structure: Opinion → Reason → Example → Opinion (repeat)!",
   secretTipVi: "🔑 Dùng cấu trúc OREO: Ý kiến → Lý do → Ví dụ → Ý kiến (lặp lại)!",
   welcomeMessage: "Ready to write? 📝 Let's create a brilliant review!",
@@ -1165,14 +1165,14 @@ const petListeningLong: CambridgeLecture = {
   skill: "listening",
   icon: "🎧",
   duration: "25 min",
-  description: "Master longer listening passages — catch opinions, attitudes and specific details!",
-  descriptionVi: "Thành thạo đoạn nghe dài — bắt ý kiến, thái độ và chi tiết cụ thể!",
+  description: "Master longer listening passages - catch opinions, attitudes and specific details!",
+  descriptionVi: "Thành thạo đoạn nghe dài - bắt ý kiến, thái độ và chi tiết cụ thể!",
   learningObjective: "Students can understand extended conversations and identify speakers' opinions and attitudes.",
   learningObjectiveVi: "Học sinh hiểu hội thoại kéo dài và xác định ý kiến và thái độ người nói.",
   examPattern: "PET Listening Part 3: Listen to a longer conversation and answer 6 True/False questions.",
   examPatternVi: "PET Nghe Phần 3: Nghe hội thoại dài và trả lời 6 câu Đúng/Sai.",
-  secretTip: "🔑 Listen for opinion markers: 'I think', 'I believe', 'In my view' — the answer usually follows!",
-  secretTipVi: "🔑 Nghe dấu hiệu ý kiến: 'I think', 'I believe', 'In my view' — đáp án thường theo sau!",
+  secretTip: "🔑 Listen for opinion markers: 'I think', 'I believe', 'In my view' - the answer usually follows!",
+  secretTipVi: "🔑 Nghe dấu hiệu ý kiến: 'I think', 'I believe', 'In my view' - đáp án thường theo sau!",
   welcomeMessage: "Put on your headphones! 🎧 Let's listen carefully!",
   welcomeMessageVi: "Đeo tai nghe! 🎧 Cùng lắng nghe kỹ!",
   stepByStep: [
@@ -1186,8 +1186,8 @@ const petListeningLong: CambridgeLecture = {
     { icon: "⚠️", rule: "Trap: speaker says something then changes opinion", ruleVi: "Bẫy: người nói nói gì đó rồi đổi ý", example: "'I thought it'd be boring, but actually it was great!' → Focus on FINAL opinion" },
   ],
   watchOut: [
-    { mistake: "Choosing based on the first thing said", mistakeVi: "Chọn dựa trên điều đầu tiên được nói", tip: "Wait for the FULL answer — speakers often change their mind!", tipVi: "Đợi câu trả lời ĐẦY ĐỦ — người nói thường đổi ý!" },
-    { mistake: "Confusing what two speakers say", mistakeVi: "Nhầm lẫn lời hai người nói", tip: "Focus on WHO says what — 'she thinks' vs 'he thinks'.", tipVi: "Tập trung AI nói gì — 'she thinks' vs 'he thinks'." },
+    { mistake: "Choosing based on the first thing said", mistakeVi: "Chọn dựa trên điều đầu tiên được nói", tip: "Wait for the FULL answer - speakers often change their mind!", tipVi: "Đợi câu trả lời ĐẦY ĐỦ - người nói thường đổi ý!" },
+    { mistake: "Confusing what two speakers say", mistakeVi: "Nhầm lẫn lời hai người nói", tip: "Focus on WHO says what - 'she thinks' vs 'he thinks'.", tipVi: "Tập trung AI nói gì - 'she thinks' vs 'he thinks'." },
   ],
   practiceSet: [
     { instruction: "Choose", instructionVi: "Chọn", question: "'I wasn't sure about the restaurant, but the food was actually delicious!' The speaker ___.", options: ["Didn't like the food", "Liked the food in the end", "Didn't eat anything", "Went to a different restaurant"], answer: 1, explanation: "'Actually delicious' shows the speaker's final (positive) opinion.", explanationVi: "'Actually delicious' cho thấy ý kiến cuối cùng (tích cực) của người nói." },
@@ -1217,8 +1217,8 @@ const petSpeakingPhoto: CambridgeLecture = {
   skill: "speaking",
   icon: "📸",
   duration: "25 min",
-  description: "Master advanced photo description — speculation, comparison and detailed observation!",
-  descriptionVi: "Thành thạo mô tả ảnh nâng cao — suy đoán, so sánh và quan sát chi tiết!",
+  description: "Master advanced photo description - speculation, comparison and detailed observation!",
+  descriptionVi: "Thành thạo mô tả ảnh nâng cao - suy đoán, so sánh và quan sát chi tiết!",
   learningObjective: "Students can describe photos in detail, speculate about context, and compare images.",
   learningObjectiveVi: "Học sinh mô tả ảnh chi tiết, suy đoán bối cảnh, và so sánh hình ảnh.",
   examPattern: "PET Speaking Part 3: Describe a photo and speculate about what's happening.",
@@ -1269,8 +1269,8 @@ const petTransformations: CambridgeLecture = {
   skill: "reading-writing",
   icon: "🔄",
   duration: "25 min",
-  description: "Master sentence transformations — rewrite sentences keeping the same meaning!",
-  descriptionVi: "Thành thạo chuyển đổi câu — viết lại câu giữ nguyên nghĩa!",
+  description: "Master sentence transformations - rewrite sentences keeping the same meaning!",
+  descriptionVi: "Thành thạo chuyển đổi câu - viết lại câu giữ nguyên nghĩa!",
   learningObjective: "Students can transform sentences using different grammatical structures while keeping the meaning.",
   learningObjectiveVi: "Học sinh chuyển đổi câu dùng cấu trúc ngữ pháp khác nhau mà giữ nguyên nghĩa.",
   examPattern: "PET Reading Part 6: Complete a sentence so it means the same as the first, using 1-3 words.",

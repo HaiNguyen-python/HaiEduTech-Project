@@ -1,4 +1,4 @@
-// Dedicated Songs Library page — wraps SongLibrary with Navbar/Footer
+// Dedicated Songs Library page - wraps SongLibrary with Navbar/Footer
 import { useParams, Navigate, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";

@@ -19,8 +19,8 @@ export const hskModules: LanguageModule[] = [
         titleEn: "Greetings & Introductions",
         level: 1,
         difficulty: "beginner",
-        theory: "**Chào hỏi cơ bản:**\n\n你好 (nǐ hǎo) — Xin chào\n你好吗？(nǐ hǎo ma?) — Bạn khỏe không?\n我很好 (wǒ hěn hǎo) — Tôi rất khỏe\n谢谢 (xiè xie) — Cảm ơn\n不客气 (bú kè qi) — Không có gì\n再见 (zài jiàn) — Tạm biệt\n\n**Giới thiệu bản thân:**\n我叫... (wǒ jiào...) — Tôi tên là...\n我是... (wǒ shì...) — Tôi là...\n你叫什么名字？(nǐ jiào shén me míng zi?) — Bạn tên gì?\n\n**Thanh điệu (Tones):**\n- 1st tone (ˉ): cao bằng → māo (猫 con mèo)\n- 2nd tone (ˊ): đi lên → máng (忙 bận)\n- 3rd tone (ˇ): xuống rồi lên → mǎi (买 mua)\n- 4th tone (ˋ): đi xuống mạnh → mài (卖 bán)\n- Neutral tone: nhẹ, ngắn → ma (吗 hỏi)",
-        theoryEn: "**Basic Greetings:**\n你好 (nǐ hǎo) — Hello\n谢谢 (xiè xie) — Thank you\n再见 (zài jiàn) — Goodbye\n\n**Self Introduction:**\n我叫... (wǒ jiào...) — My name is...\n我是... (wǒ shì...) — I am...\n\n**4 Tones + Neutral tone explained**",
+        theory: "**Chào hỏi cơ bản:**\n\n你好 (nǐ hǎo) - Xin chào\n你好吗？(nǐ hǎo ma?) - Bạn khỏe không?\n我很好 (wǒ hěn hǎo) - Tôi rất khỏe\n谢谢 (xiè xie) - Cảm ơn\n不客气 (bú kè qi) - Không có gì\n再见 (zài jiàn) - Tạm biệt\n\n**Giới thiệu bản thân:**\n我叫... (wǒ jiào...) - Tôi tên là...\n我是... (wǒ shì...) - Tôi là...\n你叫什么名字？(nǐ jiào shén me míng zi?) - Bạn tên gì?\n\n**Thanh điệu (Tones):**\n- 1st tone (ˉ): cao bằng → māo (猫 con mèo)\n- 2nd tone (ˊ): đi lên → máng (忙 bận)\n- 3rd tone (ˇ): xuống rồi lên → mǎi (买 mua)\n- 4th tone (ˋ): đi xuống mạnh → mài (卖 bán)\n- Neutral tone: nhẹ, ngắn → ma (吗 hỏi)",
+        theoryEn: "**Basic Greetings:**\n你好 (nǐ hǎo) - Hello\n谢谢 (xiè xie) - Thank you\n再见 (zài jiàn) - Goodbye\n\n**Self Introduction:**\n我叫... (wǒ jiào...) - My name is...\n我是... (wǒ shì...) - I am...\n\n**4 Tones + Neutral tone explained**",
         vocabulary: [
           { word: "你好", pinyin: "nǐ hǎo", meaning: "xin chào", example: "你好！我是小明。", partOfSpeech: "interjection" },
           { word: "谢谢", pinyin: "xiè xie", meaning: "cảm ơn", example: "谢谢你的帮助！", partOfSpeech: "interjection" },
@@ -149,12 +149,12 @@ export const hskModules: LanguageModule[] = [
     lessons: [
       {
         id: "hsk2-gram-1",
-        title: "了 (le) — Hoàn thành & Thay đổi",
-        titleEn: "了 (le) — Completion & Change",
+        title: "了 (le) - Hoàn thành & Thay đổi",
+        titleEn: "了 (le) - Completion & Change",
         level: 2,
         difficulty: "intermediate",
-        theory: "**了 (le)** là một trong những hư từ quan trọng nhất.\n\n**1. 了 sau động từ — Hoàn thành (Perfective):**\n表示动作完成\n- 我**吃了**饭。= Tôi **đã ăn** cơm.\n- 他**买了**一本书。= Anh ấy **đã mua** một cuốn sách.\n\n**2. 了 cuối câu — Thay đổi trạng thái (Change of state):**\n表示新情况\n- 下雨**了**。= **Bắt đầu** mưa rồi.\n- 他高**了**。= Anh ấy **đã** cao **rồi**.\n\n**3. Phủ định — KHÔNG dùng 了:**\n用没有\n- 我**没有**吃饭。(KHÔNG phải ~~我不吃了饭~~)\n- 他**没**买书。\n\n**Lưu ý:**\n- 了 ≠ quá khứ đơn thuần (Past tense)\n- 了 nhấn mạnh sự HOÀN THÀNH hoặc THAY ĐỔI\n- Có thể dùng ở tương lai: 明天我吃了饭去学校。",
-        theoryEn: "**了 (le)** has two main uses:\n1. After verb — completion: 我吃了饭 (I have eaten)\n2. End of sentence — change of state: 下雨了 (It started raining)\n\nNegative: Use 没有, NOT 了",
+        theory: "**了 (le)** là một trong những hư từ quan trọng nhất.\n\n**1. 了 sau động từ - Hoàn thành (Perfective):**\n表示动作完成\n- 我**吃了**饭。= Tôi **đã ăn** cơm.\n- 他**买了**一本书。= Anh ấy **đã mua** một cuốn sách.\n\n**2. 了 cuối câu - Thay đổi trạng thái (Change of state):**\n表示新情况\n- 下雨**了**。= **Bắt đầu** mưa rồi.\n- 他高**了**。= Anh ấy **đã** cao **rồi**.\n\n**3. Phủ định - KHÔNG dùng 了:**\n用没有\n- 我**没有**吃饭。(KHÔNG phải ~~我不吃了饭~~)\n- 他**没**买书。\n\n**Lưu ý:**\n- 了 ≠ quá khứ đơn thuần (Past tense)\n- 了 nhấn mạnh sự HOÀN THÀNH hoặc THAY ĐỔI\n- Có thể dùng ở tương lai: 明天我吃了饭去学校。",
+        theoryEn: "**了 (le)** has two main uses:\n1. After verb - completion: 我吃了饭 (I have eaten)\n2. End of sentence - change of state: 下雨了 (It started raining)\n\nNegative: Use 没有, NOT 了",
         vocabulary: [
           { word: "吃", pinyin: "chī", meaning: "ăn", example: "我吃了早饭。", partOfSpeech: "verb" },
           { word: "买", pinyin: "mǎi", meaning: "mua", example: "她买了一件衣服。", partOfSpeech: "verb" },
@@ -169,7 +169,7 @@ export const hskModules: LanguageModule[] = [
             sentences: [
               { text: "我吃___饭。(đã ăn xong)", textEn: "I have eaten (add 了)", answer: "了" },
               { text: "下雨___。(bắt đầu mưa rồi)", textEn: "It started raining (add 了)", answer: "了" },
-              { text: "他___买书。(chưa mua — phủ định)", textEn: "He hasn't bought a book (negative)", answer: "没有" },
+              { text: "他___买书。(chưa mua - phủ định)", textEn: "He hasn't bought a book (negative)", answer: "没有" },
             ],
           },
         ],
@@ -180,8 +180,8 @@ export const hskModules: LanguageModule[] = [
       },
       {
         id: "hsk2-gram-2",
-        title: "比 (bǐ) — So sánh",
-        titleEn: "比 (bǐ) — Comparisons",
+        title: "比 (bǐ) - So sánh",
+        titleEn: "比 (bǐ) - Comparisons",
         level: 2,
         difficulty: "intermediate",
         theory: "**Cấu trúc so sánh với 比 (bǐ):**\n\n**A 比 B + Adj:**\n- 他**比**我高。= Anh ấy cao **hơn** tôi.\n- 北京**比**河内大。= Bắc Kinh lớn **hơn** Hà Nội.\n\n**A 比 B + Adj + 多了/得多:**\n- 他比我高**多了**。= Anh ấy cao hơn tôi **nhiều**.\n\n**Phủ định: A 没有 B + Adj:**\n- 我**没有**他高。= Tôi **không** cao **bằng** anh ấy.\n\n**Bằng nhau: A 跟 B 一样 + Adj:**\n- 我**跟**他**一样**高。= Tôi cao **bằng** anh ấy.\n\n⚠️ **Lưu ý:** KHÔNG nói ~~他比我很高~~ (không dùng 很 với 比)",
@@ -233,11 +233,11 @@ export const hskModules: LanguageModule[] = [
     lessons: [
       {
         id: "hsk3-gram-1",
-        title: "把 (bǎ) — Câu chữ Bả",
-        titleEn: "把 (bǎ) — Disposal Construction",
+        title: "把 (bǎ) - Câu chữ Bả",
+        titleEn: "把 (bǎ) - Disposal Construction",
         level: 3,
         difficulty: "intermediate",
-        theory: "**Cấu trúc 把:**\nS + 把 + O + V + Complement\n\n**Ý nghĩa:** Nhấn mạnh tác động của hành động lên đối tượng.\n\n**Ví dụ:**\n- 请你**把**门**关上**。= Xin hãy **đóng** cửa **lại**.\n- 我**把**作业**做完了**。= Tôi **đã làm xong** bài tập.\n- 他**把**杯子**打破了**。= Anh ấy **đã làm vỡ** cái cốc.\n\n**Quy tắc:**\n1. Tân ngữ sau 把 phải XÁC ĐỊNH (specific)\n   ✅ 把那本书放在桌子上 (cuốn sách đó — xác định)\n   ❌ 把一本书放在桌子上 (một cuốn sách — không xác định)\n2. Động từ phải có BỔ NGỮ kết quả/phương hướng\n   ❌ 把门关 (thiếu bổ ngữ)\n   ✅ 把门关上 (关上 = đóng lại)\n3. Phủ định: 别/不要/没有 đặt TRƯỚC 把\n   - 别把书弄丢了。= Đừng làm mất sách.",
+        theory: "**Cấu trúc 把:**\nS + 把 + O + V + Complement\n\n**Ý nghĩa:** Nhấn mạnh tác động của hành động lên đối tượng.\n\n**Ví dụ:**\n- 请你**把**门**关上**。= Xin hãy **đóng** cửa **lại**.\n- 我**把**作业**做完了**。= Tôi **đã làm xong** bài tập.\n- 他**把**杯子**打破了**。= Anh ấy **đã làm vỡ** cái cốc.\n\n**Quy tắc:**\n1. Tân ngữ sau 把 phải XÁC ĐỊNH (specific)\n   ✅ 把那本书放在桌子上 (cuốn sách đó - xác định)\n   ❌ 把一本书放在桌子上 (một cuốn sách - không xác định)\n2. Động từ phải có BỔ NGỮ kết quả/phương hướng\n   ❌ 把门关 (thiếu bổ ngữ)\n   ✅ 把门关上 (关上 = đóng lại)\n3. Phủ định: 别/不要/没有 đặt TRƯỚC 把\n   - 别把书弄丢了。= Đừng làm mất sách.",
         theoryEn: "**把 construction:** S + 把 + O + V + Complement\nEmphasizes the effect of an action on an object.\n\nRules:\n1. Object must be specific\n2. Verb needs a complement\n3. Negation goes BEFORE 把",
         vocabulary: [
           { word: "把", pinyin: "bǎ", meaning: "(giới từ chỉ đối tượng)", example: "请你把窗户打开。", partOfSpeech: "preposition" },
@@ -289,7 +289,7 @@ export const hskModules: LanguageModule[] = [
         titleEn: "Cultural Reading Passages",
         level: 4,
         difficulty: "advanced",
-        theory: "**Đọc hiểu HSK 4** yêu cầu hiểu đoạn văn 200-300 chữ.\n\n**Chủ đề thường gặp:**\n- 文化 (wén huà) — Văn hóa\n- 历史 (lì shǐ) — Lịch sử\n- 科技 (kē jì) — Khoa học công nghệ\n- 社会 (shè huì) — Xã hội\n\n**Chiến lược đọc:**\n1. Đọc tiêu đề trước\n2. Xác định từ khóa trong câu hỏi\n3. Tìm đoạn chứa thông tin\n4. Chú ý các từ nối: 但是, 然而, 因此, 所以\n\n**Đoạn văn mẫu:**\n中国的春节是最重要的传统节日。每年农历一月一日，人们会回家和家人团聚。过年的时候，大家一起吃年夜饭，放鞭炮，还要给孩子们发红包。春节不只是一个节日，更是中国人表达亲情和祝福的重要时刻。\n\n(Tết Nguyên Đán là ngày lễ truyền thống quan trọng nhất của Trung Quốc...)",
+        theory: "**Đọc hiểu HSK 4** yêu cầu hiểu đoạn văn 200-300 chữ.\n\n**Chủ đề thường gặp:**\n- 文化 (wén huà) - Văn hóa\n- 历史 (lì shǐ) - Lịch sử\n- 科技 (kē jì) - Khoa học công nghệ\n- 社会 (shè huì) - Xã hội\n\n**Chiến lược đọc:**\n1. Đọc tiêu đề trước\n2. Xác định từ khóa trong câu hỏi\n3. Tìm đoạn chứa thông tin\n4. Chú ý các từ nối: 但是, 然而, 因此, 所以\n\n**Đoạn văn mẫu:**\n中国的春节是最重要的传统节日。每年农历一月一日，人们会回家和家人团聚。过年的时候，大家一起吃年夜饭，放鞭炮，还要给孩子们发红包。春节不只是一个节日，更是中国人表达亲情和祝福的重要时刻。\n\n(Tết Nguyên Đán là ngày lễ truyền thống quan trọng nhất của Trung Quốc...)",
         theoryEn: "**HSK 4 Reading** requires understanding 200-300 character passages.\n\n**Common topics:** Culture, History, Technology, Society\n\n**Reading strategy:**\n1. Read title first\n2. Identify keywords in questions\n3. Locate relevant paragraph\n4. Watch for connectors: 但是, 因此, 所以",
         vocabulary: [
           { word: "春节", pinyin: "chūn jié", meaning: "Tết Nguyên Đán", example: "春节是中国最重要的节日。", partOfSpeech: "noun" },

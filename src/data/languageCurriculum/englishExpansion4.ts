@@ -1,6 +1,6 @@
 import type { LanguageModule } from "./types";
 
-// TOEIC Expansion — 5 new lessons
+// TOEIC Expansion - 5 new lessons
 const toeicExpansion4Modules: LanguageModule[] = [
   {
     id: "toeic-exp4-business-comm",
@@ -22,12 +22,12 @@ const toeicExpansion4Modules: LanguageModule[] = [
         theory: `# Business Email Writing for TOEIC
 
 ## Structure of a Professional Email
-1. **Subject line** — Clear and specific
-2. **Greeting** — Dear Mr./Ms. + Last name
-3. **Opening** — State purpose immediately
-4. **Body** — Details, organized in short paragraphs
-5. **Closing** — Call to action or next steps
-6. **Sign-off** — Best regards, Sincerely
+1. **Subject line** - Clear and specific
+2. **Greeting** - Dear Mr./Ms. + Last name
+3. **Opening** - State purpose immediately
+4. **Body** - Details, organized in short paragraphs
+5. **Closing** - Call to action or next steps
+6. **Sign-off** - Best regards, Sincerely
 
 ## Common Phrases
 - "I am writing to inquire about..."
@@ -43,12 +43,12 @@ const toeicExpansion4Modules: LanguageModule[] = [
         theoryEn: `# Business Email Writing for TOEIC
 
 ## Structure of a Professional Email
-1. **Subject line** — Clear and specific
-2. **Greeting** — Dear Mr./Ms. + Last name
-3. **Opening** — State purpose immediately
-4. **Body** — Details, organized in short paragraphs
-5. **Closing** — Call to action or next steps
-6. **Sign-off** — Best regards, Sincerely
+1. **Subject line** - Clear and specific
+2. **Greeting** - Dear Mr./Ms. + Last name
+3. **Opening** - State purpose immediately
+4. **Body** - Details, organized in short paragraphs
+5. **Closing** - Call to action or next steps
+6. **Sign-off** - Best regards, Sincerely
 
 ## Common Phrases
 - "I am writing to inquire about..."
@@ -102,15 +102,15 @@ const toeicExpansion4Modules: LanguageModule[] = [
 - **chairperson**: người chủ trì
 
 ## During the Meeting
-- "Let's get started." — Bắt đầu thôi.
-- "Moving on to the next item..." — Chuyển sang mục tiếp theo...
-- "Could you elaborate on that?" — Bạn có thể nói rõ hơn không?
-- "I'd like to raise a point." — Tôi muốn nêu một ý kiến.
+- "Let's get started." - Bắt đầu thôi.
+- "Moving on to the next item..." - Chuyển sang mục tiếp theo...
+- "Could you elaborate on that?" - Bạn có thể nói rõ hơn không?
+- "I'd like to raise a point." - Tôi muốn nêu một ý kiến.
 
 ## After the Meeting
-- "To summarize..." — Tóm lại...
-- "The action items are..." — Các việc cần làm là...
-- "Let's schedule a follow-up." — Hẹn họp lại.`,
+- "To summarize..." - Tóm lại...
+- "The action items are..." - Các việc cần làm là...
+- "Let's schedule a follow-up." - Hẹn họp lại.`,
         theoryEn: `# Meeting Vocabulary for TOEIC
 
 ## Before the Meeting
@@ -281,10 +281,10 @@ const toeicExpansion4Modules: LanguageModule[] = [
         theory: `# Negotiations & Agreements
 
 ## Key Phrases for Negotiation
-- "We'd like to propose..." — Chúng tôi muốn đề xuất...
-- "That sounds reasonable." — Điều đó có vẻ hợp lý.
-- "We're willing to compromise on..." — Chúng tôi sẵn sàng nhượng bộ về...
-- "Could we meet halfway?" — Chúng ta có thể dung hòa không?
+- "We'd like to propose..." - Chúng tôi muốn đề xuất...
+- "That sounds reasonable." - Điều đó có vẻ hợp lý.
+- "We're willing to compromise on..." - Chúng tôi sẵn sàng nhượng bộ về...
+- "Could we meet halfway?" - Chúng ta có thể dung hòa không?
 
 ## Making Offers
 - "We can offer a 10% discount if..."
@@ -292,9 +292,9 @@ const toeicExpansion4Modules: LanguageModule[] = [
 - "This is a one-time offer."
 
 ## Reaching Agreement
-- "Let's shake on it." — Chốt thỏa thuận.
-- "We have a deal." — Chúng ta đã đạt được thỏa thuận.
-- "I'll have the contract drawn up." — Tôi sẽ soạn hợp đồng.
+- "Let's shake on it." - Chốt thỏa thuận.
+- "We have a deal." - Chúng ta đã đạt được thỏa thuận.
+- "I'll have the contract drawn up." - Tôi sẽ soạn hợp đồng.
 
 ## Declining Politely
 - "I'm afraid that won't work for us."
@@ -339,7 +339,7 @@ const toeicExpansion4Modules: LanguageModule[] = [
   },
 ];
 
-// National Exam Expansion — 5 new lessons
+// National Exam Expansion - 5 new lessons
 const nationalExamExpansion4Modules: LanguageModule[] = [
   {
     id: "natexam-exp4-strategies",
@@ -382,9 +382,9 @@ const nationalExamExpansion4Modules: LanguageModule[] = [
 - Identify question types: main idea, detail, inference, vocabulary
 - Underline keywords
 
-## Step 2: Skimming — get the main idea
-## Step 3: Scanning — find specific information
-## Step 4: Elimination — remove wrong answers`,
+## Step 2: Skimming - get the main idea
+## Step 3: Scanning - find specific information
+## Step 4: Elimination - remove wrong answers`,
         proTips: ["Đọc câu hỏi trước khi đọc bài", "Loại trừ đáp án sai thay vì tìm đáp án đúng"],
         proTipsEn: ["Read questions before the passage", "Eliminate wrong answers instead of finding the right one"],
         exercises: [
@@ -469,11 +469,11 @@ const nationalExamExpansion4Modules: LanguageModule[] = [
 Bài đọc có nhiều chỗ trống, mỗi chỗ có 4 đáp án.
 
 ## Chiến lược
-1. **Đọc toàn bài trước** — hiểu ngữ cảnh chung
+1. **Đọc toàn bài trước** - hiểu ngữ cảnh chung
 2. **Xác định loại từ** cần điền (noun/verb/adj/adv/preposition)
-3. **Dùng ngữ cảnh** — đọc câu trước và sau chỗ trống
-4. **Kiểm tra collocation** — từ nào đi cùng từ nào
-5. **Kiểm tra grammar** — thì, chủ ngữ, etc.
+3. **Dùng ngữ cảnh** - đọc câu trước và sau chỗ trống
+4. **Kiểm tra collocation** - từ nào đi cùng từ nào
+5. **Kiểm tra grammar** - thì, chủ ngữ, etc.
 
 ## Mẹo
 - Linking words: however, moreover, therefore, although
@@ -543,7 +543,7 @@ Bài đọc có nhiều chỗ trống, mỗi chỗ có 4 đáp án.
           },
         ],
         quiz: [
-          { question: "Which word has stress on the SECOND syllable?", options: ["Student", "Teacher", "Begin", "Table"], answer: 2, explanation: "'Begin' is a verb — stress on the 2nd syllable: be-GIN." },
+          { question: "Which word has stress on the SECOND syllable?", options: ["Student", "Teacher", "Begin", "Table"], answer: 2, explanation: "'Begin' is a verb - stress on the 2nd syllable: be-GIN." },
           { question: "The suffix '-tion' causes stress to fall on:", options: ["The first syllable", "The syllable before -tion", "The last syllable", "No change"], answer: 1, explanation: "Stress falls on the syllable immediately before '-tion'." },
         ],
       },
@@ -556,9 +556,9 @@ Bài đọc có nhiều chỗ trống, mỗi chỗ có 4 đáp án.
         theory: `# Từ vựng theo Ngữ cảnh
 
 ## Chiến lược đoán nghĩa từ
-1. **Context clues** — Dùng ngữ cảnh xung quanh
-2. **Word parts** — Phân tích prefix, root, suffix
-3. **Synonyms/Antonyms** — Tìm từ đồng/trái nghĩa gần đó
+1. **Context clues** - Dùng ngữ cảnh xung quanh
+2. **Word parts** - Phân tích prefix, root, suffix
+3. **Synonyms/Antonyms** - Tìm từ đồng/trái nghĩa gần đó
 
 ## Common Prefixes
 - **un-, in-, im-, dis-**: not (unhappy, impossible)
@@ -602,7 +602,7 @@ Bài đọc có nhiều chỗ trống, mỗi chỗ có 4 đáp án.
   },
 ];
 
-// Cambridge Expansion — 5 new lessons
+// Cambridge Expansion - 5 new lessons
 const cambridgeExpansion4Modules: LanguageModule[] = [
   {
     id: "cambridge-exp4-skills",
@@ -709,8 +709,8 @@ Listen and color objects or write words on a picture.
 ## Tips for Success
 1. **Look at the picture carefully** before listening
 2. **Know your colors**: red, blue, green, yellow, orange, purple, pink, brown, grey, black
-3. **Listen for spelling** — the speaker will spell new words
-4. **Listen twice** — use the first time to understand, second to check
+3. **Listen for spelling** - the speaker will spell new words
+4. **Listen twice** - use the first time to understand, second to check
 
 ## Common Instructions
 - "Color the ball blue."
@@ -747,9 +747,9 @@ Listen and color objects or write words on a picture. Know your colors and liste
 Look at a series of pictures and tell a story.
 
 ## Structure
-1. **Beginning**: Set the scene — who, where, when
-2. **Middle**: What happened — use sequence words
-3. **End**: How it ended — feelings, results
+1. **Beginning**: Set the scene - who, where, when
+2. **Middle**: What happened - use sequence words
+3. **End**: How it ended - feelings, results
 
 ## Useful Language
 - "One day..." / "Last Saturday..."
@@ -791,11 +791,11 @@ Look at pictures and narrate. Use past tense, sequence words, and describe feeli
 red, blue, green, yellow, orange, purple, pink, brown, black, white, grey
 
 ## Shapes
-- circle (hình tròn) — round like a ball
-- square (hình vuông) — 4 equal sides
-- triangle (hình tam giác) — 3 sides
-- rectangle (hình chữ nhật) — like a door
-- star (ngôi sao) — 5 points
+- circle (hình tròn) - round like a ball
+- square (hình vuông) - 4 equal sides
+- triangle (hình tam giác) - 3 sides
+- rectangle (hình chữ nhật) - like a door
+- star (ngôi sao) - 5 points
 
 ## Toys
 ball, doll, car, train, teddy bear, puzzle, kite, robot

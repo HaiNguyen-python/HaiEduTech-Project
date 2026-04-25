@@ -1,4 +1,4 @@
-// Kids overseas expansion — 6 bài học mới: số đếm, đồ ăn, mùa, văn hóa
+// Kids overseas expansion - 6 bài học mới: số đếm, đồ ăn, mùa, văn hóa
 import type { KidsLesson } from "./kidsOverseasData";
 
 export const kidsExpansion: KidsLesson[] = [
@@ -158,8 +158,8 @@ export const kidsExpansion: KidsLesson[] = [
     story: {
       title: "Hai Bà Trưng",
       titleEn: "The Trung Sisters",
-      text: "Cách đây gần 2000 năm, hai chị em bà Trưng Trắc và Trưng Nhị sống ở đất Mê Linh. Khi giặc Hán đến cướp nước, hai bà đã đứng lên chống giặc. Hai bà cưỡi voi, dẫn đoàn quân khắp nước. Nhân dân khắp nơi theo Hai Bà giành lại độc lập. Đến ngày nay, người Việt vẫn ghi nhớ công ơn Hai Bà Trưng — anh hùng dân tộc đầu tiên là phụ nữ.",
-      textEn: "Nearly 2,000 years ago, two sisters Trung Trac and Trung Nhi lived in Me Linh. When the Han invaders came to conquer, the two sisters rose to fight back. They rode elephants, leading their army across the land. People everywhere followed them and won independence. To this day, Vietnamese still honor the Trung Sisters — our nation's first female heroes.",
+      text: "Cách đây gần 2000 năm, hai chị em bà Trưng Trắc và Trưng Nhị sống ở đất Mê Linh. Khi giặc Hán đến cướp nước, hai bà đã đứng lên chống giặc. Hai bà cưỡi voi, dẫn đoàn quân khắp nước. Nhân dân khắp nơi theo Hai Bà giành lại độc lập. Đến ngày nay, người Việt vẫn ghi nhớ công ơn Hai Bà Trưng - anh hùng dân tộc đầu tiên là phụ nữ.",
+      textEn: "Nearly 2,000 years ago, two sisters Trung Trac and Trung Nhi lived in Me Linh. When the Han invaders came to conquer, the two sisters rose to fight back. They rode elephants, leading their army across the land. People everywhere followed them and won independence. To this day, Vietnamese still honor the Trung Sisters - our nation's first female heroes.",
     },
   },
 ];

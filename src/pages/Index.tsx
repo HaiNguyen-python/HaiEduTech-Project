@@ -1,6 +1,6 @@
 /**
  * @file Index.tsx
- * @description Home page for HaiEduTech Platform — lazy loads below-fold sections.
+ * @description Home page for HaiEduTech Platform - lazy loads below-fold sections.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { lazy, Suspense, useEffect, useState, useRef, ComponentType } from "react";
@@ -57,7 +57,7 @@ const Index = () => (
   <div className="min-h-screen bg-background">
     <SEO
       title="HaiEduTech | Data-Driven Education & AI-Powered Learning"
-      description="Master English, Chinese & Programming with an AI-powered personalized learning path. Data-driven education by HaiEduTech — IELTS, TOEIC, HSK, Finnish YKI, Python & global study abroad guidance."
+      description="Master English, Chinese & Programming with an AI-powered personalized learning path. Data-driven education by HaiEduTech - IELTS, TOEIC, HSK, Finnish YKI, Python & global study abroad guidance."
       path="/"
       locale="en_US"
       jsonLd={{

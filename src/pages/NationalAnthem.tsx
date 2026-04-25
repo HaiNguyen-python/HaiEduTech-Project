@@ -207,7 +207,7 @@ const NationalAnthem = () => {
               <div className="aspect-video bg-black">
                 <iframe
                   src={EMBED_URL}
-                  title="Quốc ca Việt Nam — Tiến Quân Ca"
+                  title="Quốc ca Việt Nam - Tiến Quân Ca"
                   className="w-full h-full"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerPolicy="strict-origin-when-cross-origin"

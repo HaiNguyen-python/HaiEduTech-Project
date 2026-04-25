@@ -67,7 +67,7 @@ const PythonLessonView = () => {
     if (lesson) setCompleted(!!getPythonPathwayProgress()[lesson.id]);
   }, [lesson]);
 
-  // Preload Pyodide in background as soon as a lesson opens — makes Run feel instant.
+  // Preload Pyodide in background as soon as a lesson opens - makes Run feel instant.
   useEffect(() => {
     preloadPyodide();
   }, []);
@@ -297,11 +297,11 @@ const PythonLessonView = () => {
           {/* Nav */}
           <div className="mt-6 flex items-center justify-between gap-3 flex-wrap">
             <Button variant="outline" disabled={!prev} onClick={() => prev && navigate(`/programming/python/${prev.id}`)}>
-              <ChevronLeft className="w-4 h-4 mr-1" /> <span className="truncate max-w-[200px]">{prev ? (language === "vi" ? prev.title : prev.titleEn) : "—"}</span>
+              <ChevronLeft className="w-4 h-4 mr-1" /> <span className="truncate max-w-[200px]">{prev ? (language === "vi" ? prev.title : prev.titleEn) : "-"}</span>
             </Button>
             <Button asChild variant="ghost"><Link to="/programming?pillar=python-pathway">{language === "vi" ? "Tất cả module" : "All modules"}</Link></Button>
             <Button disabled={!next} onClick={() => next && navigate(`/programming/python/${next.id}`)}>
-              <span className="truncate max-w-[200px]">{next ? (language === "vi" ? next.title : next.titleEn) : "—"}</span> <ChevronRight className="w-4 h-4 ml-1" />
+              <span className="truncate max-w-[200px]">{next ? (language === "vi" ? next.title : next.titleEn) : "-"}</span> <ChevronRight className="w-4 h-4 ml-1" />
             </Button>
           </div>
         </div>

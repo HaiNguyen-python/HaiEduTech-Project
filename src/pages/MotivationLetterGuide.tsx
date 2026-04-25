@@ -85,18 +85,18 @@ const MotivationLetterGuide = () => {
   ];
 
   const DOS = [
-    t("Cụ thể với từng trường — đổi tên trường/program cho mỗi đơn", "Be specific to each school — change school/program name per application"),
+    t("Cụ thể với từng trường - đổi tên trường/program cho mỗi đơn", "Be specific to each school - change school/program name per application"),
     t("Đề cập tên giáo sư, lab, hoặc môn học cụ thể", "Mention specific professors, labs, or courses"),
     t("Dùng số liệu định lượng cho thành tích", "Quantify your achievements with numbers"),
     t("Giữ giọng văn tự tin, chuyên nghiệp", "Keep tone confident and professional"),
     t("Giới hạn 1 trang A4 (~500 từ)", "Limit to 1 A4 page (~500 words)"),
   ];
   const DONTS = [
-    t("Quá chung chung — copy-paste cho nhiều trường", "Too generic — copy-pasted across schools"),
+    t("Quá chung chung - copy-paste cho nhiều trường", "Too generic - copy-pasted across schools"),
     t("Lặp lại CV thay vì diễn giải nó", "Repeating the CV instead of interpreting it"),
     t("Nói về điểm yếu hoặc đổ lỗi cho ai đó", "Mentioning weaknesses or blaming others"),
     t("Dùng câu trích dẫn nổi tiếng làm mở bài", "Opening with a famous quote"),
-    t("Dùng \"my dream since childhood\" — quá sáo rỗng", "Using \"my dream since childhood\" — too cliché"),
+    t("Dùng \"my dream since childhood\" - quá sáo rỗng", "Using \"my dream since childhood\" - too cliché"),
   ];
 
   const handleDraft = async () => {
@@ -227,8 +227,8 @@ const MotivationLetterGuide = () => {
           </h2>
           <p className="text-sm text-muted-foreground mb-5">
             {t(
-              "3 bản Motivation Letter mẫu chuẩn cho từng lĩnh vực — bấm để đọc toàn văn và sao chép cấu trúc.",
-              "3 reference Motivation Letters across fields — click to read in full and borrow the structure.",
+              "3 bản Motivation Letter mẫu chuẩn cho từng lĩnh vực - bấm để đọc toàn văn và sao chép cấu trúc.",
+              "3 reference Motivation Letters across fields - click to read in full and borrow the structure.",
             )}
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">

@@ -77,7 +77,7 @@ const IeltsLectureExpansionPanel = ({ lectureId }: { lectureId: string }) => {
         </section>
       )}
 
-      {/* === COMMON MISTAKES — VN learners === */}
+      {/* === COMMON MISTAKES - VN learners === */}
       {exp.commonMistakes && exp.commonMistakes.length > 0 && (
         <section className="space-y-3">
           <h2 className="text-xl font-bold text-foreground flex items-center gap-2">

@@ -78,7 +78,7 @@ const PhrasePractice = ({ taskType }: Props) => {
 
   // Append a content block to the user's IELTS Writing Practice notebook.
   // Strategy: ALWAYS append to the most recent notebook row for this title.
-  // If no row exists yet, create one. Each call adds a new entry — never overwrites.
+  // If no row exists yet, create one. Each call adds a new entry - never overwrites.
   const appendToNotebook = async (newBlock: string) => {
     try {
       const { data: userData } = await supabase.auth.getUser();
@@ -284,12 +284,12 @@ const PhrasePractice = ({ taskType }: Props) => {
       toast.success(t("Tuyệt vời! ✨", "Excellent! ✨"));
     } else if (accuracy >= 80) {
       message = t(
-        "Gần đúng — kiểm tra các từ được tô đỏ.",
-        "Almost there — check the words highlighted in red."
+        "Gần đúng - kiểm tra các từ được tô đỏ.",
+        "Almost there - check the words highlighted in red."
       );
       tone = "warn";
     } else {
-      message = t("Hãy thử lại — đọc kỹ câu mẫu.", "Try again — read the model sentence carefully.");
+      message = t("Hãy thử lại - đọc kỹ câu mẫu.", "Try again - read the model sentence carefully.");
       tone = "error";
     }
     setRewriteResult({ accuracy, diffHtml, message, tone });
@@ -297,7 +297,7 @@ const PhrasePractice = ({ taskType }: Props) => {
     // Append rewrite attempt to notebook
     const timestamp = new Date().toLocaleString();
     const block =
-      `<p><strong>✍️ Rewrite "${escapeHtmlStr(selectedPhrase.phrase)}"</strong> <em>(${timestamp})</em> — ${accuracy}%</p>` +
+      `<p><strong>✍️ Rewrite "${escapeHtmlStr(selectedPhrase.phrase)}"</strong> <em>(${timestamp})</em> - ${accuracy}%</p>` +
       `<p><strong>My rewrite:</strong> ${escapeHtmlStr(rewriteText.trim())}</p>` +
       `<p><strong>Model answer:</strong> ${escapeHtmlStr(cleanUpgraded)}</p>`;
     await appendToNotebook(block);
@@ -415,7 +415,7 @@ const PhrasePractice = ({ taskType }: Props) => {
                 <p className="text-sm">
                   <span className="font-medium text-muted-foreground">{t("Nghĩa:", "Meaning:")} </span>
                   <span className="text-foreground">{selectedPhrase.meaning}</span>
-                  <span className="text-muted-foreground"> — {selectedPhrase.meaningEn}</span>
+                  <span className="text-muted-foreground"> - {selectedPhrase.meaningEn}</span>
                 </p>
                 <div className="bg-muted/50 rounded-lg p-3 border-l-4 border-primary">
                   <p className="text-xs text-muted-foreground mb-1 font-medium">

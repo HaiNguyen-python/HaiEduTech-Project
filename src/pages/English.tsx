@@ -159,8 +159,8 @@ const English = () => {
             </h1>
             <p className="text-lg text-muted-foreground mb-10">
               {t(
-                "Từ Cambridge cho trẻ nhỏ đến IELTS 8.0+, TOEIC, Giao tiếp và THPT Quốc gia — chương trình bài bản với AI hỗ trợ chấm điểm và phản hồi cá nhân hóa.",
-                "From Cambridge Young Learners to IELTS 8.0+, TOEIC, Conversational and National Exam — structured programs with expert scoring and personalized feedback."
+                "Từ Cambridge cho trẻ nhỏ đến IELTS 8.0+, TOEIC, Giao tiếp và THPT Quốc gia - chương trình bài bản với AI hỗ trợ chấm điểm và phản hồi cá nhân hóa.",
+                "From Cambridge Young Learners to IELTS 8.0+, TOEIC, Conversational and National Exam - structured programs with expert scoring and personalized feedback."
               )}
             </p>
 
@@ -276,13 +276,13 @@ const English = () => {
               {dictResult?.error && <p className="text-destructive text-sm">{t("Không tìm thấy từ này.", "Word not found.")}</p>}
             </motion.div>
 
-            {/* Interactive Curriculum Modules — grouped by category */}
+            {/* Interactive Curriculum Modules - grouped by category */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }} className="glass-card rounded-2xl p-8 mb-10">
               <h2 className="text-2xl font-display font-bold text-foreground mb-2 flex items-center gap-2">
                 <GraduationCap className="w-6 h-6 text-primary" />
                 {t("Hệ thống bài học tương tác", "Interactive Learning Modules")}
               </h2>
-              <p className="text-muted-foreground mb-6">{t("Bài học được phân nhóm theo chuyên đề — chọn nhóm bạn cần để xem.", "Lessons grouped by topic — pick a category to expand.")}</p>
+              <p className="text-muted-foreground mb-6">{t("Bài học được phân nhóm theo chuyên đề - chọn nhóm bạn cần để xem.", "Lessons grouped by topic - pick a category to expand.")}</p>
 
               {(() => {
                 const CATEGORY_META: Record<string, { vi: string; en: string; icon: string; accent: string }> = {
@@ -359,8 +359,8 @@ const English = () => {
                   </h2>
                   <p className="text-sm text-muted-foreground mt-1">
                     {t(
-                      "Luyện phát âm tiếng Anh với AI — phản hồi màu sắc theo thời gian thực, IPA chi tiết và hệ thống thử lại thông minh",
-                      "Practice English pronunciation with AI — real-time color-coded feedback, detailed IPA, and smart retry system"
+                      "Luyện phát âm tiếng Anh với AI - phản hồi màu sắc theo thời gian thực, IPA chi tiết và hệ thống thử lại thông minh",
+                      "Practice English pronunciation with AI - real-time color-coded feedback, detailed IPA, and smart retry system"
                     )}
                   </p>
                 </div>

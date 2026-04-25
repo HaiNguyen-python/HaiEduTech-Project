@@ -1,34 +1,34 @@
-// IELTS Reading & Listening Expansion 3 — 12 new lessons
+// IELTS Reading & Listening Expansion 3 - 12 new lessons
 import type { LanguageLesson } from "./types";
 
-// ===== IELTS READING — 6 new lessons =====
+// ===== IELTS READING - 6 new lessons =====
 
 export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
   {
     id: "ielts-reading-14",
-    title: "Multiple Choice — Author's Purpose",
-    titleEn: "Multiple Choice — Author's Purpose",
+    title: "Multiple Choice - Author's Purpose",
+    titleEn: "Multiple Choice - Author's Purpose",
     level: 3,
     difficulty: "advanced",
-    theory: `**Multiple Choice — Author's Purpose** yêu cầu bạn xác định mục đích của tác giả khi viết một đoạn hoặc cả bài.
+    theory: `**Multiple Choice - Author's Purpose** yêu cầu bạn xác định mục đích của tác giả khi viết một đoạn hoặc cả bài.
 
 **Chiến lược:**
-1. **Đọc câu hỏi kỹ** — "Why does the author...?", "What is the author's purpose...?"
-2. **Phân biệt fact vs opinion** — tác giả đang inform, persuade, hay entertain?
-3. **Tìm từ khóa thái độ** — "interestingly", "unfortunately", "surprisingly" cho thấy quan điểm
-4. **Loại trừ đáp án quá cực đoan** — tác giả academic thường trung lập
+1. **Đọc câu hỏi kỹ** - "Why does the author...?", "What is the author's purpose...?"
+2. **Phân biệt fact vs opinion** - tác giả đang inform, persuade, hay entertain?
+3. **Tìm từ khóa thái độ** - "interestingly", "unfortunately", "surprisingly" cho thấy quan điểm
+4. **Loại trừ đáp án quá cực đoan** - tác giả academic thường trung lập
 
 **Lỗi thường gặp:**
 - Nhầm lẫn giữa "purpose of the paragraph" và "topic of the paragraph"
 - Chọn đáp án phản ánh ý kiến CỦA BẠN thay vì của tác giả
 - Không phân biệt được giữa inform và persuade`,
-    theoryEn: `**Multiple Choice — Author's Purpose** requires identifying why the author wrote a section or the entire passage.
+    theoryEn: `**Multiple Choice - Author's Purpose** requires identifying why the author wrote a section or the entire passage.
 
 **Strategies:**
-1. **Read the question carefully** — "Why does the author...?", "What is the author's purpose...?"
-2. **Distinguish fact vs opinion** — is the author informing, persuading, or entertaining?
-3. **Look for attitude markers** — "interestingly", "unfortunately" reveal viewpoint
-4. **Eliminate extreme answers** — academic authors tend to be neutral
+1. **Read the question carefully** - "Why does the author...?", "What is the author's purpose...?"
+2. **Distinguish fact vs opinion** - is the author informing, persuading, or entertaining?
+3. **Look for attitude markers** - "interestingly", "unfortunately" reveal viewpoint
+4. **Eliminate extreme answers** - academic authors tend to be neutral
 
 **Common mistakes:**
 - Confusing "purpose of the paragraph" with "topic of the paragraph"
@@ -79,7 +79,7 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
 4. **Chú ý đoạn nào chứa examples, statistics, definitions**
 
 **Lỗi thường gặp:**
-- Nghĩ rằng mỗi đoạn chỉ dùng 1 lần (sai — có thể dùng nhiều lần)
+- Nghĩ rằng mỗi đoạn chỉ dùng 1 lần (sai - có thể dùng nhiều lần)
 - Tìm exact words thay vì synonyms
 - Không đọc hết cả đoạn, chỉ đọc câu đầu`,
     theoryEn: `**Paragraph Information Matching** requires matching information to the paragraph containing it.
@@ -91,17 +91,17 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
 4. **Note paragraphs with examples, statistics, definitions**
 
 **Common mistakes:**
-- Thinking each paragraph is used only once (wrong — can be reused)
+- Thinking each paragraph is used only once (wrong - can be reused)
 - Looking for exact words instead of synonyms
 - Not reading the full paragraph, only the first sentence`,
     proTips: [
       "Đánh dấu mỗi đoạn bằng 1-2 keywords tóm tắt nội dung chính",
-      "Thông tin thường được paraphrase — 'children' → 'young people'",
+      "Thông tin thường được paraphrase - 'children' → 'young people'",
       "Bắt đầu từ câu hỏi có keywords đặc biệt nhất (tên riêng, số liệu)",
     ],
     proTipsEn: [
       "Label each paragraph with 1-2 summary keywords",
-      "Information is often paraphrased — 'children' → 'young people'",
+      "Information is often paraphrased - 'children' → 'young people'",
       "Start with questions containing the most distinctive keywords",
     ],
     exercises: [
@@ -124,28 +124,28 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
   },
   {
     id: "ielts-reading-16",
-    title: "Yes/No/Not Given — Advanced",
-    titleEn: "Yes/No/Not Given — Advanced",
+    title: "Yes/No/Not Given - Advanced",
+    titleEn: "Yes/No/Not Given - Advanced",
     level: 3,
     difficulty: "advanced",
-    theory: `**Yes/No/Not Given — Advanced** tập trung vào các trường hợp khó phân biệt, đặc biệt giữa NO và NOT GIVEN.
+    theory: `**Yes/No/Not Given - Advanced** tập trung vào các trường hợp khó phân biệt, đặc biệt giữa NO và NOT GIVEN.
 
 **Chiến lược nâng cao:**
 1. **NO vs NOT GIVEN**: NO = bài viết nói NGƯỢC LẠI. NOT GIVEN = bài viết KHÔNG ĐỀ CẬP
-2. **Cẩn thận với absolute words**: 'always', 'never', 'all' — thường là NO
-3. **Qualifier words**: 'most', 'some', 'often' — dễ bị nhầm
+2. **Cẩn thận với absolute words**: 'always', 'never', 'all' - thường là NO
+3. **Qualifier words**: 'most', 'some', 'often' - dễ bị nhầm
 4. **Implicit vs explicit**: nếu phải SUY LUẬN quá nhiều → có thể là NOT GIVEN
 
 **Lỗi thường gặp:**
 - Dùng kiến thức riêng thay vì thông tin trong bài
 - Nhầm giữa 'not mentioned at all' và 'partially mentioned'
 - Kết luận vội vàng khi chỉ tìm thấy keyword`,
-    theoryEn: `**Yes/No/Not Given — Advanced** focuses on difficult cases, especially distinguishing NO from NOT GIVEN.
+    theoryEn: `**Yes/No/Not Given - Advanced** focuses on difficult cases, especially distinguishing NO from NOT GIVEN.
 
 **Advanced strategies:**
 1. **NO vs NOT GIVEN**: NO = passage says the OPPOSITE. NOT GIVEN = passage doesn't MENTION it
-2. **Watch absolute words**: 'always', 'never', 'all' — often NO
-3. **Qualifier words**: 'most', 'some', 'often' — easily confused
+2. **Watch absolute words**: 'always', 'never', 'all' - often NO
+3. **Qualifier words**: 'most', 'some', 'often' - easily confused
 4. **Implicit vs explicit**: if you need too much inference → likely NOT GIVEN`,
     proTips: [
       "Nếu bạn phải tưởng tượng hoặc suy luận quá nhiều → NOT GIVEN",
@@ -170,7 +170,7 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
       },
     ],
     quiz: [
-      { question: "Statement: 'All students passed the exam.' Passage: 'Most students passed.' → Answer:", options: ["YES", "NO", "NOT GIVEN"], answer: 1, explanation: "'All' vs 'Most' — the passage contradicts 'all' so it's NO." },
+      { question: "Statement: 'All students passed the exam.' Passage: 'Most students passed.' → Answer:", options: ["YES", "NO", "NOT GIVEN"], answer: 1, explanation: "'All' vs 'Most' - the passage contradicts 'all' so it's NO." },
       { question: "Statement: 'The study was conducted in France.' Passage nói về study nhưng không đề cập location:", options: ["YES", "NO", "NOT GIVEN"], answer: 2, explanation: "Location not mentioned → NOT GIVEN." },
       { question: "When should you choose NOT GIVEN?", options: ["When the passage says the opposite", "When the passage doesn't mention that information", "When the passage agrees", "When you don't know"], answer: 1, explanation: "NOT GIVEN = passage doesn't address the topic." },
       { question: "Absolute words ('always', 'never') thường dẫn đến đáp án:", options: ["YES", "NO", "NOT GIVEN"], answer: 1, explanation: "Absolute claims are often contradicted in academic texts." },
@@ -185,10 +185,10 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
     theory: `**Short Answer Questions** yêu cầu trả lời bằng 1-3 từ lấy trực tiếp từ passage.
 
 **Chiến lược:**
-1. **Đọc word limit kỹ** — "NO MORE THAN THREE WORDS" hoặc "ONE WORD ONLY"
-2. **Câu trả lời luôn nằm trong passage** — copy exact words
-3. **Câu hỏi theo thứ tự passage** — dùng để locate thông tin
-4. **Trả lời đúng grammatically** — nếu cần noun, viết noun
+1. **Đọc word limit kỹ** - "NO MORE THAN THREE WORDS" hoặc "ONE WORD ONLY"
+2. **Câu trả lời luôn nằm trong passage** - copy exact words
+3. **Câu hỏi theo thứ tự passage** - dùng để locate thông tin
+4. **Trả lời đúng grammatically** - nếu cần noun, viết noun
 
 **Lỗi thường gặp:**
 - Viết quá số từ cho phép
@@ -197,17 +197,17 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
     theoryEn: `**Short Answer Questions** require answers of 1-3 words taken directly from the passage.
 
 **Strategies:**
-1. **Read word limit carefully** — "NO MORE THAN THREE WORDS" or "ONE WORD ONLY"
-2. **Answers are always in the passage** — copy exact words
-3. **Questions follow passage order** — use this to locate information
-4. **Answer grammatically** — if a noun is needed, write a noun`,
+1. **Read word limit carefully** - "NO MORE THAN THREE WORDS" or "ONE WORD ONLY"
+2. **Answers are always in the passage** - copy exact words
+3. **Questions follow passage order** - use this to locate information
+4. **Answer grammatically** - if a noun is needed, write a noun`,
     proTips: [
-      "LUÔN kiểm tra word limit — 'NO MORE THAN TWO WORDS AND/OR A NUMBER' cho phép '2 words + 1 number'",
+      "LUÔN kiểm tra word limit - 'NO MORE THAN TWO WORDS AND/OR A NUMBER' cho phép '2 words + 1 number'",
       "Câu hỏi Wh- cho biết loại từ cần: What → noun, When → time, Where → place",
       "Không thêm articles (a, the) trừ khi chúng là phần của đáp án trong passage",
     ],
     proTipsEn: [
-      "ALWAYS check word limit — 'NO MORE THAN TWO WORDS AND/OR A NUMBER' allows '2 words + 1 number'",
+      "ALWAYS check word limit - 'NO MORE THAN TWO WORDS AND/OR A NUMBER' allows '2 words + 1 number'",
       "Wh- questions tell you word type: What → noun, When → time, Where → place",
       "Don't add articles unless they're part of the answer in the passage",
     ],
@@ -231,8 +231,8 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
   },
   {
     id: "ielts-reading-18",
-    title: "Skimming & Scanning — Speed Reading",
-    titleEn: "Skimming & Scanning — Speed Reading",
+    title: "Skimming & Scanning - Speed Reading",
+    titleEn: "Skimming & Scanning - Speed Reading",
     level: 3,
     difficulty: "intermediate",
     theory: `**Skimming & Scanning** là hai kỹ năng đọc nhanh cốt lõi cho IELTS Reading.
@@ -266,12 +266,12 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
     proTips: [
       "Skim TRƯỚC (2-3 phút), scan SAU khi có câu hỏi cụ thể",
       "Khi scanning, tìm capital letters (tên riêng), numbers, dates trước",
-      "Không cần hiểu mọi từ — focus vào main ideas và key details",
+      "Không cần hiểu mọi từ - focus vào main ideas và key details",
     ],
     proTipsEn: [
       "Skim FIRST (2-3 min), scan AFTER you have specific questions",
       "When scanning, look for capital letters, numbers, dates first",
-      "You don't need to understand every word — focus on main ideas and key details",
+      "You don't need to understand every word - focus on main ideas and key details",
     ],
     exercises: [
       {
@@ -301,10 +301,10 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
     theory: `**Classification** yêu cầu phân loại thông tin theo các nhóm cho sẵn (theories, people, time periods).
 
 **Chiến lược:**
-1. **Hiểu categories** — thường là tên người, theories, hoặc time periods
-2. **Scan bài tìm tên category** — lập danh sách ý chính của mỗi category
+1. **Hiểu categories** - thường là tên người, theories, hoặc time periods
+2. **Scan bài tìm tên category** - lập danh sách ý chính của mỗi category
 3. **Match statements** với đúng category dựa trên passage
-4. **Cẩn thận với overlapping info** — một statement có thể liên quan nhiều categories
+4. **Cẩn thận với overlapping info** - một statement có thể liên quan nhiều categories
 
 **Lỗi thường gặp:**
 - Nhầm lẫn ý kiến của các nhà nghiên cứu khác nhau
@@ -313,10 +313,10 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
     theoryEn: `**Classification** requires categorising information into given groups (theories, people, time periods).
 
 **Strategies:**
-1. **Understand categories** — usually names, theories, or time periods
-2. **Scan for category names** — list main points for each
+1. **Understand categories** - usually names, theories, or time periods
+2. **Scan for category names** - list main points for each
 3. **Match statements** to the correct category based on the passage
-4. **Watch for overlapping info** — a statement may seem related to multiple categories`,
+4. **Watch for overlapping info** - a statement may seem related to multiple categories`,
     proTips: [
       "Highlight hoặc underline mỗi lần category name xuất hiện trong passage",
       "Đọc 2-3 câu quanh mỗi category name để hiểu context",
@@ -347,22 +347,22 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
   },
 ];
 
-// ===== IELTS LISTENING — 6 new lessons =====
+// ===== IELTS LISTENING - 6 new lessons =====
 
 export const ieltsListeningExpansion3Lessons: LanguageLesson[] = [
   {
     id: "ielts-listening-12",
-    title: "Section 1 — Form Completion Mastery",
-    titleEn: "Section 1 — Form Completion Mastery",
+    title: "Section 1 - Form Completion Mastery",
+    titleEn: "Section 1 - Form Completion Mastery",
     level: 3,
     difficulty: "beginner",
     theory: `**Section 1 Form Completion** là phần dễ nhất nhưng cần chính xác tuyệt đối.
 
 **Chiến lược:**
-1. **Đọc form trước khi nghe** — dự đoán loại thông tin cần (tên, số, địa chỉ)
-2. **Chú ý spelling** — tên riêng thường được đánh vần
-3. **Số điện thoại** — viết từng nhóm số, kiểm tra lại
-4. **Dates** — nghe ngày, tháng, năm riêng biệt
+1. **Đọc form trước khi nghe** - dự đoán loại thông tin cần (tên, số, địa chỉ)
+2. **Chú ý spelling** - tên riêng thường được đánh vần
+3. **Số điện thoại** - viết từng nhóm số, kiểm tra lại
+4. **Dates** - nghe ngày, tháng, năm riêng biệt
 
 **Word limit thường gặp:**
 - ONE WORD AND/OR A NUMBER
@@ -375,19 +375,19 @@ export const ieltsListeningExpansion3Lessons: LanguageLesson[] = [
     theoryEn: `**Section 1 Form Completion** is the easiest but requires absolute accuracy.
 
 **Strategies:**
-1. **Read the form before listening** — predict information types (names, numbers, addresses)
-2. **Watch spelling** — proper nouns are often spelled out
-3. **Phone numbers** — write in groups, double-check
-4. **Dates** — listen for day, month, year separately`,
+1. **Read the form before listening** - predict information types (names, numbers, addresses)
+2. **Watch spelling** - proper nouns are often spelled out
+3. **Phone numbers** - write in groups, double-check
+4. **Dates** - listen for day, month, year separately`,
     proTips: [
-      "Tên riêng luôn được đánh vần — nghe kỹ từng chữ cái",
+      "Tên riêng luôn được đánh vần - nghe kỹ từng chữ cái",
       "Postcodes thường có cả letter và number: SW1 4PQ",
-      "Nếu miss 1 câu, KHÔNG quay lại — tiếp tục câu tiếp theo",
+      "Nếu miss 1 câu, KHÔNG quay lại - tiếp tục câu tiếp theo",
     ],
     proTipsEn: [
-      "Proper nouns are always spelled out — listen carefully to each letter",
+      "Proper nouns are always spelled out - listen carefully to each letter",
       "Postcodes often have both letters and numbers",
-      "If you miss one answer, DON'T go back — continue to the next",
+      "If you miss one answer, DON'T go back - continue to the next",
     ],
     exercises: [
       {
@@ -397,30 +397,30 @@ export const ieltsListeningExpansion3Lessons: LanguageLesson[] = [
         sentences: [
           { text: "Section 1 is always a ___ between two people.", textEn: "Section 1 is always a ___ between two people.", answer: "conversation", hint: "cuộc trò chuyện" },
           { text: "Proper nouns are usually ___ out letter by letter.", textEn: "Proper nouns are usually ___ out letter by letter.", answer: "spelled", hint: "đánh vần" },
-          { text: "If you miss an answer, don't ___ — move to the next question.", textEn: "If you miss an answer, don't ___ — move to the next question.", answer: "panic", hint: "hoảng" },
+          { text: "If you miss an answer, don't ___ - move to the next question.", textEn: "If you miss an answer, don't ___ - move to the next question.", answer: "panic", hint: "hoảng" },
         ],
       },
     ],
     quiz: [
       { question: "Section 1 listening is usually:", options: ["A university lecture", "A conversation between 2 people", "A monologue", "A speech"], answer: 1, explanation: "Section 1 is always a conversation between two people." },
       { question: "When hearing phone numbers, you should:", options: ["Write everything at once", "Write in groups of digits", "Just memorize", "Skip them"], answer: 1, explanation: "Write numbers in groups to ensure accuracy." },
-      { question: "'Double 7' nghĩa là:", options: ["7", "77", "14", "27"], answer: 1, explanation: "'Double 7' means 77 — two sevens." },
-      { question: "If you miss one answer, you should:", options: ["Go back and search", "Stop and think", "Move on to the next question", "Give up"], answer: 2, explanation: "Never go back — you'll miss more answers. Move forward." },
+      { question: "'Double 7' nghĩa là:", options: ["7", "77", "14", "27"], answer: 1, explanation: "'Double 7' means 77 - two sevens." },
+      { question: "If you miss one answer, you should:", options: ["Go back and search", "Stop and think", "Move on to the next question", "Give up"], answer: 2, explanation: "Never go back - you'll miss more answers. Move forward." },
     ],
   },
   {
     id: "ielts-listening-13",
-    title: "Section 2 — Map & Plan Labelling",
-    titleEn: "Section 2 — Map & Plan Labelling",
+    title: "Section 2 - Map & Plan Labelling",
+    titleEn: "Section 2 - Map & Plan Labelling",
     level: 3,
     difficulty: "intermediate",
     theory: `**Map & Plan Labelling** yêu cầu nghe và gắn nhãn vị trí trên bản đồ hoặc sơ đồ.
 
 **Chiến lược:**
-1. **Xem map trước** — xác định orientation (north, south, entrance, exit)
-2. **Tìm điểm bắt đầu** — "starting from the entrance..."
-3. **Nghe direction words** — left, right, opposite, next to, between, behind
-4. **Theo dõi movement** — speaker di chuyển qua map theo thứ tự
+1. **Xem map trước** - xác định orientation (north, south, entrance, exit)
+2. **Tìm điểm bắt đầu** - "starting from the entrance..."
+3. **Nghe direction words** - left, right, opposite, next to, between, behind
+4. **Theo dõi movement** - speaker di chuyển qua map theo thứ tự
 
 **Direction vocabulary quan trọng:**
 - on the left/right of
@@ -431,12 +431,12 @@ export const ieltsListeningExpansion3Lessons: LanguageLesson[] = [
     theoryEn: `**Map & Plan Labelling** requires listening and labelling locations on a map or plan.
 
 **Strategies:**
-1. **Look at the map first** — identify orientation
-2. **Find the starting point** — "starting from the entrance..."
-3. **Listen for direction words** — left, right, opposite, next to
-4. **Follow the movement** — the speaker moves through the map in order`,
+1. **Look at the map first** - identify orientation
+2. **Find the starting point** - "starting from the entrance..."
+3. **Listen for direction words** - left, right, opposite, next to
+4. **Follow the movement** - the speaker moves through the map in order`,
     proTips: [
-      "Dùng ngón tay theo dõi trên map khi nghe — di chuyển theo speaker",
+      "Dùng ngón tay theo dõi trên map khi nghe - di chuyển theo speaker",
       "Nếu speaker nói 'on your left', đó là LEFT từ góc nhìn ENTRANCE",
       "Labels thường đi theo thứ tự speaker di chuyển qua map",
     ],
@@ -465,17 +465,17 @@ export const ieltsListeningExpansion3Lessons: LanguageLesson[] = [
   },
   {
     id: "ielts-listening-14",
-    title: "Section 3 — Academic Discussion",
-    titleEn: "Section 3 — Academic Discussion",
+    title: "Section 3 - Academic Discussion",
+    titleEn: "Section 3 - Academic Discussion",
     level: 3,
     difficulty: "advanced",
     theory: `**Section 3** là hội thoại giữa 2-4 người trong bối cảnh học thuật (tutorial, study group).
 
 **Chiến lược:**
-1. **Phân biệt speakers** — ai nói gì? Student A vs Student B vs Tutor
-2. **Nghe opinion markers** — "I think", "I agree", "I'm not sure about that"
-3. **Chú ý thay đổi ý kiến** — speakers thường agree/disagree/change their mind
-4. **Academic vocabulary** — research, methodology, hypothesis, findings, conclusion
+1. **Phân biệt speakers** - ai nói gì? Student A vs Student B vs Tutor
+2. **Nghe opinion markers** - "I think", "I agree", "I'm not sure about that"
+3. **Chú ý thay đổi ý kiến** - speakers thường agree/disagree/change their mind
+4. **Academic vocabulary** - research, methodology, hypothesis, findings, conclusion
 
 **Câu hỏi thường gặp:**
 - Multiple choice (opinions/attitudes)
@@ -484,19 +484,19 @@ export const ieltsListeningExpansion3Lessons: LanguageLesson[] = [
     theoryEn: `**Section 3** is a conversation between 2-4 people in an academic context.
 
 **Strategies:**
-1. **Distinguish speakers** — who says what?
-2. **Listen for opinion markers** — "I think", "I agree"
-3. **Note opinion changes** — speakers often change their mind
-4. **Academic vocabulary** — research, methodology, hypothesis`,
+1. **Distinguish speakers** - who says what?
+2. **Listen for opinion markers** - "I think", "I agree"
+3. **Note opinion changes** - speakers often change their mind
+4. **Academic vocabulary** - research, methodology, hypothesis`,
     proTips: [
       "Section 3 thường có traps: speaker A nói ý kiến → speaker B phản đối → speaker A đồng ý đổi ý",
-      "Chú ý tone of voice — giọng ngần ngại = not sure, giọng mạnh mẽ = confident",
-      "Tutor/professor thường tóm tắt ý kiến cuối cùng — đó thường là đáp án",
+      "Chú ý tone of voice - giọng ngần ngại = not sure, giọng mạnh mẽ = confident",
+      "Tutor/professor thường tóm tắt ý kiến cuối cùng - đó thường là đáp án",
     ],
     proTipsEn: [
       "Section 3 has traps: A states opinion → B disagrees → A changes mind",
-      "Note tone of voice — hesitant = unsure, strong = confident",
-      "The tutor often summarises the final view — that's usually the answer",
+      "Note tone of voice - hesitant = unsure, strong = confident",
+      "The tutor often summarises the final view - that's usually the answer",
     ],
     exercises: [
       {
@@ -518,41 +518,41 @@ export const ieltsListeningExpansion3Lessons: LanguageLesson[] = [
   },
   {
     id: "ielts-listening-15",
-    title: "Section 4 — Lecture Note-taking",
-    titleEn: "Section 4 — Lecture Note-taking",
+    title: "Section 4 - Lecture Note-taking",
+    titleEn: "Section 4 - Lecture Note-taking",
     level: 3,
     difficulty: "advanced",
-    theory: `**Section 4** là bài giảng/monologue học thuật — phần KHÓ NHẤT vì chỉ nghe 1 lần và không có break.
+    theory: `**Section 4** là bài giảng/monologue học thuật - phần KHÓ NHẤT vì chỉ nghe 1 lần và không có break.
 
 **Chiến lược:**
 1. **Đọc trước tất cả câu hỏi** trong thời gian cho phép
-2. **Dự đoán loại từ cần điền** — noun? number? adjective?
-3. **Nghe signpost language** — "Firstly...", "Moving on to...", "In conclusion..."
+2. **Dự đoán loại từ cần điền** - noun? number? adjective?
+3. **Nghe signpost language** - "Firstly...", "Moving on to...", "In conclusion..."
 4. **Keywords xung quanh gap** giúp locate vị trí trong bài giảng
-5. **Viết nhanh — dùng abbreviations** nếu cần
+5. **Viết nhanh - dùng abbreviations** nếu cần
 
 **Signpost language quan trọng:**
 - Topic shift: "Now let's look at...", "Turning to..."
 - Addition: "Furthermore...", "In addition..."
 - Contrast: "However...", "On the other hand..."
 - Summary: "To sum up...", "In conclusion..."`,
-    theoryEn: `**Section 4** is an academic lecture/monologue — the HARDEST section with no break.
+    theoryEn: `**Section 4** is an academic lecture/monologue - the HARDEST section with no break.
 
 **Strategies:**
 1. **Read ALL questions** during preview time
-2. **Predict word type** — noun? number? adjective?
-3. **Listen for signpost language** — signals topic changes
+2. **Predict word type** - noun? number? adjective?
+3. **Listen for signpost language** - signals topic changes
 4. **Keywords around gaps** help locate your position
-5. **Write quickly — use abbreviations** if needed`,
+5. **Write quickly - use abbreviations** if needed`,
     proTips: [
-      "Section 4 KHÔNG có break giữa chừng — đọc tất cả câu hỏi trước khi bài giảng bắt đầu",
-      "Signpost phrases là 'GPS' của bạn — chúng cho biết speaker đang ở đâu trong bài giảng",
-      "Nếu miss câu, đặt dấu X và tiếp tục — đoán sau khi kết thúc",
+      "Section 4 KHÔNG có break giữa chừng - đọc tất cả câu hỏi trước khi bài giảng bắt đầu",
+      "Signpost phrases là 'GPS' của bạn - chúng cho biết speaker đang ở đâu trong bài giảng",
+      "Nếu miss câu, đặt dấu X và tiếp tục - đoán sau khi kết thúc",
     ],
     proTipsEn: [
-      "Section 4 has NO break — read all questions before the lecture starts",
-      "Signpost phrases are your GPS — they tell you where in the lecture you are",
-      "If you miss an answer, mark X and move on — guess at the end",
+      "Section 4 has NO break - read all questions before the lecture starts",
+      "Signpost phrases are your GPS - they tell you where in the lecture you are",
+      "If you miss an answer, mark X and move on - guess at the end",
     ],
     exercises: [
       {
@@ -560,7 +560,7 @@ export const ieltsListeningExpansion3Lessons: LanguageLesson[] = [
         instruction: "Điền từ thích hợp",
         instructionEn: "Fill in the appropriate word",
         sentences: [
-          { text: "Section 4 is a ___ — only one speaker.", textEn: "Section 4 is a ___ — only one speaker.", answer: "monologue", hint: "độc thoại" },
+          { text: "Section 4 is a ___ - only one speaker.", textEn: "Section 4 is a ___ - only one speaker.", answer: "monologue", hint: "độc thoại" },
           { text: "'Moving on to...' is a ___ phrase that signals a topic change.", textEn: "'Moving on to...' is a ___ phrase that signals a topic change.", answer: "signpost", hint: "chỉ dẫn" },
           { text: "Section 4 has no ___ between questions.", textEn: "Section 4 has no ___ between questions.", answer: "break", hint: "nghỉ" },
         ],
@@ -569,7 +569,7 @@ export const ieltsListeningExpansion3Lessons: LanguageLesson[] = [
     quiz: [
       { question: "Section 4 khác các section khác vì:", options: ["Có 2 speakers", "Không có break và chỉ 1 speaker", "Dễ hơn", "Ngắn hơn"], answer: 1, explanation: "Section 4 is a monologue with no break." },
       { question: "'Now let's turn to the second factor...' là:", options: ["Câu hỏi", "Signpost language", "Đáp án", "Kết luận"], answer: 1, explanation: "This signpost phrase indicates a topic change." },
-      { question: "Nếu bạn miss câu 35, bạn nên:", options: ["Dừng lại tìm", "Quay lại nghe", "Đánh dấu X và tiếp tục câu 36", "Bỏ cuộc"], answer: 2, explanation: "Mark it and continue — you can guess later." },
+      { question: "Nếu bạn miss câu 35, bạn nên:", options: ["Dừng lại tìm", "Quay lại nghe", "Đánh dấu X và tiếp tục câu 36", "Bỏ cuộc"], answer: 2, explanation: "Mark it and continue - you can guess later." },
       { question: "Trước khi Section 4 bắt đầu, bạn nên:", options: ["Thư giãn", "Đọc tất cả câu hỏi", "Chỉ đọc câu hỏi đầu", "Viết đáp án trước"], answer: 1, explanation: "Read ALL questions since there's no break during the section." },
     ],
   },
@@ -626,13 +626,13 @@ export const ieltsListeningExpansion3Lessons: LanguageLesson[] = [
       { question: "'It costs 15 dollars... no sorry, 50 dollars.' Đáp án là:", options: ["15 dollars", "50 dollars", "65 dollars", "Không biết"], answer: 1, explanation: "After 'no sorry', the corrected answer (50) is correct." },
       { question: "Từ nào cảnh báo có distractor?", options: ["And", "Also", "Actually", "Then"], answer: 2, explanation: "'Actually' often introduces a correction/change." },
       { question: "'I was thinking of the bus, but I'll take the train.' → Speaker chọn:", options: ["Bus", "Train", "Cả hai", "Không chọn"], answer: 1, explanation: "After 'but', the speaker confirms 'train'." },
-      { question: "Khi nghe tất cả MC options được nói đến, bạn nên:", options: ["Chọn option đầu tiên", "Chọn option cuối cùng", "Chờ speaker xác nhận", "Chọn ngẫu nhiên"], answer: 2, explanation: "Wait for confirmation — the speaker will indicate their choice." },
+      { question: "Khi nghe tất cả MC options được nói đến, bạn nên:", options: ["Chọn option đầu tiên", "Chọn option cuối cùng", "Chờ speaker xác nhận", "Chọn ngẫu nhiên"], answer: 2, explanation: "Wait for confirmation - the speaker will indicate their choice." },
     ],
   },
   {
     id: "ielts-listening-17",
-    title: "Connective Listening — Following Arguments",
-    titleEn: "Connective Listening — Following Arguments",
+    title: "Connective Listening - Following Arguments",
+    titleEn: "Connective Listening - Following Arguments",
     level: 3,
     difficulty: "advanced",
     theory: `**Connective Listening** là kỹ năng theo dõi chuỗi lập luận trong IELTS Listening Sections 3 & 4.

@@ -120,7 +120,7 @@ const Navbar = () => {
       { to: "/english/cambridge", label: t("Cambridge Starters–PET", "Cambridge Starters–PET"), icon: Map },
       { to: "/cambridge-lectures", label: t("Bài giảng Cambridge", "Cambridge Lectures"), icon: BookOpen },
     ] },
-    // IELTS — promoted to top-level so all 10 IELTS items are reachable in one hover
+    // IELTS - promoted to top-level so all 10 IELTS items are reachable in one hover
     { to: "#ielts-group", label: t("🎯 IELTS Program", "🎯 IELTS Program"), groupLabel: "ielts", children: ieltsChildren, icon: Target },
     // Other international exams (TOEIC / PTE / SAT)
     { to: "#en-exams-group", label: t("🌐 Luyện thi Quốc tế khác", "🌐 Other International Exams"), groupLabel: "en-exams", children: [
@@ -273,7 +273,7 @@ const Navbar = () => {
 
   return (
     <header className="flex flex-col">
-      {/* Row 1: Branding — fixed on all devices */}
+      {/* Row 1: Branding - fixed on all devices */}
       <div
         className="w-full z-[60] bg-card border-b border-border fixed top-0"
       >
@@ -300,7 +300,7 @@ const Navbar = () => {
                   }}
                   whileHover={{ scale: 1.1, rotate: 5 }}
                 />
-                {/* Brand name — Space Grotesk + emerald with shimmer sweep & sparkle */}
+                {/* Brand name - Space Grotesk + emerald with shimmer sweep & sparkle */}
                 <span className="relative inline-flex items-center">
                   <span
                     className="brand-shimmer whitespace-nowrap"
@@ -323,7 +323,7 @@ const Navbar = () => {
                 </span>
               </Link>
 
-              {/* Slogan centered between logo and auth — with periodic ripple */}
+              {/* Slogan centered between logo and auth - with periodic ripple */}
               <div className="hidden lg:flex items-center justify-center flex-1 min-w-0 mx-3 relative group/slogan">
                 <div className="flex flex-col items-center relative overflow-hidden">
                   <span
@@ -334,7 +334,7 @@ const Navbar = () => {
                     <span style={{ color: "#10B981" }}>LANGUAGE</span>
                     <span style={{ color: "#1A1A1A" }}> & </span>
                     <span style={{ color: "#10B981" }}>TECHNOLOGY</span>
-                    {/* Ripple overlay — CSS-only, hardware-accelerated */}
+                    {/* Ripple overlay - CSS-only, hardware-accelerated */}
                     <span className="slogan-ripple" aria-hidden="true" />
                   </span>
                   {/* Elegant underline */}
@@ -407,7 +407,7 @@ const Navbar = () => {
                 </button>
               </div>
 
-              {/* Mobile: lang + hamburger — same row as logo */}
+              {/* Mobile: lang + hamburger - same row as logo */}
               <div className="flex items-center gap-1 lg:hidden">
                 <GlobalSearch variant="icon" />
                 <button onClick={() => setLang(lang === "vi" ? "en" : "vi")} className="text-foreground p-2 rounded-md hover:bg-secondary transition-colors">
@@ -419,7 +419,7 @@ const Navbar = () => {
               </div>
             </div>
 
-            {/* Row 1b: Slogan on mobile — separate row, smaller text, centered */}
+            {/* Row 1b: Slogan on mobile - separate row, smaller text, centered */}
             <div className="lg:hidden text-center pb-1.5 -mt-1">
               <span
                 className="text-[8px] sm:text-[10px] uppercase font-semibold tracking-[0.15em]"
@@ -435,7 +435,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Row 2: Navigation — always sticky below Row 1 (desktop only) */}
+      {/* Row 2: Navigation - always sticky below Row 1 (desktop only) */}
       <nav
         className="w-full fixed top-12 z-50 bg-card border-b border-border hidden lg:block"
       >
@@ -612,7 +612,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Mobile menu — fullscreen overlay below branding */}
+      {/* Mobile menu - fullscreen overlay below branding */}
       <AnimatePresence>
         {open && (
           <>

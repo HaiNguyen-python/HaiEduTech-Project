@@ -1,6 +1,6 @@
 /**
  * @file toeicVocabExpansion.ts
- * @description 200 từ TOEIC bổ sung (20 từ × 10 categories) — đưa tổng số
+ * @description 200 từ TOEIC bổ sung (20 từ × 10 categories) - đưa tổng số
  *              từ vựng TOEIC từ 100 lên 300+. Cùng cấu trúc với toeicVocabData.
  * @author HaiEduTech
  */

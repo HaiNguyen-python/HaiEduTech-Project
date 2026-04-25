@@ -1,4 +1,4 @@
-// Daily Vietnamese — 30 micro-lessons (1 per day) for habit-building
+// Daily Vietnamese - 30 micro-lessons (1 per day) for habit-building
 export interface DailyMicroLesson {
   day: number;
   theme: string;

@@ -31,9 +31,9 @@ export const vietnameseLessonsExpansionModules: VietnameseModule[] = [
 - **Phỏng vấn**: Hỏi đáp với nhân vật
 
 ## Từ vựng báo chí thường gặp
-- "Theo nguồn tin..." — According to sources...
-- "Sự kiện diễn ra..." — The event took place...
-- "Hậu quả nghiêm trọng..." — Serious consequences...`,
+- "Theo nguồn tin..." - According to sources...
+- "Sự kiện diễn ra..." - The event took place...
+- "Hậu quả nghiêm trọng..." - Serious consequences...`,
         theoryEn: `# Reading Vietnamese News
 Article structure: headline, lead, body, conclusion.
 Types: news, reportage, commentary, interview.`,
@@ -56,9 +56,9 @@ Types: news, reportage, commentary, interview.`,
         theory: `# Văn học hiện đại Việt Nam
 
 ## Các tác giả tiêu biểu
-- **Nam Cao** (1915-1951): "Chí Phèo", "Lão Hạc" — hiện thực phê phán
-- **Nguyễn Du** (1766-1820): "Truyện Kiều" — kiệt tác văn học
-- **Xuân Diệu** (1916-1985): "Vội vàng" — thơ lãng mạn
+- **Nam Cao** (1915-1951): "Chí Phèo", "Lão Hạc" - hiện thực phê phán
+- **Nguyễn Du** (1766-1820): "Truyện Kiều" - kiệt tác văn học
+- **Xuân Diệu** (1916-1985): "Vội vàng" - thơ lãng mạn
 - **Tố Hữu** (1920-2002): Thơ cách mạng
 
 ## Các trào lưu văn học
@@ -215,7 +215,7 @@ Characteristics: objective, logical, precise. Use formal vocabulary. Research pa
 
 ## Giỗ Tổ Hùng Vương
 - Ngày 10 tháng 3 âm lịch
-- Tưởng nhớ các Vua Hùng — tổ tiên dân tộc
+- Tưởng nhớ các Vua Hùng - tổ tiên dân tộc
 - "Dù ai đi ngược về xuôi, nhớ ngày Giỗ Tổ mồng Mười tháng Ba"`,
         theoryEn: `# Traditional Vietnamese Festivals
 Major festivals: Tết (Lunar New Year), Mid-Autumn, Vu Lan (Gratitude), Hùng King Anniversary.`,

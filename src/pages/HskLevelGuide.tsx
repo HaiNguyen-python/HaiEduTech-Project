@@ -149,7 +149,7 @@ const HskLevelGuide = () => {
               <Card key={idx} className="p-5 overflow-hidden">
                 <div className="flex flex-wrap items-baseline justify-between gap-2 mb-3">
                   <h3 className="text-lg font-bold">
-                    {s.name} <span className="text-muted-foreground font-normal text-sm">— {s.nameVi}</span>
+                    {s.name} <span className="text-muted-foreground font-normal text-sm">- {s.nameVi}</span>
                   </h3>
                   <span className="text-xs text-muted-foreground">
                     {s.totalQuestions} Q · {s.duration}

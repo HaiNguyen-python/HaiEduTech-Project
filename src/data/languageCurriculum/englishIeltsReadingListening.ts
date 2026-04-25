@@ -1,7 +1,7 @@
-// IELTS Reading & Listening Expansion — 11 new lessons
+// IELTS Reading & Listening Expansion - 11 new lessons
 import type { LanguageLesson } from "./types";
 
-// ===== IELTS READING — 6 new lessons =====
+// ===== IELTS READING - 6 new lessons =====
 
 export const ieltsReadingExpansionLessons: LanguageLesson[] = [
   {
@@ -13,10 +13,10 @@ export const ieltsReadingExpansionLessons: LanguageLesson[] = [
     theory: `**Matching Headings** yêu cầu bạn chọn tiêu đề phù hợp nhất cho mỗi đoạn văn trong bài đọc.
 
 **Chiến lược:**
-1. **Đọc danh sách headings trước** — gạch chân từ khóa chính
+1. **Đọc danh sách headings trước** - gạch chân từ khóa chính
 2. **Đọc đoạn đầu và cuối** mỗi paragraph để nắm main idea
-3. **Loại trừ heading rõ ràng sai** — thu hẹp lựa chọn
-4. **Phân biệt main idea vs. detail** — heading phản ánh ý chính, không phải chi tiết
+3. **Loại trừ heading rõ ràng sai** - thu hẹp lựa chọn
+4. **Phân biệt main idea vs. detail** - heading phản ánh ý chính, không phải chi tiết
 
 **Lỗi thường gặp:**
 - Chọn heading chỉ khớp với 1 câu thay vì cả đoạn
@@ -25,22 +25,22 @@ export const ieltsReadingExpansionLessons: LanguageLesson[] = [
     theoryEn: `**Matching Headings** requires you to select the most appropriate heading for each paragraph in the reading passage.
 
 **Strategies:**
-1. **Read the headings list first** — underline key words
+1. **Read the headings list first** - underline key words
 2. **Read the first and last sentences** of each paragraph to grasp the main idea
-3. **Eliminate clearly wrong headings** — narrow down choices
-4. **Distinguish main idea vs. detail** — headings reflect main ideas, not details
+3. **Eliminate clearly wrong headings** - narrow down choices
+4. **Distinguish main idea vs. detail** - headings reflect main ideas, not details
 
 **Common mistakes:**
 - Choosing a heading that matches only one sentence rather than the whole paragraph
 - Confusing overly general headings with overly specific ones
 - Being trapped by synonyms appearing in wrong headings`,
     proTips: [
-      "Bắt đầu từ đoạn dễ nhất — loại trừ heading đã dùng sẽ giúp đoạn khó hơn",
+      "Bắt đầu từ đoạn dễ nhất - loại trừ heading đã dùng sẽ giúp đoạn khó hơn",
       "Topic sentence thường nằm ở câu đầu hoặc câu cuối đoạn",
       "Heading đúng thường paraphrase ý chính, không copy nguyên văn từ passage",
     ],
     proTipsEn: [
-      "Start from the easiest paragraph — eliminating used headings helps with harder ones",
+      "Start from the easiest paragraph - eliminating used headings helps with harder ones",
       "Topic sentences are usually the first or last sentence of a paragraph",
       "Correct headings typically paraphrase the main idea, not copy words verbatim",
     ],
@@ -90,10 +90,10 @@ export const ieltsReadingExpansionLessons: LanguageLesson[] = [
     theory: `**Sentence Completion** yêu cầu hoàn thành câu bằng từ lấy trực tiếp từ bài đọc.
 
 **Quy tắc vàng:**
-1. **Đọc kỹ word limit** — "NO MORE THAN TWO WORDS" nghĩa là 1 hoặc 2 từ
-2. **Giữ nguyên dạng từ** trong passage — không đổi thì, số ít/nhiều
-3. **Tìm vị trí thông tin** — câu hỏi thường theo thứ tự trong bài đọc
-4. **Chú ý grammar** — đáp án phải đúng ngữ pháp trong câu hoàn chỉnh
+1. **Đọc kỹ word limit** - "NO MORE THAN TWO WORDS" nghĩa là 1 hoặc 2 từ
+2. **Giữ nguyên dạng từ** trong passage - không đổi thì, số ít/nhiều
+3. **Tìm vị trí thông tin** - câu hỏi thường theo thứ tự trong bài đọc
+4. **Chú ý grammar** - đáp án phải đúng ngữ pháp trong câu hoàn chỉnh
 
 **Bẫy thường gặp:**
 - Viết quá số từ cho phép
@@ -102,10 +102,10 @@ export const ieltsReadingExpansionLessons: LanguageLesson[] = [
     theoryEn: `**Sentence Completion** requires completing sentences using words taken directly from the reading passage.
 
 **Golden rules:**
-1. **Read the word limit carefully** — "NO MORE THAN TWO WORDS" means 1 or 2 words
-2. **Keep the exact word form** from the passage — don't change tense or singular/plural
-3. **Locate information sequentially** — questions usually follow passage order
-4. **Check grammar** — the answer must be grammatically correct in the complete sentence
+1. **Read the word limit carefully** - "NO MORE THAN TWO WORDS" means 1 or 2 words
+2. **Keep the exact word form** from the passage - don't change tense or singular/plural
+3. **Locate information sequentially** - questions usually follow passage order
+4. **Check grammar** - the answer must be grammatically correct in the complete sentence
 
 **Common traps:**
 - Exceeding the word limit
@@ -113,12 +113,12 @@ export const ieltsReadingExpansionLessons: LanguageLesson[] = [
 - Copying words from the wrong location`,
     proTips: [
       "Gạch chân key words trong câu hỏi trước khi tìm trong passage",
-      "Đáp án luôn là từ nguyên văn từ passage — không bao giờ cần tự nghĩ từ",
+      "Đáp án luôn là từ nguyên văn từ passage - không bao giờ cần tự nghĩ từ",
       "Kiểm tra lại số từ trước khi viết đáp án cuối cùng",
     ],
     proTipsEn: [
       "Underline key words in the question before scanning the passage",
-      "Answers are always verbatim from the passage — never make up words",
+      "Answers are always verbatim from the passage - never make up words",
       "Double-check word count before writing your final answer",
     ],
     exercises: [
@@ -165,12 +165,12 @@ export const ieltsReadingExpansionLessons: LanguageLesson[] = [
 
 **Chiến lược cho từng dạng:**
 
-**Dạng 1 — Từ passage:**
+**Dạng 1 - Từ passage:**
 - Xác định đoạn văn liên quan (summary thường tóm tắt 1-3 đoạn)
 - Tìm từ đồng nghĩa giữa summary và passage
 - Đáp án theo thứ tự trong passage
 
-**Dạng 2 — Word list:**
+**Dạng 2 - Word list:**
 - Đọc summary trước, đoán loại từ cần điền (noun/verb/adjective)
 - Loại trừ từ không phù hợp về ngữ pháp
 - Kiểm tra nghĩa trong context`,
@@ -180,24 +180,24 @@ export const ieltsReadingExpansionLessons: LanguageLesson[] = [
 
 **Strategies for each type:**
 
-**Type 1 — From passage:**
+**Type 1 - From passage:**
 - Identify the relevant paragraph(s) (summary usually covers 1-3 paragraphs)
 - Find synonyms between the summary and passage
 - Answers follow passage order
 
-**Type 2 — Word list:**
+**Type 2 - Word list:**
 - Read the summary first, predict word type needed (noun/verb/adjective)
 - Eliminate grammatically unsuitable words
 - Check meaning in context`,
     proTips: [
-      "Summary thường cover 2-3 đoạn liên tiếp — xác định phạm vi trước",
+      "Summary thường cover 2-3 đoạn liên tiếp - xác định phạm vi trước",
       "Với word list, loại trừ bằng grammar trước (noun slot → chỉ xét nouns)",
-      "Đọc toàn bộ summary trước khi điền — context giúp đoán đáp án",
+      "Đọc toàn bộ summary trước khi điền - context giúp đoán đáp án",
     ],
     proTipsEn: [
-      "Summaries usually cover 2-3 consecutive paragraphs — identify the scope first",
+      "Summaries usually cover 2-3 consecutive paragraphs - identify the scope first",
       "With word lists, eliminate by grammar first (noun slot → only consider nouns)",
-      "Read the entire summary before filling — context helps predict answers",
+      "Read the entire summary before filling - context helps predict answers",
     ],
     exercises: [
       {
@@ -229,7 +229,7 @@ export const ieltsReadingExpansionLessons: LanguageLesson[] = [
       { question: "In word list tasks, what should you check first?", options: ["Word length", "Part of speech", "Spelling", "Pronunciation"], answer: 1, explanation: "Determining part of speech helps eliminate unsuitable options quickly." },
       { question: "A summary usually covers how many paragraphs?", options: ["The entire passage", "1-3 consecutive paragraphs", "Only the introduction", "Random paragraphs"], answer: 1, explanation: "Summaries typically cover 2-3 consecutive paragraphs from the passage." },
       { question: "What helps you locate answers in the passage?", options: ["Page numbers", "Synonyms and paraphrases", "Font size", "Paragraph length"], answer: 1, explanation: "Test writers use synonyms and paraphrases to test comprehension." },
-      { question: "Should you fill gaps in order or randomly?", options: ["Always randomly", "In order — context from earlier gaps helps", "Skip to the last gap", "It doesn't matter"], answer: 1, explanation: "Filling in order lets you use context from completed gaps." },
+      { question: "Should you fill gaps in order or randomly?", options: ["Always randomly", "In order - context from earlier gaps helps", "Skip to the last gap", "It doesn't matter"], answer: 1, explanation: "Filling in order lets you use context from completed gaps." },
     ],
   },
   {
@@ -246,9 +246,9 @@ export const ieltsReadingExpansionLessons: LanguageLesson[] = [
 1. Đọc câu hỏi + gạch chân key words
 2. Locate đoạn chứa thông tin trong passage
 3. Loại trừ đáp án sai:
-   - **Too extreme** — "always", "never", "all" thường sai
-   - **Not mentioned** — thông tin không có trong passage
-   - **Partially correct** — đúng một phần nhưng thiếu/sai phần còn lại
+   - **Too extreme** - "always", "never", "all" thường sai
+   - **Not mentioned** - thông tin không có trong passage
+   - **Partially correct** - đúng một phần nhưng thiếu/sai phần còn lại
 4. Đáp án đúng = paraphrase ý trong passage`,
     theoryEn: `**Multiple Choice** in IELTS Reading has 2 formats:
 1. **Choose one correct answer** (A, B, C, D)
@@ -258,18 +258,18 @@ export const ieltsReadingExpansionLessons: LanguageLesson[] = [
 1. Read the question + underline key words
 2. Locate the relevant section in the passage
 3. Eliminate wrong answers:
-   - **Too extreme** — "always", "never", "all" are usually wrong
-   - **Not mentioned** — information not in the passage
-   - **Partially correct** — partly right but missing/wrong in other parts
+   - **Too extreme** - "always", "never", "all" are usually wrong
+   - **Not mentioned** - information not in the passage
+   - **Partially correct** - partly right but missing/wrong in other parts
 4. Correct answer = paraphrase of passage content`,
     proTips: [
-      "Đáp án chứa 'always', 'never', 'all' thường là bẫy — quá tuyệt đối",
-      "Đáp án đúng hiếm khi copy nguyên văn — tìm paraphrase",
+      "Đáp án chứa 'always', 'never', 'all' thường là bẫy - quá tuyệt đối",
+      "Đáp án đúng hiếm khi copy nguyên văn - tìm paraphrase",
       "Với dạng chọn nhiều, mỗi đáp án đúng nằm ở đoạn khác nhau",
     ],
     proTipsEn: [
-      "Options with 'always', 'never', 'all' are usually traps — too absolute",
-      "Correct answers rarely copy verbatim — look for paraphrases",
+      "Options with 'always', 'never', 'all' are usually traps - too absolute",
+      "Correct answers rarely copy verbatim - look for paraphrases",
       "For multiple-answer questions, each correct answer is in a different paragraph",
     ],
     exercises: [
@@ -297,7 +297,7 @@ export const ieltsReadingExpansionLessons: LanguageLesson[] = [
       },
     ],
     quiz: [
-      { question: "What does POE stand for?", options: ["Point of Entry", "Process of Elimination", "Power of Example", "Proof of Evidence"], answer: 1, explanation: "POE = Process of Elimination — systematically removing wrong answers." },
+      { question: "What does POE stand for?", options: ["Point of Entry", "Process of Elimination", "Power of Example", "Proof of Evidence"], answer: 1, explanation: "POE = Process of Elimination - systematically removing wrong answers." },
       { question: "Which word in an option usually signals a trap?", options: ["Sometimes", "Often", "Always", "Usually"], answer: 2, explanation: "Absolute words like 'always' are too extreme and usually incorrect." },
       { question: "A 'partially correct' answer is:", options: ["Completely wrong", "Right in part but wrong overall", "The best answer", "Not mentioned in the passage"], answer: 1, explanation: "It contains some truth but is incomplete or distorted." },
       { question: "How does the correct answer relate to the passage?", options: ["It copies exact words", "It paraphrases the content", "It adds new information", "It contradicts the passage"], answer: 1, explanation: "Correct answers paraphrase passage content using synonyms." },
@@ -317,11 +317,11 @@ export const ieltsReadingExpansionLessons: LanguageLesson[] = [
 - Matching Information = tìm **chi tiết cụ thể** trong đoạn
 
 **Chiến lược:**
-1. Đọc các statements — gạch chân key words
-2. **Không đọc theo thứ tự** — statements KHÔNG theo thứ tự passage
+1. Đọc các statements - gạch chân key words
+2. **Không đọc theo thứ tự** - statements KHÔNG theo thứ tự passage
 3. **Một đoạn có thể dùng nhiều lần** (nếu đề cho phép)
 4. Scan từng đoạn tìm synonyms/paraphrases của key words
-5. Đoạn dài thường chứa nhiều thông tin hơn — ưu tiên check`,
+5. Đoạn dài thường chứa nhiều thông tin hơn - ưu tiên check`,
     theoryEn: `**Matching Information** requires finding paragraphs that contain specific information.
 
 **Difference from Matching Headings:**
@@ -329,18 +329,18 @@ export const ieltsReadingExpansionLessons: LanguageLesson[] = [
 - Matching Information = finding **specific details** within a paragraph
 
 **Strategies:**
-1. Read the statements — underline key words
-2. **Don't read in order** — statements do NOT follow passage order
+1. Read the statements - underline key words
+2. **Don't read in order** - statements do NOT follow passage order
 3. **A paragraph may be used more than once** (if instructions allow)
 4. Scan each paragraph for synonyms/paraphrases of key words
-5. Longer paragraphs usually contain more information — prioritize checking them`,
+5. Longer paragraphs usually contain more information - prioritize checking them`,
     proTips: [
-      "Statements KHÔNG theo thứ tự passage — đừng giả định thứ tự",
+      "Statements KHÔNG theo thứ tự passage - đừng giả định thứ tự",
       "Đọc kỹ instructions: 'NB: You may use any letter more than once'",
       "Tập trung vào specific details, không phải main idea",
     ],
     proTipsEn: [
-      "Statements do NOT follow passage order — don't assume sequence",
+      "Statements do NOT follow passage order - don't assume sequence",
       "Read instructions carefully: 'NB: You may use any letter more than once'",
       "Focus on specific details, not main ideas",
     ],
@@ -371,7 +371,7 @@ export const ieltsReadingExpansionLessons: LanguageLesson[] = [
     quiz: [
       { question: "How is Matching Information different from Matching Headings?", options: ["They are the same", "MI focuses on details, MH on main ideas", "MI is easier", "MH uses a word list"], answer: 1, explanation: "Matching Information looks for specific details; Matching Headings looks for main ideas." },
       { question: "Do statements follow the passage order?", options: ["Always", "Never", "Not necessarily", "Only in Academic"], answer: 2, explanation: "Statements can appear in any order relative to the passage." },
-      { question: "Can a paragraph be used more than once?", options: ["Never", "Always", "Only if instructions say so", "Only for the last question"], answer: 2, explanation: "Check the instructions — 'NB' notes often allow reuse." },
+      { question: "Can a paragraph be used more than once?", options: ["Never", "Always", "Only if instructions say so", "Only for the last question"], answer: 2, explanation: "Check the instructions - 'NB' notes often allow reuse." },
       { question: "What should you underline in statements?", options: ["Every word", "Key words only", "Conjunctions", "Articles"], answer: 1, explanation: "Key words help you scan for matching information in paragraphs." },
       { question: "Which paragraphs should you check first?", options: ["The shortest ones", "The longest ones", "Only the first one", "Only the last one"], answer: 1, explanation: "Longer paragraphs contain more details and are more likely to match." },
     ],
@@ -414,12 +414,12 @@ export const ieltsReadingExpansionLessons: LanguageLesson[] = [
 - Statement is true in general knowledge but the author doesn't say it → NOT GIVEN`,
     proTips: [
       "Tìm opinion markers: 'I believe', 'The author argues', 'It is claimed that'",
-      "NOT GIVEN không có nghĩa là sai — chỉ là tác giả không đề cập",
+      "NOT GIVEN không có nghĩa là sai - chỉ là tác giả không đề cập",
       "Đọc kỹ xem ý kiến thuộc về tác giả hay người được trích dẫn",
     ],
     proTipsEn: [
       "Look for opinion markers: 'I believe', 'The author argues', 'It is claimed that'",
-      "NOT GIVEN doesn't mean false — it just means the author doesn't address it",
+      "NOT GIVEN doesn't mean false - it just means the author doesn't address it",
       "Check carefully whether the opinion belongs to the author or a quoted source",
     ],
     exercises: [
@@ -456,7 +456,7 @@ export const ieltsReadingExpansionLessons: LanguageLesson[] = [
   },
 ];
 
-// ===== IELTS LISTENING — 5 new lessons =====
+// ===== IELTS LISTENING - 5 new lessons =====
 
 export const ieltsListeningExpansionLessons: LanguageLesson[] = [
   {
@@ -468,31 +468,31 @@ export const ieltsListeningExpansionLessons: LanguageLesson[] = [
     theory: `**Section 3** là cuộc thảo luận giữa 2-4 người trong bối cảnh học thuật (tutorial, seminar).
 
 **Đặc điểm:**
-- Nhiều người nói — cần phân biệt giọng
-- Nội dung học thuật — nghiên cứu, project, assignment
+- Nhiều người nói - cần phân biệt giọng
+- Nội dung học thuật - nghiên cứu, project, assignment
 - Câu hỏi phức tạp hơn Section 1 & 2
 - Thường có: Multiple Choice, Matching, Labelling
 
 **Chiến lược:**
-1. **Đọc câu hỏi trước** khi nghe — gạch chân key words
-2. **Xác định người nói** — ai đang nói rất quan trọng
-3. **Chú ý opinion language** — "I think", "In my view", "I agree/disagree"
-4. **Nghe signpost words** — "however", "on the other hand", "actually"
-5. **Cẩn thận với self-correction** — người nói có thể đổi ý giữa chừng`,
+1. **Đọc câu hỏi trước** khi nghe - gạch chân key words
+2. **Xác định người nói** - ai đang nói rất quan trọng
+3. **Chú ý opinion language** - "I think", "In my view", "I agree/disagree"
+4. **Nghe signpost words** - "however", "on the other hand", "actually"
+5. **Cẩn thận với self-correction** - người nói có thể đổi ý giữa chừng`,
     theoryEn: `**Section 3** is a discussion between 2-4 people in an academic context (tutorial, seminar).
 
 **Characteristics:**
-- Multiple speakers — need to distinguish voices
-- Academic content — research, projects, assignments
+- Multiple speakers - need to distinguish voices
+- Academic content - research, projects, assignments
 - More complex questions than Sections 1 & 2
 - Common question types: Multiple Choice, Matching, Labelling
 
 **Strategies:**
-1. **Read questions before listening** — underline key words
-2. **Identify speakers** — knowing who is speaking is crucial
-3. **Listen for opinion language** — "I think", "In my view", "I agree/disagree"
-4. **Listen for signpost words** — "however", "on the other hand", "actually"
-5. **Watch for self-correction** — speakers may change their mind mid-sentence`,
+1. **Read questions before listening** - underline key words
+2. **Identify speakers** - knowing who is speaking is crucial
+3. **Listen for opinion language** - "I think", "In my view", "I agree/disagree"
+4. **Listen for signpost words** - "however", "on the other hand", "actually"
+5. **Watch for self-correction** - speakers may change their mind mid-sentence`,
     proTips: [
       "Khi 2 người tranh luận, đáp án thường là ý kiến cuối cùng (sau self-correction)",
       "Section 3 hay dùng distractor: ý kiến ban đầu bị phản bác → đáp án là ý sau",
@@ -529,7 +529,7 @@ export const ieltsListeningExpansionLessons: LanguageLesson[] = [
     ],
     quiz: [
       { question: "How many speakers are in Section 3?", options: ["1", "2-4", "5+", "Exactly 2"], answer: 1, explanation: "Section 3 features a discussion between 2-4 speakers." },
-      { question: "What's a common distractor technique in Section 3?", options: ["Background noise", "Initial opinion gets changed later", "Speaking too fast", "Using slang"], answer: 1, explanation: "Speakers often state an opinion then change it — the final opinion is usually correct." },
+      { question: "What's a common distractor technique in Section 3?", options: ["Background noise", "Initial opinion gets changed later", "Speaking too fast", "Using slang"], answer: 1, explanation: "Speakers often state an opinion then change it - the final opinion is usually correct." },
       { question: "What does 'however' signal?", options: ["Agreement", "A change in direction", "The end of the recording", "A new topic"], answer: 1, explanation: "'However' is a signpost word indicating contrast or change." },
       { question: "Why is identifying speakers important?", options: ["For fun", "Questions may ask what a specific person said", "To count them", "It's not important"], answer: 1, explanation: "Questions often ask about specific speakers' opinions or contributions." },
       { question: "When should you read the questions?", options: ["After listening", "During the introduction", "Before the audio starts", "Never"], answer: 2, explanation: "Use the preparation time before each section to read and underline key words." },
@@ -541,40 +541,40 @@ export const ieltsListeningExpansionLessons: LanguageLesson[] = [
     titleEn: "Section 4: Academic Lecture",
     level: 4,
     difficulty: "advanced",
-    theory: `**Section 4** là phần khó nhất — một bài giảng học thuật dài, chỉ 1 người nói, không dừng giữa chừng.
+    theory: `**Section 4** là phần khó nhất - một bài giảng học thuật dài, chỉ 1 người nói, không dừng giữa chừng.
 
 **Đặc điểm:**
 - Monologue dài (~5 phút)
 - Chủ đề học thuật đa dạng (khoa học, lịch sử, xã hội)
-- Không có pause giữa bài — phải theo dõi liên tục
+- Không có pause giữa bài - phải theo dõi liên tục
 - Dạng câu hỏi phổ biến: Note/Form Completion, Sentence Completion
 
 **Chiến lược Note Completion:**
-1. Đọc notes trước — đoán loại từ cần điền
+1. Đọc notes trước - đoán loại từ cần điền
 2. Sử dụng layout (headings, bullets) để theo dõi vị trí
-3. Viết tắt khi ghi — quay lại check spelling sau
+3. Viết tắt khi ghi - quay lại check spelling sau
 4. Nghe lecture structure: introduction → main points → conclusion`,
-    theoryEn: `**Section 4** is the hardest — a long academic lecture, single speaker, no pauses.
+    theoryEn: `**Section 4** is the hardest - a long academic lecture, single speaker, no pauses.
 
 **Characteristics:**
 - Long monologue (~5 minutes)
 - Diverse academic topics (science, history, society)
-- No mid-section pause — must follow continuously
+- No mid-section pause - must follow continuously
 - Common question types: Note/Form Completion, Sentence Completion
 
 **Note Completion strategy:**
-1. Read notes beforehand — predict word types needed
+1. Read notes beforehand - predict word types needed
 2. Use the layout (headings, bullets) to track your position
-3. Use abbreviations when writing — check spelling later
+3. Use abbreviations when writing - check spelling later
 4. Listen for lecture structure: introduction → main points → conclusion`,
     proTips: [
-      "Section 4 KHÔNG có pause — phải tập trung 100% suốt 5 phút",
-      "Nếu miss 1 câu, bỏ qua ngay — đừng để miss thêm câu sau",
+      "Section 4 KHÔNG có pause - phải tập trung 100% suốt 5 phút",
+      "Nếu miss 1 câu, bỏ qua ngay - đừng để miss thêm câu sau",
       "Academic vocabulary thường được giải thích ngay sau khi xuất hiện",
     ],
     proTipsEn: [
-      "Section 4 has NO pause — maintain 100% focus for 5 minutes",
-      "If you miss one answer, move on immediately — don't lose the next one",
+      "Section 4 has NO pause - maintain 100% focus for 5 minutes",
+      "If you miss one answer, move on immediately - don't lose the next one",
       "Academic vocabulary is usually explained right after it appears",
     ],
     exercises: [
@@ -619,13 +619,13 @@ export const ieltsListeningExpansionLessons: LanguageLesson[] = [
 
 **Chiến lược:**
 1. **Xem kỹ map/diagram** trong thời gian chuẩn bị
-2. **Xác định orientation** — Bắc/Nam/Đông/Tây, trên/dưới/trái/phải
-3. **Tìm starting point** — thường được nêu rõ: "Starting from the entrance..."
+2. **Xác định orientation** - Bắc/Nam/Đông/Tây, trên/dưới/trái/phải
+3. **Tìm starting point** - thường được nêu rõ: "Starting from the entrance..."
 4. **Nghe direction language:**
    - "opposite to", "next to", "between X and Y"
    - "on the left/right", "at the corner of"
    - "go straight", "turn left/right"
-5. **Di chuyển theo hướng dẫn** — dùng bút chỉ trên map
+5. **Di chuyển theo hướng dẫn** - dùng bút chỉ trên map
 
 **Từ vựng chỉ hướng quan trọng:**
 - adjacent to = bên cạnh
@@ -635,26 +635,26 @@ export const ieltsListeningExpansionLessons: LanguageLesson[] = [
 
 **Strategies:**
 1. **Study the map/diagram carefully** during preparation time
-2. **Identify orientation** — North/South/East/West, top/bottom/left/right
-3. **Find the starting point** — usually stated: "Starting from the entrance..."
+2. **Identify orientation** - North/South/East/West, top/bottom/left/right
+3. **Find the starting point** - usually stated: "Starting from the entrance..."
 4. **Listen for direction language:**
    - "opposite to", "next to", "between X and Y"
    - "on the left/right", "at the corner of"
    - "go straight", "turn left/right"
-5. **Follow directions on the map** — use your pen to trace the path
+5. **Follow directions on the map** - use your pen to trace the path
 
 **Key direction vocabulary:**
 - adjacent to = next to
 - at the far end = at the furthest point
 - in the center = in the middle`,
     proTips: [
-      "Dùng bút chỉ theo hướng dẫn trên map — giúp không bị lạc",
-      "Xác định các landmark đã có tên trên map trước — dùng làm mốc",
+      "Dùng bút chỉ theo hướng dẫn trên map - giúp không bị lạc",
+      "Xác định các landmark đã có tên trên map trước - dùng làm mốc",
       "Direction language thường đi theo thứ tự câu hỏi",
     ],
     proTipsEn: [
-      "Trace directions with your pen on the map — helps you stay oriented",
-      "Identify pre-labelled landmarks on the map first — use as reference points",
+      "Trace directions with your pen on the map - helps you stay oriented",
+      "Identify pre-labelled landmarks on the map first - use as reference points",
       "Direction language usually follows the question order",
     ],
     exercises: [
@@ -704,7 +704,7 @@ export const ieltsListeningExpansionLessons: LanguageLesson[] = [
 **Chiến lược xử lý Distractors:**
 - **Trap 1**: Nghe thấy từ trong option → KHÔNG có nghĩa là đáp án đúng
 - **Trap 2**: Thông tin đúng nhưng trả lời câu hỏi khác
-- **Trap 3**: Self-correction — "Well, actually, I meant..."
+- **Trap 3**: Self-correction - "Well, actually, I meant..."
 
 **Quy trình làm bài:**
 1. Đọc câu hỏi + options trong prep time
@@ -720,7 +720,7 @@ export const ieltsListeningExpansionLessons: LanguageLesson[] = [
 **Handling Distractors:**
 - **Trap 1**: Hearing a word from an option → does NOT mean it's correct
 - **Trap 2**: Information is true but answers a different question
-- **Trap 3**: Self-correction — "Well, actually, I meant..."
+- **Trap 3**: Self-correction - "Well, actually, I meant..."
 
 **Process:**
 1. Read questions + options during prep time
@@ -728,14 +728,14 @@ export const ieltsListeningExpansionLessons: LanguageLesson[] = [
 3. While listening, mark ✓ or ✗ next to each option
 4. Choose the answer after hearing the complete segment`,
     proTips: [
-      "Nghe thấy exact words từ option ≠ đáp án đúng — thường là distractor",
-      "Đánh dấu ✓/✗ bên cạnh mỗi option khi nghe — giúp loại trừ nhanh",
-      "Chờ nghe hết ý rồi mới chọn — đừng vội chọn khi mới nghe key word",
+      "Nghe thấy exact words từ option ≠ đáp án đúng - thường là distractor",
+      "Đánh dấu ✓/✗ bên cạnh mỗi option khi nghe - giúp loại trừ nhanh",
+      "Chờ nghe hết ý rồi mới chọn - đừng vội chọn khi mới nghe key word",
     ],
     proTipsEn: [
-      "Hearing exact words from an option ≠ correct answer — often a distractor",
-      "Mark ✓/✗ next to each option while listening — helps eliminate quickly",
-      "Wait until the full idea is expressed before choosing — don't rush at key words",
+      "Hearing exact words from an option ≠ correct answer - often a distractor",
+      "Mark ✓/✗ next to each option while listening - helps eliminate quickly",
+      "Wait until the full idea is expressed before choosing - don't rush at key words",
     ],
     exercises: [
       {
@@ -762,9 +762,9 @@ export const ieltsListeningExpansionLessons: LanguageLesson[] = [
       },
     ],
     quiz: [
-      { question: "Hearing an exact word from an option means:", options: ["It's always correct", "It's never correct", "It might be a distractor", "You should skip it"], answer: 2, explanation: "Exact words are often planted as distractors — verify with full context." },
+      { question: "Hearing an exact word from an option means:", options: ["It's always correct", "It's never correct", "It might be a distractor", "You should skip it"], answer: 2, explanation: "Exact words are often planted as distractors - verify with full context." },
       { question: "What should you do during prep time?", options: ["Relax", "Read questions and underline key words", "Write answers", "Talk to the examiner"], answer: 1, explanation: "Use preparation time to read questions and options, underlining key words." },
-      { question: "What is self-correction?", options: ["Correcting spelling", "A speaker changing their mind mid-sentence", "Fixing the audio", "Repeating a question"], answer: 1, explanation: "Speakers may say something then correct themselves — the correction is usually the answer." },
+      { question: "What is self-correction?", options: ["Correcting spelling", "A speaker changing their mind mid-sentence", "Fixing the audio", "Repeating a question"], answer: 1, explanation: "Speakers may say something then correct themselves - the correction is usually the answer." },
       { question: "When should you finalize your answer?", options: ["As soon as you hear a keyword", "After hearing the complete idea", "Before listening", "After the exam"], answer: 1, explanation: "Wait for the full context before committing to an answer." },
       { question: "What does marking ✓/✗ help with?", options: ["Making the paper neat", "Quick elimination of wrong options", "Nothing useful", "Impressing the examiner"], answer: 1, explanation: "Marking helps you visually track which options are supported or refuted." },
     ],
@@ -782,11 +782,11 @@ export const ieltsListeningExpansionLessons: LanguageLesson[] = [
 2. **Classification**: Phân loại items vào 2-3 groups
 
 **Chiến lược:**
-1. **Đọc kỹ categories trước** — hiểu rõ từng nhóm
-2. **Dự đoán synonyms** — categories thường được diễn đạt khác trong audio
-3. **Nghe opinion markers** — "According to X", "X believes that"
-4. **Ghi chú nhanh** — viết tắt category (A/B/C) cạnh mỗi item
-5. **Chú ý chuyển đổi người nói** — mỗi người có thể đại diện 1 category
+1. **Đọc kỹ categories trước** - hiểu rõ từng nhóm
+2. **Dự đoán synonyms** - categories thường được diễn đạt khác trong audio
+3. **Nghe opinion markers** - "According to X", "X believes that"
+4. **Ghi chú nhanh** - viết tắt category (A/B/C) cạnh mỗi item
+5. **Chú ý chuyển đổi người nói** - mỗi người có thể đại diện 1 category
 
 **Lỗi phổ biến:**
 - Nhầm ý kiến giữa các người nói
@@ -798,23 +798,23 @@ export const ieltsListeningExpansionLessons: LanguageLesson[] = [
 2. **Classification**: Sort items into 2-3 groups
 
 **Strategies:**
-1. **Read categories carefully first** — understand each group
-2. **Predict synonyms** — categories are often paraphrased in audio
-3. **Listen for opinion markers** — "According to X", "X believes that"
-4. **Take quick notes** — write abbreviated category (A/B/C) next to each item
-5. **Track speaker changes** — each person may represent a category
+1. **Read categories carefully first** - understand each group
+2. **Predict synonyms** - categories are often paraphrased in audio
+3. **Listen for opinion markers** - "According to X", "X believes that"
+4. **Take quick notes** - write abbreviated category (A/B/C) next to each item
+5. **Track speaker changes** - each person may represent a category
 
 **Common mistakes:**
 - Confusing opinions between speakers
 - Assigning information to wrong category due to familiar words`,
     proTips: [
-      "Viết tắt categories (A, B, C) cạnh items — nhanh hơn viết cả từ",
-      "Một category có thể dùng nhiều lần — đừng giả định mỗi cái dùng 1 lần",
+      "Viết tắt categories (A, B, C) cạnh items - nhanh hơn viết cả từ",
+      "Một category có thể dùng nhiều lần - đừng giả định mỗi cái dùng 1 lần",
       "Nghe signpost: 'On the other hand' = chuyển sang category khác",
     ],
     proTipsEn: [
-      "Abbreviate categories (A, B, C) next to items — faster than writing full words",
-      "A category may be used multiple times — don't assume each is used once",
+      "Abbreviate categories (A, B, C) next to items - faster than writing full words",
+      "A category may be used multiple times - don't assume each is used once",
       "Listen for signposts: 'On the other hand' = switching to a different category",
     ],
     exercises: [

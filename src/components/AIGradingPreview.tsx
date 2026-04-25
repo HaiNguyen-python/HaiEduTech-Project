@@ -34,7 +34,7 @@ const AIGradingPreview = () => {
               {[
                 t("Chấm điểm chi tiết Band 1.0–9.0", "Band 1.0–9.0 detailed score breakdown"),
                 t("Đánh dấu lỗi Ngữ pháp, Từ vựng & Liên kết", "Grammar, Vocabulary & Cohesion error highlighting"),
-                t('"Nâng cấp" bài viết lên Band 8.0+', '"Upgrade Engine" — transforms your essay to Band 8.0+'),
+                t('"Nâng cấp" bài viết lên Band 8.0+', '"Upgrade Engine" - transforms your essay to Band 8.0+'),
                 t("Phân tích Speaking với phản hồi âm thanh", "Speaking analysis with audio waveform feedback"),
               ].map((item) => (
                 <li key={item} className="flex items-start gap-2 text-sm text-secondary-foreground">

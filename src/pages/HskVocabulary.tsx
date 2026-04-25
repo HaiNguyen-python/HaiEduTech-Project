@@ -354,8 +354,8 @@ const HskVocabulary = () => {
               </h1>
               <p className="text-muted-foreground">
                 {t(
-                  `${hskVocabData.length} từ vựng HSK 1-6 — Lọc theo cấp độ, flashcard, luyện tập, phát âm`,
-                  `${hskVocabData.length} HSK 1-6 words — Filter by level, flashcard, exercises, pronunciation`
+                  `${hskVocabData.length} từ vựng HSK 1-6 - Lọc theo cấp độ, flashcard, luyện tập, phát âm`,
+                  `${hskVocabData.length} HSK 1-6 words - Filter by level, flashcard, exercises, pronunciation`
                 )}
               </p>
               {/* Per-level stats badges */}

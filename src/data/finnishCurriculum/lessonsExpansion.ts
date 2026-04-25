@@ -1,6 +1,6 @@
 /**
  * @file lessonsExpansion.ts
- * @description Grammar lesson expansion — Verb Types, Past Tense, Conditionals, Object Cases.
+ * @description Grammar lesson expansion - Verb Types, Past Tense, Conditionals, Object Cases.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import type { FinnishModule } from "./types";
@@ -241,8 +241,8 @@ export const finnishLessonExpansionModules: FinnishModule[] = [
     titleEn: "Conditional Mood",
     icon: "🤔",
     color: "from-pink-500 to-rose-600",
-    description: "Konditionaalin muodostus — kohteliaat pyynnöt ja toiveet.",
-    descriptionEn: "Forming the conditional — polite requests and wishes.",
+    description: "Konditionaalin muodostus - kohteliaat pyynnöt ja toiveet.",
+    descriptionEn: "Forming the conditional - polite requests and wishes.",
     pillar: "lessons",
     lessons: [
       {
@@ -322,8 +322,8 @@ export const finnishLessonExpansionModules: FinnishModule[] = [
     titleEn: "Object Cases",
     icon: "🎯",
     color: "from-emerald-500 to-green-600",
-    description: "Partitiivi vs akkusatiivi — milloin käytät mitäkin?",
-    descriptionEn: "Partitive vs accusative — when to use which?",
+    description: "Partitiivi vs akkusatiivi - milloin käytät mitäkin?",
+    descriptionEn: "Partitive vs accusative - when to use which?",
     pillar: "lessons",
     lessons: [
       {
@@ -337,12 +337,12 @@ export const finnishLessonExpansionModules: FinnishModule[] = [
 ## Partitiivi (-a/-ä, -ta/-tä):
 Käytetään kun:
 1. **Negaatio**: En osta autoa. (I don't buy a car.)
-2. **Keskeneräinen**: Luen kirjaa. (I'm reading a book — still reading.)
-3. **Jaollinen**: Juon kahvia. (I drink coffee — some, not all.)
+2. **Keskeneräinen**: Luen kirjaa. (I'm reading a book - still reading.)
+3. **Jaollinen**: Juon kahvia. (I drink coffee - some, not all.)
 
 ## Akkusatiivi (-n tai perusmuoto):
 Käytetään kun:
-1. **Valmis/kokonainen**: Luin kirjan. (I read the book — finished.)
+1. **Valmis/kokonainen**: Luin kirjan. (I read the book - finished.)
 2. **Käsky**: Osta auto! (Buy a car!)
 
 ## Nyrkkisääntö:
@@ -353,12 +353,12 @@ Käytetään kun:
 ## Partitive (-a/-ä, -ta/-tä):
 Used when:
 1. **Negation**: En osta autoa. (I don't buy a car.)
-2. **Ongoing/Incomplete**: Luen kirjaa. (I'm reading a book — still going.)
-3. **Divisible**: Juon kahvia. (I drink coffee — some, not all.)
+2. **Ongoing/Incomplete**: Luen kirjaa. (I'm reading a book - still going.)
+3. **Divisible**: Juon kahvia. (I drink coffee - some, not all.)
 
 ## Accusative (-n or base form):
 Used when:
-1. **Complete/Whole**: Luin kirjan. (I read the book — finished it.)
+1. **Complete/Whole**: Luin kirjan. (I read the book - finished it.)
 2. **Command**: Osta auto! (Buy a car!)
 
 ## Rule of thumb:

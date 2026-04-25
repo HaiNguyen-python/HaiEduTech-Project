@@ -24,7 +24,7 @@ export async function exportStrategyToPdf(elementId: string, filename = "haiedu-
   // Cover header
   pdf.setFontSize(18);
   pdf.setTextColor(59, 130, 246);
-  pdf.text("HaiEduTech — Business Strategy Report", 10, 12);
+  pdf.text("HaiEduTech - Business Strategy Report", 10, 12);
   pdf.setFontSize(10);
   pdf.setTextColor(100);
   pdf.text(`Generated: ${new Date().toLocaleString()}`, 10, 18);

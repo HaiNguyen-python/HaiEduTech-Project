@@ -1,6 +1,6 @@
 import type { ExtendedProgrammingModule } from "./types";
 
-// Cloud Engineer — Expansion: 2 new modules, 10 deep lessons total
+// Cloud Engineer - Expansion: 2 new modules, 10 deep lessons total
 // Complements cloudLessons.ts (5 base modules, 15 lessons)
 export const cloudExpansionModules: ExtendedProgrammingModule[] = [
   // ============================================================
@@ -30,7 +30,7 @@ Cùng lúc, bạn phải chọn **kho lưu trữ**: thực phẩm tươi để t
 
 | Loại | Đời sống | Cloud (AWS) | Khi nào |
 |------|----------|-------------|---------|
-| **Block** | Tủ lạnh trong bếp | EBS | Database, OS disk — cần IOPS cao |
+| **Block** | Tủ lạnh trong bếp | EBS | Database, OS disk - cần IOPS cao |
 | **Object** | Kho hàng có mã vạch | S3 | Ảnh, video, log, backup |
 | **Archive** | Kho gửi ngoại thành | Glacier | Dữ liệu pháp lý 7 năm, ít đọc |
 
@@ -61,7 +61,7 @@ asg.create_auto_scaling_group(
 
 ## 5. ⚠️ Bẫy thường gặp
 
-> ⚠️ **Cảnh báo:** Đặt Auto Scaling chỉ theo CPU sẽ "chậm 1 nhịp" — khi CPU 80% thì đã có khách bỏ đi. Hãy kết hợp **request/giây** hoặc **queue length**.
+> ⚠️ **Cảnh báo:** Đặt Auto Scaling chỉ theo CPU sẽ "chậm 1 nhịp" - khi CPU 80% thì đã có khách bỏ đi. Hãy kết hợp **request/giây** hoặc **queue length**.
 
 - **Quên Multi-AZ** → một vùng sập là toàn bộ app sập.
 - **Để storage Block cho file tĩnh** → đắt gấp 10× so với S3.
@@ -69,7 +69,7 @@ asg.create_auto_scaling_group(
 
 ## 6. ✅ Best practice của thầy Hải
 
-> 💡 **Mẹo:** Quy tắc 3-2-1 cho dữ liệu — **3** bản sao, **2** loại storage khác nhau, **1** bản ở vùng địa lý khác.
+> 💡 **Mẹo:** Quy tắc 3-2-1 cho dữ liệu - **3** bản sao, **2** loại storage khác nhau, **1** bản ở vùng địa lý khác.
 
 - Bật **lifecycle policy** trên S3: file > 90 ngày tự chuyển Glacier → tiết kiệm 70% chi phí.
 - Đặt **scaling cooldown** 60–120 giây để tránh "ping-pong" thêm-bớt liên tục.
@@ -78,15 +78,15 @@ asg.create_auto_scaling_group(
 ## 7. 🤔 Khi nào dùng / không dùng
 
 - ✅ Dùng Auto Scaling khi traffic **biến động lớn** (ecommerce, livestream, game ra mắt).
-- ❌ Không cần khi traffic **đều và nhỏ** (blog cá nhân) — 1 server + snapshot đủ rồi.
+- ❌ Không cần khi traffic **đều và nhỏ** (blog cá nhân) - 1 server + snapshot đủ rồi.
 - ✅ Object Storage cho mọi file người dùng upload (ảnh đại diện, video).
-- ❌ Tránh Block Storage cho ảnh — bạn sẽ trả gấp 10× tiền vô ích.
+- ❌ Tránh Block Storage cho ảnh - bạn sẽ trả gấp 10× tiền vô ích.
 
 ## 8. 📌 Tóm tắt 30 giây
 
 Cloud Resilience = **đủ bếp + đúng kho + biết phục hồi**. Auto Scaling lo "đủ bếp", chọn Block/Object/Archive lo "đúng kho", Multi-AZ + Health Check lo "phục hồi". Nhớ quy tắc 3-2-1 và lifecycle policy là bạn vừa **không sập** vừa **không cháy ví**.
 `,
-        theoryEn: `**Cloud Storage** comes in 3 main types — choosing wrong is the most common cloud architecture mistake.
+        theoryEn: `**Cloud Storage** comes in 3 main types - choosing wrong is the most common cloud architecture mistake.
 
 ## 1. Block Storage
 Splits data into fixed blocks (4KB-64KB) with unique addresses. OS assembles into a filesystem.
@@ -113,7 +113,7 @@ Objects (data + metadata + ID) in flat buckets, HTTP API access.
 - **Unlimited scale** (exabytes), 11 nines durability
 - Very cheap ($0.023/GB hot, $0.004/GB cold)
 - 10-100ms latency, not for DBs
-- **Immutable** — overwrite the whole object
+- **Immutable** - overwrite the whole object
 - Services: AWS S3, Azure Blob, GCP Cloud Storage
 - Use: backups, static sites, data lakes, media, logs
 
@@ -136,7 +136,7 @@ Objects (data + metadata + ID) in flat buckets, HTTP API access.
 - ❌ App logs on EFS instead of S3 (13× more expensive)`,
         code: `import boto3
 
-# Block Storage (EBS) — attach to ONE EC2
+# Block Storage (EBS) - attach to ONE EC2
 ec2 = boto3.client('ec2')
 ebs = ec2.create_volume(
     AvailabilityZone='us-east-1a',
@@ -147,7 +147,7 @@ ebs = ec2.create_volume(
     Encrypted=True
 )
 
-# File Storage (EFS) — multi-attach NFS
+# File Storage (EFS) - multi-attach NFS
 efs = boto3.client('efs')
 fs = efs.create_file_system(
     PerformanceMode='generalPurpose',
@@ -155,7 +155,7 @@ fs = efs.create_file_system(
     Encrypted=True
 )
 
-# Object Storage (S3) — unlimited scale
+# Object Storage (S3) - unlimited scale
 s3 = boto3.client('s3')
 s3.create_bucket(Bucket='my-data-lake-2026')
 s3.put_object(
@@ -183,9 +183,9 @@ print(recommend_storage("data_lake"))`,
         exerciseEn: "Design storage for a video streaming platform with: user database, raw uploaded videos, encoded video segments, and shared editing workspace. Explain which storage type for each.",
         quiz: [
           { question: "Which storage type is best for a PostgreSQL database?", options: ["Object (S3)", "File (EFS)", "Block (EBS)", "Archive (Glacier)"], answer: 2, explanation: "Block storage offers sub-ms latency and high IOPS, essential for transactional databases." },
-          { question: "What is S3's durability guarantee?", options: ["99%", "99.9%", "99.99%", "99.999999999% (11 nines)"], answer: 3, explanation: "S3 Standard provides 11 nines of durability — losing one object is statistically near-impossible." },
+          { question: "What is S3's durability guarantee?", options: ["99%", "99.9%", "99.99%", "99.999999999% (11 nines)"], answer: 3, explanation: "S3 Standard provides 11 nines of durability - losing one object is statistically near-impossible." },
           { question: "Which storage CANNOT be attached to multiple instances simultaneously?", options: ["EFS", "S3", "EBS (standard)", "Azure Files"], answer: 2, explanation: "Standard EBS is single-attach. Multi-attach EBS exists but is limited to specific volume types and use cases." },
-          { question: "Best storage for storing 10 PB of historical logs accessed once a year?", options: ["EBS", "EFS", "S3 Glacier Deep Archive", "RDS"], answer: 2, explanation: "Glacier Deep Archive costs ~$0.001/GB/month — perfect for rarely-accessed cold data." },
+          { question: "Best storage for storing 10 PB of historical logs accessed once a year?", options: ["EBS", "EFS", "S3 Glacier Deep Archive", "RDS"], answer: 2, explanation: "Glacier Deep Archive costs ~$0.001/GB/month - perfect for rarely-accessed cold data." },
           { question: "Why is object storage NOT ideal for OS boot volumes?", options: ["Too expensive", "High latency (10-100ms) and HTTP-only API", "Too small capacity", "No encryption"], answer: 1, explanation: "Booting an OS requires sub-ms random reads. Object storage's HTTP API and high latency make it unsuitable." },
         ],
       },
@@ -195,7 +195,7 @@ print(recommend_storage("data_lake"))`,
         titleEn: "Auto Scaling & Load Balancing",
         theory: `## 1. 🚦 Vấn đề đời thường
 
-Quán phở của thầy ngày thường đông 50 khách, đặt 5 bàn là đủ. Nhưng sáng mùng 1 Tết: 300 khách ùa vào — bàn ghế đâu? Nhân viên đâu? Nếu thuê sẵn 50 bàn quanh năm thì lỗ chỏng vó vì 360 ngày kia chỉ dùng 5 bàn.
+Quán phở của thầy ngày thường đông 50 khách, đặt 5 bàn là đủ. Nhưng sáng mùng 1 Tết: 300 khách ùa vào - bàn ghế đâu? Nhân viên đâu? Nếu thuê sẵn 50 bàn quanh năm thì lỗ chỏng vó vì 360 ngày kia chỉ dùng 5 bàn.
 
 → **Auto Scaling + Load Balancer** chính là người bồi bàn thông minh: tự kê thêm bàn khi đông, tự cất bớt khi vắng, và phân khách đều ra các bàn để không có bàn nào bị quá tải.
 
@@ -203,7 +203,7 @@ Quán phở của thầy ngày thường đông 50 khách, đặt 5 bàn là đ�
 
 - **Auto Scaling Group (ASG)**: nhóm máy chủ tự co giãn theo CPU / RAM / số request.
 - **Load Balancer (LB)**: "lễ tân" đứng trước, chia request đều ra các máy phía sau.
-- **Health Check**: mỗi 30s LB hỏi "máy còn sống không?" — máy chết thì LB cắt traffic.
+- **Health Check**: mỗi 30s LB hỏi "máy còn sống không?" - máy chết thì LB cắt traffic.
 
 ## 3. 🧰 Thành phần tối thiểu
 
@@ -238,8 +238,8 @@ TargetTrackingScalingPolicy:
 
 > 💡 **Mẹo:**
 > - **Scale-out nhanh, scale-in chậm**: thà thừa máy 5 phút còn hơn thiếu 30 giây.
-> - **Multi-AZ**: ASG trải máy qua ít nhất 2 vùng — 1 vùng sập vẫn sống.
-> - Dùng **Predictive Scaling** nếu lưu lượng có pattern (ví dụ Shopee Sale 12.12 — tăng máy trước 30 phút).
+> - **Multi-AZ**: ASG trải máy qua ít nhất 2 vùng - 1 vùng sập vẫn sống.
+> - Dùng **Predictive Scaling** nếu lưu lượng có pattern (ví dụ Shopee Sale 12.12 - tăng máy trước 30 phút).
 > - **Pre-warm LB** trước event lớn: gọi AWS Support hoặc dùng warm-up traffic giả.
 
 ## 7. 🤔 Khi nào dùng / không dùng
@@ -247,7 +247,7 @@ TargetTrackingScalingPolicy:
 | Dùng khi | Không cần dùng |
 |---|---|
 | Traffic dao động ngày/đêm, mùa | Hệ thống lưu lượng phẳng quanh năm |
-| Cần HA — chịu được 1 máy chết | Demo nội bộ 5 user |
+| Cần HA - chịu được 1 máy chết | Demo nội bộ 5 user |
 | Chi phí quan trọng (giảm 40-60%) | Workload stateful chưa tách session |
 
 ## 8. 📌 Tóm tắt 30 giây
@@ -257,13 +257,13 @@ Auto Scaling = bồi bàn tự kê thêm/cất bớt bàn. Load Balancer = lễ 
         theoryEn: `**Auto Scaling + Load Balancing** is the core combo that makes cloud apps elastic and cheaper than on-premise.
 
 ## Auto Scaling
-Automatically add/remove instances based on metrics (CPU, memory, RPS, queue depth). Goal: just enough — no waste, no outage.
+Automatically add/remove instances based on metrics (CPU, memory, RPS, queue depth). Goal: just enough - no waste, no outage.
 
 ## 4 strategies
-1. **Manual** — admin sets count (test only)
-2. **Scheduled** — fixed hours (8am → 10 instances, 10pm → 2)
-3. **Dynamic** — react to live metrics (CPU >70% → +1)
-4. **Predictive** — ML forecasts traffic (AWS since 2018)
+1. **Manual** - admin sets count (test only)
+2. **Scheduled** - fixed hours (8am → 10 instances, 10pm → 2)
+3. **Dynamic** - react to live metrics (CPU >70% → +1)
+4. **Predictive** - ML forecasts traffic (AWS since 2018)
 
 ## Vertical vs Horizontal
 | | Vertical | Horizontal |
@@ -273,15 +273,15 @@ Automatically add/remove instances based on metrics (CPU, memory, RPS, queue dep
 | Downtime | Yes | No |
 | Cloud-native | ❌ | ✅ |
 
-Cloud always prefers **horizontal** — that's what makes it different from on-prem.
+Cloud always prefers **horizontal** - that's what makes it different from on-prem.
 
 ## Load Balancer
 Distributes traffic to backends with continuous health checks.
 
 **AWS LB types:**
-- **ALB** (L7) — URL/header/host routing, web/microservices
-- **NLB** (L4) — TCP/UDP, sub-ms latency, gaming/IoT
-- **GLB** (L3) — firewall appliances
+- **ALB** (L7) - URL/header/host routing, web/microservices
+- **NLB** (L4) - TCP/UDP, sub-ms latency, gaming/IoT
+- **GLB** (L3) - firewall appliances
 
 ## Algorithms
 - Round Robin, Least Connection, IP Hash, Weighted
@@ -368,7 +368,7 @@ tg = elb.create_target_group(
           { question: "Which LB is best for a real-time multiplayer game?", options: ["ALB (L7)", "NLB (L4)", "GLB (L3)", "Classic LB"], answer: 1, explanation: "NLB operates at L4 with sub-ms latency, ideal for TCP/UDP gaming traffic." },
           { question: "What does Predictive Scaling use?", options: ["Random rules", "Machine learning on historical traffic", "Manual schedules", "DNS round-robin"], answer: 1, explanation: "Predictive Scaling uses ML to forecast traffic patterns and pre-warm capacity." },
           { question: "Why set Min instances ≥ 2?", options: ["Cost savings", "Multi-AZ high availability", "Faster startup", "Required by AWS"], answer: 1, explanation: "Running ≥2 instances across different AZs prevents single-point-of-failure outages." },
-          { question: "What is connection draining?", options: ["Stopping new traffic to terminating instance while finishing existing requests", "Cleaning up logs", "Resetting TCP", "Restarting LB"], answer: 0, explanation: "Connection draining lets in-flight requests complete before terminating an instance — preventing user errors during scale-in." },
+          { question: "What is connection draining?", options: ["Stopping new traffic to terminating instance while finishing existing requests", "Cleaning up logs", "Resetting TCP", "Restarting LB"], answer: 0, explanation: "Connection draining lets in-flight requests complete before terminating an instance - preventing user errors during scale-in." },
         ],
       },
       {
@@ -388,9 +388,9 @@ Bạn gửi tin nhắn cho người yêu qua một tờ giấy chuyển tay qua 
 
 Một dịch vụ "an toàn" phải bật **cả hai**. Thiếu một là hổng.
 
-## 3. 🔑 KMS — chìa khoá quản chìa khoá
+## 3. 🔑 KMS - chìa khoá quản chìa khoá
 
-KMS (Key Management Service) giống như **két sắt trung tâm** giữ mọi chìa khoá. Bạn không cầm chìa AES trực tiếp — bạn xin KMS mã hoá hộ. Lợi ích:
+KMS (Key Management Service) giống như **két sắt trung tâm** giữ mọi chìa khoá. Bạn không cầm chìa AES trực tiếp - bạn xin KMS mã hoá hộ. Lợi ích:
 
 - Xoay chìa (key rotation) tự động hằng năm.
 - Ghi log mọi lần dùng chìa → audit dễ.
@@ -419,7 +419,7 @@ Mọi file upload sau đó tự động mã hoá AES-256 với chìa từ KMS.
 
 ## 5. ⚠️ Bẫy thường gặp
 
-> ⚠️ **Cảnh báo:** Dùng cùng 1 KMS key cho cả production và development — lập trình viên test xoá nhầm key → production **mất quyền giải mã toàn bộ dữ liệu**.
+> ⚠️ **Cảnh báo:** Dùng cùng 1 KMS key cho cả production và development - lập trình viên test xoá nhầm key → production **mất quyền giải mã toàn bộ dữ liệu**.
 
 - Quên bật **Bucket Policy enforce TLS** → ai gọi qua HTTP cũ vẫn nhận được data thô.
 - Lưu key vào source code (\`AKIA...\`) rồi push GitHub → bot quét trong 30 giây.
@@ -436,8 +436,8 @@ Mọi file upload sau đó tự động mã hoá AES-256 với chìa từ KMS.
 ## 7. 🤔 Khi nào dùng / không dùng
 
 - ✅ **Luôn luôn** bật encryption at rest cho mọi storage có dữ liệu khách hàng.
-- ✅ **Luôn luôn** ép HTTPS — Let's Encrypt miễn phí, không có lý do gì để không bật.
-- ❌ Không cần KMS riêng cho file public (logo, banner) — phí key thừa.
+- ✅ **Luôn luôn** ép HTTPS - Let's Encrypt miễn phí, không có lý do gì để không bật.
+- ❌ Không cần KMS riêng cho file public (logo, banner) - phí key thừa.
 
 ## 8. 📌 Tóm tắt 30 giây
 
@@ -549,11 +549,11 @@ print(f"Recovered DEK length: {len(decrypted['Plaintext'])} bytes")`,
         exercise: "Design encryption strategy for a healthcare app storing patient records: which keys, where to encrypt, and how to satisfy HIPAA's 'minimum necessary' rule.",
         exerciseEn: "Design encryption strategy for a healthcare app storing patient records: which keys, where to encrypt, and how to satisfy HIPAA's 'minimum necessary' rule.",
         quiz: [
-          { question: "What does envelope encryption mean?", options: ["Encrypting email", "Data encrypted by DEK, DEK encrypted by KEK in KMS", "Encrypting only the header", "Using two passwords"], answer: 1, explanation: "Envelope encryption uses a Data Key for the data and a Master Key (in KMS) for the Data Key — the master never leaves KMS." },
+          { question: "What does envelope encryption mean?", options: ["Encrypting email", "Data encrypted by DEK, DEK encrypted by KEK in KMS", "Encrypting only the header", "Using two passwords"], answer: 1, explanation: "Envelope encryption uses a Data Key for the data and a Master Key (in KMS) for the Data Key - the master never leaves KMS." },
           { question: "Which TLS version should you use?", options: ["TLS 1.0", "TLS 1.1", "TLS 1.2 or 1.3", "SSL 3.0"], answer: 2, explanation: "TLS 1.2 minimum, 1.3 preferred. Older versions have known vulnerabilities (BEAST, POODLE)." },
           { question: "How often does AWS KMS auto-rotate a CMK?", options: ["30 days", "90 days", "365 days", "Never"], answer: 2, explanation: "AWS KMS rotates customer-managed keys every 365 days when rotation is enabled." },
-          { question: "Why use CMK instead of AWS-managed keys?", options: ["Cheaper", "Full control over rotation, revoke, and audit", "Faster encryption", "Required for S3"], answer: 1, explanation: "CMK gives you control over key policies, rotation schedule, and the ability to revoke access — required for many compliance frameworks." },
-          { question: "Which is an anti-pattern?", options: ["Auto-rotating keys", "Using ACM for TLS certs", "Hardcoding API keys in Git", "Separate keys per environment"], answer: 2, explanation: "Hardcoding keys in source control is the #1 cause of cloud breaches — they get scanned and exploited within minutes." },
+          { question: "Why use CMK instead of AWS-managed keys?", options: ["Cheaper", "Full control over rotation, revoke, and audit", "Faster encryption", "Required for S3"], answer: 1, explanation: "CMK gives you control over key policies, rotation schedule, and the ability to revoke access - required for many compliance frameworks." },
+          { question: "Which is an anti-pattern?", options: ["Auto-rotating keys", "Using ACM for TLS certs", "Hardcoding API keys in Git", "Separate keys per environment"], answer: 2, explanation: "Hardcoding keys in source control is the #1 cause of cloud breaches - they get scanned and exploited within minutes." },
         ],
       },
       {
@@ -562,7 +562,7 @@ print(f"Recovered DEK length: {len(decrypted['Plaintext'])} bytes")`,
         titleEn: "DDoS Protection & WAF",
         theory: `## 1. 🚦 Vấn đề đời thường
 
-Tưởng tượng quán cà phê của thầy đang đông khách. Bỗng 10.000 "khách giả" mặc áo giống nhau xếp hàng trước cửa, không gọi nước, chỉ chiếm chỗ — khách thật vào không nổi. Đó chính là **DDoS** (Distributed Denial of Service): hàng triệu máy "zombie" gửi request rác làm server thật bị nghẹt.
+Tưởng tượng quán cà phê của thầy đang đông khách. Bỗng 10.000 "khách giả" mặc áo giống nhau xếp hàng trước cửa, không gọi nước, chỉ chiếm chỗ - khách thật vào không nổi. Đó chính là **DDoS** (Distributed Denial of Service): hàng triệu máy "zombie" gửi request rác làm server thật bị nghẹt.
 
 **WAF** (Web Application Firewall) là anh bảo vệ thông minh đứng cửa: nhìn mặt, hỏi vài câu, đứa nào khả nghi (SQL Injection, XSS, bot) thì chặn ngay.
 
@@ -601,7 +601,7 @@ Tưởng tượng quán cà phê của thầy đang đông khách. Bỗng 10.000
 ## 5. ⚠️ Bẫy thường gặp
 
 > ⚠️ **Cảnh báo:**
-> - **Bật WAF mode "Block" ngay** — chưa test đã chặn cả khách thật. Luôn chạy **Count mode** trước 1 tuần.
+> - **Bật WAF mode "Block" ngay** - chưa test đã chặn cả khách thật. Luôn chạy **Count mode** trước 1 tuần.
 > - **Whitelist quá rộng** (ví dụ allow toàn bộ IP văn phòng) → attacker chiếm 1 máy nội bộ là vào tự do.
 > - **Quên log** → bị tấn công xong không biết bị gì, vá sao.
 > - **Rate limit quá lỏng** (10.000 req/IP) → bot vẫn lọt; quá chặt (50 req/IP) → user thật bị chặn.
@@ -618,8 +618,8 @@ Tưởng tượng quán cà phê của thầy đang đông khách. Bỗng 10.000
 
 | Dùng khi | Cân nhắc |
 |---|---|
-| Public web, API, mobile backend | Internal app sau VPN — dùng SG đủ |
-| E-commerce, banking, gaming | Static site CDN-only — Cloudflare free đủ |
+| Public web, API, mobile backend | Internal app sau VPN - dùng SG đủ |
+| E-commerce, banking, gaming | Static site CDN-only - Cloudflare free đủ |
 | Có dữ liệu nhạy cảm | Demo, dev environment |
 
 ## 8. 📌 Tóm tắt 30 giây
@@ -629,9 +629,9 @@ DDoS = đám đông giả; WAF = bảo vệ thông minh. Phòng thủ 3 lớp: a
         theoryEn: `**DDoS** floods apps with fake traffic from thousands of IPs. **WAF** blocks app-layer attacks (SQLi, XSS).
 
 ## DDoS attack types
-1. **Volumetric (L3/L4)** — flood bandwidth (Tbps record: 3.4 Tbps in 2023)
-2. **Protocol (L3/L4)** — exhaust server resources (SYN flood)
-3. **Application (L7)** — mimic real users (HTTP flood, login bots)
+1. **Volumetric (L3/L4)** - flood bandwidth (Tbps record: 3.4 Tbps in 2023)
+2. **Protocol (L3/L4)** - exhaust server resources (SYN flood)
+3. **Application (L7)** - mimic real users (HTTP flood, login bots)
 
 ## AWS Shield
 - **Standard** (free, auto-enabled): L3/L4 protection
@@ -648,7 +648,7 @@ DDoS = đám đông giả; WAF = bảo vệ thông minh. Phòng thủ 3 lớp: a
 Route 53 → CloudFront → WAF → ALB → EC2 (private)
 
 ## GitHub 2018 case
-1.35 Tbps memcached attack — Akamai absorbed it, only 10 min downtime. Lesson: always have a CDN in front.
+1.35 Tbps memcached attack - Akamai absorbed it, only 10 min downtime. Lesson: always have a CDN in front.
 
 ## OWASP Top 10 (2021)
 Broken Access, Crypto Failures, Injection, Insecure Design, Misconfig, Vulnerable Components, Auth Failures, Integrity, Logging Failures, SSRF.
@@ -750,8 +750,8 @@ print("WAF attached. Now monitor blocked requests in CloudWatch.")`,
           { question: "Which DDoS type targets the application layer (L7)?", options: ["UDP flood", "SYN flood", "HTTP flood mimicking real users", "ICMP ping"], answer: 2, explanation: "L7 attacks like HTTP flood mimic legitimate user requests, making them hardest to detect." },
           { question: "AWS Shield Standard protects against:", options: ["L7 only", "L3/L4 attacks (free, auto-enabled)", "Only DNS attacks", "Only SQL injection"], answer: 1, explanation: "Shield Standard is free, auto-enabled, and covers most common L3/L4 volumetric and protocol attacks." },
           { question: "What does a WAF primarily protect against?", options: ["Volumetric DDoS", "OWASP Top 10 application attacks", "Hardware failure", "Network latency"], answer: 1, explanation: "WAF inspects HTTP requests to block injection, XSS, and other OWASP Top 10 attacks before reaching the app." },
-          { question: "Why hide your origin server's IP?", options: ["Marketing", "Force traffic through CDN/WAF — bypassing them is impossible", "Save bandwidth", "Faster DNS"], answer: 1, explanation: "If attackers find the origin IP, they bypass CDN and WAF entirely — hiding the origin is critical." },
-          { question: "Best practice for /login endpoint?", options: ["No limit", "Stricter rate limit than other endpoints", "Allow all geos", "Disable WAF"], answer: 1, explanation: "Login endpoints are prime targets for credential stuffing — apply tighter rate limits (e.g., 10 attempts/min/IP)." },
+          { question: "Why hide your origin server's IP?", options: ["Marketing", "Force traffic through CDN/WAF - bypassing them is impossible", "Save bandwidth", "Faster DNS"], answer: 1, explanation: "If attackers find the origin IP, they bypass CDN and WAF entirely - hiding the origin is critical." },
+          { question: "Best practice for /login endpoint?", options: ["No limit", "Stricter rate limit than other endpoints", "Allow all geos", "Disable WAF"], answer: 1, explanation: "Login endpoints are prime targets for credential stuffing - apply tighter rate limits (e.g., 10 attempts/min/IP)." },
         ],
       },
       {
@@ -760,7 +760,7 @@ print("WAF attached. Now monitor blocked requests in CloudWatch.")`,
         titleEn: "Monitoring with CloudWatch & Prometheus",
         theory: `## 1. 🚦 Vấn đề đời thường
 
-3 giờ sáng, server sập. Bạn mới biết khi khách hàng gọi điện chửi. Đó là vì **không có monitoring**. Monitoring giống như **đồng hồ đo nhịp tim cho hệ thống** — phải kêu "tút tút" trước khi bệnh nhân ngất.
+3 giờ sáng, server sập. Bạn mới biết khi khách hàng gọi điện chửi. Đó là vì **không có monitoring**. Monitoring giống như **đồng hồ đo nhịp tim cho hệ thống** - phải kêu "tút tút" trước khi bệnh nhân ngất.
 
 ## 2. 💡 3 trụ cột Observability
 
@@ -776,9 +776,9 @@ Thiếu 1 trong 3 là "mù một mắt" khi debug production.
 
 Không phải lỗi nào cũng cần đánh thức kỹ sư lúc 3 giờ sáng. Quy tắc **3 mức**:
 
-- **P1 — Page (gọi điện)**: hệ thống chết, doanh thu mất.
-- **P2 — Slack/Email**: chậm bất thường, lỗi 5%.
-- **P3 — Dashboard**: xu hướng xấu, xem giờ hành chính.
+- **P1 - Page (gọi điện)**: hệ thống chết, doanh thu mất.
+- **P2 - Slack/Email**: chậm bất thường, lỗi 5%.
+- **P3 - Dashboard**: xu hướng xấu, xem giờ hành chính.
 
 ## 4. 🎯 Ví dụ tạo alert CPU > 80% kéo dài 5 phút
 
@@ -798,7 +798,7 @@ cw.put_metric_alarm(
 
 ## 5. ⚠️ Bẫy thường gặp
 
-> ⚠️ **Cảnh báo:** **Alert Fatigue** — mỗi ngày 200 alert vô nghĩa → kỹ sư tắt thông báo → ngày thực sự cháy thì không ai biết.
+> ⚠️ **Cảnh báo:** **Alert Fatigue** - mỗi ngày 200 alert vô nghĩa → kỹ sư tắt thông báo → ngày thực sự cháy thì không ai biết.
 
 - Log mọi thứ ở mức \`INFO\` → CloudWatch ngốn 500 USD/tháng vô ích.
 - Alert dựa trên **giá trị tuyệt đối** thay vì **xu hướng** → traffic Tết tăng 3× cũng báo cháy.
@@ -806,7 +806,7 @@ cw.put_metric_alarm(
 
 ## 6. ✅ Best practice của thầy Hải
 
-> 💡 **Mẹo:** Quy tắc **Golden Signals** của Google SRE — chỉ cần theo 4 thứ: **Latency, Traffic, Errors, Saturation**. 4 cái này nằm 1 dashboard, đủ 80% trường hợp.
+> 💡 **Mẹo:** Quy tắc **Golden Signals** của Google SRE - chỉ cần theo 4 thứ: **Latency, Traffic, Errors, Saturation**. 4 cái này nằm 1 dashboard, đủ 80% trường hợp.
 
 - Dùng **structured logging** (JSON) → query bằng CloudWatch Insights nhanh gấp 10×.
 - Đặt **SLO** (Service Level Objective) ví dụ "99.9% request < 300ms" → alert khi **error budget** sắp cạn.
@@ -815,12 +815,12 @@ cw.put_metric_alarm(
 ## 7. 🤔 Khi nào dùng / không dùng
 
 - ✅ Mọi production app phải có ít nhất Metrics + Logs từ ngày 1.
-- ✅ Tracing khi có ≥3 microservice — không thì overkill.
-- ❌ Không cần Datadog 2.000 USD/tháng cho startup MVP — CloudWatch + Sentry đủ.
+- ✅ Tracing khi có ≥3 microservice - không thì overkill.
+- ❌ Không cần Datadog 2.000 USD/tháng cho startup MVP - CloudWatch + Sentry đủ.
 
 ## 8. 📌 Tóm tắt 30 giây
 
-Monitoring = **Metrics + Logs + Traces**, alert chia 3 mức P1/P2/P3, theo Golden Signals của Google. Đừng log mọi thứ, đừng alert mọi thứ — chỉ alert cái **đánh thức kỹ sư cũng đáng**. Có SLO + error budget là bạn đã ở level senior.
+Monitoring = **Metrics + Logs + Traces**, alert chia 3 mức P1/P2/P3, theo Golden Signals của Google. Đừng log mọi thứ, đừng alert mọi thứ - chỉ alert cái **đánh thức kỹ sư cũng đáng**. Có SLO + error budget là bạn đã ở level senior.
 `,
         theoryEn: `**Monitoring** = "you can't fix what you can't see". Cloud needs 3 observability pillars: Metrics, Logs, Traces.
 
@@ -914,7 +914,7 @@ cloudwatch.put_metric_alarm(
     Threshold=5.0,
     ActionsEnabled=True,
     AlarmActions=['arn:aws:sns:us-east-1:123:pagerduty-critical'],
-    AlarmDescription='ALB 5XX > 5% — runbook: https://wiki/runbooks/5xx',
+    AlarmDescription='ALB 5XX > 5% - runbook: https://wiki/runbooks/5xx',
     TreatMissingData='breaching'
 )
 
@@ -947,10 +947,10 @@ fields @timestamp, user_id, error
         exerciseEn: "Define 3 SLIs and matching SLOs for an e-commerce checkout service. Explain the error budget calculation for one of them.",
         quiz: [
           { question: "What are the 3 pillars of observability?", options: ["CPU, RAM, Disk", "Metrics, Logs, Traces", "AWS, Azure, GCP", "Dev, Staging, Prod"], answer: 1, explanation: "Metrics (numbers), Logs (events), Traces (request flow) form the foundation of modern observability." },
-          { question: "Which is the RED method?", options: ["Red, Yellow, Green", "Rate, Errors, Duration", "Read, Edit, Delete", "Reliable, Efficient, Durable"], answer: 1, explanation: "RED = Rate, Errors, Duration — Tom Wilkie's method for monitoring request-driven services." },
+          { question: "Which is the RED method?", options: ["Red, Yellow, Green", "Rate, Errors, Duration", "Read, Edit, Delete", "Reliable, Efficient, Durable"], answer: 1, explanation: "RED = Rate, Errors, Duration - Tom Wilkie's method for monitoring request-driven services." },
           { question: "Difference between SLO and SLA?", options: ["Same thing", "SLO is internal target, SLA is customer contract with penalties", "SLA is faster", "SLO is for infra only"], answer: 1, explanation: "SLO is your internal goal (e.g., 99.9%); SLA is the contractual commitment to customers, often with refund clauses." },
-          { question: "Best practice: alert on…", options: ["Every metric change", "Symptoms users feel, not internal causes", "CPU only", "Disk full only"], answer: 1, explanation: "Alert on user-facing symptoms (login failures, slow checkout) — internal causes generate noise without helping users." },
-          { question: "Prometheus uses what data collection model?", options: ["Push from clients", "Pull (scrape /metrics endpoint)", "WebSocket stream", "Email"], answer: 1, explanation: "Prometheus pulls/scrapes metrics from /metrics endpoints — opposite of push-based StatsD/CloudWatch." },
+          { question: "Best practice: alert on…", options: ["Every metric change", "Symptoms users feel, not internal causes", "CPU only", "Disk full only"], answer: 1, explanation: "Alert on user-facing symptoms (login failures, slow checkout) - internal causes generate noise without helping users." },
+          { question: "Prometheus uses what data collection model?", options: ["Push from clients", "Pull (scrape /metrics endpoint)", "WebSocket stream", "Email"], answer: 1, explanation: "Prometheus pulls/scrapes metrics from /metrics endpoints - opposite of push-based StatsD/CloudWatch." },
         ],
       },
     ],
@@ -975,7 +975,7 @@ fields @timestamp, user_id, error
         titleEn: "Cloud Pricing Models",
         theory: `## 1. 🚦 Vấn đề đời thường
 
-Bạn thuê phòng trọ ở Sài Gòn. Có 3 kiểu trả tiền: trả theo ngày (đắt nhưng linh hoạt), trả theo tháng (rẻ hơn), trả nguyên năm (rẻ nhất nhưng cọc cứng). Cloud y hệt: **On-Demand, Reserved, Spot** — chọn sai là **đốt tiền**.
+Bạn thuê phòng trọ ở Sài Gòn. Có 3 kiểu trả tiền: trả theo ngày (đắt nhưng linh hoạt), trả theo tháng (rẻ hơn), trả nguyên năm (rẻ nhất nhưng cọc cứng). Cloud y hệt: **On-Demand, Reserved, Spot** - chọn sai là **đốt tiền**.
 
 ## 2. 💡 3 mô hình giá phải nhớ
 
@@ -990,9 +990,9 @@ Bạn thuê phòng trọ ở Sài Gòn. Có 3 kiểu trả tiền: trả theo ng
 **FinOps** = **Finance + DevOps**. Đó là văn hoá nơi engineer biết mỗi \`terraform apply\` tốn bao nhiêu tiền, và chịu trách nhiệm với hoá đơn cuối tháng.
 
 3 giai đoạn FinOps:
-1. **Inform** — gắn tag, biết ai tiêu gì.
-2. **Optimize** — tắt zombie, mua Reserved.
-3. **Operate** — đặt budget alert, review hàng tuần.
+1. **Inform** - gắn tag, biết ai tiêu gì.
+2. **Optimize** - tắt zombie, mua Reserved.
+3. **Operate** - đặt budget alert, review hàng tuần.
 
 ## 4. 🎯 Ví dụ tính nhanh
 
@@ -1017,11 +1017,11 @@ print(monthly_cost(0.038))   # Reserved
 
 ## 6. ✅ Best practice của thầy Hải
 
-> 💡 **Mẹo:** Quy tắc **70-25-5** — 70% baseline dùng Reserved, 25% biến động dùng On-Demand, 5% batch dùng Spot. Tiết kiệm 50% mà vẫn an toàn.
+> 💡 **Mẹo:** Quy tắc **70-25-5** - 70% baseline dùng Reserved, 25% biến động dùng On-Demand, 5% batch dùng Spot. Tiết kiệm 50% mà vẫn an toàn.
 
 - Bắt buộc **tag** mọi resource: \`env\`, \`team\`, \`project\` → biết ai tiêu nhiều.
 - Bật **Cost Anomaly Detection** → AWS tự gửi mail khi chi phí lệch 20%.
-- Mỗi tháng review **Trusted Advisor** / **Cost Explorer** — luôn tìm được 10–30% lãng phí.
+- Mỗi tháng review **Trusted Advisor** / **Cost Explorer** - luôn tìm được 10–30% lãng phí.
 
 ## 7. 🤔 Khi nào dùng / không dùng
 
@@ -1032,7 +1032,7 @@ print(monthly_cost(0.038))   # Reserved
 
 ## 8. 📌 Tóm tắt 30 giây
 
-Cloud rẻ hay đắt là do **bạn mua đúng mô hình** không. **70-25-5** + tag mọi thứ + bật Cost Anomaly là tiết kiệm ngay 30–50%. FinOps không phải kế toán — đó là văn hoá engineer **biết giá** mỗi dòng code mình viết.
+Cloud rẻ hay đắt là do **bạn mua đúng mô hình** không. **70-25-5** + tag mọi thứ + bật Cost Anomaly là tiết kiệm ngay 30–50%. FinOps không phải kế toán - đó là văn hoá engineer **biết giá** mỗi dòng code mình viết.
 `,
         theoryEn: `**Cloud Pricing** has bankrupted many startups. Wrong model = 5-10× bill. Five main models.
 
@@ -1144,10 +1144,10 @@ budgets.create_budget(
         exerciseEn: "A SaaS company runs 50 EC2 m5.xlarge instances 24/7 in production. Recommend a pricing strategy and calculate annual savings vs all on-demand.",
         quiz: [
           { question: "Maximum savings with Reserved Instances?", options: ["20%", "40%", "Up to 72%", "100%"], answer: 2, explanation: "3-year All-Upfront Standard RIs can save up to 72% vs on-demand." },
-          { question: "Spot Instances can be reclaimed by AWS within…", options: ["1 hour", "2 minutes notice", "1 day", "Never"], answer: 1, explanation: "AWS gives only 2 minutes notice before reclaiming Spot capacity — never use for stateful workloads." },
+          { question: "Spot Instances can be reclaimed by AWS within…", options: ["1 hour", "2 minutes notice", "1 day", "Never"], answer: 1, explanation: "AWS gives only 2 minutes notice before reclaiming Spot capacity - never use for stateful workloads." },
           { question: "Which is a hidden cloud cost?", options: ["EC2 hourly", "Egress traffic ($0.09/GB to Internet)", "Free tier", "Documentation"], answer: 1, explanation: "Data transfer OUT to the Internet is one of the most overlooked costs and can dwarf compute spending." },
-          { question: "Best pricing model for batch ML training?", options: ["On-Demand", "Reserved 3yr", "Spot Instances", "Dedicated Hosts"], answer: 2, explanation: "ML training is restartable and can tolerate interruptions — Spot saves 70-90%." },
-          { question: "What should you tag every resource with?", options: ["Color", "Environment, Team, Project for cost allocation", "User password", "Random ID"], answer: 1, explanation: "Tags enable chargeback, cost allocation, and identifying orphaned resources — foundation of FinOps." },
+          { question: "Best pricing model for batch ML training?", options: ["On-Demand", "Reserved 3yr", "Spot Instances", "Dedicated Hosts"], answer: 2, explanation: "ML training is restartable and can tolerate interruptions - Spot saves 70-90%." },
+          { question: "What should you tag every resource with?", options: ["Color", "Environment, Team, Project for cost allocation", "User password", "Random ID"], answer: 1, explanation: "Tags enable chargeback, cost allocation, and identifying orphaned resources - foundation of FinOps." },
         ],
       },
       {
@@ -1179,7 +1179,7 @@ flowchart TD
     G -- No --> I[Pure On-Prem]
 \`\`\`
 
-## 3. 🏛️ Hybrid Cloud — đào sâu
+## 3. 🏛️ Hybrid Cloud - đào sâu
 
 ### 3.1 Why Hybrid?
 1. Hệ thống legacy không thể migrate (mainframe ngân hàng).
@@ -1196,15 +1196,15 @@ flowchart TD
 | **SD-WAN** | Tùy route | $$ | Multi-site enterprise |
 
 ### 3.3 Hybrid Patterns
-- **Cloud bursting** — chạy on-prem, khi peak thì auto scale ra cloud.
-- **Cloud as DR** — production on-prem, disaster recovery trên cloud.
-- **Cloud-first dev** — dev/staging trên cloud, prod on-prem.
+- **Cloud bursting** - chạy on-prem, khi peak thì auto scale ra cloud.
+- **Cloud as DR** - production on-prem, disaster recovery trên cloud.
+- **Cloud-first dev** - dev/staging trên cloud, prod on-prem.
 
 ### 3.4 Tools
-- **Kubernetes** — chạy ở đâu cũng được.
-- **Terraform** — IaC đa cloud.
-- **Anthos** (Google), **Azure Arc**, **AWS Outposts** — đem mặt phẳng cloud xuống on-prem.
-- **HashiCorp Vault** — quản lý secret xuyên môi trường.
+- **Kubernetes** - chạy ở đâu cũng được.
+- **Terraform** - IaC đa cloud.
+- **Anthos** (Google), **Azure Arc**, **AWS Outposts** - đem mặt phẳng cloud xuống on-prem.
+- **HashiCorp Vault** - quản lý secret xuyên môi trường.
 
 ### 3.5 Real-world ví dụ
 - **Netflix**: AWS-only từ 2008 (chống lại trào lưu multi-cloud).
@@ -1217,16 +1217,16 @@ flowchart TD
 > ⚠️ **Cảnh báo:**
 > - **Egress fee cắt cổ**: chuyển 1TB từ AWS sang GCP có thể tốn $90.
 > - **Lowest common denominator**: chỉ dùng dịch vụ có ở cả 2 cloud → mất tính năng "xịn".
-> - **2x team skill**: kỹ sư phải giỏi cả AWS lẫn GCP — lương gấp đôi, tuyển khó gấp ba.
+> - **2x team skill**: kỹ sư phải giỏi cả AWS lẫn GCP - lương gấp đôi, tuyển khó gấp ba.
 > - **Hybrid latency**: gọi DB on-prem từ cloud có thể 50-200ms → app chậm.
 
 ## 5. ✅ Best practice của thầy Hải
 
 > 💡 **Mẹo:**
-> - Đừng multi-cloud vì *sợ* vendor lock-in — hãy dùng abstraction (Terraform, K8s) trên 1 cloud trước.
+> - Đừng multi-cloud vì *sợ* vendor lock-in - hãy dùng abstraction (Terraform, K8s) trên 1 cloud trước.
 > - Chỉ multi-cloud khi có **lý do thật**: compliance, giá tốt cho 1 dịch vụ cụ thể, customer yêu cầu.
 > - Hybrid hợp với: ngân hàng, bệnh viện, doanh nghiệp đã đầu tư on-prem nặng.
-> - **Đo egress fee** trước khi quyết — đây là "chi phí ẩn" giết multi-cloud.
+> - **Đo egress fee** trước khi quyết - đây là "chi phí ẩn" giết multi-cloud.
 
 ## 6. 🤔 Khi nào dùng / không dùng
 
@@ -1238,7 +1238,7 @@ flowchart TD
 
 ## 7. 📌 Tóm tắt 30 giây
 
-Single = đơn giản, nhanh. Multi-cloud = chống lock-in nhưng đắt + phức tạp. Hybrid = on-prem + cloud, hợp ngân hàng/y tế VN. Đừng "multi-cloud cho oai" — phải có lý do thật và tính được egress fee.
+Single = đơn giản, nhanh. Multi-cloud = chống lock-in nhưng đắt + phức tạp. Hybrid = on-prem + cloud, hợp ngân hàng/y tế VN. Đừng "multi-cloud cho oai" - phải có lý do thật và tính được egress fee.
 `,
         theoryEn: `**Multi-Cloud** = 2+ public clouds. **Hybrid Cloud** = public cloud + on-premise. Different problems, different solutions.
 
@@ -1324,7 +1324,7 @@ provider "aws"     { region = "us-east-1" }
 provider "azurerm" { features {} }
 """
 
-# main.tf — same module, two clouds
+# main.tf - same module, two clouds
 """
 # AWS Kubernetes cluster
 resource "aws_eks_cluster" "primary" {
@@ -1383,8 +1383,8 @@ hybrid_connection_cost(monthly_gb=15000)`,
         quiz: [
           { question: "What is multi-cloud?", options: ["Multiple regions in one cloud", "Using 2+ public cloud providers", "Multiple accounts", "Cloud + Edge"], answer: 1, explanation: "Multi-cloud means actively using multiple public cloud providers (AWS + Azure + GCP)." },
           { question: "Hybrid cloud combines:", options: ["Two public clouds", "Public cloud + on-premise data center", "Two regions", "Cloud + SaaS"], answer: 1, explanation: "Hybrid = public cloud + on-premise infrastructure connected via VPN or Direct Connect." },
-          { question: "Main downside of multi-cloud?", options: ["Slower internet", "Operational complexity 3-5× higher", "More expensive hardware", "No automation possible"], answer: 1, explanation: "Each cloud has its own services, APIs, and operational model — managing all of them multiplies complexity." },
-          { question: "Best tool for cloud-agnostic infrastructure?", options: ["AWS CloudFormation", "Azure ARM templates", "Terraform", "Bash scripts"], answer: 2, explanation: "Terraform supports all major clouds with the same HCL language — true multi-cloud IaC." },
+          { question: "Main downside of multi-cloud?", options: ["Slower internet", "Operational complexity 3-5× higher", "More expensive hardware", "No automation possible"], answer: 1, explanation: "Each cloud has its own services, APIs, and operational model - managing all of them multiplies complexity." },
+          { question: "Best tool for cloud-agnostic infrastructure?", options: ["AWS CloudFormation", "Azure ARM templates", "Terraform", "Bash scripts"], answer: 2, explanation: "Terraform supports all major clouds with the same HCL language - true multi-cloud IaC." },
           { question: "When does hybrid cloud make most sense?", options: ["New startup", "Mature company with legacy systems and data residency requirements", "Personal projects", "Test environments"], answer: 1, explanation: "Hybrid is ideal when legacy systems can't migrate or regulations require some data to stay on-premise." },
         ],
       },
@@ -1395,9 +1395,9 @@ hybrid_connection_cost(monthly_gb=15000)`,
         theory: `## 1. 🚦 Vấn đề đời thường
 
 Mở quán bún bò, thầy có 3 cách:
-- **VM** = mua cả căn nhà, tự sửa điện nước, tự dọn — kiểm soát 100% nhưng mệt.
-- **Container (Docker/K8s)** = thuê căn hộ chung cư — đã có điện nước, chỉ mang đồ vào, nhanh dọn nhanh chuyển.
-- **Serverless (Lambda/Cloud Functions)** = thuê chỗ ngồi Highlands — uống xong đi luôn, tính tiền theo cốc, không cần lo bảo trì.
+- **VM** = mua cả căn nhà, tự sửa điện nước, tự dọn - kiểm soát 100% nhưng mệt.
+- **Container (Docker/K8s)** = thuê căn hộ chung cư - đã có điện nước, chỉ mang đồ vào, nhanh dọn nhanh chuyển.
+- **Serverless (Lambda/Cloud Functions)** = thuê chỗ ngồi Highlands - uống xong đi luôn, tính tiền theo cốc, không cần lo bảo trì.
 
 ## 2. 💡 Khái niệm chính
 
@@ -1468,7 +1468,7 @@ spec:
 
 Container = căn hộ; Serverless = ghế Highlands. Serverless rẻ khi idle, đắt khi chạy nhiều. K8s mạnh nhưng cần team. Hybrid (K8s + Lambda) là pattern thông minh nhất cho hệ thống thực tế.
 `,
-        theoryEn: `**Containers** (Docker, Kubernetes) and **Serverless** (Lambda, Cloud Functions) — choosing wrong wastes money and limits scale.
+        theoryEn: `**Containers** (Docker, Kubernetes) and **Serverless** (Lambda, Cloud Functions) - choosing wrong wastes money and limits scale.
 
 ## Containers
 Package app + deps into a lightweight image. Long-running, portable, full control. Need to manage cluster.
@@ -1606,11 +1606,11 @@ recommend_compute(req_per_month=1_000_000, avg_duration_ms=200)`,
         exercise: "Decide: Containers or Serverless for (1) a Slack bot, (2) a ML training job that runs 6 hours, (3) a real-time multiplayer game, (4) a daily ETL pipeline. Justify each.",
         exerciseEn: "Decide: Containers or Serverless for (1) a Slack bot, (2) a ML training job that runs 6 hours, (3) a real-time multiplayer game, (4) a daily ETL pipeline. Justify each.",
         quiz: [
-          { question: "Maximum AWS Lambda execution time?", options: ["1 minute", "5 minutes", "15 minutes", "1 hour"], answer: 2, explanation: "Lambda has a hard 15-minute timeout — for longer workloads use Fargate, ECS, or Step Functions." },
+          { question: "Maximum AWS Lambda execution time?", options: ["1 minute", "5 minutes", "15 minutes", "1 hour"], answer: 2, explanation: "Lambda has a hard 15-minute timeout - for longer workloads use Fargate, ECS, or Step Functions." },
           { question: "Cold start in serverless typically lasts:", options: ["1 microsecond", "100ms-2 seconds", "1 minute", "10 minutes"], answer: 1, explanation: "Cold starts add 100ms-2s while the runtime initializes. Provisioned concurrency eliminates this for critical paths." },
-          { question: "Which is best for a long-running database server?", options: ["Lambda", "Containers (EKS/ECS)", "Step Functions", "EventBridge"], answer: 1, explanation: "Databases need persistent storage and continuous uptime — containers (or managed services) are the right fit." },
+          { question: "Which is best for a long-running database server?", options: ["Lambda", "Containers (EKS/ECS)", "Step Functions", "EventBridge"], answer: 1, explanation: "Databases need persistent storage and continuous uptime - containers (or managed services) are the right fit." },
           { question: "Serverless is most cost-effective when:", options: ["Traffic is constant 24/7", "Traffic is intermittent / unpredictable", "Need GPU", "Need custom OS"], answer: 1, explanation: "Pay-per-execution shines for spiky/sporadic workloads. Constant traffic favors always-on containers or EC2." },
-          { question: "What is GCP Cloud Run?", options: ["Database", "Serverless containers (best of both worlds)", "VM service", "DNS"], answer: 1, explanation: "Cloud Run runs containers in a serverless way — auto-scale to zero, pay per request, no Lambda's 15-min limit." },
+          { question: "What is GCP Cloud Run?", options: ["Database", "Serverless containers (best of both worlds)", "VM service", "DNS"], answer: 1, explanation: "Cloud Run runs containers in a serverless way - auto-scale to zero, pay per request, no Lambda's 15-min limit." },
         ],
       },
       {
@@ -1619,7 +1619,7 @@ recommend_compute(req_per_month=1_000_000, avg_duration_ms=200)`,
         titleEn: "Disaster Recovery (RTO/RPO)",
         theory: `## 1. 🚦 Vấn đề đời thường
 
-Cháy nhà giữa đêm. Câu hỏi sống còn: **Mất bao lâu mới có nhà ở lại?** (RTO) và **Đồ đạc sao lưu lần cuối là khi nào?** (RPO). Disaster Recovery (DR) trong cloud cũng đúng 2 câu hỏi đó — nhưng "nhà" là hệ thống và "đồ đạc" là dữ liệu khách hàng.
+Cháy nhà giữa đêm. Câu hỏi sống còn: **Mất bao lâu mới có nhà ở lại?** (RTO) và **Đồ đạc sao lưu lần cuối là khi nào?** (RPO). Disaster Recovery (DR) trong cloud cũng đúng 2 câu hỏi đó - nhưng "nhà" là hệ thống và "đồ đạc" là dữ liệu khách hàng.
 
 ## 2. 💡 RTO vs RPO
 
@@ -1656,7 +1656,7 @@ print(dr_cost(10_000, "warm_standby"))  # 5500 USD/tháng
 
 ## 5. ⚠️ Bẫy thường gặp
 
-> ⚠️ **Cảnh báo:** **Backup không test = không có backup**. 60% công ty phát hiện backup hỏng đúng lúc cần restore — vì chưa bao giờ thử.
+> ⚠️ **Cảnh báo:** **Backup không test = không có backup**. 60% công ty phát hiện backup hỏng đúng lúc cần restore - vì chưa bao giờ thử.
 
 - Đặt RTO 5 phút nhưng database 2 TB → restore thực tế mất 4 giờ.
 - DR site ở **cùng region** với prod → cùng region sập là cùng chết.
@@ -1668,14 +1668,14 @@ print(dr_cost(10_000, "warm_standby"))  # 5500 USD/tháng
 
 - Chọn DR region **cách prod ≥ 1.000 km** (ap-southeast-1 ↔ ap-northeast-1).
 - Tự động hoá failover bằng **Route 53 health check** + **Lambda**.
-- Lưu runbook trong Git, không phải Confluence — kèm screenshot.
+- Lưu runbook trong Git, không phải Confluence - kèm screenshot.
 
 ## 7. 🤔 Khi nào dùng chiến lược nào
 
 - **Backup & Restore**: blog, công cụ nội bộ, mất 1 ngày không sao.
 - **Pilot Light**: app SMB, mất 30 phút khách hàng vẫn chấp nhận.
 - **Warm Standby**: SaaS có SLA 99.9%, mất phút thì OK.
-- **Active-Active**: ngân hàng, sàn TMĐT lớn — downtime = mất doanh thu triệu USD/giờ.
+- **Active-Active**: ngân hàng, sàn TMĐT lớn - downtime = mất doanh thu triệu USD/giờ.
 
 ## 8. 📌 Tóm tắt 30 giây
 
@@ -1689,7 +1689,7 @@ DR = trả lời 2 câu **RTO** (sống lại sau bao lâu) + **RPO** (mất t�
 
 ## 4 DR Strategies
 
-### 1. Backup & Restore — cheapest
+### 1. Backup & Restore - cheapest
 - Periodic backups to other region. RTO: 24h+, RPO: hours. \\\\$ cost.
 - Use: dev, internal tools
 
@@ -1754,7 +1754,7 @@ rds.create_global_cluster(
     Engine='aurora-postgresql'
 )
 
-# Add secondary region (eu-west-1) — read replica
+# Add secondary region (eu-west-1) - read replica
 rds.create_db_cluster(
     DBClusterIdentifier='prod-secondary',
     Engine='aurora-postgresql',
@@ -1859,9 +1859,9 @@ print(calculate_dr_strategy_cost(10000, 'warm_standby'))
         exerciseEn: "A fintech app processes \\\\$5M/day in transactions. Recommend a DR strategy with specific RTO/RPO targets, estimated cost, and 3 mandatory tests.",
         quiz: [
           { question: "What does RTO measure?", options: ["Maximum data loss allowed", "Maximum downtime allowed", "Number of backups", "Server speed"], answer: 1, explanation: "RTO (Recovery Time Objective) is the maximum acceptable downtime before service is restored." },
-          { question: "Cheapest DR strategy?", options: ["Active-Active", "Backup & Restore", "Warm Standby", "Pilot Light"], answer: 1, explanation: "Backup & Restore only pays for storage — no compute running idle. RTO is hours, not seconds." },
-          { question: "Best DR strategy for a stock trading platform?", options: ["Backup & Restore", "Pilot Light", "Active-Active multi-region", "No DR needed"], answer: 2, explanation: "Trading needs near-zero RTO/RPO — only Active-Active provides instant failover with no data loss." },
-          { question: "Why use immutable backups (S3 Object Lock)?", options: ["Cheaper", "Prevent ransomware/attacker from deleting backups", "Faster restore", "Smaller files"], answer: 1, explanation: "Object Lock makes backups WORM (write-once-read-many) — even compromised admin credentials can't delete them." },
+          { question: "Cheapest DR strategy?", options: ["Active-Active", "Backup & Restore", "Warm Standby", "Pilot Light"], answer: 1, explanation: "Backup & Restore only pays for storage - no compute running idle. RTO is hours, not seconds." },
+          { question: "Best DR strategy for a stock trading platform?", options: ["Backup & Restore", "Pilot Light", "Active-Active multi-region", "No DR needed"], answer: 2, explanation: "Trading needs near-zero RTO/RPO - only Active-Active provides instant failover with no data loss." },
+          { question: "Why use immutable backups (S3 Object Lock)?", options: ["Cheaper", "Prevent ransomware/attacker from deleting backups", "Faster restore", "Smaller files"], answer: 1, explanation: "Object Lock makes backups WORM (write-once-read-many) - even compromised admin credentials can't delete them." },
           { question: "How often should you test DR?", options: ["Never (it works)", "Quarterly minimum for tier-1 systems", "Once a decade", "Only after disasters"], answer: 1, explanation: "Untested DR is no DR. Quarterly Game Days catch broken runbooks, expired credentials, and stale assumptions." },
         ],
       },
@@ -1871,9 +1871,9 @@ print(calculate_dr_strategy_cost(10000, 'warm_standby'))
         titleEn: "Multi-Region Active-Active Architecture",
         theory: `## 1. 🚦 Vấn đề đời thường
 
-Thầy mở 5 chi nhánh phở: Hà Nội, Đà Nẵng, Sài Gòn, Cần Thơ, Singapore. Khách Sài Gòn không phải bay ra Hà Nội ăn — họ vào chi nhánh gần nhất. Lỡ chi nhánh Hà Nội cháy, 4 chi nhánh kia vẫn bán bình thường. Đó là **multi-region active-active**: nhiều vùng cùng phục vụ traffic, không có vùng nào "dự phòng ngồi không".
+Thầy mở 5 chi nhánh phở: Hà Nội, Đà Nẵng, Sài Gòn, Cần Thơ, Singapore. Khách Sài Gòn không phải bay ra Hà Nội ăn - họ vào chi nhánh gần nhất. Lỡ chi nhánh Hà Nội cháy, 4 chi nhánh kia vẫn bán bình thường. Đó là **multi-region active-active**: nhiều vùng cùng phục vụ traffic, không có vùng nào "dự phòng ngồi không".
 
-Khác với **active-passive** (chi nhánh Đà Nẵng đóng cửa, chỉ mở khi Hà Nội cháy) — lãng phí và lúc cháy chuyển đổi mất 5-30 phút.
+Khác với **active-passive** (chi nhánh Đà Nẵng đóng cửa, chỉ mở khi Hà Nội cháy) - lãng phí và lúc cháy chuyển đổi mất 5-30 phút.
 
 ## 2. 💡 Khái niệm chính
 
@@ -1894,7 +1894,7 @@ Khác với **active-passive** (chi nhánh Đà Nẵng đóng cửa, chỉ mở 
 ## 4. 🎯 Ví dụ chạy được ngay
 
 \\\`\\\`\\\`hcl
-# Route 53 latency-based routing — gửi user đến endpoint gần nhất
+# Route 53 latency-based routing - gửi user đến endpoint gần nhất
 resource "aws_route53_record" "api_sg" {
   zone_id = var.zone
   name    = "api.example.com"
@@ -1911,14 +1911,14 @@ resource "aws_route53_record" "api_us" { /* tương tự cho us-east-1 */ }
 > ⚠️ **Cảnh báo:**
 > - **Conflict ghi (write conflict)**: 2 region cùng update 1 record → ai thắng? Cần CRDT, version vector, hoặc partition theo user.
 > - **Latency replication**: data đẩy từ SG sang US mất 200ms → user vừa đặt hàng SG sang US chưa thấy.
-> - **Chi phí gấp đôi**: compute, storage, egress — multi-region đắt 1.8-2.5x single region.
+> - **Chi phí gấp đôi**: compute, storage, egress - multi-region đắt 1.8-2.5x single region.
 > - **"Active-active" giả**: nhiều team thực ra chỉ active-passive nhưng tưởng active-active → khi cháy mới biết.
 
 ## 6. ✅ Best practice của thầy Hải
 
 > 💡 **Mẹo:**
 > - **Stateless trước, stateful sau**: app layer dễ multi-region; DB là phần khó nhất, cân nhắc kỹ.
-> - **Partition theo region**: user SG → ghi DB SG (primary), user US → DB US — tránh conflict.
+> - **Partition theo region**: user SG → ghi DB SG (primary), user US → DB US - tránh conflict.
 > - **Test failover định kỳ** (game day): tắt thật 1 region 30 phút trong giờ thấp điểm.
 > - Nếu chỉ cần RTO 15 phút, **active-passive với hot standby** đơn giản và rẻ hơn nhiều.
 
@@ -1944,9 +1944,9 @@ Active-active = nhiều chi nhánh cùng bán; active-passive = chi nhánh dự 
 4. Capacity beyond one region
 
 ## 3 Patterns
-1. **Active-Passive** — A serves all, B standby. Simple but B idle.
-2. **Active-Active geo-routed** — DNS picks nearest region. Low latency + natural DR.
-3. **Cell-based** (Netflix/AWS) — independent cells per user subset. Hyper-scale only.
+1. **Active-Passive** - A serves all, B standby. Simple but B idle.
+2. **Active-Active geo-routed** - DNS picks nearest region. Low latency + natural DR.
+3. **Cell-based** (Netflix/AWS) - independent cells per user subset. Hyper-scale only.
 
 ## CAP Theorem
 Choose 2 of: Consistency, Availability, Partition tolerance.
@@ -2013,7 +2013,7 @@ dynamodb.create_table(
     }
 )
 
-# Add to global table — replicate to eu-west-1 and ap-southeast-1
+# Add to global table - replicate to eu-west-1 and ap-southeast-1
 dynamodb.create_global_table(
     GlobalTableName='users',
     ReplicationGroup=[
@@ -2023,7 +2023,7 @@ dynamodb.create_global_table(
     ]
 )
 
-# Write from any region — auto-replicates within seconds
+# Write from any region - auto-replicates within seconds
 us_dynamo = boto3.resource('dynamodb', region_name='us-east-1')
 us_dynamo.Table('users').put_item(Item={
     'user_id': '123',
@@ -2034,7 +2034,7 @@ us_dynamo.Table('users').put_item(Item={
 # === Route 53 Latency-Based Routing ===
 route53 = boto3.client('route53')
 
-# Same DNS name, different IPs per region — Route 53 picks nearest
+# Same DNS name, different IPs per region - Route 53 picks nearest
 for region, ip in [('us-east-1', '1.2.3.4'),
                    ('eu-west-1', '5.6.7.8'),
                    ('ap-southeast-1', '9.10.11.12')]:
@@ -2058,7 +2058,7 @@ import hashlib
 import json
 
 def safe_payment(amount: float, user_id: str, request_id: str):
-    """Process payment with idempotency — retry-safe across regions"""
+    """Process payment with idempotency - retry-safe across regions"""
     idempotency_key = hashlib.sha256(
         f"{user_id}:{request_id}".encode()
     ).hexdigest()
@@ -2068,7 +2068,7 @@ def safe_payment(amount: float, user_id: str, request_id: str):
     existing = table.get_item(Key={'idempotency_key': idempotency_key})
 
     if 'Item' in existing:
-        return existing['Item']     # Already done — return cached result
+        return existing['Item']     # Already done - return cached result
 
     # Process new payment
     result = {'idempotency_key': idempotency_key, 'amount': amount,
@@ -2094,7 +2094,7 @@ print(json.dumps(check_all_regions(), indent=2))`,
           { question: "Active-Active means:", options: ["One region serves traffic, other is standby", "Both regions actively serve production traffic", "Backup runs every hour", "Two databases sharing one disk"], answer: 1, explanation: "Active-Active runs production in 2+ regions simultaneously, often with geo-routing to nearest user." },
           { question: "CAP Theorem says you must trade off:", options: ["Cost, Availability, Performance", "Consistency, Availability, Partition tolerance", "Compute, Storage, Network", "CDN, API, Database"], answer: 1, explanation: "Eric Brewer's CAP says distributed systems can guarantee only 2 of: Consistency, Availability, Partition tolerance." },
           { question: "Best DB for global active-active with strong consistency?", options: ["Single-region MySQL", "DynamoDB Global Tables", "Spanner or CockroachDB", "Redis"], answer: 2, explanation: "Spanner (atomic clock) and CockroachDB are designed for global strong consistency. DynamoDB Global is eventual." },
-          { question: "Why use idempotency keys in multi-region?", options: ["Faster queries", "Prevent duplicate charges when retries cross regions", "Smaller payloads", "Lower latency"], answer: 1, explanation: "Network partitions cause client retries — idempotency keys ensure the same payment isn't processed twice." },
+          { question: "Why use idempotency keys in multi-region?", options: ["Faster queries", "Prevent duplicate charges when retries cross regions", "Smaller payloads", "Lower latency"], answer: 1, explanation: "Network partitions cause client retries - idempotency keys ensure the same payment isn't processed twice." },
           { question: "Anti-pattern in multi-region?", options: ["Per-region canary deploys", "Backward-compatible schema migrations", "Deploying simultaneously to all regions", "Idempotency keys"], answer: 2, explanation: "Simultaneous deploys mean a single bug takes down ALL regions. Always canary one region first, then gradually expand." },
         ],
       },

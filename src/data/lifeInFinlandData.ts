@@ -1,6 +1,6 @@
 /**
  * @file lifeInFinlandData.ts
- * @description Newcomer guide content for living in Finland — admin, daily life,
+ * @description Newcomer guide content for living in Finland - admin, daily life,
  *              employment & tax, healthcare. Bilingual VI/EN with key Finnish terms.
  *              Updated for 2026 with shopping, housing, winter, student tips.
  * @author HaiEduTech
@@ -79,9 +79,9 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
         title: "Đăng ký tại DVV (Maistraatti)",
         titleEn: "Register at DVV (Digital and Population Data Services)",
         summary:
-          "DVV cấp Henkilötunnus (mã định danh cá nhân) — chìa khóa để mở mọi cánh cửa hành chính ở Phần Lan.",
+          "DVV cấp Henkilötunnus (mã định danh cá nhân) - chìa khóa để mở mọi cánh cửa hành chính ở Phần Lan.",
         summaryEn:
-          "DVV issues your Henkilötunnus (personal identity code) — the key that unlocks every administrative door in Finland.",
+          "DVV issues your Henkilötunnus (personal identity code) - the key that unlocks every administrative door in Finland.",
         steps: [
           {
             vi: "Đặt lịch hẹn online tại dvv.fi (chọn 'Foreigner registration').",
@@ -96,8 +96,8 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
             en: "Arrive on time; staff will register your data and mail your Henkilötunnus within 1-2 weeks.",
           },
           {
-            vi: "Cập nhật địa chỉ (Kotikunta) ngay khi chuyển nhà — bắt buộc trong 1 tuần.",
-            en: "Update your address (Kotikunta) as soon as you move — required within one week.",
+            vi: "Cập nhật địa chỉ (Kotikunta) ngay khi chuyển nhà - bắt buộc trong 1 tuần.",
+            en: "Update your address (Kotikunta) as soon as you move - required within one week.",
           },
         ],
         keyTerms: [
@@ -139,9 +139,9 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
         title: "Mở tài khoản ngân hàng & BankID",
         titleEn: "Open a Finnish Bank Account & Strong Identification (BankID)",
         summary:
-          "Vahva tunnistautuminen (BankID) là 'CMND số' — bắt buộc để dùng Kela, Vero, OmaPosti, Migri online.",
+          "Vahva tunnistautuminen (BankID) là 'CMND số' - bắt buộc để dùng Kela, Vero, OmaPosti, Migri online.",
         summaryEn:
-          "Strong Identification (BankID) is your 'digital ID' — required for Kela, Vero, OmaPosti, Migri online services.",
+          "Strong Identification (BankID) is your 'digital ID' - required for Kela, Vero, OmaPosti, Migri online services.",
         steps: [
           { vi: "Chọn ngân hàng: OP, Nordea, S-Pankki, Danske Bank, hoặc Aktia.", en: "Pick a bank: OP, Nordea, S-Pankki, Danske Bank, or Aktia." },
           { vi: "Đặt lịch hẹn (varaa aika); mang hộ chiếu, Henkilötunnus, hợp đồng lao động hoặc giấy nhập học.", en: "Book an appointment (varaa aika); bring passport, Henkilötunnus, employment contract or admission letter." },
@@ -169,9 +169,9 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
         title: "Đăng ký Kela (Bảo hiểm xã hội)",
         titleEn: "Apply for Kela Card (Social Security)",
         summary:
-          "Kela cấp thẻ KELA-kortti — giảm giá thuốc, hỗ trợ y tế công, trợ cấp sinh viên (opintotuki) và trợ cấp nhà ở (asumistuki).",
+          "Kela cấp thẻ KELA-kortti - giảm giá thuốc, hỗ trợ y tế công, trợ cấp sinh viên (opintotuki) và trợ cấp nhà ở (asumistuki).",
         summaryEn:
-          "Kela issues your KELA-kortti — discounts on medication, public healthcare access, study allowance (opintotuki), and housing benefit (asumistuki).",
+          "Kela issues your KELA-kortti - discounts on medication, public healthcare access, study allowance (opintotuki), and housing benefit (asumistuki).",
         steps: [
           { vi: "Sau khi có Henkilötunnus, vào kela.fi → 'Apply for benefits' hoặc đến văn phòng Kela gần nhất.", en: "After you have a Henkilötunnus, go to kela.fi → 'Apply for benefits' or visit the nearest Kela office." },
           { vi: "Điền Form Y77 (cư dân chuyển đến Phần Lan); kèm hợp đồng lao động/học tập.", en: "Fill in Form Y77 (resident moving to Finland); attach employment/study contract." },
@@ -207,12 +207,12 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
         title: "Giao thông công cộng (HSL & VR)",
         titleEn: "Public Transport (HSL & VR)",
         summary:
-          "HSL phục vụ thủ đô Helsinki; VR là tàu hỏa liên tỉnh. Mua vé qua app — rẻ và tiện hơn vé giấy.",
+          "HSL phục vụ thủ đô Helsinki; VR là tàu hỏa liên tỉnh. Mua vé qua app - rẻ và tiện hơn vé giấy.",
         summaryEn:
           "HSL serves the Helsinki capital region; VR runs intercity trains. Buying tickets via app is cheaper and faster than paper.",
         steps: [
           { vi: "Tải app HSL (Helsinki) hoặc Nysse (Tampere), Föli (Turku) tùy thành phố.", en: "Install HSL (Helsinki) or Nysse (Tampere), Föli (Turku) depending on your city." },
-          { vi: "Mua vé tháng (kausilippu) nếu đi học/đi làm hàng ngày — tiết kiệm 50%.", en: "Buy a monthly pass (kausilippu) for daily commute — saves up to 50%." },
+          { vi: "Mua vé tháng (kausilippu) nếu đi học/đi làm hàng ngày - tiết kiệm 50%.", en: "Buy a monthly pass (kausilippu) for daily commute - saves up to 50%." },
           { vi: "Tàu liên tỉnh: đặt vé sớm tại vr.fi; ghế phổ thông từ 9€ nếu mua trước 1 tháng.", en: "Intercity trains: book early at vr.fi; economy seats from €9 if purchased one month ahead." },
         ],
         keyTerms: [
@@ -237,12 +237,12 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
         title: "Quy tắc tái chế (Kierrätys)",
         titleEn: "Recycling Rules",
         summary:
-          "Phần Lan tái chế ~50% rác hộ gia đình. Mỗi loại rác có thùng riêng — phân loại sai có thể bị phạt.",
+          "Phần Lan tái chế ~50% rác hộ gia đình. Mỗi loại rác có thùng riêng - phân loại sai có thể bị phạt.",
         summaryEn:
-          "Finland recycles ~50% of household waste. Each type has its own bin — improper sorting can incur fines.",
+          "Finland recycles ~50% of household waste. Each type has its own bin - improper sorting can incur fines.",
         steps: [
           { vi: "Tách: Bio (rác thực phẩm), Paper, Cardboard, Glass, Metal, Plastic.", en: "Separate: Bio (food), Paper, Cardboard, Glass, Metal, Plastic." },
-          { vi: "Trả chai/lon nhựa & kim loại tại Pullonpalautus (máy đổi tiền) ở mọi siêu thị — 0.10–0.40€/chai.", en: "Return bottles/cans at Pullonpalautus (reverse vending machines) in any supermarket — €0.10–0.40 each." },
+          { vi: "Trả chai/lon nhựa & kim loại tại Pullonpalautus (máy đổi tiền) ở mọi siêu thị - 0.10–0.40€/chai.", en: "Return bottles/cans at Pullonpalautus (reverse vending machines) in any supermarket - €0.10–0.40 each." },
           { vi: "Quần áo cũ bỏ vào thùng UFF hoặc Fida; pin/đồ điện tử mang đến Rinki-piste.", en: "Drop old clothes at UFF or Fida bins; batteries/electronics go to Rinki-piste collection points." },
         ],
         keyTerms: [
@@ -267,9 +267,9 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
         summaryEn:
           "S-Ryhmä (Prisma, S-market) gives cashback bonus; K-Ryhmä (K-Citymarket) is premium; Lidl is the cheapest.",
         steps: [
-          { vi: "Đăng ký thẻ S-Etukortti hoặc K-Plussa MIỄN PHÍ ngay tại quầy — hoàn 1-5% mỗi tháng.", en: "Sign up for the S-Etukortti or K-Plussa loyalty card FREE at the counter — 1-5% cashback monthly." },
+          { vi: "Đăng ký thẻ S-Etukortti hoặc K-Plussa MIỄN PHÍ ngay tại quầy - hoàn 1-5% mỗi tháng.", en: "Sign up for the S-Etukortti or K-Plussa loyalty card FREE at the counter - 1-5% cashback monthly." },
           { vi: "Mã giảm giá -30% / -50% trên thực phẩm gần hết hạn vào sau 20:00 hàng ngày.", en: "Look for -30% / -50% stickers on food nearing expiry after 20:00 daily." },
-          { vi: "Chủ nhật nhiều cửa hàng đóng cửa sớm hoặc nghỉ — kiểm tra giờ trên Google.", en: "Many shops close early or shut on Sundays — check hours on Google first." },
+          { vi: "Chủ nhật nhiều cửa hàng đóng cửa sớm hoặc nghỉ - kiểm tra giờ trên Google.", en: "Many shops close early or shut on Sundays - check hours on Google first." },
         ],
         keyTerms: [
           { fi: "Tarjous", vi: "Khuyến mãi", en: "Offer / discount" },
@@ -331,12 +331,12 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
         title: "Văn hóa làm việc & quyền lợi",
         titleEn: "Work Culture & Employee Rights",
         summary:
-          "Phần Lan ưu tiên cân bằng cuộc sống — 5 tuần phép/năm, đi đúng giờ, im lặng là tôn trọng.",
+          "Phần Lan ưu tiên cân bằng cuộc sống - 5 tuần phép/năm, đi đúng giờ, im lặng là tôn trọng.",
         summaryEn:
-          "Finland prioritizes work-life balance — 5 weeks paid leave, strict punctuality, silence is respect.",
+          "Finland prioritizes work-life balance - 5 weeks paid leave, strict punctuality, silence is respect.",
         steps: [
           { vi: "Đến đúng giờ ± 5 phút; trễ là dấu hiệu không chuyên nghiệp.", en: "Arrive exactly on time ± 5 minutes; lateness signals unprofessionalism." },
-          { vi: "Hợp đồng phải ghi rõ TES (collective agreement) — quy định lương tối thiểu theo ngành.", en: "Contracts must reference a TES (collective agreement) — sets sector minimum wages." },
+          { vi: "Hợp đồng phải ghi rõ TES (collective agreement) - quy định lương tối thiểu theo ngành.", en: "Contracts must reference a TES (collective agreement) - sets sector minimum wages." },
           { vi: "Có quyền 11 giờ nghỉ giữa 2 ca, và ít nhất 35 giờ liên tục mỗi tuần.", en: "Right to 11 hours of rest between shifts and at least 35 continuous hours per week." },
           { vi: "Tham gia công đoàn (Ammattiliitto) để được bảo vệ pháp lý + quỹ thất nghiệp.", en: "Join a trade union (Ammattiliitto) for legal protection + unemployment fund." },
         ],
@@ -403,7 +403,7 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
         steps: [
           { vi: "Gọi 112 (miễn phí, hoạt động cả khi không có SIM hoặc khóa máy).", en: "Dial 112 (free, works even without SIM or with a locked phone)." },
           { vi: "Nói chậm bằng tiếng Anh: 'I need an ambulance / police / fire' + địa chỉ.", en: "Speak slowly in English: 'I need an ambulance / police / fire' + address." },
-          { vi: "Cài app '112 Suomi' để vị trí GPS gửi tự động — quan trọng khi ở vùng xa.", en: "Install the '112 Suomi' app so GPS sends automatically — vital in remote areas." },
+          { vi: "Cài app '112 Suomi' để vị trí GPS gửi tự động - quan trọng khi ở vùng xa.", en: "Install the '112 Suomi' app so GPS sends automatically - vital in remote areas." },
         ],
         keyTerms: [
           { fi: "Hätänumero", vi: "Số khẩn cấp", en: "Emergency number" },
@@ -416,8 +416,8 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
           { fi: "Osoitteeni on...", vi: "Địa chỉ của tôi là...", en: "My address is..." },
         ],
         proTip: {
-          vi: "Đừng ngại gọi 112 chỉ vì tiếng Anh không tốt — tổng đài viên đều thông thạo tiếng Anh.",
-          en: "Don't hesitate to call 112 because of weak English — operators are all fluent in English.",
+          vi: "Đừng ngại gọi 112 chỉ vì tiếng Anh không tốt - tổng đài viên đều thông thạo tiếng Anh.",
+          en: "Don't hesitate to call 112 because of weak English - operators are all fluent in English.",
         },
       },
     ],
@@ -467,15 +467,15 @@ export const FIRST_30_DAYS_CHECKLIST: ChecklistItem[] = [
 
 // Latest Migri / community resources (2026)
 export const COMMUNITY_RESOURCES = [
-  { title: "Migri — Latest Updates 2026", url: "https://migri.fi/en/news", emoji: "📰" },
+  { title: "Migri - Latest Updates 2026", url: "https://migri.fi/en/news", emoji: "📰" },
   { title: "InfoFinland (Official multilingual portal)", url: "https://www.infofinland.fi/en", emoji: "🌐" },
   { title: "Người Việt tại Phần Lan (Facebook)", url: "https://www.facebook.com/groups/nguoivietphanlan", emoji: "👥" },
   { title: "Vietnam Association in Finland", url: "https://www.facebook.com/vietnamfinland", emoji: "🤝" },
   { title: "Helsinki International House", url: "https://www.google.com/maps/search/International+House+Helsinki", emoji: "🏛️" },
-  { title: "Tori.fi — Buy used in Finland", url: "https://www.tori.fi", emoji: "♻️" },
-  { title: "HOAS — Helsinki student housing", url: "https://www.hoas.fi/en/", emoji: "🏠" },
-  { title: "Kela — Benefits 2026", url: "https://www.kela.fi/web/en", emoji: "💳" },
-  { title: "Vero — Tax info 2026", url: "https://www.vero.fi/en/", emoji: "🧾" },
+  { title: "Tori.fi - Buy used in Finland", url: "https://www.tori.fi", emoji: "♻️" },
+  { title: "HOAS - Helsinki student housing", url: "https://www.hoas.fi/en/", emoji: "🏠" },
+  { title: "Kela - Benefits 2026", url: "https://www.kela.fi/web/en", emoji: "💳" },
+  { title: "Vero - Tax info 2026", url: "https://www.vero.fi/en/", emoji: "🧾" },
 ];
 
 export const NEWCOMER_BADGE = {

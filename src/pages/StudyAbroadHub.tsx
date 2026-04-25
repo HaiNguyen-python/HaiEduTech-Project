@@ -1,6 +1,6 @@
 /**
  * @file StudyAbroadHub.tsx
- * @description Landing page for the Study Abroad Portal — entry point to all guides + vault.
+ * @description Landing page for the Study Abroad Portal - entry point to all guides + vault.
  */
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";

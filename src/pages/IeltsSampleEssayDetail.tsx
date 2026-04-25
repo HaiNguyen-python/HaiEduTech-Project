@@ -102,7 +102,7 @@ const IeltsSampleEssayDetail = () => {
       <table><tr><th>Term</th><th>Vietnamese</th><th>Context</th></tr>
       ${essay.glossary.map(g => `<tr><td><strong>${g.term}</strong></td><td>${g.vietnamese}</td><td>${g.context}</td></tr>`).join('')}
       </table>
-      <p style="text-align:center;color:#999;margin-top:30px;font-size:11px">HaiEduTech — The Unique Intersection of Language & Technology</p>
+      <p style="text-align:center;color:#999;margin-top:30px;font-size:11px">HaiEduTech - The Unique Intersection of Language & Technology</p>
       </body></html>`;
     const w = window.open('', '_blank');
     if (w) { w.document.write(html); w.document.close(); w.print(); }

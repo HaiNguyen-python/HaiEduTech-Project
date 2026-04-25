@@ -12,9 +12,9 @@ export interface MbtiQuestion {
   vi: string;
 }
 
-// 40 statements — 10 per dimension. Mixed direction so positive isn't always the same letter.
+// 40 statements - 10 per dimension. Mixed direction so positive isn't always the same letter.
 export const MBTI_FULL_QUESTIONS: MbtiQuestion[] = [
-  // E/I — 10
+  // E/I - 10
   { id: "ei1", dim: "EI", positive: "E", en: "I feel energized after spending time with a group of people.", vi: "Tôi cảm thấy tràn đầy năng lượng sau khi dành thời gian với một nhóm người." },
   { id: "ei2", dim: "EI", positive: "I", en: "I prefer quiet evenings alone over loud social gatherings.", vi: "Tôi thích những buổi tối yên tĩnh một mình hơn là tụ tập đông người." },
   { id: "ei3", dim: "EI", positive: "E", en: "I think out loud and process ideas best by talking with others.", vi: "Tôi suy nghĩ thành tiếng và xử lý ý tưởng tốt nhất khi trò chuyện với người khác." },
@@ -26,7 +26,7 @@ export const MBTI_FULL_QUESTIONS: MbtiQuestion[] = [
   { id: "ei9", dim: "EI", positive: "E", en: "I find it draining to spend long hours alone.", vi: "Tôi cảm thấy mệt mỏi khi phải ở một mình quá lâu." },
   { id: "ei10", dim: "EI", positive: "I", en: "Large parties make me feel overwhelmed rather than excited.", vi: "Những bữa tiệc lớn khiến tôi thấy quá tải hơn là hào hứng." },
 
-  // S/N — 10
+  // S/N - 10
   { id: "sn1", dim: "SN", positive: "S", en: "I trust facts and concrete details more than theories.", vi: "Tôi tin vào sự kiện và chi tiết cụ thể hơn là các lý thuyết." },
   { id: "sn2", dim: "SN", positive: "N", en: "I often think about future possibilities and hidden meanings.", vi: "Tôi thường nghĩ về các khả năng tương lai và ý nghĩa ẩn giấu." },
   { id: "sn3", dim: "SN", positive: "S", en: "I prefer step-by-step instructions over abstract guidance.", vi: "Tôi thích hướng dẫn từng bước hơn là chỉ dẫn trừu tượng." },
@@ -38,7 +38,7 @@ export const MBTI_FULL_QUESTIONS: MbtiQuestion[] = [
   { id: "sn9", dim: "SN", positive: "S", en: "I prefer learning skills I can use immediately.", vi: "Tôi thích học các kỹ năng có thể dùng ngay." },
   { id: "sn10", dim: "SN", positive: "N", en: "I daydream and imagine alternative scenarios often.", vi: "Tôi thường mơ mộng và tưởng tượng các kịch bản khác." },
 
-  // T/F — 10
+  // T/F - 10
   { id: "tf1", dim: "TF", positive: "T", en: "I make decisions based on logic, even when feelings are involved.", vi: "Tôi ra quyết định dựa trên logic, kể cả khi có cảm xúc xen vào." },
   { id: "tf2", dim: "TF", positive: "F", en: "I prioritize harmony and people's feelings over being technically correct.", vi: "Tôi ưu tiên sự hài hòa và cảm xúc của mọi người hơn là đúng kỹ thuật." },
   { id: "tf3", dim: "TF", positive: "T", en: "I'm comfortable giving honest critical feedback.", vi: "Tôi thoải mái khi đưa phản hồi thẳng thắn mang tính phê bình." },
@@ -50,7 +50,7 @@ export const MBTI_FULL_QUESTIONS: MbtiQuestion[] = [
   { id: "tf9", dim: "TF", positive: "T", en: "I believe truth matters more than tact.", vi: "Tôi tin sự thật quan trọng hơn sự khéo léo." },
   { id: "tf10", dim: "TF", positive: "F", en: "I make decisions that consider how others will feel.", vi: "Tôi ra quyết định có cân nhắc cảm xúc của người khác." },
 
-  // J/P — 10
+  // J/P - 10
   { id: "jp1", dim: "JP", positive: "J", en: "I like having a clear plan and sticking to it.", vi: "Tôi thích có kế hoạch rõ ràng và tuân theo nó." },
   { id: "jp2", dim: "JP", positive: "P", en: "I prefer keeping my options open rather than committing early.", vi: "Tôi thích giữ các lựa chọn mở thay vì cam kết sớm." },
   { id: "jp3", dim: "JP", positive: "J", en: "I feel uncomfortable when tasks are left unfinished.", vi: "Tôi thấy khó chịu khi công việc còn dang dở." },
@@ -74,7 +74,7 @@ export const LIKERT_LABELS = [
   { value: 3, en: "Strongly Agree", vi: "Rất đồng ý", emoji: "🤩" },
 ];
 
-// Type profiles — 16 personality types with HaiEduTech-flavored Teacher Hai notes
+// Type profiles - 16 personality types with HaiEduTech-flavored Teacher Hai notes
 export interface MbtiTypeProfile {
   code: string;
   title_en: string;
@@ -107,8 +107,8 @@ export const MBTI_PROFILES: Record<string, MbtiTypeProfile> = {
     weaknesses_vi: ["Có thể bị xem là xa cách", "Quá khắt khe", "Bỏ qua cảm xúc", "Cầu toàn"],
     communication_en: "Direct, structured, prefers written communication and well-prepared discussions. Excellent in research interviews.",
     communication_vi: "Thẳng thắn, có cấu trúc, thích giao tiếp bằng văn bản và thảo luận đã chuẩn bị kỹ. Rất tốt trong phỏng vấn nghiên cứu.",
-    teacher_note_en: "INTJs thrive in our Programming and Master's/PhD prep tracks. Build a 6-month roadmap and stick to it — your superpower is execution.",
-    teacher_note_vi: "INTJ tỏa sáng trong Lập trình và lộ trình Master's/PhD. Xây kế hoạch 6 tháng và bám chặt — siêu năng lực của em là thực thi.",
+    teacher_note_en: "INTJs thrive in our Programming and Master's/PhD prep tracks. Build a 6-month roadmap and stick to it - your superpower is execution.",
+    teacher_note_vi: "INTJ tỏa sáng trong Lập trình và lộ trình Master's/PhD. Xây kế hoạch 6 tháng và bám chặt - siêu năng lực của em là thực thi.",
   },
   INTP: {
     code: "INTP", title_en: "The Logician", title_vi: "Nhà Logic Học",
@@ -122,23 +122,23 @@ export const MBTI_PROFILES: Record<string, MbtiTypeProfile> = {
     weaknesses_vi: ["Trì hoãn", "Vô tâm với cảm xúc", "Ghét thói quen", "Suy nghĩ quá nhiều"],
     communication_en: "Prefers debate over small talk. Asks probing 'why' questions. Shines in academic discussions.",
     communication_vi: "Thích tranh luận hơn nói chuyện phiếm. Đặt câu hỏi 'vì sao' sâu sắc. Tỏa sáng trong thảo luận học thuật.",
-    teacher_note_en: "Em rất hợp Programming Lab và IELTS Academic. Đặt deadline ngắn (3 ngày) để chống trì hoãn — biến tò mò thành sản phẩm.",
-    teacher_note_vi: "Em rất hợp Programming Lab và IELTS Academic. Đặt deadline ngắn (3 ngày) để chống trì hoãn — biến tò mò thành sản phẩm.",
+    teacher_note_en: "Em rất hợp Programming Lab và IELTS Academic. Đặt deadline ngắn (3 ngày) để chống trì hoãn - biến tò mò thành sản phẩm.",
+    teacher_note_vi: "Em rất hợp Programming Lab và IELTS Academic. Đặt deadline ngắn (3 ngày) để chống trì hoãn - biến tò mò thành sản phẩm.",
   },
   ENTJ: {
     code: "ENTJ", title_en: "The Commander", title_vi: "Nhà Chỉ Huy",
     nickname_en: "Bold Leader", nickname_vi: "Lãnh Đạo Quyết Đoán",
     color: "from-red-500 to-rose-600",
-    description_en: "Bold, imaginative leaders who always find a way — or make one. ENTJs are natural-born CEOs.",
-    description_vi: "Nhà lãnh đạo táo bạo, giàu trí tưởng tượng, luôn tìm ra cách — hoặc tạo ra cách. ENTJ là CEO bẩm sinh.",
+    description_en: "Bold, imaginative leaders who always find a way - or make one. ENTJs are natural-born CEOs.",
+    description_vi: "Nhà lãnh đạo táo bạo, giàu trí tưởng tượng, luôn tìm ra cách - hoặc tạo ra cách. ENTJ là CEO bẩm sinh.",
     strengths_en: ["Efficient & strategic", "Strong-willed", "Confident", "Inspiring leader"],
     strengths_vi: ["Hiệu quả & chiến lược", "Ý chí mạnh", "Tự tin", "Lãnh đạo truyền cảm hứng"],
     weaknesses_en: ["Stubborn & dominant", "Impatient", "Cold & ruthless", "Arrogant"],
     weaknesses_vi: ["Cứng đầu & áp đảo", "Thiếu kiên nhẫn", "Lạnh lùng", "Kiêu ngạo"],
     communication_en: "Commanding and direct. Comfortable leading meetings. Excellent in MBA and leadership scholarship interviews.",
     communication_vi: "Chỉ huy và thẳng thắn. Thoải mái dẫn dắt cuộc họp. Xuất sắc trong phỏng vấn MBA và học bổng lãnh đạo.",
-    teacher_note_en: "ENTJ phù hợp với PTE Academic, học bổng MBA, và lộ trình du học cấp cao. Học cách lắng nghe team — đó là cấp độ leader tiếp theo.",
-    teacher_note_vi: "ENTJ phù hợp với PTE Academic, học bổng MBA, và lộ trình du học cấp cao. Học cách lắng nghe team — đó là cấp độ leader tiếp theo.",
+    teacher_note_en: "ENTJ phù hợp với PTE Academic, học bổng MBA, và lộ trình du học cấp cao. Học cách lắng nghe team - đó là cấp độ leader tiếp theo.",
+    teacher_note_vi: "ENTJ phù hợp với PTE Academic, học bổng MBA, và lộ trình du học cấp cao. Học cách lắng nghe team - đó là cấp độ leader tiếp theo.",
   },
   ENTP: {
     code: "ENTP", title_en: "The Debater", title_vi: "Nhà Tranh Luận",
@@ -152,8 +152,8 @@ export const MBTI_PROFILES: Record<string, MbtiTypeProfile> = {
     weaknesses_vi: ["Hay tranh cãi", "Vô tâm", "Dễ chán", "Ghét việc thực tế"],
     communication_en: "Witty, persuasive, loves verbal sparring. Naturally great in IELTS Speaking and case interviews.",
     communication_vi: "Hóm hỉnh, thuyết phục, yêu đối đáp. Thiên bẩm giỏi IELTS Speaking và phỏng vấn case.",
-    teacher_note_en: "ENTP nên target IELTS Speaking 8.0+ và Master's startup track. Hoàn thành 1 dự án từ đầu đến cuối — đó là level-up.",
-    teacher_note_vi: "ENTP nên target IELTS Speaking 8.0+ và Master's startup track. Hoàn thành 1 dự án từ đầu đến cuối — đó là level-up.",
+    teacher_note_en: "ENTP nên target IELTS Speaking 8.0+ và Master's startup track. Hoàn thành 1 dự án từ đầu đến cuối - đó là level-up.",
+    teacher_note_vi: "ENTP nên target IELTS Speaking 8.0+ và Master's startup track. Hoàn thành 1 dự án từ đầu đến cuối - đó là level-up.",
   },
   INFJ: {
     code: "INFJ", title_en: "The Advocate", title_vi: "Người Bênh Vực",
@@ -167,8 +167,8 @@ export const MBTI_PROFILES: Record<string, MbtiTypeProfile> = {
     weaknesses_vi: ["Nhạy cảm với phê bình", "Cầu toàn", "Dễ kiệt sức", "Kín đáo"],
     communication_en: "Thoughtful, written-first, prefers meaningful 1-1 conversations. Excellent in scholarship motivation letters.",
     communication_vi: "Sâu sắc, ưu tiên viết, thích trò chuyện ý nghĩa 1-1. Xuất sắc khi viết motivation letter du học.",
-    teacher_note_en: "INFJ rất hợp PhD/Master's nhân văn, ngôn ngữ. Đừng ôm hết mọi nỗi đau của thế giới — em cần nghỉ ngơi để giúp được nhiều hơn.",
-    teacher_note_vi: "INFJ rất hợp PhD/Master's nhân văn, ngôn ngữ. Đừng ôm hết mọi nỗi đau của thế giới — em cần nghỉ ngơi để giúp được nhiều hơn.",
+    teacher_note_en: "INFJ rất hợp PhD/Master's nhân văn, ngôn ngữ. Đừng ôm hết mọi nỗi đau của thế giới - em cần nghỉ ngơi để giúp được nhiều hơn.",
+    teacher_note_vi: "INFJ rất hợp PhD/Master's nhân văn, ngôn ngữ. Đừng ôm hết mọi nỗi đau của thế giới - em cần nghỉ ngơi để giúp được nhiều hơn.",
   },
   INFP: {
     code: "INFP", title_en: "The Mediator", title_vi: "Người Hòa Giải",
@@ -182,8 +182,8 @@ export const MBTI_PROFILES: Record<string, MbtiTypeProfile> = {
     weaknesses_vi: ["Quá lý tưởng", "Nhận chuyện riêng", "Né xung đột", "Khó hiểu"],
     communication_en: "Gentle and metaphorical. Writes beautifully. Best in creative writing and literary studies.",
     communication_vi: "Dịu dàng và đầy ẩn dụ. Viết rất hay. Tốt nhất trong viết sáng tạo và nghiên cứu văn học.",
-    teacher_note_en: "INFP nên thử IELTS Writing Task 2 sáng tạo và Vietnamese Poetry. Lịch học cứng nhắc làm em ngộp — chia thành các 'tâm trạng học' linh hoạt.",
-    teacher_note_vi: "INFP nên thử IELTS Writing Task 2 sáng tạo và Vietnamese Poetry. Lịch học cứng nhắc làm em ngộp — chia thành các 'tâm trạng học' linh hoạt.",
+    teacher_note_en: "INFP nên thử IELTS Writing Task 2 sáng tạo và Vietnamese Poetry. Lịch học cứng nhắc làm em ngộp - chia thành các 'tâm trạng học' linh hoạt.",
+    teacher_note_vi: "INFP nên thử IELTS Writing Task 2 sáng tạo và Vietnamese Poetry. Lịch học cứng nhắc làm em ngộp - chia thành các 'tâm trạng học' linh hoạt.",
   },
   ENFJ: {
     code: "ENFJ", title_en: "The Protagonist", title_vi: "Người Chính Diện",
@@ -197,8 +197,8 @@ export const MBTI_PROFILES: Record<string, MbtiTypeProfile> = {
     weaknesses_vi: ["Quá lý tưởng", "Quá hy sinh", "Nhạy cảm", "Cần được công nhận"],
     communication_en: "Warm, persuasive, inspiring. Naturally excellent in IELTS Speaking, presentations, and group projects.",
     communication_vi: "Ấm áp, thuyết phục, truyền cảm hứng. Thiên bẩm giỏi IELTS Speaking, thuyết trình, dự án nhóm.",
-    teacher_note_en: "ENFJ rất hợp ngành Education, International Relations, học bổng lãnh đạo. Học cách nói 'không' — em không thể cứu cả thế giới một mình.",
-    teacher_note_vi: "ENFJ rất hợp ngành Education, International Relations, học bổng lãnh đạo. Học cách nói 'không' — em không thể cứu cả thế giới một mình.",
+    teacher_note_en: "ENFJ rất hợp ngành Education, International Relations, học bổng lãnh đạo. Học cách nói 'không' - em không thể cứu cả thế giới một mình.",
+    teacher_note_vi: "ENFJ rất hợp ngành Education, International Relations, học bổng lãnh đạo. Học cách nói 'không' - em không thể cứu cả thế giới một mình.",
   },
   ENFP: {
     code: "ENFP", title_en: "The Campaigner", title_vi: "Người Truyền Cảm Hứng",
@@ -212,8 +212,8 @@ export const MBTI_PROFILES: Record<string, MbtiTypeProfile> = {
     weaknesses_vi: ["Yếu kỹ năng thực tế", "Dễ stress", "Cảm xúc mạnh", "Bừa bộn"],
     communication_en: "Bubbly, enthusiastic, persuasive. Naturally great at IELTS/PTE Speaking. Loves storytelling.",
     communication_vi: "Sôi nổi, nhiệt tình, thuyết phục. Tự nhiên giỏi IELTS/PTE Speaking. Thích kể chuyện.",
-    teacher_note_en: "ENFP hợp ngành Marketing, Communications, Du học Mỹ/UK. Lập 1 lịch học cố định 30 phút/ngày — đều đặn nhỏ thắng động lực bùng nổ.",
-    teacher_note_vi: "ENFP hợp ngành Marketing, Communications, Du học Mỹ/UK. Lập 1 lịch học cố định 30 phút/ngày — đều đặn nhỏ thắng động lực bùng nổ.",
+    teacher_note_en: "ENFP hợp ngành Marketing, Communications, Du học Mỹ/UK. Lập 1 lịch học cố định 30 phút/ngày - đều đặn nhỏ thắng động lực bùng nổ.",
+    teacher_note_vi: "ENFP hợp ngành Marketing, Communications, Du học Mỹ/UK. Lập 1 lịch học cố định 30 phút/ngày - đều đặn nhỏ thắng động lực bùng nổ.",
   },
   ISTJ: {
     code: "ISTJ", title_en: "The Logistician", title_vi: "Người Hậu Cần",
@@ -242,23 +242,23 @@ export const MBTI_PROFILES: Record<string, MbtiTypeProfile> = {
     weaknesses_vi: ["Khiêm tốn & nhút nhát", "Nhận chuyện riêng", "Đè nén cảm xúc", "Ngại thay đổi"],
     communication_en: "Warm, attentive listener. Best in tutoring, healthcare, and supportive professional roles.",
     communication_vi: "Ấm áp, biết lắng nghe. Tốt nhất trong dạy kèm, y tế, và vai trò hỗ trợ chuyên nghiệp.",
-    teacher_note_en: "ISFJ hợp Nursing, Education, Social Work du học. Học cách tự khen mình — em xứng đáng được công nhận!",
-    teacher_note_vi: "ISFJ hợp Nursing, Education, Social Work du học. Học cách tự khen mình — em xứng đáng được công nhận!",
+    teacher_note_en: "ISFJ hợp Nursing, Education, Social Work du học. Học cách tự khen mình - em xứng đáng được công nhận!",
+    teacher_note_vi: "ISFJ hợp Nursing, Education, Social Work du học. Học cách tự khen mình - em xứng đáng được công nhận!",
   },
   ESTJ: {
     code: "ESTJ", title_en: "The Executive", title_vi: "Nhà Điều Hành",
     nickname_en: "Organized Manager", nickname_vi: "Quản Lý Có Tổ Chức",
     color: "from-blue-600 to-indigo-700",
-    description_en: "Excellent administrators, unsurpassed at managing things — or people. ESTJs value tradition and order.",
-    description_vi: "Quản trị viên xuất sắc, không ai sánh kịp về quản lý — đồ vật hay con người. ESTJ trân trọng truyền thống và trật tự.",
+    description_en: "Excellent administrators, unsurpassed at managing things - or people. ESTJs value tradition and order.",
+    description_vi: "Quản trị viên xuất sắc, không ai sánh kịp về quản lý - đồ vật hay con người. ESTJ trân trọng truyền thống và trật tự.",
     strengths_en: ["Dedicated", "Strong-willed", "Loyal & reliable", "Honest"],
     strengths_vi: ["Tận tụy", "Ý chí mạnh", "Trung thành & tin cậy", "Trung thực"],
     weaknesses_en: ["Inflexible", "Stubborn", "Judgmental", "Difficulty expressing emotion"],
     weaknesses_vi: ["Không linh hoạt", "Cứng đầu", "Hay phán xét", "Khó bày tỏ cảm xúc"],
     communication_en: "Direct, structured, follows agenda. Excellent in business interviews and TOEIC.",
     communication_vi: "Thẳng thắn, có cấu trúc, theo agenda. Xuất sắc trong phỏng vấn kinh doanh và TOEIC.",
-    teacher_note_en: "ESTJ hợp Business, Law, Public Administration. Cho phép bản thân nghỉ một chút — không phải mọi việc đều cần xong NGAY.",
-    teacher_note_vi: "ESTJ hợp Business, Law, Public Administration. Cho phép bản thân nghỉ một chút — không phải mọi việc đều cần xong NGAY.",
+    teacher_note_en: "ESTJ hợp Business, Law, Public Administration. Cho phép bản thân nghỉ một chút - không phải mọi việc đều cần xong NGAY.",
+    teacher_note_vi: "ESTJ hợp Business, Law, Public Administration. Cho phép bản thân nghỉ một chút - không phải mọi việc đều cần xong NGAY.",
   },
   ESFJ: {
     code: "ESFJ", title_en: "The Consul", title_vi: "Lãnh Sự",
@@ -272,8 +272,8 @@ export const MBTI_PROFILES: Record<string, MbtiTypeProfile> = {
     weaknesses_vi: ["Lo lắng địa vị xã hội", "Không linh hoạt", "Ngại đổi mới", "Dễ tổn thương"],
     communication_en: "Warm and engaging. Loves group study and team projects. Strong in conversational language.",
     communication_vi: "Ấm áp và lôi cuốn. Thích học nhóm và dự án team. Mạnh ở giao tiếp ngôn ngữ.",
-    teacher_note_en: "ESFJ hợp Hospitality, Education, Healthcare. Conversational English/Chinese rất hợp em — học cùng bạn để duy trì động lực.",
-    teacher_note_vi: "ESFJ hợp Hospitality, Education, Healthcare. Conversational English/Chinese rất hợp em — học cùng bạn để duy trì động lực.",
+    teacher_note_en: "ESFJ hợp Hospitality, Education, Healthcare. Conversational English/Chinese rất hợp em - học cùng bạn để duy trì động lực.",
+    teacher_note_vi: "ESFJ hợp Hospitality, Education, Healthcare. Conversational English/Chinese rất hợp em - học cùng bạn để duy trì động lực.",
   },
   ISTP: {
     code: "ISTP", title_en: "The Virtuoso", title_vi: "Người Khéo Léo",
@@ -287,8 +287,8 @@ export const MBTI_PROFILES: Record<string, MbtiTypeProfile> = {
     weaknesses_vi: ["Cứng đầu", "Vô tâm", "Kín đáo", "Dễ chán"],
     communication_en: "Brief, action-oriented. Show, don't tell. Best in hands-on coding labs and engineering.",
     communication_vi: "Ngắn gọn, hướng hành động. Làm hơn nói. Tốt nhất trong lab lập trình và kỹ thuật.",
-    teacher_note_en: "ISTP hợp Programming Lab (Python/SQL), Mechanical Engineering. Project-based learning > sách vở — code trước, đọc lý thuyết sau.",
-    teacher_note_vi: "ISTP hợp Programming Lab (Python/SQL), Mechanical Engineering. Học qua dự án > sách vở — code trước, đọc lý thuyết sau.",
+    teacher_note_en: "ISTP hợp Programming Lab (Python/SQL), Mechanical Engineering. Project-based learning > sách vở - code trước, đọc lý thuyết sau.",
+    teacher_note_vi: "ISTP hợp Programming Lab (Python/SQL), Mechanical Engineering. Học qua dự án > sách vở - code trước, đọc lý thuyết sau.",
   },
   ISFP: {
     code: "ISFP", title_en: "The Adventurer", title_vi: "Nhà Phiêu Lưu",
@@ -302,8 +302,8 @@ export const MBTI_PROFILES: Record<string, MbtiTypeProfile> = {
     weaknesses_vi: ["Độc lập mạnh mẽ", "Khó đoán", "Dễ stress", "Quá cạnh tranh"],
     communication_en: "Visual and expressive. Best in art, design, and creative language learning.",
     communication_vi: "Trực quan và biểu cảm. Tốt nhất trong nghệ thuật, thiết kế, học ngôn ngữ sáng tạo.",
-    teacher_note_en: "ISFP hợp Design, Art, Vietnamese Poetry, Folklore. Lịch học cứng nhắc giết động lực — học theo dự án sáng tạo nhỏ.",
-    teacher_note_vi: "ISFP hợp Design, Art, Thơ ca Việt Nam, Folklore. Lịch cứng nhắc giết động lực — học qua dự án sáng tạo nhỏ.",
+    teacher_note_en: "ISFP hợp Design, Art, Vietnamese Poetry, Folklore. Lịch học cứng nhắc giết động lực - học theo dự án sáng tạo nhỏ.",
+    teacher_note_vi: "ISFP hợp Design, Art, Thơ ca Việt Nam, Folklore. Lịch cứng nhắc giết động lực - học qua dự án sáng tạo nhỏ.",
   },
   ESTP: {
     code: "ESTP", title_en: "The Entrepreneur", title_vi: "Nhà Khởi Nghiệp",
@@ -324,16 +324,16 @@ export const MBTI_PROFILES: Record<string, MbtiTypeProfile> = {
     code: "ESFP", title_en: "The Entertainer", title_vi: "Người Trình Diễn",
     nickname_en: "Spontaneous Star", nickname_vi: "Ngôi Sao Tự Phát",
     color: "from-pink-500 to-fuchsia-600",
-    description_en: "Spontaneous, energetic and enthusiastic people — life is never boring around them. ESFPs love being the center of attention.",
-    description_vi: "Người tự phát, năng động và nhiệt tình — cuộc sống không bao giờ nhàm chán quanh họ. ESFP thích là trung tâm chú ý.",
+    description_en: "Spontaneous, energetic and enthusiastic people - life is never boring around them. ESFPs love being the center of attention.",
+    description_vi: "Người tự phát, năng động và nhiệt tình - cuộc sống không bao giờ nhàm chán quanh họ. ESFP thích là trung tâm chú ý.",
     strengths_en: ["Bold", "Original", "Aesthetics & showmanship", "Practical"],
     strengths_vi: ["Táo bạo", "Độc đáo", "Thẩm mỹ & trình diễn", "Thực tế"],
     weaknesses_en: ["Sensitive", "Conflict-averse", "Easily bored", "Poor long-term planning"],
     weaknesses_vi: ["Nhạy cảm", "Né xung đột", "Dễ chán", "Yếu kế hoạch dài hạn"],
     communication_en: "Lively and storyteller. Excellent in IELTS/PTE Speaking, presentations, and acting.",
     communication_vi: "Sống động và kể chuyện hay. Xuất sắc trong IELTS/PTE Speaking, thuyết trình, diễn xuất.",
-    teacher_note_en: "ESFP hợp Hospitality, Performing Arts, Tourism. Conversational English/Chinese hợp em — học bằng karaoke, phim, podcast.",
-    teacher_note_vi: "ESFP hợp Hospitality, Nghệ thuật biểu diễn, Du lịch. Conversational English/Chinese hợp em — học bằng karaoke, phim, podcast.",
+    teacher_note_en: "ESFP hợp Hospitality, Performing Arts, Tourism. Conversational English/Chinese hợp em - học bằng karaoke, phim, podcast.",
+    teacher_note_vi: "ESFP hợp Hospitality, Nghệ thuật biểu diễn, Du lịch. Conversational English/Chinese hợp em - học bằng karaoke, phim, podcast.",
   },
 };
 
@@ -358,7 +358,7 @@ export function computeMbtiCode(answers: Record<string, number>): {
       else if (ans < 0) negSum += -ans;
     }
     const positiveLetter = qs[0].positive; // all questions in dim have a "positive" letter representing the typed direction
-    // But in our data each question has its own positive letter — we tally by per-question positive
+    // But in our data each question has its own positive letter - we tally by per-question positive
     posSum = 0;
     negSum = 0;
     for (const q of qs) {

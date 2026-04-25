@@ -37,7 +37,7 @@ const About = () => {
       icon: Compass,
       color: "from-emerald-400/30 to-teal-300/20",
       iconColor: "text-emerald-500",
-      quote: t("\"Đi chậm, đi đúng – sẽ đi rất xa.\"", "\"Go slow, go right — and you'll go far.\""),
+      quote: t("\"Đi chậm, đi đúng – sẽ đi rất xa.\"", "\"Go slow, go right - and you'll go far.\""),
       desc: t(
         "Một lộ trình rõ ràng và kiên trì mỗi ngày sẽ thắng mọi \"khoá học cấp tốc\".",
         "A clear roadmap and daily persistence will outlast any \"crash course\"."
@@ -47,7 +47,7 @@ const About = () => {
       icon: Globe2,
       color: "from-sky-400/30 to-blue-300/20",
       iconColor: "text-sky-500",
-      quote: t("\"Vươn ra thế giới – mà vẫn giữ hồn Việt.\"", "\"Reach the world — keep your Vietnamese soul.\""),
+      quote: t("\"Vươn ra thế giới – mà vẫn giữ hồn Việt.\"", "\"Reach the world - keep your Vietnamese soul.\""),
       desc: t(
         "Ngôn ngữ và công nghệ là tấm hộ chiếu để các em tự tin bước ra biển lớn.",
         "Languages and technology are the passport to step confidently onto the global stage."
@@ -57,7 +57,7 @@ const About = () => {
       icon: Sparkles,
       color: "from-violet-400/30 to-purple-300/20",
       iconColor: "text-violet-500",
-      quote: t("\"Không ai dở học – chỉ là chưa tìm đúng cách.\"", "\"No one is bad at learning — they just haven't found their way yet.\""),
+      quote: t("\"Không ai dở học – chỉ là chưa tìm đúng cách.\"", "\"No one is bad at learning - they just haven't found their way yet.\""),
       desc: t(
         "Thầy cam kết lắng nghe, cá nhân hoá lộ trình và tin vào tiềm năng riêng của từng em.",
         "I commit to listening, personalizing each roadmap, and believing in every student's potential."
@@ -67,10 +67,10 @@ const About = () => {
       icon: Rocket,
       color: "from-orange-400/30 to-red-300/20",
       iconColor: "text-orange-500",
-      quote: t("\"Dám mơ lớn – bắt đầu từ điều nhỏ nhất hôm nay.\"", "\"Dare to dream big — start with the smallest action today.\""),
+      quote: t("\"Dám mơ lớn – bắt đầu từ điều nhỏ nhất hôm nay.\"", "\"Dare to dream big - start with the smallest action today.\""),
       desc: t(
         "Tương lai không chờ ai – nhưng luôn mở cửa cho người đủ kiên trì.",
-        "The future waits for no one — but it always opens its doors to those who persist."
+        "The future waits for no one - but it always opens its doors to those who persist."
       ),
     },
   ];
@@ -174,7 +174,7 @@ const About = () => {
 
           </motion.div>
 
-          {/* AdSense — between intro and certificates (static content area) */}
+          {/* AdSense - between intro and certificates (static content area) */}
           <AdSlot />
 
           {/* Certificate Carousel - full width */}
@@ -287,13 +287,13 @@ const About = () => {
               <p className="text-base md:text-lg font-display italic text-foreground leading-relaxed">
                 {t(
                   "\"Thầy không chỉ muốn dạy các em một ngôn ngữ hay một dòng code. Thầy muốn cùng các em xây dựng một tư duy học tập suốt đời – để dù mai này các em ở Sài Gòn, Hà Nội hay bất kỳ thành phố nào trên thế giới, các em vẫn luôn tự tin học tập, thành công và tỏa sáng theo cách riêng của mình.\"",
-                  "\"I don't just want to teach you a language or a line of code. I want to help you build a lifelong learning mindset — so that whether one day you are in Saigon, Hanoi, or any city in the world, you will always feel confident to keep learning, succeed, and shine in your own way.\""
+                  "\"I don't just want to teach you a language or a line of code. I want to help you build a lifelong learning mindset - so that whether one day you are in Saigon, Hanoi, or any city in the world, you will always feel confident to keep learning, succeed, and shine in your own way.\""
                 )}
               </p>
-              <p className="mt-3 text-sm font-semibold text-primary">— Mr. Hai Nguyen</p>
+              <p className="mt-3 text-sm font-semibold text-primary">- Mr. Hai Nguyen</p>
             </motion.div>
 
-            {/* AdSense — bottom of long article */}
+            {/* AdSense - bottom of long article */}
             <AdSlot />
 
             {/* Tech skills */}

@@ -80,27 +80,27 @@ export const ALPHABET_SOUNDS: AlphabetSound[] = [
   { letter: "O", ipa: "/o/", example: "ovi", exampleEn: "door", exampleVi: "cánh cửa", group: "vowel-back", tip: "Pure 'o', no glide", tipVi: "Âm 'o' thuần, không trượt" },
   { letter: "U", ipa: "/u/", example: "uusi", exampleEn: "new", exampleVi: "mới", group: "vowel-back", tip: "Round lips, like 'oo' in 'food'", tipVi: "Tròn môi, giống 'u' dài" },
   // Front vowels (the umlaut trio)
-  { letter: "Ä", ipa: "/æ/", example: "äiti", exampleEn: "mother", exampleVi: "mẹ", group: "vowel-front", tip: "Like 'a' in 'cat' — flat & front", tipVi: "Giống 'e' trong 'em' nhưng mở hơn" },
+  { letter: "Ä", ipa: "/æ/", example: "äiti", exampleEn: "mother", exampleVi: "mẹ", group: "vowel-front", tip: "Like 'a' in 'cat' - flat & front", tipVi: "Giống 'e' trong 'em' nhưng mở hơn" },
   { letter: "Ö", ipa: "/ø/", example: "öljy", exampleEn: "oil", exampleVi: "dầu", group: "vowel-front", tip: "Round lips while saying 'e'", tipVi: "Tròn môi khi phát âm 'ê'" },
-  { letter: "Y", ipa: "/y/", example: "yö", exampleEn: "night", exampleVi: "đêm", group: "vowel-front", tip: "Round lips while saying 'i' — like German ü", tipVi: "Tròn môi khi phát âm 'i' — như 'ü' trong tiếng Đức" },
+  { letter: "Y", ipa: "/y/", example: "yö", exampleEn: "night", exampleVi: "đêm", group: "vowel-front", tip: "Round lips while saying 'i' - like German ü", tipVi: "Tròn môi khi phát âm 'i' - như 'ü' trong tiếng Đức" },
   // Other vowels
   { letter: "E", ipa: "/e/", example: "elämä", exampleEn: "life", exampleVi: "cuộc sống", group: "vowel-front", tip: "Like 'e' in 'bed'", tipVi: "Giống 'ê' tiếng Việt" },
   { letter: "I", ipa: "/i/", example: "isä", exampleEn: "father", exampleVi: "bố", group: "vowel-front", tip: "Sharp 'ee'", tipVi: "Âm 'i' rõ và ngắn" },
   // Double consonants
-  { letter: "KK", ipa: "/kː/", example: "kukka", exampleEn: "flower", exampleVi: "bông hoa", group: "double-consonant", tip: "Hold the K — clear silence between syllables", tipVi: "Giữ âm K — có khoảng nghỉ rõ giữa hai âm tiết" },
+  { letter: "KK", ipa: "/kː/", example: "kukka", exampleEn: "flower", exampleVi: "bông hoa", group: "double-consonant", tip: "Hold the K - clear silence between syllables", tipVi: "Giữ âm K - có khoảng nghỉ rõ giữa hai âm tiết" },
   { letter: "PP", ipa: "/pː/", example: "kauppa", exampleEn: "shop", exampleVi: "cửa hàng", group: "double-consonant", tip: "Two-beat P", tipVi: "Âm P kéo dài 2 nhịp" },
   { letter: "TT", ipa: "/tː/", example: "kissa", exampleEn: "cat (with SS)", exampleVi: "con mèo (với SS)", group: "double-consonant", tip: "Same logic for SS, LL, MM, NN, RR", tipVi: "Tương tự với SS, LL, MM, NN, RR" },
   { letter: "NG", ipa: "/ŋː/", example: "kengät", exampleEn: "shoes", exampleVi: "đôi giày", group: "double-consonant", tip: "Like 'ng' in 'singing', held longer", tipVi: "Giống 'ng' trong 'song', kéo dài hơn" },
-  // Long vowels (length contrast — critical for meaning)
-  { letter: "AA", ipa: "/ɑː/", example: "maa", exampleEn: "land", exampleVi: "đất nước", group: "vowel-back", tip: "Hold 'a' for 2 beats — meaning changes!", tipVi: "Giữ 'a' 2 nhịp — nghĩa thay đổi hoàn toàn!" },
-  { letter: "OO", ipa: "/oː/", example: "koodi", exampleEn: "code", exampleVi: "mã", group: "vowel-back", tip: "Long 'o' — different word from 'kodi'", tipVi: "Âm 'o' dài — khác hẳn 'kodi'" },
-  { letter: "UU", ipa: "/uː/", example: "kuu", exampleEn: "moon", exampleVi: "mặt trăng", group: "vowel-back", tip: "Long 'u' — vs 'ku' (no meaning)", tipVi: "Âm 'u' dài — vs 'ku' (vô nghĩa)" },
+  // Long vowels (length contrast - critical for meaning)
+  { letter: "AA", ipa: "/ɑː/", example: "maa", exampleEn: "land", exampleVi: "đất nước", group: "vowel-back", tip: "Hold 'a' for 2 beats - meaning changes!", tipVi: "Giữ 'a' 2 nhịp - nghĩa thay đổi hoàn toàn!" },
+  { letter: "OO", ipa: "/oː/", example: "koodi", exampleEn: "code", exampleVi: "mã", group: "vowel-back", tip: "Long 'o' - different word from 'kodi'", tipVi: "Âm 'o' dài - khác hẳn 'kodi'" },
+  { letter: "UU", ipa: "/uː/", example: "kuu", exampleEn: "moon", exampleVi: "mặt trăng", group: "vowel-back", tip: "Long 'u' - vs 'ku' (no meaning)", tipVi: "Âm 'u' dài - vs 'ku' (vô nghĩa)" },
   { letter: "II", ipa: "/iː/", example: "kiitos", exampleEn: "thank you", exampleVi: "cảm ơn", group: "vowel-front", tip: "Hold 'i' clearly", tipVi: "Giữ 'i' rõ ràng" },
   // Tricky consonants
   { letter: "H", ipa: "/h/", example: "hyvä", exampleEn: "good", exampleVi: "tốt", group: "consonant", tip: "Soft, breathy 'h'", tipVi: "Âm 'h' nhẹ, hơi thở" },
-  { letter: "J", ipa: "/j/", example: "joki", exampleEn: "river", exampleVi: "con sông", group: "consonant", tip: "Like 'y' in 'yes' — never like English J", tipVi: "Như 'y' trong 'yes' — không bao giờ như 'j' tiếng Anh" },
-  { letter: "R", ipa: "/r/", example: "rakas", exampleEn: "dear", exampleVi: "thân yêu", group: "consonant", tip: "Trilled R — flick the tongue", tipVi: "Âm R rung — búng đầu lưỡi" },
-  { letter: "S", ipa: "/s/", example: "sininen", exampleEn: "blue", exampleVi: "màu xanh", group: "consonant", tip: "Sharp 's' — never voiced like 'z'", tipVi: "Âm 's' sắc — không bao giờ thành 'z'" },
+  { letter: "J", ipa: "/j/", example: "joki", exampleEn: "river", exampleVi: "con sông", group: "consonant", tip: "Like 'y' in 'yes' - never like English J", tipVi: "Như 'y' trong 'yes' - không bao giờ như 'j' tiếng Anh" },
+  { letter: "R", ipa: "/r/", example: "rakas", exampleEn: "dear", exampleVi: "thân yêu", group: "consonant", tip: "Trilled R - flick the tongue", tipVi: "Âm R rung - búng đầu lưỡi" },
+  { letter: "S", ipa: "/s/", example: "sininen", exampleEn: "blue", exampleVi: "màu xanh", group: "consonant", tip: "Sharp 's' - never voiced like 'z'", tipVi: "Âm 's' sắc - không bao giờ thành 'z'" },
   { letter: "V", ipa: "/ʋ/", example: "vesi", exampleEn: "water", exampleVi: "nước", group: "consonant", tip: "Soft V, between English V and W", tipVi: "Âm V nhẹ, giữa V và W tiếng Anh" },
 ];
 
@@ -165,13 +165,13 @@ export const VERB_TYPES: VerbType[] = [
 ];
 
 /* ============================================================
- * KPT — Consonant Gradation
+ * KPT - Consonant Gradation
  * ============================================================ */
 export const KPT_PAIRS: KptPair[] = [
   { strong: "kk", weak: "k", example: "kukka → kukan", meaning: "flower → of the flower", meaningVi: "bông hoa → của bông hoa" },
   { strong: "pp", weak: "p", example: "kauppa → kaupan", meaning: "shop → of the shop", meaningVi: "cửa hàng → của cửa hàng" },
   { strong: "tt", weak: "t", example: "tyttö → tytön", meaning: "girl → of the girl", meaningVi: "cô gái → của cô gái" },
-  { strong: "k", weak: "—", example: "jalka → jalan", meaning: "leg → of the leg (k disappears)", meaningVi: "chân → của chân (k biến mất)" },
+  { strong: "k", weak: "-", example: "jalka → jalan", meaning: "leg → of the leg (k disappears)", meaningVi: "chân → của chân (k biến mất)" },
   { strong: "p", weak: "v", example: "leipä → leivän", meaning: "bread → of bread", meaningVi: "bánh mì → của bánh mì" },
   { strong: "t", weak: "d", example: "katu → kadun", meaning: "street → of the street", meaningVi: "đường phố → của đường phố" },
   { strong: "nt", weak: "nn", example: "ranta → rannan", meaning: "shore → of the shore", meaningVi: "bờ biển → của bờ biển" },
@@ -336,7 +336,7 @@ export const BEGINNER_VOCAB: BeginnerVocab[] = [
 export const VIETNAMESE_PITFALLS: VietnamesePitfall[] = [
   {
     mistake: "Bỏ qua nguyên âm dài (kuusi vs kusi)",
-    why: "Tiếng Việt không phân biệt nguyên âm dài/ngắn, nhưng trong tiếng Phần Lan ý nghĩa thay đổi hoàn toàn — kuusi = 'sáu/cây vân sam', kusi = từ thô tục.",
+    why: "Tiếng Việt không phân biệt nguyên âm dài/ngắn, nhưng trong tiếng Phần Lan ý nghĩa thay đổi hoàn toàn - kuusi = 'sáu/cây vân sam', kusi = từ thô tục.",
     correct: "Phải kéo dài rõ rệt nguyên âm đôi: 'kuu-si', không phải 'ku-si'.",
     tip: "Đếm nhịp khi luyện: nguyên âm đơn = 1 nhịp, đôi = 2 nhịp.",
   },
@@ -344,12 +344,12 @@ export const VIETNAMESE_PITFALLS: VietnamesePitfall[] = [
     mistake: "Phát âm Ä, Ö, Y giống A, O, U",
     why: "Người Việt thường lờ đi dấu trên các nguyên âm trước (front vowels) vì không có trong bảng chữ cái Việt.",
     correct: "Ä = 'e' mở rộng, Ö = tròn môi nói 'ê', Y = tròn môi nói 'i'.",
-    tip: "Luyện cặp tối thiểu: tuli (lửa) vs tyli (cùn) — 'u' tròn môi sau, 'y' tròn môi trước.",
+    tip: "Luyện cặp tối thiểu: tuli (lửa) vs tyli (cùn) - 'u' tròn môi sau, 'y' tròn môi trước.",
   },
   {
     mistake: "Bỏ phụ âm đôi (kk, pp, tt)",
     why: "Tiếng Việt không có phụ âm đôi, người học hay nói 'kuka' thay vì 'kukka' (hoa).",
-    correct: "Giữ một khoảng tĩnh ngắn giữa hai âm tiết — như khi bạn nói 'mít-tinh'.",
+    correct: "Giữ một khoảng tĩnh ngắn giữa hai âm tiết - như khi bạn nói 'mít-tinh'.",
     tip: "Vỗ tay 2 lần khi gặp KK/PP/TT để tạo phản xạ.",
   },
   {
@@ -373,7 +373,7 @@ export const VIETNAMESE_PITFALLS: VietnamesePitfall[] = [
   {
     mistake: "Quên hoà âm nguyên âm (vokaaliharmonia)",
     why: "Trong tiếng Phần Lan, đuôi phải hoà với nguyên âm gốc: từ có a/o/u → đuôi a, từ có ä/ö/y → đuôi ä.",
-    correct: "talossa (trong nhà) — không phải talossä; metsässä (trong rừng) — không phải metsassa.",
+    correct: "talossa (trong nhà) - không phải talossä; metsässä (trong rừng) - không phải metsassa.",
     tip: "Quy tắc vàng: nhìn nguyên âm cuối của gốc → chọn đuôi cùng nhóm.",
   },
 ];
@@ -419,8 +419,8 @@ export const BEGINNER_QUIZ: BeginnerQuiz[] = [
     questionVi: "Cặp nguyên âm nào thể hiện đối lập độ dài thật sự?",
     options: ["tuli / tyli", "tuli / tuuli", "tuli / tale", "tuli / kuli"],
     answer: 1,
-    explanation: "tuli (fire) vs tuuli (wind) — single u vs long uu.",
-    explanationVi: "tuli (lửa) vs tuuli (gió) — u đơn vs uu dài.",
+    explanation: "tuli (fire) vs tuuli (wind) - single u vs long uu.",
+    explanationVi: "tuli (lửa) vs tuuli (gió) - u đơn vs uu dài.",
   },
   {
     question: "Pick the polite way to ask 'Do you speak English?'",
@@ -447,8 +447,8 @@ export const BEGINNER_QUIZ: BeginnerQuiz[] = [
     explanationVi: "Dạng điều kiện 'haluaisin' lịch sự hơn; partitive 'kahvia' theo sau.",
   },
   {
-    question: "Verb type 3 (mennä) — 'we go' is:",
-    questionVi: "Động từ loại 3 (mennä) — 'chúng tôi đi' là:",
+    question: "Verb type 3 (mennä) - 'we go' is:",
+    questionVi: "Động từ loại 3 (mennä) - 'chúng tôi đi' là:",
     options: ["mennämme", "menemme", "mennemme", "menemmen"],
     answer: 1,
     explanation: "mennä → drop -nä, add e + mme: menemme.",

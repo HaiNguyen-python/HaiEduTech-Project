@@ -201,7 +201,7 @@ const MbtiFullTest = ({ userId }: Props) => {
                   <div key={h.id} className="flex items-center justify-between p-3 rounded-xl bg-secondary/40">
                     <div className="flex items-center gap-3">
                       <span className={`text-xl font-bold bg-gradient-to-r ${profile?.color || "from-violet-500 to-pink-500"} bg-clip-text text-transparent`}>
-                        {r?.code || "—"}
+                        {r?.code || "-"}
                       </span>
                       <div>
                         <p className="text-sm font-medium">{lang === "vi" ? profile?.title_vi : profile?.title_en}</p>
@@ -223,7 +223,7 @@ const MbtiFullTest = ({ userId }: Props) => {
           </div>
         )}
 
-        {/* MBTI Journey — comparison across multiple tests */}
+        {/* MBTI Journey - comparison across multiple tests */}
         {history.length >= 2 && <MbtiJourney history={history} />}
       </div>
     );

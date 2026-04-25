@@ -1,4 +1,4 @@
-// TOEIC Lectures Dashboard — Deep Business Blue Glassmorphism Design
+// TOEIC Lectures Dashboard - Deep Business Blue Glassmorphism Design
 import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -110,7 +110,7 @@ const ToeicLectures = () => {
       <SEO title="Bài Giảng TOEIC Masterclass Parts 1-7 | HaiEduTech" description="Khóa TOEIC Masterclass: Skills & Strategies cho toàn bộ Parts 1-7. Bài giảng chuyên sâu, mẹo làm bài, từ vựng theo chủ đề công việc." path="/toeic-lectures" />
       <Navbar />
       <main className="pt-24 pb-16">
-        {/* Hero Section — Deep Business Blue */}
+        {/* Hero Section - Deep Business Blue */}
         <section className="relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-[#1E293B] via-[#0F172A] to-[#1E3A5F]" />
           {/* Subtle grid pattern */}
@@ -130,8 +130,8 @@ const ToeicLectures = () => {
               </h1>
               <p className="text-lg text-[#94A3B8] mb-6 leading-relaxed" style={{ fontSize: "20px", lineHeight: "1.8" }}>
                 {t(
-                  "Chiến lược làm bài Part 1-7, mẹo tốc độ và từ vựng kinh doanh — tất cả trong một nơi.",
-                  "Part 1-7 strategies, speed hacks, and business vocabulary — all in one place."
+                  "Chiến lược làm bài Part 1-7, mẹo tốc độ và từ vựng kinh doanh - tất cả trong một nơi.",
+                  "Part 1-7 strategies, speed hacks, and business vocabulary - all in one place."
                 )}
               </p>
               {/* Progress bar */}
@@ -146,7 +146,7 @@ const ToeicLectures = () => {
           </div>
         </section>
 
-        {/* === Roadmap 4 chặng — sắp xếp dễ → khó === */}
+        {/* === Roadmap 4 chặng - sắp xếp dễ → khó === */}
         <ToeicRoadmap completedSet={completedSet} />
 
         {/* Divider */}
@@ -293,7 +293,7 @@ const ToeicLectures = () => {
   );
 };
 
-// Individual lecture card component — Glassmorphism style
+// Individual lecture card component - Glassmorphism style
 interface LectureCardProps {
   lecture: ToeicLecture;
   index: number;
@@ -317,7 +317,7 @@ const LectureCard = ({ lecture, index, isBookmarked, isCompleted, onToggleBookma
     >
       <Link to={`/toeic-lectures/${lecture.id}`} className="group block h-full">
         <div className="relative h-full rounded-2xl border border-white/[0.08] bg-[#1E293B]/50 backdrop-blur-xl p-5 transition-all hover:border-[#3B82F6]/30 hover:shadow-xl hover:shadow-[#3B82F6]/5 hover:-translate-y-1">
-          {/* Part number — large & prominent */}
+          {/* Part number - large & prominent */}
           <div className="flex items-start justify-between mb-3">
             <div className="flex items-center gap-2 flex-wrap">
               <span className="text-2xl">{lecture.icon}</span>

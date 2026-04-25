@@ -1,4 +1,4 @@
-// Kids overseas expansion 3 — 10 bài học mới với từ vựng phong phú:
+// Kids overseas expansion 3 - 10 bài học mới với từ vựng phong phú:
 // nhà cửa, phương tiện, đồ chơi, hành động, đối lập, gia đình mở rộng,
 // thân thể nâng cao, cơ thể & sức khỏe, mua sắm, du lịch quê hương
 import type { KidsLesson } from "./kidsOverseasData";
@@ -227,7 +227,7 @@ export const kidsExpansion3: KidsLesson[] = [
       title: "Lần đầu đi chợ",
       titleEn: "First Time at the Market",
       text: "Bà ngoại dắt em đi chợ Bến Thành. Em thấy nhiều thứ lắm: rau, trái cây, quần áo, đồ chơi. Bà mua một bó rau muống. Cô bán hàng nói: '20 nghìn cháu ơi.' Bà cười: 'Bớt 5 nghìn nha, tôi mua nhiều mà!' Cô bán hàng đồng ý. Em học được: ở chợ Việt Nam, mình có thể trả giá!",
-      textEn: "Grandma takes me to Bến Thành Market. I see so many things: vegetables, fruits, clothes, toys. Grandma buys a bundle of water spinach. The seller says: '20,000 đồng, child.' Grandma smiles: 'Take off 5,000 — I'm buying a lot!' The seller agrees. I learn that at Vietnamese markets, you can bargain!",
+      textEn: "Grandma takes me to Bến Thành Market. I see so many things: vegetables, fruits, clothes, toys. Grandma buys a bundle of water spinach. The seller says: '20,000 đồng, child.' Grandma smiles: 'Take off 5,000 - I'm buying a lot!' The seller agrees. I learn that at Vietnamese markets, you can bargain!",
     },
   },
   {
@@ -258,7 +258,7 @@ export const kidsExpansion3: KidsLesson[] = [
       title: "Chuyến về thăm quê",
       titleEn: "A Trip Back Home",
       text: "Hè năm nay, gia đình em bay từ Mỹ về Việt Nam. Chúng em đi từ Bắc vào Nam: thăm Hồ Gươm ở Hà Nội, ngủ tàu trên Vịnh Hạ Long, đi thuyền trên sông Hoài ở Hội An, leo lên đỉnh Bà Nà ở Đà Nẵng, rồi tắm biển ở Phú Quốc. Em chụp rất nhiều ảnh và viết nhật ký bằng tiếng Việt. Em mới hiểu vì sao bố mẹ luôn gọi Việt Nam là 'quê hương'. Việt Nam đẹp quá, em yêu Việt Nam!",
-      textEn: "This summer, my family flew from the US back to Vietnam. We traveled from north to south: visited Hoàn Kiếm Lake in Hanoi, slept on a cruise in Ha Long Bay, took a boat on Hoài River in Hoi An, climbed Bà Nà peak in Da Nang, then swam at Phú Quốc beach. I took many photos and wrote a journal in Vietnamese. Now I understand why my parents always call Vietnam 'homeland'. Vietnam is so beautiful — I love Vietnam!",
+      textEn: "This summer, my family flew from the US back to Vietnam. We traveled from north to south: visited Hoàn Kiếm Lake in Hanoi, slept on a cruise in Ha Long Bay, took a boat on Hoài River in Hoi An, climbed Bà Nà peak in Da Nang, then swam at Phú Quốc beach. I took many photos and wrote a journal in Vietnamese. Now I understand why my parents always call Vietnam 'homeland'. Vietnam is so beautiful - I love Vietnam!",
     },
   },
   {
@@ -288,8 +288,8 @@ export const kidsExpansion3: KidsLesson[] = [
     story: {
       title: "Đêm Trung Thu của em",
       titleEn: "My Mid-Autumn Night",
-      text: "Trung Thu năm ngoái, mẹ làm bánh nướng và bánh dẻo. Bố treo đèn lồng đỏ trước cửa. Em rước đèn ông sao đi quanh khu phố cùng các bạn nhỏ Việt kiều. Chúng em hát: 'Tết Trung Thu rước đèn đi chơi...' Bà ngoại từ Việt Nam gọi video. Bà kể chuyện chú Cuội ngồi gốc cây đa trên cung trăng. Em ngước nhìn trăng tròn và nghĩ: dù xa quê bao nhiêu, em vẫn là người Việt — vì em vẫn giữ được những phong tục đẹp này.",
-      textEn: "Last Mid-Autumn, mom made baked and sticky moon cakes. Dad hung red lanterns at the door. I paraded a star lantern around the neighborhood with other overseas Vietnamese kids. We sang: 'Mid-Autumn we parade lanterns...' Grandma video-called from Vietnam. She told the story of Chú Cuội sitting under the banyan tree on the moon. I looked up at the full moon and thought: no matter how far from home, I am still Vietnamese — because I still keep these beautiful customs.",
+      text: "Trung Thu năm ngoái, mẹ làm bánh nướng và bánh dẻo. Bố treo đèn lồng đỏ trước cửa. Em rước đèn ông sao đi quanh khu phố cùng các bạn nhỏ Việt kiều. Chúng em hát: 'Tết Trung Thu rước đèn đi chơi...' Bà ngoại từ Việt Nam gọi video. Bà kể chuyện chú Cuội ngồi gốc cây đa trên cung trăng. Em ngước nhìn trăng tròn và nghĩ: dù xa quê bao nhiêu, em vẫn là người Việt - vì em vẫn giữ được những phong tục đẹp này.",
+      textEn: "Last Mid-Autumn, mom made baked and sticky moon cakes. Dad hung red lanterns at the door. I paraded a star lantern around the neighborhood with other overseas Vietnamese kids. We sang: 'Mid-Autumn we parade lanterns...' Grandma video-called from Vietnam. She told the story of Chú Cuội sitting under the banyan tree on the moon. I looked up at the full moon and thought: no matter how far from home, I am still Vietnamese - because I still keep these beautiful customs.",
     },
   },
 ];

@@ -61,7 +61,7 @@ export const pronunciationModules: PronModule[] = [
   {
     id: "ipa-sounds",
     title: "IPA Sounds (44 Phonemes)",
-    titleVi: "Bảng IPA — 44 Âm Cốt Lõi",
+    titleVi: "Bảng IPA - 44 Âm Cốt Lõi",
     emoji: "🔤",
     description:
       "Master the 44 sounds of English: 20 vowels (monophthongs + diphthongs) and 24 consonants. Learn each symbol, mouth position, and contrast pairs.",
@@ -97,15 +97,15 @@ export const pronunciationModules: PronModule[] = [
     titleVi: "Ngữ Điệu & Nối Âm",
     emoji: "🎵",
     description:
-      "Rising vs falling tones, linking, weak forms, schwa /ə/, and elision — the secrets to sounding natural and understanding native speakers.",
+      "Rising vs falling tones, linking, weak forms, schwa /ə/, and elision - the secrets to sounding natural and understanding native speakers.",
     descriptionVi:
-      "Ngữ điệu lên/xuống, linking, weak forms, âm schwa /ə/, và elision — bí quyết nói tự nhiên và nghe hiểu người bản xứ.",
+      "Ngữ điệu lên/xuống, linking, weak forms, âm schwa /ə/, và elision - bí quyết nói tự nhiên và nghe hiểu người bản xứ.",
     color: "from-violet-500 to-fuchsia-500",
   },
 ];
 
 // =====================================================================
-// MODULE 1 — IPA SOUNDS (6 lessons covering vowel groups + consonant groups)
+// MODULE 1 - IPA SOUNDS (6 lessons covering vowel groups + consonant groups)
 // =====================================================================
 const ipaLessons: PronLesson[] = [
   {
@@ -123,10 +123,10 @@ const ipaLessons: PronLesson[] = [
     introductionVi:
       "Nguyên âm ngắn là âm nhanh, thả lỏng. Đây là nền tảng nhịp điệu tiếng Anh. Học tốt phần này sẽ loại bỏ các lỗi accent phổ biến của người Việt.",
     howTo: [
-      { step: "Relax your jaw — short vowels don't need wide mouth movement.", stepVi: "Thả lỏng hàm — nguyên âm ngắn không cần há miệng rộng." },
+      { step: "Relax your jaw - short vowels don't need wide mouth movement.", stepVi: "Thả lỏng hàm - nguyên âm ngắn không cần há miệng rộng." },
       { step: "Keep them short. Cut them off quickly with the next sound.", stepVi: "Giữ âm ngắn. Cắt nhanh sang âm kế tiếp." },
-      { step: "/æ/ in 'cat' — open your mouth wider than for /e/.", stepVi: "/æ/ trong 'cat' — há miệng rộng hơn /e/." },
-      { step: "/ə/ (schwa) is the most common sound in English — use it for unstressed syllables.", stepVi: "/ə/ (schwa) là âm phổ biến nhất — dùng cho âm tiết không trọng âm." },
+      { step: "/æ/ in 'cat' - open your mouth wider than for /e/.", stepVi: "/æ/ trong 'cat' - há miệng rộng hơn /e/." },
+      { step: "/ə/ (schwa) is the most common sound in English - use it for unstressed syllables.", stepVi: "/ə/ (schwa) là âm phổ biến nhất - dùng cho âm tiết không trọng âm." },
     ],
     examples: [
       { word: "sit", ipa: "/sɪt/", vi: "ngồi" },
@@ -144,8 +144,8 @@ const ipaLessons: PronLesson[] = [
     ],
     commonMistakeVi:
       "Người Việt thường phát âm /æ/ thành /e/ ('cat' → 'ket'), và bỏ qua schwa /ə/ khiến từ nghe cứng và không tự nhiên.",
-    teacherTip: "Practice schwa daily: 'banana' = /bəˈnɑːnə/ — only the middle syllable is strong, everything else is /ə/.",
-    teacherTipVi: "Luyện schwa mỗi ngày: 'banana' = /bəˈnɑːnə/ — chỉ âm tiết giữa mạnh, còn lại là /ə/.",
+    teacherTip: "Practice schwa daily: 'banana' = /bəˈnɑːnə/ - only the middle syllable is strong, everything else is /ə/.",
+    teacherTipVi: "Luyện schwa mỗi ngày: 'banana' = /bəˈnɑːnə/ - chỉ âm tiết giữa mạnh, còn lại là /ə/.",
     practiceSentences: [
       { en: "The cat sat on the mat.", vi: "Con mèo ngồi trên thảm." },
       { en: "I had a good cup of coffee.", vi: "Tôi đã uống một cốc cà phê ngon." },
@@ -158,8 +158,8 @@ const ipaLessons: PronLesson[] = [
         questionVi: "Từ nào chứa âm /æ/?",
         options: ["bed", "cat", "cup", "book"],
         answer: 1,
-        explanation: "'cat' /kæt/ uses /æ/ — open mouth front vowel.",
-        explanationVi: "'cat' /kæt/ dùng /æ/ — nguyên âm mở phía trước.",
+        explanation: "'cat' /kæt/ uses /æ/ - open mouth front vowel.",
+        explanationVi: "'cat' /kæt/ dùng /æ/ - nguyên âm mở phía trước.",
         audioWord: "cat",
       },
       {
@@ -183,8 +183,8 @@ const ipaLessons: PronLesson[] = [
         questionVi: "Nghe: từ nào?",
         options: ["bed", "bad", "bud", "bird"],
         answer: 1,
-        explanation: "'bad' uses /æ/ — open front vowel.",
-        explanationVi: "'bad' dùng /æ/ — nguyên âm mở phía trước.",
+        explanation: "'bad' uses /æ/ - open front vowel.",
+        explanationVi: "'bad' dùng /æ/ - nguyên âm mở phía trước.",
         audioWord: "bad",
       },
     ],
@@ -200,14 +200,14 @@ const ipaLessons: PronLesson[] = [
     duration: "15 min",
     difficulty: "Beginner",
     introduction:
-      "Long vowels are held longer and require more tension. The colon symbol /ː/ in IPA marks length — but length is paired with quality changes too.",
+      "Long vowels are held longer and require more tension. The colon symbol /ː/ in IPA marks length - but length is paired with quality changes too.",
     introductionVi:
-      "Nguyên âm dài giữ lâu hơn và cần độ căng. Ký hiệu /ː/ trong IPA chỉ độ dài — nhưng độ dài đi kèm với thay đổi chất giọng.",
+      "Nguyên âm dài giữ lâu hơn và cần độ căng. Ký hiệu /ː/ trong IPA chỉ độ dài - nhưng độ dài đi kèm với thay đổi chất giọng.",
     howTo: [
       { step: "Hold the vowel for ~2× longer than its short counterpart.", stepVi: "Giữ nguyên âm dài gấp ~2 lần so với âm ngắn tương ứng." },
-      { step: "/iː/ — wide smile, tongue high and forward (sheep).", stepVi: "/iː/ — cười rộng, lưỡi cao và đưa ra trước (sheep)." },
-      { step: "/ɑː/ — open mouth wide, tongue low and back (car).", stepVi: "/ɑː/ — há miệng rộng, lưỡi thấp và lùi (car)." },
-      { step: "/ɜː/ — neutral tongue, slightly rounded lips (bird, learn).", stepVi: "/ɜː/ — lưỡi trung tính, môi hơi tròn (bird, learn)." },
+      { step: "/iː/ - wide smile, tongue high and forward (sheep).", stepVi: "/iː/ - cười rộng, lưỡi cao và đưa ra trước (sheep)." },
+      { step: "/ɑː/ - open mouth wide, tongue low and back (car).", stepVi: "/ɑː/ - há miệng rộng, lưỡi thấp và lùi (car)." },
+      { step: "/ɜː/ - neutral tongue, slightly rounded lips (bird, learn).", stepVi: "/ɜː/ - lưỡi trung tính, môi hơi tròn (bird, learn)." },
     ],
     examples: [
       { word: "sheep", ipa: "/ʃiːp/", vi: "cừu" },
@@ -224,8 +224,8 @@ const ipaLessons: PronLesson[] = [
     ],
     commonMistakeVi:
       "Người Việt hay rút ngắn nguyên âm dài (sheep → ship), khiến nghĩa từ bị thay đổi hoàn toàn.",
-    teacherTip: "Tap your finger twice slowly when saying long vowels — this enforces the duration physically.",
-    teacherTipVi: "Gõ tay 2 nhịp chậm khi phát âm nguyên âm dài — buộc cơ thể giữ đủ độ dài.",
+    teacherTip: "Tap your finger twice slowly when saying long vowels - this enforces the duration physically.",
+    teacherTipVi: "Gõ tay 2 nhịp chậm khi phát âm nguyên âm dài - buộc cơ thể giữ đủ độ dài.",
     practiceSentences: [
       { en: "The sheep sleeps in the field.", vi: "Cừu ngủ trên cánh đồng." },
       { en: "My car is parked far away.", vi: "Xe tôi đỗ xa." },
@@ -238,8 +238,8 @@ const ipaLessons: PronLesson[] = [
         questionVi: "Ký hiệu nào thể hiện nguyên âm trong 'bird'?",
         options: ["/iː/", "/ɜː/", "/ɔː/", "/ɑː/"],
         answer: 1,
-        explanation: "'bird' = /bɜːd/ — central long vowel.",
-        explanationVi: "'bird' = /bɜːd/ — nguyên âm dài trung tâm.",
+        explanation: "'bird' = /bɜːd/ - central long vowel.",
+        explanationVi: "'bird' = /bɜːd/ - nguyên âm dài trung tâm.",
         audioWord: "bird",
       },
       {
@@ -255,16 +255,16 @@ const ipaLessons: PronLesson[] = [
         questionVi: "Đúng hay Sai: nguyên âm dài chỉ là phiên bản to hơn của nguyên âm ngắn.",
         options: ["True", "False"],
         answer: 1,
-        explanation: "False — they have different tongue positions and quality, not just volume.",
-        explanationVi: "Sai — chúng có vị trí lưỡi và chất giọng khác, không chỉ to hơn.",
+        explanation: "False - they have different tongue positions and quality, not just volume.",
+        explanationVi: "Sai - chúng có vị trí lưỡi và chất giọng khác, không chỉ to hơn.",
       },
       {
         question: "Listen: which word is it?",
         questionVi: "Nghe: từ nào?",
         options: ["ship", "sheep", "shape", "shop"],
         answer: 1,
-        explanation: "'sheep' /ʃiːp/ — long /iː/.",
-        explanationVi: "'sheep' /ʃiːp/ — /iː/ dài.",
+        explanation: "'sheep' /ʃiːp/ - long /iː/.",
+        explanationVi: "'sheep' /ʃiːp/ - /iː/ dài.",
         audioWord: "sheep",
       },
     ],
@@ -280,13 +280,13 @@ const ipaLessons: PronLesson[] = [
     duration: "18 min",
     difficulty: "Elementary",
     introduction:
-      "A diphthong is one vowel that glides into another within the same syllable. English has 8 diphthongs — they are the 'voice' of native speech.",
+      "A diphthong is one vowel that glides into another within the same syllable. English has 8 diphthongs - they are the 'voice' of native speech.",
     introductionVi:
-      "Nguyên âm đôi là một nguyên âm trượt sang nguyên âm khác trong cùng âm tiết. Tiếng Anh có 8 nguyên âm đôi — tạo nên 'chất giọng' bản xứ.",
+      "Nguyên âm đôi là một nguyên âm trượt sang nguyên âm khác trong cùng âm tiết. Tiếng Anh có 8 nguyên âm đôi - tạo nên 'chất giọng' bản xứ.",
     howTo: [
       { step: "Start at the first vowel, then SLIDE smoothly to the second.", stepVi: "Bắt đầu ở nguyên âm thứ nhất, rồi TRƯỢT mềm sang nguyên âm thứ hai." },
       { step: "The first vowel is louder and longer than the second.", stepVi: "Nguyên âm đầu to và dài hơn nguyên âm sau." },
-      { step: "Don't break it into 2 syllables — it stays ONE syllable.", stepVi: "Không tách thành 2 âm tiết — vẫn là MỘT âm tiết." },
+      { step: "Don't break it into 2 syllables - it stays ONE syllable.", stepVi: "Không tách thành 2 âm tiết - vẫn là MỘT âm tiết." },
     ],
     examples: [
       { word: "day", ipa: "/deɪ/", vi: "ngày" },
@@ -304,9 +304,9 @@ const ipaLessons: PronLesson[] = [
       { a: { word: "say", ipa: "/seɪ/" }, b: { word: "sigh", ipa: "/saɪ/" }, contrast: "/eɪ/ vs /aɪ/", contrastVi: "/eɪ/ vs /aɪ/" },
     ],
     commonMistakeVi:
-      "Người Việt hay phát âm 'go' thành 'gô' (đơn âm), thay vì /ɡəʊ/ — bị mất chất diphthong và nghe rất 'Việt'.",
-    teacherTip: "Move your jaw visibly when practicing — diphthongs require physical movement, not just sound.",
-    teacherTipVi: "Cử động hàm rõ ràng khi luyện — nguyên âm đôi cần chuyển động vật lý, không chỉ âm thanh.",
+      "Người Việt hay phát âm 'go' thành 'gô' (đơn âm), thay vì /ɡəʊ/ - bị mất chất diphthong và nghe rất 'Việt'.",
+    teacherTip: "Move your jaw visibly when practicing - diphthongs require physical movement, not just sound.",
+    teacherTipVi: "Cử động hàm rõ ràng khi luyện - nguyên âm đôi cần chuyển động vật lý, không chỉ âm thanh.",
     practiceSentences: [
       { en: "The boy bought a toy today.", vi: "Cậu bé mua đồ chơi hôm nay." },
       { en: "I don't know how to go now.", vi: "Tôi không biết đi thế nào bây giờ." },
@@ -327,8 +327,8 @@ const ipaLessons: PronLesson[] = [
         questionVi: "Từ nào chứa /əʊ/?",
         options: ["now", "no", "boy", "buy"],
         answer: 1,
-        explanation: "'no' /nəʊ/ — closing diphthong.",
-        explanationVi: "'no' /nəʊ/ — diphthong đóng.",
+        explanation: "'no' /nəʊ/ - closing diphthong.",
+        explanationVi: "'no' /nəʊ/ - diphthong đóng.",
         audioWord: "no",
       },
       {
@@ -370,10 +370,10 @@ const ipaLessons: PronLesson[] = [
     introductionVi:
       "Phụ âm tắc (plosive) chặn luồng khí rồi bung ra. Chúng đi theo cặp vô thanh/hữu thanh: p/b, t/d, k/ɡ.",
     howTo: [
-      { step: "/p/ /t/ /k/ are voiceless — no vibration in the throat.", stepVi: "/p/ /t/ /k/ vô thanh — không rung dây thanh." },
-      { step: "/b/ /d/ /ɡ/ are voiced — feel vibration in your throat.", stepVi: "/b/ /d/ /ɡ/ hữu thanh — sờ cổ thấy rung." },
-      { step: "At the START of a stressed syllable, /p/ /t/ /k/ are 'aspirated' — release a small puff of air.", stepVi: "Đầu âm tiết có trọng âm, /p/ /t/ /k/ bật hơi (aspirated) — phun nhẹ luồng khí." },
-      { step: "ALWAYS pronounce the FINAL consonant — Vietnamese learners often drop it.", stepVi: "LUÔN phát âm phụ âm CUỐI — người Việt hay nuốt mất." },
+      { step: "/p/ /t/ /k/ are voiceless - no vibration in the throat.", stepVi: "/p/ /t/ /k/ vô thanh - không rung dây thanh." },
+      { step: "/b/ /d/ /ɡ/ are voiced - feel vibration in your throat.", stepVi: "/b/ /d/ /ɡ/ hữu thanh - sờ cổ thấy rung." },
+      { step: "At the START of a stressed syllable, /p/ /t/ /k/ are 'aspirated' - release a small puff of air.", stepVi: "Đầu âm tiết có trọng âm, /p/ /t/ /k/ bật hơi (aspirated) - phun nhẹ luồng khí." },
+      { step: "ALWAYS pronounce the FINAL consonant - Vietnamese learners often drop it.", stepVi: "LUÔN phát âm phụ âm CUỐI - người Việt hay nuốt mất." },
     ],
     examples: [
       { word: "pen / Ben", ipa: "/pen/ /ben/", vi: "bút / tên Ben" },
@@ -389,12 +389,12 @@ const ipaLessons: PronLesson[] = [
     ],
     commonMistakeVi:
       "Người Việt thường nuốt phụ âm cuối: 'cab' thành 'ca', 'stopped' thành 'stop'. Mất phụ âm cuối = mất nghĩa.",
-    teacherTip: "Hold a tissue 5 cm from your mouth — when you say 'pen', the tissue must move from the puff of air.",
-    teacherTipVi: "Cầm khăn giấy cách miệng 5 cm — khi nói 'pen' khăn phải di chuyển vì luồng khí bật ra.",
+    teacherTip: "Hold a tissue 5 cm from your mouth - when you say 'pen', the tissue must move from the puff of air.",
+    teacherTipVi: "Cầm khăn giấy cách miệng 5 cm - khi nói 'pen' khăn phải di chuyển vì luồng khí bật ra.",
     practiceSentences: [
       { en: "Peter packed a big black bag.", vi: "Peter đóng một túi đen lớn." },
       { en: "The cab stopped at the back.", vi: "Taxi dừng ở phía sau." },
-      { en: "Don't drop the cup — pick it up.", vi: "Đừng làm rớt cốc — nhặt lên." },
+      { en: "Don't drop the cup - pick it up.", vi: "Đừng làm rớt cốc - nhặt lên." },
       { en: "Ted decided to dance until dawn.", vi: "Ted quyết định nhảy đến tận bình minh." },
     ],
     quiz: [
@@ -458,10 +458,10 @@ const ipaLessons: PronLesson[] = [
     introductionVi:
       "Phụ âm xát tạo ra bằng cách ép luồng khí qua khe hẹp, gây ma sát. Âm 'th' /θ/ /ð/ là khó nhất với người Việt.",
     howTo: [
-      { step: "/θ/ (think) — tongue between teeth, blow air, NO voice.", stepVi: "/θ/ (think) — đầu lưỡi giữa hai hàm răng, thổi nhẹ, KHÔNG rung." },
-      { step: "/ð/ (this) — same position as /θ/, but VOICED (vibration).", stepVi: "/ð/ (this) — cùng vị trí /θ/, nhưng RUNG dây thanh." },
-      { step: "/ʃ/ (she) — round lips slightly, tongue raised behind alveolar ridge.", stepVi: "/ʃ/ (she) — môi hơi tròn, lưỡi nâng sau lợi." },
-      { step: "/h/ (hat) — gentle puff from the throat, like fogging a mirror.", stepVi: "/h/ (hat) — luồng khí nhẹ từ họng, như thở vào gương." },
+      { step: "/θ/ (think) - tongue between teeth, blow air, NO voice.", stepVi: "/θ/ (think) - đầu lưỡi giữa hai hàm răng, thổi nhẹ, KHÔNG rung." },
+      { step: "/ð/ (this) - same position as /θ/, but VOICED (vibration).", stepVi: "/ð/ (this) - cùng vị trí /θ/, nhưng RUNG dây thanh." },
+      { step: "/ʃ/ (she) - round lips slightly, tongue raised behind alveolar ridge.", stepVi: "/ʃ/ (she) - môi hơi tròn, lưỡi nâng sau lợi." },
+      { step: "/h/ (hat) - gentle puff from the throat, like fogging a mirror.", stepVi: "/h/ (hat) - luồng khí nhẹ từ họng, như thở vào gương." },
     ],
     examples: [
       { word: "think", ipa: "/θɪŋk/", vi: "nghĩ" },
@@ -509,8 +509,8 @@ const ipaLessons: PronLesson[] = [
         questionVi: "Nghe: từ nào?",
         options: ["think", "tink", "sink", "drink"],
         answer: 0,
-        explanation: "'think' /θɪŋk/ — tongue between teeth.",
-        explanationVi: "'think' /θɪŋk/ — lưỡi giữa răng.",
+        explanation: "'think' /θɪŋk/ - tongue between teeth.",
+        explanationVi: "'think' /θɪŋk/ - lưỡi giữa răng.",
         audioWord: "think",
       },
       {
@@ -544,8 +544,8 @@ const ipaLessons: PronLesson[] = [
       "Các phụ âm này hoàn thành bộ 24 phụ âm. Chú ý đặc biệt /r/ (không rung như tiếng Việt!), /l/ (sáng vs tối), và /ŋ/ (sing).",
     howTo: [
       { step: "/tʃ/ (chair) = /t/ + /ʃ/ blended; /dʒ/ (job) = /d/ + /ʒ/ blended.", stepVi: "/tʃ/ (chair) = /t/ + /ʃ/ liền; /dʒ/ (job) = /d/ + /ʒ/ liền." },
-      { step: "/ŋ/ (sing) — tongue back, like /n/ but at the back of the mouth.", stepVi: "/ŋ/ (sing) — lưỡi sau, như /n/ nhưng ở vòm sau." },
-      { step: "/r/ — DON'T roll the tongue. Curl tip back slightly without touching anything.", stepVi: "/r/ — KHÔNG rung lưỡi. Cuốn nhẹ đầu lưỡi về sau, không chạm vào đâu." },
+      { step: "/ŋ/ (sing) - tongue back, like /n/ but at the back of the mouth.", stepVi: "/ŋ/ (sing) - lưỡi sau, như /n/ nhưng ở vòm sau." },
+      { step: "/r/ - DON'T roll the tongue. Curl tip back slightly without touching anything.", stepVi: "/r/ - KHÔNG rung lưỡi. Cuốn nhẹ đầu lưỡi về sau, không chạm vào đâu." },
       { step: "Light /l/ at start (love); dark /ɫ/ at end (cold).", stepVi: "/l/ sáng ở đầu từ (love); /ɫ/ tối ở cuối từ (cold)." },
     ],
     examples: [
@@ -578,8 +578,8 @@ const ipaLessons: PronLesson[] = [
         questionVi: "Ký hiệu nào cho âm 'ng' trong 'sing'?",
         options: ["/n/", "/ŋ/", "/ɲ/", "/ɡ/"],
         answer: 1,
-        explanation: "/ŋ/ — velar nasal.",
-        explanationVi: "/ŋ/ — âm mũi vòm sau.",
+        explanation: "/ŋ/ - velar nasal.",
+        explanationVi: "/ŋ/ - âm mũi vòm sau.",
       },
       {
         question: "How is English /r/ produced?",
@@ -591,16 +591,16 @@ const ipaLessons: PronLesson[] = [
           "Vibrate the throat",
         ],
         answer: 2,
-        explanation: "English /r/ is an approximant — tongue curls back, doesn't touch.",
-        explanationVi: "/r/ tiếng Anh là cận âm — lưỡi cuốn về sau, không chạm.",
+        explanation: "English /r/ is an approximant - tongue curls back, doesn't touch.",
+        explanationVi: "/r/ tiếng Anh là cận âm - lưỡi cuốn về sau, không chạm.",
       },
       {
         question: "Listen: which word is it?",
         questionVi: "Nghe: từ nào?",
         options: ["chip", "ship", "sip", "trip"],
         answer: 0,
-        explanation: "'chip' /tʃɪp/ — affricate /tʃ/.",
-        explanationVi: "'chip' /tʃɪp/ — tắc-xát /tʃ/.",
+        explanation: "'chip' /tʃɪp/ - affricate /tʃ/.",
+        explanationVi: "'chip' /tʃɪp/ - tắc-xát /tʃ/.",
         audioWord: "chip",
       },
       {
@@ -616,38 +616,38 @@ const ipaLessons: PronLesson[] = [
 ];
 
 // =====================================================================
-// MODULE 2 — WORD STRESS & SYLLABLES (6 lessons)
+// MODULE 2 - WORD STRESS & SYLLABLES (6 lessons)
 // =====================================================================
 const wordStressLessons: PronLesson[] = [
   {
     id: "ws-syllable-counting",
     moduleId: "word-stress",
     order: 1,
-    title: "Counting Syllables — The Foundation",
-    titleVi: "Đếm Âm Tiết — Nền Tảng Của Trọng Âm",
+    title: "Counting Syllables - The Foundation",
+    titleVi: "Đếm Âm Tiết - Nền Tảng Của Trọng Âm",
     emoji: "🔢",
     duration: "10 min",
     difficulty: "Beginner",
     introduction:
-      "Before stress comes syllables. A syllable is one beat — one vowel sound. You can't place stress correctly if you can't count syllables.",
+      "Before stress comes syllables. A syllable is one beat - one vowel sound. You can't place stress correctly if you can't count syllables.",
     introductionVi:
       "Trước khi học trọng âm, phải biết đếm âm tiết. Một âm tiết = một nhịp = một âm nguyên âm. Đếm sai âm tiết = đặt sai trọng âm.",
     howTo: [
       { step: "Place your hand under your chin.", stepVi: "Đặt tay dưới cằm." },
-      { step: "Say the word naturally — count chin drops. Each drop = 1 syllable.", stepVi: "Nói từ tự nhiên — đếm số lần cằm hạ. Mỗi lần = 1 âm tiết." },
+      { step: "Say the word naturally - count chin drops. Each drop = 1 syllable.", stepVi: "Nói từ tự nhiên - đếm số lần cằm hạ. Mỗi lần = 1 âm tiết." },
       { step: "Count VOWEL SOUNDS, not letters: 'cake' = /keɪk/ = 1 syllable (silent 'e').", stepVi: "Đếm ÂM NGUYÊN ÂM, không phải chữ cái: 'cake' = 1 âm tiết ('e' câm)." },
     ],
     examples: [
-      { word: "dog", ipa: "/dɒɡ/ — 1", vi: "1 âm tiết" },
-      { word: "table", ipa: "/ˈteɪ.bəl/ — 2", vi: "2 âm tiết" },
-      { word: "computer", ipa: "/kəmˈpjuː.tə/ — 3", vi: "3 âm tiết" },
-      { word: "education", ipa: "/ˌed.jʊˈkeɪ.ʃən/ — 4", vi: "4 âm tiết" },
-      { word: "international", ipa: "/ˌɪn.təˈnæʃ.ən.əl/ — 5", vi: "5 âm tiết" },
+      { word: "dog", ipa: "/dɒɡ/ - 1", vi: "1 âm tiết" },
+      { word: "table", ipa: "/ˈteɪ.bəl/ - 2", vi: "2 âm tiết" },
+      { word: "computer", ipa: "/kəmˈpjuː.tə/ - 3", vi: "3 âm tiết" },
+      { word: "education", ipa: "/ˌed.jʊˈkeɪ.ʃən/ - 4", vi: "4 âm tiết" },
+      { word: "international", ipa: "/ˌɪn.təˈnæʃ.ən.əl/ - 5", vi: "5 âm tiết" },
     ],
     commonMistakeVi:
       "Người Việt hay đếm theo chữ cái thay vì âm. 'Chocolate' nhìn thì 4 chữ tách nhưng phát âm là 2 hoặc 3 âm tiết /ˈtʃɒk.lət/.",
-    teacherTip: "If unsure, hum the word — each hum-beat is a syllable.",
-    teacherTipVi: "Nếu phân vân, ngân nga từ đó — mỗi nhịp ngân là một âm tiết.",
+    teacherTip: "If unsure, hum the word - each hum-beat is a syllable.",
+    teacherTipVi: "Nếu phân vân, ngân nga từ đó - mỗi nhịp ngân là một âm tiết.",
     practiceSentences: [
       { en: "Try counting: hospital, beautiful, opportunity, refrigerator.", vi: "Thử đếm: hospital, beautiful, opportunity, refrigerator." },
       { en: "Camera = 2 or 3? (Both are heard, but 2 is common in fast speech.)", vi: "Camera = 2 hay 3? (Cả hai, nhưng 2 phổ biến hơn khi nói nhanh.)" },
@@ -658,8 +658,8 @@ const wordStressLessons: PronLesson[] = [
         questionVi: "'beautiful' có bao nhiêu âm tiết?",
         options: ["2", "3", "4", "5"],
         answer: 1,
-        explanation: "/ˈbjuː.tɪ.fəl/ — 3 syllables.",
-        explanationVi: "/ˈbjuː.tɪ.fəl/ — 3 âm tiết.",
+        explanation: "/ˈbjuː.tɪ.fəl/ - 3 syllables.",
+        explanationVi: "/ˈbjuː.tɪ.fəl/ - 3 âm tiết.",
       },
       {
         question: "How many syllables in 'cake'?",
@@ -674,8 +674,8 @@ const wordStressLessons: PronLesson[] = [
         questionVi: "Từ nào có 4 âm tiết?",
         options: ["hospital", "education", "computer", "beautiful"],
         answer: 1,
-        explanation: "education /ˌed.jʊˈkeɪ.ʃən/ — 4 syllables.",
-        explanationVi: "education /ˌed.jʊˈkeɪ.ʃən/ — 4 âm tiết.",
+        explanation: "education /ˌed.jʊˈkeɪ.ʃən/ - 4 syllables.",
+        explanationVi: "education /ˌed.jʊˈkeɪ.ʃən/ - 4 âm tiết.",
       },
     ],
   },
@@ -694,7 +694,7 @@ const wordStressLessons: PronLesson[] = [
       "Trong từ 3+ âm tiết, tiếng Anh có HAI mức trọng âm: chính (mạnh nhất, ˈ) và phụ (trung bình, ˌ). Các âm tiết còn lại nhẹ.",
     howTo: [
       { step: "Primary stress is LOUDER, LONGER, and HIGHER pitch.", stepVi: "Trọng âm chính: TO HƠN, DÀI HƠN, CAO HƠN." },
-      { step: "Secondary stress is medium — clearer than weak syllables.", stepVi: "Trọng âm phụ: trung bình — rõ hơn âm tiết yếu." },
+      { step: "Secondary stress is medium - clearer than weak syllables.", stepVi: "Trọng âm phụ: trung bình - rõ hơn âm tiết yếu." },
       { step: "Weak syllables usually contain /ə/ schwa.", stepVi: "Âm tiết yếu thường chứa /ə/ schwa." },
     ],
     examples: [
@@ -717,8 +717,8 @@ const wordStressLessons: PronLesson[] = [
         questionVi: "Trọng âm chính của 'education' ở đâu?",
         options: ["e-", "-du-", "-ca-", "-tion"],
         answer: 2,
-        explanation: "/ˌed.jʊˈkeɪ.ʃən/ — primary on -CA-.",
-        explanationVi: "/ˌed.jʊˈkeɪ.ʃən/ — trọng âm chính ở -CA-.",
+        explanation: "/ˌed.jʊˈkeɪ.ʃən/ - primary on -CA-.",
+        explanationVi: "/ˌed.jʊˈkeɪ.ʃən/ - trọng âm chính ở -CA-.",
       },
       {
         question: "What does the symbol /ˌ/ mean?",
@@ -733,8 +733,8 @@ const wordStressLessons: PronLesson[] = [
         questionVi: "Nghe: trọng âm chính của 'photographer'?",
         options: ["pho-", "-tog-", "-ra-", "-pher"],
         answer: 1,
-        explanation: "/fəˈtɒɡ.rə.fə/ — primary on -TOG-.",
-        explanationVi: "/fəˈtɒɡ.rə.fə/ — trọng âm chính ở -TOG-.",
+        explanation: "/fəˈtɒɡ.rə.fə/ - primary on -TOG-.",
+        explanationVi: "/fəˈtɒɡ.rə.fə/ - trọng âm chính ở -TOG-.",
         audioWord: "photographer",
       },
     ],
@@ -749,9 +749,9 @@ const wordStressLessons: PronLesson[] = [
     duration: "14 min",
     difficulty: "Intermediate",
     introduction:
-      "Many 2-syllable words can be both noun and verb — and the stress changes! Noun = first syllable. Verb = second syllable. Memorize this rule!",
+      "Many 2-syllable words can be both noun and verb - and the stress changes! Noun = first syllable. Verb = second syllable. Memorize this rule!",
     introductionVi:
-      "Nhiều từ 2 âm tiết có thể là cả danh từ lẫn động từ — và trọng âm thay đổi! Danh từ = âm tiết 1. Động từ = âm tiết 2. Học thuộc!",
+      "Nhiều từ 2 âm tiết có thể là cả danh từ lẫn động từ - và trọng âm thay đổi! Danh từ = âm tiết 1. Động từ = âm tiết 2. Học thuộc!",
     howTo: [
       { step: "If it's a NOUN → stress the FIRST syllable.", stepVi: "Nếu là DANH TỪ → trọng âm âm tiết ĐẦU." },
       { step: "If it's a VERB → stress the SECOND syllable.", stepVi: "Nếu là ĐỘNG TỪ → trọng âm âm tiết SAU." },
@@ -823,18 +823,18 @@ const wordStressLessons: PronLesson[] = [
       { step: "-ee / -eer / -ese → stress ON the suffix itself.", stepVi: "-ee / -eer / -ese → trọng âm CHÍNH trên hậu tố." },
     ],
     examples: [
-      { word: "ˌeduˈcation", ipa: "/ˌed.jʊˈkeɪ.ʃən/", vi: "giáo dục — trước -tion" },
-      { word: "deˈcision", ipa: "/dɪˈsɪʒ.ən/", vi: "quyết định — trước -sion" },
-      { word: "ˈmagic", ipa: "/ˈmæ.dʒɪk/", vi: "ma thuật — trước -ic" },
-      { word: "ˈchemical", ipa: "/ˈkem.ɪ.kəl/", vi: "hóa học — trước -ical" },
-      { word: "uniˈversity", ipa: "/ˌjuː.nɪˈvɜː.sə.ti/", vi: "đại học — trước -ity" },
-      { word: "engiˈneer", ipa: "/ˌen.dʒɪˈnɪə/", vi: "kỹ sư — ON -eer" },
-      { word: "Vietnaˈmese", ipa: "/ˌvjet.nəˈmiːz/", vi: "người Việt — ON -ese" },
+      { word: "ˌeduˈcation", ipa: "/ˌed.jʊˈkeɪ.ʃən/", vi: "giáo dục - trước -tion" },
+      { word: "deˈcision", ipa: "/dɪˈsɪʒ.ən/", vi: "quyết định - trước -sion" },
+      { word: "ˈmagic", ipa: "/ˈmæ.dʒɪk/", vi: "ma thuật - trước -ic" },
+      { word: "ˈchemical", ipa: "/ˈkem.ɪ.kəl/", vi: "hóa học - trước -ical" },
+      { word: "uniˈversity", ipa: "/ˌjuː.nɪˈvɜː.sə.ti/", vi: "đại học - trước -ity" },
+      { word: "engiˈneer", ipa: "/ˌen.dʒɪˈnɪə/", vi: "kỹ sư - ON -eer" },
+      { word: "Vietnaˈmese", ipa: "/ˌvjet.nəˈmiːz/", vi: "người Việt - ON -ese" },
     ],
     commonMistakeVi:
       "Người Việt hay nói 'EDucation' (trọng âm sai), nên ghi nhớ -tion = trọng âm liền trước.",
-    teacherTip: "Highlight the syllable before the suffix in different color when studying — visual reinforcement helps.",
-    teacherTipVi: "Tô màu âm tiết liền trước hậu tố khi học — củng cố trực quan rất hiệu quả.",
+    teacherTip: "Highlight the syllable before the suffix in different color when studying - visual reinforcement helps.",
+    teacherTipVi: "Tô màu âm tiết liền trước hậu tố khi học - củng cố trực quan rất hiệu quả.",
     practiceSentences: [
       { en: "ˌEduˈcation requires deˈcisions and ˌconcenˈtration.", vi: "Giáo dục đòi hỏi quyết định và sự tập trung." },
       { en: "The engiˈneer made a ˈmagic ˈchemical reˈaction.", vi: "Kỹ sư đã tạo phản ứng hóa học diệu kỳ." },
@@ -845,8 +845,8 @@ const wordStressLessons: PronLesson[] = [
         questionVi: "Trọng âm của 'communication' ở đâu?",
         options: ["com-", "-mu-", "-ni-", "-CA-", "-tion"],
         answer: 3,
-        explanation: "/kəˌmjuː.nɪˈkeɪ.ʃən/ — primary on syllable before -tion.",
-        explanationVi: "/kəˌmjuː.nɪˈkeɪ.ʃən/ — trọng âm chính trên âm tiết liền trước -tion.",
+        explanation: "/kəˌmjuː.nɪˈkeɪ.ʃən/ - primary on syllable before -tion.",
+        explanationVi: "/kəˌmjuː.nɪˈkeɪ.ʃən/ - trọng âm chính trên âm tiết liền trước -tion.",
         audioWord: "communication",
       },
       {
@@ -862,8 +862,8 @@ const wordStressLessons: PronLesson[] = [
         questionVi: "Trọng âm của 'photographic' ở đâu?",
         options: ["pho-", "-to-", "-GRAPH-", "-ic"],
         answer: 2,
-        explanation: "/ˌfəʊ.təˈɡræf.ɪk/ — primary on syllable before -ic.",
-        explanationVi: "/ˌfəʊ.təˈɡræf.ɪk/ — trọng âm chính trên âm tiết liền trước -ic.",
+        explanation: "/ˌfəʊ.təˈɡræf.ɪk/ - primary on syllable before -ic.",
+        explanationVi: "/ˌfəʊ.təˈɡræf.ɪk/ - trọng âm chính trên âm tiết liền trước -ic.",
       },
     ],
   },
@@ -893,7 +893,7 @@ const wordStressLessons: PronLesson[] = [
       { word: "white HOUSE", ipa: "/waɪt ˈhaʊs/", vi: "ngôi nhà màu trắng" },
     ],
     commonMistakeVi:
-      "Người Việt hay nói 'black BOARD' khi chỉ vào bảng học — nghe như 'tấm ván đen', không phải bảng học.",
+      "Người Việt hay nói 'black BOARD' khi chỉ vào bảng học - nghe như 'tấm ván đen', không phải bảng học.",
     teacherTip: "Test: can you replace with a single word? 'BLACKboard' = chalkboard. If yes → it's a compound, stress first.",
     teacherTipVi: "Mẹo: có thể thay bằng 1 từ không? 'BLACKboard' = chalkboard. Có → ghép, trọng âm trước.",
     practiceSentences: [
@@ -945,7 +945,7 @@ const wordStressLessons: PronLesson[] = [
     howTo: [
       { step: "Native speakers RECOGNIZE words by their stress pattern, not just sounds.", stepVi: "Người bản xứ NHẬN BIẾT từ qua mẫu trọng âm, không chỉ qua âm." },
       { step: "Train your ear: listen for the LOUDER, HIGHER syllable in every word.", stepVi: "Luyện tai: nghe âm tiết TO HƠN, CAO HƠN trong mỗi từ." },
-      { step: "When mimicking native speech, exaggerate the stress at first — then relax.", stepVi: "Khi nhái giọng bản xứ, hãy phóng đại trọng âm lúc đầu — rồi giảm dần." },
+      { step: "When mimicking native speech, exaggerate the stress at first - then relax.", stepVi: "Khi nhái giọng bản xứ, hãy phóng đại trọng âm lúc đầu - rồi giảm dần." },
     ],
     examples: [
       { word: "ˈcomfortable", ipa: "/ˈkʌm.fə.tə.bəl/", vi: "trọng âm âm tiết 1" },
@@ -954,9 +954,9 @@ const wordStressLessons: PronLesson[] = [
       { word: "ˌeconˈomic", ipa: "/ˌiː.kəˈnɒm.ɪk/", vi: "trọng âm trước -ic" },
     ],
     commonMistakeVi:
-      "Đặt sai trọng âm khiến người bản xứ phải đoán nghĩa — họ thường giả vờ hiểu rồi đi tiếp.",
-    teacherTip: "When learning a new word, write it phonetically with the stress mark — never learn spelling alone.",
-    teacherTipVi: "Khi học từ mới, viết phiên âm + dấu trọng âm — đừng chỉ học chính tả.",
+      "Đặt sai trọng âm khiến người bản xứ phải đoán nghĩa - họ thường giả vờ hiểu rồi đi tiếp.",
+    teacherTip: "When learning a new word, write it phonetically with the stress mark - never learn spelling alone.",
+    teacherTipVi: "Khi học từ mới, viết phiên âm + dấu trọng âm - đừng chỉ học chính tả.",
     practiceSentences: [
       { en: "ˈComfortable furniture aids deˈvelopment of ˌeconˈomic activity.", vi: "Đồ nội thất thoải mái hỗ trợ phát triển hoạt động kinh tế." },
     ],
@@ -974,8 +974,8 @@ const wordStressLessons: PronLesson[] = [
         questionVi: "Trọng âm chính của 'comfortable' ở đâu?",
         options: ["COM-", "-FOR-", "-TA-", "-BLE"],
         answer: 0,
-        explanation: "/ˈkʌm.fə.tə.bəl/ — first syllable.",
-        explanationVi: "/ˈkʌm.fə.tə.bəl/ — âm tiết đầu.",
+        explanation: "/ˈkʌm.fə.tə.bəl/ - first syllable.",
+        explanationVi: "/ˈkʌm.fə.tə.bəl/ - âm tiết đầu.",
         audioWord: "comfortable",
       },
       {
@@ -996,7 +996,7 @@ const wordStressLessons: PronLesson[] = [
 ];
 
 // =====================================================================
-// MODULE 3 — SENTENCE STRESS & RHYTHM (6 lessons)
+// MODULE 3 - SENTENCE STRESS & RHYTHM (6 lessons)
 // =====================================================================
 const sentenceStressLessons: PronLesson[] = [
   {
@@ -1024,8 +1024,8 @@ const sentenceStressLessons: PronLesson[] = [
     ],
     commonMistakeVi:
       "Người Việt nhấn đều mọi từ → nghe như đang đọc danh sách, không có nhịp điệu.",
-    teacherTip: "Tap a desk on each content word as you speak — it forces a natural rhythm.",
-    teacherTipVi: "Gõ bàn theo mỗi từ nội dung khi nói — buộc nhịp điệu tự nhiên.",
+    teacherTip: "Tap a desk on each content word as you speak - it forces a natural rhythm.",
+    teacherTipVi: "Gõ bàn theo mỗi từ nội dung khi nói - buộc nhịp điệu tự nhiên.",
     practiceSentences: [
       { en: "I WANT to GO to the BEACH on SUNday.", vi: "Tôi muốn đi biển vào Chủ Nhật." },
       { en: "She CAN'T COME beCAUSE she's BUsy.", vi: "Cô ấy không đến được vì bận." },
@@ -1068,7 +1068,7 @@ const sentenceStressLessons: PronLesson[] = [
     moduleId: "sentence-stress",
     order: 2,
     title: "Stress-Timed Rhythm",
-    titleVi: "Nhịp Điệu Tiếng Anh — Stress-Timed",
+    titleVi: "Nhịp Điệu Tiếng Anh - Stress-Timed",
     emoji: "⏱️",
     duration: "12 min",
     difficulty: "Intermediate",
@@ -1131,8 +1131,8 @@ const sentenceStressLessons: PronLesson[] = [
     id: "ss-emphatic-stress",
     moduleId: "sentence-stress",
     order: 3,
-    title: "Emphatic Stress — Changing Meaning by Stress",
-    titleVi: "Trọng Âm Nhấn Mạnh — Thay Đổi Ý Bằng Trọng Âm",
+    title: "Emphatic Stress - Changing Meaning by Stress",
+    titleVi: "Trọng Âm Nhấn Mạnh - Thay Đổi Ý Bằng Trọng Âm",
     emoji: "❗",
     duration: "12 min",
     difficulty: "Intermediate",
@@ -1164,8 +1164,8 @@ const sentenceStressLessons: PronLesson[] = [
     ],
     quiz: [
       {
-        question: "'I didn't see HER' — what does the stress on HER imply?",
-        questionVi: "'I didn't see HER' — nhấn HER ngụ ý gì?",
+        question: "'I didn't see HER' - what does the stress on HER imply?",
+        questionVi: "'I didn't see HER' - nhấn HER ngụ ý gì?",
         options: ["I saw her", "I saw someone else", "I didn't see at all", "I'm angry"],
         answer: 1,
         explanation: "Contrastive stress on HER → 'I saw someone else, not her.'",
@@ -1263,8 +1263,8 @@ const sentenceStressLessons: PronLesson[] = [
       "Người bản xứ rút gọn các cụm thông dụng khi nói nhanh. Cần thiết cho NGHE (bạn sẽ nghe thấy khắp nơi) và NÓI thông thường.",
     howTo: [
       { step: "Use reduced forms in CASUAL speech, not in formal writing.", stepVi: "Dùng dạng rút gọn trong nói THÔNG THƯỜNG, không trong viết trang trọng." },
-      { step: "Practice listening — these forms are unmistakable signs of native fluency.", stepVi: "Luyện nghe — đây là dấu hiệu rõ rệt của lưu loát bản xứ." },
-      { step: "Don't over-pronounce 'going to' as /ˈɡəʊ.ɪŋ tuː/ — it sounds robotic.", stepVi: "Đừng phát quá rõ 'going to' thành /ˈɡəʊ.ɪŋ tuː/ — nghe máy móc." },
+      { step: "Practice listening - these forms are unmistakable signs of native fluency.", stepVi: "Luyện nghe - đây là dấu hiệu rõ rệt của lưu loát bản xứ." },
+      { step: "Don't over-pronounce 'going to' as /ˈɡəʊ.ɪŋ tuː/ - it sounds robotic.", stepVi: "Đừng phát quá rõ 'going to' thành /ˈɡəʊ.ɪŋ tuː/ - nghe máy móc." },
     ],
     examples: [
       { word: "going to → gonna", ipa: "/ˈɡʌn.ə/", vi: "I'm gonna leave." },
@@ -1276,8 +1276,8 @@ const sentenceStressLessons: PronLesson[] = [
     ],
     commonMistakeVi:
       "Người học chỉ học dạng đầy đủ → khi nghe người bản xứ nói /ˈɡʌn.ə/ thì không hiểu.",
-    teacherTip: "Watch native YouTube videos with subtitles. Spot reduced forms — you'll see/hear them constantly.",
-    teacherTipVi: "Xem YouTube bản xứ có phụ đề. Tìm dạng rút gọn — bạn sẽ thấy/nghe liên tục.",
+    teacherTip: "Watch native YouTube videos with subtitles. Spot reduced forms - you'll see/hear them constantly.",
+    teacherTipVi: "Xem YouTube bản xứ có phụ đề. Tìm dạng rút gọn - bạn sẽ thấy/nghe liên tục.",
     practiceSentences: [
       { en: "I'm gonna call you later. I gotta finish this first.", vi: "Tôi sẽ gọi bạn sau. Phải xong việc này đã." },
       { en: "Do you wanna grab a coffee?", vi: "Bạn muốn đi cà phê không?" },
@@ -1302,8 +1302,8 @@ const sentenceStressLessons: PronLesson[] = [
           "Watching movies",
         ],
         answer: 2,
-        explanation: "Avoid in formal writing — use full forms.",
-        explanationVi: "Tránh trong viết trang trọng — dùng dạng đầy đủ.",
+        explanation: "Avoid in formal writing - use full forms.",
+        explanationVi: "Tránh trong viết trang trọng - dùng dạng đầy đủ.",
       },
       {
         question: "Listen: what does the speaker say?",
@@ -1320,8 +1320,8 @@ const sentenceStressLessons: PronLesson[] = [
     id: "ss-rhythm-drills",
     moduleId: "sentence-stress",
     order: 6,
-    title: "Rhythm Drills — Build Native Flow",
-    titleVi: "Bài Tập Nhịp — Xây Dựng Dòng Chảy Bản Xứ",
+    title: "Rhythm Drills - Build Native Flow",
+    titleVi: "Bài Tập Nhịp - Xây Dựng Dòng Chảy Bản Xứ",
     emoji: "🎼",
     duration: "15 min",
     difficulty: "Upper-Intermediate",
@@ -1340,7 +1340,7 @@ const sentenceStressLessons: PronLesson[] = [
       { word: "TO be, or NOT to BE, that IS the QUEStion.", ipa: "(5 stresses)", vi: "Shakespeare" },
     ],
     commonMistakeVi:
-      "Học viên hay luyện riêng từng từ rồi ghép lại — kết quả mất nhịp. Hãy luyện cả CỤM ngay từ đầu.",
+      "Học viên hay luyện riêng từng từ rồi ghép lại - kết quả mất nhịp. Hãy luyện cả CỤM ngay từ đầu.",
     teacherTip: "Use shadowing: listen to a 30-second native clip, then immediately repeat over and over until your rhythm matches.",
     teacherTipVi: "Dùng shadowing: nghe đoạn bản xứ 30 giây, lặp lại ngay liên tục cho đến khi nhịp khớp.",
     practiceSentences: [
@@ -1367,8 +1367,8 @@ const sentenceStressLessons: PronLesson[] = [
         questionVi: "Tần suất luyện nhịp tốt nhất:",
         options: ["Once a week", "Once a month", "Daily, 5-10 min", "Only before exams"],
         answer: 2,
-        explanation: "Like music — daily short practice beats weekly long sessions.",
-        explanationVi: "Giống học nhạc — mỗi ngày một chút hơn ít buổi dài.",
+        explanation: "Like music - daily short practice beats weekly long sessions.",
+        explanationVi: "Giống học nhạc - mỗi ngày một chút hơn ít buổi dài.",
       },
       {
         question: "Drilling helps because:",
@@ -1381,14 +1381,14 @@ const sentenceStressLessons: PronLesson[] = [
         ],
         answer: 1,
         explanation: "Builds muscle memory, the foundation of fluent speech.",
-        explanationVi: "Xây dựng trí nhớ cơ — nền tảng của lưu loát.",
+        explanationVi: "Xây dựng trí nhớ cơ - nền tảng của lưu loát.",
       },
     ],
   },
 ];
 
 // =====================================================================
-// MODULE 4 — INTONATION & CONNECTED SPEECH (6 lessons)
+// MODULE 4 - INTONATION & CONNECTED SPEECH (6 lessons)
 // =====================================================================
 const intonationLessons: PronLesson[] = [
   {
@@ -1410,15 +1410,15 @@ const intonationLessons: PronLesson[] = [
       { step: "Lists → rising on each item, falling on the last.", stepVi: "Liệt kê → lên ở mỗi mục, xuống ở mục cuối." },
     ],
     examples: [
-      { word: "I'm tired. ↘", ipa: "(falling — statement)", vi: "Tôi mệt. (xuống)" },
-      { word: "Are you tired? ↗", ipa: "(rising — yes/no question)", vi: "Bạn mệt à? (lên)" },
-      { word: "Where are you going? ↘", ipa: "(falling — WH question)", vi: "Bạn đi đâu? (xuống)" },
+      { word: "I'm tired. ↘", ipa: "(falling - statement)", vi: "Tôi mệt. (xuống)" },
+      { word: "Are you tired? ↗", ipa: "(rising - yes/no question)", vi: "Bạn mệt à? (lên)" },
+      { word: "Where are you going? ↘", ipa: "(falling - WH question)", vi: "Bạn đi đâu? (xuống)" },
       { word: "I bought apples ↗, oranges ↗, and bananas. ↘", ipa: "(list)", vi: "Tôi mua táo↗, cam↗, và chuối.↘" },
     ],
     commonMistakeVi:
       "Người Việt hay nói câu khẳng định với tone LÊN (do thói quen tiếng Việt) → nghe như đang hỏi.",
-    teacherTip: "Move your hand up/down as you speak — physical gesture reinforces tone awareness.",
-    teacherTipVi: "Vẫy tay lên/xuống khi nói — cử chỉ vật lý giúp ý thức tone.",
+    teacherTip: "Move your hand up/down as you speak - physical gesture reinforces tone awareness.",
+    teacherTipVi: "Vẫy tay lên/xuống khi nói - cử chỉ vật lý giúp ý thức tone.",
     practiceSentences: [
       { en: "I love coffee. ↘", vi: "Tôi thích cà phê. (xuống)" },
       { en: "Do you love coffee? ↗", vi: "Bạn thích cà phê không? (lên)" },
@@ -1462,9 +1462,9 @@ const intonationLessons: PronLesson[] = [
     duration: "14 min",
     difficulty: "Intermediate",
     introduction:
-      "Native speakers connect words smoothly. The end of one word joins with the beginning of the next. This is why English sounds 'fast' — but it's just LINKED.",
+      "Native speakers connect words smoothly. The end of one word joins with the beginning of the next. This is why English sounds 'fast' - but it's just LINKED.",
     introductionVi:
-      "Người bản xứ nối từ mượt mà. Âm cuối từ này nối với âm đầu từ sau. Đây là lý do tiếng Anh nghe 'nhanh' — thực ra chỉ là NỐI.",
+      "Người bản xứ nối từ mượt mà. Âm cuối từ này nối với âm đầu từ sau. Đây là lý do tiếng Anh nghe 'nhanh' - thực ra chỉ là NỐI.",
     howTo: [
       { step: "Consonant + Vowel → link directly: 'an apple' → /ə.ˈnæp.əl/.", stepVi: "Phụ âm + Nguyên âm → nối trực tiếp: 'an apple' → /ə.ˈnæp.əl/." },
       { step: "Vowel + Vowel → insert /j/ or /w/ glide: 'go on' → /ɡəʊ.wɒn/.", stepVi: "Nguyên âm + Nguyên âm → chèn /j/ hoặc /w/: 'go on' → /ɡəʊ.wɒn/." },
@@ -1533,9 +1533,9 @@ const intonationLessons: PronLesson[] = [
     duration: "13 min",
     difficulty: "Intermediate",
     introduction:
-      "Schwa /ə/ is the most common vowel in English — used in nearly every unstressed syllable and in 'weak forms' of common function words.",
+      "Schwa /ə/ is the most common vowel in English - used in nearly every unstressed syllable and in 'weak forms' of common function words.",
     introductionVi:
-      "Schwa /ə/ là nguyên âm phổ biến nhất tiếng Anh — dùng ở gần như mọi âm tiết không nhấn và trong 'dạng yếu' của từ chức năng.",
+      "Schwa /ə/ là nguyên âm phổ biến nhất tiếng Anh - dùng ở gần như mọi âm tiết không nhấn và trong 'dạng yếu' của từ chức năng.",
     howTo: [
       { step: "Schwa = neutral, relaxed mouth. Like a tired sigh.", stepVi: "Schwa = miệng trung tính, thả lỏng. Như tiếng thở dài mệt mỏi." },
       { step: "Common weak forms: a /ə/, the /ðə/, of /əv/, for /fə/, to /tə/, and /ən/, can /kən/, was /wəz/.", stepVi: "Dạng yếu phổ biến: a /ə/, the /ðə/, of /əv/, for /fə/, to /tə/, and /ən/, can /kən/, was /wəz/." },
@@ -1549,7 +1549,7 @@ const intonationLessons: PronLesson[] = [
       { word: "Yes, I CAN!", ipa: "/jes aɪ kæn/", vi: "strong 'can' (emphasis)" },
     ],
     commonMistakeVi:
-      "Người Việt phát âm 'and' là /ænd/ luôn — nghe rất Việt. Trong câu nói thường, đó chỉ là /ən/.",
+      "Người Việt phát âm 'and' là /ænd/ luôn - nghe rất Việt. Trong câu nói thường, đó chỉ là /ən/.",
     teacherTip: "Underline every schwa in a paragraph. You'll be shocked how many there are. Then read aloud, emphasizing the relaxation.",
     teacherTipVi: "Gạch dưới mọi schwa trong đoạn văn. Bạn sẽ kinh ngạc vì số lượng. Sau đó đọc to, nhấn mạnh sự thả lỏng.",
     practiceSentences: [
@@ -1588,8 +1588,8 @@ const intonationLessons: PronLesson[] = [
           "A consonant",
         ],
         answer: 1,
-        explanation: "Schwa /ə/ — most common vowel; appears in unstressed syllables.",
-        explanationVi: "Schwa /ə/ — nguyên âm phổ biến nhất; ở âm tiết không nhấn.",
+        explanation: "Schwa /ə/ - most common vowel; appears in unstressed syllables.",
+        explanationVi: "Schwa /ə/ - nguyên âm phổ biến nhất; ở âm tiết không nhấn.",
       },
     ],
   },
@@ -1597,15 +1597,15 @@ const intonationLessons: PronLesson[] = [
     id: "in-elision-assimilation",
     moduleId: "intonation",
     order: 4,
-    title: "Elision & Assimilation — Sound Changes in Speech",
-    titleVi: "Nuốt Âm & Đồng Hóa — Biến Đổi Âm Khi Nói",
+    title: "Elision & Assimilation - Sound Changes in Speech",
+    titleVi: "Nuốt Âm & Đồng Hóa - Biến Đổi Âm Khi Nói",
     emoji: "🌀",
     duration: "14 min",
     difficulty: "Upper-Intermediate",
     introduction:
-      "ELISION = dropping sounds. ASSIMILATION = sounds changing to match neighbors. Both make speech faster and smoother — and harder for learners to recognize.",
+      "ELISION = dropping sounds. ASSIMILATION = sounds changing to match neighbors. Both make speech faster and smoother - and harder for learners to recognize.",
     introductionVi:
-      "ELISION = lược bỏ âm. ASSIMILATION = âm biến đổi theo âm kế bên. Cả hai làm câu nói nhanh và mượt — nhưng khó cho người học nhận ra.",
+      "ELISION = lược bỏ âm. ASSIMILATION = âm biến đổi theo âm kế bên. Cả hai làm câu nói nhanh và mượt - nhưng khó cho người học nhận ra.",
     howTo: [
       { step: "Elision: drop /t/ and /d/ between consonants. 'next day' → /neks deɪ/.", stepVi: "Elision: lược /t/, /d/ giữa các phụ âm. 'next day' → /neks deɪ/." },
       { step: "Assimilation: /n/ becomes /m/ before /p/ /b/ /m/. 'in Paris' → /ɪmˈpærɪs/.", stepVi: "Assimilation: /n/ thành /m/ trước /p/ /b/ /m/. 'in Paris' → /ɪmˈpærɪs/." },
@@ -1664,15 +1664,15 @@ const intonationLessons: PronLesson[] = [
     id: "in-tone-emotion",
     moduleId: "intonation",
     order: 5,
-    title: "Tone for Emotion — Excited, Bored, Sarcastic, Polite",
-    titleVi: "Tone Theo Cảm Xúc — Vui, Chán, Mỉa, Lịch Sự",
+    title: "Tone for Emotion - Excited, Bored, Sarcastic, Polite",
+    titleVi: "Tone Theo Cảm Xúc - Vui, Chán, Mỉa, Lịch Sự",
     emoji: "😊",
     duration: "12 min",
     difficulty: "Intermediate",
     introduction:
-      "The same words can convey love, anger, sarcasm, or boredom — depending on tone. Mastering emotional intonation makes you a fluent communicator.",
+      "The same words can convey love, anger, sarcasm, or boredom - depending on tone. Mastering emotional intonation makes you a fluent communicator.",
     introductionVi:
-      "Cùng câu nói có thể truyền tải yêu thương, giận dữ, mỉa mai, hoặc chán nản — tùy tone. Làm chủ ngữ điệu cảm xúc = giao tiếp lưu loát.",
+      "Cùng câu nói có thể truyền tải yêu thương, giận dữ, mỉa mai, hoặc chán nản - tùy tone. Làm chủ ngữ điệu cảm xúc = giao tiếp lưu loát.",
     howTo: [
       { step: "Excited: HIGH pitch, fast, big rises ↗↗↗.", stepVi: "Vui: cao độ CAO, nhanh, lên nhiều ↗↗↗." },
       { step: "Bored: LOW pitch, slow, flat ____.", stepVi: "Chán: cao độ THẤP, chậm, phẳng ____." },
@@ -1687,8 +1687,8 @@ const intonationLessons: PronLesson[] = [
     ],
     commonMistakeVi:
       "Người học giữ cùng tone phẳng cho mọi cảm xúc → nghe lạnh hoặc thiếu chân thật.",
-    teacherTip: "Watch a 1-min movie scene. Repeat each line, copying tone exactly. Don't worry about words — copy the music.",
-    teacherTipVi: "Xem một cảnh phim 1 phút. Nhái lại từng câu, copy tone y hệt. Đừng lo từ — copy 'âm nhạc'.",
+    teacherTip: "Watch a 1-min movie scene. Repeat each line, copying tone exactly. Don't worry about words - copy the music.",
+    teacherTipVi: "Xem một cảnh phim 1 phút. Nhái lại từng câu, copy tone y hệt. Đừng lo từ - copy 'âm nhạc'.",
     practiceSentences: [
       { en: "Wow, that's amazing! (excited)", vi: "Wow, tuyệt thật! (vui)" },
       { en: "Yeah, sure, whatever. (bored/sarcastic)", vi: "Ờ, chuyện gì cũng được. (chán/mỉa)" },
@@ -1753,12 +1753,12 @@ const intonationLessons: PronLesson[] = [
       { step: "Step 5: Repeat daily for 2 weeks. You will sound 50% more native.", stepVi: "Bước 5: Lặp mỗi ngày 2 tuần. Bạn sẽ nghe bản xứ hơn 50%." },
     ],
     examples: [
-      { word: "Sources: TED talks, BBC Learning English, podcasts (English We Speak), Netflix shows.", ipa: "—", vi: "Nguồn: TED, BBC, podcasts, Netflix." },
-      { word: "Best length: 20-60 seconds per session.", ipa: "—", vi: "Độ dài tốt: 20-60 giây mỗi lần." },
-      { word: "Best topics: news, vlogs, conversations.", ipa: "—", vi: "Chủ đề tốt: tin tức, vlog, hội thoại." },
+      { word: "Sources: TED talks, BBC Learning English, podcasts (English We Speak), Netflix shows.", ipa: "-", vi: "Nguồn: TED, BBC, podcasts, Netflix." },
+      { word: "Best length: 20-60 seconds per session.", ipa: "-", vi: "Độ dài tốt: 20-60 giây mỗi lần." },
+      { word: "Best topics: news, vlogs, conversations.", ipa: "-", vi: "Chủ đề tốt: tin tức, vlog, hội thoại." },
     ],
     commonMistakeVi:
-      "Học viên nghe 1 lần rồi cố nói lại từ trí nhớ — đó là lặp lại, không phải shadowing.",
+      "Học viên nghe 1 lần rồi cố nói lại từ trí nhớ - đó là lặp lại, không phải shadowing.",
     teacherTip: "Use the AI Speaking Coach in HaiEduTech to record and get feedback after each shadowing session.",
     teacherTipVi: "Dùng AI Speaking Coach của HaiEduTech để ghi âm và nhận phản hồi sau mỗi buổi shadowing.",
     practiceSentences: [
@@ -1783,8 +1783,8 @@ const intonationLessons: PronLesson[] = [
         questionVi: "Độ dài đoạn shadowing tốt nhất:",
         options: ["5 seconds", "20-60 seconds", "5 minutes", "30 minutes"],
         answer: 1,
-        explanation: "20-60s — manageable and meaningful.",
-        explanationVi: "20-60 giây — vừa quản lý vừa có ý nghĩa.",
+        explanation: "20-60s - manageable and meaningful.",
+        explanationVi: "20-60 giây - vừa quản lý vừa có ý nghĩa.",
       },
       {
         question: "How often should you shadow?",

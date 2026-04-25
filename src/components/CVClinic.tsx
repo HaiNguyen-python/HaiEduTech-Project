@@ -135,7 +135,7 @@ const normalizeReview = (raw: unknown): CVReview | null => {
 
 async function parsePdf(file: File): Promise<string> {
   const pdfjs: any = await import("pdfjs-dist");
-  // @ts-ignore — Vite worker import
+  // @ts-ignore - Vite worker import
   const workerSrc = (await import("pdfjs-dist/build/pdf.worker.min.mjs?url")).default;
   pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
   const buf = await file.arrayBuffer();
@@ -299,7 +299,7 @@ const CVClinic = () => {
   const handleCopy = () => {
     if (!review) return;
     const md = [
-      `# CV Clinic Report — ${verdictStyle[review.verdict].label} (${review.matchScore}/100)`,
+      `# CV Clinic Report - ${verdictStyle[review.verdict].label} (${review.matchScore}/100)`,
       ``,
       `**Verdict:** ${review.verdictSummary}`,
       ``,
@@ -312,7 +312,7 @@ const CVClinic = () => {
       ...review.strengths.map((s) => `- ${s}`),
       ``,
       `## ⚠️ Gaps`,
-      ...review.gaps.map((g) => `- **${g.skill}** — ${g.why}\n  → Fix: ${g.howToFix}`),
+      ...review.gaps.map((g) => `- **${g.skill}** - ${g.why}\n  → Fix: ${g.howToFix}`),
       ``,
       `## 🔧 Improvements`,
       ...review.improvements.map(
@@ -415,7 +415,7 @@ const CVClinic = () => {
           </div>
 
           <div className="text-xs text-center text-muted-foreground">
-            — {t("hoặc dán text", "or paste text")} —
+            - {t("hoặc dán text", "or paste text")} -
           </div>
 
           <Textarea

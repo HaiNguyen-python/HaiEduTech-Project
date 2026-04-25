@@ -428,8 +428,8 @@ const IeltsWritingPractice = () => {
                     📝 {t("Đề bài", "Writing Prompt")}
                     <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">
                       Task {currentPrompt.taskType}
-                      {currentPrompt.essayType && ` — ${currentPrompt.essayType}`}
-                      {currentPrompt.chartType && ` — ${currentPrompt.chartType}`}
+                      {currentPrompt.essayType && ` - ${currentPrompt.essayType}`}
+                      {currentPrompt.chartType && ` - ${currentPrompt.chartType}`}
                     </span>
                   </CardTitle>
                 </CardHeader>

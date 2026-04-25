@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Check, X, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-// useLanguage intentionally not used — Knowledge Check is forced to English.
+// useLanguage intentionally not used - Knowledge Check is forced to English.
 import type { QuizQuestion } from "@/data/curriculum/pythonPathway";
 import { cn } from "@/lib/utils";
 
@@ -129,7 +129,7 @@ const LessonQuiz = ({ questions, onComplete }: Props) => {
             )}>
               {passed ? "🎉 " : "📝 "}
               {language === "vi" ? `Điểm: ${score}/${questions.length}` : `Score: ${score}/${questions.length}`}
-              {passed ? (language === "vi" ? " — Đạt!" : " — Passed!") : (language === "vi" ? " — Cần ≥2" : " — Need ≥2")}
+              {passed ? (language === "vi" ? " - Đạt!" : " - Passed!") : (language === "vi" ? " - Cần ≥2" : " - Need ≥2")}
             </div>
             <Button variant="outline" onClick={handleReset}>
               <RotateCcw className="w-4 h-4 mr-1" /> {language === "vi" ? "Làm lại" : "Retry"}

@@ -1,4 +1,4 @@
-// Finnish Vocabulary Exercise System — 4 interactive modes for YKI A2 prep
+// Finnish Vocabulary Exercise System - 4 interactive modes for YKI A2 prep
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Volume2, Check, X, Clock, Shuffle, ArrowRight, RotateCcw, Zap } from "lucide-react";

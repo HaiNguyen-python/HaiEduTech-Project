@@ -1,6 +1,6 @@
 /**
  * @file vocabularyExpansion2.ts
- * @description Massive vocabulary expansion #2 for YKI A2 — Work, Transport, Food, Health, Nature, Leisure, Education.
+ * @description Massive vocabulary expansion #2 for YKI A2 - Work, Transport, Food, Health, Nature, Leisure, Education.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import type { FinnishModule } from "./types";

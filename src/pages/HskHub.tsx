@@ -43,7 +43,7 @@ const HskHub = () => {
             {t("Cẩm nang luyện thi HSK", "HSK Exam Guide")}
           </Badge>
           <h1 className="text-4xl md:text-5xl font-display font-bold mb-4 bg-gradient-to-r from-red-500 to-amber-500 bg-clip-text text-transparent">
-            {t("HSK Hub — Chinh phục mọi cấp độ", "HSK Hub — Master Every Level")}
+            {t("HSK Hub - Chinh phục mọi cấp độ", "HSK Hub - Master Every Level")}
           </h1>
           <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
             {t(

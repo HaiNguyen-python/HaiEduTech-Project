@@ -1,4 +1,4 @@
-// Finnish Skier progress visualization — Nordic gamification for YKI vocab mastery
+// Finnish Skier progress visualization - Nordic gamification for YKI vocab mastery
 import { useMemo, useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Flag } from "lucide-react";

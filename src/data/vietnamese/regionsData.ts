@@ -1,4 +1,4 @@
-// Vietnamese Travel & Regions — 3 macro regions, key provinces, UNESCO heritage sites
+// Vietnamese Travel & Regions - 3 macro regions, key provinces, UNESCO heritage sites
 export interface RegionInfo {
   id: "north" | "central" | "south";
   name: string;
@@ -62,7 +62,7 @@ export const regions: RegionInfo[] = [
     climate: "Mùa khô tháng 1–8, mùa mưa tháng 9–12 (bão).",
     climateEn: "Dry season Jan–Aug, rainy season Sep–Dec (typhoon prone).",
     description: "Dải đất hẹp với 14 di sản, cố đô Huế, phố cổ Hội An, bờ biển dài 1200km và 4 di sản UNESCO.",
-    descriptionEn: "Narrow strip with 14 heritages — imperial Hue, ancient Hoi An, 1200km coastline, and 4 UNESCO sites.",
+    descriptionEn: "Narrow strip with 14 heritages - imperial Hue, ancient Hoi An, 1200km coastline, and 4 UNESCO sites.",
     highlights: [
       { name: "Cố đô Huế", nameEn: "Hue Citadel", province: "Thừa Thiên Huế", emoji: "🏯" },
       { name: "Phố cổ Hội An", nameEn: "Hoi An Old Town", province: "Quảng Nam", emoji: "🏮" },
@@ -99,7 +99,7 @@ export const regions: RegionInfo[] = [
     highlights: [
       { name: "Sài Gòn", nameEn: "Saigon", province: "TP.HCM", emoji: "🏙️" },
       { name: "Phú Quốc", nameEn: "Phu Quoc Island", province: "Kiên Giang", emoji: "🏖️" },
-      { name: "Cần Thơ — Chợ nổi", nameEn: "Can Tho Floating Market", province: "Cần Thơ", emoji: "🛶" },
+      { name: "Cần Thơ - Chợ nổi", nameEn: "Can Tho Floating Market", province: "Cần Thơ", emoji: "🛶" },
       { name: "Đà Lạt", nameEn: "Da Lat", province: "Lâm Đồng", emoji: "🌷" },
       { name: "Mũi Né", nameEn: "Mui Ne Dunes", province: "Bình Thuận", emoji: "🏜️" },
       { name: "Côn Đảo", nameEn: "Con Dao Islands", province: "Bà Rịa-Vũng Tàu", emoji: "🐢" },

@@ -49,7 +49,7 @@ const GlobalSearch = ({ variant = "icon" }: GlobalSearchProps) => {
     navigate(path);
   };
 
-  // Searchable index — Study Abroad routes prioritized
+  // Searchable index - Study Abroad routes prioritized
   const studyAbroad: SearchEntry[] = [
     { to: "/study-abroad", label: t("Cổng du học", "Study Abroad Hub"), group: "abroad", icon: Compass, keywords: "study abroad du hoc portal" },
     { to: "/study-abroad/documents", label: t("Hồ sơ của tôi (Vault)", "My Documents Vault"), group: "abroad", icon: FolderLock, keywords: "documents vault transcripts ho so" },

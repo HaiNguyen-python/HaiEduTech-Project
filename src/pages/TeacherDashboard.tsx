@@ -145,7 +145,7 @@ const TeacherDashboard = () => {
                         <span className="text-xs text-muted-foreground">{s.label}</span>
                       </div>
                       <p className="text-2xl font-bold text-foreground tabular-nums">
-                        {loadingData ? "—" : s.value}
+                        {loadingData ? "-" : s.value}
                       </p>
                     </CardContent>
                   </Card>
@@ -251,7 +251,7 @@ const TeacherDashboard = () => {
                   <CardHeader>
                     <CardTitle className="text-lg flex items-center gap-2">
                       <ThumbsUp className="w-5 h-5 text-primary" />
-                      {t("Hiệu suất nội dung — Phản hồi của học viên", "Content Performance — Student Feedback")}
+                      {t("Hiệu suất nội dung - Phản hồi của học viên", "Content Performance - Student Feedback")}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>

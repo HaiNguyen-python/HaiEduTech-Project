@@ -24,17 +24,17 @@ export const satExpansionModules3: LanguageModule[] = [
         level: 4,
         difficulty: "advanced",
         theory:
-          "SAT Math thường dùng các thuật ngữ hình học chính xác — hiểu sai một từ là sai cả bài. Nhóm cốt lõi cần thuộc:\n\n**1. Đường & Góc:** parallel (song song), perpendicular (vuông góc), bisect (chia đôi), congruent (bằng nhau), supplementary (bù nhau, tổng 180°), complementary (phụ nhau, tổng 90°).\n\n**2. Tam giác:** isosceles (cân), equilateral (đều), scalene (thường), hypotenuse (cạnh huyền), acute/obtuse/right (nhọn/tù/vuông).\n\n**3. Đường tròn:** radius, diameter, chord (dây cung), arc (cung), tangent (tiếp tuyến), circumference (chu vi), inscribed (nội tiếp), circumscribed (ngoại tiếp).\n\n**4. Đa giác:** quadrilateral (tứ giác), polygon (đa giác), regular (đều), vertex (đỉnh), perimeter (chu vi).\n\nMẹo: SAT thường giấu thông tin trong từ ngữ hơn là hình vẽ — đọc kỹ 'isosceles right triangle' = vừa cân vừa vuông → 2 cạnh góc vuông bằng nhau.",
+          "SAT Math thường dùng các thuật ngữ hình học chính xác - hiểu sai một từ là sai cả bài. Nhóm cốt lõi cần thuộc:\n\n**1. Đường & Góc:** parallel (song song), perpendicular (vuông góc), bisect (chia đôi), congruent (bằng nhau), supplementary (bù nhau, tổng 180°), complementary (phụ nhau, tổng 90°).\n\n**2. Tam giác:** isosceles (cân), equilateral (đều), scalene (thường), hypotenuse (cạnh huyền), acute/obtuse/right (nhọn/tù/vuông).\n\n**3. Đường tròn:** radius, diameter, chord (dây cung), arc (cung), tangent (tiếp tuyến), circumference (chu vi), inscribed (nội tiếp), circumscribed (ngoại tiếp).\n\n**4. Đa giác:** quadrilateral (tứ giác), polygon (đa giác), regular (đều), vertex (đỉnh), perimeter (chu vi).\n\nMẹo: SAT thường giấu thông tin trong từ ngữ hơn là hình vẽ - đọc kỹ 'isosceles right triangle' = vừa cân vừa vuông → 2 cạnh góc vuông bằng nhau.",
         theoryEn:
-          "SAT Math uses precise geometric terminology — misreading one word can ruin a problem. Core groups to master:\n\n**1. Lines & Angles:** parallel, perpendicular, bisect, congruent, supplementary (sum 180°), complementary (sum 90°).\n\n**2. Triangles:** isosceles, equilateral, scalene, hypotenuse, acute/obtuse/right.\n\n**3. Circles:** radius, diameter, chord, arc, tangent, circumference, inscribed, circumscribed.\n\n**4. Polygons:** quadrilateral, polygon, regular, vertex, perimeter.\n\nTip: SAT often hides info in words rather than diagrams — 'isosceles right triangle' = both isosceles AND right → two equal legs.",
+          "SAT Math uses precise geometric terminology - misreading one word can ruin a problem. Core groups to master:\n\n**1. Lines & Angles:** parallel, perpendicular, bisect, congruent, supplementary (sum 180°), complementary (sum 90°).\n\n**2. Triangles:** isosceles, equilateral, scalene, hypotenuse, acute/obtuse/right.\n\n**3. Circles:** radius, diameter, chord, arc, tangent, circumference, inscribed, circumscribed.\n\n**4. Polygons:** quadrilateral, polygon, regular, vertex, perimeter.\n\nTip: SAT often hides info in words rather than diagrams - 'isosceles right triangle' = both isosceles AND right → two equal legs.",
         proTips: [
           "Khoanh tròn từ khóa hình học trong đề trước khi vẽ hình.",
-          "Vẽ lại hình theo tỉ lệ thực — hình SAT cảnh báo 'not drawn to scale' rất hay đánh lừa.",
+          "Vẽ lại hình theo tỉ lệ thực - hình SAT cảnh báo 'not drawn to scale' rất hay đánh lừa.",
           "Học cặp từ trái nghĩa: parallel↔perpendicular, acute↔obtuse, inscribed↔circumscribed.",
         ],
         proTipsEn: [
           "Circle geometric keywords in the prompt before drawing.",
-          "Redraw figures to true scale — 'not drawn to scale' figures often mislead.",
+          "Redraw figures to true scale - 'not drawn to scale' figures often mislead.",
           "Learn opposing pairs: parallel↔perpendicular, acute↔obtuse, inscribed↔circumscribed.",
         ],
         vocabulary: [
@@ -95,12 +95,12 @@ export const satExpansionModules3: LanguageModule[] = [
         theoryEn:
           "'Problem Solving & Data Analysis' makes up ~29% of SAT Math. Misreading stats vocabulary = easy points lost.\n\n**1. Central tendency:** mean, median, mode, range.\n\n**2. Spread:** standard deviation, variance, outlier, interquartile range.\n\n**3. Data concepts:** sample, population, random, bias, correlation, causation.\n\n**4. Charts:** scatter plot, histogram, box plot, frequency, density.\n\n**5. Probability & proportion:** probability, ratio, proportion, percent change, rate.\n\n**Classic SAT trap:** correlation ≠ causation.",
         proTips: [
-          "Outlier kéo MEAN nhưng không ảnh hưởng MEDIAN nhiều — nhớ điều này khi đề hỏi 'biện pháp đo nào ổn định hơn'.",
+          "Outlier kéo MEAN nhưng không ảnh hưởng MEDIAN nhiều - nhớ điều này khi đề hỏi 'biện pháp đo nào ổn định hơn'.",
           "'Random sample' là điều kiện để khái quát kết quả về tổng thể.",
           "Tương quan (correlation) chỉ là mối quan hệ thống kê, KHÔNG phải nguyên nhân.",
         ],
         proTipsEn: [
-          "Outliers shift the MEAN but barely affect the MEDIAN — remember this when asked which measure is more robust.",
+          "Outliers shift the MEAN but barely affect the MEDIAN - remember this when asked which measure is more robust.",
           "'Random sample' is required to generalize results to a population.",
           "Correlation is a statistical relationship, NOT causation.",
         ],
@@ -135,7 +135,7 @@ export const satExpansionModules3: LanguageModule[] = [
             question: "Which measure is LEAST affected by an outlier?",
             options: ["mean", "median", "range", "standard deviation"],
             answer: 1,
-            explanation: "The median uses position, not value — it barely shifts when an outlier is added.",
+            explanation: "The median uses position, not value - it barely shifts when an outlier is added.",
           },
           {
             question: "A scatter plot shows a downward trend. The correlation is:",
@@ -175,18 +175,18 @@ export const satExpansionModules3: LanguageModule[] = [
         level: 4,
         difficulty: "advanced",
         theory:
-          "Câu hỏi inference yêu cầu bạn rút ra kết luận KHÔNG nói trực tiếp trong bài, nhưng phải có BẰNG CHỨNG từ văn bản. Khác hẳn câu 'detail' (đáp án in nguyên trong bài).\n\n**Dấu hiệu nhận diện:** 'It can be inferred that...', 'The author suggests...', 'The passage implies...'\n\n**Quy tắc vàng:** đáp án đúng phải là bước suy luận GẦN NHẤT — không xa hơn, không bóp méo. SAT KHÔNG bao giờ thưởng cho 'suy luận sáng tạo'.\n\n**Bẫy phổ biến:**\n- Đáp án đúng phần (partially true) — chỉ đúng 50% so với bài.\n- Đáp án quá tuyệt đối (always, never, all, none) — hiếm khi đúng trên SAT.\n- Đáp án vượt ngoài phạm vi (out of scope).\n\n**Quy trình 4 bước:**\n1. Đọc câu hỏi trước, gạch chân từ khóa.\n2. Quay lại đoạn được trích, đọc thêm 2 câu trên + dưới.\n3. Diễn đạt ý ngầm bằng lời mình TRƯỚC khi xem đáp án.\n4. Loại bỏ từng đáp án — giữ đáp án có thể chứng minh bằng bằng chứng cụ thể.",
+          "Câu hỏi inference yêu cầu bạn rút ra kết luận KHÔNG nói trực tiếp trong bài, nhưng phải có BẰNG CHỨNG từ văn bản. Khác hẳn câu 'detail' (đáp án in nguyên trong bài).\n\n**Dấu hiệu nhận diện:** 'It can be inferred that...', 'The author suggests...', 'The passage implies...'\n\n**Quy tắc vàng:** đáp án đúng phải là bước suy luận GẦN NHẤT - không xa hơn, không bóp méo. SAT KHÔNG bao giờ thưởng cho 'suy luận sáng tạo'.\n\n**Bẫy phổ biến:**\n- Đáp án đúng phần (partially true) - chỉ đúng 50% so với bài.\n- Đáp án quá tuyệt đối (always, never, all, none) - hiếm khi đúng trên SAT.\n- Đáp án vượt ngoài phạm vi (out of scope).\n\n**Quy trình 4 bước:**\n1. Đọc câu hỏi trước, gạch chân từ khóa.\n2. Quay lại đoạn được trích, đọc thêm 2 câu trên + dưới.\n3. Diễn đạt ý ngầm bằng lời mình TRƯỚC khi xem đáp án.\n4. Loại bỏ từng đáp án - giữ đáp án có thể chứng minh bằng bằng chứng cụ thể.",
         theoryEn:
-          "Inference questions require you to draw a conclusion NOT explicitly stated, but with TEXTUAL EVIDENCE. Different from 'detail' questions (where the answer is verbatim).\n\n**Signal phrases:** 'It can be inferred...', 'The author suggests...', 'The passage implies...'\n\n**Golden rule:** the correct answer is the SHORTEST inferential step — never further. SAT does not reward creative leaps.\n\n**Common traps:**\n- Partially true answers.\n- Absolute language (always, never, all).\n- Out-of-scope answers.\n\n**4-step process:** read the question first → return to cited lines + 2 above/below → predict the implication in your own words → eliminate.",
+          "Inference questions require you to draw a conclusion NOT explicitly stated, but with TEXTUAL EVIDENCE. Different from 'detail' questions (where the answer is verbatim).\n\n**Signal phrases:** 'It can be inferred...', 'The author suggests...', 'The passage implies...'\n\n**Golden rule:** the correct answer is the SHORTEST inferential step - never further. SAT does not reward creative leaps.\n\n**Common traps:**\n- Partially true answers.\n- Absolute language (always, never, all).\n- Out-of-scope answers.\n\n**4-step process:** read the question first → return to cited lines + 2 above/below → predict the implication in your own words → eliminate.",
         proTips: [
           "Nếu phải suy luận quá xa, đáp án đó SAI.",
           "Tránh đáp án có 'always', 'never', 'all', 'none' trừ khi bài viết tuyệt đối hóa rõ ràng.",
-          "Diễn đạt câu trả lời TRƯỚC khi nhìn 4 lựa chọn — tránh bị mồi (anchored).",
+          "Diễn đạt câu trả lời TRƯỚC khi nhìn 4 lựa chọn - tránh bị mồi (anchored).",
         ],
         proTipsEn: [
           "If you have to leap far to justify an answer, it's wrong.",
           "Avoid 'always/never/all/none' unless the passage is itself absolute.",
-          "Predict the answer in your own words BEFORE looking at choices — avoid anchoring bias.",
+          "Predict the answer in your own words BEFORE looking at choices - avoid anchoring bias.",
         ],
         vocabulary: [
           { word: "infer", ipa: "/ɪnˈfɜːr/", meaning: "suy luận", meaningEn: "to draw a conclusion from evidence", example: "Readers must infer the author's tone.", exampleEn: "Readers must infer the author's tone.", partOfSpeech: "verb" },
@@ -226,7 +226,7 @@ export const satExpansionModules3: LanguageModule[] = [
           },
           {
             question: "An answer choice that is mostly true but contradicts one line of the passage is:",
-            options: ["correct", "partially true — a trap", "out of scope", "explicit"],
+            options: ["correct", "partially true - a trap", "out of scope", "explicit"],
             answer: 1,
             explanation: "Partially true answers are the SAT's favorite distractor type.",
           },
@@ -250,18 +250,18 @@ export const satExpansionModules3: LanguageModule[] = [
         level: 4,
         difficulty: "advanced",
         theory:
-          "Câu hỏi 'function' hỏi VAI TRÒ của một từ, câu, hoặc đoạn — chứ không phải nội dung. Ví dụ: 'The author mentions X primarily to...'\n\n**Các vai trò phổ biến trong SAT:**\n- **introduce** một khái niệm mới\n- **illustrate / exemplify** (minh họa) một ý đã nêu\n- **support / strengthen** một lập luận\n- **counter / refute** (bác bỏ) một quan điểm trước đó\n- **qualify** (giới hạn, làm dịu) một tuyên bố\n- **transition** chuyển tiếp giữa hai ý\n- **emphasize** (nhấn mạnh) một điểm quan trọng\n- **concede** (thừa nhận) trước khi phản bác\n\n**Mẹo phân tích:** trả lời câu hỏi 'NẾU XÓA CÂU NÀY thì đoạn văn mất gì?' Câu trả lời chính là chức năng của nó.\n\n**Bẫy phổ biến:** nhầm giữa 'illustrate' (minh họa) và 'prove' (chứng minh) — minh họa chỉ làm rõ, KHÔNG đủ để chứng minh.",
+          "Câu hỏi 'function' hỏi VAI TRÒ của một từ, câu, hoặc đoạn - chứ không phải nội dung. Ví dụ: 'The author mentions X primarily to...'\n\n**Các vai trò phổ biến trong SAT:**\n- **introduce** một khái niệm mới\n- **illustrate / exemplify** (minh họa) một ý đã nêu\n- **support / strengthen** một lập luận\n- **counter / refute** (bác bỏ) một quan điểm trước đó\n- **qualify** (giới hạn, làm dịu) một tuyên bố\n- **transition** chuyển tiếp giữa hai ý\n- **emphasize** (nhấn mạnh) một điểm quan trọng\n- **concede** (thừa nhận) trước khi phản bác\n\n**Mẹo phân tích:** trả lời câu hỏi 'NẾU XÓA CÂU NÀY thì đoạn văn mất gì?' Câu trả lời chính là chức năng của nó.\n\n**Bẫy phổ biến:** nhầm giữa 'illustrate' (minh họa) và 'prove' (chứng minh) - minh họa chỉ làm rõ, KHÔNG đủ để chứng minh.",
         theoryEn:
-          "'Function' questions ask the ROLE of a word, sentence, or paragraph — not its content. Example: 'The author mentions X primarily to...'\n\n**Common SAT roles:** introduce, illustrate/exemplify, support/strengthen, counter/refute, qualify, transition, emphasize, concede.\n\n**Analysis tip:** ask 'IF I DELETED this sentence, what would the paragraph lose?' That loss IS its function.\n\n**Common trap:** confusing 'illustrate' (clarify) with 'prove' (demonstrate conclusively).",
+          "'Function' questions ask the ROLE of a word, sentence, or paragraph - not its content. Example: 'The author mentions X primarily to...'\n\n**Common SAT roles:** introduce, illustrate/exemplify, support/strengthen, counter/refute, qualify, transition, emphasize, concede.\n\n**Analysis tip:** ask 'IF I DELETED this sentence, what would the paragraph lose?' That loss IS its function.\n\n**Common trap:** confusing 'illustrate' (clarify) with 'prove' (demonstrate conclusively).",
         proTips: [
           "Đọc câu được hỏi + 1 câu trước + 1 câu sau để hiểu mạch văn.",
-          "Hỏi 'XÓA CÂU NÀY thì mất gì?' — câu trả lời = chức năng.",
-          "Phân biệt 'illustrate' (làm rõ) với 'prove' (chứng minh) — SAT rất thích bẫy này.",
+          "Hỏi 'XÓA CÂU NÀY thì mất gì?' - câu trả lời = chức năng.",
+          "Phân biệt 'illustrate' (làm rõ) với 'prove' (chứng minh) - SAT rất thích bẫy này.",
         ],
         proTipsEn: [
           "Read the cited sentence + 1 before + 1 after for context.",
-          "Ask 'what does the paragraph lose if I delete this?' — that loss is its function.",
-          "Distinguish 'illustrate' (clarify) from 'prove' (demonstrate) — frequent trap.",
+          "Ask 'what does the paragraph lose if I delete this?' - that loss is its function.",
+          "Distinguish 'illustrate' (clarify) from 'prove' (demonstrate) - frequent trap.",
         ],
         vocabulary: [
           { word: "illustrate", ipa: "/ˈɪləstreɪt/", meaning: "minh họa", meaningEn: "to clarify with an example", example: "The chart illustrates the trend.", exampleEn: "The chart illustrates the trend.", partOfSpeech: "verb" },
@@ -332,18 +332,18 @@ export const satExpansionModules3: LanguageModule[] = [
         level: 4,
         difficulty: "advanced",
         theory:
-          "Một thesis mạnh = (1) cụ thể, (2) có thể tranh luận, (3) có hướng phát triển rõ. SAT giám khảo tìm ngay luận điểm trong câu cuối đoạn mở.\n\n**Công thức Thesis 3 phần:**\nClaim (chủ trương) + Reasoning (lý do) + Roadmap (3 ý chính sẽ phân tích)\n\n*Ví dụ yếu:* 'Social media is bad.'\n*Ví dụ mạnh:* 'While social media offers connection, its design exploits attention through algorithmic outrage, fragmented focus, and parasocial dependency — undermining the very community it promises.'\n\n**Phân tích thesis mạnh:**\n- **Claim:** social media undermines community\n- **Counterclaim acknowledgment:** 'while it offers connection' (cho thấy nuance)\n- **Roadmap:** 3 trụ cột (algorithmic outrage / fragmented focus / parasocial dependency)\n\n**Ba lỗi thesis SAT thường gặp:**\n1. Quá rộng ('Technology is changing the world').\n2. Quá hiển nhiên, không tranh luận được ('Reading books is good').\n3. Mơ hồ, không có hướng ('There are many factors to consider').",
+          "Một thesis mạnh = (1) cụ thể, (2) có thể tranh luận, (3) có hướng phát triển rõ. SAT giám khảo tìm ngay luận điểm trong câu cuối đoạn mở.\n\n**Công thức Thesis 3 phần:**\nClaim (chủ trương) + Reasoning (lý do) + Roadmap (3 ý chính sẽ phân tích)\n\n*Ví dụ yếu:* 'Social media is bad.'\n*Ví dụ mạnh:* 'While social media offers connection, its design exploits attention through algorithmic outrage, fragmented focus, and parasocial dependency - undermining the very community it promises.'\n\n**Phân tích thesis mạnh:**\n- **Claim:** social media undermines community\n- **Counterclaim acknowledgment:** 'while it offers connection' (cho thấy nuance)\n- **Roadmap:** 3 trụ cột (algorithmic outrage / fragmented focus / parasocial dependency)\n\n**Ba lỗi thesis SAT thường gặp:**\n1. Quá rộng ('Technology is changing the world').\n2. Quá hiển nhiên, không tranh luận được ('Reading books is good').\n3. Mơ hồ, không có hướng ('There are many factors to consider').",
         theoryEn:
-          "A strong thesis is (1) specific, (2) arguable, (3) maps the essay's direction. SAT graders find it in the last sentence of paragraph 1.\n\n**3-Part Thesis Formula:** Claim + Reasoning + Roadmap (3 main points).\n\n*Weak:* 'Social media is bad.'\n*Strong:* 'While social media offers connection, its design exploits attention through algorithmic outrage, fragmented focus, and parasocial dependency — undermining the very community it promises.'\n\n**Three common SAT thesis errors:** too broad, too obvious to argue, too vague (no direction).",
+          "A strong thesis is (1) specific, (2) arguable, (3) maps the essay's direction. SAT graders find it in the last sentence of paragraph 1.\n\n**3-Part Thesis Formula:** Claim + Reasoning + Roadmap (3 main points).\n\n*Weak:* 'Social media is bad.'\n*Strong:* 'While social media offers connection, its design exploits attention through algorithmic outrage, fragmented focus, and parasocial dependency - undermining the very community it promises.'\n\n**Three common SAT thesis errors:** too broad, too obvious to argue, too vague (no direction).",
         proTips: [
-          "Mở đầu thesis bằng 'While... [opposite view], [your claim] because A, B, and C' — vừa nhận diện counter, vừa lập danh sách rõ ràng.",
+          "Mở đầu thesis bằng 'While... [opposite view], [your claim] because A, B, and C' - vừa nhận diện counter, vừa lập danh sách rõ ràng.",
           "Dùng động từ MẠNH (undermines, exploits, transforms) thay vì 'is' / 'has'.",
-          "Đặt thesis ở CUỐI đoạn mở — giám khảo SAT scan vị trí này đầu tiên.",
+          "Đặt thesis ở CUỐI đoạn mở - giám khảo SAT scan vị trí này đầu tiên.",
         ],
         proTipsEn: [
           "Open the thesis with 'While... [opposite view], [your claim] because A, B, and C.'",
           "Use STRONG verbs (undermines, exploits, transforms) instead of 'is/has'.",
-          "Place the thesis at the END of paragraph 1 — graders scan this position first.",
+          "Place the thesis at the END of paragraph 1 - graders scan this position first.",
         ],
         vocabulary: [
           { word: "thesis", ipa: "/ˈθiːsɪs/", meaning: "luận điểm chính", meaningEn: "central claim of an essay", example: "Your thesis must be arguable.", exampleEn: "Your thesis must be arguable.", partOfSpeech: "noun" },
@@ -391,7 +391,7 @@ export const satExpansionModules3: LanguageModule[] = [
             question: "Adding 'While critics argue X, …' to your thesis is a:",
             options: ["concession that strengthens nuance", "logical fallacy", "wasted phrase", "warrant"],
             answer: 0,
-            explanation: "Conceding shows the writer understands complexity — graders reward nuance.",
+            explanation: "Conceding shows the writer understands complexity - graders reward nuance.",
           },
         ],
       },
@@ -402,16 +402,16 @@ export const satExpansionModules3: LanguageModule[] = [
         level: 4,
         difficulty: "advanced",
         theory:
-          "Bằng chứng KHÔNG tự nói — bạn phải dẫn nhập, trích, và phân tích. SAT giám khảo trừ điểm khi học sinh dán quote 'trần trụi' (dropped quote).\n\n**Khung 'ICE' tích hợp bằng chứng:**\n- **I**ntroduce: dẫn vào ngữ cảnh ('In her 2018 study, Dr. Liu found...')\n- **C**ite: trích nguyên văn hoặc paraphrase ('that \"73% of teens report sleep loss linked to phone use\".')\n- **E**xplain: GIẢI THÍCH bằng chứng đó CHỨNG MINH gì cho luận điểm của bạn.\n\n**Quy tắc 1:3:** mỗi câu trích dẫn cần ít nhất 3 câu phân tích phía sau. Phân tích MẠNH hơn trích dẫn dài.\n\n**Các loại bằng chứng SAT đánh giá cao:**\n1. Statistics (số liệu cụ thể)\n2. Expert quotes (chuyên gia)\n3. Historical examples (tiền lệ lịch sử)\n4. Logical reasoning (suy luận)\n5. Counterexamples (phản ví dụ — dùng khi bác bỏ)\n\n**Tránh:** anecdotes cá nhân không liên quan, opinions không có nguồn, dữ liệu vu vơ.",
+          "Bằng chứng KHÔNG tự nói - bạn phải dẫn nhập, trích, và phân tích. SAT giám khảo trừ điểm khi học sinh dán quote 'trần trụi' (dropped quote).\n\n**Khung 'ICE' tích hợp bằng chứng:**\n- **I**ntroduce: dẫn vào ngữ cảnh ('In her 2018 study, Dr. Liu found...')\n- **C**ite: trích nguyên văn hoặc paraphrase ('that \"73% of teens report sleep loss linked to phone use\".')\n- **E**xplain: GIẢI THÍCH bằng chứng đó CHỨNG MINH gì cho luận điểm của bạn.\n\n**Quy tắc 1:3:** mỗi câu trích dẫn cần ít nhất 3 câu phân tích phía sau. Phân tích MẠNH hơn trích dẫn dài.\n\n**Các loại bằng chứng SAT đánh giá cao:**\n1. Statistics (số liệu cụ thể)\n2. Expert quotes (chuyên gia)\n3. Historical examples (tiền lệ lịch sử)\n4. Logical reasoning (suy luận)\n5. Counterexamples (phản ví dụ - dùng khi bác bỏ)\n\n**Tránh:** anecdotes cá nhân không liên quan, opinions không có nguồn, dữ liệu vu vơ.",
         theoryEn:
-          "Evidence does NOT speak for itself — you must introduce, cite, and analyze. SAT graders penalize 'dropped quotes'.\n\n**ICE framework:**\n- **I**ntroduce: set context\n- **C**ite: quote or paraphrase\n- **E**xplain: show how it proves your claim\n\n**1:3 rule:** every quoted line needs at least 3 lines of analysis. Analysis > quotation length.\n\n**Top SAT-valued evidence types:** statistics, expert quotes, historical examples, logical reasoning, counterexamples.",
+          "Evidence does NOT speak for itself - you must introduce, cite, and analyze. SAT graders penalize 'dropped quotes'.\n\n**ICE framework:**\n- **I**ntroduce: set context\n- **C**ite: quote or paraphrase\n- **E**xplain: show how it proves your claim\n\n**1:3 rule:** every quoted line needs at least 3 lines of analysis. Analysis > quotation length.\n\n**Top SAT-valued evidence types:** statistics, expert quotes, historical examples, logical reasoning, counterexamples.",
         proTips: [
-          "Không bao giờ kết đoạn bằng quote — luôn có 1-2 câu phân tích sau cùng.",
-          "Paraphrase + cite tốt hơn quote dài — show chứng tỏ bạn hiểu chứ không chỉ copy.",
+          "Không bao giờ kết đoạn bằng quote - luôn có 1-2 câu phân tích sau cùng.",
+          "Paraphrase + cite tốt hơn quote dài - show chứng tỏ bạn hiểu chứ không chỉ copy.",
           "Số liệu cụ thể (73%, $4.2 billion) thuyết phục hơn 'many people'.",
         ],
         proTipsEn: [
-          "Never end a paragraph with a quote — finish with 1-2 lines of analysis.",
+          "Never end a paragraph with a quote - finish with 1-2 lines of analysis.",
           "Paraphrase + cite is often stronger than long quotation.",
           "Specific statistics (73%, $4.2 billion) beat vague 'many people'.",
         ],
@@ -432,9 +432,9 @@ export const satExpansionModules3: LanguageModule[] = [
             instructionEn: "Fill in the appropriate evidence-related term.",
             sentences: [
               { text: "Restating an author's idea in your own words is to ___.", textEn: "Restating an author's idea in your own words is to ___.", answer: "paraphrase", hint: "Khác với 'quote'." },
-              { text: "Sources should be ___ — trustworthy and verifiable.", textEn: "Sources should be ___ — trustworthy and verifiable.", answer: "credible", hint: "Đáng tin cậy." },
+              { text: "Sources should be ___ - trustworthy and verifiable.", textEn: "Sources should be ___ - trustworthy and verifiable.", answer: "credible", hint: "Đáng tin cậy." },
               { text: "Combining several sources into one argument shows ___.", textEn: "Combining several sources into one argument shows ___.", answer: "synthesis", hint: "Tổng hợp." },
-              { text: "Personal stories alone are ___ evidence — usually weak.", textEn: "Personal stories alone are ___ evidence — usually weak.", answer: "anecdotal", hint: "Tính từ của 'anecdote'." },
+              { text: "Personal stories alone are ___ evidence - usually weak.", textEn: "Personal stories alone are ___ evidence - usually weak.", answer: "anecdotal", hint: "Tính từ của 'anecdote'." },
               { text: "After quoting, always provide ___ of why it matters.", textEn: "After quoting, always provide ___ of why it matters.", answer: "analysis", hint: "Phân tích." },
             ],
           },
@@ -489,16 +489,16 @@ export const satExpansionModules3: LanguageModule[] = [
         level: 4,
         difficulty: "advanced",
         theory:
-          "Word problem SAT thua không phải vì khó tính toán, mà vì khó DỊCH NGÔN NGỮ → BIỂU THỨC TOÁN. Bảng dịch cốt lõi:\n\n**Từ vựng → Toán tử:**\n- 'sum / total / combined / increased by' → +\n- 'difference / less than / decreased by / fewer' → −\n- 'product / of / times / twice' → ×\n- 'quotient / per / ratio of / divided by' → ÷\n- 'is / equals / yields / results in' → =\n- 'at most / no more than' → ≤\n- 'at least / no fewer than' → ≥\n\n**Bẫy thứ tự (order trap):**\n- '5 less than x' = x − 5 (KHÔNG phải 5 − x)\n- 'x less than 5' = 5 − x\n→ 'less than' đảo thứ tự!\n\n**Quy trình 4 bước:**\n1. Đọc 2 lần — đầu lấy ý, sau lấy số liệu.\n2. Xác định 'unknown' → đặt biến.\n3. Lập phương trình theo bảng dịch.\n4. Giải, sau đó KIỂM TRA bằng cách thay vào câu chữ gốc.",
+          "Word problem SAT thua không phải vì khó tính toán, mà vì khó DỊCH NGÔN NGỮ → BIỂU THỨC TOÁN. Bảng dịch cốt lõi:\n\n**Từ vựng → Toán tử:**\n- 'sum / total / combined / increased by' → +\n- 'difference / less than / decreased by / fewer' → −\n- 'product / of / times / twice' → ×\n- 'quotient / per / ratio of / divided by' → ÷\n- 'is / equals / yields / results in' → =\n- 'at most / no more than' → ≤\n- 'at least / no fewer than' → ≥\n\n**Bẫy thứ tự (order trap):**\n- '5 less than x' = x − 5 (KHÔNG phải 5 − x)\n- 'x less than 5' = 5 − x\n→ 'less than' đảo thứ tự!\n\n**Quy trình 4 bước:**\n1. Đọc 2 lần - đầu lấy ý, sau lấy số liệu.\n2. Xác định 'unknown' → đặt biến.\n3. Lập phương trình theo bảng dịch.\n4. Giải, sau đó KIỂM TRA bằng cách thay vào câu chữ gốc.",
         theoryEn:
           "SAT word problems are lost not on math, but on TRANSLATION. Core dictionary:\n\n**Words → Operators:** sum/total/increased by → +; difference/less than/decreased by → −; product/of/times → ×; per/quotient/ratio → ÷; is/equals → =; at most → ≤; at least → ≥.\n\n**Order trap:** '5 less than x' = x − 5 (NOT 5 − x).\n\n**4-step process:** read twice → name unknowns → build equation → solve and verify by substituting back into the words.",
         proTips: [
-          "'Less than' và 'subtracted from' ĐẢO thứ tự — đây là bẫy SAT số 1.",
+          "'Less than' và 'subtracted from' ĐẢO thứ tự - đây là bẫy SAT số 1.",
           "'Of' khi đi với phân số / phần trăm = nhân (× ).",
           "Sau khi giải, luôn thay số trở lại đề bài để xác nhận.",
         ],
         proTipsEn: [
-          "'Less than' and 'subtracted from' REVERSE the order — SAT trap #1.",
+          "'Less than' and 'subtracted from' REVERSE the order - SAT trap #1.",
           "'Of' with fractions/percents = multiply.",
           "Always plug your answer back into the wording to verify.",
         ],
@@ -558,7 +558,7 @@ export const satExpansionModules3: LanguageModule[] = [
         theoryEn:
           "Three SAT word-problem families (~15% of Math):\n\n**1. Rate:** Distance = Rate × Time. Same direction → subtract speeds; opposite → add.\n\n**2. Ratio & Proportion:** a:b = c:d ⟺ ad = bc.\n\n**3. Mixture:** use a table tracking quantity × concentration. Equation: a·x + b·y = (a+b)·z.\n\n**Common traps:** unit conversion (hr ↔ min), mixing 'percent of' with 'percent more than'.",
         proTips: [
-          "Vẽ bảng cho bài hỗn hợp — tránh lẫn lộn nồng độ.",
+          "Vẽ bảng cho bài hỗn hợp - tránh lẫn lộn nồng độ.",
           "Cross multiply ngay khi thấy a/b = c/d.",
           "Đổi đơn vị NGAY ở đầu bài, không để cuối.",
         ],

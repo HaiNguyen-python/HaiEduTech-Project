@@ -151,8 +151,8 @@ const ForVietnameseChildren = () => {
               </p>
               <p className="text-muted-foreground leading-relaxed">
                 {t(
-                  "Từ Tiếng Anh (IELTS, TOEIC, Cambridge), Tiếng Trung, Tiếng Phần Lan, Tiếng Việt cho đến Lập trình & AI — tất cả đều mở cho mọi người.",
-                  "From English (IELTS, TOEIC, Cambridge), Chinese, Finnish, Vietnamese to Programming & AI — everything is open for everyone."
+                  "Từ Tiếng Anh (IELTS, TOEIC, Cambridge), Tiếng Trung, Tiếng Phần Lan, Tiếng Việt cho đến Lập trình & AI - tất cả đều mở cho mọi người.",
+                  "From English (IELTS, TOEIC, Cambridge), Chinese, Finnish, Vietnamese to Programming & AI - everything is open for everyone."
                 )}
               </p>
             </div>
@@ -298,8 +298,8 @@ const ForVietnameseChildren = () => {
             <Sparkles className="w-8 h-8 text-primary mx-auto mb-4" />
             <p className="text-lg text-muted-foreground italic leading-relaxed">
               {t(
-                '"Giáo dục là vũ khí mạnh nhất mà bạn có thể dùng để thay đổi thế giới." — Nelson Mandela',
-                '"Education is the most powerful weapon which you can use to change the world." — Nelson Mandela'
+                '"Giáo dục là vũ khí mạnh nhất mà bạn có thể dùng để thay đổi thế giới." - Nelson Mandela',
+                '"Education is the most powerful weapon which you can use to change the world." - Nelson Mandela'
               )}
             </p>
           </motion.div>

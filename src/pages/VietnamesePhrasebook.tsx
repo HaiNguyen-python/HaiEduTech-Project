@@ -42,7 +42,7 @@ const VietnamesePhrasebook = () => {
               </h1>
             </div>
             <p className="text-muted-foreground text-lg">
-              {t("Cụm từ thực dụng theo 8 tình huống — bấm 🔊 để nghe", "Practical phrases in 8 scenarios — click 🔊 to listen")}
+              {t("Cụm từ thực dụng theo 8 tình huống - bấm 🔊 để nghe", "Practical phrases in 8 scenarios - click 🔊 to listen")}
             </p>
           </motion.div>
 

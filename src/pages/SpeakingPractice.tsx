@@ -812,7 +812,7 @@ const SpeakingPractice = () => {
                         )
                       : t(
                           "Ghi chú nhanh ý tưởng và từ vựng...",
-                          "Quick notes — ideas & vocabulary..."
+                          "Quick notes - ideas & vocabulary..."
                         )
                     }
                     className={`w-full rounded-lg border-0 bg-transparent text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-0 resize-none ${

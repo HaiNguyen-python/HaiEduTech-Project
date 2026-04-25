@@ -1,4 +1,4 @@
-// NLP Curriculum Expansion — 6 additional advanced lessons that extend the
+// NLP Curriculum Expansion - 6 additional advanced lessons that extend the
 // 6 core lessons in `nlpLessons.ts`. Together they form a 12-lesson NLP
 // pathway from foundations to production AI agents.
 //
@@ -16,12 +16,12 @@ export const nlpExpansionModules: ExtendedProgrammingModule[] = [
     titleEn: "NLP Advanced & Production",
     icon: "🚀",
     color: "from-fuchsia-500 to-purple-600",
-    description: "From research notebook to real product — NER, RAG, speech, vector DBs, and AI agents.",
-    descriptionEn: "From research notebook to real product — NER, RAG, speech, vector DBs, and AI agents.",
+    description: "From research notebook to real product - NER, RAG, speech, vector DBs, and AI agents.",
+    descriptionEn: "From research notebook to real product - NER, RAG, speech, vector DBs, and AI agents.",
     course: "nlp",
     lessons: [
       // =====================================================================
-      // Lesson 7 — Named Entity Recognition (NER) & Information Extraction
+      // Lesson 7 - Named Entity Recognition (NER) & Information Extraction
       // =====================================================================
       {
         id: "nlp-7",
@@ -29,11 +29,11 @@ export const nlpExpansionModules: ExtendedProgrammingModule[] = [
         titleEn: "Named Entity Recognition & Information Extraction",
         level: 4,
         difficulty: "intermediate",
-        theory: `> 💡 **Prerequisites** — NLP Lessons 1-3 (preprocessing, embeddings) and basic spaCy usage.
+        theory: `> 💡 **Prerequisites** - NLP Lessons 1-3 (preprocessing, embeddings) and basic spaCy usage.
 
 ## 1. What is NER?
 
-**Named Entity Recognition (NER)** is the NLP task of locating and classifying *named things* in text — people, organisations, locations, dates, money, products, lesson titles, anything you care about. It is the **first step** of almost every information-extraction pipeline: search, knowledge graphs, customer-support routing, medical-record mining, resume parsing.
+**Named Entity Recognition (NER)** is the NLP task of locating and classifying *named things* in text - people, organisations, locations, dates, money, products, lesson titles, anything you care about. It is the **first step** of almost every information-extraction pipeline: search, knowledge graphs, customer-support routing, medical-record mining, resume parsing.
 
 \`\`\`mermaid
 flowchart LR
@@ -44,7 +44,7 @@ flowchart LR
     C --> F[Analytics]
 \`\`\`
 
-> 🎯 **Example** — *"Teacher Hai will hold the IELTS Masterclass at HaiEduTech HQ on **Sat 26 April 2026**, tickets cost **350,000 VND**."*
+> 🎯 **Example** - *"Teacher Hai will hold the IELTS Masterclass at HaiEduTech HQ on **Sat 26 April 2026**, tickets cost **350,000 VND**."*
 > NER tags: \`Teacher Hai\` = PERSON, \`IELTS Masterclass\` = EVENT, \`HaiEduTech HQ\` = LOCATION, \`Sat 26 April 2026\` = DATE, \`350,000 VND\` = MONEY.
 
 ## 2. The standard entity types
@@ -59,9 +59,9 @@ flowchart LR
 | **PRODUCT** | Tools, devices, software | *iPhone 17, Gemini 2.5* |
 | **EVENT** | Named events | *World Cup 2026, Tết Nguyên Đán* |
 
-Custom domains add their own labels: \`COURSE\`, \`SKILL\`, \`SCHOLARSHIP\`, \`LANGUAGE\` — exactly the entities HaiEduTech cares about.
+Custom domains add their own labels: \`COURSE\`, \`SKILL\`, \`SCHOLARSHIP\`, \`LANGUAGE\` - exactly the entities HaiEduTech cares about.
 
-## 3. How NER is trained — the BIO scheme
+## 3. How NER is trained - the BIO scheme
 
 Token-level classification with **B-I-O** tags ("Beginning / Inside / Outside an entity"):
 
@@ -93,13 +93,13 @@ flowchart TD
 
 ## 5. Multilingual NER traps
 
-> 🇻🇳 **Vietnamese** — *"Hà Nội"* must be detected as **one** entity, not two tokens. Use \`underthesea\` or a fine-tuned XLM-RoBERTa.
+> 🇻🇳 **Vietnamese** - *"Hà Nội"* must be detected as **one** entity, not two tokens. Use \`underthesea\` or a fine-tuned XLM-RoBERTa.
 >
-> 🇫🇮 **Finnish** — *"Helsingissä"* (in Helsinki) → the model must know that the inflected form still refers to the city. A subword tokenizer + multilingual model handles this naturally.
+> 🇫🇮 **Finnish** - *"Helsingissä"* (in Helsinki) → the model must know that the inflected form still refers to the city. A subword tokenizer + multilingual model handles this naturally.
 >
-> 🇨🇳 **Chinese** — Person names like *"李雷"* have no capital-letter cue. Models rely entirely on context.
+> 🇨🇳 **Chinese** - Person names like *"李雷"* have no capital-letter cue. Models rely entirely on context.
 
-## 6. Real-world use case — Auto-tagging student documents
+## 6. Real-world use case - Auto-tagging student documents
 
 When a student uploads a transcript to **HaiEduTech Student Documents**, an NER pipeline can:
 
@@ -115,7 +115,7 @@ NER is one slice of **Information Extraction (IE)**:
 | Task | Question it answers |
 |---|---|
 | **NER** | What things are mentioned? |
-| **Relation extraction** | How are two entities related? (*Hai* — *founded* — *HaiEduTech*) |
+| **Relation extraction** | How are two entities related? (*Hai* - *founded* - *HaiEduTech*) |
 | **Event extraction** | What happened, when, who participated? |
 | **Coreference resolution** | Does *"he"* refer to *"Teacher Hai"* or *"the student"*? |
 | **Slot filling** | Populate a structured template from messy text. |
@@ -124,7 +124,7 @@ A modern IE system stacks NER + relation extraction + coref into a single Transf
 
 ## 8. Key Concept
 
-> 🎯 **Key Concept** — NER turns **unstructured text → structured records**. It is the bridge between human writing and SQL/JSON the rest of your stack can query. Modern systems use a fine-tuned multilingual Transformer or a prompted LLM with a JSON schema.`,
+> 🎯 **Key Concept** - NER turns **unstructured text → structured records**. It is the bridge between human writing and SQL/JSON the rest of your stack can query. Modern systems use a fine-tuned multilingual Transformer or a prompted LLM with a JSON schema.`,
         theoryEn: "",
         code: `# Two flavours of NER in one notebook:
 # (a) Classical: spaCy pre-trained pipeline (offline, free, fast)
@@ -175,7 +175,7 @@ for s in multilingual:
 # In production you'd POST this to your Lovable AI Gateway edge function:
 #   model = "google/gemini-2.5-flash"
 #   prompt = "Extract entities as JSON with keys: people, orgs, locations, dates, money."
-# The LLM returns a parseable dict — no labelled data required.`,
+# The LLM returns a parseable dict - no labelled data required.`,
         codeLanguage: "python",
         exercise: "Run the spaCy block on a paragraph from your **own CV / resume**. Identify any entities the model **misses** or **mis-labels** (e.g. Vietnamese university names, dates in *dd/mm/yyyy*). Suggest two ways to fix it: (1) which model you would swap to, and (2) one rule-based post-processor you could add as a safety net.",
         exerciseEn: "",
@@ -200,7 +200,7 @@ for s in multilingual:
               "Chinese only has one entity type",
             ],
             answer: 1,
-            explanation: "English uses capitalisation as a strong hint that something is a name. Chinese has no capitalisation, so an NER model has to learn purely from surrounding context and character n-grams — which is why a contextual model like BERT is essential.",
+            explanation: "English uses capitalisation as a strong hint that something is a name. Chinese has no capitalisation, so an NER model has to learn purely from surrounding context and character n-grams - which is why a contextual model like BERT is essential.",
           },
           {
             question: "Which 2026 approach lets you do NER on a brand-new entity type without ANY labelled data?",
@@ -217,7 +217,7 @@ for s in multilingual:
       },
 
       // =====================================================================
-      // Lesson 8 — Topic Modeling & Clustering
+      // Lesson 8 - Topic Modeling & Clustering
       // =====================================================================
       {
         id: "nlp-8",
@@ -225,11 +225,11 @@ for s in multilingual:
         titleEn: "Topic Modeling & Clustering",
         level: 4,
         difficulty: "intermediate",
-        theory: `> 💡 **Prerequisites** — NLP Lesson 3 (TF-IDF, embeddings) and basic scikit-learn.
+        theory: `> 💡 **Prerequisites** - NLP Lesson 3 (TF-IDF, embeddings) and basic scikit-learn.
 
 ## 1. What problem does topic modeling solve?
 
-You have **10,000 untagged lesson-feedback messages**. No human will read them all. **Topic modeling** discovers the *latent themes* automatically: maybe 60% complain about audio quality, 25% praise the visuals, 10% ask about pricing. It is **unsupervised** — no labels needed.
+You have **10,000 untagged lesson-feedback messages**. No human will read them all. **Topic modeling** discovers the *latent themes* automatically: maybe 60% complain about audio quality, 25% praise the visuals, 10% ask about pricing. It is **unsupervised** - no labels needed.
 
 \`\`\`mermaid
 flowchart LR
@@ -242,7 +242,7 @@ flowchart LR
 
 ## 2. Two classical approaches
 
-### LDA — Latent Dirichlet Allocation (2003)
+### LDA - Latent Dirichlet Allocation (2003)
 
 LDA assumes every document is a **mixture of topics**, and every topic is a **distribution over words**. The model jointly infers both. Best for *long* documents (news articles, papers).
 
@@ -252,11 +252,11 @@ LDA assumes every document is a **mixture of topics**, and every topic is a **di
 | Topic 2 | *audio, sound, microphone, hear, quiet* |
 | Topic 3 | *price, cost, expensive, refund, payment* |
 
-### NMF — Non-negative Matrix Factorization
+### NMF - Non-negative Matrix Factorization
 
 Factorises the TF-IDF matrix \`X ≈ W · H\`, where W = document-topic weights, H = topic-word weights. Faster than LDA on small corpora and often produces more interpretable topics.
 
-## 3. The 2024+ approach — embedding + cluster
+## 3. The 2024+ approach - embedding + cluster
 
 Pre-trained sentence embeddings + clustering crushes classical methods on **short texts** (tweets, reviews, chat messages):
 
@@ -282,13 +282,13 @@ This is the **BERTopic** recipe (2022). It handles multilingual data, gives you 
 
 The hardest hyperparameter. Tools:
 
-- **Coherence score** (gensim) — semantic agreement of top words. Higher is better.
+- **Coherence score** (gensim) - semantic agreement of top words. Higher is better.
 - **Elbow plot** of inertia (K-Means).
-- **HDBSCAN** — picks K automatically based on density, no guessing required.
+- **HDBSCAN** - picks K automatically based on density, no guessing required.
 
-> ⚠️ **Trap** — Asking for too many topics fragments meaningful clusters; too few collapses everything into "general feedback". Start with √(N/2) and tune from coherence.
+> ⚠️ **Trap** - Asking for too many topics fragments meaningful clusters; too few collapses everything into "general feedback". Start with √(N/2) and tune from coherence.
 
-## 6. Real-world use case — HaiEduTech feedback dashboard
+## 6. Real-world use case - HaiEduTech feedback dashboard
 
 Inputs: every \`student_activity_log\` row where \`activity_type = 'lesson_feedback'\`.
 Pipeline:
@@ -299,7 +299,7 @@ Pipeline:
 4. Push counts to the **Teacher Admin** dashboard with a stacked-bar chart.
 5. Trigger an alert when a cluster grows >20% week-over-week.
 
-Teacher Hai sees *exactly* which lesson is generating new complaints — without reading 10k messages.
+Teacher Hai sees *exactly* which lesson is generating new complaints - without reading 10k messages.
 
 ## 7. Dimensionality reduction is half the magic
 
@@ -307,15 +307,15 @@ Teacher Hai sees *exactly* which lesson is generating new complaints — without
 |---|---|---|
 | **PCA** | 1901 | Linear, fast, interpretable axes |
 | **t-SNE** | 2008 | Beautiful 2-D plots, slow, distorts global geometry |
-| **UMAP** | 2018 | Fast, preserves both local + global structure — default in 2026 |
+| **UMAP** | 2018 | Fast, preserves both local + global structure - default in 2026 |
 
-For *clustering* always use UMAP **before** the cluster algorithm — high-dim distances are notoriously misleading (the *curse of dimensionality*).
+For *clustering* always use UMAP **before** the cluster algorithm - high-dim distances are notoriously misleading (the *curse of dimensionality*).
 
 ## 8. Key Concept
 
-> 🎯 **Key Concept** — Topic modeling answers *"what is this corpus about?"* without labels. The 2026 stack is **sentence embeddings → UMAP → HDBSCAN → c-TF-IDF labels**. Use LDA only for long classical documents; use BERTopic for everything modern, short, and multilingual.`,
+> 🎯 **Key Concept** - Topic modeling answers *"what is this corpus about?"* without labels. The 2026 stack is **sentence embeddings → UMAP → HDBSCAN → c-TF-IDF labels**. Use LDA only for long classical documents; use BERTopic for everything modern, short, and multilingual.`,
         theoryEn: "",
-        code: `# Modern topic modeling with BERTopic — works in any language out of the box.
+        code: `# Modern topic modeling with BERTopic - works in any language out of the box.
 # pip install bertopic sentence-transformers umap-learn hdbscan
 from bertopic import BERTopic
 from sentence_transformers import SentenceTransformer
@@ -330,7 +330,7 @@ docs = [
     "Beautiful illustrations, especially in the NLP module.",
     "The course is too expensive for a student budget.",
     "Can you offer a discount or scholarship for the Pro plan?",
-    "350,000 VND is steep — are there cheaper options?",
+    "350,000 VND is steep - are there cheaper options?",
     # multilingual stress test:
     "Ääni oli aivan liian hiljainen tunnilla.",          # Finnish: audio complaint
     "Hình minh họa rất đẹp và dễ hiểu, cảm ơn Thầy Hải!", # Vietnamese: visuals praise
@@ -342,7 +342,7 @@ embedder = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
 # 3. Fit BERTopic
 topic_model = BERTopic(
     embedding_model=embedder,
-    min_topic_size=2,          # tiny corpus — relax the default
+    min_topic_size=2,          # tiny corpus - relax the default
     language="multilingual",
     verbose=False,
 )
@@ -379,7 +379,7 @@ for tid in set(topics):
               "Because clustering algorithms refuse vectors larger than 50-D",
             ],
             answer: 2,
-            explanation: "In hundreds of dimensions, all points become roughly equidistant — clustering breaks. UMAP collapses the embeddings to 5-15 dimensions while preserving both local neighbourhoods and global structure, then HDBSCAN/K-Means can find real clusters.",
+            explanation: "In hundreds of dimensions, all points become roughly equidistant - clustering breaks. UMAP collapses the embeddings to 5-15 dimensions while preserving both local neighbourhoods and global structure, then HDBSCAN/K-Means can find real clusters.",
           },
           {
             question: "Which scenario favours BERTopic over classical LDA?",
@@ -390,13 +390,13 @@ for tid in set(topics):
               "Audio recordings",
             ],
             answer: 1,
-            explanation: "LDA needs long documents with rich word co-occurrence. Short multilingual texts (tweets, reviews, chat) are exactly where embedding-based BERTopic shines — embeddings capture meaning even from a single sentence.",
+            explanation: "LDA needs long documents with rich word co-occurrence. Short multilingual texts (tweets, reviews, chat) are exactly where embedding-based BERTopic shines - embeddings capture meaning even from a single sentence.",
           },
           {
             question: "What does HDBSCAN's `-1` cluster label mean?",
             options: [
               "The first cluster",
-              "Noise / outlier — points that did not fit any dense cluster",
+              "Noise / outlier - points that did not fit any dense cluster",
               "An error",
               "The largest cluster",
             ],
@@ -407,7 +407,7 @@ for tid in set(topics):
       },
 
       // =====================================================================
-      // Lesson 9 — Question Answering, Search & RAG
+      // Lesson 9 - Question Answering, Search & RAG
       // =====================================================================
       {
         id: "nlp-9",
@@ -415,9 +415,9 @@ for tid in set(topics):
         titleEn: "Question Answering, Semantic Search & RAG",
         level: 5,
         difficulty: "advanced",
-        theory: `> 💡 **Prerequisites** — NLP Lessons 3 & 6 (embeddings, Transformers).
+        theory: `> 💡 **Prerequisites** - NLP Lessons 3 & 6 (embeddings, Transformers).
 
-## 1. The big idea — RAG
+## 1. The big idea - RAG
 
 **RAG** = *Retrieval-Augmented Generation*. An LLM is fluent but knows nothing about *your* private data. RAG fixes that by **fetching relevant snippets** from your knowledge base and pasting them into the prompt right before the LLM answers.
 
@@ -431,7 +431,7 @@ flowchart LR
     L --> A[Grounded answer]
 \`\`\`
 
-> 🎯 **Why it matters** — RAG is how every modern AI assistant (HaiEduTech's *Mr. Hai* chatbot, Notion AI, Perplexity, GitHub Copilot Chat) avoids making up facts about your own documents.
+> 🎯 **Why it matters** - RAG is how every modern AI assistant (HaiEduTech's *Mr. Hai* chatbot, Notion AI, Perplexity, GitHub Copilot Chat) avoids making up facts about your own documents.
 
 ## 2. Three flavours of question answering
 
@@ -441,7 +441,7 @@ flowchart LR
 | **Open-domain QA** | Question only | Retriever + reader | "When was Helsinki founded?" → search Wikipedia |
 | **Generative QA / RAG** | Question + retrieved chunks | LLM | ChatGPT with file uploads, Mr. Hai chatbot |
 
-## 3. The full RAG pipeline — step by step
+## 3. The full RAG pipeline - step by step
 
 \`\`\`mermaid
 flowchart TD
@@ -457,7 +457,7 @@ flowchart TD
     LLM --> Cite[Answer + citations]
 \`\`\`
 
-### 3.1 Chunking — the underrated step
+### 3.1 Chunking - the underrated step
 - **Too small** (50 tokens): loses context, retrieval quality drops.
 - **Too large** (2000 tokens): wastes the LLM's attention budget.
 - **Sweet spot** in 2026: ~300 tokens with 50-token overlap, split on paragraph boundaries.
@@ -471,7 +471,7 @@ flowchart TD
 | **multilingual-E5-large** | Multilingual, free, self-hosted |
 | **BGE-M3** | SOTA open-source, 100+ languages |
 
-### 3.3 Re-ranking — the quality boost most teams skip
+### 3.3 Re-ranking - the quality boost most teams skip
 
 After vector search returns 50 candidates, run a **cross-encoder** (e.g. \`bge-reranker-v2-m3\`) on the (query, chunk) pairs. It is slower but dramatically more accurate. Keep the top 5 for the LLM.
 
@@ -482,17 +482,17 @@ flowchart LR
     R2 --> Top[Top 5 chunks]
 \`\`\`
 
-## 4. Hybrid search — best of both worlds
+## 4. Hybrid search - best of both worlds
 
 Pure semantic search misses exact keywords (product codes, error messages, names). **Hybrid** combines:
 
-- **BM25 / TF-IDF** — exact lexical matches.
-- **Dense embeddings** — semantic similarity.
-- **Reciprocal Rank Fusion** — merge the two ranked lists.
+- **BM25 / TF-IDF** - exact lexical matches.
+- **Dense embeddings** - semantic similarity.
+- **Reciprocal Rank Fusion** - merge the two ranked lists.
 
 Most production RAG systems use hybrid. Lone vector search is rarely best.
 
-## 5. Real-world use case — Mr. Hai chatbot on HaiEduTech
+## 5. Real-world use case - Mr. Hai chatbot on HaiEduTech
 
 The chatbot answers *"How do I improve my IELTS Speaking Band 5.5 → 7.0?"* using RAG:
 
@@ -503,9 +503,9 @@ The chatbot answers *"How do I improve my IELTS Speaking Band 5.5 → 7.0?"* usi
 5. Build a system prompt: *"You are Mr. Hai. Use ONLY the snippets below. Cite source URLs."*
 6. Stream the answer with the **Lovable AI Gateway** (\`google/gemini-3-flash-preview\`).
 
-The result: a chatbot that **never hallucinates** because every fact is grounded in a HaiEduTech lesson — and the citations are clickable.
+The result: a chatbot that **never hallucinates** because every fact is grounded in a HaiEduTech lesson - and the citations are clickable.
 
-## 6. Evaluation — RAGAS metrics
+## 6. Evaluation - RAGAS metrics
 
 Don't ship blind. Measure:
 
@@ -520,7 +520,7 @@ Tools: **ragas**, **TruLens**, **promptfoo**.
 
 ## 7. Key Concept
 
-> 🎯 **Key Concept** — RAG = *"give the LLM open-book test"*. You **retrieve** facts from your private data and **augment** the prompt before **generation**. Quality depends 80% on retrieval (chunking, embeddings, re-ranking, hybrid) and 20% on the LLM. Measure with RAGAS, not vibes.`,
+> 🎯 **Key Concept** - RAG = *"give the LLM open-book test"*. You **retrieve** facts from your private data and **augment** the prompt before **generation**. Quality depends 80% on retrieval (chunking, embeddings, re-ranking, hybrid) and 20% on the LLM. Measure with RAGAS, not vibes.`,
         theoryEn: "",
         code: `# A 50-line RAG pipeline you can run today.
 # Stack: sentence-transformers + FAISS (lightweight) + the Lovable AI Gateway.
@@ -601,7 +601,7 @@ for q in [
               "It replaces the LLM with a search engine",
             ],
             answer: 1,
-            explanation: "An LLM only knows what it saw during training (and even then unreliably). RAG fetches relevant snippets from YOUR docs and puts them in the prompt, so the model paraphrases facts that actually exist — with citations.",
+            explanation: "An LLM only knows what it saw during training (and even then unreliably). RAG fetches relevant snippets from YOUR docs and puts them in the prompt, so the model paraphrases facts that actually exist - with citations.",
           },
           {
             question: "Why is hybrid search (BM25 + dense embeddings) usually better than pure vector search?",
@@ -624,7 +624,7 @@ for q in [
       },
 
       // =====================================================================
-      // Lesson 10 — Speech: STT, TTS & Voice Pipelines
+      // Lesson 10 - Speech: STT, TTS & Voice Pipelines
       // =====================================================================
       {
         id: "nlp-10",
@@ -632,7 +632,7 @@ for q in [
         titleEn: "Speech Processing: STT, TTS & Voice Assistants",
         level: 4,
         difficulty: "intermediate",
-        theory: `> 💡 **Prerequisites** — NLP Lessons 5-6 (sequence models, Transformers).
+        theory: `> 💡 **Prerequisites** - NLP Lessons 5-6 (sequence models, Transformers).
 
 ## 1. Two halves of the voice stack
 
@@ -641,7 +641,7 @@ for q in [
 | Audio → text | **Speech-to-Text (STT / ASR)** | OpenAI **Whisper**, Google USM |
 | Text → audio | **Text-to-Speech (TTS)** | ElevenLabs, OpenAI tts-1, Google Wavenet |
 
-Combine them and you get a **voice assistant**: Siri, Alexa, Google Assistant — and HaiEduTech's **AI Speaking Coach**.
+Combine them and you get a **voice assistant**: Siri, Alexa, Google Assistant - and HaiEduTech's **AI Speaking Coach**.
 
 \`\`\`mermaid
 flowchart LR
@@ -657,7 +657,7 @@ flowchart LR
 1. Audio is sampled at 16 kHz.
 2. Convert to a **log-Mel spectrogram** (a 2-D image of frequency × time).
 3. Pass it through an **encoder-decoder Transformer** trained on 680k+ hours of multilingual audio.
-4. Decode tokens, including timestamps and language detection — in one shot.
+4. Decode tokens, including timestamps and language detection - in one shot.
 
 \`\`\`mermaid
 flowchart TD
@@ -667,7 +667,7 @@ flowchart TD
     D --> T[Text + timestamps + language]
 \`\`\`
 
-> 🎯 **Why Whisper changed everything** — One open-source model handles **99 languages**, accents, background noise, code-switching, even singing — with no per-language tuning. It was the GPT moment of speech recognition.
+> 🎯 **Why Whisper changed everything** - One open-source model handles **99 languages**, accents, background noise, code-switching, even singing - with no per-language tuning. It was the GPT moment of speech recognition.
 
 ## 3. How modern TTS works (neural)
 
@@ -683,7 +683,7 @@ flowchart TD
 | **Neural (2017+)** | Tacotron + WaveNet | Indistinguishable from human in good conditions |
 | **Diffusion (2024+)** | Audio diffusion + flow-matching | Real-time, expressive, multilingual |
 
-## 4. Edge of the field — multimodal end-to-end
+## 4. Edge of the field - multimodal end-to-end
 
 GPT-4o, Gemini 2.5 Live, and the **Realtime APIs** skip the middle steps: audio in → audio out by **one** Transformer. Latency drops from 2-3 s (cascaded) to 200-300 ms (end-to-end), and emotional cues (laughter, sighs) are preserved.
 
@@ -693,7 +693,7 @@ flowchart LR
     M --> Spk[Speaker]
 \`\`\`
 
-## 5. Real-world use case — HaiEduTech AI Speaking Coach
+## 5. Real-world use case - HaiEduTech AI Speaking Coach
 
 When you click **🎤** in the IELTS Speaking module:
 
@@ -709,7 +709,7 @@ Five different speech & language models, one fluid experience.
 
 | Language | Pitfall | Fix |
 |---|---|---|
-| **Vietnamese** | 6 tones — *má* (mother) vs *mả* (grave) sound similar to a Western model | Use a tone-aware model (PhoWhisper, VinaSTT) |
+| **Vietnamese** | 6 tones - *má* (mother) vs *mả* (grave) sound similar to a Western model | Use a tone-aware model (PhoWhisper, VinaSTT) |
 | **Finnish** | Long compound words (*"taloissanikin"*), vowel harmony | Whisper-large handles this well; smaller models struggle |
 | **Chinese** | Homophones (*shī* = poem / lion / wet) | Context model + LM rescoring |
 
@@ -723,7 +723,7 @@ Five different speech & language models, one fluid experience.
 
 ## 8. Key Concept
 
-> 🎯 **Key Concept** — Speech AI = **STT (audio → text) ↔ TTS (text → audio)**, with an LLM in the middle for assistants. **Whisper killed per-language ASR engines** in 2022; **end-to-end multimodal LLMs** are killing the cascaded pipeline in 2025-2026. Always test on YOUR target language — accents and tones matter.`,
+> 🎯 **Key Concept** - Speech AI = **STT (audio → text) ↔ TTS (text → audio)**, with an LLM in the middle for assistants. **Whisper killed per-language ASR engines** in 2022; **end-to-end multimodal LLMs** are killing the cascaded pipeline in 2025-2026. Always test on YOUR target language - accents and tones matter.`,
         theoryEn: "",
         code: `# Run Whisper locally to transcribe an audio file in any language.
 # pip install openai-whisper soundfile
@@ -732,9 +732,9 @@ import whisper
 
 # 1. Load a model. 'tiny' (39M) is laptop-friendly; 'medium' (769M) is the sweet
 # spot for accuracy; 'large-v3' (1550M) is SOTA but needs a GPU for real-time.
-model = whisper.load_model("base")   # 74 MB — fast and good enough for a demo
+model = whisper.load_model("base")   # 74 MB - fast and good enough for a demo
 
-# 2. Transcribe — Whisper auto-detects the language
+# 2. Transcribe - Whisper auto-detects the language
 result = model.transcribe(
     "your_audio.wav",                # provide a 16 kHz mono WAV file
     language=None,                   # None = auto-detect
@@ -780,7 +780,7 @@ for seg in result["segments"]:
               "ASCII text",
             ],
             answer: 2,
-            explanation: "Whisper converts the waveform to a log-Mel spectrogram — essentially a picture of the audio. The Transformer encoder then treats this image as a sequence of tokens, which is why one architecture handles 99 languages.",
+            explanation: "Whisper converts the waveform to a log-Mel spectrogram - essentially a picture of the audio. The Transformer encoder then treats this image as a sequence of tokens, which is why one architecture handles 99 languages.",
           },
           {
             question: "Why are end-to-end multimodal LLMs (GPT-4o, Gemini Live) replacing the cascaded STT → LLM → TTS pipeline?",
@@ -797,7 +797,7 @@ for seg in result["segments"]:
             question: "Which Vietnamese feature is most likely to trip up a generic STT model?",
             options: [
               "The Latin alphabet",
-              "The 6 lexical tones — they change word meaning but western models often ignore them",
+              "The 6 lexical tones - they change word meaning but western models often ignore them",
               "Vietnamese has no consonants",
               "Vietnamese is read right-to-left",
             ],
@@ -808,7 +808,7 @@ for seg in result["segments"]:
       },
 
       // =====================================================================
-      // Lesson 11 — Vector Databases & Embedding Stores
+      // Lesson 11 - Vector Databases & Embedding Stores
       // =====================================================================
       {
         id: "nlp-11",
@@ -816,11 +816,11 @@ for seg in result["segments"]:
         titleEn: "Vector Databases & Embedding Stores",
         level: 4,
         difficulty: "intermediate",
-        theory: `> 💡 **Prerequisites** — NLP Lessons 3 & 9 (embeddings, RAG) and basic SQL.
+        theory: `> 💡 **Prerequisites** - NLP Lessons 3 & 9 (embeddings, RAG) and basic SQL.
 
 ## 1. Why a *vector* database?
 
-A traditional SQL row stores scalars (name, price, date). An NLP system also wants to store **dense vectors** — the 384-, 768-, or 1536-dimensional embeddings produced by Lessons 3 / 6 / 9. The query is no longer *"WHERE name = ?"* but *"give me the rows whose embedding is **closest to this query embedding**"*.
+A traditional SQL row stores scalars (name, price, date). An NLP system also wants to store **dense vectors** - the 384-, 768-, or 1536-dimensional embeddings produced by Lessons 3 / 6 / 9. The query is no longer *"WHERE name = ?"* but *"give me the rows whose embedding is **closest to this query embedding**"*.
 
 \`\`\`mermaid
 flowchart LR
@@ -832,7 +832,7 @@ flowchart LR
     S --> R[Top-k similar items]
 \`\`\`
 
-## 2. The math — distance metrics
+## 2. The math - distance metrics
 
 | Metric | Formula (intuition) | When |
 |---|---|---|
@@ -840,7 +840,7 @@ flowchart LR
 | **Dot product** | $a \\cdot b$ | When vectors are normalised (faster) |
 | **L2 / Euclidean** | $\\|a - b\\|_2$ | Image embeddings, geometric data |
 
-If you normalise embeddings to unit length, **cosine, dot product, and L2 give the same ranking** — pick the fastest your DB supports.
+If you normalise embeddings to unit length, **cosine, dot product, and L2 give the same ranking** - pick the fastest your DB supports.
 
 ## 3. Approximate Nearest Neighbour (ANN)
 
@@ -872,7 +872,7 @@ flowchart TD
 | **Milvus** | Web-scale (billions of vectors) | Self / cloud |
 | **Chroma** | Tiny, embedded, Python-first | Local / self |
 
-> 🎯 **Recommendation for HaiEduTech** — Use **pgvector** on the existing Supabase Postgres. Same backups, same auth, same SQL, no new operational surface.
+> 🎯 **Recommendation for HaiEduTech** - Use **pgvector** on the existing Supabase Postgres. Same backups, same auth, same SQL, no new operational surface.
 
 ## 5. Schema example with pgvector
 
@@ -905,32 +905,32 @@ LIMIT 5;
 
 The \`<=>\` operator is **cosine distance**; smaller is better.
 
-## 6. Filters + vectors — the killer feature
+## 6. Filters + vectors - the killer feature
 
-Real queries combine semantic search with metadata: *"top 5 chunks about transformers, only from lessons published after 2024 and tagged 'beginner'"*. pgvector lets you express this as plain SQL — that is why combining a vector store with your existing OLTP DB beats dropping a separate Pinecone instance.
+Real queries combine semantic search with metadata: *"top 5 chunks about transformers, only from lessons published after 2024 and tagged 'beginner'"*. pgvector lets you express this as plain SQL - that is why combining a vector store with your existing OLTP DB beats dropping a separate Pinecone instance.
 
 ## 7. Operational gotchas
 
 | Problem | Fix |
 |---|---|
-| **Recompute on model swap** — embeddings from \`text-embedding-3-small\` ≠ those from \`text-embedding-3-large\`. | Version your embedding column, batch re-embed when you upgrade. |
+| **Recompute on model swap** - embeddings from \`text-embedding-3-small\` ≠ those from \`text-embedding-3-large\`. | Version your embedding column, batch re-embed when you upgrade. |
 | **Index build time** balloons past 10M rows. | Use IVF or sharded HNSW; build offline. |
 | **High dimensionality** wastes RAM. | Quantize (PQ) or pick a smaller model (e.g. 384-d MiniLM). |
 | **Stale embeddings** when the source text changes. | Track \`source_hash\` and re-embed on diff. |
 
 ## 8. Key Concept
 
-> 🎯 **Key Concept** — A **vector database** stores embeddings and answers *"give me the most similar items"* in milliseconds. **HNSW + cosine** is the 2026 default. **pgvector** is the most pragmatic choice if you already run Postgres — same backups, same SQL, same auth. Combine vectors + metadata filters in one query for production-grade RAG.`,
+> 🎯 **Key Concept** - A **vector database** stores embeddings and answers *"give me the most similar items"* in milliseconds. **HNSW + cosine** is the 2026 default. **pgvector** is the most pragmatic choice if you already run Postgres - same backups, same SQL, same auth. Combine vectors + metadata filters in one query for production-grade RAG.`,
         theoryEn: "",
         code: `# Two demos in one file:
-# (a) Embedded vector store with FAISS — zero infra, runs in a notebook.
-# (b) Production-style call to Supabase pgvector — what HaiEduTech actually uses.
+# (a) Embedded vector store with FAISS - zero infra, runs in a notebook.
+# (b) Production-style call to Supabase pgvector - what HaiEduTech actually uses.
 # pip install sentence-transformers faiss-cpu psycopg2-binary
 import numpy as np
 import faiss
 from sentence_transformers import SentenceTransformer
 
-# ---------- (a) FAISS — local in-memory ----------
+# ---------- (a) FAISS - local in-memory ----------
 embed = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")  # 384-d
 
 corpus = [
@@ -938,12 +938,12 @@ corpus = [
     "BERT is an encoder-only Transformer pre-trained on masked language modelling.",
     "GPT models are decoder-only and generate text autoregressively.",
     "Whisper transcribes 99 languages from a log-Mel spectrogram.",
-    "pgvector adds vector indexes to Postgres — perfect for RAG on Supabase.",
+    "pgvector adds vector indexes to Postgres - perfect for RAG on Supabase.",
     "Cosine similarity ranks documents by angle, ignoring magnitude.",
 ]
 mat = embed.encode(corpus, normalize_embeddings=True).astype("float32")
 
-# HNSW index — fast, sub-linear search
+# HNSW index - fast, sub-linear search
 index = faiss.IndexHNSWFlat(mat.shape[1], 32)   # 32 = M (graph degree)
 index.hnsw.efConstruction = 64
 index.add(mat)
@@ -960,7 +960,7 @@ search("How do modern speech recognition models work?")
 print("\\nQ: Where can I store embeddings in Postgres?")
 search("Where can I store embeddings in Postgres?")
 
-# ---------- (b) Supabase pgvector — what production looks like ----------
+# ---------- (b) Supabase pgvector - what production looks like ----------
 # import psycopg2
 # conn = psycopg2.connect(os.environ["DATABASE_URL"])
 # cur = conn.cursor()
@@ -993,7 +993,7 @@ search("Where can I store embeddings in Postgres?")
             question: "Why do we use ANN (Approximate Nearest Neighbour) algorithms like HNSW instead of brute-force search?",
             options: [
               "Brute force returns wrong answers",
-              "Brute force is O(N) per query — fine for 10k vectors but unusable at 10M+; HNSW gives sub-linear search with negligible accuracy loss",
+              "Brute force is O(N) per query - fine for 10k vectors but unusable at 10M+; HNSW gives sub-linear search with negligible accuracy loss",
               "ANN uses less memory always",
               "Brute force only works on integers",
             ],
@@ -1005,28 +1005,28 @@ search("Where can I store embeddings in Postgres?")
             options: [
               "Pinecone (managed cloud)",
               "Standalone Milvus cluster",
-              "pgvector — a Postgres extension that adds vector types and HNSW indexes to your existing DB",
+              "pgvector - a Postgres extension that adds vector types and HNSW indexes to your existing DB",
               "Writing your own ANN library",
             ],
             answer: 2,
-            explanation: "pgvector reuses your existing Postgres backups, auth, monitoring, and SQL skills. You add ONE extension and gain vector search — no new service, no extra failure mode. That's why HaiEduTech runs RAG on Supabase pgvector.",
+            explanation: "pgvector reuses your existing Postgres backups, auth, monitoring, and SQL skills. You add ONE extension and gain vector search - no new service, no extra failure mode. That's why HaiEduTech runs RAG on Supabase pgvector.",
           },
           {
             question: "If you switch from `text-embedding-3-small` (1536-d) to `text-embedding-3-large` (3072-d), what must you do to your existing vector DB?",
             options: [
-              "Nothing — embeddings are interchangeable",
+              "Nothing - embeddings are interchangeable",
               "Re-embed and re-index every row, because vectors from different models are NOT comparable",
               "Convert dimensions with PCA",
               "Just append the new dimensions as zeros",
             ],
             answer: 1,
-            explanation: "Different embedding models live in different vector spaces — distances are meaningless across them. Always version your embedding column (or table), batch re-embed every row when you upgrade, and only flip queries to the new column once it is fully populated.",
+            explanation: "Different embedding models live in different vector spaces - distances are meaningless across them. Always version your embedding column (or table), batch re-embed every row when you upgrade, and only flip queries to the new column once it is fully populated.",
           },
         ],
       },
 
       // =====================================================================
-      // Lesson 12 — AI Agents, Tool Use & Production NLP
+      // Lesson 12 - AI Agents, Tool Use & Production NLP
       // =====================================================================
       {
         id: "nlp-12",
@@ -1034,11 +1034,11 @@ search("Where can I store embeddings in Postgres?")
         titleEn: "AI Agents, Tool Use & Production NLP",
         level: 5,
         difficulty: "advanced",
-        theory: `> 💡 **Prerequisites** — All previous NLP lessons, plus an LLM API key (Lovable AI Gateway is fine).
+        theory: `> 💡 **Prerequisites** - All previous NLP lessons, plus an LLM API key (Lovable AI Gateway is fine).
 
 ## 1. From chatbot to agent
 
-A **chatbot** answers a question. An **agent** *takes actions*: searches the web, calls APIs, runs code, queries databases, books a flight, replies to email — looping until the goal is reached.
+A **chatbot** answers a question. An **agent** *takes actions*: searches the web, calls APIs, runs code, queries databases, books a flight, replies to email - looping until the goal is reached.
 
 \`\`\`mermaid
 flowchart TD
@@ -1053,7 +1053,7 @@ flowchart TD
 
 The pattern is **ReAct** (*Reason + Act*): the LLM thinks one step ahead, picks a tool, observes the result, and decides what to do next. Repeat until the answer is good enough.
 
-## 2. Tool calling — the standard interface
+## 2. Tool calling - the standard interface
 
 Every modern LLM API (OpenAI, Anthropic, Google, Lovable AI Gateway) supports **structured tool calling**:
 
@@ -1111,7 +1111,7 @@ flowchart LR
 | **Pydantic AI** | Type-safe agents | Validated I/O, clean Python |
 | **Build it yourself** | 100 lines of Python + a while-loop | Full control, no lock-in |
 
-> 🎯 **Reality check** — Agents are *fragile*. A 95% step-success rate × 5 steps = 77% end-to-end. Always: (a) set max_steps, (b) cache tool results, (c) add a human-in-the-loop checkpoint for irreversible actions.
+> 🎯 **Reality check** - Agents are *fragile*. A 95% step-success rate × 5 steps = 77% end-to-end. Always: (a) set max_steps, (b) cache tool results, (c) add a human-in-the-loop checkpoint for irreversible actions.
 
 ## 5. Production NLP checklist
 
@@ -1128,7 +1128,7 @@ Even the smartest model will fail in production without these guardrails:
 | **Latency** | Cache, stream, route easy queries to cheap model | Redis, model cascading |
 | **Observability** | Trace every prompt + tool call | Langfuse, Arize, Weights & Biases |
 
-## 6. Real-world use case — A HaiEduTech "Study Coach" agent
+## 6. Real-world use case - A HaiEduTech "Study Coach" agent
 
 Goal: *"Plan a 4-week IELTS Speaking improvement schedule for me."*
 
@@ -1161,9 +1161,9 @@ A single edge function on Lovable Cloud, ~200 lines of code, wired to the existi
 | **Privacy leakage** | Redact PII before logging; use on-device models for sensitive data |
 | **Over-reliance** | Always show the source; let users edit before sending |
 
-> 📝 **Note** — The EU AI Act (2025) and Vietnam's AI Decree (2026) both require **transparency** about AI involvement. Any HaiEduTech feature using an agent should label itself clearly: *"Generated by AI — please verify."*
+> 📝 **Note** - The EU AI Act (2025) and Vietnam's AI Decree (2026) both require **transparency** about AI involvement. Any HaiEduTech feature using an agent should label itself clearly: *"Generated by AI - please verify."*
 
-## 8. 🏆 Final Capstone — Build your own NLP agent
+## 8. 🏆 Final Capstone - Build your own NLP agent
 
 Combine **everything** from Lessons 1-12 into one agent:
 
@@ -1178,7 +1178,7 @@ Earn the **🤖 NLP Master Architect** badge by shipping this on Lovable Cloud a
 
 ## 9. Key Concept
 
-> 🎯 **Key Concept** — An **agent** = LLM + **tools** + **memory** + **loop**. Production NLP is 10% model and 90% engineering: prompts, retrieval, validation, safety, observability, cost, latency. Master those layers and you ship products users trust.`,
+> 🎯 **Key Concept** - An **agent** = LLM + **tools** + **memory** + **loop**. Production NLP is 10% model and 90% engineering: prompts, retrieval, validation, safety, observability, cost, latency. Master those layers and you ship products users trust.`,
         theoryEn: "",
         code: `# A minimal, runnable agent in ~50 lines using the Lovable AI Gateway.
 # It can answer questions and call two tools: web search (mocked) and a calculator.
@@ -1221,13 +1221,13 @@ TOOLS = [
 # ---------- 2. Implement the tools (in real life: hit pgvector / APIs) ----------
 def calculator(expression: str) -> str:
     try:
-        # NEVER use eval() in production — sandbox it.
+        # NEVER use eval() in production - sandbox it.
         return str(eval(expression, {"__builtins__": {}}, {}))
     except Exception as e:
         return f"error: {e}"
 
 def search_haiedutech(query: str) -> str:
-    # Mock — replace with a real pgvector RAG call
+    # Mock - replace with a real pgvector RAG call
     return json.dumps([
         "IELTS Speaking Roadmap",
         "PTE Hub progress rings",
@@ -1285,14 +1285,14 @@ print(agent("What is 17 * 23 + 4? And which HaiEduTech lessons cover IELTS Speak
 #   step 1: search_haiedutech({"query": "IELTS Speaking"}) -> [...]
 #   step 2: model writes the final answer combining both results.`,
         codeLanguage: "python",
-        exercise: "🏆 **Capstone challenge** — Add a **third tool** named `save_to_notebook(title: str, content: str)` that appends a row to your Smart Notebook (mock it with a Python list for now). Ask the agent: *\"Plan my IELTS Speaking practice for tomorrow and save it to my notebook.\"* Confirm the agent calls all three tools in the right order. Then write 3 sentences on **what could go wrong** in production (cost, prompt injection, infinite loops) and how you would mitigate each.",
+        exercise: "🏆 **Capstone challenge** - Add a **third tool** named `save_to_notebook(title: str, content: str)` that appends a row to your Smart Notebook (mock it with a Python list for now). Ask the agent: *\"Plan my IELTS Speaking practice for tomorrow and save it to my notebook.\"* Confirm the agent calls all three tools in the right order. Then write 3 sentences on **what could go wrong** in production (cost, prompt injection, infinite loops) and how you would mitigate each.",
         exerciseEn: "",
         quiz: [
           {
             question: "What does the **ReAct** pattern stand for in modern AI agents?",
             options: [
               "React.js + Active",
-              "**Reason + Act** — the LLM alternates between thinking out loud and calling tools, looping until done",
+              "**Reason + Act** - the LLM alternates between thinking out loud and calling tools, looping until done",
               "Real-time Actuator",
               "Recursive Abstract Calling Tree",
             ],
@@ -1303,7 +1303,7 @@ print(agent("What is 17 * 23 + 4? And which HaiEduTech lessons cover IELTS Speak
             question: "Why is structured tool calling preferred over parsing prose for agent actions?",
             options: [
               "It uses fewer tokens",
-              "It returns a typed JSON object — your code can reliably extract the function name and arguments without brittle string parsing",
+              "It returns a typed JSON object - your code can reliably extract the function name and arguments without brittle string parsing",
               "It eliminates the need for an LLM",
               "It only works with OpenAI",
             ],
@@ -1315,7 +1315,7 @@ print(agent("What is 17 * 23 + 4? And which HaiEduTech lessons cover IELTS Speak
             options: [
               "95%",
               "Roughly 77% (0.95^5)",
-              "100% — the agent will retry",
+              "100% - the agent will retry",
               "5%",
             ],
             answer: 1,

@@ -28,8 +28,8 @@ const STAGES: Stage[] = [
     id: "stage-1",
     title: "Stage 1 · Foundation",
     titleVi: "Chặng 1 · Nền tảng",
-    subtitle: "Target 450+ — Start here if you're new to TOEIC",
-    subtitleVi: "Mục tiêu 450+ — Bắt đầu nếu bạn mới làm quen TOEIC",
+    subtitle: "Target 450+ - Start here if you're new to TOEIC",
+    subtitleVi: "Mục tiêu 450+ - Bắt đầu nếu bạn mới làm quen TOEIC",
     icon: Rocket,
     gradient: "from-emerald-500/20 to-teal-500/10",
     ring: "ring-emerald-500/30 border-emerald-500/30",
@@ -40,8 +40,8 @@ const STAGES: Stage[] = [
     id: "stage-2",
     title: "Stage 2 · Building Skills",
     titleVi: "Chặng 2 · Xây kỹ năng",
-    subtitle: "Target 600+ — Master Part 5/6 grammar & Part 3/4 listening",
-    subtitleVi: "Mục tiêu 600+ — Làm chủ ngữ pháp Part 5/6 & nghe Part 3/4",
+    subtitle: "Target 600+ - Master Part 5/6 grammar & Part 3/4 listening",
+    subtitleVi: "Mục tiêu 600+ - Làm chủ ngữ pháp Part 5/6 & nghe Part 3/4",
     icon: Target,
     gradient: "from-blue-500/20 to-cyan-500/10",
     ring: "ring-blue-500/30 border-blue-500/30",
@@ -52,8 +52,8 @@ const STAGES: Stage[] = [
     id: "stage-3",
     title: "Stage 3 · Advanced Tactics",
     titleVi: "Chặng 3 · Chiến thuật nâng cao",
-    subtitle: "Target 750+ — Tackle inference, indirect answers, and Part 7 double passages",
-    subtitleVi: "Mục tiêu 750+ — Suy luận, câu trả lời gián tiếp, Part 7 đa đoạn",
+    subtitle: "Target 750+ - Tackle inference, indirect answers, and Part 7 double passages",
+    subtitleVi: "Mục tiêu 750+ - Suy luận, câu trả lời gián tiếp, Part 7 đa đoạn",
     icon: Trophy,
     gradient: "from-amber-500/20 to-orange-500/10",
     ring: "ring-amber-500/30 border-amber-500/30",
@@ -64,8 +64,8 @@ const STAGES: Stage[] = [
     id: "stage-4",
     title: "Stage 4 · Mastery",
     titleVi: "Chặng 4 · Chinh phục",
-    subtitle: "Target 900+ — Perfect score techniques (coming soon)",
-    subtitleVi: "Mục tiêu 900+ — Kỹ thuật điểm tuyệt đối (sắp ra mắt)",
+    subtitle: "Target 900+ - Perfect score techniques (coming soon)",
+    subtitleVi: "Mục tiêu 900+ - Kỹ thuật điểm tuyệt đối (sắp ra mắt)",
     icon: Crown,
     gradient: "from-rose-500/20 to-pink-500/10",
     ring: "ring-rose-500/30 border-rose-500/30",
@@ -180,7 +180,7 @@ const ToeicRoadmap = ({ completedSet }: ToeicRoadmapProps) => {
                 </div>
               </div>
 
-              {/* Lesson list — numbered */}
+              {/* Lesson list - numbered */}
               {isEmpty ? (
                 <div className="flex items-center gap-3 px-4 py-6 rounded-xl bg-white/[0.03] border border-dashed border-white/10 text-center justify-center">
                   <Lock className="w-4 h-4 text-[#64748B]" />

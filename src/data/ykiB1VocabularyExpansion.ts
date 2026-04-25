@@ -1,6 +1,6 @@
 /**
  * @file ykiB1VocabularyExpansion.ts
- * @description Mở rộng ngân hàng từ vựng B1 — 8 chủ đề × 25 từ = 200 từ mới.
+ * @description Mở rộng ngân hàng từ vựng B1 - 8 chủ đề × 25 từ = 200 từ mới.
  * @author Teacher Hai (HaiEduTech)
  */
 

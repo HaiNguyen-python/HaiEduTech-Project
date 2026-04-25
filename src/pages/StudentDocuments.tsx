@@ -1,6 +1,6 @@
 /**
  * @file StudentDocuments.tsx
- * @description Private document vault — categorized file manager backed by Supabase Storage.
+ * @description Private document vault - categorized file manager backed by Supabase Storage.
  */
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
@@ -173,11 +173,11 @@ const StudentDocuments = () => {
         if (res?.newly_earned) {
           toast({
             title: t("🌍 Bạn vừa nhận huy hiệu!", "🌍 New Badge Unlocked!"),
-            description: t("Global Scholar — Hành trình du học bắt đầu!", "Global Scholar — Your study abroad journey has begun!"),
+            description: t("Global Scholar - Hành trình du học bắt đầu!", "Global Scholar - Your study abroad journey has begun!"),
           });
         }
       } catch {
-        // Silent — badge award is non-critical
+        // Silent - badge award is non-critical
       }
     } catch (err: any) {
       toast({ title: t("Lỗi tải lên", "Upload failed"), description: err.message, variant: "destructive" });
@@ -282,7 +282,7 @@ const StudentDocuments = () => {
               <div>
                 <h1 className="text-2xl md:text-3xl font-bold">{t("Hồ sơ học tập của tôi", "My Study Profile")}</h1>
                 <p className="text-sm text-muted-foreground">
-                  {t("Riêng tư & bảo mật. Chỉ bạn mới thấy file của mình.", "Private & secure — only you can see your files.")}
+                  {t("Riêng tư & bảo mật. Chỉ bạn mới thấy file của mình.", "Private & secure - only you can see your files.")}
                 </p>
               </div>
             </div>

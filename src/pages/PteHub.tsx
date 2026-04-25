@@ -66,7 +66,7 @@ const PteHub = () => {
     >
       <PtePeak completed={progress.completedIds.length} total={totalTasks} />
 
-      {/* Per-skill progress overview — synced with Dashboard */}
+      {/* Per-skill progress overview - synced with Dashboard */}
       <section className="mb-6">
         <div className="flex items-center justify-between mb-3">
           <div>
@@ -96,7 +96,7 @@ const PteHub = () => {
         />
       </section>
 
-      {/* Predicted Questions 2026 — high-frequency repeated tasks */}
+      {/* Predicted Questions 2026 - high-frequency repeated tasks */}
       <div className="bg-gradient-to-br from-orange-50 via-amber-50 to-rose-50 rounded-2xl p-5 sm:p-6 border-2 border-orange-300/60 shadow-sm mb-6 relative overflow-hidden">
         <div className="absolute -top-6 -right-6 text-7xl opacity-10 select-none pointer-events-none">🔥</div>
         <div className="flex items-center gap-2 mb-1 relative">

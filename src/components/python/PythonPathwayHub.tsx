@@ -59,8 +59,8 @@ const PythonPathwayHub = () => {
             </h2>
             <p className="text-sm text-muted-foreground max-w-2xl">
               {language === "vi"
-                ? "Lộ trình lập trình 6 module (~47 bài) bằng Python chạy thật trong trình duyệt — quiz, dự án nhỏ, badge và AI giải thích code."
-                : "Programming pathway with 6 modules (~47 lessons) running real Python in your browser — quizzes, mini-projects, badges, and AI code explainer."}
+                ? "Lộ trình lập trình 6 module (~47 bài) bằng Python chạy thật trong trình duyệt - quiz, dự án nhỏ, badge và AI giải thích code."
+                : "Programming pathway with 6 modules (~47 lessons) running real Python in your browser - quizzes, mini-projects, badges, and AI code explainer."}
             </p>
           </div>
           <div className="text-right">

@@ -205,7 +205,7 @@ const SPEAKING_BANDS: BandDescriptor[] = [
 ];
 
 export const lectureExpansions: Record<string, LectureExpansion> = {
-  // ============== WRITING TASK 2 — OPINION ==============
+  // ============== WRITING TASK 2 - OPINION ==============
   "writing-task2-opinion": {
     bandDescriptors: WT2_BANDS,
     commonMistakes: [
@@ -218,8 +218,8 @@ export const lectureExpansions: Record<string, LectureExpansion> = {
       {
         wrong: "In my opinion, I agree with this idea.",
         right: "I firmly believe that this argument holds significant merit, particularly in light of recent evidence.",
-        explanationVi: "Tránh cụm 'In my opinion + I think/agree' — bị tính là dư thừa. Chọn 1 cụm mạnh.",
-        explanation: "Avoid 'In my opinion + I think' — it's redundant. Pick one strong stance phrase.",
+        explanationVi: "Tránh cụm 'In my opinion + I think/agree' - bị tính là dư thừa. Chọn 1 cụm mạnh.",
+        explanation: "Avoid 'In my opinion + I think' - it's redundant. Pick one strong stance phrase.",
       },
       {
         wrong: "Nowadays, technology is very developed and people use it a lot.",
@@ -285,7 +285,7 @@ export const lectureExpansions: Record<string, LectureExpansion> = {
     ],
   },
 
-  // ============== WRITING TASK 2 — AGREE/DISAGREE ==============
+  // ============== WRITING TASK 2 - AGREE/DISAGREE ==============
   "writing-task2-agree-disagree": {
     bandDescriptors: WT2_BANDS,
     commonMistakes: [
@@ -298,8 +298,8 @@ export const lectureExpansions: Record<string, LectureExpansion> = {
       {
         wrong: "I 100% agree with this opinion.",
         right: "I wholeheartedly endorse this perspective.",
-        explanationVi: "Tránh dùng số liệu (%) — không học thuật. Dùng cụm trang trọng.",
-        explanation: "Avoid percentages — not academic. Use formal phrases.",
+        explanationVi: "Tránh dùng số liệu (%) - không học thuật. Dùng cụm trang trọng.",
+        explanation: "Avoid percentages - not academic. Use formal phrases.",
       },
       {
         wrong: "Agree means good, disagree means bad.",
@@ -319,8 +319,8 @@ export const lectureExpansions: Record<string, LectureExpansion> = {
         category: "Partial agreement opener",
         categoryVi: "Mở bài đồng ý một phần",
         sentence: "Although there is undeniable truth in the assertion that..., I would argue that this view oversimplifies a far more complex reality.",
-        whyItWorks: "Acknowledges merit but signals disagreement diplomatically — perfect for nuanced essays.",
-        whyItWorksVi: "Thừa nhận điểm hợp lý nhưng tín hiệu bất đồng một cách lịch sự — tuyệt cho bài cần sắc thái.",
+        whyItWorks: "Acknowledges merit but signals disagreement diplomatically - perfect for nuanced essays.",
+        whyItWorksVi: "Thừa nhận điểm hợp lý nhưng tín hiệu bất đồng một cách lịch sự - tuyệt cho bài cần sắc thái.",
       },
     ],
     mrHaiTips: [
@@ -328,13 +328,13 @@ export const lectureExpansions: Record<string, LectureExpansion> = {
         emoji: "⚖️",
         title: "The 70-30 rule",
         titleVi: "Quy tắc 70-30",
-        content: "If you choose 'partial agreement', commit to 70% one side, 30% the other. Examiners can spot wishy-washy 50-50 essays — they always score lower.",
-        contentVi: "Nếu chọn 'đồng ý một phần', hãy cam kết 70% một bên, 30% bên kia. Examiner phát hiện bài 50-50 lưỡng lự ngay — luôn bị điểm thấp hơn.",
+        content: "If you choose 'partial agreement', commit to 70% one side, 30% the other. Examiners can spot wishy-washy 50-50 essays - they always score lower.",
+        contentVi: "Nếu chọn 'đồng ý một phần', hãy cam kết 70% một bên, 30% bên kia. Examiner phát hiện bài 50-50 lưỡng lự ngay - luôn bị điểm thấp hơn.",
       },
     ],
   },
 
-  // ============== WRITING TASK 1 — TRENDS ==============
+  // ============== WRITING TASK 1 - TRENDS ==============
   "writing-task1-trends": {
     commonMistakes: [
       {
@@ -369,13 +369,13 @@ export const lectureExpansions: Record<string, LectureExpansion> = {
         category: "Overview sentence",
         categoryVi: "Câu Overview",
         sentence: "Overall, while car sales experienced a marked upward trajectory, motorcycle sales followed a strikingly opposite pattern, declining steadily throughout the period.",
-        whyItWorks: "Compares two trends in ONE sentence — the hallmark of a Band 7.5+ overview.",
-        whyItWorksVi: "So sánh 2 xu hướng trong 1 câu — dấu hiệu của Overview Band 7.5+.",
+        whyItWorks: "Compares two trends in ONE sentence - the hallmark of a Band 7.5+ overview.",
+        whyItWorksVi: "So sánh 2 xu hướng trong 1 câu - dấu hiệu của Overview Band 7.5+.",
       },
       {
         category: "Detailed comparison",
         categoryVi: "So sánh chi tiết",
-        sentence: "Whereas exports to Europe surged from 5 million to 12 million tonnes — more than doubling — those to Asia rose more modestly, by approximately 30%.",
+        sentence: "Whereas exports to Europe surged from 5 million to 12 million tonnes - more than doubling - those to Asia rose more modestly, by approximately 30%.",
         whyItWorks: "Uses 'whereas' for contrast, includes exact figures + percentage interpretation.",
         whyItWorksVi: "Dùng 'whereas' để tương phản, có cả số liệu tuyệt đối + tỷ lệ phần trăm.",
       },
@@ -391,7 +391,7 @@ export const lectureExpansions: Record<string, LectureExpansion> = {
     ],
   },
 
-  // ============== WRITING TASK 1 — PROCESS ==============
+  // ============== WRITING TASK 1 - PROCESS ==============
   "writing-task1-describe-process": {
     commonMistakes: [
       {
@@ -428,13 +428,13 @@ export const lectureExpansions: Record<string, LectureExpansion> = {
         emoji: "🔄",
         title: "The cyclical vs linear check",
         titleVi: "Quy tắc kiểm tra chu kỳ vs tuyến tính",
-        content: "ALWAYS check the last stage: does an arrow loop back to the start? If yes, it's CYCLICAL — write 'whereupon the cycle recommences'. Missing this loses an Overview mark.",
-        contentVi: "LUÔN kiểm tra giai đoạn cuối: mũi tên có quay về điểm đầu không? Nếu có, đây là CHU TRÌNH — viết 'whereupon the cycle recommences'. Bỏ sót sẽ mất điểm Overview.",
+        content: "ALWAYS check the last stage: does an arrow loop back to the start? If yes, it's CYCLICAL - write 'whereupon the cycle recommences'. Missing this loses an Overview mark.",
+        contentVi: "LUÔN kiểm tra giai đoạn cuối: mũi tên có quay về điểm đầu không? Nếu có, đây là CHU TRÌNH - viết 'whereupon the cycle recommences'. Bỏ sót sẽ mất điểm Overview.",
       },
     ],
   },
 
-  // ============== WRITING TASK 1 — MAPS ==============
+  // ============== WRITING TASK 1 - MAPS ==============
   "writing-task1-maps-diagrams": {
     commonMistakes: [
       {
@@ -467,25 +467,25 @@ export const lectureExpansions: Record<string, LectureExpansion> = {
     ],
   },
 
-  // ============== SPEAKING PART 1 — EXPANDING ==============
+  // ============== SPEAKING PART 1 - EXPANDING ==============
   "speaking-part1-expanding": {
     bandDescriptors: SPEAKING_BANDS,
     commonMistakes: [
       {
-        wrong: "Q: Do you like coffee? — A: Yes.",
-        right: "Yes, absolutely — I'd say I'm a real coffee enthusiast. There's something about the morning ritual of brewing a fresh cup that helps me start the day on the right foot.",
+        wrong: "Q: Do you like coffee? - A: Yes.",
+        right: "Yes, absolutely - I'd say I'm a real coffee enthusiast. There's something about the morning ritual of brewing a fresh cup that helps me start the day on the right foot.",
         explanationVi: "Trả lời một từ = Band 4-5. PEEL formula: Point + Explain + Example + Link.",
         explanation: "One-word answers = Band 4-5. PEEL formula: Point + Explain + Example + Link.",
       },
       {
-        wrong: "Q: Where are you from? — A: Vietnam. It is a country in Southeast Asia.",
+        wrong: "Q: Where are you from? - A: Vietnam. It is a country in Southeast Asia.",
         right: "I'm originally from Hanoi, the bustling capital of Vietnam, though I've lived in Da Nang for the past three years for work.",
         explanationVi: "Tránh trả lời như SGK. Cần thêm chi tiết cá nhân (where I live now, why).",
         explanation: "Avoid textbook answers. Add personal details (where you live now, why).",
       },
       {
-        wrong: "Q: Do you like sports? — A: Yes, I like football. Football is good. I play football.",
-        right: "Yes, I'm passionate about football — it's been my favourite sport since I was about ten. I usually play with friends every Sunday morning at the local park.",
+        wrong: "Q: Do you like sports? - A: Yes, I like football. Football is good. I play football.",
+        right: "Yes, I'm passionate about football - it's been my favourite sport since I was about ten. I usually play with friends every Sunday morning at the local park.",
         explanationVi: "Lặp từ khóa 3 lần (football) = Lexical Resource thấp. Thay bằng đại từ + paraphrase.",
         explanation: "Repeating keyword 3x (football) = low Lexical Resource. Use pronouns + paraphrase.",
       },
@@ -510,19 +510,19 @@ export const lectureExpansions: Record<string, LectureExpansion> = {
         emoji: "🎙️",
         title: "The 2-3 sentence rule",
         titleVi: "Quy tắc 2-3 câu",
-        content: "Part 1 answers should be 2-3 sentences (NOT longer!). Going on too long invites the examiner to cut you off — which damages your fluency score.",
-        contentVi: "Part 1 chỉ nên 2-3 câu (KHÔNG dài hơn!). Nói quá dài khiến examiner ngắt lời — làm hại điểm Fluency.",
+        content: "Part 1 answers should be 2-3 sentences (NOT longer!). Going on too long invites the examiner to cut you off - which damages your fluency score.",
+        contentVi: "Part 1 chỉ nên 2-3 câu (KHÔNG dài hơn!). Nói quá dài khiến examiner ngắt lời - làm hại điểm Fluency.",
       },
     ],
   },
 
-  // ============== SPEAKING PART 2 — TECHNIQUE ==============
+  // ============== SPEAKING PART 2 - TECHNIQUE ==============
   "speaking-part2-technique": {
     bandDescriptors: SPEAKING_BANDS,
     commonMistakes: [
       {
         wrong: "Spending the whole 1 minute writing full sentences.",
-        right: "Write only 5-7 keywords (WHO/WHEN/WHERE/WHAT/WHY) — leave time to mentally rehearse the opener.",
+        right: "Write only 5-7 keywords (WHO/WHEN/WHERE/WHAT/WHY) - leave time to mentally rehearse the opener.",
         explanationVi: "Viết câu hoàn chỉnh = lúc nói sẽ đọc thay vì nói tự nhiên. Examiner trừ điểm Pronunciation/Fluency.",
         explanation: "Writing full sentences = you'll read instead of speak naturally. Examiner deducts Pronunciation/Fluency points.",
       },
@@ -549,7 +549,7 @@ export const lectureExpansions: Record<string, LectureExpansion> = {
       {
         category: "Strong opener",
         categoryVi: "Mở đầu mạnh",
-        sentence: "I'd like to share a memory that's particularly close to my heart — the first time I traveled abroad on my own, which happened back in 2019.",
+        sentence: "I'd like to share a memory that's particularly close to my heart - the first time I traveled abroad on my own, which happened back in 2019.",
         whyItWorks: "'Close to my heart' = idiom. 'On my own' + specific year = paints a vivid picture.",
         whyItWorksVi: "'Close to my heart' = thành ngữ. 'On my own' + năm cụ thể = vẽ ra hình ảnh sống động.",
       },
@@ -573,19 +573,19 @@ export const lectureExpansions: Record<string, LectureExpansion> = {
         emoji: "🎬",
         title: "The 'movie scene' technique",
         titleVi: "Kỹ thuật 'cảnh phim'",
-        content: "Pick ONE 30-second moment from the experience and describe it as if you're filming it — sights, sounds, feelings. This single technique can lift you from Band 6.5 to 7.5.",
-        contentVi: "Chọn MỘT khoảnh khắc 30 giây và mô tả như đang quay phim — hình ảnh, âm thanh, cảm xúc. Riêng kỹ thuật này có thể nâng bạn từ Band 6.5 lên 7.5.",
+        content: "Pick ONE 30-second moment from the experience and describe it as if you're filming it - sights, sounds, feelings. This single technique can lift you from Band 6.5 to 7.5.",
+        contentVi: "Chọn MỘT khoảnh khắc 30 giây và mô tả như đang quay phim - hình ảnh, âm thanh, cảm xúc. Riêng kỹ thuật này có thể nâng bạn từ Band 6.5 lên 7.5.",
       },
     ],
   },
 
-  // ============== SPEAKING PART 3 — DISCUSSION ==============
+  // ============== SPEAKING PART 3 - DISCUSSION ==============
   "speaking-part3-discussion": {
     bandDescriptors: SPEAKING_BANDS,
     commonMistakes: [
       {
-        wrong: "Q: Why do people travel? — A: Because they like it.",
-        right: "Well, I think there are several reasons. Primarily, people travel to broaden their horizons and experience cultures different from their own — for instance, my brother spent six months in Japan and came back with a completely different perspective on life.",
+        wrong: "Q: Why do people travel? - A: Because they like it.",
+        right: "Well, I think there are several reasons. Primarily, people travel to broaden their horizons and experience cultures different from their own - for instance, my brother spent six months in Japan and came back with a completely different perspective on life.",
         explanationVi: "Câu trả lời 1 dòng = Band 5. Phải dùng OREO: Opinion + Reason + Example + Outcome.",
         explanation: "1-line answers = Band 5. Use OREO: Opinion + Reason + Example + Outcome.",
       },
@@ -606,7 +606,7 @@ export const lectureExpansions: Record<string, LectureExpansion> = {
       {
         category: "Speculative answer (Band 8)",
         categoryVi: "Trả lời mang tính dự đoán",
-        sentence: "If current trends continue, I'd say automation will likely transform the job market profoundly over the next two decades — though whether this proves a blessing or a curse remains to be seen.",
+        sentence: "If current trends continue, I'd say automation will likely transform the job market profoundly over the next two decades - though whether this proves a blessing or a curse remains to be seen.",
         whyItWorks: "Conditional + speculation + balanced view = sophisticated Band 8 thinking.",
         whyItWorksVi: "Câu điều kiện + dự đoán + góc nhìn cân bằng = tư duy Band 8 tinh tế.",
       },
@@ -658,8 +658,8 @@ export const lectureExpansions: Record<string, LectureExpansion> = {
   "tips-speaking-general-specific": {
     commonMistakes: [
       {
-        wrong: "Q: Tell me about your hometown. — A: My hometown is good. There are many people. The food is delicious.",
-        right: "I'm originally from Hanoi, the capital city in northern Vietnam. It's a vibrant metropolis of over 8 million people, particularly famous for its old quarter where I grew up — a maze of narrow streets bursting with street food and centuries of history.",
+        wrong: "Q: Tell me about your hometown. - A: My hometown is good. There are many people. The food is delicious.",
+        right: "I'm originally from Hanoi, the capital city in northern Vietnam. It's a vibrant metropolis of over 8 million people, particularly famous for its old quarter where I grew up - a maze of narrow streets bursting with street food and centuries of history.",
         explanationVi: "Câu chung chung 'good/delicious' = Band 5. Phải zoom từ tổng quát đến cá nhân hóa.",
         explanation: "Generic 'good/delicious' = Band 5. Funnel from general to personal.",
       },

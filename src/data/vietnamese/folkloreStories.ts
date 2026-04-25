@@ -46,7 +46,7 @@ export const folkloreStories: FolkloreStory[] = [
     difficulty: "medium",
     story: `Ngày xưa, vua Hùng Vương thứ 18 có một người con gái xinh đẹp tên là Mỵ Nương. Nàng đẹp như hoa, dịu dàng và hiền thục. Vua cha rất yêu thương con gái và muốn tìm cho nàng một người chồng xứng đáng.
 
-Một ngày, có hai chàng trai đến cầu hôn. Người thứ nhất là Sơn Tinh — chúa Tản Viên, có phép lạ gọi đất đá, cây cối mọc lên theo ý muốn. Người thứ hai là Thủy Tinh — chúa vùng biển, có thể hô mưa gọi gió, dâng nước lên cao.
+Một ngày, có hai chàng trai đến cầu hôn. Người thứ nhất là Sơn Tinh - chúa Tản Viên, có phép lạ gọi đất đá, cây cối mọc lên theo ý muốn. Người thứ hai là Thủy Tinh - chúa vùng biển, có thể hô mưa gọi gió, dâng nước lên cao.
 
 Cả hai đều tài giỏi, vua Hùng không biết chọn ai. Ngài bèn ra điều kiện: "Ai mang sính lễ đến trước sẽ được cưới Mỵ Nương." Sính lễ gồm: một trăm ván cơm nếp, một trăm nệp bánh chưng, voi chín ngà, gà chín cựa, ngựa chín hồng mao.
 
@@ -55,7 +55,7 @@ Sáng hôm sau, Sơn Tinh mang sính lễ đến trước và rước Mỵ Nươ
 Từ đó, năm nào Thủy Tinh cũng dâng nước đánh Sơn Tinh, gây ra lũ lụt. Đó là lý do vì sao mỗi năm Việt Nam đều có mùa mưa lũ.`,
     storyEn: `Long ago, the 18th Hùng King had a beautiful daughter named Mỵ Nương. She was as lovely as a flower, gentle and graceful. The king loved her dearly and wanted to find her a worthy husband.
 
-One day, two young men came to ask for her hand. The first was Sơn Tinh — Lord of Tản Viên Mountain, who could command earth, rocks, and trees to rise at his will. The second was Thủy Tinh — Lord of the Seas, who could summon rain, wind, and raise the waters high.
+One day, two young men came to ask for her hand. The first was Sơn Tinh - Lord of Tản Viên Mountain, who could command earth, rocks, and trees to rise at his will. The second was Thủy Tinh - Lord of the Seas, who could summon rain, wind, and raise the waters high.
 
 Both were equally talented, and the king could not choose. He set a challenge: "Whoever brings the wedding gifts first shall marry Mỵ Nương." The gifts required: one hundred trays of sticky rice, one hundred bánh chưng cakes, an elephant with nine tusks, a rooster with nine spurs, and a horse with nine red manes.
 
@@ -95,7 +95,7 @@ Khi sứ giả đến làng Gióng, cậu bé bỗng cất tiếng nói: "Mẹ �
 
 Khi giặc đến, cậu bé vươn vai biến thành một tráng sĩ khổng lồ, mặc áo giáp, cầm roi sắt, nhảy lên ngựa sắt phun lửa, xông ra trận. Giặc tan tác. Roi sắt gãy, Gióng nhổ bụi tre bên đường quật vào giặc. Đánh tan giặc, Gióng cưỡi ngựa bay lên trời từ núi Sóc Sơn.
 
-Vua nhớ công ơn, phong là Phù Đổng Thiên Vương. Ngày nay, những bụi tre đằng ngà ở vùng ấy có màu vàng óng — dấu tích ngựa sắt phun lửa.`,
+Vua nhớ công ơn, phong là Phù Đổng Thiên Vương. Ngày nay, những bụi tre đằng ngà ở vùng ấy có màu vàng óng - dấu tích ngựa sắt phun lửa.`,
     storyEn: `During the reign of the 6th Hùng King, in Gióng village there lived an old couple who were kind but had no children. One day, the wife went to the field and saw an unusually large footprint. She stepped into it curiously. When she returned home, she became pregnant and gave birth to a handsome boy.
 
 Strangely, by age three the boy could not speak, laugh, or move from wherever he was placed. At that time, the Ân invaders attacked. The king sent messengers everywhere to find heroes.
@@ -150,7 +150,7 @@ Lưu searched for her husband. She embraced the areca tree, wept, and transforme
 King Hùng passed by, heard the story, and chewed betel leaf, areca nut, and lime from the rock together. The bright red color symbolized undying love. From then on, betel chewing became an essential tradition in Vietnamese weddings and festivals.`,
     lessonsLearned: [
       { vi: "Tình anh em là thiêng liêng, không gì có thể chia cắt.", en: "Brotherly love is sacred and inseparable." },
-      { vi: "Miếng trầu là đầu câu chuyện — tục ăn trầu thể hiện sự gắn kết.", en: "Betel symbolizes connection — it starts every conversation." },
+      { vi: "Miếng trầu là đầu câu chuyện - tục ăn trầu thể hiện sự gắn kết.", en: "Betel symbolizes connection - it starts every conversation." },
       { vi: "Văn hóa Việt trân trọng tình cảm gia đình.", en: "Vietnamese culture deeply values family bonds." },
     ],
     vocabulary: [
@@ -175,7 +175,7 @@ King Hùng passed by, heard the story, and chewed betel leaf, areca nut, and lim
     difficulty: "medium",
     story: `Thạch Sanh là con của một gia đình nghèo. Cha mẹ mất sớm, Thạch Sanh sống một mình dưới gốc đa, chặt củi kiếm sống. Chàng được thiên thần dạy cho võ nghệ và phép thuật.
 
-Lý Thông — một kẻ gian xảo — kết nghĩa anh em với Thạch Sanh. Khi đến lượt Lý Thông nộp mạng cho chằn tinh, hắn lừa Thạch Sanh đi thay. Thạch Sanh dũng cảm giết chằn tinh, nhưng Lý Thông cướp công, nhận mình là người giết.
+Lý Thông - một kẻ gian xảo - kết nghĩa anh em với Thạch Sanh. Khi đến lượt Lý Thông nộp mạng cho chằn tinh, hắn lừa Thạch Sanh đi thay. Thạch Sanh dũng cảm giết chằn tinh, nhưng Lý Thông cướp công, nhận mình là người giết.
 
 Sau đó, công chúa bị đại bàng khổng lồ bắt xuống hang sâu. Thạch Sanh xuống hang cứu được công chúa, nhưng Lý Thông lại lấp cửa hang, bỏ mặc Thạch Sanh.
 
@@ -184,13 +184,13 @@ Dưới hang, Thạch Sanh cứu thêm con trai vua Thủy Tề và được t�
 Vua tìm ra sự thật, trừng phạt Lý Thông, và gả công chúa cho Thạch Sanh. Khi 18 nước kéo quân đến đánh, Thạch Sanh đánh đàn, tiếng nhạc khiến quân giặc buông vũ khí. Chàng nấu niêu cơm thần đãi quân giặc, cơm ăn mãi không hết. Quân giặc cảm phục rút lui.`,
     storyEn: `Thạch Sanh was born to a poor family. Orphaned young, he lived alone under a banyan tree, chopping wood for a living. A heavenly spirit taught him martial arts and magic.
 
-Lý Thông — a cunning man — became his sworn brother. When it was Lý Thông's turn to be sacrificed to the serpent demon, he tricked Thạch Sanh into going instead. Thạch Sanh bravely slayed the demon, but Lý Thông stole the credit.
+Lý Thông - a cunning man - became his sworn brother. When it was Lý Thông's turn to be sacrificed to the serpent demon, he tricked Thạch Sanh into going instead. Thạch Sanh bravely slayed the demon, but Lý Thông stole the credit.
 
 Later, a giant eagle captured the princess and took her to a deep cave. Thạch Sanh descended to rescue her, but Lý Thông sealed the cave entrance, abandoning him.
 
 Underground, Thạch Sanh also rescued the Sea King's son and received a magical lute. He played it, and its music reached the royal palace. The princess, who had not spoken or smiled since her return, came back to life upon hearing the melody.
 
-The king discovered the truth, punished Lý Thông, and married the princess to Thạch Sanh. When 18 nations attacked, Thạch Sanh played his lute — the music made the soldiers drop their weapons. He served them rice from his magic pot that never emptied. Moved by his generosity, the armies retreated.`,
+The king discovered the truth, punished Lý Thông, and married the princess to Thạch Sanh. When 18 nations attacked, Thạch Sanh played his lute - the music made the soldiers drop their weapons. He served them rice from his magic pot that never emptied. Moved by his generosity, the armies retreated.`,
     lessonsLearned: [
       { vi: "Người hiền lành, dũng cảm sẽ được đền đáp xứng đáng.", en: "The kind and brave are justly rewarded." },
       { vi: "Kẻ gian xảo sẽ bị trừng phạt.", en: "The deceitful will face punishment." },
@@ -220,18 +220,18 @@ The king discovered the truth, punished Lý Thông, and married the princess to 
 
 Một hôm, dì ghẻ sai hai chị em đi bắt tôm. Tấm siêng năng bắt được đầy giỏ, nhưng Cám lừa trút hết tôm sang giỏ mình. Tấm chỉ còn con cá bống nhỏ, nuôi ngoài giếng. Dì ghẻ lừa Tấm đi chăn trâu, bắt cá bống ăn thịt.
 
-Tấm khóc, ông Bụt hiện lên dạy Tấm lấy xương cá bống bỏ vào bốn cái lọ chôn dưới chân giường. Đến ngày hội, Tấm không có áo đẹp. Bụt bảo đào lọ lên — trong đó có áo đẹp, giày, và ngựa. Tấm đi dự hội, đánh rơi chiếc giày. Vua nhặt được, cho thử giày khắp nước. Chỉ Tấm mang vừa, vua cưới Tấm làm hoàng hậu.
+Tấm khóc, ông Bụt hiện lên dạy Tấm lấy xương cá bống bỏ vào bốn cái lọ chôn dưới chân giường. Đến ngày hội, Tấm không có áo đẹp. Bụt bảo đào lọ lên - trong đó có áo đẹp, giày, và ngựa. Tấm đi dự hội, đánh rơi chiếc giày. Vua nhặt được, cho thử giày khắp nước. Chỉ Tấm mang vừa, vua cưới Tấm làm hoàng hậu.
 
 Nhưng dì ghẻ không buông tha, nhiều lần hại Tấm. Tấm chết đi sống lại qua nhiều kiếp: chim vàng anh, cây xoan đào, khung cửi, quả thị. Cuối cùng, một bà lão nhặt quả thị, Tấm bước ra, xinh đẹp hơn xưa. Vua nhận ra vợ, đón Tấm về cung.`,
     storyEn: `Tấm and Cám were half-sisters sharing the same father. Tấm's mother died early, leaving her with a cruel stepmother and stepsister Cám. The stepmother forced Tấm to do all the hard work while spoiling Cám.
 
 One day, the stepmother sent both to catch shrimp. Hardworking Tấm caught a full basket, but Cám tricked her and poured all the shrimp into her own basket. Tấm was left with only a tiny goby fish, which she kept in the well. The stepmother tricked Tấm into herding buffalo and killed the fish.
 
-Tấm wept. The fairy Bụt appeared and told her to save the fish bones in four jars buried under her bed. On festival day, Tấm had no fine clothes. Bụt told her to dig up the jars — inside were beautiful clothes, shoes, and a horse. Tấm went to the festival and dropped a shoe. The king found it and had every girl try it on. Only Tấm's foot fit perfectly, and the king married her.
+Tấm wept. The fairy Bụt appeared and told her to save the fish bones in four jars buried under her bed. On festival day, Tấm had no fine clothes. Bụt told her to dig up the jars - inside were beautiful clothes, shoes, and a horse. Tấm went to the festival and dropped a shoe. The king found it and had every girl try it on. Only Tấm's foot fit perfectly, and the king married her.
 
 But the stepmother wouldn't stop. She killed Tấm multiple times. Tấm was reborn through many forms: a golden oriole, a peach tree, a loom, and a persimmon fruit. Finally, an old woman found the persimmon, and Tấm stepped out, more beautiful than ever. The king recognized his wife and brought her back to the palace.`,
     lessonsLearned: [
-      { vi: "Ở hiền gặp lành — thiện sẽ thắng ác.", en: "Goodness prevails — virtue defeats evil." },
+      { vi: "Ở hiền gặp lành - thiện sẽ thắng ác.", en: "Goodness prevails - virtue defeats evil." },
       { vi: "Sự kiên cường giúp vượt qua mọi thử thách.", en: "Resilience helps overcome all challenges." },
       { vi: "Đừng bao giờ từ bỏ, dù hoàn cảnh khó khăn nhất.", en: "Never give up, even in the most difficult circumstances." },
     ],
@@ -266,7 +266,7 @@ Từ đó, chú Cuội ngồi gốc cây đa trên mặt trăng. Mỗi đêm r�
 Đêm Trung thu, trẻ em Việt Nam rước đèn, phá cỗ và hát: "Chú Cuội ngồi gốc cây đa, để trâu ăn lúa gọi cha ời ời..."`,
     storyEn: `Long ago, there was a woodcutter named Cuội. One day in the forest, he discovered a magical tree that could bring the dead back to life. He brought it home and planted it in his yard.
 
-The tree was powerful — Cuội could cure anyone by using its leaves. But there was one rule: never water its roots with dirty water.
+The tree was powerful - Cuội could cure anyone by using its leaves. But there was one rule: never water its roots with dirty water.
 
 Cuội's wife was forgetful and dishonest. One day, she accidentally poured dirty water on the tree's roots. The tree uprooted itself and began flying toward the sky. Cuội ran and grabbed onto the roots, but the tree kept rising until it reached the moon.
 
@@ -274,7 +274,7 @@ Since then, Cuội has been sitting under the banyan tree on the moon. Every ful
 
 During the Mid-Autumn Festival, Vietnamese children carry lanterns, share mooncakes, and sing: "Cuội sits under the banyan tree, let the buffalo eat the rice, calling for father..."`,
     lessonsLearned: [
-      { vi: "Nói dối sẽ gánh hậu quả — hãy sống thật.", en: "Lying has consequences — live honestly." },
+      { vi: "Nói dối sẽ gánh hậu quả - hãy sống thật.", en: "Lying has consequences - live honestly." },
       { vi: "Tết Trung thu là ngày của trẻ em và gia đình.", en: "The Mid-Autumn Festival celebrates children and family." },
       { vi: "Hãy trân trọng những gì mình có trước khi mất đi.", en: "Appreciate what you have before it's gone." },
     ],
@@ -304,22 +304,22 @@ Hai người gặp nhau và yêu nhau. Âu Cơ sinh ra một bọc trăm trứng
 
 Nhưng Lạc Long Quân thuộc về biển, Âu Cơ thuộc về núi. Họ không thể sống cùng nhau mãi. Lạc Long Quân nói: "Ta là giống Rồng, nàng là giống Tiên. Thủy hỏa tương khắc, không thể ở cùng."
 
-Họ chia nhau: 50 con theo cha xuống biển, 50 con theo mẹ lên núi. Người con cả theo mẹ lên vùng đất Phong Châu, được tôn làm vua, lấy hiệu Hùng Vương — mở đầu triều đại Hùng Vương.
+Họ chia nhau: 50 con theo cha xuống biển, 50 con theo mẹ lên núi. Người con cả theo mẹ lên vùng đất Phong Châu, được tôn làm vua, lấy hiệu Hùng Vương - mở đầu triều đại Hùng Vương.
 
-Vì thế, người Việt Nam tự hào gọi mình là "Con Rồng Cháu Tiên" — con cháu của rồng và tiên.`,
+Vì thế, người Việt Nam tự hào gọi mình là "Con Rồng Cháu Tiên" - con cháu của rồng và tiên.`,
     storyEn: `Long ago, Lạc Long Quân was the son of a dragon god who lived under the sea. Âu Cơ was a beautiful fairy who dwelt in the high mountains.
 
 They met and fell in love. Âu Cơ gave birth to a sac containing one hundred eggs, which hatched into one hundred beautiful children.
 
-But Lạc Long Quân belonged to the sea, and Âu Cơ belonged to the mountains. They could not live together forever. Lạc Long Quân said: "I am of the Dragon race, you are of the Fairy race. Water and fire oppose each other — we cannot stay together."
+But Lạc Long Quân belonged to the sea, and Âu Cơ belonged to the mountains. They could not live together forever. Lạc Long Quân said: "I am of the Dragon race, you are of the Fairy race. Water and fire oppose each other - we cannot stay together."
 
-They divided their children: 50 went with the father to the sea, 50 went with the mother to the mountains. The eldest son followed his mother to Phong Châu and was crowned king, taking the title Hùng Vương — beginning the Hùng dynasty.
+They divided their children: 50 went with the father to the sea, 50 went with the mother to the mountains. The eldest son followed his mother to Phong Châu and was crowned king, taking the title Hùng Vương - beginning the Hùng dynasty.
 
-This is why Vietnamese people proudly call themselves "Con Rồng Cháu Tiên" — descendants of the Dragon and the Fairy.`,
+This is why Vietnamese people proudly call themselves "Con Rồng Cháu Tiên" - descendants of the Dragon and the Fairy.`,
     lessonsLearned: [
-      { vi: "Người Việt cùng một nguồn gốc — đoàn kết là sức mạnh.", en: "All Vietnamese share one origin — unity is strength." },
+      { vi: "Người Việt cùng một nguồn gốc - đoàn kết là sức mạnh.", en: "All Vietnamese share one origin - unity is strength." },
       { vi: "Truyền thuyết giải thích bản sắc dân tộc.", en: "Legends explain national identity." },
-      { vi: "Con Rồng Cháu Tiên — niềm tự hào Việt Nam.", en: "Dragon and Fairy descendants — Vietnamese pride." },
+      { vi: "Con Rồng Cháu Tiên - niềm tự hào Việt Nam.", en: "Dragon and Fairy descendants - Vietnamese pride." },
     ],
     vocabulary: [
       { word: "bọc trứng", meaning: "túi chứa trứng", meaningEn: "egg sac" },
@@ -343,18 +343,18 @@ This is why Vietnamese people proudly call themselves "Con Rồng Cháu Tiên" �
     difficulty: "easy",
     story: `Vua Hùng Vương thứ 6 muốn truyền ngôi cho con. Ngài ra lệnh: "Ai dâng lên lễ vật ý nghĩa nhất trong ngày Tết sẽ được nối ngôi."
 
-Các hoàng tử tranh nhau tìm sơn hào hải vị quý hiếm. Riêng Lang Liêu — con trai thứ 18, mồ côi mẹ, nghèo nhất — không biết dâng gì.
+Các hoàng tử tranh nhau tìm sơn hào hải vị quý hiếm. Riêng Lang Liêu - con trai thứ 18, mồ côi mẹ, nghèo nhất - không biết dâng gì.
 
-Đêm đó, Lang Liêu nằm mơ thấy thần linh bảo: "Trên đời không gì quý bằng gạo. Hãy dùng gạo nếp làm bánh." Lang Liêu dùng gạo nếp, đỗ xanh, thịt lợn gói lá dong thành bánh vuông — tượng trưng cho Đất. Chàng lại lấy gạo nếp giã nhuyễn nặn thành bánh tròn — tượng trưng cho Trời.
+Đêm đó, Lang Liêu nằm mơ thấy thần linh bảo: "Trên đời không gì quý bằng gạo. Hãy dùng gạo nếp làm bánh." Lang Liêu dùng gạo nếp, đỗ xanh, thịt lợn gói lá dong thành bánh vuông - tượng trưng cho Đất. Chàng lại lấy gạo nếp giã nhuyễn nặn thành bánh tròn - tượng trưng cho Trời.
 
 Vua Hùng nếm thử, thấy bánh vừa ngon vừa ý nghĩa. Ngài nói: "Bánh vuông là Đất, bánh tròn là Trời. Đây mới là lễ vật đáng quý nhất!" Ngài truyền ngôi cho Lang Liêu.
 
 Từ đó, mỗi dịp Tết Nguyên Đán, người Việt Nam gói bánh chưng (vuông) và bánh dày (tròn) để nhớ ơn tổ tiên và trân trọng hạt gạo.`,
     storyEn: `The 6th Hùng King wanted to pass the throne to one of his sons. He declared: "Whoever presents the most meaningful offering for Tết shall inherit the throne."
 
-The princes competed to find the rarest delicacies from mountains and seas. But Lang Liêu — the 18th prince, motherless and the poorest — had nothing to offer.
+The princes competed to find the rarest delicacies from mountains and seas. But Lang Liêu - the 18th prince, motherless and the poorest - had nothing to offer.
 
-That night, Lang Liêu dreamed of a spirit who said: "Nothing on earth is more precious than rice. Use sticky rice to make cakes." Lang Liêu used sticky rice, mung beans, and pork wrapped in dong leaves to make a square cake — symbolizing Earth. He also pounded sticky rice into a round cake — symbolizing Heaven.
+That night, Lang Liêu dreamed of a spirit who said: "Nothing on earth is more precious than rice. Use sticky rice to make cakes." Lang Liêu used sticky rice, mung beans, and pork wrapped in dong leaves to make a square cake - symbolizing Earth. He also pounded sticky rice into a round cake - symbolizing Heaven.
 
 The king tasted them and found them both delicious and meaningful. He said: "The square cake is Earth, the round cake is Heaven. These are the most precious offerings!" He passed the throne to Lang Liêu.
 
@@ -381,8 +381,8 @@ Since then, every Lunar New Year, Vietnamese people make bánh chưng (square) a
     category: "co-tich",
     categoryLabel: "Cổ tích",
     categoryLabelEn: "Fairy Tale",
-    summary: "Hai anh em và cây khế — người lương thiện được thưởng, kẻ tham lam bị trừng phạt.",
-    summaryEn: "Two brothers and a star fruit tree — the honest is rewarded, the greedy is punished.",
+    summary: "Hai anh em và cây khế - người lương thiện được thưởng, kẻ tham lam bị trừng phạt.",
+    summaryEn: "Two brothers and a star fruit tree - the honest is rewarded, the greedy is punished.",
     difficulty: "easy",
     story: `Ngày xưa, có hai anh em. Cha mẹ mất, người anh tham lam chiếm hết gia tài, chỉ chia cho em một cây khế.
 
@@ -397,10 +397,10 @@ When the star fruits ripened, a strange bird came to eat them. The younger broth
 
 The younger brother sewed a bag exactly three spans, and the bird carried him to a golden island. He took only what the bag could hold and returned. From then on, he lived happily.
 
-The elder brother heard this and traded all his wealth for the star fruit tree. The bird came and said the same words. But the greedy brother sewed a twelve-span bag and stuffed it with gold, silver, and jewels at the island. On the way back, the bag was too heavy — the bird couldn't fly. The elder brother fell into the sea and was never seen again.`,
+The elder brother heard this and traded all his wealth for the star fruit tree. The bird came and said the same words. But the greedy brother sewed a twelve-span bag and stuffed it with gold, silver, and jewels at the island. On the way back, the bag was too heavy - the bird couldn't fly. The elder brother fell into the sea and was never seen again.`,
     lessonsLearned: [
-      { vi: "Tham thì thâm — lòng tham dẫn đến tai họa.", en: "Greed leads to ruin." },
-      { vi: "Biết đủ là giàu — hãy sống thanh đạm.", en: "Knowing enough is wealth — live simply." },
+      { vi: "Tham thì thâm - lòng tham dẫn đến tai họa.", en: "Greed leads to ruin." },
+      { vi: "Biết đủ là giàu - hãy sống thanh đạm.", en: "Knowing enough is wealth - live simply." },
       { vi: "Chia sẻ và lương thiện mang lại hạnh phúc.", en: "Sharing and honesty bring happiness." },
     ],
     vocabulary: [
@@ -423,24 +423,24 @@ The elder brother heard this and traded all his wealth for the star fruit tree. 
     summary: "Lê Lợi mượn gươm thần đánh giặc Minh, trả gươm cho Rùa Vàng tại Hồ Hoàn Kiếm.",
     summaryEn: "Lê Lợi borrows a divine sword to fight the Ming invaders and returns it to the Golden Turtle at Hoàn Kiếm Lake.",
     difficulty: "medium",
-    story: `Thế kỷ 15, giặc Minh xâm lược nước ta. Lê Lợi — một vị tướng nghèo ở Thanh Hóa — dấy nghĩa khởi binh chống giặc.
+    story: `Thế kỷ 15, giặc Minh xâm lược nước ta. Lê Lợi - một vị tướng nghèo ở Thanh Hóa - dấy nghĩa khởi binh chống giặc.
 
-Một hôm, một ngư dân kéo lưới được một lưỡi gươm sáng rực dưới đáy hồ. Sau đó, Lê Lợi tìm thấy chuôi gươm trên cây đa trong rừng. Lưỡi gươm và chuôi gươm khớp nhau hoàn hảo — đó là Thanh gươm thần.
+Một hôm, một ngư dân kéo lưới được một lưỡi gươm sáng rực dưới đáy hồ. Sau đó, Lê Lợi tìm thấy chuôi gươm trên cây đa trong rừng. Lưỡi gươm và chuôi gươm khớp nhau hoàn hảo - đó là Thanh gươm thần.
 
 Nhờ gươm thần, Lê Lợi đánh tan quân Minh sau 10 năm kháng chiến. Năm 1428, Lê Lợi lên ngôi vua, lập nên triều đại Hậu Lê.
 
 Một ngày, vua đi thuyền trên hồ Lục Thủy ở Thăng Long. Bỗng, một con Rùa Vàng khổng lồ nổi lên, cất tiếng: "Xin bệ hạ trả gươm lại cho Long Vương." Lê Lợi rút gươm, Rùa Vàng ngậm gươm lặn xuống hồ.
 
-Từ đó, hồ được đổi tên thành Hồ Hoàn Kiếm (Hồ Gươm) — nghĩa là "Hồ trả gươm." Ngày nay, Hồ Gươm là trái tim của Hà Nội.`,
-    storyEn: `In the 15th century, Ming dynasty invaders occupied Vietnam. Lê Lợi — a poor commander from Thanh Hóa — raised an army to resist them.
+Từ đó, hồ được đổi tên thành Hồ Hoàn Kiếm (Hồ Gươm) - nghĩa là "Hồ trả gươm." Ngày nay, Hồ Gươm là trái tim của Hà Nội.`,
+    storyEn: `In the 15th century, Ming dynasty invaders occupied Vietnam. Lê Lợi - a poor commander from Thanh Hóa - raised an army to resist them.
 
-One day, a fisherman pulled up a glowing sword blade from the bottom of a lake. Later, Lê Lợi found a sword handle on a banyan tree in the forest. The blade and handle fit perfectly — it was the Divine Sword.
+One day, a fisherman pulled up a glowing sword blade from the bottom of a lake. Later, Lê Lợi found a sword handle on a banyan tree in the forest. The blade and handle fit perfectly - it was the Divine Sword.
 
 With the sword's power, Lê Lợi defeated the Ming army after 10 years of resistance. In 1428, he became king and founded the Later Lê dynasty.
 
 One day, the king was boating on Lục Thủy Lake in Thăng Long (Hanoi). Suddenly, a giant Golden Turtle surfaced and spoke: "Your Majesty, please return the sword to the Dragon King." Lê Lợi drew the sword, and the turtle took it beneath the water.
 
-From then on, the lake was renamed Hoàn Kiếm Lake (Sword Lake) — meaning "Lake of the Returned Sword." Today, Hoàn Kiếm Lake is the heart of Hanoi.`,
+From then on, the lake was renamed Hoàn Kiếm Lake (Sword Lake) - meaning "Lake of the Returned Sword." Today, Hoàn Kiếm Lake is the heart of Hanoi.`,
     lessonsLearned: [
       { vi: "Gươm thần tượng trưng cho ý chí độc lập của dân tộc.", en: "The divine sword symbolizes the nation's will for independence." },
       { vi: "Trả gươm = hòa bình; giữ gươm = chiến tranh.", en: "Returning the sword = peace; keeping it = war." },
@@ -472,9 +472,9 @@ Khoai siêng năng, chăm chỉ suốt ba năm. Đến ngày hẹn, phú ông nu
 
 Khoai buồn bã vào rừng. Chàng tìm mãi không được cây tre nào đủ trăm đốt. Chàng ngồi khóc. Bỗng, ông Bụt hiện ra hỏi: "Con khóc vì sao?" Khoai kể sự tình. Bụt bảo: "Con hãy chặt đủ trăm đốt tre rời, rồi đọc câu thần chú: 'Khắc nhập, khắc nhập!' thì các đốt sẽ dính lại thành một cây."
 
-Khoai làm theo. Chàng chặt đủ trăm đốt, đọc "Khắc nhập!" — lập tức các đốt tre nối liền thành cây tre trăm đốt. Khoai vác cây tre về.
+Khoai làm theo. Chàng chặt đủ trăm đốt, đọc "Khắc nhập!" - lập tức các đốt tre nối liền thành cây tre trăm đốt. Khoai vác cây tre về.
 
-Phú ông sững sờ, nhưng vẫn cố chối. Khoai đọc: "Khắc nhập!" — phú ông bị dính chặt vào cây tre, không gỡ ra được. Phú ông van xin, hứa gả con gái. Khoai đọc: "Khắc xuất!" — phú ông được thả ra.
+Phú ông sững sờ, nhưng vẫn cố chối. Khoai đọc: "Khắc nhập!" - phú ông bị dính chặt vào cây tre, không gỡ ra được. Phú ông van xin, hứa gả con gái. Khoai đọc: "Khắc xuất!" - phú ông được thả ra.
 
 Từ đó, Khoai cưới được vợ, sống hạnh phúc. Câu chuyện dạy rằng: kẻ tham lam, bội ước sẽ bị trừng phạt.`,
     storyEn: `Long ago, there was a kind farmer named Khoai. He worked as a servant for a wealthy landlord. The landlord promised: "If you work hard for three years, I will let you marry my daughter."
@@ -483,13 +483,13 @@ Khoai was diligent and hardworking for three years. When the time came, the land
 
 Khoai went sadly into the forest. He searched everywhere but could not find a bamboo with a hundred knots. He sat down and cried. Suddenly, the fairy Bụt appeared and asked: "Why do you cry?" Khoai told his story. Bụt said: "Cut one hundred separate bamboo knots, then say the magic words: 'Khắc nhập, khắc nhập!' and they will join together."
 
-Khoai did as told. He cut a hundred knots and chanted "Khắc nhập!" — instantly, the knots fused into a single bamboo with a hundred segments. Khoai carried it home.
+Khoai did as told. He cut a hundred knots and chanted "Khắc nhập!" - instantly, the knots fused into a single bamboo with a hundred segments. Khoai carried it home.
 
-The landlord was stunned but still refused. Khoai chanted "Khắc nhập!" — the landlord was stuck to the bamboo and couldn't break free. He begged and promised to honor his word. Khoai chanted "Khắc xuất!" — and the landlord was released.
+The landlord was stunned but still refused. Khoai chanted "Khắc nhập!" - the landlord was stuck to the bamboo and couldn't break free. He begged and promised to honor his word. Khoai chanted "Khắc xuất!" - and the landlord was released.
 
 From then on, Khoai married the daughter and lived happily. The story teaches that the greedy and deceitful will be punished.`,
     lessonsLearned: [
-      { vi: "Kẻ bội ước sẽ bị trừng phạt — hãy giữ lời hứa.", en: "Those who break promises will be punished — keep your word." },
+      { vi: "Kẻ bội ước sẽ bị trừng phạt - hãy giữ lời hứa.", en: "Those who break promises will be punished - keep your word." },
       { vi: "Người hiền lành, chăm chỉ sẽ được giúp đỡ.", en: "The kind and hardworking will receive help." },
       { vi: "Công bằng luôn chiến thắng sự gian xảo.", en: "Justice always triumphs over deceit." },
     ],

@@ -1,4 +1,4 @@
-// SAT Expansion 4 — Algebra, Advanced Math, Transitions, Rhetorical Synthesis
+// SAT Expansion 4 - Algebra, Advanced Math, Transitions, Rhetorical Synthesis
 import type { LanguageModule } from "./types";
 
 export const satExpansionModules4: LanguageModule[] = [
@@ -146,7 +146,7 @@ export const satExpansionModules4: LanguageModule[] = [
         theory: "Câu hỏi 'Which choice most logically completes the transition?' xuất hiện ~3 lần trong mỗi bài Digital SAT R&W. Bí quyết: KHÔNG đọc các đáp án trước. Đọc câu trước và câu sau khoảng trống, tự xác định mối quan hệ logic, rồi mới chọn.\n\nCác nhóm transition thường gặp:\n• Bổ sung (Addition): moreover, furthermore, in addition, similarly\n• Tương phản (Contrast): however, nevertheless, on the other hand, conversely\n• Nguyên nhân–Kết quả: therefore, consequently, as a result, thus\n• Ví dụ: for example, for instance, specifically\n• Nhấn mạnh: indeed, in fact\n• Trình tự: subsequently, meanwhile, finally",
         theoryEn: "The 'Which choice most logically completes the transition?' question appears ~3 times per Digital SAT R&W module. Strategy: do NOT read the options first. Read the sentence before and after the blank, identify the logical relationship in your own words, then choose.\n\nCommon transition groups:\n• Addition: moreover, furthermore, in addition, similarly\n• Contrast: however, nevertheless, on the other hand, conversely\n• Cause–effect: therefore, consequently, as a result, thus\n• Example: for example, for instance, specifically\n• Emphasis: indeed, in fact\n• Sequence: subsequently, meanwhile, finally",
         proTips: [
-          "Cẩn thận với 'however' — chỉ dùng khi có sự ĐỐI LẬP rõ ràng giữa hai câu.",
+          "Cẩn thận với 'however' - chỉ dùng khi có sự ĐỐI LẬP rõ ràng giữa hai câu.",
           "'Therefore' chỉ dùng khi câu sau là HỆ QUẢ logic của câu trước.",
           "Dùng 'in fact' để củng cố/nhấn mạnh ý vừa nêu chứ không phải chuyển ý."
         ],

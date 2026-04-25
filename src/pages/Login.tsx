@@ -42,7 +42,7 @@ const Login = () => {
       setGoogleLoading(false);
       toast({ title: t("Lỗi đăng nhập Google", "Google Login Error"), description: String(error), variant: "destructive" });
     }
-    // If successful, the page will redirect — no need to setGoogleLoading(false)
+    // If successful, the page will redirect - no need to setGoogleLoading(false)
   };
 
   return (

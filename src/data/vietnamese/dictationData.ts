@@ -1,4 +1,4 @@
-// Vietnamese Dictation Data — sentences for listening & writing practice
+// Vietnamese Dictation Data - sentences for listening & writing practice
 
 export interface DictationLevel {
   id: string;
