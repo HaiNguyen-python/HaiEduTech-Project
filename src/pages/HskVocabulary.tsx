@@ -16,6 +16,7 @@ import GameLeaderboard from "@/components/games/GameLeaderboard";
 import VocabMasteryLeaderboard, { syncMasteredCount } from "@/components/VocabMasteryLeaderboard";
 import KangxiRadicalsBrowser from "@/components/KangxiRadicalsBrowser";
 import { supabase } from "@/integrations/supabase/client";
+import { useSearchParams } from "react-router-dom";
 
 const WORDS_PER_PAGE = 12;
 
@@ -252,6 +253,23 @@ const HskExercise = ({ words, t }: { words: HskWord[]; t: (vi: string, en: strin
 
 const HskVocabulary = () => {
   const { t } = useLanguage();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialTab = searchParams.get("tab") === "radicals" ? "radicals" : "vocabulary";
+  const [activeTab, setActiveTab] = useState<"vocabulary" | "radicals">(initialTab);
+  // Keep tab and URL in sync (so deep-links from the navbar open the right tab).
+  useEffect(() => {
+    const urlTab = searchParams.get("tab") === "radicals" ? "radicals" : "vocabulary";
+    if (urlTab !== activeTab) setActiveTab(urlTab);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+  const handleTabChange = (v: string) => {
+    const next = v === "radicals" ? "radicals" : "vocabulary";
+    setActiveTab(next);
+    const params = new URLSearchParams(searchParams);
+    if (next === "radicals") params.set("tab", "radicals");
+    else params.delete("tab");
+    setSearchParams(params, { replace: true });
+  };
   const [search, setSearch] = useState("");
   const [levelFilter, setLevelFilter] = useState<string>("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
@@ -337,7 +355,7 @@ const HskVocabulary = () => {
       <Navbar />
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-4 max-w-7xl">
-          <Tabs defaultValue="vocabulary" className="w-full">
+          <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
             <TabsList className="mb-6">
               <TabsTrigger value="vocabulary">{t("Từ vựng HSK", "HSK Vocabulary")}</TabsTrigger>
               <TabsTrigger value="radicals">{t("214 Bộ thủ Khang Hi", "214 Kangxi Radicals")}</TabsTrigger>

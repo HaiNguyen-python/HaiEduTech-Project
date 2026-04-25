@@ -145,6 +145,7 @@ const Navbar = () => {
       { to: "/chinese/hsk", label: "📊 HSK 1-6" },
       { to: "/chinese/hsk-guide", label: t("🎓 HSK Exam Guide", "🎓 HSK Exam Guide") },
       { to: "/chinese/hsk/vocabulary", label: t("📖 HSK Vocabulary", "📖 HSK Vocabulary") },
+      { to: "/chinese/hsk/vocabulary?tab=radicals", label: t("🀄 214 Bộ thủ Khang Hi", "🀄 214 Kangxi Radicals") },
     ] },
     { to: "#cn-conv-group", label: t("💬 Giao tiếp & Tương tác", "💬 Conversational"), groupLabel: "cn-conv", children: [
       { to: "/chinese/conversational", label: t("💬 Giao tiếp", "💬 Conversational") },
