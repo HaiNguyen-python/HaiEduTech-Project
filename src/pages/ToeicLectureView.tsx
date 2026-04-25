@@ -329,8 +329,8 @@ const ToeicLectureView = () => {
 
               {lecture.quiz.map((q, qi) => (
                 <motion.div key={qi} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: qi * 0.05 }}
-                  className="rounded-xl border border-white/10 bg-white/5 p-5">
-                  <p className="text-white font-medium mb-3" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+                  className="rounded-xl border border-purple-200 dark:border-white/10 bg-white dark:bg-white/5 p-5 shadow-sm">
+                  <p className="text-slate-900 dark:text-white font-medium mb-3" style={{ fontSize: "20px", lineHeight: "1.8" }}>
                     {qi + 1}. {q.question}
                   </p>
                   <div className="space-y-2">
@@ -342,10 +342,10 @@ const ToeicLectureView = () => {
                           key={oi}
                           onClick={() => { if (!quizSubmitted) setQuizAnswers(prev => ({ ...prev, [qi]: oi })); }}
                           className={`w-full text-left px-4 py-2.5 rounded-lg border transition-all text-sm ${
-                            quizSubmitted && isCorrect ? "border-emerald-500/40 bg-emerald-500/15 text-emerald-300" :
-                            quizSubmitted && selected && !isCorrect ? "border-red-500/40 bg-red-500/15 text-red-300" :
-                            selected ? "border-blue-500/40 bg-blue-500/15 text-blue-300" :
-                            "border-white/10 bg-white/5 text-foreground hover:bg-white/10"
+                            quizSubmitted && isCorrect ? "border-emerald-500/40 bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300" :
+                            quizSubmitted && selected && !isCorrect ? "border-red-500/40 bg-red-50 dark:bg-red-500/15 text-red-700 dark:text-red-300" :
+                            selected ? "border-blue-500/40 bg-blue-50 dark:bg-blue-500/15 text-blue-700 dark:text-blue-300" :
+                            "border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 text-slate-700 dark:text-foreground hover:bg-slate-50 dark:hover:bg-white/10"
                           }`}
                           disabled={quizSubmitted}
                         >
@@ -357,7 +357,7 @@ const ToeicLectureView = () => {
                     })}
                   </div>
                   {quizSubmitted && (
-                    <p className="mt-2 text-sm text-blue-200/80 bg-blue-500/10 rounded-lg p-3 border border-blue-500/20">
+                    <p className="mt-2 text-sm text-blue-800 dark:text-blue-200/80 bg-blue-50 dark:bg-blue-500/10 rounded-lg p-3 border border-blue-200 dark:border-blue-500/20">
                       💡 {q.explanation}
                     </p>
                   )}
