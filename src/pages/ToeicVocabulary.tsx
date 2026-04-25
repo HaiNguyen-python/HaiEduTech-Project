@@ -358,8 +358,8 @@ const ToeicVocabulary = () => {
         <ToeicMountainClimber
           mastered={mastered.size}
           total={toeicVocabData.length}
-          flyingStars={[]}
-          onStarLanded={() => { /* no-op: stars handled by toast confetti */ }}
+          flyingStars={flyingStars}
+          onStarLanded={handleStarLanded}
         />
 
         {/* Mode Tabs */}
