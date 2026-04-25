@@ -259,6 +259,15 @@ const ToeicVocabulary = () => {
     } catch { return new Set<string>(); }
   });
 
+  // Flying stars animation: when user marks a word mastered, a star flies from the
+  // star button toward the chibi climber, "feeding" it points.
+  const [flyingStars, setFlyingStars] = useState<{ id: number; startX: number; startY: number }[]>([]);
+  const starIdRef = useRef(0);
+
+  const handleStarLanded = useCallback((id: number) => {
+    setFlyingStars((prev) => prev.filter((s) => s.id !== id));
+  }, []);
+
   const toggleMastered = useCallback((word: string) => {
     setMastered(prev => {
       const next = new Set(prev);
@@ -268,6 +277,26 @@ const ToeicVocabulary = () => {
       return next;
     });
   }, []);
+
+  // Wrap toggle with motivation toast + mini confetti
+  const toggleWithMotivation = useMasteredMotivation(mastered, toggleMastered);
+
+  // Star click handler: launch a flying star from the clicked button toward the climber
+  const handleStarClick = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>, word: string) => {
+      const isCurrentlyMastered = mastered.has(word);
+      if (!isCurrentlyMastered) {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const id = ++starIdRef.current;
+        setFlyingStars((prev) => [
+          ...prev,
+          { id, startX: rect.left + rect.width / 2, startY: rect.top + rect.height / 2 },
+        ]);
+      }
+      toggleWithMotivation(word);
+    },
+    [mastered, toggleWithMotivation]
+  );
 
   // Filtered words
   const filtered = useMemo(() => {
