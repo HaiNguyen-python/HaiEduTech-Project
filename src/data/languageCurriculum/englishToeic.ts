@@ -122,6 +122,164 @@ export const toeicModules: LanguageModule[] = [
           { question: "When an answer repeats words from the question, you should?", options: ["Choose it immediately", "Be careful - it is often a trap", "Skip it", "Choose if you hear clearly"], answer: 1, explanation: "Answers repeating words from the question are often DISTRACTORS - listen carefully to the meaning." },
         ],
       },
+      {
+        id: "toeic-listen-2b",
+        title: "Part 2: Indirect Answers",
+        titleEn: "Part 2: Indirect Answers",
+        level: 2,
+        difficulty: "intermediate",
+        theory: "**Câu trả lời gián tiếp** chiếm ~40% Part 2 ở các đề khó. Người trả lời KHÔNG trả lời trực tiếp mà cho thông tin liên quan.\n\n**Ví dụ:**\nQ: 'When will the report be ready?'\n→ Trả lời gián tiếp: 'I'll have to check with my manager.' (không cho thời gian, nhưng phù hợp tình huống)\n\nQ: 'Did you finish the proposal?'\n→ 'My computer crashed this morning.' (gián tiếp = chưa xong)\n\n**Mẹo nhận diện:**\n- Câu trả lời 'I don't know', 'Let me check', 'It depends' thường ĐÚNG\n- Câu trả lời quá thẳng và lặp từ thường SAI",
+        theoryEn: "**Indirect answers** are ~40% of Part 2 in harder tests. The responder gives related info instead of a direct answer.",
+        exercises: [
+          {
+            type: "fill-in-blank",
+            instruction: "Đáp án nào là gián tiếp phù hợp?",
+            instructionEn: "Which is the appropriate indirect answer?",
+            sentences: [
+              { text: "Q: 'When is the deadline?' Best indirect answer: ___ (a/b/c)\n(a) Tomorrow at noon. (b) Let me check the schedule. (c) The deadline is great.", textEn: "Best indirect answer", answer: "b", hint: "gián tiếp = không cho con số cụ thể" },
+              { text: "Q: 'Did you submit the form?' Best indirect: ___ (a/b/c)\n(a) Yes I did. (b) The website was down all morning. (c) I submitted the form.", textEn: "Best indirect", answer: "b", hint: "ngụ ý chưa nộp được" },
+            ],
+          },
+        ],
+        quiz: [
+          { question: "Why are indirect answers common in Part 2?", options: ["To trick test-takers", "Because real conversations work this way", "By accident", "They are not common"], answer: 1, explanation: "Real workplace conversations often use indirect answers - TOEIC tests this real-world skill." },
+          { question: "Which response is most likely correct for 'How was the meeting?'", options: ["Yes I went.", "It ran longer than expected.", "Meeting room 3.", "At 9 AM."], answer: 1, explanation: "'It ran longer than expected' indirectly describes the meeting." },
+        ],
+      },
+      {
+        id: "toeic-listen-3",
+        title: "Part 3: Conversations",
+        titleEn: "Part 3: Conversations",
+        level: 2,
+        difficulty: "intermediate",
+        theory: "**Part 3** (39 câu, 13 đoạn hội thoại 2-3 người): Mỗi đoạn có 3 câu hỏi.\n\n**Chiến lược 3 bước vàng:**\n1. **READ trước** câu hỏi và đáp án trong 5-8 giây trước khi nghe\n2. **PREDICT** thông tin cần tìm (ai, gì, ở đâu, khi nào, tại sao)\n3. **MARK** đáp án ngay khi nghe, đừng chờ\n\n**Dạng câu hỏi thường gặp:**\n- 'Where does the conversation take place?' → nghe từ khóa địa điểm (office, restaurant, hotel)\n- 'What is the man's profession?' → nghe ngữ cảnh nghề nghiệp\n- 'What will the woman do next?' → nghe phần CUỐI hội thoại\n- 'What is the problem?' → thường ở phần đầu, có dấu hiệu 'unfortunately', 'I'm afraid'",
+        theoryEn: "**Part 3** (39 questions, 13 dialogues): 3 questions per dialogue. Read questions first, predict, mark immediately.",
+        vocabulary: [
+          { word: "appointment", ipa: "/əˈpɔɪntmənt/", meaning: "cuộc hẹn", example: "I'd like to schedule an appointment.", partOfSpeech: "noun" },
+          { word: "reservation", ipa: "/ˌrezəˈveɪʃən/", meaning: "đặt chỗ", example: "We have a reservation for 7 PM.", partOfSpeech: "noun" },
+          { word: "out of stock", ipa: "/aʊt əv stɒk/", meaning: "hết hàng", example: "The item is currently out of stock.", partOfSpeech: "phrase" },
+          { word: "transferred", ipa: "/trænsˈfɜːd/", meaning: "chuyển (cuộc gọi/bộ phận)", example: "I'll transfer you to the manager.", partOfSpeech: "verb" },
+        ],
+        exercises: [
+          {
+            type: "fill-in-blank",
+            instruction: "Hoàn thành chiến lược nghe Part 3:",
+            instructionEn: "Complete the Part 3 strategy:",
+            sentences: [
+              { text: "Bước 1: ___ câu hỏi trước khi nghe.", textEn: "Step 1: ___ questions before listening.", answer: "Read", hint: "Đọc" },
+              { text: "Câu hỏi 'What will X do next?' thường có đáp án ở phần ___ của hội thoại.", textEn: "Answer location for 'next' questions:", answer: "cuối", hint: "end" },
+            ],
+          },
+        ],
+        quiz: [
+          { question: "How long should you spend reading questions before each Part 3 dialogue?", options: ["1-2 seconds", "5-8 seconds", "20 seconds", "1 minute"], answer: 1, explanation: "5-8 seconds is enough to scan questions and predict context." },
+          { question: "Where in the dialogue is information about 'what will happen next' usually found?", options: ["Beginning", "Middle", "End", "Anywhere"], answer: 2, explanation: "Future actions are typically mentioned at the END of conversations." },
+        ],
+      },
+      {
+        id: "toeic-listen-3b",
+        title: "Part 3: Implication & Tone",
+        titleEn: "Part 3: Implication & Tone",
+        level: 3,
+        difficulty: "advanced",
+        theory: "**Câu hỏi suy luận** trong Part 3 (TOEIC mới): 'What does the woman imply?', 'Why does the man say...?'\n\n**Cách giải mã:**\n- Tone of voice: vui (excited), thất vọng (disappointed), nghi ngờ (skeptical)\n- Cách dùng từ: 'I'm afraid...' = sắp nói tin xấu\n- 'Actually...' = sắp đính chính / phản đối\n- 'Well...' = lưỡng lự\n\n**Mẹo:** Đáp án thường KHÔNG phải nghĩa đen của câu nói, mà là ý ngầm.\n\nVí dụ: Người đàn ông nói 'It's already 5:30.' Khi sếp hỏi có làm xong báo cáo hôm nay không.\n→ Implication: anh ta KHÔNG thể làm xong (sắp hết giờ).",
+        theoryEn: "**Inference questions** in Part 3 require decoding tone and word choice. The literal meaning is rarely the answer.",
+        exercises: [
+          {
+            type: "fill-in-blank",
+            instruction: "Diễn giải câu nói:",
+            instructionEn: "Interpret the statement:",
+            sentences: [
+              { text: "'I'm afraid we're fully booked.' implies: ___", textEn: "The hotel has ___ rooms available.", answer: "no", hint: "fully booked = không còn chỗ" },
+              { text: "'Actually, that's not quite right.' implies the speaker ___ disagrees.", textEn: "The speaker ___.", answer: "politely", hint: "lịch sự" },
+            ],
+          },
+        ],
+        quiz: [
+          { question: "When someone says 'Well...' before answering, what does it usually indicate?", options: ["Strong agreement", "Hesitation or uncertainty", "Anger", "Excitement"], answer: 1, explanation: "'Well...' signals hesitation - the speaker is unsure or about to disagree." },
+          { question: "What does 'I'm afraid' typically introduce?", options: ["Good news", "Bad news or refusal", "A question", "A joke"], answer: 1, explanation: "'I'm afraid' politely introduces bad news or a refusal." },
+        ],
+      },
+      {
+        id: "toeic-listen-4",
+        title: "Part 4: Short Talks",
+        titleEn: "Part 4: Short Talks",
+        level: 2,
+        difficulty: "intermediate",
+        theory: "**Part 4** (30 câu, 10 bài độc thoại): Bài nói ngắn từ 1 người - thông báo, quảng cáo, tin tức, hướng dẫn.\n\n**Các loại độc thoại phổ biến:**\n1. **Announcement** (thông báo) - sân bay, cửa hàng, văn phòng\n2. **Advertisement** (quảng cáo) - sản phẩm, dịch vụ\n3. **News report** (bản tin) - thời tiết, giao thông, kinh tế\n4. **Voicemail** (lời nhắn thoại)\n5. **Speech** (phát biểu) - giới thiệu, cảm ơn\n\n**Cấu trúc bài nói:**\n- **Đầu**: Loại bài + đối tượng nghe\n- **Giữa**: Thông tin chính (giờ, giá, địa điểm, lý do)\n- **Cuối**: Kêu gọi hành động (call to action)",
+        theoryEn: "**Part 4** (30 questions, 10 monologues): Short talks like announcements, ads, news, voicemails, and speeches.",
+        vocabulary: [
+          { word: "announcement", ipa: "/əˈnaʊnsmənt/", meaning: "thông báo", example: "Attention passengers, this is an important announcement.", partOfSpeech: "noun" },
+          { word: "boarding", ipa: "/ˈbɔːdɪŋ/", meaning: "lên máy bay/tàu", example: "Boarding will begin in 10 minutes.", partOfSpeech: "noun" },
+          { word: "delayed", ipa: "/dɪˈleɪd/", meaning: "bị trễ", example: "Flight 203 has been delayed.", partOfSpeech: "verb" },
+          { word: "complimentary", ipa: "/ˌkɒmplɪˈmentəri/", meaning: "miễn phí", example: "Complimentary breakfast is included.", partOfSpeech: "adjective" },
+        ],
+        exercises: [
+          {
+            type: "fill-in-blank",
+            instruction: "Phân loại bài độc thoại:",
+            instructionEn: "Classify the monologue type:",
+            sentences: [
+              { text: "'Attention shoppers, our weekly sale ends today.' → Đây là dạng ___", textEn: "Type:", answer: "announcement", hint: "thông báo" },
+              { text: "'Hi, this is Mark calling about the meeting.' → Đây là dạng ___", textEn: "Type:", answer: "voicemail", hint: "lời nhắn thoại" },
+              { text: "'Buy one, get one free this weekend!' → Đây là dạng ___", textEn: "Type:", answer: "advertisement", hint: "quảng cáo" },
+            ],
+          },
+        ],
+        quiz: [
+          { question: "How many monologues are in Part 4?", options: ["6", "10", "13", "30"], answer: 1, explanation: "Part 4 has 10 monologues with 3 questions each = 30 total questions." },
+          { question: "Where is the 'call to action' usually found?", options: ["Beginning", "Middle", "End of the talk", "Random"], answer: 2, explanation: "Calls to action ('visit our website', 'press 1', 'come down today') are at the END." },
+        ],
+      },
+      {
+        id: "toeic-listen-4b",
+        title: "Part 4: Graphics & Visual Cues",
+        titleEn: "Part 4: Graphics & Visual Cues",
+        level: 3,
+        difficulty: "advanced",
+        theory: "**Câu hỏi có hình minh họa** (graphic) trong Part 3-4 - đây là dạng mới nhất của TOEIC.\n\n**Loại hình thường gặp:**\n- **Schedule/timetable** (lịch trình)\n- **Map/floor plan** (bản đồ, sơ đồ)\n- **Price list / menu** (bảng giá)\n- **Chart/graph** (biểu đồ)\n- **Coupon/voucher** (mã giảm giá)\n\n**Chiến lược:**\n1. Quan sát graphic trong 5 giây trước khi nghe\n2. Đọc câu hỏi 'Look at the graphic' để biết focus\n3. Trong khi nghe, KHÔNG tìm con số/tên trong graphic - tìm thông tin LIÊN QUAN (đáp án sẽ ở phần khác của graphic)\n\nVí dụ: Bảng giá có A=$10, B=$15, C=$20. Nếu loa nói 'I'll take option B' → đáp án là $15.",
+        theoryEn: "**Graphic-based questions** (Parts 3-4) require quick scanning of visuals before listening.",
+        exercises: [
+          {
+            type: "fill-in-blank",
+            instruction: "Chiến lược cho câu hỏi có hình:",
+            instructionEn: "Strategy for graphic questions:",
+            sentences: [
+              { text: "Khi nghe 'I'd like the medium size', và menu có S=$5, M=$8, L=$10, đáp án là $___.", textEn: "Answer:", answer: "8", hint: "Medium = M" },
+              { text: "Trong câu 'Look at the graphic', bạn nên ___ trong 5 giây trước khi nghe.", textEn: "Action before listening:", answer: "quan sát", hint: "scan/observe" },
+            ],
+          },
+        ],
+        quiz: [
+          { question: "When you hear a name in a graphic question, the answer is usually:", options: ["The name itself", "Information CONNECTED to the name in the graphic", "A different name", "Always 'A'"], answer: 1, explanation: "Listen for ONE clue (a name/number), then look at OTHER info connected to it in the graphic." },
+          { question: "How many seconds to scan a graphic before listening?", options: ["1-2 sec", "5 sec", "30 sec", "No time"], answer: 1, explanation: "5 seconds is typical preparation time provided by TOEIC." },
+        ],
+      },
+      {
+        id: "toeic-listen-5",
+        title: "Listening: Time Management",
+        titleEn: "Listening: Time Management",
+        level: 1,
+        difficulty: "beginner",
+        theory: "**Quản lý thời gian phần Listening** (45 phút - 100 câu).\n\n**Phân bổ chuẩn:**\n- Part 1: 6 câu × ~5 giây/câu = 30 giây nghe + chọn\n- Part 2: 25 câu × ~5 giây = không có đọc, chỉ nghe\n- Part 3: 39 câu - dùng 5-8 giây giữa các đoạn để đọc câu hỏi tiếp\n- Part 4: 30 câu - tương tự Part 3\n\n**Quy tắc vàng:**\n1. KHÔNG quay lại câu trước - mất luôn câu hiện tại\n2. Đoán nếu không chắc - không có điểm trừ\n3. Tô đáp án ngay - không chờ đến cuối\n\n**Bài tập trước thi:** Luyện nghe 45 phút LIÊN TỤC mỗi ngày để tăng độ tập trung.",
+        theoryEn: "**Listening time management** (45 min, 100 questions). Never go back, always guess if unsure, mark answers immediately.",
+        exercises: [
+          {
+            type: "fill-in-blank",
+            instruction: "Điền vào quy tắc thời gian:",
+            instructionEn: "Fill in time rules:",
+            sentences: [
+              { text: "Phần Listening kéo dài ___ phút.", textEn: "Listening duration: ___ minutes.", answer: "45", hint: "45" },
+              { text: "Tổng số câu Listening: ___", textEn: "Total listening questions:", answer: "100", hint: "100" },
+              { text: "Khi không chắc, bạn nên ___ thay vì bỏ trống.", textEn: "When unsure, ___ instead of leaving blank.", answer: "đoán", hint: "guess" },
+            ],
+          },
+        ],
+        quiz: [
+          { question: "Should you go back to previous questions in Listening?", options: ["Yes always", "No - you'll miss the current one", "Only Part 1", "Only at the end"], answer: 1, explanation: "Going back means missing the audio playing - never go back in Listening." },
+          { question: "What should you do for questions you don't know?", options: ["Leave blank", "Guess - no penalty", "Skip and finish later", "Cry"], answer: 1, explanation: "TOEIC has no penalty for wrong answers - always guess." },
+        ],
+      },
     ],
   },
   {
