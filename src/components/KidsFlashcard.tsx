@@ -3,12 +3,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Volume2, Loader2, ChevronLeft, ChevronRight, Sparkles, RotateCw, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useLanguage } from "@/contexts/LanguageContext";
 import { playVietnameseTts, stopVietnameseTts } from "@/lib/vietnameseTts";
 
 export interface FlashcardItem {
   vi: string;
-  en: string;
+  en?: string;
   emoji: string;
   example?: string;
   exampleEn?: string;
@@ -20,7 +19,6 @@ interface KidsFlashcardProps {
 }
 
 const KidsFlashcard = ({ items, title }: KidsFlashcardProps) => {
-  const { t } = useLanguage();
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [loading, setLoading] = useState(false);
