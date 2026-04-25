@@ -180,11 +180,11 @@ const ToeicLectureView = () => {
               ))}
 
               {/* Business context */}
-              <div className="rounded-xl border border-blue-500/20 bg-blue-500/5 p-5 mt-6">
-                <h3 className="text-lg font-semibold text-blue-300 flex items-center gap-2 mb-2">
+              <div className="rounded-xl border border-blue-500/30 bg-blue-50 dark:bg-blue-500/5 p-5 mt-6">
+                <h3 className="text-lg font-semibold text-blue-700 dark:text-blue-300 flex items-center gap-2 mb-2">
                   <Briefcase className="w-5 h-5" /> {t("Bối cảnh kinh doanh", "Business Context")}
                 </h3>
-                <p className="text-muted-foreground" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+                <p className="text-slate-700 dark:text-muted-foreground" style={{ fontSize: "20px", lineHeight: "1.8" }}>
                   {t(lecture.businessContextVi, lecture.businessContext)}
                 </p>
               </div>
