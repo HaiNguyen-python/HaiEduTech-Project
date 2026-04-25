@@ -294,15 +294,15 @@ const ToeicLectureView = () => {
                 <div className="grid gap-3">
                   {lecture.vocabHighlights.map((v, i) => (
                     <motion.div key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}
-                      className="rounded-xl border border-amber-500/15 bg-white/5 p-4">
+                      className="rounded-xl border border-amber-200 dark:border-amber-500/15 bg-white dark:bg-white/5 p-4 shadow-sm">
                       <div className="flex flex-wrap items-center gap-2 mb-2">
-                        <span className="text-lg font-bold text-amber-300">{v.word}</span>
+                        <span className="text-lg font-bold text-amber-700 dark:text-amber-300">{v.word}</span>
                         {v.businessContext && (
-                          <Badge variant="outline" className="text-xs bg-blue-500/10 text-blue-300 border-blue-500/20">{v.businessContext}</Badge>
+                          <Badge variant="outline" className="text-xs bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-500/20">{v.businessContext}</Badge>
                         )}
                       </div>
-                      <p className="text-sm text-foreground mb-1">{v.definition} - <span className="text-muted-foreground">{v.definitionVi}</span></p>
-                      <p className="text-sm text-muted-foreground italic">📝 {v.example}</p>
+                      <p className="text-sm text-slate-800 dark:text-foreground mb-1">{v.definition} - <span className="text-slate-600 dark:text-muted-foreground">{v.definitionVi}</span></p>
+                      <p className="text-sm text-slate-600 dark:text-muted-foreground italic">📝 {v.example}</p>
                     </motion.div>
                   ))}
                 </div>
