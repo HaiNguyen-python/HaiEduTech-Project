@@ -23,6 +23,16 @@ import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 
 const WORDS_PER_PAGE = 24;
 
+// Sort options for the vocabulary list
+type SortKey = "default" | "az" | "za" | "easy" | "hard" | "mastered" | "unmastered";
+
+// Numeric weight for level-based sorting (lower = easier)
+const LEVEL_WEIGHT: Record<string, number> = {
+  basic: 1,
+  intermediate: 2,
+  advanced: 3,
+};
+
 // Category icon mapping
 const categoryIcons: Record<string, React.ReactNode> = {
   "Office & Workplace": <Building2 className="w-5 h-5" />,
@@ -251,6 +261,7 @@ const ToeicVocabulary = () => {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeLevel, setActiveLevel] = useState("All");
+  const [sortBy, setSortBy] = useState<SortKey>("default");
   const [page, setPage] = useState(1);
   const [mastered, setMastered] = useState<Set<string>>(() => {
     try {
@@ -298,7 +309,7 @@ const ToeicVocabulary = () => {
     [mastered, toggleWithMotivation]
   );
 
-  // Filtered words
+  // Filtered + sorted words
   const filtered = useMemo(() => {
     let result = toeicVocabData;
     if (activeCategory !== "All") result = result.filter((w) => w.category === activeCategory);
@@ -314,8 +325,39 @@ const ToeicVocabulary = () => {
           w.collocations.some((c) => c.toLowerCase().includes(q))
       );
     }
+
+    // Apply sorting (work on a copy to keep the source data untouched)
+    if (sortBy !== "default") {
+      result = [...result].sort((a, b) => {
+        switch (sortBy) {
+          case "az":
+            return a.word.localeCompare(b.word);
+          case "za":
+            return b.word.localeCompare(a.word);
+          case "easy":
+            return (LEVEL_WEIGHT[a.level] ?? 99) - (LEVEL_WEIGHT[b.level] ?? 99) ||
+              a.word.localeCompare(b.word);
+          case "hard":
+            return (LEVEL_WEIGHT[b.level] ?? 0) - (LEVEL_WEIGHT[a.level] ?? 0) ||
+              a.word.localeCompare(b.word);
+          case "mastered": {
+            const am = mastered.has(a.word) ? 0 : 1;
+            const bm = mastered.has(b.word) ? 0 : 1;
+            return am - bm || a.word.localeCompare(b.word);
+          }
+          case "unmastered": {
+            const am = mastered.has(a.word) ? 1 : 0;
+            const bm = mastered.has(b.word) ? 1 : 0;
+            return am - bm || a.word.localeCompare(b.word);
+          }
+          default:
+            return 0;
+        }
+      });
+    }
+
     return result;
-  }, [activeCategory, activeLevel, search]);
+  }, [activeCategory, activeLevel, search, sortBy, mastered]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / WORDS_PER_PAGE));
   const paged = filtered.slice((page - 1) * WORDS_PER_PAGE, page * WORDS_PER_PAGE);
@@ -399,15 +441,15 @@ const ToeicVocabulary = () => {
 
             {/* Level Filter */}
             <div className="flex flex-wrap gap-2">
-              <span className="text-slate-600 dark:text-slate-500 text-sm font-bold uppercase self-center mr-2">{t("Cấp độ", "Level")}:</span>
+              <span className="text-slate-700 text-sm font-bold uppercase self-center mr-2">{t("Cấp độ", "Level")}:</span>
               {["All", ...TOEIC_LEVELS].map((lvl) => (
                 <button
                   key={lvl}
                   onClick={() => { setActiveLevel(lvl); setPage(1); }}
                   className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all border shadow-sm ${
                     activeLevel === lvl
-                      ? "bg-blue-600 text-white border-blue-500"
-                      : "bg-white dark:bg-[#1E293B]/60 text-slate-700 dark:text-slate-400 border-sky-200 dark:border-slate-700/50 hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-slate-800"
+                      ? "bg-blue-600 text-white border-blue-500 shadow-blue-300/40"
+                      : "bg-white text-slate-700 border-sky-200 hover:border-blue-400 hover:bg-blue-50"
                   }`}
                 >
                   {lvl === "All" ? t("Tất cả", "All") : levelLabels[lvl]}
@@ -415,15 +457,41 @@ const ToeicVocabulary = () => {
               ))}
             </div>
 
+            {/* Sort Filter */}
+            <div className="flex flex-wrap gap-2 items-center">
+              <span className="text-slate-700 text-sm font-bold uppercase self-center mr-2">{t("Sắp xếp", "Sort")}:</span>
+              {[
+                { key: "default", vi: "Mặc định", en: "Default" },
+                { key: "az", vi: "A → Z", en: "A → Z" },
+                { key: "za", vi: "Z → A", en: "Z → A" },
+                { key: "easy", vi: "Dễ → Khó", en: "Easy → Hard" },
+                { key: "hard", vi: "Khó → Dễ", en: "Hard → Easy" },
+                { key: "mastered", vi: "Đã thuộc trước", en: "Mastered first" },
+                { key: "unmastered", vi: "Chưa thuộc trước", en: "Unmastered first" },
+              ].map((s) => (
+                <button
+                  key={s.key}
+                  onClick={() => { setSortBy(s.key as SortKey); setPage(1); }}
+                  className={`px-3 py-2 rounded-lg text-sm font-semibold transition-all border shadow-sm ${
+                    sortBy === s.key
+                      ? "bg-emerald-600 text-white border-emerald-500 shadow-emerald-300/40"
+                      : "bg-white text-slate-700 border-emerald-200 hover:border-emerald-400 hover:bg-emerald-50"
+                  }`}
+                >
+                  {t(s.vi, s.en)}
+                </button>
+              ))}
+            </div>
+
             {/* Category Filter */}
             <div className="flex flex-wrap gap-2">
-              <span className="text-slate-600 dark:text-slate-500 text-sm font-bold uppercase self-center mr-2">{t("Chủ đề", "Topic")}:</span>
+              <span className="text-slate-700 text-sm font-bold uppercase self-center mr-2">{t("Chủ đề", "Topic")}:</span>
               <button
                 onClick={() => { setActiveCategory("All"); setPage(1); }}
                 className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all border shadow-sm ${
                   activeCategory === "All"
-                    ? "bg-blue-600 text-white border-blue-500"
-                    : "bg-white dark:bg-[#1E293B]/60 text-slate-700 dark:text-slate-400 border-sky-200 dark:border-slate-700/50 hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-slate-800"
+                    ? "bg-blue-600 text-white border-blue-500 shadow-blue-300/40"
+                    : "bg-white text-slate-700 border-sky-200 hover:border-blue-400 hover:bg-blue-50"
                 }`}
               >
                 {t("Tất cả", "All")} ({categoryStats["All"]})
@@ -434,8 +502,8 @@ const ToeicVocabulary = () => {
                   onClick={() => { setActiveCategory(cat); setPage(1); }}
                   className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all border shadow-sm flex items-center gap-2 ${
                     activeCategory === cat
-                      ? "bg-blue-600 text-white border-blue-500"
-                      : "bg-white dark:bg-[#1E293B]/60 text-slate-700 dark:text-slate-400 border-sky-200 dark:border-slate-700/50 hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-slate-800"
+                      ? "bg-blue-600 text-white border-blue-500 shadow-blue-300/40"
+                      : "bg-white text-slate-700 border-sky-200 hover:border-blue-400 hover:bg-blue-50"
                   }`}
                 >
                   {categoryIcons[cat]}
