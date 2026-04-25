@@ -399,15 +399,15 @@ const ToeicVocabulary = () => {
 
             {/* Level Filter */}
             <div className="flex flex-wrap gap-2">
-              <span className="text-slate-600 dark:text-slate-500 text-sm font-bold uppercase self-center mr-2">{t("Cấp độ", "Level")}:</span>
+              <span className="text-slate-700 text-sm font-bold uppercase self-center mr-2">{t("Cấp độ", "Level")}:</span>
               {["All", ...TOEIC_LEVELS].map((lvl) => (
                 <button
                   key={lvl}
                   onClick={() => { setActiveLevel(lvl); setPage(1); }}
                   className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all border shadow-sm ${
                     activeLevel === lvl
-                      ? "bg-blue-600 text-white border-blue-500"
-                      : "bg-white dark:bg-[#1E293B]/60 text-slate-700 dark:text-slate-400 border-sky-200 dark:border-slate-700/50 hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-slate-800"
+                      ? "bg-blue-600 text-white border-blue-500 shadow-blue-300/40"
+                      : "bg-white text-slate-700 border-sky-200 hover:border-blue-400 hover:bg-blue-50"
                   }`}
                 >
                   {lvl === "All" ? t("Tất cả", "All") : levelLabels[lvl]}
@@ -415,15 +415,41 @@ const ToeicVocabulary = () => {
               ))}
             </div>
 
+            {/* Sort Filter */}
+            <div className="flex flex-wrap gap-2 items-center">
+              <span className="text-slate-700 text-sm font-bold uppercase self-center mr-2">{t("Sắp xếp", "Sort")}:</span>
+              {[
+                { key: "default", vi: "Mặc định", en: "Default" },
+                { key: "az", vi: "A → Z", en: "A → Z" },
+                { key: "za", vi: "Z → A", en: "Z → A" },
+                { key: "easy", vi: "Dễ → Khó", en: "Easy → Hard" },
+                { key: "hard", vi: "Khó → Dễ", en: "Hard → Easy" },
+                { key: "mastered", vi: "Đã thuộc trước", en: "Mastered first" },
+                { key: "unmastered", vi: "Chưa thuộc trước", en: "Unmastered first" },
+              ].map((s) => (
+                <button
+                  key={s.key}
+                  onClick={() => { setSortBy(s.key as SortKey); setPage(1); }}
+                  className={`px-3 py-2 rounded-lg text-sm font-semibold transition-all border shadow-sm ${
+                    sortBy === s.key
+                      ? "bg-emerald-600 text-white border-emerald-500 shadow-emerald-300/40"
+                      : "bg-white text-slate-700 border-emerald-200 hover:border-emerald-400 hover:bg-emerald-50"
+                  }`}
+                >
+                  {t(s.vi, s.en)}
+                </button>
+              ))}
+            </div>
+
             {/* Category Filter */}
             <div className="flex flex-wrap gap-2">
-              <span className="text-slate-600 dark:text-slate-500 text-sm font-bold uppercase self-center mr-2">{t("Chủ đề", "Topic")}:</span>
+              <span className="text-slate-700 text-sm font-bold uppercase self-center mr-2">{t("Chủ đề", "Topic")}:</span>
               <button
                 onClick={() => { setActiveCategory("All"); setPage(1); }}
                 className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all border shadow-sm ${
                   activeCategory === "All"
-                    ? "bg-blue-600 text-white border-blue-500"
-                    : "bg-white dark:bg-[#1E293B]/60 text-slate-700 dark:text-slate-400 border-sky-200 dark:border-slate-700/50 hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-slate-800"
+                    ? "bg-blue-600 text-white border-blue-500 shadow-blue-300/40"
+                    : "bg-white text-slate-700 border-sky-200 hover:border-blue-400 hover:bg-blue-50"
                 }`}
               >
                 {t("Tất cả", "All")} ({categoryStats["All"]})
@@ -434,8 +460,8 @@ const ToeicVocabulary = () => {
                   onClick={() => { setActiveCategory(cat); setPage(1); }}
                   className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all border shadow-sm flex items-center gap-2 ${
                     activeCategory === cat
-                      ? "bg-blue-600 text-white border-blue-500"
-                      : "bg-white dark:bg-[#1E293B]/60 text-slate-700 dark:text-slate-400 border-sky-200 dark:border-slate-700/50 hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-slate-800"
+                      ? "bg-blue-600 text-white border-blue-500 shadow-blue-300/40"
+                      : "bg-white text-slate-700 border-sky-200 hover:border-blue-400 hover:bg-blue-50"
                   }`}
                 >
                   {categoryIcons[cat]}
