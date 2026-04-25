@@ -192,7 +192,7 @@ const ToeicLectureView = () => {
 
             {/* Core Technique Tab */}
             <TabsContent value="technique" className="space-y-4">
-              <h2 className="text-xl font-bold text-blue-300 flex items-center gap-2">
+              <h2 className="text-xl font-bold text-blue-700 dark:text-blue-300 flex items-center gap-2">
                 <BookOpen className="w-5 h-5" /> {t("Kỹ thuật cốt lõi", "Core Technique")}
               </h2>
 
@@ -201,20 +201,20 @@ const ToeicLectureView = () => {
 
               {lecture.coreTechnique.map((step, i) => (
                 <motion.div key={i} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
-                  className="rounded-xl border border-blue-500/15 bg-white/5 p-5">
+                  className="rounded-xl border border-blue-500/30 bg-white dark:bg-white/5 p-5 shadow-sm">
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-full bg-blue-500/20 text-blue-300 flex items-center justify-center font-bold text-lg shrink-0">
+                    <div className="w-10 h-10 rounded-full bg-blue-500/20 text-blue-700 dark:text-blue-300 flex items-center justify-center font-bold text-lg shrink-0">
                       {step.step}
                     </div>
                     <div>
-                      <h3 className="text-lg font-semibold text-white mb-1" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+                      <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-1" style={{ fontSize: "20px", lineHeight: "1.8" }}>
                         {t(step.titleVi, step.title)}
                       </h3>
-                      <p className="text-muted-foreground mb-2" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+                      <p className="text-slate-700 dark:text-muted-foreground mb-2" style={{ fontSize: "20px", lineHeight: "1.8" }}>
                         {t(step.descriptionVi, step.description)}
                       </p>
                       {step.example && (
-                        <div className="bg-blue-500/10 rounded-lg p-3 mt-2 text-sm text-blue-200 border border-blue-500/20">
+                        <div className="bg-blue-50 dark:bg-blue-500/10 rounded-lg p-3 mt-2 text-sm text-blue-800 dark:text-blue-200 border border-blue-500/30">
                           💡 {step.example}
                         </div>
                       )}
@@ -224,11 +224,11 @@ const ToeicLectureView = () => {
               ))}
 
               {/* Pro Speed Tip */}
-              <div className="rounded-xl border border-amber-500/20 bg-gradient-to-r from-amber-500/10 to-orange-500/10 p-5 mt-6">
-                <h3 className="text-lg font-semibold text-amber-300 flex items-center gap-2 mb-2">
+              <div className="rounded-xl border border-amber-500/40 bg-gradient-to-r from-amber-100 to-orange-100 dark:from-amber-500/10 dark:to-orange-500/10 p-5 mt-6">
+                <h3 className="text-lg font-semibold text-amber-700 dark:text-amber-300 flex items-center gap-2 mb-2">
                   <Zap className="w-5 h-5" /> Teacher Hai's Pro-Speed Tip
                 </h3>
-                <p className="text-amber-100/80" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+                <p className="text-amber-900 dark:text-amber-100/80" style={{ fontSize: "20px", lineHeight: "1.8" }}>
                   {t(lecture.proSpeedTipVi, lecture.proSpeedTip)}
                 </p>
               </div>
