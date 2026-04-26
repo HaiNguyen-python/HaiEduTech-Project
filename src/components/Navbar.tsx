@@ -133,10 +133,13 @@ const Navbar = () => {
     // Vietnamese national exam
     { to: "#national-exam-group", label: t("🏫 Luyện thi THPT", "🏫 National Exam Prep"), groupLabel: "national-exam", children: nationalExamChildren },
     { to: "#en-div2", label: "", divider: true },
-    { to: "/english/fun-facts", label: t("✨ Fun Facts tiếng Anh", "✨ English Fun Facts") },
-    { to: "/songs/english", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
-    { to: "/speaking-coach/english", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
-    { to: "/specialized-language?lang=english", label: t("🧠 AI Ngôn ngữ Chuyên ngành", "🧠 AI Specialized Language") },
+    // Fun & AI tools grouped together to keep the top-level menu compact
+    { to: "#en-tools-group", label: t("🚀 Công cụ AI & Học vui", "🚀 AI Tools & Fun Learning"), groupLabel: "en-tools", children: [
+      { to: "/english/fun-facts", label: t("Fun Facts tiếng Anh", "English Fun Facts"), icon: Sparkles },
+      { to: "/songs/english", label: t("Học qua bài hát", "Learn through Songs"), icon: Music },
+      { to: "/speaking-coach/english", label: t("AI Speaking Coach", "AI Speaking Coach"), icon: Mic2 },
+      { to: "/specialized-language?lang=english", label: t("AI Ngôn ngữ Chuyên ngành", "AI Specialized Language"), icon: Brain },
+    ] },
   ];
   const chineseSubs: SubItem[] = [
     { to: "/chinese", label: t("📚 Tổng quan", "📚 Overview") },
@@ -531,6 +534,7 @@ const Navbar = () => {
                                               : sub.groupLabel === "national-exam" ? t("Luyện thi THPT", "National Exam Prep")
                                               : sub.groupLabel === "en-foundation" ? t("Nền tảng Anh ngữ", "English Foundation")
                                               : sub.groupLabel === "en-exams" ? t("Luyện thi Quốc tế", "International Exams")
+                                              : sub.groupLabel === "en-tools" ? t("Công cụ AI & Học vui", "AI Tools & Fun Learning")
                                               : sub.groupLabel === "prog-foundation" ? t("Lộ trình Cơ bản", "Foundation Track")
                                               : sub.groupLabel === "prog-ai-data" ? "AI & Data Engineering"
                                               : sub.groupLabel === "prog-software-web" ? "Software & Web Engineering"
