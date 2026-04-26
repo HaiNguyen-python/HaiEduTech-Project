@@ -436,7 +436,7 @@ const fireStampConfetti = () => {
 // =============================================================================
 
 const WorldPlayground = () => {
-  const { t, language } = useLanguage();
+  const { t, lang } = useLanguage();
   const [passport, setPassport] = useState<string[]>([]);
   const [activeZone, setActiveZone] = useState<ExplorationZone["id"]>("geography");
 
@@ -477,8 +477,8 @@ const WorldPlayground = () => {
       }
       list.push({
         id: lesson.id,
-        title: language === "vi" ? lesson.title : lesson.titleEn,
-        fact: language === "vi" ? lesson.funFact : lesson.funFactEn,
+        title: lang === "vi" ? lesson.title : lesson.titleEn,
+        fact: lang === "vi" ? lesson.funFact : lesson.funFactEn,
         addedAt: Date.now(),
       });
       localStorage.setItem(KEY, JSON.stringify(list));
@@ -670,7 +670,7 @@ const WorldPlayground = () => {
                                   size="sm"
                                   variant={stamped ? "secondary" : "default"}
                                   className="flex-1 gap-1"
-                                  onClick={() => stampLesson(lesson.id, language === "vi" ? lesson.country : lesson.countryEn)}
+                                  onClick={() => stampLesson(lesson.id, lang === "vi" ? lesson.country : lesson.countryEn)}
                                 >
                                   <Stamp className="w-3.5 h-3.5" />
                                   {stamped ? t("Đã ghé thăm", "Visited") : t("Đóng dấu", "Stamp it")}
@@ -748,7 +748,7 @@ const WorldPlayground = () => {
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {(language === "vi" ? currentQ.options : currentQ.optionsEn).map((opt, idx) => {
+                      {(lang === "vi" ? currentQ.options : currentQ.optionsEn).map((opt, idx) => {
                         const isCorrect = idx === currentQ.answerIndex;
                         const isPicked = picked === idx;
                         const showState = picked !== null;
