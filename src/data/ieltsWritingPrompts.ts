@@ -13,6 +13,7 @@ export interface WritingPrompt {
   brainstormingIdeas: string[];
   imageDescription?: string;
   chartData?: ChartDataConfig;
+  chartData2?: ChartDataConfig; // Optional 2nd chart for side-by-side comparison (e.g. two pie charts)
   mapData?: MapDiagramData;
   processData?: ProcessDiagramData;
 }
