@@ -33,6 +33,12 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import confetti from "canvas-confetti";
 
+// Hero photos for each exploration zone (realistic, high quality)
+import heroGeography from "@/assets/zone-geography.jpg";
+import heroCulture from "@/assets/zone-culture.jpg";
+import heroLanguages from "@/assets/zone-languages.jpg";
+import heroLandmarks from "@/assets/zone-landmarks.jpg";
+
 // =============================================================================
 // Types
 // =============================================================================
@@ -58,6 +64,7 @@ interface ExplorationZone {
   tagline: string;
   taglineEn: string;
   accent: string; // tailwind gradient stops referencing semantic tokens
+  hero: string; // hero photo (imported asset)
   lessons: ExplorationLesson[];
 }
 
