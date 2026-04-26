@@ -1,5 +1,6 @@
 // Static IELTS Writing prompt bank for fallback and quick access
 import { ChartDataConfig } from "@/components/Task1Chart";
+import { MapDiagramData, ProcessDiagramData } from "@/components/Task1Visual";
 
 export interface WritingPrompt {
   id: string;
@@ -12,6 +13,8 @@ export interface WritingPrompt {
   brainstormingIdeas: string[];
   imageDescription?: string;
   chartData?: ChartDataConfig;
+  mapData?: MapDiagramData;
+  processData?: ProcessDiagramData;
 }
 
 export const writingPrompts: WritingPrompt[] = [
