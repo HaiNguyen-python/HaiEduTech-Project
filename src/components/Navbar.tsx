@@ -547,6 +547,15 @@ const Navbar = () => {
                                           if (child.divider) {
                                             return <div key={child.to} className="my-1.5 mx-3 h-px bg-border" />;
                                           }
+                                          if (child.header) {
+                                            return (
+                                              <div key={child.to} className="px-4 pt-2 pb-1 mt-1 first:mt-0">
+                                                <span className="text-[10px] font-bold uppercase tracking-wider text-primary/70">
+                                                  {child.label}
+                                                </span>
+                                              </div>
+                                            );
+                                          }
                                           const ChildIcon = child.icon;
                                           return (
                                             <motion.div
