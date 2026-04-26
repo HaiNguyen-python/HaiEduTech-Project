@@ -78,31 +78,28 @@ const ChineseConversationalDashboard = () => {
       <main className="container mx-auto px-4 py-8 max-w-5xl">
         <Link to="/chinese/conversational" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary mb-6">
           <ArrowLeft className="h-4 w-4" />
-          {t("Tiếng Trung Giao tiếp", "Conversational Chinese")}
+          Conversational Chinese
         </Link>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-10">
           <h1 className="text-3xl sm:text-4xl font-bold mb-2">
-            {t("Chương trình ", "Interactive ")}
+            Interactive{" "}
             <span className="bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">
-              {t("Tương tác 中文", "中文 Curriculum")}
+              中文 Curriculum
             </span>
           </h1>
           <p className="text-muted-foreground max-w-2xl">
-            {t(
-              `${totalLessons} bài học tương tác chia thành 3 trụ cột: Đời sống, Công sở, Xã hội. Hoàn thành mỗi bài để nhận huy hiệu!`,
-              `${totalLessons} interactive lessons across 3 pillars: Daily Life, Business, Social. Complete each lesson to earn badges!`
-            )}
+            {totalLessons} interactive lessons across 3 pillars: Daily Life, Business, and Social. Complete each lesson to earn badges!
           </p>
 
           <div className="mt-6 p-4 rounded-xl bg-card border">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium">{t("Tiến trình tổng thể", "Overall Progress")}</span>
+              <span className="text-sm font-medium">Overall Progress</span>
               <span className="text-sm font-bold text-primary">{overallProgress}%</span>
             </div>
             <Progress value={overallProgress} className="h-2" />
             <p className="text-xs text-muted-foreground mt-1">
-              {completed.length}/{totalLessons} {t("bài hoàn thành", "lessons completed")}
+              {completed.length}/{totalLessons} lessons completed
             </p>
           </div>
         </motion.div>
@@ -115,8 +112,8 @@ const ChineseConversationalDashboard = () => {
               return (
                 <TabsTrigger key={pillar.id} value={pillar.id} className="flex-1 min-w-[120px] text-xs sm:text-sm py-2.5 gap-1.5">
                   <PIcon className="h-4 w-4" />
-                  <span className="hidden sm:inline">{t(pillar.titleVi, pillar.title)}</span>
-                  <span className="sm:hidden">{t(pillar.titleVi.split(" ")[0], pillar.title.split(" ")[0])}</span>
+                  <span className="hidden sm:inline">{pillar.title}</span>
+                  <span className="sm:hidden">{pillar.title.split(" ")[0]}</span>
                   <Badge variant="secondary" className="ml-1 text-[10px] px-1.5 py-0">
                     {pillarCompleted}/{pillar.lessons.length}
                   </Badge>
