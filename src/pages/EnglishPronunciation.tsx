@@ -945,20 +945,43 @@ const EnglishPronunciation = () => {
                 "Pitch changes based on sentence type — right intonation, right meaning.",
               )}
             />
-            <div className="grid md:grid-cols-2 gap-4">
-              {INTONATION.map((it) => (
-                <div key={it.pattern} className="rounded-xl border border-border bg-card p-5">
-                  <div className="inline-flex items-center gap-2 text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium mb-3">
-                    <Music2 className="w-3 h-3" /> {t(it.pattern, it.patternEn)}
+            <div className="space-y-8">
+              {INTONATION_GROUPS.map((group) => {
+                const items = INTONATION.filter((it) => it.group === group.key);
+                if (items.length === 0) return null;
+                return (
+                  <div key={group.key} className={`rounded-2xl border bg-gradient-to-br ${group.color} p-5`}>
+                    <div className="flex items-center gap-3 mb-4">
+                      <span className="text-2xl">{group.emoji}</span>
+                      <h3 className="text-lg font-bold text-foreground">{t(group.vi, group.en)}</h3>
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-background/60 text-muted-foreground border border-border">
+                        {items.length} {t("mẫu", "patterns")}
+                      </span>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      {items.map((it) => (
+                        <div key={it.pattern} className="rounded-xl border border-border bg-card p-5">
+                          <div className="inline-flex items-center gap-2 text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium mb-3">
+                            <Music2 className="w-3 h-3" /> {t(it.pattern, it.patternEn)}
+                          </div>
+                          <div className="space-y-2 mb-3">
+                            {it.examples.map((ex, i) => (
+                              <div key={i} className="rounded-lg border border-border/60 bg-secondary/40 p-2.5">
+                                <p className="text-foreground font-medium text-sm mb-1.5">"{ex}"</p>
+                                <div className="flex items-center gap-1.5">
+                                  <PlayBtn text={ex} accent="en-US" small />
+                                  <PlayBtn text={ex} accent="en-GB" small />
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                          <p className="text-sm text-muted-foreground">{t(it.note, it.noteEn)}</p>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  <p className="text-foreground font-medium mb-3 text-base">"{it.example}"</p>
-                  <div className="flex items-center gap-2 mb-3">
-                    <PlayBtn text={it.example} accent="en-US" />
-                    <PlayBtn text={it.example} accent="en-GB" />
-                  </div>
-                  <p className="text-sm text-muted-foreground">{t(it.note, it.noteEn)}</p>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* Mẹo của thầy Hải */}
