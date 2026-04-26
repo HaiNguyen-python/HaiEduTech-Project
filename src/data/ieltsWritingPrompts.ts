@@ -13,6 +13,7 @@ export interface WritingPrompt {
   brainstormingIdeas: string[];
   imageDescription?: string;
   chartData?: ChartDataConfig;
+  chartData2?: ChartDataConfig; // Optional 2nd chart for side-by-side comparison (e.g. two pie charts)
   mapData?: MapDiagramData;
   processData?: ProcessDiagramData;
 }
@@ -335,6 +336,20 @@ export const writingPrompts: WritingPrompt[] = [
     prompt: 'The pie charts below compare the proportion of energy generated from different sources in a country in 2000 and 2020. Summarise the information by selecting and reporting the main features and make comparisons where relevant.',
     imageDescription: 'Two pie charts side by side. 2000: Coal 45%, Oil 30%, Gas 15%, Nuclear 5%, Renewables 5%. 2020: Coal 20%, Oil 15%, Gas 25%, Nuclear 10%, Renewables 30%.',
     chartData: {
+      chart_type: "pie",
+      title: "Energy Sources Distribution - 2000",
+      x_axis: "Source",
+      y_axis: "Percentage",
+      series: ["Percentage"],
+      data: [
+        { Source: "Coal", Percentage: 45 },
+        { Source: "Oil", Percentage: 30 },
+        { Source: "Gas", Percentage: 15 },
+        { Source: "Nuclear", Percentage: 5 },
+        { Source: "Renewables", Percentage: 5 },
+      ],
+    },
+    chartData2: {
       chart_type: "pie",
       title: "Energy Sources Distribution - 2020",
       x_axis: "Source",
