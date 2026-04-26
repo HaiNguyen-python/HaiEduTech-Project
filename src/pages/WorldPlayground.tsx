@@ -770,11 +770,24 @@ const WorldPlayground = () => {
                       exit={{ opacity: 0, y: -8 }}
                       transition={{ duration: 0.4 }}
                     >
-                      <div className={`rounded-2xl bg-gradient-to-br ${zone.accent} p-6 md:p-8 mb-8 text-center`}>
-                        <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-2">
-                          {t(zone.title, zone.titleEn)}
-                        </h2>
-                        <p className="text-muted-foreground">{t(zone.tagline, zone.taglineEn)}</p>
+                      {/* Zone hero: realistic photo + gradient overlay + title */}
+                      <div className="relative rounded-2xl overflow-hidden mb-8 shadow-lg">
+                        <img
+                          src={zone.hero}
+                          alt={t(zone.title, zone.titleEn)}
+                          loading="lazy"
+                          width={1280}
+                          height={512}
+                          className="w-full h-48 md:h-64 object-cover"
+                        />
+                        <div className={`absolute inset-0 bg-gradient-to-t from-background/95 via-background/50 to-transparent`} />
+                        <div className={`absolute inset-0 bg-gradient-to-br ${zone.accent} mix-blend-overlay`} />
+                        <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 text-center">
+                          <h2 className="text-2xl md:text-4xl font-display font-bold text-foreground mb-2 drop-shadow-md">
+                            {t(zone.title, zone.titleEn)}
+                          </h2>
+                          <p className="text-foreground/90 text-sm md:text-base drop-shadow">{t(zone.tagline, zone.taglineEn)}</p>
+                        </div>
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">

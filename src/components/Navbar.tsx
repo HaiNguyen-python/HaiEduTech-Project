@@ -241,7 +241,7 @@ const Navbar = () => {
     { to: "/finnish", label: t("Học Tiếng Phần Lan", "Learn Finnish"), icon: Languages, subs: finnishSubs, key: "fi" },
     { to: "/programming", label: t("Học Lập Trình", "Learn Programming"), icon: Code2, subs: programmingSubs, key: "prog" },
     { to: "/study-abroad", label: t("Du Học", "Study Abroad"), icon: Briefcase, subs: studyAbroadSubs, key: "abroad" },
-    { to: "/world-playground", label: t("🌍 Thế giới quanh ta", "🌍 World Playground"), icon: Globe },
+    { to: "/world-playground", label: t("Thế giới quanh ta", "World Playground") },
   ];
 
   const navLinks = user
