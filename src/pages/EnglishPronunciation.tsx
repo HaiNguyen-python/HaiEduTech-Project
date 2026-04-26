@@ -121,112 +121,201 @@ const MIN_PAIRS: MinimalPair[] = [
   { vi: "/ʃ/ vs /tʃ/", pair: ["sheep", "cheap"], ipa: ["/ʃiːp/", "/tʃiːp/"] },
 ];
 
+type IntonationGroup = "falling" | "rising" | "mixed" | "stress" | "special";
 interface IntonationItem {
+  group: IntonationGroup;
   pattern: string;
   patternEn: string;
-  example: string;
+  examples: string[];
   note: string;
   noteEn: string;
 }
 const INTONATION: IntonationItem[] = [
+  // ===== FALLING ↘ =====
   {
+    group: "falling",
     pattern: "Câu tường thuật → giọng đi xuống ↘",
     patternEn: "Statements → falling tone ↘",
-    example: "I live in Hanoi.",
-    note: "Hạ giọng ở từ cuối nhấn (Hanoi).",
-    noteEn: "Lower pitch on the last stressed word (Hanoi).",
+    examples: [
+      "I live in Hanoi.",
+      "She works at a bank downtown.",
+      "We finished the project yesterday.",
+    ],
+    note: "Hạ giọng ở từ cuối nhấn (ví dụ: Hanoi, bank, yesterday).",
+    noteEn: "Lower pitch on the last stressed word (e.g., Hanoi, bank, yesterday).",
   },
   {
+    group: "falling",
     pattern: "Câu hỏi Wh- → giọng đi xuống ↘",
     patternEn: "Wh-questions → falling ↘",
-    example: "Where do you live?",
-    note: "Wh-questions kết thúc bằng giọng giảm.",
-    noteEn: "Wh-questions end with a falling tone.",
+    examples: [
+      "Where do you live?",
+      "What time does the meeting start?",
+      "Why did you choose this course?",
+    ],
+    note: "Wh-questions kết thúc bằng giọng giảm — nghe tự tin, lịch sự.",
+    noteEn: "Wh-questions end with a falling tone — sounds confident and polite.",
   },
   {
-    pattern: "Câu hỏi Yes/No → giọng đi lên ↗",
-    patternEn: "Yes/No questions → rising ↗",
-    example: "Do you live in Hanoi?",
-    note: "Lên giọng ở từ cuối.",
-    noteEn: "Rise on the final word.",
-  },
-  {
-    pattern: "Liệt kê → lên ↗ ↗ ↗ rồi xuống ↘",
-    patternEn: "Lists → rise rise rise then fall",
-    example: "I bought apples, oranges, bananas, and grapes.",
-    note: "Mỗi mục lên, mục cuối xuống.",
-    noteEn: "Rise on each item, fall on the last.",
-  },
-  {
-    pattern: "Câu hỏi đuôi (chắc chắn) → xuống ↘",
-    patternEn: "Tag question (sure) → falling ↘",
-    example: "It's cold today, isn't it?",
-    note: "Bạn đã chắc → hạ giọng phần đuôi.",
-    noteEn: "You're sure → fall on the tag.",
-  },
-  {
-    pattern: "Câu hỏi đuôi (thật sự hỏi) → lên ↗",
-    patternEn: "Tag question (real question) → rising ↗",
-    example: "You're coming, aren't you?",
-    note: "Bạn không chắc → lên giọng đuôi.",
-    noteEn: "You're unsure → rise on the tag.",
-  },
-  {
-    pattern: "Câu chưa hoàn tất → lên ↗ (chờ tiếp)",
-    patternEn: "Incomplete thought → rising ↗ (more to come)",
-    example: "If I have time tomorrow, …",
-    note: "Lên giọng ở mệnh đề if báo hiệu câu chưa kết thúc.",
-    noteEn: "Rise on the if-clause signals the sentence isn't done.",
-  },
-  {
-    pattern: "Lựa chọn (or) → lên ↗ rồi xuống ↘",
-    patternEn: "Choice questions (or) → rise ↗ then fall ↘",
-    example: "Would you like tea or coffee?",
-    note: "Lên ở 'tea', xuống ở 'coffee' (lựa chọn cuối).",
-    noteEn: "Rise on 'tea', fall on 'coffee' (final option).",
-  },
-  {
-    pattern: "Yêu cầu lịch sự → lên nhẹ ↗",
-    patternEn: "Polite requests → soft rising ↗",
-    example: "Could you help me, please?",
-    note: "Lên giọng mềm = lịch sự. Hạ giọng = giống ra lệnh.",
-    noteEn: "Soft rise = polite. Falling = sounds like an order.",
-  },
-  {
-    pattern: "Câu cảm thán → xuống mạnh ↘↘",
-    patternEn: "Exclamations → strong falling ↘↘",
-    example: "What a beautiful day!",
-    note: "Xuống mạnh ở từ trọng tâm để diễn đạt cảm xúc.",
-    noteEn: "Strong fall on the key word conveys emotion.",
-  },
-  {
+    group: "falling",
     pattern: "Câu mệnh lệnh → xuống dứt khoát ↘",
     patternEn: "Commands → firm falling ↘",
-    example: "Close the door.",
+    examples: [
+      "Close the door.",
+      "Sit down, please.",
+      "Don't touch that!",
+    ],
     note: "Hạ giọng ngắn, gọn → quyết đoán.",
     noteEn: "Short, firm fall → decisive tone.",
   },
   {
-    pattern: "Trọng âm tương phản → nhấn mạnh từ khoá",
-    patternEn: "Contrastive stress → emphasize key word",
-    example: "I didn't say SHE stole it (someone else did).",
-    note: "Nhấn mạnh 'SHE' đổi hoàn toàn nghĩa của câu.",
-    noteEn: "Stressing 'SHE' completely changes the meaning.",
+    group: "falling",
+    pattern: "Câu hỏi đuôi (chắc chắn) → xuống ↘",
+    patternEn: "Tag question (sure) → falling ↘",
+    examples: [
+      "It's cold today, isn't it?",
+      "You finished your homework, didn't you?",
+      "That movie was great, wasn't it?",
+    ],
+    note: "Bạn đã chắc → hạ giọng phần đuôi (chỉ chờ xác nhận).",
+    noteEn: "You're sure → fall on the tag (just seeking confirmation).",
+  },
+
+  // ===== RISING ↗ =====
+  {
+    group: "rising",
+    pattern: "Câu hỏi Yes/No → giọng đi lên ↗",
+    patternEn: "Yes/No questions → rising ↗",
+    examples: [
+      "Do you live in Hanoi?",
+      "Are you coming to the party?",
+      "Have you ever been to Japan?",
+    ],
+    note: "Lên giọng ở từ cuối — báo hiệu chờ câu trả lời yes/no.",
+    noteEn: "Rise on the final word — signals you expect a yes/no answer.",
   },
   {
-    pattern: "Echo/ngạc nhiên → lên cao ↗↗",
+    group: "rising",
+    pattern: "Câu hỏi đuôi (thật sự hỏi) → lên ↗",
+    patternEn: "Tag question (real question) → rising ↗",
+    examples: [
+      "You're coming, aren't you?",
+      "She speaks French, doesn't she?",
+      "They left already, didn't they?",
+    ],
+    note: "Bạn không chắc → lên giọng đuôi (đang thật sự hỏi).",
+    noteEn: "You're unsure → rise on the tag (genuinely asking).",
+  },
+  {
+    group: "rising",
+    pattern: "Câu chưa hoàn tất → lên ↗ (chờ tiếp)",
+    patternEn: "Incomplete thought → rising ↗ (more to come)",
+    examples: [
+      "If I have time tomorrow, …",
+      "When she arrives, …",
+      "First, you boil the water, …",
+    ],
+    note: "Lên giọng ở mệnh đề phụ báo hiệu câu chưa kết thúc.",
+    noteEn: "Rise on the subordinate clause signals the sentence isn't done.",
+  },
+  {
+    group: "rising",
+    pattern: "Yêu cầu lịch sự → lên nhẹ ↗",
+    patternEn: "Polite requests → soft rising ↗",
+    examples: [
+      "Could you help me, please?",
+      "Would you mind opening the window?",
+      "Can I have a glass of water?",
+    ],
+    note: "Lên giọng mềm = lịch sự. Hạ giọng = giống ra lệnh.",
+    noteEn: "Soft rise = polite. Falling = sounds like an order.",
+  },
+
+  // ===== MIXED (rise + fall) =====
+  {
+    group: "mixed",
+    pattern: "Liệt kê → lên ↗ ↗ ↗ rồi xuống ↘",
+    patternEn: "Lists → rise rise rise then fall",
+    examples: [
+      "I bought apples, oranges, bananas, and grapes.",
+      "We need pens, paper, scissors, and glue.",
+      "She speaks English, French, Spanish, and Italian.",
+    ],
+    note: "Mỗi mục lên, mục cuối xuống → báo hiệu danh sách kết thúc.",
+    noteEn: "Rise on each item, fall on the last → signals the list is complete.",
+  },
+  {
+    group: "mixed",
+    pattern: "Lựa chọn (or) → lên ↗ rồi xuống ↘",
+    patternEn: "Choice questions (or) → rise ↗ then fall ↘",
+    examples: [
+      "Would you like tea or coffee?",
+      "Should we go on Saturday or Sunday?",
+      "Do you prefer the red one or the blue one?",
+    ],
+    note: "Lên ở lựa chọn đầu, xuống ở lựa chọn cuối.",
+    noteEn: "Rise on the first option, fall on the final option.",
+  },
+
+  // ===== STRESS / EMPHASIS =====
+  {
+    group: "stress",
+    pattern: "Trọng âm tương phản → nhấn mạnh từ khoá",
+    patternEn: "Contrastive stress → emphasize key word",
+    examples: [
+      "I didn't say SHE stole it (someone else did).",
+      "I want the RED one, not the blue one.",
+      "He said he'd call TODAY, not tomorrow.",
+    ],
+    note: "Nhấn mạnh từ in HOA đổi hoàn toàn nghĩa của câu.",
+    noteEn: "Stressing the CAPITALIZED word completely changes the meaning.",
+  },
+  {
+    group: "stress",
+    pattern: "Câu cảm thán → xuống mạnh ↘↘",
+    patternEn: "Exclamations → strong falling ↘↘",
+    examples: [
+      "What a beautiful day!",
+      "How amazing!",
+      "That's incredible!",
+    ],
+    note: "Xuống mạnh ở từ trọng tâm để diễn đạt cảm xúc.",
+    noteEn: "Strong fall on the key word conveys emotion.",
+  },
+
+  // ===== SPECIAL =====
+  {
+    group: "special",
+    pattern: "Echo / ngạc nhiên → lên cao ↗↗",
     patternEn: "Echo / surprise → high rising ↗↗",
-    example: "You did WHAT?",
+    examples: [
+      "You did WHAT?",
+      "She's moving to Paris?!",
+      "He said HOW much?",
+    ],
     note: "Giọng vọt lên cao thể hiện sốc hoặc xác nhận lại.",
     noteEn: "Sharp high rise shows shock or asks for repetition.",
   },
   {
-    pattern: "Mỉa mai (Sarcasm) → ngữ điệu phẳng/kéo dài",
+    group: "special",
+    pattern: "Mỉa mai (Sarcasm) → ngữ điệu phẳng / kéo dài",
     patternEn: "Sarcasm → flat / stretched intonation",
-    example: "Oh, great. Just what I needed.",
-    note: "Giọng phẳng, kéo dài 'great' → mỉa mai chứ không khen.",
-    noteEn: "Flat, drawn-out 'great' → sarcasm, not praise.",
+    examples: [
+      "Oh, great. Just what I needed.",
+      "Wow, you're SO funny.",
+      "Yeah, right. Like that's gonna happen.",
+    ],
+    note: "Giọng phẳng, kéo dài → mỉa mai chứ không khen.",
+    noteEn: "Flat, drawn-out tone → sarcasm, not praise.",
   },
+];
+
+const INTONATION_GROUPS: { key: IntonationGroup; vi: string; en: string; emoji: string; color: string }[] = [
+  { key: "falling", vi: "Nhóm Giọng Xuống ↘", en: "Falling Tone ↘", emoji: "📉", color: "from-rose-500/15 to-rose-500/5 border-rose-500/30" },
+  { key: "rising", vi: "Nhóm Giọng Lên ↗", en: "Rising Tone ↗", emoji: "📈", color: "from-emerald-500/15 to-emerald-500/5 border-emerald-500/30" },
+  { key: "mixed", vi: "Nhóm Lên rồi Xuống ↗↘", en: "Mixed (Rise + Fall) ↗↘", emoji: "🎢", color: "from-amber-500/15 to-amber-500/5 border-amber-500/30" },
+  { key: "stress", vi: "Nhóm Nhấn mạnh / Cảm xúc 💥", en: "Stress / Emphasis 💥", emoji: "💥", color: "from-purple-500/15 to-purple-500/5 border-purple-500/30" },
+  { key: "special", vi: "Nhóm Đặc biệt 🎭", en: "Special Patterns 🎭", emoji: "🎭", color: "from-blue-500/15 to-blue-500/5 border-blue-500/30" },
 ];
 
 // ===== Deep-dive intonation mini-lessons =====
