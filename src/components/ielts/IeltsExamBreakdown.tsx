@@ -1093,9 +1093,15 @@ const IeltsExamBreakdown = () => {
           )}
         </p>
 
-        <div className="space-y-4">
+        <div className="space-y-5">
           {roadmap.map((stage, i) => {
             const Icon = stage.icon;
+            const skillGoals = [
+              { icon: Headphones, label: t("Listening", "Listening"), goal: t(stage.listening.vi, stage.listening.en), color: "text-sky-600 dark:text-sky-400" },
+              { icon: BookOpen, label: t("Reading", "Reading"), goal: t(stage.reading.vi, stage.reading.en), color: "text-emerald-600 dark:text-emerald-400" },
+              { icon: PenSquare, label: t("Writing", "Writing"), goal: t(stage.writing.vi, stage.writing.en), color: "text-amber-600 dark:text-amber-400" },
+              { icon: Mic, label: t("Speaking", "Speaking"), goal: t(stage.speaking.vi, stage.speaking.en), color: "text-rose-600 dark:text-rose-400" },
+            ];
             return (
               <motion.div
                 key={i}
@@ -1105,8 +1111,9 @@ const IeltsExamBreakdown = () => {
                 transition={{ delay: i * 0.1 }}
                 className={`relative rounded-xl border border-border bg-gradient-to-r ${stage.color} p-5 md:p-6`}
               >
-                <div className="flex flex-col md:flex-row md:items-start gap-4">
-                  <div className="flex md:flex-col items-center md:items-start gap-3 md:min-w-[180px]">
+                {/* Header row */}
+                <div className="flex flex-col md:flex-row md:items-center gap-4 mb-5 pb-4 border-b border-border/50">
+                  <div className="flex items-center gap-3 md:min-w-[200px]">
                     <div className="p-3 rounded-xl bg-background/80 backdrop-blur-sm shadow-sm">
                       <Icon className="w-6 h-6 text-foreground" />
                     </div>
@@ -1117,21 +1124,81 @@ const IeltsExamBreakdown = () => {
                       <p className="text-xs text-muted-foreground font-medium mt-0.5">
                         {t(stage.levelVi, stage.levelEn)}
                       </p>
-                      <p className="text-xs text-muted-foreground mt-1 inline-flex items-center gap-1">
-                        <Clock className="w-3 h-3" /> {t(stage.durationVi, stage.durationEn)}
-                      </p>
                     </div>
                   </div>
-                  <div className="flex-1">
-                    <ul className="grid sm:grid-cols-2 gap-x-4 gap-y-2">
-                      {(t(stage.focusVi.join("|"), stage.focusEn.join("|")).split("|")).map((focus, idx) => (
-                        <li key={idx} className="text-sm text-foreground/85 flex gap-2">
-                          <span className="text-primary mt-1.5 shrink-0">▸</span>
-                          <span>{focus}</span>
-                        </li>
-                      ))}
-                    </ul>
+                  <div className="flex-1 flex flex-wrap gap-2 text-xs">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-background/70 border border-border text-foreground/80">
+                      <Clock className="w-3 h-3" /> {t(stage.durationVi, stage.durationEn)}
+                    </span>
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-background/70 border border-border text-foreground/80">
+                      <Flame className="w-3 h-3" /> {t(stage.weeklyHoursVi, stage.weeklyHoursEn)}
+                    </span>
                   </div>
+                </div>
+
+                {/* Prerequisite */}
+                <div className="mb-4 rounded-lg bg-background/60 border border-border/50 p-3">
+                  <p className="text-xs font-semibold text-foreground/70 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                    <Compass className="w-3.5 h-3.5" /> {t("Yêu cầu đầu vào", "Entry requirements")}
+                  </p>
+                  <p className="text-sm text-foreground/85 leading-relaxed">{t(stage.prerequisiteVi, stage.prerequisiteEn)}</p>
+                </div>
+
+                {/* Vocabulary + Grammar */}
+                <div className="grid md:grid-cols-2 gap-3 mb-4">
+                  <div className="rounded-lg bg-background/60 border border-border/50 p-3">
+                    <p className="text-xs font-semibold text-foreground/70 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                      <BookMarked className="w-3.5 h-3.5" /> {t("Từ vựng", "Vocabulary")}
+                    </p>
+                    <p className="text-sm text-foreground/85 leading-relaxed">{t(stage.vocabSizeVi, stage.vocabSizeEn)}</p>
+                  </div>
+                  <div className="rounded-lg bg-background/60 border border-border/50 p-3">
+                    <p className="text-xs font-semibold text-foreground/70 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                      <Brain className="w-3.5 h-3.5" /> {t("Ngữ pháp trọng tâm", "Grammar focus")}
+                    </p>
+                    <p className="text-sm text-foreground/85 leading-relaxed">{t(stage.grammarVi, stage.grammarEn)}</p>
+                  </div>
+                </div>
+
+                {/* 4 Skill goals */}
+                <div className="mb-4">
+                  <p className="text-xs font-semibold text-foreground/70 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <Target className="w-3.5 h-3.5" /> {t("Mục tiêu chi tiết theo 4 kỹ năng", "Detailed goals across 4 skills")}
+                  </p>
+                  <div className="grid md:grid-cols-2 gap-2">
+                    {skillGoals.map((sg, idx) => {
+                      const SgIcon = sg.icon;
+                      return (
+                        <div key={idx} className="flex items-start gap-2 rounded-lg bg-background/60 border border-border/50 p-2.5">
+                          <SgIcon className={`w-4 h-4 ${sg.color} shrink-0 mt-0.5`} />
+                          <div className="text-xs leading-relaxed">
+                            <span className={`font-semibold ${sg.color}`}>{sg.label}: </span>
+                            <span className="text-foreground/85">{sg.goal}</span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Materials */}
+                <div className="mb-4 rounded-lg bg-background/60 border border-border/50 p-3">
+                  <p className="text-xs font-semibold text-foreground/70 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <BookOpen className="w-3.5 h-3.5" /> {t("Giáo trình & Tài liệu chính", "Core textbooks & materials")}
+                  </p>
+                  <ul className="grid sm:grid-cols-2 gap-x-4 gap-y-1">
+                    {(t("vi", "en") === "vi" ? stage.materialsVi : stage.materialsEn).map((m, idx) => (
+                      <li key={idx} className="text-xs text-foreground/85 flex gap-2">
+                        <span className="text-primary mt-1 shrink-0">▸</span>
+                        <span>{m}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Outcome */}
+                <div className="rounded-lg bg-primary/5 border border-primary/20 p-3">
+                  <p className="text-sm text-foreground/85 leading-relaxed">{t(stage.outcomeVi, stage.outcomeEn)}</p>
                 </div>
               </motion.div>
             );
