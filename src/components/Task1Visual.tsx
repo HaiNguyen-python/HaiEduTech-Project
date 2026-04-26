@@ -3,7 +3,7 @@ import { ArrowRight, ArrowDown, RefreshCw } from "lucide-react";
 
 /**
  * Visual renderer for IELTS Task 1 Map (before/after) and Process diagrams.
- * - Map: top-down SVG layouts (roads, river, buildings) — IELTS-style
+ * - Map: top-down SVG layouts (roads, river, buildings) — IELTS-style, large readable canvas
  * - Process: large iconic step cards in a responsive grid with directional arrows
  */
 
@@ -44,8 +44,8 @@ export interface MapDiagramData {
 
 /* ---------- SVG element renderers ---------- */
 
-const VIEW_W = 400;
-const VIEW_H = 260;
+const VIEW_W = 500;
+const VIEW_H = 340;
 
 const px = (v: number, total: number) => (v / 100) * total;
 
@@ -61,7 +61,7 @@ const Element: React.FC<{ el: MapElement }> = ({ el }) => {
         <g>
           <rect x={x} y={y} width={w} height={h} rx={3} fill="hsl(205 80% 75%)" stroke="hsl(205 60% 55%)" strokeWidth={1} />
           {el.label && (
-            <text x={x + w / 2} y={y + h / 2 + 3} textAnchor="middle" fontSize={9} fontStyle="italic" fill="hsl(205 60% 30%)">
+            <text x={x + w / 2} y={y + h / 2 + 4} textAnchor="middle" fontSize={13} fontStyle="italic" fontWeight={600} fill="hsl(205 60% 25%)">
               {el.label}
             </text>
           )}
@@ -72,7 +72,7 @@ const Element: React.FC<{ el: MapElement }> = ({ el }) => {
         <g>
           <rect x={x} y={y} width={w} height={h} rx={2} fill="hsl(95 50% 80%)" stroke="hsl(95 45% 50%)" strokeWidth={1} strokeDasharray="3 2" />
           {el.label && (
-            <text x={x + w / 2} y={y + h / 2 + 3} textAnchor="middle" fontSize={9} fill="hsl(95 50% 25%)">
+            <text x={x + w / 2} y={y + h / 2 + 4} textAnchor="middle" fontSize={13} fontWeight={600} fill="hsl(95 50% 22%)">
               {el.label}
             </text>
           )}
@@ -85,12 +85,12 @@ const Element: React.FC<{ el: MapElement }> = ({ el }) => {
           <rect x={x} y={y} width={w} height={h} fill="hsl(0 0% 75%)" stroke="hsl(0 0% 55%)" strokeWidth={0.5} />
           {/* dashed centre line */}
           {isV ? (
-            <line x1={x + w / 2} y1={y} x2={x + w / 2} y2={y + h} stroke="white" strokeWidth={1} strokeDasharray="4 3" />
+            <line x1={x + w / 2} y1={y} x2={x + w / 2} y2={y + h} stroke="white" strokeWidth={1.5} strokeDasharray="5 4" />
           ) : (
-            <line x1={x} y1={y + h / 2} x2={x + w} y2={y + h / 2} stroke="white" strokeWidth={1} strokeDasharray="4 3" />
+            <line x1={x} y1={y + h / 2} x2={x + w} y2={y + h / 2} stroke="white" strokeWidth={1.5} strokeDasharray="5 4" />
           )}
           {el.label && (
-            <text x={x + w / 2} y={y - 2} textAnchor="middle" fontSize={8} fill="hsl(0 0% 30%)">
+            <text x={x + w / 2} y={y - 3} textAnchor="middle" fontSize={11} fontWeight={600} fill="hsl(0 0% 25%)">
               {el.label}
             </text>
           )}
@@ -103,7 +103,7 @@ const Element: React.FC<{ el: MapElement }> = ({ el }) => {
           <circle cx={x + w / 2} cy={y + h / 2} r={Math.min(w, h) / 2} fill="hsl(0 0% 75%)" stroke="hsl(0 0% 50%)" strokeWidth={1} />
           <circle cx={x + w / 2} cy={y + h / 2} r={Math.min(w, h) / 4} fill="hsl(95 50% 80%)" stroke="hsl(95 45% 50%)" strokeWidth={0.5} />
           {el.label && (
-            <text x={x + w / 2} y={y + h + 8} textAnchor="middle" fontSize={8} fill="hsl(0 0% 30%)">
+            <text x={x + w / 2} y={y + h + 11} textAnchor="middle" fontSize={11} fontWeight={600} fill="hsl(0 0% 25%)">
               {el.label}
             </text>
           )}
@@ -112,9 +112,9 @@ const Element: React.FC<{ el: MapElement }> = ({ el }) => {
     case "trees":
       return (
         <g>
-          <circle cx={x + 4} cy={y + 4} r={3} fill="hsl(140 50% 45%)" />
-          <circle cx={x + 10} cy={y + 6} r={3.5} fill="hsl(140 55% 40%)" />
-          <circle cx={x + 16} cy={y + 4} r={3} fill="hsl(140 50% 45%)" />
+          <circle cx={x + 5} cy={y + 5} r={4} fill="hsl(140 50% 45%)" />
+          <circle cx={x + 13} cy={y + 7} r={4.5} fill="hsl(140 55% 40%)" />
+          <circle cx={x + 21} cy={y + 5} r={4} fill="hsl(140 50% 45%)" />
         </g>
       );
     case "carpark":
@@ -126,7 +126,7 @@ const Element: React.FC<{ el: MapElement }> = ({ el }) => {
             <line key={i} x1={x + w * p} y1={y + 2} x2={x + w * p} y2={y + h - 2} stroke="hsl(0 0% 60%)" strokeWidth={0.5} />
           ))}
           {el.label && (
-            <text x={x + w / 2} y={y + h / 2 + 3} textAnchor="middle" fontSize={8} fill="hsl(0 0% 30%)">
+            <text x={x + w / 2} y={y + h / 2 + 4} textAnchor="middle" fontSize={11} fontWeight={600} fill="hsl(0 0% 25%)">
               {el.label}
             </text>
           )}
@@ -134,19 +134,19 @@ const Element: React.FC<{ el: MapElement }> = ({ el }) => {
       );
     case "label":
       return (
-        <text x={x} y={y} fontSize={9} fill="hsl(var(--foreground))" fontWeight={600}>
+        <text x={x} y={y} fontSize={12} fill="hsl(var(--foreground))" fontWeight={600}>
           {el.label}
         </text>
       );
     case "building":
     default: {
       const palette: Record<string, { fill: string; stroke: string; text: string }> = {
-        shop:    { fill: "hsl(35 85% 78%)",  stroke: "hsl(35 75% 50%)",  text: "hsl(35 70% 25%)" },
-        house:   { fill: "hsl(15 70% 80%)",  stroke: "hsl(15 60% 50%)",  text: "hsl(15 60% 25%)" },
-        office:  { fill: "hsl(220 50% 80%)", stroke: "hsl(220 45% 50%)", text: "hsl(220 45% 25%)" },
-        school:  { fill: "hsl(280 50% 82%)", stroke: "hsl(280 40% 55%)", text: "hsl(280 40% 25%)" },
-        bus:     { fill: "hsl(50 90% 78%)",  stroke: "hsl(40 70% 45%)",  text: "hsl(40 70% 25%)" },
-        default: { fill: "hsl(0 0% 88%)",    stroke: "hsl(0 0% 55%)",    text: "hsl(0 0% 25%)" },
+        shop:    { fill: "hsl(35 85% 78%)",  stroke: "hsl(35 75% 50%)",  text: "hsl(35 70% 22%)" },
+        house:   { fill: "hsl(15 70% 80%)",  stroke: "hsl(15 60% 50%)",  text: "hsl(15 60% 22%)" },
+        office:  { fill: "hsl(220 50% 80%)", stroke: "hsl(220 45% 50%)", text: "hsl(220 45% 22%)" },
+        school:  { fill: "hsl(280 50% 82%)", stroke: "hsl(280 40% 55%)", text: "hsl(280 40% 22%)" },
+        bus:     { fill: "hsl(50 90% 78%)",  stroke: "hsl(40 70% 45%)",  text: "hsl(40 70% 22%)" },
+        default: { fill: "hsl(0 0% 88%)",    stroke: "hsl(0 0% 55%)",    text: "hsl(0 0% 22%)" },
       };
       const c = palette[el.variant ?? "default"] ?? palette.default;
       return (
@@ -155,14 +155,14 @@ const Element: React.FC<{ el: MapElement }> = ({ el }) => {
           {/* roof line for houses */}
           {el.variant === "house" && (
             <polyline
-              points={`${x},${y + 2} ${x + w / 2},${y - 4} ${x + w},${y + 2}`}
+              points={`${x},${y + 2} ${x + w / 2},${y - 5} ${x + w},${y + 2}`}
               fill="hsl(15 60% 45%)"
               stroke="hsl(15 60% 35%)"
               strokeWidth={0.5}
             />
           )}
           {el.label && (
-            <text x={x + w / 2} y={y + h / 2 + 3} textAnchor="middle" fontSize={8} fontWeight={600} fill={c.text}>
+            <text x={x + w / 2} y={y + h / 2 + 4} textAnchor="middle" fontSize={11} fontWeight={700} fill={c.text}>
               {el.label}
             </text>
           )}
@@ -173,25 +173,29 @@ const Element: React.FC<{ el: MapElement }> = ({ el }) => {
 };
 
 const Compass: React.FC = () => (
-  <g transform={`translate(${VIEW_W - 30}, 22)`}>
-    <circle r={12} fill="white" stroke="hsl(0 0% 60%)" strokeWidth={0.5} opacity={0.9} />
-    <polygon points="0,-9 3,0 0,9 -3,0" fill="hsl(0 70% 50%)" />
-    <text x={0} y={-13} textAnchor="middle" fontSize={7} fontWeight={700} fill="hsl(0 0% 25%)">N</text>
+  <g transform={`translate(${VIEW_W - 36}, 28)`}>
+    <circle r={16} fill="white" stroke="hsl(0 0% 60%)" strokeWidth={0.8} opacity={0.95} />
+    <polygon points="0,-12 4,0 0,12 -4,0" fill="hsl(0 70% 50%)" />
+    <text x={0} y={-18} textAnchor="middle" fontSize={10} fontWeight={700} fill="hsl(0 0% 25%)">N</text>
   </g>
 );
 
 const MapScenePanel: React.FC<{ scene: MapScene; tone: "before" | "after" }> = ({ scene, tone }) => (
   <div
-    className={`flex-1 rounded-lg border-2 p-2 ${
+    className={`flex-1 rounded-lg border-2 p-3 ${
       tone === "before"
         ? "border-amber-400/40 bg-amber-50/30 dark:bg-amber-950/10"
         : "border-emerald-400/40 bg-emerald-50/30 dark:bg-emerald-950/10"
     }`}
   >
-    <h5 className="text-xs font-bold text-center mb-2 uppercase tracking-wide text-foreground/80">
+    <h5 className="text-base font-bold text-center mb-3 uppercase tracking-wide text-foreground/80">
       {scene.title}
     </h5>
-    <svg viewBox={`0 0 ${VIEW_W} ${VIEW_H}`} className="w-full h-auto bg-[hsl(60_30%_96%)] dark:bg-[hsl(60_10%_18%)] rounded-md border border-border/50">
+    <svg
+      viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
+      preserveAspectRatio="xMidYMid meet"
+      className="w-full h-auto min-h-[360px] bg-[hsl(60_30%_96%)] dark:bg-[hsl(60_10%_18%)] rounded-md border border-border/50"
+    >
       {scene.elements.map((el, i) => (
         <Element key={i} el={el} />
       ))}
@@ -202,12 +206,13 @@ const MapScenePanel: React.FC<{ scene: MapScene; tone: "before" | "after" }> = (
 
 export const MapDiagram: React.FC<{ data: MapDiagramData }> = ({ data }) => (
   <div className="rounded-lg border bg-card p-4 space-y-3">
-    <h4 className="text-sm font-semibold text-foreground text-center">🗺️ Map Comparison (Top-down view)</h4>
-    <div className="flex flex-col md:flex-row items-stretch gap-3">
+    <h4 className="text-base font-semibold text-foreground text-center">🗺️ Map Comparison (Top-down view)</h4>
+    {/* Stack vertically by default for big readable maps; side-by-side only on extra-wide screens */}
+    <div className="flex flex-col xl:flex-row items-stretch gap-4">
       <MapScenePanel scene={data.before} tone="before" />
-      <div className="flex md:flex-col items-center justify-center text-primary shrink-0">
-        <ArrowRight className="w-7 h-7 hidden md:block" />
-        <ArrowDown className="w-7 h-7 md:hidden" />
+      <div className="flex xl:flex-col items-center justify-center text-primary shrink-0">
+        <ArrowDown className="w-8 h-8 xl:hidden" />
+        <ArrowRight className="w-8 h-8 hidden xl:block" />
       </div>
       <MapScenePanel scene={data.after} tone="after" />
     </div>
