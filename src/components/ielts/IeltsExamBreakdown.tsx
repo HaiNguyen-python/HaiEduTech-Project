@@ -796,17 +796,37 @@ const IeltsExamBreakdown = () => {
 
       {/* ========== Roadmap by Band ========== */}
       <div className="glass-card rounded-3xl p-6 md:p-8">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="p-2.5 rounded-xl bg-gradient-to-br from-primary to-emerald-500 text-white shadow-lg">
-            <TrendingUp className="w-5 h-5" />
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-6">
+          <div>
+            <div className="flex items-center gap-3 mb-2">
+              <div className="p-2.5 rounded-xl bg-gradient-to-br from-primary to-emerald-500 text-white shadow-lg">
+                <TrendingUp className="w-5 h-5" />
+              </div>
+              <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground">
+                Curriculum: Foundation → Advanced
+              </h2>
+            </div>
+            <p className="text-sm md:text-base text-muted-foreground">
+              A 4-level pathway by target band — click a level to view the full plan.
+            </p>
           </div>
-          <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground">
-            Curriculum: Foundation → Advanced
-          </h2>
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={expandAllStages}
+              className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-primary/30 text-primary hover:bg-primary/10 transition-colors"
+            >
+              Expand all
+            </button>
+            <button
+              type="button"
+              onClick={collapseAllStages}
+              className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-border text-muted-foreground hover:bg-muted transition-colors"
+            >
+              Collapse all
+            </button>
+          </div>
         </div>
-        <p className="text-sm md:text-base text-muted-foreground mb-6">
-          A 4-level pathway by target band — students are placed based on a diagnostic test on day one.
-        </p>
 
         <div className="space-y-5">
           {roadmap.map((stage, i) => {
