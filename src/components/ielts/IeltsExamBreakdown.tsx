@@ -436,78 +436,187 @@ const skills: SkillData[] = [
   },
 ];
 
-const roadmap = [
+interface RoadmapSkillGoal {
+  vi: string;
+  en: string;
+}
+interface RoadmapStage {
+  bandVi: string;
+  bandEn: string;
+  levelVi: string;
+  levelEn: string;
+  durationVi: string;
+  durationEn: string;
+  color: string;
+  accentColor: string;
+  icon: typeof GraduationCap;
+  prerequisiteVi: string;
+  prerequisiteEn: string;
+  vocabSizeVi: string;
+  vocabSizeEn: string;
+  grammarVi: string;
+  grammarEn: string;
+  listening: RoadmapSkillGoal;
+  reading: RoadmapSkillGoal;
+  writing: RoadmapSkillGoal;
+  speaking: RoadmapSkillGoal;
+  weeklyHoursVi: string;
+  weeklyHoursEn: string;
+  materialsVi: string[];
+  materialsEn: string[];
+  outcomeVi: string;
+  outcomeEn: string;
+}
+
+const roadmap: RoadmapStage[] = [
   {
     bandVi: "Band 4.0 — 5.0",
     bandEn: "Band 4.0 — 5.0",
     levelVi: "Cơ bản · Foundation",
     levelEn: "Foundation Level",
-    durationVi: "8–12 tuần",
-    durationEn: "8–12 weeks",
+    durationVi: "8–12 tuần (~2 tháng)",
+    durationEn: "8–12 weeks (~2 months)",
     color: "from-rose-500/20 to-rose-500/5",
+    accentColor: "rose",
     icon: GraduationCap,
-    focusVi: [
-      "Ngữ pháp nền tảng: 12 thì, câu điều kiện, mệnh đề quan hệ",
-      "Từ vựng A2–B1: 1,500 từ thông dụng theo 20 chủ đề",
-      "Phát âm cơ bản: 44 âm IPA, trọng âm từ & câu",
-      "Listening Section 1–2 · Reading Passage 1 · Writing câu đơn",
+    prerequisiteVi: "Đầu vào: A1–A2 (KET) hoặc chưa từng học IELTS · Biết bảng chữ cái + cấu trúc câu cơ bản",
+    prerequisiteEn: "Entry: A1–A2 (KET) or no prior IELTS · Knows alphabet + basic sentence structure",
+    vocabSizeVi: "1,500 từ vựng A2–B1 theo 20 chủ đề (Family, Food, Travel, Work, Education...)",
+    vocabSizeEn: "1,500 A2–B1 words across 20 topics (Family, Food, Travel, Work, Education...)",
+    grammarVi: "12 thì cơ bản · Câu điều kiện loại 0/1/2 · Mệnh đề quan hệ who/which/that · So sánh hơn/nhất · Modal verbs",
+    grammarEn: "12 basic tenses · Conditionals 0/1/2 · Relative clauses who/which/that · Comparatives/superlatives · Modal verbs",
+    listening: {
+      vi: "Nghe Section 1–2 · Nhận diện số, ngày, tên · Mục tiêu 18–22/40 câu",
+      en: "Listen to Section 1–2 · Recognise numbers, dates, names · Target 18–22/40 questions",
+    },
+    reading: {
+      vi: "Đọc Passage 1 (~700 từ) · Skim & scan · True/False/NG đơn giản · Mục tiêu 18–22/40",
+      en: "Read Passage 1 (~700 words) · Skim & scan · Simple True/False/NG · Target 18–22/40",
+    },
+    writing: {
+      vi: "Viết câu đơn 10–15 từ · Đoạn văn 50 từ · Tập viết Task 1 mô tả 1 biểu đồ đơn giản",
+      en: "Write simple sentences 10–15 words · 50-word paragraphs · Practise Task 1 with one simple chart",
+    },
+    speaking: {
+      vi: "Trả lời Part 1 với 1–2 câu · Tự giới thiệu · Hỏi-đáp về sở thích, gia đình, quê hương",
+      en: "Answer Part 1 with 1–2 sentences · Self-introduction · Q&A about hobbies, family, hometown",
+    },
+    weeklyHoursVi: "8–10 giờ/tuần (5 buổi · 90 phút/buổi + tự học)",
+    weeklyHoursEn: "8–10 hrs/week (5 sessions · 90 min/session + self-study)",
+    materialsVi: [
+      "Cambridge English File Pre-Intermediate",
+      "Mindset for IELTS Foundation",
+      "Oxford Word Skills Basic",
+      "BBC Learning English (6 Minute English level 1)",
     ],
-    focusEn: [
-      "Foundation grammar: 12 tenses, conditionals, relative clauses",
-      "A2–B1 vocab: 1,500 high-frequency words across 20 topics",
-      "Basic pronunciation: 44 IPA sounds, word & sentence stress",
-      "Listening S1–2 · Reading P1 · Writing simple sentences",
+    materialsEn: [
+      "Cambridge English File Pre-Intermediate",
+      "Mindset for IELTS Foundation",
+      "Oxford Word Skills Basic",
+      "BBC Learning English (6 Minute English level 1)",
     ],
+    outcomeVi: "🎯 Kết thúc: Đạt Band 4.5–5.0 trong mock test · Hiểu được hội thoại đời sống đơn giản · Viết được email/đoạn ngắn",
+    outcomeEn: "🎯 Outcome: Reach Band 4.5–5.0 on mock test · Understand simple everyday conversations · Write short emails/paragraphs",
   },
   {
     bandVi: "Band 5.5 — 6.0",
     bandEn: "Band 5.5 — 6.0",
     levelVi: "Trung cấp · Pre-Intermediate",
     levelEn: "Pre-Intermediate",
-    durationVi: "10–14 tuần",
-    durationEn: "10–14 weeks",
+    durationVi: "10–14 tuần (~3 tháng)",
+    durationEn: "10–14 weeks (~3 months)",
     color: "from-amber-500/20 to-amber-500/5",
+    accentColor: "amber",
     icon: Target,
-    focusVi: [
-      "Cấu trúc nâng cao: bị động, đảo ngữ, câu nhấn mạnh",
-      "Từ vựng B1–B2: 2,500 từ học thuật + collocations",
-      "Listening Section 3–4 · Reading T/F/NG · Matching headings",
-      "Writing Task 1 cơ bản (line/bar) · Task 2 opinion 4 đoạn",
-      "Speaking Part 1 trả lời tự nhiên 30–45 giây/câu",
+    prerequisiteVi: "Đầu vào: Band 4.5–5.0 hoặc B1 (PET) · Đã quen 4 dạng bài thi · Có vốn 1,500 từ",
+    prerequisiteEn: "Entry: Band 4.5–5.0 or B1 (PET) · Familiar with 4 test sections · 1,500-word base",
+    vocabSizeVi: "Tích lũy đến 2,500 từ B1–B2 · Bắt đầu academic vocabulary (AWL Sublist 1–4) · Collocations theo chủ đề",
+    vocabSizeEn: "Build to 2,500 B1–B2 words · Start academic vocabulary (AWL Sublist 1–4) · Topic-based collocations",
+    grammarVi: "Bị động (passive) · Câu phức · Đảo ngữ cơ bản · Câu nhấn mạnh (cleft) · Reported speech · Linking words logic",
+    grammarEn: "Passive voice · Complex sentences · Basic inversion · Cleft sentences · Reported speech · Logical linkers",
+    listening: {
+      vi: "Nghe Section 3–4 · Multi-speaker · Map labelling cơ bản · Mục tiêu 23–28/40 câu",
+      en: "Listen to Section 3–4 · Multi-speaker · Basic map labelling · Target 23–28/40 questions",
+    },
+    reading: {
+      vi: "Hoàn thành 2 passages trong 35' · Matching headings · Sentence completion · Mục tiêu 23–27/40",
+      en: "Complete 2 passages in 35' · Matching headings · Sentence completion · Target 23–27/40",
+    },
+    writing: {
+      vi: "Task 1: mô tả line/bar/pie chart 150+ từ · Task 2: Opinion essay 4 đoạn 250+ từ · Tập linking devices",
+      en: "Task 1: describe line/bar/pie chart 150+ words · Task 2: Opinion essay 4 paragraphs 250+ words · Practise linking devices",
+    },
+    speaking: {
+      vi: "Part 1: trả lời tự nhiên 30–45s/câu · Part 2: bắt đầu cue card · Part 3: trả lời 2–3 câu lập luận",
+      en: "Part 1: natural 30–45s answers · Part 2: start cue cards · Part 3: 2–3 reasoned sentences",
+    },
+    weeklyHoursVi: "10–12 giờ/tuần (5 buổi · 100 phút/buổi + 30 phút self-study/ngày)",
+    weeklyHoursEn: "10–12 hrs/week (5 sessions · 100 min/session + 30 min daily self-study)",
+    materialsVi: [
+      "Cambridge IELTS Practice Tests Books 11–13",
+      "Vocabulary for IELTS (Pauline Cullen)",
+      "Grammar for IELTS (Diana Hopkins)",
+      "BBC Learning English (English At Work + Drama)",
     ],
-    focusEn: [
-      "Advanced structures: passive, inversion, cleft sentences",
-      "B1–B2 vocab: 2,500 academic words + collocations",
-      "Listening S3–4 · Reading T/F/NG · Matching headings",
-      "Writing T1 basics (line/bar) · T2 opinion 4-paragraph",
-      "Speaking P1: 30–45s natural responses per question",
+    materialsEn: [
+      "Cambridge IELTS Practice Tests Books 11–13",
+      "Vocabulary for IELTS (Pauline Cullen)",
+      "Grammar for IELTS (Diana Hopkins)",
+      "BBC Learning English (English At Work + Drama)",
     ],
+    outcomeVi: "🎯 Kết thúc: Đạt Band 5.5–6.0 trong mock test · Viết được Task 1 + Task 2 cơ bản · Nói được 1.5 phút trong Part 2",
+    outcomeEn: "🎯 Outcome: Reach Band 5.5–6.0 on mock test · Write basic Task 1 + Task 2 · Speak 1.5 min in Part 2",
   },
   {
     bandVi: "Band 6.5 — 7.0",
     bandEn: "Band 6.5 — 7.0",
     levelVi: "Khá giỏi · Upper-Intermediate",
     levelEn: "Upper-Intermediate",
-    durationVi: "12–16 tuần",
-    durationEn: "12–16 weeks",
+    durationVi: "12–16 tuần (~4 tháng)",
+    durationEn: "12–16 weeks (~4 months)",
     color: "from-emerald-500/20 to-emerald-500/5",
+    accentColor: "emerald",
     icon: TrendingUp,
-    focusVi: [
-      "Paraphrase 3 cấp độ · Synonym banks theo chủ đề",
-      "Listening: Map labelling, multi-speakers, distractor traps",
-      "Reading: Yes/No/NG, summary completion, scanning tốc độ",
-      "Writing T1: 1-2-3-3 rule (overview→trends→data→comparison)",
-      "Writing T2: thesis sắc bén · 2 body paragraphs PEEL",
-      "Speaking Part 2 cue card · Part 3 phân tích nguyên nhân–hệ quả",
+    prerequisiteVi: "Đầu vào: Band 6.0 hoặc B2 (FCE) · Đã làm được Task 1 + Task 2 đủ từ · Hiểu được Listening Section 4",
+    prerequisiteEn: "Entry: Band 6.0 or B2 (FCE) · Can write Task 1 + Task 2 to word count · Understands Listening Section 4",
+    vocabSizeVi: "Tích lũy 4,000 từ B2–C1 · AWL Sublist 5–10 · Synonym banks 3 cấp độ · Idioms theo chủ đề Speaking",
+    vocabSizeEn: "Build to 4,000 B2–C1 words · AWL Sublist 5–10 · 3-level synonym banks · Speaking-topic idioms",
+    grammarVi: "Mixed conditionals · Subjunctive · Inversion nâng cao · Participle clauses · Phrasal verbs nâng cao · Hedging",
+    grammarEn: "Mixed conditionals · Subjunctive · Advanced inversion · Participle clauses · Advanced phrasal verbs · Hedging",
+    listening: {
+      vi: "Hoàn thành 4 sections trong 30' · Distractor detection · Map + diagram labelling · Mục tiêu 30–32/40",
+      en: "Complete 4 sections in 30' · Distractor detection · Map + diagram labelling · Target 30–32/40",
+    },
+    reading: {
+      vi: "Hoàn thành 3 passages trong 60' · Yes/No/NG · Summary completion · Scanning tốc độ · Mục tiêu 30–32/40",
+      en: "Complete 3 passages in 60' · Yes/No/NG · Summary completion · Fast scanning · Target 30–32/40",
+    },
+    writing: {
+      vi: "Task 1: rule 1-2-3-3 (overview rõ ràng + so sánh data sắc bén) · Task 2: thesis sắc bén + PEEL paragraphs + linking nâng cao",
+      en: "Task 1: 1-2-3-3 rule (clear overview + sharp data comparison) · Task 2: sharp thesis + PEEL paragraphs + advanced linking",
+    },
+    speaking: {
+      vi: "Part 2: nói liên tục 1.5–2 phút theo 4 bullet · Part 3: phân tích nguyên nhân–hệ quả · Idioms tự nhiên",
+      en: "Part 2: speak continuously 1.5–2 min covering 4 bullets · Part 3: cause-effect analysis · Natural idioms",
+    },
+    weeklyHoursVi: "12–15 giờ/tuần (5 buổi · 120 phút/buổi + 1 giờ self-study/ngày + 1 mock test/tuần)",
+    weeklyHoursEn: "12–15 hrs/week (5 sessions · 120 min/session + 1 hr daily self-study + 1 mock test/week)",
+    materialsVi: [
+      "Cambridge IELTS Practice Tests Books 14–17",
+      "IELTS Trainer 2 (Cambridge)",
+      "Improve Your IELTS Writing Skills (Macmillan)",
+      "TED-Ed + The Economist (Reading)",
+      "IELTS Speaking Mr. Hai's curated cue cards (200+)",
     ],
-    focusEn: [
-      "3-level paraphrasing · topic-based synonym banks",
-      "Listening: Map labelling, multi-speakers, distractor traps",
-      "Reading: Yes/No/NG, summary completion, fast scanning",
-      "Writing T1: 1-2-3-3 rule (overview→trends→data→comparison)",
-      "Writing T2: sharp thesis · 2 body paragraphs (PEEL)",
-      "Speaking P2 cue card · P3 cause-effect analysis",
+    materialsEn: [
+      "Cambridge IELTS Practice Tests Books 14–17",
+      "IELTS Trainer 2 (Cambridge)",
+      "Improve Your IELTS Writing Skills (Macmillan)",
+      "TED-Ed + The Economist (Reading)",
+      "IELTS Speaking Mr. Hai's curated cue cards (200+)",
     ],
+    outcomeVi: "🎯 Kết thúc: Đạt Band 6.5–7.0 trong mock test · Đủ điều kiện apply đại học/visa hầu hết các nước",
+    outcomeEn: "🎯 Outcome: Reach Band 6.5–7.0 on mock test · Eligible for most university/visa applications worldwide",
   },
   {
     bandVi: "Band 7.5 — 8.0+",
@@ -517,23 +626,50 @@ const roadmap = [
     durationVi: "10–14 tuần luyện chuyên sâu",
     durationEn: "10–14 weeks intensive",
     color: "from-violet-500/20 to-violet-500/5",
+    accentColor: "violet",
     icon: Award,
-    focusVi: [
-      "Lexical sophistication: idioms, less-common collocations",
-      "Grammar phức tạp: subjunctive, mixed conditionals, ellipsis",
-      "Reading 3 passages trong 55 phút (đạt 35+/40 câu)",
-      "Writing T2: Band 8.0 templates · linking devices tinh tế",
-      "Speaking: discourse markers, hedging, near-native intonation",
-      "Mock test mô phỏng phòng thi · phân tích lỗi 1-on-1",
+    prerequisiteVi: "Đầu vào: Band 7.0 ổn định · Đã thi thật ít nhất 1 lần · Cần điểm cao cho học bổng / Master's / PhD / di trú",
+    prerequisiteEn: "Entry: Stable Band 7.0 · Has taken real test at least once · Needs high score for scholarship / Master's / PhD / migration",
+    vocabSizeVi: "5,000+ từ C1–C2 · Less-common collocations · Idioms tinh tế · Academic hedging language · Discourse markers",
+    vocabSizeEn: "5,000+ C1–C2 words · Less-common collocations · Subtle idioms · Academic hedging language · Discourse markers",
+    grammarVi: "Đảo ngữ phức (Hardly had... when...) · Ellipsis · Cleft sentences nâng cao · Subjunctive · Conditional inversion · Nominalisation",
+    grammarEn: "Complex inversion (Hardly had... when...) · Ellipsis · Advanced cleft sentences · Subjunctive · Conditional inversion · Nominalisation",
+    listening: {
+      vi: "Hoàn thành 4 sections với 35–37/40 câu · Predict đáp án trước khi nghe · Note-taking shorthand cá nhân hóa",
+      en: "Complete 4 sections with 35–37/40 correct · Predict answers before listening · Personalised shorthand note-taking",
+    },
+    reading: {
+      vi: "Hoàn thành 3 passages trong 55' (dư 5' check) · Đạt 35+/40 · Xử lý passages C1 với 1,200+ từ",
+      en: "Complete 3 passages in 55' (5' spare for check) · Achieve 35+/40 · Handle C1 passages 1,200+ words",
+    },
+    writing: {
+      vi: "Task 1: phân tích chính xác trends + comparison + projection · Task 2: thesis sắc bén · Cấu trúc lập luận đa chiều · Linking tinh tế",
+      en: "Task 1: precise trends + comparison + projection · Task 2: sharp thesis · Multi-angle argumentation · Subtle linking",
+    },
+    speaking: {
+      vi: "Part 2 + Part 3: discourse markers tự nhiên · Hedging · Near-native intonation · Idioms tinh tế · Phân tích sâu sắc",
+      en: "Part 2 + Part 3: natural discourse markers · Hedging · Near-native intonation · Subtle idioms · Deep analysis",
+    },
+    weeklyHoursVi: "15–20 giờ/tuần (5 buổi · 150 phút + 2 mock tests/tuần + 1-on-1 feedback writing/speaking)",
+    weeklyHoursEn: "15–20 hrs/week (5 sessions · 150 min + 2 mock tests/week + 1-on-1 writing/speaking feedback)",
+    materialsVi: [
+      "Cambridge IELTS Practice Tests Books 18+",
+      "Mindset for IELTS Level 3 (Advanced)",
+      "Official IELTS Practice Materials (British Council)",
+      "The Guardian + The Atlantic (Reading)",
+      "BBC Hard Talk + Intelligence Squared (Listening)",
+      "Mr. Hai's Band 8.0 Writing & Speaking templates",
     ],
-    focusEn: [
-      "Lexical sophistication: idioms, less-common collocations",
-      "Complex grammar: subjunctive, mixed conditionals, ellipsis",
-      "Reading: 3 passages in 55 min (35+/40 correct)",
-      "Writing T2: Band 8.0 templates · subtle linking devices",
-      "Speaking: discourse markers, hedging, near-native intonation",
-      "Real-time mock tests · 1-on-1 error analysis",
+    materialsEn: [
+      "Cambridge IELTS Practice Tests Books 18+",
+      "Mindset for IELTS Level 3 (Advanced)",
+      "Official IELTS Practice Materials (British Council)",
+      "The Guardian + The Atlantic (Reading)",
+      "BBC Hard Talk + Intelligence Squared (Listening)",
+      "Mr. Hai's Band 8.0 Writing & Speaking templates",
     ],
+    outcomeVi: "🎯 Kết thúc: Đạt Band 7.5–8.0+ trong mock test · Đủ điều kiện học bổng Chevening, Erasmus, Fulbright · Migration skill assessment top tier",
+    outcomeEn: "🎯 Outcome: Reach Band 7.5–8.0+ on mock test · Eligible for Chevening, Erasmus, Fulbright scholarships · Top-tier migration skill assessment",
   },
 ];
 
