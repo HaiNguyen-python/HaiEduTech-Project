@@ -805,40 +805,104 @@ const IeltsExamBreakdown = () => {
                         <FileText className="w-3 h-3" /> {t(skill.questionsVi, skill.questionsEn)}
                       </span>
                     </div>
+                    <p className="text-xs text-muted-foreground italic mt-2 leading-relaxed">
+                      {t(skill.formatVi, skill.formatEn)}
+                    </p>
                   </div>
                 </div>
 
                 {/* Sections */}
                 <div className="mb-5">
                   <p className="text-xs font-semibold text-foreground/70 uppercase tracking-wider mb-3 flex items-center gap-2">
-                    <Volume2 className="w-3.5 h-3.5" /> {t("Cấu trúc chi tiết", "Detailed structure")}
+                    <Layers className="w-3.5 h-3.5" /> {t("Cấu trúc chi tiết theo phần", "Detailed structure by section")}
                   </p>
                   <div className="grid md:grid-cols-2 gap-3">
                     {(t("vi", "en") === "vi" ? skill.sectionsVi : skill.sectionsEn).map((s, idx) => (
                       <div key={idx} className="rounded-lg bg-background/60 p-3 border border-border/50">
-                        <p className="text-sm font-semibold text-foreground mb-1">{s.title}</p>
+                        <div className="flex items-start justify-between gap-2 mb-1">
+                          <p className="text-sm font-semibold text-foreground">{s.title}</p>
+                          {s.meta && (
+                            <span className="shrink-0 text-[10px] font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-full whitespace-nowrap">
+                              {s.meta}
+                            </span>
+                          )}
+                        </div>
                         <p className="text-xs text-muted-foreground leading-relaxed">{s.desc}</p>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                {/* Question types + scoring */}
+                {/* Question types list */}
+                <div className="mb-5 rounded-lg bg-background/60 p-4 border border-border/50">
+                  <p className="text-xs font-semibold text-foreground/70 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                    <ListChecks className="w-3.5 h-3.5" /> {t("Dạng câu hỏi & Tiêu chí chấm", "Question types & Scoring criteria")}
+                  </p>
+                  <ul className="grid md:grid-cols-2 gap-x-4 gap-y-1.5">
+                    {skill.questionTypesList.map((q, idx) => (
+                      <li key={idx} className="text-sm text-foreground/85 flex gap-2">
+                        <span className="text-primary mt-1 shrink-0">▸</span>
+                        <span>{t(q.vi, q.en)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Scoring table + Time strategy */}
                 <div className="grid md:grid-cols-2 gap-3 mb-5">
-                  <div className="rounded-lg bg-background/60 p-3 border border-border/50">
-                    <p className="text-xs font-semibold text-foreground/70 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                      <Brain className="w-3.5 h-3.5" /> {t("Dạng câu hỏi / Tiêu chí", "Question types / Criteria")}
+                  <div className="rounded-lg bg-background/60 p-4 border border-border/50">
+                    <p className="text-xs font-semibold text-foreground/70 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                      <BarChart3 className="w-3.5 h-3.5" /> {t("Bảng quy đổi điểm", "Band conversion table")}
                     </p>
-                    <p className="text-sm text-foreground/85 leading-relaxed">
-                      {t(skill.questionTypesVi, skill.questionTypesEn)}
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-xs">
+                        <thead>
+                          <tr className="border-b border-border/50 text-foreground/70">
+                            <th className="text-left py-1.5 font-semibold">{t("Band", "Band")}</th>
+                            <th className="text-left py-1.5 font-semibold">{t("Điểm thô / Mô tả", "Raw / Description")}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {skill.scoringTable.map((row, idx) => (
+                            <tr key={idx} className="border-b border-border/30 last:border-0">
+                              <td className="py-1.5 font-bold text-primary">{row.band}</td>
+                              <td className="py-1.5 text-foreground/85">{row.raw}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                    <p className="text-xs text-muted-foreground italic mt-2 leading-relaxed">
+                      {t(skill.scoringNoteVi, skill.scoringNoteEn)}
                     </p>
                   </div>
-                  <div className="rounded-lg bg-background/60 p-3 border border-border/50">
-                    <p className="text-xs font-semibold text-foreground/70 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                      <Award className="w-3.5 h-3.5" /> {t("Quy đổi điểm", "Scoring")}
+
+                  <div className="rounded-lg bg-background/60 p-4 border border-border/50">
+                    <p className="text-xs font-semibold text-foreground/70 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                      <Timer className="w-3.5 h-3.5" /> {t("Chiến lược phân bổ thời gian", "Time allocation strategy")}
                     </p>
-                    <p className="text-sm text-foreground/85 leading-relaxed">{t(skill.scoringVi, skill.scoringEn)}</p>
+                    <ul className="space-y-2">
+                      {(t("vi", "en") === "vi" ? skill.timeStrategyVi : skill.timeStrategyEn).map((s, idx) => (
+                        <li key={idx} className="text-xs flex items-start gap-2">
+                          <span className="shrink-0 w-5 h-5 rounded-full bg-primary/10 text-primary font-bold text-[10px] flex items-center justify-center mt-0.5">{idx + 1}</span>
+                          <div>
+                            <span className="font-semibold text-foreground">{s.phase}: </span>
+                            <span className="text-muted-foreground">{s.time}</span>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
+                </div>
+
+                {/* Vocab focus */}
+                <div className="mb-3 rounded-lg bg-primary/5 border border-primary/20 p-3">
+                  <p className="text-xs font-semibold text-primary uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                    <BookMarked className="w-3.5 h-3.5" /> {t("Từ vựng & Ngữ pháp trọng tâm", "Vocabulary & Grammar focus")}
+                  </p>
+                  <p className="text-sm text-foreground/85 leading-relaxed">
+                    {t(skill.vocabFocusVi, skill.vocabFocusEn)}
+                  </p>
                 </div>
 
                 {/* Tips */}
@@ -856,12 +920,19 @@ const IeltsExamBreakdown = () => {
                   </ul>
                 </div>
 
-                {/* Common trap */}
+                {/* Common traps (now plural) */}
                 <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4">
-                  <p className="text-xs font-semibold text-amber-700 dark:text-amber-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                    <AlertTriangle className="w-3.5 h-3.5" /> {t("Bẫy thường gặp", "Common trap")}
+                  <p className="text-xs font-semibold text-amber-700 dark:text-amber-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                    <AlertTriangle className="w-3.5 h-3.5" /> {t("Các bẫy thường gặp", "Common traps")}
                   </p>
-                  <p className="text-sm text-foreground/85 leading-relaxed">{t(skill.trapVi, skill.trapEn)}</p>
+                  <ul className="space-y-1.5">
+                    {(t("vi", "en") === "vi" ? skill.trapsVi : skill.trapsEn).map((trap, idx) => (
+                      <li key={idx} className="text-sm text-foreground/85 flex gap-2">
+                        <XCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                        <span>{trap}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             </motion.div>
