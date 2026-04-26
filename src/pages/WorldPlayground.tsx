@@ -33,6 +33,12 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import confetti from "canvas-confetti";
 
+// Hero photos for each exploration zone (realistic, high quality)
+import heroGeography from "@/assets/zone-geography.jpg";
+import heroCulture from "@/assets/zone-culture.jpg";
+import heroLanguages from "@/assets/zone-languages.jpg";
+import heroLandmarks from "@/assets/zone-landmarks.jpg";
+
 // =============================================================================
 // Types
 // =============================================================================
@@ -58,6 +64,7 @@ interface ExplorationZone {
   tagline: string;
   taglineEn: string;
   accent: string; // tailwind gradient stops referencing semantic tokens
+  hero: string; // hero photo (imported asset)
   lessons: ExplorationLesson[];
 }
 
@@ -76,6 +83,7 @@ interface QuizQuestion {
 // =============================================================================
 
 const zones: ExplorationZone[] = [
+  // ==================== ZONE 1: GEOGRAPHY & WONDERS ====================
   {
     id: "geography",
     icon: Globe2,
@@ -84,65 +92,102 @@ const zones: ExplorationZone[] = [
     tagline: "Khám phá lục địa, danh thắng và hệ sinh thái diệu kỳ",
     taglineEn: "Continents, landmarks, and breathtaking ecosystems",
     accent: "from-sky-500/20 via-cyan-400/10 to-blue-500/20",
+    hero: heroGeography,
     lessons: [
       {
-        id: "geo-aurora-fi",
-        country: "Phần Lan",
-        countryEn: "Finland",
-        flag: "🇫🇮",
+        id: "geo-aurora-fi", country: "Phần Lan", countryEn: "Finland", flag: "🇫🇮",
         title: "Bắc Cực Quang trên bầu trời Lapland",
         titleEn: "Aurora Borealis over Lapland",
-        summary:
-          "Tại vùng Lapland, bầu trời đêm bừng sáng với những dải xanh-tím khi gió mặt trời chạm vào từ trường Trái Đất.",
-        summaryEn:
-          "In Lapland, the night sky glows green and violet when solar wind meets Earth's magnetic field.",
+        summary: "Tại vùng Lapland, bầu trời đêm bừng sáng với những dải xanh-tím khi gió mặt trời chạm vào từ trường Trái Đất.",
+        summaryEn: "In Lapland, the night sky glows green and violet when solar wind meets Earth's magnetic field.",
         funFact: "Có thể nhìn thấy aurora khoảng 200 đêm mỗi năm ở Bắc Lapland.",
         funFactEn: "Aurora is visible on about 200 nights per year in northern Lapland.",
       },
       {
-        id: "geo-pyramids-eg",
-        country: "Ai Cập",
-        countryEn: "Egypt",
-        flag: "🇪🇬",
+        id: "geo-pyramids-eg", country: "Ai Cập", countryEn: "Egypt", flag: "🇪🇬",
         title: "Đại Kim Tự Tháp Giza",
         titleEn: "The Great Pyramid of Giza",
-        summary:
-          "Kỳ quan duy nhất còn lại của thế giới cổ đại, được xây dựng cách đây hơn 4.500 năm bằng hơn 2 triệu khối đá.",
-        summaryEn:
-          "The last surviving Wonder of the Ancient World, built over 4,500 years ago from 2+ million stone blocks.",
+        summary: "Kỳ quan duy nhất còn lại của thế giới cổ đại, được xây dựng cách đây hơn 4.500 năm bằng hơn 2 triệu khối đá.",
+        summaryEn: "The last surviving Wonder of the Ancient World, built over 4,500 years ago from 2+ million stone blocks.",
         funFact: "Mỗi cạnh đáy dài gần 230 mét — sai số chưa tới 5 cm!",
         funFactEn: "Each base side is nearly 230 m long — accurate to within 5 cm!",
       },
       {
-        id: "geo-amazon-br",
-        country: "Brazil",
-        countryEn: "Brazil",
-        flag: "🇧🇷",
+        id: "geo-amazon-br", country: "Brazil", countryEn: "Brazil", flag: "🇧🇷",
         title: "Rừng Amazon — Lá phổi xanh",
         titleEn: "The Amazon — Earth's green lungs",
-        summary:
-          "Rừng nhiệt đới lớn nhất hành tinh, là nhà của hơn 10% các loài sinh vật được biết đến.",
-        summaryEn:
-          "The planet's largest rainforest, home to more than 10% of all known species on Earth.",
+        summary: "Rừng nhiệt đới lớn nhất hành tinh, là nhà của hơn 10% các loài sinh vật được biết đến.",
+        summaryEn: "The planet's largest rainforest, home to more than 10% of all known species on Earth.",
         funFact: "Sông Amazon đổ ra biển khoảng 209.000 m³ nước mỗi giây.",
         funFactEn: "The Amazon River discharges about 209,000 m³ of water per second.",
       },
       {
-        id: "geo-himalaya-np",
-        country: "Nepal",
-        countryEn: "Nepal",
-        flag: "🇳🇵",
+        id: "geo-himalaya-np", country: "Nepal", countryEn: "Nepal", flag: "🇳🇵",
         title: "Đỉnh Everest — Nóc nhà thế giới",
         titleEn: "Mount Everest — Roof of the World",
-        summary:
-          "Cao 8.848,86 m, Everest tiếp tục cao thêm khoảng 4 mm mỗi năm do va chạm mảng kiến tạo.",
-        summaryEn:
-          "At 8,848.86 m, Everest still grows about 4 mm per year as tectonic plates collide.",
+        summary: "Cao 8.848,86 m, Everest tiếp tục cao thêm khoảng 4 mm mỗi năm do va chạm mảng kiến tạo.",
+        summaryEn: "At 8,848.86 m, Everest still grows about 4 mm per year as tectonic plates collide.",
         funFact: "Người Sherpa gọi Everest là “Sagarmatha” — Trán của bầu trời.",
         funFactEn: "Sherpas call Everest 'Sagarmatha' — Forehead of the Sky.",
       },
+      {
+        id: "geo-grandcanyon-us", country: "Hoa Kỳ", countryEn: "USA", flag: "🇺🇸",
+        title: "Grand Canyon — Vết chạm khắc của thời gian",
+        titleEn: "Grand Canyon — Time's masterpiece",
+        summary: "Con sông Colorado đã bào mòn lớp đá hơn 6 triệu năm để tạo nên hẻm núi sâu 1,8 km, dài 446 km.",
+        summaryEn: "The Colorado River carved this 1.8 km deep, 446 km long canyon over 6 million years.",
+        funFact: "Đáy hẻm núi có lớp đá cổ tới 1,8 tỷ năm tuổi.",
+        funFactEn: "Rocks at the bottom are up to 1.8 billion years old.",
+      },
+      {
+        id: "geo-greatbarrier-au", country: "Úc", countryEn: "Australia", flag: "🇦🇺",
+        title: "Rạn san hô Great Barrier",
+        titleEn: "The Great Barrier Reef",
+        summary: "Cấu trúc sống lớn nhất Trái Đất — có thể nhìn thấy từ vũ trụ — gồm 2.900 rạn riêng lẻ trải dài 2.300 km.",
+        summaryEn: "Earth's largest living structure — visible from space — made of 2,900 reefs spanning 2,300 km.",
+        funFact: "Là nhà của hơn 1.500 loài cá và 600 loại san hô.",
+        funFactEn: "Home to 1,500+ fish species and 600+ types of coral.",
+      },
+      {
+        id: "geo-sahara-ma", country: "Bắc Phi", countryEn: "North Africa", flag: "🇲🇦",
+        title: "Sa mạc Sahara",
+        titleEn: "The Sahara Desert",
+        summary: "Sa mạc nóng lớn nhất thế giới, rộng gần bằng cả châu Âu, trải dài qua 11 quốc gia.",
+        summaryEn: "The world's largest hot desert — nearly the size of Europe — spanning 11 countries.",
+        funFact: "Đôi khi tuyết vẫn rơi ở Sahara — gần đây nhất là năm 2022!",
+        funFactEn: "Snow occasionally falls in the Sahara — most recently in 2022!",
+      },
+      {
+        id: "geo-fjords-no", country: "Na Uy", countryEn: "Norway", flag: "🇳🇴",
+        title: "Vịnh hẹp (Fjord) Na Uy",
+        titleEn: "Norwegian Fjords",
+        summary: "Vách đá dựng đứng cao tới 1.000 m bao quanh nước biển sâu — kiệt tác do sông băng tạo nên.",
+        summaryEn: "Sheer 1,000 m cliffs around deep sea water — sculpted by ancient glaciers.",
+        funFact: "Sognefjord dài 205 km, là vịnh hẹp dài thứ hai thế giới.",
+        funFactEn: "Sognefjord stretches 205 km, the world's 2nd longest fjord.",
+      },
+      {
+        id: "geo-victoriafalls-zm", country: "Zambia & Zimbabwe", countryEn: "Zambia & Zimbabwe", flag: "🇿🇲",
+        title: "Thác Victoria — Khói rền vang",
+        titleEn: "Victoria Falls — The Smoke that Thunders",
+        summary: "Bức tường nước rộng 1.708 m, cao 108 m — một trong bảy kỳ quan thiên nhiên thế giới.",
+        summaryEn: "A 1,708 m wide, 108 m high wall of water — one of the Seven Natural Wonders.",
+        funFact: "Tên bản địa Mosi-oa-Tunya nghĩa là “Khói rền vang”.",
+        funFactEn: "Indigenous name 'Mosi-oa-Tunya' means 'The Smoke that Thunders'.",
+      },
+      {
+        id: "geo-galapagos-ec", country: "Ecuador", countryEn: "Ecuador", flag: "🇪🇨",
+        title: "Quần đảo Galápagos",
+        titleEn: "Galápagos Islands",
+        summary: "Phòng thí nghiệm sống của Darwin — nơi các loài tiến hóa độc nhất trên 19 đảo núi lửa giữa Thái Bình Dương.",
+        summaryEn: "Darwin's living laboratory — unique evolution across 19 volcanic islands in the Pacific.",
+        funFact: "Rùa khổng lồ Galápagos có thể sống tới hơn 150 năm.",
+        funFactEn: "Galápagos giant tortoises can live for 150+ years.",
+      },
     ],
   },
+
+  // ==================== ZONE 2: CULTURAL TAPESTRY ====================
   {
     id: "culture",
     icon: Sparkles,
@@ -151,65 +196,102 @@ const zones: ExplorationZone[] = [
     tagline: "Lễ hội, trang phục và ẩm thực từ khắp năm châu",
     taglineEn: "Festivals, attire, and cuisine from every continent",
     accent: "from-rose-500/20 via-orange-400/10 to-amber-500/20",
+    hero: heroCulture,
     lessons: [
       {
-        id: "cul-holi-in",
-        country: "Ấn Độ",
-        countryEn: "India",
-        flag: "🇮🇳",
+        id: "cul-holi-in", country: "Ấn Độ", countryEn: "India", flag: "🇮🇳",
         title: "Holi — Lễ hội sắc màu",
         titleEn: "Holi — Festival of Colors",
-        summary:
-          "Mỗi mùa xuân, mọi người tung bột màu để chào đón tình yêu, sự tha thứ và một khởi đầu mới.",
-        summaryEn:
-          "Every spring, people throw colored powder to celebrate love, forgiveness, and new beginnings.",
+        summary: "Mỗi mùa xuân, mọi người tung bột màu để chào đón tình yêu, sự tha thứ và một khởi đầu mới.",
+        summaryEn: "Every spring, people throw colored powder to celebrate love, forgiveness, and new beginnings.",
         funFact: "Mỗi màu mang ý nghĩa riêng: đỏ là tình yêu, xanh là Krishna, vàng là sức khỏe.",
         funFactEn: "Each color has meaning: red for love, blue for Krishna, yellow for health.",
       },
       {
-        id: "cul-kimono-jp",
-        country: "Nhật Bản",
-        countryEn: "Japan",
-        flag: "🇯🇵",
+        id: "cul-kimono-jp", country: "Nhật Bản", countryEn: "Japan", flag: "🇯🇵",
         title: "Kimono — Trang phục truyền thống",
         titleEn: "Kimono — Traditional attire",
-        summary:
-          "Một bộ kimono có thể có hơn 12 lớp và được mặc cho lễ trà, cưới hỏi hay năm mới.",
-        summaryEn:
-          "A kimono may have over 12 layers and is worn for tea ceremonies, weddings, and New Year.",
+        summary: "Một bộ kimono có thể có hơn 12 lớp và được mặc cho lễ trà, cưới hỏi hay năm mới.",
+        summaryEn: "A kimono may have over 12 layers and is worn for tea ceremonies, weddings, and New Year.",
         funFact: "“Kimono” nghĩa đen là “thứ để mặc” (ki = mặc, mono = vật).",
         funFactEn: "'Kimono' literally means 'thing to wear' (ki = wear, mono = thing).",
       },
       {
-        id: "cul-pasta-it",
-        country: "Ý",
-        countryEn: "Italy",
-        flag: "🇮🇹",
+        id: "cul-pasta-it", country: "Ý", countryEn: "Italy", flag: "🇮🇹",
         title: "Nghệ thuật mì Ý",
         titleEn: "The art of Italian pasta",
-        summary:
-          "Có hơn 350 hình dạng mì khác nhau, mỗi loại được thiết kế riêng cho một loại sốt.",
-        summaryEn:
-          "There are 350+ pasta shapes, each engineered to pair with a specific sauce.",
+        summary: "Có hơn 350 hình dạng mì khác nhau, mỗi loại được thiết kế riêng cho một loại sốt.",
+        summaryEn: "There are 350+ pasta shapes, each engineered to pair with a specific sauce.",
         funFact: "Người Ý ăn trung bình 23 kg mì mỗi người mỗi năm.",
         funFactEn: "Italians eat about 23 kg of pasta per person each year.",
       },
       {
-        id: "cul-dayofdead-mx",
-        country: "Mexico",
-        countryEn: "Mexico",
-        flag: "🇲🇽",
+        id: "cul-dayofdead-mx", country: "Mexico", countryEn: "Mexico", flag: "🇲🇽",
         title: "Día de los Muertos",
         titleEn: "Day of the Dead",
-        summary:
-          "Lễ tưởng niệm tổ tiên với bàn thờ ofrenda, hoa cúc vạn thọ và những chiếc sọ đường đầy màu sắc.",
-        summaryEn:
-          "An ancestral remembrance with ofrenda altars, marigolds, and vibrant sugar skulls.",
+        summary: "Lễ tưởng niệm tổ tiên với bàn thờ ofrenda, hoa cúc vạn thọ và những chiếc sọ đường đầy màu sắc.",
+        summaryEn: "An ancestral remembrance with ofrenda altars, marigolds, and vibrant sugar skulls.",
         funFact: "UNESCO đã công nhận lễ hội này là Di sản văn hóa phi vật thể từ năm 2008.",
         funFactEn: "UNESCO inscribed it as Intangible Cultural Heritage in 2008.",
       },
+      {
+        id: "cul-octoberfest-de", country: "Đức", countryEn: "Germany", flag: "🇩🇪",
+        title: "Oktoberfest — Đại lễ hội bia Munich",
+        titleEn: "Oktoberfest — Munich's Beer Festival",
+        summary: "Lễ hội dân gian lớn nhất thế giới với hơn 6 triệu khách, lều bia khổng lồ và nhạc Bavarian truyền thống.",
+        summaryEn: "World's largest folk festival — 6+ million visitors, giant beer tents, traditional Bavarian music.",
+        funFact: "Oktoberfest thực ra bắt đầu từ giữa tháng 9 — “Oktober” là khi nó kết thúc!",
+        funFactEn: "Oktoberfest actually starts in mid-September — 'Oktober' is when it ends!",
+      },
+      {
+        id: "cul-hanbok-kr", country: "Hàn Quốc", countryEn: "South Korea", flag: "🇰🇷",
+        title: "Hanbok — Vẻ đẹp đường cong",
+        titleEn: "Hanbok — Elegant curved beauty",
+        summary: "Trang phục truyền thống Hàn Quốc với jeogori (áo) và chima (váy), nổi bật bởi đường cong mềm mại.",
+        summaryEn: "Korea's traditional attire — jeogori (top) and chima (skirt) — defined by soft, flowing curves.",
+        funFact: "Màu sắc hanbok thể hiện địa vị xã hội và mùa trong năm.",
+        funFactEn: "Hanbok colors signal social status and the season.",
+      },
+      {
+        id: "cul-tagine-ma", country: "Ma-rốc", countryEn: "Morocco", flag: "🇲🇦",
+        title: "Tagine — Bữa tiệc trên nồi đất",
+        titleEn: "Tagine — A feast in clay",
+        summary: "Món hầm Bắc Phi nấu chậm trong nồi đất nung hình nón, kết hợp thịt, trái cây khô và gia vị thơm.",
+        summaryEn: "A North African slow-cooked stew in a conical clay pot — meat, dried fruits, and warm spices.",
+        funFact: "Phần nắp nón giúp hơi nước ngưng tụ và rơi trở lại, giữ thức ăn ẩm mọng.",
+        funFactEn: "The conical lid recirculates steam, keeping food incredibly moist.",
+      },
+      {
+        id: "cul-songkran-th", country: "Thái Lan", countryEn: "Thailand", flag: "🇹🇭",
+        title: "Songkran — Tết té nước",
+        titleEn: "Songkran — Water Festival",
+        summary: "Năm mới Thái Lan diễn ra giữa tháng 4 với những trận chiến nước khổng lồ tượng trưng cho gột rửa và tái sinh.",
+        summaryEn: "Thai New Year in mid-April — giant water fights symbolize cleansing and renewal.",
+        funFact: "Songkran đã được UNESCO công nhận là di sản văn hóa phi vật thể (2023).",
+        funFactEn: "UNESCO inscribed Songkran as intangible heritage in 2023.",
+      },
+      {
+        id: "cul-flamenco-es", country: "Tây Ban Nha", countryEn: "Spain", flag: "🇪🇸",
+        title: "Flamenco — Tiếng vỗ và lửa Andalucía",
+        titleEn: "Flamenco — Andalusia's clapping fire",
+        summary: "Nghệ thuật tổng hợp gồm hát (cante), múa (baile) và đàn guitar, sinh ra từ vùng Andalucía thế kỷ 18.",
+        summaryEn: "A fusion of song (cante), dance (baile), and guitar born in 18th-century Andalusia.",
+        funFact: "Flamenco có hơn 50 “palos” (thể điệu) khác nhau với cảm xúc riêng.",
+        funFactEn: "Flamenco has 50+ different 'palos' (styles), each with its own mood.",
+      },
+      {
+        id: "cul-sushi-jp", country: "Nhật Bản", countryEn: "Japan", flag: "🍣",
+        title: "Sushi — Tinh tế giản dị",
+        titleEn: "Sushi — Refined simplicity",
+        summary: "Bắt nguồn là cách bảo quản cá bằng cơm lên men, sushi nay là biểu tượng tinh tế của ẩm thực Nhật.",
+        summaryEn: "Originally a way to preserve fish in fermented rice — now an icon of refined Japanese cuisine.",
+        funFact: "Đầu bếp sushi cần 10+ năm đào tạo để được gọi là “itamae”.",
+        funFactEn: "Sushi chefs train 10+ years to earn the title 'itamae'.",
+      },
     ],
   },
+
+  // ==================== ZONE 3: GLOBAL LANGUAGES ====================
   {
     id: "languages",
     icon: Languages,
@@ -218,65 +300,102 @@ const zones: ExplorationZone[] = [
     tagline: "Lời chào và sự thật thú vị về các hệ chữ viết",
     taglineEn: "Greetings and fun facts about writing systems",
     accent: "from-emerald-500/20 via-teal-400/10 to-green-500/20",
+    hero: heroLanguages,
     lessons: [
       {
-        id: "lang-latin",
-        country: "Hệ chữ Latin",
-        countryEn: "Latin script",
-        flag: "🔤",
+        id: "lang-latin", country: "Hệ chữ Latin", countryEn: "Latin script", flag: "🔤",
         title: "Hello — Bonjour — Hola",
         titleEn: "Hello — Bonjour — Hola",
-        summary:
-          "Hơn 2 tỷ người dùng bảng chữ cái Latin — bảng chữ phổ biến nhất hành tinh.",
-        summaryEn:
-          "Over 2 billion people use the Latin alphabet — the most widely used script on Earth.",
+        summary: "Hơn 2 tỷ người dùng bảng chữ cái Latin — bảng chữ phổ biến nhất hành tinh.",
+        summaryEn: "Over 2 billion people use the Latin alphabet — the most widely used script on Earth.",
         funFact: "Chữ “W” chỉ xuất hiện vào thế kỷ 7, vốn là hai chữ V ghép lại.",
         funFactEn: "The letter 'W' only appeared in the 7th century — it was originally two Vs.",
       },
       {
-        id: "lang-kanji",
-        country: "Kanji (Nhật)",
-        countryEn: "Kanji (Japan)",
-        flag: "🈳",
+        id: "lang-kanji", country: "Kanji (Nhật)", countryEn: "Kanji (Japan)", flag: "🈳",
         title: "こんにちは — Konnichiwa",
         titleEn: "こんにちは — Konnichiwa",
-        summary:
-          "Tiếng Nhật dùng 3 hệ chữ song song: Kanji (mượn từ Hán), Hiragana và Katakana.",
-        summaryEn:
-          "Japanese uses 3 scripts in parallel: Kanji (from Chinese), Hiragana, and Katakana.",
+        summary: "Tiếng Nhật dùng 3 hệ chữ song song: Kanji (mượn từ Hán), Hiragana và Katakana.",
+        summaryEn: "Japanese uses 3 scripts in parallel: Kanji (from Chinese), Hiragana, and Katakana.",
         funFact: "Học sinh Nhật học khoảng 2.136 chữ kanji thường dùng (jōyō kanji).",
         funFactEn: "Japanese students learn around 2,136 common-use kanji (jōyō kanji).",
       },
       {
-        id: "lang-cyrillic",
-        country: "Cyrillic (Nga)",
-        countryEn: "Cyrillic (Russia)",
-        flag: "🇷🇺",
+        id: "lang-cyrillic", country: "Cyrillic (Nga)", countryEn: "Cyrillic (Russia)", flag: "🇷🇺",
         title: "Здравствуйте — Zdravstvuyte",
         titleEn: "Здравствуйте — Zdravstvuyte",
-        summary:
-          "Bảng chữ Cyrillic gồm 33 chữ cái, được tạo bởi hai tu sĩ Cyril và Methodius vào thế kỷ 9.",
-        summaryEn:
-          "The Cyrillic alphabet has 33 letters, created by monks Cyril & Methodius in the 9th century.",
+        summary: "Bảng chữ Cyrillic gồm 33 chữ cái, được tạo bởi hai tu sĩ Cyril và Methodius vào thế kỷ 9.",
+        summaryEn: "The Cyrillic alphabet has 33 letters, created by monks Cyril & Methodius in the 9th century.",
         funFact: "Hơn 250 triệu người dùng Cyrillic làm chữ viết chính thức.",
         funFactEn: "Over 250 million people use Cyrillic as their official script.",
       },
       {
-        id: "lang-arabic",
-        country: "Arabic (Ả Rập)",
-        countryEn: "Arabic",
-        flag: "🇸🇦",
+        id: "lang-arabic", country: "Arabic (Ả Rập)", countryEn: "Arabic", flag: "🇸🇦",
         title: "مرحبا — Marhaban",
         titleEn: "مرحبا — Marhaban",
-        summary:
-          "Tiếng Ả Rập viết từ phải sang trái với 28 chữ cái, mỗi chữ có 4 hình dạng tùy vị trí.",
-        summaryEn:
-          "Arabic is written right-to-left with 28 letters, each having 4 forms by position.",
+        summary: "Tiếng Ả Rập viết từ phải sang trái với 28 chữ cái, mỗi chữ có 4 hình dạng tùy vị trí.",
+        summaryEn: "Arabic is written right-to-left with 28 letters, each having 4 forms by position.",
         funFact: "Các chữ số “Ả Rập” (0–9) mà thế giới dùng hôm nay thực ra có gốc từ Ấn Độ.",
         funFactEn: "Today's 'Arabic' numerals (0–9) actually originated in India.",
       },
+      {
+        id: "lang-hangul-kr", country: "Hangul (Hàn)", countryEn: "Hangul (Korea)", flag: "🇰🇷",
+        title: "안녕하세요 — Annyeonghaseyo",
+        titleEn: "안녕하세요 — Annyeonghaseyo",
+        summary: "Hangul được Vua Sejong sáng tạo năm 1443 — bảng chữ duy nhất trên thế giới có “tác giả” và ngày khai sinh xác định.",
+        summaryEn: "Hangul was invented by King Sejong in 1443 — the only alphabet with a known creator and birth date.",
+        funFact: "Hình dạng phụ âm mô phỏng vị trí của lưỡi và miệng khi phát âm.",
+        funFactEn: "Consonant shapes mimic the tongue and mouth position when speaking.",
+      },
+      {
+        id: "lang-thai-th", country: "Thái Lan", countryEn: "Thailand", flag: "🇹🇭",
+        title: "สวัสดี — Sawasdee",
+        titleEn: "สวัสดี — Sawasdee",
+        summary: "Tiếng Thái có 44 phụ âm và 5 thanh điệu — viết liền nhau không cách giữa các từ.",
+        summaryEn: "Thai has 44 consonants and 5 tones — written with no spaces between words.",
+        funFact: "Cùng một âm “mai” có thể mang 5 nghĩa khác nhau tùy thanh điệu.",
+        funFactEn: "The syllable 'mai' can mean 5 different things depending on tone.",
+      },
+      {
+        id: "lang-greek-gr", country: "Hy Lạp", countryEn: "Greece", flag: "🇬🇷",
+        title: "Γειά σου — Yia sou",
+        titleEn: "Γειά σου — Yia sou",
+        summary: "Bảng chữ Hy Lạp (24 chữ) là tổ tiên trực tiếp của Latin và Cyrillic, dùng liên tục hơn 2.700 năm.",
+        summaryEn: "The Greek alphabet (24 letters) is the direct ancestor of Latin and Cyrillic — in use for 2,700+ years.",
+        funFact: "Toán học, vật lý dùng nhiều chữ Hy Lạp như α, β, π, Σ.",
+        funFactEn: "Math and physics borrow heavily from Greek letters: α, β, π, Σ.",
+      },
+      {
+        id: "lang-hindi-in", country: "Ấn Độ", countryEn: "India", flag: "🇮🇳",
+        title: "नमस्ते — Namaste",
+        titleEn: "नमस्ते — Namaste",
+        summary: "Tiếng Hindi dùng chữ Devanagari, được nhận diện bởi đường gạch ngang phía trên các chữ.",
+        summaryEn: "Hindi uses Devanagari script — recognizable by the horizontal line connecting letters on top.",
+        funFact: "“Namaste” nghĩa đen: “Tôi cúi chào điều thiêng liêng trong bạn.”",
+        funFactEn: "'Namaste' literally means: 'I bow to the divine in you.'",
+      },
+      {
+        id: "lang-mandarin-cn", country: "Trung Quốc", countryEn: "China", flag: "🇨🇳",
+        title: "你好 — Nǐ hǎo",
+        titleEn: "你好 — Nǐ hǎo",
+        summary: "Tiếng Trung phổ thông có 4 thanh điệu và hơn 50.000 chữ Hán; người trưởng thành cần biết ~3.000 để đọc báo.",
+        summaryEn: "Mandarin has 4 tones and 50,000+ characters; adults need ~3,000 to read a newspaper.",
+        funFact: "Chữ “明” (sáng) ghép từ “日” (mặt trời) và “月” (mặt trăng).",
+        funFactEn: "The character '明' (bright) combines '日' (sun) and '月' (moon).",
+      },
+      {
+        id: "lang-swahili-ke", country: "Đông Phi", countryEn: "East Africa", flag: "🇰🇪",
+        title: "Jambo — Hakuna matata",
+        titleEn: "Jambo — Hakuna matata",
+        summary: "Tiếng Swahili là cầu nối của hơn 100 triệu người ở Đông Phi, dùng bảng chữ Latin cải tiến.",
+        summaryEn: "Swahili connects 100+ million speakers across East Africa, using a modified Latin alphabet.",
+        funFact: "“Hakuna matata” — “không có vấn đề gì” — nổi tiếng nhờ phim Lion King.",
+        funFactEn: "'Hakuna matata' — 'no worries' — was popularized by The Lion King.",
+      },
     ],
   },
+
+  // ==================== ZONE 4: SPECIAL LANDMARKS ====================
   {
     id: "landmarks",
     icon: MapPin,
@@ -285,62 +404,97 @@ const zones: ExplorationZone[] = [
     tagline: "Câu chuyện độc đáo của từng quốc gia",
     taglineEn: "Unique stories from each country",
     accent: "from-violet-500/20 via-fuchsia-400/10 to-purple-500/20",
+    hero: heroLandmarks,
     lessons: [
       {
-        id: "lm-sauna-fi",
-        country: "Phần Lan",
-        countryEn: "Finland",
-        flag: "🇫🇮",
+        id: "lm-sauna-fi", country: "Phần Lan", countryEn: "Finland", flag: "🇫🇮",
         title: "Văn hóa Sauna",
         titleEn: "Sauna culture",
-        summary:
-          "Phần Lan có khoảng 3 triệu sauna cho 5,5 triệu dân — sauna là nơi thư giãn, hội họp, thậm chí đàm phán.",
-        summaryEn:
-          "Finland has ~3 million saunas for 5.5 million people — for relaxation, gatherings, even negotiations.",
+        summary: "Phần Lan có khoảng 3 triệu sauna cho 5,5 triệu dân — sauna là nơi thư giãn, hội họp, thậm chí đàm phán.",
+        summaryEn: "Finland has ~3 million saunas for 5.5 million people — for relaxation, gatherings, even negotiations.",
         funFact: "UNESCO công nhận văn hóa sauna Phần Lan là di sản phi vật thể (2020).",
         funFactEn: "UNESCO recognised Finnish sauna culture as intangible heritage (2020).",
       },
       {
-        id: "lm-coffee-vn",
-        country: "Việt Nam",
-        countryEn: "Vietnam",
-        flag: "🇻🇳",
+        id: "lm-coffee-vn", country: "Việt Nam", countryEn: "Vietnam", flag: "🇻🇳",
         title: "Văn hóa cà phê Việt",
         titleEn: "Vietnamese coffee culture",
-        summary:
-          "Từ phin nhỏ giọt đến cà phê trứng Hà Nội và cà phê muối Huế — cà phê Việt là một trải nghiệm chậm rãi.",
-        summaryEn:
-          "From the slow-drip 'phin' to Hanoi egg coffee and Huế salt coffee — Vietnamese coffee is a slow ritual.",
+        summary: "Từ phin nhỏ giọt đến cà phê trứng Hà Nội và cà phê muối Huế — cà phê Việt là một trải nghiệm chậm rãi.",
+        summaryEn: "From the slow-drip 'phin' to Hanoi egg coffee and Huế salt coffee — Vietnamese coffee is a slow ritual.",
         funFact: "Việt Nam là nước xuất khẩu cà phê Robusta lớn nhất thế giới.",
         funFactEn: "Vietnam is the world's largest exporter of Robusta coffee.",
       },
       {
-        id: "lm-tea-uk",
-        country: "Anh Quốc",
-        countryEn: "United Kingdom",
-        flag: "🇬🇧",
+        id: "lm-tea-uk", country: "Anh Quốc", countryEn: "United Kingdom", flag: "🇬🇧",
         title: "Afternoon Tea",
         titleEn: "Afternoon Tea",
-        summary:
-          "Bắt đầu từ thế kỷ 19 bởi Nữ công tước Anna, trà chiều gồm trà đen, scone và bánh ngọt nhỏ.",
-        summaryEn:
-          "Started in the 19th century by Duchess Anna — black tea served with scones and dainty cakes.",
+        summary: "Bắt đầu từ thế kỷ 19 bởi Nữ công tước Anna, trà chiều gồm trà đen, scone và bánh ngọt nhỏ.",
+        summaryEn: "Started in the 19th century by Duchess Anna — black tea served with scones and dainty cakes.",
         funFact: "Người Anh uống khoảng 100 triệu tách trà mỗi ngày.",
         funFactEn: "Brits drink about 100 million cups of tea every single day.",
       },
       {
-        id: "lm-tango-ar",
-        country: "Argentina",
-        countryEn: "Argentina",
-        flag: "🇦🇷",
+        id: "lm-tango-ar", country: "Argentina", countryEn: "Argentina", flag: "🇦🇷",
         title: "Tango — Vũ điệu Buenos Aires",
         titleEn: "Tango — The dance of Buenos Aires",
-        summary:
-          "Sinh ra ở các khu cảng Buenos Aires cuối thế kỷ 19, tango là cuộc trò chuyện không lời giữa hai người.",
-        summaryEn:
-          "Born in the Buenos Aires docks in the late 1800s — a wordless conversation between two dancers.",
+        summary: "Sinh ra ở các khu cảng Buenos Aires cuối thế kỷ 19, tango là cuộc trò chuyện không lời giữa hai người.",
+        summaryEn: "Born in the Buenos Aires docks in the late 1800s — a wordless conversation between two dancers.",
         funFact: "UNESCO công nhận tango là Di sản văn hóa phi vật thể năm 2009.",
         funFactEn: "UNESCO inscribed tango as Intangible Cultural Heritage in 2009.",
+      },
+      {
+        id: "lm-cherryblossom-jp", country: "Nhật Bản", countryEn: "Japan", flag: "🌸",
+        title: "Hanami — Ngắm hoa anh đào",
+        titleEn: "Hanami — Cherry blossom viewing",
+        summary: "Mỗi tháng 4, người Nhật trải bạt dưới gốc sakura để ngắm hoa nở — biểu tượng của vẻ đẹp phù du.",
+        summaryEn: "Every April, Japanese spread mats under sakura trees to admire fleeting beauty.",
+        funFact: "Sóng hoa nở “sakura zensen” được dự báo trên TV như dự báo thời tiết.",
+        funFactEn: "The cherry blossom front 'sakura zensen' is forecast on TV like weather.",
+      },
+      {
+        id: "lm-tulip-nl", country: "Hà Lan", countryEn: "Netherlands", flag: "🇳🇱",
+        title: "Cánh đồng tulip Keukenhof",
+        titleEn: "Tulip fields of Keukenhof",
+        summary: "Mỗi mùa xuân, 7 triệu củ tulip nở rộ trên những dải sọc màu trải dài tới chân trời.",
+        summaryEn: "Every spring, 7 million tulip bulbs bloom in striped fields stretching to the horizon.",
+        funFact: "Vào thế kỷ 17, một củ tulip quý có giá bằng cả một ngôi nhà ở Amsterdam.",
+        funFactEn: "In the 17th century, a single rare tulip bulb could cost as much as an Amsterdam house.",
+      },
+      {
+        id: "lm-balloon-tr", country: "Thổ Nhĩ Kỳ", countryEn: "Türkiye", flag: "🇹🇷",
+        title: "Khinh khí cầu Cappadocia",
+        titleEn: "Cappadocia hot-air balloons",
+        summary: "Mỗi sáng, hàng trăm khinh khí cầu cùng bay lên giữa “ống khói cổ tích” và thung lũng đá núi lửa.",
+        summaryEn: "Every morning, hundreds of balloons rise together over fairy chimneys and volcanic valleys.",
+        funFact: "Cappadocia là một trong những nơi tốt nhất thế giới để bay khinh khí cầu — nhờ gió ổn định.",
+        funFactEn: "Cappadocia is one of the world's best ballooning sites — thanks to steady winds.",
+      },
+      {
+        id: "lm-maple-ca", country: "Canada", countryEn: "Canada", flag: "🇨🇦",
+        title: "Mùa thu lá phong & syrup",
+        titleEn: "Maple autumn & syrup",
+        summary: "Canada cung cấp 71% lượng syrup phong toàn cầu — và mùa thu nhuộm cả khu rừng đỏ rực.",
+        summaryEn: "Canada produces 71% of the world's maple syrup — and autumn turns its forests fiery red.",
+        funFact: "Cần khoảng 40 lít nhựa cây để làm 1 lít syrup phong nguyên chất.",
+        funFactEn: "It takes 40 liters of sap to produce just 1 liter of pure maple syrup.",
+      },
+      {
+        id: "lm-yoga-in", country: "Ấn Độ", countryEn: "India", flag: "🧘",
+        title: "Yoga — Hợp nhất thân và tâm",
+        titleEn: "Yoga — Uniting body and mind",
+        summary: "Hơn 5.000 năm tuổi, yoga là khoa học cổ về hơi thở, tư thế và thiền định, lan tỏa khắp thế giới.",
+        summaryEn: "5,000+ years old, yoga is an ancient science of breath, posture, and meditation now practiced worldwide.",
+        funFact: "Liên Hiệp Quốc đã chọn 21/6 là Ngày Quốc tế Yoga.",
+        funFactEn: "The UN designated June 21 as International Yoga Day.",
+      },
+      {
+        id: "lm-pizza-it", country: "Ý", countryEn: "Italy", flag: "🍕",
+        title: "Pizza Napoli — Di sản UNESCO",
+        titleEn: "Pizza Napoletana — UNESCO heritage",
+        summary: "Pizza Margherita ra đời ở Napoli năm 1889 với 3 màu xanh-trắng-đỏ vinh danh quốc kỳ Ý.",
+        summaryEn: "Margherita pizza was born in Naples in 1889 — green-white-red honoring the Italian flag.",
+        funFact: "Nghệ thuật làm pizza “Pizzaiuolo” được UNESCO công nhận năm 2017.",
+        funFactEn: "The 'Pizzaiuolo' pizza-making craft was UNESCO inscribed in 2017.",
       },
     ],
   },
@@ -616,11 +770,24 @@ const WorldPlayground = () => {
                       exit={{ opacity: 0, y: -8 }}
                       transition={{ duration: 0.4 }}
                     >
-                      <div className={`rounded-2xl bg-gradient-to-br ${zone.accent} p-6 md:p-8 mb-8 text-center`}>
-                        <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-2">
-                          {t(zone.title, zone.titleEn)}
-                        </h2>
-                        <p className="text-muted-foreground">{t(zone.tagline, zone.taglineEn)}</p>
+                      {/* Zone hero: realistic photo + gradient overlay + title */}
+                      <div className="relative rounded-2xl overflow-hidden mb-8 shadow-lg">
+                        <img
+                          src={zone.hero}
+                          alt={t(zone.title, zone.titleEn)}
+                          loading="lazy"
+                          width={1280}
+                          height={512}
+                          className="w-full h-48 md:h-64 object-cover"
+                        />
+                        <div className={`absolute inset-0 bg-gradient-to-t from-background/95 via-background/50 to-transparent`} />
+                        <div className={`absolute inset-0 bg-gradient-to-br ${zone.accent} mix-blend-overlay`} />
+                        <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 text-center">
+                          <h2 className="text-2xl md:text-4xl font-display font-bold text-foreground mb-2 drop-shadow-md">
+                            {t(zone.title, zone.titleEn)}
+                          </h2>
+                          <p className="text-foreground/90 text-sm md:text-base drop-shadow">{t(zone.tagline, zone.taglineEn)}</p>
+                        </div>
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
