@@ -30,6 +30,7 @@ interface SubItem {
   children?: SubItem[];
   groupLabel?: string;
   divider?: boolean;
+  header?: boolean;
 }
 
 const Navbar = () => {
