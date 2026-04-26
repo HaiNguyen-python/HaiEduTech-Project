@@ -514,9 +514,9 @@ const ChineseConversationalLessonView = () => {
                 {listeningSubmitted && listeningScore && (
                   <div className={`p-4 rounded-lg border-2 ${listeningScore.percent >= 80 ? "bg-emerald-50 border-emerald-300 text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300" : listeningScore.percent >= 50 ? "bg-amber-50 border-amber-300 text-amber-800 dark:bg-amber-950/30 dark:text-amber-300" : "bg-red-50 border-red-300 text-red-800 dark:bg-red-950/30 dark:text-red-300"}`}>
                     <p className="text-base font-bold">
-                      {listeningScore.percent >= 80 ? "🎉" : listeningScore.percent >= 50 ? "👍" : "💪"} {t("Kết quả Nghe", "Listening Score")}: {listeningScore.correct}/{listeningScore.total} ({listeningScore.percent}%)
+                      {listeningScore.percent >= 80 ? "🎉" : listeningScore.percent >= 50 ? "👍" : "💪"} Listening Score: {listeningScore.correct}/{listeningScore.total} ({listeningScore.percent}%)
                     </p>
-                    <p className="text-xs opacity-80 mt-1">{t("Đã lưu vào Bảng điều khiển học sinh.", "Saved to your Student Dashboard.")}</p>
+                    <p className="text-xs opacity-80 mt-1">Saved to your Student Dashboard.</p>
                   </div>
                 )}
 
@@ -527,11 +527,11 @@ const ChineseConversationalLessonView = () => {
                       disabled={Object.keys(listeningAnswers).length < lesson.listeningChallenge.questions.length}
                       className="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white"
                     >
-                      {t("Nộp bài & Chấm điểm", "Submit & Score")}
+                      Submit & Score
                     </Button>
                   ) : (
                     <Button onClick={() => { setListeningSubmitted(false); setListeningAnswers({}); setListeningScore(null); }} variant="outline">
-                      {t("Làm lại", "Try Again")}
+                      Try Again
                     </Button>
                   )}
                 </div>
@@ -556,18 +556,18 @@ const ChineseConversationalLessonView = () => {
           {!isCompleted ? (
             <Button onClick={handleComplete} className="flex-1 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white" size="lg">
               <CheckCircle className="h-5 w-5 mr-2" />
-              {t("Hoàn thành Bài học", "Mark as Complete")}
+              Mark as Complete
             </Button>
           ) : (
             <div className="flex-1 p-4 bg-red-50 border border-red-200 rounded-xl flex items-center gap-3 justify-center text-red-700">
               <Award className="h-5 w-5" />
-              <span className="font-medium">{t("Đã hoàn thành! Huy hiệu: ", "Completed! Badge: ")}{t(lesson.badgeVi, lesson.badge)}</span>
+              <span className="font-medium">Completed! Badge: {lesson.badge}</span>
             </div>
           )}
           {nextLesson && (
             <Button asChild variant="outline" size="lg" className="flex-1">
               <Link to={`/chinese/conversational/learn/${nextLesson.id}`}>
-                {t("Bài tiếp theo: ", "Next: ")}{t(nextLesson.titleVi, nextLesson.title)}
+                Next: {nextLesson.title}
                 <ChevronRight className="h-4 w-4 ml-1" />
               </Link>
             </Button>
