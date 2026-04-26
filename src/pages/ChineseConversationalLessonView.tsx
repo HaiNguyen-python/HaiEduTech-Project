@@ -193,43 +193,43 @@ const ChineseConversationalLessonView = () => {
         {/* Breadcrumb */}
         <Link to="/chinese/conversational/curriculum" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary mb-4">
           <ArrowLeft className="h-4 w-4" />
-          {t("Chương trình Tương tác 中文", "Interactive 中文 Curriculum")}
+          Interactive 中文 Curriculum
         </Link>
 
-        {/* Lesson header */}
+        {/* Lesson header — English-only for international learners */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center gap-3 mb-2">
             <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${pillar.color} flex items-center justify-center text-white`}>
               <LIcon className="h-6 w-6" />
             </div>
             <div>
-              <p className="text-xs text-muted-foreground font-medium">{t(pillar.titleVi, pillar.title)} · {pillar.titleZh}</p>
-              <h1 className="text-2xl sm:text-3xl font-bold">{t(lesson.titleVi, lesson.title)} <span className="text-lg text-muted-foreground">({lesson.titleZh})</span></h1>
+              <p className="text-xs text-muted-foreground font-medium">{pillar.title} · {pillar.titleZh}</p>
+              <h1 className="text-2xl sm:text-3xl font-bold">{lesson.title} <span className="text-lg text-muted-foreground">({lesson.titleZh})</span></h1>
             </div>
             <Badge variant="outline" className="ml-auto">HSK {lesson.hskLevel}</Badge>
             {isCompleted && (
               <Badge className="bg-red-100 text-red-700 border-red-200">
-                <Award className="h-3 w-3 mr-1" /> {t(lesson.badgeVi, lesson.badge)}
+                <Award className="h-3 w-3 mr-1" /> {lesson.badge}
               </Badge>
             )}
           </div>
-          <p className="text-muted-foreground">{t(lesson.descriptionVi, lesson.description)}</p>
+          <p className="text-muted-foreground">{lesson.description}</p>
         </motion.div>
 
         {/* Content tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="w-full flex mb-6 h-auto flex-wrap gap-1">
-            <TabsTrigger value="situations" className="flex-1 text-xs sm:text-sm py-2">🎯 {t("Tình huống", "Situations")}</TabsTrigger>
-            <TabsTrigger value="vocabulary" className="flex-1 text-xs sm:text-sm py-2">📚 {t("Từ vựng", "Vocabulary")}</TabsTrigger>
-            <TabsTrigger value="structures" className="flex-1 text-xs sm:text-sm py-2">📐 {t("Cấu trúc", "Structures")}</TabsTrigger>
+            <TabsTrigger value="situations" className="flex-1 text-xs sm:text-sm py-2">🎯 Situations</TabsTrigger>
+            <TabsTrigger value="vocabulary" className="flex-1 text-xs sm:text-sm py-2">📚 Vocabulary</TabsTrigger>
+            <TabsTrigger value="structures" className="flex-1 text-xs sm:text-sm py-2">📐 Structures</TabsTrigger>
             {lesson.fillInBlankExercises && lesson.fillInBlankExercises.length > 0 && (
-              <TabsTrigger value="exercises" className="flex-1 text-xs sm:text-sm py-2">✏️ {t("Bài tập", "Exercises")}</TabsTrigger>
+              <TabsTrigger value="exercises" className="flex-1 text-xs sm:text-sm py-2">✏️ Exercises</TabsTrigger>
             )}
-            <TabsTrigger value="listening" className="flex-1 text-xs sm:text-sm py-2">🎧 {t("Nghe", "Listening")}</TabsTrigger>
-            <TabsTrigger value="roleplay" className="flex-1 text-xs sm:text-sm py-2">🎤 {t("Luyện nói", "Roleplay")}</TabsTrigger>
+            <TabsTrigger value="listening" className="flex-1 text-xs sm:text-sm py-2">🎧 Listening</TabsTrigger>
+            <TabsTrigger value="roleplay" className="flex-1 text-xs sm:text-sm py-2">🎤 Roleplay</TabsTrigger>
           </TabsList>
 
-          {/* SITUATIONS TAB */}
+          {/* SITUATIONS TAB — English-only */}
           <TabsContent value="situations">
             <div className="space-y-6">
               {lesson.keySituations.map((situation, idx) => (
@@ -238,18 +238,18 @@ const ChineseConversationalLessonView = () => {
                     <CardHeader className="pb-3">
                       <CardTitle className="text-lg flex items-center gap-2">
                         <MessageCircle className="h-5 w-5 text-red-500" />
-                        {t(situation.titleVi, situation.title)}
+                        {situation.title}
                       </CardTitle>
-                      <p className="text-sm text-muted-foreground">{t(situation.descriptionVi, situation.description)}</p>
+                      <p className="text-sm text-muted-foreground">{situation.description}</p>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       {/* Cultural note */}
                       {situation.culturalNote && (
                         <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 p-3 rounded-lg">
                           <p className="text-xs font-semibold text-amber-700 dark:text-amber-400 mb-1 flex items-center gap-1">
-                            <Globe className="h-3 w-3" /> {t("Ghi chú Văn hóa", "Cultural Note")}
+                            <Globe className="h-3 w-3" /> Cultural Note
                           </p>
-                          <p className="text-sm text-amber-800 dark:text-amber-300">{t(situation.culturalNoteVi || "", situation.culturalNote)}</p>
+                          <p className="text-sm text-amber-800 dark:text-amber-300">{situation.culturalNote}</p>
                         </div>
                       )}
 
@@ -263,6 +263,8 @@ const ChineseConversationalLessonView = () => {
                             { bubble: "bg-gradient-to-br from-emerald-500 to-teal-600 text-white", label: "bg-emerald-600 text-white" },
                           ];
                           const { bubble: bubbleColor, label: labelColor } = palette[i % 2];
+                          // Prefer English translation; if absent, keep dialogue without translation rather than showing Vietnamese
+                          const translationEn = line.translationEn;
 
                           return (
                             <div key={i} className={`flex gap-3 ${isRight ? "flex-row-reverse" : ""}`}>
@@ -275,8 +277,8 @@ const ChineseConversationalLessonView = () => {
                                 <p className="text-xs font-bold opacity-80 mb-1">{line.speaker}</p>
                                 <p className="text-lg font-bold leading-relaxed">{line.line}</p>
                                 <p className="text-sm opacity-80 mt-1 italic">{line.pinyin}</p>
-                                {line.translationVi && (
-                                  <p className="text-sm mt-1 font-medium opacity-90 border-t border-white/20 pt-1">🇻🇳 {line.translationVi}</p>
+                                {translationEn && (
+                                  <p className="text-sm mt-1 font-medium opacity-90 border-t border-white/20 pt-1">🇬🇧 {translationEn}</p>
                                 )}
                                 <button
                                   onClick={() => speakChinese(line.line)}
@@ -297,6 +299,7 @@ const ChineseConversationalLessonView = () => {
             </div>
           </TabsContent>
 
+
           {/* VOCABULARY TAB */}
           <TabsContent value="vocabulary">
             <div className="space-y-3">
@@ -312,7 +315,7 @@ const ChineseConversationalLessonView = () => {
                           <div>
                             <h4 className="font-bold text-2xl sm:text-3xl text-red-600">{v.hanzi}</h4>
                             <p className="text-base text-primary font-medium">{v.pinyin}</p>
-                            <p className="text-sm text-muted-foreground">{t(v.meaning, v.meaningEn)}</p>
+                            <p className="text-sm text-muted-foreground">{v.meaningEn}</p>
                           </div>
                         </div>
                         <Badge variant="outline" className="text-xs capitalize shrink-0">{v.type}</Badge>
@@ -320,7 +323,7 @@ const ChineseConversationalLessonView = () => {
                       <div className="bg-muted/50 p-4 rounded-lg mt-3">
                         <p className="text-base sm:text-lg font-semibold">{v.example}</p>
                         <p className="text-sm text-primary/80 italic mt-1">{v.examplePinyin}</p>
-                        <p className="text-sm text-muted-foreground mt-1">→ {v.exampleVi}</p>
+                        {v.exampleEn && <p className="text-sm text-muted-foreground mt-1">→ {v.exampleEn}</p>}
                       </div>
                     </CardContent>
                   </Card>
@@ -338,7 +341,7 @@ const ChineseConversationalLessonView = () => {
                     <CardHeader className="pb-3">
                       <CardTitle className="text-lg text-red-600">{struct.pattern}</CardTitle>
                       <p className="text-sm text-primary/80 italic">{struct.patternPinyin}</p>
-                      <p className="text-sm text-muted-foreground">{t(struct.explanationVi, struct.explanation)}</p>
+                      <p className="text-sm text-muted-foreground">{struct.explanation}</p>
                     </CardHeader>
                     <CardContent className="space-y-2">
                       {struct.examples.map((ex, i) => (
@@ -349,7 +352,7 @@ const ChineseConversationalLessonView = () => {
                           <div>
                             <p className="text-sm font-medium">{ex.zh}</p>
                             <p className="text-xs text-primary/80 italic">{ex.pinyin}</p>
-                            <p className="text-xs text-muted-foreground">→ {ex.vi}</p>
+                            {ex.en && <p className="text-xs text-muted-foreground">→ {ex.en}</p>}
                           </div>
                         </div>
                       ))}
@@ -367,16 +370,17 @@ const ChineseConversationalLessonView = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <BookOpen className="h-5 w-5 text-purple-500" />
-                    {t("Bài tập điền từ", "Fill in the Blank")}
+                    Fill in the Blank
                   </CardTitle>
                   <p className="text-sm text-muted-foreground">
-                    {t("Điền từ tiếng Trung phù hợp vào chỗ trống.", "Fill in the correct Chinese word for each blank.")}
+                    Fill in the correct Chinese word for each blank.
                   </p>
                 </CardHeader>
                 <CardContent className="space-y-5">
                   {lesson.fillInBlankExercises.map((ex, idx) => {
                     const userAns = (fibAnswers[idx] || "").trim();
                     const correct = userAns === ex.answer;
+                    const trEn = ex.translationEn;
                     return (
                       <div key={idx} className="border rounded-lg p-4 bg-card space-y-2">
                         <div className="flex items-start gap-2">
@@ -384,7 +388,7 @@ const ChineseConversationalLessonView = () => {
                           <div className="flex-1">
                             <p className="text-lg font-semibold leading-relaxed">{ex.sentence}</p>
                             <p className="text-sm text-muted-foreground italic mt-1">{ex.pinyin}</p>
-                            <p className="text-sm text-muted-foreground mt-1">🇻🇳 {ex.translationVi}</p>
+                            {trEn && <p className="text-sm text-muted-foreground mt-1">🇬🇧 {trEn}</p>}
                           </div>
                         </div>
                         <div className="flex flex-wrap items-center gap-2 pl-9">
@@ -392,7 +396,7 @@ const ChineseConversationalLessonView = () => {
                             type="text"
                             value={fibAnswers[idx] || ""}
                             onChange={(e) => setFibAnswers({ ...fibAnswers, [idx]: e.target.value })}
-                            placeholder={t("Nhập đáp án...", "Type answer...")}
+                            placeholder="Type answer..."
                             className="border rounded-md px-3 py-2 text-base bg-background min-w-[140px]"
                             disabled={fibChecked}
                           />
@@ -401,7 +405,7 @@ const ChineseConversationalLessonView = () => {
                           )}
                           {fibChecked && (
                             <span className={`text-sm font-semibold ${correct ? "text-emerald-600" : "text-red-600"}`}>
-                              {correct ? `✅ ${t("Đúng", "Correct")}` : `❌ ${t("Đáp án", "Answer")}: ${ex.answer}`}
+                              {correct ? "✅ Correct" : `❌ Answer: ${ex.answer}`}
                             </span>
                           )}
                         </div>
@@ -411,19 +415,19 @@ const ChineseConversationalLessonView = () => {
                   {fibChecked && fibScore && (
                     <div className={`p-4 rounded-lg border-2 ${fibScore.percent >= 80 ? "bg-emerald-50 border-emerald-300 text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300" : fibScore.percent >= 50 ? "bg-amber-50 border-amber-300 text-amber-800 dark:bg-amber-950/30 dark:text-amber-300" : "bg-red-50 border-red-300 text-red-800 dark:bg-red-950/30 dark:text-red-300"}`}>
                       <p className="text-base font-bold">
-                        {fibScore.percent >= 80 ? "🎉" : fibScore.percent >= 50 ? "👍" : "💪"} {t("Kết quả", "Score")}: {fibScore.correct}/{fibScore.total} ({fibScore.percent}%)
+                        {fibScore.percent >= 80 ? "🎉" : fibScore.percent >= 50 ? "👍" : "💪"} Score: {fibScore.correct}/{fibScore.total} ({fibScore.percent}%)
                       </p>
-                      <p className="text-xs opacity-80 mt-1">{t("Đã lưu vào Bảng điều khiển học sinh.", "Saved to your Student Dashboard.")}</p>
+                      <p className="text-xs opacity-80 mt-1">Saved to your Student Dashboard.</p>
                     </div>
                   )}
                   <div className="flex gap-2 pt-2">
                     {!fibChecked ? (
                       <Button onClick={handleCheckFib} disabled={Object.keys(fibAnswers).length === 0} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white">
-                        {t("Kiểm tra & Chấm điểm", "Check & Score")}
+                        Check & Score
                       </Button>
                     ) : (
                       <Button onClick={() => { setFibChecked(false); setFibAnswers({}); setFibScore(null); }} variant="outline">
-                        {t("Làm lại", "Try Again")}
+                        Try Again
                       </Button>
                     )}
                   </div>
@@ -438,23 +442,23 @@ const ChineseConversationalLessonView = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Volume2 className="h-5 w-5 text-red-500" />
-                  {t(lesson.listeningChallenge.titleVi, lesson.listeningChallenge.title)}
+                  {lesson.listeningChallenge.title}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div>
                   <div className="flex flex-wrap gap-2 mb-3">
                     <Button variant="default" size="sm" onClick={() => speakChinese(lesson.listeningChallenge.transcript, 0.85)} className="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white">
-                      <Play className="h-4 w-4 mr-1" /> {t("▶ Nghe bài", "▶ Play Audio")}
+                      <Play className="h-4 w-4 mr-1" /> ▶ Play Audio
                     </Button>
                     <Button variant="outline" size="sm" onClick={() => speakChinese(lesson.listeningChallenge.transcript, 0.6)}>
-                      🐢 {t("Nghe chậm", "Slow")}
+                      🐢 Slow
                     </Button>
                     <Button variant="outline" size="sm" onClick={() => speechSynthesis.cancel()}>
-                      ⏹ {t("Dừng", "Stop")}
+                      ⏹ Stop
                     </Button>
                     <Button variant="outline" size="sm" onClick={() => setListeningRevealed(!listeningRevealed)}>
-                      {listeningRevealed ? t("👁 Ẩn lời thoại", "👁 Hide Transcript") : t("📝 Xem lời thoại", "📝 Show Transcript")}
+                      {listeningRevealed ? "👁 Hide Transcript" : "📝 Show Transcript"}
                     </Button>
                   </div>
                   <AnimatePresence>
@@ -462,6 +466,9 @@ const ChineseConversationalLessonView = () => {
                       <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="bg-muted/50 p-4 rounded-lg space-y-2">
                         <p className="text-sm leading-relaxed">{lesson.listeningChallenge.transcript}</p>
                         <p className="text-xs text-primary/70 italic leading-relaxed">{lesson.listeningChallenge.transcriptPinyin}</p>
+                        {lesson.listeningChallenge.transcriptEn && (
+                          <p className="text-sm text-muted-foreground border-t border-border pt-2">🇬🇧 {lesson.listeningChallenge.transcriptEn}</p>
+                        )}
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -470,7 +477,7 @@ const ChineseConversationalLessonView = () => {
                 <div className="space-y-4">
                   {lesson.listeningChallenge.questions.map((q, qi) => (
                     <div key={qi} className="p-4 bg-muted/30 rounded-xl">
-                      <p className="font-medium text-sm mb-3">{qi + 1}. {t(q.qVi, q.q)}</p>
+                      <p className="font-medium text-sm mb-3">{qi + 1}. {q.q}</p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         {q.options.map((opt, oi) => {
                           const selected = listeningAnswers[qi] === oi;
@@ -507,9 +514,9 @@ const ChineseConversationalLessonView = () => {
                 {listeningSubmitted && listeningScore && (
                   <div className={`p-4 rounded-lg border-2 ${listeningScore.percent >= 80 ? "bg-emerald-50 border-emerald-300 text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300" : listeningScore.percent >= 50 ? "bg-amber-50 border-amber-300 text-amber-800 dark:bg-amber-950/30 dark:text-amber-300" : "bg-red-50 border-red-300 text-red-800 dark:bg-red-950/30 dark:text-red-300"}`}>
                     <p className="text-base font-bold">
-                      {listeningScore.percent >= 80 ? "🎉" : listeningScore.percent >= 50 ? "👍" : "💪"} {t("Kết quả Nghe", "Listening Score")}: {listeningScore.correct}/{listeningScore.total} ({listeningScore.percent}%)
+                      {listeningScore.percent >= 80 ? "🎉" : listeningScore.percent >= 50 ? "👍" : "💪"} Listening Score: {listeningScore.correct}/{listeningScore.total} ({listeningScore.percent}%)
                     </p>
-                    <p className="text-xs opacity-80 mt-1">{t("Đã lưu vào Bảng điều khiển học sinh.", "Saved to your Student Dashboard.")}</p>
+                    <p className="text-xs opacity-80 mt-1">Saved to your Student Dashboard.</p>
                   </div>
                 )}
 
@@ -520,11 +527,11 @@ const ChineseConversationalLessonView = () => {
                       disabled={Object.keys(listeningAnswers).length < lesson.listeningChallenge.questions.length}
                       className="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white"
                     >
-                      {t("Nộp bài & Chấm điểm", "Submit & Score")}
+                      Submit & Score
                     </Button>
                   ) : (
                     <Button onClick={() => { setListeningSubmitted(false); setListeningAnswers({}); setListeningScore(null); }} variant="outline">
-                      {t("Làm lại", "Try Again")}
+                      Try Again
                     </Button>
                   )}
                 </div>
@@ -549,18 +556,18 @@ const ChineseConversationalLessonView = () => {
           {!isCompleted ? (
             <Button onClick={handleComplete} className="flex-1 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white" size="lg">
               <CheckCircle className="h-5 w-5 mr-2" />
-              {t("Hoàn thành Bài học", "Mark as Complete")}
+              Mark as Complete
             </Button>
           ) : (
             <div className="flex-1 p-4 bg-red-50 border border-red-200 rounded-xl flex items-center gap-3 justify-center text-red-700">
               <Award className="h-5 w-5" />
-              <span className="font-medium">{t("Đã hoàn thành! Huy hiệu: ", "Completed! Badge: ")}{t(lesson.badgeVi, lesson.badge)}</span>
+              <span className="font-medium">Completed! Badge: {lesson.badge}</span>
             </div>
           )}
           {nextLesson && (
             <Button asChild variant="outline" size="lg" className="flex-1">
               <Link to={`/chinese/conversational/learn/${nextLesson.id}`}>
-                {t("Bài tiếp theo: ", "Next: ")}{t(nextLesson.titleVi, nextLesson.title)}
+                Next: {nextLesson.title}
                 <ChevronRight className="h-4 w-4 ml-1" />
               </Link>
             </Button>
