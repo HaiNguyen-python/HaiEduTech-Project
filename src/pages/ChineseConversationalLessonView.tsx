@@ -229,7 +229,7 @@ const ChineseConversationalLessonView = () => {
             <TabsTrigger value="roleplay" className="flex-1 text-xs sm:text-sm py-2">🎤 {t("Luyện nói", "Roleplay")}</TabsTrigger>
           </TabsList>
 
-          {/* SITUATIONS TAB */}
+          {/* SITUATIONS TAB — English-only */}
           <TabsContent value="situations">
             <div className="space-y-6">
               {lesson.keySituations.map((situation, idx) => (
@@ -238,18 +238,18 @@ const ChineseConversationalLessonView = () => {
                     <CardHeader className="pb-3">
                       <CardTitle className="text-lg flex items-center gap-2">
                         <MessageCircle className="h-5 w-5 text-red-500" />
-                        {t(situation.titleVi, situation.title)}
+                        {situation.title}
                       </CardTitle>
-                      <p className="text-sm text-muted-foreground">{t(situation.descriptionVi, situation.description)}</p>
+                      <p className="text-sm text-muted-foreground">{situation.description}</p>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       {/* Cultural note */}
                       {situation.culturalNote && (
                         <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 p-3 rounded-lg">
                           <p className="text-xs font-semibold text-amber-700 dark:text-amber-400 mb-1 flex items-center gap-1">
-                            <Globe className="h-3 w-3" /> {t("Ghi chú Văn hóa", "Cultural Note")}
+                            <Globe className="h-3 w-3" /> Cultural Note
                           </p>
-                          <p className="text-sm text-amber-800 dark:text-amber-300">{t(situation.culturalNoteVi || "", situation.culturalNote)}</p>
+                          <p className="text-sm text-amber-800 dark:text-amber-300">{situation.culturalNote}</p>
                         </div>
                       )}
 
@@ -263,6 +263,8 @@ const ChineseConversationalLessonView = () => {
                             { bubble: "bg-gradient-to-br from-emerald-500 to-teal-600 text-white", label: "bg-emerald-600 text-white" },
                           ];
                           const { bubble: bubbleColor, label: labelColor } = palette[i % 2];
+                          // Prefer English translation; if absent, keep dialogue without translation rather than showing Vietnamese
+                          const translationEn = line.translationEn;
 
                           return (
                             <div key={i} className={`flex gap-3 ${isRight ? "flex-row-reverse" : ""}`}>
@@ -275,8 +277,8 @@ const ChineseConversationalLessonView = () => {
                                 <p className="text-xs font-bold opacity-80 mb-1">{line.speaker}</p>
                                 <p className="text-lg font-bold leading-relaxed">{line.line}</p>
                                 <p className="text-sm opacity-80 mt-1 italic">{line.pinyin}</p>
-                                {line.translationVi && (
-                                  <p className="text-sm mt-1 font-medium opacity-90 border-t border-white/20 pt-1">🇻🇳 {line.translationVi}</p>
+                                {translationEn && (
+                                  <p className="text-sm mt-1 font-medium opacity-90 border-t border-white/20 pt-1">🇬🇧 {translationEn}</p>
                                 )}
                                 <button
                                   onClick={() => speakChinese(line.line)}
@@ -296,6 +298,7 @@ const ChineseConversationalLessonView = () => {
               ))}
             </div>
           </TabsContent>
+
 
           {/* VOCABULARY TAB */}
           <TabsContent value="vocabulary">
