@@ -193,27 +193,27 @@ const ChineseConversationalLessonView = () => {
         {/* Breadcrumb */}
         <Link to="/chinese/conversational/curriculum" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary mb-4">
           <ArrowLeft className="h-4 w-4" />
-          {t("Chương trình Tương tác 中文", "Interactive 中文 Curriculum")}
+          Interactive 中文 Curriculum
         </Link>
 
-        {/* Lesson header */}
+        {/* Lesson header — English-only for international learners */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center gap-3 mb-2">
             <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${pillar.color} flex items-center justify-center text-white`}>
               <LIcon className="h-6 w-6" />
             </div>
             <div>
-              <p className="text-xs text-muted-foreground font-medium">{t(pillar.titleVi, pillar.title)} · {pillar.titleZh}</p>
-              <h1 className="text-2xl sm:text-3xl font-bold">{t(lesson.titleVi, lesson.title)} <span className="text-lg text-muted-foreground">({lesson.titleZh})</span></h1>
+              <p className="text-xs text-muted-foreground font-medium">{pillar.title} · {pillar.titleZh}</p>
+              <h1 className="text-2xl sm:text-3xl font-bold">{lesson.title} <span className="text-lg text-muted-foreground">({lesson.titleZh})</span></h1>
             </div>
             <Badge variant="outline" className="ml-auto">HSK {lesson.hskLevel}</Badge>
             {isCompleted && (
               <Badge className="bg-red-100 text-red-700 border-red-200">
-                <Award className="h-3 w-3 mr-1" /> {t(lesson.badgeVi, lesson.badge)}
+                <Award className="h-3 w-3 mr-1" /> {lesson.badge}
               </Badge>
             )}
           </div>
-          <p className="text-muted-foreground">{t(lesson.descriptionVi, lesson.description)}</p>
+          <p className="text-muted-foreground">{lesson.description}</p>
         </motion.div>
 
         {/* Content tabs */}
