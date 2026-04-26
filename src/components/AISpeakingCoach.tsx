@@ -124,35 +124,31 @@ const isNumberEquivalent = (a: string, b: string): boolean => {
   return false;
 };
 
-// Common contractions & spoken equivalents
-const spokenEquivalents: Record<string, string[]> = {
-  "i'm": ["im", "i am"], "don't": ["dont", "do not"], "doesn't": ["doesnt", "does not"],
-  "can't": ["cant", "cannot"], "won't": ["wont", "will not"], "it's": ["its", "it is"],
-  "i've": ["ive", "i have"], "i'll": ["ill", "i will"], "we're": ["were", "we are"],
-  "they're": ["theyre", "they are"], "you're": ["youre", "you are"],
-  "isn't": ["isnt", "is not"], "aren't": ["arent", "are not"],
-  "wasn't": ["wasnt", "was not"], "weren't": ["werent", "were not"],
-  "that's": ["thats", "that is"], "there's": ["theres", "there is"],
-  "what's": ["whats", "what is"], "who's": ["whos", "who is"],
-  "let's": ["lets", "let us"], "he's": ["hes", "he is"], "she's": ["shes", "she is"],
+// Common contractions and speech-recognition variants expanded before scoring.
+const contractionExpansions: Record<string, string> = {
+  "i'm": "i am", im: "i am", "don't": "do not", dont: "do not", "doesn't": "does not", doesnt: "does not",
+  "can't": "cannot", cant: "cannot", "won't": "will not", wont: "will not", "it's": "it is", its: "it is",
+  "i've": "i have", ive: "i have", "i'll": "i will", ill: "i will", "we're": "we are", were: "we are",
+  "they're": "they are", theyre: "they are", "you're": "you are", youre: "you are",
+  "isn't": "is not", isnt: "is not", "aren't": "are not", arent: "are not",
+  "wasn't": "was not", wasnt: "was not", "weren't": "were not", werent: "were not",
+  "that's": "that is", thats: "that is", "there's": "there is", theres: "there is",
+  "what's": "what is", whats: "what is", "who's": "who is", whos: "who is",
+  "let's": "let us", lets: "let us", "he's": "he is", hes: "he is", "she's": "she is", shes: "she is",
 };
 
-const isSpokenEquivalent = (a: string, b: string): boolean => {
-  if (a === b) return true;
-  for (const [key, alts] of Object.entries(spokenEquivalents)) {
-    const all = [key, ...alts];
-    if (all.includes(a) && all.includes(b)) return true;
+// Normalize text for comparison - preserve word boundaries so skipped/extra words do not shift every score to 0%.
+const normalize = (text: string): string[] => {
+  let cleaned = text.toLowerCase().replace(/[’`]/g, "'");
+  for (const [variant, expansion] of Object.entries(contractionExpansions)) {
+    cleaned = cleaned.replace(new RegExp(`\\b${variant.replace("'", "['’]?")}\\b`, "g"), expansion);
   }
-  return false;
-};
-
-// Normalize text for comparison - strip punctuation & lowercase
-const normalize = (text: string): string[] =>
-  text
-    .toLowerCase()
-    .replace(/[.,!?;:'"()（）。，！？、""''-…·\-]/g, "")
+  return cleaned
+    .replace(/[.,!?;:"()（）。，！？、""''…·\[\]{}]/g, " ")
+    .replace(/[\-–—]/g, " ")
     .split(/\s+/)
     .filter(Boolean);
+};
 
 // Levenshtein distance for fuzzy matching
 const levenshtein = (a: string, b: string): number => {
