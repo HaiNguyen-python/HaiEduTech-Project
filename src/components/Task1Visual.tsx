@@ -61,7 +61,7 @@ const Element: React.FC<{ el: MapElement }> = ({ el }) => {
         <g>
           <rect x={x} y={y} width={w} height={h} rx={3} fill="hsl(205 80% 75%)" stroke="hsl(205 60% 55%)" strokeWidth={1} />
           {el.label && (
-            <text x={x + w / 2} y={y + h / 2 + 3} textAnchor="middle" fontSize={9} fontStyle="italic" fill="hsl(205 60% 30%)">
+            <text x={x + w / 2} y={y + h / 2 + 4} textAnchor="middle" fontSize={13} fontStyle="italic" fontWeight={600} fill="hsl(205 60% 25%)">
               {el.label}
             </text>
           )}
@@ -72,7 +72,7 @@ const Element: React.FC<{ el: MapElement }> = ({ el }) => {
         <g>
           <rect x={x} y={y} width={w} height={h} rx={2} fill="hsl(95 50% 80%)" stroke="hsl(95 45% 50%)" strokeWidth={1} strokeDasharray="3 2" />
           {el.label && (
-            <text x={x + w / 2} y={y + h / 2 + 3} textAnchor="middle" fontSize={9} fill="hsl(95 50% 25%)">
+            <text x={x + w / 2} y={y + h / 2 + 4} textAnchor="middle" fontSize={13} fontWeight={600} fill="hsl(95 50% 22%)">
               {el.label}
             </text>
           )}
@@ -85,12 +85,12 @@ const Element: React.FC<{ el: MapElement }> = ({ el }) => {
           <rect x={x} y={y} width={w} height={h} fill="hsl(0 0% 75%)" stroke="hsl(0 0% 55%)" strokeWidth={0.5} />
           {/* dashed centre line */}
           {isV ? (
-            <line x1={x + w / 2} y1={y} x2={x + w / 2} y2={y + h} stroke="white" strokeWidth={1} strokeDasharray="4 3" />
+            <line x1={x + w / 2} y1={y} x2={x + w / 2} y2={y + h} stroke="white" strokeWidth={1.5} strokeDasharray="5 4" />
           ) : (
-            <line x1={x} y1={y + h / 2} x2={x + w} y2={y + h / 2} stroke="white" strokeWidth={1} strokeDasharray="4 3" />
+            <line x1={x} y1={y + h / 2} x2={x + w} y2={y + h / 2} stroke="white" strokeWidth={1.5} strokeDasharray="5 4" />
           )}
           {el.label && (
-            <text x={x + w / 2} y={y - 2} textAnchor="middle" fontSize={8} fill="hsl(0 0% 30%)">
+            <text x={x + w / 2} y={y - 3} textAnchor="middle" fontSize={11} fontWeight={600} fill="hsl(0 0% 25%)">
               {el.label}
             </text>
           )}
@@ -103,7 +103,7 @@ const Element: React.FC<{ el: MapElement }> = ({ el }) => {
           <circle cx={x + w / 2} cy={y + h / 2} r={Math.min(w, h) / 2} fill="hsl(0 0% 75%)" stroke="hsl(0 0% 50%)" strokeWidth={1} />
           <circle cx={x + w / 2} cy={y + h / 2} r={Math.min(w, h) / 4} fill="hsl(95 50% 80%)" stroke="hsl(95 45% 50%)" strokeWidth={0.5} />
           {el.label && (
-            <text x={x + w / 2} y={y + h + 8} textAnchor="middle" fontSize={8} fill="hsl(0 0% 30%)">
+            <text x={x + w / 2} y={y + h + 11} textAnchor="middle" fontSize={11} fontWeight={600} fill="hsl(0 0% 25%)">
               {el.label}
             </text>
           )}
@@ -112,9 +112,9 @@ const Element: React.FC<{ el: MapElement }> = ({ el }) => {
     case "trees":
       return (
         <g>
-          <circle cx={x + 4} cy={y + 4} r={3} fill="hsl(140 50% 45%)" />
-          <circle cx={x + 10} cy={y + 6} r={3.5} fill="hsl(140 55% 40%)" />
-          <circle cx={x + 16} cy={y + 4} r={3} fill="hsl(140 50% 45%)" />
+          <circle cx={x + 5} cy={y + 5} r={4} fill="hsl(140 50% 45%)" />
+          <circle cx={x + 13} cy={y + 7} r={4.5} fill="hsl(140 55% 40%)" />
+          <circle cx={x + 21} cy={y + 5} r={4} fill="hsl(140 50% 45%)" />
         </g>
       );
     case "carpark":
@@ -126,7 +126,7 @@ const Element: React.FC<{ el: MapElement }> = ({ el }) => {
             <line key={i} x1={x + w * p} y1={y + 2} x2={x + w * p} y2={y + h - 2} stroke="hsl(0 0% 60%)" strokeWidth={0.5} />
           ))}
           {el.label && (
-            <text x={x + w / 2} y={y + h / 2 + 3} textAnchor="middle" fontSize={8} fill="hsl(0 0% 30%)">
+            <text x={x + w / 2} y={y + h / 2 + 4} textAnchor="middle" fontSize={11} fontWeight={600} fill="hsl(0 0% 25%)">
               {el.label}
             </text>
           )}
@@ -134,19 +134,19 @@ const Element: React.FC<{ el: MapElement }> = ({ el }) => {
       );
     case "label":
       return (
-        <text x={x} y={y} fontSize={9} fill="hsl(var(--foreground))" fontWeight={600}>
+        <text x={x} y={y} fontSize={12} fill="hsl(var(--foreground))" fontWeight={600}>
           {el.label}
         </text>
       );
     case "building":
     default: {
       const palette: Record<string, { fill: string; stroke: string; text: string }> = {
-        shop:    { fill: "hsl(35 85% 78%)",  stroke: "hsl(35 75% 50%)",  text: "hsl(35 70% 25%)" },
-        house:   { fill: "hsl(15 70% 80%)",  stroke: "hsl(15 60% 50%)",  text: "hsl(15 60% 25%)" },
-        office:  { fill: "hsl(220 50% 80%)", stroke: "hsl(220 45% 50%)", text: "hsl(220 45% 25%)" },
-        school:  { fill: "hsl(280 50% 82%)", stroke: "hsl(280 40% 55%)", text: "hsl(280 40% 25%)" },
-        bus:     { fill: "hsl(50 90% 78%)",  stroke: "hsl(40 70% 45%)",  text: "hsl(40 70% 25%)" },
-        default: { fill: "hsl(0 0% 88%)",    stroke: "hsl(0 0% 55%)",    text: "hsl(0 0% 25%)" },
+        shop:    { fill: "hsl(35 85% 78%)",  stroke: "hsl(35 75% 50%)",  text: "hsl(35 70% 22%)" },
+        house:   { fill: "hsl(15 70% 80%)",  stroke: "hsl(15 60% 50%)",  text: "hsl(15 60% 22%)" },
+        office:  { fill: "hsl(220 50% 80%)", stroke: "hsl(220 45% 50%)", text: "hsl(220 45% 22%)" },
+        school:  { fill: "hsl(280 50% 82%)", stroke: "hsl(280 40% 55%)", text: "hsl(280 40% 22%)" },
+        bus:     { fill: "hsl(50 90% 78%)",  stroke: "hsl(40 70% 45%)",  text: "hsl(40 70% 22%)" },
+        default: { fill: "hsl(0 0% 88%)",    stroke: "hsl(0 0% 55%)",    text: "hsl(0 0% 22%)" },
       };
       const c = palette[el.variant ?? "default"] ?? palette.default;
       return (
@@ -155,14 +155,14 @@ const Element: React.FC<{ el: MapElement }> = ({ el }) => {
           {/* roof line for houses */}
           {el.variant === "house" && (
             <polyline
-              points={`${x},${y + 2} ${x + w / 2},${y - 4} ${x + w},${y + 2}`}
+              points={`${x},${y + 2} ${x + w / 2},${y - 5} ${x + w},${y + 2}`}
               fill="hsl(15 60% 45%)"
               stroke="hsl(15 60% 35%)"
               strokeWidth={0.5}
             />
           )}
           {el.label && (
-            <text x={x + w / 2} y={y + h / 2 + 3} textAnchor="middle" fontSize={8} fontWeight={600} fill={c.text}>
+            <text x={x + w / 2} y={y + h / 2 + 4} textAnchor="middle" fontSize={11} fontWeight={700} fill={c.text}>
               {el.label}
             </text>
           )}
@@ -173,10 +173,10 @@ const Element: React.FC<{ el: MapElement }> = ({ el }) => {
 };
 
 const Compass: React.FC = () => (
-  <g transform={`translate(${VIEW_W - 30}, 22)`}>
-    <circle r={12} fill="white" stroke="hsl(0 0% 60%)" strokeWidth={0.5} opacity={0.9} />
-    <polygon points="0,-9 3,0 0,9 -3,0" fill="hsl(0 70% 50%)" />
-    <text x={0} y={-13} textAnchor="middle" fontSize={7} fontWeight={700} fill="hsl(0 0% 25%)">N</text>
+  <g transform={`translate(${VIEW_W - 36}, 28)`}>
+    <circle r={16} fill="white" stroke="hsl(0 0% 60%)" strokeWidth={0.8} opacity={0.95} />
+    <polygon points="0,-12 4,0 0,12 -4,0" fill="hsl(0 70% 50%)" />
+    <text x={0} y={-18} textAnchor="middle" fontSize={10} fontWeight={700} fill="hsl(0 0% 25%)">N</text>
   </g>
 );
 
