@@ -207,12 +207,11 @@ const MapScenePanel: React.FC<{ scene: MapScene; tone: "before" | "after" }> = (
 export const MapDiagram: React.FC<{ data: MapDiagramData }> = ({ data }) => (
   <div className="rounded-lg border bg-card p-4 space-y-3">
     <h4 className="text-base font-semibold text-foreground text-center">🗺️ Map Comparison (Top-down view)</h4>
-    {/* Stack vertically by default for big readable maps; side-by-side only on extra-wide screens */}
-    <div className="flex flex-col xl:flex-row items-stretch gap-4">
+    {/* Always stack vertically so each map renders large and readable */}
+    <div className="flex flex-col items-stretch gap-4">
       <MapScenePanel scene={data.before} tone="before" />
-      <div className="flex xl:flex-col items-center justify-center text-primary shrink-0">
-        <ArrowDown className="w-8 h-8 xl:hidden" />
-        <ArrowRight className="w-8 h-8 hidden xl:block" />
+      <div className="flex items-center justify-center text-primary shrink-0">
+        <ArrowDown className="w-10 h-10" />
       </div>
       <MapScenePanel scene={data.after} tone="after" />
     </div>
