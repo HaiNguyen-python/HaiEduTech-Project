@@ -124,35 +124,31 @@ const isNumberEquivalent = (a: string, b: string): boolean => {
   return false;
 };
 
-// Common contractions & spoken equivalents
-const spokenEquivalents: Record<string, string[]> = {
-  "i'm": ["im", "i am"], "don't": ["dont", "do not"], "doesn't": ["doesnt", "does not"],
-  "can't": ["cant", "cannot"], "won't": ["wont", "will not"], "it's": ["its", "it is"],
-  "i've": ["ive", "i have"], "i'll": ["ill", "i will"], "we're": ["were", "we are"],
-  "they're": ["theyre", "they are"], "you're": ["youre", "you are"],
-  "isn't": ["isnt", "is not"], "aren't": ["arent", "are not"],
-  "wasn't": ["wasnt", "was not"], "weren't": ["werent", "were not"],
-  "that's": ["thats", "that is"], "there's": ["theres", "there is"],
-  "what's": ["whats", "what is"], "who's": ["whos", "who is"],
-  "let's": ["lets", "let us"], "he's": ["hes", "he is"], "she's": ["shes", "she is"],
+// Common contractions and speech-recognition variants expanded before scoring.
+const contractionExpansions: Record<string, string> = {
+  "i'm": "i am", im: "i am", "don't": "do not", dont: "do not", "doesn't": "does not", doesnt: "does not",
+  "can't": "cannot", cant: "cannot", "won't": "will not", wont: "will not", "it's": "it is", its: "it is",
+  "i've": "i have", ive: "i have", "i'll": "i will", ill: "i will", "we're": "we are", were: "we are",
+  "they're": "they are", theyre: "they are", "you're": "you are", youre: "you are",
+  "isn't": "is not", isnt: "is not", "aren't": "are not", arent: "are not",
+  "wasn't": "was not", wasnt: "was not", "weren't": "were not", werent: "were not",
+  "that's": "that is", thats: "that is", "there's": "there is", theres: "there is",
+  "what's": "what is", whats: "what is", "who's": "who is", whos: "who is",
+  "let's": "let us", lets: "let us", "he's": "he is", hes: "he is", "she's": "she is", shes: "she is",
 };
 
-const isSpokenEquivalent = (a: string, b: string): boolean => {
-  if (a === b) return true;
-  for (const [key, alts] of Object.entries(spokenEquivalents)) {
-    const all = [key, ...alts];
-    if (all.includes(a) && all.includes(b)) return true;
+// Normalize text for comparison - preserve word boundaries so skipped/extra words do not shift every score to 0%.
+const normalize = (text: string): string[] => {
+  let cleaned = text.toLowerCase().replace(/[’`]/g, "'");
+  for (const [variant, expansion] of Object.entries(contractionExpansions)) {
+    cleaned = cleaned.replace(new RegExp(`\\b${variant.replace("'", "['’]?")}\\b`, "g"), expansion);
   }
-  return false;
-};
-
-// Normalize text for comparison - strip punctuation & lowercase
-const normalize = (text: string): string[] =>
-  text
-    .toLowerCase()
-    .replace(/[.,!?;:'"()（）。，！？、""''-…·\-]/g, "")
+  return cleaned
+    .replace(/[.,!?;:"()（）。，！？、""''…·\[\]{}]/g, " ")
+    .replace(/[\-–—]/g, " ")
     .split(/\s+/)
     .filter(Boolean);
+};
 
 // Levenshtein distance for fuzzy matching
 const levenshtein = (a: string, b: string): number => {
@@ -169,30 +165,41 @@ const levenshtein = (a: string, b: string): number => {
   return dp[a.length][b.length];
 };
 
-// Compare spoken words with target - produce color-coded results
+const matchStatus = (spokenWord: string, expected: string): WordResult["status"] | null => {
+  if (spokenWord === expected || isNumberEquivalent(spokenWord, expected)) return "correct";
+  const dist = levenshtein(spokenWord, expected);
+  const threshold = expected.length <= 3 ? 1 : expected.length <= 6 ? 2 : 3;
+  return dist <= threshold ? "close" : null;
+};
+
+// Compare spoken words with target - searches forward so inserted words do not shift the whole sentence to 0%.
 const compareWords = (target: string, spoken: string): WordResult[] => {
   const targetWords = normalize(target);
   const spokenWords = normalize(spoken);
+  let spokenIndex = 0;
 
-  return targetWords.map((expected, i) => {
-    const spokenWord = spokenWords[i];
-    if (!spokenWord) return { word: expected, expected, status: "missing" as const };
+  return targetWords.map((expected) => {
+    let bestIndex = -1;
+    let bestStatus: WordResult["status"] | null = null;
 
-    // Exact match
-    if (spokenWord === expected) return { word: spokenWord, expected, status: "correct" as const };
+    for (let i = spokenIndex; i < spokenWords.length; i++) {
+      const status = matchStatus(spokenWords[i], expected);
+      if (status) {
+        bestIndex = i;
+        bestStatus = status;
+        if (status === "correct") break;
+      }
+    }
 
-    // Number equivalence (e.g., "three" == "3")
-    if (isNumberEquivalent(spokenWord, expected)) return { word: spokenWord, expected, status: "correct" as const };
+    if (bestIndex >= 0 && bestStatus) {
+      const word = spokenWords[bestIndex];
+      spokenIndex = bestIndex + 1;
+      return { word, expected, status: bestStatus };
+    }
 
-    // Contraction / spoken equivalence (e.g., "I'm" == "I am")
-    if (isSpokenEquivalent(spokenWord, expected)) return { word: spokenWord, expected, status: "correct" as const };
-
-    // Fuzzy match - allow 1-2 char difference based on word length
-    const dist = levenshtein(spokenWord, expected);
-    const threshold = expected.length <= 3 ? 1 : expected.length <= 6 ? 2 : 3;
-    if (dist <= threshold) return { word: spokenWord, expected, status: "close" as const };
-
-    return { word: spokenWord, expected, status: "wrong" as const };
+    const fallbackWord = spokenWords[spokenIndex];
+    if (fallbackWord) spokenIndex += 1;
+    return { word: fallbackWord || expected, expected, status: fallbackWord ? "wrong" : "missing" };
   });
 };
 
