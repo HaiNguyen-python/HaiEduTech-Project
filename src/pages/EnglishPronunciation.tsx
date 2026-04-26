@@ -871,6 +871,66 @@ const EnglishPronunciation = () => {
                 </div>
               ))}
             </div>
+
+            {/* Mẹo của thầy Hải */}
+            <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-foreground">
+              💡 <strong>{t("Mẹo của thầy Hải:", "Mr. Hai's Tip:")}</strong> {t(
+                "Tiếng Việt có 6 thanh điệu nên người Việt thường giữ cao độ rất phẳng khi nói tiếng Anh để 'không sai nghĩa'. Nhưng tiếng Anh KHÔNG dùng cao độ phân biệt từ — hãy mạnh dạn lên - xuống! Cao độ phẳng = nghe robot, không cảm xúc.",
+                "Vietnamese has 6 tones, so Vietnamese speakers keep an unusually flat pitch in English to 'avoid changing meaning'. But English does NOT use pitch to distinguish words — go BOLD with rises and falls! Flat pitch = robotic, emotionless.",
+              )}
+            </div>
+
+            {/* Deep-dive intonation lessons */}
+            <div className="mt-8">
+              <SectionHeader
+                icon={Music2}
+                title={t("8 Bài học Chuyên sâu về Ngữ điệu", "8 Deep-Dive Intonation Lessons")}
+                subtitle={t(
+                  "Từ cao độ, đơn vị ngữ điệu, đến mỉa mai và kể chuyện — bí quyết nói tiếng Anh có cảm xúc.",
+                  "From pitch range and tone units to sarcasm and storytelling — the secrets to emotional, native-like English.",
+                )}
+              />
+              <Accordion type="single" collapsible className="w-full space-y-3">
+                {INTONATION_LESSONS.map((lesson, idx) => (
+                  <AccordionItem
+                    key={idx}
+                    value={`int-lesson-${idx}`}
+                    className="border border-border rounded-xl bg-card px-4"
+                  >
+                    <AccordionTrigger className="hover:no-underline py-4">
+                      <div className="flex items-start gap-3 text-left">
+                        <span className="text-2xl flex-shrink-0">{lesson.emoji}</span>
+                        <div>
+                          <div className="font-semibold text-foreground">
+                            {t(lesson.title, lesson.titleEn)}
+                          </div>
+                          <div className="text-xs text-muted-foreground mt-1 font-normal">
+                            {t(lesson.summary, lesson.summaryEn)}
+                          </div>
+                        </div>
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent className="pb-4">
+                      <p className="text-sm text-foreground/80 leading-relaxed mb-4">
+                        {t(lesson.body, lesson.bodyEn)}
+                      </p>
+                      <div className="space-y-2">
+                        {lesson.examples.map((ex, j) => (
+                          <div key={j} className="rounded-lg border border-border bg-secondary/40 p-3">
+                            <p className="text-foreground font-medium mb-2">"{ex.text}"</p>
+                            <div className="flex items-center gap-2 mb-2">
+                              <PlayBtn text={ex.text} accent="en-US" />
+                              <PlayBtn text={ex.text} accent="en-GB" />
+                            </div>
+                            <p className="text-xs text-muted-foreground">{t(ex.note, ex.noteEn)}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
           </TabsContent>
 
           {/* ============== Linking ============== */}
