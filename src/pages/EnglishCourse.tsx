@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCourseAccess } from "@/hooks/useCourseAccess";
 import AccessDeniedModal from "@/components/AccessDeniedModal";
+import IeltsExamBreakdown from "@/components/ielts/IeltsExamBreakdown";
 
 import cambridgeImg from "@/assets/course-cambridge.jpg";
 import ieltsImg from "@/assets/course-ielts.jpg";
