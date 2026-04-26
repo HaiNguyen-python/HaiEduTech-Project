@@ -77,7 +77,6 @@ const Index = () => (
     <Navbar />
     <HeroSection />
     <CoursesOverview />
-    <LazySection><UpcomingCourses /></LazySection>
     <LazySection><LearningRoadmaps /></LazySection>
     <LazySection><SuccessMetrics /></LazySection>
     <LazySection><SocialProof /></LazySection>
