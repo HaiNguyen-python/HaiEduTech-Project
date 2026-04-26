@@ -451,6 +451,14 @@ const IeltsExamBreakdown = () => {
     setOpenSkills({ 0: true, 1: true, 2: true, 3: true });
   const collapseAll = () => setOpenSkills({});
 
+  // Collapsible state for the roadmap stages (open the first by default)
+  const [openStages, setOpenStages] = useState<Record<number, boolean>>({ 0: true });
+  const toggleStage = (idx: number) =>
+    setOpenStages(prev => ({ ...prev, [idx]: !prev[idx] }));
+  const expandAllStages = () =>
+    setOpenStages({ 0: true, 1: true, 2: true, 3: true });
+  const collapseAllStages = () => setOpenStages({});
+
   const handleAnswer = (qIdx: number, optIdx: number) => {
     if (showQuizResults) return;
     setQuizAnswers(prev => ({ ...prev, [qIdx]: optIdx }));
