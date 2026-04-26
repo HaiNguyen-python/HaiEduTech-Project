@@ -890,10 +890,6 @@ const AdminDashboard = () => {
               </TabsContent>
 
 
-              {/* ===== ACCESS MANAGEMENT TAB ===== */}
-              <TabsContent value="access">
-                <CourseAccessManager />
-              </TabsContent>
 
               {/* ===== INCOME MANAGEMENT TAB ===== */}
               <TabsContent value="income">
