@@ -206,13 +206,13 @@
 .brand-shimmer {
   background-image: linear-gradient(
     100deg,
-    #10B981 0%,
-    #10B981 42%,
-    #6ee7b7 49%,
-    #ffffff 50%,
-    #6ee7b7 51%,
-    #10B981 58%,
-    #10B981 100%
+    #3B82F6 0%,
+    #3B82F6 30%,
+    #10B981 50%,
+    #ffffff 55%,
+    #10B981 60%,
+    #3B82F6 80%,
+    #3B82F6 100%
   );
   background-size: 250% auto;
   background-clip: text;
