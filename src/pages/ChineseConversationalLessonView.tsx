@@ -315,7 +315,7 @@ const ChineseConversationalLessonView = () => {
                           <div>
                             <h4 className="font-bold text-2xl sm:text-3xl text-red-600">{v.hanzi}</h4>
                             <p className="text-base text-primary font-medium">{v.pinyin}</p>
-                            <p className="text-sm text-muted-foreground">{t(v.meaning, v.meaningEn)}</p>
+                            <p className="text-sm text-muted-foreground">{v.meaningEn}</p>
                           </div>
                         </div>
                         <Badge variant="outline" className="text-xs capitalize shrink-0">{v.type}</Badge>
@@ -323,7 +323,7 @@ const ChineseConversationalLessonView = () => {
                       <div className="bg-muted/50 p-4 rounded-lg mt-3">
                         <p className="text-base sm:text-lg font-semibold">{v.example}</p>
                         <p className="text-sm text-primary/80 italic mt-1">{v.examplePinyin}</p>
-                        <p className="text-sm text-muted-foreground mt-1">→ {v.exampleVi}</p>
+                        {v.exampleEn && <p className="text-sm text-muted-foreground mt-1">→ {v.exampleEn}</p>}
                       </div>
                     </CardContent>
                   </Card>
