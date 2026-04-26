@@ -534,6 +534,7 @@ const Navbar = () => {
                                               : sub.groupLabel === "national-exam" ? t("Luyện thi THPT", "National Exam Prep")
                                               : sub.groupLabel === "en-foundation" ? t("Nền tảng Anh ngữ", "English Foundation")
                                               : sub.groupLabel === "en-exams" ? t("Luyện thi Quốc tế", "International Exams")
+                                              : sub.groupLabel === "en-tools" ? t("Công cụ AI & Học vui", "AI Tools & Fun Learning")
                                               : sub.groupLabel === "prog-foundation" ? t("Lộ trình Cơ bản", "Foundation Track")
                                               : sub.groupLabel === "prog-ai-data" ? "AI & Data Engineering"
                                               : sub.groupLabel === "prog-software-web" ? "Software & Web Engineering"
