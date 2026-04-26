@@ -141,8 +141,8 @@ const PillarContent = ({ pillar, completed }: { pillar: ChineseConvPillar; compl
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
       <div className={`rounded-xl p-5 mb-6 bg-gradient-to-r ${pillar.color} text-white`}>
-        <h2 className="text-xl font-bold mb-1">{t(pillar.titleVi, pillar.title)} · {pillar.titleZh}</h2>
-        <p className="text-white/80 text-sm">{t(pillar.descriptionVi, pillar.description)}</p>
+        <h2 className="text-xl font-bold mb-1">{pillar.title} · {pillar.titleZh}</h2>
+        <p className="text-white/80 text-sm">{pillar.description}</p>
       </div>
 
       <Accordion type="single" collapsible className="space-y-3">
@@ -160,14 +160,14 @@ const PillarContent = ({ pillar, completed }: { pillar: ChineseConvPillar; compl
                   <LIcon className="h-5 w-5 text-red-500 flex-shrink-0" />
                   <div className="text-left flex-1 min-w-0">
                     <p className="font-semibold text-sm sm:text-base truncate">
-                      {t(lesson.titleVi, lesson.title)} <span className="text-muted-foreground text-xs">({lesson.titleZh})</span>
+                      {lesson.title} <span className="text-muted-foreground text-xs">({lesson.titleZh})</span>
                     </p>
-                    <p className="text-xs text-muted-foreground truncate">{t(lesson.descriptionVi, lesson.description)}</p>
+                    <p className="text-xs text-muted-foreground truncate">{lesson.description}</p>
                   </div>
                   <Badge variant="outline" className="text-[10px] flex-shrink-0">HSK {lesson.hskLevel}</Badge>
                   {isCompleted && (
                     <Badge className="bg-red-100 text-red-700 border-red-200 text-[10px] flex-shrink-0">
-                      <Award className="h-3 w-3 mr-1" />{t(lesson.badgeVi, lesson.badge)}
+                      <Award className="h-3 w-3 mr-1" />{lesson.badge}
                     </Badge>
                   )}
                 </div>
@@ -183,41 +183,39 @@ const PillarContent = ({ pillar, completed }: { pillar: ChineseConvPillar; compl
   );
 };
 
-// Lesson preview inside accordion
+// Lesson preview inside accordion — English-only for international learners
 const LessonPreview = ({ lesson }: { lesson: ChineseConvLesson }) => {
-  const { t } = useLanguage();
-
   return (
     <div className="pb-4 space-y-4">
       <div className="grid grid-cols-3 gap-3 text-center">
         <div className="p-3 bg-muted/50 rounded-lg">
           <p className="text-lg font-bold text-red-500">{lesson.keySituations.length}</p>
-          <p className="text-[10px] text-muted-foreground">{t("Tình huống", "Situations")}</p>
+          <p className="text-[10px] text-muted-foreground">Situations</p>
         </div>
         <div className="p-3 bg-muted/50 rounded-lg">
           <p className="text-lg font-bold text-red-500">{lesson.vocabulary.length}</p>
-          <p className="text-[10px] text-muted-foreground">{t("Từ vựng", "Vocabulary")}</p>
+          <p className="text-[10px] text-muted-foreground">Vocabulary</p>
         </div>
         <div className="p-3 bg-muted/50 rounded-lg">
           <p className="text-lg font-bold text-red-500">{lesson.commonStructures.length}</p>
-          <p className="text-[10px] text-muted-foreground">{t("Cấu trúc", "Structures")}</p>
+          <p className="text-[10px] text-muted-foreground">Structures</p>
         </div>
       </div>
 
       <div>
-        <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">{t("Tình huống chính", "Key Situations")}</h4>
+        <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Key Situations</h4>
         <div className="space-y-1.5">
           {lesson.keySituations.map((s, i) => (
             <div key={i} className="flex items-center gap-2 text-sm">
               <ChevronRight className="h-3.5 w-3.5 text-red-500" />
-              <span>{t(s.titleVi, s.title)}</span>
+              <span>{s.title}</span>
             </div>
           ))}
         </div>
       </div>
 
       <div>
-        <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">{t("Từ vựng", "Vocabulary")}</h4>
+        <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Vocabulary</h4>
         <div className="flex flex-wrap gap-1.5">
           {lesson.vocabulary.slice(0, 4).map((v, i) => (
             <Badge key={i} variant="outline" className="text-xs">{v.hanzi} ({v.pinyin})</Badge>
@@ -230,13 +228,13 @@ const LessonPreview = ({ lesson }: { lesson: ChineseConvLesson }) => {
         <Button asChild className="flex-1 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600">
           <Link to={`/chinese/conversational/learn/${lesson.id}`}>
             <BookOpen className="h-4 w-4 mr-2" />
-            {t("Bắt đầu Học", "Start Lesson")}
+            Start Lesson
           </Link>
         </Button>
         <Button asChild variant="outline" className="flex-1">
           <Link to={`/chinese/conversational/learn/${lesson.id}?tab=roleplay`}>
             <Mic className="h-4 w-4 mr-2" />
-            {t("Luyện Nói AI", "AI Roleplay")}
+            AI Roleplay
           </Link>
         </Button>
       </div>
