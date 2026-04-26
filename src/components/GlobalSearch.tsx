@@ -87,7 +87,7 @@ const GlobalSearch = ({ variant = "icon" }: GlobalSearchProps) => {
     { to: "/dashboard", label: t("Bảng điều khiển", "Dashboard"), group: "general", icon: Award },
     { to: "/notebook", label: t("Sổ tay", "Notebook"), group: "general", icon: PenTool },
     { to: "/contact", label: t("Liên hệ", "Contact"), group: "general", icon: MessageSquare },
-    { to: "/for-vietnamese-children", label: t("Vì Trẻ Em VN", "For Vietnamese Children"), group: "general", icon: Heart },
+    { to: "/world-playground", label: t("Thế giới quanh ta", "World Playground"), group: "general", icon: Globe },
   ];
 
   const renderGroup = (entries: SearchEntry[]) =>
