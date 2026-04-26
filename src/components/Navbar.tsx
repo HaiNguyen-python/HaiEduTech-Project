@@ -133,8 +133,8 @@ const Navbar = () => {
     // Vietnamese national exam
     { to: "#national-exam-group", label: t("🏫 Luyện thi THPT", "🏫 National Exam Prep"), groupLabel: "national-exam", children: nationalExamChildren },
     { to: "#en-div2", label: "", divider: true },
-    { to: "/english/fun-facts", label: t("Fun Facts tiếng Anh", "English Fun Facts") },
-    { to: "/songs/english", label: t("Học qua bài hát", "Learn through Songs") },
+    { to: "/english/fun-facts", label: t("✨ Fun Facts tiếng Anh", "✨ English Fun Facts") },
+    { to: "/songs/english", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
     { to: "/speaking-coach/english", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
     { to: "/specialized-language?lang=english", label: t("🧠 AI Ngôn ngữ Chuyên ngành", "🧠 AI Specialized Language") },
   ];
