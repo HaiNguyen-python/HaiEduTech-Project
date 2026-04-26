@@ -264,13 +264,78 @@ const IeltsWritingPractice = () => {
     }
   };
 
-  const mdToHtml = (md: string) => {
-    if (!md) return "";
-    // Escape HTML first
-    let s = md
+  const escapeHtml = (value: string) =>
+    value
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  const stripMarkdownSyntax = (value: string) =>
+    value
+      .replace(/```[\s\S]*?```/g, (block) => block.replace(/```(?:\w+)?|```/g, ""))
+      .replace(/\*\*(.*?)\*\*/g, "$1")
+      .replace(/__(.*?)__/g, "$1")
+      .replace(/(^|[^*])\*(?!\s)([^*\n]+?)\*(?!\*)/g, "$1$2")
+      .replace(/(^|[^_])_(?!\s)([^_\n]+?)_(?!_)/g, "$1$2")
+      .replace(/`([^`]+)`/g, "$1")
+      .replace(/^#{1,6}\s+/gm, "")
+      .replace(/^\s*[-*]\s+/gm, "")
+      .replace(/\*\*/g, "")
+      .trim();
+
+  const buildTask2Paragraphs = (value: string) => {
+    const clean = stripMarkdownSyntax(value).replace(/\r\n/g, "\n");
+    const existingParagraphs = clean
+      .split(/\n{2,}/)
+      .map((paragraph) => paragraph.replace(/\s*\n\s*/g, " ").replace(/\s+/g, " ").trim())
+      .filter(Boolean);
+
+    if (existingParagraphs.length >= 4) {
+      return [
+        existingParagraphs[0],
+        existingParagraphs[1],
+        existingParagraphs[2],
+        existingParagraphs.slice(3).join(" "),
+      ];
+    }
+
+    const sentences = clean
+      .replace(/\s+/g, " ")
+      .match(/[^.!?]+[.!?]+(?:["')\]]+)?|[^.!?]+$/g)
+      ?.map((sentence) => sentence.trim())
+      .filter(Boolean) ?? [];
+
+    if (sentences.length < 4) {
+      return existingParagraphs.length ? existingParagraphs : [clean].filter(Boolean);
+    }
+
+    const conclusionIndex = sentences.findIndex((sentence, index) =>
+      index > 1 && /^(in conclusion|to conclude|overall|ultimately|in summary)\b/i.test(sentence)
+    );
+    const intro = sentences[0];
+    const conclusion = conclusionIndex > -1 ? sentences.slice(conclusionIndex).join(" ") : sentences.slice(-1).join(" ");
+    const middle = conclusionIndex > -1 ? sentences.slice(1, conclusionIndex) : sentences.slice(1, -1);
+    const splitAt = Math.max(1, Math.ceil(middle.length / 2));
+
+    return [intro, middle.slice(0, splitAt).join(" "), middle.slice(splitAt).join(" "), conclusion]
+      .map((paragraph) => paragraph.replace(/\s+/g, " ").trim())
+      .filter(Boolean);
+  };
+
+  const plainTextToParagraphHtml = (value: string, forceTask2Structure = false) => {
+    const paragraphs = forceTask2Structure ? buildTask2Paragraphs(value) : stripMarkdownSyntax(value).split(/\n{2,}/);
+    return paragraphs
+      .map((paragraph) => paragraph.replace(/\s*\n\s*/g, " ").replace(/\s+/g, " ").trim())
+      .filter(Boolean)
+      .map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`)
+      .join("\n");
+  };
+
+  const mdToHtml = (md: string) => {
+    if (!md) return "";
+    let s = escapeHtml(md);
     // Headings
     s = s.replace(/^###\s+(.+)$/gm, "<h3>$1</h3>");
     s = s.replace(/^##\s+(.+)$/gm, "<h3>$1</h3>");
@@ -298,6 +363,8 @@ const IeltsWritingPractice = () => {
 
   const handleDownloadPDF = () => {
     if (!result || !currentPrompt) return;
+    const upgradedHtml = plainTextToParagraphHtml(result.upgraded, taskType === 2);
+    const adviceHtml = plainTextToParagraphHtml(result.advice);
     const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>IELTS Writing Report</title>
     <style>body{font-family:Georgia,serif;max-width:800px;margin:0 auto;padding:40px;color:#222}
     h1{color:#1a365d;border-bottom:3px solid #2563eb;padding-bottom:10px}
@@ -307,19 +374,22 @@ const IeltsWritingPractice = () => {
     .criteria-item{background:#f0f4ff;padding:16px;border-radius:8px}
     .error-item{background:#fef2f2;padding:12px;border-radius:8px;margin:8px 0}
     .upgraded{background:#f0fdf4;padding:20px;border-radius:8px;line-height:1.8}
+    .upgraded p{margin:0 0 16px;page-break-inside:avoid;break-inside:avoid}
+    .upgraded p:last-child{margin-bottom:0}
+    .advice p{margin:0 0 10px;line-height:1.7}
     @media print{body{padding:20px}}</style></head>
     <body>
     <h1>📝 IELTS Writing Practice Report</h1>
-    <h2>Prompt</h2><p>${currentPrompt.prompt}</p>
-    <h2>Your Essay (${wordCount} words)</h2><p style="white-space:pre-wrap">${essay}</p>
+    <h2>Prompt</h2><p>${escapeHtml(currentPrompt.prompt)}</p>
+    <h2>Your Essay (${wordCount} words)</h2><p style="white-space:pre-wrap">${escapeHtml(essay)}</p>
     <div class="score">Band ${result.overall}</div>
     <h2>Criteria Breakdown</h2>
-    <div class="criteria">${result.criteria.map(c => `<div class="criteria-item"><strong>${c.label}: ${c.score}</strong></div>`).join("")}</div>
+    <div class="criteria">${result.criteria.map(c => `<div class="criteria-item"><strong>${escapeHtml(c.label)}: ${c.score}</strong></div>`).join("")}</div>
     <h2>Error Highlights</h2>
-    ${result.errors.map(e => `<div class="error-item"><s>${e.error}</s> → <strong>${e.correction}</strong> <em>(${e.category})</em></div>`).join("")}
+    ${result.errors.map(e => `<div class="error-item"><s>${escapeHtml(e.error)}</s> → <strong>${escapeHtml(e.correction)}</strong> <em>(${escapeHtml(e.category)})</em></div>`).join("")}
     <h2>Band 8.0+ Version</h2>
-    <div class="upgraded">${mdToHtml(result.upgraded)}</div>
-    <h2>Advice</h2><div>${mdToHtml(result.advice)}</div>
+    <div class="upgraded">${upgradedHtml}</div>
+    <h2>Advice</h2><div class="advice">${adviceHtml}</div>
     </body></html>`;
     const w = window.open("", "_blank");
     if (w) { w.document.write(html); w.document.close(); w.print(); }
