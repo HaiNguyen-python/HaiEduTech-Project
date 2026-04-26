@@ -586,6 +586,7 @@ const IeltsExamBreakdown = () => {
 
         {skills.map((skill, i) => {
           const Icon = skill.icon;
+          const isOpen = !!openSkills[i];
           return (
             <motion.div
               key={i}
@@ -597,162 +598,189 @@ const IeltsExamBreakdown = () => {
             >
               <div className={`absolute top-0 right-0 w-72 h-72 bg-gradient-to-br ${skill.color} opacity-10 rounded-full blur-3xl pointer-events-none`} />
 
-              <div className="relative p-5 md:p-7">
-                {/* Header */}
-                <div className="flex items-start gap-4 mb-6">
-                  <div className={`p-3.5 rounded-2xl bg-gradient-to-br ${skill.color} text-white shadow-lg shrink-0`}>
-                    <Icon className="w-7 h-7" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-xl md:text-2xl font-display font-bold text-foreground mb-2">
-                      {skill.title}
-                    </h3>
-                    <div className="flex flex-wrap gap-2 text-xs">
-                      <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-semibold border ${skill.badgeColor}`}>
-                        <Clock className="w-3 h-3" /> {skill.duration}
-                      </span>
-                      <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-semibold border ${skill.badgeColor}`}>
-                        <FileText className="w-3 h-3" /> {skill.questions}
-                      </span>
-                    </div>
-                    <p className="text-sm text-muted-foreground italic mt-2.5 leading-relaxed">
-                      {skill.format}
-                    </p>
-                  </div>
-                  <img
-                    src={skill.chibi}
-                    alt={`${skill.title} chibi mascot`}
-                    loading="lazy"
-                    width={512}
-                    height={512}
-                    className="hidden sm:block w-20 h-20 md:w-28 md:h-28 object-contain shrink-0 drop-shadow-md"
-                  />
+              {/* Clickable Header */}
+              <button
+                type="button"
+                onClick={() => toggleSkill(i)}
+                aria-expanded={isOpen}
+                aria-controls={`skill-panel-${i}`}
+                className="relative w-full text-left p-5 md:p-7 flex items-start gap-4 hover:bg-background/30 transition-colors"
+              >
+                <div className={`p-3.5 rounded-2xl bg-gradient-to-br ${skill.color} text-white shadow-lg shrink-0`}>
+                  <Icon className="w-7 h-7" />
                 </div>
-
-                {/* Sections */}
-                <div className="mb-5">
-                  <p className="text-[11px] font-bold text-foreground/70 uppercase tracking-wider mb-3 flex items-center gap-2">
-                    <Layers className="w-3.5 h-3.5" /> Detailed Structure by Section
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-xl md:text-2xl font-display font-bold text-foreground mb-2">
+                    {skill.title}
+                  </h3>
+                  <div className="flex flex-wrap gap-2 text-xs">
+                    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-semibold border ${skill.badgeColor}`}>
+                      <Clock className="w-3 h-3" /> {skill.duration}
+                    </span>
+                    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-semibold border ${skill.badgeColor}`}>
+                      <FileText className="w-3 h-3" /> {skill.questions}
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-semibold border border-border/60 bg-background/70 text-muted-foreground">
+                      {isOpen ? "Tap to collapse" : "Tap to expand"}
+                    </span>
+                  </div>
+                  <p className="text-sm text-muted-foreground italic mt-2.5 leading-relaxed">
+                    {skill.format}
                   </p>
-                  <div className="grid md:grid-cols-2 gap-3">
-                    {skill.sections.map((s, idx) => (
-                      <div key={idx} className="rounded-xl bg-background/70 p-3.5 border border-border/60 hover:border-primary/30 transition-colors">
-                        <div className="flex items-start justify-between gap-2 mb-1.5">
-                          <p className="text-sm font-bold text-foreground">{s.title}</p>
-                          {s.meta && (
-                            <span className="shrink-0 text-[10px] font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full whitespace-nowrap">
-                              {s.meta}
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
-                      </div>
-                    ))}
-                  </div>
                 </div>
-
-                {/* Question types list */}
-                <div className="mb-5 rounded-xl bg-background/70 p-4 border border-border/60">
-                  <p className="text-[11px] font-bold text-foreground/70 uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                    <ListChecks className="w-3.5 h-3.5" /> Question Types & Scoring Criteria
-                  </p>
-                  <ul className="grid md:grid-cols-2 gap-x-5 gap-y-2">
-                    {skill.questionTypes.map((q, idx) => (
-                      <li key={idx} className="text-sm text-foreground/90 flex gap-2">
-                        <span className="text-primary mt-1 shrink-0">▸</span>
-                        <span>{q}</span>
-                      </li>
-                    ))}
-                  </ul>
+                <img
+                  src={skill.chibi}
+                  alt={`${skill.title} chibi mascot`}
+                  loading="lazy"
+                  width={512}
+                  height={512}
+                  className="hidden sm:block w-20 h-20 md:w-28 md:h-28 object-contain shrink-0 drop-shadow-md"
+                />
+                <div className={`shrink-0 ml-1 mt-1 w-9 h-9 rounded-full flex items-center justify-center bg-background/70 border border-border/60 transition-transform ${isOpen ? "rotate-180" : ""}`}>
+                  <ChevronDown className="w-4 h-4 text-foreground/70" />
                 </div>
+              </button>
 
-                {/* Scoring table + Time strategy */}
-                <div className="grid md:grid-cols-2 gap-3 mb-5">
-                  <div className="rounded-xl bg-background/70 p-4 border border-border/60">
-                    <p className="text-[11px] font-bold text-foreground/70 uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                      <BarChart3 className="w-3.5 h-3.5" /> Band Conversion Table
-                    </p>
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-sm">
-                        <thead>
-                          <tr className="border-b border-border/60 text-foreground/70">
-                            <th className="text-left py-2 font-bold text-xs uppercase">Band</th>
-                            <th className="text-left py-2 font-bold text-xs uppercase">Description</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {skill.scoringTable.map((row, idx) => (
-                            <tr key={idx} className="border-b border-border/30 last:border-0">
-                              <td className="py-2 font-extrabold text-primary text-base">{row.band}</td>
-                              <td className="py-2 text-foreground/85 text-sm">{row.raw}</td>
-                            </tr>
+              {/* Collapsible Body */}
+              <AnimatePresence initial={false}>
+                {isOpen && (
+                  <motion.div
+                    id={`skill-panel-${i}`}
+                    key="content"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.25, ease: "easeInOut" }}
+                    className="relative overflow-hidden"
+                  >
+                    <div className="px-5 md:px-7 pb-6 md:pb-7 pt-0">
+                      {/* Sections */}
+                      <div className="mb-5">
+                        <p className="text-[11px] font-bold text-foreground/70 uppercase tracking-wider mb-3 flex items-center gap-2">
+                          <Layers className="w-3.5 h-3.5" /> Detailed Structure by Section
+                        </p>
+                        <div className="grid md:grid-cols-2 gap-3">
+                          {skill.sections.map((s, idx) => (
+                            <div key={idx} className="rounded-xl bg-background/70 p-3.5 border border-border/60 hover:border-primary/30 transition-colors">
+                              <div className="flex items-start justify-between gap-2 mb-1.5">
+                                <p className="text-sm font-bold text-foreground">{s.title}</p>
+                                {s.meta && (
+                                  <span className="shrink-0 text-[10px] font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full whitespace-nowrap">
+                                    {s.meta}
+                                  </span>
+                                )}
+                              </div>
+                              <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
+                            </div>
                           ))}
-                        </tbody>
-                      </table>
-                    </div>
-                    <p className="text-xs text-muted-foreground italic mt-2.5 leading-relaxed">
-                      {skill.scoringNote}
-                    </p>
-                  </div>
+                        </div>
+                      </div>
 
-                  <div className="rounded-xl bg-background/70 p-4 border border-border/60">
-                    <p className="text-[11px] font-bold text-foreground/70 uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                      <Timer className="w-3.5 h-3.5" /> Time Allocation Strategy
-                    </p>
-                    <ul className="space-y-2.5">
-                      {skill.timeStrategy.map((s, idx) => (
-                        <li key={idx} className="text-sm flex items-start gap-2.5">
-                          <span className="shrink-0 w-6 h-6 rounded-full bg-primary/15 text-primary font-bold text-[11px] flex items-center justify-center mt-0.5">{idx + 1}</span>
-                          <div className="flex-1">
-                            <span className="font-bold text-foreground">{s.phase} — </span>
-                            <span className="text-muted-foreground">{s.time}</span>
+                      {/* Question types list */}
+                      <div className="mb-5 rounded-xl bg-background/70 p-4 border border-border/60">
+                        <p className="text-[11px] font-bold text-foreground/70 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                          <ListChecks className="w-3.5 h-3.5" /> Question Types & Scoring Criteria
+                        </p>
+                        <ul className="grid md:grid-cols-2 gap-x-5 gap-y-2">
+                          {skill.questionTypes.map((q, idx) => (
+                            <li key={idx} className="text-sm text-foreground/90 flex gap-2">
+                              <span className="text-primary mt-1 shrink-0">▸</span>
+                              <span>{q}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {/* Scoring table + Time strategy */}
+                      <div className="grid md:grid-cols-2 gap-3 mb-5">
+                        <div className="rounded-xl bg-background/70 p-4 border border-border/60">
+                          <p className="text-[11px] font-bold text-foreground/70 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                            <BarChart3 className="w-3.5 h-3.5" /> Band Conversion Table
+                          </p>
+                          <div className="overflow-x-auto">
+                            <table className="w-full text-sm">
+                              <thead>
+                                <tr className="border-b border-border/60 text-foreground/70">
+                                  <th className="text-left py-2 font-bold text-xs uppercase">Band</th>
+                                  <th className="text-left py-2 font-bold text-xs uppercase">Description</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {skill.scoringTable.map((row, idx) => (
+                                  <tr key={idx} className="border-b border-border/30 last:border-0">
+                                    <td className="py-2 font-extrabold text-primary text-base">{row.band}</td>
+                                    <td className="py-2 text-foreground/85 text-sm">{row.raw}</td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
                           </div>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
+                          <p className="text-xs text-muted-foreground italic mt-2.5 leading-relaxed">
+                            {skill.scoringNote}
+                          </p>
+                        </div>
 
-                {/* Vocab focus */}
-                <div className="mb-3 rounded-xl bg-primary/5 border border-primary/20 p-4">
-                  <p className="text-[11px] font-bold text-primary uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                    <BookMarked className="w-3.5 h-3.5" /> Vocabulary & Grammar Focus
-                  </p>
-                  <p className="text-sm text-foreground/90 leading-relaxed">
-                    {skill.vocabFocus}
-                  </p>
-                </div>
+                        <div className="rounded-xl bg-background/70 p-4 border border-border/60">
+                          <p className="text-[11px] font-bold text-foreground/70 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                            <Timer className="w-3.5 h-3.5" /> Time Allocation Strategy
+                          </p>
+                          <ul className="space-y-2.5">
+                            {skill.timeStrategy.map((s, idx) => (
+                              <li key={idx} className="text-sm flex items-start gap-2.5">
+                                <span className="shrink-0 w-6 h-6 rounded-full bg-primary/15 text-primary font-bold text-[11px] flex items-center justify-center mt-0.5">{idx + 1}</span>
+                                <div className="flex-1">
+                                  <span className="font-bold text-foreground">{s.phase} — </span>
+                                  <span className="text-muted-foreground">{s.time}</span>
+                                </div>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
 
-                {/* Tips */}
-                <div className="rounded-xl border-2 border-emerald-500/25 bg-emerald-500/5 p-4 mb-3">
-                  <p className="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                    <Lightbulb className="w-3.5 h-3.5" /> Mr. Hai's Golden Tips
-                  </p>
-                  <ul className="space-y-2">
-                    {skill.tips.map((tip, idx) => (
-                      <li key={idx} className="text-sm text-foreground/90 flex gap-2.5 leading-relaxed">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                        <span>{tip}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                      {/* Vocab focus */}
+                      <div className="mb-3 rounded-xl bg-primary/5 border border-primary/20 p-4">
+                        <p className="text-[11px] font-bold text-primary uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                          <BookMarked className="w-3.5 h-3.5" /> Vocabulary & Grammar Focus
+                        </p>
+                        <p className="text-sm text-foreground/90 leading-relaxed">
+                          {skill.vocabFocus}
+                        </p>
+                      </div>
 
-                {/* Common traps */}
-                <div className="rounded-xl border-2 border-amber-500/30 bg-amber-500/5 p-4">
-                  <p className="text-[11px] font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                    <AlertTriangle className="w-3.5 h-3.5" /> Common Traps to Avoid
-                  </p>
-                  <ul className="space-y-2">
-                    {skill.traps.map((trap, idx) => (
-                      <li key={idx} className="text-sm text-foreground/90 flex gap-2.5 leading-relaxed">
-                        <XCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-                        <span>{trap}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+                      {/* Tips */}
+                      <div className="rounded-xl border-2 border-emerald-500/25 bg-emerald-500/5 p-4 mb-3">
+                        <p className="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                          <Lightbulb className="w-3.5 h-3.5" /> Mr. Hai's Golden Tips
+                        </p>
+                        <ul className="space-y-2">
+                          {skill.tips.map((tip, idx) => (
+                            <li key={idx} className="text-sm text-foreground/90 flex gap-2.5 leading-relaxed">
+                              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                              <span>{tip}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {/* Common traps */}
+                      <div className="rounded-xl border-2 border-amber-500/30 bg-amber-500/5 p-4">
+                        <p className="text-[11px] font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                          <AlertTriangle className="w-3.5 h-3.5" /> Common Traps to Avoid
+                        </p>
+                        <ul className="space-y-2">
+                          {skill.traps.map((trap, idx) => (
+                            <li key={idx} className="text-sm text-foreground/90 flex gap-2.5 leading-relaxed">
+                              <XCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                              <span>{trap}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           );
         })}
