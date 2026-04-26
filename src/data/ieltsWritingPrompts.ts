@@ -361,7 +361,7 @@ export const writingPrompts: WritingPrompt[] = [
     prompt: 'The table below shows the literacy rates in five developing countries in 1990, 2000, 2010, and 2020. Summarise the information by selecting and reporting the main features and make comparisons where relevant.',
     imageDescription: 'Table with 5 countries and 4 time periods.',
     chartData: {
-      chart_type: "bar",
+      chart_type: "table",
       title: "Literacy Rates (%) in Developing Countries - 1990–2020",
       x_axis: "Country",
       y_axis: "Literacy Rate (%)",
