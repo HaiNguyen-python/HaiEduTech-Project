@@ -386,9 +386,18 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
     if (!isRecording && transcript && currentSentence && selectedTheme) {
       // Guard: skip if we already processed this exact transcript
       if (lastProcessedTranscriptRef.current === transcript) return;
+
+      // Defensive: skip grading if target sentence text is missing.
+      // This prevents 0% scores from being saved when the data hasn't loaded yet.
+      const targetText = (currentSentence.text || "").trim();
+      if (!targetText) {
+        console.warn("[AISpeakingCoach] Skipping grading: target sentence text is empty", currentSentence);
+        return;
+      }
+
       lastProcessedTranscriptRef.current = transcript;
 
-      const wordResults = compareWords(currentSentence.text, transcript);
+      const wordResults = compareWords(targetText, transcript);
       const acc = calcAccuracy(wordResults);
       setResults(wordResults);
       setAccuracy(acc);
