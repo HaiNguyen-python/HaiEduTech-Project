@@ -438,8 +438,11 @@ const IeltsWritingPractice = () => {
                   <p className="text-sm leading-relaxed">{currentPrompt.prompt}</p>
                   {/* Dynamic chart for Task 1 prompts */}
                   {currentPrompt.chartData && (
-                    <div className="mt-4">
+                    <div className="mt-4 space-y-4">
                       <Task1Chart config={currentPrompt.chartData} />
+                      {currentPrompt.chartData2 && (
+                        <Task1Chart config={currentPrompt.chartData2} />
+                      )}
                     </div>
                   )}
                   {/* Map diagram (before/after) */}
