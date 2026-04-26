@@ -14,7 +14,7 @@ import SEO from "@/components/SEO";
 // Upcoming Courses removed from home page per request
 const LearningRoadmaps = lazy(() => import("@/components/LearningRoadmaps"));
 const SuccessMetrics = lazy(() => import("@/components/SuccessMetrics"));
-const SocialProof = lazy(() => import("@/components/SocialProof"));
+
 const KnowledgeHub = lazy(() => import("@/components/KnowledgeHub"));
 const AssessmentTool = lazy(() => import("@/components/AssessmentTool"));
 const AIGradingPreview = lazy(() => import("@/components/AIGradingPreview"));
@@ -79,7 +79,7 @@ const Index = () => (
     <CoursesOverview />
     <LazySection><LearningRoadmaps /></LazySection>
     <LazySection><SuccessMetrics /></LazySection>
-    <LazySection><SocialProof /></LazySection>
+    
     <LazySection><KnowledgeHub /></LazySection>
     <LazySection><AssessmentTool /></LazySection>
     <LazySection><AIGradingPreview /></LazySection>
