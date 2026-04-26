@@ -36,6 +36,7 @@ import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { toast } from "sonner";
 
 /* -------------------------------------------------------------------------- */
@@ -169,6 +170,186 @@ const INTONATION: IntonationItem[] = [
     example: "You're coming, aren't you?",
     note: "Bạn không chắc → lên giọng đuôi.",
     noteEn: "You're unsure → rise on the tag.",
+  },
+  {
+    pattern: "Câu chưa hoàn tất → lên ↗ (chờ tiếp)",
+    patternEn: "Incomplete thought → rising ↗ (more to come)",
+    example: "If I have time tomorrow, …",
+    note: "Lên giọng ở mệnh đề if báo hiệu câu chưa kết thúc.",
+    noteEn: "Rise on the if-clause signals the sentence isn't done.",
+  },
+  {
+    pattern: "Lựa chọn (or) → lên ↗ rồi xuống ↘",
+    patternEn: "Choice questions (or) → rise ↗ then fall ↘",
+    example: "Would you like tea or coffee?",
+    note: "Lên ở 'tea', xuống ở 'coffee' (lựa chọn cuối).",
+    noteEn: "Rise on 'tea', fall on 'coffee' (final option).",
+  },
+  {
+    pattern: "Yêu cầu lịch sự → lên nhẹ ↗",
+    patternEn: "Polite requests → soft rising ↗",
+    example: "Could you help me, please?",
+    note: "Lên giọng mềm = lịch sự. Hạ giọng = giống ra lệnh.",
+    noteEn: "Soft rise = polite. Falling = sounds like an order.",
+  },
+  {
+    pattern: "Câu cảm thán → xuống mạnh ↘↘",
+    patternEn: "Exclamations → strong falling ↘↘",
+    example: "What a beautiful day!",
+    note: "Xuống mạnh ở từ trọng tâm để diễn đạt cảm xúc.",
+    noteEn: "Strong fall on the key word conveys emotion.",
+  },
+  {
+    pattern: "Câu mệnh lệnh → xuống dứt khoát ↘",
+    patternEn: "Commands → firm falling ↘",
+    example: "Close the door.",
+    note: "Hạ giọng ngắn, gọn → quyết đoán.",
+    noteEn: "Short, firm fall → decisive tone.",
+  },
+  {
+    pattern: "Trọng âm tương phản → nhấn mạnh từ khoá",
+    patternEn: "Contrastive stress → emphasize key word",
+    example: "I didn't say SHE stole it (someone else did).",
+    note: "Nhấn mạnh 'SHE' đổi hoàn toàn nghĩa của câu.",
+    noteEn: "Stressing 'SHE' completely changes the meaning.",
+  },
+  {
+    pattern: "Echo/ngạc nhiên → lên cao ↗↗",
+    patternEn: "Echo / surprise → high rising ↗↗",
+    example: "You did WHAT?",
+    note: "Giọng vọt lên cao thể hiện sốc hoặc xác nhận lại.",
+    noteEn: "Sharp high rise shows shock or asks for repetition.",
+  },
+  {
+    pattern: "Mỉa mai (Sarcasm) → ngữ điệu phẳng/kéo dài",
+    patternEn: "Sarcasm → flat / stretched intonation",
+    example: "Oh, great. Just what I needed.",
+    note: "Giọng phẳng, kéo dài 'great' → mỉa mai chứ không khen.",
+    noteEn: "Flat, drawn-out 'great' → sarcasm, not praise.",
+  },
+];
+
+// ===== Deep-dive intonation mini-lessons =====
+interface IntonationLesson {
+  title: string;
+  titleEn: string;
+  emoji: string;
+  summary: string;
+  summaryEn: string;
+  body: string;
+  bodyEn: string;
+  examples: { text: string; note: string; noteEn: string }[];
+}
+
+const INTONATION_LESSONS: IntonationLesson[] = [
+  {
+    emoji: "🎚️",
+    title: "Bài 1: Pitch Range (Khoảng cao độ)",
+    titleEn: "Lesson 1: Pitch Range",
+    summary: "Tiếng Anh dùng khoảng cao độ rộng hơn tiếng Việt nhiều. Người Việt nói tiếng Anh thường 'phẳng' vì giữ cao độ đều.",
+    summaryEn: "English uses a much wider pitch range than Vietnamese. Vietnamese speakers often sound 'flat' because they keep an even pitch.",
+    body: "Người bản xứ thường lên xuống cao độ khoảng 1.5-2 quãng tám trong cuộc trò chuyện bình thường. Tiếng Việt vốn có 6 thanh điệu nên người học hay sợ 'thay đổi cao độ' vì sợ đổi nghĩa - nhưng tiếng Anh là 'stress-timed' chứ không 'tone-timed', nên hãy MẠNH DẠN nhấn cao - thấp.",
+    bodyEn: "Native speakers swing 1.5-2 octaves in normal conversation. Because Vietnamese has 6 tones, learners fear pitch changes (they alter meaning in Vietnamese) - but English is stress-timed, not tone-timed, so go BOLD with high-low contrasts.",
+    examples: [
+      { text: "I LOVE this song!", note: "Vọt cao 'LOVE' rồi giảm — không sợ 'lố'.", noteEn: "Spike high on 'LOVE' then drop — don't be shy." },
+      { text: "Really? You did THAT?", note: "Cao trên 'THAT' để thể hiện ngạc nhiên thật.", noteEn: "Go high on 'THAT' to show genuine surprise." },
+    ],
+  },
+  {
+    emoji: "🧱",
+    title: "Bài 2: Tone Units (Đơn vị ngữ điệu)",
+    titleEn: "Lesson 2: Tone Units",
+    summary: "Câu dài luôn được chia thành các 'tone units' (cụm ngữ điệu) ngắn, mỗi cụm có 1 trọng âm chính.",
+    summaryEn: "Long sentences are always broken into short 'tone units', each with one main stress.",
+    body: "Một tone unit = 1 hơi thở ngắn + 1 từ mang nucleus stress (trọng âm hạt nhân, thường là từ cuối nội dung). Việc chia tone units giúp người nghe 'tiêu hoá' thông tin. Quy tắc: ngắt sau cụm chủ ngữ dài, sau mệnh đề phụ, trước liên từ đối lập (but, although).",
+    bodyEn: "A tone unit = one short breath + one word carrying nucleus stress (usually the last content word). Tone units help the listener digest info. Break: after long subjects, after subordinate clauses, before contrasts (but, although).",
+    examples: [
+      { text: "My older brother / who lives in Tokyo / is a software engineer.", note: "3 tone units, mỗi cụm 1 trọng âm chính.", noteEn: "3 tone units, one main stress each." },
+      { text: "I wanted to come, / but I was too tired.", note: "Ngắt trước 'but' để nhấn đối lập.", noteEn: "Pause before 'but' to highlight contrast." },
+    ],
+  },
+  {
+    emoji: "💔",
+    title: "Bài 3: Emotional Intonation (Ngữ điệu cảm xúc)",
+    titleEn: "Lesson 3: Emotional Intonation",
+    summary: "Cùng một câu 'I'm fine' có thể nghĩa là vui, mệt, giận, mỉa mai - tuỳ ngữ điệu.",
+    summaryEn: "The same 'I'm fine' can mean happy, tired, angry, or sarcastic - depending on intonation.",
+    body: "Vui: cao độ cao + lên cuối nhẹ. Mệt: cao độ thấp + kéo dài 'fine'. Giận: ngắn, gọn, hạ giọng mạnh. Mỉa mai: phẳng + kéo dài. Khi xem phim, hãy chú ý cao độ chứ không chỉ từ ngữ.",
+    bodyEn: "Happy: high pitch + slight rise. Tired: low pitch + stretched 'fine'. Angry: short, sharp fall. Sarcastic: flat + drawn-out. When watching movies, focus on pitch — not just words.",
+    examples: [
+      { text: "I'm FINE.", note: "Vui: 'FINE' nhẹ, hơi lên.", noteEn: "Happy: light, slightly rising 'FINE'." },
+      { text: "I'm fiiiine…", note: "Mệt/buồn: kéo dài, hạ giọng.", noteEn: "Tired/sad: stretched, falling." },
+      { text: "I'm fine.", note: "Mỉa mai: ngắn, phẳng.", noteEn: "Sarcastic: short, flat." },
+    ],
+  },
+  {
+    emoji: "🎯",
+    title: "Bài 4: Contrastive Stress (Trọng âm tương phản)",
+    titleEn: "Lesson 4: Contrastive Stress",
+    summary: "Việc nhấn mạnh từ nào trong câu sẽ thay đổi hoàn toàn ý người nói.",
+    summaryEn: "Which word you stress completely changes what you mean.",
+    body: "Câu 'I didn't say he stole the money' có 7 nghĩa khác nhau tuỳ vào từ được nhấn. Đây là một trong những công cụ giao tiếp mạnh nhất của tiếng Anh.",
+    bodyEn: "'I didn't say he stole the money' has 7 different meanings depending on which word is stressed. One of English's most powerful communication tools.",
+    examples: [
+      { text: "I didn't SAY he stole it (I implied).", note: "Nhấn 'SAY' = ám chỉ thôi, không nói thẳng.", noteEn: "Stress 'SAY' = I only implied, didn't actually say." },
+      { text: "I didn't say HE stole it (someone else did).", note: "Nhấn 'HE' = không phải anh ta, là người khác.", noteEn: "Stress 'HE' = it was someone else." },
+      { text: "I didn't say he STOLE it (he just borrowed).", note: "Nhấn 'STOLE' = không phải trộm, có thể mượn.", noteEn: "Stress 'STOLE' = maybe just borrowed." },
+      { text: "I didn't say he stole the MONEY (he stole something else).", note: "Nhấn 'MONEY' = không phải tiền, là vật khác.", noteEn: "Stress 'MONEY' = he stole something else." },
+    ],
+  },
+  {
+    emoji: "🤝",
+    title: "Bài 5: Politeness through Intonation (Lịch sự qua ngữ điệu)",
+    titleEn: "Lesson 5: Politeness through Intonation",
+    summary: "Cùng một câu 'Can you help me?' nghe lịch sự hay khó chịu phụ thuộc gần như hoàn toàn vào intonation.",
+    summaryEn: "Whether 'Can you help me?' sounds polite or rude depends almost entirely on intonation.",
+    body: "Quy tắc vàng: lịch sự = ngữ điệu lên cuối + cao độ vừa phải. Mệnh lệnh = ngữ điệu xuống dứt khoát. Khi không chắc, hãy 'lên giọng' nhẹ ở cuối câu yêu cầu - người nghe sẽ cảm thấy bạn tôn trọng họ. Đây là lý do người Việt hay bị nhận xét 'sounds aggressive' dù dùng từ lịch sự.",
+    bodyEn: "Golden rule: politeness = rising end + moderate pitch. Commands = decisive falling. When in doubt, gently rise at the end of requests - listeners feel respected. This is why Vietnamese speakers are often perceived as 'aggressive' despite using polite words.",
+    examples: [
+      { text: "Could you pass the salt? ↗", note: "Lên giọng cuối = mời, không ép.", noteEn: "Rising end = invite, not demand." },
+      { text: "Pass the salt. ↘", note: "Hạ giọng dứt = mệnh lệnh (kém lịch sự).", noteEn: "Hard fall = command (less polite)." },
+      { text: "I'm sorry, but ↗ I have to leave now ↘.", note: "Lên ở 'but' để mềm hoá, xuống ở 'now' để dứt khoát.", noteEn: "Rise on 'but' softens; fall on 'now' decides." },
+    ],
+  },
+  {
+    emoji: "🎭",
+    title: "Bài 6: Sarcasm & Irony (Mỉa mai & Châm biếm)",
+    titleEn: "Lesson 6: Sarcasm & Irony",
+    summary: "Mỉa mai là 'ngôn ngữ thứ 2' của người bản xứ. Hiểu được = nghe được sitcom Mỹ thực thụ.",
+    summaryEn: "Sarcasm is native speakers' 'second language'. Catching it = truly understanding American sitcoms.",
+    body: "Đặc điểm intonation mỉa mai: (1) Cao độ phẳng bất thường, (2) Kéo dài nguyên âm trọng tâm, (3) Hạ giọng cuối câu không tự nhiên, (4) Đôi khi nhấn quá mạnh từ tích cực. Khi nghe người bản xứ, hãy luôn tự hỏi 'họ đang nói thật hay mỉa?'.",
+    bodyEn: "Sarcastic intonation features: (1) Unnaturally flat pitch, (2) Stretched stressed vowel, (3) Awkward sentence-final fall, (4) Sometimes over-stressed positive words. Always ask: 'are they being literal or sarcastic?'",
+    examples: [
+      { text: "Oh, FANtastic. Another Monday.", note: "Kéo dài 'FAN' + giọng phẳng = chán nản.", noteEn: "Stretched 'FAN' + flat = annoyed." },
+      { text: "Yeah, RIGHT.", note: "'RIGHT' nhấn mạnh + xuống = không tin chút nào.", noteEn: "Stressed 'RIGHT' + fall = total disbelief." },
+      { text: "Wow, that's just GREAT.", note: "Nói chậm + phẳng = thực ra đang khó chịu.", noteEn: "Slow + flat = actually annoyed." },
+    ],
+  },
+  {
+    emoji: "📻",
+    title: "Bài 7: News Anchor Intonation (Ngữ điệu phát thanh viên)",
+    titleEn: "Lesson 7: News Anchor Intonation",
+    summary: "Phát thanh viên dùng pattern intonation đặc biệt: rõ ràng, có nhịp, dễ theo dõi - rất tốt để bắt chước (shadowing).",
+    summaryEn: "News anchors use a distinct intonation pattern: clear, rhythmic, easy to follow - perfect for shadowing.",
+    body: "Pattern: lên ở giữa câu (giữ sự chú ý), giảm dần đều ở cuối, ngắt rõ giữa các tone units. Luyện tập: chọn 1 câu của BBC/CNN, nghe 3 lần, nói theo CHÍNH XÁC ngữ điệu, ghi âm so sánh. Đây là kỹ thuật shadowing kinh điển.",
+    bodyEn: "Pattern: rise mid-sentence (hold attention), gradual fall at the end, clear pauses between tone units. Practice: pick a BBC/CNN sentence, listen 3 times, mimic intonation EXACTLY, record and compare. Classic shadowing technique.",
+    examples: [
+      { text: "The president / announced today / a new economic plan.", note: "3 cụm rõ rệt, giảm dần đều.", noteEn: "3 clear units with gradual fall." },
+      { text: "Breaking news from Tokyo: / a major earthquake / has struck the region.", note: "Lên 'Tokyo', giữ năng lượng, hạ ở 'region'.", noteEn: "Rise on 'Tokyo', sustain energy, fall on 'region'." },
+    ],
+  },
+  {
+    emoji: "🎙️",
+    title: "Bài 8: Storytelling Intonation (Ngữ điệu kể chuyện)",
+    titleEn: "Lesson 8: Storytelling Intonation",
+    summary: "Khi kể chuyện, người bản xứ dùng intonation để giữ người nghe cuốn theo - lên - xuống bất ngờ tạo kịch tính.",
+    summaryEn: "When telling stories, natives use intonation to keep listeners hooked - sudden rises and falls create drama.",
+    body: "Quy tắc: (1) Khởi đầu bình thường để 'set scene', (2) Tăng tốc + cao độ lên ở phần cao trào, (3) Giảm hẳn cao độ + nói chậm ở câu kết để tạo punchline. Luyện qua TED Talks - các speaker giỏi nhất đều bậc thầy intonation kể chuyện.",
+    bodyEn: "Rules: (1) Normal pace to set scene, (2) Speed up + high pitch at climax, (3) Drop pitch + slow down for the punchline. Practice with TED Talks - the best speakers are masters of storytelling intonation.",
+    examples: [
+      { text: "So I was walking home… and suddenly… I saw something INCREDIBLE.", note: "Bình thường → chậm lại → vọt cao 'INCREDIBLE'.", noteEn: "Normal → slow → spike on 'INCREDIBLE'." },
+      { text: "And you know what happened next? … Nothing. Absolutely nothing.", note: "Pause kịch tính rồi hạ giọng phẳng = punchline.", noteEn: "Dramatic pause then flat fall = punchline." },
+    ],
   },
 ];
 
@@ -689,6 +870,66 @@ const EnglishPronunciation = () => {
                   <p className="text-sm text-muted-foreground">{t(it.note, it.noteEn)}</p>
                 </div>
               ))}
+            </div>
+
+            {/* Mẹo của thầy Hải */}
+            <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-foreground">
+              💡 <strong>{t("Mẹo của thầy Hải:", "Mr. Hai's Tip:")}</strong> {t(
+                "Tiếng Việt có 6 thanh điệu nên người Việt thường giữ cao độ rất phẳng khi nói tiếng Anh để 'không sai nghĩa'. Nhưng tiếng Anh KHÔNG dùng cao độ phân biệt từ — hãy mạnh dạn lên - xuống! Cao độ phẳng = nghe robot, không cảm xúc.",
+                "Vietnamese has 6 tones, so Vietnamese speakers keep an unusually flat pitch in English to 'avoid changing meaning'. But English does NOT use pitch to distinguish words — go BOLD with rises and falls! Flat pitch = robotic, emotionless.",
+              )}
+            </div>
+
+            {/* Deep-dive intonation lessons */}
+            <div className="mt-8">
+              <SectionHeader
+                icon={Music2}
+                title={t("8 Bài học Chuyên sâu về Ngữ điệu", "8 Deep-Dive Intonation Lessons")}
+                subtitle={t(
+                  "Từ cao độ, đơn vị ngữ điệu, đến mỉa mai và kể chuyện — bí quyết nói tiếng Anh có cảm xúc.",
+                  "From pitch range and tone units to sarcasm and storytelling — the secrets to emotional, native-like English.",
+                )}
+              />
+              <Accordion type="single" collapsible className="w-full space-y-3">
+                {INTONATION_LESSONS.map((lesson, idx) => (
+                  <AccordionItem
+                    key={idx}
+                    value={`int-lesson-${idx}`}
+                    className="border border-border rounded-xl bg-card px-4"
+                  >
+                    <AccordionTrigger className="hover:no-underline py-4">
+                      <div className="flex items-start gap-3 text-left">
+                        <span className="text-2xl flex-shrink-0">{lesson.emoji}</span>
+                        <div>
+                          <div className="font-semibold text-foreground">
+                            {t(lesson.title, lesson.titleEn)}
+                          </div>
+                          <div className="text-xs text-muted-foreground mt-1 font-normal">
+                            {t(lesson.summary, lesson.summaryEn)}
+                          </div>
+                        </div>
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent className="pb-4">
+                      <p className="text-sm text-foreground/80 leading-relaxed mb-4">
+                        {t(lesson.body, lesson.bodyEn)}
+                      </p>
+                      <div className="space-y-2">
+                        {lesson.examples.map((ex, j) => (
+                          <div key={j} className="rounded-lg border border-border bg-secondary/40 p-3">
+                            <p className="text-foreground font-medium mb-2">"{ex.text}"</p>
+                            <div className="flex items-center gap-2 mb-2">
+                              <PlayBtn text={ex.text} accent="en-US" />
+                              <PlayBtn text={ex.text} accent="en-GB" />
+                            </div>
+                            <p className="text-xs text-muted-foreground">{t(ex.note, ex.noteEn)}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
             </div>
           </TabsContent>
 
