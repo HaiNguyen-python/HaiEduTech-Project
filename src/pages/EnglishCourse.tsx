@@ -3,12 +3,13 @@ import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { useParams, Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { BookOpen, CheckCircle, ArrowLeft, Phone, MessageCircle, ArrowRight, Star, Users, Clock, Award, Layers } from "lucide-react";
+import { BookOpen, CheckCircle, ArrowLeft, Phone, MessageCircle, ArrowRight, Star, Users, Clock, Award, Layers, Sparkles } from "lucide-react";
 import { allEnglishModules } from "@/data/languageCurriculum";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCourseAccess } from "@/hooks/useCourseAccess";
 import AccessDeniedModal from "@/components/AccessDeniedModal";
+import IeltsExamBreakdown from "@/components/ielts/IeltsExamBreakdown";
 
 import cambridgeImg from "@/assets/course-cambridge.jpg";
 import ieltsImg from "@/assets/course-ielts.jpg";
@@ -308,6 +309,25 @@ const EnglishCourse = () => {
               </div>
               <div className="p-6 md:p-8">
                 <p className="text-muted-foreground leading-relaxed">{t(course.heroDesc, course.heroDescEn)}</p>
+                {/* IELTS Curriculum CTA */}
+                {courseId === "ielts" && (
+                  <div className="mt-4 pt-4 border-t flex flex-wrap gap-3">
+                    <Link
+                      to="/english/ielts/lectures"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold hover:from-emerald-600 hover:to-teal-600 transition-all shadow-md"
+                    >
+                      <BookOpen className="h-4 w-4" />
+                      {t("Vào Bài giảng IELTS →", "Enter IELTS Lectures →")}
+                    </Link>
+                    <Link
+                      to="/ai-grading"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-primary/30 bg-primary/5 text-primary font-semibold hover:bg-primary/10 transition-all"
+                    >
+                      <Sparkles className="h-4 w-4" />
+                      {t("Thử AI Chấm điểm", "Try AI Grading")}
+                    </Link>
+                  </div>
+                )}
                 {/* Interactive Curriculum CTA for Conversational English */}
                 {courseId === "conversational" && (
                   <div className="mt-4 pt-4 border-t">
@@ -338,6 +358,9 @@ const EnglishCourse = () => {
                 )}
               </div>
             </div>
+
+            {/* IELTS Exam Breakdown — 4 skills + Roadmap by Band */}
+            {courseId === "ielts" && <IeltsExamBreakdown />}
 
             {/* Stats */}
             {course.stats && (
