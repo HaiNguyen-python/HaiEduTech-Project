@@ -85,23 +85,22 @@ const Navbar = () => {
 
   // IELTS nested sub-items with dedicated icons
    const ieltsChildren: SubItem[] = [
-    // Học & Ôn
+    // 📚 Học & Ôn
+    { to: "#h-study", label: t("Học & Ôn", "Study & Review"), header: true },
     { to: "/english/ielts", label: t("Tổng quan & Lộ trình", "Overview & Roadmap"), icon: Map },
     { to: "/ielts-lectures", label: t("Bài giảng IELTS", "IELTS Lectures"), icon: BookOpen },
     { to: "/english/learn/ielts-reading", label: t("Luyện đọc", "Reading Practice"), icon: BookOpen },
     { to: "/english/learn/ielts-listening", label: t("Luyện nghe", "Listening Practice"), icon: BookOpen },
-    // Divider
-    { to: "#div1", label: "", divider: true },
-    // Từ vựng
+    // 📖 Từ vựng
+    { to: "#h-vocab", label: t("Từ vựng", "Vocabulary"), header: true },
     { to: "/ielts-vocabulary", label: t("Từ vựng IELTS", "IELTS Vocabulary"), icon: BookOpen },
     { to: "/vocab-arena", label: t("Vocab Arena", "Vocab Arena"), icon: Swords },
-    // Divider
-    { to: "#div2", label: "", divider: true },
-    // Luyện tập & Chấm điểm
+    // ✍️ Luyện tập & Chấm
+    { to: "#h-practice", label: t("Luyện tập & Chấm điểm", "Practice & Grading"), header: true },
     { to: "/ielts-writing-practice", label: t("Luyện viết", "Writing Practice"), icon: PenTool },
     { to: "/ielts-speaking-practice", label: t("Luyện nói", "Speaking Practice"), icon: MessageSquare },
     { to: "/ielts-sample-essays", label: t("Bài mẫu 8.0+", "Sample Essays 8.0+"), icon: FileText },
-    { to: "/ai-grading", label: t("Chấm điểm", "Grading Portal"), icon: Cpu },
+    { to: "/ai-grading", label: t("Chấm điểm AI", "AI Grading"), icon: Cpu },
   ];
 
   // National Exam nested sub-items
