@@ -44,8 +44,8 @@ export interface MapDiagramData {
 
 /* ---------- SVG element renderers ---------- */
 
-const VIEW_W = 500;
-const VIEW_H = 340;
+const VIEW_W = 700;
+const VIEW_H = 480;
 
 const px = (v: number, total: number) => (v / 100) * total;
 
