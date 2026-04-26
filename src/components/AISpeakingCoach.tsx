@@ -165,30 +165,41 @@ const levenshtein = (a: string, b: string): number => {
   return dp[a.length][b.length];
 };
 
-// Compare spoken words with target - produce color-coded results
+const matchStatus = (spokenWord: string, expected: string): WordResult["status"] | null => {
+  if (spokenWord === expected || isNumberEquivalent(spokenWord, expected)) return "correct";
+  const dist = levenshtein(spokenWord, expected);
+  const threshold = expected.length <= 3 ? 1 : expected.length <= 6 ? 2 : 3;
+  return dist <= threshold ? "close" : null;
+};
+
+// Compare spoken words with target - searches forward so inserted words do not shift the whole sentence to 0%.
 const compareWords = (target: string, spoken: string): WordResult[] => {
   const targetWords = normalize(target);
   const spokenWords = normalize(spoken);
+  let spokenIndex = 0;
 
-  return targetWords.map((expected, i) => {
-    const spokenWord = spokenWords[i];
-    if (!spokenWord) return { word: expected, expected, status: "missing" as const };
+  return targetWords.map((expected) => {
+    let bestIndex = -1;
+    let bestStatus: WordResult["status"] | null = null;
 
-    // Exact match
-    if (spokenWord === expected) return { word: spokenWord, expected, status: "correct" as const };
+    for (let i = spokenIndex; i < spokenWords.length; i++) {
+      const status = matchStatus(spokenWords[i], expected);
+      if (status) {
+        bestIndex = i;
+        bestStatus = status;
+        if (status === "correct") break;
+      }
+    }
 
-    // Number equivalence (e.g., "three" == "3")
-    if (isNumberEquivalent(spokenWord, expected)) return { word: spokenWord, expected, status: "correct" as const };
+    if (bestIndex >= 0 && bestStatus) {
+      const word = spokenWords[bestIndex];
+      spokenIndex = bestIndex + 1;
+      return { word, expected, status: bestStatus };
+    }
 
-    // Contraction / spoken equivalence (e.g., "I'm" == "I am")
-    if (isSpokenEquivalent(spokenWord, expected)) return { word: spokenWord, expected, status: "correct" as const };
-
-    // Fuzzy match - allow 1-2 char difference based on word length
-    const dist = levenshtein(spokenWord, expected);
-    const threshold = expected.length <= 3 ? 1 : expected.length <= 6 ? 2 : 3;
-    if (dist <= threshold) return { word: spokenWord, expected, status: "close" as const };
-
-    return { word: spokenWord, expected, status: "wrong" as const };
+    const fallbackWord = spokenWords[spokenIndex];
+    if (fallbackWord) spokenIndex += 1;
+    return { word: fallbackWord || expected, expected, status: fallbackWord ? "wrong" : "missing" };
   });
 };
 
