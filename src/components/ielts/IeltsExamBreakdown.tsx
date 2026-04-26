@@ -443,6 +443,13 @@ const quizQuestions: QuizQuestion[] = [
 const IeltsExamBreakdown = () => {
   const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
   const [showQuizResults, setShowQuizResults] = useState(false);
+  // Collapsible state for the 4 skills (open the first by default)
+  const [openSkills, setOpenSkills] = useState<Record<number, boolean>>({ 0: true });
+  const toggleSkill = (idx: number) =>
+    setOpenSkills(prev => ({ ...prev, [idx]: !prev[idx] }));
+  const expandAll = () =>
+    setOpenSkills({ 0: true, 1: true, 2: true, 3: true });
+  const collapseAll = () => setOpenSkills({});
 
   const handleAnswer = (qIdx: number, optIdx: number) => {
     if (showQuizResults) return;
