@@ -23,7 +23,7 @@ const CHART_COLORS = [
 ];
 
 export interface ChartDataConfig {
-  chart_type: "line" | "bar" | "pie" | "area";
+  chart_type: "line" | "bar" | "pie" | "area" | "table";
   title: string;
   x_axis: string;
   y_axis: string;
