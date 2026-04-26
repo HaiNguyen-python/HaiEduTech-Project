@@ -4,7 +4,7 @@ import {
   Headphones, BookOpen, PenSquare, Mic, Clock, FileText, Target, Sparkles,
   GraduationCap, TrendingUp, Calendar, Globe, AlertTriangle, Lightbulb,
   CheckCircle2, XCircle, RefreshCw, Trophy, Brain, ScrollText,
-  Layers, ListChecks, BarChart3, Compass, BookMarked, Timer, Flame
+  Layers, ListChecks, BarChart3, Compass, BookMarked, Timer, Flame, ChevronDown
 } from "lucide-react";
 import chibiListening from "@/assets/chibi-listening.png";
 import chibiReading from "@/assets/chibi-reading.png";
