@@ -524,25 +524,27 @@ const Navbar = () => {
                                         className="absolute left-full top-0 pl-2 w-56 z-50 before:content-[''] before:absolute before:top-0 before:bottom-0 before:-left-2 before:w-3"
                                       >
                                         <div className="bg-card rounded-xl shadow-xl border border-border py-2">
-                                        {/* Group header */}
-                                        <div className="px-4 py-1.5 mb-1">
-                                          <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
-                                            {sub.groupLabel === "ielts" ? "IELTS Program"
-                                              : sub.groupLabel === "national-exam" ? t("Luyện thi THPT", "National Exam Prep")
-                                              : sub.groupLabel === "en-foundation" ? t("Nền tảng Anh ngữ", "English Foundation")
-                                              : sub.groupLabel === "en-exams" ? t("Luyện thi Quốc tế", "International Exams")
-                                              : sub.groupLabel === "en-tools" ? t("Công cụ AI & Học vui", "AI Tools & Fun Learning")
-                                              : sub.groupLabel === "prog-foundation" ? t("Lộ trình Cơ bản", "Foundation Track")
-                                              : sub.groupLabel === "prog-ai-data" ? "AI & Data Engineering"
-                                              : sub.groupLabel === "prog-software-web" ? "Software & Web Engineering"
-                                              : sub.groupLabel === "prog-career" ? t("Sự nghiệp", "Career")
-                                              : sub.groupLabel === "cn-hsk" ? t("Lộ trình HSK", "HSK Program")
-                                              : sub.groupLabel === "cn-conv" ? t("Giao tiếp & Tương tác", "Conversational")
-                                              : sub.groupLabel === "vn-curriculum" ? t("Chương trình học", "Curriculum")
-                                              : sub.groupLabel === "vn-practice" ? t("Luyện tập & Tương tác", "Practice & Interactive")
-                                              : sub.label}
-                                          </span>
-                                        </div>
+                                        {/* Group header (hidden if children already have section headers) */}
+                                        {!sub.children.some(c => c.header) && (
+                                          <div className="px-4 py-1.5 mb-1">
+                                            <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
+                                              {sub.groupLabel === "ielts" ? "IELTS Program"
+                                                : sub.groupLabel === "national-exam" ? t("Luyện thi THPT", "National Exam Prep")
+                                                : sub.groupLabel === "en-foundation" ? t("Nền tảng Anh ngữ", "English Foundation")
+                                                : sub.groupLabel === "en-exams" ? t("Luyện thi Quốc tế", "International Exams")
+                                                : sub.groupLabel === "en-tools" ? t("Công cụ AI & Học vui", "AI Tools & Fun Learning")
+                                                : sub.groupLabel === "prog-foundation" ? t("Lộ trình Cơ bản", "Foundation Track")
+                                                : sub.groupLabel === "prog-ai-data" ? "AI & Data Engineering"
+                                                : sub.groupLabel === "prog-software-web" ? "Software & Web Engineering"
+                                                : sub.groupLabel === "prog-career" ? t("Sự nghiệp", "Career")
+                                                : sub.groupLabel === "cn-hsk" ? t("Lộ trình HSK", "HSK Program")
+                                                : sub.groupLabel === "cn-conv" ? t("Giao tiếp & Tương tác", "Conversational")
+                                                : sub.groupLabel === "vn-curriculum" ? t("Chương trình học", "Curriculum")
+                                                : sub.groupLabel === "vn-practice" ? t("Luyện tập & Tương tác", "Practice & Interactive")
+                                                : sub.label}
+                                            </span>
+                                          </div>
+                                        )}
                                         {sub.children.map((child, ci) => {
                                           if (child.divider) {
                                             return <div key={child.to} className="my-1.5 mx-3 h-px bg-border" />;
