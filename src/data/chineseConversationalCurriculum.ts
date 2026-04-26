@@ -3165,5 +3165,17 @@ export const getChinesePillarByLessonId = (id: string): ChineseConvPillar | null
   return null;
 };
 
+// Merge expansion lessons (English-only for international learners)
+import { dailyLifeExpansion, businessExpansion, socialExpansion } from "./chineseConvExpansionLessons";
+
+const _dailyPillar = chineseConversationalPillars.find(p => p.id === "daily-life");
+if (_dailyPillar) _dailyPillar.lessons.push(...dailyLifeExpansion);
+
+const _businessPillar = chineseConversationalPillars.find(p => p.id === "business");
+if (_businessPillar) _businessPillar.lessons.push(...businessExpansion);
+
+const _socialPillar = chineseConversationalPillars.find(p => p.id === "social");
+if (_socialPillar) _socialPillar.lessons.push(...socialExpansion);
+
 export const allChineseConvLessons: ChineseConvLesson[] =
   chineseConversationalPillars.flatMap(p => p.lessons);
