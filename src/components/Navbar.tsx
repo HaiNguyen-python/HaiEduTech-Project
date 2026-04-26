@@ -30,6 +30,7 @@ interface SubItem {
   children?: SubItem[];
   groupLabel?: string;
   divider?: boolean;
+  header?: boolean;
 }
 
 const Navbar = () => {
@@ -84,23 +85,22 @@ const Navbar = () => {
 
   // IELTS nested sub-items with dedicated icons
    const ieltsChildren: SubItem[] = [
-    // Học & Ôn
+    // 📚 Học & Ôn
+    { to: "#h-study", label: t("Học & Ôn", "Study & Review"), header: true },
     { to: "/english/ielts", label: t("Tổng quan & Lộ trình", "Overview & Roadmap"), icon: Map },
     { to: "/ielts-lectures", label: t("Bài giảng IELTS", "IELTS Lectures"), icon: BookOpen },
     { to: "/english/learn/ielts-reading", label: t("Luyện đọc", "Reading Practice"), icon: BookOpen },
     { to: "/english/learn/ielts-listening", label: t("Luyện nghe", "Listening Practice"), icon: BookOpen },
-    // Divider
-    { to: "#div1", label: "", divider: true },
-    // Từ vựng
+    // 📖 Từ vựng
+    { to: "#h-vocab", label: t("Từ vựng", "Vocabulary"), header: true },
     { to: "/ielts-vocabulary", label: t("Từ vựng IELTS", "IELTS Vocabulary"), icon: BookOpen },
     { to: "/vocab-arena", label: t("Vocab Arena", "Vocab Arena"), icon: Swords },
-    // Divider
-    { to: "#div2", label: "", divider: true },
-    // Luyện tập & Chấm điểm
+    // ✍️ Luyện tập & Chấm
+    { to: "#h-practice", label: t("Luyện tập & Chấm điểm", "Practice & Grading"), header: true },
     { to: "/ielts-writing-practice", label: t("Luyện viết", "Writing Practice"), icon: PenTool },
     { to: "/ielts-speaking-practice", label: t("Luyện nói", "Speaking Practice"), icon: MessageSquare },
     { to: "/ielts-sample-essays", label: t("Bài mẫu 8.0+", "Sample Essays 8.0+"), icon: FileText },
-    { to: "/ai-grading", label: t("Chấm điểm", "Grading Portal"), icon: Cpu },
+    { to: "/ai-grading", label: t("Chấm điểm AI", "AI Grading"), icon: Cpu },
   ];
 
   // National Exam nested sub-items
@@ -133,13 +133,10 @@ const Navbar = () => {
     // Vietnamese national exam
     { to: "#national-exam-group", label: t("🏫 Luyện thi THPT", "🏫 National Exam Prep"), groupLabel: "national-exam", children: nationalExamChildren },
     { to: "#en-div2", label: "", divider: true },
-    // Fun & AI tools grouped together to keep the top-level menu compact
-    { to: "#en-tools-group", label: t("🚀 Công cụ AI & Học vui", "🚀 AI Tools & Fun Learning"), groupLabel: "en-tools", children: [
-      { to: "/english/fun-facts", label: t("Fun Facts tiếng Anh", "English Fun Facts"), icon: Sparkles },
-      { to: "/songs/english", label: t("Học qua bài hát", "Learn through Songs"), icon: Music },
-      { to: "/speaking-coach/english", label: t("AI Speaking Coach", "AI Speaking Coach"), icon: Mic2 },
-      { to: "/specialized-language?lang=english", label: t("AI Ngôn ngữ Chuyên ngành", "AI Specialized Language"), icon: Brain },
-    ] },
+    { to: "/english/fun-facts", label: t("Fun Facts tiếng Anh", "English Fun Facts") },
+    { to: "/songs/english", label: t("Học qua bài hát", "Learn through Songs") },
+    { to: "/speaking-coach/english", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
+    { to: "/specialized-language?lang=english", label: t("🧠 AI Ngôn ngữ Chuyên ngành", "🧠 AI Specialized Language") },
   ];
   const chineseSubs: SubItem[] = [
     { to: "/chinese", label: t("📚 Tổng quan", "📚 Overview") },
@@ -524,31 +521,42 @@ const Navbar = () => {
                                           if (submenuTimeoutRef.current) clearTimeout(submenuTimeoutRef.current);
                                           if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
                                         }}
-                                        className="absolute left-full top-0 pl-2 w-56 z-50 before:content-[''] before:absolute before:top-0 before:bottom-0 before:-left-2 before:w-3"
+                                        className="absolute left-full top-0 pl-2 w-60 z-50 before:content-[''] before:absolute before:top-0 before:bottom-0 before:-left-2 before:w-3"
                                       >
                                         <div className="bg-card rounded-xl shadow-xl border border-border py-2">
-                                        {/* Group header */}
-                                        <div className="px-4 py-1.5 mb-1">
-                                          <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
-                                            {sub.groupLabel === "ielts" ? "IELTS Program"
-                                              : sub.groupLabel === "national-exam" ? t("Luyện thi THPT", "National Exam Prep")
-                                              : sub.groupLabel === "en-foundation" ? t("Nền tảng Anh ngữ", "English Foundation")
-                                              : sub.groupLabel === "en-exams" ? t("Luyện thi Quốc tế", "International Exams")
-                                              : sub.groupLabel === "en-tools" ? t("Công cụ AI & Học vui", "AI Tools & Fun Learning")
-                                              : sub.groupLabel === "prog-foundation" ? t("Lộ trình Cơ bản", "Foundation Track")
-                                              : sub.groupLabel === "prog-ai-data" ? "AI & Data Engineering"
-                                              : sub.groupLabel === "prog-software-web" ? "Software & Web Engineering"
-                                              : sub.groupLabel === "prog-career" ? t("Sự nghiệp", "Career")
-                                              : sub.groupLabel === "cn-hsk" ? t("Lộ trình HSK", "HSK Program")
-                                              : sub.groupLabel === "cn-conv" ? t("Giao tiếp & Tương tác", "Conversational")
-                                              : sub.groupLabel === "vn-curriculum" ? t("Chương trình học", "Curriculum")
-                                              : sub.groupLabel === "vn-practice" ? t("Luyện tập & Tương tác", "Practice & Interactive")
-                                              : sub.label}
-                                          </span>
-                                        </div>
+                                        {/* Group header (hidden if children already have section headers) */}
+                                        {!sub.children.some(c => c.header) && (
+                                          <div className="px-4 py-1.5 mb-1">
+                                            <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
+                                              {sub.groupLabel === "ielts" ? "IELTS Program"
+                                                : sub.groupLabel === "national-exam" ? t("Luyện thi THPT", "National Exam Prep")
+                                                : sub.groupLabel === "en-foundation" ? t("Nền tảng Anh ngữ", "English Foundation")
+                                                : sub.groupLabel === "en-exams" ? t("Luyện thi Quốc tế", "International Exams")
+                                                : sub.groupLabel === "en-tools" ? t("Công cụ AI & Học vui", "AI Tools & Fun Learning")
+                                                : sub.groupLabel === "prog-foundation" ? t("Lộ trình Cơ bản", "Foundation Track")
+                                                : sub.groupLabel === "prog-ai-data" ? "AI & Data Engineering"
+                                                : sub.groupLabel === "prog-software-web" ? "Software & Web Engineering"
+                                                : sub.groupLabel === "prog-career" ? t("Sự nghiệp", "Career")
+                                                : sub.groupLabel === "cn-hsk" ? t("Lộ trình HSK", "HSK Program")
+                                                : sub.groupLabel === "cn-conv" ? t("Giao tiếp & Tương tác", "Conversational")
+                                                : sub.groupLabel === "vn-curriculum" ? t("Chương trình học", "Curriculum")
+                                                : sub.groupLabel === "vn-practice" ? t("Luyện tập & Tương tác", "Practice & Interactive")
+                                                : sub.label}
+                                            </span>
+                                          </div>
+                                        )}
                                         {sub.children.map((child, ci) => {
                                           if (child.divider) {
                                             return <div key={child.to} className="my-1.5 mx-3 h-px bg-border" />;
+                                          }
+                                          if (child.header) {
+                                            return (
+                                              <div key={child.to} className="px-4 pt-2 pb-1 mt-1 first:mt-0">
+                                                <span className="text-[10px] font-bold uppercase tracking-wider text-primary/70">
+                                                  {child.label}
+                                                </span>
+                                              </div>
+                                            );
                                           }
                                           const ChildIcon = child.icon;
                                           return (
@@ -723,6 +731,15 @@ const Navbar = () => {
                                                 {sub.children.map((child) => {
                                                   if (child.divider) {
                                                     return <div key={child.to} className="my-1.5 mx-3 h-px bg-border" />;
+                                                  }
+                                                  if (child.header) {
+                                                    return (
+                                                      <div key={child.to} className="px-4 pt-2 pb-1">
+                                                        <span className="text-[11px] font-bold uppercase tracking-wider text-primary/70">
+                                                          {child.label}
+                                                        </span>
+                                                      </div>
+                                                    );
                                                   }
                                                   const ChildIcon = child.icon;
                                                   const childActive = location.pathname === child.to;
