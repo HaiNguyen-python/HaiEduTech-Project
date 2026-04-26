@@ -383,25 +383,27 @@ const EnglishCourse = () => {
               </ul>
             </div>
 
-            {/* Curriculum */}
-            <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
-              <h2 className="text-xl font-display font-bold text-foreground mb-4 flex items-center gap-2">
-                <Clock className="w-5 h-5 text-primary" /> {t("Giáo án & Lộ trình", "Curriculum & Roadmap")}
-              </h2>
-              <div className="space-y-4">
-                {course.curriculum.map((c, i) => (
-                  <div key={i} className="flex items-start gap-4">
-                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                      <span className="text-sm font-bold text-primary">{i + 1}</span>
+            {/* Curriculum — hidden for IELTS (replaced by IeltsExamBreakdown above) */}
+            {courseId !== "ielts" && (
+              <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
+                <h2 className="text-xl font-display font-bold text-foreground mb-4 flex items-center gap-2">
+                  <Clock className="w-5 h-5 text-primary" /> {t("Giáo án & Lộ trình", "Curriculum & Roadmap")}
+                </h2>
+                <div className="space-y-4">
+                  {course.curriculum.map((c, i) => (
+                    <div key={i} className="flex items-start gap-4">
+                      <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                        <span className="text-sm font-bold text-primary">{i + 1}</span>
+                      </div>
+                      <div>
+                        <p className="text-secondary-foreground font-medium">{t(c.vi, c.en)}</p>
+                        {c.detail && <p className="text-xs text-muted-foreground mt-1">{t(c.detail, c.detailEn || c.detail)}</p>}
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-secondary-foreground font-medium">{t(c.vi, c.en)}</p>
-                      {c.detail && <p className="text-xs text-muted-foreground mt-1">{t(c.detail, c.detailEn || c.detail)}</p>}
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Audience */}
             <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
