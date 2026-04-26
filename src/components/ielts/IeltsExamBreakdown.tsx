@@ -3,7 +3,8 @@ import { useState } from "react";
 import {
   Headphones, BookOpen, PenSquare, Mic, Clock, FileText, Target, Sparkles,
   GraduationCap, Award, TrendingUp, Calendar, Globe, AlertTriangle, Lightbulb,
-  CheckCircle2, XCircle, RefreshCw, Trophy, Brain, Volume2, ScrollText
+  CheckCircle2, XCircle, RefreshCw, Trophy, Brain, Volume2, ScrollText,
+  Layers, ListChecks, BarChart3, Compass, BookMarked, Timer, Flame
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -42,7 +43,42 @@ const overviewFacts = [
   },
 ];
 
-const skills = [
+interface SkillSection {
+  title: string;
+  desc: string;
+  meta?: string; // e.g., "10 questions · 5 min"
+}
+interface BandRow { band: string; raw: string; }
+interface SkillData {
+  icon: typeof Headphones;
+  color: string;
+  bgColor: string;
+  borderColor: string;
+  titleVi: string;
+  titleEn: string;
+  durationVi: string;
+  durationEn: string;
+  questionsVi: string;
+  questionsEn: string;
+  formatVi: string;
+  formatEn: string;
+  sectionsVi: SkillSection[];
+  sectionsEn: SkillSection[];
+  questionTypesList: { vi: string; en: string }[];
+  scoringTable: BandRow[];
+  scoringNoteVi: string;
+  scoringNoteEn: string;
+  timeStrategyVi: { phase: string; time: string }[];
+  timeStrategyEn: { phase: string; time: string }[];
+  tipsVi: string[];
+  tipsEn: string[];
+  trapsVi: string[];
+  trapsEn: string[];
+  vocabFocusVi: string;
+  vocabFocusEn: string;
+}
+
+const skills: SkillData[] = [
   {
     icon: Headphones,
     color: "from-sky-500 to-blue-500",
@@ -54,36 +90,82 @@ const skills = [
     durationEn: "30 min test + 10 min transfer",
     questionsVi: "40 câu · 4 sections · audio chỉ phát 1 lần",
     questionsEn: "40 questions · 4 sections · audio plays once",
+    formatVi: "Đề chung cho cả Academic và General Training. Đa accent: British, American, Australian, New Zealand, Canadian.",
+    formatEn: "Same paper for Academic and General Training. Multi-accent: British, American, Australian, New Zealand, Canadian.",
     sectionsVi: [
-      { title: "Section 1", desc: "Hội thoại đời sống 2 người (đặt phòng, đăng ký lớp, hỏi đường) — dễ nhất, chủ yếu fill-in form" },
-      { title: "Section 2", desc: "Độc thoại đời sống (giới thiệu địa điểm/sự kiện) — bắt đầu có map labelling" },
-      { title: "Section 3", desc: "Hội thoại học thuật 2–4 người (sinh viên + giáo viên thảo luận bài tập)" },
-      { title: "Section 4", desc: "Bài giảng học thuật (lecture đại học) — khó nhất, không ngắt giữa chừng" },
+      { title: "Section 1 (10 câu)", desc: "Hội thoại đời sống 2 người (đặt phòng khách sạn, đăng ký lớp học, hỏi đường, thuê nhà). Thường là form-filling: tên, ngày, giá, số điện thoại.", meta: "Dễ · ~5 phút · Form completion" },
+      { title: "Section 2 (10 câu)", desc: "Độc thoại đời sống — hướng dẫn viên giới thiệu địa điểm/sự kiện/dịch vụ công cộng. Bắt đầu xuất hiện map labelling và multiple choice.", meta: "Dễ–TB · ~5 phút · Map + MCQ" },
+      { title: "Section 3 (10 câu)", desc: "Hội thoại học thuật 2–4 người (sinh viên + tutor thảo luận project, dissertation, group assignment). Thay đổi người nói nhanh.", meta: "Khó · ~7–8 phút · Matching + MCQ" },
+      { title: "Section 4 (10 câu)", desc: "Bài giảng học thuật đại học (lecture monolog) về khoa học, lịch sử, môi trường. KHÔNG có pause giữa chừng — phải nghe liền 5 phút.", meta: "Khó nhất · ~7–8 phút · Note completion" },
     ],
     sectionsEn: [
-      { title: "Section 1", desc: "Two-person everyday conversation (booking, sign-up, directions) — easiest, mostly form-filling" },
-      { title: "Section 2", desc: "Everyday monologue (introducing places/events) — map labelling appears" },
-      { title: "Section 3", desc: "Academic conversation 2–4 people (students + teacher discussing assignments)" },
-      { title: "Section 4", desc: "Academic lecture — hardest, no pause in the middle" },
+      { title: "Section 1 (10 Qs)", desc: "Two-person everyday conversation (hotel booking, course sign-up, directions, renting). Mostly form-filling: names, dates, prices, phone numbers.", meta: "Easy · ~5 min · Form completion" },
+      { title: "Section 2 (10 Qs)", desc: "Everyday monologue — a guide introducing places/events/public services. Map labelling and MCQs start appearing.", meta: "Easy–Med · ~5 min · Map + MCQ" },
+      { title: "Section 3 (10 Qs)", desc: "Academic conversation 2–4 people (students + tutor discussing project, dissertation, group assignment). Fast speaker switches.", meta: "Hard · ~7–8 min · Matching + MCQ" },
+      { title: "Section 4 (10 Qs)", desc: "University academic lecture (monologue) on science, history, environment. NO mid-pause — listen continuously for 5 min.", meta: "Hardest · ~7–8 min · Note completion" },
     ],
-    questionTypesVi: "MCQ · Fill-in-blank · Map/plan labelling · Form completion · Matching · Short answer",
-    questionTypesEn: "MCQ · Fill-in-blank · Map/plan labelling · Form completion · Matching · Short answer",
-    scoringVi: "Mỗi câu = 1 điểm. 30/40 ≈ Band 7.0 · 35/40 ≈ Band 8.0",
-    scoringEn: "Each question = 1 mark. 30/40 ≈ Band 7.0 · 35/40 ≈ Band 8.0",
+    questionTypesList: [
+      { vi: "Form / Note / Table / Flow-chart / Summary completion", en: "Form / Note / Table / Flow-chart / Summary completion" },
+      { vi: "Multiple choice (MCQ) — chọn 1 hoặc nhiều đáp án", en: "Multiple choice (MCQ) — single or multiple answers" },
+      { vi: "Matching — ghép thông tin/ý kiến với người nói", en: "Matching — match info/opinions to speakers" },
+      { vi: "Plan / Map / Diagram labelling — gắn nhãn vị trí", en: "Plan / Map / Diagram labelling — label positions" },
+      { vi: "Sentence completion (≤3 từ hoặc số)", en: "Sentence completion (≤3 words or a number)" },
+      { vi: "Short-answer questions", en: "Short-answer questions" },
+    ],
+    scoringTable: [
+      { band: "9.0", raw: "39–40" },
+      { band: "8.5", raw: "37–38" },
+      { band: "8.0", raw: "35–36" },
+      { band: "7.5", raw: "32–34" },
+      { band: "7.0", raw: "30–31" },
+      { band: "6.5", raw: "26–29" },
+      { band: "6.0", raw: "23–25" },
+      { band: "5.5", raw: "18–22" },
+    ],
+    scoringNoteVi: "Mỗi câu = 1 điểm thô. Không bị trừ điểm sai → luôn đoán nếu không chắc. Spelling và plural sai = mất điểm.",
+    scoringNoteEn: "Each question = 1 raw mark. No penalty for wrong → always guess. Misspelling and missing plurals = lose points.",
+    timeStrategyVi: [
+      { phase: "Trước mỗi section", time: "30s đọc lướt câu hỏi & gạch chân keywords" },
+      { phase: "Trong khi nghe", time: "Viết tắt thẳng lên đề (write-on-question paper)" },
+      { phase: "Cuối mỗi section", time: "30s kiểm tra lại — không quay lại sau" },
+      { phase: "10 phút transfer", time: "Chép sang answer sheet, kiểm tra spelling 2 lần" },
+    ],
+    timeStrategyEn: [
+      { phase: "Before each section", time: "30s skim questions & underline keywords" },
+      { phase: "While listening", time: "Use abbreviations directly on the question paper" },
+      { phase: "End of each section", time: "30s to double-check — never return later" },
+      { phase: "10 min transfer", time: "Copy to answer sheet, spell-check twice" },
+    ],
     tipsVi: [
-      "Đọc trước câu hỏi trong 30 giây đầu mỗi section để dự đoán keywords",
-      "Cẩn trọng với 'distractor' — đáp án đầu tiên thường là bẫy, hãy nghe đến hết",
-      "Viết tắt khi nghe Section 4 vì không có thời gian dừng",
-      "Kiểm tra plural/singular và spelling khi chép sang answer sheet",
+      "Đọc trước câu hỏi trong 30 giây đầu mỗi section để dự đoán keywords và word-form (danh từ/động từ/số)",
+      "Cẩn trọng với 'distractor' — đáp án đầu tiên thường là bẫy, người nói sẽ đính chính sau",
+      "Viết tắt khi nghe Section 4 vì không có thời gian dừng (vd: gov't, w/, b/c)",
+      "Kiểm tra plural/singular và spelling khi chép sang answer sheet — sai 1 chữ = mất 1 điểm",
+      "Tận dụng hướng dẫn 'Write NO MORE THAN TWO WORDS' — viết quá là sai dù nội dung đúng",
+      "Luyện shadowing podcast BBC 6 Minute English mỗi ngày 10 phút để quen accent",
     ],
     tipsEn: [
-      "Read questions in the first 30 sec of each section to predict keywords",
-      "Beware of 'distractors' — the first answer is often a trap, listen to the end",
-      "Use abbreviations during Section 4 since there are no pauses",
-      "Check plural/singular and spelling when transferring to the answer sheet",
+      "Read questions in the first 30 sec of each section to predict keywords and word-form (noun/verb/number)",
+      "Beware of 'distractors' — the first answer is often a trap; the speaker self-corrects later",
+      "Use abbreviations during Section 4 since there are no pauses (e.g. gov't, w/, b/c)",
+      "Check plural/singular and spelling when transferring — one letter wrong = 1 mark lost",
+      "Respect 'Write NO MORE THAN TWO WORDS' — exceeding the limit = wrong even if content is right",
+      "Shadow BBC 6 Minute English for 10 min/day to get used to accents",
     ],
-    trapVi: "Bẫy phổ biến: số đếm (fifteen vs fifty), chính tả tên riêng, từ paraphrase 'expensive' → 'pricey'",
-    trapEn: "Common traps: numbers (fifteen vs fifty), proper-noun spelling, paraphrases like 'expensive' → 'pricey'",
+    trapsVi: [
+      "Số đếm: 'fifteen' (15) vs 'fifty' (50) — chú ý trọng âm",
+      "Chính tả tên riêng: người nói luôn đánh vần (vd: 'My name is Smith — S-M-I-T-H')",
+      "Paraphrase: 'expensive' → 'pricey/costly'; 'a lot of' → 'numerous/plenty of'",
+      "Đáp án bị thay đổi giữa chừng: 'Actually, on second thought, let's say Tuesday' → đáp án là Tuesday",
+    ],
+    trapsEn: [
+      "Numbers: 'fifteen' (15) vs 'fifty' (50) — listen for stress",
+      "Proper-noun spelling: speakers always spell out (e.g. 'My name is Smith — S-M-I-T-H')",
+      "Paraphrasing: 'expensive' → 'pricey/costly'; 'a lot of' → 'numerous/plenty of'",
+      "Mid-sentence correction: 'Actually, on second thought, let's say Tuesday' → answer is Tuesday",
+    ],
+    vocabFocusVi: "Số đếm/thứ tự, ngày tháng, địa danh, tiền tệ, giờ giấc, từ vựng học thuật theo chủ đề (Education, Environment, Health, Technology).",
+    vocabFocusEn: "Numbers/ordinals, dates, place names, currencies, time, academic topic vocabulary (Education, Environment, Health, Technology).",
   },
   {
     icon: BookOpen,
@@ -96,34 +178,81 @@ const skills = [
     durationEn: "60 min (NO separate transfer time)",
     questionsVi: "40 câu · 3 passages (~2,750 từ) · ~13–14 câu/passage",
     questionsEn: "40 questions · 3 passages (~2,750 words) · ~13–14 questions/passage",
+    formatVi: "Academic: 3 bài học thuật từ tạp chí khoa học/báo. General Training: 5 bài thực tế (quảng cáo, hướng dẫn, bài báo).",
+    formatEn: "Academic: 3 academic texts from journals/papers. General Training: 5 practical texts (ads, instructions, articles).",
     sectionsVi: [
-      { title: "Passage 1", desc: "Chủ đề phổ thông (lịch sử, đời sống) — dễ, ~700 từ. Phân bổ ~17 phút" },
-      { title: "Passage 2", desc: "Chủ đề bán học thuật (môi trường, công nghệ) — trung bình, ~900 từ. Phân bổ ~20 phút" },
-      { title: "Passage 3", desc: "Chủ đề học thuật chuyên sâu (khoa học, xã hội học) — khó, ~1100 từ. Phân bổ ~23 phút" },
+      { title: "Passage 1 (~13 câu)", desc: "Chủ đề phổ thông: lịch sử, đời sống, văn hóa. Câu hỏi 'thẳng thắn' — thông tin nằm sát thứ tự đoạn.", meta: "Dễ · ~700 từ · 17 phút" },
+      { title: "Passage 2 (~13 câu)", desc: "Bán học thuật: môi trường, công nghệ, tâm lý. Bắt đầu có matching headings và summary completion.", meta: "Trung bình · ~900 từ · 20 phút" },
+      { title: "Passage 3 (~14 câu)", desc: "Học thuật chuyên sâu: khoa học, xã hội học, kinh tế. Cấu trúc câu phức, từ vựng C1, lập luận đan xen.", meta: "Khó · ~1,100 từ · 23 phút" },
     ],
     sectionsEn: [
-      { title: "Passage 1", desc: "General topic (history, lifestyle) — easy, ~700 words. ~17 min" },
-      { title: "Passage 2", desc: "Semi-academic (environment, tech) — medium, ~900 words. ~20 min" },
-      { title: "Passage 3", desc: "Deep academic (science, social) — hard, ~1100 words. ~23 min" },
+      { title: "Passage 1 (~13 Qs)", desc: "General topic: history, lifestyle, culture. 'Straightforward' questions — info follows paragraph order.", meta: "Easy · ~700 words · 17 min" },
+      { title: "Passage 2 (~13 Qs)", desc: "Semi-academic: environment, tech, psychology. Matching headings + summary completion appear.", meta: "Medium · ~900 words · 20 min" },
+      { title: "Passage 3 (~14 Qs)", desc: "Deep academic: science, sociology, economics. Complex syntax, C1 vocab, interwoven arguments.", meta: "Hard · ~1,100 words · 23 min" },
     ],
-    questionTypesVi: "True/False/Not Given · Yes/No/Not Given · Matching headings · Sentence/Summary completion · MCQ · Matching features",
-    questionTypesEn: "True/False/Not Given · Yes/No/Not Given · Matching headings · Sentence/Summary completion · MCQ · Matching features",
-    scoringVi: "Academic: 30/40 ≈ Band 7.0 · 35/40 ≈ Band 8.0. General Training cần điểm cao hơn để ra cùng band",
-    scoringEn: "Academic: 30/40 ≈ Band 7.0 · 35/40 ≈ Band 8.0. General Training needs higher raw score for the same band",
+    questionTypesList: [
+      { vi: "True / False / Not Given (về sự thật)", en: "True / False / Not Given (factual)" },
+      { vi: "Yes / No / Not Given (về quan điểm tác giả)", en: "Yes / No / Not Given (writer's view)" },
+      { vi: "Matching headings — ghép tiêu đề với đoạn", en: "Matching headings to paragraphs" },
+      { vi: "Matching information / features / sentence endings", en: "Matching information / features / sentence endings" },
+      { vi: "Sentence / Summary / Note / Table / Diagram completion", en: "Sentence / Summary / Note / Table / Diagram completion" },
+      { vi: "Multiple choice (1 hoặc 2 đáp án đúng)", en: "Multiple choice (1 or 2 correct answers)" },
+      { vi: "Short-answer questions (≤3 từ)", en: "Short-answer questions (≤3 words)" },
+    ],
+    scoringTable: [
+      { band: "9.0", raw: "39–40" },
+      { band: "8.5", raw: "37–38" },
+      { band: "8.0", raw: "35–36" },
+      { band: "7.5", raw: "33–34" },
+      { band: "7.0", raw: "30–32" },
+      { band: "6.5", raw: "27–29" },
+      { band: "6.0", raw: "23–26" },
+      { band: "5.5", raw: "19–22" },
+    ],
+    scoringNoteVi: "General Training cần điểm thô CAO HƠN để đạt cùng band (vd: Band 7.0 cần 34/40 thay vì 30/40 ở Academic).",
+    scoringNoteEn: "General Training needs HIGHER raw scores for the same band (e.g. Band 7.0 = 34/40 instead of 30/40 in Academic).",
+    timeStrategyVi: [
+      { phase: "Passage 1", time: "17 phút (skim 2' + làm 13' + check 2')" },
+      { phase: "Passage 2", time: "20 phút (skim 2' + làm 16' + check 2')" },
+      { phase: "Passage 3", time: "23 phút (skim 3' + làm 18' + check 2')" },
+      { phase: "Quy tắc 1.5 phút", time: "Không câu nào quá 1.5' — đánh dấu, làm câu khác, quay lại sau" },
+    ],
+    timeStrategyEn: [
+      { phase: "Passage 1", time: "17 min (skim 2' + answer 13' + check 2')" },
+      { phase: "Passage 2", time: "20 min (skim 2' + answer 16' + check 2')" },
+      { phase: "Passage 3", time: "23 min (skim 3' + answer 18' + check 2')" },
+      { phase: "1.5-min rule", time: "No question >1.5' — mark, skip, return later" },
+    ],
     tipsVi: [
-      "Skim passage 2 phút để nắm chủ đề + topic sentence của từng đoạn",
-      "Làm Matching Headings TRƯỚC vì câu hỏi yêu cầu hiểu toàn đoạn",
-      "Phân biệt 'False' (mâu thuẫn) vs 'Not Given' (không có thông tin) — không suy diễn",
-      "Quản lý thời gian: nếu 1 câu vượt 1.5 phút, đánh dấu và quay lại sau",
+      "Skim passage 2 phút đầu để nắm topic + topic sentence của từng đoạn (thường là câu 1)",
+      "Làm Matching Headings TRƯỚC vì đòi hỏi hiểu toàn đoạn — tránh phải đọc lại sau",
+      "Phân biệt rõ 'False' (mâu thuẫn trực tiếp) vs 'Not Given' (không có thông tin) — KHÔNG suy diễn",
+      "Quản lý thời gian nghiêm ngặt: 1 câu vượt 1.5 phút → đánh dấu và quay lại sau",
+      "Tận dụng cấu trúc bài: tiêu đề, in nghiêng, in đậm, số liệu — khoanh ngay khi skim",
+      "Với MCQ: đọc câu hỏi trước, gạch chân từ khóa, tìm trong bài → loại trừ 2 sai rõ rệt",
     ],
     tipsEn: [
-      "Skim each passage in 2 min to grasp the topic + each paragraph's topic sentence",
-      "Tackle Matching Headings FIRST since they require understanding the whole paragraph",
-      "Distinguish 'False' (contradicts) vs 'Not Given' (no info) — don't infer",
-      "Time management: if a question takes >1.5 min, mark it and return later",
+      "Skim each passage in the first 2 min to grasp the topic + each paragraph's topic sentence (usually sentence 1)",
+      "Tackle Matching Headings FIRST since they need whole-paragraph understanding — avoid re-reading later",
+      "Distinguish 'False' (direct contradiction) vs 'Not Given' (no info) — DO NOT infer",
+      "Strict time control: a question >1.5 min → mark and return later",
+      "Use text structure: headings, italics, bold, numbers — circle while skimming",
+      "For MCQ: read the question first, underline keywords, locate in the passage → eliminate 2 clearly wrong",
     ],
-    trapVi: "Bẫy phổ biến: đáp án dùng synonym chứ không phải từ y hệt; 'extreme' words như 'always/never' thường sai trong T/F/NG",
-    trapEn: "Common traps: synonyms instead of identical wording; extreme words like 'always/never' often signal False in T/F/NG",
+    trapsVi: [
+      "Synonym replacement: 'reduce' trong câu hỏi → 'curtail/lower/diminish' trong bài",
+      "Extreme words: 'always/never/all/none' trong T/F/NG thường = False",
+      "Đáp án thứ tự ngược: T/F/NG đi theo thứ tự bài, nhưng MCQ và Matching thì KHÔNG",
+      "Bài có data: tác giả nêu fact rồi phản bác → đừng vội chọn đáp án ở câu fact",
+    ],
+    trapsEn: [
+      "Synonym replacement: 'reduce' in the question → 'curtail/lower/diminish' in the text",
+      "Extreme words: 'always/never/all/none' in T/F/NG often = False",
+      "Out-of-order answers: T/F/NG follow text order, but MCQ and Matching do NOT",
+      "Texts with data: the author states a fact then refutes it → don't rush to pick the fact-sentence answer",
+    ],
+    vocabFocusVi: "Synonym banks theo chủ đề học thuật, từ nối logic (however, nevertheless, consequently), academic verbs (claim, argue, suggest, demonstrate).",
+    vocabFocusEn: "Topic-based synonym banks, logical connectors (however, nevertheless, consequently), academic verbs (claim, argue, suggest, demonstrate).",
   },
   {
     icon: PenSquare,
@@ -136,36 +265,86 @@ const skills = [
     durationEn: "60 min total (Task 1: 20 min · Task 2: 40 min)",
     questionsVi: "2 bài · Task 1 ≥150 từ · Task 2 ≥250 từ · Task 2 chiếm 2/3 điểm",
     questionsEn: "2 tasks · Task 1 ≥150 words · Task 2 ≥250 words · Task 2 worth 2/3 of the score",
+    formatVi: "Academic Task 1: mô tả biểu đồ/bản đồ/quy trình. General Task 1: viết thư. Task 2 chung: bài luận 250+ từ.",
+    formatEn: "Academic Task 1: describe charts/maps/processes. General Task 1: letter writing. Task 2 (both): 250+ word essay.",
     sectionsVi: [
-      { title: "Task 1 — Academic", desc: "Mô tả biểu đồ (line/bar/pie), bảng, quy trình (process), bản đồ (map), hoặc combo" },
-      { title: "Task 1 — General", desc: "Viết thư (formal/semi-formal/informal): khiếu nại, xin nghỉ, mời, nhờ vả..." },
-      { title: "Task 2", desc: "Bài luận 4 dạng: Opinion (Agree/Disagree), Discussion (Both views + opinion), Problem-Solution, Two-part question" },
+      { title: "Task 1 — Academic (20')", desc: "Mô tả 1 hoặc nhiều biểu đồ: line chart, bar chart, pie chart, table, process diagram, map (so sánh hiện tại–quá khứ), hoặc combo 2 loại.", meta: "≥150 từ · 1/3 điểm" },
+      { title: "Task 1 — General (20')", desc: "Viết thư (3 dạng: formal — gửi cơ quan/sếp; semi-formal — gửi đối tác mới; informal — gửi bạn). Đề cho 3 bullet phải trả lời đủ.", meta: "≥150 từ · 1/3 điểm" },
+      { title: "Task 2 (40')", desc: "Bài luận 4 dạng: Opinion (Agree/Disagree), Discussion (Both views + opinion), Problem-Solution (Causes & Solutions), Two-part question. Cấu trúc 4 đoạn chuẩn: Intro → Body 1 → Body 2 → Conclusion.", meta: "≥250 từ · 2/3 điểm" },
     ],
     sectionsEn: [
-      { title: "Task 1 — Academic", desc: "Describe charts (line/bar/pie), tables, processes, maps, or combos" },
-      { title: "Task 1 — General", desc: "Letter writing (formal/semi-formal/informal): complaints, leave requests, invitations..." },
-      { title: "Task 2", desc: "4 essay types: Opinion (Agree/Disagree), Discussion (Both views + opinion), Problem-Solution, Two-part question" },
+      { title: "Task 1 — Academic (20')", desc: "Describe one or more visuals: line chart, bar chart, pie chart, table, process diagram, map (now vs past), or a combo of two.", meta: "≥150 words · 1/3 of score" },
+      { title: "Task 1 — General (20')", desc: "Letter writing (3 styles: formal — to authorities/manager; semi-formal — to a new contact; informal — to a friend). The 3 bullets MUST all be addressed.", meta: "≥150 words · 1/3 of score" },
+      { title: "Task 2 (40')", desc: "Essay in 4 formats: Opinion (Agree/Disagree), Discussion (Both views + opinion), Problem-Solution (Causes & Solutions), Two-part question. Standard 4-paragraph structure: Intro → Body 1 → Body 2 → Conclusion.", meta: "≥250 words · 2/3 of score" },
     ],
-    questionTypesVi: "Tiêu chí chấm: Task Achievement/Response · Coherence & Cohesion · Lexical Resource · Grammatical Range & Accuracy",
-    questionTypesEn: "Criteria: Task Achievement/Response · Coherence & Cohesion · Lexical Resource · Grammatical Range & Accuracy",
-    scoringVi: "Mỗi tiêu chí 25%. Viết dưới 150/250 từ bị trừ điểm Task Achievement nặng",
-    scoringEn: "Each criterion = 25%. Writing under 150/250 words heavily penalises Task Achievement",
+    questionTypesList: [
+      { vi: "Task Achievement (Task 1) / Task Response (Task 2) — 25%", en: "Task Achievement (T1) / Task Response (T2) — 25%" },
+      { vi: "Coherence & Cohesion — liên kết câu, đoạn, từ nối — 25%", en: "Coherence & Cohesion — sentence/paragraph/connector flow — 25%" },
+      { vi: "Lexical Resource — đa dạng từ vựng, collocations, paraphrasing — 25%", en: "Lexical Resource — vocabulary range, collocations, paraphrasing — 25%" },
+      { vi: "Grammatical Range & Accuracy — đa dạng cấu trúc + chính xác — 25%", en: "Grammatical Range & Accuracy — variety of structures + accuracy — 25%" },
+    ],
+    scoringTable: [
+      { band: "9.0", raw: "Hoàn hảo / Fully accomplished" },
+      { band: "8.0", raw: "Hiếm lỗi · Idiomatic · Cấu trúc phức / Rare errors · Idiomatic" },
+      { band: "7.0", raw: "Tốt với một số lỗi nhỏ / Good with minor errors" },
+      { band: "6.5", raw: "Khá rõ ràng nhưng thiếu sự đa dạng / Clear but limited range" },
+      { band: "6.0", raw: "Đáp ứng task cơ bản · Có lỗi không gây hiểu lầm / Basic task done · Errors don't impede" },
+      { band: "5.5", raw: "Lập luận đơn giản · Lỗi xuất hiện thường xuyên / Simple ideas · Frequent errors" },
+    ],
+    scoringNoteVi: "Điểm Writing = trung bình 4 tiêu chí. Viết DƯỚI từ tối thiểu (150/250) bị trừ điểm Task Achievement nặng. Viết quá dài KHÔNG được điểm thưởng.",
+    scoringNoteEn: "Writing band = average of the 4 criteria. Going BELOW the word minimum (150/250) heavily penalises Task Achievement. Writing too long earns no bonus.",
+    timeStrategyVi: [
+      { phase: "Task 1 — Phân tích", time: "3' đọc đề + chọn 2–3 trends nổi bật" },
+      { phase: "Task 1 — Viết", time: "15' (Intro 2' + Overview 3' + Body 1+2 mỗi cái 5')" },
+      { phase: "Task 1 — Check", time: "2' đếm từ + sửa ngữ pháp" },
+      { phase: "Task 2 — Brainstorm", time: "5' outline 4 đoạn + chọn 2 ideas chính" },
+      { phase: "Task 2 — Viết", time: "30' (Intro 3' + Body 1 10' + Body 2 10' + Conclusion 4' + spare 3')" },
+      { phase: "Task 2 — Check", time: "5' đếm từ + sửa lỗi tense/article/spelling" },
+    ],
+    timeStrategyEn: [
+      { phase: "Task 1 — Analyse", time: "3' read prompt + pick 2–3 standout trends" },
+      { phase: "Task 1 — Write", time: "15' (Intro 2' + Overview 3' + Body 1+2 5' each)" },
+      { phase: "Task 1 — Check", time: "2' word count + grammar fix" },
+      { phase: "Task 2 — Brainstorm", time: "5' outline 4 paragraphs + select 2 main ideas" },
+      { phase: "Task 2 — Write", time: "30' (Intro 3' + Body 1 10' + Body 2 10' + Conclusion 4' + spare 3')" },
+      { phase: "Task 2 — Check", time: "5' word count + fix tense/article/spelling" },
+    ],
     tipsVi: [
-      "Task 1: dành 3 phút phân tích biểu đồ, viết overview rõ ràng (xu hướng chung)",
-      "Task 1 Academic: tuân thủ rule 1-2-3-3 (1 intro · 2 overview · 3 body 1 · 3 body 2)",
-      "Task 2: dành 5 phút brainstorm + outline trước khi viết — không bao giờ viết thẳng",
-      "Dùng linking devices đa dạng (Furthermore, In contrast, By the same token...) thay vì lặp 'And/But'",
-      "Để dành 3–5 phút cuối kiểm tra ngữ pháp và đếm từ",
+      "Task 1: dành 3 phút phân tích biểu đồ, viết overview rõ ràng — đây là phần BUỘC PHẢI có",
+      "Task 1 Academic: tuân thủ rule 1-2-3-3 (1 intro · 2 câu overview · 3 câu body 1 · 3 câu body 2)",
+      "Task 1 General: dùng đúng register — formal (Dear Sir/Madam, I am writing to...) vs informal (Hi John, How's it going?)",
+      "Task 2: dành 5 phút brainstorm + outline trước khi viết — KHÔNG BAO GIỜ viết thẳng",
+      "Dùng linking devices đa dạng: Furthermore, In contrast, By the same token, Granted that, Notwithstanding",
+      "Mỗi body paragraph: 1 topic sentence + 2 supporting + 1 example + 1 concluding sentence (cấu trúc PEEL)",
+      "Để dành 3–5 phút cuối kiểm tra ngữ pháp (article a/an/the, tense, S-V agreement) và đếm từ",
+      "Câu phức (complex) ít nhất 30% bài: dùng although, while, whereas, despite + danh từ",
     ],
     tipsEn: [
-      "Task 1: spend 3 min analysing the chart, write a clear overview (overall trend)",
-      "Task 1 Academic: follow the 1-2-3-3 rule (1 intro · 2 overview · 3 body 1 · 3 body 2)",
-      "Task 2: spend 5 min brainstorming + outlining before writing — never dive straight in",
-      "Use varied linkers (Furthermore, In contrast, By the same token...) instead of repeating 'And/But'",
-      "Save 3–5 min at the end to check grammar and word count",
+      "Task 1: spend 3 min analysing the chart, write a clear overview — this is MANDATORY",
+      "Task 1 Academic: follow the 1-2-3-3 rule (1 intro · 2-sentence overview · 3-sentence body 1 · 3-sentence body 2)",
+      "Task 1 General: use the right register — formal (Dear Sir/Madam, I am writing to...) vs informal (Hi John, How's it going?)",
+      "Task 2: spend 5 min brainstorming + outlining before writing — NEVER dive straight in",
+      "Use varied linkers: Furthermore, In contrast, By the same token, Granted that, Notwithstanding",
+      "Each body paragraph: 1 topic sentence + 2 supporting + 1 example + 1 concluding sentence (PEEL)",
+      "Save 3–5 min at the end to check grammar (a/an/the, tense, S-V agreement) and word count",
+      "At least 30% complex sentences: use although, while, whereas, despite + noun",
     ],
-    trapVi: "Bẫy phổ biến: viết quá nhiều dữ liệu trong Task 1 mà thiếu so sánh; Task 2 lạc đề khi đề hỏi 2 phần chỉ trả lời 1",
-    trapEn: "Common traps: cramming data in Task 1 without comparison; Task 2 going off-topic by answering only one part of a two-part question",
+    trapsVi: [
+      "Task 1: viết quá nhiều dữ liệu mà THIẾU SO SÁNH — examiner cần thấy 'compared to / higher than / nearly double'",
+      "Task 1: dùng sai thì — biểu đồ trong quá khứ phải dùng past simple, dự đoán dùng will/be expected to",
+      "Task 2: lạc đề khi đề hỏi 2 phần (Two-part question) chỉ trả lời 1 → tự động trừ Task Response",
+      "Task 2: opinion thiếu rõ ràng — phải nêu lập trường ngay từ Intro, không 'undermine' giữa bài",
+      "Học thuộc câu mẫu nguyên văn → examiner phát hiện và trừ điểm Lexical Resource",
+    ],
+    trapsEn: [
+      "Task 1: cramming data WITHOUT COMPARISON — examiners need to see 'compared to / higher than / nearly double'",
+      "Task 1: wrong tense — past charts need past simple; predictions need will/be expected to",
+      "Task 2: going off-topic on Two-part questions by answering only one → auto-penalty in Task Response",
+      "Task 2: unclear opinion — state your stance from the Intro, don't undermine it mid-essay",
+      "Memorising templates verbatim → examiners spot it and dock Lexical Resource",
+    ],
+    vocabFocusVi: "Trend verbs (surge, plummet, plateau), comparative structures, hedging language (it could be argued, arguably), academic nouns + collocations.",
+    vocabFocusEn: "Trend verbs (surge, plummet, plateau), comparative structures, hedging language (it could be argued, arguably), academic nouns + collocations.",
   },
   {
     icon: Mic,
@@ -178,111 +357,266 @@ const skills = [
     durationEn: "11–14 min with examiner (face-to-face or video)",
     questionsVi: "3 phần · Bài thi được ghi âm · Có thể thi cùng/khác ngày với 3 kỹ năng còn lại",
     questionsEn: "3 parts · Recorded · Can be on the same or different day from the other 3 skills",
+    formatVi: "Đề chung Academic và GT. Examiner người bản xứ. Có thể thi computer-delivered hoặc paper-based.",
+    formatEn: "Same questions for Academic and GT. Native examiner. Available as computer-delivered or paper-based.",
     sectionsVi: [
-      { title: "Part 1 (4–5 phút)", desc: "Introduction & interview: 3 chủ đề quen thuộc (work/study, hometown, hobbies, family). Trả lời 30–45 giây/câu" },
-      { title: "Part 2 (3–4 phút)", desc: "Long turn / Cue card: nhận đề bài + 1 phút chuẩn bị + nói 1.5–2 phút liên tục về chủ đề" },
-      { title: "Part 3 (4–5 phút)", desc: "Two-way discussion: thảo luận sâu các vấn đề liên quan Part 2 — phân tích, so sánh, dự đoán, đánh giá" },
+      { title: "Part 1 (4–5 phút)", desc: "Introduction & interview: examiner check ID + hỏi 3 chủ đề quen thuộc (work/study, hometown, hobbies, family, food, travel...). 3–4 câu mỗi chủ đề.", meta: "Trả lời 30–45s/câu · Tự nhiên" },
+      { title: "Part 2 — Long turn (3–4 phút)", desc: "Cue card: nhận đề bài + giấy bút + 1 phút chuẩn bị + nói 1.5–2 phút liên tục. Sau đó examiner hỏi 1–2 câu follow-up.", meta: "Cue card 4 bullet · Speak 2 min" },
+      { title: "Part 3 — Two-way discussion (4–5 phút)", desc: "Thảo luận sâu các vấn đề liên quan Part 2 — phân tích, so sánh hiện tại–quá khứ, dự đoán tương lai, đánh giá xã hội. Yêu cầu trả lời lập luận chặt chẽ.", meta: "Phân tích · Speculate · Evaluate" },
     ],
     sectionsEn: [
-      { title: "Part 1 (4–5 min)", desc: "Intro & interview: 3 familiar topics (work/study, hometown, hobbies, family). Reply 30–45 sec/question" },
-      { title: "Part 2 (3–4 min)", desc: "Long turn / Cue card: receive a card + 1 min prep + speak 1.5–2 min on the topic" },
-      { title: "Part 3 (4–5 min)", desc: "Two-way discussion: deep discussion linked to Part 2 — analyse, compare, predict, evaluate" },
+      { title: "Part 1 (4–5 min)", desc: "Intro & interview: examiner checks ID + asks 3 familiar topics (work/study, hometown, hobbies, family, food, travel...). 3–4 questions per topic.", meta: "Reply 30–45s · Natural" },
+      { title: "Part 2 — Long turn (3–4 min)", desc: "Cue card: receive prompt + paper + 1 min prep + speak 1.5–2 min continuously. Then examiner asks 1–2 follow-ups.", meta: "Cue card 4 bullets · Speak 2 min" },
+      { title: "Part 3 — Two-way discussion (4–5 min)", desc: "Deep discussion linked to Part 2 — analyse, compare past–present, predict future, evaluate society. Demands well-reasoned answers.", meta: "Analyse · Speculate · Evaluate" },
     ],
-    questionTypesVi: "4 tiêu chí chấm (mỗi cái 25%): Fluency & Coherence · Lexical Resource · Grammatical Range & Accuracy · Pronunciation",
-    questionTypesEn: "4 criteria (25% each): Fluency & Coherence · Lexical Resource · Grammatical Range & Accuracy · Pronunciation",
-    scoringVi: "Lưu ý: ngừng quá lâu hoặc tự sửa lỗi liên tục bị trừ Fluency. Lặp từ vựng nhiều bị trừ Lexical Resource",
-    scoringEn: "Note: long pauses or constant self-correction lower Fluency. Repeating vocabulary lowers Lexical Resource",
+    questionTypesList: [
+      { vi: "Fluency & Coherence — trôi chảy, không pause dài, ý mạch lạc — 25%", en: "Fluency & Coherence — smooth flow, no long pauses, coherent ideas — 25%" },
+      { vi: "Lexical Resource — đa dạng từ, idioms, paraphrasing — 25%", en: "Lexical Resource — vocabulary range, idioms, paraphrasing — 25%" },
+      { vi: "Grammatical Range & Accuracy — câu phức + chính xác — 25%", en: "Grammatical Range & Accuracy — complex sentences + accuracy — 25%" },
+      { vi: "Pronunciation — âm chuẩn, sentence stress, intonation, connected speech — 25%", en: "Pronunciation — clear sounds, sentence stress, intonation, connected speech — 25%" },
+    ],
+    scoringTable: [
+      { band: "9.0", raw: "Native-like · Fully natural" },
+      { band: "8.0", raw: "Trôi chảy, lỗi hiếm · Idioms tự nhiên / Fluent, rare errors · Natural idioms" },
+      { band: "7.0", raw: "Nói dài không khó khăn · Vài hesitations / Speaks at length easily · Some hesitation" },
+      { band: "6.5", raw: "Sẵn sàng nói · Đôi chỗ ngập ngừng tìm từ / Willing to speak · Occasional word-search" },
+      { band: "6.0", raw: "Truyền đạt rõ · Pause khi tìm từ/grammar / Conveys meaning · Pauses for word/grammar" },
+      { band: "5.5", raw: "Tiếp tục nói được nhưng nhiều lặp/tự sửa / Keeps going but with repetition/self-correction" },
+    ],
+    scoringNoteVi: "Điểm Speaking = trung bình 4 tiêu chí. Im lặng >5 giây = trừ Fluency. Tự sửa lỗi liên tục = trừ Fluency. Lặp từ vựng = trừ Lexical.",
+    scoringNoteEn: "Speaking band = average of 4 criteria. Silence >5 sec = lower Fluency. Constant self-correction = lower Fluency. Repetition = lower Lexical.",
+    timeStrategyVi: [
+      { phase: "Part 1 — mỗi câu", time: "30–45 giây · 2–3 câu trả lời + lý do/ví dụ" },
+      { phase: "Part 2 — chuẩn bị", time: "60s vẽ mind-map theo 4 bullet trên cue card" },
+      { phase: "Part 2 — nói", time: "90–120 giây liên tục · Theo cấu trúc 4 bullet + kết luận" },
+      { phase: "Part 3 — mỗi câu", time: "45–60 giây · Lập luận: claim + reason + example" },
+    ],
+    timeStrategyEn: [
+      { phase: "Part 1 — per question", time: "30–45 sec · 2–3 sentences + reason/example" },
+      { phase: "Part 2 — prep", time: "60s mind-map following the 4 cue-card bullets" },
+      { phase: "Part 2 — speak", time: "90–120 sec continuously · Cover 4 bullets + closing" },
+      { phase: "Part 3 — per question", time: "45–60 sec · Argue: claim + reason + example" },
+    ],
     tipsVi: [
-      "Part 1: trả lời 2–3 câu (không quá ngắn, không quá dài), thêm lý do/ví dụ",
-      "Part 2: dùng 1 phút chuẩn bị để vẽ mind-map theo 4 bullet trên cue card",
-      "Part 3: dùng 'discourse markers' (Well, that's a tricky one... / I'd say...) để câu giờ tự nhiên",
-      "Phát âm: tập trung vào sentence stress + intonation hơn là âm chuẩn 100%",
-      "Không bao giờ học thuộc lòng — giám khảo sẽ phát hiện và trừ điểm",
+      "Part 1: trả lời 2–3 câu (không quá ngắn 'Yes', không quá dài như Part 3), thêm lý do/ví dụ ngắn",
+      "Part 2: dùng 1 phút chuẩn bị để vẽ mind-map theo 4 bullet trên cue card — KHÔNG viết thành câu",
+      "Part 2: bắt đầu bằng 'I'd like to talk about...' và kết bằng 'Overall, this is something I really...'",
+      "Part 3: dùng 'discourse markers' (Well, that's a tricky one... / I'd say... / It really depends on...) để câu giờ tự nhiên",
+      "Phát âm: tập trung vào sentence stress + intonation hơn là âm chuẩn 100% — examiner ưu tiên dễ hiểu",
+      "Dùng idioms/collocations tự nhiên (in the long run, by and large, hit the books) — không lạm dụng quá 3 lần/bài",
+      "Không bao giờ học thuộc lòng câu trả lời — giám khảo SẼ phát hiện và trừ điểm nặng",
+      "Sửa lỗi nhỏ với 'I mean...' thay vì 'sorry sorry' — tự nhiên và không trừ điểm",
     ],
     tipsEn: [
-      "Part 1: answer 2–3 sentences (not too short, not too long), add reasons/examples",
-      "Part 2: use the 1 min prep to draw a mind-map following the 4 cue-card bullets",
-      "Part 3: use discourse markers ('Well, that's a tricky one...' / 'I'd say...') to buy time naturally",
-      "Pronunciation: focus on sentence stress + intonation rather than 100% perfect sounds",
-      "Never memorise scripts — examiners detect this and deduct marks",
+      "Part 1: answer 2–3 sentences (not just 'Yes', not as long as Part 3), add a brief reason/example",
+      "Part 2: use the 1 min prep to mind-map the 4 cue-card bullets — DON'T write full sentences",
+      "Part 2: open with 'I'd like to talk about...' and close with 'Overall, this is something I really...'",
+      "Part 3: use discourse markers ('Well, that's a tricky one...' / 'I'd say...' / 'It really depends on...') to buy time naturally",
+      "Pronunciation: focus on sentence stress + intonation rather than 100% perfect sounds — examiners prioritise clarity",
+      "Use natural idioms/collocations (in the long run, by and large, hit the books) — max 3 per test",
+      "NEVER memorise scripted answers — examiners WILL detect this and dock heavily",
+      "Self-correct small slips with 'I mean...' instead of 'sorry sorry' — natural and unpenalised",
     ],
-    trapVi: "Bẫy phổ biến: dùng từ vựng quá 'sách vở' không tự nhiên; im lặng >5 giây; trả lời Part 1 chỉ với 'Yes/No'",
-    trapEn: "Common traps: using overly bookish vocab; staying silent >5 sec; answering Part 1 with just 'Yes/No'",
+    trapsVi: [
+      "Dùng từ vựng quá 'sách vở' không tự nhiên ('I am exceedingly fond of...' thay vì 'I really love')",
+      "Im lặng >5 giây trong Part 2 hoặc Part 3 — examiner đánh giá Fluency thấp ngay lập tức",
+      "Trả lời Part 1 chỉ với 'Yes/No' hoặc 1 câu cụt → mất cơ hội thể hiện ngôn ngữ",
+      "Nói lan man trong Part 2 mà không bám 4 bullet → trừ Coherence",
+      "Dùng grammar đơn giản suốt bài (chỉ present simple) → trừ Grammatical Range",
+    ],
+    trapsEn: [
+      "Using overly 'bookish' vocab ('I am exceedingly fond of...' instead of 'I really love')",
+      "Going silent >5 sec in Part 2 or Part 3 — examiners immediately mark down Fluency",
+      "Answering Part 1 with just 'Yes/No' or one short sentence → wasting language showcase",
+      "Rambling in Part 2 without covering the 4 bullets → lower Coherence",
+      "Using only simple grammar throughout (just present simple) → lower Grammatical Range",
+    ],
+    vocabFocusVi: "Topic-based vocab (work, education, environment, technology), idioms, phrasal verbs, hedging (I suppose, it seems to me), opinion phrases.",
+    vocabFocusEn: "Topic-based vocab (work, education, environment, technology), idioms, phrasal verbs, hedging (I suppose, it seems to me), opinion phrases.",
   },
 ];
 
-const roadmap = [
+interface RoadmapSkillGoal {
+  vi: string;
+  en: string;
+}
+interface RoadmapStage {
+  bandVi: string;
+  bandEn: string;
+  levelVi: string;
+  levelEn: string;
+  durationVi: string;
+  durationEn: string;
+  color: string;
+  accentColor: string;
+  icon: typeof GraduationCap;
+  prerequisiteVi: string;
+  prerequisiteEn: string;
+  vocabSizeVi: string;
+  vocabSizeEn: string;
+  grammarVi: string;
+  grammarEn: string;
+  listening: RoadmapSkillGoal;
+  reading: RoadmapSkillGoal;
+  writing: RoadmapSkillGoal;
+  speaking: RoadmapSkillGoal;
+  weeklyHoursVi: string;
+  weeklyHoursEn: string;
+  materialsVi: string[];
+  materialsEn: string[];
+  outcomeVi: string;
+  outcomeEn: string;
+}
+
+const roadmap: RoadmapStage[] = [
   {
     bandVi: "Band 4.0 — 5.0",
     bandEn: "Band 4.0 — 5.0",
     levelVi: "Cơ bản · Foundation",
     levelEn: "Foundation Level",
-    durationVi: "8–12 tuần",
-    durationEn: "8–12 weeks",
+    durationVi: "8–12 tuần (~2 tháng)",
+    durationEn: "8–12 weeks (~2 months)",
     color: "from-rose-500/20 to-rose-500/5",
+    accentColor: "rose",
     icon: GraduationCap,
-    focusVi: [
-      "Ngữ pháp nền tảng: 12 thì, câu điều kiện, mệnh đề quan hệ",
-      "Từ vựng A2–B1: 1,500 từ thông dụng theo 20 chủ đề",
-      "Phát âm cơ bản: 44 âm IPA, trọng âm từ & câu",
-      "Listening Section 1–2 · Reading Passage 1 · Writing câu đơn",
+    prerequisiteVi: "Đầu vào: A1–A2 (KET) hoặc chưa từng học IELTS · Biết bảng chữ cái + cấu trúc câu cơ bản",
+    prerequisiteEn: "Entry: A1–A2 (KET) or no prior IELTS · Knows alphabet + basic sentence structure",
+    vocabSizeVi: "1,500 từ vựng A2–B1 theo 20 chủ đề (Family, Food, Travel, Work, Education...)",
+    vocabSizeEn: "1,500 A2–B1 words across 20 topics (Family, Food, Travel, Work, Education...)",
+    grammarVi: "12 thì cơ bản · Câu điều kiện loại 0/1/2 · Mệnh đề quan hệ who/which/that · So sánh hơn/nhất · Modal verbs",
+    grammarEn: "12 basic tenses · Conditionals 0/1/2 · Relative clauses who/which/that · Comparatives/superlatives · Modal verbs",
+    listening: {
+      vi: "Nghe Section 1–2 · Nhận diện số, ngày, tên · Mục tiêu 18–22/40 câu",
+      en: "Listen to Section 1–2 · Recognise numbers, dates, names · Target 18–22/40 questions",
+    },
+    reading: {
+      vi: "Đọc Passage 1 (~700 từ) · Skim & scan · True/False/NG đơn giản · Mục tiêu 18–22/40",
+      en: "Read Passage 1 (~700 words) · Skim & scan · Simple True/False/NG · Target 18–22/40",
+    },
+    writing: {
+      vi: "Viết câu đơn 10–15 từ · Đoạn văn 50 từ · Tập viết Task 1 mô tả 1 biểu đồ đơn giản",
+      en: "Write simple sentences 10–15 words · 50-word paragraphs · Practise Task 1 with one simple chart",
+    },
+    speaking: {
+      vi: "Trả lời Part 1 với 1–2 câu · Tự giới thiệu · Hỏi-đáp về sở thích, gia đình, quê hương",
+      en: "Answer Part 1 with 1–2 sentences · Self-introduction · Q&A about hobbies, family, hometown",
+    },
+    weeklyHoursVi: "8–10 giờ/tuần (5 buổi · 90 phút/buổi + tự học)",
+    weeklyHoursEn: "8–10 hrs/week (5 sessions · 90 min/session + self-study)",
+    materialsVi: [
+      "Cambridge English File Pre-Intermediate",
+      "Mindset for IELTS Foundation",
+      "Oxford Word Skills Basic",
+      "BBC Learning English (6 Minute English level 1)",
     ],
-    focusEn: [
-      "Foundation grammar: 12 tenses, conditionals, relative clauses",
-      "A2–B1 vocab: 1,500 high-frequency words across 20 topics",
-      "Basic pronunciation: 44 IPA sounds, word & sentence stress",
-      "Listening S1–2 · Reading P1 · Writing simple sentences",
+    materialsEn: [
+      "Cambridge English File Pre-Intermediate",
+      "Mindset for IELTS Foundation",
+      "Oxford Word Skills Basic",
+      "BBC Learning English (6 Minute English level 1)",
     ],
+    outcomeVi: "🎯 Kết thúc: Đạt Band 4.5–5.0 trong mock test · Hiểu được hội thoại đời sống đơn giản · Viết được email/đoạn ngắn",
+    outcomeEn: "🎯 Outcome: Reach Band 4.5–5.0 on mock test · Understand simple everyday conversations · Write short emails/paragraphs",
   },
   {
     bandVi: "Band 5.5 — 6.0",
     bandEn: "Band 5.5 — 6.0",
     levelVi: "Trung cấp · Pre-Intermediate",
     levelEn: "Pre-Intermediate",
-    durationVi: "10–14 tuần",
-    durationEn: "10–14 weeks",
+    durationVi: "10–14 tuần (~3 tháng)",
+    durationEn: "10–14 weeks (~3 months)",
     color: "from-amber-500/20 to-amber-500/5",
+    accentColor: "amber",
     icon: Target,
-    focusVi: [
-      "Cấu trúc nâng cao: bị động, đảo ngữ, câu nhấn mạnh",
-      "Từ vựng B1–B2: 2,500 từ học thuật + collocations",
-      "Listening Section 3–4 · Reading T/F/NG · Matching headings",
-      "Writing Task 1 cơ bản (line/bar) · Task 2 opinion 4 đoạn",
-      "Speaking Part 1 trả lời tự nhiên 30–45 giây/câu",
+    prerequisiteVi: "Đầu vào: Band 4.5–5.0 hoặc B1 (PET) · Đã quen 4 dạng bài thi · Có vốn 1,500 từ",
+    prerequisiteEn: "Entry: Band 4.5–5.0 or B1 (PET) · Familiar with 4 test sections · 1,500-word base",
+    vocabSizeVi: "Tích lũy đến 2,500 từ B1–B2 · Bắt đầu academic vocabulary (AWL Sublist 1–4) · Collocations theo chủ đề",
+    vocabSizeEn: "Build to 2,500 B1–B2 words · Start academic vocabulary (AWL Sublist 1–4) · Topic-based collocations",
+    grammarVi: "Bị động (passive) · Câu phức · Đảo ngữ cơ bản · Câu nhấn mạnh (cleft) · Reported speech · Linking words logic",
+    grammarEn: "Passive voice · Complex sentences · Basic inversion · Cleft sentences · Reported speech · Logical linkers",
+    listening: {
+      vi: "Nghe Section 3–4 · Multi-speaker · Map labelling cơ bản · Mục tiêu 23–28/40 câu",
+      en: "Listen to Section 3–4 · Multi-speaker · Basic map labelling · Target 23–28/40 questions",
+    },
+    reading: {
+      vi: "Hoàn thành 2 passages trong 35' · Matching headings · Sentence completion · Mục tiêu 23–27/40",
+      en: "Complete 2 passages in 35' · Matching headings · Sentence completion · Target 23–27/40",
+    },
+    writing: {
+      vi: "Task 1: mô tả line/bar/pie chart 150+ từ · Task 2: Opinion essay 4 đoạn 250+ từ · Tập linking devices",
+      en: "Task 1: describe line/bar/pie chart 150+ words · Task 2: Opinion essay 4 paragraphs 250+ words · Practise linking devices",
+    },
+    speaking: {
+      vi: "Part 1: trả lời tự nhiên 30–45s/câu · Part 2: bắt đầu cue card · Part 3: trả lời 2–3 câu lập luận",
+      en: "Part 1: natural 30–45s answers · Part 2: start cue cards · Part 3: 2–3 reasoned sentences",
+    },
+    weeklyHoursVi: "10–12 giờ/tuần (5 buổi · 100 phút/buổi + 30 phút self-study/ngày)",
+    weeklyHoursEn: "10–12 hrs/week (5 sessions · 100 min/session + 30 min daily self-study)",
+    materialsVi: [
+      "Cambridge IELTS Practice Tests Books 11–13",
+      "Vocabulary for IELTS (Pauline Cullen)",
+      "Grammar for IELTS (Diana Hopkins)",
+      "BBC Learning English (English At Work + Drama)",
     ],
-    focusEn: [
-      "Advanced structures: passive, inversion, cleft sentences",
-      "B1–B2 vocab: 2,500 academic words + collocations",
-      "Listening S3–4 · Reading T/F/NG · Matching headings",
-      "Writing T1 basics (line/bar) · T2 opinion 4-paragraph",
-      "Speaking P1: 30–45s natural responses per question",
+    materialsEn: [
+      "Cambridge IELTS Practice Tests Books 11–13",
+      "Vocabulary for IELTS (Pauline Cullen)",
+      "Grammar for IELTS (Diana Hopkins)",
+      "BBC Learning English (English At Work + Drama)",
     ],
+    outcomeVi: "🎯 Kết thúc: Đạt Band 5.5–6.0 trong mock test · Viết được Task 1 + Task 2 cơ bản · Nói được 1.5 phút trong Part 2",
+    outcomeEn: "🎯 Outcome: Reach Band 5.5–6.0 on mock test · Write basic Task 1 + Task 2 · Speak 1.5 min in Part 2",
   },
   {
     bandVi: "Band 6.5 — 7.0",
     bandEn: "Band 6.5 — 7.0",
     levelVi: "Khá giỏi · Upper-Intermediate",
     levelEn: "Upper-Intermediate",
-    durationVi: "12–16 tuần",
-    durationEn: "12–16 weeks",
+    durationVi: "12–16 tuần (~4 tháng)",
+    durationEn: "12–16 weeks (~4 months)",
     color: "from-emerald-500/20 to-emerald-500/5",
+    accentColor: "emerald",
     icon: TrendingUp,
-    focusVi: [
-      "Paraphrase 3 cấp độ · Synonym banks theo chủ đề",
-      "Listening: Map labelling, multi-speakers, distractor traps",
-      "Reading: Yes/No/NG, summary completion, scanning tốc độ",
-      "Writing T1: 1-2-3-3 rule (overview→trends→data→comparison)",
-      "Writing T2: thesis sắc bén · 2 body paragraphs PEEL",
-      "Speaking Part 2 cue card · Part 3 phân tích nguyên nhân–hệ quả",
+    prerequisiteVi: "Đầu vào: Band 6.0 hoặc B2 (FCE) · Đã làm được Task 1 + Task 2 đủ từ · Hiểu được Listening Section 4",
+    prerequisiteEn: "Entry: Band 6.0 or B2 (FCE) · Can write Task 1 + Task 2 to word count · Understands Listening Section 4",
+    vocabSizeVi: "Tích lũy 4,000 từ B2–C1 · AWL Sublist 5–10 · Synonym banks 3 cấp độ · Idioms theo chủ đề Speaking",
+    vocabSizeEn: "Build to 4,000 B2–C1 words · AWL Sublist 5–10 · 3-level synonym banks · Speaking-topic idioms",
+    grammarVi: "Mixed conditionals · Subjunctive · Inversion nâng cao · Participle clauses · Phrasal verbs nâng cao · Hedging",
+    grammarEn: "Mixed conditionals · Subjunctive · Advanced inversion · Participle clauses · Advanced phrasal verbs · Hedging",
+    listening: {
+      vi: "Hoàn thành 4 sections trong 30' · Distractor detection · Map + diagram labelling · Mục tiêu 30–32/40",
+      en: "Complete 4 sections in 30' · Distractor detection · Map + diagram labelling · Target 30–32/40",
+    },
+    reading: {
+      vi: "Hoàn thành 3 passages trong 60' · Yes/No/NG · Summary completion · Scanning tốc độ · Mục tiêu 30–32/40",
+      en: "Complete 3 passages in 60' · Yes/No/NG · Summary completion · Fast scanning · Target 30–32/40",
+    },
+    writing: {
+      vi: "Task 1: rule 1-2-3-3 (overview rõ ràng + so sánh data sắc bén) · Task 2: thesis sắc bén + PEEL paragraphs + linking nâng cao",
+      en: "Task 1: 1-2-3-3 rule (clear overview + sharp data comparison) · Task 2: sharp thesis + PEEL paragraphs + advanced linking",
+    },
+    speaking: {
+      vi: "Part 2: nói liên tục 1.5–2 phút theo 4 bullet · Part 3: phân tích nguyên nhân–hệ quả · Idioms tự nhiên",
+      en: "Part 2: speak continuously 1.5–2 min covering 4 bullets · Part 3: cause-effect analysis · Natural idioms",
+    },
+    weeklyHoursVi: "12–15 giờ/tuần (5 buổi · 120 phút/buổi + 1 giờ self-study/ngày + 1 mock test/tuần)",
+    weeklyHoursEn: "12–15 hrs/week (5 sessions · 120 min/session + 1 hr daily self-study + 1 mock test/week)",
+    materialsVi: [
+      "Cambridge IELTS Practice Tests Books 14–17",
+      "IELTS Trainer 2 (Cambridge)",
+      "Improve Your IELTS Writing Skills (Macmillan)",
+      "TED-Ed + The Economist (Reading)",
+      "IELTS Speaking Mr. Hai's curated cue cards (200+)",
     ],
-    focusEn: [
-      "3-level paraphrasing · topic-based synonym banks",
-      "Listening: Map labelling, multi-speakers, distractor traps",
-      "Reading: Yes/No/NG, summary completion, fast scanning",
-      "Writing T1: 1-2-3-3 rule (overview→trends→data→comparison)",
-      "Writing T2: sharp thesis · 2 body paragraphs (PEEL)",
-      "Speaking P2 cue card · P3 cause-effect analysis",
+    materialsEn: [
+      "Cambridge IELTS Practice Tests Books 14–17",
+      "IELTS Trainer 2 (Cambridge)",
+      "Improve Your IELTS Writing Skills (Macmillan)",
+      "TED-Ed + The Economist (Reading)",
+      "IELTS Speaking Mr. Hai's curated cue cards (200+)",
     ],
+    outcomeVi: "🎯 Kết thúc: Đạt Band 6.5–7.0 trong mock test · Đủ điều kiện apply đại học/visa hầu hết các nước",
+    outcomeEn: "🎯 Outcome: Reach Band 6.5–7.0 on mock test · Eligible for most university/visa applications worldwide",
   },
   {
     bandVi: "Band 7.5 — 8.0+",
@@ -292,23 +626,50 @@ const roadmap = [
     durationVi: "10–14 tuần luyện chuyên sâu",
     durationEn: "10–14 weeks intensive",
     color: "from-violet-500/20 to-violet-500/5",
+    accentColor: "violet",
     icon: Award,
-    focusVi: [
-      "Lexical sophistication: idioms, less-common collocations",
-      "Grammar phức tạp: subjunctive, mixed conditionals, ellipsis",
-      "Reading 3 passages trong 55 phút (đạt 35+/40 câu)",
-      "Writing T2: Band 8.0 templates · linking devices tinh tế",
-      "Speaking: discourse markers, hedging, near-native intonation",
-      "Mock test mô phỏng phòng thi · phân tích lỗi 1-on-1",
+    prerequisiteVi: "Đầu vào: Band 7.0 ổn định · Đã thi thật ít nhất 1 lần · Cần điểm cao cho học bổng / Master's / PhD / di trú",
+    prerequisiteEn: "Entry: Stable Band 7.0 · Has taken real test at least once · Needs high score for scholarship / Master's / PhD / migration",
+    vocabSizeVi: "5,000+ từ C1–C2 · Less-common collocations · Idioms tinh tế · Academic hedging language · Discourse markers",
+    vocabSizeEn: "5,000+ C1–C2 words · Less-common collocations · Subtle idioms · Academic hedging language · Discourse markers",
+    grammarVi: "Đảo ngữ phức (Hardly had... when...) · Ellipsis · Cleft sentences nâng cao · Subjunctive · Conditional inversion · Nominalisation",
+    grammarEn: "Complex inversion (Hardly had... when...) · Ellipsis · Advanced cleft sentences · Subjunctive · Conditional inversion · Nominalisation",
+    listening: {
+      vi: "Hoàn thành 4 sections với 35–37/40 câu · Predict đáp án trước khi nghe · Note-taking shorthand cá nhân hóa",
+      en: "Complete 4 sections with 35–37/40 correct · Predict answers before listening · Personalised shorthand note-taking",
+    },
+    reading: {
+      vi: "Hoàn thành 3 passages trong 55' (dư 5' check) · Đạt 35+/40 · Xử lý passages C1 với 1,200+ từ",
+      en: "Complete 3 passages in 55' (5' spare for check) · Achieve 35+/40 · Handle C1 passages 1,200+ words",
+    },
+    writing: {
+      vi: "Task 1: phân tích chính xác trends + comparison + projection · Task 2: thesis sắc bén · Cấu trúc lập luận đa chiều · Linking tinh tế",
+      en: "Task 1: precise trends + comparison + projection · Task 2: sharp thesis · Multi-angle argumentation · Subtle linking",
+    },
+    speaking: {
+      vi: "Part 2 + Part 3: discourse markers tự nhiên · Hedging · Near-native intonation · Idioms tinh tế · Phân tích sâu sắc",
+      en: "Part 2 + Part 3: natural discourse markers · Hedging · Near-native intonation · Subtle idioms · Deep analysis",
+    },
+    weeklyHoursVi: "15–20 giờ/tuần (5 buổi · 150 phút + 2 mock tests/tuần + 1-on-1 feedback writing/speaking)",
+    weeklyHoursEn: "15–20 hrs/week (5 sessions · 150 min + 2 mock tests/week + 1-on-1 writing/speaking feedback)",
+    materialsVi: [
+      "Cambridge IELTS Practice Tests Books 18+",
+      "Mindset for IELTS Level 3 (Advanced)",
+      "Official IELTS Practice Materials (British Council)",
+      "The Guardian + The Atlantic (Reading)",
+      "BBC Hard Talk + Intelligence Squared (Listening)",
+      "Mr. Hai's Band 8.0 Writing & Speaking templates",
     ],
-    focusEn: [
-      "Lexical sophistication: idioms, less-common collocations",
-      "Complex grammar: subjunctive, mixed conditionals, ellipsis",
-      "Reading: 3 passages in 55 min (35+/40 correct)",
-      "Writing T2: Band 8.0 templates · subtle linking devices",
-      "Speaking: discourse markers, hedging, near-native intonation",
-      "Real-time mock tests · 1-on-1 error analysis",
+    materialsEn: [
+      "Cambridge IELTS Practice Tests Books 18+",
+      "Mindset for IELTS Level 3 (Advanced)",
+      "Official IELTS Practice Materials (British Council)",
+      "The Guardian + The Atlantic (Reading)",
+      "BBC Hard Talk + Intelligence Squared (Listening)",
+      "Mr. Hai's Band 8.0 Writing & Speaking templates",
     ],
+    outcomeVi: "🎯 Kết thúc: Đạt Band 7.5–8.0+ trong mock test · Đủ điều kiện học bổng Chevening, Erasmus, Fulbright · Migration skill assessment top tier",
+    outcomeEn: "🎯 Outcome: Reach Band 7.5–8.0+ on mock test · Eligible for Chevening, Erasmus, Fulbright scholarships · Top-tier migration skill assessment",
   },
 ];
 
@@ -580,40 +941,104 @@ const IeltsExamBreakdown = () => {
                         <FileText className="w-3 h-3" /> {t(skill.questionsVi, skill.questionsEn)}
                       </span>
                     </div>
+                    <p className="text-xs text-muted-foreground italic mt-2 leading-relaxed">
+                      {t(skill.formatVi, skill.formatEn)}
+                    </p>
                   </div>
                 </div>
 
                 {/* Sections */}
                 <div className="mb-5">
                   <p className="text-xs font-semibold text-foreground/70 uppercase tracking-wider mb-3 flex items-center gap-2">
-                    <Volume2 className="w-3.5 h-3.5" /> {t("Cấu trúc chi tiết", "Detailed structure")}
+                    <Layers className="w-3.5 h-3.5" /> {t("Cấu trúc chi tiết theo phần", "Detailed structure by section")}
                   </p>
                   <div className="grid md:grid-cols-2 gap-3">
                     {(t("vi", "en") === "vi" ? skill.sectionsVi : skill.sectionsEn).map((s, idx) => (
                       <div key={idx} className="rounded-lg bg-background/60 p-3 border border-border/50">
-                        <p className="text-sm font-semibold text-foreground mb-1">{s.title}</p>
+                        <div className="flex items-start justify-between gap-2 mb-1">
+                          <p className="text-sm font-semibold text-foreground">{s.title}</p>
+                          {s.meta && (
+                            <span className="shrink-0 text-[10px] font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-full whitespace-nowrap">
+                              {s.meta}
+                            </span>
+                          )}
+                        </div>
                         <p className="text-xs text-muted-foreground leading-relaxed">{s.desc}</p>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                {/* Question types + scoring */}
+                {/* Question types list */}
+                <div className="mb-5 rounded-lg bg-background/60 p-4 border border-border/50">
+                  <p className="text-xs font-semibold text-foreground/70 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                    <ListChecks className="w-3.5 h-3.5" /> {t("Dạng câu hỏi & Tiêu chí chấm", "Question types & Scoring criteria")}
+                  </p>
+                  <ul className="grid md:grid-cols-2 gap-x-4 gap-y-1.5">
+                    {skill.questionTypesList.map((q, idx) => (
+                      <li key={idx} className="text-sm text-foreground/85 flex gap-2">
+                        <span className="text-primary mt-1 shrink-0">▸</span>
+                        <span>{t(q.vi, q.en)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Scoring table + Time strategy */}
                 <div className="grid md:grid-cols-2 gap-3 mb-5">
-                  <div className="rounded-lg bg-background/60 p-3 border border-border/50">
-                    <p className="text-xs font-semibold text-foreground/70 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                      <Brain className="w-3.5 h-3.5" /> {t("Dạng câu hỏi / Tiêu chí", "Question types / Criteria")}
+                  <div className="rounded-lg bg-background/60 p-4 border border-border/50">
+                    <p className="text-xs font-semibold text-foreground/70 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                      <BarChart3 className="w-3.5 h-3.5" /> {t("Bảng quy đổi điểm", "Band conversion table")}
                     </p>
-                    <p className="text-sm text-foreground/85 leading-relaxed">
-                      {t(skill.questionTypesVi, skill.questionTypesEn)}
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-xs">
+                        <thead>
+                          <tr className="border-b border-border/50 text-foreground/70">
+                            <th className="text-left py-1.5 font-semibold">{t("Band", "Band")}</th>
+                            <th className="text-left py-1.5 font-semibold">{t("Điểm thô / Mô tả", "Raw / Description")}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {skill.scoringTable.map((row, idx) => (
+                            <tr key={idx} className="border-b border-border/30 last:border-0">
+                              <td className="py-1.5 font-bold text-primary">{row.band}</td>
+                              <td className="py-1.5 text-foreground/85">{row.raw}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                    <p className="text-xs text-muted-foreground italic mt-2 leading-relaxed">
+                      {t(skill.scoringNoteVi, skill.scoringNoteEn)}
                     </p>
                   </div>
-                  <div className="rounded-lg bg-background/60 p-3 border border-border/50">
-                    <p className="text-xs font-semibold text-foreground/70 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                      <Award className="w-3.5 h-3.5" /> {t("Quy đổi điểm", "Scoring")}
+
+                  <div className="rounded-lg bg-background/60 p-4 border border-border/50">
+                    <p className="text-xs font-semibold text-foreground/70 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                      <Timer className="w-3.5 h-3.5" /> {t("Chiến lược phân bổ thời gian", "Time allocation strategy")}
                     </p>
-                    <p className="text-sm text-foreground/85 leading-relaxed">{t(skill.scoringVi, skill.scoringEn)}</p>
+                    <ul className="space-y-2">
+                      {(t("vi", "en") === "vi" ? skill.timeStrategyVi : skill.timeStrategyEn).map((s, idx) => (
+                        <li key={idx} className="text-xs flex items-start gap-2">
+                          <span className="shrink-0 w-5 h-5 rounded-full bg-primary/10 text-primary font-bold text-[10px] flex items-center justify-center mt-0.5">{idx + 1}</span>
+                          <div>
+                            <span className="font-semibold text-foreground">{s.phase}: </span>
+                            <span className="text-muted-foreground">{s.time}</span>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
+                </div>
+
+                {/* Vocab focus */}
+                <div className="mb-3 rounded-lg bg-primary/5 border border-primary/20 p-3">
+                  <p className="text-xs font-semibold text-primary uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                    <BookMarked className="w-3.5 h-3.5" /> {t("Từ vựng & Ngữ pháp trọng tâm", "Vocabulary & Grammar focus")}
+                  </p>
+                  <p className="text-sm text-foreground/85 leading-relaxed">
+                    {t(skill.vocabFocusVi, skill.vocabFocusEn)}
+                  </p>
                 </div>
 
                 {/* Tips */}
@@ -631,12 +1056,19 @@ const IeltsExamBreakdown = () => {
                   </ul>
                 </div>
 
-                {/* Common trap */}
+                {/* Common traps (now plural) */}
                 <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4">
-                  <p className="text-xs font-semibold text-amber-700 dark:text-amber-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                    <AlertTriangle className="w-3.5 h-3.5" /> {t("Bẫy thường gặp", "Common trap")}
+                  <p className="text-xs font-semibold text-amber-700 dark:text-amber-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                    <AlertTriangle className="w-3.5 h-3.5" /> {t("Các bẫy thường gặp", "Common traps")}
                   </p>
-                  <p className="text-sm text-foreground/85 leading-relaxed">{t(skill.trapVi, skill.trapEn)}</p>
+                  <ul className="space-y-1.5">
+                    {(t("vi", "en") === "vi" ? skill.trapsVi : skill.trapsEn).map((trap, idx) => (
+                      <li key={idx} className="text-sm text-foreground/85 flex gap-2">
+                        <XCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                        <span>{trap}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             </motion.div>
@@ -661,9 +1093,15 @@ const IeltsExamBreakdown = () => {
           )}
         </p>
 
-        <div className="space-y-4">
+        <div className="space-y-5">
           {roadmap.map((stage, i) => {
             const Icon = stage.icon;
+            const skillGoals = [
+              { icon: Headphones, label: t("Listening", "Listening"), goal: t(stage.listening.vi, stage.listening.en), color: "text-sky-600 dark:text-sky-400" },
+              { icon: BookOpen, label: t("Reading", "Reading"), goal: t(stage.reading.vi, stage.reading.en), color: "text-emerald-600 dark:text-emerald-400" },
+              { icon: PenSquare, label: t("Writing", "Writing"), goal: t(stage.writing.vi, stage.writing.en), color: "text-amber-600 dark:text-amber-400" },
+              { icon: Mic, label: t("Speaking", "Speaking"), goal: t(stage.speaking.vi, stage.speaking.en), color: "text-rose-600 dark:text-rose-400" },
+            ];
             return (
               <motion.div
                 key={i}
@@ -673,8 +1111,9 @@ const IeltsExamBreakdown = () => {
                 transition={{ delay: i * 0.1 }}
                 className={`relative rounded-xl border border-border bg-gradient-to-r ${stage.color} p-5 md:p-6`}
               >
-                <div className="flex flex-col md:flex-row md:items-start gap-4">
-                  <div className="flex md:flex-col items-center md:items-start gap-3 md:min-w-[180px]">
+                {/* Header row */}
+                <div className="flex flex-col md:flex-row md:items-center gap-4 mb-5 pb-4 border-b border-border/50">
+                  <div className="flex items-center gap-3 md:min-w-[200px]">
                     <div className="p-3 rounded-xl bg-background/80 backdrop-blur-sm shadow-sm">
                       <Icon className="w-6 h-6 text-foreground" />
                     </div>
@@ -685,21 +1124,81 @@ const IeltsExamBreakdown = () => {
                       <p className="text-xs text-muted-foreground font-medium mt-0.5">
                         {t(stage.levelVi, stage.levelEn)}
                       </p>
-                      <p className="text-xs text-muted-foreground mt-1 inline-flex items-center gap-1">
-                        <Clock className="w-3 h-3" /> {t(stage.durationVi, stage.durationEn)}
-                      </p>
                     </div>
                   </div>
-                  <div className="flex-1">
-                    <ul className="grid sm:grid-cols-2 gap-x-4 gap-y-2">
-                      {(t(stage.focusVi.join("|"), stage.focusEn.join("|")).split("|")).map((focus, idx) => (
-                        <li key={idx} className="text-sm text-foreground/85 flex gap-2">
-                          <span className="text-primary mt-1.5 shrink-0">▸</span>
-                          <span>{focus}</span>
-                        </li>
-                      ))}
-                    </ul>
+                  <div className="flex-1 flex flex-wrap gap-2 text-xs">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-background/70 border border-border text-foreground/80">
+                      <Clock className="w-3 h-3" /> {t(stage.durationVi, stage.durationEn)}
+                    </span>
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-background/70 border border-border text-foreground/80">
+                      <Flame className="w-3 h-3" /> {t(stage.weeklyHoursVi, stage.weeklyHoursEn)}
+                    </span>
                   </div>
+                </div>
+
+                {/* Prerequisite */}
+                <div className="mb-4 rounded-lg bg-background/60 border border-border/50 p-3">
+                  <p className="text-xs font-semibold text-foreground/70 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                    <Compass className="w-3.5 h-3.5" /> {t("Yêu cầu đầu vào", "Entry requirements")}
+                  </p>
+                  <p className="text-sm text-foreground/85 leading-relaxed">{t(stage.prerequisiteVi, stage.prerequisiteEn)}</p>
+                </div>
+
+                {/* Vocabulary + Grammar */}
+                <div className="grid md:grid-cols-2 gap-3 mb-4">
+                  <div className="rounded-lg bg-background/60 border border-border/50 p-3">
+                    <p className="text-xs font-semibold text-foreground/70 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                      <BookMarked className="w-3.5 h-3.5" /> {t("Từ vựng", "Vocabulary")}
+                    </p>
+                    <p className="text-sm text-foreground/85 leading-relaxed">{t(stage.vocabSizeVi, stage.vocabSizeEn)}</p>
+                  </div>
+                  <div className="rounded-lg bg-background/60 border border-border/50 p-3">
+                    <p className="text-xs font-semibold text-foreground/70 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                      <Brain className="w-3.5 h-3.5" /> {t("Ngữ pháp trọng tâm", "Grammar focus")}
+                    </p>
+                    <p className="text-sm text-foreground/85 leading-relaxed">{t(stage.grammarVi, stage.grammarEn)}</p>
+                  </div>
+                </div>
+
+                {/* 4 Skill goals */}
+                <div className="mb-4">
+                  <p className="text-xs font-semibold text-foreground/70 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <Target className="w-3.5 h-3.5" /> {t("Mục tiêu chi tiết theo 4 kỹ năng", "Detailed goals across 4 skills")}
+                  </p>
+                  <div className="grid md:grid-cols-2 gap-2">
+                    {skillGoals.map((sg, idx) => {
+                      const SgIcon = sg.icon;
+                      return (
+                        <div key={idx} className="flex items-start gap-2 rounded-lg bg-background/60 border border-border/50 p-2.5">
+                          <SgIcon className={`w-4 h-4 ${sg.color} shrink-0 mt-0.5`} />
+                          <div className="text-xs leading-relaxed">
+                            <span className={`font-semibold ${sg.color}`}>{sg.label}: </span>
+                            <span className="text-foreground/85">{sg.goal}</span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Materials */}
+                <div className="mb-4 rounded-lg bg-background/60 border border-border/50 p-3">
+                  <p className="text-xs font-semibold text-foreground/70 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <BookOpen className="w-3.5 h-3.5" /> {t("Giáo trình & Tài liệu chính", "Core textbooks & materials")}
+                  </p>
+                  <ul className="grid sm:grid-cols-2 gap-x-4 gap-y-1">
+                    {(t("vi", "en") === "vi" ? stage.materialsVi : stage.materialsEn).map((m, idx) => (
+                      <li key={idx} className="text-xs text-foreground/85 flex gap-2">
+                        <span className="text-primary mt-1 shrink-0">▸</span>
+                        <span>{m}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Outcome */}
+                <div className="rounded-lg bg-primary/5 border border-primary/20 p-3">
+                  <p className="text-sm text-foreground/85 leading-relaxed">{t(stage.outcomeVi, stage.outcomeEn)}</p>
                 </div>
               </motion.div>
             );
