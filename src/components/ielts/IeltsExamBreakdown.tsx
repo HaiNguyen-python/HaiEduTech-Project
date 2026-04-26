@@ -831,6 +831,7 @@ const IeltsExamBreakdown = () => {
         <div className="space-y-5">
           {roadmap.map((stage, i) => {
             const Icon = stage.icon;
+            const isOpen = !!openStages[i];
             const skillGoals = [
               { icon: Headphones, label: "Listening", goal: stage.listening, color: "text-sky-600 dark:text-sky-400", bg: "bg-sky-500/10" },
               { icon: BookOpen, label: "Reading", goal: stage.reading, color: "text-emerald-600 dark:text-emerald-400", bg: "bg-emerald-500/10" },
@@ -844,10 +845,16 @@ const IeltsExamBreakdown = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className={`relative rounded-2xl border-2 border-border bg-gradient-to-r ${stage.color} p-5 md:p-6`}
+                className={`relative rounded-2xl border-2 border-border bg-gradient-to-r ${stage.color} overflow-hidden`}
               >
-                {/* Header row */}
-                <div className="flex flex-col md:flex-row md:items-center gap-4 mb-5 pb-4 border-b border-border/50">
+                {/* Clickable Header */}
+                <button
+                  type="button"
+                  onClick={() => toggleStage(i)}
+                  aria-expanded={isOpen}
+                  aria-controls={`stage-panel-${i}`}
+                  className="w-full text-left flex flex-col md:flex-row md:items-center gap-4 p-5 md:p-6 hover:bg-background/30 transition-colors"
+                >
                   <div className="flex items-center gap-3 md:min-w-[230px]">
                     <div className="p-3.5 rounded-2xl bg-background/80 backdrop-blur-sm shadow-md">
                       <Icon className="w-7 h-7 text-foreground" />
@@ -868,78 +875,101 @@ const IeltsExamBreakdown = () => {
                     <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-background/80 border border-border text-foreground/80 font-semibold">
                       <Flame className="w-3 h-3 text-orange-500" /> {stage.weeklyHours}
                     </span>
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-background/80 border border-border text-muted-foreground font-semibold">
+                      {isOpen ? "Tap to collapse" : "Tap to view plan"}
+                    </span>
                   </div>
-                </div>
-
-                {/* Prerequisite */}
-                <div className="mb-4 rounded-xl bg-background/70 border border-border/60 p-3.5">
-                  <p className="text-[11px] font-bold text-foreground/70 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                    <Compass className="w-3.5 h-3.5" /> Entry Requirements
-                  </p>
-                  <p className="text-sm text-foreground/90 leading-relaxed">{stage.prerequisite}</p>
-                </div>
-
-                {/* Vocabulary + Grammar */}
-                <div className="grid md:grid-cols-2 gap-3 mb-4">
-                  <div className="rounded-xl bg-background/70 border border-border/60 p-3.5">
-                    <p className="text-[11px] font-bold text-foreground/70 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                      <BookMarked className="w-3.5 h-3.5" /> Vocabulary
-                    </p>
-                    <p className="text-sm text-foreground/90 leading-relaxed">{stage.vocabSize}</p>
+                  <div className={`shrink-0 w-9 h-9 rounded-full flex items-center justify-center bg-background/80 border border-border/60 transition-transform ${isOpen ? "rotate-180" : ""}`}>
+                    <ChevronDown className="w-4 h-4 text-foreground/70" />
                   </div>
-                  <div className="rounded-xl bg-background/70 border border-border/60 p-3.5">
-                    <p className="text-[11px] font-bold text-foreground/70 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                      <Brain className="w-3.5 h-3.5" /> Grammar Focus
-                    </p>
-                    <p className="text-sm text-foreground/90 leading-relaxed">{stage.grammar}</p>
-                  </div>
-                </div>
+                </button>
 
-                {/* 4 Skill goals */}
-                <div className="mb-4">
-                  <p className="text-[11px] font-bold text-foreground/70 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
-                    <Target className="w-3.5 h-3.5" /> Detailed Goals Across 4 Skills
-                  </p>
-                  <div className="grid md:grid-cols-2 gap-2.5">
-                    {skillGoals.map((sg, idx) => {
-                      const SgIcon = sg.icon;
-                      return (
-                        <div key={idx} className="flex items-start gap-2.5 rounded-xl bg-background/70 border border-border/60 p-3">
-                          <div className={`p-1.5 rounded-lg ${sg.bg} shrink-0`}>
-                            <SgIcon className={`w-4 h-4 ${sg.color}`} />
+                {/* Collapsible Body */}
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      id={`stage-panel-${i}`}
+                      key="content"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.25, ease: "easeInOut" }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-5 md:px-6 pb-5 md:pb-6 pt-1 border-t border-border/50">
+                        {/* Prerequisite */}
+                        <div className="mb-4 mt-4 rounded-xl bg-background/70 border border-border/60 p-3.5">
+                          <p className="text-[11px] font-bold text-foreground/70 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                            <Compass className="w-3.5 h-3.5" /> Entry Requirements
+                          </p>
+                          <p className="text-sm text-foreground/90 leading-relaxed">{stage.prerequisite}</p>
+                        </div>
+
+                        {/* Vocabulary + Grammar */}
+                        <div className="grid md:grid-cols-2 gap-3 mb-4">
+                          <div className="rounded-xl bg-background/70 border border-border/60 p-3.5">
+                            <p className="text-[11px] font-bold text-foreground/70 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                              <BookMarked className="w-3.5 h-3.5" /> Vocabulary
+                            </p>
+                            <p className="text-sm text-foreground/90 leading-relaxed">{stage.vocabSize}</p>
                           </div>
-                          <div className="text-xs md:text-sm leading-relaxed flex-1">
-                            <span className={`font-bold ${sg.color} block mb-0.5`}>{sg.label}</span>
-                            <span className="text-foreground/85">{sg.goal}</span>
+                          <div className="rounded-xl bg-background/70 border border-border/60 p-3.5">
+                            <p className="text-[11px] font-bold text-foreground/70 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                              <Brain className="w-3.5 h-3.5" /> Grammar Focus
+                            </p>
+                            <p className="text-sm text-foreground/90 leading-relaxed">{stage.grammar}</p>
                           </div>
                         </div>
-                      );
-                    })}
-                  </div>
-                </div>
 
-                {/* Materials */}
-                <div className="mb-4 rounded-xl bg-background/70 border border-border/60 p-3.5">
-                  <p className="text-[11px] font-bold text-foreground/70 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                    <BookOpen className="w-3.5 h-3.5" /> Core Textbooks & Materials
-                  </p>
-                  <ul className="grid sm:grid-cols-2 gap-x-5 gap-y-1.5">
-                    {stage.materials.map((m, idx) => (
-                      <li key={idx} className="text-sm text-foreground/90 flex gap-2">
-                        <span className="text-primary mt-1 shrink-0">▸</span>
-                        <span>{m}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                        {/* 4 Skill goals */}
+                        <div className="mb-4">
+                          <p className="text-[11px] font-bold text-foreground/70 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+                            <Target className="w-3.5 h-3.5" /> Detailed Goals Across 4 Skills
+                          </p>
+                          <div className="grid md:grid-cols-2 gap-2.5">
+                            {skillGoals.map((sg, idx) => {
+                              const SgIcon = sg.icon;
+                              return (
+                                <div key={idx} className="flex items-start gap-2.5 rounded-xl bg-background/70 border border-border/60 p-3">
+                                  <div className={`p-1.5 rounded-lg ${sg.bg} shrink-0`}>
+                                    <SgIcon className={`w-4 h-4 ${sg.color}`} />
+                                  </div>
+                                  <div className="text-xs md:text-sm leading-relaxed flex-1">
+                                    <span className={`font-bold ${sg.color} block mb-0.5`}>{sg.label}</span>
+                                    <span className="text-foreground/85">{sg.goal}</span>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
 
-                {/* Outcome */}
-                <div className="rounded-xl bg-primary/5 border border-primary/20 p-3.5">
-                  <p className="text-[11px] font-bold text-primary uppercase tracking-wider mb-1 flex items-center gap-1.5">
-                    <Trophy className="w-3.5 h-3.5" /> Expected Outcome
-                  </p>
-                  <p className="text-sm text-foreground/90 leading-relaxed">{stage.outcome}</p>
-                </div>
+                        {/* Materials */}
+                        <div className="mb-4 rounded-xl bg-background/70 border border-border/60 p-3.5">
+                          <p className="text-[11px] font-bold text-foreground/70 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                            <BookOpen className="w-3.5 h-3.5" /> Core Textbooks & Materials
+                          </p>
+                          <ul className="grid sm:grid-cols-2 gap-x-5 gap-y-1.5">
+                            {stage.materials.map((m, idx) => (
+                              <li key={idx} className="text-sm text-foreground/90 flex gap-2">
+                                <span className="text-primary mt-1 shrink-0">▸</span>
+                                <span>{m}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        {/* Outcome */}
+                        <div className="rounded-xl bg-primary/5 border border-primary/20 p-3.5">
+                          <p className="text-[11px] font-bold text-primary uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                            <Trophy className="w-3.5 h-3.5" /> Expected Outcome
+                          </p>
+                          <p className="text-sm text-foreground/90 leading-relaxed">{stage.outcome}</p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
             );
           })}
