@@ -395,22 +395,53 @@ export const writingPrompts: WritingPrompt[] = [
     mapData: {
       before: {
         title: 'Before (1990)',
-        features: [
-          { icon: '🏘️', label: 'Residential area', position: 'west' },
-          { icon: '🌾', label: 'Farmland', position: 'east' },
-          { icon: '🛣️', label: 'Main road', position: 'center' },
-          { icon: '🌊', label: 'River', position: 'south' },
+        elements: [
+          // Main horizontal road across the middle
+          { type: 'road', x: 0, y: 45, w: 100, h: 8, orientation: 'h', label: 'Main Road' },
+          // River along the south
+          { type: 'water', x: 0, y: 82, w: 100, h: 14, label: 'River' },
+          // Residential area (west)
+          { type: 'building', x: 6, y: 12, w: 14, h: 12, variant: 'house', label: 'House' },
+          { type: 'building', x: 24, y: 12, w: 14, h: 12, variant: 'house', label: 'House' },
+          { type: 'building', x: 6, y: 26, w: 14, h: 12, variant: 'house', label: 'House' },
+          { type: 'building', x: 24, y: 26, w: 14, h: 12, variant: 'house', label: 'House' },
+          // Farmland (east)
+          { type: 'field', x: 50, y: 8, w: 46, h: 32, label: 'Farmland' },
+          // Trees along south of main road
+          { type: 'trees', x: 10, y: 60, w: 20, h: 10 },
+          { type: 'trees', x: 50, y: 60, w: 20, h: 10 },
+          { type: 'trees', x: 78, y: 60, w: 20, h: 10 },
         ],
       },
       after: {
         title: 'After (2020)',
-        features: [
-          { icon: '🏘️', label: 'Expanded housing', position: 'north' },
-          { icon: '🏬', label: 'Shopping centre', position: 'east' },
-          { icon: '🅿️', label: 'Car park', position: 'east' },
-          { icon: '🚏', label: 'Bus station', position: 'center' },
-          { icon: '🔄', label: 'Roundabout', position: 'center' },
-          { icon: '🌊', label: 'River', position: 'south' },
+        elements: [
+          // Roads — main horizontal + new vertical
+          { type: 'road', x: 0, y: 45, w: 100, h: 8, orientation: 'h', label: 'Main Road' },
+          { type: 'road', x: 60, y: 0, w: 6, h: 45, orientation: 'v' },
+          { type: 'road', x: 60, y: 53, w: 6, h: 30, orientation: 'v' },
+          // Roundabout at junction
+          { type: 'roundabout', x: 57, y: 42, w: 12, h: 14, label: 'Roundabout' },
+          // River (unchanged)
+          { type: 'water', x: 0, y: 82, w: 100, h: 14, label: 'River' },
+          // Expanded residential (north — more houses)
+          { type: 'building', x: 4, y: 6, w: 12, h: 10, variant: 'house', label: 'House' },
+          { type: 'building', x: 18, y: 6, w: 12, h: 10, variant: 'house', label: 'House' },
+          { type: 'building', x: 32, y: 6, w: 12, h: 10, variant: 'house', label: 'House' },
+          { type: 'building', x: 4, y: 18, w: 12, h: 10, variant: 'house', label: 'House' },
+          { type: 'building', x: 18, y: 18, w: 12, h: 10, variant: 'house', label: 'House' },
+          { type: 'building', x: 32, y: 18, w: 12, h: 10, variant: 'house', label: 'House' },
+          { type: 'building', x: 4, y: 30, w: 12, h: 10, variant: 'house', label: 'House' },
+          { type: 'building', x: 18, y: 30, w: 12, h: 10, variant: 'house', label: 'House' },
+          // Shopping centre (east, on former farmland)
+          { type: 'building', x: 70, y: 8, w: 26, h: 22, variant: 'shop', label: 'Shopping Centre' },
+          // Car park (next to shopping centre)
+          { type: 'carpark', x: 70, y: 32, w: 26, h: 10, label: 'Car Park' },
+          // Bus station (south of main road)
+          { type: 'building', x: 70, y: 56, w: 20, h: 12, variant: 'bus', label: 'Bus Station' },
+          // Trees along river
+          { type: 'trees', x: 14, y: 70, w: 20, h: 10 },
+          { type: 'trees', x: 42, y: 70, w: 20, h: 10 },
         ],
       },
     },
