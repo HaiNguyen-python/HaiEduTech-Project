@@ -219,14 +219,14 @@ const ChineseConversationalLessonView = () => {
         {/* Content tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="w-full flex mb-6 h-auto flex-wrap gap-1">
-            <TabsTrigger value="situations" className="flex-1 text-xs sm:text-sm py-2">🎯 {t("Tình huống", "Situations")}</TabsTrigger>
-            <TabsTrigger value="vocabulary" className="flex-1 text-xs sm:text-sm py-2">📚 {t("Từ vựng", "Vocabulary")}</TabsTrigger>
-            <TabsTrigger value="structures" className="flex-1 text-xs sm:text-sm py-2">📐 {t("Cấu trúc", "Structures")}</TabsTrigger>
+            <TabsTrigger value="situations" className="flex-1 text-xs sm:text-sm py-2">🎯 Situations</TabsTrigger>
+            <TabsTrigger value="vocabulary" className="flex-1 text-xs sm:text-sm py-2">📚 Vocabulary</TabsTrigger>
+            <TabsTrigger value="structures" className="flex-1 text-xs sm:text-sm py-2">📐 Structures</TabsTrigger>
             {lesson.fillInBlankExercises && lesson.fillInBlankExercises.length > 0 && (
-              <TabsTrigger value="exercises" className="flex-1 text-xs sm:text-sm py-2">✏️ {t("Bài tập", "Exercises")}</TabsTrigger>
+              <TabsTrigger value="exercises" className="flex-1 text-xs sm:text-sm py-2">✏️ Exercises</TabsTrigger>
             )}
-            <TabsTrigger value="listening" className="flex-1 text-xs sm:text-sm py-2">🎧 {t("Nghe", "Listening")}</TabsTrigger>
-            <TabsTrigger value="roleplay" className="flex-1 text-xs sm:text-sm py-2">🎤 {t("Luyện nói", "Roleplay")}</TabsTrigger>
+            <TabsTrigger value="listening" className="flex-1 text-xs sm:text-sm py-2">🎧 Listening</TabsTrigger>
+            <TabsTrigger value="roleplay" className="flex-1 text-xs sm:text-sm py-2">🎤 Roleplay</TabsTrigger>
           </TabsList>
 
           {/* SITUATIONS TAB — English-only */}
