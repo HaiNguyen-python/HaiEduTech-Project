@@ -26,12 +26,26 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-7 h-7 rounded-lg bg-primary/20 flex items-center justify-center">
-                <Brain className="w-4 h-4 text-primary" />
-              </div>
-              <span className="font-display text-foreground">
-                <span className="bg-gradient-to-r from-[#3B82F6] to-[#10B981] bg-clip-text text-transparent font-medium">HaiEdu</span>
-                <span className="bg-gradient-to-r from-[#10B981] to-[#3B82F6] bg-clip-text text-transparent font-bold">Tech</span>
+              <img
+                src={teacherWave}
+                alt="HaiEduTech Teacher"
+                className="w-[42px] h-[42px] rounded-full object-cover border-2 border-primary/20"
+              />
+              <span
+                className="whitespace-nowrap"
+                style={{
+                  fontFamily: "'Dancing Script', 'Brush Script MT', cursive",
+                  fontWeight: 600,
+                  fontSize: "1.6rem",
+                  lineHeight: 1,
+                  letterSpacing: "0.005em",
+                  background: "linear-gradient(90deg, #3B82F6, #10B981)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                HaiEduTech
               </span>
             </div>
             <p className="text-sm text-muted-foreground mb-4">{t("Học thông minh • Dẫn đầu kỷ nguyên số", "Learn Smart • Lead the Digital Era")}</p>
