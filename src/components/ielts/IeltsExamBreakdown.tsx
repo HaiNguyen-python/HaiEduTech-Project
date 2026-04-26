@@ -1032,13 +1032,24 @@ const IeltsExamBreakdown = () => {
           </div>
         </div>
 
-        {/* Questions */}
+        {/* Questions — progressive reveal: next question appears after current is answered */}
         <div className="relative space-y-5">
           {quizQuestions.map((q, qIdx) => {
             const userAnswer = quizAnswers[qIdx];
             const isCorrect = userAnswer === q.correct;
+            // Show this question if: results are shown OR it's the first question
+            // OR the previous question already has an answer.
+            const previousAnswered = qIdx === 0 || quizAnswers[qIdx - 1] !== undefined;
+            const shouldShow = showQuizResults || previousAnswered;
+            if (!shouldShow) return null;
             return (
-              <div key={qIdx} className="rounded-2xl border-2 border-border bg-background/70 p-5 hover:border-primary/30 transition-colors">
+              <motion.div
+                key={qIdx}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="rounded-2xl border-2 border-border bg-background/70 p-5 hover:border-primary/30 transition-colors"
+              >
                 <div className="flex items-start gap-3 mb-4">
                   <span className="shrink-0 w-8 h-8 rounded-xl bg-gradient-to-br from-violet-500 to-primary text-white font-bold text-sm flex items-center justify-center shadow-md">
                     {qIdx + 1}
@@ -1082,6 +1093,13 @@ const IeltsExamBreakdown = () => {
                   })}
                 </div>
 
+                {/* "Next question" hint while quiz in progress */}
+                {!showQuizResults && userAnswer !== undefined && qIdx < quizQuestions.length - 1 && (
+                  <p className="mt-3 ml-11 text-xs font-semibold text-primary/80 flex items-center gap-1.5">
+                    <ChevronDown className="w-3.5 h-3.5" /> Next question unlocked below
+                  </p>
+                )}
+
                 {/* Explanation after submit */}
                 <AnimatePresence>
                   {showQuizResults && (
@@ -1104,7 +1122,7 @@ const IeltsExamBreakdown = () => {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
+              </motion.div>
             );
           })}
         </div>
