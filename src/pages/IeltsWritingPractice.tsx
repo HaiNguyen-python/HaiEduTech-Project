@@ -318,8 +318,8 @@ const IeltsWritingPractice = () => {
     <h2>Error Highlights</h2>
     ${result.errors.map(e => `<div class="error-item"><s>${e.error}</s> → <strong>${e.correction}</strong> <em>(${e.category})</em></div>`).join("")}
     <h2>Band 8.0+ Version</h2>
-    <div class="upgraded">${result.upgraded}</div>
-    <h2>Advice</h2><p>${result.advice}</p>
+    <div class="upgraded">${mdToHtml(result.upgraded)}</div>
+    <h2>Advice</h2><div>${mdToHtml(result.advice)}</div>
     </body></html>`;
     const w = window.open("", "_blank");
     if (w) { w.document.write(html); w.document.close(); w.print(); }
