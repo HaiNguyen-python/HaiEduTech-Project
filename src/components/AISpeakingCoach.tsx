@@ -353,14 +353,19 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
     recognition.start();
   }, [speechSupported, currentSentence, config.speechLang, t]);
 
-  // Stop recording and process results
+  // Stop recording and process results.
+  // We DO NOT flip isRecording=false here — we wait for `onend` so the latest
+  // transcript (final or interim) is committed before the grading useEffect runs.
+  // Otherwise the effect can fire with a stale/empty transcript and produce 0%.
   const stopRecognition = useCallback(() => {
     manualStopRef.current = true;
-    if (recognitionRef.current) {
-      recognitionRef.current.stop();
-    }
-    setIsRecording(false);
     setIsListening(false);
+    if (recognitionRef.current) {
+      try { recognitionRef.current.stop(); } catch {}
+    } else {
+      // Fallback if recognition was never started
+      setIsRecording(false);
+    }
   }, []);
 
   // Check and award new badges
