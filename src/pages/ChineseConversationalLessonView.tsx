@@ -477,7 +477,7 @@ const ChineseConversationalLessonView = () => {
                 <div className="space-y-4">
                   {lesson.listeningChallenge.questions.map((q, qi) => (
                     <div key={qi} className="p-4 bg-muted/30 rounded-xl">
-                      <p className="font-medium text-sm mb-3">{qi + 1}. {t(q.qVi, q.q)}</p>
+                      <p className="font-medium text-sm mb-3">{qi + 1}. {q.q}</p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         {q.options.map((opt, oi) => {
                           const selected = listeningAnswers[qi] === oi;
