@@ -264,6 +264,38 @@ const IeltsWritingPractice = () => {
     }
   };
 
+  const mdToHtml = (md: string) => {
+    if (!md) return "";
+    // Escape HTML first
+    let s = md
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+    // Headings
+    s = s.replace(/^###\s+(.+)$/gm, "<h3>$1</h3>");
+    s = s.replace(/^##\s+(.+)$/gm, "<h3>$1</h3>");
+    s = s.replace(/^#\s+(.+)$/gm, "<h3>$1</h3>");
+    // Bold **text** and __text__
+    s = s.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+    s = s.replace(/__(.+?)__/g, "<strong>$1</strong>");
+    // Italic *text* and _text_ (avoid matching list bullets)
+    s = s.replace(/(^|[^*])\*(?!\s)([^*\n]+?)\*(?!\*)/g, "$1<em>$2</em>");
+    s = s.replace(/(^|[^_])_(?!\s)([^_\n]+?)_(?!_)/g, "$1<em>$2</em>");
+    // Inline code
+    s = s.replace(/`([^`]+)`/g, "<code>$1</code>");
+    // Bullet lists
+    s = s.replace(/^\s*[-*]\s+(.+)$/gm, "<li>$1</li>");
+    s = s.replace(/(<li>[\s\S]+?<\/li>)(?!\s*<li>)/g, "<ul>$1</ul>");
+    // Paragraphs from blank lines
+    s = s
+      .split(/\n{2,}/)
+      .map((block) =>
+        block.match(/^\s*<(h\d|ul|ol|li|p|div|blockquote)/) ? block : `<p>${block.replace(/\n/g, "<br/>")}</p>`
+      )
+      .join("\n");
+    return s;
+  };
+
   const handleDownloadPDF = () => {
     if (!result || !currentPrompt) return;
     const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>IELTS Writing Report</title>
@@ -286,8 +318,8 @@ const IeltsWritingPractice = () => {
     <h2>Error Highlights</h2>
     ${result.errors.map(e => `<div class="error-item"><s>${e.error}</s> → <strong>${e.correction}</strong> <em>(${e.category})</em></div>`).join("")}
     <h2>Band 8.0+ Version</h2>
-    <div class="upgraded">${result.upgraded}</div>
-    <h2>Advice</h2><p>${result.advice}</p>
+    <div class="upgraded">${mdToHtml(result.upgraded)}</div>
+    <h2>Advice</h2><div>${mdToHtml(result.advice)}</div>
     </body></html>`;
     const w = window.open("", "_blank");
     if (w) { w.document.write(html); w.document.close(); w.print(); }
