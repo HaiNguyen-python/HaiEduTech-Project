@@ -355,8 +355,8 @@ const EnglishCourse = () => {
             {/* IELTS Exam Breakdown — 4 skills + Roadmap by Band */}
             {courseId === "ielts" && <IeltsExamBreakdown />}
 
-            {/* Stats */}
-            {course.stats && (
+            {/* Stats — hidden for IELTS */}
+            {course.stats && courseId !== "ielts" && (
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                 {course.stats.map((s, i) => (
                   <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}
@@ -368,20 +368,22 @@ const EnglishCourse = () => {
               </div>
             )}
 
-            {/* Features */}
-            <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
-              <h2 className="text-xl font-display font-bold text-foreground mb-4 flex items-center gap-2">
-                <Star className="w-5 h-5 text-yellow-500" /> {t("Điểm nổi bật", "Highlights")}
-              </h2>
-              <ul className="space-y-3">
-                {course.features.map((f, i) => (
-                  <li key={i} className="flex items-start gap-3 text-secondary-foreground">
-                    <CheckCircle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                    <span>{t(f.vi, f.en)}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {/* Features — hidden for IELTS */}
+            {courseId !== "ielts" && (
+              <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
+                <h2 className="text-xl font-display font-bold text-foreground mb-4 flex items-center gap-2">
+                  <Star className="w-5 h-5 text-yellow-500" /> {t("Điểm nổi bật", "Highlights")}
+                </h2>
+                <ul className="space-y-3">
+                  {course.features.map((f, i) => (
+                    <li key={i} className="flex items-start gap-3 text-secondary-foreground">
+                      <CheckCircle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                      <span>{t(f.vi, f.en)}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             {/* Curriculum — hidden for IELTS (replaced by IeltsExamBreakdown above) */}
             {courseId !== "ielts" && (
@@ -405,23 +407,25 @@ const EnglishCourse = () => {
               </div>
             )}
 
-            {/* Audience */}
-            <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
-              <h2 className="text-xl font-display font-bold text-foreground mb-4 flex items-center gap-2">
-                <Users className="w-5 h-5 text-primary" /> {t("Đối tượng phù hợp", "Who is this for?")}
-              </h2>
-              <ul className="space-y-2">
-                {course.audience.map((a, i) => (
-                  <li key={i} className="flex items-center gap-3 text-secondary-foreground">
-                    <ArrowRight className="w-4 h-4 text-primary shrink-0" />
-                    {t(a.vi, a.en)}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {/* Audience — hidden for IELTS */}
+            {courseId !== "ielts" && (
+              <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
+                <h2 className="text-xl font-display font-bold text-foreground mb-4 flex items-center gap-2">
+                  <Users className="w-5 h-5 text-primary" /> {t("Đối tượng phù hợp", "Who is this for?")}
+                </h2>
+                <ul className="space-y-2">
+                  {course.audience.map((a, i) => (
+                    <li key={i} className="flex items-center gap-3 text-secondary-foreground">
+                      <ArrowRight className="w-4 h-4 text-primary shrink-0" />
+                      {t(a.vi, a.en)}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
-            {/* Testimonials */}
-            {course.testimonials && course.testimonials.length > 0 && (
+            {/* Testimonials — hidden for IELTS */}
+            {courseId !== "ielts" && course.testimonials && course.testimonials.length > 0 && (
               <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
                 <div className="flex items-center gap-2 mb-5">
                   <Award className="w-5 h-5 text-primary" />
@@ -500,32 +504,34 @@ const EnglishCourse = () => {
               ) : null;
             })()}
 
-            {/* Contact / Register */}
-            <div className="glass-card rounded-2xl p-6 md:p-8 border-2 border-primary/20">
-              <h2 className="text-xl font-display font-bold text-foreground mb-2 flex items-center gap-2">
-                <Phone className="w-5 h-5 text-primary" /> {t("Đăng ký học ngay", "Register Now")}
-              </h2>
-              <p className="text-muted-foreground mb-6">
-                {t(
-                  "Liên hệ thầy Hải để được tư vấn chi tiết và đăng ký khóa học phù hợp nhất với bạn.",
-                  "Contact Teacher Hai for detailed consultation and register for the best-fit course."
-                )}
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 mb-6">
-                <a href="tel:0962823800" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:brightness-110 transition-all active:scale-[0.97]">
-                  <Phone className="w-5 h-5" /> 0962.823.800
-                </a>
-                <a href="https://zalo.me/0962823800" target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-500 text-white font-semibold hover:brightness-110 transition-all active:scale-[0.97]">
-                  <MessageCircle className="w-5 h-5" /> Zalo: 0962.823.800
-                </a>
+            {/* Contact / Register — hidden for IELTS */}
+            {courseId !== "ielts" && (
+              <div className="glass-card rounded-2xl p-6 md:p-8 border-2 border-primary/20">
+                <h2 className="text-xl font-display font-bold text-foreground mb-2 flex items-center gap-2">
+                  <Phone className="w-5 h-5 text-primary" /> {t("Đăng ký học ngay", "Register Now")}
+                </h2>
+                <p className="text-muted-foreground mb-6">
+                  {t(
+                    "Liên hệ thầy Hải để được tư vấn chi tiết và đăng ký khóa học phù hợp nhất với bạn.",
+                    "Contact Teacher Hai for detailed consultation and register for the best-fit course."
+                  )}
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                  <a href="tel:0962823800" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:brightness-110 transition-all active:scale-[0.97]">
+                    <Phone className="w-5 h-5" /> 0962.823.800
+                  </a>
+                  <a href="https://zalo.me/0962823800" target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-500 text-white font-semibold hover:brightness-110 transition-all active:scale-[0.97]">
+                    <MessageCircle className="w-5 h-5" /> Zalo: 0962.823.800
+                  </a>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  {t("Hoặc để lại thông tin trong mục ", "Or leave your information in the ")}
+                  <Link to="/contact" className="text-primary font-semibold hover:underline">{t("Liên hệ", "Contact")}</Link>
+                  {t(" để thầy hỗ trợ sớm nhất.", " section for the earliest support.")}
+                </p>
               </div>
-              <p className="text-sm text-muted-foreground">
-                {t("Hoặc để lại thông tin trong mục ", "Or leave your information in the ")}
-                <Link to="/contact" className="text-primary font-semibold hover:underline">{t("Liên hệ", "Contact")}</Link>
-                {t(" để thầy hỗ trợ sớm nhất.", " section for the earliest support.")}
-              </p>
-            </div>
+            )}
           </motion.div>
         </div>
       </div>
