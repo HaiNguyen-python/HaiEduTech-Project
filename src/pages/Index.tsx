@@ -11,7 +11,7 @@ import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 
 // Lazy load heavy below-fold components
-const UpcomingCourses = lazy(() => import("@/components/UpcomingCourses"));
+// Upcoming Courses removed from home page per request
 const LearningRoadmaps = lazy(() => import("@/components/LearningRoadmaps"));
 const SuccessMetrics = lazy(() => import("@/components/SuccessMetrics"));
 const SocialProof = lazy(() => import("@/components/SocialProof"));
