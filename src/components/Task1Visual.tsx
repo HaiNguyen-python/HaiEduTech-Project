@@ -194,7 +194,7 @@ const MapScenePanel: React.FC<{ scene: MapScene; tone: "before" | "after" }> = (
     <svg
       viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
       preserveAspectRatio="xMidYMid meet"
-      className="w-full h-auto min-h-[360px] bg-[hsl(60_30%_96%)] dark:bg-[hsl(60_10%_18%)] rounded-md border border-border/50"
+      className="w-full h-auto min-h-[520px] md:min-h-[600px] bg-[hsl(60_30%_96%)] dark:bg-[hsl(60_10%_18%)] rounded-md border border-border/50"
     >
       {scene.elements.map((el, i) => (
         <Element key={i} el={el} />
