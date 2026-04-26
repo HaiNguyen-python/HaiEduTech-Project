@@ -3,7 +3,7 @@ import { ArrowRight, ArrowDown, RefreshCw } from "lucide-react";
 
 /**
  * Visual renderer for IELTS Task 1 Map (before/after) and Process diagrams.
- * - Map: top-down SVG layouts (roads, river, buildings) — IELTS-style
+ * - Map: top-down SVG layouts (roads, river, buildings) — IELTS-style, large readable canvas
  * - Process: large iconic step cards in a responsive grid with directional arrows
  */
 
