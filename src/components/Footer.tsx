@@ -5,9 +5,10 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  * @license Private / Proprietary - No unauthorized copying or distribution.
  */
-import { Brain, Mail, Github, Linkedin, Phone, MapPin } from "lucide-react";
+import { Mail, Github, Linkedin, Phone, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
+import teacherWave from "@/assets/teacher-wave.webp";
 
 const socialLinks = [
   { href: "mailto:contact@haiedutech.com", icon: Mail, label: "Email" },
