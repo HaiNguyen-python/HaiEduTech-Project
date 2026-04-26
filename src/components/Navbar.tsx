@@ -521,7 +521,7 @@ const Navbar = () => {
                                           if (submenuTimeoutRef.current) clearTimeout(submenuTimeoutRef.current);
                                           if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
                                         }}
-                                        className="absolute left-full top-0 pl-2 w-56 z-50 before:content-[''] before:absolute before:top-0 before:bottom-0 before:-left-2 before:w-3"
+                                        className="absolute left-full top-0 pl-2 w-60 z-50 before:content-[''] before:absolute before:top-0 before:bottom-0 before:-left-2 before:w-3"
                                       >
                                         <div className="bg-card rounded-xl shadow-xl border border-border py-2">
                                         {/* Group header (hidden if children already have section headers) */}
