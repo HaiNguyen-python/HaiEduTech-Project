@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { useParams, Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { BookOpen, CheckCircle, ArrowLeft, Phone, MessageCircle, ArrowRight, Star, Users, Clock, Award, Layers } from "lucide-react";
+import { BookOpen, CheckCircle, ArrowLeft, Phone, MessageCircle, ArrowRight, Star, Users, Clock, Award, Layers, Sparkles } from "lucide-react";
 import { allEnglishModules } from "@/data/languageCurriculum";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
