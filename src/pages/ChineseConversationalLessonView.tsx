@@ -415,19 +415,19 @@ const ChineseConversationalLessonView = () => {
                   {fibChecked && fibScore && (
                     <div className={`p-4 rounded-lg border-2 ${fibScore.percent >= 80 ? "bg-emerald-50 border-emerald-300 text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300" : fibScore.percent >= 50 ? "bg-amber-50 border-amber-300 text-amber-800 dark:bg-amber-950/30 dark:text-amber-300" : "bg-red-50 border-red-300 text-red-800 dark:bg-red-950/30 dark:text-red-300"}`}>
                       <p className="text-base font-bold">
-                        {fibScore.percent >= 80 ? "🎉" : fibScore.percent >= 50 ? "👍" : "💪"} {t("Kết quả", "Score")}: {fibScore.correct}/{fibScore.total} ({fibScore.percent}%)
+                        {fibScore.percent >= 80 ? "🎉" : fibScore.percent >= 50 ? "👍" : "💪"} Score: {fibScore.correct}/{fibScore.total} ({fibScore.percent}%)
                       </p>
-                      <p className="text-xs opacity-80 mt-1">{t("Đã lưu vào Bảng điều khiển học sinh.", "Saved to your Student Dashboard.")}</p>
+                      <p className="text-xs opacity-80 mt-1">Saved to your Student Dashboard.</p>
                     </div>
                   )}
                   <div className="flex gap-2 pt-2">
                     {!fibChecked ? (
                       <Button onClick={handleCheckFib} disabled={Object.keys(fibAnswers).length === 0} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white">
-                        {t("Kiểm tra & Chấm điểm", "Check & Score")}
+                        Check & Score
                       </Button>
                     ) : (
                       <Button onClick={() => { setFibChecked(false); setFibAnswers({}); setFibScore(null); }} variant="outline">
-                        {t("Làm lại", "Try Again")}
+                        Try Again
                       </Button>
                     )}
                   </div>
@@ -442,23 +442,23 @@ const ChineseConversationalLessonView = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Volume2 className="h-5 w-5 text-red-500" />
-                  {t(lesson.listeningChallenge.titleVi, lesson.listeningChallenge.title)}
+                  {lesson.listeningChallenge.title}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div>
                   <div className="flex flex-wrap gap-2 mb-3">
                     <Button variant="default" size="sm" onClick={() => speakChinese(lesson.listeningChallenge.transcript, 0.85)} className="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white">
-                      <Play className="h-4 w-4 mr-1" /> {t("▶ Nghe bài", "▶ Play Audio")}
+                      <Play className="h-4 w-4 mr-1" /> ▶ Play Audio
                     </Button>
                     <Button variant="outline" size="sm" onClick={() => speakChinese(lesson.listeningChallenge.transcript, 0.6)}>
-                      🐢 {t("Nghe chậm", "Slow")}
+                      🐢 Slow
                     </Button>
                     <Button variant="outline" size="sm" onClick={() => speechSynthesis.cancel()}>
-                      ⏹ {t("Dừng", "Stop")}
+                      ⏹ Stop
                     </Button>
                     <Button variant="outline" size="sm" onClick={() => setListeningRevealed(!listeningRevealed)}>
-                      {listeningRevealed ? t("👁 Ẩn lời thoại", "👁 Hide Transcript") : t("📝 Xem lời thoại", "📝 Show Transcript")}
+                      {listeningRevealed ? "👁 Hide Transcript" : "📝 Show Transcript"}
                     </Button>
                   </div>
                   <AnimatePresence>
@@ -466,6 +466,9 @@ const ChineseConversationalLessonView = () => {
                       <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="bg-muted/50 p-4 rounded-lg space-y-2">
                         <p className="text-sm leading-relaxed">{lesson.listeningChallenge.transcript}</p>
                         <p className="text-xs text-primary/70 italic leading-relaxed">{lesson.listeningChallenge.transcriptPinyin}</p>
+                        {lesson.listeningChallenge.transcriptEn && (
+                          <p className="text-sm text-muted-foreground border-t border-border pt-2">🇬🇧 {lesson.listeningChallenge.transcriptEn}</p>
+                        )}
                       </motion.div>
                     )}
                   </AnimatePresence>
