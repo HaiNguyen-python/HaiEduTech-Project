@@ -313,18 +313,11 @@ const EnglishCourse = () => {
                 {courseId === "ielts" && (
                   <div className="mt-4 pt-4 border-t flex flex-wrap gap-3">
                     <Link
-                      to="/english/ielts/lectures"
+                      to="/ielts-lectures"
                       className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold hover:from-emerald-600 hover:to-teal-600 transition-all shadow-md"
                     >
                       <BookOpen className="h-4 w-4" />
                       {t("Vào Bài giảng IELTS →", "Enter IELTS Lectures →")}
-                    </Link>
-                    <Link
-                      to="/ai-grading"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-primary/30 bg-primary/5 text-primary font-semibold hover:bg-primary/10 transition-all"
-                    >
-                      <Sparkles className="h-4 w-4" />
-                      {t("Thử AI Chấm điểm", "Try AI Grading")}
                     </Link>
                   </div>
                 )}
@@ -390,25 +383,27 @@ const EnglishCourse = () => {
               </ul>
             </div>
 
-            {/* Curriculum */}
-            <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
-              <h2 className="text-xl font-display font-bold text-foreground mb-4 flex items-center gap-2">
-                <Clock className="w-5 h-5 text-primary" /> {t("Giáo án & Lộ trình", "Curriculum & Roadmap")}
-              </h2>
-              <div className="space-y-4">
-                {course.curriculum.map((c, i) => (
-                  <div key={i} className="flex items-start gap-4">
-                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                      <span className="text-sm font-bold text-primary">{i + 1}</span>
+            {/* Curriculum — hidden for IELTS (replaced by IeltsExamBreakdown above) */}
+            {courseId !== "ielts" && (
+              <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
+                <h2 className="text-xl font-display font-bold text-foreground mb-4 flex items-center gap-2">
+                  <Clock className="w-5 h-5 text-primary" /> {t("Giáo án & Lộ trình", "Curriculum & Roadmap")}
+                </h2>
+                <div className="space-y-4">
+                  {course.curriculum.map((c, i) => (
+                    <div key={i} className="flex items-start gap-4">
+                      <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                        <span className="text-sm font-bold text-primary">{i + 1}</span>
+                      </div>
+                      <div>
+                        <p className="text-secondary-foreground font-medium">{t(c.vi, c.en)}</p>
+                        {c.detail && <p className="text-xs text-muted-foreground mt-1">{t(c.detail, c.detailEn || c.detail)}</p>}
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-secondary-foreground font-medium">{t(c.vi, c.en)}</p>
-                      {c.detail && <p className="text-xs text-muted-foreground mt-1">{t(c.detail, c.detailEn || c.detail)}</p>}
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Audience */}
             <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
