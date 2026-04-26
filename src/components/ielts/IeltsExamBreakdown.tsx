@@ -551,19 +551,38 @@ const IeltsExamBreakdown = () => {
 
       {/* ========== 4 Skills Deep Dive ========== */}
       <div className="space-y-6">
-        <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-gradient-to-br from-primary to-emerald-500 text-white shadow-lg">
-            <Sparkles className="w-5 h-5" />
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-gradient-to-br from-primary to-emerald-500 text-white shadow-lg">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground">
+                Deep Dive: 4 Skills
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Click a skill to expand structure, scoring, tips and traps.
+              </p>
+            </div>
           </div>
-          <div>
-            <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground">
-              Deep Dive: 4 Skills
-            </h2>
-            <p className="text-sm text-muted-foreground">
-              Each skill includes structure, question types, scoring, tips and common traps.
-            </p>
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={expandAll}
+              className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-primary/30 text-primary hover:bg-primary/10 transition-colors"
+            >
+              Expand all
+            </button>
+            <button
+              type="button"
+              onClick={collapseAll}
+              className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-border text-muted-foreground hover:bg-muted transition-colors"
+            >
+              Collapse all
+            </button>
           </div>
         </div>
+
 
         {skills.map((skill, i) => {
           const Icon = skill.icon;
