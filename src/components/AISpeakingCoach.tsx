@@ -314,8 +314,11 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
         }
       }
 
-      accumulatedTranscriptRef.current = finalTranscript;
-      setTranscript(finalTranscript || interimTranscript);
+      // Persist whichever transcript is most complete so we can grade
+      // even if the user stops before a "final" result is emitted.
+      const bestTranscript = finalTranscript || interimTranscript;
+      if (bestTranscript) accumulatedTranscriptRef.current = bestTranscript;
+      setTranscript(bestTranscript);
     };
 
     recognition.onend = () => {
