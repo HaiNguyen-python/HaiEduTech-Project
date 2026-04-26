@@ -341,7 +341,7 @@ const ChineseConversationalLessonView = () => {
                     <CardHeader className="pb-3">
                       <CardTitle className="text-lg text-red-600">{struct.pattern}</CardTitle>
                       <p className="text-sm text-primary/80 italic">{struct.patternPinyin}</p>
-                      <p className="text-sm text-muted-foreground">{t(struct.explanationVi, struct.explanation)}</p>
+                      <p className="text-sm text-muted-foreground">{struct.explanation}</p>
                     </CardHeader>
                     <CardContent className="space-y-2">
                       {struct.examples.map((ex, i) => (
@@ -352,7 +352,7 @@ const ChineseConversationalLessonView = () => {
                           <div>
                             <p className="text-sm font-medium">{ex.zh}</p>
                             <p className="text-xs text-primary/80 italic">{ex.pinyin}</p>
-                            <p className="text-xs text-muted-foreground">→ {ex.vi}</p>
+                            {ex.en && <p className="text-xs text-muted-foreground">→ {ex.en}</p>}
                           </div>
                         </div>
                       ))}
