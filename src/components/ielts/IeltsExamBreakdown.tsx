@@ -3,7 +3,8 @@ import { useState } from "react";
 import {
   Headphones, BookOpen, PenSquare, Mic, Clock, FileText, Target, Sparkles,
   GraduationCap, Award, TrendingUp, Calendar, Globe, AlertTriangle, Lightbulb,
-  CheckCircle2, XCircle, RefreshCw, Trophy, Brain, Volume2, ScrollText
+  CheckCircle2, XCircle, RefreshCw, Trophy, Brain, Volume2, ScrollText,
+  Layers, ListChecks, BarChart3, Compass, BookMarked, Timer, Flame
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
