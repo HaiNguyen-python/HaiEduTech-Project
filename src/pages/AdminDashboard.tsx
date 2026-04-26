@@ -403,9 +403,6 @@ const AdminDashboard = () => {
                 <TabsTrigger value="rl-engine" className="gap-1.5">
                   <Brain className="w-3.5 h-3.5" /> {t("Hệ thống can thiệp", "RL Engine")}
                 </TabsTrigger>
-                <TabsTrigger value="access" className="gap-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5" /> {t("Quyền truy cập", "Access")}
-                </TabsTrigger>
                 <TabsTrigger value="income" className="gap-1.5">
                   <DollarSign className="w-3.5 h-3.5" /> {t("Thu nhập", "Income")}
                 </TabsTrigger>
