@@ -24,6 +24,7 @@ import { toast } from "@/hooks/use-toast";
 import ReactMarkdown from "react-markdown";
 import { WritingPrompt, getRandomPrompt } from "@/data/ieltsWritingPrompts";
 import Task1Chart from "@/components/Task1Chart";
+import { MapDiagram, ProcessDiagram } from "@/components/Task1Visual";
 import { useUserRole } from "@/hooks/useUserRole";
 import PhrasePractice from "@/components/PhrasePractice";
 import { Sparkles, PenLine } from "lucide-react";
