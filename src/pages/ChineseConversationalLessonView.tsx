@@ -370,16 +370,17 @@ const ChineseConversationalLessonView = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <BookOpen className="h-5 w-5 text-purple-500" />
-                    {t("Bài tập điền từ", "Fill in the Blank")}
+                    Fill in the Blank
                   </CardTitle>
                   <p className="text-sm text-muted-foreground">
-                    {t("Điền từ tiếng Trung phù hợp vào chỗ trống.", "Fill in the correct Chinese word for each blank.")}
+                    Fill in the correct Chinese word for each blank.
                   </p>
                 </CardHeader>
                 <CardContent className="space-y-5">
                   {lesson.fillInBlankExercises.map((ex, idx) => {
                     const userAns = (fibAnswers[idx] || "").trim();
                     const correct = userAns === ex.answer;
+                    const trEn = ex.translationEn;
                     return (
                       <div key={idx} className="border rounded-lg p-4 bg-card space-y-2">
                         <div className="flex items-start gap-2">
@@ -387,7 +388,7 @@ const ChineseConversationalLessonView = () => {
                           <div className="flex-1">
                             <p className="text-lg font-semibold leading-relaxed">{ex.sentence}</p>
                             <p className="text-sm text-muted-foreground italic mt-1">{ex.pinyin}</p>
-                            <p className="text-sm text-muted-foreground mt-1">🇻🇳 {ex.translationVi}</p>
+                            {trEn && <p className="text-sm text-muted-foreground mt-1">🇬🇧 {trEn}</p>}
                           </div>
                         </div>
                         <div className="flex flex-wrap items-center gap-2 pl-9">
@@ -395,7 +396,7 @@ const ChineseConversationalLessonView = () => {
                             type="text"
                             value={fibAnswers[idx] || ""}
                             onChange={(e) => setFibAnswers({ ...fibAnswers, [idx]: e.target.value })}
-                            placeholder={t("Nhập đáp án...", "Type answer...")}
+                            placeholder="Type answer..."
                             className="border rounded-md px-3 py-2 text-base bg-background min-w-[140px]"
                             disabled={fibChecked}
                           />
@@ -404,7 +405,7 @@ const ChineseConversationalLessonView = () => {
                           )}
                           {fibChecked && (
                             <span className={`text-sm font-semibold ${correct ? "text-emerald-600" : "text-red-600"}`}>
-                              {correct ? `✅ ${t("Đúng", "Correct")}` : `❌ ${t("Đáp án", "Answer")}: ${ex.answer}`}
+                              {correct ? "✅ Correct" : `❌ Answer: ${ex.answer}`}
                             </span>
                           )}
                         </div>
