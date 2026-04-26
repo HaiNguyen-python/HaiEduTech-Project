@@ -4,12 +4,13 @@
 export interface ChineseVocabEntry {
   hanzi: string;
   pinyin: string;
-  meaning: string; // Vietnamese
-  meaningEn: string;
+  meaning: string; // Vietnamese (legacy / fallback)
+  meaningEn: string; // English — primary display
   type: "phrase" | "idiom" | "slang" | "grammar" | "expression";
   example: string; // Chinese sentence
   examplePinyin: string;
-  exampleVi: string;
+  exampleVi: string; // Vietnamese (legacy)
+  exampleEn?: string; // English — primary display
 }
 
 export interface ChineseKeySituation {
@@ -19,7 +20,7 @@ export interface ChineseKeySituation {
   descriptionVi: string;
   culturalNote?: string;
   culturalNoteVi?: string;
-  sampleDialogue: { speaker: string; line: string; pinyin: string; translationVi?: string }[];
+  sampleDialogue: { speaker: string; line: string; pinyin: string; translationVi?: string; translationEn?: string }[];
 }
 
 export interface ChineseListeningChallenge {
@@ -27,6 +28,7 @@ export interface ChineseListeningChallenge {
   titleVi: string;
   transcript: string;
   transcriptPinyin: string;
+  transcriptEn?: string;
   questions: { q: string; qVi: string; options: string[]; answer: number }[];
 }
 
@@ -41,12 +43,12 @@ export interface ChineseConvLesson {
   hskLevel: 1 | 2 | 3 | 4 | 5 | 6;
   keySituations: ChineseKeySituation[];
   vocabulary: ChineseVocabEntry[];
-  commonStructures: { pattern: string; patternPinyin: string; explanation: string; explanationVi: string; examples: { zh: string; pinyin: string; vi: string }[] }[];
+  commonStructures: { pattern: string; patternPinyin: string; explanation: string; explanationVi: string; examples: { zh: string; pinyin: string; vi: string; en?: string }[] }[];
   listeningChallenge: ChineseListeningChallenge;
   speakingTopics: string[];
   badge: string;
   badgeVi: string;
-  fillInBlankExercises?: { sentence: string; pinyin: string; answer: string; translationVi: string; hint?: string }[];
+  fillInBlankExercises?: { sentence: string; pinyin: string; answer: string; translationVi: string; translationEn?: string; hint?: string }[];
 }
 
 export interface ChineseConvPillar {
