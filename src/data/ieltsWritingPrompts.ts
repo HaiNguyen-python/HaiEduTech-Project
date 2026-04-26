@@ -392,6 +392,28 @@ export const writingPrompts: WritingPrompt[] = [
     chartType: 'map',
     prompt: 'The two maps below show a small town before and after the construction of a new shopping centre and transport network. Summarise the information by selecting and reporting the main features and make comparisons where relevant.',
     imageDescription: 'Map 1 (Before): Small residential area with farmland to the east, a river to the south, one main road. Map 2 (After): Shopping centre built on farmland, new roundabout, car park, bus station added, residential area expanded north.',
+    mapData: {
+      before: {
+        title: 'Before (1990)',
+        features: [
+          { icon: '🏘️', label: 'Residential area', position: 'west' },
+          { icon: '🌾', label: 'Farmland', position: 'east' },
+          { icon: '🛣️', label: 'Main road', position: 'center' },
+          { icon: '🌊', label: 'River', position: 'south' },
+        ],
+      },
+      after: {
+        title: 'After (2020)',
+        features: [
+          { icon: '🏘️', label: 'Expanded housing', position: 'north' },
+          { icon: '🏬', label: 'Shopping centre', position: 'east' },
+          { icon: '🅿️', label: 'Car park', position: 'east' },
+          { icon: '🚏', label: 'Bus station', position: 'center' },
+          { icon: '🔄', label: 'Roundabout', position: 'center' },
+          { icon: '🌊', label: 'River', position: 'south' },
+        ],
+      },
+    },
     writingGuide: [
       'Introduction: Describe what the maps compare.',
       'Overview: State the main changes (development of farmland, new infrastructure).',
@@ -407,6 +429,20 @@ export const writingPrompts: WritingPrompt[] = [
     chartType: 'process',
     prompt: 'The diagram below shows the process of recycling plastic bottles. Summarise the information by selecting and reporting the main features and make comparisons where relevant.',
     imageDescription: 'A cyclical process with 8 steps: 1. Collection from bins → 2. Sorting by type → 3. Washing & cleaning → 4. Shredding into flakes → 5. Melting → 6. Forming pellets → 7. Manufacturing new products → 8. Distribution to stores → back to 1.',
+    processData: {
+      title: 'Plastic Bottle Recycling Process',
+      cyclical: true,
+      steps: [
+        { icon: '🗑️', title: 'Collection', detail: 'from bins' },
+        { icon: '🔍', title: 'Sorting', detail: 'by type' },
+        { icon: '🧼', title: 'Washing', detail: '& cleaning' },
+        { icon: '✂️', title: 'Shredding', detail: 'into flakes' },
+        { icon: '🔥', title: 'Melting' },
+        { icon: '⚪', title: 'Pelletising', detail: 'forming pellets' },
+        { icon: '🏭', title: 'Manufacturing', detail: 'new products' },
+        { icon: '🏪', title: 'Distribution', detail: 'to stores' },
+      ],
+    },
     writingGuide: [
       'Introduction: Paraphrase what the diagram illustrates.',
       'Overview: State the total number of steps and whether it is linear or cyclical.',
