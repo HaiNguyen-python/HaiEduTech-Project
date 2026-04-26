@@ -359,6 +359,9 @@ const EnglishCourse = () => {
               </div>
             </div>
 
+            {/* IELTS Exam Breakdown — 4 skills + Roadmap by Band */}
+            {courseId === "ielts" && <IeltsExamBreakdown />}
+
             {/* Stats */}
             {course.stats && (
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
