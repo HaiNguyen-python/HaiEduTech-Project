@@ -23,7 +23,7 @@ const CHART_COLORS = [
 ];
 
 export interface ChartDataConfig {
-  chart_type: "line" | "bar" | "pie" | "area";
+  chart_type: "line" | "bar" | "pie" | "area" | "table";
   title: string;
   x_axis: string;
   y_axis: string;
@@ -125,6 +125,40 @@ const Task1Chart: React.FC<Task1ChartProps> = ({ config }) => {
   // Build column headers for data table
   const columns = [x_axis, ...series];
 
+  // Reusable data table renderer
+  const dataTable = (
+    <div className="max-h-[320px] overflow-auto rounded-md border">
+      <Table>
+        <TableHeader className="bg-muted/40 sticky top-0">
+          <TableRow>
+            {columns.map(col => (
+              <TableHead key={col} className="text-xs font-semibold">{col}</TableHead>
+            ))}
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {data.map((row, i) => (
+            <TableRow key={i} className={i % 2 === 0 ? "bg-background" : "bg-muted/20"}>
+              {columns.map(col => (
+                <TableCell key={col} className="text-xs py-1.5">{row[col]}</TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  );
+
+  // For pure table prompts, render the table directly without chart tabs
+  if (chart_type === "table") {
+    return (
+      <div className="rounded-lg border bg-card p-4 space-y-3">
+        <h4 className="text-sm font-semibold text-foreground text-center">📋 {title}</h4>
+        {dataTable}
+      </div>
+    );
+  }
+
   return (
     <div className="rounded-lg border bg-card p-4 space-y-3">
       <h4 className="text-sm font-semibold text-foreground text-center">{title}</h4>
@@ -137,26 +171,7 @@ const Task1Chart: React.FC<Task1ChartProps> = ({ config }) => {
           {renderChart()}
         </TabsContent>
         <TabsContent value="data" className="mt-2">
-          <div className="max-h-[280px] overflow-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  {columns.map(col => (
-                    <TableHead key={col} className="text-xs">{col}</TableHead>
-                  ))}
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {data.map((row, i) => (
-                  <TableRow key={i}>
-                    {columns.map(col => (
-                      <TableCell key={col} className="text-xs py-1.5">{row[col]}</TableCell>
-                    ))}
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+          {dataTable}
         </TabsContent>
       </Tabs>
     </div>

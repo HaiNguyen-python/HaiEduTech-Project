@@ -24,6 +24,7 @@ import { toast } from "@/hooks/use-toast";
 import ReactMarkdown from "react-markdown";
 import { WritingPrompt, getRandomPrompt } from "@/data/ieltsWritingPrompts";
 import Task1Chart from "@/components/Task1Chart";
+import { MapDiagram, ProcessDiagram } from "@/components/Task1Visual";
 import { useUserRole } from "@/hooks/useUserRole";
 import PhrasePractice from "@/components/PhrasePractice";
 import { Sparkles, PenLine } from "lucide-react";
@@ -441,8 +442,20 @@ const IeltsWritingPractice = () => {
                       <Task1Chart config={currentPrompt.chartData} />
                     </div>
                   )}
-                  {/* Fallback description for map/process types without chart data */}
-                  {!currentPrompt.chartData && currentPrompt.imageDescription && (
+                  {/* Map diagram (before/after) */}
+                  {currentPrompt.mapData && (
+                    <div className="mt-4">
+                      <MapDiagram data={currentPrompt.mapData} />
+                    </div>
+                  )}
+                  {/* Process diagram (step flow) */}
+                  {currentPrompt.processData && (
+                    <div className="mt-4">
+                      <ProcessDiagram data={currentPrompt.processData} />
+                    </div>
+                  )}
+                  {/* Fallback description for prompts without any visual */}
+                  {!currentPrompt.chartData && !currentPrompt.mapData && !currentPrompt.processData && currentPrompt.imageDescription && (
                     <div className="mt-4 p-4 bg-muted/50 rounded-lg border-2 border-dashed">
                       <p className="text-xs text-muted-foreground font-medium mb-1">📊 {t("Mô tả biểu đồ:", "Chart Description:")}</p>
                       <p className="text-xs text-muted-foreground">{currentPrompt.imageDescription}</p>
