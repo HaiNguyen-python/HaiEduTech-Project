@@ -54,6 +54,7 @@ interface ExplorationLesson {
   summaryEn: string;
   funFact: string;
   funFactEn: string;
+  image: string; // realistic high-quality photo (Unsplash CDN, optimized)
 }
 
 interface ExplorationZone {
