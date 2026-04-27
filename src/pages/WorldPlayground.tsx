@@ -910,6 +910,7 @@ const WorldPlayground = () => {
                                   <BookmarkPlus className="w-4 h-4" />
                                 </Button>
                               </div>
+                              </div>
                             </motion.article>
                           );
                         })}
