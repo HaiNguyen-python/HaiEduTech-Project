@@ -1209,7 +1209,7 @@ const WorldPlayground = () => {
                                 {t(lesson.summary, lesson.summaryEn)}
                               </p>
 
-                              <div className="bg-secondary/40 rounded-lg p-3 mb-4">
+                              <div className="bg-secondary/40 rounded-lg p-3 mb-3">
                                 <p className="text-xs flex items-start gap-2">
                                   <Sparkles className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" />
                                   <span className="text-foreground/90">
@@ -1218,6 +1218,18 @@ const WorldPlayground = () => {
                                   </span>
                                 </p>
                               </div>
+
+                              {(lesson.didYouKnow || lesson.didYouKnowEn) && (
+                                <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-3 mb-4">
+                                  <p className="text-xs flex items-start gap-2">
+                                    <Lightbulb className="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5" />
+                                    <span className="text-foreground/90">
+                                      <strong>{t("Bạn có biết? ", "Did you know? ")}</strong>
+                                      {t(lesson.didYouKnow ?? "", lesson.didYouKnowEn ?? "")}
+                                    </span>
+                                  </p>
+                                </div>
+                              )}
 
                               <div className="flex items-center gap-2 mt-auto">
                                 <Button
