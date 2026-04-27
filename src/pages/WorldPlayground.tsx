@@ -57,11 +57,14 @@ interface ExplorationLesson {
   summaryEn: string;
   funFact: string;
   funFactEn: string;
+  /** Optional deeper "Did you know?" insight (1–2 sentences). */
+  didYouKnow?: string;
+  didYouKnowEn?: string;
   image: string; // realistic high-quality photo (Unsplash CDN, optimized)
 }
 
 interface ExplorationZone {
-  id: "geography" | "culture" | "languages" | "landmarks";
+  id: "geography" | "culture" | "languages" | "landmarks" | "cuisine";
   icon: typeof Compass;
   title: string;
   titleEn: string;
