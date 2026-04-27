@@ -852,6 +852,15 @@ const WorldPlayground = () => {
                                   width={800}
                                   height={500}
                                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                  onError={(e) => {
+                                    const img = e.currentTarget;
+                                    if (!img.dataset.fallback) {
+                                      img.dataset.fallback = "1";
+                                      img.src = `https://source.unsplash.com/800x500/?${encodeURIComponent(lesson.titleEn || lesson.countryEn)}`;
+                                    } else {
+                                      img.style.display = "none";
+                                    }
+                                  }}
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent" />
                                 <span
