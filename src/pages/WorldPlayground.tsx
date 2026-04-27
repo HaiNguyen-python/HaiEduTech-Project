@@ -103,6 +103,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "In Lapland, the night sky glows green and violet when solar wind meets Earth's magnetic field.",
         funFact: "Có thể nhìn thấy aurora khoảng 200 đêm mỗi năm ở Bắc Lapland.",
         funFactEn: "Aurora is visible on about 200 nights per year in northern Lapland.",
+        image: "https://images.unsplash.com/photo-1483347756197-71ef80e95f73?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "geo-pyramids-eg", country: "Ai Cập", countryEn: "Egypt", flag: "🇪🇬",
@@ -112,6 +113,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "The last surviving Wonder of the Ancient World, built over 4,500 years ago from 2+ million stone blocks.",
         funFact: "Mỗi cạnh đáy dài gần 230 mét — sai số chưa tới 5 cm!",
         funFactEn: "Each base side is nearly 230 m long — accurate to within 5 cm!",
+        image: "https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "geo-amazon-br", country: "Brazil", countryEn: "Brazil", flag: "🇧🇷",
@@ -121,6 +123,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "The planet's largest rainforest, home to more than 10% of all known species on Earth.",
         funFact: "Sông Amazon đổ ra biển khoảng 209.000 m³ nước mỗi giây.",
         funFactEn: "The Amazon River discharges about 209,000 m³ of water per second.",
+        image: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "geo-himalaya-np", country: "Nepal", countryEn: "Nepal", flag: "🇳🇵",
@@ -130,6 +133,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "At 8,848.86 m, Everest still grows about 4 mm per year as tectonic plates collide.",
         funFact: "Người Sherpa gọi Everest là “Sagarmatha” — Trán của bầu trời.",
         funFactEn: "Sherpas call Everest 'Sagarmatha' — Forehead of the Sky.",
+        image: "https://images.unsplash.com/photo-1486911278844-a81c5267e227?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "geo-grandcanyon-us", country: "Hoa Kỳ", countryEn: "USA", flag: "🇺🇸",
@@ -139,6 +143,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "The Colorado River carved this 1.8 km deep, 446 km long canyon over 6 million years.",
         funFact: "Đáy hẻm núi có lớp đá cổ tới 1,8 tỷ năm tuổi.",
         funFactEn: "Rocks at the bottom are up to 1.8 billion years old.",
+        image: "https://images.unsplash.com/photo-1474044159687-1ee9f3a51722?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "geo-greatbarrier-au", country: "Úc", countryEn: "Australia", flag: "🇦🇺",
@@ -148,6 +153,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Earth's largest living structure — visible from space — made of 2,900 reefs spanning 2,300 km.",
         funFact: "Là nhà của hơn 1.500 loài cá và 600 loại san hô.",
         funFactEn: "Home to 1,500+ fish species and 600+ types of coral.",
+        image: "https://images.unsplash.com/photo-1582967788606-a171c1080cb0?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "geo-sahara-ma", country: "Bắc Phi", countryEn: "North Africa", flag: "🇲🇦",
@@ -157,6 +163,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "The world's largest hot desert — nearly the size of Europe — spanning 11 countries.",
         funFact: "Đôi khi tuyết vẫn rơi ở Sahara — gần đây nhất là năm 2022!",
         funFactEn: "Snow occasionally falls in the Sahara — most recently in 2022!",
+        image: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "geo-fjords-no", country: "Na Uy", countryEn: "Norway", flag: "🇳🇴",
@@ -166,6 +173,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Sheer 1,000 m cliffs around deep sea water — sculpted by ancient glaciers.",
         funFact: "Sognefjord dài 205 km, là vịnh hẹp dài thứ hai thế giới.",
         funFactEn: "Sognefjord stretches 205 km, the world's 2nd longest fjord.",
+        image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "geo-victoriafalls-zm", country: "Zambia & Zimbabwe", countryEn: "Zambia & Zimbabwe", flag: "🇿🇲",
@@ -175,6 +183,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "A 1,708 m wide, 108 m high wall of water — one of the Seven Natural Wonders.",
         funFact: "Tên bản địa Mosi-oa-Tunya nghĩa là “Khói rền vang”.",
         funFactEn: "Indigenous name 'Mosi-oa-Tunya' means 'The Smoke that Thunders'.",
+        image: "https://images.unsplash.com/photo-1591635566278-12d2ee7e1c47?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "geo-galapagos-ec", country: "Ecuador", countryEn: "Ecuador", flag: "🇪🇨",
@@ -184,6 +193,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Darwin's living laboratory — unique evolution across 19 volcanic islands in the Pacific.",
         funFact: "Rùa khổng lồ Galápagos có thể sống tới hơn 150 năm.",
         funFactEn: "Galápagos giant tortoises can live for 150+ years.",
+        image: "https://images.unsplash.com/photo-1589182337358-2cb63099350c?auto=format&fit=crop&w=800&q=75",
       },
     ],
   },
@@ -207,6 +217,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Every spring, people throw colored powder to celebrate love, forgiveness, and new beginnings.",
         funFact: "Mỗi màu mang ý nghĩa riêng: đỏ là tình yêu, xanh là Krishna, vàng là sức khỏe.",
         funFactEn: "Each color has meaning: red for love, blue for Krishna, yellow for health.",
+        image: "https://images.unsplash.com/photo-1583087253076-5d1315860eb6?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "cul-kimono-jp", country: "Nhật Bản", countryEn: "Japan", flag: "🇯🇵",
@@ -216,6 +227,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "A kimono may have over 12 layers and is worn for tea ceremonies, weddings, and New Year.",
         funFact: "“Kimono” nghĩa đen là “thứ để mặc” (ki = mặc, mono = vật).",
         funFactEn: "'Kimono' literally means 'thing to wear' (ki = wear, mono = thing).",
+        image: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "cul-pasta-it", country: "Ý", countryEn: "Italy", flag: "🇮🇹",
@@ -225,6 +237,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "There are 350+ pasta shapes, each engineered to pair with a specific sauce.",
         funFact: "Người Ý ăn trung bình 23 kg mì mỗi người mỗi năm.",
         funFactEn: "Italians eat about 23 kg of pasta per person each year.",
+        image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "cul-dayofdead-mx", country: "Mexico", countryEn: "Mexico", flag: "🇲🇽",
@@ -234,6 +247,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "An ancestral remembrance with ofrenda altars, marigolds, and vibrant sugar skulls.",
         funFact: "UNESCO đã công nhận lễ hội này là Di sản văn hóa phi vật thể từ năm 2008.",
         funFactEn: "UNESCO inscribed it as Intangible Cultural Heritage in 2008.",
+        image: "https://images.unsplash.com/photo-1604431696980-07e5b1d28dc8?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "cul-octoberfest-de", country: "Đức", countryEn: "Germany", flag: "🇩🇪",
@@ -243,6 +257,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "World's largest folk festival — 6+ million visitors, giant beer tents, traditional Bavarian music.",
         funFact: "Oktoberfest thực ra bắt đầu từ giữa tháng 9 — “Oktober” là khi nó kết thúc!",
         funFactEn: "Oktoberfest actually starts in mid-September — 'Oktober' is when it ends!",
+        image: "https://images.unsplash.com/photo-1505075106905-fb052892c116?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "cul-hanbok-kr", country: "Hàn Quốc", countryEn: "South Korea", flag: "🇰🇷",
@@ -252,6 +267,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Korea's traditional attire — jeogori (top) and chima (skirt) — defined by soft, flowing curves.",
         funFact: "Màu sắc hanbok thể hiện địa vị xã hội và mùa trong năm.",
         funFactEn: "Hanbok colors signal social status and the season.",
+        image: "https://images.unsplash.com/photo-1601831087207-130cd5c011a8?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "cul-tagine-ma", country: "Ma-rốc", countryEn: "Morocco", flag: "🇲🇦",
@@ -261,6 +277,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "A North African slow-cooked stew in a conical clay pot — meat, dried fruits, and warm spices.",
         funFact: "Phần nắp nón giúp hơi nước ngưng tụ và rơi trở lại, giữ thức ăn ẩm mọng.",
         funFactEn: "The conical lid recirculates steam, keeping food incredibly moist.",
+        image: "https://images.unsplash.com/photo-1541518763669-27fef04b14ea?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "cul-songkran-th", country: "Thái Lan", countryEn: "Thailand", flag: "🇹🇭",
@@ -270,6 +287,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Thai New Year in mid-April — giant water fights symbolize cleansing and renewal.",
         funFact: "Songkran đã được UNESCO công nhận là di sản văn hóa phi vật thể (2023).",
         funFactEn: "UNESCO inscribed Songkran as intangible heritage in 2023.",
+        image: "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "cul-flamenco-es", country: "Tây Ban Nha", countryEn: "Spain", flag: "🇪🇸",
@@ -279,6 +297,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "A fusion of song (cante), dance (baile), and guitar born in 18th-century Andalusia.",
         funFact: "Flamenco có hơn 50 “palos” (thể điệu) khác nhau với cảm xúc riêng.",
         funFactEn: "Flamenco has 50+ different 'palos' (styles), each with its own mood.",
+        image: "https://images.unsplash.com/photo-1504609813442-a8924e83f76e?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "cul-sushi-jp", country: "Nhật Bản", countryEn: "Japan", flag: "🍣",
@@ -288,6 +307,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Originally a way to preserve fish in fermented rice — now an icon of refined Japanese cuisine.",
         funFact: "Đầu bếp sushi cần 10+ năm đào tạo để được gọi là “itamae”.",
         funFactEn: "Sushi chefs train 10+ years to earn the title 'itamae'.",
+        image: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=800&q=75",
       },
     ],
   },
@@ -311,6 +331,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Over 2 billion people use the Latin alphabet — the most widely used script on Earth.",
         funFact: "Chữ “W” chỉ xuất hiện vào thế kỷ 7, vốn là hai chữ V ghép lại.",
         funFactEn: "The letter 'W' only appeared in the 7th century — it was originally two Vs.",
+        image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "lang-kanji", country: "Kanji (Nhật)", countryEn: "Kanji (Japan)", flag: "🈳",
@@ -320,6 +341,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Japanese uses 3 scripts in parallel: Kanji (from Chinese), Hiragana, and Katakana.",
         funFact: "Học sinh Nhật học khoảng 2.136 chữ kanji thường dùng (jōyō kanji).",
         funFactEn: "Japanese students learn around 2,136 common-use kanji (jōyō kanji).",
+        image: "https://images.unsplash.com/photo-1528164344705-47542687000d?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "lang-cyrillic", country: "Cyrillic (Nga)", countryEn: "Cyrillic (Russia)", flag: "🇷🇺",
@@ -329,6 +351,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "The Cyrillic alphabet has 33 letters, created by monks Cyril & Methodius in the 9th century.",
         funFact: "Hơn 250 triệu người dùng Cyrillic làm chữ viết chính thức.",
         funFactEn: "Over 250 million people use Cyrillic as their official script.",
+        image: "https://images.unsplash.com/photo-1513326738677-b964603b136d?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "lang-arabic", country: "Arabic (Ả Rập)", countryEn: "Arabic", flag: "🇸🇦",
@@ -338,6 +361,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Arabic is written right-to-left with 28 letters, each having 4 forms by position.",
         funFact: "Các chữ số “Ả Rập” (0–9) mà thế giới dùng hôm nay thực ra có gốc từ Ấn Độ.",
         funFactEn: "Today's 'Arabic' numerals (0–9) actually originated in India.",
+        image: "https://images.unsplash.com/photo-1565552645632-d725f8bfc19a?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "lang-hangul-kr", country: "Hangul (Hàn)", countryEn: "Hangul (Korea)", flag: "🇰🇷",
@@ -347,6 +371,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Hangul was invented by King Sejong in 1443 — the only alphabet with a known creator and birth date.",
         funFact: "Hình dạng phụ âm mô phỏng vị trí của lưỡi và miệng khi phát âm.",
         funFactEn: "Consonant shapes mimic the tongue and mouth position when speaking.",
+        image: "https://images.unsplash.com/photo-1538485399081-7c8970a7f0d2?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "lang-thai-th", country: "Thái Lan", countryEn: "Thailand", flag: "🇹🇭",
@@ -356,6 +381,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Thai has 44 consonants and 5 tones — written with no spaces between words.",
         funFact: "Cùng một âm “mai” có thể mang 5 nghĩa khác nhau tùy thanh điệu.",
         funFactEn: "The syllable 'mai' can mean 5 different things depending on tone.",
+        image: "https://images.unsplash.com/photo-1563492065599-3520f775eeed?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "lang-greek-gr", country: "Hy Lạp", countryEn: "Greece", flag: "🇬🇷",
@@ -365,6 +391,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "The Greek alphabet (24 letters) is the direct ancestor of Latin and Cyrillic — in use for 2,700+ years.",
         funFact: "Toán học, vật lý dùng nhiều chữ Hy Lạp như α, β, π, Σ.",
         funFactEn: "Math and physics borrow heavily from Greek letters: α, β, π, Σ.",
+        image: "https://images.unsplash.com/photo-1555993539-1732b0258235?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "lang-hindi-in", country: "Ấn Độ", countryEn: "India", flag: "🇮🇳",
@@ -374,6 +401,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Hindi uses Devanagari script — recognizable by the horizontal line connecting letters on top.",
         funFact: "“Namaste” nghĩa đen: “Tôi cúi chào điều thiêng liêng trong bạn.”",
         funFactEn: "'Namaste' literally means: 'I bow to the divine in you.'",
+        image: "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "lang-mandarin-cn", country: "Trung Quốc", countryEn: "China", flag: "🇨🇳",
@@ -383,6 +411,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Mandarin has 4 tones and 50,000+ characters; adults need ~3,000 to read a newspaper.",
         funFact: "Chữ “明” (sáng) ghép từ “日” (mặt trời) và “月” (mặt trăng).",
         funFactEn: "The character '明' (bright) combines '日' (sun) and '月' (moon).",
+        image: "https://images.unsplash.com/photo-1532251015805-12c10c5fb6cd?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "lang-swahili-ke", country: "Đông Phi", countryEn: "East Africa", flag: "🇰🇪",
@@ -392,6 +421,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Swahili connects 100+ million speakers across East Africa, using a modified Latin alphabet.",
         funFact: "“Hakuna matata” — “không có vấn đề gì” — nổi tiếng nhờ phim Lion King.",
         funFactEn: "'Hakuna matata' — 'no worries' — was popularized by The Lion King.",
+        image: "https://images.unsplash.com/photo-1535941339077-2dd1c7963098?auto=format&fit=crop&w=800&q=75",
       },
     ],
   },
@@ -415,6 +445,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Finland has ~3 million saunas for 5.5 million people — for relaxation, gatherings, even negotiations.",
         funFact: "UNESCO công nhận văn hóa sauna Phần Lan là di sản phi vật thể (2020).",
         funFactEn: "UNESCO recognised Finnish sauna culture as intangible heritage (2020).",
+        image: "https://images.unsplash.com/photo-1554607526-6b58e3df14fc?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "lm-coffee-vn", country: "Việt Nam", countryEn: "Vietnam", flag: "🇻🇳",
@@ -424,6 +455,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "From the slow-drip 'phin' to Hanoi egg coffee and Huế salt coffee — Vietnamese coffee is a slow ritual.",
         funFact: "Việt Nam là nước xuất khẩu cà phê Robusta lớn nhất thế giới.",
         funFactEn: "Vietnam is the world's largest exporter of Robusta coffee.",
+        image: "https://images.unsplash.com/photo-1559424248-cf6cba1e8db3?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "lm-tea-uk", country: "Anh Quốc", countryEn: "United Kingdom", flag: "🇬🇧",
@@ -433,6 +465,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Started in the 19th century by Duchess Anna — black tea served with scones and dainty cakes.",
         funFact: "Người Anh uống khoảng 100 triệu tách trà mỗi ngày.",
         funFactEn: "Brits drink about 100 million cups of tea every single day.",
+        image: "https://images.unsplash.com/photo-1597318236287-89313e7c9d24?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "lm-tango-ar", country: "Argentina", countryEn: "Argentina", flag: "🇦🇷",
@@ -442,6 +475,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Born in the Buenos Aires docks in the late 1800s — a wordless conversation between two dancers.",
         funFact: "UNESCO công nhận tango là Di sản văn hóa phi vật thể năm 2009.",
         funFactEn: "UNESCO inscribed tango as Intangible Cultural Heritage in 2009.",
+        image: "https://images.unsplash.com/photo-1545959570-a94084071b5d?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "lm-cherryblossom-jp", country: "Nhật Bản", countryEn: "Japan", flag: "🌸",
@@ -451,6 +485,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Every April, Japanese spread mats under sakura trees to admire fleeting beauty.",
         funFact: "Sóng hoa nở “sakura zensen” được dự báo trên TV như dự báo thời tiết.",
         funFactEn: "The cherry blossom front 'sakura zensen' is forecast on TV like weather.",
+        image: "https://images.unsplash.com/photo-1522383225653-ed111181a951?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "lm-tulip-nl", country: "Hà Lan", countryEn: "Netherlands", flag: "🇳🇱",
@@ -460,6 +495,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Every spring, 7 million tulip bulbs bloom in striped fields stretching to the horizon.",
         funFact: "Vào thế kỷ 17, một củ tulip quý có giá bằng cả một ngôi nhà ở Amsterdam.",
         funFactEn: "In the 17th century, a single rare tulip bulb could cost as much as an Amsterdam house.",
+        image: "https://images.unsplash.com/photo-1523694576729-96d4dca77f47?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "lm-balloon-tr", country: "Thổ Nhĩ Kỳ", countryEn: "Türkiye", flag: "🇹🇷",
@@ -469,6 +505,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Every morning, hundreds of balloons rise together over fairy chimneys and volcanic valleys.",
         funFact: "Cappadocia là một trong những nơi tốt nhất thế giới để bay khinh khí cầu — nhờ gió ổn định.",
         funFactEn: "Cappadocia is one of the world's best ballooning sites — thanks to steady winds.",
+        image: "https://images.unsplash.com/photo-1570213489059-0aac6626cade?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "lm-maple-ca", country: "Canada", countryEn: "Canada", flag: "🇨🇦",
@@ -478,6 +515,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Canada produces 71% of the world's maple syrup — and autumn turns its forests fiery red.",
         funFact: "Cần khoảng 40 lít nhựa cây để làm 1 lít syrup phong nguyên chất.",
         funFactEn: "It takes 40 liters of sap to produce just 1 liter of pure maple syrup.",
+        image: "https://images.unsplash.com/photo-1507783548227-544c3b8fc065?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "lm-yoga-in", country: "Ấn Độ", countryEn: "India", flag: "🧘",
@@ -487,6 +525,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "5,000+ years old, yoga is an ancient science of breath, posture, and meditation now practiced worldwide.",
         funFact: "Liên Hiệp Quốc đã chọn 21/6 là Ngày Quốc tế Yoga.",
         funFactEn: "The UN designated June 21 as International Yoga Day.",
+        image: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "lm-pizza-it", country: "Ý", countryEn: "Italy", flag: "🍕",
@@ -496,6 +535,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Margherita pizza was born in Naples in 1889 — green-white-red honoring the Italian flag.",
         funFact: "Nghệ thuật làm pizza “Pizzaiuolo” được UNESCO công nhận năm 2017.",
         funFactEn: "The 'Pizzaiuolo' pizza-making craft was UNESCO inscribed in 2017.",
+        image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=800&q=75",
       },
     ],
   },
