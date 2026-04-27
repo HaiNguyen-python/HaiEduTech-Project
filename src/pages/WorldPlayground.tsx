@@ -113,7 +113,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "The last surviving Wonder of the Ancient World, built over 4,500 years ago from 2+ million stone blocks.",
         funFact: "Mỗi cạnh đáy dài gần 230 mét — sai số chưa tới 5 cm!",
         funFactEn: "Each base side is nearly 230 m long — accurate to within 5 cm!",
-        image: "https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?auto=format&fit=crop&w=800&q=75",
+        image: "https://images.unsplash.com/photo-1568322445389-f64ac2515020?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "geo-amazon-br", country: "Brazil", countryEn: "Brazil", flag: "🇧🇷",
@@ -183,7 +183,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "A 1,708 m wide, 108 m high wall of water — one of the Seven Natural Wonders.",
         funFact: "Tên bản địa Mosi-oa-Tunya nghĩa là “Khói rền vang”.",
         funFactEn: "Indigenous name 'Mosi-oa-Tunya' means 'The Smoke that Thunders'.",
-        image: "https://images.unsplash.com/photo-1591635566278-12d2ee7e1c47?auto=format&fit=crop&w=800&q=75",
+        image: "https://images.unsplash.com/photo-1564507004663-b6dfb3c824d5?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "geo-galapagos-ec", country: "Ecuador", countryEn: "Ecuador", flag: "🇪🇨",
@@ -217,7 +217,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Every spring, people throw colored powder to celebrate love, forgiveness, and new beginnings.",
         funFact: "Mỗi màu mang ý nghĩa riêng: đỏ là tình yêu, xanh là Krishna, vàng là sức khỏe.",
         funFactEn: "Each color has meaning: red for love, blue for Krishna, yellow for health.",
-        image: "https://images.unsplash.com/photo-1583087253076-5d1315860eb6?auto=format&fit=crop&w=800&q=75",
+        image: "https://images.unsplash.com/photo-1583687355032-89b902b7335f?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "cul-kimono-jp", country: "Nhật Bản", countryEn: "Japan", flag: "🇯🇵",
@@ -247,7 +247,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "An ancestral remembrance with ofrenda altars, marigolds, and vibrant sugar skulls.",
         funFact: "UNESCO đã công nhận lễ hội này là Di sản văn hóa phi vật thể từ năm 2008.",
         funFactEn: "UNESCO inscribed it as Intangible Cultural Heritage in 2008.",
-        image: "https://images.unsplash.com/photo-1604431696980-07e5b1d28dc8?auto=format&fit=crop&w=800&q=75",
+        image: "https://images.unsplash.com/photo-1605196560547-b2f7281b7355?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "cul-octoberfest-de", country: "Đức", countryEn: "Germany", flag: "🇩🇪",
@@ -267,7 +267,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Korea's traditional attire — jeogori (top) and chima (skirt) — defined by soft, flowing curves.",
         funFact: "Màu sắc hanbok thể hiện địa vị xã hội và mùa trong năm.",
         funFactEn: "Hanbok colors signal social status and the season.",
-        image: "https://images.unsplash.com/photo-1601831087207-130cd5c011a8?auto=format&fit=crop&w=800&q=75",
+        image: "https://images.unsplash.com/photo-1611348586804-61bf6c080437?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "cul-tagine-ma", country: "Ma-rốc", countryEn: "Morocco", flag: "🇲🇦",
@@ -371,7 +371,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Hangul was invented by King Sejong in 1443 — the only alphabet with a known creator and birth date.",
         funFact: "Hình dạng phụ âm mô phỏng vị trí của lưỡi và miệng khi phát âm.",
         funFactEn: "Consonant shapes mimic the tongue and mouth position when speaking.",
-        image: "https://images.unsplash.com/photo-1538485399081-7c8970a7f0d2?auto=format&fit=crop&w=800&q=75",
+        image: "https://images.unsplash.com/photo-1583394293214-28ded15ee548?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "lang-thai-th", country: "Thái Lan", countryEn: "Thailand", flag: "🇹🇭",
@@ -411,7 +411,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Mandarin has 4 tones and 50,000+ characters; adults need ~3,000 to read a newspaper.",
         funFact: "Chữ “明” (sáng) ghép từ “日” (mặt trời) và “月” (mặt trăng).",
         funFactEn: "The character '明' (bright) combines '日' (sun) and '月' (moon).",
-        image: "https://images.unsplash.com/photo-1532251015805-12c10c5fb6cd?auto=format&fit=crop&w=800&q=75",
+        image: "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "lang-swahili-ke", country: "Đông Phi", countryEn: "East Africa", flag: "🇰🇪",
@@ -445,7 +445,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Finland has ~3 million saunas for 5.5 million people — for relaxation, gatherings, even negotiations.",
         funFact: "UNESCO công nhận văn hóa sauna Phần Lan là di sản phi vật thể (2020).",
         funFactEn: "UNESCO recognised Finnish sauna culture as intangible heritage (2020).",
-        image: "https://images.unsplash.com/photo-1554607526-6b58e3df14fc?auto=format&fit=crop&w=800&q=75",
+        image: "https://images.unsplash.com/photo-1614849963640-9cc74b2a826f?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "lm-coffee-vn", country: "Việt Nam", countryEn: "Vietnam", flag: "🇻🇳",
@@ -455,7 +455,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "From the slow-drip 'phin' to Hanoi egg coffee and Huế salt coffee — Vietnamese coffee is a slow ritual.",
         funFact: "Việt Nam là nước xuất khẩu cà phê Robusta lớn nhất thế giới.",
         funFactEn: "Vietnam is the world's largest exporter of Robusta coffee.",
-        image: "https://images.unsplash.com/photo-1559424248-cf6cba1e8db3?auto=format&fit=crop&w=800&q=75",
+        image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "lm-tea-uk", country: "Anh Quốc", countryEn: "United Kingdom", flag: "🇬🇧",
@@ -465,7 +465,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Started in the 19th century by Duchess Anna — black tea served with scones and dainty cakes.",
         funFact: "Người Anh uống khoảng 100 triệu tách trà mỗi ngày.",
         funFactEn: "Brits drink about 100 million cups of tea every single day.",
-        image: "https://images.unsplash.com/photo-1597318236287-89313e7c9d24?auto=format&fit=crop&w=800&q=75",
+        image: "https://images.unsplash.com/photo-1596445836561-991bcd39a86d?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "lm-tango-ar", country: "Argentina", countryEn: "Argentina", flag: "🇦🇷",
@@ -495,7 +495,7 @@ const zones: ExplorationZone[] = [
         summaryEn: "Every spring, 7 million tulip bulbs bloom in striped fields stretching to the horizon.",
         funFact: "Vào thế kỷ 17, một củ tulip quý có giá bằng cả một ngôi nhà ở Amsterdam.",
         funFactEn: "In the 17th century, a single rare tulip bulb could cost as much as an Amsterdam house.",
-        image: "https://images.unsplash.com/photo-1523694576729-96d4dca77f47?auto=format&fit=crop&w=800&q=75",
+        image: "https://images.unsplash.com/photo-1510074377623-8cf13fb86c08?auto=format&fit=crop&w=800&q=75",
       },
       {
         id: "lm-balloon-tr", country: "Thổ Nhĩ Kỳ", countryEn: "Türkiye", flag: "🇹🇷",
