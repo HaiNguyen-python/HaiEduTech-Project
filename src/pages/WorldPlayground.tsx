@@ -26,6 +26,8 @@ import {
   Stamp,
   BookmarkPlus,
   Plane,
+  Lightbulb,
+  UtensilsCrossed,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -38,6 +40,7 @@ import heroGeography from "@/assets/zone-geography.jpg";
 import heroCulture from "@/assets/zone-culture.jpg";
 import heroLanguages from "@/assets/zone-languages.jpg";
 import heroLandmarks from "@/assets/zone-landmarks.jpg";
+import heroCuisine from "@/assets/zone-cuisine.jpg";
 
 // =============================================================================
 // Types
@@ -54,11 +57,14 @@ interface ExplorationLesson {
   summaryEn: string;
   funFact: string;
   funFactEn: string;
+  /** Optional deeper "Did you know?" insight (1–2 sentences). */
+  didYouKnow?: string;
+  didYouKnowEn?: string;
   image: string; // realistic high-quality photo (Unsplash CDN, optimized)
 }
 
 interface ExplorationZone {
-  id: "geography" | "culture" | "languages" | "landmarks";
+  id: "geography" | "culture" | "languages" | "landmarks" | "cuisine";
   icon: typeof Compass;
   title: string;
   titleEn: string;
@@ -195,6 +201,66 @@ const zones: ExplorationZone[] = [
         funFactEn: "Galápagos giant tortoises can live for 150+ years.",
         image: "https://images.unsplash.com/photo-1589182337358-2cb63099350c?auto=format&fit=crop&w=800&q=75",
       },
+      {
+        id: "geo-reef-au", country: "Úc", countryEn: "Australia", flag: "🇦🇺",
+        title: "Rạn san hô Great Barrier",
+        titleEn: "The Great Barrier Reef",
+        summary: "Hệ rạn san hô lớn nhất thế giới dài 2.300 km, có thể nhìn thấy từ vũ trụ và là nơi sinh sống của 1.500 loài cá.",
+        summaryEn: "The world's largest reef stretches 2,300 km, is visible from space, and hosts 1,500 fish species.",
+        funFact: "Great Barrier Reef gồm hơn 2.900 rạn riêng lẻ và 900 hòn đảo.",
+        funFactEn: "It is made up of 2,900+ individual reefs and 900 islands.",
+        didYouKnow: "Toàn bộ rạn được hình thành bởi sinh vật sống nhỏ xíu gọi là polyp san hô — nó là cấu trúc sinh học lớn nhất hành tinh.",
+        didYouKnowEn: "The entire reef is built by tiny living organisms called coral polyps — making it the largest living structure on Earth.",
+        image: "https://images.unsplash.com/photo-1518391846015-55a9cc003b25?auto=format&fit=crop&w=800&q=75",
+      },
+      {
+        id: "geo-matterhorn-ch", country: "Thụy Sĩ", countryEn: "Switzerland", flag: "🇨🇭",
+        title: "Đỉnh Matterhorn — Kim tự tháp đá",
+        titleEn: "The Matterhorn — Stone pyramid",
+        summary: "Đỉnh núi 4.478 m hình kim tự tháp gần như hoàn hảo, biểu tượng của dãy Alps Thụy Sĩ và nhãn chocolate Toblerone.",
+        summaryEn: "A nearly perfect pyramid peak at 4,478 m — symbol of the Swiss Alps and the Toblerone logo.",
+        funFact: "Matterhorn nằm chính xác trên biên giới Thụy Sĩ — Ý.",
+        funFactEn: "The Matterhorn sits exactly on the Swiss–Italian border.",
+        didYouKnow: "Matterhorn được chinh phục lần đầu năm 1865 — chuyến leo lịch sử kết thúc bằng tai nạn khiến 4 người thiệt mạng khi xuống núi.",
+        didYouKnowEn: "First climbed in 1865 — the historic ascent ended in tragedy when 4 climbers died on the descent.",
+        image: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=800&q=75",
+      },
+      {
+        id: "geo-sahara-ma", country: "Bắc Phi", countryEn: "North Africa", flag: "🏜️",
+        title: "Sa mạc Sahara",
+        titleEn: "The Sahara Desert",
+        summary: "Sa mạc nóng lớn nhất thế giới, rộng 9 triệu km² — bao trùm 11 quốc gia với những cồn cát cao tới 180 m.",
+        summaryEn: "The world's largest hot desert at 9 million km² — covering 11 countries with dunes up to 180 m tall.",
+        funFact: "Cách đây 10.000 năm, Sahara từng là vùng đất xanh tươi với hồ và đồng cỏ.",
+        funFactEn: "10,000 years ago, the Sahara was green with lakes and grasslands.",
+        didYouKnow: "Bão cát Sahara mang khoáng chất bay xuyên Đại Tây Dương, bón phân cho rừng Amazon ở phía bên kia trái đất.",
+        didYouKnowEn: "Sahara dust storms travel across the Atlantic and fertilize the Amazon rainforest on the other side of the world.",
+        image: "https://images.unsplash.com/photo-1539635278303-d4002c07eae3?auto=format&fit=crop&w=800&q=75",
+      },
+      {
+        id: "geo-grandcanyon-us", country: "Hoa Kỳ", countryEn: "United States", flag: "🇺🇸",
+        title: "Grand Canyon — Hẻm núi vĩ đại",
+        titleEn: "Grand Canyon — The Great Gorge",
+        summary: "Hẻm núi sâu 1,8 km được sông Colorado bào mòn suốt 6 triệu năm, để lộ lịch sử địa chất 2 tỷ năm.",
+        summaryEn: "A 1.8 km deep gorge carved by the Colorado River over 6 million years — exposing 2 billion years of geology.",
+        funFact: "Grand Canyon dài 446 km — bằng quãng đường từ Hà Nội tới Đà Nẵng.",
+        funFactEn: "The canyon is 446 km long — the distance from Hanoi to Da Nang.",
+        didYouKnow: "Mỗi lớp đá là một 'trang sách' của Trái Đất; tầng đáy có niên đại bằng gần một nửa tuổi của hành tinh.",
+        didYouKnowEn: "Each rock layer is a 'page' of Earth's history; the bottom layer is nearly half as old as the planet itself.",
+        image: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=75",
+      },
+      {
+        id: "geo-niagara-ca", country: "Canada & Hoa Kỳ", countryEn: "Canada & USA", flag: "🇨🇦",
+        title: "Thác Niagara hùng vĩ",
+        titleEn: "Mighty Niagara Falls",
+        summary: "Ba thác kết hợp với lưu lượng 2.400 m³/giây — một trong những thác có dòng chảy mạnh nhất Bắc Mỹ.",
+        summaryEn: "Three combined falls with a flow of 2,400 m³/sec — among North America's most powerful cascades.",
+        funFact: "Vào ban đêm, thác được chiếu sáng bằng nhiều màu rực rỡ.",
+        funFactEn: "At night, the falls are lit up in vibrant colors.",
+        didYouKnow: "Niagara đang lùi về thượng nguồn khoảng 30 cm mỗi năm do xói mòn — sau ~50.000 năm sẽ biến mất hoàn toàn.",
+        didYouKnowEn: "Niagara recedes upstream about 30 cm per year due to erosion — it will disappear entirely in ~50,000 years.",
+        image: "https://images.unsplash.com/photo-1474044159687-1ee9f3a51722?auto=format&fit=crop&w=800&q=75",
+      },
     ],
   },
 
@@ -308,6 +374,66 @@ const zones: ExplorationZone[] = [
         funFact: "Đầu bếp sushi cần 10+ năm đào tạo để được gọi là “itamae”.",
         funFactEn: "Sushi chefs train 10+ years to earn the title 'itamae'.",
         image: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=800&q=75",
+      },
+      {
+        id: "cul-mariachi-mx", country: "Mexico", countryEn: "Mexico", flag: "🎺",
+        title: "Mariachi — Bản hùng ca đường phố",
+        titleEn: "Mariachi — Streets serenade",
+        summary: "Ban nhạc truyền thống với violin, vihuela, guitarrón và kèn trumpet — biểu tượng âm nhạc của Mexico.",
+        summaryEn: "Traditional ensembles of violin, vihuela, guitarrón, and trumpet — Mexico's musical icon.",
+        funFact: "Mariachi được UNESCO công nhận là di sản văn hóa phi vật thể năm 2011.",
+        funFactEn: "Mariachi was inscribed as UNESCO intangible heritage in 2011.",
+        didYouKnow: "Bộ trang phục 'charro' bằng da đen với nút bạc của mariachi vốn xuất phát từ phong cách của các kỵ sĩ chăn bò.",
+        didYouKnowEn: "The black 'charro' suit with silver buttons originated from the attire of Mexican horseback ranchers.",
+        image: "https://images.unsplash.com/photo-1518998053901-5348d3961a04?auto=format&fit=crop&w=800&q=75",
+      },
+      {
+        id: "cul-carnival-br", country: "Brazil", countryEn: "Brazil", flag: "🇧🇷",
+        title: "Carnival Rio — Vũ điệu Samba",
+        titleEn: "Rio Carnival — Samba Spectacle",
+        summary: "Lễ hội đường phố lớn nhất hành tinh ở Rio de Janeiro với 2 triệu người mỗi ngày, samba parade, và sambódromo.",
+        summaryEn: "The world's largest street festival in Rio — 2 million people daily, samba parades, and the Sambódromo.",
+        funFact: "Mỗi 'trường samba' có thể có 4.000 thành viên diễu hành cùng lúc.",
+        funFactEn: "Each samba school can field 4,000 members marching at once.",
+        didYouKnow: "Carnival diễn ra ngay trước Mùa Chay (Lent) — vốn là dịp 'ăn chơi cuối cùng' trước 40 ngày kiêng khem theo truyền thống Công giáo.",
+        didYouKnowEn: "Carnival happens just before Lent — historically a 'last hurrah' before 40 days of Catholic fasting.",
+        image: "https://images.unsplash.com/photo-1583416750470-965b2707b355?auto=format&fit=crop&w=800&q=75",
+      },
+      {
+        id: "cul-geisha-jp", country: "Nhật Bản", countryEn: "Japan", flag: "🎎",
+        title: "Geisha — Nghệ nhân giải trí",
+        titleEn: "Geisha — Masters of refined arts",
+        summary: "Geisha là nghệ nhân lành nghề về múa, hát, đàn shamisen và nghệ thuật trò chuyện — không phải gái mại dâm như hiểu lầm phổ biến.",
+        summaryEn: "Geisha are skilled artists of dance, song, shamisen, and conversation — often misunderstood in the West.",
+        funFact: "Một geisha cần 5–6 năm tu luyện và bắt đầu từ thiếu nữ 'maiko'.",
+        funFactEn: "A geisha trains for 5–6 years, starting as a young 'maiko' apprentice.",
+        didYouKnow: "Lớp trang điểm trắng đặc trưng có nguồn gốc từ thời chưa có điện — giúp khuôn mặt rực sáng dưới ánh nến.",
+        didYouKnowEn: "The iconic white makeup originated before electric lighting — to make the face glow under candlelight.",
+        image: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=800&q=75",
+      },
+      {
+        id: "cul-hammam-tr", country: "Thổ Nhĩ Kỳ", countryEn: "Türkiye", flag: "🇹🇷",
+        title: "Hammam — Phòng tắm hơi Thổ",
+        titleEn: "Hammam — Turkish bath",
+        summary: "Nghi thức tắm hơi thư giãn kết hợp tẩy tế bào chết, mát-xa và xông hơi trong những căn phòng đá cẩm thạch tuyệt đẹp.",
+        summaryEn: "A relaxing bathing ritual blending exfoliation, massage, and steam in stunning marble chambers.",
+        funFact: "Một số hammam ở Istanbul đã hoạt động liên tục từ thế kỷ 16.",
+        funFactEn: "Some Istanbul hammams have operated continuously since the 16th century.",
+        didYouKnow: "Hammam không chỉ để tắm — đây từng là nơi phụ nữ Ottoman gặp gỡ, mai mối hôn nhân và chia sẻ tin tức cộng đồng.",
+        didYouKnowEn: "Hammams weren't just for bathing — they served as social hubs where Ottoman women matchmade marriages and shared news.",
+        image: "https://images.unsplash.com/photo-1614851099175-e5b30eb6f696?auto=format&fit=crop&w=800&q=75",
+      },
+      {
+        id: "cul-haka-nz", country: "New Zealand", countryEn: "New Zealand", flag: "🇳🇿",
+        title: "Haka — Vũ điệu chiến binh Maori",
+        titleEn: "Haka — Maori warrior dance",
+        summary: "Vũ điệu nghi lễ với động tác mạnh mẽ, biểu cảm khuôn mặt dữ dội và tiếng hô vang — biểu tượng văn hóa Maori.",
+        summaryEn: "A ceremonial dance with powerful moves, fierce expressions, and thunderous chants — a Maori cultural icon.",
+        funFact: "Đội bóng bầu dục All Blacks biểu diễn haka trước mỗi trận đấu quốc tế.",
+        funFactEn: "The All Blacks rugby team performs the haka before every international match.",
+        didYouKnow: "Haka không chỉ dành cho chiến tranh — còn được dùng để chào mừng khách quý, tang lễ và lễ tốt nghiệp.",
+        didYouKnowEn: "The haka isn't only for war — it's also performed to welcome guests, at funerals, and at graduations.",
+        image: "https://images.unsplash.com/photo-1535941339077-2dd1c7963098?auto=format&fit=crop&w=800&q=75",
       },
     ],
   },
@@ -423,6 +549,66 @@ const zones: ExplorationZone[] = [
         funFactEn: "'Hakuna matata' — 'no worries' — was popularized by The Lion King.",
         image: "https://images.unsplash.com/photo-1535941339077-2dd1c7963098?auto=format&fit=crop&w=800&q=75",
       },
+      {
+        id: "lang-vietnamese-vn", country: "Việt Nam", countryEn: "Vietnam", flag: "🇻🇳",
+        title: "Xin chào — Quốc ngữ",
+        titleEn: "Xin chào — Quốc ngữ",
+        summary: "Tiếng Việt dùng bảng chữ Latin với 6 thanh điệu — được linh mục Alexandre de Rhodes hệ thống hóa thế kỷ 17.",
+        summaryEn: "Vietnamese uses a Latin script with 6 tones — formalized by missionary Alexandre de Rhodes in the 17th century.",
+        funFact: "Cùng một âm 'ma' có thể mang 6 nghĩa: ma, má, mà, mả, mã, mạ.",
+        funFactEn: "The syllable 'ma' can mean 6 different things depending on tone: ghost, mother, but, tomb, horse, rice seedling.",
+        didYouKnow: "Trước khi có Quốc ngữ, người Việt dùng 'chữ Nôm' — hệ chữ Hán biến thể, mỗi từ có thể có hàng chục cách viết.",
+        didYouKnowEn: "Before the Latin-based script, Vietnamese used 'Nôm' — a Chinese-derived system where each word could have dozens of variants.",
+        image: "https://images.unsplash.com/photo-1505330622279-bf7d7fc918f4?auto=format&fit=crop&w=800&q=75",
+      },
+      {
+        id: "lang-german-de", country: "Đức", countryEn: "Germany", flag: "🇩🇪",
+        title: "Guten Tag — Tiếng Đức",
+        titleEn: "Guten Tag — German",
+        summary: "Tiếng Đức nổi tiếng với những danh từ ghép dài — và quy tắc viết hoa mọi danh từ trong câu.",
+        summaryEn: "German is famous for its compound nouns and the rule of capitalizing every noun in a sentence.",
+        funFact: "'Donaudampfschifffahrtsgesellschaftskapitän' (44 chữ) nghĩa là 'thuyền trưởng tàu hơi nước Danube'.",
+        funFactEn: "'Donaudampfschifffahrtsgesellschaftskapitän' (44 letters) means 'Danube steamship captain'.",
+        didYouKnow: "Tiếng Đức có một từ riêng cho cảm giác 'vui sướng trước nỗi khổ của người khác' — Schadenfreude.",
+        didYouKnowEn: "German has a single word for 'pleasure derived from someone else's misfortune' — Schadenfreude.",
+        image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=75",
+      },
+      {
+        id: "lang-portuguese-pt", country: "Bồ Đào Nha & Brazil", countryEn: "Portugal & Brazil", flag: "🇵🇹",
+        title: "Olá — Tiếng Bồ Đào Nha",
+        titleEn: "Olá — Portuguese",
+        summary: "Hơn 260 triệu người nói tiếng Bồ — đứng thứ 6 thế giới, được dùng tại 9 quốc gia trên 4 châu lục.",
+        summaryEn: "260+ million speakers — the world's 6th most spoken language, official in 9 countries across 4 continents.",
+        funFact: "Brazil chiếm tới 85% người nói tiếng Bồ trên toàn cầu.",
+        funFactEn: "Brazil accounts for 85% of all Portuguese speakers worldwide.",
+        didYouKnow: "Có hai biến thể chính: Bồ Đào Nha châu Âu và Brazil — phát âm khác đến mức nhiều người nghĩ đó là hai ngôn ngữ.",
+        didYouKnowEn: "Two main variants exist — European and Brazilian — with pronunciations so different many think they're two languages.",
+        image: "https://images.unsplash.com/photo-1488998427799-e3362cec87c3?auto=format&fit=crop&w=800&q=75",
+      },
+      {
+        id: "lang-finnish-fi", country: "Phần Lan", countryEn: "Finland", flag: "🇫🇮",
+        title: "Hei — Tiếng Phần Lan",
+        titleEn: "Hei — Finnish",
+        summary: "Một trong những ngôn ngữ khó học nhất thế giới — không thuộc nhóm Ấn-Âu, có 15 cách biến đổi danh từ.",
+        summaryEn: "One of the world's hardest languages — not Indo-European, with 15 grammatical cases.",
+        funFact: "Tiếng Phần Lan không có thì tương lai và không có giống đực/cái cho danh từ.",
+        funFactEn: "Finnish has no future tense and no grammatical gender for nouns.",
+        didYouKnow: "Người Phần có khái niệm 'sisu' — sự kiên trì bền bỉ vượt qua nghịch cảnh — không thể dịch chính xác sang ngôn ngữ khác.",
+        didYouKnowEn: "Finns have a concept called 'sisu' — stoic determination in the face of adversity — that cannot be precisely translated.",
+        image: "https://images.unsplash.com/photo-1483347756197-71ef80e95f73?auto=format&fit=crop&w=800&q=75",
+      },
+      {
+        id: "lang-hebrew-il", country: "Israel", countryEn: "Israel", flag: "🇮🇱",
+        title: "שלום — Shalom",
+        titleEn: "שלום — Shalom",
+        summary: "Tiếng Hebrew được 'hồi sinh' từ ngôn ngữ tôn giáo cổ thành tiếng nói hằng ngày vào thế kỷ 19 — câu chuyện độc nhất trong lịch sử ngôn ngữ.",
+        summaryEn: "Hebrew was 'revived' from a religious tongue into a daily language in the 19th century — unique in linguistic history.",
+        funFact: "Eliezer Ben-Yehuda được coi là người 'tái sinh' tiếng Hebrew hiện đại.",
+        funFactEn: "Eliezer Ben-Yehuda is credited as the 'father' of modern Hebrew.",
+        didYouKnow: "'Shalom' không chỉ là 'xin chào/tạm biệt' — còn nghĩa là 'hòa bình' và 'sự trọn vẹn'.",
+        didYouKnowEn: "'Shalom' isn't just 'hello/goodbye' — it also means 'peace' and 'wholeness'.",
+        image: "https://images.unsplash.com/photo-1521295121783-8a321d551ad2?auto=format&fit=crop&w=800&q=75",
+      },
     ],
   },
 
@@ -536,6 +722,140 @@ const zones: ExplorationZone[] = [
         funFact: "Nghệ thuật làm pizza “Pizzaiuolo” được UNESCO công nhận năm 2017.",
         funFactEn: "The 'Pizzaiuolo' pizza-making craft was UNESCO inscribed in 2017.",
         image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=800&q=75",
+      },
+      {
+        id: "lm-outback-au", country: "Úc", countryEn: "Australia", flag: "🇦🇺",
+        title: "Outback — Trái tim đỏ của Úc",
+        titleEn: "The Outback — Australia's red heart",
+        summary: "Vùng nội địa hoang mạc rộng lớn với đất đỏ rực, núi đá Uluru linh thiêng và bầu trời sao trong vắt.",
+        summaryEn: "A vast inland desert with red earth, sacred Uluru rock, and crystal-clear starry skies.",
+        funFact: "Outback chiếm 70% diện tích nước Úc nhưng chỉ có chưa đến 5% dân số sinh sống.",
+        funFactEn: "The Outback covers 70% of Australia but is home to less than 5% of the population.",
+        didYouKnow: "Uluru cao 348 m so với mặt đất, nhưng phần chìm dưới đất sâu tới 2,5 km — như một tảng băng trôi đá.",
+        didYouKnowEn: "Uluru rises 348 m above ground, but extends 2.5 km underground — like a stone iceberg.",
+        image: "https://images.unsplash.com/photo-1480796927426-f609979314bd?auto=format&fit=crop&w=800&q=75",
+      },
+      {
+        id: "lm-maple-ca", country: "Canada", countryEn: "Canada", flag: "🇨🇦",
+        title: "Si rô lá phong — Vàng lỏng",
+        titleEn: "Maple syrup — Liquid gold",
+        summary: "Canada sản xuất 71% si rô lá phong toàn cầu — chiết xuất từ nhựa cây phong vào mỗi mùa xuân.",
+        summaryEn: "Canada produces 71% of the world's maple syrup — tapped from maple trees every spring.",
+        funFact: "Cần 40 lít nhựa cây để làm ra chỉ 1 lít si rô.",
+        funFactEn: "It takes 40 liters of sap to make just 1 liter of syrup.",
+        didYouKnow: "Canada có 'Kho dự trữ si rô lá phong chiến lược' giống như kho dầu — để bình ổn giá toàn cầu.",
+        didYouKnowEn: "Canada maintains a 'Strategic Maple Syrup Reserve' — much like an oil reserve — to stabilize global prices.",
+        image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=75",
+      },
+      {
+        id: "lm-chai-in", country: "Ấn Độ", countryEn: "India", flag: "🇮🇳",
+        title: "Chai — Trà sữa Ấn Độ",
+        titleEn: "Chai — Indian milk tea",
+        summary: "Trà đen đun với sữa, gừng, bạch đậu khấu, quế và hồi — phục vụ tại mọi 'chai stall' trên đường phố.",
+        summaryEn: "Black tea simmered with milk, ginger, cardamom, cinnamon, and star anise — sold at every street 'chai stall'.",
+        funFact: "Người Ấn uống khoảng 837.000 tấn chè mỗi năm — đứng top thế giới.",
+        funFactEn: "Indians consume about 837,000 tons of tea per year — among the world's highest.",
+        didYouKnow: "'Chai' là từ tiếng Hindi cho 'trà' — vì vậy 'chai tea' nói đúng nghĩa là 'trà trà'.",
+        didYouKnowEn: "'Chai' is the Hindi word for 'tea' — so 'chai tea' literally means 'tea tea'.",
+        image: "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=800&q=75",
+      },
+      {
+        id: "lm-skyline-us", country: "Hoa Kỳ", countryEn: "United States", flag: "🗽",
+        title: "Skyline New York — Giấc mơ Mỹ",
+        titleEn: "NYC Skyline — The American Dream",
+        summary: "Đường chân trời Manhattan với Empire State, One World Trade và hơn 6.000 nhà cao tầng — biểu tượng đô thị hiện đại.",
+        summaryEn: "Manhattan's skyline — Empire State, One World Trade, and 6,000+ high-rises — icon of the modern metropolis.",
+        funFact: "Empire State Building được xây xong trong vòng 410 ngày vào thời Đại Khủng Hoảng.",
+        funFactEn: "The Empire State Building was built in just 410 days during the Great Depression.",
+        didYouKnow: "Manhattan có thể đỡ những tòa nhà siêu cao nhờ nền đá granite tự nhiên ngay dưới mặt đất.",
+        didYouKnowEn: "Manhattan can support skyscrapers thanks to a natural granite bedrock just beneath the surface.",
+        image: "https://images.unsplash.com/photo-1547036967-23d11aacaee0?auto=format&fit=crop&w=800&q=75",
+      },
+      {
+        id: "lm-bazaar-tr", country: "Thổ Nhĩ Kỳ", countryEn: "Türkiye", flag: "🇹🇷",
+        title: "Grand Bazaar — Thiên đường mua sắm",
+        titleEn: "Grand Bazaar — Shopper's paradise",
+        summary: "Một trong những chợ có mái che lâu đời và lớn nhất thế giới ở Istanbul: 4.000 cửa hàng trên 64 con phố.",
+        summaryEn: "One of the world's oldest and largest covered markets in Istanbul — 4,000 shops across 64 streets.",
+        funFact: "Mỗi ngày Grand Bazaar đón 250.000 — 400.000 lượt khách.",
+        funFactEn: "The Grand Bazaar welcomes 250,000–400,000 visitors per day.",
+        didYouKnow: "Mặc cả không chỉ được chấp nhận — mà còn là một phần văn hóa: chủ shop sẽ thất vọng nếu bạn không trả giá!",
+        didYouKnowEn: "Bargaining isn't just accepted — it's expected: shopkeepers feel disappointed if you don't haggle!",
+        image: "https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=800&q=75",
+      },
+    ],
+  },
+
+  // ==================== ZONE 5: GLOBAL CUISINE ====================
+  {
+    id: "cuisine",
+    icon: UtensilsCrossed,
+    title: "Ẩm thực thế giới",
+    titleEn: "Global Cuisine",
+    tagline: "Hành trình vị giác qua các nền ẩm thực biểu tượng",
+    taglineEn: "A flavor journey through iconic cuisines",
+    accent: "from-amber-500/20 via-red-400/10 to-orange-500/20",
+    hero: heroCuisine,
+    lessons: [
+      {
+        id: "cui-pizza-it", country: "Ý", countryEn: "Italy", flag: "🍕",
+        title: "Pizza Napoletana — Bột nướng kinh điển",
+        titleEn: "Pizza Napoletana — Classic dough art",
+        summary: "Đế bột mềm, viền giòn, nướng trong lò củi 485 °C chỉ 60–90 giây — chuẩn 'vera pizza' Naples.",
+        summaryEn: "Soft base, crisp edges, fired in a 485 °C wood oven for just 60–90 seconds — true 'vera pizza' from Naples.",
+        funFact: "Pizza Margherita được tạo năm 1889 để vinh danh Nữ hoàng Margherita của Ý.",
+        funFactEn: "Margherita pizza was created in 1889 to honor Queen Margherita of Italy.",
+        didYouKnow: "Có một hiệp hội (AVPN) cấp chứng nhận 'pizza Napoletana đích thực' — chỉ những lò đạt 7 tiêu chí khắt khe mới được dán nhãn.",
+        didYouKnowEn: "An association (AVPN) certifies 'true Neapolitan pizza' — only ovens meeting 7 strict criteria can use the label.",
+        image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=800&q=75",
+      },
+      {
+        id: "cui-sushi-jp", country: "Nhật Bản", countryEn: "Japan", flag: "🍣",
+        title: "Sushi — Nghệ thuật cá tươi",
+        titleEn: "Sushi — The art of fresh fish",
+        summary: "Cơm dấm kết hợp hải sản tươi sống — từ nigiri đơn giản tới omakase nhiều món ở các nhà hàng cao cấp.",
+        summaryEn: "Vinegared rice paired with fresh seafood — from simple nigiri to elaborate omakase at fine-dining counters.",
+        funFact: "Một con cá ngừ vây xanh từng bán đấu giá tới 3,1 triệu USD ở chợ Toyosu Tokyo (2019).",
+        funFactEn: "A bluefin tuna once sold for $3.1 million at Tokyo's Toyosu market (2019).",
+        didYouKnow: "Wasabi thật rất hiếm và đắt — phần lớn 'wasabi' bạn ăn ở nhà hàng thực ra là cải ngựa nhuộm xanh.",
+        didYouKnowEn: "Real wasabi is rare and expensive — most 'wasabi' served at restaurants is actually dyed horseradish.",
+        image: "https://images.unsplash.com/photo-1525755662778-989d0524087e?auto=format&fit=crop&w=800&q=75",
+      },
+      {
+        id: "cui-pho-vn", country: "Việt Nam", countryEn: "Vietnam", flag: "🍜",
+        title: "Phở — Linh hồn ẩm thực Việt",
+        titleEn: "Phở — Soul of Vietnamese cuisine",
+        summary: "Nước dùng ninh xương 8–12 giờ với quế, hồi, thảo quả, đinh hương — bánh phở mềm, thịt bò tái và rau thơm tươi.",
+        summaryEn: "Bone broth simmered 8–12 hours with cinnamon, star anise, cardamom, cloves — soft rice noodles, beef, fresh herbs.",
+        funFact: "Phở được tạp chí Business Insider xếp vào top 50 món ngon nhất thế giới.",
+        funFactEn: "Phở is listed by Business Insider among the world's 50 best dishes.",
+        didYouKnow: "Phở ra đời đầu thế kỷ 20 ở Nam Định/Hà Nội — chịu ảnh hưởng từ món pot-au-feu Pháp và truyền thống ăn bún Việt.",
+        didYouKnowEn: "Phở emerged in early-20th-century Nam Định/Hanoi — influenced by French pot-au-feu and Vietnam's noodle traditions.",
+        image: "https://images.unsplash.com/photo-1574484284002-952d92456975?auto=format&fit=crop&w=800&q=75",
+      },
+      {
+        id: "cui-tacos-mx", country: "Mexico", countryEn: "Mexico", flag: "🌮",
+        title: "Tacos — Vũ điệu vị giác Mexico",
+        titleEn: "Tacos — A Mexican flavor dance",
+        summary: "Bánh ngô (tortilla) gói thịt nướng, hành tây, ngò rí, chanh và sốt salsa — món đường phố biểu tượng của Mexico.",
+        summaryEn: "Corn tortillas wrapping grilled meat, onions, cilantro, lime, and salsa — Mexico's iconic street food.",
+        funFact: "Mexico City có hơn 50.000 quầy taco — taco al pastor là loại nổi tiếng nhất.",
+        funFactEn: "Mexico City has 50,000+ taco stands — 'al pastor' is the most famous variety.",
+        didYouKnow: "Taco al pastor có nguồn gốc từ kỹ thuật shawarma do người Liban di cư mang đến Mexico đầu thế kỷ 20.",
+        didYouKnowEn: "Taco al pastor's spit-roasting technique came from Lebanese shawarma, brought to Mexico by immigrants in the early 1900s.",
+        image: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=800&q=75",
+      },
+      {
+        id: "cui-croissant-fr", country: "Pháp", countryEn: "France", flag: "🥐",
+        title: "Croissant — Bánh trăng khuyết",
+        titleEn: "Croissant — The crescent pastry",
+        summary: "Bột pâte feuilletée gấp lớp với bơ — nướng giòn rụm bên ngoài, mềm xốp bên trong. Bữa sáng kinh điển của Pháp.",
+        summaryEn: "Laminated puff pastry folded with butter — crisp outside, soft inside. France's classic breakfast.",
+        funFact: "Một chiếc croissant chuẩn có tới 81 lớp bột-bơ xen kẽ.",
+        funFactEn: "A proper croissant has 81 alternating layers of dough and butter.",
+        didYouKnow: "Croissant thực ra có gốc từ Áo (kipferl) — Marie Antoinette mang công thức sang Pháp khi kết hôn với Louis XVI.",
+        didYouKnowEn: "Croissants actually originated in Austria (kipferl) — Marie Antoinette brought the recipe to France when she married Louis XVI.",
+        image: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=800&q=75",
       },
     ],
   },
@@ -889,7 +1209,7 @@ const WorldPlayground = () => {
                                 {t(lesson.summary, lesson.summaryEn)}
                               </p>
 
-                              <div className="bg-secondary/40 rounded-lg p-3 mb-4">
+                              <div className="bg-secondary/40 rounded-lg p-3 mb-3">
                                 <p className="text-xs flex items-start gap-2">
                                   <Sparkles className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" />
                                   <span className="text-foreground/90">
@@ -898,6 +1218,18 @@ const WorldPlayground = () => {
                                   </span>
                                 </p>
                               </div>
+
+                              {(lesson.didYouKnow || lesson.didYouKnowEn) && (
+                                <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-3 mb-4">
+                                  <p className="text-xs flex items-start gap-2">
+                                    <Lightbulb className="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5" />
+                                    <span className="text-foreground/90">
+                                      <strong>{t("Bạn có biết? ", "Did you know? ")}</strong>
+                                      {t(lesson.didYouKnow ?? "", lesson.didYouKnowEn ?? "")}
+                                    </span>
+                                  </p>
+                                </div>
+                              )}
 
                               <div className="flex items-center gap-2 mt-auto">
                                 <Button
