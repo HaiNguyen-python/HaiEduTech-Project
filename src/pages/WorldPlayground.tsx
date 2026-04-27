@@ -40,6 +40,7 @@ import heroGeography from "@/assets/zone-geography.jpg";
 import heroCulture from "@/assets/zone-culture.jpg";
 import heroLanguages from "@/assets/zone-languages.jpg";
 import heroLandmarks from "@/assets/zone-landmarks.jpg";
+import heroCuisine from "@/assets/zone-cuisine.jpg";
 
 // =============================================================================
 // Types
