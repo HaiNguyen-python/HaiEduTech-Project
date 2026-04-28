@@ -85,6 +85,7 @@ const YkiB1Dashboard = () => {
   const [readingAnswers, setReadingAnswers] = useState<Record<string, number>>({});
   const [listeningAnswers, setListeningAnswers] = useState<Record<string, number>>({});
   const [showResults, setShowResults] = useState<Record<string, boolean>>({});
+  const [translateMode, setTranslateMode] = useState(false);
   const [essay, setEssay] = useState("");
   const [grading, setGrading] = useState(false);
   const [feedback, setFeedback] = useState<string | null>(null);
