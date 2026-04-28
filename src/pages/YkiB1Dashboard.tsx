@@ -18,6 +18,7 @@ import { ArrowLeft, Volume2, Timer, Mic, Pause, Play, RotateCcw, NotebookPen, Sp
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { playFinnishTts } from "@/lib/finnishTts";
+import ClickableFinnishText from "@/components/ClickableFinnishText";
 import {
   B1_READING_ALL as B1_READING,
   B1_LISTENING_ALL as B1_LISTENING,
