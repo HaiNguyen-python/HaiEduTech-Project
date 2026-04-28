@@ -43,6 +43,90 @@ import heroLandmarks from "@/assets/zone-landmarks.jpg";
 import heroCuisine from "@/assets/zone-cuisine.jpg";
 
 // =============================================================================
+// LESSON IMAGE OVERRIDES
+// -----------------------------------------------------------------------------
+// Curated, content-accurate Unsplash photos per lesson.id.
+// Many of the original hard-coded image IDs did not match the lesson topic
+// (wrong country / wrong subject). This map ensures every thumbnail is visually
+// relevant to its lesson. URLs use Unsplash's CDN with optimized params.
+// If a key is missing, the renderer falls back to lesson.image, then to a
+// reliable picsum.photos seeded URL via onError.
+// =============================================================================
+const LESSON_IMAGE_OVERRIDES: Record<string, string> = {
+  // ---------- Geography & Wonders ----------
+  "geo-aurora-fi": "https://images.unsplash.com/photo-1483347756197-71ef80e95f73?auto=format&fit=crop&w=800&q=75", // aurora
+  "geo-pyramids-eg": "https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?auto=format&fit=crop&w=800&q=75", // pyramids of giza
+  "geo-amazon-br": "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=800&q=75", // rainforest
+  "geo-himalaya-np": "https://images.unsplash.com/photo-1486911278844-a81c5267e227?auto=format&fit=crop&w=800&q=75", // everest
+  "geo-grandcanyon-us": "https://images.unsplash.com/photo-1474044159687-1ee9f3a51722?auto=format&fit=crop&w=800&q=75", // grand canyon
+  "geo-greatbarrier-au": "https://images.unsplash.com/photo-1582967788606-a171c1080cb0?auto=format&fit=crop&w=800&q=75", // coral reef
+  "geo-sahara-ma": "https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?auto=format&fit=crop&w=800&q=75", // sahara dunes
+  "geo-fjords-no": "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=75", // fjords
+  "geo-victoriafalls-zm": "https://images.unsplash.com/photo-1591375275624-c4abce8c0c41?auto=format&fit=crop&w=800&q=75", // victoria falls
+  "geo-galapagos-ec": "https://images.unsplash.com/photo-1589182337358-2cb63099350c?auto=format&fit=crop&w=800&q=75", // galapagos
+  "geo-reef-au": "https://images.unsplash.com/photo-1518877593221-1f28583780b4?auto=format&fit=crop&w=800&q=75", // whale/ocean
+  "geo-matterhorn-ch": "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=800&q=75", // matterhorn
+  "geo-niagara-ca": "https://images.unsplash.com/photo-1489447068241-b3490214e879?auto=format&fit=crop&w=800&q=75", // niagara falls
+
+  // ---------- Cultural Tapestry ----------
+  "cul-holi-in": "https://images.unsplash.com/photo-1583245177184-4c4d3afe0035?auto=format&fit=crop&w=800&q=75", // holi colors
+  "cul-kimono-jp": "https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=800&q=75", // kimono
+  "cul-pasta-it": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=800&q=75", // pasta
+  "cul-dayofdead-mx": "https://images.unsplash.com/photo-1572017691325-f5dca6c1325f?auto=format&fit=crop&w=800&q=75", // day of dead skull
+  "cul-octoberfest-de": "https://images.unsplash.com/photo-1505075106905-fb052892c116?auto=format&fit=crop&w=800&q=75", // beer
+  "cul-hanbok-kr": "https://images.unsplash.com/photo-1611348586804-61bf6c080437?auto=format&fit=crop&w=800&q=75", // hanbok
+  "cul-tagine-ma": "https://images.unsplash.com/photo-1541518763669-27fef04b14ea?auto=format&fit=crop&w=800&q=75", // tagine
+  "cul-songkran-th": "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=800&q=75", // thailand water
+  "cul-flamenco-es": "https://images.unsplash.com/photo-1504609813442-a8924e83f76e?auto=format&fit=crop&w=800&q=75", // flamenco
+  "cul-sushi-jp": "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=800&q=75", // sushi
+  "cul-mariachi-mx": "https://images.unsplash.com/photo-1518998053901-5348d3961a04?auto=format&fit=crop&w=800&q=75", // mariachi
+  "cul-carnival-br": "https://images.unsplash.com/photo-1551522435-a13afa10f103?auto=format&fit=crop&w=800&q=75", // carnival mask
+  "cul-geisha-jp": "https://images.unsplash.com/photo-1545569310-ce7a6e8fb1e0?auto=format&fit=crop&w=800&q=75", // geisha
+  "cul-hammam-tr": "https://images.unsplash.com/photo-1604608672516-f1b9b1d4b53d?auto=format&fit=crop&w=800&q=75", // hammam interior
+  "cul-haka-nz": "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=75", // new zealand landscape
+
+  // ---------- Global Languages ----------
+  "lang-latin": "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=800&q=75", // alphabet/letters
+  "lang-kanji": "https://images.unsplash.com/photo-1480796927426-f609979314bd?auto=format&fit=crop&w=800&q=75", // japanese street/kanji
+  "lang-cyrillic": "https://images.unsplash.com/photo-1513326738677-b964603b136d?auto=format&fit=crop&w=800&q=75", // moscow
+  "lang-arabic": "https://images.unsplash.com/photo-1542816417-0983c9c9ad53?auto=format&fit=crop&w=800&q=75", // arabic calligraphy
+  "lang-hangul-kr": "https://images.unsplash.com/photo-1538485399081-7191377e8241?auto=format&fit=crop&w=800&q=75", // seoul
+  "lang-thai-th": "https://images.unsplash.com/photo-1563492065599-3520f775eeed?auto=format&fit=crop&w=800&q=75", // thai temple
+  "lang-greek-gr": "https://images.unsplash.com/photo-1555993539-1732b0258235?auto=format&fit=crop&w=800&q=75", // greece
+  "lang-hindi-in": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=800&q=75", // taj mahal
+  "lang-mandarin-cn": "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=800&q=75", // chinese characters
+  "lang-swahili-ke": "https://images.unsplash.com/photo-1535941339077-2dd1c7963098?auto=format&fit=crop&w=800&q=75", // safari
+  "lang-vietnamese-vn": "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=800&q=75", // hanoi/vietnam
+  "lang-german-de": "https://images.unsplash.com/photo-1560969184-10fe8719e047?auto=format&fit=crop&w=800&q=75", // berlin/germany
+  "lang-portuguese-pt": "https://images.unsplash.com/photo-1555881400-74d7acaacd8b?auto=format&fit=crop&w=800&q=75", // lisbon
+  "lang-finnish-fi": "https://images.unsplash.com/photo-1604111950188-fdf72b65d29c?auto=format&fit=crop&w=800&q=75", // helsinki cathedral
+  "lang-hebrew-il": "https://images.unsplash.com/photo-1544971587-89218d2c1607?auto=format&fit=crop&w=800&q=75", // jerusalem
+
+  // ---------- Special Landmarks ----------
+  "lm-sauna-fi": "https://images.unsplash.com/photo-1554101599-2dee36d96d99?auto=format&fit=crop&w=800&q=75", // sauna interior
+  "lm-coffee-vn": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=75", // coffee
+  "lm-tea-uk": "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=75", // afternoon tea
+  "lm-tango-ar": "https://images.unsplash.com/photo-1545959570-a94084071b5d?auto=format&fit=crop&w=800&q=75", // tango dance
+  "lm-cherryblossom-jp": "https://images.unsplash.com/photo-1522383225653-ed111181a951?auto=format&fit=crop&w=800&q=75", // sakura
+  "lm-tulip-nl": "https://images.unsplash.com/photo-1523694576729-1ef10086fe65?auto=format&fit=crop&w=800&q=75", // tulip fields
+  "lm-balloon-tr": "https://images.unsplash.com/photo-1570213489059-0aac6626cade?auto=format&fit=crop&w=800&q=75", // cappadocia balloons
+  "lm-maple-ca": "https://images.unsplash.com/photo-1507783548227-544c3b8fc065?auto=format&fit=crop&w=800&q=75", // maple autumn
+  "lm-yoga-in": "https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=800&q=75", // yoga
+  "lm-pizza-it": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=800&q=75", // pizza
+  "lm-outback-au": "https://images.unsplash.com/photo-1529108190281-9a4f620bc2d8?auto=format&fit=crop&w=800&q=75", // uluru
+  "lm-chai-in": "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=75", // chai (placeholder tea)
+  "lm-skyline-us": "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=800&q=75", // nyc skyline
+  "lm-bazaar-tr": "https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=800&q=75", // bazaar lamps
+
+  // ---------- Global Cuisine ----------
+  "cui-pizza-it": "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=800&q=75", // pizza napoli
+  "cui-sushi-jp": "https://images.unsplash.com/photo-1611143669185-af224c5e3252?auto=format&fit=crop&w=800&q=75", // sushi platter
+  "cui-pho-vn": "https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?auto=format&fit=crop&w=800&q=75", // pho noodle bowl
+  "cui-tacos-mx": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=800&q=75", // tacos
+  "cui-croissant-fr": "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=800&q=75", // croissant
+};
+
+// =============================================================================
 // Types
 // =============================================================================
 
