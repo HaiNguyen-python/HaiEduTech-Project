@@ -18,6 +18,7 @@ import { ArrowLeft, Volume2, Timer, Mic, Pause, Play, RotateCcw, NotebookPen, Sp
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { playFinnishTts } from "@/lib/finnishTts";
+import ClickableFinnishText from "@/components/ClickableFinnishText";
 import {
   B1_READING_ALL as B1_READING,
   B1_LISTENING_ALL as B1_LISTENING,
@@ -84,6 +85,7 @@ const YkiB1Dashboard = () => {
   const [readingAnswers, setReadingAnswers] = useState<Record<string, number>>({});
   const [listeningAnswers, setListeningAnswers] = useState<Record<string, number>>({});
   const [showResults, setShowResults] = useState<Record<string, boolean>>({});
+  const [translateMode, setTranslateMode] = useState(false);
   const [essay, setEssay] = useState("");
   const [grading, setGrading] = useState(false);
   const [feedback, setFeedback] = useState<string | null>(null);
@@ -158,6 +160,27 @@ const YkiB1Dashboard = () => {
 
           {/* READING */}
           <TabsContent value="reading" className="mt-6 space-y-5">
+            {/* Translate-on-click toggle */}
+            <div className="flex items-center justify-between flex-wrap gap-2 p-3 rounded-lg bg-[#003580]/5 border border-[#003580]/15">
+              <p className="text-sm">
+                <span className="font-semibold text-[#003580]">🌍 {t("Chế độ dịch từ", "Word translation mode")}:</span>{" "}
+                <span className="text-muted-foreground">
+                  {t(
+                    "Bật để bấm vào bất kỳ từ tiếng Phần nào trong bài đọc và xem nghĩa tiếng Anh.",
+                    "Turn on to click any Finnish word in a passage and see its English meaning."
+                  )}
+                </span>
+              </p>
+              <Button
+                size="sm"
+                variant={translateMode ? "default" : "outline"}
+                className={translateMode ? "bg-[#003580] hover:bg-[#003580]/90" : ""}
+                onClick={() => setTranslateMode((v) => !v)}
+              >
+                {translateMode ? t("✓ Đang bật", "✓ ON") : t("Bật dịch EN", "Enable EN translation")}
+              </Button>
+            </div>
+
             {B1_READING.map(p => (
               <Card key={p.id} className="p-5">
                 <div className="flex items-start justify-between gap-3 mb-3 flex-wrap">
@@ -167,7 +190,13 @@ const YkiB1Dashboard = () => {
                   </div>
                   <SectionTimer minutes={p.timeMinutes} />
                 </div>
-                <div className="text-foreground/90 whitespace-pre-wrap leading-relaxed mb-3 p-3 bg-secondary/30 rounded">{p.textFi}</div>
+                {translateMode ? (
+                  <div className="text-foreground/90 mb-3 p-3 bg-secondary/30 rounded">
+                    <ClickableFinnishText text={p.textFi} />
+                  </div>
+                ) : (
+                  <div className="text-foreground/90 whitespace-pre-wrap leading-relaxed mb-3 p-3 bg-secondary/30 rounded">{p.textFi}</div>
+                )}
                 {p.hintVi && lang === "vi" && (
                   <details className="text-xs text-muted-foreground mb-3">
                     <summary className="cursor-pointer">💡 Gợi ý tiếng Việt</summary>
