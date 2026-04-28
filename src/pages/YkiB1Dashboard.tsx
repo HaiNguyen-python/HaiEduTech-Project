@@ -190,7 +190,13 @@ const YkiB1Dashboard = () => {
                   </div>
                   <SectionTimer minutes={p.timeMinutes} />
                 </div>
-                <div className="text-foreground/90 whitespace-pre-wrap leading-relaxed mb-3 p-3 bg-secondary/30 rounded">{p.textFi}</div>
+                {translateMode ? (
+                  <div className="text-foreground/90 mb-3 p-3 bg-secondary/30 rounded">
+                    <ClickableFinnishText text={p.textFi} />
+                  </div>
+                ) : (
+                  <div className="text-foreground/90 whitespace-pre-wrap leading-relaxed mb-3 p-3 bg-secondary/30 rounded">{p.textFi}</div>
+                )}
                 {p.hintVi && lang === "vi" && (
                   <details className="text-xs text-muted-foreground mb-3">
                     <summary className="cursor-pointer">💡 Gợi ý tiếng Việt</summary>
