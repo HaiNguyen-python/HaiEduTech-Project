@@ -506,11 +506,47 @@ import {
   B1_SPEAKING_EXPANSION2,
   B1_WORD_POOL_EXPANSION2,
 } from "./ykiB1Expansion2";
+import {
+  B1_READING_EXP3,
+  B1_LISTENING_EXP3,
+  B1_WRITING_EXP3,
+  B1_SPEAKING_EXP3,
+} from "./ykiB1Expansion3";
+import {
+  B1_READING_EXP4,
+  B1_LISTENING_EXP4,
+  B1_WRITING_EXP4,
+  B1_SPEAKING_EXP4,
+} from "./ykiB1Expansion4";
 
-export const B1_READING_ALL: B1ReadingPassage[] = [...B1_READING, ...B1_READING_EXPANSION, ...B1_READING_EXPANSION2];
-export const B1_LISTENING_ALL: B1ListeningClip[] = [...B1_LISTENING, ...B1_LISTENING_EXPANSION, ...B1_LISTENING_EXPANSION2];
-export const B1_WRITING_ALL: B1WritingTemplate[] = [...B1_WRITING, ...B1_WRITING_EXPANSION, ...B1_WRITING_EXPANSION2];
-export const B1_SPEAKING_ALL: B1SpeakingSituation[] = [...B1_SPEAKING, ...B1_SPEAKING_EXPANSION, ...B1_SPEAKING_EXPANSION2];
+export const B1_READING_ALL: B1ReadingPassage[] = [
+  ...B1_READING,
+  ...B1_READING_EXPANSION,
+  ...B1_READING_EXPANSION2,
+  ...B1_READING_EXP3,
+  ...B1_READING_EXP4,
+];
+export const B1_LISTENING_ALL: B1ListeningClip[] = [
+  ...B1_LISTENING,
+  ...B1_LISTENING_EXPANSION,
+  ...B1_LISTENING_EXPANSION2,
+  ...B1_LISTENING_EXP3,
+  ...B1_LISTENING_EXP4,
+];
+export const B1_WRITING_ALL: B1WritingTemplate[] = [
+  ...B1_WRITING,
+  ...B1_WRITING_EXPANSION,
+  ...B1_WRITING_EXPANSION2,
+  ...B1_WRITING_EXP3,
+  ...B1_WRITING_EXP4,
+];
+export const B1_SPEAKING_ALL: B1SpeakingSituation[] = [
+  ...B1_SPEAKING,
+  ...B1_SPEAKING_EXPANSION,
+  ...B1_SPEAKING_EXPANSION2,
+  ...B1_SPEAKING_EXP3,
+  ...B1_SPEAKING_EXP4,
+];
 export const B1_WORD_POOL_ALL: B1WordOfDay[] = [...B1_WORD_POOL, ...B1_WORD_POOL_EXPANSION, ...B1_WORD_POOL_EXPANSION2];
 
 /** Pick today's word deterministically (rotates over full pool incl. expansion) */
