@@ -1,20 +1,27 @@
 /**
  * @file ClickableFinnishText.tsx
  * @description Render Finnish text where every word is clickable. Clicking shows a
- *   Popover with the English translation (fetched once, cached in localStorage).
- *   Uses the public MyMemory API (no key needed, fi→en).
+ *   Popover with the English translation via Lovable AI (handles inflected words).
+ *   Cached in localStorage. Uses forwardRef-compatible Slot via PopoverTrigger asChild.
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import { useState, useCallback, memo } from "react";
+import { useState, useCallback, forwardRef } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Loader2, Volume2 } from "lucide-react";
 import { playFinnishTts } from "@/lib/finnishTts";
+import { supabase } from "@/integrations/supabase/client";
 
-const CACHE_KEY = "fi-en-word-cache";
-const MAX_CACHE = 800;
+const CACHE_KEY = "fi-en-word-cache-v2";
+const MAX_CACHE = 1000;
 
-const loadCache = (): Record<string, string> => {
+interface TranslationResult {
+  base: string;
+  en: string;
+  pos: string;
+}
+
+const loadCache = (): Record<string, TranslationResult> => {
   try {
     return JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
   } catch {
@@ -22,11 +29,11 @@ const loadCache = (): Record<string, string> => {
   }
 };
 
-const saveCache = (cache: Record<string, string>) => {
+const saveCache = (cache: Record<string, TranslationResult>) => {
   try {
     const entries = Object.entries(cache);
-    // Trim if too big — keep most recent
-    const trimmed = entries.length > MAX_CACHE ? Object.fromEntries(entries.slice(-MAX_CACHE)) : cache;
+    const trimmed =
+      entries.length > MAX_CACHE ? Object.fromEntries(entries.slice(-MAX_CACHE)) : cache;
     localStorage.setItem(CACHE_KEY, JSON.stringify(trimmed));
   } catch {
     /* quota — ignore */
@@ -35,39 +42,56 @@ const saveCache = (cache: Record<string, string>) => {
 
 const cleanWord = (raw: string) => raw.toLowerCase().replace(/[^\p{L}\p{M}-]/gu, "");
 
-async function translateWord(word: string): Promise<string> {
+async function translateWord(word: string): Promise<TranslationResult> {
   const cache = loadCache();
   const key = cleanWord(word);
-  if (!key) return "";
+  if (!key) return { base: word, en: "", pos: "" };
   if (cache[key]) return cache[key];
 
   try {
-    const res = await fetch(
-      `https://api.mymemory.translated.net/get?q=${encodeURIComponent(key)}&langpair=fi|en`
-    );
-    if (!res.ok) throw new Error("api error");
-    const data = await res.json();
-    const translation: string =
-      (data?.responseData?.translatedText as string)?.trim() || "";
-    if (translation && translation.toLowerCase() !== key) {
-      cache[key] = translation;
+    const { data, error } = await supabase.functions.invoke("translate-finnish-word", {
+      body: { word: key },
+    });
+    if (error) throw error;
+    const result: TranslationResult = {
+      base: data?.base || key,
+      en: data?.en || "",
+      pos: data?.pos || "",
+    };
+    if (result.en) {
+      cache[key] = result;
       saveCache(cache);
-      return translation;
     }
-    return translation || "—";
+    return result;
   } catch {
-    return "—";
+    return { base: key, en: "", pos: "" };
   }
 }
 
 interface WordChipProps {
-  word: string; // raw token incl. punctuation
+  word: string;
 }
 
-const WordChip = memo(({ word }: WordChipProps) => {
+// Use forwardRef so Radix Popover can attach refs (fixes warning)
+const WordTrigger = forwardRef<HTMLSpanElement, React.HTMLAttributes<HTMLSpanElement> & { word: string }>(
+  ({ word, ...props }, ref) => (
+    <span
+      ref={ref}
+      role="button"
+      tabIndex={0}
+      className="cursor-pointer rounded px-0.5 -mx-0.5 hover:bg-[#003580]/15 hover:text-[#003580] transition-colors"
+      {...props}
+    >
+      {word}
+    </span>
+  )
+);
+WordTrigger.displayName = "WordTrigger";
+
+const WordChip = ({ word }: WordChipProps) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [translation, setTranslation] = useState<string>("");
+  const [result, setResult] = useState<TranslationResult | null>(null);
 
   const cleaned = cleanWord(word);
   const isWord = cleaned.length > 0;
@@ -75,41 +99,33 @@ const WordChip = memo(({ word }: WordChipProps) => {
   const handleOpen = useCallback(
     async (next: boolean) => {
       setOpen(next);
-      if (next && !translation && isWord) {
+      if (next && !result && isWord) {
         setLoading(true);
-        const result = await translateWord(cleaned);
-        setTranslation(result);
+        const r = await translateWord(cleaned);
+        setResult(r);
         setLoading(false);
       }
     },
-    [translation, isWord, cleaned]
+    [result, isWord, cleaned]
   );
 
-  if (!isWord) {
-    // pure punctuation / whitespace — render plain
-    return <span>{word}</span>;
-  }
+  if (!isWord) return <span>{word}</span>;
 
   return (
     <Popover open={open} onOpenChange={handleOpen}>
       <PopoverTrigger asChild>
-        <span
-          role="button"
-          tabIndex={0}
-          className="cursor-pointer rounded px-0.5 -mx-0.5 hover:bg-[#003580]/15 hover:text-[#003580] transition-colors"
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              handleOpen(!open);
-            }
-          }}
-        >
-          {word}
-        </span>
+        <WordTrigger word={word} />
       </PopoverTrigger>
-      <PopoverContent className="w-64 p-3" side="top" align="center">
+      <PopoverContent className="w-72 p-3" side="top" align="center">
         <div className="flex items-center justify-between gap-2 mb-2">
-          <p className="font-bold text-sm text-[#003580]">{cleaned}</p>
+          <div>
+            <p className="font-bold text-sm text-[#003580]">{cleaned}</p>
+            {result?.base && result.base.toLowerCase() !== cleaned && (
+              <p className="text-[11px] text-muted-foreground">
+                base: <span className="italic">{result.base}</span>
+              </p>
+            )}
+          </div>
           <button
             type="button"
             aria-label="Phát âm"
@@ -128,29 +144,28 @@ const WordChip = memo(({ word }: WordChipProps) => {
               <Loader2 className="w-3 h-3 animate-spin" /> Translating…
             </span>
           ) : (
-            <p className="text-foreground/90">
-              <span className="text-xs text-muted-foreground">EN: </span>
-              <span className="font-medium">{translation || "—"}</span>
-            </p>
+            <div className="space-y-1">
+              <p className="text-foreground/90">
+                <span className="text-xs text-muted-foreground">EN: </span>
+                <span className="font-medium">{result?.en || "(no result)"}</span>
+              </p>
+              {result?.pos && (
+                <p className="text-[11px] text-muted-foreground italic">{result.pos}</p>
+              )}
+            </div>
           )}
         </div>
       </PopoverContent>
     </Popover>
   );
-});
-WordChip.displayName = "WordChip";
+};
 
 interface ClickableFinnishTextProps {
   text: string;
   className?: string;
 }
 
-/**
- * Splits Finnish text into words + spaces/punct while preserving line breaks.
- * Each word becomes an interactive chip that shows the EN translation on click.
- */
 const ClickableFinnishText = ({ text, className }: ClickableFinnishTextProps) => {
-  // Tokenize keeping separators (spaces, punctuation, newlines)
   const tokens = text.split(/(\s+|[.,!?;:"'„"()\[\]…—–-])/g).filter((t) => t.length > 0);
 
   return (
