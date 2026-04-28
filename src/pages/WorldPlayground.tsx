@@ -1250,7 +1250,7 @@ const WorldPlayground = () => {
                               {/* Realistic photo thumbnail */}
                               <div className="relative w-full h-40 overflow-hidden bg-secondary/40">
                                 <img
-                                  src={lesson.image}
+                                  src={LESSON_IMAGE_OVERRIDES[lesson.id] ?? lesson.image}
                                   alt={t(lesson.title, lesson.titleEn)}
                                   loading="lazy"
                                   width={800}
@@ -1258,9 +1258,13 @@ const WorldPlayground = () => {
                                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                                   onError={(e) => {
                                     const img = e.currentTarget;
-                                    if (!img.dataset.fallback) {
-                                      img.dataset.fallback = "1";
-                                      img.src = `https://source.unsplash.com/800x500/?${encodeURIComponent(lesson.titleEn || lesson.countryEn)}`;
+                                    // Two-step fallback: original lesson.image, then a stable picsum seed
+                                    if (!img.dataset.fallback1 && lesson.image && img.src !== lesson.image) {
+                                      img.dataset.fallback1 = "1";
+                                      img.src = lesson.image;
+                                    } else if (!img.dataset.fallback2) {
+                                      img.dataset.fallback2 = "1";
+                                      img.src = `https://picsum.photos/seed/${encodeURIComponent(lesson.id)}/800/500`;
                                     } else {
                                       img.style.display = "none";
                                     }
