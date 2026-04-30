@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useCourseAccess } from "@/hooks/useCourseAccess";
 import AccessDeniedModal from "@/components/AccessDeniedModal";
 import IeltsExamBreakdown from "@/components/ielts/IeltsExamBreakdown";
+import SatExamFormat from "@/components/SatExamFormat";
 
 import cambridgeImg from "@/assets/course-cambridge.jpg";
 import ieltsImg from "@/assets/course-ielts.jpg";
@@ -355,6 +356,9 @@ const EnglishCourse = () => {
             {/* IELTS Exam Breakdown — 4 skills + Roadmap by Band */}
             {courseId === "ielts" && <IeltsExamBreakdown />}
 
+            {/* SAT detailed format + 10-week curriculum (replaces generic Highlights/Curriculum/Audience/Testimonials) */}
+            {courseId === "sat" && <SatExamFormat />}
+
             {/* Stats — hidden for IELTS */}
             {course.stats && courseId !== "ielts" && (
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
@@ -368,8 +372,8 @@ const EnglishCourse = () => {
               </div>
             )}
 
-            {/* Features — hidden for IELTS */}
-            {courseId !== "ielts" && (
+            {/* Features — hidden for IELTS & SAT */}
+            {courseId !== "ielts" && courseId !== "sat" && (
               <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
                 <h2 className="text-xl font-display font-bold text-foreground mb-4 flex items-center gap-2">
                   <Star className="w-5 h-5 text-yellow-500" /> {t("Điểm nổi bật", "Highlights")}
@@ -386,7 +390,7 @@ const EnglishCourse = () => {
             )}
 
             {/* Curriculum — hidden for IELTS (replaced by IeltsExamBreakdown above) */}
-            {courseId !== "ielts" && (
+            {courseId !== "ielts" && courseId !== "sat" && (
               <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
                 <h2 className="text-xl font-display font-bold text-foreground mb-4 flex items-center gap-2">
                   <Clock className="w-5 h-5 text-primary" /> {t("Giáo án & Lộ trình", "Curriculum & Roadmap")}
@@ -408,7 +412,7 @@ const EnglishCourse = () => {
             )}
 
             {/* Audience — hidden for IELTS */}
-            {courseId !== "ielts" && (
+            {courseId !== "ielts" && courseId !== "sat" && (
               <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
                 <h2 className="text-xl font-display font-bold text-foreground mb-4 flex items-center gap-2">
                   <Users className="w-5 h-5 text-primary" /> {t("Đối tượng phù hợp", "Who is this for?")}
@@ -425,7 +429,7 @@ const EnglishCourse = () => {
             )}
 
             {/* Testimonials — hidden for IELTS */}
-            {courseId !== "ielts" && course.testimonials && course.testimonials.length > 0 && (
+            {courseId !== "ielts" && courseId !== "sat" && course.testimonials && course.testimonials.length > 0 && (
               <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
                 <div className="flex items-center gap-2 mb-5">
                   <Award className="w-5 h-5 text-primary" />
