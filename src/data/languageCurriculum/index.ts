@@ -40,7 +40,7 @@ import type { LanguageModule, LanguageLesson, InteractiveExercise, FillInBlankEx
 
 export type { LanguageModule, LanguageLesson, InteractiveExercise, FillInBlankExercise, SentenceReorderExercise, DictationExercise, MCQExercise, VocabEntry };
 
-export { ieltsModules, toeicModules, cambridgeModules, nationalExamModules, hskModules, chineseConvModules, grammarModules, satModules };
+export { ieltsModules, toeicModules, cambridgeModules, nationalExamModules, hskModules, chineseConvModules, grammarModules };
 
 // Merge extra lessons (from both expansion files) into existing grammar modules
 const allGrammarExtras = [
