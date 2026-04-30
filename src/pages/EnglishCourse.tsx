@@ -468,8 +468,8 @@ const EnglishCourse = () => {
                         <div className="flex items-start gap-3 mb-4 pb-3 border-b border-border">
                           <span className="text-3xl">{mod.icon}</span>
                           <div className="flex-1 min-w-0">
-                            <h3 className="font-bold text-foreground text-base md:text-lg">{mod.title}</h3>
-                            <p className="text-xs md:text-sm text-muted-foreground mt-1">{mod.description}</p>
+                            <h3 className="font-bold text-foreground text-base md:text-lg">{t(mod.title, mod.titleEn)}</h3>
+                            <p className="text-xs md:text-sm text-muted-foreground mt-1">{t(mod.description, mod.descriptionEn)}</p>
                           </div>
                           <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full font-medium whitespace-nowrap shrink-0">
                             {mod.lessons.length} {t("bài", "lessons")}
@@ -489,7 +489,7 @@ const EnglishCourse = () => {
                                 </div>
                                 <div className="flex-1 min-w-0">
                                   <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2">
-                                    {lesson.title}
+                                    {t(lesson.title, lesson.titleEn)}
                                   </p>
                                   {lesson.difficulty && (
                                     <span className="inline-block mt-1.5 text-[10px] uppercase tracking-wide bg-muted text-muted-foreground px-1.5 py-0.5 rounded font-medium">
