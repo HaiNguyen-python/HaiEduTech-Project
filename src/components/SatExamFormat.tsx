@@ -160,7 +160,12 @@ const SatExamFormat = () => {
         "Complete 1 R&W + 1 Math module. Log into Bluebook; learn Annotate, Mark for Review, Reference Sheet, Desmos."
       ),
       assessment: t("Diagnostic baseline score", "Diagnostic baseline score"),
-      lessons: ["sat-bluebook-four-tools"],
+      lessons: [
+        "sat-meet-the-test",
+        "sat-test-mindset-101",
+        "sat-question-types-tour",
+        "sat-bluebook-four-tools",
+      ],
     },
     {
       week: t("Tuần 2", "Week 2"),
@@ -175,7 +180,14 @@ const SatExamFormat = () => {
         "Master 80 high-frequency SAT words (Set 1). Drill 30 Words-in-Context items and log a clue per question."
       ),
       assessment: t("Quiz 30 câu Words in Context · mục tiêu ≥ 80%", "30-Q Words-in-Context quiz · target ≥ 80%"),
-      lessons: ["sat-vocab-set1", "sat-rw-words-context", "sat-predict-then-pick"],
+      lessons: [
+        "sat-vocab-warmup-30",
+        "sat-reading-mini-1",
+        "sat-reading-mini-3",
+        "sat-vocab-set1",
+        "sat-rw-words-context",
+        "sat-predict-then-pick",
+      ],
     },
     {
       week: t("Tuần 3", "Week 3"),
@@ -190,7 +202,7 @@ const SatExamFormat = () => {
         "Drill 25 Inference + 25 Command-of-Evidence items. Always write a line reference."
       ),
       assessment: t("Mini-test 50 câu · phân tích sai theo 3 bucket", "50-Q mini-test · classify misses by 3 buckets"),
-      lessons: ["sat-inference-questions", "sat-rw-evidence-reading", "sat-rw-command-evidence"],
+      lessons: ["sat-reading-mini-2", "sat-inference-questions", "sat-rw-evidence-reading", "sat-rw-command-evidence"],
     },
     {
       week: t("Tuần 4", "Week 4"),
@@ -235,7 +247,7 @@ const SatExamFormat = () => {
         "Drill 60 Algebra items (level 3-4). Use Desmos on ≥ 20 to build the reflex."
       ),
       assessment: t("Quiz 30 câu Algebra · ≥ 80%", "30-Q Algebra quiz · ≥ 80%"),
-      lessons: ["sat-algebra-core", "sat-linear-systems-graph"],
+      lessons: ["sat-math-numbers-refresh", "sat-math-linear-1step", "sat-math-desmos-tour", "sat-algebra-core", "sat-linear-systems-graph"],
     },
     {
       week: t("Tuần 7", "Week 7"),
