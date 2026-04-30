@@ -508,8 +508,8 @@ const EnglishCourse = () => {
               ) : null;
             })()}
 
-            {/* Contact / Register — hidden for IELTS */}
-            {courseId !== "ielts" && (
+            {/* Contact / Register — hidden for IELTS and SAT */}
+            {courseId !== "ielts" && courseId !== "sat" && (
               <div className="glass-card rounded-2xl p-6 md:p-8 border-2 border-primary/20">
                 <h2 className="text-xl font-display font-bold text-foreground mb-2 flex items-center gap-2">
                   <Phone className="w-5 h-5 text-primary" /> {t("Đăng ký học ngay", "Register Now")}
