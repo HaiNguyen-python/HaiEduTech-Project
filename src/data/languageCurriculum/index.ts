@@ -15,6 +15,7 @@ import { satExpansionModules3 } from "./englishSatExpansion3";
 import { satExpansionModules4 } from "./englishSatExpansion4";
 import { satExpansionModules5 } from "./englishSatExpansion5";
 import { satExpansionModules6 } from "./englishSatExpansion6";
+import { satExpansionModules7 } from "./englishSatExpansion7";
 import { grammarExpansionModules2 } from "./englishGrammarExpansion2";
 import { grammarExpansionModules3 } from "./englishGrammarExpansion3";
 import { grammarExtraLessons4, grammarExpansionModules4 } from "./englishGrammarExpansion4";
@@ -66,6 +67,7 @@ export const allEnglishModules: LanguageModule[] = [
   ...satExpansionModules4,
   ...satExpansionModules5,
   ...satExpansionModules6,
+  ...satExpansionModules7,
 ];
 
 // All Chinese modules combined
