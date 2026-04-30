@@ -74,21 +74,15 @@ export const satExpansionModules8: LanguageModule[] = [
         quiz: [
           {
             question: "Which subject takes a SINGULAR verb?",
-            questionEn: "Which subject takes a SINGULAR verb?",
             options: ["The students", "Each of the players", "Many books", "Several teachers"],
-            optionsEn: ["The students", "Each of the players", "Many books", "Several teachers"],
-            correctIndex: 1,
+            answer: 1,
             explanation: "‘Each of …’ is always singular regardless of the noun that follows.",
-            explanationEn: "‘Each of …’ is always singular regardless of the noun that follows."
           },
           {
             question: "In ‘There ___ five reasons’, the verb agrees with…",
-            questionEn: "In ‘There ___ five reasons’, the verb agrees with…",
             options: ["There", "five", "reasons", "the listener"],
-            optionsEn: ["There", "five", "reasons", "the listener"],
-            correctIndex: 2,
+            answer: 2,
             explanation: "In inverted order, the verb agrees with the real subject that follows it.",
-            explanationEn: "In inverted order, the verb agrees with the real subject that follows it."
           }
         ]
       },
@@ -140,7 +134,6 @@ export const satExpansionModules8: LanguageModule[] = [
         quiz: [
           {
             question: "Which sentence has a CORRECTLY placed modifier?",
-            questionEn: "Which sentence has a CORRECTLY placed modifier?",
             options: [
               "Walking to school, the rain started.",
               "Walking to school, I felt the rain start.",
@@ -153,9 +146,8 @@ export const satExpansionModules8: LanguageModule[] = [
               "The rain started walking to school.",
               "Walking the rain started to school."
             ],
-            correctIndex: 1,
+            answer: 1,
             explanation: "‘I’ is the doer of ‘walking’; the arrow from the modifier to the subject is short and logical.",
-            explanationEn: "‘I’ is the doer of ‘walking’; the arrow from the modifier to the subject is short and logical."
           }
         ]
       },
@@ -207,7 +199,6 @@ export const satExpansionModules8: LanguageModule[] = [
         quiz: [
           {
             question: "Which sentence has an UNCLEAR pronoun?",
-            questionEn: "Which sentence has an UNCLEAR pronoun?",
             options: [
               "Lan told Mai that Mai had to leave.",
               "Lan told Mai that she had to leave.",
@@ -220,9 +211,8 @@ export const satExpansionModules8: LanguageModule[] = [
               "Lan, who was tired, left early.",
               "Mai left because she felt tired."
             ],
-            correctIndex: 1,
+            answer: 1,
             explanation: "‘She’ could refer to Lan or Mai — that's the ambiguity SAT flags.",
-            explanationEn: "‘She’ could refer to Lan or Mai — that's the ambiguity SAT flags."
           }
         ]
       }
@@ -293,21 +283,15 @@ export const satExpansionModules8: LanguageModule[] = [
         quiz: [
           {
             question: "Which word means ‘to make less severe’?",
-            questionEn: "Which word means ‘to make less severe’?",
             options: ["mitigate", "magnify", "merit", "muddle"],
-            optionsEn: ["mitigate", "magnify", "merit", "muddle"],
-            correctIndex: 0,
+            answer: 0,
             explanation: "Mitigate = reduce the severity/intensity of something.",
-            explanationEn: "Mitigate = reduce the severity/intensity of something."
           },
           {
             question: "‘Ephemeral’ most nearly means…",
-            questionEn: "‘Ephemeral’ most nearly means…",
             options: ["lasting briefly", "permanent", "powerful", "expensive"],
-            optionsEn: ["lasting briefly", "permanent", "powerful", "expensive"],
-            correctIndex: 0,
+            answer: 0,
             explanation: "Ephemeral describes something that lasts for a very short time.",
-            explanationEn: "Ephemeral describes something that lasts for a very short time."
           }
         ]
       }
@@ -374,12 +358,9 @@ export const satExpansionModules8: LanguageModule[] = [
         quiz: [
           {
             question: "Which lens is MISSING from a complete mock debrief: Score, Time, Errors, ___?",
-            questionEn: "Which lens is MISSING from a complete mock debrief: Score, Time, Errors, ___?",
             options: ["Emotion", "Vocabulary", "Sleep", "Lighting"],
-            optionsEn: ["Emotion", "Vocabulary", "Sleep", "Lighting"],
-            correctIndex: 0,
+            answer: 0,
             explanation: "Emotion (where stress or mind-blank happened) is the 4th lens.",
-            explanationEn: "Emotion (where stress or mind-blank happened) is the 4th lens."
           }
         ]
       },
@@ -430,12 +411,9 @@ export const satExpansionModules8: LanguageModule[] = [
         quiz: [
           {
             question: "If 60 drill questions don't raise accuracy, the problem is most likely…",
-            questionEn: "If 60 drill questions don't raise accuracy, the problem is most likely…",
             options: ["Need more questions", "Theory gap", "Bad lighting", "Slow internet"],
-            optionsEn: ["Need more questions", "Theory gap", "Bad lighting", "Slow internet"],
-            correctIndex: 1,
+            answer: 1,
             explanation: "Volume can't fix a missing concept — return to theory before drilling more.",
-            explanationEn: "Volume can't fix a missing concept — return to theory before drilling more."
           }
         ]
       },
@@ -486,12 +464,9 @@ export const satExpansionModules8: LanguageModule[] = [
         quiz: [
           {
             question: "Which trap describes an answer that REPEATS exact words from the passage but answers the wrong question?",
-            questionEn: "Which trap describes an answer that REPEATS exact words from the passage but answers the wrong question?",
             options: ["word-trap", "extreme", "out-of-scope", "half-right"],
-            optionsEn: ["word-trap", "extreme", "out-of-scope", "half-right"],
-            correctIndex: 0,
+            answer: 0,
             explanation: "Word-trap = verbatim repetition that lures students into a wrong choice.",
-            explanationEn: "Word-trap = verbatim repetition that lures students into a wrong choice."
           }
         ]
       },
@@ -542,12 +517,9 @@ export const satExpansionModules8: LanguageModule[] = [
         quiz: [
           {
             question: "If you hit accuracy but MISS pacing on Hard Math, what do you drill next?",
-            questionEn: "If you hit accuracy but MISS pacing on Hard Math, what do you drill next?",
             options: ["More theory", "Desmos shortcuts", "Vocabulary", "Reading speed"],
-            optionsEn: ["More theory", "Desmos shortcuts", "Vocabulary", "Reading speed"],
-            correctIndex: 1,
+            answer: 1,
             explanation: "Pacing on Hard Math is usually a tooling problem; drill Desmos shortcuts.",
-            explanationEn: "Pacing on Hard Math is usually a tooling problem; drill Desmos shortcuts."
           }
         ]
       },
@@ -598,12 +570,9 @@ export const satExpansionModules8: LanguageModule[] = [
         quiz: [
           {
             question: "If Module 1 feels brutal, your Plan B should be to…",
-            questionEn: "If Module 1 feels brutal, your Plan B should be to…",
             options: ["leave items blank", "answer everything, even guesses", "give up", "switch to Math"],
-            optionsEn: ["leave items blank", "answer everything, even guesses", "give up", "switch to Math"],
-            correctIndex: 1,
+            answer: 1,
             explanation: "Filling everything keeps you eligible for the ‘Easier’ Module 2 instead of collapsing the score.",
-            explanationEn: "Filling everything keeps you eligible for the ‘Easier’ Module 2 instead of collapsing the score."
           }
         ]
       },
@@ -654,12 +623,9 @@ export const satExpansionModules8: LanguageModule[] = [
         quiz: [
           {
             question: "What's the PRIMARY goal of the simulation-peak week?",
-            questionEn: "What's the PRIMARY goal of the simulation-peak week?",
             options: ["Push the highest score", "Train stamina & consistency", "Learn new content", "Skip practice"],
-            optionsEn: ["Push the highest score", "Train stamina & consistency", "Learn new content", "Skip practice"],
-            correctIndex: 1,
+            answer: 1,
             explanation: "Peak week trains endurance and consistency, not raw score gains.",
-            explanationEn: "Peak week trains endurance and consistency, not raw score gains."
           }
         ]
       },
@@ -711,12 +677,9 @@ export const satExpansionModules8: LanguageModule[] = [
         quiz: [
           {
             question: "Which activity should you AVOID during test week?",
-            questionEn: "Which activity should you AVOID during test week?",
             options: ["Sleeping 8 hours", "Running a full mock", "Reviewing flashcards", "Light walks"],
-            optionsEn: ["Sleeping 8 hours", "Running a full mock", "Reviewing flashcards", "Light walks"],
-            correctIndex: 1,
+            answer: 1,
             explanation: "Running a full mock in test week drains the mental energy you need on test day.",
-            explanationEn: "Running a full mock in test week drains the mental energy you need on test day."
           }
         ]
       }
