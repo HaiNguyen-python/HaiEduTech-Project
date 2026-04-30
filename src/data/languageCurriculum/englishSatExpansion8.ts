@@ -73,7 +73,6 @@ export const satExpansionModules8: LanguageModule[] = [
         ],
         quiz: [
           {
-            type: "mcq",
             question: "Which subject takes a SINGULAR verb?",
             questionEn: "Which subject takes a SINGULAR verb?",
             options: ["The students", "Each of the players", "Many books", "Several teachers"],
@@ -83,7 +82,6 @@ export const satExpansionModules8: LanguageModule[] = [
             explanationEn: "‘Each of …’ is always singular regardless of the noun that follows."
           },
           {
-            type: "mcq",
             question: "In ‘There ___ five reasons’, the verb agrees with…",
             questionEn: "In ‘There ___ five reasons’, the verb agrees with…",
             options: ["There", "five", "reasons", "the listener"],
@@ -141,7 +139,6 @@ export const satExpansionModules8: LanguageModule[] = [
         ],
         quiz: [
           {
-            type: "mcq",
             question: "Which sentence has a CORRECTLY placed modifier?",
             questionEn: "Which sentence has a CORRECTLY placed modifier?",
             options: [
@@ -209,7 +206,6 @@ export const satExpansionModules8: LanguageModule[] = [
         ],
         quiz: [
           {
-            type: "mcq",
             question: "Which sentence has an UNCLEAR pronoun?",
             questionEn: "Which sentence has an UNCLEAR pronoun?",
             options: [
@@ -296,7 +292,6 @@ export const satExpansionModules8: LanguageModule[] = [
         ],
         quiz: [
           {
-            type: "mcq",
             question: "Which word means ‘to make less severe’?",
             questionEn: "Which word means ‘to make less severe’?",
             options: ["mitigate", "magnify", "merit", "muddle"],
@@ -306,7 +301,6 @@ export const satExpansionModules8: LanguageModule[] = [
             explanationEn: "Mitigate = reduce the severity/intensity of something."
           },
           {
-            type: "mcq",
             question: "‘Ephemeral’ most nearly means…",
             questionEn: "‘Ephemeral’ most nearly means…",
             options: ["lasting briefly", "permanent", "powerful", "expensive"],
@@ -379,7 +373,6 @@ export const satExpansionModules8: LanguageModule[] = [
         ],
         quiz: [
           {
-            type: "mcq",
             question: "Which lens is MISSING from a complete mock debrief: Score, Time, Errors, ___?",
             questionEn: "Which lens is MISSING from a complete mock debrief: Score, Time, Errors, ___?",
             options: ["Emotion", "Vocabulary", "Sleep", "Lighting"],
@@ -436,7 +429,6 @@ export const satExpansionModules8: LanguageModule[] = [
         ],
         quiz: [
           {
-            type: "mcq",
             question: "If 60 drill questions don't raise accuracy, the problem is most likely…",
             questionEn: "If 60 drill questions don't raise accuracy, the problem is most likely…",
             options: ["Need more questions", "Theory gap", "Bad lighting", "Slow internet"],
@@ -493,7 +485,6 @@ export const satExpansionModules8: LanguageModule[] = [
         ],
         quiz: [
           {
-            type: "mcq",
             question: "Which trap describes an answer that REPEATS exact words from the passage but answers the wrong question?",
             questionEn: "Which trap describes an answer that REPEATS exact words from the passage but answers the wrong question?",
             options: ["word-trap", "extreme", "out-of-scope", "half-right"],
@@ -550,7 +541,6 @@ export const satExpansionModules8: LanguageModule[] = [
         ],
         quiz: [
           {
-            type: "mcq",
             question: "If you hit accuracy but MISS pacing on Hard Math, what do you drill next?",
             questionEn: "If you hit accuracy but MISS pacing on Hard Math, what do you drill next?",
             options: ["More theory", "Desmos shortcuts", "Vocabulary", "Reading speed"],
@@ -607,7 +597,6 @@ export const satExpansionModules8: LanguageModule[] = [
         ],
         quiz: [
           {
-            type: "mcq",
             question: "If Module 1 feels brutal, your Plan B should be to…",
             questionEn: "If Module 1 feels brutal, your Plan B should be to…",
             options: ["leave items blank", "answer everything, even guesses", "give up", "switch to Math"],
@@ -664,7 +653,6 @@ export const satExpansionModules8: LanguageModule[] = [
         ],
         quiz: [
           {
-            type: "mcq",
             question: "What's the PRIMARY goal of the simulation-peak week?",
             questionEn: "What's the PRIMARY goal of the simulation-peak week?",
             options: ["Push the highest score", "Train stamina & consistency", "Learn new content", "Skip practice"],
@@ -722,7 +710,6 @@ export const satExpansionModules8: LanguageModule[] = [
         ],
         quiz: [
           {
-            type: "mcq",
             question: "Which activity should you AVOID during test week?",
             questionEn: "Which activity should you AVOID during test week?",
             options: ["Sleeping 8 hours", "Running a full mock", "Reviewing flashcards", "Light walks"],
