@@ -140,12 +140,6 @@ export const satExpansionModules8: LanguageModule[] = [
               "The rain started walking to school.",
               "Walking the rain started to school."
             ],
-            optionsEn: [
-              "Walking to school, the rain started.",
-              "Walking to school, I felt the rain start.",
-              "The rain started walking to school.",
-              "Walking the rain started to school."
-            ],
             answer: 1,
             explanation: "‘I’ is the doer of ‘walking’; the arrow from the modifier to the subject is short and logical.",
           }
@@ -200,12 +194,6 @@ export const satExpansionModules8: LanguageModule[] = [
           {
             question: "Which sentence has an UNCLEAR pronoun?",
             options: [
-              "Lan told Mai that Mai had to leave.",
-              "Lan told Mai that she had to leave.",
-              "Lan, who was tired, left early.",
-              "Mai left because she felt tired."
-            ],
-            optionsEn: [
               "Lan told Mai that Mai had to leave.",
               "Lan told Mai that she had to leave.",
               "Lan, who was tired, left early.",
