@@ -372,7 +372,7 @@ const SatExamFormat = () => {
         "Learn 25 roots + 60 Set-3 words. Drill 30 Words-in-Context using root deduction."
       ),
       assessment: t("Vocab quiz 85 mục · ≥ 85%", "85-item vocab quiz · ≥ 85%"),
-      lessons: ["sat-vocab-roots", "sat-descriptive-adjectives", "sat-abstract-nouns"],
+      lessons: ["sat-vocab-roots", "sat-vocab-set3", "sat-descriptive-adjectives", "sat-abstract-nouns"],
     },
     {
       week: t("Tuần 16", "Week 16"),
@@ -387,7 +387,7 @@ const SatExamFormat = () => {
         "Mock #2. Update the error log. Chart the 3-bucket distribution to track progress."
       ),
       assessment: t("Mock #2 — mục tiêu +50–80 điểm so với mock #1", "Mock #2 — target +50–80 points vs mock #1"),
-      lessons: [],
+      lessons: ["sat-mock-debrief-framework", "sat-error-log-three-buckets"],
     },
 
     // ─── Phase 3 · Strategy (Weeks 17–24) ──────────────────────────────
@@ -464,7 +464,7 @@ const SatExamFormat = () => {
         "Mock #3. 1-page reflection. Increase error-log re-dos to 2× per week."
       ),
       assessment: t("Mock #3 — mục tiêu vào module 'Harder' của ≥ 1 section", "Mock #3 — target reaching the 'Harder' module in ≥ 1 section"),
-      lessons: [],
+      lessons: ["sat-mock-debrief-framework", "sat-pacing-rw-module", "sat-pacing-math-module"],
     },
     {
       week: t("Tuần 22", "Week 22"),
@@ -479,7 +479,7 @@ const SatExamFormat = () => {
         "Finish the assigned playlist. Report accuracy every 20 questions to the teacher."
       ),
       assessment: t("Accuracy weakness areas tăng ≥ 15% so với mock #3", "Weakness-area accuracy up ≥ 15% vs mock #3"),
-      lessons: [],
+      lessons: ["sat-targeted-weakness-drill", "sat-error-log-method"],
     },
     {
       week: t("Tuần 23", "Week 23"),
@@ -509,7 +509,7 @@ const SatExamFormat = () => {
         "Mock #4. Update the error log. Set a specific target for the 6-week Mastery phase."
       ),
       assessment: t("Mock #4 — gate vào Phase 4", "Mock #4 — gate to Phase 4"),
-      lessons: [],
+      lessons: ["sat-mock-debrief-framework", "sat-targeted-weakness-drill"],
     },
 
     // ─── Phase 4 · Mastery (Weeks 25–30) ───────────────────────────────
@@ -556,7 +556,7 @@ const SatExamFormat = () => {
         "Mock #5. Analyze the score trend across 5 mocks. Identify the last 3 remaining 'leaks'."
       ),
       assessment: t("Mock #5 — trong khoảng target ± 30 điểm", "Mock #5 — within ± 30 points of target"),
-      lessons: [],
+      lessons: ["sat-mock-debrief-framework", "sat-hard-rw-mixed", "sat-hard-math-mixed"],
     },
     {
       week: t("Tuần 28", "Week 28"),
@@ -571,7 +571,7 @@ const SatExamFormat = () => {
         "Drill the 3 'leak' areas until accuracy ≥ 80%. Write a 'Plan B' script for test day."
       ),
       assessment: t("Leak-area accuracy ≥ 80%", "Leak-area accuracy ≥ 80%"),
-      lessons: [],
+      lessons: ["sat-test-psychology", "sat-targeted-weakness-drill"],
     },
     {
       week: t("Tuần 29", "Week 29"),
@@ -586,7 +586,7 @@ const SatExamFormat = () => {
         "Mock #6 (Mon) + Mock #7 (Fri). No re-study between mocks — only sleep and light review."
       ),
       assessment: t("Cả 2 mock đều ≥ target -20", "Both mocks ≥ target -20"),
-      lessons: [],
+      lessons: ["sat-simulation-peak", "sat-test-psychology"],
     },
     {
       week: t("Tuần 30", "Week 30"),
@@ -601,7 +601,7 @@ const SatExamFormat = () => {
         "Follow the taper. Charge laptop, bring ID, restroom before entering. After the test: write a 24-hour reflection."
       ),
       assessment: t("Test day — đạt target ± 10 điểm", "Test day — hit target ± 10 points"),
-      lessons: [],
+      lessons: ["sat-taper-and-test-day", "sat-test-psychology"],
     },
   ];
 
