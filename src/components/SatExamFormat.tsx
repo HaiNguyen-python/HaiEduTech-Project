@@ -30,7 +30,7 @@ import { allEnglishModules } from "@/data/languageCurriculum";
 type LessonRef = { lessonId: string; moduleId: string; title: string; titleEn: string };
 
 const SatExamFormat = () => {
-  const { t, language } = useLanguage();
+  const { t, lang } = useLanguage();
   const navigate = useNavigate();
 
   // Build lookup of every SAT lesson once.
@@ -798,7 +798,7 @@ const SatExamFormat = () => {
                             </span>
                           );
                         }
-                        const label = language === "vi" ? ref.title : ref.titleEn;
+                        const label = lang === "vi" ? ref.title : ref.titleEn;
                         return (
                           <button
                             key={lid}
