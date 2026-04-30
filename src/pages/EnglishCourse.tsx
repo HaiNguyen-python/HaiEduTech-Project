@@ -372,8 +372,11 @@ const EnglishCourse = () => {
               </div>
             )}
 
-            {/* Features — hidden for IELTS */}
+            {/* Features — hidden for IELTS & SAT */}
             {courseId !== "ielts" && courseId !== "sat" && (
+              <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
+                <h2 className="text-xl font-display font-bold text-foreground mb-4 flex items-center gap-2">
+                  <Star className="w-5 h-5 text-yellow-500" /> {t("Điểm nổi bật", "Highlights")}
                 </h2>
                 <ul className="space-y-3">
                   {course.features.map((f, i) => (
