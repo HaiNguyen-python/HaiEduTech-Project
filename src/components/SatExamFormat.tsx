@@ -24,7 +24,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { allEnglishModules } from "@/data/languageCurriculum";
 
 // ─────────────────────────────────────────────────────────────────────
-// Lesson chip — looks up a lesson by id across SAT modules and renders
+// Lesson chip - looks up a lesson by id across SAT modules and renders
 // a clickable badge with the human-readable title.
 // ─────────────────────────────────────────────────────────────────────
 type LessonRef = { lessonId: string; moduleId: string; title: string; titleEn: string };
@@ -51,7 +51,7 @@ const SatExamFormat = () => {
   }, []);
 
   // ─────────────────────────────────────────────────────────────────────
-  // 1. Test format — Digital SAT (adaptive, 2 sections)
+  // 1. Test format - Digital SAT (adaptive, 2 sections)
   // ─────────────────────────────────────────────────────────────────────
   const SECTIONS = [
     {
@@ -209,8 +209,8 @@ const SatExamFormat = () => {
       phase: "foundation",
       topic: t("Conventions: Boundaries (dấu câu)", "Conventions: Boundaries (punctuation)"),
       teacher: t(
-        "Dạy 4 dấu chính: , ; : —. So sánh cặp câu đúng/sai. Quy tắc 'comma không nối được 2 mệnh đề độc lập' (comma splice).",
-        "Teach the 4 key marks: , ; : —. Use right-vs-wrong sentence pairs. Drill the 'comma splice' rule."
+        "Dạy 4 dấu chính: , ; : -. So sánh cặp câu đúng/sai. Quy tắc 'comma không nối được 2 mệnh đề độc lập' (comma splice).",
+        "Teach the 4 key marks: , ; : -. Use right-vs-wrong sentence pairs. Drill the 'comma splice' rule."
       ),
       learner: t(
         "Drill 60 câu dấu câu. Tự tạo 10 ví dụ cho mỗi dấu. Mục tiêu ≥ 90% trên drill cuối tuần.",
@@ -276,7 +276,7 @@ const SatExamFormat = () => {
         "Mock đầy đủ. Phân loại 100% câu sai vào error log với 'WHY wrong' và 'CORRECT reasoning'. Đặt lịch re-do sau 7 ngày.",
         "Take a full mock. Classify 100% of misses in the log with 'WHY wrong' and 'CORRECT reasoning'. Schedule re-dos in 7 days."
       ),
-      assessment: t("Mock #1 — đặt baseline cho phase 2", "Mock #1 — baseline for Phase 2"),
+      assessment: t("Mock #1 - đặt baseline cho phase 2", "Mock #1 - baseline for Phase 2"),
       lessons: ["sat-error-log-three-buckets"],
     },
 
@@ -350,8 +350,8 @@ const SatExamFormat = () => {
         "Review mean / median / mode / range, scatter plots, lines of best fit, two-way tables, %, ratio. Demo Desmos regression."
       ),
       learner: t(
-        "Drill 50 câu Stats/Data. Viết 1 câu giải thích cho mỗi câu chọn — không khoanh đại.",
-        "Drill 50 Stats/Data items. Write one explanation per pick — no blind guessing."
+        "Drill 50 câu Stats/Data. Viết 1 câu giải thích cho mỗi câu chọn - không khoanh đại.",
+        "Drill 50 Stats/Data items. Write one explanation per pick - no blind guessing."
       ),
       assessment: t("Quiz 30 câu Statistics · ≥ 80%", "30-Q Statistics quiz · ≥ 80%"),
       lessons: ["sat-stats-center-spread", "sat-stats-normal-scatter", "sat-data-statistics-terms"],
@@ -398,7 +398,7 @@ const SatExamFormat = () => {
         "Mock #2. Cập nhật error log. Vẽ biểu đồ phân bố 3 nhóm lỗi để theo dõi tiến bộ.",
         "Mock #2. Update the error log. Chart the 3-bucket distribution to track progress."
       ),
-      assessment: t("Mock #2 — mục tiêu +50–80 điểm so với mock #1", "Mock #2 — target +50–80 points vs mock #1"),
+      assessment: t("Mock #2 - mục tiêu +50–80 điểm so với mock #1", "Mock #2 - target +50–80 points vs mock #1"),
       lessons: ["sat-mock-debrief-framework", "sat-error-log-three-buckets"],
     },
 
@@ -468,14 +468,14 @@ const SatExamFormat = () => {
       phase: "strategy",
       topic: t("Mock #3 (Bluebook full) + phân tích sâu", "Mock #3 (Bluebook full) + deep analysis"),
       teacher: t(
-        "Mock #3 đúng giờ thực tế. Bài tập về nhà: viết 1 trang reflection — top 3 weakness, kế hoạch 7 ngày.",
-        "Mock #3 with real timing. Homework: write a 1-page reflection — top 3 weaknesses + 7-day plan."
+        "Mock #3 đúng giờ thực tế. Bài tập về nhà: viết 1 trang reflection - top 3 weakness, kế hoạch 7 ngày.",
+        "Mock #3 with real timing. Homework: write a 1-page reflection - top 3 weaknesses + 7-day plan."
       ),
       learner: t(
         "Mock #3. Reflection 1 trang. Tăng tần suất re-do error log lên 2 lần/tuần.",
         "Mock #3. 1-page reflection. Increase error-log re-dos to 2× per week."
       ),
-      assessment: t("Mock #3 — mục tiêu vào module 'Harder' của ≥ 1 section", "Mock #3 — target reaching the 'Harder' module in ≥ 1 section"),
+      assessment: t("Mock #3 - mục tiêu vào module 'Harder' của ≥ 1 section", "Mock #3 - target reaching the 'Harder' module in ≥ 1 section"),
       lessons: ["sat-mock-debrief-framework", "sat-pacing-rw-module", "sat-pacing-math-module"],
     },
     {
@@ -520,7 +520,7 @@ const SatExamFormat = () => {
         "Mock #4. Cập nhật error log. Đặt mục tiêu cụ thể cho 6 tuần Mastery.",
         "Mock #4. Update the error log. Set a specific target for the 6-week Mastery phase."
       ),
-      assessment: t("Mock #4 — gate vào Phase 4", "Mock #4 — gate to Phase 4"),
+      assessment: t("Mock #4 - gate vào Phase 4", "Mock #4 - gate to Phase 4"),
       lessons: ["sat-mock-debrief-framework", "sat-targeted-weakness-drill"],
     },
 
@@ -549,8 +549,8 @@ const SatExamFormat = () => {
         "Filter Math Hard: focus on advanced Quadratics, Functions deep-dive, mixed Trig + Geometry."
       ),
       learner: t(
-        "Drill 60 câu Hard Math. Bắt buộc dùng Desmos cho ≥ 30 câu — tốc độ phải đạt ≤ 110 giây/câu.",
-        "Drill 60 Hard Math items. Use Desmos on ≥ 30 — speed must hit ≤ 110 sec/item."
+        "Drill 60 câu Hard Math. Bắt buộc dùng Desmos cho ≥ 30 câu - tốc độ phải đạt ≤ 110 giây/câu.",
+        "Drill 60 Hard Math items. Use Desmos on ≥ 30 - speed must hit ≤ 110 sec/item."
       ),
       assessment: t("Hard Math set 60 câu · ≥ 70% và pacing ≤ 110s/câu", "60-Q Hard Math set · ≥ 70% and pacing ≤ 110s/item"),
       lessons: ["sat-math-functions-deepdive", "sat-stats-data-deepdive", "sat-geometry-deepdive"],
@@ -558,7 +558,7 @@ const SatExamFormat = () => {
     {
       week: t("Tuần 27", "Week 27"),
       phase: "mastery",
-      topic: t("Mock #5 — full Bluebook", "Mock #5 — full Bluebook"),
+      topic: t("Mock #5 - full Bluebook", "Mock #5 - full Bluebook"),
       teacher: t(
         "Mock #5 đúng môi trường thi (laptop, sạc đầy, tai nghe nếu cần). So sánh tỉ lệ 3 nhóm lỗi qua 5 mock.",
         "Mock #5 in real test conditions (laptop, fully charged, headphones if needed). Compare 3-bucket ratios across 5 mocks."
@@ -567,7 +567,7 @@ const SatExamFormat = () => {
         "Mock #5. Phân tích trend điểm qua 5 mock. Xác định 3 'leaks' cuối còn sót.",
         "Mock #5. Analyze the score trend across 5 mocks. Identify the last 3 remaining 'leaks'."
       ),
-      assessment: t("Mock #5 — trong khoảng target ± 30 điểm", "Mock #5 — within ± 30 points of target"),
+      assessment: t("Mock #5 - trong khoảng target ± 30 điểm", "Mock #5 - within ± 30 points of target"),
       lessons: ["sat-mock-debrief-framework", "sat-hard-rw-mixed", "sat-hard-math-mixed"],
     },
     {
@@ -594,8 +594,8 @@ const SatExamFormat = () => {
         "'Simulation peak' week: 2 mocks 3 days apart to simulate test-day stamina."
       ),
       learner: t(
-        "Mock #6 (T2) + Mock #7 (T6). Không re-study giữa 2 mock — chỉ ngủ và nhẹ nhàng review.",
-        "Mock #6 (Mon) + Mock #7 (Fri). No re-study between mocks — only sleep and light review."
+        "Mock #6 (T2) + Mock #7 (T6). Không re-study giữa 2 mock - chỉ ngủ và nhẹ nhàng review.",
+        "Mock #6 (Mon) + Mock #7 (Fri). No re-study between mocks - only sleep and light review."
       ),
       assessment: t("Cả 2 mock đều ≥ target -20", "Both mocks ≥ target -20"),
       lessons: ["sat-simulation-peak", "sat-test-psychology"],
@@ -612,7 +612,7 @@ const SatExamFormat = () => {
         "Tuân thủ taper. Sạc laptop, mang ID, đi vệ sinh trước khi vào phòng thi. Sau thi: ghi reflection trong 24h.",
         "Follow the taper. Charge laptop, bring ID, restroom before entering. After the test: write a 24-hour reflection."
       ),
-      assessment: t("Test day — đạt target ± 10 điểm", "Test day — hit target ± 10 points"),
+      assessment: t("Test day - đạt target ± 10 điểm", "Test day - hit target ± 10 points"),
       lessons: ["sat-taper-and-test-day", "sat-test-psychology"],
     },
   ];
@@ -799,7 +799,7 @@ const SatExamFormat = () => {
                       {w.lessons.map((lid) => {
                         const ref = satLessonIndex[lid];
                         if (!ref) {
-                          // Lesson not found in registry — render disabled chip (no broken nav)
+                          // Lesson not found in registry - render disabled chip (no broken nav)
                           return (
                             <span
                               key={lid}

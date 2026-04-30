@@ -23,12 +23,12 @@ export const satExpansionModules6: LanguageModule[] = [
         theoryEn: "Most students fall into SAT traps because they read the 4 choices first and 'pick what sounds familiar'. Predict-then-pick reverses the order: READ THE PASSAGE → READ THE QUESTION → PREDICT the answer in your own words → ONLY THEN look at the 4 choices. The correct answer must match your prediction in meaning, not necessarily in wording.\n\nExample: 'The author mentions the 1969 moon landing primarily to ___'. Before peeking at A/B/C/D, predict: 'to illustrate the main idea that technology changes fast'. Now find the choice that says this, even with different words.",
         proTips: [
           "Che 4 đáp án bằng tay (hoặc dùng Bluebook Annotate) trong 5 giây đầu để ép não dự đoán.",
-          "Nếu không dự đoán nổi, đó là tín hiệu bạn chưa hiểu đoạn văn — đọc lại trước khi đoán mò.",
+          "Nếu không dự đoán nổi, đó là tín hiệu bạn chưa hiểu đoạn văn - đọc lại trước khi đoán mò.",
           "Đáp án đúng thường là paraphrase. Đáp án sai thường lặp nguyên văn từ trong đoạn ('word trap')."
         ],
         proTipsEn: [
           "Cover the 4 choices with your hand (or Bluebook Annotate) for the first 5 seconds to force prediction.",
-          "If you can't predict, that's a signal you misread the passage — reread before guessing.",
+          "If you can't predict, that's a signal you misread the passage - reread before guessing.",
           "Correct answers usually paraphrase. Wrong answers often repeat passage wording verbatim ('word trap')."
         ],
         vocabulary: [
@@ -57,7 +57,7 @@ export const satExpansionModules6: LanguageModule[] = [
         quiz: [
           { question: "What is the FIRST step of predict-then-pick?", options: ["Read the 4 choices", "Read the passage and question", "Eliminate two choices", "Mark for review"], answer: 1, explanation: "You must understand the passage and question before predicting." },
           { question: "Why do correct SAT answers paraphrase rather than quote?", options: ["To save space", "To test deep comprehension, not memory", "To confuse students", "Because of copyright"], answer: 1, explanation: "SAT measures comprehension, not surface-level word matching." },
-          { question: "If you cannot predict the answer, you should:", options: ["Guess randomly", "Reread the relevant lines", "Skip the question forever", "Pick the longest choice"], answer: 1, explanation: "Failure to predict means a comprehension gap — go back to the text." }
+          { question: "If you cannot predict the answer, you should:", options: ["Guess randomly", "Reread the relevant lines", "Skip the question forever", "Pick the longest choice"], answer: 1, explanation: "Failure to predict means a comprehension gap - go back to the text." }
         ]
       }
     ]
@@ -68,19 +68,19 @@ export const satExpansionModules6: LanguageModule[] = [
     titleEn: "SAT Punctuation Deep-Dive",
     icon: "✒️",
     color: "from-amber-500 to-orange-600",
-    description: "Comma, semicolon, colon, dash — 4 dấu chiếm phần lớn câu hỏi Boundaries.",
-    descriptionEn: "Comma, semicolon, colon, dash — the 4 marks behind most Boundaries questions.",
+    description: "Comma, semicolon, colon, dash - 4 dấu chiếm phần lớn câu hỏi Boundaries.",
+    descriptionEn: "Comma, semicolon, colon, dash - the 4 marks behind most Boundaries questions.",
     category: "sat",
     language: "english",
     lessons: [
       {
         id: "sat-punct-four-marks",
-        title: "4 dấu câu cốt lõi: , ; : —",
-        titleEn: "The 4 Core Punctuation Marks: , ; : —",
+        title: "4 dấu câu cốt lõi: , ; : -",
+        titleEn: "The 4 Core Punctuation Marks: , ; : -",
         level: 4,
         difficulty: "intermediate",
-        theory: "Khoảng 70% câu hỏi 'Boundaries' của Digital SAT xoay quanh 4 dấu: comma, semicolon, colon, em dash. Quy tắc cốt lõi:\n\n1) SEMICOLON (;) nối 2 mệnh đề ĐỘC LẬP (mỗi vế đứng riêng vẫn thành câu). VD: 'She studied hard; she passed easily.'\n\n2) COLON (:) đứng sau 1 mệnh đề ĐỘC LẬP để giới thiệu danh sách / giải thích / câu trích. VD: 'He had one goal: graduate.'\n\n3) EM DASH (—) hoạt động như 'colon mềm' hoặc cặp dấu phẩy nhấn mạnh. Hai dấu — phải đi theo cặp khi chèn giữa câu.\n\n4) COMMA (,) KHÔNG được nối 2 mệnh đề độc lập (đây là 'comma splice'). Comma dùng để: liệt kê, ngăn mệnh đề phụ, sau từ giới thiệu, quanh phần phụ chú không thiết yếu.",
-        theoryEn: "About 70% of Digital SAT 'Boundaries' questions revolve around 4 marks: comma, semicolon, colon, em dash. Core rules:\n\n1) SEMICOLON (;) joins 2 INDEPENDENT clauses (each side could stand alone). E.g. 'She studied hard; she passed easily.'\n\n2) COLON (:) follows an INDEPENDENT clause to introduce a list / explanation / quote. E.g. 'He had one goal: graduate.'\n\n3) EM DASH (—) works as a 'soft colon' or paired emphasis (like commas). Two dashes must come as a pair when inserting mid-sentence.\n\n4) COMMA (,) CANNOT join 2 independent clauses (this is a 'comma splice'). Use commas for: lists, dependent clauses, intro words, around non-essential info.",
+        theory: "Khoảng 70% câu hỏi 'Boundaries' của Digital SAT xoay quanh 4 dấu: comma, semicolon, colon, em dash. Quy tắc cốt lõi:\n\n1) SEMICOLON (;) nối 2 mệnh đề ĐỘC LẬP (mỗi vế đứng riêng vẫn thành câu). VD: 'She studied hard; she passed easily.'\n\n2) COLON (:) đứng sau 1 mệnh đề ĐỘC LẬP để giới thiệu danh sách / giải thích / câu trích. VD: 'He had one goal: graduate.'\n\n3) EM DASH (-) hoạt động như 'colon mềm' hoặc cặp dấu phẩy nhấn mạnh. Hai dấu - phải đi theo cặp khi chèn giữa câu.\n\n4) COMMA (,) KHÔNG được nối 2 mệnh đề độc lập (đây là 'comma splice'). Comma dùng để: liệt kê, ngăn mệnh đề phụ, sau từ giới thiệu, quanh phần phụ chú không thiết yếu.",
+        theoryEn: "About 70% of Digital SAT 'Boundaries' questions revolve around 4 marks: comma, semicolon, colon, em dash. Core rules:\n\n1) SEMICOLON (;) joins 2 INDEPENDENT clauses (each side could stand alone). E.g. 'She studied hard; she passed easily.'\n\n2) COLON (:) follows an INDEPENDENT clause to introduce a list / explanation / quote. E.g. 'He had one goal: graduate.'\n\n3) EM DASH (-) works as a 'soft colon' or paired emphasis (like commas). Two dashes must come as a pair when inserting mid-sentence.\n\n4) COMMA (,) CANNOT join 2 independent clauses (this is a 'comma splice'). Use commas for: lists, dependent clauses, intro words, around non-essential info.",
         proTips: [
           "Test nhanh semicolon: thay ; bằng dấu chấm. Nếu vẫn ra 2 câu hoàn chỉnh → đúng.",
           "Trước colon BẮT BUỘC là mệnh đề độc lập; sau colon có thể là mệnh đề, danh sách hoặc cụm từ.",
@@ -98,19 +98,19 @@ export const satExpansionModules6: LanguageModule[] = [
           { word: "non-essential", partOfSpeech: "adjective", meaning: "không thiết yếu", meaningEn: "removable without changing meaning", example: "Non-essential phrases need commas around them.", exampleEn: "Non-essential phrases need commas around them." },
           { word: "appositive", partOfSpeech: "noun", meaning: "đồng vị ngữ", meaningEn: "a noun phrase renaming another noun", example: "My friend, a doctor, lives nearby.", exampleEn: "My friend, a doctor, lives nearby." },
           { word: "introductory phrase", partOfSpeech: "noun", meaning: "cụm giới thiệu", meaningEn: "an opening phrase before the main clause", example: "After dinner, we left.", exampleEn: "After dinner, we left." },
-          { word: "em dash", partOfSpeech: "noun", meaning: "dấu gạch dài", meaningEn: "the long dash —", example: "Use an em dash for emphasis.", exampleEn: "Use an em dash for emphasis." },
+          { word: "em dash", partOfSpeech: "noun", meaning: "dấu gạch dài", meaningEn: "the long dash -", example: "Use an em dash for emphasis.", exampleEn: "Use an em dash for emphasis." },
           { word: "semicolon", partOfSpeech: "noun", meaning: "dấu chấm phẩy", meaningEn: "the mark ;", example: "A semicolon links related sentences.", exampleEn: "A semicolon links related sentences." }
         ],
         exercises: [
           {
             type: "fill-in-blank",
-            instruction: "Chọn dấu câu đúng (, hoặc ; hoặc : hoặc —):",
-            instructionEn: "Choose the correct punctuation (, or ; or : or —):",
+            instruction: "Chọn dấu câu đúng (, hoặc ; hoặc : hoặc -):",
+            instructionEn: "Choose the correct punctuation (, or ; or : or -):",
             sentences: [
               { text: "She had three favorite subjects ___ math, biology, and history.", textEn: "She had three favorite subjects ___ math, biology, and history.", answer: ":" },
               { text: "He studied for hours ___ he still failed the test.", textEn: "He studied for hours ___ he still failed the test.", answer: ";" },
               { text: "After the meeting ___ we went out for coffee.", textEn: "After the meeting ___ we went out for coffee.", answer: "," },
-              { text: "My brother ___ a software engineer ___ moved to Helsinki last year.", textEn: "My brother ___ a software engineer ___ moved to Helsinki last year.", answer: "—" }
+              { text: "My brother ___ a software engineer ___ moved to Helsinki last year.", textEn: "My brother ___ a software engineer ___ moved to Helsinki last year.", answer: "-" }
             ]
           }
         ],
@@ -129,8 +129,8 @@ export const satExpansionModules6: LanguageModule[] = [
     titleEn: "Cross-Text Connections (Digital SAT)",
     icon: "🔗",
     color: "from-violet-500 to-purple-600",
-    description: "So sánh quan điểm 2 đoạn văn — dạng câu khó nhất của R&W.",
-    descriptionEn: "Comparing viewpoints across 2 passages — the hardest R&W question type.",
+    description: "So sánh quan điểm 2 đoạn văn - dạng câu khó nhất của R&W.",
+    descriptionEn: "Comparing viewpoints across 2 passages - the hardest R&W question type.",
     category: "sat",
     language: "english",
     lessons: [
@@ -140,8 +140,8 @@ export const satExpansionModules6: LanguageModule[] = [
         titleEn: "Cross-Text Strategy in 90 Seconds",
         level: 5,
         difficulty: "advanced",
-        theory: "Dạng Cross-Text Connections cho bạn 2 đoạn văn ngắn (Text 1 và Text 2) cùng chủ đề nhưng khác quan điểm. Câu hỏi điển hình: 'How would the author of Text 2 most likely respond to the underlined claim in Text 1?'\n\nQuy trình 4 bước (90 giây):\n1) Đọc Text 1 → tóm tắt quan điểm bằng 1 câu (vd: 'X tốt vì Y').\n2) Đọc Text 2 → tóm tắt: 'Đồng ý / Không đồng ý / Bổ sung / Phản bác'.\n3) Dự đoán phản ứng cụ thể của tác giả Text 2.\n4) Khớp với 4 đáp án — loại bỏ đáp án diễn đạt ngược chiều hoặc ngoài chủ đề.\n\nBẫy phổ biến: đáp án 'cùng chủ đề nhưng sai quan điểm' (ví dụ Text 2 đồng ý nhưng đáp án viết là phản đối). Luôn kiểm tra dấu hiệu ngôn ngữ: 'however', 'in contrast', 'similarly', 'extends this view'.",
-        theoryEn: "Cross-Text Connections gives you 2 short passages (Text 1 and Text 2) on the same topic but with different viewpoints. Typical question: 'How would the author of Text 2 most likely respond to the underlined claim in Text 1?'\n\n4-step process (90 seconds):\n1) Read Text 1 → summarize the view in one sentence (e.g. 'X is good because Y').\n2) Read Text 2 → label it: 'Agrees / Disagrees / Adds nuance / Refutes'.\n3) Predict Text 2 author's specific reaction.\n4) Match against the 4 choices — eliminate wrong-direction or off-topic ones.\n\nCommon trap: a choice that's 'on topic but wrong stance' (e.g. Text 2 agrees but the answer says it disagrees). Always check for linguistic markers: 'however', 'in contrast', 'similarly', 'extends this view'.",
+        theory: "Dạng Cross-Text Connections cho bạn 2 đoạn văn ngắn (Text 1 và Text 2) cùng chủ đề nhưng khác quan điểm. Câu hỏi điển hình: 'How would the author of Text 2 most likely respond to the underlined claim in Text 1?'\n\nQuy trình 4 bước (90 giây):\n1) Đọc Text 1 → tóm tắt quan điểm bằng 1 câu (vd: 'X tốt vì Y').\n2) Đọc Text 2 → tóm tắt: 'Đồng ý / Không đồng ý / Bổ sung / Phản bác'.\n3) Dự đoán phản ứng cụ thể của tác giả Text 2.\n4) Khớp với 4 đáp án - loại bỏ đáp án diễn đạt ngược chiều hoặc ngoài chủ đề.\n\nBẫy phổ biến: đáp án 'cùng chủ đề nhưng sai quan điểm' (ví dụ Text 2 đồng ý nhưng đáp án viết là phản đối). Luôn kiểm tra dấu hiệu ngôn ngữ: 'however', 'in contrast', 'similarly', 'extends this view'.",
+        theoryEn: "Cross-Text Connections gives you 2 short passages (Text 1 and Text 2) on the same topic but with different viewpoints. Typical question: 'How would the author of Text 2 most likely respond to the underlined claim in Text 1?'\n\n4-step process (90 seconds):\n1) Read Text 1 → summarize the view in one sentence (e.g. 'X is good because Y').\n2) Read Text 2 → label it: 'Agrees / Disagrees / Adds nuance / Refutes'.\n3) Predict Text 2 author's specific reaction.\n4) Match against the 4 choices - eliminate wrong-direction or off-topic ones.\n\nCommon trap: a choice that's 'on topic but wrong stance' (e.g. Text 2 agrees but the answer says it disagrees). Always check for linguistic markers: 'however', 'in contrast', 'similarly', 'extends this view'.",
         proTips: [
           "Trong 5 giây đầu, chỉ tìm RELATIONSHIP: agree / disagree / qualify / extend.",
           "Đáp án có cụm 'while acknowledging that…' rất hay đúng vì thể hiện sắc thái.",

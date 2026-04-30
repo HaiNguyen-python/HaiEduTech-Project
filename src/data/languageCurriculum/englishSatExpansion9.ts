@@ -1,6 +1,6 @@
 /**
  * @file englishSatExpansion9.ts
- * @description Beginner-friendly "soft start" SAT lessons (level 1–2) — designed
+ * @description Beginner-friendly "soft start" SAT lessons (level 1–2) - designed
  * so learners don't feel overwhelmed at the start of the 30-week roadmap.
  * Each module begins with very gentle warm-ups, then adds 1–2 mid-level lessons
  * that bridge into existing intermediate/advanced content.
@@ -10,7 +10,7 @@
  * • Short theory blocks, lots of mini-examples
  * • 4–6 simple fill-in-blank items per exercise
  * • 2–3 quiz Qs with friendly explanations
- * • All bilingual (vi / en) — keeps parity with the rest of SAT data
+ * • All bilingual (vi / en) - keeps parity with the rest of SAT data
  *
  * @author HaiEduTech
  */
@@ -33,18 +33,18 @@ const v = (
 
 export const satExpansionModules9: LanguageModule[] = [
   // ───────────────────────────────────────────────────────────────────
-  // Module 1 · SAT Starter Kit (Week 0 — before diagnostic)
+  // Module 1 · SAT Starter Kit (Week 0 - before diagnostic)
   // ───────────────────────────────────────────────────────────────────
   {
     id: "sat-starter-kit",
-    title: "SAT Khởi Động — Tuần 0 nhẹ nhàng",
-    titleEn: "SAT Starter Kit — A Gentle Week 0",
+    title: "SAT Khởi Động - Tuần 0 nhẹ nhàng",
+    titleEn: "SAT Starter Kit - A Gentle Week 0",
     icon: "🌱",
     color: "from-emerald-400 to-teal-500",
     description:
       "Bộ bài đầu tiên dành cho học sinh chưa từng học SAT. Mỗi bài chỉ ~10 phút, không áp lực, giúp làm quen format và thuật ngữ trước khi bước vào Tuần 1.",
     descriptionEn:
-      "The very first lessons for absolute beginners. ~10 min each, zero pressure — get comfortable with SAT format and vocabulary before Week 1.",
+      "The very first lessons for absolute beginners. ~10 min each, zero pressure - get comfortable with SAT format and vocabulary before Week 1.",
     category: "sat",
     language: "english",
     lessons: [
@@ -55,18 +55,18 @@ export const satExpansionModules9: LanguageModule[] = [
         level: 1,
         difficulty: "beginner",
         theory:
-          "Digital SAT là bài thi trên máy tính, gồm 2 phần: Reading & Writing (R&W) và Math.\n\nMỗi phần có 2 module nhỏ. Bạn làm xong module 1 rồi mới sang module 2 — không quay lại được.\n\nThời gian tổng: khoảng 2 giờ 14 phút (gồm 10 phút giải lao). Điểm tổng: 400–1600.\n\nKhông cần học hết mọi thứ trong tuần đầu — bạn chỉ cần biết bài thi 'trông' như thế nào.",
+          "Digital SAT là bài thi trên máy tính, gồm 2 phần: Reading & Writing (R&W) và Math.\n\nMỗi phần có 2 module nhỏ. Bạn làm xong module 1 rồi mới sang module 2 - không quay lại được.\n\nThời gian tổng: khoảng 2 giờ 14 phút (gồm 10 phút giải lao). Điểm tổng: 400–1600.\n\nKhông cần học hết mọi thứ trong tuần đầu - bạn chỉ cần biết bài thi 'trông' như thế nào.",
         theoryEn:
-          "The Digital SAT is taken on a laptop. It has 2 sections: Reading & Writing (R&W) and Math.\n\nEach section has 2 smaller modules. You finish module 1 before module 2 — you cannot go back.\n\nTotal time: ~2 h 14 min (including a 10-min break). Total score: 400–1600.\n\nYou don't need to master anything in week 1 — just see what the test looks like.",
+          "The Digital SAT is taken on a laptop. It has 2 sections: Reading & Writing (R&W) and Math.\n\nEach section has 2 smaller modules. You finish module 1 before module 2 - you cannot go back.\n\nTotal time: ~2 h 14 min (including a 10-min break). Total score: 400–1600.\n\nYou don't need to master anything in week 1 - just see what the test looks like.",
         proTips: [
-          "Cài Bluebook ngay hôm nay — chỉ vài phút.",
+          "Cài Bluebook ngay hôm nay - chỉ vài phút.",
           "Không lo điểm số ở bước này. Mục tiêu là 'không sợ' bài thi.",
           "Xem 1 video tour Bluebook trên YouTube (5 phút) là đủ.",
         ],
         proTipsEn: [
-          "Install Bluebook today — it takes minutes.",
+          "Install Bluebook today - it takes minutes.",
           "Don't worry about scores yet. The goal is to 'not fear' the test.",
-          "Watch one 5-minute Bluebook tour on YouTube — that's plenty.",
+          "Watch one 5-minute Bluebook tour on YouTube - that's plenty.",
         ],
         vocabulary: [
           v("module", "phần nhỏ trong section", "a small part within a section", "Each section has 2 modules."),
@@ -113,9 +113,9 @@ export const satExpansionModules9: LanguageModule[] = [
         level: 1,
         difficulty: "beginner",
         theory:
-          "Học SAT là một hành trình 6 tháng — không phải sprint 1 tuần. Hãy đặt 3 luật vàng cho bản thân:\n\n1) Mỗi ngày 30–45 phút là đủ trong 4 tuần đầu.\n2) Sai = học. Mỗi câu sai là 1 'data point', không phải lỗi cá nhân.\n3) Ngủ đủ giấc quan trọng hơn 1 giờ luyện thêm.\n\nNếu cảm thấy ngộp, hãy dừng, đi bộ 10 phút, rồi quay lại. Não cần nghỉ để hấp thụ.",
+          "Học SAT là một hành trình 6 tháng - không phải sprint 1 tuần. Hãy đặt 3 luật vàng cho bản thân:\n\n1) Mỗi ngày 30–45 phút là đủ trong 4 tuần đầu.\n2) Sai = học. Mỗi câu sai là 1 'data point', không phải lỗi cá nhân.\n3) Ngủ đủ giấc quan trọng hơn 1 giờ luyện thêm.\n\nNếu cảm thấy ngộp, hãy dừng, đi bộ 10 phút, rồi quay lại. Não cần nghỉ để hấp thụ.",
         theoryEn:
-          "Studying for the SAT is a 6-month journey — not a 1-week sprint. Set yourself 3 golden rules:\n\n1) 30–45 minutes a day is enough for the first 4 weeks.\n2) Mistakes = learning. Every miss is a 'data point', not a personal flaw.\n3) Sleep matters more than an extra hour of study.\n\nIf you feel overwhelmed, stop, walk for 10 minutes, then come back. Your brain needs rest to absorb.",
+          "Studying for the SAT is a 6-month journey - not a 1-week sprint. Set yourself 3 golden rules:\n\n1) 30–45 minutes a day is enough for the first 4 weeks.\n2) Mistakes = learning. Every miss is a 'data point', not a personal flaw.\n3) Sleep matters more than an extra hour of study.\n\nIf you feel overwhelmed, stop, walk for 10 minutes, then come back. Your brain needs rest to absorb.",
         proTips: [
           "Lịch học cố định mỗi ngày dễ hơn cố gắng học '2 giờ vào cuối tuần'.",
           "Báo gia đình lịch học để tránh bị làm phiền.",
@@ -170,16 +170,16 @@ export const satExpansionModules9: LanguageModule[] = [
         level: 1,
         difficulty: "beginner",
         theory:
-          "Trước khi vào 80 từ Set 1 (Tuần 2), hãy làm quen 30 từ 'cực dễ' nhưng cực hay xuất hiện. Mỗi từ chỉ cần học 1 nghĩa cốt lõi + 1 ví dụ ngắn.\n\nMẹo: đọc to 3 lần, tự đặt 1 câu — vậy là từ đã 'vào tay' bạn. Đừng học bằng cách nhìn list im lặng.",
+          "Trước khi vào 80 từ Set 1 (Tuần 2), hãy làm quen 30 từ 'cực dễ' nhưng cực hay xuất hiện. Mỗi từ chỉ cần học 1 nghĩa cốt lõi + 1 ví dụ ngắn.\n\nMẹo: đọc to 3 lần, tự đặt 1 câu - vậy là từ đã 'vào tay' bạn. Đừng học bằng cách nhìn list im lặng.",
         theoryEn:
-          "Before you tackle 80 Set-1 words (Week 2), warm up with 30 'easy' words that show up constantly. Learn just one core meaning + one short example each.\n\nTip: read aloud 3 times, write your own sentence — that's how a word truly sticks. Don't 'learn' by silently staring at a list.",
+          "Before you tackle 80 Set-1 words (Week 2), warm up with 30 'easy' words that show up constantly. Learn just one core meaning + one short example each.\n\nTip: read aloud 3 times, write your own sentence - that's how a word truly sticks. Don't 'learn' by silently staring at a list.",
         proTips: [
-          "Mỗi ngày 6 từ × 5 ngày = 30 từ — không nhồi 30 từ trong 1 buổi.",
-          "Ghi từ ra giấy, không gõ điện thoại — tay viết giúp nhớ lâu hơn.",
+          "Mỗi ngày 6 từ × 5 ngày = 30 từ - không nhồi 30 từ trong 1 buổi.",
+          "Ghi từ ra giấy, không gõ điện thoại - tay viết giúp nhớ lâu hơn.",
           "Tự đặt câu liên quan đến cuộc sống của bạn (gia đình, trường, sở thích).",
         ],
         proTipsEn: [
-          "6 words × 5 days = 30 — don't cram all 30 in one sitting.",
+          "6 words × 5 days = 30 - don't cram all 30 in one sitting.",
           "Hand-write the words; typing is weaker for retention.",
           "Write personal sentences (family, school, hobbies).",
         ],
@@ -236,9 +236,9 @@ export const satExpansionModules9: LanguageModule[] = [
         level: 1,
         difficulty: "beginner",
         theory:
-          "R&W có 4 nhóm câu hỏi chính:\n• Information & Ideas (ý chính, dẫn chứng, suy luận)\n• Craft & Structure (từ vựng theo ngữ cảnh, mục đích, cấu trúc)\n• Standard English Conventions (ngữ pháp & dấu câu)\n• Expression of Ideas (chuyển ý, tổng hợp ý)\n\nMath có 4 nhóm: Algebra · Advanced Math · Problem-Solving & Data · Geometry & Trig.\n\nTuần 1 chỉ cần biết TÊN 4 nhóm — chưa cần luyện sâu.",
+          "R&W có 4 nhóm câu hỏi chính:\n• Information & Ideas (ý chính, dẫn chứng, suy luận)\n• Craft & Structure (từ vựng theo ngữ cảnh, mục đích, cấu trúc)\n• Standard English Conventions (ngữ pháp & dấu câu)\n• Expression of Ideas (chuyển ý, tổng hợp ý)\n\nMath có 4 nhóm: Algebra · Advanced Math · Problem-Solving & Data · Geometry & Trig.\n\nTuần 1 chỉ cần biết TÊN 4 nhóm - chưa cần luyện sâu.",
         theoryEn:
-          "R&W has 4 question groups:\n• Information & Ideas (main idea, evidence, inference)\n• Craft & Structure (words in context, purpose, structure)\n• Standard English Conventions (grammar & punctuation)\n• Expression of Ideas (transitions, synthesis)\n\nMath has 4 groups: Algebra · Advanced Math · Problem-Solving & Data · Geometry & Trig.\n\nIn week 1, you only need to NAME the 4 groups — no deep practice yet.",
+          "R&W has 4 question groups:\n• Information & Ideas (main idea, evidence, inference)\n• Craft & Structure (words in context, purpose, structure)\n• Standard English Conventions (grammar & punctuation)\n• Expression of Ideas (transitions, synthesis)\n\nMath has 4 groups: Algebra · Advanced Math · Problem-Solving & Data · Geometry & Trig.\n\nIn week 1, you only need to NAME the 4 groups - no deep practice yet.",
         proTips: [
           "Vẽ sơ đồ tư duy 4 nhóm R&W + 4 nhóm Math vào sổ tay.",
           "Khi gặp 1 câu, tập tự hỏi 'câu này thuộc nhóm nào?' trước khi giải.",
@@ -277,7 +277,7 @@ export const satExpansionModules9: LanguageModule[] = [
             question: "How many R&W question groups are there?",
             options: ["2", "3", "4", "5"],
             answer: 2,
-            explanation: "Information & Ideas · Craft & Structure · Conventions · Expression of Ideas — that's 4.",
+            explanation: "Information & Ideas · Craft & Structure · Conventions · Expression of Ideas - that's 4.",
           },
         ],
       },
@@ -289,14 +289,14 @@ export const satExpansionModules9: LanguageModule[] = [
   // ───────────────────────────────────────────────────────────────────
   {
     id: "sat-reading-soft-start",
-    title: "Reading Khởi Động — Trước Tuần 2",
-    titleEn: "Reading Soft Start — Before Week 2",
+    title: "Reading Khởi Động - Trước Tuần 2",
+    titleEn: "Reading Soft Start - Before Week 2",
     icon: "📖",
     color: "from-sky-400 to-blue-500",
     description:
       "Ba bài đọc rất ngắn (80–120 từ) để học sinh quen cảm giác đọc-rồi-trả-lời mà không bị nản với passage SAT thật.",
     descriptionEn:
-      "Three very short passages (80–120 words) to get learners comfortable with the read-then-answer rhythm — without the intimidation of full SAT passages.",
+      "Three very short passages (80–120 words) to get learners comfortable with the read-then-answer rhythm - without the intimidation of full SAT passages.",
     category: "sat",
     language: "english",
     lessons: [
@@ -313,12 +313,12 @@ export const satExpansionModules9: LanguageModule[] = [
         proTips: [
           "Đọc 1 lần thật chậm hơn là đọc 3 lần lướt qua.",
           "Câu đầu + câu cuối thường nắm 70% ý chính.",
-          "Tự nói lại đoạn bằng 1 câu của bạn — nếu nói được, bạn đã hiểu.",
+          "Tự nói lại đoạn bằng 1 câu của bạn - nếu nói được, bạn đã hiểu.",
         ],
         proTipsEn: [
           "One slow read beats three skims.",
           "First + last sentences often hold 70% of the meaning.",
-          "Restate the passage in your own one sentence — that proves you understood.",
+          "Restate the passage in your own one sentence - that proves you understood.",
         ],
         vocabulary: [
           v("pollinator", "loài thụ phấn", "an animal that spreads pollen", "Bees are key pollinators."),
@@ -363,17 +363,17 @@ export const satExpansionModules9: LanguageModule[] = [
         level: 2,
         difficulty: "beginner",
         theory:
-          "Một câu hỏi 'evidence' yêu cầu bạn chỉ vào DÒNG cụ thể. Đừng đoán — hãy tìm.\n\nMẫu: 'In 2010, the city built 12 new bike lanes. Within 3 years, cycling commutes doubled. Air quality also improved measurably.'\n\nNếu hỏi 'điều gì cho thấy chính sách hiệu quả?' → dòng 'cycling commutes doubled' và 'air quality improved' chính là dẫn chứng.",
+          "Một câu hỏi 'evidence' yêu cầu bạn chỉ vào DÒNG cụ thể. Đừng đoán - hãy tìm.\n\nMẫu: 'In 2010, the city built 12 new bike lanes. Within 3 years, cycling commutes doubled. Air quality also improved measurably.'\n\nNếu hỏi 'điều gì cho thấy chính sách hiệu quả?' → dòng 'cycling commutes doubled' và 'air quality improved' chính là dẫn chứng.",
         theoryEn:
-          "An 'evidence' question wants you to point to a specific LINE. Don't guess — find it.\n\nSample: 'In 2010, the city built 12 new bike lanes. Within 3 years, cycling commutes doubled. Air quality also improved measurably.'\n\nIf asked 'what shows the policy worked?' → the lines 'cycling commutes doubled' and 'air quality improved' are the evidence.",
+          "An 'evidence' question wants you to point to a specific LINE. Don't guess - find it.\n\nSample: 'In 2010, the city built 12 new bike lanes. Within 3 years, cycling commutes doubled. Air quality also improved measurably.'\n\nIf asked 'what shows the policy worked?' → the lines 'cycling commutes doubled' and 'air quality improved' are the evidence.",
         proTips: [
           "Đặt ngón tay vào dòng dẫn chứng trước khi nhìn 4 đáp án.",
-          "Đáp án đúng hầu như là 'dịch lại' câu trong đoạn — không phải lời mới.",
+          "Đáp án đúng hầu như là 'dịch lại' câu trong đoạn - không phải lời mới.",
           "Nếu 4 đáp án đều 'có vẻ đúng', đáp án có dòng cụ thể nhất thường thắng.",
         ],
         proTipsEn: [
           "Point your finger at the evidence line before looking at the 4 choices.",
-          "The right answer is usually a 'paraphrase' of the line — not new info.",
+          "The right answer is usually a 'paraphrase' of the line - not new info.",
           "If all 4 choices look right, the most specifically cited one usually wins.",
         ],
         vocabulary: [
@@ -419,18 +419,18 @@ export const satExpansionModules9: LanguageModule[] = [
         level: 2,
         difficulty: "beginner",
         theory:
-          "Khi gặp từ lạ, đừng dừng lại — đọc tiếp 1 câu trước và 1 câu sau. 90% thời gian, ngữ cảnh sẽ 'mở khoá' nghĩa.\n\nMẫu: 'The lecture was so prolix that half the audience left early — every point seemed to take forever.'\n\nDù chưa biết 'prolix', bạn đoán được = dài dòng (vì 'take forever' + 'left early' là dấu hiệu).",
+          "Khi gặp từ lạ, đừng dừng lại - đọc tiếp 1 câu trước và 1 câu sau. 90% thời gian, ngữ cảnh sẽ 'mở khoá' nghĩa.\n\nMẫu: 'The lecture was so prolix that half the audience left early - every point seemed to take forever.'\n\nDù chưa biết 'prolix', bạn đoán được = dài dòng (vì 'take forever' + 'left early' là dấu hiệu).",
         theoryEn:
-          "When you hit a strange word, don't stop — read one sentence before and one after. 90% of the time, context unlocks the meaning.\n\nSample: 'The lecture was so prolix that half the audience left early — every point seemed to take forever.'\n\nEven without knowing 'prolix', you can guess = long-winded (because 'take forever' + 'left early' are clues).",
+          "When you hit a strange word, don't stop - read one sentence before and one after. 90% of the time, context unlocks the meaning.\n\nSample: 'The lecture was so prolix that half the audience left early - every point seemed to take forever.'\n\nEven without knowing 'prolix', you can guess = long-winded (because 'take forever' + 'left early' are clues).",
         proTips: [
           "Tìm 'tín hiệu cảm xúc' (positive / negative / neutral) trước khi tìm nghĩa chi tiết.",
-          "Dấu '—' và ',' thường giới thiệu cách giải thích từ khó ngay sau đó.",
-          "Đừng dịch từng từ — dịch 'cảm giác' của câu.",
+          "Dấu '-' và ',' thường giới thiệu cách giải thích từ khó ngay sau đó.",
+          "Đừng dịch từng từ - dịch 'cảm giác' của câu.",
         ],
         proTipsEn: [
           "Find the 'emotional signal' (positive / negative / neutral) before the precise meaning.",
-          "Dashes '—' and commas often introduce a definition right after the hard word.",
-          "Don't translate word-by-word — translate the 'feel' of the sentence.",
+          "Dashes '-' and commas often introduce a definition right after the hard word.",
+          "Don't translate word-by-word - translate the 'feel' of the sentence.",
         ],
         vocabulary: [
           v("context", "ngữ cảnh", "surrounding text", "Use context to guess words."),
@@ -471,14 +471,14 @@ export const satExpansionModules9: LanguageModule[] = [
   // ───────────────────────────────────────────────────────────────────
   {
     id: "sat-math-soft-start",
-    title: "Math Khởi Động — Ôn nền tảng lớp 8–9",
-    titleEn: "Math Soft Start — Grade 8–9 Refresh",
+    title: "Math Khởi Động - Ôn nền tảng lớp 8–9",
+    titleEn: "Math Soft Start - Grade 8–9 Refresh",
     icon: "🧮",
     color: "from-amber-400 to-orange-500",
     description:
-      "Ba bài Math 'không sợ' giúp ôn lại số hữu tỷ, % và phương trình bậc 1 — nền tảng vững trước khi vào Algebra Tuần 6.",
+      "Ba bài Math 'không sợ' giúp ôn lại số hữu tỷ, % và phương trình bậc 1 - nền tảng vững trước khi vào Algebra Tuần 6.",
     descriptionEn:
-      "Three 'no-fear' Math lessons reviewing rationals, percents, and 1-step linear equations — solid ground before Algebra in Week 6.",
+      "Three 'no-fear' Math lessons reviewing rationals, percents, and 1-step linear equations - solid ground before Algebra in Week 6.",
     category: "sat",
     language: "english",
     lessons: [
@@ -489,18 +489,18 @@ export const satExpansionModules9: LanguageModule[] = [
         level: 1,
         difficulty: "beginner",
         theory:
-          "Mọi đề SAT Math đều ngầm giả định bạn 'mượt' với 3 dạng số: phân số (1/4), thập phân (0.25), phần trăm (25%). Cả 3 đều bằng nhau.\n\nQuy tắc nhanh:\n• % → thập phân: chia 100 (35% = 0.35).\n• Thập phân → phân số: viết trên mẫu 10/100/1000 rồi rút gọn.\n• Phân số → %: chia tử cho mẫu rồi nhân 100.\n\nDùng Desmos để kiểm chứng — đừng tính nhẩm nếu chưa chắc.",
+          "Mọi đề SAT Math đều ngầm giả định bạn 'mượt' với 3 dạng số: phân số (1/4), thập phân (0.25), phần trăm (25%). Cả 3 đều bằng nhau.\n\nQuy tắc nhanh:\n• % → thập phân: chia 100 (35% = 0.35).\n• Thập phân → phân số: viết trên mẫu 10/100/1000 rồi rút gọn.\n• Phân số → %: chia tử cho mẫu rồi nhân 100.\n\nDùng Desmos để kiểm chứng - đừng tính nhẩm nếu chưa chắc.",
         theoryEn:
-          "Every SAT Math problem assumes you're fluent with 3 number forms: fraction (1/4), decimal (0.25), percent (25%). All three are equal.\n\nQuick rules:\n• % → decimal: divide by 100 (35% = 0.35).\n• Decimal → fraction: put over 10/100/1000 then simplify.\n• Fraction → %: divide top by bottom, multiply by 100.\n\nUse Desmos to verify — don't risk mental math if unsure.",
+          "Every SAT Math problem assumes you're fluent with 3 number forms: fraction (1/4), decimal (0.25), percent (25%). All three are equal.\n\nQuick rules:\n• % → decimal: divide by 100 (35% = 0.35).\n• Decimal → fraction: put over 10/100/1000 then simplify.\n• Fraction → %: divide top by bottom, multiply by 100.\n\nUse Desmos to verify - don't risk mental math if unsure.",
         proTips: [
           "Học thuộc 6 cặp tương đương: 1/2=50%, 1/4=25%, 3/4=75%, 1/5=20%, 1/10=10%, 1/3≈33.3%.",
           "Trong SAT, viết phân số trực tiếp vào ô trả lời thường nhanh hơn thập phân.",
-          "Đừng làm tròn quá sớm — lỗi rounding cướp điểm rất nhiều.",
+          "Đừng làm tròn quá sớm - lỗi rounding cướp điểm rất nhiều.",
         ],
         proTipsEn: [
           "Memorize 6 equivalences: 1/2=50%, 1/4=25%, 3/4=75%, 1/5=20%, 1/10=10%, 1/3≈33.3%.",
           "On the SAT, typing a fraction is often faster than a decimal.",
-          "Don't round early — rounding errors steal many points.",
+          "Don't round early - rounding errors steal many points.",
         ],
         vocabulary: [
           v("fraction", "phân số", "a part of a whole", "1/4 is a fraction."),
@@ -547,16 +547,16 @@ export const satExpansionModules9: LanguageModule[] = [
         level: 1,
         difficulty: "beginner",
         theory:
-          "Trước khi học hệ phương trình (Tuần 6), hãy mượt với phương trình 1 bước.\n\nNguyên tắc 'cân bằng': mọi thứ làm bên trái phải làm bên phải.\n\nVí dụ: 3x = 12 → chia 2 vế cho 3 → x = 4.\nx + 7 = 10 → trừ 7 cả 2 vế → x = 3.\n\nMẹo SAT: luôn thay nghiệm vào để kiểm tra trong 5 giây — nếu sai thì sửa ngay.",
+          "Trước khi học hệ phương trình (Tuần 6), hãy mượt với phương trình 1 bước.\n\nNguyên tắc 'cân bằng': mọi thứ làm bên trái phải làm bên phải.\n\nVí dụ: 3x = 12 → chia 2 vế cho 3 → x = 4.\nx + 7 = 10 → trừ 7 cả 2 vế → x = 3.\n\nMẹo SAT: luôn thay nghiệm vào để kiểm tra trong 5 giây - nếu sai thì sửa ngay.",
         theoryEn:
-          "Before systems of equations (Week 6), be fluent with 1-step equations.\n\n'Balance' rule: whatever you do to one side, do to the other.\n\nExamples: 3x = 12 → divide both sides by 3 → x = 4.\nx + 7 = 10 → subtract 7 from both sides → x = 3.\n\nSAT tip: always plug your answer back in for a 5-second check — catch errors early.",
+          "Before systems of equations (Week 6), be fluent with 1-step equations.\n\n'Balance' rule: whatever you do to one side, do to the other.\n\nExamples: 3x = 12 → divide both sides by 3 → x = 4.\nx + 7 = 10 → subtract 7 from both sides → x = 3.\n\nSAT tip: always plug your answer back in for a 5-second check - catch errors early.",
         proTips: [
-          "Viết bước nào ra giấy nháp — đừng nhảy bước trong đầu.",
+          "Viết bước nào ra giấy nháp - đừng nhảy bước trong đầu.",
           "Khi gặp số âm, khoanh dấu trước, đừng để mất.",
           "Plug-in check là 'bảo hiểm rẻ nhất' của SAT Math.",
         ],
         proTipsEn: [
-          "Write each step on scratch paper — don't skip steps mentally.",
+          "Write each step on scratch paper - don't skip steps mentally.",
           "When negatives appear, circle the sign so you don't lose it.",
           "The plug-in check is the cheapest insurance in SAT Math.",
         ],
@@ -605,16 +605,16 @@ export const satExpansionModules9: LanguageModule[] = [
         level: 2,
         difficulty: "beginner",
         theory:
-          "Desmos đã được tích hợp sẵn trong Bluebook — đó là 'siêu vũ khí' miễn phí của bạn.\n\n3 thao tác cốt lõi cho người mới:\n• Gõ 'y = 2x + 3' để xem đường thẳng.\n• Gõ 2 phương trình để xem điểm giao (= nghiệm hệ).\n• Gõ 'x^2 + 3x − 4 = 0' để xem nghiệm dưới đáy đồ thị.\n\nKhông cần học công thức nâng cao trong tuần 1. Chỉ cần biết 'cái gì gõ ra cái gì'.",
+          "Desmos đã được tích hợp sẵn trong Bluebook - đó là 'siêu vũ khí' miễn phí của bạn.\n\n3 thao tác cốt lõi cho người mới:\n• Gõ 'y = 2x + 3' để xem đường thẳng.\n• Gõ 2 phương trình để xem điểm giao (= nghiệm hệ).\n• Gõ 'x^2 + 3x − 4 = 0' để xem nghiệm dưới đáy đồ thị.\n\nKhông cần học công thức nâng cao trong tuần 1. Chỉ cần biết 'cái gì gõ ra cái gì'.",
         theoryEn:
-          "Desmos is built into Bluebook — your free super-weapon.\n\nThe 3 beginner moves:\n• Type 'y = 2x + 3' to see the line.\n• Type 2 equations to see the intersection (= the system's solution).\n• Type 'x^2 + 3x − 4 = 0' to read the roots at the bottom of the graph.\n\nNo advanced formulas needed in week 1 — just know which input produces which output.",
+          "Desmos is built into Bluebook - your free super-weapon.\n\nThe 3 beginner moves:\n• Type 'y = 2x + 3' to see the line.\n• Type 2 equations to see the intersection (= the system's solution).\n• Type 'x^2 + 3x − 4 = 0' to read the roots at the bottom of the graph.\n\nNo advanced formulas needed in week 1 - just know which input produces which output.",
         proTips: [
-          "Tập 10 phút Desmos mỗi ngày — chỉ thử nhập 5 biểu thức.",
+          "Tập 10 phút Desmos mỗi ngày - chỉ thử nhập 5 biểu thức.",
           "Phím tắt zoom: dùng cuộn chuột hoặc 2 ngón trên trackpad.",
           "Lưu sẵn template ‘y = ax + b, y = cx + d’ trong đầu để mọi hệ phương trình giải bằng 1 click.",
         ],
         proTipsEn: [
-          "Spend 10 min a day in Desmos — just type 5 expressions.",
+          "Spend 10 min a day in Desmos - just type 5 expressions.",
           "Zoom shortcut: scroll wheel or 2-finger pinch.",
           "Memorize the template ‘y = ax + b, y = cx + d’ so any system is one click away.",
         ],

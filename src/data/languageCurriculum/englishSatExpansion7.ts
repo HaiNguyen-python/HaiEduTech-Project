@@ -1,4 +1,4 @@
-// SAT Expansion 7 — Test-day pacing, error-log methodology, and Bluebook tooling mastery.
+// SAT Expansion 7 - Test-day pacing, error-log methodology, and Bluebook tooling mastery.
 // Designed to match the new 30-week curriculum (Weeks 24–30).
 import type { LanguageModule } from "./types";
 
@@ -26,13 +26,13 @@ export const satExpansionModules7: LanguageModule[] = [
           "Each R&W module is 27 questions in 32 minutes → about 71 seconds/question. In practice: split the module into three 9-question waves of ~10 minutes each, leaving 2 minutes to review.\n\nDifficulty grouping (algorithm-sorted): Q1–5 usually easy, Q6–20 medium, Q21–27 hard (often Cross-Text). The 90-second rule: if you spend more than 90 seconds without eliminating at least 2 choices, hit Mark for Review and move on.\n\nA 700+ scorer typically nails 22–24 confidently, marks 3–5, and returns to them after wave 3.",
         proTips: [
           "Đặt mục tiêu ngầm: hết 10 phút phải xong câu 9; hết 20 phút phải xong câu 18.",
-          "Mark for Review KHÔNG trừ điểm — đừng ngại bấm.",
-          "Khi quay lại, đọc lại CÂU HỎI trước rồi mới nhìn lựa chọn — tránh ‘mỏi mắt’ chọn sai."
+          "Mark for Review KHÔNG trừ điểm - đừng ngại bấm.",
+          "Khi quay lại, đọc lại CÂU HỎI trước rồi mới nhìn lựa chọn - tránh ‘mỏi mắt’ chọn sai."
         ],
         proTipsEn: [
           "Silent checkpoints: by minute 10 finish Q9; by minute 20 finish Q18.",
-          "Mark for Review carries NO penalty — use it freely.",
-          "When you return, reread the QUESTION first, then the choices — avoid tired-eye misclicks."
+          "Mark for Review carries NO penalty - use it freely.",
+          "When you return, reread the QUESTION first, then the choices - avoid tired-eye misclicks."
         ],
         vocabulary: [
           { word: "pacing", partOfSpeech: "noun", meaning: "phân bổ tốc độ", meaningEn: "timing across a task", example: "Good pacing wins on the SAT.", exampleEn: "Good pacing wins on the SAT." },
@@ -41,7 +41,7 @@ export const satExpansionModules7: LanguageModule[] = [
           { word: "elimination", partOfSpeech: "noun", meaning: "loại trừ đáp án", meaningEn: "removing wrong choices", example: "Elimination beats guessing.", exampleEn: "Elimination beats guessing." },
           { word: "wave", partOfSpeech: "noun", meaning: "đợt", meaningEn: "a batch of questions", example: "Plan three waves per module.", exampleEn: "Plan three waves per module." },
           { word: "stamina", partOfSpeech: "noun", meaning: "sức bền", meaningEn: "mental endurance", example: "Build test stamina with full mocks.", exampleEn: "Build test stamina with full mocks." },
-          { word: "skip", partOfSpeech: "verb", meaning: "bỏ qua tạm", meaningEn: "to defer to later", example: "Skip and return — don't stall.", exampleEn: "Skip and return — don't stall." },
+          { word: "skip", partOfSpeech: "verb", meaning: "bỏ qua tạm", meaningEn: "to defer to later", example: "Skip and return - don't stall.", exampleEn: "Skip and return - don't stall." },
           { word: "buffer", partOfSpeech: "noun", meaning: "thời gian dự phòng", meaningEn: "spare time held in reserve", example: "Keep a 2-minute buffer for review.", exampleEn: "Keep a 2-minute buffer for review." }
         ],
         exercises: [
@@ -70,17 +70,17 @@ export const satExpansionModules7: LanguageModule[] = [
         level: 4,
         difficulty: "intermediate",
         theory:
-          "Math module có 22 câu / 35 phút → ~95 giây/câu. Chia làm 2 đợt: 11 câu đầu trong 15 phút, 11 câu sau trong 17 phút, dành 3 phút cuối kiểm tra Desmos cho 2–3 câu khó.\n\nDùng Desmos cho: hệ phương trình, đồ thị parabola, scatter plot, table function. Đừng dùng Desmos cho: số học đơn giản, %, tỉ lệ — viết tay nhanh hơn.\n\nCâu Student-Produced Response (điền số) chiếm ~25%. Quy tắc: nếu kết quả là phân số, gõ trực tiếp ‘1/2’; nếu là số thập phân vô hạn, gõ tối thiểu 4 chữ số (vd 0.6667).",
+          "Math module có 22 câu / 35 phút → ~95 giây/câu. Chia làm 2 đợt: 11 câu đầu trong 15 phút, 11 câu sau trong 17 phút, dành 3 phút cuối kiểm tra Desmos cho 2–3 câu khó.\n\nDùng Desmos cho: hệ phương trình, đồ thị parabola, scatter plot, table function. Đừng dùng Desmos cho: số học đơn giản, %, tỉ lệ - viết tay nhanh hơn.\n\nCâu Student-Produced Response (điền số) chiếm ~25%. Quy tắc: nếu kết quả là phân số, gõ trực tiếp ‘1/2’; nếu là số thập phân vô hạn, gõ tối thiểu 4 chữ số (vd 0.6667).",
         theoryEn:
-          "Math module has 22 questions in 35 minutes → ~95s/question. Split into two waves: first 11 in 15 minutes, last 11 in 17 minutes, leaving 3 minutes to recheck Desmos work on 2–3 hard items.\n\nUse Desmos for: systems of equations, parabolas, scatter plots, table functions. Avoid Desmos for: simple arithmetic, %, ratios — handwriting is faster.\n\nStudent-Produced Response (grid-in) items make up ~25%. Rule: if your answer is a fraction, type ‘1/2’ directly; if a repeating decimal, enter at least 4 digits (e.g. 0.6667).",
+          "Math module has 22 questions in 35 minutes → ~95s/question. Split into two waves: first 11 in 15 minutes, last 11 in 17 minutes, leaving 3 minutes to recheck Desmos work on 2–3 hard items.\n\nUse Desmos for: systems of equations, parabolas, scatter plots, table functions. Avoid Desmos for: simple arithmetic, %, ratios - handwriting is faster.\n\nStudent-Produced Response (grid-in) items make up ~25%. Rule: if your answer is a fraction, type ‘1/2’ directly; if a repeating decimal, enter at least 4 digits (e.g. 0.6667).",
         proTips: [
-          "Mở Desmos một lần đầu module và để ở tab góc — không mở lại nhiều lần.",
-          "Gõ phân số trực tiếp như 3/8 thay vì 0.375 — tránh sai số làm tròn.",
+          "Mở Desmos một lần đầu module và để ở tab góc - không mở lại nhiều lần.",
+          "Gõ phân số trực tiếp như 3/8 thay vì 0.375 - tránh sai số làm tròn.",
           "Câu word problem dài: viết ‘Let x = …’ ra giấy nháp trước khi đụng vào số."
         ],
         proTipsEn: [
-          "Open Desmos once at the start of the module and keep it docked — don't toggle repeatedly.",
-          "Type fractions directly (3/8) instead of 0.375 — avoids rounding errors.",
+          "Open Desmos once at the start of the module and keep it docked - don't toggle repeatedly.",
+          "Type fractions directly (3/8) instead of 0.375 - avoids rounding errors.",
           "Long word problems: write 'Let x = …' on scratch paper before touching numbers."
         ],
         vocabulary: [
@@ -137,13 +137,13 @@ export const satExpansionModules7: LanguageModule[] = [
           "Every miss in a mock must be classified within 24 hours into one of 3 buckets:\n\n1) DON'T-KNOW: missing knowledge (e.g. you didn't know the semicolon rule). Action: re-study the matching lesson.\n\n2) KNEW-MISSED: you knew it but misread or chose wrong logic. Action: rewrite the correct reasoning and drill 5 same-type items.\n\n3) CARELESS: you understood, solved correctly, but misclicked or rushed. Action: add to your 'final 30-second checklist' before submitting the module.\n\nTarget: after 4 weeks, bucket 3 should be < 1/mock and bucket 2 < 3/mock. That's when the score jumps.",
         proTips: [
           "Dùng Google Sheet với 6 cột: # / Question type / Bucket / WHY wrong / CORRECT reasoning / Re-do date.",
-          "Đặt lịch re-do mỗi câu sau đúng 7 ngày — kiểm tra long-term memory.",
-          "Đếm tỉ lệ 3 nhóm mỗi tuần và vẽ biểu đồ — visual giúp duy trì kỷ luật."
+          "Đặt lịch re-do mỗi câu sau đúng 7 ngày - kiểm tra long-term memory.",
+          "Đếm tỉ lệ 3 nhóm mỗi tuần và vẽ biểu đồ - visual giúp duy trì kỷ luật."
         ],
         proTipsEn: [
           "Use a 6-column Google Sheet: # / Question type / Bucket / WHY wrong / CORRECT reasoning / Re-do date.",
           "Schedule a re-do exactly 7 days later to test long-term retention.",
-          "Track the 3-bucket ratio weekly on a chart — visualization sustains discipline."
+          "Track the 3-bucket ratio weekly on a chart - visualization sustains discipline."
         ],
         vocabulary: [
           { word: "error log", partOfSpeech: "noun", meaning: "nhật ký lỗi", meaningEn: "structured record of mistakes", example: "An error log is a top-scorer's secret.", exampleEn: "An error log is a top-scorer's secret." },
@@ -170,7 +170,7 @@ export const satExpansionModules7: LanguageModule[] = [
         ],
         quiz: [
           { question: "Which bucket gets fixed by re-studying a lesson?", options: ["Don't-know", "Careless", "Knew-missed", "Lucky guess"], answer: 0, explanation: "Don't-know misses signal a knowledge gap that requires re-learning." },
-          { question: "The fastest score jump usually comes from eliminating which bucket?", options: ["Don't-know", "Careless", "Knew-missed", "All equal"], answer: 1, explanation: "Careless misses are 'free points' — easiest to claw back." },
+          { question: "The fastest score jump usually comes from eliminating which bucket?", options: ["Don't-know", "Careless", "Knew-missed", "All equal"], answer: 1, explanation: "Careless misses are 'free points' - easiest to claw back." },
           { question: "A useful column in the error-log sheet is:", options: ["Favourite color", "WHY wrong", "Test-day outfit", "Snack list"], answer: 1, explanation: "Articulating WHY you were wrong cements the correction." }
         ]
       }
@@ -182,8 +182,8 @@ export const satExpansionModules7: LanguageModule[] = [
     titleEn: "Bluebook Tooling Mastery",
     icon: "🛠️",
     color: "from-violet-500 to-indigo-600",
-    description: "Annotate, Mark for Review, Reference Sheet, Desmos — 4 công cụ then chốt.",
-    descriptionEn: "Annotate, Mark for Review, Reference Sheet, Desmos — the 4 critical tools.",
+    description: "Annotate, Mark for Review, Reference Sheet, Desmos - 4 công cụ then chốt.",
+    descriptionEn: "Annotate, Mark for Review, Reference Sheet, Desmos - the 4 critical tools.",
     category: "sat",
     language: "english",
     lessons: [
@@ -198,13 +198,13 @@ export const satExpansionModules7: LanguageModule[] = [
         theoryEn:
           "Bluebook is the College Board's testing app (laptop/iPad). 4 critical tools:\n\n1) ANNOTATE: highlight + add notes on R&W passages. Use it to bracket evidence and never 'lose your place'.\n\n2) MARK FOR REVIEW: flag a hard question for return. The flag does NOT cost points.\n\n3) REFERENCE SHEET (Math): contains area, volume, special-triangle formulas. You must memorize 5 formulas it does NOT include (e.g. discriminant, distance formula).\n\n4) DESMOS: built-in graphing calculator. Dock it from Q1 and leave it open all module.\n\nNavigation tip: shortcuts 'N' = next, 'B' = back, 'M' = mark. Memorize them → save 30–60 seconds per module.",
         proTips: [
-          "Chỉ highlight ≤ 5 từ mỗi câu — nhiều quá thành nhiễu.",
-          "Tuyệt đối không dùng giấy nháp cho R&W — Annotate nhanh hơn.",
+          "Chỉ highlight ≤ 5 từ mỗi câu - nhiều quá thành nhiễu.",
+          "Tuyệt đối không dùng giấy nháp cho R&W - Annotate nhanh hơn.",
           "5 công thức nên thuộc: discriminant, quadratic formula, distance, midpoint, slope."
         ],
         proTipsEn: [
-          "Highlight ≤ 5 words per question — more becomes noise.",
-          "Never use scratch paper for R&W — Annotate is faster.",
+          "Highlight ≤ 5 words per question - more becomes noise.",
+          "Never use scratch paper for R&W - Annotate is faster.",
           "5 must-memorize formulas: discriminant, quadratic formula, distance, midpoint, slope."
         ],
         vocabulary: [
