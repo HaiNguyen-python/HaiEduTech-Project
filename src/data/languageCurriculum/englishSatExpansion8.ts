@@ -1,4 +1,4 @@
-// SAT Expansion 8 — Fills the remaining gaps in the 30-week curriculum so every
+// SAT Expansion 8 - Fills the remaining gaps in the 30-week curriculum so every
 // week links to at least one concrete lesson. Adds: SVA traps, modifier placement,
 // pronoun clarity, vocab set 3, mock debrief framework, targeted weakness drilling,
 // test-day psychology, hard R&W / Math mixed sets, simulation peak, taper week.
@@ -17,34 +17,34 @@ export const satExpansionModules8: LanguageModule[] = [
   // ── Module A: Conventions deep-dive (Weeks 5 & 19) ─────────────────
   {
     id: "sat-conventions-deepdive",
-    title: "Standard English Conventions — Deep Dive",
-    titleEn: "Standard English Conventions — Deep Dive",
+    title: "Standard English Conventions - Deep Dive",
+    titleEn: "Standard English Conventions - Deep Dive",
     icon: "✏️",
     color: "from-rose-500 to-orange-500",
-    description: "Bẫy SVA, modifier sai vị trí và đại từ mơ hồ — 3 lỗi mất điểm phổ biến nhất.",
-    descriptionEn: "SVA traps, misplaced modifiers, and ambiguous pronouns — the 3 highest-frequency Conventions losses.",
+    description: "Bẫy SVA, modifier sai vị trí và đại từ mơ hồ - 3 lỗi mất điểm phổ biến nhất.",
+    descriptionEn: "SVA traps, misplaced modifiers, and ambiguous pronouns - the 3 highest-frequency Conventions losses.",
     category: "sat",
     language: "english",
     lessons: [
       {
         id: "sva-traps",
-        title: "SVA Traps — Khi chủ ngữ ‘ẩn mình’",
-        titleEn: "SVA Traps — When the Subject Hides",
+        title: "SVA Traps - Khi chủ ngữ ‘ẩn mình’",
+        titleEn: "SVA Traps - When the Subject Hides",
         level: 3,
         difficulty: "intermediate",
         theory:
-          "SAT yêu thích 4 dạng bẫy SVA:\n1) Cụm chen giữa: 'The list of supplies (was/were) lost' — chủ ngữ là 'list'.\n2) Either/neither/none/each + of: luôn coi như SỐ ÍT.\n3) Đảo ngữ: 'There (is/are) three reasons' — động từ theo 'reasons'.\n4) Danh động từ làm chủ ngữ: 'Studying every night helps' — luôn SỐ ÍT.\n\nQuy trình 3 bước: gạch cụm prep, khoanh subject thật, gắn mũi tên tới động từ.",
+          "SAT yêu thích 4 dạng bẫy SVA:\n1) Cụm chen giữa: 'The list of supplies (was/were) lost' - chủ ngữ là 'list'.\n2) Either/neither/none/each + of: luôn coi như SỐ ÍT.\n3) Đảo ngữ: 'There (is/are) three reasons' - động từ theo 'reasons'.\n4) Danh động từ làm chủ ngữ: 'Studying every night helps' - luôn SỐ ÍT.\n\nQuy trình 3 bước: gạch cụm prep, khoanh subject thật, gắn mũi tên tới động từ.",
         theoryEn:
-          "The SAT loves 4 SVA traps:\n1) Inserted phrase: 'The list of supplies (was/were) lost' — subject is 'list'.\n2) Either/neither/none/each + of: always SINGULAR.\n3) Inverted order: 'There (is/are) three reasons' — verb agrees with 'reasons'.\n4) Gerund subject: 'Studying every night helps' — always SINGULAR.\n\n3-step routine: cross out prep phrases, circle the real subject, draw an arrow to the verb.",
+          "The SAT loves 4 SVA traps:\n1) Inserted phrase: 'The list of supplies (was/were) lost' - subject is 'list'.\n2) Either/neither/none/each + of: always SINGULAR.\n3) Inverted order: 'There (is/are) three reasons' - verb agrees with 'reasons'.\n4) Gerund subject: 'Studying every night helps' - always SINGULAR.\n\n3-step routine: cross out prep phrases, circle the real subject, draw an arrow to the verb.",
         proTips: [
           "‘Each / every / one of’ KHÔNG bao giờ đi với động từ số nhiều.",
-          "Khi thấy ‘along with / as well as / together with’ — bỏ qua, không đổi số chủ ngữ.",
-          "Đọc to câu trước khi chọn — tai sẽ phát hiện sai trước mắt."
+          "Khi thấy ‘along with / as well as / together with’ - bỏ qua, không đổi số chủ ngữ.",
+          "Đọc to câu trước khi chọn - tai sẽ phát hiện sai trước mắt."
         ],
         proTipsEn: [
           "‘Each / every / one of’ NEVER takes a plural verb.",
-          "‘Along with / as well as / together with’ — ignore them; subject number doesn't change.",
-          "Read the sentence aloud before answering — the ear catches what the eye misses."
+          "‘Along with / as well as / together with’ - ignore them; subject number doesn't change.",
+          "Read the sentence aloud before answering - the ear catches what the eye misses."
         ],
         vocabulary: [
           v("agreement", "sự hoà hợp", "concord between subject and verb", "Subject-verb agreement is tested often."),
@@ -88,8 +88,8 @@ export const satExpansionModules8: LanguageModule[] = [
       },
       {
         id: "modifier-placement",
-        title: "Modifier Placement — Mũi tên ngắn nhất",
-        titleEn: "Modifier Placement — The Shortest Arrow",
+        title: "Modifier Placement - Mũi tên ngắn nhất",
+        titleEn: "Modifier Placement - The Shortest Arrow",
         level: 3,
         difficulty: "intermediate",
         theory:
@@ -98,12 +98,12 @@ export const satExpansionModules8: LanguageModule[] = [
           "A modifier must sit next to the noun it describes. SAT favours sentences opening with -ing/-ed: 'Walking down the street, the trees looked golden.' → WRONG: trees don't walk.\n\nArrow technique: draw an arrow FROM the modifier TO the noun. A long arrow or one pointing to the wrong noun = error. Fix: place the right subject immediately after the comma.",
         proTips: [
           "Câu bắt đầu bằng -ing/-ed → chủ ngữ chính NGAY sau dấu phẩy phải là người/vật làm hành động đó.",
-          "Đáp án dài hơn không phải lúc nào cũng sai — quan trọng là mũi tên đúng.",
+          "Đáp án dài hơn không phải lúc nào cũng sai - quan trọng là mũi tên đúng.",
           "Nếu modifier không sửa được vì lựa chọn ép, hãy xem có thể đổi nó thành mệnh đề ‘When/After’ không."
         ],
         proTipsEn: [
           "Sentences starting with -ing/-ed → the subject right after the comma must be the doer.",
-          "Longer answers aren't automatically wrong — the arrow must just be correct.",
+          "Longer answers aren't automatically wrong - the arrow must just be correct.",
           "If the modifier can't be fixed, look for a choice that turns it into a 'When/After' clause."
         ],
         vocabulary: [
@@ -147,8 +147,8 @@ export const satExpansionModules8: LanguageModule[] = [
       },
       {
         id: "pronoun-clarity",
-        title: "Pronoun Clarity — Mỗi đại từ một chủ nhân",
-        titleEn: "Pronoun Clarity — One Pronoun, One Owner",
+        title: "Pronoun Clarity - Mỗi đại từ một chủ nhân",
+        titleEn: "Pronoun Clarity - One Pronoun, One Owner",
         level: 3,
         difficulty: "intermediate",
         theory:
@@ -156,13 +156,13 @@ export const satExpansionModules8: LanguageModule[] = [
         theoryEn:
           "Every pronoun (it, they, this, that, which) must point to ONE clear noun. The SAT attacks 3 patterns:\n1) No antecedent: 'On the website, they say…' → who is ‘they’?\n2) Two same-number antecedents: 'Lan told Mai that she was wrong' → who is ‘she’?\n3) Wrong number/gender: 'Each student brought their book' → SAT still flags this; rewrite or use ‘his or her’.\n\nFix: replace the pronoun with the specific noun whenever in doubt.",
         proTips: [
-          "Nếu phải dừng lại để hỏi ‘ai/cái gì?’ — đáp án đó SAI.",
-          "‘This’ và ‘that’ đứng một mình thường mơ hồ — SAT thích đặt bẫy ‘This shows…’.",
+          "Nếu phải dừng lại để hỏi ‘ai/cái gì?’ - đáp án đó SAI.",
+          "‘This’ và ‘that’ đứng một mình thường mơ hồ - SAT thích đặt bẫy ‘This shows…’.",
           "Đáp án dài hơn nhưng nêu rõ tên thường an toàn hơn."
         ],
         proTipsEn: [
           "If you must pause to ask ‘who/what?’ the choice is WRONG.",
-          "Stand-alone ‘This’ and ‘That’ are usually ambiguous — watch for ‘This shows…’ traps.",
+          "Stand-alone ‘This’ and ‘That’ are usually ambiguous - watch for ‘This shows…’ traps.",
           "A longer choice that names the noun is usually safer."
         ],
         vocabulary: [
@@ -200,7 +200,7 @@ export const satExpansionModules8: LanguageModule[] = [
               "Mai left because she felt tired."
             ],
             answer: 1,
-            explanation: "‘She’ could refer to Lan or Mai — that's the ambiguity SAT flags.",
+            explanation: "‘She’ could refer to Lan or Mai - that's the ambiguity SAT flags.",
           }
         ]
       }
@@ -210,8 +210,8 @@ export const satExpansionModules8: LanguageModule[] = [
   // ── Module B: Vocabulary Set 3 (Week 15) ───────────────────────────
   {
     id: "sat-vocab-set3-module",
-    title: "SAT High-Frequency Vocabulary — Set 3",
-    titleEn: "SAT High-Frequency Vocabulary — Set 3",
+    title: "SAT High-Frequency Vocabulary - Set 3",
+    titleEn: "SAT High-Frequency Vocabulary - Set 3",
     icon: "📚",
     color: "from-violet-500 to-fuchsia-600",
     description: "60 từ vựng SAT cao tần đợt 3 với collocation và bẫy nghĩa.",
@@ -221,8 +221,8 @@ export const satExpansionModules8: LanguageModule[] = [
     lessons: [
       {
         id: "sat-vocab-set3",
-        title: "Vocab Set 3 — Academic & Abstract",
-        titleEn: "Vocab Set 3 — Academic & Abstract",
+        title: "Vocab Set 3 - Academic & Abstract",
+        titleEn: "Vocab Set 3 - Academic & Abstract",
         level: 4,
         difficulty: "advanced",
         theory:
@@ -231,12 +231,12 @@ export const satExpansionModules8: LanguageModule[] = [
           "Set 3 covers 60 academic words seen on level 4–5 Words-in-Context items. Learn each word in 3 layers:\n1) Core meaning (one line).\n2) Common collocation (e.g. ‘mitigate the risk’, ‘reconcile differences’).\n3) Meaning trap: lookalikes that differ (e.g. ‘candid’ ≠ ‘candied’).\n\nDrill ‘predict-then-pick’: read the sentence, say the needed meaning out loud, THEN look at the 4 choices.",
         proTips: [
           "Học theo cụm collocation, không học từ rời rạc.",
-          "Mỗi từ viết 1 câu THẬT của bản thân — nhớ lâu gấp 3.",
+          "Mỗi từ viết 1 câu THẬT của bản thân - nhớ lâu gấp 3.",
           "Khi không chắc, loại đáp án có nghĩa quá tích cực hoặc quá tiêu cực so với câu gốc."
         ],
         proTipsEn: [
           "Learn in collocations, not isolated words.",
-          "Write ONE personal sentence per word — retention triples.",
+          "Write ONE personal sentence per word - retention triples.",
           "When unsure, eliminate choices whose tone is much more positive or negative than the source sentence."
         ],
         vocabulary: [
@@ -264,7 +264,7 @@ export const satExpansionModules8: LanguageModule[] = [
               { text: "The new policy aims to ___ the impact of layoffs.", textEn: "The new policy aims to ___ the impact of layoffs.", answer: "mitigate" },
               { text: "Her ___ feedback helped the team improve.", textEn: "Her ___ feedback helped the team improve.", answer: "candid" },
               { text: "The judge asked the witness to ___ the claim with evidence.", textEn: "The judge asked the witness to ___ the claim with evidence.", answer: "substantiate" },
-              { text: "Her tone was ___ — neither praising nor criticizing.", textEn: "Her tone was ___ — neither praising nor criticizing.", answer: "equivocal" }
+              { text: "Her tone was ___ - neither praising nor criticizing.", textEn: "Her tone was ___ - neither praising nor criticizing.", answer: "equivocal" }
             ]
           }
         ],
@@ -300,22 +300,22 @@ export const satExpansionModules8: LanguageModule[] = [
     lessons: [
       {
         id: "sat-mock-debrief-framework",
-        title: "Mock Debrief Framework — 4 lăng kính",
-        titleEn: "Mock Debrief Framework — 4 Lenses",
+        title: "Mock Debrief Framework - 4 lăng kính",
+        titleEn: "Mock Debrief Framework - 4 Lenses",
         level: 4,
         difficulty: "advanced",
         theory:
-          "Mỗi mock cần debrief qua 4 lăng kính:\n1) Score — chia theo skill (Algebra, Geometry, Words-in-Context…), không chỉ tổng điểm.\n2) Time — câu nào quá 90s? Module nào hết giờ?\n3) Errors — phân loại 3 nhóm: Don't-Know / Knew-Missed / Careless.\n4) Emotion — đoạn nào căng thẳng? Có ‘mind blank’ không?\n\nKết quả debrief = 1 trang A4 với top 3 weakness + kế hoạch 7 ngày tiếp theo.",
+          "Mỗi mock cần debrief qua 4 lăng kính:\n1) Score - chia theo skill (Algebra, Geometry, Words-in-Context…), không chỉ tổng điểm.\n2) Time - câu nào quá 90s? Module nào hết giờ?\n3) Errors - phân loại 3 nhóm: Don't-Know / Knew-Missed / Careless.\n4) Emotion - đoạn nào căng thẳng? Có ‘mind blank’ không?\n\nKết quả debrief = 1 trang A4 với top 3 weakness + kế hoạch 7 ngày tiếp theo.",
         theoryEn:
-          "Every mock deserves a 4-lens debrief:\n1) Score — break down by skill (Algebra, Geometry, Words-in-Context…), not just the total.\n2) Time — which questions exceeded 90s? Which module ran out?\n3) Errors — classify into 3 buckets: Don't-Know / Knew-Missed / Careless.\n4) Emotion — where did stress spike? Any ‘mind blank’ moments?\n\nThe debrief output = a single A4 page with top 3 weaknesses + the next 7-day plan.",
+          "Every mock deserves a 4-lens debrief:\n1) Score - break down by skill (Algebra, Geometry, Words-in-Context…), not just the total.\n2) Time - which questions exceeded 90s? Which module ran out?\n3) Errors - classify into 3 buckets: Don't-Know / Knew-Missed / Careless.\n4) Emotion - where did stress spike? Any ‘mind blank’ moments?\n\nThe debrief output = a single A4 page with top 3 weaknesses + the next 7-day plan.",
         proTips: [
-          "Debrief PHẢI làm trong 24h sau mock — bộ nhớ còn nóng.",
-          "Nhóm Careless ưu tiên fix trước nhóm Don't-Know — ROI cao hơn nhiều.",
+          "Debrief PHẢI làm trong 24h sau mock - bộ nhớ còn nóng.",
+          "Nhóm Careless ưu tiên fix trước nhóm Don't-Know - ROI cao hơn nhiều.",
           "Nếu cùng 1 lỗi xuất hiện ở 2 mock liên tiếp → đó là leak phải xử lý ngay."
         ],
         proTipsEn: [
           "Debrief MUST happen within 24h while memory is fresh.",
-          "Fix Careless misses before Don't-Know misses — higher ROI.",
+          "Fix Careless misses before Don't-Know misses - higher ROI.",
           "If the same error appears in 2 consecutive mocks → it's a leak; fix it now."
         ],
         vocabulary: [
@@ -354,22 +354,22 @@ export const satExpansionModules8: LanguageModule[] = [
       },
       {
         id: "sat-targeted-weakness-drill",
-        title: "Targeted Weakness Drilling — Playlist cá nhân hoá",
-        titleEn: "Targeted Weakness Drilling — Personalized Playlist",
+        title: "Targeted Weakness Drilling - Playlist cá nhân hoá",
+        titleEn: "Targeted Weakness Drilling - Personalized Playlist",
         level: 4,
         difficulty: "advanced",
         theory:
-          "Sau debrief, mỗi học sinh nhận một playlist gồm: 3 bài học lý thuyết + 60 câu drill chính xác top 3 weakness. Quy tắc 20-20-20: cứ mỗi 20 câu, dừng lại, ghi accuracy, đối chiếu lý do sai.\n\nMục tiêu: accuracy của weakness area tăng ≥ 15% trong 1 tuần. Nếu không đạt — đổi giáo viên/phương pháp tiếp cận, không drill thêm câu.",
+          "Sau debrief, mỗi học sinh nhận một playlist gồm: 3 bài học lý thuyết + 60 câu drill chính xác top 3 weakness. Quy tắc 20-20-20: cứ mỗi 20 câu, dừng lại, ghi accuracy, đối chiếu lý do sai.\n\nMục tiêu: accuracy của weakness area tăng ≥ 15% trong 1 tuần. Nếu không đạt - đổi giáo viên/phương pháp tiếp cận, không drill thêm câu.",
         theoryEn:
-          "After the debrief, each student gets a playlist: 3 theory lessons + 60 drill questions targeting the top 3 weaknesses. The 20-20-20 rule: every 20 questions, pause, log accuracy, and review why each error happened.\n\nTarget: weakness-area accuracy up ≥ 15% in one week. If not achieved — change teacher or approach, don't just drill more.",
+          "After the debrief, each student gets a playlist: 3 theory lessons + 60 drill questions targeting the top 3 weaknesses. The 20-20-20 rule: every 20 questions, pause, log accuracy, and review why each error happened.\n\nTarget: weakness-area accuracy up ≥ 15% in one week. If not achieved - change teacher or approach, don't just drill more.",
         proTips: [
-          "Mỗi 20 câu DỪNG LẠI — không drill liên tục 60 câu mà không phân tích.",
-          "Học sinh tự chọn 1 trong 3 weakness để ‘teach back’ cho bạn cùng lớp — nhớ gấp đôi.",
+          "Mỗi 20 câu DỪNG LẠI - không drill liên tục 60 câu mà không phân tích.",
+          "Học sinh tự chọn 1 trong 3 weakness để ‘teach back’ cho bạn cùng lớp - nhớ gấp đôi.",
           "Nếu accuracy không tăng sau 60 câu → vấn đề là LÝ THUYẾT, không phải LƯỢNG CÂU."
         ],
         proTipsEn: [
-          "PAUSE every 20 questions — don't drill 60 straight without analysis.",
-          "Have the student ‘teach back’ one of the 3 weaknesses — retention doubles.",
+          "PAUSE every 20 questions - don't drill 60 straight without analysis.",
+          "Have the student ‘teach back’ one of the 3 weaknesses - retention doubles.",
           "If accuracy doesn't rise after 60 items → the gap is THEORY, not VOLUME."
         ],
         vocabulary: [
@@ -401,7 +401,7 @@ export const satExpansionModules8: LanguageModule[] = [
             question: "If 60 drill questions don't raise accuracy, the problem is most likely…",
             options: ["Need more questions", "Theory gap", "Bad lighting", "Slow internet"],
             answer: 1,
-            explanation: "Volume can't fix a missing concept — return to theory before drilling more.",
+            explanation: "Volume can't fix a missing concept - return to theory before drilling more.",
           }
         ]
       },
@@ -416,13 +416,13 @@ export const satExpansionModules8: LanguageModule[] = [
         theoryEn:
           "After Phase 3, students are ready for an 80-question Hard-only R&W set drawn from Bluebook. Mix evenly: Cross-Text, advanced Inference, level-5 Rhetorical Synthesis, ‘double-trap’ Transitions.\n\nRule: 4 waves of 20 questions, 5-min break between waves. After each wave, tag every miss with one of the 6 trap patterns (word-trap / opposite / half-right / extreme / out-of-scope / true-but-irrelevant).",
         proTips: [
-          "Mục tiêu accuracy ≥ 70% — không cần 100%, vì đây là câu Hard.",
-          "Re-do tất cả câu sai trong vòng 48 giờ — nếu vẫn sai lần 2, đó là LEAK thật sự.",
+          "Mục tiêu accuracy ≥ 70% - không cần 100%, vì đây là câu Hard.",
+          "Re-do tất cả câu sai trong vòng 48 giờ - nếu vẫn sai lần 2, đó là LEAK thật sự.",
           "Tag trap pattern là bước quan trọng nhất, không phải số lượng câu làm."
         ],
         proTipsEn: [
-          "Target accuracy ≥ 70% — perfection is not the goal on Hard items.",
-          "Re-do every miss within 48h — a second miss confirms a real LEAK.",
+          "Target accuracy ≥ 70% - perfection is not the goal on Hard items.",
+          "Re-do every miss within 48h - a second miss confirms a real LEAK.",
           "Tagging the trap pattern matters more than the raw question count."
         ],
         vocabulary: [
@@ -465,9 +465,9 @@ export const satExpansionModules8: LanguageModule[] = [
         level: 5,
         difficulty: "advanced",
         theory:
-          "60 câu Hard Math trộn từ 4 nhóm chính: Quadratics nâng cao, Functions deep-dive, Geometry/Trig hỗn hợp, và Word Problems nhiều bước. Bắt buộc dùng Desmos cho ≥ 30 câu — coi đây là kỹ năng riêng cần luyện đến phản xạ.\n\nMục tiêu kép: accuracy ≥ 70% VÀ pacing ≤ 110 giây/câu. Nếu đạt accuracy nhưng pacing quá → phải drill lại Desmos shortcut.",
+          "60 câu Hard Math trộn từ 4 nhóm chính: Quadratics nâng cao, Functions deep-dive, Geometry/Trig hỗn hợp, và Word Problems nhiều bước. Bắt buộc dùng Desmos cho ≥ 30 câu - coi đây là kỹ năng riêng cần luyện đến phản xạ.\n\nMục tiêu kép: accuracy ≥ 70% VÀ pacing ≤ 110 giây/câu. Nếu đạt accuracy nhưng pacing quá → phải drill lại Desmos shortcut.",
         theoryEn:
-          "60 Hard Math questions mixed from 4 areas: advanced Quadratics, Functions deep-dive, mixed Geometry/Trig, and multi-step Word Problems. Use Desmos on ≥ 30 — treat it as a separate, drilled-in reflex.\n\nDual target: accuracy ≥ 70% AND pacing ≤ 110 seconds/item. Hitting accuracy but missing pacing = drill Desmos shortcuts again.",
+          "60 Hard Math questions mixed from 4 areas: advanced Quadratics, Functions deep-dive, mixed Geometry/Trig, and multi-step Word Problems. Use Desmos on ≥ 30 - treat it as a separate, drilled-in reflex.\n\nDual target: accuracy ≥ 70% AND pacing ≤ 110 seconds/item. Hitting accuracy but missing pacing = drill Desmos shortcuts again.",
         proTips: [
           "Học thuộc 5 phím tắt Desmos: tham số ‘a’ với slider, ‘zoom fit’, ‘table’, regression, intersect.",
           "Câu word problem nhiều bước → BẮT BUỘC viết ‘Let x = …’ ra giấy nháp trước khi chạm đáp án.",
@@ -513,22 +513,22 @@ export const satExpansionModules8: LanguageModule[] = [
       },
       {
         id: "sat-test-psychology",
-        title: "Test-Day Psychology — 4-7-8 & Plan B",
-        titleEn: "Test-Day Psychology — 4-7-8 & Plan B",
+        title: "Test-Day Psychology - 4-7-8 & Plan B",
+        titleEn: "Test-Day Psychology - 4-7-8 & Plan B",
         level: 4,
         difficulty: "intermediate",
         theory:
-          "Áp lực phòng thi gây ra 3 hiện tượng: mind blank, ‘re-read loop’ (đọc đi đọc lại 1 câu), và panic-skip (bỏ qua quá nhiều câu).\n\nKỹ thuật xử lý:\n• Hít thở 4-7-8: hít 4 giây, giữ 7 giây, thở ra 8 giây × 3 lần — reset hệ thần kinh trong 60 giây.\n• Plan B: nếu module 1 quá khó, mục tiêu chuyển từ ‘ăn điểm cao’ sang ‘không bỏ trống câu nào’ — vẫn được vào module 2 ‘Easier’ chứ không sụp đổ.\n• ‘Look-away reset’: nhìn xa 5 mét trong 10 giây giữa các câu khó.",
+          "Áp lực phòng thi gây ra 3 hiện tượng: mind blank, ‘re-read loop’ (đọc đi đọc lại 1 câu), và panic-skip (bỏ qua quá nhiều câu).\n\nKỹ thuật xử lý:\n• Hít thở 4-7-8: hít 4 giây, giữ 7 giây, thở ra 8 giây × 3 lần - reset hệ thần kinh trong 60 giây.\n• Plan B: nếu module 1 quá khó, mục tiêu chuyển từ ‘ăn điểm cao’ sang ‘không bỏ trống câu nào’ - vẫn được vào module 2 ‘Easier’ chứ không sụp đổ.\n• ‘Look-away reset’: nhìn xa 5 mét trong 10 giây giữa các câu khó.",
         theoryEn:
-          "Test pressure produces 3 phenomena: mind blank, the ‘re-read loop’ (re-reading the same line), and panic-skip (skipping too many items).\n\nCountermeasures:\n• 4-7-8 breathing: inhale 4s, hold 7s, exhale 8s × 3 — resets the nervous system in 60 seconds.\n• Plan B: if Module 1 feels brutal, switch the goal from ‘score high’ to ‘don't leave anything blank’ — you still drop into the ‘Easier’ Module 2 instead of collapsing.\n• ‘Look-away reset’: stare 5 metres away for 10 seconds between hard items.",
+          "Test pressure produces 3 phenomena: mind blank, the ‘re-read loop’ (re-reading the same line), and panic-skip (skipping too many items).\n\nCountermeasures:\n• 4-7-8 breathing: inhale 4s, hold 7s, exhale 8s × 3 - resets the nervous system in 60 seconds.\n• Plan B: if Module 1 feels brutal, switch the goal from ‘score high’ to ‘don't leave anything blank’ - you still drop into the ‘Easier’ Module 2 instead of collapsing.\n• ‘Look-away reset’: stare 5 metres away for 10 seconds between hard items.",
         proTips: [
-          "Tập 4-7-8 mỗi tối 1 tuần trước thi để cơ thể quen — đừng tập lần đầu trong phòng thi.",
-          "Plan B PHẢI viết ra giấy trước ngày thi — não căng thẳng không nghĩ ra được.",
-          "Ngủ đủ 8h đêm trước — quan trọng hơn 1 buổi ôn 4 tiếng."
+          "Tập 4-7-8 mỗi tối 1 tuần trước thi để cơ thể quen - đừng tập lần đầu trong phòng thi.",
+          "Plan B PHẢI viết ra giấy trước ngày thi - não căng thẳng không nghĩ ra được.",
+          "Ngủ đủ 8h đêm trước - quan trọng hơn 1 buổi ôn 4 tiếng."
         ],
         proTipsEn: [
-          "Practice 4-7-8 each night for a week pre-test — don't first try it in the exam room.",
-          "Write Plan B on paper BEFORE test day — a stressed brain can't invent it.",
+          "Practice 4-7-8 each night for a week pre-test - don't first try it in the exam room.",
+          "Write Plan B on paper BEFORE test day - a stressed brain can't invent it.",
           "Eight hours of sleep the night before beats a 4-hour cram."
         ],
         vocabulary: [
@@ -566,22 +566,22 @@ export const satExpansionModules8: LanguageModule[] = [
       },
       {
         id: "sat-simulation-peak",
-        title: "Simulation Peak — Back-to-Back Mocks",
-        titleEn: "Simulation Peak — Back-to-Back Mocks",
+        title: "Simulation Peak - Back-to-Back Mocks",
+        titleEn: "Simulation Peak - Back-to-Back Mocks",
         level: 5,
         difficulty: "advanced",
         theory:
-          "Tuần ‘peak’ là tuần áp chót — 2 mock cách nhau 3 ngày (vd: Mock #6 thứ Hai, Mock #7 thứ Sáu). Mục tiêu KHÔNG phải tăng điểm; mục tiêu là rèn STAMINA và sự ổn định.\n\nGiữa 2 mock: KHÔNG học bài mới, KHÔNG ôn dồn — chỉ ngủ đủ, vận động nhẹ, và xem lại error log cũ. Tỉ lệ chênh lệch giữa 2 mock không quá 30 điểm = sẵn sàng thi thật.",
+          "Tuần ‘peak’ là tuần áp chót - 2 mock cách nhau 3 ngày (vd: Mock #6 thứ Hai, Mock #7 thứ Sáu). Mục tiêu KHÔNG phải tăng điểm; mục tiêu là rèn STAMINA và sự ổn định.\n\nGiữa 2 mock: KHÔNG học bài mới, KHÔNG ôn dồn - chỉ ngủ đủ, vận động nhẹ, và xem lại error log cũ. Tỉ lệ chênh lệch giữa 2 mock không quá 30 điểm = sẵn sàng thi thật.",
         theoryEn:
-          "‘Peak’ week is the second-to-last week — 2 mocks 3 days apart (e.g. Mock #6 Mon, Mock #7 Fri). The goal is NOT to push score; it's to train STAMINA and consistency.\n\nBetween mocks: NO new content, NO cramming — just sleep, light exercise, and a quick error-log review. A gap ≤ 30 points between the two mocks = test-ready.",
+          "‘Peak’ week is the second-to-last week - 2 mocks 3 days apart (e.g. Mock #6 Mon, Mock #7 Fri). The goal is NOT to push score; it's to train STAMINA and consistency.\n\nBetween mocks: NO new content, NO cramming - just sleep, light exercise, and a quick error-log review. A gap ≤ 30 points between the two mocks = test-ready.",
         proTips: [
-          "Đặt báo thức cùng giờ thi thật — tập não vào ‘chế độ thi’ đúng nhịp sinh học.",
-          "Sau mock #6, không debrief sâu — để dành năng lượng cho mock #7.",
+          "Đặt báo thức cùng giờ thi thật - tập não vào ‘chế độ thi’ đúng nhịp sinh học.",
+          "Sau mock #6, không debrief sâu - để dành năng lượng cho mock #7.",
           "Nếu chênh > 50 điểm giữa 2 mock → vấn đề là stamina, KHÔNG phải kiến thức."
         ],
         proTipsEn: [
-          "Set the alarm to the actual test start time — train your circadian rhythm into ‘test mode’.",
-          "After Mock #6, skip deep debrief — save energy for Mock #7.",
+          "Set the alarm to the actual test start time - train your circadian rhythm into ‘test mode’.",
+          "After Mock #6, skip deep debrief - save energy for Mock #7.",
           "A gap > 50 points between the two = stamina issue, NOT knowledge."
         ],
         vocabulary: [
@@ -624,18 +624,18 @@ export const satExpansionModules8: LanguageModule[] = [
         level: 4,
         difficulty: "intermediate",
         theory:
-          "Tuần thi (W30) áp dụng nguyên tắc TAPER:\n• T2-T3: chỉ ôn flashcard + 5 công thức Math không có trên reference sheet.\n• T4-T5: nghỉ hoàn toàn — đi bộ, ngủ sớm, KHÔNG mở Bluebook.\n• T6: rà soát laptop sạc đầy, ID, đường đi tới điểm thi.\n• T7 (ngày thi): ăn sáng đủ tinh bột + protein, đến sớm 30 phút, đi vệ sinh trước khi vào phòng.\n\nSau khi thi: dành 30 phút viết reflection trong vòng 24h — kể cả khi cảm thấy ổn/không ổn.",
+          "Tuần thi (W30) áp dụng nguyên tắc TAPER:\n• T2-T3: chỉ ôn flashcard + 5 công thức Math không có trên reference sheet.\n• T4-T5: nghỉ hoàn toàn - đi bộ, ngủ sớm, KHÔNG mở Bluebook.\n• T6: rà soát laptop sạc đầy, ID, đường đi tới điểm thi.\n• T7 (ngày thi): ăn sáng đủ tinh bột + protein, đến sớm 30 phút, đi vệ sinh trước khi vào phòng.\n\nSau khi thi: dành 30 phút viết reflection trong vòng 24h - kể cả khi cảm thấy ổn/không ổn.",
         theoryEn:
-          "Test week (W30) follows the TAPER principle:\n• Mon–Tue: flashcards + the 5 Math formulas NOT on the reference sheet.\n• Wed–Thu: full rest — walks, early sleep, NO Bluebook.\n• Fri: verify laptop fully charged, ID, route to the centre.\n• Sat (test day): carb + protein breakfast, arrive 30 minutes early, restroom before entering.\n\nAfter the test: spend 30 minutes writing a reflection within 24 hours — even if you felt great or terrible.",
+          "Test week (W30) follows the TAPER principle:\n• Mon–Tue: flashcards + the 5 Math formulas NOT on the reference sheet.\n• Wed–Thu: full rest - walks, early sleep, NO Bluebook.\n• Fri: verify laptop fully charged, ID, route to the centre.\n• Sat (test day): carb + protein breakfast, arrive 30 minutes early, restroom before entering.\n\nAfter the test: spend 30 minutes writing a reflection within 24 hours - even if you felt great or terrible.",
         proTips: [
-          "Đừng làm thêm full mock trong tuần thi — sẽ làm cạn pin tinh thần.",
+          "Đừng làm thêm full mock trong tuần thi - sẽ làm cạn pin tinh thần.",
           "Mang theo 1 chai nước + 1 thanh năng lượng cho giờ giải lao 10 phút.",
-          "KHÔNG đọc forum sau khi thi xong — comment người khác làm bạn nghi ngờ vô ích."
+          "KHÔNG đọc forum sau khi thi xong - comment người khác làm bạn nghi ngờ vô ích."
         ],
         proTipsEn: [
-          "Don't run a full mock in test week — it drains your mental battery.",
+          "Don't run a full mock in test week - it drains your mental battery.",
           "Bring water + an energy bar for the 10-minute break.",
-          "Do NOT read forums after the test — others' comments breed pointless self-doubt."
+          "Do NOT read forums after the test - others' comments breed pointless self-doubt."
         ],
         vocabulary: [
           v("taper", "giảm dần cường độ", "reduce training before the event", "Taper for the final week."),
