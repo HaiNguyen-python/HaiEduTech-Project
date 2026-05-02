@@ -361,6 +361,34 @@ const Programming = () => {
                 {(activePillar === "ai-foundation" || activePillar === "data-eng" || activePillar === "ml") && (
                   <>
                     <Link
+                      to="/programming/career-roadmap"
+                      className="group block rounded-xl p-5 mb-4 border-2 border-amber-500/30 bg-gradient-to-r from-amber-500/10 via-orange-500/5 to-rose-500/5 hover:shadow-lg transition-all active:scale-[0.99] relative overflow-hidden"
+                    >
+                      <div className="absolute top-2 right-2 text-[9px] font-bold bg-gradient-to-r from-amber-500 to-orange-500 text-white px-2 py-0.5 rounded-full">
+                        AI ✨ NEW
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-rose-600 flex items-center justify-center">
+                            <Sparkles className="w-5 h-5 text-white" />
+                          </div>
+                          <div>
+                            <h3 className="font-display font-bold text-foreground text-sm group-hover:text-primary transition-colors">
+                              {t("Lộ trình Nghề AI - Cá nhân hóa", "Career Roadmap AI - Personalized")}
+                            </h3>
+                            <p className="text-xs text-muted-foreground">
+                              {t(
+                                "Data Engineer · AI Engineer · MLOps · Lộ trình chi tiết theo trình độ",
+                                "Data Engineer · AI Engineer · MLOps · Detailed plan by your level"
+                              )}
+                            </p>
+                          </div>
+                        </div>
+                        <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                      </div>
+                    </Link>
+
+                    <Link
                       to="/programming/interview-questions"
                       className="group block rounded-xl p-5 mb-4 border border-primary/20 bg-gradient-to-r from-indigo-500/5 to-violet-500/5 hover:shadow-md transition-all active:scale-[0.99]"
                     >
