@@ -241,7 +241,7 @@ const Navbar = () => {
     { to: "/finnish", label: t("Học Tiếng Phần Lan", "Learn Finnish"), icon: Languages, subs: finnishSubs, key: "fi" },
     { to: "/programming", label: t("Học Lập Trình", "Learn Programming"), icon: Code2, subs: programmingSubs, key: "prog" },
     { to: "/study-abroad", label: t("Du Học", "Study Abroad"), icon: Briefcase, subs: studyAbroadSubs, key: "abroad" },
-    { to: "/world-playground", label: t("Thế giới quanh ta", "World Playground") },
+    { to: "/world-playground", label: t("Thế giới quanh ta", "World Playground"), icon: Globe },
   ];
 
   const navLinks = user
@@ -662,7 +662,7 @@ const Navbar = () => {
               {/* Navigation items */}
               <div className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
                 {navLinks.map((l) => {
-                  const Icon = l.icon;
+                  const Icon = l.icon ?? Globe;
                   const active = location.pathname === l.to;
                   const isExpanded = mobileExpanded === l.key;
                   return (
