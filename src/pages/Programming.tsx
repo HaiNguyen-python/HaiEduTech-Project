@@ -357,8 +357,8 @@ const Programming = () => {
                   </Link>
                 )}
 
-                {/* Interview Questions Section - for AI & Data roles */}
-                {(activePillar === "ai-foundation" || activePillar === "data-eng" || activePillar === "ml") && (
+                {/* Interview Questions Section - for AI & Data & Career roles */}
+                {(activePillar === "ai-foundation" || activePillar === "data-eng" || activePillar === "ml" || activePillar === "software-eng") && (
                   <>
                     <Link
                       to="/programming/career-roadmap"
