@@ -107,6 +107,7 @@ const EnglishGrammar = lazy(() => import("./pages/EnglishGrammar.tsx"));
 const NotebookPage = lazy(() => import("./pages/Notebook.tsx"));
 const CambridgeMockExamPage = lazy(() => import("./pages/CambridgeMockExam.tsx"));
 const JobOpportunities = lazy(() => import("./pages/JobOpportunities.tsx"));
+const CareerRoadmap = lazy(() => import("./pages/CareerRoadmap.tsx"));
 const PteHub = lazy(() => import("./pages/PteHub.tsx"));
 const PteSpeaking = lazy(() => import("./pages/PteSpeaking.tsx"));
 const PteWriting = lazy(() => import("./pages/PteWriting.tsx"));
@@ -250,6 +251,7 @@ const App = () => (
             <Route path="/programming/interview-questions" element={<LazyRoute><InterviewQuestions /></LazyRoute>} />
             <Route path="/programming/software-eng-interview" element={<LazyRoute><SoftwareEngInterview /></LazyRoute>} />
             <Route path="/programming/job-opportunities" element={<LazyRoute><JobOpportunities /></LazyRoute>} />
+            <Route path="/programming/career-roadmap" element={<LazyRoute><CareerRoadmap /></LazyRoute>} />
             <Route path="/pte" element={<LazyRoute><PteHub /></LazyRoute>} />
             <Route path="/pte/speaking" element={<LazyRoute><PteSpeaking /></LazyRoute>} />
             <Route path="/pte/writing" element={<LazyRoute><PteWriting /></LazyRoute>} />
