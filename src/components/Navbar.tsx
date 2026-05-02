@@ -662,7 +662,7 @@ const Navbar = () => {
               {/* Navigation items */}
               <div className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
                 {navLinks.map((l) => {
-                  const Icon = l.icon;
+                  const Icon = l.icon ?? Globe;
                   const active = location.pathname === l.to;
                   const isExpanded = mobileExpanded === l.key;
                   return (
