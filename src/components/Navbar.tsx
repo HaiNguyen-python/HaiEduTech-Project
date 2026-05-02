@@ -218,6 +218,7 @@ const Navbar = () => {
       { to: "/programming/software-eng-interview", label: t("Software Engineer Interview", "Software Engineer Interview"), icon: MessagesSquare },
     ] },
     { to: "#prog-career-group", label: t("Sự nghiệp", "Career"), icon: Briefcase, groupLabel: "prog-career", children: [
+      { to: "/programming/career-roadmap", label: t("🤖 Lộ trình Nghề AI", "🤖 Career Roadmap AI"), icon: Sparkles },
       { to: "/programming/interview-questions", label: t("Câu hỏi Phỏng vấn", "Interview Questions"), icon: MessagesSquare },
       { to: "/programming/job-opportunities", label: t("Cơ hội Việc làm 🇫🇮", "Job Opportunities 🇫🇮"), icon: Target },
     ] },
