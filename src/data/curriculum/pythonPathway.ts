@@ -1300,7 +1300,6 @@ L({
 ];
 
 // Merge extra quiz questions so every lesson has at least 5 questions.
-import { extraQuiz } from "./pythonPathwayExtraQuiz";
 for (const lesson of pythonLessons) {
   const extras = extraQuiz[lesson.id];
   if (extras && extras.length) {
