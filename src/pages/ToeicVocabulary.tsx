@@ -224,7 +224,7 @@ const VocabExercise = ({ words, t }: { words: ToeicWord[]; t: (vi: string, en: s
       <p className="text-center text-slate-600 dark:text-slate-500 font-mono text-sm mb-6">{q.word.ipa} · {q.word.wordClass}</p>
       <div className="space-y-3">
         {q.options.map((opt, i) => {
-          let cls = "border-slate-600/50 bg-[#1E293B]/60 text-slate-200 hover:border-blue-500/50";
+          let cls = "border-sky-200 bg-white text-slate-800 hover:border-blue-500/50 dark:border-slate-600/50 dark:bg-[#1E293B]/60 dark:text-slate-200";
           if (selected !== null) {
             if (i === q.correct) cls = "border-emerald-500 bg-emerald-500/10 text-emerald-300";
             else if (i === selected) cls = "border-red-500 bg-red-500/10 text-red-300";
