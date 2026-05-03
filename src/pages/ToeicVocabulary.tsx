@@ -196,8 +196,8 @@ const VocabExercise = ({ words, t }: { words: ToeicWord[]; t: (vi: string, en: s
     return (
       <div className="text-center py-12">
         <div className="text-5xl mb-4">{score >= 8 ? "🏆" : score >= 5 ? "👍" : "💪"}</div>
-        <h3 className="text-2xl font-bold text-white mb-2">{t("Kết quả", "Result")}: {score}/10</h3>
-        <p className="text-slate-400 mb-6 text-lg">
+        <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">{t("Kết quả", "Result")}: {score}/10</h3>
+        <p className="text-slate-600 dark:text-slate-400 mb-6 text-lg">
           {score >= 8 ? t("Xuất sắc! Bạn đã nắm vững từ vựng!", "Excellent! You've mastered the vocabulary!") :
             score >= 5 ? t("Khá tốt! Tiếp tục luyện tập nhé!", "Good job! Keep practicing!") :
               t("Cần ôn lại thêm. Đừng bỏ cuộc!", "Need more review. Don't give up!")}
@@ -215,13 +215,13 @@ const VocabExercise = ({ words, t }: { words: ToeicWord[]; t: (vi: string, en: s
   return (
     <div className="max-w-2xl mx-auto">
       <div className="flex justify-between items-center mb-6">
-        <Badge className="bg-blue-500/20 text-blue-300 border border-blue-500/30 text-base px-3 py-1">{current + 1}/10</Badge>
-        <span className="text-slate-400 text-base">{t("Điểm", "Score")}: {score}</span>
+        <Badge className="bg-blue-500/20 text-blue-700 dark:text-blue-300 border border-blue-500/30 text-base px-3 py-1">{current + 1}/10</Badge>
+        <span className="text-slate-600 dark:text-slate-400 text-base">{t("Điểm", "Score")}: {score}</span>
       </div>
-      <h3 className="text-xl font-bold text-white text-center mb-2">
-        {t("Nghĩa của từ", "What does")} <span className="text-blue-400">"{q.word.word}"</span> {t("là gì?", "mean?")}
+      <h3 className="text-xl font-bold text-slate-900 dark:text-white text-center mb-2">
+        {t("Nghĩa của từ", "What does")} <span className="text-blue-600 dark:text-blue-400">"{q.word.word}"</span> {t("là gì?", "mean?")}
       </h3>
-      <p className="text-center text-slate-500 font-mono text-sm mb-6">{q.word.ipa} · {q.word.wordClass}</p>
+      <p className="text-center text-slate-600 dark:text-slate-500 font-mono text-sm mb-6">{q.word.ipa} · {q.word.wordClass}</p>
       <div className="space-y-3">
         {q.options.map((opt, i) => {
           let cls = "border-slate-600/50 bg-[#1E293B]/60 text-slate-200 hover:border-blue-500/50";
