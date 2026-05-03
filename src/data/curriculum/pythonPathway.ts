@@ -3,6 +3,7 @@
  * @description Python Pathway curriculum - 6 modules, ~25 lessons, bilingual VI/EN.
  *              Beginner → Mastery, with Pyodide-runnable code examples and 3-Q quizzes.
  */
+import { extraQuiz } from "./pythonPathwayExtraQuiz";
 
 export type QuizQuestion =
   | { type: "mcq"; q: string; qEn: string; options: string[]; optionsEn: string[]; answer: number; explanation?: string }
@@ -1298,6 +1299,14 @@ L({
     ],
   }),
 ];
+
+// Merge extra quiz questions so every lesson has at least 5 questions.
+for (const lesson of pythonLessons) {
+  const extras = extraQuiz[lesson.id];
+  if (extras && extras.length) {
+    lesson.quiz = [...lesson.quiz, ...extras];
+  }
+}
 
 export const getLessonById = (id: string) => pythonLessons.find(l => l.id === id);
 export const getModuleById = (id: string) => pythonModules.find(m => m.id === id);
