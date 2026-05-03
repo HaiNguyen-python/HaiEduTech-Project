@@ -39,8 +39,17 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
   // Load saved code
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY(challenge.id));
-    if (saved) setCode(saved);
-    else setCode(challenge.starterCode);
+    // Migrate stale legacy starter code (used `def solve(...)`) when the
+    // current challenge no longer uses functions.
+    const isStaleLegacy =
+      saved &&
+      /def\s+solve\s*\(/.test(saved) &&
+      !/def\s+solve\s*\(/.test(challenge.starterCode);
+    if (saved && !isStaleLegacy) setCode(saved);
+    else {
+      if (isStaleLegacy) localStorage.removeItem(STORAGE_KEY(challenge.id));
+      setCode(challenge.starterCode);
+    }
     setPassed(false);
     setOutput("");
     setAiHelp("");
