@@ -3167,9 +3167,10 @@ export const getChinesePillarByLessonId = (id: string): ChineseConvPillar | null
 
 // Merge expansion lessons (English-only for international learners)
 import { dailyLifeExpansion, businessExpansion, socialExpansion } from "./chineseConvExpansionLessons";
+import { hsk1Expansion, hsk2Expansion } from "./chineseHskExpansion";
 
 const _dailyPillar = chineseConversationalPillars.find(p => p.id === "daily-life");
-if (_dailyPillar) _dailyPillar.lessons.push(...dailyLifeExpansion);
+if (_dailyPillar) _dailyPillar.lessons.push(...dailyLifeExpansion, ...hsk1Expansion, ...hsk2Expansion);
 
 const _businessPillar = chineseConversationalPillars.find(p => p.id === "business");
 if (_businessPillar) _businessPillar.lessons.push(...businessExpansion);
