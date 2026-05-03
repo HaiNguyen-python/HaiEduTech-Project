@@ -36,8 +36,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use an f-string or string concatenation to combine 'Hello ' with the given name.",
       "Remember to print the result."
     ],
-    "starterCode": "def solve(name):\n    # Your code here\n    pass",
-    "solution": "def solve(name):\n    print(f\"Hello {name}\")",
+    "starterCode": "name = \"Alice\"\n\n# Your code here",
+    "solution": "name = \"Alice\"\n\nprint(f\"Hello {name}\")",
     "testCases": [
       {
         "input": "Alice",
@@ -70,8 +70,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Combine the greeting, first name, a space, and the surname.",
       "Use an f-string for clear formatting."
     ],
-    "starterCode": "def solve(first_name, surname):\n    # Your code here\n    pass",
-    "solution": "def solve(first_name, surname):\n    print(f\"Hello {first_name} {surname}\")",
+    "starterCode": "first_name = \"Alice\"\nsurname = \"Smith\"\n\n# Your code here",
+    "solution": "first_name = \"Alice\"\nsurname = \"Smith\"\n\nprint(f\"Hello {first_name} {surname}\")",
     "testCases": [
       {
         "input": "Alice,Smith",
@@ -104,8 +104,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use a single print statement with multiple lines.",
       "The newline character '\\n' can be used to create new lines."
     ],
-    "starterCode": "def solve():\n    # Your code here\n    pass",
-    "solution": "def solve():\n    print(\"What do you call a bear with no teeth?\\nA gummy bear!\")",
+    "starterCode": "# Your code here",
+    "solution": "print(\"What do you call a bear with no teeth?\\nA gummy bear!\")",
     "testCases": [
       {
         "input": "None",
@@ -133,8 +133,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use the '+' operator to add the numbers.",
       "Format the output string using an f-string."
     ],
-    "starterCode": "def solve(num1, num2):\n    # Your code here\n    pass",
-    "solution": "def solve(num1, num2):\n    total = num1 + num2\n    print(f\"The total is {total}\")",
+    "starterCode": "num1 = 5\nnum2 = 10\n\n# Your code here",
+    "solution": "num1 = 5\nnum2 = 10\n\ntotal = num1 + num2\nprint(f\"The total is {total}\")",
     "testCases": [
       {
         "input": "5,10",
@@ -167,8 +167,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Remember the order of operations: additions first, then multiplication.",
       "Parentheses can be used to ensure correct order `(num1 + num2) * num3`."
     ],
-    "starterCode": "def solve(num1, num2, num3):\n    # Your code here\n    pass",
-    "solution": "def solve(num1, num2, num3):\n    result = (num1 + num2) * num3\n    print(f\"The answer is {result}\")",
+    "starterCode": "num1 = 5\nnum2 = 5\nnum3 = 6\n\n# Your code here",
+    "solution": "num1 = 5\nnum2 = 5\nnum3 = 6\n\nresult = (num1 + num2) * num3\nprint(f\"The answer is {result}\")",
     "testCases": [
       {
         "input": "5,5,6",
@@ -201,8 +201,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use subtraction to find the difference between the total and eaten slices.",
       "The output should clearly state the number of remaining slices."
     ],
-    "starterCode": "def solve(total_slices, eaten_slices):\n    # Your code here\n    pass",
-    "solution": "def solve(total_slices, eaten_slices):\n    remaining = total_slices - eaten_slices\n    print(f\"There are {remaining} slices remaining.\")",
+    "starterCode": "total_slices = 8\neaten_slices = 6\n\n# Your code here",
+    "solution": "total_slices = 8\neaten_slices = 6\n\nremaining = total_slices - eaten_slices\nprint(f\"There are {remaining} slices remaining.\")",
     "testCases": [
       {
         "input": "8,6",
@@ -235,8 +235,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Increment the age by 1 using `age + 1`.",
       "Use an f-string to embed the name and new age into the output message."
     ],
-    "starterCode": "def solve(name, age):\n    # Your code here\n    pass",
-    "solution": "def solve(name, age):\n    new_age = age + 1\n    print(f\"{name} next birthday you will be {new_age}\")",
+    "starterCode": "name = \"Alice\"\nage = 20\n\n# Your code here",
+    "solution": "name = \"Alice\"\nage = 20\n\nnew_age = age + 1\nprint(f\"{name} next birthday you will be {new_age}\")",
     "testCases": [
       {
         "input": "Alice,20",
@@ -271,8 +271,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use f-string formatting with `:.2f` to round to two decimal places.",
       "Make sure the numbers are treated as floats for division."
     ],
-    "starterCode": "def solve(total_bill, num_diners):\n    # Your code here\n    pass",
-    "solution": "def solve(total_bill, num_diners):\n    amount_per_person = total_bill / num_diners\n    print(f\"Each person pays {amount_per_person:.2f}\")",
+    "starterCode": "total_bill = 50.00\nnum_diners = 4\n\n# Your code here",
+    "solution": "total_bill = 50.00\nnum_diners = 4\n\namount_per_person = total_bill / num_diners\nprint(f\"Each person pays {amount_per_person:.2f}\")",
     "testCases": [
       {
         "input": "50.00,4",
@@ -313,8 +313,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "There are 60 seconds in a minute.",
       "Calculate each unit separately and then print them in a descriptive sentence."
     ],
-    "starterCode": "def solve(days):\n    # Your code here\n    pass",
-    "solution": "def solve(days):\n    hours = days * 24\n    minutes = hours * 60\n    seconds = minutes * 60\n    print(f\"{days} days is {hours} hours, {minutes} minutes, and {seconds} seconds.\")",
+    "starterCode": "days = 2\n\n# Your code here",
+    "solution": "days = 2\n\nhours = days * 24\nminutes = hours * 60\nseconds = minutes * 60\nprint(f\"{days} days is {hours} hours, {minutes} minutes, and {seconds} seconds.\")",
     "testCases": [
       {
         "input": "2",
@@ -347,8 +347,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Multiply the kilograms by the conversion factor.",
       "Format the output using an f-string to show two decimal places for pounds."
     ],
-    "starterCode": "def solve(kg):\n    # Your code here\n    pass",
-    "solution": "def solve(kg):\n    pounds = kg * 2.204\n    print(f\"{kg:.2f} kg is {pounds:.2f} pounds.\")",
+    "starterCode": "kg = 10\n\n# Your code here",
+    "solution": "kg = 10\n\npounds = kg * 2.204\nprint(f\"{kg:.2f} kg is {pounds:.2f} pounds.\")",
     "testCases": [
       {
         "input": "10",
@@ -382,8 +382,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use the integer division operator `//`.",
       "Ensure the output format matches the requirement."
     ],
-    "starterCode": "def solve(num_over_100, num_under_10):\n    # Your code here\n    pass",
-    "solution": "def solve(num_over_100, num_under_10):\n    result = num_over_100 // num_under_10\n    print(f\"The integer division result is {result}\")",
+    "starterCode": "num_over_100 = 115\nnum_under_10 = 10\n\n# Your code here",
+    "solution": "num_over_100 = 115\nnum_under_10 = 10\n\nresult = num_over_100 // num_under_10\nprint(f\"The integer division result is {result}\")",
     "testCases": [
       {
         "input": "115,10",
@@ -416,8 +416,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use an if-else statement to compare the two numbers.",
       "Print the numbers in the correct order based on the comparison."
     ],
-    "starterCode": "def solve(num1, num2):\n    # Your code here\n    pass",
-    "solution": "def solve(num1, num2):\n    if num1 < num2:\n        print(f\"{num1}, {num2}\")\n    else:\n        print(f\"{num2}, {num1}\")",
+    "starterCode": "num1 = 10\nnum2 = 5\n\n# Your code here",
+    "solution": "num1 = 10\nnum2 = 5\n\nif num1 < num2:\n    print(f\"{num1}, {num2}\")\nelse:\n    print(f\"{num2}, {num1}\")",
     "testCases": [
       {
         "input": "10,5",
@@ -455,8 +455,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use an `if` statement with the `>=` operator.",
       "The `else` block will handle cases where the number is less than 20."
     ],
-    "starterCode": "def solve(number):\n    # Your code here\n    pass",
-    "solution": "def solve(number):\n    if number >= 20:\n        print(\"Too high\")\n    else:\n        print(\"Thank you\")",
+    "starterCode": "number = 25\n\n# Your code here",
+    "solution": "number = 25\n\nif number >= 20:\n    print(\"Too high\")\nelse:\n    print(\"Thank you\")",
     "testCases": [
       {
         "input": "25",
@@ -494,8 +494,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use logical operators (`and`) to check if a number falls within a range.",
       "Remember that 'inclusive' means the boundary numbers (10 and 20) are part of the range."
     ],
-    "starterCode": "def solve(number):\n    # Your code here\n    pass",
-    "solution": "def solve(number):\n    if 10 <= number <= 20:\n        print(\"Thank you\")\n    else:\n        print(\"Incorrect answer\")",
+    "starterCode": "number = 15\n\n# Your code here",
+    "solution": "number = 15\n\nif 10 <= number <= 20:\n    print(\"Thank you\")\nelse:\n    print(\"Incorrect answer\")",
     "testCases": [
       {
         "input": "15",
@@ -544,8 +544,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Convert the input color to lowercase before comparing to handle case-insensitivity.",
       "Use an f-string to embed the user's color in the 'don't like' message."
     ],
-    "starterCode": "def solve(color):\n    # Your code here\n    pass",
-    "solution": "def solve(color):\n    if color.lower() == \"red\":\n        print(\"I like red too\")\n    else:\n        print(f\"I don't like {color}, I prefer red\")",
+    "starterCode": "color = \"red\"\n\n# Your code here",
+    "solution": "color = \"red\"\n\nif color.lower() == \"red\":\n    print(\"I like red too\")\nelse:\n    print(f\"I don't like {color}, I prefer red\")",
     "testCases": [
       {
         "input": "red",
@@ -594,8 +594,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use nested if-else statements or a series of `if/elif/else` statements.",
       "Pay attention to the specific conditions for each message, especially combining `and` and `not`."
     ],
-    "starterCode": "def solve(raining, windy):\n    # Your code here\n    pass",
-    "solution": "def solve(raining, windy):\n    if raining and windy:\n        print(\"Too windy for an umbrella\")\n    elif raining and not windy:\n        print(\"Take an umbrella\")\n    else:\n        print(\"Enjoy your day\")",
+    "starterCode": "raining = True\nwindy = True\n\n# Your code here",
+    "solution": "raining = True\nwindy = True\n\nif raining and windy:\n    print(\"Too windy for an umbrella\")\nelif raining and not windy:\n    print(\"Take an umbrella\")\nelse:\n    print(\"Enjoy your day\")",
     "testCases": [
       {
         "input": "True,True",
@@ -639,8 +639,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use `if`, `elif`, `else` statements to handle different age ranges.",
       "The order of your `elif` conditions matters. Start with the highest age and work down, or test specific ages first."
     ],
-    "starterCode": "def solve(age):\n    # Your code here\n    pass",
-    "solution": "def solve(age):\n    if age >= 18:\n        print(\"You can vote\")\n    elif age == 17:\n        print(\"You can learn to drive\")\n    elif age == 16:\n        print(\"You can buy a lottery ticket\")\n    else:\n        print(\"You can go Trick-or-Treating\")",
+    "starterCode": "age = 18\n\n# Your code here",
+    "solution": "age = 18\n\nif age >= 18:\n    print(\"You can vote\")\nelif age == 17:\n    print(\"You can learn to drive\")\nelif age == 16:\n    print(\"You can buy a lottery ticket\")\nelse:\n    print(\"You can go Trick-or-Treating\")",
     "testCases": [
       {
         "input": "18",
@@ -688,8 +688,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use `if`, `elif`, `else` to structure your conditions.",
       "Remember to handle the inclusive range for \"Correct\" using `and` or chained comparisons."
     ],
-    "starterCode": "def solve(number):\n    # Your code here\n    pass",
-    "solution": "def solve(number):\n    if number < 10:\n        print(\"Too low\")\n    elif 10 <= number <= 20:\n        print(\"Correct\")\n    else:\n        print(\"Too high\")",
+    "starterCode": "number = 5\n\n# Your code here",
+    "solution": "number = 5\n\nif number < 10:\n    print(\"Too low\")\nelif 10 <= number <= 20:\n    print(\"Correct\")\nelse:\n    print(\"Too high\")",
     "testCases": [
       {
         "input": "5",
@@ -738,8 +738,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use a series of `if`, `elif`, `else` statements to check for specific number values.",
       "The `else` block will catch any number that doesn't match 1, 2, or 3."
     ],
-    "starterCode": "def solve(number):\n    # Your code here\n    pass",
-    "solution": "def solve(number):\n    if number == 1:\n        print(\"Thank you\")\n    elif number == 2:\n        print(\"Well done\")\n    elif number == 3:\n        print(\"Correct\")\n    else:\n        print(\"Error message\")",
+    "starterCode": "number = 1\n\n# Your code here",
+    "solution": "number = 1\n\nif number == 1:\n    print(\"Thank you\")\nelif number == 2:\n    print(\"Well done\")\nelif number == 3:\n    print(\"Correct\")\nelse:\n    print(\"Error message\")",
     "testCases": [
       {
         "input": "1",
@@ -787,8 +787,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use the `len()` function to get the length of a string.",
       "Format the output to clearly state the name and its length."
     ],
-    "starterCode": "def solve(first_name):\n    # Your code here\n    pass",
-    "solution": "def solve(first_name):\n    length = len(first_name)\n    print(f\"The length of {first_name} is {length}\")",
+    "starterCode": "first_name = \"Alice\"\n\n# Your code here",
+    "solution": "first_name = \"Alice\"\n\nlength = len(first_name)\nprint(f\"The length of {first_name} is {length}\")",
     "testCases": [
       {
         "input": "Alice",
@@ -826,8 +826,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use string concatenation or an f-string to combine the first name, a space, and the surname.",
       "Apply the `len()` function to the resulting full name."
     ],
-    "starterCode": "def solve(first_name, surname):\n    # Your code here\n    pass",
-    "solution": "def solve(first_name, surname):\n    full_name = f\"{first_name} {surname}\"\n    total_length = len(full_name)\n    print(f\"Full name: {full_name}, Length: {total_length}\")",
+    "starterCode": "first_name = \"Alice\"\nsurname = \"Smith\"\n\n# Your code here",
+    "solution": "first_name = \"Alice\"\nsurname = \"Smith\"\n\nfull_name = f\"{first_name} {surname}\"\ntotal_length = len(full_name)\nprint(f\"Full name: {full_name}, Length: {total_length}\")",
     "testCases": [
       {
         "input": "Alice,Smith",
@@ -861,8 +861,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use the `.title()` string method to convert each name part to title case.",
       "Then, combine them with a space and print."
     ],
-    "starterCode": "def solve(first_name_lower, surname_lower):\n    # Your code here\n    pass",
-    "solution": "def solve(first_name_lower, surname_lower):\n    first_name_title = first_name_lower.title()\n    surname_title = surname_lower.title()\n    full_name = f\"{first_name_title} {surname_title}\"\n    print(f\"Hello {full_name}\")",
+    "starterCode": "first_name_lower = \"alice\"\nsurname_lower = \"smith\"\n\n# Your code here",
+    "solution": "first_name_lower = \"alice\"\nsurname_lower = \"smith\"\n\nfirst_name_title = first_name_lower.title()\nsurname_title = surname_lower.title()\nfull_name = f\"{first_name_title} {surname_title}\"\nprint(f\"Hello {full_name}\")",
     "testCases": [
       {
         "input": "alice,smith",
@@ -901,8 +901,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "The `len()` function works on any string, including phrases with spaces and punctuation.",
       "Make sure your output clearly states the phrase and its calculated length."
     ],
-    "starterCode": "def solve(phrase):\n    # Your code here\n    pass",
-    "solution": "def solve(phrase):\n    length = len(phrase)\n    print(f\"The phrase '{phrase}' has a length of {length} characters.\")",
+    "starterCode": "phrase = \"Hello world!\"\n\n# Your code here",
+    "solution": "phrase = \"Hello world!\"\n\nlength = len(phrase)\nprint(f\"The phrase '{phrase}' has a length of {length} characters.\")",
     "testCases": [
       {
         "input": "Hello world!",
@@ -940,8 +940,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use the `.upper()` string method to convert the word to uppercase.",
       "Simply print the result."
     ],
-    "starterCode": "def solve(word):\n    # Your code here\n    pass",
-    "solution": "def solve(word):\n    print(word.upper())",
+    "starterCode": "word = \"hello\"\n\n# Your code here",
+    "solution": "word = \"hello\"\n\nprint(word.upper())",
     "testCases": [
       {
         "input": "hello",
@@ -982,8 +982,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "For the 'less than 5' case, concatenate strings and use `.upper()`.",
       "For the '5 or more' case, use `.lower()`."
     ],
-    "starterCode": "def solve(first_name, surname=None):\n    # Your code here\n    pass",
-    "solution": "def solve(first_name, surname=None):\n    if len(first_name) < 5:\n        # Assuming surname is provided for testing this branch\n        if surname is None:\n            # This case shouldn't occur with the test mechanism, but good practice\n            print(\"Error: Surname expected but not provided.\")\n            return\n        combined_name = first_name + surname\n        print(combined_name.upper())\n    else:\n        print(first_name.lower())",
+    "starterCode": "first_name = \"Joe\"\nsurname = \"Smith\"\n\n# Your code here",
+    "solution": "first_name = \"Joe\"\nsurname = \"Smith\"\n\nif len(first_name) < 5:\n    # Assuming surname is provided for testing this branch\n    if surname is None:\n        # This case shouldn't occur with the test mechanism, but good practice\n        print(\"Error: Surname expected but not provided.\")\n        return\n    combined_name = first_name + surname\n    print(combined_name.upper())\nelse:\n    print(first_name.lower())",
     "testCases": [
       {
         "input": "Joe,Smith",
@@ -1031,8 +1031,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "For words starting with consonants, you might need a loop to find the end of the initial consonant cluster.",
       "The string `find()` method or `startswith()` checks can be useful."
     ],
-    "starterCode": "def solve(word):\n    # Your code here\n    pass",
-    "solution": "def solve(word):\n    vowels = 'aeiou'\n    if word[0] in vowels:\n        print(word + 'way')\n    else:\n        consonant_cluster = ''\n        for char in word:\n            if char not in vowels:\n                consonant_cluster += char\n            else:\n                break\n        if consonant_cluster:\n            print(word[len(consonant_cluster):] + consonant_cluster + 'ay')\n        else: # Should ideally not happen if it passed the vowel check\n            print(word + 'ay') # Fallback if somehow no consonant cluster found for a consonant-starting word",
+    "starterCode": "word = \"apple\"\n\n# Your code here",
+    "solution": "word = \"apple\"\n\nvowels = 'aeiou'\nif word[0] in vowels:\n    print(word + 'way')\nelse:\n    consonant_cluster = ''\n    for char in word:\n        if char not in vowels:\n            consonant_cluster += char\n        else:\n            break\n    if consonant_cluster:\n        print(word[len(consonant_cluster):] + consonant_cluster + 'ay')\n    else: # Should ideally not happen if it passed the vowel check\n        print(word + 'ay') # Fallback if somehow no consonant cluster found for a consonant-starting word",
     "testCases": [
       {
         "input": "apple",
@@ -1092,8 +1092,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use the `*` operator for multiplication.",
       "Ensure the result is printed with appropriate precision (Python usually handles floats well by default)."
     ],
-    "starterCode": "def solve(decimal_num):\n    # Your code here\n    pass",
-    "solution": "def solve(decimal_num):\n    result = decimal_num * 2\n    print(f\"The doubled number is {result}\")",
+    "starterCode": "decimal_num = 5.25\n\n# Your code here",
+    "solution": "decimal_num = 5.25\n\nresult = decimal_num * 2\nprint(f\"The doubled number is {result}\")",
     "testCases": [
       {
         "input": "5.25",
@@ -1132,8 +1132,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "First, multiply the number by 2.",
       "Then, use f-string formatting `:.2f` to round the result to two decimal places when printing."
     ],
-    "starterCode": "def solve(decimal_num):\n    # Your code here\n    pass",
-    "solution": "def solve(decimal_num):\n    result = decimal_num * 2\n    print(f\"The doubled and rounded number is {result:.2f}\")",
+    "starterCode": "decimal_num = 5.25\n\n# Your code here",
+    "solution": "decimal_num = 5.25\n\nresult = decimal_num * 2\nprint(f\"The doubled and rounded number is {result:.2f}\")",
     "testCases": [
       {
         "input": "5.25",
@@ -1178,8 +1178,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Import the `math` module to use `math.sqrt()`.",
       "Ensure the output is formatted to exactly two decimal places using f-string formatting (`:.2f`)."
     ],
-    "starterCode": "import math\n\ndef solve(number):\n    # Your code here\n    pass",
-    "solution": "import math\n\ndef solve(number):\n    square_root = math.sqrt(number)\n    print(f\"The square root is {square_root:.2f}\")",
+    "starterCode": "import math\n\nnumber = 500\n\n# Your code here",
+    "solution": "import math\n\nnumber = 500\n\nsquare_root = math.sqrt(number)\nprint(f\"The square root is {square_root:.2f}\")",
     "testCases": [
       {
         "input": "500",
@@ -1219,8 +1219,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Import the `math` module to access `math.pi`.",
       "Use f-string formatting `:.5f` to display exactly five decimal places."
     ],
-    "starterCode": "import math\n\ndef solve():\n    # Your code here\n    pass",
-    "solution": "import math\n\ndef solve():\n    print(f\"Pi to 5 decimal places: {math.pi:.5f}\")",
+    "starterCode": "import math\n\n# Your code here",
+    "solution": "import math\n\nprint(f\"Pi to 5 decimal places: {math.pi:.5f}\")",
     "testCases": [
       {
         "input": "None",
@@ -1251,8 +1251,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "The formula for the area of a circle is pi * radius^2.",
       "Use `round()` to format the output to two decimal places."
     ],
-    "starterCode": "import math\n\ndef solve(radius):\n    # Calculate the area here\n    # Return the area formatted to two decimal places\n    pass",
-    "solution": "import math\n\ndef solve(radius):\n    area = math.pi * (radius ** 2)\n    return f\"The area is {area:.2f}\"",
+    "starterCode": "import math\n\nradius = \"radius = 5\"\n\n# Your code here",
+    "solution": "import math\n\nradius = \"radius = 5\"\n\narea = math.pi * (radius ** 2)\nprint(f\"The area is {area:.2f}\")",
     "testCases": [
       {
         "input": "radius = 5",
@@ -1292,8 +1292,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "The volume of a cylinder is the area of the circle multiplied by the depth.",
       "Use `round()` or an f-string to format the output to three decimal places."
     ],
-    "starterCode": "import math\n\ndef solve(radius, depth):\n    # Calculate the volume here\n    # Return the volume formatted to three decimal places\n    pass",
-    "solution": "import math\n\ndef solve(radius, depth):\n    circle_area = math.pi * (radius ** 2)\n    volume = circle_area * depth\n    return f\"The volume is {volume:.3f}\"",
+    "starterCode": "import math\n\nradius = \"radius = 5\"\ndepth = \"depth = 5\"\n\n# Your code here",
+    "solution": "import math\n\nradius = \"radius = 5\"\ndepth = \"depth = 5\"\n\ncircle_area = math.pi * (radius ** 2)\nvolume = circle_area * depth\nprint(f\"The volume is {volume:.3f}\")",
     "testCases": [
       {
         "input": "radius = 5, depth = 5",
@@ -1332,8 +1332,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use the `//` operator for integer division.",
       "Use the `%` operator for the modulo (remainder)."
     ],
-    "starterCode": "def solve(num1, num2):\n    # Calculate integer division and remainder\n    # Return the formatted string\n    pass",
-    "solution": "def solve(num1, num2):\n    result = num1 // num2\n    remainder = num1 % num2\n    return f\"{num1} divided by {num2} is {result} with {remainder} remaining.\"",
+    "starterCode": "num1 = \"num1 = 10\"\nnum2 = \"num2 = 3\"\n\n# Your code here",
+    "solution": "num1 = \"num1 = 10\"\nnum2 = \"num2 = 3\"\n\nresult = num1 // num2\nremainder = num1 % num2\nprint(f\"{num1} divided by {num2} is {result} with {remainder} remaining.\")",
     "testCases": [
       {
         "input": "num1 = 10, num2 = 3",
@@ -1373,8 +1373,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Area of triangle = 0.5 * base * height.",
       "Remember to handle the case where `value2` might not be provided for a square."
     ],
-    "starterCode": "def solve(choice, value1, value2=None):\n    # Implement the area calculation logic here\n    # Return the area or -1 for invalid choice\n    pass",
-    "solution": "def solve(choice, value1, value2=None):\n    if choice == 'square':\n        return int(value1 * value1)\n    elif choice == 'triangle':\n        if value2 is not None:\n            return int(0.5 * value1 * value2)\n        else:\n            return -1 # Need two values for triangle\n    else:\n        return -1",
+    "starterCode": "choice = \"choice = 'square'\"\nvalue1 = \"value1 = 5\"\nvalue2 = \"\"\n\n# Your code here",
+    "solution": "choice = \"choice = 'square'\"\nvalue1 = \"value1 = 5\"\nvalue2 = \"\"\n\nif choice == 'square':\n    return int(value1 * value1)\nelif choice == 'triangle':\n    if value2 is not None:\n        return int(0.5 * value1 * value2)\n    else:\n        return -1 # Need two values for triangle\nelse:\n    return -1",
     "testCases": [
       {
         "input": "choice = 'square', value1 = 5",
@@ -1413,8 +1413,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use a `for` loop that iterates three times.",
       "Append the name to a list in each iteration."
     ],
-    "starterCode": "def solve(name):\n    # Create a list and append the name three times\n    # Return the list\n    pass",
-    "solution": "def solve(name):\n    result = []\n    for _ in range(3):\n        result.append(name)\n    return result",
+    "starterCode": "name = \"name = 'Alice'\"\n\n# Your code here",
+    "solution": "name = \"name = 'Alice'\"\n\nresult = []\nfor _ in range(3):\n    result.append(name)\nprint(result)",
     "testCases": [
       {
         "input": "name = 'Alice'",
@@ -1452,8 +1452,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use a `for` loop with `range(num_times)`.",
       "Append the name to a list in each iteration."
     ],
-    "starterCode": "def solve(name, num_times):\n    # Create a list and append the name num_times\n    # Return the list\n    pass",
-    "solution": "def solve(name, num_times):\n    result = []\n    for _ in range(num_times):\n        result.append(name)\n    return result",
+    "starterCode": "name = \"name = 'Alice'\"\nnum_times = \"num_times = 5\"\n\n# Your code here",
+    "solution": "name = \"name = 'Alice'\"\nnum_times = \"num_times = 5\"\n\nresult = []\nfor _ in range(num_times):\n    result.append(name)\nprint(result)",
     "testCases": [
       {
         "input": "name = 'Alice', num_times = 5",
@@ -1491,8 +1491,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "You will need a nested loop: an outer loop for the number of repetitions and an inner loop for the letters in the name.",
       "Append each character to the result list."
     ],
-    "starterCode": "def solve(name, num_times):\n    # Create an empty list to store all letters\n    # Use nested loops to process repetitions and letters\n    # Return the final list of letters\n    pass",
-    "solution": "def solve(name, num_times):\n    result = []\n    for _ in range(num_times):\n        for char in name:\n            result.append(char)\n    return result",
+    "starterCode": "name = \"name = 'Alice'\"\nnum_times = \"num_times = 2\"\n\n# Your code here",
+    "solution": "name = \"name = 'Alice'\"\nnum_times = \"num_times = 2\"\n\nresult = []\nfor _ in range(num_times):\n    for char in name:\n        result.append(char)\nprint(result)",
     "testCases": [
       {
         "input": "name = 'Alice', num_times = 2",
@@ -1531,8 +1531,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use a `for` loop to iterate from 1 to 12.",
       "Use an f-string to format each line of the times table."
     ],
-    "starterCode": "def solve(number):\n    # Create an empty list to store the times table lines\n    # Loop from 1 to 12 and format each line\n    # Return the list\n    pass",
-    "solution": "def solve(number):\n    table = []\n    for i in range(1, 13):\n        table.append(f\"{number} x {i} = {number * i}\")\n    return table",
+    "starterCode": "number = \"number = 5\"\n\n# Your code here",
+    "solution": "number = \"number = 5\"\n\ntable = []\nfor i in range(1, 13):\n    table.append(f\"{number} x {i} = {number * i}\")\nprint(table)",
     "testCases": [
       {
         "input": "number = 5",
@@ -1571,8 +1571,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use `range(start, stop, step)` to create the countdown sequence.",
       "Remember that the `stop` value in `range` is exclusive, so adjust it accordingly."
     ],
-    "starterCode": "def solve(target_number):\n    # Create an empty list\n    # Loop from 50 down to target_number\n    # Return the list of numbers\n    pass",
-    "solution": "def solve(target_number):\n    result = []\n    for i in range(50, target_number - 1, -1):\n        result.append(i)\n    return result",
+    "starterCode": "target_number = \"target_number = 45\"\n\n# Your code here",
+    "solution": "target_number = \"target_number = 45\"\n\nresult = []\nfor i in range(50, target_number - 1, -1):\n    result.append(i)\nprint(result)",
     "testCases": [
       {
         "input": "target_number = 45",
@@ -1610,8 +1610,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use an `if-else` statement to check the condition for `number`.",
       "Use a `for` loop to repeat the name or the 'Too high' string."
     ],
-    "starterCode": "def solve(number, name):\n    # Implement conditional logic and loops\n    # Return the appropriate list\n    pass",
-    "solution": "def solve(number, name):\n    result = []\n    if number < 10:\n        for _ in range(number):\n            result.append(name)\n    else:\n        for _ in range(3):\n            result.append('Too high')\n    return result",
+    "starterCode": "number = \"number = 4\"\nname = \"name = 'John'\"\n\n# Your code here",
+    "solution": "number = \"number = 4\"\nname = \"name = 'John'\"\n\nresult = []\nif number < 10:\n    for _ in range(number):\n        result.append(name)\nelse:\n    for _ in range(3):\n        result.append('Too high')\nprint(result)",
     "testCases": [
       {
         "input": "number = 4, name = 'John'",
@@ -1650,8 +1650,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "The original problem implies adding all numbers entered without explicit conditions for exclusion.",
       "Use a loop to iterate through the list and sum the numbers."
     ],
-    "starterCode": "def solve(numbers_list):\n    # Calculate the sum of all numbers in the list\n    # Return the total\n    pass",
-    "solution": "def solve(numbers_list):\n    total = 0\n    for num in numbers_list:\n        total += num\n    return f\"The total is {total}\"",
+    "starterCode": "numbers_list = \"numbers_list = [1\"\n\n# Your code here",
+    "solution": "numbers_list = \"numbers_list = [1\"\n\ntotal = 0\nfor num in numbers_list:\n    total += num\nprint(f\"The total is {total}\")",
     "testCases": [
       {
         "input": "numbers_list = [1, 2, 3, 4, 5]",
@@ -1689,8 +1689,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use an `if-elif-else` statement for the choice.",
       "Use `range(start, stop)` for counting up and `range(start, stop, step)` for counting down."
     ],
-    "starterCode": "def solve(choice, num):\n    # Implement conditional logic for 'up' or 'down'\n    # Use loops to generate the number sequence\n    # Return the list of numbers\n    pass",
-    "solution": "def solve(choice, num):\n    result = []\n    if choice == 'up':\n        for i in range(1, num + 1):\n            result.append(i)\n    elif choice == 'down':\n        for i in range(num, 0, -1):\n            result.append(i)\n    return result",
+    "starterCode": "choice = \"choice = 'up'\"\nnum = \"num = 5\"\n\n# Your code here",
+    "solution": "choice = \"choice = 'up'\"\nnum = \"num = 5\"\n\nresult = []\nif choice == 'up':\n    for i in range(1, num + 1):\n        result.append(i)\nelif choice == 'down':\n    for i in range(num, 0, -1):\n        result.append(i)\nprint(result)",
     "testCases": [
       {
         "input": "choice = 'up', num = 5",
@@ -1730,8 +1730,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use slicing `[:10]` to get the first 10 elements if needed.",
       "Use a list comprehension or a loop to format the invitation messages."
     ],
-    "starterCode": "def solve(friend_list):\n    # Limit the list to 10 friends if necessary\n    # Format each friend's name into an invitation string\n    # Return the list of invitations\n    pass",
-    "solution": "def solve(friend_list):\n    invited_friends = []\n    if len(friend_list) > 10:\n        for friend in friend_list[:10]:\n            invited_friends.append(f\"You have invited {friend}\")\n    else:\n        for friend in friend_list:\n            invited_friends.append(f\"You have invited {friend}\")\n    return invited_friends",
+    "starterCode": "friend_list = \"friend_list = ['Alice'\"\n\n# Your code here",
+    "solution": "friend_list = \"friend_list = ['Alice'\"\n\ninvited_friends = []\nif len(friend_list) > 10:\n    for friend in friend_list[:10]:\n        invited_friends.append(f\"You have invited {friend}\")\nelse:\n    for friend in friend_list:\n        invited_friends.append(f\"You have invited {friend}\")\nprint(invited_friends)",
     "testCases": [
       {
         "input": "friend_list = ['Alice', 'Bob', 'Charlie', 'David', 'Eve', 'Frank', 'Grace', 'Heidi', 'Ivan', 'Judy', 'Kevin', 'Liam']",
@@ -1770,8 +1770,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use a `for` loop with `range(start_num, end_num + 1)`.",
       "Use the modulo operator (`%`) to check if a number is even (a number is even if `number % 2 == 0`)."
     ],
-    "starterCode": "def solve(start_num, end_num):\n    # Create an empty list for even numbers\n    # Loop through the range and check for even numbers\n    # Return the list\n    pass",
-    "solution": "def solve(start_num, end_num):\n    even_numbers = []\n    for i in range(start_num, end_num + 1):\n        if i % 2 == 0:\n            even_numbers.append(i)\n    return even_numbers",
+    "starterCode": "start_num = \"start_num = 10\"\nend_num = \"end_num = 16\"\n\n# Your code here",
+    "solution": "start_num = \"start_num = 10\"\nend_num = \"end_num = 16\"\n\neven_numbers = []\nfor i in range(start_num, end_num + 1):\n    if i % 2 == 0:\n        even_numbers.append(i)\nprint(even_numbers)",
     "testCases": [
       {
         "input": "start_num = 10, end_num = 16",
@@ -1811,8 +1811,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use an `if` statement to check if the current attempt matches the `correct_password`.",
       "If a match is found, return immediately. If the loop completes without a match, then return 'Access Denied'."
     ],
-    "starterCode": "def solve(correct_password, attempts):\n    # Loop through attempts\n    # Check if correct password is found\n    # Return correct password or 'Access Denied'\n    pass",
-    "solution": "def solve(correct_password, attempts):\n    for attempt in attempts:\n        if attempt == correct_password:\n            return correct_password\n    return 'Access Denied'",
+    "starterCode": "correct_password = \"correct_password = 'secret'\"\nattempts = \"attempts = ['wrong1'\"\n\n# Your code here",
+    "solution": "correct_password = \"correct_password = 'secret'\"\nattempts = \"attempts = ['wrong1'\"\n\nfor attempt in attempts:\n    if attempt == correct_password:\n        return correct_password\nprint('Access Denied')",
     "testCases": [
       {
         "input": "correct_password = 'secret', attempts = ['wrong1', 'wrong2', 'secret', 'wrong3']",
@@ -1850,8 +1850,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use a `while` loop or a `for` loop with a `break` statement.",
       "Initialize `total = 0` before the loop."
     ],
-    "starterCode": "def solve(numbers_list):\n    # Initialize total\n    # Loop through numbers, adding to total\n    # Break if total exceeds 100\n    # Return the total\n    pass",
-    "solution": "def solve(numbers_list):\n    total = 0\n    for num in numbers_list:\n        total += num\n        if total > 100:\n            break\n    return f\"The total is {total}\"",
+    "starterCode": "numbers_list = \"numbers_list = [10\"\n\n# Your code here",
+    "solution": "numbers_list = \"numbers_list = [10\"\n\ntotal = 0\nfor num in numbers_list:\n    total += num\n    if total > 100:\n        break\nprint(f\"The total is {total}\")",
     "testCases": [
       {
         "input": "numbers_list = [10, 20, 30, 40, 50, 60]",
@@ -1892,8 +1892,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use a `break` statement when -1 is found.",
       "Handle the division by zero case if no numbers are processed."
     ],
-    "starterCode": "def solve(numbers_sequence):\n    # Initialize total and count\n    # Loop and accumulate numbers until -1 or end of list\n    # Calculate and format average, or return error message\n    pass",
-    "solution": "def solve(numbers_sequence):\n    total = 0\n    count = 0\n    for num in numbers_sequence:\n        if num == -1:\n            break\n        total += num\n        count += 1\n    \n    if count == 0:\n        return 'No numbers to average'\n    else:\n        average = total / count\n        return f\"The average is {average:.2f}\"",
+    "starterCode": "numbers_sequence = \"numbers_sequence = [1\"\n\n# Your code here",
+    "solution": "numbers_sequence = \"numbers_sequence = [1\"\n\ntotal = 0\ncount = 0\nfor num in numbers_sequence:\n    if num == -1:\n        break\n    total += num\n    count += 1\n\nif count == 0:\n    return 'No numbers to average'\nelse:\n    average = total / count\n    return f\"The average is {average:.2f}\"",
     "testCases": [
       {
         "input": "numbers_sequence = [1, 2, 3, 4, -1, 5, 6]",
@@ -1941,8 +1941,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use `if-elif-else` to check if a guess is too high, too low, or correct.",
       "Use `break` to stop processing guesses once the correct one is found."
     ],
-    "starterCode": "def solve(guesses):\n    target_number = 50\n    result_messages = []\n    # Loop through guesses, provide hints, break on correct guess\n    # Return the list of messages\n    pass",
-    "solution": "def solve(guesses):\n    target_number = 50\n    result_messages = []\n    for guess in guesses:\n        if guess < target_number:\n            result_messages.append('Too low')\n        elif guess > target_number:\n            result_messages.append('Too high')\n        else:\n            result_messages.append('Correct!')\n            break # Stop if correct guess is made\n    return result_messages",
+    "starterCode": "guesses = \"guesses = [25\"\n\n# Your code here",
+    "solution": "guesses = \"guesses = [25\"\n\ntarget_number = 50\nresult_messages = []\nfor guess in guesses:\n    if guess < target_number:\n        result_messages.append('Too low')\n    elif guess > target_number:\n        result_messages.append('Too high')\n    else:\n        result_messages.append('Correct!')\n        break # Stop if correct guess is made\nprint(result_messages)",
     "testCases": [
       {
         "input": "guesses = [25, 75, 50, 40]",
@@ -1984,8 +1984,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use `break` when the correct guess is found.",
       "After the loop, check if the correct guess was found to append the 'ran out of attempts' message."
     ],
-    "starterCode": "def solve(target_number, guesses):\n    result_messages = []\n    max_attempts = 5\n    # Loop through guesses with attempt number\n    # Check for correct guess or provide hints\n    # Handle running out of attempts\n    # Return the list of messages\n    pass",
-    "solution": "def solve(target_number, guesses):\n    result_messages = []\n    max_attempts = 5\n    correct_found = False\n\n    for i, guess in enumerate(guesses[:max_attempts]):\n        attempt_num = i + 1\n        if guess < target_number:\n            result_messages.append(f'Attempt {attempt_num}: Too low')\n        elif guess > target_number:\n            result_messages.append(f'Attempt {attempt_num}: Too high')\n        else:\n            result_messages.append(f'Attempt {attempt_num}: Correct!')\n            correct_found = True\n            break\n    \n    if not correct_found and len(guesses) >= max_attempts:\n        result_messages.append('You ran out of attempts.')\n        \n    return result_messages",
+    "starterCode": "target_number = \"target_number = 42\"\nguesses = \"guesses = [20\"\n\n# Your code here",
+    "solution": "target_number = \"target_number = 42\"\nguesses = \"guesses = [20\"\n\nresult_messages = []\nmax_attempts = 5\ncorrect_found = False\n\nfor i, guess in enumerate(guesses[:max_attempts]):\n    attempt_num = i + 1\n    if guess < target_number:\n        result_messages.append(f'Attempt {attempt_num}: Too low')\n    elif guess > target_number:\n        result_messages.append(f'Attempt {attempt_num}: Too high')\n    else:\n        result_messages.append(f'Attempt {attempt_num}: Correct!')\n        correct_found = True\n        break\n\nif not correct_found and len(guesses) >= max_attempts:\n    result_messages.append('You ran out of attempts.')\n    \nprint(result_messages)",
     "testCases": [
       {
         "input": "target_number = 42, guesses = [20, 60, 42, 30]",
@@ -2026,8 +2026,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use an `if` statement to check for 'stop' and a `break` to exit the loop.",
       "Ensure the 'stop' string is case-sensitive as specified."
     ],
-    "starterCode": "def solve(name_list):\n    count = 0\n    # Loop through the list of names\n    # Increment count for each name until 'stop' is found\n    # Return the formatted count string\n    pass",
-    "solution": "def solve(name_list):\n    count = 0\n    for name in name_list:\n        if name == 'stop':\n            break\n        count += 1\n    return f\"You have entered {count} names.\"",
+    "starterCode": "name_list = \"name_list = ['Alice'\"\n\n# Your code here",
+    "solution": "name_list = \"name_list = ['Alice'\"\n\ncount = 0\nfor name in name_list:\n    if name == 'stop':\n        break\n    count += 1\nprint(f\"You have entered {count} names.\")",
     "testCases": [
       {
         "input": "name_list = ['Alice', 'Bob', 'Charlie', 'stop', 'David']",
@@ -2074,8 +2074,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "For 'withdraw', check if `current_balance` is sufficient before deducting.",
       "Use f-strings for precise formatting to two decimal places (`:.2f`)."
     ],
-    "starterCode": "def solve(initial_balance, transactions):\n    balance = initial_balance\n    results = []\n    # Process each transaction\n    # Return list of transaction outcomes and final balance\n    pass",
-    "solution": "def solve(initial_balance, transactions):\n    balance = initial_balance\n    results = []\n\n    for op_type, amount in transactions:\n        if op_type == 'deposit':\n            balance += amount\n            results.append(f'Deposit: {amount:.2f}, New Balance: {balance:.2f}')\n        elif op_type == 'withdraw':\n            if balance >= amount:\n                balance -= amount\n                results.append(f'Withdraw: {amount:.2f}, New Balance: {balance:.2f}')\n            else:\n                results.append(f'Withdraw: {amount:.2f}, Insufficient funds. Current Balance: {balance:.2f}')\n        \n    results.append(f'Final Balance: {balance:.2f}')\n    return results",
+    "starterCode": "initial_balance = \"initial_balance = 500.00\"\ntransactions = \"transactions = [('deposit'\"\n\n# Your code here",
+    "solution": "initial_balance = \"initial_balance = 500.00\"\ntransactions = \"transactions = [('deposit'\"\n\nbalance = initial_balance\nresults = []\n\nfor op_type, amount in transactions:\n    if op_type == 'deposit':\n        balance += amount\n        results.append(f'Deposit: {amount:.2f}, New Balance: {balance:.2f}')\n    elif op_type == 'withdraw':\n        if balance >= amount:\n            balance -= amount\n            results.append(f'Withdraw: {amount:.2f}, New Balance: {balance:.2f}')\n        else:\n            results.append(f'Withdraw: {amount:.2f}, Insufficient funds. Current Balance: {balance:.2f}')\n    \nresults.append(f'Final Balance: {balance:.2f}')\nprint(results)",
     "testCases": [
       {
         "input": "initial_balance = 500.00, transactions = [('deposit', 100.00), ('withdraw', 200.00)]",
@@ -2116,8 +2116,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "You will need to import the `random` module.",
       "Use `random.randint(a, b)` for inclusive range generation."
     ],
-    "starterCode": "import random\n\ndef solve():\n    # Generate a random number between 1 and 100\n    # Return the generated number\n    pass",
-    "solution": "import random\n\ndef solve():\n    return random.randint(1, 100)",
+    "starterCode": "import random\n\n# Your code here",
+    "solution": "import random\n\nprint(random.randint(1, 100))",
     "testCases": [
       {
         "input": "No explicit input, function call only.",
@@ -2156,8 +2156,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "The input `random_number` will be provided, so you don't need to generate it inside the function.",
       "Be careful with strict inequalities (> or <) vs. equality (==)."
     ],
-    "starterCode": "def solve(random_number):\n    # Check if the number is over, under, or exactly 50\n    # Return the appropriate string message\n    pass",
-    "solution": "def solve(random_number):\n    if random_number > 50:\n        return 'Over 50'\n    elif random_number < 50:\n        return 'Under 50'\n    else:\n        return 'Exactly 50'",
+    "starterCode": "random_number = \"random_number = 75\"\n\n# Your code here",
+    "solution": "random_number = \"random_number = 75\"\n\nif random_number > 50:\n    return 'Over 50'\nelif random_number < 50:\n    return 'Under 50'\nelse:\n    return 'Exactly 50'",
     "testCases": [
       {
         "input": "random_number = 75",
@@ -2195,8 +2195,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "You will need to import the `random` module.",
       "Use `random.randint(0, 1)` or `random.choice(['heads', 'tails'])` to simulate the coin flip."
     ],
-    "starterCode": "import random\n\ndef solve(choice):\n    # Simulate a coin flip\n    # Compare with user's choice and return outcome\n    pass",
-    "solution": "import random\n\ndef solve(choice):\n    coin_flip = random.choice(['heads', 'tails'])\n    if choice.lower() == coin_flip:\n        return 'You win!'\n    else:\n        return 'You lose!'",
+    "starterCode": "import random\n\nchoice = \"choice = 'heads'\"\n\n# Your code here",
+    "solution": "import random\n\nchoice = \"choice = 'heads'\"\n\ncoin_flip = random.choice(['heads', 'tails'])\nif choice.lower() == coin_flip:\n    return 'You win!'\nelse:\n    return 'You lose!'",
     "testCases": [
       {
         "input": "choice = 'heads'",
@@ -2237,8 +2237,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Implement the game logic using `if-elif-else` statements to determine the winner.",
       "Consider all nine possible combinations (3 player choices * 3 computer choices)."
     ],
-    "starterCode": "import random\n\ndef solve(player_choice):\n    choices = ['rock', 'paper', 'scissors']\n    computer_choice = random.choice(choices)\n    \n    # Implement game logic here\n    # Return 'You win!', 'You lose!', or 'It's a draw!'\n    pass",
-    "solution": "import random\n\ndef solve(player_choice):\n    choices = ['rock', 'paper', 'scissors']\n    computer_choice = random.choice(choices)\n\n    if player_choice == computer_choice:\n        return 'It's a draw!'\n    elif (\n        (player_choice == 'rock' and computer_choice == 'scissors') or\n        (player_choice == 'scissors' and computer_choice == 'paper') or\n        (player_choice == 'paper' and computer_choice == 'rock')\n    ):\n        return 'You win!'\n    else:\n        return 'You lose!'",
+    "starterCode": "import random\n\nplayer_choice = \"player_choice = 'rock'\"\n\n# Your code here",
+    "solution": "import random\n\nplayer_choice = \"player_choice = 'rock'\"\n\nchoices = ['rock', 'paper', 'scissors']\ncomputer_choice = random.choice(choices)\n\nif player_choice == computer_choice:\n    return 'It's a draw!'\nelif (\n    (player_choice == 'rock' and computer_choice == 'scissors') or\n    (player_choice == 'scissors' and computer_choice == 'paper') or\n    (player_choice == 'paper' and computer_choice == 'rock')\n):\n    return 'You win!'\nelse:\n    return 'You lose!'",
     "testCases": [
       {
         "input": "player_choice = 'rock'",
@@ -2280,8 +2280,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Compare `answer` (which simulates user input) with `correct_answer`.",
       "Return the appropriate string based on the comparison."
     ],
-    "starterCode": "import random\n\ndef solve(answer):\n    # Generate two random numbers\n    # Calculate the correct sum\n    # Compare provided answer with correct sum\n    # Return result string\n    pass",
-    "solution": "import random\n\ndef solve(answer):\n    num1 = random.randint(1, 100)\n    num2 = random.randint(1, 100)\n    correct_sum = num1 + num2\n\n    if answer == correct_sum:\n        return 'Correct!'\n    else:\n        return f'Incorrect. The answer was {correct_sum}.'",
+    "starterCode": "import random\n\nanswer = \"answer corresponds to (num1=25\"\n\n# Your code here",
+    "solution": "import random\n\nanswer = \"answer corresponds to (num1=25\"\n\nnum1 = random.randint(1, 100)\nnum2 = random.randint(1, 100)\ncorrect_sum = num1 + num2\n\nif answer == correct_sum:\n    return 'Correct!'\nelse:\n    return f'Incorrect. The answer was {correct_sum}.'",
     "testCases": [
       {
         "input": "answer corresponds to (num1=25, num2=75), so answer=100",
@@ -2324,8 +2324,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use `if-elif-else` to perform the calculation based on the operator.",
       "Compare the `answer` argument with the calculated `correct_result`."
     ],
-    "starterCode": "import random\n\ndef solve(answer):\n    operators = ['+', '-', '*', '//']\n    op = random.choice(operators)\n    \n    # Generate numbers based on operator\n    # Perform calculation\n    # Compare 'answer' with correct result\n    # Return status string\n    pass",
-    "solution": "import random\n\ndef solve(answer):\n    operators = ['+', '-', '*', '//']\n    op = random.choice(operators)\n    \n    num1 = None\n    num2 = None\n\n    if op == '+':\n        num1 = random.randint(1, 100)\n        num2 = random.randint(1, 100)\n    elif op == '//':\n        # Ensure num1 is divisible by num2, and num2 is not 0\n        num2 = random.randint(1, 10) # Avoid division by zero\n        num1 = num2 * random.randint(1, 10) # Ensure num1 is a multiple of num2\n    else: # '-', '*'\n        num1 = random.randint(1, 10)\n        num2 = random.randint(1, 10)\n\n    correct_result = None\n    if op == '+':\n        correct_result = num1 + num2\n    elif op == '-':\n        correct_result = num1 - num2\n    elif op == '*':\n        correct_result = num1 * num2\n    elif op == '//':\n        if num2 == 0:\n            return 'Error: Division by zero' # Should ideally not be reachable with randint(1,10)\n        correct_result = num1 // num2\n\n    if answer == correct_result:\n        return 'Correct!'\n    else:\n        return f'Incorrect. The answer was {correct_result}.'",
+    "starterCode": "import random\n\nanswer = \"This test case simulates a specific outcome. Assume random choice yielded + and (20\"\n\n# Your code here",
+    "solution": "import random\n\nanswer = \"This test case simulates a specific outcome. Assume random choice yielded + and (20\"\n\noperators = ['+', '-', '*', '//']\nop = random.choice(operators)\n\nnum1 = None\nnum2 = None\n\nif op == '+':\n    num1 = random.randint(1, 100)\n    num2 = random.randint(1, 100)\nelif op == '//':\n    # Ensure num1 is divisible by num2, and num2 is not 0\n    num2 = random.randint(1, 10) # Avoid division by zero\n    num1 = num2 * random.randint(1, 10) # Ensure num1 is a multiple of num2\nelse: # '-', '*'\n    num1 = random.randint(1, 10)\n    num2 = random.randint(1, 10)\n\ncorrect_result = None\nif op == '+':\n    correct_result = num1 + num2\nelif op == '-':\n    correct_result = num1 - num2\nelif op == '*':\n    correct_result = num1 * num2\nelif op == '//':\n    if num2 == 0:\n        return 'Error: Division by zero' # Should ideally not be reachable with randint(1,10)\n    correct_result = num1 // num2\n\nif answer == correct_result:\n    return 'Correct!'\nelse:\n    return f'Incorrect. The answer was {correct_result}.'",
     "testCases": [
       {
         "input": "This test case simulates a specific outcome. Assume random choice yielded + and (20, 5). Provided answer = 25.",
@@ -2365,8 +2365,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use a `break` statement when a 6 is encountered.",
       "Keep a flag or check if the loop completed without finding a 6."
     ],
-    "starterCode": "def solve(roll_sequence):\n    rolls = 0\n    found_six = False\n    # Loop through the roll_sequence\n    # Count rolls and check for 6\n    # Return the appropriate message\n    pass",
-    "solution": "def solve(roll_sequence):\n    rolls = 0\n    found_six = False\n    for roll in roll_sequence:\n        rolls += 1\n        if roll == 6:\n            found_six = True\n            break\n\n    if found_six:\n        return f'It took {rolls} rolls to get a 6.'\n    else:\n        return '6 was not rolled.'",
+    "starterCode": "roll_sequence = \"roll_sequence = [1\"\n\n# Your code here",
+    "solution": "roll_sequence = \"roll_sequence = [1\"\n\nrolls = 0\nfound_six = False\nfor roll in roll_sequence:\n    rolls += 1\n    if roll == 6:\n        found_six = True\n        break\n\nif found_six:\n    return f'It took {rolls} rolls to get a 6.'\nelse:\n    return '6 was not rolled.'",
     "testCases": [
       {
         "input": "roll_sequence = [1, 5, 6, 2, 4]",
@@ -2407,8 +2407,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use a loop to append `length` random characters to build the password.",
       "Use `random.choice()` to select characters."
     ],
-    "starterCode": "import random\nimport string\n\ndef solve(length):\n    characters = string.ascii_letters + string.digits\n    password = ''\n    # Generate random characters and append to password\n    # Return the generated password\n    pass",
-    "solution": "import random\nimport string\n\ndef solve(length):\n    if length <= 0:\n        return ''\n    characters = string.ascii_letters + string.digits\n    password = ''.join(random.choice(characters) for i in range(length))\n    return password",
+    "starterCode": "import random\nimport string\n\nlength = \"length = 8\"\n\n# Your code here",
+    "solution": "import random\nimport string\n\nlength = \"length = 8\"\n\nif length <= 0:\n    return ''\ncharacters = string.ascii_letters + string.digits\npassword = ''.join(random.choice(characters) for i in range(length))\nprint(password)",
     "testCases": [
       {
         "input": "length = 8",
@@ -2448,8 +2448,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "In each iteration, create a string of `side` '*' characters.",
       "Append each created string to a list."
     ],
-    "starterCode": "def solve(side):\n    pattern = []\n    # Loop to create each row of the square\n    # Return the list of strings\n    pass",
-    "solution": "def solve(side):\n    pattern = []\n    for _ in range(side):\n        pattern.append('*' * side)\n    return pattern",
+    "starterCode": "side = \"side = 4\"\n\n# Your code here",
+    "solution": "side = \"side = 4\"\n\npattern = []\nfor _ in range(side):\n    pattern.append('*' * side)\nprint(pattern)",
     "testCases": [
       {
         "input": "side = 4",
@@ -3813,8 +3813,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Consider using a simple sorting algorithm like Bubble Sort. In Bubble Sort, you repeatedly step through the list, compare adjacent elements and swap them if they are in the wrong order.",
       "You will need nested loops to iterate through the array for comparisons and swaps."
     ],
-    "starterCode": "def solve(arr):\n    # Sort the array in ascending order without using .sort() or sorted()\n    # Your code here\n    return arr",
-    "solution": "def solve(arr):\n    n = len(arr)\n    for i in range(n):\n        for j in range(0, n - i - 1):\n            if arr[j] > arr[j+1]:\n                arr[j], arr[j+1] = arr[j+1], arr[j] # Swap elements\n    return arr",
+    "starterCode": "arr = \"arr = [5\"\n\n# Your code here",
+    "solution": "arr = \"arr = [5\"\n\nn = len(arr)\nfor i in range(n):\n    for j in range(0, n - i - 1):\n        if arr[j] > arr[j+1]:\n            arr[j], arr[j+1] = arr[j+1], arr[j] # Swap elements\nprint(arr)",
     "testCases": [
       {
         "input": "arr = [5, 2, 4, 1, 3]",
@@ -3855,8 +3855,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "At each element, compare it with the target number.",
       "If a match is found, return its index immediately. If the loop finishes without finding a match, return -1."
     ],
-    "starterCode": "def solve(arr, target):\n    # Perform a linear search for the target in the array\n    # Return the index if found, -1 otherwise\n    # Your code here\n    pass",
-    "solution": "def solve(arr, target):\n    for i in range(len(arr)):\n        if arr[i] == target:\n            return i\n    return -1",
+    "starterCode": "arr = \"arr = [10\"\ntarget = 20\n\n# Your code here",
+    "solution": "arr = \"arr = [10\"\ntarget = 20\n\nfor i in range(len(arr)):\n    if arr[i] == target:\n        return i\nprint(-1)",
     "testCases": [
       {
         "input": "arr = [10, 20, 30, 40, 50], target = 30",
@@ -3897,8 +3897,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Then, iterate through the list again, comparing each number to the calculated average.",
       "Increment a counter each time a number is found to be greater than the average."
     ],
-    "starterCode": "def solve(arr):\n    # Calculate the average of numbers in the array\n    # Count numbers strictly greater than the average\n    # Return the count\n    # Your code here\n    pass",
-    "solution": "def solve(arr):\n    if not arr:\n        return 0\n    total_sum = sum(arr)\n    average = total_sum / len(arr)\n    count_above_average = 0\n    for num in arr:\n        if num > average:\n            count_above_average += 1\n    return count_above_average",
+    "starterCode": "arr = \"arr = [10\"\n\n# Your code here",
+    "solution": "arr = \"arr = [10\"\n\nif not arr:\n    return 0\ntotal_sum = sum(arr)\naverage = total_sum / len(arr)\ncount_above_average = 0\nfor num in arr:\n    if num > average:\n        count_above_average += 1\nprint(count_above_average)",
     "testCases": [
       {
         "input": "arr = [10, 20, 30, 40, 50]",
@@ -3938,8 +3938,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "You can use an auxiliary data structure, like a set, to keep track of elements that have already been added to the new list.",
       "Iterate through the original list. For each element, check if it's already in your auxiliary structure. If not, add it to your new list and to the auxiliary structure."
     ],
-    "starterCode": "def solve(arr):\n    # Remove duplicate elements from the array\n    # Return a new list with unique elements, preserving order of first appearance\n    # Your code here\n    pass",
-    "solution": "def solve(arr):\n    seen = set()\n    result = []\n    for item in arr:\n        if item not in seen:\n            seen.add(item)\n            result.append(item)\n    return result",
+    "starterCode": "arr = \"arr = [1\"\n\n# Your code here",
+    "solution": "arr = \"arr = [1\"\n\nseen = set()\nresult = []\nfor item in arr:\n    if item not in seen:\n        seen.add(item)\n        result.append(item)\nprint(result)",
     "testCases": [
       {
         "input": "arr = [1, 2, 2, 3, 4, 4, 5]",
@@ -3981,8 +3981,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Advance the pointer of the list from which the element was taken.",
       "After one list is exhausted, append all remaining elements from the other list to the result."
     ],
-    "starterCode": "def solve(arr1, arr2):\n    # Merge two sorted lists into one sorted list\n    # Do not use .sort() or sorted() on the final merged list\n    # Your code here\n    pass",
-    "solution": "def solve(arr1, arr2):\n    merged = []\n    i, j = 0, 0\n    while i < len(arr1) and j < len(arr2):\n        if arr1[i] < arr2[j]:\n            merged.append(arr1[i])\n            i += 1\n        else:\n            merged.append(arr2[j])\n            j += 1\n    while i < len(arr1):\n        merged.append(arr1[i])\n        i += 1\n    while j < len(arr2):\n        merged.append(arr2[j])\n        j += 1\n    return merged",
+    "starterCode": "arr1 = \"arr1 = [1\"\narr2 = 3\n\n# Your code here",
+    "solution": "arr1 = \"arr1 = [1\"\narr2 = 3\n\nmerged = []\ni, j = 0, 0\nwhile i < len(arr1) and j < len(arr2):\n    if arr1[i] < arr2[j]:\n        merged.append(arr1[i])\n        i += 1\n    else:\n        merged.append(arr2[j])\n        j += 1\nwhile i < len(arr1):\n    merged.append(arr1[i])\n    i += 1\nwhile j < len(arr2):\n    merged.append(arr2[j])\n    j += 1\nprint(merged)",
     "testCases": [
       {
         "input": "arr1 = [1, 3, 5], arr2 = [2, 4, 6]",
@@ -4025,8 +4025,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Keep a counter variable that increments with each number placed in the grid.",
       "To format the output, iterate through the created grid. For each inner list (row), convert the numbers to strings, join them with a space, and then join the rows with newline characters."
     ],
-    "starterCode": "def solve():\n    # Create a 3x3 grid with sequential numbers (1-9)\n    # Return a formatted string representation of the grid\n    # Your code here\n    pass",
-    "solution": "def solve():\n    grid = []\n    number = 1\n    for _ in range(3):\n        row = []\n        for _ in range(3):\n            row.append(number)\n            number += 1\n        grid.append(row)\n    \n    formatted_grid = []\n    for row in grid:\n        formatted_grid.append(' '.join(map(str, row)))\n    return '\\n'.join(formatted_grid)",
+    "starterCode": "# Your code here",
+    "solution": "grid = []\nnumber = 1\nfor _ in range(3):\n    row = []\n    for _ in range(3):\n        row.append(number)\n        number += 1\n    grid.append(row)\n\nformatted_grid = []\nfor row in grid:\n    formatted_grid.append(' '.join(map(str, row)))\nprint('\\n'.join(formatted_grid))",
     "testCases": [
       {
         "input": "No input needed, the grid is fixed.",
@@ -4057,8 +4057,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use an f-string or string concatenation to format the output for each student.",
       "Join the formatted strings for each student with a newline character to get the final output."
     ],
-    "starterCode": "def solve(student_data):\n    # student_data is a list of lists, e.g., [['Alice', 18, 'A'], ['Bob', 19, 'B']]\n    # Format and return the student records as a single string\n    # Your code here\n    pass",
-    "solution": "def solve(student_data):\n    formatted_records = []\n    for student in student_data:\n        name, age, grade = student[0], student[1], student[2]\n        formatted_records.append(f\"Name: {name}, Age: {age}, Grade: {grade}\")\n    return '\\n'.join(formatted_records)",
+    "starterCode": "student_data = \"student_data = [['Alice'\"\n\n# Your code here",
+    "solution": "student_data = \"student_data = [['Alice'\"\n\nformatted_records = []\nfor student in student_data:\n    name, age, grade = student[0], student[1], student[2]\n    formatted_records.append(f\"Name: {name}, Age: {age}, Grade: {grade}\")\nprint('\\n'.join(formatted_records))",
     "testCases": [
       {
         "input": "student_data = [['Alice', 18, 'A'], ['Bob', 19, 'B'], ['Charlie', 17, 'A']]",
@@ -4100,8 +4100,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Add the elements at the corresponding positions from matrix1 and matrix2, and store the result in the new matrix.",
       "Remember that matrices in this context are lists of lists."
     ],
-    "starterCode": "def solve(matrix1, matrix2):\n    # Perform matrix addition for two 2x2 matrices\n    # Return the resulting 2x2 matrix\n    # Your code here\n    pass",
-    "solution": "def solve(matrix1, matrix2):\n    rows = len(matrix1)\n    cols = len(matrix1[0])\n    \n    result_matrix = []\n    for i in range(rows):\n        current_row = []\n        for j in range(cols):\n            current_row.append(matrix1[i][j] + matrix2[i][j])\n        result_matrix.append(current_row)\n    return result_matrix",
+    "starterCode": "matrix1 = \"matrix1 = [[1\"\nmatrix2 = \"2]\"\n\n# Your code here",
+    "solution": "matrix1 = \"matrix1 = [[1\"\nmatrix2 = \"2]\"\n\nrows = len(matrix1)\ncols = len(matrix1[0])\n\nresult_matrix = []\nfor i in range(rows):\n    current_row = []\n    for j in range(cols):\n        current_row.append(matrix1[i][j] + matrix2[i][j])\n    result_matrix.append(current_row)\nprint(result_matrix)",
     "testCases": [
       {
         "input": "matrix1 = [[1, 2], [3, 4]], matrix2 = [[3, 4], [5, 6]]",
@@ -4143,8 +4143,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "You will likely need three nested loops: one for rows of the result matrix, one for columns of the result matrix, and one for iterating through the elements for the dot product sum.",
       "Initialize the result matrix with zeros before performing calculations."
     ],
-    "starterCode": "def solve(matrix1, matrix2):\n    # Perform matrix multiplication for two 2x2 matrices\n    # Return the resulting 2x2 matrix\n    # Your code here\n    pass",
-    "solution": "def solve(matrix1, matrix2):\n    rows_a = len(matrix1)\n    cols_a = len(matrix1[0])\n    rows_b = len(matrix2)\n    cols_b = len(matrix2[0])\n\n    # Check if multiplication is possible (cols_a == rows_b)\n    if cols_a != rows_b:\n        return [] # Or raise an error\n\n    result_matrix = [[0 for _ in range(cols_b)] for _ in range(rows_a)]\n\n    for i in range(rows_a):\n        for j in range(cols_b):\n            for k in range(cols_a):\n                result_matrix[i][j] += matrix1[i][k] * matrix2[k][j]\n    return result_matrix",
+    "starterCode": "matrix1 = \"matrix1 = [[1\"\nmatrix2 = \"2]\"\n\n# Your code here",
+    "solution": "matrix1 = \"matrix1 = [[1\"\nmatrix2 = \"2]\"\n\nrows_a = len(matrix1)\ncols_a = len(matrix1[0])\nrows_b = len(matrix2)\ncols_b = len(matrix2[0])\n\n# Check if multiplication is possible (cols_a == rows_b)\nif cols_a != rows_b:\n    return [] # Or raise an error\n\nresult_matrix = [[0 for _ in range(cols_b)] for _ in range(rows_a)]\n\nfor i in range(rows_a):\n    for j in range(cols_b):\n        for k in range(cols_a):\n            result_matrix[i][j] += matrix1[i][k] * matrix2[k][j]\nprint(result_matrix)",
     "testCases": [
       {
         "input": "matrix1 = [[1, 2], [3, 4]], matrix2 = [[5, 6], [7, 8]]",
@@ -4187,8 +4187,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Between each row string, append a separator line ('-----------\n').",
       "Be careful with the additional spaces around 'X', 'O', or ' ' to make it look clean: ' X | O | X '."
     ],
-    "starterCode": "def solve(board):\n    # board is a 3x3 list of lists, e.g., [['X', 'O', ' '], ...]\n    # Return a formatted string representation of the Tic-Tac-Toe board\n    # Your code here\n    pass",
-    "solution": "def solve(board):\n    display_rows = []\n    for i, row in enumerate(board):\n        display_rows.append(' ' + ' | '.join(row) + ' ')\n        if i < len(board) - 1:\n            display_rows.append('-----------')\n    return '\\n'.join(display_rows)",
+    "starterCode": "board = \"board = [['X'\"\n\n# Your code here",
+    "solution": "board = \"board = [['X'\"\n\ndisplay_rows = []\nfor i, row in enumerate(board):\n    display_rows.append(' ' + ' | '.join(row) + ' ')\n    if i < len(board) - 1:\n        display_rows.append('-----------')\nprint('\\n'.join(display_rows))",
     "testCases": [
       {
         "input": "board = [['X', 'O', 'X'], ['O', 'X', 'O'], ['X', 'O', 'X']]",
@@ -4229,8 +4229,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use an f-string to format the output for each contact.",
       "Collect all formatted contact strings in a list and then join them with newline characters."
     ],
-    "starterCode": "def solve(phonebook):\n    # phonebook is a nested dictionary, e.g., {'Alice': {'phone': '...', 'email': '...'}}\n    # Return a formatted string listing all contacts\n    # Your code here\n    pass",
-    "solution": "def solve(phonebook):\n    formatted_contacts = []\n    for name, details in phonebook.items():\n        phone = details.get('phone', 'N/A')\n        email = details.get('email', 'N/A')\n        formatted_contacts.append(f\"Name: {name}, Phone: {phone}, Email: {email}\")\n    return '\\n'.join(formatted_contacts)",
+    "starterCode": "phonebook = \"phonebook = {'Alice': {'phone': '111-222-3333'\"\n\n# Your code here",
+    "solution": "phonebook = \"phonebook = {'Alice': {'phone': '111-222-3333'\"\n\nformatted_contacts = []\nfor name, details in phonebook.items():\n    phone = details.get('phone', 'N/A')\n    email = details.get('email', 'N/A')\n    formatted_contacts.append(f\"Name: {name}, Phone: {phone}, Email: {email}\")\nprint('\\n'.join(formatted_contacts))",
     "testCases": [
       {
         "input": "phonebook = {'Alice': {'phone': '111-222-3333', 'email': 'alice@example.com'}, 'Bob': {'phone': '444-555-6666', 'email': 'bob@example.com'}}",
@@ -4273,8 +4273,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Format each item's string and store them in a list. Remember to format float values to two decimal places using f-string specifiers (e.g., `:.2f`).",
       "Finally, join the item strings and append the overall grand total."
     ],
-    "starterCode": "def solve(inventory):\n    # inventory is a nested dictionary, e.g., {'Laptop': {'quantity': 5, 'price': 1200.00}}\n    # Calculate and return a formatted string of inventory details and total value.\n    # Your code here\n    pass",
-    "solution": "def solve(inventory):\n    formatted_items = []\n    grand_total = 0.0\n    for item_name, details in inventory.items():\n        quantity = details.get('quantity', 0)\n        price = details.get('price', 0.0)\n        item_total = quantity * price\n        grand_total += item_total\n        formatted_items.append(f\"Item: {item_name}, Quantity: {quantity}, Price: ${price:.2f}, Total Value: ${item_total:.2f}\")\n    \n    if not formatted_items:\n        return f\"Overall Inventory Value: ${grand_total:.2f}\"\n\n    return '\\n'.join(formatted_items) + f\"\\nOverall Inventory Value: ${grand_total:.2f}\"",
+    "starterCode": "inventory = \"inventory = {'Laptop': {'quantity': 5\"\n\n# Your code here",
+    "solution": "inventory = \"inventory = {'Laptop': {'quantity': 5\"\n\nformatted_items = []\ngrand_total = 0.0\nfor item_name, details in inventory.items():\n    quantity = details.get('quantity', 0)\n    price = details.get('price', 0.0)\n    item_total = quantity * price\n    grand_total += item_total\n    formatted_items.append(f\"Item: {item_name}, Quantity: {quantity}, Price: ${price:.2f}, Total Value: ${item_total:.2f}\")\n\nif not formatted_items:\n    return f\"Overall Inventory Value: ${grand_total:.2f}\"\n\nprint('\\n'.join(formatted_items) + f\"\\nOverall Inventory Value: ${grand_total:.2f}\")",
     "testCases": [
       {
         "input": "inventory = {'Laptop': {'quantity': 5, 'price': 1200.00}, 'Mouse': {'quantity': 20, 'price': 25.50}}",
@@ -4318,8 +4318,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Construct the student's output string including subject grades and their average. Store these strings in a list.",
       "Join the student strings with `\\n\\n` to separate them by an empty line."
     ],
-    "starterCode": "def solve(grades_data):\n    # grades_data is a nested dictionary, e.g., {'Alice': {'Math': 90, 'Science': 85}}\n    # Return a formatted string of student grades and averages.\n    # Your code here\n    pass",
-    "solution": "def solve(grades_data):\n    all_student_reports = []\n    for student_name, subjects_grades in grades_data.items():\n        student_report = [f\"Student: {student_name}\"]\n        total_grades = 0\n        num_subjects = 0\n\n        for subject, grade in subjects_grades.items():\n            student_report.append(f\"  {subject}: {grade}\")\n            total_grades += grade\n            num_subjects += 1\n        \n        if num_subjects > 0:\n            average = total_grades / num_subjects\n            student_report.append(f\"  Average: {average:.2f}\")\n        else:\n            student_report.append(\"  Average: N/A\")\n        \n        all_student_reports.append('\\n'.join(student_report))\n    \n    return '\\n\\n'.join(all_student_reports)",
+    "starterCode": "grades_data = \"grades_data = {'Alice': {'Math': 90\"\n\n# Your code here",
+    "solution": "grades_data = \"grades_data = {'Alice': {'Math': 90\"\n\nall_student_reports = []\nfor student_name, subjects_grades in grades_data.items():\n    student_report = [f\"Student: {student_name}\"]\n    total_grades = 0\n    num_subjects = 0\n\n    for subject, grade in subjects_grades.items():\n        student_report.append(f\"  {subject}: {grade}\")\n        total_grades += grade\n        num_subjects += 1\n    \n    if num_subjects > 0:\n        average = total_grades / num_subjects\n        student_report.append(f\"  Average: {average:.2f}\")\n    else:\n        student_report.append(\"  Average: N/A\")\n    \n    all_student_reports.append('\\n'.join(student_report))\n\nprint('\\n\\n'.join(all_student_reports))",
     "testCases": [
       {
         "input": "grades_data = {'Alice': {'Math': 90, 'Science': 85}, 'Bob': {'Math': 70, 'History': 65}}",
@@ -4361,8 +4361,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "For proper alignment, determine the maximum width for a number in the table (which would be `max_num * max_num`). Use f-string formatting like `{number:>{width}}` to right-align numbers within that width.",
       "Collect each row string, then join them with newline characters."
     ],
-    "starterCode": "def solve(max_num):\n    # Generate and return a formatted string for a multiplication table up to max_num x max_num\n    # Numbers should be right-aligned.\n    # Your code here\n    pass",
-    "solution": "def solve(max_num):\n    table_rows = []\n    # Determine max width for alignment\n    max_val = max_num * max_num\n    width = len(str(max_val))\n\n    for i in range(1, max_num + 1):\n        row_values = []\n        for j in range(1, max_num + 1):\n            product = i * j\n            row_values.append(f\"{product:>{width}}\") # Right-align with determined width\n        table_rows.append(' '.join(row_values))\n    return '\\n'.join(table_rows)",
+    "starterCode": "max_num = \"max_num = 4\"\n\n# Your code here",
+    "solution": "max_num = \"max_num = 4\"\n\ntable_rows = []\n# Determine max width for alignment\nmax_val = max_num * max_num\nwidth = len(str(max_val))\n\nfor i in range(1, max_num + 1):\n    row_values = []\n    for j in range(1, max_num + 1):\n        product = i * j\n        row_values.append(f\"{product:>{width}}\") # Right-align with determined width\n    table_rows.append(' '.join(row_values))\nprint('\\n'.join(table_rows))",
     "testCases": [
       {
         "input": "max_num = 4",
@@ -4404,8 +4404,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "For each line, use the `.strip()` method to remove leading/trailing whitespace.",
       "Check if the `stripped_line` is not empty. If it's not, increment a counter."
     ],
-    "starterCode": "def solve(multiline_string):\n    # Process a multi-line string and count non-empty lines.\n    # Your code here\n    pass",
-    "solution": "def solve(multiline_string):\n    lines = multiline_string.splitlines()\n    non_empty_count = 0\n    for line in lines:\n        if line.strip(): # Checks if the line is not empty after stripping whitespace\n            non_empty_count += 1\n    return non_empty_count",
+    "starterCode": "multiline_string = \"multiline_string = \\\"Line 1\\\\nLine 2\\\\n\\\\nLine 4 \\\"\"\n\n# Your code here",
+    "solution": "multiline_string = \"multiline_string = \\\"Line 1\\\\nLine 2\\\\n\\\\nLine 4 \\\"\"\n\nlines = multiline_string.splitlines()\nnon_empty_count = 0\nfor line in lines:\n    if line.strip(): # Checks if the line is not empty after stripping whitespace\n        non_empty_count += 1\nprint(non_empty_count)",
     "testCases": [
       {
         "input": "multiline_string = \"Line 1\\nLine 2\\n\\nLine 4 \"",
@@ -4447,8 +4447,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Keep track of the line number using `enumerate` (starting from 0, so add 1 for 1-indexed output).",
       "Use the `in` operator to check if the keyword is present in the line string."
     ],
-    "starterCode": "def solve(text_content, keyword):\n    # Search for a keyword (case-insensitive) in a multi-line string\n    # Return a list of 1-indexed line numbers where the keyword is found\n    # Your code here\n    pass",
-    "solution": "def solve(text_content, keyword):\n    lines = text_content.splitlines()\n    found_line_numbers = []\n    lower_keyword = keyword.lower()\n\n    for i, line in enumerate(lines):\n        if lower_keyword in line.lower():\n            found_line_numbers.append(i + 1)\n    return found_line_numbers",
+    "starterCode": "text_content = \"text_content = \\\"This is a test.\\\\nAnother line here.\\\\nTest again!\\\"\"\nkeyword = \"keyword = \\\"test\\\"\"\n\n# Your code here",
+    "solution": "text_content = \"text_content = \\\"This is a test.\\\\nAnother line here.\\\\nTest again!\\\"\"\nkeyword = \"keyword = \\\"test\\\"\"\n\nlines = text_content.splitlines()\nfound_line_numbers = []\nlower_keyword = keyword.lower()\n\nfor i, line in enumerate(lines):\n    if lower_keyword in line.lower():\n        found_line_numbers.append(i + 1)\nprint(found_line_numbers)",
     "testCases": [
       {
         "input": "text_content = \"This is a test.\\nAnother line here.\\nTest again!\", keyword = \"test\"",
@@ -4490,8 +4490,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use `text_content.split()` to split the string into a list of words. This handles multiple spaces automatically.",
       "Use a dictionary to store word counts. When iterating through the words, increment the count for an existing word or add a new word with a count of 1."
     ],
-    "starterCode": "def solve(text_content):\n    # Count word frequencies in a multi-line string (case-insensitive, no punctuation)\n    # Return a dictionary of word counts.\n    # Your code here\n    pass",
-    "solution": "import string\n\ndef solve(text_content):\n    text_content = text_content.lower()\n    \n    # Remove punctuation\n    for char in string.punctuation:\n        text_content = text_content.replace(char, '')\n    \n    words = text_content.split()\n    word_counts = {}\n    for word in words:\n        if word:\n            word_counts[word] = word_counts.get(word, 0) + 1\n    return word_counts",
+    "starterCode": "text_content = \"text_content = \\\"This is a test. Another line here. Test again!\\\"\"\n\n# Your code here",
+    "solution": "import string\n\ntext_content = \"text_content = \\\"This is a test. Another line here. Test again!\\\"\"\n\ntext_content = text_content.lower()\n\n# Remove punctuation\nfor char in string.punctuation:\n    text_content = text_content.replace(char, '')\n\nwords = text_content.split()\nword_counts = {}\nfor word in words:\n    if word:\n        word_counts[word] = word_counts.get(word, 0) + 1\nprint(word_counts)",
     "testCases": [
       {
         "input": "text_content = \"This is a test. Another line here. Test again!\"",
@@ -4534,8 +4534,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "The timestamp will be inside `[]`, the level inside `[]`, and the message starts after `: `.",
       "Be careful to handle potential edge cases or variations in spacing if any (though these inputs are typically consistent)."
     ],
-    "starterCode": "def solve(log_data):\n    # log_data is a multi-line string of log entries: '[TIMESTAMP] [LEVEL]: [MESSAGE]'\n    # Parse logs and return a list of dictionaries.\n    # Your code here\n    pass",
-    "solution": "def solve(log_data):\n    parsed_logs = []\n    lines = log_data.splitlines()\n    for line in lines:\n        if not line.strip():\n            continue\n        \n        try:\n            # Split by first ']' to separate timestamp and rest\n            parts = line.split(']', 1)\n            timestamp = parts[0][1:].strip() # Remove leading '['\n            \n            # Split remaining by second ']' to separate level and message\n            rest = parts[1].strip()\n            level_message_parts = rest.split(':', 1)\n            \n            level_part = level_message_parts[0].strip()\n            level = level_part[1:].strip() # Remove leading '[' from level_part\n            \n            message = level_message_parts[1].strip()\n            \n            parsed_logs.append({\n                'timestamp': timestamp,\n                'level': level,\n                'message': message\n            })\n        except IndexError:\n            # Handle malformed lines gracefully, e.g., skip them or log a warning\n            continue\n    return parsed_logs",
+    "starterCode": "log_data = \"log_data = \\\"[2023-10-26 10:00:00] [INFO]: User logged in\\\\n[2023-10-26 10:01:05] [ERROR]: Failed to connect to database\\\"\"\n\n# Your code here",
+    "solution": "log_data = \"log_data = \\\"[2023-10-26 10:00:00] [INFO]: User logged in\\\\n[2023-10-26 10:01:05] [ERROR]: Failed to connect to database\\\"\"\n\nparsed_logs = []\nlines = log_data.splitlines()\nfor line in lines:\n    if not line.strip():\n        continue\n    \n    try:\n        # Split by first ']' to separate timestamp and rest\n        parts = line.split(']', 1)\n        timestamp = parts[0][1:].strip() # Remove leading '['\n        \n        # Split remaining by second ']' to separate level and message\n        rest = parts[1].strip()\n        level_message_parts = rest.split(':', 1)\n        \n        level_part = level_message_parts[0].strip()\n        level = level_part[1:].strip() # Remove leading '[' from level_part\n        \n        message = level_message_parts[1].strip()\n        \n        parsed_logs.append({\n            'timestamp': timestamp,\n            'level': level,\n            'message': message\n        })\n    except IndexError:\n        # Handle malformed lines gracefully, e.g., skip them or log a warning\n        continue\nprint(parsed_logs)",
     "testCases": [
       {
         "input": "log_data = \"[2023-10-26 10:00:00] [INFO]: User logged in\\n[2023-10-26 10:01:05] [ERROR]: Failed to connect to database\"",
@@ -4578,8 +4578,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use `try-except` blocks to handle `ValueError` if `float()` or `int()` conversions fail for malformed data, and `IndexError` if `split(',')` doesn't produce enough parts.",
       "Remember to convert price to float and stock to integer."
     ],
-    "starterCode": "def solve(data_string):\n    # Parse a multi-line string of 'product,price,stock' records\n    # Return a list of dictionaries with 'product', 'price', 'stock' keys\n    # Handle malformed lines by skipping them.\n    # Your code here\n    pass",
-    "solution": "def solve(data_string):\n    parsed_records = []\n    lines = data_string.splitlines()\n    for line in lines:\n        line = line.strip()\n        if not line:\n            continue\n        \n        parts = line.split(',')\n        if len(parts) == 3:\n            try:\n                product = parts[0].strip()\n                price = float(parts[1].strip())\n                stock = int(parts[2].strip())\n                parsed_records.append({'product': product, 'price': price, 'stock': stock})\n            except ValueError:\n                # Skip lines with invalid price or stock formats\n                continue\n        # else: skip lines with incorrect number of parts\n    return parsed_records",
+    "starterCode": "data_string = \"data_string = \\\"Laptop\"\n\n# Your code here",
+    "solution": "data_string = \"data_string = \\\"Laptop\"\n\nparsed_records = []\nlines = data_string.splitlines()\nfor line in lines:\n    line = line.strip()\n    if not line:\n        continue\n    \n    parts = line.split(',')\n    if len(parts) == 3:\n        try:\n            product = parts[0].strip()\n            price = float(parts[1].strip())\n            stock = int(parts[2].strip())\n            parsed_records.append({'product': product, 'price': price, 'stock': stock})\n        except ValueError:\n            # Skip lines with invalid price or stock formats\n            continue\n    # else: skip lines with incorrect number of parts\nprint(parsed_records)",
     "testCases": [
       {
         "input": "data_string = \"Laptop,1200.50,10\\nMouse,25.00,50\\nKeyboard,75,invalid_stock\\nMonitor,300.00,20\"",
@@ -4621,8 +4621,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Calculate the `grand_total` by summing up `price * stock` for all products.",
       "Construct the header, each item line, and the footer separately, then join them with newlines."
     ],
-    "starterCode": "def solve(products_data):\n    # products_data is a list of dictionaries: [{'product': 'Laptop', 'price': 1200.50, 'stock': 10}]\n    # Generate and return a formatted sales report string.\n    # Your code here\n    pass",
-    "solution": "def solve(products_data):\n    report_lines = []\n    grand_total = 0.0\n\n    # Define column widths\n    product_width = 20\n    price_width = 8\n    stock_width = 7\n    total_value_width = 12\n\n    # Header\n    header = f\"{'PRODUCT NAME':<{product_width}} {'PRICE':>{price_width}} {'STOCK':>{stock_width}} {'TOTAL VALUE':>{total_value_width}}\"\n    report_lines.append(header)\n    report_lines.append('-' * len(header))\n\n    # Product details\n    for item in products_data:\n        product_name = item.get('product', '')\n        price = item.get('price', 0.0)\n        stock = item.get('stock', 0)\n        item_total = price * stock\n        grand_total += item_total\n        \n        line = f\"{product_name:<{product_width}} {price:>{price_width}.2f} {stock:>{stock_width}} {item_total:>{total_value_width}.2f}\"\n        report_lines.append(line)\n    \n    # Footer\n    report_lines.append('-' * len(header))\n    footer = f\"{'GRAND TOTAL VALUE:':<{product_width + price_width + stock_width + 2}} {grand_total:>{total_value_width}.2f}\"\n    report_lines.append(footer)\n\n    return '\\n'.join(report_lines)",
+    "starterCode": "products_data = \"products_data = [{'product': 'Laptop'\"\n\n# Your code here",
+    "solution": "products_data = \"products_data = [{'product': 'Laptop'\"\n\nreport_lines = []\ngrand_total = 0.0\n\n# Define column widths\nproduct_width = 20\nprice_width = 8\nstock_width = 7\ntotal_value_width = 12\n\n# Header\nheader = f\"{'PRODUCT NAME':<{product_width}} {'PRICE':>{price_width}} {'STOCK':>{stock_width}} {'TOTAL VALUE':>{total_value_width}}\"\nreport_lines.append(header)\nreport_lines.append('-' * len(header))\n\n# Product details\nfor item in products_data:\n    product_name = item.get('product', '')\n    price = item.get('price', 0.0)\n    stock = item.get('stock', 0)\n    item_total = price * stock\n    grand_total += item_total\n    \n    line = f\"{product_name:<{product_width}} {price:>{price_width}.2f} {stock:>{stock_width}} {item_total:>{total_value_width}.2f}\"\n    report_lines.append(line)\n\n# Footer\nreport_lines.append('-' * len(header))\nfooter = f\"{'GRAND TOTAL VALUE:':<{product_width + price_width + stock_width + 2}} {grand_total:>{total_value_width}.2f}\"\nreport_lines.append(footer)\n\nprint('\\n'.join(report_lines))",
     "testCases": [
       {
         "input": "products_data = [{'product': 'Laptop', 'price': 1200.50, 'stock': 10}, {'product': 'Mouse', 'price': 25.00, 'stock': 50}, {'product': 'Monitor', 'price': 300.00, 'stock': 20}]",
@@ -4665,8 +4665,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Store the header row separately, then append data rows.",
       "Handle potential empty lines by skipping them."
     ],
-    "starterCode": "def solve(csv_string):\n    # Parse a multi-line CSV string into a list of lists.\n    # The first list is the header, subsequent lists are data rows.\n    # Your code here\n    pass",
-    "solution": "def solve(csv_string):\n    lines = csv_string.strip().splitlines()\n    if not lines:\n        return []\n\n    parsed_table = []\n    for line in lines:\n        if not line.strip():\n            continue # Skip empty lines\n        \n        # Split by comma and strip whitespace from each value\n        row = [value.strip() for value in line.split(',')]\n        parsed_table.append(row)\n    return parsed_table",
+    "starterCode": "csv_string = \"csv_string = \\\"Name\"\n\n# Your code here",
+    "solution": "csv_string = \"csv_string = \\\"Name\"\n\nlines = csv_string.strip().splitlines()\nif not lines:\n    return []\n\nparsed_table = []\nfor line in lines:\n    if not line.strip():\n        continue # Skip empty lines\n    \n    # Split by comma and strip whitespace from each value\n    row = [value.strip() for value in line.split(',')]\n    parsed_table.append(row)\nprint(parsed_table)",
     "testCases": [
       {
         "input": "csv_string = \"Name,Age,City\\nAlice,30,New York\\nBob,24,London\"",
@@ -4709,8 +4709,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "For each requested column, try to convert the cell value to a float. If successful, add it to a running sum and count. Use a `try-except ValueError` block for conversion.",
       "Calculate the average after processing all rows. If no valid numbers were found for a column, it should not appear in the result."
     ],
-    "starterCode": "def solve(csv_table, columns_to_average):\n    # csv_table is a list of lists from parsed CSV data.\n    # columns_to_average is a list of column names (strings).\n    # Calculate and return a dictionary of averages for specified numeric columns.\n    # Your code here\n    pass",
-    "solution": "def solve(csv_table, columns_to_average):\n    if not csv_table or len(csv_table) < 2:\n        return {}\n\n    header = csv_table[0]\n    data_rows = csv_table[1:]\n    \n    averages = {}\n    \n    for col_name in columns_to_average:\n        if col_name not in header:\n            continue\n        \n        col_index = header.index(col_name)\n        column_values = []\n        for row in data_rows:\n            if col_index < len(row):\n                try:\n                    column_values.append(float(row[col_index]))\n                except ValueError:\n                    # Skip non-numeric values in the column\n                    pass\n        \n        if column_values:\n            averages[col_name] = sum(column_values) / len(column_values)\n            \n    return averages",
+    "starterCode": "csv_table = \"csv_table = [['Name'\"\ncolumns_to_average = 'Age'\n\n# Your code here",
+    "solution": "csv_table = \"csv_table = [['Name'\"\ncolumns_to_average = 'Age'\n\nif not csv_table or len(csv_table) < 2:\n    return {}\n\nheader = csv_table[0]\ndata_rows = csv_table[1:]\n\naverages = {}\n\nfor col_name in columns_to_average:\n    if col_name not in header:\n        continue\n    \n    col_index = header.index(col_name)\n    column_values = []\n    for row in data_rows:\n        if col_index < len(row):\n            try:\n                column_values.append(float(row[col_index]))\n            except ValueError:\n                # Skip non-numeric values in the column\n\n    if column_values:\n        averages[col_name] = sum(column_values) / len(column_values)\n        \nprint(averages)",
     "testCases": [
       {
         "input": "csv_table = [['Name', 'Age', 'Score'], ['Alice', '30', '90'], ['Bob', '24', '80'], ['Charlie', 'invalid_age', '85']], columns_to_average = ['Age', 'Score', 'NonExistent']",
@@ -4752,8 +4752,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Iterate through the data rows, attempt to convert each cell in the target column to a float, and update `max_value` if a new larger number is found.",
       "Use `try-except ValueError` for robust conversion. Skip non-numeric cells."
     ],
-    "starterCode": "def solve(csv_table, column_name):\n    # Find the maximum numerical value in a specified column of CSV data.\n    # Return the max value, or None if column not found/no numeric data.\n    # Your code here\n    pass",
-    "solution": "def solve(csv_table, column_name):\n    if not csv_table or len(csv_table) < 2:\n        return None\n\n    header = csv_table[0]\n    data_rows = csv_table[1:]\n    \n    if column_name not in header:\n        return None\n    \n    col_index = header.index(column_name)\n    max_value = None\n    \n    for row in data_rows:\n        if col_index < len(row):\n            try:\n                numeric_value = float(row[col_index])  # Try converting to float\n                if max_value is None or numeric_value > max_value:\n                    max_value = numeric_value\n            except ValueError:\n                # Skip non-numeric values\n                pass\n                \n    return max_value",
+    "starterCode": "csv_table = \"csv_table = [['Name'\"\ncolumn_name = 'Age'\n\n# Your code here",
+    "solution": "csv_table = \"csv_table = [['Name'\"\ncolumn_name = 'Age'\n\nif not csv_table or len(csv_table) < 2:\n    return None\n\nheader = csv_table[0]\ndata_rows = csv_table[1:]\n\nif column_name not in header:\n    return None\n\ncol_index = header.index(column_name)\nmax_value = None\n\nfor row in data_rows:\n    if col_index < len(row):\n        try:\n            numeric_value = float(row[col_index])  # Try converting to float\n            if max_value is None or numeric_value > max_value:\n                max_value = numeric_value\n        except ValueError:\n            # Skip non-numeric values\n\nprint(max_value)",
     "testCases": [
       {
         "input": "csv_table = [['Name', 'Age', 'Score'], ['Alice', '30', '90'], ['Bob', '24', '80'], ['Charlie', 'invalid', '85']], column_name = 'Score'",
@@ -4796,8 +4796,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "For each row, attempt to convert the value in the target column to a float. If successful, apply the given `operator` and `value` to filter. Use `try-except ValueError` for safety.",
       "If the condition is met, append the entire row to `filtered_data`."
     ],
-    "starterCode": "def solve(csv_table, column_name, operator, value_to_compare):\n    # Filter CSV data rows based on a condition for a specified column.\n    # Return a new list of lists including the header and matching rows.\n    # Your code here\n    pass",
-    "solution": "def solve(csv_table, column_name, operator, value_to_compare):\n    if not csv_table or len(csv_table) < 2:\n        return []\n\n    header = csv_table[0]\n    data_rows = csv_table[1:]\n    \n    if column_name not in header:\n        return [header] # Return header only if column not found\n    \n    col_index = header.index(column_name)\n    filtered_data = [header]\n    \n    for row in data_rows:\n        if col_index < len(row):\n            try:\n                cell_value = float(row[col_index])\n                # Use eval for dynamic operator comparison for simplicity in challenges\n                # In production, use explicit if/elif for security.\n                if operator == '>':\n                    if cell_value > float(value_to_compare):\n                        filtered_data.append(row)\n                elif operator == '<':\n                    if cell_value < float(value_to_compare):\n                        filtered_data.append(row)\n                elif operator == '==':\n                    if cell_value == float(value_to_compare):\n                        filtered_data.append(row)\n                elif operator == '>=':\n                    if cell_value >= float(value_to_compare):\n                        filtered_data.append(row)\n                elif operator == '<=':\n                    if cell_value <= float(value_to_compare):\n                        filtered_data.append(row)\n                elif operator == '!=':\n                    if cell_value != float(value_to_compare):\n                        filtered_data.append(row)\n            except ValueError:\n                # Skip rows where the comparison value is not numeric\n                pass\n                \n    return filtered_data",
+    "starterCode": "csv_table = \"csv_table = [['Name'\"\ncolumn_name = 'Age'\noperator = \"'Score']\"\nvalue_to_compare = \"['Alice'\"\n\n# Your code here",
+    "solution": "csv_table = \"csv_table = [['Name'\"\ncolumn_name = 'Age'\noperator = \"'Score']\"\nvalue_to_compare = \"['Alice'\"\n\nif not csv_table or len(csv_table) < 2:\n    return []\n\nheader = csv_table[0]\ndata_rows = csv_table[1:]\n\nif column_name not in header:\n    return [header] # Return header only if column not found\n\ncol_index = header.index(column_name)\nfiltered_data = [header]\n\nfor row in data_rows:\n    if col_index < len(row):\n        try:\n            cell_value = float(row[col_index])\n            # Use eval for dynamic operator comparison for simplicity in challenges\n            # In production, use explicit if/elif for security.\n            if operator == '>':\n                if cell_value > float(value_to_compare):\n                    filtered_data.append(row)\n            elif operator == '<':\n                if cell_value < float(value_to_compare):\n                    filtered_data.append(row)\n            elif operator == '==':\n                if cell_value == float(value_to_compare):\n                    filtered_data.append(row)\n            elif operator == '>=':\n                if cell_value >= float(value_to_compare):\n                    filtered_data.append(row)\n            elif operator == '<=':\n                if cell_value <= float(value_to_compare):\n                    filtered_data.append(row)\n            elif operator == '!=':\n                if cell_value != float(value_to_compare):\n                    filtered_data.append(row)\n        except ValueError:\n            # Skip rows where the comparison value is not numeric\n\nprint(filtered_data)",
     "testCases": [
       {
         "input": "csv_table = [['Name', 'Age', 'Score'], ['Alice', '30', '90'], ['Bob', '24', '75'], ['Charlie', '28', '85']], column_name = 'Score', operator = '>', value_to_compare = 80",
@@ -4840,8 +4840,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Inside the `key` function, attempt to convert the column's value to a float. If it fails, return a value that ensures non-numeric values are handled as specified (e.g., `float('-inf')` for ascending numeric sorts, `float('inf')` for text in numeric column at the end, or the string itself for text sorts).",
       "Combine the sorted data rows with the header. Remember to use the `reverse` parameter correctly."
     ],
-    "starterCode": "def solve(csv_table, column_name, reverse=False):\n    # Sort CSV data rows by a specified column.\n    # Return a new list of lists with the header and sorted data rows.\n    # Your code here\n    pass",
-    "solution": "def solve(csv_table, column_name, reverse=False):\n    if not csv_table or len(csv_table) < 2:\n        return csv_table\n\n    header = csv_table[0]\n    data_rows = csv_table[1:]\n\n    if column_name not in header:\n        return csv_table # If column not found, return original\n\n    col_index = header.index(column_name)\n\n    def sort_key(row):\n        if col_index >= len(row):\n            return float('inf') # malformed rows go to the end\n        val = row[col_index]\n        try:\n            return float(val) # Try numerical sort\n        except ValueError:\n            return val # Fallback to string sort\n\n    # Sort the data rows\n    data_rows.sort(key=sort_key, reverse=reverse)\n\n    return [header] + data_rows",
+    "starterCode": "csv_table = \"csv_table = [['Name'\"\ncolumn_name = 'Age'\nreverse = \"'Score']\"\n\n# Your code here",
+    "solution": "csv_table = \"csv_table = [['Name'\"\ncolumn_name = 'Age'\nreverse = \"'Score']\"\n\nif not csv_table or len(csv_table) < 2:\n    return csv_table\n\nheader = csv_table[0]\ndata_rows = csv_table[1:]\n\nif column_name not in header:\n    return csv_table # If column not found, return original\n\ncol_index = header.index(column_name)\n\ndef sort_key(row):\n    if col_index >= len(row):\n        return float('inf') # malformed rows go to the end\n    val = row[col_index]\n    try:\n        return float(val) # Try numerical sort\n    except ValueError:\n        return val # Fallback to string sort\n\n# Sort the data rows\ndata_rows.sort(key=sort_key, reverse=reverse)\n\nprint([header] + data_rows)",
     "testCases": [
       {
         "input": "csv_table = [['Name', 'Age', 'Score'], ['Alice', '30', '90'], ['Bob', '24', '75'], ['Charlie', '28', '85']], column_name = 'Age', reverse = False",
@@ -4887,8 +4887,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "  If `values` list is not empty, calculate count, sum, min, max, and average from it.",
       "  Store these statistics in a nested dictionary for the current column. Format average to two decimal places."
     ],
-    "starterCode": "def solve(csv_table, numeric_columns):\n    # csv_table is a list of lists from parsed CSV data.\n    # numeric_columns is a list of column names to analyze.\n    # Return a dictionary of summary statistics (count, sum, min, max, average).\n    # Your code here\n    pass",
-    "solution": "def solve(csv_table, numeric_columns):\n    if not csv_table or len(csv_table) < 2:\n        return {}\n\n    header = csv_table[0]\n    data_rows = csv_table[1:]\n    \n    summary_stats = {}\n    \n    for col_name in numeric_columns:\n        if col_name not in header:\n            continue\n        \n        col_index = header.index(col_name)\n        column_values = []\n        for row in data_rows:\n            if col_index < len(row):\n                try:\n                    column_values.append(float(row[col_index]))\n                except ValueError:\n                    pass\n        \n        if column_values:\n            count = len(column_values)\n            total_sum = sum(column_values)\n            minimum = min(column_values)\n            maximum = max(column_values)\n            average = total_sum / count if count > 0 else 0.0\n            \n            summary_stats[col_name] = {\n                'count': count,\n                'sum': total_sum,\n                'min': minimum,\n                'max': maximum,\n                'average': round(average, 2)\n            }\n            \n    return summary_stats",
+    "starterCode": "csv_table = \"csv_table = [['Name'\"\nnumeric_columns = 'Age'\n\n# Your code here",
+    "solution": "csv_table = \"csv_table = [['Name'\"\nnumeric_columns = 'Age'\n\nif not csv_table or len(csv_table) < 2:\n    return {}\n\nheader = csv_table[0]\ndata_rows = csv_table[1:]\n\nsummary_stats = {}\n\nfor col_name in numeric_columns:\n    if col_name not in header:\n        continue\n    \n    col_index = header.index(col_name)\n    column_values = []\n    for row in data_rows:\n        if col_index < len(row):\n            try:\n                column_values.append(float(row[col_index]))\n            except ValueError:\n\n    if column_values:\n        count = len(column_values)\n        total_sum = sum(column_values)\n        minimum = min(column_values)\n        maximum = max(column_values)\n        average = total_sum / count if count > 0 else 0.0\n        \n        summary_stats[col_name] = {\n            'count': count,\n            'sum': total_sum,\n            'min': minimum,\n            'max': maximum,\n            'average': round(average, 2)\n        }\n        \nprint(summary_stats)",
     "testCases": [
       {
         "input": "csv_table = [['Name', 'Age', 'Score'], ['Alice', '30', '90'], ['Bob', '24', '75'], ['Charlie', '28', '85']], numeric_columns = ['Age', 'Score', 'InvalidColumn']",
@@ -4933,8 +4933,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Iterate through the rows of the second dataset. For each row, if its join key exists in the dictionary created from the first dataset, construct a joined row and add it to the result.",
       "Be mindful of the order of columns in the final joined row."
     ],
-    "starterCode": "def solve(csv1, csv2, join_key_column):\n    # Perform an inner join on two CSV datasets (lists of lists).\n    # Return a new list of lists representing the joined dataset.\n    # Your code here\n    pass",
-    "solution": "def solve(csv1, csv2, join_key_column):\n    if not csv1 or len(csv1) < 2 or not csv2 or len(csv2) < 2:\n        return []\n\n    header1 = csv1[0]\n    data1 = csv1[1:]\n\n    header2 = csv2[0]\n    data2 = csv2[1:]\n\n    if join_key_column not in header1 or join_key_column not in header2:\n        return [] # Join key column not found in one or both headers\n\n    # Get join key indices\n    key_idx1 = header1.index(join_key_column)\n    key_idx2 = header2.index(join_key_column)\n\n    # Prepare dataset1 for quick lookups\n    data1_map = {}\n    for row in data1:\n        if key_idx1 < len(row):\n            data1_map[row[key_idx1]] = [element for i, element in enumerate(row) if i != key_idx1]\n\n    # Create new header\n    new_header = [join_key_column] + [col for col in header1 if col != join_key_column] + [col for col in header2 if col != join_key_column]\n    joined_data = [new_header]\n\n    # Perform the join\n    for row2 in data2:\n        if key_idx2 < len(row2):\n            key_value = row2[key_idx2]\n            if key_value in data1_map:\n                # Construct the joined row\n                row1_rest = data1_map[key_value]\n                row2_rest = [element for i, element in enumerate(row2) if i != key_idx2]\n                joined_row = [key_value] + row1_rest + row2_rest\n                joined_data.append(joined_row)\n                \n    return joined_data",
+    "starterCode": "csv1 = \"csv_data1 = [['ID'\"\ncsv2 = 'Name'\njoin_key_column = \"'Age']\"\n\n# Your code here",
+    "solution": "csv1 = \"csv_data1 = [['ID'\"\ncsv2 = 'Name'\njoin_key_column = \"'Age']\"\n\nif not csv1 or len(csv1) < 2 or not csv2 or len(csv2) < 2:\n    return []\n\nheader1 = csv1[0]\ndata1 = csv1[1:]\n\nheader2 = csv2[0]\ndata2 = csv2[1:]\n\nif join_key_column not in header1 or join_key_column not in header2:\n    return [] # Join key column not found in one or both headers\n\n# Get join key indices\nkey_idx1 = header1.index(join_key_column)\nkey_idx2 = header2.index(join_key_column)\n\n# Prepare dataset1 for quick lookups\ndata1_map = {}\nfor row in data1:\n    if key_idx1 < len(row):\n        data1_map[row[key_idx1]] = [element for i, element in enumerate(row) if i != key_idx1]\n\n# Create new header\nnew_header = [join_key_column] + [col for col in header1 if col != join_key_column] + [col for col in header2 if col != join_key_column]\njoined_data = [new_header]\n\n# Perform the join\nfor row2 in data2:\n    if key_idx2 < len(row2):\n        key_value = row2[key_idx2]\n        if key_value in data1_map:\n            # Construct the joined row\n            row1_rest = data1_map[key_value]\n            row2_rest = [element for i, element in enumerate(row2) if i != key_idx2]\n            joined_row = [key_value] + row1_rest + row2_rest\n            joined_data.append(joined_row)\n            \nprint(joined_data)",
     "testCases": [
       {
         "input": "csv_data1 = [['ID', 'Name', 'Age'], ['1', 'Alice', '30'], ['2', 'Bob', '24'], ['3', 'Charlie', '28']], csv_data2 = [['ID', 'Product', 'Price'], ['1', 'Laptop', '1200.50'], ['2', 'Mouse', '25.00'], ['4', 'Keyboard', '75.00']], join_key_column = 'ID'",
@@ -5247,8 +5247,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use if-elif-else statements to check the `op` string.",
       "Remember to handle the division by zero case explicitly."
     ],
-    "starterCode": "def solve(num1, num2, op):\n    # Write your code here\n    pass",
-    "solution": "def solve(num1, num2, op):\n    if op == '+':\n        print(num1 + num2)\n    elif op == '-':\n        print(num1 - num2)\n    elif op == '*':\n        print(num1 * num2)\n    elif op == '/':\n        if num2 == 0:\n            print('Error: Division by zero.')\n        else:\n            print(num1 / num2)\n    else:\n        print('Error: Invalid operator.')",
+    "starterCode": "num1 = 2\nnum2 = 3\nop = '+'\n\n# Your code here",
+    "solution": "num1 = 2\nnum2 = 3\nop = '+'\n\nif op == '+':\n    print(num1 + num2)\nelif op == '-':\n    print(num1 - num2)\nelif op == '*':\n    print(num1 * num2)\nelif op == '/':\n    if num2 == 0:\n        print('Error: Division by zero.')\n    else:\n        print(num1 / num2)\nelse:\n    print('Error: Invalid operator.')",
     "testCases": [
       {
         "input": "2, 3, '+'",
@@ -5303,8 +5303,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use if-elif-else statements.",
       "Use an f-string or `.format()` for floating-point formatting."
     ],
-    "starterCode": "def solve(value, conversion_type):\n    # Write your code here\n    pass",
-    "solution": "def solve(value, conversion_type):\n    result = None\n    if conversion_type == 'C_to_F':\n        result = (value * 9/5) + 32\n    elif conversion_type == 'F_to_C':\n        result = (value - 32) * 5/9\n    elif conversion_type == 'meters_to_feet':\n        result = value * 3.28084\n    elif conversion_type == 'feet_to_meters':\n        result = value / 3.28084\n    else:\n        print('Error: Invalid conversion type.')\n        return\n\n    print(f\"{result:.2f}\")",
+    "starterCode": "value = 0\nconversion_type = 'C_to_F'\n\n# Your code here",
+    "solution": "value = 0\nconversion_type = 'C_to_F'\n\nresult = None\nif conversion_type == 'C_to_F':\n    result = (value * 9/5) + 32\nelif conversion_type == 'F_to_C':\n    result = (value - 32) * 5/9\nelif conversion_type == 'meters_to_feet':\n    result = value * 3.28084\nelif conversion_type == 'feet_to_meters':\n    result = value / 3.28084\nelse:\n    print('Error: Invalid conversion type.')\n    return\n\nprint(f\"{result:.2f}\")",
     "testCases": [
       {
         "input": "0, 'C_to_F'",
@@ -5353,8 +5353,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Iterate through the user's answers and compare them with the correct answers.",
       "Keep a counter for the score."
     ],
-    "starterCode": "def solve(answers_list):\n    # Write your code here\n    pass",
-    "solution": "def solve(answers_list):\n    correct_answers = ['A', 'B', 'C', 'D', 'A']\n    score = 0\n    for i in range(min(len(answers_list), len(correct_answers))):\n        if answers_list[i] == correct_answers[i]:\n            score += 1\n    print(score)",
+    "starterCode": "answers_list = \"['A'\"\n\n# Your code here",
+    "solution": "answers_list = \"['A'\"\n\ncorrect_answers = ['A', 'B', 'C', 'D', 'A']\nscore = 0\nfor i in range(min(len(answers_list), len(correct_answers))):\n    if answers_list[i] == correct_answers[i]:\n        score += 1\nprint(score)",
     "testCases": [
       {
         "input": "['A', 'B', 'X', 'D', 'A']",
@@ -5405,8 +5405,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "`students.remove(name)` to remove. Handle `ValueError` if `name` not found during removal.",
       "Print the list directly for 'list' action."
     ],
-    "starterCode": "def solve(action, students, name=None):\n    # Write your code here\n    pass",
-    "solution": "def solve(action, students, name=None):\n    if action == 'add':\n        if name and name not in students:\n            students.append(name)\n            print(students)\n        elif name:\n            print(f\"Student {name} already exists.\")\n        else:\n            print(\"Please provide a name to add.\")\n    elif action == 'remove':\n        if name and name in students:\n            students.remove(name)\n            print(students)\n        elif name:\n            print(f\"Student {name} not found.\")\n        else:\n            print(\"Please provide a name to remove.\")\n    elif action == 'list':\n        print(students)\n    else:\n        print('Error: Invalid action.')",
+    "starterCode": "action = 'add'\nstudents = \"['Alice'\"\nname = \"'Bob']\"\n\n# Your code here",
+    "solution": "action = 'add'\nstudents = \"['Alice'\"\nname = \"'Bob']\"\n\nif action == 'add':\n    if name and name not in students:\n        students.append(name)\n        print(students)\n    elif name:\n        print(f\"Student {name} already exists.\")\n    else:\n        print(\"Please provide a name to add.\")\nelif action == 'remove':\n    if name and name in students:\n        students.remove(name)\n        print(students)\n    elif name:\n        print(f\"Student {name} not found.\")\n    else:\n        print(\"Please provide a name to remove.\")\nelif action == 'list':\n    print(students)\nelse:\n    print('Error: Invalid action.')",
     "testCases": [
       {
         "input": "'add', ['Alice', 'Bob'], 'Charlie'",
@@ -5460,8 +5460,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Be careful with dictionary key deletion if quantity drops to 0 or less.",
       "Print the dictionary directly for 'list' action."
     ],
-    "starterCode": "def solve(action, inventory, item=None, qty=None):\n    # Write your code here\n    pass",
-    "solution": "def solve(action, inventory, item=None, qty=None):\n    if action == 'add':\n        if item and isinstance(qty, int) and qty > 0:\n            inventory[item] = inventory.get(item, 0) + qty\n            print(inventory)\n        else:\n            print('Error: Invalid item or quantity for add.')\n    elif action == 'remove':\n        if item and isinstance(qty, int) and qty > 0:\n            if item in inventory:\n                if inventory[item] >= qty:\n                    inventory[item] -= qty\n                    if inventory[item] <= 0:\n                        del inventory[item]\n                    print(inventory)\n                else:\n                    print(f'Error: Not enough {item} in stock.')\n            else:\n                print(f'Error: {item} not found in inventory.')\n        else:\n            print('Error: Invalid item or quantity for remove.')\n    elif action == 'list':\n        print(inventory)\n    else:\n        print('Error: Invalid action.')",
+    "starterCode": "action = 'add'\ninventory = \"{'apple': 10}\"\nitem = 'apple'\nqty = 5\n\n# Your code here",
+    "solution": "action = 'add'\ninventory = \"{'apple': 10}\"\nitem = 'apple'\nqty = 5\n\nif action == 'add':\n    if item and isinstance(qty, int) and qty > 0:\n        inventory[item] = inventory.get(item, 0) + qty\n        print(inventory)\n    else:\n        print('Error: Invalid item or quantity for add.')\nelif action == 'remove':\n    if item and isinstance(qty, int) and qty > 0:\n        if item in inventory:\n            if inventory[item] >= qty:\n                inventory[item] -= qty\n                if inventory[item] <= 0:\n                    del inventory[item]\n                print(inventory)\n            else:\n                print(f'Error: Not enough {item} in stock.')\n        else:\n            print(f'Error: {item} not found in inventory.')\n    else:\n        print('Error: Invalid item or quantity for remove.')\nelif action == 'list':\n    print(inventory)\nelse:\n    print('Error: Invalid action.')",
     "testCases": [
       {
         "input": "'add', {'apple': 10}, 'apple', 5",
@@ -5525,8 +5525,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use `del contacts[name]` for remove, handle `KeyError`.",
       "Use `contacts.get(name)` to safely view contact."
     ],
-    "starterCode": "def solve(action, contacts, name=None, phone=None):\n    # Write your code here\n    pass",
-    "solution": "def solve(action, contacts, name=None, phone=None):\n    if action == 'add':\n        if name and phone is not None:\n            contacts[name] = phone\n            print(contacts)\n        else:\n            print('Error: Name and phone are required for add.')\n    elif action == 'remove':\n        if name:\n            if name in contacts:\n                del contacts[name]\n                print(contacts)\n            else:\n                print(f'Contact {name} not found.')\n        else:\n            print('Error: Name is required for remove.')\n    elif action == 'view':\n        if name:\n            if name in contacts:\n                print(f'{name}: {contacts[name]}')\n            else:\n                print('Contact not found.')\n        else:\n            print('Error: Name is required for view.')\n    elif action == 'list_all':\n        if contacts:\n            sorted_contacts = dict(sorted(contacts.items()))\n            for k, v in sorted_contacts.items():\n                print(f'{k}: {v}')\n        else:\n            print('No contacts available.')\n    else:\n        print('Error: Invalid action.')",
+    "starterCode": "action = 'add'\ncontacts = \"{'Alice': '123-456-7890'}\"\nname = 'Bob'\nphone = '444-555-6666'\n\n# Your code here",
+    "solution": "action = 'add'\ncontacts = \"{'Alice': '123-456-7890'}\"\nname = 'Bob'\nphone = '444-555-6666'\n\nif action == 'add':\n    if name and phone is not None:\n        contacts[name] = phone\n        print(contacts)\n    else:\n        print('Error: Name and phone are required for add.')\nelif action == 'remove':\n    if name:\n        if name in contacts:\n            del contacts[name]\n            print(contacts)\n        else:\n            print(f'Contact {name} not found.')\n    else:\n        print('Error: Name is required for remove.')\nelif action == 'view':\n    if name:\n        if name in contacts:\n            print(f'{name}: {contacts[name]}')\n        else:\n            print('Contact not found.')\n    else:\n        print('Error: Name is required for view.')\nelif action == 'list_all':\n    if contacts:\n        sorted_contacts = dict(sorted(contacts.items()))\n        for k, v in sorted_contacts.items():\n            print(f'{k}: {v}')\n    else:\n        print('No contacts available.')\nelse:\n    print('Error: Invalid action.')",
     "testCases": [
       {
         "input": "'add', {'Alice': '123-456-7890'}, 'Bob', '444-555-6666'",
@@ -5585,8 +5585,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Check `amount > 0` for both deposit and withdraw.",
       "Check `balance >= amount` for withdrawal."
     ],
-    "starterCode": "def solve(action, balance, amount=0):\n    # Write your code here\n    pass",
-    "solution": "def solve(action, balance, amount=0):\n    if action == 'deposit':\n        if amount > 0:\n            balance += amount\n            print(balance)\n        else:\n            print('Error: Deposit amount must be positive.')\n    elif action == 'withdraw':\n        if amount > 0:\n            if balance >= amount:\n                balance -= amount\n                print(balance)\n            else:\n                print('Error: Insufficient funds.')\n        else:\n            print('Error: Withdrawal amount must be positive.')\n    elif action == 'check_balance':\n        print(balance)\n    else:\n        print('Error: Invalid action.')",
+    "starterCode": "action = 'deposit'\nbalance = 100\namount = 50\n\n# Your code here",
+    "solution": "action = 'deposit'\nbalance = 100\namount = 50\n\nif action == 'deposit':\n    if amount > 0:\n        balance += amount\n        print(balance)\n    else:\n        print('Error: Deposit amount must be positive.')\nelif action == 'withdraw':\n    if amount > 0:\n        if balance >= amount:\n            balance -= amount\n            print(balance)\n        else:\n            print('Error: Insufficient funds.')\n    else:\n        print('Error: Withdrawal amount must be positive.')\nelif action == 'check_balance':\n    print(balance)\nelse:\n    print('Error: Invalid action.')",
     "testCases": [
       {
         "input": "'deposit', 100, 50",
@@ -5645,8 +5645,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use `todos.remove(task)` for 'complete', handle `ValueError` if task not found.",
       "Print the list directly for 'list'."
     ],
-    "starterCode": "def solve(action, todos, task=None):\n    # Write your code here\n    pass",
-    "solution": "def solve(action, todos, task=None):\n    if action == 'add':\n        if task:\n            todos.append(task)\n            print(todos)\n        else:\n            print('Error: Task cannot be empty.')\n    elif action == 'complete':\n        if task:\n            if task in todos:\n                todos.remove(task)\n                print(todos)\n            else:\n                print(f\"Task '{task}' not found.\")\n        else:\n            print('Error: Task cannot be empty.')\n    elif action == 'list':\n        if todos:\n            for t in todos:\n                print(t)\n        else:\n            print('No tasks in the todo list.')\n    else:\n        print('Error: Invalid action.')",
+    "starterCode": "action = 'add'\ntodos = \"['Buy groceries']\"\ntask = 'Pay bills'\n\n# Your code here",
+    "solution": "action = 'add'\ntodos = \"['Buy groceries']\"\ntask = 'Pay bills'\n\nif action == 'add':\n    if task:\n        todos.append(task)\n        print(todos)\n    else:\n        print('Error: Task cannot be empty.')\nelif action == 'complete':\n    if task:\n        if task in todos:\n            todos.remove(task)\n            print(todos)\n        else:\n            print(f\"Task '{task}' not found.\")\n    else:\n        print('Error: Task cannot be empty.')\nelif action == 'list':\n    if todos:\n        for t in todos:\n            print(t)\n    else:\n        print('No tasks in the todo list.')\nelse:\n    print('Error: Invalid action.')",
     "testCases": [
       {
         "input": "'add', ['Buy groceries'], 'Pay bills'",
@@ -5700,8 +5700,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use if-elif-else for navigation and action handling.",
       "Print initial room description."
     ],
-    "starterCode": "def solve(choices):\n    current_room = 'start_room'\n    has_key = False\n\n    # Initial room description\n    if current_room == 'start_room':\n        print(\"You are in a dimly lit room. There's a door to the north.\")\n\n    for choice in choices:\n        # Write your code here based on current_room and choice\n        if current_room == 'start_room':\n            pass # expand logic here\n        \n    # Example: print(current_room)\n\n    # Return a final message or result if necessary, though problem focuses on prints.\n    # For this problem, focus on printing output in real-time as choices are processed.\n    pass",
-    "solution": "def solve(choices):\n    current_room = 'start_room'\n    has_key = False\n\n    # Initial room description (as per problem, we should print 'real-time')\n    # This part depends on if initial room description is part of 'action' or a setup.\n    # Let's assume the first 'action' implies moving to that room, or we print it first.\n    # For consistency with other menu programs, we will not print the initial room before any choice.\n    # Each choice will directly lead to a new state and its description.\n\n    for choice in choices:\n        if current_room == 'start_room':\n            if choice == 'go north':\n                current_room = 'north_room'\n                print(\"You are in a bright hall. There is a shiny key on a pedestal. Exits: south.\")\n            elif choice == 'go south':\n                 current_room = 'south_room'\n                 print(\"You are in a dark cavern. Exits: north. There is a locked chest.\")\n            else:\n                print('Invalid action.')\n        elif current_room == 'north_room':\n            if choice == 'take key':\n                has_key = True\n                print(\"You took the key.\")\n            elif choice == 'go south':\n                current_room = 'start_room'\n                print(\"You are in a dimly lit room. There's a door to the north.\")\n            else:\n                print('Invalid action.')\n        elif current_room == 'south_room':\n            if choice == 'use key':\n                if has_key:n                    print(\"You unlocked the chest! You win!\")\n                    return # End game\n                else:\n                    print(\"The chest is locked.\")\n            elif choice == 'go north':\n                current_room = 'start_room'\n                print(\"You are in a dimly lit room. There's a door to the north.\")\n            else:\n                print('Invalid action.')",
+    "starterCode": "choices = \"['go north'\"\n\n# Your code here",
+    "solution": "choices = \"['go north'\"\n\ncurrent_room = 'start_room'\nhas_key = False\n\n# Initial room description (as per problem, we should print 'real-time')\n# This part depends on if initial room description is part of 'action' or a setup.\n# Let's assume the first 'action' implies moving to that room, or we print it first.\n# For consistency with other menu programs, we will not print the initial room before any choice.\n# Each choice will directly lead to a new state and its description.\n\nfor choice in choices:\n    if current_room == 'start_room':\n        if choice == 'go north':\n            current_room = 'north_room'\n            print(\"You are in a bright hall. There is a shiny key on a pedestal. Exits: south.\")\n        elif choice == 'go south':\n             current_room = 'south_room'\n             print(\"You are in a dark cavern. Exits: north. There is a locked chest.\")\n        else:\n            print('Invalid action.')\n    elif current_room == 'north_room':\n        if choice == 'take key':\n            has_key = True\n            print(\"You took the key.\")\n        elif choice == 'go south':\n            current_room = 'start_room'\n            print(\"You are in a dimly lit room. There's a door to the north.\")\n        else:\n            print('Invalid action.')\n    elif current_room == 'south_room':\n        if choice == 'use key':\n            if has_key:n                    print(\"You unlocked the chest! You win!\")\n                return # End game\n            else:\n                print(\"The chest is locked.\")\n        elif choice == 'go north':\n            current_room = 'start_room'\n            print(\"You are in a dimly lit room. There's a door to the north.\")\n        else:\n            print('Invalid action.')",
     "testCases": [
       {
         "input": "['go north', 'take key', 'go south', 'go south', 'use key']",
@@ -5748,8 +5748,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Check win/loss conditions after each guess.",
       "Use `sorted(list(guessed_letters))` for printing guessed letters."
     ],
-    "starterCode": "def solve(word, guesses):\n    word_letters = set(word)\n    guessed_letters = set()\n    incorrect_guesses_count = 0\n    max_incorrect_guesses = 6\n\n    def get_display_word():\n        return ' '.join([char if char in guessed_letters else '_' for char in word])\n\n    current_display = get_display_word()\n    # You might need to print initial state before any guess if the problem implies it.\n    # For this problem, we start printing state _after_ each guess is processed.\n\n    for guess in guesses:\n        if guess in guessed_letters:\n            # Already guessed, do nothing or print a message, problem implies just update state\n            pass\n\n        guessed_letters.add(guess)\n        \n        # Add your game logic here\n\n        # Example: print(f\"Displayed word: {get_display_word()}, Incorrect guesses: {incorrect_guesses_count}/{max_incorrect_guesses}, Guessed letters: {sorted(list(guessed_letters))}\")\n        # Check win/loss conditions and print final message\n\n    pass",
-    "solution": "def solve(word, guesses):\n    word_letters = set(word)\n    guessed_letters = set()\n    incorrect_guesses_count = 0\n    max_incorrect_guesses = 6\n\n    def get_display_word():\n        return ' '.join([char if char in guessed_letters else '_' for char in word])\n\n    game_over = False\n\n    for guess in guesses:\n        if game_over:\n            break # Stop processing if game is already over\n\n        if guess in guessed_letters:\n            # Already guessed, do nothing or print a message indicating it\n            # For this problem, we just update the state if it was a correct or incorrect repetitive guess.\n            # We'll just continue and report the current state.\n            pass # No additional penalty for re-guessing correctly\n\n        guessed_letters.add(guess)\n\n        if guess not in word_letters:\n            incorrect_guesses_count += 1\n\n        current_display_word_state = get_display_word()\n        print(f\"Displayed word: {current_display_word_state}, Incorrect guesses: {incorrect_guesses_count}/{max_incorrect_guesses}, Guessed letters: {sorted(list(guessed_letters))}\")\n\n        if '_' not in current_display_word_state:\n            print(\"You win!\")\n            game_over = True\n        elif incorrect_guesses_count >= max_incorrect_guesses:\n            print(f\"You lose! The word was: {word}\")\n            game_over = True\n\n    if not game_over and '_' not in get_display_word():\n        print(\"You win!\")\n    elif not game_over and incorrect_guesses_count >= max_incorrect_guesses:\n        print(f\"You lose! The word was: {word}\")\n    # If the loop finishes and game_over is not set, means neither win nor lose yet\n    # In a real game, this would typically indicate an ongoing game, but for this problem\n    # we assume all necessary guesses for a conclusion are provided or it ends implicitly.",
+    "starterCode": "word = 'apple'\nguesses = \"['a'\"\n\n# Your code here",
+    "solution": "word = 'apple'\nguesses = \"['a'\"\n\nword_letters = set(word)\nguessed_letters = set()\nincorrect_guesses_count = 0\nmax_incorrect_guesses = 6\n\ndef get_display_word():\n    return ' '.join([char if char in guessed_letters else '_' for char in word])\n\ngame_over = False\n\nfor guess in guesses:\n    if game_over:\n        break # Stop processing if game is already over\n\n    if guess in guessed_letters:\n        # Already guessed, do nothing or print a message indicating it\n        # For this problem, we just update the state if it was a correct or incorrect repetitive guess.\n        # We'll just continue and report the current state.\n        pass # No additional penalty for re-guessing correctly\n\n    guessed_letters.add(guess)\n\n    if guess not in word_letters:\n        incorrect_guesses_count += 1\n\n    current_display_word_state = get_display_word()\n    print(f\"Displayed word: {current_display_word_state}, Incorrect guesses: {incorrect_guesses_count}/{max_incorrect_guesses}, Guessed letters: {sorted(list(guessed_letters))}\")\n\n    if '_' not in current_display_word_state:\n        print(\"You win!\")\n        game_over = True\n    elif incorrect_guesses_count >= max_incorrect_guesses:\n        print(f\"You lose! The word was: {word}\")\n        game_over = True\n\nif not game_over and '_' not in get_display_word():\n    print(\"You win!\")\nelif not game_over and incorrect_guesses_count >= max_incorrect_guesses:\n    print(f\"You lose! The word was: {word}\")\n# If the loop finishes and game_over is not set, means neither win nor lose yet\n# In a real game, this would typically indicate an ongoing game, but for this problem\n# we assume all necessary guesses for a conclusion are provided or it ends implicitly.",
     "testCases": [
       {
         "input": "'apple', ['a', 'p', 'l', 'e']",
@@ -5799,8 +5799,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Build the result string in reverse order.",
       "Create a lookup string for digits '0123456789ABCDEF'."
     ],
-    "starterCode": "def solve(number, base):\n    if not (2 <= base <= 16):\n        return \"Error: Base must be between 2 and 16.\"\n    if number == 0:\n        return \"0\"\n\n    digits = \"0123456789ABCDEF\"\n    result = \"\"\n\n    # Write your conversion logic here\n\n    return result\n",
-    "solution": "def solve(number, base):\n    if not (2 <= base <= 16):\n        return \"Error: Base must be between 2 and 16.\"\n    if number == 0:\n        return \"0\"\n\n    digits = \"0123456789ABCDEF\"\n    result = \"\"\n\n    while number > 0:\n        remainder = number % base\n        result = digits[remainder] + result\n        number //= base\n\n    return result\n",
+    "starterCode": "number = 9\nbase = 2\n\n# Your code here",
+    "solution": "number = 9\nbase = 2\n\nif not (2 <= base <= 16):\n    return \"Error: Base must be between 2 and 16.\"\nif number == 0:\n    return \"0\"\n\ndigits = \"0123456789ABCDEF\"\nresult = \"\"\n\nwhile number > 0:\n    remainder = number % base\n    result = digits[remainder] + result\n    number //= base\n\nprint(result)",
     "testCases": [
       {
         "input": "9, 2",
@@ -5867,8 +5867,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "For decryption, `(char_code - base_code - shift) % 26 + base_code` (Python's % handles negative results correctly for positive modulo).",
       "Constants: `ord('a')`, `ord('A')`."
     ],
-    "starterCode": "def solve(text, shift, mode):\n    result = []\n    for char in text:\n        if 'a' <= char <= 'z':\n            # Handle lowercase letters\n            pass\n        elif 'A' <= char <= 'Z':\n            # Handle uppercase letters\n            pass\n        else:\n            # Append non-alphabetic characters as is\n            result.append(char)\n    \n    print(\"\".join(result))\n",
-    "solution": "def solve(text, shift, mode):\n    result = []\n    for char in text:\n        if 'a' <= char <= 'z':\n            base = ord('a')\n            char_code = ord(char)\n            if mode == 'encrypt':\n                shifted_code = (char_code - base + shift) % 26 + base\n            elif mode == 'decrypt':\n                shifted_code = (char_code - base - shift) % 26 + base\n            result.append(chr(shifted_code))\n        elif 'A' <= char <= 'Z':\n            base = ord('A')\n            char_code = ord(char)\n            if mode == 'encrypt':\n                shifted_code = (char_code - base + shift) % 26 + base\n            elif mode == 'decrypt':\n                shifted_code = (char_code - base - shift) % 26 + base\n            result.append(chr(shifted_code))\n        else:\n            result.append(char)\n    \n    print(\"\".join(result))",
+    "starterCode": "text = 'Hello World!'\nshift = 3\nmode = 'encrypt'\n\n# Your code here",
+    "solution": "text = 'Hello World!'\nshift = 3\nmode = 'encrypt'\n\nresult = []\nfor char in text:\n    if 'a' <= char <= 'z':\n        base = ord('a')\n        char_code = ord(char)\n        if mode == 'encrypt':\n            shifted_code = (char_code - base + shift) % 26 + base\n        elif mode == 'decrypt':\n            shifted_code = (char_code - base - shift) % 26 + base\n        result.append(chr(shifted_code))\n    elif 'A' <= char <= 'Z':\n        base = ord('A')\n        char_code = ord(char)\n        if mode == 'encrypt':\n            shifted_code = (char_code - base + shift) % 26 + base\n        elif mode == 'decrypt':\n            shifted_code = (char_code - base - shift) % 26 + base\n        result.append(chr(shifted_code))\n    else:\n        result.append(char)\n\nprint(\"\".join(result))",
     "testCases": [
       {
         "input": "'Hello World!', 3, 'encrypt'",
@@ -6000,8 +6000,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "The `monthrange` function from `calendar` can give you the weekday of the first day and the number of days in the month.",
       "Remember to adjust the weekday index if your calendar starts on Sunday (Python's `weekday` usually starts Monday=0)."
     ],
-    "starterCode": "import calendar\n\ndef solve(month, year):\n    cal = calendar.Calendar(firstweekday=6) # Set first day of week to Sunday (6 instead of 0 for Monday)\n    month_name = calendar.month_name[month]\n    print(f\"   {month_name} {year}\")\n    print(\"Su Mo Tu We Th Fr Sa\")\n\n    # calendar.monthcalendar returns a list of lists representing the weeks of the month.\n    # Each inner list contains 7 integers. 0 means the day is not in that month.\n    for week in cal.monthdayscalendar(year, month):\n        line = \"\"\n        for day in week:\n            if day == 0:\n                line += \"   \" # Three spaces for empty days\n            else:\n                line += f\"{day:2d} \"\n        print(line.strip()) # Remove trailing space from the line",
-    "solution": "import calendar\n\ndef solve(month, year):\n    cal = calendar.Calendar(firstweekday=6) # Set first day of week to Sunday (6 instead of 0 for Monday)\n    month_name = calendar.month_name[month]\n    print(f\"   {month_name} {year}\")\n    print(\"Su Mo Tu We Th Fr Sa\")\n\n    # calendar.monthcalendar returns a list of lists representing the weeks of the month.\n    # Each inner list contains 7 integers. 0 means the day is not in that month.\n    for week in cal.monthdayscalendar(year, month):\n        line = \"\"\n        for day in week:\n            if day == 0:\n                line += \"   \" # Three spaces for empty days\n            else:\n                line += f\"{day:2d} \"\n        print(line.strip()) # Remove trailing space from the line",
+    "starterCode": "import calendar\n\nmonth = 1\nyear = 2024\n\n# Your code here",
+    "solution": "import calendar\n\nmonth = 1\nyear = 2024\n\ncal = calendar.Calendar(firstweekday=6) # Set first day of week to Sunday (6 instead of 0 for Monday)\nmonth_name = calendar.month_name[month]\nprint(f\"   {month_name} {year}\")\nprint(\"Su Mo Tu We Th Fr Sa\")\n\n# calendar.monthcalendar returns a list of lists representing the weeks of the month.\n# Each inner list contains 7 integers. 0 means the day is not in that month.\nfor week in cal.monthdayscalendar(year, month):\n    line = \"\"\n    for day in week:\n        if day == 0:\n            line += \"   \" # Three spaces for empty days\n        else:\n            line += f\"{day:2d} \"\n    print(line.strip()) # Remove trailing space from the line",
     "testCases": [
       {
         "input": "1, 2024",
@@ -6052,8 +6052,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Remember to start the next search *after* the end of the found pattern to ensure non-overlapping occurrences.",
       "`str.find(substring, start_index)` is useful for this."
     ],
-    "starterCode": "def solve(text, pattern):\n    if not pattern: # Handle empty pattern case\n        if not text:\n            print(\"0\") # Empty pattern found at index 0 in empty text (or definition can vary)\n        else:\n            # An empty string is considered to be found at the beginning of any string,\n            # and potentially at other positions depending on strict non-overlapping.\n            # For this problem, we'll assume a non-empty pattern.\n            print(\"No matches\") \n        return\n\n    indices = []\n    start = 0\n    while True:\n        idx = text.find(pattern, start)\n        if idx == -1:\n            break\n        indices.append(idx)\n        start = idx + len(pattern) # Move search start past the found pattern\n\n    if not indices:\n        print(\"No matches\")\n    else:\n        print(\", \".join(map(str, indices)))",
-    "solution": "def solve(text, pattern):\n    if not pattern:\n        # As per typical string search, an empty pattern is often found at index 0.\n        # However, for non-overlapping, it becomes tricky. For this problem, we assume non-empty pattern.\n        # If strict non-overlapping of empty string means it only appears at position 0, then:\n        # if not text: print(\"0\") else: print(\"No matches\") or special handling.\n        # Let's clarify: an empty pattern cannot 'occupy' space, making 'non-overlapping' difficult to define meaningfully.\n        # Sticking to non-empty patterns for this challenge to avoid ambiguity of 'len(pattern)' logic.\n        print(\"No matches\") \n        return\n\n    indices = []\n    start = 0\n    while True:\n        idx = text.find(pattern, start)\n        if idx == -1:\n            break\n        indices.append(idx)\n        start = idx + len(pattern) # Shift start past the found pattern to ensure non-overlapping\n\n    if not indices:\n        print(\"No matches\")\n    else:\n        print(\", \".join(map(str, indices)))",
+    "starterCode": "text = \"banana\"\npattern = \"ana\"\n\n# Your code here",
+    "solution": "text = \"banana\"\npattern = \"ana\"\n\nif not pattern:\n    # As per typical string search, an empty pattern is often found at index 0.\n    # However, for non-overlapping, it becomes tricky. For this problem, we assume non-empty pattern.\n    # If strict non-overlapping of empty string means it only appears at position 0, then:\n    # if not text: print(\"0\") else: print(\"No matches\") or special handling.\n    # Let's clarify: an empty pattern cannot 'occupy' space, making 'non-overlapping' difficult to define meaningfully.\n    # Sticking to non-empty patterns for this challenge to avoid ambiguity of 'len(pattern)' logic.\n    print(\"No matches\") \n    return\n\nindices = []\nstart = 0\nwhile True:\n    idx = text.find(pattern, start)\n    if idx == -1:\n        break\n    indices.append(idx)\n    start = idx + len(pattern) # Shift start past the found pattern to ensure non-overlapping\n\nif not indices:\n    print(\"No matches\")\nelse:\n    print(\", \".join(map(str, indices)))",
     "testCases": [
       {
         "input": "\"banana\", \"ana\"",
@@ -6138,8 +6138,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "For 'update', use `dict.update()` to merge new fields into the existing record.",
       "Be careful with modifying a list while iterating over it (e.g., for 'delete'). Using a new list or iterating in reverse can help, or safely removing by index."
     ],
-    "starterCode": "def solve(action, records, record=None):\n    # Make a deep copy to ensure modifications are isolated to this function call's version\n    # if the original list itself is modified. However, for this problem, we are asked to \n    # simulate in-place modification and print the result assuming the 'records' list \n    # passed in is the mutable object being worked on.\n    # For simplicity, we assume `records` is mutable so we don't return anything, just print.\n\n    if action == 'create':\n        records.append(record)\n        print(f\"Record created. Current records: {records}\")\n    elif action == 'read':\n        found = False\n        for r_item in records:\n            if r_item.get('id') == record.get('id'):\n                print(f\"Record found: {r_item}\")\n                found = True\n                break\n        if not found:\n            print(\"Record not found.\")\n    elif action == 'update':\n        found = False\n        for i, r_item in enumerate(records):\n            if r_item.get('id') == record.get('id'):\n                records[i].update(record)\n                print(f\"Record updated. Current records: {records}\")\n                found = True\n                break\n        if not found:\n            print(\"Record not found.\")\n    elif action == 'delete':\n        found = False\n        original_len = len(records)\n        # Create a new list or iterate with care if modifying in-place\n        # A safer way to delete elements in-place while iterating is often to iterate backwards \n        # or to collect indices to delete, then delete them.\n        # For simplicity, we'll use a comprehension to rebuild the list if an item is found for deletion.\n        # However, as per description, we're asked to modify 'records' (the input list) directly.\n        # Let's find index and pop.\n        idx_to_delete = -1\n        for i, r_item in enumerate(records):\n            if r_item.get('id') == record.get('id'):\n                idx_to_delete = i\n                break\n        \n        if idx_to_delete != -1:\n            del records[idx_to_delete]\n            print(f\"Record deleted. Current records: {records}\")\n        else:\n            print(\"Record not found.\")\n    else:\n        print(\"Invalid action.\")",
-    "solution": "def solve(action, records, record=None):\n    # The records list is modified in place.\n\n    if action == 'create':\n        records.append(record)\n        print(f\"Record created. Current records: {records}\")\n    elif action == 'read':\n        found_record = None\n        for r_item in records:\n            if r_item.get('id') == record.get('id'):\n                found_record = r_item\n                break\n        if found_record:\n            print(f\"Record found: {found_record}\")\n        else:\n            print(\"Record not found.\")\n    elif action == 'update':\n        found_index = -1\n        for i, r_item in enumerate(records):\n            if r_item.get('id') == record.get('id'):\n                found_index = i\n                break\n        \n        if found_index != -1:\n            records[found_index].update(record)\n            print(f\"Record updated. Current records: {records}\")\n        else:\n            print(\"Record not found.\")\n    elif action == 'delete':\n        found_index = -1\n        for i, r_item in enumerate(records):\n            if r_item.get('id') == record.get('id'):\n                found_index = i\n                break\n        \n        if found_index != -1:\n            del records[found_index]\n            print(f\"Record deleted. Current records: {records}\")\n        else:\n            print(\"Record not found.\")\n    else:\n        print(\"Invalid action.\")",
+    "starterCode": "action = 'create'\nrecords = \"[{'id': 2\"\nrecord = \"'name': 'Bob'}]\"\n\n# Your code here",
+    "solution": "action = 'create'\nrecords = \"[{'id': 2\"\nrecord = \"'name': 'Bob'}]\"\n\n# The records list is modified in place.\n\nif action == 'create':\n    records.append(record)\n    print(f\"Record created. Current records: {records}\")\nelif action == 'read':\n    found_record = None\n    for r_item in records:\n        if r_item.get('id') == record.get('id'):\n            found_record = r_item\n            break\n    if found_record:\n        print(f\"Record found: {found_record}\")\n    else:\n        print(\"Record not found.\")\nelif action == 'update':\n    found_index = -1\n    for i, r_item in enumerate(records):\n        if r_item.get('id') == record.get('id'):\n            found_index = i\n            break\n    \n    if found_index != -1:\n        records[found_index].update(record)\n        print(f\"Record updated. Current records: {records}\")\n    else:\n        print(\"Record not found.\")\nelif action == 'delete':\n    found_index = -1\n    for i, r_item in enumerate(records):\n        if r_item.get('id') == record.get('id'):\n            found_index = i\n            break\n    \n    if found_index != -1:\n        del records[found_index]\n        print(f\"Record deleted. Current records: {records}\")\n    else:\n        print(\"Record not found.\")\nelse:\n    print(\"Invalid action.\")",
     "testCases": [
       {
         "input": "'create', [{'id': 2, 'name': 'Bob'}], {'id': 1, 'name': 'Alice', 'age': 20}",
@@ -6208,8 +6208,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use a list comprehension or a loop to iterate through the records and apply the filter condition.",
       "Access dictionary values using `record.get(field)` or `record[field]` (if you're sure the field always exists)."
     ],
-    "starterCode": "def solve(records, field, value):\n    filtered_records = []\n    for record in records:\n        if field in record and record[field] == value:\n            filtered_records.append(record)\n    print(filtered_records)",
-    "solution": "def solve(records, field, value):\n    filtered_records = []\n    for record in records:\n        if field in record and record[field] == value:\n            filtered_records.append(record)\n    print(filtered_records)",
+    "starterCode": "records = \"[{'id': 1\"\nfield = 'name': 'Alice'\nvalue = \"'age': 30}\"\n\n# Your code here",
+    "solution": "records = \"[{'id': 1\"\nfield = 'name': 'Alice'\nvalue = \"'age': 30}\"\n\nfiltered_records = []\nfor record in records:\n    if field in record and record[field] == value:\n        filtered_records.append(record)\nprint(filtered_records)",
     "testCases": [
       {
         "input": "[{'id': 1, 'name': 'Alice', 'age': 30}, {'id': 2, 'name': 'Bob', 'age': 25}], 'name', 'Alice'",
@@ -6274,8 +6274,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Python's `list.sort()` method or `sorted()` function can take a `key` argument.",
       "The `key` can be a lambda function that returns a tuple of values from the record for multi-field sorting. Python compares tuples element by element."
     ],
-    "starterCode": "def solve(records, sort_by):\n    if not sort_by:\n        print(records) # No sort fields, return as is\n        return\n    \n    # Use a lambda function to construct a tuple of values for sorting\n    # The key function will return (record[sort_by[0]], record[sort_by[1]], ...)\n    # Python's sort will compare tuples element by element.\n    records.sort(key=lambda record: tuple(record.get(field, None) for field in sort_by))\n    print(records)",
-    "solution": "def solve(records, sort_by):\n    if not sort_by:\n        print(records) # No sort fields, return as is\n        return\n    \n    # Use a lambda function to construct a tuple of values for sorting\n    # The key function will return (record[sort_by[0]], record[sort_by[1]], ...)\n    # Python's sort will compare tuples element by element.\n    # Using .get(field, None) to handle cases where a field might be missing in a record\n    records.sort(key=lambda record: tuple(record.get(field, None) for field in sort_by))\n    print(records)",
+    "starterCode": "records = \"[{'id': 1\"\nsort_by = 'name': 'Bob'\n\n# Your code here",
+    "solution": "records = \"[{'id': 1\"\nsort_by = 'name': 'Bob'\n\nif not sort_by:\n    print(records) # No sort fields, return as is\n    return\n\n# Use a lambda function to construct a tuple of values for sorting\n# The key function will return (record[sort_by[0]], record[sort_by[1]], ...)\n# Python's sort will compare tuples element by element.\n# Using .get(field, None) to handle cases where a field might be missing in a record\nrecords.sort(key=lambda record: tuple(record.get(field, None) for field in sort_by))\nprint(records)",
     "testCases": [
       {
         "input": "[{'id': 1, 'name': 'Bob', 'age': 25}, {'id': 2, 'name': 'Bob', 'age': 30}, {'id': 3, 'name': 'Alice', 'age': 20}], ['name', 'age']",
@@ -6336,8 +6336,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Check if the list of extracted values is empty before performing calculations to handle 'N/A' cases.",
       "Use `isinstance()` to check if a value is numeric (e.g., `isinstance(value, (int, float))`)."
     ],
-    "starterCode": "def solve(records, field):\n    values = []\n    for record in records:\n        if field in record and isinstance(record[field], (int, float)):\n            values.append(record[field])\n\n    if not values:\n        print(\"Sum: N/A\")\n        print(\"Average: N/A\")\n        print(\"Count: 0\")\n        print(\"Min: N/A\")\n        print(\"Max: N/A\")\n        return\n\n    total_sum = sum(values)\n    avg = total_sum / len(values)\n    count = len(values)\n    minimum = min(values)\n    maximum = max(values)\n\n    print(f\"Sum: {total_sum}\")\n    print(f\"Average: {avg:.2f}\")\n    print(f\"Count: {count}\")\n    print(f\"Min: {minimum}\")\n    print(f\"Max: {maximum}\")",
-    "solution": "def solve(records, field):\n    values = []\n    for record in records:\n        if field in record and isinstance(record[field], (int, float)):\n            values.append(record[field])\n\n    if not values:\n        print(\"Sum: N/A\")\n        print(\"Average: N/A\")\n        print(\"Count: 0\")\n        print(\"Min: N/A\")\n        print(\"Max: N/A\")\n        return\n\n    total_sum = sum(values)\n    avg = total_sum / len(values)\n    count = len(values)\n    minimum = min(values)\n    maximum = max(values)\n\n    print(f\"Sum: {total_sum}\")\n    print(f\"Average: {avg:.2f}\")\n    print(f\"Count: {count}\")\n    print(f\"Min: {minimum}\")\n    print(f\"Max: {maximum}\")",
+    "starterCode": "records = \"[{'id': 1\"\nfield = \"'age': 30}\"\n\n# Your code here",
+    "solution": "records = \"[{'id': 1\"\nfield = \"'age': 30}\"\n\nvalues = []\nfor record in records:\n    if field in record and isinstance(record[field], (int, float)):\n        values.append(record[field])\n\nif not values:\n    print(\"Sum: N/A\")\n    print(\"Average: N/A\")\n    print(\"Count: 0\")\n    print(\"Min: N/A\")\n    print(\"Max: N/A\")\n    return\n\ntotal_sum = sum(values)\navg = total_sum / len(values)\ncount = len(values)\nminimum = min(values)\nmaximum = max(values)\n\nprint(f\"Sum: {total_sum}\")\nprint(f\"Average: {avg:.2f}\")\nprint(f\"Count: {count}\")\nprint(f\"Min: {minimum}\")\nprint(f\"Max: {maximum}\")",
     "testCases": [
       {
         "input": "[{'id': 1, 'age': 30}, {'id': 2, 'age': 20}, {'id': 3, 'age': 25}], 'age'",
@@ -6403,8 +6403,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Then iterate through the second list (`grades`) and look up each `grade`'s 'student_id' in the student dictionary.",
       "If a match is found, combine the information."
     ],
-    "starterCode": "def solve(students, grades):\n    student_map = {student['student_id']: student for student in students}\n    \n    joined_records = []\n    for grade_record in grades:\n        student_id = grade_record['student_id']\n        if student_id in student_map:\n            student_record = student_map[student_id]\n            joined_record = {\n                'student_id': student_id,\n                'name': student_record['name'],\n                'score': grade_record['score']\n            }\n            joined_records.append(joined_record)\n    \n    print(joined_records)",
-    "solution": "def solve(students, grades):\n    student_map = {student['student_id']: student for student in students}\n    \n    joined_records = []\n    for grade_record in grades:\n        student_id = grade_record['student_id']\n        if student_id in student_map:\n            student_record = student_map[student_id]\n            joined_record = {\n                'student_id': student_id,\n                'name': student_record['name'],\n                'score': grade_record['score']\n            }\n            joined_records.append(joined_record)\n    \n    print(joined_records)",
+    "starterCode": "students = \"[{'student_id': 1\"\ngrades = \"'name': 'Alice'}\"\n\n# Your code here",
+    "solution": "students = \"[{'student_id': 1\"\ngrades = \"'name': 'Alice'}\"\n\nstudent_map = {student['student_id']: student for student in students}\n\njoined_records = []\nfor grade_record in grades:\n    student_id = grade_record['student_id']\n    if student_id in student_map:\n        student_record = student_map[student_id]\n        joined_record = {\n            'student_id': student_id,\n            'name': student_record['name'],\n            'score': grade_record['score']\n        }\n        joined_records.append(joined_record)\n\nprint(joined_records)",
     "testCases": [
       {
         "input": "[{'student_id': 1, 'name': 'Alice'}, {'student_id': 2, 'name': 'Bob'}], [{'student_id': 1, 'score': 90}, {'student_id': 2, 'score': 85}]",
@@ -6461,8 +6461,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use an if-else statement to check the `transaction['type']` and update the balance accordingly.",
       "Use f-strings for formatted output to two decimal places: `f\"Balance: {balance:.2f}\"`."
     ],
-    "starterCode": "def solve(transactions):\n    balance = 0.0\n    for transaction in transactions:\n        transaction_type = transaction['type']\n        amount = float(transaction['amount']) # Ensure amount is float for calculations\n\n        if transaction_type == 'deposit':\n            balance += amount\n        elif transaction_type == 'withdrawal':\n            balance -= amount\n        # You might add an 'else' for invalid transaction types, but problem assumes valid types.\n        \n        print(f\"Balance: {balance:.2f}\")",
-    "solution": "def solve(transactions):\n    balance = 0.0\n    for transaction in transactions:\n        transaction_type = transaction['type']\n        amount = float(transaction['amount']) # Ensure amount is float for calculations\n\n        if transaction_type == 'deposit':\n            balance += amount\n        elif transaction_type == 'withdrawal':\n            balance -= amount\n        # For robustness, consider an else for invalid transaction types, though problem implies valid inputs.\n        \n        print(f\"Balance: {balance:.2f}\")",
+    "starterCode": "transactions = \"[{'type': 'deposit'\"\n\n# Your code here",
+    "solution": "transactions = \"[{'type': 'deposit'\"\n\nbalance = 0.0\nfor transaction in transactions:\n    transaction_type = transaction['type']\n    amount = float(transaction['amount']) # Ensure amount is float for calculations\n\n    if transaction_type == 'deposit':\n        balance += amount\n    elif transaction_type == 'withdrawal':\n        balance -= amount\n    # For robustness, consider an else for invalid transaction types, though problem implies valid inputs.\n    \n    print(f\"Balance: {balance:.2f}\")",
     "testCases": [
       {
         "input": "[{'type': 'deposit', 'amount': 100}, {'type': 'withdrawal', 'amount': 30}]",
@@ -6524,8 +6524,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "For age, use `isinstance(value, int)` and range checks.",
       "For password, use `any(char.isupper() for char in value)`, `any(char.islower() for char in value)`, and `any(char.isdigit() for char in value)`."
     ],
-    "starterCode": "import re\n\ndef solve(data_type, value):\n    if data_type == 'email':\n        if not isinstance(value, str) or ' ' in value:\n            print(False)\n            return False\n        \n        at_count = value.count('@')\n        if at_count != 1:\n            print(False)\n            return False\n        \n        at_index = value.find('@')\n        dot_index_after_at = value.find('.', at_index)\n        \n        if dot_index_after_at == -1 or dot_index_after_at < at_index + 2:\n            print(False)\n            return False\n        \n        print(True)\n        return True\n\n    elif data_type == 'phone':\n        if not isinstance(value, str) or not value.isdigit() or len(value) != 10:\n            print(False)\n            return False\n        print(True)\n        return True\n\n    elif data_type == 'age':\n        if not isinstance(value, int) or not (0 <= value <= 120):\n            print(False)\n            return False\n        print(True)\n        return True\n    \n    elif data_type == 'password':\n        if not isinstance(value, str) or len(value) < 8:\n            print(False)\n            return False\n        \n        has_upper = any(char.isupper() for char in value)\n        has_lower = any(char.islower() for char in value)\n        has_digit = any(char.isdigit() for char in value)\n        \n        if has_upper and has_lower and has_digit:\n            print(True)\n            return True\n        else:\n            print(False)\n            return False\n\n    else:\n        print(\"Unsupported data type\")\n        return False",
-    "solution": "import re\n\ndef solve(data_type, value):\n    if data_type == 'email':\n        if not isinstance(value, str) or ' ' in value:\n            print(False)\n            return False\n        \n        at_count = value.count('@')\n        if at_count != 1:\n            print(False)\n            return False\n        \n        at_index = value.find('@')\n        # Check for characters before @ and after last . (e.g., 'a@b.c' is valid, '@.com' is not)\n        if at_index == 0 or at_index == len(value) - 1:\n            print(False)\n            return False\n\n        # Find the last dot after the @ symbol\n        dot_index_after_at = value.rfind('.', at_index)\n        \n        # The dot must exist, must be after the @ symbol, and must not be right after @ or at the very end.\n        # Also, there must be at least one character between @ and ., and one character after .\n        if dot_index_after_at == -1 or dot_index_after_at < at_index + 2 or dot_index_after_at == len(value) - 1:\n            print(False)\n            return False\n        \n        print(True)\n        return True\n\n    elif data_type == 'phone':\n        if not isinstance(value, str) or not value.isdigit() or len(value) != 10:\n            print(False)\n            return False\n        print(True)\n        return True\n\n    elif data_type == 'age':\n        if not isinstance(value, int) or not (0 <= value <= 120):\n            print(False)\n            return False\n        print(True)\n        return True\n    \n    elif data_type == 'password':\n        if not isinstance(value, str) or len(value) < 8:\n            print(False)\n            return False\n        \n        has_upper = any(char.isupper() for char in value)\n        has_lower = any(char.islower() for char in value)\n        has_digit = any(char.isdigit() for char in value)\n        \n        if has_upper and has_lower and has_digit:\n            print(True)\n            return True\n        else:\n            print(False)\n            return False\n\n    else:\n        print(\"Unsupported data type\")\n        return False",
+    "starterCode": "import re\n\ndata_type = 'email'\nvalue = 'test@example.com'\n\n# Your code here",
+    "solution": "import re\n\ndata_type = 'email'\nvalue = 'test@example.com'\n\nif data_type == 'email':\n    if not isinstance(value, str) or ' ' in value:\n        print(False)\n        return False\n    \n    at_count = value.count('@')\n    if at_count != 1:\n        print(False)\n        return False\n    \n    at_index = value.find('@')\n    # Check for characters before @ and after last . (e.g., 'a@b.c' is valid, '@.com' is not)\n    if at_index == 0 or at_index == len(value) - 1:\n        print(False)\n        return False\n\n    # Find the last dot after the @ symbol\n    dot_index_after_at = value.rfind('.', at_index)\n    \n    # The dot must exist, must be after the @ symbol, and must not be right after @ or at the very end.\n    # Also, there must be at least one character between @ and ., and one character after .\n    if dot_index_after_at == -1 or dot_index_after_at < at_index + 2 or dot_index_after_at == len(value) - 1:\n        print(False)\n        return False\n    \n    print(True)\n    return True\n\nelif data_type == 'phone':\n    if not isinstance(value, str) or not value.isdigit() or len(value) != 10:\n        print(False)\n        return False\n    print(True)\n    return True\n\nelif data_type == 'age':\n    if not isinstance(value, int) or not (0 <= value <= 120):\n        print(False)\n        return False\n    print(True)\n    return True\n\nelif data_type == 'password':\n    if not isinstance(value, str) or len(value) < 8:\n        print(False)\n        return False\n    \n    has_upper = any(char.isupper() for char in value)\n    has_lower = any(char.islower() for char in value)\n    has_digit = any(char.isdigit() for char in value)\n    \n    if has_upper and has_lower and has_digit:\n        print(True)\n        return True\n    else:\n        print(False)\n        return False\n\nelse:\n    print(\"Unsupported data type\")\n    return False",
     "testCases": [
       {
         "input": "'email', 'test@example.com'",
@@ -6642,8 +6642,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "The modulo operator (`%`) is crucial for wrapping around the alphabet: `(shifted_pos - base + 26) % 26 + base` where `base` is `ord('A')` or `ord('a')`.",
       "For decryption, either negate the `shift` or add 26 to the shift value before taking modulo."
     ],
-    "starterCode": "def solve(text, shift, mode):\n    result = []\n    effective_shift = shift\n    if mode == 'decrypt':\n        effective_shift = -shift # For decryption, reverse the shift\n    \n    for char in text:\n        if 'a' <= char <= 'z':\n            start_ascii = ord('a')\n            shifted_char = chr( ( (ord(char) - start_ascii + effective_shift) % 26 ) + start_ascii )\n            result.append(shifted_char)\n        elif 'A' <= char <= 'Z':\n            start_ascii = ord('A')\n            shifted_char = chr( ( (ord(char) - start_ascii + effective_shift) % 26 ) + start_ascii )\n            result.append(shifted_char)\n        else:\n            result.append(char) # Non-alphabetic characters remain unchanged\n\n    print(\"\".join(result))",
-    "solution": "def solve(text, shift, mode):\n    result = []\n    effective_shift = shift\n    if mode == 'decrypt':\n        effective_shift = -shift # For decryption, reverse the shift\n    \n    for char in text:\n        if 'a' <= char <= 'z':\n            start_ascii = ord('a')\n            # Apply shift and wrap around 26 letters (0-25). \n            # Adding 26 before modulo handles negative results correctly in Python.\n            shifted_char = chr( ( (ord(char) - start_ascii + effective_shift + 26) % 26 ) + start_ascii )\n            result.append(shifted_char)\n        elif 'A' <= char <= 'Z':\n            start_ascii = ord('A')\n            # Same logic for uppercase\n            shifted_char = chr( ( (ord(char) - start_ascii + effective_shift + 26) % 26 ) + start_ascii )\n            result.append(shifted_char)\n        else:\n            result.append(char) # Non-alphabetic characters remain unchanged\n\n    print(\"\".join(result))",
+    "starterCode": "text = 'Hello World!'\nshift = 3\nmode = 'encrypt'\n\n# Your code here",
+    "solution": "text = 'Hello World!'\nshift = 3\nmode = 'encrypt'\n\nresult = []\neffective_shift = shift\nif mode == 'decrypt':\n    effective_shift = -shift # For decryption, reverse the shift\n\nfor char in text:\n    if 'a' <= char <= 'z':\n        start_ascii = ord('a')\n        # Apply shift and wrap around 26 letters (0-25). \n        # Adding 26 before modulo handles negative results correctly in Python.\n        shifted_char = chr( ( (ord(char) - start_ascii + effective_shift + 26) % 26 ) + start_ascii )\n        result.append(shifted_char)\n    elif 'A' <= char <= 'Z':\n        start_ascii = ord('A')\n        # Same logic for uppercase\n        shifted_char = chr( ( (ord(char) - start_ascii + effective_shift + 26) % 26 ) + start_ascii )\n        result.append(shifted_char)\n    else:\n        result.append(char) # Non-alphabetic characters remain unchanged\n\nprint(\"\".join(result))",
     "testCases": [
       {
         "input": "'Hello World!', 3, 'encrypt'",
@@ -6797,8 +6797,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "For special characters, you can define a set of allowed special characters or use a universal check like `not char.isalnum()` (if you restrict other types of chars, otherwise it might be too broad). It's safer to check if `not (char.isupper() or char.islower() or char.isdigit())` for the special character condition.",
       "Count how many conditions are met."
     ],
-    "starterCode": "def solve(password):\n    has_upper = False\n    has_lower = False\n    has_digit = False\n    has_special = False\n\n    if not isinstance(password, str): # Handle non-string input gracefully\n        print(\"Weak\")\n        return\n\n    for char in password:\n        if char.isupper():\n            has_upper = True\n        elif char.islower():\n            has_lower = True\n        elif char.isdigit():\n            has_digit = True\n        else:\n            # A character that is not uppercase, lowercase, or a digit is considered special\n            has_special = True\n\n    num_conditions_met = sum([has_upper, has_lower, has_digit, has_special])\n\n    if len(password) < 8 or num_conditions_met < 2:\n        print(\"Weak\")\n    elif len(password) >= 8 and num_conditions_met >= 4: # Changed to >=4 for 'Strong' if all 4 conditions are evaluated\n        print(\"Strong\")\n    elif len(password) >= 8 and num_conditions_met >= 2: # Changed to '>=2' for 'Moderate' as per problem statement, but <=3 implied for moderate.\n        print(\"Moderate\")\n    else: # Fallback or unhandled case, should not be reached with proper conditions above\n        print(\"Weak\")",
-    "solution": "def solve(password):\n    has_upper = False\n    has_lower = False\n    has_digit = False\n    has_special = False\n\n    if not isinstance(password, str): \n        print(\"Weak\")\n        return\n\n    for char in password:\n        if char.isupper():\n            has_upper = True\n        elif char.islower():\n            has_lower = True\n        elif char.isdigit():\n            has_digit = True\n        else:\n            # A character that is not uppercase, lowercase, or a digit is considered special\n            has_special = True\n\n    num_conditions_met = sum([has_upper, has_lower, has_digit, has_special])\n\n    if len(password) < 8 or num_conditions_met < 2:\n        print(\"Weak\")\n    elif len(password) >= 8 and num_conditions_met >= 4: # All 4 conditions met for strong\n        print(\"Strong\")\n    elif len(password) >= 8 and num_conditions_met >= 2: # At least 2 conditions for moderate (implicitly up to 3 conditions)\n        # Note: The problem asks for >= 2 conditions for Moderate. If Strong implies ALL 4,\n        # then Moderate covers 2 or 3 conditions met (when length >= 8).\n        print(\"Moderate\")\n    else:\n        # This 'else' should theoretically not be hit if all conditions are properly covered above.\n        # It might indicate a logic flaw or unexpected input, but for typical scenarios,\n        # the prior if/elif statements handle all cases given the definition.\n        print(\"Weak\")",
+    "starterCode": "password = 'short'\n\n# Your code here",
+    "solution": "password = 'short'\n\nhas_upper = False\nhas_lower = False\nhas_digit = False\nhas_special = False\n\nif not isinstance(password, str): \n    print(\"Weak\")\n    return\n\nfor char in password:\n    if char.isupper():\n        has_upper = True\n    elif char.islower():\n        has_lower = True\n    elif char.isdigit():\n        has_digit = True\n    else:\n        # A character that is not uppercase, lowercase, or a digit is considered special\n        has_special = True\n\nnum_conditions_met = sum([has_upper, has_lower, has_digit, has_special])\n\nif len(password) < 8 or num_conditions_met < 2:\n    print(\"Weak\")\nelif len(password) >= 8 and num_conditions_met >= 4: # All 4 conditions met for strong\n    print(\"Strong\")\nelif len(password) >= 8 and num_conditions_met >= 2: # At least 2 conditions for moderate (implicitly up to 3 conditions)\n    # Note: The problem asks for >= 2 conditions for Moderate. If Strong implies ALL 4,\n    # then Moderate covers 2 or 3 conditions met (when length >= 8).\n    print(\"Moderate\")\nelse:\n    # This 'else' should theoretically not be hit if all conditions are properly covered above.\n    # It might indicate a logic flaw or unexpected input, but for typical scenarios,\n    # the prior if/elif statements handle all cases given the definition.\n    print(\"Weak\")",
     "testCases": [
       {
         "input": "'short'",
@@ -6884,8 +6884,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "For each question string (e.g., '3x5'), split it to extract the two numbers and then multiply them.",
       "Convert the parts of the question string to integers before multiplication."
     ],
-    "starterCode": "def solve(questions, answers):\n    correct_count = 0\n    total_count = len(questions)\n\n    for i in range(total_count):\n        question_str = questions[i]\n        user_answer = answers[i]\n\n        # Parse the question string 'AxB' -> A and B\n        parts = question_str.split('x')\n        num1 = int(parts[0])\n        num2 = int(parts[1])\n        \n        correct_result = num1 * num2\n\n        if user_answer == correct_result:\n            correct_count += 1\n\n    print(f\"Correct: {correct_count}\")\n    print(f\"Total: {total_count}\")",
-    "solution": "def solve(questions, answers):\n    correct_count = 0\n    total_count = len(questions)\n\n    for i in range(total_count):\n        question_str = questions[i]\n        user_answer = answers[i]\n\n        # Parse the question string 'AxB' -> A and B\n        parts = question_str.split('x')\n        num1 = int(parts[0])\n        num2 = int(parts[1])\n        \n        correct_result = num1 * num2\n\n        if user_answer == correct_result:\n            correct_count += 1\n\n    print(f\"Correct: {correct_count}\")\n    print(f\"Total: {total_count}\")",
+    "starterCode": "questions = \"['2x3'\"\nanswers = '5x4'\n\n# Your code here",
+    "solution": "questions = \"['2x3'\"\nanswers = '5x4'\n\ncorrect_count = 0\ntotal_count = len(questions)\n\nfor i in range(total_count):\n    question_str = questions[i]\n    user_answer = answers[i]\n\n    # Parse the question string 'AxB' -> A and B\n    parts = question_str.split('x')\n    num1 = int(parts[0])\n    num2 = int(parts[1])\n    \n    correct_result = num1 * num2\n\n    if user_answer == correct_result:\n        correct_count += 1\n\nprint(f\"Correct: {correct_count}\")\nprint(f\"Total: {total_count}\")",
     "testCases": [
       {
         "input": "['2x3', '5x4', '10x1'], [6, 20, 10]",
@@ -6947,8 +6947,8 @@ export const pythonChallenges: PythonChallenge[] = [
       "For 'update', use `dict.update()` to merge new fields.",
       "The `gallery` list should be modified in place."
     ],
-    "starterCode": "def solve(action, gallery, painting=None):\n\n    if action == 'add':\n        if painting is None or 'id' not in painting:\n            print(\"Invalid painting data for add.\")\n            return\n        \n        # Check if ID already exists\n        for p in gallery:\n            if p.get('id') == painting['id']:\n                print(\"Painting with ID already exists.\")\n                return\n        \n        gallery.append(painting)\n        print(f\"Painting added. Current gallery: {gallery}\")\n\n    elif action == 'view':\n        if painting is None or 'id' not in painting:\n            print(\"Invalid painting ID for view.\")\n            return\n\n        found_painting = None\n        for p in gallery:\n            if p.get('id') == painting['id']:\n                found_painting = p\n                break\n        \n        if found_painting:\n            print(f\"Painting found: {found_painting}\")\n        else:\n            print(\"Painting not found.\")\n\n    elif action == 'update':\n        if painting is None or 'id' not in painting:\n            print(\"Invalid painting data for update.\")\n            return\n        \n        found_index = -1\n        for i, p in enumerate(gallery):\n            if p.get('id') == painting['id']:\n                found_index = i\n                break\n        \n        if found_index != -1:\n            gallery[found_index].update(painting)\n            print(f\"Painting updated. Current gallery: {gallery}\")\n        else:\n            print(\"Painting not found.\")\n\n    elif action == 'remove':\n        if painting is None or 'id' not in painting:\n            print(\"Invalid painting ID for remove.\")\n            return\n        \n        found_index = -1\n        for i, p in enumerate(gallery):\n            if p.get('id') == painting['id']:\n                found_index = i\n                break\n        \n        if found_index != -1:\n            del gallery[found_index]\n            print(f\"Painting removed. Current gallery: {gallery}\")\n        else:\n            print(\"Painting not found.\")\n\n    else:\n        print(\"Invalid action.\")",
-    "solution": "def solve(action, gallery, painting=None):\n\n    if action == 'add':\n        if painting is None or 'id' not in painting:\n            print(\"Invalid painting data for add.\")\n            return\n        \n        # Check if ID already exists\n        for p in gallery:\n            if p.get('id') == painting['id']:\n                print(\"Painting with ID already exists.\")\n                return\n        \n        gallery.append(painting)\n        print(f\"Painting added. Current gallery: {gallery}\")\n\n    elif action == 'view':\n        if painting is None or 'id' not in painting:\n            print(\"Invalid painting ID for view.\")\n            return\n\n        found_painting = None\n        for p in gallery:\n            if p.get('id') == painting['id']:\n                found_painting = p\n                break\n        \n        if found_painting:\n            print(f\"Painting found: {found_painting}\")\n        else:\n            print(\"Painting not found.\")\n\n    elif action == 'update':\n        if painting is None or 'id' not in painting:\n            print(\"Invalid painting data for update.\")\n            return\n        \n        found_index = -1\n        for i, p in enumerate(gallery):\n            if p.get('id') == painting['id']:\n                found_index = i\n                break\n        \n        if found_index != -1:\n            gallery[found_index].update(painting)\n            print(f\"Painting updated. Current gallery: {gallery}\")\n        else:\n            print(\"Painting not found.\")\n\n    elif action == 'remove':\n        if painting is None or 'id' not in painting:\n            print(\"Invalid painting ID for remove.\")\n            return\n        \n        found_index = -1\n        for i, p in enumerate(gallery):\n            if p.get('id') == painting['id']:\n                found_index = i\n                break\n        \n        if found_index != -1:\n            del gallery[found_index]\n            print(f\"Painting removed. Current gallery: {gallery}\")\n        else:\n            print(\"Painting not found.\")\n\n    else:\n        print(\"Invalid action.\")",
+    "starterCode": "action = 'add'\ngallery = \"[]\"\npainting = \"{'id': 1\"\n\n# Your code here",
+    "solution": "action = 'add'\ngallery = \"[]\"\npainting = \"{'id': 1\"\n\nif action == 'add':\n    if painting is None or 'id' not in painting:\n        print(\"Invalid painting data for add.\")\n        return\n    \n    # Check if ID already exists\n    for p in gallery:\n        if p.get('id') == painting['id']:\n            print(\"Painting with ID already exists.\")\n            return\n    \n    gallery.append(painting)\n    print(f\"Painting added. Current gallery: {gallery}\")\n\nelif action == 'view':\n    if painting is None or 'id' not in painting:\n        print(\"Invalid painting ID for view.\")\n        return\n\n    found_painting = None\n    for p in gallery:\n        if p.get('id') == painting['id']:\n            found_painting = p\n            break\n    \n    if found_painting:\n        print(f\"Painting found: {found_painting}\")\n    else:\n        print(\"Painting not found.\")\n\nelif action == 'update':\n    if painting is None or 'id' not in painting:\n        print(\"Invalid painting data for update.\")\n        return\n    \n    found_index = -1\n    for i, p in enumerate(gallery):\n        if p.get('id') == painting['id']:\n            found_index = i\n            break\n    \n    if found_index != -1:\n        gallery[found_index].update(painting)\n        print(f\"Painting updated. Current gallery: {gallery}\")\n    else:\n        print(\"Painting not found.\")\n\nelif action == 'remove':\n    if painting is None or 'id' not in painting:\n        print(\"Invalid painting ID for remove.\")\n        return\n    \n    found_index = -1\n    for i, p in enumerate(gallery):\n        if p.get('id') == painting['id']:\n            found_index = i\n            break\n    \n    if found_index != -1:\n        del gallery[found_index]\n        print(f\"Painting removed. Current gallery: {gallery}\")\n    else:\n        print(\"Painting not found.\")\n\nelse:\n    print(\"Invalid action.\")",
     "testCases": [
       {
         "input": "'add', [], {'id': 1, 'title': 'Mona Lisa', 'artist': 'Leonardo da Vinci'}",
