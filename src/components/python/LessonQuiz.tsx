@@ -2,7 +2,7 @@
  * @file LessonQuiz.tsx
  * @description 3-question quiz (MCQ + fill-code). Pass = ≥2/3.
  */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Check, X, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
