@@ -21,6 +21,12 @@ const LessonQuiz = ({ questions, onComplete }: Props) => {
   const [answers, setAnswers] = useState<(string | number | null)[]>(questions.map(() => null));
   const [submitted, setSubmitted] = useState(false);
 
+  // Reset state when navigating to a different lesson (questions array changes).
+  useEffect(() => {
+    setAnswers(questions.map(() => null));
+    setSubmitted(false);
+  }, [questions]);
+
   const isCorrect = (q: QuizQuestion, a: string | number | null) => {
     if (a === null) return false;
     if (q.type === "mcq") return a === q.answer;
