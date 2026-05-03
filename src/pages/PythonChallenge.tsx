@@ -16,6 +16,77 @@ const difficultyColors = {
   hard: "bg-red-500/10 text-red-600 border-red-500/30",
 };
 
+/**
+ * Formats a dense problem description into readable blocks:
+ * - Splits on sentences and bullet markers ("-", "•", numbered lists)
+ * - Renders inline `code` spans
+ * - Renders bullet lists when bullet markers are detected
+ */
+const FormattedProblem = ({ text }: { text: string }) => {
+  // Normalize line breaks; treat literal " - " and " • " as bullet separators
+  // when they appear after a colon-introduced clause.
+  const renderInline = (s: string) => {
+    const parts = s.split(/(`[^`]+`)/g);
+    return parts.map((p, i) =>
+      p.startsWith("`") && p.endsWith("`") ? (
+        <code key={i} className="px-1.5 py-0.5 rounded bg-primary/10 text-primary font-mono text-[0.85em]">
+          {p.slice(1, -1)}
+        </code>
+      ) : (
+        <span key={i}>{p}</span>
+      )
+    );
+  };
+
+  // Split into top-level blocks on existing newlines first.
+  const rawBlocks = text.split(/\r?\n+/).map(b => b.trim()).filter(Boolean);
+
+  const blocks: { type: "p" | "ul"; items: string[] }[] = [];
+  for (const block of rawBlocks) {
+    // Detect inline bullets like "Foo: - one - two - three" or "- one - two"
+    const bulletMatches = block.match(/(?:^|\s)[-•]\s+/g);
+    if (bulletMatches && bulletMatches.length >= 2) {
+      // Find optional intro before the first bullet
+      const firstIdx = block.search(/(?:^|\s)[-•]\s+/);
+      const intro = block.slice(0, firstIdx).trim().replace(/[:：]$/, "").trim();
+      const rest = block.slice(firstIdx).trim();
+      const items = rest
+        .split(/(?:^|\s)[-•]\s+/)
+        .map(s => s.trim())
+        .filter(Boolean);
+      if (intro) blocks.push({ type: "p", items: [intro + ":"] });
+      blocks.push({ type: "ul", items });
+    } else {
+      // Split very long paragraphs into sentence groups (every 2 sentences)
+      const sentences = block.match(/[^.!?]+[.!?]+(?:\s|$)|[^.!?]+$/g) || [block];
+      const trimmed = sentences.map(s => s.trim()).filter(Boolean);
+      if (trimmed.length > 2) {
+        for (let i = 0; i < trimmed.length; i += 2) {
+          blocks.push({ type: "p", items: [trimmed.slice(i, i + 2).join(" ")] });
+        }
+      } else {
+        blocks.push({ type: "p", items: [block] });
+      }
+    }
+  }
+
+  return (
+    <div className="space-y-3 text-[15px] text-secondary-foreground leading-relaxed">
+      {blocks.map((b, i) =>
+        b.type === "p" ? (
+          <p key={i}>{renderInline(b.items[0])}</p>
+        ) : (
+          <ul key={i} className="list-disc pl-5 space-y-1.5 marker:text-primary/60">
+            {b.items.map((it, j) => (
+              <li key={j}>{renderInline(it)}</li>
+            ))}
+          </ul>
+        )
+      )}
+    </div>
+  );
+};
+
 const PythonChallengePage = () => {
   const { challengeId } = useParams();
   const { t } = useLanguage();
@@ -152,16 +223,14 @@ const PythonChallengePage = () => {
 
                   {/* Description */}
                   <div className="glass-card rounded-xl p-5 mb-6">
-                    <h2 className="font-semibold text-foreground text-sm mb-2 flex items-center gap-2">
+                    <h2 className="font-semibold text-foreground text-base mb-3 flex items-center gap-2">
                       <Trophy className="w-4 h-4 text-yellow-500" /> Problem
                     </h2>
-                    <p className="text-sm text-secondary-foreground leading-relaxed">
-                      {challenge.description}
-                    </p>
+                    <FormattedProblem text={challenge.description} />
                     {challenge.testCases.length > 0 && (
-                      <div className="mt-3 pt-3 border-t border-border">
-                        <p className="text-xs font-semibold text-muted-foreground mb-1">Expected output:</p>
-                        <pre className="text-sm font-mono bg-secondary rounded-lg p-3 text-foreground whitespace-pre overflow-x-auto leading-snug">{challenge.testCases[0].expected}</pre>
+                      <div className="mt-4 pt-4 border-t border-border">
+                        <p className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Expected output:</p>
+                        <pre className="text-sm font-mono bg-secondary rounded-lg p-4 text-foreground whitespace-pre overflow-x-auto leading-relaxed">{challenge.testCases[0].expected}</pre>
                       </div>
                     )}
                   </div>
