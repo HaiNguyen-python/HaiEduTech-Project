@@ -2,7 +2,7 @@
  * @file LessonQuiz.tsx
  * @description 3-question quiz (MCQ + fill-code). Pass = ≥2/3.
  */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Check, X, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,6 +20,12 @@ const LessonQuiz = ({ questions, onComplete }: Props) => {
   const language = "en" as "vi" | "en";
   const [answers, setAnswers] = useState<(string | number | null)[]>(questions.map(() => null));
   const [submitted, setSubmitted] = useState(false);
+
+  // Reset state when navigating to a different lesson (questions array changes).
+  useEffect(() => {
+    setAnswers(questions.map(() => null));
+    setSubmitted(false);
+  }, [questions]);
 
   const isCorrect = (q: QuizQuestion, a: string | number | null) => {
     if (a === null) return false;
