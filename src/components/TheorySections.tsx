@@ -200,6 +200,19 @@ function normalizeMath(input: string): string {
       // \( ... \)  → $ ... $
       out = out.replace(/\\\(([\s\S]+?)\\\)/g, (_, body) => `$${body.trim()}$`);
 
+      // CRITICAL: remark-math requires NO whitespace immediately after the
+      // opening `$` or before the closing `$`. The AI frequently emits
+      // `$ \frac{1}{n} \sum ... $` which silently fails to parse and then
+      // gets clobbered by the paren-repair pass below. Trim it here so the
+      // delimiters work and the paren-repair sees the math as already wrapped.
+      out = out.replace(/\$\$\s+([\s\S]+?)\s+\$\$/g, (_, body) => `$$${body}$$`);
+      out = out.replace(/(^|[^$])\$\s+([^$\n]+?)\s+\$(?!\$)/g, (_, pre, body) => `${pre}$${body}$`);
+      // Also handle one-sided whitespace.
+      out = out.replace(/\$\$\s+([\s\S]+?)\$\$/g, (_, body) => `$$${body}$$`);
+      out = out.replace(/\$\$([\s\S]+?)\s+\$\$/g, (_, body) => `$$${body}$$`);
+      out = out.replace(/(^|[^$])\$\s+([^$\n]+?)\$(?!\$)/g, (_, pre, body) => `${pre}$${body}$`);
+      out = out.replace(/(^|[^$])\$([^$\n]+?)\s+\$(?!\$)/g, (_, pre, body) => `${pre}$${body}$`);
+
       // Replace double-pipe norm bars `||x||` with KaTeX-friendly `\|x\|`
       // (KaTeX doesn't natively render `||...||`). Apply globally outside code.
       // Run twice: once for pairs separated by content, once for stray `||`.
