@@ -150,12 +150,7 @@ const ProgrammingLessonPage = () => {
       .eq("lesson_id", lesson.id)
       .maybeSingle()
       .then(({ data }) => {
-        if (!data?.enhanced_markdown) {
-          // No cache at all - auto-generate Deep-Dive + illustrations on first view
-          void handleEnhanceTheory(false);
-          return;
-        }
-
+        if (!data?.enhanced_markdown) return;
         // Strip Perplexity citation markers like [1][2][3] from previously cached content
         const cleaned = data.enhanced_markdown
           .replace(/\s*\[\d+(?:\s*[,\s]\s*\d+)*\]/g, "")
@@ -163,12 +158,6 @@ const ProgrammingLessonPage = () => {
           .replace(/[ \t]+([.,;:!?])/g, "$1")
           .replace(/[ \t]{2,}/g, " ");
         setEnhancedMd(cleaned);
-
-        const illustrations = Array.isArray(data.illustrations) ? data.illustrations : [];
-        const hasInlineImages = /!\[[^\]]*\]\((https?:\/\/|\/storage\/v1\/object\/public\/)/.test(cleaned);
-        if (!hasInlineImages && illustrations.length === 0) {
-          void handleEnhanceTheory(true);
-        }
       });
   }, [mod, lesson]);
 
