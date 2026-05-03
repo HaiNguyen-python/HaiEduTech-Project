@@ -1299,6 +1299,15 @@ L({
   }),
 ];
 
+// Merge extra quiz questions so every lesson has at least 5 questions.
+import { extraQuiz } from "./pythonPathwayExtraQuiz";
+for (const lesson of pythonLessons) {
+  const extras = extraQuiz[lesson.id];
+  if (extras && extras.length) {
+    lesson.quiz = [...lesson.quiz, ...extras];
+  }
+}
+
 export const getLessonById = (id: string) => pythonLessons.find(l => l.id === id);
 export const getModuleById = (id: string) => pythonModules.find(m => m.id === id);
 export const getLessonsByModule = (moduleId: string) =>
