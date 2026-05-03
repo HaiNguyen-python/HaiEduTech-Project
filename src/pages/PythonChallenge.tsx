@@ -152,16 +152,14 @@ const PythonChallengePage = () => {
 
                   {/* Description */}
                   <div className="glass-card rounded-xl p-5 mb-6">
-                    <h2 className="font-semibold text-foreground text-sm mb-2 flex items-center gap-2">
+                    <h2 className="font-semibold text-foreground text-base mb-3 flex items-center gap-2">
                       <Trophy className="w-4 h-4 text-yellow-500" /> Problem
                     </h2>
-                    <p className="text-sm text-secondary-foreground leading-relaxed">
-                      {challenge.description}
-                    </p>
+                    <FormattedProblem text={challenge.description} />
                     {challenge.testCases.length > 0 && (
-                      <div className="mt-3 pt-3 border-t border-border">
-                        <p className="text-xs font-semibold text-muted-foreground mb-1">Expected output:</p>
-                        <pre className="text-sm font-mono bg-secondary rounded-lg p-3 text-foreground whitespace-pre overflow-x-auto leading-snug">{challenge.testCases[0].expected}</pre>
+                      <div className="mt-4 pt-4 border-t border-border">
+                        <p className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Expected output:</p>
+                        <pre className="text-sm font-mono bg-secondary rounded-lg p-4 text-foreground whitespace-pre overflow-x-auto leading-relaxed">{challenge.testCases[0].expected}</pre>
                       </div>
                     )}
                   </div>
