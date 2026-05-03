@@ -161,7 +161,7 @@ const PythonChallengePage = () => {
                     {challenge.testCases.length > 0 && (
                       <div className="mt-3 pt-3 border-t border-border">
                         <p className="text-xs font-semibold text-muted-foreground mb-1">Expected output:</p>
-                        <pre className="text-xs font-mono bg-secondary rounded-lg p-3 text-foreground">{challenge.testCases[0].expected}</pre>
+                        <pre className="text-sm font-mono bg-secondary rounded-lg p-3 text-foreground whitespace-pre overflow-x-auto leading-snug">{challenge.testCases[0].expected}</pre>
                       </div>
                     )}
                   </div>
