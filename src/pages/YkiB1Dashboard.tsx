@@ -32,6 +32,8 @@ import { B1_VOCAB_EXPANSION_MODULES } from "@/data/ykiB1VocabularyExpansion";
 import { B1_VOCAB_EXPANSION_MODULES_2 } from "@/data/ykiB1VocabularyExpansion2";
 import { B1_GRAMMAR_MODULES } from "@/data/ykiB1Grammar";
 import { B1_GRAMMAR_EXPANSION_MODULES } from "@/data/ykiB1GrammarExpansion";
+import { B1_WRITING_SAMPLES } from "@/data/ykiB1WritingSamples";
+import { Lightbulb } from "lucide-react";
 
 // Use Finnish TTS pipeline (proxy → Google translate_tts → native fi-FI voice)
 // to guarantee proper Finnish pronunciation, not the system's English fallback voice.
@@ -99,6 +101,7 @@ const YkiB1Dashboard = () => {
   const [grading, setGrading] = useState(false);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [activeWriting, setActiveWriting] = useState(B1_WRITING[0]);
+  const [showSample, setShowSample] = useState(false);
 
   const gradeEssay = async () => {
     if (essay.trim().split(/\s+/).length < 30) {
@@ -399,7 +402,7 @@ const YkiB1Dashboard = () => {
                           return (
                             <button
                               key={w.id}
-                              onClick={() => { setActiveWriting(w); setEssay(""); setFeedback(null); }}
+                              onClick={() => { setActiveWriting(w); setEssay(""); setFeedback(null); setShowSample(false); }}
                               className={`text-xs px-3 py-1.5 rounded-full border transition-all ${
                                 active
                                   ? "bg-[#003580] text-white border-[#003580] shadow-sm"
@@ -459,6 +462,52 @@ const YkiB1Dashboard = () => {
                 <p className="text-sm font-semibold mb-1">🎓 Teacher Hai's Tip</p>
                 <p className="text-sm">{lang === "vi" ? activeWriting.teacherTipVi : activeWriting.teacherTipFi}</p>
               </Card>
+
+              {/* Sample Answer */}
+              {B1_WRITING_SAMPLES[activeWriting.id]?.sampleFi && (
+                <Card className="p-4 mb-4 bg-amber-50 dark:bg-amber-500/10 border-amber-300 dark:border-amber-500/30">
+                  <div className="flex items-center justify-between gap-2 mb-2 flex-wrap">
+                    <div className="flex items-center gap-2">
+                      <Lightbulb className="w-4 h-4 text-amber-600" />
+                      <p className="text-sm font-semibold">
+                        {t("Bài viết mẫu", "Model Answer")}
+                        <span className="ml-2 text-xs font-normal text-muted-foreground">
+                          (~{B1_WRITING_SAMPLES[activeWriting.id].wordCount} {t("từ", "words")})
+                        </span>
+                      </p>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button size="sm" variant="outline" onClick={() => setShowSample(s => !s)}>
+                        {showSample ? t("Ẩn", "Hide") : t("Xem mẫu", "Show sample")}
+                      </Button>
+                      {showSample && (
+                        <Button size="sm" variant="outline"
+                          onClick={() => speakFi(B1_WRITING_SAMPLES[activeWriting.id].sampleFi, 0.95)}>
+                          <Volume2 className="w-4 h-4" />
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                  {showSample && (
+                    <div className="space-y-3">
+                      <div className="text-sm leading-relaxed whitespace-pre-wrap text-foreground">
+                        <ClickableFinnishText text={B1_WRITING_SAMPLES[activeWriting.id].sampleFi} />
+                      </div>
+                      <details className="text-xs">
+                        <summary className="cursor-pointer font-semibold text-muted-foreground hover:text-foreground">
+                          🇻🇳 {t("Bản dịch tiếng Việt", "Vietnamese translation")}
+                        </summary>
+                        <p className="mt-2 leading-relaxed whitespace-pre-wrap text-foreground/80">
+                          {B1_WRITING_SAMPLES[activeWriting.id].sampleVi}
+                        </p>
+                      </details>
+                      <p className="text-[11px] text-muted-foreground italic">
+                        {t("⚠️ Đây chỉ là một cách tham khảo — hãy viết bằng giọng văn của riêng bạn.", "⚠️ Reference only — write in your own voice.")}
+                      </p>
+                    </div>
+                  )}
+                </Card>
+              )}
 
               <Textarea value={essay} onChange={e => setEssay(e.target.value)} rows={10}
                 placeholder={t(`Viết bài tại đây (tối thiểu ${activeWriting.minWords} từ)…`, `Write here (min ${activeWriting.minWords} words)…`)}
