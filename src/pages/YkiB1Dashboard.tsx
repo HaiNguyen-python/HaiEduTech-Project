@@ -463,6 +463,52 @@ const YkiB1Dashboard = () => {
                 <p className="text-sm">{lang === "vi" ? activeWriting.teacherTipVi : activeWriting.teacherTipFi}</p>
               </Card>
 
+              {/* Sample Answer */}
+              {B1_WRITING_SAMPLES[activeWriting.id]?.sampleFi && (
+                <Card className="p-4 mb-4 bg-amber-50 dark:bg-amber-500/10 border-amber-300 dark:border-amber-500/30">
+                  <div className="flex items-center justify-between gap-2 mb-2 flex-wrap">
+                    <div className="flex items-center gap-2">
+                      <Lightbulb className="w-4 h-4 text-amber-600" />
+                      <p className="text-sm font-semibold">
+                        {t("Bài viết mẫu", "Model Answer")}
+                        <span className="ml-2 text-xs font-normal text-muted-foreground">
+                          (~{B1_WRITING_SAMPLES[activeWriting.id].wordCount} {t("từ", "words")})
+                        </span>
+                      </p>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button size="sm" variant="outline" onClick={() => setShowSample(s => !s)}>
+                        {showSample ? t("Ẩn", "Hide") : t("Xem mẫu", "Show sample")}
+                      </Button>
+                      {showSample && (
+                        <Button size="sm" variant="outline"
+                          onClick={() => speakFi(B1_WRITING_SAMPLES[activeWriting.id].sampleFi, 0.95)}>
+                          <Volume2 className="w-4 h-4" />
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                  {showSample && (
+                    <div className="space-y-3">
+                      <div className="text-sm leading-relaxed whitespace-pre-wrap text-foreground">
+                        <ClickableFinnishText text={B1_WRITING_SAMPLES[activeWriting.id].sampleFi} />
+                      </div>
+                      <details className="text-xs">
+                        <summary className="cursor-pointer font-semibold text-muted-foreground hover:text-foreground">
+                          🇻🇳 {t("Bản dịch tiếng Việt", "Vietnamese translation")}
+                        </summary>
+                        <p className="mt-2 leading-relaxed whitespace-pre-wrap text-foreground/80">
+                          {B1_WRITING_SAMPLES[activeWriting.id].sampleVi}
+                        </p>
+                      </details>
+                      <p className="text-[11px] text-muted-foreground italic">
+                        {t("⚠️ Đây chỉ là một cách tham khảo — hãy viết bằng giọng văn của riêng bạn.", "⚠️ Reference only — write in your own voice.")}
+                      </p>
+                    </div>
+                  )}
+                </Card>
+              )}
+
               <Textarea value={essay} onChange={e => setEssay(e.target.value)} rows={10}
                 placeholder={t(`Viết bài tại đây (tối thiểu ${activeWriting.minWords} từ)…`, `Write here (min ${activeWriting.minWords} words)…`)}
                 className="mb-2" />
