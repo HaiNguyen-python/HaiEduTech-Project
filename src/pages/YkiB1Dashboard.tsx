@@ -352,15 +352,74 @@ const YkiB1Dashboard = () => {
 
           {/* WRITING */}
           <TabsContent value="writing" className="mt-6 space-y-4">
-            <div className="flex gap-2 flex-wrap">
-              {B1_WRITING.map(w => (
-                <Button key={w.id} variant={activeWriting.id === w.id ? "default" : "outline"}
-                  className={activeWriting.id === w.id ? "bg-[#003580] hover:bg-[#003580]/90" : ""}
-                  onClick={() => { setActiveWriting(w); setEssay(""); setFeedback(null); }}>
-                  {w.title}
-                </Button>
-              ))}
-            </div>
+            {(() => {
+              const categorize = (title: string): { key: string; label: string; emoji: string; color: string } => {
+                const t = title.toLowerCase();
+                if (t.startsWith("mielipide") || t.includes("mielipidekirjoitus")) return { key: "opinion", label: t === "mielipidekirjoitus - opinion text" ? "Mielipide / Opinion" : "Mielipide / Opinion", emoji: "💭", color: "bg-blue-500/10 text-blue-700 dark:text-blue-300 border-blue-500/30" };
+                if (t.startsWith("valitus")) return { key: "complaint", label: "Valitus / Complaint", emoji: "⚠️", color: "bg-red-500/10 text-red-700 dark:text-red-300 border-red-500/30" };
+                if (t.includes("virallinen sähköposti") || t.includes("muodollinen sähköposti") || t.includes("virallinen kirje")) return { key: "formal", label: "Virallinen / Formal letter", emoji: "📜", color: "bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-500/30" };
+                if (t.includes("sähköposti") || t.includes("viesti")) return { key: "email", label: "Sähköposti / Email", emoji: "📧", color: "bg-cyan-500/10 text-cyan-700 dark:text-cyan-300 border-cyan-500/30" };
+                if (t.includes("blogi")) return { key: "blog", label: "Blogi / Blog", emoji: "📝", color: "bg-pink-500/10 text-pink-700 dark:text-pink-300 border-pink-500/30" };
+                if (t.includes("kertomus") || t.includes("kertominen")) return { key: "story", label: "Kertomus / Story", emoji: "📖", color: "bg-purple-500/10 text-purple-700 dark:text-purple-300 border-purple-500/30" };
+                if (t.includes("suositus")) return { key: "recommend", label: "Suositus / Recommendation", emoji: "👍", color: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/30" };
+                if (t.includes("uutinen")) return { key: "news", label: "Uutinen / News report", emoji: "📰", color: "bg-slate-500/10 text-slate-700 dark:text-slate-300 border-slate-500/30" };
+                if (t.includes("henkilökuvaus") || t.includes("henkilo")) return { key: "person", label: "Henkilökuvaus / Describing a person", emoji: "👤", color: "bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border-indigo-500/30" };
+                if (t.includes("vertailu")) return { key: "compare", label: "Vertailu / Comparing", emoji: "⚖️", color: "bg-orange-500/10 text-orange-700 dark:text-orange-300 border-orange-500/30" };
+                return { key: "other", label: "Muu / Other", emoji: "✏️", color: "bg-muted text-muted-foreground border-border" };
+              };
+
+              const groups = new Map<string, { meta: ReturnType<typeof categorize>; items: typeof B1_WRITING }>();
+              B1_WRITING.forEach(w => {
+                const meta = categorize(w.title);
+                if (!groups.has(meta.key)) groups.set(meta.key, { meta, items: [] });
+                groups.get(meta.key)!.items.push(w);
+              });
+              const ordered = ["opinion", "complaint", "email", "formal", "blog", "story", "recommend", "news", "person", "compare", "other"]
+                .filter(k => groups.has(k))
+                .map(k => groups.get(k)!);
+
+              const activeMeta = categorize(activeWriting.title);
+
+              return (
+                <div className="space-y-3">
+                  {ordered.map(g => (
+                    <div key={g.meta.key}>
+                      <div className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-md border mb-2 ${g.meta.color}`}>
+                        <span>{g.meta.emoji}</span>
+                        <span>{g.meta.label}</span>
+                        <span className="opacity-60">· {g.items.length}</span>
+                      </div>
+                      <div className="flex gap-1.5 flex-wrap pl-1">
+                        {g.items.map(w => {
+                          const active = activeWriting.id === w.id;
+                          // strip leading category prefix for cleaner label
+                          const shortTitle = w.title
+                            .replace(/^(Mielipidekirjoitus|Mielipide|Valituskirje|Valitus|Muodollinen sähköposti|Virallinen sähköposti(?: viranomaiselle)?|Virallinen kirje|Sähköposti|Blogiteksti|Blogi|Kertomus|Suosituskirje|Suositus|Lyhyt uutinen|Uutinen|Henkilökuvaus|Vertailu)\s*[-:–]\s*/i, "")
+                            .trim() || w.title;
+                          return (
+                            <button
+                              key={w.id}
+                              onClick={() => { setActiveWriting(w); setEssay(""); setFeedback(null); }}
+                              className={`text-xs px-3 py-1.5 rounded-full border transition-all ${
+                                active
+                                  ? "bg-[#003580] text-white border-[#003580] shadow-sm"
+                                  : `${g.meta.color} hover:opacity-80`
+                              }`}
+                              title={w.title}
+                            >
+                              {shortTitle}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                  <div className="text-xs text-muted-foreground pt-1">
+                    {t("Đang chọn:", "Selected:")} <span className="font-semibold text-foreground">{activeMeta.emoji} {activeWriting.title}</span>
+                  </div>
+                </div>
+              );
+            })()}
             <Card className="p-5">
               <div className="flex justify-between items-start mb-3 flex-wrap gap-2">
                 <div className="flex-1 min-w-0">
