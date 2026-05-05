@@ -3,7 +3,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const MAX_TTS_TEXT_LENGTH = 180;
+const MAX_TTS_TEXT_LENGTH = 200;
 
 const endpointBuilders = [
   (text: string) =>
