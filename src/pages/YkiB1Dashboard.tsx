@@ -546,6 +546,50 @@ const YkiB1Dashboard = () => {
                     </button>
                   ))}
                 </div>
+
+                {/* === AI-generated sample monologue === */}
+                {(() => {
+                  const sample = getSpeakingSample(s.id);
+                  if (!sample?.sampleFi) return null;
+                  return (
+                    <div className="mb-3 rounded-lg border-2 border-emerald-500/30 bg-gradient-to-br from-emerald-500/5 to-[#003580]/5 p-3">
+                      <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+                        <p className="text-sm font-bold flex items-center gap-1.5">
+                          <Sparkles className="w-4 h-4 text-emerald-600" />
+                          {t("Bài nói mẫu (B1)", "Sample answer (B1)")}
+                        </p>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => speakFi(sample.sampleFi, 0.85)}
+                          className="h-7 text-xs"
+                        >
+                          <Volume2 className="w-3 h-3 mr-1" /> {t("Nghe toàn bộ", "Play all")}
+                        </Button>
+                      </div>
+                      <p className="text-sm text-foreground/90 whitespace-pre-wrap leading-relaxed">
+                        <ClickableFinnishText text={sample.sampleFi} />
+                      </p>
+                      <details className="mt-2">
+                        <summary className="text-xs font-semibold text-[#003580] cursor-pointer hover:underline">
+                          🇻🇳 {t("Xem bản dịch tiếng Việt", "Show Vietnamese translation")}
+                        </summary>
+                        <p className="text-xs text-muted-foreground italic mt-1.5 whitespace-pre-wrap leading-relaxed">
+                          {sample.sampleVi}
+                        </p>
+                      </details>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="h-7 text-xs mt-2"
+                        onClick={() => saveToNotebook(`B1 Speaking Sample · ${s.title}`, `${sample.sampleFi}\n\n---\n${sample.sampleVi}`)}
+                      >
+                        <NotebookPen className="w-3 h-3 mr-1" /> {t("Lưu vào Sổ tay", "Save to Notebook")}
+                      </Button>
+                    </div>
+                  );
+                })()}
+
                 <Link to={s.speakingCoachLink}>
                   <Button className="bg-[#003580] hover:bg-[#003580]/90">
                     <Mic className="w-4 h-4 mr-1" /> {t("Mở AI Speaking Coach", "Open AI Speaking Coach")}
