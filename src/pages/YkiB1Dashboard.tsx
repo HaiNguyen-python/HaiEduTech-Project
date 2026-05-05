@@ -29,7 +29,9 @@ import {
 import { getSpeakingSample } from "@/data/ykiB1SpeakingSamples";
 import { B1_VOCAB_MODULES } from "@/data/ykiB1Vocabulary";
 import { B1_VOCAB_EXPANSION_MODULES } from "@/data/ykiB1VocabularyExpansion";
+import { B1_VOCAB_EXPANSION_MODULES_2 } from "@/data/ykiB1VocabularyExpansion2";
 import { B1_GRAMMAR_MODULES } from "@/data/ykiB1Grammar";
+import { B1_GRAMMAR_EXPANSION_MODULES } from "@/data/ykiB1GrammarExpansion";
 
 // Use Finnish TTS pipeline (proxy → Google translate_tts → native fi-FI voice)
 // to guarantee proper Finnish pronunciation, not the system's English fallback voice.
@@ -618,7 +620,7 @@ const YkiB1Dashboard = () => {
                 )}
               </p>
             </Card>
-            {[...B1_VOCAB_MODULES, ...B1_VOCAB_EXPANSION_MODULES].map(mod => (
+            {[...B1_VOCAB_MODULES, ...B1_VOCAB_EXPANSION_MODULES, ...B1_VOCAB_EXPANSION_MODULES_2].map(mod => (
               <Card key={mod.id} className="p-5">
                 <div className="mb-3">
                   <h3 className="text-lg font-bold flex items-center gap-2">
@@ -676,12 +678,12 @@ const YkiB1Dashboard = () => {
               </h3>
               <p className="text-sm text-muted-foreground">
                 {t(
-                  "9 điểm ngữ pháp bắt buộc phải nắm để lên B1: cách (case), thì/thức và cấu trúc câu. Mỗi điểm có công thức, ví dụ song ngữ và mẹo của Thầy Hải.",
-                  "9 must-know grammar points for B1: cases, tenses/moods and sentence structure. Each has formula, bilingual examples, and Teacher Hai's tip."
+                  "21 điểm ngữ pháp cốt lõi B1 trong 5 nhóm: cách, thì/thức, cấu trúc câu, động từ chuyên sâu và cấu trúc nâng cao. Mỗi điểm có công thức, ví dụ song ngữ và mẹo của Thầy Hải.",
+                  "21 core B1 grammar points across 5 groups: cases, tenses/moods, sentence structure, verbs in depth and advanced structures. Each has a formula, bilingual examples and Teacher Hai's tip."
                 )}
               </p>
             </Card>
-            {B1_GRAMMAR_MODULES.map(mod => (
+            {[...B1_GRAMMAR_MODULES, ...B1_GRAMMAR_EXPANSION_MODULES].map(mod => (
               <Card key={mod.id} className="p-5">
                 <div className="mb-4">
                   <h3 className="text-lg font-bold flex items-center gap-2">
