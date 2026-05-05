@@ -30,6 +30,9 @@ export const B1_READING_EXPANSION: B1ReadingPassage[] = [
       { q: "Miksi kaupunki rajoittaa nopeutta?", options: ["Säästää sähköä", "Turvallisuussyistä", "Verojen takia", "Säätila vaatii"], answer: 1, explanationFi: "Tekstissä mainitaan, että onnettomuudet lisääntyivät." },
       { q: "Milloin uudet säännöt tulevat voimaan?", options: ["Heti", "Ensi viikolla", "Ensi kuussa", "Ensi vuonna"], answer: 2, explanationFi: "'Uudet säännöt astuvat voimaan ensi kuussa.'" },
       { q: "Mitä asukkaat pitävät hyvänä?", options: ["Hintaa", "Liikkumisen kätevyyttä", "Värejä", "Mainoksia"], answer: 1, explanationFi: "'kätevänä tapana liikkua keskustassa'." },
+      { q: "Mikä on Sähköpotkulautojen suosion status Suomalaisissa kaupungeissa?", options: ["Se on vähentynyt.", "Se on pysynyt ennallaan.", "Se on kasvanut nopeasti.", "Siitä ei mainita tekstissä."], answer: 2, explanationFi: "Tekstissä sanotaan 'Sähköpotkulautojen suosio on kasvanut nopeasti suomalaisissa kaupungeissa.'" },
+      { q: "Miksi kaikki asukkaat eivät ole tyytyväisiä sähköpotkulautoihin?", options: ["Ne ovat liian kalliita.", "Ne eivät ole tarpeeksi nopeita.", "Osa on huolissaan turvallisuudesta.", "Ne ovat vaikeita käyttää."], answer: 2, explanationFi: "Tekstissä mainitaan, että 'osa on huolissaan turvallisuudesta'." },
+      { q: "Missä nopeusrajoitusta sovelletaan?", options: ["Kadulla.", "Pyöräteillä.", "Jalkakäytävillä.", "Molemmilla, kadulla ja pyöräteillä."], answer: 2, explanationFi: "Tekstin mukaan kaupunki päätti rajoittaa nopeutta 'jalkakäytävillä'." }
     ],
   },
   {
@@ -43,6 +46,10 @@ export const B1_READING_EXPANSION: B1ReadingPassage[] = [
     questions: [
       { q: "Miksi aika peruttiin?", options: ["Asiakas peruutti", "Lääkäri on sairaana", "Klinikka on kiinni", "Tietokoneongelma"], answer: 1, explanationFi: "'Lääkäri Salonen on sairaana.'" },
       { q: "Miten voi varata uuden ajan?", options: ["Vain käymällä paikan päällä", "Verkossa tai puhelimitse", "Sähköpostilla", "Tekstiviestillä"], answer: 1, explanationFi: "Verkkopalvelussa tai numeroon soittamalla." },
+      { q: "Milloin lääkäriaika oli alun perin?", options: ["Perjantaina klo 10.00", "Keskiviikkona klo 10.00", "Torstaina klo 10.00", "Tiistaina klo 12.00"], answer: 1, explanationFi: "Tekstissä mainitaan, että lääkäriaika oli 'keskiviikkona klo 10.00'." },
+      { q: "Kuka oli lääkäri, jonka aika peruttiin?", options: ["Lääkäri Mäkinen", "Lääkäri Korhonen", "Lääkäri Salonen", "Lääkäri Virtanen"], answer: 2, explanationFi: "Tekstissä sanotaan: 'Lääkäri Salonen on sairaana.'" },
+      { q: "Mikä on organisaatio, joka lähetti viestin?", options: ["Apteekki", "Hammaslääkäriasema", "Terveyskeskus", "Yksityinen lääkäriasema"], answer: 2, explanationFi: "Viestin lopussa lukee 'Terveyskeskus', joka on lähettäjä." },
+      { q: "Mitä puhelinnumeroa voi käyttää uuden ajan varaamiseen?", options: ["010 111 2222", "010 123 4567", "010 765 4321", "010 987 6543"], answer: 1, explanationFi: "Tekstissä mainitaan, että uuden ajan voi varata soittamalla numeroon '010 123 4567'." }
     ],
   },
   {
@@ -57,6 +64,9 @@ export const B1_READING_EXPANSION: B1ReadingPassage[] = [
       { q: "Mikä EI kuulu suomalaisten onnellisuuden syihin?", options: ["Luottamus", "Koulutus", "Lämmin sää", "Luonto"], answer: 2, explanationFi: "Sää ei ole syy - päinvastoin, talvi on pitkä." },
       { q: "Mitä onnellisuus tutkijoiden mukaan tarkoittaa?", options: ["Aina iloa", "Tyytyväisyyttä elämään", "Paljon rahaa", "Lomamatkoja"], answer: 1, explanationFi: "'tyytyväisyyttä elämään'." },
       { q: "Kuka julkaisee raportin?", options: ["EU", "WHO", "YK", "Eduskunta"], answer: 2, explanationFi: "'YK:n vuosittaisessa raportissa'." },
+      { q: "Mikä seuraavista kuvaa parhaiten suomalaisten reaktiota raportin tuloksiin?", options: ["Ilo ja ylpeys", "Yllättyneisyys", "Välinpitämättömyys", "Epäusko ja kiukku"], answer: 1, explanationFi: "Tekstissä mainitaan, että 'moni suomalainen yllättyy tuloksista', mikä viittaa yllättyneisyyteen." },
+      { q: "Mitä luottamuksen kohdetta tekstissä nimenomaisesti mainitaan eräänä onnellisuuden syynä?", options: ["Luottamus hallitukseen", "Luottamus itseensä", "Luottamus toisiin", "Luottamus tulevaisuuteen"], answer: 2, explanationFi: "Tekstissä sanotaan, että 'suomalaisten onnellisuuden taustalla ovat luottamus toisiin'." },
+      { q: "Mikä on yksi haaste, joka tekstin mukaan saa monet suomalaiset yllättymään onnellisuusraportin tuloksista?", options: ["Korkeat verot", "Pitkä ja pimeä talvi", "Kova työtahti", "Kallis asuminen"], answer: 1, explanationFi: "Tekstissä mainitaan, että 'talvi on pitkä ja pimeä', ja se on syy, miksi moni suomalainen yllättyy tuloksista." }
     ],
   },
   {
@@ -70,6 +80,10 @@ export const B1_READING_EXPANSION: B1ReadingPassage[] = [
     questions: [
       { q: "Milloin pääkirjasto on suljettu?", options: ["Joulun aikaan", "Juhannuksena", "Pääsiäisenä", "Heinäkuussa"], answer: 1, explanationFi: "'suljettu juhannuksena 21.–24.6.'" },
       { q: "Mistä varatut kirjat voi noutaa?", options: ["Vain pääkirjastosta", "Postista", "Kirjastoautosta", "Koulusta"], answer: 2, explanationFi: "'Varatut kirjat voi noutaa myös kirjastoautosta.'" },
+      { q: "Kuinka kauan pääkirjasto on suljettu?", options: ["Yhden päivän", "Kaksi päivää", "Neljä päivää", "Viisi päivää"], answer: 2, explanationFi: "Pääkirjasto on suljettu 21.–24.6., mikä tarkoittaa neljää päivää (21., 22., 23. ja 24.)." },
+      { q: "Mihin asti lähikirjastot ovat auki kesäkuussa?", options: ["Klo 10", "Klo 16", "Klo 18", "Klo 20"], answer: 2, explanationFi: "Lähikirjastot ovat auki ma–pe klo 10–18 kesäkuun ajan." },
+      { q: "Milloin lähikirjastot ovat avoinna?", options: ["Juhannuksena", "Vain viikonloppuisin", "Maanantaista perjantaihin", "Joka päivä"], answer: 2, explanationFi: "Tekstissä sanotaan 'Lähikirjastot ovat avoinna ma–pe klo 10–18 kesäkuun ajan'." },
+      { q: "Mistäs voi kysyä lisää tietoa?", options: ["Vain asiakaspalvelusta", "Pääkirjastosta tai lähikirjastosta", "Henkilökunnalta tai verkkosivuilta", "Noutopisteestä"], answer: 2, explanationFi: "Tekstissä neuvotaan: 'Kysy lisää henkilökunnalta tai katso verkkosivuiltamme'." }
     ],
   },
   {
@@ -84,6 +98,9 @@ export const B1_READING_EXPANSION: B1ReadingPassage[] = [
       { q: "Milloin haastattelu on?", options: ["Ensi maanantaina", "Ensi torstaina 12.6.", "Tänään", "Ensi kuussa"], answer: 1, explanationFi: "'ensi torstaina 12.6. klo 14.00'." },
       { q: "Mitä pitää ottaa mukaan?", options: ["Vain CV", "Henkilöllisyystodistus ja tutkintotodistus", "Vain passi", "Suosituskirjeet"], answer: 1, explanationFi: "Henkilöllisyystodistus ja kopio tutkintotodistuksesta." },
       { q: "Mitä Mai pitää tehdä ennen haastattelua?", options: ["Maksaa rekisteröintimaksu", "Vahvistaa tulonsa sähköpostitse", "Lähettää lisätiedot", "Soittaa pomolle"], answer: 1, explanationFi: "'Vahvistathan tulosi sähköpostitse.'" },
+      { q: "Mihin Mai on hakenut?", options: ["Työpaikkaan", "Kouluun", "Asuntoon", "Kurssille"], answer: 0, explanationFi: "Kirjeessä kiitetään hakemuksesta ja kutsutaan haastatteluun, mikä viittaa yleensä työpaikan hakuun." },
+      { q: "Missä kerroksessa haastattelu pidetään?", options: ["Ensimmäisessä", "Toisessa", "Kolmannessa", "Neljännessä"], answer: 3, explanationFi: "Tekstissä mainitaan osoite: 'Mannerheimintie 12, 4. kerros'." },
+      { q: "Kuinka kauan haastattelu kestää?", options: ["Noin puoli tuntia", "Noin 45 minuuttia", "Noin yksi tunti", "Noin 15 minuuttia"], answer: 1, explanationFi: "Tekstissä sanotaan selvästi: 'Haastattelu kestää noin 45 minuuttia'." }
     ],
   },
   {
@@ -98,6 +115,9 @@ export const B1_READING_EXPANSION: B1ReadingPassage[] = [
       { q: "Kuka erityisesti syö kasvisruokaa?", options: ["Vanhemmat ihmiset", "Nuoret kaupunkilaiset", "Maaseudun asukkaat", "Lapset"], answer: 1, explanationFi: "'Erityisesti nuoret kaupunkilaiset…'" },
       { q: "Mitä kaupoissa on enemmän?", options: ["Lihaa", "Kalaa", "Kasvistuotteita", "Maitotuotteita"], answer: 2, explanationFi: "'paljon enemmän kasvistuotteita kuin ennen'." },
       { q: "Mitä asiantuntijat sanovat tulevaisuudesta?", options: ["Trendi loppuu pian", "Trendi jatkuu", "Ei tiedetä", "Hinnat nousevat"], answer: 1, explanationFi: "'trendi tulee jatkumaan'." },
+      { q: "Kuinka pitkän ajan aikana suomalaisten ruokatottumukset ovat muuttuneet?", options: ["Viimeisen vuoden aikana", "Viimeisen kymmenen vuoden aikana", "Viimeisten kahdenkymmenen vuoden aikana", "Viimeisen viiden vuoden aikana"], answer: 1, explanationFi: "Tekstin mukaan \"Suomalaisten ruokatottumukset ovat muuttuneet viimeisen kymmenen vuoden aikana.\"" },
+      { q: "Mitä ravintolat usein tarjoavat nykyään?", options: ["Vain liharuokia", "Uusia jälkiruokia", "Ympäristöystävällisiä pakkauksia", "Vegaanivaihtoehtoja"], answer: 3, explanationFi: "Tekstissä mainitaan, että \"ravintolat tarjoavat usein vegaanivaihtoehtoja.\"" },
+      { q: "Mistä nuoret kaupunkilaiset ovat kiinnostuneita?", options: ["Edullisesta ruoasta", "Perinteisistä suomalaisista ruoista", "Ympäristöystävällisestä ruoasta", "Ulkomaalaisista herkuista"], answer: 2, explanationFi: "Teksti sanoo: \"Erityisesti nuoret kaupunkilaiset ovat kiinnostuneita ympäristöystävällisestä ruoasta.\"" }
     ],
   },
   {
@@ -112,6 +132,9 @@ export const B1_READING_EXPANSION: B1ReadingPassage[] = [
       { q: "Mistä voi tarkistaa verokortin tiedot?", options: ["Postista", "Vero.fi-sivustolta", "Pankista", "Kirjastosta"], answer: 1, explanationFi: "'osoitteessa vero.fi'." },
       { q: "Mitä pitää tehdä, jos tulot ovat muuttuneet?", options: ["Ei mitään", "Maksaa lisää", "Ilmoittaa Verohallintoon", "Mennä toimistoon"], answer: 2, explanationFi: "'on tärkeää ilmoittaa siitä mahdollisimman pian'." },
       { q: "Mitä tapahtuu, jos muutoksia ei tehdä?", options: ["Verokortti vanhenee", "Vanha verokortti pysyy voimassa", "Saadaan sakko", "Pankkitili suljetaan"], answer: 1, explanationFi: "'vanha verokortti on voimassa'." },
+      { q: "Mikä viranomainen on lähettänyt tämän viestin?", options: ["Kela", "Poliisi", "Verohallinto", "Maistraatti"], answer: 2, explanationFi: "Viestin lopussa lukee 'Verohallinto', joka on viestin lähettäjä." },
+      { q: "Milloin uusi verokortti on voimassa?", options: ["Vuonna 2024", "Nyt", "Vuonna 2025", "Ensi kuussa"], answer: 2, explanationFi: "Tekstissä mainitaan 'Verokorttinne vuodelle 2025 on nyt valmis'." },
+      { q: "Millä kahdella tavalla muutoksia voi tehdä?", options: ["Postitse tai sähköpostitse", "Verkossa tai puhelimitse", "Paikan päällä tai kirjeitse", "Faksilla tai tekstiviestillä"], answer: 1, explanationFi: "Tekstissä sanotaan: 'Muutokset voi tehdä helposti verkossa tai puhelimitse'." }
     ],
   },
 ];
