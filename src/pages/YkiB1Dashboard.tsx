@@ -678,8 +678,8 @@ const YkiB1Dashboard = () => {
               </h3>
               <p className="text-sm text-muted-foreground">
                 {t(
-                  "9 điểm ngữ pháp bắt buộc phải nắm để lên B1: cách (case), thì/thức và cấu trúc câu. Mỗi điểm có công thức, ví dụ song ngữ và mẹo của Thầy Hải.",
-                  "9 must-know grammar points for B1: cases, tenses/moods and sentence structure. Each has formula, bilingual examples, and Teacher Hai's tip."
+                  "21 điểm ngữ pháp cốt lõi B1 trong 5 nhóm: cách, thì/thức, cấu trúc câu, động từ chuyên sâu và cấu trúc nâng cao. Mỗi điểm có công thức, ví dụ song ngữ và mẹo của Thầy Hải.",
+                  "21 core B1 grammar points across 5 groups: cases, tenses/moods, sentence structure, verbs in depth and advanced structures. Each has a formula, bilingual examples and Teacher Hai's tip."
                 )}
               </p>
             </Card>
