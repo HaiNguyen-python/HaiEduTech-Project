@@ -603,6 +603,153 @@ const YkiB1Dashboard = () => {
               </Card>
             ))}
           </TabsContent>
+
+          {/* VOCABULARY */}
+          <TabsContent value="vocabulary" className="mt-6 space-y-5">
+            <Card className="p-5 bg-gradient-to-br from-[#003580]/5 to-emerald-500/5 border-[#003580]/30">
+              <h3 className="text-lg font-bold flex items-center gap-2 mb-1">
+                <Sparkles className="w-5 h-5 text-[#003580]" />
+                {t("Ngân hàng từ vựng B1 theo chủ đề", "B1 Thematic Vocabulary Bank")}
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                {t(
+                  "Mỗi chủ đề có ~25 từ B1 thường gặp trong YKI Reading/Writing/Speaking. Bấm vào loa để nghe phát âm, lưu vào Sổ tay để ôn lại.",
+                  "Each theme has ~25 B1 words common in YKI Reading/Writing/Speaking. Click the speaker to hear pronunciation, save to Notebook to review."
+                )}
+              </p>
+            </Card>
+            {[...B1_VOCAB_MODULES, ...B1_VOCAB_EXPANSION_MODULES].map(mod => (
+              <Card key={mod.id} className="p-5">
+                <div className="mb-3">
+                  <h3 className="text-lg font-bold flex items-center gap-2">
+                    <span>{mod.emoji}</span>
+                    {lang === "vi" ? mod.titleVi : mod.titleFi}
+                    <span className="text-xs font-normal text-muted-foreground">· {mod.titleEn}</span>
+                  </h3>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {lang === "vi" ? mod.descriptionVi : mod.description}
+                  </p>
+                </div>
+                <div className="grid sm:grid-cols-2 gap-2">
+                  {mod.words.map((w, i) => (
+                    <div key={i} className="p-2.5 rounded-lg border border-border bg-secondary/20">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <button
+                          onClick={() => speakFi(w.fi)}
+                          className="font-bold text-[#003580] inline-flex items-center gap-1 hover:underline"
+                        >
+                          <Volume2 className="w-3 h-3" />{w.fi}
+                        </button>
+                        <Badge variant="outline" className="text-[10px]">{w.partOfSpeech}</Badge>
+                      </div>
+                      <p className="text-xs text-foreground/90 mt-1">
+                        {w.meaningEn} {lang === "vi" && <span className="text-muted-foreground">· {w.meaningVi}</span>}
+                      </p>
+                      <p className="text-xs italic text-muted-foreground mt-1">"{w.exampleFi}"</p>
+                      {lang === "vi" && (
+                        <p className="text-[11px] text-muted-foreground mt-0.5">→ {w.exampleVi}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="mt-3"
+                  onClick={() => saveToNotebook(
+                    `B1 Vocab · ${mod.titleEn}`,
+                    mod.words.map(w => `${w.fi} (${w.partOfSpeech}) — ${w.meaningEn} / ${w.meaningVi}\n  ${w.exampleFi}`).join("\n\n")
+                  )}
+                >
+                  <NotebookPen className="w-4 h-4 mr-1" /> {t("Lưu cả chủ đề vào Sổ tay", "Save whole theme to Notebook")}
+                </Button>
+              </Card>
+            ))}
+          </TabsContent>
+
+          {/* GRAMMAR */}
+          <TabsContent value="grammar" className="mt-6 space-y-5">
+            <Card className="p-5 bg-gradient-to-br from-[#003580]/5 to-emerald-500/5 border-[#003580]/30">
+              <h3 className="text-lg font-bold flex items-center gap-2 mb-1">
+                <Sparkles className="w-5 h-5 text-[#003580]" />
+                {t("Ngữ pháp cốt lõi B1", "B1 Core Grammar")}
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                {t(
+                  "9 điểm ngữ pháp bắt buộc phải nắm để lên B1: cách (case), thì/thức và cấu trúc câu. Mỗi điểm có công thức, ví dụ song ngữ và mẹo của Thầy Hải.",
+                  "9 must-know grammar points for B1: cases, tenses/moods and sentence structure. Each has formula, bilingual examples, and Teacher Hai's tip."
+                )}
+              </p>
+            </Card>
+            {B1_GRAMMAR_MODULES.map(mod => (
+              <Card key={mod.id} className="p-5">
+                <div className="mb-4">
+                  <h3 className="text-lg font-bold flex items-center gap-2">
+                    <span>{mod.emoji}</span>
+                    {lang === "vi" ? mod.titleVi : mod.titleFi}
+                    <span className="text-xs font-normal text-muted-foreground">· {mod.titleEn}</span>
+                  </h3>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {lang === "vi" ? mod.descriptionVi : mod.description}
+                  </p>
+                </div>
+                <div className="space-y-4">
+                  {mod.points.map(p => (
+                    <div key={p.id} className="p-4 rounded-lg border-2 border-[#003580]/15 bg-secondary/20">
+                      <h4 className="font-bold text-base flex items-center gap-2 mb-1">
+                        <span>{p.emoji}</span>
+                        {lang === "vi" ? p.titleVi : p.titleFi}
+                        <span className="text-xs font-normal text-muted-foreground">· {p.titleEn}</span>
+                      </h4>
+                      <p className="text-sm text-foreground/90 mb-2">
+                        {lang === "vi" ? p.explanationVi : p.explanationFi}
+                      </p>
+                      {p.formula && (
+                        <div className="text-xs font-mono px-2 py-1.5 rounded bg-[#003580]/10 border border-[#003580]/20 inline-block mb-3">
+                          📐 {p.formula}
+                        </div>
+                      )}
+                      <div className="space-y-1.5 mb-3">
+                        {p.examples.map((ex, i) => (
+                          <div key={i} className="text-sm">
+                            <button
+                              onClick={() => speakFi(ex.fi)}
+                              className="font-medium text-[#003580] inline-flex items-center gap-1 hover:underline"
+                            >
+                              <Volume2 className="w-3 h-3" />{ex.fi}
+                            </button>
+                            <span className="text-muted-foreground"> — {ex.en}</span>
+                            {lang === "vi" && (
+                              <span className="text-xs text-muted-foreground italic"> · {ex.vi}</span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                      <div className="p-2.5 rounded bg-yellow-500/10 border border-yellow-500/30">
+                        <p className="text-xs">
+                          <span className="font-bold">🎓 Teacher Hai:</span>{" "}
+                          {lang === "vi" ? p.teacherTipVi : p.teacherTipEn}
+                        </p>
+                      </div>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="h-7 text-xs mt-2"
+                        onClick={() => saveToNotebook(
+                          `B1 Grammar · ${p.titleEn}`,
+                          `${p.titleFi} (${p.titleVi})\n\n${p.explanationFi}\n${p.formula ? "Formula: " + p.formula + "\n" : ""}\n` +
+                          p.examples.map(e => `• ${e.fi}\n  ${e.en}\n  ${e.vi}`).join("\n\n") +
+                          `\n\nTip: ${p.teacherTipEn} / ${p.teacherTipVi}`
+                        )}
+                      >
+                        <NotebookPen className="w-3 h-3 mr-1" /> {t("Lưu vào Sổ tay", "Save to Notebook")}
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            ))}
+          </TabsContent>
         </Tabs>
       </main>
       <Footer />
