@@ -103,6 +103,10 @@ export const B1_LISTENING_EXPANSION2: B1ListeningClip[] = [
     questions: [
       { q: "Miksi asiakas tarvitsee uuden verokortin?", options: ["Hän muutti", "Tulot ovat muuttuneet", "Hän aloitti opiskelun", "Hän jäi eläkkeelle"], answer: 1 },
       { q: "Mihin uusi verokortti lähetetään?", options: ["Postiin", "OmaVeroon (sähköisesti)", "Pankkitilille", "Kotiosoitteeseen"], answer: 1 },
+      { q: "Mitä asiakkaalla on mukanaan, jonka virkailija haluaa nähdä?", options: ["Henkilöllisyystodistus", "Palkkalaskelma", "Vanha verokortti", "Pankkitunnukset"], answer: 1 },
+      { q: "Kuinka kauan uusi verokortti on voimassa?", options: ["Kuukauden", "Vuoden", "Vuoden loppuun", "Toistaiseksi"], answer: 2 },
+      { q: "Kuka pyytää asiakkaalta palkkalaskelmaa?", options: ["Asiakas itse", "Virkailija", "Postin työntekijä", "Pankin johtaja"], answer: 1 },
+      { q: "Miksi virkailija voi tehdä uuden verokortin heti?", options: ["Asiakkaan pyynnöstä", "Koska asiakkaalla on palkkalaskelma mukana", "Koska asiakas on kiireinen", "Niin on tapa toimia"], answer: 1 }
     ],
   },
   {
@@ -116,6 +120,9 @@ export const B1_LISTENING_EXPANSION2: B1ListeningClip[] = [
       { q: "Milloin lapsilisä maksetaan?", options: ["1. päivänä", "15. päivänä", "26. päivänä", "Viimeisenä päivänä"], answer: 2 },
       { q: "Miten haetaan toisen lapsen lapsilisä?", options: ["Soittamalla", "Verkkohakemuksella Kelan sivuilla", "Postitse", "Käymällä toimistossa"], answer: 1 },
       { q: "Kauanko käsittely kestää?", options: ["Päivän", "Viikon", "Kaksi viikkoa", "Kuukauden"], answer: 2 },
+      { q: "Kuinka usein lapsilisä maksetaan?", options: ["Kerran viikossa", "Kerran kuussa", "Kaksi kertaa kuussa", "Kerran vuodessa"], answer: 1 },
+      { q: "Mistä uusi hakemus tehdään?", options: ["Postitse", "Puhelimitse", "Kelan toimistossa", "Verkossa Kelan sivuilla"], answer: 3 },
+      { q: "Mitä asiakas kysyy virkailijalta toisen kerran?", options: ["Mitä asiakas kysyy virkailijalta toisen kerran?", "Kuinka paljon lapsilisää saa?", "Kuinka kauan käsittely kestää?", "Saako lapsilisää takautuvasti?"], answer: 2 }
     ],
   },
   {
@@ -128,6 +135,10 @@ export const B1_LISTENING_EXPANSION2: B1ListeningClip[] = [
     questions: [
       { q: "Mikä on asiakkaan tavoite?", options: ["Lihoa", "Laihtua ja saada lihasta", "Vain juosta maratonin", "Levätä"], answer: 1 },
       { q: "Mitä valmentaja suosittelee syömään?", options: ["Sokeria", "Enemmän proteiinia", "Pelkkiä kasviksia", "Vähemmän vettä"], answer: 1 },
+      { q: "Kuinka monta kertaa viikossa valmentaja suosittelee asiakkaan treenaavan?", options: ["Kerran viikossa", "Kaksi kertaa viikossa", "Kolme kertaa viikossa", "Neljä kertaa viikossa"], answer: 2 },
+      { q: "Missä asiakkaan tulisi käydä kaksi kertaa viikossa?", options: ["Joogassa", "Kuntosalilla", "Uimassa", "Juoksemassa"], answer: 1 },
+      { q: "Mitä asiakkaan tulisi vähentää ruokavaliosta?", options: ["Proteiinia", "Rasvaa", "Sokeria", "Hedelmiä"], answer: 2 },
+      { q: "Mitä lajia valmentaja suosittelee kerran viikossa?", options: ["Pyöräilyä", "Uimista", "Juoksua", "Voimanoston"], answer: 2 }
     ],
   },
   {
@@ -140,6 +151,10 @@ export const B1_LISTENING_EXPANSION2: B1ListeningClip[] = [
     questions: [
       { q: "Mistä löytyy kurssikatalogi?", options: ["Opettajalta", "Nettisivuilta, Opinto-oppaasta", "Kirjastosta", "Sähköpostista"], answer: 1 },
       { q: "Voiko kaikki kurssit valita vapaasti?", options: ["Kyllä, kaikki", "Ei, osa vaatii aiempia opintoja", "Vain ulkomaalaiset", "Vain maisteritason"], answer: 1 },
+      { q: "Kuka kysyy neuvojalta kysymyksiä?", options: ["Vaihto-opiskelija", "Opettaja", "Neuvoja", "Yliopiston rehtori"], answer: 0 },
+      { q: "Mitä opiskelija on yliopistolla?", options: ["Uusi neuvonantaja", "Uusi vaihto-opiskelija", "Vanha opettaja", "Kuraattori"], answer: 1 },
+      { q: "Miten opiskelija saa tarkempaa tietoa kurssien vaatimuksista?", options: ["Kysymällä opettajalta", "Tarkistamalla kuvauksesta", "Soittamalla yliopistoon", "Lukemalla ilmoitustaululta"], answer: 1 },
+      { q: "Mitä neuvoja sanoo heti alussa opiskelijalle?", options: ["Kiitos paljon", "Hei, olen neuvontapisteestä", "Hyvä, että tulit", "Mitä haluat?"], answer: 2 }
     ],
   },
   {
@@ -153,6 +168,9 @@ export const B1_LISTENING_EXPANSION2: B1ListeningClip[] = [
       { q: "Mistä asukkaat puhuvat?", options: ["Vuokrasta", "Uudesta leikkipaikasta", "Saunasta", "Pysäköinnistä"], answer: 1 },
       { q: "Miten leikkipaikka voitaisiin rahoittaa?", options: ["Vain vuokralaisten rahoilla", "Kaupungin avustuksella tai keräyksellä", "Lainalla", "Ulkomaalta"], answer: 1 },
       { q: "Milloin asiasta päätetään?", options: ["Tänään", "Seuraavassa kokouksessa", "Ensi vuonna", "Ei koskaan"], answer: 1 },
+      { q: "Mikä on asukkaiden suurin huoli leikkipaikan suhteen?", options: ["Sen sijainti", "Kuka maksaa sen", "Kuka rakentaa sen", "Milloin se valmistuu"], answer: 1 },
+      { q: "Mitä asukas 1 ehdottaa rahoitukseksi avustuksen lisäksi?", options: ["Lainaa pankilta", "Myyjäisiä", "Keräyksen järjestämistä", "Talkootyötä"], answer: 2 },
+      { q: "Miksi leikkipaikka on asukas 1:n mielestä tarpeellinen?", options: ["Koska vanha on rikki", "Koska piha on liian tyhjä", "Koska pihalla ei ole mitään lapsille", "Koska lapset kyllästyvät helposti"], answer: 2 }
     ],
   },
 ];
