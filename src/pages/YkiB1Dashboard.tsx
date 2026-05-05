@@ -17,7 +17,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft, Volume2, Timer, Mic, Pause, Play, RotateCcw, NotebookPen, Sparkles, CheckCircle2, XCircle } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { playFinnishTts } from "@/lib/finnishTts";
+import { playFinnishTts, pauseFinnishTts, resumeFinnishTts, stopFinnishTts } from "@/lib/finnishTts";
 import ClickableFinnishText from "@/components/ClickableFinnishText";
 import {
   B1_READING_ALL as B1_READING,
@@ -85,6 +85,9 @@ const YkiB1Dashboard = () => {
   const [readingAnswers, setReadingAnswers] = useState<Record<string, number>>({});
   const [listeningAnswers, setListeningAnswers] = useState<Record<string, number>>({});
   const [showResults, setShowResults] = useState<Record<string, boolean>>({});
+  const [showScript, setShowScript] = useState<Record<string, boolean>>({});
+  const [playingId, setPlayingId] = useState<string | null>(null);
+  const [pausedId, setPausedId] = useState<string | null>(null);
   const [translateMode, setTranslateMode] = useState(false);
   const [essay, setEssay] = useState("");
   const [grading, setGrading] = useState(false);
@@ -251,10 +254,56 @@ const YkiB1Dashboard = () => {
                     <h3 className="text-lg font-bold">{c.title}</h3>
                     <p className="text-sm text-muted-foreground">{c.scenarioFi}</p>
                   </div>
-                  <Button onClick={() => speakFi(c.scriptFi, 0.85)} variant="outline">
-                    <Volume2 className="w-4 h-4 mr-1" />{t("Phát audio", "Play audio")}
-                  </Button>
+                  <div className="flex flex-wrap gap-2">
+                    {playingId !== c.id || pausedId === c.id ? (
+                      <Button
+                        onClick={async () => {
+                          if (pausedId === c.id) {
+                            resumeFinnishTts();
+                            setPausedId(null);
+                            return;
+                          }
+                          stopFinnishTts();
+                          setPlayingId(c.id);
+                          setPausedId(null);
+                          await playFinnishTts(c.scriptFi, { playbackRate: 0.85, speechRate: 0.85 });
+                          setPlayingId(prev => (prev === c.id ? null : prev));
+                          setPausedId(prev => (prev === c.id ? null : prev));
+                        }}
+                        variant="outline"
+                      >
+                        <Play className="w-4 h-4 mr-1" />
+                        {pausedId === c.id ? t("Tiếp tục", "Resume") : t("Phát audio", "Play audio")}
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={() => { pauseFinnishTts(); setPausedId(c.id); }}
+                        variant="outline"
+                      >
+                        <Pause className="w-4 h-4 mr-1" />{t("Tạm dừng", "Pause")}
+                      </Button>
+                    )}
+                    <Button
+                      onClick={() => { stopFinnishTts(); setPlayingId(null); setPausedId(null); }}
+                      variant="ghost"
+                      size="sm"
+                    >
+                      ⏹ {t("Dừng", "Stop")}
+                    </Button>
+                    <Button
+                      onClick={() => setShowScript(prev => ({ ...prev, [c.id]: !prev[c.id] }))}
+                      variant="secondary"
+                      size="sm"
+                    >
+                      {showScript[c.id] ? t("Ẩn script", "Hide script") : t("Hiện script", "Show script")}
+                    </Button>
+                  </div>
                 </div>
+                {showScript[c.id] && (
+                  <div className="mb-4 p-3 rounded-lg bg-muted/50 border border-border text-sm whitespace-pre-wrap leading-relaxed">
+                    {c.scriptFi}
+                  </div>
+                )}
                 <div className="space-y-3">
                   {c.questions.map((q, qi) => {
                     const key = `${c.id}-${qi}`;

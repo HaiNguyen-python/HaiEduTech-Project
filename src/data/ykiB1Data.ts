@@ -194,16 +194,12 @@ export const B1_LISTENING: B1ListeningClip[] = [
     scriptFi:
       "Asiakas: Hei, minulla on kova yskä jo viikon. Onko teillä jotain hyvää? Apteekkari: Suosittelen tätä siirappia. Otetaan yksi lusikallinen kolme kertaa päivässä. Asiakas: Tarvitsenko reseptin? Apteekkari: Et tarvitse, tämä saadaan ilman reseptiä. Asiakas: Kiitos paljon!",
     questions: [
-      {
-        q: "Kuinka kauan asiakkaalla on ollut yskä?",
-        options: ["Päivän", "Viikon", "Kuukauden", "Kaksi viikkoa"],
-        answer: 1,
-      },
-      {
-        q: "Tarvitaanko lääkkeeseen resepti?",
-        options: ["Kyllä", "Ei", "Vain lapsille", "Ei mainita"],
-        answer: 1,
-      },
+      { q: "Kuinka kauan asiakkaalla on ollut yskä?", options: ["Päivän", "Viikon", "Kuukauden", "Kaksi viikkoa"], answer: 1 },
+      { q: "Tarvitaanko lääkkeeseen resepti?", options: ["Kyllä", "Ei", "Vain lapsille", "Ei mainita"], answer: 1 },
+      { q: "Mitä apteekkari suosittelee yskään?", options: ["Tabletteja", "Siirappia", "Voiteita", "Pastilleja"], answer: 1 },
+      { q: "Kuinka monta kertaa päivässä lääkettä otetaan?", options: ["Kaksi kertaa", "Yksi kerta", "Kolme kertaa", "Neljä kertaa"], answer: 2 },
+      { q: "Mikä on lääkkeen annostelu?", options: ["Yksi tippa", "Yksi lusikallinen", "Yksi tabletti", "Yksi suihkaus"], answer: 1 },
+      { q: "Kenen kanssa asiakas keskustelee?", options: ["Lääkärin", "Sairaanhoitajan", "Apteekkarin", "Ystävän"], answer: 2 }
     ],
   },
   {
@@ -217,6 +213,9 @@ export const B1_LISTENING: B1ListeningClip[] = [
       { q: "Mitä asiakas haluaa tehdä?", options: ["Sulkea tilin", "Avata pankkitilin", "Nostaa rahaa", "Vaihtaa valuuttaa"], answer: 1 },
       { q: "Mitä asiakas antaa virkailijalle?", options: ["Ajokortin", "Passin", "Henkilökortin", "Opiskelijakortin"], answer: 1 },
       { q: "Kuinka kauan tilin avaaminen kestää?", options: ["5 min", "10 min", "15 min", "30 min"], answer: 2 },
+      { q: "Milloin asiakas sai henkilötunnuksensa?", options: ["Tällä viikolla", "Viime kuussa", "Viime vuonna", "Eilen"], answer: 1 },
+      { q: "Mitä kahta asiakirjaa virkailija pyytää asiakkaalta?", options: ["Ajokorttia ja henkilötunnusta", "Passia ja syntymätodistusta", "Henkilötunnusta ja passia tai oleskelulupaa", "Oleskelulupaa ja verokorttia"], answer: 2 },
+      { q: "Mitä asiakas sanoo saaneensa viime kuussa?", options: ["Pankkikortin", "Henkilötunnuksen", "Uuden passin", "Työpaikan"], answer: 1 }
     ],
   },
   {
@@ -229,6 +228,10 @@ export const B1_LISTENING: B1ListeningClip[] = [
     questions: [
       { q: "Mitä päiväkodissa syödään tänään?", options: ["Pizzaa", "Kalakeittoa", "Riisiä", "Pastaa"], answer: 1 },
       { q: "Mitä vanhempi pyytää?", options: ["Pidempiä päiväunia", "Vähemmän leikkiä", "Ulkoilua", "Lääkettä"], answer: 0 },
+      { q: "Kuka kysyy noin Main voinnista?", options: ["Vanhempi", "Opettaja", "Mai", "Kokki"], answer: 1 },
+      { q: "Mitä tänään leikitään?", options: ["Sisällä", "Ulkona", "Piilosta", "Lautapelejä"], answer: 1 },
+      { q: "Miten Mai voi vanhemman mukaan?", options: ["Erittäin hyvin", "Sairaana", "Väsynyt, mutta muuten hyvin", "Pirteä"], answer: 2 },
+      { q: "Mitä opettaja vastaa vanhemman pyyntöön?", options: ["Ei onnistu", "Pitää miettiä", "Tietenkin, järjestämme sen", "Kysyn johtajalta"], answer: 2 }
     ],
   },
   {
@@ -239,16 +242,12 @@ export const B1_LISTENING: B1ListeningClip[] = [
     scriptFi:
       "Työnantaja: Miksi haet juuri tätä työtä? Hakija: Olen kiinnostunut asiakaspalvelusta ja pidän kiireisestä työstä. Työnantaja: Onko sinulla aiempaa kokemusta? Hakija: Kyllä, työskentelin kahvilassa kaksi vuotta. Työnantaja: Hienoa. Voitko aloittaa heti ensi viikolla? Hakija: Voin, sopii hyvin.",
     questions: [
-      {
-        q: "Missä hakija on aiemmin työskennellyt?",
-        options: ["Ravintolassa", "Kahvilassa", "Kaupassa", "Hotellissa"],
-        answer: 1,
-      },
-      {
-        q: "Milloin hakija voi aloittaa?",
-        options: ["Tänään", "Ensi viikolla", "Ensi kuussa", "Ei voi aloittaa"],
-        answer: 1,
-      },
+      { q: "Missä hakija on aiemmin työskennellyt?", options: ["Ravintolassa", "Kahvilassa", "Kaupassa", "Hotellissa"], answer: 1 },
+      { q: "Milloin hakija voi aloittaa?", options: ["Tänään", "Ensi viikolla", "Ensi kuussa", "Ei voi aloittaa"], answer: 1 },
+      { q: "Mistä hakija on kiinnostunut?", options: ["Kiireisestä työstä", "Asiakaspalvelusta", "Työnantajan kanssa puhumisesta", "Kahvilassa työskentelystä"], answer: 1 },
+      { q: "Kuinka kauan hakija työskenteli kahvilassa?", options: ["Yhden vuoden", "Kaksi vuotta", "Kolme vuotta", "Ei mainittu"], answer: 1 },
+      { q: "Miksi työnantaja kysyy hakijalta, voiko hän aloittaa heti ensi viikolla?", options: ["Koska työnantaja haluaa testata hakijan joustavuutta", "Koska työhön on kiire", "Koska hakijan kokemus oli hienoa", "Koska he tarvitsevat työntekijän nopeasti"], answer: 3 },
+      { q: "Mikä on hakijan mielestä tärkeää työssä?", options: ["Rauhallinen työympäristö", "Hyvä palkka", "Asiakaspalvelu ja kiireinen työ", "Pitkät lomat"], answer: 2 }
     ],
   },
 ];

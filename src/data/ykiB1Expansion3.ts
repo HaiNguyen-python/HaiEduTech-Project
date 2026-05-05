@@ -171,6 +171,10 @@ export const B1_LISTENING_EXP3: B1ListeningClip[] = [
     questions: [
       { q: "Mitä asiakas tekee?", options: ["Lähettää paketin", "Hakee paketin", "Maksaa laskun", "Ostaa postimerkit"], answer: 1 },
       { q: "Mitä hän näyttää?", options: ["Passin", "Ajokortin", "Kela-kortin", "Bussikortin"], answer: 2 },
+      { q: "Mitä asiakas halusi hakea?", options: ["kirjeen", "paketin", "kortin", "rahaa"], answer: 1 },
+      { q: "Mitä virkailija pyysi ensin asiakkaalta hakuilmoituksen nähtyään?", options: ["allekirjoitusta", "postimerkkiä", "henkilöllisyystodistusta", "puhelinnumeroa"], answer: 2 },
+      { q: "Mitä asiakas antoi henkilöllisyystodistukseksi?", options: ["ajokortin", "passin", "Kela-kortin", "henkilökortin"], answer: 2 },
+      { q: "Mitä asiakkaan piti tehdä lopuksi?", options: ["allekirjoittaa paperin", "maksaa paketti", "avata paketti", "lähteä heti"], answer: 0 }
     ],
   },
   {
@@ -182,6 +186,10 @@ export const B1_LISTENING_EXP3: B1ListeningClip[] = [
     questions: [
       { q: "Mihin aikaan bussi tulee?", options: ["13:15", "13:30", "13:45", "14:00"], answer: 1 },
       { q: "Mihin aikaan kokous alkaa?", options: ["13:30", "14:00", "14:15", "14:30"], answer: 1 },
+      { q: "Kuinka monta minuuttia on seuraavaan bussiin?", options: ["Kymmenen minuuttia.", "Viisitoista minuuttia.", "Kaksikymmentä minuuttia.", "Kolmekymmentä minuuttia."], answer: 1 },
+      { q: "Miksi Liisa on huolissaan?", options: ["Bussi on myöhässä.", "He myöhästyvät junasta.", "He myöhästyvät kokouksesta.", "Olli on myöhässä."], answer: 2 },
+      { q: "Mitä Olli vastasi Liisan huoleen?", options: ["He ehtivät kokoukseen.", "Kokous on peruttu.", "Bussi tulee myöhemmin.", "He ehtivät juuri ja juuri."], answer: 0 },
+      { q: "Kuka tarkisti bussin aikataulun?", options: ["Liisa", "Olli", "Bussikuski", "Kukaan ei tarkistanut"], answer: 1 }
     ],
   },
   {
@@ -194,6 +202,9 @@ export const B1_LISTENING_EXP3: B1ListeningClip[] = [
       { q: "Mitä asiakas tilaa?", options: ["Lohikeitto", "Broilerisalaatti", "Kasviswokki", "Pizza"], answer: 1 },
       { q: "Mitä lounaaseen kuuluu?", options: ["Vain ruoka", "Salaatti, leipä, kahvi", "Vain juoma", "Jälkiruoka"], answer: 1 },
       { q: "Paljonko lounas maksaa?", options: ["10 €", "11 €", "13 €", "15 €"], answer: 2 },
+      { q: "Mikä on yksi lounasvaihtoehdoista?", options: ["Lohikeitto", "Makkara ja perunat", "Pinaattikeitto", "Uunilohi"], answer: 0 },
+      { q: "Mitä aterioita tarjoilija mainitsee?", options: ["Ainoastaan kaksi vaihtoehtoa", "Kolme eri lounasvaihtoehtoa", "Neljä eri vaihtoehtoa", "Ei yhtään selkeää vaihtoehtoa"], answer: 1 },
+      { q: "Ketkä keskustelevat?", options: ["Myyjä ja ostaja", "Asiakas ja kokki", "Asiakas ja tarjoilija", "Kaksi ystävää"], answer: 2 }
     ],
   },
   {
@@ -206,6 +217,9 @@ export const B1_LISTENING_EXP3: B1ListeningClip[] = [
       { q: "Kuinka kauan potilas on ollut väsynyt?", options: ["Päivän", "Viikon", "Kaksi viikkoa", "Kuukauden"], answer: 2 },
       { q: "Onko potilaalla kuumetta?", options: ["Kyllä, korkea", "Hieman", "Ei oikeastaan", "Joka toinen päivä"], answer: 2 },
       { q: "Milloin tulokset valmistuvat?", options: ["Heti", "Tänään illalla", "Huomenna", "Viikon päästä"], answer: 2 },
+      { q: "Mitä oireita potilaalla on ollut kaksi viikkoa?", options: ["väsymystä", "kuumetta", "päänsärkyä ja kuumetta", "vain päänsärkyä"], answer: 0 },
+      { q: "Mitä lääkäri ehdottaa seuraavaksi?", options: ["Lepoa kotona", "Verikokeen ottamista", "Uutta tapaamista huomenna", "Reseptin kirjoittamista"], answer: 1 },
+      { q: "Kuinka usein potilaalla särkee päätä?", options: ["Harvoin", "Melkein joka päivä", "Kaksi kertaa viikossa", "Yhden kerran viikossa"], answer: 1 }
     ],
   },
   {
@@ -218,6 +232,9 @@ export const B1_LISTENING_EXP3: B1ListeningClip[] = [
       { q: "Mitä asiakas etsii?", options: ["Kengät", "Talvitakki", "Hattu", "Hanskat"], answer: 1 },
       { q: "Mikä on koko?", options: ["S", "M", "L", "XL"], answer: 1 },
       { q: "Minkä värin asiakas valitsee?", options: ["Sininen", "Musta", "Punainen", "Harmaa"], answer: 1 },
+      { q: "Mikä on takin hinta?", options: ["159 euroa", "195 euroa", "259 euroa", "129 euroa"], answer: 0 },
+      { q: "Kuka etsii takkia?", options: ["Myyjä", "Asiakas", "Mies", "Nainen"], answer: 1 },
+      { q: "Mitä värejä takista on saatavilla?", options: ["Musta ja valkoinen", "Musta ja punainen", "Musta ja sininen", "Sininen ja valkoinen"], answer: 2 }
     ],
   },
   {
@@ -230,6 +247,9 @@ export const B1_LISTENING_EXP3: B1ListeningClip[] = [
       { q: "Kuinka iso asunto on?", options: ["20 m²", "25 m²", "30 m²", "40 m²"], answer: 2 },
       { q: "Sisältyykö sähkö vuokraan?", options: ["Kyllä", "Ei", "Vain talvella", "Osittain"], answer: 1 },
       { q: "Milloin asuntoa pääsee katsomaan?", options: ["Tänään", "Huomenna klo 17", "Viikonloppuna", "Ensi viikolla"], answer: 1 },
+      { q: "Mitä asiakas etsii?", options: ["Kaksiota Lauttasaaresta", "Yksiötä kantakaupungista", "Kolmiota Espoosta", "Neliötä Vantaalta"], answer: 1 },
+      { q: "Missä kaupunginosassa asunto sijaitsee?", options: ["Kallio", "Töölö", "Punavuori", "Katajanokka"], answer: 2 },
+      { q: "Kuinka paljon asunnon vuokra on?", options: ["850 euroa", "900 euroa", "920 euroa", "950 euroa"], answer: 2 }
     ],
   },
   {
@@ -242,6 +262,9 @@ export const B1_LISTENING_EXP3: B1ListeningClip[] = [
       { q: "Kuinka monta kirjaa lainataan?", options: ["1", "2", "3", "5"], answer: 2 },
       { q: "Kuinka pitkä laina-aika on?", options: ["1 viikko", "2 viikkoa", "4 viikkoa", "8 viikkoa"], answer: 2 },
       { q: "Paljonko myöhästyminen maksaa?", options: ["Ilmaista", "0,20 €/pv/kirja", "1 € päivä", "5 € viikko"], answer: 1 },
+      { q: "Miten lainan voi uusia?", options: ["Puhelimitse", "Sähköpostilla", "Paikan päällä", "Netissä"], answer: 3 },
+      { q: "Kuinka monta kertaa lainan voi uusia?", options: ["Ei ollenkaan", "Kerran", "Kaksi kertaa", "Niin monta kertaa kuin haluaa"], answer: 1 },
+      { q: "Mikä on myöhästymismaksu yhdestä kirjasta päivässä?", options: ["0,20 €", "0,40 €", "0,60 €", "Ei maksa mitään"], answer: 0 }
     ],
   },
   {
@@ -254,6 +277,9 @@ export const B1_LISTENING_EXP3: B1ListeningClip[] = [
       { q: "Kuinka moneksi yöksi huone on varattu?", options: ["1", "2", "3", "Viikko"], answer: 1 },
       { q: "Mihin aikaan aamupala?", options: ["6–9", "7–10", "8–11", "9–12"], answer: 1 },
       { q: "Mikä on huoneen numero?", options: ["205", "305", "405", "505"], answer: 1 },
+      { q: "Kuka varasi huoneen?", options: ["Saarinen", "Vastaanottovirkailija", "Tuntematon henkilö", "Aamiainen"], answer: 0 },
+      { q: "Kuinka monelle hengelle huone on varattu?", options: ["Yhdelle", "Kahdelle", "Kolmelle", "Neljälle"], answer: 1 },
+      { q: "Missä kerroksessa huone sijaitsee?", options: ["Ensimmäisessä kerroksessa", "Toisessa kerroksessa", "Kolmannessa kerroksessa", "Neljännessä kerroksessa"], answer: 2 }
     ],
   },
   {
@@ -266,6 +292,9 @@ export const B1_LISTENING_EXP3: B1ListeningClip[] = [
       { q: "Mihin päivään kokous siirrettiin?", options: ["Torstai", "Perjantai", "Maanantai", "Tiistai"], answer: 2 },
       { q: "Mihin aikaan kokous on?", options: ["9", "10", "11", "12"], answer: 1 },
       { q: "Mihin mennessä pitää ilmoittaa poissaolosta?", options: ["Torstai", "Perjantai", "Sunnuntai", "Maanantai"], answer: 1 },
+      { q: "Mikä pysyy samana?", options: ["Kokouksen ajankohta", "Kokouksen pitäjä", "Kokouksen paikka", "Kokouksen aihe"], answer: 2 },
+      { q: "Mitä kokoukseen pyydetään tuomaan mukaan?", options: ["Uudet ideat", "Edellisen kokouksen muistiinpanot", "Kannettavan tietokoneen", "Kahvia ja pullaa"], answer: 1 },
+      { q: "Mitä kehotetaan tekemään, jos ei pääse kokoukseen?", options: ["Lähettämään sijaisen", "Ilmoittamaan asiasta kokouksen jälkeen", "Ilmoittamaan siitä puhujalle", "Siirtämään kokousta"], answer: 2 }
     ],
   },
   {
@@ -277,6 +306,10 @@ export const B1_LISTENING_EXP3: B1ListeningClip[] = [
     questions: [
       { q: "Mihin aikaan halli sulkeutuu?", options: ["19:00", "19:15", "19:30", "20:00"], answer: 2 },
       { q: "Milloin pitää poistua altaasta?", options: ["19:00", "19:15", "19:30", "19:45"], answer: 1 },
+      { q: "Miksi uimahalli sulkeutuu aikaisin?", options: ["Siitä ei kerrota", "Remontin takia", "Henkilökunnan puutteen takia", "Teknisen vian takia"], answer: 0 },
+      { q: "Kuinka paljon aiemmin uimahalli sulkeutuu tänään?", options: ["15 minuuttia", "Puoli tuntia", "Tunnin", "Ei lainkaan"], answer: 1 },
+      { q: "Kenelle ilmoitus on suunnattu?", options: ["Henkilökunnalle", "Uimavalvojille", "Asiakkaille", "Johtokunnalle"], answer: 2 },
+      { q: "Mihin aikaan uimahalli olisi normaalisti auki?", options: ["Klo 19:15", "Klo 19:30", "Klo 20:00", "Klo 20:30"], answer: 2 }
     ],
   },
   {
@@ -289,6 +322,9 @@ export const B1_LISTENING_EXP3: B1ListeningClip[] = [
       { q: "Milloin onnettomuus tapahtui?", options: ["Tänään", "Eilen iltapäivällä", "Viikko sitten", "Kuukausi sitten"], answer: 1 },
       { q: "Loukkaantuiko joku?", options: ["Kyllä", "Ei", "Vain asiakas", "Ei tiedetä"], answer: 1 },
       { q: "Mitä virkailija pyytää?", options: ["Vain rahat", "Valokuvat ja tiedot", "Ajokortin", "Auton avaimen"], answer: 1 },
+      { q: "Mikä aiheutti onnettomuuden?", options: ["Auto", "Moottoripyörä", "Polkupyörä", "Kävelijä"], answer: 0 },
+      { q: "Mihin aikaan onnettomuus tapahtui?", options: ["Kello 14", "Kello 15", "Kello 16", "Kello 17"], answer: 2 },
+      { q: "Mitä asiakas haluaa ilmoittaa?", options: ["Auton korjauksesta", "Liikenneonnettomuudesta", "Uudesta autosta", "Pysäköintivirheestä"], answer: 1 }
     ],
   },
   {
@@ -300,6 +336,10 @@ export const B1_LISTENING_EXP3: B1ListeningClip[] = [
     questions: [
       { q: "Mihin mennessä lopputyö palautetaan?", options: ["1.5.", "15.5.", "31.5.", "15.6."], answer: 1 },
       { q: "Voiko saada lisäaikaa?", options: ["Ei koskaan", "Vain hyvällä syyllä", "Aina", "Vain maksullisesti"], answer: 1 },
+      { q: "Milloin lopputyön voi palauttaa viimeistään?", options: ["15. kesäkuuta kello 16 mennessä", "15. toukokuuta kello 15 mennessä", "15. toukokuuta kello 16 mennessä", "16. toukokuuta kello 16 mennessä"], answer: 2 },
+      { q: "Miten opiskelijan tulee toimia, jos hän haluaa lisäaikaa lopputyöhön?", options: ["Soittaa ohjaajalle", "Täyttää lomakkeen", "Lähettää hakemus sähköpostitse", "Käydä keskustelemassa ohjaajan kanssa"], answer: 2 },
+      { q: "Millä ehdolla lisäaikaa voidaan myöntää?", options: ["Jos opiskelija on pyytänyt sitä ajoissa", "Jos opiskelijalla on painava syy", "Jos opiskelija on valmistunut kursseista", "Jos ohjaajalla on aikaa"], answer: 1 },
+      { q: "Kuka kysyy lopputyöstä?", options: ["Opettaja", "Ohjaaja", "Opiskelija", "Hakuasiantuntija"], answer: 2 }
     ],
   },
 ];

@@ -130,6 +130,10 @@ export const B1_LISTENING_EXPANSION: B1ListeningClip[] = [
     questions: [
       { q: "Milloin juna saapuu Tampereelle?", options: ["Heti", "Noin 10 minuutin kuluttua", "Tunnin kuluttua", "Ei tiedetä"], answer: 1 },
       { q: "Missä matkustaja vaihtaa junaa?", options: ["Helsingissä", "Tampereella", "Seinäjoella", "Oulussa"], answer: 2 },
+      { q: "Kuka antaa tietoja asiakkaalle?", options: ["Matkustaja", "Konduktööri", "Lippupalvelu", "Kuljettaja"], answer: 1 },
+      { q: "Kuinka kauan junanvaihto kestää?", options: ["Kymmenen minuuttia", "Viisitoista minuuttia", "Puoli tuntia", "Tunti"], answer: 1 },
+      { q: "Mihin kaupunkiin matkustaja haluaa jatkaa Tampereelta?", options: ["Seinäjoelle", "Helsinkiin", "Ouluun", "Turkuun"], answer: 2 },
+      { q: "Onko Tampereelta suoraa junayhteyttä Ouluun?", options: ["Kyllä, on suora juna.", "Ei, sinun täytyy vaihtaa junaa.", "Tietoa ei ole saatavilla.", "Kyllä, mutta se lähtee myöhemmin."], answer: 1 }
     ],
   },
   {
@@ -143,6 +147,9 @@ export const B1_LISTENING_EXPANSION: B1ListeningClip[] = [
       { q: "Mikä on rikki?", options: ["Pesukone", "Keittiön hana", "Lämmitys", "Ovi"], answer: 1 },
       { q: "Milloin putkimies tulee?", options: ["Heti", "Tänä iltana", "Huomenna aamulla", "Ensi viikolla"], answer: 2 },
       { q: "Missä sulkuventtiili yleensä on?", options: ["Kylpyhuoneessa", "Lavuaarin alla", "Eteisessä", "Parvekkeella"], answer: 1 },
+      { q: "Miksi asukas ei ole vielä sulkenut vettä?", options: ["Hän ei tiedä miten se tehdään.", "Hän odottaa putkimiestä.", "Hän ei löydä sulkuventtiiliä.", "Vesi ei vuoda paljon."], answer: 2 },
+      { q: "Kuka lähettää putkimiehen?", options: ["Asukas", "Vuokranantaja", "Naapuri", "Putkimies itse"], answer: 1 },
+      { q: "Mihin aikaan putkimies tulee huomenna?", options: ["Aamulla yhdeksältä", "Illalla kymmeneltä", "Aamulla kymmeneltä", "Iltapäivällä yhdeltä"], answer: 2 }
     ],
   },
   {
@@ -156,6 +163,9 @@ export const B1_LISTENING_EXPANSION: B1ListeningClip[] = [
       { q: "Mihin paketti lähetetään?", options: ["Saksaan", "Vietnamiin", "Ruotsiin", "Viroon"], answer: 1 },
       { q: "Kuinka kauan lähetys kestää?", options: ["Viikon", "Kaksi viikkoa", "Kuukauden", "Kolme päivää"], answer: 1 },
       { q: "Mitä virkailija tarvitsee asiakkaalta?", options: ["Vastaanottajan puhelinnumeron", "Asiakkaan henkilötunnuksen", "Pankkitilin", "Sähköpostin"], answer: 0 },
+      { q: "Kuinka paljon paketti painaa?", options: ["Kaksi kiloa", "Kaksi viikkoa", "25 euroa", "Yksi kilo"], answer: 0 },
+      { q: "Kuinka paljon lähetys maksaa?", options: ["Kaksi euroa", "25 euroa", "Kaksi kiloa", "Kortilla"], answer: 1 },
+      { q: "Millä tavalla asiakas voi maksaa?", options: ["Käteisellä", "Sekillä", "Kortilla", "Verkkomaksulla"], answer: 2 }
     ],
   },
   {
@@ -168,6 +178,10 @@ export const B1_LISTENING_EXPANSION: B1ListeningClip[] = [
     questions: [
       { q: "Milloin asiakas tulee leikkaukseen?", options: ["Perjantaina", "Lauantaina kello 14", "Sunnuntaina", "Maanantaina"], answer: 1 },
       { q: "Mitä leikkaus maksaa?", options: ["35 €", "45 €", "55 €", "65 €"], answer: 1 },
+      { q: "Mikä on asiakkaan sukupuoli?", options: ["Mies", "Nainen", "Ei sanottu", "Lapsi"], answer: 1 },
+      { q: "Mitä asiakas haluaa varata?", options: ["Ajan manikyyriin", "Ajan kasvohoitoon", "Ajan hiustenleikkuuseen", "Ajan partakäsittelyyn"], answer: 2 },
+      { q: "Minkälaista työpäivää kampaaja tekee?", options: ["Ma-Pe", "Ti-La", "Ma-La", "Ke-Su"], answer: 2 },
+      { q: "Mihin aikaan lauantaina kampaajalla olisi vapaa aika?", options: ["Kello yksi", "Kello kaksi", "Kello kolme", "Kello neljä"], answer: 1 }
     ],
   },
   {
@@ -181,6 +195,9 @@ export const B1_LISTENING_EXPANSION: B1ListeningClip[] = [
       { q: "Mihin oppiaineisiin keskitytään?", options: ["Liikuntaan ja musiikkiin", "Matematiikkaan ja äidinkieleen", "Englantiin ja saksaan", "Käsityöhön"], answer: 1 },
       { q: "Mitä vanhemmilta toivotaan?", options: ["Tehdä lasten tehtävät", "Maksaa lisää", "Lukea lasten kanssa kotona", "Käydä koulussa joka päivä"], answer: 2 },
       { q: "Mitä lokakuussa tapahtuu?", options: ["Loma", "Koe", "Retki museoon", "Konsertti"], answer: 2 },
+      { q: "Kuinka usein lapset saavat kotitehtäviä?", options: ["Joka päivä", "Joka viikko", "Kerran kuukaudessa", "Ei koskaan"], answer: 1 },
+      { q: "Milloin retki museoon järjestetään?", options: ["Syyskuussa", "Lokakuussa", "Marraskuussa", "Joulukuussa"], answer: 1 },
+      { q: "Minkälaisia kotitehtävät ovat?", options: ["Vaikeita", "Pitkiä", "Helppoja", "Keskivaikeita"], answer: 2 }
     ],
   },
   {
@@ -193,6 +210,10 @@ export const B1_LISTENING_EXPANSION: B1ListeningClip[] = [
     questions: [
       { q: "Mitä soittajalle tapahtui?", options: ["Hän eksyi", "Hän kaatui pyörällä", "Hänet ryöstettiin", "Hän sairastui"], answer: 1 },
       { q: "Kuinka pian ambulanssi tulee?", options: ["Heti", "Noin 5 minuutissa", "10 minuutissa", "Puolessa tunnissa"], answer: 1 },
+      { q: "Mikä soittajan ruumiinosa on kipeä?", options: ["Käsi", "Pää", "Jalka", "Selkä"], answer: 2 },
+      { q: "Mitä soittaja ei pysty tekemään?", options: ["Puhumaan", "Nousemaan", "Ajamaan", "Kävelemään"], answer: 1 },
+      { q: "Missä kaupungissa soittaja on?", options: ["Helsingissä", "Turussa", "Tampereella", "Tekstissä ei sanota"], answer: 3 },
+      { q: "Missä risteyksessä soittaja on?", options: ["Koulukadun ja Kirkkokadun risteyksessä", "Tampereentien ja Koulukadun risteyksessä", "Asemakadun ja Koulukadun risteyksessä", "Puistokadun ja Koulukadun risteyksessä"], answer: 1 }
     ],
   },
 ];

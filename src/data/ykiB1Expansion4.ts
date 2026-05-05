@@ -119,21 +119,12 @@ export const B1_LISTENING_EXP4: B1ListeningClip[] = [
     scriptFi:
       "Hoitaja: Hyvää päivää, terveysasema, Saara puhelimessa. Asiakas: Hei, haluaisin varata ajan lääkärille. Minulla on ollut yskä ja kuumetta jo viisi päivää. Hoitaja: Selvä. Onko sinulla aiempi diagnoosi astmasta? Asiakas: Ei ole. Hoitaja: Hyvä. Vapaa aika on huomenna torstaina kello yhdeksän tai perjantaina kello kolmetoista. Asiakas: Otetaan torstai aamu, kiitos.",
     questions: [
-      {
-        q: "Kuinka monta päivää oireet ovat kestäneet?",
-        options: ["Kaksi", "Kolme", "Viisi", "Viikon"],
-        answer: 2,
-      },
-      {
-        q: "Onko asiakkaalla astma?",
-        options: ["Kyllä", "Ei", "Ei tiedä", "Vain kausittain"],
-        answer: 1,
-      },
-      {
-        q: "Milloin asiakas tulee vastaanotolle?",
-        options: ["Torstaina kello 9", "Torstaina kello 13", "Perjantaina kello 9", "Perjantaina kello 13"],
-        answer: 0,
-      },
+      { q: "Kuinka monta päivää oireet ovat kestäneet?", options: ["Kaksi", "Kolme", "Viisi", "Viikon"], answer: 2 },
+      { q: "Onko asiakkaalla astma?", options: ["Kyllä", "Ei", "Ei tiedä", "Vain kausittain"], answer: 1 },
+      { q: "Milloin asiakas tulee vastaanotolle?", options: ["Torstaina kello 9", "Torstaina kello 13", "Perjantaina kello 9", "Perjantaina kello 13"], answer: 0 },
+      { q: "Kuka on puhelimessa terveysasemalta?", options: ["Lääkäri", "Saara", "Asiakas", "Hoitaja"], answer: 1 },
+      { q: "Mitä asiakas haluaa varata?", options: ["Ajan optikolle", "Ajan hammaslääkärille", "Ajan lääkärille", "Laboratorioajan"], answer: 2 },
+      { q: "Mitkä ovat asiakkaan oireet?", options: ["Vatsakipu ja päänsärky", "Kurkkukipu ja nuha", "Yskä ja kuume", "Väsymys ja lihaskipu"], answer: 2 }
     ],
   },
   {
@@ -144,26 +135,12 @@ export const B1_LISTENING_EXP4: B1ListeningClip[] = [
     scriptFi:
       "Esimies: Hei kaikki. Ensi viikolla on kolme tärkeää asiaa. Maanantaina alkaa uusi koulutus klo kymmenen, kestää kaksi tuntia. Keskiviikkona on asiakaskäynti Tampereella, lähtö asemalta klo seitsemän. Perjantaina on tiimipäivä — ohjelmassa lounas ja saunailta. Muistakaa ilmoittautua sähköpostilla torstaihin mennessä.",
     questions: [
-      {
-        q: "Milloin koulutus alkaa?",
-        options: ["Maanantaina klo 9", "Maanantaina klo 10", "Tiistaina klo 10", "Keskiviikkona klo 8"],
-        answer: 1,
-      },
-      {
-        q: "Mihin aikaan juna lähtee Tampereelle?",
-        options: ["Klo 6", "Klo 7", "Klo 8", "Klo 9"],
-        answer: 1,
-      },
-      {
-        q: "Mitä tiimipäivänä tehdään?",
-        options: ["Kokous ja työ", "Lounas ja sauna", "Vain etätyö", "Loma"],
-        answer: 1,
-      },
-      {
-        q: "Mihin mennessä pitää ilmoittautua?",
-        options: ["Tiistai", "Keskiviikko", "Torstai", "Perjantai"],
-        answer: 2,
-      },
+      { q: "Milloin koulutus alkaa?", options: ["Maanantaina klo 9", "Maanantaina klo 10", "Tiistaina klo 10", "Keskiviikkona klo 8"], answer: 1 },
+      { q: "Mihin aikaan juna lähtee Tampereelle?", options: ["Klo 6", "Klo 7", "Klo 8", "Klo 9"], answer: 1 },
+      { q: "Mitä tiimipäivänä tehdään?", options: ["Kokous ja työ", "Lounas ja sauna", "Vain etätyö", "Loma"], answer: 1 },
+      { q: "Mihin mennessä pitää ilmoittautua?", options: ["Tiistai", "Keskiviikko", "Torstai", "Perjantai"], answer: 2 },
+      { q: "Missä kaupungissa asiakaskäynti on?", options: ["Turussa", "Oulussa", "Tampereella", "Helsingissä"], answer: 2 },
+      { q: "Kuinka kauan koulutus kestää?", options: ["Yhden tunnin", "Kaksi tuntia", "Kolme tuntia", "Neljä tuntia"], answer: 1 }
     ],
   },
   {
@@ -174,21 +151,12 @@ export const B1_LISTENING_EXP4: B1ListeningClip[] = [
     scriptFi:
       "Asiakas: Hei, haluaisin neljä lippua lauantain näytökseen. Kaksi aikuista ja kaksi lasta. Myyjä: Selvä. Lasten liput maksavat kymmenen euroa ja aikuisten kahdeksantoista euroa. Yhteensä viisikymmentäkuusi euroa. Käykö kortti? Asiakas: Käy. Saako rivin viisi paikat? Myyjä: Valitettavasti rivi viisi on jo varattu, mutta rivi seitsemän on vapaa.",
     questions: [
-      {
-        q: "Kuinka monta lippua asiakas ostaa?",
-        options: ["2", "3", "4", "5"],
-        answer: 2,
-      },
-      {
-        q: "Paljonko on lasten lippu?",
-        options: ["8 €", "10 €", "15 €", "18 €"],
-        answer: 1,
-      },
-      {
-        q: "Saiko asiakas rivin 5 paikat?",
-        options: ["Kyllä", "Ei, rivi 7", "Vain yhden", "Ei kerrota"],
-        answer: 1,
-      },
+      { q: "Kuinka monta lippua asiakas ostaa?", options: ["2", "3", "4", "5"], answer: 2 },
+      { q: "Paljonko on lasten lippu?", options: ["8 €", "10 €", "15 €", "18 €"], answer: 1 },
+      { q: "Saiko asiakas rivin 5 paikat?", options: ["Kyllä", "Ei, rivi 7", "Vain yhden", "Ei kerrota"], answer: 1 },
+      { q: "Mikä päivä näytökseen liput ostetaan?", options: ["Perjantai", "Lauantai", "Sunnuntai", "Maanantai"], answer: 1 },
+      { q: "Paljonko kahden aikuisen liput maksavat yhteensä?", options: ["10 euroa", "18 euroa", "36 euroa", "56 euroa"], answer: 2 },
+      { q: "Millä rivillä on vapaita paikkoja?", options: ["Rivi viisi", "Rivi kuusi", "Rivi seitsemän", "Rivi kahdeksan"], answer: 2 }
     ],
   },
 ];
