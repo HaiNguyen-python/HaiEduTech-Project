@@ -648,9 +648,8 @@ const YkiB1Dashboard = () => {
                         {w.meaningEn} {lang === "vi" && <span className="text-muted-foreground">· {w.meaningVi}</span>}
                       </p>
                       <p className="text-xs italic text-muted-foreground mt-1">"{w.exampleFi}"</p>
-                      {lang === "vi" && (
-                        <p className="text-[11px] text-muted-foreground mt-0.5">→ {w.exampleVi}</p>
-                      )}
+                      <p className="text-[11px] text-foreground/70 mt-0.5">🇬🇧 {w.exampleEn}</p>
+                      <p className="text-[11px] text-foreground/70 mt-0.5">🇻🇳 {w.exampleVi}</p>
                     </div>
                   ))}
                 </div>
