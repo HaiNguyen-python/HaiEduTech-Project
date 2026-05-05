@@ -26,6 +26,37 @@ const stopActiveAudio = () => {
   activeAudio = null;
 };
 
+export const pauseFinnishTts = () => {
+  if (activeAudio && !activeAudio.paused) {
+    activeAudio.pause();
+    return "audio";
+  }
+  if (typeof window !== "undefined" && "speechSynthesis" in window && window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
+    window.speechSynthesis.pause();
+    return "speech";
+  }
+  return null;
+};
+
+export const resumeFinnishTts = () => {
+  if (activeAudio && activeAudio.paused) {
+    void activeAudio.play().catch(() => {});
+    return "audio";
+  }
+  if (typeof window !== "undefined" && "speechSynthesis" in window && window.speechSynthesis.paused) {
+    window.speechSynthesis.resume();
+    return "speech";
+  }
+  return null;
+};
+
+export const stopFinnishTts = () => {
+  stopActiveAudio();
+  if (typeof window !== "undefined" && "speechSynthesis" in window) {
+    window.speechSynthesis.cancel();
+  }
+};
+
 const playFromUrl = (url: string, playbackRate: number) =>
   new Promise<void>((resolve, reject) => {
     stopActiveAudio();
