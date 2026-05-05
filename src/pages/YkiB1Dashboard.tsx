@@ -402,7 +402,7 @@ const YkiB1Dashboard = () => {
                           return (
                             <button
                               key={w.id}
-                              onClick={() => { setActiveWriting(w); setEssay(""); setFeedback(null); }}
+                              onClick={() => { setActiveWriting(w); setEssay(""); setFeedback(null); setShowSample(false); }}
                               className={`text-xs px-3 py-1.5 rounded-full border transition-all ${
                                 active
                                   ? "bg-[#003580] text-white border-[#003580] shadow-sm"
