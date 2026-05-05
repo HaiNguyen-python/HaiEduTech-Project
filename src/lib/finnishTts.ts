@@ -173,6 +173,56 @@ const speakWithNativeFinnishVoice = async (text: string, speechRate: number) => 
   });
 };
 
+// Split long text into chunks (≈180 chars) at sentence/phrase boundaries
+const splitForTts = (text: string, maxLen = 180): string[] => {
+  const clean = text.replace(/\s+/g, " ").trim();
+  if (clean.length <= maxLen) return [clean];
+  const sentences = clean.match(/[^.!?]+[.!?]+|[^.!?]+$/g) ?? [clean];
+  const chunks: string[] = [];
+  let buf = "";
+  for (const s of sentences) {
+    const piece = s.trim();
+    if (!piece) continue;
+    if (piece.length > maxLen) {
+      if (buf) { chunks.push(buf.trim()); buf = ""; }
+      // Split by commas / spaces
+      const parts = piece.split(/(?<=,)\s+/);
+      let sub = "";
+      for (const p of parts) {
+        if ((sub + " " + p).trim().length > maxLen) {
+          if (sub) chunks.push(sub.trim());
+          if (p.length > maxLen) {
+            // hard split by words
+            const words = p.split(" ");
+            let w = "";
+            for (const word of words) {
+              if ((w + " " + word).trim().length > maxLen) {
+                if (w) chunks.push(w.trim());
+                w = word;
+              } else {
+                w = (w + " " + word).trim();
+              }
+            }
+            if (w) sub = w; else sub = "";
+          } else {
+            sub = p;
+          }
+        } else {
+          sub = (sub + " " + p).trim();
+        }
+      }
+      if (sub) buf = sub;
+    } else if ((buf + " " + piece).trim().length > maxLen) {
+      chunks.push(buf.trim());
+      buf = piece;
+    } else {
+      buf = (buf + " " + piece).trim();
+    }
+  }
+  if (buf.trim()) chunks.push(buf.trim());
+  return chunks.filter(Boolean);
+};
+
 export const playFinnishTts = async (text: string, options: FinnishTtsOptions = {}) => {
   if (typeof window === "undefined") return false;
 
@@ -182,26 +232,34 @@ export const playFinnishTts = async (text: string, options: FinnishTtsOptions = 
   const playbackRate = options.playbackRate ?? 0.85;
   const speechRate = options.speechRate ?? 0.8;
 
-  try {
-    await playFromProxy(normalizedText, playbackRate);
-    return true;
-  } catch {
-    // Continue with direct endpoints fallback
-  }
+  const chunks = splitForTts(normalizedText, 180);
 
-  for (const endpointBuilder of FINNISH_TTS_ENDPOINTS) {
+  const playOne = async (chunk: string): Promise<boolean> => {
     try {
-      await playFromUrl(endpointBuilder(normalizedText), playbackRate);
+      await playFromProxy(chunk, playbackRate);
+      return true;
+    } catch { /* fallthrough */ }
+
+    for (const endpointBuilder of FINNISH_TTS_ENDPOINTS) {
+      try {
+        await playFromUrl(endpointBuilder(chunk), playbackRate);
+        return true;
+      } catch { /* try next */ }
+    }
+
+    try {
+      await speakWithNativeFinnishVoice(chunk, speechRate);
       return true;
     } catch {
-      // Try next endpoint
+      return false;
     }
-  }
+  };
 
-  try {
-    await speakWithNativeFinnishVoice(normalizedText, speechRate);
-    return true;
-  } catch {
-    return false;
+  let allOk = true;
+  for (const chunk of chunks) {
+    const ok = await playOne(chunk);
+    if (!ok) allOk = false;
   }
+  return allOk;
 };
+
