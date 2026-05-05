@@ -71,23 +71,12 @@ export const B1_READING: B1ReadingPassage[] = [
       "Helsingin metro saa kaksi uutta linjaa ensi vuonna. Liikennelaitoksen mukaan matkustajat hyötyvät erityisesti aamuisin, kun ruuhka on pahimmillaan. Uudet asemat avataan toukokuussa, ja niiden lähellä rakennetaan myös uusia asuntoja. Kaupunki toivoo, että yhä useampi vaihtaisi auton julkiseen liikenteeseen.",
     hintVi: "Tin tức về tuyến metro mới của Helsinki, lợi ích cho hành khách giờ cao điểm.",
     questions: [
-      {
-        q: "Milloin uudet asemat avataan?",
-        options: ["Tammikuussa", "Maaliskuussa", "Toukokuussa", "Elokuussa"],
-        answer: 2,
-        explanationFi: "Tekstissä sanotaan: 'Uudet asemat avataan toukokuussa'.",
-      },
-      {
-        q: "Mitä kaupunki toivoo?",
-        options: [
-          "Lisää autoja kaduille",
-          "Vähemmän julkista liikennettä",
-          "Että ihmiset käyttäisivät julkista liikennettä",
-          "Uusia kauppoja keskustaan",
-        ],
-        answer: 2,
-        explanationFi: "'Kaupunki toivoo, että yhä useampi vaihtaisi auton julkiseen liikenteeseen.'",
-      },
+      { q: "Milloin uudet asemat avataan?", options: ["Tammikuussa", "Maaliskuussa", "Toukokuussa", "Elokuussa"], answer: 2, explanationFi: "Tekstissä sanotaan: 'Uudet asemat avataan toukokuussa'." },
+      { q: "Mitä kaupunki toivoo?", options: ["Lisää autoja kaduille", "Vähemmän julkista liikennettä", "Että ihmiset käyttäisivät julkista liikennettä", "Uusia kauppoja keskustaan"], answer: 2, explanationFi: "'Kaupunki toivoo, että yhä useampi vaihtaisi auton julkiseen liikenteeseen.'" },
+      { q: "Kuinka monta uutta metrolinjaa Helsinki saa ensi vuonna?", options: ["Yhden", "Kaksi", "Kolme", "Ei yhtään"], answer: 1, explanationFi: "Tekstin ensimmäisessä lauseessa sanotaan 'Helsingin metro saa kaksi uutta linjaa ensi vuonna'." },
+      { q: "Miksi matkustajat hyötyvät uusista linjoista erityisesti aamuisin?", options: ["Koska aamulla on uudet hinnat", "Koska silloin ruuhka on pahimmillaan", "Koska metrot kulkevat nopeammin aamulla", "Koska asemat ovat auki vain aamuisin"], answer: 1, explanationFi: "Toisessa lauseessa mainitaan, että 'matkustajat hyötyvät erityisesti aamuisin, kun ruuhka on pahimmillaan'." },
+      { q: "Mitä uusien asemien lähellä rakennetaan?", options: ["Uusia kauppoja", "Uusia kouluja", "Uusia asuntoja", "Uusia teitä"], answer: 2, explanationFi: "Kolmannessa lauseessa sanotaan 'ja niiden lähellä rakennetaan myös uusia asuntoja'." },
+      { q: "Kuka toivoo, että yhä useampi vaihtaisi auton julkiseen liikenteeseen?", options: ["Matkustajat", "Liikennelaitos", "Poliisi", "Kaupunki"], answer: 3, explanationFi: "Viimeisessä lauseessa kerrotaan, että 'Kaupunki toivoo, että yhä useampi vaihtaisi auton julkiseen liikenteeseen'." }
     ],
   },
   {
@@ -99,29 +88,12 @@ export const B1_READING: B1ReadingPassage[] = [
       "Hei!\n\nKiitos viestistäsi. Asunto on edelleen vapaana ja se on kahden huoneen kokoinen. Vuokra on 850 euroa kuukaudessa, sähkö ei sisälly hintaan. Voit muuttaa sisään 1.6. alkaen. Olisi mukavaa, jos voisimme tavata ennen sopimuksen tekemistä.\n\nYstävällisin terveisin,\nMatti",
     hintVi: "Email từ chủ nhà về căn hộ cho thuê, có giá và thời gian dọn vào.",
     questions: [
-      {
-        q: "Sisältyykö sähkö vuokraan?",
-        options: ["Kyllä, kokonaan", "Ei sisälly", "Vain talvella", "Vain osittain"],
-        answer: 1,
-        explanationFi: "'sähkö ei sisälly hintaan' = electricity is NOT included.",
-      },
-      {
-        q: "Milloin voi muuttaa sisään?",
-        options: ["Heti", "1.5.", "1.6.", "1.7."],
-        answer: 2,
-        explanationFi: "'Voit muuttaa sisään 1.6. alkaen.'",
-      },
-      {
-        q: "Mitä Matti ehdottaa?",
-        options: [
-          "Soittaa puhelimella",
-          "Kirjoittaa kirjeen",
-          "Tavata ennen sopimuksen tekemistä",
-          "Maksaa heti",
-        ],
-        answer: 2,
-        explanationFi: "'Olisi mukavaa, jos voisimme tavata ennen sopimuksen tekemistä.'",
-      },
+      { q: "Sisältyykö sähkö vuokraan?", options: ["Kyllä, kokonaan", "Ei sisälly", "Vain talvella", "Vain osittain"], answer: 1, explanationFi: "'sähkö ei sisälly hintaan' = electricity is NOT included." },
+      { q: "Milloin voi muuttaa sisään?", options: ["Heti", "1.5.", "1.6.", "1.7."], answer: 2, explanationFi: "'Voit muuttaa sisään 1.6. alkaen.'" },
+      { q: "Mitä Matti ehdottaa?", options: ["Soittaa puhelimella", "Kirjoittaa kirjeen", "Tavata ennen sopimuksen tekemistä", "Maksaa heti"], answer: 2, explanationFi: "'Olisi mukavaa, jos voisimme tavata ennen sopimuksen tekemistä.'" },
+      { q: "Minkä kokoinen asunto on?", options: ["Yhden huoneen kokoinen", "Kahden huoneen kokoinen", "Kolmen huoneen kokoinen", "Neljän huoneen kokoinen"], answer: 1, explanationFi: "Tekstin mukaan asunto on 'kahden huoneen kokoinen'." },
+      { q: "Mikä on asunnon vuokra kuukaudessa?", options: ["750 euroa", "800 euroa", "850 euroa", "900 euroa"], answer: 2, explanationFi: "Tekstissä sanotaan: 'Vuokra on 850 euroa kuukaudessa'." },
+      { q: "Kuka viestin on lähettänyt?", options: ["Maija", "Matti", "Minna", "Marko"], answer: 1, explanationFi: "Viestin lopussa lukee 'Ystävällisin terveisin, Matti'." }
     ],
   },
   {
@@ -136,6 +108,9 @@ export const B1_READING: B1ReadingPassage[] = [
       { q: "Kuinka usein suomalaiset käyvät saunassa?", options: ["Kerran kuukaudessa", "Vähintään kerran viikossa", "Joka päivä", "Vain kesällä"], answer: 1, explanationFi: "'vähintään kerran viikossa' = at least once a week." },
       { q: "Mikä sauna on suosituin?", options: ["Sähkösauna", "Höyrysauna", "Puulämmitteinen sauna", "Infrapunasauna"], answer: 2, explanationFi: "'Erityisen suosittu on perinteinen puulämmitteinen sauna'." },
       { q: "Mitä saunassa ei tekstin mukaan tehdä?", options: ["Rentoudutaan", "Jutellaan", "Pidetään palavereita", "Syödään päivällinen"], answer: 3, explanationFi: "Teksti mainitsee rentoutumisen, juttelun ja palaverit - ei päivällistä." },
+      { q: "Mikä on saunan rooli suomalaisessa kulttuurissa tekstin mukaan?", options: ["Se on lähinnä urheilupaikka.", "Se on paikka, jossa rentoudutaan ja keskustellaan.", "Se on vain juhlapaikka.", "Se on tärkein ruuanvalmistuspaikka."], answer: 1, explanationFi: "Tekstissä sanotaan, että 'Sauna on tärkeä osa suomalaista kulttuuria - se on paikka, jossa rentoudutaan, jutellaan ja jopa pidetään työpalavereita.'" },
+      { q: "Millainen sauna on yleisempi kaupungeissa?", options: ["Puulämmitteinen sauna", "Sähkösauna", "Savusauna", "Infrapunasauna"], answer: 1, explanationFi: "Tekstissä mainitaan, että 'vaikka kaupungeissa sähkösauna on yleisempi'." },
+      { q: "Miten monet suomalaiset kokisivat viikkonsa ilman saunaa?", options: ["Täysin normaalina", "Mukavampana", "Vaillinaisena", "Liian kiireisenä"], answer: 2, explanationFi: "Tekstissä sanotaan: 'Monet suomalaiset sanovat, että ilman saunaa heidän viikkonsa tuntuisi vaillinaiselta.'" }
     ],
   },
   {
@@ -149,6 +124,10 @@ export const B1_READING: B1ReadingPassage[] = [
     questions: [
       { q: "Mihin astiaan menee sekajäte?", options: ["Vihreään", "Mustaan", "Siniseen", "Keltaiseen"], answer: 1, explanationFi: "'Sekajätettä saa laittaa vain mustaan astiaan'." },
       { q: "Mitä pahvilaatikoille pitää tehdä?", options: ["Polttaa", "Pestä", "Litistää", "Heittää roskiin"], answer: 2, explanationFi: "'Pahvilaatikot on litistettävä'." },
+      { q: "Mitä materiaaleja voi kierrättää talon pihalla uusissa astioissa?", options: ["Vain muovia ja lasia", "Muovia, lasia ja paperia", "Vain paperia ja pahvia", "Kaikkea jätettä"], answer: 1, explanationFi: "Ilmoituksessa sanotaan, että 'Muovi, lasi ja paperi on lajiteltava omiin astioihinsa'." },
+      { q: "Kuka on kirjoittanut tämän tiedotteen?", options: ["Talon isännöitsijä", "Yksi asukas", "Taloyhtiön hallitus", "Siivooja"], answer: 2, explanationFi: "Tiedotteen lopussa lukee 'Taloyhtiön hallitus'." },
+      { q: "Minkä väriseen astiaan sekajäte laitetaan?", options: ["Vihreään astiaan", "Siniseen astiaan", "Mustaan astiaan", "Punainen astiaan"], answer: 2, explanationFi: "Ilmoituksessa kerrotaan, että 'Sekajätettä saa laittaa vain mustaan astiaan'." },
+      { q: "Mistä uudet kierrätysastiat löytyvät?", options: ["Talon kellarista", "Talon parvekkeilta", "Talon piha-alueelta", "Talon roskakatoksesta"], answer: 2, explanationFi: "Ilmoituksessa sanotaan, että 'Talon piha-alueelle on asennettu uudet kierrätysastiat'." }
     ],
   },
   {
@@ -160,24 +139,12 @@ export const B1_READING: B1ReadingPassage[] = [
       "Hyvä asiakas,\n\nOlemme käsitelleet hakemuksesi opintotuesta. Päätöksemme on myönteinen. Saat tukea 270 euroa kuukaudessa ajalla 1.9.–31.5. Tuki maksetaan kuukauden ensimmäisenä arkipäivänä tilillesi. Jos opintosi keskeytyvät, ilmoita siitä Kelaan välittömästi.\n\nKela",
     hintVi: "Thư chính thức từ Kela (cơ quan an sinh) về quyết định trợ cấp học tập.",
     questions: [
-      {
-        q: "Onko päätös myönteinen vai kielteinen?",
-        options: ["Kielteinen", "Myönteinen", "Osittain", "Ei mainita"],
-        answer: 1,
-        explanationFi: "'Päätöksemme on myönteinen' = positive.",
-      },
-      {
-        q: "Kuinka paljon tukea saa?",
-        options: ["170 €", "270 €", "370 €", "470 €"],
-        answer: 1,
-        explanationFi: "'Saat tukea 270 euroa kuukaudessa'.",
-      },
-      {
-        q: "Mitä pitää tehdä, jos opinnot keskeytyvät?",
-        options: ["Soittaa kavereille", "Ilmoittaa Kelaan", "Odottaa", "Maksaa takaisin heti"],
-        answer: 1,
-        explanationFi: "'ilmoita siitä Kelaan välittömästi'.",
-      },
+      { q: "Onko päätös myönteinen vai kielteinen?", options: ["Kielteinen", "Myönteinen", "Osittain", "Ei mainita"], answer: 1, explanationFi: "'Päätöksemme on myönteinen' = positive." },
+      { q: "Kuinka paljon tukea saa?", options: ["170 €", "270 €", "370 €", "470 €"], answer: 1, explanationFi: "'Saat tukea 270 euroa kuukaudessa'." },
+      { q: "Mitä pitää tehdä, jos opinnot keskeytyvät?", options: ["Soittaa kavereille", "Ilmoittaa Kelaan", "Odottaa", "Maksaa takaisin heti"], answer: 1, explanationFi: "'ilmoita siitä Kelaan välittömästi'." },
+      { q: "Milloin tukea maksetaan ensimmäisen kerran?", options: ["Syyskuun ensimmäisenä arkipäivänä", "Elokuun viimeisenä päivänä", "Lokakuun ensimmäisenä arkipäivänä", "Syyskuun 1. päivänä kaikille opiskelijoille"], answer: 0, explanationFi: "Tukea maksetaan ajalla 1.9.–31.5. ja 'kuukauden ensimmäisenä arkipäivänä', joten ensimmäinen maksu on syyskuun ensimmäisenä arkipäivänä." },
+      { q: "Mikä virasto on lähettänyt tämän päätöksen?", options: ["Opetushallitus", "Kela", "Opintotukikeskus", "Valtiokonttori"], answer: 1, explanationFi: "Kirjeen lopussa lukee selvästi 'Kela', joka on päätöksen lähettäjä." },
+      { q: "Kuinka monta kuukautta tukea maksetaan vuodessa tämän päätöksen mukaan?", options: ["9 kuukautta", "10 kuukautta", "8 kuukautta", "12 kuukautta"], answer: 0, explanationFi: "Tukea maksetaan ajalla 1.9.–31.5., mikä tarkoittaa september, lokakuu, marraskuu, joulukuu, tammikuu, helmikuu, maaliskuu, huhtikuu, toukokuu – eli yhteensä 9 kuukautta." }
     ],
   },
 ];

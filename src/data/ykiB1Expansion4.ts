@@ -26,25 +26,12 @@ export const B1_READING_EXP4: B1ReadingPassage[] = [
       "Tänä vuonna lunta on satanut Etelä-Suomessa odotettua vähemmän. Ilmatieteen laitoksen mukaan keskilämpötila marraskuussa oli kolme astetta tavallista korkeampi. Hiihtokeskukset ovat joutuneet käynnistämään lumitykit aikaisemmin kuin koskaan. Monet asukkaat valittavat, että pimeä syksy ilman lunta tuntuu raskaalta. Toisaalta kaupungin työntekijät iloitsevat, koska auraustyöt ovat vähentyneet ja kunta säästää rahaa.",
     hintVi: "Tin tức: tuyết đến muộn ở miền Nam Phần Lan, ảnh hưởng tâm lý và ngân sách thành phố.",
     questions: [
-      {
-        q: "Millainen marraskuun lämpötila oli?",
-        options: ["Tavallista kylmempi", "Tavallista lämpimämpi", "Sama kuin yleensä", "Erittäin kylmä"],
-        answer: 1,
-        explanationFi: "'keskilämpötila marraskuussa oli kolme astetta tavallista korkeampi'.",
-        hintVi: "Cao hơn 3 độ so với bình thường.",
-      },
-      {
-        q: "Mitä hiihtokeskukset tekivät?",
-        options: ["Sulkivat ovensa", "Käynnistivät lumitykit aikaisin", "Nostivat hintoja", "Vaihtoivat lajia"],
-        answer: 1,
-        explanationFi: "'käynnistämään lumitykit aikaisemmin kuin koskaan'.",
-      },
-      {
-        q: "Miksi kaupungin työntekijät ovat tyytyväisiä?",
-        options: ["Saavat lomaa", "Auraustyöt ovat vähentyneet", "Palkka nousi", "Lunta tuli paljon"],
-        answer: 1,
-        explanationFi: "'auraustyöt ovat vähentyneet ja kunta säästää rahaa'.",
-      },
+      { q: "Millainen marraskuun lämpötila oli?", options: ["Tavallista kylmempi", "Tavallista lämpimämpi", "Sama kuin yleensä", "Erittäin kylmä"], answer: 1, explanationFi: "'keskilämpötila marraskuussa oli kolme astetta tavallista korkeampi'.", hintVi: "Cao hơn 3 độ so với bình thường." },
+      { q: "Mitä hiihtokeskukset tekivät?", options: ["Sulkivat ovensa", "Käynnistivät lumitykit aikaisin", "Nostivat hintoja", "Vaihtoivat lajia"], answer: 1, explanationFi: "'käynnistämään lumitykit aikaisemmin kuin koskaan'." },
+      { q: "Miksi kaupungin työntekijät ovat tyytyväisiä?", options: ["Saavat lomaa", "Auraustyöt ovat vähentyneet", "Palkka nousi", "Lunta tuli paljon"], answer: 1, explanationFi: "'auraustyöt ovat vähentyneet ja kunta säästää rahaa'." },
+      { q: "Missä lunta on satanut odotettua vähemmän?", options: ["Pohjois-Suomessa", "Koko Suomessa", "Etelä-Suomessa", "Lapissa"], answer: 2, explanationFi: "Tekstin mukaan lunta on satanut odotettua vähemmän 'Etelä-Suomessa'." },
+      { q: "Mitä asukkaat valittavat?", options: ["Kallista sähköä", "Pimeää syksyä ilman lunta", "Liikaa lunta", "Lumitykkien meteliä"], answer: 1, explanationFi: "Tekstissä mainitaan, että 'Monet asukkaat valittavat, että pimeä syksy ilman lunta tuntuu raskaalta.'" },
+      { q: "Kuka säästää rahaa?", options: ["Hiihtokeskukset", "Ilmatieteen laitos", "Kunta", "Asukkaat"], answer: 2, explanationFi: "Tekstin lopussa sanotaan 'kunta säästää rahaa', koska auraustyöt ovat vähentyneet." }
     ],
   },
   {
@@ -56,24 +43,12 @@ export const B1_READING_EXP4: B1ReadingPassage[] = [
       "Hei Minh,\n\nKiitos hakemuksestasi myyjän paikkaa varten. Olemme iloisia voidessamme kutsua sinut haastatteluun keskiviikkona 22.1. klo 14.00 toimistollemme osoitteeseen Aleksanterinkatu 12, Helsinki. Haastattelu kestää noin 45 minuuttia. Otathan mukaasi henkilöllisyystodistuksen ja tutkintotodistuksesi kopion. Vahvista osallistumisesi vastaamalla tähän viestiin viimeistään perjantaina.\n\nYstävällisin terveisin,\nKaisa Lehtonen, HR",
     hintVi: "Email mời phỏng vấn vị trí nhân viên bán hàng — thời gian, địa điểm, giấy tờ cần mang.",
     questions: [
-      {
-        q: "Milloin haastattelu on?",
-        options: ["Tiistaina 21.1.", "Keskiviikkona 22.1.", "Torstaina 23.1.", "Perjantaina 24.1."],
-        answer: 1,
-        explanationFi: "'keskiviikkona 22.1. klo 14.00'.",
-      },
-      {
-        q: "Mitä Minhin pitää ottaa mukaan?",
-        options: ["Vain CV", "Henkilöllisyystodistus ja tutkintotodistus", "Pelkkä passi", "Ei mitään"],
-        answer: 1,
-        explanationFi: "'henkilöllisyystodistuksen ja tutkintotodistuksesi kopion'.",
-      },
-      {
-        q: "Milloin osallistuminen pitää vahvistaa?",
-        options: ["Maanantaihin mennessä", "Keskiviikkoon mennessä", "Perjantaihin mennessä", "Ei tarvitse vahvistaa"],
-        answer: 2,
-        explanationFi: "'viimeistään perjantaina'.",
-      },
+      { q: "Milloin haastattelu on?", options: ["Tiistaina 21.1.", "Keskiviikkona 22.1.", "Torstaina 23.1.", "Perjantaina 24.1."], answer: 1, explanationFi: "'keskiviikkona 22.1. klo 14.00'." },
+      { q: "Mitä Minhin pitää ottaa mukaan?", options: ["Vain CV", "Henkilöllisyystodistus ja tutkintotodistus", "Pelkkä passi", "Ei mitään"], answer: 1, explanationFi: "'henkilöllisyystodistuksen ja tutkintotodistuksesi kopion'." },
+      { q: "Milloin osallistuminen pitää vahvistaa?", options: ["Maanantaihin mennessä", "Keskiviikkoon mennessä", "Perjantaihin mennessä", "Ei tarvitse vahvistaa"], answer: 2, explanationFi: "'viimeistään perjantaina'." },
+      { q: "Kuka kutsui Minhin haastatteluun?", options: ["Minh itse", "Kaisa Lehtonen", "Aleksanterinkatu 12", "Henkilöstöosasto"], answer: 1, explanationFi: "Kaisan nimi lukee viestin lopussa lähettäjänä." },
+      { q: "Minkä tyyppiseen työpaikkaan Minh haki?", options: ["HR-assistentiksi", "Toimistosihteeriksi", "Myyjäksi", "Haastattelijaksi"], answer: 2, explanationFi: "Viestissä sanotaan 'hakemuksestasi myyjän paikkaa varten'." },
+      { q: "Kuinka pitkään haastattelu kestää?", options: ["Noin tunnin", "Noin puoli tuntia", "Noin kolme varttia", "Tasan 22.1. asti"], answer: 2, explanationFi: "Tekstissä mainitaan 'Haastattelu kestää noin 45 minuuttia'. Kolme varttia on 45 minuuttia." }
     ],
   },
   {
@@ -85,24 +60,12 @@ export const B1_READING_EXP4: B1ReadingPassage[] = [
       "Tervetuloa viettämään vappua kirjastollemme keskiviikkona 30.4. klo 12–16! Ohjelmassa on lapsille naamiointia ja ilmapallotaikuria, aikuisille runoiltaa ja simaa. Tilaisuus on maksuton, mutta kahvia ja munkkeja myydään 2 euron hintaan. Pukeudu mielellään keväiseen asuun. Tapahtuma järjestetään ulkona, joten varaudu säänmukaiseen vaatetukseen.",
     hintVi: "Thông báo lễ hội Vappu (1/5) ở thư viện — chương trình, giá đồ ăn, lưu ý thời tiết.",
     questions: [
-      {
-        q: "Milloin tapahtuma on?",
-        options: ["29.4. klo 10–14", "30.4. klo 12–16", "1.5. klo 14–18", "2.5. klo 12–16"],
-        answer: 1,
-        explanationFi: "'keskiviikkona 30.4. klo 12–16'.",
-      },
-      {
-        q: "Mitä lapsille tarjotaan?",
-        options: ["Konsertti", "Naamiointia ja taikuri", "Elokuva", "Tanssia"],
-        answer: 1,
-        explanationFi: "'lapsille naamiointia ja ilmapallotaikuria'.",
-      },
-      {
-        q: "Onko sisäänpääsy ilmainen?",
-        options: ["Ei, 2 €", "Kyllä, mutta kahvi maksaa", "Vain lapsille ilmainen", "5 € aikuisille"],
-        answer: 1,
-        explanationFi: "'Tilaisuus on maksuton, mutta kahvia ja munkkeja myydään 2 euron hintaan'.",
-      },
+      { q: "Milloin tapahtuma on?", options: ["29.4. klo 10–14", "30.4. klo 12–16", "1.5. klo 14–18", "2.5. klo 12–16"], answer: 1, explanationFi: "'keskiviikkona 30.4. klo 12–16'." },
+      { q: "Mitä lapsille tarjotaan?", options: ["Konsertti", "Naamiointia ja taikuri", "Elokuva", "Tanssia"], answer: 1, explanationFi: "'lapsille naamiointia ja ilmapallotaikuria'." },
+      { q: "Onko sisäänpääsy ilmainen?", options: ["Ei, 2 €", "Kyllä, mutta kahvi maksaa", "Vain lapsille ilmainen", "5 € aikuisille"], answer: 1, explanationFi: "'Tilaisuus on maksuton, mutta kahvia ja munkkeja myydään 2 euron hintaan'." },
+      { q: "Mitä aikuisille on tarjolla ohjelmassa vappuna?", options: ["Naamiointia ja simaa", "Ilmapallotaikuri ja runoilta", "Runoiltaa ja simaa", "Kahvia ja munkkeja"], answer: 2, explanationFi: "Tekstissä mainitaan, että aikuisille on runoiltaa ja simaa." },
+      { q: "Missä tapahtuma järjestetään?", options: ["Kirjaston sisätiloissa", "Ulkona", "Keskustassa", "Kahvilassa"], answer: 1, explanationFi: "Tekstissä sanotaan: 'Tapahtuma järjestetään ulkona'." },
+      { q: "Mitä kahvi ja munkit maksavat?", options: ["Maksutta", "1 euroa", "2 euroa", "3 euroa"], answer: 2, explanationFi: "Tekstissä kerrotaan: 'kahvia ja munkkeja myydään 2 euron hintaan'." }
     ],
   },
 ];

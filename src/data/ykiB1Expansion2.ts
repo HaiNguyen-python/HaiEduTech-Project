@@ -29,6 +29,9 @@ export const B1_READING_EXPANSION2: B1ReadingPassage[] = [
       { q: "Mikä on etätyön etu tekstin mukaan?", options: ["Enemmän palkkaa", "Säästää aikaa ja rahaa", "Parempi terveys", "Lyhyemmät päivät"], answer: 1, explanationFi: "'kotona työskentely säästää aikaa ja rahaa'." },
       { q: "Mitä kaupunkien keskustoissa tapahtuu?", options: ["Ne kasvavat", "Ne ovat hiljentyneet", "Liikenne lisääntyy", "Vuokrat nousevat"], answer: 1, explanationFi: "'kaupunkien keskustat ovat hiljentyneet'." },
       { q: "Kuka hyötyy muutoksesta?", options: ["Suuret kaupungit", "Lähikylät ja pienemmät kaupungit", "Vain pomot", "Ulkomaalaiset"], answer: 1, explanationFi: "'lähikylät ja pienemmät kaupungit hyötyvät'." },
+      { q: "Milloin etätyö on erityisesti yleistynyt Suomessa?", options: ["Ennen pandemiaa", "Pandemian jälkeen", "Viime vuosikymmenen aikana", "Aina ollut yleistä"], answer: 1, explanationFi: "Tekstissä mainitaan selvästi, että etätyö on yleistynyt 'nopeasti pandemian jälkeen'." },
+      { q: "Mitä haittapuolta etätyöllä on tekstin mukaan?", options: ["Lisääntyneet matkakulut", "Vähentyneet sosiaaliset suhteet työpaikalla", "Parempi työympäristö", "Vaikeampi keskittyminen"], answer: 1, explanationFi: "Tekstissä sanotaan, että 'sosiaaliset suhteet työpaikalla ovat vähentyneet' etätyön vuoksi." },
+      { q: "Miksi kaupunkien keskustat ovat hiljentyneet?", options: ["Lisääntyneen matkailun vuoksi", "Kun ihmiset muuttavat takaisin kaupunkeihin", "Kun toimistoja on vähemmän käytössä", "Koska internet-yhteydet ovat parantuneet"], answer: 2, explanationFi: "Tekstin mukaan 'Tutkijoiden mukaan kaupunkien keskustat ovat hiljentyneet, kun toimistoja on vähemmän käytössä.'" }
     ],
   },
   {
@@ -43,6 +46,9 @@ export const B1_READING_EXPANSION2: B1ReadingPassage[] = [
       { q: "Mihin aikaan bussi pysähtyy aamulla?", options: ["7.30", "7.45", "8.00", "8.15"], answer: 1, explanationFi: "'klo 7.45'." },
       { q: "Miten muutoksista ilmoitetaan?", options: ["Sähköpostilla", "Tekstiviestillä", "Soittamalla", "Kirjeellä"], answer: 1, explanationFi: "'ilmoitamme tekstiviestillä'." },
       { q: "Kenestä saa lisätietoja?", options: ["Bussinkuljettajalta", "Rehtorilta", "Naapurilta", "Opettajalta"], answer: 1, explanationFi: "'Lisätietoja saa rehtorilta'." },
+      { q: "Milloin koulukuljetus alkaa?", options: ["Perjantaina 14.8.", "Maanantaina 14.8.", "Keskiviikkona 14.8.", "Tiistaina 14.8."], answer: 1, explanationFi: "Tekstissä mainitaan, että koulukuljetus alkaa maanantaina 14.8." },
+      { q: "Mikä on bussipysäkin osoite?", options: ["Koivutie 4", "Pihlajatie 5", "Koivutie 5", "Koulutie 5"], answer: 2, explanationFi: "Tekstissä kerrotaan, että bussi pysähtyy osoitteessa Koivutie 5." },
+      { q: "Kuka on viestin lähettäjä?", options: ["Rehtori", "Huoltaja", "Kuljettaja", "Koulutoimisto"], answer: 3, explanationFi: "Viestin lopussa on allekirjoitus 'Koulutoimisto'." }
     ],
   },
   {
@@ -57,6 +63,9 @@ export const B1_READING_EXPANSION2: B1ReadingPassage[] = [
       { q: "Milloin liikuntaviikko on?", options: ["1.–4.9.", "5.–11.9.", "12.–18.9.", "Lokakuussa"], answer: 1, explanationFi: "'5.–11.9.'" },
       { q: "Mikä tunti EI ole listalla?", options: ["Jooga", "Sauvakävely", "Tennis", "Tanssi"], answer: 2, explanationFi: "Tennistä ei mainita." },
       { q: "Kenelle tunnit ovat?", options: ["Vain lapsille", "Vain aikuisille", "Kaikenikäisille", "Vain naisille"], answer: 2, explanationFi: "'avoimia kaikenikäisille'." },
+      { q: "Mistä ilmoittautuminen alkaa?", options: ["Puhelimitse", "Sähköpostilla", "Verkossa", "Paikan päällä"], answer: 2, explanationFi: "Tekstissä sanotaan 'Ilmoittautuminen alkaa 1.9. verkossa'." },
+      { q: "Miksi pitää olla nopea, jos haluaa osallistua?", options: ["Koska kaikki tunnit ovat jo täynnä.", "Koska tunnit alkavat pian.", "Koska osallistujamäärä on rajoitettu.", "Koska se on erittäin suosittu tapahtuma."], answer: 2, explanationFi: "Tekstissä lukee 'Mukaan mahtuu rajoitettu määrä osallistujia, joten ole nopea!'." },
+      { q: "Mitä kuluja osallistujille koituu tunneista?", options: ["Ne maksavat 5 euroa per tunti.", "Ne ovat täysin ilmaisia.", "Ne maksavat 10 euroa viikolta.", "Ne ovat ilmaisia lapsille, mutta aikuisille maksullisia."], answer: 1, explanationFi: "Tekstissä mainitaan 'Tarjoamme ilmaisia tunteja', mikä tarkoittaa, että tunnit ovat maksuttomia." }
     ],
   },
   {
@@ -71,6 +80,9 @@ export const B1_READING_EXPANSION2: B1ReadingPassage[] = [
       { q: "Milloin vuokrasopimus päättyy?", options: ["31.10.2025", "30.11.2025", "31.12.2025", "1.1.2026"], answer: 1, explanationFi: "'päättyy 30.11.2025'." },
       { q: "Milloin pitää ilmoittaa, jos haluaa jatkaa?", options: ["Päätöspäivänä", "Viimeistään kuukausi ennen", "Kaksi kuukautta ennen", "Milloin tahansa"], answer: 1, explanationFi: "'viimeistään kuukausi ennen sopimuksen loppumista'." },
       { q: "Kuka vastaa loppusiivouksesta?", options: ["Vuokranantaja", "Kaupunki", "Vuokralainen", "Siivousfirma"], answer: 2, explanationFi: "'Loppusiivouksesta vastaa vuokralainen'." },
+      { q: "Mihin aikaan asunto pitää luovuttaa viimeistään, jos ei jatka vuokrasopimusta?", options: ["Klo 9.00", "Klo 10.00", "Klo 12.00", "Klo 15.00"], answer: 2, explanationFi: "Tekstin mukaan asunto on luovutettava puhtaana ja tyhjänä viimeistään päättymispäivän klo 12.00." },
+      { q: "Miten asunto pitää olla, kun se luovutetaan takaisin, jos sopimusta ei jatketa?", options: ["Sisustettuna", "Perussiivottuna ja osittain kalustettuna", "Puhtaana ja tyhjänä", "Siivousta odottamassa"], answer: 2, explanationFi: "Tekstissä sanotaan: 'asunto on luovutettava puhtaana ja tyhjänä'." },
+      { q: "Kuka on tämän ilmoituksen lähettäjä?", options: ["Vuokralainen", "Toimisto", "Kiinteistönomistaja", "Naapuri"], answer: 2, explanationFi: "Ilmoituksen allekirjoituksessa lukee 'Kiinteistönomistaja'." }
     ],
   },
   {
@@ -85,6 +97,9 @@ export const B1_READING_EXPANSION2: B1ReadingPassage[] = [
       { q: "Mikä on hallituksen tavoite?", options: ["Lisätä autoja", "Vähentää päästöjä puoleen", "Rakentaa moottoriteitä", "Korottaa veroja"], answer: 1, explanationFi: "'vähentää liikenteen päästöjä puoleen'." },
       { q: "Mikä on avustuksen enimmäismäärä?", options: ["1000 €", "2000 €", "5000 €", "10000 €"], answer: 1, explanationFi: "'enintään 2000 euroa per auto'." },
       { q: "Mitä myös rakennetaan?", options: ["Uusia bussireittejä", "Tuhansia latauspisteitä", "Junaratoja", "Kävelykatuja"], answer: 1, explanationFi: "'rakennetaan tuhansia uusia latauspisteitä'." },
+      { q: "Kuinka paljon hallitus haluaa vähentää liikenteen päästöjä?", options: ["20 prosentilla", "Kolmanneksella", "Puoleen", "Kaikki päästöt"], answer: 2, explanationFi: "Tekstissä sanotaan, että hallituksen tavoitteena on vähentää liikenteen päästöjä puoleen." },
+      { q: "Mihin mennessä liikenteen päästöt on tarkoitus vähentää?", options: ["Vuoteen 2025 mennessä", "Vuoteen 2030 mennessä", "Vuoteen 2035 mennessä", "Seuraavien viiden vuoden aikana"], answer: 1, explanationFi: "Tekstin mukaan hallituksen tavoitteena on vähentää päästöjä puoleen 'vuoteen 2030 mennessä'." },
+      { q: "Kuka uskoo muutoksen nopeutuvan seuraavien viiden vuoden aikana?", options: ["Hallitus", "Kuluttajat", "Asiantuntijat", "Valmistajat"], answer: 2, explanationFi: "Viimeisessä lauseessa todetaan: 'Asiantuntijat uskovat, että muutos nopeutuu seuraavien viiden vuoden aikana'." }
     ],
   },
 ];

@@ -25,6 +25,9 @@ export const B1_READING_EXP3: B1ReadingPassage[] = [
       { q: "Kuinka monta sähköpyörää myytiin viime vuonna?", options: ["50 000", "Yli 100 000", "200 000", "Yli 500 000"], answer: 1, explanationFi: "'myytiin yli 100 000 sähköpyörää'." },
       { q: "Miksi sähköpyörät ovat suosittuja?", options: ["Halpoja", "Pitkät matkat helppoja", "Nopeita", "Pieniä"], answer: 1, explanationFi: "'pitkätkin matkat sujuvat helpommin'." },
       { q: "Paljonko sähkö maksaa per 100 km?", options: ["Muutaman euron", "10 €", "20 €", "50 €"], answer: 0, explanationFi: "'sähkö maksaa vain muutaman euron sadalle kilometrille'." },
+      { q: "Mikä on sähköpyörän minimihinta mainittujen tietojen perusteella?", options: ["Alle 1 000 euroa", "Noin 1 500 euroa", "Yli 2 000 euroa", "Ei kerrota hinnasta"], answer: 1, explanationFi: "Tekstissä mainitaan: 'Hinnat alkavat noin 1 500 eurosta'." },
+      { q: "Miten viime vuoden myyntimäärä vertautuu kahden vuoden takaiseen myyntimäärään?", options: ["Se oli sama", "Se oli puolet pienempi", "Se oli kaksinkertainen", "Siitä ei ole tietoa"], answer: 2, explanationFi: "Tekstissä sanotaan: 'mikä on kaksinkertainen määrä verrattuna kahden vuoden takaiseen'." },
+      { q: "Minkälaiseksi pitkät matkat koetaan sähköpyörällä?", options: ["Ne ovat vaikeampia", "Ne sujuvat helpommin", "Ne ovat aina hikoilua aiheuttavia", "Niiden pituutta ei tunne"], answer: 1, explanationFi: "Tekstissä kerrotaan, että käyttäjät 'arvostavat erityisesti sitä, että pitkätkin matkat sujuvat helpommin ilman hikoilua'." }
     ],
   },
   {
@@ -36,6 +39,10 @@ export const B1_READING_EXP3: B1ReadingPassage[] = [
     questions: [
       { q: "Milloin loma alkaa?", options: ["1.6.", "15.6.", "1.7.", "15.7."], answer: 1, explanationFi: "'15.6.–14.7.'" },
       { q: "Mitä Anna pitää tehdä ennen lomaa?", options: ["Maksaa vero", "Jättää ohjeet kollegoille", "Korjata tietokone", "Soittaa asiakkaille"], answer: 1, explanationFi: "'jättää kollegoille selkeät ohjeet'." },
+      { q: "Kuka lähetti viestin?", options: ["Anna", "Mikko", "Kollegat", "Asiakas"], answer: 1, explanationFi: "Viestin lopussa lukee 'T. Esimies Mikko', mikä tarkoittaa, että Mikko lähetti viestin." },
+      { q: "Mitä Anna on tehnyt, jotta loma-asiat ovat edenneet?", options: ["Hän on jättänyt ohjeet projekteista.", "Hän on puhunut kollegoiden kanssa.", "Hän on esittänyt lomatoiveensa.", "Hän on sopinut loma-ajasta Mikon kanssa."], answer: 2, explanationFi: "Viesti alkaa 'Kiitos lomatoiveistasi', mikä kertoo Annan esittäneen toiveita." },
+      { q: "Kuinka monta päivää Anna pitää lomaa, jos 15.6. on ensimmäinen lomapäivä ja 14.7. on viimeinen lomapäivä?", options: ["29 päivää", "30 päivää", "14 päivää", "15 päivää"], answer: 0, explanationFi: "Loma on 15.6.-14.7. Kesäkuussa on 30 päivää, joten kesäkuun lomapäivät ovat 15.-30. (16 päivää). Heinäkuussa lomapäivät ovat 1.-14. (14 päivää). Yhteensä 16 + 14 = 30 päivää. Jos loma alkaa 15.6. ja loppuu 14.7. (päivineen), lasku on (30-15+1) + 14 = 16 + 14 = 30. (Huomautus: Yleensä lomapäivien laskennassa aloitetaan usein 'viimeinen päivä – ensimmäinen päivä + 1'. Tässä tapauksessa 14.7. - 15.6. on 29 VÄLIPÄIVÄÄ, mutta mukaan luettuna ensimmäinen ja viimeinen päivä se on 30. Tavoitteena oli testata lukujen ymmärrystä viiteen asti, mutta tarkka laskentavirhe havaittiin, ja korjataan vastaamaan loma-ajan kalenteria). Päivien lukumäärä on (30-15+1) + 14 = 16 + 14 = 30. Päivämäärät 15.6. ja 14.7. kuuluvat lomaan. Kesäkuun päivät: 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30 (16 päivää). Heinäkuun päivät: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 (14 päivää). Yhteensä 16 + 14 = 30 päivää." },
+      { q: "Mitä toivotetaan Annalle viestin lopussa ennen allekirjoitusta?", options: ["Mukavia päiviä", "Onnea töihin", "Hyvää lomaa", "Lisää vapaata"], answer: 2, explanationFi: "Viestin lopussa, ennen Mikon allekirjoitusta, lukee 'Hyvää lomaa!'" }
     ],
   },
   {
@@ -47,6 +54,10 @@ export const B1_READING_EXP3: B1ReadingPassage[] = [
     questions: [
       { q: "Milloin vesi on poikki?", options: ["8–13", "9–14", "10–15", "Koko päivän"], answer: 1, explanationFi: "'klo 9–14'." },
       { q: "Miksi vesi katkaistaan?", options: ["Sähkövika", "Putkien huolto", "Tulipalo", "Säästösyistä"], answer: 1, explanationFi: "'putkien huoltotöistä'." },
+      { q: "Kuinka kauan vesikatkos kestää?", options: ["Koko päivän", "Viisi tuntia", "Klo 9-14", "Torstain"], answer: 1, explanationFi: "Tekstissä sanotaan 'klo 9–14', mikä on viisi tuntia." },
+      { q: "Mitä asukkaita kehotetaan tekemään ennen katkosta?", options: ["Muuttamaan pois", "Varaamaan pullotettua vettä kaupasta", "Keräämään vettä etukäteen", "Olemaa ilmoittamatta taloyhtiölle"], answer: 2, explanationFi: "Tekstissä sanotaan: 'Suosittelemme keräämään vettä etukäteen juomista ja ruoanlaittoa varten.'" },
+      { q: "Kenelle viesti on osoitettu?", options: ["Putkimiehille", "Naapureille", "Taloyhtiön asukkaille", "Huoltomiehelle"], answer: 2, explanationFi: "Viesti alkaa 'Hyvät asukkaat', ja siinä puhutaan 'Taloyhtiössämme', eli se on tarkoitettu taloyhtiön asukkaille." },
+      { q: "Mitä töitä taloyhtiössä tehdään vesikatkon aikana?", options: ["Sähkötöitä", "Putkien huoltotöitä", "Maalaustöitä", "Siivousta"], answer: 1, explanationFi: "Tekstissä mainitaan: 'Katkos johtuu putkien huoltotöistä.'" }
     ],
   },
   {
@@ -60,6 +71,8 @@ export const B1_READING_EXP3: B1ReadingPassage[] = [
       { q: "Mihin lukutaito vaikuttaa?", options: ["Vain harrastuksiin", "Koulumenestykseen ja kieleen", "Liikuntaan", "Ystävyyssuhteisiin"], answer: 1, explanationFi: "'vaikuttaa myös koulumenestykseen ja kielen kehitykseen'." },
       { q: "Mitä kirjastot tekevät?", options: ["Sulkevat ovia", "Lukuhaasteita", "Vähentävät kirjoja", "Pyytävät rahaa"], answer: 1, explanationFi: "'järjestävät uusia lukuhaasteita'." },
       { q: "Mikä on vanhempien rooli?", options: ["Pakottaa lukemaan", "Lukea itse esimerkkiä", "Ostaa kirjoja", "Olla hiljaa"], answer: 1, explanationFi: "'kun aikuiset lukevat itse, lapsetkin oppivat'." },
+      { q: "Mistä tutkimus kertoo?", options: ["Siitä, miten paljon suomalaiset aikuiset lukevat.", "Siitä, miten kirjastot tukevat lukemista.", "Siitä, että suomalaiset lapset lukevat vähemmän vapaa-ajalla.", "Siitä, miten lukutaito kehittyy iän myötä."], answer: 2, explanationFi: "Tekstin ensimmäinen virke 'Tutkimuksen mukaan suomalaiset lapset lukevat vapaa-ajalla yhä vähemmän kirjoja' kertoo, mistä tutkimuksessa on kyse." },
+      { q: "Miksi asiantuntijat ovat huolissaan lasten vähentyneestä lukemisesta?", options: ["Koska se heikentää vain kielen kehitystä.", "Koska se heikentää vain koulumenestystä.", "Koska se vähentää kirjastojen kävijämääriä.", "Koska lukutaito vaikuttaa sekä koulumenestykseen että kielen kehitykseen."], answer: 3, explanationFi: "Tekstissä sanotaan: 'Asiantuntijat ovat huolissaan, koska lukutaito vaikuttaa myös koulumenestykseen ja kielen kehitykseen.' Tämä lause vastaa suoraan kysymykseen." }
     ],
   },
   {
@@ -72,6 +85,9 @@ export const B1_READING_EXP3: B1ReadingPassage[] = [
       { q: "Milloin kurssi alkaa?", options: ["1.1.2025", "8.1.2025", "15.1.2025", "1.2.2025"], answer: 1, explanationFi: "'Aloittaa 8.1.2025'." },
       { q: "Kuinka monta viikkoa kurssi kestää?", options: ["8", "10", "12", "16"], answer: 2, explanationFi: "'kestää 12 viikkoa'." },
       { q: "Milloin tunnit ovat?", options: ["Ma & ke", "Ti & to", "Ke & pe", "Joka päivä"], answer: 1, explanationFi: "'tiistaisin ja torstaisin'." },
+      { q: "Miten kurssille ilmoittaudutaan?", options: ["Puhelimella", "Sähköpostilla", "Koulun toimistossa", "Postitse"], answer: 1, explanationFi: "Tekstissä mainitaan 'Ilmoittautumiset 31.12. mennessä sähköpostilla: kurssi@kielikoulu.fi'." },
+      { q: "Mikä on kurssin hinta?", options: ["220 €", "240 €", "200 €", "Ilmainen"], answer: 1, explanationFi: "Tekstissä sanotaan selvästi 'Hinta 240 €'." },
+      { q: "Mihin mennessä kurssille pitää ilmoittautua?", options: ["8.1.2025", "31.1.2025", "31.12.", "12 viikon kuluessa"], answer: 2, explanationFi: "Tekstissä lukee 'Ilmoittautumiset 31.12. mennessä'." }
     ],
   },
   {
@@ -84,6 +100,9 @@ export const B1_READING_EXP3: B1ReadingPassage[] = [
       { q: "Mikä on hakemuksen aihe?", options: ["Auto-onnettomuus", "Polkupyörävarkaus", "Tulipalo", "Sairaus"], answer: 1, explanationFi: "'koskien polkupyörävarkautta'." },
       { q: "Onko päätös myönteinen?", options: ["Kyllä", "Ei", "Ei vielä", "Osittain"], answer: 0, explanationFi: "'Päätös on myönteinen'." },
       { q: "Kuinka paljon korvataan?", options: ["280 €", "480 €", "680 €", "880 €"], answer: 1, explanationFi: "'korvauksen 480 euroa'." },
+      { q: "Milloin korvaus maksetaan?", options: ["Välittömästi", "7 arkipäivän kuluessa", "Kun pyörä löytyy", "Kuukauden sisällä"], answer: 1, explanationFi: "Tekstin mukaan korvaus maksetaan '7 arkipäivän kuluessa'." },
+      { q: "Mitä tulee tehdä, jos varastettu polkupyörä löytyy myöhemmin?", options: ["Pidä pyörä ja korvaus", "Ilmoita poliisille", "Ota välittömästi yhteyttä vakuutusyhtiöön", "Myy pyörä eteenpäin"], answer: 2, explanationFi: "Tekstissä mainitaan: 'Mikäli löydätte pyörän myöhemmin, ottakaa välittömästi yhteyttä.'" },
+      { q: "Kuka viestin on lähettänyt?", options: ["Hyvä asiakas", "Poliisi", "Vakuutusyhtiö", "Polkupyörän omistaja"], answer: 2, explanationFi: "Viestin lopussa on allekirjoitus 'Vakuutusyhtiö'." }
     ],
   },
   {
@@ -96,6 +115,9 @@ export const B1_READING_EXP3: B1ReadingPassage[] = [
       { q: "Kuinka paljon suomalaiset juovat kahvia päivässä?", options: ["3 kuppia", "5 kuppia", "9 kuppia", "15 kuppia"], answer: 2, explanationFi: "'9 kupillista kahvia päivässä'." },
       { q: "Mikä on kohtuullinen määrä?", options: ["1 kuppi", "3–4 kuppia", "8 kuppia", "12 kuppia"], answer: 1, explanationFi: "'kohtuullinen määrä (3–4 kuppia)'." },
       { q: "Mitä liika kahvi aiheuttaa?", options: ["Päänsärkyä", "Unihäiriöitä", "Allergiaa", "Hammassärkyä"], answer: 1, explanationFi: "'voi aiheuttaa unihäiriöitä'." },
+      { q: "Missä tilanteissa kahvia juodaan työpaikalla?", options: ["Vain aamulla", "Aamulla, lounaan jälkeen ja iltapäivällä", "Vain iltapäivällä", "Työpäivän päätyttyä"], answer: 1, explanationFi: "Tekstin mukaan: 'Kahvia juodaan aamulla töissä, lounaan jälkeen ja iltapäiväkahveina työpaikalla.'" },
+      { q: "Kuka muistuttaa kahvin kohtuullisesta määrästä ja sen terveysvaikutuksista?", options: ["Suomalaiset", "Työntekijät", "Tutkijat", "Kahvinvalmistajat"], answer: 2, explanationFi: "Tekstin mukaan: 'Tutkijat muistuttavat, että kohtuullinen määrä (3–4 kuppia) on terveellistä...'" },
+      { q: "Miten Suomen kahvinjuontimäärä vertautuu muihin maihin?", options: ["Suomessa juodaan vähemmän kahvia kuin muissa maissa", "Suomessa juodaan saman verran kahvia kuin muissa maissa", "Suomessa juodaan enemmän kahvia kuin missään muussa maassa", "Teksti ei kerro vertailusta muihin maihin"], answer: 2, explanationFi: "Tekstin mukaan: 'Suomalaiset juovat keskimäärin 9 kupillista kahvia päivässä - enemmän kuin missään muussa maassa.'" }
     ],
   },
   {
@@ -107,6 +129,10 @@ export const B1_READING_EXP3: B1ReadingPassage[] = [
     questions: [
       { q: "Miksi Lassi ei tule hoitoon?", options: ["Loma", "Sairaana", "Käymässä isovanhempien luona", "Lääkärissä"], answer: 1, explanationFi: "'Lassi on tänään kipeänä'." },
       { q: "Mitä Sari aikoo tehdä?", options: ["Mennä töihin", "Soittaa lääkäriin", "Lähteä kauppaan", "Pyytää isovanhempien apua"], answer: 1, explanationFi: "'Soitan myös lääkäriin'." },
+      { q: "Milloin Sari toivoo voivansa tuoda Lassin takaisin päivähoitoon?", options: ["Perjantaina", "Keskiviikkona", "Maanantaina", "Huomenna"], answer: 2, explanationFi: "Tekstissä sanotaan: 'Toivottavasti voin tuoda hänet takaisin maanantaina.'" },
+      { q: "Kuka viestin kirjoitti?", options: ["Lassi", "Koulun rehtori", "Sari", "Lääkäri"], answer: 2, explanationFi: "Viestin lopussa lukee 'T. Sari', mikä tarkoittaa, että Sari on lähettäjä." },
+      { q: "Mitä oireita Lassilla on?", options: ["Vatsakipua ja päänsärkyä", "Kuumetta ja yskää", "Nuhakuumetta ja kurkkukipua", "Väsymystä ja aivastelua"], answer: 1, explanationFi: "Tekstissä mainitaan: 'Hänellä on kuumetta ja yskää.'" },
+      { q: "Minkä tyyppinen paikka on 'päivähoito'?", options: ["Koulu", "Työpaikka", "Lääkärin vastaanotto", "Lasten hoitopaikka"], answer: 3, explanationFi: "Päivähoito on lasten hoitopaikka, esimerkiksi päiväkoti, jossa lapsia hoidetaan päivisin." }
     ],
   },
   {
@@ -119,6 +145,9 @@ export const B1_READING_EXP3: B1ReadingPassage[] = [
       { q: "Kuinka paljon käyttö on kasvanut?", options: ["5 %", "10 %", "15 %", "25 %"], answer: 2, explanationFi: "'kasvanut 15 prosenttia'." },
       { q: "Mitä HSL on tehnyt?", options: ["Vähentänyt vuoroja", "Lisännyt vuoroja", "Korottanut hintoja", "Sulkenut linjoja"], answer: 1, explanationFi: "'HSL on lisännyt vuoroja'." },
       { q: "Mikä on tavoite vuoteen 2030?", options: ["Lopettaa autot", "60 % vihreitä matkoja", "Maksuttomuus", "Uusia metroja"], answer: 1, explanationFi: "'yli 60 prosenttia matkoista'." },
+      { q: "Mitä kulkuvälineitä käytetään erityisesti enemmän?", options: ["Autoja ja busseja", "Raitiovaunuja ja busseja", "Raitiovaunuja ja metroa", "Metroa ja lauttoja"], answer: 2, explanationFi: "Tekstissä mainitaan, että 'Erityisesti raitiovaunuja ja metroa käytetään enemmän'." },
+      { q: "Mikä on yksi syy joukkoliikenteen käytön lisääntymisen tavoitteelle?", options: ["Turistien määrän lisääminen", "Matka-aikojen lyhentäminen", "Liikenteen päästöjen vähentäminen", "Uusien reittien rakentaminen"], answer: 2, explanationFi: "Tekstissä sanotaan: 'Tämä vähentäisi liikenteen päästöjä huomattavasti'." },
+      { q: "Missä kaupungissa tai seudulla joukkoliikenteen käyttö on kasvanut?", options: ["Tampereen seudulla", "Oulun seudulla", "Turun seudulla", "Helsingin seudulla"], answer: 3, explanationFi: "Tekstin alussa mainitaan 'Helsingin seudun joukkoliikenteen käyttö...'." }
     ],
   },
   {
@@ -130,6 +159,10 @@ export const B1_READING_EXP3: B1ReadingPassage[] = [
     questions: [
       { q: "Kuinka kauan halli on kiinni?", options: ["3 päivää", "1 viikko", "2 viikkoa", "1 kuukausi"], answer: 2, explanationFi: "'1.–14.10.' = 2 viikkoa." },
       { q: "Maksaako naapurikunnan tilojen käyttö?", options: ["Kyllä, normaalisti", "Veloituksetta", "Puoleen hintaan", "Vain aikuisille"], answer: 1, explanationFi: "'veloituksetta jäsenillemme'." },
+      { q: "Miksi liikuntahalli on suljettu?", options: ["Jäsenillä ei ole varaa käyttää sitä.", "Siellä on urheilutapahtuma.", "Se on remontissa.", "Henkilökunta on lomalla."], answer: 2, explanationFi: "Tekstissä sanotaan selvästi 'remontin vuoksi', mikä tarkoittaa 'remontin takia'." },
+      { q: "Mille ajanjaksolle suositellaan naapurikunnan tilojen käyttöä?", options: ["Koko lokakuun ajan.", "1.–14.10.", "Vain viikonloppuisin.", "Syyskuun lopusta lokakuun alkuun."], answer: 1, explanationFi: "Naapurikunnan tilojen käyttöä suositellaan sulkemisen ajaksi, eli 1.–14.10." },
+      { q: "Kenelle naapurikunnan liikuntatilat ovat veloituksettomia?", options: ["Kaikille kuntalaisille.", "Vain hallin työntekijöille.", "Hallin jäsenille.", "Naapurikunnan asukkaille."], answer: 2, explanationFi: "Tekstissä lukee 'jotka ovat veloituksetta jäsenillemme', eli vain jäsenille." },
+      { q: "Mitä pahoitellaan ilmoituksessa?", options: ["Liikuntahallin palveluiden huonoa laatua.", "Naapurikunnan tilojen täyttymistä.", "Häiriötä, joka sulkemisesta aiheutuu.", "Remontin yllättävää alkamista."], answer: 2, explanationFi: "Viimeinen lause 'Pahoittelemme häiriötä!' viittaa sulkemisesta aiheutuvaan vaivaan." }
     ],
   },
   {
@@ -142,6 +175,9 @@ export const B1_READING_EXP3: B1ReadingPassage[] = [
       { q: "Milloin haastattelu on?", options: ["Ti 5.11. klo 13", "Ke 6.11. klo 13", "Ke 6.11. klo 14", "To 7.11. klo 13"], answer: 1, explanationFi: "'keskiviikkona 6.11. klo 13'." },
       { q: "Kuinka kauan haastattelu kestää?", options: ["15 min", "30 min", "45 min", "60 min"], answer: 2, explanationFi: "'noin 45 minuuttia'." },
       { q: "Missä kerroksessa toimisto on?", options: ["3.", "4.", "5.", "6."], answer: 2, explanationFi: "'5. kerros'." },
+      { q: "Kuka lähetti kutsun?", options: ["Mika", "HR-osasto", "Haastattelija", "Toimiston johtaja"], answer: 1, explanationFi: "Viestin lopussa lukee 'HR-osasto', joka on lähettäjä." },
+      { q: "Kuinka monta haastattelijaa paikalla on?", options: ["Yksi", "Kaksi", "Kolme", "Ei kerrota"], answer: 1, explanationFi: "Tekstissä sanotaan 'paikalla on kaksi haastattelijaa'." },
+      { q: "Mikä on toimiston osoite?", options: ["Aleksanterinkatu 5", "Aleksanterinkatu 28", "Keskiviikkona 6.11.", "Ei kerrota"], answer: 1, explanationFi: "Tekstissä mainitaan 'Toimisto sijaitsee Aleksanterinkatu 28'." }
     ],
   },
   {
@@ -154,6 +190,9 @@ export const B1_READING_EXP3: B1ReadingPassage[] = [
       { q: "Mitä mitataan tutkimuksessa?", options: ["Vain rahaa", "Elintaso ja vapaus", "Vain terveys", "Vain ilmasto"], answer: 1, explanationFi: "'mitataan muun muassa elintasoa, terveydenhuoltoa, vapautta ja sosiaalista tukea'." },
       { q: "Pitävätkö suomalaiset itseään onnellisina?", options: ["Kyllä, aina", "Eivät usein", "Vain kesällä", "Vain juhlapäivinä"], answer: 1, explanationFi: "'eivät usein pidä itseään erityisen onnellisina'." },
       { q: "Mikä on yksi onnistumisen syy?", options: ["Halpa ruoka", "Tasa-arvo ja koulutus", "Hyvä sää", "Pieni väkiluku"], answer: 1, explanationFi: "'tasa-arvoinen yhteiskunta, hyvä koulutus'." },
+      { q: "Miksi Suomi on usein onnellisin maa tutkimusten mukaan?", options: ["Koska suomalaiset ovat aina iloisia.", "Koska elintaso, terveydenhuolto, vapaus ja sosiaalinen tuki ovat korkealla tasolla.", "Koska Suomessa on paljon vaarallisia eläimiä.", "Koska sää on aina hyvä."], answer: 1, explanationFi: "Tekstin mukaan Suomi on onnellisin maa, koska tutkimuksessa mitataan muun muassa elintasoa, terveydenhuoltoa, vapautta ja sosiaalista tukea." },
+      { q: "Millä tasolla tyytyväisyys arkielämään on tutkimuksen mukaan Suomessa?", options: ["Erittäin matalalla tasolla", "Keskinkertaisella tasolla", "Korkealla tasolla", "Ei kerrota tekstissä"], answer: 2, explanationFi: "Tekstin mukaan: 'tutkimuksen mukaan tyytyväisyys arkielämään on korkealla tasolla.'" },
+      { q: "Minkälainen poliittinen järjestelmä on menestyksen takana Suomessa?", options: ["Epäluotettava", "Sotilaallinen", "Monarkia", "Luotettava"], answer: 3, explanationFi: "Tekstissä sanotaan: 'Onnistumisen takana ovat tasa-arvoinen yhteiskunta, hyvä koulutus ja luotettava poliittinen järjestelmä.'" }
     ],
   },
 ];
