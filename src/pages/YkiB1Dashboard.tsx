@@ -163,6 +163,8 @@ const YkiB1Dashboard = () => {
             <TabsTrigger value="listening">🎧 {t("Nghe", "Listening")}</TabsTrigger>
             <TabsTrigger value="writing">✍️ {t("Viết", "Writing")}</TabsTrigger>
             <TabsTrigger value="speaking">🎤 {t("Nói", "Speaking")}</TabsTrigger>
+            <TabsTrigger value="vocabulary">📚 {t("Từ vựng", "Vocabulary")}</TabsTrigger>
+            <TabsTrigger value="grammar">📐 {t("Ngữ pháp", "Grammar")}</TabsTrigger>
           </TabsList>
 
           {/* READING */}
