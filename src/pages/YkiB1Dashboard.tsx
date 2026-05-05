@@ -32,6 +32,8 @@ import { B1_VOCAB_EXPANSION_MODULES } from "@/data/ykiB1VocabularyExpansion";
 import { B1_VOCAB_EXPANSION_MODULES_2 } from "@/data/ykiB1VocabularyExpansion2";
 import { B1_GRAMMAR_MODULES } from "@/data/ykiB1Grammar";
 import { B1_GRAMMAR_EXPANSION_MODULES } from "@/data/ykiB1GrammarExpansion";
+import { B1_WRITING_SAMPLES } from "@/data/ykiB1WritingSamples";
+import { Lightbulb } from "lucide-react";
 
 // Use Finnish TTS pipeline (proxy → Google translate_tts → native fi-FI voice)
 // to guarantee proper Finnish pronunciation, not the system's English fallback voice.
