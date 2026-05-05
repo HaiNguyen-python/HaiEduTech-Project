@@ -17,7 +17,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft, Volume2, Timer, Mic, Pause, Play, RotateCcw, NotebookPen, Sparkles, CheckCircle2, XCircle } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { playFinnishTts } from "@/lib/finnishTts";
+import { playFinnishTts, pauseFinnishTts, resumeFinnishTts, stopFinnishTts } from "@/lib/finnishTts";
 import ClickableFinnishText from "@/components/ClickableFinnishText";
 import {
   B1_READING_ALL as B1_READING,
