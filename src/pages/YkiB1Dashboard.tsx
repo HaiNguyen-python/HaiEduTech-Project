@@ -420,6 +420,94 @@ const YkiB1Dashboard = () => {
 
           {/* SPEAKING */}
           <TabsContent value="speaking" className="mt-6 space-y-4">
+            {/* === B1 Speaking Beginner Guide === */}
+            <Card className="p-5 border-2 border-[#003580]/30 bg-gradient-to-br from-[#003580]/5 to-emerald-500/5">
+              <h3 className="text-lg font-bold flex items-center gap-2 mb-2">
+                <Sparkles className="w-5 h-5 text-[#003580]" />
+                {t("Hướng dẫn cho người mới luyện B1 Speaking", "Beginner's guide to YKI B1 Speaking")}
+              </h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                {t(
+                  "Phần Nói YKI B1 gồm các tình huống ngắn (2–4 phút). Giám khảo chấm: trôi chảy, từ vựng, ngữ pháp & phát âm. Hãy luyện theo cấu trúc 3 bước dưới đây.",
+                  "YKI B1 Speaking has short scenarios (2–4 min). Examiners grade fluency, vocabulary, grammar and pronunciation. Practice using the 3-step structure below."
+                )}
+              </p>
+
+              {/* 3-step structure */}
+              <div className="grid md:grid-cols-3 gap-3 mb-4">
+                <div className="rounded-lg p-3 bg-background border">
+                  <p className="text-xs font-bold text-[#003580] mb-1">1️⃣ {t("MỞ ĐẦU", "OPENING")} (10–15s)</p>
+                  <p className="text-xs text-muted-foreground">{t("Chào hỏi + giới thiệu mục đích", "Greet + state purpose")}</p>
+                </div>
+                <div className="rounded-lg p-3 bg-background border">
+                  <p className="text-xs font-bold text-emerald-700 dark:text-emerald-400 mb-1">2️⃣ {t("NỘI DUNG", "MAIN")} (60–120s)</p>
+                  <p className="text-xs text-muted-foreground">{t("Trả lời nhiệm vụ, dùng ví dụ cụ thể, kết nối ý bằng từ nối", "Answer task, give examples, use connectors")}</p>
+                </div>
+                <div className="rounded-lg p-3 bg-background border">
+                  <p className="text-xs font-bold text-orange-600 mb-1">3️⃣ {t("KẾT THÚC", "CLOSING")} (10–15s)</p>
+                  <p className="text-xs text-muted-foreground">{t("Tóm tắt + cảm ơn / hỏi lại", "Summarize + thank / ask back")}</p>
+                </div>
+              </div>
+
+              {/* Universal phrase bank */}
+              <div className="space-y-3">
+                {[
+                  {
+                    label: t("👋 Chào hỏi & mở đầu", "👋 Greet & open"),
+                    phrases: ["Hei, mukava tavata.", "Anteeksi, voinko kysyä?", "Haluaisin kertoa…", "Soitan, koska…"],
+                  },
+                  {
+                    label: t("🔗 Từ nối ý (rất quan trọng ở B1)", "🔗 Connectors (key for B1)"),
+                    phrases: ["ensinnäkin (đầu tiên)", "toiseksi (thứ hai)", "lisäksi (hơn nữa)", "esimerkiksi (ví dụ)", "koska (vì)", "mutta (nhưng)", "siksi (vì vậy)", "lopuksi (cuối cùng)"],
+                  },
+                  {
+                    label: t("💭 Bày tỏ ý kiến", "💭 Give opinion"),
+                    phrases: ["Mielestäni…", "Olen sitä mieltä, että…", "Uskon, että…", "Minusta on tärkeää, että…"],
+                  },
+                  {
+                    label: t("⏸️ Câu giữ thời gian khi suy nghĩ", "⏸️ Filler / thinking phrases"),
+                    phrases: ["Hmm, anna kun mietin…", "Se on hyvä kysymys.", "No, sanoisin että…", "Miten sen sanoisi…"],
+                  },
+                  {
+                    label: t("❓ Hỏi lại / xin nhắc lại", "❓ Ask for clarification"),
+                    phrases: ["Anteeksi, voitko toistaa?", "En ihan ymmärtänyt.", "Tarkoitatko, että…?", "Voitko puhua hitaammin?"],
+                  },
+                  {
+                    label: t("🙏 Kết thúc", "🙏 Closing"),
+                    phrases: ["Kiitos paljon avusta.", "Oli mukava jutella.", "Nähdään pian!", "Hyvää päivänjatkoa."],
+                  },
+                ].map((group, i) => (
+                  <div key={i}>
+                    <p className="text-xs font-semibold mb-1.5">{group.label}</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {group.phrases.map((p, j) => (
+                        <button
+                          key={j}
+                          onClick={() => speakFi(p.split(" (")[0])}
+                          className="text-xs px-2 py-1 rounded bg-background hover:bg-[#003580]/10 border inline-flex items-center gap-1"
+                        >
+                          <Volume2 className="w-3 h-3" />{p}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Tips */}
+              <div className="mt-4 p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/30">
+                <p className="text-xs font-bold mb-1">💡 {t("Mẹo của Thầy Hải", "Teacher Hai's tips")}</p>
+                <ul className="text-xs space-y-1 list-disc list-inside text-foreground/90">
+                  <li>{t("Đừng im lặng – dùng câu giữ thời gian (Hmm, anna kun mietin…) thay vì 'ehm'.", "Don't go silent — use filler phrases (Hmm, anna kun mietin…) instead of 'ehm'.")}</li>
+                  <li>{t("Nói CHẬM và RÕ tốt hơn nói nhanh mà sai. Mục tiêu B1: trôi chảy ở mức cơ bản.", "Slow & clear beats fast & wrong. B1 goal: basic fluency.")}</li>
+                  <li>{t("Luôn cho 1 ví dụ cụ thể (Esimerkiksi…) – tăng điểm Vocabulary.", "Always give one concrete example (Esimerkiksi…) — boosts Vocabulary score.")}</li>
+                  <li>{t("Dùng cả thì quá khứ (olin, menin) để chứng minh trình độ B1.", "Use past tense (olin, menin) to prove B1 level.")}</li>
+                  <li>{t("Ghi âm chính mình → nghe lại → sửa. Lặp lại mỗi tình huống ít nhất 3 lần.", "Record yourself → listen back → fix. Repeat each scenario 3+ times.")}</li>
+                </ul>
+              </div>
+            </Card>
+
+            {/* === Per-scenario cards === */}
             {B1_SPEAKING.map(s => (
               <Card key={s.id} className="p-5">
                 <div className="flex justify-between items-start mb-3 flex-wrap gap-2">
@@ -431,6 +519,24 @@ const YkiB1Dashboard = () => {
                   <SectionTimer minutes={s.timeMinutes} />
                 </div>
                 <p className="text-sm font-semibold mb-2">📋 {t("Nhiệm vụ", "Task")}: <span className="font-normal">{s.taskFi}</span></p>
+
+                {/* Step-by-step structure for THIS scenario */}
+                <div className="grid sm:grid-cols-3 gap-2 mb-3">
+                  <div className="rounded-md p-2 bg-[#003580]/5 border border-[#003580]/20">
+                    <p className="text-[10px] font-bold text-[#003580] mb-1">1️⃣ {t("MỞ ĐẦU", "OPEN")}</p>
+                    <p className="text-xs">{t("Chào hỏi, giới thiệu lý do bạn ở đây.", "Greet, state why you're here.")}</p>
+                  </div>
+                  <div className="rounded-md p-2 bg-emerald-500/5 border border-emerald-500/20">
+                    <p className="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 mb-1">2️⃣ {t("NỘI DUNG", "MAIN")}</p>
+                    <p className="text-xs">{t("Hoàn thành nhiệm vụ ở trên, dùng các cụm gợi ý bên dưới.", "Do the task above, use suggested phrases below.")}</p>
+                  </div>
+                  <div className="rounded-md p-2 bg-orange-500/5 border border-orange-500/20">
+                    <p className="text-[10px] font-bold text-orange-600 mb-1">3️⃣ {t("KẾT THÚC", "CLOSE")}</p>
+                    <p className="text-xs">{t("Cảm ơn / chào tạm biệt lịch sự.", "Thank / say goodbye politely.")}</p>
+                  </div>
+                </div>
+
+                <p className="text-xs font-semibold mb-1.5">🗣️ {t("Cụm từ gợi ý cho tình huống này (bấm để nghe)", "Suggested phrases for this scenario (click to hear)")}:</p>
                 <div className="flex flex-wrap gap-1.5 mb-3">
                   {s.hintsFi.map((h, i) => (
                     <button key={i} onClick={() => speakFi(h)}
