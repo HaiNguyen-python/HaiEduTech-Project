@@ -506,7 +506,7 @@ const SpecializedLanguage = () => {
                 />
               ))}
             </div>
-            <p className="font-semibold text-foreground">AI tutor is researching the latest 2026 industry terms...</p>
+            <p className="font-semibold text-foreground">Mr. Hai is researching the latest 2026 industry terms...</p>
             <p className="text-sm text-muted-foreground mt-1">Crafting vocabulary, scenarios & cultural insights for {jobRole}.</p>
           </motion.div>
         )}
