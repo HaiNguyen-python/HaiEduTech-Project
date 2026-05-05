@@ -27,6 +27,9 @@ import {
   getWordOfTheDay,
 } from "@/data/ykiB1Data";
 import { getSpeakingSample } from "@/data/ykiB1SpeakingSamples";
+import { B1_VOCAB_MODULES } from "@/data/ykiB1Vocabulary";
+import { B1_VOCAB_EXPANSION_MODULES } from "@/data/ykiB1VocabularyExpansion";
+import { B1_GRAMMAR_MODULES } from "@/data/ykiB1Grammar";
 
 // Use Finnish TTS pipeline (proxy → Google translate_tts → native fi-FI voice)
 // to guarantee proper Finnish pronunciation, not the system's English fallback voice.
