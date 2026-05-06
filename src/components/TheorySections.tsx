@@ -231,15 +231,27 @@ function normalizeMath(input: string): string {
       // parentheses without `$...$`, e.g. `(\lambda \|\beta\|^2)` or
       // `((\lambda \|\beta\|^2))`. Detect a paren group containing a `\cmd`
       // and wrap its inside in inline math, keeping the parens textual.
-      // Strip any extra outer pair of parens too.
-      out = out.replace(
-        /\(\s*\(([^()\n$]*\\[A-Za-z]+[^()\n$]*)\)\s*\)/g,
-        (_, inner) => `($${inner.trim()}$)`,
-      );
-      out = out.replace(
-        /(^|[^$\\])\(([^()\n$]*\\[A-Za-z]+[^()\n$]*)\)/g,
-        (_, pre, inner) => `${pre}($${inner.trim()}$)`,
-      );
+      // CRITICAL: only touch text OUTSIDE existing $$...$$ / $...$ math spans —
+      // otherwise we double-wrap inner parens like `(y - \hat{y})` that already
+      // sit inside a math span and produce broken `$...($y-\hat{y}$)...$`.
+      const PROTECT_RE = /(\$\$[\s\S]+?\$\$|\$[^$\n]+\$|`[^`\n]+`|```[\s\S]*?```)/g;
+      out = out
+        .split(PROTECT_RE)
+        .map((seg, i) => {
+          // Odd indices are the protected matches → leave untouched.
+          if (i % 2 === 1) return seg;
+          let s = seg;
+          s = s.replace(
+            /\(\s*\(([^()\n$]*\\[A-Za-z]+[^()\n$]*)\)\s*\)/g,
+            (_, inner) => `($${inner.trim()}$)`,
+          );
+          s = s.replace(
+            /(^|[^$\\])\(([^()\n$]*\\[A-Za-z]+[^()\n$]*)\)/g,
+            (_, pre, inner) => `${pre}($${inner.trim()}$)`,
+          );
+          return s;
+        })
+        .join("");
 
       // ── Wrap BARE LaTeX fragments (no $ delimiters) in inline math. ──
       out = out
