@@ -459,6 +459,7 @@ const ChineseCultureHub = () => {
                       </Accordion>
                     </div>
 
+
                       {/* Deep-dive lessons accordion */}
                       <div className="flex items-center gap-2 mb-2">
                         <GraduationCap className="h-4 w-4 text-red-500" />
