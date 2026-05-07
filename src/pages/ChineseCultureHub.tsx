@@ -458,39 +458,6 @@ const ChineseCultureHub = () => {
                         ))}
                       </Accordion>
                     </div>
-
-
-                      {/* Deep-dive lessons accordion */}
-                      <div className="flex items-center gap-2 mb-2">
-                        <GraduationCap className="h-4 w-4 text-red-500" />
-                        <span className="text-sm font-semibold">
-                          {theme.lessons.length} {t("bài học chuyên sâu", "deep-dive lessons")}
-                        </span>
-                      </div>
-                      <Accordion type="single" collapsible className="w-full">
-                        {theme.lessons.map((lesson, k) => (
-                          <AccordionItem key={k} value={`item-${i}-${k}`} className="border-b-0 border-t">
-                            <AccordionTrigger className="text-sm font-medium hover:no-underline py-3 text-left">
-                              <div className="flex items-start gap-2 pr-2">
-                                <span className="text-xs text-red-500 mt-1 font-bold">{k + 1}.</span>
-                                <span className="flex-1">{t(lesson.titleVi, lesson.titleEn)}</span>
-                              </div>
-                            </AccordionTrigger>
-                            <AccordionContent className="pb-3">
-                              {lesson.zh && (
-                                <div className="mb-2 text-sm">
-                                  <span className="font-bold text-red-600">{lesson.zh}</span>
-                                  {lesson.pinyin && <span className="text-muted-foreground italic ml-2">({lesson.pinyin})</span>}
-                                </div>
-                              )}
-                              <p className="text-sm text-foreground/80 leading-relaxed whitespace-pre-wrap">
-                                {t(lesson.bodyVi, lesson.bodyEn)}
-                              </p>
-                            </AccordionContent>
-                          </AccordionItem>
-                        ))}
-                      </Accordion>
-                    </div>
                   </Card>
                 </motion.div>
               );
