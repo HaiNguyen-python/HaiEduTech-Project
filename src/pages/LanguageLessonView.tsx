@@ -18,6 +18,7 @@ import type { LanguageModule, LanguageLesson, InteractiveExercise } from "@/data
 import { FillInBlankExercise, SentenceReorderExercise, DictationExercise, QuizExercise } from "@/components/exercises";
 import { cn } from "@/lib/utils";
 import { getEnhancedGrammarTheory } from "@/lib/grammarTheoryEnhancer";
+import SatStarToggle from "@/components/sat/SatStarToggle";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
