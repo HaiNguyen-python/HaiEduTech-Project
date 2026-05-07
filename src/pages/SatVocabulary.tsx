@@ -399,6 +399,9 @@ const SatVocabulary = () => {
                         <Badge className={levelColors[w.level] + " text-xs"}>{w.level}</Badge>
                         {w.partOfSpeech && <Badge variant="secondary" className="text-xs italic">{w.partOfSpeech}</Badge>}
                         <Badge variant="outline" className="text-xs">{w.category}</Badge>
+                        <Badge className={(w.section === "Math" ? "bg-orange-500/20 text-orange-500" : "bg-blue-500/20 text-blue-500") + " text-xs"}>
+                          {w.section === "Math" ? "📐 Math" : "📖 R&W"}
+                        </Badge>
                       </div>
 
                       <p className="min-w-0 break-words font-bold whitespace-normal" style={{ fontSize: "1.1875rem", color: "#1d4ed8", lineHeight: 1.6 }}>{w.definition.vi}</p>
