@@ -439,7 +439,7 @@ const SatVocabulary = () => {
                       <p className="min-w-0 break-words font-bold whitespace-normal" style={{ fontSize: "1.1875rem", color: "#1d4ed8", lineHeight: 1.6 }}>{w.definition.vi}</p>
 
                       {w.example && (
-                        <p className="mt-3 min-w-0 break-words italic leading-relaxed whitespace-normal" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6 }}>&quot;{w.example}&quot;</p>
+                        <p className="mt-3 min-w-0 break-words italic leading-relaxed whitespace-normal" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6 }}>{renderExample(w.example, w.word)}</p>
                       )}
                     </motion.div>
                   ))}
