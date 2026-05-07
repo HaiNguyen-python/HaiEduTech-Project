@@ -14,6 +14,9 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { allEnglishModules, type LanguageModule } from "@/data/languageCurriculum";
+import SatStarToggle from "@/components/sat/SatStarToggle";
+import { useSatStarsCount } from "@/hooks/useSatStars";
+import { Star } from "lucide-react";
 
 const MATH_KEYWORDS = [
   "math",
