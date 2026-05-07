@@ -645,7 +645,7 @@ const IeltsVocabulary = () => {
                       <span className="font-bold not-italic" style={{ color: "#1d4ed8" }}>E.g. </span>
                       {w.example.split(new RegExp(`(${w.word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "ig")).map((part, i) =>
                         part.toLowerCase() === w.word.toLowerCase()
-                          ? <strong key={i} className="font-extrabold not-italic" style={{ color: "#111827" }}>{part}</strong>
+                          ? <strong key={i} className="font-extrabold italic" style={{ color: "#111827" }}>{part}</strong>
                           : <span key={i}>{part}</span>
                       )}
                     </p>
