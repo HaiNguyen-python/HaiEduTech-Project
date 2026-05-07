@@ -142,6 +142,7 @@ const Navbar = () => {
     { to: "#cn-div1", label: "", divider: true },
     { to: "#cn-hsk-group", label: t("🎓 Lộ trình HSK", "🎓 HSK Program"), groupLabel: "cn-hsk", children: [
       { to: "/chinese/hsk-guide", label: t("🎓 HSK Exam Guide", "🎓 HSK Exam Guide") },
+      { to: "/chinese/hsk-grammar", label: t("📐 HSK Grammar", "📐 HSK Grammar") },
       { to: "/chinese/hsk/vocabulary", label: t("📖 HSK Vocabulary", "📖 HSK Vocabulary") },
     ] },
     { to: "#cn-conv-group", label: t("💬 Giao tiếp & Tương tác", "💬 Conversational"), groupLabel: "cn-conv", children: [
