@@ -165,11 +165,12 @@ const AdminDashboard = () => {
         Math.max(states.filter(s => s.totalActivities > 0).length, 1)
       : 0;
 
-    // Domain counts
-    const domainCounts = { english: 0, chinese: 0, programming: 0 };
+    // Domain counts (map unknown domains to "english")
+    const domainCounts: Record<LearningDomain, number> = { english: 0, chinese: 0, programming: 0 };
     for (const act of allActivities) {
-      const d = (act.domain as LearningDomain) || "english";
-      if (domainCounts[d] !== undefined) domainCounts[d]++;
+      const raw = (act.domain as string) || "english";
+      const d = (raw in domainCounts ? raw : "english") as LearningDomain;
+      domainCounts[d]++;
     }
 
     setClassStats({
