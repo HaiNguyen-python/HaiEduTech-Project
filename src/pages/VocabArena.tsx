@@ -13,6 +13,8 @@ import GameOver from "@/components/vocab-arena/GameOver";
 import ClassroomBattle from "@/components/vocab-arena/ClassroomBattle";
 import TeacherPanel from "@/components/vocab-arena/TeacherPanel";
 import MiniGames from "@/components/vocab-arena/MiniGames";
+import GameLeaderboard from "@/components/games/GameLeaderboard";
+import { supabase } from "@/integrations/supabase/client";
 
 type Phase = "menu" | "solo-setup" | "solo-playing" | "solo-results" | "classroom-student" | "classroom-teacher" | "mini-games";
 
