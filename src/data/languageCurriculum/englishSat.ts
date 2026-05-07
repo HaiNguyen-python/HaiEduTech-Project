@@ -450,28 +450,28 @@ The SAT does NOT test vocabulary in isolation - it tests **meaning in specific c
 <figure>
 <svg viewBox="0 0 600 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Words in Context process">
   <rect width="600" height="220" fill="hsl(280 70% 60% / 0.05)" rx="12"/>
-  <g font-family="ui-sans-serif, system-ui" font-size="13">
+  <g font-family="ui-sans-serif, system-ui" font-size="15">
     <rect x="30" y="30" width="160" height="160" rx="14" fill="white" stroke="hsl(280 70% 60%)" stroke-width="2"/>
-    <text x="110" y="60" text-anchor="middle" font-weight="700" fill="hsl(280 70% 40%)">📖 Cover the word</text>
-    <text x="110" y="100" text-anchor="middle" fill="hsl(220 9% 30%)" font-size="11">Hide original</text>
-    <text x="110" y="130" text-anchor="middle" fill="hsl(220 9% 30%)" font-size="11">read 1-2 lines</text>
-    <text x="110" y="160" text-anchor="middle" fill="hsl(220 9% 30%)" font-size="11">around it</text>
+    <text x="110" y="62" text-anchor="middle" font-weight="700" font-size="16" fill="hsl(280 70% 35%)">📖 Cover the word</text>
+    <text x="110" y="105" text-anchor="middle" font-weight="600" fill="hsl(220 15% 20%)">Hide the word,</text>
+    <text x="110" y="130" text-anchor="middle" font-weight="600" fill="hsl(220 15% 20%)">read 1–2 lines</text>
+    <text x="110" y="155" text-anchor="middle" font-weight="600" fill="hsl(220 15% 20%)">around it</text>
 
     <path d="M195 110 L225 110" stroke="hsl(280 70% 60%)" stroke-width="2" marker-end="url(#arrWE)"/>
 
     <rect x="230" y="30" width="160" height="160" rx="14" fill="white" stroke="hsl(280 70% 60%)" stroke-width="2"/>
-    <text x="310" y="60" text-anchor="middle" font-weight="700" fill="hsl(280 70% 40%)">💭 Predict meaning</text>
-    <text x="310" y="100" text-anchor="middle" fill="hsl(220 9% 30%)" font-size="11">Guess in</text>
-    <text x="310" y="130" text-anchor="middle" fill="hsl(220 9% 30%)" font-size="11">your own</text>
-    <text x="310" y="160" text-anchor="middle" fill="hsl(220 9% 30%)" font-size="11">simple words</text>
+    <text x="310" y="62" text-anchor="middle" font-weight="700" font-size="16" fill="hsl(280 70% 35%)">💭 Predict meaning</text>
+    <text x="310" y="105" text-anchor="middle" font-weight="600" fill="hsl(220 15% 20%)">Guess it in</text>
+    <text x="310" y="130" text-anchor="middle" font-weight="600" fill="hsl(220 15% 20%)">your own</text>
+    <text x="310" y="155" text-anchor="middle" font-weight="600" fill="hsl(220 15% 20%)">simple words</text>
 
     <path d="M395 110 L425 110" stroke="hsl(280 70% 60%)" stroke-width="2" marker-end="url(#arrWE)"/>
 
     <rect x="430" y="30" width="160" height="160" rx="14" fill="white" stroke="hsl(280 70% 60%)" stroke-width="2"/>
-    <text x="510" y="60" text-anchor="middle" font-weight="700" fill="hsl(280 70% 40%)">✓ Match answer</text>
-    <text x="510" y="100" text-anchor="middle" fill="hsl(220 9% 30%)" font-size="11">Find option</text>
-    <text x="510" y="130" text-anchor="middle" fill="hsl(220 9% 30%)" font-size="11">closest to</text>
-    <text x="510" y="160" text-anchor="middle" fill="hsl(220 9% 30%)" font-size="11">your prediction</text>
+    <text x="510" y="62" text-anchor="middle" font-weight="700" font-size="16" fill="hsl(280 70% 35%)">✓ Match answer</text>
+    <text x="510" y="105" text-anchor="middle" font-weight="600" fill="hsl(220 15% 20%)">Find the option</text>
+    <text x="510" y="130" text-anchor="middle" font-weight="600" fill="hsl(220 15% 20%)">closest to</text>
+    <text x="510" y="155" text-anchor="middle" font-weight="600" fill="hsl(220 15% 20%)">your prediction</text>
   </g>
   <defs>
     <marker id="arrWE" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
