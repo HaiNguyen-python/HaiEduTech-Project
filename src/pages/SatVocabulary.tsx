@@ -214,10 +214,17 @@ const VocabExercise = ({ words, allWords, t }: { words: SatWord[]; allWords?: Sa
 const SatVocabulary = () => {
   const { t } = useLanguage();
   const [search, setSearch] = useState("");
+  const [sectionFilter, setSectionFilter] = useState<string>("all");
   const [levelFilter, setLevelFilter] = useState<string>("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [page, setPage] = useState(1);
   const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise">("list");
+
+  const availableCategories = useMemo(() => {
+    if (sectionFilter === "all") return [...SAT_CATEGORIES_BY_SECTION["Reading & Writing"], ...SAT_CATEGORIES_BY_SECTION["Math"]];
+    return SAT_CATEGORIES_BY_SECTION[sectionFilter] || [];
+  }, [sectionFilter]);
+  useEffect(() => { setCategoryFilter("all"); }, [sectionFilter]);
   const [mastered, setMastered] = useState<Set<string>>(() => {
     try {
       const saved = localStorage.getItem("sat_mastered");
