@@ -292,17 +292,33 @@ const GameEngine = ({ questions, lives: initialLives, onGameEnd, isSuddenDeath =
             : "border-border bg-card"
         }`}
       >
-        <p className="text-xs text-muted-foreground mb-1 uppercase tracking-wide">
-          {t("Câu", "Question")} {current + 1}/{questions.length}
-        </p>
-        <p className="text-lg text-foreground mb-3 font-semibold">
-          {t("Từ nào có nghĩa:", "Which word means:")}
-        </p>
-        <p className="text-xl text-primary font-bold mb-2">"{q.word.definition.en}"</p>
-        <p className="text-sm text-muted-foreground italic mb-1">{q.word.definition.vi}</p>
-        <p className="text-sm text-foreground italic">
-          {t("Ví dụ:", "Example:")} "{q.word.example}"
-        </p>
+        <div className="flex items-start gap-4">
+          {/* Chibi mascot */}
+          <motion.div
+            key={`chibi-${current}-${feedback}`}
+            initial={{ scale: 0.6, rotate: -10 }}
+            animate={{
+              scale: 1,
+              rotate: 0,
+              y: feedback ? [0, -8, 0] : [0, -4, 0],
+            }}
+            transition={{ duration: feedback ? 0.4 : 1.6, repeat: feedback ? 0 : Infinity }}
+            className="text-5xl shrink-0 select-none"
+            aria-hidden
+          >
+            {feedback === "correct" ? "🥳" : feedback === "wrong" ? "😵" : timeLeft <= 3 ? "😰" : streak >= 3 ? "🔥" : "🤓"}
+          </motion.div>
+          <div className="flex-1 min-w-0">
+            <p className="text-xs text-muted-foreground mb-1 uppercase tracking-wide">
+              {t("Câu", "Question")} {current + 1}/{questions.length}
+            </p>
+            <p className="text-lg text-foreground mb-3 font-semibold">
+              {t("Từ nào có nghĩa:", "Which word means:")}
+            </p>
+            <p className="text-xl text-primary font-bold mb-2">"{q.word.definition.en}"</p>
+            <p className="text-sm text-muted-foreground italic">{q.word.definition.vi}</p>
+          </div>
+        </div>
 
         {/* Feedback popup */}
         <AnimatePresence>
