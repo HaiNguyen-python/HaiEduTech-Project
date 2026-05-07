@@ -25,6 +25,8 @@ export const SAT_CATEGORIES = ["Evidence-Based Reading","Command of Evidence","W
 export const satVocabData: SatWord[] = [
   {
     "word": "evidence",
+
+    "ipa": "/ˈɛvədəns/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -37,6 +39,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "inference",
+
+    "ipa": "/ˈɪnfərəns/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -49,6 +53,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "imply",
+
+    "ipa": "/ˌɪmˈplaɪ/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -61,6 +67,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "excerpt",
+
+    "ipa": "/ˈɛksərpt/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -73,6 +81,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "undermine",
+
+    "ipa": "/ˈəndərˌmaɪn/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -85,6 +95,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "substantiate",
+
+    "ipa": "/səbˈstænʧiˌeɪt/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -97,6 +109,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "corroborate",
+
+    "ipa": "/kərˈɑbərˌeɪt/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -109,6 +123,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "assertion",
+
+    "ipa": "/əˈsərʃən/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -121,6 +137,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "compelling",
+
+    "ipa": "/kəmˈpɛlɪŋ/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -133,6 +151,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "nuance",
+
+    "ipa": "/nuɑns/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -145,6 +165,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "cite",
+
+    "ipa": "/saɪt/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -157,6 +179,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "bolster",
+
+    "ipa": "/ˈboʊlstər/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -169,6 +193,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "refute",
+
+    "ipa": "/rɪfˈjut/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -181,6 +207,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "empirical",
+
+    "ipa": "/ˌɛmˈpɪrɪkəl/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -193,6 +221,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "quantitative",
+
+    "ipa": "/kˈwɑntɪˌteɪtɪv/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -205,6 +235,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "qualitative",
+
+    "ipa": "/kˈwɑləˌteɪtɪv/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -217,6 +249,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "hypothesis",
+
+    "ipa": "/haɪˈpɑθəsəs/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -229,6 +263,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "methodology",
+
+    "ipa": "/ˌmɛθəˈdɑləʤi/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -241,6 +277,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "credible",
+
+    "ipa": "/ˈkrɛdəbəl/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -253,6 +291,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "paradigm",
+
+    "ipa": "/ˈpɛrəˌdaɪm/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -265,6 +305,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "acute",
+
+    "ipa": "/əˈkjut/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -277,6 +319,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "address",
+
+    "ipa": "/ˈæˌdrɛs/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -289,6 +333,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "appreciate",
+
+    "ipa": "/əˈpriʃiˌeɪt/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -301,6 +347,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "channel",
+
+    "ipa": "/ˈʧænəl/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -313,6 +361,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "check",
+
+    "ipa": "/ʧɛk/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -325,6 +375,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "currency",
+
+    "ipa": "/ˈkərənsi/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -337,6 +389,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "entertain",
+
+    "ipa": "/ˌɛnərˈteɪn/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -349,6 +403,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "fashion",
+
+    "ipa": "/ˈfæʃən/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -361,6 +417,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "gravity",
+
+    "ipa": "/ˈgrævɪti/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -373,6 +431,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "qualify",
+
+    "ipa": "/kˈwɑləˌfaɪ/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -385,6 +445,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "modifier",
+
+    "ipa": "/modifier/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -397,6 +459,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "clause",
+
+    "ipa": "/klɔz/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -409,6 +473,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "antecedent",
+
+    "ipa": "/ˌænˈtɛsədənt/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -421,6 +487,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "conjunction",
+
+    "ipa": "/kənˈʤəŋkʃən/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -433,6 +501,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "semicolon",
+
+    "ipa": "/semicolon/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -445,6 +515,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "appositive",
+
+    "ipa": "/appositive/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -457,6 +529,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "subordinate",
+
+    "ipa": "/səˈbɔrdəˌneɪt/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -469,6 +543,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "concise",
+
+    "ipa": "/kənˈsaɪs/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -481,6 +557,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "redundant",
+
+    "ipa": "/rɪˈdəndənt/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -493,6 +571,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "syntax",
+
+    "ipa": "/ˈsɪnˌtæks/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -505,6 +585,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "ubiquitous",
+
+    "ipa": "/juˈbɪkwɪtəs/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -517,6 +599,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "pragmatic",
+
+    "ipa": "/prægˈmætɪk/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -529,6 +613,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "ambiguous",
+
+    "ipa": "/æmˈbɪgjuəs/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -541,6 +627,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "eloquent",
+
+    "ipa": "/ˈɛləkwənt/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -553,6 +641,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "meticulous",
+
+    "ipa": "/məˈtɪkjələs/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -565,6 +655,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "resilient",
+
+    "ipa": "/rɪˈzɪljənt/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -577,6 +669,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "disparity",
+
+    "ipa": "/dɪˈspɛrəti/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -589,6 +683,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "scrutinize",
+
+    "ipa": "/ˈskrutəˌnaɪz/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -601,6 +697,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "proliferate",
+
+    "ipa": "/proʊˈlɪfərˌeɪt/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -613,6 +711,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "advocate",
+
+    "ipa": "/ˈædvəˌkeɪt/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -625,6 +725,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "ephemeral",
+
+    "ipa": "/ɪˈfɛmərəl/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -637,6 +739,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "juxtapose",
+
+    "ipa": "/ˌʤəkstəˈpoʊz/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -649,6 +753,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "paradox",
+
+    "ipa": "/ˈpɛrəˌdɑks/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -661,6 +767,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "exacerbate",
+
+    "ipa": "/ɪgˈzæsərˌbeɪt/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -673,6 +781,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "mitigate",
+
+    "ipa": "/ˈmɪtəˌgeɪt/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -685,6 +795,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "unprecedented",
+
+    "ipa": "/ənˈprɛsɪˌdɛntɪd/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -697,6 +809,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "candid",
+
+    "ipa": "/ˈkændɪd/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -709,6 +823,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "catalyst",
+
+    "ipa": "/ˈkætəˌlɪst/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -721,6 +837,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "digress",
+
+    "ipa": "/daɪˈgrɛs/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -733,6 +851,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "vindicate",
+
+    "ipa": "/ˈvɪndəkeɪt/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -745,6 +865,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "benevolent",
+
+    "ipa": "/bəˈnɛvələnt/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -757,6 +879,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "malevolent",
+
+    "ipa": "/məˈlɛvələnt/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -769,6 +893,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "circumscribe",
+
+    "ipa": "/ˌsərkəmˈskraɪb/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -781,6 +907,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "retrospect",
+
+    "ipa": "/ˈrɛtrəˌspɛkt/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -793,6 +921,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "preclude",
+
+    "ipa": "/prɪˈklud/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -805,6 +935,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "transcend",
+
+    "ipa": "/trænˈsɛnd/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -817,6 +949,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "antipathy",
+
+    "ipa": "/ænˈtɪpəθi/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -829,6 +963,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "ambivalent",
+
+    "ipa": "/æmˈbɪvələnt/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -841,6 +977,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "elucidate",
+
+    "ipa": "/ɪˈlusəˌdeɪt/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -853,6 +991,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "magnanimous",
+
+    "ipa": "/mægˈnænəməs/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -865,6 +1005,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "cohesion",
+
+    "ipa": "/koʊˈhiʒən/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -877,6 +1019,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "coherence",
+
+    "ipa": "/koʊˈhɪrəns/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -889,6 +1033,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "transition",
+
+    "ipa": "/trænˈzɪʃən/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -901,6 +1047,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "elaborate",
+
+    "ipa": "/ɪˈlæbərˌeɪt/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -913,6 +1061,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "succinct",
+
+    "ipa": "/səkˈsɪŋkt/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -925,6 +1075,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "verbose",
+
+    "ipa": "/verbose/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -937,6 +1089,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "synthesize",
+
+    "ipa": "/ˈsɪnθəˌsaɪz/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -949,6 +1103,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "articulate",
+
+    "ipa": "/ɑrˈtɪkjəˌleɪt/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -961,6 +1117,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "judiciously",
+
+    "ipa": "/ʤuˈdɪʃɪsli/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -973,6 +1131,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "pertinent",
+
+    "ipa": "/ˈpərtɪnɪnt/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -985,6 +1145,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "rhetorical",
+
+    "ipa": "/rɪˈtɔrɪkəl/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -997,6 +1159,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "synthesis",
+
+    "ipa": "/ˈsɪnθəsəs/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1009,6 +1173,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "emphasize",
+
+    "ipa": "/ˈɛmfəˌsaɪz/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1021,6 +1187,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "contrast",
+
+    "ipa": "/ˈkɑntræst/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1033,6 +1201,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "convey",
+
+    "ipa": "/kənˈveɪ/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1045,6 +1215,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "premise",
+
+    "ipa": "/ˈprɛmɪs/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1057,6 +1229,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "concession",
+
+    "ipa": "/kənˈsɛʃən/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1069,6 +1243,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "rebut",
+
+    "ipa": "/rɪˈbət/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1081,6 +1257,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "substantive",
+
+    "ipa": "/ˈsəbstəntɪv/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1093,6 +1271,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "pivotal",
+
+    "ipa": "/ˈpɪvətəl/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1105,6 +1285,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "moreover",
+
+    "ipa": "/mɔˈroʊvər/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1117,6 +1299,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "nevertheless",
+
+    "ipa": "/ˌnɛvərðəˈlɛs/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1129,6 +1313,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "consequently",
+
+    "ipa": "/ˈkɑnsəkˌwɛntli/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1141,6 +1327,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "conversely",
+
+    "ipa": "/ˈkɑnvərsli/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1153,6 +1341,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "notwithstanding",
+
+    "ipa": "/ˌnɑtwɪθˈstændɪŋ/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1165,6 +1355,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "subsequently",
+
+    "ipa": "/ˈsəbsəkwəntli/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1177,6 +1369,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "likewise",
+
+    "ipa": "/ˈlaɪkˌwaɪz/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1189,6 +1383,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "in light of",
+
+    "ipa": "/ɪn laɪt əv/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1201,6 +1397,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "albeit",
+
+    "ipa": "/ɔlˈbiɪt/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1213,6 +1411,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "accordingly",
+
+    "ipa": "/əˈkɔrdɪŋli/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1225,6 +1425,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "linear equation",
+
+    "ipa": "/ˈlɪniər ɪkˈweɪʒən/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1237,6 +1439,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "slope",
+
+    "ipa": "/sloʊp/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1249,6 +1453,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "intercept",
+
+    "ipa": "/ˌɪnərˈsɛpt/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1261,6 +1467,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "variable",
+
+    "ipa": "/ˈvɛriəbəl/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1273,6 +1481,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "coefficient",
+
+    "ipa": "/ˌkoʊəˈfɪʃənt/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1285,6 +1495,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "constant",
+
+    "ipa": "/ˈkɑnstənt/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1297,6 +1509,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "expression",
+
+    "ipa": "/ɪkˈsprɛʃən/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1309,6 +1523,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "equivalent",
+
+    "ipa": "/ɪkˈwɪvələnt/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1321,6 +1537,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "system of equations",
+
+    "ipa": "/ˈsɪstəm əv ɪkˈweɪʒənz/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1333,6 +1551,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "inequality",
+
+    "ipa": "/ˌɪnɪkˈwɑləti/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1345,6 +1565,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "solution set",
+
+    "ipa": "/səˈluʃən sɛt/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -1357,6 +1579,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "absolute value",
+
+    "ipa": "/ˈæbsəˌlut ˈvælju/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1369,6 +1593,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "ratio",
+
+    "ipa": "/ˈreɪʃiˌoʊ/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1381,6 +1607,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "proportion",
+
+    "ipa": "/prəˈpɔrʃən/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1393,6 +1621,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "percent",
+
+    "ipa": "/pərˈsɛnt/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1405,6 +1635,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "percent increase",
+
+    "ipa": "/pərˈsɛnt ˌɪnˈkris/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -1417,6 +1649,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "percent decrease",
+
+    "ipa": "/pərˈsɛnt ˈdiˌkris/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -1429,6 +1663,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "median",
+
+    "ipa": "/ˈmidiən/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1441,6 +1677,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "mean",
+
+    "ipa": "/min/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1453,6 +1691,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "mode",
+
+    "ipa": "/moʊd/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1465,6 +1705,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "range",
+
+    "ipa": "/reɪnʤ/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1477,6 +1719,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "standard deviation",
+
+    "ipa": "/ˈstændərd ˌdiviˈeɪʃən/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -1489,6 +1733,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "probability",
+
+    "ipa": "/ˌprɑbəˈbɪləˌti/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1501,6 +1747,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "margin of error",
+
+    "ipa": "/ˈmɑrʤən əv ˈɛrər/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -1513,6 +1761,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "scatterplot",
+
+    "ipa": "/scatterplot/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -1525,6 +1775,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "correlation",
+
+    "ipa": "/ˌkɔrəˈleɪʃən/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -1537,6 +1789,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "unit rate",
+
+    "ipa": "/ˈjunɪt reɪt/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1549,6 +1803,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "quadratic",
+
+    "ipa": "/quadratic/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1561,6 +1817,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "parabola",
+
+    "ipa": "/pərˈæbələ/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -1573,6 +1831,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "vertex",
+
+    "ipa": "/ˈvərˌtɛks/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -1585,6 +1845,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "discriminant",
+
+    "ipa": "/discriminant/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -1597,6 +1859,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "polynomial",
+
+    "ipa": "/ˌpɑˌliˈnoʊmiəl/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1609,6 +1873,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "exponent",
+
+    "ipa": "/ˈɛkˌspoʊnənt/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1621,6 +1887,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "exponential",
+
+    "ipa": "/ˌɛkspoʊˈnɛnʃəl/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -1633,6 +1901,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "radical",
+
+    "ipa": "/ˈrædɪkəl/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1645,6 +1915,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "rational expression",
+
+    "ipa": "/ˈræʃənəl ɪkˈsprɛʃən/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -1657,6 +1929,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "function",
+
+    "ipa": "/ˈfəŋkʃən/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1669,6 +1943,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "domain",
+
+    "ipa": "/doʊˈmeɪn/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -1681,6 +1957,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "range (function)",
+
+    "ipa": "/reɪnʤ (ˈfəŋkʃən)/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -1693,6 +1971,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "factor",
+
+    "ipa": "/ˈfæktər/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1705,6 +1985,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "root / zero",
+
+    "ipa": "/rut  ˈziroʊ/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1717,6 +1999,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "inverse function",
+
+    "ipa": "/ˌɪnˈvərs ˈfəŋkʃən/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -1729,6 +2013,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "perimeter",
+
+    "ipa": "/pərˈɪmətər/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1741,6 +2027,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "area",
+
+    "ipa": "/ˈɛriə/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1753,6 +2041,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "volume",
+
+    "ipa": "/ˈvɑljum/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1765,6 +2055,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "radius",
+
+    "ipa": "/ˈreɪdiəs/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1777,6 +2069,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "diameter",
+
+    "ipa": "/daɪˈæmətər/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1789,6 +2083,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "circumference",
+
+    "ipa": "/ˌsərˈkəmfrəns/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -1801,6 +2097,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "hypotenuse",
+
+    "ipa": "/hypotenuse/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -1813,6 +2111,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "Pythagorean theorem",
+
+    "ipa": "/ˌpɪθəˈgɔriən ˈθɪrəm/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -1825,6 +2125,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "congruent",
+
+    "ipa": "/congruent/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -1837,6 +2139,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "similar",
+
+    "ipa": "/ˈsɪmələr/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -1849,6 +2153,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "parallel",
+
+    "ipa": "/ˈpɛrəˌlɛl/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1861,6 +2167,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "perpendicular",
+
+    "ipa": "/ˌpərpənˈdɪkjələr/",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1873,6 +2181,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "sine",
+
+    "ipa": "/saɪn/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -1885,6 +2195,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "cosine",
+
+    "ipa": "/cosine/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -1897,6 +2209,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "tangent",
+
+    "ipa": "/ˈtænʤənt/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -1909,6 +2223,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "arc",
+
+    "ipa": "/ɑrk/",
     "level": "C1",
     "definition": {
       "en": "",
@@ -1921,6 +2237,8 @@ export const satVocabData: SatWord[] = [
   },
   {
     "word": "chord",
+
+    "ipa": "/kɔrd/",
     "level": "C1",
     "definition": {
       "en": "",
