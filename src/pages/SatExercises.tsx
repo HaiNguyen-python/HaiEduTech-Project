@@ -184,7 +184,10 @@ const SatExercises = () => {
               <Badge variant="outline">
                 <BookOpen className="w-3 h-3 mr-1" /> {totalReading} {t("bài Reading & Writing", "Reading & Writing")}
               </Badge>
-            </div>
+              <Badge className="bg-amber-400/15 text-amber-700 dark:text-amber-300 border-amber-400/40">
+                <Star className="w-3 h-3 mr-1 fill-amber-400 text-amber-500" />
+                {studiedCount} {t("đã đánh dấu đã học", "marked as studied")}
+              </Badge>
           </motion.div>
 
           <Tabs value={tab} onValueChange={(v) => setTab(v as "math" | "reading")} className="w-full">
