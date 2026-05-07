@@ -143,6 +143,7 @@ const SatExams = () => {
                             <TimerOff className="w-4 h-4 mr-1.5" /> {t("Không giờ", "Untimed")}
                           </Button>
                         </Link>
+                        <SatStarToggle storageKey={`sat:exam:${exam.id}`} size="md" />
                       </div>
                     </CardContent>
                   </Card>
