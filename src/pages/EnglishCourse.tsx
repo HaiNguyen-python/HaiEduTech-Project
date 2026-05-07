@@ -346,8 +346,8 @@ const EnglishCourse = () => {
                     >
                       <BookOpen className="h-4 w-4" />
                       {showSatCurriculum
-                        ? t("Đang hiển thị Chương trình SAT ↓", "SAT Curriculum is shown ↓")
-                        : t("Vào Chương trình SAT →", "Enter SAT Curriculum →")}
+                        ? t("Chương trình SAT ↓", "SAT Curriculum ↓")
+                        : t("Chương trình SAT →", "SAT Curriculum →")}
                     </button>
                     <button
                       onClick={() => navigate("/sat-vocabulary")}
