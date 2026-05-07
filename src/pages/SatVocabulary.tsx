@@ -521,16 +521,19 @@ const SatVocabulary = () => {
                 </Button>
                 <Tabs value={viewMode} onValueChange={v => setViewMode(v as any)} className="ml-auto">
                   <TabsList>
-                    <TabsTrigger value="list"><List className="w-4 h-4" /></TabsTrigger>
-                    <TabsTrigger value="flashcard"><Layers className="w-4 h-4" /></TabsTrigger>
-                    <TabsTrigger value="exercise"><BookOpen className="w-4 h-4" /></TabsTrigger>
+                    <TabsTrigger value="list" title={t("Danh sách", "List")}><List className="w-4 h-4" /></TabsTrigger>
+                    <TabsTrigger value="flashcard" title={t("Flashcard", "Flashcard")}><Layers className="w-4 h-4" /></TabsTrigger>
+                    <TabsTrigger value="exercise" title={t("Trắc nghiệm", "Quiz")}><BookOpen className="w-4 h-4" /></TabsTrigger>
+                    <TabsTrigger value="sentence" title={t("Gõ lại câu ví dụ", "Type sentence")}><Keyboard className="w-4 h-4" /></TabsTrigger>
                   </TabsList>
                 </Tabs>
               </div>
 
               <p className="text-xs text-muted-foreground mb-4">{filtered.length} {t("kết quả", "results")}</p>
 
-              {viewMode === "exercise" ? (
+              {viewMode === "sentence" ? (
+                <SentencePractice words={satVocabData.filter(w => mastered.has(w.word))} t={t} />
+              ) : viewMode === "exercise" ? (
                 <VocabExercise words={satVocabData.filter(w => mastered.has(w.word))} allWords={satVocabData} t={t} />
               ) : viewMode === "flashcard" ? (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
