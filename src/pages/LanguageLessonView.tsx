@@ -168,6 +168,7 @@ const LanguageLessonView = () => {
                               {i + 1}
                             </span>
                             <span className="truncate">{isEnglishGrammarLesson ? l.titleEn : t(l.title, l.titleEn)}</span>
+                            {isSatLesson && <SatLessonStarDot lessonKey={`sat:lesson:${mod.id}:${l.id}`} />}
                           </div>
                           <div className="flex items-center gap-2 ml-7 mt-1">
                             <span className={cn("text-[10px] px-1.5 py-0.5 rounded border", d.cls)}>
