@@ -24,6 +24,8 @@ const ICON: Record<string, typeof Calculator> = {
 
 const SatExams = () => {
   const { t, lang } = useLanguage();
+  const studiedCount = useSatStarsCount("sat:exam:");
+
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
