@@ -242,3 +242,5 @@ const baseSatMockExams: SatMockExam[] = [
     ],
   },
 ];
+
+export const satMockExams: SatMockExam[] = [...baseSatMockExams, ...satMockExamExpansion];
