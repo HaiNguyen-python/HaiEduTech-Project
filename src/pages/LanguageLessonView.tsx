@@ -395,9 +395,27 @@ const LanguageLessonView = () => {
                       </h2>
                       {lesson.exercises.map((ex, i) => (
                         <div key={i} className="glass-card rounded-xl p-6">
+                          {isSatLesson && (
+                            <div className="flex justify-end mb-3">
+                              <SatStarToggle
+                                storageKey={`sat:exercise:${mod.id}:${lesson.id}:${i}`}
+                                size="sm"
+                                label={{ vi: `Bài tập ${i + 1}`, en: `Exercise ${i + 1}` }}
+                              />
+                            </div>
+                          )}
                           {renderExercise(ex, i)}
                         </div>
                       ))}
+                      {isSatLesson && lesson.quiz.length > 0 && (
+                        <div className="flex justify-end">
+                          <SatStarToggle
+                            storageKey={`sat:quiz:${mod.id}:${lesson.id}`}
+                            size="sm"
+                            label={{ vi: "Quiz đã hoàn thành", en: "Quiz completed" }}
+                          />
+                        </div>
+                      )}
                     </div>
                   )}
 
