@@ -380,6 +380,20 @@ const culturalThemes: Theme[] = [
         bodyVi: "Mẹo vàng của thầy Hải: (1) Học 1 thành ngữ mỗi ngày + dùng ngay trong ngày, (2) Dùng đúng ngữ cảnh, không gượng ép - chèn vào chỗ phù hợp, (3) Khi gặp người Trung lần đầu, dùng 一见如故 (yī jiàn rú gù) = họ sẽ rất cảm động, (4) Khi từ chối: '心有余而力不足' (lòng có thừa mà sức không đủ) = lịch sự gấp 10 lần 'không', (5) Khen sếp: '高瞻远瞻' (cái nhìn xa rộng), (6) Cảm ơn sâu: '感激不尽' (cảm kích vô cùng), (7) Khi sai: '我深感惭愧' (tôi cảm thấy hổ thẹn sâu sắc) = chân thành. Đừng học thuộc 100 thành ngữ rồi không dùng - học 10 và dùng thành thạo còn hơn.",
         bodyEn: "Teacher Hai's golden tip: (1) Learn 1 idiom/day + use it the same day, (2) Use in proper context - don't force, (3) Meeting Chinese person 1st time, use 一见如故 = they'll be touched, (4) Declining: '心有余而力不足' (heart willing but strength lacking) = 10x more polite than 'no', (5) Praise boss: '高瞻远瞻' (far-sighted vision), (6) Deep thanks: '感激不尽' (endless gratitude), (7) Apologizing: '我深感惭愧' (I feel deep shame) = sincere. Don't memorize 100 idioms unused - master 10 and use them well.",
       },
+      {
+        titleVi: "Top 10 Tục ngữ Dân gian (谚语)",
+        titleEn: "Top 10 Folk Proverbs (Yanyu)",
+        bodyVi: "Khác chengyu (4 chữ trang trọng), tục ngữ (谚语 yànyǔ) là lời dân gian dễ nhớ: (1) 不怕慢，只怕站 - Không sợ chậm, chỉ sợ đứng yên. (2) 活到老，学到老 - Sống đến già, học đến già. (3) 吃一堑，长一智 - Vấp 1 lần, khôn 1 lần. (4) 笨鸟先飞 - Chim vụng bay trước (cần cù bù thông minh). (5) 一分耕耘，一分收获 - Một phần cày cuốc, một phần thu hoạch. (6) 失败是成功之母 - Thất bại là mẹ thành công. (7) 远亲不如近邻 - Bà con xa không bằng láng giềng gần. (8) 良药苦口 - Thuốc đắng giã tật. (9) 金窝银窝不如自己的狗窝 - Tổ vàng tổ bạc không bằng tổ chó của mình. (10) 早起的鸟儿有虫吃 - Chim dậy sớm bắt được sâu.",
+        bodyEn: "Unlike chengyu (4-char formal), proverbs (谚语 yànyǔ) are folksy and memorable: (1) 不怕慢，只怕站 - Don't fear slow, only fear standing still. (2) 活到老，学到老 - Live old, learn old. (3) 吃一堑，长一智 - Trip once, gain wisdom. (4) 笨鸟先飞 - The clumsy bird flies early (effort beats talent). (5) 一分耕耘，一分收获 - One bit of plowing, one bit of harvest. (6) 失败是成功之母 - Failure is the mother of success. (7) 远亲不如近邻 - Distant relatives less than close neighbors. (8) 良药苦口 - Good medicine tastes bitter. (9) 金窝银窝不如自己的狗窝 - No nest like your own. (10) 早起的鸟儿有虫吃 - Early bird catches the worm.",
+      },
+      {
+        titleVi: "Yết Hậu Ngữ - Câu nói nửa chừng (歇后语)",
+        titleEn: "Xiehouyu - Two-Part Allegorical Sayings",
+        zh: "歇后语",
+        pinyin: "xiēhòuyǔ",
+        bodyVi: "Yết Hậu Ngữ (歇后语) là dạng câu đặc biệt: vế 1 nêu hình ảnh, vế 2 (thường ẩn đi để người nghe đoán) nêu ý nghĩa. Cực kỳ thông minh và hài hước - người Trung dùng để 'show off' trí tuệ. Ví dụ: (1) 哑巴吃饺子 — 心里有数 (Người câm ăn sủi cảo — trong lòng đếm được số). (2) 泥菩萨过河 — 自身难保 (Bồ tát đất qua sông — tự lo thân chưa xong). (3) 八仙过海 — 各显神通 (Bát Tiên qua biển — ai có tài nấy). (4) 黄鼠狼给鸡拜年 — 没安好心 (Chồn tới chúc Tết gà — không có ý tốt). (5) 兔子的尾巴 — 长不了 (Đuôi thỏ — dài không nổi = không lâu đâu). (6) 竹篮打水 — 一场空 (Lấy giỏ tre múc nước — uổng công). Học vài câu, dùng đúng lúc = người Trung sẽ thán phục bạn!",
+        bodyEn: "Xiehouyu (歇后语) is a unique form: part 1 paints an image, part 2 (often left unsaid for the listener to guess) gives the meaning. Extremely clever and humorous - Chinese use them to 'show off' wit. Examples: (1) 哑巴吃饺子 — 心里有数 (A mute eats dumplings — counts them in his heart = knows what's up). (2) 泥菩萨过河 — 自身难保 (Clay Buddha crossing river — can't even save itself). (3) 八仙过海 — 各显神通 (Eight Immortals cross the sea — each shows their power). (4) 黄鼠狼给鸡拜年 — 没安好心 (Weasel pays New Year visit to chicken — no good intentions). (5) 兔子的尾巴 — 长不了 (Rabbit's tail — won't grow long = won't last). (6) 竹篮打水 — 一场空 (Catching water with a bamboo basket — total emptiness). Learn a few and use them right - Chinese will be impressed!",
+      },
     ],
   },
 ];
