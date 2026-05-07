@@ -206,6 +206,7 @@ const App = () => (
             <Route path="/cambridge-mock-exam/:examId" element={<LazyRoute><CambridgeMockExamPage /></LazyRoute>} />
             <Route path="/vocab-arena" element={<LazyRoute><VocabArena /></LazyRoute>} />
             <Route path="/national-exam" element={<LazyRoute><NationalExamPrep /></LazyRoute>} />
+            <Route path="/national-exam/essential-review" element={<LazyRoute><ThptEssentialReview /></LazyRoute>} />
             <Route path="/national-exam/:examId" element={<LazyRoute><NationalExamRoom /></LazyRoute>} />
             <Route path="/dashboard" element={<LazyRoute><Dashboard /></LazyRoute>} />
             <Route path="/activity-log" element={<LazyRoute><ActivityLog /></LazyRoute>} />
