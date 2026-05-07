@@ -646,47 +646,6 @@ const IeltsVocabulary = () => {
                     {/* Inline Type-the-example widget */}
                     <InlineTypeExample word={w} t={t} />
 
-                    {/* Synonyms & Collocations - compact wrap layout */}
-                    {(w.synonyms?.length || w.collocations?.length) ? (
-                     <div className="mt-4 min-w-0 space-y-3 rounded-xl p-4" style={{ backgroundColor: "#ecfdf5", border: "1.5px solid #6ee7b7" }}>
-                        {w.synonyms && w.synonyms.length > 0 && (
-                          <div className="flex min-w-0 items-start gap-3">
-                            <Layers size={20} className="mt-1 shrink-0 text-primary" />
-                            <div className="min-w-0 flex-1">
-                              <p className="text-sm font-semibold text-foreground">Synonyms</p>
-                              <div className="mt-2 flex flex-wrap gap-2">
-                                {w.synonyms.map((s, i) => (
-                                  <span
-                                    key={`${w.word}-syn-${i}`}
-                                    className="max-w-full break-words rounded-full border border-border/70 bg-background px-2.5 py-1 text-sm text-foreground" style={{ overflowWrap: "break-word", wordBreak: "normal" }}
-                                  >
-                                    {s}
-                                  </span>
-                                ))}
-                              </div>
-                            </div>
-                          </div>
-                        )}
-                        {w.collocations && w.collocations.length > 0 && (
-                          <div className="flex min-w-0 items-start gap-3">
-                            <Link size={20} className="mt-1 shrink-0 text-primary" />
-                            <div className="min-w-0 flex-1">
-                              <p className="text-sm font-semibold text-foreground">Collocations</p>
-                              <div className="mt-2 flex flex-wrap gap-2">
-                                {w.collocations.map((c, i) => (
-                                  <span
-                                    key={`${w.word}-col-${i}`}
-                                    className="max-w-full break-words rounded-full border border-border/70 bg-background px-2.5 py-1 text-sm text-foreground" style={{ overflowWrap: "break-word", wordBreak: "normal" }}
-                                  >
-                                    {c}
-                                  </span>
-                                ))}
-                              </div>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    ) : null}
                   </motion.div>
                 ))}
               </div>
