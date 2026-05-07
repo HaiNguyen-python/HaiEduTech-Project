@@ -69,6 +69,7 @@ const SatMockExam = lazy(() => import("./pages/SatMockExam.tsx"));
 const VocabArena = lazy(() => import("./pages/VocabArena.tsx"));
 const NationalExamPrep = lazy(() => import("./pages/NationalExamPrep.tsx"));
 const NationalExamRoom = lazy(() => import("./pages/NationalExamRoom.tsx"));
+const ThptEssentialReview = lazy(() => import("./pages/ThptEssentialReview.tsx"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard.tsx"));
 const LanguageLessonView = lazy(() => import("./pages/LanguageLessonView.tsx"));
 const ConversationalDashboard = lazy(() => import("./pages/ConversationalDashboard.tsx"));
