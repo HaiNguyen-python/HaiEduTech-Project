@@ -188,6 +188,7 @@ const SatExercises = () => {
                 <Star className="w-3 h-3 mr-1 fill-amber-400 text-amber-500" />
                 {studiedCount} {t("đã đánh dấu đã học", "marked as studied")}
               </Badge>
+            </div>
           </motion.div>
 
           <Tabs value={tab} onValueChange={(v) => setTab(v as "math" | "reading")} className="w-full">
