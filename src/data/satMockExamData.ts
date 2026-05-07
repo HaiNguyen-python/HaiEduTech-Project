@@ -179,6 +179,7 @@ const reIndex = (qs: SatMockQuestion[], offset: number): SatMockQuestion[] =>
 // Exams
 // ─────────────────────────────────────────────────────────────
 import { satMockExamExpansion } from "./satMockExamExpansion";
+import { satMockExamExpansion2 } from "./satMockExamExpansion2";
 
 const baseSatMockExams: SatMockExam[] = [
   {
@@ -243,4 +244,4 @@ const baseSatMockExams: SatMockExam[] = [
   },
 ];
 
-export const satMockExams: SatMockExam[] = [...baseSatMockExams, ...satMockExamExpansion];
+export const satMockExams: SatMockExam[] = [...baseSatMockExams, ...satMockExamExpansion, ...satMockExamExpansion2];
