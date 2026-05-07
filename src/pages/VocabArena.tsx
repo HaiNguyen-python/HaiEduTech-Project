@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import { Swords, User, Users, Crown, Heart, Zap, Timer, Skull, ArrowLeft } from "lucide-react";
+import { Swords, User, Users, Crown, Heart, Zap, Timer, Skull, ArrowLeft, Gamepad2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -12,8 +12,9 @@ import GameEngine, { generateQuestions, type GameResult } from "@/components/voc
 import GameOver from "@/components/vocab-arena/GameOver";
 import ClassroomBattle from "@/components/vocab-arena/ClassroomBattle";
 import TeacherPanel from "@/components/vocab-arena/TeacherPanel";
+import MiniGames from "@/components/vocab-arena/MiniGames";
 
-type Phase = "menu" | "solo-setup" | "solo-playing" | "solo-results" | "classroom-student" | "classroom-teacher";
+type Phase = "menu" | "solo-setup" | "solo-playing" | "solo-results" | "classroom-student" | "classroom-teacher" | "mini-games";
 
 const VocabArena = () => {
   const { t } = useLanguage();
