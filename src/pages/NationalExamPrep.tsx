@@ -90,9 +90,37 @@ const NationalExamPrep = () => {
               />
             </div>
           </motion.div>
-
-
-
+          {/* Essential Grammar & Vocabulary CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.18 }}
+            className="max-w-3xl mx-auto mb-10"
+          >
+            <button
+              onClick={() => navigate("/national-exam/essential-review")}
+              className="w-full text-left rounded-2xl border-2 border-primary/30 bg-gradient-to-r from-primary/10 to-emerald-500/10 hover:from-primary/15 hover:to-emerald-500/15 p-5 md:p-6 transition-all hover:shadow-lg group"
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl md:text-5xl">📘</div>
+                <div className="flex-1">
+                  <div className="text-xs uppercase tracking-wide text-primary font-bold mb-1">
+                    {t("Mới · Ôn tập trọng tâm", "New · Essential Review")}
+                  </div>
+                  <div className="text-lg md:text-xl font-bold text-foreground mb-1">
+                    Essential Grammar & Vocabulary
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    {t(
+                      "12 chuyên đề ngữ pháp + 8 chủ đề từ vựng cao tần - bám sát đề thi THPT Quốc gia.",
+                      "12 grammar topics + 8 high-frequency vocab themes — aligned with the THPT National Exam."
+                    )}
+                  </div>
+                </div>
+                <BookOpen className="w-6 h-6 text-primary group-hover:translate-x-1 transition-transform" />
+              </div>
+            </button>
+          </motion.div>
 
           {/* Exam cards grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 max-w-6xl mx-auto">

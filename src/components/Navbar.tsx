@@ -103,8 +103,9 @@ const Navbar = () => {
     { to: "/ai-grading", label: t("Chấm điểm AI", "AI Grading"), icon: Cpu },
   ];
 
-  // National Exam nested sub-items (Course removed; only Practice Room remains)
+  // National Exam nested sub-items
   const nationalExamChildren: SubItem[] = [
+    { to: "/national-exam/essential-review", label: t("Ngữ pháp & Từ vựng cốt lõi", "Essential Grammar & Vocabulary"), icon: BookOpen },
     { to: "/national-exam", label: t("Phòng luyện thi TN THPT", "Exam Practice Room"), icon: FileText },
   ];
 
