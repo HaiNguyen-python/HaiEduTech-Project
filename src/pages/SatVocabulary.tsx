@@ -33,6 +33,31 @@ const speak = (text: string) => {
   }
 };
 
+// Render an example sentence with the target word bolded (handles inflections)
+const renderExample = (example: string, word: string) => {
+  const stem = word.replace(/(ing|ed|es|s|ly|tion|ment|ness)$/i, "");
+  const safe = stem.length >= 3 ? stem : word;
+  const re = new RegExp(`\\b(${safe.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}[a-z]*)\\b`, "gi");
+  const parts: Array<string | { b: string }> = [];
+  let last = 0;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(example)) !== null) {
+    if (m.index > last) parts.push(example.slice(last, m.index));
+    parts.push({ b: m[0] });
+    last = m.index + m[0].length;
+  }
+  if (last < example.length) parts.push(example.slice(last));
+  if (parts.length === 0) parts.push(example);
+  return (
+    <>
+      <span className="font-semibold not-italic" style={{ color: "#0f766e" }}>E.g. </span>
+      {parts.map((p, i) =>
+        typeof p === "string" ? <span key={i}>{p}</span> : <strong key={i} className="font-bold" style={{ color: "#111827" }}>{p.b}</strong>
+      )}
+    </>
+  );
+};
+
 const shuffle = <T,>(arr: T[]): T[] => {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
