@@ -113,9 +113,9 @@ export const satExpansionModules9: LanguageModule[] = [
         level: 1,
         difficulty: "beginner",
         theory:
-          "Học SAT là một hành trình 6 tháng - không phải sprint 1 tuần. Hãy đặt 3 luật vàng cho bản thân:\n\n1) Mỗi ngày 30–45 phút là đủ trong 4 tuần đầu.\n2) Sai = học. Mỗi câu sai là 1 'data point', không phải lỗi cá nhân.\n3) Ngủ đủ giấc quan trọng hơn 1 giờ luyện thêm.\n\nNếu cảm thấy ngộp, hãy dừng, đi bộ 10 phút, rồi quay lại. Não cần nghỉ để hấp thụ.",
+          "Học SAT là một hành trình 6 tháng - không phải sprint 1 tuần. Hãy đặt 3 luật vàng cho bản thân:\n\n- ⏰ **Mỗi ngày 30–45 phút** là đủ trong 4 tuần đầu.\n- 🧠 **Sai = học.** Mỗi câu sai là 1 'data point', không phải lỗi cá nhân.\n- 😴 **Ngủ đủ giấc** quan trọng hơn 1 giờ luyện thêm.\n\n💡 Nếu cảm thấy ngộp, hãy dừng, đi bộ 10 phút, rồi quay lại. Não cần nghỉ để hấp thụ.",
         theoryEn:
-          "Studying for the SAT is a 6-month journey - not a 1-week sprint. Set yourself 3 golden rules:\n\n1) 30–45 minutes a day is enough for the first 4 weeks.\n2) Mistakes = learning. Every miss is a 'data point', not a personal flaw.\n3) Sleep matters more than an extra hour of study.\n\nIf you feel overwhelmed, stop, walk for 10 minutes, then come back. Your brain needs rest to absorb.",
+          "Studying for the SAT is a 6-month journey - not a 1-week sprint. Set yourself 3 golden rules:\n\n- ⏰ **30–45 minutes a day** is enough for the first 4 weeks.\n- 🧠 **Mistakes = learning.** Every miss is a 'data point', not a personal flaw.\n- 😴 **Sleep matters** more than an extra hour of study.\n\n💡 If you feel overwhelmed, stop, walk for 10 minutes, then come back. Your brain needs rest to absorb.",
         proTips: [
           "Lịch học cố định mỗi ngày dễ hơn cố gắng học '2 giờ vào cuối tuần'.",
           "Báo gia đình lịch học để tránh bị làm phiền.",
