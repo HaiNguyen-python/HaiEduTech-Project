@@ -272,6 +272,124 @@ const VocabExercise = ({ words, allWords, t }: { words: SatWord[]; allWords?: Sa
   );
 };
 
+// ── Sentence Practice: type the example sentence verbatim to remember usage ──
+const normalize = (s: string) =>
+  s.toLowerCase().replace(/[.,!?;:"'()]/g, "").replace(/\s+/g, " ").trim();
+
+const SentencePractice = ({ words, t }: { words: SatWord[]; t: (vi: string, en: string) => string }) => {
+  const [pool, setPool] = useState<SatWord[]>([]);
+  const [idx, setIdx] = useState(0);
+  const [input, setInput] = useState("");
+  const [revealed, setRevealed] = useState(false);
+  const [score, setScore] = useState(0);
+  const [done, setDone] = useState(false);
+  const QUIZ_SIZE = 8;
+
+  const start = useCallback(() => {
+    const usable = words.filter(w => w.example && w.example.split(/\s+/).length >= 4);
+    if (usable.length < 1) return;
+    setPool(shuffle(usable).slice(0, Math.min(QUIZ_SIZE, usable.length)));
+    setIdx(0); setInput(""); setRevealed(false); setScore(0); setDone(false);
+  }, [words]);
+
+  useEffect(() => { start(); }, [start]);
+
+  if (words.length < 1) return (
+    <div className="flex flex-col items-center justify-center py-16 text-center">
+      <div className="text-6xl mb-4">⌨️</div>
+      <h3 className="text-xl font-bold text-foreground mb-2">{t("Chưa có từ nào", "No words yet")}</h3>
+      <p className="text-muted-foreground max-w-md">
+        {t("Hãy đánh dấu ⭐ ít nhất 1 từ để luyện gõ lại câu ví dụ.", "Mark ⭐ at least 1 word to practice typing the example sentence.")}
+      </p>
+    </div>
+  );
+
+  if (pool.length === 0) return null;
+
+  if (done) {
+    return (
+      <div className="flex flex-col items-center justify-center py-16 text-center">
+        <div className="text-6xl mb-4">{score >= pool.length - 1 ? "🏆" : score >= pool.length / 2 ? "👍" : "💪"}</div>
+        <h3 className="text-2xl font-bold text-foreground mb-2">{score}/{pool.length}</h3>
+        <p className="text-muted-foreground mb-6">
+          {t("Gõ lại câu ví dụ giúp bạn nhớ ngữ cảnh sử dụng từ.", "Re-typing example sentences helps you remember word usage.")}
+        </p>
+        <Button onClick={start} className="gap-2"><RotateCcw className="w-4 h-4" /> {t("Làm lại", "Try Again")}</Button>
+      </div>
+    );
+  }
+
+  const cur = pool[idx];
+  const target = cur.example;
+  const isCorrect = revealed && normalize(input) === normalize(target);
+
+  const handleCheck = () => {
+    if (revealed) return;
+    setRevealed(true);
+    if (normalize(input) === normalize(target)) setScore(s => s + 1);
+  };
+  const handleNext = () => {
+    if (idx + 1 >= pool.length) setDone(true);
+    else { setIdx(i => i + 1); setInput(""); setRevealed(false); }
+  };
+
+  return (
+    <div className="max-w-2xl mx-auto">
+      <div className="flex items-center justify-between mb-6">
+        <span className="text-sm text-muted-foreground">{t("Câu", "Sentence")} {idx + 1}/{pool.length}</span>
+        <span className="text-sm font-semibold text-primary">{t("Điểm", "Score")}: {score}</span>
+      </div>
+      <div className="rounded-xl border border-border bg-card p-6 mb-4">
+        <div className="flex items-center gap-3 mb-2">
+          <h3 className="text-2xl font-bold text-foreground">{iconFor(cur.category)} {cur.word}</h3>
+          <button onClick={() => speak(cur.word)} className="p-2 rounded-full hover:bg-primary/10">
+            <Volume2 className="w-5 h-5 text-primary" />
+          </button>
+        </div>
+        <p className="text-sm text-muted-foreground mb-1">
+          <strong className="text-foreground">{t("Nghĩa:", "Meaning:")}</strong> {cur.definition.vi}
+        </p>
+        <p className="text-sm text-muted-foreground">
+          {t("Nghe câu mẫu, sau đó gõ lại đầy đủ để ghi nhớ ngữ cảnh.", "Listen to the model sentence, then type it back to lock in usage.")}
+        </p>
+        <Button variant="outline" size="sm" className="gap-2 mt-3" onClick={() => speak(target)}>
+          <Volume2 className="w-4 h-4" /> {t("Nghe câu mẫu", "Play sentence")}
+        </Button>
+      </div>
+      <textarea
+        value={input}
+        onChange={e => setInput(e.target.value)}
+        disabled={revealed}
+        rows={3}
+        placeholder={t("Gõ lại câu ví dụ…", "Type the example sentence…")}
+        className="w-full p-4 rounded-xl border-2 border-border bg-card text-foreground focus:border-primary/60 focus:outline-none text-base leading-relaxed disabled:opacity-70"
+      />
+      {revealed && (
+        <div className={`mt-4 p-4 rounded-xl border-2 ${isCorrect ? "border-green-500 bg-green-500/10" : "border-orange-500 bg-orange-500/10"}`}>
+          <div className="flex items-center gap-2 mb-2 font-semibold">
+            {isCorrect ? (
+              <><CheckCircle className="w-5 h-5 text-green-600" /><span className="text-green-700 dark:text-green-400">{t("Tuyệt vời! Chính xác.", "Perfect match!")}</span></>
+            ) : (
+              <><XCircle className="w-5 h-5 text-orange-600" /><span className="text-orange-700 dark:text-orange-400">{t("Gần đúng — đối chiếu lại nhé.", "Close — compare with the original.")}</span></>
+            )}
+          </div>
+          <p className="text-sm"><strong>{t("Câu gốc:", "Original:")}</strong> <span className="italic">{target}</span></p>
+        </div>
+      )}
+      <div className="flex justify-end gap-2 mt-6">
+        {!revealed ? (
+          <Button onClick={handleCheck} disabled={input.trim().length === 0}>{t("Kiểm tra", "Check")}</Button>
+        ) : (
+          <Button onClick={handleNext}>
+            {idx + 1 >= pool.length ? t("Xem kết quả", "See Results") : t("Câu tiếp", "Next")}
+            <ChevronRight className="w-4 h-4 ml-1" />
+          </Button>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const SatVocabulary = () => {
   const { t } = useLanguage();
   const [search, setSearch] = useState("");
