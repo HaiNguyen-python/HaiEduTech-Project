@@ -312,7 +312,7 @@ const SatVocabulary = () => {
                 </div>
               </div>
 
-              <MountainClimber mastered={mastered.size} total={satVocabData.length} flyingStars={flyingStars} onStarLanded={handleStarLanded} containerRef={pageContainerRef} />
+              <SatClimber mastered={mastered.size} total={satVocabData.length} flyingStars={flyingStars} onStarLanded={handleStarLanded} containerRef={pageContainerRef} />
 
               {/* Filters */}
               <div className="flex flex-wrap items-center gap-3 mb-6">
@@ -325,13 +325,17 @@ const SatVocabulary = () => {
                     className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none text-sm"
                   />
                 </div>
+                <select value={sectionFilter} onChange={e => setSectionFilter(e.target.value)} className="px-3 py-2.5 rounded-xl bg-secondary border border-border text-foreground text-sm focus:outline-none font-semibold">
+                  <option value="all">{t("Tất cả phần thi", "All Sections")}</option>
+                  {SAT_SECTIONS.map(s => <option key={s} value={s}>{s === "Math" ? "📐 Math" : "📖 Reading & Writing"}</option>)}
+                </select>
                 <select value={levelFilter} onChange={e => setLevelFilter(e.target.value)} className="px-3 py-2.5 rounded-xl bg-secondary border border-border text-foreground text-sm focus:outline-none">
                   <option value="all">{t("Tất cả cấp độ", "All Levels")}</option>
                   {SAT_LEVELS.map(l => <option key={l} value={l}>{l}</option>)}
                 </select>
-                <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)} className="px-3 py-2.5 rounded-xl bg-secondary border border-border text-foreground text-sm focus:outline-none max-w-[240px]">
+                <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)} className="px-3 py-2.5 rounded-xl bg-secondary border border-border text-foreground text-sm focus:outline-none max-w-[260px]">
                   <option value="all">{t("Tất cả bài học", "All Lessons")}</option>
-                  {SAT_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                  {availableCategories.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
                 <Button variant={showMasteredOnly ? "default" : "outline"} size="sm" onClick={() => setShowMasteredOnly(!showMasteredOnly)} className="gap-1.5">
                   <RotateCcw className="w-4 h-4" /> {t("Cần ôn", "Need Review")}
