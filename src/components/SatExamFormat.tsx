@@ -5,8 +5,8 @@
  * teacher/learner tasks + assessment + linked lesson chips, and common pitfalls.
  * @author HaiEduTech
  */
-import { useMemo } from "react";
-import { motion } from "framer-motion";
+import { useMemo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import {
   ClipboardList,
@@ -19,6 +19,7 @@ import {
   TrendingUp,
   Layers,
   Flag,
+  ChevronDown,
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { allEnglishModules } from "@/data/languageCurriculum";
@@ -32,6 +33,11 @@ type LessonRef = { lessonId: string; moduleId: string; title: string; titleEn: s
 const SatExamFormat = () => {
   const { t, lang } = useLanguage();
   const navigate = useNavigate();
+  const [openWeeks, setOpenWeeks] = useState<Record<number, boolean>>({});
+  const [expandAll, setExpandAll] = useState(false);
+
+  const toggleWeek = (i: number) =>
+    setOpenWeeks((prev) => ({ ...prev, [i]: !prev[i] }));
 
   // Build lookup of every SAT lesson once.
   const satLessonIndex = useMemo<Record<string, LessonRef>>(() => {
@@ -728,103 +734,142 @@ const SatExamFormat = () => {
           )}
         </p>
 
-        {/* Phase legend */}
-        <div className="flex flex-wrap gap-2 mb-5">
-          {(Object.keys(PHASE_META) as Week["phase"][]).map((p) => (
-            <span
-              key={p}
-              className={`text-xs px-3 py-1.5 rounded-full bg-gradient-to-r ${PHASE_META[p].gradient} text-white font-semibold shadow-sm`}
-            >
-              {PHASE_META[p].label}
-            </span>
-          ))}
+        {/* Phase legend + expand all */}
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
+          <div className="flex flex-wrap gap-2">
+            {(Object.keys(PHASE_META) as Week["phase"][]).map((p) => (
+              <span
+                key={p}
+                className={`text-xs px-3 py-1.5 rounded-full bg-gradient-to-r ${PHASE_META[p].gradient} text-white font-semibold shadow-sm`}
+              >
+                {PHASE_META[p].label}
+              </span>
+            ))}
+          </div>
+          <button
+            onClick={() => {
+              const next = !expandAll;
+              setExpandAll(next);
+              const all: Record<number, boolean> = {};
+              WEEKS.forEach((_, i) => (all[i] = next));
+              setOpenWeeks(all);
+            }}
+            className="text-xs px-3 py-1.5 rounded-full border border-border bg-background/60 hover:bg-muted font-semibold text-foreground/80 transition-colors"
+          >
+            {expandAll
+              ? t("Thu gọn tất cả", "Collapse all")
+              : t("Mở rộng tất cả", "Expand all")}
+          </button>
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-2">
           {WEEKS.map((w, i) => {
             const meta = PHASE_META[w.phase];
+            const isOpen = !!openWeeks[i];
             return (
-              <div key={i} className={`rounded-xl border p-4 ${meta.tone}`}>
-                {/* Header row */}
-                <div className="flex items-start gap-3 mb-3 flex-wrap">
+              <div key={i} className={`rounded-xl border ${meta.tone} overflow-hidden`}>
+                {/* Header button (always visible) */}
+                <button
+                  onClick={() => toggleWeek(i)}
+                  className="w-full flex items-center gap-3 p-3 md:p-4 text-left hover:bg-background/40 transition-colors"
+                >
                   <span className={`text-xs px-2.5 py-1 rounded-full bg-gradient-to-r ${meta.gradient} text-white font-bold shrink-0`}>
                     {w.week}
                   </span>
-                  <span className="text-[10px] uppercase tracking-wide bg-background/70 text-muted-foreground border border-border px-2 py-0.5 rounded font-semibold shrink-0">
-                    {meta.label}
-                  </span>
-                  <h3 className="font-bold text-sm md:text-base text-foreground basis-full">{w.topic}</h3>
-                </div>
+                  <h3 className="font-bold text-sm md:text-base text-foreground flex-1 min-w-0 truncate">
+                    {w.topic}
+                  </h3>
+                  <ChevronDown
+                    className={`w-4 h-4 text-muted-foreground shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`}
+                  />
+                </button>
 
-                {/* Teacher / Learner */}
-                <div className="grid md:grid-cols-2 gap-3">
-                  <div className="rounded-lg bg-emerald-500/10 border border-emerald-500/30 p-3">
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <GraduationCap className="w-4 h-4 text-emerald-600" />
-                      <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wide">
-                        {t("Giáo viên", "Teacher")}
-                      </span>
-                    </div>
-                    <p className="text-sm text-foreground/90 leading-relaxed">{w.teacher}</p>
-                  </div>
-                  <div className="rounded-lg bg-sky-500/10 border border-sky-500/30 p-3">
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <Target className="w-4 h-4 text-sky-600" />
-                      <span className="text-xs font-bold text-sky-700 dark:text-sky-400 uppercase tracking-wide">
-                        {t("Học sinh", "Learner")}
-                      </span>
-                    </div>
-                    <p className="text-sm text-foreground/90 leading-relaxed">{w.learner}</p>
-                  </div>
-                </div>
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="p-4 pt-0 space-y-3">
+                        <span className="text-[10px] uppercase tracking-wide bg-background/70 text-muted-foreground border border-border px-2 py-0.5 rounded font-semibold inline-block">
+                          {meta.label}
+                        </span>
 
-                {/* Assessment */}
-                <div className="mt-3 flex items-start gap-2 rounded-lg bg-amber-500/10 border border-amber-500/30 p-2.5">
-                  <Flag className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
-                  <div>
-                    <span className="text-[10px] uppercase tracking-wide font-bold text-amber-700 dark:text-amber-400 mr-2">
-                      {t("Đánh giá cuối tuần", "End-of-week assessment")}
-                    </span>
-                    <span className="text-sm text-foreground/90">{w.assessment}</span>
-                  </div>
-                </div>
+                        {/* Teacher / Learner */}
+                        <div className="grid md:grid-cols-2 gap-3">
+                          <div className="rounded-lg bg-emerald-500/10 border border-emerald-500/30 p-3">
+                            <div className="flex items-center gap-2 mb-1.5">
+                              <GraduationCap className="w-4 h-4 text-emerald-600" />
+                              <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wide">
+                                {t("Giáo viên", "Teacher")}
+                              </span>
+                            </div>
+                            <p className="text-sm text-foreground/90 leading-relaxed">{w.teacher}</p>
+                          </div>
+                          <div className="rounded-lg bg-sky-500/10 border border-sky-500/30 p-3">
+                            <div className="flex items-center gap-2 mb-1.5">
+                              <Target className="w-4 h-4 text-sky-600" />
+                              <span className="text-xs font-bold text-sky-700 dark:text-sky-400 uppercase tracking-wide">
+                                {t("Học sinh", "Learner")}
+                              </span>
+                            </div>
+                            <p className="text-sm text-foreground/90 leading-relaxed">{w.learner}</p>
+                          </div>
+                        </div>
 
-                {/* Linked lesson chips */}
-                {w.lessons.length > 0 && (
-                  <div className="mt-3 pt-3 border-t border-border/60">
-                    <div className="text-xs font-semibold text-muted-foreground mb-2">
-                      {t("Bài học liên kết", "Linked lessons")}
-                    </div>
-                    <div className="flex flex-wrap gap-1.5">
-                      {w.lessons.map((lid) => {
-                        const ref = satLessonIndex[lid];
-                        if (!ref) {
-                          // Lesson not found in registry - render disabled chip (no broken nav)
-                          return (
-                            <span
-                              key={lid}
-                              className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full bg-muted/60 text-muted-foreground border border-border"
-                              title={lid}
-                            >
-                              {lid}
+                        {/* Assessment */}
+                        <div className="flex items-start gap-2 rounded-lg bg-amber-500/10 border border-amber-500/30 p-2.5">
+                          <Flag className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
+                          <div>
+                            <span className="text-[10px] uppercase tracking-wide font-bold text-amber-700 dark:text-amber-400 mr-2">
+                              {t("Đánh giá cuối tuần", "End-of-week assessment")}
                             </span>
-                          );
-                        }
-                        const label = lang === "vi" ? ref.title : ref.titleEn;
-                        return (
-                          <button
-                            key={lid}
-                            onClick={() => navigate(`/english/learn/${ref.moduleId}/${ref.lessonId}`)}
-                            className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary border border-primary/30 hover:bg-primary hover:text-primary-foreground transition-colors font-medium"
-                          >
-                            <BookOpen className="w-3 h-3" />
-                            <span className="max-w-[260px] truncate">{label}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
+                            <span className="text-sm text-foreground/90">{w.assessment}</span>
+                          </div>
+                        </div>
+
+                        {/* Linked lesson chips */}
+                        {w.lessons.length > 0 && (
+                          <div className="pt-3 border-t border-border/60">
+                            <div className="text-xs font-semibold text-muted-foreground mb-2">
+                              {t("Bài học liên kết", "Linked lessons")}
+                            </div>
+                            <div className="flex flex-wrap gap-1.5">
+                              {w.lessons.map((lid) => {
+                                const ref = satLessonIndex[lid];
+                                if (!ref) {
+                                  return (
+                                    <span
+                                      key={lid}
+                                      className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full bg-muted/60 text-muted-foreground border border-border"
+                                      title={lid}
+                                    >
+                                      {lid}
+                                    </span>
+                                  );
+                                }
+                                const label = lang === "vi" ? ref.title : ref.titleEn;
+                                return (
+                                  <button
+                                    key={lid}
+                                    onClick={() => navigate(`/english/learn/${ref.moduleId}/${ref.lessonId}`)}
+                                    className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary border border-primary/30 hover:bg-primary hover:text-primary-foreground transition-colors font-medium"
+                                  >
+                                    <BookOpen className="w-3 h-3" />
+                                    <span className="max-w-[260px] truncate">{label}</span>
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             );
           })}
