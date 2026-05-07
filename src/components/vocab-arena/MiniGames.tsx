@@ -113,18 +113,21 @@ const MiniGames = ({ onBack }: Props) => {
   return null;
 };
 
-const GameCard = ({ icon, color, title, desc, onClick }: { icon: React.ReactNode; color: string; title: string; desc: string; onClick: () => void }) => (
-  <motion.button
-    whileHover={{ scale: 1.03, y: -4 }}
-    whileTap={{ scale: 0.97 }}
-    onClick={onClick}
-    className="text-left rounded-2xl border-2 border-border bg-card p-6 hover:border-primary/50 transition-all"
-  >
-    <div className={`w-14 h-14 rounded-2xl bg-${color}-500/10 flex items-center justify-center mb-4`}>{icon}</div>
-    <h3 className="text-lg font-bold text-foreground mb-1">{title}</h3>
-    <p className="text-sm text-muted-foreground">{desc}</p>
-  </motion.button>
-);
+const GameCard = ({ icon, color, title, desc, onClick }: { icon: React.ReactNode; color: "purple" | "rose" | "emerald"; title: string; desc: string; onClick: () => void }) => {
+  const bg = color === "purple" ? "bg-purple-500/10" : color === "rose" ? "bg-rose-500/10" : "bg-emerald-500/10";
+  return (
+    <motion.button
+      whileHover={{ scale: 1.03, y: -4 }}
+      whileTap={{ scale: 0.97 }}
+      onClick={onClick}
+      className="text-left rounded-2xl border-2 border-border bg-card p-6 hover:border-primary/50 transition-all"
+    >
+      <div className={`w-14 h-14 rounded-2xl ${bg} flex items-center justify-center mb-4`}>{icon}</div>
+      <h3 className="text-lg font-bold text-foreground mb-1">{title}</h3>
+      <p className="text-sm text-muted-foreground">{desc}</p>
+    </motion.button>
+  );
+};
 
 // ============ Shared header ============
 const GameHeader = ({ title, mode, onExit, currentPlayer, scoreA, scoreB }: { title: string; mode: Mode; onExit: () => void; currentPlayer?: 1 | 2; scoreA: number; scoreB?: number }) => {
