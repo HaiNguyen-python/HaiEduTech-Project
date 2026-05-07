@@ -86,7 +86,9 @@ export function computeStudentState(
     const score = act.score ?? 0;
     const maxScore = act.max_score ?? 10;
     const normalized = (score / maxScore) * 10;
-    const domain = (act.domain as LearningDomain) || "english";
+    const rawDomain = (act.domain as string) || "english";
+    // Map unknown domains (e.g., "platform") to "english" to avoid undefined access
+    const domain: LearningDomain = (rawDomain in domainMap ? rawDomain : "english") as LearningDomain;
 
     // Aggregate domain-level data
     domainMap[domain].totalScore += normalized;
