@@ -324,6 +324,22 @@ const culturalThemes: Theme[] = [
         bodyVi: "MAY: 8 (八 bā ~ 发 fā = phát tài) - cực may, biển số xe có 8 đắt gấp đôi. 6 (六 liù ~ 流 = thuận lợi). 9 (九 jiǔ ~ 久 = lâu dài). XUI: 4 (四 sì ~ 死 sǐ = chết) - bệnh viện không có tầng 4, số phòng tránh. 7 trong tang lễ (làm 7 ngày). Sự kiện trọng đại: chọn ngày có 8 (8/8, 18/8). Khi tặng tiền hồng bao Tết, tránh số 4: 100, 200, 500, 600, 800, 888 nguyên (tốt nhất). Olympic Bắc Kinh khai mạc 8/8/2008 lúc 8:08 tối - hoàn toàn không ngẫu nhiên.",
         bodyEn: "LUCKY: 8 (八 bā ~ 发 fā = wealth) - extremely lucky, car plates with 8 cost double. 6 (六 ~ smooth flow). 9 (九 ~ longevity). UNLUCKY: 4 (四 sì ~ 死 sǐ = death) - hospitals skip 4th floor. 7 in funerals (7-day rituals). Big events: pick dates with 8 (8/8, 18/8). For New Year red envelopes, avoid 4: prefer 100, 200, 500, 600, 800, 888. The Beijing Olympics opened on 8/8/2008 at 8:08 pm - not coincidence.",
       },
+      {
+        titleVi: "Ý nghĩa Màu sắc trong văn hóa Trung",
+        titleEn: "Color Symbolism in Chinese Culture",
+        zh: "颜色象征",
+        pinyin: "yánsè xiàngzhēng",
+        bodyVi: "ĐỎ (红 hóng): may mắn, hỉ sự, đám cưới, Tết - dùng cho mọi dịp vui. Cô dâu mặc đỏ, hồng bao đỏ, đèn lồng đỏ. VÀNG (黄 huáng): hoàng tộc, quyền lực - xưa chỉ vua được mặc vàng. Cũng là màu Phật giáo. XANH LÁ (绿): sức sống, mùa xuân - NHƯNG đội mũ xanh (戴绿帽子) = bị vợ ngoại tình (đại kỵ với đàn ông!). TRẮNG (白): tang lễ, cái chết, sự thuần khiết - tránh tặng quà gói trắng. ĐEN (黑): nghiêm trang, trang trọng nhưng cũng mang nghĩa tang tóc. XANH LAM (蓝): tĩnh tại, ổn định. TÍM (紫): cao quý, may mắn (紫气东来 = khí tím từ phương đông tới = điềm lành).",
+        bodyEn: "RED (红 hóng): luck, joy, weddings, New Year - all happy occasions. Brides wear red, red envelopes, red lanterns. YELLOW (黄): royalty, power - only emperors could wear yellow historically. Also Buddhism color. GREEN (绿): vitality, spring - BUT a green hat (戴绿帽子) means a wife is unfaithful (BIG taboo for men!). WHITE (白): funerals, death, purity - never wrap gifts in white. BLACK (黑): formality but also mourning. BLUE (蓝): calm, stability. PURPLE (紫): nobility, luck (紫气东来 = purple aura from the east = auspicious omen).",
+      },
+      {
+        titleVi: "12 Con Giáp - 十二生肖",
+        titleEn: "The 12 Chinese Zodiac Animals",
+        zh: "十二生肖",
+        pinyin: "shí'èr shēngxiào",
+        bodyVi: "Theo truyền thuyết, Ngọc Hoàng tổ chức cuộc đua, 12 con vật về đích đầu tiên trở thành con giáp: Tý 鼠 (chuột), Sửu 牛 (trâu), Dần 虎 (hổ), Mão 兔 (thỏ - VN dùng mèo), Thìn 龙 (rồng), Tỵ 蛇 (rắn), Ngọ 马 (ngựa), Mùi 羊 (dê), Thân 猴 (khỉ), Dậu 鸡 (gà), Tuất 狗 (chó), Hợi 猪 (heo). Câu hỏi xã giao thường gặp: '你属什么?' (bạn cầm tinh con gì?) - thay vì hỏi tuổi (vô lễ). Cách tính: mỗi 12 năm lặp lại 1 chu kỳ. Năm con giáp của mình (本命年 běnmìngnián) được coi là năm xui - phải đeo đồ ĐỎ (thắt lưng đỏ, vớ đỏ) để hóa giải!",
+        bodyEn: "Legend: the Jade Emperor held a race; 12 winning animals became zodiac signs: 鼠 (Rat), 牛 (Ox), 虎 (Tiger), 兔 (Rabbit - cat in Vietnam), 龙 (Dragon), 蛇 (Snake), 马 (Horse), 羊 (Goat), 猴 (Monkey), 鸡 (Rooster), 狗 (Dog), 猪 (Pig). Common social question: '你属什么?' (What's your zodiac?) - polite alternative to asking age. Cycle: 12-year repeating. Your zodiac year (本命年 běnmìngnián) is considered unlucky - wear RED (red belt, red socks) to ward off bad luck!",
+      },
     ],
   },
   {
