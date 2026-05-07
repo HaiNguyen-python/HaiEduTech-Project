@@ -5,8 +5,8 @@
  * teacher/learner tasks + assessment + linked lesson chips, and common pitfalls.
  * @author HaiEduTech
  */
-import { useMemo } from "react";
-import { motion } from "framer-motion";
+import { useMemo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import {
   ClipboardList,
@@ -19,6 +19,7 @@ import {
   TrendingUp,
   Layers,
   Flag,
+  ChevronDown,
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { allEnglishModules } from "@/data/languageCurriculum";
