@@ -65,6 +65,10 @@ const SatExams = () => {
               <Badge className="bg-pink-500/10 text-pink-700 dark:text-pink-300 border-pink-500/30">
                 🧠 {t("Luyện não đỉnh", "Brain workout")}
               </Badge>
+              <Badge className="bg-amber-400/15 text-amber-700 dark:text-amber-300 border-amber-400/40">
+                <Star className="w-3 h-3 mr-1 fill-amber-400 text-amber-500" />
+                {studiedCount} {t("đề đã đánh dấu", "exams marked")}
+              </Badge>
             </div>
 
             {/* Fun motivational strip for high-schoolers */}
