@@ -356,6 +356,13 @@ const EnglishCourse = () => {
                       <BookOpen className="h-4 w-4" />
                       {t("Từ vựng SAT →", "SAT Vocabulary →")}
                     </button>
+                    <button
+                      onClick={() => navigate("/sat-exercises")}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold hover:from-emerald-600 hover:to-teal-600 transition-all shadow-md"
+                    >
+                      <Sparkles className="h-4 w-4" />
+                      {t("SAT Exercises →", "SAT Exercises →")}
+                    </button>
                   </div>
                 )}
               </div>
