@@ -448,31 +448,6 @@ const EnglishCourse = () => {
               </div>
             )}
 
-            {/* SAT Vocabulary CTA */}
-            {courseId === "sat" && (
-              <div className="glass-card rounded-2xl p-6 md:p-8 mb-8 border-2 border-purple-500/30 bg-gradient-to-br from-purple-500/5 to-indigo-500/5">
-                <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
-                  <div className="flex-1">
-                    <h2 className="text-xl font-display font-bold text-foreground mb-2 flex items-center gap-2">
-                      📚 {t("SAT Vocabulary – Ngân hàng từ vựng", "SAT Vocabulary – Word Bank")}
-                    </h2>
-                    <p className="text-muted-foreground text-sm">
-                      {t(
-                        "100+ từ vựng SAT theo bài học · Flashcard · Quiz · Bảng xếp hạng · Mountain Climber gamification",
-                        "100+ SAT words by lesson · Flashcards · Quizzes · Leaderboard · Mountain Climber gamification"
-                      )}
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => navigate("/sat-vocabulary")}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all shadow-md whitespace-nowrap"
-                  >
-                    <BookOpen className="h-4 w-4" />
-                    {t("Vào học từ vựng →", "Open Vocabulary →")}
-                  </button>
-                </div>
-              </div>
-            )}
 
             {/* SAT Interactive Modules + Lessons */}
             {courseId === "sat" && (() => {
