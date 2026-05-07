@@ -80,6 +80,7 @@ const ChineseCultureHub = lazy(() => import("./pages/ChineseCultureHub.tsx"));
 const HskVocabulary = lazy(() => import("./pages/HskVocabulary.tsx"));
 const HskHub = lazy(() => import("./pages/HskHub.tsx"));
 const HskLevelGuide = lazy(() => import("./pages/HskLevelGuide.tsx"));
+const HskGrammar = lazy(() => import("./pages/HskGrammar.tsx"));
 const KnowledgeHubPage = lazy(() => import("./pages/KnowledgeHubPage.tsx"));
 const FolkloreLibrary = lazy(() => import("./pages/FolkloreLibrary.tsx"));
 const VietnameseForForeigners = lazy(() => import("./pages/VietnameseForForeigners.tsx"));
