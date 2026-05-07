@@ -2093,3 +2093,14 @@ const satVocabBase: SatWord[] = [
     "section": "Math"
   }
 ];
+
+// Merge base + expansion, deduped by lowercased word (base wins)
+const _seen = new Set<string>();
+export const satVocabData: SatWord[] = [];
+for (const w of [...satVocabBase, ...satVocabExpansion]) {
+  const k = w.word.toLowerCase();
+  if (_seen.has(k)) continue;
+  _seen.add(k);
+  satVocabData.push(w);
+}
+
