@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import { Swords, User, Users, Crown, Heart, Zap, Timer, Skull, ArrowLeft } from "lucide-react";
+import { Swords, User, Users, Crown, Heart, Zap, Timer, Skull, ArrowLeft, Gamepad2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -12,8 +12,9 @@ import GameEngine, { generateQuestions, type GameResult } from "@/components/voc
 import GameOver from "@/components/vocab-arena/GameOver";
 import ClassroomBattle from "@/components/vocab-arena/ClassroomBattle";
 import TeacherPanel from "@/components/vocab-arena/TeacherPanel";
+import MiniGames from "@/components/vocab-arena/MiniGames";
 
-type Phase = "menu" | "solo-setup" | "solo-playing" | "solo-results" | "classroom-student" | "classroom-teacher";
+type Phase = "menu" | "solo-setup" | "solo-playing" | "solo-results" | "classroom-student" | "classroom-teacher" | "mini-games";
 
 const VocabArena = () => {
   const { t } = useLanguage();
@@ -81,7 +82,7 @@ const VocabArena = () => {
               </div>
 
               {/* Mode cards */}
-              <div className="grid md:grid-cols-2 gap-6 mb-8">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                 {/* Solo Challenge */}
                 <motion.div
                   whileHover={{ scale: 1.02 }}
@@ -140,6 +141,32 @@ const VocabArena = () => {
                     <span className="px-2 py-1 rounded-lg bg-secondary text-xs text-muted-foreground flex items-center gap-1">
                       <Skull className="w-3 h-3" /> Sudden Death
                     </span>
+                  </div>
+                </motion.div>
+
+                {/* Mini Games */}
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => setPhase("mini-games")}
+                  className="cursor-pointer rounded-2xl border-2 border-border bg-card p-8 hover:border-primary/50 transition-all group"
+                >
+                  <div className="w-14 h-14 rounded-2xl bg-purple-500/10 flex items-center justify-center mb-4 group-hover:bg-purple-500/20 transition-colors">
+                    <Gamepad2 className="w-7 h-7 text-purple-500" />
+                  </div>
+                  <h3 className="text-xl font-bold text-foreground mb-2">
+                    {t("Trò chơi vui", "Mini Games")}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    {t(
+                      "3 trò chơi nhỏ: Lật thẻ, Săn từ, Gõ tốc độ — solo hoặc 2 người",
+                      "3 fun games: Memory, Hunt, Sprint — solo or 2-player"
+                    )}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="px-2 py-1 rounded-lg bg-secondary text-xs text-muted-foreground">🧠 Memory</span>
+                    <span className="px-2 py-1 rounded-lg bg-secondary text-xs text-muted-foreground">🎯 Hunt</span>
+                    <span className="px-2 py-1 rounded-lg bg-secondary text-xs text-muted-foreground">⌨️ Sprint</span>
                   </div>
                 </motion.div>
               </div>
@@ -326,6 +353,21 @@ const VocabArena = () => {
         <div className="pt-6 pb-16">
           <div className="container mx-auto px-4">
             <TeacherPanel onBack={() => setPhase("menu")} />
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  // MINI GAMES
+  if (phase === "mini-games") {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="pt-6 pb-16">
+          <div className="container mx-auto px-4">
+            <MiniGames onBack={() => setPhase("menu")} />
           </div>
         </div>
         <Footer />
