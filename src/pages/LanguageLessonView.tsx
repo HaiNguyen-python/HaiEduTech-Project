@@ -302,14 +302,33 @@ const LanguageLessonView = () => {
                             </div>
                             <p className="text-sm font-medium text-muted-foreground mb-2">{v.meaning}</p>
                             {v.example && (() => {
-                              // Bold occurrences of the vocab word (and simple inflections) in the example
                               const escape = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-                              const base = (v.word || "").trim().split(/\s+/)[0];
+                              // Stem helper: strip common English/inflection suffixes so "implies/implied/implication" all match "imply"
+                              const stem = (w: string) => {
+                                let s = w.toLowerCase();
+                                s = s.replace(/(ations?|ication|ization|ically|ing|ied|ies|ment|ness|tion|sion|able|ible|ous|ive|ant|ent|ly|ed|es|s|y|e)$/i, "");
+                                return s.length >= 3 ? s : w.toLowerCase();
+                              };
+                              // Build candidate tokens: each word/phrase in v.word + a slash/comma split
+                              const tokens = (v.word || "")
+                                .split(/[,/;|]|\s+\/\s+/)
+                                .map((t) => t.trim())
+                                .filter((t) => t.length > 1);
+                              const stems = Array.from(new Set(tokens.flatMap((t) =>
+                                t.split(/\s+/).filter((w) => w.length > 1).map(stem).filter((s) => s.length >= 3)
+                              )));
                               let highlighted = v.example;
-                              if (base && base.length > 1) {
-                                const re = new RegExp(`\\b(${escape(base)}[A-Za-zÀ-ỹ]*)\\b`, "gi");
-                                highlighted = highlighted.replace(re, "**$1**");
+                              // Bold whole multi-word phrases first
+                              tokens.filter((t) => /\s/.test(t)).forEach((phrase) => {
+                                const re = new RegExp(`\\b(${escape(phrase)})\\b`, "gi");
+                                highlighted = highlighted.replace(re, "<<B>>$1<</B>>");
+                              });
+                              // Then bold any word starting with a known stem
+                              if (stems.length) {
+                                const re = new RegExp(`\\b(?!<<B>>)(${stems.map(escape).join("|")})[A-Za-zÀ-ỹ]*\\b`, "gi");
+                                highlighted = highlighted.replace(re, "<<B>>$&<</B>>");
                               }
+                              highlighted = highlighted.replace(/<<B>>/g, "**").replace(/<<\/B>>/g, "**");
                               return (
                                 <p className="text-xs text-secondary-foreground">
                                   <span className="font-semibold text-primary mr-1">E.g.</span>
