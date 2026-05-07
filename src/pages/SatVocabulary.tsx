@@ -557,7 +557,7 @@ const SatVocabulary = () => {
                     >
                       <div className="mb-2 min-w-0 flex items-start justify-between gap-3">
                         <div className="min-w-0 flex-1">
-                          <h3 className="break-words font-extrabold" style={{ fontSize: "1.5rem", color: "#111827", lineHeight: 1.35 }}>{w.word}</h3>
+                          <h3 className="break-words font-extrabold" style={{ fontSize: "1.5rem", color: "#111827", lineHeight: 1.35 }}><span className="mr-1.5">{iconFor(w.category)}</span>{w.word}</h3>
                           {w.ipa && (
                             <p className="break-words" style={{ fontSize: "0.95rem", color: "#6b7280", fontFamily: "Georgia, serif", marginTop: "2px" }}>{w.ipa}</p>
                           )}
