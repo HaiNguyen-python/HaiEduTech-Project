@@ -363,6 +363,13 @@ const EnglishCourse = () => {
                       <Sparkles className="h-4 w-4" />
                       {t("SAT Exercises →", "SAT Exercises →")}
                     </button>
+                    <button
+                      onClick={() => navigate("/sat-exams")}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500 text-white font-semibold hover:opacity-90 transition-all shadow-md"
+                    >
+                      <Sparkles className="h-4 w-4" />
+                      {t("SAT Exams →", "SAT Exams →")}
+                    </button>
                   </div>
                 )}
               </div>
