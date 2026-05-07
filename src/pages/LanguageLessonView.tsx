@@ -233,6 +233,21 @@ const LanguageLessonView = () => {
                               /<figure[\s\S]*?<\/figure>/g,
                               (block) => block.replace(/^[ \t]+/gm, "")
                             );
+                            // For SAT lessons: auto-convert numbered "1) ..." / "1. ..." lines into bullet list
+                            // with icons so theory is easier to scan.
+                            if (mod.category === "sat") {
+                              const ICONS = ["✅", "🎯", "💡", "🔑", "⚡", "📌", "🚀", "🧠", "⭐"];
+                              raw = raw
+                                .split(/\n/)
+                                .map((line) => {
+                                  const m = /^\s*(\d+)[\)\.]\s+(.+)$/.exec(line);
+                                  if (!m) return line;
+                                  const n = parseInt(m[1], 10);
+                                  const icon = ICONS[(n - 1) % ICONS.length];
+                                  return `- ${icon} ${m[2]}`;
+                                })
+                                .join("\n");
+                            }
                             return raw
                               .split(/\n{2,}/)
                               .map((para) => {
