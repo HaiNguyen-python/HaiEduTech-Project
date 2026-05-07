@@ -464,7 +464,10 @@ const IeltsVocabulary = () => {
                     <p className="mt-1 min-w-0 break-words font-bold whitespace-normal" style={{ fontSize: "1.1875rem", color: "#1d4ed8", lineHeight: 1.6, overflowWrap: "break-word", wordBreak: "normal" }}>{w.definition.vi}</p>
 
                     {/* Example sentence */}
-                    <p className="mt-3 min-w-0 break-words italic leading-relaxed whitespace-normal" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6, overflowWrap: "break-word", wordBreak: "normal" }}>&quot;{w.example}&quot;</p>
+                    <p className="mt-3 min-w-0 break-words italic leading-relaxed whitespace-normal" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6, overflowWrap: "break-word", wordBreak: "normal" }}><span className="font-bold not-italic" style={{ color: "#1d4ed8" }}>E.g. </span>{w.example}</p>
+
+                    {/* Inline Type-the-example widget */}
+                    <InlineTypeExample word={w} t={t} />
 
                     {/* Synonyms & Collocations - compact wrap layout */}
                     {(w.synonyms?.length || w.collocations?.length) ? (
