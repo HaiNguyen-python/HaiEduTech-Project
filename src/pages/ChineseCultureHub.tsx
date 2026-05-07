@@ -224,6 +224,22 @@ const culturalThemes: Theme[] = [
         bodyVi: "Bồ Đề Đạt Ma (达摩) từ Ấn Độ sang Trung Quốc thế kỷ 6, sáng lập Thiền Tông - dòng Phật giáo Trung Hoa hóa, ảnh hưởng sang Nhật Bản (Zen). Đặc điểm: 不立文字 (không lập văn tự - không bám chữ nghĩa), 直指人心 (chỉ thẳng vào tâm), 见性成佛 (thấy bản tính = thành Phật). Thiền không cần tụng nhiều kinh, chỉ cần thiền định (打坐) và 'công án' (công án thiền). Câu nổi tiếng: '菩提本无树，明镜亦非台' (Bồ đề vốn không cây, gương sáng cũng chẳng đài) - Lục Tổ Huệ Năng.",
         bodyEn: "Bodhidharma (达摩) came from India to China in 6th century, founded Chan Buddhism - Sinicized form that later spread to Japan as Zen. Features: 不立文字 (no reliance on scripture), 直指人心 (point directly to mind), 见性成佛 (see your nature, become Buddha). Less chanting, more meditation (打坐) and koans. Famous quote by Hui-neng: '菩提本无树，明镜亦非台' (Bodhi has no tree, the mirror has no stand).",
       },
+      {
+        titleVi: "Pháp Gia & Binh Pháp Tôn Tử",
+        titleEn: "Legalism & Sun Tzu's Art of War",
+        zh: "法家 & 孙子兵法",
+        pinyin: "Fǎjiā & Sūnzǐ Bīngfǎ",
+        bodyVi: "Pháp Gia (法家) do Hàn Phi Tử (韩非子) đại diện, đề cao 法 (luật pháp), 术 (thuật trị quan), 势 (uy thế) - dùng pháp luật nghiêm minh thay đạo đức. Tần Thủy Hoàng dùng Pháp Gia thống nhất Trung Hoa năm 221 TCN. Tôn Tử Binh Pháp (孙子兵法) - 13 thiên, 6000 chữ, viết cách đây 2500 năm nhưng vẫn được Harvard Business School giảng dạy. Tư tưởng cốt lõi: '不战而屈人之兵' (không đánh mà khuất phục được địch = thắng cao nhất), '知己知彼，百战不殆' (biết mình biết người, trăm trận không nguy), '兵者，诡道也' (chiến tranh là đạo lừa dối).",
+        bodyEn: "Legalism (法家), led by Han Feizi, emphasized 法 (law), 术 (technique of rule), 势 (power) - strict laws over morality. Qin Shi Huang used Legalism to unify China in 221 BCE. Sun Tzu's Art of War (孙子兵法) - 13 chapters, 6,000 characters, written 2,500 years ago but still taught at Harvard Business School. Core: '不战而屈人之兵' (subdue the enemy without fighting = highest victory), '知己知彼，百战不殆' (know yourself and enemy, 100 battles no peril), '兵者，诡道也' (war is the way of deception).",
+      },
+      {
+        titleVi: "Mặc Gia - Triết lý Yêu Thương Phổ Quát",
+        titleEn: "Mohism - Universal Love",
+        zh: "墨家",
+        pinyin: "Mòjiā",
+        bodyVi: "Mặc Tử (墨子, 470-391 TCN) sáng lập Mặc Gia - đối thủ lớn của Nho gia thời Chiến Quốc. Tư tưởng cốt lõi: 兼爱 (kiêm ái - yêu thương mọi người như nhau, không phân biệt thân sơ - khác Nho gia chỉ yêu người thân trước), 非攻 (phi công - phản đối chiến tranh xâm lược), 节用 (tiết dụng - tiết kiệm), 尚贤 (thượng hiền - trọng người tài, không trọng quý tộc). Mặc Tử cũng là nhà khoa học sớm nhất Trung Hoa - phát hiện camera obscura (mô hình chụp ảnh nguyên thủy) và định luật quang học. Mặc Gia suy tàn sau Tần, nhưng tư tưởng nhân đạo của ông được hồi sinh trong xã hội hiện đại.",
+        bodyEn: "Mozi (墨子, 470-391 BCE) founded Mohism - a major rival to Confucianism. Core ideas: 兼爱 (universal love - love all equally, unlike Confucian preference for kin), 非攻 (anti-aggression - oppose offensive war), 节用 (frugality), 尚贤 (meritocracy - promote talent over aristocracy). Mozi was also China's earliest scientist - discovered camera obscura and optics laws. Mohism faded after Qin, but his humanitarian ideas have been revived in modern times.",
+      },
     ],
   },
   {
