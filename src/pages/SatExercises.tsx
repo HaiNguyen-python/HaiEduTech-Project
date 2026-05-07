@@ -96,17 +96,21 @@ const SatExercises = () => {
                   const exCount = l.exercises?.length || 0;
                   const qCount = l.quiz?.length || 0;
                   return (
-                    <Link
+                    <div
                       key={l.id}
-                      to={`/english/learn/${g.module.id}/${l.id}`}
-                      className="group rounded-lg border border-border bg-card hover:border-primary/50 hover:shadow-md transition-all p-3 flex items-start gap-3"
+                      className="group rounded-lg border border-border bg-card hover:border-primary/50 hover:shadow-md transition-all p-3 flex items-start gap-3 relative"
                     >
-                      <div className="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                      <Link
+                        to={`/english/learn/${g.module.id}/${l.id}`}
+                        className="absolute inset-0 rounded-lg"
+                        aria-label={lang === "vi" ? l.title : l.titleEn}
+                      />
+                      <div className="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-primary-foreground transition-colors relative">
                         <ListChecks className="w-4 h-4" />
                       </div>
-                      <div className="min-w-0 flex-1">
+                      <div className="min-w-0 flex-1 relative">
                         <p className="text-sm font-semibold text-foreground truncate">{lang === "vi" ? l.title : l.titleEn}</p>
-                        <div className="flex flex-wrap gap-1.5 mt-1">
+                        <div className="flex flex-wrap items-center gap-1.5 mt-1">
                           <Badge variant="secondary" className="text-[10px] px-1.5 py-0">L{l.level}</Badge>
                           {exCount > 0 && (
                             <Badge variant="outline" className="text-[10px] px-1.5 py-0">
@@ -118,9 +122,14 @@ const SatExercises = () => {
                               {qCount} {t("câu quiz", "quiz Qs")}
                             </Badge>
                           )}
+                          <SatStarToggle
+                            storageKey={`sat:lesson:${g.module.id}:${l.id}`}
+                            size="sm"
+                            className="ml-auto z-10"
+                          />
                         </div>
                       </div>
-                    </Link>
+                    </div>
                   );
                 })}
               </div>
