@@ -33,6 +33,31 @@ const speak = (text: string) => {
   }
 };
 
+// Render an example sentence with the target word bolded (handles inflections)
+const renderExample = (example: string, word: string) => {
+  const stem = word.replace(/(ing|ed|es|s|ly|tion|ment|ness)$/i, "");
+  const safe = stem.length >= 3 ? stem : word;
+  const re = new RegExp(`\\b(${safe.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}[a-z]*)\\b`, "gi");
+  const parts: Array<string | { b: string }> = [];
+  let last = 0;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(example)) !== null) {
+    if (m.index > last) parts.push(example.slice(last, m.index));
+    parts.push({ b: m[0] });
+    last = m.index + m[0].length;
+  }
+  if (last < example.length) parts.push(example.slice(last));
+  if (parts.length === 0) parts.push(example);
+  return (
+    <>
+      <span className="font-semibold not-italic" style={{ color: "#0f766e" }}>E.g. </span>
+      {parts.map((p, i) =>
+        typeof p === "string" ? <span key={i}>{p}</span> : <strong key={i} className="font-bold" style={{ color: "#111827" }}>{p.b}</strong>
+      )}
+    </>
+  );
+};
+
 const shuffle = <T,>(arr: T[]): T[] => {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -55,6 +80,9 @@ const Flashcard = ({ word }: { word: SatWord }) => {
           style={{ padding: "2rem", border: "2px solid #f1f5f9", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)", minHeight: "14rem" }}
         >
           <h3 className="font-extrabold text-center" style={{ fontSize: "1.75rem", color: "#111827" }}>{word.word}</h3>
+          {word.ipa && (
+            <p className="text-center" style={{ fontSize: "0.95rem", color: "#6b7280", fontFamily: "Georgia, serif" }}>{word.ipa}</p>
+          )}
           {word.partOfSpeech && (
             <Badge variant="secondary" className="text-xs italic">{word.partOfSpeech}</Badge>
           )}
@@ -73,7 +101,7 @@ const Flashcard = ({ word }: { word: SatWord }) => {
         >
           <p className="font-bold break-words" style={{ fontSize: "1.1875rem", color: "#1d4ed8", lineHeight: 1.6 }}>{word.definition.vi}</p>
           {word.example && (
-            <p className="italic mt-1 break-words" style={{ fontSize: "0.9375rem", color: "#374151", lineHeight: 1.6 }}>"{word.example}"</p>
+            <p className="italic mt-1 break-words" style={{ fontSize: "0.9375rem", color: "#374151", lineHeight: 1.6 }}>{renderExample(word.example, word.word)}</p>
           )}
           <Badge variant="outline" className="w-fit mt-1 text-xs">{word.category}</Badge>
         </motion.div>
@@ -168,13 +196,14 @@ const VocabExercise = ({ words, allWords, t }: { words: SatWord[]; allWords?: Sa
         <span className="text-sm font-semibold text-primary">{t("Điểm", "Score")}: {score}</span>
       </div>
       <div className="rounded-xl border border-border bg-card p-8 mb-6">
-        <div className="flex items-center gap-3 mb-2">
+        <div className="flex items-center gap-3 mb-1">
           <h3 className="text-3xl font-bold text-foreground">{q.word.word}</h3>
           <button onClick={() => speak(q.word.word)} className="p-2 rounded-full hover:bg-primary/10">
             <Volume2 className="w-5 h-5 text-primary" />
           </button>
         </div>
-        {q.word.example && <p className="text-sm font-semibold text-foreground italic">"{q.word.example}"</p>}
+        {q.word.ipa && <p className="text-sm text-muted-foreground mb-2" style={{ fontFamily: "Georgia, serif" }}>{q.word.ipa}</p>}
+        {q.word.example && <p className="text-sm text-foreground italic">{renderExample(q.word.example, q.word.word)}</p>}
         <p className="text-sm text-muted-foreground mt-3">{t("Chọn nghĩa đúng:", "Choose the correct meaning:")}</p>
       </div>
       <div className="space-y-3">
@@ -376,6 +405,9 @@ const SatVocabulary = () => {
                       <div className="mb-2 min-w-0 flex items-start justify-between gap-3">
                         <div className="min-w-0 flex-1">
                           <h3 className="break-words font-extrabold" style={{ fontSize: "1.5rem", color: "#111827", lineHeight: 1.35 }}>{w.word}</h3>
+                          {w.ipa && (
+                            <p className="break-words" style={{ fontSize: "0.95rem", color: "#6b7280", fontFamily: "Georgia, serif", marginTop: "2px" }}>{w.ipa}</p>
+                          )}
                           <div className="mt-2 flex items-center gap-1">
                             <button onClick={() => speak(w.word)} className="rounded-lg p-1.5 transition-colors hover:bg-primary/10">
                               <Volume2 size={20} style={{ color: "#4b5563" }} />
@@ -407,7 +439,7 @@ const SatVocabulary = () => {
                       <p className="min-w-0 break-words font-bold whitespace-normal" style={{ fontSize: "1.1875rem", color: "#1d4ed8", lineHeight: 1.6 }}>{w.definition.vi}</p>
 
                       {w.example && (
-                        <p className="mt-3 min-w-0 break-words italic leading-relaxed whitespace-normal" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6 }}>&quot;{w.example}&quot;</p>
+                        <p className="mt-3 min-w-0 break-words italic leading-relaxed whitespace-normal" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6 }}>{renderExample(w.example, w.word)}</p>
                       )}
                     </motion.div>
                   ))}
