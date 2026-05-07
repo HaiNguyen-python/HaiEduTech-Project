@@ -468,7 +468,7 @@ const SatVocabulary = () => {
                     <TabsTrigger value="list" title={t("Danh sách", "List")}><List className="w-4 h-4" /></TabsTrigger>
                     <TabsTrigger value="flashcard" title={t("Flashcard", "Flashcard")}><Layers className="w-4 h-4" /></TabsTrigger>
                     <TabsTrigger value="exercise" title={t("Trắc nghiệm", "Quiz")}><BookOpen className="w-4 h-4" /></TabsTrigger>
-                    <TabsTrigger value="sentence" title={t("Gõ lại câu ví dụ", "Type sentence")}><Keyboard className="w-4 h-4" /></TabsTrigger>
+                    
                   </TabsList>
                 </Tabs>
               </div>
