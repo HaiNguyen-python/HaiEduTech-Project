@@ -67,7 +67,7 @@ const shuffle = <T,>(arr: T[]): T[] => {
   return a;
 };
 
-const Flashcard = ({ word }: { word: SatWord }) => {
+const Flashcard = ({ word, isMastered, onStar }: { word: SatWord; isMastered: boolean; onStar: (w: string, e: React.MouseEvent) => void }) => {
   const [flipped, setFlipped] = useState(false);
   return (
     <div className="cursor-pointer" onClick={() => setFlipped(!flipped)}>
@@ -87,9 +87,22 @@ const Flashcard = ({ word }: { word: SatWord }) => {
             <Badge variant="secondary" className="text-xs italic">{word.partOfSpeech}</Badge>
           )}
           <Badge className={levelColors[word.level]}>{word.level}</Badge>
-          <button onClick={(e) => { e.stopPropagation(); speak(word.word); }} className="mt-2 p-2 rounded-full hover:bg-primary/10">
-            <Volume2 size={20} style={{ color: "#4b5563" }} />
-          </button>
+          <div className="flex items-center gap-2 mt-2">
+            <button onClick={(e) => { e.stopPropagation(); speak(word.word); }} className="p-2 rounded-full hover:bg-primary/10">
+              <Volume2 size={20} style={{ color: "#4b5563" }} />
+            </button>
+            <motion.button
+              onClick={(e) => { e.stopPropagation(); onStar(word.word, e); }}
+              className="p-2 rounded-full hover:bg-yellow-500/10"
+              whileTap={{ scale: 1.4 }}
+              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+            >
+              <Star size={20}
+                className={isMastered ? "text-yellow-400 fill-yellow-400 drop-shadow-[0_0_6px_rgba(250,204,21,0.6)]" : ""}
+                style={isMastered ? {} : { color: "#4b5563" }}
+              />
+            </motion.button>
+          </div>
         </motion.div>
       ) : (
         <motion.div
@@ -387,7 +400,7 @@ const SatVocabulary = () => {
                   <AnimatePresence mode="popLayout">
                     {paginated.map(w => (
                       <motion.div key={w.word + w.category} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
-                        <Flashcard word={w} />
+                        <Flashcard word={w} isMastered={mastered.has(w.word)} onStar={handleStarClick} />
                       </motion.div>
                     ))}
                   </AnimatePresence>
