@@ -1,24 +1,30 @@
-// SAT Vocabulary - extracted from SAT interactive lessons (auto-derived)
-// Shares the same shape as ieltsVocabData for UI re-use.
+// SAT Vocabulary - merged from SAT interactive lessons + curated SAT Math glossary.
+// Shares the same shape pattern as ieltsVocabData for UI re-use, with an added 'section' field.
 
 export interface SatWord {
   word: string;
-  ipa: string;
+  ipa?: string;
   level: string;
   definition: { en: string; vi: string };
   example: string;
-  category: string;
+  category: string;        // lesson name
   partOfSpeech?: string;
+  section: 'Reading & Writing' | 'Math';
 }
 
 export const SAT_LEVELS = ['B2','C1'] as const;
+export const SAT_SECTIONS = ['Reading & Writing','Math'] as const;
 
-export const SAT_CATEGORIES = ["Evidence-Based Reading","Command of Evidence","Words in Context","Standard English Conventions","High-Frequency SAT Words – Set 1","High-Frequency SAT Words – Set 2","Roots, Prefixes & Suffixes","Expression of Ideas","Rhetorical Synthesis","Transitions & Flow"] as const;
+export const SAT_CATEGORIES_BY_SECTION: Record<string, string[]> = {
+  'Reading & Writing': ["Evidence-Based Reading","Command of Evidence","Words in Context","Standard English Conventions","High-Frequency SAT Words – Set 1","High-Frequency SAT Words – Set 2","Roots, Prefixes & Suffixes","Expression of Ideas","Rhetorical Synthesis","Transitions & Flow"],
+  'Math': ["Heart of Algebra","Problem Solving & Data Analysis","Passport to Advanced Math","Geometry & Trigonometry"],
+};
+
+export const SAT_CATEGORIES = ["Evidence-Based Reading","Command of Evidence","Words in Context","Standard English Conventions","High-Frequency SAT Words – Set 1","High-Frequency SAT Words – Set 2","Roots, Prefixes & Suffixes","Expression of Ideas","Rhetorical Synthesis","Transitions & Flow","Heart of Algebra","Problem Solving & Data Analysis","Passport to Advanced Math","Geometry & Trigonometry"] as const;
 
 export const satVocabData: SatWord[] = [
   {
     "word": "evidence",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -26,11 +32,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The evidence in the passage supports this conclusion.",
     "category": "Evidence-Based Reading",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "inference",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -38,11 +44,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "What inference can be drawn from paragraph 2?",
     "category": "Evidence-Based Reading",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "imply",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -50,11 +56,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The author implies that technology has both benefits and drawbacks.",
     "category": "Evidence-Based Reading",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "excerpt",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -62,11 +68,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "Read the following excerpt from the passage.",
     "category": "Evidence-Based Reading",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "undermine",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -74,11 +80,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "This evidence undermines the opposing argument.",
     "category": "Evidence-Based Reading",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "substantiate",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -86,11 +92,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The data substantiates the researcher's hypothesis.",
     "category": "Evidence-Based Reading",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "corroborate",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -98,11 +104,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "Multiple sources corroborate this finding.",
     "category": "Evidence-Based Reading",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "assertion",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -110,11 +116,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The author's central assertion is supported by evidence.",
     "category": "Evidence-Based Reading",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "compelling",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -122,11 +128,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "She presented a compelling argument for reform.",
     "category": "Evidence-Based Reading",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "nuance",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -134,11 +140,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The passage explores the nuances of the debate.",
     "category": "Evidence-Based Reading",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "cite",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -146,11 +152,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The student cited evidence from paragraph 3.",
     "category": "Command of Evidence",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "bolster",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -158,11 +164,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "New data bolsters the original claim.",
     "category": "Command of Evidence",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "refute",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -170,11 +176,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The study refutes earlier findings about climate patterns.",
     "category": "Command of Evidence",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "empirical",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -182,11 +188,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "Empirical evidence is gathered through observation.",
     "category": "Command of Evidence",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "quantitative",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -194,11 +200,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "Quantitative data includes numbers and statistics.",
     "category": "Command of Evidence",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "qualitative",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -206,11 +212,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "Qualitative research explores people's experiences.",
     "category": "Command of Evidence",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "hypothesis",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -218,11 +224,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The hypothesis was tested through experiments.",
     "category": "Command of Evidence",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "methodology",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -230,11 +236,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The research methodology was rigorous.",
     "category": "Command of Evidence",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "credible",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -242,11 +248,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "Only credible sources should be used in academic work.",
     "category": "Command of Evidence",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "paradigm",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -254,11 +260,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "This represents a paradigm shift in scientific thinking.",
     "category": "Command of Evidence",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "acute",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -266,11 +272,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "She has an acute sense of observation.",
     "category": "Words in Context",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "address",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -278,11 +284,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The committee will address the issue tomorrow.",
     "category": "Words in Context",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "appreciate",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -290,11 +296,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "Few people appreciate the complexity of the problem.",
     "category": "Words in Context",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "channel",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -302,11 +308,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "She channeled her energy into creative work.",
     "category": "Words in Context",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "check",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -314,11 +320,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The policy was designed to check inflation.",
     "category": "Words in Context",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "currency",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -326,11 +332,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The idea gained currency among intellectuals.",
     "category": "Words in Context",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "entertain",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -338,11 +344,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "She refused to entertain the possibility of failure.",
     "category": "Words in Context",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "fashion",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -350,11 +356,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "He fashioned a solution from limited resources.",
     "category": "Words in Context",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "gravity",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -362,11 +368,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The gravity of the situation was clear to everyone.",
     "category": "Words in Context",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "qualify",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -374,11 +380,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "She qualified her earlier statement with new data.",
     "category": "Words in Context",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "modifier",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -386,11 +392,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "A dangling modifier creates confusion in a sentence.",
     "category": "Standard English Conventions",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "clause",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -398,11 +404,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "An independent clause can stand alone as a sentence.",
     "category": "Standard English Conventions",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "antecedent",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -410,11 +416,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The pronoun must agree with its antecedent.",
     "category": "Standard English Conventions",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "conjunction",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -422,11 +428,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "Coordinating conjunctions include and, but, or.",
     "category": "Standard English Conventions",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "semicolon",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -434,11 +440,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "Use a semicolon to join related independent clauses.",
     "category": "Standard English Conventions",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "appositive",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -446,11 +452,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "An appositive renames a nearby noun.",
     "category": "Standard English Conventions",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "subordinate",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -458,11 +464,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "A subordinate clause cannot stand alone.",
     "category": "Standard English Conventions",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "concise",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -470,11 +476,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "Good writing is concise and clear.",
     "category": "Standard English Conventions",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "redundant",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -482,11 +488,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "'Free gift' is redundant because gifts are always free.",
     "category": "Standard English Conventions",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "syntax",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -494,11 +500,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "Proper syntax ensures sentences are grammatically correct.",
     "category": "Standard English Conventions",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "ubiquitous",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -506,11 +512,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "Smartphones have become ubiquitous in modern society.",
     "category": "High-Frequency SAT Words – Set 1",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "pragmatic",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -518,11 +524,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "She took a pragmatic approach to solving the problem.",
     "category": "High-Frequency SAT Words – Set 1",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "ambiguous",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -530,11 +536,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The instructions were ambiguous and confused everyone.",
     "category": "High-Frequency SAT Words – Set 1",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "eloquent",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -542,11 +548,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "Her eloquent speech moved the entire audience.",
     "category": "High-Frequency SAT Words – Set 1",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "meticulous",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -554,11 +560,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "He is meticulous about every detail in his work.",
     "category": "High-Frequency SAT Words – Set 1",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "resilient",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -566,11 +572,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The community proved resilient after the natural disaster.",
     "category": "High-Frequency SAT Words – Set 1",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "disparity",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -578,11 +584,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "There is a growing disparity between rich and poor.",
     "category": "High-Frequency SAT Words – Set 1",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "scrutinize",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -590,11 +596,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The committee scrutinized every proposal carefully.",
     "category": "High-Frequency SAT Words – Set 1",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "proliferate",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -602,11 +608,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "Social media platforms have proliferated over the past decade.",
     "category": "High-Frequency SAT Words – Set 1",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "advocate",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -614,11 +620,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "She advocates for equal access to education.",
     "category": "High-Frequency SAT Words – Set 1",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "ephemeral",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -626,11 +632,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "Social media fame is often ephemeral.",
     "category": "High-Frequency SAT Words – Set 2",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "juxtapose",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -638,11 +644,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The artist juxtaposed old and new techniques.",
     "category": "High-Frequency SAT Words – Set 2",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "paradox",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -650,11 +656,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "It's a paradox that we have more information but less understanding.",
     "category": "High-Frequency SAT Words – Set 2",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "exacerbate",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -662,11 +668,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The drought exacerbated the food crisis.",
     "category": "High-Frequency SAT Words – Set 2",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "mitigate",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -674,11 +680,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "New policies aim to mitigate the effects of climate change.",
     "category": "High-Frequency SAT Words – Set 2",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "unprecedented",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -686,11 +692,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The pandemic caused unprecedented disruption.",
     "category": "High-Frequency SAT Words – Set 2",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "candid",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -698,11 +704,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "She gave a candid assessment of the situation.",
     "category": "High-Frequency SAT Words – Set 2",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "catalyst",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -710,11 +716,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The discovery was a catalyst for further research.",
     "category": "High-Frequency SAT Words – Set 2",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "digress",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -722,11 +728,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The speaker tended to digress from the main topic.",
     "category": "High-Frequency SAT Words – Set 2",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "vindicate",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -734,11 +740,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "New evidence vindicated the accused scientist.",
     "category": "High-Frequency SAT Words – Set 2",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "benevolent",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -746,11 +752,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The benevolent donor supported many charities.",
     "category": "Roots, Prefixes & Suffixes",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "malevolent",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -758,11 +764,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The villain's malevolent plan was foiled.",
     "category": "Roots, Prefixes & Suffixes",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "circumscribe",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -770,11 +776,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "Laws circumscribe individual freedoms for the common good.",
     "category": "Roots, Prefixes & Suffixes",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "retrospect",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -782,11 +788,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "In retrospect, the decision was unwise.",
     "category": "Roots, Prefixes & Suffixes",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "preclude",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -794,11 +800,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "Lack of funds precluded further research.",
     "category": "Roots, Prefixes & Suffixes",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "transcend",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -806,11 +812,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "Great art transcends cultural boundaries.",
     "category": "Roots, Prefixes & Suffixes",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "antipathy",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -818,11 +824,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "He felt deep antipathy toward dishonesty.",
     "category": "Roots, Prefixes & Suffixes",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "ambivalent",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -830,11 +836,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "She felt ambivalent about moving abroad.",
     "category": "Roots, Prefixes & Suffixes",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "elucidate",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -842,11 +848,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The professor elucidated the complex theory.",
     "category": "Roots, Prefixes & Suffixes",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "magnanimous",
-    "ipa": "",
     "level": "C1",
     "definition": {
       "en": "",
@@ -854,11 +860,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The magnanimous leader forgave his opponents.",
     "category": "Roots, Prefixes & Suffixes",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "cohesion",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -866,11 +872,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "Good writing has strong cohesion between paragraphs.",
     "category": "Expression of Ideas",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "coherence",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -878,11 +884,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The essay lacked coherence and was difficult to follow.",
     "category": "Expression of Ideas",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "transition",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -890,11 +896,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "Use transitions to connect your ideas smoothly.",
     "category": "Expression of Ideas",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "elaborate",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -902,11 +908,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "Could you elaborate on your main argument?",
     "category": "Expression of Ideas",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "succinct",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -914,11 +920,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "Her presentation was succinct yet informative.",
     "category": "Expression of Ideas",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "verbose",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -926,11 +932,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "Avoid verbose writing; be concise instead.",
     "category": "Expression of Ideas",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "synthesize",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -938,11 +944,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The essay synthesizes ideas from multiple sources.",
     "category": "Expression of Ideas",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "articulate",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -950,11 +956,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "She articulated her position clearly.",
     "category": "Expression of Ideas",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "judiciously",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -962,11 +968,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "Use evidence judiciously to support your claims.",
     "category": "Expression of Ideas",
-    "partOfSpeech": "adverb"
+    "partOfSpeech": "adverb",
+    "section": "Reading & Writing"
   },
   {
     "word": "pertinent",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -974,11 +980,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "Only include pertinent information in your essay.",
     "category": "Expression of Ideas",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "rhetorical",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -986,11 +992,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The rhetorical question was meant to provoke thought.",
     "category": "Rhetorical Synthesis",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "synthesis",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -998,11 +1004,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The paper is a synthesis of several research studies.",
     "category": "Rhetorical Synthesis",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "emphasize",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1010,11 +1016,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The report emphasizes the need for immediate action.",
     "category": "Rhetorical Synthesis",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "contrast",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1022,11 +1028,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The essay contrasts urban and rural lifestyles.",
     "category": "Rhetorical Synthesis",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "convey",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1034,11 +1040,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The graph conveys the declining trend clearly.",
     "category": "Rhetorical Synthesis",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "premise",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1046,11 +1052,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The argument is based on a false premise.",
     "category": "Rhetorical Synthesis",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "concession",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1058,11 +1064,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The author makes a concession before presenting the main argument.",
     "category": "Rhetorical Synthesis",
-    "partOfSpeech": "noun"
+    "partOfSpeech": "noun",
+    "section": "Reading & Writing"
   },
   {
     "word": "rebut",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1070,11 +1076,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "She rebutted every point in the opposing argument.",
     "category": "Rhetorical Synthesis",
-    "partOfSpeech": "verb"
+    "partOfSpeech": "verb",
+    "section": "Reading & Writing"
   },
   {
     "word": "substantive",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1082,11 +1088,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "We need substantive changes, not superficial ones.",
     "category": "Rhetorical Synthesis",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "pivotal",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1094,11 +1100,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "This was a pivotal moment in the debate.",
     "category": "Rhetorical Synthesis",
-    "partOfSpeech": "adjective"
+    "partOfSpeech": "adjective",
+    "section": "Reading & Writing"
   },
   {
     "word": "moreover",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1106,11 +1112,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The plan is effective; moreover, it is cost-efficient.",
     "category": "Transitions & Flow",
-    "partOfSpeech": "adverb"
+    "partOfSpeech": "adverb",
+    "section": "Reading & Writing"
   },
   {
     "word": "nevertheless",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1118,11 +1124,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The experiment failed; nevertheless, it provided valuable data.",
     "category": "Transitions & Flow",
-    "partOfSpeech": "adverb"
+    "partOfSpeech": "adverb",
+    "section": "Reading & Writing"
   },
   {
     "word": "consequently",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1130,11 +1136,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "He didn't study; consequently, he failed the exam.",
     "category": "Transitions & Flow",
-    "partOfSpeech": "adverb"
+    "partOfSpeech": "adverb",
+    "section": "Reading & Writing"
   },
   {
     "word": "conversely",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1142,11 +1148,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "In summer, days are long; conversely, in winter, they are short.",
     "category": "Transitions & Flow",
-    "partOfSpeech": "adverb"
+    "partOfSpeech": "adverb",
+    "section": "Reading & Writing"
   },
   {
     "word": "notwithstanding",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1154,11 +1160,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "Notwithstanding the challenges, the team succeeded.",
     "category": "Transitions & Flow",
-    "partOfSpeech": "adverb"
+    "partOfSpeech": "adverb",
+    "section": "Reading & Writing"
   },
   {
     "word": "subsequently",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1166,11 +1172,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "She graduated in 2020 and subsequently joined a tech company.",
     "category": "Transitions & Flow",
-    "partOfSpeech": "adverb"
+    "partOfSpeech": "adverb",
+    "section": "Reading & Writing"
   },
   {
     "word": "likewise",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1178,11 +1184,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The first study showed positive results; likewise, the second confirmed them.",
     "category": "Transitions & Flow",
-    "partOfSpeech": "adverb"
+    "partOfSpeech": "adverb",
+    "section": "Reading & Writing"
   },
   {
     "word": "in light of",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1190,11 +1196,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "In light of new evidence, the theory was revised.",
     "category": "Transitions & Flow",
-    "partOfSpeech": "phrase"
+    "partOfSpeech": "phrase",
+    "section": "Reading & Writing"
   },
   {
     "word": "albeit",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1202,11 +1208,11 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The progress was slow, albeit steady.",
     "category": "Transitions & Flow",
-    "partOfSpeech": "conjunction"
+    "partOfSpeech": "conjunction",
+    "section": "Reading & Writing"
   },
   {
     "word": "accordingly",
-    "ipa": "",
     "level": "B2",
     "definition": {
       "en": "",
@@ -1214,6 +1220,715 @@ export const satVocabData: SatWord[] = [
     },
     "example": "The budget was cut; accordingly, the project scope was reduced.",
     "category": "Transitions & Flow",
-    "partOfSpeech": "adverb"
+    "partOfSpeech": "adverb",
+    "section": "Reading & Writing"
+  },
+  {
+    "word": "linear equation",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "phương trình tuyến tính"
+    },
+    "example": "Solve the linear equation 3x + 5 = 14.",
+    "category": "Heart of Algebra",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "slope",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "hệ số góc / độ dốc"
+    },
+    "example": "The slope of the line is 2/3.",
+    "category": "Heart of Algebra",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "intercept",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "giao điểm với trục"
+    },
+    "example": "Find the y-intercept of the equation y = 2x + 3.",
+    "category": "Heart of Algebra",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "variable",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "biến số"
+    },
+    "example": "Let x be the variable representing time.",
+    "category": "Heart of Algebra",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "coefficient",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "hệ số"
+    },
+    "example": "In 5x², the coefficient is 5.",
+    "category": "Heart of Algebra",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "constant",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "hằng số"
+    },
+    "example": "The constant term in y = 3x + 7 is 7.",
+    "category": "Heart of Algebra",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "expression",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "biểu thức"
+    },
+    "example": "Simplify the expression 2(x + 3) - 4.",
+    "category": "Heart of Algebra",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "equivalent",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "tương đương"
+    },
+    "example": "These two expressions are equivalent.",
+    "category": "Heart of Algebra",
+    "partOfSpeech": "adjective",
+    "section": "Math"
+  },
+  {
+    "word": "system of equations",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "hệ phương trình"
+    },
+    "example": "Solve the system of equations using substitution.",
+    "category": "Heart of Algebra",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "inequality",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "bất phương trình"
+    },
+    "example": "The inequality 2x + 1 > 5 has many solutions.",
+    "category": "Heart of Algebra",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "solution set",
+    "level": "C1",
+    "definition": {
+      "en": "",
+      "vi": "tập nghiệm"
+    },
+    "example": "The solution set of x² = 9 is {-3, 3}.",
+    "category": "Heart of Algebra",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "absolute value",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "giá trị tuyệt đối"
+    },
+    "example": "The absolute value of -7 is 7.",
+    "category": "Heart of Algebra",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "ratio",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "tỉ lệ"
+    },
+    "example": "The ratio of boys to girls is 3 to 2.",
+    "category": "Problem Solving & Data Analysis",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "proportion",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "tỉ lệ thức"
+    },
+    "example": "Set up a proportion to find the missing value.",
+    "category": "Problem Solving & Data Analysis",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "percent",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "phần trăm"
+    },
+    "example": "25 percent of 80 is 20.",
+    "category": "Problem Solving & Data Analysis",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "percent increase",
+    "level": "C1",
+    "definition": {
+      "en": "",
+      "vi": "phần trăm tăng"
+    },
+    "example": "The percent increase from 50 to 60 is 20%.",
+    "category": "Problem Solving & Data Analysis",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "percent decrease",
+    "level": "C1",
+    "definition": {
+      "en": "",
+      "vi": "phần trăm giảm"
+    },
+    "example": "A 10% percent decrease from 200 is 180.",
+    "category": "Problem Solving & Data Analysis",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "median",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "trung vị"
+    },
+    "example": "Find the median of the data set.",
+    "category": "Problem Solving & Data Analysis",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "mean",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "giá trị trung bình"
+    },
+    "example": "The mean is the average of all numbers.",
+    "category": "Problem Solving & Data Analysis",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "mode",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "số xuất hiện nhiều nhất"
+    },
+    "example": "The mode of {2,3,3,4} is 3.",
+    "category": "Problem Solving & Data Analysis",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "range",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "khoảng (max - min)"
+    },
+    "example": "The range of the set is the maximum minus the minimum.",
+    "category": "Problem Solving & Data Analysis",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "standard deviation",
+    "level": "C1",
+    "definition": {
+      "en": "",
+      "vi": "độ lệch chuẩn"
+    },
+    "example": "A small standard deviation means data is clustered.",
+    "category": "Problem Solving & Data Analysis",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "probability",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "xác suất"
+    },
+    "example": "The probability of rolling a 6 is 1/6.",
+    "category": "Problem Solving & Data Analysis",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "margin of error",
+    "level": "C1",
+    "definition": {
+      "en": "",
+      "vi": "sai số cho phép"
+    },
+    "example": "The poll has a margin of error of ±3%.",
+    "category": "Problem Solving & Data Analysis",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "scatterplot",
+    "level": "C1",
+    "definition": {
+      "en": "",
+      "vi": "biểu đồ phân tán"
+    },
+    "example": "The scatterplot shows a positive correlation.",
+    "category": "Problem Solving & Data Analysis",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "correlation",
+    "level": "C1",
+    "definition": {
+      "en": "",
+      "vi": "sự tương quan"
+    },
+    "example": "There is a strong correlation between study time and scores.",
+    "category": "Problem Solving & Data Analysis",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "unit rate",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "tỉ lệ đơn vị"
+    },
+    "example": "The unit rate is 60 miles per hour.",
+    "category": "Problem Solving & Data Analysis",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "quadratic",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "bậc hai"
+    },
+    "example": "Solve the quadratic equation x² + 3x - 4 = 0.",
+    "category": "Passport to Advanced Math",
+    "partOfSpeech": "adjective",
+    "section": "Math"
+  },
+  {
+    "word": "parabola",
+    "level": "C1",
+    "definition": {
+      "en": "",
+      "vi": "đường parabol"
+    },
+    "example": "The graph of a quadratic is a parabola.",
+    "category": "Passport to Advanced Math",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "vertex",
+    "level": "C1",
+    "definition": {
+      "en": "",
+      "vi": "đỉnh (parabol)"
+    },
+    "example": "Find the vertex of the parabola.",
+    "category": "Passport to Advanced Math",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "discriminant",
+    "level": "C1",
+    "definition": {
+      "en": "",
+      "vi": "biệt thức"
+    },
+    "example": "If the discriminant is negative, there are no real roots.",
+    "category": "Passport to Advanced Math",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "polynomial",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "đa thức"
+    },
+    "example": "Factor the polynomial completely.",
+    "category": "Passport to Advanced Math",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "exponent",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "số mũ"
+    },
+    "example": "The exponent tells you how many times to multiply.",
+    "category": "Passport to Advanced Math",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "exponential",
+    "level": "C1",
+    "definition": {
+      "en": "",
+      "vi": "hàm mũ"
+    },
+    "example": "Population growth is often exponential.",
+    "category": "Passport to Advanced Math",
+    "partOfSpeech": "adjective",
+    "section": "Math"
+  },
+  {
+    "word": "radical",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "căn (√)"
+    },
+    "example": "Simplify the radical expression.",
+    "category": "Passport to Advanced Math",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "rational expression",
+    "level": "C1",
+    "definition": {
+      "en": "",
+      "vi": "biểu thức hữu tỉ"
+    },
+    "example": "Simplify the rational expression by factoring.",
+    "category": "Passport to Advanced Math",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "function",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "hàm số"
+    },
+    "example": "f(x) = 2x + 1 defines a linear function.",
+    "category": "Passport to Advanced Math",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "domain",
+    "level": "C1",
+    "definition": {
+      "en": "",
+      "vi": "tập xác định"
+    },
+    "example": "The domain of the function is all real numbers.",
+    "category": "Passport to Advanced Math",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "range (function)",
+    "level": "C1",
+    "definition": {
+      "en": "",
+      "vi": "tập giá trị"
+    },
+    "example": "The range of f(x) = x² is y ≥ 0.",
+    "category": "Passport to Advanced Math",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "factor",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "phân tích thành nhân tử"
+    },
+    "example": "Factor x² - 9 as (x-3)(x+3).",
+    "category": "Passport to Advanced Math",
+    "partOfSpeech": "verb",
+    "section": "Math"
+  },
+  {
+    "word": "root / zero",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "nghiệm"
+    },
+    "example": "The roots of the equation are x = 2 and x = -1.",
+    "category": "Passport to Advanced Math",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "inverse function",
+    "level": "C1",
+    "definition": {
+      "en": "",
+      "vi": "hàm ngược"
+    },
+    "example": "The inverse function reverses the operation.",
+    "category": "Passport to Advanced Math",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "perimeter",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "chu vi"
+    },
+    "example": "The perimeter of a square is 4 × side.",
+    "category": "Geometry & Trigonometry",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "area",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "diện tích"
+    },
+    "example": "The area of a triangle is ½ × base × height.",
+    "category": "Geometry & Trigonometry",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "volume",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "thể tích"
+    },
+    "example": "The volume of the cylinder is πr²h.",
+    "category": "Geometry & Trigonometry",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "radius",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "bán kính"
+    },
+    "example": "The radius is half the diameter.",
+    "category": "Geometry & Trigonometry",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "diameter",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "đường kính"
+    },
+    "example": "The diameter passes through the center of the circle.",
+    "category": "Geometry & Trigonometry",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "circumference",
+    "level": "C1",
+    "definition": {
+      "en": "",
+      "vi": "chu vi đường tròn"
+    },
+    "example": "The circumference equals 2πr.",
+    "category": "Geometry & Trigonometry",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "hypotenuse",
+    "level": "C1",
+    "definition": {
+      "en": "",
+      "vi": "cạnh huyền"
+    },
+    "example": "In a right triangle, the hypotenuse is the longest side.",
+    "category": "Geometry & Trigonometry",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "Pythagorean theorem",
+    "level": "C1",
+    "definition": {
+      "en": "",
+      "vi": "định lý Pythagore"
+    },
+    "example": "Use the Pythagorean theorem: a² + b² = c².",
+    "category": "Geometry & Trigonometry",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "congruent",
+    "level": "C1",
+    "definition": {
+      "en": "",
+      "vi": "bằng nhau (hình học)"
+    },
+    "example": "The two triangles are congruent.",
+    "category": "Geometry & Trigonometry",
+    "partOfSpeech": "adjective",
+    "section": "Math"
+  },
+  {
+    "word": "similar",
+    "level": "C1",
+    "definition": {
+      "en": "",
+      "vi": "đồng dạng"
+    },
+    "example": "Similar triangles have proportional sides.",
+    "category": "Geometry & Trigonometry",
+    "partOfSpeech": "adjective",
+    "section": "Math"
+  },
+  {
+    "word": "parallel",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "song song"
+    },
+    "example": "Two parallel lines never intersect.",
+    "category": "Geometry & Trigonometry",
+    "partOfSpeech": "adjective",
+    "section": "Math"
+  },
+  {
+    "word": "perpendicular",
+    "level": "B2",
+    "definition": {
+      "en": "",
+      "vi": "vuông góc"
+    },
+    "example": "Perpendicular lines meet at a 90° angle.",
+    "category": "Geometry & Trigonometry",
+    "partOfSpeech": "adjective",
+    "section": "Math"
+  },
+  {
+    "word": "sine",
+    "level": "C1",
+    "definition": {
+      "en": "",
+      "vi": "sin"
+    },
+    "example": "sin(30°) equals 0.5.",
+    "category": "Geometry & Trigonometry",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "cosine",
+    "level": "C1",
+    "definition": {
+      "en": "",
+      "vi": "cos"
+    },
+    "example": "Use cosine to find the adjacent side.",
+    "category": "Geometry & Trigonometry",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "tangent",
+    "level": "C1",
+    "definition": {
+      "en": "",
+      "vi": "tan"
+    },
+    "example": "Tangent equals opposite over adjacent.",
+    "category": "Geometry & Trigonometry",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "arc",
+    "level": "C1",
+    "definition": {
+      "en": "",
+      "vi": "cung tròn"
+    },
+    "example": "The arc length depends on the radius and angle.",
+    "category": "Geometry & Trigonometry",
+    "partOfSpeech": "noun",
+    "section": "Math"
+  },
+  {
+    "word": "chord",
+    "level": "C1",
+    "definition": {
+      "en": "",
+      "vi": "dây cung"
+    },
+    "example": "A chord connects two points on a circle.",
+    "category": "Geometry & Trigonometry",
+    "partOfSpeech": "noun",
+    "section": "Math"
   }
 ];
