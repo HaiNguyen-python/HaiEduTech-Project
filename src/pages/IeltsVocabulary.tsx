@@ -599,10 +599,10 @@ const IeltsVocabulary = () => {
                     {/* Header: Word + Illustration + Audio + Star */}
                     <div className="mb-2 min-w-0 flex items-start gap-3">
                       <div className="min-w-0 flex-1">
-                        <h3 className="break-words font-extrabold" style={{ fontSize: "1.5rem", color: "#111827", lineHeight: 1.35, overflowWrap: "break-word", wordBreak: "normal" }}>
-                          {w.word}
+                        <h3 className="break-words font-extrabold" style={{ fontSize: "1.5rem", lineHeight: 1.35, overflowWrap: "break-word", wordBreak: "normal" }}>
+                          <span style={{ color: "#059669" }}>{w.word}</span>
                           {w.synonyms && w.synonyms.length > 0 && (
-                            <span className="ml-2 font-medium" style={{ fontSize: "0.95rem", color: "#059669" }}>
+                            <span className="ml-2 italic font-medium" style={{ fontSize: "0.95rem", color: "#111827" }}>
                               = {w.synonyms.join(", ")}
                             </span>
                           )}
@@ -641,7 +641,14 @@ const IeltsVocabulary = () => {
                     <p className="mt-1 min-w-0 break-words font-bold whitespace-normal" style={{ fontSize: "1.1875rem", color: "#1d4ed8", lineHeight: 1.6, overflowWrap: "break-word", wordBreak: "normal" }}>{w.definition.vi}</p>
 
                     {/* Example sentence */}
-                    <p className="mt-3 min-w-0 break-words italic leading-relaxed whitespace-normal" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6, overflowWrap: "break-word", wordBreak: "normal" }}><span className="font-bold not-italic" style={{ color: "#1d4ed8" }}>E.g. </span>{w.example}</p>
+                    <p className="mt-3 min-w-0 break-words italic leading-relaxed whitespace-normal" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6, overflowWrap: "break-word", wordBreak: "normal" }}>
+                      <span className="font-bold not-italic" style={{ color: "#1d4ed8" }}>E.g. </span>
+                      {w.example.split(new RegExp(`(${w.word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "ig")).map((part, i) =>
+                        part.toLowerCase() === w.word.toLowerCase()
+                          ? <strong key={i} className="font-extrabold not-italic" style={{ color: "#111827" }}>{part}</strong>
+                          : <span key={i}>{part}</span>
+                      )}
+                    </p>
 
                     {/* Inline Type-the-example widget */}
                     <InlineTypeExample word={w} t={t} />
