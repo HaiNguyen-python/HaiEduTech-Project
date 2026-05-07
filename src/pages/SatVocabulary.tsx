@@ -277,7 +277,6 @@ const normalize = (s: string) =>
   s.toLowerCase().replace(/[.,!?;:"'()]/g, "").replace(/\s+/g, " ").trim();
 
 const InlineTypeExample = ({ word, t }: { word: SatWord; t: (vi: string, en: string) => string }) => {
-  const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [revealed, setRevealed] = useState(false);
   if (!word.example) return null;
@@ -288,15 +287,11 @@ const InlineTypeExample = ({ word, t }: { word: SatWord; t: (vi: string, en: str
 
   return (
     <div className="mt-3 pt-3 border-t border-border/60">
-      <button
-        onClick={() => setOpen(o => !o)}
-        className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline"
-      >
+      <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary mb-2">
         <Keyboard className="w-3.5 h-3.5" />
-        {open ? t("Đóng luyện gõ", "Close typing practice") : t("Gõ lại câu ví dụ", "Type the example")}
-      </button>
-      {open && (
-        <div className="mt-2 space-y-2">
+        {t("Gõ lại câu ví dụ", "Type the example")}
+      </div>
+      <div className="space-y-2">
           <textarea
             value={input}
             onChange={e => setInput(e.target.value)}
@@ -329,7 +324,6 @@ const InlineTypeExample = ({ word, t }: { word: SatWord; t: (vi: string, en: str
             </div>
           )}
         </div>
-      )}
     </div>
   );
 };
