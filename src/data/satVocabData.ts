@@ -24,6 +24,7 @@ export const SAT_CATEGORIES = ["Evidence-Based Reading","Command of Evidence","W
 
 import { satVocabExpansion } from './satVocabExpansionLarge';
 import { satVocabExpansion2 } from './satVocabExpansion2';
+import { satVocabExpansion3 } from './satVocabExpansion3';
 
 const satVocabBase: SatWord[] = [
   {
