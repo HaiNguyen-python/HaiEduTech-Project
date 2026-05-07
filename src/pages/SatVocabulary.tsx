@@ -23,6 +23,25 @@ const levelColors: Record<string, string> = {
   C1: "bg-purple-500/20 text-purple-400",
 };
 
+// Friendly emoji for each lesson category — adds visual variety to the cards
+const categoryIcons: Record<string, string> = {
+  "Evidence-Based Reading": "🔍",
+  "Command of Evidence": "📊",
+  "Words in Context": "🧩",
+  "Standard English Conventions": "📝",
+  "High-Frequency SAT Words – Set 1": "⭐",
+  "High-Frequency SAT Words – Set 2": "🌟",
+  "Roots, Prefixes & Suffixes": "🌱",
+  "Expression of Ideas": "💡",
+  "Rhetorical Synthesis": "🧠",
+  "Transitions & Flow": "🔗",
+  "Heart of Algebra": "🧮",
+  "Problem Solving & Data Analysis": "📈",
+  "Passport to Advanced Math": "🚀",
+  "Geometry & Trigonometry": "📐",
+};
+const iconFor = (cat: string) => categoryIcons[cat] || "📚";
+
 const speak = (text: string) => {
   if ("speechSynthesis" in window) {
     window.speechSynthesis.cancel();
