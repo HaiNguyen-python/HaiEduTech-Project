@@ -33,6 +33,11 @@ type LessonRef = { lessonId: string; moduleId: string; title: string; titleEn: s
 const SatExamFormat = () => {
   const { t, lang } = useLanguage();
   const navigate = useNavigate();
+  const [openWeeks, setOpenWeeks] = useState<Record<number, boolean>>({});
+  const [expandAll, setExpandAll] = useState(false);
+
+  const toggleWeek = (i: number) =>
+    setOpenWeeks((prev) => ({ ...prev, [i]: !prev[i] }));
 
   // Build lookup of every SAT lesson once.
   const satLessonIndex = useMemo<Record<string, LessonRef>>(() => {
