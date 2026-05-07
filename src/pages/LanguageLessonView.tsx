@@ -207,9 +207,14 @@ const LanguageLessonView = () => {
                       </div>
                       <span className="text-xs text-muted-foreground">Level {lesson.level}</span>
                     </div>
-                    <h1 className="text-2xl font-display font-bold text-foreground">
-                      {mod.icon} {isEnglishGrammarLesson ? lesson.titleEn : t(lesson.title, lesson.titleEn)}
-                    </h1>
+                    <div className="flex items-start justify-between gap-3">
+                      <h1 className="text-2xl font-display font-bold text-foreground">
+                        {mod.icon} {isEnglishGrammarLesson ? lesson.titleEn : t(lesson.title, lesson.titleEn)}
+                      </h1>
+                      {isSatLesson && (
+                        <SatStarToggle storageKey={`sat:lesson:${mod.id}:${lesson.id}`} size="lg" />
+                      )}
+                    </div>
                   </div>
 
                   {isEnglishGrammarLesson && <GrammarLessonOverview lesson={lesson} module={mod} />}
