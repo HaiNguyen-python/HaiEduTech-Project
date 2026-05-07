@@ -6,8 +6,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle } from "lucide-react";
 import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { satVocabData, SAT_CATEGORIES, SAT_LEVELS, type SatWord } from "@/data/satVocabData";
-import MountainClimber from "@/components/MountainClimber";
+import { satVocabData, SAT_LEVELS, SAT_SECTIONS, SAT_CATEGORIES_BY_SECTION, type SatWord } from "@/data/satVocabData";
+import SatClimber from "@/components/SatClimber";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -214,10 +214,17 @@ const VocabExercise = ({ words, allWords, t }: { words: SatWord[]; allWords?: Sa
 const SatVocabulary = () => {
   const { t } = useLanguage();
   const [search, setSearch] = useState("");
+  const [sectionFilter, setSectionFilter] = useState<string>("all");
   const [levelFilter, setLevelFilter] = useState<string>("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [page, setPage] = useState(1);
   const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise">("list");
+
+  const availableCategories = useMemo(() => {
+    if (sectionFilter === "all") return [...SAT_CATEGORIES_BY_SECTION["Reading & Writing"], ...SAT_CATEGORIES_BY_SECTION["Math"]];
+    return SAT_CATEGORIES_BY_SECTION[sectionFilter] || [];
+  }, [sectionFilter]);
+  useEffect(() => { setCategoryFilter("all"); }, [sectionFilter]);
   const [mastered, setMastered] = useState<Set<string>>(() => {
     try {
       const saved = localStorage.getItem("sat_mastered");
@@ -265,15 +272,16 @@ const SatVocabulary = () => {
         (w.example || "").toLowerCase().includes(q)
       );
     }
+    if (sectionFilter !== "all") words = words.filter(w => w.section === sectionFilter);
     if (levelFilter !== "all") words = words.filter(w => w.level === levelFilter);
     if (categoryFilter !== "all") words = words.filter(w => w.category === categoryFilter);
     if (showMasteredOnly) words = words.filter(w => !mastered.has(w.word));
     return words;
-  }, [search, levelFilter, categoryFilter, showMasteredOnly, mastered]);
+  }, [search, sectionFilter, levelFilter, categoryFilter, showMasteredOnly, mastered]);
 
   const totalPages = Math.ceil(filtered.length / WORDS_PER_PAGE);
   const paginated = filtered.slice((page - 1) * WORDS_PER_PAGE, page * WORDS_PER_PAGE);
-  useEffect(() => setPage(1), [search, levelFilter, categoryFilter, showMasteredOnly]);
+  useEffect(() => setPage(1), [search, sectionFilter, levelFilter, categoryFilter, showMasteredOnly]);
 
   return (
     <div ref={pageContainerRef} className="min-h-screen bg-background">
@@ -304,7 +312,7 @@ const SatVocabulary = () => {
                 </div>
               </div>
 
-              <MountainClimber mastered={mastered.size} total={satVocabData.length} flyingStars={flyingStars} onStarLanded={handleStarLanded} containerRef={pageContainerRef} />
+              <SatClimber mastered={mastered.size} total={satVocabData.length} flyingStars={flyingStars} onStarLanded={handleStarLanded} containerRef={pageContainerRef} />
 
               {/* Filters */}
               <div className="flex flex-wrap items-center gap-3 mb-6">
@@ -317,13 +325,17 @@ const SatVocabulary = () => {
                     className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none text-sm"
                   />
                 </div>
+                <select value={sectionFilter} onChange={e => setSectionFilter(e.target.value)} className="px-3 py-2.5 rounded-xl bg-secondary border border-border text-foreground text-sm focus:outline-none font-semibold">
+                  <option value="all">{t("Tất cả phần thi", "All Sections")}</option>
+                  {SAT_SECTIONS.map(s => <option key={s} value={s}>{s === "Math" ? "📐 Math" : "📖 Reading & Writing"}</option>)}
+                </select>
                 <select value={levelFilter} onChange={e => setLevelFilter(e.target.value)} className="px-3 py-2.5 rounded-xl bg-secondary border border-border text-foreground text-sm focus:outline-none">
                   <option value="all">{t("Tất cả cấp độ", "All Levels")}</option>
                   {SAT_LEVELS.map(l => <option key={l} value={l}>{l}</option>)}
                 </select>
-                <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)} className="px-3 py-2.5 rounded-xl bg-secondary border border-border text-foreground text-sm focus:outline-none max-w-[240px]">
+                <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)} className="px-3 py-2.5 rounded-xl bg-secondary border border-border text-foreground text-sm focus:outline-none max-w-[260px]">
                   <option value="all">{t("Tất cả bài học", "All Lessons")}</option>
-                  {SAT_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                  {availableCategories.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
                 <Button variant={showMasteredOnly ? "default" : "outline"} size="sm" onClick={() => setShowMasteredOnly(!showMasteredOnly)} className="gap-1.5">
                   <RotateCcw className="w-4 h-4" /> {t("Cần ôn", "Need Review")}
@@ -387,6 +399,9 @@ const SatVocabulary = () => {
                         <Badge className={levelColors[w.level] + " text-xs"}>{w.level}</Badge>
                         {w.partOfSpeech && <Badge variant="secondary" className="text-xs italic">{w.partOfSpeech}</Badge>}
                         <Badge variant="outline" className="text-xs">{w.category}</Badge>
+                        <Badge className={(w.section === "Math" ? "bg-orange-500/20 text-orange-500" : "bg-blue-500/20 text-blue-500") + " text-xs"}>
+                          {w.section === "Math" ? "📐 Math" : "📖 R&W"}
+                        </Badge>
                       </div>
 
                       <p className="min-w-0 break-words font-bold whitespace-normal" style={{ fontSize: "1.1875rem", color: "#1d4ed8", lineHeight: 1.6 }}>{w.definition.vi}</p>
