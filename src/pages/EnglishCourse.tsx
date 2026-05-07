@@ -257,6 +257,7 @@ const EnglishCourse = () => {
   const course = courseData[courseId || ""];
   const { hasAccess, loading: accessLoading } = useCourseAccess("conversational-english");
   const [showAccessModal, setShowAccessModal] = useState(false);
+  const [showSatCurriculum, setShowSatCurriculum] = useState(false);
 
   const handleCurriculumClick = () => {
     if (accessLoading) return;
@@ -336,12 +337,17 @@ const EnglishCourse = () => {
                   <div className="mt-4 pt-4 border-t flex flex-wrap gap-3">
                     <button
                       onClick={() => {
-                        document.getElementById("sat-lessons")?.scrollIntoView({ behavior: "smooth" });
+                        setShowSatCurriculum(true);
+                        setTimeout(() => {
+                          document.getElementById("sat-lessons")?.scrollIntoView({ behavior: "smooth" });
+                        }, 80);
                       }}
                       className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all shadow-md"
                     >
                       <BookOpen className="h-4 w-4" />
-                      {t("Vào Chương trình SAT →", "Enter SAT Curriculum →")}
+                      {showSatCurriculum
+                        ? t("Đang hiển thị Chương trình SAT ↓", "SAT Curriculum is shown ↓")
+                        : t("Vào Chương trình SAT →", "Enter SAT Curriculum →")}
                     </button>
                     <button
                       onClick={() => navigate("/sat-vocabulary")}
@@ -359,7 +365,7 @@ const EnglishCourse = () => {
             {courseId === "ielts" && <IeltsExamBreakdown />}
 
             {/* SAT detailed format + 10-week curriculum (replaces generic Highlights/Curriculum/Audience/Testimonials) */}
-            {courseId === "sat" && <SatExamFormat />}
+            {courseId === "sat" && showSatCurriculum && <SatExamFormat />}
 
             {/* Stats — hidden for IELTS */}
             {course.stats && courseId !== "ielts" && (
@@ -450,7 +456,7 @@ const EnglishCourse = () => {
 
 
             {/* SAT Interactive Modules + Lessons */}
-            {courseId === "sat" && (() => {
+            {courseId === "sat" && showSatCurriculum && (() => {
               const satModules = allEnglishModules.filter(m => m.category === "sat");
               const totalLessons = satModules.reduce((s, m) => s + m.lessons.length, 0);
               return satModules.length > 0 ? (
