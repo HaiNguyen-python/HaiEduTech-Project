@@ -12,6 +12,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { satMockExams, SAT_TYPE_LABELS } from "@/data/satMockExamData";
+import SatStarToggle from "@/components/sat/SatStarToggle";
+import { useSatStarsCount } from "@/hooks/useSatStars";
+import { Star } from "lucide-react";
 
 const ICON: Record<string, typeof Calculator> = {
   rw: BookOpen,
