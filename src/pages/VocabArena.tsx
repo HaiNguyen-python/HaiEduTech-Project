@@ -344,6 +344,9 @@ const VocabArena = () => {
               onHome={() => setPhase("menu")}
               showAnalytics={result.wordResults}
             />
+            <div className="max-w-lg mx-auto mt-8 rounded-xl border border-border bg-card/50 p-4">
+              <GameLeaderboard gameType="vocab-arena-solo" currentScore={result.score} />
+            </div>
           </div>
         </div>
         <Footer />
