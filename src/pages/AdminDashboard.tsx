@@ -248,7 +248,8 @@ const AdminDashboard = () => {
       weekStart.setDate(date.getDate() - date.getDay());
       const key = weekStart.toISOString().slice(0, 10);
       if (!weeks[key]) weeks[key] = { english: 0, chinese: 0, programming: 0 };
-      const domain = (act.domain as LearningDomain) || "english";
+      const raw = (act.domain as string) || "english";
+      const domain = (raw in weeks[key] ? raw : "english") as LearningDomain;
       weeks[key][domain]++;
     }
     return Object.entries(weeks)
