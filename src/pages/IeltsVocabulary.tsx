@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle, Link, Copy, Keyboard } from "lucide-react";
+import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle, Link, Copy, Keyboard, Mic, MicOff } from "lucide-react";
 import VocabIllustration from "@/components/VocabIllustration";
 import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -109,29 +109,88 @@ const normalizeText = (s: string) =>
 const InlineTypeExample = ({ word, t }: { word: IeltsWord; t: (vi: string, en: string) => string }) => {
   const [input, setInput] = useState("");
   const [revealed, setRevealed] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [voiceError, setVoiceError] = useState<string | null>(null);
+  const recognitionRef = useRef<any>(null);
+
   if (!word.example) return null;
   const target = word.example;
   const isCorrect = revealed && normalizeText(input) === normalizeText(target);
-  const reset = () => { setInput(""); setRevealed(false); };
+  const reset = () => { setInput(""); setRevealed(false); setVoiceError(null); };
+
+  const stopVoice = () => {
+    try { recognitionRef.current?.stop(); } catch { /* noop */ }
+    setIsListening(false);
+  };
+
+  const startVoice = () => {
+    const SR: any = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SR) {
+      setVoiceError(t("Trình duyệt không hỗ trợ voice. Hãy dùng Chrome/Edge.", "Voice not supported. Try Chrome/Edge."));
+      return;
+    }
+    setVoiceError(null);
+    const rec = new SR();
+    rec.lang = "en-US";
+    rec.interimResults = true;
+    rec.continuous = false;
+    rec.maxAlternatives = 1;
+    let finalText = "";
+    rec.onresult = (e: any) => {
+      let interim = "";
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const r = e.results[i];
+        if (r.isFinal) finalText += r[0].transcript;
+        else interim += r[0].transcript;
+      }
+      setInput((finalText + " " + interim).trim());
+    };
+    rec.onerror = (e: any) => {
+      setVoiceError(t("Không nhận diện được giọng nói.", "Could not recognize speech.") + (e?.error ? ` (${e.error})` : ""));
+      setIsListening(false);
+    };
+    rec.onend = () => setIsListening(false);
+    recognitionRef.current = rec;
+    setIsListening(true);
+    try { rec.start(); } catch { setIsListening(false); }
+  };
 
   return (
     <div className="mt-4 pt-3 border-t border-border/60">
       <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary mb-2">
         <Keyboard className="w-3.5 h-3.5" />
-        {t("Gõ lại câu ví dụ", "Type the example")}
+        {t("Gõ lại hoặc nói câu ví dụ", "Type or speak the example")}
       </div>
       <div className="space-y-2">
-        <textarea
-          value={input}
-          onChange={e => setInput(e.target.value)}
-          disabled={revealed}
-          rows={2}
-          placeholder={t("Gõ lại câu ví dụ…", "Type the example sentence…")}
-          className="w-full p-3 rounded-lg border-2 border-border bg-background text-foreground focus:border-primary/60 focus:outline-none text-sm leading-relaxed disabled:opacity-70"
-        />
+        <div className="relative">
+          <textarea
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            disabled={revealed}
+            rows={2}
+            placeholder={t("Gõ lại hoặc bấm mic để nói…", "Type or tap mic to speak…")}
+            className="w-full p-3 pr-12 rounded-lg border-2 border-border bg-background text-foreground focus:border-primary/60 focus:outline-none text-sm leading-relaxed disabled:opacity-70"
+          />
+          <button
+            type="button"
+            onClick={isListening ? stopVoice : startVoice}
+            disabled={revealed}
+            title={isListening ? t("Dừng ghi âm", "Stop recording") : t("Nói câu ví dụ", "Speak the example")}
+            className={`absolute top-2 right-2 w-8 h-8 rounded-full flex items-center justify-center transition-all ${
+              isListening
+                ? "bg-red-500 text-white animate-pulse shadow-lg shadow-red-500/40"
+                : "bg-primary/10 text-primary hover:bg-primary/20"
+            } disabled:opacity-50`}
+          >
+            {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+          </button>
+        </div>
+        {voiceError && (
+          <p className="text-xs text-orange-600 dark:text-orange-400">{voiceError}</p>
+        )}
         <div className="flex items-center justify-between gap-2">
           {!revealed ? (
-            <Button size="sm" onClick={() => setRevealed(true)} disabled={input.trim().length === 0}>
+            <Button size="sm" onClick={() => { stopVoice(); setRevealed(true); }} disabled={input.trim().length === 0}>
               {t("Kiểm tra", "Check")}
             </Button>
           ) : (
