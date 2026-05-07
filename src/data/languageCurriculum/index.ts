@@ -32,6 +32,7 @@ export const satExpansionModules6 = enhanceSatModulesWithQuizDepth(rawSatExpansi
 export const satExpansionModules7 = enhanceSatModulesWithQuizDepth(rawSatExpansionModules7);
 export const satExpansionModules8 = enhanceSatModulesWithQuizDepth(rawSatExpansionModules8);
 export const satExpansionModules9 = enhanceSatModulesWithQuizDepth(rawSatExpansionModules9);
+export const satExpansionModules10 = enhanceSatModulesWithQuizDepth(rawSatExpansionModules10);
 import { grammarExpansionModules2 } from "./englishGrammarExpansion2";
 import { grammarExpansionModules3 } from "./englishGrammarExpansion3";
 import { grammarExtraLessons4, grammarExpansionModules4 } from "./englishGrammarExpansion4";
