@@ -228,10 +228,15 @@ const LanguageLessonView = () => {
                       <div className="prose prose-base max-w-none text-secondary-foreground leading-[1.85] text-[17px] space-y-3 [&_p]:my-3 [&_strong]:text-primary [&_strong]:font-semibold [&_ul]:my-3 [&_ul]:space-y-2 [&_li]:my-1 [&_code]:bg-primary/10 [&_code]:text-primary [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_svg]:my-4 [&_svg]:mx-auto [&_svg]:max-w-full [&_svg]:h-auto [&_figure]:my-5 [&_figure]:text-center [&_figcaption]:text-sm [&_figcaption]:text-muted-foreground [&_figcaption]:mt-2 [&_figcaption]:italic [&_table]:my-4 [&_table]:w-full [&_table]:border-collapse [&_th]:bg-primary/10 [&_th]:text-primary [&_th]:p-2 [&_th]:border [&_th]:border-border [&_td]:p-2 [&_td]:border [&_td]:border-border">
                         <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
                           {(() => {
-                            const raw = lessonTheory;
+                            // Dedent <figure>...</figure> blocks so indented SVG lines aren't treated as markdown code blocks
+                            let raw = lessonTheory.replace(
+                              /<figure[\s\S]*?<\/figure>/g,
+                              (block) => block.replace(/^[ \t]+/gm, "")
+                            );
                             return raw
                               .split(/\n{2,}/)
                               .map((para) => {
+                                if (/<(figure|svg|table|ul|ol|pre|div)/i.test(para)) return para;
                                 const matches = para.match(/\*\*[^*]+:\*\*/g);
                                 if (matches && matches.length >= 2) {
                                   const parts = para
