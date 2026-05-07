@@ -36,25 +36,54 @@ const SatExams = () => {
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-500/10 text-purple-700 dark:text-purple-300 text-xs font-semibold mb-3">
               <Sparkles className="w-3.5 h-3.5" />
               {t("Đề thi SAT — đúng thời gian thi thật", "SAT Mock Exams — Real exam timing")}
+              <span className="text-base">🎓✨</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-purple-500 via-indigo-500 to-emerald-500 bg-clip-text text-transparent">
-              {t("SAT Exams", "SAT Exams")}
+              🚀 SAT Exams 🎯
             </h1>
             <p className="text-base text-muted-foreground max-w-3xl">
               {t(
-                "Các đề thi mẫu Digital SAT có canh giờ chuẩn: module Reading & Writing 32 phút / 27 câu, module Math 35 phút / 22 câu, đề full-length 134 phút / 98 câu.",
-                "Digital SAT mock exams with official timing: R&W modules 32 min / 27 Q, Math modules 35 min / 22 Q, full-length 134 min / 98 Q."
+                "Các đề thi mẫu Digital SAT có canh giờ chuẩn: module Reading & Writing 32 phút / 27 câu, module Math 35 phút / 22 câu, đề full-length 134 phút / 98 câu. Chiến thôi nào! 💪🔥",
+                "Digital SAT mock exams with official timing: R&W modules 32 min / 27 Q, Math modules 35 min / 22 Q, full-length 134 min / 98 Q. Let's crush it! 💪🔥"
               )}
             </p>
             <div className="flex flex-wrap gap-2 mt-4">
               <Badge className="bg-primary/10 text-primary border-primary/30">
-                <ListChecks className="w-3 h-3 mr-1" /> {satMockExams.length} {t("đề thi", "mock exams")}
+                <ListChecks className="w-3 h-3 mr-1" /> {satMockExams.length} {t("đề thi", "mock exams")} 📚
               </Badge>
               <Badge variant="outline">
-                <Clock className="w-3 h-3 mr-1" /> {t("Bấm giờ chuẩn SAT", "Official SAT timing")}
+                <Clock className="w-3 h-3 mr-1" /> {t("Bấm giờ chuẩn SAT", "Official SAT timing")} ⏱️
+              </Badge>
+              <Badge className="bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-500/30">
+                🏆 {t("Săn điểm 1500+", "Aim for 1500+")}
+              </Badge>
+              <Badge className="bg-pink-500/10 text-pink-700 dark:text-pink-300 border-pink-500/30">
+                🧠 {t("Luyện não đỉnh", "Brain workout")}
               </Badge>
             </div>
+
+            {/* Fun motivational strip for high-schoolers */}
+            <div className="mt-5 grid grid-cols-2 md:grid-cols-4 gap-2.5">
+              {[
+                { e: "🎯", t: t("Mục tiêu rõ", "Clear goals") },
+                { e: "⚡", t: t("Tăng tốc", "Speed up") },
+                { e: "🧩", t: t("Tư duy logic", "Logical thinking") },
+                { e: "🥇", t: t("Vô địch nhé!", "Be the champ!") },
+              ].map((it, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.1 + idx * 0.05 }}
+                  className="flex items-center gap-2 px-3 py-2 rounded-xl bg-card/60 border border-border/50 backdrop-blur-sm"
+                >
+                  <span className="text-xl">{it.e}</span>
+                  <span className="text-xs font-medium">{it.t}</span>
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
+
 
           <div className="grid md:grid-cols-2 gap-5">
             {satMockExams.map((exam, i) => {
