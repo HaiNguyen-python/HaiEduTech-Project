@@ -582,6 +582,16 @@ const ProgrammingLessonPage = () => {
                         )}
                       </div>
                     </div>
+                    {MODULE_HERO_IMAGES[mod.id] && (
+                      <img
+                        src={MODULE_HERO_IMAGES[mod.id]}
+                        alt={`${mod.titleEn} illustration`}
+                        loading="lazy"
+                        width={1024}
+                        height={576}
+                        className="w-full max-h-64 object-contain rounded-xl mb-6 bg-muted/30"
+                      />
+                    )}
                     <TheorySections
                       markdown={(useEnhanced && enhancedMd
                         ? enhancedMd
