@@ -397,7 +397,7 @@ const SatVocabulary = () => {
   const [levelFilter, setLevelFilter] = useState<string>("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [page, setPage] = useState(1);
-  const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise">("list");
+  const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise" | "sentence">("list");
 
   const availableCategories = useMemo(() => {
     if (sectionFilter === "all") return [...SAT_CATEGORIES_BY_SECTION["Reading & Writing"], ...SAT_CATEGORIES_BY_SECTION["Math"]];
