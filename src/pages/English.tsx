@@ -66,21 +66,6 @@ const English = () => {
       ],
     },
     {
-      title: t("Luyện thi THPT Quốc gia", "National High School Exam"),
-      level: t("Lớp 10–12", "Grade 10–12"),
-      desc: t(
-        "Chương trình ôn thi có hệ thống, bám sát cấu trúc đề thi THPT Quốc gia. Giúp học sinh nắm chắc kiến thức ngữ pháp, từ vựng và kỹ năng đọc hiểu để đạt điểm cao trong kỳ thi.",
-        "Systematic exam preparation program aligned with the National High School Exam structure. Helping students master grammar, vocabulary, and reading comprehension for top scores."
-      ),
-      features: [
-        t("Hệ thống hóa 24 chuyên đề ngữ pháp trọng tâm", "Systematized 24 core grammar topics"),
-        t("3000+ từ vựng theo chương trình SGK lớp 10–12", "3000+ vocabulary from Grade 10–12 textbooks"),
-        t("Luyện đề theo cấu trúc thi thực tế (50 câu / 60 phút)", "Practice tests matching real exam format (50 questions / 60 minutes)"),
-        t("Phân tích đề thi các năm & dự đoán xu hướng ra đề", "Past exam analysis & question trend predictions"),
-        t("Chiến lược phân bổ thời gian & kỹ thuật loại trừ đáp án", "Time management strategies & answer elimination techniques"),
-      ],
-    },
-    {
       title: t("Luyện thi SAT", "SAT Preparation"),
       level: t("Trung cấp → Nâng cao", "Intermediate → Advanced"),
       desc: t(
@@ -201,7 +186,7 @@ const English = () => {
                     ))}
                   </ul>
                   <div className="flex gap-3">
-                    <Link to={`/english/${["ielts", "toeic", "conversational", "national-exam", "sat"][i]}`} className="inline-flex items-center gap-2 text-sm text-primary font-semibold hover:underline">
+                    <Link to={`/english/${["ielts", "toeic", "conversational", "sat"][i]}`} className="inline-flex items-center gap-2 text-sm text-primary font-semibold hover:underline">
                       {t("Xem chi tiết", "View details")} <ArrowRight className="w-4 h-4" />
                     </Link>
                   </div>
