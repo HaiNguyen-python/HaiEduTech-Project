@@ -324,7 +324,6 @@ const InlineTypeExample = ({ word, t }: { word: SatWord; t: (vi: string, en: str
             </div>
           )}
         </div>
-      )}
     </div>
   );
 };
