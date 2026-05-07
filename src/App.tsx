@@ -63,6 +63,7 @@ const IeltsSampleEssayDetail = lazy(() => import("./pages/IeltsSampleEssayDetail
 const SpeakingPractice = lazy(() => import("./pages/SpeakingPractice.tsx"));
 const IeltsVocabulary = lazy(() => import("./pages/IeltsVocabulary.tsx"));
 const SatVocabulary = lazy(() => import("./pages/SatVocabulary.tsx"));
+const SatExercises = lazy(() => import("./pages/SatExercises.tsx"));
 const VocabArena = lazy(() => import("./pages/VocabArena.tsx"));
 const NationalExamPrep = lazy(() => import("./pages/NationalExamPrep.tsx"));
 const NationalExamRoom = lazy(() => import("./pages/NationalExamRoom.tsx"));
