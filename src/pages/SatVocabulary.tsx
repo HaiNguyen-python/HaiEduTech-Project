@@ -400,7 +400,7 @@ const SatVocabulary = () => {
                   <AnimatePresence mode="popLayout">
                     {paginated.map(w => (
                       <motion.div key={w.word + w.category} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
-                        <Flashcard word={w} />
+                        <Flashcard word={w} isMastered={mastered.has(w.word)} onStar={handleStarClick} />
                       </motion.div>
                     ))}
                   </AnimatePresence>
