@@ -599,7 +599,14 @@ const IeltsVocabulary = () => {
                     {/* Header: Word + Illustration + Audio + Star */}
                     <div className="mb-2 min-w-0 flex items-start gap-3">
                       <div className="min-w-0 flex-1">
-                        <h3 className="break-words font-extrabold" style={{ fontSize: "1.5rem", color: "#111827", lineHeight: 1.35, overflowWrap: "break-word", wordBreak: "normal" }}>{w.word}</h3>
+                        <h3 className="break-words font-extrabold" style={{ fontSize: "1.5rem", color: "#111827", lineHeight: 1.35, overflowWrap: "break-word", wordBreak: "normal" }}>
+                          {w.word}
+                          {w.synonyms && w.synonyms.length > 0 && (
+                            <span className="ml-2 font-medium" style={{ fontSize: "0.95rem", color: "#059669" }}>
+                              = {w.synonyms.join(", ")}
+                            </span>
+                          )}
+                        </h3>
                         <p className="break-words font-mono" style={{ fontSize: "0.875rem", color: "#4b5563", overflowWrap: "break-word", wordBreak: "normal" }}>{w.ipa}</p>
                         <div className="mt-2 flex items-center gap-1">
                           <button onClick={() => speak(w.word)} className="rounded-lg p-1.5 transition-colors hover:bg-primary/10">
