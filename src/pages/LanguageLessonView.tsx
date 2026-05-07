@@ -19,6 +19,14 @@ import { FillInBlankExercise, SentenceReorderExercise, DictationExercise, QuizEx
 import { cn } from "@/lib/utils";
 import { getEnhancedGrammarTheory } from "@/lib/grammarTheoryEnhancer";
 import SatStarToggle from "@/components/sat/SatStarToggle";
+import { useSatStar } from "@/hooks/useSatStars";
+
+const SatLessonStarDot = ({ lessonKey }: { lessonKey: string }) => {
+  const { marked } = useSatStar(lessonKey);
+  if (!marked) return null;
+  return <Star className="w-3 h-3 ml-auto fill-amber-400 text-amber-500 shrink-0" />;
+};
+
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
