@@ -641,7 +641,14 @@ const IeltsVocabulary = () => {
                     <p className="mt-1 min-w-0 break-words font-bold whitespace-normal" style={{ fontSize: "1.1875rem", color: "#1d4ed8", lineHeight: 1.6, overflowWrap: "break-word", wordBreak: "normal" }}>{w.definition.vi}</p>
 
                     {/* Example sentence */}
-                    <p className="mt-3 min-w-0 break-words italic leading-relaxed whitespace-normal" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6, overflowWrap: "break-word", wordBreak: "normal" }}><span className="font-bold not-italic" style={{ color: "#1d4ed8" }}>E.g. </span>{w.example}</p>
+                    <p className="mt-3 min-w-0 break-words italic leading-relaxed whitespace-normal" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6, overflowWrap: "break-word", wordBreak: "normal" }}>
+                      <span className="font-bold not-italic" style={{ color: "#1d4ed8" }}>E.g. </span>
+                      {w.example.split(new RegExp(`(${w.word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "ig")).map((part, i) =>
+                        part.toLowerCase() === w.word.toLowerCase()
+                          ? <strong key={i} className="font-extrabold not-italic" style={{ color: "#111827" }}>{part}</strong>
+                          : <span key={i}>{part}</span>
+                      )}
+                    </p>
 
                     {/* Inline Type-the-example widget */}
                     <InlineTypeExample word={w} t={t} />
