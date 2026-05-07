@@ -272,15 +272,16 @@ const SatVocabulary = () => {
         (w.example || "").toLowerCase().includes(q)
       );
     }
+    if (sectionFilter !== "all") words = words.filter(w => w.section === sectionFilter);
     if (levelFilter !== "all") words = words.filter(w => w.level === levelFilter);
     if (categoryFilter !== "all") words = words.filter(w => w.category === categoryFilter);
     if (showMasteredOnly) words = words.filter(w => !mastered.has(w.word));
     return words;
-  }, [search, levelFilter, categoryFilter, showMasteredOnly, mastered]);
+  }, [search, sectionFilter, levelFilter, categoryFilter, showMasteredOnly, mastered]);
 
   const totalPages = Math.ceil(filtered.length / WORDS_PER_PAGE);
   const paginated = filtered.slice((page - 1) * WORDS_PER_PAGE, page * WORDS_PER_PAGE);
-  useEffect(() => setPage(1), [search, levelFilter, categoryFilter, showMasteredOnly]);
+  useEffect(() => setPage(1), [search, sectionFilter, levelFilter, categoryFilter, showMasteredOnly]);
 
   return (
     <div ref={pageContainerRef} className="min-h-screen bg-background">
