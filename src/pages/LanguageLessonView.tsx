@@ -301,7 +301,22 @@ const LanguageLessonView = () => {
                               )}
                             </div>
                             <p className="text-sm font-medium text-muted-foreground mb-2">{v.meaning}</p>
-                            <p className="text-xs text-secondary-foreground" dangerouslySetInnerHTML={boldAndSanitize(v.example)} />
+                            {v.example && (() => {
+                              // Bold occurrences of the vocab word (and simple inflections) in the example
+                              const escape = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+                              const base = (v.word || "").trim().split(/\s+/)[0];
+                              let highlighted = v.example;
+                              if (base && base.length > 1) {
+                                const re = new RegExp(`\\b(${escape(base)}[A-Za-zÀ-ỹ]*)\\b`, "gi");
+                                highlighted = highlighted.replace(re, "**$1**");
+                              }
+                              return (
+                                <p className="text-xs text-secondary-foreground">
+                                  <span className="font-semibold text-primary mr-1">E.g.</span>
+                                  <span dangerouslySetInnerHTML={boldAndSanitize(highlighted)} />
+                                </p>
+                              );
+                            })()}
                           </motion.div>
                         ))}
                       </div>
