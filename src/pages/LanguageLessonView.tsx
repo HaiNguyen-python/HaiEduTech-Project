@@ -233,20 +233,56 @@ const LanguageLessonView = () => {
                               /<figure[\s\S]*?<\/figure>/g,
                               (block) => block.replace(/^[ \t]+/gm, "")
                             );
-                            // For SAT lessons: auto-convert numbered "1) ..." / "1. ..." lines into bullet list
-                            // with icons so theory is easier to scan.
+                            // For SAT lessons: enrich plain theory with bullets + icons.
                             if (mod.category === "sat") {
-                              const ICONS = ["✅", "🎯", "💡", "🔑", "⚡", "📌", "🚀", "🧠", "⭐"];
+                              const ICONS = ["✅", "🎯", "💡", "🔑", "⚡", "📌", "🚀", "🧠", "⭐", "📝"];
+                              // 1) Numbered "1) ..." / "1. ..." lines → icon bullets
                               raw = raw
                                 .split(/\n/)
                                 .map((line) => {
                                   const m = /^\s*(\d+)[\)\.]\s+(.+)$/.exec(line);
                                   if (!m) return line;
                                   const n = parseInt(m[1], 10);
-                                  const icon = ICONS[(n - 1) % ICONS.length];
-                                  return `- ${icon} ${m[2]}`;
+                                  return `- ${ICONS[(n - 1) % ICONS.length]} ${m[2]}`;
                                 })
                                 .join("\n");
+                              // 2) Paragraphs with inline "•" or " · " separators → bullet list
+                              raw = raw
+                                .split(/\n{2,}/)
+                                .map((para) => {
+                                  if (/<(figure|svg|table|ul|ol|pre|div)/i.test(para)) return para;
+                                  // Handle "Intro: A • B • C" or "A · B · C · D"
+                                  const splitChar = para.includes("•") ? "•" : (/\s·\s/.test(para) ? "·" : null);
+                                  if (!splitChar) return para;
+                                  const parts = para.split(new RegExp(`\\s*\\${splitChar}\\s*`)).map((s) => s.trim()).filter(Boolean);
+                                  if (parts.length < 2) return para;
+                                  // First part may contain a "label:" intro
+                                  let intro = "";
+                                  let items = parts;
+                                  const colonIdx = parts[0].lastIndexOf(":");
+                                  if (colonIdx > 0 && colonIdx < parts[0].length - 1) {
+                                    intro = parts[0].slice(0, colonIdx + 1).trim() + "\n\n";
+                                    items = [parts[0].slice(colonIdx + 1).trim(), ...parts.slice(1)];
+                                  } else if (colonIdx === parts[0].length - 1) {
+                                    intro = parts[0] + "\n\n";
+                                    items = parts.slice(1);
+                                  }
+                                  return intro + items.map((p, i) => `- ${ICONS[i % ICONS.length]} ${p.replace(/[.,;]+$/, "")}`).join("\n");
+                                })
+                                .join("\n\n");
+                              // 3) Standalone short lines (single sentence paragraphs) → add a leading icon
+                              raw = raw
+                                .split(/\n{2,}/)
+                                .map((para, i) => {
+                                  const trimmed = para.trim();
+                                  if (!trimmed) return para;
+                                  if (/^[-*#>`]|<|^\s*\d+\./.test(trimmed)) return para;
+                                  if (trimmed.length > 220) return para;
+                                  // skip if already starts with emoji
+                                  if (/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2700}-\u{27BF}✅🎯💡🔑⚡📌🚀🧠⭐📝]/u.test(trimmed)) return para;
+                                  return `${ICONS[i % ICONS.length]} ${trimmed}`;
+                                })
+                                .join("\n\n");
                             }
                             return raw
                               .split(/\n{2,}/)
