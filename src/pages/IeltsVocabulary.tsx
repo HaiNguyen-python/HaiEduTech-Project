@@ -603,7 +603,7 @@ const IeltsVocabulary = () => {
                           <span style={{ color: "#059669" }}>{w.word}</span>
                           {w.synonyms && w.synonyms.length > 0 && (
                             <span className="ml-2 italic font-medium" style={{ fontSize: "0.95rem", color: "#111827" }}>
-                              = {w.synonyms.join(", ")}
+                              = {w.synonyms.slice(0, 2).join(", ")}
                             </span>
                           )}
                         </h3>
