@@ -40,7 +40,7 @@ const VocabArena = () => {
     setPhase("solo-playing");
   }, [soloLevel, soloCategory, soloCount]);
 
-  const handleSoloEnd = (gameResult: GameResult) => {
+  const handleSoloEnd = async (gameResult: GameResult) => {
     setResult(gameResult);
     setPhase("solo-results");
 
@@ -55,6 +55,25 @@ const VocabArena = () => {
       localStorage.setItem("ielts_mastered", JSON.stringify([...mastered]));
     } catch {
       // Silently fail
+    }
+
+    // Save score to leaderboard
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const accuracy = gameResult.total > 0 ? gameResult.correct / gameResult.total : 0;
+        const totalSec = Math.round(gameResult.wordResults.reduce((s, w) => s + w.timeMs, 0) / 1000);
+        await (supabase as any).from("game_scores").insert({
+          user_id: user.id,
+          game_type: "vocab-arena-solo",
+          score: gameResult.score,
+          max_streak: gameResult.maxStreak,
+          accuracy,
+          time_spent_seconds: totalSec,
+        });
+      }
+    } catch (e) {
+      console.error("Failed to save score:", e);
     }
   };
 
