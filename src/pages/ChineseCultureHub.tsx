@@ -96,6 +96,22 @@ const culturalThemes: Theme[] = [
         bodyVi: "10 cách nói 'không' mà không thật sự nói 'không': 不太方便 (không tiện lắm), 再说吧 (bàn sau), 让我想想 (để tôi suy nghĩ), 看情况 (tùy tình hình), 有点难 (hơi khó), 改天吧 (hôm khác), 我尽量 (tôi cố gắng - thường = không), 应该可以 (chắc có thể), 不一定 (chưa chắc), 我问一下 (để tôi hỏi). Khi nghe những câu này từ người Trung, hiểu là họ đang lịch sự từ chối.",
         bodyEn: "10 ways to say 'no' without actually saying it: 不太方便 (not very convenient), 再说吧 (talk later), 让我想想 (let me think), 看情况 (depends), 有点难 (a bit hard), 改天吧 (another day), 我尽量 (I'll try - usually = no), 应该可以 (probably can), 不一定 (not certain), 我问一下 (let me ask). When you hear these from Chinese people, understand they are politely refusing.",
       },
+      {
+        titleVi: "Hệ thống Xưng hô trong Gia đình & Công việc",
+        titleEn: "Address System: Family & Workplace",
+        zh: "称呼系统",
+        pinyin: "chēnghu xìtǒng",
+        bodyVi: "Người Trung CỰC KỲ chú trọng xưng hô đúng vai vế. Trong gia đình: 爷爷/奶奶 (ông bà nội), 外公/外婆 (ông bà ngoại), 叔叔 (chú - em trai bố), 伯伯 (bác trai - anh trai bố), 姑姑 (cô - chị/em gái bố), 舅舅 (cậu - anh/em trai mẹ), 阿姨 (dì - chị/em gái mẹ). Trong công việc: gọi 姓 + chức danh = lịch sự nhất, ví dụ 王经理 (Vương giám đốc), 李老师 (Lý giáo viên), 张总 (Trương tổng - viết tắt 总经理). Người lớn tuổi không thân: 大哥/大姐 (anh/chị lớn), 师傅 (sư phụ - dùng cho tài xế, thợ). TRÁNH gọi tên trống không với người mới quen hoặc cấp trên - bị coi là thô lỗ.",
+        bodyEn: "Chinese people care DEEPLY about correct address by hierarchy. Family: 爷爷/奶奶 (paternal grandparents), 外公/外婆 (maternal), 叔叔 (father's younger brother), 伯伯 (father's older brother), 姑姑 (father's sister), 舅舅 (mother's brother), 阿姨 (mother's sister). Workplace: surname + title is most polite, e.g. 王经理 (Manager Wang), 李老师 (Teacher Li), 张总 (Director Zhang). Older strangers: 大哥/大姐 (big brother/sister), 师傅 (master - for drivers, craftsmen). NEVER use bare first name with new acquaintances or superiors - considered rude.",
+      },
+      {
+        titleVi: "Văn hóa khen ngợi & nhận lời khen",
+        titleEn: "Praising & Receiving Praise",
+        zh: "谦虚文化",
+        pinyin: "qiānxū wénhuà",
+        bodyVi: "Người Trung theo văn hóa khiêm tốn (谦虚) - khi được khen, KHÔNG nói 'cảm ơn' mà phải hạ thấp bản thân: '哪里哪里' (đâu có đâu có), '过奖了' (quá khen rồi), '马马虎虎' (cũng tàm tạm thôi), '还差得远' (còn xa lắm). Nếu bạn nói 'thank you' khi được khen tiếng Trung, sẽ bị coi là kiêu ngạo. Khi khen người khác: khen cụ thể (không khen chung chung), khen công việc/con cái/sự nghiệp (không khen ngoại hình phụ nữ với người mới quen). Mẹo: thay vì khen trực tiếp, hãy khen qua bên thứ 3 - lời khen đến tai sẽ ngọt gấp đôi.",
+        bodyEn: "Chinese culture values modesty (谦虚) - when praised, DON'T say 'thank you'; instead deflect: '哪里哪里' (not at all), '过奖了' (over-praised), '马马虎虎' (just so-so), '还差得远' (still far from it). Saying 'thank you' to a Chinese compliment can seem arrogant. When praising: be specific (not generic), praise work/children/career (avoid praising women's looks with new acquaintances). Tip: instead of direct praise, compliment via a third party - praise reaching ears tastes twice as sweet.",
+      },
     ],
   },
   {
