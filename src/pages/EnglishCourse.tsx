@@ -221,12 +221,7 @@ const courseData: Record<string, {
     image: ieltsImg,
     heroDesc: "Chương trình luyện thi SAT toàn diện giúp học sinh Việt Nam đạt điểm cao trong kỳ thi SAT Digital. Tập trung vào Reading & Writing, từ vựng nâng cao và chiến lược làm bài thông minh - mở cổng vào các trường đại học hàng đầu tại Mỹ.",
     heroDescEn: "Comprehensive SAT preparation helping Vietnamese students achieve high scores on the Digital SAT. Focused on Reading & Writing, advanced vocabulary, and smart test strategies - your gateway to top US universities.",
-    stats: [
-      { label: "Từ vựng nâng cao", labelEn: "Advanced vocabulary", value: "500+" },
-      { label: "Bài học tương tác", labelEn: "Interactive lessons", value: "10+" },
-      { label: "Dạng bài SAT", labelEn: "SAT question types", value: "7+" },
-      { label: "Thời lượng", labelEn: "Duration", value: "Linh hoạt" },
-    ],
+    stats: [],
     features: [
       { vi: "Evidence-Based Reading: chiến lược đọc hiểu dựa trên bằng chứng văn bản", en: "Evidence-Based Reading: text-based comprehension strategies" },
       { vi: "Words in Context: từ đa nghĩa, sắc thái ngữ nghĩa trong ngữ cảnh thực", en: "Words in Context: polysemy and semantic nuance in real contexts" },
