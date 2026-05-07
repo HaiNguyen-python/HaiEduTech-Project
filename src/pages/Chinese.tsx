@@ -36,21 +36,6 @@ const Chinese = () => {
       ],
     },
     {
-      title: t("Luyện thi HSK", "HSK Preparation"),
-      level: "HSK 1–6",
-      desc: t(
-        "Chương trình ôn luyện bài bản cho kỳ thi năng lực Hán ngữ quốc tế HSK. Mỗi cấp độ được thiết kế với lộ trình rõ ràng, kho đề thi phong phú và phương pháp học từ vựng khoa học.",
-        "Systematic preparation for the international Chinese proficiency HSK exam. Each level features a clear roadmap, extensive test banks, and scientific vocabulary learning methods."
-      ),
-      features: [
-        t("Từ vựng & ngữ pháp phân loại theo HSK 1–6 (150 → 5000+ từ)", "Vocabulary & grammar classified by HSK 1–6 (150 → 5000+ words)"),
-        t("Luyện đọc hiểu với bài đọc theo chủ đề & cấp độ", "Reading comprehension with topic & level-graded passages"),
-        t("Luyện nghe với tốc độ nói tự nhiên của người bản xứ", "Listening practice at native speaker natural speed"),
-        t("Thi thử mô phỏng đề HSK thực tế + chấm điểm & phân tích", "Mock tests simulating real HSK format + scoring & analysis"),
-        t("Mẹo ghi nhớ chữ Hán: flashcard, spaced repetition, liên tưởng", "Character memorization tips: flashcards, spaced repetition, mnemonics"),
-      ],
-    },
-    {
       title: t("Tiếng Trung Giao tiếp", "Conversational Chinese"),
       level: t("Tất cả trình độ", "All Levels"),
       desc: t(
