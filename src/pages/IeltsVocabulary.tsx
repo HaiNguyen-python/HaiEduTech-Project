@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle, Link, Copy } from "lucide-react";
+import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle, Link, Copy, Keyboard } from "lucide-react";
 import VocabIllustration from "@/components/VocabIllustration";
 import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 import { useLanguage } from "@/contexts/LanguageContext";
