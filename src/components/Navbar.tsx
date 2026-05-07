@@ -124,8 +124,7 @@ const Navbar = () => {
     { to: "#ielts-group", label: t("🎯 IELTS Program", "🎯 IELTS Program"), groupLabel: "ielts", children: ieltsChildren },
     // Other international exams (TOEIC / PTE / SAT)
     { to: "#en-exams-group", label: t("🌐 Luyện thi Quốc tế khác", "🌐 Other International Exams"), groupLabel: "en-exams", children: [
-      { to: "/toeic-lectures", label: t("Bài giảng TOEIC", "TOEIC Lectures"), icon: BookOpen },
-      { to: "/toeic-vocabulary", label: t("Từ vựng TOEIC", "TOEIC Vocabulary"), icon: Library },
+      { to: "/toeic", label: "TOEIC", icon: BookOpen },
       { to: "#en-exams-div", label: "", divider: true },
       { to: "/pte", label: "PTE Academic", icon: Target },
       { to: "/english/sat", label: "SAT", icon: PenTool },
