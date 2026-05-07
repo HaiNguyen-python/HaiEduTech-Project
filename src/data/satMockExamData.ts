@@ -178,7 +178,9 @@ const reIndex = (qs: SatMockQuestion[], offset: number): SatMockQuestion[] =>
 // ─────────────────────────────────────────────────────────────
 // Exams
 // ─────────────────────────────────────────────────────────────
-export const satMockExams: SatMockExam[] = [
+import { satMockExamExpansion } from "./satMockExamExpansion";
+
+const baseSatMockExams: SatMockExam[] = [
   {
     id: "sat-rw-practice-1",
     title: "SAT Reading & Writing — Module Practice 1",
