@@ -167,20 +167,20 @@ const MountainClimber = ({ mastered, total, flyingStars, onStarLanded, container
           <motion.img
             src={climberImg}
             alt="Climber"
-            className="select-none drop-shadow-[0_4px_12px_rgba(0,0,0,0.45)]"
-            style={{ width: "96px", height: "96px", objectFit: "contain" }}
+            className="select-none drop-shadow-lg"
+            style={{ width: "64px", height: "64px", objectFit: "contain" }}
             animate={{ y: [0, -4, 0] }}
             transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
             draggable={false}
           />
           {/* Progress counter badge */}
           <motion.div
-            className="mt-1 rounded-full px-3.5 py-1.5 text-sm font-extrabold whitespace-nowrap"
+            className="mt-1 rounded-full px-3 py-1 text-xs font-extrabold whitespace-nowrap"
             style={{
               backgroundColor: "#1d4ed8",
               color: "#fff",
-              boxShadow: "0 4px 14px rgba(29,78,216,0.6)",
-              border: "2px solid rgba(255,255,255,0.6)",
+              boxShadow: "0 3px 12px rgba(29,78,216,0.5)",
+              border: "2px solid rgba(255,255,255,0.4)",
             }}
             key={mastered}
             initial={{ scale: 1.3 }}
