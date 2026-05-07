@@ -599,10 +599,10 @@ const IeltsVocabulary = () => {
                     {/* Header: Word + Illustration + Audio + Star */}
                     <div className="mb-2 min-w-0 flex items-start gap-3">
                       <div className="min-w-0 flex-1">
-                        <h3 className="break-words font-extrabold" style={{ fontSize: "1.5rem", color: "#111827", lineHeight: 1.35, overflowWrap: "break-word", wordBreak: "normal" }}>
-                          {w.word}
+                        <h3 className="break-words font-extrabold" style={{ fontSize: "1.5rem", lineHeight: 1.35, overflowWrap: "break-word", wordBreak: "normal" }}>
+                          <span style={{ color: "#059669" }}>{w.word}</span>
                           {w.synonyms && w.synonyms.length > 0 && (
-                            <span className="ml-2 font-medium" style={{ fontSize: "0.95rem", color: "#059669" }}>
+                            <span className="ml-2 italic font-medium" style={{ fontSize: "0.95rem", color: "#111827" }}>
                               = {w.synonyms.join(", ")}
                             </span>
                           )}
