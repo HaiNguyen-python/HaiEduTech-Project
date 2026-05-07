@@ -536,9 +536,7 @@ const ChineseCultureHub = () => {
                                   {lesson.pinyin && <span className="text-muted-foreground italic ml-2">({lesson.pinyin})</span>}
                                 </div>
                               )}
-                              <p className="text-[15px] text-foreground/85 leading-[1.95] whitespace-pre-wrap [word-spacing:0.06em]">
-                                {t(lesson.bodyVi, lesson.bodyEn)}
-                              </p>
+                              <FormattedBody text={t(lesson.bodyVi, lesson.bodyEn)} />
                             </AccordionContent>
                           </AccordionItem>
                         ))}
