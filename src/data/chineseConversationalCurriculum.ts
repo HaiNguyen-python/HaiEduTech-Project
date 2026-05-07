@@ -3168,15 +3168,16 @@ export const getChinesePillarByLessonId = (id: string): ChineseConvPillar | null
 // Merge expansion lessons (English-only for international learners)
 import { dailyLifeExpansion, businessExpansion, socialExpansion } from "./chineseConvExpansionLessons";
 import { hsk1Expansion, hsk2Expansion } from "./chineseHskExpansion";
+import { hsk1DailyLifeExtra, hsk1BusinessExtra, hsk1SocialExtra } from "./chineseHsk1Expansion2";
 
 const _dailyPillar = chineseConversationalPillars.find(p => p.id === "daily-life");
-if (_dailyPillar) _dailyPillar.lessons.push(...dailyLifeExpansion, ...hsk1Expansion, ...hsk2Expansion);
+if (_dailyPillar) _dailyPillar.lessons.push(...dailyLifeExpansion, ...hsk1Expansion, ...hsk2Expansion, ...hsk1DailyLifeExtra);
 
 const _businessPillar = chineseConversationalPillars.find(p => p.id === "business");
-if (_businessPillar) _businessPillar.lessons.push(...businessExpansion);
+if (_businessPillar) _businessPillar.lessons.push(...businessExpansion, ...hsk1BusinessExtra);
 
 const _socialPillar = chineseConversationalPillars.find(p => p.id === "social");
-if (_socialPillar) _socialPillar.lessons.push(...socialExpansion);
+if (_socialPillar) _socialPillar.lessons.push(...socialExpansion, ...hsk1SocialExtra);
 
 export const allChineseConvLessons: ChineseConvLesson[] =
   chineseConversationalPillars.flatMap(p => p.lessons);
