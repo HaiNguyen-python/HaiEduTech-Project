@@ -72,6 +72,7 @@ const LanguageLessonView = () => {
   const parentPath = mod.language === "chinese" ? "/chinese" : "/english";
   const parentLabel = mod.language === "chinese" ? t("Tiếng Trung", "Chinese") : t("Tiếng Anh", "English");
   const isEnglishGrammarLesson = mod.category === "grammar" && mod.language === "english";
+  const isSatLesson = mod.category === "sat";
   const tr = (vi: string, en: string) => (isEnglishGrammarLesson ? en : t(vi, en));
   const lessonTheory = isEnglishGrammarLesson
     ? getEnhancedGrammarTheory(lesson, mod).replace(/^\s*#\s+[^\n]+\n+/, "")
