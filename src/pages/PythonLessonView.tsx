@@ -29,6 +29,22 @@ import LessonQuiz from "@/components/python/LessonQuiz";
 import { setLessonComplete, getPythonPathwayProgress } from "@/components/python/PythonPathwayHub";
 import { cn } from "@/lib/utils";
 
+import imgM1 from "@/assets/python-modules/m1-basics.jpg";
+import imgM2 from "@/assets/python-modules/m2-flow.jpg";
+import imgM3 from "@/assets/python-modules/m3-data.jpg";
+import imgM4 from "@/assets/python-modules/m4-functions.jpg";
+import imgM5 from "@/assets/python-modules/m5-oop.jpg";
+import imgM6 from "@/assets/python-modules/m6-mastery.jpg";
+
+const moduleHeroImages: Record<string, string> = {
+  "m1-basics": imgM1,
+  "m2-flow": imgM2,
+  "m3-data": imgM3,
+  "m4-functions": imgM4,
+  "m5-oop": imgM5,
+  "m6-mastery": imgM6,
+};
+
 const levelStyles: Record<string, string> = {
   Beginner: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/30",
   Intermediate: "bg-sky-500/10 text-sky-700 dark:text-sky-400 border-sky-500/30",
