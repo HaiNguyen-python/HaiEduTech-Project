@@ -475,9 +475,7 @@ const SatVocabulary = () => {
 
               <p className="text-xs text-muted-foreground mb-4">{filtered.length} {t("kết quả", "results")}</p>
 
-              {viewMode === "sentence" ? (
-                <SentencePractice words={satVocabData.filter(w => mastered.has(w.word))} t={t} />
-              ) : viewMode === "exercise" ? (
+              {viewMode === "exercise" ? (
                 <VocabExercise words={satVocabData.filter(w => mastered.has(w.word))} allWords={satVocabData} t={t} />
               ) : viewMode === "flashcard" ? (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
