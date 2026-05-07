@@ -233,30 +233,30 @@ const LanguageLessonView = () => {
                               /<figure[\s\S]*?<\/figure>/g,
                               (block) => block.replace(/^[ \t]+/gm, "")
                             );
-                            // For SAT lessons: enrich plain theory with bullets + icons.
+                            // For SAT lessons: structure plain theory into bullets for readability.
+                            // Keep icons minimal — only on numbered "rules/steps" lists.
                             if (mod.category === "sat") {
-                              const ICONS = ["✅", "🎯", "💡", "🔑", "⚡", "📌", "🚀", "🧠", "⭐", "📝"];
-                              // 1) Numbered "1) ..." / "1. ..." lines → icon bullets
+                              const NUM_ICONS = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣"];
+                              // 1) Numbered "1) ..." / "1. ..." → bullet with number-emoji icon
                               raw = raw
                                 .split(/\n/)
                                 .map((line) => {
                                   const m = /^\s*(\d+)[\)\.]\s+(.+)$/.exec(line);
                                   if (!m) return line;
                                   const n = parseInt(m[1], 10);
-                                  return `- ${ICONS[(n - 1) % ICONS.length]} ${m[2]}`;
+                                  const icon = NUM_ICONS[(n - 1) % NUM_ICONS.length];
+                                  return `- ${icon} ${m[2]}`;
                                 })
                                 .join("\n");
-                              // 2) Paragraphs with inline "•" or " · " separators → bullet list
+                              // 2) Inline "•" or " · " separators → plain bullets (no per-item icon)
                               raw = raw
                                 .split(/\n{2,}/)
                                 .map((para) => {
                                   if (/<(figure|svg|table|ul|ol|pre|div)/i.test(para)) return para;
-                                  // Handle "Intro: A • B • C" or "A · B · C · D"
                                   const splitChar = para.includes("•") ? "•" : (/\s·\s/.test(para) ? "·" : null);
                                   if (!splitChar) return para;
                                   const parts = para.split(new RegExp(`\\s*\\${splitChar}\\s*`)).map((s) => s.trim()).filter(Boolean);
                                   if (parts.length < 2) return para;
-                                  // First part may contain a "label:" intro
                                   let intro = "";
                                   let items = parts;
                                   const colonIdx = parts[0].lastIndexOf(":");
@@ -267,20 +267,7 @@ const LanguageLessonView = () => {
                                     intro = parts[0] + "\n\n";
                                     items = parts.slice(1);
                                   }
-                                  return intro + items.map((p, i) => `- ${ICONS[i % ICONS.length]} ${p.replace(/[.,;]+$/, "")}`).join("\n");
-                                })
-                                .join("\n\n");
-                              // 3) Standalone short lines (single sentence paragraphs) → add a leading icon
-                              raw = raw
-                                .split(/\n{2,}/)
-                                .map((para, i) => {
-                                  const trimmed = para.trim();
-                                  if (!trimmed) return para;
-                                  if (/^[-*#>`]|<|^\s*\d+\./.test(trimmed)) return para;
-                                  if (trimmed.length > 220) return para;
-                                  // skip if already starts with emoji
-                                  if (/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2700}-\u{27BF}✅🎯💡🔑⚡📌🚀🧠⭐📝]/u.test(trimmed)) return para;
-                                  return `${ICONS[i % ICONS.length]} ${trimmed}`;
+                                  return intro + items.map((p) => `- ${p.replace(/[.,;]+$/, "")}`).join("\n");
                                 })
                                 .join("\n\n");
                             }
