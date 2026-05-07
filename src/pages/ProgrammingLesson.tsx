@@ -27,6 +27,25 @@ import CodeBlock from "@/components/CodeBlock";
 import TheorySections from "@/components/TheorySections";
 import GitBranchingSimulator from "@/components/se/GitBranchingSimulator";
 import { trackLessonCompletion, LEAD_ENGINEER_BADGE } from "@/lib/badgeAwards";
+import imgScratch from "@/assets/programming-modules/m-scratch.jpg";
+import imgPyBasic from "@/assets/programming-modules/m-python-basic.jpg";
+import imgDS from "@/assets/programming-modules/m-data-structures.jpg";
+import imgPygame from "@/assets/programming-modules/m-pygame.jpg";
+import imgSQL from "@/assets/programming-modules/m-sql.jpg";
+import imgPipeline from "@/assets/programming-modules/m-data-pipeline.jpg";
+import imgML from "@/assets/programming-modules/m-ml.jpg";
+import imgAI from "@/assets/programming-modules/m-ai-foundation.jpg";
+
+const MODULE_HERO_IMAGES: Record<string, string> = {
+  "prog-scratch": imgScratch,
+  "prog-python-basic": imgPyBasic,
+  "prog-data-structures": imgDS,
+  "prog-pygame": imgPygame,
+  "prog-sql": imgSQL,
+  "prog-data-pipeline": imgPipeline,
+  "prog-ml": imgML,
+  "prog-ai-foundation": imgAI,
+};
 
 // IDs of every lesson inside the Software Engineering module - used to auto-award
 // the "Lead Engineer" badge once a learner completes the full set.
