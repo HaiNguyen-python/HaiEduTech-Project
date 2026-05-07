@@ -36,7 +36,7 @@ const speakChinese = (text: string) => {
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
     u.lang = "zh-CN";
-    u.rate = 0.8;
+    u.rate = 0.6;
     window.speechSynthesis.speak(u);
   }
 };
