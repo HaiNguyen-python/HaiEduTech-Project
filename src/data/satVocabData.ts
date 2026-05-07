@@ -22,7 +22,9 @@ export const SAT_CATEGORIES_BY_SECTION: Record<string, string[]> = {
 
 export const SAT_CATEGORIES = ["Evidence-Based Reading","Command of Evidence","Words in Context","Standard English Conventions","High-Frequency SAT Words – Set 1","High-Frequency SAT Words – Set 2","Roots, Prefixes & Suffixes","Expression of Ideas","Rhetorical Synthesis","Transitions & Flow","Heart of Algebra","Problem Solving & Data Analysis","Passport to Advanced Math","Geometry & Trigonometry"] as const;
 
-export const satVocabData: SatWord[] = [
+import { satVocabExpansion } from './satVocabExpansionLarge';
+
+const satVocabBase: SatWord[] = [
   {
     "word": "evidence",
     "ipa": "/ˈɛvədəns/",
@@ -2091,3 +2093,14 @@ export const satVocabData: SatWord[] = [
     "section": "Math"
   }
 ];
+
+// Merge base + expansion, deduped by lowercased word (base wins)
+const _seen = new Set<string>();
+export const satVocabData: SatWord[] = [];
+for (const w of [...satVocabBase, ...satVocabExpansion]) {
+  const k = w.word.toLowerCase();
+  if (_seen.has(k)) continue;
+  _seen.add(k);
+  satVocabData.push(w);
+}
+
