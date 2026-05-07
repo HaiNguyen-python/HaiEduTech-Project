@@ -19,6 +19,51 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 
+// Hiển thị nội dung bài học có cấu trúc: tự tách danh sách (1)(2)... và xuống dòng giữa các câu
+const FormattedBody = ({ text }: { text: string }) => {
+  if (!text) return null;
+  // Detect numbered list markers like (1), (2)...
+  const hasNumbered = /\(1\)\s/.test(text) && /\(2\)\s/.test(text);
+
+  if (hasNumbered) {
+    // Split into intro + items
+    const firstIdx = text.indexOf("(1)");
+    const intro = text.slice(0, firstIdx).trim();
+    const rest = text.slice(firstIdx);
+    const parts = rest.split(/(?=\(\d+\)\s)/g).map((s) => s.trim()).filter(Boolean);
+    return (
+      <div className="space-y-3 text-[15px] text-foreground/85 leading-[1.85] [word-spacing:0.06em]">
+        {intro && <p>{intro}</p>}
+        <ul className="space-y-2.5 pl-1">
+          {parts.map((p, i) => {
+            const m = p.match(/^\((\d+)\)\s*(.*)$/s);
+            return (
+              <li key={i} className="flex gap-2.5">
+                <span className="font-semibold text-red-500 shrink-0">{m ? `${m[1]}.` : "•"}</span>
+                <span className="flex-1">{m ? m[2] : p}</span>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    );
+  }
+
+  // Otherwise: split into sentence paragraphs (group every 2 sentences)
+  const sentences = text.match(/[^.!?]+[.!?]+(?:\s|$)/g) || [text];
+  const groups: string[] = [];
+  for (let i = 0; i < sentences.length; i += 2) {
+    groups.push(sentences.slice(i, i + 2).join("").trim());
+  }
+  return (
+    <div className="space-y-3 text-[15px] text-foreground/85 leading-[1.85] [word-spacing:0.06em]">
+      {groups.map((g, i) => (
+        <p key={i}>{g}</p>
+      ))}
+    </div>
+  );
+};
+
 // 6 hình minh họa văn hóa
 import imgMianzi from "@/assets/cn-culture/mianzi-guanxi.jpg";
 import imgFestivals from "@/assets/cn-culture/festivals.jpg";
