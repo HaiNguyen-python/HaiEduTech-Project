@@ -536,6 +536,7 @@ const SatVocabulary = () => {
                       {w.example && (
                         <p className="mt-3 min-w-0 break-words italic leading-relaxed whitespace-normal" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6 }}>{renderExample(w.example, w.word)}</p>
                       )}
+                      <InlineTypeExample word={w} t={t} />
                     </motion.div>
                   ))}
                 </div>
