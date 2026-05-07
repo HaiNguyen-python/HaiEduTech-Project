@@ -45,6 +45,7 @@ const SatExercises = () => {
     () => allEnglishModules.filter((m) => m.category === "sat"),
     []
   );
+  const studiedCount = useSatStarsCount("sat:");
 
   const grouped = useMemo(() => {
     const math: { module: LanguageModule; lessons: LanguageModule["lessons"] }[] = [];
