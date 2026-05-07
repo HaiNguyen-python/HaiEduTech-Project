@@ -211,6 +211,18 @@ const PythonLessonView = () => {
                   <Sparkles className="w-4 h-4 text-blue-600" />
                   📘 {language === "vi" ? "Hiểu khái niệm" : "Understand the concept"}
                 </h2>
+                {moduleHeroImages[lesson.moduleId] && (
+                  <div className="mb-4 overflow-hidden rounded-xl border border-blue-500/20 bg-white shadow-sm">
+                    <img
+                      src={moduleHeroImages[lesson.moduleId]}
+                      alt={module?.titleEn || "Python module illustration"}
+                      loading="lazy"
+                      width={1024}
+                      height={512}
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                )}
                 <div className="prose prose-sm sm:prose-base max-w-none dark:prose-invert leading-relaxed [&>*]:my-4 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 [&>p]:my-4 [&>ol]:my-4 [&>ul]:my-4 [&>pre]:my-4 [&>table]:my-4 [&_strong]:text-foreground [&_strong]:font-bold [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:bg-blue-500/10 [&_code]:text-blue-700 dark:[&_code]:text-blue-300 [&_code]:before:content-none [&_code]:after:content-none [&_pre_code]:bg-transparent [&_pre_code]:text-inherit [&_pre]:rounded-lg [&_th]:bg-blue-500/10 [&_th]:px-3 [&_th]:py-2 [&_td]:px-3 [&_td]:py-2 [&_li]:my-1 [&_ol]:list-decimal [&_ol]:pl-6 [&_ul]:list-disc [&_ul]:pl-6">
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>
                     {language === "vi" ? lesson.concept : lesson.conceptEn}
