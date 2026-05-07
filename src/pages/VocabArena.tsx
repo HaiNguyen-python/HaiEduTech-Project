@@ -360,6 +360,21 @@ const VocabArena = () => {
     );
   }
 
+  // MINI GAMES
+  if (phase === "mini-games") {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="pt-6 pb-16">
+          <div className="container mx-auto px-4">
+            <MiniGames onBack={() => setPhase("menu")} />
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
   return null;
 };
 
