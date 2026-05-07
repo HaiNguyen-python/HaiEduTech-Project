@@ -20,6 +20,7 @@ import { cn } from "@/lib/utils";
 import { getEnhancedGrammarTheory } from "@/lib/grammarTheoryEnhancer";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
+import remarkGfm from "remark-gfm";
 
 // Difficulty badge colors
 const difficultyConfig = {
