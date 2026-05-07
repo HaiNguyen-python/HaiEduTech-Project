@@ -412,20 +412,52 @@ const ChineseCultureHub = () => {
                       </h3>
                     </div>
 
-                    <div className="p-5">
-                      <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                    <div className="p-6">
+                      <p className="text-base text-muted-foreground mb-5 leading-[1.85]">
                         {t(theme.descVi, theme.descEn)}
                       </p>
 
                       {/* Quick tips */}
-                      <div className="space-y-1.5 pb-4 mb-4 border-b">
+                      <div className="space-y-3 pb-5 mb-5 border-b">
                         {theme.tips.map((tip, j) => (
-                          <div key={j} className="flex items-start gap-2 text-xs">
-                            <span className="text-red-500 mt-0.5">•</span>
-                            <span className="text-foreground/80">{t(tip.vi, tip.en)}</span>
+                          <div key={j} className="flex items-start gap-3 text-sm leading-[1.7]">
+                            <span className="text-red-500 mt-1 text-base leading-none">•</span>
+                            <span className="text-foreground/90">{t(tip.vi, tip.en)}</span>
                           </div>
                         ))}
                       </div>
+
+                      {/* Deep-dive lessons accordion */}
+                      <div className="flex items-center gap-2 mb-3">
+                        <GraduationCap className="h-4 w-4 text-red-500" />
+                        <span className="text-sm font-semibold">
+                          {theme.lessons.length} {t("bài học chuyên sâu", "deep-dive lessons")}
+                        </span>
+                      </div>
+                      <Accordion type="single" collapsible className="w-full">
+                        {theme.lessons.map((lesson, k) => (
+                          <AccordionItem key={k} value={`item-${i}-${k}`} className="border-b-0 border-t">
+                            <AccordionTrigger className="text-base font-semibold hover:no-underline py-4 text-left">
+                              <div className="flex items-start gap-2 pr-2">
+                                <span className="text-sm text-red-500 mt-0.5 font-bold">{k + 1}.</span>
+                                <span className="flex-1 leading-snug">{t(lesson.titleVi, lesson.titleEn)}</span>
+                              </div>
+                            </AccordionTrigger>
+                            <AccordionContent className="pb-5 pt-1">
+                              {lesson.zh && (
+                                <div className="mb-3 text-base">
+                                  <span className="font-bold text-red-600">{lesson.zh}</span>
+                                  {lesson.pinyin && <span className="text-muted-foreground italic ml-2">({lesson.pinyin})</span>}
+                                </div>
+                              )}
+                              <p className="text-[15px] text-foreground/85 leading-[1.95] whitespace-pre-wrap [word-spacing:0.06em]">
+                                {t(lesson.bodyVi, lesson.bodyEn)}
+                              </p>
+                            </AccordionContent>
+                          </AccordionItem>
+                        ))}
+                      </Accordion>
+                    </div>
 
                       {/* Deep-dive lessons accordion */}
                       <div className="flex items-center gap-2 mb-2">
