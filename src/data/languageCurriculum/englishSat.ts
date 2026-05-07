@@ -388,28 +388,28 @@ SAT KHÔNG kiểm tra từ vựng đơn lẻ - mà kiểm tra **nghĩa của t�
 <figure>
 <svg viewBox="0 0 600 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Quy trình Words in Context">
   <rect width="600" height="220" fill="hsl(280 70% 60% / 0.05)" rx="12"/>
-  <g font-family="ui-sans-serif, system-ui" font-size="13">
+  <g font-family="ui-sans-serif, system-ui" font-size="15">
     <rect x="30" y="30" width="160" height="160" rx="14" fill="white" stroke="hsl(280 70% 60%)" stroke-width="2"/>
-    <text x="110" y="60" text-anchor="middle" font-weight="700" fill="hsl(280 70% 40%)">📖 Cover the word</text>
-    <text x="110" y="90" text-anchor="middle" fill="hsl(220 9% 30%)" font-size="11">Che từ gốc</text>
-    <text x="110" y="120" text-anchor="middle" fill="hsl(220 9% 30%)" font-size="11">đoạn 1-2 câu</text>
-    <text x="110" y="150" text-anchor="middle" fill="hsl(220 9% 30%)" font-size="11">trước & sau</text>
+    <text x="110" y="62" text-anchor="middle" font-weight="700" font-size="16" fill="hsl(280 70% 35%)">📖 Che từ</text>
+    <text x="110" y="105" text-anchor="middle" font-weight="600" fill="hsl(220 15% 20%)">Che từ gốc,</text>
+    <text x="110" y="130" text-anchor="middle" font-weight="600" fill="hsl(220 15% 20%)">đọc 1–2 câu</text>
+    <text x="110" y="155" text-anchor="middle" font-weight="600" fill="hsl(220 15% 20%)">trước &amp; sau</text>
 
     <path d="M195 110 L225 110" stroke="hsl(280 70% 60%)" stroke-width="2" marker-end="url(#arrW)"/>
 
     <rect x="230" y="30" width="160" height="160" rx="14" fill="white" stroke="hsl(280 70% 60%)" stroke-width="2"/>
-    <text x="310" y="60" text-anchor="middle" font-weight="700" fill="hsl(280 70% 40%)">💭 Predict meaning</text>
-    <text x="310" y="90" text-anchor="middle" fill="hsl(220 9% 30%)" font-size="11">Đoán nghĩa</text>
-    <text x="310" y="120" text-anchor="middle" fill="hsl(220 9% 30%)" font-size="11">bằng từ đơn giản</text>
-    <text x="310" y="150" text-anchor="middle" fill="hsl(220 9% 30%)" font-size="11">của riêng bạn</text>
+    <text x="310" y="62" text-anchor="middle" font-weight="700" font-size="16" fill="hsl(280 70% 35%)">💭 Đoán nghĩa</text>
+    <text x="310" y="105" text-anchor="middle" font-weight="600" fill="hsl(220 15% 20%)">Đoán nghĩa</text>
+    <text x="310" y="130" text-anchor="middle" font-weight="600" fill="hsl(220 15% 20%)">bằng từ ngữ</text>
+    <text x="310" y="155" text-anchor="middle" font-weight="600" fill="hsl(220 15% 20%)">của riêng bạn</text>
 
     <path d="M395 110 L425 110" stroke="hsl(280 70% 60%)" stroke-width="2" marker-end="url(#arrW)"/>
 
     <rect x="430" y="30" width="160" height="160" rx="14" fill="white" stroke="hsl(280 70% 60%)" stroke-width="2"/>
-    <text x="510" y="60" text-anchor="middle" font-weight="700" fill="hsl(280 70% 40%)">✓ Match answer</text>
-    <text x="510" y="90" text-anchor="middle" fill="hsl(220 9% 30%)" font-size="11">Tìm đáp án</text>
-    <text x="510" y="120" text-anchor="middle" fill="hsl(220 9% 30%)" font-size="11">gần nhất với</text>
-    <text x="510" y="150" text-anchor="middle" fill="hsl(220 9% 30%)" font-size="11">dự đoán</text>
+    <text x="510" y="62" text-anchor="middle" font-weight="700" font-size="16" fill="hsl(280 70% 35%)">✓ Khớp đáp án</text>
+    <text x="510" y="105" text-anchor="middle" font-weight="600" fill="hsl(220 15% 20%)">Tìm đáp án</text>
+    <text x="510" y="130" text-anchor="middle" font-weight="600" fill="hsl(220 15% 20%)">gần nhất với</text>
+    <text x="510" y="155" text-anchor="middle" font-weight="600" fill="hsl(220 15% 20%)">dự đoán</text>
   </g>
   <defs>
     <marker id="arrW" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
