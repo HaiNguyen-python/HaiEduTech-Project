@@ -98,6 +98,7 @@ const VietnameseDaily = lazy(() => import("./pages/VietnameseDaily.tsx"));
 const IeltsLectures = lazy(() => import("./pages/IeltsLectures.tsx"));
 const IeltsLectureView = lazy(() => import("./pages/IeltsLectureView.tsx"));
 const ToeicLectures = lazy(() => import("./pages/ToeicLectures.tsx"));
+const ToeicHub = lazy(() => import("./pages/ToeicHub.tsx"));
 const ToeicLectureView = lazy(() => import("./pages/ToeicLectureView.tsx"));
 const CambridgeLectures = lazy(() => import("./pages/CambridgeLectures.tsx"));
 const CambridgeLectureView = lazy(() => import("./pages/CambridgeLectureView.tsx"));
