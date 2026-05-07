@@ -18,6 +18,15 @@ import type { LanguageModule, LanguageLesson, InteractiveExercise } from "@/data
 import { FillInBlankExercise, SentenceReorderExercise, DictationExercise, QuizExercise } from "@/components/exercises";
 import { cn } from "@/lib/utils";
 import { getEnhancedGrammarTheory } from "@/lib/grammarTheoryEnhancer";
+import SatStarToggle from "@/components/sat/SatStarToggle";
+import { useSatStar } from "@/hooks/useSatStars";
+
+const SatLessonStarDot = ({ lessonKey }: { lessonKey: string }) => {
+  const { marked } = useSatStar(lessonKey);
+  if (!marked) return null;
+  return <Star className="w-3 h-3 ml-auto fill-amber-400 text-amber-500 shrink-0" />;
+};
+
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
@@ -71,6 +80,7 @@ const LanguageLessonView = () => {
   const parentPath = mod.language === "chinese" ? "/chinese" : "/english";
   const parentLabel = mod.language === "chinese" ? t("Tiếng Trung", "Chinese") : t("Tiếng Anh", "English");
   const isEnglishGrammarLesson = mod.category === "grammar" && mod.language === "english";
+  const isSatLesson = mod.category === "sat";
   const tr = (vi: string, en: string) => (isEnglishGrammarLesson ? en : t(vi, en));
   const lessonTheory = isEnglishGrammarLesson
     ? getEnhancedGrammarTheory(lesson, mod).replace(/^\s*#\s+[^\n]+\n+/, "")
@@ -166,6 +176,7 @@ const LanguageLessonView = () => {
                               {i + 1}
                             </span>
                             <span className="truncate">{isEnglishGrammarLesson ? l.titleEn : t(l.title, l.titleEn)}</span>
+                            {isSatLesson && <SatLessonStarDot lessonKey={`sat:lesson:${mod.id}:${l.id}`} />}
                           </div>
                           <div className="flex items-center gap-2 ml-7 mt-1">
                             <span className={cn("text-[10px] px-1.5 py-0.5 rounded border", d.cls)}>
@@ -205,9 +216,14 @@ const LanguageLessonView = () => {
                       </div>
                       <span className="text-xs text-muted-foreground">Level {lesson.level}</span>
                     </div>
-                    <h1 className="text-2xl font-display font-bold text-foreground">
-                      {mod.icon} {isEnglishGrammarLesson ? lesson.titleEn : t(lesson.title, lesson.titleEn)}
-                    </h1>
+                    <div className="flex items-start justify-between gap-3">
+                      <h1 className="text-2xl font-display font-bold text-foreground">
+                        {mod.icon} {isEnglishGrammarLesson ? lesson.titleEn : t(lesson.title, lesson.titleEn)}
+                      </h1>
+                      {isSatLesson && (
+                        <SatStarToggle storageKey={`sat:lesson:${mod.id}:${lesson.id}`} size="lg" />
+                      )}
+                    </div>
                   </div>
 
                   {isEnglishGrammarLesson && <GrammarLessonOverview lesson={lesson} module={mod} />}
@@ -388,9 +404,27 @@ const LanguageLessonView = () => {
                       </h2>
                       {lesson.exercises.map((ex, i) => (
                         <div key={i} className="glass-card rounded-xl p-6">
+                          {isSatLesson && (
+                            <div className="flex justify-end mb-3">
+                              <SatStarToggle
+                                storageKey={`sat:exercise:${mod.id}:${lesson.id}:${i}`}
+                                size="sm"
+                                label={{ vi: `Bài tập ${i + 1}`, en: `Exercise ${i + 1}` }}
+                              />
+                            </div>
+                          )}
                           {renderExercise(ex, i)}
                         </div>
                       ))}
+                      {isSatLesson && lesson.quiz.length > 0 && (
+                        <div className="flex justify-end">
+                          <SatStarToggle
+                            storageKey={`sat:quiz:${mod.id}:${lesson.id}`}
+                            size="sm"
+                            label={{ vi: "Quiz đã hoàn thành", en: "Quiz completed" }}
+                          />
+                        </div>
+                      )}
                     </div>
                   )}
 

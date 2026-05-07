@@ -12,6 +12,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { satMockExams, SAT_TYPE_LABELS } from "@/data/satMockExamData";
+import SatStarToggle from "@/components/sat/SatStarToggle";
+import { useSatStarsCount } from "@/hooks/useSatStars";
+import { Star } from "lucide-react";
 
 const ICON: Record<string, typeof Calculator> = {
   rw: BookOpen,
@@ -21,6 +24,8 @@ const ICON: Record<string, typeof Calculator> = {
 
 const SatExams = () => {
   const { t, lang } = useLanguage();
+  const studiedCount = useSatStarsCount("sat:exam:");
+
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -59,6 +64,10 @@ const SatExams = () => {
               </Badge>
               <Badge className="bg-pink-500/10 text-pink-700 dark:text-pink-300 border-pink-500/30">
                 🧠 {t("Luyện não đỉnh", "Brain workout")}
+              </Badge>
+              <Badge className="bg-amber-400/15 text-amber-700 dark:text-amber-300 border-amber-400/40">
+                <Star className="w-3 h-3 mr-1 fill-amber-400 text-amber-500" />
+                {studiedCount} {t("đề đã đánh dấu", "exams marked")}
               </Badge>
             </div>
 
@@ -134,6 +143,7 @@ const SatExams = () => {
                             <TimerOff className="w-4 h-4 mr-1.5" /> {t("Không giờ", "Untimed")}
                           </Button>
                         </Link>
+                        <SatStarToggle storageKey={`sat:exam:${exam.id}`} size="md" />
                       </div>
                     </CardContent>
                   </Card>
