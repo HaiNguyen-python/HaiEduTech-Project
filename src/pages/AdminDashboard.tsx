@@ -399,9 +399,6 @@ const AdminDashboard = () => {
                 <TabsTrigger value="students" className="gap-1.5">
                   <Users className="w-3.5 h-3.5" /> {t("Học sinh", "Students")}
                 </TabsTrigger>
-                <TabsTrigger value="heatmap" className="gap-1.5">
-                  <BarChart3 className="w-3.5 h-3.5" /> {t("Bản đồ kỹ năng", "Skill Heatmap")}
-                </TabsTrigger>
                 <TabsTrigger value="rl-engine" className="gap-1.5">
                   <Brain className="w-3.5 h-3.5" /> {t("Hệ thống can thiệp", "RL Engine")}
                 </TabsTrigger>
@@ -738,46 +735,6 @@ const AdminDashboard = () => {
                     </Card>
                   </div>
                 </div>
-              </TabsContent>
-
-              {/* ===== HEATMAP TAB ===== */}
-              <TabsContent value="heatmap">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <BarChart3 className="w-5 h-5 text-primary" />
-                      {t("Bản đồ kỹ năng toàn lớp", "Class-Wide Skill Heatmap")}
-                    </CardTitle>
-                    <p className="text-sm text-muted-foreground">
-                      {t("Các chủ đề có điểm thấp nhất cần được ưu tiên trong giáo trình", "Topics with lowest scores should be prioritized in the syllabus")}
-                    </p>
-                  </CardHeader>
-                  <CardContent>
-                    {heatmapData.length === 0 ? (
-                      <p className="text-muted-foreground py-8 text-center">{t("Chưa có dữ liệu", "No data yet")}</p>
-                    ) : (
-                      <ResponsiveContainer width="100%" height={Math.max(300, heatmapData.length * 45)}>
-                        <BarChart data={heatmapData} layout="vertical" margin={{ left: 120, right: 20, top: 10, bottom: 10 }}>
-                          <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                          <XAxis type="number" domain={[0, 10]} tick={{ fontSize: 12 }} />
-                          <YAxis type="category" dataKey="category" tick={{ fontSize: 12, fill: "hsl(var(--foreground))" }} width={110} />
-                          <Tooltip
-                            contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8 }}
-                            formatter={(value: number) => [`${value}/10`, t("Điểm TB", "Avg Score")]}
-                          />
-                          <Bar dataKey="avgScore" radius={[0, 4, 4, 0]}>
-                            {heatmapData.map((entry, index) => (
-                              <Cell
-                                key={`cell-${index}`}
-                                fill={entry.avgScore >= 7 ? "hsl(142, 76%, 36%)" : entry.avgScore >= 5 ? "hsl(48, 96%, 53%)" : "hsl(0, 84%, 60%)"}
-                              />
-                            ))}
-                          </Bar>
-                        </BarChart>
-                      </ResponsiveContainer>
-                    )}
-                  </CardContent>
-                </Card>
               </TabsContent>
 
               {/* ===== RL ENGINE TAB ===== */}
