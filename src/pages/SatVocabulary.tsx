@@ -80,6 +80,9 @@ const Flashcard = ({ word }: { word: SatWord }) => {
           style={{ padding: "2rem", border: "2px solid #f1f5f9", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)", minHeight: "14rem" }}
         >
           <h3 className="font-extrabold text-center" style={{ fontSize: "1.75rem", color: "#111827" }}>{word.word}</h3>
+          {word.ipa && (
+            <p className="text-center" style={{ fontSize: "0.95rem", color: "#6b7280", fontFamily: "Georgia, serif" }}>{word.ipa}</p>
+          )}
           {word.partOfSpeech && (
             <Badge variant="secondary" className="text-xs italic">{word.partOfSpeech}</Badge>
           )}
@@ -98,7 +101,7 @@ const Flashcard = ({ word }: { word: SatWord }) => {
         >
           <p className="font-bold break-words" style={{ fontSize: "1.1875rem", color: "#1d4ed8", lineHeight: 1.6 }}>{word.definition.vi}</p>
           {word.example && (
-            <p className="italic mt-1 break-words" style={{ fontSize: "0.9375rem", color: "#374151", lineHeight: 1.6 }}>"{word.example}"</p>
+            <p className="italic mt-1 break-words" style={{ fontSize: "0.9375rem", color: "#374151", lineHeight: 1.6 }}>{renderExample(word.example, word.word)}</p>
           )}
           <Badge variant="outline" className="w-fit mt-1 text-xs">{word.category}</Badge>
         </motion.div>
