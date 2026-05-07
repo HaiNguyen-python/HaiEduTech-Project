@@ -541,7 +541,7 @@ const SatVocabulary = () => {
                 </div>
               )}
 
-              {viewMode !== "exercise" && viewMode !== "sentence" && totalPages > 1 && (
+              {viewMode !== "exercise" && totalPages > 1 && (
                 <div className="flex items-center justify-center gap-2 mt-8">
                   <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>
                     <ChevronLeft className="w-4 h-4" />
