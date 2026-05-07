@@ -13,6 +13,8 @@ import GameOver from "@/components/vocab-arena/GameOver";
 import ClassroomBattle from "@/components/vocab-arena/ClassroomBattle";
 import TeacherPanel from "@/components/vocab-arena/TeacherPanel";
 import MiniGames from "@/components/vocab-arena/MiniGames";
+import GameLeaderboard from "@/components/games/GameLeaderboard";
+import { supabase } from "@/integrations/supabase/client";
 
 type Phase = "menu" | "solo-setup" | "solo-playing" | "solo-results" | "classroom-student" | "classroom-teacher" | "mini-games";
 
@@ -38,7 +40,7 @@ const VocabArena = () => {
     setPhase("solo-playing");
   }, [soloLevel, soloCategory, soloCount]);
 
-  const handleSoloEnd = (gameResult: GameResult) => {
+  const handleSoloEnd = async (gameResult: GameResult) => {
     setResult(gameResult);
     setPhase("solo-results");
 
@@ -53,6 +55,25 @@ const VocabArena = () => {
       localStorage.setItem("ielts_mastered", JSON.stringify([...mastered]));
     } catch {
       // Silently fail
+    }
+
+    // Save score to leaderboard
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const accuracy = gameResult.total > 0 ? gameResult.correct / gameResult.total : 0;
+        const totalSec = Math.round(gameResult.wordResults.reduce((s, w) => s + w.timeMs, 0) / 1000);
+        await (supabase as any).from("game_scores").insert({
+          user_id: user.id,
+          game_type: "vocab-arena-solo",
+          score: gameResult.score,
+          max_streak: gameResult.maxStreak,
+          accuracy,
+          time_spent_seconds: totalSec,
+        });
+      }
+    } catch (e) {
+      console.error("Failed to save score:", e);
     }
   };
 
@@ -323,6 +344,9 @@ const VocabArena = () => {
               onHome={() => setPhase("menu")}
               showAnalytics={result.wordResults}
             />
+            <div className="max-w-lg mx-auto mt-8 rounded-xl border border-border bg-card/50 p-4">
+              <GameLeaderboard gameType="vocab-arena-solo" currentScore={result.score} />
+            </div>
           </div>
         </div>
         <Footer />
