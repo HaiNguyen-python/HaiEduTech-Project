@@ -87,7 +87,7 @@ const Flashcard = ({ word }: { word: IeltsWord }) => {
         >
           <p className="font-semibold break-words" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6 }}>{word.definition.en}</p>
           <p className="font-bold break-words" style={{ fontSize: "1.1875rem", color: "#1d4ed8", lineHeight: 1.6 }}>{word.definition.vi}</p>
-          <p className="italic mt-1 break-words" style={{ fontSize: "0.9375rem", color: "#374151", lineHeight: 1.6 }}>"{word.example}"</p>
+          <p className="italic mt-1 break-words" style={{ fontSize: "0.9375rem", color: "#374151", lineHeight: 1.6 }}><span className="font-semibold not-italic" style={{ color: "#1d4ed8" }}>E.g. </span>{word.example}</p>
           {word.synonyms && word.synonyms.length > 0 && (
             <div className="mt-2 rounded-md" style={{ backgroundColor: "#ecfdf5", padding: "0.5rem 0.75rem" }}>
               <p className="break-words" style={{ fontSize: "0.875rem", color: "#065f46", lineHeight: 1.6 }}>
