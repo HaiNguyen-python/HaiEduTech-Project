@@ -196,13 +196,14 @@ const VocabExercise = ({ words, allWords, t }: { words: SatWord[]; allWords?: Sa
         <span className="text-sm font-semibold text-primary">{t("Điểm", "Score")}: {score}</span>
       </div>
       <div className="rounded-xl border border-border bg-card p-8 mb-6">
-        <div className="flex items-center gap-3 mb-2">
+        <div className="flex items-center gap-3 mb-1">
           <h3 className="text-3xl font-bold text-foreground">{q.word.word}</h3>
           <button onClick={() => speak(q.word.word)} className="p-2 rounded-full hover:bg-primary/10">
             <Volume2 className="w-5 h-5 text-primary" />
           </button>
         </div>
-        {q.word.example && <p className="text-sm font-semibold text-foreground italic">"{q.word.example}"</p>}
+        {q.word.ipa && <p className="text-sm text-muted-foreground mb-2" style={{ fontFamily: "Georgia, serif" }}>{q.word.ipa}</p>}
+        {q.word.example && <p className="text-sm text-foreground italic">{renderExample(q.word.example, q.word.word)}</p>}
         <p className="text-sm text-muted-foreground mt-3">{t("Chọn nghĩa đúng:", "Choose the correct meaning:")}</p>
       </div>
       <div className="space-y-3">
