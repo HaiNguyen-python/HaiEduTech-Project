@@ -175,64 +175,6 @@ const SatExams = () => {
             </div>
           </motion.div>
 
-
-          <div className="grid md:grid-cols-2 gap-5">
-            {satMockExams.map((exam, i) => {
-              const cfg = SAT_TYPE_LABELS[exam.type];
-              const Icon = ICON[exam.type] || Target;
-              return (
-                <motion.div
-                  key={exam.id}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-40px" }}
-                  transition={{ delay: 0.05 * i }}
-                >
-                  <Card className="overflow-hidden h-full hover:shadow-lg transition-all border-l-4" style={{ borderLeftColor: cfg.color }}>
-                    <CardContent className="p-5 flex flex-col h-full">
-                      <div className="flex items-start gap-3 mb-3">
-                        <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: `${cfg.color}20`, color: cfg.color }}>
-                          <Icon className="w-6 h-6" />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <h3 className="font-bold text-base md:text-lg leading-tight">
-                            {lang === "vi" ? exam.titleVi : exam.title}
-                          </h3>
-                          <div className="flex flex-wrap gap-1.5 mt-1.5">
-                            <Badge variant="secondary" className="text-[10px] px-1.5 py-0">
-                              {cfg.emoji} {cfg.label}
-                            </Badge>
-                            <Badge variant="outline" className="text-[10px] px-1.5 py-0">
-                              <Clock className="w-2.5 h-2.5 mr-0.5" /> {exam.duration} {t("phút", "min")}
-                            </Badge>
-                            <Badge variant="outline" className="text-[10px] px-1.5 py-0">
-                              {exam.totalQuestions} {t("câu", "Q")}
-                            </Badge>
-                          </div>
-                        </div>
-                      </div>
-                      <p className="text-sm text-muted-foreground mb-4 flex-1">
-                        {lang === "vi" ? exam.descriptionVi : exam.description}
-                      </p>
-                      <div className="flex flex-wrap gap-2 mt-auto">
-                        <Link to={`/sat-exams/${exam.id}`} className="flex-1 min-w-[140px]">
-                          <Button className="w-full bg-gradient-to-r text-white" style={{ backgroundImage: `linear-gradient(to right, ${cfg.color}, ${cfg.color}cc)` }}>
-                            <Play className="w-4 h-4 mr-1.5" /> {t("Bắt đầu (canh giờ)", "Start (timed)")}
-                          </Button>
-                        </Link>
-                        <Link to={`/sat-exams/${exam.id}?mode=untimed`}>
-                          <Button variant="outline">
-                            <TimerOff className="w-4 h-4 mr-1.5" /> {t("Không giờ", "Untimed")}
-                          </Button>
-                        </Link>
-                        <SatStarToggle storageKey={`sat:exam:${exam.id}`} size="md" />
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              );
-            })}
-          </div>
         </div>
       </main>
       <Footer />
