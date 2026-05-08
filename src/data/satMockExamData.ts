@@ -182,6 +182,7 @@ import { satMockExamExpansion } from "./satMockExamExpansion";
 import { satMockExamExpansion2 } from "./satMockExamExpansion2";
 import { satMockExamExpansion3 } from "./satMockExamExpansion3";
 import { satMockExamExpansion4 } from "./satMockExamExpansion4";
+import { satMockExamExpansion5 } from "./satMockExamExpansion5";
 
 const baseSatMockExams: SatMockExam[] = [
   {
