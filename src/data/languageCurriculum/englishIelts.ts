@@ -370,7 +370,7 @@ export const ieltsModules: LanguageModule[] = [
           {
             type: "fill-in-blank",
             instruction: "Dựa trên đoạn văn, xác định TRUE, FALSE hoặc NOT GIVEN:\n\nPassage: 'Global temperatures have risen by approximately 1.1°C since the pre-industrial era. Scientists believe this is primarily caused by human activities, particularly the burning of fossil fuels.'",
-            instructionEn: "Based on the passage, determine TRUE, FALSE or NOT GIVEN",
+            instructionEn: "Based on the passage, determine TRUE, FALSE or NOT GIVEN:\n\nPassage: 'Global temperatures have risen by approximately 1.1°C since the pre-industrial era. Scientists believe this is primarily caused by human activities, particularly the burning of fossil fuels.'",
             sentences: [
               { text: "Global temperatures have increased by about 1.1°C → ___", textEn: "Temperatures increased by about 1.1°C → ___", answer: "TRUE" },
               { text: "Natural causes are the main reason for temperature rise → ___", textEn: "Natural causes are the main reason → ___", answer: "FALSE", hint: "Bài nói 'human activities' là nguyên nhân chính" },
