@@ -4,6 +4,7 @@ import { ieltsReadingExpansionLessons, ieltsListeningExpansionLessons } from "./
 import { ieltsReadingExpansion2Lessons, ieltsListeningExpansion2Lessons } from "./englishIeltsReadingListening2";
 import { ieltsReadingExpansion3Lessons, ieltsListeningExpansion3Lessons } from "./englishIeltsReadingListening3";
 import { ieltsReadingExpansion4Lessons, ieltsListeningExpansion4Lessons } from "./englishIeltsReadingListening4";
+import { ieltsReadingPracticeExercises } from "./englishIeltsReadingPracticeExercises";
 
 export const ieltsModules: LanguageModule[] = [
   {
@@ -548,3 +549,14 @@ export const ieltsModules: LanguageModule[] = [
     ],
   },
 ];
+
+// Append short reading practice (passage + questions) into matching reading lessons
+for (const mod of ieltsModules) {
+  if (mod.id !== "ielts-reading") continue;
+  for (const lesson of mod.lessons) {
+    const extra = ieltsReadingPracticeExercises[lesson.id];
+    if (extra && extra.length) {
+      lesson.exercises = [...(lesson.exercises ?? []), ...extra];
+    }
+  }
+}
