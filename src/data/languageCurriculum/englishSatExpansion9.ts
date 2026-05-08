@@ -333,8 +333,8 @@ export const satExpansionModules9: LanguageModule[] = [
         exercises: [
           {
             type: "fill-in-blank",
-            instruction: "Trả lời câu hỏi về đoạn 'bees':",
-            instructionEn: "Answer questions about the bees passage:",
+            instruction: "Trả lời câu hỏi về đoạn sau:\n\nPassage: 'Bees are essential pollinators. Without them, many crops would fail. Yet bee populations are shrinking due to pesticides and habitat loss. Protecting bees is therefore protecting our food supply.'",
+            instructionEn: "Answer questions about the passage below:\n\nPassage: 'Bees are essential pollinators. Without them, many crops would fail. Yet bee populations are shrinking due to pesticides and habitat loss. Protecting bees is therefore protecting our food supply.'",
             sentences: [
               { text: "The main idea is: protecting bees protects our ___.", textEn: "The main idea is: protecting bees protects our ___.", answer: "food" },
               { text: "Two reasons bees are shrinking: pesticides and ___ loss.", textEn: "Two reasons bees are shrinking: pesticides and ___ loss.", answer: "habitat" },
@@ -389,8 +389,8 @@ export const satExpansionModules9: LanguageModule[] = [
         exercises: [
           {
             type: "fill-in-blank",
-            instruction: "Điền dẫn chứng từ đoạn:",
-            instructionEn: "Fill in the evidence from the passage:",
+            instruction: "Điền dẫn chứng từ đoạn sau:\n\nPassage: 'In 2010, the city built 12 new bike lanes. Within 3 years, cycling commutes doubled. Air quality also improved measurably.'",
+            instructionEn: "Fill in the evidence from the passage below:\n\nPassage: 'In 2010, the city built 12 new bike lanes. Within 3 years, cycling commutes doubled. Air quality also improved measurably.'",
             sentences: [
               { text: "The city built ___ new bike lanes in 2010.", textEn: "The city built ___ new bike lanes in 2010.", answer: "12" },
               { text: "Within 3 years, cycling commutes ___.", textEn: "Within 3 years, cycling commutes ___.", answer: "doubled" },

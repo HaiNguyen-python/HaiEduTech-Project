@@ -272,7 +272,7 @@ export const nationalExamModules: LanguageModule[] = [
           {
             type: "fill-in-blank",
             instruction: "Đọc đoạn văn và xác định Main Idea:\n\n'Recycling is one of the most effective ways to reduce waste. By separating paper, plastic, and glass, individuals can help conserve natural resources. Moreover, recycling reduces the amount of waste sent to landfills, which helps protect the environment.'",
-            instructionEn: "Read and identify the Main Idea",
+            instructionEn: "Read the passage and identify the Main Idea:\n\nPassage: 'Recycling is one of the most effective ways to reduce waste. By separating paper, plastic, and glass, individuals can help conserve natural resources. Moreover, recycling reduces the amount of waste sent to landfills, which helps protect the environment.'",
             sentences: [
               { text: "Main idea: The benefits of ___ for the environment.", textEn: "Main idea: Benefits of ___.", answer: "recycling" },
             ],

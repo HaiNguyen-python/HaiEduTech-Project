@@ -300,8 +300,8 @@ export const hskModules: LanguageModule[] = [
         exercises: [
           {
             type: "fill-in-blank",
-            instruction: "Dựa trên đoạn văn mẫu trong bài, trả lời câu hỏi",
-            instructionEn: "Based on the sample passage, answer questions",
+            instruction: "Dựa trên đoạn văn sau, trả lời câu hỏi:\n\nPassage: '春节是中国最重要的传统节日。每年春节，一家人团聚在一起，吃团圆饭，看春晚。过年的时候，大人给孩子们发红包，祝他们新年快乐。'",
+            instructionEn: "Based on the passage below, answer the questions:\n\nPassage: '春节是中国最重要的传统节日。每年春节，一家人团聚在一起，吃团圆饭，看春晚。过年的时候，大人给孩子们发红包，祝他们新年快乐。' (Spring Festival is China's most important traditional holiday. Every year, families reunite, eat reunion dinner, and watch the Spring Gala. During New Year, adults give children red envelopes and wish them a happy new year.)",
             sentences: [
               { text: "中国最重要的传统节日是___。", textEn: "The most important festival is ___.", answer: "春节", hint: "chūn jié" },
               { text: "过年的时候，大人给孩子们发___。", textEn: "During New Year, adults give children ___.", answer: "红包", hint: "hóng bāo" },
