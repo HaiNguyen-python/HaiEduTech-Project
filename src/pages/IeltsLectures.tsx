@@ -213,6 +213,58 @@ const IeltsLectures = () => {
           </div>
         </section>
 
+        {/* Practice Modules CTA: Reading & Listening lessons */}
+        <section className="container mx-auto px-4 sm:px-6 -mt-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Link to="/english/learn/ielts-reading" className="group">
+              <Card className="h-full border-l-4 border-l-blue-500 hover:shadow-lg transition-all hover:-translate-y-0.5">
+                <CardContent className="p-5 flex items-start gap-4">
+                  <div className="shrink-0 w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center">
+                    <Eye className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1 flex-wrap">
+                      <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
+                        {t("Luyện Đọc IELTS", "IELTS Reading Practice")}
+                      </h3>
+                      <Badge variant="secondary" className="text-[10px]">{t("Bài tập", "Practice")}</Badge>
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {t(
+                        "Bộ bài tập Reading với passage dài chuẩn IELTS Academic: T/F/NG, MCQ, fill-in-blank.",
+                        "Long-passage Reading exercises (IELTS Academic standard): T/F/NG, MCQ, fill-in-blank."
+                      )}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+            <Link to="/english/learn/ielts-listening" className="group">
+              <Card className="h-full border-l-4 border-l-emerald-500 hover:shadow-lg transition-all hover:-translate-y-0.5">
+                <CardContent className="p-5 flex items-start gap-4">
+                  <div className="shrink-0 w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+                    <Headphones className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1 flex-wrap">
+                      <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
+                        {t("Luyện Nghe IELTS", "IELTS Listening Practice")}
+                      </h3>
+                      <Badge variant="secondary" className="text-[10px]">{t("Bài tập", "Practice")}</Badge>
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {t(
+                        "Bài tập Listening Section 1–4: dictation, MCQ, điền từ — mô phỏng đề thi thật.",
+                        "Listening Sections 1–4: dictation, MCQ, fill-in — real exam simulation."
+                      )}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          </div>
+        </section>
+
         {/* Filter Section */}
         <section className="container mx-auto px-4 sm:px-6 py-5">
           {/* Skill Filter Bar */}
