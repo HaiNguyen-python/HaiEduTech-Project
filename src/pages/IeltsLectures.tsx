@@ -230,7 +230,10 @@ const IeltsLectures = () => {
                       <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
                         {t("Luyện Đọc IELTS", "IELTS Reading Practice")}
                       </h3>
-                      <Badge variant="secondary" className="text-[10px]">{t("Bài tập", "Practice")}</Badge>
+                      <Badge variant="secondary" className="text-[10px]">{t("Bài giảng + Bài tập", "Lectures + Practice")}</Badge>
+                      <Badge className="text-[10px] bg-blue-500/15 text-blue-700 dark:text-blue-300 border-blue-500/30" variant="outline">
+                        {readingLectureCount} {t("bài giảng", "lectures")}
+                      </Badge>
                     </div>
                     <p className="text-sm text-muted-foreground leading-relaxed">
                       {t(
