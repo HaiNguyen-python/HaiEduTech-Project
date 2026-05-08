@@ -43,17 +43,20 @@ import { allIeltsLectures, PILLAR_META, PillarKey } from "@/data/ieltsLecturesDa
 
 // Storage is now handled by useIeltsLectureProgress hook (database + localStorage fallback)
 
-// Skill filter categories with icons
+// Skill filter categories with icons (Listening & Reading moved into Practice CTA cards above)
 const SKILL_FILTERS = [
   { key: "all", label: "All", labelVi: "Tất cả", icon: BookOpen },
-  { key: "listening", label: "Listening", labelVi: "Listening", icon: Headphones },
-  { key: "reading", label: "Reading", labelVi: "Reading", icon: Eye },
   { key: "writing", label: "Writing", labelVi: "Writing", icon: Pen },
   { key: "speaking", label: "Speaking", labelVi: "Speaking", icon: Mic },
   { key: "grammar", label: "Grammar", labelVi: "Ngữ pháp", icon: Wrench },
   { key: "vocabulary", label: "Vocabulary", labelVi: "Từ vựng", icon: BookOpenText },
   { key: "tips", label: "Exam Tips", labelVi: "Mẹo thi", icon: Lightbulb },
 ] as const;
+
+// Lectures shown in main grid exclude listening/reading (those live in Practice CTA cards)
+const gridLectures = allIeltsLectures.filter(l => l.skill !== "listening" && l.skill !== "reading");
+const readingLectureCount = allIeltsLectures.filter(l => l.skill === "reading").length;
+const listeningLectureCount = allIeltsLectures.filter(l => l.skill === "listening").length;
 
 type SkillFilterKey = typeof SKILL_FILTERS[number]["key"];
 type SortKey = "newest" | "popular" | "easy" | "hard";
@@ -104,7 +107,7 @@ const IeltsLectures = () => {
   }, [toggleBookmark]);
 
   const filtered = useMemo(() => {
-    let results = [...allIeltsLectures];
+    let results = [...gridLectures];
 
     // Bookmarks filter
     if (showBookmarksOnly) {
@@ -155,7 +158,7 @@ const IeltsLectures = () => {
   }, [activeSkill, levelFilter, searchQuery, sortBy, showBookmarksOnly, bookmarkedIds]);
 
   const totalCompleted = completedIds.length;
-  const totalLectures = allIeltsLectures.length;
+  const totalLectures = gridLectures.length;
   const progressPercent = totalLectures > 0 ? Math.round((totalCompleted / totalLectures) * 100) : 0;
 
   const activeFiltersCount = [
@@ -227,7 +230,10 @@ const IeltsLectures = () => {
                       <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
                         {t("Luyện Đọc IELTS", "IELTS Reading Practice")}
                       </h3>
-                      <Badge variant="secondary" className="text-[10px]">{t("Bài tập", "Practice")}</Badge>
+                      <Badge variant="secondary" className="text-[10px]">{t("Bài giảng + Bài tập", "Lectures + Practice")}</Badge>
+                      <Badge className="text-[10px] bg-blue-500/15 text-blue-700 dark:text-blue-300 border-blue-500/30" variant="outline">
+                        {readingLectureCount} {t("bài giảng", "lectures")}
+                      </Badge>
                     </div>
                     <p className="text-sm text-muted-foreground leading-relaxed">
                       {t(
@@ -250,7 +256,10 @@ const IeltsLectures = () => {
                       <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
                         {t("Luyện Nghe IELTS", "IELTS Listening Practice")}
                       </h3>
-                      <Badge variant="secondary" className="text-[10px]">{t("Bài tập", "Practice")}</Badge>
+                      <Badge variant="secondary" className="text-[10px]">{t("Bài giảng + Bài tập", "Lectures + Practice")}</Badge>
+                      <Badge className="text-[10px] bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30" variant="outline">
+                        {listeningLectureCount} {t("bài giảng", "lectures")}
+                      </Badge>
                     </div>
                     <p className="text-sm text-muted-foreground leading-relaxed">
                       {t(
@@ -271,8 +280,8 @@ const IeltsLectures = () => {
           <div className="flex flex-wrap gap-2 mb-4">
             {SKILL_FILTERS.map(({ key, label, labelVi, icon: Icon }) => {
               const count = key === "all"
-                ? allIeltsLectures.length
-                : allIeltsLectures.filter(l => getLectureFilterCategory(l) === key).length;
+                ? gridLectures.length
+                : gridLectures.filter(l => getLectureFilterCategory(l) === key).length;
               return (
                 <Button
                   key={key}
