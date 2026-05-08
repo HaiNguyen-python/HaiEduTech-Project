@@ -550,13 +550,17 @@ export const ieltsModules: LanguageModule[] = [
   },
 ];
 
-// Append short reading practice (passage + questions) into matching reading lessons
+// Append short reading practice (passage + questions) into matching reading lessons.
+// Idempotent: tag merged exercises so HMR / repeated module loads don't duplicate.
+const READING_PRACTICE_TAG = "__readingPracticeMerged";
 for (const mod of ieltsModules) {
   if (mod.id !== "ielts-reading") continue;
   for (const lesson of mod.lessons) {
+    if ((lesson as any)[READING_PRACTICE_TAG]) continue;
     const extra = ieltsReadingPracticeExercises[lesson.id];
     if (extra && extra.length) {
       lesson.exercises = [...(lesson.exercises ?? []), ...extra];
     }
+    (lesson as any)[READING_PRACTICE_TAG] = true;
   }
 }
