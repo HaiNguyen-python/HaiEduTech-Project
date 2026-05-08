@@ -1,8 +1,8 @@
 // Extra IELTS Reading practice exercises - short passages + category-specific questions
 // Merged into existing reading lessons in englishIelts.ts so each lesson has hands-on practice.
-import type { Exercise } from "./types";
+import type { InteractiveExercise } from "./types";
 
-export const ieltsReadingPracticeExercises: Record<string, Exercise[]> = {
+export const ieltsReadingPracticeExercises: Record<string, InteractiveExercise[]> = {
   // ===== Skimming & Scanning =====
   "ielts-reading-1": [
     {
