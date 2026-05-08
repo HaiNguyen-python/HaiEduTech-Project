@@ -144,12 +144,12 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences, forceEngli
       </div>
 
       {passage ? (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
-          <div className="rounded-lg border border-border bg-muted/40 p-4 text-sm text-foreground leading-relaxed italic whitespace-pre-line lg:sticky lg:top-4 lg:max-h-[75vh] lg:overflow-y-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-start lg:-mx-8 xl:-mx-16">
+          <div className="lg:col-span-3 rounded-lg border border-border bg-muted/40 p-5 text-base text-foreground leading-relaxed italic whitespace-pre-line lg:sticky lg:top-4 lg:max-h-[80vh] lg:overflow-y-auto">
             <span className="font-semibold not-italic text-primary text-xs uppercase tracking-wide">Passage:</span>
             <div className="mt-2">{passage}</div>
           </div>
-          <div className="space-y-3">
+          <div className="lg:col-span-2 space-y-3">
             {sentences.map((s, i) => renderSentence(s, i))}
           </div>
         </div>
