@@ -43,17 +43,20 @@ import { allIeltsLectures, PILLAR_META, PillarKey } from "@/data/ieltsLecturesDa
 
 // Storage is now handled by useIeltsLectureProgress hook (database + localStorage fallback)
 
-// Skill filter categories with icons
+// Skill filter categories with icons (Listening & Reading moved into Practice CTA cards above)
 const SKILL_FILTERS = [
   { key: "all", label: "All", labelVi: "Tất cả", icon: BookOpen },
-  { key: "listening", label: "Listening", labelVi: "Listening", icon: Headphones },
-  { key: "reading", label: "Reading", labelVi: "Reading", icon: Eye },
   { key: "writing", label: "Writing", labelVi: "Writing", icon: Pen },
   { key: "speaking", label: "Speaking", labelVi: "Speaking", icon: Mic },
   { key: "grammar", label: "Grammar", labelVi: "Ngữ pháp", icon: Wrench },
   { key: "vocabulary", label: "Vocabulary", labelVi: "Từ vựng", icon: BookOpenText },
   { key: "tips", label: "Exam Tips", labelVi: "Mẹo thi", icon: Lightbulb },
 ] as const;
+
+// Lectures shown in main grid exclude listening/reading (those live in Practice CTA cards)
+const gridLectures = allIeltsLectures.filter(l => l.skill !== "listening" && l.skill !== "reading");
+const readingLectureCount = allIeltsLectures.filter(l => l.skill === "reading").length;
+const listeningLectureCount = allIeltsLectures.filter(l => l.skill === "listening").length;
 
 type SkillFilterKey = typeof SKILL_FILTERS[number]["key"];
 type SortKey = "newest" | "popular" | "easy" | "hard";
