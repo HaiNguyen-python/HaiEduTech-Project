@@ -70,13 +70,13 @@ export const ieltsReadingPracticeExercises: Record<string, InteractiveExercise[]
   "ielts-reading-5": [
     {
       type: "fill-in-blank",
-      instruction: `Hoàn thành đoạn tóm tắt bằng từ trong word list:\n[ artificial · sleep · efficiency · attention · screens ]\n\nPassage: "Recent neuroscience research suggests that exposure to bright screens late at night suppresses melatonin, the hormone that regulates our sleep cycle. Participants who used phones for an hour before bed took, on average, 30 minutes longer to fall asleep and reported reduced attention the following day. Researchers warn that long-term disruption may also lower work efficiency."\n\nSummary: Late-night use of (1)___ blocks the production of melatonin, delaying (2)___ by about half an hour. The next day, users showed reduced (3)___ and, over time, declining (4)___ at work.`,
+      instruction: `Hoàn thành đoạn tóm tắt bằng từ trong word list:\n[ artificial · sleep · efficiency · attention · screens ]\n\nPassage: "Recent neuroscience research suggests that exposure to bright screens late at night suppresses melatonin, the hormone that regulates our sleep cycle. Participants who used phones for an hour before bed took, on average, 30 minutes longer to fall asleep and reported reduced attention the following day. Researchers warn that long-term disruption may also lower work efficiency."`,
       instructionEn: `Complete the summary with words from the list:\n[ artificial · sleep · efficiency · attention · screens ]\n\nPassage: "Recent neuroscience research suggests that exposure to bright screens late at night suppresses melatonin, the hormone that regulates our sleep cycle. Participants who used phones for an hour before bed took, on average, 30 minutes longer to fall asleep and reported reduced attention the following day. Researchers warn that long-term disruption may also lower work efficiency."`,
       sentences: [
-        { text: "(1) ___", textEn: "(1) ___", answer: "screens", hint: "noun plural" },
-        { text: "(2) ___", textEn: "(2) ___", answer: "sleep", hint: "noun" },
-        { text: "(3) ___", textEn: "(3) ___", answer: "attention", hint: "noun" },
-        { text: "(4) ___", textEn: "(4) ___", answer: "efficiency", hint: "noun" },
+        { text: "Late-night use of ___ blocks the production of melatonin.", textEn: "Late-night use of ___ blocks the production of melatonin.", answer: "screens", hint: "noun plural – devices with bright displays" },
+        { text: "Bright screens delay ___ by about half an hour.", textEn: "Bright screens delay ___ by about half an hour.", answer: "sleep", hint: "noun – what melatonin regulates" },
+        { text: "The next day, users showed reduced ___.", textEn: "The next day, users showed reduced ___.", answer: "attention", hint: "noun – ability to focus" },
+        { text: "Over time, work ___ also declines.", textEn: "Over time, work ___ also declines.", answer: "efficiency", hint: "noun – productivity" },
       ],
     },
   ],
