@@ -11,13 +11,20 @@ import SEO from "@/components/SEO";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { thptGrammarTopics, thptVocabThemes } from "@/data/thptEssentialReview";
+import {
+  thptGrammarTopicsExpansion,
+  thptVocabThemesExpansion,
+  thptExerciseSets,
+  type ThptExercise,
+} from "@/data/thptEssentialReviewExpansion";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, BookOpen, Sparkles, AlertTriangle, Volume2 } from "lucide-react";
+import { ArrowLeft, BookOpen, Sparkles, AlertTriangle, Volume2, CheckCircle2, XCircle, RotateCcw, Dumbbell } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 const speak = (text: string) => {
   if (typeof window === "undefined" || !window.speechSynthesis) return;
@@ -28,16 +35,127 @@ const speak = (text: string) => {
   window.speechSynthesis.speak(utt);
 };
 
+const allGrammarTopics = [...thptGrammarTopics, ...thptGrammarTopicsExpansion];
+const allVocabThemes = [...thptVocabThemes, ...thptVocabThemesExpansion];
+
+interface ExerciseRunnerProps {
+  setId: string;
+  exercises: ThptExercise[];
+}
+
+const ExerciseRunner = ({ setId, exercises }: ExerciseRunnerProps) => {
+  const { t } = useLanguage();
+  const [answers, setAnswers] = useState<Record<number, number>>({});
+  const [submitted, setSubmitted] = useState(false);
+
+  const correctCount = exercises.reduce(
+    (acc, ex, i) => acc + (answers[i] === ex.answer ? 1 : 0),
+    0
+  );
+
+  const reset = () => {
+    setAnswers({});
+    setSubmitted(false);
+  };
+
+  return (
+    <div className="space-y-4">
+      {exercises.map((ex, i) => {
+        const userAns = answers[i];
+        const showResult = submitted;
+        return (
+          <div
+            key={`${setId}-${i}`}
+            className="rounded-lg border border-border bg-secondary/30 p-4"
+          >
+            <div className="font-medium text-sm md:text-base mb-3">
+              <span className="text-primary font-bold mr-2">{i + 1}.</span>
+              {ex.q}
+            </div>
+            <div className="grid sm:grid-cols-2 gap-2">
+              {ex.options.map((opt, oi) => {
+                const isCorrect = oi === ex.answer;
+                const isPicked = userAns === oi;
+                return (
+                  <button
+                    key={oi}
+                    type="button"
+                    disabled={submitted}
+                    onClick={() => setAnswers((prev) => ({ ...prev, [i]: oi }))}
+                    className={cn(
+                      "text-left text-sm px-3 py-2 rounded-lg border transition",
+                      !showResult && isPicked && "border-primary bg-primary/10",
+                      !showResult && !isPicked && "border-border hover:border-primary/50 hover:bg-primary/5",
+                      showResult && isCorrect && "border-emerald-500/60 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
+                      showResult && isPicked && !isCorrect && "border-red-500/60 bg-red-500/10 text-red-700 dark:text-red-300",
+                      showResult && !isPicked && !isCorrect && "border-border opacity-70"
+                    )}
+                  >
+                    <span className="font-bold mr-2">{String.fromCharCode(65 + oi)}.</span>
+                    {opt}
+                    {showResult && isCorrect && <CheckCircle2 className="inline w-4 h-4 ml-2" />}
+                    {showResult && isPicked && !isCorrect && <XCircle className="inline w-4 h-4 ml-2" />}
+                  </button>
+                );
+              })}
+            </div>
+            {showResult && (
+              <p className="mt-3 text-xs italic text-muted-foreground">
+                💡 {ex.explanation}
+              </p>
+            )}
+          </div>
+        );
+      })}
+
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+        <div className="text-sm text-muted-foreground">
+          {submitted ? (
+            <span>
+              {t("Kết quả: ", "Score: ")}
+              <span className="font-bold text-primary">
+                {correctCount}/{exercises.length}
+              </span>
+            </span>
+          ) : (
+            <span>
+              {Object.keys(answers).length}/{exercises.length} {t("đã chọn", "answered")}
+            </span>
+          )}
+        </div>
+        <div className="flex gap-2">
+          {submitted ? (
+            <Button onClick={reset} variant="outline" size="sm" className="gap-1">
+              <RotateCcw className="w-4 h-4" /> {t("Làm lại", "Retry")}
+            </Button>
+          ) : (
+            <Button
+              onClick={() => setSubmitted(true)}
+              size="sm"
+              disabled={Object.keys(answers).length === 0}
+              className="bg-gradient-to-r from-primary to-emerald-500 text-white"
+            >
+              {t("Nộp bài", "Submit")}
+            </Button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const ThptEssentialReview = () => {
   const { t, lang } = useLanguage();
   const navigate = useNavigate();
-  const [tab, setTab] = useState<"grammar" | "vocabulary">("grammar");
+  const [tab, setTab] = useState<"grammar" | "vocabulary" | "exercises">("grammar");
+
+  const totalExercises = thptExerciseSets.reduce((s, set) => s + set.exercises.length, 0);
 
   return (
     <div className="min-h-screen bg-background">
       <SEO
         title="Ôn tập Ngữ pháp & Từ vựng THPT Quốc gia | HaiEduTech"
-        description="Hệ thống 12 chuyên đề ngữ pháp trọng tâm và 8 chủ đề từ vựng cao tần chuẩn bị cho kỳ thi THPT Quốc gia môn tiếng Anh."
+        description="Hệ thống chuyên đề ngữ pháp trọng tâm, chủ đề từ vựng và hơn 80 bài tập (đặc biệt mảng Collocations) chuẩn bị cho kỳ thi THPT Quốc gia môn tiếng Anh."
         path="/national-exam/essential-review"
       />
       <Navbar />
@@ -56,8 +174,8 @@ const ThptEssentialReview = () => {
           </h1>
           <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
             {t(
-              "12 chuyên đề ngữ pháp trọng tâm và 8 chủ đề từ vựng cao tần - bám sát cấu trúc đề thi THPT Quốc gia môn tiếng Anh.",
-              "12 core grammar topics and 8 high-frequency vocabulary themes — aligned with the THPT National Exam structure."
+              `${allGrammarTopics.length} chuyên đề ngữ pháp, ${allVocabThemes.length} chủ đề từ vựng và ${totalExercises}+ bài tập - bám sát cấu trúc đề thi THPT Quốc gia, đặc biệt mạnh mảng Collocations.`,
+              `${allGrammarTopics.length} grammar topics, ${allVocabThemes.length} vocabulary themes and ${totalExercises}+ practice items — aligned with the THPT National Exam, with a strong Collocations focus.`
             )}
           </p>
         </motion.div>
@@ -65,35 +183,36 @@ const ThptEssentialReview = () => {
         {/* Stat strip */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8 max-w-3xl mx-auto">
           <Card className="p-4 text-center">
-            <div className="text-2xl font-bold text-primary">{thptGrammarTopics.length}</div>
+            <div className="text-2xl font-bold text-primary">{allGrammarTopics.length}</div>
             <div className="text-xs text-muted-foreground">{t("Chuyên đề", "Grammar topics")}</div>
           </Card>
           <Card className="p-4 text-center">
-            <div className="text-2xl font-bold text-primary">{thptVocabThemes.length}</div>
+            <div className="text-2xl font-bold text-primary">{allVocabThemes.length}</div>
             <div className="text-xs text-muted-foreground">{t("Chủ đề từ vựng", "Vocab themes")}</div>
           </Card>
           <Card className="p-4 text-center">
             <div className="text-2xl font-bold text-primary">
-              {thptVocabThemes.reduce((s, v) => s + v.words.length, 0)}+
+              {allVocabThemes.reduce((s, v) => s + v.words.length, 0)}+
             </div>
             <div className="text-xs text-muted-foreground">{t("Từ cao tần", "Key words")}</div>
           </Card>
           <Card className="p-4 text-center">
-            <div className="text-2xl font-bold text-primary">8.0+</div>
-            <div className="text-xs text-muted-foreground">{t("Điểm mục tiêu", "Target score")}</div>
+            <div className="text-2xl font-bold text-primary">{totalExercises}+</div>
+            <div className="text-xs text-muted-foreground">{t("Bài tập", "Practice items")}</div>
           </Card>
         </div>
 
-        <Tabs value={tab} onValueChange={(v) => setTab(v as "grammar" | "vocabulary")}>
-          <TabsList className="grid grid-cols-2 max-w-md mx-auto mb-6">
+        <Tabs value={tab} onValueChange={(v) => setTab(v as typeof tab)}>
+          <TabsList className="grid grid-cols-3 max-w-xl mx-auto mb-6">
             <TabsTrigger value="grammar">📘 {t("Ngữ pháp", "Grammar")}</TabsTrigger>
             <TabsTrigger value="vocabulary">📚 {t("Từ vựng", "Vocabulary")}</TabsTrigger>
+            <TabsTrigger value="exercises">🏋️ {t("Bài tập", "Exercises")}</TabsTrigger>
           </TabsList>
 
           {/* Grammar */}
           <TabsContent value="grammar" className="space-y-4">
             <Accordion type="single" collapsible className="space-y-3">
-              {thptGrammarTopics.map((g, i) => (
+              {allGrammarTopics.map((g, i) => (
                 <AccordionItem
                   key={g.id}
                   value={g.id}
@@ -169,7 +288,7 @@ const ThptEssentialReview = () => {
           {/* Vocabulary */}
           <TabsContent value="vocabulary" className="space-y-4">
             <Accordion type="single" collapsible className="space-y-3">
-              {thptVocabThemes.map((v) => (
+              {allVocabThemes.map((v) => (
                 <AccordionItem
                   key={v.id}
                   value={v.id}
@@ -214,6 +333,45 @@ const ThptEssentialReview = () => {
                         </div>
                       ))}
                     </div>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </TabsContent>
+
+          {/* Exercises */}
+          <TabsContent value="exercises" className="space-y-4">
+            <div className="rounded-xl border border-primary/30 bg-primary/5 p-4 mb-2 text-sm">
+              <strong className="text-primary">
+                <Dumbbell className="w-4 h-4 inline mr-1" /> {t("Mẹo của thầy Hải:", "Mr. Hai's tip:")}
+              </strong>{" "}
+              {t(
+                "Hãy ưu tiên 3 bộ Collocations đầu - đây là dạng câu hỏi xuất hiện DÀY ĐẶC trong cloze test và viết lại câu của đề THPT.",
+                "Prioritise the first 3 Collocation sets — these patterns appear MASSIVELY in the cloze and rewriting parts of the THPT exam."
+              )}
+            </div>
+            <Accordion type="single" collapsible className="space-y-3">
+              {thptExerciseSets.map((set, i) => (
+                <AccordionItem
+                  key={set.id}
+                  value={set.id}
+                  className="rounded-xl border-2 border-border bg-card px-4 data-[state=open]:border-primary/40"
+                >
+                  <AccordionTrigger className="hover:no-underline py-4">
+                    <div className="flex items-center gap-3 text-left">
+                      <span className="text-3xl">{set.icon}</span>
+                      <div>
+                        <div className="font-bold text-base md:text-lg">
+                          {String(i + 1).padStart(2, "0")}. {lang === "vi" ? set.titleVi : set.titleEn}
+                        </div>
+                        <div className="text-xs md:text-sm text-muted-foreground font-normal mt-0.5">
+                          {set.exercises.length} {t("câu", "items")} · {lang === "vi" ? set.focusVi : set.focusEn}
+                        </div>
+                      </div>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="pb-5">
+                    <ExerciseRunner setId={set.id} exercises={set.exercises} />
                   </AccordionContent>
                 </AccordionItem>
               ))}
