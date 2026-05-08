@@ -1,7 +1,10 @@
 /**
  * @file SatExams.tsx
  * @description Hub for Digital SAT mock exams with real exam timing.
+ * Reorganized with tabs (All / R&W / Math / Full) for cleaner categorization
+ * and grouped sub-headers within each tab to reduce visual clutter.
  */
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Clock, ListChecks, Target, Sparkles, Calculator, BookOpen, TimerOff, Play } from "lucide-react";
@@ -10,8 +13,9 @@ import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { satMockExams, SAT_TYPE_LABELS } from "@/data/satMockExamData";
+import { satMockExams, SAT_TYPE_LABELS, type SatMockExam } from "@/data/satMockExamData";
 import SatStarToggle from "@/components/sat/SatStarToggle";
 import { useSatStarsCount } from "@/hooks/useSatStars";
 import { Star } from "lucide-react";
