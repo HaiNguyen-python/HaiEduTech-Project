@@ -88,9 +88,7 @@ const Navbar = () => {
     // 📚 Học & Ôn
     { to: "#h-study", label: t("Học & Ôn", "Study & Review"), header: true },
     { to: "/english/ielts", label: t("Tổng quan & Lộ trình", "Overview & Roadmap"), icon: Map },
-    { to: "/ielts-lectures", label: t("Bài giảng IELTS", "IELTS Lectures"), icon: BookOpen },
-    { to: "/english/learn/ielts-reading", label: t("Luyện đọc", "Reading Practice"), icon: BookOpen },
-    { to: "/english/learn/ielts-listening", label: t("Luyện nghe", "Listening Practice"), icon: BookOpen },
+    { to: "/ielts-lectures", label: t("Bài giảng IELTS (gồm Luyện đọc & nghe)", "IELTS Lectures (incl. Reading & Listening)"), icon: BookOpen },
     // 📖 Từ vựng
     { to: "#h-vocab", label: t("Từ vựng", "Vocabulary"), header: true },
     { to: "/ielts-vocabulary", label: t("Từ vựng IELTS", "IELTS Vocabulary"), icon: BookOpen },
