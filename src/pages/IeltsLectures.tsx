@@ -274,8 +274,8 @@ const IeltsLectures = () => {
           <div className="flex flex-wrap gap-2 mb-4">
             {SKILL_FILTERS.map(({ key, label, labelVi, icon: Icon }) => {
               const count = key === "all"
-                ? allIeltsLectures.length
-                : allIeltsLectures.filter(l => getLectureFilterCategory(l) === key).length;
+                ? gridLectures.length
+                : gridLectures.filter(l => getLectureFilterCategory(l) === key).length;
               return (
                 <Button
                   key={key}
