@@ -116,7 +116,7 @@ const Navbar = () => {
     { to: "#en-foundation-group", label: t("📖 Nền tảng Anh ngữ", "📖 English Foundation"), groupLabel: "en-foundation", children: [
       { to: "/english/grammar", label: t("Ngữ pháp", "Grammar"), icon: BookOpen },
       { to: "/english/pronunciation", label: t("Phát âm & Ngữ điệu", "Pronunciation & Intonation"), icon: Mic2 },
-      { to: "/english/conversational", label: t("Giao tiếp", "Conversational"), icon: MessageSquare },
+      { to: "/english/conversational/curriculum", label: t("Giao tiếp", "Conversational"), icon: MessageSquare },
       { to: "/english/idioms", label: t("Thành ngữ & Danh ngôn", "Idioms & Quotes"), icon: Quote },
       { to: "/cambridge-lectures", label: t("Bài giảng Cambridge", "Cambridge Lectures"), icon: BookOpen },
     ] },
