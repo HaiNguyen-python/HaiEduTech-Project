@@ -381,8 +381,8 @@ const EnglishCourse = () => {
             {/* SAT detailed format + 10-week curriculum (replaces generic Highlights/Curriculum/Audience/Testimonials) */}
             {courseId === "sat" && showSatCurriculum && <SatExamFormat />}
 
-            {/* Stats — hidden for IELTS */}
-            {course.stats && courseId !== "ielts" && (
+            {/* Stats — hidden for IELTS & Conversational */}
+            {course.stats && courseId !== "ielts" && courseId !== "conversational" && (
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                 {course.stats.map((s, i) => (
                   <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}
