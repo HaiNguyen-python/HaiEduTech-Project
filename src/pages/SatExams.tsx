@@ -175,6 +175,82 @@ const SatExams = () => {
             </div>
           </motion.div>
 
+          <Tabs value={tab} onValueChange={(v) => setTab(v as TabKey)} className="w-full">
+            <TabsList className="grid grid-cols-2 sm:grid-cols-4 w-full mb-6 h-auto">
+              <TabsTrigger value="all" className="text-xs sm:text-sm py-2">
+                🎯 {t("Tất cả", "All")} <span className="ml-1.5 opacity-70">({satMockExams.length})</span>
+              </TabsTrigger>
+              <TabsTrigger value="rw" className="text-xs sm:text-sm py-2">
+                📖 R&W <span className="ml-1.5 opacity-70">({grouped.rw.length})</span>
+              </TabsTrigger>
+              <TabsTrigger value="math" className="text-xs sm:text-sm py-2">
+                🧮 Math <span className="ml-1.5 opacity-70">({grouped.math.length})</span>
+              </TabsTrigger>
+              <TabsTrigger value="full" className="text-xs sm:text-sm py-2">
+                🏆 Full <span className="ml-1.5 opacity-70">({grouped.full.length})</span>
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="all" className="space-y-10 mt-0">
+              <section>
+                <SectionHeader icon={BookOpen} color={SAT_TYPE_LABELS.rw.color}
+                  title={t("Reading & Writing — Module Practice", "Reading & Writing — Module Practice")}
+                  subtitle={t("32 phút · 27 câu mỗi module", "32 min · 27 Q per module")}
+                  count={grouped.rw.length} />
+                <div className="grid md:grid-cols-2 gap-5">
+                  {grouped.rw.map((exam, i) => <ExamCard key={exam.id} exam={exam} i={i} />)}
+                </div>
+              </section>
+              <section>
+                <SectionHeader icon={Calculator} color={SAT_TYPE_LABELS.math.color}
+                  title={t("Math — Module Practice", "Math — Module Practice")}
+                  subtitle={t("35 phút · 22 câu mỗi module · được dùng máy tính", "35 min · 22 Q per module · calculator allowed")}
+                  count={grouped.math.length} />
+                <div className="grid md:grid-cols-2 gap-5">
+                  {grouped.math.map((exam, i) => <ExamCard key={exam.id} exam={exam} i={i} />)}
+                </div>
+              </section>
+              <section>
+                <SectionHeader icon={Target} color={SAT_TYPE_LABELS.full.color}
+                  title={t("Full-Length Digital SAT", "Full-Length Digital SAT")}
+                  subtitle={t("134 phút · 98 câu · 2 R&W + 2 Math", "134 min · 98 Q · 2 R&W + 2 Math")}
+                  count={grouped.full.length} />
+                <div className="grid md:grid-cols-2 gap-5">
+                  {grouped.full.map((exam, i) => <ExamCard key={exam.id} exam={exam} i={i} />)}
+                </div>
+              </section>
+            </TabsContent>
+
+            <TabsContent value="rw" className="mt-0">
+              <SectionHeader icon={BookOpen} color={SAT_TYPE_LABELS.rw.color}
+                title={t("Reading & Writing — Module Practice", "Reading & Writing — Module Practice")}
+                subtitle={t("32 phút · 27 câu mỗi module", "32 min · 27 Q per module")}
+                count={grouped.rw.length} />
+              <div className="grid md:grid-cols-2 gap-5">
+                {grouped.rw.map((exam, i) => <ExamCard key={exam.id} exam={exam} i={i} />)}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="math" className="mt-0">
+              <SectionHeader icon={Calculator} color={SAT_TYPE_LABELS.math.color}
+                title={t("Math — Module Practice", "Math — Module Practice")}
+                subtitle={t("35 phút · 22 câu mỗi module · được dùng máy tính", "35 min · 22 Q per module · calculator allowed")}
+                count={grouped.math.length} />
+              <div className="grid md:grid-cols-2 gap-5">
+                {grouped.math.map((exam, i) => <ExamCard key={exam.id} exam={exam} i={i} />)}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="full" className="mt-0">
+              <SectionHeader icon={Target} color={SAT_TYPE_LABELS.full.color}
+                title={t("Full-Length Digital SAT", "Full-Length Digital SAT")}
+                subtitle={t("134 phút · 98 câu · 2 R&W + 2 Math", "134 min · 98 Q · 2 R&W + 2 Math")}
+                count={grouped.full.length} />
+              <div className="grid md:grid-cols-2 gap-5">
+                {grouped.full.map((exam, i) => <ExamCard key={exam.id} exam={exam} i={i} />)}
+              </div>
+            </TabsContent>
+          </Tabs>
         </div>
       </main>
       <Footer />
