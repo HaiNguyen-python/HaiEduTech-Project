@@ -3,6 +3,7 @@ import type { LanguageModule } from "./types";
 import { ieltsReadingExpansionLessons, ieltsListeningExpansionLessons } from "./englishIeltsReadingListening";
 import { ieltsReadingExpansion2Lessons, ieltsListeningExpansion2Lessons } from "./englishIeltsReadingListening2";
 import { ieltsReadingExpansion3Lessons, ieltsListeningExpansion3Lessons } from "./englishIeltsReadingListening3";
+import { ieltsReadingExpansion4Lessons, ieltsListeningExpansion4Lessons } from "./englishIeltsReadingListening4";
 
 export const ieltsModules: LanguageModule[] = [
   {
