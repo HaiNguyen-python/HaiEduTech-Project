@@ -501,6 +501,7 @@ export const ieltsModules: LanguageModule[] = [
       ...ieltsListeningExpansionLessons,
       ...ieltsListeningExpansion2Lessons,
       ...ieltsListeningExpansion3Lessons,
+      ...ieltsListeningExpansion4Lessons,
     ],
   },
   {
