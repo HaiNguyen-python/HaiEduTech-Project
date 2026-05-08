@@ -158,7 +158,7 @@ const IeltsLectures = () => {
   }, [activeSkill, levelFilter, searchQuery, sortBy, showBookmarksOnly, bookmarkedIds]);
 
   const totalCompleted = completedIds.length;
-  const totalLectures = allIeltsLectures.length;
+  const totalLectures = gridLectures.length;
   const progressPercent = totalLectures > 0 ? Math.round((totalCompleted / totalLectures) * 100) : 0;
 
   const activeFiltersCount = [
