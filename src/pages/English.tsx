@@ -186,7 +186,7 @@ const English = () => {
                     ))}
                   </ul>
                   <div className="flex gap-3">
-                    <Link to={`/english/${["ielts", "toeic", "conversational", "sat"][i]}`} className="inline-flex items-center gap-2 text-sm text-primary font-semibold hover:underline">
+                    <Link to={["/english/ielts", "/english/toeic", "/english/conversational/curriculum", "/english/sat"][i]} className="inline-flex items-center gap-2 text-sm text-primary font-semibold hover:underline">
                       {t("Xem chi tiết", "View details")} <ArrowRight className="w-4 h-4" />
                     </Link>
                   </div>
