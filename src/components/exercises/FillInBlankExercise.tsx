@@ -145,11 +145,11 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences, forceEngli
 
       {passage ? (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          <div className="lg:col-span-7 rounded-xl border border-border bg-muted/40 p-6 text-[15px] text-foreground leading-7 whitespace-pre-line">
+          <div className="lg:col-span-7 rounded-xl border border-border bg-muted/40 p-6 text-[17px] text-foreground leading-8 font-medium whitespace-pre-line">
             <div className="flex items-center gap-2 mb-3 pb-2 border-b border-border/60">
               <span className="font-semibold text-primary text-xs uppercase tracking-wider">📖 Passage</span>
             </div>
-            <div className="italic">{passage}</div>
+            <div className="not-italic">{passage}</div>
           </div>
           <div className="lg:col-span-5 space-y-3 lg:sticky lg:top-4 lg:max-h-[85vh] lg:overflow-y-auto lg:pr-2">
             <div className="text-xs uppercase tracking-wider font-semibold text-primary px-1">📝 Questions</div>
