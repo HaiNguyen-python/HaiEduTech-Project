@@ -549,3 +549,14 @@ export const ieltsModules: LanguageModule[] = [
     ],
   },
 ];
+
+// Append short reading practice (passage + questions) into matching reading lessons
+for (const mod of ieltsModules) {
+  if (mod.id !== "ielts-reading") continue;
+  for (const lesson of mod.lessons) {
+    const extra = ieltsReadingPracticeExercises[lesson.id];
+    if (extra && extra.length) {
+      lesson.exercises = [...(lesson.exercises ?? []), ...extra];
+    }
+  }
+}
