@@ -126,4 +126,171 @@ export const ieltsReadingPracticeExercises: Record<string, InteractiveExercise[]
       ],
     },
   ],
+
+  // ===== Diagram & Flow-chart Completion =====
+  "ielts-reading-9": [
+    {
+      type: "fill-in-blank",
+      instruction: `Hoàn thành flow-chart sau bằng từ trong passage (NO MORE THAN TWO WORDS).\n\nPassage: "The water cycle begins when the sun heats the surface of oceans and lakes, causing water to evaporate into water vapour. As this vapour rises, it cools and condenses around tiny particles of dust, forming clouds. When the droplets become too heavy, they fall as precipitation – rain, snow, or hail. The water then flows over land as runoff, eventually returning to rivers and oceans."\n\nFlow-chart:\nSun heats water → (1) ___ → vapour rises and (2) ___ → forms clouds → falls as (3) ___ → runs over land as (4) ___ → returns to rivers and oceans.`,
+      instructionEn: `Complete the flow-chart with NO MORE THAN TWO WORDS from the passage.`,
+      sentences: [
+        { text: "(1) ___", textEn: "(1) ___", answer: "evaporation", hint: "noun, see 'evaporate'" },
+        { text: "(2) ___", textEn: "(2) ___", answer: "condenses", hint: "verb" },
+        { text: "(3) ___", textEn: "(3) ___", answer: "precipitation", hint: "noun" },
+        { text: "(4) ___", textEn: "(4) ___", answer: "runoff", hint: "noun" },
+      ],
+    },
+  ],
+
+  // ===== Short-answer Questions =====
+  "ielts-reading-10": [
+    {
+      type: "fill-in-blank",
+      instruction: `Trả lời ngắn gọn (NO MORE THAN THREE WORDS) dựa trên passage.\n\nPassage: "The Sahara Desert spans roughly 9.2 million square kilometres, making it the world's largest hot desert. Daytime temperatures often reach 50°C, while at night they can drop below freezing. Despite its harsh conditions, more than 2.5 million people live in the Sahara, mainly nomadic herders who move with their camels in search of water and grazing land."`,
+      instructionEn: `Answer in NO MORE THAN THREE WORDS from the passage.`,
+      sentences: [
+        { text: "How big is the Sahara? → ___ square kilometres.", textEn: "Size of Sahara? → ___ km².", answer: "9.2 million", hint: "two words" },
+        { text: "What is the highest daytime temperature mentioned? → ___", textEn: "Max daytime temp? → ___", answer: "50°C" },
+        { text: "How many people live there? → more than ___", textEn: "Population? → more than ___", answer: "2.5 million" },
+        { text: "What animal do the herders travel with? → ___", textEn: "Animal travelled with? → ___", answer: "camels" },
+      ],
+    },
+  ],
+
+  // ===== Table Completion =====
+  "ielts-reading-11": [
+    {
+      type: "fill-in-blank",
+      instruction: `Hoàn thành bảng bằng từ trong passage (NO MORE THAN TWO WORDS).\n\nPassage: "Three planets are commonly studied in school astronomy. Mercury, the smallest, has a diameter of about 4,880 km and no moons. Venus, similar in size to Earth, is the hottest planet with an average surface temperature of 465°C. Mars, often called the Red Planet, has two small moons named Phobos and Deimos and a day length almost identical to Earth's at 24.6 hours."\n\nTable:\nMercury – Diameter: (1) ___ km – Moons: (2) ___\nVenus – Surface temp: (3) ___ – Notable feature: hottest planet\nMars – Number of moons: (4) ___ – Day length: (5) ___ hours`,
+      instructionEn: `Complete the table with NO MORE THAN TWO WORDS from the passage.`,
+      sentences: [
+        { text: "(1) ___", textEn: "(1) ___", answer: "4,880" },
+        { text: "(2) ___", textEn: "(2) ___", answer: "no moons", hint: "two words" },
+        { text: "(3) ___", textEn: "(3) ___", answer: "465°C" },
+        { text: "(4) ___", textEn: "(4) ___", answer: "two" },
+        { text: "(5) ___", textEn: "(5) ___", answer: "24.6" },
+      ],
+    },
+  ],
+
+  // ===== List Selection =====
+  "ielts-reading-12": [
+    {
+      type: "fill-in-blank",
+      instruction: `Chọn 3 lợi ích của làm việc từ xa được đề cập trong passage. Viết các chữ cái A–F.\n\nOptions:\nA. Higher salary\nB. Saving commuting time\nC. Better work-life balance\nD. More face-to-face networking\nE. Reduced office costs for employers\nF. Quicker promotion\n\nPassage: "A 2024 survey of 12,000 European workers found that the most valued advantages of remote work were the elimination of long commutes and improved work-life balance. Employers, meanwhile, reported significantly lower office expenses, although they noted that team networking suffered slightly. Salary changes and promotion speed showed no clear pattern."`,
+      instructionEn: `Pick the 3 benefits mentioned. Write three letters from A–F.`,
+      sentences: [
+        { text: "Benefit 1 → ___", textEn: "Benefit 1 → ___", answer: "B" },
+        { text: "Benefit 2 → ___", textEn: "Benefit 2 → ___", answer: "C" },
+        { text: "Benefit 3 → ___", textEn: "Benefit 3 → ___", answer: "E" },
+      ],
+    },
+  ],
+
+  // ===== Inference & Author's Purpose =====
+  "ielts-reading-13": [
+    {
+      type: "fill-in-blank",
+      instruction: `Đọc đoạn văn và suy luận. Chọn đáp án A/B/C/D.\n\nPassage: "It is high time that consumers stopped accepting fast fashion at face value. Behind every five-dollar T-shirt lies a chain of underpaid garment workers, polluted rivers, and mountains of textile waste. The industry's defenders point to falling prices and rising choice, but these supposed gains come at a cost we are only beginning to understand."\n\nQ1. The author's main purpose is to:\n  A. describe the history of fashion\n  B. persuade readers to question fast fashion\n  C. promote a specific clothing brand\n  D. compare prices in the fashion industry\n\nQ2. The phrase 'at face value' implies that consumers should:\n  A. trust the industry blindly\n  B. look beyond the obvious benefits\n  C. focus only on price\n  D. ignore environmental issues\n\nQ3. The author's tone is best described as:\n  A. critical\n  B. cheerful\n  C. neutral\n  D. uncertain`,
+      instructionEn: `Read and infer. Pick A/B/C/D.`,
+      sentences: [
+        { text: "Q1 → ___", textEn: "Q1 → ___", answer: "B" },
+        { text: "Q2 → ___", textEn: "Q2 → ___", answer: "B" },
+        { text: "Q3 → ___", textEn: "Q3 → ___", answer: "A" },
+      ],
+    },
+  ],
+
+  // ===== Multiple Choice - Author's Purpose =====
+  "ielts-reading-14": [
+    {
+      type: "fill-in-blank",
+      instruction: `Chọn đáp án đúng (A/B/C/D).\n\nPassage: "While many people assume that drinking eight glasses of water a day is essential, this widely repeated rule has surprisingly little scientific basis. Most adults can meet their hydration needs through a combination of drinks – tea, coffee, juice – and the moisture in food. The real signal to drink, researchers suggest, is simply thirst."\n\nQ1. The writer's purpose is to:\n  A. encourage drinking more water\n  B. challenge a popular belief about water intake\n  C. recommend specific drinks\n  D. warn about the dangers of dehydration\n\nQ2. According to the passage, hydration can come from:\n  A. only plain water\n  B. only juice and tea\n  C. various drinks and food\n  D. supplements\n\nQ3. What does the writer suggest is a reliable signal to drink?\n  A. The clock\n  B. A doctor\n  C. Thirst\n  D. The colour of urine`,
+      instructionEn: `Pick A/B/C/D.`,
+      sentences: [
+        { text: "Q1 → ___", textEn: "Q1 → ___", answer: "B" },
+        { text: "Q2 → ___", textEn: "Q2 → ___", answer: "C" },
+        { text: "Q3 → ___", textEn: "Q3 → ___", answer: "C" },
+      ],
+    },
+  ],
+
+  // ===== Paragraph Information Matching =====
+  "ielts-reading-15": [
+    {
+      type: "fill-in-blank",
+      instruction: `Tìm đoạn (A–D) chứa thông tin sau. Đoạn có thể được dùng nhiều lần.\n\nPassage:\nA. The first practical electric light bulb was patented by Thomas Edison in 1879, though earlier inventors had built short-lived versions.\nB. Within twenty years, electric streetlights had replaced gas lamps in major American and European cities, reshaping urban nightlife.\nC. By the 1920s, ordinary households began wiring up to the grid, though rural areas in many countries waited decades longer for connection.\nD. Today, around 770 million people – mostly in sub-Saharan Africa – still live without reliable access to electricity.`,
+      instructionEn: `Match the information to paragraphs A–D.`,
+      sentences: [
+        { text: "A modern statistic about energy poverty → ___", textEn: "Modern energy stat → ___", answer: "D" },
+        { text: "A reference to delays in rural electrification → ___", textEn: "Rural delays → ___", answer: "C" },
+        { text: "Mention of an inventor and a year → ___", textEn: "Inventor + year → ___", answer: "A" },
+        { text: "A description of how cities changed at night → ___", textEn: "City nights changed → ___", answer: "B" },
+      ],
+    },
+  ],
+
+  // ===== Yes/No/Not Given - Advanced =====
+  "ielts-reading-16": [
+    {
+      type: "fill-in-blank",
+      instruction: `Xác định YES / NO / NOT GIVEN cho mỗi nhận định về QUAN ĐIỂM của tác giả.\n\nPassage: "Critics often blame video games for rising rates of teenage aggression, yet the evidence is far weaker than headlines suggest. Several long-term studies have failed to show any direct causal link, and countries with the highest gaming rates do not show the highest violence rates. In my view, parents would do better to focus on sleep, social isolation and excessive screen time than on the games themselves."`,
+      instructionEn: `Decide YES / NO / NOT GIVEN.`,
+      sentences: [
+        { text: "The author believes the evidence linking games to aggression is weak. → ___", textEn: "Evidence weak. → ___", answer: "YES" },
+        { text: "The author thinks all video games are completely harmless. → ___", textEn: "All games harmless. → ___", answer: "NOT GIVEN", hint: "Tác giả không nói cực đoan như vậy" },
+        { text: "Countries with the most gamers have the most violence. → ___", textEn: "Most gamers = most violence. → ___", answer: "NO" },
+        { text: "Parents should worry more about sleep than about the games. → ___", textEn: "Sleep more important. → ___", answer: "YES" },
+        { text: "The author has children of his/her own. → ___", textEn: "Author has children. → ___", answer: "NOT GIVEN" },
+      ],
+    },
+  ],
+
+  // ===== Short Answer Questions (advanced) =====
+  "ielts-reading-17": [
+    {
+      type: "fill-in-blank",
+      instruction: `Trả lời NO MORE THAN TWO WORDS từ passage.\n\nPassage: "The Olympic Games were revived in their modern form in 1896, when 241 athletes from 14 countries competed in Athens. The first Winter Olympics took place 28 years later in Chamonix, France. Today, the event hosts over 11,000 athletes from more than 200 nations and is broadcast to a global audience exceeding 3 billion viewers."`,
+      instructionEn: `Answer in NO MORE THAN TWO WORDS.`,
+      sentences: [
+        { text: "In what year were the modern Olympics revived? → ___", textEn: "Year revived → ___", answer: "1896" },
+        { text: "Where were the first Winter Olympics held? → ___", textEn: "First Winter Olympics → ___", answer: "Chamonix" },
+        { text: "How many athletes attend today? → over ___", textEn: "Athletes today → ___", answer: "11,000" },
+        { text: "How many TV viewers globally? → over ___ billion.", textEn: "TV viewers → ___ billion", answer: "3" },
+      ],
+    },
+  ],
+
+  // ===== Skimming & Scanning - Speed Reading =====
+  "ielts-reading-18": [
+    {
+      type: "fill-in-blank",
+      instruction: `Đọc nhanh (skim 60 giây – scan keyword) rồi trả lời.\n\nPassage: "Tokyo, Japan's capital, is home to roughly 14 million people in the city proper and over 37 million in the wider metropolitan area, making it the most populous urban region in the world. Founded as the small fishing village of Edo, it became the political centre of Japan in 1603 and was renamed Tokyo, meaning 'Eastern Capital', in 1868. The city is famous today for its efficient subway system, which carries more than 8 million passengers each day."`,
+      instructionEn: `Skim then scan. Answer.`,
+      sentences: [
+        { text: "Population of Tokyo metropolitan area: over ___ million.", textEn: "Metro pop: ___ million", answer: "37" },
+        { text: "Year Edo became Japan's political centre: ___.", textEn: "Year political centre: ___", answer: "1603" },
+        { text: "Year Edo was renamed Tokyo: ___.", textEn: "Renamed: ___", answer: "1868" },
+        { text: "'Tokyo' means '___ Capital'.", textEn: "Meaning: ___ Capital", answer: "Eastern" },
+        { text: "Daily subway passengers: over ___ million.", textEn: "Subway: ___ million/day", answer: "8" },
+      ],
+    },
+  ],
+
+  // ===== Classification Questions =====
+  "ielts-reading-19": [
+    {
+      type: "fill-in-blank",
+      instruction: `Phân loại mỗi tuyên bố theo:\n  A. Cá heo (Dolphins)\n  B. Cá voi (Whales)\n  C. Cả hai (Both)\n\nPassage: "Dolphins and whales are both marine mammals belonging to the order Cetacea. Dolphins are generally smaller, rarely exceeding four metres in length, and live mainly in coastal waters in groups called pods. Whales, by contrast, can grow up to 30 metres long and many species undertake long migrations across oceans. Both groups breathe air through blowholes and communicate using complex sounds, but only whales are known for the deep, structured 'songs' produced by males during mating season."`,
+      instructionEn: `Classify each statement as A (Dolphins) / B (Whales) / C (Both).`,
+      sentences: [
+        { text: "Belong to the order Cetacea → ___", textEn: "Cetacea → ___", answer: "C" },
+        { text: "Can grow up to 30 metres long → ___", textEn: "30 m long → ___", answer: "B" },
+        { text: "Live in coastal waters in pods → ___", textEn: "Pods, coastal → ___", answer: "A" },
+        { text: "Breathe through blowholes → ___", textEn: "Blowholes → ___", answer: "C" },
+        { text: "Males sing structured songs during mating → ___", textEn: "Sing songs → ___", answer: "B" },
+      ],
+    },
+  ],
 };
+
