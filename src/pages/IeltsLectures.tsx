@@ -107,7 +107,7 @@ const IeltsLectures = () => {
   }, [toggleBookmark]);
 
   const filtered = useMemo(() => {
-    let results = [...allIeltsLectures];
+    let results = [...gridLectures];
 
     // Bookmarks filter
     if (showBookmarksOnly) {
