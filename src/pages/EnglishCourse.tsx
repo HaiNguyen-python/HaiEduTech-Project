@@ -381,8 +381,8 @@ const EnglishCourse = () => {
             {/* SAT detailed format + 10-week curriculum (replaces generic Highlights/Curriculum/Audience/Testimonials) */}
             {courseId === "sat" && showSatCurriculum && <SatExamFormat />}
 
-            {/* Stats — hidden for IELTS */}
-            {course.stats && courseId !== "ielts" && (
+            {/* Stats — hidden for IELTS & Conversational */}
+            {course.stats && courseId !== "ielts" && courseId !== "conversational" && (
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                 {course.stats.map((s, i) => (
                   <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}
@@ -395,7 +395,7 @@ const EnglishCourse = () => {
             )}
 
             {/* Features — hidden for IELTS & SAT */}
-            {courseId !== "ielts" && courseId !== "sat" && (
+            {courseId !== "ielts" && courseId !== "sat" && courseId !== "conversational" && (
               <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
                 <h2 className="text-xl font-display font-bold text-foreground mb-4 flex items-center gap-2">
                   <Star className="w-5 h-5 text-yellow-500" /> {t("Điểm nổi bật", "Highlights")}
@@ -412,7 +412,7 @@ const EnglishCourse = () => {
             )}
 
             {/* Curriculum — hidden for IELTS (replaced by IeltsExamBreakdown above) */}
-            {courseId !== "ielts" && courseId !== "sat" && (
+            {courseId !== "ielts" && courseId !== "sat" && courseId !== "conversational" && (
               <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
                 <h2 className="text-xl font-display font-bold text-foreground mb-4 flex items-center gap-2">
                   <Clock className="w-5 h-5 text-primary" /> {t("Giáo án & Lộ trình", "Curriculum & Roadmap")}
@@ -434,7 +434,7 @@ const EnglishCourse = () => {
             )}
 
             {/* Audience — hidden for IELTS */}
-            {courseId !== "ielts" && courseId !== "sat" && (
+            {courseId !== "ielts" && courseId !== "sat" && courseId !== "conversational" && (
               <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
                 <h2 className="text-xl font-display font-bold text-foreground mb-4 flex items-center gap-2">
                   <Users className="w-5 h-5 text-primary" /> {t("Đối tượng phù hợp", "Who is this for?")}
@@ -451,7 +451,7 @@ const EnglishCourse = () => {
             )}
 
             {/* Testimonials — hidden for IELTS */}
-            {courseId !== "ielts" && courseId !== "sat" && course.testimonials && course.testimonials.length > 0 && (
+            {courseId !== "ielts" && courseId !== "sat" && courseId !== "conversational" && course.testimonials && course.testimonials.length > 0 && (
               <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
                 <div className="flex items-center gap-2 mb-5">
                   <Award className="w-5 h-5 text-primary" />
@@ -532,7 +532,7 @@ const EnglishCourse = () => {
             })()}
 
             {/* Contact / Register — hidden for IELTS and SAT */}
-            {courseId !== "ielts" && courseId !== "sat" && (
+            {courseId !== "ielts" && courseId !== "sat" && courseId !== "conversational" && (
               <div className="glass-card rounded-2xl p-6 md:p-8 border-2 border-primary/20">
                 <h2 className="text-xl font-display font-bold text-foreground mb-2 flex items-center gap-2">
                   <Phone className="w-5 h-5 text-primary" /> {t("Đăng ký học ngay", "Register Now")}
