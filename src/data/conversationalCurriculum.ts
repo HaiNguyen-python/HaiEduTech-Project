@@ -2148,6 +2148,12 @@ export const conversationalPillars: ConvPillar[] = [
   },
 ];
 
+// Inject expansion lessons into each pillar
+import { lifeSkillsExpansion, professionalExpansion, academicExpansion } from "./conversationalCurriculumExpansion";
+conversationalPillars.find(p => p.id === "life-skills")?.lessons.push(...lifeSkillsExpansion);
+conversationalPillars.find(p => p.id === "professional")?.lessons.push(...professionalExpansion);
+conversationalPillars.find(p => p.id === "academic")?.lessons.push(...academicExpansion);
+
 // Flatten all lessons for quick lookup
 export const allConversationalLessons = conversationalPillars.flatMap(p =>
   p.lessons.map(l => ({ ...l, pillarId: p.id }))
