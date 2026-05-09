@@ -444,7 +444,7 @@ const ThptEssentialReview = () => {
                             <span className="px-1.5 py-0.5 rounded bg-primary/10 text-primary mr-1">{w.pos}</span>
                             {w.vi}
                           </div>
-                          <div className="text-sm italic text-foreground/80">
+                          <div className="text-sm text-foreground/80">
                             <span className="not-italic font-semibold text-primary mr-1">E.g.</span>
                             {(() => {
                               // Bold any occurrence of the headword (and its base form before "/")
