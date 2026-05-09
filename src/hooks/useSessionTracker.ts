@@ -33,7 +33,7 @@ export const useSessionTracker = () => {
       if (document.visibilityState !== "visible") return;
       if (Date.now() - lastActivityRef.current > IDLE_THRESHOLD_MS) return;
 
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { session } } = await supabase.auth.getSession(); const user = session?.user ?? null;
       if (!user) return;
 
       await supabase.from("student_activity_log").insert({

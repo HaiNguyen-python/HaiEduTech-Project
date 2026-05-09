@@ -25,7 +25,7 @@ function inferDomain(activityType: string): LearningDomain {
 
 export async function logStudentActivity(payload: ActivityPayload) {
   try {
-    const { data: { user } } = await supabase.auth.getUser();
+    const { data: { session } } = await supabase.auth.getSession(); const user = session?.user ?? null;
     if (!user) return; // Only log for authenticated users
 
     const domain = payload.domain || inferDomain(payload.activityType);
