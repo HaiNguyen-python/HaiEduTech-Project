@@ -126,7 +126,7 @@ const SatExercises = () => {
                           <SatStarToggle
                             storageKey={`sat:lesson:${g.module.id}:${l.id}`}
                             size="sm"
-                            className="ml-auto z-10"
+                            className="ml-auto z-20 pointer-events-auto"
                           />
                         </div>
                       </div>
