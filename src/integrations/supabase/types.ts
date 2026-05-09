@@ -350,6 +350,8 @@ export type Database = {
           answers_correct: number
           answers_total: number
           created_at: string
+          current_question: number
+          current_word: string | null
           display_name: string | null
           finished_at: string | null
           id: string
@@ -364,6 +366,8 @@ export type Database = {
           answers_correct?: number
           answers_total?: number
           created_at?: string
+          current_question?: number
+          current_word?: string | null
           display_name?: string | null
           finished_at?: string | null
           id?: string
@@ -378,6 +382,8 @@ export type Database = {
           answers_correct?: number
           answers_total?: number
           created_at?: string
+          current_question?: number
+          current_word?: string | null
           display_name?: string | null
           finished_at?: string | null
           id?: string

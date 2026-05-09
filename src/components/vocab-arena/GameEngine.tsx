@@ -84,6 +84,7 @@ interface GameEngineProps {
   questions: GameQuestion[];
   lives: number;
   onGameEnd: (result: GameResult) => void;
+  onProgress?: (index: number, word: string) => void;
   isSuddenDeath?: boolean;
 }
 
@@ -107,7 +108,7 @@ export const generateQuestions = (
   });
 };
 
-const GameEngine = ({ questions, lives: initialLives, onGameEnd, isSuddenDeath = false }: GameEngineProps) => {
+const GameEngine = ({ questions, lives: initialLives, onGameEnd, onProgress, isSuddenDeath = false }: GameEngineProps) => {
   const { t } = useLanguage();
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
@@ -125,6 +126,11 @@ const GameEngine = ({ questions, lives: initialLives, onGameEnd, isSuddenDeath =
 
   const q = questions[current];
   const progress = ((current) / questions.length) * 100;
+
+  // Report current question to parent (for teacher live monitoring)
+  useEffect(() => {
+    if (q && onProgress) onProgress(current, q.word.word);
+  }, [current, q, onProgress]);
 
   // Timer countdown
   useEffect(() => {

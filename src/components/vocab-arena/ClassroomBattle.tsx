@@ -251,6 +251,15 @@ const ClassroomBattle = ({ onBack }: ClassroomBattleProps) => {
           questions={questions}
           lives={roomSettings.lives}
           onGameEnd={handleGameEnd}
+          onProgress={(idx, word) => {
+            if (participantId) {
+              supabase
+                .from("game_participants")
+                .update({ current_question: idx, current_word: word })
+                .eq("id", participantId)
+                .then(() => {});
+            }
+          }}
         />
         {/* Mini leaderboard sidebar */}
         <div className="fixed top-24 right-4 w-48 rounded-xl bg-card border border-border p-3 hidden lg:block">
