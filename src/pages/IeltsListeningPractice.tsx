@@ -37,7 +37,7 @@ const sectionColor = (s: number) => {
 const normalize = (s: string) => s.trim().toLowerCase().replace(/[.,!?;:"']/g, "");
 
 const PracticeSetCard = ({ set: s }: { set: ListeningPracticeSet }) => {
-  const { t, language } = useLanguage();
+  const { t, lang } = useLanguage();
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [showTranscript, setShowTranscript] = useState(false);
@@ -123,17 +123,17 @@ const PracticeSetCard = ({ set: s }: { set: ListeningPracticeSet }) => {
               {t(`Phần ${s.section}`, `Section ${s.section}`)}
             </Badge>
             <Badge variant="secondary" className="text-xs">
-              {language === "vi" ? s.questionTypeVi : s.questionType}
+              {lang === "vi" ? s.questionTypeVi : s.questionType}
             </Badge>
             <Badge variant="outline" className="text-xs">
               {s.questions.length} {t("câu", "questions")}
             </Badge>
           </div>
           <h3 className="text-xl sm:text-2xl font-bold text-foreground">
-            {language === "vi" ? s.titleVi : s.title}
+            {lang === "vi" ? s.titleVi : s.title}
           </h3>
           <p className="text-sm text-muted-foreground whitespace-pre-line leading-relaxed">
-            {language === "vi" ? s.contextVi : s.context}
+            {lang === "vi" ? s.contextVi : s.context}
           </p>
         </div>
 
