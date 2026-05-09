@@ -235,7 +235,7 @@ const ConversationalLessonView = () => {
                               <div className={`flex-shrink-0 w-8 h-8 rounded-full ${s.avatar} text-white flex items-center justify-center text-sm shadow-sm`}>
                                 {s.emoji}
                               </div>
-                              <div className={`max-w-[78%] px-3.5 py-2 rounded-2xl text-sm ${s.bubble} ${isRight ? "rounded-br-sm" : "rounded-bl-sm"}`}>
+                              <div className={`max-w-[78%] px-5 py-3.5 rounded-2xl text-sm ${s.bubble} ${isRight ? "rounded-br-sm" : "rounded-bl-sm"}`}>
                                 <p className={`text-[10px] font-bold mb-0.5 ${line.speaker === "You" ? "text-white/80" : "text-muted-foreground"}`}>{line.speaker}</p>
                                 <p className="leading-snug">{line.line}</p>
                               </div>
