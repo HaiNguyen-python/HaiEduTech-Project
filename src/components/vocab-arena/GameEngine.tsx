@@ -127,6 +127,11 @@ const GameEngine = ({ questions, lives: initialLives, onGameEnd, onProgress, isS
   const q = questions[current];
   const progress = ((current) / questions.length) * 100;
 
+  // Report current question to parent (for teacher live monitoring)
+  useEffect(() => {
+    if (q && onProgress) onProgress(current, q.word.word);
+  }, [current, q, onProgress]);
+
   // Timer countdown
   useEffect(() => {
     if (gameOver || selected !== null) return;
