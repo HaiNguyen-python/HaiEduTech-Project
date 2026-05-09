@@ -9,26 +9,34 @@ export const useUserRole = () => {
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
+    let mounted = true;
+
     const fetchRoles = async (userId: string) => {
       const { data } = await supabase
         .from("user_roles")
         .select("role")
         .eq("user_id", userId);
+      if (!mounted) return;
       setRoles((data || []).map((r: any) => r.role as AppRole));
       setLoading(false);
     };
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
+    // IMPORTANT: set up listener FIRST, and never await Supabase calls inside
+    // the callback (defer them with setTimeout to avoid deadlocks).
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       const u = session?.user ?? null;
       setUser(u);
       if (u) {
-        fetchRoles(u.id);
+        setTimeout(() => {
+          fetchRoles(u.id);
+        }, 0);
       } else {
         setRoles([]);
         setLoading(false);
       }
     });
 
+    // THEN check existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
       const u = session?.user ?? null;
       setUser(u);
@@ -39,7 +47,10 @@ export const useUserRole = () => {
       }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const isTeacher = roles.includes("teacher") || roles.includes("admin");
