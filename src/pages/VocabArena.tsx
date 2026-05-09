@@ -15,6 +15,9 @@ import TeacherPanel from "@/components/vocab-arena/TeacherPanel";
 import MiniGames from "@/components/vocab-arena/MiniGames";
 import GameLeaderboard from "@/components/games/GameLeaderboard";
 import { supabase } from "@/integrations/supabase/client";
+import chibiWarrior from "@/assets/chibi-vocab-warrior.png";
+import chibiClassroom from "@/assets/chibi-vocab-classroom.png";
+import chibiGamer from "@/assets/chibi-vocab-gamer.png";
 
 type Phase = "menu" | "solo-setup" | "solo-playing" | "solo-results" | "classroom-student" | "classroom-teacher" | "mini-games";
 
@@ -109,8 +112,17 @@ const VocabArena = () => {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setPhase("solo-setup")}
-                  className="cursor-pointer rounded-2xl border-2 border-border bg-card p-8 hover:border-primary/50 transition-all group"
+                  className="relative cursor-pointer rounded-2xl border-2 border-border bg-card p-8 pt-6 hover:border-primary/50 transition-all group overflow-hidden"
                 >
+                  <img
+                    src={chibiWarrior}
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                    width={120}
+                    height={120}
+                    className="absolute -top-2 -right-2 w-24 h-24 object-contain pointer-events-none drop-shadow-md transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6"
+                  />
                   <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
                     <User className="w-7 h-7 text-primary" />
                   </div>
@@ -141,8 +153,17 @@ const VocabArena = () => {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setPhase("classroom-student")}
-                  className="cursor-pointer rounded-2xl border-2 border-border bg-card p-8 hover:border-primary/50 transition-all group"
+                  className="relative cursor-pointer rounded-2xl border-2 border-border bg-card p-8 pt-6 hover:border-primary/50 transition-all group overflow-hidden"
                 >
+                  <img
+                    src={chibiClassroom}
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                    width={120}
+                    height={120}
+                    className="absolute -top-2 -right-2 w-24 h-24 object-contain pointer-events-none drop-shadow-md transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6"
+                  />
                   <div className="w-14 h-14 rounded-2xl bg-amber-500/10 flex items-center justify-center mb-4 group-hover:bg-amber-500/20 transition-colors">
                     <Users className="w-7 h-7 text-amber-400" />
                   </div>
@@ -170,8 +191,17 @@ const VocabArena = () => {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setPhase("mini-games")}
-                  className="cursor-pointer rounded-2xl border-2 border-border bg-card p-8 hover:border-primary/50 transition-all group"
+                  className="relative cursor-pointer rounded-2xl border-2 border-border bg-card p-8 pt-6 hover:border-primary/50 transition-all group overflow-hidden"
                 >
+                  <img
+                    src={chibiGamer}
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                    width={120}
+                    height={120}
+                    className="absolute -top-2 -right-2 w-24 h-24 object-contain pointer-events-none drop-shadow-md transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6"
+                  />
                   <div className="w-14 h-14 rounded-2xl bg-purple-500/10 flex items-center justify-center mb-4 group-hover:bg-purple-500/20 transition-colors">
                     <Gamepad2 className="w-7 h-7 text-purple-500" />
                   </div>
