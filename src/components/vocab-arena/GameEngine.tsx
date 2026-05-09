@@ -138,8 +138,11 @@ const GameEngine = ({ questions, lives: initialLives, onGameEnd, onProgress, isS
 
   // Report current question to parent (for teacher live monitoring)
   useEffect(() => {
-    if (q && onProgress) onProgress(current, q.word.word);
-  }, [current, q, onProgress]);
+    if (q && onProgress) {
+      onProgress({ index: current, word: q.word.word, score, correct, total: current, streak });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current, q]);
 
   // Timer countdown
   useEffect(() => {
