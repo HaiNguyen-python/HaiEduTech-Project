@@ -77,7 +77,7 @@ const GlobalSearch = ({ variant = "icon" }: GlobalSearchProps) => {
     { to: "/chinese/hsk/vocabulary", label: t("Từ vựng HSK", "HSK Vocabulary"), group: "practice", icon: Library },
     { to: "/ielts-writing-practice", label: t("Luyện viết IELTS", "IELTS Writing Practice"), group: "practice", icon: PenTool },
     { to: "/ielts-speaking-practice", label: t("Luyện nói IELTS", "IELTS Speaking Practice"), group: "practice", icon: MessageSquare },
-    { to: "/ai-grading", label: t("Chấm điểm AI", "AI Grading"), group: "practice", icon: Cpu },
+    { to: "/ai-grading", label: t("IELTS Smart Grading", "IELTS Smart Grading"), group: "practice", icon: Cpu },
     { to: "/vocab-arena", label: "Vocab Arena", group: "practice", icon: Swords },
   ];
 
