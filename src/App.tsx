@@ -97,6 +97,7 @@ const VietnameseKids = lazy(() => import("./pages/VietnameseKids.tsx"));
 const VietnamesePhrasebook = lazy(() => import("./pages/VietnamesePhrasebook.tsx"));
 const VietnameseDaily = lazy(() => import("./pages/VietnameseDaily.tsx"));
 const IeltsLectures = lazy(() => import("./pages/IeltsLectures.tsx"));
+const IeltsListeningPractice = lazy(() => import("./pages/IeltsListeningPractice.tsx"));
 const IeltsLectureView = lazy(() => import("./pages/IeltsLectureView.tsx"));
 const ToeicLectures = lazy(() => import("./pages/ToeicLectures.tsx"));
 const ToeicHub = lazy(() => import("./pages/ToeicHub.tsx"));
@@ -201,6 +202,7 @@ const App = () => (
             <Route path="/sat-exams/:examId" element={<LazyRoute><SatMockExam /></LazyRoute>} />
             <Route path="/ielts-lectures" element={<LazyRoute><IeltsLectures /></LazyRoute>} />
             <Route path="/ielts-lectures/:lectureId" element={<LazyRoute><IeltsLectureView /></LazyRoute>} />
+            <Route path="/ielts-listening-practice" element={<LazyRoute><IeltsListeningPractice /></LazyRoute>} />
             <Route path="/toeic" element={<LazyRoute><ToeicHub /></LazyRoute>} />
             <Route path="/toeic-lectures" element={<LazyRoute><ToeicLectures /></LazyRoute>} />
             <Route path="/toeic-lectures/:lectureId" element={<LazyRoute><ToeicLectureView /></LazyRoute>} />
