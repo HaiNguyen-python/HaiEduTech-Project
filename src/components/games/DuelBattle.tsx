@@ -202,9 +202,16 @@ const DuelBattle = ({ onBack }: DuelBattleProps) => {
         <h2 className="text-2xl font-bold text-foreground mb-2 neon-text">
           {t("Đối đầu 1v1", "1v1 Duel Battle")}
         </h2>
-        <p className="text-sm text-muted-foreground mb-6">
+        <p className="text-sm text-muted-foreground mb-4">
           {t("Thách đấu bạn bè và xem ai giỏi hơn!", "Challenge a friend and see who's better!")}
         </p>
+        <input
+          value={nickname}
+          onChange={(e) => setNickname(e.target.value)}
+          placeholder={t("Tên của bạn", "Your name")}
+          maxLength={30}
+          className="w-full text-center text-base font-semibold px-4 py-3 rounded-xl bg-secondary border-2 border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none mb-4"
+        />
         <div className="flex flex-col gap-3">
           <Button onClick={() => { handleCreate(); }} className="neon-btn gap-2" disabled={loading}>
             {loading && <Loader2 className="w-4 h-4 animate-spin" />}
