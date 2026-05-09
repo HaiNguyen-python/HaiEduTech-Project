@@ -17,6 +17,10 @@ import {
   thptExerciseSets,
   type ThptExercise,
 } from "@/data/thptEssentialReviewExpansion";
+import {
+  thptVocabThemesExpansion2,
+  thptExerciseSetsExpansion2,
+} from "@/data/thptEssentialReviewExpansion2";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -36,7 +40,8 @@ const speak = (text: string) => {
 };
 
 const allGrammarTopics = [...thptGrammarTopics, ...thptGrammarTopicsExpansion];
-const allVocabThemes = [...thptVocabThemes, ...thptVocabThemesExpansion];
+const allVocabThemes = [...thptVocabThemes, ...thptVocabThemesExpansion, ...thptVocabThemesExpansion2];
+const allExerciseSets = [...thptExerciseSets, ...thptExerciseSetsExpansion2];
 
 interface ExerciseRunnerProps {
   setId: string;
