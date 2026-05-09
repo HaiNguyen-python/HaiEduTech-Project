@@ -98,7 +98,7 @@ const Navbar = () => {
     { to: "/ielts-writing-practice", label: t("Luyện viết", "Writing Practice"), icon: PenTool },
     { to: "/ielts-speaking-practice", label: t("Luyện nói", "Speaking Practice"), icon: MessageSquare },
     { to: "/ielts-sample-essays", label: t("Bài mẫu 8.0+", "Sample Essays 8.0+"), icon: FileText },
-    { to: "/ai-grading", label: t("Chấm điểm AI", "AI Grading"), icon: Cpu },
+    { to: "/ai-grading", label: t("IELTS Smart Grading", "IELTS Smart Grading"), icon: Cpu },
   ];
 
   // National Exam nested sub-items
