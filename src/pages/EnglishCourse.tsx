@@ -486,9 +486,9 @@ const EnglishCourse = () => {
                   </p>
                   <div className="space-y-6">
                     {satModules.map(mod => (
-                      <div key={mod.id} className="rounded-xl border border-border bg-background/40 p-4 md:p-5">
-                        {/* Module header */}
-                        <div className="flex items-start gap-3 mb-4 pb-3 border-b border-border">
+                      <details key={mod.id} className="group/mod rounded-xl border border-border bg-background/40 p-4 md:p-5 [&_summary::-webkit-details-marker]:hidden">
+                        {/* Module header (clickable) */}
+                        <summary className="flex items-start gap-3 cursor-pointer list-none select-none">
                           <span className="text-3xl">{mod.icon}</span>
                           <div className="flex-1 min-w-0">
                             <h3 className="font-bold text-foreground text-base md:text-lg">{t(mod.title, mod.titleEn)}</h3>
@@ -497,9 +497,10 @@ const EnglishCourse = () => {
                           <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full font-medium whitespace-nowrap shrink-0">
                             {mod.lessons.length} {t("bài", "lessons")}
                           </span>
-                        </div>
+                          <ChevronDown className="w-5 h-5 text-muted-foreground shrink-0 transition-transform group-open/mod:rotate-180" />
+                        </summary>
                         {/* Lessons grid */}
-                        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-4 pt-4 border-t border-border">
                           {mod.lessons.map((lesson, idx) => (
                             <button
                               key={lesson.id}
