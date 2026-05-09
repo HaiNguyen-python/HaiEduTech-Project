@@ -61,6 +61,15 @@ export const thptGrammarTopics: GrammarTopic[] = [
     titleEn: "Conditional Sentences (Type 1, 2, 3 & Mixed)",
     summaryVi: "Phân biệt 4 loại câu điều kiện và đảo ngữ - dạng câu phổ biến trong phần Sentence Combination.",
     summaryEn: "Distinguish 4 conditional types and inversion — common in Sentence Combination tasks.",
+    detailVi: "Câu điều kiện diễn tả mối quan hệ NẾU - THÌ. Loại 1 nói về điều có thể xảy ra trong tương lai; Loại 2 giả định trái ngược hiện tại; Loại 3 tiếc nuối quá khứ; Hỗn hợp dùng khi điều kiện xảy ra ở quá khứ nhưng kết quả ở hiện tại. Khi câu bắt đầu bằng 'Were', 'Had' hoặc 'Should' thì đó là dạng ĐẢO NGỮ - bỏ 'If' và đảo trợ động từ lên trước chủ ngữ.",
+    detailEn: "Conditionals express IF–THEN relations. Type 1 = possible future; Type 2 = unreal present; Type 3 = past regret; Mixed = past condition with present result. When a sentence opens with 'Were', 'Had', or 'Should', it is the INVERTED form — drop 'If' and move the auxiliary in front of the subject.",
+    formulas: [
+      "Type 1: If + S + V(s/es), S + will/can/may + V",
+      "Type 2: If + S + V2/were, S + would/could + V",
+      "Type 3: If + S + had + V3, S + would have + V3",
+      "Mixed: If + S + had + V3, S + would + V (now)",
+      "Inversion: Were S to V…, / Had S V3…, / Should S V…",
+    ],
     rules: [
       { vi: "Loại 1: If + S + V(s/es), S + will + V (có thật)", en: "Type 1: If + S + V(s/es), S + will + V (real)" },
       { vi: "Loại 2: If + S + V2/ed, S + would + V (giả định hiện tại)", en: "Type 2: If + S + V2/ed, S + would + V (present unreal)" },
@@ -70,9 +79,12 @@ export const thptGrammarTopics: GrammarTopic[] = [
     examples: [
       { en: "If I had studied harder, I would have passed the exam.", vi: "Nếu tôi học chăm hơn, tôi đã đậu kỳ thi." },
       { en: "Had I known earlier, I would have helped you.", vi: "Nếu biết sớm hơn, tôi đã giúp bạn." },
+      { en: "If I had taken that job last year, I would be living in Tokyo now.", vi: "(Hỗn hợp) Nếu năm ngoái tôi nhận việc đó, giờ tôi đã đang sống ở Tokyo." },
     ],
     trapVi: "Trong câu loại 2, 'were' dùng cho mọi ngôi (If I were you…). Hỗn hợp: If + had V3 (quá khứ), would V (hiện tại).",
     trapEn: "In Type 2, use 'were' for all subjects (If I were you…). Mixed: If + had V3 (past), would V (present).",
+    tipVi: "Nhìn vế kết quả TRƯỚC: 'would have V3' → loại 3; 'would V' → loại 2; 'will V' → loại 1. Đây là cách phân loại nhanh nhất.",
+    tipEn: "Read the RESULT clause first: 'would have V3' → Type 3; 'would V' → Type 2; 'will V' → Type 1. Fastest classification trick.",
   },
   {
     id: "passive",
