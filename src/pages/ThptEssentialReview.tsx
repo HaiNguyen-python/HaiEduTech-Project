@@ -21,6 +21,7 @@ import {
   thptVocabThemesExpansion2,
   thptExerciseSetsExpansion2,
 } from "@/data/thptEssentialReviewExpansion2";
+import { thptVocabPracticeByTheme } from "@/data/thptVocabPractice";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
