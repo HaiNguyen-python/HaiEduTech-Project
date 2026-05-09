@@ -95,7 +95,7 @@ const IeltsListeningPractice = () => {
         {/* Practice sets */}
         <section className="container mx-auto px-4 sm:px-6 space-y-5">
           {filtered.map(s => (
-            <PracticeSetCard key={s.id} set={s} />
+            <ListeningPracticeSetCard key={s.id} set={s} />
           ))}
         </section>
       </main>
