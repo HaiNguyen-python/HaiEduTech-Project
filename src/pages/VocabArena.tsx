@@ -23,7 +23,7 @@ type Phase = "menu" | "solo-setup" | "solo-playing" | "solo-results" | "classroo
 
 const VocabArena = () => {
   const { t } = useLanguage();
-  const { isTeacher, user } = useUserRole();
+  const { isTeacher, user, loading: roleLoading } = useUserRole();
   const [phase, setPhase] = useState<Phase>("menu");
   const [result, setResult] = useState<GameResult | null>(null);
 
@@ -225,7 +225,9 @@ const VocabArena = () => {
               {/* Teacher controls button — always visible; gated inside */}
               <div className="text-center">
                 <Button
+                  disabled={roleLoading}
                   onClick={() => {
+                    if (roleLoading) return;
                     if (!user) {
                       window.location.href = "/login?redirect=/vocab-arena";
                       return;
