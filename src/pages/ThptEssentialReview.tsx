@@ -402,6 +402,28 @@ const ThptEssentialReview = () => {
 
           {/* Vocabulary */}
           <TabsContent value="vocabulary" className="space-y-4">
+            {/* Chibi cheer banner */}
+            <div className="rounded-2xl border-2 border-primary/30 bg-gradient-to-br from-primary/10 via-emerald-500/5 to-amber-400/10 p-4 md:p-5 flex items-center gap-4 mb-2">
+              <img
+                src={chibiVocabCheer}
+                alt={t("Chibi học sinh cổ vũ", "Chibi student cheering")}
+                width={96}
+                height={96}
+                loading="lazy"
+                className="w-20 h-20 md:w-24 md:h-24 shrink-0 drop-shadow-md"
+              />
+              <div>
+                <div className="font-bold text-base md:text-lg bg-gradient-to-r from-primary to-emerald-500 bg-clip-text text-transparent">
+                  {t("Bạn nhỏ ơi, cố lên nhé!", "You can do it, learner!")}
+                </div>
+                <p className="text-xs md:text-sm text-muted-foreground mt-0.5">
+                  {t(
+                    "Mỗi ngày học chắc 5 từ + làm bài tập ngay sau đó, kỳ thi THPT sẽ trong tầm tay! ✨",
+                    "Master 5 words a day and do the practice right after — THPT success is within reach! ✨"
+                  )}
+                </p>
+              </div>
+            </div>
             <Accordion type="single" collapsible className="space-y-3">
               {allVocabThemes.map((v) => (
                 <AccordionItem
