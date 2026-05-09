@@ -12,6 +12,15 @@ export const thptGrammarTopicsExpansion: GrammarTopic[] = [
     titleEn: "Collocations",
     summaryVi: "Các cụm từ đi cùng nhau cố định (V+N, Adj+N, Adv+Adj). Xuất hiện rất nhiều trong cloze test và viết lại câu.",
     summaryEn: "Words that habitually go together (V+N, Adj+N, Adv+Adj). Extremely common in cloze tests and rewrites.",
+    detailVi: "Collocations l\u00e0 'c\u1ee5m t\u1eeb t\u1ef1 nhi\u00ean' m\u00e0 ng\u01b0\u1eddi b\u1ea3n x\u1ee9 d\u00f9ng c\u1ed1 \u0111\u1ecbnh: make a decision (\u2713) ch\u1ee9 kh\u00f4ng ph\u1ea3i do a decision (\u2717). \u0110\u00e2y l\u00e0 d\u1ea1ng c\u00e2u h\u1ecfi 's\u00e1t th\u1ee7' c\u1ee7a \u0111\u1ec1 THPT v\u00ec kh\u00f4ng c\u00f3 quy t\u1eafc - ph\u1ea3i H\u1eccC THU\u1ed8C theo c\u1ee5m. Chia th\u00e0nh 5 nh\u00f3m ch\u00ednh: V+N (\u0111\u1ed9ng t\u1eeb + danh t\u1eeb), Adj+N (t\u00ednh t\u1eeb + danh t\u1eeb), Adv+Adj (tr\u1ea1ng t\u1eeb + t\u00ednh t\u1eeb), V+Adv (\u0111\u1ed9ng t\u1eeb + tr\u1ea1ng t\u1eeb), N+N (danh t\u1eeb gh\u00e9p).",
+    detailEn: "Collocations are the 'natural word pairings' native speakers use: make a decision (\u2713) NOT do a decision (\u2717). They are the THPT exam's 'silent killer' because there's no rule \u2013 you must MEMORISE them as chunks. Five main groups: V+N (verb+noun), Adj+N (adjective+noun), Adv+Adj (adverb+adjective), V+Adv (verb+adverb), N+N (compound noun).",
+    formulas: [
+      "MAKE = create / produce (a decision, progress, an effort, a mistake)",
+      "DO = perform a task (homework, research, business, exercise)",
+      "TAKE = grab / undertake (a break, a photo, care of, part in)",
+      "HAVE = experience / consume (breakfast, a shower, fun, an effect)",
+      "GET = become / obtain (a job, married, used to, rid of)",
+    ],
     rules: [
       { vi: "V + N: make a decision, take a risk, do homework, have breakfast, pay attention", en: "V + N: make a decision, take a risk, do homework, have breakfast, pay attention" },
       { vi: "Adj + N: heavy rain, strong coffee, deep sleep, fast food, key role", en: "Adj + N: heavy rain, strong coffee, deep sleep, fast food, key role" },
@@ -28,10 +37,13 @@ export const thptGrammarTopicsExpansion: GrammarTopic[] = [
       { en: "He made a great effort to pass the exam.", vi: "Anh ấy đã nỗ lực rất lớn để vượt qua kỳ thi." },
       { en: "We should pay attention to environmental issues.", vi: "Chúng ta nên quan tâm đến các vấn đề môi trường." },
       { en: "Heavy rain caused a serious traffic jam this morning.", vi: "Mưa lớn đã gây ra ùn tắc giao thông nghiêm trọng sáng nay." },
-      { en: "She is deeply concerned about her son's grades.", vi: "Cô ấy rất lo lắng về điểm số của con trai." },
+      { en: "She is deeply concerned about her son's grades.", vi: "Cô ấy rất lo lắng về điểm số của con trai." },      { en: "She finally got rid of her old phone after 5 years.", vi: "Cu\u1ed1i c\u00f9ng c\u00f4 \u1ea5y c\u0169ng b\u1ecf \u0111\u01b0\u1ee3c chi\u1ebfc \u0111i\u1ec7n tho\u1ea1i c\u0169 sau 5 n\u0103m." },
+
     ],
     trapVi: "Không dùng 'do a decision' (đúng: make), 'make homework' (đúng: do), 'have a photo' (đúng: take), 'take breakfast' (đúng: have). Học collocation theo cụm, không dịch từng từ.",
     trapEn: "Avoid 'do a decision' (correct: make), 'make homework' (do), 'have a photo' (take), 'take breakfast' (have). Learn collocations as chunks, don't translate word-by-word.",
+    tipVi: "Khi nh\u00ecn th\u1ea5y 4 \u0111\u00e1p \u00e1n l\u00e0 make/do/take/have/get \u2192 B\u1eaaY collocation. \u0110\u1ecdc to c\u1ee5m \u0111\u1ec3 'c\u1ea3m \u00e2m', v\u00e0 h\u1ecdc theo CH\u1ee6 \u0110\u1ec0 (work, study, travel) \u0111\u1ec3 nh\u1edb l\u00e2u.",
+    tipEn: "Whenever the 4 options are make/do/take/have/get \u2192 it's a collocation TRAP. Say the chunk aloud to 'feel' it, and revise by THEME (work, study, travel) for long-term retention.",
   },
   {
     id: "subject-verb",
@@ -40,6 +52,14 @@ export const thptGrammarTopicsExpansion: GrammarTopic[] = [
     titleEn: "Subject–Verb Agreement",
     summaryVi: "Quy tắc hòa hợp chủ ngữ và động từ - bẫy phổ biến trong phần Error Identification.",
     summaryEn: "Subject–verb agreement rules — a common trap in Error Identification questions.",
+    detailVi: "Quy t\u1eafc c\u1ed1t l\u00f5i: ch\u1ee7 ng\u1eef S\u1ed0 \u00cdT \u0111i v\u1edbi \u0111\u1ed9ng t\u1eeb S\u1ed0 \u00cdT, ch\u1ee7 ng\u1eef S\u1ed0 NHI\u1ec0U \u0111i v\u1edbi \u0111\u1ed9ng t\u1eeb S\u1ed0 NHI\u1ec0U. Tuy nhi\u00ean c\u00f3 nhi\u1ec1u B\u1eaaY: c\u1ee5m ch\u1ec9 l\u01b0\u1ee3ng, danh t\u1eeb t\u1eadp th\u1ec3, t\u1eeb ch\u1ec9 th\u1eddi gian/kho\u1ea3ng c\u00e1ch/ti\u1ec1n (s\u1ed1 nhi\u1ec1u v\u1ec1 h\u00ecnh th\u1ee9c nh\u01b0ng coi l\u00e0 s\u1ed1 \u00edt), ho\u1eb7c c\u00e1c li\u00ean t\u1eeb t\u01b0\u01a1ng quan (either\u2026or, neither\u2026nor, not only\u2026but also) chia theo CH\u1ee6 NG\u1eee G\u1ea6N NH\u1ea4T.",
+    detailEn: "Core rule: SINGULAR subject takes a SINGULAR verb, PLURAL subject takes a PLURAL verb. But there are many TRAPS: quantifier phrases, collective nouns, time/distance/money expressions (plural in form but treated as singular), and correlative conjunctions (either\u2026or, neither\u2026nor, not only\u2026but also) which agree with the NEAREST subject.",
+    formulas: [
+      "Each / Every / Either / Neither + N \u2192 singular V",
+      "Either\u2026or / Neither\u2026nor / Not only\u2026but also \u2192 V agrees with NEAREST subject",
+      "A number of + plural N \u2192 plural V    /    The number of + N \u2192 singular V",
+      "Time / Distance / Money / -ics \u2192 singular V",
+    ],
     rules: [
       { vi: "Each / every / either / neither + N (số ít) → V (số ít)", en: "Each / every / either / neither + N → singular V" },
       { vi: "Either…or / Neither…nor / Not only…but also: V chia theo CN gần nhất", en: "Either…or / Neither…nor / Not only…but also: V agrees with the nearest subject" },
@@ -49,10 +69,13 @@ export const thptGrammarTopicsExpansion: GrammarTopic[] = [
     ],
     examples: [
       { en: "Neither the manager nor the employees are responsible for it.", vi: "Cả quản lý lẫn nhân viên đều không chịu trách nhiệm cho việc đó." },
-      { en: "Ten kilometres is a long distance to walk.", vi: "Mười cây số là một khoảng cách dài để đi bộ." },
+      { en: "Ten kilometres is a long distance to walk.", vi: "Mười cây số là một khoảng cách dài để đi bộ." },      { en: "One of the students has lost his ID card.", vi: "M\u1ed9t trong c\u00e1c h\u1ecdc sinh \u0111\u00e3 l\u00e0m m\u1ea5t th\u1ebb h\u1ecdc sinh." },
+
     ],
     trapVi: "Sau 'one of the + N (số nhiều) + V (số ít)'. Ví dụ: One of my friends is a doctor.",
     trapEn: "After 'one of the + plural N + singular V'. e.g. One of my friends is a doctor.",
+    tipVi: "Khi g\u1eb7p ch\u1ee7 ng\u1eef d\u00e0i c\u00f3 nhi\u1ec1u gi\u1edbi t\u1eeb ('the box of chocolates on the table'), b\u1ecf qua c\u00e1c c\u1ee5m gi\u1edbi t\u1eeb v\u00e0 ch\u1ec9 chia \u0111\u1ed9ng t\u1eeb theo CH\u1ee6 NG\u1eee CH\u00cdNH (the box \u2192 is).",
+    tipEn: "When the subject is long with prepositional phrases ('the box of chocolates on the table'), ignore the phrases and conjugate based on the MAIN SUBJECT (the box \u2192 is).",
   },
   {
     id: "cleft",
@@ -61,6 +84,14 @@ export const thptGrammarTopicsExpansion: GrammarTopic[] = [
     titleEn: "Cleft Sentences",
     summaryVi: "Cấu trúc nhấn mạnh chủ ngữ, tân ngữ hoặc trạng ngữ - dạng viết lại câu rất phổ biến.",
     summaryEn: "Structures to emphasize subject, object, or adverbial — frequent in sentence-rewriting tasks.",
+    detailVi: "C\u00e2u ch\u1ebb (cleft sentence) t\u00e1ch c\u00e2u th\u01b0\u1eddng ra th\u00e0nh 2 ph\u1ea7n \u0111\u1ec3 NH\u1ea4N M\u1ea0NH m\u1ed9t th\u00e0nh ph\u1ea7n c\u1ee5 th\u1ec3 (ch\u1ee7 ng\u1eef, t\u00e2n ng\u1eef, ho\u1eb7c tr\u1ea1ng ng\u1eef ch\u1ec9 th\u1eddi gian/n\u01a1i ch\u1ed1n/c\u00e1ch th\u1ee9c). C\u00f3 2 d\u1ea1ng ch\u00ednh: It-cleft ('It is/was X that\u2026') v\u00e0 Wh-cleft ('What I want is\u2026'). \u0110\u00e2y l\u00e0 d\u1ea1ng vi\u1ebft l\u1ea1i c\u00e2u ph\u1ed5 bi\u1ebfn nh\u1ea5t trong \u0111\u1ec1 thi THPT.",
+    detailEn: "A cleft sentence splits a normal sentence into two parts to EMPHASISE one element (subject, object, or adverbial of time/place/manner). Two main types: It-cleft ('It is/was X that\u2026') and Wh-cleft ('What I want is\u2026'). This is the most common rewriting pattern on the THPT exam.",
+    formulas: [
+      "Emphasise S/O: It + be + S/O + that/who + clause",
+      "Emphasise adverbial: It + be + adverbial + that + clause",
+      "Wh-cleft: What + S + V + be + complement",
+      "All I/we want is + N/to V",
+    ],
     rules: [
       { vi: "Nhấn mạnh chủ ngữ/tân ngữ: It is/was + … + that/who + …", en: "Emphasize S/O: It is/was + … + that/who + …" },
       { vi: "Nhấn mạnh trạng ngữ: It is/was + adverbial + that + …", en: "Emphasize adverbial: It is/was + adverbial + that + …" },
@@ -68,10 +99,13 @@ export const thptGrammarTopicsExpansion: GrammarTopic[] = [
     ],
     examples: [
       { en: "It was in 2010 that she moved to Hanoi.", vi: "Chính vào năm 2010 cô ấy đã chuyển đến Hà Nội." },
-      { en: "What I need most is your support.", vi: "Điều tôi cần nhất là sự ủng hộ của bạn." },
+      { en: "What I need most is your support.", vi: "Điều tôi cần nhất là sự ủng hộ của bạn." },      { en: "It is the lack of practice that prevents him from improving.", vi: "Ch\u00ednh vi\u1ec7c thi\u1ebfu luy\u1ec7n t\u1eadp l\u00e0 \u0111i\u1ec1u ng\u0103n c\u1eadu \u1ea5y ti\u1ebfn b\u1ed9." },
+
     ],
     trapVi: "Khi nhấn mạnh người, có thể dùng 'who' thay 'that' nhưng KHÔNG dùng 'which'.",
     trapEn: "For people you may use 'who' instead of 'that' but NEVER 'which'.",
+    tipVi: "Khi vi\u1ebft l\u1ea1i \u0111\u1ec3 nh\u1ea5n m\u1ea1nh TH\u1edcI GIAN ho\u1eb7c N\u01a0I CH\u1ed0N, d\u00f9ng 'It was\u2026that\u2026' lu\u00f4n an to\u00e0n (kh\u00f4ng d\u00f9ng who/where).",
+    tipEn: "When rewriting to emphasise TIME or PLACE, 'It was\u2026that\u2026' is always the safe choice (avoid who/where here).",
   },
   {
     id: "connectors",
@@ -80,6 +114,14 @@ export const thptGrammarTopicsExpansion: GrammarTopic[] = [
     titleEn: "Connectors & Linking Words",
     summaryVi: "Phân biệt because / because of, although / despite, so / such, however / therefore - dạng câu trắc nghiệm cố định.",
     summaryEn: "Distinguish because/because of, although/despite, so/such, however/therefore — fixed MCQ patterns.",
+    detailVi: "Li\u00ean t\u1eeb gi\u00fap c\u00e2u m\u1ea1ch l\u1ea1c v\u00e0 logic. Quy t\u1eafc nh\u1edb nhanh: N\u1ebeU c\u00f3 M\u1ec6NH \u0110\u1ec0 (S+V) ph\u00eda sau \u2192 d\u00f9ng because / although / while / when. N\u1ebeU c\u00f3 DANH T\u1eea ho\u1eb7c V-ING ph\u00eda sau \u2192 d\u00f9ng because of / despite / in spite of / due to. C\u00e1c t\u1eeb n\u1ed1i c\u00e2u (however, therefore, moreover, nevertheless) \u0111\u1ee9ng \u0111\u1ea7u c\u00e2u m\u1edbi v\u00e0 c\u00f3 d\u1ea5u ph\u1ea9y theo sau.",
+    detailEn: "Connectors give sentences logic and flow. Quick rule: if a CLAUSE (S+V) follows \u2192 use because / although / while / when. If a NOUN or V-ING follows \u2192 use because of / despite / in spite of / due to. Sentence connectors (however, therefore, moreover, nevertheless) start a new sentence and are followed by a comma.",
+    formulas: [
+      "because + S + V    /    because of / due to + N / V-ing",
+      "although / though / even though + S + V    /    despite / in spite of + N / V-ing",
+      "so + Adj/Adv + that + S + V    /    such + (a/an) + Adj + N + that + S + V",
+      "S + V\u2026  However, / Therefore, / Moreover, + S + V\u2026",
+    ],
     rules: [
       { vi: "because + clause; because of + N/Ving", en: "because + clause; because of + N/Ving" },
       { vi: "although / though / even though + clause; despite / in spite of + N/Ving", en: "although / though / even though + clause; despite / in spite of + N/Ving" },
@@ -88,10 +130,13 @@ export const thptGrammarTopicsExpansion: GrammarTopic[] = [
     ],
     examples: [
       { en: "Despite the heavy rain, we went out for dinner.", vi: "Mặc dù trời mưa lớn, chúng tôi vẫn đi ăn tối." },
-      { en: "It was such an interesting book that I couldn't put it down.", vi: "Đó là một cuốn sách hay đến nỗi tôi không thể đặt xuống." },
+      { en: "It was such an interesting book that I couldn't put it down.", vi: "Đó là một cuốn sách hay đến nỗi tôi không thể đặt xuống." },      { en: "He passed the exam despite having little time to study.", vi: "Anh \u1ea5y \u0111\u00e3 \u0111\u1ed7 k\u1ef3 thi m\u1eb7c d\u00f9 c\u00f3 r\u1ea5t \u00edt th\u1eddi gian h\u1ecdc." },
+
     ],
     trapVi: "Sau 'despite/in spite of' KHÔNG có 'that'. Sau 'so' đi với Adj/Adv, sau 'such' đi với cụm danh từ.",
     trapEn: "No 'that' after 'despite/in spite of'. 'so' takes Adj/Adv; 'such' takes a noun phrase.",
+    tipVi: "Trong ph\u00f2ng thi, NH\u00ccN ngay sau ch\u1ed7 tr\u1ed1ng: n\u1ebfu l\u00e0 danh t\u1eeb \u2192 'because of / despite'; n\u1ebfu l\u00e0 ch\u1ee7 ng\u1eef \u2192 'because / although'. Quy t\u1eafc n\u00e0y gi\u1ea3i quy\u1ebft 95% c\u00e2u h\u1ecfi li\u00ean t\u1eeb.",
+    tipEn: "Look at what comes AFTER the blank: noun \u2192 'because of / despite'; subject \u2192 'because / although'. This rule solves 95% of connector questions.",
   },
   {
     id: "subjunctive",
@@ -100,6 +145,14 @@ export const thptGrammarTopicsExpansion: GrammarTopic[] = [
     titleEn: "Subjunctive Mood",
     summaryVi: "Sau các động từ/tính từ chỉ mong muốn, đề nghị, yêu cầu - dùng V nguyên mẫu.",
     summaryEn: "After verbs/adjectives of wish, suggestion, requirement — use the bare infinitive.",
+    detailVi: "C\u00e2u gi\u1ea3 \u0111\u1ecbnh (subjunctive) d\u00f9ng \u0111\u1ec3 di\u1ec5n \u0111\u1ea1t Y\u00caU C\u1ea6U, \u0110\u1ec0 NGH\u1eca, MONG \u01af\u1edaC, ho\u1eb7c \u0111i\u1ec1u TR\u00c1I V\u1edaI TH\u1ef0C T\u1ebe. \u0110\u1eb7c \u0111i\u1ec3m n\u1ed5i b\u1eadt: \u0111\u1ed9ng t\u1eeb trong m\u1ec7nh \u0111\u1ec1 'that' lu\u00f4n \u1edf d\u1ea1ng NGUY\u00caN M\u1eaaU kh\u00f4ng 'to' (d\u00f9 ch\u1ee7 ng\u1eef l\u00e0 he/she/it). V\u1edbi 'wish' v\u00e0 'if only', L\u00d9I TH\u00cc m\u1ed9t b\u1eadc: hi\u1ec7n t\u1ea1i \u2192 qu\u00e1 kh\u1ee9 \u0111\u01a1n (V2/were); qu\u00e1 kh\u1ee9 \u2192 qu\u00e1 kh\u1ee9 ho\u00e0n th\u00e0nh (had + V3).",
+    detailEn: "The subjunctive expresses REQUESTS, SUGGESTIONS, WISHES, or CONTRARY-TO-FACT situations. Key feature: the verb in the 'that' clause stays in BARE infinitive form (even after he/she/it). With 'wish' and 'if only', BACKSHIFT one tense: present \u2192 past simple (V2/were); past \u2192 past perfect (had + V3).",
+    formulas: [
+      "S + suggest/recommend/insist/demand/require + that + S + (should) + V (bare)",
+      "It is + essential/important/necessary/vital + that + S + V (bare)",
+      "I wish / If only + S + V2/Ved (present unreal)  /  + had V3 (past unreal)",
+      "It's (high/about) time + S + V2/Ved",
+    ],
     rules: [
       { vi: "S + suggest/recommend/insist/demand/require + that + S + (should) + V (bare)", en: "S + suggest/recommend/insist/demand/require + that + S + (should) + V (bare)" },
       { vi: "It is + essential/necessary/important/vital + that + S + V (bare)", en: "It is + essential/necessary/important/vital + that + S + V (bare)" },
@@ -108,10 +161,13 @@ export const thptGrammarTopicsExpansion: GrammarTopic[] = [
     ],
     examples: [
       { en: "The teacher suggested that he study harder.", vi: "Giáo viên đề nghị rằng anh ấy nên học chăm hơn." },
-      { en: "It's high time we left for the airport.", vi: "Đã đến lúc chúng ta phải đi ra sân bay." },
+      { en: "It's high time we left for the airport.", vi: "Đã đến lúc chúng ta phải đi ra sân bay." },      { en: "I wish I had studied harder when I was young.", vi: "\u01af\u1edbc g\u00ec t\u00f4i \u0111\u00e3 h\u1ecdc ch\u0103m h\u01a1n khi c\u00f2n tr\u1ebb." },
+
     ],
     trapVi: "Trong câu giả định, KHÔNG chia động từ theo ngôi dù chủ ngữ là 'he/she/it'. 'I wish + were' (mọi ngôi).",
     trapEn: "In the subjunctive, do NOT inflect the verb (use bare V) even after he/she/it. 'I wish + were' (all subjects).",
+    tipVi: "Sau 'suggest/recommend' \u2192 \u0111\u1ed9ng t\u1eeb NGUY\u00caN M\u1eaaU, kh\u00f4ng c\u00f3 's' d\u00f9 ch\u1ee7 ng\u1eef l\u00e0 s\u1ed1 \u00edt. \u0110\u00e2y l\u00e0 l\u1ed7i sai ph\u1ed5 bi\u1ebfn nh\u1ea5t.",
+    tipEn: "After 'suggest/recommend' the verb is BARE infinitive \u2013 no 's' even with a singular subject. This is the most common mistake.",
   },
   {
     id: "question-tags",
@@ -120,6 +176,14 @@ export const thptGrammarTopicsExpansion: GrammarTopic[] = [
     titleEn: "Question Tags",
     summaryVi: "Khẳng định → đuôi phủ định; phủ định → đuôi khẳng định. Lưu ý các trường hợp đặc biệt.",
     summaryEn: "Positive statement → negative tag; negative statement → positive tag. Watch the special cases.",
+    detailVi: "C\u00e2u h\u1ecfi \u0111u\u00f4i g\u1ed3m 2 ph\u1ea7n: m\u1ec7nh \u0111\u1ec1 ch\u00ednh + \u0111u\u00f4i (tag) ng\u1eafn. Quy t\u1eafc: ch\u00ednh KH\u1eb2NG \u0110\u1ecaNH \u2192 \u0111u\u00f4i PH\u1ee6 \u0110\u1ecaNH; ch\u00ednh PH\u1ee6 \u0110\u1ecaNH \u2192 \u0111u\u00f4i KH\u1eb2NG \u0110\u1ecaNH. Tr\u1ee3 \u0111\u1ed9ng t\u1eeb trong tag PH\u1ea2I kh\u1edbp v\u1edbi m\u1ec7nh \u0111\u1ec1 ch\u00ednh (am/is/are, do/does/did, have/has/had, will/would, can/could\u2026). L\u01b0u \u00fd c\u00e1c tr\u01b0\u1eddng h\u1ee3p \u0111\u1eb7c bi\u1ec7t: 'I am' \u2192 'aren't I?'; 'Let's' \u2192 'shall we?'; m\u1ec7nh l\u1ec7nh \u2192 'will you?'.",
+    detailEn: "A tag question has two parts: main clause + short tag. Rule: positive main \u2192 negative tag; negative main \u2192 positive tag. The auxiliary in the tag MUST match the main clause (am/is/are, do/does/did, have/has/had, will/would, can/could\u2026). Special cases: 'I am' \u2192 'aren't I?'; 'Let's' \u2192 'shall we?'; imperative \u2192 'will you?'.",
+    formulas: [
+      "Positive main, negative tag: She is a teacher, isn't she?",
+      "Negative main, positive tag: You don't smoke, do you?",
+      "I am \u2026 , aren't I?    /    Let's \u2026 , shall we?    /    Don't \u2026 , will you?",
+      "never/hardly/seldom/no/nothing in main \u2192 positive tag",
+    ],
     rules: [
       { vi: "I am … → aren't I?", en: "I am … → aren't I?" },
       { vi: "Let's … → shall we?  /  Don't (mệnh lệnh) → will you?", en: "Let's … → shall we?  /  Imperative → will you?" },
@@ -128,10 +192,13 @@ export const thptGrammarTopicsExpansion: GrammarTopic[] = [
     ],
     examples: [
       { en: "You haven't met him before, have you?", vi: "Bạn chưa từng gặp anh ấy trước đây, đúng không?" },
-      { en: "Let's go to the cinema, shall we?", vi: "Chúng ta đi xem phim nhé?" },
+      { en: "Let's go to the cinema, shall we?", vi: "Chúng ta đi xem phim nhé?" },      { en: "Nobody phoned while I was out, did they?", vi: "Kh\u00f4ng ai g\u1ecdi khi t\u00f4i \u0111i v\u1eafng ph\u1ea3i kh\u00f4ng?" },
+
     ],
     trapVi: "Câu chứa 'I am' → đuôi 'aren't I?' (KHÔNG phải 'amn't I'). Câu mệnh lệnh phủ định 'Don't…' → đuôi 'will you?'.",
     trapEn: "'I am' → tag 'aren't I?' (NOT 'amn't I'). Negative imperative 'Don't…' → tag 'will you?'.",
+    tipVi: "Tag d\u00f9ng \u0111\u1ea1i t\u1eeb ch\u1ee7 ng\u1eef (he/she/it/they) ch\u1ee9 kh\u00f4ng ph\u1ea3i t\u00ean ri\u00eang. V\u1edbi 'everyone/someone/nobody' \u2192 \u0111\u1ea1i t\u1eeb l\u00e0 'they'.",
+    tipEn: "Tags use subject pronouns (he/she/it/they) \u2013 never proper names. With 'everyone/someone/nobody' the pronoun is 'they'.",
   },
 ];
 
