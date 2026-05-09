@@ -35,6 +35,7 @@ const DuelBattle = ({ onBack }: DuelBattleProps) => {
   const [phase, setPhase] = useState<"menu" | "create" | "join" | "waiting" | "playing" | "results">("menu");
   const [roomCode, setRoomCode] = useState("");
   const [inputCode, setInputCode] = useState("");
+  const [nickname, setNickname] = useState(() => localStorage.getItem("arena-nickname") || "");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -56,27 +57,27 @@ const DuelBattle = ({ onBack }: DuelBattleProps) => {
   };
 
   const handleCreate = async () => {
+    if (!nickname.trim()) { setError(t("Vui lòng nhập tên", "Please enter your name")); return; }
     setLoading(true);
     setError("");
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) { setError(t("Cần đăng nhập", "Please log in")); setLoading(false); return; }
+      const uid = user?.id ?? null;
+      const name = nickname.trim().slice(0, 30);
+      localStorage.setItem("arena-nickname", name);
 
       const code = generateCode();
       const { data: room, error: err } = await supabase
         .from("game_rooms")
-        .insert({ room_code: code, created_by: user.id, settings: { type: "duel", questionCount: 7 }, status: "waiting" })
+        .insert({ room_code: code, created_by: uid, settings: { type: "duel", questionCount: 7 }, status: "waiting" })
         .select()
         .single();
 
       if (err || !room) { setError(t("Không thể tạo phòng", "Failed to create room")); setLoading(false); return; }
 
-      const profile = await supabase.from("profiles").select("full_name").eq("id", user.id).single();
-      const name = profile.data?.full_name || user.email?.split("@")[0] || "Player 1";
-
       const { data: participant } = await supabase
         .from("game_participants")
-        .insert({ room_id: room.id, user_id: user.id, display_name: name })
+        .insert({ room_id: room.id, user_id: uid, display_name: name })
         .select()
         .single();
 
@@ -90,21 +91,21 @@ const DuelBattle = ({ onBack }: DuelBattleProps) => {
 
   const handleJoin = async () => {
     if (inputCode.length < 4) return;
+    if (!nickname.trim()) { setError(t("Vui lòng nhập tên", "Please enter your name")); return; }
     setLoading(true);
     setError("");
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) { setError(t("Cần đăng nhập", "Please log in")); setLoading(false); return; }
+      const uid = user?.id ?? null;
+      const name = nickname.trim().slice(0, 30);
+      localStorage.setItem("arena-nickname", name);
 
       const { data: room } = await supabase.from("game_rooms").select("*").eq("room_code", inputCode.toUpperCase()).single();
       if (!room) { setError(t("Không tìm thấy phòng", "Room not found")); setLoading(false); return; }
 
-      const profile = await supabase.from("profiles").select("full_name").eq("id", user.id).single();
-      const name = profile.data?.full_name || user.email?.split("@")[0] || "Player 2";
-
       const { data: participant } = await supabase
         .from("game_participants")
-        .insert({ room_id: room.id, user_id: user.id, display_name: name })
+        .insert({ room_id: room.id, user_id: uid, display_name: name })
         .select()
         .single();
 
@@ -201,9 +202,16 @@ const DuelBattle = ({ onBack }: DuelBattleProps) => {
         <h2 className="text-2xl font-bold text-foreground mb-2 neon-text">
           {t("Đối đầu 1v1", "1v1 Duel Battle")}
         </h2>
-        <p className="text-sm text-muted-foreground mb-6">
+        <p className="text-sm text-muted-foreground mb-4">
           {t("Thách đấu bạn bè và xem ai giỏi hơn!", "Challenge a friend and see who's better!")}
         </p>
+        <input
+          value={nickname}
+          onChange={(e) => setNickname(e.target.value)}
+          placeholder={t("Tên của bạn", "Your name")}
+          maxLength={30}
+          className="w-full text-center text-base font-semibold px-4 py-3 rounded-xl bg-secondary border-2 border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none mb-4"
+        />
         <div className="flex flex-col gap-3">
           <Button onClick={() => { handleCreate(); }} className="neon-btn gap-2" disabled={loading}>
             {loading && <Loader2 className="w-4 h-4 animate-spin" />}
