@@ -57,27 +57,27 @@ const DuelBattle = ({ onBack }: DuelBattleProps) => {
   };
 
   const handleCreate = async () => {
+    if (!nickname.trim()) { setError(t("Vui lòng nhập tên", "Please enter your name")); return; }
     setLoading(true);
     setError("");
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) { setError(t("Cần đăng nhập", "Please log in")); setLoading(false); return; }
+      const uid = user?.id ?? null;
+      const name = nickname.trim().slice(0, 30);
+      localStorage.setItem("arena-nickname", name);
 
       const code = generateCode();
       const { data: room, error: err } = await supabase
         .from("game_rooms")
-        .insert({ room_code: code, created_by: user.id, settings: { type: "duel", questionCount: 7 }, status: "waiting" })
+        .insert({ room_code: code, created_by: uid, settings: { type: "duel", questionCount: 7 }, status: "waiting" })
         .select()
         .single();
 
       if (err || !room) { setError(t("Không thể tạo phòng", "Failed to create room")); setLoading(false); return; }
 
-      const profile = await supabase.from("profiles").select("full_name").eq("id", user.id).single();
-      const name = profile.data?.full_name || user.email?.split("@")[0] || "Player 1";
-
       const { data: participant } = await supabase
         .from("game_participants")
-        .insert({ room_id: room.id, user_id: user.id, display_name: name })
+        .insert({ room_id: room.id, user_id: uid, display_name: name })
         .select()
         .single();
 
@@ -91,21 +91,21 @@ const DuelBattle = ({ onBack }: DuelBattleProps) => {
 
   const handleJoin = async () => {
     if (inputCode.length < 4) return;
+    if (!nickname.trim()) { setError(t("Vui lòng nhập tên", "Please enter your name")); return; }
     setLoading(true);
     setError("");
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) { setError(t("Cần đăng nhập", "Please log in")); setLoading(false); return; }
+      const uid = user?.id ?? null;
+      const name = nickname.trim().slice(0, 30);
+      localStorage.setItem("arena-nickname", name);
 
       const { data: room } = await supabase.from("game_rooms").select("*").eq("room_code", inputCode.toUpperCase()).single();
       if (!room) { setError(t("Không tìm thấy phòng", "Room not found")); setLoading(false); return; }
 
-      const profile = await supabase.from("profiles").select("full_name").eq("id", user.id).single();
-      const name = profile.data?.full_name || user.email?.split("@")[0] || "Player 2";
-
       const { data: participant } = await supabase
         .from("game_participants")
-        .insert({ room_id: room.id, user_id: user.id, display_name: name })
+        .insert({ room_id: room.id, user_id: uid, display_name: name })
         .select()
         .single();
 
