@@ -6,13 +6,14 @@ import StudentScheduleWidget from "@/components/StudentScheduleWidget";
 import CounselingHub from "@/components/counseling/CounselingHub";
 import PteSkillRings from "@/components/pte/PteSkillRings";
 import GrammarProgressCard from "@/components/dashboard/GrammarProgressCard";
+import PersonalInfo from "@/components/dashboard/PersonalInfo";
 import { usePteSkillStats } from "@/hooks/usePteSkillStats";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
 import {
   Target, TrendingUp, Calendar, Flame, LogIn, BookOpen,
   BarChart3, Clock, Award, ArrowRight, Activity, Heart,
-  Mic, PenTool, Code, Sparkles, Quote,
+  Mic, PenTool, Code, Sparkles, Quote, UserCog,
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useEffect, useState, useCallback, useMemo } from "react";
@@ -537,7 +538,7 @@ const Dashboard = () => {
             </div>
 
             <Tabs defaultValue="overview" className="w-full">
-              <TabsList className="grid grid-cols-2 w-full max-w-md mx-auto mb-6">
+              <TabsList className="grid grid-cols-3 w-full max-w-2xl mx-auto mb-6">
                 <TabsTrigger value="overview" className="gap-2">
                   <BarChart3 className="w-4 h-4" />
                   {t("Tổng quan", "Overview")}
@@ -545,6 +546,10 @@ const Dashboard = () => {
                 <TabsTrigger value="counseling" className="gap-2">
                   <Heart className="w-4 h-4" />
                   {t("Tư vấn AI", "Counseling")}
+                </TabsTrigger>
+                <TabsTrigger value="profile" className="gap-2">
+                  <UserCog className="w-4 h-4" />
+                  {t("Thông tin cá nhân", "Personal Info")}
                 </TabsTrigger>
               </TabsList>
 
@@ -883,6 +888,16 @@ const Dashboard = () => {
               <TabsContent value="counseling">
                 {user ? (
                   <CounselingHub userId={user.id} />
+                ) : (
+                  <div className="text-center py-12 text-muted-foreground">
+                    {t("Vui lòng đăng nhập để truy cập.", "Please sign in to access.")}
+                  </div>
+                )}
+              </TabsContent>
+
+              <TabsContent value="profile">
+                {user ? (
+                  <PersonalInfo userId={user.id} email={user.email ?? null} />
                 ) : (
                   <div className="text-center py-12 text-muted-foreground">
                     {t("Vui lòng đăng nhập để truy cập.", "Please sign in to access.")}
