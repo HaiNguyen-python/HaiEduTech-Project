@@ -43,6 +43,30 @@ const speak = (text: string) => {
 
 const allGrammarTopics = [...thptGrammarTopics, ...thptGrammarTopicsExpansion];
 
+// Fun emoji pools per vocab theme — one is picked deterministically per word
+// to give every card a unique visual cue without distracting from the content.
+const themeEmojiPool: Record<string, string[]> = {
+  education: ["🎓", "📚", "✏️", "🏫", "📖", "🧑‍🎓", "📝", "🎒", "🍎", "🧠"],
+  environment: ["🌱", "🌍", "🌳", "🌊", "♻️", "🌿", "🦋", "🐢", "🌞", "🌧️"],
+  technology: ["💻", "📱", "🤖", "🖱️", "🔌", "🛰️", "🧠", "⚙️", "🌐", "💾"],
+  career: ["💼", "🧑‍💼", "📈", "💰", "🤝", "🏢", "📊", "🛠️", "🧾", "✉️"],
+  health: ["💪", "🥗", "🏃", "🧘", "🍎", "🛌", "💊", "🩺", "🚴", "🧴"],
+  society: ["🌍", "🤝", "🎎", "🏯", "🎊", "🕊️", "👨‍👩‍👧", "🌐", "🪔", "🎭"],
+  travel: ["✈️", "🗺️", "🏖️", "🧳", "🏝️", "🚆", "📷", "🛂", "⛵", "🏔️"],
+  youth: ["🌟", "🚀", "🎯", "🏆", "💡", "🔥", "🌈", "🎒", "💪", "🤩"],
+  "collocations-prepositions": ["🧷", "🔗", "📌", "🧩", "🎯", "🪡", "🧲", "📎", "🪢", "🗝️"],
+  "collocations-money-time": ["💰", "⏰", "💵", "⏳", "📅", "🪙", "🏦", "💳", "⌛", "💸"],
+  "vocab-education-extra": ["📚", "📝", "🖋️", "🧑‍🏫", "🎓", "📓", "🏆", "🧠", "🎯", "📖"],
+};
+const defaultEmojiPool = ["✨", "🌟", "💫", "⭐", "🎈", "🌈", "🍀", "🎉"];
+const pickEmoji = (themeId: string, key: string) => {
+  const pool = themeEmojiPool[themeId] ?? defaultEmojiPool;
+  let h = 0;
+  for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
+  return pool[h % pool.length];
+};
+
+
 // Merge per-theme extra words from thptVocabPractice into each VocabTheme by id.
 const mergedVocabThemes = [
   ...thptVocabThemes,
@@ -450,8 +474,14 @@ const ThptEssentialReview = () => {
                       {v.words.map((w) => (
                         <div
                           key={w.en}
-                          className="rounded-lg border border-border bg-secondary/30 p-3 hover:border-primary/40 hover:bg-primary/5 transition"
+                          className="relative rounded-lg border border-border bg-secondary/30 p-3 pl-12 hover:border-primary/40 hover:bg-primary/5 transition"
                         >
+                          <span
+                            aria-hidden="true"
+                            className="absolute left-2 top-2 inline-flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-primary/15 to-emerald-500/15 text-xl shadow-sm"
+                          >
+                            {pickEmoji(v.id, w.en)}
+                          </span>
                           <div className="flex items-start justify-between gap-2 mb-1">
                             <div className="font-bold text-base">{w.en}</div>
                             <button
