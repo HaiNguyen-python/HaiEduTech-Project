@@ -474,8 +474,14 @@ const ThptEssentialReview = () => {
                       {v.words.map((w) => (
                         <div
                           key={w.en}
-                          className="rounded-lg border border-border bg-secondary/30 p-3 hover:border-primary/40 hover:bg-primary/5 transition"
+                          className="relative rounded-lg border border-border bg-secondary/30 p-3 pl-12 hover:border-primary/40 hover:bg-primary/5 transition"
                         >
+                          <span
+                            aria-hidden="true"
+                            className="absolute left-2 top-2 inline-flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-primary/15 to-emerald-500/15 text-xl shadow-sm"
+                          >
+                            {pickEmoji(v.id, w.en)}
+                          </span>
                           <div className="flex items-start justify-between gap-2 mb-1">
                             <div className="font-bold text-base">{w.en}</div>
                             <button
