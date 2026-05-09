@@ -21,6 +21,7 @@ import {
   thptVocabThemesExpansion2,
   thptExerciseSetsExpansion2,
 } from "@/data/thptEssentialReviewExpansion2";
+import { thptVocabPracticeByTheme } from "@/data/thptVocabPractice";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -40,8 +41,24 @@ const speak = (text: string) => {
 };
 
 const allGrammarTopics = [...thptGrammarTopics, ...thptGrammarTopicsExpansion];
-const allVocabThemes = [...thptVocabThemes, ...thptVocabThemesExpansion, ...thptVocabThemesExpansion2];
+
+// Merge per-theme extra words from thptVocabPractice into each VocabTheme by id.
+const mergedVocabThemes = [
+  ...thptVocabThemes,
+  ...thptVocabThemesExpansion,
+  ...thptVocabThemesExpansion2,
+].map((theme) => {
+  const extra = thptVocabPracticeByTheme[theme.id];
+  return extra ? { ...theme, words: [...theme.words, ...extra.extraWords] } : theme;
+});
+const allVocabThemes = mergedVocabThemes;
 const allExerciseSets = [...thptExerciseSets, ...thptExerciseSetsExpansion2];
+
+// Total quick-quiz items attached to vocab themes
+const totalVocabQuiz = Object.values(thptVocabPracticeByTheme).reduce(
+  (s, p) => s + p.quiz.length,
+  0
+);
 
 interface ExerciseRunnerProps {
   setId: string;
@@ -405,7 +422,7 @@ const ThptEssentialReview = () => {
                       </div>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="pb-5">
+                  <AccordionContent className="pb-5 space-y-5">
                     <div className="grid sm:grid-cols-2 gap-3">
                       {v.words.map((w) => (
                         <div
@@ -431,8 +448,33 @@ const ThptEssentialReview = () => {
                         </div>
                       ))}
                     </div>
+
+                    {/* Inline practice quiz tied to this theme's vocabulary */}
+                    {thptVocabPracticeByTheme[v.id] && (
+                      <div className="rounded-xl border-2 border-emerald-500/30 bg-gradient-to-br from-emerald-500/5 to-primary/5 p-4">
+                        <div className="flex items-center gap-2 mb-3">
+                          <Dumbbell className="w-5 h-5 text-emerald-600" />
+                          <h4 className="font-bold text-sm md:text-base uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
+                            {t("Bài tập theo bộ từ vựng", "Practice with these words")}
+                          </h4>
+                          <Badge variant="secondary" className="ml-auto text-xs">
+                            {thptVocabPracticeByTheme[v.id].quiz.length} {t("câu", "items")}
+                          </Badge>
+                        </div>
+                        <p className="text-xs md:text-sm text-muted-foreground mb-3">
+                          {t(
+                            "Áp dụng ngay các từ vừa học bằng câu hỏi trắc nghiệm theo phong cách đề THPT.",
+                            "Apply the words you just learnt with THPT-style multiple-choice questions."
+                          )}
+                        </p>
+                        <ExerciseRunner
+                          setId={`vocab-quiz-${v.id}`}
+                          exercises={thptVocabPracticeByTheme[v.id].quiz}
+                        />
+                      </div>
+                    )}
                   </AccordionContent>
-                </AccordionItem>
+</AccordionItem>
               ))}
             </Accordion>
           </TabsContent>
