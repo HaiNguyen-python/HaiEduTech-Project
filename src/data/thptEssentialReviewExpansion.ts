@@ -44,6 +44,12 @@ export const thptGrammarTopicsExpansion: GrammarTopic[] = [
     trapEn: "Avoid 'do a decision' (correct: make), 'make homework' (do), 'have a photo' (take), 'take breakfast' (have). Learn collocations as chunks, don't translate word-by-word.",
     tipVi: "Khi nh\u00ecn th\u1ea5y 4 \u0111\u00e1p \u00e1n l\u00e0 make/do/take/have/get \u2192 B\u1eaaY collocation. \u0110\u1ecdc to c\u1ee5m \u0111\u1ec3 'c\u1ea3m \u00e2m', v\u00e0 h\u1ecdc theo CH\u1ee6 \u0110\u1ec0 (work, study, travel) \u0111\u1ec3 nh\u1edb l\u00e2u.",
     tipEn: "Whenever the 4 options are make/do/take/have/get \u2192 it's a collocation TRAP. Say the chunk aloud to 'feel' it, and revise by THEME (work, study, travel) for long-term retention.",
+    mistakes: [
+      {"wrongEn": "I will do a decision tomorrow.", "rightEn": "I will make a decision tomorrow.", "noteVi": "'decision' đi với 'make', không phải 'do'."},
+      {"wrongEn": "She did a big mistake.", "rightEn": "She made a big mistake.", "noteVi": "'mistake' luôn đi với 'make'."},
+      {"wrongEn": "Let's take breakfast at 7.", "rightEn": "Let's have breakfast at 7.", "noteVi": "Bữa ăn (breakfast/lunch/dinner) đi với 'have'."},
+      {"wrongEn": "He has a strong rain in Hanoi.", "rightEn": "There is heavy rain in Hanoi.", "noteVi": "Mưa lớn = 'heavy rain', không phải 'strong rain'."},
+    ],
   },
   {
     id: "subject-verb",
@@ -76,6 +82,11 @@ export const thptGrammarTopicsExpansion: GrammarTopic[] = [
     trapEn: "After 'one of the + plural N + singular V'. e.g. One of my friends is a doctor.",
     tipVi: "Khi g\u1eb7p ch\u1ee7 ng\u1eef d\u00e0i c\u00f3 nhi\u1ec1u gi\u1edbi t\u1eeb ('the box of chocolates on the table'), b\u1ecf qua c\u00e1c c\u1ee5m gi\u1edbi t\u1eeb v\u00e0 ch\u1ec9 chia \u0111\u1ed9ng t\u1eeb theo CH\u1ee6 NG\u1eee CH\u00cdNH (the box \u2192 is).",
     tipEn: "When the subject is long with prepositional phrases ('the box of chocolates on the table'), ignore the phrases and conjugate based on the MAIN SUBJECT (the box \u2192 is).",
+    mistakes: [
+      {"wrongEn": "Each of the students have a book.", "rightEn": "Each of the students has a book.", "noteVi": "'Each of' luôn đi với V số ít."},
+      {"wrongEn": "The number of students are increasing.", "rightEn": "The number of students is increasing.", "noteVi": "'The number of' = số ít. (Khác 'A number of' = số nhiều)."},
+      {"wrongEn": "Mathematics are my favourite subject.", "rightEn": "Mathematics is my favourite subject.", "noteVi": "Môn học -ics luôn là số ít."},
+    ],
   },
   {
     id: "cleft",
@@ -106,6 +117,11 @@ export const thptGrammarTopicsExpansion: GrammarTopic[] = [
     trapEn: "For people you may use 'who' instead of 'that' but NEVER 'which'.",
     tipVi: "Khi vi\u1ebft l\u1ea1i \u0111\u1ec3 nh\u1ea5n m\u1ea1nh TH\u1edcI GIAN ho\u1eb7c N\u01a0I CH\u1ed0N, d\u00f9ng 'It was\u2026that\u2026' lu\u00f4n an to\u00e0n (kh\u00f4ng d\u00f9ng who/where).",
     tipEn: "When rewriting to emphasise TIME or PLACE, 'It was\u2026that\u2026' is always the safe choice (avoid who/where here).",
+    mistakes: [
+      {"wrongEn": "It was John which broke the window.", "rightEn": "It was John who broke the window.", "noteVi": "Khi nhấn mạnh người, dùng 'who' (hoặc 'that'), KHÔNG dùng 'which'."},
+      {"wrongEn": "What I want it is your help.", "rightEn": "What I want is your help.", "noteVi": "Wh-cleft không lặp lại tân ngữ ('it' thừa)."},
+      {"wrongEn": "It is in 2010 that she moved.", "rightEn": "It was in 2010 that she moved.", "noteVi": "Mốc quá khứ → dùng 'It WAS…that…'."},
+    ],
   },
   {
     id: "connectors",
@@ -137,6 +153,11 @@ export const thptGrammarTopicsExpansion: GrammarTopic[] = [
     trapEn: "No 'that' after 'despite/in spite of'. 'so' takes Adj/Adv; 'such' takes a noun phrase.",
     tipVi: "Trong ph\u00f2ng thi, NH\u00ccN ngay sau ch\u1ed7 tr\u1ed1ng: n\u1ebfu l\u00e0 danh t\u1eeb \u2192 'because of / despite'; n\u1ebfu l\u00e0 ch\u1ee7 ng\u1eef \u2192 'because / although'. Quy t\u1eafc n\u00e0y gi\u1ea3i quy\u1ebft 95% c\u00e2u h\u1ecfi li\u00ean t\u1eeb.",
     tipEn: "Look at what comes AFTER the blank: noun \u2192 'because of / despite'; subject \u2192 'because / although'. This rule solves 95% of connector questions.",
+    mistakes: [
+      {"wrongEn": "Despite of the rain, we went out.", "rightEn": "Despite the rain, we went out.", "noteVi": "'despite' KHÔNG có 'of'. (Đối lập: 'in spite OF')."},
+      {"wrongEn": "Because of it was raining, we stayed home.", "rightEn": "Because it was raining, we stayed home.", "noteVi": "Sau 'because' đi với mệnh đề, sau 'because of' mới đi với cụm danh từ/V-ing."},
+      {"wrongEn": "It was so interesting book.", "rightEn": "It was such an interesting book.", "noteVi": "Trước cụm danh từ dùng 'such (a/an)', không phải 'so'."},
+    ],
   },
   {
     id: "subjunctive",
@@ -168,6 +189,11 @@ export const thptGrammarTopicsExpansion: GrammarTopic[] = [
     trapEn: "In the subjunctive, do NOT inflect the verb (use bare V) even after he/she/it. 'I wish + were' (all subjects).",
     tipVi: "Sau 'suggest/recommend' \u2192 \u0111\u1ed9ng t\u1eeb NGUY\u00caN M\u1eaaU, kh\u00f4ng c\u00f3 's' d\u00f9 ch\u1ee7 ng\u1eef l\u00e0 s\u1ed1 \u00edt. \u0110\u00e2y l\u00e0 l\u1ed7i sai ph\u1ed5 bi\u1ebfn nh\u1ea5t.",
     tipEn: "After 'suggest/recommend' the verb is BARE infinitive \u2013 no 's' even with a singular subject. This is the most common mistake.",
+    mistakes: [
+      {"wrongEn": "The doctor suggested that he takes a rest.", "rightEn": "The doctor suggested that he take a rest.", "noteVi": "Sau 'suggest' dùng V nguyên mẫu (take), không có 's'."},
+      {"wrongEn": "I wish I am taller.", "rightEn": "I wish I were taller.", "noteVi": "Wish ở hiện tại lùi về quá khứ; với 'I/he/she' dùng 'were'."},
+      {"wrongEn": "It's high time we go home.", "rightEn": "It's high time we went home.", "noteVi": "'It's high time' + V2/Ved (quá khứ đơn)."},
+    ],
   },
   {
     id: "question-tags",
@@ -199,6 +225,11 @@ export const thptGrammarTopicsExpansion: GrammarTopic[] = [
     trapEn: "'I am' → tag 'aren't I?' (NOT 'amn't I'). Negative imperative 'Don't…' → tag 'will you?'.",
     tipVi: "Tag d\u00f9ng \u0111\u1ea1i t\u1eeb ch\u1ee7 ng\u1eef (he/she/it/they) ch\u1ee9 kh\u00f4ng ph\u1ea3i t\u00ean ri\u00eang. V\u1edbi 'everyone/someone/nobody' \u2192 \u0111\u1ea1i t\u1eeb l\u00e0 'they'.",
     tipEn: "Tags use subject pronouns (he/she/it/they) \u2013 never proper names. With 'everyone/someone/nobody' the pronoun is 'they'.",
+    mistakes: [
+      {"wrongEn": "I am late, amn't I?", "rightEn": "I am late, aren't I?", "noteVi": "'I am' luôn có đuôi đặc biệt 'aren't I?'."},
+      {"wrongEn": "Let's go out, will we?", "rightEn": "Let's go out, shall we?", "noteVi": "'Let's' luôn đi với 'shall we?'."},
+      {"wrongEn": "She never eats meat, doesn't she?", "rightEn": "She never eats meat, does she?", "noteVi": "'never' = phủ định → đuôi khẳng định (does)."},
+    ],
   },
 ];
 

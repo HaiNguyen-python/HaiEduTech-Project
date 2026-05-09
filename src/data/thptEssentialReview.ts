@@ -20,6 +20,8 @@ export interface GrammarTopic {
   /** Optional Mr Hai's exam-room strategy tip. */
   tipVi?: string;
   tipEn?: string;
+  /** Optional ✗ wrong vs ✓ right comparison pairs. */
+  mistakes?: { wrongEn: string; rightEn: string; noteVi?: string; noteEn?: string }[];
 }
 
 export const thptGrammarTopics: GrammarTopic[] = [
@@ -53,6 +55,11 @@ export const thptGrammarTopics: GrammarTopic[] = [
     trapEn: "When/while + past continuous, main clause = past simple. Don't confuse 'since' (point in time) with 'for' (duration).",
     tipVi: "Trong phòng thi: gạch chân dấu hiệu thời gian TRƯỚC khi nhìn đáp án. 80% câu hỏi thì sẽ tự lộ đáp án.",
     tipEn: "Exam tactic: underline the time signal BEFORE looking at the options. 80% of tense questions reveal themselves immediately.",
+    mistakes: [
+      {"wrongEn": "I have seen him yesterday.", "rightEn": "I saw him yesterday.", "noteVi": "'yesterday' = mốc quá khứ → dùng quá khứ đơn, KHÔNG dùng hiện tại hoàn thành."},
+      {"wrongEn": "She is knowing the answer.", "rightEn": "She knows the answer.", "noteVi": "Stative verbs (know/like/love/want…) không dùng ở thì tiếp diễn."},
+      {"wrongEn": "I am living here since 2020.", "rightEn": "I have lived here since 2020.", "noteVi": "'since/for' đi với hiện tại hoàn thành."},
+    ],
   },
   {
     id: "conditional",
@@ -85,6 +92,11 @@ export const thptGrammarTopics: GrammarTopic[] = [
     trapEn: "In Type 2, use 'were' for all subjects (If I were you…). Mixed: If + had V3 (past), would V (present).",
     tipVi: "Nhìn vế kết quả TRƯỚC: 'would have V3' → loại 3; 'would V' → loại 2; 'will V' → loại 1. Đây là cách phân loại nhanh nhất.",
     tipEn: "Read the RESULT clause first: 'would have V3' → Type 3; 'would V' → Type 2; 'will V' → Type 1. Fastest classification trick.",
+    mistakes: [
+      {"wrongEn": "If I would have time, I would help you.", "rightEn": "If I had time, I would help you.", "noteVi": "Sau 'If' KHÔNG dùng 'would'. Loại 2 dùng V2/Ved."},
+      {"wrongEn": "If I was you, I would apologise.", "rightEn": "If I were you, I would apologise.", "noteVi": "Loại 2 dùng 'were' cho mọi ngôi."},
+      {"wrongEn": "Had I knew earlier, I would have helped.", "rightEn": "Had I known earlier, I would have helped.", "noteVi": "Đảo ngữ loại 3 dùng V3 (known), không phải V2 (knew)."},
+    ],
   },
   {
     id: "passive",
@@ -116,6 +128,11 @@ export const thptGrammarTopics: GrammarTopic[] = [
     trapEn: "For 'S + is said + to V' form, the infinitive form depends on the original tense in the 'that' clause.",
     tipVi: "Đừng quên 'by + agent' chỉ giữ lại khi tác nhân QUAN TRỌNG. Câu 'The window was broken' tự nhiên hơn 'The window was broken by someone'.",
     tipEn: "Drop 'by + agent' when the doer is unimportant. 'The window was broken' sounds more natural than 'The window was broken by someone'.",
+    mistakes: [
+      {"wrongEn": "The book was wrote by him.", "rightEn": "The book was written by him.", "noteVi": "Bị động dùng V3 (written), KHÔNG dùng V2 (wrote)."},
+      {"wrongEn": "The work must do by Monday.", "rightEn": "The work must be done by Monday.", "noteVi": "Sau modal phải có 'be + V3'."},
+      {"wrongEn": "He is said to has stolen it.", "rightEn": "He is said to have stolen it.", "noteVi": "Sau 'to' dùng nguyên mẫu 'have', không phải 'has'."},
+    ],
   },
   {
     id: "reported",
@@ -147,6 +164,11 @@ export const thptGrammarTopics: GrammarTopic[] = [
     trapEn: "Don't backshift universal truths, or when the reporting verb stays in the present.",
     tipVi: "Khi g\u1eb7p d\u1ea5u nh\u00e1y k\u00e9p, h\u00e3y L\u00d9I TH\u00cc tr\u01b0\u1edbc r\u1ed3i \u0111\u1ed5i \u0111\u1ea1i t\u1eeb \u2013 \u0111\u00e2y l\u00e0 2 l\u1ed7i chi\u1ebfm 90% sai s\u00f3t.",
     tipEn: "When you see quotation marks, BACKSHIFT first then swap pronouns \u2013 these two steps cause 90% of the mistakes.",
+    mistakes: [
+      {"wrongEn": "She said that she will come.", "rightEn": "She said that she would come.", "noteVi": "'said' (quá khứ) → lùi 'will' thành 'would'."},
+      {"wrongEn": "He asked me what time is it.", "rightEn": "He asked me what time it was.", "noteVi": "Câu hỏi gián tiếp dùng trật tự câu trần thuật (S + V), không đảo."},
+      {"wrongEn": "She told to me the truth.", "rightEn": "She told me the truth.", "noteVi": "'tell' đi trực tiếp với tân ngữ, không có 'to'."},
+    ],
   },
   {
     id: "relative-clauses",
@@ -177,6 +199,11 @@ export const thptGrammarTopics: GrammarTopic[] = [
     trapEn: "No 'that' after a comma. After prepositions only whom/which (in which, with whom).",
     tipVi: "Tr\u01b0\u1edbc khi ch\u1ecdn 'who/which/that', h\u00e3y h\u1ecfi: danh t\u1eeb ph\u00eda tr\u01b0\u1edbc l\u00e0 ng\u01b0\u1eddi hay v\u1eadt, v\u00e0 c\u00f3 d\u1ea5u ph\u1ea9y kh\u00f4ng? Hai c\u00e2u h\u1ecfi \u0111\u00f3 gi\u1ea3i quy\u1ebft h\u1ea7u h\u1ebft c\u00e1c c\u00e2u.",
     tipEn: "Before picking 'who/which/that', ask: is the noun a person or a thing, and is there a comma? Those two questions solve most items.",
+    mistakes: [
+      {"wrongEn": "My mother, that is a doctor, lives in Hanoi.", "rightEn": "My mother, who is a doctor, lives in Hanoi.", "noteVi": "Sau dấu phẩy KHÔNG dùng 'that'."},
+      {"wrongEn": "The man which I met is kind.", "rightEn": "The man whom I met is kind.", "noteVi": "Người dùng who/whom, vật mới dùng which."},
+      {"wrongEn": "The book writing by him sold well.", "rightEn": "The book written by him sold well.", "noteVi": "Bị động rút gọn dùng V3 (written), không phải Ving (writing)."},
+    ],
   },
   {
     id: "modals",
@@ -208,6 +235,11 @@ export const thptGrammarTopics: GrammarTopic[] = [
     trapEn: "Distinguish 'should V' (present advice) vs 'should have V3' (regret about the past).",
     tipVi: "Khi \u0111\u1ec1 cho 'must have V3' ho\u1eb7c 'can't have V3' \u2192 \u0111\u00e2y l\u00e0 SUY \u0110O\u00c1N V\u1ec0 QU\u00c1 KH\u1ee8, \u0111\u1eebng d\u1ecbch sang ngh\u0129a hi\u1ec7n t\u1ea1i.",
     tipEn: "If you see 'must have V3' or 'can't have V3' \u2192 it's a PAST DEDUCTION, don't translate it as a present meaning.",
+    mistakes: [
+      {"wrongEn": "You must to study harder.", "rightEn": "You must study harder.", "noteVi": "Sau modal là V nguyên mẫu KHÔNG có 'to'."},
+      {"wrongEn": "He should studied harder yesterday.", "rightEn": "He should have studied harder yesterday.", "noteVi": "Tiếc nuối quá khứ: should + have + V3."},
+      {"wrongEn": "She musts go now.", "rightEn": "She must go now.", "noteVi": "Modal không thêm 's' với he/she/it."},
+    ],
   },
   {
     id: "gerund-infinitive",
@@ -239,6 +271,11 @@ export const thptGrammarTopics: GrammarTopic[] = [
     trapEn: "Always Ving after prepositions. 'Used to V' (past habit) ≠ 'be used to Ving' (accustomed to).",
     tipVi: "\u0110\u1eb7c bi\u1ec7t nh\u1edb 4 c\u1eb7p \u0111\u1ed5i ngh\u0129a: stop / remember / forget / try. \u0110\u00e2y l\u00e0 d\u1ea1ng c\u00e2u B\u1eaaY \u01b0a th\u00edch c\u1ee7a \u0111\u1ec1 THPT.",
     tipEn: "Memorise the 4 meaning-changing pairs: stop / remember / forget / try. These are the THPT examiner's favourite trap.",
+    mistakes: [
+      {"wrongEn": "I enjoy to swim in summer.", "rightEn": "I enjoy swimming in summer.", "noteVi": "'enjoy' luôn đi với V-ing."},
+      {"wrongEn": "I look forward to hear from you.", "rightEn": "I look forward to hearing from you.", "noteVi": "'look forward to' + V-ING (to ở đây là giới từ)."},
+      {"wrongEn": "He is used to get up early.", "rightEn": "He is used to getting up early.", "noteVi": "'be used to' + V-ING (đã quen với việc gì)."},
+    ],
   },
   {
     id: "comparison",
@@ -271,6 +308,11 @@ export const thptGrammarTopics: GrammarTopic[] = [
     trapEn: "'as Adj as' never uses 'more'. Always 'the' before superlatives.",
     tipVi: "N\u1ebfu th\u1ea5y 'than' \u2192 b\u1eaft bu\u1ed9c d\u00f9ng so s\u00e1nh h\u01a1n (-er / more). N\u1ebfu th\u1ea5y 'in/of' ph\u00eda sau \u2192 so s\u00e1nh nh\u1ea5t (the\u2026-est).",
     tipEn: "If you see 'than' \u2192 comparative (-er / more) is required. If 'in/of' follows \u2192 superlative (the\u2026-est).",
+    mistakes: [
+      {"wrongEn": "She is more taller than me.", "rightEn": "She is taller than me.", "noteVi": "Tính từ ngắn dùng -er, KHÔNG kèm 'more'."},
+      {"wrongEn": "This is the most beautifullest city.", "rightEn": "This is the most beautiful city.", "noteVi": "Không dùng đồng thời 'most' và '-est'."},
+      {"wrongEn": "He runs as fast than I do.", "rightEn": "He runs as fast as I do.", "noteVi": "So sánh ngang bằng dùng 'as…as', không phải 'as…than'."},
+    ],
   },
   {
     id: "articles-prepositions",
@@ -302,6 +344,11 @@ export const thptGrammarTopics: GrammarTopic[] = [
     trapEn: "'the' is used with rivers, oceans, mountain ranges, but NOT lakes, single mountains, continents.",
     tipVi: "Quy t\u1eafc nhanh: AT (ch\u00ednh x\u00e1c) > ON (b\u1ec1 m\u1eb7t) > IN (bao quanh). \u00c1p d\u1ee5ng c\u1ea3 th\u1eddi gian v\u00e0 n\u01a1i ch\u1ed1n.",
     tipEn: "Quick rule: AT (precise) > ON (surface) > IN (enclosed). Works for both time and place.",
+    mistakes: [
+      {"wrongEn": "I go to school by the bus.", "rightEn": "I go to school by bus.", "noteVi": "by + phương tiện không có mạo từ."},
+      {"wrongEn": "She arrived at Monday morning.", "rightEn": "She arrived on Monday morning.", "noteVi": "Ngày trong tuần đi với 'on', không phải 'at'."},
+      {"wrongEn": "He lives in 25 Hoang Dieu Street.", "rightEn": "He lives at 25 Hoang Dieu Street.", "noteVi": "Địa chỉ cụ thể (số nhà) đi với 'at'."},
+    ],
   },
   {
     id: "phrasal-verbs",
@@ -333,6 +380,11 @@ export const thptGrammarTopics: GrammarTopic[] = [
     trapEn: "'look forward to' + Ving (NOT to V). Distinguish break down/up/out.",
     tipVi: "M\u1ed7i tu\u1ea7n h\u1ecdc 10 phrasal verbs theo CH\u1ee6 \u0110\u1ec0 (work / travel / health\u2026) thay v\u00ec h\u1ecdc b\u1ea3ng ch\u1eef c\u00e1i \u2013 nh\u1edb l\u00e2u g\u1ea5p 3 l\u1ea7n.",
     tipEn: "Learn 10 phrasal verbs per week by THEME (work / travel / health\u2026) instead of alphabetically \u2013 you'll retain them 3\u00d7 longer.",
+    mistakes: [
+      {"wrongEn": "Please turn down it.", "rightEn": "Please turn it down.", "noteVi": "Đại từ (it/them/me) phải đứng GIỮA động từ và giới từ."},
+      {"wrongEn": "I look forward to meet you.", "rightEn": "I look forward to meeting you.", "noteVi": "Sau 'to' trong cụm này dùng V-ING."},
+      {"wrongEn": "He takes after to his father.", "rightEn": "He takes after his father.", "noteVi": "'take after' đi trực tiếp với tân ngữ, không có 'to'."},
+    ],
   },
   {
     id: "word-form",
@@ -364,6 +416,11 @@ export const thptGrammarTopics: GrammarTopic[] = [
     trapEn: "After 'be / become / seem / look' use adjective, not adverb.",
     tipVi: "\u0110\u1ecdc to c\u00e2u sau khi \u0111i\u1ec1n \u2013 n\u1ebfu nghe 'l\u1ea1 tai' th\u00ec 90% l\u00e0 sai t\u1eeb lo\u1ea1i. \u0110\u00e2y l\u00e0 c\u00e1ch ki\u1ec3m tra c\u1ef1c nhanh.",
     tipEn: "Read the sentence aloud after filling \u2013 if it sounds 'off', 90% of the time it's the wrong word form. Fastest sanity check.",
+    mistakes: [
+      {"wrongEn": "She speaks English fluent.", "rightEn": "She speaks English fluently.", "noteVi": "Sau động từ thường (speaks) dùng trạng từ (-ly)."},
+      {"wrongEn": "He looks happily today.", "rightEn": "He looks happy today.", "noteVi": "Sau 'look/seem/feel' dùng tính từ, không phải trạng từ."},
+      {"wrongEn": "The decide was wrong.", "rightEn": "The decision was wrong.", "noteVi": "Sau 'the' dùng danh từ (decision), không phải động từ (decide)."},
+    ],
   },
   {
     id: "inversion-emphasis",
@@ -395,6 +452,11 @@ export const thptGrammarTopics: GrammarTopic[] = [
     trapEn: "'No sooner' pairs with 'than'; 'Hardly' pairs with 'when'.",
     tipVi: "Khi vi\u1ebft l\u1ea1i c\u00e2u, \u01b0u ti\u00ean \u0111\u1ea3o ng\u1eef v\u1edbi 'Never / Not until / Only when' \u2013 \u0111\u00e2y l\u00e0 c\u1ea5u tr\u00fac '\u0103n \u0111i\u1ec3m' c\u1ee7a \u0111\u1ec1 THPT.",
     tipEn: "For rewriting tasks, prefer inversion with 'Never / Not until / Only when' \u2013 these score reliable points on the THPT exam.",
+    mistakes: [
+      {"wrongEn": "Never I have seen such beauty.", "rightEn": "Never have I seen such beauty.", "noteVi": "Sau 'Never' đầu câu phải đảo trợ động từ (have) lên trước chủ ngữ."},
+      {"wrongEn": "Hardly I had arrived than the rain started.", "rightEn": "Hardly had I arrived when the rain started.", "noteVi": "'Hardly' đi với 'when', 'No sooner' đi với 'than'."},
+      {"wrongEn": "It was John whom broke the vase.", "rightEn": "It was John who broke the vase.", "noteVi": "Sau 'It was + người' làm chủ ngữ → dùng 'who', không phải 'whom'."},
+    ],
   },
 ];
 

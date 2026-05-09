@@ -274,17 +274,31 @@ const ThptEssentialReview = () => {
                         <BookOpen className="w-4 h-4" /> {t("Quy tắc cốt lõi", "Core Rules")}
                       </h4>
                       <div className="grid gap-2">
-                        {g.rules.map((r, j) => (
-                          <div
-                            key={j}
-                            className="flex gap-3 bg-background/60 border border-primary/15 rounded-md px-3 py-2 text-sm leading-relaxed"
-                          >
-                            <span className="shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-primary/15 text-primary text-xs font-bold">
-                              {j + 1}
-                            </span>
-                            <span className="flex-1">{lang === "vi" ? r.vi : r.en}</span>
-                          </div>
-                        ))}
+                        {g.rules.map((r, j) => {
+                          const text = lang === "vi" ? r.vi : r.en;
+                          const colonIdx = text.indexOf(":");
+                          const hasLabel = colonIdx > 0 && colonIdx < 40;
+                          const label = hasLabel ? text.slice(0, colonIdx).trim() : null;
+                          const body = hasLabel ? text.slice(colonIdx + 1).trim() : text;
+                          return (
+                            <div
+                              key={j}
+                              className="flex gap-3 bg-background/60 border border-primary/15 rounded-md px-3 py-2 text-sm leading-relaxed"
+                            >
+                              <span className="shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-primary/15 text-primary text-xs font-bold">
+                                {j + 1}
+                              </span>
+                              <div className="flex-1 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                                {label && (
+                                  <span className="inline-block px-2 py-0.5 rounded bg-primary/15 text-primary text-xs font-bold uppercase tracking-wide">
+                                    {label}
+                                  </span>
+                                )}
+                                <span className="flex-1 min-w-[200px]">{body}</span>
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
 
@@ -312,6 +326,37 @@ const ThptEssentialReview = () => {
                         ))}
                       </div>
                     </div>
+
+                    {/* Common Mistakes ✗ vs ✓ */}
+                    {g.mistakes && g.mistakes.length > 0 && (
+                      <div className="rounded-lg border border-red-500/20 bg-red-500/5 p-4">
+                        <h4 className="font-bold text-sm uppercase tracking-wide text-red-600 dark:text-red-400 mb-3 flex items-center gap-2">
+                          <XCircle className="w-4 h-4" /> {t("Lỗi sai thường gặp", "Common Mistakes")}
+                          <span className="text-xs font-normal text-muted-foreground normal-case">
+                            ({t("✗ Sai vs ✓ Đúng", "✗ Wrong vs ✓ Right")})
+                          </span>
+                        </h4>
+                        <div className="space-y-2.5">
+                          {g.mistakes.map((mk, j) => (
+                            <div key={j} className="rounded-md border border-border bg-background/60 overflow-hidden text-sm">
+                              <div className="flex gap-2 px-3 py-2 bg-red-500/10 border-b border-red-500/20">
+                                <span className="shrink-0 font-bold text-red-600 dark:text-red-400">✗</span>
+                                <span className="line-through text-red-700 dark:text-red-300">{mk.wrongEn}</span>
+                              </div>
+                              <div className="flex gap-2 px-3 py-2 bg-emerald-500/10 border-b border-emerald-500/20">
+                                <span className="shrink-0 font-bold text-emerald-600 dark:text-emerald-400">✓</span>
+                                <span className="font-medium text-emerald-700 dark:text-emerald-300">{mk.rightEn}</span>
+                              </div>
+                              {(mk.noteVi || mk.noteEn) && (
+                                <div className="px-3 py-1.5 text-xs italic text-muted-foreground">
+                                  💡 {lang === "vi" ? (mk.noteVi || mk.noteEn) : (mk.noteEn || mk.noteVi)}
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
 
                     {/* Trap */}
                     <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 p-4">
