@@ -52,7 +52,10 @@ export const usePageViewTracker = () => {
       try {
         await updatePrevious();
 
-        const { data: { user } } = await supabase.auth.getUser();
+        // Use getSession (local, no network) instead of getUser (network call that
+        // can stall and hold the auth lock — was blocking OAuth login completion).
+        const { data: { session } } = await supabase.auth.getSession();
+        const user = session?.user ?? null;
         const sessionId = getSessionId();
 
         const { data, error } = await supabase
