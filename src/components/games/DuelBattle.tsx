@@ -35,6 +35,7 @@ const DuelBattle = ({ onBack }: DuelBattleProps) => {
   const [phase, setPhase] = useState<"menu" | "create" | "join" | "waiting" | "playing" | "results">("menu");
   const [roomCode, setRoomCode] = useState("");
   const [inputCode, setInputCode] = useState("");
+  const [nickname, setNickname] = useState(() => localStorage.getItem("arena-nickname") || "");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
