@@ -20,6 +20,8 @@ export interface GrammarTopic {
   /** Optional Mr Hai's exam-room strategy tip. */
   tipVi?: string;
   tipEn?: string;
+  /** Optional ✗ wrong vs ✓ right comparison pairs. */
+  mistakes?: { wrongEn: string; rightEn: string; noteVi?: string; noteEn?: string }[];
 }
 
 export const thptGrammarTopics: GrammarTopic[] = [
