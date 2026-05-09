@@ -91,10 +91,10 @@ const TeacherPanel = ({ onBack }: TeacherPanelProps) => {
     const fetchParticipants = async () => {
       const { data } = await supabase
         .from("game_participants")
-        .select("id, display_name, score, answers_correct, answers_total, word_results, finished_at")
+        .select("id, display_name, score, answers_correct, answers_total, word_results, finished_at, current_question, current_word")
         .eq("room_id", roomId)
         .order("score", { ascending: false });
-      if (data) setParticipants(data);
+      if (data) setParticipants(data as typeof participants);
     };
 
     fetchParticipants();
