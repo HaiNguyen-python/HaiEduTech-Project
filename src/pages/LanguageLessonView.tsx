@@ -226,6 +226,36 @@ const LanguageLessonView = () => {
                     </div>
                   </div>
 
+                  {/* IELTS Listening Practice CTA */}
+                  {mod.id === "ielts-listening" && (
+                    <Link to="/ielts-listening-practice" className="block group">
+                      <div className="rounded-xl border-l-4 border-l-emerald-500 bg-gradient-to-r from-emerald-500/10 via-emerald-500/5 to-transparent p-5 hover:shadow-lg transition-all hover:-translate-y-0.5">
+                        <div className="flex items-start gap-4">
+                          <div className="shrink-0 w-12 h-12 rounded-xl bg-emerald-500/15 flex items-center justify-center text-2xl">
+                            🎧
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1 flex-wrap">
+                              <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
+                                {t("Luyện Nghe theo dạng câu hỏi", "Listening Practice by Question Type")}
+                              </h3>
+                              <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+                                {t("Mới", "New")}
+                              </span>
+                            </div>
+                            <p className="text-sm text-muted-foreground leading-relaxed">
+                              {t(
+                                "6 bài luyện nghe có audio + transcript + chấm điểm: Form Completion, Multiple Choice, Map Labelling, Matching, Sentence Completion, Note Completion.",
+                                "6 listening drills with audio + transcript + auto scoring: Form Completion, MCQ, Map Labelling, Matching, Sentence & Note Completion."
+                              )}
+                            </p>
+                          </div>
+                          <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all shrink-0 mt-1" />
+                        </div>
+                      </div>
+                    </Link>
+                  )}
+
                   {isEnglishGrammarLesson && <GrammarLessonOverview lesson={lesson} module={mod} />}
 
                   {/* Theory */}
