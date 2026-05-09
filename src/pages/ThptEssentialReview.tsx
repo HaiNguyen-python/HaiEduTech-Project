@@ -30,6 +30,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, BookOpen, Sparkles, AlertTriangle, Volume2, CheckCircle2, XCircle, RotateCcw, Dumbbell } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import chibiVocabCheer from "@/assets/chibi-vocab-cheer.png";
 
 const speak = (text: string) => {
   if (typeof window === "undefined" || !window.speechSynthesis) return;
