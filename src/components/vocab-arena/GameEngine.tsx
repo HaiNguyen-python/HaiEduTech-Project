@@ -80,11 +80,20 @@ export interface GameResult {
   wordResults: { word: string; correct: boolean; timeMs: number }[];
 }
 
+export interface GameProgressUpdate {
+  index: number;
+  word: string;
+  score: number;
+  correct: number;
+  total: number;
+  streak: number;
+}
+
 interface GameEngineProps {
   questions: GameQuestion[];
   lives: number;
   onGameEnd: (result: GameResult) => void;
-  onProgress?: (index: number, word: string) => void;
+  onProgress?: (update: GameProgressUpdate) => void;
   isSuddenDeath?: boolean;
 }
 
