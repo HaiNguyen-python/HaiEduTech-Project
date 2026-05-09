@@ -444,7 +444,35 @@ const ThptEssentialReview = () => {
                             <span className="px-1.5 py-0.5 rounded bg-primary/10 text-primary mr-1">{w.pos}</span>
                             {w.vi}
                           </div>
-                          <div className="text-sm italic text-foreground/80">"{w.example}"</div>
+                          <div className="text-sm italic text-foreground/80">
+                            <span className="not-italic font-semibold text-primary mr-1">E.g.</span>
+                            {(() => {
+                              // Bold any occurrence of the headword (and its base form before "/")
+                              const variants = Array.from(
+                                new Set(
+                                  w.en
+                                    .split("/")
+                                    .map((s) => s.trim())
+                                    .filter(Boolean)
+                                )
+                              ).sort((a, b) => b.length - a.length);
+                              const escaped = variants.map((s) =>
+                                s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+                              );
+                              const re = new RegExp(`(${escaped.join("|")})`, "gi");
+                              const matchRe = new RegExp(`^(?:${escaped.join("|")})$`, "i");
+                              const parts = w.example.split(re);
+                              return parts.map((p, i) =>
+                                matchRe.test(p) ? (
+                                  <strong key={i} className="font-bold text-foreground not-italic">
+                                    {p}
+                                  </strong>
+                                ) : (
+                                  <span key={i}>{p}</span>
+                                )
+                              );
+                            })()}
+                          </div>
                         </div>
                       ))}
                     </div>
