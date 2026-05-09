@@ -43,6 +43,30 @@ const speak = (text: string) => {
 
 const allGrammarTopics = [...thptGrammarTopics, ...thptGrammarTopicsExpansion];
 
+// Fun emoji pools per vocab theme — one is picked deterministically per word
+// to give every card a unique visual cue without distracting from the content.
+const themeEmojiPool: Record<string, string[]> = {
+  education: ["🎓", "📚", "✏️", "🏫", "📖", "🧑‍🎓", "📝", "🎒", "🍎", "🧠"],
+  environment: ["🌱", "🌍", "🌳", "🌊", "♻️", "🌿", "🦋", "🐢", "🌞", "🌧️"],
+  technology: ["💻", "📱", "🤖", "🖱️", "🔌", "🛰️", "🧠", "⚙️", "🌐", "💾"],
+  career: ["💼", "🧑‍💼", "📈", "💰", "🤝", "🏢", "📊", "🛠️", "🧾", "✉️"],
+  health: ["💪", "🥗", "🏃", "🧘", "🍎", "🛌", "💊", "🩺", "🚴", "🧴"],
+  society: ["🌍", "🤝", "🎎", "🏯", "🎊", "🕊️", "👨‍👩‍👧", "🌐", "🪔", "🎭"],
+  travel: ["✈️", "🗺️", "🏖️", "🧳", "🏝️", "🚆", "📷", "🛂", "⛵", "🏔️"],
+  youth: ["🌟", "🚀", "🎯", "🏆", "💡", "🔥", "🌈", "🎒", "💪", "🤩"],
+  "collocations-prepositions": ["🧷", "🔗", "📌", "🧩", "🎯", "🪡", "🧲", "📎", "🪢", "🗝️"],
+  "collocations-money-time": ["💰", "⏰", "💵", "⏳", "📅", "🪙", "🏦", "💳", "⌛", "💸"],
+  "vocab-education-extra": ["📚", "📝", "🖋️", "🧑‍🏫", "🎓", "📓", "🏆", "🧠", "🎯", "📖"],
+};
+const defaultEmojiPool = ["✨", "🌟", "💫", "⭐", "🎈", "🌈", "🍀", "🎉"];
+const pickEmoji = (themeId: string, key: string) => {
+  const pool = themeEmojiPool[themeId] ?? defaultEmojiPool;
+  let h = 0;
+  for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
+  return pool[h % pool.length];
+};
+
+
 // Merge per-theme extra words from thptVocabPractice into each VocabTheme by id.
 const mergedVocabThemes = [
   ...thptVocabThemes,
