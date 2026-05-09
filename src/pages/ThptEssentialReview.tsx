@@ -460,9 +460,10 @@ const ThptEssentialReview = () => {
                                 s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
                               );
                               const re = new RegExp(`(${escaped.join("|")})`, "gi");
+                              const matchRe = new RegExp(`^(?:${escaped.join("|")})$`, "i");
                               const parts = w.example.split(re);
                               return parts.map((p, i) =>
-                                re.test(p) ? (
+                                matchRe.test(p) ? (
                                   <strong key={i} className="font-bold text-foreground not-italic">
                                     {p}
                                   </strong>
