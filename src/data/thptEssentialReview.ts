@@ -30,6 +30,13 @@ export const thptGrammarTopics: GrammarTopic[] = [
     titleEn: "12 Basic Tenses",
     summaryVi: "Nắm vững dấu hiệu nhận biết và cấu trúc của 12 thì - chiếm ~6 điểm trong đề.",
     summaryEn: "Master signal words and structures for all 12 tenses — ~6 questions per exam.",
+    detailVi: "Đề THPT thường xoáy vào 5 thì lõi: Hiện tại đơn, Hiện tại tiếp diễn, Hiện tại hoàn thành, Quá khứ đơn và Tương lai đơn. Bí quyết là nhận ra DẤU HIỆU NHẬN BIẾT (since/for, ago, by the time, while…) trước, sau đó mới chia động từ. Khi 2 mệnh đề nối nhau, hãy xác định mệnh đề nào xảy ra TRƯỚC để dùng đúng quá khứ hoàn thành (had + V3) hoặc quá khứ đơn.",
+    detailEn: "The THPT exam focuses on 5 core tenses: Present Simple, Present Continuous, Present Perfect, Past Simple and Future Simple. The trick is to spot SIGNAL WORDS (since/for, ago, by the time, while…) FIRST, then conjugate. When two clauses are linked, identify which action happened EARLIER to choose between Past Perfect (had + V3) or Past Simple correctly.",
+    formulas: [
+      "Present Perfect: S + has/have + V3/Ved (+ since/for…)",
+      "Past Continuous + Past Simple: While S + was/were + V-ing, S + V2",
+      "Past Perfect: By the time S + V2, S + had + V3",
+    ],
     rules: [
       { vi: "Hiện tại đơn: always, often, usually, every…", en: "Present Simple: always, often, usually, every…" },
       { vi: "Hiện tại tiếp diễn: now, at the moment, look!, listen!", en: "Present Continuous: now, at the moment, look!, listen!" },
@@ -40,9 +47,12 @@ export const thptGrammarTopics: GrammarTopic[] = [
     examples: [
       { en: "She has lived here since 2010.", vi: "Cô ấy đã sống ở đây từ năm 2010." },
       { en: "When I arrived, they were having dinner.", vi: "Khi tôi đến, họ đang ăn tối." },
+      { en: "By the time we got to the cinema, the film had already started.", vi: "Khi chúng tôi đến rạp, phim đã bắt đầu rồi." },
     ],
     trapVi: "Mệnh đề 'when/while' + quá khứ tiếp diễn, mệnh đề chính dùng quá khứ đơn. Đừng lẫn 'since' (mốc) với 'for' (khoảng thời gian).",
     trapEn: "When/while + past continuous, main clause = past simple. Don't confuse 'since' (point in time) with 'for' (duration).",
+    tipVi: "Trong phòng thi: gạch chân dấu hiệu thời gian TRƯỚC khi nhìn đáp án. 80% câu hỏi thì sẽ tự lộ đáp án.",
+    tipEn: "Exam tactic: underline the time signal BEFORE looking at the options. 80% of tense questions reveal themselves immediately.",
   },
   {
     id: "conditional",
