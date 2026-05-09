@@ -426,6 +426,20 @@ const LanguageLessonView = () => {
                     </div>
                   )}
 
+                  {/* IELTS Listening: per-lesson audio practice with script */}
+                  {mod.id === "ielts-listening" && (() => {
+                    const set = getListeningPracticeForLesson(lesson.id);
+                    if (!set) return null;
+                    return (
+                      <div className="space-y-3">
+                        <h2 className="font-semibold text-foreground text-lg flex items-center gap-2">
+                          🎧 {t("Bài tập nghe (audio + script)", "Listening Exercise (audio + script)")}
+                        </h2>
+                        <ListeningPracticeSetCard set={set} />
+                      </div>
+                    );
+                  })()}
+
                   {/* Interactive Exercises */}
                   {lesson.exercises.length > 0 && (
                     <div className="space-y-6">
