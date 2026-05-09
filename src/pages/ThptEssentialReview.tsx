@@ -41,8 +41,24 @@ const speak = (text: string) => {
 };
 
 const allGrammarTopics = [...thptGrammarTopics, ...thptGrammarTopicsExpansion];
-const allVocabThemes = [...thptVocabThemes, ...thptVocabThemesExpansion, ...thptVocabThemesExpansion2];
+
+// Merge per-theme extra words from thptVocabPractice into each VocabTheme by id.
+const mergedVocabThemes = [
+  ...thptVocabThemes,
+  ...thptVocabThemesExpansion,
+  ...thptVocabThemesExpansion2,
+].map((theme) => {
+  const extra = thptVocabPracticeByTheme[theme.id];
+  return extra ? { ...theme, words: [...theme.words, ...extra.extraWords] } : theme;
+});
+const allVocabThemes = mergedVocabThemes;
 const allExerciseSets = [...thptExerciseSets, ...thptExerciseSetsExpansion2];
+
+// Total quick-quiz items attached to vocab themes
+const totalVocabQuiz = Object.values(thptVocabPracticeByTheme).reduce(
+  (s, p) => s + p.quiz.length,
+  0
+);
 
 interface ExerciseRunnerProps {
   setId: string;
