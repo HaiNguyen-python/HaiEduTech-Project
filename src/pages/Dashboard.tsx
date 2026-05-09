@@ -538,7 +538,7 @@ const Dashboard = () => {
             </div>
 
             <Tabs defaultValue="overview" className="w-full">
-              <TabsList className="grid grid-cols-2 w-full max-w-md mx-auto mb-6">
+              <TabsList className="grid grid-cols-3 w-full max-w-2xl mx-auto mb-6">
                 <TabsTrigger value="overview" className="gap-2">
                   <BarChart3 className="w-4 h-4" />
                   {t("Tổng quan", "Overview")}
@@ -546,6 +546,10 @@ const Dashboard = () => {
                 <TabsTrigger value="counseling" className="gap-2">
                   <Heart className="w-4 h-4" />
                   {t("Tư vấn AI", "Counseling")}
+                </TabsTrigger>
+                <TabsTrigger value="profile" className="gap-2">
+                  <UserCog className="w-4 h-4" />
+                  {t("Thông tin cá nhân", "Personal Info")}
                 </TabsTrigger>
               </TabsList>
 
