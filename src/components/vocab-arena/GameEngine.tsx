@@ -80,11 +80,20 @@ export interface GameResult {
   wordResults: { word: string; correct: boolean; timeMs: number }[];
 }
 
+export interface GameProgressUpdate {
+  index: number;
+  word: string;
+  score: number;
+  correct: number;
+  total: number;
+  streak: number;
+}
+
 interface GameEngineProps {
   questions: GameQuestion[];
   lives: number;
   onGameEnd: (result: GameResult) => void;
-  onProgress?: (index: number, word: string) => void;
+  onProgress?: (update: GameProgressUpdate) => void;
   isSuddenDeath?: boolean;
 }
 
@@ -129,8 +138,11 @@ const GameEngine = ({ questions, lives: initialLives, onGameEnd, onProgress, isS
 
   // Report current question to parent (for teacher live monitoring)
   useEffect(() => {
-    if (q && onProgress) onProgress(current, q.word.word);
-  }, [current, q, onProgress]);
+    if (q && onProgress) {
+      onProgress({ index: current, word: q.word.word, score, correct, total: current, streak });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current, q]);
 
   // Timer countdown
   useEffect(() => {

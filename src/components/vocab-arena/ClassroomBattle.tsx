@@ -251,11 +251,18 @@ const ClassroomBattle = ({ onBack }: ClassroomBattleProps) => {
           questions={questions}
           lives={roomSettings.lives}
           onGameEnd={handleGameEnd}
-          onProgress={(idx, word) => {
+          onProgress={(update) => {
             if (participantId) {
               supabase
                 .from("game_participants")
-                .update({ current_question: idx, current_word: word })
+                .update({
+                  current_question: update.index,
+                  current_word: update.word,
+                  score: update.score,
+                  answers_correct: update.correct,
+                  answers_total: update.total,
+                  streak: update.streak,
+                })
                 .eq("id", participantId)
                 .then(() => {});
             }
