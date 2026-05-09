@@ -281,4 +281,80 @@ export const thptVocabPracticeByTheme: Record<string, VocabThemePractice> = {
       { q: "Don't just ___ the rules — try to understand them.", options: ["memorial", "memory", "memorise", "remember"], answer: 2, explanation: "Verb: memorise = học thuộc lòng." },
     ],
   },
+
+  // ───────── Collocations: MAKE vs DO ─────────
+  "collocations-make-do": {
+    extraWords: [],
+    quiz: [
+      { q: "You should ___ a decision before it's too late.", options: ["do", "make", "take", "have"], answer: 1, explanation: "Fixed: make a decision." },
+      { q: "Have you ___ your homework yet?", options: ["made", "done", "taken", "got"], answer: 1, explanation: "Fixed: do (one's) homework." },
+      { q: "Everyone ___ mistakes sometimes.", options: ["does", "takes", "makes", "gets"], answer: 2, explanation: "Fixed: make a mistake." },
+      { q: "Plastic waste can ___ great harm to marine life.", options: ["make", "do", "take", "give"], answer: 1, explanation: "Fixed: do harm / damage." },
+      { q: "Could you ___ me a favor and close the door?", options: ["make", "take", "do", "have"], answer: 2, explanation: "Fixed: do (sb) a favor." },
+      { q: "She has ___ great progress in English this term.", options: ["done", "got", "taken", "made"], answer: 3, explanation: "Fixed: make progress." },
+      { q: "Doctors recommend ___ exercise every day.", options: ["making", "doing", "taking", "having"], answer: 1, explanation: "Fixed: do exercise." },
+      { q: "Please ___ an effort to be on time tomorrow.", options: ["do", "take", "make", "give"], answer: 2, explanation: "Fixed: make an effort." },
+    ],
+  },
+
+  // ───────── Collocations: TAKE / HAVE / GET ─────────
+  "collocations-take-have-get": {
+    extraWords: [],
+    quiz: [
+      { q: "Let's ___ a short break before the next lesson.", options: ["make", "do", "take", "get"], answer: 2, explanation: "Fixed: take a break." },
+      { q: "More than 100 students ___ part in the contest.", options: ["took", "made", "did", "got"], answer: 0, explanation: "Fixed: take part in." },
+      { q: "I usually ___ a shower after work.", options: ["take", "do", "make", "have"], answer: 3, explanation: "Br/Am: have a shower (also take a shower)." },
+      { q: "The kids ___ a lot of fun at the beach yesterday.", options: ["took", "made", "had", "did"], answer: 2, explanation: "Fixed: have fun." },
+      { q: "I'll ___ in touch with you next week.", options: ["get", "make", "take", "do"], answer: 0, explanation: "Fixed: get in touch with." },
+      { q: "It took her months to ___ used to the cold weather.", options: ["have", "make", "take", "get"], answer: 3, explanation: "Fixed: get used to." },
+      { q: "She finally ___ a job at a tech company.", options: ["made", "took", "got", "did"], answer: 2, explanation: "Fixed: get a job." },
+      { q: "Older sisters often ___ care of their younger siblings.", options: ["make", "take", "do", "get"], answer: 1, explanation: "Fixed: take care of." },
+    ],
+  },
+
+  // ───────── Collocations: Adjective + Noun ─────────
+  "collocations-adj-noun": {
+    extraWords: [],
+    quiz: [
+      { q: "There was ___ rain last night, so the streets are flooded.", options: ["strong", "big", "heavy", "hard"], answer: 2, explanation: "Fixed: heavy rain (not strong rain)." },
+      { q: "I'd love a cup of ___ coffee to wake me up.", options: ["heavy", "strong", "deep", "high"], answer: 1, explanation: "Fixed: strong coffee." },
+      { q: "After the long flight he fell into a ___ sleep.", options: ["heavy", "strong", "deep", "fast"], answer: 2, explanation: "Fixed: deep sleep." },
+      { q: "Eating too much ___ food is bad for your health.", options: ["fast", "quick", "rapid", "speedy"], answer: 0, explanation: "Fixed: fast food." },
+      { q: "Education plays a ___ role in national development.", options: ["main", "key", "big", "high"], answer: 1, explanation: "Fixed: key role / factor / point." },
+      { q: "Climate change is a ___ concern for young people.", options: ["big", "large", "major", "high"], answer: 2, explanation: "Fixed: major issue / concern." },
+      { q: "Vietnam has experienced ___ economic growth recently.", options: ["fast", "rapid", "quick", "speedy"], answer: 1, explanation: "Fixed: rapid growth / progress / change." },
+      { q: "Solar power is a clean form of ___ energy.", options: ["renewing", "renewable", "renewed", "renew"], answer: 1, explanation: "Fixed: renewable energy." },
+    ],
+  },
+
+  // ───────── Collocations: Adverb + Adjective ─────────
+  "collocations-adv-adj": {
+    extraWords: [],
+    quiz: [
+      { q: "This restaurant is ___ recommended by food bloggers.", options: ["high", "highly", "deeply", "widely"], answer: 1, explanation: "Adv before adj: highly recommended." },
+      { q: "Parents are ___ concerned about online safety.", options: ["high", "deep", "deeply", "fully"], answer: 2, explanation: "Fixed: deeply concerned." },
+      { q: "Tet is ___ known as the most important Vietnamese festival.", options: ["wide", "widely", "deeply", "high"], answer: 1, explanation: "Fixed: widely known." },
+      { q: "Teamwork is ___ essential in any modern workplace.", options: ["absolute", "absolutely", "totally", "deeply"], answer: 1, explanation: "Adv form: absolutely essential." },
+      { q: "It's ___ normal to feel nervous before an exam.", options: ["perfect", "perfectly", "fully", "highly"], answer: 1, explanation: "Adv form: perfectly normal." },
+      { q: "Students must be ___ aware of plagiarism rules.", options: ["full", "fully", "deeply", "widely"], answer: 1, explanation: "Fixed: fully aware." },
+      { q: "Confucian values are ___ rooted in Vietnamese culture.", options: ["wide", "deep", "deeply", "highly"], answer: 2, explanation: "Fixed: deeply rooted." },
+      { q: "She is a ___ skilled programmer with 10 years of experience.", options: ["high", "highly", "deeply", "fully"], answer: 1, explanation: "Adv form: highly skilled." },
+    ],
+  },
+
+  // ───────── Collocations: Business / Academic ─────────
+  "collocations-business": {
+    extraWords: [],
+    quiz: [
+      { q: "We worked overtime to ___ the deadline.", options: ["catch", "meet", "make", "do"], answer: 1, explanation: "Fixed: meet a deadline." },
+      { q: "Try to ___ a clear goal for each week.", options: ["make", "do", "set", "take"], answer: 2, explanation: "Fixed: set a goal." },
+      { q: "Hard work and discipline help students ___ success.", options: ["achieve", "make", "do", "get"], answer: 0, explanation: "Fixed: achieve success." },
+      { q: "Please ___ attention to the safety instructions.", options: ["take", "do", "pay", "make"], answer: 2, explanation: "Fixed: pay attention to." },
+      { q: "Tomorrow I have to ___ a presentation in front of the class.", options: ["do", "make", "take", "give"], answer: 1, explanation: "Fixed: make a presentation." },
+      { q: "All employees must ___ the weekly meeting.", options: ["assist", "join", "attend", "take"], answer: 2, explanation: "Fixed: attend a meeting." },
+      { q: "Don't forget to ___ your assignment by Friday.", options: ["send", "submit", "give", "post"], answer: 1, explanation: "Fixed: submit an assignment." },
+      { q: "The campaign aims to ___ awareness of mental health.", options: ["raise", "rise", "lift", "grow"], answer: 0, explanation: "Fixed: raise awareness of." },
+      { q: "Technology ___ a key role in modern education.", options: ["takes", "plays", "makes", "does"], answer: 1, explanation: "Fixed: play a key role in." },
+    ],
+  },
 };
