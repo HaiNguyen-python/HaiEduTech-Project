@@ -21,9 +21,10 @@ const TeacherPanel = ({ onBack }: TeacherPanelProps) => {
   const [questionCount, setQuestionCount] = useState(15);
   const [lives, setLives] = useState(3);
   const [participants, setParticipants] = useState<
-    { id: string; display_name: string; score: number; answers_correct: number; answers_total: number; word_results: unknown; finished_at: string | null }[]
+    { id: string; display_name: string; score: number; answers_correct: number; answers_total: number; word_results: unknown; finished_at: string | null; current_question: number; current_word: string | null }[]
   >([]);
   const [loading, setLoading] = useState(false);
+  const [showLiveScreens, setShowLiveScreens] = useState(true);
 
   // Generate a random room code
   const genCode = () => {
