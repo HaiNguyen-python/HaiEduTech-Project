@@ -108,7 +108,7 @@ export const generateQuestions = (
   });
 };
 
-const GameEngine = ({ questions, lives: initialLives, onGameEnd, isSuddenDeath = false }: GameEngineProps) => {
+const GameEngine = ({ questions, lives: initialLives, onGameEnd, onProgress, isSuddenDeath = false }: GameEngineProps) => {
   const { t } = useLanguage();
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
