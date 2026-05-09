@@ -525,7 +525,7 @@ const EnglishCourse = () => {
                             </button>
                           ))}
                         </div>
-                      </div>
+                      </details>
                     ))}
                   </div>
                 </div>
