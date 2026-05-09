@@ -356,7 +356,7 @@ const ThptEssentialReview = () => {
               )}
             </div>
             <Accordion type="single" collapsible className="space-y-3">
-              {thptExerciseSets.map((set, i) => (
+              {allExerciseSets.map((set, i) => (
                 <AccordionItem
                   key={set.id}
                   value={set.id}
