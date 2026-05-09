@@ -154,7 +154,7 @@ const ThptEssentialReview = () => {
   const navigate = useNavigate();
   const [tab, setTab] = useState<"grammar" | "vocabulary" | "exercises">("grammar");
 
-  const totalExercises = thptExerciseSets.reduce((s, set) => s + set.exercises.length, 0);
+  const totalExercises = allExerciseSets.reduce((s, set) => s + set.exercises.length, 0);
 
   return (
     <div className="min-h-screen bg-background">
