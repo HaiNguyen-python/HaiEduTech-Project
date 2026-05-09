@@ -190,8 +190,15 @@ const ClassroomBattle = ({ onBack }: ClassroomBattleProps) => {
           {t("Tham gia phòng thi", "Join Game Room")}
         </h2>
         <p className="text-sm text-muted-foreground mb-6">
-          {t("Nhập mã phòng từ giáo viên", "Enter the room code from your teacher")}
+          {t("Nhập tên và mã phòng từ giáo viên", "Enter your name and the room code from your teacher")}
         </p>
+        <input
+          value={nickname}
+          onChange={(e) => setNickname(e.target.value)}
+          placeholder={t("Tên của bạn", "Your name")}
+          maxLength={30}
+          className="w-full text-center text-lg font-semibold px-6 py-3 rounded-xl bg-secondary border-2 border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none mb-3"
+        />
         <input
           value={roomCode}
           onChange={(e) => setRoomCode(e.target.value.toUpperCase())}
