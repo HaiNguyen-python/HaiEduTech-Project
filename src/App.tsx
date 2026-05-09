@@ -97,6 +97,7 @@ const VietnameseKids = lazy(() => import("./pages/VietnameseKids.tsx"));
 const VietnamesePhrasebook = lazy(() => import("./pages/VietnamesePhrasebook.tsx"));
 const VietnameseDaily = lazy(() => import("./pages/VietnameseDaily.tsx"));
 const IeltsLectures = lazy(() => import("./pages/IeltsLectures.tsx"));
+const IeltsListeningPractice = lazy(() => import("./pages/IeltsListeningPractice.tsx"));
 const IeltsLectureView = lazy(() => import("./pages/IeltsLectureView.tsx"));
 const ToeicLectures = lazy(() => import("./pages/ToeicLectures.tsx"));
 const ToeicHub = lazy(() => import("./pages/ToeicHub.tsx"));
