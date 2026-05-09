@@ -447,24 +447,34 @@ const ThptEssentialReview = () => {
                           <div className="text-sm text-foreground/80">
                             <span className="not-italic font-semibold text-primary mr-1">E.g.</span>
                             {(() => {
-                              // Bold any occurrence of the headword (and its base form before "/")
-                              const variants = Array.from(
-                                new Set(
-                                  w.en
-                                    .split("/")
-                                    .map((s) => s.trim())
-                                    .filter(Boolean)
-                                )
-                              ).sort((a, b) => b.length - a.length);
+                              // Bold any occurrence of the headword, its variants
+                              // (split by "/"), individual words inside multi-word
+                              // phrases, and common inflections (s/es/ed/ing/'s/ies).
+                              const raw = w.en
+                                .split("/")
+                                .map((s) => s.trim())
+                                .filter(Boolean);
+                              const tokens = new Set<string>();
+                              raw.forEach((phrase) => {
+                                tokens.add(phrase);
+                                phrase
+                                  .split(/\s+/)
+                                  .filter((tok) => tok.length > 2 && !/^(a|an|the|to|of|on|in|at|for|with|and|or|be|sb|sth|N|V|Ving)$/i.test(tok))
+                                  .forEach((tok) => tokens.add(tok));
+                              });
+                              const variants = Array.from(tokens).sort((a, b) => b.length - a.length);
                               const escaped = variants.map((s) =>
                                 s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
                               );
-                              const re = new RegExp(`(${escaped.join("|")})`, "gi");
-                              const matchRe = new RegExp(`^(?:${escaped.join("|")})$`, "i");
-                              const parts = w.example.split(re);
+                              // Allow common inflectional suffixes after each variant.
+                              const suffix = "(?:s|es|ed|ing|ies|'s)?";
+                              const pattern = `(\\b(?:${escaped.join("|")})${suffix}\\b)`;
+                              const splitRe = new RegExp(pattern, "gi");
+                              const matchRe = new RegExp(`^${pattern}$`, "i");
+                              const parts = w.example.split(splitRe);
                               return parts.map((p, i) =>
-                                matchRe.test(p) ? (
-                                  <strong key={i} className="font-bold text-foreground not-italic">
+                                p && matchRe.test(p) ? (
+                                  <strong key={i} className="font-bold text-foreground">
                                     {p}
                                   </strong>
                                 ) : (
