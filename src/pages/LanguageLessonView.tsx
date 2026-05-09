@@ -20,6 +20,8 @@ import { cn } from "@/lib/utils";
 import { getEnhancedGrammarTheory } from "@/lib/grammarTheoryEnhancer";
 import SatStarToggle from "@/components/sat/SatStarToggle";
 import { useSatStar } from "@/hooks/useSatStars";
+import ListeningPracticeSetCard from "@/components/ielts/ListeningPracticeSetCard";
+import { getListeningPracticeForLesson } from "@/data/ieltsListeningLessonMap";
 
 const SatLessonStarDot = ({ lessonKey }: { lessonKey: string }) => {
   const { marked } = useSatStar(lessonKey);
