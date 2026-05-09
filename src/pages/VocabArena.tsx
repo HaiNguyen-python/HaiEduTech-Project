@@ -15,6 +15,9 @@ import TeacherPanel from "@/components/vocab-arena/TeacherPanel";
 import MiniGames from "@/components/vocab-arena/MiniGames";
 import GameLeaderboard from "@/components/games/GameLeaderboard";
 import { supabase } from "@/integrations/supabase/client";
+import chibiWarrior from "@/assets/chibi-vocab-warrior.png";
+import chibiClassroom from "@/assets/chibi-vocab-classroom.png";
+import chibiGamer from "@/assets/chibi-vocab-gamer.png";
 
 type Phase = "menu" | "solo-setup" | "solo-playing" | "solo-results" | "classroom-student" | "classroom-teacher" | "mini-games";
 
