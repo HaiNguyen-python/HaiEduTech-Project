@@ -93,6 +93,14 @@ export const thptGrammarTopics: GrammarTopic[] = [
     titleEn: "Passive Voice",
     summaryVi: "Chuyển từ chủ động sang bị động đúng thì, bao gồm động từ khuyết thiếu và 2 tân ngữ.",
     summaryEn: "Convert active to passive in the correct tense, including modals and double-object verbs.",
+    detailVi: "Bị động dùng khi muốn nhấn mạnh ĐỐI TƯỢNG bị tác động hơn là người thực hiện hành động. Quy trình 3 bước: (1) Xác định thì của câu chủ động → (2) chia 'be' theo đúng thì đó → (3) thêm V3/Vp.p và (by + agent) nếu cần. Với động từ khuyết thiếu giữ nguyên modal rồi thêm 'be + V3'. Với verbs có 2 tân ngữ (give/send/offer/show/tell), tân ngữ chỉ NGƯỜI thường được chọn làm chủ ngữ ở câu bị động.",
+    detailEn: "Use the passive when the focus is on the OBJECT receiving the action rather than the doer. 3-step process: (1) identify the active tense → (2) conjugate 'be' in that exact tense → (3) add V3/past participle and (by + agent) if needed. With modals, keep the modal then add 'be + V3'. With double-object verbs (give/send/offer/show/tell), the PERSON object usually becomes the new subject.",
+    formulas: [
+      "Active: S + V + O  →  Passive: O + be + V3 + (by S)",
+      "Modal passive: S + modal + be + V3",
+      "Perfect passive: S + has/had + been + V3",
+      "Reporting passive: It is said that S + V  →  S + is said + to V / to have V3",
+    ],
     rules: [
       { vi: "Công thức chung: be + V3/Vp.p", en: "General formula: be + V3/past participle" },
       { vi: "Modal passive: modal + be + V3 (must be done)", en: "Modal passive: modal + be + V3 (must be done)" },
@@ -102,9 +110,12 @@ export const thptGrammarTopics: GrammarTopic[] = [
     examples: [
       { en: "The report must be submitted by Friday.", vi: "Báo cáo phải được nộp trước thứ Sáu." },
       { en: "He is believed to have stolen the painting.", vi: "Người ta tin rằng anh ta đã đánh cắp bức tranh." },
+      { en: "She was given a beautiful necklace on her birthday.", vi: "Cô ấy được tặng một chiếc vòng cổ đẹp vào sinh nhật." },
     ],
     trapVi: "Khi chuyển bị động kép sang dạng 'S + is said + to V', V chia tùy theo thì của mệnh đề 'that'.",
     trapEn: "For 'S + is said + to V' form, the infinitive form depends on the original tense in the 'that' clause.",
+    tipVi: "Đừng quên 'by + agent' chỉ giữ lại khi tác nhân QUAN TRỌNG. Câu 'The window was broken' tự nhiên hơn 'The window was broken by someone'.",
+    tipEn: "Drop 'by + agent' when the doer is unimportant. 'The window was broken' sounds more natural than 'The window was broken by someone'.",
   },
   {
     id: "reported",
