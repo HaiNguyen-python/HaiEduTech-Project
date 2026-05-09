@@ -222,20 +222,36 @@ const VocabArena = () => {
                 </motion.div>
               </div>
 
-              {/* Teacher controls button */}
-              {isTeacher && (
-                <div className="text-center">
-                  <Button
-                    onClick={() => setPhase("classroom-teacher")}
-                    variant="outline"
-                    size="lg"
-                    className="gap-2"
-                  >
-                    <Crown className="w-4 h-4 text-amber-400" />
-                    {t("Tạo phòng thi (Giáo viên)", "Create Room (Teacher)")}
-                  </Button>
-                </div>
-              )}
+              {/* Teacher controls button — always visible; gated inside */}
+              <div className="text-center">
+                <Button
+                  onClick={() => {
+                    if (!user) {
+                      window.location.href = "/login?redirect=/vocab-arena";
+                      return;
+                    }
+                    if (!isTeacher) {
+                      alert(t(
+                        "Tính năng này chỉ dành cho giáo viên. Vui lòng liên hệ thầy Hải để được cấp quyền.",
+                        "This feature is for teachers only. Please contact Mr. Hai for access."
+                      ));
+                      return;
+                    }
+                    setPhase("classroom-teacher");
+                  }}
+                  variant="outline"
+                  size="lg"
+                  className="gap-2"
+                >
+                  <Crown className="w-4 h-4 text-amber-400" />
+                  {t("Tạo phòng thi (Giáo viên)", "Create Room (Teacher)")}
+                </Button>
+                {!user && (
+                  <p className="text-xs text-muted-foreground mt-2">
+                    {t("Đăng nhập với tài khoản giáo viên để tạo phòng", "Log in with a teacher account to create a room")}
+                  </p>
+                )}
+              </div>
 
               <div className="text-center mt-6">
                 <Link to="/ielts-vocabulary" className="text-sm text-primary hover:underline">
