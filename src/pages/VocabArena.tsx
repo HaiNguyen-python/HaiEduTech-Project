@@ -23,7 +23,7 @@ type Phase = "menu" | "solo-setup" | "solo-playing" | "solo-results" | "classroo
 
 const VocabArena = () => {
   const { t } = useLanguage();
-  const { isTeacher } = useUserRole();
+  const { isTeacher, user } = useUserRole();
   const [phase, setPhase] = useState<Phase>("menu");
   const [result, setResult] = useState<GameResult | null>(null);
 
