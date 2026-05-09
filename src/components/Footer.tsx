@@ -80,7 +80,7 @@ const Footer = () => {
           <div>
             <h4 className="font-display font-semibold text-sm text-foreground mb-4">{t("Công cụ", "Tools")}</h4>
             <div className="space-y-2.5">
-              <Link to="/ai-grading" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">🤖 {t("Chấm điểm AI", "AI Grading")}</Link>
+              <Link to="/ai-grading" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">🤖 {t("IELTS Smart Grading", "IELTS Smart Grading")}</Link>
               <Link to="/ielts-vocabulary" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">📖 {t("Từ vựng IELTS", "IELTS Vocabulary")}</Link>
               <Link to="/ielts-speaking-practice" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">🎤 {t("Luyện nói IELTS", "IELTS Speaking")}</Link>
               <Link to="/global-scholarship" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">🎓 {t("Học bổng toàn cầu", "Global Scholarship")}</Link>
