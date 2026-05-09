@@ -184,7 +184,32 @@ const ConversationalLessonView = () => {
           {/* SITUATIONS TAB */}
           <TabsContent value="situations">
             <div className="space-y-6">
-              {lesson.keySituations.map((situation, idx) => (
+              {lesson.keySituations.map((situation, idx) => {
+                // Build speaker style map: "You" always on right with brand gradient; others alternate sides + colors
+                const otherPalette = [
+                  { side: "left", bubble: "bg-gradient-to-br from-purple-100 to-fuchsia-100 dark:from-purple-900/40 dark:to-fuchsia-900/40 text-foreground border border-purple-200/60 dark:border-purple-800/40", avatar: "bg-purple-500", emoji: "🧑" },
+                  { side: "right", bubble: "bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 text-foreground border border-amber-200/60 dark:border-amber-800/40", avatar: "bg-amber-500", emoji: "👤" },
+                  { side: "left", bubble: "bg-gradient-to-br from-pink-100 to-rose-100 dark:from-pink-900/40 dark:to-rose-900/40 text-foreground border border-pink-200/60 dark:border-pink-800/40", avatar: "bg-pink-500", emoji: "🧒" },
+                  { side: "right", bubble: "bg-gradient-to-br from-cyan-100 to-sky-100 dark:from-cyan-900/40 dark:to-sky-900/40 text-foreground border border-cyan-200/60 dark:border-cyan-800/40", avatar: "bg-cyan-500", emoji: "🧓" },
+                  { side: "left", bubble: "bg-gradient-to-br from-lime-100 to-green-100 dark:from-lime-900/40 dark:to-green-900/40 text-foreground border border-lime-200/60 dark:border-lime-800/40", avatar: "bg-lime-600", emoji: "🧔" },
+                ];
+                const youStyle = {
+                  side: "right" as const,
+                  bubble: "bg-gradient-to-br from-blue-500 to-emerald-500 text-white shadow-md shadow-emerald-500/20",
+                  avatar: "bg-emerald-600",
+                  emoji: "😎",
+                };
+                const uniqueOthers: string[] = [];
+                situation.sampleDialogue.forEach((l) => {
+                  if (l.speaker !== "You" && !uniqueOthers.includes(l.speaker)) uniqueOthers.push(l.speaker);
+                });
+                const styleFor = (speaker: string) => {
+                  if (speaker === "You") return youStyle;
+                  const i = uniqueOthers.indexOf(speaker);
+                  return otherPalette[i % otherPalette.length];
+                };
+
+                return (
                 <motion.div
                   key={idx}
                   initial={{ opacity: 0, y: 10 }}
@@ -200,25 +225,29 @@ const ConversationalLessonView = () => {
                       <p className="text-sm text-muted-foreground">{t(situation.descriptionVi, situation.description)}</p>
                     </CardHeader>
                     <CardContent>
-                      {/* Sample dialogue */}
+                      {/* Sample dialogue — alternating chat bubbles */}
                       <div className="space-y-3">
-                        {situation.sampleDialogue.map((line, i) => (
-                          <div key={i} className={`flex gap-3 ${line.speaker === "You" ? "justify-end" : ""}`}>
-                            <div className={`max-w-[80%] p-3 rounded-2xl text-sm ${
-                              line.speaker === "You"
-                                ? "bg-primary text-primary-foreground rounded-br-sm"
-                                : "bg-muted rounded-bl-sm"
-                            }`}>
-                              <p className="text-[10px] font-bold opacity-70 mb-0.5">{line.speaker}</p>
-                              <p>{line.line}</p>
+                        {situation.sampleDialogue.map((line, i) => {
+                          const s = styleFor(line.speaker);
+                          const isRight = s.side === "right";
+                          return (
+                            <div key={i} className={`flex items-end gap-2 ${isRight ? "flex-row-reverse" : ""}`}>
+                              <div className={`flex-shrink-0 w-8 h-8 rounded-full ${s.avatar} text-white flex items-center justify-center text-sm shadow-sm`}>
+                                {s.emoji}
+                              </div>
+                              <div className={`max-w-[78%] px-3.5 py-2 rounded-2xl text-sm ${s.bubble} ${isRight ? "rounded-br-sm" : "rounded-bl-sm"}`}>
+                                <p className={`text-[10px] font-bold mb-0.5 ${line.speaker === "You" ? "text-white/80" : "text-muted-foreground"}`}>{line.speaker}</p>
+                                <p className="leading-snug">{line.line}</p>
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          );
+                        })}
                       </div>
                     </CardContent>
                   </Card>
                 </motion.div>
-              ))}
+                );
+              })}
             </div>
           </TabsContent>
 
