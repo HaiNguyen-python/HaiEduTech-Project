@@ -84,6 +84,7 @@ interface GameEngineProps {
   questions: GameQuestion[];
   lives: number;
   onGameEnd: (result: GameResult) => void;
+  onProgress?: (index: number, word: string) => void;
   isSuddenDeath?: boolean;
 }
 
