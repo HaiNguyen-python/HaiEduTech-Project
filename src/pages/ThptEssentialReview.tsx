@@ -237,25 +237,61 @@ const ThptEssentialReview = () => {
                     </div>
                   </AccordionTrigger>
                   <AccordionContent className="pb-5 space-y-4">
+                    {/* In-depth explanation */}
+                    {(g.detailVi || g.detailEn) && (
+                      <div className="rounded-lg border border-sky-500/20 bg-sky-500/5 p-4">
+                        <h4 className="font-bold text-sm uppercase tracking-wide text-sky-600 dark:text-sky-400 mb-2">
+                          {t("Giải thích chi tiết", "In-depth Explanation")}
+                        </h4>
+                        <p className="text-sm md:text-[15px] leading-relaxed text-foreground/90">
+                          {lang === "vi" ? g.detailVi : g.detailEn}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Formulas */}
+                    {g.formulas && g.formulas.length > 0 && (
+                      <div className="rounded-lg border border-violet-500/30 bg-violet-500/5 p-4">
+                        <h4 className="font-bold text-sm uppercase tracking-wide text-violet-600 dark:text-violet-400 mb-3">
+                          📐 {t("Công thức cần nhớ", "Key Formulas")}
+                        </h4>
+                        <ul className="space-y-2">
+                          {g.formulas.map((f, j) => (
+                            <li
+                              key={j}
+                              className="font-mono text-[13px] md:text-sm bg-background/70 border border-violet-500/20 rounded-md px-3 py-2 leading-relaxed break-words"
+                            >
+                              {f}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
                     {/* Rules */}
                     <div className="rounded-lg border border-primary/20 bg-primary/5 p-4">
-                      <h4 className="font-bold text-sm uppercase tracking-wide text-primary mb-2 flex items-center gap-2">
+                      <h4 className="font-bold text-sm uppercase tracking-wide text-primary mb-3 flex items-center gap-2">
                         <BookOpen className="w-4 h-4" /> {t("Quy tắc cốt lõi", "Core Rules")}
                       </h4>
-                      <ul className="space-y-1.5 text-sm">
+                      <div className="grid gap-2">
                         {g.rules.map((r, j) => (
-                          <li key={j} className="flex gap-2">
-                            <span className="text-primary font-bold">▸</span>
-                            <span>{lang === "vi" ? r.vi : r.en}</span>
-                          </li>
+                          <div
+                            key={j}
+                            className="flex gap-3 bg-background/60 border border-primary/15 rounded-md px-3 py-2 text-sm leading-relaxed"
+                          >
+                            <span className="shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-primary/15 text-primary text-xs font-bold">
+                              {j + 1}
+                            </span>
+                            <span className="flex-1">{lang === "vi" ? r.vi : r.en}</span>
+                          </div>
                         ))}
-                      </ul>
+                      </div>
                     </div>
 
                     {/* Examples */}
                     <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/5 p-4">
                       <h4 className="font-bold text-sm uppercase tracking-wide text-emerald-600 mb-2">
-                        {t("Ví dụ", "Examples")}
+                        {t("Ví dụ minh họa", "Examples")}
                       </h4>
                       <div className="space-y-2">
                         {g.examples.map((ex, k) => (
@@ -284,6 +320,18 @@ const ThptEssentialReview = () => {
                       </h4>
                       <p className="text-sm leading-relaxed">{lang === "vi" ? g.trapVi : g.trapEn}</p>
                     </div>
+
+                    {/* Mr Hai's exam tip */}
+                    {(g.tipVi || g.tipEn) && (
+                      <div className="rounded-lg border border-rose-500/30 bg-gradient-to-br from-rose-500/10 to-amber-500/5 p-4">
+                        <h4 className="font-bold text-sm uppercase tracking-wide text-rose-600 dark:text-rose-400 mb-2 flex items-center gap-2">
+                          <Sparkles className="w-4 h-4" /> {t("Mẹo phòng thi của thầy Hải", "Mr. Hai's Exam Tip")}
+                        </h4>
+                        <p className="text-sm leading-relaxed text-foreground/90">
+                          {lang === "vi" ? g.tipVi : g.tipEn}
+                        </p>
+                      </div>
+                    )}
                   </AccordionContent>
                 </AccordionItem>
               ))}
