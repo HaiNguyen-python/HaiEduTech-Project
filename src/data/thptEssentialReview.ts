@@ -8,10 +8,18 @@ export interface GrammarTopic {
   titleEn: string;
   summaryVi: string;
   summaryEn: string;
+  /** Optional in-depth explanation paragraph displayed above rules. */
+  detailVi?: string;
+  detailEn?: string;
+  /** Optional headline formula(s) (monospaced display). */
+  formulas?: string[];
   rules: { vi: string; en: string }[];
   examples: { en: string; vi: string }[];
   trapVi: string; // common pitfall in the exam
   trapEn: string;
+  /** Optional Mr Hai's exam-room strategy tip. */
+  tipVi?: string;
+  tipEn?: string;
 }
 
 export const thptGrammarTopics: GrammarTopic[] = [
