@@ -14,6 +14,7 @@ interface ClassroomBattleProps {
 const ClassroomBattle = ({ onBack }: ClassroomBattleProps) => {
   const { t } = useLanguage();
   const [roomCode, setRoomCode] = useState("");
+  const [nickname, setNickname] = useState(() => localStorage.getItem("arena-nickname") || "");
   const [phase, setPhase] = useState<"join" | "waiting" | "playing" | "results">("join");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -34,16 +35,16 @@ const ClassroomBattle = ({ onBack }: ClassroomBattleProps) => {
   // Join room
   const handleJoin = async () => {
     if (!roomCode.trim()) return;
+    if (!nickname.trim()) {
+      setError(t("Vui lòng nhập tên của bạn", "Please enter your name"));
+      return;
+    }
     setLoading(true);
     setError("");
 
     try {
       const { data: userData } = await supabase.auth.getUser();
-      if (!userData.user) {
-        setError(t("Bạn cần đăng nhập để tham gia", "Please log in to join"));
-        setLoading(false);
-        return;
-      }
+      const currentUserId = userData.user?.id ?? null;
 
       // Find the room
       const { data: room, error: roomErr } = await supabase
@@ -73,15 +74,14 @@ const ClassroomBattle = ({ onBack }: ClassroomBattleProps) => {
         lives: (settings?.lives as number) || 3,
       });
 
-      // Join as participant
-      const profile = await supabase.from("profiles").select("full_name").eq("id", userData.user.id).single();
-      const displayName = profile.data?.full_name || userData.user.email?.split("@")[0] || "Student";
+      const displayName = nickname.trim().slice(0, 30);
+      localStorage.setItem("arena-nickname", displayName);
 
       const { data: participant, error: joinErr } = await supabase
         .from("game_participants")
         .insert({
           room_id: room.id,
-          user_id: userData.user.id,
+          user_id: currentUserId,
           display_name: displayName,
         })
         .select()
@@ -190,8 +190,15 @@ const ClassroomBattle = ({ onBack }: ClassroomBattleProps) => {
           {t("Tham gia phòng thi", "Join Game Room")}
         </h2>
         <p className="text-sm text-muted-foreground mb-6">
-          {t("Nhập mã phòng từ giáo viên", "Enter the room code from your teacher")}
+          {t("Nhập tên và mã phòng từ giáo viên", "Enter your name and the room code from your teacher")}
         </p>
+        <input
+          value={nickname}
+          onChange={(e) => setNickname(e.target.value)}
+          placeholder={t("Tên của bạn", "Your name")}
+          maxLength={30}
+          className="w-full text-center text-lg font-semibold px-6 py-3 rounded-xl bg-secondary border-2 border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none mb-3"
+        />
         <input
           value={roomCode}
           onChange={(e) => setRoomCode(e.target.value.toUpperCase())}
