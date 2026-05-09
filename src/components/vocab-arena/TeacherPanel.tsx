@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Copy, Play, Square, Users, BarChart3, QrCode, Settings2 } from "lucide-react";
+import { Copy, Play, Square, Users, BarChart3, QrCode, Settings2, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
