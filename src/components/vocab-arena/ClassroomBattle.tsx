@@ -14,6 +14,7 @@ interface ClassroomBattleProps {
 const ClassroomBattle = ({ onBack }: ClassroomBattleProps) => {
   const { t } = useLanguage();
   const [roomCode, setRoomCode] = useState("");
+  const [nickname, setNickname] = useState(() => localStorage.getItem("arena-nickname") || "");
   const [phase, setPhase] = useState<"join" | "waiting" | "playing" | "results">("join");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
