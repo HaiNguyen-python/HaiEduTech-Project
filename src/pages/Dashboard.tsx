@@ -894,6 +894,16 @@ const Dashboard = () => {
                   </div>
                 )}
               </TabsContent>
+
+              <TabsContent value="profile">
+                {user ? (
+                  <PersonalInfo userId={user.id} email={user.email ?? null} />
+                ) : (
+                  <div className="text-center py-12 text-muted-foreground">
+                    {t("Vui lòng đăng nhập để truy cập.", "Please sign in to access.")}
+                  </div>
+                )}
+              </TabsContent>
             </Tabs>
           </motion.div>
         </div>
