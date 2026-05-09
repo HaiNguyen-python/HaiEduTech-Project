@@ -273,6 +273,90 @@ const TeacherPanel = ({ onBack }: TeacherPanelProps) => {
         </Button>
       </div>
 
+      {/* LIVE STUDENT SCREENS - shown only while playing */}
+      {roomStatus === "playing" && participants.length > 0 && (
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
+              <Eye className="w-5 h-5 text-primary" />
+              {t("Màn hình học sinh (Live)", "Live Student Screens")}
+              <span className="text-xs text-muted-foreground font-normal">
+                ({t("cập nhật theo thời gian thực", "real-time")})
+              </span>
+            </h3>
+            <button
+              onClick={() => setShowLiveScreens((v) => !v)}
+              className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1"
+            >
+              {showLiveScreens ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
+              {showLiveScreens ? t("Ẩn", "Hide") : t("Hiện", "Show")}
+            </button>
+          </div>
+
+          {showLiveScreens && (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+              {participants.map((p) => {
+                const total = questionCount;
+                const idx = p.current_question || 0;
+                const isFinished = !!p.finished_at;
+                const pct = total > 0 ? Math.round((idx / total) * 100) : 0;
+                return (
+                  <motion.div
+                    key={p.id}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className={`rounded-xl border-2 p-3 ${
+                      isFinished ? "border-green-500/40 bg-green-500/5" : "border-primary/30 bg-card"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs font-bold text-foreground truncate max-w-[60%]">
+                        {p.display_name}
+                      </span>
+                      <span className="text-[10px] text-muted-foreground font-mono">
+                        {idx + (isFinished ? 0 : 1)}/{total}
+                      </span>
+                    </div>
+                    <div className="rounded-lg bg-secondary/60 border border-border p-2 min-h-[64px] flex items-center justify-center text-center">
+                      {isFinished ? (
+                        <span className="text-xs text-green-500 font-semibold">
+                          ✓ {t("Đã hoàn thành", "Finished")}
+                        </span>
+                      ) : p.current_word ? (
+                        <div>
+                          <p className="text-[10px] text-muted-foreground uppercase tracking-wide">
+                            {t("Đang làm", "On screen")}
+                          </p>
+                          <p className="text-sm font-bold text-primary truncate" title={p.current_word}>
+                            {p.current_word}
+                          </p>
+                        </div>
+                      ) : (
+                        <span className="text-[10px] text-muted-foreground">
+                          {t("Chưa bắt đầu", "Not started")}
+                        </span>
+                      )}
+                    </div>
+                    <div className="mt-2 h-1.5 w-full bg-secondary rounded-full overflow-hidden">
+                      <div
+                        className={`h-full rounded-full transition-all ${isFinished ? "bg-green-500" : "bg-primary"}`}
+                        style={{ width: `${isFinished ? 100 : pct}%` }}
+                      />
+                    </div>
+                    <div className="flex items-center justify-between mt-2 text-[10px]">
+                      <span className="text-muted-foreground">
+                        ✓ {p.answers_correct}/{p.answers_total}
+                      </span>
+                      <span className="text-primary font-bold">{p.score} pts</span>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Live leaderboard */}
       <div className="mb-8">
         <h3 className="text-lg font-bold text-foreground mb-3">
