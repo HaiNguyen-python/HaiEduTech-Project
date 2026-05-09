@@ -357,7 +357,7 @@ export type Database = {
           room_id: string | null
           score: number
           streak: number
-          user_id: string
+          user_id: string | null
           word_results: Json
         }
         Insert: {
@@ -371,7 +371,7 @@ export type Database = {
           room_id?: string | null
           score?: number
           streak?: number
-          user_id: string
+          user_id?: string | null
           word_results?: Json
         }
         Update: {
@@ -385,7 +385,7 @@ export type Database = {
           room_id?: string | null
           score?: number
           streak?: number
-          user_id?: string
+          user_id?: string | null
           word_results?: Json
         }
         Relationships: [
