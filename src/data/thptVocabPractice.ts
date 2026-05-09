@@ -17,7 +17,7 @@ export interface VocabWord {
 
 export interface VocabQuizItem {
   q: string;
-  options: string[];
+  options: [string, string, string, string];
   answer: number; // index 0-3
   explanation: string;
 }
