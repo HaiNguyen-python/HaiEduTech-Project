@@ -23,6 +23,7 @@ import {
 } from "@/data/thptEssentialReviewExpansion2";
 import { thptVocabPracticeByTheme } from "@/data/thptVocabPractice";
 import { getVocabEmoji } from "@/data/thptVocabEmojis";
+import { thptCollocationsExtraSets } from "@/data/thptCollocationsExtra";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -56,7 +57,7 @@ const mergedVocabThemes = [
   return extra ? { ...theme, words: [...theme.words, ...extra.extraWords] } : theme;
 });
 const allVocabThemes = mergedVocabThemes;
-const allExerciseSets = [...thptExerciseSets, ...thptExerciseSetsExpansion2];
+const allExerciseSets = [...thptExerciseSets, ...thptExerciseSetsExpansion2, ...thptCollocationsExtraSets];
 
 // Total quick-quiz items attached to vocab themes
 const totalVocabQuiz = Object.values(thptVocabPracticeByTheme).reduce(
