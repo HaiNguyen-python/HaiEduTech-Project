@@ -226,7 +226,7 @@ const ConversationalLessonView = () => {
                     </CardHeader>
                     <CardContent>
                       {/* Sample dialogue — alternating chat bubbles */}
-                      <div className="space-y-3">
+                      <div className="space-y-5">
                         {situation.sampleDialogue.map((line, i) => {
                           const s = styleFor(line.speaker);
                           const isRight = s.side === "right";
