@@ -35,16 +35,16 @@ const ClassroomBattle = ({ onBack }: ClassroomBattleProps) => {
   // Join room
   const handleJoin = async () => {
     if (!roomCode.trim()) return;
+    if (!nickname.trim()) {
+      setError(t("Vui lòng nhập tên của bạn", "Please enter your name"));
+      return;
+    }
     setLoading(true);
     setError("");
 
     try {
       const { data: userData } = await supabase.auth.getUser();
-      if (!userData.user) {
-        setError(t("Bạn cần đăng nhập để tham gia", "Please log in to join"));
-        setLoading(false);
-        return;
-      }
+      const currentUserId = userData.user?.id ?? null;
 
       // Find the room
       const { data: room, error: roomErr } = await supabase
@@ -74,15 +74,14 @@ const ClassroomBattle = ({ onBack }: ClassroomBattleProps) => {
         lives: (settings?.lives as number) || 3,
       });
 
-      // Join as participant
-      const profile = await supabase.from("profiles").select("full_name").eq("id", userData.user.id).single();
-      const displayName = profile.data?.full_name || userData.user.email?.split("@")[0] || "Student";
+      const displayName = nickname.trim().slice(0, 30);
+      localStorage.setItem("arena-nickname", displayName);
 
       const { data: participant, error: joinErr } = await supabase
         .from("game_participants")
         .insert({
           room_id: room.id,
-          user_id: userData.user.id,
+          user_id: currentUserId,
           display_name: displayName,
         })
         .select()
