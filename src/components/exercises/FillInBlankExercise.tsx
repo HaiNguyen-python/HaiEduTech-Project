@@ -124,10 +124,10 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences, forceEngli
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-foreground flex items-center gap-2">
-          ✍️ {titlePart}
-        </h3>
+      <div className="flex items-start justify-between gap-4 flex-wrap">
+        <div className="font-semibold text-foreground text-[15px] leading-7 whitespace-pre-line flex-1 min-w-0 bg-muted/40 border border-border rounded-lg p-4">
+          <span className="mr-2">✍️</span>{titlePart.trim()}
+        </div>
         {submitted && (
           <div className="flex items-center gap-3">
             <span className={cn(
