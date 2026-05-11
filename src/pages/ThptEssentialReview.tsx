@@ -49,16 +49,112 @@ const allGrammarTopics = [...thptGrammarTopics, ...thptGrammarTopicsExpansion];
 
 
 // Merge per-theme extra words from thptVocabPractice into each VocabTheme by id.
+// Deduplicate themes by id (keeps first occurrence; subsequent duplicates are skipped).
+const _seenThemes = new Set<string>();
 const mergedVocabThemes = [
   ...thptVocabThemes,
   ...thptVocabThemesExpansion,
   ...thptVocabThemesExpansion2,
-].map((theme) => {
-  const extra = thptVocabPracticeByTheme[theme.id];
-  return extra ? { ...theme, words: [...theme.words, ...extra.extraWords] } : theme;
-});
+]
+  .filter((t) => {
+    if (_seenThemes.has(t.id)) return false;
+    _seenThemes.add(t.id);
+    return true;
+  })
+  .map((theme) => {
+    const extra = thptVocabPracticeByTheme[theme.id];
+    return extra ? { ...theme, words: [...theme.words, ...extra.extraWords] } : theme;
+  });
 const allVocabThemes = mergedVocabThemes;
-const allExerciseSets = [...thptExerciseSets, ...thptExerciseSetsExpansion2, ...thptCollocationsExtraSets];
+
+// Deduplicate exercise sets by id and assign a clear category for grouping.
+const _seenSets = new Set<string>();
+const _rawExerciseSets = [
+  ...thptExerciseSets,
+  ...thptExerciseSetsExpansion2,
+  ...thptCollocationsExtraSets,
+  ...thptCollocationsExtraSets2,
+].filter((s) => {
+  if (_seenSets.has(s.id)) return false;
+  _seenSets.add(s.id);
+  return true;
+});
+
+type ExerciseCategoryKey =
+  | "collocations-core"
+  | "phrasal-idioms"
+  | "grammar-practice"
+  | "vocabulary-themes"
+  | "word-formation"
+  | "mixed-review";
+
+const EXERCISE_CATEGORIES: Record<
+  ExerciseCategoryKey,
+  { icon: string; titleVi: string; titleEn: string; descVi: string; descEn: string }
+> = {
+  "collocations-core": {
+    icon: "🔗",
+    titleVi: "1. Collocations cốt lõi",
+    titleEn: "1. Core Collocations",
+    descVi: "MAKE / DO / TAKE / HAVE / GET, Adj+N, Adv+Adj, Verb+Prep — dạng phổ biến nhất trong cloze test.",
+    descEn: "MAKE / DO / TAKE / HAVE / GET, Adj+N, Adv+Adj, Verb+Prep — most common cloze patterns.",
+  },
+  "phrasal-idioms": {
+    icon: "💡",
+    titleVi: "2. Phrasal Verbs & Idioms",
+    titleEn: "2. Phrasal Verbs & Idioms",
+    descVi: "Cụm động từ và thành ngữ thường gặp trong Reading & rewriting THPT.",
+    descEn: "Phrasal verbs and idioms commonly tested in THPT Reading & rewriting.",
+  },
+  "grammar-practice": {
+    icon: "📐",
+    titleVi: "3. Bài tập Ngữ pháp trọng tâm",
+    titleEn: "3. Core Grammar Practice",
+    descVi: "12 thì, điều kiện, đảo ngữ, bị động, tường thuật, mệnh đề, modal, so sánh, liên từ…",
+    descEn: "12 tenses, conditionals, inversion, passive, reported, clauses, modals, comparison, connectors…",
+  },
+  "vocabulary-themes": {
+    icon: "📚",
+    titleVi: "4. Từ vựng theo chủ đề",
+    titleEn: "4. Vocabulary by Theme",
+    descVi: "Giáo dục, môi trường, công nghệ, sức khỏe, việc làm, xã hội — bám sát đề THPT.",
+    descEn: "Education, environment, technology, health, work, society — aligned with THPT topics.",
+  },
+  "word-formation": {
+    icon: "🧱",
+    titleVi: "5. Word Formation",
+    titleEn: "5. Word Formation",
+    descVi: "Suffix / prefix biến đổi từ loại — dạng câu rất hay xuất hiện ở phần cuối đề.",
+    descEn: "Suffix / prefix word-class changes — frequently tested near the end of the exam.",
+  },
+  "mixed-review": {
+    icon: "🏆",
+    titleVi: "6. Tổng ôn hỗn hợp",
+    titleEn: "6. Mixed Final Review",
+    descVi: "Bài tổng ôn pha trộn nhiều dạng — mô phỏng đề thật.",
+    descEn: "Mixed sweep simulating the real exam.",
+  },
+};
+
+const categorizeSet = (id: string): ExerciseCategoryKey => {
+  if (id.startsWith("ex-collocations-phrasal") || id === "ex-collocations-idioms-fixed") return "phrasal-idioms";
+  if (id === "ex-collocations-mixed-review" || id === "ex-collocations-mixed-final") return "mixed-review";
+  if (id === "ex-word-formation") return "word-formation";
+  if (id.startsWith("ex-vocab-")) return "vocabulary-themes";
+  if (id.startsWith("ex-collocations-")) return "collocations-core";
+  // Grammar bucket: ex-tenses, ex-conditional-inversion, ex-passive-reported,
+  // ex-relative-modal-comparison, ex-connectors-cleft-subj, ex-word-form-sva-tags
+  return "grammar-practice";
+};
+
+const allExerciseSets = _rawExerciseSets;
+
+// Build grouped structure preserving in-category order.
+const groupedExerciseSets = (Object.keys(EXERCISE_CATEGORIES) as ExerciseCategoryKey[]).map((key) => ({
+  key,
+  meta: EXERCISE_CATEGORIES[key],
+  sets: allExerciseSets.filter((s) => categorizeSet(s.id) === key),
+}));
 
 // Total quick-quiz items attached to vocab themes
 const totalVocabQuiz = Object.values(thptVocabPracticeByTheme).reduce(
