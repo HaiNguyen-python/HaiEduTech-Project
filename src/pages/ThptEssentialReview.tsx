@@ -78,6 +78,8 @@ const _rawExerciseSets = [
   ...thptExerciseSetsExpansion2,
   ...thptCollocationsExtraSets,
   ...thptCollocationsExtraSets2,
+  ...thptWordFormationExtraSets,
+  ...thptMixedFinalExtraSets,
 ].filter((s) => {
   if (_seenSets.has(s.id)) return false;
   _seenSets.add(s.id);
