@@ -658,32 +658,58 @@ const ThptEssentialReview = () => {
                 "Prioritise the first 3 Collocation sets — these patterns appear MASSIVELY in the cloze and rewriting parts of the THPT exam."
               )}
             </div>
-            <Accordion type="single" collapsible className="space-y-3">
-              {allExerciseSets.map((set, i) => (
-                <AccordionItem
-                  key={set.id}
-                  value={set.id}
-                  className="rounded-xl border-2 border-border bg-card px-4 data-[state=open]:border-primary/40"
-                >
-                  <AccordionTrigger className="hover:no-underline py-4">
-                    <div className="flex items-center gap-3 text-left">
-                      <span className="text-3xl">{set.icon}</span>
-                      <div>
-                        <div className="font-bold text-base md:text-lg">
-                          {String(i + 1).padStart(2, "0")}. {lang === "vi" ? set.titleVi : set.titleEn}
+            <div className="space-y-8">
+              {groupedExerciseSets.map((group) => {
+                if (group.sets.length === 0) return null;
+                const totalQs = group.sets.reduce((s, set) => s + set.exercises.length, 0);
+                return (
+                  <section key={group.key} className="space-y-3">
+                    <div className="rounded-xl border-2 border-primary/25 bg-gradient-to-r from-primary/10 via-emerald-500/5 to-transparent p-4">
+                      <div className="flex items-center gap-3">
+                        <span className="text-3xl">{group.meta.icon}</span>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-display font-bold text-lg md:text-xl bg-gradient-to-r from-primary to-emerald-500 bg-clip-text text-transparent">
+                            {lang === "vi" ? group.meta.titleVi : group.meta.titleEn}
+                          </h3>
+                          <p className="text-xs md:text-sm text-muted-foreground mt-0.5">
+                            {lang === "vi" ? group.meta.descVi : group.meta.descEn}
+                          </p>
                         </div>
-                        <div className="text-xs md:text-sm text-muted-foreground font-normal mt-0.5">
-                          {set.exercises.length} {t("câu", "items")} · {lang === "vi" ? set.focusVi : set.focusEn}
-                        </div>
+                        <Badge variant="secondary" className="shrink-0 text-xs">
+                          {group.sets.length} {t("bộ", "sets")} · {totalQs} {t("câu", "Qs")}
+                        </Badge>
                       </div>
                     </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="pb-5">
-                    <ExerciseRunner setId={set.id} exercises={set.exercises} />
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+                    <Accordion type="single" collapsible className="space-y-3">
+                      {group.sets.map((set, i) => (
+                        <AccordionItem
+                          key={set.id}
+                          value={set.id}
+                          className="rounded-xl border-2 border-border bg-card px-4 data-[state=open]:border-primary/40"
+                        >
+                          <AccordionTrigger className="hover:no-underline py-4">
+                            <div className="flex items-center gap-3 text-left">
+                              <span className="text-3xl">{set.icon}</span>
+                              <div>
+                                <div className="font-bold text-base md:text-lg">
+                                  {String(i + 1).padStart(2, "0")}. {lang === "vi" ? set.titleVi : set.titleEn}
+                                </div>
+                                <div className="text-xs md:text-sm text-muted-foreground font-normal mt-0.5">
+                                  {set.exercises.length} {t("câu", "items")} · {lang === "vi" ? set.focusVi : set.focusEn}
+                                </div>
+                              </div>
+                            </div>
+                          </AccordionTrigger>
+                          <AccordionContent className="pb-5">
+                            <ExerciseRunner setId={set.id} exercises={set.exercises} />
+                          </AccordionContent>
+                        </AccordionItem>
+                      ))}
+                    </Accordion>
+                  </section>
+                );
+              })}
+            </div>
           </TabsContent>
         </Tabs>
       </main>
