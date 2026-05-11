@@ -25,6 +25,10 @@ import { thptVocabPracticeByTheme } from "@/data/thptVocabPractice";
 import { getVocabEmoji } from "@/data/thptVocabEmojis";
 import { thptCollocationsExtraSets } from "@/data/thptCollocationsExtra";
 import { thptCollocationsExtraSets2 } from "@/data/thptCollocationsExtra2";
+import {
+  thptWordFormationExtraSets,
+  thptMixedFinalExtraSets,
+} from "@/data/thptWordFormationMixedExtra";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -74,6 +78,8 @@ const _rawExerciseSets = [
   ...thptExerciseSetsExpansion2,
   ...thptCollocationsExtraSets,
   ...thptCollocationsExtraSets2,
+  ...thptWordFormationExtraSets,
+  ...thptMixedFinalExtraSets,
 ].filter((s) => {
   if (_seenSets.has(s.id)) return false;
   _seenSets.add(s.id);
@@ -138,8 +144,8 @@ const EXERCISE_CATEGORIES: Record<
 
 const categorizeSet = (id: string): ExerciseCategoryKey => {
   if (id.startsWith("ex-collocations-phrasal") || id === "ex-collocations-idioms-fixed") return "phrasal-idioms";
-  if (id === "ex-collocations-mixed-review" || id === "ex-collocations-mixed-final") return "mixed-review";
-  if (id === "ex-word-formation") return "word-formation";
+  if (id === "ex-collocations-mixed-review" || id === "ex-collocations-mixed-final" || id.startsWith("ex-mixed-final-review")) return "mixed-review";
+  if (id === "ex-word-formation" || id.startsWith("ex-word-formation-")) return "word-formation";
   if (id.startsWith("ex-vocab-")) return "vocabulary-themes";
   if (id.startsWith("ex-collocations-")) return "collocations-core";
   // Grammar bucket: ex-tenses, ex-conditional-inversion, ex-passive-reported,

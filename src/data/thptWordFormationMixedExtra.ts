@@ -1,0 +1,133 @@
+/**
+ * @file thptWordFormationMixedExtra.ts
+ * @description Extra Word Formation and Mixed Final Review exercise sets for THPT.
+ * @author Teacher Hai (HaiEduTech)
+ * @copyright 2026 HaiEduTech, ILC. All rights reserved.
+ */
+import type { ThptExerciseSet } from "./thptEssentialReviewExpansion";
+
+export const thptWordFormationExtraSets: ThptExerciseSet[] = [
+  {
+    id: "ex-word-formation-suffixes",
+    icon: "🔤",
+    titleVi: "Word Formation: Hậu tố Danh từ & Tính từ",
+    titleEn: "Word Formation: Noun & Adjective Suffixes",
+    focusVi: "Biến đổi gốc từ thành danh từ (-tion, -ment, -ity, -ness) và tính từ (-ful, -less, -ous, -al).",
+    focusEn: "Transform roots into nouns (-tion, -ment, -ity, -ness) and adjectives (-ful, -less, -ous, -al).",
+    exercises: [
+      { q: "Air ___ is a serious threat to public health. (POLLUTE)", options: ["pollute", "pollutive", "pollution", "polluted"], answer: 2, explanation: "Cần danh từ → pollution." },
+      { q: "Her ___ to detail makes her an excellent editor. (ATTEND)", options: ["attendant", "attention", "attentive", "attend"], answer: 1, explanation: "Sau possessive → noun: attention." },
+      { q: "We need a quick ___ to this problem. (SOLVE)", options: ["solve", "solving", "solution", "solver"], answer: 2, explanation: "Sau \"a\" + adj cần noun: solution." },
+      { q: "The ___ of plastic bags is harming wildlife. (USE)", options: ["use", "user", "useful", "usage"], answer: 3, explanation: "use/usage đều noun, nhưng \"the usage of\" tự nhiên hơn ở đây." },
+      { q: "His ___ in the project was greatly appreciated. (INVOLVE)", options: ["involved", "involving", "involvement", "involve"], answer: 2, explanation: "Sau possessive → noun: involvement." },
+      { q: "Honesty is the best ___. (POLICY)", options: ["policy", "policies", "policed", "policing"], answer: 0, explanation: "Tục ngữ cố định: policy (số ít)." },
+      { q: "We were impressed by her ___. (CREATIVE)", options: ["create", "creative", "creativity", "creator"], answer: 2, explanation: "Sau possessive → abstract noun: creativity." },
+      { q: "There has been a great ___ in technology. (DEVELOP)", options: ["develop", "developing", "developer", "development"], answer: 3, explanation: "a great + noun → development." },
+      { q: "The view from the mountain was ___. (BEAUTY)", options: ["beauty", "beautiful", "beautify", "beautifully"], answer: 1, explanation: "Sau linking verb → adj: beautiful." },
+      { q: "He gave a ___ speech about climate change. (POWER)", options: ["power", "powered", "powerful", "powerless"], answer: 2, explanation: "Speech mạnh mẽ → powerful." },
+    ],
+  },
+  {
+    id: "ex-word-formation-verbs-adverbs",
+    icon: "⚙️",
+    titleVi: "Word Formation: Động từ & Trạng từ",
+    titleEn: "Word Formation: Verbs & Adverbs",
+    focusVi: "Tiền tố/hậu tố tạo động từ (en-, -ize, -ify) và trạng từ (-ly, -wards).",
+    focusEn: "Prefixes/suffixes that form verbs (en-, -ize, -ify) and adverbs (-ly, -wards).",
+    exercises: [
+      { q: "Reading every day will ___ your vocabulary. (RICH)", options: ["rich", "rich", "enrich", "richness"], answer: 2, explanation: "en- + adj → verb: enrich." },
+      { q: "The teacher ___ the difficult lesson clearly. (SIMPLE)", options: ["simple", "simply", "simplify", "simplified"], answer: 3, explanation: "Past simple verb → simplified." },
+      { q: "She speaks English ___. (FLUENT)", options: ["fluent", "fluently", "fluency", "fluentness"], answer: 1, explanation: "Modify verb → adverb: fluently." },
+      { q: "Companies need to ___ to changing markets. (ADAPT)", options: ["adapt", "adaption", "adaptive", "adaptation"], answer: 0, explanation: "Modal need to + V → adapt." },
+      { q: "The factory was ___ last year. (MODERN)", options: ["modern", "modernly", "modernize", "modernized"], answer: 3, explanation: "Bị động quá khứ → modernized." },
+      { q: "She smiled ___ when she heard the news. (HAPPY)", options: ["happy", "happily", "happiness", "happen"], answer: 1, explanation: "Modify verb → adverb: happily." },
+      { q: "Please ___ the form before submitting. (COMPLETE)", options: ["complete", "completely", "completion", "completed"], answer: 0, explanation: "Imperative verb → complete." },
+      { q: "He was ___ injured in the accident. (SERIOUS)", options: ["serious", "seriously", "seriousness", "series"], answer: 1, explanation: "Modify adj injured → adverb: seriously." },
+      { q: "The government will ___ a new education policy. (FORM)", options: ["form", "formal", "formalize", "formation"], answer: 2, explanation: "formalize = chính thức hoá." },
+      { q: "She answered the questions ___ and politely. (CONFIDENT)", options: ["confident", "confidence", "confidently", "confidential"], answer: 2, explanation: "Modify answered → adverb: confidently." },
+    ],
+  },
+  {
+    id: "ex-word-formation-prefixes-negative",
+    icon: "🚫",
+    titleVi: "Word Formation: Tiền tố phủ định & đảo nghĩa",
+    titleEn: "Word Formation: Negative & Reversal Prefixes",
+    focusVi: "un-, in-, im-, dis-, mis-, ir-, il- — chọn tiền tố phù hợp với gốc từ.",
+    focusEn: "un-, in-, im-, dis-, mis-, ir-, il- — pick the right prefix for each root.",
+    exercises: [
+      { q: "It is ___ to drive without a licence. (LEGAL)", options: ["unlegal", "inlegal", "illegal", "dislegal"], answer: 2, explanation: "Trước \"l\" thường dùng il-: illegal." },
+      { q: "The instructions were so ___ that we got lost. (CLEAR)", options: ["disclear", "unclear", "inclear", "misclear"], answer: 1, explanation: "Tiền tố un- với clear: unclear." },
+      { q: "He was ___ from work for being late. (MISS)", options: ["dismissed", "unmissed", "ismissed", "remissed"], answer: 0, explanation: "dismiss = sa thải." },
+      { q: "Her behaviour was rude and ___. (RESPECT)", options: ["unrespectful", "disrespectful", "misrespectful", "irrespectful"], answer: 1, explanation: "disrespectful (fixed)." },
+      { q: "I'm afraid that's ___ — we don't have enough time. (POSSIBLE)", options: ["unpossible", "dispossible", "impossible", "inpossible"], answer: 2, explanation: "Trước \"p\" dùng im-: impossible." },
+      { q: "Please ___ me if I'm wrong. (CORRECT)", options: ["uncorrect", "discorrect", "miscorrect", "correct"], answer: 3, explanation: "\"correct sb\" đã có nghĩa sửa; không thêm tiền tố." },
+      { q: "It was ___ of him to forget her birthday. (THOUGHT)", options: ["thoughtful", "thoughtless", "thoughtlessly", "thinking"], answer: 1, explanation: "Quên = không suy nghĩ → thoughtless." },
+      { q: "The two stories are ___ — they can't both be true. (CONSISTENT)", options: ["unconsistent", "disconsistent", "inconsistent", "misconsistent"], answer: 2, explanation: "Trước \"c\" dùng in-: inconsistent." },
+      { q: "She felt ___ after losing the competition. (APPOINT)", options: ["unappointed", "disappointed", "misappointed", "inappointed"], answer: 1, explanation: "disappointed (fixed)." },
+      { q: "Don't ___ what I said — I meant the opposite. (UNDERSTAND)", options: ["disunderstand", "ununderstand", "misunderstand", "inunderstand"], answer: 2, explanation: "mis- = sai → misunderstand." },
+    ],
+  },
+];
+
+export const thptMixedFinalExtraSets: ThptExerciseSet[] = [
+  {
+    id: "ex-mixed-final-review-1",
+    icon: "🎯",
+    titleVi: "Tổng ôn THPT (Bộ 1): Grammar + Vocab + Collocations",
+    titleEn: "Final Review (Set 1): Grammar + Vocab + Collocations",
+    focusVi: "Bộ tổng ôn 1 — pha trộn 10 dạng kiến thức trọng tâm THPT.",
+    focusEn: "Final review set 1 — mixing the 10 most-tested THPT skills.",
+    exercises: [
+      { q: "If I ___ you, I would study harder for the exam.", options: ["am", "was", "were", "be"], answer: 2, explanation: "Type 2 conditional → were (formal)." },
+      { q: "The book ___ on the table belongs to my sister.", options: ["lying", "lied", "lay", "lays"], answer: 0, explanation: "Reduced relative (V-ing): the book which is lying." },
+      { q: "Hardly ___ home when the phone rang.", options: ["I had arrived", "had I arrived", "I arrived", "did I arrive"], answer: 1, explanation: "Inversion với hardly + had + S + V3." },
+      { q: "She is ___ student in the class.", options: ["the more diligent", "more diligent", "the most diligent", "diligentest"], answer: 2, explanation: "So sánh nhất với 3+ syllables: the most diligent." },
+      { q: "He suggested ___ to the cinema together.", options: ["to go", "going", "go", "went"], answer: 1, explanation: "suggest + V-ing." },
+      { q: "Mr. Hai ___ English for over 15 years.", options: ["teaches", "is teaching", "has taught", "taught"], answer: 2, explanation: "for + period → present perfect." },
+      { q: "We must ___ action to protect the environment.", options: ["take", "make", "do", "have"], answer: 0, explanation: "take action (collocation)." },
+      { q: "She is the woman ___ helped me yesterday.", options: ["which", "who", "whom", "whose"], answer: 1, explanation: "Subject of relative clause + person → who." },
+      { q: "Despite ___ tired, he kept working.", options: ["being", "was", "to be", "be"], answer: 0, explanation: "despite + V-ing/N." },
+      { q: "The new policy will ___ effect next month.", options: ["take", "make", "do", "give"], answer: 0, explanation: "take effect (collocation)." },
+    ],
+  },
+  {
+    id: "ex-mixed-final-review-2",
+    icon: "🏅",
+    titleVi: "Tổng ôn THPT (Bộ 2): Cloze test mô phỏng",
+    titleEn: "Final Review (Set 2): Cloze-style Simulation",
+    focusVi: "Bộ 2 mô phỏng dạng cloze — kiểm tra collocations, prepositions và word forms.",
+    focusEn: "Set 2 simulating the cloze section — testing collocations, prepositions and word forms.",
+    exercises: [
+      { q: "Many students suffer ___ exam stress every June.", options: ["of", "with", "from", "for"], answer: 2, explanation: "suffer from (fixed)." },
+      { q: "She finally ___ in passing the IELTS test.", options: ["made", "succeeded", "took", "did"], answer: 1, explanation: "succeed in V-ing (fixed)." },
+      { q: "Plastic waste ___ a serious threat to marine life.", options: ["poses", "makes", "does", "takes"], answer: 0, explanation: "pose a threat (collocation)." },
+      { q: "Let's ___ advantage of this learning opportunity.", options: ["take", "make", "have", "get"], answer: 0, explanation: "take advantage of (fixed)." },
+      { q: "His new novel was a great ___ . (SUCCEED)", options: ["succeed", "successful", "success", "successfully"], answer: 2, explanation: "a great + noun → success." },
+      { q: "The information you gave me was very ___. (USE)", options: ["use", "useful", "useless", "user"], answer: 1, explanation: "Linking + adj positive → useful." },
+      { q: "We are looking forward ___ from you soon.", options: ["to hear", "hearing", "to hearing", "heard"], answer: 2, explanation: "look forward to + V-ing." },
+      { q: "He ___ his best to support his family.", options: ["does", "makes", "takes", "gives"], answer: 0, explanation: "do one's best (fixed)." },
+      { q: "Let me ___ a quick decision before lunch.", options: ["do", "make", "take", "have"], answer: 1, explanation: "make a decision (collocation)." },
+      { q: "Education ___ a vital role in modern society.", options: ["takes", "plays", "makes", "does"], answer: 1, explanation: "play a role (fixed)." },
+    ],
+  },
+  {
+    id: "ex-mixed-final-review-3",
+    icon: "🚀",
+    titleVi: "Tổng ôn THPT (Bộ 3): Reading & Rewriting",
+    titleEn: "Final Review (Set 3): Reading & Rewriting Skills",
+    focusVi: "Bộ 3 — câu rewriting, nối câu và chọn từ thay thế chính xác.",
+    focusEn: "Set 3 — rewriting, sentence combining and accurate word substitution.",
+    exercises: [
+      { q: "\"I have lived in Hanoi for 5 years,\" she said. → She said she ___ in Hanoi for 5 years.", options: ["has lived", "had lived", "lived", "was living"], answer: 1, explanation: "Reported speech: present perfect → past perfect." },
+      { q: "The film was so boring that we left early. → It was ___ that we left early.", options: ["such boring film", "so a boring film", "such a boring film", "such boring a film"], answer: 2, explanation: "such + a/an + adj + noun." },
+      { q: "He couldn't come because he was ill. → If he ___ ill, he could have come.", options: ["wasn't", "weren't", "hadn't been", "isn't"], answer: 2, explanation: "Type 3 conditional past." },
+      { q: "It is necessary that every student ___ the dress code.", options: ["follows", "follow", "followed", "following"], answer: 1, explanation: "Subjunctive: bare infinitive after \"it is necessary that\"." },
+      { q: "No sooner ___ the door than the phone rang.", options: ["I had opened", "had I opened", "I opened", "did I open"], answer: 1, explanation: "Inversion: No sooner had S V3." },
+      { q: "The harder you study, ___ you will get.", options: ["the better results", "the best results", "better results", "the more better"], answer: 0, explanation: "Double comparative: the + comparative … the + comparative." },
+      { q: "She is too young ___ the film.", options: ["to watch", "watching", "watched", "for watching"], answer: 0, explanation: "too + adj + to V." },
+      { q: "We expect that prices ___ next year.", options: ["will rise", "rise", "are rising", "would rise"], answer: 0, explanation: "expect + that + future tense." },
+      { q: "I wish I ___ how to speak Finnish.", options: ["know", "knew", "have known", "knowing"], answer: 1, explanation: "wish + past simple (present unreal)." },
+      { q: "By the time we arrived, the show ___.", options: ["had started", "started", "has started", "was starting"], answer: 0, explanation: "By the time + past simple → past perfect for earlier action." },
+    ],
+  },
+];
