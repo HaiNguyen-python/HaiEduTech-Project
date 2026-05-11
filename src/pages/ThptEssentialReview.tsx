@@ -25,6 +25,10 @@ import { thptVocabPracticeByTheme } from "@/data/thptVocabPractice";
 import { getVocabEmoji } from "@/data/thptVocabEmojis";
 import { thptCollocationsExtraSets } from "@/data/thptCollocationsExtra";
 import { thptCollocationsExtraSets2 } from "@/data/thptCollocationsExtra2";
+import {
+  thptWordFormationExtraSets,
+  thptMixedFinalExtraSets,
+} from "@/data/thptWordFormationMixedExtra";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
