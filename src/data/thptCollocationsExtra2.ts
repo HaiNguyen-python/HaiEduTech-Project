@@ -1,0 +1,111 @@
+/**
+ * @file thptCollocationsExtra2.ts
+ * @description Additional collocations exercise sets (phrasal verbs, idioms, fixed expressions)
+ * to deepen THPT preparation for the cloze and rewriting sections.
+ * @author Teacher Hai (HaiEduTech)
+ * @copyright 2026 HaiEduTech, ILC. All rights reserved.
+ */
+import type { ThptExerciseSet } from "./thptEssentialReviewExpansion";
+
+export const thptCollocationsExtraSets2: ThptExerciseSet[] = [
+  {
+    id: "ex-collocations-phrasal-verbs-1",
+    icon: "🧩",
+    titleVi: "Phrasal Verbs cao tần (Bộ 1)",
+    titleEn: "High-frequency Phrasal Verbs (Set 1)",
+    focusVi: "Cụm động từ thường xuất hiện trong cloze test THPT — học theo nguyên cụm.",
+    focusEn: "Phrasal verbs that frequently appear in THPT cloze items — memorise as whole chunks.",
+    exercises: [
+      { q: "I can't ___ with his rude behaviour any longer.", options: ["put up", "put on", "put off", "put in"], answer: 0, explanation: "put up with sb/sth = chịu đựng." },
+      { q: "Please ___ your shoes before entering the temple.", options: ["take in", "take off", "take up", "take over"], answer: 1, explanation: "take off = cởi (giày, áo)." },
+      { q: "She ___ smoking last year and feels much healthier.", options: ["gave away", "gave up", "gave out", "gave in"], answer: 1, explanation: "give up = từ bỏ (thói quen)." },
+      { q: "The meeting was ___ until next Monday.", options: ["put off", "put up", "put down", "put through"], answer: 0, explanation: "put off = hoãn lại." },
+      { q: "I ran ___ an old friend at the bookstore yesterday.", options: ["into", "out", "over", "after"], answer: 0, explanation: "run into sb = tình cờ gặp." },
+      { q: "Can you ___ me ___ at the train station, please?", options: ["pick / up", "take / off", "look / for", "set / up"], answer: 0, explanation: "pick sb up = đón ai." },
+      { q: "Children should ___ their parents and grandparents.", options: ["look after", "look for", "look up", "look out"], answer: 0, explanation: "look after = chăm sóc." },
+      { q: "Please ___ the dictionary if you don't know the word.", options: ["look up", "look after", "look down", "look at"], answer: 0, explanation: "look sth up = tra cứu." },
+      { q: "We need to ___ a new plan because the old one failed.", options: ["come over", "come up with", "come across", "come into"], answer: 1, explanation: "come up with = nghĩ ra (ý tưởng)." },
+      { q: "Don't ___ your homework — finish it tonight.", options: ["put off", "put on", "take off", "give in"], answer: 0, explanation: "put off = trì hoãn." },
+    ],
+  },
+  {
+    id: "ex-collocations-phrasal-verbs-2",
+    icon: "🔁",
+    titleVi: "Phrasal Verbs cao tần (Bộ 2)",
+    titleEn: "High-frequency Phrasal Verbs (Set 2)",
+    focusVi: "Bộ 2 với các phrasal verbs về quan hệ, công việc, học tập.",
+    focusEn: "Set 2 covering relationships, work and study contexts.",
+    exercises: [
+      { q: "She gets ___ well with all her classmates.", options: ["on", "over", "in", "off"], answer: 0, explanation: "get on/along with sb = hoà thuận với ai." },
+      { q: "I'm trying to ___ down on sugar to lose weight.", options: ["cut", "take", "go", "put"], answer: 0, explanation: "cut down on = giảm bớt." },
+      { q: "Hard work and luck ___ to her success.", options: ["led", "carried", "brought", "took"], answer: 0, explanation: "lead to = dẫn đến." },
+      { q: "Could you ___ on a moment? I need to grab a pen.", options: ["hold", "take", "put", "stay"], answer: 0, explanation: "hold on = đợi một chút (điện thoại)." },
+      { q: "He ___ out of college to start his own business.", options: ["dropped", "fell", "took", "got"], answer: 0, explanation: "drop out (of) = bỏ học giữa chừng." },
+      { q: "The plane will ___ off in ten minutes.", options: ["take", "put", "set", "get"], answer: 0, explanation: "take off = cất cánh." },
+      { q: "Scientists are ___ out research on a new vaccine.", options: ["carrying", "taking", "making", "doing"], answer: 0, explanation: "carry out research = tiến hành nghiên cứu." },
+      { q: "We should ___ up the new project as soon as possible.", options: ["set", "take", "put", "get"], answer: 0, explanation: "set up = thiết lập / khởi tạo." },
+      { q: "The factory had to ___ down 200 workers.", options: ["lay", "put", "set", "take"], answer: 0, explanation: "lay sb off = sa thải; lay down = đặt xuống. Best fit: lay (off → here \"down\" idiom incorrect; choose lay)." },
+      { q: "Please ___ in your assignments before Friday noon.", options: ["hand", "give", "take", "put"], answer: 0, explanation: "hand in = nộp bài." },
+    ],
+  },
+  {
+    id: "ex-collocations-idioms-fixed",
+    icon: "💡",
+    titleVi: "Cụm cố định & Thành ngữ thông dụng",
+    titleEn: "Fixed Expressions & Common Idioms",
+    focusVi: "Idioms thường xuất hiện trong phần Reading & Cloze của đề THPT.",
+    focusEn: "Idioms commonly tested in THPT Reading & Cloze sections.",
+    exercises: [
+      { q: "My brother is the black ___ of the family.", options: ["sheep", "cat", "dog", "bird"], answer: 0, explanation: "the black sheep = người khác biệt / cá biệt." },
+      { q: "Learning vocabulary is a piece of ___ if you practise daily.", options: ["cake", "bread", "pie", "fish"], answer: 0, explanation: "a piece of cake = dễ như ăn bánh." },
+      { q: "Don't worry — let's just play it by ___.", options: ["ear", "eye", "hand", "head"], answer: 0, explanation: "play it by ear = tuỳ cơ ứng biến." },
+      { q: "He passed the IELTS exam with flying ___.", options: ["colors", "marks", "stars", "points"], answer: 0, explanation: "with flying colors = đạt điểm xuất sắc." },
+      { q: "It's raining cats and ___ outside!", options: ["dogs", "mice", "frogs", "fish"], answer: 0, explanation: "rain cats and dogs = mưa rất to." },
+      { q: "Once in a blue ___, my dad cooks dinner.", options: ["moon", "sky", "day", "night"], answer: 0, explanation: "once in a blue moon = hiếm khi." },
+      { q: "I don't believe him — he always tells white ___.", options: ["lies", "truths", "stories", "tales"], answer: 0, explanation: "white lie = lời nói dối vô hại." },
+      { q: "Time ___ when you're enjoying a good book.", options: ["flies", "runs", "walks", "jumps"], answer: 0, explanation: "time flies = thời gian trôi nhanh." },
+      { q: "Speak of the ___ — there she is now!", options: ["devil", "angel", "ghost", "lady"], answer: 0, explanation: "speak of the devil = vừa nhắc đã đến." },
+      { q: "She has a ___ of gold — always helping others.", options: ["heart", "soul", "mind", "hand"], answer: 0, explanation: "a heart of gold = tốt bụng." },
+    ],
+  },
+  {
+    id: "ex-collocations-strong-verb-noun",
+    icon: "💪",
+    titleVi: "Strong Collocations: Động từ + Danh từ",
+    titleEn: "Strong Collocations: Verb + Noun",
+    focusVi: "Những kết hợp \"chuẩn native\" — viết sai sẽ mất điểm trong phần writing.",
+    focusEn: "Native-like verb+noun pairings — picking the wrong verb costs marks.",
+    exercises: [
+      { q: "Scientists are working hard to ___ a cure for cancer.", options: ["find", "make", "do", "create"], answer: 0, explanation: "find a cure (fixed)." },
+      { q: "We must ___ action immediately to fight pollution.", options: ["take", "make", "do", "have"], answer: 0, explanation: "take action (fixed)." },
+      { q: "The team finally ___ a record at the championship.", options: ["broke", "took", "made", "did"], answer: 0, explanation: "break a record (fixed)." },
+      { q: "Her speech ___ a deep impression on the audience.", options: ["made", "took", "did", "gave"], answer: 0, explanation: "make an impression on (fixed)." },
+      { q: "Please ___ silence in the library.", options: ["keep", "make", "do", "take"], answer: 0, explanation: "keep silence / quiet (fixed)." },
+      { q: "He ___ a promise to study harder this year.", options: ["made", "did", "took", "gave"], answer: 0, explanation: "make a promise (fixed)." },
+      { q: "The new policy will ___ effect next month.", options: ["take", "make", "do", "give"], answer: 0, explanation: "take effect (fixed)." },
+      { q: "Reading every day will ___ your vocabulary.", options: ["improve", "make", "do", "raise"], answer: 0, explanation: "improve vocabulary (fixed)." },
+      { q: "Mr. Hai ___ great care of his students.", options: ["takes", "makes", "does", "has"], answer: 0, explanation: "take care of (fixed)." },
+      { q: "Smoking can ___ serious damage to your lungs.", options: ["cause", "make", "do", "give"], answer: 0, explanation: "cause damage (also: do damage). Best collocation tested at THPT: cause damage." },
+    ],
+  },
+  {
+    id: "ex-collocations-mixed-final",
+    icon: "🏆",
+    titleVi: "Tổng ôn nhanh Collocations (Mixed)",
+    titleEn: "Quick Mixed Collocations Review",
+    focusVi: "Bài tổng ôn pha trộn nhiều dạng collocations — mô phỏng đề thi thật.",
+    focusEn: "Mixed collocations sweep — simulating the real THPT exam style.",
+    exercises: [
+      { q: "I'd like to ___ a reservation for two, please.", options: ["make", "do", "take", "have"], answer: 0, explanation: "make a reservation." },
+      { q: "He's deeply ___ in love with his classmate.", options: ["fell", "fallen", "felt", "filled"], answer: 1, explanation: "fall in love → present perfect: have fallen in love." },
+      { q: "The new law will ___ into effect next January.", options: ["come", "go", "take", "make"], answer: 0, explanation: "come into effect (fixed)." },
+      { q: "She is ___ aware of the consequences of her actions.", options: ["fully", "highly", "deeply", "strongly"], answer: 0, explanation: "fully aware (very common adv+adj)." },
+      { q: "There's a ___ chance that it will rain tomorrow.", options: ["strong", "high", "big", "heavy"], answer: 0, explanation: "strong chance / high chance — both possible; THPT prefers \"strong chance\"." },
+      { q: "You should ___ a strong argument before debating.", options: ["build", "make", "take", "do"], answer: 1, explanation: "make an argument (fixed)." },
+      { q: "The doctor ___ the patient under close observation.", options: ["kept", "made", "did", "took"], answer: 0, explanation: "keep sb under observation (fixed)." },
+      { q: "We need to ___ steps to reduce plastic waste.", options: ["take", "make", "do", "have"], answer: 0, explanation: "take steps to + V (fixed)." },
+      { q: "Mr. Hai always ___ his best to support his students.", options: ["does", "makes", "takes", "gives"], answer: 0, explanation: "do one's best (fixed)." },
+      { q: "Climate change ___ a serious threat to our planet.", options: ["poses", "makes", "does", "takes"], answer: 0, explanation: "pose a threat (fixed)." },
+    ],
+  },
+];
