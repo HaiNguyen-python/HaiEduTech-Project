@@ -168,7 +168,7 @@ const IeltsLectures = () => {
     }
 
     return results;
-  }, [activeSkill, levelFilter, searchQuery, sortBy, showBookmarksOnly, bookmarkedIds]);
+  }, [activeSkill, levelFilter, searchQuery, sortBy, showBookmarksOnly, bookmarkedIds, focusKey]);
 
   const totalCompleted = completedIds.length;
   const totalLectures = gridLectures.length;
