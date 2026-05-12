@@ -361,8 +361,8 @@ const IeltsLectures = () => {
 
         {/* Filter Section */}
         <section className="container mx-auto px-4 sm:px-6 py-5">
-          {/* Skill Filter Bar */}
-          <div className="flex flex-wrap gap-2 mb-4">
+          {/* Skill Filter Bar (hidden in focus mode) */}
+          {!focusKey && <div className="flex flex-wrap gap-2 mb-4">
             {SKILL_FILTERS.map(({ key, label, labelVi, icon: Icon }) => {
               const count = key === "all"
                 ? gridLectures.length
