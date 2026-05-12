@@ -15,6 +15,7 @@ import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 import GameLeaderboard from "@/components/games/GameLeaderboard";
 import VocabMasteryLeaderboard, { syncMasteredCount } from "@/components/VocabMasteryLeaderboard";
 import KangxiRadicalsBrowser from "@/components/KangxiRadicalsBrowser";
+import HskExamplePractice from "@/components/HskExamplePractice";
 import { supabase } from "@/integrations/supabase/client";
 import { useSearchParams } from "react-router-dom";
 
@@ -493,6 +494,7 @@ const HskVocabulary = () => {
                         <p className="text-base font-bold text-foreground leading-relaxed">{w.example}</p>
                         <p className="text-xs text-muted-foreground mt-0.5">{w.examplePinyin}</p>
                       </div>
+                      <HskExamplePractice example={w.example} examplePinyin={w.examplePinyin} />
                     </div>
                   </div>
                 ))}
