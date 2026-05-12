@@ -494,6 +494,7 @@ const HskVocabulary = () => {
                         <p className="text-base font-bold text-foreground leading-relaxed">{w.example}</p>
                         <p className="text-xs text-muted-foreground mt-0.5">{w.examplePinyin}</p>
                       </div>
+                      <HskExamplePractice example={w.example} examplePinyin={w.examplePinyin} />
                     </div>
                   </div>
                 ))}
