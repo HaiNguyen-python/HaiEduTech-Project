@@ -229,29 +229,44 @@ const IeltsLectures = () => {
           </div>
         </section>
 
-        {/* Practice Modules CTA: Reading & Listening lessons */}
+        {/* Skill-based Lectures CTA: Reading, Listening, Writing & Speaking */}
         <section className="container mx-auto px-4 sm:px-6 -mt-2">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {focusKey && (
+            <div className="mb-3 flex items-center justify-between flex-wrap gap-2">
+              <div className="flex items-center gap-2 text-sm">
+                <Badge className="bg-primary text-primary-foreground gap-1">
+                  {focusKey === "writing" ? <Pen className="w-3 h-3" /> : <Mic className="w-3 h-3" />}
+                  {focusKey === "writing"
+                    ? t("Đang xem: Bài giảng Writing", "Viewing: Writing Lectures")
+                    : t("Đang xem: Bài giảng Speaking", "Viewing: Speaking Lectures")}
+                </Badge>
+              </div>
+              <Button variant="outline" size="sm" onClick={() => setSearchParams({})} className="gap-1.5">
+                <X className="w-3.5 h-3.5" />
+                {t("Thoát chế độ xem", "Exit focus mode")}
+              </Button>
+            </div>
+          )}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <Link to="/english/learn/ielts-reading" className="group">
               <Card className="h-full border-l-4 border-l-blue-500 hover:shadow-lg transition-all hover:-translate-y-0.5">
                 <CardContent className="p-5 flex items-start gap-4">
                   <div className="shrink-0 w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center">
                     <Eye className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                   </div>
-                  <div className="flex-1">
+                  <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1 flex-wrap">
-                      <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
-                        {t("Luyện Đọc IELTS", "IELTS Reading Practice")}
+                      <h3 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
+                        {t("IELTS Reading Lectures", "IELTS Reading Lectures")}
                       </h3>
-                      <Badge variant="secondary" className="text-[10px]">{t("Bài giảng + Bài tập", "Lectures + Practice")}</Badge>
                       <Badge className="text-[10px] bg-blue-500/15 text-blue-700 dark:text-blue-300 border-blue-500/30" variant="outline">
-                        {readingLectureCount} {t("bài giảng", "lectures")}
+                        {readingLectureCount} {t("bài", "lectures")}
                       </Badge>
                     </div>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
+                    <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
                       {t(
-                        "Bộ bài tập Reading với passage dài chuẩn IELTS Academic: T/F/NG, MCQ, fill-in-blank.",
-                        "Long-passage Reading exercises (IELTS Academic standard): T/F/NG, MCQ, fill-in-blank."
+                        "Passage dài chuẩn Academic: T/F/NG, MCQ, fill-in-blank.",
+                        "Long Academic passages: T/F/NG, MCQ, fill-in-blank."
                       )}
                     </p>
                   </div>
@@ -264,26 +279,83 @@ const IeltsLectures = () => {
                   <div className="shrink-0 w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center">
                     <Headphones className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
                   </div>
-                  <div className="flex-1">
+                  <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1 flex-wrap">
-                      <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
-                        {t("Luyện Nghe IELTS", "IELTS Listening Practice")}
+                      <h3 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
+                        {t("IELTS Listening Lectures", "IELTS Listening Lectures")}
                       </h3>
-                      <Badge variant="secondary" className="text-[10px]">{t("Bài giảng + Bài tập", "Lectures + Practice")}</Badge>
                       <Badge className="text-[10px] bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30" variant="outline">
-                        {listeningLectureCount} {t("bài giảng", "lectures")}
+                        {listeningLectureCount} {t("bài", "lectures")}
                       </Badge>
                     </div>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
+                    <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
                       {t(
-                        "Bài tập Listening Section 1–4: dictation, MCQ, điền từ — mô phỏng đề thi thật.",
-                        "Listening Sections 1–4: dictation, MCQ, fill-in — real exam simulation."
+                        "Section 1–4: dictation, MCQ, điền từ — mô phỏng thi thật.",
+                        "Sections 1–4: dictation, MCQ, fill-in — real exam simulation."
                       )}
                     </p>
                   </div>
                 </CardContent>
               </Card>
             </Link>
+            <button
+              type="button"
+              onClick={() => setSearchParams({ focus: "writing" })}
+              className="group text-left"
+            >
+              <Card className={`h-full border-l-4 border-l-purple-500 hover:shadow-lg transition-all hover:-translate-y-0.5 ${focusKey === "writing" ? "ring-2 ring-purple-500/50" : ""}`}>
+                <CardContent className="p-5 flex items-start gap-4">
+                  <div className="shrink-0 w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center">
+                    <Pen className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1 flex-wrap">
+                      <h3 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
+                        {t("IELTS Writing Lectures", "IELTS Writing Lectures")}
+                      </h3>
+                      <Badge className="text-[10px] bg-purple-500/15 text-purple-700 dark:text-purple-300 border-purple-500/30" variant="outline">
+                        {writingLectureCount} {t("bài", "lectures")}
+                      </Badge>
+                    </div>
+                    <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                      {t(
+                        "Task 1 & Task 2: dàn ý, paraphrase, sample Band 7.0+.",
+                        "Task 1 & Task 2: outlines, paraphrasing, Band 7.0+ samples."
+                      )}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </button>
+            <button
+              type="button"
+              onClick={() => setSearchParams({ focus: "speaking" })}
+              className="group text-left"
+            >
+              <Card className={`h-full border-l-4 border-l-rose-500 hover:shadow-lg transition-all hover:-translate-y-0.5 ${focusKey === "speaking" ? "ring-2 ring-rose-500/50" : ""}`}>
+                <CardContent className="p-5 flex items-start gap-4">
+                  <div className="shrink-0 w-12 h-12 rounded-xl bg-rose-500/10 flex items-center justify-center">
+                    <Mic className="w-6 h-6 text-rose-600 dark:text-rose-400" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1 flex-wrap">
+                      <h3 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
+                        {t("IELTS Speaking Lectures", "IELTS Speaking Lectures")}
+                      </h3>
+                      <Badge className="text-[10px] bg-rose-500/15 text-rose-700 dark:text-rose-300 border-rose-500/30" variant="outline">
+                        {speakingLectureCount} {t("bài", "lectures")}
+                      </Badge>
+                    </div>
+                    <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                      {t(
+                        "Part 1-2-3: kỹ thuật mở rộng, fillers tự nhiên, Band 7.5+.",
+                        "Parts 1-2-3: expansion techniques, natural fillers, Band 7.5+."
+                      )}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </button>
           </div>
         </section>
 
