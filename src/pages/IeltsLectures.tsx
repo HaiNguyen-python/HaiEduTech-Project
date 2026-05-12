@@ -43,20 +43,22 @@ import { allIeltsLectures, PILLAR_META, PillarKey } from "@/data/ieltsLecturesDa
 
 // Storage is now handled by useIeltsLectureProgress hook (database + localStorage fallback)
 
-// Skill filter categories with icons (Listening & Reading moved into Practice CTA cards above)
+// Skill filter categories with icons (Listening, Reading, Writing & Speaking moved into Lectures CTA cards above)
 const SKILL_FILTERS = [
   { key: "all", label: "All", labelVi: "Tất cả", icon: BookOpen },
-  { key: "writing", label: "Writing", labelVi: "Writing", icon: Pen },
-  { key: "speaking", label: "Speaking", labelVi: "Speaking", icon: Mic },
   { key: "grammar", label: "Grammar", labelVi: "Ngữ pháp", icon: Wrench },
   { key: "vocabulary", label: "Vocabulary", labelVi: "Từ vựng", icon: BookOpenText },
   { key: "tips", label: "Exam Tips", labelVi: "Mẹo thi", icon: Lightbulb },
 ] as const;
 
-// Lectures shown in main grid exclude listening/reading (those live in Practice CTA cards)
-const gridLectures = allIeltsLectures.filter(l => l.skill !== "listening" && l.skill !== "reading");
+// Lectures shown in main grid exclude the four skill-based groups (Reading/Listening/Writing/Speaking
+// each live in their own CTA card above to keep the grid focused on Grammar/Vocab/Tips).
+const SKILL_CARD_KEYS = new Set(["listening", "reading", "writing", "speaking"]);
+const gridLectures = allIeltsLectures.filter(l => !l.skill || !SKILL_CARD_KEYS.has(l.skill));
 const readingLectureCount = allIeltsLectures.filter(l => l.skill === "reading").length;
 const listeningLectureCount = allIeltsLectures.filter(l => l.skill === "listening").length;
+const writingLectureCount = allIeltsLectures.filter(l => l.skill === "writing").length;
+const speakingLectureCount = allIeltsLectures.filter(l => l.skill === "speaking").length;
 
 type SkillFilterKey = typeof SKILL_FILTERS[number]["key"];
 type SortKey = "newest" | "popular" | "easy" | "hard";
