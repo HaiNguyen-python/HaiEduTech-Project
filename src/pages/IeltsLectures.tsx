@@ -117,15 +117,18 @@ const IeltsLectures = () => {
   }, [toggleBookmark]);
 
   const filtered = useMemo(() => {
-    let results = [...gridLectures];
+    // When focused on Writing/Speaking via CTA card, show only those lectures.
+    let results = focusKey
+      ? allIeltsLectures.filter(l => l.skill === focusKey)
+      : [...gridLectures];
 
     // Bookmarks filter
     if (showBookmarksOnly) {
       results = results.filter(l => bookmarkedIds.includes(l.id));
     }
 
-    // Skill/category filter
-    if (activeSkill !== "all") {
+    // Skill/category filter (only meaningful when not focused)
+    if (!focusKey && activeSkill !== "all") {
       results = results.filter(l => getLectureFilterCategory(l) === activeSkill);
     }
 
