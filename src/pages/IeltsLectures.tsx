@@ -96,11 +96,19 @@ const NEW_LECTURE_IDS = new Set(
 const IeltsLectures = () => {
   const { t } = useLanguage();
   const { completedIds, bookmarkedIds, toggleBookmark } = useIeltsLectureProgress();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const focus = searchParams.get("focus"); // "writing" | "speaking" | null
+  const focusKey = focus === "writing" || focus === "speaking" ? focus : null;
   const [activeSkill, setActiveSkill] = useState<SkillFilterKey>("all");
   const [levelFilter, setLevelFilter] = useState<LevelFilter>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<SortKey>("newest");
   const [showBookmarksOnly, setShowBookmarksOnly] = useState(false);
+
+  // Reset skill filter when entering/leaving focused mode so the grid is predictable.
+  useEffect(() => {
+    setActiveSkill("all");
+  }, [focusKey]);
 
   const handleBookmark = useCallback((e: React.MouseEvent, id: string) => {
     e.preventDefault();
