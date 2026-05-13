@@ -132,7 +132,7 @@ const About = () => {
               <span className="text-sm text-muted-foreground">{t("Phần Lan · Việt Nam", "Finland · Vietnam")}</span>
             </div>
             <h1 className="text-4xl md:text-5xl font-display font-bold mb-4">
-              Hai <span className="text-gradient">Nguyen</span>
+              {t("Về HaiEduTech & Thầy Hai Nguyen", "About HaiEduTech & Teacher Hai Nguyen")}
             </h1>
             <p className="text-lg text-muted-foreground mb-4">
               Data & AI Engineer - Language Educator - HaiEduTech Founder
