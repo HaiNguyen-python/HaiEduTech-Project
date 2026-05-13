@@ -651,6 +651,7 @@ const Navbar = () => {
                 <span className="font-display text-lg font-bold text-[#1A1A1A] tracking-wide">Menu</span>
                 <button
                   onClick={() => setOpen(false)}
+                  aria-label="Close menu"
                   className="p-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 transition-colors"
                 >
                   <X className="w-6 h-6 text-[#1A1A1A]" />
