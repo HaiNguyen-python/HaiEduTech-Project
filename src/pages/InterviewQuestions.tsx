@@ -88,6 +88,23 @@ const InterviewQuestions = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="AI & Data Engineer Interview Questions"
+        description="Curated AI Engineer and Data Engineer interview questions with answers, key points, and code examples — Junior to Senior level."
+        path="/programming/interview-questions"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: interviewQuestions.slice(0, 30).map(q => ({
+            "@type": "Question",
+            name: q.question,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: (q.tldr || q.answer || "").slice(0, 500),
+            },
+          })),
+        }}
+      />
       <Navbar />
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-4 sm:px-6 max-w-5xl">
