@@ -61,6 +61,18 @@ const IeltsSampleEssays = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="IELTS Sample Essays Band 8.0+"
+        description="Curated IELTS Writing Task 1 & Task 2 sample essays at Band 8.0+ with bilingual glossary, model structures, and practice exercises."
+        path="/ielts-sample-essays"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "IELTS Sample Essays Band 8.0+",
+          inLanguage: ["vi-VN", "en-US"],
+          isPartOf: { "@type": "WebSite", name: "HaiEduTech", url: "https://haiedutech.com" },
+        }}
+      />
       <Navbar />
       <main className="container mx-auto px-4 py-10 max-w-6xl">
         {/* Header */}
