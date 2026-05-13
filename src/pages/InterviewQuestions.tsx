@@ -26,6 +26,7 @@ import {
   type InterviewDifficulty,
 } from "@/data/interviewQuestions";
 import { toast } from "sonner";
+import SEO from "@/components/SEO";
 
 const STORAGE_KEY = "haiedu_interview_reviewed";
 
