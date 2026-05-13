@@ -119,9 +119,9 @@ const Footer = () => {
         <div className="border-t border-border mt-10 pt-6 flex flex-col items-center gap-3 text-xs text-muted-foreground">
           <div className="flex flex-col sm:flex-row items-center justify-between w-full gap-3">
             <span>© {new Date().getFullYear()} HaiEduTech - {t("Kỹ sư · Nhà giáo dục · Gia sư đa ngôn ngữ", "Engineer · Educator · Multilingual Tutor")}</span>
-            <span className="text-muted-foreground/60">{t("Học thông minh • Dẫn đầu kỷ nguyên số", "Learn Smart • Lead the Digital Era")}</span>
+            <span className="text-muted-foreground">{t("Học thông minh • Dẫn đầu kỷ nguyên số", "Learn Smart • Lead the Digital Era")}</span>
           </div>
-          <p className="text-[12px] text-muted-foreground/50 text-center">
+          <p className="text-[12px] text-muted-foreground text-center">
             Copyright © {new Date().getFullYear()} HaiEduTech, ILC. All rights reserved. Developed by Teacher Hai.
           </p>
         </div>
