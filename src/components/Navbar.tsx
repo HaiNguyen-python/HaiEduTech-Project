@@ -402,6 +402,7 @@ const Navbar = () => {
                 )}
                 <GlobalSearch variant="icon" />
                 <button onClick={() => setLang(lang === "vi" ? "en" : "vi")}
+                  aria-label={lang === "vi" ? "Switch to English" : "Chuyển sang tiếng Việt"}
                   className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
                   <Globe className="w-3.5 h-3.5" />
                   {lang === "vi" ? "EN" : "VI"}
@@ -411,10 +412,10 @@ const Navbar = () => {
               {/* Mobile: lang + hamburger - same row as logo */}
               <div className="flex items-center gap-1 lg:hidden">
                 <GlobalSearch variant="icon" />
-                <button onClick={() => setLang(lang === "vi" ? "en" : "vi")} className="text-foreground p-2 rounded-md hover:bg-secondary transition-colors">
+                <button onClick={() => setLang(lang === "vi" ? "en" : "vi")} aria-label={lang === "vi" ? "Switch to English" : "Chuyển sang tiếng Việt"} className="text-foreground p-2 rounded-md hover:bg-secondary transition-colors">
                   <Globe className="w-4 h-4" />
                 </button>
-                <button onClick={() => setOpen(!open)} className="text-foreground p-2 rounded-md hover:bg-secondary transition-colors">
+                <button onClick={() => setOpen(!open)} aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} className="text-foreground p-2 rounded-md hover:bg-secondary transition-colors">
                   {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                 </button>
               </div>
@@ -650,6 +651,7 @@ const Navbar = () => {
                 <span className="font-display text-lg font-bold text-[#1A1A1A] tracking-wide">Menu</span>
                 <button
                   onClick={() => setOpen(false)}
+                  aria-label="Close menu"
                   className="p-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 transition-colors"
                 >
                   <X className="w-6 h-6 text-[#1A1A1A]" />

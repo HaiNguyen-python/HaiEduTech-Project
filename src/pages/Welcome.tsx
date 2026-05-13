@@ -77,7 +77,7 @@ const Welcome = () => {
           className="font-display text-4xl sm:text-6xl font-bold mb-3"
         >
           <span className="bg-gradient-to-r from-[#3B82F6] via-[#06B6D4] to-[#10B981] bg-clip-text text-transparent">
-            {t("Chào mừng đến với", "Welcome to")}
+            {t("Chào mừng đến với HaiEduTech", "Welcome to HaiEduTech")}
           </span>
         </motion.h1>
 
@@ -87,6 +87,7 @@ const Welcome = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.6 }}
           className="font-display text-5xl sm:text-7xl font-black mb-6"
+          aria-hidden="true"
         >
           <span className="bg-gradient-to-r from-[#3B82F6] to-[#10B981] bg-clip-text text-transparent">HaiEdu</span>
           <span className="bg-gradient-to-r from-[#10B981] to-[#3B82F6] bg-clip-text text-transparent">Tech</span>

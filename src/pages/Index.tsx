@@ -56,8 +56,8 @@ const LazySection = ({ children }: { children: React.ReactNode }) => {
 const Index = () => (
   <div className="min-h-screen bg-background">
     <SEO
-      title="HaiEduTech | Data-Driven Education & AI-Powered Learning"
-      description="Master English, Chinese & Programming with an AI-powered personalized learning path. Data-driven education by HaiEduTech - IELTS, TOEIC, HSK, Finnish YKI, Python & global study abroad guidance."
+      title="HaiEduTech | AI-Powered Learning for IELTS, HSK & Coding"
+      description="AI-powered personalized learning paths for IELTS, TOEIC, HSK, Finnish YKI, Python & global study abroad — by HaiEduTech."
       path="/"
       locale="en_US"
       jsonLd={{

@@ -1,0 +1,82 @@
+# HaiEduTech
+
+> AI-powered personalized learning platform by Mr. Hai Nguyen — IELTS, TOEIC, HSK Chinese, Finnish YKI, Vietnamese, Python programming, and global study abroad guidance.
+
+HaiEduTech combines 15+ years of language teaching with data engineering and AI to deliver adaptive lessons, smart grading, speaking coaches, and personalized roadmaps. Built and maintained by Hai Nguyen (Founder & Lead Educator).
+
+## Pages
+
+- [Home](/): Overview of all programs and AI learning tools.
+- [About](/about): Founder story, qualifications, and methodology.
+- [Contact](/contact): Reach Mr. Hai for tutoring or collaboration.
+
+## English
+
+- [English Hub](/english): IELTS, TOEIC, SAT, Cambridge, grammar, conversation.
+- [English Grammar](/english/grammar): 9 modules, 30 lessons.
+- [Conversational English](/english/conversational/curriculum): 38 chat-style lessons.
+- [English Idioms](/english/idioms): Curated idiom library.
+- [English Fun Facts](/english/fun-facts): Bite-size cultural insights.
+- [IELTS Lectures](/ielts-lectures): Reading, Listening, Writing, Speaking lectures.
+- [IELTS Vocabulary](/ielts-vocabulary): 800-word visual bank.
+- [IELTS Writing Practice](/ielts-writing-practice): Outline builder + Task 1/2.
+- [IELTS Speaking Practice](/ielts-speaking-practice): Live transcription coach.
+- [IELTS Sample Essays](/ielts-sample-essays): Band 8.0+ models.
+- [AI Grading](/ai-grading): Smart IELTS writing grader with PDF export.
+- [TOEIC Lectures](/toeic-lectures): Parts 1–7 masterclass.
+- [TOEIC Vocabulary](/toeic-vocabulary): Business English bank.
+- [Cambridge Lectures](/cambridge-lectures): Starters → PET, 95 lectures.
+
+## Chinese
+
+- [Chinese Hub](/chinese): HSK, conversation, grammar.
+- [HSK Vocabulary](/chinese/hsk/vocabulary): 1,100+ words with stroke order.
+- [HSK Guide](/chinese/hsk-guide): HSK 1–6 overview.
+- [Conversational Chinese](/chinese/conversational/curriculum): 18 chat lessons.
+
+## Finnish
+
+- [Finnish Hub](/finnish): YKI prep + beginner Finnish.
+- [Finnish Beginner](/finnish/beginner): A1 fundamentals.
+- [YKI Dashboard](/finnish/yki-dashboard): A2 official prep.
+- [YKI B1](/finnish/yki-b1): B1 mock exams and grammar.
+- [Life in Finland](/finnish/life-in-finland): Cultural integration guide.
+
+## Vietnamese
+
+- [Learn Vietnamese](/learn-vietnamese): Vietnamese for Vietnamese & foreigners.
+- [Vietnamese Alphabet](/learn-vietnamese/alphabet): Tones and pronunciation.
+- [Vietnamese for Foreigners](/learn-vietnamese/for-foreigners): Practical phrasebook.
+- [Vietnamese Poetry](/learn-vietnamese/poetry): 5 classic poems with audio.
+- [Vietnamese Folklore](/learn-vietnamese/folklore): Story library.
+
+## Programming
+
+- [Programming Hub](/programming): Python, SQL, ML, Spark in Vietnamese.
+- [Python Challenges](/python-challenges): Hands-on coding tasks.
+- [Interview Questions](/programming/interview-questions): Tech interview prep.
+- [Software Engineer Interview](/programming/software-eng-interview): SE-specific questions.
+- [Job Opportunities](/programming/job-opportunities): Curated tech roles.
+
+## Study Abroad
+
+- [Study Abroad Portal](/study-abroad): End-to-end guidance.
+- [Motivation Letter Guide](/study-abroad/motivation-letter): 5-paragraph formula + AI draft.
+- [SAT Roadmap](/study-abroad/sat): 3-phase prep plan.
+- [PhD Pathway](/study-abroad/phd): Country-by-country PhD strategy.
+- [Mentor Hub](/study-abroad/mentor-hub): Alumni stories.
+- [Global Scholarship](/global-scholarship): 60+ scholarship database with AI advisor.
+
+## Tools
+
+- [Speaking Coach (English)](/speaking-coach/english): 150 sentences with feedback.
+- [Speaking Coach (Chinese)](/speaking-coach/chinese): Pinyin + IPA practice.
+- [Speaking Coach (Finnish)](/speaking-coach/finnish): YKI speaking drills.
+- [Speaking Coach (Vietnamese)](/speaking-coach/vietnamese): Tone practice.
+- [Vocab Arena](/vocab-arena): Vocabulary battle game.
+- [AI Library](/ai-library): Curated AI learning resources.
+
+## Optional
+
+- [National Exam (THPT)](/national-exam): Vietnam national high school exam prep.
+- [PTE](/pte): PTE Academic prep modules.
