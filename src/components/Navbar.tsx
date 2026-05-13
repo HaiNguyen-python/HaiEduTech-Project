@@ -411,10 +411,10 @@ const Navbar = () => {
               {/* Mobile: lang + hamburger - same row as logo */}
               <div className="flex items-center gap-1 lg:hidden">
                 <GlobalSearch variant="icon" />
-                <button onClick={() => setLang(lang === "vi" ? "en" : "vi")} className="text-foreground p-2 rounded-md hover:bg-secondary transition-colors">
+                <button onClick={() => setLang(lang === "vi" ? "en" : "vi")} aria-label={lang === "vi" ? "Switch to English" : "Chuyển sang tiếng Việt"} className="text-foreground p-2 rounded-md hover:bg-secondary transition-colors">
                   <Globe className="w-4 h-4" />
                 </button>
-                <button onClick={() => setOpen(!open)} className="text-foreground p-2 rounded-md hover:bg-secondary transition-colors">
+                <button onClick={() => setOpen(!open)} aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} className="text-foreground p-2 rounded-md hover:bg-secondary transition-colors">
                   {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                 </button>
               </div>
