@@ -143,17 +143,17 @@ const IeltsLectureView = () => {
     <div className="min-h-screen flex flex-col bg-background">
       <SEO
         title={`${lecture.title} — IELTS Lecture`}
-        description={(lecture.summary || lecture.title).slice(0, 158)}
+        description={(lecture.description || lecture.title).slice(0, 158)}
         path={`/ielts-lectures/${lecture.id}`}
         type="article"
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "LearningResource",
           name: lecture.title,
-          description: (lecture.summary || lecture.title).slice(0, 300),
+          description: (lecture.description || lecture.title).slice(0, 300),
           inLanguage: ["vi-VN", "en-US"],
           learningResourceType: "Lecture",
-          educationalLevel: lecture.band || "IELTS",
+          educationalLevel: lecture.level || "IELTS",
           provider: { "@type": "Organization", name: "HaiEduTech", url: "https://haiedutech.com" },
         }}
       />
