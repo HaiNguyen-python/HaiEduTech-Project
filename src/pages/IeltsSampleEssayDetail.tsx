@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import confetti from "canvas-confetti";
+import SEO from "@/components/SEO";
 
 const IeltsSampleEssayDetail = () => {
   const { essayId } = useParams();
@@ -110,6 +111,22 @@ const IeltsSampleEssayDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title={`IELTS Task ${essay.taskType} Sample: ${essay.topic}`}
+        description={`Band 8.0+ IELTS Writing Task ${essay.taskType} sample essay on "${essay.topic}". Includes bilingual glossary and review exercise.`}
+        path={`/ielts-sample-essays/${essay.id}`}
+        type="article"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: `IELTS Task ${essay.taskType} Sample: ${essay.topic}`,
+          inLanguage: "en-US",
+          author: { "@type": "Person", name: "Hai Nguyen" },
+          publisher: { "@type": "Organization", name: "HaiEduTech", logo: { "@type": "ImageObject", url: "https://haiedutech.com/favicon.png" } },
+          mainEntityOfPage: `https://haiedutech.com/ielts-sample-essays/${essay.id}`,
+          about: essay.topic,
+        }}
+      />
       <Navbar />
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Back link */}

@@ -648,7 +648,7 @@ const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocab
           {/* Example sentence */}
           <div className="pt-2 border-t border-gray-200 space-y-1">
             <p className="text-[15px] text-gray-800 font-medium leading-relaxed">
-              <span className="text-gray-400 text-[13px]">Example:</span> {vocab.example}
+              <span className="text-gray-600 text-[13px] font-semibold">Example:</span> {vocab.example}
             </p>
             <p className="text-[13px] text-gray-500 italic">{vocab.exampleEn}</p>
           </div>

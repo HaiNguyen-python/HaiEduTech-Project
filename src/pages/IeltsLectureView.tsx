@@ -21,6 +21,7 @@ import type { VocabHighlight } from "@/data/ieltsLecturesData";
 import IeltsLectureDiagram from "@/components/ielts/IeltsLectureDiagram";
 import IeltsLectureExpansionPanel from "@/components/ielts/IeltsLectureExpansionPanel";
 import { lectureExpansions } from "@/data/ieltsLectureExpansion";
+import SEO from "@/components/SEO";
 
 // Vocab Highlighter component - inline word with click-to-see definition
 const VocabWord = ({ vocab }: { vocab: VocabHighlight }) => {
@@ -140,6 +141,22 @@ const IeltsLectureView = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <SEO
+        title={`${lecture.title} — IELTS Lecture`}
+        description={(lecture.description || lecture.title).slice(0, 158)}
+        path={`/ielts-lectures/${lecture.id}`}
+        type="article"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "LearningResource",
+          name: lecture.title,
+          description: (lecture.description || lecture.title).slice(0, 300),
+          inLanguage: ["vi-VN", "en-US"],
+          learningResourceType: "Lecture",
+          educationalLevel: lecture.level || "IELTS",
+          provider: { "@type": "Organization", name: "HaiEduTech", url: "https://haiedutech.com" },
+        }}
+      />
       <Navbar />
       <main className="flex-1">
         {/* Breadcrumb */}
