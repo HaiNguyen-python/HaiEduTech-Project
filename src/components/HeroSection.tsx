@@ -52,7 +52,7 @@ const HeroSection = () => {
               className="w-full max-w-[320px] shrink-0 sm:max-w-[360px]"
             >
               <div className="aspect-square overflow-hidden rounded-[1.75rem] border-4 border-primary/20 shadow-2xl shadow-primary/15 ring-1 ring-primary/10">
-                <img src={haiProfile} alt="Teacher Hai" className="h-full w-full object-cover" />
+                <img src={haiProfile} alt="Teacher Hai" width="720" height="720" fetchPriority="high" decoding="async" className="h-full w-full object-cover" />
               </div>
             </motion.div>
 
