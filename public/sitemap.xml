@@ -2,6 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Core / Landing -->
   <url><loc>https://haiedutech.com/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://haiedutech.com/home</loc><changefreq>daily</changefreq><priority>0.95</priority></url>
+  <url><loc>https://haiedutech.com/welcome</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
   <url><loc>https://haiedutech.com/about</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://haiedutech.com/contact</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://haiedutech.com/for-vietnamese-children</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
