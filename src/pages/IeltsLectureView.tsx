@@ -21,6 +21,7 @@ import type { VocabHighlight } from "@/data/ieltsLecturesData";
 import IeltsLectureDiagram from "@/components/ielts/IeltsLectureDiagram";
 import IeltsLectureExpansionPanel from "@/components/ielts/IeltsLectureExpansionPanel";
 import { lectureExpansions } from "@/data/ieltsLectureExpansion";
+import SEO from "@/components/SEO";
 
 // Vocab Highlighter component - inline word with click-to-see definition
 const VocabWord = ({ vocab }: { vocab: VocabHighlight }) => {
