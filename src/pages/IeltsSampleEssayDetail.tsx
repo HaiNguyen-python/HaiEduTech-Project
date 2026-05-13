@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import confetti from "canvas-confetti";
+import SEO from "@/components/SEO";
 
 const IeltsSampleEssayDetail = () => {
   const { essayId } = useParams();
