@@ -297,8 +297,12 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
                 <div className="mb-4 p-3 rounded-lg bg-slate-950/60 border border-slate-700">
                   <div className="flex items-center gap-3 flex-wrap">
                     <Volume2 className="w-4 h-4 text-cyan-300" />
-                    <span className="text-xs text-slate-400">
-                      {t("Audio ETS — chọn tốc độ", "ETS Audio — choose speed")}
+                    <span className="text-xs text-slate-300">
+                      {current.part === 1
+                        ? t("Audio TOEIC — Nhìn ảnh & nghe 4 câu mô tả (A-D)", "TOEIC Audio — Look at the photo & listen to 4 statements (A-D)")
+                        : current.part === 2
+                        ? t("Audio TOEIC — Nghe câu hỏi và 3 đáp án (A-C)", "TOEIC Audio — Listen to the question and 3 responses (A-C)")
+                        : t("Audio TOEIC — Nghe đoạn hội thoại / bài nói", "TOEIC Audio — Listen to the conversation / talk")}
                     </span>
                     <div className="flex gap-1">
                       {[0.8, 1.0, 1.2].map((s) => (
@@ -324,10 +328,10 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
                     </label>
                   </div>
                   {current.audioSrc ? (
-                    <audio controls src={current.audioSrc} className="mt-2 w-full" />
+                    <audio controls autoPlay src={current.audioSrc} className="mt-2 w-full" />
                   ) : (
                     <Button size="sm" variant="outline" className="mt-2 border-cyan-400/40 text-cyan-100" onClick={() => playGeneratedAudio(current)}>
-                      <Play className="w-4 h-4 mr-1" /> {t("Nghe audio", "Play audio")}
+                      <Play className="w-4 h-4 mr-1" /> {t("Phát lại audio", "Replay audio")}
                     </Button>
                   )}
                 </div>
