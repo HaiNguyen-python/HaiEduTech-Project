@@ -234,7 +234,7 @@ function generatePart1(theme: Theme, examId: string, seed: number): ToeicLRQuest
 }
 
 function generatePart2(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
-  const stems = [
+  const pool: [string, string, string[]][] = [
     ["When will the report be ready?", "By Thursday afternoon.", ["In the main lobby.", "It was very informative."]],
     ["Where is the product demonstration being held?", "In the training room.", ["At nine o'clock sharp.", "Because the projector was broken."]],
     ["Have you called the supplier yet?", "Yes, I spoke with them this morning.", ["The supply closet is upstairs.", "It starts after lunch."]],
@@ -260,10 +260,27 @@ function generatePart2(theme: Theme, examId: string, seed: number): ToeicLRQuest
     ["Isn't the invoice due tomorrow?", "Actually, the deadline was extended.", ["The invoice lists six items.", "Tomorrow's forecast is cloudy."]],
     ["What do you think of the new dashboard?", "It's much easier to use.", ["Use the stairs on the left.", "The dashboard is under the hood."]],
     ["Would you mind taking notes during the call?", "Not at all. I'll share them afterward.", ["The call lasted thirty minutes.", "She noted the change yesterday."]],
+    ["Where did you put the projector remote?", "It's in the top drawer of the cabinet.", ["The remote area is restricted.", "We arrived a bit late."]],
+    ["Has the new policy been announced yet?", "Yes, it went out by email this morning.", ["The announcement was funny.", "They moved into the new office."]],
+    ["Why are the lights still on in the lobby?", "I forgot to switch them off after closing.", ["The lobby is on the second floor.", "She prefers warm lighting."]],
+    ["Will the order arrive on time?", "It should be here by Thursday morning.", ["Order forms are at the front desk.", "It was very heavy."]],
+    ["Do you want me to call a taxi?", "That would be helpful, thank you.", ["The taxi is yellow.", "I called yesterday afternoon."]],
+    ["How was your business trip to Osaka?", "It went better than I expected.", ["I'd like a window seat.", "The hotel is being renovated."]],
+    ["Could we discuss the proposal after lunch?", "Sure, let's meet around two o'clock.", ["The lunch menu changed.", "I read the proposal aloud."]],
+    ["Who's going to handle the customer complaint?", "Tom said he'd take care of it.", ["The customer left a tip.", "Around the corner."]],
+    ["Where can I find the staff handbook?", "On the shared drive under HR documents.", ["I found it last week.", "Staff are very helpful."]],
+    ["Why isn't the printer working?", "It looks like it's out of toner.", ["The printer was on sale.", "Because she said so."]],
+    ["When does the new branch open?", "Sometime in early September.", ["The branch is downtown.", "Open the door, please."]],
+    ["Should I email or fax the contract?", "Email is fine — it's faster.", ["The fax machine is broken.", "It's a long contract."]],
+    ["Aren't you supposed to be at the conference?", "It was rescheduled to next week.", ["The conference room is reserved.", "I'm supposed to be on time."]],
+    ["What did the manager say about the budget?", "She wants us to reduce travel costs.", ["He's the new manager.", "Budgets are due Friday."]],
+    ["How long will the renovation take?", "About six weeks, according to the contractor.", ["It's a large building.", "We renovated last year."]],
   ];
 
+  const stems = pickPool(pool, 25, seed);
+
   return stems.map(([question, correct, distractors], i) => {
-    const choices = [correct as string, ...(distractors as string[])];
+    const choices = [correct, ...distractors];
     const { items, answer } = reorder(choices, seed + i);
     return {
       id: `${examId}-p2-${i + 1}`,
