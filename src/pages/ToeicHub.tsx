@@ -1,7 +1,7 @@
 // TOEIC Hub - Combined entry for Lectures + Vocabulary
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { BookOpen, Library, ArrowRight, Headphones, FileText, Briefcase, Sparkles } from "lucide-react";
+import { BookOpen, Library, ArrowRight, Headphones, FileText, Briefcase, Sparkles, GraduationCap, Mic, PenLine } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -42,6 +42,21 @@ const ToeicHub = () => {
         { icon: Sparkles, label: t("Theo Part", "By Part") },
       ],
       gradient: "from-indigo-600 to-blue-500",
+    },
+    {
+      to: "/toeic-exams",
+      icon: GraduationCap,
+      title: t("Phòng thi TOEIC 4 kỹ năng", "TOEIC 4-Skills Exam Hub"),
+      desc: t(
+        "Listening, Reading, Speaking & Writing — timer, audio speed, ghi âm, quy đổi điểm 990.",
+        "Listening, Reading, Speaking & Writing — timer, audio speed, voice recorder, 990-scale conversion."
+      ),
+      badges: [
+        { icon: Headphones, label: t("LR Test", "LR Test") },
+        { icon: Mic, label: t("Speaking", "Speaking") },
+        { icon: PenLine, label: t("Writing", "Writing") },
+      ],
+      gradient: "from-teal-600 to-emerald-500",
     },
   ];
 
