@@ -363,7 +363,7 @@ function generatePart3(theme: Theme, examId: string, seed: number): ToeicLRQuest
 }
 
 function generatePart4(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
-  const talks = [
+  const pool: [string, string, string, string, string][] = [
     ["announcement", `Attention employees. ${theme.company} will conduct system maintenance this Saturday from 10 P.M. to 2 A.M. Please save your files and sign out before leaving on Friday.`, "system maintenance", "Saturday from 10 P.M. to 2 A.M.", "save files and sign out"],
     ["advertisement", `Looking for a convenient venue for your next meeting? ${theme.place} offers modern rooms, catering packages, and free parking for groups of twenty or more. Call by June 30 for a ten percent discount.`, "meeting venue services", "groups of twenty or more", "call by June 30"],
     ["recorded message", `Thank you for calling ${theme.company}. Our offices are closed for the public holiday. Regular business hours will resume on Tuesday at 8 A.M. For urgent assistance, press 1.`, "holiday office closure", "Tuesday at 8 A.M.", "press 1 for urgent help"],
@@ -374,7 +374,17 @@ function generatePart4(theme: Theme, examId: string, seed: number): ToeicLRQuest
     ["training notice", `This afternoon's workshop on ${theme.product} has been moved to Room 204. Participants should bring their laptops and log in ten minutes before the session begins.`, "a room change", "Room 204", "bring laptops and log in early"],
     ["shipping update", `Due to heavy rain, deliveries scheduled for the north district may arrive one day late. Customers will receive updated tracking numbers by email tonight.`, "delivery delays", "heavy rain", "check updated tracking emails"],
     ["museum announcement", `The east gallery will close at 4 P.M. today for a private reception. Visitors can still access the main exhibit and the museum shop until 6 P.M.`, "a gallery closing early", "at 4 P.M.", "visit the main exhibit or shop"],
+    ["weather report", `Heavy snow is expected throughout the region tomorrow morning. Commuters should plan for delays and consider working from home if possible.`, "a weather warning", "heavy snow tomorrow morning", "work from home if possible"],
+    ["radio commercial", `Visit Greenleaf Garden Center this weekend for our biggest plant sale of the year. All outdoor furniture is forty percent off through Sunday evening.`, "a weekend sale", "forty percent off outdoor furniture", "visit before Sunday evening"],
+    ["airport announcement", `Flight 482 to Vancouver is now boarding at gate twenty-three. Passengers traveling with small children may board first.`, "a boarding announcement", "gate twenty-three", "families with children board first"],
+    ["voicemail message", `Hi, this is Daniel from Brookline Dental. I'm calling to remind you of your cleaning appointment on Thursday at 3 P.M. Please call back to confirm.`, "an appointment reminder", "Thursday at 3 P.M.", "call back to confirm"],
+    ["meeting opener", `Good morning, everyone. Before we begin, I'd like to welcome our new regional manager, Ms. Park, who will lead today's strategy session.`, "introducing a new manager", "Ms. Park", "listen to the strategy session"],
+    ["restaurant announcement", `Diners, please note that our kitchen will close fifteen minutes earlier than usual tonight due to staff training. Last orders should be placed by 9:45.`, "an early kitchen closing", "fifteen minutes earlier", "place orders by 9:45"],
+    ["product instruction", `Before using the espresso machine for the first time, run two cycles of plain water through the system. This removes any factory residue.`, "first-time setup", "two cycles of plain water", "run cleaning cycles before use"],
+    ["volunteer briefing", `Thank you all for joining today's clean-up event. Gloves and bags are at the registration tent. Please return any unused supplies before noon.`, "a clean-up event", "at the registration tent", "return unused supplies by noon"],
   ];
+
+  const talks = pickPool(pool, 10, seed);
 
   return talks.flatMap(([kind, transcript, purpose, detail, action], groupIdx) => {
     const groupId = `${examId}-p4-talk-${groupIdx + 1}`;
