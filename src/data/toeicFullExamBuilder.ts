@@ -921,38 +921,74 @@ function writingTask(args: ToeicSWTask): ToeicSWTask {
 export function createFullToeicSWExam(base: ToeicSWExam, index: number): ToeicSWExam {
   const theme = themeFor(base, index + 4);
   const seed = index * 23 + base.id.length;
+
+  // Curated, clearly-photographed scenes for "Describe the picture" tasks.
+  const SPEAKING_PHOTOS = [
+    part1PeopleMeetingTable,
+    part1ColleaguesChartScreen,
+    part1ManPresentationMaterials,
+    part1WorkerPointingDisplay,
+    part1ReceptionistPhone,
+    part1WaiterTable,
+    part1BaristaDrink,
+    part1TeacherChalkboard,
+    part1SalespersonProduct,
+    part1ClerkReceipt,
+  ];
+  // Writing Part 1 needs photos that visibly match the required word pair.
+  const WRITING_PHOTOS = [
+    part1PeopleMeetingTable,        // meeting / discuss
+    part1WomanTyping,               // employee / organize
+    part1ClerkReceipt,              // customer / receive
+    part1MechanicCar,               // technician / repair
+    part1ManPresentationMaterials,  // presentation / explain
+  ];
+  const pickPhoto = (arr: string[], offset: number) => arr[(seed + offset) % arr.length];
+
   const speakingTasks: ToeicSWTask[] = [
     speakingTask({
       id: `${base.id}-s1`, type: "read-aloud", part: 1,
-      prompt: `Read aloud the following text: Welcome to ${theme.company}. Visitors attending today's ${theme.event} should collect a badge at the reception desk before entering the main hall.`,
+      prompt: `Read aloud the following text:\n\n"Welcome to ${theme.company}. Visitors attending today's ${theme.event} should collect a badge at the reception desk before entering the main hall. The opening session will begin promptly at nine o'clock, so please be seated by eight forty-five."`,
       prepSeconds: 45, responseSeconds: 45,
     }),
     speakingTask({
       id: `${base.id}-s2`, type: "read-aloud", part: 2,
-      prompt: `Read aloud the following announcement: The ${theme.department} will provide a short orientation on the new ${theme.product} at 2 P.M. Please bring your laptop and arrive ten minutes early.`,
+      prompt: `Read aloud the following announcement:\n\n"Attention staff. The ${theme.department} will provide a short orientation on the new ${theme.product} at two o'clock this afternoon in conference room B. Please bring your laptop and arrive ten minutes early to set up."`,
       prepSeconds: 45, responseSeconds: 45,
     }),
     speakingTask({
       id: `${base.id}-s3`, type: "describe-picture", part: 3,
-      prompt: "Describe the picture in as much detail as you can.",
-      prepSeconds: 45, responseSeconds: 45, imageUrl: makeSceneImage(seed + 1, "speaking"),
+      prompt: "Describe the picture in as much detail as you can. Talk about the people, the place, and what is happening.",
+      prepSeconds: 45, responseSeconds: 45, imageUrl: pickPhoto(SPEAKING_PHOTOS, 1),
     }),
     speakingTask({
       id: `${base.id}-s4`, type: "describe-picture", part: 4,
-      prompt: "Describe the picture in as much detail as you can, including the people, place, and activity.",
-      prepSeconds: 45, responseSeconds: 45, imageUrl: makeSceneImage(seed + 2, "speaking"),
+      prompt: "Describe the picture in as much detail as you can. Include who you see, where they are, what they are doing, and any objects you notice.",
+      prepSeconds: 45, responseSeconds: 45, imageUrl: pickPhoto(SPEAKING_PHOTOS, 4),
     }),
-    ...["How often do you attend professional training?", "What type of training is most useful for your work?", "Describe one skill you would like to improve this year."].map((prompt, i) => speakingTask({
-      id: `${base.id}-s${5 + i}`, type: "respond-questions", part: 5 + i, prompt, prepSeconds: 3, responseSeconds: i < 2 ? 15 : 30,
+    ...[
+      "How often do you attend professional training, and what is the most recent course you took?",
+      "What type of training do you find most useful for your daily work, and why?",
+      "Describe one specific skill you would like to improve this year and explain how you plan to develop it.",
+    ].map((prompt, i) => speakingTask({
+      id: `${base.id}-s${5 + i}`, type: "respond-questions", part: 5 + i,
+      context: `Imagine that an English-speaking colleague is asking you about professional development at ${theme.company}.`,
+      prompt: `Question ${i + 1} of 3: ${prompt}`,
+      prepSeconds: 3, responseSeconds: i < 2 ? 15 : 30,
     })),
-    ...["According to the schedule, when does the morning session begin?", "Which speaker will lead the workshop on customer communication?", "A participant can only attend after lunch. Which session should you recommend, and why?"].map((prompt, i) => speakingTask({
+    ...[
+      "According to the schedule, when does the morning session begin and who delivers the opening remarks?",
+      "Which speaker will lead the workshop on customer communication, and at what time?",
+      "A participant can only attend after lunch. Which two sessions should you recommend, and why?",
+    ].map((prompt, i) => speakingTask({
       id: `${base.id}-s${8 + i}`, type: "respond-questions", part: 8 + i,
-      context: `Conference Schedule\n9:00 Opening remarks\n10:00 Customer Communication — Ms. Allen\n13:30 Digital Tools — Mr. Park\n15:00 Networking Session`,
-      prompt, prepSeconds: 45, responseSeconds: i < 2 ? 15 : 30,
+      context: `${theme.company} — Annual ${theme.event} Schedule\n\n09:00  Opening remarks — Ms. Daniels (CEO)\n10:00  Customer Communication Workshop — Ms. Allen\n11:30  Coffee Break\n13:30  Digital Tools for ${theme.department} — Mr. Park\n15:00  Networking Session — Main Hall\n16:30  Closing keynote — Dr. Tran`,
+      prompt: `Question ${i + 1} of 3: ${prompt}`,
+      prepSeconds: 45, responseSeconds: i < 2 ? 15 : 30,
     })),
     speakingTask({
       id: `${base.id}-s11`, type: "express-opinion", part: 11,
-      prompt: "Some companies allow employees to work flexible hours. Do you think this is a good policy? Give specific reasons and examples to support your opinion.",
+      prompt: `Some companies, including ${theme.company}, allow employees to choose flexible working hours. Do you think this is a good policy? State your opinion clearly and give specific reasons and examples to support it.`,
       prepSeconds: 45, responseSeconds: 60,
     }),
   ];
@@ -960,13 +996,13 @@ export function createFullToeicSWExam(base: ToeicSWExam, index: number): ToeicSW
   const writingTasks: ToeicSWTask[] = [1, 2, 3, 4, 5].map((n) => writingTask({
     id: `${base.id}-w${n}`, type: "write-sentence-picture", part: n,
     prompt: [
-      "Write ONE sentence about the picture using the two words: meeting / discuss",
-      "Write ONE sentence about the picture using the two words: employee / organize",
-      "Write ONE sentence about the picture using the two words: customer / receive",
-      "Write ONE sentence about the picture using the two words: technician / repair",
-      "Write ONE sentence about the picture using the two words: presentation / explain",
+      "Write ONE sentence about the picture using the two words below. You may change the form of the words and use them in any order.\n\nKeywords: meeting / discuss",
+      "Write ONE sentence about the picture using the two words below. You may change the form of the words and use them in any order.\n\nKeywords: employee / organize",
+      "Write ONE sentence about the picture using the two words below. You may change the form of the words and use them in any order.\n\nKeywords: customer / receive",
+      "Write ONE sentence about the picture using the two words below. You may change the form of the words and use them in any order.\n\nKeywords: technician / repair",
+      "Write ONE sentence about the picture using the two words below. You may change the form of the words and use them in any order.\n\nKeywords: presentation / explain",
     ][n - 1],
-    prepSeconds: 0, responseSeconds: 480, imageUrl: makeSceneImage(seed + n + 5, "writing"),
+    prepSeconds: 0, responseSeconds: 480, imageUrl: WRITING_PHOTOS[n - 1],
     sampleAnswer: [
       "The employees are having a meeting to discuss the project schedule.",
       "An employee is organizing documents before the conference begins.",
