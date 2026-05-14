@@ -588,13 +588,40 @@ function generatePart6(theme: Theme, examId: string, seed: number): ToeicLRQuest
 }
 
 function generatePart7(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
-  const docs = Array.from({ length: 18 }, (_, i) => {
-    const day = 5 + i;
+  const topicPool = [
+    "training registration", "office relocation", "product recall", "conference agenda", "customer survey",
+    "job posting", "restaurant opening", "shipping policy", "library renovation", "software license",
+    "wellness program", "supplier contract", "travel advisory", "equipment sale", "newsletter update",
+    "parking notice", "market report", "charity event", "membership renewal", "vendor evaluation",
+    "internship opportunity", "exhibition schedule", "loyalty program update", "factory tour", "annual audit",
+    "promotional campaign", "warranty extension", "service interruption", "budget reallocation", "policy revision",
+  ];
+  const benefitPool = [
+    "free parking", "a ten percent discount", "extended service hours", "a training certificate",
+    "priority seating", "complimentary lunch", "an early access pass", "a one-month subscription",
+    "a gift voucher", "a guided facility tour",
+  ];
+  const placePool = [
+    theme.place, "main auditorium", "customer service desk", "online portal", "north warehouse",
+    "city convention hall", "second-floor reception", "rear entrance kiosk", "regional sales office",
+  ];
+  const contactPool = [
+    `hr@${theme.company.toLowerCase().replace(/[^a-z]/g, "")}.com`,
+    `support@${theme.company.toLowerCase().replace(/[^a-z]/g, "")}.com`,
+    "support@example.com", "events@example.com", "careers@example.com", "info@example.com",
+  ];
+
+  const topics = pickPool(topicPool, 18, seed);
+  const benefits = pickPool(benefitPool, 18, seed * 3 + 1);
+  const places = pickPool(placePool, 18, seed * 5 + 2);
+  const contacts = pickPool(contactPool, 18, seed * 7 + 3);
+
+  const docs = topics.map((topic, i) => {
+    const day = 3 + ((seed + i * 2) % 22);
     const deadline = `July ${day + 7}`;
-    const topic = ["training registration", "office relocation", "product recall", "conference agenda", "customer survey", "job posting", "restaurant opening", "shipping policy", "library renovation", "software license", "wellness program", "supplier contract", "travel advisory", "equipment sale", "newsletter update", "parking notice", "market report", "charity event"][i];
-    const benefit = ["free parking", "a ten percent discount", "extended service hours", "a training certificate", "priority seating", "complimentary lunch"][i % 6];
-    const contact = [`hr@${theme.company.toLowerCase().replace(/[^a-z]/g, "")}.com`, "support@example.com", "events@example.com", "careers@example.com"][i % 4];
-    const place = [theme.place, "main auditorium", "customer service desk", "online portal", "north warehouse", "city convention hall"][i % 6];
+    const benefit = benefits[i];
+    const contact = contacts[i];
+    const place = places[i];
     const passage = `${i < 8 ? "EMAIL" : i < 13 ? "NOTICE" : "ARTICLE"}\nSubject: ${topic.replace(/\b\w/g, (m) => m.toUpperCase())}\n\n${theme.company} is announcing an update about ${topic}. The change will take effect on July ${day}. Employees and customers should check the ${place} for detailed instructions. Anyone who responds by ${deadline} will receive ${benefit}. For questions, contact ${contact}.\n\nAdditional details: The update is part of a plan to improve service quality, reduce delays, and make information easier to find.`;
     return { passage, topic, deadline, benefit, contact, place };
   });
