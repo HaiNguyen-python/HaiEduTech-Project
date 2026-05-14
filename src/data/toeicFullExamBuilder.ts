@@ -296,7 +296,7 @@ function generatePart2(theme: Theme, examId: string, seed: number): ToeicLRQuest
 }
 
 function generatePart3(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
-  const situations = [
+  const pool: [string, string, string, string][] = [
     ["a delayed shipment", "warehouse", "call the carrier", "The tracking page has not changed since Monday"],
     ["a conference room booking", "office", "move the meeting to Room B", "The projector in Room A is not working"],
     ["a marketing brochure", "design studio", "send revised images", "The product photo needs to be brighter"],
@@ -310,7 +310,19 @@ function generatePart3(theme: Theme, examId: string, seed: number): ToeicLRQuest
     ["a sales report", "manager's office", "revise the chart", "The regional totals were entered incorrectly"],
     ["a delivery route", "shipping desk", "leave earlier tomorrow", "Roadwork is causing morning delays"],
     ["a product demonstration", "trade fair booth", "test the tablet connection", "Visitors will arrive in twenty minutes"],
+    ["a missing package", "reception desk", "contact the courier", "The package was supposed to arrive yesterday"],
+    ["a printer malfunction", "copy room", "order a service technician", "Pages are coming out smudged"],
+    ["a website redesign", "creative agency", "approve the new homepage", "The launch date was moved up"],
+    ["a customer refund request", "store manager's office", "process the refund", "The receipt is older than thirty days"],
+    ["a flight cancellation", "airport check-in counter", "rebook a later flight", "The next available departure is at six"],
+    ["an employee orientation", "human resources office", "prepare the welcome packet", "Three new hires start on Monday"],
+    ["a catering order", "company kitchen", "double the lunch quantity", "Twenty extra guests just confirmed"],
+    ["a faulty security camera", "lobby control room", "schedule a repair visit", "Footage from yesterday is missing"],
+    ["a budget proposal", "executive boardroom", "revise the cost estimates", "The original numbers exceed the cap"],
+    ["a magazine subscription", "subscription office", "send a renewal notice", "The current issue will be the last one"],
   ];
+
+  const situations = pickPool(pool, 13, seed);
 
   return situations.flatMap(([topic, location, action, detail], groupIdx) => {
     const transcript = `M: I need your help with ${topic}. ${detail}.\nW: I see. We should ${action} before the end of the day.\nM: Good idea. I'll also notify ${theme.department} so everyone knows the plan.`;
