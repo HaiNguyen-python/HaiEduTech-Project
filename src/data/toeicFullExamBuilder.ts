@@ -231,16 +231,6 @@ function themeFor(base: { id: string; title: string }, fallbackIndex: number): T
   if (key.includes("aviation") || key.includes("travel")) return domainThemes[17];
   return domainThemes[fallbackIndex % domainThemes.length];
 }
-  const key = `${base.id} ${base.title}`.toLowerCase();
-  if (key.includes("tech") || key.includes("it")) return domainThemes[5];
-  if (key.includes("logistics") || key.includes("manufacturing")) return domainThemes[4];
-  if (key.includes("hospitality") || key.includes("travel")) return domainThemes[1];
-  if (key.includes("retail")) return domainThemes[2];
-  if (key.includes("finance")) return domainThemes[3];
-  if (key.includes("marketing")) return domainThemes[6];
-  if (key.includes("education")) return domainThemes[7];
-  return domainThemes[fallbackIndex % domainThemes.length];
-}
 
 function svgDataUri(svg: string): string {
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
