@@ -463,6 +463,7 @@ const LR_04: ToeicLRExam = {
         "Move to the front of the cabin",
       ],
       answer: 1,
+      transcript: "Please return to your seats and fasten your seatbelts.",
       passageGroupId: "lr4-talk-1",
     },
     {
@@ -624,6 +625,7 @@ const LR_05: ToeicLRExam = {
         "Reissue the invoice",
       ],
       answer: 1,
+      transcript: "I'll send them a reminder this afternoon.",
       passageGroupId: "lr5-conv-1",
     },
     {
@@ -652,6 +654,7 @@ const LR_05: ToeicLRExam = {
         "Marketing campaigns",
       ],
       answer: 1,
+      transcript: "Sales of our enterprise software contributed the most to this growth.",
       passageGroupId: "lr5-talk-1",
     },
     {
