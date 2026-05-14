@@ -844,7 +844,7 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
                     "After recording, send your audio to the AI Speaking Coach to get pronunciation, fluency and improvement suggestions tailored for TOEIC Speaking Part 3."
                   )}
                 </p>
-                <Button asChild size="sm" variant="outline" className="mt-2 border-teal-400/40 text-teal-200">
+                <Button asChild size="sm" className="mt-2 bg-teal-500 hover:bg-teal-400 text-slate-900 font-semibold border-0">
                   <Link to="/speaking-coach">{t("Mở AI Speaking Coach", "Open AI Speaking Coach")}</Link>
                 </Button>
               </div>
