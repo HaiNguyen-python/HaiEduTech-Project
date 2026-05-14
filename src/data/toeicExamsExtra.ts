@@ -811,6 +811,7 @@ const LR_06: ToeicLRExam = {
       prompt: "What is the woman asked to do?",
       options: ["Pay a co-pay", "Fill out an insurance form", "Reschedule the appointment", "Show her ID"],
       answer: 1,
+      transcript: "Could you fill out this insurance form while you wait?",
       passageGroupId: "lr6-conv-1",
     },
     {
@@ -839,6 +840,7 @@ const LR_06: ToeicLRExam = {
         "Discounted gym memberships",
       ],
       answer: 3,
+      transcript: "The program offers free yoga classes, monthly health screenings, and access to a wellness app.",
       passageGroupId: "lr6-talk-1",
     },
     {
