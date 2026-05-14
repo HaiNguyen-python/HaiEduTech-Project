@@ -1,4 +1,10 @@
 import type { ToeicLRExam, ToeicLRQuestion, ToeicPart, ToeicSWExam, ToeicSWTask } from "./toeicExams";
+import part1WomanReviewingDocument from "@/assets/toeic/part1-woman-reviewing-document.jpg";
+import part1ColleaguesChartScreen from "@/assets/toeic/part1-colleagues-chart-screen.jpg";
+import part1LaptopConferenceTable from "@/assets/toeic/part1-laptop-conference-table.jpg";
+import part1ManPresentationMaterials from "@/assets/toeic/part1-man-presentation-materials.jpg";
+import part1PeopleMeetingTable from "@/assets/toeic/part1-people-meeting-table.jpg";
+import part1WorkerPointingDisplay from "@/assets/toeic/part1-worker-pointing-display.jpg";
 
 export const TOEIC_LR_OFFICIAL_PART_COUNTS: Record<ToeicPart, number> = {
   1: 6,
@@ -170,15 +176,15 @@ function makeQuestion(args: Omit<ToeicLRQuestion, "options" | "answer"> & { opti
 
 function generatePart1(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
   const scenes = [
-    ["A woman is reviewing a document at a desk.", ["A woman is watering plants in a hallway.", "A man is carrying boxes into a truck.", "Some chairs are being stacked near a wall."]],
-    ["Two colleagues are discussing a chart on a screen.", ["The employees are cleaning the windows.", "A customer is paying at a counter.", "The road is being repaired."]],
-    ["A laptop has been placed on a conference table.", ["A printer is being loaded into a vehicle.", "Several people are boarding a train.", "A package is being weighed on a scale."]],
-    ["A man is arranging materials before a presentation.", ["A man is painting a sign outdoors.", "The shelves are completely empty.", "A waiter is serving drinks to guests."]],
-    ["Some people are seated around a meeting table.", ["Some people are standing in a checkout line.", "A bicycle is leaning against a fence.", "The floor is being swept by a cleaner."]],
-    ["A worker is pointing at information on a display.", ["A worker is repairing a staircase.", "The vehicles are parked beside a river.", "A woman is trying on a jacket."]],
+    ["A woman is reviewing a document at a desk.", part1WomanReviewingDocument, ["A woman is watering plants in a hallway.", "A man is carrying boxes into a truck.", "Some chairs are being stacked near a wall."]],
+    ["Two colleagues are discussing a chart on a screen.", part1ColleaguesChartScreen, ["The employees are cleaning the windows.", "A customer is paying at a counter.", "The road is being repaired."]],
+    ["A laptop has been placed on a conference table.", part1LaptopConferenceTable, ["A printer is being loaded into a vehicle.", "Several people are boarding a train.", "A package is being weighed on a scale."]],
+    ["A man is arranging materials before a presentation.", part1ManPresentationMaterials, ["A man is painting a sign outdoors.", "The shelves are completely empty.", "A waiter is serving drinks to guests."]],
+    ["Some people are seated around a meeting table.", part1PeopleMeetingTable, ["Some people are standing in a checkout line.", "A bicycle is leaning against a fence.", "The floor is being swept by a cleaner."]],
+    ["A worker is pointing at information on a display.", part1WorkerPointingDisplay, ["A worker is repairing a staircase.", "The vehicles are parked beside a river.", "A woman is trying on a jacket."]],
   ];
 
-  return scenes.map(([correct, distractors], i) => makeQuestion({
+  return scenes.map(([correct, imageUrl, distractors], i) => makeQuestion({
     id: `${examId}-p1-${i + 1}`,
     part: 1,
     prompt: "Look at the photograph and choose the statement that best describes it.",
@@ -186,7 +192,7 @@ function generatePart1(theme: Theme, examId: string, seed: number): ToeicLRQuest
     answerSeed: seed + i,
     transcript: [correct, ...(distractors as string[])].map((line, idx) => `${String.fromCharCode(65 + idx)}. ${line}`).join("\n"),
     audioText: [correct, ...(distractors as string[])].map((line, idx) => `${String.fromCharCode(65 + idx)}. ${line}`).join(". "),
-    imageUrl: makeSceneImage(seed + i, "photo"),
+    imageUrl: imageUrl as string,
     explanation: "Choose the statement that accurately describes the visible action or state in the photograph.",
   }));
 }

@@ -316,7 +316,14 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
               )}
 
               {current.part === 1 && current.imageUrl && (
-                <img src={current.imageUrl} alt="TOEIC Part 1 workplace photograph" className="mb-4 w-full max-h-80 object-cover rounded-lg border border-slate-700" loading="lazy" />
+                <img
+                  src={current.imageUrl}
+                  alt="TOEIC Part 1 workplace photograph"
+                  width={832}
+                  height={544}
+                  className="mb-4 w-full max-h-96 object-contain rounded-lg border border-slate-700 bg-slate-950/60"
+                  loading="lazy"
+                />
               )}
 
               {/* Reading passage */}
@@ -345,7 +352,7 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
                       }`}
                     >
                       <span className="font-mono text-xs text-cyan-300 mr-2">{String.fromCharCode(65 + i)}.</span>
-                      {opt}
+                      {current.part !== 2 && opt}
                     </button>
                   );
                 })}
