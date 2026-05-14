@@ -200,11 +200,29 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
   function playGeneratedAudio(q: ToeicLRQuestion) {
     if (!("speechSynthesis" in window)) return;
     window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(getListeningAudioText(q));
+    const intro =
+      q.part === 1
+        ? `Look at the photograph marked number ${activeIdx + 1} in your test book. `
+        : q.part === 2
+        ? `Question ${activeIdx + 1}. You will hear a question or statement, followed by three responses. `
+        : "";
+    const utterance = new SpeechSynthesisUtterance(intro + getListeningAudioText(q));
     utterance.lang = "en-US";
     utterance.rate = speed;
     window.speechSynthesis.speak(utterance);
   }
+
+  // Auto-play audio when a listening question (Parts 1-4) becomes active
+  useEffect(() => {
+    if (!current || current.part > 4 || submitted || paused) return;
+    if (current.audioSrc) return; // real audio element handles its own playback
+    const timer = setTimeout(() => playGeneratedAudio(current), 350);
+    return () => {
+      clearTimeout(timer);
+      if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current?.id, submitted, paused, speed]);
 
   // Group by part for navigator
   const partGroups = useMemo(() => {
@@ -279,8 +297,12 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
                 <div className="mb-4 p-3 rounded-lg bg-slate-950/60 border border-slate-700">
                   <div className="flex items-center gap-3 flex-wrap">
                     <Volume2 className="w-4 h-4 text-cyan-300" />
-                    <span className="text-xs text-slate-400">
-                      {t("Audio ETS — chọn tốc độ", "ETS Audio — choose speed")}
+                    <span className="text-xs text-slate-300">
+                      {current.part === 1
+                        ? t("Audio TOEIC — Nhìn ảnh & nghe 4 câu mô tả (A-D)", "TOEIC Audio — Look at the photo & listen to 4 statements (A-D)")
+                        : current.part === 2
+                        ? t("Audio TOEIC — Nghe câu hỏi và 3 đáp án (A-C)", "TOEIC Audio — Listen to the question and 3 responses (A-C)")
+                        : t("Audio TOEIC — Nghe đoạn hội thoại / bài nói", "TOEIC Audio — Listen to the conversation / talk")}
                     </span>
                     <div className="flex gap-1">
                       {[0.8, 1.0, 1.2].map((s) => (
@@ -306,10 +328,10 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
                     </label>
                   </div>
                   {current.audioSrc ? (
-                    <audio controls src={current.audioSrc} className="mt-2 w-full" />
+                    <audio controls autoPlay src={current.audioSrc} className="mt-2 w-full" />
                   ) : (
                     <Button size="sm" variant="outline" className="mt-2 border-cyan-400/40 text-cyan-100" onClick={() => playGeneratedAudio(current)}>
-                      <Play className="w-4 h-4 mr-1" /> {t("Nghe audio", "Play audio")}
+                      <Play className="w-4 h-4 mr-1" /> {t("Phát lại audio", "Replay audio")}
                     </Button>
                   )}
                 </div>
@@ -336,7 +358,17 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
                 ) : null;
               })()}
 
-              <p className="text-base font-medium mb-4 text-slate-100 leading-relaxed">{current.prompt}</p>
+              {current.part === 1 ? (
+                <p className="text-xs italic text-slate-400 mb-3">
+                  {t("Hướng dẫn: Nhìn ảnh và chọn câu mô tả đúng nhất (chỉ nghe audio, không có chữ).", "Directions: Look at the photo and choose the statement that best describes it (audio only, no text).")}
+                </p>
+              ) : current.part === 2 ? (
+                <p className="text-xs italic text-slate-400 mb-3">
+                  {t("Hướng dẫn: Nghe câu hỏi và 3 đáp án rồi chọn A, B hoặc C.", "Directions: Listen to the question and three responses, then choose A, B, or C.")}
+                </p>
+              ) : (
+                <p className="text-base font-medium mb-4 text-slate-100 leading-relaxed">{current.prompt}</p>
+              )}
 
               <div className="space-y-2">
                 {current.options.map((opt, i) => {
