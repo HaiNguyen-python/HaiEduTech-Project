@@ -140,7 +140,7 @@ const ToeicExams = () => {
                         {t("Thi đầy đủ", "Full Test")} <ArrowRight className="w-3.5 h-3.5 ml-1" />
                       </Link>
                     </Button>
-                    <Button asChild size="sm" variant="outline" className="border-slate-600 text-slate-200 hover:bg-slate-800">
+                    <Button asChild size="sm" variant="outline" className="border-cyan-400/60 bg-slate-800/80 text-white hover:bg-cyan-500/20 hover:text-white font-semibold">
                       <Link to={`/toeic-exam/${exam.id}?mode=practice`}>
                         {t("Luyện theo Part", "Practice by Part")}
                       </Link>
