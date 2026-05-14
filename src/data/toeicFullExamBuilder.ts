@@ -164,6 +164,34 @@ function reorder<T>(items: T[], seed: number): { items: T[]; answer: number } {
   return { items: arranged, answer: correctPosition };
 }
 
+// Pick `count` items from `pool` starting at a seed-based offset, so each exam
+// gets a different (but deterministic) subset and ordering.
+function pickPool<T>(pool: T[], count: number, seed: number): T[] {
+  const len = pool.length;
+  if (len === 0) return [];
+  const start = ((seed % len) + len) % len;
+  const step = 1 + (seed % Math.max(1, Math.floor(len / count) || 1));
+  const out: T[] = [];
+  const used = new Set<number>();
+  let idx = start;
+  while (out.length < count) {
+    if (!used.has(idx)) {
+      used.add(idx);
+      out.push(pool[idx]);
+    }
+    idx = (idx + step) % len;
+    if (used.size >= len) break;
+  }
+  // Fill any remainder by linear scan (safety net)
+  for (let i = 0; out.length < count && i < len; i++) {
+    if (!used.has(i)) {
+      used.add(i);
+      out.push(pool[i]);
+    }
+  }
+  return out;
+}
+
 function makeQuestion(args: Omit<ToeicLRQuestion, "options" | "answer"> & { options: string[]; answerSeed?: number }): ToeicLRQuestion {
   const { items, answer } = reorder(args.options, args.answerSeed ?? 0);
   return {
