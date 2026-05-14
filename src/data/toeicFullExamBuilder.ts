@@ -424,7 +424,7 @@ function generatePart4(theme: Theme, examId: string, seed: number): ToeicLRQuest
 }
 
 function generatePart5(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
-  const items = [
+  const pool: [string, string, string[], string][] = [
     ["All employees must submit travel receipts ___ five business days.", "within", ["during", "since", "among"], "'Within' gives the allowed time limit."],
     ["The new policy will be ___ at the beginning of next month.", "implemented", ["implement", "implementation", "implementing"], "Passive voice requires be + past participle."],
     ["Ms. Carter is responsible for ___ monthly sales data.", "analyzing", ["analyze", "analysis", "analyzed"], "After a preposition, use a gerund."],
@@ -455,15 +455,37 @@ function generatePart5(theme: Theme, examId: string, seed: number): ToeicLRQuest
     ["The online form is available ___ the company website.", "on", ["in", "at", "to"], "Use 'on' for websites."],
     ["The manager thanked everyone for their ___ during the audit.", "cooperation", ["cooperate", "cooperative", "cooperatively"], "A noun is required after possessive 'their'."],
     ["The package should arrive ___ Friday at the latest.", "by", ["until", "since", "between"], "'By' marks a deadline."],
+    ["Sales figures have improved ___ the launch of the new app.", "since", ["for", "during", "until"], "'Since' marks a starting point in the past."],
+    ["The renovation will be completed ___ the end of October.", "by", ["until", "from", "between"], "'By' indicates a deadline."],
+    ["Visitors are kindly asked to ___ silent in the gallery.", "remain", ["remains", "remaining", "remained"], "Use the base form after 'to'."],
+    ["The ___ of the building is scheduled for next quarter.", "renovation", ["renovate", "renovated", "renovating"], "A noun is needed after 'the'."],
+    ["The catering team prepared the meal ___ than expected.", "faster", ["fast", "fastest", "fastly"], "Comparative form is required before 'than'."],
+    ["Her presentation was both ___ and engaging.", "informative", ["informatively", "information", "inform"], "An adjective parallels 'engaging'."],
+    ["The instructions ___ in the user manual are very clear.", "provided", ["provide", "providing", "provides"], "Reduced relative clause uses past participle."],
+    ["___ the heavy rain, the outdoor event continued as planned.", "Despite", ["Although", "Because", "However"], "'Despite' is followed by a noun phrase."],
+    ["The award was given to the employee ___ ideas saved the company money.", "whose", ["who", "which", "whom"], "'Whose' shows possession."],
+    ["The travel agency offers ___ packages for corporate clients.", "customized", ["customize", "customizing", "customizes"], "A past participle adjective modifies 'packages'."],
+    ["Sign-up sheets are located ___ the front desk.", "next to", ["between", "among", "into"], "'Next to' indicates an adjacent position."],
+    ["The auditorium can ___ up to five hundred people.", "accommodate", ["accommodation", "accommodating", "accommodated"], "A base verb follows the modal 'can'."],
+    ["Our service center is open seven days ___ week.", "a", ["the", "an", "any"], "Use 'a' before 'week' in this fixed expression."],
+    ["The manager asked us ___ in the survey.", "to participate", ["participate", "participating", "participated"], "'Ask + object + to-infinitive' pattern."],
+    ["The instructions are clear ___ first-time users.", "for", ["of", "on", "at"], "'Clear for' targets a group."],
+    ["The employees ___ for the project will be announced tomorrow.", "selected", ["select", "selecting", "selects"], "Past participle as reduced relative clause."],
+    ["Please ___ the form before submitting it online.", "complete", ["completes", "completing", "completion"], "Imperative requires the base verb."],
+    ["The meeting agenda was sent ___ everyone last night.", "to", ["for", "with", "from"], "'Sent to' marks the recipient."],
+    ["Production has increased ___ over the past quarter.", "significantly", ["significant", "significance", "signify"], "An adverb modifies 'increased'."],
+    ["The ___ of the new branch will create thirty jobs.", "opening", ["open", "opens", "opened"], "A noun (gerund) is needed after 'the'."],
   ];
+
+  const items = pickPool(pool, 30, seed);
 
   return items.map(([prompt, correct, distractors, explanation], i) => makeQuestion({
     id: `${examId}-p5-${i + 1}`,
     part: 5,
-    prompt: prompt as string,
-    options: optionSet(correct as string, distractors as string[]),
+    prompt,
+    options: optionSet(correct, distractors),
     answerSeed: seed + i,
-    explanation: explanation as string,
+    explanation,
   }));
 }
 
