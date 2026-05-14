@@ -52,6 +52,24 @@ function fmtTime(sec: number): string {
   return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
+// Resolve the actual reading passage for a question.
+// Sibling questions in the same passageGroupId may carry stub text like
+// "(See passage above)". This helper looks up the first sibling that has
+// a real passage so the student always sees the full text.
+function resolvePassage(
+  q: ToeicLRQuestion,
+  allQuestions: ToeicLRQuestion[],
+): string | undefined {
+  const stubLike = (p?: string) =>
+    !p || /^\(\s*see\b/i.test(p.trim()) || p.trim().length < 30;
+  if (!stubLike(q.passage)) return q.passage;
+  if (!q.passageGroupId) return q.passage;
+  const sibling = allQuestions.find(
+    (s) => s.passageGroupId === q.passageGroupId && !stubLike(s.passage),
+  );
+  return sibling?.passage ?? q.passage;
+}
+
 // Persist a result entry to localStorage history
 function saveHistoryEntry(entry: {
   examId: string;
