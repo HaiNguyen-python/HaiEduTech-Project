@@ -466,6 +466,14 @@ const LRReview = ({ exam, questions, answers }: LRReviewProps) => {
                   <span className="flex items-center gap-1 text-rose-400 text-xs"><XCircle className="w-4 h-4" /> {t("Sai", "Incorrect")}</span>
                 )}
               </div>
+              {(q.part === 6 || q.part === 7) && (() => {
+                const passage = resolvePassage(q, exam.questions);
+                return passage ? (
+                  <div className="mb-2 p-2 rounded bg-slate-950/50 border border-slate-700 whitespace-pre-wrap text-xs leading-relaxed text-slate-300 max-h-48 overflow-auto">
+                    {passage}
+                  </div>
+                ) : null;
+              })()}
               <p className="text-sm font-medium mb-2">{q.prompt}</p>
               <div className="text-xs space-y-1 mb-2">
                 {q.options.map((opt, idx) => (
