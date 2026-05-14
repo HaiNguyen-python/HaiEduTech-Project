@@ -52,6 +52,24 @@ function fmtTime(sec: number): string {
   return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
+// Resolve the actual reading passage for a question.
+// Sibling questions in the same passageGroupId may carry stub text like
+// "(See passage above)". This helper looks up the first sibling that has
+// a real passage so the student always sees the full text.
+function resolvePassage(
+  q: ToeicLRQuestion,
+  allQuestions: ToeicLRQuestion[],
+): string | undefined {
+  const stubLike = (p?: string) =>
+    !p || /^\(\s*see\b/i.test(p.trim()) || p.trim().length < 30;
+  if (!stubLike(q.passage)) return q.passage;
+  if (!q.passageGroupId) return q.passage;
+  const sibling = allQuestions.find(
+    (s) => s.passageGroupId === q.passageGroupId && !stubLike(s.passage),
+  );
+  return sibling?.passage ?? q.passage;
+}
+
 // Persist a result entry to localStorage history
 function saveHistoryEntry(entry: {
   examId: string;
@@ -285,11 +303,14 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
               )}
 
               {/* Reading passage */}
-              {(current.part === 6 || current.part === 7) && current.passage && (
-                <div className="mb-4 p-3 rounded-lg bg-slate-950/60 border border-slate-700 whitespace-pre-wrap text-sm leading-relaxed text-slate-200 max-h-72 overflow-auto">
-                  {current.passage}
-                </div>
-              )}
+              {(current.part === 6 || current.part === 7) && (() => {
+                const passage = resolvePassage(current, exam.questions);
+                return passage ? (
+                  <div className="mb-4 p-3 rounded-lg bg-slate-950/60 border border-slate-700 whitespace-pre-wrap text-sm leading-relaxed text-slate-200 max-h-72 overflow-auto">
+                    {passage}
+                  </div>
+                ) : null;
+              })()}
 
               <p className="text-base font-medium mb-4">{current.prompt}</p>
 
@@ -445,6 +466,14 @@ const LRReview = ({ exam, questions, answers }: LRReviewProps) => {
                   <span className="flex items-center gap-1 text-rose-400 text-xs"><XCircle className="w-4 h-4" /> {t("Sai", "Incorrect")}</span>
                 )}
               </div>
+              {(q.part === 6 || q.part === 7) && (() => {
+                const passage = resolvePassage(q, exam.questions);
+                return passage ? (
+                  <div className="mb-2 p-2 rounded bg-slate-950/50 border border-slate-700 whitespace-pre-wrap text-xs leading-relaxed text-slate-300 max-h-48 overflow-auto">
+                    {passage}
+                  </div>
+                ) : null;
+              })()}
               <p className="text-sm font-medium mb-2">{q.prompt}</p>
               <div className="text-xs space-y-1 mb-2">
                 {q.options.map((opt, idx) => (

@@ -1,0 +1,608 @@
+// Additional TOEIC practice exams (batch 2).
+// Strict ETS format: Part 1/3/4/5/6/7 = 4 options, Part 2 = 3 options.
+// Every Part 6/7 sibling question shares passageGroupId with the first
+// question that carries the full passage; the exam room resolves the
+// real passage from the group, so siblings can omit it safely.
+
+import type { ToeicLRExam, ToeicSWExam } from "./toeicExams";
+
+// ---- LR Practice Test 07: Technology & IT ----
+const LR_07: ToeicLRExam = {
+  id: "lr-07",
+  title: "TOEIC LR Practice Test 07 — Technology & IT",
+  series: "HaiEdu Series 2025",
+  durationSec: 7200,
+  questions: [
+    // Part 1
+    {
+      id: "lr7-p1-1",
+      part: 1,
+      prompt: "Choose the best description of the photograph.",
+      options: [
+        "A technician is connecting cables to a server.",
+        "A man is reading a book in a library.",
+        "Engineers are inspecting a vehicle.",
+        "A woman is presenting on a stage.",
+      ],
+      answer: 0,
+      transcript: "A technician in a data center is plugging network cables into a tall server rack.",
+    },
+    {
+      id: "lr7-p1-2",
+      part: 1,
+      prompt: "Choose the best description of the photograph.",
+      options: [
+        "A laptop has been left open on the desk.",
+        "Pens are scattered across the floor.",
+        "A printer is being repaired.",
+        "Workers are unpacking boxes.",
+      ],
+      answer: 0,
+      transcript: "An open laptop sits on an empty office desk next to a coffee mug.",
+    },
+    // Part 2
+    {
+      id: "lr7-p2-1",
+      part: 2,
+      prompt: "Choose the best response.",
+      options: ["By next Monday.", "It's broken again.", "She works in HR."],
+      answer: 0,
+      transcript: "Q: When will the new software be ready?\nA: By next Monday.",
+    },
+    {
+      id: "lr7-p2-2",
+      part: 2,
+      prompt: "Choose the best response.",
+      options: ["Try restarting your laptop.", "She's the new intern.", "It's on the second floor."],
+      answer: 0,
+      transcript: "Q: My computer keeps freezing — what should I do?\nA: Try restarting your laptop.",
+    },
+    {
+      id: "lr7-p2-3",
+      part: 2,
+      prompt: "Choose the best response.",
+      options: ["Yes, I forwarded it this morning.", "It costs about fifty dollars.", "On the third floor."],
+      answer: 0,
+      transcript: "Q: Did you send the bug report to the developers?\nA: Yes, I forwarded it this morning.",
+    },
+    {
+      id: "lr7-p2-4",
+      part: 2,
+      prompt: "Choose the best response.",
+      options: ["I'd prefer the cloud version.", "Because the meeting was canceled.", "She arrived yesterday."],
+      answer: 0,
+      transcript: "Q: Would you like the desktop or cloud version of the software?\nA: I'd prefer the cloud version.",
+    },
+    // Part 3
+    {
+      id: "lr7-p3-1",
+      part: 3,
+      prompt: "What is the man's problem?",
+      options: [
+        "He cannot log into his account.",
+        "His monitor is broken.",
+        "He missed a meeting.",
+        "His phone has no signal.",
+      ],
+      answer: 0,
+      transcript:
+        "M: Hi, I've been trying to sign in to the portal all morning, but it keeps rejecting my password.\nW: Let me reset it for you. You'll receive a temporary password by email in a few minutes.",
+      passageGroupId: "lr7-conv-1",
+    },
+    {
+      id: "lr7-p3-2",
+      part: 3,
+      prompt: "What will the woman do?",
+      options: ["Call the manager", "Reset his password", "Send a new laptop", "Reschedule the meeting"],
+      answer: 1,
+      passageGroupId: "lr7-conv-1",
+    },
+    {
+      id: "lr7-p3-3",
+      part: 3,
+      prompt: "How will the man receive the new password?",
+      options: ["By phone call", "By text message", "By email", "In person"],
+      answer: 2,
+      passageGroupId: "lr7-conv-1",
+    },
+    // Part 4
+    {
+      id: "lr7-p4-1",
+      part: 4,
+      prompt: "What is the purpose of the announcement?",
+      options: [
+        "To launch a new mobile app",
+        "To warn about a phishing email",
+        "To introduce a new IT manager",
+        "To recruit beta testers",
+      ],
+      answer: 1,
+      transcript:
+        "Attention all staff. We have detected a phishing email circulating today claiming to be from the payroll team. Please do not click any links and report the message to security@company.com immediately.",
+      passageGroupId: "lr7-talk-1",
+    },
+    {
+      id: "lr7-p4-2",
+      part: 4,
+      prompt: "What are listeners asked to do?",
+      options: [
+        "Reply to the email",
+        "Forward it to colleagues",
+        "Report it to security",
+        "Change their passwords",
+      ],
+      answer: 2,
+      passageGroupId: "lr7-talk-1",
+    },
+    // Part 5
+    {
+      id: "lr7-p5-1",
+      part: 5,
+      prompt: "The IT department ___ a new firewall last weekend.",
+      options: ["install", "installs", "installed", "installing"],
+      answer: 2,
+      explanation: "'Last weekend' yêu cầu quá khứ đơn → installed.",
+    },
+    {
+      id: "lr7-p5-2",
+      part: 5,
+      prompt: "Please contact the help desk if you ___ any technical issues.",
+      options: ["encounter", "encountered", "have encountered", "will encounter"],
+      answer: 0,
+      explanation: "Câu điều kiện loại 1: If + S + V (hiện tại đơn).",
+    },
+    {
+      id: "lr7-p5-3",
+      part: 5,
+      prompt: "Our customer support team responds to inquiries ___ within two hours.",
+      options: ["typical", "typically", "typicality", "typify"],
+      answer: 1,
+      explanation: "Trạng từ bổ nghĩa cho động từ 'responds' → typically.",
+    },
+    {
+      id: "lr7-p5-4",
+      part: 5,
+      prompt: "All passwords must be changed ___ every 90 days for security.",
+      options: ["at", "in", "every", "between"],
+      answer: 0,
+      explanation: "Cụm 'at least every 90 days'? Ở đây dùng 'at' với chu kỳ → at.",
+    },
+    {
+      id: "lr7-p5-5",
+      part: 5,
+      prompt: "The cloud storage service is ___ more reliable than the previous solution.",
+      options: ["very", "much", "so", "too"],
+      answer: 1,
+      explanation: "'much' bổ nghĩa cho so sánh hơn (more reliable).",
+    },
+    // Part 6
+    {
+      id: "lr7-p6-1",
+      part: 6,
+      passage:
+        "Dear users,\n\nWe are writing to inform you that our online platform will undergo a major update on Saturday, May 18. The system will be [BLANK1] from 10 PM to 2 AM. During this time, you will not be able to access your account. We apologize for the inconvenience and appreciate your [BLANK2].\n\nBest regards,\nTechSupport Team",
+      prompt: "BLANK1 — choose the best option:",
+      options: ["unavailable", "unavailability", "unavailably", "available"],
+      answer: 0,
+      explanation: "Hệ thống sẽ KHÔNG truy cập được → unavailable.",
+      passageGroupId: "lr7-email-1",
+    },
+    {
+      id: "lr7-p6-2",
+      part: 6,
+      prompt: "BLANK2 — choose the best option:",
+      options: ["patient", "patiently", "patience", "patients"],
+      answer: 2,
+      explanation: "'appreciate your + N' → patience (sự kiên nhẫn).",
+      passageGroupId: "lr7-email-1",
+    },
+    {
+      id: "lr7-p6-3",
+      part: 6,
+      prompt: "Where would the following sentence best fit? 'A reminder will be sent one hour before the maintenance begins.'",
+      options: [
+        "Before 'We are writing to inform you...'",
+        "After 'from 10 PM to 2 AM.'",
+        "After 'We apologize for the inconvenience...'",
+        "After 'Best regards,'",
+      ],
+      answer: 1,
+      explanation: "Câu nhắc nhở nên xuất hiện ngay sau khi đề cập thời gian bảo trì.",
+      passageGroupId: "lr7-email-1",
+    },
+    // Part 7
+    {
+      id: "lr7-p7-1",
+      part: 7,
+      passage:
+        "Job Posting — Cloud Engineer at Helsinki Cloud Oy.\nLocation: Helsinki, Finland (hybrid).\nResponsibilities: Design and maintain AWS infrastructure, automate deployments with Terraform, monitor system performance.\nRequirements: 3+ years of cloud experience, AWS Solutions Architect certification, fluent English. Finnish is a plus.\nBenefits: 30 vacation days, occupational health care, EU Blue Card sponsorship for non-EU candidates.\nDeadline: June 15. Apply at careers@hcloud.fi.",
+      prompt: "Where is the position located?",
+      options: ["Stockholm", "Helsinki", "Tallinn", "Copenhagen"],
+      answer: 1,
+      passageGroupId: "lr7-job-1",
+    },
+    {
+      id: "lr7-p7-2",
+      part: 7,
+      prompt: "Which is a stated requirement?",
+      options: [
+        "A PhD in Computer Science",
+        "AWS Solutions Architect certification",
+        "Fluent Finnish",
+        "5+ years of management experience",
+      ],
+      answer: 1,
+      passageGroupId: "lr7-job-1",
+    },
+    {
+      id: "lr7-p7-3",
+      part: 7,
+      prompt: "What benefit is offered to non-EU applicants?",
+      options: [
+        "Relocation bonus",
+        "Free housing",
+        "EU Blue Card sponsorship",
+        "Stock options",
+      ],
+      answer: 2,
+      passageGroupId: "lr7-job-1",
+    },
+    {
+      id: "lr7-p7-4",
+      part: 7,
+      passage:
+        "PRODUCT REVIEW — NimbusBook 14\n★★★★☆ Posted by Daniel K. on April 22\nAfter using the NimbusBook 14 for three months, I'm impressed by its lightweight design and 12-hour battery life. The keyboard is comfortable for long typing sessions. My only complaint is the limited number of USB ports — only two — which can be inconvenient when working with external devices. Overall, a solid choice for remote workers.",
+      prompt: "What did the reviewer like most?",
+      options: [
+        "The screen resolution",
+        "The lightweight design and long battery life",
+        "The number of ports",
+        "The price",
+      ],
+      answer: 1,
+      passageGroupId: "lr7-review-1",
+    },
+    {
+      id: "lr7-p7-5",
+      part: 7,
+      prompt: "What was the reviewer's complaint?",
+      options: ["Loud fans", "Short battery life", "Limited USB ports", "Slow processor"],
+      answer: 2,
+      passageGroupId: "lr7-review-1",
+    },
+    {
+      id: "lr7-p7-6",
+      part: 7,
+      prompt: "Who is the laptop most recommended for?",
+      options: ["Gamers", "Remote workers", "Students", "Graphic designers"],
+      answer: 1,
+      passageGroupId: "lr7-review-1",
+    },
+  ],
+};
+
+// ---- LR Practice Test 08: Logistics & Manufacturing ----
+const LR_08: ToeicLRExam = {
+  id: "lr-08",
+  title: "TOEIC LR Practice Test 08 — Logistics & Manufacturing",
+  series: "HaiEdu Series 2025",
+  durationSec: 7200,
+  questions: [
+    {
+      id: "lr8-p1-1",
+      part: 1,
+      prompt: "Choose the best description of the photograph.",
+      options: [
+        "Workers are loading boxes into a truck.",
+        "Cars are parked along the street.",
+        "A farmer is harvesting crops.",
+        "Children are playing in a park.",
+      ],
+      answer: 0,
+      transcript: "Two warehouse workers in safety vests are lifting cardboard boxes onto a delivery truck.",
+    },
+    {
+      id: "lr8-p1-2",
+      part: 1,
+      prompt: "Choose the best description of the photograph.",
+      options: [
+        "An assembly line is operating in a factory.",
+        "A chef is preparing a meal.",
+        "Tourists are taking photographs.",
+        "Students are writing on a chalkboard.",
+      ],
+      answer: 0,
+      transcript: "Robotic arms are assembling parts on a moving conveyor belt inside a manufacturing plant.",
+    },
+    {
+      id: "lr8-p2-1",
+      part: 2,
+      prompt: "Choose the best response.",
+      options: ["By Friday at the latest.", "It was a great trip.", "She works in finance."],
+      answer: 0,
+      transcript: "Q: When will the shipment arrive?\nA: By Friday at the latest.",
+    },
+    {
+      id: "lr8-p2-2",
+      part: 2,
+      prompt: "Choose the best response.",
+      options: ["At the loading dock.", "Twice a week.", "He arrived this morning."],
+      answer: 0,
+      transcript: "Q: Where should I deliver these pallets?\nA: At the loading dock.",
+    },
+    {
+      id: "lr8-p2-3",
+      part: 2,
+      prompt: "Choose the best response.",
+      options: ["Because the supplier raised prices.", "On the second floor.", "Yes, please do."],
+      answer: 0,
+      transcript: "Q: Why has production slowed down this month?\nA: Because the supplier raised prices.",
+    },
+    {
+      id: "lr8-p3-1",
+      part: 3,
+      prompt: "What does the man want to know?",
+      options: [
+        "The price of a product",
+        "The status of an order",
+        "The location of the warehouse",
+        "The training schedule",
+      ],
+      answer: 1,
+      transcript:
+        "M: I placed an order for 200 units two weeks ago. Could you tell me when it will be shipped?\nW: Let me check. According to the system, it shipped this morning and should arrive Thursday.",
+      passageGroupId: "lr8-conv-1",
+    },
+    {
+      id: "lr8-p3-2",
+      part: 3,
+      prompt: "When will the order arrive?",
+      options: ["Tuesday", "Wednesday", "Thursday", "Next Monday"],
+      answer: 2,
+      passageGroupId: "lr8-conv-1",
+    },
+    {
+      id: "lr8-p4-1",
+      part: 4,
+      prompt: "Who is the speaker most likely addressing?",
+      options: [
+        "Factory workers at a safety briefing",
+        "Tourists at a museum",
+        "Customers at a store opening",
+        "Investors at a board meeting",
+      ],
+      answer: 0,
+      transcript:
+        "Good morning everyone. Before starting your shift today, please remember to wear your protective gloves and safety glasses at all times on the production floor. Any incidents must be reported to your supervisor immediately.",
+      passageGroupId: "lr8-talk-1",
+    },
+    {
+      id: "lr8-p4-2",
+      part: 4,
+      prompt: "What must be reported immediately?",
+      options: ["Late arrivals", "Any incidents", "Equipment requests", "Lunch break changes"],
+      answer: 1,
+      passageGroupId: "lr8-talk-1",
+    },
+    {
+      id: "lr8-p5-1",
+      part: 5,
+      prompt: "All packages must be ___ before they leave the warehouse.",
+      options: ["inspect", "inspected", "inspecting", "inspection"],
+      answer: 1,
+      explanation: "Bị động: 'must be + V3' → inspected.",
+    },
+    {
+      id: "lr8-p5-2",
+      part: 5,
+      prompt: "The factory operates ___ holidays and weekends.",
+      options: ["except", "except for", "besides", "instead"],
+      answer: 1,
+      explanation: "'except for' đứng trước cụm danh từ chỉ ngoại lệ.",
+    },
+    {
+      id: "lr8-p5-3",
+      part: 5,
+      prompt: "Production has slowed ___ a shortage of raw materials.",
+      options: ["because", "because of", "although", "however"],
+      answer: 1,
+      explanation: "'because of' + cụm danh từ.",
+    },
+    {
+      id: "lr8-p5-4",
+      part: 5,
+      prompt: "The supervisor ___ all employees to attend the safety training next Monday.",
+      options: ["expect", "expects", "expecting", "expected"],
+      answer: 1,
+      explanation: "Chủ ngữ số ít hiện tại → expects.",
+    },
+    {
+      id: "lr8-p6-1",
+      part: 6,
+      passage:
+        "Dear customer,\n\nThank you for your recent order. Your shipment of 50 units has been [BLANK1] and is on its way. The estimated delivery date is March 12. If you have any questions about the shipment, please [BLANK2] our customer service team at support@globaltrade.com.\n\nKind regards,\nGlobalTrade Logistics",
+      prompt: "BLANK1 — choose the best option:",
+      options: ["dispatch", "dispatched", "dispatching", "dispatcher"],
+      answer: 1,
+      explanation: "Bị động hoàn thành: 'has been + V3' → dispatched.",
+      passageGroupId: "lr8-email-1",
+    },
+    {
+      id: "lr8-p6-2",
+      part: 6,
+      prompt: "BLANK2 — choose the best option:",
+      options: ["contact", "contacted", "contacting", "to contact"],
+      answer: 0,
+      explanation: "'Please + V nguyên mẫu' → contact.",
+      passageGroupId: "lr8-email-1",
+    },
+    {
+      id: "lr8-p7-1",
+      part: 7,
+      passage:
+        "SHIPPING POLICY — FastDeliver Co.\nStandard shipping: 5–7 business days, free for orders over $75.\nExpress shipping: 2–3 business days, flat fee of $15.\nSame-day delivery: available only in metropolitan Helsinki, $25 fee, order must be placed before 11 AM.\nReturns are accepted within 30 days with the original receipt. Refunds are processed within 7 business days.",
+      prompt: "When is free shipping offered?",
+      options: [
+        "On all orders",
+        "Only on weekends",
+        "On orders over $75",
+        "For loyalty members only",
+      ],
+      answer: 2,
+      passageGroupId: "lr8-policy-1",
+    },
+    {
+      id: "lr8-p7-2",
+      part: 7,
+      prompt: "What is required for same-day delivery?",
+      options: [
+        "An express subscription",
+        "Ordering before 11 AM",
+        "A minimum order of $100",
+        "Living outside Helsinki",
+      ],
+      answer: 1,
+      passageGroupId: "lr8-policy-1",
+    },
+    {
+      id: "lr8-p7-3",
+      part: 7,
+      prompt: "How long does it take to process a refund?",
+      options: ["1 business day", "3 business days", "7 business days", "30 business days"],
+      answer: 2,
+      passageGroupId: "lr8-policy-1",
+    },
+    {
+      id: "lr8-p7-4",
+      part: 7,
+      passage:
+        "MEMO — Production Schedule Change\nTo: Plant supervisors\nFrom: Operations Director\nDate: Sept 2\n\nDue to the upcoming maintenance of Line B, the night shift will be suspended from September 9 to September 13. All output targets for that week have been reassigned to Lines A and C, which will operate at 110% capacity. Overtime pay will be available for volunteers — please submit names by September 5.",
+      prompt: "Why is the night shift being suspended?",
+      options: [
+        "A holiday closure",
+        "A power outage",
+        "Maintenance of Line B",
+        "Lower demand",
+      ],
+      answer: 2,
+      passageGroupId: "lr8-memo-1",
+    },
+    {
+      id: "lr8-p7-5",
+      part: 7,
+      prompt: "What will Lines A and C do during the suspension?",
+      options: [
+        "Run at reduced capacity",
+        "Operate at 110% capacity",
+        "Switch to a different product",
+        "Close for cleaning",
+      ],
+      answer: 1,
+      passageGroupId: "lr8-memo-1",
+    },
+    {
+      id: "lr8-p7-6",
+      part: 7,
+      prompt: "By when must overtime volunteers submit their names?",
+      options: ["September 2", "September 5", "September 9", "September 13"],
+      answer: 1,
+      passageGroupId: "lr8-memo-1",
+    },
+  ],
+};
+
+// ---- SW Practice Test 03 ----
+const SW_03: ToeicSWExam = {
+  id: "sw-03",
+  title: "TOEIC Speaking & Writing Practice Test 03",
+  series: "HaiEdu Series 2025",
+  durationSec: 4800,
+  speakingTasks: [
+    {
+      id: "sw3-s1",
+      type: "read-aloud",
+      part: 1,
+      prompt:
+        "Read aloud the following text: 'Welcome to Northway Bank. For account balance, please press one. To speak with a representative, please press two. To report a lost or stolen card, please press three.'",
+      prepSeconds: 45,
+      responseSeconds: 45,
+      scoringCriteria: ["Pronunciation", "Intonation & Stress"],
+    },
+    {
+      id: "sw3-s2",
+      type: "describe-picture",
+      part: 3,
+      prompt: "Describe the picture in as much detail as you can.",
+      prepSeconds: 45,
+      responseSeconds: 45,
+      imageUrl: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800",
+      scoringCriteria: ["Pronunciation", "Vocabulary", "Cohesion"],
+    },
+    {
+      id: "sw3-s3",
+      type: "respond-questions",
+      part: 4,
+      prompt:
+        "Imagine an English-speaking colleague is asking about your reading habits.\nQ1: How often do you read books or articles?\nQ2: What kind of reading material do you enjoy most?\nQ3: Describe a book or article that has influenced you and explain why.",
+      prepSeconds: 0,
+      responseSeconds: 45,
+      scoringCriteria: ["Relevance", "Completeness", "Pronunciation"],
+    },
+    {
+      id: "sw3-s4",
+      type: "propose-solution",
+      part: 6,
+      prompt:
+        "A new employee tells you they are struggling to understand company procedures and feel isolated from the team. Propose a solution. Acknowledge the issue, suggest two specific actions, and explain how those actions will help.",
+      prepSeconds: 45,
+      responseSeconds: 60,
+      scoringCriteria: ["Problem Identification", "Practicality", "Cohesion"],
+    },
+    {
+      id: "sw3-s5",
+      type: "express-opinion",
+      part: 8,
+      prompt:
+        "Some companies allow employees to choose their own working hours, while others require fixed schedules. Which approach do you think is better, and why? Use specific reasons and examples to support your opinion.",
+      prepSeconds: 30,
+      responseSeconds: 60,
+      scoringCriteria: ["Position", "Supporting Reasons", "Vocabulary"],
+    },
+  ],
+  writingTasks: [
+    {
+      id: "sw3-w1",
+      type: "write-sentence-picture",
+      part: 1,
+      prompt: "Write ONE sentence about the picture using the two given words: students / library",
+      prepSeconds: 0,
+      responseSeconds: 480,
+      imageUrl: "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=800",
+      sampleAnswer: "Several students are studying quietly at long wooden tables in the library.",
+      scoringCriteria: ["Grammar", "Word Use", "Relevance"],
+    },
+    {
+      id: "sw3-w2",
+      type: "respond-email",
+      part: 2,
+      prompt:
+        "You received the following email from a job applicant:\n---\nFrom: Mark Sullivan\nTo: HR Department\nSubject: Interview availability\n\nThank you for inviting me to interview for the Marketing Coordinator position. Unfortunately, I cannot attend on the date you proposed. Could you please suggest an alternative time?\n---\nWrite a reply that thanks him, proposes two alternative time slots, and asks one piece of information you need to confirm the meeting.",
+      prepSeconds: 0,
+      responseSeconds: 600,
+      scoringCriteria: ["Quality of Sentences", "Vocabulary", "Organization"],
+    },
+    {
+      id: "sw3-w3",
+      type: "write-essay",
+      part: 3,
+      prompt:
+        "Some people believe that learning a foreign language is more useful than learning advanced mathematics. Others disagree. Which do you think is more useful in today's world? Use specific reasons and examples to support your opinion. Write at least 300 words.",
+      prepSeconds: 0,
+      responseSeconds: 1800,
+      scoringCriteria: ["Reasons & Examples", "Grammar", "Vocabulary", "Organization"],
+    },
+  ],
+};
+
+export const TOEIC_LR_EXTRA2: ToeicLRExam[] = [LR_07, LR_08];
+export const TOEIC_SW_EXTRA2: ToeicSWExam[] = [SW_03];
