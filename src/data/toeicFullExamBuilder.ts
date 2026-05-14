@@ -460,9 +460,10 @@ function generatePart4(theme: Theme, examId: string, seed: number, examIndex: nu
     ["volunteer briefing", `Thank you all for joining today's clean-up event. Gloves and bags are at the registration tent. Please return any unused supplies before noon.`, "a clean-up event", "at the registration tent", "return unused supplies by noon"],
   ];
 
-  const talks = pickPool(pool, 10, seed);
+  const talks = pickPool(pool, 10, examIndex);
 
   return talks.flatMap(([kind, transcript, purpose, detail, action], groupIdx) => {
+    const transcriptV = varyText(transcript as string, examIndex);
     const groupId = `${examId}-p4-talk-${groupIdx + 1}`;
     return [
       makeQuestion({
