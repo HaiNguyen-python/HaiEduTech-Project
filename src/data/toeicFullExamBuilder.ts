@@ -149,15 +149,13 @@ function optionSet(correct: string, distractors: string[]): string[] {
 }
 
 function reorder<T>(items: T[], seed: number): { items: T[]; answer: number } {
-  const orderings = [
-    [0, 1, 2, 3],
-    [1, 0, 2, 3],
-    [2, 1, 0, 3],
-    [3, 1, 2, 0],
-  ];
-  const order = orderings[seed % orderings.length];
-  const arranged = order.map((i) => items[i]);
-  return { items: arranged, answer: arranged.findIndex((_, i) => order[i] === 0) };
+  const correctPosition = seed % items.length;
+  const distractors = items.slice(1);
+  const rotation = distractors.length ? seed % distractors.length : 0;
+  const rotated = [...distractors.slice(rotation), ...distractors.slice(0, rotation)];
+  const arranged = [...rotated];
+  arranged.splice(correctPosition, 0, items[0]);
+  return { items: arranged, answer: correctPosition };
 }
 
 function makeQuestion(args: Omit<ToeicLRQuestion, "options" | "answer"> & { options: string[]; answerSeed?: number }): ToeicLRQuestion {
