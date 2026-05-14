@@ -221,35 +221,89 @@ function makeQuestion(args: Omit<ToeicLRQuestion, "options" | "answer"> & { opti
   };
 }
 
-function generatePart1(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
-  const pool: [string, string, string[]][] = [
+function generatePart1(theme: Theme, examId: string, seed: number, examIndex: number): ToeicLRQuestion[] {
+  const photoPool: [string, string, string[]][] = [
     ["A woman is reviewing a document at a desk.", part1WomanReviewingDocument, ["A woman is watering plants in a hallway.", "A man is carrying boxes into a truck.", "Some chairs are being stacked near a wall."]],
     ["Two colleagues are discussing a chart on a screen.", part1ColleaguesChartScreen, ["The employees are cleaning the windows.", "A customer is paying at a counter.", "The road is being repaired."]],
     ["A laptop has been placed on a conference table.", part1LaptopConferenceTable, ["A printer is being loaded into a vehicle.", "Several people are boarding a train.", "A package is being weighed on a scale."]],
     ["A man is arranging materials before a presentation.", part1ManPresentationMaterials, ["A man is painting a sign outdoors.", "The shelves are completely empty.", "A waiter is serving drinks to guests."]],
     ["Some people are seated around a meeting table.", part1PeopleMeetingTable, ["Some people are standing in a checkout line.", "A bicycle is leaning against a fence.", "The floor is being swept by a cleaner."]],
     ["A worker is pointing at information on a display.", part1WorkerPointingDisplay, ["A worker is repairing a staircase.", "The vehicles are parked beside a river.", "A woman is trying on a jacket."]],
-    ["A man is studying figures in a printed report.", part1WomanReviewingDocument, ["A man is closing a window.", "A woman is folding clothes.", "Some boxes are being delivered."]],
-    ["The team is examining data shown on a monitor.", part1ColleaguesChartScreen, ["A vehicle is being washed outside.", "A person is climbing a ladder.", "A waiter is wiping a table."]],
-    ["A computer has been left open in a meeting room.", part1LaptopConferenceTable, ["A man is repairing a bicycle.", "A woman is opening a bottle.", "Some plants are being watered."]],
-    ["A presenter is checking handouts before a session.", part1ManPresentationMaterials, ["A chef is cutting vegetables.", "Children are running in a park.", "A mechanic is changing a tire."]],
-    ["Several colleagues are gathered around a table.", part1PeopleMeetingTable, ["A passenger is buying a ticket.", "Shoppers are walking near a mall.", "A photographer is setting up a tripod."]],
-    ["An employee is highlighting points on a screen.", part1WorkerPointingDisplay, ["A guard is opening a gate.", "Workers are unloading crates.", "A diver is entering a pool."]],
   ];
 
-  const scenes = pickPool(pool, 6, seed);
+  const extraStatements: [string, string[]][] = [
+    ["A man is standing in front of a whiteboard.", ["A man is wiping the whiteboard clean.", "A woman is sitting on the floor.", "Some students are leaving a classroom."]],
+    ["A woman is typing on a keyboard.", ["A woman is watering a plant.", "A man is sleeping at a desk.", "Some children are drawing pictures."]],
+    ["Workers are loading boxes onto a truck.", ["Workers are repairing a roof.", "Customers are tasting samples.", "A driver is parking a car."]],
+    ["A clerk is handing a receipt to a customer.", ["A clerk is sweeping the floor.", "A waiter is taking an order.", "A man is carrying a ladder."]],
+    ["Several people are walking down a hallway.", ["Several people are riding bicycles.", "A man is climbing some stairs.", "A guard is opening a gate."]],
+    ["A man is wearing safety goggles.", ["A man is fishing by a lake.", "A woman is painting a wall.", "Some plants are being trimmed."]],
+    ["A woman is holding a clipboard.", ["A woman is wrapping a gift.", "A waiter is serving food.", "Some books are stacked on a shelf."]],
+    ["The shelves are filled with merchandise.", ["The shelves are being repaired.", "A truck is being unloaded.", "Customers are leaving the store."]],
+    ["A technician is checking a machine.", ["A technician is washing a window.", "A barista is making coffee.", "Some workers are eating lunch."]],
+    ["A waiter is setting a table.", ["A waiter is washing dishes.", "A chef is greeting customers.", "Some glasses are being broken."]],
+    ["Cars are parked along the street.", ["Cars are being towed away.", "A bus is making a turn.", "Pedestrians are crossing a bridge."]],
+    ["A woman is putting on a jacket.", ["A woman is folding a shirt.", "A child is opening a present.", "Some shoes are being repaired."]],
+    ["A man is reading a newspaper outdoors.", ["A man is mowing a lawn.", "A woman is pushing a stroller.", "Some boys are playing soccer."]],
+    ["A musician is tuning an instrument.", ["A musician is signing autographs.", "A teacher is grading papers.", "Some chairs are being arranged."]],
+    ["A doctor is examining a patient's chart.", ["A doctor is closing a window.", "A nurse is unloading a delivery.", "Some equipment is being moved."]],
+    ["Books are being placed on a shelf.", ["Books are being printed in a factory.", "A librarian is opening a door.", "A reader is paying for a magazine."]],
+    ["A construction worker is wearing a helmet.", ["A construction worker is taking a nap.", "A painter is mixing colors.", "Some cement is being poured."]],
+    ["A passenger is checking the departure board.", ["A passenger is boarding a plane.", "A pilot is closing a hatch.", "Some luggage is being scanned."]],
+    ["A barista is preparing a drink at the counter.", ["A barista is wiping a window.", "A baker is decorating a cake.", "Some tables are being moved outside."]],
+    ["A photographer is adjusting a camera.", ["A photographer is leaving the studio.", "A model is changing clothes.", "Some lights are being turned off."]],
+    ["A salesperson is showing a product to a customer.", ["A salesperson is closing the cash register.", "A delivery driver is asking for a signature.", "Some products are being thrown away."]],
+    ["A teacher is writing on a chalkboard.", ["A teacher is collecting homework.", "Students are leaving for recess.", "A janitor is mopping the floor."]],
+    ["A chef is chopping vegetables on a cutting board.", ["A chef is greeting diners at the entrance.", "A waiter is balancing several plates.", "Some bread is being baked."]],
+    ["A receptionist is answering a phone call.", ["A receptionist is locking the front door.", "A guest is signing the register.", "Some flowers are being delivered."]],
+    ["A gardener is trimming a hedge.", ["A gardener is washing a car.", "A delivery person is ringing a bell.", "Some leaves are being raked."]],
+    ["A jogger is running along a path in the park.", ["A jogger is stretching by a bench.", "A cyclist is fixing a flat tire.", "Some dogs are being walked."]],
+    ["A mechanic is checking under the hood of a car.", ["A mechanic is changing a tire.", "A driver is paying for fuel.", "Some cars are being polished."]],
+    ["A pharmacist is labeling a bottle of medicine.", ["A pharmacist is closing the shop.", "A customer is asking for directions.", "Some shelves are being restocked."]],
+    ["A florist is arranging flowers in a vase.", ["A florist is sweeping the sidewalk.", "A customer is buying a card.", "Some plants are being delivered."]],
+    ["A pilot is reviewing a flight plan in the cockpit.", ["A pilot is greeting passengers.", "A flight attendant is closing a door.", "Some snacks are being served."]],
+    ["A journalist is taking notes during an interview.", ["A journalist is leaving a press conference.", "A photographer is setting up a tripod.", "Some microphones are being adjusted."]],
+    ["A vendor is selling fruit at an outdoor market.", ["A vendor is closing the market stall.", "A shopper is choosing vegetables.", "Some boxes are being stacked."]],
+    ["A child is reading a book in a library.", ["A child is climbing a tree.", "A librarian is shelving books.", "Some chairs are being moved."]],
+    ["A dentist is preparing equipment in the clinic.", ["A dentist is leaving the office.", "A patient is filling out a form.", "Some instruments are being cleaned."]],
+    ["A scientist is looking through a microscope.", ["A scientist is washing test tubes.", "A student is taking notes.", "Some samples are being labeled."]],
+    ["An artist is painting a canvas in the studio.", ["An artist is cleaning brushes.", "A visitor is buying a sculpture.", "Some frames are being hung."]],
+    ["A coach is giving instructions to the players.", ["A coach is walking off the field.", "A referee is signaling a foul.", "Some balls are being collected."]],
+    ["A tour guide is pointing at a landmark.", ["A tour guide is selling tickets.", "A tourist is taking a photograph.", "Some maps are being handed out."]],
+    ["A hotel clerk is handing over a room key.", ["A hotel clerk is mopping the lobby.", "A bellhop is loading luggage onto a cart.", "Some guests are leaving the hotel."]],
+    ["A delivery person is carrying a parcel to the door.", ["A delivery person is parking a van.", "A homeowner is signing a form.", "Some packages are being scanned."]],
+    ["A bank teller is counting bills behind the counter.", ["A bank teller is closing the window.", "A customer is filling out a slip.", "Some coins are being sorted."]],
+    ["A musician is performing on a small stage.", ["A musician is tuning before the show.", "Audience members are clapping.", "Some lights are being adjusted."]],
+  ];
 
-  return scenes.map(([correct, imageUrl, distractors], i) => makeQuestion({
-    id: `${examId}-p1-${i + 1}`,
-    part: 1,
-    prompt: "Look at the photograph and choose the statement that best describes it.",
-    options: optionSet(correct, distractors),
-    answerSeed: seed + i,
-    transcript: [correct, ...distractors].map((line, idx) => `${String.fromCharCode(65 + idx)}. ${line}`).join("\n"),
-    audioText: [correct, ...distractors].map((line, idx) => `${String.fromCharCode(65 + idx)}. ${line}`).join(". "),
-    imageUrl,
-    explanation: "Choose the statement that accurately describes the visible action or state in the photograph.",
-  }));
+  // 48-scene pool: 6 real photos + 42 SVG-generated unique illustrations.
+  const pool: [string, string, string[]][] = [
+    ...photoPool,
+    ...extraStatements.map(([correct, distractors], idx): [string, string, string[]] => [
+      correct,
+      makeSceneImage(idx + 100, "photo"),
+      distractors,
+    ]),
+  ];
+
+  const scenes = pickPool(pool, 6, examIndex);
+
+  return scenes.map(([correct, imageUrl, distractors], i) => {
+    const v = (s: string) => varyText(s, examIndex);
+    const correctV = v(correct);
+    const distractorsV = distractors.map(v);
+    return makeQuestion({
+      id: `${examId}-p1-${i + 1}`,
+      part: 1,
+      prompt: "Look at the photograph and choose the statement that best describes it.",
+      options: optionSet(correctV, distractorsV),
+      answerSeed: seed + i,
+      transcript: [correctV, ...distractorsV].map((line, idx) => `${String.fromCharCode(65 + idx)}. ${line}`).join("\n"),
+      audioText: [correctV, ...distractorsV].map((line, idx) => `${String.fromCharCode(65 + idx)}. ${line}`).join(". "),
+      imageUrl,
+      explanation: "Choose the statement that accurately describes the visible action or state in the photograph.",
+    });
+  });
 }
 
 function generatePart2(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
