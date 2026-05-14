@@ -642,9 +642,10 @@ function generatePart6(theme: Theme, examId: string, seed: number, examIndex: nu
     },
   ];
 
-  const passages = pickPool(pool, 4, seed);
+  const passages = pickPool(pool, 4, examIndex);
 
   return passages.flatMap((passage, pIdx) => {
+    const passageTextV = varyText(passage.text, examIndex);
     const groupId = `${examId}-p6-text-${pIdx + 1}`;
     return passage.blanks.map((entry, qIdx) => {
       const [correctOrPrompt, distractorsOrOptions, explanation, isComprehension] = entry as [string, string[], string, boolean?];
