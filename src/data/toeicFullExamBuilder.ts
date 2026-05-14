@@ -554,19 +554,19 @@ function generatePart5(theme: Theme, examId: string, seed: number, examIndex: nu
     ["The ___ of the new branch will create thirty jobs.", "opening", ["open", "opens", "opened"], "A noun (gerund) is needed after 'the'."],
   ];
 
-  const items = pickPool(pool, 30, seed);
+  const items = pickPool(pool, 30, examIndex);
 
   return items.map(([prompt, correct, distractors, explanation], i) => makeQuestion({
     id: `${examId}-p5-${i + 1}`,
     part: 5,
-    prompt,
+    prompt: varyText(prompt, examIndex),
     options: optionSet(correct, distractors),
     answerSeed: seed + i,
     explanation,
   }));
 }
 
-function generatePart6(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
+function generatePart6(theme: Theme, examId: string, seed: number, examIndex: number): ToeicLRQuestion[] {
   const pool = [
     {
       text: `Dear Ms. Rivera,\n\nThank you for registering for our ${theme.event}. Your registration has been [BLANK1]. The program begins at 9 A.M. in the main hall. Please [BLANK2] your confirmation email at the entrance. [BLANK3]\n\nSincerely,\nEvent Services`,
