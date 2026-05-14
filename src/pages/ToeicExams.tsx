@@ -131,7 +131,7 @@ const ToeicExams = () => {
                   </div>
                   <div className="flex flex-wrap gap-3 text-xs text-slate-400 mb-4">
                     <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> 120 min</span>
-                    <span className="flex items-center gap-1"><ListChecks className="w-3 h-3" /> {exam.questions.length} {t("câu mẫu", "sample Qs")}</span>
+                    <span className="flex items-center gap-1"><ListChecks className="w-3 h-3" /> {exam.questions.length} {t("câu", "questions")}</span>
                     <span className="flex items-center gap-1"><FileText className="w-3 h-3" /> Part 1–7</span>
                   </div>
                   <div className="flex gap-2">
@@ -181,8 +181,8 @@ const ToeicExams = () => {
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-3 text-xs text-slate-400 mb-4">
-                  <span className="flex items-center gap-1"><Mic className="w-3 h-3" /> {exam.speakingTasks.length} speaking</span>
-                  <span className="flex items-center gap-1"><PenLine className="w-3 h-3" /> {exam.writingTasks.length} writing</span>
+                  <span className="flex items-center gap-1"><Mic className="w-3 h-3" /> {exam.speakingTasks.length} speaking tasks</span>
+                  <span className="flex items-center gap-1"><PenLine className="w-3 h-3" /> {exam.writingTasks.length} writing tasks</span>
                   <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> 80 min</span>
                 </div>
                 <Button asChild size="sm" className="bg-teal-600 hover:bg-teal-500">
