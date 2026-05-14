@@ -358,7 +358,17 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
                 ) : null;
               })()}
 
-              <p className="text-base font-medium mb-4 text-slate-100 leading-relaxed">{current.prompt}</p>
+              {current.part === 1 ? (
+                <p className="text-xs italic text-slate-400 mb-3">
+                  {t("Hướng dẫn: Nhìn ảnh và chọn câu mô tả đúng nhất (chỉ nghe audio, không có chữ).", "Directions: Look at the photo and choose the statement that best describes it (audio only, no text).")}
+                </p>
+              ) : current.part === 2 ? (
+                <p className="text-xs italic text-slate-400 mb-3">
+                  {t("Hướng dẫn: Nghe câu hỏi và 3 đáp án rồi chọn A, B hoặc C.", "Directions: Listen to the question and three responses, then choose A, B, or C.")}
+                </p>
+              ) : (
+                <p className="text-base font-medium mb-4 text-slate-100 leading-relaxed">{current.prompt}</p>
+              )}
 
               <div className="space-y-2">
                 {current.options.map((opt, i) => {
