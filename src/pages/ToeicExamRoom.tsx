@@ -70,6 +70,10 @@ function resolvePassage(
   return sibling?.passage ?? q.passage;
 }
 
+function getListeningAudioText(q: ToeicLRQuestion): string {
+  return q.audioText || q.transcript || `${q.prompt} ${q.options.map((opt, idx) => `${String.fromCharCode(65 + idx)}. ${opt}`).join(" ")}`;
+}
+
 // Persist a result entry to localStorage history
 function saveHistoryEntry(entry: {
   examId: string;
@@ -193,6 +197,15 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
     });
   }
 
+  function playGeneratedAudio(q: ToeicLRQuestion) {
+    if (!("speechSynthesis" in window)) return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(getListeningAudioText(q));
+    utterance.lang = "en-US";
+    utterance.rate = speed;
+    window.speechSynthesis.speak(utterance);
+  }
+
   // Group by part for navigator
   const partGroups = useMemo(() => {
     const map = new Map<ToeicPart, ToeicLRQuestion[]>();
@@ -295,11 +308,15 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
                   {current.audioSrc ? (
                     <audio controls src={current.audioSrc} className="mt-2 w-full" />
                   ) : (
-                    <div className="mt-2 text-xs italic text-slate-300">
-                      {t("(Audio mẫu — học sinh có thể đọc transcript ở chế độ Review)", "(Sample audio — read the transcript in Review mode)")}
-                    </div>
+                    <Button size="sm" variant="outline" className="mt-2 border-cyan-400/40 text-cyan-100" onClick={() => playGeneratedAudio(current)}>
+                      <Play className="w-4 h-4 mr-1" /> {t("Nghe audio", "Play audio")}
+                    </Button>
                   )}
                 </div>
+              )}
+
+              {current.part === 1 && current.imageUrl && (
+                <img src={current.imageUrl} alt="TOEIC Part 1 workplace photograph" className="mb-4 w-full max-h-80 object-cover rounded-lg border border-slate-700" loading="lazy" />
               )}
 
               {/* Reading passage */}
