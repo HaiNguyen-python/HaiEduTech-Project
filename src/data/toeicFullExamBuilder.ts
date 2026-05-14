@@ -306,7 +306,7 @@ function generatePart1(theme: Theme, examId: string, seed: number, examIndex: nu
   });
 }
 
-function generatePart2(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
+function generatePart2(theme: Theme, examId: string, seed: number, examIndex: number): ToeicLRQuestion[] {
   const pool: [string, string, string[]][] = [
     ["When will the report be ready?", "By Thursday afternoon.", ["In the main lobby.", "It was very informative."]],
     ["Where is the product demonstration being held?", "In the training room.", ["At nine o'clock sharp.", "Because the projector was broken."]],
