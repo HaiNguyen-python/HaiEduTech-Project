@@ -438,7 +438,7 @@ function generatePart3(theme: Theme, examId: string, seed: number, examIndex: nu
   });
 }
 
-function generatePart4(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
+function generatePart4(theme: Theme, examId: string, seed: number, examIndex: number): ToeicLRQuestion[] {
   const pool: [string, string, string, string, string][] = [
     ["announcement", `Attention employees. ${theme.company} will conduct system maintenance this Saturday from 10 P.M. to 2 A.M. Please save your files and sign out before leaving on Friday.`, "system maintenance", "Saturday from 10 P.M. to 2 A.M.", "save files and sign out"],
     ["advertisement", `Looking for a convenient venue for your next meeting? ${theme.place} offers modern rooms, catering packages, and free parking for groups of twenty or more. Call by June 30 for a ten percent discount.`, "meeting venue services", "groups of twenty or more", "call by June 30"],
