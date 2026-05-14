@@ -17,8 +17,13 @@ import {
   Cell,
   LineChart,
   Line,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  Radar,
 } from "recharts";
-import { Users, Award, TrendingUp, Globe2, Database } from "lucide-react";
+import { Users, Award, TrendingUp, Globe2, Database, Headphones, BookOpen, PenLine, Mic, AlertTriangle, Sparkles, Target } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Select,
@@ -52,6 +57,22 @@ interface PurposeSlice {
   value: number;
 }
 
+interface SkillDatum {
+  key: "listening" | "reading" | "writing" | "speaking";
+  label: string;            // display label including native unit (e.g. "Listening (IELTS)")
+  scaleMax: number;         // e.g. 9 for IELTS, 100 for HSK %, 6 for CEFR/YKI
+  scaleUnit: string;        // "/9", "%", "/6"
+  globalAvg: number;
+  vietnamAvg: number;
+  topAvg: number;           // top-quartile / Band 7+ learners
+  passRate: number;         // % achieving the target band (e.g. IELTS 6.5+)
+  trendYoY: string;         // e.g. "+0.2", "+3%"
+  hardestPart: string;
+  commonMistake: string;
+  proTip: string;           // Mẹo vàng của thầy Hải
+  weeklyHours: number;      // recommended study hours/week
+}
+
 interface LanguageDataset {
   flag: string;
   exam: string;
@@ -62,6 +83,7 @@ interface LanguageDataset {
   countries: CountryDatum[];
   scoreDistribution: ScoreBucket[];
   purposes: PurposeSlice[];
+  skills: SkillDatum[];
   highlights: { label: string; value: string }[];
   sources: string;
 }
@@ -115,6 +137,40 @@ const DATA: Record<DashboardLanguage, LanguageDataset> = {
       { name: "Migration", value: 26 },
       { name: "Work", value: 18 },
       { name: "Other", value: 7 },
+    ],
+    skills: [
+      {
+        key: "listening", label: "Listening (IELTS)", scaleMax: 9, scaleUnit: "/9",
+        globalAvg: 6.0, vietnamAvg: 6.1, topAvg: 7.5, passRate: 52, trendYoY: "+0.1",
+        hardestPart: "Part 4 academic lecture (note completion)",
+        commonMistake: "Bị xao nhãng bởi paraphrase và bẫy chính tả số/ngày",
+        proTip: "Luyện shadowing podcast TED 6 phút/ngày + dự đoán từ trước khi nghe",
+        weeklyHours: 6,
+      },
+      {
+        key: "reading", label: "Reading (IELTS)", scaleMax: 9, scaleUnit: "/9",
+        globalAvg: 6.3, vietnamAvg: 6.4, topAvg: 7.7, passRate: 56, trendYoY: "+0.1",
+        hardestPart: "T/F/NG và Matching Headings",
+        commonMistake: "Đọc dịch toàn bộ thay vì skim/scan keywords",
+        proTip: "Áp dụng kỹ thuật Keyword Mapping: gạch keyword ở câu hỏi trước khi đọc",
+        weeklyHours: 5,
+      },
+      {
+        key: "writing", label: "Writing (IELTS)", scaleMax: 9, scaleUnit: "/9",
+        globalAvg: 5.7, vietnamAvg: 5.8, topAvg: 7.0, passRate: 32, trendYoY: "+0.0",
+        hardestPart: "Task 2 - Coherence & Lexical Resource",
+        commonMistake: "Lặp từ, thiếu linking words, sai cấu trúc câu phức",
+        proTip: "Dùng dàn bài 1-2-3-3 và bộ collocation theo chủ đề (10 cụm/topic)",
+        weeklyHours: 4,
+      },
+      {
+        key: "speaking", label: "Speaking (IELTS)", scaleMax: 9, scaleUnit: "/9",
+        globalAvg: 6.2, vietnamAvg: 6.0, topAvg: 7.5, passRate: 48, trendYoY: "+0.2",
+        hardestPart: "Part 3 - lập luận trừu tượng & abstract opinion",
+        commonMistake: "Nói ngắn, thiếu mở rộng, ngập ngừng do thiếu collocation",
+        proTip: "Áp dụng PPF (Past-Present-Future) + ghi âm 1 phút/ngày tự sửa",
+        weeklyHours: 5,
+      },
     ],
     highlights: [
       { label: "IELTS test-takers (2025)", value: "4.48M" },
@@ -176,6 +232,40 @@ const DATA: Record<DashboardLanguage, LanguageDataset> = {
       { name: "Cultural Interest", value: 17 },
       { name: "Other", value: 8 },
     ],
+    skills: [
+      {
+        key: "listening", label: "Listening (HSK)", scaleMax: 100, scaleUnit: "%",
+        globalAvg: 68, vietnamAvg: 71, topAvg: 88, passRate: 54, trendYoY: "+2%",
+        hardestPart: "Đối thoại tốc độ nhanh HSK 5-6 (短文听力)",
+        commonMistake: "Nhầm thanh điệu 2 vs 3, không nhận ra liên thanh (变调)",
+        proTip: "Nghe podcast 'Slow Chinese' 10' + dictée 1 đoạn/ngày",
+        weeklyHours: 5,
+      },
+      {
+        key: "reading", label: "Reading (HSK)", scaleMax: 100, scaleUnit: "%",
+        globalAvg: 71, vietnamAvg: 74, topAvg: 90, passRate: 58, trendYoY: "+1%",
+        hardestPart: "排序题 (sắp xếp câu) và 选词填空",
+        commonMistake: "Học chữ rời, không nhớ nghĩa khi ghép thành 词组",
+        proTip: "Học theo cụm 词组 + Hán tự bộ thủ; flashcard SRS 30 chữ/ngày",
+        weeklyHours: 6,
+      },
+      {
+        key: "writing", label: "Writing (HSK)", scaleMax: 100, scaleUnit: "%",
+        globalAvg: 62, vietnamAvg: 64, topAvg: 84, passRate: 38, trendYoY: "+1%",
+        hardestPart: "Viết đoạn 80 chữ HSK 5 với từ cho sẵn",
+        commonMistake: "Viết sai thứ tự nét, dùng sai 量词 và 把字句",
+        proTip: "Viết tay 5 câu/ngày + học mẫu 离合词 và 把/被 cấu trúc",
+        weeklyHours: 4,
+      },
+      {
+        key: "speaking", label: "Speaking (HSKK)", scaleMax: 100, scaleUnit: "%",
+        globalAvg: 66, vietnamAvg: 65, topAvg: 86, passRate: 44, trendYoY: "+2%",
+        hardestPart: "HSKK 高级 - thuật lại đoạn ghi âm 2 phút",
+        commonMistake: "Sai thanh điệu (3+3 không biến tone), không 儿化",
+        proTip: "Shadowing CCTV News 5 phút/ngày + ghi âm tự nghe lại",
+        weeklyHours: 5,
+      },
+    ],
     highlights: [
       { label: "HSK test-takers (2025)", value: "1.32M" },
       { label: "Confucius Institutes worldwide", value: "500+" },
@@ -235,6 +325,40 @@ const DATA: Record<DashboardLanguage, LanguageDataset> = {
       { name: "Tourism", value: 21 },
       { name: "Academic", value: 14 },
     ],
+    skills: [
+      {
+        key: "listening", label: "Listening (VSL)", scaleMax: 6, scaleUnit: "/6 CEFR",
+        globalAvg: 2.4, vietnamAvg: 2.6, topAvg: 4.2, passRate: 38, trendYoY: "+0.2",
+        hardestPart: "Phương ngữ Trung/Nam, từ Hán-Việt trong tin tức",
+        commonMistake: "Không phân biệt được dấu hỏi/ngã trong khẩu ngữ",
+        proTip: "Nghe VTV4 + xem phim Việt với phụ đề tiếng Việt",
+        weeklyHours: 5,
+      },
+      {
+        key: "reading", label: "Reading (VSL)", scaleMax: 6, scaleUnit: "/6 CEFR",
+        globalAvg: 2.6, vietnamAvg: 2.8, topAvg: 4.4, passRate: 42, trendYoY: "+0.2",
+        hardestPart: "Văn bản hành chính & từ Hán-Việt 2-3 âm tiết",
+        commonMistake: "Đoán nghĩa từ chữ Hán mà bỏ qua ngữ cảnh tiếng Việt",
+        proTip: "Đọc báo Tuổi Trẻ Online + ghi 10 từ Hán-Việt mới/ngày",
+        weeklyHours: 4,
+      },
+      {
+        key: "writing", label: "Writing (VSL)", scaleMax: 6, scaleUnit: "/6 CEFR",
+        globalAvg: 2.2, vietnamAvg: 2.4, topAvg: 4.0, passRate: 28, trendYoY: "+0.1",
+        hardestPart: "Viết email & đơn từ trang trọng (kính gửi, kính mong)",
+        commonMistake: "Sai thứ tự bổ ngữ, lạm dụng 'thì/là/mà'",
+        proTip: "Học mẫu câu theo phong cách: trang trọng vs thân mật",
+        weeklyHours: 3,
+      },
+      {
+        key: "speaking", label: "Speaking (VSL)", scaleMax: 6, scaleUnit: "/6 CEFR",
+        globalAvg: 2.5, vietnamAvg: 2.7, topAvg: 4.3, passRate: 36, trendYoY: "+0.2",
+        hardestPart: "Phát âm 6 thanh điệu và phụ âm tr/ch, s/x",
+        commonMistake: "Bỏ thanh điệu khi nói nhanh, ngắt câu sai",
+        proTip: "Tập 6 thanh điệu với cặp tối thiểu (ma/mà/má/mã/mạ/mả)",
+        weeklyHours: 5,
+      },
+    ],
     highlights: [
       { label: "VSL test-takers (2025)", value: "42K" },
       { label: "Vietnamese diaspora worldwide", value: "5.5M" },
@@ -293,6 +417,40 @@ const DATA: Record<DashboardLanguage, LanguageDataset> = {
       { name: "Work / Residence", value: 31 },
       { name: "Study (Finnish HE)", value: 17 },
       { name: "Other", value: 7 },
+    ],
+    skills: [
+      {
+        key: "listening", label: "Tekstin ymmärtäminen (YKI)", scaleMax: 6, scaleUnit: "/6 YKI",
+        globalAvg: 3.2, vietnamAvg: 3.0, topAvg: 4.6, passRate: 64, trendYoY: "+0.1",
+        hardestPart: "Yle Uutiset selkosuomeksi → tốc độ thường (puhekieli)",
+        commonMistake: "Không nhận ra từ rút gọn (minä→mä, sinä→sä, en tiedä→emmä tiiä)",
+        proTip: "Nghe Yle Selkouutiset 5'/ngày + chuyển dần sang Yle Areena",
+        weeklyHours: 5,
+      },
+      {
+        key: "reading", label: "Tekstin ymmärtäminen (YKI)", scaleMax: 6, scaleUnit: "/6 YKI",
+        globalAvg: 3.4, vietnamAvg: 3.2, topAvg: 4.7, passRate: 66, trendYoY: "+0.1",
+        hardestPart: "Văn bản dài có 15 sijamuoto + verbi-substantiivi",
+        commonMistake: "Bị rối bởi consonant gradation (kk→k, pp→p, tt→t)",
+        proTip: "Học theo case ending (partitive, genitive, inessive...) ưu tiên top-6",
+        weeklyHours: 5,
+      },
+      {
+        key: "writing", label: "Kirjoittaminen (YKI)", scaleMax: 6, scaleUnit: "/6 YKI",
+        globalAvg: 3.0, vietnamAvg: 2.8, topAvg: 4.4, passRate: 52, trendYoY: "+0.2",
+        hardestPart: "Viesti hakemus (đơn xin việc) - dùng đúng formal verb forms",
+        commonMistake: "Sai object case (akkusatiivi vs partitiivi) và verb rektio",
+        proTip: "Học 50 verb-rektio thông dụng + viết 1 viesti/ngày 30-100 từ",
+        weeklyHours: 4,
+      },
+      {
+        key: "speaking", label: "Puhuminen (YKI)", scaleMax: 6, scaleUnit: "/6 YKI",
+        globalAvg: 3.1, vietnamAvg: 2.9, topAvg: 4.5, passRate: 58, trendYoY: "+0.2",
+        hardestPart: "Reaktiotehtävä (phản ứng tình huống bất ngờ)",
+        commonMistake: "Không dùng puhekieli (mä, sä, joo, mun) trong giao tiếp đời thường",
+        proTip: "Học 30 mẫu reaction + ghi âm 1 phút/ngày + tham gia kielikahvila",
+        weeklyHours: 5,
+      },
     ],
     highlights: [
       { label: "YKI test-takers (2025)", value: "19.4K" },
@@ -519,6 +677,157 @@ const LanguageDataDashboard = ({ language }: Props) => {
             </div>
           </CardContent>
         </Card>
+      </div>
+
+
+      {/* 4-skills section: radar + per-skill insight cards */}
+      <div className="mt-5">
+        <div className="flex items-center gap-2 mb-2">
+          <Target className="w-4 h-4 text-primary" />
+          <h3 className="text-sm md:text-base font-semibold text-foreground">
+            {t("Phân tích 4 kỹ năng", "4-Skills Breakdown")}
+          </h3>
+        </div>
+
+        <div className="grid lg:grid-cols-3 gap-3">
+          {/* Radar chart: global vs Vietnam vs top */}
+          <Card className="border-slate-200/70">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-violet-500" />
+                {t("So sánh điểm trung bình", "Average score comparison")}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <div className="w-full h-[260px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <RadarChart
+                    data={data.skills.map((s) => ({
+                      skill: s.key.charAt(0).toUpperCase() + s.key.slice(1),
+                      Global: (s.globalAvg / s.scaleMax) * 100,
+                      Vietnam: (s.vietnamAvg / s.scaleMax) * 100,
+                      "Top 25%": (s.topAvg / s.scaleMax) * 100,
+                    }))}
+                  >
+                    <PolarGrid stroke="hsl(var(--border))" />
+                    <PolarAngleAxis dataKey="skill" tick={{ fontSize: 11 }} />
+                    <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: 9 }} tickFormatter={(v) => `${v}%`} />
+                    <Tooltip
+                      contentStyle={{ background: "hsl(var(--background))", border: "1px solid hsl(var(--border))", borderRadius: 8, fontSize: 12 }}
+                      formatter={(v: number) => `${v.toFixed(0)}%`}
+                    />
+                    <Legend wrapperStyle={{ fontSize: 11 }} />
+                    <Radar name={t("Toàn cầu", "Global")} dataKey="Global" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.25} />
+                    <Radar name="Vietnam" dataKey="Vietnam" stroke="#10b981" fill="#10b981" fillOpacity={0.25} />
+                    <Radar name={t("Top 25%", "Top 25%")} dataKey="Top 25%" stroke="#f59e0b" fill="#f59e0b" fillOpacity={0.15} />
+                  </RadarChart>
+                </ResponsiveContainer>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Pass-rate bar per skill */}
+          <Card className="lg:col-span-2 border-slate-200/70">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                <Award className="w-4 h-4 text-emerald-500" />
+                {t("Tỷ lệ đạt mục tiêu theo kỹ năng", "Target pass-rate per skill")} ({data.successLabel})
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <div className="w-full h-[260px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={data.skills.map((s) => ({
+                      skill: s.key.charAt(0).toUpperCase() + s.key.slice(1),
+                      Pass: s.passRate,
+                      Hours: s.weeklyHours,
+                    }))}
+                    margin={{ top: 5, right: 10, left: -10, bottom: 0 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                    <XAxis dataKey="skill" tick={{ fontSize: 11 }} stroke="hsl(var(--muted-foreground))" />
+                    <YAxis yAxisId="left" tick={{ fontSize: 11 }} tickFormatter={(v) => `${v}%`} stroke="hsl(var(--muted-foreground))" />
+                    <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 11 }} tickFormatter={(v) => `${v}h`} stroke="hsl(var(--muted-foreground))" />
+                    <Tooltip contentStyle={{ background: "hsl(var(--background))", border: "1px solid hsl(var(--border))", borderRadius: 8, fontSize: 12 }} />
+                    <Legend wrapperStyle={{ fontSize: 11 }} />
+                    <Bar yAxisId="left" dataKey="Pass" name={t("Tỷ lệ đạt (%)", "Pass rate (%)")} fill="hsl(var(--primary))" radius={[6, 6, 0, 0]} />
+                    <Bar yAxisId="right" dataKey="Hours" name={t("Giờ học/tuần khuyến nghị", "Recommended hrs/wk")} fill="#f59e0b" radius={[6, 6, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Per-skill insight cards */}
+        <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-3 mt-3">
+          {data.skills.map((s) => {
+            const Icon =
+              s.key === "listening" ? Headphones :
+              s.key === "reading" ? BookOpen :
+              s.key === "writing" ? PenLine : Mic;
+            const accent =
+              s.key === "listening" ? "text-blue-500" :
+              s.key === "reading" ? "text-emerald-500" :
+              s.key === "writing" ? "text-amber-500" : "text-violet-500";
+            return (
+              <Card key={s.key} className="border-slate-200/70 h-full">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                    <Icon className={`w-4 h-4 ${accent}`} />
+                    {s.label}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-0 space-y-2 text-xs">
+                  <div className="grid grid-cols-3 gap-2 text-center">
+                    <div className="rounded bg-muted/40 py-1.5">
+                      <div className="text-[10px] text-muted-foreground">{t("Toàn cầu", "Global")}</div>
+                      <div className="font-bold text-foreground">{s.globalAvg}{s.scaleUnit}</div>
+                    </div>
+                    <div className="rounded bg-emerald-500/10 py-1.5">
+                      <div className="text-[10px] text-muted-foreground">VN</div>
+                      <div className="font-bold text-emerald-600">{s.vietnamAvg}{s.scaleUnit}</div>
+                    </div>
+                    <div className="rounded bg-amber-500/10 py-1.5">
+                      <div className="text-[10px] text-muted-foreground">{t("Top", "Top")}</div>
+                      <div className="font-bold text-amber-600">{s.topAvg}{s.scaleUnit}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between pt-1 border-t border-border">
+                    <span className="text-muted-foreground">{t("Đạt mục tiêu", "Pass rate")}</span>
+                    <span className="font-semibold text-foreground">{s.passRate}% <span className="text-emerald-500 text-[10px]">({s.trendYoY} YoY)</span></span>
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-1 text-muted-foreground">
+                      <AlertTriangle className="w-3 h-3 text-amber-500" />
+                      <span className="font-medium">{t("Phần khó nhất", "Hardest part")}</span>
+                    </div>
+                    <p className="text-foreground leading-snug mt-0.5">{s.hardestPart}</p>
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-1 text-muted-foreground">
+                      <AlertTriangle className="w-3 h-3 text-rose-500" />
+                      <span className="font-medium">{t("Lỗi thường gặp", "Common mistake")}</span>
+                    </div>
+                    <p className="text-foreground leading-snug mt-0.5">{s.commonMistake}</p>
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-1 text-muted-foreground">
+                      <Sparkles className="w-3 h-3 text-primary" />
+                      <span className="font-medium">{t("Mẹo của thầy Hải", "Mr. Hai's tip")}</span>
+                    </div>
+                    <p className="text-foreground leading-snug mt-0.5">{s.proTip}</p>
+                  </div>
+                  <div className="flex items-center justify-between pt-1 border-t border-border">
+                    <span className="text-muted-foreground">{t("Khuyến nghị", "Recommended")}</span>
+                    <span className="font-semibold text-primary">{s.weeklyHours}h / {t("tuần", "wk")}</span>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
       </div>
 
       {/* Highlights strip */}
