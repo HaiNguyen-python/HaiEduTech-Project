@@ -611,8 +611,10 @@ const SW_01: ToeicSWExam = {
   ],
 };
 
-export const TOEIC_LR_EXAMS: ToeicLRExam[] = [LR_01, LR_02];
-export const TOEIC_SW_EXAMS: ToeicSWExam[] = [SW_01];
+import { TOEIC_LR_EXTRA, TOEIC_SW_EXTRA } from "./toeicExamsExtra";
+
+export const TOEIC_LR_EXAMS: ToeicLRExam[] = [LR_01, LR_02, ...TOEIC_LR_EXTRA];
+export const TOEIC_SW_EXAMS: ToeicSWExam[] = [SW_01, ...TOEIC_SW_EXTRA];
 
 // Score conversion: number correct -> approximate scaled score per section (0..495)
 // Simplified linear curve based on ETS published distributions.
