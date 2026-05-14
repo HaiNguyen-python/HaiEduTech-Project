@@ -665,7 +665,7 @@ function generatePart6(theme: Theme, examId: string, seed: number, examIndex: nu
   });
 }
 
-function generatePart7(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
+function generatePart7(theme: Theme, examId: string, seed: number, examIndex: number): ToeicLRQuestion[] {
   const topicPool = [
     "training registration", "office relocation", "product recall", "conference agenda", "customer survey",
     "job posting", "restaurant opening", "shipping policy", "library renovation", "software license",
@@ -673,35 +673,46 @@ function generatePart7(theme: Theme, examId: string, seed: number): ToeicLRQuest
     "parking notice", "market report", "charity event", "membership renewal", "vendor evaluation",
     "internship opportunity", "exhibition schedule", "loyalty program update", "factory tour", "annual audit",
     "promotional campaign", "warranty extension", "service interruption", "budget reallocation", "policy revision",
+    "menu change", "scholarship application", "construction notice", "data backup procedure", "uniform redesign",
+    "expense policy", "intern welcome", "store grand opening", "customer rewards", "facility inspection",
+    "press release", "rental agreement", "shipping schedule update", "training certification", "annual gala",
+    "team-building retreat", "patent announcement", "vehicle leasing program", "office gym launch", "energy savings plan",
   ];
   const benefitPool = [
     "free parking", "a ten percent discount", "extended service hours", "a training certificate",
     "priority seating", "complimentary lunch", "an early access pass", "a one-month subscription",
-    "a gift voucher", "a guided facility tour",
+    "a gift voucher", "a guided facility tour", "a free consultation", "a welcome kit",
+    "a complimentary upgrade", "a printed handbook", "a souvenir mug", "a parking pass for the week",
+    "express checkout privileges", "a dedicated support contact", "a digital badge", "a year of newsletter access",
   ];
   const placePool = [
     theme.place, "main auditorium", "customer service desk", "online portal", "north warehouse",
     "city convention hall", "second-floor reception", "rear entrance kiosk", "regional sales office",
+    "executive lounge", "downtown branch", "airport service counter", "mobile help center", "training room B",
+    "outdoor pavilion", "innovation lab", "satellite office", "community center", "rooftop terrace",
+    "ground-floor showroom",
   ];
   const contactPool = [
     `hr@${theme.company.toLowerCase().replace(/[^a-z]/g, "")}.com`,
     `support@${theme.company.toLowerCase().replace(/[^a-z]/g, "")}.com`,
     "support@example.com", "events@example.com", "careers@example.com", "info@example.com",
+    "service@example.com", "frontdesk@example.com", "training@example.com", "media@example.com",
+    "operations@example.com", "membership@example.com", "billing@example.com", "logistics@example.com",
   ];
 
-  const topics = pickPool(topicPool, 18, seed);
-  const benefits = pickPool(benefitPool, 18, seed * 3 + 1);
-  const places = pickPool(placePool, 18, seed * 5 + 2);
-  const contacts = pickPool(contactPool, 18, seed * 7 + 3);
+  const topics = pickPool(topicPool, 18, examIndex);
+  const benefits = pickPool(benefitPool, 18, examIndex + 1);
+  const places = pickPool(placePool, 18, examIndex + 2);
+  const contacts = pickPool(contactPool, 18, examIndex + 3);
 
   const docs = topics.map((topic, i) => {
-    const day = 3 + ((seed + i * 2) % 22);
+    const day = 3 + ((examIndex * 5 + i * 2) % 22);
     const deadline = `July ${day + 7}`;
     const benefit = benefits[i];
     const contact = contacts[i];
     const place = places[i];
     const passage = `${i < 8 ? "EMAIL" : i < 13 ? "NOTICE" : "ARTICLE"}\nSubject: ${topic.replace(/\b\w/g, (m) => m.toUpperCase())}\n\n${theme.company} is announcing an update about ${topic}. The change will take effect on July ${day}. Employees and customers should check the ${place} for detailed instructions. Anyone who responds by ${deadline} will receive ${benefit}. For questions, contact ${contact}.\n\nAdditional details: The update is part of a plan to improve service quality, reduce delays, and make information easier to find.`;
-    return { passage, topic, deadline, benefit, contact, place };
+    return { passage: varyText(passage, examIndex), topic, deadline, benefit, contact, place };
   });
 
   return docs.flatMap((doc, i) => {
@@ -746,13 +757,13 @@ export function createFullToeicLRExam(base: ToeicLRExam, index: number): ToeicLR
   const theme = themeFor(base, index);
   const seed = index * 17 + base.id.length;
   const questions = [
-    ...generatePart1(theme, base.id, seed),
-    ...generatePart2(theme, base.id, seed),
-    ...generatePart3(theme, base.id, seed),
-    ...generatePart4(theme, base.id, seed),
-    ...generatePart5(theme, base.id, seed),
-    ...generatePart6(theme, base.id, seed),
-    ...generatePart7(theme, base.id, seed),
+    ...generatePart1(theme, base.id, seed, index),
+    ...generatePart2(theme, base.id, seed, index),
+    ...generatePart3(theme, base.id, seed, index),
+    ...generatePart4(theme, base.id, seed, index),
+    ...generatePart5(theme, base.id, seed, index),
+    ...generatePart6(theme, base.id, seed, index),
+    ...generatePart7(theme, base.id, seed, index),
   ];
 
   return {
