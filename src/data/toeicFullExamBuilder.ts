@@ -350,10 +350,12 @@ function generatePart2(theme: Theme, examId: string, seed: number, examIndex: nu
     ["How long will the renovation take?", "About six weeks, according to the contractor.", ["It's a large building.", "We renovated last year."]],
   ];
 
-  const stems = pickPool(pool, 25, seed);
+  const stems = pickPool(pool, 25, examIndex);
 
   return stems.map(([question, correct, distractors], i) => {
-    const choices = [correct, ...distractors];
+    const v = (s: string) => varyText(s, examIndex);
+    const questionV = v(question);
+    const choices = [v(correct), ...distractors.map(v)];
     const { items, answer } = reorder(choices, seed + i);
     return {
       id: `${examId}-p2-${i + 1}`,
@@ -361,8 +363,8 @@ function generatePart2(theme: Theme, examId: string, seed: number, examIndex: nu
       prompt: "Listen to the question and choose the best response.",
       options: items,
       answer,
-      transcript: `Q: ${question}\n${items.map((line, idx) => `${String.fromCharCode(65 + idx)}. ${line}`).join("\n")}`,
-      audioText: `${question} ${items.map((line, idx) => `${String.fromCharCode(65 + idx)}. ${line}`).join(" ")}`,
+      transcript: `Q: ${questionV}\n${items.map((line, idx) => `${String.fromCharCode(65 + idx)}. ${line}`).join("\n")}`,
+      audioText: `${questionV} ${items.map((line, idx) => `${String.fromCharCode(65 + idx)}. ${line}`).join(" ")}`,
       explanation: "The best response answers the question type directly and naturally.",
     } as ToeicLRQuestion;
   });
