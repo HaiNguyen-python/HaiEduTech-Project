@@ -194,8 +194,7 @@ interface LiveData {
 }
 
 const ITJobMarketDashboard = ({ activePillarId }: Props) => {
-  const { language } = useLanguage();
-  const t = (vi: string, en: string) => (language === "vi" ? vi : en);
+  const { t } = useLanguage();
 
   // selected role syncs with activePillarId, but user can override
   const initial = useMemo(() => {
