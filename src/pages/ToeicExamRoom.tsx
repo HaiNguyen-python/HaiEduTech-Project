@@ -200,11 +200,29 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
   function playGeneratedAudio(q: ToeicLRQuestion) {
     if (!("speechSynthesis" in window)) return;
     window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(getListeningAudioText(q));
+    const intro =
+      q.part === 1
+        ? `Look at the photograph marked number ${activeIdx + 1} in your test book. `
+        : q.part === 2
+        ? `Question ${activeIdx + 1}. You will hear a question or statement, followed by three responses. `
+        : "";
+    const utterance = new SpeechSynthesisUtterance(intro + getListeningAudioText(q));
     utterance.lang = "en-US";
     utterance.rate = speed;
     window.speechSynthesis.speak(utterance);
   }
+
+  // Auto-play audio when a listening question (Parts 1-4) becomes active
+  useEffect(() => {
+    if (!current || current.part > 4 || submitted || paused) return;
+    if (current.audioSrc) return; // real audio element handles its own playback
+    const timer = setTimeout(() => playGeneratedAudio(current), 350);
+    return () => {
+      clearTimeout(timer);
+      if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current?.id, submitted, paused, speed]);
 
   // Group by part for navigator
   const partGroups = useMemo(() => {
