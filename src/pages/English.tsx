@@ -14,6 +14,7 @@ import { allEnglishModules } from "@/data/languageCurriculum";
 import SongsBanner from "@/components/songs/SongsBanner";
 import { cn } from "@/lib/utils";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import LanguageDataDashboard from "@/components/LanguageDataDashboard";
 
 const English = () => {
   const { t } = useLanguage();
@@ -168,6 +169,9 @@ const English = () => {
                 {t("Học phát âm", "Start Pronunciation")} <ArrowRight className="w-4 h-4" />
               </Link>
             </motion.div>
+
+            {/* Interactive Data Dashboard - Overview */}
+            <LanguageDataDashboard language="english" />
 
             {/* Programs */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">

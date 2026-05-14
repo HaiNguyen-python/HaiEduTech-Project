@@ -12,6 +12,7 @@ import { chineseResources } from "@/data/lessonData";
 import { allChineseModules } from "@/data/languageCurriculum";
 import SongsBanner from "@/components/songs/SongsBanner";
 import { cn } from "@/lib/utils";
+import LanguageDataDashboard from "@/components/LanguageDataDashboard";
 
 const Chinese = () => {
   const { t } = useLanguage();
@@ -125,6 +126,9 @@ const Chinese = () => {
                 "From zero to confident communication - structured modules from Foundation to HSK to real-world Conversation, blending culture and technology."
               )}
             </p>
+
+            {/* Interactive Data Dashboard - Overview */}
+            <LanguageDataDashboard language="chinese" />
 
             <div className="grid md:grid-cols-3 gap-6 mb-16">
               {modules.map((m, i) => (
