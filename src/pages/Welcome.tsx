@@ -81,18 +81,6 @@ const Welcome = () => {
           </span>
         </motion.h1>
 
-        {/* Brand name */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.6 }}
-          className="font-display text-5xl sm:text-7xl font-black mb-6"
-          aria-hidden="true"
-        >
-          <span className="bg-gradient-to-r from-[#3B82F6] to-[#10B981] bg-clip-text text-transparent">HaiEdu</span>
-          <span className="bg-gradient-to-r from-[#10B981] to-[#3B82F6] bg-clip-text text-transparent">Tech</span>
-        </motion.div>
-
         {/* Slogan */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
