@@ -679,6 +679,157 @@ const LanguageDataDashboard = ({ language }: Props) => {
         </Card>
       </div>
 
+
+      {/* 4-skills section: radar + per-skill insight cards */}
+      <div className="mt-5">
+        <div className="flex items-center gap-2 mb-2">
+          <Target className="w-4 h-4 text-primary" />
+          <h3 className="text-sm md:text-base font-semibold text-foreground">
+            {t("Phân tích 4 kỹ năng", "4-Skills Breakdown")}
+          </h3>
+        </div>
+
+        <div className="grid lg:grid-cols-3 gap-3">
+          {/* Radar chart: global vs Vietnam vs top */}
+          <Card className="border-slate-200/70">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-violet-500" />
+                {t("So sánh điểm trung bình", "Average score comparison")}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <div className="w-full h-[260px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <RadarChart
+                    data={data.skills.map((s) => ({
+                      skill: s.key.charAt(0).toUpperCase() + s.key.slice(1),
+                      Global: (s.globalAvg / s.scaleMax) * 100,
+                      Vietnam: (s.vietnamAvg / s.scaleMax) * 100,
+                      "Top 25%": (s.topAvg / s.scaleMax) * 100,
+                    }))}
+                  >
+                    <PolarGrid stroke="hsl(var(--border))" />
+                    <PolarAngleAxis dataKey="skill" tick={{ fontSize: 11 }} />
+                    <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: 9 }} tickFormatter={(v) => `${v}%`} />
+                    <Tooltip
+                      contentStyle={{ background: "hsl(var(--background))", border: "1px solid hsl(var(--border))", borderRadius: 8, fontSize: 12 }}
+                      formatter={(v: number) => `${v.toFixed(0)}%`}
+                    />
+                    <Legend wrapperStyle={{ fontSize: 11 }} />
+                    <Radar name={t("Toàn cầu", "Global")} dataKey="Global" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.25} />
+                    <Radar name="Vietnam" dataKey="Vietnam" stroke="#10b981" fill="#10b981" fillOpacity={0.25} />
+                    <Radar name={t("Top 25%", "Top 25%")} dataKey="Top 25%" stroke="#f59e0b" fill="#f59e0b" fillOpacity={0.15} />
+                  </RadarChart>
+                </ResponsiveContainer>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Pass-rate bar per skill */}
+          <Card className="lg:col-span-2 border-slate-200/70">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                <Award className="w-4 h-4 text-emerald-500" />
+                {t("Tỷ lệ đạt mục tiêu theo kỹ năng", "Target pass-rate per skill")} ({data.successLabel})
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <div className="w-full h-[260px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={data.skills.map((s) => ({
+                      skill: s.key.charAt(0).toUpperCase() + s.key.slice(1),
+                      Pass: s.passRate,
+                      Hours: s.weeklyHours,
+                    }))}
+                    margin={{ top: 5, right: 10, left: -10, bottom: 0 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                    <XAxis dataKey="skill" tick={{ fontSize: 11 }} stroke="hsl(var(--muted-foreground))" />
+                    <YAxis yAxisId="left" tick={{ fontSize: 11 }} tickFormatter={(v) => `${v}%`} stroke="hsl(var(--muted-foreground))" />
+                    <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 11 }} tickFormatter={(v) => `${v}h`} stroke="hsl(var(--muted-foreground))" />
+                    <Tooltip contentStyle={{ background: "hsl(var(--background))", border: "1px solid hsl(var(--border))", borderRadius: 8, fontSize: 12 }} />
+                    <Legend wrapperStyle={{ fontSize: 11 }} />
+                    <Bar yAxisId="left" dataKey="Pass" name={t("Tỷ lệ đạt (%)", "Pass rate (%)")} fill="hsl(var(--primary))" radius={[6, 6, 0, 0]} />
+                    <Bar yAxisId="right" dataKey="Hours" name={t("Giờ học/tuần khuyến nghị", "Recommended hrs/wk")} fill="#f59e0b" radius={[6, 6, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Per-skill insight cards */}
+        <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-3 mt-3">
+          {data.skills.map((s) => {
+            const Icon =
+              s.key === "listening" ? Headphones :
+              s.key === "reading" ? BookOpen :
+              s.key === "writing" ? PenLine : Mic;
+            const accent =
+              s.key === "listening" ? "text-blue-500" :
+              s.key === "reading" ? "text-emerald-500" :
+              s.key === "writing" ? "text-amber-500" : "text-violet-500";
+            return (
+              <Card key={s.key} className="border-slate-200/70 h-full">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                    <Icon className={`w-4 h-4 ${accent}`} />
+                    {s.label}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-0 space-y-2 text-xs">
+                  <div className="grid grid-cols-3 gap-2 text-center">
+                    <div className="rounded bg-muted/40 py-1.5">
+                      <div className="text-[10px] text-muted-foreground">{t("Toàn cầu", "Global")}</div>
+                      <div className="font-bold text-foreground">{s.globalAvg}{s.scaleUnit}</div>
+                    </div>
+                    <div className="rounded bg-emerald-500/10 py-1.5">
+                      <div className="text-[10px] text-muted-foreground">VN</div>
+                      <div className="font-bold text-emerald-600">{s.vietnamAvg}{s.scaleUnit}</div>
+                    </div>
+                    <div className="rounded bg-amber-500/10 py-1.5">
+                      <div className="text-[10px] text-muted-foreground">{t("Top", "Top")}</div>
+                      <div className="font-bold text-amber-600">{s.topAvg}{s.scaleUnit}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between pt-1 border-t border-border">
+                    <span className="text-muted-foreground">{t("Đạt mục tiêu", "Pass rate")}</span>
+                    <span className="font-semibold text-foreground">{s.passRate}% <span className="text-emerald-500 text-[10px]">({s.trendYoY} YoY)</span></span>
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-1 text-muted-foreground">
+                      <AlertTriangle className="w-3 h-3 text-amber-500" />
+                      <span className="font-medium">{t("Phần khó nhất", "Hardest part")}</span>
+                    </div>
+                    <p className="text-foreground leading-snug mt-0.5">{s.hardestPart}</p>
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-1 text-muted-foreground">
+                      <AlertTriangle className="w-3 h-3 text-rose-500" />
+                      <span className="font-medium">{t("Lỗi thường gặp", "Common mistake")}</span>
+                    </div>
+                    <p className="text-foreground leading-snug mt-0.5">{s.commonMistake}</p>
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-1 text-muted-foreground">
+                      <Sparkles className="w-3 h-3 text-primary" />
+                      <span className="font-medium">{t("Mẹo của thầy Hải", "Mr. Hai's tip")}</span>
+                    </div>
+                    <p className="text-foreground leading-snug mt-0.5">{s.proTip}</p>
+                  </div>
+                  <div className="flex items-center justify-between pt-1 border-t border-border">
+                    <span className="text-muted-foreground">{t("Khuyến nghị", "Recommended")}</span>
+                    <span className="font-semibold text-primary">{s.weeklyHours}h / {t("tuần", "wk")}</span>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Highlights strip */}
       <div className="grid sm:grid-cols-3 gap-3 mt-3">
         {data.highlights.map((h) => (
