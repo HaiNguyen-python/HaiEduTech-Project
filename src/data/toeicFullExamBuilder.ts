@@ -164,6 +164,34 @@ function reorder<T>(items: T[], seed: number): { items: T[]; answer: number } {
   return { items: arranged, answer: correctPosition };
 }
 
+// Pick `count` items from `pool` starting at a seed-based offset, so each exam
+// gets a different (but deterministic) subset and ordering.
+function pickPool<T>(pool: T[], count: number, seed: number): T[] {
+  const len = pool.length;
+  if (len === 0) return [];
+  const start = ((seed % len) + len) % len;
+  const step = 1 + (seed % Math.max(1, Math.floor(len / count) || 1));
+  const out: T[] = [];
+  const used = new Set<number>();
+  let idx = start;
+  while (out.length < count) {
+    if (!used.has(idx)) {
+      used.add(idx);
+      out.push(pool[idx]);
+    }
+    idx = (idx + step) % len;
+    if (used.size >= len) break;
+  }
+  // Fill any remainder by linear scan (safety net)
+  for (let i = 0; out.length < count && i < len; i++) {
+    if (!used.has(i)) {
+      used.add(i);
+      out.push(pool[i]);
+    }
+  }
+  return out;
+}
+
 function makeQuestion(args: Omit<ToeicLRQuestion, "options" | "answer"> & { options: string[]; answerSeed?: number }): ToeicLRQuestion {
   const { items, answer } = reorder(args.options, args.answerSeed ?? 0);
   return {
@@ -175,30 +203,38 @@ function makeQuestion(args: Omit<ToeicLRQuestion, "options" | "answer"> & { opti
 }
 
 function generatePart1(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
-  const scenes = [
+  const pool: [string, string, string[]][] = [
     ["A woman is reviewing a document at a desk.", part1WomanReviewingDocument, ["A woman is watering plants in a hallway.", "A man is carrying boxes into a truck.", "Some chairs are being stacked near a wall."]],
     ["Two colleagues are discussing a chart on a screen.", part1ColleaguesChartScreen, ["The employees are cleaning the windows.", "A customer is paying at a counter.", "The road is being repaired."]],
     ["A laptop has been placed on a conference table.", part1LaptopConferenceTable, ["A printer is being loaded into a vehicle.", "Several people are boarding a train.", "A package is being weighed on a scale."]],
     ["A man is arranging materials before a presentation.", part1ManPresentationMaterials, ["A man is painting a sign outdoors.", "The shelves are completely empty.", "A waiter is serving drinks to guests."]],
     ["Some people are seated around a meeting table.", part1PeopleMeetingTable, ["Some people are standing in a checkout line.", "A bicycle is leaning against a fence.", "The floor is being swept by a cleaner."]],
     ["A worker is pointing at information on a display.", part1WorkerPointingDisplay, ["A worker is repairing a staircase.", "The vehicles are parked beside a river.", "A woman is trying on a jacket."]],
+    ["A man is studying figures in a printed report.", part1WomanReviewingDocument, ["A man is closing a window.", "A woman is folding clothes.", "Some boxes are being delivered."]],
+    ["The team is examining data shown on a monitor.", part1ColleaguesChartScreen, ["A vehicle is being washed outside.", "A person is climbing a ladder.", "A waiter is wiping a table."]],
+    ["A computer has been left open in a meeting room.", part1LaptopConferenceTable, ["A man is repairing a bicycle.", "A woman is opening a bottle.", "Some plants are being watered."]],
+    ["A presenter is checking handouts before a session.", part1ManPresentationMaterials, ["A chef is cutting vegetables.", "Children are running in a park.", "A mechanic is changing a tire."]],
+    ["Several colleagues are gathered around a table.", part1PeopleMeetingTable, ["A passenger is buying a ticket.", "Shoppers are walking near a mall.", "A photographer is setting up a tripod."]],
+    ["An employee is highlighting points on a screen.", part1WorkerPointingDisplay, ["A guard is opening a gate.", "Workers are unloading crates.", "A diver is entering a pool."]],
   ];
+
+  const scenes = pickPool(pool, 6, seed);
 
   return scenes.map(([correct, imageUrl, distractors], i) => makeQuestion({
     id: `${examId}-p1-${i + 1}`,
     part: 1,
     prompt: "Look at the photograph and choose the statement that best describes it.",
-    options: optionSet(correct as string, distractors as string[]),
+    options: optionSet(correct, distractors),
     answerSeed: seed + i,
-    transcript: [correct, ...(distractors as string[])].map((line, idx) => `${String.fromCharCode(65 + idx)}. ${line}`).join("\n"),
-    audioText: [correct, ...(distractors as string[])].map((line, idx) => `${String.fromCharCode(65 + idx)}. ${line}`).join(". "),
-    imageUrl: imageUrl as string,
+    transcript: [correct, ...distractors].map((line, idx) => `${String.fromCharCode(65 + idx)}. ${line}`).join("\n"),
+    audioText: [correct, ...distractors].map((line, idx) => `${String.fromCharCode(65 + idx)}. ${line}`).join(". "),
+    imageUrl,
     explanation: "Choose the statement that accurately describes the visible action or state in the photograph.",
   }));
 }
 
 function generatePart2(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
-  const stems = [
+  const pool: [string, string, string[]][] = [
     ["When will the report be ready?", "By Thursday afternoon.", ["In the main lobby.", "It was very informative."]],
     ["Where is the product demonstration being held?", "In the training room.", ["At nine o'clock sharp.", "Because the projector was broken."]],
     ["Have you called the supplier yet?", "Yes, I spoke with them this morning.", ["The supply closet is upstairs.", "It starts after lunch."]],
@@ -224,10 +260,27 @@ function generatePart2(theme: Theme, examId: string, seed: number): ToeicLRQuest
     ["Isn't the invoice due tomorrow?", "Actually, the deadline was extended.", ["The invoice lists six items.", "Tomorrow's forecast is cloudy."]],
     ["What do you think of the new dashboard?", "It's much easier to use.", ["Use the stairs on the left.", "The dashboard is under the hood."]],
     ["Would you mind taking notes during the call?", "Not at all. I'll share them afterward.", ["The call lasted thirty minutes.", "She noted the change yesterday."]],
+    ["Where did you put the projector remote?", "It's in the top drawer of the cabinet.", ["The remote area is restricted.", "We arrived a bit late."]],
+    ["Has the new policy been announced yet?", "Yes, it went out by email this morning.", ["The announcement was funny.", "They moved into the new office."]],
+    ["Why are the lights still on in the lobby?", "I forgot to switch them off after closing.", ["The lobby is on the second floor.", "She prefers warm lighting."]],
+    ["Will the order arrive on time?", "It should be here by Thursday morning.", ["Order forms are at the front desk.", "It was very heavy."]],
+    ["Do you want me to call a taxi?", "That would be helpful, thank you.", ["The taxi is yellow.", "I called yesterday afternoon."]],
+    ["How was your business trip to Osaka?", "It went better than I expected.", ["I'd like a window seat.", "The hotel is being renovated."]],
+    ["Could we discuss the proposal after lunch?", "Sure, let's meet around two o'clock.", ["The lunch menu changed.", "I read the proposal aloud."]],
+    ["Who's going to handle the customer complaint?", "Tom said he'd take care of it.", ["The customer left a tip.", "Around the corner."]],
+    ["Where can I find the staff handbook?", "On the shared drive under HR documents.", ["I found it last week.", "Staff are very helpful."]],
+    ["Why isn't the printer working?", "It looks like it's out of toner.", ["The printer was on sale.", "Because she said so."]],
+    ["When does the new branch open?", "Sometime in early September.", ["The branch is downtown.", "Open the door, please."]],
+    ["Should I email or fax the contract?", "Email is fine — it's faster.", ["The fax machine is broken.", "It's a long contract."]],
+    ["Aren't you supposed to be at the conference?", "It was rescheduled to next week.", ["The conference room is reserved.", "I'm supposed to be on time."]],
+    ["What did the manager say about the budget?", "She wants us to reduce travel costs.", ["He's the new manager.", "Budgets are due Friday."]],
+    ["How long will the renovation take?", "About six weeks, according to the contractor.", ["It's a large building.", "We renovated last year."]],
   ];
 
+  const stems = pickPool(pool, 25, seed);
+
   return stems.map(([question, correct, distractors], i) => {
-    const choices = [correct as string, ...(distractors as string[])];
+    const choices = [correct, ...distractors];
     const { items, answer } = reorder(choices, seed + i);
     return {
       id: `${examId}-p2-${i + 1}`,
@@ -243,7 +296,7 @@ function generatePart2(theme: Theme, examId: string, seed: number): ToeicLRQuest
 }
 
 function generatePart3(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
-  const situations = [
+  const pool: [string, string, string, string][] = [
     ["a delayed shipment", "warehouse", "call the carrier", "The tracking page has not changed since Monday"],
     ["a conference room booking", "office", "move the meeting to Room B", "The projector in Room A is not working"],
     ["a marketing brochure", "design studio", "send revised images", "The product photo needs to be brighter"],
@@ -257,7 +310,19 @@ function generatePart3(theme: Theme, examId: string, seed: number): ToeicLRQuest
     ["a sales report", "manager's office", "revise the chart", "The regional totals were entered incorrectly"],
     ["a delivery route", "shipping desk", "leave earlier tomorrow", "Roadwork is causing morning delays"],
     ["a product demonstration", "trade fair booth", "test the tablet connection", "Visitors will arrive in twenty minutes"],
+    ["a missing package", "reception desk", "contact the courier", "The package was supposed to arrive yesterday"],
+    ["a printer malfunction", "copy room", "order a service technician", "Pages are coming out smudged"],
+    ["a website redesign", "creative agency", "approve the new homepage", "The launch date was moved up"],
+    ["a customer refund request", "store manager's office", "process the refund", "The receipt is older than thirty days"],
+    ["a flight cancellation", "airport check-in counter", "rebook a later flight", "The next available departure is at six"],
+    ["an employee orientation", "human resources office", "prepare the welcome packet", "Three new hires start on Monday"],
+    ["a catering order", "company kitchen", "double the lunch quantity", "Twenty extra guests just confirmed"],
+    ["a faulty security camera", "lobby control room", "schedule a repair visit", "Footage from yesterday is missing"],
+    ["a budget proposal", "executive boardroom", "revise the cost estimates", "The original numbers exceed the cap"],
+    ["a magazine subscription", "subscription office", "send a renewal notice", "The current issue will be the last one"],
   ];
+
+  const situations = pickPool(pool, 13, seed);
 
   return situations.flatMap(([topic, location, action, detail], groupIdx) => {
     const transcript = `M: I need your help with ${topic}. ${detail}.\nW: I see. We should ${action} before the end of the day.\nM: Good idea. I'll also notify ${theme.department} so everyone knows the plan.`;
@@ -298,7 +363,7 @@ function generatePart3(theme: Theme, examId: string, seed: number): ToeicLRQuest
 }
 
 function generatePart4(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
-  const talks = [
+  const pool: [string, string, string, string, string][] = [
     ["announcement", `Attention employees. ${theme.company} will conduct system maintenance this Saturday from 10 P.M. to 2 A.M. Please save your files and sign out before leaving on Friday.`, "system maintenance", "Saturday from 10 P.M. to 2 A.M.", "save files and sign out"],
     ["advertisement", `Looking for a convenient venue for your next meeting? ${theme.place} offers modern rooms, catering packages, and free parking for groups of twenty or more. Call by June 30 for a ten percent discount.`, "meeting venue services", "groups of twenty or more", "call by June 30"],
     ["recorded message", `Thank you for calling ${theme.company}. Our offices are closed for the public holiday. Regular business hours will resume on Tuesday at 8 A.M. For urgent assistance, press 1.`, "holiday office closure", "Tuesday at 8 A.M.", "press 1 for urgent help"],
@@ -309,7 +374,17 @@ function generatePart4(theme: Theme, examId: string, seed: number): ToeicLRQuest
     ["training notice", `This afternoon's workshop on ${theme.product} has been moved to Room 204. Participants should bring their laptops and log in ten minutes before the session begins.`, "a room change", "Room 204", "bring laptops and log in early"],
     ["shipping update", `Due to heavy rain, deliveries scheduled for the north district may arrive one day late. Customers will receive updated tracking numbers by email tonight.`, "delivery delays", "heavy rain", "check updated tracking emails"],
     ["museum announcement", `The east gallery will close at 4 P.M. today for a private reception. Visitors can still access the main exhibit and the museum shop until 6 P.M.`, "a gallery closing early", "at 4 P.M.", "visit the main exhibit or shop"],
+    ["weather report", `Heavy snow is expected throughout the region tomorrow morning. Commuters should plan for delays and consider working from home if possible.`, "a weather warning", "heavy snow tomorrow morning", "work from home if possible"],
+    ["radio commercial", `Visit Greenleaf Garden Center this weekend for our biggest plant sale of the year. All outdoor furniture is forty percent off through Sunday evening.`, "a weekend sale", "forty percent off outdoor furniture", "visit before Sunday evening"],
+    ["airport announcement", `Flight 482 to Vancouver is now boarding at gate twenty-three. Passengers traveling with small children may board first.`, "a boarding announcement", "gate twenty-three", "families with children board first"],
+    ["voicemail message", `Hi, this is Daniel from Brookline Dental. I'm calling to remind you of your cleaning appointment on Thursday at 3 P.M. Please call back to confirm.`, "an appointment reminder", "Thursday at 3 P.M.", "call back to confirm"],
+    ["meeting opener", `Good morning, everyone. Before we begin, I'd like to welcome our new regional manager, Ms. Park, who will lead today's strategy session.`, "introducing a new manager", "Ms. Park", "listen to the strategy session"],
+    ["restaurant announcement", `Diners, please note that our kitchen will close fifteen minutes earlier than usual tonight due to staff training. Last orders should be placed by 9:45.`, "an early kitchen closing", "fifteen minutes earlier", "place orders by 9:45"],
+    ["product instruction", `Before using the espresso machine for the first time, run two cycles of plain water through the system. This removes any factory residue.`, "first-time setup", "two cycles of plain water", "run cleaning cycles before use"],
+    ["volunteer briefing", `Thank you all for joining today's clean-up event. Gloves and bags are at the registration tent. Please return any unused supplies before noon.`, "a clean-up event", "at the registration tent", "return unused supplies by noon"],
   ];
+
+  const talks = pickPool(pool, 10, seed);
 
   return talks.flatMap(([kind, transcript, purpose, detail, action], groupIdx) => {
     const groupId = `${examId}-p4-talk-${groupIdx + 1}`;
@@ -349,7 +424,7 @@ function generatePart4(theme: Theme, examId: string, seed: number): ToeicLRQuest
 }
 
 function generatePart5(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
-  const items = [
+  const pool: [string, string, string[], string][] = [
     ["All employees must submit travel receipts ___ five business days.", "within", ["during", "since", "among"], "'Within' gives the allowed time limit."],
     ["The new policy will be ___ at the beginning of next month.", "implemented", ["implement", "implementation", "implementing"], "Passive voice requires be + past participle."],
     ["Ms. Carter is responsible for ___ monthly sales data.", "analyzing", ["analyze", "analysis", "analyzed"], "After a preposition, use a gerund."],
@@ -380,20 +455,42 @@ function generatePart5(theme: Theme, examId: string, seed: number): ToeicLRQuest
     ["The online form is available ___ the company website.", "on", ["in", "at", "to"], "Use 'on' for websites."],
     ["The manager thanked everyone for their ___ during the audit.", "cooperation", ["cooperate", "cooperative", "cooperatively"], "A noun is required after possessive 'their'."],
     ["The package should arrive ___ Friday at the latest.", "by", ["until", "since", "between"], "'By' marks a deadline."],
+    ["Sales figures have improved ___ the launch of the new app.", "since", ["for", "during", "until"], "'Since' marks a starting point in the past."],
+    ["The renovation will be completed ___ the end of October.", "by", ["until", "from", "between"], "'By' indicates a deadline."],
+    ["Visitors are kindly asked to ___ silent in the gallery.", "remain", ["remains", "remaining", "remained"], "Use the base form after 'to'."],
+    ["The ___ of the building is scheduled for next quarter.", "renovation", ["renovate", "renovated", "renovating"], "A noun is needed after 'the'."],
+    ["The catering team prepared the meal ___ than expected.", "faster", ["fast", "fastest", "fastly"], "Comparative form is required before 'than'."],
+    ["Her presentation was both ___ and engaging.", "informative", ["informatively", "information", "inform"], "An adjective parallels 'engaging'."],
+    ["The instructions ___ in the user manual are very clear.", "provided", ["provide", "providing", "provides"], "Reduced relative clause uses past participle."],
+    ["___ the heavy rain, the outdoor event continued as planned.", "Despite", ["Although", "Because", "However"], "'Despite' is followed by a noun phrase."],
+    ["The award was given to the employee ___ ideas saved the company money.", "whose", ["who", "which", "whom"], "'Whose' shows possession."],
+    ["The travel agency offers ___ packages for corporate clients.", "customized", ["customize", "customizing", "customizes"], "A past participle adjective modifies 'packages'."],
+    ["Sign-up sheets are located ___ the front desk.", "next to", ["between", "among", "into"], "'Next to' indicates an adjacent position."],
+    ["The auditorium can ___ up to five hundred people.", "accommodate", ["accommodation", "accommodating", "accommodated"], "A base verb follows the modal 'can'."],
+    ["Our service center is open seven days ___ week.", "a", ["the", "an", "any"], "Use 'a' before 'week' in this fixed expression."],
+    ["The manager asked us ___ in the survey.", "to participate", ["participate", "participating", "participated"], "'Ask + object + to-infinitive' pattern."],
+    ["The instructions are clear ___ first-time users.", "for", ["of", "on", "at"], "'Clear for' targets a group."],
+    ["The employees ___ for the project will be announced tomorrow.", "selected", ["select", "selecting", "selects"], "Past participle as reduced relative clause."],
+    ["Please ___ the form before submitting it online.", "complete", ["completes", "completing", "completion"], "Imperative requires the base verb."],
+    ["The meeting agenda was sent ___ everyone last night.", "to", ["for", "with", "from"], "'Sent to' marks the recipient."],
+    ["Production has increased ___ over the past quarter.", "significantly", ["significant", "significance", "signify"], "An adverb modifies 'increased'."],
+    ["The ___ of the new branch will create thirty jobs.", "opening", ["open", "opens", "opened"], "A noun (gerund) is needed after 'the'."],
   ];
+
+  const items = pickPool(pool, 30, seed);
 
   return items.map(([prompt, correct, distractors, explanation], i) => makeQuestion({
     id: `${examId}-p5-${i + 1}`,
     part: 5,
-    prompt: prompt as string,
-    options: optionSet(correct as string, distractors as string[]),
+    prompt,
+    options: optionSet(correct, distractors),
     answerSeed: seed + i,
-    explanation: explanation as string,
+    explanation,
   }));
 }
 
 function generatePart6(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
-  const passages = [
+  const pool = [
     {
       text: `Dear Ms. Rivera,\n\nThank you for registering for our ${theme.event}. Your registration has been [BLANK1]. The program begins at 9 A.M. in the main hall. Please [BLANK2] your confirmation email at the entrance. [BLANK3]\n\nSincerely,\nEvent Services`,
       blanks: [
@@ -430,7 +527,45 @@ function generatePart6(theme: Theme, examId: string, seed: number): ToeicLRQuest
         ["Why are service hours being extended?", ["To support customers in different time zones", "To reduce the number of employees", "To close the call center", "To change the company name"], "The update states the reason directly.", true],
       ],
     },
+    {
+      text: `MEMO\nFrom: Facilities Manager\nTo: All Staff\nSubject: Parking Lot Resurfacing\n\nThe north parking lot will be [BLANK1] from May 4 to May 7. During that period, employees should park in the south lot or use public transportation. We apologize for any [BLANK2] caused by this work. [BLANK3]`,
+      blanks: [
+        ["closed", ["close", "closing", "closure"], "Passive voice requires a past participle."],
+        ["inconvenience", ["inconvenient", "inconveniently", "inconvenienced"], "A noun follows 'any'."],
+        ["Carpooling is encouraged to reduce demand on the south lot.", ["The roof was painted blue last spring.", "The cafeteria will close permanently.", "Visitors must wear formal attire."], "The sentence relates to parking and transportation."],
+        ["When will the work end?", ["May 7", "May 4", "April 4", "June 7"], "The memo states the resurfacing ends on May 7.", true],
+      ],
+    },
+    {
+      text: `Job Posting\n\n${theme.company} is seeking a part-time office assistant to support the ${theme.department}. The successful candidate will be ___ for sorting mail, scheduling appointments, and assisting visitors. Applicants must [BLANK1] strong communication skills and basic computer knowledge. To apply, please [BLANK2] a résumé and cover letter to careers@example.com. [BLANK3]`,
+      blanks: [
+        ["have", ["had", "having", "has"], "Use the base verb after 'must'."],
+        ["submit", ["submission", "submits", "submitted"], "Imperative requires a base verb."],
+        ["Applications received after May 30 will not be considered.", ["The office building is twelve stories tall.", "The previous assistant has retired to Spain.", "All employees enjoy free coffee."], "The sentence adds an application deadline."],
+        ["Where should applicants send their materials?", ["careers@example.com", "the front desk", "the local newspaper", "the city library"], "The posting gives an application email address.", true],
+      ],
+    },
+    {
+      text: `Press Release\n\n${theme.company} announced today that it will [BLANK1] a new branch office in Lisbon next spring. The expansion is expected to create approximately fifty new positions, mostly in customer service and ${theme.department}. Company spokesperson Lina Park said the move reflects [BLANK2] demand for the company's services in southern Europe. [BLANK3]`,
+      blanks: [
+        ["open", ["opens", "opening", "opened"], "Use base verb after 'will'."],
+        ["growing", ["grow", "growth", "grew"], "An adjective modifies 'demand'."],
+        ["Recruitment for the new positions will begin in early autumn.", ["The CEO recently sold his vacation home.", "Headquarters will move to a smaller building.", "The company will discontinue its email newsletter."], "The sentence continues the expansion story.", false],
+        ["What is the press release mainly about?", ["A new branch office", "A merger with a competitor", "A change in product packaging", "A scheduled price increase"], "The release announces a new branch.", true],
+      ],
+    },
+    {
+      text: `To: All Employees\nFrom: IT Help Desk\nSubject: Mandatory Password Reset\n\nFor security reasons, all employees must [BLANK1] their company password by Friday at 5 P.M. Instructions can be found on the staff portal under "Account Security." If you experience any issues, please contact the IT help desk [BLANK2]. [BLANK3]`,
+      blanks: [
+        ["reset", ["resets", "resetting", "resetted"], "Use the base verb after the modal 'must'."],
+        ["immediately", ["immediate", "immediacy", "immediates"], "An adverb modifies 'contact'."],
+        ["Passwords that are not updated by the deadline will be deactivated.", ["The cafeteria menu features new soups.", "The company gym is open until midnight.", "Office plants will be replaced next week."], "The sentence reinforces the deadline.", false],
+        ["What is the deadline for resetting passwords?", ["Friday at 5 P.M.", "Monday morning", "Saturday at noon", "The end of the month"], "The memo states the deadline.", true],
+      ],
+    },
   ];
+
+  const passages = pickPool(pool, 4, seed);
 
   return passages.flatMap((passage, pIdx) => {
     const groupId = `${examId}-p6-text-${pIdx + 1}`;
@@ -453,13 +588,40 @@ function generatePart6(theme: Theme, examId: string, seed: number): ToeicLRQuest
 }
 
 function generatePart7(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
-  const docs = Array.from({ length: 18 }, (_, i) => {
-    const day = 5 + i;
+  const topicPool = [
+    "training registration", "office relocation", "product recall", "conference agenda", "customer survey",
+    "job posting", "restaurant opening", "shipping policy", "library renovation", "software license",
+    "wellness program", "supplier contract", "travel advisory", "equipment sale", "newsletter update",
+    "parking notice", "market report", "charity event", "membership renewal", "vendor evaluation",
+    "internship opportunity", "exhibition schedule", "loyalty program update", "factory tour", "annual audit",
+    "promotional campaign", "warranty extension", "service interruption", "budget reallocation", "policy revision",
+  ];
+  const benefitPool = [
+    "free parking", "a ten percent discount", "extended service hours", "a training certificate",
+    "priority seating", "complimentary lunch", "an early access pass", "a one-month subscription",
+    "a gift voucher", "a guided facility tour",
+  ];
+  const placePool = [
+    theme.place, "main auditorium", "customer service desk", "online portal", "north warehouse",
+    "city convention hall", "second-floor reception", "rear entrance kiosk", "regional sales office",
+  ];
+  const contactPool = [
+    `hr@${theme.company.toLowerCase().replace(/[^a-z]/g, "")}.com`,
+    `support@${theme.company.toLowerCase().replace(/[^a-z]/g, "")}.com`,
+    "support@example.com", "events@example.com", "careers@example.com", "info@example.com",
+  ];
+
+  const topics = pickPool(topicPool, 18, seed);
+  const benefits = pickPool(benefitPool, 18, seed * 3 + 1);
+  const places = pickPool(placePool, 18, seed * 5 + 2);
+  const contacts = pickPool(contactPool, 18, seed * 7 + 3);
+
+  const docs = topics.map((topic, i) => {
+    const day = 3 + ((seed + i * 2) % 22);
     const deadline = `July ${day + 7}`;
-    const topic = ["training registration", "office relocation", "product recall", "conference agenda", "customer survey", "job posting", "restaurant opening", "shipping policy", "library renovation", "software license", "wellness program", "supplier contract", "travel advisory", "equipment sale", "newsletter update", "parking notice", "market report", "charity event"][i];
-    const benefit = ["free parking", "a ten percent discount", "extended service hours", "a training certificate", "priority seating", "complimentary lunch"][i % 6];
-    const contact = [`hr@${theme.company.toLowerCase().replace(/[^a-z]/g, "")}.com`, "support@example.com", "events@example.com", "careers@example.com"][i % 4];
-    const place = [theme.place, "main auditorium", "customer service desk", "online portal", "north warehouse", "city convention hall"][i % 6];
+    const benefit = benefits[i];
+    const contact = contacts[i];
+    const place = places[i];
     const passage = `${i < 8 ? "EMAIL" : i < 13 ? "NOTICE" : "ARTICLE"}\nSubject: ${topic.replace(/\b\w/g, (m) => m.toUpperCase())}\n\n${theme.company} is announcing an update about ${topic}. The change will take effect on July ${day}. Employees and customers should check the ${place} for detailed instructions. Anyone who responds by ${deadline} will receive ${benefit}. For questions, contact ${contact}.\n\nAdditional details: The update is part of a plan to improve service quality, reduce delays, and make information easier to find.`;
     return { passage, topic, deadline, benefit, contact, place };
   });
