@@ -362,6 +362,7 @@ const LR_08: ToeicLRExam = {
       prompt: "When will the order arrive?",
       options: ["Tuesday", "Wednesday", "Thursday", "Next Monday"],
       answer: 2,
+      transcript: "It shipped this morning and should arrive Thursday.",
       passageGroupId: "lr8-conv-1",
     },
     {
@@ -385,6 +386,7 @@ const LR_08: ToeicLRExam = {
       prompt: "What must be reported immediately?",
       options: ["Late arrivals", "Any incidents", "Equipment requests", "Lunch break changes"],
       answer: 1,
+      transcript: "Any incidents must be reported to your supervisor immediately.",
       passageGroupId: "lr8-talk-1",
     },
     {
