@@ -616,9 +616,10 @@ const SW_01: ToeicSWExam = {
 
 import { TOEIC_LR_EXTRA, TOEIC_SW_EXTRA } from "./toeicExamsExtra";
 import { TOEIC_LR_EXTRA2, TOEIC_SW_EXTRA2 } from "./toeicExamsExtra2";
+import { TOEIC_LR_EXTRA3 } from "./toeicExamsExtra3";
 import { createFullToeicLRExam, createFullToeicSWExam } from "./toeicFullExamBuilder";
 
-const TOEIC_LR_BASE_EXAMS: ToeicLRExam[] = [LR_01, LR_02, ...TOEIC_LR_EXTRA, ...TOEIC_LR_EXTRA2];
+const TOEIC_LR_BASE_EXAMS: ToeicLRExam[] = [LR_01, LR_02, ...TOEIC_LR_EXTRA, ...TOEIC_LR_EXTRA2, ...TOEIC_LR_EXTRA3];
 const TOEIC_SW_BASE_EXAMS: ToeicSWExam[] = [SW_01, ...TOEIC_SW_EXTRA, ...TOEIC_SW_EXTRA2];
 
 export const TOEIC_LR_EXAMS: ToeicLRExam[] = TOEIC_LR_BASE_EXAMS.map(createFullToeicLRExam);
