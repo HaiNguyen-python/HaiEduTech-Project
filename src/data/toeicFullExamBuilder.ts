@@ -164,32 +164,51 @@ function reorder<T>(items: T[], seed: number): { items: T[]; answer: number } {
   return { items: arranged, answer: correctPosition };
 }
 
-// Pick `count` items from `pool` starting at a seed-based offset, so each exam
-// gets a different (but deterministic) subset and ordering.
-function pickPool<T>(pool: T[], count: number, seed: number): T[] {
+// Pick `count` items from `pool` so that each exam (examIndex) gets a
+// non-overlapping slice when the pool is large enough (len >= 8 * count).
+// When the pool is too small, slices wrap around but each exam still starts
+// at a unique offset to maximise diversity.
+function pickPool<T>(pool: T[], count: number, examIndex: number): T[] {
   const len = pool.length;
   if (len === 0) return [];
-  const start = ((seed % len) + len) % len;
-  const step = 1 + (seed % Math.max(1, Math.floor(len / count) || 1));
+  const start = ((examIndex * count) % len + len) % len;
   const out: T[] = [];
-  const used = new Set<number>();
-  let idx = start;
-  while (out.length < count) {
-    if (!used.has(idx)) {
-      used.add(idx);
-      out.push(pool[idx]);
-    }
-    idx = (idx + step) % len;
-    if (used.size >= len) break;
-  }
-  // Fill any remainder by linear scan (safety net)
-  for (let i = 0; out.length < count && i < len; i++) {
-    if (!used.has(i)) {
-      used.add(i);
-      out.push(pool[i]);
-    }
+  for (let i = 0; i < count; i++) {
+    out.push(pool[(start + i) % len]);
   }
   return out;
+}
+
+// Per-exam content variation — swaps common tokens so even shared stems
+// look different across the 8 exams. Each replacement uses an 8-element
+// rotation keyed by examIndex.
+const VARY_DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Monday", "Wednesday", "Friday"];
+const VARY_TIMES = ["9 A.M.", "10 A.M.", "11 A.M.", "1 P.M.", "2 P.M.", "3 P.M.", "4 P.M.", "8 A.M."];
+const VARY_PERCENTS = ["ten", "fifteen", "twenty", "twenty-five", "thirty", "five", "twelve", "eighteen"];
+const VARY_NAMES_F = ["Ms. Nguyen", "Ms. Carter", "Ms. Park", "Ms. Tanaka", "Ms. Rivera", "Ms. Lopez", "Ms. Chen", "Ms. Singh"];
+const VARY_NAMES_M = ["Mr. Park", "Mr. Ito", "Mr. Kumar", "Mr. Silva", "Mr. Klein", "Mr. Owens", "Mr. Brooks", "Mr. Hassan"];
+const VARY_CITIES = ["Singapore", "Lisbon", "Helsinki", "Toronto", "Sydney", "Dubai", "Berlin", "Osaka"];
+const VARY_NUMS = ["fifteen", "twenty", "twenty-five", "thirty", "forty", "fifty", "ten", "eighteen"];
+const VARY_DURATIONS = ["two hours", "ninety minutes", "three hours", "forty-five minutes", "one hour", "two and a half hours", "fifty minutes", "seventy-five minutes"];
+
+function varyText(text: string, examIndex: number): string {
+  const i = ((examIndex % 8) + 8) % 8;
+  return text
+    .replace(/\bThursday\b/g, VARY_DAYS[i])
+    .replace(/\b9 A\.M\.\b/g, VARY_TIMES[i])
+    .replace(/\bten percent\b/gi, `${VARY_PERCENTS[i]} percent`)
+    .replace(/\bMs\. Nguyen\b/g, VARY_NAMES_F[i])
+    .replace(/\bMs\. Carter\b/g, VARY_NAMES_F[(i + 3) % 8])
+    .replace(/\bMs\. Park\b/g, VARY_NAMES_F[(i + 5) % 8])
+    .replace(/\bMr\. Park\b/g, VARY_NAMES_M[i])
+    .replace(/\bMr\. Ito\b/g, VARY_NAMES_M[(i + 2) % 8])
+    .replace(/\bSingapore\b/g, VARY_CITIES[i])
+    .replace(/\bLisbon\b/g, VARY_CITIES[(i + 4) % 8])
+    .replace(/\bOsaka\b/g, VARY_CITIES[(i + 6) % 8])
+    .replace(/\bfifteen minutes\b/g, `${VARY_NUMS[i]} minutes`)
+    .replace(/\btwenty minutes\b/g, `${VARY_NUMS[(i + 2) % 8]} minutes`)
+    .replace(/\bthirty minutes\b/g, `${VARY_NUMS[(i + 4) % 8]} minutes`)
+    .replace(/\btwo hours\b/g, VARY_DURATIONS[i]);
 }
 
 function makeQuestion(args: Omit<ToeicLRQuestion, "options" | "answer"> & { options: string[]; answerSeed?: number }): ToeicLRQuestion {
