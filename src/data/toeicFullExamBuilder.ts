@@ -397,10 +397,11 @@ function generatePart3(theme: Theme, examId: string, seed: number, examIndex: nu
     ["a magazine subscription", "subscription office", "send a renewal notice", "The current issue will be the last one"],
   ];
 
-  const situations = pickPool(pool, 13, seed);
+  const situations = pickPool(pool, 13, examIndex);
 
   return situations.flatMap(([topic, location, action, detail], groupIdx) => {
-    const transcript = `M: I need your help with ${topic}. ${detail}.\nW: I see. We should ${action} before the end of the day.\nM: Good idea. I'll also notify ${theme.department} so everyone knows the plan.`;
+    const v = (s: string) => varyText(s, examIndex);
+    const transcript = `M: I need your help with ${v(topic)}. ${v(detail)}.\nW: I see. We should ${v(action)} before the end of the day.\nM: Good idea. I'll also notify ${theme.department} so everyone knows the plan.`;
     const groupId = `${examId}-p3-conv-${groupIdx + 1}`;
     return [
       makeQuestion({
