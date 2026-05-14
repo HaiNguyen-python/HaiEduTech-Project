@@ -164,32 +164,51 @@ function reorder<T>(items: T[], seed: number): { items: T[]; answer: number } {
   return { items: arranged, answer: correctPosition };
 }
 
-// Pick `count` items from `pool` starting at a seed-based offset, so each exam
-// gets a different (but deterministic) subset and ordering.
-function pickPool<T>(pool: T[], count: number, seed: number): T[] {
+// Pick `count` items from `pool` so that each exam (examIndex) gets a
+// non-overlapping slice when the pool is large enough (len >= 8 * count).
+// When the pool is too small, slices wrap around but each exam still starts
+// at a unique offset to maximise diversity.
+function pickPool<T>(pool: T[], count: number, examIndex: number): T[] {
   const len = pool.length;
   if (len === 0) return [];
-  const start = ((seed % len) + len) % len;
-  const step = 1 + (seed % Math.max(1, Math.floor(len / count) || 1));
+  const start = ((examIndex * count) % len + len) % len;
   const out: T[] = [];
-  const used = new Set<number>();
-  let idx = start;
-  while (out.length < count) {
-    if (!used.has(idx)) {
-      used.add(idx);
-      out.push(pool[idx]);
-    }
-    idx = (idx + step) % len;
-    if (used.size >= len) break;
-  }
-  // Fill any remainder by linear scan (safety net)
-  for (let i = 0; out.length < count && i < len; i++) {
-    if (!used.has(i)) {
-      used.add(i);
-      out.push(pool[i]);
-    }
+  for (let i = 0; i < count; i++) {
+    out.push(pool[(start + i) % len]);
   }
   return out;
+}
+
+// Per-exam content variation — swaps common tokens so even shared stems
+// look different across the 8 exams. Each replacement uses an 8-element
+// rotation keyed by examIndex.
+const VARY_DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Monday", "Wednesday", "Friday"];
+const VARY_TIMES = ["9 A.M.", "10 A.M.", "11 A.M.", "1 P.M.", "2 P.M.", "3 P.M.", "4 P.M.", "8 A.M."];
+const VARY_PERCENTS = ["ten", "fifteen", "twenty", "twenty-five", "thirty", "five", "twelve", "eighteen"];
+const VARY_NAMES_F = ["Ms. Nguyen", "Ms. Carter", "Ms. Park", "Ms. Tanaka", "Ms. Rivera", "Ms. Lopez", "Ms. Chen", "Ms. Singh"];
+const VARY_NAMES_M = ["Mr. Park", "Mr. Ito", "Mr. Kumar", "Mr. Silva", "Mr. Klein", "Mr. Owens", "Mr. Brooks", "Mr. Hassan"];
+const VARY_CITIES = ["Singapore", "Lisbon", "Helsinki", "Toronto", "Sydney", "Dubai", "Berlin", "Osaka"];
+const VARY_NUMS = ["fifteen", "twenty", "twenty-five", "thirty", "forty", "fifty", "ten", "eighteen"];
+const VARY_DURATIONS = ["two hours", "ninety minutes", "three hours", "forty-five minutes", "one hour", "two and a half hours", "fifty minutes", "seventy-five minutes"];
+
+function varyText(text: string, examIndex: number): string {
+  const i = ((examIndex % 8) + 8) % 8;
+  return text
+    .replace(/\bThursday\b/g, VARY_DAYS[i])
+    .replace(/\b9 A\.M\.\b/g, VARY_TIMES[i])
+    .replace(/\bten percent\b/gi, `${VARY_PERCENTS[i]} percent`)
+    .replace(/\bMs\. Nguyen\b/g, VARY_NAMES_F[i])
+    .replace(/\bMs\. Carter\b/g, VARY_NAMES_F[(i + 3) % 8])
+    .replace(/\bMs\. Park\b/g, VARY_NAMES_F[(i + 5) % 8])
+    .replace(/\bMr\. Park\b/g, VARY_NAMES_M[i])
+    .replace(/\bMr\. Ito\b/g, VARY_NAMES_M[(i + 2) % 8])
+    .replace(/\bSingapore\b/g, VARY_CITIES[i])
+    .replace(/\bLisbon\b/g, VARY_CITIES[(i + 4) % 8])
+    .replace(/\bOsaka\b/g, VARY_CITIES[(i + 6) % 8])
+    .replace(/\bfifteen minutes\b/g, `${VARY_NUMS[i]} minutes`)
+    .replace(/\btwenty minutes\b/g, `${VARY_NUMS[(i + 2) % 8]} minutes`)
+    .replace(/\bthirty minutes\b/g, `${VARY_NUMS[(i + 4) % 8]} minutes`)
+    .replace(/\btwo hours\b/g, VARY_DURATIONS[i]);
 }
 
 function makeQuestion(args: Omit<ToeicLRQuestion, "options" | "answer"> & { options: string[]; answerSeed?: number }): ToeicLRQuestion {
@@ -202,38 +221,92 @@ function makeQuestion(args: Omit<ToeicLRQuestion, "options" | "answer"> & { opti
   };
 }
 
-function generatePart1(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
-  const pool: [string, string, string[]][] = [
+function generatePart1(theme: Theme, examId: string, seed: number, examIndex: number): ToeicLRQuestion[] {
+  const photoPool: [string, string, string[]][] = [
     ["A woman is reviewing a document at a desk.", part1WomanReviewingDocument, ["A woman is watering plants in a hallway.", "A man is carrying boxes into a truck.", "Some chairs are being stacked near a wall."]],
     ["Two colleagues are discussing a chart on a screen.", part1ColleaguesChartScreen, ["The employees are cleaning the windows.", "A customer is paying at a counter.", "The road is being repaired."]],
     ["A laptop has been placed on a conference table.", part1LaptopConferenceTable, ["A printer is being loaded into a vehicle.", "Several people are boarding a train.", "A package is being weighed on a scale."]],
     ["A man is arranging materials before a presentation.", part1ManPresentationMaterials, ["A man is painting a sign outdoors.", "The shelves are completely empty.", "A waiter is serving drinks to guests."]],
     ["Some people are seated around a meeting table.", part1PeopleMeetingTable, ["Some people are standing in a checkout line.", "A bicycle is leaning against a fence.", "The floor is being swept by a cleaner."]],
     ["A worker is pointing at information on a display.", part1WorkerPointingDisplay, ["A worker is repairing a staircase.", "The vehicles are parked beside a river.", "A woman is trying on a jacket."]],
-    ["A man is studying figures in a printed report.", part1WomanReviewingDocument, ["A man is closing a window.", "A woman is folding clothes.", "Some boxes are being delivered."]],
-    ["The team is examining data shown on a monitor.", part1ColleaguesChartScreen, ["A vehicle is being washed outside.", "A person is climbing a ladder.", "A waiter is wiping a table."]],
-    ["A computer has been left open in a meeting room.", part1LaptopConferenceTable, ["A man is repairing a bicycle.", "A woman is opening a bottle.", "Some plants are being watered."]],
-    ["A presenter is checking handouts before a session.", part1ManPresentationMaterials, ["A chef is cutting vegetables.", "Children are running in a park.", "A mechanic is changing a tire."]],
-    ["Several colleagues are gathered around a table.", part1PeopleMeetingTable, ["A passenger is buying a ticket.", "Shoppers are walking near a mall.", "A photographer is setting up a tripod."]],
-    ["An employee is highlighting points on a screen.", part1WorkerPointingDisplay, ["A guard is opening a gate.", "Workers are unloading crates.", "A diver is entering a pool."]],
   ];
 
-  const scenes = pickPool(pool, 6, seed);
+  const extraStatements: [string, string[]][] = [
+    ["A man is standing in front of a whiteboard.", ["A man is wiping the whiteboard clean.", "A woman is sitting on the floor.", "Some students are leaving a classroom."]],
+    ["A woman is typing on a keyboard.", ["A woman is watering a plant.", "A man is sleeping at a desk.", "Some children are drawing pictures."]],
+    ["Workers are loading boxes onto a truck.", ["Workers are repairing a roof.", "Customers are tasting samples.", "A driver is parking a car."]],
+    ["A clerk is handing a receipt to a customer.", ["A clerk is sweeping the floor.", "A waiter is taking an order.", "A man is carrying a ladder."]],
+    ["Several people are walking down a hallway.", ["Several people are riding bicycles.", "A man is climbing some stairs.", "A guard is opening a gate."]],
+    ["A man is wearing safety goggles.", ["A man is fishing by a lake.", "A woman is painting a wall.", "Some plants are being trimmed."]],
+    ["A woman is holding a clipboard.", ["A woman is wrapping a gift.", "A waiter is serving food.", "Some books are stacked on a shelf."]],
+    ["The shelves are filled with merchandise.", ["The shelves are being repaired.", "A truck is being unloaded.", "Customers are leaving the store."]],
+    ["A technician is checking a machine.", ["A technician is washing a window.", "A barista is making coffee.", "Some workers are eating lunch."]],
+    ["A waiter is setting a table.", ["A waiter is washing dishes.", "A chef is greeting customers.", "Some glasses are being broken."]],
+    ["Cars are parked along the street.", ["Cars are being towed away.", "A bus is making a turn.", "Pedestrians are crossing a bridge."]],
+    ["A woman is putting on a jacket.", ["A woman is folding a shirt.", "A child is opening a present.", "Some shoes are being repaired."]],
+    ["A man is reading a newspaper outdoors.", ["A man is mowing a lawn.", "A woman is pushing a stroller.", "Some boys are playing soccer."]],
+    ["A musician is tuning an instrument.", ["A musician is signing autographs.", "A teacher is grading papers.", "Some chairs are being arranged."]],
+    ["A doctor is examining a patient's chart.", ["A doctor is closing a window.", "A nurse is unloading a delivery.", "Some equipment is being moved."]],
+    ["Books are being placed on a shelf.", ["Books are being printed in a factory.", "A librarian is opening a door.", "A reader is paying for a magazine."]],
+    ["A construction worker is wearing a helmet.", ["A construction worker is taking a nap.", "A painter is mixing colors.", "Some cement is being poured."]],
+    ["A passenger is checking the departure board.", ["A passenger is boarding a plane.", "A pilot is closing a hatch.", "Some luggage is being scanned."]],
+    ["A barista is preparing a drink at the counter.", ["A barista is wiping a window.", "A baker is decorating a cake.", "Some tables are being moved outside."]],
+    ["A photographer is adjusting a camera.", ["A photographer is leaving the studio.", "A model is changing clothes.", "Some lights are being turned off."]],
+    ["A salesperson is showing a product to a customer.", ["A salesperson is closing the cash register.", "A delivery driver is asking for a signature.", "Some products are being thrown away."]],
+    ["A teacher is writing on a chalkboard.", ["A teacher is collecting homework.", "Students are leaving for recess.", "A janitor is mopping the floor."]],
+    ["A chef is chopping vegetables on a cutting board.", ["A chef is greeting diners at the entrance.", "A waiter is balancing several plates.", "Some bread is being baked."]],
+    ["A receptionist is answering a phone call.", ["A receptionist is locking the front door.", "A guest is signing the register.", "Some flowers are being delivered."]],
+    ["A gardener is trimming a hedge.", ["A gardener is washing a car.", "A delivery person is ringing a bell.", "Some leaves are being raked."]],
+    ["A jogger is running along a path in the park.", ["A jogger is stretching by a bench.", "A cyclist is fixing a flat tire.", "Some dogs are being walked."]],
+    ["A mechanic is checking under the hood of a car.", ["A mechanic is changing a tire.", "A driver is paying for fuel.", "Some cars are being polished."]],
+    ["A pharmacist is labeling a bottle of medicine.", ["A pharmacist is closing the shop.", "A customer is asking for directions.", "Some shelves are being restocked."]],
+    ["A florist is arranging flowers in a vase.", ["A florist is sweeping the sidewalk.", "A customer is buying a card.", "Some plants are being delivered."]],
+    ["A pilot is reviewing a flight plan in the cockpit.", ["A pilot is greeting passengers.", "A flight attendant is closing a door.", "Some snacks are being served."]],
+    ["A journalist is taking notes during an interview.", ["A journalist is leaving a press conference.", "A photographer is setting up a tripod.", "Some microphones are being adjusted."]],
+    ["A vendor is selling fruit at an outdoor market.", ["A vendor is closing the market stall.", "A shopper is choosing vegetables.", "Some boxes are being stacked."]],
+    ["A child is reading a book in a library.", ["A child is climbing a tree.", "A librarian is shelving books.", "Some chairs are being moved."]],
+    ["A dentist is preparing equipment in the clinic.", ["A dentist is leaving the office.", "A patient is filling out a form.", "Some instruments are being cleaned."]],
+    ["A scientist is looking through a microscope.", ["A scientist is washing test tubes.", "A student is taking notes.", "Some samples are being labeled."]],
+    ["An artist is painting a canvas in the studio.", ["An artist is cleaning brushes.", "A visitor is buying a sculpture.", "Some frames are being hung."]],
+    ["A coach is giving instructions to the players.", ["A coach is walking off the field.", "A referee is signaling a foul.", "Some balls are being collected."]],
+    ["A tour guide is pointing at a landmark.", ["A tour guide is selling tickets.", "A tourist is taking a photograph.", "Some maps are being handed out."]],
+    ["A hotel clerk is handing over a room key.", ["A hotel clerk is mopping the lobby.", "A bellhop is loading luggage onto a cart.", "Some guests are leaving the hotel."]],
+    ["A delivery person is carrying a parcel to the door.", ["A delivery person is parking a van.", "A homeowner is signing a form.", "Some packages are being scanned."]],
+    ["A bank teller is counting bills behind the counter.", ["A bank teller is closing the window.", "A customer is filling out a slip.", "Some coins are being sorted."]],
+    ["A musician is performing on a small stage.", ["A musician is tuning before the show.", "Audience members are clapping.", "Some lights are being adjusted."]],
+  ];
 
-  return scenes.map(([correct, imageUrl, distractors], i) => makeQuestion({
-    id: `${examId}-p1-${i + 1}`,
-    part: 1,
-    prompt: "Look at the photograph and choose the statement that best describes it.",
-    options: optionSet(correct, distractors),
-    answerSeed: seed + i,
-    transcript: [correct, ...distractors].map((line, idx) => `${String.fromCharCode(65 + idx)}. ${line}`).join("\n"),
-    audioText: [correct, ...distractors].map((line, idx) => `${String.fromCharCode(65 + idx)}. ${line}`).join(". "),
-    imageUrl,
-    explanation: "Choose the statement that accurately describes the visible action or state in the photograph.",
-  }));
+  // 48-scene pool: 6 real photos + 42 SVG-generated unique illustrations.
+  const pool: [string, string, string[]][] = [
+    ...photoPool,
+    ...extraStatements.map(([correct, distractors], idx): [string, string, string[]] => [
+      correct,
+      makeSceneImage(idx + 100, "photo"),
+      distractors,
+    ]),
+  ];
+
+  const scenes = pickPool(pool, 6, examIndex);
+
+  return scenes.map(([correct, imageUrl, distractors], i) => {
+    const v = (s: string) => varyText(s, examIndex);
+    const correctV = v(correct);
+    const distractorsV = distractors.map(v);
+    return makeQuestion({
+      id: `${examId}-p1-${i + 1}`,
+      part: 1,
+      prompt: "Look at the photograph and choose the statement that best describes it.",
+      options: optionSet(correctV, distractorsV),
+      answerSeed: seed + i,
+      transcript: [correctV, ...distractorsV].map((line, idx) => `${String.fromCharCode(65 + idx)}. ${line}`).join("\n"),
+      audioText: [correctV, ...distractorsV].map((line, idx) => `${String.fromCharCode(65 + idx)}. ${line}`).join(". "),
+      imageUrl,
+      explanation: "Choose the statement that accurately describes the visible action or state in the photograph.",
+    });
+  });
 }
 
-function generatePart2(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
+function generatePart2(theme: Theme, examId: string, seed: number, examIndex: number): ToeicLRQuestion[] {
   const pool: [string, string, string[]][] = [
     ["When will the report be ready?", "By Thursday afternoon.", ["In the main lobby.", "It was very informative."]],
     ["Where is the product demonstration being held?", "In the training room.", ["At nine o'clock sharp.", "Because the projector was broken."]],
@@ -277,10 +350,12 @@ function generatePart2(theme: Theme, examId: string, seed: number): ToeicLRQuest
     ["How long will the renovation take?", "About six weeks, according to the contractor.", ["It's a large building.", "We renovated last year."]],
   ];
 
-  const stems = pickPool(pool, 25, seed);
+  const stems = pickPool(pool, 25, examIndex);
 
   return stems.map(([question, correct, distractors], i) => {
-    const choices = [correct, ...distractors];
+    const v = (s: string) => varyText(s, examIndex);
+    const questionV = v(question);
+    const choices = [v(correct), ...distractors.map(v)];
     const { items, answer } = reorder(choices, seed + i);
     return {
       id: `${examId}-p2-${i + 1}`,
@@ -288,14 +363,14 @@ function generatePart2(theme: Theme, examId: string, seed: number): ToeicLRQuest
       prompt: "Listen to the question and choose the best response.",
       options: items,
       answer,
-      transcript: `Q: ${question}\n${items.map((line, idx) => `${String.fromCharCode(65 + idx)}. ${line}`).join("\n")}`,
-      audioText: `${question} ${items.map((line, idx) => `${String.fromCharCode(65 + idx)}. ${line}`).join(" ")}`,
+      transcript: `Q: ${questionV}\n${items.map((line, idx) => `${String.fromCharCode(65 + idx)}. ${line}`).join("\n")}`,
+      audioText: `${questionV} ${items.map((line, idx) => `${String.fromCharCode(65 + idx)}. ${line}`).join(" ")}`,
       explanation: "The best response answers the question type directly and naturally.",
     } as ToeicLRQuestion;
   });
 }
 
-function generatePart3(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
+function generatePart3(theme: Theme, examId: string, seed: number, examIndex: number): ToeicLRQuestion[] {
   const pool: [string, string, string, string][] = [
     ["a delayed shipment", "warehouse", "call the carrier", "The tracking page has not changed since Monday"],
     ["a conference room booking", "office", "move the meeting to Room B", "The projector in Room A is not working"],
@@ -322,10 +397,11 @@ function generatePart3(theme: Theme, examId: string, seed: number): ToeicLRQuest
     ["a magazine subscription", "subscription office", "send a renewal notice", "The current issue will be the last one"],
   ];
 
-  const situations = pickPool(pool, 13, seed);
+  const situations = pickPool(pool, 13, examIndex);
 
   return situations.flatMap(([topic, location, action, detail], groupIdx) => {
-    const transcript = `M: I need your help with ${topic}. ${detail}.\nW: I see. We should ${action} before the end of the day.\nM: Good idea. I'll also notify ${theme.department} so everyone knows the plan.`;
+    const v = (s: string) => varyText(s, examIndex);
+    const transcript = `M: I need your help with ${v(topic)}. ${v(detail)}.\nW: I see. We should ${v(action)} before the end of the day.\nM: Good idea. I'll also notify ${theme.department} so everyone knows the plan.`;
     const groupId = `${examId}-p3-conv-${groupIdx + 1}`;
     return [
       makeQuestion({
@@ -362,7 +438,7 @@ function generatePart3(theme: Theme, examId: string, seed: number): ToeicLRQuest
   });
 }
 
-function generatePart4(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
+function generatePart4(theme: Theme, examId: string, seed: number, examIndex: number): ToeicLRQuestion[] {
   const pool: [string, string, string, string, string][] = [
     ["announcement", `Attention employees. ${theme.company} will conduct system maintenance this Saturday from 10 P.M. to 2 A.M. Please save your files and sign out before leaving on Friday.`, "system maintenance", "Saturday from 10 P.M. to 2 A.M.", "save files and sign out"],
     ["advertisement", `Looking for a convenient venue for your next meeting? ${theme.place} offers modern rooms, catering packages, and free parking for groups of twenty or more. Call by June 30 for a ten percent discount.`, "meeting venue services", "groups of twenty or more", "call by June 30"],
@@ -384,9 +460,10 @@ function generatePart4(theme: Theme, examId: string, seed: number): ToeicLRQuest
     ["volunteer briefing", `Thank you all for joining today's clean-up event. Gloves and bags are at the registration tent. Please return any unused supplies before noon.`, "a clean-up event", "at the registration tent", "return unused supplies by noon"],
   ];
 
-  const talks = pickPool(pool, 10, seed);
+  const talks = pickPool(pool, 10, examIndex);
 
   return talks.flatMap(([kind, transcript, purpose, detail, action], groupIdx) => {
+    const transcriptV = varyText(transcript as string, examIndex);
     const groupId = `${examId}-p4-talk-${groupIdx + 1}`;
     return [
       makeQuestion({
@@ -395,8 +472,8 @@ function generatePart4(theme: Theme, examId: string, seed: number): ToeicLRQuest
         prompt: "What is the main purpose of the talk?",
         options: optionSet(purpose, ["to introduce a new employee", "to request a payment", "to cancel a contract"]),
         answerSeed: seed + groupIdx,
-        transcript: transcript as string,
-        audioText: transcript as string,
+        transcript: transcriptV,
+        audioText: transcriptV,
         passageGroupId: groupId,
       }),
       makeQuestion({
@@ -405,8 +482,8 @@ function generatePart4(theme: Theme, examId: string, seed: number): ToeicLRQuest
         prompt: "What specific detail is mentioned?",
         options: optionSet(detail, ["a free lunch coupon", "a new uniform requirement", "a parking violation"]),
         answerSeed: seed + groupIdx + 1,
-        transcript: transcript as string,
-        audioText: transcript as string,
+        transcript: transcriptV,
+        audioText: transcriptV,
         passageGroupId: groupId,
       }),
       makeQuestion({
@@ -415,15 +492,15 @@ function generatePart4(theme: Theme, examId: string, seed: number): ToeicLRQuest
         prompt: "What are listeners advised to do?",
         options: optionSet(action, ["submit a tax form", "replace their ID cards", "reserve a hotel room"]),
         answerSeed: seed + groupIdx + 2,
-        transcript: transcript as string,
-        audioText: transcript as string,
+        transcript: transcriptV,
+        audioText: transcriptV,
         passageGroupId: groupId,
       }),
     ];
   });
 }
 
-function generatePart5(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
+function generatePart5(theme: Theme, examId: string, seed: number, examIndex: number): ToeicLRQuestion[] {
   const pool: [string, string, string[], string][] = [
     ["All employees must submit travel receipts ___ five business days.", "within", ["during", "since", "among"], "'Within' gives the allowed time limit."],
     ["The new policy will be ___ at the beginning of next month.", "implemented", ["implement", "implementation", "implementing"], "Passive voice requires be + past participle."],
@@ -477,19 +554,19 @@ function generatePart5(theme: Theme, examId: string, seed: number): ToeicLRQuest
     ["The ___ of the new branch will create thirty jobs.", "opening", ["open", "opens", "opened"], "A noun (gerund) is needed after 'the'."],
   ];
 
-  const items = pickPool(pool, 30, seed);
+  const items = pickPool(pool, 30, examIndex);
 
   return items.map(([prompt, correct, distractors, explanation], i) => makeQuestion({
     id: `${examId}-p5-${i + 1}`,
     part: 5,
-    prompt,
+    prompt: varyText(prompt, examIndex),
     options: optionSet(correct, distractors),
     answerSeed: seed + i,
     explanation,
   }));
 }
 
-function generatePart6(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
+function generatePart6(theme: Theme, examId: string, seed: number, examIndex: number): ToeicLRQuestion[] {
   const pool = [
     {
       text: `Dear Ms. Rivera,\n\nThank you for registering for our ${theme.event}. Your registration has been [BLANK1]. The program begins at 9 A.M. in the main hall. Please [BLANK2] your confirmation email at the entrance. [BLANK3]\n\nSincerely,\nEvent Services`,
@@ -565,9 +642,10 @@ function generatePart6(theme: Theme, examId: string, seed: number): ToeicLRQuest
     },
   ];
 
-  const passages = pickPool(pool, 4, seed);
+  const passages = pickPool(pool, 4, examIndex);
 
   return passages.flatMap((passage, pIdx) => {
+    const passageTextV = varyText(passage.text, examIndex);
     const groupId = `${examId}-p6-text-${pIdx + 1}`;
     return passage.blanks.map((entry, qIdx) => {
       const [correctOrPrompt, distractorsOrOptions, explanation, isComprehension] = entry as [string, string[], string, boolean?];
@@ -576,7 +654,7 @@ function generatePart6(theme: Theme, examId: string, seed: number): ToeicLRQuest
       return makeQuestion({
         id: `${examId}-p6-${pIdx * 4 + qIdx + 1}`,
         part: 6,
-        passage: passage.text,
+        passage: passageTextV,
         passageGroupId: groupId,
         prompt,
         options,
@@ -587,7 +665,7 @@ function generatePart6(theme: Theme, examId: string, seed: number): ToeicLRQuest
   });
 }
 
-function generatePart7(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
+function generatePart7(theme: Theme, examId: string, seed: number, examIndex: number): ToeicLRQuestion[] {
   const topicPool = [
     "training registration", "office relocation", "product recall", "conference agenda", "customer survey",
     "job posting", "restaurant opening", "shipping policy", "library renovation", "software license",
@@ -595,35 +673,46 @@ function generatePart7(theme: Theme, examId: string, seed: number): ToeicLRQuest
     "parking notice", "market report", "charity event", "membership renewal", "vendor evaluation",
     "internship opportunity", "exhibition schedule", "loyalty program update", "factory tour", "annual audit",
     "promotional campaign", "warranty extension", "service interruption", "budget reallocation", "policy revision",
+    "menu change", "scholarship application", "construction notice", "data backup procedure", "uniform redesign",
+    "expense policy", "intern welcome", "store grand opening", "customer rewards", "facility inspection",
+    "press release", "rental agreement", "shipping schedule update", "training certification", "annual gala",
+    "team-building retreat", "patent announcement", "vehicle leasing program", "office gym launch", "energy savings plan",
   ];
   const benefitPool = [
     "free parking", "a ten percent discount", "extended service hours", "a training certificate",
     "priority seating", "complimentary lunch", "an early access pass", "a one-month subscription",
-    "a gift voucher", "a guided facility tour",
+    "a gift voucher", "a guided facility tour", "a free consultation", "a welcome kit",
+    "a complimentary upgrade", "a printed handbook", "a souvenir mug", "a parking pass for the week",
+    "express checkout privileges", "a dedicated support contact", "a digital badge", "a year of newsletter access",
   ];
   const placePool = [
     theme.place, "main auditorium", "customer service desk", "online portal", "north warehouse",
     "city convention hall", "second-floor reception", "rear entrance kiosk", "regional sales office",
+    "executive lounge", "downtown branch", "airport service counter", "mobile help center", "training room B",
+    "outdoor pavilion", "innovation lab", "satellite office", "community center", "rooftop terrace",
+    "ground-floor showroom",
   ];
   const contactPool = [
     `hr@${theme.company.toLowerCase().replace(/[^a-z]/g, "")}.com`,
     `support@${theme.company.toLowerCase().replace(/[^a-z]/g, "")}.com`,
     "support@example.com", "events@example.com", "careers@example.com", "info@example.com",
+    "service@example.com", "frontdesk@example.com", "training@example.com", "media@example.com",
+    "operations@example.com", "membership@example.com", "billing@example.com", "logistics@example.com",
   ];
 
-  const topics = pickPool(topicPool, 18, seed);
-  const benefits = pickPool(benefitPool, 18, seed * 3 + 1);
-  const places = pickPool(placePool, 18, seed * 5 + 2);
-  const contacts = pickPool(contactPool, 18, seed * 7 + 3);
+  const topics = pickPool(topicPool, 18, examIndex);
+  const benefits = pickPool(benefitPool, 18, examIndex + 1);
+  const places = pickPool(placePool, 18, examIndex + 2);
+  const contacts = pickPool(contactPool, 18, examIndex + 3);
 
   const docs = topics.map((topic, i) => {
-    const day = 3 + ((seed + i * 2) % 22);
+    const day = 3 + ((examIndex * 5 + i * 2) % 22);
     const deadline = `July ${day + 7}`;
     const benefit = benefits[i];
     const contact = contacts[i];
     const place = places[i];
     const passage = `${i < 8 ? "EMAIL" : i < 13 ? "NOTICE" : "ARTICLE"}\nSubject: ${topic.replace(/\b\w/g, (m) => m.toUpperCase())}\n\n${theme.company} is announcing an update about ${topic}. The change will take effect on July ${day}. Employees and customers should check the ${place} for detailed instructions. Anyone who responds by ${deadline} will receive ${benefit}. For questions, contact ${contact}.\n\nAdditional details: The update is part of a plan to improve service quality, reduce delays, and make information easier to find.`;
-    return { passage, topic, deadline, benefit, contact, place };
+    return { passage: varyText(passage, examIndex), topic, deadline, benefit, contact, place };
   });
 
   return docs.flatMap((doc, i) => {
@@ -668,13 +757,13 @@ export function createFullToeicLRExam(base: ToeicLRExam, index: number): ToeicLR
   const theme = themeFor(base, index);
   const seed = index * 17 + base.id.length;
   const questions = [
-    ...generatePart1(theme, base.id, seed),
-    ...generatePart2(theme, base.id, seed),
-    ...generatePart3(theme, base.id, seed),
-    ...generatePart4(theme, base.id, seed),
-    ...generatePart5(theme, base.id, seed),
-    ...generatePart6(theme, base.id, seed),
-    ...generatePart7(theme, base.id, seed),
+    ...generatePart1(theme, base.id, seed, index),
+    ...generatePart2(theme, base.id, seed, index),
+    ...generatePart3(theme, base.id, seed, index),
+    ...generatePart4(theme, base.id, seed, index),
+    ...generatePart5(theme, base.id, seed, index),
+    ...generatePart6(theme, base.id, seed, index),
+    ...generatePart7(theme, base.id, seed, index),
   ];
 
   return {
