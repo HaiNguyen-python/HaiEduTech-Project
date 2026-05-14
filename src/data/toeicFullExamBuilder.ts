@@ -214,9 +214,13 @@ function pickPool<T>(pool: T[], count: number, examIndex: number): T[] {
   const len = pool.length;
   if (len === 0) return [];
   const start = ((examIndex * count) % len + len) % len;
+  // For exams 0..7, contiguous slice (preserves established behaviour).
+  // For exams 8+, use a coprime stride so wrapped slices interleave
+  // differently from earlier exams instead of duplicating them.
+  const stride = examIndex < 8 ? 1 : (examIndex % 2 === 0 ? 3 : 5);
   const out: T[] = [];
   for (let i = 0; i < count; i++) {
-    out.push(pool[(start + i) % len]);
+    out.push(pool[(start + i * stride) % len]);
   }
   return out;
 }
