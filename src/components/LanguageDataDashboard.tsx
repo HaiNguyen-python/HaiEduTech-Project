@@ -23,7 +23,7 @@ import {
   PolarRadiusAxis,
   Radar,
 } from "recharts";
-import { Users, Award, TrendingUp, Globe2, Database } from "lucide-react";
+import { Users, Award, TrendingUp, Globe2, Database, Headphones, BookOpen, PenLine, Mic, AlertTriangle, Sparkles, Target } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Select,
