@@ -654,7 +654,7 @@ function generatePart6(theme: Theme, examId: string, seed: number, examIndex: nu
       return makeQuestion({
         id: `${examId}-p6-${pIdx * 4 + qIdx + 1}`,
         part: 6,
-        passage: passage.text,
+        passage: passageTextV,
         passageGroupId: groupId,
         prompt,
         options,
