@@ -203,24 +203,32 @@ function makeQuestion(args: Omit<ToeicLRQuestion, "options" | "answer"> & { opti
 }
 
 function generatePart1(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
-  const scenes = [
+  const pool: [string, string, string[]][] = [
     ["A woman is reviewing a document at a desk.", part1WomanReviewingDocument, ["A woman is watering plants in a hallway.", "A man is carrying boxes into a truck.", "Some chairs are being stacked near a wall."]],
     ["Two colleagues are discussing a chart on a screen.", part1ColleaguesChartScreen, ["The employees are cleaning the windows.", "A customer is paying at a counter.", "The road is being repaired."]],
     ["A laptop has been placed on a conference table.", part1LaptopConferenceTable, ["A printer is being loaded into a vehicle.", "Several people are boarding a train.", "A package is being weighed on a scale."]],
     ["A man is arranging materials before a presentation.", part1ManPresentationMaterials, ["A man is painting a sign outdoors.", "The shelves are completely empty.", "A waiter is serving drinks to guests."]],
     ["Some people are seated around a meeting table.", part1PeopleMeetingTable, ["Some people are standing in a checkout line.", "A bicycle is leaning against a fence.", "The floor is being swept by a cleaner."]],
     ["A worker is pointing at information on a display.", part1WorkerPointingDisplay, ["A worker is repairing a staircase.", "The vehicles are parked beside a river.", "A woman is trying on a jacket."]],
+    ["A man is studying figures in a printed report.", part1WomanReviewingDocument, ["A man is closing a window.", "A woman is folding clothes.", "Some boxes are being delivered."]],
+    ["The team is examining data shown on a monitor.", part1ColleaguesChartScreen, ["A vehicle is being washed outside.", "A person is climbing a ladder.", "A waiter is wiping a table."]],
+    ["A computer has been left open in a meeting room.", part1LaptopConferenceTable, ["A man is repairing a bicycle.", "A woman is opening a bottle.", "Some plants are being watered."]],
+    ["A presenter is checking handouts before a session.", part1ManPresentationMaterials, ["A chef is cutting vegetables.", "Children are running in a park.", "A mechanic is changing a tire."]],
+    ["Several colleagues are gathered around a table.", part1PeopleMeetingTable, ["A passenger is buying a ticket.", "Shoppers are walking near a mall.", "A photographer is setting up a tripod."]],
+    ["An employee is highlighting points on a screen.", part1WorkerPointingDisplay, ["A guard is opening a gate.", "Workers are unloading crates.", "A diver is entering a pool."]],
   ];
+
+  const scenes = pickPool(pool, 6, seed);
 
   return scenes.map(([correct, imageUrl, distractors], i) => makeQuestion({
     id: `${examId}-p1-${i + 1}`,
     part: 1,
     prompt: "Look at the photograph and choose the statement that best describes it.",
-    options: optionSet(correct as string, distractors as string[]),
+    options: optionSet(correct, distractors),
     answerSeed: seed + i,
-    transcript: [correct, ...(distractors as string[])].map((line, idx) => `${String.fromCharCode(65 + idx)}. ${line}`).join("\n"),
-    audioText: [correct, ...(distractors as string[])].map((line, idx) => `${String.fromCharCode(65 + idx)}. ${line}`).join(". "),
-    imageUrl: imageUrl as string,
+    transcript: [correct, ...distractors].map((line, idx) => `${String.fromCharCode(65 + idx)}. ${line}`).join("\n"),
+    audioText: [correct, ...distractors].map((line, idx) => `${String.fromCharCode(65 + idx)}. ${line}`).join(". "),
+    imageUrl,
     explanation: "Choose the statement that accurately describes the visible action or state in the photograph.",
   }));
 }
