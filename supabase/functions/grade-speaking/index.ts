@@ -105,9 +105,9 @@ Return ONLY valid JSON with this structure:
   "upgradedAnswer": "<IMPORTANT: Take the student's ACTUAL answer and upgrade it to Band 7.5-8.0 level. Keep the same ideas, structure, and flow as the student's original answer. Fix all grammar errors, replace basic vocabulary with advanced alternatives, add appropriate linking words, and improve sentence structure. Do NOT create a completely new answer - this must clearly be the student's own answer but polished and elevated. Bold the upgraded words/phrases using **word** markdown.>"
 }
 
-IMPORTANT: The "highlightedErrors" array must contain errors found IN the actual transcript only. Each "text" field must be an exact substring from the transcript.
+IMPORTANT: The "highlightedErrors" array must contain errors found IN the actual transcript only. Each "text" field must be an exact substring from the transcript. ALWAYS include at least 2-3 highlightedErrors items if the transcript has any imperfections (grammar, vocabulary, or likely pronunciation issues). This rule applies to ALL parts including SHORT Part 1 answers — even a 20-30 word Part 1 answer must have errors identified if any exist. Only return an empty array if the answer is genuinely flawless Band 9 level.
 The "transcript" field must return the student's original transcription exactly as provided, do not modify it.
-The "upgradedAnswer" must be based on the student's actual answer - same ideas and flow, just upgraded language. Bold upgraded parts with **word** markdown.
+The "upgradedAnswer" must be based on the student's actual answer - same ideas and flow, just upgraded language. Bold upgraded parts with **word** markdown. THIS FIELD IS MANDATORY FOR ALL PARTS (1, 2, AND 3). Even for short Part 1 answers (1-3 sentences), you MUST produce an upgraded Band 7.5-8.0 version of the student's answer. Never leave this field empty or omit it. If the transcript is too short or empty, still produce a model upgraded answer that demonstrates how the student's idea could be expressed at Band 7.5+ level.
 Make scores REALISTIC and VARIED based on the actual language quality in the transcript.`;
 
     const response = await fetch("https://api.perplexity.ai/chat/completions", {
