@@ -880,7 +880,7 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
             <Button
               size="sm"
               variant="outline"
-              className="border-slate-600 text-slate-200"
+              className="border-cyan-400/60 bg-slate-800/80 text-white font-semibold hover:bg-cyan-500/20 hover:text-white disabled:opacity-60"
               disabled={activeIdx === 0}
               onClick={() => setActiveIdx((i) => Math.max(0, i - 1))}
             >
