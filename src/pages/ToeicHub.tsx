@@ -88,7 +88,7 @@ const ToeicHub = () => {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
           {sections.map((s, i) => (
             <motion.div
               key={s.to}
