@@ -795,10 +795,19 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
           </div>
 
           {current.imageUrl && (
-            <img src={current.imageUrl} alt="task" className="w-full max-h-72 object-cover rounded-lg mb-3 border border-slate-700" />
+            <img src={current.imageUrl} alt="task" className="w-full max-h-80 object-contain rounded-lg mb-3 border border-slate-700 bg-slate-950" />
           )}
 
-          <p className="text-sm whitespace-pre-wrap mb-4 leading-relaxed">{current.prompt}</p>
+          {current.context && (
+            <div className="mb-3 p-3 rounded-lg bg-slate-800/70 border border-slate-600 text-sm text-slate-100 whitespace-pre-wrap leading-relaxed">
+              <div className="text-[11px] font-semibold uppercase tracking-wide text-cyan-300 mb-1">
+                {t("Tài liệu tham khảo", "Reference material")}
+              </div>
+              {current.context}
+            </div>
+          )}
+
+          <p className="text-base font-medium text-white whitespace-pre-wrap mb-4 leading-relaxed">{current.prompt}</p>
 
           <div className="text-xs text-slate-400 mb-3">
             {t("Chuẩn bị:", "Prep:")} {current.prepSeconds}s · {t("Trả lời:", "Response:")} {current.responseSeconds}s
