@@ -9,6 +9,7 @@ import { Code2, Database, Workflow, BrainCircuit, ChevronRight, Trophy, BookOpen
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import CertCarousel from "@/components/CertCarousel";
+import ITJobMarketDashboard from "@/components/ITJobMarketDashboard";
 import PythonReview from "@/components/PythonReview";
 import PythonPathwayHub from "@/components/python/PythonPathwayHub";
 import { programmingModules, allProgrammingModules } from "@/data/programmingLessonData";
@@ -476,6 +477,9 @@ const Programming = () => {
                 </div>
               </motion.div>
             </AnimatePresence>
+
+            {/* Global IT Job Market Dashboard */}
+            <ITJobMarketDashboard activePillarId={activePillar} />
 
             {/* Python Review */}
             <PythonReview />
