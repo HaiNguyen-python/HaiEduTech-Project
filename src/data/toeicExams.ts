@@ -506,6 +506,7 @@ const LR_02: ToeicLRExam = {
       prompt: "What is the Q4 target?",
       options: ["$1.5M", "$2.0M", "$2.5M", "$3.0M"],
       answer: 2,
+      passageGroupId: "lr2-memo-1",
     },
     {
       id: "lr2-p7-2",
@@ -514,6 +515,7 @@ const LR_02: ToeicLRExam = {
       prompt: "When will bonuses be distributed?",
       options: ["End of December", "Mid-January", "End of January", "Mid-February"],
       answer: 1,
+      passageGroupId: "lr2-memo-1",
     },
   ],
 };

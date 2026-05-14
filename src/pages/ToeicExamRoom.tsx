@@ -295,7 +295,7 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
                   {current.audioSrc ? (
                     <audio controls src={current.audioSrc} className="mt-2 w-full" />
                   ) : (
-                    <div className="mt-2 text-xs italic text-slate-500">
+                    <div className="mt-2 text-xs italic text-slate-300">
                       {t("(Audio mẫu — học sinh có thể đọc transcript ở chế độ Review)", "(Sample audio — read the transcript in Review mode)")}
                     </div>
                   )}
@@ -312,7 +312,7 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
                 ) : null;
               })()}
 
-              <p className="text-base font-medium mb-4">{current.prompt}</p>
+              <p className="text-base font-medium mb-4 text-slate-100 leading-relaxed">{current.prompt}</p>
 
               <div className="space-y-2">
                 {current.options.map((opt, i) => {
@@ -474,7 +474,7 @@ const LRReview = ({ exam, questions, answers }: LRReviewProps) => {
                   </div>
                 ) : null;
               })()}
-              <p className="text-sm font-medium mb-2">{q.prompt}</p>
+              <p className="text-sm font-medium mb-2 text-slate-100 leading-relaxed">{q.prompt}</p>
               <div className="text-xs space-y-1 mb-2">
                 {q.options.map((opt, idx) => (
                   <div

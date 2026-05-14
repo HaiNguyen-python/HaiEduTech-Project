@@ -95,6 +95,7 @@ const LR_07: ToeicLRExam = {
       prompt: "What will the woman do?",
       options: ["Call the manager", "Reset his password", "Send a new laptop", "Reschedule the meeting"],
       answer: 1,
+      transcript: "Let me reset it for you.",
       passageGroupId: "lr7-conv-1",
     },
     {
@@ -103,6 +104,7 @@ const LR_07: ToeicLRExam = {
       prompt: "How will the man receive the new password?",
       options: ["By phone call", "By text message", "By email", "In person"],
       answer: 2,
+      transcript: "You'll receive a temporary password by email in a few minutes.",
       passageGroupId: "lr7-conv-1",
     },
     // Part 4
@@ -132,6 +134,7 @@ const LR_07: ToeicLRExam = {
         "Change their passwords",
       ],
       answer: 2,
+      transcript: "Please do not click any links and report the message to security@company.com immediately.",
       passageGroupId: "lr7-talk-1",
     },
     // Part 5
@@ -359,6 +362,7 @@ const LR_08: ToeicLRExam = {
       prompt: "When will the order arrive?",
       options: ["Tuesday", "Wednesday", "Thursday", "Next Monday"],
       answer: 2,
+      transcript: "It shipped this morning and should arrive Thursday.",
       passageGroupId: "lr8-conv-1",
     },
     {
@@ -382,6 +386,7 @@ const LR_08: ToeicLRExam = {
       prompt: "What must be reported immediately?",
       options: ["Late arrivals", "Any incidents", "Equipment requests", "Lunch break changes"],
       answer: 1,
+      transcript: "Any incidents must be reported to your supervisor immediately.",
       passageGroupId: "lr8-talk-1",
     },
     {
