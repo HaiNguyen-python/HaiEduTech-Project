@@ -483,10 +483,10 @@ const LR_02: ToeicLRExam = {
     {
       id: "lr2-p5-3",
       part: 5,
-      prompt: "Sales of the new model are ___ those of last year.",
+      prompt: "Sales of the new model have ___ since the redesign was launched.",
       options: ["double", "doubled", "doubling", "doubles"],
-      answer: 2,
-      explanation: "'are + V-ing' (present continuous) diễn tả xu hướng.",
+      answer: 1,
+      explanation: "'have + V3' (present perfect) → doubled.",
     },
     {
       id: "lr2-p6-1",
@@ -611,8 +611,10 @@ const SW_01: ToeicSWExam = {
   ],
 };
 
-export const TOEIC_LR_EXAMS: ToeicLRExam[] = [LR_01, LR_02];
-export const TOEIC_SW_EXAMS: ToeicSWExam[] = [SW_01];
+import { TOEIC_LR_EXTRA, TOEIC_SW_EXTRA } from "./toeicExamsExtra";
+
+export const TOEIC_LR_EXAMS: ToeicLRExam[] = [LR_01, LR_02, ...TOEIC_LR_EXTRA];
+export const TOEIC_SW_EXAMS: ToeicSWExam[] = [SW_01, ...TOEIC_SW_EXTRA];
 
 // Score conversion: number correct -> approximate scaled score per section (0..495)
 // Simplified linear curve based on ETS published distributions.
