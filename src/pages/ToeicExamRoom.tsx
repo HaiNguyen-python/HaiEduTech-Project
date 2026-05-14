@@ -197,20 +197,125 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
     });
   }
 
-  function playGeneratedAudio(q: ToeicLRQuestion) {
+  function pickVoices() {
+    if (!("speechSynthesis" in window)) return [] as SpeechSynthesisVoice[];
+    const all = window.speechSynthesis.getVoices().filter((v) => /^en[-_]/i.test(v.lang));
+    // Prefer high quality natural/neural voices
+    const score = (v: SpeechSynthesisVoice) => {
+      const n = `${v.name} ${v.voiceURI}`.toLowerCase();
+      let s = 0;
+      if (/google/.test(n)) s += 5;
+      if (/natural|neural|enhanced|premium|online/.test(n)) s += 4;
+      if (/(en[-_]us)/i.test(v.lang)) s += 2;
+      if (/(en[-_]gb)/i.test(v.lang)) s += 1;
+      if (/samantha|aaron|allison|ava|joanna|matthew|guy|jenny|aria|libby|ryan/.test(n)) s += 3;
+      return s;
+    };
+    return all.sort((a, b) => score(b) - score(a));
+  }
+
+  function speakSequential(
+    segments: { text: string; voice?: SpeechSynthesisVoice; rate?: number; pitch?: number; gap?: number }[]
+  ) {
     if (!("speechSynthesis" in window)) return;
     window.speechSynthesis.cancel();
-    const intro =
-      q.part === 1
-        ? `Look at the photograph marked number ${activeIdx + 1} in your test book. `
-        : q.part === 2
-        ? `Question ${activeIdx + 1}. You will hear a question or statement, followed by three responses. `
-        : "";
-    const utterance = new SpeechSynthesisUtterance(intro + getListeningAudioText(q));
-    utterance.lang = "en-US";
-    utterance.rate = speed;
-    window.speechSynthesis.speak(utterance);
+    segments.forEach((seg, i) => {
+      // Split into sentences for natural prosody breaks
+      const sentences = seg.text
+        .split(/(?<=[.!?])\s+|\n+/)
+        .map((s) => s.trim())
+        .filter(Boolean);
+      sentences.forEach((sentence, j) => {
+        const u = new SpeechSynthesisUtterance(sentence);
+        u.lang = seg.voice?.lang || "en-US";
+        if (seg.voice) u.voice = seg.voice;
+        u.rate = (seg.rate ?? speed) * (sentence.endsWith("?") ? 0.97 : 1);
+        u.pitch = seg.pitch ?? 1;
+        u.volume = 1;
+        // Tiny silence between sentences using a leading space helps some engines breathe
+        if (j === sentences.length - 1 && i < segments.length - 1 && seg.gap) {
+          u.text = sentence + " ";
+        }
+        window.speechSynthesis.speak(u);
+        if (seg.gap && j === sentences.length - 1) {
+          // Insert a silent pause utterance to create rhythm between speakers/options
+          const pause = new SpeechSynthesisUtterance(" , , , ");
+          pause.volume = 0;
+          pause.rate = Math.max(0.6, (seg.rate ?? speed) * 0.7);
+          window.speechSynthesis.speak(pause);
+        }
+      });
+    });
   }
+
+  function playGeneratedAudio(q: ToeicLRQuestion) {
+    if (!("speechSynthesis" in window)) return;
+    const voices = pickVoices();
+    const narrator = voices[0];
+    const speakerA = voices.find((v) => /female|samantha|joanna|jenny|aria|libby|ava/i.test(v.name)) || voices[1] || narrator;
+    const speakerB = voices.find((v) => /male|matthew|guy|ryan|aaron|daniel|david/i.test(v.name)) || voices[2] || narrator;
+
+    const body = getListeningAudioText(q);
+
+    if (q.part === 1) {
+      speakSequential([
+        { text: `Look at the photograph marked number ${activeIdx + 1} in your test book.`, voice: narrator, rate: speed * 0.95, pitch: 1.0, gap: 0.6 },
+        // statements A-D usually separated by line breaks; split & alternate slight pitch
+        ...body.split(/\n+/).filter(Boolean).map((line, i) => ({
+          text: line,
+          voice: i % 2 === 0 ? speakerA : speakerB,
+          rate: speed,
+          pitch: 1 + (i % 2 === 0 ? 0.05 : -0.05),
+          gap: 0.5,
+        })),
+      ]);
+      return;
+    }
+
+    if (q.part === 2) {
+      const lines = body.split(/\n+/).filter(Boolean);
+      speakSequential([
+        { text: `Question ${activeIdx + 1}.`, voice: narrator, rate: speed * 0.95, gap: 0.4 },
+        ...lines.map((line, i) => ({
+          text: line,
+          voice: i === 0 ? speakerA : i % 2 === 1 ? speakerB : speakerA,
+          rate: speed,
+          pitch: i === 0 ? 1.05 : 1 + (i % 2 === 1 ? -0.06 : 0.04),
+          gap: 0.5,
+        })),
+      ]);
+      return;
+    }
+
+    // Parts 3 & 4: conversation/talk — split by speaker tags or sentences
+    const turns = body
+      .split(/\n+/)
+      .map((t) => t.trim())
+      .filter(Boolean);
+    speakSequential(
+      turns.map((line, i) => {
+        const isWoman = /^(W|Woman|Female)\s*[:.\-]/i.test(line);
+        const isMan = /^(M|Man|Male)\s*[:.\-]/i.test(line);
+        const clean = line.replace(/^(W|M|Woman|Man|Female|Male|Speaker\s*\d)\s*[:.\-]\s*/i, "");
+        const v = isWoman ? speakerA : isMan ? speakerB : i % 2 === 0 ? speakerA : speakerB;
+        return {
+          text: clean,
+          voice: v,
+          rate: speed * 0.98,
+          pitch: v === speakerA ? 1.06 : 0.96,
+          gap: 0.35,
+        };
+      })
+    );
+  }
+
+  // Warm up voice list (some browsers load async)
+  useEffect(() => {
+    if (!("speechSynthesis" in window)) return;
+    const onv = () => window.speechSynthesis.getVoices();
+    onv();
+    window.speechSynthesis.onvoiceschanged = onv;
+  }, []);
 
   // Auto-play audio when a listening question (Parts 1-4) becomes active
   useEffect(() => {
