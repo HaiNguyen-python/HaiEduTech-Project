@@ -57,6 +57,22 @@ interface PurposeSlice {
   value: number;
 }
 
+interface SkillDatum {
+  key: "listening" | "reading" | "writing" | "speaking";
+  label: string;            // display label including native unit (e.g. "Listening (IELTS)")
+  scaleMax: number;         // e.g. 9 for IELTS, 100 for HSK %, 6 for CEFR/YKI
+  scaleUnit: string;        // "/9", "%", "/6"
+  globalAvg: number;
+  vietnamAvg: number;
+  topAvg: number;           // top-quartile / Band 7+ learners
+  passRate: number;         // % achieving the target band (e.g. IELTS 6.5+)
+  trendYoY: string;         // e.g. "+0.2", "+3%"
+  hardestPart: string;
+  commonMistake: string;
+  proTip: string;           // Mẹo vàng của thầy Hải
+  weeklyHours: number;      // recommended study hours/week
+}
+
 interface LanguageDataset {
   flag: string;
   exam: string;
@@ -67,6 +83,7 @@ interface LanguageDataset {
   countries: CountryDatum[];
   scoreDistribution: ScoreBucket[];
   purposes: PurposeSlice[];
+  skills: SkillDatum[];
   highlights: { label: string; value: string }[];
   sources: string;
 }
