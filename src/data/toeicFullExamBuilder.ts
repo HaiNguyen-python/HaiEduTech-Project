@@ -490,7 +490,7 @@ function generatePart5(theme: Theme, examId: string, seed: number): ToeicLRQuest
 }
 
 function generatePart6(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
-  const passages = [
+  const pool = [
     {
       text: `Dear Ms. Rivera,\n\nThank you for registering for our ${theme.event}. Your registration has been [BLANK1]. The program begins at 9 A.M. in the main hall. Please [BLANK2] your confirmation email at the entrance. [BLANK3]\n\nSincerely,\nEvent Services`,
       blanks: [
@@ -527,7 +527,45 @@ function generatePart6(theme: Theme, examId: string, seed: number): ToeicLRQuest
         ["Why are service hours being extended?", ["To support customers in different time zones", "To reduce the number of employees", "To close the call center", "To change the company name"], "The update states the reason directly.", true],
       ],
     },
+    {
+      text: `MEMO\nFrom: Facilities Manager\nTo: All Staff\nSubject: Parking Lot Resurfacing\n\nThe north parking lot will be [BLANK1] from May 4 to May 7. During that period, employees should park in the south lot or use public transportation. We apologize for any [BLANK2] caused by this work. [BLANK3]`,
+      blanks: [
+        ["closed", ["close", "closing", "closure"], "Passive voice requires a past participle."],
+        ["inconvenience", ["inconvenient", "inconveniently", "inconvenienced"], "A noun follows 'any'."],
+        ["Carpooling is encouraged to reduce demand on the south lot.", ["The roof was painted blue last spring.", "The cafeteria will close permanently.", "Visitors must wear formal attire."], "The sentence relates to parking and transportation."],
+        ["When will the work end?", ["May 7", "May 4", "April 4", "June 7"], "The memo states the resurfacing ends on May 7.", true],
+      ],
+    },
+    {
+      text: `Job Posting\n\n${theme.company} is seeking a part-time office assistant to support the ${theme.department}. The successful candidate will be ___ for sorting mail, scheduling appointments, and assisting visitors. Applicants must [BLANK1] strong communication skills and basic computer knowledge. To apply, please [BLANK2] a résumé and cover letter to careers@example.com. [BLANK3]`,
+      blanks: [
+        ["have", ["had", "having", "has"], "Use the base verb after 'must'."],
+        ["submit", ["submission", "submits", "submitted"], "Imperative requires a base verb."],
+        ["Applications received after May 30 will not be considered.", ["The office building is twelve stories tall.", "The previous assistant has retired to Spain.", "All employees enjoy free coffee."], "The sentence adds an application deadline."],
+        ["Where should applicants send their materials?", ["careers@example.com", "the front desk", "the local newspaper", "the city library"], "The posting gives an application email address.", true],
+      ],
+    },
+    {
+      text: `Press Release\n\n${theme.company} announced today that it will [BLANK1] a new branch office in Lisbon next spring. The expansion is expected to create approximately fifty new positions, mostly in customer service and ${theme.department}. Company spokesperson Lina Park said the move reflects [BLANK2] demand for the company's services in southern Europe. [BLANK3]`,
+      blanks: [
+        ["open", ["opens", "opening", "opened"], "Use base verb after 'will'."],
+        ["growing", ["grow", "growth", "grew"], "An adjective modifies 'demand'."],
+        ["Recruitment for the new positions will begin in early autumn.", ["The CEO recently sold his vacation home.", "Headquarters will move to a smaller building.", "The company will discontinue its email newsletter."], "The sentence continues the expansion story.", false],
+        ["What is the press release mainly about?", ["A new branch office", "A merger with a competitor", "A change in product packaging", "A scheduled price increase"], "The release announces a new branch.", true],
+      ],
+    },
+    {
+      text: `To: All Employees\nFrom: IT Help Desk\nSubject: Mandatory Password Reset\n\nFor security reasons, all employees must [BLANK1] their company password by Friday at 5 P.M. Instructions can be found on the staff portal under "Account Security." If you experience any issues, please contact the IT help desk [BLANK2]. [BLANK3]`,
+      blanks: [
+        ["reset", ["resets", "resetting", "resetted"], "Use the base verb after the modal 'must'."],
+        ["immediately", ["immediate", "immediacy", "immediates"], "An adverb modifies 'contact'."],
+        ["Passwords that are not updated by the deadline will be deactivated.", ["The cafeteria menu features new soups.", "The company gym is open until midnight.", "Office plants will be replaced next week."], "The sentence reinforces the deadline.", false],
+        ["What is the deadline for resetting passwords?", ["Friday at 5 P.M.", "Monday morning", "Saturday at noon", "The end of the month"], "The memo states the deadline.", true],
+      ],
+    },
   ];
+
+  const passages = pickPool(pool, 4, seed);
 
   return passages.flatMap((passage, pIdx) => {
     const groupId = `${examId}-p6-text-${pIdx + 1}`;
