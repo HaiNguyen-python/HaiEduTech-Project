@@ -303,11 +303,14 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
               )}
 
               {/* Reading passage */}
-              {(current.part === 6 || current.part === 7) && current.passage && (
-                <div className="mb-4 p-3 rounded-lg bg-slate-950/60 border border-slate-700 whitespace-pre-wrap text-sm leading-relaxed text-slate-200 max-h-72 overflow-auto">
-                  {current.passage}
-                </div>
-              )}
+              {(current.part === 6 || current.part === 7) && (() => {
+                const passage = resolvePassage(current, exam.questions);
+                return passage ? (
+                  <div className="mb-4 p-3 rounded-lg bg-slate-950/60 border border-slate-700 whitespace-pre-wrap text-sm leading-relaxed text-slate-200 max-h-72 overflow-auto">
+                    {passage}
+                  </div>
+                ) : null;
+              })()}
 
               <p className="text-base font-medium mb-4">{current.prompt}</p>
 
