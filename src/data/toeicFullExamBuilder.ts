@@ -212,6 +212,26 @@ type Theme = (typeof domainThemes)[number];
 
 function themeFor(base: { id: string; title: string }, fallbackIndex: number): Theme {
   const key = `${base.id} ${base.title}`.toLowerCase();
+  if (key.includes("tech") && !key.includes("travel tech")) return domainThemes[5];
+  if (key.includes("logistics") || key.includes("manufacturing")) return domainThemes[4];
+  if (key.includes("hospitality") && !key.includes("restaurant")) return domainThemes[1];
+  if (key.includes("retail")) return domainThemes[2];
+  if (key.includes("finance")) return domainThemes[3];
+  if (key.includes("marketing") || key.includes("media")) return domainThemes[6];
+  if (key.includes("education")) return domainThemes[7];
+  if (key.includes("health") || key.includes("wellness")) return domainThemes[8];
+  if (key.includes("real estate") || key.includes("property")) return domainThemes[9];
+  if (key.includes("restaurant")) return domainThemes[10];
+  if (key.includes("energy") || key.includes("utilit")) return domainThemes[11];
+  if (key.includes("legal") || key.includes("consulting")) return domainThemes[12];
+  if (key.includes("pharma") || key.includes("research")) return domainThemes[13];
+  if (key.includes("automotive") || key.includes("transport")) return domainThemes[14];
+  if (key.includes("banking") || key.includes("insurance")) return domainThemes[15];
+  if (key.includes("sports") || key.includes("recreation")) return domainThemes[16];
+  if (key.includes("aviation") || key.includes("travel")) return domainThemes[17];
+  return domainThemes[fallbackIndex % domainThemes.length];
+}
+  const key = `${base.id} ${base.title}`.toLowerCase();
   if (key.includes("tech") || key.includes("it")) return domainThemes[5];
   if (key.includes("logistics") || key.includes("manufacturing")) return domainThemes[4];
   if (key.includes("hospitality") || key.includes("travel")) return domainThemes[1];
