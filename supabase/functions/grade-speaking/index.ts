@@ -149,19 +149,33 @@ Make scores REALISTIC and VARIED based on the actual language quality in the tra
 
     let parsed;
     try {
+      const { jsonrepair } = await import("https://esm.sh/jsonrepair@3.8.1");
       let cleaned = content.replace(/```json\s*/gi, "").replace(/```\s*/g, "").trim();
       const jsonStart = cleaned.search(/[\{\[]/);
       const jsonEnd = cleaned.lastIndexOf(jsonStart !== -1 && cleaned[jsonStart] === "[" ? "]" : "}");
       if (jsonStart === -1 || jsonEnd === -1) throw new Error("No JSON found");
       cleaned = cleaned.substring(jsonStart, jsonEnd + 1);
       try { parsed = JSON.parse(cleaned); } catch {
-        cleaned = cleaned.replace(/,\s*}/g, "}").replace(/,\s*]/g, "]").replace(/[\x00-\x1F\x7F]/g, "");
-        parsed = JSON.parse(cleaned);
+        try {
+          const repaired = jsonrepair(cleaned);
+          parsed = JSON.parse(repaired);
+        } catch {
+          // Last-resort: strip trailing commas, control chars, then balance brackets
+          let fix = cleaned.replace(/,\s*}/g, "}").replace(/,\s*]/g, "]").replace(/[\x00-\x1F\x7F]/g, "");
+          const opens = (fix.match(/\{/g) || []).length;
+          const closes = (fix.match(/\}/g) || []).length;
+          const opensA = (fix.match(/\[/g) || []).length;
+          const closesA = (fix.match(/\]/g) || []).length;
+          fix += "]".repeat(Math.max(0, opensA - closesA)) + "}".repeat(Math.max(0, opens - closes));
+          parsed = JSON.parse(jsonrepair(fix));
+        }
       }
     } catch (e) {
       console.error("Parse error:", content);
       await logUsage("grade-speaking", "sonar", "english", tokensUsed, "parse_error");
-      throw new Error("Failed to parse speaking result");
+      return new Response(JSON.stringify({ error: "Failed to parse speaking result. Please try again." }), {
+        status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     if (hasTranscript) {
