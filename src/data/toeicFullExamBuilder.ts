@@ -228,32 +228,33 @@ function pickPool<T>(pool: T[], count: number, examIndex: number): T[] {
 // Per-exam content variation — swaps common tokens so even shared stems
 // look different across the 8 exams. Each replacement uses an 8-element
 // rotation keyed by examIndex.
-const VARY_DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Monday", "Wednesday", "Friday"];
-const VARY_TIMES = ["9 A.M.", "10 A.M.", "11 A.M.", "1 P.M.", "2 P.M.", "3 P.M.", "4 P.M.", "8 A.M."];
-const VARY_PERCENTS = ["ten", "fifteen", "twenty", "twenty-five", "thirty", "five", "twelve", "eighteen"];
-const VARY_NAMES_F = ["Ms. Nguyen", "Ms. Carter", "Ms. Park", "Ms. Tanaka", "Ms. Rivera", "Ms. Lopez", "Ms. Chen", "Ms. Singh"];
-const VARY_NAMES_M = ["Mr. Park", "Mr. Ito", "Mr. Kumar", "Mr. Silva", "Mr. Klein", "Mr. Owens", "Mr. Brooks", "Mr. Hassan"];
-const VARY_CITIES = ["Singapore", "Lisbon", "Helsinki", "Toronto", "Sydney", "Dubai", "Berlin", "Osaka"];
-const VARY_NUMS = ["fifteen", "twenty", "twenty-five", "thirty", "forty", "fifty", "ten", "eighteen"];
-const VARY_DURATIONS = ["two hours", "ninety minutes", "three hours", "forty-five minutes", "one hour", "two and a half hours", "fifty minutes", "seventy-five minutes"];
+const VARY_DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday", "Wednesday", "Friday", "Tuesday"];
+const VARY_TIMES = ["9 A.M.", "10 A.M.", "11 A.M.", "1 P.M.", "2 P.M.", "3 P.M.", "4 P.M.", "8 A.M.", "8:30 A.M.", "9:30 A.M.", "10:30 A.M.", "11:30 A.M.", "12 P.M.", "1:30 P.M.", "2:30 P.M.", "3:30 P.M.", "5 P.M.", "7 A.M."];
+const VARY_PERCENTS = ["ten", "fifteen", "twenty", "twenty-five", "thirty", "five", "twelve", "eighteen", "eight", "twenty-two", "twenty-eight", "thirty-five", "forty", "forty-five", "seven", "sixteen", "twenty-four", "thirty-two"];
+const VARY_NAMES_F = ["Ms. Nguyen", "Ms. Carter", "Ms. Park", "Ms. Tanaka", "Ms. Rivera", "Ms. Lopez", "Ms. Chen", "Ms. Singh", "Ms. Petrova", "Ms. Hassan", "Ms. Okafor", "Ms. Bennett", "Ms. Yamamoto", "Ms. Marquez", "Ms. Lindgren", "Ms. Walsh", "Ms. Kovacs", "Ms. Dubois"];
+const VARY_NAMES_M = ["Mr. Park", "Mr. Ito", "Mr. Kumar", "Mr. Silva", "Mr. Klein", "Mr. Owens", "Mr. Brooks", "Mr. Hassan", "Mr. Volkov", "Mr. Adeyemi", "Mr. O'Connor", "Mr. Tanaka", "Mr. Andersen", "Mr. Costa", "Mr. Becker", "Mr. Patel", "Mr. Romano", "Mr. Lehtinen"];
+const VARY_CITIES = ["Singapore", "Lisbon", "Helsinki", "Toronto", "Sydney", "Dubai", "Berlin", "Osaka", "Vancouver", "Stockholm", "Seoul", "Cape Town", "Madrid", "Buenos Aires", "Vienna", "Bangkok", "Auckland", "Reykjavik"];
+const VARY_NUMS = ["fifteen", "twenty", "twenty-five", "thirty", "forty", "fifty", "ten", "eighteen", "sixty", "seventy", "ninety", "thirty-five", "forty-five", "fifty-five", "sixty-five", "seventy-five", "eighty", "twenty-two"];
+const VARY_DURATIONS = ["two hours", "ninety minutes", "three hours", "forty-five minutes", "one hour", "two and a half hours", "fifty minutes", "seventy-five minutes", "four hours", "thirty-five minutes", "an hour and a half", "twenty-five minutes", "one hour fifteen minutes", "three and a half hours", "fifty-five minutes", "twenty minutes", "one hour and forty minutes", "five hours"];
 
 function varyText(text: string, examIndex: number): string {
-  const i = ((examIndex % 8) + 8) % 8;
+  const N = 18;
+  const i = ((examIndex % N) + N) % N;
   return text
     .replace(/\bThursday\b/g, VARY_DAYS[i])
     .replace(/\b9 A\.M\.\b/g, VARY_TIMES[i])
     .replace(/\bten percent\b/gi, `${VARY_PERCENTS[i]} percent`)
     .replace(/\bMs\. Nguyen\b/g, VARY_NAMES_F[i])
-    .replace(/\bMs\. Carter\b/g, VARY_NAMES_F[(i + 3) % 8])
-    .replace(/\bMs\. Park\b/g, VARY_NAMES_F[(i + 5) % 8])
+    .replace(/\bMs\. Carter\b/g, VARY_NAMES_F[(i + 3) % N])
+    .replace(/\bMs\. Park\b/g, VARY_NAMES_F[(i + 5) % N])
     .replace(/\bMr\. Park\b/g, VARY_NAMES_M[i])
-    .replace(/\bMr\. Ito\b/g, VARY_NAMES_M[(i + 2) % 8])
+    .replace(/\bMr\. Ito\b/g, VARY_NAMES_M[(i + 2) % N])
     .replace(/\bSingapore\b/g, VARY_CITIES[i])
-    .replace(/\bLisbon\b/g, VARY_CITIES[(i + 4) % 8])
-    .replace(/\bOsaka\b/g, VARY_CITIES[(i + 6) % 8])
+    .replace(/\bLisbon\b/g, VARY_CITIES[(i + 4) % N])
+    .replace(/\bOsaka\b/g, VARY_CITIES[(i + 6) % N])
     .replace(/\bfifteen minutes\b/g, `${VARY_NUMS[i]} minutes`)
-    .replace(/\btwenty minutes\b/g, `${VARY_NUMS[(i + 2) % 8]} minutes`)
-    .replace(/\bthirty minutes\b/g, `${VARY_NUMS[(i + 4) % 8]} minutes`)
+    .replace(/\btwenty minutes\b/g, `${VARY_NUMS[(i + 2) % N]} minutes`)
+    .replace(/\bthirty minutes\b/g, `${VARY_NUMS[(i + 4) % N]} minutes`)
     .replace(/\btwo hours\b/g, VARY_DURATIONS[i]);
 }
 
