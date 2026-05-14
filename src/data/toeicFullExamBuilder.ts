@@ -500,7 +500,7 @@ function generatePart4(theme: Theme, examId: string, seed: number, examIndex: nu
   });
 }
 
-function generatePart5(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
+function generatePart5(theme: Theme, examId: string, seed: number, examIndex: number): ToeicLRQuestion[] {
   const pool: [string, string, string[], string][] = [
     ["All employees must submit travel receipts ___ five business days.", "within", ["during", "since", "among"], "'Within' gives the allowed time limit."],
     ["The new policy will be ___ at the beginning of next month.", "implemented", ["implement", "implementation", "implementing"], "Passive voice requires be + past participle."],
