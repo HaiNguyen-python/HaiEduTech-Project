@@ -370,7 +370,7 @@ function generatePart2(theme: Theme, examId: string, seed: number, examIndex: nu
   });
 }
 
-function generatePart3(theme: Theme, examId: string, seed: number): ToeicLRQuestion[] {
+function generatePart3(theme: Theme, examId: string, seed: number, examIndex: number): ToeicLRQuestion[] {
   const pool: [string, string, string, string][] = [
     ["a delayed shipment", "warehouse", "call the carrier", "The tracking page has not changed since Monday"],
     ["a conference room booking", "office", "move the meeting to Room B", "The projector in Room A is not working"],
