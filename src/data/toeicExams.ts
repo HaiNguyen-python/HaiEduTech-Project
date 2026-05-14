@@ -483,10 +483,10 @@ const LR_02: ToeicLRExam = {
     {
       id: "lr2-p5-3",
       part: 5,
-      prompt: "Sales of the new model are ___ those of last year.",
+      prompt: "Sales of the new model have ___ since the redesign was launched.",
       options: ["double", "doubled", "doubling", "doubles"],
-      answer: 2,
-      explanation: "'are + V-ing' (present continuous) diễn tả xu hướng.",
+      answer: 1,
+      explanation: "'have + V3' (present perfect) → doubled.",
     },
     {
       id: "lr2-p6-1",
