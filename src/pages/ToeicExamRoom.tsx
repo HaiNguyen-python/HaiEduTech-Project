@@ -384,7 +384,7 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
                       }`}
                     >
                       <span className="font-mono text-xs text-cyan-300 mr-2">{String.fromCharCode(65 + i)}.</span>
-                      {current.part !== 2 && opt}
+                      {current.part !== 1 && current.part !== 2 && opt}
                     </button>
                   );
                 })}
