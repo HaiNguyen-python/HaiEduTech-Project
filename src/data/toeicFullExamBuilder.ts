@@ -472,8 +472,8 @@ function generatePart4(theme: Theme, examId: string, seed: number, examIndex: nu
         prompt: "What is the main purpose of the talk?",
         options: optionSet(purpose, ["to introduce a new employee", "to request a payment", "to cancel a contract"]),
         answerSeed: seed + groupIdx,
-        transcript: transcript as string,
-        audioText: transcript as string,
+        transcript: transcriptV,
+        audioText: transcriptV,
         passageGroupId: groupId,
       }),
       makeQuestion({
@@ -482,8 +482,8 @@ function generatePart4(theme: Theme, examId: string, seed: number, examIndex: nu
         prompt: "What specific detail is mentioned?",
         options: optionSet(detail, ["a free lunch coupon", "a new uniform requirement", "a parking violation"]),
         answerSeed: seed + groupIdx + 1,
-        transcript: transcript as string,
-        audioText: transcript as string,
+        transcript: transcriptV,
+        audioText: transcriptV,
         passageGroupId: groupId,
       }),
       makeQuestion({
@@ -492,8 +492,8 @@ function generatePart4(theme: Theme, examId: string, seed: number, examIndex: nu
         prompt: "What are listeners advised to do?",
         options: optionSet(action, ["submit a tax form", "replace their ID cards", "reserve a hotel room"]),
         answerSeed: seed + groupIdx + 2,
-        transcript: transcript as string,
-        audioText: transcript as string,
+        transcript: transcriptV,
+        audioText: transcriptV,
         passageGroupId: groupId,
       }),
     ];
