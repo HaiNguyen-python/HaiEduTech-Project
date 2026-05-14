@@ -169,6 +169,9 @@ const English = () => {
               </Link>
             </motion.div>
 
+            {/* Interactive Data Dashboard - Overview */}
+            <LanguageDataDashboard language="english" />
+
             {/* Programs */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
               {programs.map((p, i) => (
