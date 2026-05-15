@@ -43,7 +43,7 @@ import { allIeltsLectures, PILLAR_META, PillarKey } from "@/data/ieltsLecturesDa
 
 // Storage is now handled by useIeltsLectureProgress hook (database + localStorage fallback)
 
-// Skill filter categories with icons (Listening, Reading, Writing & Speaking moved into Lectures CTA cards above)
+// Skill filter categories with icons (kept for legacy category lookup)
 const SKILL_FILTERS = [
   { key: "all", label: "All", labelVi: "Tất cả", icon: BookOpen },
   { key: "grammar", label: "Grammar", labelVi: "Ngữ pháp", icon: Wrench },
@@ -51,8 +51,6 @@ const SKILL_FILTERS = [
   { key: "tips", label: "Exam Tips", labelVi: "Mẹo thi", icon: Lightbulb },
 ] as const;
 
-// Lectures shown in main grid exclude the four skill-based groups (Reading/Listening/Writing/Speaking
-// each live in their own CTA card above to keep the grid focused on Grammar/Vocab/Tips).
 const SKILL_CARD_KEYS = new Set(["listening", "reading", "writing", "speaking"]);
 const gridLectures = allIeltsLectures.filter(l => !l.skill || !SKILL_CARD_KEYS.has(l.skill));
 const readingLectureCount = allIeltsLectures.filter(l => l.skill === "reading").length;
@@ -64,7 +62,6 @@ type SkillFilterKey = typeof SKILL_FILTERS[number]["key"];
 type SortKey = "newest" | "popular" | "easy" | "hard";
 type LevelFilter = "all" | "foundation" | "intermediate" | "advanced";
 
-// Map difficulty levels for sorting
 const LEVEL_ORDER = { foundation: 1, intermediate: 2, advanced: 3 };
 
 const LEVEL_STYLE: Record<string, string> = {
@@ -79,7 +76,6 @@ const LEVEL_LABELS: Record<string, { en: string; vi: string }> = {
   advanced: { en: "Band 7.0+", vi: "Band 7.0+" },
 };
 
-// Determine which filter category a lecture belongs to
 const getLectureFilterCategory = (lecture: typeof allIeltsLectures[0]): string => {
   if (lecture.skill) return lecture.skill;
   if (lecture.pillar === "applied-grammar") return "grammar";
@@ -88,24 +84,37 @@ const getLectureFilterCategory = (lecture: typeof allIeltsLectures[0]): string =
   return "all";
 };
 
-// Check if lecture is "new" (simulated: last 3 lectures added)
-const NEW_LECTURE_IDS = new Set(
-  allIeltsLectures.slice(-6).map(l => l.id)
-);
+const grammarLectureCount = gridLectures.filter(l => getLectureFilterCategory(l) === "grammar").length;
+const vocabularyLectureCount = gridLectures.filter(l => getLectureFilterCategory(l) === "vocabulary").length;
+const tipsLectureCount = gridLectures.filter(l => getLectureFilterCategory(l) === "tips").length;
+
+const NEW_LECTURE_IDS = new Set(allIeltsLectures.slice(-6).map(l => l.id));
+
+const FOCUS_KEYS = ["writing", "speaking", "grammar", "vocabulary", "tips"] as const;
+type FocusKey = typeof FOCUS_KEYS[number];
+
+const FOCUS_LABELS: Record<FocusKey, { en: string; vi: string }> = {
+  writing: { en: "Viewing: Writing Lectures", vi: "Đang xem: Bài giảng Writing" },
+  speaking: { en: "Viewing: Speaking Lectures", vi: "Đang xem: Bài giảng Speaking" },
+  grammar: { en: "Viewing: Grammar Lectures", vi: "Đang xem: Bài giảng Ngữ pháp" },
+  vocabulary: { en: "Viewing: Vocabulary Lectures", vi: "Đang xem: Bài giảng Từ vựng" },
+  tips: { en: "Viewing: Exam Tips", vi: "Đang xem: Mẹo thi" },
+};
 
 const IeltsLectures = () => {
   const { t } = useLanguage();
   const { completedIds, bookmarkedIds, toggleBookmark } = useIeltsLectureProgress();
   const [searchParams, setSearchParams] = useSearchParams();
-  const focus = searchParams.get("focus"); // "writing" | "speaking" | null
-  const focusKey = focus === "writing" || focus === "speaking" ? focus : null;
+  const focus = searchParams.get("focus");
+  const focusKey: FocusKey | null = (FOCUS_KEYS as readonly string[]).includes(focus ?? "")
+    ? (focus as FocusKey)
+    : null;
   const [activeSkill, setActiveSkill] = useState<SkillFilterKey>("all");
   const [levelFilter, setLevelFilter] = useState<LevelFilter>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<SortKey>("newest");
   const [showBookmarksOnly, setShowBookmarksOnly] = useState(false);
 
-  // Reset skill filter when entering/leaving focused mode so the grid is predictable.
   useEffect(() => {
     setActiveSkill("all");
   }, [focusKey]);
@@ -118,9 +127,14 @@ const IeltsLectures = () => {
 
   const filtered = useMemo(() => {
     // When focused on Writing/Speaking via CTA card, show only those lectures.
-    let results = focusKey
-      ? allIeltsLectures.filter(l => l.skill === focusKey)
-      : [...gridLectures];
+    let results: typeof allIeltsLectures;
+    if (focusKey === "writing" || focusKey === "speaking") {
+      results = allIeltsLectures.filter(l => l.skill === focusKey);
+    } else if (focusKey) {
+      results = gridLectures.filter(l => getLectureFilterCategory(l) === focusKey);
+    } else {
+      results = [...gridLectures];
+    }
 
     // Bookmarks filter
     if (showBookmarksOnly) {
@@ -235,10 +249,7 @@ const IeltsLectures = () => {
             <div className="mb-3 flex items-center justify-between flex-wrap gap-2">
               <div className="flex items-center gap-2 text-sm">
                 <Badge className="bg-primary text-primary-foreground gap-1">
-                  {focusKey === "writing" ? <Pen className="w-3 h-3" /> : <Mic className="w-3 h-3" />}
-                  {focusKey === "writing"
-                    ? t("Đang xem: Bài giảng Writing", "Viewing: Writing Lectures")
-                    : t("Đang xem: Bài giảng Speaking", "Viewing: Speaking Lectures")}
+                  {t(FOCUS_LABELS[focusKey].vi, FOCUS_LABELS[focusKey].en)}
                 </Badge>
               </div>
               <Button variant="outline" size="sm" onClick={() => setSearchParams({})} className="gap-1.5">
@@ -247,7 +258,7 @@ const IeltsLectures = () => {
               </Button>
             </div>
           )}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-4">
             <Link to="/english/learn/ielts-reading" className="group">
               <Card className="h-full border-l-4 border-l-blue-500 hover:shadow-lg transition-all hover:-translate-y-0.5">
                 <CardContent className="p-5 flex items-start gap-4">
@@ -356,32 +367,100 @@ const IeltsLectures = () => {
                 </CardContent>
               </Card>
             </button>
+            <button
+              type="button"
+              onClick={() => setSearchParams({ focus: "grammar" })}
+              className="group text-left"
+            >
+              <Card className={`h-full border-l-4 border-l-violet-500 hover:shadow-lg transition-all hover:-translate-y-0.5 ${focusKey === "grammar" ? "ring-2 ring-violet-500/50" : ""}`}>
+                <CardContent className="p-5 flex items-start gap-4">
+                  <div className="shrink-0 w-12 h-12 rounded-xl bg-violet-500/10 flex items-center justify-center">
+                    <Wrench className="w-6 h-6 text-violet-600 dark:text-violet-400" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1 flex-wrap">
+                      <h3 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
+                        {t("Ngữ pháp IELTS", "IELTS Grammar")}
+                      </h3>
+                      <Badge className="text-[10px] bg-violet-500/15 text-violet-700 dark:text-violet-300 border-violet-500/30" variant="outline">
+                        {grammarLectureCount} {t("bài", "lectures")}
+                      </Badge>
+                    </div>
+                    <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                      {t(
+                        "Đảo ngữ, mệnh đề phân từ, mạo từ — ngữ pháp Band 7.0+.",
+                        "Inversion, participle clauses, articles — Band 7.0+ grammar."
+                      )}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </button>
+            <button
+              type="button"
+              onClick={() => setSearchParams({ focus: "vocabulary" })}
+              className="group text-left"
+            >
+              <Card className={`h-full border-l-4 border-l-teal-500 hover:shadow-lg transition-all hover:-translate-y-0.5 ${focusKey === "vocabulary" ? "ring-2 ring-teal-500/50" : ""}`}>
+                <CardContent className="p-5 flex items-start gap-4">
+                  <div className="shrink-0 w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center">
+                    <BookOpenText className="w-6 h-6 text-teal-600 dark:text-teal-400" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1 flex-wrap">
+                      <h3 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
+                        {t("Từ vựng IELTS", "IELTS Vocabulary")}
+                      </h3>
+                      <Badge className="text-[10px] bg-teal-500/15 text-teal-700 dark:text-teal-300 border-teal-500/30" variant="outline">
+                        {vocabularyLectureCount} {t("bài", "lectures")}
+                      </Badge>
+                    </div>
+                    <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                      {t(
+                        "Collocation theo chủ đề: Tech, Môi trường, Giáo dục, Sức khỏe.",
+                        "Topic collocations: Tech, Environment, Education, Health."
+                      )}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </button>
+            <button
+              type="button"
+              onClick={() => setSearchParams({ focus: "tips" })}
+              className="group text-left"
+            >
+              <Card className={`h-full border-l-4 border-l-amber-500 hover:shadow-lg transition-all hover:-translate-y-0.5 ${focusKey === "tips" ? "ring-2 ring-amber-500/50" : ""}`}>
+                <CardContent className="p-5 flex items-start gap-4">
+                  <div className="shrink-0 w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center">
+                    <Lightbulb className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1 flex-wrap">
+                      <h3 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
+                        {t("Mẹo thi IELTS", "IELTS Exam Tips")}
+                      </h3>
+                      <Badge className="text-[10px] bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/30" variant="outline">
+                        {tipsLectureCount} {t("bài", "lectures")}
+                      </Badge>
+                    </div>
+                    <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                      {t(
+                        "Quản lý thời gian, paraphrase, loại trừ MCQ, tâm thế ngày thi.",
+                        "Time management, paraphrasing, MCQ elimination, exam mindset."
+                      )}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </button>
           </div>
         </section>
 
         {/* Filter Section */}
         <section className="container mx-auto px-4 sm:px-6 py-5">
           {/* Skill Filter Bar (hidden in focus mode) */}
-          {!focusKey && <div className="flex flex-wrap gap-2 mb-4">
-            {SKILL_FILTERS.map(({ key, label, labelVi, icon: Icon }) => {
-              const count = key === "all"
-                ? gridLectures.length
-                : gridLectures.filter(l => getLectureFilterCategory(l) === key).length;
-              return (
-                <Button
-                  key={key}
-                  variant={activeSkill === key ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setActiveSkill(key)}
-                  className="rounded-full gap-1.5 text-xs sm:text-sm"
-                >
-                  <Icon className="w-3.5 h-3.5" />
-                  {t(labelVi, label)}
-                  <span className="text-[10px] opacity-70">({count})</span>
-                </Button>
-              );
-            })}
-          </div>}
+          {/* Skill chip filter removed — categories now live as CTA cards above */}
 
           {/* Search, Sort, Level Filter Row */}
           <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
