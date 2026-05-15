@@ -367,6 +367,93 @@ const IeltsLectures = () => {
                 </CardContent>
               </Card>
             </button>
+            <button
+              type="button"
+              onClick={() => setSearchParams({ focus: "grammar" })}
+              className="group text-left"
+            >
+              <Card className={`h-full border-l-4 border-l-violet-500 hover:shadow-lg transition-all hover:-translate-y-0.5 ${focusKey === "grammar" ? "ring-2 ring-violet-500/50" : ""}`}>
+                <CardContent className="p-5 flex items-start gap-4">
+                  <div className="shrink-0 w-12 h-12 rounded-xl bg-violet-500/10 flex items-center justify-center">
+                    <Wrench className="w-6 h-6 text-violet-600 dark:text-violet-400" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1 flex-wrap">
+                      <h3 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
+                        {t("Ngữ pháp IELTS", "IELTS Grammar")}
+                      </h3>
+                      <Badge className="text-[10px] bg-violet-500/15 text-violet-700 dark:text-violet-300 border-violet-500/30" variant="outline">
+                        {grammarLectureCount} {t("bài", "lectures")}
+                      </Badge>
+                    </div>
+                    <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                      {t(
+                        "Đảo ngữ, mệnh đề phân từ, mạo từ — ngữ pháp Band 7.0+.",
+                        "Inversion, participle clauses, articles — Band 7.0+ grammar."
+                      )}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </button>
+            <button
+              type="button"
+              onClick={() => setSearchParams({ focus: "vocabulary" })}
+              className="group text-left"
+            >
+              <Card className={`h-full border-l-4 border-l-teal-500 hover:shadow-lg transition-all hover:-translate-y-0.5 ${focusKey === "vocabulary" ? "ring-2 ring-teal-500/50" : ""}`}>
+                <CardContent className="p-5 flex items-start gap-4">
+                  <div className="shrink-0 w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center">
+                    <BookOpenText className="w-6 h-6 text-teal-600 dark:text-teal-400" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1 flex-wrap">
+                      <h3 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
+                        {t("Từ vựng IELTS", "IELTS Vocabulary")}
+                      </h3>
+                      <Badge className="text-[10px] bg-teal-500/15 text-teal-700 dark:text-teal-300 border-teal-500/30" variant="outline">
+                        {vocabularyLectureCount} {t("bài", "lectures")}
+                      </Badge>
+                    </div>
+                    <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                      {t(
+                        "Collocation theo chủ đề: Tech, Môi trường, Giáo dục, Sức khỏe.",
+                        "Topic collocations: Tech, Environment, Education, Health."
+                      )}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </button>
+            <button
+              type="button"
+              onClick={() => setSearchParams({ focus: "tips" })}
+              className="group text-left"
+            >
+              <Card className={`h-full border-l-4 border-l-amber-500 hover:shadow-lg transition-all hover:-translate-y-0.5 ${focusKey === "tips" ? "ring-2 ring-amber-500/50" : ""}`}>
+                <CardContent className="p-5 flex items-start gap-4">
+                  <div className="shrink-0 w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center">
+                    <Lightbulb className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1 flex-wrap">
+                      <h3 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
+                        {t("Mẹo thi IELTS", "IELTS Exam Tips")}
+                      </h3>
+                      <Badge className="text-[10px] bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/30" variant="outline">
+                        {tipsLectureCount} {t("bài", "lectures")}
+                      </Badge>
+                    </div>
+                    <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                      {t(
+                        "Quản lý thời gian, paraphrase, loại trừ MCQ, tâm thế ngày thi.",
+                        "Time management, paraphrasing, MCQ elimination, exam mindset."
+                      )}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </button>
           </div>
         </section>
 
