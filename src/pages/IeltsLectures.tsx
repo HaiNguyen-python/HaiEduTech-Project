@@ -127,9 +127,14 @@ const IeltsLectures = () => {
 
   const filtered = useMemo(() => {
     // When focused on Writing/Speaking via CTA card, show only those lectures.
-    let results = focusKey
-      ? allIeltsLectures.filter(l => l.skill === focusKey)
-      : [...gridLectures];
+    let results: typeof allIeltsLectures;
+    if (focusKey === "writing" || focusKey === "speaking") {
+      results = allIeltsLectures.filter(l => l.skill === focusKey);
+    } else if (focusKey) {
+      results = gridLectures.filter(l => getLectureFilterCategory(l) === focusKey);
+    } else {
+      results = [...gridLectures];
+    }
 
     // Bookmarks filter
     if (showBookmarksOnly) {
