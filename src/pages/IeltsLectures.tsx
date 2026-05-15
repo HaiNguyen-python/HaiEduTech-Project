@@ -460,26 +460,7 @@ const IeltsLectures = () => {
         {/* Filter Section */}
         <section className="container mx-auto px-4 sm:px-6 py-5">
           {/* Skill Filter Bar (hidden in focus mode) */}
-          {!focusKey && <div className="flex flex-wrap gap-2 mb-4">
-            {SKILL_FILTERS.map(({ key, label, labelVi, icon: Icon }) => {
-              const count = key === "all"
-                ? gridLectures.length
-                : gridLectures.filter(l => getLectureFilterCategory(l) === key).length;
-              return (
-                <Button
-                  key={key}
-                  variant={activeSkill === key ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setActiveSkill(key)}
-                  className="rounded-full gap-1.5 text-xs sm:text-sm"
-                >
-                  <Icon className="w-3.5 h-3.5" />
-                  {t(labelVi, label)}
-                  <span className="text-[10px] opacity-70">({count})</span>
-                </Button>
-              );
-            })}
-          </div>}
+          {/* Skill chip filter removed — categories now live as CTA cards above */}
 
           {/* Search, Sort, Level Filter Row */}
           <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
