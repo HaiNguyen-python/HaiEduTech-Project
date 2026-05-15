@@ -249,10 +249,7 @@ const IeltsLectures = () => {
             <div className="mb-3 flex items-center justify-between flex-wrap gap-2">
               <div className="flex items-center gap-2 text-sm">
                 <Badge className="bg-primary text-primary-foreground gap-1">
-                  {focusKey === "writing" ? <Pen className="w-3 h-3" /> : <Mic className="w-3 h-3" />}
-                  {focusKey === "writing"
-                    ? t("Đang xem: Bài giảng Writing", "Viewing: Writing Lectures")
-                    : t("Đang xem: Bài giảng Speaking", "Viewing: Speaking Lectures")}
+                  {t(FOCUS_LABELS[focusKey].vi, FOCUS_LABELS[focusKey].en)}
                 </Badge>
               </div>
               <Button variant="outline" size="sm" onClick={() => setSearchParams({})} className="gap-1.5">
