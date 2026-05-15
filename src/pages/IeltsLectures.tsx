@@ -43,7 +43,7 @@ import { allIeltsLectures, PILLAR_META, PillarKey } from "@/data/ieltsLecturesDa
 
 // Storage is now handled by useIeltsLectureProgress hook (database + localStorage fallback)
 
-// Skill filter categories with icons (Listening, Reading, Writing & Speaking moved into Lectures CTA cards above)
+// Skill filter categories with icons (kept for legacy category lookup)
 const SKILL_FILTERS = [
   { key: "all", label: "All", labelVi: "Tất cả", icon: BookOpen },
   { key: "grammar", label: "Grammar", labelVi: "Ngữ pháp", icon: Wrench },
@@ -51,8 +51,6 @@ const SKILL_FILTERS = [
   { key: "tips", label: "Exam Tips", labelVi: "Mẹo thi", icon: Lightbulb },
 ] as const;
 
-// Lectures shown in main grid exclude the four skill-based groups (Reading/Listening/Writing/Speaking
-// each live in their own CTA card above to keep the grid focused on Grammar/Vocab/Tips).
 const SKILL_CARD_KEYS = new Set(["listening", "reading", "writing", "speaking"]);
 const gridLectures = allIeltsLectures.filter(l => !l.skill || !SKILL_CARD_KEYS.has(l.skill));
 const readingLectureCount = allIeltsLectures.filter(l => l.skill === "reading").length;
@@ -64,7 +62,6 @@ type SkillFilterKey = typeof SKILL_FILTERS[number]["key"];
 type SortKey = "newest" | "popular" | "easy" | "hard";
 type LevelFilter = "all" | "foundation" | "intermediate" | "advanced";
 
-// Map difficulty levels for sorting
 const LEVEL_ORDER = { foundation: 1, intermediate: 2, advanced: 3 };
 
 const LEVEL_STYLE: Record<string, string> = {
@@ -79,7 +76,6 @@ const LEVEL_LABELS: Record<string, { en: string; vi: string }> = {
   advanced: { en: "Band 7.0+", vi: "Band 7.0+" },
 };
 
-// Determine which filter category a lecture belongs to
 const getLectureFilterCategory = (lecture: typeof allIeltsLectures[0]): string => {
   if (lecture.skill) return lecture.skill;
   if (lecture.pillar === "applied-grammar") return "grammar";
@@ -88,24 +84,37 @@ const getLectureFilterCategory = (lecture: typeof allIeltsLectures[0]): string =
   return "all";
 };
 
-// Check if lecture is "new" (simulated: last 3 lectures added)
-const NEW_LECTURE_IDS = new Set(
-  allIeltsLectures.slice(-6).map(l => l.id)
-);
+const grammarLectureCount = gridLectures.filter(l => getLectureFilterCategory(l) === "grammar").length;
+const vocabularyLectureCount = gridLectures.filter(l => getLectureFilterCategory(l) === "vocabulary").length;
+const tipsLectureCount = gridLectures.filter(l => getLectureFilterCategory(l) === "tips").length;
+
+const NEW_LECTURE_IDS = new Set(allIeltsLectures.slice(-6).map(l => l.id));
+
+const FOCUS_KEYS = ["writing", "speaking", "grammar", "vocabulary", "tips"] as const;
+type FocusKey = typeof FOCUS_KEYS[number];
+
+const FOCUS_LABELS: Record<FocusKey, { en: string; vi: string }> = {
+  writing: { en: "Viewing: Writing Lectures", vi: "Đang xem: Bài giảng Writing" },
+  speaking: { en: "Viewing: Speaking Lectures", vi: "Đang xem: Bài giảng Speaking" },
+  grammar: { en: "Viewing: Grammar Lectures", vi: "Đang xem: Bài giảng Ngữ pháp" },
+  vocabulary: { en: "Viewing: Vocabulary Lectures", vi: "Đang xem: Bài giảng Từ vựng" },
+  tips: { en: "Viewing: Exam Tips", vi: "Đang xem: Mẹo thi" },
+};
 
 const IeltsLectures = () => {
   const { t } = useLanguage();
   const { completedIds, bookmarkedIds, toggleBookmark } = useIeltsLectureProgress();
   const [searchParams, setSearchParams] = useSearchParams();
-  const focus = searchParams.get("focus"); // "writing" | "speaking" | null
-  const focusKey = focus === "writing" || focus === "speaking" ? focus : null;
+  const focus = searchParams.get("focus");
+  const focusKey: FocusKey | null = (FOCUS_KEYS as readonly string[]).includes(focus ?? "")
+    ? (focus as FocusKey)
+    : null;
   const [activeSkill, setActiveSkill] = useState<SkillFilterKey>("all");
   const [levelFilter, setLevelFilter] = useState<LevelFilter>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<SortKey>("newest");
   const [showBookmarksOnly, setShowBookmarksOnly] = useState(false);
 
-  // Reset skill filter when entering/leaving focused mode so the grid is predictable.
   useEffect(() => {
     setActiveSkill("all");
   }, [focusKey]);
