@@ -258,7 +258,7 @@ const IeltsLectures = () => {
               </Button>
             </div>
           )}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-4">
             <Link to="/english/learn/ielts-reading" className="group">
               <Card className="h-full border-l-4 border-l-blue-500 hover:shadow-lg transition-all hover:-translate-y-0.5">
                 <CardContent className="p-5 flex items-start gap-4">
