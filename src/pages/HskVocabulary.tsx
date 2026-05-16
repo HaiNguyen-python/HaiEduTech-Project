@@ -17,6 +17,7 @@ import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import KangxiRadicalsBrowser from "@/components/KangxiRadicalsBrowser";
 import HskExamplePractice from "@/components/HskExamplePractice";
+import HskExampleTranslation from "@/components/HskExampleTranslation";
 import { supabase } from "@/integrations/supabase/client";
 import { useSearchParams } from "react-router-dom";
 
@@ -97,6 +98,7 @@ const HskFlashcard = ({ word }: { word: HskWord }) => {
           <div className="mt-2 p-3 rounded-lg bg-secondary/50">
             <p className="text-base font-bold text-foreground">{word.example}</p>
             <p className="text-xs text-muted-foreground mt-1">{word.examplePinyin}</p>
+            <HskExampleTranslation example={word.example} />
           </div>
           <Badge variant="outline" className="w-fit mt-1 text-xs">{word.category}</Badge>
         </div>
@@ -213,6 +215,7 @@ const HskExercise = ({ words, t }: { words: HskWord[]; t: (vi: string, en: strin
         <div className="p-3 rounded-lg bg-secondary/50 mt-2">
           <p className="text-base font-bold text-foreground">{q.word.example}</p>
           <p className="text-xs text-muted-foreground mt-1">{q.word.examplePinyin}</p>
+          <HskExampleTranslation example={q.word.example} />
         </div>
         <p className="text-sm text-muted-foreground mt-3">{t("Chọn nghĩa đúng:", "Choose the correct meaning:")}</p>
       </div>
@@ -481,6 +484,7 @@ const HskVocabulary = () => {
                       <div className="mt-2 p-2.5 rounded-lg bg-secondary/50">
                         <p className="text-base font-bold text-foreground leading-relaxed">{w.example}</p>
                         <p className="text-xs text-muted-foreground mt-0.5">{w.examplePinyin}</p>
+                        <HskExampleTranslation example={w.example} />
                       </div>
                       <HskExamplePractice example={w.example} examplePinyin={w.examplePinyin} />
                     </div>
