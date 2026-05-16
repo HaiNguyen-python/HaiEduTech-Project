@@ -13,7 +13,8 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import GreatWallClimber from "@/components/GreatWallClimber";
 import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 import GameLeaderboard from "@/components/games/GameLeaderboard";
-import VocabMasteryLeaderboard, { syncMasteredCount } from "@/components/VocabMasteryLeaderboard";
+import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
+import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import KangxiRadicalsBrowser from "@/components/KangxiRadicalsBrowser";
 import HskExamplePractice from "@/components/HskExamplePractice";
 import { supabase } from "@/integrations/supabase/client";
@@ -276,12 +277,7 @@ const HskVocabulary = () => {
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [page, setPage] = useState(1);
   const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise">("list");
-  const [mastered, setMastered] = useState<Set<string>>(() => {
-    try {
-      const saved = localStorage.getItem("hsk_mastered");
-      return saved ? new Set(JSON.parse(saved)) : new Set<string>();
-    } catch { return new Set<string>(); }
-  });
+  const { mastered, toggle: toggleMasteredHook } = useMasteredVocab("hsk");
   const [showMasteredOnly, setShowMasteredOnly] = useState(false);
 
   // Flying stars state for Great Wall Climber
@@ -289,15 +285,7 @@ const HskVocabulary = () => {
   const starIdRef = useRef(0);
   const climberContainerRef = useRef<HTMLDivElement>(null);
 
-  const toggleMastered = useCallback((word: string) => {
-    setMastered(prev => {
-      const next = new Set(prev);
-      if (next.has(word)) next.delete(word); else next.add(word);
-      localStorage.setItem("hsk_mastered", JSON.stringify([...next]));
-      syncMasteredCount("hsk", next.size);
-      return next;
-    });
-  }, []);
+  const toggleMastered = toggleMasteredHook;
 
   // Wrap toggleMastered with motivation and flying star effect
   const handleToggleWithMotivation = useMasteredMotivation(mastered, toggleMastered);
