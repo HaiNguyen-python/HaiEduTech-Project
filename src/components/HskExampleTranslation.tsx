@@ -18,7 +18,7 @@ interface Props {
 const cacheKey = (text: string) => `hsk_tr::${text}`;
 
 const HskExampleTranslation = ({ example }: Props) => {
-  const { t, language } = useLanguage();
+  const { t, lang } = useLanguage();
   const [trans, setTrans] = useState<{ vi: string; en: string } | null>(() => {
     try {
       const raw = localStorage.getItem(cacheKey(example));
@@ -59,9 +59,9 @@ const HskExampleTranslation = ({ example }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [example]);
 
-  const primary = language === "en" ? trans?.en : trans?.vi;
-  const secondary = language === "en" ? trans?.vi : trans?.en;
-  const secondaryLabel = language === "en" ? "VI" : "EN";
+  const primary = lang === "en" ? trans?.en : trans?.vi;
+  const secondary = lang === "en" ? trans?.vi : trans?.en;
+  const secondaryLabel = lang === "en" ? "VI" : "EN";
 
   return (
     <div className="mt-1.5 text-xs">
