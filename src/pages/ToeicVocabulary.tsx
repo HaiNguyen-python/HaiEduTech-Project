@@ -15,7 +15,8 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Link } from "react-router-dom";
 import GameLeaderboard from "@/components/games/GameLeaderboard";
-import VocabMasteryLeaderboard, { syncMasteredCount } from "@/components/VocabMasteryLeaderboard";
+import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
+import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import { supabase } from "@/integrations/supabase/client";
 import { Star } from "lucide-react";
 import ToeicMountainClimber from "@/components/ToeicMountainClimber";
@@ -263,12 +264,7 @@ const ToeicVocabulary = () => {
   const [activeLevel, setActiveLevel] = useState("All");
   const [sortBy, setSortBy] = useState<SortKey>("default");
   const [page, setPage] = useState(1);
-  const [mastered, setMastered] = useState<Set<string>>(() => {
-    try {
-      const saved = localStorage.getItem("toeic_mastered");
-      return saved ? new Set(JSON.parse(saved)) : new Set<string>();
-    } catch { return new Set<string>(); }
-  });
+  const { mastered, toggle: toggleMastered } = useMasteredVocab("toeic");
 
   // Flying stars animation: when user marks a word mastered, a star flies from the
   // star button toward the chibi climber, "feeding" it points.
@@ -277,16 +273,6 @@ const ToeicVocabulary = () => {
 
   const handleStarLanded = useCallback((id: number) => {
     setFlyingStars((prev) => prev.filter((s) => s.id !== id));
-  }, []);
-
-  const toggleMastered = useCallback((word: string) => {
-    setMastered(prev => {
-      const next = new Set(prev);
-      if (next.has(word)) next.delete(word); else next.add(word);
-      localStorage.setItem("toeic_mastered", JSON.stringify([...next]));
-      syncMasteredCount("toeic", next.size);
-      return next;
-    });
   }, []);
 
   // Wrap toggle with motivation toast + mini confetti

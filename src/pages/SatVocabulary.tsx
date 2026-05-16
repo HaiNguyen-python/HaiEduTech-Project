@@ -12,7 +12,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import GameLeaderboard from "@/components/games/GameLeaderboard";
-import VocabMasteryLeaderboard, { syncMasteredCount } from "@/components/VocabMasteryLeaderboard";
+import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
+import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import StudyStreakLeaderboard from "@/components/StudyStreakLeaderboard";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -342,26 +343,11 @@ const SatVocabulary = () => {
     return SAT_CATEGORIES_BY_SECTION[sectionFilter] || [];
   }, [sectionFilter]);
   useEffect(() => { setCategoryFilter("all"); }, [sectionFilter]);
-  const [mastered, setMastered] = useState<Set<string>>(() => {
-    try {
-      const saved = localStorage.getItem("sat_mastered");
-      return saved ? new Set(JSON.parse(saved)) : new Set<string>();
-    } catch { return new Set<string>(); }
-  });
+  const { mastered, toggle: toggleMastered } = useMasteredVocab("sat");
   const [showMasteredOnly, setShowMasteredOnly] = useState(false);
   const [flyingStars, setFlyingStars] = useState<{ id: number; startX: number; startY: number }[]>([]);
   const pageContainerRef = useRef<HTMLDivElement>(null);
   const starIdCounter = useRef(0);
-
-  const toggleMastered = useCallback((word: string) => {
-    setMastered(prev => {
-      const next = new Set(prev);
-      if (next.has(word)) next.delete(word); else next.add(word);
-      localStorage.setItem("sat_mastered", JSON.stringify([...next]));
-      syncMasteredCount("sat", next.size);
-      return next;
-    });
-  }, []);
 
   const handleMasteredWithMotivation = useMasteredMotivation(mastered, toggleMastered);
 
