@@ -43,7 +43,8 @@ import {
 import FinnishVocabExercises from "@/components/FinnishVocabExercises";
 import { playFinnishTts } from "@/lib/finnishTts";
 import AISpeakingCoach from "@/components/AISpeakingCoach";
-import VocabMasteryLeaderboard, { syncMasteredCount } from "@/components/VocabMasteryLeaderboard";
+import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
+import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 // Merge original + expansion data
 import { finnishVocabExpansion4Modules } from "@/data/finnishCurriculum/vocabularyExpansion4";
 import { finnishVocabExpansion5Modules } from "@/data/finnishCurriculum/vocabularyExpansion5";
@@ -1903,11 +1904,9 @@ const YkiDashboard = () => {
   const [flashcardIndex, setFlashcardIndex] = useState(0);
   const [flashcardFlipped, setFlashcardFlipped] = useState(false);
 
-  // Mastered words state for Skier gamification
-  const getMasteredWords = (): string[] => {
-    try { return JSON.parse(localStorage.getItem("yki-mastered-words") || "[]"); } catch { return []; }
-  };
-  const [masteredWords, setMasteredWords] = useState<string[]>(getMasteredWords());
+  // Mastered words state for Skier gamification (cross-device sync via hook)
+  const { mastered: masteredSet, toggle: toggleMasteredFinnish } = useMasteredVocab("finnish");
+  const masteredWords = useMemo(() => [...masteredSet], [masteredSet]);
   const [flyingStars, setFlyingStars] = useState<{ id: number; startX: number; startY: number }[]>([]);
   const skierContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -1922,27 +1921,17 @@ const YkiDashboard = () => {
   []);
 
   const starredVocab = useMemo(() =>
-    allVocabWords.filter(v => masteredWords.includes(v.word)),
-  [allVocabWords, masteredWords]);
+    allVocabWords.filter(v => masteredSet.has(v.word)),
+  [allVocabWords, masteredSet]);
 
   const handleMasterWord = (word: string, event: React.MouseEvent) => {
-    const isCurrentlyMastered = masteredWords.includes(word);
+    const isCurrentlyMastered = masteredSet.has(word);
+    toggleMasteredFinnish(word);
 
     if (isCurrentlyMastered) {
-      // Unmark mastered
-      const newMastered = masteredWords.filter(w => w !== word);
-      setMasteredWords(newMastered);
-      localStorage.setItem("yki-mastered-words", JSON.stringify(newMastered));
-      syncMasteredCount("finnish", newMastered.length);
       toast.info(`"${word}" unmarked from mastery`);
       return;
     }
-
-    // Mark as mastered
-    const newMastered = [...masteredWords, word];
-    setMasteredWords(newMastered);
-    localStorage.setItem("yki-mastered-words", JSON.stringify(newMastered));
-    syncMasteredCount("finnish", newMastered.length);
 
     // Flying star animation
     const rect = skierContainerRef.current?.getBoundingClientRect();
@@ -1953,6 +1942,7 @@ const YkiDashboard = () => {
         startY: event.clientY - rect.top,
       }]);
     }
+
 
     const quote = FINNISH_QUOTES[Math.floor(Math.random() * FINNISH_QUOTES.length)];
     toast.success(quote, { style: { fontSize: "18px", fontWeight: "bold" } });

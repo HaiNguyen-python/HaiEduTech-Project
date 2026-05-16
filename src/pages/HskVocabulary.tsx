@@ -13,9 +13,11 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import GreatWallClimber from "@/components/GreatWallClimber";
 import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 import GameLeaderboard from "@/components/games/GameLeaderboard";
-import VocabMasteryLeaderboard, { syncMasteredCount } from "@/components/VocabMasteryLeaderboard";
+import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
+import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import KangxiRadicalsBrowser from "@/components/KangxiRadicalsBrowser";
 import HskExamplePractice from "@/components/HskExamplePractice";
+import HskExampleTranslation from "@/components/HskExampleTranslation";
 import { supabase } from "@/integrations/supabase/client";
 import { useSearchParams } from "react-router-dom";
 
@@ -96,6 +98,7 @@ const HskFlashcard = ({ word }: { word: HskWord }) => {
           <div className="mt-2 p-3 rounded-lg bg-secondary/50">
             <p className="text-base font-bold text-foreground">{word.example}</p>
             <p className="text-xs text-muted-foreground mt-1">{word.examplePinyin}</p>
+            <HskExampleTranslation example={word.example} />
           </div>
           <Badge variant="outline" className="w-fit mt-1 text-xs">{word.category}</Badge>
         </div>
@@ -212,6 +215,7 @@ const HskExercise = ({ words, t }: { words: HskWord[]; t: (vi: string, en: strin
         <div className="p-3 rounded-lg bg-secondary/50 mt-2">
           <p className="text-base font-bold text-foreground">{q.word.example}</p>
           <p className="text-xs text-muted-foreground mt-1">{q.word.examplePinyin}</p>
+          <HskExampleTranslation example={q.word.example} />
         </div>
         <p className="text-sm text-muted-foreground mt-3">{t("Chọn nghĩa đúng:", "Choose the correct meaning:")}</p>
       </div>
@@ -276,12 +280,7 @@ const HskVocabulary = () => {
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [page, setPage] = useState(1);
   const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise">("list");
-  const [mastered, setMastered] = useState<Set<string>>(() => {
-    try {
-      const saved = localStorage.getItem("hsk_mastered");
-      return saved ? new Set(JSON.parse(saved)) : new Set<string>();
-    } catch { return new Set<string>(); }
-  });
+  const { mastered, toggle: toggleMasteredHook } = useMasteredVocab("hsk");
   const [showMasteredOnly, setShowMasteredOnly] = useState(false);
 
   // Flying stars state for Great Wall Climber
@@ -289,15 +288,7 @@ const HskVocabulary = () => {
   const starIdRef = useRef(0);
   const climberContainerRef = useRef<HTMLDivElement>(null);
 
-  const toggleMastered = useCallback((word: string) => {
-    setMastered(prev => {
-      const next = new Set(prev);
-      if (next.has(word)) next.delete(word); else next.add(word);
-      localStorage.setItem("hsk_mastered", JSON.stringify([...next]));
-      syncMasteredCount("hsk", next.size);
-      return next;
-    });
-  }, []);
+  const toggleMastered = toggleMasteredHook;
 
   // Wrap toggleMastered with motivation and flying star effect
   const handleToggleWithMotivation = useMasteredMotivation(mastered, toggleMastered);
@@ -493,6 +484,7 @@ const HskVocabulary = () => {
                       <div className="mt-2 p-2.5 rounded-lg bg-secondary/50">
                         <p className="text-base font-bold text-foreground leading-relaxed">{w.example}</p>
                         <p className="text-xs text-muted-foreground mt-0.5">{w.examplePinyin}</p>
+                        <HskExampleTranslation example={w.example} />
                       </div>
                       <HskExamplePractice example={w.example} examplePinyin={w.examplePinyin} />
                     </div>

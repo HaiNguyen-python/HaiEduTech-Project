@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Trophy, Crown, Medal, Star } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { MASTERY_UPDATED_EVENT } from "@/hooks/useMasteredVocab";
 
 interface LeaderboardEntry {
   user_id: string;
@@ -11,38 +12,18 @@ interface LeaderboardEntry {
 }
 
 interface VocabMasteryLeaderboardProps {
-  subject: string; // e.g. "ielts", "hsk", "toeic", "finnish"
+  subject: string;
   currentCount: number;
   label?: string;
 }
 
-// Sync mastered count to game_scores (insert-only, leaderboard picks max)
-export async function syncMasteredCount(subject: string, count: number) {
-  try {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
-
-    // Check if there's already a row with this exact score to avoid duplicates
-    const { data: existing } = await (supabase as any)
-      .from("game_scores")
-      .select("id, score")
-      .eq("user_id", user.id)
-      .eq("game_type", `mastery-${subject}`)
-      .order("score", { ascending: false })
-      .limit(1);
-
-    // Only insert if score changed
-    if (existing && existing.length > 0 && existing[0].score === count) return;
-
-    await (supabase as any).from("game_scores").insert({
-      user_id: user.id,
-      game_type: `mastery-${subject}`,
-      score: count,
-      max_streak: 0,
-    });
-  } catch (e) {
-    console.error("Failed to sync mastered count:", e);
-  }
+/**
+ * @deprecated Kept for backward compatibility. `useMasteredVocab` now syncs the
+ * full word set to the database, so leaderboard counts are derived server-side.
+ * Calls become no-ops.
+ */
+export async function syncMasteredCount(_subject: string, _count: number) {
+  /* no-op */
 }
 
 const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryLeaderboardProps) => {
@@ -51,64 +32,56 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchLeaderboard = async () => {
+  const fetchLeaderboard = useCallback(async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       setCurrentUserId(user?.id || null);
-
-      // Fetch all profiles and scores in parallel
-      const [profilesRes, scoresRes] = await Promise.all([
-        supabase.from("profiles").select("id, full_name"),
-        (supabase as any)
-          .from("game_scores")
-          .select("user_id, score")
-          .eq("game_type", `mastery-${subject}`)
-          .order("score", { ascending: false }),
-      ]);
-
-      const allProfiles = profilesRes.data || [];
-      const scoreData = scoresRes.data || [];
-
-      // Build best-score map
-      const bestScores = new Map<string, number>();
-      for (const row of scoreData) {
-        const existing = bestScores.get(row.user_id);
-        if (!existing || row.score > existing) {
-          bestScores.set(row.user_id, row.score);
-        }
-      }
-
-      // Merge all profiles with scores (default 0)
-      const merged = allProfiles.map((p: any) => ({
-        user_id: p.id,
-        score: bestScores.get(p.id) || 0,
-        display_name: p.full_name || t("Học viên", "Student"),
-      })).sort((a: any, b: any) => b.score - a.score);
-
+      const { data, error } = await (supabase as any).rpc("get_mastery_leaderboard", { _subject: subject });
+      if (error) throw error;
+      const merged = (data || []).map((row: any) => ({
+        user_id: row.user_id,
+        score: Number(row.score) || 0,
+        display_name: row.display_name || t("Học viên", "Student"),
+      })) as LeaderboardEntry[];
       setEntries(merged);
     } catch (e) {
       console.error("Failed to fetch mastery leaderboard:", e);
     }
     setLoading(false);
-  };
+  }, [subject, t]);
 
   useEffect(() => {
     fetchLeaderboard();
 
+    // Refresh quickly when local star changes (debounced via timeout)
+    let timer: number | undefined;
+    const onLocal = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail && detail.subject && detail.subject !== subject) return;
+      window.clearTimeout(timer);
+      timer = window.setTimeout(fetchLeaderboard, 350);
+    };
+    window.addEventListener(MASTERY_UPDATED_EVENT, onLocal);
+
     const channel = supabase
       .channel(`mastery-lb-${subject}`)
       .on("postgres_changes", {
-        event: "INSERT",
+        event: "*",
         schema: "public",
-        table: "game_scores",
-        filter: `game_type=eq.mastery-${subject}`,
+        table: "user_vocab_mastered",
+        filter: `subject=eq.${subject}`,
       }, () => {
-        fetchLeaderboard();
+        window.clearTimeout(timer);
+        timer = window.setTimeout(fetchLeaderboard, 350);
       })
       .subscribe();
 
-    return () => { supabase.removeChannel(channel); };
-  }, [subject]);
+    return () => {
+      window.removeEventListener(MASTERY_UPDATED_EVENT, onLocal);
+      window.clearTimeout(timer);
+      supabase.removeChannel(channel);
+    };
+  }, [subject, fetchLeaderboard]);
 
   const rankIcons = [
     <Crown key="1" className="w-4 h-4 text-amber-400" />,
@@ -144,7 +117,7 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
                 key={entry.user_id}
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.05 }}
+                transition={{ delay: Math.min(i, 10) * 0.03 }}
                 className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs ${
                   isCurrentUser
                     ? "bg-primary/10 border border-primary/30 ring-1 ring-primary/20"

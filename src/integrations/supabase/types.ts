@@ -518,6 +518,30 @@ export type Database = {
         }
         Relationships: []
       }
+      hsk_example_translations: {
+        Row: {
+          created_at: string
+          en: string | null
+          id: string
+          source_text: string
+          vi: string | null
+        }
+        Insert: {
+          created_at?: string
+          en?: string | null
+          id?: string
+          source_text: string
+          vi?: string | null
+        }
+        Update: {
+          created_at?: string
+          en?: string | null
+          id?: string
+          source_text?: string
+          vi?: string | null
+        }
+        Relationships: []
+      }
       ielts_lecture_progress: {
         Row: {
           completed_at: string | null
@@ -1616,6 +1640,30 @@ export type Database = {
         }
         Relationships: []
       }
+      user_vocab_mastered: {
+        Row: {
+          created_at: string
+          id: string
+          subject: string
+          user_id: string
+          word: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          subject: string
+          user_id: string
+          word: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          subject?: string
+          user_id?: string
+          word?: string
+        }
+        Relationships: []
+      }
       writing_attempts: {
         Row: {
           created_at: string
@@ -1703,6 +1751,14 @@ export type Database = {
     }
     Functions: {
       award_global_scholar_badge: { Args: never; Returns: Json }
+      get_mastery_leaderboard: {
+        Args: { _subject: string }
+        Returns: {
+          display_name: string
+          score: number
+          user_id: string
+        }[]
+      }
       get_streak_leaderboard: {
         Args: never
         Returns: {
