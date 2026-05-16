@@ -1943,15 +1943,6 @@ const YkiDashboard = () => {
       }]);
     }
 
-    // Flying star animation
-    const rect = skierContainerRef.current?.getBoundingClientRect();
-    if (rect) {
-      setFlyingStars((prev) => [...prev, {
-        id: Date.now(),
-        startX: event.clientX - rect.left,
-        startY: event.clientY - rect.top,
-      }]);
-    }
 
     const quote = FINNISH_QUOTES[Math.floor(Math.random() * FINNISH_QUOTES.length)];
     toast.success(quote, { style: { fontSize: "18px", fontWeight: "bold" } });
