@@ -114,6 +114,7 @@ const IeltsLectures = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<SortKey>("newest");
   const [showBookmarksOnly, setShowBookmarksOnly] = useState(false);
+  const [showAllBrowse, setShowAllBrowse] = useState(false);
 
   useEffect(() => {
     setActiveSkill("all");
