@@ -33,20 +33,21 @@ Deno.serve(async (req) => {
       });
     }
 
-    const apiKey = Deno.env.get("LOVABLE_API_KEY");
+    const apiKey = Deno.env.get("PERPLEXITY_API_KEY");
     if (!apiKey) {
-      return new Response(JSON.stringify({ error: "AI not configured" }), { status: 500, headers: { ...cors, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "Perplexity not configured" }), { status: 500, headers: { ...cors, "Content-Type": "application/json" } });
     }
 
-    const aiRes = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const aiRes = await fetch("https://api.perplexity.ai/chat/completions", {
       method: "POST",
       headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash-lite",
+        model: "sonar",
         messages: [
           { role: "system", content: "You translate Chinese sentences. Reply ONLY with strict JSON of the form {\"vi\":\"...\",\"en\":\"...\"} – no markdown, no extra text. 'vi' is natural Vietnamese, 'en' is natural English. Keep meaning faithful and concise." },
           { role: "user", content: `Translate this Chinese sentence:\n${source}` },
         ],
+        temperature: 0.2,
       }),
     });
 
