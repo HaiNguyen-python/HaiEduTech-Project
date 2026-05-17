@@ -391,7 +391,8 @@ const IeltsLectures = () => {
           })()}
         </section>
 
-        {/* Filter Section */}
+        {/* Filter + Grid — only shown when actively browsing */}
+        {(focusKey || searchQuery.trim() !== "" || showBookmarksOnly || levelFilter !== "all" || showAllBrowse) ? (<>
         <section className="container mx-auto px-4 sm:px-6 py-5">
           {/* Skill Filter Bar (hidden in focus mode) */}
           {/* Skill chip filter removed — categories now live as CTA cards above */}
