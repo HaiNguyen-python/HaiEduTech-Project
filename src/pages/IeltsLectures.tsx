@@ -202,6 +202,7 @@ const IeltsLectures = () => {
     setSearchQuery("");
     setShowBookmarksOnly(false);
     setSortBy("newest");
+    setShowAllBrowse(false);
   };
 
   return (
