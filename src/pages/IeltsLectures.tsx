@@ -243,7 +243,7 @@ const IeltsLectures = () => {
           </div>
         </section>
 
-        {/* Skill-based Lectures CTA: Reading, Listening, Writing & Speaking */}
+        {/* Skill-based Lectures CTA - 2-row beautiful grid with inline lecture previews */}
         <section className="container mx-auto px-4 sm:px-6 -mt-2">
           {focusKey && (
             <div className="mb-3 flex items-center justify-between flex-wrap gap-2">
@@ -258,203 +258,137 @@ const IeltsLectures = () => {
               </Button>
             </div>
           )}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-4">
-            <Link to="/english/learn/ielts-reading" className="group">
-              <Card className="h-full border-l-4 border-l-blue-500 hover:shadow-lg transition-all hover:-translate-y-0.5">
-                <CardContent className="p-5 flex items-start gap-4">
-                  <div className="shrink-0 w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center">
-                    <Eye className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1 flex-wrap">
-                      <h3 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
-                        {t("IELTS Reading Lectures", "IELTS Reading Lectures")}
-                      </h3>
-                      <Badge className="text-[10px] bg-blue-500/15 text-blue-700 dark:text-blue-300 border-blue-500/30" variant="outline">
-                        {readingLectureCount} {t("bài", "lectures")}
+
+          {(() => {
+            const previewFor = (key: FocusKey) => {
+              const list = key === "writing" || key === "speaking"
+                ? allIeltsLectures.filter(l => l.skill === key)
+                : gridLectures.filter(l => getLectureFilterCategory(l) === key);
+              return list.slice(0, 4);
+            };
+            const previewSkill = (skill: "reading" | "listening") =>
+              allIeltsLectures.filter(l => l.skill === skill).slice(0, 4);
+
+            type Tile = {
+              id: string;
+              href?: string;
+              focusKey?: FocusKey;
+              icon: typeof Eye;
+              titleEn: string;
+              titleVi: string;
+              count: number;
+              gradient: string;
+              chipBg: string;
+              chipText: string;
+              ring: string;
+              previews: typeof allIeltsLectures;
+            };
+
+            const tiles: Tile[] = [
+              { id: "reading", href: "/english/learn/ielts-reading", icon: Eye,
+                titleEn: "Reading", titleVi: "Reading", count: readingLectureCount,
+                gradient: "from-blue-500/15 via-blue-500/5 to-transparent",
+                chipBg: "bg-blue-500/15", chipText: "text-blue-700 dark:text-blue-300",
+                ring: "ring-blue-500/30 border-blue-500/60",
+                previews: previewSkill("reading") },
+              { id: "listening", href: "/english/learn/ielts-listening", icon: Headphones,
+                titleEn: "Listening", titleVi: "Listening", count: listeningLectureCount,
+                gradient: "from-emerald-500/15 via-emerald-500/5 to-transparent",
+                chipBg: "bg-emerald-500/15", chipText: "text-emerald-700 dark:text-emerald-300",
+                ring: "ring-emerald-500/30 border-emerald-500/60",
+                previews: previewSkill("listening") },
+              { id: "writing", focusKey: "writing", icon: Pen,
+                titleEn: "Writing", titleVi: "Writing", count: writingLectureCount,
+                gradient: "from-purple-500/15 via-purple-500/5 to-transparent",
+                chipBg: "bg-purple-500/15", chipText: "text-purple-700 dark:text-purple-300",
+                ring: "ring-purple-500/30 border-purple-500/60",
+                previews: previewFor("writing") },
+              { id: "speaking", focusKey: "speaking", icon: Mic,
+                titleEn: "Speaking", titleVi: "Speaking", count: speakingLectureCount,
+                gradient: "from-rose-500/15 via-rose-500/5 to-transparent",
+                chipBg: "bg-rose-500/15", chipText: "text-rose-700 dark:text-rose-300",
+                ring: "ring-rose-500/30 border-rose-500/60",
+                previews: previewFor("speaking") },
+              { id: "grammar", focusKey: "grammar", icon: Wrench,
+                titleEn: "Grammar", titleVi: "Ngữ pháp", count: grammarLectureCount,
+                gradient: "from-violet-500/15 via-violet-500/5 to-transparent",
+                chipBg: "bg-violet-500/15", chipText: "text-violet-700 dark:text-violet-300",
+                ring: "ring-violet-500/30 border-violet-500/60",
+                previews: previewFor("grammar") },
+              { id: "vocabulary", focusKey: "vocabulary", icon: BookOpenText,
+                titleEn: "Vocabulary", titleVi: "Từ vựng", count: vocabularyLectureCount,
+                gradient: "from-teal-500/15 via-teal-500/5 to-transparent",
+                chipBg: "bg-teal-500/15", chipText: "text-teal-700 dark:text-teal-300",
+                ring: "ring-teal-500/30 border-teal-500/60",
+                previews: previewFor("vocabulary") },
+              { id: "tips", focusKey: "tips", icon: Lightbulb,
+                titleEn: "Exam Tips", titleVi: "Mẹo thi", count: tipsLectureCount,
+                gradient: "from-amber-500/15 via-amber-500/5 to-transparent",
+                chipBg: "bg-amber-500/15", chipText: "text-amber-700 dark:text-amber-300",
+                ring: "ring-amber-500/30 border-amber-500/60",
+                previews: previewFor("tips") },
+            ];
+
+            const renderTile = (tile: Tile) => {
+              const active = focusKey === tile.focusKey;
+              const Inner = (
+                <Card className={`h-full overflow-hidden border-2 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
+                  active ? `${tile.ring} ring-2` : "border-border hover:border-primary/40"
+                }`}>
+                  <div className={`bg-gradient-to-br ${tile.gradient} p-5 h-full flex flex-col`}>
+                    <div className="flex items-center justify-between mb-3">
+                      <div className={`w-12 h-12 rounded-2xl ${tile.chipBg} flex items-center justify-center shadow-sm`}>
+                        <tile.icon className={`w-6 h-6 ${tile.chipText}`} />
+                      </div>
+                      <Badge className={`text-[11px] ${tile.chipBg} ${tile.chipText} border-0 font-bold px-2.5 py-1`}>
+                        {tile.count} {t("bài", "lectures")}
                       </Badge>
                     </div>
-                    <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
-                      {t(
-                        "Passage dài chuẩn Academic: T/F/NG, MCQ, fill-in-blank.",
-                        "Long Academic passages: T/F/NG, MCQ, fill-in-blank."
+                    <h3 className="text-lg font-bold text-foreground mb-3 leading-tight">
+                      {t(tile.titleVi, tile.titleEn)}
+                    </h3>
+                    <ul className="space-y-1.5 flex-1">
+                      {tile.previews.map((lec) => (
+                        <li key={lec.id} className="flex items-start gap-2 text-[12.5px] text-foreground/85 leading-snug">
+                          <span className="text-base shrink-0 leading-none mt-0.5">{lec.icon}</span>
+                          <span className="line-clamp-2">{t(lec.titleVi, lec.title)}</span>
+                        </li>
+                      ))}
+                      {tile.previews.length === 0 && (
+                        <li className="text-xs text-muted-foreground italic">{t("Đang cập nhật...", "Coming soon...")}</li>
                       )}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-            <Link to="/english/learn/ielts-listening" className="group">
-              <Card className="h-full border-l-4 border-l-emerald-500 hover:shadow-lg transition-all hover:-translate-y-0.5">
-                <CardContent className="p-5 flex items-start gap-4">
-                  <div className="shrink-0 w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center">
-                    <Headphones className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1 flex-wrap">
-                      <h3 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
-                        {t("IELTS Listening Lectures", "IELTS Listening Lectures")}
-                      </h3>
-                      <Badge className="text-[10px] bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30" variant="outline">
-                        {listeningLectureCount} {t("bài", "lectures")}
-                      </Badge>
+                    </ul>
+                    <div className={`mt-3 pt-3 border-t border-border/50 text-xs font-semibold ${tile.chipText} flex items-center gap-1`}>
+                      {t("Xem tất cả", "View all")} →
                     </div>
-                    <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
-                      {t(
-                        "Section 1–4: dictation, MCQ, điền từ — mô phỏng thi thật.",
-                        "Sections 1–4: dictation, MCQ, fill-in — real exam simulation."
-                      )}
-                    </p>
                   </div>
-                </CardContent>
-              </Card>
-            </Link>
-            <button
-              type="button"
-              onClick={() => setSearchParams({ focus: "writing" })}
-              className="group text-left"
-            >
-              <Card className={`h-full border-l-4 border-l-purple-500 hover:shadow-lg transition-all hover:-translate-y-0.5 ${focusKey === "writing" ? "ring-2 ring-purple-500/50" : ""}`}>
-                <CardContent className="p-5 flex items-start gap-4">
-                  <div className="shrink-0 w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center">
-                    <Pen className="w-6 h-6 text-purple-600 dark:text-purple-400" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1 flex-wrap">
-                      <h3 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
-                        {t("IELTS Writing Lectures", "IELTS Writing Lectures")}
-                      </h3>
-                      <Badge className="text-[10px] bg-purple-500/15 text-purple-700 dark:text-purple-300 border-purple-500/30" variant="outline">
-                        {writingLectureCount} {t("bài", "lectures")}
-                      </Badge>
-                    </div>
-                    <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
-                      {t(
-                        "Task 1 & Task 2: dàn ý, paraphrase, sample Band 7.0+.",
-                        "Task 1 & Task 2: outlines, paraphrasing, Band 7.0+ samples."
-                      )}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </button>
-            <button
-              type="button"
-              onClick={() => setSearchParams({ focus: "speaking" })}
-              className="group text-left"
-            >
-              <Card className={`h-full border-l-4 border-l-rose-500 hover:shadow-lg transition-all hover:-translate-y-0.5 ${focusKey === "speaking" ? "ring-2 ring-rose-500/50" : ""}`}>
-                <CardContent className="p-5 flex items-start gap-4">
-                  <div className="shrink-0 w-12 h-12 rounded-xl bg-rose-500/10 flex items-center justify-center">
-                    <Mic className="w-6 h-6 text-rose-600 dark:text-rose-400" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1 flex-wrap">
-                      <h3 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
-                        {t("IELTS Speaking Lectures", "IELTS Speaking Lectures")}
-                      </h3>
-                      <Badge className="text-[10px] bg-rose-500/15 text-rose-700 dark:text-rose-300 border-rose-500/30" variant="outline">
-                        {speakingLectureCount} {t("bài", "lectures")}
-                      </Badge>
-                    </div>
-                    <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
-                      {t(
-                        "Part 1-2-3: kỹ thuật mở rộng, fillers tự nhiên, Band 7.5+.",
-                        "Parts 1-2-3: expansion techniques, natural fillers, Band 7.5+."
-                      )}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </button>
-            <button
-              type="button"
-              onClick={() => setSearchParams({ focus: "grammar" })}
-              className="group text-left"
-            >
-              <Card className={`h-full border-l-4 border-l-violet-500 hover:shadow-lg transition-all hover:-translate-y-0.5 ${focusKey === "grammar" ? "ring-2 ring-violet-500/50" : ""}`}>
-                <CardContent className="p-5 flex items-start gap-4">
-                  <div className="shrink-0 w-12 h-12 rounded-xl bg-violet-500/10 flex items-center justify-center">
-                    <Wrench className="w-6 h-6 text-violet-600 dark:text-violet-400" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1 flex-wrap">
-                      <h3 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
-                        {t("Ngữ pháp IELTS", "IELTS Grammar")}
-                      </h3>
-                      <Badge className="text-[10px] bg-violet-500/15 text-violet-700 dark:text-violet-300 border-violet-500/30" variant="outline">
-                        {grammarLectureCount} {t("bài", "lectures")}
-                      </Badge>
-                    </div>
-                    <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
-                      {t(
-                        "Đảo ngữ, mệnh đề phân từ, mạo từ — ngữ pháp Band 7.0+.",
-                        "Inversion, participle clauses, articles — Band 7.0+ grammar."
-                      )}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </button>
-            <button
-              type="button"
-              onClick={() => setSearchParams({ focus: "vocabulary" })}
-              className="group text-left"
-            >
-              <Card className={`h-full border-l-4 border-l-teal-500 hover:shadow-lg transition-all hover:-translate-y-0.5 ${focusKey === "vocabulary" ? "ring-2 ring-teal-500/50" : ""}`}>
-                <CardContent className="p-5 flex items-start gap-4">
-                  <div className="shrink-0 w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center">
-                    <BookOpenText className="w-6 h-6 text-teal-600 dark:text-teal-400" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1 flex-wrap">
-                      <h3 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
-                        {t("Từ vựng IELTS", "IELTS Vocabulary")}
-                      </h3>
-                      <Badge className="text-[10px] bg-teal-500/15 text-teal-700 dark:text-teal-300 border-teal-500/30" variant="outline">
-                        {vocabularyLectureCount} {t("bài", "lectures")}
-                      </Badge>
-                    </div>
-                    <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
-                      {t(
-                        "Collocation theo chủ đề: Tech, Môi trường, Giáo dục, Sức khỏe.",
-                        "Topic collocations: Tech, Environment, Education, Health."
-                      )}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </button>
-            <button
-              type="button"
-              onClick={() => setSearchParams({ focus: "tips" })}
-              className="group text-left"
-            >
-              <Card className={`h-full border-l-4 border-l-amber-500 hover:shadow-lg transition-all hover:-translate-y-0.5 ${focusKey === "tips" ? "ring-2 ring-amber-500/50" : ""}`}>
-                <CardContent className="p-5 flex items-start gap-4">
-                  <div className="shrink-0 w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center">
-                    <Lightbulb className="w-6 h-6 text-amber-600 dark:text-amber-400" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1 flex-wrap">
-                      <h3 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
-                        {t("Mẹo thi IELTS", "IELTS Exam Tips")}
-                      </h3>
-                      <Badge className="text-[10px] bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/30" variant="outline">
-                        {tipsLectureCount} {t("bài", "lectures")}
-                      </Badge>
-                    </div>
-                    <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
-                      {t(
-                        "Quản lý thời gian, paraphrase, loại trừ MCQ, tâm thế ngày thi.",
-                        "Time management, paraphrasing, MCQ elimination, exam mindset."
-                      )}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </button>
-          </div>
+                </Card>
+              );
+              return tile.href ? (
+                <Link key={tile.id} to={tile.href} className="group block">{Inner}</Link>
+              ) : (
+                <button
+                  key={tile.id}
+                  type="button"
+                  onClick={() => setSearchParams({ focus: tile.focusKey! })}
+                  className="group text-left w-full"
+                >
+                  {Inner}
+                </button>
+              );
+            };
+
+            return (
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {tiles.slice(0, 4).map(renderTile)}
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {tiles.slice(4).map(renderTile)}
+                </div>
+              </div>
+            );
+          })()}
         </section>
 
         {/* Filter Section */}
