@@ -620,6 +620,14 @@ const IeltsLectures = () => {
             )}
           </AnimatePresence>
         </section>
+        </>) : (
+          <section className="container mx-auto px-4 sm:px-6 py-8 flex justify-center">
+            <Button variant="outline" size="lg" onClick={() => setShowAllBrowse(true)} className="gap-2">
+              <Search className="w-4 h-4" /> {/*BROWSE_ALL*/}
+              Browse & search all lectures
+            </Button>
+          </section>
+        )}
       </main>
       <Footer />
     </div>
