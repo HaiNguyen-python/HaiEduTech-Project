@@ -27,7 +27,8 @@ import Task1Chart from "@/components/Task1Chart";
 import { MapDiagram, ProcessDiagram } from "@/components/Task1Visual";
 import { useUserRole } from "@/hooks/useUserRole";
 import PhrasePractice from "@/components/PhrasePractice";
-import { Sparkles, PenLine } from "lucide-react";
+import GrammarPractice from "@/components/GrammarPractice";
+import { Sparkles, PenLine, GraduationCap } from "lucide-react";
 
 // Grading result types (shared with AIGrading)
 interface CriteriaDetail {
@@ -443,7 +444,7 @@ const IeltsWritingPractice = () => {
 
         {/* Mode Tabs: Essay Writing vs Phrase Practice */}
         <Tabs defaultValue="essay" className="w-full">
-          <TabsList className="grid w-full max-w-md grid-cols-2 mb-6">
+          <TabsList className="grid w-full max-w-2xl grid-cols-3 mb-6">
             <TabsTrigger value="essay" className="gap-2">
               <PenLine className="w-4 h-4" />
               {t("Viết bài luận", "Essay Writing")}
@@ -451,6 +452,10 @@ const IeltsWritingPractice = () => {
             <TabsTrigger value="phrase" className="gap-2">
               <Sparkles className="w-4 h-4" />
               {t("Luyện cụm từ", "Phrase Practice")}
+            </TabsTrigger>
+            <TabsTrigger value="grammar" className="gap-2">
+              <GraduationCap className="w-4 h-4" />
+              {t("Luyện ngữ pháp", "Grammar Practice")}
             </TabsTrigger>
           </TabsList>
 
@@ -466,6 +471,28 @@ const IeltsWritingPractice = () => {
               </button>
             </div>
             <PhrasePractice taskType={taskType} />
+          </TabsContent>
+
+          <TabsContent value="grammar" className="space-y-4">
+            <div className="flex items-center gap-3 flex-wrap mb-4">
+              <div className="flex gap-1 bg-muted rounded-lg p-1 w-fit">
+                <button onClick={() => setTaskType(1)}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${taskType === 1 ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+                  Task 1
+                </button>
+                <button onClick={() => setTaskType(2)}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${taskType === 2 ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+                  Task 2
+                </button>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                {t(
+                  "Luyện các cấu trúc nâng cao (đảo ngữ, câu chẻ, điều kiện hỗn hợp, mệnh đề phân từ...) để tăng điểm Grammatical Range & Accuracy.",
+                  "Practise advanced structures (inversion, cleft, mixed conditionals, participle clauses...) to boost your Grammatical Range & Accuracy score."
+                )}
+              </p>
+            </div>
+            <GrammarPractice taskType={taskType} />
           </TabsContent>
 
           <TabsContent value="essay">
