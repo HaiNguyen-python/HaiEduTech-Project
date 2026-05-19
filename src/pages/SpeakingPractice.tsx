@@ -35,6 +35,7 @@ import {
 } from "@/data/speakingPracticeData";
 import { getMergedVocabulary } from "@/data/speakingVocabularyBank";
 import { getMergedStructures, getMergedIdeas } from "@/data/speakingStructuresIdeas";
+import ShadowingPractice from "@/components/ShadowingPractice";
 
 // Grading result interfaces
 interface VocabUpgrade { basic: string; advanced: string; example: string; }
