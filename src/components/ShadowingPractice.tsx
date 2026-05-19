@@ -26,7 +26,7 @@ import {
 } from "@/data/shadowingSentences";
 
 // Web Speech API types (minimal)
-interface ISR extends EventTarget {
+interface ISR {
   continuous: boolean;
   interimResults: boolean;
   lang: string;
@@ -35,12 +35,6 @@ interface ISR extends EventTarget {
   onresult: ((e: any) => void) | null;
   onerror: ((e: any) => void) | null;
   onend: (() => void) | null;
-}
-declare global {
-  interface Window {
-    SpeechRecognition: new () => ISR;
-    webkitSpeechRecognition: new () => ISR;
-  }
 }
 
 type Step = 1 | 2 | 3 | 4;
