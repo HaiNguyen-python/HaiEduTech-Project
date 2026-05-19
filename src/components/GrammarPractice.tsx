@@ -60,8 +60,6 @@ const GrammarPractice = ({ taskType }: Props) => {
   const [sentence, setSentence] = useState("");
   const [grading, setGrading] = useState(false);
   const [result, setResult] = useState<GradeResult | null>(null);
-  const [showExample, setShowExample] = useState(false);
-
   const filtered = useMemo(() => {
     if (activeCategory === "all") return IELTS_GRAMMAR;
     return IELTS_GRAMMAR.filter((g) => g.category === activeCategory);
@@ -71,7 +69,6 @@ const GrammarPractice = ({ taskType }: Props) => {
     setSelected(g);
     setSentence("");
     setResult(null);
-    setShowExample(false);
   };
 
   const appendToNotebook = async (block: string) => {
@@ -265,24 +262,16 @@ const GrammarPractice = ({ taskType }: Props) => {
                     {selected.hint}
                   </p>
                 )}
-                <div className="flex items-center gap-2">
-                  <Button size="sm" variant="outline" onClick={() => setShowExample((v) => !v)}>
-                    <Eye className="w-3.5 h-3.5 mr-1.5" />
-                    {showExample
-                      ? t("Ẩn ví dụ mẫu", "Hide model example")
-                      : t("Xem ví dụ mẫu", "Show model example")}
-                  </Button>
+                <div className="bg-muted/50 rounded-lg p-3 border-l-4 border-primary">
+                  <p className="text-xs text-muted-foreground mb-1 font-medium flex items-center gap-1.5">
+                    <Eye className="w-3.5 h-3.5" />
+                    {t("Ví dụ Band 7.5+:", "Band 7.5+ Example:")}
+                  </p>
+                  <p className="text-[15px] text-foreground italic leading-relaxed">
+                    {renderBold(selected.example)}
+                  </p>
                 </div>
-                {showExample && (
-                  <div className="bg-muted/50 rounded-lg p-3 border-l-4 border-primary">
-                    <p className="text-xs text-muted-foreground mb-1 font-medium">
-                      {t("Ví dụ Band 7.5+:", "Band 7.5+ Example:")}
-                    </p>
-                    <p className="text-[15px] text-foreground italic leading-relaxed">
-                      {renderBold(selected.example)}
-                    </p>
-                  </div>
-                )}
+
               </CardContent>
             </Card>
 
