@@ -1334,7 +1334,10 @@ const SpeakingPractice = () => {
             )}
           </CardContent>
         </Card>
+        </>
+        )}
       </main>
+
       
       <Footer />
     </div>
