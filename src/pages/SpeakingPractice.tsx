@@ -516,23 +516,40 @@ const SpeakingPractice = () => {
           </p>
         </motion.div>
 
-        {/* Part selector + Shuffle */}
+        {/* Part / Mode selector + Shuffle */}
         <div className="flex flex-wrap gap-3 items-center mb-6">
           {([1, 2, 3] as const).map((p) => (
             <Button
               key={p}
-              onClick={() => { setSelectedPart(p); setSelectedTopic(null); }}
-              variant={selectedPart === p ? "default" : "secondary"}
-              className={selectedPart === p ? "shadow-lg scale-105" : ""}
+              onClick={() => { setMode("part"); setSelectedPart(p); setSelectedTopic(null); }}
+              variant={mode === "part" && selectedPart === p ? "default" : "secondary"}
+              className={mode === "part" && selectedPart === p ? "shadow-lg scale-105" : ""}
               size="lg"
             >
               Part {p}
             </Button>
           ))}
-          <Button onClick={shuffleQuestions} variant="outline" size="lg" className="ml-auto">
-            <Shuffle className="w-4 h-4 mr-2" /> {t("Đảo câu hỏi", "Shuffle")}
+          <Button
+            onClick={() => setMode("shadow")}
+            variant={mode === "shadow" ? "default" : "secondary"}
+            className={mode === "shadow" ? "shadow-lg scale-105 bg-gradient-to-r from-primary to-emerald-500" : ""}
+            size="lg"
+          >
+            <Sparkles className="w-4 h-4 mr-1.5" />
+            {t("Luyện Shadowing", "Shadowing Practice")}
           </Button>
+          {mode === "part" && (
+            <Button onClick={shuffleQuestions} variant="outline" size="lg" className="ml-auto">
+              <Shuffle className="w-4 h-4 mr-2" /> {t("Đảo câu hỏi", "Shuffle")}
+            </Button>
+          )}
         </div>
+
+        {mode === "shadow" ? (
+          <ShadowingPractice />
+        ) : (
+        <>
+
 
         {/* Topic filter - different for Part 2 vs Part 1/3 */}
         {selectedPart === 2 ? (
