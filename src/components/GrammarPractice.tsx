@@ -271,7 +271,7 @@ const GrammarPractice = ({ taskType }: Props) => {
                     {renderBold(selected.example)}
                   </p>
                 </div>
-                )}
+
               </CardContent>
             </Card>
 
