@@ -159,7 +159,7 @@ const ShadowingPractice: React.FC<Props> = () => {
 
   const startRecording = () => {
     if (!current) return;
-    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (!SR) {
       toast.error(t("Trình duyệt không hỗ trợ ghi âm.", "Your browser does not support speech recognition."));
       return;
