@@ -558,7 +558,7 @@ const ShadowingPractice: React.FC<Props> = () => {
             {/* TTS controls — visible in all steps */}
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-xs font-medium text-muted-foreground">{t("Tốc độ:", "Speed:")}</span>
-              {([0.8, 1, 1.2] as const).map((r) => (
+              {([0.8, 0.95, 1.1] as const).map((r) => (
                 <Button
                   key={r}
                   variant={rate === r ? "default" : "outline"}
