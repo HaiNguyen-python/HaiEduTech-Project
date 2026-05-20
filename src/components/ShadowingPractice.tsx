@@ -166,7 +166,7 @@ const ShadowingPractice: React.FC<Props> = () => {
   const [search, setSearch] = useState("");
   const [activeIdx, setActiveIdx] = useState(0);
   const [step, setStep] = useState<Step>(1);
-  const [rate, setRate] = useState<0.8 | 1 | 1.2>(1);
+  const [rate, setRate] = useState<0.8 | 0.95 | 1.1>(0.95);
   const [showVi, setShowVi] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [transcript, setTranscript] = useState("");
