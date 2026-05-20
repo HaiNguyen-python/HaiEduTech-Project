@@ -21,9 +21,13 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import {
-  SHADOWING_SENTENCES,
+  SHADOWING_SENTENCES as BASE_SENTENCES,
   type ShadowingSentence,
 } from "@/data/shadowingSentences";
+import { SHADOWING_EXPANSION } from "@/data/shadowingSentencesExpansion";
+
+// Combined library — base C1/C2 grammar drills + IELTS Part 1/2/3 expansion
+const SHADOWING_SENTENCES: ShadowingSentence[] = [...BASE_SENTENCES, ...SHADOWING_EXPANSION];
 
 // Web Speech API types (minimal)
 interface ISR {
@@ -70,19 +74,79 @@ function wordAccuracy(target: string, actual: string): number {
   return Math.max(0, Math.round(((a.length - distance) / a.length) * 100));
 }
 
-function speak(text: string, rate = 1) {
+/**
+ * Pick the most natural-sounding English voice the browser exposes.
+ * Priority: Neural / Natural / Premium → Google US English → any en-US → any en-*.
+ */
+function pickBestVoice(): SpeechSynthesisVoice | undefined {
+  if (typeof window === "undefined" || !window.speechSynthesis) return undefined;
+  const voices = window.speechSynthesis.getVoices();
+  const enVoices = voices.filter((v) => v.lang?.toLowerCase().startsWith("en"));
+  const premium = enVoices.find((v) =>
+    /(neural|natural|premium|enhanced|wavenet|studio)/i.test(v.name)
+  );
+  if (premium) return premium;
+  const branded = enVoices.find((v) =>
+    /(google us english|aria|jenny|guy|samantha|microsoft.*online)/i.test(v.name)
+  );
+  if (branded) return branded;
+  const enUs = enVoices.find((v) => /en[-_]US/i.test(v.lang));
+  return enUs || enVoices[0];
+}
+
+/** Split a sentence into prosodic chunks at commas / semicolons / dashes. */
+function splitProsodicChunks(sentence: string): string[] {
+  return sentence
+    .split(/([,;:—–])/)
+    .reduce<string[]>((acc, part) => {
+      if (/^[,;:—–]$/.test(part)) {
+        if (acc.length) acc[acc.length - 1] += part;
+      } else if (part.trim()) {
+        acc.push(part.trim());
+      }
+      return acc;
+    }, []);
+}
+
+/**
+ * Human-like TTS: chunk by clause + vary pitch per intonation arrows, with a
+ * gentle declarative arc and an end-of-sentence slow-down.
+ */
+function speak(
+  text: string,
+  rate = 0.95,
+  intonation?: { word: string; direction: "up" | "down" }[]
+) {
   if (typeof window === "undefined" || !window.speechSynthesis) return;
   window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "en-US";
-  u.rate = rate;
-  u.pitch = 1;
-  // Prefer a native English voice if available
-  const voices = window.speechSynthesis.getVoices();
-  const v = voices.find((vv) => /en[-_]US/i.test(vv.lang) && /Google|Samantha|Microsoft|Natural/i.test(vv.name))
-    || voices.find((vv) => vv.lang?.toLowerCase().startsWith("en"));
-  if (v) u.voice = v;
-  window.speechSynthesis.speak(u);
+  const voice = pickBestVoice();
+  const chunks = splitProsodicChunks(text);
+
+  const intMap = new Map<string, "up" | "down">();
+  (intonation || []).forEach((i) =>
+    intMap.set(i.word.toLowerCase().replace(/[.,!?;:"'()]/g, ""), i.direction)
+  );
+
+  const lastIdx = chunks.length - 1;
+  chunks.forEach((chunk, idx) => {
+    const u = new SpeechSynthesisUtterance(chunk);
+    u.lang = voice?.lang || "en-US";
+    if (voice) u.voice = voice;
+    u.rate = rate;
+    const lastWord = chunk
+      .replace(/[.,!?;:"'()—–-]+$/g, "")
+      .split(/\s+/)
+      .pop()
+      ?.toLowerCase()
+      .replace(/[.,!?;:"'()]/g, "");
+    const dir = lastWord ? intMap.get(lastWord) : undefined;
+    if (dir === "up") u.pitch = 1.25;
+    else if (dir === "down") u.pitch = 0.85;
+    else u.pitch = idx === lastIdx ? 0.95 : 1.05;
+    if (idx === lastIdx) u.rate = Math.max(0.7, rate - 0.05);
+    u.volume = 1;
+    window.speechSynthesis.speak(u);
+  });
 }
 
 interface Props {
