@@ -13,6 +13,8 @@ import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import confetti from "canvas-confetti";
 import SEO from "@/components/SEO";
+import EssayBand8Analysis from "@/components/ielts/EssayBand8Analysis";
+import GlossaryPhrasePractice from "@/components/ielts/GlossaryPhrasePractice";
 
 const IeltsSampleEssayDetail = () => {
   const { essayId } = useParams();
@@ -172,26 +174,42 @@ const IeltsSampleEssayDetail = () => {
             </div>
           </div>
 
-          {/* Bilingual Glossary */}
+          {/* Band 8.0+ Analysis — TA/TR · CC · LR · GRA */}
+          <EssayBand8Analysis essay={essay} />
+
+          {/* Bilingual Glossary with per-phrase writing practice */}
           <div className="glass-card rounded-xl p-6">
-            <h2 className="text-lg font-semibold text-foreground mb-4">
+            <h2 className="text-lg font-semibold text-foreground mb-1">
               📚 {t("Bảng Chú Giải Song Ngữ", "Bilingual Glossary")}
             </h2>
+            <p className="text-xs text-muted-foreground mb-4">
+              {t(
+                "Mỗi cụm từ có nút 'Viết câu & chấm điểm' để bạn vận dụng ngay — không chỉ học thuộc.",
+                "Each phrase has a 'Use it → AI grade' button so you can apply it immediately — not just memorise it."
+              )}
+            </p>
             <div className="overflow-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
                     <TableHead className="font-semibold">Term</TableHead>
                     <TableHead className="font-semibold">{t("Nghĩa tiếng Việt", "Vietnamese")}</TableHead>
-                    <TableHead className="font-semibold">{t("Ngữ cảnh", "Context")}</TableHead>
+                    <TableHead className="font-semibold">{t("Ngữ cảnh & Luyện viết", "Context & Practice")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {essay.glossary.map((g, i) => (
                     <TableRow key={i}>
-                      <TableCell className="font-medium text-primary">{g.term}</TableCell>
-                      <TableCell>{g.vietnamese}</TableCell>
-                      <TableCell className="text-muted-foreground text-sm">{g.context}</TableCell>
+                      <TableCell className="font-medium text-primary align-top">{g.term}</TableCell>
+                      <TableCell className="align-top">{g.vietnamese}</TableCell>
+                      <TableCell className="text-sm align-top">
+                        <p className="text-muted-foreground">{g.context}</p>
+                        <GlossaryPhrasePractice
+                          phrase={g.term}
+                          phraseMeaning={g.vietnamese}
+                          taskType={essay.taskType}
+                        />
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
