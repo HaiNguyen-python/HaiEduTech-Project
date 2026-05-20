@@ -568,7 +568,7 @@ const ShadowingPractice: React.FC<Props> = () => {
                   {r}x
                 </Button>
               ))}
-              <Button size="sm" onClick={() => speak(current.sentence, rate)} className="ml-1">
+              <Button size="sm" onClick={() => speak(current.sentence, rate, current.intonation)} className="ml-1">
                 <Volume2 className="w-4 h-4 mr-1.5" />
                 {t("Nghe", "Listen")}
               </Button>
@@ -650,14 +650,14 @@ const ShadowingPractice: React.FC<Props> = () => {
                         )}
                       </p>
                       <div className="flex flex-wrap gap-2">
-                        <Button size="sm" onClick={() => speak(current.sentence, rate)}>
+                        <Button size="sm" onClick={() => speak(current.sentence, rate, current.intonation)}>
                           <Play className="w-4 h-4 mr-1.5" />
                           {t("Phát mẫu", "Play model")}
                         </Button>
-                        <Button size="sm" variant="outline" onClick={() => speak(current.sentence, 0.8)}>
+                        <Button size="sm" variant="outline" onClick={() => speak(current.sentence, 0.8, current.intonation)}>
                           0.8x
                         </Button>
-                        <Button size="sm" variant="outline" onClick={() => speak(current.sentence, 1.2)}>
+                        <Button size="sm" variant="outline" onClick={() => speak(current.sentence, 1.2, current.intonation)}>
                           1.2x
                         </Button>
                       </div>
