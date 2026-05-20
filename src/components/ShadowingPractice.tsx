@@ -657,8 +657,8 @@ const ShadowingPractice: React.FC<Props> = () => {
                         <Button size="sm" variant="outline" onClick={() => speak(current.sentence, 0.8, current.intonation)}>
                           0.8x
                         </Button>
-                        <Button size="sm" variant="outline" onClick={() => speak(current.sentence, 1.2, current.intonation)}>
-                          1.2x
+                        <Button size="sm" variant="outline" onClick={() => speak(current.sentence, 1.1, current.intonation)}>
+                          1.1x
                         </Button>
                       </div>
                     </div>
