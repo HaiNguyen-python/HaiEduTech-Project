@@ -1115,92 +1115,106 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     }
   },
-  {
+    {
     "id": "t1-19",
     "taskType": 1,
     "chartType": "map",
     "topic": "town development",
     "prompt": "The maps below show the town of Greenfield in 1990 and 2020. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The maps illustrate the development of Greenfield, a small town, between 1990 and 2020.\n\nOverall, Greenfield underwent **significant transformation**, with farmland being **converted** into residential and commercial zones. Several traditional features have been **demolished** to accommodate modern infrastructure.\n\nIn 1990, the town centred on a small market square in the north, surrounded by **scattered** farmhouses and orchards. A single-track road connected the village to neighbouring towns, and a stream flowed through the eastern outskirts. By 2020, the market square had been **replaced** by a modern shopping mall.\n\nThe orchards in the south have given way to a residential housing estate with around fifty new homes. To the east, a community park now occupies the area where farmland once stood, and the stream has been **redirected** to form a decorative water feature. The single-track road has been **upgraded** to a dual carriageway connecting to a new motorway. These changes reflect the town's **urbanisation** and shift from agriculture toward services and housing.",
+    "essayBody": "The maps illustrate the spatial evolution of Greenfield, a small market town, between 1990 and 2020.\n\nOverall, Greenfield underwent a **profound metamorphosis**, with agricultural land **systematically converted** into residential and commercial zones, reflecting the classic **peri-urban** encroachment documented in post-war British planning literature. Several vernacular features were **sacrificed** to accommodate modern infrastructure.\n\nIn 1990, the settlement centred on a compact market square in the north, encircled by **scattered** farmsteads and established orchards. A single-track lane provided the sole vehicular connection to neighbouring towns, while a minor stream coursed through the eastern periphery. By 2020, the historic market square had been **supplanted** by a modern retail mall—a shift emblematic of the broader decline of traditional high-street commerce.\n\nThe southern orchards had been entirely **replaced** by a suburban housing estate comprising approximately fifty dwellings. To the east, a landscaped community park now occupies former **arable** plots, and the stream has been **channelled** into a **retention pond** serving as an ornamental water feature. The original single-track road has been **widened** into a dual carriageway feeding a new motorway interchange. Collectively, these alterations signal the town's accelerating **urbanisation** and its transition from an agrarian satellite to a service-oriented **commuter hub**.",
     "glossary": [
       {
-        "term": "significant transformation",
-        "vietnamese": "sự chuyển đổi đáng kể",
-        "context": "significant transformation"
+        "term": "profound metamorphosis",
+        "vietnamese": "biến đổi sâu sắc",
+        "context": "Greenfield underwent a **profound metamorphosis** over three decades."
       },
       {
-        "term": "converted",
-        "vietnamese": "chuyển đổi",
-        "context": "farmland being converted"
+        "term": "systematically converted",
+        "vietnamese": "chuyển đổi một cách có hệ thống",
+        "context": "Agricultural land was **systematically converted** into residential zones."
       },
       {
-        "term": "demolished",
-        "vietnamese": "bị phá hủy",
-        "context": "traditional features demolished"
+        "term": "peri-urban",
+        "vietnamese": "vùng ngoại ô",
+        "context": "The changes reflect classic **peri-urban** encroachment on rural land."
+      },
+      {
+        "term": "sacrificed",
+        "vietnamese": "bị hy sinh",
+        "context": "Several vernacular features were **sacrificed** for modern infrastructure."
       },
       {
         "term": "scattered",
         "vietnamese": "rải rác",
-        "context": "scattered farmhouses"
+        "context": "The market square was encircled by **scattered** farmsteads and orchards."
+      },
+      {
+        "term": "supplanted",
+        "vietnamese": "thay thế",
+        "context": "The historic market square had been **supplanted** by a modern retail mall."
       },
       {
         "term": "replaced",
         "vietnamese": "được thay thế",
-        "context": "market square replaced"
+        "context": "The southern orchards had been entirely **replaced** by a housing estate."
       },
       {
-        "term": "redirected",
-        "vietnamese": "đổi hướng",
-        "context": "stream redirected"
+        "term": "arable",
+        "vietnamese": "trồng trọt được",
+        "context": "A community park now occupies former **arable** plots."
       },
       {
-        "term": "upgraded",
-        "vietnamese": "nâng cấp",
-        "context": "road upgraded"
+        "term": "channelled",
+        "vietnamese": "được dẫn dòng",
+        "context": "The stream has been **channelled** into a retention pond."
+      },
+      {
+        "term": "retention pond",
+        "vietnamese": "hồ chứa nước",
+        "context": "The stream was channelled into a **retention pond** serving as a water feature."
+      },
+      {
+        "term": "widened",
+        "vietnamese": "được mở rộng",
+        "context": "The single-track road has been **widened** into a dual carriageway."
       },
       {
         "term": "urbanisation",
         "vietnamese": "đô thị hóa",
-        "context": "town's urbanisation"
+        "context": "These alterations signal the town's accelerating **urbanisation**."
       },
       {
-        "term": "dual carriageway",
-        "vietnamese": "đường đôi",
-        "context": "dual carriageway"
-      },
-      {
-        "term": "decorative",
-        "vietnamese": "trang trí",
-        "context": "decorative water feature"
+        "term": "commuter hub",
+        "vietnamese": "trung tâm đi lại",
+        "context": "Greenfield transitioned from an agrarian satellite to a service-oriented **commuter hub**."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "Greenfield underwent significant ___.",
-          "answer": "transformation"
+          "sentence": "Greenfield underwent a profound ___.",
+          "answer": "metamorphosis"
         },
         {
-          "sentence": "Farmland was ___ into housing.",
-          "answer": "converted"
+          "sentence": "Agricultural land was ___ converted into housing.",
+          "answer": "systematically"
         },
         {
-          "sentence": "The road was ___ to a dual carriageway.",
-          "answer": "upgraded"
+          "sentence": "The market square was ___ by a retail mall.",
+          "answer": "supplanted"
         },
         {
-          "sentence": "The stream was ___ as a feature.",
-          "answer": "redirected"
+          "sentence": "The stream was ___ into a retention pond.",
+          "answer": "channelled"
         },
         {
-          "sentence": "The change reflects ___.",
-          "answer": "urbanisation"
+          "sentence": "The town became a service-oriented ___ hub.",
+          "answer": "commuter"
         }
       ]
-    },
-    "chartConfig": {
+    },    "chartConfig": {
       "data": [],
       "type": "map",
       "stages": [
