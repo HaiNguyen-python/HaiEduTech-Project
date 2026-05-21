@@ -132,13 +132,13 @@ const IeltsSampleEssayDetail = () => {
         }}
       />
       <Navbar />
-      <main className="container mx-auto px-4 py-8 max-w-4xl">
+      <main className="container mx-auto px-4 py-6 max-w-4xl">
         {/* Back link */}
-        <Link to="/ielts-sample-essays" className="text-sm text-primary hover:underline inline-flex items-center gap-1 mb-6">
+        <Link to="/ielts-sample-essays" className="text-sm text-primary hover:underline inline-flex items-center gap-1 mb-4">
           <ArrowLeft className="w-4 h-4" /> {t("Quay lại danh sách", "Back to list")}
         </Link>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-8">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
           {/* Header */}
           <div>
             <div className="flex items-center gap-2 mb-3">
@@ -150,7 +150,7 @@ const IeltsSampleEssayDetail = () => {
           </div>
 
           {/* Prompt */}
-          <div className="border-l-4 border-primary bg-primary/5 rounded-r-lg p-5">
+          <div className="border-l-4 border-primary bg-primary/5 rounded-r-lg p-4">
             <p className="text-sm font-medium text-primary mb-1">{t("Đề bài", "Prompt")}</p>
             <p className="text-foreground leading-relaxed">{essay.prompt}</p>
           </div>
@@ -164,7 +164,7 @@ const IeltsSampleEssayDetail = () => {
           <EssayOutline essay={essay} />
 
           {/* Full essay reference with click-to-reveal teaching mode */}
-          <details className="glass-card rounded-xl p-6 md:p-8 group" open>
+          <details className="glass-card rounded-xl p-5 md:p-6 group" open>
             <summary className="cursor-pointer flex items-center justify-between gap-2 list-none">
               <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
                 <BookOpen className="w-5 h-5 text-primary" />
@@ -192,39 +192,41 @@ const IeltsSampleEssayDetail = () => {
           <EssayBand8Analysis essay={essay} />
 
           {/* Bilingual Glossary with per-phrase writing practice */}
-          <div className="glass-card rounded-xl p-6">
+          <div className="glass-card rounded-xl p-5">
             <h2 className="text-lg font-semibold text-foreground mb-1">
               📚 {t("Bảng Chú Giải Song Ngữ", "Bilingual Glossary")}
             </h2>
-            <p className="text-xs text-muted-foreground mb-4">
+            <p className="text-xs text-muted-foreground mb-3">
               {t(
-                "Mỗi cụm từ có nút 'Viết câu & chấm điểm' để bạn vận dụng ngay - không chỉ học thuộc.",
-                "Each phrase has a 'Use it → AI grade' button so you can apply it immediately - not just memorise it."
+                "Mỗi cụm từ có sẵn câu ví dụ trong ngữ cảnh - hãy viết lại câu để vận dụng và được chấm điểm ngay.",
+                "Each phrase comes with an example sentence in context - rewrite it below to apply the phrase and get instant feedback."
               )}
             </p>
             <div className="overflow-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
+                    <TableHead className="font-semibold w-10">#</TableHead>
                     <TableHead className="font-semibold">Term</TableHead>
                     <TableHead className="font-semibold">{t("Nghĩa tiếng Việt", "Vietnamese")}</TableHead>
-                    <TableHead className="font-semibold">{t("Ngữ cảnh", "Context")}</TableHead>
+                    <TableHead className="font-semibold">{t("Ngữ cảnh & Luyện viết", "Context & Practice")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {essay.glossary.map((g, i) => (
                     <TableRow key={i}>
-                      <TableCell className="align-top min-w-[220px]">
+                      <TableCell className="align-top font-bold text-muted-foreground text-sm">{i + 1}.</TableCell>
+                      <TableCell className="align-top min-w-[180px]">
                         <div className="font-medium text-primary">{g.term}</div>
+                      </TableCell>
+                      <TableCell className="align-top">{g.vietnamese}</TableCell>
+                      <TableCell className="text-sm align-top min-w-[280px]">
+                        <p className="text-foreground/90 italic">"{g.context}"</p>
                         <GlossaryPhrasePractice
                           phrase={g.term}
                           phraseMeaning={g.vietnamese}
                           taskType={essay.taskType}
                         />
-                      </TableCell>
-                      <TableCell className="align-top">{g.vietnamese}</TableCell>
-                      <TableCell className="text-sm align-top">
-                        <p className="text-muted-foreground">{g.context}</p>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -234,12 +236,12 @@ const IeltsSampleEssayDetail = () => {
           </div>
 
           {/* Interactive Mini-Review Challenge */}
-          <div className="glass-card rounded-xl p-6">
+          <div className="glass-card rounded-xl p-5">
             <h2 className="text-lg font-semibold text-foreground mb-2 flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-primary" />
               {t("Bài Tập Ôn Tập", "Mini-Review Challenge")}
             </h2>
-            <p className="text-sm text-muted-foreground mb-5">{essay.reviewExercise.instruction}</p>
+            <p className="text-sm text-muted-foreground mb-4">{essay.reviewExercise.instruction}</p>
 
             <div className="space-y-5">
               {essay.reviewExercise.items.map((item, idx) => {
