@@ -3862,57 +3862,57 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "essayType": "opinion",
     "topic": "gap year",
     "prompt": "Some people think students should take a year off between high school and university. To what extent do you agree?",
-    "essayBody": "The notion of taking a 'gap year' before tertiary studies has gained traction in many countries. While critics worry about lost momentum, I broadly **agree** that a structured break can yield meaningful benefits provided it is purposefully used.\n\nA well-planned gap year offers significant developmental gains. Travel, voluntary work or paid employment expose students to environments that classroom learning rarely matches, accelerating **emotional maturity** and **self-reliance**. Many young people enter university uncertain about their direction; time away can sharpen academic focus and reduce the likelihood of switching majors or dropping out. Earnings or scholarships from this period can also ease the financial pressure of higher education.\n\nAdmittedly, the proposal has drawbacks. Some students lose **academic momentum** and find returning to study habits difficult, while others may simply drift, undermining the very development the year was supposed to foster. Family expectations and economic pressures can also make a gap year **unaffordable**, creating inequities between those who can finance the experience and those who cannot.\n\nOn balance, I argue that a **structured gap year** with clear objectives - internships, language study, charity work - is a positive choice for many students. Universities and governments should encourage productive options through partnerships, while ensuring that financial barriers do not exclude less-privileged learners from this **transformative pause**.",
+    "essayBody": "The notion of taking a structured 'gap year' before tertiary studies has gained considerable traction in many education systems, particularly across the United Kingdom, Australia and parts of Northern Europe. While critics worry about lost academic momentum, I broadly **agree** that a purposeful break can yield substantial developmental benefits, provided the year is deliberately planned rather than left to drift.\n\nA well-designed gap year offers significant personal and academic gains. Travel, **voluntary work** abroad or paid employment expose young adults to environments and responsibilities that classroom learning rarely matches, dramatically accelerating **emotional maturity** and genuine **self-reliance**. Many school leavers also enter university uncertain about their direction; a considered year away from formal study tends to sharpen academic focus and demonstrably reduces the likelihood of switching majors or dropping out, with Australian Council for Educational Research data showing better first-year GPAs among gap-year students. Earnings or competitive scholarships gathered during this period can additionally ease the substantial financial pressure of higher education.\n\nAdmittedly, the proposal carries real drawbacks that deserve honest acknowledgement. Some students inevitably lose **academic momentum** and find returning to disciplined study habits surprisingly difficult, while others may simply drift through travel and casual jobs, undermining the very development the year was supposed to foster. Family expectations and economic pressures can also render a meaningful gap year completely **unaffordable** for lower-income students, creating troubling **inequities** between those who can finance an enriching experience and those who cannot.\n\nOn balance, I argue that a genuinely **structured gap year** with clear objectives - internships, intensive language study, charitable work or research placements - is a positive and increasingly valuable choice for most students. Universities and governments should actively encourage productive options through formal **partnerships** with reputable providers, while ensuring that targeted bursaries prevent financial barriers from excluding less-privileged learners from this potentially **transformative pause**.",
     "glossary": [
       {
         "term": "gap year",
-        "vietnamese": "năm tạm nghỉ",
-        "context": "take a gap year"
-      },
-      {
-        "term": "emotional maturity",
-        "vietnamese": "sự trưởng thành cảm xúc",
-        "context": "accelerating emotional maturity"
-      },
-      {
-        "term": "self-reliance",
-        "vietnamese": "khả năng tự lực",
-        "context": "self-reliance"
-      },
-      {
-        "term": "academic momentum",
-        "vietnamese": "đà học tập",
-        "context": "lose academic momentum"
-      },
-      {
-        "term": "unaffordable",
-        "vietnamese": "không thể chi trả",
-        "context": "gap year unaffordable"
-      },
-      {
-        "term": "structured gap year",
-        "vietnamese": "năm tạm nghỉ có cấu trúc",
-        "context": "structured gap year"
-      },
-      {
-        "term": "transformative pause",
-        "vietnamese": "tạm dừng chuyển hóa",
-        "context": "transformative pause"
+        "vietnamese": "năm tạm nghỉ giữa cấp 3 và đại học",
+        "context": "The notion of taking a structured gap year before tertiary studies has gained traction."
       },
       {
         "term": "voluntary work",
         "vietnamese": "công việc tình nguyện",
-        "context": "voluntary work"
+        "context": "Travel, voluntary work abroad or paid employment expose young adults to new responsibilities."
       },
       {
-        "term": "partnerships",
-        "vietnamese": "quan hệ đối tác",
-        "context": "partnerships"
+        "term": "emotional maturity",
+        "vietnamese": "sự trưởng thành về cảm xúc",
+        "context": "Real-world experience dramatically accelerates emotional maturity and self-reliance."
+      },
+      {
+        "term": "self-reliance",
+        "vietnamese": "tính tự lập",
+        "context": "A gap year cultivates genuine self-reliance that classroom learning cannot replicate."
+      },
+      {
+        "term": "academic momentum",
+        "vietnamese": "đà học tập",
+        "context": "Some students inevitably lose academic momentum during their year off."
+      },
+      {
+        "term": "unaffordable",
+        "vietnamese": "không có khả năng chi trả",
+        "context": "Economic pressures can render a meaningful gap year completely unaffordable for lower-income students."
       },
       {
         "term": "inequities",
         "vietnamese": "sự bất bình đẳng",
-        "context": "creating inequities"
+        "context": "The cost of travel and unpaid internships can create troubling inequities between students."
+      },
+      {
+        "term": "structured gap year",
+        "vietnamese": "năm tạm nghỉ có cấu trúc rõ ràng",
+        "context": "A genuinely structured gap year with clear objectives is a positive choice for most students."
+      },
+      {
+        "term": "partnerships",
+        "vietnamese": "quan hệ đối tác",
+        "context": "Universities should encourage productive options through formal partnerships with reputable providers."
+      },
+      {
+        "term": "transformative pause",
+        "vietnamese": "khoảng nghỉ mang tính chuyển hóa",
+        "context": "Targeted bursaries can give every student access to this potentially transformative pause."
       }
     ],
     "reviewExercise": {
@@ -3948,57 +3948,57 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "essayType": "discussion",
     "topic": "nuclear energy",
     "prompt": "Some believe nuclear power is essential for clean-energy transition, while others argue it is too dangerous. Discuss both views and give your opinion.",
-    "essayBody": "Nuclear power evokes strong feelings on both sides of the climate debate. Advocates regard it as **indispensable** for decarbonisation, while opponents emphasise catastrophic risks. In my view, modern nuclear technology should remain part of the energy mix under strict safeguards.\n\nSupporters point out that nuclear plants generate enormous quantities of low-carbon electricity around the clock, providing **baseload power** that intermittent renewables cannot yet match alone. France, for instance, has decarbonised much of its grid via nuclear. Newer reactor designs, such as **small modular reactors (SMRs)**, promise enhanced safety, lower costs and reduced waste, helping countries meet **net-zero targets** without sacrificing reliability.\n\nCritics highlight serious concerns. The disasters at Chernobyl and Fukushima demonstrate that accidents, though rare, can have devastating consequences. **Radioactive waste** remains hazardous for thousands of years and storage solutions are still contentious. Nuclear plants are also **capital-intensive** and slow to build, while their fuel and technology can pose **proliferation risks** if misused for weapons.\n\nI conclude that nuclear power, when paired with rigorous regulation, should complement - not replace - the expansion of renewables. Abandoning nuclear entirely would jeopardise **climate goals**, but reckless expansion without robust safety frameworks would be equally unwise.",
+    "essayBody": "Nuclear power continues to provoke strong feelings on both sides of the climate debate. Advocates regard it as **indispensable** for rapid decarbonisation, while opponents emphasise its catastrophic worst-case risks. In my considered view, modern nuclear technology should remain a meaningful part of the energy mix under genuinely strict **safeguards**.\n\nSupporters point out, with considerable evidence, that nuclear plants generate enormous quantities of low-carbon electricity around the clock, providing the reliable **baseload power** that **intermittent** renewables such as wind and solar cannot yet match on their own. France, for instance, has decarbonised roughly seventy percent of its grid largely through nuclear, while Sweden has achieved one of the cleanest electricity systems in Europe by combining hydropower with nuclear. Newer reactor designs, particularly **small modular reactors (SMRs)**, promise enhanced passive safety, lower upfront costs and significantly reduced waste, helping major economies meet ambitious **net-zero targets** without sacrificing grid reliability.\n\nCritics nevertheless highlight serious concerns that cannot be dismissed. The disasters at Chernobyl in 1986 and Fukushima in 2011 demonstrate vividly that accidents, although statistically rare, can have devastating and very long-lasting consequences for entire regions. **Radioactive waste** remains hazardous for tens of thousands of years and politically acceptable long-term storage solutions are still contentious almost everywhere. Nuclear plants are also extremely **capital-intensive** and notoriously slow to build, frequently exceeding budgets, while their fuel cycles and technology can pose serious **proliferation risks** if diverted toward weapons programmes.\n\nI conclude that nuclear power, when paired with rigorous independent regulation and modern reactor designs, should complement - not replace - the rapid expansion of renewables. Abandoning nuclear entirely would seriously jeopardise our shared **climate goals**, but reckless expansion without robust safety frameworks would be equally unwise.",
     "glossary": [
       {
         "term": "indispensable",
         "vietnamese": "không thể thiếu",
-        "context": "indispensable for decarbonisation"
-      },
-      {
-        "term": "baseload power",
-        "vietnamese": "điện nền",
-        "context": "baseload power"
-      },
-      {
-        "term": "small modular reactors (SMRs)",
-        "vietnamese": "lò phản ứng modul nhỏ",
-        "context": "small modular reactors"
-      },
-      {
-        "term": "net-zero targets",
-        "vietnamese": "mục tiêu net-zero",
-        "context": "net-zero targets"
-      },
-      {
-        "term": "radioactive waste",
-        "vietnamese": "chất thải phóng xạ",
-        "context": "radioactive waste remains hazardous"
-      },
-      {
-        "term": "capital-intensive",
-        "vietnamese": "đầu tư vốn lớn",
-        "context": "capital-intensive"
-      },
-      {
-        "term": "proliferation risks",
-        "vietnamese": "rủi ro phổ biến vũ khí",
-        "context": "proliferation risks"
-      },
-      {
-        "term": "climate goals",
-        "vietnamese": "mục tiêu khí hậu",
-        "context": "jeopardise climate goals"
-      },
-      {
-        "term": "intermittent",
-        "vietnamese": "không liên tục",
-        "context": "intermittent renewables"
+        "context": "Advocates regard nuclear power as indispensable for rapid decarbonisation."
       },
       {
         "term": "safeguards",
         "vietnamese": "biện pháp bảo vệ",
-        "context": "strict safeguards"
+        "context": "Modern nuclear technology should remain part of the energy mix under genuinely strict safeguards."
+      },
+      {
+        "term": "baseload power",
+        "vietnamese": "điện nền chạy liên tục",
+        "context": "Nuclear plants provide the reliable baseload power that intermittent renewables cannot yet match alone."
+      },
+      {
+        "term": "intermittent",
+        "vietnamese": "không liên tục",
+        "context": "Intermittent renewables such as wind and solar still struggle to deliver around-the-clock electricity."
+      },
+      {
+        "term": "small modular reactors (SMRs)",
+        "vietnamese": "lò phản ứng mô-đun cỡ nhỏ",
+        "context": "Newer designs such as small modular reactors promise enhanced passive safety and reduced waste."
+      },
+      {
+        "term": "net-zero targets",
+        "vietnamese": "mục tiêu phát thải ròng bằng không",
+        "context": "Nuclear can help major economies meet ambitious net-zero targets without sacrificing reliability."
+      },
+      {
+        "term": "radioactive waste",
+        "vietnamese": "chất thải phóng xạ",
+        "context": "Radioactive waste remains hazardous for tens of thousands of years."
+      },
+      {
+        "term": "capital-intensive",
+        "vietnamese": "đòi hỏi vốn lớn",
+        "context": "Nuclear plants are extremely capital-intensive and notoriously slow to build."
+      },
+      {
+        "term": "proliferation risks",
+        "vietnamese": "rủi ro phổ biến vũ khí hạt nhân",
+        "context": "Nuclear fuel cycles can pose serious proliferation risks if diverted toward weapons programmes."
+      },
+      {
+        "term": "climate goals",
+        "vietnamese": "mục tiêu khí hậu",
+        "context": "Abandoning nuclear entirely would seriously jeopardise our shared climate goals."
       }
     ],
     "reviewExercise": {
@@ -4034,57 +4034,57 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "essayType": "advantage-disadvantage",
     "topic": "globalisation",
     "prompt": "Globalisation has transformed economies and cultures worldwide. Do the advantages outweigh the disadvantages?",
-    "essayBody": "Globalisation - the deepening integration of national economies, cultures and information flows - has reshaped the modern world. While its benefits are substantial, the drawbacks have grown increasingly visible. On balance, I believe the advantages still slightly **outweigh** the disadvantages, though the imbalance demands corrective policies.\n\nEconomically, globalisation has **lifted hundreds of millions out of poverty**, particularly in East Asia, by integrating low-income countries into supply chains and consumer markets. Consumers worldwide enjoy lower prices and a wider variety of goods, while ideas, technology and **best practices** spread faster than ever. Cross-border collaboration in research, healthcare and climate science has produced solutions no single nation could have achieved alone.\n\nHowever, the costs are also undeniable. Manufacturing-dependent communities in advanced economies have suffered job losses through **offshoring**, fuelling political backlash. Cultural **homogenisation** threatens local traditions as global brands and entertainment dominate. Furthermore, integrated markets transmit shocks rapidly: financial crises and pandemics now spread worldwide within weeks, exposing **systemic fragility**.\n\nConsidering both sides, I conclude that globalisation's net contribution remains positive but increasingly **conditional** on strong domestic safety nets, retraining programmes and protections for cultural diversity. Without these, the political consensus supporting open borders and free trade will continue to erode.",
+    "essayBody": "Globalisation - the deepening integration of national economies, cultures and information flows - has fundamentally reshaped the modern world over the past four decades. While its benefits remain substantial, the drawbacks have grown increasingly visible since the 2008 financial crisis. On balance, I believe the advantages still slightly **outweigh** the disadvantages, though the imbalance now demands urgent corrective policies.\n\nEconomically, globalisation has demonstrably **lifted hundreds of millions out of poverty**, particularly across East and South Asia, by integrating low-income countries into global supply chains and consumer markets; the World Bank estimates extreme poverty more than halved between 1990 and 2019. Consumers worldwide simultaneously enjoy lower prices and a far wider variety of goods, while ideas, technology and **best practices** spread faster than ever through digital platforms. Cross-border collaboration in research, public health and climate science has also produced solutions - from mRNA vaccines to the Paris Agreement - that no single nation could have achieved alone.\n\nHowever, the social costs are equally undeniable. Manufacturing-dependent communities across advanced economies, from the American Rust Belt to industrial northern England, have suffered prolonged job losses through **offshoring**, fuelling significant **political backlash** and the rise of protectionist movements. Cultural **homogenisation** also threatens local traditions and languages as global brands and English-language entertainment dominate everyday consumption. Furthermore, deeply **integrated** markets transmit shocks at unprecedented speed: financial crises and pandemics can now spread worldwide within weeks, exposing alarming **systemic fragility**.\n\nConsidering both sides carefully, I conclude that globalisation's net contribution remains positive but is becoming increasingly **conditional** on strong domestic **safety nets**, ambitious retraining programmes and active protections for cultural diversity. Without these complementary policies, the fragile political consensus supporting open borders and free trade will continue to erode dangerously.",
     "glossary": [
       {
         "term": "outweigh",
-        "vietnamese": "vượt trội",
-        "context": "slightly outweigh disadvantages"
+        "vietnamese": "vượt trội hơn",
+        "context": "On balance, the advantages still slightly outweigh the disadvantages of globalisation."
       },
       {
         "term": "lifted hundreds of millions out of poverty",
-        "vietnamese": "đưa hàng trăm triệu người thoát nghèo",
-        "context": "lifted hundreds of millions out of poverty"
+        "vietnamese": "đưa hàng trăm triệu người thoát khỏi đói nghèo",
+        "context": "Globalisation has demonstrably lifted hundreds of millions out of poverty, particularly across East Asia."
       },
       {
         "term": "best practices",
-        "vietnamese": "thực hành tốt nhất",
-        "context": "best practices spread"
+        "vietnamese": "thực tiễn tốt nhất",
+        "context": "Ideas, technology and best practices now spread faster than ever through digital platforms."
       },
       {
         "term": "offshoring",
-        "vietnamese": "chuyển ra nước ngoài",
-        "context": "jobs lost through offshoring"
+        "vietnamese": "chuyển sản xuất ra nước ngoài",
+        "context": "Manufacturing communities have suffered prolonged job losses through offshoring."
+      },
+      {
+        "term": "political backlash",
+        "vietnamese": "phản ứng dữ dội về chính trị",
+        "context": "The trend has fuelled significant political backlash and the rise of protectionist movements."
       },
       {
         "term": "homogenisation",
         "vietnamese": "sự đồng nhất hóa",
-        "context": "cultural homogenisation"
+        "context": "Cultural homogenisation threatens local traditions and languages worldwide."
+      },
+      {
+        "term": "integrated",
+        "vietnamese": "tích hợp, gắn kết chặt",
+        "context": "Deeply integrated markets transmit financial shocks at unprecedented speed."
       },
       {
         "term": "systemic fragility",
-        "vietnamese": "mong manh hệ thống",
-        "context": "systemic fragility"
+        "vietnamese": "sự mong manh mang tính hệ thống",
+        "context": "Recent crises have exposed alarming systemic fragility across global supply chains."
       },
       {
         "term": "conditional",
         "vietnamese": "có điều kiện",
-        "context": "increasingly conditional"
+        "context": "Globalisation's net contribution is becoming increasingly conditional on strong domestic policies."
       },
       {
         "term": "safety nets",
-        "vietnamese": "mạng lưới an sinh",
-        "context": "strong domestic safety nets"
-      },
-      {
-        "term": "political backlash",
-        "vietnamese": "phản ứng dữ dội chính trị",
-        "context": "fuelling political backlash"
-      },
-      {
-        "term": "integrated",
-        "vietnamese": "tích hợp",
-        "context": "integrated markets"
+        "vietnamese": "mạng lưới an sinh xã hội",
+        "context": "Strong domestic safety nets are required to protect workers displaced by global competition."
       }
     ],
     "reviewExercise": {
@@ -4120,57 +4120,57 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "essayType": "problem-solution",
     "topic": "poverty",
     "prompt": "Poverty remains a major challenge in many countries. What are the root causes and what solutions can governments implement?",
-    "essayBody": "Despite global wealth reaching record highs, poverty continues to affect a substantial share of the world's population. This essay examines the fundamental causes and proposes practical responses.\n\nAt the structural level, poverty arises from **unequal access** to education, healthcare and capital. Children born into low-income households often leave school early, perpetuating an **inter-generational cycle** of low-skilled, poorly paid work. Discrimination based on gender, ethnicity or geography compounds the problem, while political instability, conflict and climate shocks can devastate livelihoods overnight. Inadequate **social safety nets** mean that one illness or crop failure can push families below the poverty line.\n\nEffective policy responses operate on multiple fronts. Governments should expand **universal basic services** - quality education, free healthcare and affordable housing - that build human capital. **Conditional cash transfers**, as pioneered in Brazil and Mexico, encourage school attendance and clinic visits while raising household income. Microfinance and skills training enable adults to escape low-paid work, while progressive taxation and **anti-corruption** reforms ensure resources reach those who need them most. International **debt relief** and fair trade arrangements should accompany domestic measures.\n\nIn conclusion, poverty is rooted in unequal opportunities and systemic vulnerabilities, but it is far from intractable. With **integrated policies** combining education, social protection and economic inclusion, governments can break the cycle and create more equitable societies.",
+    "essayBody": "Despite aggregate global wealth reaching record highs, poverty continues to affect a substantial share of the world's population; the World Bank still classifies roughly 700 million people as living in extreme poverty on less than $2.15 a day. This essay examines the fundamental structural causes and proposes a coordinated package of practical responses.\n\nAt the structural level, poverty arises primarily from **unequal access** to quality education, healthcare and productive capital. Children born into low-income households often leave school early to support their families, perpetuating a damaging **inter-generational cycle** of low-skilled, poorly paid work. Discrimination based on gender, ethnicity or geography compounds the problem, while political instability, armed conflict and climate shocks can devastate fragile livelihoods almost overnight. Inadequate **social safety nets** mean that a single illness or failed harvest can push entire families below the poverty line, as starkly illustrated during the COVID-19 pandemic.\n\nEffective policy responses must operate simultaneously on multiple fronts. Governments should systematically expand **universal basic services** - free quality education, accessible healthcare and affordable housing - that steadily build long-term human capital. **Conditional cash transfers**, as successfully pioneered through Brazil's Bolsa Família and Mexico's Prospera programmes, encourage school attendance and clinic visits while directly raising household income. **Microfinance** initiatives and vocational skills training enable adults to escape low-paid work, while **progressive taxation** and serious **anti-corruption** reforms ensure that public resources actually reach those who need them most. Internationally, sovereign **debt relief** and fairer trade arrangements should accompany domestic measures.\n\nIn conclusion, global poverty is rooted in deeply unequal opportunities and systemic vulnerabilities, but it is far from intractable. With ambitious **integrated policies** combining quality education, social protection and inclusive economic growth, governments can genuinely break the cycle and build more equitable, resilient societies.",
     "glossary": [
       {
         "term": "unequal access",
         "vietnamese": "tiếp cận bất bình đẳng",
-        "context": "unequal access to education"
+        "context": "Poverty arises primarily from unequal access to quality education, healthcare and capital."
       },
       {
         "term": "inter-generational cycle",
         "vietnamese": "vòng luẩn quẩn liên thế hệ",
-        "context": "inter-generational cycle"
+        "context": "Early school leaving perpetuates a damaging inter-generational cycle of low-paid work."
       },
       {
         "term": "social safety nets",
-        "vietnamese": "mạng an sinh xã hội",
-        "context": "inadequate social safety nets"
+        "vietnamese": "mạng lưới an sinh xã hội",
+        "context": "Inadequate social safety nets mean a single illness can push families below the poverty line."
       },
       {
         "term": "universal basic services",
-        "vietnamese": "dịch vụ cơ bản phổ quát",
-        "context": "universal basic services"
+        "vietnamese": "dịch vụ cơ bản toàn dân",
+        "context": "Governments should systematically expand universal basic services such as free education and healthcare."
       },
       {
         "term": "conditional cash transfers",
-        "vietnamese": "chuyển tiền có điều kiện",
-        "context": "conditional cash transfers"
-      },
-      {
-        "term": "anti-corruption",
-        "vietnamese": "chống tham nhũng",
-        "context": "anti-corruption reforms"
-      },
-      {
-        "term": "debt relief",
-        "vietnamese": "giảm nợ",
-        "context": "international debt relief"
-      },
-      {
-        "term": "integrated policies",
-        "vietnamese": "chính sách tích hợp",
-        "context": "integrated policies"
+        "vietnamese": "trợ cấp tiền mặt có điều kiện",
+        "context": "Conditional cash transfers reward families for keeping children in school and attending clinics."
       },
       {
         "term": "microfinance",
         "vietnamese": "tài chính vi mô",
-        "context": "microfinance and skills training"
+        "context": "Microfinance initiatives and vocational training help adults escape low-paid work."
       },
       {
         "term": "progressive taxation",
         "vietnamese": "thuế lũy tiến",
-        "context": "progressive taxation"
+        "context": "Progressive taxation ensures the wealthy contribute fairly to public services."
+      },
+      {
+        "term": "anti-corruption",
+        "vietnamese": "chống tham nhũng",
+        "context": "Serious anti-corruption reforms ensure public resources actually reach those who need them most."
+      },
+      {
+        "term": "debt relief",
+        "vietnamese": "xóa, giảm nợ quốc gia",
+        "context": "International debt relief should accompany domestic anti-poverty measures."
+      },
+      {
+        "term": "integrated policies",
+        "vietnamese": "chính sách tổng hợp",
+        "context": "Integrated policies combining education, social protection and economic growth can break the cycle."
       }
     ],
     "reviewExercise": {
@@ -4206,57 +4206,57 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "essayType": "direct-question",
     "topic": "artificial intelligence",
     "prompt": "Artificial intelligence is increasingly used in many industries. How is it changing the workplace, and is this a positive or negative development?",
-    "essayBody": "Artificial intelligence is rapidly **permeating** workplaces from finance and law to manufacturing and creative design. This essay examines how AI is reshaping work and concludes that, on balance, the development is positive provided ethical and labour considerations are addressed.\n\nAI is altering the workplace in several ways. Routine cognitive tasks - data entry, basic translation, customer-service chats - are increasingly **automated**, freeing humans to focus on judgement-intensive activities. Generative tools assist designers, programmers and analysts, accelerating output and lowering the cost of high-quality work. Predictive systems also enable personalised marketing, **dynamic pricing** and faster medical diagnosis, opening new business models entirely impractical without machine learning.\n\nThe benefits are substantial: higher productivity, faster innovation and the ability to serve customers around the clock. AI can also reduce dangerous tasks for human workers and democratise access to specialist expertise - a small clinic, for instance, can now leverage diagnostic models once available only at major hospitals. Yet the risks are equally pressing: job displacement in routine roles, algorithmic **bias**, privacy concerns and the **concentration of power** in a handful of technology companies.\n\nOn balance, I see AI as a positive development, but only if accompanied by **reskilling programmes**, transparent governance and **human-in-the-loop** safeguards. Managed wisely, AI can enhance human work; managed carelessly, it risks deepening inequality and erosion of trust.",
+    "essayBody": "Artificial intelligence is rapidly **permeating** workplaces across virtually every sector, from finance and law to manufacturing, healthcare and creative design. This essay examines how AI is reshaping modern work and argues that, on balance, the development is positive provided pressing ethical and labour considerations are addressed proactively.\n\nAI is altering the workplace along several distinct dimensions. Routine cognitive tasks - data entry, basic translation, document review and first-line customer-service interactions - are increasingly **automated**, freeing human workers to focus on judgement-intensive activities requiring empathy, creativity and ethical reasoning. **Generative tools** now assist designers, programmers, lawyers and analysts directly within their workflows, dramatically accelerating output and lowering the marginal cost of high-quality knowledge work. Sophisticated **predictive systems** further enable personalised marketing, **dynamic pricing** and faster medical diagnosis, opening up entirely new business models that were utterly impractical before the deep-learning revolution of the 2010s.\n\nThe potential benefits are genuinely substantial: significantly higher productivity, faster scientific innovation and the ability to serve customers around the clock at lower cost. AI can also remove dangerous tasks from human workers in mining, construction and emergency response, while democratising access to specialist expertise - a small rural clinic, for instance, can now leverage diagnostic models that were previously available only at major teaching hospitals. Yet the accompanying risks are equally pressing: large-scale job displacement in routine roles, embedded algorithmic **bias** that can entrench discrimination, serious privacy concerns and the alarming **concentration of power** in a small handful of technology companies that control the frontier models.\n\nOn balance, I view AI as a positive development overall, but only if accompanied by ambitious **reskilling programmes**, **transparent governance** of training data and outputs, and meaningful **human-in-the-loop** safeguards in high-stakes decisions. Managed wisely, AI can genuinely augment human work; managed carelessly, it risks deepening inequality and eroding public trust in institutions.",
     "glossary": [
       {
         "term": "permeating",
-        "vietnamese": "thâm nhập",
-        "context": "AI is rapidly permeating workplaces"
+        "vietnamese": "thâm nhập, len lỏi vào",
+        "context": "Artificial intelligence is rapidly permeating workplaces across virtually every sector."
       },
       {
         "term": "automated",
-        "vietnamese": "tự động hóa",
-        "context": "tasks are automated"
-      },
-      {
-        "term": "dynamic pricing",
-        "vietnamese": "định giá động",
-        "context": "dynamic pricing"
-      },
-      {
-        "term": "bias",
-        "vietnamese": "thiên vị",
-        "context": "algorithmic bias"
-      },
-      {
-        "term": "concentration of power",
-        "vietnamese": "tập trung quyền lực",
-        "context": "concentration of power"
-      },
-      {
-        "term": "reskilling programmes",
-        "vietnamese": "chương trình đào tạo lại",
-        "context": "reskilling programmes"
-      },
-      {
-        "term": "human-in-the-loop",
-        "vietnamese": "con người trong vòng lặp",
-        "context": "human-in-the-loop safeguards"
+        "vietnamese": "được tự động hóa",
+        "context": "Routine cognitive tasks such as data entry and document review are increasingly automated."
       },
       {
         "term": "generative tools",
-        "vietnamese": "công cụ tạo sinh",
-        "context": "generative tools assist"
+        "vietnamese": "công cụ AI tạo sinh",
+        "context": "Generative tools now assist designers, programmers and analysts directly within their workflows."
       },
       {
         "term": "predictive systems",
         "vietnamese": "hệ thống dự đoán",
-        "context": "predictive systems"
+        "context": "Sophisticated predictive systems enable dynamic pricing and faster medical diagnosis."
+      },
+      {
+        "term": "dynamic pricing",
+        "vietnamese": "định giá linh hoạt theo thời gian thực",
+        "context": "Predictive systems enable personalised marketing and dynamic pricing across e-commerce platforms."
+      },
+      {
+        "term": "bias",
+        "vietnamese": "thiên kiến",
+        "context": "Embedded algorithmic bias can entrench discrimination against minority groups."
+      },
+      {
+        "term": "concentration of power",
+        "vietnamese": "sự tập trung quyền lực",
+        "context": "The alarming concentration of power in a few technology companies raises serious antitrust concerns."
+      },
+      {
+        "term": "reskilling programmes",
+        "vietnamese": "chương trình đào tạo lại kỹ năng",
+        "context": "Ambitious reskilling programmes are essential to help displaced workers transition to new roles."
       },
       {
         "term": "transparent governance",
         "vietnamese": "quản trị minh bạch",
-        "context": "transparent governance"
+        "context": "Transparent governance of training data and outputs is necessary to maintain public trust."
+      },
+      {
+        "term": "human-in-the-loop",
+        "vietnamese": "con người tham gia trong quy trình ra quyết định",
+        "context": "Meaningful human-in-the-loop safeguards must remain in place for high-stakes decisions."
       }
     ],
     "reviewExercise": {
