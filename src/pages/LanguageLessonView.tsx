@@ -281,9 +281,9 @@ const LanguageLessonView = () => {
                               /<figure[\s\S]*?<\/figure>/g,
                               (block) => block.replace(/^[ \t]+/gm, "")
                             );
-                            // For SAT lessons: structure plain theory into bullets for readability.
+                            // For SAT + IELTS lessons: structure plain theory into bullets for readability.
                             // Keep icons minimal — only on numbered "rules/steps" lists.
-                            if (mod.category === "sat") {
+                            if (mod.category === "sat" || mod.category === "ielts") {
                               const NUM_ICONS = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣"];
                               // 1) Numbered "1) ..." / "1. ..." → bullet with number-emoji icon
                               raw = raw
