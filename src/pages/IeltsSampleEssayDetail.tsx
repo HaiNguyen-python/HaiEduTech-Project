@@ -200,15 +200,17 @@ const IeltsSampleEssayDetail = () => {
                 <TableBody>
                   {essay.glossary.map((g, i) => (
                     <TableRow key={i}>
-                      <TableCell className="font-medium text-primary align-top">{g.term}</TableCell>
-                      <TableCell className="align-top">{g.vietnamese}</TableCell>
-                      <TableCell className="text-sm align-top">
-                        <p className="text-muted-foreground">{g.context}</p>
+                      <TableCell className="align-top min-w-[220px]">
+                        <div className="font-medium text-primary">{g.term}</div>
                         <GlossaryPhrasePractice
                           phrase={g.term}
                           phraseMeaning={g.vietnamese}
                           taskType={essay.taskType}
                         />
+                      </TableCell>
+                      <TableCell className="align-top">{g.vietnamese}</TableCell>
+                      <TableCell className="text-sm align-top">
+                        <p className="text-muted-foreground">{g.context}</p>
                       </TableCell>
                     </TableRow>
                   ))}
