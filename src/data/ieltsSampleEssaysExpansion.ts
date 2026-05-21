@@ -1831,92 +1831,111 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     }
   },
-  {
+    {
     "id": "t1-24",
     "taskType": 1,
     "chartType": "mixed",
     "topic": "company performance",
     "prompt": "The chart below shows annual sales (bars, $m) and net profit (line, $m) of Company R from 2015 to 2022. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The combined chart presents the financial performance of Company R, comparing annual sales revenue with net profit over an eight-year window.\n\nOverall, sales rose almost continuously, but profit growth was far less linear, with a notable **dip** in 2020 - almost certainly attributable to pandemic-related disruption. Profitability subsequently **rebounded** strongly.\n\nIn 2015, sales stood at $120 million while net profit was $15 million. Revenue then climbed steadily, **breaching** $200 million in 2019 before peaking near $260 million in 2022. Profit, however, did not move in lock-step: it tracked sales reasonably well until 2019, when it reached $32 million, before **slumping** to just $18 million in 2020 despite further sales growth.\n\nThis temporary erosion in margin reflected higher input costs and emergency expenditure. From 2021 onward, profit recovered sharply, **eclipsing** previous peaks at $42 million by 2022. The chart underscores the importance of distinguishing between **top-line growth** and **bottom-line resilience**, particularly during external shocks.",
+    "essayBody": "The combined chart presents the financial performance of Company R, juxtaposing annual sales revenue with net profit over an eight-year window.\n\nOverall, sales exhibited an almost uninterrupted upward trajectory, yet profit growth proved considerably less linear, with a pronounced **deterioration** in 2020 that is almost certainly **attributable to** pandemic-induced supply-chain disruption. Profitability subsequently **rebounded** with considerable **alacrity**, underscoring the firm\'s underlying **operational resilience**.\n\nIn 2015, sales stood at $120 million while net profit was $15 million. Revenue then climbed steadily, **breaching** $200 million in 2019 before reaching an apex near $260 million in 2022. Profit, however, did not move in **lock-step**: it tracked sales reasonably well until 2019, when it reached $32 million, before **slumping** to a mere $18 million in 2020 despite continued top-line expansion.\n\nThis temporary **compression** of margin reflected elevated input costs, emergency logistics expenditure and likely inventory **write-downs**. From 2021 onward, profit recovered sharply, **eclipsing** all previous peaks at $42 million by 2022. The divergence between **top-line growth** and **bottom-line volatility** during the crisis period highlights the importance of margin discipline and operational hedging when confronting **exogenous shocks**.",
     "glossary": [
       {
-        "term": "dip",
-        "vietnamese": "sự giảm",
-        "context": "notable dip in 2020"
+        "term": "deterioration",
+        "vietnamese": "sự suy giảm",
+        "context": "A pronounced **deterioration** in profit occurred in 2020."
+      },
+      {
+        "term": "attributable to",
+        "vietnamese": "do bởi",
+        "context": "The decline is **attributable to** pandemic-induced disruption."
       },
       {
         "term": "rebounded",
         "vietnamese": "phục hồi",
-        "context": "profitability rebounded"
+        "context": "Profitability subsequently **rebounded** with considerable alacrity."
+      },
+      {
+        "term": "alacrity",
+        "vietnamese": "nhanh chóng",
+        "context": "Profitability rebounded with considerable **alacrity**."
+      },
+      {
+        "term": "operational resilience",
+        "vietnamese": "khả năng phục hồi vận hành",
+        "context": "The rebound underscored the firm\'s underlying **operational resilience**."
       },
       {
         "term": "breaching",
         "vietnamese": "vượt qua",
-        "context": "breaching $200 million"
-      },
-      {
-        "term": "slumping",
-        "vietnamese": "sụt giảm",
-        "context": "slumping to just $18 million"
-      },
-      {
-        "term": "eclipsing",
-        "vietnamese": "vượt qua",
-        "context": "eclipsing previous peaks"
-      },
-      {
-        "term": "top-line growth",
-        "vietnamese": "tăng trưởng doanh thu",
-        "context": "top-line growth"
-      },
-      {
-        "term": "bottom-line resilience",
-        "vietnamese": "sức bền lợi nhuận",
-        "context": "bottom-line resilience"
-      },
-      {
-        "term": "erosion",
-        "vietnamese": "sự xói mòn",
-        "context": "erosion in margin"
-      },
-      {
-        "term": "disruption",
-        "vietnamese": "sự gián đoạn",
-        "context": "pandemic-related disruption"
+        "context": "Revenue kept climbing, **breaching** $200 million in 2019."
       },
       {
         "term": "lock-step",
         "vietnamese": "đồng bộ",
-        "context": "not move in lock-step"
+        "context": "Profit did not move in **lock-step** with sales."
+      },
+      {
+        "term": "slumping",
+        "vietnamese": "sụt giảm",
+        "context": "Profit **slumped** to a mere $18 million in 2020."
+      },
+      {
+        "term": "compression",
+        "vietnamese": "sự nén / thu hẹp",
+        "context": "This temporary **compression** of margin reflected elevated costs."
+      },
+      {
+        "term": "write-downs",
+        "vietnamese": "khấu hao giá trị",
+        "context": "The margin squeeze likely included inventory **write-downs**."
+      },
+      {
+        "term": "eclipsing",
+        "vietnamese": "vượt qua",
+        "context": "Profit recovered, **eclipsing** all previous peaks at $42 million."
+      },
+      {
+        "term": "top-line growth",
+        "vietnamese": "tăng trưởng doanh thu",
+        "context": "The divergence between **top-line growth** and bottom-line volatility is notable."
+      },
+      {
+        "term": "bottom-line volatility",
+        "vietnamese": "biến động lợi nhuận ròng",
+        "context": "**Bottom-line volatility** during the crisis period was significant."
+      },
+      {
+        "term": "exogenous shocks",
+        "vietnamese": "cú sốc bên ngoài",
+        "context": "Operational hedging is vital when confronting **exogenous shocks**."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "Profit had a notable ___ in 2020.",
-          "answer": "dip"
+          "sentence": "The decline in 2020 is ___ to pandemic-induced disruption.",
+          "answer": "attributable"
         },
         {
-          "sentence": "Profitability ___ from 2021.",
-          "answer": "rebounded"
-        },
-        {
-          "sentence": "Profit moves were not in ___.",
+          "sentence": "Profit did not move in ___ with sales growth.",
           "answer": "lock-step"
         },
         {
-          "sentence": "Sales ___ $200 million in 2019.",
-          "answer": "breached"
+          "sentence": "A temporary ___ of margin reflected elevated input costs.",
+          "answer": "compression"
         },
         {
-          "sentence": "Profit ___ previous peaks at $42m.",
-          "answer": "eclipsed"
+          "sentence": "Profit recovered, ___ all previous peaks at $42 million.",
+          "answer": "eclipsing"
+        },
+        {
+          "sentence": "Operational hedging is vital when confronting ___ shocks.",
+          "answer": "exogenous"
         }
       ]
-    },
-    "chartConfig": {
+    },    "chartConfig": {
       "type": "mixed",
       "xKey": "year",
       "barKeys": [
