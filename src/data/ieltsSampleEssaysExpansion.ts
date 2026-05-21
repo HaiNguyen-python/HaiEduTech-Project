@@ -2572,82 +2572,82 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "essayType": "opinion",
     "topic": "technology in classrooms",
     "prompt": "Some people believe that schools should rely more on technology rather than traditional teaching methods. To what extent do you agree or disagree?",
-    "essayBody": "The pervasive integration of digital tools into education has prompted heated debate about whether technology should **supplant** conventional classroom practice. While I acknowledge the undeniable benefits of digital learning, I largely **disagree** that it should fully replace traditional teaching, as the latter cultivates skills that screens cannot easily replicate.\n\nOn the one hand, technology **democratises access** to information and personalises the learning experience. Adaptive platforms can pinpoint individual weaknesses and offer tailored exercises, something a single teacher with thirty pupils struggles to provide. Moreover, multimedia resources - from virtual labs to interactive simulations - make abstract concepts concrete, deepening **conceptual understanding** in subjects such as physics or biology.\n\nNevertheless, the human dimension of teaching remains irreplaceable. Effective educators read non-verbal cues, model **critical thinking** in real time, and create the social environment in which collaboration and empathy develop. Excessive screen time also raises concerns about **attention spans**, eye strain and the **erosion of interpersonal skills** - outcomes that no algorithm can offset. A purely digital classroom risks producing technically literate but socially under-developed graduates.\n\nIn conclusion, although technology should certainly **augment** modern education, it should not be allowed to displace teachers. A balanced **hybrid model** that exploits digital strengths without sacrificing human interaction is, in my view, the optimal pathway.",
+    "essayBody": "The accelerating integration of digital tools into schools has reignited a long-standing debate: should classrooms be reshaped around technology, or should chalk-and-talk remain the **backbone of instruction**? I largely disagree that schools should rely more on technology than on traditional methods, because the **affordances** of digital platforms only translate into meaningful learning when they are anchored in skilled, face-to-face teaching.\n\nAdmittedly, technology offers possibilities that conventional pedagogy struggles to match. Adaptive learning platforms can **pinpoint individual weaknesses** in real time and serve up tailored practice, addressing the impracticality of differentiating instruction for thirty pupils simultaneously. Multimedia simulations - from virtual frog dissections to interactive economics models - **render abstract concepts tangible**, deepening conceptual understanding. In low-resource settings, well-curated online content can also **democratise access** to expertise that would otherwise be the preserve of elite institutions.\n\nNevertheless, these advantages risk being overstated if technology is treated as a substitute rather than a **scaffold**. Effective teachers read non-verbal cues, model **critical thinking** through unscripted dialogue, and orchestrate the social conditions in which collaboration, debate and empathy mature. An over-reliance on screens has been linked to **diminished attention spans**, weaker working memory and the **erosion of interpersonal skills** - outcomes that no algorithm can offset. Singapore's repeated PISA success, for instance, owes more to rigorous teacher training and disciplined questioning routines than to gadgets.\n\nIn conclusion, while technology should certainly **augment** modern education, it must not be allowed to **eclipse** the human dimension of teaching. The most defensible path forward is a balanced model in which digital tools amplify, rather than replace, the irreplaceable craft of the classroom teacher.",
     "glossary": [
       {
-        "term": "supplant",
-        "vietnamese": "thay thế",
-        "context": "supplant conventional practice"
+        "term": "backbone of instruction",
+        "vietnamese": "trụ cột của việc giảng dạy",
+        "context": "Traditional teaching has long been the backbone of instruction in most school systems."
       },
       {
-        "term": "democratises access",
+        "term": "affordances",
+        "vietnamese": "khả năng/tiềm năng (của công cụ)",
+        "context": "The affordances of digital platforms only matter when teachers know how to exploit them."
+      },
+      {
+        "term": "pinpoint individual weaknesses",
+        "vietnamese": "xác định chính xác điểm yếu của từng cá nhân",
+        "context": "Adaptive systems can pinpoint individual weaknesses faster than any single teacher."
+      },
+      {
+        "term": "render abstract concepts tangible",
+        "vietnamese": "khiến những khái niệm trừu tượng trở nên cụ thể",
+        "context": "Interactive simulations render abstract concepts tangible for visual learners."
+      },
+      {
+        "term": "democratise access",
         "vietnamese": "dân chủ hóa quyền tiếp cận",
-        "context": "democratises access to information"
+        "context": "Open courseware has helped democratise access to top-tier instruction."
       },
       {
-        "term": "conceptual understanding",
-        "vietnamese": "hiểu biết khái niệm",
-        "context": "conceptual understanding"
+        "term": "scaffold",
+        "vietnamese": "giá đỡ học tập",
+        "context": "Technology works best as a scaffold that supports, not replaces, expert teaching."
       },
       {
         "term": "critical thinking",
         "vietnamese": "tư duy phản biện",
-        "context": "model critical thinking"
+        "context": "Experienced teachers model critical thinking through live, unscripted dialogue."
       },
       {
-        "term": "attention spans",
-        "vietnamese": "khoảng chú ý",
-        "context": "attention spans"
+        "term": "diminished attention spans",
+        "vietnamese": "khả năng tập trung suy giảm",
+        "context": "Heavy screen use has been linked to diminished attention spans in adolescents."
       },
       {
         "term": "erosion of interpersonal skills",
-        "vietnamese": "xói mòn kỹ năng giao tiếp",
-        "context": "erosion of interpersonal skills"
+        "vietnamese": "sự xói mòn kỹ năng giao tiếp",
+        "context": "Pure online learning can accelerate the erosion of interpersonal skills."
       },
       {
-        "term": "augment",
-        "vietnamese": "bổ trợ",
-        "context": "technology should augment"
-      },
-      {
-        "term": "hybrid model",
-        "vietnamese": "mô hình kết hợp",
-        "context": "balanced hybrid model"
-      },
-      {
-        "term": "non-verbal cues",
-        "vietnamese": "tín hiệu phi ngôn ngữ",
-        "context": "read non-verbal cues"
-      },
-      {
-        "term": "adaptive platforms",
-        "vietnamese": "nền tảng thích ứng",
-        "context": "adaptive platforms"
+        "term": "eclipse",
+        "vietnamese": "lấn át / che mờ",
+        "context": "Digital tools must not be allowed to eclipse the human craft of teaching."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with phrases from the glossary.",
       "items": [
         {
-          "sentence": "Tech should not ___ teachers.",
-          "answer": "supplant"
+          "sentence": "Skilled teachers remain the ___ in any high-performing school system.",
+          "answer": "backbone of instruction"
         },
         {
-          "sentence": "Tech ___ access to learning.",
-          "answer": "democratises"
+          "sentence": "Adaptive software can ___ that a single teacher might miss.",
+          "answer": "pinpoint individual weaknesses"
         },
         {
-          "sentence": "Teachers model ___ thinking in real time.",
-          "answer": "critical"
+          "sentence": "3D simulations help ___ in subjects like physics and chemistry.",
+          "answer": "render abstract concepts tangible"
         },
         {
-          "sentence": "Screens may erode ___ skills.",
-          "answer": "interpersonal"
+          "sentence": "Excessive screen exposure has been associated with ___.",
+          "answer": "diminished attention spans"
         },
         {
-          "sentence": "A ___ model is optimal.",
-          "answer": "hybrid"
+          "sentence": "Digital tools should support, not ___, the human dimension of teaching.",
+          "answer": "eclipse"
         }
       ]
     }
@@ -2658,82 +2658,82 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "essayType": "discussion",
     "topic": "remote work",
     "prompt": "Some people argue that working from home is more productive, while others believe office-based work is essential. Discuss both views and give your own opinion.",
-    "essayBody": "The post-pandemic shift toward remote arrangements has reignited debate about where employees do their best work. While some champion the **autonomy** of home-based work, others insist that physical offices remain indispensable. In my opinion, a **hybrid arrangement** captures the strengths of both.\n\nProponents of remote work cite **uninterrupted focus**, reduced commuting fatigue and a healthier work-life balance. Studies suggest that knowledge workers who control their environment often complete deep tasks more quickly, partly because they avoid the **distractions** of open-plan offices. Moreover, employers benefit from lower real-estate costs and access to a wider geographic talent pool.\n\nOn the other hand, defenders of office attendance emphasise the value of **spontaneous collaboration**, mentoring and corporate culture. Innovation frequently arises from chance encounters at coffee machines, conversations that Zoom cannot easily replicate. New hires, in particular, can struggle to **assimilate** organisational norms in isolation, while managers may find it harder to evaluate **engagement** remotely.\n\nOn balance, I believe a **structured hybrid model** - perhaps three days at home and two in the office - combines focused independent work with face-to-face cohesion. Such an approach respects employee preferences whilst preserving the social glue that high-performing teams require.",
+    "essayBody": "The post-pandemic reshaping of the modern workplace has reopened the question of where employees do their best work. Advocates of remote arrangements point to higher focus and quality of life, while defenders of the office insist that physical proximity is the cornerstone of innovation. In my view, neither extreme is wholly convincing; a **carefully calibrated hybrid model** consistently outperforms both.\n\nThose who champion working from home cite **uninterrupted deep work**, the elimination of draining commutes and greater **autonomy** over daily rhythms. A growing body of research, including a Stanford study of 16,000 call-centre staff, found that remote workers completed 13% more tasks while reporting higher satisfaction. Employers, in turn, benefit from reduced **real-estate overheads** and access to a far larger talent pool unconstrained by geography.\n\nProponents of office attendance, however, argue that some forms of value are generated only in shared physical space. **Serendipitous encounters** at coffee machines often spark the cross-team conversations from which innovation emerges, while complex problem-solving and onboarding rely heavily on rich **non-verbal cues**. New hires, especially, can struggle to **internalise organisational norms** without sustained exposure to colleagues, and managers may find it harder to read **engagement and morale** through a webcam.\n\nIn my opinion, the apparent tension between these positions dissolves when companies commit to a structured hybrid policy - typically three days remote and two in the office - that **ring-fences solo focus time** at home and reserves in-person days for collaboration, mentoring and culture-building. Such an arrangement honours employee preferences while preserving the **social glue** that high-performing teams depend on. The future of work, in short, is not remote versus office, but intentional, well-designed integration of both.",
     "glossary": [
+      {
+        "term": "carefully calibrated hybrid model",
+        "vietnamese": "mô hình kết hợp được thiết kế kỹ lưỡng",
+        "context": "A carefully calibrated hybrid model tends to outperform both fully remote and fully on-site setups."
+      },
+      {
+        "term": "uninterrupted deep work",
+        "vietnamese": "công việc tập trung sâu không bị gián đoạn",
+        "context": "Home offices often provide the uninterrupted deep work that open-plan layouts disrupt."
+      },
       {
         "term": "autonomy",
         "vietnamese": "quyền tự chủ",
-        "context": "autonomy of home-based work"
+        "context": "Remote staff value the autonomy to shape their daily schedules around peak energy."
       },
       {
-        "term": "hybrid arrangement",
-        "vietnamese": "sự sắp xếp kết hợp",
-        "context": "hybrid arrangement"
+        "term": "real-estate overheads",
+        "vietnamese": "chi phí mặt bằng",
+        "context": "Hybrid policies can sharply reduce real-estate overheads for large employers."
       },
       {
-        "term": "uninterrupted focus",
-        "vietnamese": "tập trung không gián đoạn",
-        "context": "uninterrupted focus"
+        "term": "serendipitous encounters",
+        "vietnamese": "những cuộc gặp gỡ tình cờ",
+        "context": "Many breakthrough ideas trace back to serendipitous encounters in corridors and kitchens."
       },
       {
-        "term": "distractions",
-        "vietnamese": "phân tâm",
-        "context": "distractions of open-plan offices"
+        "term": "non-verbal cues",
+        "vietnamese": "tín hiệu phi ngôn ngữ",
+        "context": "Subtle non-verbal cues are easily lost on a video call."
       },
       {
-        "term": "spontaneous collaboration",
-        "vietnamese": "hợp tác tự phát",
-        "context": "spontaneous collaboration"
+        "term": "internalise organisational norms",
+        "vietnamese": "thấm nhuần các chuẩn mực của tổ chức",
+        "context": "New recruits need on-site time to internalise organisational norms."
       },
       {
-        "term": "assimilate",
-        "vietnamese": "thấm nhuần",
-        "context": "assimilate organisational norms"
+        "term": "engagement and morale",
+        "vietnamese": "mức độ gắn kết và tinh thần làm việc",
+        "context": "Managers struggle to gauge engagement and morale purely through a screen."
       },
       {
-        "term": "engagement",
-        "vietnamese": "sự gắn kết",
-        "context": "evaluate engagement remotely"
-      },
-      {
-        "term": "structured hybrid model",
-        "vietnamese": "mô hình kết hợp có cấu trúc",
-        "context": "structured hybrid model"
-      },
-      {
-        "term": "real-estate costs",
-        "vietnamese": "chi phí bất động sản",
-        "context": "lower real-estate costs"
+        "term": "ring-fences solo focus time",
+        "vietnamese": "khoanh vùng bảo vệ thời gian tập trung cá nhân",
+        "context": "A good hybrid policy ring-fences solo focus time on remote days."
       },
       {
         "term": "social glue",
         "vietnamese": "chất kết dính xã hội",
-        "context": "social glue"
+        "context": "Periodic in-person days provide the social glue that high-performing teams rely on."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with phrases from the glossary.",
       "items": [
         {
-          "sentence": "Remote work offers ___.",
-          "answer": "autonomy"
+          "sentence": "Working from home allows for ___ that open-plan offices rarely permit.",
+          "answer": "uninterrupted deep work"
         },
         {
-          "sentence": "Open-plan offices have many ___.",
-          "answer": "distractions"
+          "sentence": "Innovation often emerges from ___ between colleagues from different teams.",
+          "answer": "serendipitous encounters"
         },
         {
-          "sentence": "Innovation arises from ___ collaboration.",
-          "answer": "spontaneous"
+          "sentence": "Junior staff need office exposure to ___ early in their careers.",
+          "answer": "internalise organisational norms"
         },
         {
-          "sentence": "New hires must ___ norms.",
-          "answer": "assimilate"
+          "sentence": "Smart policies ___ during remote days while reserving office time for collaboration.",
+          "answer": "ring-fences solo focus time"
         },
         {
-          "sentence": "A ___ model balances both views.",
-          "answer": "hybrid"
+          "sentence": "In-person interaction provides the ___ that holds remote teams together.",
+          "answer": "social glue"
         }
       ]
     }
@@ -2744,82 +2744,82 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "essayType": "advantage-disadvantage",
     "topic": "studying abroad",
     "prompt": "More and more students are choosing to study abroad. Do the advantages outweigh the disadvantages?",
-    "essayBody": "Cross-border education has expanded dramatically in recent decades as students seek experiences beyond their home institutions. While such mobility carries genuine drawbacks, I believe the advantages clearly **outweigh** the disadvantages.\n\nThe principal benefit of overseas study lies in the **exposure** it provides - to new pedagogies, cutting-edge research and **multicultural environments**. Students develop **adaptability**, language fluency and global networks that local universities can rarely replicate. Furthermore, top international universities often offer specialised programmes and laboratory facilities, **accelerating** academic and career progression. Employers value the **resilience** and **intercultural competence** that accompany the experience.\n\nThe most obvious downsides are **financial burden** and emotional strain. Tuition fees, accommodation and travel can place enormous pressure on families, sometimes requiring substantial loans. Living far from home can also trigger **homesickness** and social isolation, particularly for students unfamiliar with the local language. There is also the risk of long-term **brain drain** if graduates choose to remain abroad.\n\nOn balance, however, the personal growth, academic depth and career capital gained from studying overseas substantially exceed these challenges, especially when coupled with **scholarships** and pre-departure preparation. Therefore, I conclude that the advantages of international study are decisive.",
+    "essayBody": "International study has expanded at a remarkable pace, with UNESCO estimating that over six million students now pursue their degrees outside their home country. Although this mobility carries non-trivial costs, I believe the advantages convincingly outweigh the disadvantages, particularly for ambitious students with adequate support.\n\nThe foremost benefit of overseas study lies in the **breadth of exposure** it provides. Students encounter unfamiliar pedagogies, cutting-edge research and **culturally heterogeneous classrooms**, all of which sharpen adaptability and **intercultural competence** in ways a domestic education rarely can. Top international universities often house specialised laboratories, leading scholars and industry partnerships, accelerating academic progression and opening doors to global career networks. Graduates frequently return with stronger language skills, a wider professional **frame of reference** and the **resilience** forged by navigating life independently in a new environment - attributes that employers consistently rank above raw qualifications.\n\nThe drawbacks, however, deserve sober acknowledgement. International tuition, accommodation and visa expenses constitute a substantial **financial burden**, sometimes locking families into long-term debt. Living thousands of miles from home can also trigger **homesickness**, cultural fatigue and **social isolation**, especially for those still building local-language fluency. At the national level, persistent outward flows risk fuelling **brain drain**, depriving sending countries of skilled graduates who choose to settle abroad.\n\nNevertheless, these challenges are largely manageable with deliberate planning. Generous **scholarship schemes**, structured pre-departure orientation and active alumni networks can sharply mitigate cost, loneliness and reintegration difficulties. When such safeguards are in place, the academic depth, personal growth and career capital accumulated abroad clearly exceed the temporary hardships. On balance, therefore, international study remains one of the highest-return educational investments a young person can make today.",
     "glossary": [
       {
-        "term": "outweigh",
-        "vietnamese": "vượt trội",
-        "context": "outweigh the disadvantages"
+        "term": "breadth of exposure",
+        "vietnamese": "phạm vi tiếp xúc rộng",
+        "context": "The principal benefit of overseas study is the breadth of exposure it provides."
       },
       {
-        "term": "exposure",
-        "vietnamese": "sự tiếp xúc",
-        "context": "exposure to new pedagogies"
-      },
-      {
-        "term": "multicultural environments",
-        "vietnamese": "môi trường đa văn hóa",
-        "context": "multicultural environments"
-      },
-      {
-        "term": "adaptability",
-        "vietnamese": "khả năng thích nghi",
-        "context": "develop adaptability"
-      },
-      {
-        "term": "accelerating",
-        "vietnamese": "tăng tốc",
-        "context": "accelerating progression"
-      },
-      {
-        "term": "resilience",
-        "vietnamese": "sức bền",
-        "context": "resilience and intercultural competence"
+        "term": "culturally heterogeneous classrooms",
+        "vietnamese": "lớp học đa dạng văn hóa",
+        "context": "Culturally heterogeneous classrooms train students to negotiate different worldviews."
       },
       {
         "term": "intercultural competence",
-        "vietnamese": "năng lực liên văn hóa",
-        "context": "intercultural competence"
+        "vietnamese": "năng lực giao thoa văn hóa",
+        "context": "Employers consistently value the intercultural competence of returning graduates."
+      },
+      {
+        "term": "frame of reference",
+        "vietnamese": "khung tham chiếu / nền tảng kinh nghiệm",
+        "context": "Studying abroad widens a graduate's professional frame of reference."
+      },
+      {
+        "term": "resilience",
+        "vietnamese": "sự kiên cường",
+        "context": "Navigating life solo overseas builds remarkable resilience."
       },
       {
         "term": "financial burden",
         "vietnamese": "gánh nặng tài chính",
-        "context": "financial burden"
+        "context": "International tuition can place a heavy financial burden on middle-income families."
       },
       {
         "term": "homesickness",
         "vietnamese": "nỗi nhớ nhà",
-        "context": "trigger homesickness"
+        "context": "Acute homesickness in the first semester is a common struggle for new arrivals."
+      },
+      {
+        "term": "social isolation",
+        "vietnamese": "sự cô lập xã hội",
+        "context": "Limited local-language fluency can intensify social isolation abroad."
       },
       {
         "term": "brain drain",
         "vietnamese": "chảy máu chất xám",
-        "context": "long-term brain drain"
+        "context": "Persistent outward flows of talent risk causing long-term brain drain."
+      },
+      {
+        "term": "scholarship schemes",
+        "vietnamese": "các chương trình học bổng",
+        "context": "Generous scholarship schemes can sharply reduce the cost barrier to study abroad."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with phrases from the glossary.",
       "items": [
         {
-          "sentence": "Advantages ___ disadvantages.",
-          "answer": "outweigh"
+          "sentence": "Studying overseas provides a ___ that local universities rarely match.",
+          "answer": "breadth of exposure"
         },
         {
-          "sentence": "Students develop ___.",
-          "answer": "adaptability"
+          "sentence": "Diverse cohorts help students develop strong ___.",
+          "answer": "intercultural competence"
         },
         {
-          "sentence": "Employers value ___ competence.",
-          "answer": "intercultural"
+          "sentence": "Tuition and visa fees often create a heavy ___ for families.",
+          "answer": "financial burden"
         },
         {
-          "sentence": "Studying abroad has financial ___.",
-          "answer": "burden"
+          "sentence": "First-semester ___ is common but usually fades with time.",
+          "answer": "homesickness"
         },
         {
-          "sentence": "Long-term risk includes brain ___.",
-          "answer": "drain"
+          "sentence": "Long-term emigration of graduates contributes to ___.",
+          "answer": "brain drain"
         }
       ]
     }
@@ -2830,82 +2830,82 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "essayType": "problem-solution",
     "topic": "obesity",
     "prompt": "Childhood obesity has reached alarming levels in many countries. What are the main causes and what solutions can be proposed?",
-    "essayBody": "Obesity rates among children have **escalated** worldwide, posing serious public-health concerns. This essay examines the principal drivers of the trend and proposes pragmatic solutions involving multiple stakeholders.\n\nThe first underlying cause is dietary change. Aggressive marketing of **calorie-dense, nutrient-poor** foods - sugary drinks, fast food and ultra-processed snacks - has shifted children's eating habits away from balanced meals. Compounding this, **sedentary lifestyles** dominated by screen time have reduced daily energy expenditure, while many neighbourhoods lack safe outdoor spaces for active play. **Parental time poverty** also means home-cooked meals are increasingly replaced by convenience options.\n\nEffective remedies must operate at several levels. Governments should impose **sugar taxes** and tighten advertising rules targeting minors, as already trialled in the United Kingdom and Mexico with measurable impact. Schools must restore daily physical-education classes and provide nutritious cafeteria meals subsidised where necessary. Parents and **community programmes** can promote active hobbies, while paediatricians should screen for early warning signs and counsel families.\n\nIn conclusion, childhood obesity is a complex problem fuelled by both food environments and **inactive lifestyles**. Only a coordinated response from policymakers, schools and families can reverse the trend and **safeguard** the next generation's health.",
+    "essayBody": "The World Health Organization estimates that more than 39 million children under five are now overweight, a figure that has tripled in a single generation. Tackling this epidemic demands a clear-eyed diagnosis of its causes and an equally rigorous set of coordinated interventions.\n\nThe roots of the crisis are both behavioural and structural. Diets in most middle-income societies have shifted decisively toward **ultra-processed foods** dense in sugar, salt and refined fat, while the relentless marketing of these products to children has normalised constant snacking. Simultaneously, **sedentary lifestyles** dominated by screens have displaced active play, and many neighbourhoods - particularly in lower-income areas - have become **obesogenic environments** in which fast-food outlets vastly outnumber affordable greengrocers. Cuts to physical education, unsafe streets that discourage walking to school, and parental time poverty further compound the problem, leaving children with neither the knowledge nor the opportunity to develop balanced habits.\n\nAddressing such a multi-layered issue requires a similarly **multi-pronged response**. At the policy level, governments can deploy a **sugar tax** on sweetened beverages, mandate clear **front-of-pack labelling** and restrict junk-food advertising during children's programming - measures already shown to cut consumption in Mexico and the UK. Schools should reintroduce daily physical activity, embed **nutrition literacy** into the curriculum, and ensure that canteens model the **balanced diet** they preach. Urban planners must invest in safe cycling routes, green spaces and **active travel** infrastructure that make movement the default. Finally, family-level support - from cooking workshops to subsidised access to fresh produce - can equip parents to translate guidance into everyday meals.\n\nIn short, childhood obesity is not an individual failing but a **system-wide outcome**. Only a coordinated effort across food policy, education, urban design and family support can reverse the trajectory and protect the long-term health of the next generation.",
     "glossary": [
       {
-        "term": "escalated",
-        "vietnamese": "leo thang",
-        "context": "obesity rates have escalated"
-      },
-      {
-        "term": "calorie-dense, nutrient-poor",
-        "vietnamese": "giàu calo, nghèo dinh dưỡng",
-        "context": "calorie-dense, nutrient-poor foods"
+        "term": "ultra-processed foods",
+        "vietnamese": "thực phẩm siêu chế biến",
+        "context": "Children's diets are dominated by ultra-processed foods high in sugar and fat."
       },
       {
         "term": "sedentary lifestyles",
         "vietnamese": "lối sống ít vận động",
-        "context": "sedentary lifestyles"
+        "context": "Screen-heavy sedentary lifestyles have largely replaced outdoor play."
       },
       {
-        "term": "parental time poverty",
-        "vietnamese": "thiếu thời gian của cha mẹ",
-        "context": "parental time poverty"
+        "term": "obesogenic environments",
+        "vietnamese": "môi trường thúc đẩy béo phì",
+        "context": "Many low-income neighbourhoods have become obesogenic environments saturated with fast food."
       },
       {
-        "term": "sugar taxes",
-        "vietnamese": "thuế đường",
-        "context": "impose sugar taxes"
+        "term": "multi-pronged response",
+        "vietnamese": "phản ứng đa hướng",
+        "context": "Reversing childhood obesity requires a coordinated, multi-pronged response."
       },
       {
-        "term": "community programmes",
-        "vietnamese": "chương trình cộng đồng",
-        "context": "community programmes"
+        "term": "sugar tax",
+        "vietnamese": "thuế đánh vào đồ uống có đường",
+        "context": "A sugar tax on sweetened drinks has measurably cut consumption in several countries."
       },
       {
-        "term": "inactive lifestyles",
-        "vietnamese": "lối sống không vận động",
-        "context": "inactive lifestyles"
+        "term": "front-of-pack labelling",
+        "vietnamese": "nhãn dinh dưỡng mặt trước bao bì",
+        "context": "Mandatory front-of-pack labelling helps parents make healthier choices at a glance."
       },
       {
-        "term": "safeguard",
-        "vietnamese": "bảo vệ",
-        "context": "safeguard the next generation"
+        "term": "nutrition literacy",
+        "vietnamese": "kiến thức về dinh dưỡng",
+        "context": "Embedding nutrition literacy into the curriculum builds lifelong skills."
       },
       {
-        "term": "convenience options",
-        "vietnamese": "lựa chọn tiện lợi",
-        "context": "replaced by convenience options"
+        "term": "balanced diet",
+        "vietnamese": "chế độ ăn cân bằng",
+        "context": "School canteens should model the balanced diet they preach in lessons."
       },
       {
-        "term": "paediatricians",
-        "vietnamese": "bác sĩ nhi",
-        "context": "paediatricians should screen"
+        "term": "active travel",
+        "vietnamese": "di chuyển chủ động (đi bộ, đạp xe)",
+        "context": "Safe cycle lanes encourage active travel to and from school."
+      },
+      {
+        "term": "system-wide outcome",
+        "vietnamese": "kết quả mang tính hệ thống",
+        "context": "Childhood obesity is best understood as a system-wide outcome, not personal weakness."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with phrases from the glossary.",
       "items": [
         {
-          "sentence": "Obesity rates have ___.",
-          "answer": "escalated"
+          "sentence": "Diets today are saturated with ___ rich in sugar and refined fat.",
+          "answer": "ultra-processed foods"
         },
         {
-          "sentence": "Children eat ___-dense, nutrient-poor food.",
-          "answer": "calorie"
+          "sentence": "Reversing the trend requires a coordinated, ___.",
+          "answer": "multi-pronged response"
         },
         {
-          "sentence": "Lifestyles are ___.",
-          "answer": "sedentary"
+          "sentence": "A ___ on sugary drinks has already cut consumption in the UK.",
+          "answer": "sugar tax"
         },
         {
-          "sentence": "Governments should impose ___ taxes.",
-          "answer": "sugar"
+          "sentence": "Schools must embed ___ into the everyday curriculum.",
+          "answer": "nutrition literacy"
         },
         {
-          "sentence": "We must ___ children's health.",
-          "answer": "safeguard"
+          "sentence": "Safe cycle lanes promote ___ to and from school.",
+          "answer": "active travel"
         }
       ]
     }
@@ -2916,82 +2916,82 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "essayType": "direct-question",
     "topic": "ageing population",
     "prompt": "In many countries, the population is rapidly ageing. Why is this happening and what effects does it have on society?",
-    "essayBody": "Many advanced economies - and a growing number of emerging ones - are experiencing rapid **demographic ageing**. This essay explores the underlying causes and the social consequences that follow.\n\nThe phenomenon stems from two parallel forces. First, **life expectancy** has risen significantly thanks to improvements in healthcare, nutrition and sanitation, allowing more people to reach advanced age. Second, **fertility rates** have fallen below replacement level in most developed nations, often as women pursue higher education and careers, postponing childbearing. The combination produces an **inverted pyramid** in population structure.\n\nThe societal effects are far-reaching. Public **pension systems** face unprecedented strain as fewer workers support more retirees, threatening their **solvency**. Healthcare expenditure soars because elderly patients require more **chronic-disease management**. Labour markets risk shortages, particularly in physically demanding sectors, slowing economic growth. On the positive side, an experienced senior workforce can contribute valuable mentorship if working lives are extended through flexible arrangements.\n\nIn summary, ageing populations result from longer lives and fewer births, generating significant fiscal and economic pressure but also opportunities for **intergenerational** collaboration. Forward-looking policies that promote lifelong learning, automation and selective immigration are essential to navigate this transition successfully.",
+    "essayBody": "From Japan to Italy, an unprecedented demographic shift is under way: societies are growing older at a speed never witnessed in human history. The drivers of this trend are well understood, yet its consequences are reshaping economies, public services and family life in ways that demand urgent attention.\n\nTwo intertwined forces lie behind the **greying of populations**. First, sustained improvements in healthcare, nutrition and **public sanitation** have produced striking gains in **life expectancy**, with the average person in developed economies now living into their early eighties. Second, falling **fertility rates** - the result of higher female labour participation, the soaring cost of childrearing and widespread access to contraception - mean that fewer young people are entering the population pyramid to replace those at its apex. The combined effect is a steady inversion of the traditional age structure.\n\nThe consequences are profound and largely structural. Public finances come under intense strain as **age-related expenditure** on pensions, geriatric care and chronic-disease management balloons, while shrinking cohorts of working-age taxpayers shoulder a rising **dependency ratio**. Labour markets contract, productivity growth slows and pockets of **acute labour shortage** emerge in care, construction and hospitality. At the family level, the so-called **sandwich generation** - middle-aged adults supporting both children and ageing parents - faces mounting financial and emotional pressure. Some societies also report rising social isolation among the elderly, with measurable impacts on mental health.\n\nThat said, ageing is not solely a story of decline. Healthy retirees increasingly contribute to volunteering, mentorship and the **silver economy** of age-friendly goods and services. With targeted policy - pension reform, sustained investment in lifelong learning, automation in care, and pragmatic immigration channels - societies can absorb the shock and harness the experience of older citizens, turning a demographic challenge into a long-term opportunity.",
     "glossary": [
       {
-        "term": "demographic ageing",
-        "vietnamese": "già hóa dân số",
-        "context": "rapid demographic ageing"
+        "term": "greying of populations",
+        "vietnamese": "hiện tượng dân số già hóa",
+        "context": "The greying of populations is reshaping economies across Asia and Europe."
+      },
+      {
+        "term": "public sanitation",
+        "vietnamese": "vệ sinh công cộng",
+        "context": "Improvements in public sanitation have driven down infant mortality dramatically."
       },
       {
         "term": "life expectancy",
-        "vietnamese": "tuổi thọ",
-        "context": "life expectancy has risen"
+        "vietnamese": "tuổi thọ trung bình",
+        "context": "Average life expectancy in developed economies now exceeds 80 years."
       },
       {
         "term": "fertility rates",
-        "vietnamese": "tỷ lệ sinh",
-        "context": "fertility rates have fallen"
+        "vietnamese": "tỷ suất sinh",
+        "context": "Falling fertility rates have left many countries below replacement level."
       },
       {
-        "term": "inverted pyramid",
-        "vietnamese": "kim tự tháp ngược",
-        "context": "inverted pyramid"
+        "term": "age-related expenditure",
+        "vietnamese": "chi tiêu liên quan đến tuổi tác",
+        "context": "Age-related expenditure on pensions and healthcare is rising sharply."
       },
       {
-        "term": "pension systems",
-        "vietnamese": "hệ thống lương hưu",
-        "context": "public pension systems"
+        "term": "dependency ratio",
+        "vietnamese": "tỷ lệ phụ thuộc",
+        "context": "A higher dependency ratio means fewer workers support each retiree."
       },
       {
-        "term": "solvency",
-        "vietnamese": "khả năng thanh toán",
-        "context": "threatening their solvency"
+        "term": "acute labour shortage",
+        "vietnamese": "tình trạng thiếu lao động trầm trọng",
+        "context": "Care and construction sectors face an acute labour shortage in ageing economies."
       },
       {
-        "term": "chronic-disease management",
-        "vietnamese": "quản lý bệnh mạn tính",
-        "context": "chronic-disease management"
+        "term": "sandwich generation",
+        "vietnamese": "thế hệ kẹp giữa (vừa chăm con vừa chăm cha mẹ)",
+        "context": "The sandwich generation juggles childcare with eldercare responsibilities."
       },
       {
-        "term": "intergenerational",
-        "vietnamese": "liên thế hệ",
-        "context": "intergenerational collaboration"
+        "term": "social isolation",
+        "vietnamese": "sự cô lập xã hội",
+        "context": "Rising social isolation among the elderly has serious mental-health consequences."
       },
       {
-        "term": "replacement level",
-        "vietnamese": "mức thay thế",
-        "context": "below replacement level"
-      },
-      {
-        "term": "lifelong learning",
-        "vietnamese": "học suốt đời",
-        "context": "lifelong learning"
+        "term": "silver economy",
+        "vietnamese": "nền kinh tế bạc (phục vụ người cao tuổi)",
+        "context": "The growing silver economy offers new business opportunities for age-friendly products."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with phrases from the glossary.",
       "items": [
         {
-          "sentence": "The phenomenon is ___ ageing.",
-          "answer": "demographic"
+          "sentence": "Better healthcare has pushed average ___ past eighty in many countries.",
+          "answer": "life expectancy"
         },
         {
-          "sentence": "___ has risen significantly.",
-          "answer": "Life expectancy"
+          "sentence": "Sub-replacement ___ are accelerating demographic decline in East Asia.",
+          "answer": "fertility rates"
         },
         {
-          "sentence": "Pension systems face ___ risks.",
-          "answer": "solvency"
+          "sentence": "A rising ___ puts heavy fiscal strain on the working-age population.",
+          "answer": "dependency ratio"
         },
         {
-          "sentence": "Society needs ___ collaboration.",
-          "answer": "intergenerational"
+          "sentence": "The ___ supports both growing children and ageing parents.",
+          "answer": "sandwich generation"
         },
         {
-          "sentence": "Lifelong ___ is essential.",
-          "answer": "learning"
+          "sentence": "The booming ___ creates demand for age-friendly products and services.",
+          "answer": "silver economy"
         }
       ]
     }
