@@ -635,52 +635,77 @@ const baseSampleEssays: SampleEssay[] = [
     "chartType": "pie",
     "topic": "employment",
     "prompt": "The pie charts below illustrate the distribution of employment by sector (agriculture, manufacturing, services, technology) in Country A in 1995 and 2025. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
-    "essayBody": "The pie charts illustrate the distribution of employment across four sectors - agriculture, manufacturing, services, and technology - in Country A in the years 1995 and 2025.\n\nOverall, the figures suggest a pronounced **structural change** in the labor market, shifting away from traditional sectors toward knowledge-driven employment. Most notably, services **eclipsed** all other sectors by 2025 while agriculture experienced the steepest decline.\n\nAgriculture experienced a marked **contraction** from 35% of total employment in 1995 to just 10% by 2025, ceding ground to both services and technology. Manufacturing's share edged down from 25% to 20%, retaining a sizeable footprint but losing its former prominence. By 2025, services had risen from 30% to 45%, becoming the principal employer, with technology emerging as a **nascent** but fast-growing contributor at 25%.\n\nThe overall **sectoral composition** thus **rebalanced** away from **labor-intensive** activities toward **high-value-added** roles. The decline in agriculture, coupled with manufacturing's modest slip, underscores a national **reorientation** toward knowledge-driven employment. The expansion of technology created complementary roles within services, amplifying the shift and reshaping the country's economic landscape.",
+    "essayBody": "The two pie charts compare the sectoral distribution of employment across agriculture, manufacturing, services, and technology in Country A at two snapshots three decades apart: 1995 and 2025.\n\nOverall, the data encapsulate a classic **structural transformation** of the kind theorised by Kuznets and documented by the World Bank across middle-income economies: a **secular contraction** of primary-sector employment, a relative **stagnation** of manufacturing, and a **proliferation** of services and technology roles that collectively came to dominate the labour market.\n\nAgriculture experienced the most dramatic **retrenchment**, collapsing from 35 per cent of total employment in 1995 to a mere 10 per cent by 2025—a 25-percentage-point **evaporation** that signals the crossing of a **Lewis turning point**, whereby surplus rural labour has been largely **absorbed** into urban, industrial, and knowledge-based activities. Manufacturing, by contrast, exhibited only modest **erosion**, slipping from 25 to 20 per cent; its resilience suggests a degree of **automation-led consolidation** rather than wholesale offshoring.\n\nThe most **consequential rebalancing** occurred in services and technology. Services surged from 30 to 45 per cent, cementing its status as the **predominant employer**, while technology—**nascent** at 10 per cent in 1995—**ballooned** to 25 per cent, effectively **eclipsing** agriculture and drawing close to manufacturing. This **diversification** into high-value-added, knowledge-intensive roles underscores a national **reorientation** away from labour-intensive extraction and assembly toward innovation-driven output, a trajectory paralleling the evolution of South Korea and Estonia between 1990 and 2010.",
     "glossary": [
       {
-        "term": "structural change",
-        "vietnamese": "thay đổi cơ cấu",
-        "context": "a pronounced structural change in the labor market"
+        "term": "structural transformation",
+        "vietnamese": "chuyển đổi cơ cấu",
+        "context": "The data encapsulate a classic structural transformation of the kind theorised by Kuznets."
       },
       {
-        "term": "contraction",
-        "vietnamese": "sự thu hẹp",
-        "context": "agriculture experienced a marked contraction"
+        "term": "secular contraction",
+        "vietnamese": "sự thu hẹp dài hạn",
+        "context": "A secular contraction of primary-sector employment over three decades."
+      },
+      {
+        "term": "stagnation",
+        "vietnamese": "sự đình trệ",
+        "context": "A relative stagnation of manufacturing's share of total employment."
+      },
+      {
+        "term": "proliferation",
+        "vietnamese": "sự bùng nổ/sinh sôi",
+        "context": "A proliferation of services and technology roles that came to dominate the labour market."
+      },
+      {
+        "term": "retrenchment",
+        "vietnamese": "sự thu hẹp mạnh",
+        "context": "Agriculture experienced the most dramatic retrenchment, collapsing from 35% to 10%."
+      },
+      {
+        "term": "evaporation",
+        "vietnamese": "sự tan biến/bốc hơi",
+        "context": "A 25-percentage-point evaporation of agricultural employment over three decades."
+      },
+      {
+        "term": "Lewis turning point",
+        "vietnamese": "điểm uốn Lewis (điểm cạn kiệt lao động thừa nông thôn)",
+        "context": "Signals the crossing of a Lewis turning point, whereby surplus rural labour has been absorbed."
+      },
+      {
+        "term": "absorbed",
+        "vietnamese": "được hấp thụ/tiếp nhận",
+        "context": "Surplus rural labour has been largely absorbed into urban and knowledge-based activities."
+      },
+      {
+        "term": "automation-led consolidation",
+        "vietnamese": "sự củng cố dẫn dắt bởi tự động hóa",
+        "context": "Manufacturing's resilience suggests automation-led consolidation rather than wholesale offshoring."
+      },
+      {
+        "term": "consequential rebalancing",
+        "vietnamese": "sự tái cân bằng có ý nghĩa quan trọng",
+        "context": "The most consequential rebalancing occurred in services and technology."
+      },
+      {
+        "term": "predominant employer",
+        "vietnamese": "ngành tuyển dụng chính/chiếm ưu thế",
+        "context": "Services cemented its status as the predominant employer by 2025."
+      },
+      {
+        "term": "ballooned",
+        "vietnamese": "tăng vọt/phình to",
+        "context": "Technology ballooned to 25%, effectively eclipsing agriculture."
       },
       {
         "term": "eclipsed",
-        "vietnamese": "vượt trội/che khuất",
-        "context": "services had eclipsed all other sectors"
-      },
-      {
-        "term": "nascent",
-        "vietnamese": "mới nổi",
-        "context": "technology emerging as a nascent contributor"
-      },
-      {
-        "term": "sectoral composition",
-        "vietnamese": "cơ cấu ngành",
-        "context": "overall sectoral composition rebalanced"
-      },
-      {
-        "term": "rebalanced",
-        "vietnamese": "tái cân bằng",
-        "context": "composition thus rebalanced"
-      },
-      {
-        "term": "labor-intensive",
-        "vietnamese": "thâm dụng lao động",
-        "context": "away from labor-intensive activities"
-      },
-      {
-        "term": "high-value-added",
-        "vietnamese": "giá trị gia tăng cao",
-        "context": "toward high-value-added roles"
+        "vietnamese": "vượt qua/che khuất",
+        "context": "Technology eclipsed agriculture and drew close to manufacturing."
       },
       {
         "term": "reorientation",
         "vietnamese": "tái định hướng",
-        "context": "a national reorientation toward knowledge-driven jobs"
+        "context": "A national reorientation away from labour-intensive extraction toward innovation-driven output."
       }
     ],
     "reviewExercise": {
@@ -688,29 +713,29 @@ const baseSampleEssays: SampleEssay[] = [
       "instruction": "Fill in the blanks with appropriate words from the essay.",
       "items": [
         {
-          "sentence": "Agriculture underwent a significant ___.",
-          "answer": "contraction",
-          "explanation": "'Contraction' means a decrease in size or scope."
+          "sentence": "The data show a classic ___ away from agriculture toward services.",
+          "answer": "structural transformation",
+          "explanation": "A fundamental shift in the composition of an economy's output and employment."
         },
         {
-          "sentence": "By 2025, services had ___ the other sectors.",
-          "answer": "eclipsed",
-          "explanation": "'Eclipsed' means surpassed and overshadowed."
+          "sentence": "Agriculture saw a dramatic ___ from 35% to just 10% over three decades.",
+          "answer": "retrenchment",
+          "explanation": "'Retrenchment' means a significant reduction or cutback."
         },
         {
-          "sentence": "Technology appeared as a ___ but growing employer.",
-          "answer": "nascent",
-          "explanation": "'Nascent' means just beginning to develop."
+          "sentence": "Manufacturing showed only modest ___ rather than wholesale decline.",
+          "answer": "erosion",
+          "explanation": "'Erosion' means a gradual wearing away or reduction."
         },
         {
-          "sentence": "The economy ___ away from labor-intensive work.",
-          "answer": "rebalanced",
-          "explanation": "'Rebalanced' means adjusted to a new equilibrium."
+          "sentence": "Technology's share ___ to 25%, surpassing agriculture completely.",
+          "answer": "ballooned",
+          "explanation": "'Ballooned' means increased rapidly and dramatically."
         },
         {
-          "sentence": "The shift indicates a national ___.",
+          "sentence": "The economy underwent a national ___ toward knowledge-based industries.",
           "answer": "reorientation",
-          "explanation": "'Reorientation' means a fundamental change in direction."
+          "explanation": "'Reorientation' means a fundamental change in direction or focus."
         }
       ]
     },
@@ -739,52 +764,87 @@ const baseSampleEssays: SampleEssay[] = [
     "chartType": "table",
     "topic": "health",
     "prompt": "The table below presents key health indicators (life expectancy, infant mortality per 1,000, doctors per 1,000, and health expenditure as % of GDP) for four countries in 2010 and 2020. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
-    "essayBody": "The table presents four key health indicators - life expectancy, infant mortality per 1,000, doctors per 1,000, and health expenditure as a percentage of GDP - for four countries in 2010 and 2020.\n\nOverall, all countries registered **sustained improvement** across the decade, though the pace varied by metric and nation. Most significantly, a clear **correlation** emerges between higher doctor availability and reduced infant deaths.\n\nLife expectancy rose almost universally, with Country Q posting the largest gain from 68 to 75 years, while Country R - already a **benchmark** at 82 - advanced more modestly to 84. Infant mortality fell **markedly**, with the steepest drops in Countries Q and S from 35 to 18 and 28 to 12 per 1,000 respectively, indicating effective primary care and vaccination outreach. Physician density increased in each case, albeit **incrementally** in lower-income states and more substantially where training capacity expanded.\n\nHealth spending as a share of GDP diverged: some systems saw a mild uptick aligned with reforms, while others **plateaued**, prioritizing efficiency. Country T is an **outlier**, achieving notable mortality declines without proportionate spending growth, suggesting that targeted interventions can be cost-effective. Despite **concurrent** advances across indicators, cross-country **divergence** persists, reflecting heterogeneous baselines and policy choices.",
+    "essayBody": "The table juxtaposes four pivotal health indicators—life expectancy at birth, infant mortality per 1,000 live births, physicians per 1,000 population, and health expenditure as a percentage of GDP—for four countries (Q, R, S, and T) at two reference points, 2010 and 2020, in a manner reminiscent of the OECD's periodic *Health at a Glance* benchmarking reports.\n\nOverall, every country registered **sustained improvement** across the decade, yet the **velocity** and **dimensionality** of progress varied markedly. A clear **gradient** emerges: countries with higher physician density and greater fiscal commitment to health consistently **outperformed** their peers on longevity and child-survival metrics, though one **outlier** demonstrates that targeted, efficient interventions can **decouple** outcomes from expenditure growth.\n\nLife expectancy rose almost universally, with Country Q posting the most dramatic gain—from 68 to 75 years—an **appreciation** of seven years that almost certainly reflects a **confluence** of improved maternal care, sanitation, and communicable-disease control. Country R, already a **benchmark** at 82 years, advanced more modestly to 84, consistent with the **diminishing marginal returns** observable in high-income systems where baseline longevity approaches biological limits.\n\nInfant mortality fell **precipitously** across the board, with the steepest declines recorded in Countries Q and S—from 35 to 18 and from 28 to 12 per 1,000 respectively—suggesting effective primary-care **outreach** and vaccination coverage in line with WHO SDG targets. Physician density increased in each jurisdiction, albeit **incrementally** in lower-income states and more substantially where medical-school **training capacity** expanded. Health spending as a share of GDP diverged: some systems saw a mild uptick aligned with reforms, while others **plateaued**, prioritising allocative efficiency. Country T constitutes a **salient outlier**, achieving notable mortality declines—from 32 to 15 per 1,000—without proportionate spending growth, implying that **front-loaded** preventive interventions and community-health-worker networks can be remarkably **cost-effective**.",
     "glossary": [
       {
         "term": "sustained improvement",
         "vietnamese": "cải thiện bền vững",
-        "context": "registered sustained improvement"
+        "context": "Every country registered sustained improvement across the decade."
+      },
+      {
+        "term": "velocity",
+        "vietnamese": "tốc độ",
+        "context": "The velocity and dimensionality of progress varied markedly."
+      },
+      {
+        "term": "dimensionality",
+        "vietnamese": "số chiều/phạm vi",
+        "context": "The dimensionality of progress varied by indicator and nation."
+      },
+      {
+        "term": "gradient",
+        "vietnamese": "gradient/thang phân cấp",
+        "context": "A clear gradient emerges between physician density and health outcomes."
+      },
+      {
+        "term": "outperformed",
+        "vietnamese": "vượt trội hơn",
+        "context": "Countries with higher physician density consistently outperformed their peers."
+      },
+      {
+        "term": "outlier",
+        "vietnamese": "trường hợp ngoại lai",
+        "context": "One outlier demonstrates that targeted interventions can decouple outcomes from spending."
+      },
+      {
+        "term": "decouple",
+        "vietnamese": "tách rời",
+        "context": "Targeted interventions can decouple outcomes from expenditure growth."
+      },
+      {
+        "term": "appreciation",
+        "vietnamese": "sự gia tăng",
+        "context": "An appreciation of seven years in life expectancy."
+      },
+      {
+        "term": "confluence",
+        "vietnamese": "sự hội tụ",
+        "context": "A confluence of improved maternal care, sanitation, and disease control."
       },
       {
         "term": "benchmark",
         "vietnamese": "chuẩn mực/điểm tham chiếu",
-        "context": "Country R-already a benchmark"
+        "context": "Country R, already a benchmark at 82 years, advanced modestly to 84."
       },
       {
-        "term": "incrementally",
-        "vietnamese": "từng bước/nhỏ",
-        "context": "physician density increased incrementally"
+        "term": "diminishing marginal returns",
+        "vietnamese": "lợi ích cận biên giảm dần",
+        "context": "Consistent with diminishing marginal returns in high-income systems."
       },
       {
-        "term": "markedly",
-        "vietnamese": "đáng kể/rõ rệt",
-        "context": "increased more markedly"
+        "term": "precipitously",
+        "vietnamese": "mạnh mẽ/đột ngột",
+        "context": "Infant mortality fell precipitously across the board."
+      },
+      {
+        "term": "outreach",
+        "vietnamese": "tiếp cận cộng đồng",
+        "context": "Effective primary-care outreach and vaccination coverage."
       },
       {
         "term": "plateaued",
-        "vietnamese": "ổn định không tăng",
-        "context": "spending plateaued"
+        "vietnamese": "đi ngang/ổn định",
+        "context": "Some systems plateaued, prioritising allocative efficiency."
       },
       {
-        "term": "correlation",
-        "vietnamese": "tương quan",
-        "context": "a clear correlation emerges"
+        "term": "front-loaded",
+        "vietnamese": "tập trung đầu vào",
+        "context": "Front-loaded preventive interventions and community-health-worker networks."
       },
       {
-        "term": "outlier",
-        "vietnamese": "trường hợp khác biệt",
-        "context": "Country T is an outlier"
-      },
-      {
-        "term": "concurrent",
-        "vietnamese": "đồng thời",
-        "context": "concurrent advances across indicators"
-      },
-      {
-        "term": "divergence",
-        "vietnamese": "sự khác biệt/đi chệch",
-        "context": "cross-country divergence persists"
+        "term": "cost-effective",
+        "vietnamese": "hiệu quả về chi phí",
+        "context": "Community-health-worker networks can be remarkably cost-effective."
       }
     ],
     "reviewExercise": {
@@ -792,29 +852,29 @@ const baseSampleEssays: SampleEssay[] = [
       "instruction": "Fill in the blanks with appropriate words from the essay.",
       "items": [
         {
-          "sentence": "All countries showed ___ across the decade.",
+          "sentence": "Every country showed ___ across all health indicators.",
           "answer": "sustained improvement",
-          "explanation": "'Sustained improvement' means continuous, lasting progress."
+          "explanation": "Continuous, lasting progress over the entire decade."
         },
         {
-          "sentence": "In some cases, health spending ___ rather than rising.",
-          "answer": "plateaued",
-          "explanation": "'Plateaued' means leveled off without further increase."
+          "sentence": "Country R was already a ___ at 82 years of life expectancy.",
+          "answer": "benchmark",
+          "explanation": "A standard or point of reference against which others are measured."
         },
         {
-          "sentence": "There is a clear ___ between doctors per 1,000 and infant mortality.",
-          "answer": "correlation",
-          "explanation": "'Correlation' is a statistical relationship between variables."
+          "sentence": "Infant mortality fell ___ in Countries Q and S.",
+          "answer": "precipitously",
+          "explanation": "'Precipitously' means sharply, suddenly, or dramatically."
         },
         {
-          "sentence": "Country T was an ___ in the pattern.",
-          "answer": "outlier",
-          "explanation": "An 'outlier' deviates from the expected pattern."
+          "sentence": "Country T is a ___ because it improved outcomes without spending more.",
+          "answer": "salient outlier",
+          "explanation": "A noticeable exception that stands out from the general pattern."
         },
         {
-          "sentence": "Advances were ___ across multiple indicators.",
-          "answer": "concurrent",
-          "explanation": "'Concurrent' means happening at the same time."
+          "sentence": "High-income systems face ___ as longevity approaches biological limits.",
+          "answer": "diminishing marginal returns",
+          "explanation": "Each additional unit of input yields progressively smaller gains."
         }
       ]
     },
@@ -836,52 +896,132 @@ const baseSampleEssays: SampleEssay[] = [
     "chartType": "map",
     "topic": "urbanization",
     "prompt": "The maps below show changes to the town of Riverdale between 1990 and 2020. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
-    "essayBody": "The two maps compare the layout of the town of Riverdale in 1990 and 2020, highlighting the changes that occurred over this thirty-year period.\n\nOverall, Riverdale underwent substantial **transformation**, evolving from a semi-rural settlement into a more compact, transit-oriented urban center. The most striking change was the conversion of farmland into residential and commercial zones, indicating marked **densification**.\n\nIn 1990, farmland dominated the northern and eastern outskirts, but by 2020 much of this had been **rezoned** for housing estates. A new ring road and expanded **arterial** connections improved **connectivity** across the town, linking previously isolated neighborhoods. Industrial activity shifted from the riverside to a peripheral business park in the south, reducing **encroachment** on the waterfront.\n\nA central square was **pedestrianized** to prioritize foot traffic, and the school relocated closer to the new residential clusters. A landscaped **greenbelt** was established along the western edge, providing recreational space for the growing population. Commercial uses intensified along the former high street, with mixed-use **infill** replacing parking lots as the spatial logic pivoted from car-centric sprawl to transit-oriented development.",
+    "essayBody": "The two maps compare the spatial layout of Riverdale in 1990 and 2020, documenting the **morphological transformation** of what was originally a semi-rural settlement into a comparatively dense, transit-oriented urban centre over a thirty-year **horizon**.\n\nOverall, the most **salient** changes encompass a **profound densification** of formerly agricultural land, the **proliferation** of arterial road infrastructure, and a deliberate **repositioning** of industrial and civic functions away from the waterfront toward peripheral and central nodes respectively. Collectively, these shifts exemplify the **new-urbanist** principles of **transit-oriented development** (TOD) and **smart-growth** planning that have gained **traction** across OECD municipalities since the 1990s.\n\nIn 1990, extensive farmland **abutted** the northern and eastern **periphery**, constituting the dominant land use. By 2020, this acreage had been comprehensively **rezoned** for high-density housing estates, producing a **steep uptick** in residential **footprint** and population capacity. A newly constructed ring road and expanded **arterial grid** dramatically improved **connectivity** across previously isolated neighbourhoods, while the school was **relocated** closer to the new residential clusters to minimise **commute burdens** on families.\n\nPerhaps the most **emblematic** intervention concerned the town centre and waterfront. The former high-street core was **pedestrianised**, with vehicular traffic **diverted** onto the ring road, thereby prioritising foot traffic and **street-level commerce**. Meanwhile, industrial activity was **deconcentrated** from the riverside to a purpose-built business park in the south, substantially reducing **ecological encroachment** on the waterfront. A landscaped **greenbelt** was established along the western **fringe**, providing recreational **amenities** for the expanding population. Commercial uses intensified through mixed-use **infill** that replaced surface parking lots, as the spatial logic pivoted unequivocally from car-centric **sprawl** to compact, walkable development.",
     "glossary": [
       {
-        "term": "transformation",
-        "vietnamese": "sự biến đổi",
-        "context": "substantial transformation of Riverdale"
+        "term": "morphological transformation",
+        "vietnamese": "chuyển đổi hình thái",
+        "context": "The morphological transformation of a semi-rural settlement into a transit-oriented urban centre."
+      },
+      {
+        "term": "horizon",
+        "vietnamese": "chặng thời gian/tầm nhìn",
+        "context": "Over a thirty-year horizon."
+      },
+      {
+        "term": "salient",
+        "vietnamese": "nổi bật",
+        "context": "The most salient changes encompass profound densification."
+      },
+      {
+        "term": "profound densification",
+        "vietnamese": "sự tăng mật độ sâu rộng",
+        "context": "A profound densification of formerly agricultural land."
+      },
+      {
+        "term": "proliferation",
+        "vietnamese": "sự bùng nổ/sinh sôi",
+        "context": "The proliferation of arterial road infrastructure."
+      },
+      {
+        "term": "repositioning",
+        "vietnamese": "tái định vị",
+        "context": "A deliberate repositioning of industrial and civic functions."
+      },
+      {
+        "term": "new-urbanist",
+        "vietnamese": "theo trường phái đô thị mới",
+        "context": "These shifts exemplify new-urbanist principles of transit-oriented development."
+      },
+      {
+        "term": "transit-oriented development",
+        "vietnamese": "phát triển theo hướng giao thông công cộng",
+        "context": "Transit-oriented development (TOD) principles have gained traction across OECD municipalities."
+      },
+      {
+        "term": "traction",
+        "vietnamese": "được đón nhận/lan tỏa",
+        "context": "Smart-growth planning has gained traction across OECD municipalities."
+      },
+      {
+        "term": "abutted",
+        "vietnamese": "tiếp giáp/giáp ranh",
+        "context": "Extensive farmland abutted the northern and eastern periphery."
+      },
+      {
+        "term": "periphery",
+        "vietnamese": "vùng ngoại vi/rìa",
+        "context": "Farmland abutted the northern and eastern periphery."
       },
       {
         "term": "rezoned",
         "vietnamese": "tái phân khu",
-        "context": "farmland was rezoned for housing"
+        "context": "This acreage had been comprehensively rezoned for high-density housing estates."
       },
       {
-        "term": "densification",
-        "vietnamese": "tăng mật độ xây dựng",
-        "context": "indicating marked densification"
+        "term": "steep uptick",
+        "vietnamese": "sự tăng mạnh",
+        "context": "Producing a steep uptick in residential footprint and population capacity."
       },
       {
-        "term": "arterial",
-        "vietnamese": "trục giao thông chính",
-        "context": "expanded arterial connections"
+        "term": "arterial grid",
+        "vietnamese": "mạng lưới đường trục",
+        "context": "An expanded arterial grid dramatically improved connectivity."
       },
       {
-        "term": "connectivity",
-        "vietnamese": "kết nối",
-        "context": "improved connectivity"
+        "term": "relocated",
+        "vietnamese": "di dời",
+        "context": "The school was relocated closer to the new residential clusters."
       },
       {
-        "term": "pedestrianized",
+        "term": "emblematic",
+        "vietnamese": "mang tính biểu tượng",
+        "context": "The most emblematic intervention concerned the town centre and waterfront."
+      },
+      {
+        "term": "pedestrianised",
         "vietnamese": "biến thành phố đi bộ",
-        "context": "central square was pedestrianized"
+        "context": "The former high-street core was pedestrianised."
       },
       {
-        "term": "encroachment",
-        "vietnamese": "sự lấn chiếm",
-        "context": "reducing encroachment on the waterfront"
+        "term": "diverted",
+        "vietnamese": "được chuyển hướng",
+        "context": "Vehicular traffic was diverted onto the ring road."
+      },
+      {
+        "term": "deconcentrated",
+        "vietnamese": "được phân tán/giãn ra",
+        "context": "Industrial activity was deconcentrated from the riverside to a business park."
+      },
+      {
+        "term": "ecological encroachment",
+        "vietnamese": "sự xâm lấn sinh thái",
+        "context": "Substantially reducing ecological encroachment on the waterfront."
       },
       {
         "term": "greenbelt",
         "vietnamese": "vành đai xanh",
-        "context": "enabling a landscaped greenbelt"
+        "context": "A landscaped greenbelt was established along the western fringe."
+      },
+      {
+        "term": "fringe",
+        "vietnamese": "rìa/bìa",
+        "context": "Along the western fringe of the town."
+      },
+      {
+        "term": "amenities",
+        "vietnamese": "tiện ích/cơ sở vật chất",
+        "context": "Providing recreational amenities for the expanding population."
       },
       {
         "term": "infill",
         "vietnamese": "xây chen",
-        "context": "mixed-use infill replacing parking lots"
+        "context": "Mixed-use infill replaced surface parking lots."
+      },
+      {
+        "term": "sprawl",
+        "vietnamese": "sự bành trướng đô thị",
+        "context": "The spatial logic pivoted from car-centric sprawl to compact, walkable development."
       }
     ],
     "reviewExercise": {
@@ -889,29 +1029,29 @@ const baseSampleEssays: SampleEssay[] = [
       "instruction": "Fill in the blanks with appropriate words from the essay.",
       "items": [
         {
-          "sentence": "Farmland was ___ for new housing estates.",
+          "sentence": "The settlement underwent a ___ from rural to urban.",
+          "answer": "morphological transformation",
+          "explanation": "A fundamental change in physical form and structure."
+        },
+        {
+          "sentence": "Farmland was ___ for high-density housing estates.",
           "answer": "rezoned",
-          "explanation": "'Rezoned' means the land use designation was officially changed."
+          "explanation": "Officially redesignated for a different land use."
         },
         {
-          "sentence": "The town experienced marked ___.",
-          "answer": "densification",
-          "explanation": "'Densification' means increasing the density of development."
+          "sentence": "The town centre was ___ to prioritise walkers.",
+          "answer": "pedestrianised",
+          "explanation": "Converted into an area for foot traffic only."
         },
         {
-          "sentence": "A central square was ___ to favor walkers.",
-          "answer": "pedestrianized",
-          "explanation": "'Pedestrianized' means converted for foot traffic only."
+          "sentence": "Industry was ___ from the waterfront to a business park.",
+          "answer": "deconcentrated",
+          "explanation": "Redistributed or spread away from a concentrated area."
         },
         {
-          "sentence": "A new business park reduced riverfront ___.",
-          "answer": "encroachment",
-          "explanation": "'Encroachment' means gradually intruding on an area."
-        },
-        {
-          "sentence": "A landscaped ___ was created at the edge.",
-          "answer": "greenbelt",
-          "explanation": "A 'greenbelt' is a protected green area around a city."
+          "sentence": "The plan moved away from car-centric ___ toward compact development.",
+          "answer": "sprawl",
+          "explanation": "'Sprawl' is the uncontrolled expansion of urban areas."
         }
       ]
     },
@@ -934,57 +1074,112 @@ const baseSampleEssays: SampleEssay[] = [
     "chartType": "process",
     "topic": "technology",
     "prompt": "The diagram below shows the process of cloud data backup and recovery across multiple availability zones. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
-    "essayBody": "The diagram illustrates the step-by-step process of cloud data backup and recovery across multiple availability zones.\n\nOverall, the process follows a **sequential** workflow designed to safeguard user data from loss through redundancy, validation, and automated **failover** mechanisms. The entire system is built on a **fault-tolerant** architecture that minimizes downtime by avoiding single points of failure.\n\nInitially, files undergo client-side **encryption** during **intake**, after which they are transmitted to a regional gateway for deduplication and indexing. The system then performs **replication** to at least three independent zones to create **redundancy**, accompanied by **checksum** validation to detect corruption. A central **orchestration** layer continuously monitors health across all zones and automatically triggers failover if one zone degrades.\n\nPeriodic integrity audits and versioning provide additional resilience, allowing point-in-time restoration from any previous snapshot. During recovery, authenticated requests query the catalog and pull blocks in parallel for rapid **retrieval**, with traffic re-routed to the healthiest replica if latency spikes. Compared with single-site storage, this multi-zone approach ensures near-zero data loss and significantly faster recovery times.",
+    "essayBody": "The diagram illustrates a **multi-stage pipeline** for cloud data backup and recovery, architected across geographically dispersed availability zones in a manner analogous to the **resilience patterns** employed by hyperscale providers such as AWS, Azure, and Google Cloud.\n\nOverall, the process adheres to a **sequential yet fault-tolerant** workflow designed to safeguard user data from catastrophic loss through layered redundancy, cryptographic protection, and automated **failover orchestration**. The entire system is predicated on eliminating single points of failure while maintaining **sub-second recovery-time objectives** (RTO) for critical workloads.\n\nInitially, files undergo **client-side encryption**—typically leveraging AES-256—during the **ingestion** phase, ensuring that data remains **opaque** to the provider even before transit. The encrypted payload is then transmitted to a regional gateway, where it undergoes **deduplication** and **content-addressed indexing** to minimise storage **overhead**. The system subsequently performs **multi-zone replication** to at least three independent availability zones, creating **geographic redundancy** that can withstand **regional outages**. Each block is accompanied by **checksum** validation and periodic integrity audits to detect **bit-rot** or silent corruption.\n\nA central **orchestration plane**—functionally equivalent to a Kubernetes control loop—continuously monitors health metrics across all zones via **heartbeat probes**. Should one zone exhibit **degraded performance** or complete unavailability, the plane automatically triggers **failover**, rerouting write and read operations to the healthiest replica without manual intervention. During recovery, authenticated requests query the **immutable catalog** and pull blocks in parallel for rapid **retrieval**, with latency-aware routing ensuring that traffic is always directed to the nearest **synchronised** copy. Compared with legacy single-site **tape-based** archives, this distributed architecture delivers near-zero **recovery-point objectives** (RPO) and accelerates restoration from hours to minutes.",
     "glossary": [
       {
-        "term": "sequential",
-        "vietnamese": "tuần tự",
-        "context": "a sequential workflow"
+        "term": "multi-stage pipeline",
+        "vietnamese": "quy trình đa giai đoạn",
+        "context": "A multi-stage pipeline for cloud data backup and recovery."
       },
       {
-        "term": "encryption",
-        "vietnamese": "mã hóa",
-        "context": "client-side encryption during intake"
-      },
-      {
-        "term": "intake",
-        "vietnamese": "khâu tiếp nhận",
-        "context": "files during intake"
-      },
-      {
-        "term": "replication",
-        "vietnamese": "sao chép bản",
-        "context": "replication to multiple zones"
-      },
-      {
-        "term": "redundancy",
-        "vietnamese": "dự phòng thừa",
-        "context": "create redundancy"
-      },
-      {
-        "term": "checksum",
-        "vietnamese": "mã kiểm tra",
-        "context": "checksum validation to detect corruption"
-      },
-      {
-        "term": "orchestration",
-        "vietnamese": "điều phối tự động",
-        "context": "central orchestration layer"
-      },
-      {
-        "term": "failover",
-        "vietnamese": "chuyển đổi dự phòng",
-        "context": "triggers failover if one zone degrades"
-      },
-      {
-        "term": "retrieval",
-        "vietnamese": "truy xuất",
-        "context": "parallel retrieval during recovery"
+        "term": "resilience patterns",
+        "vietnamese": "các mẫu thiết kế đàn hồi",
+        "context": "Resilience patterns employed by hyperscale providers such as AWS and Azure."
       },
       {
         "term": "fault-tolerant",
         "vietnamese": "chịu lỗi",
-        "context": "fault-tolerant architecture"
+        "context": "A sequential yet fault-tolerant workflow designed to safeguard user data."
+      },
+      {
+        "term": "failover orchestration",
+        "vietnamese": "điều phối chuyển đổi dự phòng",
+        "context": "Automated failover orchestration ensures continuity during zone outages."
+      },
+      {
+        "term": "opaque",
+        "vietnamese": "không thể đọc được/mờ",
+        "context": "Data remains opaque to the provider even before transit."
+      },
+      {
+        "term": "ingestion",
+        "vietnamese": "tiếp nhận/hấp thụ dữ liệu",
+        "context": "Files undergo client-side encryption during the ingestion phase."
+      },
+      {
+        "term": "deduplication",
+        "vietnamese": "loại bỏ trùng lặp",
+        "context": "The encrypted payload undergoes deduplication at the regional gateway."
+      },
+      {
+        "term": "content-addressed indexing",
+        "vietnamese": "lập chỉ mục theo nội dung",
+        "context": "Content-addressed indexing minimises storage overhead."
+      },
+      {
+        "term": "overhead",
+        "vietnamese": "chi phí/phí tổn phụ",
+        "context": "Minimise storage overhead through deduplication."
+      },
+      {
+        "term": "multi-zone replication",
+        "vietnamese": "sao chép đa vùng",
+        "context": "Multi-zone replication to at least three independent availability zones."
+      },
+      {
+        "term": "geographic redundancy",
+        "vietnamese": "dự phòng địa lý",
+        "context": "Creating geographic redundancy that can withstand regional outages."
+      },
+      {
+        "term": "regional outages",
+        "vietnamese": "sự cố ngừng hoạt động khu vực",
+        "context": "Geographic redundancy can withstand regional outages."
+      },
+      {
+        "term": "bit-rot",
+        "vietnamese": "lỗi dữ liệu ngầm theo thời gian",
+        "context": "Checksum validation detects bit-rot or silent corruption."
+      },
+      {
+        "term": "orchestration plane",
+        "vietnamese": "tầng điều phối",
+        "context": "A central orchestration plane monitors health metrics across all zones."
+      },
+      {
+        "term": "heartbeat probes",
+        "vietnamese": "tín hiệu kiểm tra định kỳ",
+        "context": "Monitoring health metrics across all zones via heartbeat probes."
+      },
+      {
+        "term": "degraded performance",
+        "vietnamese": "hiệu suất suy giảm",
+        "context": "Should one zone exhibit degraded performance or complete unavailability."
+      },
+      {
+        "term": "immutable catalog",
+        "vietnamese": "danh mục bất biến",
+        "context": "Authenticated requests query the immutable catalog during recovery."
+      },
+      {
+        "term": "retrieval",
+        "vietnamese": "truy xuất",
+        "context": "Pull blocks in parallel for rapid retrieval."
+      },
+      {
+        "term": "synchronised",
+        "vietnamese": "được đồng bộ",
+        "context": "Traffic is directed to the nearest synchronised copy."
+      },
+      {
+        "term": "tape-based",
+        "vietnamese": "dựa trên băng từ",
+        "context": "Compared with legacy single-site tape-based archives."
+      },
+      {
+        "term": "recovery-point objectives",
+        "vietnamese": "mục tiêu điểm phục hồi",
+        "context": "Delivering near-zero recovery-point objectives (RPO)."
       }
     ],
     "reviewExercise": {
@@ -992,29 +1187,29 @@ const baseSampleEssays: SampleEssay[] = [
       "instruction": "Fill in the blanks with appropriate words from the essay.",
       "items": [
         {
-          "sentence": "Client-side ___ protects files before upload.",
+          "sentence": "The system uses ___ to survive regional failures.",
+          "answer": "geographic redundancy",
+          "explanation": "Storing copies across multiple distant locations for resilience."
+        },
+        {
+          "sentence": "Client-side ___ ensures the provider cannot read the data.",
           "answer": "encryption",
-          "explanation": "'Encryption' converts data into a secure coded format."
+          "explanation": "Scrambling data so only authorised parties can decipher it."
         },
         {
-          "sentence": "Data are copied to several zones to ensure ___.",
-          "answer": "redundancy",
-          "explanation": "'Redundancy' means having backup copies for safety."
+          "sentence": "The gateway removes duplicates through ___.",
+          "answer": "deduplication",
+          "explanation": "Eliminating redundant copies to save storage space."
         },
         {
-          "sentence": "A central layer provides automated ___.",
-          "answer": "orchestration",
-          "explanation": "'Orchestration' means automated coordination of processes."
+          "sentence": "A central ___ monitors health and triggers automatic failover.",
+          "answer": "orchestration plane",
+          "explanation": "The control layer that coordinates distributed components."
         },
         {
-          "sentence": "If a zone fails, traffic shifts via ___.",
-          "answer": "failover",
-          "explanation": "'Failover' is automatic switching to a backup system."
-        },
-        {
-          "sentence": "Blocks are pulled in parallel for rapid ___.",
+          "sentence": "Parallel block pulling enables rapid ___ during recovery.",
           "answer": "retrieval",
-          "explanation": "'Retrieval' means recovering or accessing stored data."
+          "explanation": "The act of fetching or recovering stored data."
         }
       ]
     },
@@ -1037,52 +1232,147 @@ const baseSampleEssays: SampleEssay[] = [
     "chartType": "mixed",
     "topic": "trade",
     "prompt": "The mixed chart below shows export values by sector (agriculture, manufacturing, services) as bars and the overall trade balance as a line from 2015 to 2020. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
-    "essayBody": "The mixed chart presents export values by sector - agriculture, manufacturing, and services - as bars, alongside the overall trade balance shown as a line, from 2015 to 2020.\n\nOverall, the data point to shifting export dynamics and a volatile **net balance** over the six-year period. Notably, services emerged as a stabilizing force while manufacturing experienced a mid-period **downturn** before recovering.\n\nManufacturing remained the **aggregate** driver of exports, contributing over $50 billion annually, though its growth was uneven with a notable dip in 2017. Services exhibited steady **outperformance**, posting a consistent **uptick** each year from $30 billion to $45 billion, which helped **counteract** manufacturing softness. Agricultural exports were relatively flat at around $15 billion and, at times, acted as a **drag** on overall momentum.\n\nCorrespondingly, the trade balance line mirrored these sectoral movements, dipping during the manufacturing slump before improving as both services and factories advanced. Despite episodic **volatility**, the account trended modestly upward by 2020, suggesting that competitive services can cushion cyclical goods sectors. The best overall year coincided with synchronized gains across all three pillars, underscoring the value of **diversification** in trade strategy.",
+    "essayBody": "The mixed chart presents export values across three sectors—agriculture, manufacturing, and services—as clustered bars, alongside the overall trade balance depicted as a continuous line, for the six-year interval from 2015 to 2020.\n\nOverall, the data reveal a **secular recomposition** of export revenue, with manufacturing **ceding** relative dominance to services while agriculture remained a **persistent underperformer**. The trade balance line, though **volatile**, traced a **V-shaped recovery** that **bottomed out** in 2017 before rallying to its **zenith** by 2020, underscoring the **counter-cyclical buffer** that a robust services sector can provide against goods-sector **softness**.\n\nManufacturing remained the **predominant** contributor in absolute terms, generating between $45 and $55 billion annually, yet its trajectory was **uneven**: after peaking at $52 billion in 2015, it suffered a **pronounced contraction** to $45 billion in 2017—likely reflecting global **supply-chain disruptions** or **commodity-price troughs**—before staging a **gradual convalescence** to $55 billion by 2020. Services, by contrast, exhibited consistent **outperformance**, posting a **monotonic uptick** from $30 billion to $45 billion across every single year, a trajectory that helped **countervail** manufacturing's mid-period slump and suggests strong **terms-of-trade** advantages in knowledge-intensive exports.\n\nAgricultural exports were comparatively **anaemic**, fluctuating narrowly between $14 and $16 billion and, at times, acting as a **drag** on aggregate momentum. Correspondingly, the trade balance line **mirrored** these sectoral movements with **fidelity**: it plunged from a $8 billion surplus in 2015 to a **razor-thin** $2 billion surplus in 2017, then **rebounded** robustly as both manufacturing and services advanced in tandem, closing at a **plenary** $12 billion surplus in 2020. The strongest year coincided with **synchronised gains** across all three pillars, reinforcing the **prudence** of export **diversification** as a hedge against sector-specific shocks—a principle **espoused** by the WTO and IMF in their respective trade-resilience frameworks.",
     "glossary": [
       {
-        "term": "net balance",
-        "vietnamese": "cán cân ròng",
-        "context": "a volatile net balance"
+        "term": "secular recomposition",
+        "vietnamese": "tái cơ cấu dài hạn",
+        "context": "A secular recomposition of export revenue over the six-year interval."
       },
       {
-        "term": "aggregate",
-        "vietnamese": "tổng hợp/chung",
-        "context": "aggregate driver of exports"
+        "term": "ceding",
+        "vietnamese": "nhường chỗ",
+        "context": "Manufacturing ceding relative dominance to services."
       },
       {
-        "term": "downturn",
-        "vietnamese": "suy giảm",
-        "context": "a mid-period downturn"
+        "term": "persistent underperformer",
+        "vietnamese": "lĩnh vực liên tục kém phát triển",
+        "context": "Agriculture remained a persistent underperformer."
       },
       {
-        "term": "outperformance",
-        "vietnamese": "vượt trội",
-        "context": "services exhibited steady outperformance"
+        "term": "volatile",
+        "vietnamese": "biến động",
+        "context": "The trade balance line, though volatile, traced a V-shaped recovery."
       },
       {
-        "term": "uptick",
-        "vietnamese": "tăng nhẹ",
-        "context": "posting a consistent uptick"
+        "term": "V-shaped recovery",
+        "vietnamese": "phục hồi hình chữ V",
+        "context": "A V-shaped recovery that bottomed out in 2017 before rallying."
       },
       {
-        "term": "counteract",
-        "vietnamese": "chống lại/giảm bớt",
-        "context": "helped counteract manufacturing softness"
+        "term": "bottomed out",
+        "vietnamese": "chạm đáy",
+        "context": "The trade balance bottomed out in 2017 before rallying to its zenith."
+      },
+      {
+        "term": "zenith",
+        "vietnamese": "đỉnh cao nhất",
+        "context": "Rallying to its zenith by 2020."
+      },
+      {
+        "term": "counter-cyclical buffer",
+        "vietnamese": "vùng đệm chống chu kỳ suy thoái",
+        "context": "The counter-cyclical buffer that a robust services sector provides."
+      },
+      {
+        "term": "softness",
+        "vietnamese": "sự yếu đi",
+        "context": "Protection against goods-sector softness."
+      },
+      {
+        "term": "predominant",
+        "vietnamese": "chiếm ưu thế/chủ đạo",
+        "context": "Manufacturing remained the predominant contributor in absolute terms."
+      },
+      {
+        "term": "pronounced contraction",
+        "vietnamese": "sự thu hẹp rõ rệt",
+        "context": "It suffered a pronounced contraction to $45 billion in 2017."
+      },
+      {
+        "term": "supply-chain disruptions",
+        "vietnamese": "gián đoạn chuỗi cung ứng",
+        "context": "Likely reflecting global supply-chain disruptions or commodity-price troughs."
+      },
+      {
+        "term": "commodity-price troughs",
+        "vietnamese": "đáy giá hàng hóa",
+        "context": "Reflecting commodity-price troughs before staging a gradual convalescence."
+      },
+      {
+        "term": "convalescence",
+        "vietnamese": "sự hồi phục",
+        "context": "Staging a gradual convalescence to $55 billion by 2020."
+      },
+      {
+        "term": "monotonic uptick",
+        "vietnamese": "tăng liên tục không gián đoạn",
+        "context": "Services posted a monotonic uptick from $30 billion to $45 billion."
+      },
+      {
+        "term": "countervail",
+        "vietnamese": "khắc chế/đối trọng",
+        "context": "A trajectory that helped countervail manufacturing's mid-period slump."
+      },
+      {
+        "term": "terms-of-trade",
+        "vietnamese": "điều kiện thương mại",
+        "context": "Strong terms-of-trade advantages in knowledge-intensive exports."
+      },
+      {
+        "term": "anaemic",
+        "vietnamese": "yếu ớt/thiếu sức sống",
+        "context": "Agricultural exports were comparatively anaemic, fluctuating narrowly."
       },
       {
         "term": "drag",
         "vietnamese": "gánh nặng/kéo lùi",
-        "context": "a drag on momentum"
+        "context": "At times acting as a drag on aggregate momentum."
       },
       {
-        "term": "volatility",
-        "vietnamese": "biến động",
-        "context": "episodic volatility"
+        "term": "mirrored",
+        "vietnamese": "phản ánh",
+        "context": "The trade balance line mirrored these sectoral movements with fidelity."
+      },
+      {
+        "term": "fidelity",
+        "vietnamese": "độ trung thực/sát sao",
+        "context": "Mirrored these sectoral movements with fidelity."
+      },
+      {
+        "term": "razor-thin",
+        "vietnamese": "mong manh/sít sao",
+        "context": "A razor-thin $2 billion surplus in 2017."
+      },
+      {
+        "term": "rebounded",
+        "vietnamese": "phục hồi",
+        "context": "It rebounded robustly as both manufacturing and services advanced."
+      },
+      {
+        "term": "plenary",
+        "vietnamese": "toàn phần/đầy đủ",
+        "context": "Closing at a plenary $12 billion surplus in 2020."
+      },
+      {
+        "term": "synchronised gains",
+        "vietnamese": "tăng trưởng đồng bộ",
+        "context": "The strongest year coincided with synchronised gains across all three pillars."
+      },
+      {
+        "term": "prudence",
+        "vietnamese": "sự thận trọng khôn ngoan",
+        "context": "Reinforcing the prudence of export diversification."
       },
       {
         "term": "diversification",
         "vietnamese": "đa dạng hóa",
-        "context": "underscoring the value of diversification"
+        "context": "Export diversification as a hedge against sector-specific shocks."
+      },
+      {
+        "term": "espoused",
+        "vietnamese": "được ủng hộ/chấp nhận",
+        "context": "A principle espoused by the WTO and IMF."
       }
     ],
     "reviewExercise": {
@@ -1090,29 +1380,29 @@ const baseSampleEssays: SampleEssay[] = [
       "instruction": "Fill in the blanks with appropriate words from the essay.",
       "items": [
         {
-          "sentence": "Services showed steady ___ over the period.",
-          "answer": "outperformance",
-          "explanation": "'Outperformance' means exceeding expectations or peers."
+          "sentence": "The trade balance traced a ___ after hitting its lowest point in 2017.",
+          "answer": "V-shaped recovery",
+          "explanation": "A rapid rebound following a sharp decline, forming a V on a chart."
         },
         {
-          "sentence": "Manufacturing faced a mid-period ___.",
-          "answer": "downturn",
-          "explanation": "A 'downturn' is a period of economic decline."
+          "sentence": "Manufacturing suffered a ___ in 2017 before recovering.",
+          "answer": "pronounced contraction",
+          "explanation": "A significant and noticeable reduction in output or size."
         },
         {
-          "sentence": "The trade ___ improved as exports recovered.",
-          "answer": "net balance",
-          "explanation": "'Net balance' is the difference between exports and imports."
+          "sentence": "Services showed a ___ uptick every single year without exception.",
+          "answer": "monotonic",
+          "explanation": "'Monotonic' means consistently increasing (or decreasing) without reversals."
         },
         {
-          "sentence": "Agriculture was at times a ___ on growth.",
-          "answer": "drag",
-          "explanation": "A 'drag' is something that slows progress."
+          "sentence": "Agricultural exports were ___ compared to the other two sectors.",
+          "answer": "anaemic",
+          "explanation": "'Anaemic' means weak, lacking vitality or strength."
         },
         {
-          "sentence": "Gains in services helped ___ weakness elsewhere.",
-          "answer": "counteract",
-          "explanation": "'Counteract' means to work against or offset something."
+          "sentence": "The WTO and IMF both ___ export diversification as a resilience strategy.",
+          "answer": "espoused",
+          "explanation": "'Espoused' means advocated, supported, or adopted as a principle."
         }
       ]
     },
