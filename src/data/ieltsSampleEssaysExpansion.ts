@@ -2175,92 +2175,146 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     }
   },
-  {
+    {
     "id": "t1-26",
     "taskType": 1,
     "chartType": "bar",
     "topic": "water consumption",
     "prompt": "The bar chart below shows water consumption (billion litres) by three sectors (agriculture, industry, domestic) in four countries (Brazil, Egypt, India, Germany). Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The bar chart compares total annual water consumption across three sectors in four economies with very different profiles.\n\nOverall, **agriculture dominates** in every country, but its share is overwhelmingly highest in arid Egypt. Industrial use is most prominent in Germany, reflecting **economic structure** rather than geography.\n\nIn Brazil and India, agriculture accounts for the largest portion - 70 and 60 billion litres respectively - driven by extensive farmland. Egypt's agricultural figure is even higher in proportional terms at 90 billion litres, almost ten times its industrial demand, owing to **arid conditions** that necessitate irrigation. Germany presents the inverse pattern: industry leads at 35 billion litres, ahead of domestic and agricultural use.\n\nDomestic consumption remains relatively **uniform**, ranging from 10 to 20 billion litres across the four countries. The data reveal that water demand is shaped by both climate and **industrial composition**, not population size alone. Hence, **sustainability strategies** must be country-specific.",
+    "essayBody": "The bar chart compares total annual water **withdrawals** across three sectors in four economies with **markedly divergent** climatic and industrial profiles.\n\nOverall, agriculture retains a **preponderant** share in every jurisdiction, yet its dominance is most **pronounced** in arid Egypt, where **hydrological scarcity** **necessitates** extensive irrigation. Industrial use is most prominent in Germany, a pattern that reflects **economic structure** and **agro-industrial** specialisation rather than geography alone.\n\nIn Brazil and India, agriculture accounts for the largest portion—70 and 60 billion litres respectively—driven by **extensive** farmland and, in India\'s case, **irrigation-intensive** rice-wheat **cropping cycles**. Egypt\'s agricultural figure is even higher in proportional terms at 90 billion litres, almost **an order of magnitude** greater than its industrial demand, owing to near-universal **reliance** on the Nile for crop cultivation in an otherwise **hyper-arid** environment. Germany presents the **inverse** pattern: industry leads at 35 billion litres, ahead of both domestic and agricultural use, consistent with its **manufacturing-heavy** economic base.\n\nDomestic consumption remains relatively **uniform**, ranging from 10 to 20 billion litres across the four countries—a **convergence** that suggests per-capita demand is less **elastic** to climate than sectoral composition. The data reveal that aggregate water demand is shaped by the **intersection** of climate, **industrial composition** and agricultural **endowment**, not population size alone. Consequently, **sustainability strategies** must be **context-specific** rather than **prescriptive**.",
     "glossary": [
       {
-        "term": "agriculture dominates",
-        "vietnamese": "nông nghiệp chiếm ưu thế",
-        "context": "agriculture dominates"
+        "term": "withdrawals",
+        "vietnamese": "lượng rút nước",
+        "context": "The chart compares total annual water **withdrawals** across three sectors."
       },
       {
-        "term": "economic structure",
-        "vietnamese": "cấu trúc kinh tế",
-        "context": "economic structure"
+        "term": "markedly divergent",
+        "vietnamese": "khác biệt rõ rệt",
+        "context": "Four economies with **markedly divergent** climatic and industrial profiles."
       },
       {
-        "term": "arid conditions",
-        "vietnamese": "điều kiện khô hạn",
-        "context": "arid conditions"
+        "term": "preponderant",
+        "vietnamese": "chiếm ưu thế tuyệt đối",
+        "context": "Agriculture retains a **preponderant** share in every jurisdiction."
       },
       {
-        "term": "uniform",
-        "vietnamese": "đồng đều",
-        "context": "relatively uniform"
+        "term": "pronounced",
+        "vietnamese": "rõ rệt",
+        "context": "Its dominance is most **pronounced** in arid Egypt."
       },
       {
-        "term": "industrial composition",
-        "vietnamese": "cấu thành công nghiệp",
-        "context": "industrial composition"
+        "term": "hydrological scarcity",
+        "vietnamese": "khan hiếm nguồn nước",
+        "context": "**Hydrological scarcity** necessitates extensive irrigation in Egypt."
       },
       {
-        "term": "sustainability strategies",
-        "vietnamese": "chiến lược bền vững",
-        "context": "sustainability strategies"
-      },
-      {
-        "term": "inverse pattern",
-        "vietnamese": "mẫu hình ngược",
-        "context": "Germany presents the inverse pattern"
-      },
-      {
-        "term": "necessitate",
+        "term": "necessitates",
         "vietnamese": "đòi hỏi",
-        "context": "necessitate irrigation"
+        "context": "Scarcity **necessitates** extensive irrigation for crop survival."
+      },
+      {
+        "term": "agro-industrial",
+        "vietnamese": "nông công nghiệp",
+        "context": "The pattern reflects **agro-industrial** specialisation."
       },
       {
         "term": "extensive",
         "vietnamese": "rộng lớn",
-        "context": "extensive farmland"
+        "context": "Driven by **extensive** farmland in Brazil and India."
       },
       {
-        "term": "country-specific",
-        "vietnamese": "tùy thuộc quốc gia",
-        "context": "country-specific"
+        "term": "irrigation-intensive",
+        "vietnamese": "phụ thuộc nhiều vào tưới tiêu",
+        "context": "India relies on **irrigation-intensive** rice-wheat cropping cycles."
+      },
+      {
+        "term": "cropping cycles",
+        "vietnamese": "vòng đời cây trồng",
+        "context": "**Cropping cycles** that demand continuous water input."
+      },
+      {
+        "term": "an order of magnitude",
+        "vietnamese": "gấp hàng chục lần",
+        "context": "Egypt\'s agricultural use is **an order of magnitude** greater than industrial demand."
+      },
+      {
+        "term": "reliance",
+        "vietnamese": "sự phụ thuộc",
+        "context": "Near-universal **reliance** on the Nile for cultivation."
+      },
+      {
+        "term": "hyper-arid",
+        "vietnamese": "cực kỳ khô hạn",
+        "context": "Cultivation occurs in an otherwise **hyper-arid** environment."
+      },
+      {
+        "term": "inverse",
+        "vietnamese": "ngược lại",
+        "context": "Germany presents the **inverse** pattern with industry leading."
+      },
+      {
+        "term": "manufacturing-heavy",
+        "vietnamese": "nặng về sản xuất",
+        "context": "Consistent with its **manufacturing-heavy** economic base."
+      },
+      {
+        "term": "convergence",
+        "vietnamese": "sự hội tụ",
+        "context": "A **convergence** suggesting per-capita demand is less elastic to climate."
+      },
+      {
+        "term": "elastic",
+        "vietnamese": "co giãn / nhạy cảm",
+        "context": "Per-capita demand is less **elastic** to climate than sectoral composition."
+      },
+      {
+        "term": "intersection",
+        "vietnamese": "giao điểm / sự giao thoa",
+        "context": "Demand is shaped by the **intersection** of climate and industrial composition."
+      },
+      {
+        "term": "endowment",
+        "vietnamese": "nguồn lực / tài nguyên",
+        "context": "And agricultural **endowment**, not population size alone."
+      },
+      {
+        "term": "context-specific",
+        "vietnamese": "phụ thuộc ngữ cảnh",
+        "context": "**Sustainability strategies** must be **context-specific**."
+      },
+      {
+        "term": "prescriptive",
+        "vietnamese": "mang tính áp đặt / bắt buộc",
+        "context": "Rather than **prescriptive** one-size-fits-all mandates."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "___ dominates water use in every country.",
-          "answer": "Agriculture"
+          "sentence": "Agriculture retains a ___ share in every country.",
+          "answer": "preponderant"
         },
         {
-          "sentence": "Egypt's high use reflects ___ conditions.",
-          "answer": "arid"
+          "sentence": "Egypt's agricultural use is an ___ of magnitude greater than industry.",
+          "answer": "order"
         },
         {
-          "sentence": "Domestic use is relatively ___.",
-          "answer": "uniform"
+          "sentence": "Domestic consumption shows a ___, ranging narrowly across countries.",
+          "answer": "convergence"
         },
         {
-          "sentence": "Strategies must be ___ specific.",
-          "answer": "country"
+          "sentence": "Demand is shaped by the ___ of climate and industrial composition.",
+          "answer": "intersection"
         },
         {
-          "sentence": "Germany shows an ___ pattern.",
-          "answer": "inverse"
+          "sentence": "Sustainability strategies must be ___ rather than prescriptive.",
+          "answer": "context-specific"
         }
       ]
-    },
-    "chartConfig": {
+    },    "chartConfig": {
       "type": "bar",
       "xKey": "country",
       "yKeys": [
