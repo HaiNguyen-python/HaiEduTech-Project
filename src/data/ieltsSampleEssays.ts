@@ -1088,57 +1088,57 @@ const baseSampleEssays: SampleEssay[] = [
     "essayType": "opinion",
     "topic": "Education technology in classrooms",
     "prompt": "Some people believe that integrating technology into classrooms significantly improves learning outcomes, while others argue it distracts students from deep learning. To what extent do you agree or disagree?",
-    "essayBody": "Technology, when thoughtfully deployed, can transform classrooms from passive lecture halls into vibrant ecosystems of inquiry. I strongly agree that integration improves learning outcomes, provided it is guided by sound **pedagogy** rather than novelty. Digital tools should serve clear objectives such as **formative assessment**, **personalization**, and timely feedback-not simply add more **screen time**.\n\nFirst, technology empowers teachers to run truly **blended learning** environments. Instead of one-size-fits-all lectures, students rotate between teacher-led explanation and adaptive platforms that diagnose misconceptions in real time. Through **learning analytics**, educators can track progress at granular levels, spotting gaps early and tailoring support accordingly. This boosts both efficiency and mastery, especially when coupled with a **flipped classroom** model that moves content delivery outside class, reserving lesson time for dialogue, practice, and problem-solving.\n\nSecond, well-governed platforms enhance fairness. Properly designed systems can widen **equity** by giving diverse learners multiple ways to access material-text, audio, video, or simulations-and by allowing pacing that suits individual needs. However, such benefits depend on bridging the **digital divide**. Without robust infrastructure and device access, edtech risks entrenching inequality. Equally vital is strong **data privacy**, ensuring sensitive records are protected and used ethically. Clear consent, minimal data collection, and transparent algorithms should be non-negotiable.\n\nCritics rightly warn that devices can distract, yet this is a design and culture problem, not an inherent flaw. With purposeful routines, low-friction interfaces, and attention to **formative assessment** over superficial gamification, technology can cultivate **personalization** without fragmentation. Ultimately, tools that nurture **metacognition**-helping learners plan, monitor, and evaluate their own understanding-raise achievement and independence. The question is not whether to use technology, but whether we use it to advance learning rather than chase novelty. When anchored in evidence-informed **pedagogy**, technology is a powerful amplifier of human teaching.",
+    "essayBody": "Technology, when thoughtfully deployed, can transform classrooms from passive lecture halls into vibrant ecosystems of inquiry. I strongly agree that integration improves learning outcomes, provided it is guided by sound **pedagogy** rather than novelty. Digital tools should serve clear objectives such as **formative assessment**, **personalization** and timely feedback - not simply add more **screen time** to an already saturated day.\n\nFirst, technology empowers teachers to run genuinely **blended learning** environments. Instead of one-size-fits-all lectures, students rotate between teacher-led explanation and adaptive platforms that diagnose misconceptions in real time. Through powerful **learning analytics**, educators can track progress at granular levels, spotting gaps early and tailoring support accordingly; OECD studies consistently associate well-implemented analytics with double-digit gains in assessment scores. This boosts both efficiency and mastery, especially when paired with a **flipped classroom** model that moves content delivery outside class, reserving precious lesson time for dialogue, practice and collaborative problem-solving.\n\nSecond, well-governed platforms can meaningfully enhance fairness. Properly designed systems widen **equity** by giving diverse learners multiple ways to access material - text, audio, video or interactive simulations - and by allowing pacing that genuinely suits individual needs. However, such benefits depend on bridging the persistent **digital divide**; without robust infrastructure and device access, edtech risks entrenching the very inequalities it claims to solve. Equally vital is strong **data privacy** protection, ensuring sensitive student records are safeguarded and used ethically through minimal collection and transparent algorithms.\n\nCritics rightly warn that personal devices can distract, yet this is fundamentally a design and classroom-culture problem, not an inherent flaw of the technology itself. With purposeful routines, low-friction interfaces and a sustained focus on meaningful learning rather than superficial gamification, technology cultivates depth without fragmentation. Ultimately, the question is not whether to use technology, but whether we use it to genuinely advance learning. When anchored in evidence-informed pedagogy, technology becomes a powerful amplifier of skilled human teaching.",
     "glossary": [
       {
         "term": "pedagogy",
         "vietnamese": "phương pháp sư phạm",
-        "context": "Instruction must be driven by strong pedagogy, not gadgets."
+        "context": "I strongly agree that integration improves learning outcomes, provided it is guided by sound pedagogy rather than novelty."
       },
       {
         "term": "formative assessment",
-        "vietnamese": "đánh giá định hình",
-        "context": "Quizzes provide formative assessment to inform next steps."
+        "vietnamese": "đánh giá định hình trong quá trình học",
+        "context": "Digital tools should serve clear objectives such as formative assessment and timely feedback."
       },
       {
         "term": "personalization",
-        "vietnamese": "cá nhân hóa",
-        "context": "Adaptive tasks enable personalization of learning pathways."
+        "vietnamese": "cá nhân hóa trải nghiệm học",
+        "context": "Adaptive platforms enable personalization by diagnosing misconceptions in real time."
       },
       {
         "term": "screen time",
         "vietnamese": "thời gian sử dụng màn hình",
-        "context": "Excessive screen time can sap attention if unmanaged."
+        "context": "Technology should serve real objectives, not simply add more screen time to an already saturated day."
       },
       {
         "term": "blended learning",
-        "vietnamese": "học kết hợp",
-        "context": "Blended learning mixes online modules with seminars."
+        "vietnamese": "học kết hợp trực tiếp và trực tuyến",
+        "context": "Technology empowers teachers to run genuinely blended learning environments."
       },
       {
         "term": "learning analytics",
-        "vietnamese": "phân tích học tập",
-        "context": "Learning analytics flags misconceptions early."
+        "vietnamese": "phân tích dữ liệu học tập",
+        "context": "Through powerful learning analytics, educators can track progress at granular levels and spot gaps early."
       },
       {
         "term": "flipped classroom",
         "vietnamese": "lớp học đảo ngược",
-        "context": "The flipped classroom reserves time for problem-solving."
+        "context": "A flipped classroom model moves content delivery outside class, reserving lesson time for dialogue and practice."
       },
       {
         "term": "equity",
-        "vietnamese": "công bằng",
-        "context": "Design for equity ensures access for all learners."
+        "vietnamese": "sự công bằng",
+        "context": "Well-designed systems widen equity by giving diverse learners multiple ways to access material."
       },
       {
         "term": "digital divide",
         "vietnamese": "khoảng cách số",
-        "context": "The digital divide can widen achievement gaps."
+        "context": "Such benefits depend on bridging the persistent digital divide between students with and without devices."
       },
       {
         "term": "data privacy",
         "vietnamese": "quyền riêng tư dữ liệu",
-        "context": "Data privacy policies protect student records."
+        "context": "Equally vital is strong data privacy protection, ensuring sensitive student records are safeguarded ethically."
       }
     ],
     "reviewExercise": {
@@ -1174,57 +1174,57 @@ const baseSampleEssays: SampleEssay[] = [
     "essayType": "discussion",
     "topic": "Carbon taxes vs renewable subsidies",
     "prompt": "Some argue that carbon taxes are the most effective way to address climate change, while others believe subsidies for renewable energy are better. Discuss both views and give your opinion.",
-    "essayBody": "Advocates of carbon taxes contend they internalise environmental **externalities** by embedding climate costs into market prices. A robust levy sends a clear **price signal** across the economy, steering producers and consumers away from carbon-intensive goods. Because taxes operate technology-neutrally, they adjust the entire **energy mix**, motivating both efficiency gains and fuel switching. When set predictably and paired with dividends, they can be fiscally simple and socially palatable.\n\nOpponents worry about political feasibility and unintended outcomes. If demand for energy is inelastic, the **elasticity** of consumption may blunt short‑term emissions cuts and burden households. Poorly designed taxes can trigger **carbon leakage**, shifting emissions-and jobs-offshore. Others note potential **regulatory capture**, where vested interests dilute rates or carve out exemptions. For these reasons, some prefer targeted subsidies that accelerate renewables, storage, and grid upgrades, arguing that public support drives learning curves and avoids the **rebound effect** seen when efficiency lowers costs and boosts use.\n\nIn my view, the debate is falsely binary. Carbon pricing operationalises the **polluter pays** principle and provides economy‑wide incentives for **decarbonisation**; however, markets alone cannot overcome infrastructure bottlenecks or innovation valleys of death. Strategic subsidies and public investment are essential to build transmission, fund early‑stage technologies, and ensure a **just transition** that protects vulnerable workers and regions. To work, taxes must be nudged up along a transparent trajectory, integrated with border adjustments to curb leakage, and recycled through progressive rebates. Subsidies should be sunset as technologies mature to prevent dependency.\n\nUltimately, an efficient, fair package blends a rising tax with smart subsidies, standards, and support for those most exposed. Climate policy should be judged not by ideological purity but by whether it cuts emissions quickly, equitably, and at scale.",
+    "essayBody": "Advocates of carbon taxes contend that they internalise environmental **externalities** by embedding climate costs directly into market prices. A robust levy sends a clear, economy-wide **price signal** that steers both producers and consumers away from carbon-intensive goods. Because such taxes operate technology-neutrally, they reshape the entire **energy mix**, motivating both efficiency gains and rapid fuel switching. When set predictably along a rising trajectory, and paired with revenue dividends to households, they can be fiscally elegant and surprisingly socially palatable, as Canada and Sweden have shown.\n\nOpponents, however, worry about political feasibility and unintended outcomes. Where the **elasticity** of energy demand is low, taxes may blunt short-term emissions cuts while still burdening low-income households disproportionately. Poorly designed levies can also trigger **carbon leakage**, simply shifting emissions - and jobs - to less-regulated jurisdictions. Others highlight the risk of **regulatory capture**, where vested fossil-fuel interests dilute rates or secure generous exemptions. For these reasons, many policy experts prefer targeted subsidies that accelerate renewables, storage and grid upgrades, arguing that strategic public support drives technology learning curves and avoids the **rebound effect** seen when efficiency lowers costs and merely boosts overall use.\n\nIn my view, the debate is falsely binary. Carbon pricing usefully operationalises the **polluter pays** principle and provides genuine economy-wide incentives for **decarbonisation**; however, markets alone simply cannot overcome infrastructure bottlenecks or finance the early-stage 'valleys of death' that plague clean technologies. Strategic subsidies and patient public investment remain essential to build transmission, fund breakthrough innovation and ensure a credible **just transition** that protects vulnerable workers and regions. To work well, carbon taxes must rise along a transparent trajectory, be integrated with carbon-border adjustments to curb leakage, and have their revenue recycled through progressive rebates. Subsidies, meanwhile, should be sunset as technologies mature, preventing long-term dependency.\n\nUltimately, an efficient, fair climate package blends a rising carbon tax with smart subsidies, performance standards and targeted support for those most exposed. Climate policy should be judged not by ideological purity but by whether it cuts emissions quickly, equitably and at scale.",
     "glossary": [
       {
         "term": "externalities",
         "vietnamese": "tác động ngoại lai",
-        "context": "Taxes can internalise negative externalities."
+        "context": "Advocates contend that carbon taxes internalise environmental externalities by embedding climate costs into market prices."
       },
       {
         "term": "price signal",
         "vietnamese": "tín hiệu giá",
-        "context": "A carbon levy sends a price signal to cut emissions."
+        "context": "A robust levy sends a clear, economy-wide price signal that steers producers away from carbon-intensive goods."
       },
       {
         "term": "energy mix",
         "vietnamese": "cơ cấu năng lượng",
-        "context": "Carbon pricing reshapes the national energy mix."
+        "context": "Because such taxes operate technology-neutrally, they reshape the entire energy mix."
       },
       {
         "term": "elasticity",
-        "vietnamese": "độ co giãn",
-        "context": "Low elasticity can limit short-term demand shifts."
+        "vietnamese": "độ co giãn của cầu",
+        "context": "Where the elasticity of energy demand is low, taxes may blunt short-term emissions cuts."
       },
       {
         "term": "carbon leakage",
-        "vietnamese": "rò rỉ carbon",
-        "context": "Weak rules risk carbon leakage to other countries."
+        "vietnamese": "rò rỉ carbon ra nước ngoài",
+        "context": "Poorly designed levies can trigger carbon leakage, simply shifting emissions to less-regulated jurisdictions."
       },
       {
         "term": "regulatory capture",
-        "vietnamese": "sự chi phối của lợi ích ngành",
-        "context": "Exemptions may reflect regulatory capture."
+        "vietnamese": "sự thâu tóm cơ quan quản lý",
+        "context": "Others highlight the risk of regulatory capture, where vested fossil-fuel interests dilute rates."
       },
       {
         "term": "rebound effect",
-        "vietnamese": "hiệu ứng bật ngược",
-        "context": "Efficiency can trigger a rebound effect."
+        "vietnamese": "hiệu ứng dội ngược",
+        "context": "Subsidies can avoid the rebound effect seen when efficiency lowers costs and boosts overall use."
       },
       {
         "term": "polluter pays",
         "vietnamese": "nguyên tắc người gây ô nhiễm phải trả",
-        "context": "Polluter pays underpins carbon taxation."
+        "context": "Carbon pricing usefully operationalises the polluter pays principle."
       },
       {
         "term": "decarbonisation",
-        "vietnamese": "khử carbon",
-        "context": "Pricing catalyses economy-wide decarbonisation."
+        "vietnamese": "quá trình khử carbon",
+        "context": "Carbon pricing provides genuine economy-wide incentives for decarbonisation."
       },
       {
         "term": "just transition",
         "vietnamese": "chuyển dịch công bằng",
-        "context": "Policies must ensure a just transition for workers."
+        "context": "Public investment is essential to ensure a credible just transition that protects vulnerable workers and regions."
       }
     ],
     "reviewExercise": {
@@ -1260,57 +1260,57 @@ const baseSampleEssays: SampleEssay[] = [
     "essayType": "advantages-disadvantages",
     "topic": "Telemedicine in healthcare",
     "prompt": "Telemedicine has grown rapidly in recent years. Do the advantages of telemedicine outweigh the disadvantages?",
-    "essayBody": "Telemedicine has shifted from a stopgap solution to a structural pillar of care. On balance, its advantages outweigh the drawbacks, provided systems are designed for safety, equity, and accountability.\n\nThe benefits are substantial. First, virtual access protects **continuity of care** for chronic conditions, reducing missed appointments and hospital readmissions. Effective digital **triage** directs patients to the right level of service-from self-care to urgent intervention-easing pressure on emergency units. Integration with electronic records enhances **interoperability**, enabling clinicians to share data seamlessly and avoid duplicated tests. For remote or underserved communities, telehealth advances **health equity** by cutting travel time and costs. It also improves **diagnostic accuracy** in certain fields by allowing rapid specialist input via store-and-forward images. For stable patients, **remote monitoring** devices transmit vital signs, enabling proactive adjustments. Meanwhile, **asynchronous consulting** lets clinicians handle non-urgent queries efficiently, and clearer **reimbursement** rules have made services financially viable. Robust **clinical governance** frameworks can codify best practices and protect patient safety.\n\nNonetheless, risks remain. Digital exclusion and low **digital literacy** can marginalise vulnerable groups. Not all conditions are suited to virtual assessment; subtle cues and physical exams may be missed. Privacy breaches and fragmented platforms undermine trust. And perverse incentives could drive overuse, increasing costs without improving outcomes.\n\nTo tip the balance, policy should mandate accessibility features, multilingual support, and community training to raise digital literacy. Clear pathways must specify when in‑person review is essential. Interoperable standards, strong consent processes, and fair reimbursement will align incentives with value. With these safeguards, telemedicine complements, rather than replaces, face‑to‑face care, delivering reach, timeliness, and resilience that traditional models struggle to match.",
+    "essayBody": "Telemedicine has shifted from a pandemic stopgap into a structural pillar of modern care. On balance, its advantages clearly outweigh the drawbacks, provided systems are deliberately designed for safety, equity and accountability.\n\nThe benefits are substantial and well documented. First, virtual access protects **continuity of care** for chronic conditions such as diabetes and hypertension, demonstrably reducing missed appointments and costly hospital readmissions. Effective digital **triage** directs patients to the appropriate level of service - from guided self-care to urgent intervention - easing pressure on overstretched emergency units. Integration with electronic records enhances **interoperability**, enabling clinicians to share data seamlessly across providers and avoid duplicated tests. For remote or underserved communities, telehealth meaningfully advances **health equity** by cutting travel time and out-of-pocket costs. It can also improve **diagnostic accuracy** in dermatology, radiology and stroke care by allowing rapid specialist input via store-and-forward images. For stable patients, **remote monitoring** devices transmit vital signs continuously, enabling proactive adjustments before crises occur, while **asynchronous consulting** lets clinicians handle non-urgent queries efficiently between in-person visits. Clearer **reimbursement** rules have finally made these services financially viable for providers, and robust **clinical governance** frameworks codify best practices that protect patient safety.\n\nNonetheless, genuine risks remain that policy must address. Digital exclusion and low **digital literacy** can marginalise the elderly, disabled and rural poor - precisely the groups telehealth was meant to help. Not all conditions are suited to virtual assessment; subtle physical cues and hands-on examinations may be missed, with potentially serious consequences. Privacy breaches and fragmented platforms undermine patient trust, and perverse fee-for-service incentives could drive overuse without improving outcomes.\n\nTo tip the balance decisively, policy should mandate accessibility features, multilingual support and well-funded community training to raise digital literacy. Clear clinical pathways must specify precisely when in-person review is essential. Interoperable standards, strong consent processes and value-based reimbursement will align incentives with genuine patient benefit. With these safeguards firmly in place, telemedicine complements rather than replaces face-to-face care, delivering the reach, timeliness and resilience that traditional models struggle to match.",
     "glossary": [
       {
         "term": "continuity of care",
-        "vietnamese": "tính liên tục của chăm sóc",
-        "context": "Telehealth protects continuity of care for chronic patients."
+        "vietnamese": "tính liên tục của chăm sóc y tế",
+        "context": "Virtual access protects continuity of care for chronic conditions such as diabetes and hypertension."
       },
       {
         "term": "triage",
-        "vietnamese": "phân loại mức độ ưu tiên",
-        "context": "Digital triage directs patients to suitable services."
+        "vietnamese": "phân loại mức độ ưu tiên y tế",
+        "context": "Effective digital triage directs patients to the appropriate level of service."
       },
       {
         "term": "interoperability",
-        "vietnamese": "khả năng tương tác",
-        "context": "Interoperability reduces duplicate testing."
+        "vietnamese": "khả năng tương tác giữa các hệ thống",
+        "context": "Integration with electronic records enhances interoperability and avoids duplicated tests."
       },
       {
         "term": "health equity",
-        "vietnamese": "công bằng y tế",
-        "context": "Telemedicine can advance health equity for rural areas."
+        "vietnamese": "sự công bằng trong y tế",
+        "context": "Telehealth meaningfully advances health equity for remote and underserved communities."
       },
       {
         "term": "diagnostic accuracy",
         "vietnamese": "độ chính xác chẩn đoán",
-        "context": "Specialist input may improve diagnostic accuracy."
-      },
-      {
-        "term": "digital literacy",
-        "vietnamese": "kỹ năng số",
-        "context": "Low digital literacy can exclude patients."
+        "context": "It can improve diagnostic accuracy in dermatology and stroke care via rapid specialist input."
       },
       {
         "term": "remote monitoring",
-        "vietnamese": "giám sát từ xa",
-        "context": "Remote monitoring alerts clinicians to risk spikes."
+        "vietnamese": "giám sát bệnh nhân từ xa",
+        "context": "Remote monitoring devices transmit vital signs continuously, enabling proactive adjustments."
       },
       {
         "term": "asynchronous consulting",
-        "vietnamese": "tư vấn không đồng bộ",
-        "context": "Asynchronous consulting handles non-urgent queries."
+        "vietnamese": "tư vấn y tế không đồng bộ",
+        "context": "Asynchronous consulting lets clinicians handle non-urgent queries efficiently between in-person visits."
       },
       {
         "term": "reimbursement",
-        "vietnamese": "chi trả bảo hiểm",
-        "context": "Clear reimbursement rules support sustainability."
+        "vietnamese": "cơ chế chi trả bảo hiểm",
+        "context": "Clearer reimbursement rules have finally made these services financially viable for providers."
       },
       {
         "term": "clinical governance",
         "vietnamese": "quản trị lâm sàng",
-        "context": "Clinical governance codifies safe telehealth practice."
+        "context": "Robust clinical governance frameworks codify best practices that protect patient safety."
+      },
+      {
+        "term": "digital literacy",
+        "vietnamese": "năng lực số",
+        "context": "Digital exclusion and low digital literacy can marginalise the elderly, disabled and rural poor."
       }
     ],
     "reviewExercise": {
@@ -1346,57 +1346,57 @@ const baseSampleEssays: SampleEssay[] = [
     "essayType": "problem-solution",
     "topic": "Urbanization: congestion and housing",
     "prompt": "In many cities, rapid urbanization leads to traffic congestion and housing shortages. What problems does this cause, and what measures can be taken to tackle them?",
-    "essayBody": "Explosive urban growth has strained streets and stretched housing markets to breaking point. Congestion erodes productivity, pollutes the air, and frays social cohesion, while soaring rents displace lower‑income residents and push workers far from jobs.\n\nThe problems are mutually reinforcing. Car‑dependent patterns encourage **urban sprawl**, lengthening commutes and clogging arterial roads. Scarce, unaffordable homes close to jobs intensify displacement, frictions with established communities, and workforce shortages in essential services. Public budgets groan under the weight of scattered infrastructure, yet quality of life declines.\n\nA coherent remedy begins with land use and mobility. Cities should concentrate growth around high‑capacity transit through **transit-oriented development**, mixing homes, jobs, and services near stations. Pricing is pivotal: **congestion pricing** can reduce peak‑hour traffic and fund better alternatives. Updating codes to allow **mixed-use** and gentle density enables corner shops, apartments over cafés, and compact neighborhoods that cut car dependence. To expand supply, prioritize **infill development** on underused parcels and convert **brownfield** sites into livable districts.\n\nSocially, planners must curb displacement. Anti‑speculation taxes and targeted **rent control**-carefully designed to protect tenants without freezing supply-can help. Investments in **last-mile connectivity** like safe cycling and microtransit stitch neighborhoods to trunk lines, while inclusionary zoning and public housing sustain **housing affordability** near jobs.\n\nImplementation matters. Streamlined approvals, design standards for walkability, and data‑driven monitoring can align private incentives with public goals. When cities unite pricing, zoning reform, and social safeguards, congestion eases, commutes shorten, and housing becomes attainable-turning unchecked expansion into intentional, human‑scale urbanism.",
+    "essayBody": "Explosive urban growth has strained streets and stretched housing markets to breaking point across both rich and emerging economies. Chronic congestion erodes productivity, pollutes the air and frays social cohesion, while soaring rents systematically displace lower-income residents and push essential workers ever further from the jobs that cities offer.\n\nThe problems are mutually reinforcing. Car-dependent settlement patterns encourage **urban sprawl**, lengthening commutes and clogging arterial roads; scarce, unaffordable homes near jobs simultaneously intensify displacement, fuel community friction and create persistent workforce shortages in essential services such as healthcare and education. Public budgets groan under the rising cost of scattered, inefficient infrastructure even as residents' quality of life steadily declines.\n\nA coherent remedy begins with integrated land use and mobility policy. Cities should deliberately concentrate growth around high-capacity transit through **transit-oriented development**, mixing homes, jobs and services within walking distance of stations. Pricing is equally pivotal: well-designed **congestion pricing**, as proven in London, Stockholm and Singapore, can reduce peak-hour traffic by twenty percent or more while generating substantial revenue for better alternatives. Updating restrictive zoning codes to allow **mixed-use** and gentle density enables corner shops, apartments above cafés and compact neighborhoods that genuinely cut car dependence. To expand housing supply, cities should prioritise **infill development** on underused parcels and systematically convert contaminated **brownfield** sites into livable, well-connected districts.\n\nSocially, planners must work hard to curb displacement. Anti-speculation taxes and carefully calibrated **rent control** - designed to protect tenants without freezing new supply - can help. Targeted investment in safe **last-mile connectivity** such as protected cycling lanes and microtransit stitches outlying neighborhoods to trunk transit lines, while inclusionary zoning and well-funded public housing sustain genuine **housing affordability** near jobs.\n\nImplementation matters enormously. Streamlined permit approvals, robust design standards for walkability and transparent data-driven monitoring can align private incentives with public goals. When cities skilfully combine pricing, zoning reform and social safeguards, congestion eases, commutes shorten and housing becomes attainable - turning unchecked expansion into deliberate, human-scale urbanism.",
     "glossary": [
       {
         "term": "urban sprawl",
-        "vietnamese": "đô thị lan tỏa",
-        "context": "Urban sprawl lengthens commutes and raises emissions."
+        "vietnamese": "sự lan tỏa đô thị thiếu kiểm soát",
+        "context": "Car-dependent settlement patterns encourage urban sprawl, lengthening commutes and clogging arterial roads."
       },
       {
         "term": "transit-oriented development",
         "vietnamese": "phát triển định hướng giao thông công cộng",
-        "context": "Transit-oriented development clusters growth near stations."
+        "context": "Cities should concentrate growth around high-capacity transit through transit-oriented development."
       },
       {
         "term": "congestion pricing",
-        "vietnamese": "thu phí ùn tắc",
-        "context": "Congestion pricing manages peak traffic demand."
+        "vietnamese": "thu phí ùn tắc giao thông",
+        "context": "Well-designed congestion pricing, as proven in London and Singapore, can reduce peak-hour traffic substantially."
       },
       {
         "term": "mixed-use",
-        "vietnamese": "đa chức năng",
-        "context": "Mixed-use zones combine housing, retail, and offices."
+        "vietnamese": "phát triển đa chức năng",
+        "context": "Updating zoning codes to allow mixed-use and gentle density enables compact, walkable neighborhoods."
       },
       {
         "term": "infill development",
-        "vietnamese": "phát triển chen cấy",
-        "context": "Infill development uses vacant urban lots."
+        "vietnamese": "phát triển chen cấy trên đất trống đô thị",
+        "context": "To expand housing supply, cities should prioritise infill development on underused parcels."
       },
       {
         "term": "brownfield",
-        "vietnamese": "khu đất công nghiệp cũ",
-        "context": "Brownfield sites can be remediated for housing."
+        "vietnamese": "khu đất công nghiệp bỏ hoang ô nhiễm",
+        "context": "Cities should systematically convert contaminated brownfield sites into livable, well-connected districts."
       },
       {
         "term": "rent control",
-        "vietnamese": "kiểm soát tiền thuê",
-        "context": "Rent control protects tenants from sudden spikes."
+        "vietnamese": "kiểm soát giá thuê nhà",
+        "context": "Carefully calibrated rent control can protect tenants without freezing new supply."
       },
       {
         "term": "last-mile connectivity",
-        "vietnamese": "kết nối chặng cuối",
-        "context": "Last-mile connectivity links homes to transit."
+        "vietnamese": "kết nối chặng cuối tới giao thông công cộng",
+        "context": "Investment in safe last-mile connectivity stitches outlying neighborhoods to trunk transit lines."
       },
       {
         "term": "housing affordability",
         "vietnamese": "khả năng chi trả nhà ở",
-        "context": "Policies should preserve housing affordability near jobs."
+        "context": "Inclusionary zoning and public housing sustain genuine housing affordability near jobs."
       },
       {
         "term": "inclusionary zoning",
-        "vietnamese": "quy hoạch bao trùm",
-        "context": "Inclusionary zoning requires some units be affordable."
+        "vietnamese": "quy hoạch đòi hỏi tỉ lệ nhà ở giá rẻ",
+        "context": "Inclusionary zoning requires private developers to include affordable units alongside market-rate homes."
       }
     ],
     "reviewExercise": {
@@ -1432,57 +1432,57 @@ const baseSampleEssays: SampleEssay[] = [
     "essayType": "two-part",
     "topic": "Globalisation and cultural identity",
     "prompt": "Globalisation has increased cultural exchange and economic interdependence. 1) How has globalisation changed local cultures? 2) What can governments do to preserve cultural identity while remaining open to the world?",
-    "essayBody": "Globalisation has undeniably reconfigured local cultures. On one hand, media platforms and multinational brands can promote **cultural homogenisation**, flattening differences as the same franchises, fashions, and memes spread globally. Dominant languages serve as a **lingua franca**, enabling trade but also crowding out minority tongues. Consumer choice prioritises **consumer sovereignty**, yet algorithms often narrow exposure, ironically standardising tastes.\n\nOn the other hand, hybridity flourishes. Through **glocalisation**, communities adapt global influences to local sensibilities-street food fuses traditions, musicians sample distant genres, and entrepreneurs remix design motifs. Migrant flows expand **diaspora networks**, circulating ideas and capital that can energise **creative industries** at home. Cultural borrowing becomes a two-way street, amplifying **soft power** and economic opportunity.\n\nGovernments should neither seal borders nor surrender identity. First, protect heritage through inventories, funding, and living traditions programs under robust **heritage preservation** laws. Education can cultivate **cultural capital** by teaching local histories, languages, and arts alongside global literacy. Second, set clear **regulatory standards** for cultural sectors-quotas or incentives that ensure diverse domestic content in film, music, and broadcasting without stifling innovation. Urban policy can provide affordable spaces for studios, galleries, and markets that incubate local makers.\n\nInternationally, cultural accords and mobility schemes should enable exchange while safeguarding intellectual property and fair pay for artists. Finally, adopt **policy coherence**: tourism, trade, and education policies should align with cultural goals so that development funds, visas, and curricula reinforce, rather than erode, identity. Done well, openness need not dissolve distinctiveness; it can showcase it to the world.",
+    "essayBody": "Globalisation has undeniably reconfigured local cultures over the past three decades. On one hand, global media platforms and multinational brands actively promote **cultural homogenisation**, flattening differences as the same film franchises, fashion labels and viral memes spread to virtually every market. Dominant languages, English above all, increasingly serve as a global **lingua franca** that enables trade and scholarship but also gradually crowds out smaller tongues. Consumer choice ostensibly prioritises **consumer sovereignty**, yet recommendation algorithms quietly narrow exposure, ironically standardising tastes across continents.\n\nOn the other hand, genuine cultural hybridity also flourishes in response. Through **glocalisation**, communities creatively adapt global influences to local sensibilities - street vendors fuse culinary traditions, musicians sample distant genres and designers remix heritage motifs for global markets. Expanding **diaspora networks** circulate ideas, remittances and capital that can revitalise **creative industries** back home, while cultural borrowing increasingly becomes a two-way street, amplifying both **soft power** and economic opportunity for smaller nations such as South Korea, whose K-pop industry alone is now valued at billions of dollars annually.\n\nGovernments need neither seal their borders nor surrender cultural identity. First, they should actively protect heritage through detailed inventories, sustained funding and living-tradition programmes underpinned by robust **heritage preservation** laws. Education can systematically cultivate **cultural capital** by teaching local histories, languages and arts alongside global literacy. Second, governments can set clear **regulatory standards** for cultural sectors - sensible quotas or fiscal incentives that ensure diverse domestic content in film, music and broadcasting without stifling creative innovation. Smart urban policy can provide genuinely affordable spaces for studios, galleries and artisan markets that incubate local makers and prevent gentrification from hollowing out creative districts.\n\nInternationally, cultural accords and artist-mobility schemes should enable rich exchange while safeguarding intellectual property and ensuring fair pay for creators. Finally, governments must adopt genuine **policy coherence**: tourism, trade and education policies should all align with cultural goals so that development funds, visa rules and school curricula reinforce - rather than quietly erode - local identity. Done well, openness need not dissolve distinctiveness; instead, it can confidently showcase that distinctiveness to the world.",
     "glossary": [
       {
         "term": "cultural homogenisation",
-        "vietnamese": "đồng nhất văn hóa",
-        "context": "Global brands can drive cultural homogenisation."
+        "vietnamese": "sự đồng nhất hóa văn hóa",
+        "context": "Global media platforms actively promote cultural homogenisation, flattening differences across markets."
       },
       {
         "term": "lingua franca",
-        "vietnamese": "ngôn ngữ chung",
-        "context": "English functions as a lingua franca in trade."
+        "vietnamese": "ngôn ngữ chung quốc tế",
+        "context": "English increasingly serves as a global lingua franca that enables trade and scholarship."
       },
       {
         "term": "consumer sovereignty",
-        "vietnamese": "quyền tối cao của người tiêu dùng",
-        "context": "Platforms claim to reflect consumer sovereignty."
+        "vietnamese": "quyền tối thượng của người tiêu dùng",
+        "context": "Consumer choice ostensibly prioritises consumer sovereignty, yet algorithms quietly narrow exposure."
       },
       {
         "term": "glocalisation",
-        "vietnamese": "bản địa hóa toàn cầu",
-        "context": "Glocalisation blends global ideas with local tastes."
+        "vietnamese": "toàn cầu hóa kết hợp bản địa hóa",
+        "context": "Through glocalisation, communities creatively adapt global influences to local sensibilities."
       },
       {
         "term": "diaspora networks",
         "vietnamese": "mạng lưới kiều bào",
-        "context": "Diaspora networks channel skills and funding."
+        "context": "Expanding diaspora networks circulate ideas, remittances and capital that revitalise creative industries."
       },
       {
         "term": "soft power",
         "vietnamese": "sức mạnh mềm",
-        "context": "Cultural exports build national soft power."
+        "context": "Cultural borrowing increasingly amplifies both soft power and economic opportunity for smaller nations."
       },
       {
         "term": "heritage preservation",
         "vietnamese": "bảo tồn di sản",
-        "context": "Grants support heritage preservation projects."
+        "context": "Governments should actively protect heritage through detailed inventories and robust heritage preservation laws."
       },
       {
         "term": "cultural capital",
         "vietnamese": "vốn văn hóa",
-        "context": "Schools transmit cultural capital to students."
+        "context": "Education can systematically cultivate cultural capital by teaching local histories, languages and arts."
       },
       {
         "term": "regulatory standards",
-        "vietnamese": "tiêu chuẩn quản lý",
-        "context": "Regulatory standards can require local content."
+        "vietnamese": "tiêu chuẩn quản lý nhà nước",
+        "context": "Governments can set clear regulatory standards for cultural sectors through quotas or fiscal incentives."
       },
       {
         "term": "policy coherence",
-        "vietnamese": "tính nhất quán chính sách",
-        "context": "Policy coherence aligns tourism with culture."
+        "vietnamese": "tính nhất quán trong chính sách",
+        "context": "Governments must adopt genuine policy coherence so that tourism, trade and education reinforce cultural goals."
       }
     ],
     "reviewExercise": {
@@ -1512,8 +1512,6 @@ const baseSampleEssays: SampleEssay[] = [
       ]
     }
   },
-  {
-    "id": "t2-6",
     "taskType": 2,
     "essayType": "opinion",
     "topic": "Crime reduction strategies",
