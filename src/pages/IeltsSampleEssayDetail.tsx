@@ -192,39 +192,41 @@ const IeltsSampleEssayDetail = () => {
           <EssayBand8Analysis essay={essay} />
 
           {/* Bilingual Glossary with per-phrase writing practice */}
-          <div className="glass-card rounded-xl p-6">
+          <div className="glass-card rounded-xl p-5">
             <h2 className="text-lg font-semibold text-foreground mb-1">
               📚 {t("Bảng Chú Giải Song Ngữ", "Bilingual Glossary")}
             </h2>
-            <p className="text-xs text-muted-foreground mb-4">
+            <p className="text-xs text-muted-foreground mb-3">
               {t(
-                "Mỗi cụm từ có nút 'Viết câu & chấm điểm' để bạn vận dụng ngay - không chỉ học thuộc.",
-                "Each phrase has a 'Use it → AI grade' button so you can apply it immediately - not just memorise it."
+                "Mỗi cụm từ có sẵn câu ví dụ trong ngữ cảnh - hãy viết lại câu để vận dụng và được chấm điểm ngay.",
+                "Each phrase comes with an example sentence in context - rewrite it below to apply the phrase and get instant feedback."
               )}
             </p>
             <div className="overflow-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
+                    <TableHead className="font-semibold w-10">#</TableHead>
                     <TableHead className="font-semibold">Term</TableHead>
                     <TableHead className="font-semibold">{t("Nghĩa tiếng Việt", "Vietnamese")}</TableHead>
-                    <TableHead className="font-semibold">{t("Ngữ cảnh", "Context")}</TableHead>
+                    <TableHead className="font-semibold">{t("Ngữ cảnh & Luyện viết", "Context & Practice")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {essay.glossary.map((g, i) => (
                     <TableRow key={i}>
-                      <TableCell className="align-top min-w-[220px]">
+                      <TableCell className="align-top font-bold text-muted-foreground text-sm">{i + 1}.</TableCell>
+                      <TableCell className="align-top min-w-[180px]">
                         <div className="font-medium text-primary">{g.term}</div>
+                      </TableCell>
+                      <TableCell className="align-top">{g.vietnamese}</TableCell>
+                      <TableCell className="text-sm align-top min-w-[280px]">
+                        <p className="text-foreground/90 italic">"{g.context}"</p>
                         <GlossaryPhrasePractice
                           phrase={g.term}
                           phraseMeaning={g.vietnamese}
                           taskType={essay.taskType}
                         />
-                      </TableCell>
-                      <TableCell className="align-top">{g.vietnamese}</TableCell>
-                      <TableCell className="text-sm align-top">
-                        <p className="text-muted-foreground">{g.context}</p>
                       </TableCell>
                     </TableRow>
                   ))}
