@@ -2175,92 +2175,146 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     }
   },
-  {
+    {
     "id": "t1-26",
     "taskType": 1,
     "chartType": "bar",
     "topic": "water consumption",
     "prompt": "The bar chart below shows water consumption (billion litres) by three sectors (agriculture, industry, domestic) in four countries (Brazil, Egypt, India, Germany). Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The bar chart compares total annual water consumption across three sectors in four economies with very different profiles.\n\nOverall, **agriculture dominates** in every country, but its share is overwhelmingly highest in arid Egypt. Industrial use is most prominent in Germany, reflecting **economic structure** rather than geography.\n\nIn Brazil and India, agriculture accounts for the largest portion - 70 and 60 billion litres respectively - driven by extensive farmland. Egypt's agricultural figure is even higher in proportional terms at 90 billion litres, almost ten times its industrial demand, owing to **arid conditions** that necessitate irrigation. Germany presents the inverse pattern: industry leads at 35 billion litres, ahead of domestic and agricultural use.\n\nDomestic consumption remains relatively **uniform**, ranging from 10 to 20 billion litres across the four countries. The data reveal that water demand is shaped by both climate and **industrial composition**, not population size alone. Hence, **sustainability strategies** must be country-specific.",
+    "essayBody": "The bar chart compares total annual water **withdrawals** across three sectors in four economies with **markedly divergent** climatic and industrial profiles.\n\nOverall, agriculture retains a **preponderant** share in every jurisdiction, yet its dominance is most **pronounced** in arid Egypt, where **hydrological scarcity** **necessitates** extensive irrigation. Industrial use is most prominent in Germany, a pattern that reflects **economic structure** and **agro-industrial** specialisation rather than geography alone.\n\nIn Brazil and India, agriculture accounts for the largest portion—70 and 60 billion litres respectively—driven by **extensive** farmland and, in India\'s case, **irrigation-intensive** rice-wheat **cropping cycles**. Egypt\'s agricultural figure is even higher in proportional terms at 90 billion litres, almost **an order of magnitude** greater than its industrial demand, owing to near-universal **reliance** on the Nile for crop cultivation in an otherwise **hyper-arid** environment. Germany presents the **inverse** pattern: industry leads at 35 billion litres, ahead of both domestic and agricultural use, consistent with its **manufacturing-heavy** economic base.\n\nDomestic consumption remains relatively **uniform**, ranging from 10 to 20 billion litres across the four countries—a **convergence** that suggests per-capita demand is less **elastic** to climate than sectoral composition. The data reveal that aggregate water demand is shaped by the **intersection** of climate, **industrial composition** and agricultural **endowment**, not population size alone. Consequently, **sustainability strategies** must be **context-specific** rather than **prescriptive**.",
     "glossary": [
       {
-        "term": "agriculture dominates",
-        "vietnamese": "nông nghiệp chiếm ưu thế",
-        "context": "agriculture dominates"
+        "term": "withdrawals",
+        "vietnamese": "lượng rút nước",
+        "context": "The chart compares total annual water **withdrawals** across three sectors."
       },
       {
-        "term": "economic structure",
-        "vietnamese": "cấu trúc kinh tế",
-        "context": "economic structure"
+        "term": "markedly divergent",
+        "vietnamese": "khác biệt rõ rệt",
+        "context": "Four economies with **markedly divergent** climatic and industrial profiles."
       },
       {
-        "term": "arid conditions",
-        "vietnamese": "điều kiện khô hạn",
-        "context": "arid conditions"
+        "term": "preponderant",
+        "vietnamese": "chiếm ưu thế tuyệt đối",
+        "context": "Agriculture retains a **preponderant** share in every jurisdiction."
       },
       {
-        "term": "uniform",
-        "vietnamese": "đồng đều",
-        "context": "relatively uniform"
+        "term": "pronounced",
+        "vietnamese": "rõ rệt",
+        "context": "Its dominance is most **pronounced** in arid Egypt."
       },
       {
-        "term": "industrial composition",
-        "vietnamese": "cấu thành công nghiệp",
-        "context": "industrial composition"
+        "term": "hydrological scarcity",
+        "vietnamese": "khan hiếm nguồn nước",
+        "context": "**Hydrological scarcity** necessitates extensive irrigation in Egypt."
       },
       {
-        "term": "sustainability strategies",
-        "vietnamese": "chiến lược bền vững",
-        "context": "sustainability strategies"
-      },
-      {
-        "term": "inverse pattern",
-        "vietnamese": "mẫu hình ngược",
-        "context": "Germany presents the inverse pattern"
-      },
-      {
-        "term": "necessitate",
+        "term": "necessitates",
         "vietnamese": "đòi hỏi",
-        "context": "necessitate irrigation"
+        "context": "Scarcity **necessitates** extensive irrigation for crop survival."
+      },
+      {
+        "term": "agro-industrial",
+        "vietnamese": "nông công nghiệp",
+        "context": "The pattern reflects **agro-industrial** specialisation."
       },
       {
         "term": "extensive",
         "vietnamese": "rộng lớn",
-        "context": "extensive farmland"
+        "context": "Driven by **extensive** farmland in Brazil and India."
       },
       {
-        "term": "country-specific",
-        "vietnamese": "tùy thuộc quốc gia",
-        "context": "country-specific"
+        "term": "irrigation-intensive",
+        "vietnamese": "phụ thuộc nhiều vào tưới tiêu",
+        "context": "India relies on **irrigation-intensive** rice-wheat cropping cycles."
+      },
+      {
+        "term": "cropping cycles",
+        "vietnamese": "vòng đời cây trồng",
+        "context": "**Cropping cycles** that demand continuous water input."
+      },
+      {
+        "term": "an order of magnitude",
+        "vietnamese": "gấp hàng chục lần",
+        "context": "Egypt\'s agricultural use is **an order of magnitude** greater than industrial demand."
+      },
+      {
+        "term": "reliance",
+        "vietnamese": "sự phụ thuộc",
+        "context": "Near-universal **reliance** on the Nile for cultivation."
+      },
+      {
+        "term": "hyper-arid",
+        "vietnamese": "cực kỳ khô hạn",
+        "context": "Cultivation occurs in an otherwise **hyper-arid** environment."
+      },
+      {
+        "term": "inverse",
+        "vietnamese": "ngược lại",
+        "context": "Germany presents the **inverse** pattern with industry leading."
+      },
+      {
+        "term": "manufacturing-heavy",
+        "vietnamese": "nặng về sản xuất",
+        "context": "Consistent with its **manufacturing-heavy** economic base."
+      },
+      {
+        "term": "convergence",
+        "vietnamese": "sự hội tụ",
+        "context": "A **convergence** suggesting per-capita demand is less elastic to climate."
+      },
+      {
+        "term": "elastic",
+        "vietnamese": "co giãn / nhạy cảm",
+        "context": "Per-capita demand is less **elastic** to climate than sectoral composition."
+      },
+      {
+        "term": "intersection",
+        "vietnamese": "giao điểm / sự giao thoa",
+        "context": "Demand is shaped by the **intersection** of climate and industrial composition."
+      },
+      {
+        "term": "endowment",
+        "vietnamese": "nguồn lực / tài nguyên",
+        "context": "And agricultural **endowment**, not population size alone."
+      },
+      {
+        "term": "context-specific",
+        "vietnamese": "phụ thuộc ngữ cảnh",
+        "context": "**Sustainability strategies** must be **context-specific**."
+      },
+      {
+        "term": "prescriptive",
+        "vietnamese": "mang tính áp đặt / bắt buộc",
+        "context": "Rather than **prescriptive** one-size-fits-all mandates."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "___ dominates water use in every country.",
-          "answer": "Agriculture"
+          "sentence": "Agriculture retains a ___ share in every country.",
+          "answer": "preponderant"
         },
         {
-          "sentence": "Egypt's high use reflects ___ conditions.",
-          "answer": "arid"
+          "sentence": "Egypt's agricultural use is an ___ of magnitude greater than industry.",
+          "answer": "order"
         },
         {
-          "sentence": "Domestic use is relatively ___.",
-          "answer": "uniform"
+          "sentence": "Domestic consumption shows a ___, ranging narrowly across countries.",
+          "answer": "convergence"
         },
         {
-          "sentence": "Strategies must be ___ specific.",
-          "answer": "country"
+          "sentence": "Demand is shaped by the ___ of climate and industrial composition.",
+          "answer": "intersection"
         },
         {
-          "sentence": "Germany shows an ___ pattern.",
-          "answer": "inverse"
+          "sentence": "Sustainability strategies must be ___ rather than prescriptive.",
+          "answer": "context-specific"
         }
       ]
-    },
-    "chartConfig": {
+    },    "chartConfig": {
       "type": "bar",
       "xKey": "country",
       "yKeys": [
@@ -2298,92 +2352,151 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     }
   },
-  {
+    {
     "id": "t1-27",
     "taskType": 1,
     "chartType": "pie",
     "topic": "transport modes",
     "prompt": "The pie charts below show the share of journeys by transport mode (car, bus, metro, bicycle, walking) in City L in 2000 and 2020. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The pie charts compare how residents of City L commuted in 2000 versus 2020.\n\nOverall, private car use **declined notably**, while sustainable modes - particularly metro and bicycle - registered strong gains. Walking remained relatively constant.\n\nIn 2000, cars **dominated** the modal split at 55%, followed by buses at 20% and walking at 12%. The metro and bicycle accounted for only 8% and 5% respectively. By 2020, the picture had shifted markedly: car share **slipped** to 38%, partly due to congestion charges and improved alternatives.\n\nMetro use **doubled** to 16%, reflecting network expansion, and cycling **tripled** to 15% as dedicated lanes proliferated. Bus use was stable at 19%, while walking edged up slightly to 12%. The data demonstrate a **modal shift** away from private cars toward **active and public transport**, suggesting that urban policy interventions can reshape travel behaviour. Future planning should reinforce these **green transitions**.",
+    "essayBody": "The pie charts compare the **modal composition** of journeys undertaken by residents of City L in two reference years, 2000 and 2020.\n\nOverall, private-car **hegemony** experienced a **precipitous decline**, while sustainable alternatives—particularly metro and bicycle—registered **robust gains**. Walking remained relatively **static**, suggesting that it is a **habitual** choice largely **impervious** to infrastructure investment.\n\nIn 2000, cars **dominated** the modal split at 55%, followed by buses at 20% and walking at 12%. The metro and bicycle accounted for only 8% and 5% respectively—**marginal** shares that underscored the city\'s car-centric planning paradigm. By 2020, the picture had shifted markedly: car share **slipped** to 38%, partly **attributable to** congestion-charging zones, parking **levies** and the **proliferation** of viable alternatives.\n\nMetro use **doubled** to 16%, reflecting **substantial** network expansion and line extensions completed during the 2010s. Cycling **tripled** to 15% as protected-cycle **superhighways** and bike-share schemes **diffused** throughout the urban core. Bus use was stable at 19%, while walking edged up only marginally to 12%. The data demonstrate a clear **modal shift** away from private vehicles toward **active and public transport**, suggesting that **multimodal** urban-policy interventions can **reshape** travel behaviour when **underpinned** by adequate infrastructure. Future planning should **reinforce** these **green transitions** through continued **decarbonisation** of the transport matrix.",
     "glossary": [
       {
-        "term": "declined notably",
-        "vietnamese": "giảm rõ rệt",
-        "context": "car use declined notably"
+        "term": "modal composition",
+        "vietnamese": "cấu thành phương thức đi lại",
+        "context": "The charts compare the **modal composition** of journeys in City L."
+      },
+      {
+        "term": "hegemony",
+        "vietnamese": "sự thống trị / bá quyền",
+        "context": "Private-car **hegemony** experienced a precipitous decline."
+      },
+      {
+        "term": "precipitous decline",
+        "vietnamese": "sự sụt giảm đột ngột",
+        "context": "Car hegemony experienced a **precipitous decline** between 2000 and 2020."
+      },
+      {
+        "term": "robust gains",
+        "vietnamese": "tăng trưởng mạnh mẽ",
+        "context": "Sustainable alternatives registered **robust gains**."
+      },
+      {
+        "term": "static",
+        "vietnamese": "đứng yên",
+        "context": "Walking remained relatively **static** across the period."
+      },
+      {
+        "term": "habitual",
+        "vietnamese": "theo thói quen",
+        "context": "Walking is a **habitual** choice largely impervious to infrastructure."
+      },
+      {
+        "term": "impervious",
+        "vietnamese": "không bị ảnh hưởng",
+        "context": "A habitual choice largely **impervious** to infrastructure investment."
       },
       {
         "term": "dominated",
         "vietnamese": "chiếm ưu thế",
-        "context": "cars dominated the modal split"
+        "context": "Cars **dominated** the modal split at 55% in 2000."
+      },
+      {
+        "term": "marginal",
+        "vietnamese": "nhỏ / biên",
+        "context": "Metro and bicycle held **marginal** shares of only 8% and 5%."
       },
       {
         "term": "slipped",
         "vietnamese": "sụt giảm",
-        "context": "car share slipped to 38%"
+        "context": "Car share **slipped** to 38% by 2020."
       },
       {
-        "term": "doubled",
-        "vietnamese": "tăng gấp đôi",
-        "context": "metro use doubled"
+        "term": "attributable to",
+        "vietnamese": "do bởi",
+        "context": "Partly **attributable to** congestion-charging zones and parking levies."
       },
       {
-        "term": "tripled",
-        "vietnamese": "tăng gấp ba",
-        "context": "cycling tripled"
+        "term": "levies",
+        "vietnamese": "thuế / phí",
+        "context": "Parking **levies** and congestion charges discouraged car use."
+      },
+      {
+        "term": "proliferation",
+        "vietnamese": "sự lan rộng",
+        "context": "The **proliferation** of viable alternatives reduced car dependency."
+      },
+      {
+        "term": "substantial",
+        "vietnamese": "đáng kể",
+        "context": "Metro growth reflects **substantial** network expansion."
+      },
+      {
+        "term": "superhighways",
+        "vietnamese": "đường cao tốc (xe đạp)",
+        "context": "Protected-cycle **superhighways** diffused through the urban core."
+      },
+      {
+        "term": "diffused",
+        "vietnamese": "lan tỏa",
+        "context": "Bike-share schemes **diffused** throughout the urban core."
       },
       {
         "term": "modal shift",
         "vietnamese": "chuyển đổi phương thức",
-        "context": "clear modal shift"
+        "context": "The data demonstrate a clear **modal shift** away from private vehicles."
       },
       {
-        "term": "active and public transport",
-        "vietnamese": "giao thông chủ động và công cộng",
-        "context": "active and public transport"
+        "term": "multimodal",
+        "vietnamese": "đa phương thức",
+        "context": "**Multimodal** urban-policy interventions can reshape travel behaviour."
       },
       {
-        "term": "green transitions",
-        "vietnamese": "chuyển đổi xanh",
-        "context": "green transitions"
+        "term": "reshape",
+        "vietnamese": "định hình lại",
+        "context": "Policy interventions can **reshape** travel behaviour."
       },
       {
-        "term": "congestion charges",
-        "vietnamese": "phí tắc nghẽn",
-        "context": "congestion charges"
+        "term": "underpinned",
+        "vietnamese": "được củng cố / nâng đỡ",
+        "context": "When **underpinned** by adequate infrastructure."
       },
       {
-        "term": "dedicated lanes",
-        "vietnamese": "làn dành riêng",
-        "context": "dedicated lanes proliferated"
+        "term": "reinforce",
+        "vietnamese": "củng cố",
+        "context": "Future planning should **reinforce** these green transitions."
+      },
+      {
+        "term": "decarbonisation",
+        "vietnamese": "khử cacbon",
+        "context": "Continued **decarbonisation** of the transport matrix."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "Cars ___ the modal split in 2000.",
-          "answer": "dominated"
+          "sentence": "Private-car ___ experienced a precipitous decline.",
+          "answer": "hegemony"
         },
         {
-          "sentence": "Metro use ___ to 16%.",
-          "answer": "doubled"
+          "sentence": "Walking is a ___ choice impervious to infrastructure.",
+          "answer": "habitual"
         },
         {
-          "sentence": "Cycling ___ to 15%.",
-          "answer": "tripled"
+          "sentence": "The decline is partly ___ to congestion-charging zones.",
+          "answer": "attributable"
         },
         {
-          "sentence": "There was a clear ___ shift.",
-          "answer": "modal"
+          "sentence": "Bike-share schemes ___ throughout the urban core.",
+          "answer": "diffused"
         },
         {
-          "sentence": "Cycling grew thanks to dedicated ___.",
-          "answer": "lanes"
+          "sentence": "Future planning should ___ these green transitions.",
+          "answer": "reinforce"
         }
       ]
-    },
-    "chartConfig": {
+    },    "chartConfig": {
       "type": "pie",
       "pieNameKey": "mode",
       "pieValueKey": "value",
@@ -2437,92 +2550,136 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     }
   },
-  {
+    {
     "id": "t1-28",
     "taskType": 1,
     "chartType": "table",
     "topic": "university enrolment",
     "prompt": "The table below shows the number of university students (thousands) in five fields (Engineering, Medicine, Arts, Business, Law) in 2010 and 2020. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The table compares enrolment figures across five university disciplines at the start and end of a ten-year period.\n\nOverall, total student numbers **expanded** in every field, but the most **conspicuous** growth occurred in Business and Engineering, while Arts saw only a modest gain. The **rank order** of fields changed as a result.\n\nIn 2010, Business led with 180 thousand students, narrowly ahead of Engineering at 170 and Arts at 150. Medicine and Law trailed at 90 and 100 thousand respectively. Ten years later, Business had **surged** to 240 thousand, retaining its leading position, while Engineering posted the largest absolute gain, climbing to 230 thousand.\n\nMedicine experienced the highest **proportional** growth at over 50%, reaching 140 thousand, reflecting demand for healthcare professionals. Arts grew only marginally to 160 thousand, **suggesting waning** interest in humanities. Law expanded to 125 thousand. The shifts mirror broader **labour-market signals** favouring STEM and applied disciplines over traditional liberal-arts fields.",
+    "essayBody": "The table compares **enrolment figures** across five university disciplines at the beginning and end of a ten-year interval.\n\nOverall, total student numbers **expanded** in every field, yet the most **conspicuous** growth occurred in Business and Engineering, while Arts saw only a **modest** gain. The **rank order** of fields shifted as a result, signalling a broader **vocational reorientation** in higher-education preferences.\n\nIn 2010, Business led with 180 thousand students, narrowly ahead of Engineering at 170 and Arts at 150. Medicine and Law **trailed** at 90 and 100 thousand respectively. Ten years later, Business had **surged** to 240 thousand, retaining its leading position, while Engineering **posted** the largest absolute gain, climbing to 230 thousand—a trajectory consistent with the global **ascendancy** of STEM credentials.\n\nMedicine experienced the highest **proportional** growth at over 50%, reaching 140 thousand, reflecting **sustained** demand for healthcare professionals in ageing societies. Arts grew only marginally to 160 thousand, **suggesting waning** interest in **humanistic disciplines** as **labour-market signals** increasingly favour technical and applied fields. Law expanded to 125 thousand, a respectable yet **unremarkable** increase. The shifts collectively mirror the **instrumentalisation** of degree choices, wherein students increasingly **prioritise** **employment-oriented** credentials over traditional liberal-arts **formation**.",
     "glossary": [
+      {
+        "term": "enrolment figures",
+        "vietnamese": "số liệu tuyển sinh",
+        "context": "The table compares **enrolment figures** across five disciplines."
+      },
       {
         "term": "expanded",
         "vietnamese": "mở rộng",
-        "context": "total numbers expanded"
+        "context": "Total student numbers **expanded** in every field."
       },
       {
         "term": "conspicuous",
         "vietnamese": "nổi bật",
-        "context": "most conspicuous growth"
+        "context": "The most **conspicuous** growth occurred in Business and Engineering."
+      },
+      {
+        "term": "modest",
+        "vietnamese": "khiêm tốn / vừa phải",
+        "context": "Arts saw only a **modest** gain compared with STEM fields."
       },
       {
         "term": "rank order",
         "vietnamese": "thứ tự xếp hạng",
-        "context": "rank order changed"
+        "context": "The **rank order** of fields shifted over the decade."
+      },
+      {
+        "term": "vocational reorientation",
+        "vietnamese": "sự định hướng lại theo nghề nghiệp",
+        "context": "Signalling a broader **vocational reorientation** in higher education."
+      },
+      {
+        "term": "trailed",
+        "vietnamese": "tụt lại",
+        "context": "Medicine and Law **trailed** at 90 and 100 thousand respectively."
       },
       {
         "term": "surged",
         "vietnamese": "tăng vọt",
-        "context": "Business had surged"
-      },
-      {
-        "term": "proportional",
-        "vietnamese": "theo tỷ lệ",
-        "context": "highest proportional growth"
-      },
-      {
-        "term": "suggesting waning",
-        "vietnamese": "cho thấy giảm dần",
-        "context": "suggesting waning interest"
-      },
-      {
-        "term": "labour-market signals",
-        "vietnamese": "tín hiệu thị trường lao động",
-        "context": "labour-market signals"
-      },
-      {
-        "term": "STEM",
-        "vietnamese": "khoa học, công nghệ, kỹ thuật, toán",
-        "context": "STEM disciplines"
-      },
-      {
-        "term": "liberal-arts",
-        "vietnamese": "khoa học xã hội nhân văn",
-        "context": "traditional liberal-arts fields"
+        "context": "Business had **surged** to 240 thousand by 2020."
       },
       {
         "term": "posted",
         "vietnamese": "ghi nhận",
-        "context": "Engineering posted the largest gain"
+        "context": "Engineering **posted** the largest absolute gain."
+      },
+      {
+        "term": "ascendancy",
+        "vietnamese": "sự thống trị / lên ngôi",
+        "context": "Consistent with the global **ascendancy** of STEM credentials."
+      },
+      {
+        "term": "proportional",
+        "vietnamese": "theo tỷ lệ",
+        "context": "Medicine experienced the highest **proportional** growth at over 50%."
+      },
+      {
+        "term": "sustained",
+        "vietnamese": "liên tục / bền vững",
+        "context": "Reflecting **sustained** demand for healthcare professionals."
+      },
+      {
+        "term": "suggesting waning",
+        "vietnamese": "cho thấy giảm dần",
+        "context": "Arts growth stagnated, **suggesting waning** interest in humanistic disciplines."
+      },
+      {
+        "term": "humanistic disciplines",
+        "vietnamese": "các ngành khoa học nhân văn",
+        "context": "Waning interest in **humanistic disciplines** relative to STEM."
+      },
+      {
+        "term": "labour-market signals",
+        "vietnamese": "tín hiệu thị trường lao động",
+        "context": "**Labour-market signals** increasingly favour technical fields."
+      },
+      {
+        "term": "instrumentalisation",
+        "vietnamese": "sự công cụ hóa",
+        "context": "The shifts mirror the **instrumentalisation** of degree choices."
+      },
+      {
+        "term": "prioritise",
+        "vietnamese": "ưu tiên",
+        "context": "Students increasingly **prioritise** employment-oriented credentials."
+      },
+      {
+        "term": "employment-oriented",
+        "vietnamese": "hướng tới việc làm",
+        "context": "**Employment-oriented** credentials over traditional liberal-arts formation."
+      },
+      {
+        "term": "formation",
+        "vietnamese": "sự hình thành / đào tạo",
+        "context": "Technical credentials over traditional liberal-arts **formation**."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "Total numbers ___ in every field.",
-          "answer": "expanded"
-        },
-        {
-          "sentence": "The most ___ growth was in Business.",
+          "sentence": "The most ___ growth occurred in Business and Engineering.",
           "answer": "conspicuous"
         },
         {
-          "sentence": "Medicine had highest ___ growth.",
-          "answer": "proportional"
+          "sentence": "The ___ order of fields shifted over the decade.",
+          "answer": "rank"
         },
         {
-          "sentence": "Arts shows ___ interest.",
-          "answer": "waning"
+          "sentence": "Medicine and Law ___ behind Business and Engineering.",
+          "answer": "trailed"
         },
         {
-          "sentence": "Trends reflect ___-market signals.",
-          "answer": "labour"
+          "sentence": "Engineering ___ the largest absolute gain.",
+          "answer": "posted"
+        },
+        {
+          "sentence": "Students increasingly ___ employment-oriented credentials.",
+          "answer": "prioritise"
         }
       ]
-    },
-    "chartConfig": {
+    },    "chartConfig": {
       "data": [],
       "type": "table",
       "columns": [
@@ -2559,92 +2716,166 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     }
   },
-  {
+    {
     "id": "t1-29",
     "taskType": 1,
     "chartType": "line",
     "topic": "museum visitors",
     "prompt": "The line graph below shows the number of visitors (thousands) to three museums (Modern Art, History, Science) in City T from 2012 to 2022. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The line graph plots annual visitor numbers at three of City T's museums over an eleven-year span.\n\nOverall, visitor figures **fluctuated** considerably, with all three institutions experiencing a sharp **trough** in 2020 before recovering. The Science Museum emerged as the most popular destination by the end of the period.\n\nIn 2012, the History Museum led with 420 thousand visitors, followed by Modern Art at 380 and Science at 300. All three rose **gradually** through the mid-2010s, with the Science Museum showing the steepest **upward gradient**, reaching 480 thousand by 2019. The pandemic year of 2020 produced a synchronised collapse across all venues, with attendance roughly halved.\n\nRecovery was **uneven**: the Science Museum bounced back fastest, **eclipsing** its pre-pandemic peak at 520 thousand by 2022. The History Museum recovered only partially to 400 thousand, while Modern Art has yet to regain its earlier level, ending at 360. The pattern indicates that science-themed venues enjoy the most **resilient appeal**.",
+    "essayBody": "The line graph plots annual **visitation** numbers at three of City T\'s principal museums over an eleven-year span.\n\nOverall, **attendance** **fluctuated** considerably, with all three institutions experiencing a sharp **trough** in 2020 before recovering at **markedly divergent** speeds. The Science Museum ultimately **emerged** as the most popular destination by the close of the period, a development plausibly linked to the **diffusion** of **immersive** and **interactive exhibitions** that **resonate** with contemporary **edutainment** expectations.\n\nIn 2012, the History Museum led with 420 thousand visitors, followed by Modern Art at 380 and Science at 300. All three rose **gradually** through the mid-2010s, with the Science Museum exhibiting the steepest **upward gradient**, reaching 480 thousand by 2019 as it **pivoted** toward **hands-on** STEM displays. The pandemic year of 2020 produced a **synchronous contraction** across all venues, with attendance roughly halved as public-health **mandates** restricted indoor gathering.\n\nRecovery was **uneven** and **differentiated**: the Science Museum bounced back fastest, **eclipsing** its pre-pandemic peak at 520 thousand by 2022—a **post-pandemic resurgence** driven by renewed interest in **science communication**. The History Museum recovered only partially to 400 thousand, while Modern Art has yet to regain its earlier level, ending at 360, possibly reflecting **saturation** in conventional gallery formats. The pattern indicates that science-themed venues enjoy the most **resilient appeal** during periods of societal **disruption**.",
     "glossary": [
+      {
+        "term": "visitation",
+        "vietnamese": "lượng khách thăm",
+        "context": "The graph plots annual **visitation** numbers at three principal museums."
+      },
+      {
+        "term": "attendance",
+        "vietnamese": "số lượng khách",
+        "context": "**Attendance** fluctuated considerably across the eleven-year span."
+      },
       {
         "term": "fluctuated",
         "vietnamese": "dao động",
-        "context": "figures fluctuated"
+        "context": "Attendance **fluctuated** before collapsing in 2020."
       },
       {
         "term": "trough",
-        "vietnamese": "đáy",
-        "context": "sharp trough in 2020"
+        "vietnamese": "đáy / mức thấp nhất",
+        "context": "All three institutions experienced a sharp **trough** in 2020."
+      },
+      {
+        "term": "markedly divergent",
+        "vietnamese": "khác biệt rõ rệt",
+        "context": "Recovery occurred at **markedly divergent** speeds."
+      },
+      {
+        "term": "emerged",
+        "vietnamese": "nổi lên",
+        "context": "The Science Museum ultimately **emerged** as the most popular destination."
+      },
+      {
+        "term": "diffusion",
+        "vietnamese": "sự lan tỏa",
+        "context": "Plausibly linked to the **diffusion** of immersive exhibitions."
+      },
+      {
+        "term": "immersive",
+        "vietnamese": "đắm chìm",
+        "context": "The **diffusion** of **immersive** and interactive exhibitions."
+      },
+      {
+        "term": "interactive",
+        "vietnamese": "tương tác",
+        "context": "**Interactive exhibitions** that resonate with edutainment expectations."
+      },
+      {
+        "term": "resonate",
+        "vietnamese": "gây tiếng vang / phù hợp",
+        "context": "Exhibitions that **resonate** with contemporary expectations."
+      },
+      {
+        "term": "edutainment",
+        "vietnamese": "giáo dục giải trí",
+        "context": "Contemporary **edutainment** expectations of museum-goers."
       },
       {
         "term": "gradually",
         "vietnamese": "dần dần",
-        "context": "rose gradually"
+        "context": "All three rose **gradually** through the mid-2010s."
       },
       {
         "term": "upward gradient",
         "vietnamese": "độ dốc đi lên",
-        "context": "steepest upward gradient"
+        "context": "The Science Museum exhibited the steepest **upward gradient**."
       },
       {
-        "term": "synchronised",
-        "vietnamese": "đồng bộ",
-        "context": "synchronised collapse"
+        "term": "pivoted",
+        "vietnamese": "chuyển hướng",
+        "context": "The museum **pivoted** toward hands-on STEM displays."
+      },
+      {
+        "term": "hands-on",
+        "vietnamese": "thực hành / trải nghiệm trực tiếp",
+        "context": "It **pivoted** toward **hands-on** STEM displays."
+      },
+      {
+        "term": "synchronous contraction",
+        "vietnamese": "sự co lại đồng bộ",
+        "context": "The pandemic produced a **synchronous contraction** across all venues."
+      },
+      {
+        "term": "mandates",
+        "vietnamese": "lệnh / quy định bắt buộc",
+        "context": "Public-health **mandates** restricted indoor gathering."
       },
       {
         "term": "uneven",
         "vietnamese": "không đồng đều",
-        "context": "recovery was uneven"
+        "context": "Recovery was **uneven** and differentiated."
+      },
+      {
+        "term": "differentiated",
+        "vietnamese": "khác biệt",
+        "context": "Recovery was uneven and **differentiated**."
       },
       {
         "term": "eclipsing",
         "vietnamese": "vượt qua",
-        "context": "eclipsing its pre-pandemic peak"
+        "context": "The Science Museum bounced back, **eclipsing** its pre-pandemic peak."
+      },
+      {
+        "term": "post-pandemic resurgence",
+        "vietnamese": "sự hồi sinh sau đại dịch",
+        "context": "A **post-pandemic resurgence** driven by renewed interest in science."
+      },
+      {
+        "term": "science communication",
+        "vietnamese": "truyền thông khoa học",
+        "context": "Driven by renewed interest in **science communication**."
+      },
+      {
+        "term": "saturation",
+        "vietnamese": "bão hòa",
+        "context": "Possibly reflecting **saturation** in conventional gallery formats."
       },
       {
         "term": "resilient appeal",
         "vietnamese": "sức hút bền vững",
-        "context": "resilient appeal"
+        "context": "Science-themed venues enjoy the most **resilient appeal**."
       },
       {
-        "term": "attendance",
-        "vietnamese": "lượng khách",
-        "context": "attendance roughly halved"
-      },
-      {
-        "term": "synchronised collapse",
-        "vietnamese": "sự sụp đổ đồng bộ",
-        "context": "produced a synchronised collapse"
+        "term": "disruption",
+        "vietnamese": "gián đoạn",
+        "context": "During periods of societal **disruption**."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "Visitor figures ___ over the period.",
-          "answer": "fluctuated"
-        },
-        {
-          "sentence": "There was a sharp ___ in 2020.",
+          "sentence": "All three museums experienced a sharp ___ in 2020.",
           "answer": "trough"
         },
         {
-          "sentence": "Recovery was ___.",
+          "sentence": "Recovery was ___ and differentiated across venues.",
           "answer": "uneven"
         },
         {
-          "sentence": "Science museum showed steep ___ gradient.",
-          "answer": "upward"
+          "sentence": "The Science Museum ___ toward hands-on STEM displays.",
+          "answer": "pivoted"
         },
         {
-          "sentence": "Science museums have ___ appeal.",
+          "sentence": "The museum bounced back, ___ its pre-pandemic peak.",
+          "answer": "eclipsing"
+        },
+        {
+          "sentence": "Science venues enjoy the most ___ appeal during disruption.",
           "answer": "resilient"
         }
       ]
-    },
-    "chartConfig": {
+    },    "chartConfig": {
       "type": "line",
       "xKey": "year",
       "yKeys": [
@@ -2700,92 +2931,176 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     }
   },
-  {
+    {
     "id": "t1-30",
     "taskType": 1,
     "chartType": "bar",
     "topic": "recycling rates",
     "prompt": "The bar chart below shows the household recycling rates (%) in five European countries (Germany, Sweden, France, Italy, Poland) in 2010 and 2020. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The bar chart compares the proportion of household waste recycled in five European countries at two points in time, 2010 and 2020.\n\nOverall, every nation **improved** its recycling performance, though the gap between the leaders and laggards remained pronounced. Germany held the top position in both years, while Poland trailed despite the largest **percentage-point** gain.\n\nIn 2010, Germany recycled 60% of household waste, narrowly ahead of Sweden at 50%. France stood at 35%, Italy at 28%, and Poland recycled only 20%. By 2020, Germany had **inched** up to 67%, retaining its lead, while Sweden **closed the gap** by climbing to 65%.\n\nFrance reached 50%, demonstrating the impact of nationwide **bin-sorting schemes**. Italy crossed the 40% threshold, ending at 42%. Poland posted the largest absolute increase of 25 points to 45%, suggesting **rapid policy uptake**, though it still **trailed** the others. The data underscore the influence of **policy maturity** and citizen awareness on environmental outcomes.",
+    "essayBody": "The bar chart compares the proportion of household waste **diverted** for recycling in five European countries at two benchmark years, 2010 and 2020.\n\nOverall, every nation **improved** its waste-diversion performance, though the **disparity** between **frontrunners** and **laggards** remained pronounced. Germany **retained** the top position in both years, while Poland **trailed** despite **notching** the largest **percentage-point** gain.\n\nIn 2010, Germany recycled 60% of household waste, narrowly ahead of Sweden at 50%. France stood at 35%, Italy at 28%, and Poland recycled only 20%—a **differential** that reflected **heterogeneous** levels of **regulatory stringency**, **infrastructural endowment** and citizen awareness. By 2020, Germany had **inched** up to 67%, retaining its lead, while Sweden **closed the gap** by climbing to 65%, buoyed by **extended producer-responsibility** frameworks and **deposit-return** schemes for beverage containers.\n\nFrance reached 50%, demonstrating the cumulative impact of nationwide **bin-sorting schemes** and **kerbside** collection expansion. Italy crossed the 40% **threshold**, ending at 42%, as **municipal** composting and plastic-separation programmes **scaled up**. Poland posted the largest absolute increase of 25 points to 45%, suggesting **rapid policy uptake** and **compliance-culture** development, though it still **trailed** the others. The data underscore that recycling outcomes depend on the **interplay** of **policy maturity**, **infrastructural investment** and **behavioural norms**, not wealth alone.",
     "glossary": [
+      {
+        "term": "diverted",
+        "vietnamese": "chuyển hướng",
+        "context": "The proportion of household waste **diverted** for recycling."
+      },
       {
         "term": "improved",
         "vietnamese": "cải thiện",
-        "context": "every nation improved"
+        "context": "Every nation **improved** its waste-diversion performance."
       },
       {
-        "term": "percentage-point",
-        "vietnamese": "điểm phần trăm",
-        "context": "largest percentage-point gain"
+        "term": "disparity",
+        "vietnamese": "sự chênh lệch",
+        "context": "The **disparity** between frontrunners and laggards remained pronounced."
       },
       {
-        "term": "inched",
-        "vietnamese": "nhích",
-        "context": "Germany inched up"
-      },
-      {
-        "term": "closed the gap",
-        "vietnamese": "thu hẹp khoảng cách",
-        "context": "Sweden closed the gap"
-      },
-      {
-        "term": "bin-sorting schemes",
-        "vietnamese": "chương trình phân loại rác",
-        "context": "bin-sorting schemes"
-      },
-      {
-        "term": "rapid policy uptake",
-        "vietnamese": "tiếp nhận chính sách nhanh",
-        "context": "rapid policy uptake"
-      },
-      {
-        "term": "trailed",
-        "vietnamese": "tụt lại",
-        "context": "still trailed the others"
-      },
-      {
-        "term": "policy maturity",
-        "vietnamese": "sự chín muồi chính sách",
-        "context": "policy maturity"
+        "term": "frontrunners",
+        "vietnamese": "đầu tàu / dẫn đầu",
+        "context": "The gap between **frontrunners** and laggards remained wide."
       },
       {
         "term": "laggards",
         "vietnamese": "kẻ tụt hậu",
-        "context": "leaders and laggards"
+        "context": "Poland still **trailed** despite rapid improvement."
+      },
+      {
+        "term": "retained",
+        "vietnamese": "giữ lại",
+        "context": "Germany **retained** the top position in both years."
+      },
+      {
+        "term": "trailed",
+        "vietnamese": "tụt lại",
+        "context": "Poland **trailed** despite notching the largest gain."
+      },
+      {
+        "term": "notching",
+        "vietnamese": "ghi nhận / đạt được",
+        "context": "Despite **notching** the largest percentage-point gain."
+      },
+      {
+        "term": "percentage-point",
+        "vietnamese": "điểm phần trăm",
+        "context": "The largest **percentage-point** gain in the dataset."
+      },
+      {
+        "term": "differential",
+        "vietnamese": "chênh lệch",
+        "context": "A **differential** that reflected heterogeneous regulatory levels."
+      },
+      {
+        "term": "heterogeneous",
+        "vietnamese": "khác biệt / không đồng nhất",
+        "context": "Reflected **heterogeneous** levels of regulatory stringency."
+      },
+      {
+        "term": "regulatory stringency",
+        "vietnamese": "sự nghiêm ngặt của quy định",
+        "context": "**Regulatory stringency** varied across the five countries."
+      },
+      {
+        "term": "infrastructural endowment",
+        "vietnamese": "cơ sở hạ tầng",
+        "context": "And **infrastructural endowment** plus citizen awareness."
+      },
+      {
+        "term": "inched",
+        "vietnamese": "nhích",
+        "context": "Germany had **inched** up to 67%, retaining its lead."
+      },
+      {
+        "term": "closed the gap",
+        "vietnamese": "thu hẹp khoảng cách",
+        "context": "Sweden **closed the gap** by climbing to 65%."
+      },
+      {
+        "term": "extended producer-responsibility",
+        "vietnamese": "trách nhiệm mở rộng của nhà sản xuất",
+        "context": "Buoyed by **extended producer-responsibility** frameworks."
+      },
+      {
+        "term": "deposit-return",
+        "vietnamese": "hoàn trả tiền đặt cọc",
+        "context": "And **deposit-return** schemes for beverage containers."
+      },
+      {
+        "term": "bin-sorting schemes",
+        "vietnamese": "chương trình phân loại rác",
+        "context": "The impact of nationwide **bin-sorting schemes**."
+      },
+      {
+        "term": "kerbside",
+        "vietnamese": "bên lề đường",
+        "context": "**Kerbside** collection expansion across municipalities."
       },
       {
         "term": "threshold",
         "vietnamese": "ngưỡng",
-        "context": "crossed the 40% threshold"
+        "context": "Italy crossed the 40% **threshold**, ending at 42%."
+      },
+      {
+        "term": "municipal",
+        "vietnamese": "thuộc đô thị / địa phương",
+        "context": "**Municipal** composting and plastic-separation programmes scaled up."
+      },
+      {
+        "term": "scaled up",
+        "vietnamese": "mở rộng quy mô",
+        "context": "Programmes **scaled up** across Italian cities."
+      },
+      {
+        "term": "rapid policy uptake",
+        "vietnamese": "tiếp nhận chính sách nhanh chóng",
+        "context": "Suggesting **rapid policy uptake** and compliance-culture development."
+      },
+      {
+        "term": "compliance-culture",
+        "vietnamese": "văn hóa tuân thủ",
+        "context": "And **compliance-culture** development in Poland."
+      },
+      {
+        "term": "interplay",
+        "vietnamese": "sự tương tác",
+        "context": "Outcomes depend on the **interplay** of policy maturity and investment."
+      },
+      {
+        "term": "policy maturity",
+        "vietnamese": "sự chín muồi của chính sách",
+        "context": "The **interplay** of **policy maturity**, infrastructural investment and behavioural norms."
+      },
+      {
+        "term": "behavioural norms",
+        "vietnamese": "chuẩn mực hành vi",
+        "context": "And **behavioural norms**, not wealth alone."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "Every nation ___ recycling performance.",
-          "answer": "improved"
+          "sentence": "The ___ between frontrunners and laggards remained pronounced.",
+          "answer": "disparity"
         },
         {
-          "sentence": "Germany ___ up to 67%.",
-          "answer": "inched"
+          "sentence": "Poland ___ the largest percentage-point gain.",
+          "answer": "notched"
         },
         {
-          "sentence": "Sweden ___ the gap.",
+          "sentence": "Sweden ___ the gap by climbing to 65%.",
           "answer": "closed"
         },
         {
-          "sentence": "Poland still ___ the others.",
-          "answer": "trailed"
+          "sentence": "Italy crossed the 40% ___ at 42%.",
+          "answer": "threshold"
         },
         {
-          "sentence": "Outcomes depend on ___ maturity.",
-          "answer": "policy"
+          "sentence": "Outcomes depend on the ___ of policy maturity and investment.",
+          "answer": "interplay"
         }
       ]
-    },
-    "chartConfig": {
+    },    "chartConfig": {
       "type": "bar",
       "xKey": "country",
       "yKeys": [
