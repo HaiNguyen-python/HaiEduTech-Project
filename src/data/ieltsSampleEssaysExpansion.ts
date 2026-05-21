@@ -696,82 +696,87 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "chartType": "pie",
     "topic": "energy mix",
     "prompt": "The pie charts below show the breakdown of energy generation in Country M (coal, gas, nuclear, renewables) in 1990 and 2020. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The pie charts compare the contribution of four sources to electricity generation in Country M at two points thirty years apart.\n\nOverall, the energy mix shifted **decisively** away from coal toward gas and renewables, while the nuclear share remained relatively **constant**. The transition mirrors broader **decarbonisation** efforts.\n\nIn 1990, coal **dwarfed** every other source at 55% of total generation, supported by abundant domestic reserves. Gas and nuclear contributed 20% and 15% respectively, while renewables represented a marginal 10%. By 2020, the picture had **inverted**: coal had **plummeted** to 18%, partly due to environmental regulations, and renewables had **surged** to 38% on the back of solar and wind expansion.\n\nGas grew steadily to 30%, becoming a transitional fuel, while nuclear edged up only slightly to 14%. The data thus demonstrate that Country M has undertaken a meaningful **clean-energy pivot**, although fossil fuels still account for nearly half of total output combined.",
+    "essayBody": "The pie charts compare the proportional contribution of four sources to electricity generation in Country M at two junctures three decades apart.\n\nOverall, the energy mix underwent a **structural metamorphosis**, pivoting **decisively** away from coal toward gas and renewables, while nuclear output remained relatively **static**. This transformation aligns with the **decarbonisation** imperatives codified in the 2015 Paris Agreement.\n\nIn 1990, coal **dwarfed** every alternative, commanding 55% of total generation—an dominance underpinned by abundant domestic anthracite reserves and legacy subsidies. Gas and nuclear contributed 20% and 15% respectively, while renewables occupied a **peripheral** 10%. By 2020, the composition had **inverted** almost entirely: coal had **plummeted** to 18%, a contraction driven by emissions-trading schemes and the retirement of ageing pulverised-fuel plants. Renewables, conversely, had **surged** to 38%, buoyed by utility-scale solar parks and offshore-wind auctions.\n\nGas increased steadily to 30%, functioning as a **bridging fuel** during the transition, whereas nuclear edged up marginally to 14% despite public ambivalence. Taken together, the data demonstrate that Country M has executed a credible **clean-energy pivot**, yet fossil hydrocarbons still account for nearly half of aggregate output, underscoring the **residual inertia** embedded in legacy infrastructure.",
     "glossary": [
+      {
+        "term": "structural metamorphosis",
+        "vietnamese": "biến đổi cấu trúc",
+        "context": "The energy mix underwent a **structural metamorphosis** over three decades."
+      },
       {
         "term": "decisively",
         "vietnamese": "dứt khoát",
-        "context": "shifted decisively"
+        "context": "Coal lost its dominance as the mix pivoted **decisively** toward renewables."
       },
       {
-        "term": "constant",
-        "vietnamese": "ổn định",
-        "context": "relatively constant"
+        "term": "static",
+        "vietnamese": "đứng yên",
+        "context": "Nuclear output remained relatively **static** throughout the period."
       },
       {
         "term": "decarbonisation",
         "vietnamese": "khử cacbon",
-        "context": "broader decarbonisation efforts"
+        "context": "The transformation aligns with **decarbonisation** imperatives codified in the Paris Agreement."
       },
       {
         "term": "dwarfed",
         "vietnamese": "làm lu mờ",
-        "context": "coal dwarfed every other source"
+        "context": "In 1990, coal **dwarfed** every alternative, commanding 55% of generation."
+      },
+      {
+        "term": "peripheral",
+        "vietnamese": "ngoại vi",
+        "context": "Renewables occupied a **peripheral** 10% of the energy mix in 1990."
       },
       {
         "term": "inverted",
         "vietnamese": "đảo ngược",
-        "context": "picture had inverted"
+        "context": "By 2020, the composition had **inverted** almost entirely."
       },
       {
         "term": "plummeted",
-        "vietnamese": "rơi xuống",
-        "context": "coal had plummeted"
+        "vietnamese": "lao dốc",
+        "context": "Coal had **plummeted** to 18%, driven by emissions-trading schemes."
       },
       {
         "term": "surged",
         "vietnamese": "tăng vọt",
-        "context": "renewables had surged"
+        "context": "Renewables had **surged** to 38%, buoyed by offshore-wind auctions."
       },
       {
-        "term": "clean-energy pivot",
-        "vietnamese": "chuyển hướng năng lượng sạch",
-        "context": "clean-energy pivot"
+        "term": "bridging fuel",
+        "vietnamese": "nhiên liệu cầu nối",
+        "context": "Gas functioned as a **bridging fuel** during the clean-energy transition."
       },
       {
-        "term": "transitional fuel",
-        "vietnamese": "nhiên liệu chuyển tiếp",
-        "context": "gas as a transitional fuel"
-      },
-      {
-        "term": "marginal",
-        "vietnamese": "nhỏ/biên",
-        "context": "marginal 10%"
+        "term": "residual inertia",
+        "vietnamese": "quán tính còn sót lại",
+        "context": "Fossil hydrocarbons persist, underscoring the **residual inertia** of legacy infrastructure."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "The mix shifted ___ away from coal.",
-          "answer": "decisively"
+          "sentence": "The energy mix underwent a structural ___.",
+          "answer": "metamorphosis"
         },
         {
-          "sentence": "Coal ___ to 18% by 2020.",
+          "sentence": "Coal had ___ to 18% by 2020.",
           "answer": "plummeted"
         },
         {
-          "sentence": "Renewables ___ to 38%.",
+          "sentence": "Renewables had ___ to 38% on the back of wind auctions.",
           "answer": "surged"
         },
         {
-          "sentence": "Coal ___ every other source in 1990.",
-          "answer": "dwarfed"
+          "sentence": "Gas served as a ___ fuel during the transition.",
+          "answer": "bridging"
         },
         {
-          "sentence": "Country M took a clean-energy ___.",
-          "answer": "pivot"
+          "sentence": "Fossil fuels persist, showing the ___ inertia of old infrastructure.",
+          "answer": "residual"
         }
       ]
     },
@@ -827,82 +832,107 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "chartType": "table",
     "topic": "tourism arrivals",
     "prompt": "The table below shows international tourist arrivals (millions) in five countries (France, Spain, Italy, USA, Thailand) in 2010, 2015 and 2019. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The table presents the number of international tourists, measured in millions, received by five major destinations across three reference years.\n\nOverall, every country recorded growth across the period, although the **pace of expansion** varied considerably. France retained its position as the most-visited destination, while Thailand registered the most **eye-catching** rise.\n\nFrance welcomed 77 million visitors in 2010 and **climbed steadily** to 90 million by 2019, retaining a comfortable lead. Spain followed a comparable **trajectory**, jumping from 53 million to 84 million as it benefited from low-cost airline expansion. Italy's intake was more **measured**, increasing from 44 to 65 million.\n\nThe USA's growth was modest in proportional terms, edging up from 60 to 79 million, although it remained a global **heavyweight**. Thailand experienced the most **striking** boom, **doubling** its arrivals from 16 to 39 million on the back of aggressive marketing and cheaper regional flights. The data illustrate the increasing **diversification** of global tourism flows.",
+    "essayBody": "The table presents inbound international-tourism volumes, measured in millions, for five major destinations across three benchmark years.\n\nOverall, every country recorded **appreciable** growth, though the **pace of expansion** varied markedly. France **consolidated** its position as the world's most-visited destination, while Thailand registered the most **eye-catching** **ascension**.\n\nFrance welcomed 77 million visitors in 2010 and **climbed steadily** to 90 million by 2019, retaining a commanding lead that reflects its **enduring** cultural cachet and Schengen-accessibility. Spain followed a comparable **trajectory**, leaping from 53 million to 84 million as it **capitalised on** low-cost airline proliferation and Mediterranean-season extension. Italy's intake was more **measured**, increasing from 44 to 65 million—a respectable gain, yet one that suggests **saturation** in its heritage-centric tourism model.\n\nThe USA's growth was modest in proportional terms, edging up from 60 to 79 million, although it remained a global **heavyweight** by revenue owing to longer average stays and higher per-capita spend. Thailand experienced the most **striking** boom, effectively **doubling** its arrivals from 16 to 39 million on the back of aggressive ASEAN marketing campaigns, visa liberalisation, and cheaper intra-regional flights. The data collectively illustrate an accelerating **diversification** of global tourism flows, with emerging economies increasingly **disrupting** the traditional European oligopoly.",
     "glossary": [
+      {
+        "term": "appreciable",
+        "vietnamese": "đáng kể",
+        "context": "Every country recorded **appreciable** growth in inbound tourism."
+      },
       {
         "term": "pace of expansion",
         "vietnamese": "tốc độ mở rộng",
-        "context": "pace of expansion varied"
+        "context": "The **pace of expansion** varied markedly across the five destinations."
+      },
+      {
+        "term": "consolidated",
+        "vietnamese": "củng cố",
+        "context": "France **consolidated** its position as the world's most-visited destination."
       },
       {
         "term": "eye-catching",
         "vietnamese": "đáng chú ý",
-        "context": "most eye-catching rise"
+        "context": "Thailand registered the most **eye-catching** ascension in tourist arrivals."
+      },
+      {
+        "term": "ascension",
+        "vietnamese": "sự thăng tiến",
+        "context": "Thailand registered the most eye-catching **ascension** among the five countries."
       },
       {
         "term": "climbed steadily",
         "vietnamese": "tăng đều",
-        "context": "climbed steadily to 90 million"
+        "context": "France **climbed steadily** to 90 million visitors by 2019."
       },
       {
-        "term": "trajectory",
-        "vietnamese": "quỹ đạo",
-        "context": "comparable trajectory"
+        "term": "enduring",
+        "vietnamese": "bền vững",
+        "context": "France retains its lead through **enduring** cultural cachet and Schengen-accessibility."
+      },
+      {
+        "term": "capitalised on",
+        "vietnamese": "tận dụng",
+        "context": "Spain **capitalised on** low-cost airline proliferation and season extension."
       },
       {
         "term": "measured",
         "vietnamese": "vừa phải",
-        "context": "more measured increase"
+        "context": "Italy's intake was more **measured**, suggesting saturation in its heritage-centric model."
+      },
+      {
+        "term": "saturation",
+        "vietnamese": "bão hòa",
+        "context": "Italy's modest gain suggests **saturation** in its heritage-centric tourism model."
       },
       {
         "term": "heavyweight",
         "vietnamese": "ông lớn",
-        "context": "global heavyweight"
+        "context": "The USA remained a global **heavyweight** by tourism revenue."
       },
       {
         "term": "striking",
         "vietnamese": "ấn tượng",
-        "context": "most striking boom"
+        "context": "Thailand experienced the most **striking** boom in inbound tourism."
       },
       {
         "term": "doubling",
         "vietnamese": "tăng gấp đôi",
-        "context": "doubling its arrivals"
+        "context": "Thailand effectively **doubled** its arrivals from 16 to 39 million."
       },
       {
         "term": "diversification",
         "vietnamese": "sự đa dạng hóa",
-        "context": "diversification of tourism flows"
+        "context": "The data illustrate an accelerating **diversification** of global tourism flows."
       },
       {
-        "term": "benefited from",
-        "vietnamese": "hưởng lợi từ",
-        "context": "benefited from low-cost airlines"
+        "term": "disrupting",
+        "vietnamese": "phá vỡ",
+        "context": "Emerging economies are increasingly **disrupting** the traditional European oligopoly."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "Thailand registered the most ___ rise.",
-          "answer": "eye-catching"
+          "sentence": "France ___ its position as the most-visited destination.",
+          "answer": "consolidated"
         },
         {
-          "sentence": "Thailand boomed by ___ its arrivals.",
+          "sentence": "Thailand boomed by effectively ___ its arrivals.",
           "answer": "doubling"
         },
         {
-          "sentence": "France ___ to 90 million by 2019.",
-          "answer": "climbed steadily"
+          "sentence": "Italy's modest gain suggests ___ in heritage tourism.",
+          "answer": "saturation"
         },
         {
-          "sentence": "The USA remained a global ___.",
-          "answer": "heavyweight"
+          "sentence": "Spain ___ low-cost airline expansion to boost tourism.",
+          "answer": "capitalised on"
         },
         {
-          "sentence": "Italy's intake was more ___.",
-          "answer": "measured"
+          "sentence": "Emerging economies are ___ the traditional European oligopoly.",
+          "answer": "disrupting"
         }
       ]
     },
@@ -949,92 +979,106 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     }
   },
-  {
+    {
     "id": "t1-18",
     "taskType": 1,
     "chartType": "table",
     "topic": "average salary",
     "prompt": "The table below shows average annual salaries (USD) in four professions (engineer, teacher, nurse, accountant) in three countries (USA, UK, Australia) in 2022. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The table compares average annual salaries across four professions in three English-speaking countries during 2022.\n\nOverall, engineers commanded the highest pay in every country, while teachers consistently received the lowest. Australia generally **outpaced** both the USA and UK in absolute terms, although the **disparity** was modest.\n\nIn the USA, engineers earned about $95,000, followed by accountants at $72,000 and nurses at $78,000, with teachers receiving the lowest figure of $58,000. UK figures were universally lower: engineers were paid $80,000, while teachers brought home only $45,000 - the lowest entry in the dataset.\n\nAustralia took the lead in three categories: engineers (\\$98,000), nurses (\\$82,000) and teachers (\\$60,000). Accountants there earned $74,000, marginally ahead of US peers. The cross-country pattern indicates that healthcare and engineering enjoy a **wage premium**, whereas teaching remains relatively under-rewarded - a recurring **structural feature** of advanced labour markets.",
+    "essayBody": "The table compares average annual salaries, denominated in US dollars, across four professions in three Anglophone countries during 2022.\n\nOverall, engineers **commanded** the highest remuneration in every jurisdiction, while teachers consistently received the lowest. Australia generally **outpaced** both the USA and UK in **absolute** terms, although the **disparity** was modest and partly **offset** by differences in cost-of-living indices.\n\nIn the USA, engineers earned approximately $95,000, followed by nurses at $78,000 and accountants at $72,000, with teachers receiving the lowest figure of $58,000. UK figures were universally **suppressed**: engineers were paid $80,000, while teachers **took home** only $45,000—the lowest entry in the entire dataset, a **differential** that may partly explain the ongoing recruitment crisis in British state schools.\n\nAustralia took the lead in three categories: engineers (\$98,000), nurses (\$82,000) and teachers (\$60,000). Accountants there earned $74,000, **marginally** ahead of their US counterparts. The cross-country pattern indicates that healthcare and engineering enjoy a **wage premium** linked to credential scarcity and technical **barriers to entry**, whereas teaching remains relatively under-rewarded—a recurring **structural feature** of advanced labour markets that OECD data consistently **corroborate**.",
     "glossary": [
+      {
+        "term": "commanded",
+        "vietnamese": "đạt được / chiếm giữ",
+        "context": "Engineers **commanded** the highest remuneration in every jurisdiction."
+      },
       {
         "term": "outpaced",
         "vietnamese": "vượt qua",
-        "context": "Australia outpaced others"
+        "context": "Australia generally **outpaced** both the USA and UK in absolute terms."
+      },
+      {
+        "term": "absolute",
+        "vietnamese": "tuyệt đối",
+        "context": "Australia led in **absolute** terms, though differences are offset by cost-of-living indices."
       },
       {
         "term": "disparity",
         "vietnamese": "sự chênh lệch",
-        "context": "disparity was modest"
+        "context": "The **disparity** between the three countries was modest."
       },
       {
-        "term": "commanded",
-        "vietnamese": "đạt được",
-        "context": "engineers commanded the highest pay"
+        "term": "offset",
+        "vietnamese": "bù đắp",
+        "context": "Higher Australian salaries are partly **offset** by differences in cost-of-living indices."
       },
       {
-        "term": "wage premium",
-        "vietnamese": "mức lương ưu đãi",
-        "context": "wage premium"
+        "term": "suppressed",
+        "vietnamese": "bị đè thấp",
+        "context": "UK figures were universally **suppressed** relative to the other two countries."
       },
       {
-        "term": "structural feature",
-        "vietnamese": "đặc điểm cấu trúc",
-        "context": "structural feature of labour markets"
-      },
-      {
-        "term": "under-rewarded",
-        "vietnamese": "trả công chưa xứng đáng",
-        "context": "teaching remains under-rewarded"
-      },
-      {
-        "term": "absolute terms",
-        "vietnamese": "giá trị tuyệt đối",
-        "context": "in absolute terms"
-      },
-      {
-        "term": "brought home",
+        "term": "took home",
         "vietnamese": "mang về (lương)",
-        "context": "teachers brought home"
+        "context": "Teachers **took home** only $45,000—the lowest entry in the dataset."
+      },
+      {
+        "term": "differential",
+        "vietnamese": "chênh lệch",
+        "context": "This **differential** may partly explain the ongoing recruitment crisis in British schools."
       },
       {
         "term": "marginally",
         "vietnamese": "nhẹ",
-        "context": "marginally ahead"
+        "context": "Australian accountants earned $74,000, **marginally** ahead of their US counterparts."
       },
       {
-        "term": "recurring",
-        "vietnamese": "lặp lại",
-        "context": "recurring structural feature"
+        "term": "wage premium",
+        "vietnamese": "mức lương ưu đãi",
+        "context": "Healthcare and engineering enjoy a **wage premium** linked to credential scarcity."
+      },
+      {
+        "term": "barriers to entry",
+        "vietnamese": "rào cản gia nhập",
+        "context": "The premium is linked to technical **barriers to entry** in these fields."
+      },
+      {
+        "term": "structural feature",
+        "vietnamese": "đặc điểm cấu trúc",
+        "context": "Under-rewarded teaching is a recurring **structural feature** of advanced labour markets."
+      },
+      {
+        "term": "corroborate",
+        "vietnamese": "xác nhận / củng cố",
+        "context": "OECD data consistently **corroborate** this cross-national pattern."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "Engineers ___ the highest pay.",
+          "sentence": "Engineers ___ the highest remuneration in every country.",
           "answer": "commanded"
         },
         {
-          "sentence": "Australia ___ both the USA and UK.",
-          "answer": "outpaced"
+          "sentence": "UK figures were universally ___ relative to peers.",
+          "answer": "suppressed"
         },
         {
-          "sentence": "Healthcare and engineering enjoy a wage ___.",
+          "sentence": "Healthcare enjoys a wage ___ due to credential scarcity.",
           "answer": "premium"
         },
         {
-          "sentence": "Teaching is a ___ feature of low pay.",
-          "answer": "structural"
+          "sentence": "Higher salaries are partly ___ by cost-of-living differences.",
+          "answer": "offset"
         },
         {
-          "sentence": "Teaching remains ___ rewarded.",
-          "answer": "under"
+          "sentence": "OECD data consistently ___ this structural pattern.",
+          "answer": "corroborate"
         }
       ]
-    },
-    "chartConfig": {
+    },    "chartConfig": {
       "data": [],
       "type": "table",
       "columns": [
@@ -1071,92 +1115,106 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     }
   },
-  {
+    {
     "id": "t1-19",
     "taskType": 1,
     "chartType": "map",
     "topic": "town development",
     "prompt": "The maps below show the town of Greenfield in 1990 and 2020. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The maps illustrate the development of Greenfield, a small town, between 1990 and 2020.\n\nOverall, Greenfield underwent **significant transformation**, with farmland being **converted** into residential and commercial zones. Several traditional features have been **demolished** to accommodate modern infrastructure.\n\nIn 1990, the town centred on a small market square in the north, surrounded by **scattered** farmhouses and orchards. A single-track road connected the village to neighbouring towns, and a stream flowed through the eastern outskirts. By 2020, the market square had been **replaced** by a modern shopping mall.\n\nThe orchards in the south have given way to a residential housing estate with around fifty new homes. To the east, a community park now occupies the area where farmland once stood, and the stream has been **redirected** to form a decorative water feature. The single-track road has been **upgraded** to a dual carriageway connecting to a new motorway. These changes reflect the town's **urbanisation** and shift from agriculture toward services and housing.",
+    "essayBody": "The maps illustrate the spatial evolution of Greenfield, a small market town, between 1990 and 2020.\n\nOverall, Greenfield underwent a **profound metamorphosis**, with agricultural land **systematically converted** into residential and commercial zones, reflecting the classic **peri-urban** encroachment documented in post-war British planning literature. Several vernacular features were **sacrificed** to accommodate modern infrastructure.\n\nIn 1990, the settlement centred on a compact market square in the north, encircled by **scattered** farmsteads and established orchards. A single-track lane provided the sole vehicular connection to neighbouring towns, while a minor stream coursed through the eastern periphery. By 2020, the historic market square had been **supplanted** by a modern retail mall—a shift emblematic of the broader decline of traditional high-street commerce.\n\nThe southern orchards had been entirely **replaced** by a suburban housing estate comprising approximately fifty dwellings. To the east, a landscaped community park now occupies former **arable** plots, and the stream has been **channelled** into a **retention pond** serving as an ornamental water feature. The original single-track road has been **widened** into a dual carriageway feeding a new motorway interchange. Collectively, these alterations signal the town's accelerating **urbanisation** and its transition from an agrarian satellite to a service-oriented **commuter hub**.",
     "glossary": [
       {
-        "term": "significant transformation",
-        "vietnamese": "sự chuyển đổi đáng kể",
-        "context": "significant transformation"
+        "term": "profound metamorphosis",
+        "vietnamese": "biến đổi sâu sắc",
+        "context": "Greenfield underwent a **profound metamorphosis** over three decades."
       },
       {
-        "term": "converted",
-        "vietnamese": "chuyển đổi",
-        "context": "farmland being converted"
+        "term": "systematically converted",
+        "vietnamese": "chuyển đổi một cách có hệ thống",
+        "context": "Agricultural land was **systematically converted** into residential zones."
       },
       {
-        "term": "demolished",
-        "vietnamese": "bị phá hủy",
-        "context": "traditional features demolished"
+        "term": "peri-urban",
+        "vietnamese": "vùng ngoại ô",
+        "context": "The changes reflect classic **peri-urban** encroachment on rural land."
+      },
+      {
+        "term": "sacrificed",
+        "vietnamese": "bị hy sinh",
+        "context": "Several vernacular features were **sacrificed** for modern infrastructure."
       },
       {
         "term": "scattered",
         "vietnamese": "rải rác",
-        "context": "scattered farmhouses"
+        "context": "The market square was encircled by **scattered** farmsteads and orchards."
+      },
+      {
+        "term": "supplanted",
+        "vietnamese": "thay thế",
+        "context": "The historic market square had been **supplanted** by a modern retail mall."
       },
       {
         "term": "replaced",
         "vietnamese": "được thay thế",
-        "context": "market square replaced"
+        "context": "The southern orchards had been entirely **replaced** by a housing estate."
       },
       {
-        "term": "redirected",
-        "vietnamese": "đổi hướng",
-        "context": "stream redirected"
+        "term": "arable",
+        "vietnamese": "trồng trọt được",
+        "context": "A community park now occupies former **arable** plots."
       },
       {
-        "term": "upgraded",
-        "vietnamese": "nâng cấp",
-        "context": "road upgraded"
+        "term": "channelled",
+        "vietnamese": "được dẫn dòng",
+        "context": "The stream has been **channelled** into a retention pond."
+      },
+      {
+        "term": "retention pond",
+        "vietnamese": "hồ chứa nước",
+        "context": "The stream was channelled into a **retention pond** serving as a water feature."
+      },
+      {
+        "term": "widened",
+        "vietnamese": "được mở rộng",
+        "context": "The single-track road has been **widened** into a dual carriageway."
       },
       {
         "term": "urbanisation",
         "vietnamese": "đô thị hóa",
-        "context": "town's urbanisation"
+        "context": "These alterations signal the town's accelerating **urbanisation**."
       },
       {
-        "term": "dual carriageway",
-        "vietnamese": "đường đôi",
-        "context": "dual carriageway"
-      },
-      {
-        "term": "decorative",
-        "vietnamese": "trang trí",
-        "context": "decorative water feature"
+        "term": "commuter hub",
+        "vietnamese": "trung tâm đi lại",
+        "context": "Greenfield transitioned from an agrarian satellite to a service-oriented **commuter hub**."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "Greenfield underwent significant ___.",
-          "answer": "transformation"
+          "sentence": "Greenfield underwent a profound ___.",
+          "answer": "metamorphosis"
         },
         {
-          "sentence": "Farmland was ___ into housing.",
-          "answer": "converted"
+          "sentence": "Agricultural land was ___ converted into housing.",
+          "answer": "systematically"
         },
         {
-          "sentence": "The road was ___ to a dual carriageway.",
-          "answer": "upgraded"
+          "sentence": "The market square was ___ by a retail mall.",
+          "answer": "supplanted"
         },
         {
-          "sentence": "The stream was ___ as a feature.",
-          "answer": "redirected"
+          "sentence": "The stream was ___ into a retention pond.",
+          "answer": "channelled"
         },
         {
-          "sentence": "The change reflects ___.",
-          "answer": "urbanisation"
+          "sentence": "The town became a service-oriented ___ hub.",
+          "answer": "commuter"
         }
       ]
-    },
-    "chartConfig": {
+    },    "chartConfig": {
       "data": [],
       "type": "map",
       "stages": [
@@ -1188,92 +1246,96 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     }
   },
-  {
+    {
     "id": "t1-20",
     "taskType": 1,
     "chartType": "map",
     "topic": "school redevelopment",
     "prompt": "The maps below show St. Mary's School site in 2000 and after redevelopment in 2020. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The maps depict the layout of St. Mary's School before and after a major redevelopment that took place over two decades.\n\nOverall, the campus has been **substantially modernised**, with several outdated facilities replaced by new educational and leisure spaces. The general footprint has expanded, although the main building has been **retained**.\n\nIn 2000, the site comprised a single L-shaped main block, a small canteen to the south, an unpaved playground in the centre and a car park at the western entrance. Trees lined the eastern boundary, beyond which lay open fields. By 2020, the canteen had been **enlarged** and **reconfigured** as a multi-purpose dining hall.\n\nThe gravel playground has been **replaced** with an artificial-turf sports field, complemented by a new gymnasium constructed on the former open fields to the east. The car park has been expanded, while a small sensory garden has been **introduced** along the eastern boundary, preserving most of the original trees. These additions clearly enhance the school's **functionality** and student welfare.",
+    "essayBody": "The maps depict the layout of St. Mary's School before and after a comprehensive redevelopment spanning two decades.\n\nOverall, the campus has been **substantially modernised**, with obsolete facilities replaced by purpose-built educational and leisure amenities. The physical **footprint** has expanded markedly, although the original L-shaped main block has been **retained** as a heritage **anchor**.\n\nIn 2000, the site comprised the L-shaped main building, a modest canteen to the south, an unpaved playground at the core, and a small car park at the western entrance. Mature trees lined the eastern boundary, beyond which lay open fields. By 2020, the canteen had been **enlarged** and **reconfigured** into a multi-purpose dining hall capable of serving the expanded student body.\n\nThe gravel playground has been **superseded** by an artificial-turf sports pitch, **complemented** by a new gymnasium erected on the former eastern fields. The car park has been expanded to accommodate increased staff and visitor vehicles, while a sensory garden has been **introduced** along the eastern boundary, **preserving** the majority of the original tree stock. These additions collectively enhance the school's **functionality**, pupil welfare, and curricular breadth.",
     "glossary": [
       {
         "term": "substantially modernised",
         "vietnamese": "hiện đại hóa đáng kể",
-        "context": "substantially modernised"
+        "context": "The campus has been **substantially modernised** over two decades."
+      },
+      {
+        "term": "footprint",
+        "vietnamese": "diện tích / quy mô vật lý",
+        "context": "The physical **footprint** has expanded markedly."
       },
       {
         "term": "retained",
         "vietnamese": "giữ lại",
-        "context": "main building has been retained"
+        "context": "The original main block has been **retained** as a heritage anchor."
+      },
+      {
+        "term": "anchor",
+        "vietnamese": "trụ cột / điểm nhấn",
+        "context": "The main block serves as a heritage **anchor** amid modern additions."
       },
       {
         "term": "enlarged",
         "vietnamese": "mở rộng",
-        "context": "canteen had been enlarged"
+        "context": "The canteen had been **enlarged** into a multi-purpose dining hall."
       },
       {
         "term": "reconfigured",
         "vietnamese": "tái cấu trúc",
-        "context": "reconfigured as a dining hall"
+        "context": "The canteen was **reconfigured** to serve the expanded student body."
       },
       {
-        "term": "replaced",
-        "vietnamese": "được thay thế",
-        "context": "playground replaced"
-      },
-      {
-        "term": "introduced",
-        "vietnamese": "được giới thiệu",
-        "context": "sensory garden introduced"
-      },
-      {
-        "term": "functionality",
-        "vietnamese": "tính năng",
-        "context": "school's functionality"
+        "term": "superseded",
+        "vietnamese": "thay thế hoàn toàn",
+        "context": "The gravel playground has been **superseded** by an artificial-turf pitch."
       },
       {
         "term": "complemented",
         "vietnamese": "bổ sung",
-        "context": "complemented by a gymnasium"
+        "context": "The sports pitch is **complemented** by a new gymnasium."
+      },
+      {
+        "term": "introduced",
+        "vietnamese": "được giới thiệu / thêm vào",
+        "context": "A sensory garden has been **introduced** along the eastern boundary."
       },
       {
         "term": "preserving",
         "vietnamese": "bảo tồn",
-        "context": "preserving most of the trees"
+        "context": "The garden was added while **preserving** the majority of the original trees."
       },
       {
-        "term": "footprint",
-        "vietnamese": "diện tích",
-        "context": "general footprint has expanded"
+        "term": "functionality",
+        "vietnamese": "tính năng",
+        "context": "These additions enhance the school's **functionality** and curricular breadth."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
           "sentence": "The campus was substantially ___.",
           "answer": "modernised"
         },
         {
-          "sentence": "The main building was ___.",
+          "sentence": "The main building was ___ as a heritage anchor.",
           "answer": "retained"
         },
         {
-          "sentence": "The canteen was ___ as a dining hall.",
-          "answer": "reconfigured"
+          "sentence": "The gravel playground was ___ by an artificial-turf pitch.",
+          "answer": "superseded"
         },
         {
-          "sentence": "A sensory garden was ___ along the boundary.",
+          "sentence": "A sensory garden was ___ along the eastern boundary.",
           "answer": "introduced"
         },
         {
-          "sentence": "Changes enhance the school's ___.",
+          "sentence": "Changes enhance the school's ___ and curricular breadth.",
           "answer": "functionality"
         }
       ]
-    },
-    "chartConfig": {
+    },    "chartConfig": {
       "data": [],
       "type": "map",
       "stages": [
