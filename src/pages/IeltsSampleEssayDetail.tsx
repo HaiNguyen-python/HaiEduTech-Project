@@ -160,14 +160,40 @@ const IeltsSampleEssayDetail = () => {
               <Badge variant="outline" className="capitalize">{essay.chartType || essay.essayType}</Badge>
               <Badge variant="outline">Band 7.0+</Badge>
             </div>
+      <main className="container mx-auto px-4 py-5 max-w-4xl">
+        {/* Back link */}
+        <Link to="/ielts-sample-essays" className="text-sm text-primary hover:underline inline-flex items-center gap-1 mb-3">
+          <ArrowLeft className="w-4 h-4" /> {t("Quay lại danh sách", "Back to list")}
+        </Link>
+
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
+          {/* Header */}
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <Badge variant={essay.taskType === 1 ? "secondary" : "default"}>Task {essay.taskType}</Badge>
+              <Badge variant="outline" className="capitalize">{essay.chartType || essay.essayType}</Badge>
+              <Badge variant="outline">Band 7.0+</Badge>
+            </div>
             <h1 className="text-2xl md:text-3xl font-bold text-foreground capitalize">{essay.topic}</h1>
           </div>
 
-          {/* Prompt */}
-          <div className="border-l-4 border-primary bg-primary/5 rounded-r-lg p-4">
-            <p className="text-sm font-medium text-primary mb-1">{t("Đề bài", "Prompt")}</p>
+          {/* Topic (Prompt) */}
+          <div className="border-l-4 border-primary bg-primary/5 rounded-r-lg p-3.5">
+            <p className="text-sm font-medium text-primary mb-1">{t("Chủ đề", "Topic")}</p>
             <p className="text-foreground leading-relaxed">{essay.prompt}</p>
           </div>
+
+          {/* Topic illustration for Task 2 essays */}
+          {essay.taskType === 2 && (
+            <div className="overflow-hidden rounded-xl border border-border/50 bg-card/30">
+              <img
+                src={topicImageUrl(essay.topic)}
+                alt={`Illustration for IELTS Task 2 topic: ${essay.topic}`}
+                loading="lazy"
+                className="w-full h-48 md:h-60 object-cover"
+              />
+            </div>
+          )}
 
           {/* Dynamic Chart/Diagram for Task 1 */}
           {essay.taskType === 1 && essay.chartConfig && (
@@ -178,7 +204,7 @@ const IeltsSampleEssayDetail = () => {
           <EssayOutline essay={essay} />
 
           {/* Full essay reference with click-to-reveal teaching mode */}
-          <details className="glass-card rounded-xl p-5 md:p-6 group" open>
+          <details className="glass-card rounded-xl p-4 md:p-5 group" open>
             <summary className="cursor-pointer flex items-center justify-between gap-2 list-none">
               <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
                 <BookOpen className="w-5 h-5 text-primary" />
@@ -187,14 +213,14 @@ const IeltsSampleEssayDetail = () => {
               <span className="text-xs text-muted-foreground group-open:hidden">{t("Mở", "Show")}</span>
               <span className="text-xs text-muted-foreground hidden group-open:inline">{t("Đóng", "Hide")}</span>
             </summary>
-            <div className="mt-4 space-y-5">
+            <div className="mt-3 space-y-4">
               {/* Re-display chart inside the essay viewer so students can follow the visual while reading */}
               {essay.taskType === 1 && essay.chartConfig && (
                 <IELTSChart config={essay.chartConfig} />
               )}
               <ClickRevealEssay essayBody={essay.essayBody} taskType={essay.taskType} />
             </div>
-            <div className="mt-4 flex justify-end">
+            <div className="mt-3 flex justify-end">
               <Button size="sm" variant="outline" onClick={handleDownloadPDF}>
                 <Download className="w-4 h-4 mr-1" /> {t("Tải PDF", "Download PDF")}
               </Button>
@@ -206,14 +232,14 @@ const IeltsSampleEssayDetail = () => {
           <EssayBand8Analysis essay={essay} />
 
           {/* Bilingual Glossary with per-phrase writing practice */}
-          <div className="glass-card rounded-xl p-5">
+          <div className="glass-card rounded-xl p-4">
             <h2 className="text-lg font-semibold text-foreground mb-1">
               📚 {t("Bảng Chú Giải Song Ngữ", "Bilingual Glossary")}
             </h2>
             <p className="text-xs text-muted-foreground mb-3">
               {t(
-                "Mỗi cụm từ có sẵn câu ví dụ trong ngữ cảnh - hãy viết lại câu để vận dụng và được chấm điểm ngay.",
-                "Each phrase comes with an example sentence in context - rewrite it below to apply the phrase and get instant feedback."
+                "Mỗi cụm từ có sẵn câu ví dụ hoàn chỉnh - hãy viết lại câu để vận dụng và được chấm điểm ngay.",
+                "Each phrase comes with a complete example sentence - rewrite it below to apply the phrase and get instant feedback."
               )}
             </p>
             <div className="overflow-auto">
@@ -223,34 +249,43 @@ const IeltsSampleEssayDetail = () => {
                     <TableHead className="font-semibold w-10">#</TableHead>
                     <TableHead className="font-semibold">Term</TableHead>
                     <TableHead className="font-semibold">{t("Nghĩa tiếng Việt", "Vietnamese")}</TableHead>
-                    <TableHead className="font-semibold">{t("Ngữ cảnh & Luyện viết", "Context & Practice")}</TableHead>
+                    <TableHead className="font-semibold">{t("Câu ví dụ trong bài", "Example sentence")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {essay.glossary.map((g, i) => (
-                    <TableRow key={i}>
-                      <TableCell className="align-top font-bold text-muted-foreground text-sm">{i + 1}.</TableCell>
-                      <TableCell className="align-top min-w-[180px]">
-                        <div className="font-medium text-primary">{g.term}</div>
-                      </TableCell>
-                      <TableCell className="align-top">{g.vietnamese}</TableCell>
-                      <TableCell className="text-sm align-top min-w-[280px]">
-                        <p className="text-foreground/90 italic">"{g.context}"</p>
-                        <GlossaryPhrasePractice
-                          phrase={g.term}
-                          phraseMeaning={g.vietnamese}
-                          taskType={essay.taskType}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {essay.glossary.map((g, i) => {
+                    const fullSentence = findFullSentence(essay.essayBody, g.term) || g.context;
+                    return (
+                      <Fragment key={i}>
+                        <TableRow className="border-b-0">
+                          <TableCell className="align-top font-bold text-muted-foreground text-sm pb-2">{i + 1}.</TableCell>
+                          <TableCell className="align-top min-w-[160px] pb-2">
+                            <div className="font-medium text-primary">{g.term}</div>
+                          </TableCell>
+                          <TableCell className="align-top pb-2">{g.vietnamese}</TableCell>
+                          <TableCell className="text-sm align-top min-w-[260px] pb-2">
+                            <p className="text-foreground/90 italic">{fullSentence}</p>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell colSpan={4} className="pt-0 pb-3">
+                            <GlossaryPhrasePractice
+                              phrase={g.term}
+                              phraseMeaning={g.vietnamese}
+                              taskType={essay.taskType}
+                            />
+                          </TableCell>
+                        </TableRow>
+                      </Fragment>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </div>
           </div>
 
           {/* Interactive Mini-Review Challenge */}
-          <div className="glass-card rounded-xl p-5">
+          <div className="glass-card rounded-xl p-4">
             <h2 className="text-lg font-semibold text-foreground mb-2 flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-primary" />
               {t("Bài Tập Ôn Tập", "Mini-Review Challenge")}
