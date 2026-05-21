@@ -60,7 +60,7 @@ const GlossaryPhrasePractice: React.FC<Props> = ({ phrase, phraseMeaning, taskTy
   };
 
   return (
-    <div className="mt-2 rounded-lg border bg-muted/20 p-2.5 space-y-2">
+    <div className="mt-1 rounded-lg border bg-muted/20 p-2 space-y-1.5 w-full">
       <div className="flex items-start gap-1.5 text-[11px] font-semibold text-primary uppercase tracking-wide">
         <PenLine className="w-3 h-3 mt-0.5" />
         {t("Viết lại câu trên dùng cụm này", "Rewrite the sentence above using this phrase")}
@@ -72,7 +72,7 @@ const GlossaryPhrasePractice: React.FC<Props> = ({ phrase, phraseMeaning, taskTy
           `Viết một câu sử dụng "${phrase}"...`,
           `Write a sentence using "${phrase}"...`
         )}
-        className="min-h-[56px] text-sm bg-background"
+        className="min-h-[52px] text-sm bg-background w-full"
       />
       <div className="flex items-center gap-2">
         <Button size="sm" onClick={handleGrade} disabled={loading} className="h-7 text-xs px-3">
