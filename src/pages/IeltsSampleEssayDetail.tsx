@@ -150,7 +150,7 @@ const IeltsSampleEssayDetail = () => {
           </div>
 
           {/* Prompt */}
-          <div className="border-l-4 border-primary bg-primary/5 rounded-r-lg p-5">
+          <div className="border-l-4 border-primary bg-primary/5 rounded-r-lg p-4">
             <p className="text-sm font-medium text-primary mb-1">{t("Đề bài", "Prompt")}</p>
             <p className="text-foreground leading-relaxed">{essay.prompt}</p>
           </div>
