@@ -286,82 +286,92 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "chartType": "bar",
     "topic": "smartphone usage",
     "prompt": "The bar chart below shows the percentage of smartphone users in four age groups (16-24, 25-44, 45-64, 65+) in 2010 and 2020. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The bar chart compares the share of smartphone users across four age cohorts in 2010 and 2020.\n\nOverall, smartphone uptake **soared** in every age group, but the most **dramatic** increase occurred among older users (65+), who started from a very low base. The younger cohorts **dominated** adoption in both years.\n\nIn 2010, the 16-24 group already led with 60% adoption, followed by 25-44 at 45%. Older groups lagged considerably, with the 45-64 bracket at 25% and just 5% of those over 65 owning a smartphone. By 2020, the youngest cohort had **approached saturation** at 98%, while 25-44 reached 95%.\n\nThe 45-64 group exhibited a substantial uplift to 80%, and the 65+ cohort **quintupled** their figure to roughly 50%. Although the inter-generational gap **persisted**, it had clearly narrowed, with smartphones evolving from a youth-centric device to a near-universal tool. The 65+ group showed by far the highest **proportional growth**.",
+    "essayBody": "The bar chart contrasts the share of smartphone users across four age **cohorts** in 2010 and 2020, capturing a decade of mass-market diffusion.\n\nOverall, smartphone uptake **soared** in every demographic, yet the most **dramatic** acceleration occurred among the over-65s, whose adoption rate **quintupled** from a near-zero base. Younger users **dominated** ownership in both years, though the inter-generational gulf had clearly **narrowed** by the end of the period.\n\nIn 2010, the 16-24 group already led with 60% adoption, trailed by 25-44 at 45%. Older brackets lagged considerably: the 45-64 cohort sat at 25%, while just 5% of those over 65 owned a smartphone - a figure Pew Research described as **emergent**. By 2020, the youngest cohort had effectively **approached saturation** at 98%, and 25-44 had reached 95%, reflecting the **mainstreaming** of mobile computing.\n\nThe 45-64 group recorded a substantial **uplift** to 80%, while the 65+ cohort climbed to roughly 50%. Although the inter-generational gap **persisted**, the device had visibly transitioned from a **youth-centric** novelty to a near-universal tool, with the over-65s posting by far the highest **proportional growth** of any cohort.",
     "glossary": [
+      {
+        "term": "cohorts",
+        "vietnamese": "các nhóm tuổi",
+        "context": "The chart contrasts smartphone use across four age **cohorts** in 2010 and 2020."
+      },
       {
         "term": "soared",
         "vietnamese": "tăng vọt",
-        "context": "uptake soared"
+        "context": "Smartphone uptake **soared** in every demographic over the decade."
       },
       {
         "term": "dramatic",
         "vietnamese": "kịch tính",
-        "context": "dramatic increase"
-      },
-      {
-        "term": "dominated",
-        "vietnamese": "chiếm ưu thế",
-        "context": "younger cohorts dominated"
-      },
-      {
-        "term": "approached saturation",
-        "vietnamese": "tiệm cận bão hòa",
-        "context": "approached saturation at 98%"
+        "context": "The most **dramatic** acceleration occurred among the over-65s."
       },
       {
         "term": "quintupled",
         "vietnamese": "tăng gấp năm",
-        "context": "quintupled their figure"
+        "context": "Adoption among those over 65 **quintupled** from a near-zero base."
       },
       {
-        "term": "persisted",
-        "vietnamese": "vẫn tồn tại",
-        "context": "gap persisted"
+        "term": "dominated",
+        "vietnamese": "chiếm ưu thế",
+        "context": "Younger users **dominated** smartphone ownership in both years."
       },
       {
-        "term": "proportional growth",
-        "vietnamese": "tăng trưởng theo tỷ lệ",
-        "context": "highest proportional growth"
+        "term": "narrowed",
+        "vietnamese": "thu hẹp",
+        "context": "The inter-generational gulf had clearly **narrowed** by 2020."
+      },
+      {
+        "term": "emergent",
+        "vietnamese": "mới nổi",
+        "context": "Pew Research described 5% adoption among over-65s as **emergent**."
+      },
+      {
+        "term": "approached saturation",
+        "vietnamese": "tiệm cận bão hòa",
+        "context": "The youngest cohort had effectively **approached saturation** at 98%."
+      },
+      {
+        "term": "mainstreaming",
+        "vietnamese": "phổ cập hóa",
+        "context": "The 25-44 group reached 95%, reflecting the **mainstreaming** of mobile computing."
       },
       {
         "term": "uplift",
         "vietnamese": "sự gia tăng",
-        "context": "substantial uplift"
+        "context": "The 45-64 group recorded a substantial **uplift** to 80% adoption."
       },
       {
-        "term": "cohort",
-        "vietnamese": "nhóm",
-        "context": "65+ cohort"
+        "term": "persisted",
+        "vietnamese": "vẫn tồn tại",
+        "context": "Although the inter-generational gap **persisted**, the device had become near-universal."
       },
       {
-        "term": "youth-centric",
-        "vietnamese": "tập trung vào giới trẻ",
-        "context": "youth-centric device"
+        "term": "proportional growth",
+        "vietnamese": "tăng trưởng theo tỷ lệ",
+        "context": "The over-65s posted by far the highest **proportional growth** of any cohort."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "Smartphone uptake ___ in every age group.",
-          "answer": "soared"
+          "sentence": "The chart contrasts four age ___ between 2010 and 2020.",
+          "answer": "cohorts"
         },
         {
-          "sentence": "The youngest cohort ___ saturation at 98%.",
-          "answer": "approached"
+          "sentence": "The 25-44 figure of 95% reflects the ___ of mobile computing.",
+          "answer": "mainstreaming"
         },
         {
-          "sentence": "The 65+ cohort ___ their figure.",
+          "sentence": "Adoption among those over 65 ___ from a near-zero base.",
           "answer": "quintupled"
         },
         {
-          "sentence": "The inter-generational gap ___.",
-          "answer": "persisted"
+          "sentence": "The youngest cohort effectively ___ saturation at 98%.",
+          "answer": "approached"
         },
         {
-          "sentence": "65+ showed the highest ___ growth.",
-          "answer": "proportional"
+          "sentence": "Pew Research described 5% adoption as ___.",
+          "answer": "emergent"
         }
       ]
     },
