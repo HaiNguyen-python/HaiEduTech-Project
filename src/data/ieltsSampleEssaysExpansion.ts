@@ -2352,92 +2352,151 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     }
   },
-  {
+    {
     "id": "t1-27",
     "taskType": 1,
     "chartType": "pie",
     "topic": "transport modes",
     "prompt": "The pie charts below show the share of journeys by transport mode (car, bus, metro, bicycle, walking) in City L in 2000 and 2020. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The pie charts compare how residents of City L commuted in 2000 versus 2020.\n\nOverall, private car use **declined notably**, while sustainable modes - particularly metro and bicycle - registered strong gains. Walking remained relatively constant.\n\nIn 2000, cars **dominated** the modal split at 55%, followed by buses at 20% and walking at 12%. The metro and bicycle accounted for only 8% and 5% respectively. By 2020, the picture had shifted markedly: car share **slipped** to 38%, partly due to congestion charges and improved alternatives.\n\nMetro use **doubled** to 16%, reflecting network expansion, and cycling **tripled** to 15% as dedicated lanes proliferated. Bus use was stable at 19%, while walking edged up slightly to 12%. The data demonstrate a **modal shift** away from private cars toward **active and public transport**, suggesting that urban policy interventions can reshape travel behaviour. Future planning should reinforce these **green transitions**.",
+    "essayBody": "The pie charts compare the **modal composition** of journeys undertaken by residents of City L in two reference years, 2000 and 2020.\n\nOverall, private-car **hegemony** experienced a **precipitous decline**, while sustainable alternatives—particularly metro and bicycle—registered **robust gains**. Walking remained relatively **static**, suggesting that it is a **habitual** choice largely **impervious** to infrastructure investment.\n\nIn 2000, cars **dominated** the modal split at 55%, followed by buses at 20% and walking at 12%. The metro and bicycle accounted for only 8% and 5% respectively—**marginal** shares that underscored the city\'s car-centric planning paradigm. By 2020, the picture had shifted markedly: car share **slipped** to 38%, partly **attributable to** congestion-charging zones, parking **levies** and the **proliferation** of viable alternatives.\n\nMetro use **doubled** to 16%, reflecting **substantial** network expansion and line extensions completed during the 2010s. Cycling **tripled** to 15% as protected-cycle **superhighways** and bike-share schemes **diffused** throughout the urban core. Bus use was stable at 19%, while walking edged up only marginally to 12%. The data demonstrate a clear **modal shift** away from private vehicles toward **active and public transport**, suggesting that **multimodal** urban-policy interventions can **reshape** travel behaviour when **underpinned** by adequate infrastructure. Future planning should **reinforce** these **green transitions** through continued **decarbonisation** of the transport matrix.",
     "glossary": [
       {
-        "term": "declined notably",
-        "vietnamese": "giảm rõ rệt",
-        "context": "car use declined notably"
+        "term": "modal composition",
+        "vietnamese": "cấu thành phương thức đi lại",
+        "context": "The charts compare the **modal composition** of journeys in City L."
+      },
+      {
+        "term": "hegemony",
+        "vietnamese": "sự thống trị / bá quyền",
+        "context": "Private-car **hegemony** experienced a precipitous decline."
+      },
+      {
+        "term": "precipitous decline",
+        "vietnamese": "sự sụt giảm đột ngột",
+        "context": "Car hegemony experienced a **precipitous decline** between 2000 and 2020."
+      },
+      {
+        "term": "robust gains",
+        "vietnamese": "tăng trưởng mạnh mẽ",
+        "context": "Sustainable alternatives registered **robust gains**."
+      },
+      {
+        "term": "static",
+        "vietnamese": "đứng yên",
+        "context": "Walking remained relatively **static** across the period."
+      },
+      {
+        "term": "habitual",
+        "vietnamese": "theo thói quen",
+        "context": "Walking is a **habitual** choice largely impervious to infrastructure."
+      },
+      {
+        "term": "impervious",
+        "vietnamese": "không bị ảnh hưởng",
+        "context": "A habitual choice largely **impervious** to infrastructure investment."
       },
       {
         "term": "dominated",
         "vietnamese": "chiếm ưu thế",
-        "context": "cars dominated the modal split"
+        "context": "Cars **dominated** the modal split at 55% in 2000."
+      },
+      {
+        "term": "marginal",
+        "vietnamese": "nhỏ / biên",
+        "context": "Metro and bicycle held **marginal** shares of only 8% and 5%."
       },
       {
         "term": "slipped",
         "vietnamese": "sụt giảm",
-        "context": "car share slipped to 38%"
+        "context": "Car share **slipped** to 38% by 2020."
       },
       {
-        "term": "doubled",
-        "vietnamese": "tăng gấp đôi",
-        "context": "metro use doubled"
+        "term": "attributable to",
+        "vietnamese": "do bởi",
+        "context": "Partly **attributable to** congestion-charging zones and parking levies."
       },
       {
-        "term": "tripled",
-        "vietnamese": "tăng gấp ba",
-        "context": "cycling tripled"
+        "term": "levies",
+        "vietnamese": "thuế / phí",
+        "context": "Parking **levies** and congestion charges discouraged car use."
+      },
+      {
+        "term": "proliferation",
+        "vietnamese": "sự lan rộng",
+        "context": "The **proliferation** of viable alternatives reduced car dependency."
+      },
+      {
+        "term": "substantial",
+        "vietnamese": "đáng kể",
+        "context": "Metro growth reflects **substantial** network expansion."
+      },
+      {
+        "term": "superhighways",
+        "vietnamese": "đường cao tốc (xe đạp)",
+        "context": "Protected-cycle **superhighways** diffused through the urban core."
+      },
+      {
+        "term": "diffused",
+        "vietnamese": "lan tỏa",
+        "context": "Bike-share schemes **diffused** throughout the urban core."
       },
       {
         "term": "modal shift",
         "vietnamese": "chuyển đổi phương thức",
-        "context": "clear modal shift"
+        "context": "The data demonstrate a clear **modal shift** away from private vehicles."
       },
       {
-        "term": "active and public transport",
-        "vietnamese": "giao thông chủ động và công cộng",
-        "context": "active and public transport"
+        "term": "multimodal",
+        "vietnamese": "đa phương thức",
+        "context": "**Multimodal** urban-policy interventions can reshape travel behaviour."
       },
       {
-        "term": "green transitions",
-        "vietnamese": "chuyển đổi xanh",
-        "context": "green transitions"
+        "term": "reshape",
+        "vietnamese": "định hình lại",
+        "context": "Policy interventions can **reshape** travel behaviour."
       },
       {
-        "term": "congestion charges",
-        "vietnamese": "phí tắc nghẽn",
-        "context": "congestion charges"
+        "term": "underpinned",
+        "vietnamese": "được củng cố / nâng đỡ",
+        "context": "When **underpinned** by adequate infrastructure."
       },
       {
-        "term": "dedicated lanes",
-        "vietnamese": "làn dành riêng",
-        "context": "dedicated lanes proliferated"
+        "term": "reinforce",
+        "vietnamese": "củng cố",
+        "context": "Future planning should **reinforce** these green transitions."
+      },
+      {
+        "term": "decarbonisation",
+        "vietnamese": "khử cacbon",
+        "context": "Continued **decarbonisation** of the transport matrix."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "Cars ___ the modal split in 2000.",
-          "answer": "dominated"
+          "sentence": "Private-car ___ experienced a precipitous decline.",
+          "answer": "hegemony"
         },
         {
-          "sentence": "Metro use ___ to 16%.",
-          "answer": "doubled"
+          "sentence": "Walking is a ___ choice impervious to infrastructure.",
+          "answer": "habitual"
         },
         {
-          "sentence": "Cycling ___ to 15%.",
-          "answer": "tripled"
+          "sentence": "The decline is partly ___ to congestion-charging zones.",
+          "answer": "attributable"
         },
         {
-          "sentence": "There was a clear ___ shift.",
-          "answer": "modal"
+          "sentence": "Bike-share schemes ___ throughout the urban core.",
+          "answer": "diffused"
         },
         {
-          "sentence": "Cycling grew thanks to dedicated ___.",
-          "answer": "lanes"
+          "sentence": "Future planning should ___ these green transitions.",
+          "answer": "reinforce"
         }
       ]
-    },
-    "chartConfig": {
+    },    "chartConfig": {
       "type": "pie",
       "pieNameKey": "mode",
       "pieValueKey": "value",
