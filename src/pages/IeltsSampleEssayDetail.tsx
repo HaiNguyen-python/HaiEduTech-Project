@@ -161,10 +161,10 @@ const IeltsSampleEssayDetail = () => {
             <IELTSChart config={essay.chartConfig} />
           )}
 
-          {/* Outline — structure & key ideas */}
+          {/* Outline - structure & key ideas */}
           <EssayOutline essay={essay} />
 
-          {/* Interactive Writing Guide — step-by-step sentence lesson */}
+          {/* Interactive Writing Guide - step-by-step sentence lesson */}
           <InteractiveWritingGuide
             essayBody={essay.essayBody}
             glossary={essay.glossary}
@@ -201,8 +201,8 @@ const IeltsSampleEssayDetail = () => {
             </h2>
             <p className="text-xs text-muted-foreground mb-4">
               {t(
-                "Mỗi cụm từ có nút 'Viết câu & chấm điểm' để bạn vận dụng ngay — không chỉ học thuộc.",
-                "Each phrase has a 'Use it → AI grade' button so you can apply it immediately — not just memorise it."
+                "Mỗi cụm từ có nút 'Viết câu & chấm điểm' để bạn vận dụng ngay - không chỉ học thuộc.",
+                "Each phrase has a 'Use it → AI grade' button so you can apply it immediately - not just memorise it."
               )}
             </p>
             <div className="overflow-auto">

@@ -1,4 +1,4 @@
-// Interactive Writing Guide — turns a static Band 7.0+ sample essay into a step-by-step lesson.
+// Interactive Writing Guide - turns a static Band 7.0+ sample essay into a step-by-step lesson.
 // Students draft each sentence first, then reveal the master copy + analysis, and watch their essay build up.
 import { useMemo, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -307,7 +307,7 @@ const InteractiveWritingGuide = ({ essayBody, glossary, taskType }: Props) => {
               >
                 <div className="rounded-lg border-l-4 border-emerald-500 bg-emerald-500/5 p-4">
                   <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mb-1 flex items-center gap-1">
-                    <Sparkles className="w-3.5 h-3.5" /> {t("Câu mẫu Band 7.0+", "Master copy — Band 7.0+")}
+                    <Sparkles className="w-3.5 h-3.5" /> {t("Câu mẫu Band 7.0+", "Master copy - Band 7.0+")}
                   </p>
                   <p className="text-foreground leading-relaxed font-['Georgia',_serif]">
                     {current.rawText.split(/\*\*(.*?)\*\*/g).map((part, i) =>

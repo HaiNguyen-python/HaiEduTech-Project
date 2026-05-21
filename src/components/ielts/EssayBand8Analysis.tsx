@@ -63,11 +63,11 @@ const EssayBand8Analysis: React.FC<Props> = ({ essay }) => {
     : t("Trả lời Đề bài (Task Response)", "Task Response");
   const taskPoints = isTask1
     ? [
-        t(`${wordCount} từ — vượt mốc 150, đủ chỗ phủ mọi xu hướng chính.`, `${wordCount} words — well above the 150 floor.`),
+        t(`${wordCount} từ - vượt mốc 150, đủ chỗ phủ mọi xu hướng chính.`, `${wordCount} words - well above the 150 floor.`),
         t("Có câu paraphrase đề + overview rõ ràng (yêu cầu bắt buộc Band 7+).", "Clear paraphrase + overview (mandatory for Band 7+)."),
       ]
     : [
-        t(`${wordCount} từ — vượt mốc 250, đủ sâu để phát triển luận điểm.`, `${wordCount} words — comfortably above 250.`),
+        t(`${wordCount} từ - vượt mốc 250, đủ sâu để phát triển luận điểm.`, `${wordCount} words - comfortably above 250.`),
         t("Thesis rõ ràng, mỗi thân bài 1 ý chính, kết bài có khuyến nghị.", "Clear thesis, one idea per body paragraph, conclusion with recommendation."),
       ];
 
@@ -127,8 +127,8 @@ const EssayBand8Analysis: React.FC<Props> = ({ essay }) => {
           </h2>
           <p className="text-sm text-muted-foreground mt-1">
             {t(
-              "Breakdown theo 4 tiêu chí chấm của IELTS Examiner để bạn học cách viết — chứ không chỉ đọc.",
-              "Broken down across the 4 official IELTS examiner criteria so you can learn to write — not just read."
+              "Breakdown theo 4 tiêu chí chấm của IELTS Examiner để bạn học cách viết - chứ không chỉ đọc.",
+              "Broken down across the 4 official IELTS examiner criteria so you can learn to write - not just read."
             )}
           </p>
         </div>
