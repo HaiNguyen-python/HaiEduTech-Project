@@ -414,81 +414,91 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "chartType": "bar",
     "topic": "reading habits",
     "prompt": "The bar chart below shows average weekly hours spent reading books in five countries (UK, USA, Germany, Japan, Brazil) in 2005 and 2020. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The bar chart presents weekly reading hours in five countries at two points in time, 2005 and 2020.\n\nOverall, reading time **declined** in most countries, with the UK and USA showing the steepest **contractions**. Only Germany **bucked the trend**, registering a modest gain.\n\nIn 2005, the UK led with around 7 weekly hours of reading, followed closely by Germany and Japan at roughly 6 hours each. The USA stood at 5 hours, while Brazil **trailed** at 3.5. Fifteen years later, UK figures had **slumped** to 4.5 hours, mirrored by a similar decline in the USA to 3.5.\n\nGermany **edged upward** to 6.5 hours, becoming the new leader, possibly due to sustained library investment. Japan held steady at around 5.5, and Brazil dipped slightly to 3 hours. The data suggest that **digital distractions** have eroded traditional reading time across most industrialised nations, with Germany standing out as a notable **outlier**.",
+    "essayBody": "The bar chart sets out average weekly book-reading hours across five nations at two snapshots, 2005 and 2020, illuminating a fifteen-year shift in **leisure-reading** habits.\n\nOverall, reading time **declined** in four of the five countries, with the UK and USA recording the steepest **contractions**, while Germany alone **bucked the trend** to register a modest gain. The data hint that **digital distractions** have **eroded** traditional reading time across most industrialised economies.\n\nIn 2005, the UK led the field with around 7 weekly hours, narrowly ahead of Germany and Japan, both near 6 hours. The USA followed at 5 hours, while Brazil **trailed** at 3.5. Fifteen years later, UK figures had **slumped** to 4.5 hours, and the USA suffered a parallel decline to 3.5, consistent with NEA findings on falling literary reading in North America.\n\nGermany, by contrast, **edged upward** to 6.5 hours, emerging as the new leader - a result widely attributed to **sustained** municipal library investment and the Stiftung Lesen reading initiative. Japan remained essentially flat at 5.5 hours, while Brazil dipped slightly to 3. Germany therefore stands out as a striking **outlier** in an otherwise downward narrative.",
     "glossary": [
+      {
+        "term": "leisure-reading",
+        "vietnamese": "đọc sách giải trí",
+        "context": "The chart illuminates a fifteen-year shift in **leisure-reading** habits."
+      },
       {
         "term": "declined",
         "vietnamese": "giảm",
-        "context": "reading time declined"
+        "context": "Reading time **declined** in four of the five countries surveyed."
       },
       {
         "term": "contractions",
         "vietnamese": "sự co lại",
-        "context": "steepest contractions"
+        "context": "The UK and USA recorded the steepest **contractions** in weekly hours."
       },
       {
         "term": "bucked the trend",
         "vietnamese": "đi ngược xu hướng",
-        "context": "Germany bucked the trend"
-      },
-      {
-        "term": "trailed",
-        "vietnamese": "tụt lại sau",
-        "context": "Brazil trailed"
-      },
-      {
-        "term": "slumped",
-        "vietnamese": "sụt giảm mạnh",
-        "context": "UK figures slumped"
-      },
-      {
-        "term": "edged upward",
-        "vietnamese": "nhích lên",
-        "context": "Germany edged upward"
+        "context": "Germany alone **bucked the trend** to register a modest gain."
       },
       {
         "term": "digital distractions",
         "vietnamese": "sự phân tâm bởi công nghệ số",
-        "context": "digital distractions"
-      },
-      {
-        "term": "outlier",
-        "vietnamese": "ngoại lệ",
-        "context": "notable outlier"
-      },
-      {
-        "term": "sustained",
-        "vietnamese": "bền vững",
-        "context": "sustained library investment"
+        "context": "The data hint that **digital distractions** have eroded traditional reading time."
       },
       {
         "term": "eroded",
         "vietnamese": "làm xói mòn",
-        "context": "eroded traditional reading time"
+        "context": "Streaming and social media have **eroded** traditional reading time across most economies."
+      },
+      {
+        "term": "trailed",
+        "vietnamese": "tụt lại sau",
+        "context": "Brazil **trailed** at 3.5 hours, the lowest figure in 2005."
+      },
+      {
+        "term": "slumped",
+        "vietnamese": "sụt giảm mạnh",
+        "context": "UK figures **slumped** to 4.5 hours by 2020."
+      },
+      {
+        "term": "edged upward",
+        "vietnamese": "nhích lên",
+        "context": "Germany **edged upward** to 6.5 hours, emerging as the new leader."
+      },
+      {
+        "term": "sustained",
+        "vietnamese": "bền vững",
+        "context": "Germany's rise is attributed to **sustained** municipal library investment."
+      },
+      {
+        "term": "outlier",
+        "vietnamese": "ngoại lệ",
+        "context": "Germany stands out as a striking **outlier** in an otherwise downward narrative."
+      },
+      {
+        "term": "parallel decline",
+        "vietnamese": "sự suy giảm song song",
+        "context": "The USA suffered a **parallel decline** to 3.5 hours, consistent with NEA findings."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "Reading time ___ in most countries.",
-          "answer": "declined"
+          "sentence": "The chart shows a shift in ___ habits across five nations.",
+          "answer": "leisure-reading"
         },
         {
-          "sentence": "Germany ___ the trend.",
+          "sentence": "The UK and USA recorded the steepest ___.",
+          "answer": "contractions"
+        },
+        {
+          "sentence": "Germany alone ___ the trend with a modest gain.",
           "answer": "bucked"
         },
         {
-          "sentence": "UK figures ___ to 4.5 hours.",
-          "answer": "slumped"
+          "sentence": "Digital distractions have ___ traditional reading time.",
+          "answer": "eroded"
         },
         {
-          "sentence": "Germany ___ to 6.5 hours.",
-          "answer": "edged upward"
-        },
-        {
-          "sentence": "Germany stands as a notable ___.",
+          "sentence": "Germany stands out as a striking ___.",
           "answer": "outlier"
         }
       ]
