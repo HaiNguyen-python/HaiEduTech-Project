@@ -15,6 +15,7 @@ import confetti from "canvas-confetti";
 import SEO from "@/components/SEO";
 import EssayBand8Analysis from "@/components/ielts/EssayBand8Analysis";
 import GlossaryPhrasePractice from "@/components/ielts/GlossaryPhrasePractice";
+import InteractiveWritingGuide from "@/components/ielts/InteractiveWritingGuide";
 
 const IeltsSampleEssayDetail = () => {
   const { essayId } = useParams();
@@ -158,13 +159,24 @@ const IeltsSampleEssayDetail = () => {
             <IELTSChart config={essay.chartConfig} />
           )}
 
-          {/* Essay Body with proper paragraph spacing */}
-          <div className="glass-card rounded-xl p-6 md:p-8">
-            <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
-              <BookOpen className="w-5 h-5 text-primary" />
-              {t("Bài mẫu Band 8.0+", "Sample Essay Band 8.0+")}
-            </h2>
-            <div className="text-foreground leading-[2] text-[15px] font-['Georgia',_'Merriweather',_serif]">
+          {/* Interactive Writing Guide — step-by-step sentence lesson */}
+          <InteractiveWritingGuide
+            essayBody={essay.essayBody}
+            glossary={essay.glossary}
+            taskType={essay.taskType}
+          />
+
+          {/* Full essay reference (collapsed view + PDF) */}
+          <details className="glass-card rounded-xl p-6 md:p-8 group">
+            <summary className="cursor-pointer flex items-center justify-between gap-2 list-none">
+              <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+                <BookOpen className="w-5 h-5 text-primary" />
+                {t("Xem toàn bộ bài mẫu (Band 8.0+)", "View full sample essay (Band 8.0+)")}
+              </h2>
+              <span className="text-xs text-muted-foreground group-open:hidden">{t("Mở", "Show")}</span>
+              <span className="text-xs text-muted-foreground hidden group-open:inline">{t("Đóng", "Hide")}</span>
+            </summary>
+            <div className="mt-4 text-foreground leading-[2] text-[15px] font-['Georgia',_'Merriweather',_serif]">
               {renderEssayBody(essay.essayBody)}
             </div>
             <div className="mt-4 flex justify-end">
@@ -172,7 +184,7 @@ const IeltsSampleEssayDetail = () => {
                 <Download className="w-4 h-4 mr-1" /> {t("Tải PDF", "Download PDF")}
               </Button>
             </div>
-          </div>
+          </details>
 
           {/* Band 8.0+ Analysis — TA/TR · CC · LR · GRA */}
           <EssayBand8Analysis essay={essay} />
