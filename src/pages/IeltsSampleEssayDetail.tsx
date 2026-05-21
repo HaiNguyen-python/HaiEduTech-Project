@@ -65,6 +65,20 @@ const IeltsSampleEssayDetail = () => {
     });
   };
 
+  // Extract the first full sentence from the essay body that contains the given term
+  const findFullSentence = (body: string, term: string): string => {
+    const clean = body.replace(/\*\*/g, "").replace(/\n+/g, " ");
+    const sentences = clean.match(/[^.!?]+[.!?]+/g) || [];
+    const found = sentences.find((s) => s.toLowerCase().includes(term.toLowerCase()));
+    return (found || "").trim();
+  };
+
+  // Build a topic illustration URL (Pollinations free image CDN) for Task 2 essays
+  const topicImageUrl = (topic: string) =>
+    `https://image.pollinations.ai/prompt/${encodeURIComponent(
+      `A clean editorial flat illustration representing the theme: ${topic}. Modern, soft pastel palette, no text, no watermark.`
+    )}?width=1200&height=480&nologo=true&seed=42`;
+
   const score = essay.reviewExercise.items.reduce(
     (acc, item, i) => acc + (answers[i]?.trim().toLowerCase() === item.answer.toLowerCase() ? 1 : 0), 0
   );
