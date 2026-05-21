@@ -169,10 +169,10 @@ const IeltsSampleEssayDetail = () => {
           <ArrowLeft className="w-4 h-4" /> {t("Quay lại danh sách", "Back to list")}
         </Link>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
           {/* Header */}
           <div>
-            <div className="flex items-center gap-2 mb-2">
+            <div className="flex items-center gap-2 mb-1.5">
               <Badge variant={essay.taskType === 1 ? "secondary" : "default"}>Task {essay.taskType}</Badge>
               <Badge variant="outline" className="capitalize">{essay.chartType || essay.essayType}</Badge>
               <Badge variant="outline">Band 8.0+</Badge>
@@ -181,8 +181,8 @@ const IeltsSampleEssayDetail = () => {
           </div>
 
           {/* Topic (Prompt) */}
-          <div className="border-l-4 border-primary bg-primary/5 rounded-r-lg p-3.5">
-            <p className="text-sm font-medium text-primary mb-1">{t("Chủ đề", "Topic")}</p>
+          <div className="border-l-4 border-primary bg-primary/5 rounded-r-lg p-3">
+            <p className="text-sm font-medium text-primary mb-0.5">{t("Chủ đề", "Topic")}</p>
             <p className="text-foreground leading-relaxed">{essay.prompt}</p>
           </div>
 
@@ -207,7 +207,7 @@ const IeltsSampleEssayDetail = () => {
           <EssayOutline essay={essay} />
 
           {/* Full essay reference with click-to-reveal teaching mode */}
-          <details className="glass-card rounded-xl p-4 md:p-5 group" open>
+          <details className="glass-card rounded-xl p-3.5 md:p-4 group" open>
             <summary className="cursor-pointer flex items-center justify-between gap-2 list-none">
               <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
                 <BookOpen className="w-5 h-5 text-primary" />
@@ -235,11 +235,11 @@ const IeltsSampleEssayDetail = () => {
           <EssayBand8Analysis essay={essay} />
 
           {/* Bilingual Glossary with per-phrase writing practice */}
-          <div className="glass-card rounded-xl p-4">
+          <div className="glass-card rounded-xl p-3.5">
             <h2 className="text-lg font-semibold text-foreground mb-1">
               📚 {t("Bảng Chú Giải Song Ngữ", "Bilingual Glossary")}
             </h2>
-            <p className="text-xs text-muted-foreground mb-3">
+            <p className="text-xs text-muted-foreground mb-2.5">
               {t(
                 "Mỗi cụm từ có sẵn câu ví dụ hoàn chỉnh - hãy viết lại câu để vận dụng và được chấm điểm ngay.",
                 "Each phrase comes with a complete example sentence - rewrite it below to apply the phrase and get instant feedback."
@@ -288,8 +288,8 @@ const IeltsSampleEssayDetail = () => {
           </div>
 
           {/* Interactive Mini-Review Challenge */}
-          <div className="glass-card rounded-xl p-4">
-            <h2 className="text-lg font-semibold text-foreground mb-2 flex items-center gap-2">
+          <div className="glass-card rounded-xl p-3.5">
+            <h2 className="text-lg font-semibold text-foreground mb-1.5 flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-primary" />
               {t("Bài Tập Ôn Tập", "Mini-Review Challenge")}
             </h2>

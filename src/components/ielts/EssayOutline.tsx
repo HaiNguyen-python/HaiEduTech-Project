@@ -51,24 +51,17 @@ const EssayOutline = ({ essay }: Props) => {
         if (i === 0) {
           label = t("Mở bài", "Introduction");
           bullets = [
-            t("Hook giới thiệu chủ đề ở góc nhìn rộng.", "Hook that introduces the topic broadly."),
-            t("Paraphrase đề bài.", "Paraphrase the question."),
-            t("Thesis: nêu rõ quan điểm + hướng triển khai.", "Thesis: state your stance + essay direction."),
+            t("Paraphrase đề + nêu rõ thesis (quan điểm).", "Paraphrase the prompt + clear thesis."),
           ];
         } else if (i === total - 1) {
           label = t("Kết bài", "Conclusion");
           bullets = [
-            t("Khẳng định lại quan điểm bằng cách diễn đạt khác.", "Restate your stance in different words."),
-            t("Tóm tắt 1-2 luận điểm chính.", "Summarise 1-2 main arguments."),
-            t("Đưa khuyến nghị hoặc dự đoán.", "Add a recommendation or prediction."),
+            t("Khẳng định lại quan điểm + tóm tắt nhanh 2 luận điểm.", "Restate stance + quick recap of 2 main points."),
           ];
         } else {
           label = t(`Thân bài ${i}`, `Body ${i}`);
           bullets = [
-            t("Topic sentence: 1 ý chính duy nhất cho đoạn.", "Topic sentence: one single main idea."),
-            t("Giải thích logic / nguyên nhân.", "Explain the logic / reasoning."),
-            t("Ví dụ cụ thể hoặc dữ liệu minh hoạ.", "Concrete example or supporting data."),
-            t("Câu kết nối lại với luận điểm chính.", "Mini-conclusion tying back to the claim."),
+            t("1 luận điểm chính + lý do + ví dụ ngắn.", "One main point + reason + brief example."),
           ];
         }
       }
@@ -81,32 +74,32 @@ const EssayOutline = ({ essay }: Props) => {
     <motion.div
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
-      className="glass-card rounded-xl p-5 md:p-6 border border-primary/20"
+      className="glass-card rounded-xl p-4 md:p-5 border border-primary/20"
     >
-      <div className="flex items-center gap-2 mb-4">
-        <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-primary to-emerald-500 flex items-center justify-center">
-          <ListTree className="w-5 h-5 text-white" />
+      <div className="flex items-center gap-2 mb-3">
+        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-emerald-500 flex items-center justify-center">
+          <ListTree className="w-4 h-4 text-white" />
         </div>
         <div>
-          <h2 className="text-base md:text-lg font-bold text-foreground">
+          <h2 className="text-base md:text-lg font-bold text-foreground leading-tight">
             🗂️ {t("Outline bài viết", "Essay Outline")}
           </h2>
           <p className="text-xs text-muted-foreground">
-            {t("Các ý chính cần tập trung trong mỗi phần.", "Key focus points for each section.")}
+            {t("Ý chính cần có trong mỗi phần.", "Key points for each section.")}
           </p>
         </div>
       </div>
 
-      <ol className="space-y-3">
+      <ol className="space-y-2">
         {sections.map((s, i) => (
-          <li key={i} className="rounded-lg border bg-background/60 p-3 md:p-4">
-            <div className="flex items-center gap-2 flex-wrap mb-2">
-              <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs font-bold">
+          <li key={i} className="rounded-lg border bg-background/60 px-3 py-2">
+            <div className="flex items-center gap-2 flex-wrap mb-1">
+              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-primary text-primary-foreground text-[11px] font-bold">
                 {i + 1}
               </span>
               <span className="text-sm font-semibold text-primary">{s.label}</span>
             </div>
-            <ul className="space-y-1.5 pl-1">
+            <ul className="space-y-1 pl-1">
               {s.bullets.map((b, j) => (
                 <li key={j} className="flex gap-2 text-sm text-foreground/90 leading-snug">
                   <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
