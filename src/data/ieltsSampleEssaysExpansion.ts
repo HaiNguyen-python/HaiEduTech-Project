@@ -1367,92 +1367,111 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     }
   },
-  {
+    {
     "id": "t1-21",
     "taskType": 1,
     "chartType": "process",
     "topic": "chocolate production",
     "prompt": "The diagram below shows how chocolate is produced. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The diagram outlines the multi-stage industrial process by which chocolate is manufactured from raw cacao beans.\n\nOverall, chocolate production involves seven main stages, beginning with the **harvesting** of cacao pods on tropical plantations and **culminating** in packaging for retail. The process **combines** agricultural and industrial operations.\n\nInitially, **ripe** cacao pods are harvested by hand from cacao trees, primarily in equatorial regions. The pods are then split open to extract the beans, which are placed in wooden boxes and allowed to **ferment** for around a week, developing the characteristic flavour. Once fermented, the beans are spread out to **dry** under the sun before being shipped to processing factories.\n\nAt the factory, beans are **roasted** at high temperature to deepen the flavour and remove any moisture. They are subsequently **crushed** to separate the husk from the inner nibs, which are then ground into a thick liquid known as cocoa mass. After mixing with sugar and milk, the chocolate is **moulded** into bars and finally **packaged**. Crucially, the entire process **transforms** a bitter agricultural product into the sweet confection familiar to consumers.",
+    "essayBody": "The diagram delineates the multi-stage industrial process by which raw cacao beans are transformed into commercially packaged chocolate.\n\nOverall, the procedure comprises seven discrete stages that **straddle** both agricultural and industrial domains, beginning with the manual **harvesting** of cacao pods on tropical plantations and **culminating** in the retail packaging of finished bars. The process is noteworthy for its reliance on **biochemical transformation** as well as thermal and mechanical refinement.\n\nInitially, **ripe** cacao pods are hand-picked from trees cultivated predominantly within 20° of the equator. The pods are then split open to extract the beans, which are placed in wooden trays and allowed to **ferment** for approximately seven days—a critical **biochemical** step during which heat and microbial activity develop the precursors of chocolate\'s characteristic flavour profile. Once fermentation is complete, the beans are spread in thin layers to **dry** under direct sunlight, reducing their moisture content sufficiently for transoceanic shipment to processing facilities.\n\nAt the factory, the dried beans undergo **roasting** at elevated temperatures both to deepen flavour complexity and to facilitate the subsequent removal of the papery husk. The roasted beans are then **crushed** and **winnowed** to separate nibs from chaff, after which the nibs are **ground** into a viscous liquor known as cocoa mass. Following the addition of sugar, milk solids and emulsifiers, the refined chocolate is **tempered** to stabilise crystal structure, **moulded** into standardised bars, and finally **packaged** under controlled conditions. In essence, the entire sequence **metamorphoses** a bitter, astringent agricultural commodity into the sweet confection universally recognised by consumers.",
     "glossary": [
+      {
+        "term": "straddle",
+        "vietnamese": "bao trùm / vắt ngang",
+        "context": "The seven stages **straddle** both agricultural and industrial domains."
+      },
       {
         "term": "harvesting",
         "vietnamese": "thu hoạch",
-        "context": "harvesting of cacao pods"
+        "context": "The process begins with the manual **harvesting** of cacao pods on tropical plantations."
       },
       {
         "term": "culminating",
-        "vietnamese": "kết thúc",
-        "context": "culminating in packaging"
+        "vietnamese": "kết thúc / đạt đỉnh điểm",
+        "context": "The procedure ends by **culminating** in the retail packaging of finished bars."
       },
       {
-        "term": "combines",
-        "vietnamese": "kết hợp",
-        "context": "combines agricultural and industrial"
+        "term": "biochemical transformation",
+        "vietnamese": "biến đổi sinh hóa",
+        "context": "The process relies on **biochemical transformation** as well as thermal refinement."
       },
       {
         "term": "ripe",
         "vietnamese": "chín",
-        "context": "ripe cacao pods"
+        "context": "**Ripe** cacao pods are hand-picked from equatorial trees."
       },
       {
         "term": "ferment",
         "vietnamese": "lên men",
-        "context": "beans ferment for a week"
+        "context": "Beans are allowed to **ferment** for approximately seven days."
+      },
+      {
+        "term": "biochemical",
+        "vietnamese": "sinh hóa",
+        "context": "Fermentation is a critical **biochemical** step in flavour development."
       },
       {
         "term": "dry",
         "vietnamese": "phơi khô",
-        "context": "spread out to dry"
+        "context": "Beans are spread to **dry** under direct sunlight before shipment."
       },
       {
-        "term": "roasted",
+        "term": "roasting",
         "vietnamese": "rang",
-        "context": "beans are roasted"
+        "context": "Dried beans undergo **roasting** at elevated temperatures."
       },
       {
-        "term": "crushed",
+        "term": "winnowed",
+        "vietnamese": "sàng tách (vỏ trấu)",
+        "context": "Roasted beans are crushed and **winnowed** to separate nibs from chaff."
+      },
+      {
+        "term": "ground",
         "vietnamese": "nghiền",
-        "context": "beans are crushed"
+        "context": "Nibs are **ground** into a viscous liquor known as cocoa mass."
+      },
+      {
+        "term": "tempered",
+        "vietnamese": "làm nguội điều chỉnh",
+        "context": "The chocolate is **tempered** to stabilise its crystal structure."
       },
       {
         "term": "moulded",
         "vietnamese": "đúc khuôn",
-        "context": "chocolate is moulded"
+        "context": "Refined chocolate is **moulded** into standardised bars."
       },
       {
-        "term": "transforms",
-        "vietnamese": "biến đổi",
-        "context": "transforms a bitter product"
+        "term": "metamorphoses",
+        "vietnamese": "biến đổi hoàn toàn",
+        "context": "The sequence **metamorphoses** a bitter commodity into a sweet confection."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "Cacao pods are ___ by hand.",
-          "answer": "harvested"
+          "sentence": "The seven stages ___ both agricultural and industrial domains.",
+          "answer": "straddle"
         },
         {
-          "sentence": "Beans must ___ for a week.",
+          "sentence": "Beans are allowed to ___ for approximately seven days.",
           "answer": "ferment"
         },
         {
-          "sentence": "Beans are ___ at high temperature.",
-          "answer": "roasted"
+          "sentence": "Roasted beans are ___ to separate nibs from chaff.",
+          "answer": "winnowed"
         },
         {
-          "sentence": "Liquid chocolate is ___ into bars.",
-          "answer": "moulded"
+          "sentence": "Chocolate is ___ to stabilise crystal structure before moulding.",
+          "answer": "tempered"
         },
         {
-          "sentence": "Process ___ a bitter product.",
-          "answer": "transforms"
+          "sentence": "The process ___ a bitter commodity into a sweet confection.",
+          "answer": "metamorphoses"
         }
       ]
-    },
-    "chartConfig": {
+    },    "chartConfig": {
       "data": [],
       "type": "process",
       "stages": [
@@ -1494,92 +1513,121 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     }
   },
-  {
+    {
     "id": "t1-22",
     "taskType": 1,
     "chartType": "process",
     "topic": "water cycle",
     "prompt": "The diagram below shows the water cycle. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The diagram illustrates the natural water cycle, a continuous and **self-renewing** process that **circulates** water through the Earth's atmosphere, surface and underground systems.\n\nOverall, the cycle has four key stages - **evaporation**, **condensation**, **precipitation** and **collection** - and is driven primarily by solar energy. Together they ensure the steady **redistribution** of fresh water.\n\nThe process begins when the Sun heats the surface of oceans, lakes and rivers, causing liquid water to **evaporate** into invisible vapour that rises into the atmosphere. As this vapour ascends, it cools and **condenses** around tiny dust particles, forming clouds. When droplets in the clouds become too heavy, they fall back to Earth as rain, snow or hail - collectively known as **precipitation**.\n\nA portion of this water is absorbed into the soil and **percolates** down to **replenish** underground aquifers, while the remainder flows over land as runoff into streams and eventually returns to the oceans. The cycle then **repeats indefinitely**, sustained by continuous solar input. Without this **closed loop**, terrestrial life would be impossible.",
+    "essayBody": "The diagram illustrates the hydrological cycle, a continuous and **self-sustaining** process that **circulates** water through the Earth\'s atmosphere, surface and **subterranean** reservoirs.\n\nOverall, the cycle has four principal stages—**evaporation**, **condensation**, **precipitation** and **collection**—and is driven predominantly by **insolation**, the incoming solar radiation that powers almost all atmospheric motion. Together, these stages ensure the perpetual **redistribution** of fresh water across the planet.\n\nThe process commences when solar energy heats the surface of oceans, lakes and rivers, causing liquid water to **evaporate** into invisible vapour that **ascends** into the troposphere. As this vapour rises to higher altitudes, it encounters lower ambient temperatures and **condenses** around microscopic hygroscopic nuclei—typically dust, pollen or salt crystals—thereby forming visible clouds. When droplets within these clouds **coalesce** and reach a critical mass, they **descend** back to Earth as rain, snow or hail, collectively termed **precipitation**.\n\nA portion of this precipitated water **infiltrates** the soil and **percolates** downward to **replenish** underground aquifers, while the remainder flows overland as surface runoff into streams and rivers, eventually **discharging** into the oceans. The cycle then **recommences indefinitely**, sustained by uninterrupted solar input. Without this **closed-loop system**, terrestrial ecosystems—and, by extension, human civilisation—would be **untenable**.",
     "glossary": [
       {
-        "term": "self-renewing",
-        "vietnamese": "tự tái tạo",
-        "context": "self-renewing process"
+        "term": "self-sustaining",
+        "vietnamese": "tự duy trì",
+        "context": "The hydrological cycle is a continuous and **self-sustaining** process."
       },
       {
         "term": "circulates",
         "vietnamese": "tuần hoàn",
-        "context": "circulates water"
+        "context": "The cycle **circulates** water through the atmosphere and surface."
       },
       {
-        "term": "evaporation",
-        "vietnamese": "sự bốc hơi",
-        "context": "evaporation stage"
+        "term": "subterranean",
+        "vietnamese": "dưới lòng đất",
+        "context": "Water moves through **subterranean** reservoirs."
       },
       {
-        "term": "condensation",
-        "vietnamese": "sự ngưng tụ",
-        "context": "condensation stage"
-      },
-      {
-        "term": "precipitation",
-        "vietnamese": "giáng thủy",
-        "context": "precipitation"
+        "term": "insolation",
+        "vietnamese": "bức xạ mặt trời",
+        "context": "The cycle is driven by **insolation**, incoming solar radiation."
       },
       {
         "term": "redistribution",
         "vietnamese": "sự tái phân phối",
-        "context": "steady redistribution of water"
+        "context": "The stages ensure the perpetual **redistribution** of fresh water."
       },
       {
         "term": "evaporate",
         "vietnamese": "bốc hơi",
-        "context": "liquid water to evaporate"
+        "context": "Solar energy causes liquid water to **evaporate** into invisible vapour."
+      },
+      {
+        "term": "ascends",
+        "vietnamese": "bay lên",
+        "context": "Vapour **ascends** into the troposphere."
       },
       {
         "term": "condenses",
         "vietnamese": "ngưng tụ",
-        "context": "vapour condenses"
+        "context": "Vapour cools and **condenses** around hygroscopic nuclei."
+      },
+      {
+        "term": "coalesce",
+        "vietnamese": "hợp nhất / kết tụ",
+        "context": "Droplets **coalesce** and reach a critical mass."
+      },
+      {
+        "term": "descend",
+        "vietnamese": "rơi xuống",
+        "context": "They **descend** back to Earth as rain, snow or hail."
+      },
+      {
+        "term": "infiltrates",
+        "vietnamese": "thấm vào",
+        "context": "Water **infiltrates** the soil and percolates downward."
       },
       {
         "term": "percolates",
         "vietnamese": "thấm xuống",
-        "context": "percolates down"
+        "context": "Water **percolates** downward to replenish underground aquifers."
       },
       {
         "term": "replenish",
         "vietnamese": "bổ sung",
-        "context": "replenish underground aquifers"
+        "context": "Water percolates down to **replenish** underground aquifers."
+      },
+      {
+        "term": "discharging",
+        "vietnamese": "đổ ra",
+        "context": "Runoff eventually **discharges** into the oceans."
+      },
+      {
+        "term": "closed-loop system",
+        "vietnamese": "hệ thống tuần hoàn kín",
+        "context": "Without this **closed-loop system**, terrestrial ecosystems would be untenable."
+      },
+      {
+        "term": "untenable",
+        "vietnamese": "không thể duy trì",
+        "context": "Human civilisation would be **untenable** without the water cycle."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "The cycle is ___ by solar energy.",
-          "answer": "driven"
+          "sentence": "The hydrological cycle is a ___ process driven by solar energy.",
+          "answer": "self-sustaining"
         },
         {
-          "sentence": "Water ___ into invisible vapour.",
-          "answer": "evaporates"
+          "sentence": "The cycle is driven by ___, incoming solar radiation.",
+          "answer": "insolation"
         },
         {
-          "sentence": "Vapour ___ to form clouds.",
-          "answer": "condenses"
+          "sentence": "Droplets ___ and reach a critical mass before falling.",
+          "answer": "coalesce"
         },
         {
-          "sentence": "Rain, snow and hail are ___.",
-          "answer": "precipitation"
+          "sentence": "Water ___ the soil and percolates to underground aquifers.",
+          "answer": "infiltrates"
         },
         {
-          "sentence": "Water ___ to replenish aquifers.",
-          "answer": "percolates"
+          "sentence": "Without this ___ system, human civilisation would be untenable.",
+          "answer": "closed-loop"
         }
       ]
-    },
-    "chartConfig": {
+    },    "chartConfig": {
       "data": [],
       "type": "process",
       "stages": [
@@ -1606,92 +1654,111 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     }
   },
-  {
+    {
     "id": "t1-23",
     "taskType": 1,
     "chartType": "mixed",
     "topic": "climate",
     "prompt": "The chart below shows the average monthly rainfall (bars, mm) and temperature (line, °C) in City Q. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The combined chart displays average monthly rainfall and temperature for City Q across one calendar year.\n\nOverall, the city exhibits a clearly **seasonal** climate, with rainfall **concentrated** in the summer months and temperatures peaking mid-year. The two variables track each other closely, suggesting a typical **monsoon-style** pattern.\n\nRainfall begins at a modest 30 mm in January, **edging upward** through spring before **peaking** sharply at 220 mm in July. This **precipitation maximum** coincides with the warmest period of the year, when temperatures climb from around 5°C in January to 28°C in July. After the summer **apex**, rainfall **tapers off** rapidly, falling back to roughly 40 mm by November.\n\nTemperatures follow a similarly **bell-shaped** curve, declining from August onward and bottoming out at around 4°C in December. Importantly, the months with the heaviest rain are also the hottest, indicating the influence of warm-season weather systems. The pattern would have practical implications for **agricultural planning** and tourism.",
+    "essayBody": "The combined chart displays the monthly distribution of rainfall and mean temperature for City Q across a single calendar year.\n\nOverall, the city exhibits a markedly **seasonal** climate, with rainfall **concentrated** in the summer months and temperatures **peaking** mid-year. The two variables track each other with remarkable **concordance**, suggesting a classic **monsoonal** regime in which thermal and **hyetological** maxima **coincide**.\n\nRainfall commences at a modest 30 mm in January, **edging upward** through the spring months before **peaking** sharply at 220 mm in July—a **precipitation apex** that coincides with the warmest period, when temperatures climb from around 5°C in January to 28°C in July. This synchrony implies that warm, moisture-laden air masses dominate the summer atmosphere. After the midsummer **zenith**, rainfall **tapers off** rapidly, retreating to roughly 40 mm by November.\n\nTemperatures follow a similarly **sigmoid** trajectory, declining from August onward and **bottoming out** at approximately 4°C in December. The close correlation between thermal and pluviometric data has tangible implications for **agronomic scheduling**, flood-risk management and tourism-season planning.",
     "glossary": [
       {
         "term": "seasonal",
         "vietnamese": "theo mùa",
-        "context": "clearly seasonal climate"
+        "context": "The city exhibits a markedly **seasonal** climate."
       },
       {
         "term": "concentrated",
         "vietnamese": "tập trung",
-        "context": "rainfall concentrated"
-      },
-      {
-        "term": "monsoon-style",
-        "vietnamese": "kiểu gió mùa",
-        "context": "monsoon-style pattern"
-      },
-      {
-        "term": "edging upward",
-        "vietnamese": "nhích lên",
-        "context": "edging upward through spring"
+        "context": "Rainfall is **concentrated** in the summer months."
       },
       {
         "term": "peaking",
         "vietnamese": "đạt đỉnh",
-        "context": "peaking sharply at 220 mm"
+        "context": "Temperatures are **peaking** mid-year alongside rainfall."
       },
       {
-        "term": "precipitation maximum",
+        "term": "concordance",
+        "vietnamese": "sự phù hợp / tương quan",
+        "context": "The two variables track each other with remarkable **concordance**."
+      },
+      {
+        "term": "monsoonal",
+        "vietnamese": "kiểu gió mùa",
+        "context": "The pattern suggests a classic **monsoonal** regime."
+      },
+      {
+        "term": "hyetological",
+        "vietnamese": "thuộc về lượng mưa",
+        "context": "Thermal and **hyetological** maxima coincide in summer."
+      },
+      {
+        "term": "coincide",
+        "vietnamese": "trùng khớp",
+        "context": "Rain and temperature maxima **coincide** in July."
+      },
+      {
+        "term": "edging upward",
+        "vietnamese": "nhích lên",
+        "context": "Rainfall begins modestly, **edging upward** through spring."
+      },
+      {
+        "term": "precipitation apex",
         "vietnamese": "đỉnh lượng mưa",
-        "context": "precipitation maximum"
+        "context": "July marks the **precipitation apex** at 220 mm."
       },
       {
-        "term": "apex",
-        "vietnamese": "đỉnh",
-        "context": "summer apex"
+        "term": "zenith",
+        "vietnamese": "đỉnh cao",
+        "context": "After the midsummer **zenith**, rainfall tapers off."
       },
       {
         "term": "tapers off",
         "vietnamese": "giảm dần",
-        "context": "rainfall tapers off"
+        "context": "Rainfall **tapers off** rapidly after August."
       },
       {
-        "term": "bell-shaped",
-        "vietnamese": "hình chuông",
-        "context": "bell-shaped curve"
+        "term": "sigmoid",
+        "vietnamese": "hình chữ S",
+        "context": "Temperatures follow a **sigmoid** trajectory through the year."
       },
       {
-        "term": "agricultural planning",
-        "vietnamese": "kế hoạch nông nghiệp",
-        "context": "agricultural planning"
+        "term": "bottoming out",
+        "vietnamese": "chạm đáy",
+        "context": "Temperatures decline, **bottoming out** at 4°C in December."
+      },
+      {
+        "term": "agronomic scheduling",
+        "vietnamese": "lập lịch nông nghiệp",
+        "context": "The data have implications for **agronomic scheduling** and flood-risk management."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "The city has a clearly ___ climate.",
+          "sentence": "The city has a markedly ___ climate.",
           "answer": "seasonal"
         },
         {
-          "sentence": "Rainfall is ___ in summer.",
-          "answer": "concentrated"
+          "sentence": "The two variables show remarkable ___.",
+          "answer": "concordance"
         },
         {
-          "sentence": "Rainfall ___ at 220 mm in July.",
-          "answer": "peaks"
+          "sentence": "July marks the ___ apex at 220 mm.",
+          "answer": "precipitation"
         },
         {
-          "sentence": "After summer rainfall ___.",
-          "answer": "tapers off"
+          "sentence": "Rainfall ___ off rapidly after the midsummer zenith.",
+          "answer": "tapers"
         },
         {
-          "sentence": "Temperature follows a ___ curve.",
-          "answer": "bell-shaped"
+          "sentence": "Temperatures follow a ___ trajectory through the year.",
+          "answer": "sigmoid"
         }
       ]
-    },
-    "chartConfig": {
+    },    "chartConfig": {
       "type": "mixed",
       "xKey": "month",
       "barKeys": [
@@ -1764,92 +1831,111 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     }
   },
-  {
+    {
     "id": "t1-24",
     "taskType": 1,
     "chartType": "mixed",
     "topic": "company performance",
     "prompt": "The chart below shows annual sales (bars, $m) and net profit (line, $m) of Company R from 2015 to 2022. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The combined chart presents the financial performance of Company R, comparing annual sales revenue with net profit over an eight-year window.\n\nOverall, sales rose almost continuously, but profit growth was far less linear, with a notable **dip** in 2020 - almost certainly attributable to pandemic-related disruption. Profitability subsequently **rebounded** strongly.\n\nIn 2015, sales stood at $120 million while net profit was $15 million. Revenue then climbed steadily, **breaching** $200 million in 2019 before peaking near $260 million in 2022. Profit, however, did not move in lock-step: it tracked sales reasonably well until 2019, when it reached $32 million, before **slumping** to just $18 million in 2020 despite further sales growth.\n\nThis temporary erosion in margin reflected higher input costs and emergency expenditure. From 2021 onward, profit recovered sharply, **eclipsing** previous peaks at $42 million by 2022. The chart underscores the importance of distinguishing between **top-line growth** and **bottom-line resilience**, particularly during external shocks.",
+    "essayBody": "The combined chart presents the financial performance of Company R, juxtaposing annual sales revenue with net profit over an eight-year window.\n\nOverall, sales exhibited an almost uninterrupted upward trajectory, yet profit growth proved considerably less linear, with a pronounced **deterioration** in 2020 that is almost certainly **attributable to** pandemic-induced supply-chain disruption. Profitability subsequently **rebounded** with considerable **alacrity**, underscoring the firm\'s underlying **operational resilience**.\n\nIn 2015, sales stood at $120 million while net profit was $15 million. Revenue then climbed steadily, **breaching** $200 million in 2019 before reaching an apex near $260 million in 2022. Profit, however, did not move in **lock-step**: it tracked sales reasonably well until 2019, when it reached $32 million, before **slumping** to a mere $18 million in 2020 despite continued top-line expansion.\n\nThis temporary **compression** of margin reflected elevated input costs, emergency logistics expenditure and likely inventory **write-downs**. From 2021 onward, profit recovered sharply, **eclipsing** all previous peaks at $42 million by 2022. The divergence between **top-line growth** and **bottom-line volatility** during the crisis period highlights the importance of margin discipline and operational hedging when confronting **exogenous shocks**.",
     "glossary": [
       {
-        "term": "dip",
-        "vietnamese": "sự giảm",
-        "context": "notable dip in 2020"
+        "term": "deterioration",
+        "vietnamese": "sự suy giảm",
+        "context": "A pronounced **deterioration** in profit occurred in 2020."
+      },
+      {
+        "term": "attributable to",
+        "vietnamese": "do bởi",
+        "context": "The decline is **attributable to** pandemic-induced disruption."
       },
       {
         "term": "rebounded",
         "vietnamese": "phục hồi",
-        "context": "profitability rebounded"
+        "context": "Profitability subsequently **rebounded** with considerable alacrity."
+      },
+      {
+        "term": "alacrity",
+        "vietnamese": "nhanh chóng",
+        "context": "Profitability rebounded with considerable **alacrity**."
+      },
+      {
+        "term": "operational resilience",
+        "vietnamese": "khả năng phục hồi vận hành",
+        "context": "The rebound underscored the firm\'s underlying **operational resilience**."
       },
       {
         "term": "breaching",
         "vietnamese": "vượt qua",
-        "context": "breaching $200 million"
-      },
-      {
-        "term": "slumping",
-        "vietnamese": "sụt giảm",
-        "context": "slumping to just $18 million"
-      },
-      {
-        "term": "eclipsing",
-        "vietnamese": "vượt qua",
-        "context": "eclipsing previous peaks"
-      },
-      {
-        "term": "top-line growth",
-        "vietnamese": "tăng trưởng doanh thu",
-        "context": "top-line growth"
-      },
-      {
-        "term": "bottom-line resilience",
-        "vietnamese": "sức bền lợi nhuận",
-        "context": "bottom-line resilience"
-      },
-      {
-        "term": "erosion",
-        "vietnamese": "sự xói mòn",
-        "context": "erosion in margin"
-      },
-      {
-        "term": "disruption",
-        "vietnamese": "sự gián đoạn",
-        "context": "pandemic-related disruption"
+        "context": "Revenue kept climbing, **breaching** $200 million in 2019."
       },
       {
         "term": "lock-step",
         "vietnamese": "đồng bộ",
-        "context": "not move in lock-step"
+        "context": "Profit did not move in **lock-step** with sales."
+      },
+      {
+        "term": "slumping",
+        "vietnamese": "sụt giảm",
+        "context": "Profit **slumped** to a mere $18 million in 2020."
+      },
+      {
+        "term": "compression",
+        "vietnamese": "sự nén / thu hẹp",
+        "context": "This temporary **compression** of margin reflected elevated costs."
+      },
+      {
+        "term": "write-downs",
+        "vietnamese": "khấu hao giá trị",
+        "context": "The margin squeeze likely included inventory **write-downs**."
+      },
+      {
+        "term": "eclipsing",
+        "vietnamese": "vượt qua",
+        "context": "Profit recovered, **eclipsing** all previous peaks at $42 million."
+      },
+      {
+        "term": "top-line growth",
+        "vietnamese": "tăng trưởng doanh thu",
+        "context": "The divergence between **top-line growth** and bottom-line volatility is notable."
+      },
+      {
+        "term": "bottom-line volatility",
+        "vietnamese": "biến động lợi nhuận ròng",
+        "context": "**Bottom-line volatility** during the crisis period was significant."
+      },
+      {
+        "term": "exogenous shocks",
+        "vietnamese": "cú sốc bên ngoài",
+        "context": "Operational hedging is vital when confronting **exogenous shocks**."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "Profit had a notable ___ in 2020.",
-          "answer": "dip"
+          "sentence": "The decline in 2020 is ___ to pandemic-induced disruption.",
+          "answer": "attributable"
         },
         {
-          "sentence": "Profitability ___ from 2021.",
-          "answer": "rebounded"
-        },
-        {
-          "sentence": "Profit moves were not in ___.",
+          "sentence": "Profit did not move in ___ with sales growth.",
           "answer": "lock-step"
         },
         {
-          "sentence": "Sales ___ $200 million in 2019.",
-          "answer": "breached"
+          "sentence": "A temporary ___ of margin reflected elevated input costs.",
+          "answer": "compression"
         },
         {
-          "sentence": "Profit ___ previous peaks at $42m.",
-          "answer": "eclipsed"
+          "sentence": "Profit recovered, ___ all previous peaks at $42 million.",
+          "answer": "eclipsing"
+        },
+        {
+          "sentence": "Operational hedging is vital when confronting ___ shocks.",
+          "answer": "exogenous"
         }
       ]
-    },
-    "chartConfig": {
+    },    "chartConfig": {
       "type": "mixed",
       "xKey": "year",
       "barKeys": [
@@ -1902,92 +1988,151 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     }
   },
-  {
+    {
     "id": "t1-25",
     "taskType": 1,
     "chartType": "line",
     "topic": "demographics",
     "prompt": "The line graph below shows birth rates and death rates per 1,000 population in Country P from 1950 to 2020. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The line graph charts the long-term evolution of birth and death rates in Country P over a seventy-year period.\n\nOverall, both rates **trended downward**, but the birth rate fell far more steeply, indicating a **demographic transition** from high to low fertility. By the close of the period, the two lines had **converged** considerably.\n\nIn 1950, the birth rate stood at a high 38 per 1,000, far exceeding the death rate of 18. The death rate then declined steadily, reflecting medical advances, dropping to 9 by 1980 and stabilising at around 8 thereafter. The birth rate, by contrast, fell more **erratically**: it dipped to 28 in 1970, **plunged** to 18 by 2000 and ended the period at just 11 per 1,000.\n\nThe **narrowing gap** between the two indicators implies that natural population growth in Country P has decelerated dramatically. If trends continue, the country may soon experience **natural decline**, with deaths beginning to outnumber births - a major **demographic challenge** for policymakers.",
+    "essayBody": "The line graph charts the long-term evolution of **crude birth** and **mortality rates** in Country P across a seventy-year span.\n\nOverall, both indicators **trended downward**, yet the birth rate declined far more precipitously, signalling a **demographic transition** from high-fertility, high-mortality equilibrium to a low-fertility, low-mortality regime. By the close of the period, the two trajectories had **converged** to an unprecedented degree, a convergence that carries profound **actuarial** and fiscal implications.\n\nIn 1950, the birth rate stood at a high 38 per 1,000, more than **doubling** the death rate of 18. The death rate then declined steadily, reflecting successive **medical advances** in antibiotics, vaccination and sanitation, falling to 9 by 1980 and stabilising at roughly 8 thereafter—a **plateau** consistent with **mortality** floors observed in other developed economies. The birth rate, by contrast, fell more **erratically**: it dipped to 28 in 1970, **plunged** to 18 by 2000 and ended the period at a mere 11 per 1,000, a collapse plausibly linked to **female educational attainment**, urbanisation and the diffusion of contraceptive technology.\n\nThe steadily **narrowing differential** between the two indicators implies that natural population growth in Country P has **decelerated** to a crawl. Should present trajectories **persist**, the country will imminently face **natural decrease**, with deaths **outnumbering** births—a **demographic predicament** that threatens pension-system **solvency**, labour-market **density** and long-term **fiscal sustainability**.",
     "glossary": [
+      {
+        "term": "crude birth",
+        "vietnamese": "sinh thô",
+        "context": "The graph charts **crude birth** and mortality rates over seventy years."
+      },
+      {
+        "term": "mortality rates",
+        "vietnamese": "tỷ lệ tử vong",
+        "context": "The graph charts crude birth and **mortality rates** in Country P."
+      },
       {
         "term": "trended downward",
         "vietnamese": "xu hướng giảm",
-        "context": "both rates trended downward"
+        "context": "Both indicators **trended downward** across the seventy-year span."
       },
       {
         "term": "demographic transition",
         "vietnamese": "chuyển đổi nhân khẩu học",
-        "context": "demographic transition"
+        "context": "The data signal a **demographic transition** from high-fertility to low-fertility regime."
       },
       {
         "term": "converged",
         "vietnamese": "hội tụ",
-        "context": "two lines had converged"
+        "context": "The two trajectories had **converged** to an unprecedented degree by 2020."
       },
       {
-        "term": "erratically",
-        "vietnamese": "thất thường",
-        "context": "fell more erratically"
+        "term": "actuarial",
+        "vietnamese": "thuộc về bảo hiểm / thống kê nhân khẩu",
+        "context": "This convergence carries profound **actuarial** and fiscal implications."
       },
       {
-        "term": "plunged",
-        "vietnamese": "lao dốc",
-        "context": "plunged to 18 by 2000"
-      },
-      {
-        "term": "narrowing gap",
-        "vietnamese": "khoảng cách thu hẹp",
-        "context": "narrowing gap"
-      },
-      {
-        "term": "natural decline",
-        "vietnamese": "suy giảm tự nhiên",
-        "context": "experience natural decline"
-      },
-      {
-        "term": "demographic challenge",
-        "vietnamese": "thách thức nhân khẩu học",
-        "context": "demographic challenge"
-      },
-      {
-        "term": "decelerated",
-        "vietnamese": "chậm lại",
-        "context": "growth has decelerated"
+        "term": "doubling",
+        "vietnamese": "gấp đôi",
+        "context": "The birth rate stood at 38, more than **doubling** the death rate of 18."
       },
       {
         "term": "medical advances",
         "vietnamese": "tiến bộ y học",
-        "context": "reflecting medical advances"
+        "context": "The death-rate decline reflects successive **medical advances**."
+      },
+      {
+        "term": "plateau",
+        "vietnamese": "đạt mức ổn định",
+        "context": "The death rate stabilised at a **plateau** consistent with mortality floors."
+      },
+      {
+        "term": "mortality",
+        "vietnamese": "tử vong",
+        "context": "The death rate plateau is consistent with **mortality** floors in developed economies."
+      },
+      {
+        "term": "erratically",
+        "vietnamese": "thất thường",
+        "context": "The birth rate fell more **erratically** than the death rate."
+      },
+      {
+        "term": "plunged",
+        "vietnamese": "lao dốc",
+        "context": "The birth rate **plunged** to 18 by 2000 and ended at a mere 11."
+      },
+      {
+        "term": "female educational attainment",
+        "vietnamese": "trình độ học vấn của phụ nữ",
+        "context": "The collapse is plausibly linked to **female educational attainment** and contraceptive diffusion."
+      },
+      {
+        "term": "narrowing differential",
+        "vietnamese": "khoảng cách thu hẹp",
+        "context": "The steadily **narrowing differential** implies growth has decelerated to a crawl."
+      },
+      {
+        "term": "decelerated",
+        "vietnamese": "chậm lại",
+        "context": "Natural population growth has **decelerated** to a crawl."
+      },
+      {
+        "term": "persist",
+        "vietnamese": "tiếp diễn",
+        "context": "Should present trajectories **persist**, natural decrease is imminent."
+      },
+      {
+        "term": "natural decrease",
+        "vietnamese": "suy giảm tự nhiên",
+        "context": "The country will face **natural decrease**, with deaths outnumbering births."
+      },
+      {
+        "term": "outnumbering",
+        "vietnamese": "vượt qua về số lượng",
+        "context": "Deaths will begin **outnumbering** births within the coming decade."
+      },
+      {
+        "term": "demographic predicament",
+        "vietnamese": "tình thế nhân khẩu khó khăn",
+        "context": "A **demographic predicament** that threatens pension-system solvency."
+      },
+      {
+        "term": "solvency",
+        "vietnamese": "khả năng thanh toán",
+        "context": "The predicament threatens pension-system **solvency**."
+      },
+      {
+        "term": "labour-market density",
+        "vietnamese": "mật độ thị trường lao động",
+        "context": "It also endangers **labour-market density** and fiscal sustainability."
+      },
+      {
+        "term": "fiscal sustainability",
+        "vietnamese": "bền vững tài chính",
+        "context": "Long-term **fiscal sustainability** is at risk from demographic decline."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "Country P shows a ___ transition.",
+          "sentence": "The data signal a ___ transition from high to low fertility.",
           "answer": "demographic"
         },
         {
-          "sentence": "The two lines ___ over time.",
+          "sentence": "The two trajectories had ___ to an unprecedented degree.",
           "answer": "converged"
         },
         {
-          "sentence": "The birth rate ___ to 18 by 2000.",
+          "sentence": "The birth rate ___ to a mere 11 per 1,000 by 2020.",
           "answer": "plunged"
         },
         {
-          "sentence": "Population growth has ___.",
+          "sentence": "Natural population growth has ___ to a crawl.",
           "answer": "decelerated"
         },
         {
-          "sentence": "Country may face natural ___.",
-          "answer": "decline"
+          "sentence": "The country faces a ___ predicament threatening pension solvency.",
+          "answer": "demographic"
         }
       ]
-    },
-    "chartConfig": {
+    },    "chartConfig": {
       "type": "line",
       "xKey": "year",
       "yKeys": [
