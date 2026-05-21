@@ -832,82 +832,107 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "chartType": "table",
     "topic": "tourism arrivals",
     "prompt": "The table below shows international tourist arrivals (millions) in five countries (France, Spain, Italy, USA, Thailand) in 2010, 2015 and 2019. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The table presents the number of international tourists, measured in millions, received by five major destinations across three reference years.\n\nOverall, every country recorded growth across the period, although the **pace of expansion** varied considerably. France retained its position as the most-visited destination, while Thailand registered the most **eye-catching** rise.\n\nFrance welcomed 77 million visitors in 2010 and **climbed steadily** to 90 million by 2019, retaining a comfortable lead. Spain followed a comparable **trajectory**, jumping from 53 million to 84 million as it benefited from low-cost airline expansion. Italy's intake was more **measured**, increasing from 44 to 65 million.\n\nThe USA's growth was modest in proportional terms, edging up from 60 to 79 million, although it remained a global **heavyweight**. Thailand experienced the most **striking** boom, **doubling** its arrivals from 16 to 39 million on the back of aggressive marketing and cheaper regional flights. The data illustrate the increasing **diversification** of global tourism flows.",
+    "essayBody": "The table presents inbound international-tourism volumes, measured in millions, for five major destinations across three benchmark years.\n\nOverall, every country recorded **appreciable** growth, though the **pace of expansion** varied markedly. France **consolidated** its position as the world's most-visited destination, while Thailand registered the most **eye-catching** **ascension**.\n\nFrance welcomed 77 million visitors in 2010 and **climbed steadily** to 90 million by 2019, retaining a commanding lead that reflects its **enduring** cultural cachet and Schengen-accessibility. Spain followed a comparable **trajectory**, leaping from 53 million to 84 million as it **capitalised on** low-cost airline proliferation and Mediterranean-season extension. Italy's intake was more **measured**, increasing from 44 to 65 million—a respectable gain, yet one that suggests **saturation** in its heritage-centric tourism model.\n\nThe USA's growth was modest in proportional terms, edging up from 60 to 79 million, although it remained a global **heavyweight** by revenue owing to longer average stays and higher per-capita spend. Thailand experienced the most **striking** boom, effectively **doubling** its arrivals from 16 to 39 million on the back of aggressive ASEAN marketing campaigns, visa liberalisation, and cheaper intra-regional flights. The data collectively illustrate an accelerating **diversification** of global tourism flows, with emerging economies increasingly **disrupting** the traditional European oligopoly.",
     "glossary": [
+      {
+        "term": "appreciable",
+        "vietnamese": "đáng kể",
+        "context": "Every country recorded **appreciable** growth in inbound tourism."
+      },
       {
         "term": "pace of expansion",
         "vietnamese": "tốc độ mở rộng",
-        "context": "pace of expansion varied"
+        "context": "The **pace of expansion** varied markedly across the five destinations."
+      },
+      {
+        "term": "consolidated",
+        "vietnamese": "củng cố",
+        "context": "France **consolidated** its position as the world's most-visited destination."
       },
       {
         "term": "eye-catching",
         "vietnamese": "đáng chú ý",
-        "context": "most eye-catching rise"
+        "context": "Thailand registered the most **eye-catching** ascension in tourist arrivals."
+      },
+      {
+        "term": "ascension",
+        "vietnamese": "sự thăng tiến",
+        "context": "Thailand registered the most eye-catching **ascension** among the five countries."
       },
       {
         "term": "climbed steadily",
         "vietnamese": "tăng đều",
-        "context": "climbed steadily to 90 million"
+        "context": "France **climbed steadily** to 90 million visitors by 2019."
       },
       {
-        "term": "trajectory",
-        "vietnamese": "quỹ đạo",
-        "context": "comparable trajectory"
+        "term": "enduring",
+        "vietnamese": "bền vững",
+        "context": "France retains its lead through **enduring** cultural cachet and Schengen-accessibility."
+      },
+      {
+        "term": "capitalised on",
+        "vietnamese": "tận dụng",
+        "context": "Spain **capitalised on** low-cost airline proliferation and season extension."
       },
       {
         "term": "measured",
         "vietnamese": "vừa phải",
-        "context": "more measured increase"
+        "context": "Italy's intake was more **measured**, suggesting saturation in its heritage-centric model."
+      },
+      {
+        "term": "saturation",
+        "vietnamese": "bão hòa",
+        "context": "Italy's modest gain suggests **saturation** in its heritage-centric tourism model."
       },
       {
         "term": "heavyweight",
         "vietnamese": "ông lớn",
-        "context": "global heavyweight"
+        "context": "The USA remained a global **heavyweight** by tourism revenue."
       },
       {
         "term": "striking",
         "vietnamese": "ấn tượng",
-        "context": "most striking boom"
+        "context": "Thailand experienced the most **striking** boom in inbound tourism."
       },
       {
         "term": "doubling",
         "vietnamese": "tăng gấp đôi",
-        "context": "doubling its arrivals"
+        "context": "Thailand effectively **doubled** its arrivals from 16 to 39 million."
       },
       {
         "term": "diversification",
         "vietnamese": "sự đa dạng hóa",
-        "context": "diversification of tourism flows"
+        "context": "The data illustrate an accelerating **diversification** of global tourism flows."
       },
       {
-        "term": "benefited from",
-        "vietnamese": "hưởng lợi từ",
-        "context": "benefited from low-cost airlines"
+        "term": "disrupting",
+        "vietnamese": "phá vỡ",
+        "context": "Emerging economies are increasingly **disrupting** the traditional European oligopoly."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "Thailand registered the most ___ rise.",
-          "answer": "eye-catching"
+          "sentence": "France ___ its position as the most-visited destination.",
+          "answer": "consolidated"
         },
         {
-          "sentence": "Thailand boomed by ___ its arrivals.",
+          "sentence": "Thailand boomed by effectively ___ its arrivals.",
           "answer": "doubling"
         },
         {
-          "sentence": "France ___ to 90 million by 2019.",
-          "answer": "climbed steadily"
+          "sentence": "Italy's modest gain suggests ___ in heritage tourism.",
+          "answer": "saturation"
         },
         {
-          "sentence": "The USA remained a global ___.",
-          "answer": "heavyweight"
+          "sentence": "Spain ___ low-cost airline expansion to boost tourism.",
+          "answer": "capitalised on"
         },
         {
-          "sentence": "Italy's intake was more ___.",
-          "answer": "measured"
+          "sentence": "Emerging economies are ___ the traditional European oligopoly.",
+          "answer": "disrupting"
         }
       ]
     },
