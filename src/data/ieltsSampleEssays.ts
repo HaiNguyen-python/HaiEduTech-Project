@@ -1512,6 +1512,8 @@ const baseSampleEssays: SampleEssay[] = [
       ]
     }
   },
+  {
+    "id": "t2-6",
     "taskType": 2,
     "essayType": "opinion",
     "topic": "Crime reduction strategies",
