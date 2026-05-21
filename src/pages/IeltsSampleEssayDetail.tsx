@@ -132,13 +132,13 @@ const IeltsSampleEssayDetail = () => {
         }}
       />
       <Navbar />
-      <main className="container mx-auto px-4 py-8 max-w-4xl">
+      <main className="container mx-auto px-4 py-6 max-w-4xl">
         {/* Back link */}
-        <Link to="/ielts-sample-essays" className="text-sm text-primary hover:underline inline-flex items-center gap-1 mb-6">
+        <Link to="/ielts-sample-essays" className="text-sm text-primary hover:underline inline-flex items-center gap-1 mb-4">
           <ArrowLeft className="w-4 h-4" /> {t("Quay lại danh sách", "Back to list")}
         </Link>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-8">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
           {/* Header */}
           <div>
             <div className="flex items-center gap-2 mb-3">
