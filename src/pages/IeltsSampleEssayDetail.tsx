@@ -17,6 +17,7 @@ import EssayBand8Analysis from "@/components/ielts/EssayBand8Analysis";
 import GlossaryPhrasePractice from "@/components/ielts/GlossaryPhrasePractice";
 import InteractiveWritingGuide from "@/components/ielts/InteractiveWritingGuide";
 import EssayOutline from "@/components/ielts/EssayOutline";
+import ClickRevealEssay from "@/components/ielts/ClickRevealEssay";
 
 const IeltsSampleEssayDetail = () => {
   const { essayId } = useParams();
@@ -101,7 +102,7 @@ const IeltsSampleEssayDetail = () => {
       <span class="badge">Task ${essay.taskType}</span>
       <span class="badge">${essay.chartType || essay.essayType}</span>
       <div class="prompt">${essay.prompt}</div>
-      <h2>📖 Sample Essay (Band 8.0+)</h2>
+      <h2>📖 Sample Essay (Band 7.0+)</h2>
       <div>${essay.essayBody.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').split('\n\n').map(p => `<p>${p}</p>`).join('')}</div>
       <h2>📚 Bilingual Glossary</h2>
       <table><tr><th>Term</th><th>Vietnamese</th><th>Context</th></tr>
@@ -117,7 +118,7 @@ const IeltsSampleEssayDetail = () => {
     <div className="min-h-screen bg-background">
       <SEO
         title={`IELTS Task ${essay.taskType} Sample: ${essay.topic}`}
-        description={`Band 8.0+ IELTS Writing Task ${essay.taskType} sample essay on "${essay.topic}". Includes bilingual glossary and review exercise.`}
+        description={`Band 7.0+ IELTS Writing Task ${essay.taskType} sample essay on "${essay.topic}". Includes bilingual glossary and review exercise.`}
         path={`/ielts-sample-essays/${essay.id}`}
         type="article"
         jsonLd={{
@@ -144,7 +145,7 @@ const IeltsSampleEssayDetail = () => {
             <div className="flex items-center gap-2 mb-3">
               <Badge variant={essay.taskType === 1 ? "secondary" : "default"}>Task {essay.taskType}</Badge>
               <Badge variant="outline" className="capitalize">{essay.chartType || essay.essayType}</Badge>
-              <Badge variant="outline">Band 8.0+</Badge>
+              <Badge variant="outline">Band 7.0+</Badge>
             </div>
             <h1 className="text-2xl md:text-3xl font-bold text-foreground capitalize">{essay.topic}</h1>
           </div>
@@ -160,10 +161,10 @@ const IeltsSampleEssayDetail = () => {
             <IELTSChart config={essay.chartConfig} />
           )}
 
-          {/* Outline — structure & key ideas */}
+          {/* Outline - structure & key ideas */}
           <EssayOutline essay={essay} />
 
-          {/* Interactive Writing Guide — step-by-step sentence lesson */}
+          {/* Interactive Writing Guide - step-by-step sentence lesson */}
           <InteractiveWritingGuide
             essayBody={essay.essayBody}
             glossary={essay.glossary}
@@ -175,13 +176,13 @@ const IeltsSampleEssayDetail = () => {
             <summary className="cursor-pointer flex items-center justify-between gap-2 list-none">
               <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
                 <BookOpen className="w-5 h-5 text-primary" />
-                {t("Xem toàn bộ bài mẫu (Band 8.0+)", "View full sample essay (Band 8.0+)")}
+                {t("Xem toàn bộ bài mẫu (Band 7.0+)", "View full sample essay (Band 7.0+)")}
               </h2>
               <span className="text-xs text-muted-foreground group-open:hidden">{t("Mở", "Show")}</span>
               <span className="text-xs text-muted-foreground hidden group-open:inline">{t("Đóng", "Hide")}</span>
             </summary>
-            <div className="mt-4 text-foreground leading-[2] text-[15px] font-['Georgia',_'Merriweather',_serif]">
-              {renderEssayBody(essay.essayBody)}
+            <div className="mt-4">
+              <ClickRevealEssay essayBody={essay.essayBody} />
             </div>
             <div className="mt-4 flex justify-end">
               <Button size="sm" variant="outline" onClick={handleDownloadPDF}>
@@ -190,7 +191,7 @@ const IeltsSampleEssayDetail = () => {
             </div>
           </details>
 
-          {/* Band 8.0+ Analysis — TA/TR · CC · LR · GRA */}
+          {/* Band 7.0+ Analysis - TA/TR, CC, LR, GRA */}
           <EssayBand8Analysis essay={essay} />
 
           {/* Bilingual Glossary with per-phrase writing practice */}
@@ -200,8 +201,8 @@ const IeltsSampleEssayDetail = () => {
             </h2>
             <p className="text-xs text-muted-foreground mb-4">
               {t(
-                "Mỗi cụm từ có nút 'Viết câu & chấm điểm' để bạn vận dụng ngay — không chỉ học thuộc.",
-                "Each phrase has a 'Use it → AI grade' button so you can apply it immediately — not just memorise it."
+                "Mỗi cụm từ có nút 'Viết câu & chấm điểm' để bạn vận dụng ngay - không chỉ học thuộc.",
+                "Each phrase has a 'Use it → AI grade' button so you can apply it immediately - not just memorise it."
               )}
             </p>
             <div className="overflow-auto">

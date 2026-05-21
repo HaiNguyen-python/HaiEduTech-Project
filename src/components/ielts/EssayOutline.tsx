@@ -1,7 +1,8 @@
 /**
  * @file EssayOutline.tsx
- * @description Auto-generates a clear outline (structure + key idea per paragraph)
- *   from a Band 8.0+ sample essay so students see the skeleton before reading.
+ * @description Concise outline of the key focus points for each section of a
+ *   Band 7.0+ sample essay. Shown as short bullet lists so students grasp the
+ *   structure at a glance.
  */
 import { useMemo } from "react";
 import { motion } from "framer-motion";
@@ -13,16 +14,6 @@ interface Props {
   essay: SampleEssay;
 }
 
-const stripBold = (s: string) => s.replace(/\*\*(.*?)\*\*/g, "$1");
-const firstSentence = (p: string) => {
-  const m = stripBold(p).match(/[^.!?]+[.!?]+/);
-  return (m ? m[0] : p).trim();
-};
-const summarise = (p: string, max = 140) => {
-  const s = stripBold(p).replace(/\s+/g, " ").trim();
-  return s.length > max ? s.slice(0, max - 1).trim() + "…" : s;
-};
-
 const EssayOutline = ({ essay }: Props) => {
   const { t } = useLanguage();
 
@@ -31,26 +22,58 @@ const EssayOutline = ({ essay }: Props) => {
     const total = paras.length;
     const isTask1 = essay.taskType === 1;
 
-    return paras.map((para, i) => {
+    return paras.map((_, i) => {
       let label = "";
-      let role = "";
+      let bullets: string[] = [];
+
       if (isTask1) {
-        if (i === 0) { label = t("Mở bài", "Introduction"); role = t("Paraphrase đề bài", "Paraphrase the prompt"); }
-        else if (i === 1) { label = t("Tổng quan", "Overview"); role = t("Nêu 2 xu hướng nổi bật nhất", "State the 2 most salient trends"); }
-        else if (i === total - 1) { label = t(`Chi tiết ${i - 1}`, `Detail ${i - 1}`); role = t("Mô tả số liệu cụ thể & so sánh", "Specific figures & comparisons"); }
-        else { label = t(`Chi tiết ${i - 1}`, `Detail ${i - 1}`); role = t("Nhóm dữ liệu liên quan", "Group related data points"); }
+        if (i === 0) {
+          label = t("Mở bài", "Introduction");
+          bullets = [
+            t("Paraphrase đề bài (đổi từ, đổi cấu trúc).", "Paraphrase the prompt (synonyms + new structure)."),
+            t("Nêu loại biểu đồ + khoảng thời gian.", "State the chart type + time period."),
+          ];
+        } else if (i === 1) {
+          label = t("Tổng quan (Overview)", "Overview");
+          bullets = [
+            t("Bắt đầu bằng 'Overall' hoặc 'In general'.", "Open with 'Overall' or 'In general'."),
+            t("Nêu 2 xu hướng nổi bật nhất (không có số liệu).", "State the 2 most salient trends (no figures)."),
+          ];
+        } else {
+          label = t(`Chi tiết ${i - 1}`, `Detail ${i - 1}`);
+          bullets = [
+            t("Topic sentence nêu nhóm dữ liệu của đoạn.", "Topic sentence naming this paragraph's data group."),
+            t("Số liệu cụ thể + động từ xu hướng (rose, plunged...).", "Specific figures + trend verbs (rose, plunged...)."),
+            t("So sánh hoặc đối chiếu giữa các nhóm.", "Comparisons or contrasts between groups."),
+          ];
+        }
       } else {
-        if (i === 0) { label = t("Mở bài", "Introduction"); role = t("Hook → paraphrase → thesis", "Hook → paraphrase → thesis"); }
-        else if (i === total - 1) { label = t("Kết bài", "Conclusion"); role = t("Khẳng định lại + khuyến nghị", "Restate stance + recommendation"); }
-        else { label = t(`Thân bài ${i}`, `Body ${i}`); role = t("Topic sentence → giải thích → ví dụ", "Topic sentence → explanation → example"); }
+        if (i === 0) {
+          label = t("Mở bài", "Introduction");
+          bullets = [
+            t("Hook giới thiệu chủ đề ở góc nhìn rộng.", "Hook that introduces the topic broadly."),
+            t("Paraphrase đề bài.", "Paraphrase the question."),
+            t("Thesis: nêu rõ quan điểm + hướng triển khai.", "Thesis: state your stance + essay direction."),
+          ];
+        } else if (i === total - 1) {
+          label = t("Kết bài", "Conclusion");
+          bullets = [
+            t("Khẳng định lại quan điểm bằng cách diễn đạt khác.", "Restate your stance in different words."),
+            t("Tóm tắt 1-2 luận điểm chính.", "Summarise 1-2 main arguments."),
+            t("Đưa khuyến nghị hoặc dự đoán.", "Add a recommendation or prediction."),
+          ];
+        } else {
+          label = t(`Thân bài ${i}`, `Body ${i}`);
+          bullets = [
+            t("Topic sentence: 1 ý chính duy nhất cho đoạn.", "Topic sentence: one single main idea."),
+            t("Giải thích logic / nguyên nhân.", "Explain the logic / reasoning."),
+            t("Ví dụ cụ thể hoặc dữ liệu minh hoạ.", "Concrete example or supporting data."),
+            t("Câu kết nối lại với luận điểm chính.", "Mini-conclusion tying back to the claim."),
+          ];
+        }
       }
 
-      return {
-        label,
-        role,
-        topic: firstSentence(para),
-        summary: summarise(para),
-      };
+      return { label, bullets };
     });
   }, [essay, t]);
 
@@ -69,7 +92,7 @@ const EssayOutline = ({ essay }: Props) => {
             🗂️ {t("Outline bài viết", "Essay Outline")}
           </h2>
           <p className="text-xs text-muted-foreground">
-            {t("Nắm cấu trúc & ý chính trước khi đọc chi tiết.", "Get the structure & key ideas before reading the full essay.")}
+            {t("Các ý chính cần tập trung trong mỗi phần.", "Key focus points for each section.")}
           </p>
         </div>
       </div>
@@ -77,18 +100,20 @@ const EssayOutline = ({ essay }: Props) => {
       <ol className="space-y-3">
         {sections.map((s, i) => (
           <li key={i} className="rounded-lg border bg-background/60 p-3 md:p-4">
-            <div className="flex items-center gap-2 flex-wrap mb-1.5">
+            <div className="flex items-center gap-2 flex-wrap mb-2">
               <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs font-bold">
                 {i + 1}
               </span>
               <span className="text-sm font-semibold text-primary">{s.label}</span>
-              <span className="text-xs text-muted-foreground">— {s.role}</span>
             </div>
-            <p className="text-sm font-medium text-foreground leading-snug">
-              <span className="text-emerald-600 dark:text-emerald-400 font-semibold">{t("Ý chính:", "Key idea:")}</span>{" "}
-              {s.topic}
-            </p>
-            <p className="text-xs text-muted-foreground italic mt-1 leading-relaxed">{s.summary}</p>
+            <ul className="space-y-1.5 pl-1">
+              {s.bullets.map((b, j) => (
+                <li key={j} className="flex gap-2 text-sm text-foreground/90 leading-snug">
+                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
           </li>
         ))}
       </ol>
