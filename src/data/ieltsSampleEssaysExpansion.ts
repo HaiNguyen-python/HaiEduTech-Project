@@ -696,82 +696,87 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "chartType": "pie",
     "topic": "energy mix",
     "prompt": "The pie charts below show the breakdown of energy generation in Country M (coal, gas, nuclear, renewables) in 1990 and 2020. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The pie charts compare the contribution of four sources to electricity generation in Country M at two points thirty years apart.\n\nOverall, the energy mix shifted **decisively** away from coal toward gas and renewables, while the nuclear share remained relatively **constant**. The transition mirrors broader **decarbonisation** efforts.\n\nIn 1990, coal **dwarfed** every other source at 55% of total generation, supported by abundant domestic reserves. Gas and nuclear contributed 20% and 15% respectively, while renewables represented a marginal 10%. By 2020, the picture had **inverted**: coal had **plummeted** to 18%, partly due to environmental regulations, and renewables had **surged** to 38% on the back of solar and wind expansion.\n\nGas grew steadily to 30%, becoming a transitional fuel, while nuclear edged up only slightly to 14%. The data thus demonstrate that Country M has undertaken a meaningful **clean-energy pivot**, although fossil fuels still account for nearly half of total output combined.",
+    "essayBody": "The pie charts compare the proportional contribution of four sources to electricity generation in Country M at two junctures three decades apart.\n\nOverall, the energy mix underwent a **structural metamorphosis**, pivoting **decisively** away from coal toward gas and renewables, while nuclear output remained relatively **static**. This transformation aligns with the **decarbonisation** imperatives codified in the 2015 Paris Agreement.\n\nIn 1990, coal **dwarfed** every alternative, commanding 55% of total generation—an dominance underpinned by abundant domestic anthracite reserves and legacy subsidies. Gas and nuclear contributed 20% and 15% respectively, while renewables occupied a **peripheral** 10%. By 2020, the composition had **inverted** almost entirely: coal had **plummeted** to 18%, a contraction driven by emissions-trading schemes and the retirement of ageing pulverised-fuel plants. Renewables, conversely, had **surged** to 38%, buoyed by utility-scale solar parks and offshore-wind auctions.\n\nGas increased steadily to 30%, functioning as a **bridging fuel** during the transition, whereas nuclear edged up marginally to 14% despite public ambivalence. Taken together, the data demonstrate that Country M has executed a credible **clean-energy pivot**, yet fossil hydrocarbons still account for nearly half of aggregate output, underscoring the **residual inertia** embedded in legacy infrastructure.",
     "glossary": [
+      {
+        "term": "structural metamorphosis",
+        "vietnamese": "biến đổi cấu trúc",
+        "context": "The energy mix underwent a **structural metamorphosis** over three decades."
+      },
       {
         "term": "decisively",
         "vietnamese": "dứt khoát",
-        "context": "shifted decisively"
+        "context": "Coal lost its dominance as the mix pivoted **decisively** toward renewables."
       },
       {
-        "term": "constant",
-        "vietnamese": "ổn định",
-        "context": "relatively constant"
+        "term": "static",
+        "vietnamese": "đứng yên",
+        "context": "Nuclear output remained relatively **static** throughout the period."
       },
       {
         "term": "decarbonisation",
         "vietnamese": "khử cacbon",
-        "context": "broader decarbonisation efforts"
+        "context": "The transformation aligns with **decarbonisation** imperatives codified in the Paris Agreement."
       },
       {
         "term": "dwarfed",
         "vietnamese": "làm lu mờ",
-        "context": "coal dwarfed every other source"
+        "context": "In 1990, coal **dwarfed** every alternative, commanding 55% of generation."
+      },
+      {
+        "term": "peripheral",
+        "vietnamese": "ngoại vi",
+        "context": "Renewables occupied a **peripheral** 10% of the energy mix in 1990."
       },
       {
         "term": "inverted",
         "vietnamese": "đảo ngược",
-        "context": "picture had inverted"
+        "context": "By 2020, the composition had **inverted** almost entirely."
       },
       {
         "term": "plummeted",
-        "vietnamese": "rơi xuống",
-        "context": "coal had plummeted"
+        "vietnamese": "lao dốc",
+        "context": "Coal had **plummeted** to 18%, driven by emissions-trading schemes."
       },
       {
         "term": "surged",
         "vietnamese": "tăng vọt",
-        "context": "renewables had surged"
+        "context": "Renewables had **surged** to 38%, buoyed by offshore-wind auctions."
       },
       {
-        "term": "clean-energy pivot",
-        "vietnamese": "chuyển hướng năng lượng sạch",
-        "context": "clean-energy pivot"
+        "term": "bridging fuel",
+        "vietnamese": "nhiên liệu cầu nối",
+        "context": "Gas functioned as a **bridging fuel** during the clean-energy transition."
       },
       {
-        "term": "transitional fuel",
-        "vietnamese": "nhiên liệu chuyển tiếp",
-        "context": "gas as a transitional fuel"
-      },
-      {
-        "term": "marginal",
-        "vietnamese": "nhỏ/biên",
-        "context": "marginal 10%"
+        "term": "residual inertia",
+        "vietnamese": "quán tính còn sót lại",
+        "context": "Fossil hydrocarbons persist, underscoring the **residual inertia** of legacy infrastructure."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "The mix shifted ___ away from coal.",
-          "answer": "decisively"
+          "sentence": "The energy mix underwent a structural ___.",
+          "answer": "metamorphosis"
         },
         {
-          "sentence": "Coal ___ to 18% by 2020.",
+          "sentence": "Coal had ___ to 18% by 2020.",
           "answer": "plummeted"
         },
         {
-          "sentence": "Renewables ___ to 38%.",
+          "sentence": "Renewables had ___ to 38% on the back of wind auctions.",
           "answer": "surged"
         },
         {
-          "sentence": "Coal ___ every other source in 1990.",
-          "answer": "dwarfed"
+          "sentence": "Gas served as a ___ fuel during the transition.",
+          "answer": "bridging"
         },
         {
-          "sentence": "Country M took a clean-energy ___.",
-          "answer": "pivot"
+          "sentence": "Fossil fuels persist, showing the ___ inertia of old infrastructure.",
+          "answer": "residual"
         }
       ]
     },
