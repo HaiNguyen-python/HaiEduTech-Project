@@ -3432,57 +3432,57 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "essayType": "opinion",
     "topic": "parental responsibility",
     "prompt": "Some people think parents should be legally responsible for their children's actions. To what extent do you agree?",
-    "essayBody": "Whether parents should face legal consequences for their offspring's misconduct is a contentious issue. While I believe parents bear significant **moral responsibility**, holding them fully **legally accountable** is, in my view, only partially justified.\n\nThere is a strong case for some legal responsibility. Parents are typically the **primary socialising agents**, shaping their children's values and supervising their behaviour. When neglected, children are far more likely to engage in vandalism, truancy or petty crime. Imposing fines or **restorative-justice** obligations on parents can incentivise greater engagement and signal that families share responsibility for community safety.\n\nNonetheless, blanket legal liability ignores crucial nuances. Adolescents possess **agency** and may act against parental wishes despite consistent discipline. External factors - peer pressure, poverty, mental-health issues - also influence behaviour beyond parental control. Punishing already struggling parents can deepen **socio-economic disadvantage**, exacerbating the very conditions that fuel youth misbehaviour. Moreover, the principle of **individual culpability** holds that wrongdoers, not their relatives, should answer for their actions.\n\nIn conclusion, while I support modest legal **mechanisms** that encourage parental involvement, full legal responsibility risks injustice and may prove counterproductive. A balanced framework combining family obligations, social services and youth accountability is more likely to reduce delinquency than punitive parent-centric laws.",
+    "essayBody": "Whether parents should face legal consequences for their offspring's misconduct is a deeply contentious issue across many jurisdictions. While I believe parents bear significant **moral responsibility** for shaping their children, holding them fully **legally accountable** is, in my view, only partially justified and requires careful qualification.\n\nThere is undoubtedly a defensible case for some degree of legal responsibility. Parents are typically the **primary socialising agents** in a child's life, shaping their values, monitoring their behaviour and setting daily limits. When this role is neglected, children become demonstrably more likely to engage in **vandalism**, truancy or petty crime; criminological research consistently links inconsistent supervision with higher juvenile offending rates. Imposing modest fines, parenting orders or **restorative-justice** obligations on parents can therefore incentivise greater engagement and signal that families share collective responsibility for community safety, as several European jurisdictions have already demonstrated.\n\nNonetheless, blanket legal liability ignores several crucial nuances. Adolescents possess their own moral **agency** and may deliberately act against parental wishes despite consistent discipline at home. External forces - intense peer pressure, entrenched poverty, undiagnosed mental-health conditions and abusive online environments - powerfully influence behaviour well beyond parental control. Punishing already struggling parents can deepen **socio-economic disadvantage**, exacerbating the very conditions that fuel youth misbehaviour in the first place. Moreover, the long-standing legal principle of **individual culpability** holds that wrongdoers, not their relatives, should ultimately answer for their actions.\n\nIn conclusion, while I support carefully limited legal **mechanisms** that encourage parental engagement, full legal responsibility risks injustice and may prove counterproductive. A balanced framework combining parental obligations, well-funded social services and genuine youth accountability is far more likely to reduce **delinquency** than punitive parent-centric laws.",
     "glossary": [
       {
         "term": "moral responsibility",
         "vietnamese": "trách nhiệm đạo đức",
-        "context": "moral responsibility"
+        "context": "Parents bear significant moral responsibility for shaping their children."
       },
       {
         "term": "legally accountable",
         "vietnamese": "chịu trách nhiệm pháp lý",
-        "context": "fully legally accountable"
+        "context": "Holding parents fully legally accountable is, in my view, only partially justified."
       },
       {
         "term": "primary socialising agents",
         "vietnamese": "tác nhân xã hội hóa chính",
-        "context": "primary socialising agents"
+        "context": "Parents are typically the primary socialising agents in a child's life."
+      },
+      {
+        "term": "vandalism",
+        "vietnamese": "phá hoại tài sản",
+        "context": "Neglected children are demonstrably more likely to engage in vandalism, truancy or petty crime."
       },
       {
         "term": "restorative-justice",
         "vietnamese": "tư pháp phục hồi",
-        "context": "restorative-justice obligations"
+        "context": "Imposing restorative-justice obligations on parents can incentivise greater engagement."
       },
       {
         "term": "agency",
-        "vietnamese": "quyền tự quyết",
-        "context": "adolescents possess agency"
+        "vietnamese": "quyền tự quyết, ý chí cá nhân",
+        "context": "Adolescents possess their own moral agency and may act against parental wishes."
       },
       {
         "term": "socio-economic disadvantage",
         "vietnamese": "bất lợi kinh tế-xã hội",
-        "context": "socio-economic disadvantage"
+        "context": "Punishing struggling parents can deepen socio-economic disadvantage."
       },
       {
         "term": "individual culpability",
         "vietnamese": "trách nhiệm cá nhân",
-        "context": "individual culpability"
+        "context": "The legal principle of individual culpability holds that wrongdoers should answer for their own actions."
       },
       {
         "term": "mechanisms",
         "vietnamese": "cơ chế",
-        "context": "modest legal mechanisms"
+        "context": "I support carefully limited legal mechanisms that encourage parental engagement."
       },
       {
         "term": "delinquency",
-        "vietnamese": "tội phạm vị thành niên",
-        "context": "reduce delinquency"
-      },
-      {
-        "term": "vandalism",
-        "vietnamese": "phá hoại",
-        "context": "engage in vandalism"
+        "vietnamese": "hành vi phạm pháp ở vị thành niên",
+        "context": "A balanced framework is more likely to reduce delinquency than punitive parent-centric laws."
       }
     ],
     "reviewExercise": {
@@ -3518,57 +3518,57 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "essayType": "discussion",
     "topic": "zoos",
     "prompt": "Some argue zoos are educational and important for conservation, while others claim they are cruel and outdated. Discuss both views and give your opinion.",
-    "essayBody": "Modern zoos sit at the intersection of education, conservation and ethics. Supporters defend them as vital sanctuaries, while critics view captivity as inherently **inhumane**. In my opinion, well-managed conservation zoos serve a legitimate purpose, but exploitative facilities should be phased out.\n\nAdvocates emphasise that reputable zoos contribute meaningfully to species **preservation**. **Captive-breeding programmes** have rescued the Arabian oryx, Californian condor and many amphibians from extinction. Educational outreach inspires children to value biodiversity, often shifting public attitudes toward funding conservation in the wild. Zoo-based research also yields knowledge about animal behaviour and disease that is difficult to obtain in the field.\n\nOpponents counter that even spacious enclosures cannot replicate natural ecosystems. Wide-ranging species such as elephants and big cats often display **stereotypic behaviour** - pacing, head-bobbing - indicative of psychological stress. Many zoos remain primarily entertainment venues prioritising profit over welfare, particularly in regions with weak regulation. Critics argue that **digital documentaries** and **virtual reality** can now deliver education without confining sentient creatures.\n\nI conclude that the answer lies in **stricter accreditation**: only facilities with credible conservation outcomes, ample space and ethical standards should operate. Pure entertainment zoos belong to the past, but conservation-focused institutions remain valuable allies in protecting biodiversity.",
+    "essayBody": "Modern zoos sit at a difficult intersection of education, conservation and ethics. Supporters defend them as vital sanctuaries for endangered species, while critics view captivity as inherently **inhumane**. In my opinion, well-managed conservation zoos serve a legitimate and increasingly important purpose, but exploitative facilities should be progressively phased out.\n\nAdvocates emphasise that reputable zoos contribute meaningfully to species **preservation** at a time of mass extinction. Internationally coordinated **captive-breeding programmes** have, among other successes, rescued the Arabian oryx, Californian condor and Przewalski's horse from near-certain extinction and reintroduced them into protected habitats. Educational outreach inspires millions of children each year to value biodiversity, often shifting public attitudes toward funding wild conservation. Zoo-based veterinary research also yields valuable knowledge about animal behaviour, reproduction and infectious disease that is extremely difficult to obtain in the field.\n\nOpponents counter, with growing scientific support, that even spacious enclosures cannot meaningfully replicate vast natural ecosystems. Wide-ranging species such as elephants, polar bears and big cats frequently exhibit **stereotypic behaviour** - repetitive pacing, head-bobbing or self-mutilation - that ethologists consider a clear sign of chronic psychological stress. Many zoos remain primarily **entertainment venues** prioritising ticket revenue over welfare, particularly in regions with weak regulation. Critics further argue that modern **digital documentaries**, immersive **virtual reality** and well-funded sanctuaries can now deliver education and empathy without confining sentient creatures.\n\nI conclude that the answer lies in **stricter accreditation** worldwide: only facilities with verifiable conservation outcomes, ample naturalistic space and high welfare standards should continue to operate. Pure entertainment zoos belong firmly to the past, but conservation-focused institutions remain valuable allies in protecting global **biodiversity**.",
     "glossary": [
       {
         "term": "inhumane",
         "vietnamese": "vô nhân đạo",
-        "context": "inherently inhumane"
+        "context": "Critics view captivity as inherently inhumane."
       },
       {
         "term": "preservation",
-        "vietnamese": "bảo tồn",
-        "context": "species preservation"
+        "vietnamese": "sự bảo tồn",
+        "context": "Reputable zoos contribute meaningfully to species preservation at a time of mass extinction."
       },
       {
         "term": "captive-breeding programmes",
         "vietnamese": "chương trình nhân giống nuôi nhốt",
-        "context": "captive-breeding programmes"
+        "context": "Captive-breeding programmes have rescued the Arabian oryx and Californian condor."
       },
       {
         "term": "stereotypic behaviour",
         "vietnamese": "hành vi rập khuôn",
-        "context": "stereotypic behaviour"
-      },
-      {
-        "term": "digital documentaries",
-        "vietnamese": "phim tài liệu kỹ thuật số",
-        "context": "digital documentaries"
-      },
-      {
-        "term": "virtual reality",
-        "vietnamese": "thực tế ảo",
-        "context": "virtual reality"
-      },
-      {
-        "term": "stricter accreditation",
-        "vietnamese": "công nhận nghiêm ngặt hơn",
-        "context": "stricter accreditation"
-      },
-      {
-        "term": "biodiversity",
-        "vietnamese": "đa dạng sinh học",
-        "context": "protecting biodiversity"
+        "context": "Wide-ranging species frequently exhibit stereotypic behaviour such as repetitive pacing."
       },
       {
         "term": "entertainment venues",
         "vietnamese": "địa điểm giải trí",
-        "context": "entertainment venues"
+        "context": "Many zoos remain primarily entertainment venues prioritising ticket revenue over welfare."
+      },
+      {
+        "term": "digital documentaries",
+        "vietnamese": "phim tài liệu kỹ thuật số",
+        "context": "Modern digital documentaries can now deliver education without confining sentient creatures."
+      },
+      {
+        "term": "virtual reality",
+        "vietnamese": "thực tế ảo",
+        "context": "Immersive virtual reality can simulate close encounters without captivity."
+      },
+      {
+        "term": "stricter accreditation",
+        "vietnamese": "công nhận nghiêm ngặt hơn",
+        "context": "The answer lies in stricter accreditation worldwide."
+      },
+      {
+        "term": "biodiversity",
+        "vietnamese": "đa dạng sinh học",
+        "context": "Conservation-focused institutions remain valuable allies in protecting global biodiversity."
       },
       {
         "term": "phased out",
-        "vietnamese": "bị loại bỏ dần",
-        "context": "phased out"
+        "vietnamese": "loại bỏ dần",
+        "context": "Exploitative facilities should be progressively phased out."
       }
     ],
     "reviewExercise": {
@@ -3604,57 +3604,57 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "essayType": "advantage-disadvantage",
     "topic": "urban living",
     "prompt": "More and more people are moving from the countryside to the city. Do the advantages of this trend outweigh the disadvantages?",
-    "essayBody": "Cities continue to attract migrants from rural areas around the world. While urban living offers undeniable opportunities, it also brings substantial drawbacks. On balance, I believe the advantages still **outweigh** the disadvantages, although careful planning is required to manage the negatives.\n\nMigration to cities is propelled by superior access to **economic opportunities**, education and healthcare. Urban labour markets offer diverse employment, higher wages and pathways for upward mobility unavailable in agricultural regions. Top universities, specialist hospitals and cultural institutions concentrate in cities, exposing residents to ideas and services that enrich daily life. **Networking effects** also stimulate innovation and entrepreneurship.\n\nNevertheless, urban life carries notable costs. Housing affordability, **air pollution**, traffic congestion and elevated stress levels are well-documented urban afflictions. Migrants from rural backgrounds may experience cultural disorientation and weakened **social ties**, particularly when family is left behind. Rapid urbanisation can also overwhelm public services, producing slums and inequality if growth is unmanaged.\n\nConsidering both sides, I maintain that the broader **opportunity gains** from urbanisation, especially when paired with sound planning, education and affordable housing policies, remain greater than the harms. Cities thus continue to be powerful **engines of human development**, though their disadvantages must not be ignored.",
+    "essayBody": "Cities continue to attract migrants from rural areas at an unprecedented scale; the UN now estimates that nearly two-thirds of humanity will live in urban areas by 2050. While urban living offers undeniable opportunities, it also brings substantial drawbacks. On balance, I believe the advantages still **outweigh** the disadvantages, provided that careful planning is in place to mitigate the negatives.\n\nMigration to cities is propelled primarily by vastly superior access to **economic opportunities**, education and healthcare. Urban labour markets offer diverse employment, significantly higher wages and clear pathways for **upward mobility** that simply do not exist in agricultural regions. Top universities, specialist hospitals and cultural institutions concentrate overwhelmingly in cities, exposing residents to ideas, services and networks that enrich daily life. Powerful **networking effects** also stimulate innovation and entrepreneurship, which is why innovation clusters such as Silicon Valley, Shenzhen and Bangalore remain magnets for ambitious young workers.\n\nNevertheless, urban life carries notable and well-documented costs. Housing affordability has reached crisis levels in cities from Sydney to San Francisco; **air pollution**, chronic traffic congestion and elevated stress levels are now defining urban afflictions, with the WHO linking polluted city air to roughly seven million premature deaths each year. Migrants from rural backgrounds may also experience cultural **disorientation** and weakened **social ties**, particularly when extended family is left behind. Where growth is unmanaged, rapid urbanisation can overwhelm public services, producing sprawling **slums** and entrenched inequality.\n\nConsidering both sides, I maintain that the broader **opportunity gains** from urbanisation, especially when paired with sound planning, affordable-housing policies and aggressive air-quality regulation, remain greater than the harms. Cities thus continue to serve as powerful **engines of human development**, though their disadvantages must never be ignored.",
     "glossary": [
       {
         "term": "outweigh",
         "vietnamese": "vượt trội hơn",
-        "context": "advantages outweigh disadvantages"
+        "context": "On balance, the advantages still outweigh the disadvantages of urban migration."
       },
       {
         "term": "economic opportunities",
         "vietnamese": "cơ hội kinh tế",
-        "context": "superior access to economic opportunities"
+        "context": "Migration is propelled by vastly superior access to economic opportunities."
+      },
+      {
+        "term": "upward mobility",
+        "vietnamese": "khả năng vươn lên trong xã hội",
+        "context": "Cities offer clear pathways for upward mobility unavailable in rural regions."
       },
       {
         "term": "networking effects",
         "vietnamese": "hiệu ứng mạng lưới",
-        "context": "networking effects stimulate innovation"
+        "context": "Powerful networking effects stimulate innovation and entrepreneurship in major cities."
       },
       {
         "term": "air pollution",
         "vietnamese": "ô nhiễm không khí",
-        "context": "air pollution"
+        "context": "Air pollution is one of the defining urban afflictions of our time."
+      },
+      {
+        "term": "disorientation",
+        "vietnamese": "sự mất phương hướng",
+        "context": "Migrants from rural backgrounds may experience cultural disorientation in unfamiliar cities."
       },
       {
         "term": "social ties",
         "vietnamese": "quan hệ xã hội",
-        "context": "weakened social ties"
-      },
-      {
-        "term": "opportunity gains",
-        "vietnamese": "lợi ích cơ hội",
-        "context": "broader opportunity gains"
-      },
-      {
-        "term": "engines of human development",
-        "vietnamese": "động cơ phát triển con người",
-        "context": "engines of human development"
-      },
-      {
-        "term": "upward mobility",
-        "vietnamese": "khả năng vươn lên",
-        "context": "upward mobility"
+        "context": "Newcomers often suffer weakened social ties when extended family is left behind."
       },
       {
         "term": "slums",
         "vietnamese": "khu ổ chuột",
-        "context": "producing slums and inequality"
+        "context": "Unmanaged urbanisation can produce sprawling slums and entrenched inequality."
       },
       {
-        "term": "disorientation",
-        "vietnamese": "mất phương hướng",
-        "context": "cultural disorientation"
+        "term": "opportunity gains",
+        "vietnamese": "lợi ích cơ hội",
+        "context": "The broader opportunity gains from urbanisation outweigh its costs."
+      },
+      {
+        "term": "engines of human development",
+        "vietnamese": "động cơ phát triển con người",
+        "context": "Cities continue to serve as powerful engines of human development."
       }
     ],
     "reviewExercise": {
@@ -3690,57 +3690,57 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "essayType": "problem-solution",
     "topic": "deforestation",
     "prompt": "Deforestation is a major environmental issue worldwide. What are the main causes and what can be done to combat this problem?",
-    "essayBody": "Forests are disappearing at an **alarming pace**, with millions of hectares lost each year. This essay analyses the principal causes of deforestation and proposes coordinated solutions.\n\nThe dominant driver is **agricultural expansion**. Vast areas of tropical forest are cleared for cattle ranching, soy and palm-oil plantations, much of it to satisfy global demand. Illegal logging supplies timber and paper markets, often facilitated by **weak enforcement** and corruption. Infrastructure projects - roads, dams and mining concessions - further fragment ecosystems, while **subsistence farmers** also clear forest to feed their families on degraded soils.\n\nCombating deforestation requires action at several levels. International agreements such as the EU's deforestation regulation can compel companies to verify that imported commodities are **deforestation-free**. Governments must strengthen forest protection through satellite monitoring, harsher penalties and well-funded ranger services. Equally important are programmes that reward indigenous and local communities for **forest stewardship**, recognising their **traditional knowledge**. **Reforestation** and agroforestry, combined with consumer education to favour certified products, complete the toolkit.\n\nIn summary, deforestation stems from intertwined economic and governance failures, but it is far from inevitable. With **enforceable regulation**, market incentives and respect for forest communities, the trend can be reversed and the planet's lungs preserved.",
+    "essayBody": "Forests are disappearing at an **alarming pace**, with the FAO estimating that roughly ten million hectares - an area larger than Iceland - are lost each year, primarily in tropical regions. This essay analyses the principal causes of deforestation and proposes a coordinated package of solutions.\n\nThe dominant driver is large-scale **agricultural expansion**. Vast tracts of tropical forest in the Amazon, the Congo Basin and Southeast Asia are cleared each year for cattle ranching, soy cultivation and palm-oil plantations, much of it ultimately to satisfy demand in wealthy importing countries. Illegal logging supplies global timber and paper markets, frequently facilitated by **weak enforcement** and entrenched corruption. Large infrastructure projects - new roads, hydroelectric dams and mining concessions - further fragment ecosystems and open them to settlers, while poor **subsistence farmers** also clear forest patches simply to feed their families on increasingly degraded soils.\n\nCombating deforestation requires coordinated action at several levels. International agreements such as the European Union's new deforestation regulation can compel multinational companies to verify that imported commodities are genuinely **deforestation-free**. Governments must strengthen forest protection through satellite monitoring, harsher penalties and well-funded ranger services. Equally important are programmes that financially reward **indigenous** and local communities for **forest stewardship**, recognising the value of their **traditional knowledge** of sustainable land management. Large-scale **reforestation** and agroforestry, combined with consumer education and certification schemes such as FSC, complete the toolkit.\n\nIn summary, deforestation stems from deeply intertwined economic and governance failures, but the trend is far from inevitable. With genuinely **enforceable regulation**, smart market incentives and respect for forest communities, the world's lungs can still be preserved for future generations.",
     "glossary": [
       {
         "term": "alarming pace",
         "vietnamese": "tốc độ đáng báo động",
-        "context": "alarming pace"
+        "context": "Forests are disappearing at an alarming pace, with roughly ten million hectares lost each year."
       },
       {
         "term": "agricultural expansion",
         "vietnamese": "mở rộng nông nghiệp",
-        "context": "agricultural expansion"
+        "context": "The dominant driver is large-scale agricultural expansion for ranching and plantations."
       },
       {
         "term": "weak enforcement",
-        "vietnamese": "thực thi yếu",
-        "context": "weak enforcement"
+        "vietnamese": "thực thi pháp luật yếu kém",
+        "context": "Illegal logging is frequently facilitated by weak enforcement and corruption."
       },
       {
         "term": "subsistence farmers",
         "vietnamese": "nông dân tự cung tự cấp",
-        "context": "subsistence farmers"
+        "context": "Poor subsistence farmers also clear forest patches simply to feed their families."
       },
       {
         "term": "deforestation-free",
-        "vietnamese": "không phá rừng",
-        "context": "deforestation-free commodities"
-      },
-      {
-        "term": "forest stewardship",
-        "vietnamese": "quản lý rừng",
-        "context": "forest stewardship"
-      },
-      {
-        "term": "traditional knowledge",
-        "vietnamese": "tri thức bản địa",
-        "context": "traditional knowledge"
-      },
-      {
-        "term": "reforestation",
-        "vietnamese": "tái trồng rừng",
-        "context": "reforestation and agroforestry"
-      },
-      {
-        "term": "enforceable regulation",
-        "vietnamese": "quy định khả thi",
-        "context": "enforceable regulation"
+        "vietnamese": "không gây phá rừng",
+        "context": "Companies must verify that imported commodities are genuinely deforestation-free."
       },
       {
         "term": "indigenous",
         "vietnamese": "bản địa",
-        "context": "indigenous and local communities"
+        "context": "Programmes should reward indigenous and local communities for protecting their forests."
+      },
+      {
+        "term": "forest stewardship",
+        "vietnamese": "quản lý và bảo vệ rừng",
+        "context": "Communities should be financially rewarded for responsible forest stewardship."
+      },
+      {
+        "term": "traditional knowledge",
+        "vietnamese": "tri thức bản địa",
+        "context": "We must recognise the value of indigenous traditional knowledge of sustainable land management."
+      },
+      {
+        "term": "reforestation",
+        "vietnamese": "tái trồng rừng",
+        "context": "Large-scale reforestation and agroforestry can complement protection efforts."
+      },
+      {
+        "term": "enforceable regulation",
+        "vietnamese": "quy định có khả năng thực thi",
+        "context": "With enforceable regulation and smart incentives, the world's lungs can still be preserved."
       }
     ],
     "reviewExercise": {
@@ -3776,57 +3776,57 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "essayType": "direct-question",
     "topic": "english as global language",
     "prompt": "English is increasingly used as a global language. What are the reasons behind this and is it a positive development?",
-    "essayBody": "English now serves as the **lingua franca** of business, science and the internet. This essay explores the historical and structural reasons for its global dominance and evaluates whether the trend benefits humanity.\n\nSeveral factors explain English's rise. The **legacy of the British Empire** distributed the language across continents long before the American economic and technological supremacy of the twentieth century reinforced its reach through Hollywood, popular music and the internet. Furthermore, English's **flexible vocabulary** absorbs words from other languages with relative ease, and its grammatical simplicity compared with some alternatives lowers the barrier for adult learners. Major academic publishing and the international airline industry also entrench its use.\n\nThe benefits are considerable. A common language **facilitates** scientific collaboration, international trade and cross-cultural understanding. Students and professionals can **access** vast repositories of knowledge and migrate for opportunity more easily. Moreover, English-medium content brings education to remote regions where local resources are scarce.\n\nHowever, there are notable downsides. Smaller languages risk **erosion** as English dominates schooling, media and digital platforms, threatening cultural diversity and indigenous knowledge. Native English speakers also enjoy unfair advantages in global hiring. On balance, I believe English's lingua-franca status is a **net positive**, provided that policies actively protect minority languages and promote multilingual education to safeguard cultural pluralism.",
+    "essayBody": "English now functions as the de facto **lingua franca** of international business, science and the internet, with roughly 1.5 billion speakers worldwide. This essay explores the historical and structural reasons behind its global dominance and evaluates whether the trend ultimately benefits humanity.\n\nSeveral interlocking factors explain English's spectacular rise. The **legacy of the British Empire** distributed the language across six continents long before the American economic and technological supremacy of the twentieth century reinforced its reach through Hollywood films, popular music, scientific publishing and, more recently, the internet. Furthermore, English's notably **flexible vocabulary** absorbs words from other languages with relative ease, and its comparatively simple grammar - lacking elaborate case systems or grammatical gender - lowers the entry barrier for adult learners. The dominance of English in major academic journals, international aviation and global diplomacy further entrenches its everyday use.\n\nThe practical benefits of a shared language are considerable. A common medium **facilitates** scientific collaboration, international trade and genuine cross-cultural understanding. Students and skilled professionals can **access** vast online repositories of knowledge and migrate for opportunity far more easily than in any previous era. English-medium content also brings high-quality education to remote regions where local learning resources remain scarce.\n\nHowever, the downsides are equally real. Smaller languages risk gradual **erosion** as English increasingly dominates schooling, mainstream media and digital platforms, threatening **cultural diversity** and irreplaceable **indigenous knowledge**; UNESCO warns that nearly half of the world's roughly 7,000 languages may disappear within this century. Native English speakers also enjoy unfair advantages in global hiring and academic publishing. On balance, I nevertheless believe English's lingua-franca status is a **net positive**, provided that governments actively protect minority languages and promote **multilingual education** to safeguard genuine cultural pluralism.",
     "glossary": [
       {
         "term": "lingua franca",
         "vietnamese": "ngôn ngữ chung",
-        "context": "English serves as the lingua franca"
+        "context": "English now functions as the de facto lingua franca of international business and science."
       },
       {
         "term": "legacy of the British Empire",
         "vietnamese": "di sản của Đế quốc Anh",
-        "context": "legacy of the British Empire"
+        "context": "The legacy of the British Empire distributed the language across six continents."
       },
       {
         "term": "flexible vocabulary",
         "vietnamese": "từ vựng linh hoạt",
-        "context": "flexible vocabulary absorbs words"
+        "context": "English has a notably flexible vocabulary that absorbs words from other languages with ease."
       },
       {
         "term": "facilitates",
-        "vietnamese": "tạo điều kiện",
-        "context": "common language facilitates collaboration"
+        "vietnamese": "tạo điều kiện thuận lợi",
+        "context": "A common medium facilitates scientific collaboration and international trade."
       },
       {
         "term": "access",
         "vietnamese": "tiếp cận",
-        "context": "access vast repositories"
+        "context": "Skilled professionals can access vast online repositories of knowledge in English."
       },
       {
         "term": "erosion",
         "vietnamese": "sự xói mòn",
-        "context": "languages risk erosion"
+        "context": "Smaller languages risk gradual erosion as English dominates schooling and digital platforms."
       },
       {
         "term": "cultural diversity",
         "vietnamese": "đa dạng văn hóa",
-        "context": "threatening cultural diversity"
-      },
-      {
-        "term": "net positive",
-        "vietnamese": "tích cực ròng",
-        "context": "net positive"
-      },
-      {
-        "term": "multilingual education",
-        "vietnamese": "giáo dục đa ngôn ngữ",
-        "context": "multilingual education"
+        "context": "The trend threatens cultural diversity and irreplaceable indigenous knowledge."
       },
       {
         "term": "indigenous knowledge",
         "vietnamese": "tri thức bản địa",
-        "context": "indigenous knowledge"
+        "context": "Language loss erodes invaluable indigenous knowledge accumulated over generations."
+      },
+      {
+        "term": "net positive",
+        "vietnamese": "tích cực ròng",
+        "context": "On balance, English's lingua-franca status is a net positive for humanity."
+      },
+      {
+        "term": "multilingual education",
+        "vietnamese": "giáo dục đa ngôn ngữ",
+        "context": "Governments should promote multilingual education to safeguard cultural pluralism."
       }
     ],
     "reviewExercise": {
