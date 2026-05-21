@@ -123,7 +123,7 @@ const EssayBand8Analysis: React.FC<Props> = ({ essay }) => {
         </div>
         <div>
           <h2 className="text-lg md:text-xl font-bold text-foreground">
-            🏆 {t("Phân tích: Vì sao bài này đạt Band 7.0+?", "Analysis: Why this is Band 7.0+")}
+            🏆 {t("Phân tích: Vì sao bài này đạt Band 8.0+?", "Analysis: Why this is Band 8.0+")}
           </h2>
           <p className="text-sm text-muted-foreground mt-1">
             {t(
