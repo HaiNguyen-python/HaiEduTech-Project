@@ -1654,92 +1654,111 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     }
   },
-  {
+    {
     "id": "t1-23",
     "taskType": 1,
     "chartType": "mixed",
     "topic": "climate",
     "prompt": "The chart below shows the average monthly rainfall (bars, mm) and temperature (line, °C) in City Q. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The combined chart displays average monthly rainfall and temperature for City Q across one calendar year.\n\nOverall, the city exhibits a clearly **seasonal** climate, with rainfall **concentrated** in the summer months and temperatures peaking mid-year. The two variables track each other closely, suggesting a typical **monsoon-style** pattern.\n\nRainfall begins at a modest 30 mm in January, **edging upward** through spring before **peaking** sharply at 220 mm in July. This **precipitation maximum** coincides with the warmest period of the year, when temperatures climb from around 5°C in January to 28°C in July. After the summer **apex**, rainfall **tapers off** rapidly, falling back to roughly 40 mm by November.\n\nTemperatures follow a similarly **bell-shaped** curve, declining from August onward and bottoming out at around 4°C in December. Importantly, the months with the heaviest rain are also the hottest, indicating the influence of warm-season weather systems. The pattern would have practical implications for **agricultural planning** and tourism.",
+    "essayBody": "The combined chart displays the monthly distribution of rainfall and mean temperature for City Q across a single calendar year.\n\nOverall, the city exhibits a markedly **seasonal** climate, with rainfall **concentrated** in the summer months and temperatures **peaking** mid-year. The two variables track each other with remarkable **concordance**, suggesting a classic **monsoonal** regime in which thermal and **hyetological** maxima **coincide**.\n\nRainfall commences at a modest 30 mm in January, **edging upward** through the spring months before **peaking** sharply at 220 mm in July—a **precipitation apex** that coincides with the warmest period, when temperatures climb from around 5°C in January to 28°C in July. This synchrony implies that warm, moisture-laden air masses dominate the summer atmosphere. After the midsummer **zenith**, rainfall **tapers off** rapidly, retreating to roughly 40 mm by November.\n\nTemperatures follow a similarly **sigmoid** trajectory, declining from August onward and **bottoming out** at approximately 4°C in December. The close correlation between thermal and pluviometric data has tangible implications for **agronomic scheduling**, flood-risk management and tourism-season planning.",
     "glossary": [
       {
         "term": "seasonal",
         "vietnamese": "theo mùa",
-        "context": "clearly seasonal climate"
+        "context": "The city exhibits a markedly **seasonal** climate."
       },
       {
         "term": "concentrated",
         "vietnamese": "tập trung",
-        "context": "rainfall concentrated"
-      },
-      {
-        "term": "monsoon-style",
-        "vietnamese": "kiểu gió mùa",
-        "context": "monsoon-style pattern"
-      },
-      {
-        "term": "edging upward",
-        "vietnamese": "nhích lên",
-        "context": "edging upward through spring"
+        "context": "Rainfall is **concentrated** in the summer months."
       },
       {
         "term": "peaking",
         "vietnamese": "đạt đỉnh",
-        "context": "peaking sharply at 220 mm"
+        "context": "Temperatures are **peaking** mid-year alongside rainfall."
       },
       {
-        "term": "precipitation maximum",
+        "term": "concordance",
+        "vietnamese": "sự phù hợp / tương quan",
+        "context": "The two variables track each other with remarkable **concordance**."
+      },
+      {
+        "term": "monsoonal",
+        "vietnamese": "kiểu gió mùa",
+        "context": "The pattern suggests a classic **monsoonal** regime."
+      },
+      {
+        "term": "hyetological",
+        "vietnamese": "thuộc về lượng mưa",
+        "context": "Thermal and **hyetological** maxima coincide in summer."
+      },
+      {
+        "term": "coincide",
+        "vietnamese": "trùng khớp",
+        "context": "Rain and temperature maxima **coincide** in July."
+      },
+      {
+        "term": "edging upward",
+        "vietnamese": "nhích lên",
+        "context": "Rainfall begins modestly, **edging upward** through spring."
+      },
+      {
+        "term": "precipitation apex",
         "vietnamese": "đỉnh lượng mưa",
-        "context": "precipitation maximum"
+        "context": "July marks the **precipitation apex** at 220 mm."
       },
       {
-        "term": "apex",
-        "vietnamese": "đỉnh",
-        "context": "summer apex"
+        "term": "zenith",
+        "vietnamese": "đỉnh cao",
+        "context": "After the midsummer **zenith**, rainfall tapers off."
       },
       {
         "term": "tapers off",
         "vietnamese": "giảm dần",
-        "context": "rainfall tapers off"
+        "context": "Rainfall **tapers off** rapidly after August."
       },
       {
-        "term": "bell-shaped",
-        "vietnamese": "hình chuông",
-        "context": "bell-shaped curve"
+        "term": "sigmoid",
+        "vietnamese": "hình chữ S",
+        "context": "Temperatures follow a **sigmoid** trajectory through the year."
       },
       {
-        "term": "agricultural planning",
-        "vietnamese": "kế hoạch nông nghiệp",
-        "context": "agricultural planning"
+        "term": "bottoming out",
+        "vietnamese": "chạm đáy",
+        "context": "Temperatures decline, **bottoming out** at 4°C in December."
+      },
+      {
+        "term": "agronomic scheduling",
+        "vietnamese": "lập lịch nông nghiệp",
+        "context": "The data have implications for **agronomic scheduling** and flood-risk management."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "The city has a clearly ___ climate.",
+          "sentence": "The city has a markedly ___ climate.",
           "answer": "seasonal"
         },
         {
-          "sentence": "Rainfall is ___ in summer.",
-          "answer": "concentrated"
+          "sentence": "The two variables show remarkable ___.",
+          "answer": "concordance"
         },
         {
-          "sentence": "Rainfall ___ at 220 mm in July.",
-          "answer": "peaks"
+          "sentence": "July marks the ___ apex at 220 mm.",
+          "answer": "precipitation"
         },
         {
-          "sentence": "After summer rainfall ___.",
-          "answer": "tapers off"
+          "sentence": "Rainfall ___ off rapidly after the midsummer zenith.",
+          "answer": "tapers"
         },
         {
-          "sentence": "Temperature follows a ___ curve.",
-          "answer": "bell-shaped"
+          "sentence": "Temperatures follow a ___ trajectory through the year.",
+          "answer": "sigmoid"
         }
       ]
-    },
-    "chartConfig": {
+    },    "chartConfig": {
       "type": "mixed",
       "xKey": "month",
       "barKeys": [
