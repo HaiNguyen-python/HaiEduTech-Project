@@ -1246,92 +1246,96 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     }
   },
-  {
+    {
     "id": "t1-20",
     "taskType": 1,
     "chartType": "map",
     "topic": "school redevelopment",
     "prompt": "The maps below show St. Mary's School site in 2000 and after redevelopment in 2020. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The maps depict the layout of St. Mary's School before and after a major redevelopment that took place over two decades.\n\nOverall, the campus has been **substantially modernised**, with several outdated facilities replaced by new educational and leisure spaces. The general footprint has expanded, although the main building has been **retained**.\n\nIn 2000, the site comprised a single L-shaped main block, a small canteen to the south, an unpaved playground in the centre and a car park at the western entrance. Trees lined the eastern boundary, beyond which lay open fields. By 2020, the canteen had been **enlarged** and **reconfigured** as a multi-purpose dining hall.\n\nThe gravel playground has been **replaced** with an artificial-turf sports field, complemented by a new gymnasium constructed on the former open fields to the east. The car park has been expanded, while a small sensory garden has been **introduced** along the eastern boundary, preserving most of the original trees. These additions clearly enhance the school's **functionality** and student welfare.",
+    "essayBody": "The maps depict the layout of St. Mary's School before and after a comprehensive redevelopment spanning two decades.\n\nOverall, the campus has been **substantially modernised**, with obsolete facilities replaced by purpose-built educational and leisure amenities. The physical **footprint** has expanded markedly, although the original L-shaped main block has been **retained** as a heritage **anchor**.\n\nIn 2000, the site comprised the L-shaped main building, a modest canteen to the south, an unpaved playground at the core, and a small car park at the western entrance. Mature trees lined the eastern boundary, beyond which lay open fields. By 2020, the canteen had been **enlarged** and **reconfigured** into a multi-purpose dining hall capable of serving the expanded student body.\n\nThe gravel playground has been **superseded** by an artificial-turf sports pitch, **complemented** by a new gymnasium erected on the former eastern fields. The car park has been expanded to accommodate increased staff and visitor vehicles, while a sensory garden has been **introduced** along the eastern boundary, **preserving** the majority of the original tree stock. These additions collectively enhance the school's **functionality**, pupil welfare, and curricular breadth.",
     "glossary": [
       {
         "term": "substantially modernised",
         "vietnamese": "hiện đại hóa đáng kể",
-        "context": "substantially modernised"
+        "context": "The campus has been **substantially modernised** over two decades."
+      },
+      {
+        "term": "footprint",
+        "vietnamese": "diện tích / quy mô vật lý",
+        "context": "The physical **footprint** has expanded markedly."
       },
       {
         "term": "retained",
         "vietnamese": "giữ lại",
-        "context": "main building has been retained"
+        "context": "The original main block has been **retained** as a heritage anchor."
+      },
+      {
+        "term": "anchor",
+        "vietnamese": "trụ cột / điểm nhấn",
+        "context": "The main block serves as a heritage **anchor** amid modern additions."
       },
       {
         "term": "enlarged",
         "vietnamese": "mở rộng",
-        "context": "canteen had been enlarged"
+        "context": "The canteen had been **enlarged** into a multi-purpose dining hall."
       },
       {
         "term": "reconfigured",
         "vietnamese": "tái cấu trúc",
-        "context": "reconfigured as a dining hall"
+        "context": "The canteen was **reconfigured** to serve the expanded student body."
       },
       {
-        "term": "replaced",
-        "vietnamese": "được thay thế",
-        "context": "playground replaced"
-      },
-      {
-        "term": "introduced",
-        "vietnamese": "được giới thiệu",
-        "context": "sensory garden introduced"
-      },
-      {
-        "term": "functionality",
-        "vietnamese": "tính năng",
-        "context": "school's functionality"
+        "term": "superseded",
+        "vietnamese": "thay thế hoàn toàn",
+        "context": "The gravel playground has been **superseded** by an artificial-turf pitch."
       },
       {
         "term": "complemented",
         "vietnamese": "bổ sung",
-        "context": "complemented by a gymnasium"
+        "context": "The sports pitch is **complemented** by a new gymnasium."
+      },
+      {
+        "term": "introduced",
+        "vietnamese": "được giới thiệu / thêm vào",
+        "context": "A sensory garden has been **introduced** along the eastern boundary."
       },
       {
         "term": "preserving",
         "vietnamese": "bảo tồn",
-        "context": "preserving most of the trees"
+        "context": "The garden was added while **preserving** the majority of the original trees."
       },
       {
-        "term": "footprint",
-        "vietnamese": "diện tích",
-        "context": "general footprint has expanded"
+        "term": "functionality",
+        "vietnamese": "tính năng",
+        "context": "These additions enhance the school's **functionality** and curricular breadth."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
           "sentence": "The campus was substantially ___.",
           "answer": "modernised"
         },
         {
-          "sentence": "The main building was ___.",
+          "sentence": "The main building was ___ as a heritage anchor.",
           "answer": "retained"
         },
         {
-          "sentence": "The canteen was ___ as a dining hall.",
-          "answer": "reconfigured"
+          "sentence": "The gravel playground was ___ by an artificial-turf pitch.",
+          "answer": "superseded"
         },
         {
-          "sentence": "A sensory garden was ___ along the boundary.",
+          "sentence": "A sensory garden was ___ along the eastern boundary.",
           "answer": "introduced"
         },
         {
-          "sentence": "Changes enhance the school's ___.",
+          "sentence": "Changes enhance the school's ___ and curricular breadth.",
           "answer": "functionality"
         }
       ]
-    },
-    "chartConfig": {
+    },    "chartConfig": {
       "data": [],
       "type": "map",
       "stages": [
