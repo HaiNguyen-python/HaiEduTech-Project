@@ -547,82 +547,92 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "chartType": "pie",
     "topic": "household expenditure",
     "prompt": "The pie charts below illustrate the breakdown of average household expenditure by category (housing, food, transport, leisure, others) in Country Z in 2000 and 2020. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The two pie charts show how an average household in Country Z divided its monthly spending across five categories at the beginning and end of a twenty-year period.\n\nOverall, **housing emerged as** the dominant expense by 2020, while the relative share of food **contracted notably**. Transport and leisure also shifted, reflecting evolving consumer priorities.\n\nIn 2000, food accounted for the largest portion at 30%, narrowly ahead of housing (28%) and transport (20%). Leisure and 'others' made up the remainder at 12% and 10% respectively. By 2020, however, the picture had **reshaped considerably**: housing **swelled** to 40%, propelled by rising property prices, while food **shrank** to just 22%, perhaps reflecting cheaper supply chains and Engel's law.\n\nTransport remained relatively stable at 18%, leisure expanded to 14% as discretionary income grew, and 'others' inched down to 6%. Taken together, the comparison highlights a clear **structural shift** toward fixed living costs **at the expense of** variable consumption.",
+    "essayBody": "The two pie charts depict how an average household in Country Z **apportioned** its monthly outlays across five categories at the beginning and the end of a twenty-year window.\n\nOverall, housing **emerged as** the dominant expense by 2020, while the relative share devoted to food **contracted notably** - a pattern long predicted by **Engel's law**. Transport and leisure shifted more modestly, reflecting evolving consumer priorities and rising **discretionary income**.\n\nIn 2000, food accounted for the largest slice at 30%, narrowly ahead of housing (28%) and transport (20%); leisure and 'others' filled the remainder at 12% and 10% respectively. By 2020, however, the composition had **reshaped considerably**: housing **swelled** to 40%, **propelled** by sustained property-price inflation and tighter rental markets, while food **shrank** to just 22%, partly attributable to cheaper global **supply chains**.\n\nTransport stayed broadly flat at 18%, leisure rose to 14% as real wages expanded, and 'others' inched down to 6%. Taken together, the comparison highlights a clear **structural shift** toward fixed living costs **at the expense of** variable consumption - a hallmark of mature, urbanised economies according to OECD household-budget surveys.",
     "glossary": [
+      {
+        "term": "apportioned",
+        "vietnamese": "phân bổ",
+        "context": "The charts depict how an average household **apportioned** its monthly outlays across five categories."
+      },
       {
         "term": "emerged as",
         "vietnamese": "nổi lên là",
-        "context": "housing emerged as the dominant"
+        "context": "Housing **emerged as** the dominant expense category by 2020."
       },
       {
         "term": "contracted notably",
         "vietnamese": "co lại đáng kể",
-        "context": "food contracted notably"
+        "context": "The share devoted to food **contracted notably** over the twenty-year window."
       },
       {
-        "term": "reshaped considerably",
-        "vietnamese": "tái định hình đáng kể",
-        "context": "picture had reshaped"
-      },
-      {
-        "term": "swelled",
-        "vietnamese": "phình ra",
-        "context": "housing swelled to 40%"
-      },
-      {
-        "term": "shrank",
-        "vietnamese": "co lại",
-        "context": "food shrank to 22%"
-      },
-      {
-        "term": "structural shift",
-        "vietnamese": "sự thay đổi cấu trúc",
-        "context": "structural shift toward fixed costs"
-      },
-      {
-        "term": "at the expense of",
-        "vietnamese": "đánh đổi",
-        "context": "at the expense of variable consumption"
-      },
-      {
-        "term": "propelled",
-        "vietnamese": "thúc đẩy",
-        "context": "propelled by rising property prices"
+        "term": "Engel's law",
+        "vietnamese": "định luật Engel",
+        "context": "The relative fall in food spending is a pattern long predicted by **Engel's law**."
       },
       {
         "term": "discretionary income",
         "vietnamese": "thu nhập có thể chi tiêu",
-        "context": "discretionary income grew"
+        "context": "Modest shifts reflect rising **discretionary income** among Country Z households."
+      },
+      {
+        "term": "reshaped considerably",
+        "vietnamese": "tái định hình đáng kể",
+        "context": "By 2020 the expenditure composition had **reshaped considerably**."
+      },
+      {
+        "term": "swelled",
+        "vietnamese": "phình ra",
+        "context": "Housing **swelled** to 40% of monthly spending by 2020."
+      },
+      {
+        "term": "propelled",
+        "vietnamese": "thúc đẩy",
+        "context": "The housing share was **propelled** by sustained property-price inflation."
+      },
+      {
+        "term": "shrank",
+        "vietnamese": "co lại",
+        "context": "Food **shrank** to just 22%, partly attributable to cheaper global supply chains."
       },
       {
         "term": "supply chains",
         "vietnamese": "chuỗi cung ứng",
-        "context": "cheaper supply chains"
+        "context": "Cheaper global **supply chains** helped reduce the share spent on food."
+      },
+      {
+        "term": "structural shift",
+        "vietnamese": "sự thay đổi cấu trúc",
+        "context": "The comparison highlights a clear **structural shift** toward fixed living costs."
+      },
+      {
+        "term": "at the expense of",
+        "vietnamese": "đánh đổi",
+        "context": "Fixed costs expanded **at the expense of** variable consumption."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "Housing ___ as the dominant expense.",
-          "answer": "emerged"
+          "sentence": "Households ___ their outlays across five categories.",
+          "answer": "apportioned"
         },
         {
-          "sentence": "Food ___ to just 22%.",
-          "answer": "shrank"
+          "sentence": "Falling food share is predicted by ___ law.",
+          "answer": "Engel's"
         },
         {
-          "sentence": "There was a clear ___ shift.",
-          "answer": "structural"
-        },
-        {
-          "sentence": "Housing ___ to 40% of spending.",
+          "sentence": "Housing ___ to 40% of monthly spending.",
           "answer": "swelled"
         },
         {
-          "sentence": "Growth came at the ___ of variable spending.",
-          "answer": "expense"
+          "sentence": "The expense was ___ by sustained property-price inflation.",
+          "answer": "propelled"
+        },
+        {
+          "sentence": "Country Z saw a clear ___ shift toward fixed living costs.",
+          "answer": "structural"
         }
       ]
     },
