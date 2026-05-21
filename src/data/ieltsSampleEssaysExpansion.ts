@@ -9,82 +9,92 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "chartType": "line",
     "topic": "internet users",
     "prompt": "The line graph below shows the percentage of households with internet access in three regions (North, South, East) from 2000 to 2020. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The line graph illustrates household internet penetration in three regions - North, South and East - between 2000 and 2020.\n\nOverall, all three regions experienced a substantial **upward trend**, with the North consistently leading throughout the period. The most **pronounced** growth occurred in the East, which began from a very low base.\n\nIn 2000, only around 15% of households in the North had internet access, **markedly** higher than the South (8%) and the East (3%). The North then climbed steadily, **surpassing** 70% by 2015 before plateauing near 85% in 2020. The South followed a similar **trajectory** with a slight lag, reaching approximately 75% by the end of the period.\n\nThe East, despite starting at a **negligible** level, showed the steepest gradient after 2010, when infrastructure investment **gained traction**. By 2020 it had **converged** with the South at roughly 70%, narrowing the historical gap considerably. The data thus point to a **digital divide** that has visibly narrowed but not disappeared.",
+    "essayBody": "The line graph delineates household internet **penetration** in three regions - North, South and East - between 2000 and 2020, capturing two decades of broadband diffusion.\n\nOverall, all three regions registered a substantial **upward trajectory**, yet the North consistently retained a commanding lead, while the East exhibited the most **pronounced** acceleration once infrastructural investment **gained momentum**. The data ultimately point to a **digital divide** that has narrowed appreciably without being fully **bridged**.\n\nIn 2000, roughly 15% of Northern households were connected, **markedly** higher than the South (8%) and the East (3%). The North then climbed almost without interruption, **surpassing** 70% by 2015 before **plateauing** around 85% in 2020 - a level consistent with OECD saturation benchmarks. The South traced a near-parallel curve with a five-year lag, finishing close to 75%.\n\nThe East, although starting from a **negligible** base, recorded the steepest gradient after 2010, when state-led fibre rollouts and mobile broadband **proliferated**. By 2020 it had effectively **converged** with the South near 70%, compressing the regional gap from twelve to roughly fifteen percentage points relative to the North.",
     "glossary": [
       {
-        "term": "upward trend",
-        "vietnamese": "xu hướng tăng",
-        "context": "substantial upward trend"
+        "term": "penetration",
+        "vietnamese": "mức độ thâm nhập",
+        "context": "Household internet **penetration** in three regions between 2000 and 2020 captures two decades of broadband diffusion."
+      },
+      {
+        "term": "upward trajectory",
+        "vietnamese": "quỹ đạo đi lên",
+        "context": "All three regions registered a substantial **upward trajectory** over the twenty-year period."
       },
       {
         "term": "pronounced",
         "vietnamese": "rõ rệt",
-        "context": "pronounced growth"
+        "context": "The East exhibited the most **pronounced** acceleration once infrastructural investment expanded."
       },
       {
-        "term": "markedly",
-        "vietnamese": "đáng kể",
-        "context": "markedly higher"
-      },
-      {
-        "term": "surpassing",
-        "vietnamese": "vượt qua",
-        "context": "surpassing 70%"
-      },
-      {
-        "term": "trajectory",
-        "vietnamese": "quỹ đạo",
-        "context": "similar trajectory"
-      },
-      {
-        "term": "negligible",
-        "vietnamese": "không đáng kể",
-        "context": "negligible level"
-      },
-      {
-        "term": "gained traction",
-        "vietnamese": "tăng tốc",
-        "context": "investment gained traction"
-      },
-      {
-        "term": "converged",
-        "vietnamese": "hội tụ",
-        "context": "converged with the South"
+        "term": "gained momentum",
+        "vietnamese": "tăng đà",
+        "context": "Adoption rose sharply once infrastructural investment **gained momentum** after 2010."
       },
       {
         "term": "digital divide",
         "vietnamese": "khoảng cách số",
-        "context": "a digital divide that narrowed"
+        "context": "The data point to a **digital divide** that has narrowed appreciably without being fully bridged."
+      },
+      {
+        "term": "bridged",
+        "vietnamese": "thu hẹp hoàn toàn",
+        "context": "The historical gap was narrowed appreciably yet not fully **bridged** by 2020."
+      },
+      {
+        "term": "markedly",
+        "vietnamese": "đáng kể",
+        "context": "Northern penetration was **markedly** higher than the South (8%) and the East (3%) in 2000."
+      },
+      {
+        "term": "surpassing",
+        "vietnamese": "vượt qua",
+        "context": "The North climbed almost without interruption, **surpassing** 70% by 2015."
       },
       {
         "term": "plateauing",
         "vietnamese": "đạt mức ổn định",
-        "context": "plateauing near 85%"
+        "context": "Northern figures stabilised, **plateauing** around 85% by 2020."
+      },
+      {
+        "term": "negligible",
+        "vietnamese": "không đáng kể",
+        "context": "The East started from a **negligible** base of just 3%."
+      },
+      {
+        "term": "proliferated",
+        "vietnamese": "lan rộng nhanh chóng",
+        "context": "Mobile broadband **proliferated** after 2010, driving rapid catch-up in the East."
+      },
+      {
+        "term": "converged",
+        "vietnamese": "hội tụ",
+        "context": "By 2020 the East had effectively **converged** with the South near 70%."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "All three regions experienced a substantial ___ trend.",
-          "answer": "upward"
+          "sentence": "All three regions registered a substantial upward ___.",
+          "answer": "trajectory"
         },
         {
-          "sentence": "The East showed ___ growth from a low base.",
-          "answer": "pronounced"
+          "sentence": "Internet adoption ___ after 2010 in the East.",
+          "answer": "proliferated"
         },
         {
-          "sentence": "The North began ___ higher than other regions.",
-          "answer": "markedly"
+          "sentence": "Northern figures stabilised, ___ around 85%.",
+          "answer": "plateauing"
         },
         {
-          "sentence": "The data point to a ___ that has narrowed.",
-          "answer": "digital divide"
+          "sentence": "The regional ___ divide narrowed but was not fully bridged.",
+          "answer": "digital"
         },
         {
-          "sentence": "Investment gained ___ after 2010.",
-          "answer": "traction"
+          "sentence": "The East started from a ___ base of just 3%.",
+          "answer": "negligible"
         }
       ]
     },
