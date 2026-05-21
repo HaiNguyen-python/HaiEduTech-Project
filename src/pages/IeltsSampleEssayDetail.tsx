@@ -236,12 +236,12 @@ const IeltsSampleEssayDetail = () => {
           </div>
 
           {/* Interactive Mini-Review Challenge */}
-          <div className="glass-card rounded-xl p-6">
+          <div className="glass-card rounded-xl p-5">
             <h2 className="text-lg font-semibold text-foreground mb-2 flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-primary" />
               {t("Bài Tập Ôn Tập", "Mini-Review Challenge")}
             </h2>
-            <p className="text-sm text-muted-foreground mb-5">{essay.reviewExercise.instruction}</p>
+            <p className="text-sm text-muted-foreground mb-4">{essay.reviewExercise.instruction}</p>
 
             <div className="space-y-5">
               {essay.reviewExercise.items.map((item, idx) => {
