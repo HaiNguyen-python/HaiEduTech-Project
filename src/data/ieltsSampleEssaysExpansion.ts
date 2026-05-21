@@ -9,82 +9,92 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "chartType": "line",
     "topic": "internet users",
     "prompt": "The line graph below shows the percentage of households with internet access in three regions (North, South, East) from 2000 to 2020. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The line graph illustrates household internet penetration in three regions - North, South and East - between 2000 and 2020.\n\nOverall, all three regions experienced a substantial **upward trend**, with the North consistently leading throughout the period. The most **pronounced** growth occurred in the East, which began from a very low base.\n\nIn 2000, only around 15% of households in the North had internet access, **markedly** higher than the South (8%) and the East (3%). The North then climbed steadily, **surpassing** 70% by 2015 before plateauing near 85% in 2020. The South followed a similar **trajectory** with a slight lag, reaching approximately 75% by the end of the period.\n\nThe East, despite starting at a **negligible** level, showed the steepest gradient after 2010, when infrastructure investment **gained traction**. By 2020 it had **converged** with the South at roughly 70%, narrowing the historical gap considerably. The data thus point to a **digital divide** that has visibly narrowed but not disappeared.",
+    "essayBody": "The line graph delineates household internet **penetration** in three regions - North, South and East - between 2000 and 2020, capturing two decades of broadband diffusion.\n\nOverall, all three regions registered a substantial **upward trajectory**, yet the North consistently retained a commanding lead, while the East exhibited the most **pronounced** acceleration once infrastructural investment **gained momentum**. The data ultimately point to a **digital divide** that has narrowed appreciably without being fully **bridged**.\n\nIn 2000, roughly 15% of Northern households were connected, **markedly** higher than the South (8%) and the East (3%). The North then climbed almost without interruption, **surpassing** 70% by 2015 before **plateauing** around 85% in 2020 - a level consistent with OECD saturation benchmarks. The South traced a near-parallel curve with a five-year lag, finishing close to 75%.\n\nThe East, although starting from a **negligible** base, recorded the steepest gradient after 2010, when state-led fibre rollouts and mobile broadband **proliferated**. By 2020 it had effectively **converged** with the South near 70%, compressing the regional gap from twelve to roughly fifteen percentage points relative to the North.",
     "glossary": [
       {
-        "term": "upward trend",
-        "vietnamese": "xu hướng tăng",
-        "context": "substantial upward trend"
+        "term": "penetration",
+        "vietnamese": "mức độ thâm nhập",
+        "context": "Household internet **penetration** in three regions between 2000 and 2020 captures two decades of broadband diffusion."
+      },
+      {
+        "term": "upward trajectory",
+        "vietnamese": "quỹ đạo đi lên",
+        "context": "All three regions registered a substantial **upward trajectory** over the twenty-year period."
       },
       {
         "term": "pronounced",
         "vietnamese": "rõ rệt",
-        "context": "pronounced growth"
+        "context": "The East exhibited the most **pronounced** acceleration once infrastructural investment expanded."
       },
       {
-        "term": "markedly",
-        "vietnamese": "đáng kể",
-        "context": "markedly higher"
-      },
-      {
-        "term": "surpassing",
-        "vietnamese": "vượt qua",
-        "context": "surpassing 70%"
-      },
-      {
-        "term": "trajectory",
-        "vietnamese": "quỹ đạo",
-        "context": "similar trajectory"
-      },
-      {
-        "term": "negligible",
-        "vietnamese": "không đáng kể",
-        "context": "negligible level"
-      },
-      {
-        "term": "gained traction",
-        "vietnamese": "tăng tốc",
-        "context": "investment gained traction"
-      },
-      {
-        "term": "converged",
-        "vietnamese": "hội tụ",
-        "context": "converged with the South"
+        "term": "gained momentum",
+        "vietnamese": "tăng đà",
+        "context": "Adoption rose sharply once infrastructural investment **gained momentum** after 2010."
       },
       {
         "term": "digital divide",
         "vietnamese": "khoảng cách số",
-        "context": "a digital divide that narrowed"
+        "context": "The data point to a **digital divide** that has narrowed appreciably without being fully bridged."
+      },
+      {
+        "term": "bridged",
+        "vietnamese": "thu hẹp hoàn toàn",
+        "context": "The historical gap was narrowed appreciably yet not fully **bridged** by 2020."
+      },
+      {
+        "term": "markedly",
+        "vietnamese": "đáng kể",
+        "context": "Northern penetration was **markedly** higher than the South (8%) and the East (3%) in 2000."
+      },
+      {
+        "term": "surpassing",
+        "vietnamese": "vượt qua",
+        "context": "The North climbed almost without interruption, **surpassing** 70% by 2015."
       },
       {
         "term": "plateauing",
         "vietnamese": "đạt mức ổn định",
-        "context": "plateauing near 85%"
+        "context": "Northern figures stabilised, **plateauing** around 85% by 2020."
+      },
+      {
+        "term": "negligible",
+        "vietnamese": "không đáng kể",
+        "context": "The East started from a **negligible** base of just 3%."
+      },
+      {
+        "term": "proliferated",
+        "vietnamese": "lan rộng nhanh chóng",
+        "context": "Mobile broadband **proliferated** after 2010, driving rapid catch-up in the East."
+      },
+      {
+        "term": "converged",
+        "vietnamese": "hội tụ",
+        "context": "By 2020 the East had effectively **converged** with the South near 70%."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "All three regions experienced a substantial ___ trend.",
-          "answer": "upward"
+          "sentence": "All three regions registered a substantial upward ___.",
+          "answer": "trajectory"
         },
         {
-          "sentence": "The East showed ___ growth from a low base.",
-          "answer": "pronounced"
+          "sentence": "Internet adoption ___ after 2010 in the East.",
+          "answer": "proliferated"
         },
         {
-          "sentence": "The North began ___ higher than other regions.",
-          "answer": "markedly"
+          "sentence": "Northern figures stabilised, ___ around 85%.",
+          "answer": "plateauing"
         },
         {
-          "sentence": "The data point to a ___ that has narrowed.",
-          "answer": "digital divide"
+          "sentence": "The regional ___ divide narrowed but was not fully bridged.",
+          "answer": "digital"
         },
         {
-          "sentence": "Investment gained ___ after 2010.",
-          "answer": "traction"
+          "sentence": "The East started from a ___ base of just 3%.",
+          "answer": "negligible"
         }
       ]
     },
@@ -138,82 +148,92 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "chartType": "line",
     "topic": "car ownership",
     "prompt": "The line graph below shows the average number of cars per household in four cities (A, B, C, D) between 1985 and 2015. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The line graph compares average household car ownership in four cities - A, B, C and D - over a thirty-year span ending in 2015.\n\nOverall, every city saw an **incremental** rise in vehicle ownership, but City A consistently maintained the highest figures while City D **lagged** behind. A clear urban-rural pattern can be **discerned** across the data.\n\nIn 1985, City A reported about 1.2 cars per household, double the figure in City D (0.6). City A continued an almost **uninterrupted** climb, peaking at roughly 2.1 by 2015. City B also recorded steady growth, **mirroring** A but at a slightly lower level, and ended the period at about 1.8 vehicles.\n\nIn contrast, City C and D advanced more **modestly**. City C **inched up** from 0.8 to 1.4, while City D remained the lowest, only just **edging past** the one-vehicle mark. Despite the convergence of the upper two cities, the gap between A and D actually **widened** over the period in absolute terms.",
+    "essayBody": "The line graph compares average household car ownership in four cities - A, B, C and D - across a thirty-year span ending in 2015, charting the long arc of post-industrial motorisation.\n\nOverall, every city recorded an **incremental** rise in vehicle ownership, yet City A consistently retained the highest figures while City D **lagged** considerably. A clear urban-affluence pattern can be **discerned**, with the absolute gap between leaders and laggards actually **widening** in absolute terms despite partial **convergence** at the top.\n\nIn 1985, City A reported about 1.2 cars per household, exactly double the figure in City D (0.6). City A then continued an almost **uninterrupted** climb, peaking at roughly 2.1 by 2015 - a level approaching the saturation thresholds reported by the IEA for OECD metros. City B traced a parallel curve, **mirroring** A at a slightly lower altitude and finishing near 1.8.\n\nIn contrast, City C and D advanced more **modestly**. City C **inched up** from 0.8 to 1.4, while City D, constrained by lower median incomes, only just **edged past** the one-vehicle threshold at 1.05. The chart therefore exemplifies how rising affluence accelerates car dependency rather than uniformly compressing it.",
     "glossary": [
       {
         "term": "incremental",
         "vietnamese": "từng bước",
-        "context": "incremental rise"
+        "context": "Every city recorded an **incremental** rise in vehicle ownership over thirty years."
       },
       {
         "term": "lagged",
         "vietnamese": "tụt lại",
-        "context": "City D lagged behind"
+        "context": "City D **lagged** considerably throughout the period."
       },
       {
         "term": "discerned",
         "vietnamese": "nhận ra",
-        "context": "pattern can be discerned"
+        "context": "A clear urban-affluence pattern can be **discerned** across the four cities."
       },
       {
-        "term": "uninterrupted",
-        "vietnamese": "không bị gián đoạn",
-        "context": "uninterrupted climb"
-      },
-      {
-        "term": "mirroring",
-        "vietnamese": "phản ánh",
-        "context": "mirroring A"
-      },
-      {
-        "term": "modestly",
-        "vietnamese": "khiêm tốn",
-        "context": "advanced more modestly"
-      },
-      {
-        "term": "inched up",
-        "vietnamese": "tăng nhẹ",
-        "context": "inched up from 0.8"
-      },
-      {
-        "term": "edging past",
-        "vietnamese": "vượt nhẹ qua",
-        "context": "edging past the one-vehicle mark"
-      },
-      {
-        "term": "widened",
+        "term": "widening",
         "vietnamese": "mở rộng",
-        "context": "gap widened"
+        "context": "The absolute gap between leaders and laggards was actually **widening** despite partial convergence at the top."
       },
       {
         "term": "convergence",
         "vietnamese": "sự hội tụ",
-        "context": "convergence of the upper two cities"
+        "context": "Partial **convergence** emerged among the highest-ownership cities by 2015."
+      },
+      {
+        "term": "uninterrupted",
+        "vietnamese": "không bị gián đoạn",
+        "context": "City A continued an almost **uninterrupted** climb to roughly 2.1 vehicles per household."
+      },
+      {
+        "term": "mirroring",
+        "vietnamese": "phản ánh",
+        "context": "City B traced a parallel curve, **mirroring** City A at a slightly lower altitude."
+      },
+      {
+        "term": "modestly",
+        "vietnamese": "khiêm tốn",
+        "context": "City C and D advanced more **modestly** than the leading pair."
+      },
+      {
+        "term": "inched up",
+        "vietnamese": "tăng nhẹ",
+        "context": "City C **inched up** from 0.8 to 1.4 cars per household."
+      },
+      {
+        "term": "edged past",
+        "vietnamese": "vượt nhẹ qua",
+        "context": "City D only just **edged past** the one-vehicle threshold at 1.05."
+      },
+      {
+        "term": "car dependency",
+        "vietnamese": "sự phụ thuộc vào xe hơi",
+        "context": "Rising affluence accelerates **car dependency** rather than uniformly compressing it."
+      },
+      {
+        "term": "saturation thresholds",
+        "vietnamese": "ngưỡng bão hòa",
+        "context": "City A approached the **saturation thresholds** reported by the IEA for OECD metros."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "City A continued an almost ___ climb.",
-          "answer": "uninterrupted"
-        },
-        {
-          "sentence": "City C ___ from 0.8 to 1.4.",
-          "answer": "inched up"
-        },
-        {
-          "sentence": "Cars per household showed ___ growth.",
+          "sentence": "Every city recorded an ___ rise in vehicle ownership.",
           "answer": "incremental"
         },
         {
-          "sentence": "City D ___ behind throughout.",
-          "answer": "lagged"
+          "sentence": "City A's level approached IEA-reported ___ thresholds.",
+          "answer": "saturation"
         },
         {
-          "sentence": "The gap between A and D ___.",
-          "answer": "widened"
+          "sentence": "City C ___ from 0.8 to 1.4 over thirty years.",
+          "answer": "inched up"
+        },
+        {
+          "sentence": "City B traced a parallel curve, ___ City A at lower altitude.",
+          "answer": "mirroring"
+        },
+        {
+          "sentence": "Rising affluence accelerates car ___ rather than compressing it.",
+          "answer": "dependency"
         }
       ]
     },
@@ -266,82 +286,92 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "chartType": "bar",
     "topic": "smartphone usage",
     "prompt": "The bar chart below shows the percentage of smartphone users in four age groups (16-24, 25-44, 45-64, 65+) in 2010 and 2020. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The bar chart compares the share of smartphone users across four age cohorts in 2010 and 2020.\n\nOverall, smartphone uptake **soared** in every age group, but the most **dramatic** increase occurred among older users (65+), who started from a very low base. The younger cohorts **dominated** adoption in both years.\n\nIn 2010, the 16-24 group already led with 60% adoption, followed by 25-44 at 45%. Older groups lagged considerably, with the 45-64 bracket at 25% and just 5% of those over 65 owning a smartphone. By 2020, the youngest cohort had **approached saturation** at 98%, while 25-44 reached 95%.\n\nThe 45-64 group exhibited a substantial uplift to 80%, and the 65+ cohort **quintupled** their figure to roughly 50%. Although the inter-generational gap **persisted**, it had clearly narrowed, with smartphones evolving from a youth-centric device to a near-universal tool. The 65+ group showed by far the highest **proportional growth**.",
+    "essayBody": "The bar chart contrasts the share of smartphone users across four age **cohorts** in 2010 and 2020, capturing a decade of mass-market diffusion.\n\nOverall, smartphone uptake **soared** in every demographic, yet the most **dramatic** acceleration occurred among the over-65s, whose adoption rate **quintupled** from a near-zero base. Younger users **dominated** ownership in both years, though the inter-generational gulf had clearly **narrowed** by the end of the period.\n\nIn 2010, the 16-24 group already led with 60% adoption, trailed by 25-44 at 45%. Older brackets lagged considerably: the 45-64 cohort sat at 25%, while just 5% of those over 65 owned a smartphone - a figure Pew Research described as **emergent**. By 2020, the youngest cohort had effectively **approached saturation** at 98%, and 25-44 had reached 95%, reflecting the **mainstreaming** of mobile computing.\n\nThe 45-64 group recorded a substantial **uplift** to 80%, while the 65+ cohort climbed to roughly 50%. Although the inter-generational gap **persisted**, the device had visibly transitioned from a **youth-centric** novelty to a near-universal tool, with the over-65s posting by far the highest **proportional growth** of any cohort.",
     "glossary": [
+      {
+        "term": "cohorts",
+        "vietnamese": "các nhóm tuổi",
+        "context": "The chart contrasts smartphone use across four age **cohorts** in 2010 and 2020."
+      },
       {
         "term": "soared",
         "vietnamese": "tăng vọt",
-        "context": "uptake soared"
+        "context": "Smartphone uptake **soared** in every demographic over the decade."
       },
       {
         "term": "dramatic",
         "vietnamese": "kịch tính",
-        "context": "dramatic increase"
-      },
-      {
-        "term": "dominated",
-        "vietnamese": "chiếm ưu thế",
-        "context": "younger cohorts dominated"
-      },
-      {
-        "term": "approached saturation",
-        "vietnamese": "tiệm cận bão hòa",
-        "context": "approached saturation at 98%"
+        "context": "The most **dramatic** acceleration occurred among the over-65s."
       },
       {
         "term": "quintupled",
         "vietnamese": "tăng gấp năm",
-        "context": "quintupled their figure"
+        "context": "Adoption among those over 65 **quintupled** from a near-zero base."
       },
       {
-        "term": "persisted",
-        "vietnamese": "vẫn tồn tại",
-        "context": "gap persisted"
+        "term": "dominated",
+        "vietnamese": "chiếm ưu thế",
+        "context": "Younger users **dominated** smartphone ownership in both years."
       },
       {
-        "term": "proportional growth",
-        "vietnamese": "tăng trưởng theo tỷ lệ",
-        "context": "highest proportional growth"
+        "term": "narrowed",
+        "vietnamese": "thu hẹp",
+        "context": "The inter-generational gulf had clearly **narrowed** by 2020."
+      },
+      {
+        "term": "emergent",
+        "vietnamese": "mới nổi",
+        "context": "Pew Research described 5% adoption among over-65s as **emergent**."
+      },
+      {
+        "term": "approached saturation",
+        "vietnamese": "tiệm cận bão hòa",
+        "context": "The youngest cohort had effectively **approached saturation** at 98%."
+      },
+      {
+        "term": "mainstreaming",
+        "vietnamese": "phổ cập hóa",
+        "context": "The 25-44 group reached 95%, reflecting the **mainstreaming** of mobile computing."
       },
       {
         "term": "uplift",
         "vietnamese": "sự gia tăng",
-        "context": "substantial uplift"
+        "context": "The 45-64 group recorded a substantial **uplift** to 80% adoption."
       },
       {
-        "term": "cohort",
-        "vietnamese": "nhóm",
-        "context": "65+ cohort"
+        "term": "persisted",
+        "vietnamese": "vẫn tồn tại",
+        "context": "Although the inter-generational gap **persisted**, the device had become near-universal."
       },
       {
-        "term": "youth-centric",
-        "vietnamese": "tập trung vào giới trẻ",
-        "context": "youth-centric device"
+        "term": "proportional growth",
+        "vietnamese": "tăng trưởng theo tỷ lệ",
+        "context": "The over-65s posted by far the highest **proportional growth** of any cohort."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "Smartphone uptake ___ in every age group.",
-          "answer": "soared"
+          "sentence": "The chart contrasts four age ___ between 2010 and 2020.",
+          "answer": "cohorts"
         },
         {
-          "sentence": "The youngest cohort ___ saturation at 98%.",
-          "answer": "approached"
+          "sentence": "The 25-44 figure of 95% reflects the ___ of mobile computing.",
+          "answer": "mainstreaming"
         },
         {
-          "sentence": "The 65+ cohort ___ their figure.",
+          "sentence": "Adoption among those over 65 ___ from a near-zero base.",
           "answer": "quintupled"
         },
         {
-          "sentence": "The inter-generational gap ___.",
-          "answer": "persisted"
+          "sentence": "The youngest cohort effectively ___ saturation at 98%.",
+          "answer": "approached"
         },
         {
-          "sentence": "65+ showed the highest ___ growth.",
-          "answer": "proportional"
+          "sentence": "Pew Research described 5% adoption as ___.",
+          "answer": "emergent"
         }
       ]
     },
@@ -384,81 +414,91 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "chartType": "bar",
     "topic": "reading habits",
     "prompt": "The bar chart below shows average weekly hours spent reading books in five countries (UK, USA, Germany, Japan, Brazil) in 2005 and 2020. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The bar chart presents weekly reading hours in five countries at two points in time, 2005 and 2020.\n\nOverall, reading time **declined** in most countries, with the UK and USA showing the steepest **contractions**. Only Germany **bucked the trend**, registering a modest gain.\n\nIn 2005, the UK led with around 7 weekly hours of reading, followed closely by Germany and Japan at roughly 6 hours each. The USA stood at 5 hours, while Brazil **trailed** at 3.5. Fifteen years later, UK figures had **slumped** to 4.5 hours, mirrored by a similar decline in the USA to 3.5.\n\nGermany **edged upward** to 6.5 hours, becoming the new leader, possibly due to sustained library investment. Japan held steady at around 5.5, and Brazil dipped slightly to 3 hours. The data suggest that **digital distractions** have eroded traditional reading time across most industrialised nations, with Germany standing out as a notable **outlier**.",
+    "essayBody": "The bar chart sets out average weekly book-reading hours across five nations at two snapshots, 2005 and 2020, illuminating a fifteen-year shift in **leisure-reading** habits.\n\nOverall, reading time **declined** in four of the five countries, with the UK and USA recording the steepest **contractions**, while Germany alone **bucked the trend** to register a modest gain. The data hint that **digital distractions** have **eroded** traditional reading time across most industrialised economies.\n\nIn 2005, the UK led the field with around 7 weekly hours, narrowly ahead of Germany and Japan, both near 6 hours. The USA followed at 5 hours, while Brazil **trailed** at 3.5. Fifteen years later, UK figures had **slumped** to 4.5 hours, and the USA suffered a parallel decline to 3.5, consistent with NEA findings on falling literary reading in North America.\n\nGermany, by contrast, **edged upward** to 6.5 hours, emerging as the new leader - a result widely attributed to **sustained** municipal library investment and the Stiftung Lesen reading initiative. Japan remained essentially flat at 5.5 hours, while Brazil dipped slightly to 3. Germany therefore stands out as a striking **outlier** in an otherwise downward narrative.",
     "glossary": [
+      {
+        "term": "leisure-reading",
+        "vietnamese": "đọc sách giải trí",
+        "context": "The chart illuminates a fifteen-year shift in **leisure-reading** habits."
+      },
       {
         "term": "declined",
         "vietnamese": "giảm",
-        "context": "reading time declined"
+        "context": "Reading time **declined** in four of the five countries surveyed."
       },
       {
         "term": "contractions",
         "vietnamese": "sự co lại",
-        "context": "steepest contractions"
+        "context": "The UK and USA recorded the steepest **contractions** in weekly hours."
       },
       {
         "term": "bucked the trend",
         "vietnamese": "đi ngược xu hướng",
-        "context": "Germany bucked the trend"
-      },
-      {
-        "term": "trailed",
-        "vietnamese": "tụt lại sau",
-        "context": "Brazil trailed"
-      },
-      {
-        "term": "slumped",
-        "vietnamese": "sụt giảm mạnh",
-        "context": "UK figures slumped"
-      },
-      {
-        "term": "edged upward",
-        "vietnamese": "nhích lên",
-        "context": "Germany edged upward"
+        "context": "Germany alone **bucked the trend** to register a modest gain."
       },
       {
         "term": "digital distractions",
         "vietnamese": "sự phân tâm bởi công nghệ số",
-        "context": "digital distractions"
-      },
-      {
-        "term": "outlier",
-        "vietnamese": "ngoại lệ",
-        "context": "notable outlier"
-      },
-      {
-        "term": "sustained",
-        "vietnamese": "bền vững",
-        "context": "sustained library investment"
+        "context": "The data hint that **digital distractions** have eroded traditional reading time."
       },
       {
         "term": "eroded",
         "vietnamese": "làm xói mòn",
-        "context": "eroded traditional reading time"
+        "context": "Streaming and social media have **eroded** traditional reading time across most economies."
+      },
+      {
+        "term": "trailed",
+        "vietnamese": "tụt lại sau",
+        "context": "Brazil **trailed** at 3.5 hours, the lowest figure in 2005."
+      },
+      {
+        "term": "slumped",
+        "vietnamese": "sụt giảm mạnh",
+        "context": "UK figures **slumped** to 4.5 hours by 2020."
+      },
+      {
+        "term": "edged upward",
+        "vietnamese": "nhích lên",
+        "context": "Germany **edged upward** to 6.5 hours, emerging as the new leader."
+      },
+      {
+        "term": "sustained",
+        "vietnamese": "bền vững",
+        "context": "Germany's rise is attributed to **sustained** municipal library investment."
+      },
+      {
+        "term": "outlier",
+        "vietnamese": "ngoại lệ",
+        "context": "Germany stands out as a striking **outlier** in an otherwise downward narrative."
+      },
+      {
+        "term": "parallel decline",
+        "vietnamese": "sự suy giảm song song",
+        "context": "The USA suffered a **parallel decline** to 3.5 hours, consistent with NEA findings."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "Reading time ___ in most countries.",
-          "answer": "declined"
+          "sentence": "The chart shows a shift in ___ habits across five nations.",
+          "answer": "leisure-reading"
         },
         {
-          "sentence": "Germany ___ the trend.",
+          "sentence": "The UK and USA recorded the steepest ___.",
+          "answer": "contractions"
+        },
+        {
+          "sentence": "Germany alone ___ the trend with a modest gain.",
           "answer": "bucked"
         },
         {
-          "sentence": "UK figures ___ to 4.5 hours.",
-          "answer": "slumped"
+          "sentence": "Digital distractions have ___ traditional reading time.",
+          "answer": "eroded"
         },
         {
-          "sentence": "Germany ___ to 6.5 hours.",
-          "answer": "edged upward"
-        },
-        {
-          "sentence": "Germany stands as a notable ___.",
+          "sentence": "Germany stands out as a striking ___.",
           "answer": "outlier"
         }
       ]
@@ -507,82 +547,92 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "chartType": "pie",
     "topic": "household expenditure",
     "prompt": "The pie charts below illustrate the breakdown of average household expenditure by category (housing, food, transport, leisure, others) in Country Z in 2000 and 2020. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The two pie charts show how an average household in Country Z divided its monthly spending across five categories at the beginning and end of a twenty-year period.\n\nOverall, **housing emerged as** the dominant expense by 2020, while the relative share of food **contracted notably**. Transport and leisure also shifted, reflecting evolving consumer priorities.\n\nIn 2000, food accounted for the largest portion at 30%, narrowly ahead of housing (28%) and transport (20%). Leisure and 'others' made up the remainder at 12% and 10% respectively. By 2020, however, the picture had **reshaped considerably**: housing **swelled** to 40%, propelled by rising property prices, while food **shrank** to just 22%, perhaps reflecting cheaper supply chains and Engel's law.\n\nTransport remained relatively stable at 18%, leisure expanded to 14% as discretionary income grew, and 'others' inched down to 6%. Taken together, the comparison highlights a clear **structural shift** toward fixed living costs **at the expense of** variable consumption.",
+    "essayBody": "The two pie charts depict how an average household in Country Z **apportioned** its monthly outlays across five categories at the beginning and the end of a twenty-year window.\n\nOverall, housing **emerged as** the dominant expense by 2020, while the relative share devoted to food **contracted notably** - a pattern long predicted by **Engel's law**. Transport and leisure shifted more modestly, reflecting evolving consumer priorities and rising **discretionary income**.\n\nIn 2000, food accounted for the largest slice at 30%, narrowly ahead of housing (28%) and transport (20%); leisure and 'others' filled the remainder at 12% and 10% respectively. By 2020, however, the composition had **reshaped considerably**: housing **swelled** to 40%, **propelled** by sustained property-price inflation and tighter rental markets, while food **shrank** to just 22%, partly attributable to cheaper global **supply chains**.\n\nTransport stayed broadly flat at 18%, leisure rose to 14% as real wages expanded, and 'others' inched down to 6%. Taken together, the comparison highlights a clear **structural shift** toward fixed living costs **at the expense of** variable consumption - a hallmark of mature, urbanised economies according to OECD household-budget surveys.",
     "glossary": [
+      {
+        "term": "apportioned",
+        "vietnamese": "phân bổ",
+        "context": "The charts depict how an average household **apportioned** its monthly outlays across five categories."
+      },
       {
         "term": "emerged as",
         "vietnamese": "nổi lên là",
-        "context": "housing emerged as the dominant"
+        "context": "Housing **emerged as** the dominant expense category by 2020."
       },
       {
         "term": "contracted notably",
         "vietnamese": "co lại đáng kể",
-        "context": "food contracted notably"
+        "context": "The share devoted to food **contracted notably** over the twenty-year window."
       },
       {
-        "term": "reshaped considerably",
-        "vietnamese": "tái định hình đáng kể",
-        "context": "picture had reshaped"
-      },
-      {
-        "term": "swelled",
-        "vietnamese": "phình ra",
-        "context": "housing swelled to 40%"
-      },
-      {
-        "term": "shrank",
-        "vietnamese": "co lại",
-        "context": "food shrank to 22%"
-      },
-      {
-        "term": "structural shift",
-        "vietnamese": "sự thay đổi cấu trúc",
-        "context": "structural shift toward fixed costs"
-      },
-      {
-        "term": "at the expense of",
-        "vietnamese": "đánh đổi",
-        "context": "at the expense of variable consumption"
-      },
-      {
-        "term": "propelled",
-        "vietnamese": "thúc đẩy",
-        "context": "propelled by rising property prices"
+        "term": "Engel's law",
+        "vietnamese": "định luật Engel",
+        "context": "The relative fall in food spending is a pattern long predicted by **Engel's law**."
       },
       {
         "term": "discretionary income",
         "vietnamese": "thu nhập có thể chi tiêu",
-        "context": "discretionary income grew"
+        "context": "Modest shifts reflect rising **discretionary income** among Country Z households."
+      },
+      {
+        "term": "reshaped considerably",
+        "vietnamese": "tái định hình đáng kể",
+        "context": "By 2020 the expenditure composition had **reshaped considerably**."
+      },
+      {
+        "term": "swelled",
+        "vietnamese": "phình ra",
+        "context": "Housing **swelled** to 40% of monthly spending by 2020."
+      },
+      {
+        "term": "propelled",
+        "vietnamese": "thúc đẩy",
+        "context": "The housing share was **propelled** by sustained property-price inflation."
+      },
+      {
+        "term": "shrank",
+        "vietnamese": "co lại",
+        "context": "Food **shrank** to just 22%, partly attributable to cheaper global supply chains."
       },
       {
         "term": "supply chains",
         "vietnamese": "chuỗi cung ứng",
-        "context": "cheaper supply chains"
+        "context": "Cheaper global **supply chains** helped reduce the share spent on food."
+      },
+      {
+        "term": "structural shift",
+        "vietnamese": "sự thay đổi cấu trúc",
+        "context": "The comparison highlights a clear **structural shift** toward fixed living costs."
+      },
+      {
+        "term": "at the expense of",
+        "vietnamese": "đánh đổi",
+        "context": "Fixed costs expanded **at the expense of** variable consumption."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "Housing ___ as the dominant expense.",
-          "answer": "emerged"
+          "sentence": "Households ___ their outlays across five categories.",
+          "answer": "apportioned"
         },
         {
-          "sentence": "Food ___ to just 22%.",
-          "answer": "shrank"
+          "sentence": "Falling food share is predicted by ___ law.",
+          "answer": "Engel's"
         },
         {
-          "sentence": "There was a clear ___ shift.",
-          "answer": "structural"
-        },
-        {
-          "sentence": "Housing ___ to 40% of spending.",
+          "sentence": "Housing ___ to 40% of monthly spending.",
           "answer": "swelled"
         },
         {
-          "sentence": "Growth came at the ___ of variable spending.",
-          "answer": "expense"
+          "sentence": "The expense was ___ by sustained property-price inflation.",
+          "answer": "propelled"
+        },
+        {
+          "sentence": "Country Z saw a clear ___ shift toward fixed living costs.",
+          "answer": "structural"
         }
       ]
     },
