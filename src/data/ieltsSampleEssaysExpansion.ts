@@ -979,92 +979,106 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     }
   },
-  {
+    {
     "id": "t1-18",
     "taskType": 1,
     "chartType": "table",
     "topic": "average salary",
     "prompt": "The table below shows average annual salaries (USD) in four professions (engineer, teacher, nurse, accountant) in three countries (USA, UK, Australia) in 2022. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The table compares average annual salaries across four professions in three English-speaking countries during 2022.\n\nOverall, engineers commanded the highest pay in every country, while teachers consistently received the lowest. Australia generally **outpaced** both the USA and UK in absolute terms, although the **disparity** was modest.\n\nIn the USA, engineers earned about $95,000, followed by accountants at $72,000 and nurses at $78,000, with teachers receiving the lowest figure of $58,000. UK figures were universally lower: engineers were paid $80,000, while teachers brought home only $45,000 - the lowest entry in the dataset.\n\nAustralia took the lead in three categories: engineers (\\$98,000), nurses (\\$82,000) and teachers (\\$60,000). Accountants there earned $74,000, marginally ahead of US peers. The cross-country pattern indicates that healthcare and engineering enjoy a **wage premium**, whereas teaching remains relatively under-rewarded - a recurring **structural feature** of advanced labour markets.",
+    "essayBody": "The table compares average annual salaries, denominated in US dollars, across four professions in three Anglophone countries during 2022.\n\nOverall, engineers **commanded** the highest remuneration in every jurisdiction, while teachers consistently received the lowest. Australia generally **outpaced** both the USA and UK in **absolute** terms, although the **disparity** was modest and partly **offset** by differences in cost-of-living indices.\n\nIn the USA, engineers earned approximately $95,000, followed by nurses at $78,000 and accountants at $72,000, with teachers receiving the lowest figure of $58,000. UK figures were universally **suppressed**: engineers were paid $80,000, while teachers **took home** only $45,000—the lowest entry in the entire dataset, a **differential** that may partly explain the ongoing recruitment crisis in British state schools.\n\nAustralia took the lead in three categories: engineers (\$98,000), nurses (\$82,000) and teachers (\$60,000). Accountants there earned $74,000, **marginally** ahead of their US counterparts. The cross-country pattern indicates that healthcare and engineering enjoy a **wage premium** linked to credential scarcity and technical **barriers to entry**, whereas teaching remains relatively under-rewarded—a recurring **structural feature** of advanced labour markets that OECD data consistently **corroborate**.",
     "glossary": [
+      {
+        "term": "commanded",
+        "vietnamese": "đạt được / chiếm giữ",
+        "context": "Engineers **commanded** the highest remuneration in every jurisdiction."
+      },
       {
         "term": "outpaced",
         "vietnamese": "vượt qua",
-        "context": "Australia outpaced others"
+        "context": "Australia generally **outpaced** both the USA and UK in absolute terms."
+      },
+      {
+        "term": "absolute",
+        "vietnamese": "tuyệt đối",
+        "context": "Australia led in **absolute** terms, though differences are offset by cost-of-living indices."
       },
       {
         "term": "disparity",
         "vietnamese": "sự chênh lệch",
-        "context": "disparity was modest"
+        "context": "The **disparity** between the three countries was modest."
       },
       {
-        "term": "commanded",
-        "vietnamese": "đạt được",
-        "context": "engineers commanded the highest pay"
+        "term": "offset",
+        "vietnamese": "bù đắp",
+        "context": "Higher Australian salaries are partly **offset** by differences in cost-of-living indices."
       },
       {
-        "term": "wage premium",
-        "vietnamese": "mức lương ưu đãi",
-        "context": "wage premium"
+        "term": "suppressed",
+        "vietnamese": "bị đè thấp",
+        "context": "UK figures were universally **suppressed** relative to the other two countries."
       },
       {
-        "term": "structural feature",
-        "vietnamese": "đặc điểm cấu trúc",
-        "context": "structural feature of labour markets"
-      },
-      {
-        "term": "under-rewarded",
-        "vietnamese": "trả công chưa xứng đáng",
-        "context": "teaching remains under-rewarded"
-      },
-      {
-        "term": "absolute terms",
-        "vietnamese": "giá trị tuyệt đối",
-        "context": "in absolute terms"
-      },
-      {
-        "term": "brought home",
+        "term": "took home",
         "vietnamese": "mang về (lương)",
-        "context": "teachers brought home"
+        "context": "Teachers **took home** only $45,000—the lowest entry in the dataset."
+      },
+      {
+        "term": "differential",
+        "vietnamese": "chênh lệch",
+        "context": "This **differential** may partly explain the ongoing recruitment crisis in British schools."
       },
       {
         "term": "marginally",
         "vietnamese": "nhẹ",
-        "context": "marginally ahead"
+        "context": "Australian accountants earned $74,000, **marginally** ahead of their US counterparts."
       },
       {
-        "term": "recurring",
-        "vietnamese": "lặp lại",
-        "context": "recurring structural feature"
+        "term": "wage premium",
+        "vietnamese": "mức lương ưu đãi",
+        "context": "Healthcare and engineering enjoy a **wage premium** linked to credential scarcity."
+      },
+      {
+        "term": "barriers to entry",
+        "vietnamese": "rào cản gia nhập",
+        "context": "The premium is linked to technical **barriers to entry** in these fields."
+      },
+      {
+        "term": "structural feature",
+        "vietnamese": "đặc điểm cấu trúc",
+        "context": "Under-rewarded teaching is a recurring **structural feature** of advanced labour markets."
+      },
+      {
+        "term": "corroborate",
+        "vietnamese": "xác nhận / củng cố",
+        "context": "OECD data consistently **corroborate** this cross-national pattern."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "Engineers ___ the highest pay.",
+          "sentence": "Engineers ___ the highest remuneration in every country.",
           "answer": "commanded"
         },
         {
-          "sentence": "Australia ___ both the USA and UK.",
-          "answer": "outpaced"
+          "sentence": "UK figures were universally ___ relative to peers.",
+          "answer": "suppressed"
         },
         {
-          "sentence": "Healthcare and engineering enjoy a wage ___.",
+          "sentence": "Healthcare enjoys a wage ___ due to credential scarcity.",
           "answer": "premium"
         },
         {
-          "sentence": "Teaching is a ___ feature of low pay.",
-          "answer": "structural"
+          "sentence": "Higher salaries are partly ___ by cost-of-living differences.",
+          "answer": "offset"
         },
         {
-          "sentence": "Teaching remains ___ rewarded.",
-          "answer": "under"
+          "sentence": "OECD data consistently ___ this structural pattern.",
+          "answer": "corroborate"
         }
       ]
-    },
-    "chartConfig": {
+    },    "chartConfig": {
       "data": [],
       "type": "table",
       "columns": [
