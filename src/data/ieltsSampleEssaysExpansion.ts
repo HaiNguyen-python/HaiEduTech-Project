@@ -2931,92 +2931,176 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     }
   },
-  {
+    {
     "id": "t1-30",
     "taskType": 1,
     "chartType": "bar",
     "topic": "recycling rates",
     "prompt": "The bar chart below shows the household recycling rates (%) in five European countries (Germany, Sweden, France, Italy, Poland) in 2010 and 2020. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The bar chart compares the proportion of household waste recycled in five European countries at two points in time, 2010 and 2020.\n\nOverall, every nation **improved** its recycling performance, though the gap between the leaders and laggards remained pronounced. Germany held the top position in both years, while Poland trailed despite the largest **percentage-point** gain.\n\nIn 2010, Germany recycled 60% of household waste, narrowly ahead of Sweden at 50%. France stood at 35%, Italy at 28%, and Poland recycled only 20%. By 2020, Germany had **inched** up to 67%, retaining its lead, while Sweden **closed the gap** by climbing to 65%.\n\nFrance reached 50%, demonstrating the impact of nationwide **bin-sorting schemes**. Italy crossed the 40% threshold, ending at 42%. Poland posted the largest absolute increase of 25 points to 45%, suggesting **rapid policy uptake**, though it still **trailed** the others. The data underscore the influence of **policy maturity** and citizen awareness on environmental outcomes.",
+    "essayBody": "The bar chart compares the proportion of household waste **diverted** for recycling in five European countries at two benchmark years, 2010 and 2020.\n\nOverall, every nation **improved** its waste-diversion performance, though the **disparity** between **frontrunners** and **laggards** remained pronounced. Germany **retained** the top position in both years, while Poland **trailed** despite **notching** the largest **percentage-point** gain.\n\nIn 2010, Germany recycled 60% of household waste, narrowly ahead of Sweden at 50%. France stood at 35%, Italy at 28%, and Poland recycled only 20%—a **differential** that reflected **heterogeneous** levels of **regulatory stringency**, **infrastructural endowment** and citizen awareness. By 2020, Germany had **inched** up to 67%, retaining its lead, while Sweden **closed the gap** by climbing to 65%, buoyed by **extended producer-responsibility** frameworks and **deposit-return** schemes for beverage containers.\n\nFrance reached 50%, demonstrating the cumulative impact of nationwide **bin-sorting schemes** and **kerbside** collection expansion. Italy crossed the 40% **threshold**, ending at 42%, as **municipal** composting and plastic-separation programmes **scaled up**. Poland posted the largest absolute increase of 25 points to 45%, suggesting **rapid policy uptake** and **compliance-culture** development, though it still **trailed** the others. The data underscore that recycling outcomes depend on the **interplay** of **policy maturity**, **infrastructural investment** and **behavioural norms**, not wealth alone.",
     "glossary": [
+      {
+        "term": "diverted",
+        "vietnamese": "chuyển hướng",
+        "context": "The proportion of household waste **diverted** for recycling."
+      },
       {
         "term": "improved",
         "vietnamese": "cải thiện",
-        "context": "every nation improved"
+        "context": "Every nation **improved** its waste-diversion performance."
       },
       {
-        "term": "percentage-point",
-        "vietnamese": "điểm phần trăm",
-        "context": "largest percentage-point gain"
+        "term": "disparity",
+        "vietnamese": "sự chênh lệch",
+        "context": "The **disparity** between frontrunners and laggards remained pronounced."
       },
       {
-        "term": "inched",
-        "vietnamese": "nhích",
-        "context": "Germany inched up"
-      },
-      {
-        "term": "closed the gap",
-        "vietnamese": "thu hẹp khoảng cách",
-        "context": "Sweden closed the gap"
-      },
-      {
-        "term": "bin-sorting schemes",
-        "vietnamese": "chương trình phân loại rác",
-        "context": "bin-sorting schemes"
-      },
-      {
-        "term": "rapid policy uptake",
-        "vietnamese": "tiếp nhận chính sách nhanh",
-        "context": "rapid policy uptake"
-      },
-      {
-        "term": "trailed",
-        "vietnamese": "tụt lại",
-        "context": "still trailed the others"
-      },
-      {
-        "term": "policy maturity",
-        "vietnamese": "sự chín muồi chính sách",
-        "context": "policy maturity"
+        "term": "frontrunners",
+        "vietnamese": "đầu tàu / dẫn đầu",
+        "context": "The gap between **frontrunners** and laggards remained wide."
       },
       {
         "term": "laggards",
         "vietnamese": "kẻ tụt hậu",
-        "context": "leaders and laggards"
+        "context": "Poland still **trailed** despite rapid improvement."
+      },
+      {
+        "term": "retained",
+        "vietnamese": "giữ lại",
+        "context": "Germany **retained** the top position in both years."
+      },
+      {
+        "term": "trailed",
+        "vietnamese": "tụt lại",
+        "context": "Poland **trailed** despite notching the largest gain."
+      },
+      {
+        "term": "notching",
+        "vietnamese": "ghi nhận / đạt được",
+        "context": "Despite **notching** the largest percentage-point gain."
+      },
+      {
+        "term": "percentage-point",
+        "vietnamese": "điểm phần trăm",
+        "context": "The largest **percentage-point** gain in the dataset."
+      },
+      {
+        "term": "differential",
+        "vietnamese": "chênh lệch",
+        "context": "A **differential** that reflected heterogeneous regulatory levels."
+      },
+      {
+        "term": "heterogeneous",
+        "vietnamese": "khác biệt / không đồng nhất",
+        "context": "Reflected **heterogeneous** levels of regulatory stringency."
+      },
+      {
+        "term": "regulatory stringency",
+        "vietnamese": "sự nghiêm ngặt của quy định",
+        "context": "**Regulatory stringency** varied across the five countries."
+      },
+      {
+        "term": "infrastructural endowment",
+        "vietnamese": "cơ sở hạ tầng",
+        "context": "And **infrastructural endowment** plus citizen awareness."
+      },
+      {
+        "term": "inched",
+        "vietnamese": "nhích",
+        "context": "Germany had **inched** up to 67%, retaining its lead."
+      },
+      {
+        "term": "closed the gap",
+        "vietnamese": "thu hẹp khoảng cách",
+        "context": "Sweden **closed the gap** by climbing to 65%."
+      },
+      {
+        "term": "extended producer-responsibility",
+        "vietnamese": "trách nhiệm mở rộng của nhà sản xuất",
+        "context": "Buoyed by **extended producer-responsibility** frameworks."
+      },
+      {
+        "term": "deposit-return",
+        "vietnamese": "hoàn trả tiền đặt cọc",
+        "context": "And **deposit-return** schemes for beverage containers."
+      },
+      {
+        "term": "bin-sorting schemes",
+        "vietnamese": "chương trình phân loại rác",
+        "context": "The impact of nationwide **bin-sorting schemes**."
+      },
+      {
+        "term": "kerbside",
+        "vietnamese": "bên lề đường",
+        "context": "**Kerbside** collection expansion across municipalities."
       },
       {
         "term": "threshold",
         "vietnamese": "ngưỡng",
-        "context": "crossed the 40% threshold"
+        "context": "Italy crossed the 40% **threshold**, ending at 42%."
+      },
+      {
+        "term": "municipal",
+        "vietnamese": "thuộc đô thị / địa phương",
+        "context": "**Municipal** composting and plastic-separation programmes scaled up."
+      },
+      {
+        "term": "scaled up",
+        "vietnamese": "mở rộng quy mô",
+        "context": "Programmes **scaled up** across Italian cities."
+      },
+      {
+        "term": "rapid policy uptake",
+        "vietnamese": "tiếp nhận chính sách nhanh chóng",
+        "context": "Suggesting **rapid policy uptake** and compliance-culture development."
+      },
+      {
+        "term": "compliance-culture",
+        "vietnamese": "văn hóa tuân thủ",
+        "context": "And **compliance-culture** development in Poland."
+      },
+      {
+        "term": "interplay",
+        "vietnamese": "sự tương tác",
+        "context": "Outcomes depend on the **interplay** of policy maturity and investment."
+      },
+      {
+        "term": "policy maturity",
+        "vietnamese": "sự chín muồi của chính sách",
+        "context": "The **interplay** of **policy maturity**, infrastructural investment and behavioural norms."
+      },
+      {
+        "term": "behavioural norms",
+        "vietnamese": "chuẩn mực hành vi",
+        "context": "And **behavioural norms**, not wealth alone."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "Every nation ___ recycling performance.",
-          "answer": "improved"
+          "sentence": "The ___ between frontrunners and laggards remained pronounced.",
+          "answer": "disparity"
         },
         {
-          "sentence": "Germany ___ up to 67%.",
-          "answer": "inched"
+          "sentence": "Poland ___ the largest percentage-point gain.",
+          "answer": "notched"
         },
         {
-          "sentence": "Sweden ___ the gap.",
+          "sentence": "Sweden ___ the gap by climbing to 65%.",
           "answer": "closed"
         },
         {
-          "sentence": "Poland still ___ the others.",
-          "answer": "trailed"
+          "sentence": "Italy crossed the 40% ___ at 42%.",
+          "answer": "threshold"
         },
         {
-          "sentence": "Outcomes depend on ___ maturity.",
-          "answer": "policy"
+          "sentence": "Outcomes depend on the ___ of policy maturity and investment.",
+          "answer": "interplay"
         }
       ]
-    },
-    "chartConfig": {
+    },    "chartConfig": {
       "type": "bar",
       "xKey": "country",
       "yKeys": [
