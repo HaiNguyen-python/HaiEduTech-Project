@@ -1,4 +1,4 @@
-// IELTS Sample Essays Expansion - Band 8.0+ level
+// IELTS Sample Essays Expansion - Band 7.0+ level
 // Auto-generated additional 20 Task 1 + 20 Task 2 essays
 import type { SampleEssay } from "./ieltsSampleEssays";
 

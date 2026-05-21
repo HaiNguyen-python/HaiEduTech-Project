@@ -1,6 +1,6 @@
 /**
  * @file EssayBand8Analysis.tsx
- * @description Renders a Band 8.0+ analysis panel for an IELTS sample essay,
+ * @description Renders a Band 7.0+ analysis panel for an IELTS sample essay,
  *   broken down by Task Achievement / Response, Coherence & Cohesion,
  *   Lexical Resource, and Grammatical Range & Accuracy.
  *
@@ -24,7 +24,7 @@ interface FeatureMatch {
   evidence: string;
 }
 
-/** Find advanced Band 8+ grammatical patterns in the essay body. */
+/** Find advanced Band 7+ grammatical patterns in the essay body. */
 function detectBand8Features(body: string): FeatureMatch[] {
   const out: FeatureMatch[] = [];
   const tests: { re: RegExp; label: string }[] = [
@@ -85,7 +85,7 @@ const EssayBand8Analysis: React.FC<Props> = ({ essay }) => {
 
   // ---- GRA ----
   const graPoints = [
-    t(`${features.length} cấu trúc Band 8+ phát hiện trong bài (xem dưới).`, `${features.length} Band 8+ structures detected (see below).`),
+    t(`${features.length} cấu trúc Band 7+ phát hiện trong bài (xem dưới).`, `${features.length} Band 7+ structures detected (see below).`),
     t("Xen kẽ câu đơn & câu phức, hầu như không có lỗi cơ bản.", "Mix of simple & complex sentences with minimal basic errors."),
   ];
 
@@ -123,7 +123,7 @@ const EssayBand8Analysis: React.FC<Props> = ({ essay }) => {
         </div>
         <div>
           <h2 className="text-lg md:text-xl font-bold text-foreground">
-            🏆 {t("Phân tích: Vì sao bài này đạt Band 8.0+?", "Analysis: Why this is Band 8.0+")}
+            🏆 {t("Phân tích: Vì sao bài này đạt Band 7.0+?", "Analysis: Why this is Band 7.0+")}
           </h2>
           <p className="text-sm text-muted-foreground mt-1">
             {t(
@@ -167,7 +167,7 @@ const EssayBand8Analysis: React.FC<Props> = ({ essay }) => {
           <div className="flex items-center gap-2 mb-3">
             <Wand2 className="w-4 h-4 text-purple-600 dark:text-purple-400" />
             <h3 className="font-semibold text-foreground text-sm">
-              {t("Bằng chứng: Các cấu trúc Band 8+ thực tế trong bài", "Evidence: Actual Band 8+ structures in this essay")}
+              {t("Bằng chứng: Các cấu trúc Band 7+ thực tế trong bài", "Evidence: Actual Band 7+ structures in this essay")}
             </h3>
           </div>
           <ul className="space-y-2">

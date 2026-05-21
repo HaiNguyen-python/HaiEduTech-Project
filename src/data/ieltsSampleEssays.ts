@@ -1,4 +1,4 @@
-// IELTS Sample Essays Database - Band 8.0+ level
+// IELTS Sample Essays Database - Band 7.0+ level
 // Auto-generated content with bilingual glossary and review exercises
 
 export interface GlossaryEntry {

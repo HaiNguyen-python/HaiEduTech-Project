@@ -1,4 +1,4 @@
-// IELTS Sample Essays Hub - Filterable list of Band 8.0+ essays
+// IELTS Sample Essays Hub - Filterable list of Band 7.0+ essays
 import { useState, useMemo } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Link } from "react-router-dom";
@@ -62,13 +62,13 @@ const IeltsSampleEssays = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="IELTS Sample Essays Band 8.0+"
-        description="Curated IELTS Writing Task 1 & Task 2 sample essays at Band 8.0+ with bilingual glossary, model structures, and practice exercises."
+        title="IELTS Sample Essays Band 7.0+"
+        description="Curated IELTS Writing Task 1 & Task 2 sample essays at Band 7.0+ with bilingual glossary, model structures, and practice exercises."
         path="/ielts-sample-essays"
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "CollectionPage",
-          name: "IELTS Sample Essays Band 8.0+",
+          name: "IELTS Sample Essays Band 7.0+",
           inLanguage: ["vi-VN", "en-US"],
           isPartOf: { "@type": "WebSite", name: "HaiEduTech", url: "https://haiedutech.com" },
         }}
@@ -79,7 +79,7 @@ const IeltsSampleEssays = () => {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10">
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-3 flex items-center justify-center gap-3">
             <BookOpen className="w-8 h-8 text-primary" />
-            {t("Bài Mẫu IELTS Band 8.0+", "IELTS Sample Essays Band 8.0+")}
+            {t("Bài Mẫu IELTS Band 7.0+", "IELTS Sample Essays Band 7.0+")}
           </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             {t(
