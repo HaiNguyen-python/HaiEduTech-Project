@@ -1518,57 +1518,57 @@ const baseSampleEssays: SampleEssay[] = [
     "essayType": "opinion",
     "topic": "Crime reduction strategies",
     "prompt": "Some believe that imposing longer prison sentences is the best way to reduce crime, while others argue for prevention and rehabilitation. To what extent do you agree or disagree?",
-    "essayBody": "Lengthy prison terms have intuitive appeal, yet evidence suggests that smart prevention and targeted rehabilitation reduce crime more sustainably than simply extending sentences. I therefore disagree that longer terms are the optimal tool.\n\nPunishment can deter, but its marginal benefits diminish. Beyond a threshold, harsher penalties add little to **deterrence** because many offences are impulsive or occur under substance misuse. Lengthy incarceration may achieve **incapacitation**, but it also disrupts social ties and employment, heightening **recidivism** upon release. Moreover, blanket severity can violate **proportionality**, undermining legitimacy and cooperation with law enforcement.\n\nA public safety strategy should tackle root causes and tailor responses. Well‑resourced **community policing** builds trust, gathers intelligence, and resolves conflicts before they escalate. **Early intervention**-from mentoring to addiction treatment-addresses risks while they are malleable. Modern **risk assessment** tools, used transparently, can calibrate supervision and programmes to an individual’s **criminogenic needs**, from job skills to cognitive-behavioural therapy. For suitable cases, **diversion programs** and problem‑solving courts can break cycles without the scarring effects of prison, reserving custody for serious, high‑risk offenders.\n\nNone of this implies softness. Swift, certain, and fair sanctions can outperform purely severe ones. Prisons should focus on education, treatment, and reentry planning to convert dead time into progress. Combining targeted incapacitation with prevention and rehabilitation reduces harm at lower cost and with fewer victims in the long run. Justice systems should be guided by what works, not what merely feels tough.",
+    "essayBody": "Lengthy prison terms have intuitive political appeal, yet decades of criminological evidence consistently suggest that smart prevention and targeted rehabilitation reduce crime far more sustainably than simply extending sentences. I therefore firmly disagree that longer terms are the optimal tool for public safety.\n\nPunishment can certainly deter, but its marginal benefits diminish sharply beyond a threshold. Harsher penalties typically add little to actual **deterrence** because most offences are impulsive, occur under substance misuse or are committed by people who simply do not calculate long-term consequences. Lengthy incarceration may achieve short-term **incapacitation**, but it also disrupts family ties, employment prospects and housing, demonstrably heightening **recidivism** upon release; US Bureau of Justice statistics show roughly two-thirds of released prisoners are rearrested within three years. Moreover, blanket severity can violate the basic principle of **proportionality**, undermining institutional legitimacy and reducing the willingness of communities to cooperate with law enforcement.\n\nA genuinely effective public safety strategy should tackle root causes and carefully tailor responses to individual cases. Well-resourced **community policing** builds the trust required to gather intelligence and resolves minor conflicts before they escalate into serious crime. **Early intervention** programmes - from school mentoring to substance-misuse treatment - address risk factors while they are still malleable. Modern, transparently audited **risk assessment** tools can calibrate supervision and programmes to an individual's specific **criminogenic needs**, from vocational skills to cognitive-behavioural therapy. For suitable lower-risk cases, **diversion programs** and specialised problem-solving courts can break offending cycles without the scarring effects of imprisonment, reserving custody for genuinely serious, high-risk offenders.\n\nNone of this implies softness on crime. Indeed, swift, certain and procedurally fair sanctions consistently outperform purely severe ones in randomised evaluations. Prisons themselves should focus relentlessly on education, treatment and structured reentry planning, converting otherwise wasted time into measurable progress. Combining targeted incapacitation with serious investment in prevention and **rehabilitation** ultimately reduces harm at lower public cost and with fewer victims in the long run. Justice systems should be guided by what demonstrably works, not by what merely feels tough.",
     "glossary": [
       {
         "term": "deterrence",
-        "vietnamese": "răn đe",
-        "context": "Increasing certainty of punishment strengthens deterrence."
+        "vietnamese": "tác dụng răn đe",
+        "context": "Harsher penalties typically add little to actual deterrence because most offences are impulsive."
       },
       {
         "term": "incapacitation",
-        "vietnamese": "vô hiệu hóa",
-        "context": "Incapacitation removes dangerous offenders from the street."
+        "vietnamese": "loại trừ khả năng phạm tội bằng giam giữ",
+        "context": "Lengthy incarceration may achieve short-term incapacitation but disrupts family and employment."
       },
       {
         "term": "recidivism",
-        "vietnamese": "tái phạm",
-        "context": "Education in prison can lower recidivism."
+        "vietnamese": "tỉ lệ tái phạm",
+        "context": "Disrupted social ties demonstrably heighten recidivism upon release from prison."
       },
       {
         "term": "proportionality",
-        "vietnamese": "tính tương xứng",
-        "context": "Punishment should respect proportionality."
+        "vietnamese": "tính tương xứng trong hình phạt",
+        "context": "Blanket severity can violate the basic principle of proportionality, undermining institutional legitimacy."
       },
       {
         "term": "community policing",
-        "vietnamese": "cảnh sát cộng đồng",
-        "context": "Community policing improves trust and reporting."
+        "vietnamese": "mô hình cảnh sát cộng đồng",
+        "context": "Well-resourced community policing builds the trust required to gather intelligence and resolve conflicts early."
       },
       {
         "term": "early intervention",
         "vietnamese": "can thiệp sớm",
-        "context": "Early intervention can defuse risk factors."
+        "context": "Early intervention programmes address risk factors while they are still malleable."
       },
       {
         "term": "risk assessment",
-        "vietnamese": "đánh giá rủi ro",
-        "context": "Risk assessment tools inform supervision levels."
+        "vietnamese": "đánh giá rủi ro tái phạm",
+        "context": "Modern, transparently audited risk assessment tools can calibrate supervision to each individual."
       },
       {
         "term": "criminogenic needs",
-        "vietnamese": "nhu cầu gây tội phạm",
-        "context": "Addressing criminogenic needs reduces reoffending."
+        "vietnamese": "nhu cầu khắc phục yếu tố gây phạm tội",
+        "context": "Programmes should target an individual's specific criminogenic needs, from vocational skills to therapy."
       },
       {
         "term": "diversion programs",
-        "vietnamese": "chương trình chuyển hướng",
-        "context": "Diversion programs keep low-risk people out of prison."
+        "vietnamese": "chương trình chuyển hướng khỏi nhà tù",
+        "context": "For suitable lower-risk cases, diversion programs can break offending cycles without imprisonment."
       },
       {
         "term": "rehabilitation",
-        "vietnamese": "cải tạo, phục hồi",
-        "context": "Rehabilitation targets the causes of offending."
+        "vietnamese": "phục hồi và tái hòa nhập",
+        "context": "Combining targeted incapacitation with serious investment in prevention and rehabilitation reduces harm."
       }
     ],
     "reviewExercise": {
@@ -1604,57 +1604,57 @@ const baseSampleEssays: SampleEssay[] = [
     "essayType": "discussion",
     "topic": "Traditional journalism vs social media",
     "prompt": "Some people believe social media has made news more democratic, while others argue it undermines reliable journalism. Discuss both views and give your opinion.",
-    "essayBody": "Social media has blown open the gates of communication. Supporters say it decentralises news, empowering witnesses and communities to bypass editorial **gatekeeping** and highlight neglected issues. Grassroots voices can organise rapidly, and real‑time footage can counter official narratives. In this view, networks expand participation and pressure institutions to be transparent.\n\nCritics warn, however, that virality trades credibility for speed. Platforms optimise engagement through **algorithmic amplification**, rewarding outrage and novelty over nuance. This dynamic fosters **echo chambers** where users share beliefs unchallenged, and **misinformation** or orchestrated **disinformation** spreads faster than corrections. Without robust **verification protocols**, rumours masquerade as facts, while economic pressures erode **editorial independence** in some outlets. The result can be cynicism and confusion, with citizens unsure whom to trust.\n\nBoth claims hold truth. Citizen reporting is invaluable during crises and in repressive contexts, yet professional norms-source protection, context, and legal scrutiny-still matter. My view is that the solution is not to romanticise either model but to blend their strengths. Platforms should elevate authoritative sources, enforce transparency on political ads, and fund independent **fact-checking**. Newsrooms must engage audiences interactively, correct swiftly, and publish methods. Most crucially, societies need universal **media literacy** so users can interrogate claims, spot manipulation, and demand **accountability** from both platforms and publishers.\n\nA healthy information ecosystem harnesses the reach of networks while upholding standards of evidence. Only then can democracy enjoy the benefits of openness without succumbing to the chaos of unvetted claims.",
+    "essayBody": "Social media has decisively blown open the gates of public communication. Supporters argue convincingly that it decentralises the news, empowering ordinary witnesses and marginalised communities to bypass traditional editorial **gatekeeping** and spotlight long-neglected issues. Grassroots voices can now organise across borders within hours, and real-time citizen footage can powerfully counter sanitised official narratives - the Arab Spring uprisings and global Black Lives Matter movement both vividly illustrate this democratising potential. In this view, networks meaningfully expand civic participation and pressure institutions to be far more transparent.\n\nCritics warn, however, that virality systematically trades credibility for raw speed. Major platforms openly optimise engagement through opaque **algorithmic amplification**, consistently rewarding outrage, novelty and emotional intensity over factual nuance. This dynamic fosters self-reinforcing **echo chambers** in which users share existing beliefs unchallenged, while **misinformation** and orchestrated **disinformation** demonstrably spread far faster than any subsequent corrections - MIT researchers famously found false stories travel roughly six times quicker than true ones on Twitter. Without robust **verification protocols**, mere rumours can masquerade as established facts, while collapsing advertising revenue continues to erode the **editorial independence** of many legacy outlets. The combined result is rising public cynicism and genuine confusion about whom to trust.\n\nBoth claims hold significant truth. Citizen reporting is invaluable during crises and in repressive political contexts where professional journalists cannot operate freely. Nevertheless, traditional professional norms - source protection, factual context, legal scrutiny and ethical review - still matter enormously. My considered view is that the solution lies neither in romanticising social platforms nor in defending legacy outlets uncritically, but in deliberately blending their respective strengths. Platforms should consistently elevate authoritative sources, enforce strict transparency on political advertising and fund independent **fact-checking** at scale. Newsrooms, in turn, must engage their audiences interactively, correct errors swiftly and visibly, and publish their reporting methods. Most crucially, modern democracies need universal **media literacy** education so that citizens can rigorously interrogate claims, spot manipulation and demand genuine **accountability** from both platforms and publishers.\n\nA healthy information ecosystem therefore harnesses the unprecedented reach of digital networks while firmly upholding traditional standards of evidence. Only then can democracy enjoy the genuine benefits of openness without succumbing to the chaos of unvetted, viral claims.",
     "glossary": [
       {
         "term": "gatekeeping",
-        "vietnamese": "kiểm soát đầu vào thông tin",
-        "context": "Social media weakens traditional gatekeeping."
+        "vietnamese": "vai trò gác cổng thông tin",
+        "context": "Citizens can now bypass traditional editorial gatekeeping and spotlight long-neglected issues."
       },
       {
         "term": "algorithmic amplification",
-        "vietnamese": "khuếch đại bằng thuật toán",
-        "context": "Algorithmic amplification favours emotive content."
+        "vietnamese": "khuếch đại nội dung bằng thuật toán",
+        "context": "Major platforms openly optimise engagement through opaque algorithmic amplification of emotive content."
       },
       {
         "term": "echo chambers",
-        "vietnamese": "buồng dội âm (tư tưởng đồng thuận)",
-        "context": "Echo chambers insulate users from opposing views."
+        "vietnamese": "buồng vọng tư tưởng",
+        "context": "This dynamic fosters self-reinforcing echo chambers in which users share existing beliefs unchallenged."
       },
       {
         "term": "misinformation",
-        "vietnamese": "thông tin sai lệch (không cố ý)",
-        "context": "Misinformation can spread faster than corrections."
+        "vietnamese": "thông tin sai lệch không cố ý",
+        "context": "Misinformation and orchestrated disinformation demonstrably spread far faster than any subsequent corrections."
       },
       {
         "term": "disinformation",
-        "vietnamese": "thông tin giả có chủ đích",
-        "context": "Disinformation campaigns target elections."
+        "vietnamese": "thông tin sai lệch có chủ đích",
+        "context": "Orchestrated disinformation campaigns now routinely target elections in dozens of countries."
       },
       {
         "term": "verification protocols",
-        "vietnamese": "quy trình xác minh",
-        "context": "Strong verification protocols reduce errors."
+        "vietnamese": "quy trình xác minh thông tin",
+        "context": "Without robust verification protocols, mere rumours can masquerade as established facts."
       },
       {
         "term": "editorial independence",
-        "vietnamese": "độc lập biên tập",
-        "context": "Advertisers can threaten editorial independence."
+        "vietnamese": "tính độc lập biên tập",
+        "context": "Collapsing advertising revenue continues to erode the editorial independence of many legacy outlets."
       },
       {
         "term": "fact-checking",
-        "vietnamese": "kiểm chứng sự thật",
-        "context": "Fact-checking debunks viral hoaxes."
+        "vietnamese": "kiểm chứng dữ kiện",
+        "context": "Platforms should fund independent fact-checking at scale across multiple languages."
       },
       {
         "term": "media literacy",
-        "vietnamese": "hiểu biết truyền thông",
-        "context": "Media literacy helps users judge credibility."
+        "vietnamese": "năng lực hiểu và phản biện truyền thông",
+        "context": "Modern democracies need universal media literacy education so citizens can rigorously interrogate claims."
       },
       {
         "term": "accountability",
         "vietnamese": "trách nhiệm giải trình",
-        "context": "Platforms must face accountability for harms."
+        "context": "Citizens must demand genuine accountability from both platforms and publishers."
       }
     ],
     "reviewExercise": {
@@ -1690,57 +1690,57 @@ const baseSampleEssays: SampleEssay[] = [
     "essayType": "advantages-disadvantages",
     "topic": "Remote work and work-life balance",
     "prompt": "Many companies now allow employees to work remotely. What are the advantages and disadvantages of this trend?",
-    "essayBody": "Remote work has shifted from a perk to a mainstream operating model. Its benefits are tangible. Employees gain **autonomy** over their schedules and environments, enabling deep focus when needed. Freed from commuting, they reclaim hours for family and health, and firms can hire across geographies, tapping broader talent. Teams that master **asynchronous coordination** and **output-based evaluation** often boost productivity by aligning time to task.\n\nYet the model brings trade‑offs. Blurred boundaries can fuel overwork when **boundary management** is weak, and the absence of office cues can revive **presenteeism** in digital form-being “always on” to signal commitment. Social isolation can erode cohesion and learning by osmosis, while poor home setups harm **ergonomics** and well‑being. New hires may struggle with culture and tacit knowledge during **onboarding**, and time zone friction can slow feedback loops. Without deliberate rituals, stress accumulates into **burnout**.\n\nMaximising advantages requires intentional design. Leaders should default to documentation and transparent workflows, set response norms, and protect focus time. Regular in‑person offsites and mentoring can maintain community. Stipends for equipment improve ergonomics, while clear goals anchor performance to outcomes rather than hours. Rotating meeting times and pairing core hours with flexible **flexitime** balance collaboration and autonomy.\n\nIn short, remote work can enhance both efficiency and well‑being, but only when organisations architect it carefully. The office is no longer a building; it is the set of practices that help people do their best work, wherever they are.",
+    "essayBody": "Remote work has shifted decisively from a marginal perk to a mainstream operating model in the post-pandemic era, with Stanford research suggesting that hybrid arrangements now cover roughly 30 percent of paid workdays in advanced economies. Its benefits are tangible and well documented. Employees gain substantial **autonomy** over their daily schedules and physical environments, enabling sustained deep focus when complex work demands it. Freed from gruelling commutes, they reclaim hours each week for family, exercise and rest, while firms can recruit across entire geographies, tapping a far broader talent pool. Teams that genuinely master **asynchronous coordination** and **output-based evaluation** consistently report productivity gains by aligning available time to actual task requirements rather than rigid office hours.\n\nYet the model brings genuine trade-offs that must be addressed honestly. Blurred boundaries can fuel chronic overwork wherever **boundary management** is weak, and the absence of natural office cues can revive **presenteeism** in a damaging digital form - being 'always on' simply to signal commitment to colleagues. Social isolation can quietly erode team cohesion and the informal learning that traditionally happened by osmosis around the water cooler. Poor home setups frequently harm long-term **ergonomics** and wellbeing, while new hires often struggle to absorb culture and tacit knowledge during remote **onboarding**. Persistent time-zone friction can slow critical feedback loops and, without deliberate rituals to restore connection, accumulated stress can spiral into serious **burnout**.\n\nMaximising the advantages therefore requires genuinely intentional organisational design rather than passive drift. Leaders should default to thorough written documentation and transparent workflows, set clear response-time norms and rigorously protect focus time for deep work. Regular in-person offsites and structured mentoring programmes can maintain meaningful community across distributed teams. Generous stipends for equipment significantly improve home ergonomics, while clearly defined performance goals anchor evaluation to genuine outcomes rather than visible hours. Rotating meeting times across time zones and pairing modest core hours with flexible **flexitime** can elegantly balance synchronous collaboration with personal autonomy.\n\nIn short, remote work can simultaneously enhance both efficiency and employee wellbeing, but only when organisations carefully architect the model rather than hoping it works itself out. The modern office is no longer a building; it is the deliberate set of practices that help people do their very best work, wherever they happen to be located.",
     "glossary": [
       {
         "term": "autonomy",
-        "vietnamese": "tự chủ",
-        "context": "Remote work increases worker autonomy."
+        "vietnamese": "quyền tự chủ trong công việc",
+        "context": "Employees gain substantial autonomy over their daily schedules and physical environments."
       },
       {
         "term": "asynchronous coordination",
-        "vietnamese": "phối hợp không đồng bộ",
-        "context": "Async tools enable asynchronous coordination across time zones."
+        "vietnamese": "phối hợp công việc không đồng bộ",
+        "context": "Teams that genuinely master asynchronous coordination consistently report productivity gains."
       },
       {
         "term": "output-based evaluation",
-        "vietnamese": "đánh giá dựa trên kết quả",
-        "context": "Managers should adopt output-based evaluation."
+        "vietnamese": "đánh giá dựa trên kết quả đầu ra",
+        "context": "Output-based evaluation aligns available time to actual task requirements rather than rigid hours."
       },
       {
         "term": "boundary management",
-        "vietnamese": "quản lý ranh giới",
-        "context": "Boundary management prevents overwork."
+        "vietnamese": "quản lý ranh giới giữa công việc và cuộc sống",
+        "context": "Blurred boundaries can fuel chronic overwork wherever boundary management is weak."
       },
       {
         "term": "presenteeism",
-        "vietnamese": "làm việc hình thức (hiện diện cho có)",
-        "context": "Digital presenteeism can drain morale."
+        "vietnamese": "hành vi cố tỏ ra đang làm việc",
+        "context": "The absence of office cues can revive presenteeism in a damaging digital form."
       },
       {
         "term": "ergonomics",
         "vietnamese": "công thái học",
-        "context": "Ergonomics matter for long-term health."
+        "context": "Poor home setups frequently harm long-term ergonomics and physical wellbeing."
       },
       {
         "term": "onboarding",
-        "vietnamese": "hội nhập nhân viên mới",
-        "context": "Remote onboarding needs structured support."
+        "vietnamese": "quá trình hội nhập nhân viên mới",
+        "context": "New hires often struggle to absorb culture and tacit knowledge during remote onboarding."
       },
       {
         "term": "burnout",
-        "vietnamese": "kiệt sức",
-        "context": "Poor boundaries can lead to burnout."
+        "vietnamese": "kiệt sức nghề nghiệp",
+        "context": "Without deliberate rituals to restore connection, accumulated stress can spiral into serious burnout."
       },
       {
         "term": "flexitime",
-        "vietnamese": "giờ làm linh hoạt",
-        "context": "Flexitime balances collaboration and focus."
+        "vietnamese": "giờ làm việc linh hoạt",
+        "context": "Pairing modest core hours with flexible flexitime balances collaboration with personal autonomy."
       },
       {
-        "term": "isolation",
-        "vietnamese": "cô lập",
-        "context": "Remote isolation can weaken team bonds."
+        "term": "tacit knowledge",
+        "vietnamese": "tri thức ẩn truyền miệng",
+        "context": "New hires often struggle to absorb culture and tacit knowledge during remote onboarding."
       }
     ],
     "reviewExercise": {
@@ -1776,57 +1776,57 @@ const baseSampleEssays: SampleEssay[] = [
     "essayType": "problem-solution",
     "topic": "Government: declining voter turnout and trust",
     "prompt": "In many democracies, voter turnout and trust in government are declining. What are the causes of this problem and what measures can be taken to address it?",
-    "essayBody": "Falling participation and confidence threaten democratic resilience. Several forces drive this decline: polarised media ecosystems, opaque decision‑making, and unequal representation that breeds cynicism. Administrative hurdles and disengagement among youth further depress turnout.\n\nReversing the trend requires rebuilding pathways for meaningful voice. First, lower the cost of participation. Automatic registration, convenient voting windows, and, where appropriate, **ranked-choice voting** can reduce spoilers and encourage more civil campaigns. Some advocate **compulsory voting**, which, when paired with easy access and modest fines, produces broader mandates and nudges people into habitual **civic engagement**.\n\nSecond, strengthen fairness and transparency. Independent commissions should draw districts to prevent **disenfranchisement** by gerrymander. Real‑time **open data** on budgets, contracts, and performance enables scrutiny, while robust **campaign finance** rules reduce outsized influence. Routine **public consultation**-citizens’ panels, participatory budgeting-invites communities into agenda‑setting, not just feedback at the end.\n\nFinally, invest in the future electorate. High‑quality **civics education** that is nonpartisan and experiential can cultivate agency and skills for deliberation. Coupled with service programs, this forms habits that last into adulthood. Ensuring **electoral integrity** through secure systems, transparent audits, and clear communication combats misinformation and rebuilds confidence.\n\nNo single reform suffices. But together, simplifying access, widening voice, and deepening accountability can reweave the civic fabric, making government feel both accessible and answerable.",
+    "essayBody": "Falling electoral participation and collapsing institutional confidence together pose a serious threat to democratic resilience across the developed world. Several reinforcing forces drive the trend: deeply polarised media ecosystems, opaque governmental decision-making and unequal representation that steadily breeds cynicism among ordinary voters. Significant administrative hurdles and acute disengagement among younger generations further depress turnout, which in some recent national elections has fallen below 50 percent of eligible voters.\n\nReversing this dangerous trend requires patiently rebuilding meaningful pathways for citizen voice. First, governments must lower the practical cost of participation. Automatic voter registration, convenient multi-day voting windows and, where appropriate, **ranked-choice voting** can reduce wasted-vote anxiety and encourage more civil campaigns focused on consensus rather than mobilising the base. Some democracies, notably Australia and Belgium, also advocate carefully designed **compulsory voting** which, when paired with easy access and modest fines, consistently produces broader electoral mandates and gently nudges people into habitual **civic engagement**.\n\nSecond, leaders must demonstrably strengthen fairness and transparency. Genuinely independent commissions should draw electoral districts to prevent the **disenfranchisement** caused by partisan gerrymandering. Real-time **open data** on public budgets, contracts and performance enables citizen scrutiny, while robust **campaign finance** rules curb the outsized influence of wealthy donors. Routine, well-designed **public consultation** - citizens' assemblies, deliberative polls and participatory budgeting - invites communities into genuine agenda-setting rather than tokenistic feedback at the end of the process.\n\nFinally, democracies must invest seriously in the future electorate. High-quality **civics education** that is rigorously nonpartisan and genuinely experiential can cultivate the agency, deliberation skills and political efficacy that lifelong voters require. Coupled with national service programmes, this forms civic habits that endure into adulthood. Ensuring robust **electoral integrity** through secure voting systems, transparent post-election audits and clear public communication is also vital to combat misinformation and steadily rebuild trust.\n\nNo single reform will suffice on its own. But together, simplifying access, widening democratic voice and deepening institutional accountability can gradually reweave the civic fabric, making government feel both genuinely accessible and meaningfully answerable to the people it serves.",
     "glossary": [
       {
         "term": "ranked-choice voting",
-        "vietnamese": "bỏ phiếu xếp hạng",
-        "context": "Ranked-choice voting rewards broad appeal."
+        "vietnamese": "bỏ phiếu xếp hạng ưu tiên",
+        "context": "Ranked-choice voting can reduce wasted-vote anxiety and encourage more civil campaigns."
       },
       {
         "term": "compulsory voting",
-        "vietnamese": "bỏ phiếu bắt buộc",
-        "context": "Compulsory voting can raise turnout."
+        "vietnamese": "bỏ phiếu bắt buộc theo luật",
+        "context": "Carefully designed compulsory voting consistently produces broader electoral mandates."
       },
       {
         "term": "civic engagement",
-        "vietnamese": "tham gia công dân",
-        "context": "Civic engagement includes voting and volunteering."
+        "vietnamese": "sự tham gia công dân",
+        "context": "Easy access gently nudges people into habitual civic engagement."
       },
       {
         "term": "disenfranchisement",
-        "vietnamese": "tước quyền bầu cử",
-        "context": "Barriers can cause de facto disenfranchisement."
+        "vietnamese": "việc tước quyền bầu cử",
+        "context": "Independent commissions should prevent the disenfranchisement caused by partisan gerrymandering."
       },
       {
         "term": "open data",
-        "vietnamese": "dữ liệu mở",
-        "context": "Open data lets citizens audit spending."
+        "vietnamese": "dữ liệu mở của chính phủ",
+        "context": "Real-time open data on public budgets, contracts and performance enables genuine citizen scrutiny."
       },
       {
         "term": "campaign finance",
         "vietnamese": "tài chính vận động tranh cử",
-        "context": "Campaign finance rules curb undue influence."
+        "context": "Robust campaign finance rules curb the outsized influence of wealthy donors."
       },
       {
         "term": "public consultation",
-        "vietnamese": "tham vấn công chúng",
-        "context": "Public consultation improves policy legitimacy."
+        "vietnamese": "tham vấn công chúng trong xây dựng chính sách",
+        "context": "Routine public consultation invites communities into genuine agenda-setting."
       },
       {
         "term": "civics education",
         "vietnamese": "giáo dục công dân",
-        "context": "Civics education builds democratic skills."
+        "context": "High-quality civics education can cultivate the agency and deliberation skills lifelong voters require."
       },
       {
         "term": "electoral integrity",
-        "vietnamese": "tính liêm chính bầu cử",
-        "context": "Audits help ensure electoral integrity."
+        "vietnamese": "tính liêm chính của bầu cử",
+        "context": "Ensuring electoral integrity through secure systems and transparent audits is vital to rebuild trust."
       },
       {
         "term": "transparency",
-        "vietnamese": "minh bạch",
-        "context": "Transparency underpins trust in government."
+        "vietnamese": "tính minh bạch của chính phủ",
+        "context": "Leaders must demonstrably strengthen fairness and transparency to restore public confidence."
       }
     ],
     "reviewExercise": {
@@ -1862,57 +1862,57 @@ const baseSampleEssays: SampleEssay[] = [
     "essayType": "two-part",
     "topic": "Artificial intelligence and jobs",
     "prompt": "Advances in artificial intelligence are changing the workplace. 1) In what ways will AI affect employment? 2) What should workers and governments do to prepare?",
-    "essayBody": "AI will reshape employment through both **displacement** and **augmentation**. Routine tasks in clerical work, support, and even parts of professional services are automatable, compressing certain roles while expanding demand for oversight and complex judgment. At the same time, AI can amplify human capability-drafting, summarising, forecasting-pushing the **productivity frontier** outward and spawning new occupations in data stewardship, prompt design, and systems integration.\n\nPreparation hinges on skills, safeguards, and incentives. Workers need continuous **reskilling** for analytical reasoning, collaboration, and domain‑specific digital fluency. Organisations should adopt **human-in-the-loop** designs that keep people accountable for critical decisions and ensure **explainability** for high‑stakes uses. To protect fairness, rigorous audits must test for **algorithmic bias**, while clear **safety guardrails** govern deployment in sectors like finance, healthcare, and transport.\n\nGovernments must align markets with the public interest. Tax policy and grants can accelerate diffusion to small firms, while modernised **intellectual property** rules clarify ownership of AI‑assisted outputs. Funding lifelong learning, portable benefits, and targeted wage subsidies can smooth transitions for displaced workers. Finally, robust **data governance**-covering access, privacy, and quality-will both unlock innovation and maintain trust.\n\nHandled carelessly, AI could widen inequality and erode dignity at work. Managed wisely, it can liberate people from drudgery and create better jobs. The future of work will be designed, not discovered.",
+    "essayBody": "Artificial intelligence will reshape employment over the coming decade through both **displacement** and **augmentation** working simultaneously. Routine tasks across clerical work, customer support and even substantial parts of professional services such as legal review and basic accounting are already being automated, compressing certain established roles while expanding demand for higher-order oversight and complex judgement. At the same time, well-designed AI can dramatically amplify human capability - drafting, summarising, forecasting and translating - pushing the **productivity frontier** outward and spawning entirely new occupations in data stewardship, prompt engineering and AI systems integration. McKinsey estimates that generative AI alone could add between $2.6 and $4.4 trillion to annual global productivity.\n\nIntelligent preparation hinges on three interlocking pillars: skills, safeguards and incentives. Workers themselves urgently need continuous **reskilling** in analytical reasoning, cross-functional collaboration and domain-specific digital fluency, since technical half-lives are shortening rapidly. Organisations deploying AI should adopt **human-in-the-loop** designs that keep accountable people firmly in charge of critical decisions and ensure meaningful **explainability** for high-stakes uses in finance, healthcare or justice. To protect basic fairness, rigorous independent audits must routinely test deployed systems for **algorithmic bias**, while clear **safety guardrails** govern deployment in any sector where mistakes can cause real human harm.\n\nGovernments, in turn, must actively align fast-moving AI markets with the broader public interest. Targeted tax policy and innovation grants can accelerate the diffusion of beneficial AI to small and medium firms, which otherwise risk being left behind by tech giants. Modernised **intellectual property** rules should clarify ownership of AI-assisted creative outputs, an area currently mired in litigation. Generously funded lifelong learning accounts, portable benefits that survive job changes and targeted wage subsidies can together smooth the difficult transitions for displaced workers. Finally, robust **data governance** - covering access, privacy, consent and quality - will simultaneously unlock genuine innovation and maintain the public trust on which voluntary AI adoption ultimately depends.\n\nHandled carelessly, AI could plausibly widen inequality, erode dignity at work and concentrate economic power in a handful of frontier labs. Managed wisely, however, it can liberate workers from drudgery, raise wages and create genuinely better jobs at scale. The future of work will be deliberately designed, not passively discovered.",
     "glossary": [
       {
         "term": "displacement",
-        "vietnamese": "thay thế lao động",
-        "context": "Automation may cause job displacement."
+        "vietnamese": "sự thay thế lao động",
+        "context": "Artificial intelligence will reshape employment through both displacement and augmentation working simultaneously."
       },
       {
         "term": "augmentation",
-        "vietnamese": "tăng cường năng lực",
-        "context": "AI offers augmentation of human tasks."
+        "vietnamese": "sự bổ trợ năng lực con người",
+        "context": "Well-designed AI can dramatically amplify human capability through augmentation rather than pure replacement."
       },
       {
         "term": "productivity frontier",
-        "vietnamese": "giới hạn năng suất",
-        "context": "Tools can move the productivity frontier outward."
+        "vietnamese": "giới hạn hiệu suất kinh tế",
+        "context": "Generative tools push the productivity frontier outward and spawn entirely new occupations."
       },
       {
         "term": "reskilling",
         "vietnamese": "đào tạo lại kỹ năng",
-        "context": "Reskilling helps workers shift roles."
+        "context": "Workers urgently need continuous reskilling in analytical reasoning and domain-specific digital fluency."
       },
       {
         "term": "human-in-the-loop",
-        "vietnamese": "con người trong vòng lặp",
-        "context": "Human-in-the-loop keeps accountability with people."
+        "vietnamese": "con người trong vòng lặp ra quyết định",
+        "context": "Organisations should adopt human-in-the-loop designs that keep accountable people firmly in charge of critical decisions."
       },
       {
         "term": "explainability",
-        "vietnamese": "khả năng giải thích",
-        "context": "Explainability is vital in high-stakes decisions."
+        "vietnamese": "khả năng giải thích quyết định của AI",
+        "context": "Companies must ensure meaningful explainability for high-stakes uses in finance, healthcare or justice."
       },
       {
         "term": "algorithmic bias",
-        "vietnamese": "thiên lệch thuật toán",
-        "context": "Audits can detect algorithmic bias."
+        "vietnamese": "thiên kiến thuật toán",
+        "context": "Rigorous independent audits must routinely test deployed systems for algorithmic bias."
       },
       {
         "term": "safety guardrails",
-        "vietnamese": "hàng rào an toàn",
-        "context": "Safety guardrails limit risky deployments."
+        "vietnamese": "rào chắn an toàn cho AI",
+        "context": "Clear safety guardrails should govern deployment in any sector where mistakes can cause real human harm."
       },
       {
         "term": "intellectual property",
-        "vietnamese": "sở hữu trí tuệ",
-        "context": "Clarify intellectual property for AI-generated work."
+        "vietnamese": "quyền sở hữu trí tuệ",
+        "context": "Modernised intellectual property rules should clarify ownership of AI-assisted creative outputs."
       },
       {
         "term": "data governance",
         "vietnamese": "quản trị dữ liệu",
-        "context": "Data governance ensures privacy and quality."
+        "context": "Robust data governance covering access, privacy and quality will unlock innovation and maintain public trust."
       }
     ],
     "reviewExercise": {
