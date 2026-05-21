@@ -19,18 +19,63 @@ const cacheKey = (text: string) => `hsk_tr::${text}`;
 
 const HskExampleTranslation = ({ example }: Props) => {
   const { t, lang } = useLanguage();
-  const [trans, setTrans] = useState<{ vi: string; en: string } | null>(() => {
-    try {
-      const raw = localStorage.getItem(cacheKey(example));
-      return raw ? JSON.parse(raw) : null;
-    } catch { return null; }
-  });
+  const [trans, setTrans] = useState<{ vi: string; en: string } | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showBoth, setShowBoth] = useState(false);
 
+  // Reset + load translation whenever the example sentence changes.
+  // This prevents stale translations from sticking around when the parent
+  // (e.g. HSK quiz) advances to a new question.
+  useEffect(() => {
+    let cancelled = false;
+    setShowBoth(false);
+    setError(null);
+
+    // Try cache first for instant render.
+    try {
+      const raw = localStorage.getItem(cacheKey(example));
+      if (raw) {
+        const cached = JSON.parse(raw);
+        if (cached?.vi && cached?.en) {
+          setTrans(cached);
+          return () => { cancelled = true; };
+        }
+      }
+    } catch { /* noop */ }
+
+    setTrans(null);
+    setLoading(true);
+    (async () => {
+      try {
+        const { data, error } = await supabase.functions.invoke("translate-example", {
+          body: { text: example },
+        });
+        if (cancelled) return;
+        if (error) throw error;
+        if (data?.vi && data?.en) {
+          const next = { vi: data.vi as string, en: data.en as string };
+          setTrans(next);
+          try { localStorage.setItem(cacheKey(example), JSON.stringify(next)); } catch {/* noop */}
+        } else {
+          setError(t("Không dịch được", "Translation failed"));
+        }
+      } catch (e) {
+        if (!cancelled) {
+          console.error(e);
+          setError(t("Không dịch được", "Translation failed"));
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [example]);
+
   const fetchTranslation = useCallback(async () => {
-    if (loading || trans) return;
+    // Manual retry handler (used by error state).
     setLoading(true);
     setError(null);
     try {
@@ -51,13 +96,7 @@ const HskExampleTranslation = ({ example }: Props) => {
     } finally {
       setLoading(false);
     }
-  }, [example, loading, trans, t]);
-
-  // Auto-fetch on mount so the translation matches the current language without an extra tap.
-  useEffect(() => {
-    if (!trans && !loading) fetchTranslation();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [example]);
+  }, [example, t]);
 
   const primary = lang === "en" ? trans?.en : trans?.vi;
   const secondary = lang === "en" ? trans?.vi : trans?.en;
