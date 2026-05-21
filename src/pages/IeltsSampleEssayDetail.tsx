@@ -15,7 +15,6 @@ import confetti from "canvas-confetti";
 import SEO from "@/components/SEO";
 import EssayBand8Analysis from "@/components/ielts/EssayBand8Analysis";
 import GlossaryPhrasePractice from "@/components/ielts/GlossaryPhrasePractice";
-import InteractiveWritingGuide from "@/components/ielts/InteractiveWritingGuide";
 import EssayOutline from "@/components/ielts/EssayOutline";
 import ClickRevealEssay from "@/components/ielts/ClickRevealEssay";
 
