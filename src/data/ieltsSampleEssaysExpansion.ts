@@ -3002,57 +3002,57 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "essayType": "opinion",
     "topic": "arts funding",
     "prompt": "Some people argue that governments should not spend money on the arts, but rather on healthcare and education. To what extent do you agree?",
-    "essayBody": "Whether public money is best invested in cultural pursuits or directed solely toward essential services is a long-running debate. While I recognise the urgency of healthcare and education, I **partially disagree** with the view that the arts deserve no government support.\n\nAdmittedly, healthcare and education must always take priority, since they sustain life and equip citizens for meaningful participation in society. Hospitals, schools and **vaccination programmes** generate measurable returns in **human capital** and economic productivity. Diverting limited budgets to discretionary cultural projects when surgeries are delayed or classrooms overcrowded would be politically and ethically untenable.\n\nNevertheless, treating the arts as an unaffordable luxury overlooks their substantial **social and economic dividends**. A vibrant cultural sector underpins tourism, attracts creative industries and **enriches civic identity**. Public investment in museums, theatres and music education has been shown to reduce social isolation, foster **community cohesion** and improve mental wellbeing - outcomes that complement, rather than compete with, healthcare goals.\n\nIn conclusion, while core services must come first, modest and targeted **arts funding** delivers cultural and social benefits that justify continued investment. A balanced budget acknowledges that healthy minds thrive within meaningful cultural environments.",
+    "essayBody": "Whether public money is best invested in cultural pursuits or directed solely toward essential services is a perennial fiscal debate. While I acknowledge the urgency of healthcare and education, I **partially disagree** with the view that the arts deserve no government support, since modest cultural investment yields disproportionate social returns.\n\nAdmittedly, healthcare and education must take precedence because they sustain life and equip citizens for meaningful participation in society. Hospitals, public clinics and well-resourced schools generate measurable returns in **human capital** and long-term productivity; the OECD estimates that every additional year of schooling lifts national GDP per capita by roughly three percent. Diverting scarce budgets to discretionary cultural projects when surgical waiting lists lengthen or classrooms overcrowd would be politically and ethically **untenable**, particularly in low-income economies still struggling to finance basic services.\n\nNevertheless, dismissing the arts as an unaffordable luxury overlooks their substantial **social and economic dividends**. A vibrant cultural sector underpins tourism, attracts creative industries and **enriches civic identity**; UNESCO calculations suggest cultural industries account for over three percent of global GDP and employ nearly thirty million people worldwide. Beyond economics, public investment in museums, theatres and music education has been repeatedly shown to reduce social isolation, foster **community cohesion** and improve **mental wellbeing** - outcomes that complement, rather than compete with, healthcare goals. Cities such as Bilbao and Glasgow further demonstrate how strategic cultural spending can revitalise post-industrial economies.\n\nIn conclusion, while core services must always come first, modest and well-targeted **arts funding** delivers cultural and social benefits that justify continued public investment. A truly balanced budget recognises that healthy minds and economically resilient communities thrive within meaningful cultural environments.",
     "glossary": [
       {
         "term": "partially disagree",
         "vietnamese": "đồng ý một phần",
-        "context": "I partially disagree"
-      },
-      {
-        "term": "vaccination programmes",
-        "vietnamese": "chương trình tiêm chủng",
-        "context": "vaccination programmes"
+        "context": "I partially disagree with the view that the arts deserve no government support."
       },
       {
         "term": "human capital",
         "vietnamese": "vốn nhân lực",
-        "context": "human capital"
+        "context": "Hospitals and schools generate measurable returns in human capital and long-term productivity."
       },
       {
         "term": "untenable",
-        "vietnamese": "không thể duy trì",
-        "context": "politically and ethically untenable"
+        "vietnamese": "không thể bảo vệ",
+        "context": "Diverting scarce budgets to cultural projects would be politically and ethically untenable."
       },
       {
         "term": "social and economic dividends",
-        "vietnamese": "cổ tức xã hội và kinh tế",
-        "context": "social and economic dividends"
+        "vietnamese": "lợi ích xã hội và kinh tế",
+        "context": "Dismissing the arts overlooks their substantial social and economic dividends."
       },
       {
         "term": "enriches civic identity",
-        "vietnamese": "làm phong phú bản sắc công dân",
-        "context": "enriches civic identity"
+        "vietnamese": "làm giàu bản sắc công dân",
+        "context": "A vibrant cultural sector attracts creative industries and enriches civic identity."
       },
       {
         "term": "community cohesion",
         "vietnamese": "sự gắn kết cộng đồng",
-        "context": "community cohesion"
-      },
-      {
-        "term": "arts funding",
-        "vietnamese": "tài trợ nghệ thuật",
-        "context": "arts funding"
-      },
-      {
-        "term": "discretionary",
-        "vietnamese": "tùy ý",
-        "context": "discretionary cultural projects"
+        "context": "Investment in museums and music education has been shown to foster community cohesion."
       },
       {
         "term": "mental wellbeing",
         "vietnamese": "sức khỏe tinh thần",
-        "context": "mental wellbeing"
+        "context": "Cultural participation has been shown to improve mental wellbeing across age groups."
+      },
+      {
+        "term": "arts funding",
+        "vietnamese": "tài trợ nghệ thuật",
+        "context": "Modest and well-targeted arts funding delivers cultural and social benefits."
+      },
+      {
+        "term": "discretionary",
+        "vietnamese": "tùy ý, không thiết yếu",
+        "context": "Scarce budgets should not be diverted to discretionary cultural projects in a crisis."
+      },
+      {
+        "term": "revitalise",
+        "vietnamese": "tái sinh, phục hưng",
+        "context": "Cities such as Bilbao show how strategic cultural spending can revitalise post-industrial economies."
       }
     ],
     "reviewExercise": {
@@ -3064,7 +3064,7 @@ export const sampleEssaysExpansion: SampleEssay[] = [
           "answer": "partially"
         },
         {
-          "sentence": "Healthcare grows ___ capital.",
+          "sentence": "Schooling builds ___ capital.",
           "answer": "human"
         },
         {
@@ -3076,8 +3076,8 @@ export const sampleEssaysExpansion: SampleEssay[] = [
           "answer": "cohesion"
         },
         {
-          "sentence": "Targeted arts ___ is justified.",
-          "answer": "funding"
+          "sentence": "Cultural spending can ___ economies.",
+          "answer": "revitalise"
         }
       ]
     }
@@ -3088,57 +3088,57 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "essayType": "discussion",
     "topic": "animal testing",
     "prompt": "Some believe animal testing is necessary for medical progress, while others see it as cruel and unnecessary. Discuss both views and give your opinion.",
-    "essayBody": "The use of animals in scientific research divides public opinion. While some defend it as **indispensable** to medical breakthroughs, others condemn it as morally **indefensible**. In my view, animal testing should be **strictly regulated** rather than wholly abandoned.\n\nSupporters argue that decades of vaccines, cancer treatments and surgical techniques would not exist without animal models. Mice and primates share enough physiology with humans to **predict** drug responses, reducing risks before clinical trials. Without this stage, patients themselves would bear greater **experimental risk**, potentially exposed to untested compounds with unpredictable side effects.\n\nCritics counter that subjecting **sentient creatures** to pain raises clear ethical concerns. Many tests are **redundant**, repeated across companies for marginal academic gains. Furthermore, modern alternatives - **organ-on-a-chip** systems, computer modelling and human stem-cell cultures - increasingly replicate biological processes without animal suffering. Ethicists also note that even **predictive validity** is imperfect, as roughly nine out of ten drugs that succeed in animals fail in humans.\n\nI conclude that the most rational stance is **graduated reform**: continue essential animal research only when no validated alternative exists, while accelerating investment in **non-animal methods**. Such a balanced framework respects both scientific progress and ethical responsibility.",
+    "essayBody": "The use of animals in scientific research divides public opinion sharply. While some defend it as **indispensable** to medical progress, others condemn it as morally **indefensible**. In my view, animal testing should be **strictly regulated** and progressively phased down rather than wholly abandoned overnight.\n\nSupporters argue, with considerable justification, that decades of vaccines, cancer therapies and surgical techniques would simply not exist without animal models. Rodents and primates share enough physiology with humans to help researchers **predict drug responses** and toxicity before any compound reaches volunteers; regulatory bodies such as the FDA and EMA still mandate animal data for the approval of nearly every new medicine. Without this preclinical stage, patients themselves would bear far greater **experimental risk**, potentially exposed to untested compounds with unforeseen side effects, as the thalidomide tragedy of the 1960s painfully illustrated.\n\nCritics counter, however, that subjecting **sentient creatures** to pain raises clear ethical concerns that science cannot ignore. Many experiments are demonstrably **redundant**, repeated across rival laboratories for marginal academic gain, and roughly nine out of every ten drugs that succeed in animals later fail in humans, exposing the limits of cross-species **predictive validity**. Modern alternatives - **organ-on-a-chip** platforms, advanced computer modelling and human stem-cell cultures - now replicate many biological processes without inflicting animal suffering, and have already replaced animal use in several cosmetic and dermatological tests.\n\nI conclude that the most rational position is **graduated reform**: continue essential animal research only where no validated alternative exists, while accelerating public and private investment in **non-animal methods**. Such a balanced framework respects both the imperatives of scientific progress and our growing ethical responsibilities toward other species.",
     "glossary": [
       {
         "term": "indispensable",
         "vietnamese": "không thể thiếu",
-        "context": "indispensable to breakthroughs"
+        "context": "Some defend animal testing as indispensable to medical progress."
       },
       {
         "term": "indefensible",
-        "vietnamese": "không thể bào chữa",
-        "context": "morally indefensible"
+        "vietnamese": "không thể biện hộ",
+        "context": "Others condemn animal testing as morally indefensible."
       },
       {
         "term": "strictly regulated",
-        "vietnamese": "quản lý chặt chẽ",
-        "context": "strictly regulated"
+        "vietnamese": "được quản lý chặt chẽ",
+        "context": "In my view, animal testing should be strictly regulated rather than wholly abandoned."
       },
       {
-        "term": "predict",
-        "vietnamese": "dự đoán",
-        "context": "predict drug responses"
+        "term": "predict drug responses",
+        "vietnamese": "dự đoán phản ứng thuốc",
+        "context": "Animal models help researchers predict drug responses and toxicity before any compound reaches volunteers."
       },
       {
         "term": "experimental risk",
-        "vietnamese": "rủi ro thí nghiệm",
-        "context": "experimental risk"
+        "vietnamese": "rủi ro thử nghiệm",
+        "context": "Without this stage, patients would bear far greater experimental risk."
       },
       {
         "term": "sentient creatures",
         "vietnamese": "sinh vật có tri giác",
-        "context": "subjecting sentient creatures"
+        "context": "Subjecting sentient creatures to pain raises clear ethical concerns."
       },
       {
         "term": "redundant",
-        "vietnamese": "dư thừa",
-        "context": "tests are redundant"
-      },
-      {
-        "term": "organ-on-a-chip",
-        "vietnamese": "cơ quan trên chip",
-        "context": "organ-on-a-chip systems"
+        "vietnamese": "dư thừa, lặp lại không cần thiết",
+        "context": "Many experiments are demonstrably redundant, repeated across rival laboratories."
       },
       {
         "term": "predictive validity",
         "vietnamese": "tính dự đoán hợp lệ",
-        "context": "predictive validity is imperfect"
+        "context": "Roughly nine out of ten drugs that succeed in animals later fail in humans, exposing the limits of predictive validity."
+      },
+      {
+        "term": "organ-on-a-chip",
+        "vietnamese": "mô hình cơ quan trên chip",
+        "context": "Modern alternatives such as organ-on-a-chip platforms can replicate biological processes without animal suffering."
       },
       {
         "term": "graduated reform",
-        "vietnamese": "cải cách dần dần",
-        "context": "graduated reform"
+        "vietnamese": "cải cách từng bước",
+        "context": "The most rational position is graduated reform rather than abrupt prohibition."
       }
     ],
     "reviewExercise": {
@@ -3146,23 +3146,23 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       "instruction": "Fill in the blanks.",
       "items": [
         {
-          "sentence": "Animal testing is ___ regulated.",
+          "sentence": "Animal testing should be ___ regulated.",
           "answer": "strictly"
         },
         {
-          "sentence": "Animal data ___ drug responses.",
+          "sentence": "Models help ___ drug responses.",
           "answer": "predict"
         },
         {
-          "sentence": "Many tests are ___.",
+          "sentence": "Many experiments are ___.",
           "answer": "redundant"
         },
         {
-          "sentence": "Stance must be ___ reform.",
+          "sentence": "We need ___ reform, not a ban.",
           "answer": "graduated"
         },
         {
-          "sentence": "Critics call it ___.",
+          "sentence": "Critics call it morally ___.",
           "answer": "indefensible"
         }
       ]
@@ -3174,57 +3174,57 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "essayType": "advantage-disadvantage",
     "topic": "tourism impact",
     "prompt": "International tourism has grown significantly in recent decades. What are the advantages and disadvantages of this growth?",
-    "essayBody": "Mass international tourism is now one of the world's largest industries. Although it generates **considerable economic benefits**, it also brings significant social and environmental costs that deserve scrutiny.\n\nThe most obvious advantage is the **economic uplift** tourism provides to host nations. Visitor spending creates jobs in hospitality, transport and entertainment, often in regions with limited alternative employment. Tourism revenue can fund infrastructure improvements and the conservation of heritage sites, while cultural exchange fosters **mutual understanding** and reduces stereotypes between peoples.\n\nHowever, the disadvantages are equally significant. **Over-tourism** in cities such as Venice or Barcelona has driven rents beyond local affordability and eroded **community character**. Environmental damage - coral bleaching, plastic pollution and **carbon emissions** from flights - undermines the very landscapes tourists travel to admire. Cultural authenticity may also be diluted as traditions are repackaged into commercialised performances for visitors.\n\nOn balance, tourism's benefits and harms are roughly **commensurate**, depending heavily on management. Sustainable strategies - visitor caps, eco-taxes and community-led initiatives - can preserve the upside while curbing the downside. With careful stewardship, tourism can remain a **net positive** force.",
+    "essayBody": "International tourism has expanded into one of the world's largest industries, with the UNWTO recording roughly 1.3 billion arrivals annually before the pandemic. Although it generates **considerable economic benefits**, it also imposes social and environmental costs that increasingly demand scrutiny.\n\nThe most evident advantage is the **economic uplift** that tourism provides to host nations. Visitor spending creates employment in hospitality, transport and entertainment, often in peripheral regions with limited alternative livelihoods; in countries such as Thailand and Greece, the sector accounts for over fifteen percent of GDP and supports millions of households. Tourism revenue also funds heritage conservation and infrastructure upgrades, while cross-cultural contact fosters **mutual understanding** and gradually erodes the stereotypes that fuel international tension.\n\nHowever, the disadvantages are equally substantial. **Over-tourism** in cities such as Venice, Barcelona and Kyoto has driven housing rents beyond local affordability and eroded the **community character** that originally attracted visitors. Environmental damage - coral bleaching on the Great Barrier Reef, plastic pollution on beaches and **carbon emissions** from long-haul flights, which the IPCC links to roughly eight percent of global emissions - undermines the very landscapes tourists travel to admire. Cultural authenticity may also be diluted as traditional ceremonies are repackaged into **commercialised** performances tailored for foreign audiences.\n\nOn balance, the benefits and harms of mass tourism are roughly **commensurate**, depending heavily on how the industry is governed. Sustainable strategies such as visitor caps, **eco-taxes** on flights and community-led ecotourism initiatives can preserve the upside while curbing the downside. With careful stewardship, tourism can remain a **net positive** force for both visitors and host communities.",
     "glossary": [
       {
         "term": "considerable economic benefits",
         "vietnamese": "lợi ích kinh tế đáng kể",
-        "context": "considerable economic benefits"
+        "context": "Tourism generates considerable economic benefits for many developing economies."
       },
       {
         "term": "economic uplift",
         "vietnamese": "sự nâng cao kinh tế",
-        "context": "economic uplift"
+        "context": "The most evident advantage is the economic uplift that tourism provides to host nations."
       },
       {
         "term": "mutual understanding",
         "vietnamese": "sự hiểu biết lẫn nhau",
-        "context": "mutual understanding"
+        "context": "Cross-cultural contact fosters mutual understanding and erodes harmful stereotypes."
       },
       {
         "term": "over-tourism",
         "vietnamese": "du lịch quá tải",
-        "context": "over-tourism in cities"
+        "context": "Over-tourism in cities such as Venice has driven housing rents beyond local affordability."
       },
       {
         "term": "community character",
         "vietnamese": "đặc trưng cộng đồng",
-        "context": "eroded community character"
+        "context": "Crowds have eroded the community character that originally attracted visitors."
       },
       {
         "term": "carbon emissions",
         "vietnamese": "khí thải carbon",
-        "context": "carbon emissions from flights"
-      },
-      {
-        "term": "commensurate",
-        "vietnamese": "tương xứng",
-        "context": "roughly commensurate"
-      },
-      {
-        "term": "net positive",
-        "vietnamese": "tích cực ròng",
-        "context": "net positive force"
-      },
-      {
-        "term": "eco-taxes",
-        "vietnamese": "thuế sinh thái",
-        "context": "eco-taxes"
+        "context": "Long-haul flights generate carbon emissions linked to roughly eight percent of global totals."
       },
       {
         "term": "commercialised",
         "vietnamese": "bị thương mại hóa",
-        "context": "commercialised performances"
+        "context": "Traditional ceremonies are repackaged into commercialised performances for foreign audiences."
+      },
+      {
+        "term": "commensurate",
+        "vietnamese": "tương xứng",
+        "context": "The benefits and harms of mass tourism are roughly commensurate."
+      },
+      {
+        "term": "eco-taxes",
+        "vietnamese": "thuế sinh thái",
+        "context": "Governments can curb damage through visitor caps and eco-taxes on flights."
+      },
+      {
+        "term": "net positive",
+        "vietnamese": "tích cực ròng",
+        "context": "With careful stewardship, tourism can remain a net positive force."
       }
     ],
     "reviewExercise": {
@@ -3248,7 +3248,7 @@ export const sampleEssaysExpansion: SampleEssay[] = [
           "answer": "commensurate"
         },
         {
-          "sentence": "With care it remains ___ positive.",
+          "sentence": "Well-managed, it remains ___ positive.",
           "answer": "net"
         }
       ]
@@ -3260,57 +3260,57 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "essayType": "problem-solution",
     "topic": "traffic congestion",
     "prompt": "Traffic congestion is becoming worse in many cities. What are the causes and what measures can governments take to address it?",
-    "essayBody": "Urban traffic congestion has reached **paralysing** levels in many cities, costing economies billions in lost productivity and damaging public health. This essay analyses the principal causes and proposes practical measures.\n\nCongestion stems primarily from **rapid urbanisation** outpacing infrastructure capacity. As populations swell, more residents commute by private car, encouraged by historically cheap fuel and inadequate public transport. **Mono-centric** city design, where most jobs cluster in a single business district, concentrates morning and evening flows. Additionally, **e-commerce** has multiplied delivery vehicles on already saturated streets, while many roads remain prone to bottlenecks at junctions.\n\nSeveral remedies can ease the strain. Investment in high-capacity **mass-transit systems** - metros, BRT and commuter rail - offers reliable alternatives that lure drivers off roads. **Congestion-pricing** schemes, as proven in London and Stockholm, internalise the cost of road use and **deter unnecessary trips**. Cities should also redesign neighbourhoods around mixed-use zones so people can live closer to work, complemented by safe cycling lanes and pedestrian streets. Smart traffic-light systems and real-time data further optimise flow.\n\nIn conclusion, traffic congestion is a multi-faceted problem demanding coordinated infrastructure, pricing and **urban-planning** reforms. With sustained political will, cities can move from gridlock to genuine **mobility**.",
+    "essayBody": "Urban traffic congestion has reached **paralysing** levels in many of the world's largest cities, costing economies hundreds of billions of dollars annually in lost productivity and seriously damaging public health through air pollution. This essay analyses the principal causes and proposes a coordinated package of measures.\n\nCongestion stems primarily from **rapid urbanisation** outpacing infrastructure capacity. As populations swell, more residents commute by private car, encouraged by historically cheap fuel, generous parking provision and inadequate public transport; in many emerging cities, motor-vehicle ownership has tripled within a decade while road networks have barely expanded. **Mono-centric** city design, where most well-paid jobs cluster in a single central business district, further concentrates morning and evening commuter flows. Compounding this, the explosion of **e-commerce** has multiplied delivery vehicles on already saturated streets, while ageing junctions remain chronically prone to **bottlenecks**.\n\nFortunately, several proven remedies can ease the strain. Sustained investment in high-capacity **mass-transit systems** - metros, bus rapid transit and commuter rail - offers reliable alternatives that genuinely lure drivers off the roads, as demonstrated by Seoul's metro expansion. **Congestion-pricing** schemes, pioneered in London and Stockholm, internalise the social cost of road use and have **deterred unnecessary trips** by roughly twenty percent in priced zones. Cities should also redesign neighbourhoods around mixed-use, fifteen-minute zones so that residents can live, work and shop within walking distance, complemented by protected cycling lanes and pedestrianised streets. Adaptive traffic-light systems guided by real-time data can further smooth the residual flow.\n\nIn conclusion, traffic congestion is a multi-faceted problem demanding coordinated infrastructure investment, intelligent pricing and ambitious **urban-planning** reforms. With sustained political will and citizen support, cities can shift from chronic gridlock toward genuine, sustainable **mobility**.",
     "glossary": [
       {
         "term": "paralysing",
         "vietnamese": "làm tê liệt",
-        "context": "paralysing levels"
+        "context": "Urban traffic congestion has reached paralysing levels in many of the world's largest cities."
       },
       {
         "term": "rapid urbanisation",
         "vietnamese": "đô thị hóa nhanh",
-        "context": "rapid urbanisation"
+        "context": "Congestion stems primarily from rapid urbanisation outpacing infrastructure capacity."
       },
       {
         "term": "mono-centric",
         "vietnamese": "đơn trung tâm",
-        "context": "mono-centric city design"
+        "context": "Mono-centric city design concentrates morning and evening commuter flows."
       },
       {
         "term": "e-commerce",
         "vietnamese": "thương mại điện tử",
-        "context": "e-commerce has multiplied deliveries"
-      },
-      {
-        "term": "mass-transit systems",
-        "vietnamese": "hệ thống vận tải khối lượng lớn",
-        "context": "mass-transit systems"
-      },
-      {
-        "term": "congestion-pricing",
-        "vietnamese": "định giá tắc nghẽn",
-        "context": "congestion-pricing schemes"
-      },
-      {
-        "term": "deter unnecessary trips",
-        "vietnamese": "ngăn cản chuyến đi không cần thiết",
-        "context": "deter unnecessary trips"
-      },
-      {
-        "term": "urban-planning",
-        "vietnamese": "quy hoạch đô thị",
-        "context": "urban-planning reforms"
-      },
-      {
-        "term": "mobility",
-        "vietnamese": "khả năng di chuyển",
-        "context": "genuine mobility"
+        "context": "The explosion of e-commerce has multiplied delivery vehicles on already saturated streets."
       },
       {
         "term": "bottlenecks",
         "vietnamese": "điểm nghẽn",
-        "context": "prone to bottlenecks"
+        "context": "Ageing junctions remain chronically prone to bottlenecks at peak hours."
+      },
+      {
+        "term": "mass-transit systems",
+        "vietnamese": "hệ thống vận tải khối lượng lớn",
+        "context": "Investment in high-capacity mass-transit systems offers reliable alternatives to driving."
+      },
+      {
+        "term": "congestion-pricing",
+        "vietnamese": "định giá tắc nghẽn",
+        "context": "Congestion-pricing schemes pioneered in London and Stockholm internalise the social cost of road use."
+      },
+      {
+        "term": "deterred unnecessary trips",
+        "vietnamese": "ngăn cản các chuyến đi không cần thiết",
+        "context": "Pricing has deterred unnecessary trips by roughly twenty percent in priced zones."
+      },
+      {
+        "term": "urban-planning",
+        "vietnamese": "quy hoạch đô thị",
+        "context": "The problem demands intelligent pricing and ambitious urban-planning reforms."
+      },
+      {
+        "term": "mobility",
+        "vietnamese": "khả năng di chuyển",
+        "context": "Cities can shift from chronic gridlock toward genuine, sustainable mobility."
       }
     ],
     "reviewExercise": {
@@ -3322,11 +3322,11 @@ export const sampleEssaysExpansion: SampleEssay[] = [
           "answer": "paralysing"
         },
         {
-          "sentence": "Cause is rapid ___.",
+          "sentence": "The cause is rapid ___.",
           "answer": "urbanisation"
         },
         {
-          "sentence": "Cities are ___-centric.",
+          "sentence": "Most cities remain ___-centric.",
           "answer": "mono"
         },
         {
@@ -3334,7 +3334,7 @@ export const sampleEssaysExpansion: SampleEssay[] = [
           "answer": "congestion"
         },
         {
-          "sentence": "Aim is true ___.",
+          "sentence": "The aim is genuine ___.",
           "answer": "mobility"
         }
       ]
@@ -3346,57 +3346,57 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "essayType": "direct-question",
     "topic": "social media",
     "prompt": "Social media has changed how people interact. In what ways has it changed communication, and is it a positive or negative development?",
-    "essayBody": "Social-media platforms have reshaped human interaction within barely two decades. This essay examines how communication has evolved and argues that the impact is, on balance, **mixed but tilting negative** unless thoughtfully managed.\n\nThe transformation has occurred along several axes. Conversation has become **asynchronous** and visually driven, with images, emojis and short videos replacing detailed text. Geographic barriers have collapsed, allowing people to maintain ties across continents and join **communities of interest** united by hobbies or causes. Information now spreads almost instantly, empowering grassroots movements and giving voice to marginalised groups that legacy media historically ignored.\n\nHowever, the same connectivity carries serious downsides. **Algorithmic feeds** prioritise outrage and engagement over truth, fuelling **misinformation**, polarisation and online harassment. Constant notifications fragment attention, and the curated nature of profiles cultivates **social comparison**, contributing to anxiety and depression - particularly among adolescents. Authentic, deep conversation can suffer when communication is reduced to brief, performative posts.\n\nIn conclusion, social media has democratised expression and connectivity while simultaneously eroding mental health and shared truth. I view it as a slightly negative development overall, though much depends on **digital literacy** and platform regulation. Encouraging mindful use and stronger safeguards would tilt the balance back toward its positive potential.",
+    "essayBody": "Social-media platforms have radically reshaped human interaction within barely two decades, displacing letters, phone calls and even face-to-face conversation for many everyday exchanges. This essay examines how communication has evolved and argues that the overall impact is **mixed but tilting negative** unless platforms and users are thoughtfully managed.\n\nThe transformation has unfolded along several distinct axes. Conversation has become highly **asynchronous** and visually driven, with images, emojis and short videos increasingly replacing detailed text. Geographic barriers have largely collapsed, allowing users to maintain meaningful ties across continents and to join niche **communities of interest** united by shared hobbies, professions or causes. Information now spreads almost instantaneously, empowering grassroots movements such as #MeToo and giving voice to marginalised groups that legacy media historically overlooked.\n\nNevertheless, this same connectivity carries serious and well-documented downsides. **Algorithmic feeds** systematically prioritise outrage and engagement over accuracy, fuelling **misinformation**, ideological polarisation and online harassment; MIT research has shown that false stories on Twitter spread roughly six times faster than verified ones. Constant push notifications fragment attention spans, while the meticulously curated nature of profiles cultivates relentless **social comparison**, which large-scale studies link to rising anxiety and depression - particularly among adolescent girls. Authentic, in-depth conversation can also suffer when communication is reduced to brief, performative posts designed primarily to attract approval.\n\nIn conclusion, social media has genuinely democratised expression and global connectivity while simultaneously eroding mental health and shared standards of truth. I therefore regard it as a slightly negative development overall, though much depends on improving **digital literacy** and tightening platform regulation. Encouraging more mindful use and stronger safeguards would help tilt the balance back toward its considerable positive potential.",
     "glossary": [
       {
         "term": "mixed but tilting negative",
-        "vietnamese": "trái chiều nhưng nghiêng tiêu cực",
-        "context": "mixed but tilting negative"
+        "vietnamese": "trái chiều nhưng nghiêng về tiêu cực",
+        "context": "The overall impact is mixed but tilting negative unless platforms and users are thoughtfully managed."
       },
       {
         "term": "asynchronous",
         "vietnamese": "không đồng bộ",
-        "context": "conversation has become asynchronous"
+        "context": "Conversation has become highly asynchronous and visually driven."
       },
       {
         "term": "communities of interest",
         "vietnamese": "cộng đồng cùng sở thích",
-        "context": "communities of interest"
+        "context": "Users can join niche communities of interest united by shared hobbies, professions or causes."
+      },
+      {
+        "term": "grassroots movements",
+        "vietnamese": "phong trào tự phát từ cơ sở",
+        "context": "Instant information sharing has empowered grassroots movements such as #MeToo."
       },
       {
         "term": "algorithmic feeds",
-        "vietnamese": "luồng thuật toán",
-        "context": "algorithmic feeds"
+        "vietnamese": "bảng tin do thuật toán điều khiển",
+        "context": "Algorithmic feeds systematically prioritise outrage and engagement over accuracy."
       },
       {
         "term": "misinformation",
         "vietnamese": "thông tin sai lệch",
-        "context": "fuelling misinformation"
+        "context": "These feeds fuel misinformation, ideological polarisation and online harassment."
       },
       {
         "term": "social comparison",
-        "vietnamese": "so sánh xã hội",
-        "context": "cultivates social comparison"
-      },
-      {
-        "term": "digital literacy",
-        "vietnamese": "hiểu biết kỹ thuật số",
-        "context": "depends on digital literacy"
+        "vietnamese": "sự so sánh xã hội",
+        "context": "Curated profiles cultivate relentless social comparison among young users."
       },
       {
         "term": "performative posts",
-        "vietnamese": "bài đăng trình diễn",
-        "context": "performative posts"
+        "vietnamese": "bài đăng mang tính trình diễn",
+        "context": "Deep conversation suffers when communication is reduced to brief, performative posts."
       },
       {
-        "term": "grassroots movements",
-        "vietnamese": "phong trào cơ sở",
-        "context": "empowering grassroots movements"
+        "term": "digital literacy",
+        "vietnamese": "năng lực số",
+        "context": "Much depends on improving digital literacy and tightening platform regulation."
       },
       {
-        "term": "legacy media",
-        "vietnamese": "truyền thông truyền thống",
-        "context": "legacy media"
+        "term": "mindful use",
+        "vietnamese": "sử dụng có ý thức",
+        "context": "Encouraging more mindful use and stronger safeguards would tilt the balance back."
       }
     ],
     "reviewExercise": {
@@ -3404,11 +3404,11 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       "instruction": "Fill in the blanks.",
       "items": [
         {
-          "sentence": "Communication is now ___.",
+          "sentence": "Chat is now ___.",
           "answer": "asynchronous"
         },
         {
-          "sentence": "Algorithms create ___ feeds.",
+          "sentence": "Feeds are ___-driven.",
           "answer": "algorithmic"
         },
         {
@@ -3416,7 +3416,7 @@ export const sampleEssaysExpansion: SampleEssay[] = [
           "answer": "misinformation"
         },
         {
-          "sentence": "Users suffer social ___.",
+          "sentence": "Users fall into social ___.",
           "answer": "comparison"
         },
         {
