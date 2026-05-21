@@ -1,5 +1,5 @@
 // IELTS Sample Essay Detail - Full essay with glossary, review exercise, and confetti celebration
-import { useState, useCallback } from "react";
+import { Fragment, useState, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
