@@ -1988,92 +1988,151 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     }
   },
-  {
+    {
     "id": "t1-25",
     "taskType": 1,
     "chartType": "line",
     "topic": "demographics",
     "prompt": "The line graph below shows birth rates and death rates per 1,000 population in Country P from 1950 to 2020. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The line graph charts the long-term evolution of birth and death rates in Country P over a seventy-year period.\n\nOverall, both rates **trended downward**, but the birth rate fell far more steeply, indicating a **demographic transition** from high to low fertility. By the close of the period, the two lines had **converged** considerably.\n\nIn 1950, the birth rate stood at a high 38 per 1,000, far exceeding the death rate of 18. The death rate then declined steadily, reflecting medical advances, dropping to 9 by 1980 and stabilising at around 8 thereafter. The birth rate, by contrast, fell more **erratically**: it dipped to 28 in 1970, **plunged** to 18 by 2000 and ended the period at just 11 per 1,000.\n\nThe **narrowing gap** between the two indicators implies that natural population growth in Country P has decelerated dramatically. If trends continue, the country may soon experience **natural decline**, with deaths beginning to outnumber births - a major **demographic challenge** for policymakers.",
+    "essayBody": "The line graph charts the long-term evolution of **crude birth** and **mortality rates** in Country P across a seventy-year span.\n\nOverall, both indicators **trended downward**, yet the birth rate declined far more precipitously, signalling a **demographic transition** from high-fertility, high-mortality equilibrium to a low-fertility, low-mortality regime. By the close of the period, the two trajectories had **converged** to an unprecedented degree, a convergence that carries profound **actuarial** and fiscal implications.\n\nIn 1950, the birth rate stood at a high 38 per 1,000, more than **doubling** the death rate of 18. The death rate then declined steadily, reflecting successive **medical advances** in antibiotics, vaccination and sanitation, falling to 9 by 1980 and stabilising at roughly 8 thereafter—a **plateau** consistent with **mortality** floors observed in other developed economies. The birth rate, by contrast, fell more **erratically**: it dipped to 28 in 1970, **plunged** to 18 by 2000 and ended the period at a mere 11 per 1,000, a collapse plausibly linked to **female educational attainment**, urbanisation and the diffusion of contraceptive technology.\n\nThe steadily **narrowing differential** between the two indicators implies that natural population growth in Country P has **decelerated** to a crawl. Should present trajectories **persist**, the country will imminently face **natural decrease**, with deaths **outnumbering** births—a **demographic predicament** that threatens pension-system **solvency**, labour-market **density** and long-term **fiscal sustainability**.",
     "glossary": [
+      {
+        "term": "crude birth",
+        "vietnamese": "sinh thô",
+        "context": "The graph charts **crude birth** and mortality rates over seventy years."
+      },
+      {
+        "term": "mortality rates",
+        "vietnamese": "tỷ lệ tử vong",
+        "context": "The graph charts crude birth and **mortality rates** in Country P."
+      },
       {
         "term": "trended downward",
         "vietnamese": "xu hướng giảm",
-        "context": "both rates trended downward"
+        "context": "Both indicators **trended downward** across the seventy-year span."
       },
       {
         "term": "demographic transition",
         "vietnamese": "chuyển đổi nhân khẩu học",
-        "context": "demographic transition"
+        "context": "The data signal a **demographic transition** from high-fertility to low-fertility regime."
       },
       {
         "term": "converged",
         "vietnamese": "hội tụ",
-        "context": "two lines had converged"
+        "context": "The two trajectories had **converged** to an unprecedented degree by 2020."
       },
       {
-        "term": "erratically",
-        "vietnamese": "thất thường",
-        "context": "fell more erratically"
+        "term": "actuarial",
+        "vietnamese": "thuộc về bảo hiểm / thống kê nhân khẩu",
+        "context": "This convergence carries profound **actuarial** and fiscal implications."
       },
       {
-        "term": "plunged",
-        "vietnamese": "lao dốc",
-        "context": "plunged to 18 by 2000"
-      },
-      {
-        "term": "narrowing gap",
-        "vietnamese": "khoảng cách thu hẹp",
-        "context": "narrowing gap"
-      },
-      {
-        "term": "natural decline",
-        "vietnamese": "suy giảm tự nhiên",
-        "context": "experience natural decline"
-      },
-      {
-        "term": "demographic challenge",
-        "vietnamese": "thách thức nhân khẩu học",
-        "context": "demographic challenge"
-      },
-      {
-        "term": "decelerated",
-        "vietnamese": "chậm lại",
-        "context": "growth has decelerated"
+        "term": "doubling",
+        "vietnamese": "gấp đôi",
+        "context": "The birth rate stood at 38, more than **doubling** the death rate of 18."
       },
       {
         "term": "medical advances",
         "vietnamese": "tiến bộ y học",
-        "context": "reflecting medical advances"
+        "context": "The death-rate decline reflects successive **medical advances**."
+      },
+      {
+        "term": "plateau",
+        "vietnamese": "đạt mức ổn định",
+        "context": "The death rate stabilised at a **plateau** consistent with mortality floors."
+      },
+      {
+        "term": "mortality",
+        "vietnamese": "tử vong",
+        "context": "The death rate plateau is consistent with **mortality** floors in developed economies."
+      },
+      {
+        "term": "erratically",
+        "vietnamese": "thất thường",
+        "context": "The birth rate fell more **erratically** than the death rate."
+      },
+      {
+        "term": "plunged",
+        "vietnamese": "lao dốc",
+        "context": "The birth rate **plunged** to 18 by 2000 and ended at a mere 11."
+      },
+      {
+        "term": "female educational attainment",
+        "vietnamese": "trình độ học vấn của phụ nữ",
+        "context": "The collapse is plausibly linked to **female educational attainment** and contraceptive diffusion."
+      },
+      {
+        "term": "narrowing differential",
+        "vietnamese": "khoảng cách thu hẹp",
+        "context": "The steadily **narrowing differential** implies growth has decelerated to a crawl."
+      },
+      {
+        "term": "decelerated",
+        "vietnamese": "chậm lại",
+        "context": "Natural population growth has **decelerated** to a crawl."
+      },
+      {
+        "term": "persist",
+        "vietnamese": "tiếp diễn",
+        "context": "Should present trajectories **persist**, natural decrease is imminent."
+      },
+      {
+        "term": "natural decrease",
+        "vietnamese": "suy giảm tự nhiên",
+        "context": "The country will face **natural decrease**, with deaths outnumbering births."
+      },
+      {
+        "term": "outnumbering",
+        "vietnamese": "vượt qua về số lượng",
+        "context": "Deaths will begin **outnumbering** births within the coming decade."
+      },
+      {
+        "term": "demographic predicament",
+        "vietnamese": "tình thế nhân khẩu khó khăn",
+        "context": "A **demographic predicament** that threatens pension-system solvency."
+      },
+      {
+        "term": "solvency",
+        "vietnamese": "khả năng thanh toán",
+        "context": "The predicament threatens pension-system **solvency**."
+      },
+      {
+        "term": "labour-market density",
+        "vietnamese": "mật độ thị trường lao động",
+        "context": "It also endangers **labour-market density** and fiscal sustainability."
+      },
+      {
+        "term": "fiscal sustainability",
+        "vietnamese": "bền vững tài chính",
+        "context": "Long-term **fiscal sustainability** is at risk from demographic decline."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "Country P shows a ___ transition.",
+          "sentence": "The data signal a ___ transition from high to low fertility.",
           "answer": "demographic"
         },
         {
-          "sentence": "The two lines ___ over time.",
+          "sentence": "The two trajectories had ___ to an unprecedented degree.",
           "answer": "converged"
         },
         {
-          "sentence": "The birth rate ___ to 18 by 2000.",
+          "sentence": "The birth rate ___ to a mere 11 per 1,000 by 2020.",
           "answer": "plunged"
         },
         {
-          "sentence": "Population growth has ___.",
+          "sentence": "Natural population growth has ___ to a crawl.",
           "answer": "decelerated"
         },
         {
-          "sentence": "Country may face natural ___.",
-          "answer": "decline"
+          "sentence": "The country faces a ___ predicament threatening pension solvency.",
+          "answer": "demographic"
         }
       ]
-    },
-    "chartConfig": {
+    },    "chartConfig": {
       "type": "line",
       "xKey": "year",
       "yKeys": [
