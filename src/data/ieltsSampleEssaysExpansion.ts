@@ -2550,92 +2550,136 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     }
   },
-  {
+    {
     "id": "t1-28",
     "taskType": 1,
     "chartType": "table",
     "topic": "university enrolment",
     "prompt": "The table below shows the number of university students (thousands) in five fields (Engineering, Medicine, Arts, Business, Law) in 2010 and 2020. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The table compares enrolment figures across five university disciplines at the start and end of a ten-year period.\n\nOverall, total student numbers **expanded** in every field, but the most **conspicuous** growth occurred in Business and Engineering, while Arts saw only a modest gain. The **rank order** of fields changed as a result.\n\nIn 2010, Business led with 180 thousand students, narrowly ahead of Engineering at 170 and Arts at 150. Medicine and Law trailed at 90 and 100 thousand respectively. Ten years later, Business had **surged** to 240 thousand, retaining its leading position, while Engineering posted the largest absolute gain, climbing to 230 thousand.\n\nMedicine experienced the highest **proportional** growth at over 50%, reaching 140 thousand, reflecting demand for healthcare professionals. Arts grew only marginally to 160 thousand, **suggesting waning** interest in humanities. Law expanded to 125 thousand. The shifts mirror broader **labour-market signals** favouring STEM and applied disciplines over traditional liberal-arts fields.",
+    "essayBody": "The table compares **enrolment figures** across five university disciplines at the beginning and end of a ten-year interval.\n\nOverall, total student numbers **expanded** in every field, yet the most **conspicuous** growth occurred in Business and Engineering, while Arts saw only a **modest** gain. The **rank order** of fields shifted as a result, signalling a broader **vocational reorientation** in higher-education preferences.\n\nIn 2010, Business led with 180 thousand students, narrowly ahead of Engineering at 170 and Arts at 150. Medicine and Law **trailed** at 90 and 100 thousand respectively. Ten years later, Business had **surged** to 240 thousand, retaining its leading position, while Engineering **posted** the largest absolute gain, climbing to 230 thousand—a trajectory consistent with the global **ascendancy** of STEM credentials.\n\nMedicine experienced the highest **proportional** growth at over 50%, reaching 140 thousand, reflecting **sustained** demand for healthcare professionals in ageing societies. Arts grew only marginally to 160 thousand, **suggesting waning** interest in **humanistic disciplines** as **labour-market signals** increasingly favour technical and applied fields. Law expanded to 125 thousand, a respectable yet **unremarkable** increase. The shifts collectively mirror the **instrumentalisation** of degree choices, wherein students increasingly **prioritise** **employment-oriented** credentials over traditional liberal-arts **formation**.",
     "glossary": [
+      {
+        "term": "enrolment figures",
+        "vietnamese": "số liệu tuyển sinh",
+        "context": "The table compares **enrolment figures** across five disciplines."
+      },
       {
         "term": "expanded",
         "vietnamese": "mở rộng",
-        "context": "total numbers expanded"
+        "context": "Total student numbers **expanded** in every field."
       },
       {
         "term": "conspicuous",
         "vietnamese": "nổi bật",
-        "context": "most conspicuous growth"
+        "context": "The most **conspicuous** growth occurred in Business and Engineering."
+      },
+      {
+        "term": "modest",
+        "vietnamese": "khiêm tốn / vừa phải",
+        "context": "Arts saw only a **modest** gain compared with STEM fields."
       },
       {
         "term": "rank order",
         "vietnamese": "thứ tự xếp hạng",
-        "context": "rank order changed"
+        "context": "The **rank order** of fields shifted over the decade."
+      },
+      {
+        "term": "vocational reorientation",
+        "vietnamese": "sự định hướng lại theo nghề nghiệp",
+        "context": "Signalling a broader **vocational reorientation** in higher education."
+      },
+      {
+        "term": "trailed",
+        "vietnamese": "tụt lại",
+        "context": "Medicine and Law **trailed** at 90 and 100 thousand respectively."
       },
       {
         "term": "surged",
         "vietnamese": "tăng vọt",
-        "context": "Business had surged"
-      },
-      {
-        "term": "proportional",
-        "vietnamese": "theo tỷ lệ",
-        "context": "highest proportional growth"
-      },
-      {
-        "term": "suggesting waning",
-        "vietnamese": "cho thấy giảm dần",
-        "context": "suggesting waning interest"
-      },
-      {
-        "term": "labour-market signals",
-        "vietnamese": "tín hiệu thị trường lao động",
-        "context": "labour-market signals"
-      },
-      {
-        "term": "STEM",
-        "vietnamese": "khoa học, công nghệ, kỹ thuật, toán",
-        "context": "STEM disciplines"
-      },
-      {
-        "term": "liberal-arts",
-        "vietnamese": "khoa học xã hội nhân văn",
-        "context": "traditional liberal-arts fields"
+        "context": "Business had **surged** to 240 thousand by 2020."
       },
       {
         "term": "posted",
         "vietnamese": "ghi nhận",
-        "context": "Engineering posted the largest gain"
+        "context": "Engineering **posted** the largest absolute gain."
+      },
+      {
+        "term": "ascendancy",
+        "vietnamese": "sự thống trị / lên ngôi",
+        "context": "Consistent with the global **ascendancy** of STEM credentials."
+      },
+      {
+        "term": "proportional",
+        "vietnamese": "theo tỷ lệ",
+        "context": "Medicine experienced the highest **proportional** growth at over 50%."
+      },
+      {
+        "term": "sustained",
+        "vietnamese": "liên tục / bền vững",
+        "context": "Reflecting **sustained** demand for healthcare professionals."
+      },
+      {
+        "term": "suggesting waning",
+        "vietnamese": "cho thấy giảm dần",
+        "context": "Arts growth stagnated, **suggesting waning** interest in humanistic disciplines."
+      },
+      {
+        "term": "humanistic disciplines",
+        "vietnamese": "các ngành khoa học nhân văn",
+        "context": "Waning interest in **humanistic disciplines** relative to STEM."
+      },
+      {
+        "term": "labour-market signals",
+        "vietnamese": "tín hiệu thị trường lao động",
+        "context": "**Labour-market signals** increasingly favour technical fields."
+      },
+      {
+        "term": "instrumentalisation",
+        "vietnamese": "sự công cụ hóa",
+        "context": "The shifts mirror the **instrumentalisation** of degree choices."
+      },
+      {
+        "term": "prioritise",
+        "vietnamese": "ưu tiên",
+        "context": "Students increasingly **prioritise** employment-oriented credentials."
+      },
+      {
+        "term": "employment-oriented",
+        "vietnamese": "hướng tới việc làm",
+        "context": "**Employment-oriented** credentials over traditional liberal-arts formation."
+      },
+      {
+        "term": "formation",
+        "vietnamese": "sự hình thành / đào tạo",
+        "context": "Technical credentials over traditional liberal-arts **formation**."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "Total numbers ___ in every field.",
-          "answer": "expanded"
-        },
-        {
-          "sentence": "The most ___ growth was in Business.",
+          "sentence": "The most ___ growth occurred in Business and Engineering.",
           "answer": "conspicuous"
         },
         {
-          "sentence": "Medicine had highest ___ growth.",
-          "answer": "proportional"
+          "sentence": "The ___ order of fields shifted over the decade.",
+          "answer": "rank"
         },
         {
-          "sentence": "Arts shows ___ interest.",
-          "answer": "waning"
+          "sentence": "Medicine and Law ___ behind Business and Engineering.",
+          "answer": "trailed"
         },
         {
-          "sentence": "Trends reflect ___-market signals.",
-          "answer": "labour"
+          "sentence": "Engineering ___ the largest absolute gain.",
+          "answer": "posted"
+        },
+        {
+          "sentence": "Students increasingly ___ employment-oriented credentials.",
+          "answer": "prioritise"
         }
       ]
-    },
-    "chartConfig": {
+    },    "chartConfig": {
       "data": [],
       "type": "table",
       "columns": [
