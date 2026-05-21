@@ -101,7 +101,7 @@ const GlossaryPhrasePractice: React.FC<Props> = ({ phrase, phraseMeaning, taskTy
                   ) : (
                     <>
                       <Sparkles className="w-3.5 h-3.5 mr-1" />
-                      {t("Chấm điểm AI", "AI Grade")}
+                      {t("Chấm điểm", "Grade")}
                     </>
                   )}
                 </Button>
