@@ -16,6 +16,7 @@ import SEO from "@/components/SEO";
 import EssayBand8Analysis from "@/components/ielts/EssayBand8Analysis";
 import GlossaryPhrasePractice from "@/components/ielts/GlossaryPhrasePractice";
 import InteractiveWritingGuide from "@/components/ielts/InteractiveWritingGuide";
+import EssayOutline from "@/components/ielts/EssayOutline";
 
 const IeltsSampleEssayDetail = () => {
   const { essayId } = useParams();
@@ -158,6 +159,9 @@ const IeltsSampleEssayDetail = () => {
           {essay.taskType === 1 && essay.chartConfig && (
             <IELTSChart config={essay.chartConfig} />
           )}
+
+          {/* Outline — structure & key ideas */}
+          <EssayOutline essay={essay} />
 
           {/* Interactive Writing Guide — step-by-step sentence lesson */}
           <InteractiveWritingGuide

@@ -292,7 +292,7 @@ const InteractiveWritingGuide = ({ essayBody, glossary, taskType }: Props) => {
               className="bg-gradient-to-r from-primary to-emerald-500 text-white font-semibold"
             >
               <Eye className="w-4 h-4 mr-1" />
-              {t("So sánh với câu mẫu Band 8.0+", "Compare with Master Copy")}
+              {t("Nộp bài", "Submit")}
             </Button>
           )}
 

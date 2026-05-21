@@ -63,100 +63,30 @@ const EssayBand8Analysis: React.FC<Props> = ({ essay }) => {
     : t("Trả lời Đề bài (Task Response)", "Task Response");
   const taskPoints = isTask1
     ? [
-        t(
-          `Bài viết dài ${wordCount} từ — vượt ngưỡng tối thiểu 150 từ của Task 1, đủ chỗ để bao phủ tất cả các xu hướng chính.`,
-          `The essay is ${wordCount} words long — well above the 150-word Task 1 minimum, giving room to cover all key trends.`
-        ),
-        t(
-          "Câu mở đầu paraphrase đề bài, sau đó là câu overview nêu xu hướng tổng thể (yêu cầu bắt buộc của Band 7+).",
-          "The opening paraphrases the prompt, followed by a clear overview of the main trends — a non-negotiable Band 7+ requirement."
-        ),
-        t(
-          "Mỗi thân bài đều có dữ liệu được nhóm hợp lý (highest vs lowest, increases vs decreases) thay vì liệt kê rời rạc.",
-          "Each body paragraph groups data logically (highest vs lowest, increases vs decreases) instead of listing figures one by one."
-        ),
-        t(
-          "Các con số được chọn lọc và minh hoạ cho luận điểm — không sa vào liệt kê toàn bộ.",
-          "Figures are selectively chosen to illustrate the point, not exhaustively listed."
-        ),
+        t(`${wordCount} từ — vượt mốc 150, đủ chỗ phủ mọi xu hướng chính.`, `${wordCount} words — well above the 150 floor.`),
+        t("Có câu paraphrase đề + overview rõ ràng (yêu cầu bắt buộc Band 7+).", "Clear paraphrase + overview (mandatory for Band 7+)."),
       ]
     : [
-        t(
-          `Bài viết dài ${wordCount} từ — vượt ngưỡng 250 từ, đủ độ sâu để phát triển luận điểm.`,
-          `The essay runs ${wordCount} words — clearly above the 250-word floor, leaving room for fully developed arguments.`
-        ),
-        t(
-          "Mở bài paraphrase đề và nêu rõ quan điểm (thesis statement) — không lặp lại từ ngữ của đề.",
-          "The introduction paraphrases the prompt and states a clear thesis — without echoing the prompt's wording."
-        ),
-        t(
-          `Có ${Math.max(paragraphs - 2, 2)} thân bài, mỗi thân bài có topic sentence + giải thích + ví dụ cụ thể.`,
-          `There are ${Math.max(paragraphs - 2, 2)} body paragraphs, each with a topic sentence + explanation + concrete example.`
-        ),
-        t(
-          "Kết bài tóm tắt quan điểm và đưa ra hệ quả/khuyến nghị — không thêm ý mới.",
-          "The conclusion summarises the stance and offers an implication / recommendation — without introducing new ideas."
-        ),
+        t(`${wordCount} từ — vượt mốc 250, đủ sâu để phát triển luận điểm.`, `${wordCount} words — comfortably above 250.`),
+        t("Thesis rõ ràng, mỗi thân bài 1 ý chính, kết bài có khuyến nghị.", "Clear thesis, one idea per body paragraph, conclusion with recommendation."),
       ];
 
   // ---- CC ----
   const ccPoints = [
-    t(
-      `Bài được tổ chức thành ${paragraphs} đoạn rõ ràng với chức năng riêng biệt (mở bài → thân bài → kết bài).`,
-      `The essay is organised into ${paragraphs} clearly demarcated paragraphs, each with a distinct function (intro → body → conclusion).`
-    ),
-    t(
-      "Sử dụng đa dạng các connector cao cấp: 'Furthermore', 'In contrast', 'Consequently', 'On the one hand ... on the other' — vượt xa mức 'Firstly / Secondly'.",
-      "A varied set of high-band cohesive devices — 'Furthermore', 'In contrast', 'Consequently', 'On the one hand ... on the other' — well beyond the basic 'Firstly / Secondly'."
-    ),
-    t(
-      "Sử dụng đại từ thay thế và 'this/such' để liên kết câu mà không lặp danh từ.",
-      "Pronoun reference and 'this/such' substitution link sentences without repeating noun phrases."
-    ),
-    t(
-      "Mỗi đoạn có một topic sentence duy nhất; toàn bộ ý phụ đều hỗ trợ trực tiếp cho luận điểm đó.",
-      "Each paragraph has exactly one controlling topic sentence; every supporting idea directly serves that claim."
-    ),
+    t(`${paragraphs} đoạn rõ ràng, mỗi đoạn 1 chức năng.`, `${paragraphs} clearly demarcated paragraphs.`),
+    t("Connector cao cấp: Furthermore, Conversely, Consequently…", "High-band connectors: Furthermore, Conversely, Consequently…"),
   ];
 
   // ---- LR ----
   const lrPoints = [
-    t(
-      `Bảng chú giải có ${glossaryCount} cụm từ ít gặp & đặc thù chủ đề (topic-specific) — minh chứng rõ ràng cho 'wide range of vocabulary'.`,
-      `The glossary lists ${glossaryCount} less-common, topic-specific phrases — clear evidence of a 'wide range of vocabulary'.`
-    ),
-    t(
-      "Sử dụng collocations tự nhiên (ví dụ: 'pose a serious threat', 'play a pivotal role', 'a marked increase') thay vì cách diễn đạt cơ bản.",
-      "Natural collocations such as 'pose a serious threat', 'play a pivotal role', and 'a marked increase' replace basic phrasings."
-    ),
-    t(
-      "Có sự paraphrase chủ đề ở các đoạn khác nhau — tránh lặp lại từ khoá nguyên văn từ đề bài.",
-      "The topic is paraphrased across paragraphs — keywords from the prompt are not repeated verbatim."
-    ),
-    t(
-      "Sử dụng trạng từ chính xác để chỉ mức độ (significantly, marginally, considerably) thay vì 'very' / 'a lot'.",
-      "Precise degree adverbs (significantly, marginally, considerably) are preferred over 'very' or 'a lot'."
-    ),
+    t(`${glossaryCount} cụm topic-specific & collocations tự nhiên.`, `${glossaryCount} topic-specific phrases & natural collocations.`),
+    t("Trạng từ chính xác (significantly, marginally) thay 'very/a lot'.", "Precise adverbs (significantly, marginally) replace 'very/a lot'."),
   ];
 
   // ---- GRA ----
   const graPoints = [
-    t(
-      `Phát hiện ${features.length} cấu trúc ngữ pháp Band 8+ trong bài — xem danh sách bên dưới để học theo.`,
-      `${features.length} Band 8+ grammatical structures detected in the essay — see the list below to model your own writing.`
-    ),
-    t(
-      "Có sự xen kẽ giữa câu đơn ngắn (tạo điểm nhấn) và câu phức nhiều mệnh đề — variety cao.",
-      "A deliberate alternation between short simple sentences (for emphasis) and multi-clause complex sentences — strong variety."
-    ),
-    t(
-      "Sử dụng đầy đủ các thì cao cấp: present perfect, past perfect, future perfect, modals trong perfect (could have + V-ed).",
-      "Full range of advanced tenses: present perfect, past perfect, future perfect, and perfect modals (could have + past participle)."
-    ),
-    t(
-      "Hầu như không có lỗi cơ bản (article, subject-verb agreement) — lỗi nhỏ chỉ ảnh hưởng đến khả năng đọc rất hạn chế.",
-      "Errors with articles or subject-verb agreement are rare — any slip is minor and does not impede comprehension."
-    ),
+    t(`${features.length} cấu trúc Band 8+ phát hiện trong bài (xem dưới).`, `${features.length} Band 8+ structures detected (see below).`),
+    t("Xen kẽ câu đơn & câu phức, hầu như không có lỗi cơ bản.", "Mix of simple & complex sentences with minimal basic errors."),
   ];
 
   const sections: { title: string; icon: any; color: string; points: string[] }[] = [
