@@ -164,7 +164,7 @@ const IeltsSampleEssayDetail = () => {
           <EssayOutline essay={essay} />
 
           {/* Full essay reference with click-to-reveal teaching mode */}
-          <details className="glass-card rounded-xl p-6 md:p-8 group" open>
+          <details className="glass-card rounded-xl p-5 md:p-6 group" open>
             <summary className="cursor-pointer flex items-center justify-between gap-2 list-none">
               <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
                 <BookOpen className="w-5 h-5 text-primary" />
