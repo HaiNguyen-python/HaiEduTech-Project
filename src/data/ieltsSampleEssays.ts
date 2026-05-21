@@ -71,57 +71,57 @@ const baseSampleEssays: SampleEssay[] = [
     "chartType": "line",
     "topic": "energy",
     "prompt": "The line graph below shows changes in electricity generation by source (coal, natural gas, renewables, and nuclear) in Country X from 1990 to 2020. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
-    "essayBody": "The line graph illustrates changes in electricity generation from four sources - coal, natural gas, renewables, and nuclear - in Country X over a thirty-year period from 1990 to 2020.\n\nOverall, the most **salient features** of the data are the long-run decline of coal and the pronounced rise of renewables. Furthermore, while natural gas steadily gained ground to become a **dominant** source, nuclear output remained broadly stable throughout the period.\n\nThe **long-term trajectory** of coal moved downward from its position of dominance in the early 1990s, and its decline **decelerated** after 2010 when levels **plateaued** at roughly a quarter of total output. In contrast, natural gas advanced in near-linear fashion and eventually **overtook** coal in the late 2010s as policy and market signals favored cleaner combustion. Renewable generation exhibited a **precipitous** upswing from a low base, accelerating post-2005 as subsidies and grid integration matured.\n\nDespite short-term **volatility**, renewables closed the period almost on par with gas, demonstrating remarkable growth. Nuclear output showed only **incremental** variation, providing a consistent baseload that contributed approximately 10% of total generation. By the end of the timeframe, there was a clear **convergence** between gas and renewables, jointly displacing coal's earlier dominant position.",
+    "essayBody": "The line graph delineates the evolution of electricity generation from four sources—coal, natural gas, renewables, and nuclear—in Country X across the three decades from 1990 to 2020, with output measured in terawatt-hours.\n\nOverall, the most **salient features** are the secular decline of coal, which had once **constituted** the backbone of the grid, and the meteoric ascent of renewables, which **all but closed the gap** with gas by the end of the period. Nuclear, meanwhile, functioned as a stable **baseload** throughout, fluctuating only marginally around the 30 TWh mark.\n\nCoal embarked on a **protracted** downward trajectory from a commanding 150 TWh in 1990, **contracting** to roughly 95 TWh by 2010 before the slide accelerated to a mere 60 TWh in 2020—a cumulative **erosion** of approximately 60 per cent. Natural gas, by contrast, charted a near-linear ascent from 50 TWh to 120 TWh, **overtaking** coal in the mid-2010s as cleaner combustion and gas-fired plants were prioritised under decarbonisation policies such as the EU Emissions Trading Scheme.\n\nThe most **striking trajectory**, however, belonged to renewables. Starting from a **negligible** base of 10 TWh, output remained subdued until 2005, after which subsidies, falling levelised costs (LCOE) for solar PV, and IEA-documented grid-integration reforms triggered a **precipitous** climb to 115 TWh by 2020—effectively **converging** with gas. Nuclear, by way of comparison, demonstrated only **incremental** oscillation, never exceeding 33 TWh nor dropping below 30 TWh, thereby serving as a **dispatchable** counterweight to the volatility inherent in intermittent renewables.",
     "glossary": [
       {
         "term": "salient features",
         "vietnamese": "đặc điểm nổi bật",
-        "context": "the most salient features of the series"
+        "context": "Overall, the most salient features are the secular decline of coal."
       },
       {
-        "term": "long-term trajectory",
-        "vietnamese": "quỹ đạo dài hạn",
-        "context": "the long-term trajectory of coal"
+        "term": "constituted",
+        "vietnamese": "đã từng cấu thành nên",
+        "context": "Coal, which had once constituted the backbone of the grid."
       },
       {
-        "term": "decelerated",
-        "vietnamese": "chậm lại/giảm tốc",
-        "context": "the decline decelerated after 2010"
+        "term": "all but closed the gap",
+        "vietnamese": "gần như đã thu hẹp khoảng cách",
+        "context": "Renewables all but closed the gap with gas by the end of the period."
       },
       {
-        "term": "plateaued",
-        "vietnamese": "đạt mức ổn định",
-        "context": "levels plateaued at roughly a quarter"
+        "term": "baseload",
+        "vietnamese": "nguồn phụ tải nền",
+        "context": "Nuclear functioned as a stable baseload throughout."
       },
       {
-        "term": "overtook",
+        "term": "protracted",
+        "vietnamese": "kéo dài",
+        "context": "Coal embarked on a protracted downward trajectory from 150 TWh in 1990."
+      },
+      {
+        "term": "erosion",
+        "vietnamese": "sự xói mòn/suy giảm dần",
+        "context": "A cumulative erosion of approximately 60 per cent."
+      },
+      {
+        "term": "overtaking",
         "vietnamese": "vượt qua",
-        "context": "gas overtook coal"
+        "context": "Natural gas charted a near-linear ascent, overtaking coal in the mid-2010s."
+      },
+      {
+        "term": "striking trajectory",
+        "vietnamese": "quỹ đạo ấn tượng",
+        "context": "The most striking trajectory belonged to renewables."
       },
       {
         "term": "precipitous",
-        "vietnamese": "dốc/đột ngột",
-        "context": "a precipitous upswing from a low base"
+        "vietnamese": "dốc đứng/đột ngột",
+        "context": "Subsidies and grid-integration reforms triggered a precipitous climb to 115 TWh."
       },
       {
-        "term": "volatility",
-        "vietnamese": "biến động mạnh",
-        "context": "despite short-term volatility"
-      },
-      {
-        "term": "incremental",
-        "vietnamese": "từng bước/nhỏ",
-        "context": "incremental variation in nuclear"
-      },
-      {
-        "term": "convergence",
-        "vietnamese": "hội tụ",
-        "context": "a clear convergence between gas and renewables"
-      },
-      {
-        "term": "dominant",
-        "vietnamese": "chi phối/chủ đạo",
-        "context": "coal’s earlier dominant position"
+        "term": "dispatchable",
+        "vietnamese": "có thể điều phối được",
+        "context": "Nuclear served as a dispatchable counterweight to the volatility of intermittent renewables."
       }
     ],
     "reviewExercise": {
@@ -129,29 +129,29 @@ const baseSampleEssays: SampleEssay[] = [
       "instruction": "Fill in the blanks with appropriate words from the essay.",
       "items": [
         {
-          "sentence": "Coal’s decline eventually ___ after 2010, settling at a lower level.",
-          "answer": "decelerated",
-          "explanation": "'Decelerated' means the rate of decline slowed down."
+          "sentence": "Coal had once ___ the backbone of the national grid before its long-run decline.",
+          "answer": "constituted",
+          "explanation": "'Constituted' means formed or made up — a more academic synonym for 'made up'."
         },
         {
-          "sentence": "Renewables experienced a ___ upswing from a low base.",
+          "sentence": "Coal embarked on a ___ downward trajectory that lasted three decades.",
+          "answer": "protracted",
+          "explanation": "'Protracted' means prolonged or drawn out over a long period."
+        },
+        {
+          "sentence": "Renewables exhibited a ___ climb after 2005 as costs collapsed.",
           "answer": "precipitous",
-          "explanation": "'Precipitous' describes a very steep or dramatic increase."
+          "explanation": "'Precipitous' describes an extremely steep or sudden rise."
         },
         {
-          "sentence": "By the late 2010s, natural gas ___ coal.",
-          "answer": "overtook",
-          "explanation": "'Overtook' means gas surpassed coal to become a larger source."
+          "sentence": "Nuclear served as a stable ___, fluctuating only marginally around 30 TWh.",
+          "answer": "baseload",
+          "explanation": "'Baseload' refers to the constant minimum supply that grids rely on."
         },
         {
-          "sentence": "The two cleaner sources showed clear ___ by 2020.",
-          "answer": "convergence",
-          "explanation": "'Convergence' means the two sources moved toward similar levels."
-        },
-        {
-          "sentence": "Nuclear changed only in an ___ manner over the period.",
-          "answer": "incremental",
-          "explanation": "'Incremental' means small, gradual changes."
+          "sentence": "By 2020, renewables had ___ with gas, both supplying over 110 TWh.",
+          "answer": "converging",
+          "explanation": "'Converging' indicates two trends moving toward the same level."
         }
       ]
     },
@@ -177,52 +177,62 @@ const baseSampleEssays: SampleEssay[] = [
     "chartType": "line",
     "topic": "population",
     "prompt": "The line graph below shows the proportion of the population in three age groups (0–14, 15–64, 65+) in Country Y from 1970 to 2030. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
-    "essayBody": "The line graph depicts the proportion of the population in three age groups - 0–14, 15–64, and 65+ - in Country Y over a sixty-year period from 1970 to 2030.\n\nOverall, the data reveal a classic **demographic transition**, with shrinking youth shares and a swelling elderly **cohort**. In addition, the working-age population expanded for several decades before beginning to **taper off** after 2010.\n\nFrom 1970, the 0–14 bracket contracted steadily, marking an early **inflection point** around the mid-1980s when fertility declines became more pronounced. The 15–64 group initially grew, reaching its largest share in the early 2000s before leveling off. By contrast, the 65+ category registered a persistent **uptick**, rising from under 5% to nearly 20% by the projected endpoint.\n\nThe elderly segment is eventually set to **outpace** the youth share by 2030, a trend **underpinning** rising dependency ratios. Although the working-age group dominated throughout, its **proportionally** modest gains in the 1990s gave way to stagnation. The seniors' curve steepened as longevity improved, underscoring the rapid emergence of an **ageing populace**.",
+    "essayBody": "The line graph charts the percentage share of three age cohorts—0–14, 15–64, and 65+—within Country Y's population across a six-decade span from 1970 to 2030, with the final decade representing UN-style projections.\n\nOverall, the figures encapsulate a textbook **demographic transition**: the youth share has contracted persistently, the working-age bracket peaked at mid-period before plateauing, and the elderly **cohort** is on course to **swell** to unprecedented proportions, signalling pronounced population ageing of the kind documented by the OECD across high-income economies.\n\nThe 0–14 segment declined steadily from 35 per cent in 1970 to a projected 13 per cent by 2030, with the steepest **decade-on-decade** fall occurring between 1970 and 1990 as the total fertility rate **dipped** below replacement level. The working-age band (15–64), by contrast, expanded modestly from 58 per cent to a high-water mark of 65 per cent in 2010, before commencing a gentle **taper** to 60 per cent in 2030 as successive **birth cohorts** moved into retirement.\n\nThe most consequential shift lies with those aged 65 and over, whose share **almost quadrupled**, climbing from a mere 7 per cent in 1970 to a projected 27 per cent by 2030. This **inversion** of the traditional age pyramid is poised to **outstrip** the youth share by a factor of two, with the **old-age dependency ratio** rising in tandem. Such structural change, **underpinned** by rising life expectancy and persistent sub-replacement fertility, foreshadows mounting fiscal pressure on pension and healthcare systems—a phenomenon mirrored across Japan, Italy, and South Korea.",
     "glossary": [
       {
         "term": "demographic transition",
-        "vietnamese": "chuyển đổi dân số",
-        "context": "a classic demographic transition"
+        "vietnamese": "quá trình chuyển đổi dân số",
+        "context": "The figures encapsulate a textbook demographic transition."
       },
       {
         "term": "cohort",
-        "vietnamese": "nhóm tuổi",
-        "context": "a swelling elderly cohort"
+        "vietnamese": "nhóm/thế hệ cùng tuổi",
+        "context": "The elderly cohort is on course to swell to unprecedented proportions."
       },
       {
-        "term": "inflection point",
-        "vietnamese": "điểm bẻ cong/xoay chiều",
-        "context": "inflection point around the mid-1980s"
+        "term": "swell",
+        "vietnamese": "phình to/tăng mạnh",
+        "context": "The elderly cohort is on course to swell to unprecedented proportions."
       },
       {
-        "term": "taper off",
+        "term": "decade-on-decade",
+        "vietnamese": "thập kỷ này so với thập kỷ trước",
+        "context": "The steepest decade-on-decade fall occurred between 1970 and 1990."
+      },
+      {
+        "term": "dipped",
+        "vietnamese": "tụt xuống",
+        "context": "The total fertility rate dipped below replacement level."
+      },
+      {
+        "term": "taper",
         "vietnamese": "giảm dần",
-        "context": "working-age population began to taper off"
+        "context": "The band commenced a gentle taper to 60 per cent in 2030."
       },
       {
-        "term": "uptick",
-        "vietnamese": "tăng nhẹ/đi lên",
-        "context": "registered a persistent uptick"
+        "term": "almost quadrupled",
+        "vietnamese": "tăng gần gấp bốn lần",
+        "context": "Their share almost quadrupled, climbing from 7 per cent to 27 per cent."
       },
       {
-        "term": "outpace",
-        "vietnamese": "vượt qua về tốc độ/tỷ lệ",
-        "context": "elderly set to outpace the youth share"
+        "term": "inversion",
+        "vietnamese": "sự đảo ngược",
+        "context": "This inversion of the traditional age pyramid is poised to outstrip the youth share."
       },
       {
-        "term": "underpinning",
-        "vietnamese": "làm nền tảng/hỗ trợ",
-        "context": "underpinning rising dependency ratios"
+        "term": "outstrip",
+        "vietnamese": "vượt xa",
+        "context": "It is poised to outstrip the youth share by a factor of two."
       },
       {
-        "term": "proportionally",
-        "vietnamese": "về mặt tỷ lệ",
-        "context": "proportionally modest gains"
+        "term": "old-age dependency ratio",
+        "vietnamese": "tỷ lệ phụ thuộc của người cao tuổi",
+        "context": "The old-age dependency ratio is rising in tandem."
       },
       {
-        "term": "ageing populace",
-        "vietnamese": "dân số già hóa",
-        "context": "overarching pattern of an ageing populace"
+        "term": "underpinned",
+        "vietnamese": "được củng cố bởi",
+        "context": "Such structural change, underpinned by rising life expectancy and sub-replacement fertility."
       }
     ],
     "reviewExercise": {
@@ -230,29 +240,29 @@ const baseSampleEssays: SampleEssay[] = [
       "instruction": "Fill in the blanks with appropriate words from the essay.",
       "items": [
         {
-          "sentence": "The graph shows a classic ___ with falling youth shares.",
+          "sentence": "The graph captures a textbook ___ unfolding over six decades.",
           "answer": "demographic transition",
-          "explanation": "A 'demographic transition' describes the shift from high birth/death rates to low ones."
+          "explanation": "A 'demographic transition' describes the shift from high to low birth and death rates."
         },
         {
-          "sentence": "The working-age group began to ___ after 2010.",
-          "answer": "taper off",
-          "explanation": "'Taper off' means to gradually decrease or level out."
+          "sentence": "The working-age band reached a peak in 2010 before commencing a gentle ___.",
+          "answer": "taper",
+          "explanation": "'Taper' means a gradual decrease or narrowing."
         },
         {
-          "sentence": "An ___ occurred in the mid-1980s as fertility dropped.",
-          "answer": "inflection point",
-          "explanation": "An 'inflection point' is where the trend changes direction or pace."
+          "sentence": "The 65+ share ___ between 1970 and 2030, rising from 7% to 27%.",
+          "answer": "almost quadrupled",
+          "explanation": "'Almost quadrupled' means increased by nearly four times."
         },
         {
-          "sentence": "By 2030, the elderly are expected to ___ the youth share.",
-          "answer": "outpace",
-          "explanation": "'Outpace' means to exceed in rate or proportion."
+          "sentence": "By 2030, the elderly will ___ the youth share by a factor of two.",
+          "answer": "outstrip",
+          "explanation": "'Outstrip' means to greatly exceed or surpass."
         },
         {
-          "sentence": "These changes are ___ rising dependency ratios.",
-          "answer": "underpinning",
-          "explanation": "'Underpinning' means forming the foundation or basis for something."
+          "sentence": "This shift is ___ by rising life expectancy and low fertility.",
+          "answer": "underpinned",
+          "explanation": "'Underpinned' means supported or caused by."
         }
       ]
     },
@@ -278,57 +288,62 @@ const baseSampleEssays: SampleEssay[] = [
     "chartType": "bar",
     "topic": "education",
     "prompt": "The bar chart below compares the percentage of adults with a university degree in five countries in 2000 and 2020. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
-    "essayBody": "The bar chart compares the percentage of adults holding a university degree in five countries in the years 2000 and 2020.\n\nOverall, the chart reveals a broad uplift in tertiary attainment across all five nations, albeit with marked **disparity** in the scale of improvement. Notably, Nation A recorded the most dramatic change while Nation B remained an **outlier** at the bottom in both years.\n\nNation A posted a **steep ascent** from approximately 10% in 2000 to over 35% by 2020, making it the fastest-growing country in the dataset. Nations C and D, already strong performers in 2000 at around 30%, exhibited **incremental gains** that helped them **converge** near 40% by 2020. Meanwhile, Nation B registered only **marginal** progress, inching from 8% to just 12% over the two decades.\n\nNation E experienced a mid-range rise from 15% to 28%, sufficient to **compress** the gap with the leaders but not to **surpass** them. The most **comparative** insight is that improvements were uneven, as some systems capitalized on policy reforms while others **lagged behind** due to limited access pathways. Despite these differences, the aggregate picture points to a steady expansion of human capital across all surveyed countries.",
+    "essayBody": "The bar chart juxtaposes the proportion of adults holding a tertiary qualification across five nations—labelled A to E—at two reference points, namely 2000 and 2020, mirroring the kind of cross-national benchmarking conducted by the OECD in its annual *Education at a Glance* series.\n\nOverall, every country registered a net uplift in **tertiary attainment**, yet the magnitude of progress varied dramatically: Nation A engineered a transformational leap, Nations C and D consolidated their established lead, whereas Nation B remained a **conspicuous laggard** with only a marginal advance.\n\nNation A executed the most spectacular **catch-up**, vaulting from a modest 10 per cent in 2000 to 36 per cent two decades later—a near-quadrupling that almost certainly reflects deliberate expansion of public universities and **mass-access reforms** of the kind pursued by South Korea and Ireland. Nations C and D, already operating from a comparatively elevated baseline of around 30 per cent, posted **incremental yet sustained gains** to settle at 40 and 39 per cent respectively, thereby **consolidating** their position at the apex.\n\nAt the opposite end, Nation B languished, **inching up** from 8 to a mere 12 per cent and thus widening, in absolute terms, the **attainment gap** that separates it from the front runners. Nation E occupied a middle ground, climbing from 15 to 28 per cent—a respectable trajectory that **narrowed**, without **eliminating**, the chasm with Nations C and D. The aggregate pattern thus suggests that, while the global push for **human-capital accumulation** has lifted all boats, structural constraints continue to **perpetuate** divergence between leading and trailing systems.",
     "glossary": [
       {
-        "term": "disparity",
-        "vietnamese": "chênh lệch",
-        "context": "marked disparity across countries"
+        "term": "tertiary attainment",
+        "vietnamese": "trình độ giáo dục bậc đại học",
+        "context": "Every country registered a net uplift in tertiary attainment."
       },
       {
-        "term": "steep ascent",
-        "vietnamese": "tăng mạnh/leo dốc",
-        "context": "posted a steep ascent"
+        "term": "conspicuous laggard",
+        "vietnamese": "kẻ tụt hậu rõ rệt",
+        "context": "Nation B remained a conspicuous laggard with only a marginal advance."
       },
       {
-        "term": "marginal",
-        "vietnamese": "nhỏ/không đáng kể",
-        "context": "only marginal progress"
+        "term": "catch-up",
+        "vietnamese": "sự bắt kịp",
+        "context": "Nation A executed the most spectacular catch-up."
       },
       {
-        "term": "outlier",
-        "vietnamese": "giá trị ngoại lai/khác biệt",
-        "context": "remained an outlier at the bottom"
+        "term": "mass-access reforms",
+        "vietnamese": "cải cách mở rộng tiếp cận đại trà",
+        "context": "Deliberate expansion of public universities and mass-access reforms."
       },
       {
-        "term": "incremental gains",
-        "vietnamese": "tăng dần/tăng nhỏ",
-        "context": "exhibited incremental gains"
+        "term": "incremental yet sustained gains",
+        "vietnamese": "những bước tiến nhỏ nhưng bền vững",
+        "context": "Nations C and D posted incremental yet sustained gains."
       },
       {
-        "term": "converge",
-        "vietnamese": "hội tụ",
-        "context": "helped them converge near the top"
+        "term": "consolidating",
+        "vietnamese": "củng cố",
+        "context": "Thereby consolidating their position at the apex."
       },
       {
-        "term": "compress",
-        "vietnamese": "thu hẹp/nén lại",
-        "context": "compress the gap with the leaders"
+        "term": "inching up",
+        "vietnamese": "nhích lên từ từ",
+        "context": "Nation B languished, inching up from 8 to a mere 12 per cent."
       },
       {
-        "term": "surpass",
-        "vietnamese": "vượt qua",
-        "context": "not to surpass them"
+        "term": "attainment gap",
+        "vietnamese": "khoảng cách về trình độ",
+        "context": "Widening the attainment gap that separates it from the front runners."
       },
       {
-        "term": "comparative",
-        "vietnamese": "so sánh",
-        "context": "The most comparative insight"
+        "term": "narrowed",
+        "vietnamese": "thu hẹp",
+        "context": "A respectable trajectory that narrowed the chasm with Nations C and D."
       },
       {
-        "term": "lagged behind",
-        "vietnamese": "tụt lại phía sau",
-        "context": "others lagged behind"
+        "term": "human-capital accumulation",
+        "vietnamese": "tích lũy vốn con người",
+        "context": "The global push for human-capital accumulation has lifted all boats."
+      },
+      {
+        "term": "perpetuate",
+        "vietnamese": "duy trì/kéo dài",
+        "context": "Structural constraints continue to perpetuate divergence between systems."
       }
     ],
     "reviewExercise": {
@@ -336,29 +351,29 @@ const baseSampleEssays: SampleEssay[] = [
       "instruction": "Fill in the blanks with appropriate words from the essay.",
       "items": [
         {
-          "sentence": "Nation B remained an ___ with the lowest attainment.",
-          "answer": "outlier",
-          "explanation": "An 'outlier' is a data point far from the others."
+          "sentence": "Every country registered a net uplift in ___.",
+          "answer": "tertiary attainment",
+          "explanation": "'Tertiary attainment' means the share of adults completing higher education."
         },
         {
-          "sentence": "Nation A recorded a ___ from a low base.",
-          "answer": "steep ascent",
-          "explanation": "'Steep ascent' indicates a rapid, significant rise."
+          "sentence": "Nation B remained a ___, advancing only marginally.",
+          "answer": "conspicuous laggard",
+          "explanation": "A 'conspicuous laggard' is an obviously slow performer compared to peers."
         },
         {
-          "sentence": "Countries C and D made ___ that kept them near the top.",
-          "answer": "incremental gains",
-          "explanation": "'Incremental gains' are small, steady improvements."
+          "sentence": "Nation A executed a spectacular ___, almost quadrupling its rate.",
+          "answer": "catch-up",
+          "explanation": "'Catch-up' refers to closing the gap with leaders."
         },
         {
-          "sentence": "Nation E managed to ___ the gap but did not overtake.",
-          "answer": "compress",
-          "explanation": "'Compress' means to narrow or reduce a gap."
+          "sentence": "Nations C and D made ___ that kept them at the top.",
+          "answer": "incremental yet sustained gains",
+          "explanation": "Small but consistent improvements over time."
         },
         {
-          "sentence": "Some systems ___ due to access bottlenecks.",
-          "answer": "lagged behind",
-          "explanation": "'Lagged behind' means failed to keep pace with others."
+          "sentence": "Structural constraints continue to ___ divergence between systems.",
+          "answer": "perpetuate",
+          "explanation": "'Perpetuate' means to cause something to continue indefinitely."
         }
       ]
     },
@@ -382,52 +397,67 @@ const baseSampleEssays: SampleEssay[] = [
     "chartType": "bar",
     "topic": "transport",
     "prompt": "The bar chart below shows the average number of daily commuters by transport mode (car, bus, metro, bicycle) in three cities in 2015. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
-    "essayBody": "The bar chart illustrates the average number of daily commuters using four transport modes - car, bus, metro, and bicycle - in three cities in 2015.\n\nOverall, the **modal split** differed sharply across the three cities, with car dominance in one, metro strength in another, and notable cycling culture in the third. Across all cities, buses occupied an intermediate position with volumes showing only **marginal** variation.\n\nCity X displayed a clear **predominance** of car travel, with approximately 50,000 daily commuters choosing private vehicles. Bus and metro attracted fewer riders at roughly 20,000 and 15,000 respectively, while cycling remained **subdued** at under 5,000. By contrast, City Y's extensive underground network allowed metro to **surpass** private cars, recording 45,000 daily users compared to 30,000 car commuters.\n\nCity Z stood out for a strong bicycle **uptake** of over 25,000 daily riders, reflecting compact urban form and dedicated lanes. This **pivot towards** active travel coincided with a measurable **contraction** in car commuting, which stood at only 20,000 compared to City X's 50,000. The **trajectory** of sustainable modes was most favorable in Cities Y and Z, suggesting that investment in public and active transport infrastructure effectively reduces car dependency.",
+    "essayBody": "The bar chart compares the average daily commuter volume across four transport modes—private car, bus, metro, and bicycle—in three unnamed cities (X, Y, and Z) during 2015, with figures expressed in thousands.\n\nOverall, the three cities exhibit strikingly divergent **modal splits**: City X is **emphatically car-centric**, City Y leans on a mature underground network, while City Z stands out as a model of **active-mobility uptake**, echoing the **Copenhagenisation** trend visible in cities such as Amsterdam, Utrecht and Bogotá.\n\nIn City X, private vehicles **dwarfed** every alternative, with roughly 50,000 daily car commuters—more than double the bus ridership (20,000) and over triple the metro figure (15,000). Cycling was virtually **negligible** at just 5,000, suggesting an **auto-dependent** urban fabric typical of low-density North American metropolises. City Y painted a markedly different picture: metro patronage soared to 45,000, eclipsing cars (30,000) by 50 per cent, while the bus network served a steady 25,000—indicative of substantial **modal-shift** policies and dense rail coverage.\n\nCity Z provided the most progressive snapshot. Cycling attracted 28,000 daily commuters, narrowly outpacing buses (22,000) and metro (18,000), with car use **dialled back** to a comparatively modest 20,000. This **inversion**, in which non-motorised travel **outranked** every motorised alternative, is often associated with **dedicated cycle infrastructure**, **congestion-charging schemes** and compact land use. Taken together, the chart underscores that municipal investment in mass transit and bicycle networks can decisively **decouple** mobility from car dependency.",
     "glossary": [
       {
-        "term": "modal split",
-        "vietnamese": "cơ cấu phương thức vận tải",
-        "context": "the modal split differed sharply"
+        "term": "modal splits",
+        "vietnamese": "cơ cấu phương thức di chuyển",
+        "context": "The three cities exhibit strikingly divergent modal splits."
       },
       {
-        "term": "predominance",
-        "vietnamese": "sự áp đảo",
-        "context": "predominance of car travel"
+        "term": "emphatically car-centric",
+        "vietnamese": "phụ thuộc rõ rệt vào ô tô",
+        "context": "City X is emphatically car-centric."
       },
       {
-        "term": "subdued",
-        "vietnamese": "yếu/không nổi bật",
-        "context": "cycling remaining subdued"
+        "term": "active-mobility uptake",
+        "vietnamese": "mức độ sử dụng phương tiện chủ động",
+        "context": "City Z stands out as a model of active-mobility uptake."
       },
       {
-        "term": "surpass",
-        "vietnamese": "vượt qua",
-        "context": "metro to surpass private cars"
+        "term": "Copenhagenisation",
+        "vietnamese": "xu hướng kiểu Copenhagen (đô thị hóa xe đạp)",
+        "context": "Echoing the Copenhagenisation trend visible in cities such as Amsterdam."
       },
       {
-        "term": "uptake",
-        "vietnamese": "mức độ sử dụng",
-        "context": "strong bicycle uptake"
+        "term": "dwarfed",
+        "vietnamese": "lấn át hoàn toàn",
+        "context": "Private vehicles dwarfed every alternative, with roughly 50,000 daily commuters."
       },
       {
-        "term": "pivot towards",
-        "vietnamese": "chuyển hướng sang",
-        "context": "pivot towards active travel"
+        "term": "negligible",
+        "vietnamese": "không đáng kể",
+        "context": "Cycling was virtually negligible at just 5,000."
       },
       {
-        "term": "contraction",
-        "vietnamese": "sự thu hẹp/giảm",
-        "context": "contraction in car commuting"
+        "term": "auto-dependent",
+        "vietnamese": "phụ thuộc vào ô tô",
+        "context": "Suggesting an auto-dependent urban fabric typical of low-density metropolises."
       },
       {
-        "term": "marginal",
-        "vietnamese": "nhỏ/không đáng kể",
-        "context": "marginal variation in bus volumes"
+        "term": "modal-shift",
+        "vietnamese": "chuyển đổi phương thức",
+        "context": "Indicative of substantial modal-shift policies and dense rail coverage."
       },
       {
-        "term": "trajectory",
-        "vietnamese": "xu hướng/quỹ đạo",
-        "context": "trajectory of sustainable modes"
+        "term": "dialled back",
+        "vietnamese": "được giảm bớt",
+        "context": "Car use was dialled back to a comparatively modest 20,000."
+      },
+      {
+        "term": "inversion",
+        "vietnamese": "sự đảo ngược",
+        "context": "This inversion, in which non-motorised travel outranked every motorised alternative."
+      },
+      {
+        "term": "outranked",
+        "vietnamese": "xếp trên/vượt hơn",
+        "context": "Non-motorised travel outranked every motorised alternative."
+      },
+      {
+        "term": "decouple",
+        "vietnamese": "tách rời",
+        "context": "Investment in mass transit can decouple mobility from car dependency."
       }
     ],
     "reviewExercise": {
@@ -435,29 +465,29 @@ const baseSampleEssays: SampleEssay[] = [
       "instruction": "Fill in the blanks with appropriate words from the essay.",
       "items": [
         {
-          "sentence": "City X shows a clear ___ of car travel.",
-          "answer": "predominance",
-          "explanation": "'Predominance' means being the most common or dominant."
+          "sentence": "The three cities exhibit strikingly divergent ___.",
+          "answer": "modal splits",
+          "explanation": "'Modal splits' refer to how commuters are distributed across transport types."
         },
         {
-          "sentence": "In City Y, metro use managed to ___ cars.",
-          "answer": "surpass",
-          "explanation": "'Surpass' means to exceed or go beyond."
+          "sentence": "In City X, private vehicles ___ every alternative.",
+          "answer": "dwarfed",
+          "explanation": "'Dwarfed' means made others appear small by comparison."
         },
         {
-          "sentence": "City Z had notable bicycle ___.",
-          "answer": "uptake",
-          "explanation": "'Uptake' refers to the level of adoption or use."
+          "sentence": "Cycling in City X was virtually ___ at only 5,000 riders.",
+          "answer": "negligible",
+          "explanation": "'Negligible' means so small as to be insignificant."
         },
         {
-          "sentence": "Cycling in City X was relatively ___.",
-          "answer": "subdued",
-          "explanation": "'Subdued' means quiet, restrained, or low-level."
+          "sentence": "City Z showed an ___ in which bicycles outranked cars.",
+          "answer": "inversion",
+          "explanation": "'Inversion' means a reversal of the usual order."
         },
         {
-          "sentence": "Car commuting saw a ___ in City Z.",
-          "answer": "contraction",
-          "explanation": "'Contraction' means a decrease or shrinking."
+          "sentence": "Good infrastructure can ___ mobility from car dependency.",
+          "answer": "decouple",
+          "explanation": "'Decouple' means to separate two things previously linked together."
         }
       ]
     },
@@ -479,52 +509,72 @@ const baseSampleEssays: SampleEssay[] = [
     "chartType": "pie",
     "topic": "tourism",
     "prompt": "The pie charts below show the allocation of tourist expenditure by category in City Z in 2010 and 2020. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
-    "essayBody": "The two pie charts compare the allocation of tourist expenditure across different categories in City Z in 2010 and 2020.\n\nOverall, the pies indicate a discernible **reallocation** of spending over the decade, with a shift from basic lodging toward experiential categories. Notably, accommodation's **dominance** eased while entertainment registered the most **salient shift** among all segments.\n\nAccommodation retained the largest **proportion** in both years, declining from 40% in 2010 to 30% in 2020 as travelers diverted funds toward experiences. Food and entertainment together accounted for a growing **segment**, rising from a combined 25% to 35% over the decade. By contrast, transport's share **compressed** from 20% to 15%, likely reflecting improved pass systems and competition from low-cost carriers.\n\nShopping remained broadly stable at around 15%, suggesting a ceiling to souvenir-driven outlays. The **redistribution** favored more **discretionary** categories, implying that visitors prioritized memorable activities over basic lodging. Although accommodation still **outweighed** any single rival category, it no longer dominated them collectively as decisively as before.",
+    "essayBody": "The two pie charts compare the **composition** of tourist expenditure across five categories—accommodation, food, entertainment, transport, and shopping—in City Z at two snapshots a decade apart, namely 2010 and 2020.\n\nOverall, the charts capture a clear **reallocation of discretionary spending** away from fixed-cost items (accommodation, transport) and toward **experiential consumption** (entertainment, shopping, and food), mirroring the global **experience-economy** trend popularised by Pine and Gilmore and amplified by post-2015 platforms such as Airbnb Experiences and GetYourGuide.\n\nAccommodation, while remaining the **single largest budget line**, saw its share **erode** from 40 per cent in 2010 to 30 per cent in 2020—a ten-point retreat largely attributable to the proliferation of peer-to-peer lodging that **drove down nightly rates**. Transport followed a similar **downward trajectory**, contracting from 20 to 15 per cent, in line with cheaper urban-pass systems and the rise of low-cost carriers documented by UNWTO data.\n\nConversely, every **experiential category** registered notable gains. Food expenditure climbed five points to 20 per cent, entertainment **rose by half** from 10 to 15 per cent, and shopping advanced from 15 to 20 per cent, narrowly **edging out** transport. Collectively, the three experience-led headings absorbed 55 per cent of tourist wallets in 2020 versus only 40 per cent a decade earlier—a fifteen-point swing that constitutes the most **consequential shift** in the dataset and confirms a structural pivot toward **memory-making expenditure**.",
     "glossary": [
       {
-        "term": "reallocation",
-        "vietnamese": "tái phân bổ",
-        "context": "reallocation of spending"
+        "term": "composition",
+        "vietnamese": "cơ cấu/thành phần",
+        "context": "The two pie charts compare the composition of tourist expenditure across five categories."
       },
       {
-        "term": "proportion",
-        "vietnamese": "tỷ trọng",
-        "context": "retained the largest proportion"
+        "term": "reallocation of discretionary spending",
+        "vietnamese": "tái phân bổ chi tiêu tùy ý",
+        "context": "The charts capture a clear reallocation of discretionary spending away from fixed-cost items."
       },
       {
-        "term": "dominance",
-        "vietnamese": "vị thế chi phối",
-        "context": "its dominance eased"
+        "term": "experiential consumption",
+        "vietnamese": "tiêu dùng trải nghiệm",
+        "context": "A shift toward experiential consumption."
       },
       {
-        "term": "segment",
-        "vietnamese": "phân khúc",
-        "context": "a growing segment"
+        "term": "experience-economy",
+        "vietnamese": "kinh tế trải nghiệm",
+        "context": "Mirroring the global experience-economy trend popularised by Pine and Gilmore."
       },
       {
-        "term": "salient shift",
-        "vietnamese": "sự thay đổi nổi bật",
-        "context": "the most salient shift in entertainment"
+        "term": "single largest budget line",
+        "vietnamese": "khoản chi lớn nhất",
+        "context": "Accommodation remained the single largest budget line."
       },
       {
-        "term": "compressed",
-        "vietnamese": "bị thu hẹp",
-        "context": "transport’s share compressed"
+        "term": "erode",
+        "vietnamese": "xói mòn/giảm dần",
+        "context": "Its share saw its share erode from 40 per cent to 30 per cent."
       },
       {
-        "term": "redistribution",
-        "vietnamese": "phân phối lại",
-        "context": "the redistribution favored discretionary categories"
+        "term": "drove down nightly rates",
+        "vietnamese": "kéo giảm giá thuê phòng theo đêm",
+        "context": "The proliferation of peer-to-peer lodging that drove down nightly rates."
       },
       {
-        "term": "discretionary",
-        "vietnamese": "tùy ý/không bắt buộc",
-        "context": "more discretionary categories"
+        "term": "downward trajectory",
+        "vietnamese": "xu hướng đi xuống",
+        "context": "Transport followed a similar downward trajectory, contracting from 20 to 15 per cent."
       },
       {
-        "term": "outweighed",
-        "vietnamese": "vượt trội hơn",
-        "context": "accommodation still outweighed any single rival"
+        "term": "experiential category",
+        "vietnamese": "hạng mục trải nghiệm",
+        "context": "Conversely, every experiential category registered notable gains."
+      },
+      {
+        "term": "rose by half",
+        "vietnamese": "tăng thêm một nửa",
+        "context": "Entertainment rose by half from 10 to 15 per cent."
+      },
+      {
+        "term": "edging out",
+        "vietnamese": "vượt sát/qua mặt nhẹ",
+        "context": "Shopping advanced from 15 to 20 per cent, narrowly edging out transport."
+      },
+      {
+        "term": "consequential shift",
+        "vietnamese": "sự thay đổi có ý nghĩa quan trọng",
+        "context": "A fifteen-point swing that constitutes the most consequential shift in the dataset."
+      },
+      {
+        "term": "memory-making expenditure",
+        "vietnamese": "chi tiêu tạo kỷ niệm",
+        "context": "A structural pivot toward memory-making expenditure."
       }
     ],
     "reviewExercise": {
@@ -532,29 +582,29 @@ const baseSampleEssays: SampleEssay[] = [
       "instruction": "Fill in the blanks with appropriate words from the essay.",
       "items": [
         {
-          "sentence": "Accommodation kept the largest ___ of spending.",
-          "answer": "proportion",
-          "explanation": "'Proportion' refers to the relative share of the whole."
+          "sentence": "The charts show a clear ___ away from fixed-cost items.",
+          "answer": "reallocation of discretionary spending",
+          "explanation": "Redistributing optional spending across different categories."
         },
         {
-          "sentence": "Entertainment saw the most ___ among categories.",
-          "answer": "salient shift",
-          "explanation": "'Salient shift' means a noticeable or prominent change."
+          "sentence": "Accommodation remained the ___, though its share fell.",
+          "answer": "single largest budget line",
+          "explanation": "The biggest category of expenditure in the breakdown."
         },
         {
-          "sentence": "Transport’s share ___ over the decade.",
-          "answer": "compressed",
-          "explanation": "'Compressed' means reduced or squeezed smaller."
+          "sentence": "Accommodation's share began to ___ as peer-to-peer lodging spread.",
+          "answer": "erode",
+          "explanation": "'Erode' means to gradually wear away or diminish."
         },
         {
-          "sentence": "Spending shows a ___ toward experiential items.",
-          "answer": "reallocation",
-          "explanation": "'Reallocation' means redistributing resources differently."
+          "sentence": "Shopping climbed five points, narrowly ___ transport in 2020.",
+          "answer": "edging out",
+          "explanation": "'Edging out' means narrowly surpassing or beating."
         },
         {
-          "sentence": "The pattern favored more ___ categories.",
-          "answer": "discretionary",
-          "explanation": "'Discretionary' means optional, not essential spending."
+          "sentence": "The fifteen-point swing represents the most ___ in the dataset.",
+          "answer": "consequential shift",
+          "explanation": "A change with significant and far-reaching effects."
         }
       ]
     },
