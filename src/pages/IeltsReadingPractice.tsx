@@ -172,16 +172,16 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
           aria-label="Reading passage"
           className="overflow-y-auto bg-white dark:bg-slate-900 border-r"
         >
-          <div className="max-w-2xl mx-auto px-5 md:px-8 py-6 md:py-8">
+          <div className="w-full px-5 md:px-8 lg:px-10 py-6 md:py-8">
             <h2 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 mb-1">
               {exam.passageTitle}
             </h2>
             <p className="text-xs uppercase tracking-wide text-slate-500 mb-5">
               {t("Đoạn văn", "Reading Passage")}
             </p>
-            <article className="prose prose-slate dark:prose-invert max-w-none text-[15px] leading-[1.85] font-['Georgia',_'Merriweather',_serif] text-slate-900 dark:text-slate-100">
+            <article className="prose prose-slate dark:prose-invert max-w-none text-[15px] md:text-[15.5px] leading-[1.8] md:leading-[1.85] font-['Georgia',_'Merriweather',_serif] text-slate-900 dark:text-slate-100 columns-1 md:[column-gap:2.5rem]">
               {exam.passage.split("\n\n").map((para, i) => (
-                <p key={i} className="mb-4">{para}</p>
+                <p key={i} className="mb-4 break-inside-avoid">{para}</p>
               ))}
             </article>
           </div>
