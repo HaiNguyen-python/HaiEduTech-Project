@@ -1513,92 +1513,121 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     }
   },
-  {
+    {
     "id": "t1-22",
     "taskType": 1,
     "chartType": "process",
     "topic": "water cycle",
     "prompt": "The diagram below shows the water cycle. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The diagram illustrates the natural water cycle, a continuous and **self-renewing** process that **circulates** water through the Earth's atmosphere, surface and underground systems.\n\nOverall, the cycle has four key stages - **evaporation**, **condensation**, **precipitation** and **collection** - and is driven primarily by solar energy. Together they ensure the steady **redistribution** of fresh water.\n\nThe process begins when the Sun heats the surface of oceans, lakes and rivers, causing liquid water to **evaporate** into invisible vapour that rises into the atmosphere. As this vapour ascends, it cools and **condenses** around tiny dust particles, forming clouds. When droplets in the clouds become too heavy, they fall back to Earth as rain, snow or hail - collectively known as **precipitation**.\n\nA portion of this water is absorbed into the soil and **percolates** down to **replenish** underground aquifers, while the remainder flows over land as runoff into streams and eventually returns to the oceans. The cycle then **repeats indefinitely**, sustained by continuous solar input. Without this **closed loop**, terrestrial life would be impossible.",
+    "essayBody": "The diagram illustrates the hydrological cycle, a continuous and **self-sustaining** process that **circulates** water through the Earth\'s atmosphere, surface and **subterranean** reservoirs.\n\nOverall, the cycle has four principal stages—**evaporation**, **condensation**, **precipitation** and **collection**—and is driven predominantly by **insolation**, the incoming solar radiation that powers almost all atmospheric motion. Together, these stages ensure the perpetual **redistribution** of fresh water across the planet.\n\nThe process commences when solar energy heats the surface of oceans, lakes and rivers, causing liquid water to **evaporate** into invisible vapour that **ascends** into the troposphere. As this vapour rises to higher altitudes, it encounters lower ambient temperatures and **condenses** around microscopic hygroscopic nuclei—typically dust, pollen or salt crystals—thereby forming visible clouds. When droplets within these clouds **coalesce** and reach a critical mass, they **descend** back to Earth as rain, snow or hail, collectively termed **precipitation**.\n\nA portion of this precipitated water **infiltrates** the soil and **percolates** downward to **replenish** underground aquifers, while the remainder flows overland as surface runoff into streams and rivers, eventually **discharging** into the oceans. The cycle then **recommences indefinitely**, sustained by uninterrupted solar input. Without this **closed-loop system**, terrestrial ecosystems—and, by extension, human civilisation—would be **untenable**.",
     "glossary": [
       {
-        "term": "self-renewing",
-        "vietnamese": "tự tái tạo",
-        "context": "self-renewing process"
+        "term": "self-sustaining",
+        "vietnamese": "tự duy trì",
+        "context": "The hydrological cycle is a continuous and **self-sustaining** process."
       },
       {
         "term": "circulates",
         "vietnamese": "tuần hoàn",
-        "context": "circulates water"
+        "context": "The cycle **circulates** water through the atmosphere and surface."
       },
       {
-        "term": "evaporation",
-        "vietnamese": "sự bốc hơi",
-        "context": "evaporation stage"
+        "term": "subterranean",
+        "vietnamese": "dưới lòng đất",
+        "context": "Water moves through **subterranean** reservoirs."
       },
       {
-        "term": "condensation",
-        "vietnamese": "sự ngưng tụ",
-        "context": "condensation stage"
-      },
-      {
-        "term": "precipitation",
-        "vietnamese": "giáng thủy",
-        "context": "precipitation"
+        "term": "insolation",
+        "vietnamese": "bức xạ mặt trời",
+        "context": "The cycle is driven by **insolation**, incoming solar radiation."
       },
       {
         "term": "redistribution",
         "vietnamese": "sự tái phân phối",
-        "context": "steady redistribution of water"
+        "context": "The stages ensure the perpetual **redistribution** of fresh water."
       },
       {
         "term": "evaporate",
         "vietnamese": "bốc hơi",
-        "context": "liquid water to evaporate"
+        "context": "Solar energy causes liquid water to **evaporate** into invisible vapour."
+      },
+      {
+        "term": "ascends",
+        "vietnamese": "bay lên",
+        "context": "Vapour **ascends** into the troposphere."
       },
       {
         "term": "condenses",
         "vietnamese": "ngưng tụ",
-        "context": "vapour condenses"
+        "context": "Vapour cools and **condenses** around hygroscopic nuclei."
+      },
+      {
+        "term": "coalesce",
+        "vietnamese": "hợp nhất / kết tụ",
+        "context": "Droplets **coalesce** and reach a critical mass."
+      },
+      {
+        "term": "descend",
+        "vietnamese": "rơi xuống",
+        "context": "They **descend** back to Earth as rain, snow or hail."
+      },
+      {
+        "term": "infiltrates",
+        "vietnamese": "thấm vào",
+        "context": "Water **infiltrates** the soil and percolates downward."
       },
       {
         "term": "percolates",
         "vietnamese": "thấm xuống",
-        "context": "percolates down"
+        "context": "Water **percolates** downward to replenish underground aquifers."
       },
       {
         "term": "replenish",
         "vietnamese": "bổ sung",
-        "context": "replenish underground aquifers"
+        "context": "Water percolates down to **replenish** underground aquifers."
+      },
+      {
+        "term": "discharging",
+        "vietnamese": "đổ ra",
+        "context": "Runoff eventually **discharges** into the oceans."
+      },
+      {
+        "term": "closed-loop system",
+        "vietnamese": "hệ thống tuần hoàn kín",
+        "context": "Without this **closed-loop system**, terrestrial ecosystems would be untenable."
+      },
+      {
+        "term": "untenable",
+        "vietnamese": "không thể duy trì",
+        "context": "Human civilisation would be **untenable** without the water cycle."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "The cycle is ___ by solar energy.",
-          "answer": "driven"
+          "sentence": "The hydrological cycle is a ___ process driven by solar energy.",
+          "answer": "self-sustaining"
         },
         {
-          "sentence": "Water ___ into invisible vapour.",
-          "answer": "evaporates"
+          "sentence": "The cycle is driven by ___, incoming solar radiation.",
+          "answer": "insolation"
         },
         {
-          "sentence": "Vapour ___ to form clouds.",
-          "answer": "condenses"
+          "sentence": "Droplets ___ and reach a critical mass before falling.",
+          "answer": "coalesce"
         },
         {
-          "sentence": "Rain, snow and hail are ___.",
-          "answer": "precipitation"
+          "sentence": "Water ___ the soil and percolates to underground aquifers.",
+          "answer": "infiltrates"
         },
         {
-          "sentence": "Water ___ to replenish aquifers.",
-          "answer": "percolates"
+          "sentence": "Without this ___ system, human civilisation would be untenable.",
+          "answer": "closed-loop"
         }
       ]
-    },
-    "chartConfig": {
+    },    "chartConfig": {
       "data": [],
       "type": "process",
       "stages": [
