@@ -194,7 +194,7 @@ const IeltsSampleEssayDetail = () => {
                   <TableRow>
                     <TableHead className="font-semibold">Term</TableHead>
                     <TableHead className="font-semibold">{t("Nghĩa tiếng Việt", "Vietnamese")}</TableHead>
-                    <TableHead className="font-semibold">{t("Ngữ cảnh & Luyện viết", "Context & Practice")}</TableHead>
+                    <TableHead className="font-semibold">{t("Ngữ cảnh", "Context")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
