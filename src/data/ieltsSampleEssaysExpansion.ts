@@ -1367,92 +1367,111 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     }
   },
-  {
+    {
     "id": "t1-21",
     "taskType": 1,
     "chartType": "process",
     "topic": "chocolate production",
     "prompt": "The diagram below shows how chocolate is produced. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The diagram outlines the multi-stage industrial process by which chocolate is manufactured from raw cacao beans.\n\nOverall, chocolate production involves seven main stages, beginning with the **harvesting** of cacao pods on tropical plantations and **culminating** in packaging for retail. The process **combines** agricultural and industrial operations.\n\nInitially, **ripe** cacao pods are harvested by hand from cacao trees, primarily in equatorial regions. The pods are then split open to extract the beans, which are placed in wooden boxes and allowed to **ferment** for around a week, developing the characteristic flavour. Once fermented, the beans are spread out to **dry** under the sun before being shipped to processing factories.\n\nAt the factory, beans are **roasted** at high temperature to deepen the flavour and remove any moisture. They are subsequently **crushed** to separate the husk from the inner nibs, which are then ground into a thick liquid known as cocoa mass. After mixing with sugar and milk, the chocolate is **moulded** into bars and finally **packaged**. Crucially, the entire process **transforms** a bitter agricultural product into the sweet confection familiar to consumers.",
+    "essayBody": "The diagram delineates the multi-stage industrial process by which raw cacao beans are transformed into commercially packaged chocolate.\n\nOverall, the procedure comprises seven discrete stages that **straddle** both agricultural and industrial domains, beginning with the manual **harvesting** of cacao pods on tropical plantations and **culminating** in the retail packaging of finished bars. The process is noteworthy for its reliance on **biochemical transformation** as well as thermal and mechanical refinement.\n\nInitially, **ripe** cacao pods are hand-picked from trees cultivated predominantly within 20° of the equator. The pods are then split open to extract the beans, which are placed in wooden trays and allowed to **ferment** for approximately seven days—a critical **biochemical** step during which heat and microbial activity develop the precursors of chocolate\'s characteristic flavour profile. Once fermentation is complete, the beans are spread in thin layers to **dry** under direct sunlight, reducing their moisture content sufficiently for transoceanic shipment to processing facilities.\n\nAt the factory, the dried beans undergo **roasting** at elevated temperatures both to deepen flavour complexity and to facilitate the subsequent removal of the papery husk. The roasted beans are then **crushed** and **winnowed** to separate nibs from chaff, after which the nibs are **ground** into a viscous liquor known as cocoa mass. Following the addition of sugar, milk solids and emulsifiers, the refined chocolate is **tempered** to stabilise crystal structure, **moulded** into standardised bars, and finally **packaged** under controlled conditions. In essence, the entire sequence **metamorphoses** a bitter, astringent agricultural commodity into the sweet confection universally recognised by consumers.",
     "glossary": [
+      {
+        "term": "straddle",
+        "vietnamese": "bao trùm / vắt ngang",
+        "context": "The seven stages **straddle** both agricultural and industrial domains."
+      },
       {
         "term": "harvesting",
         "vietnamese": "thu hoạch",
-        "context": "harvesting of cacao pods"
+        "context": "The process begins with the manual **harvesting** of cacao pods on tropical plantations."
       },
       {
         "term": "culminating",
-        "vietnamese": "kết thúc",
-        "context": "culminating in packaging"
+        "vietnamese": "kết thúc / đạt đỉnh điểm",
+        "context": "The procedure ends by **culminating** in the retail packaging of finished bars."
       },
       {
-        "term": "combines",
-        "vietnamese": "kết hợp",
-        "context": "combines agricultural and industrial"
+        "term": "biochemical transformation",
+        "vietnamese": "biến đổi sinh hóa",
+        "context": "The process relies on **biochemical transformation** as well as thermal refinement."
       },
       {
         "term": "ripe",
         "vietnamese": "chín",
-        "context": "ripe cacao pods"
+        "context": "**Ripe** cacao pods are hand-picked from equatorial trees."
       },
       {
         "term": "ferment",
         "vietnamese": "lên men",
-        "context": "beans ferment for a week"
+        "context": "Beans are allowed to **ferment** for approximately seven days."
+      },
+      {
+        "term": "biochemical",
+        "vietnamese": "sinh hóa",
+        "context": "Fermentation is a critical **biochemical** step in flavour development."
       },
       {
         "term": "dry",
         "vietnamese": "phơi khô",
-        "context": "spread out to dry"
+        "context": "Beans are spread to **dry** under direct sunlight before shipment."
       },
       {
-        "term": "roasted",
+        "term": "roasting",
         "vietnamese": "rang",
-        "context": "beans are roasted"
+        "context": "Dried beans undergo **roasting** at elevated temperatures."
       },
       {
-        "term": "crushed",
+        "term": "winnowed",
+        "vietnamese": "sàng tách (vỏ trấu)",
+        "context": "Roasted beans are crushed and **winnowed** to separate nibs from chaff."
+      },
+      {
+        "term": "ground",
         "vietnamese": "nghiền",
-        "context": "beans are crushed"
+        "context": "Nibs are **ground** into a viscous liquor known as cocoa mass."
+      },
+      {
+        "term": "tempered",
+        "vietnamese": "làm nguội điều chỉnh",
+        "context": "The chocolate is **tempered** to stabilise its crystal structure."
       },
       {
         "term": "moulded",
         "vietnamese": "đúc khuôn",
-        "context": "chocolate is moulded"
+        "context": "Refined chocolate is **moulded** into standardised bars."
       },
       {
-        "term": "transforms",
-        "vietnamese": "biến đổi",
-        "context": "transforms a bitter product"
+        "term": "metamorphoses",
+        "vietnamese": "biến đổi hoàn toàn",
+        "context": "The sequence **metamorphoses** a bitter commodity into a sweet confection."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "Cacao pods are ___ by hand.",
-          "answer": "harvested"
+          "sentence": "The seven stages ___ both agricultural and industrial domains.",
+          "answer": "straddle"
         },
         {
-          "sentence": "Beans must ___ for a week.",
+          "sentence": "Beans are allowed to ___ for approximately seven days.",
           "answer": "ferment"
         },
         {
-          "sentence": "Beans are ___ at high temperature.",
-          "answer": "roasted"
+          "sentence": "Roasted beans are ___ to separate nibs from chaff.",
+          "answer": "winnowed"
         },
         {
-          "sentence": "Liquid chocolate is ___ into bars.",
-          "answer": "moulded"
+          "sentence": "Chocolate is ___ to stabilise crystal structure before moulding.",
+          "answer": "tempered"
         },
         {
-          "sentence": "Process ___ a bitter product.",
-          "answer": "transforms"
+          "sentence": "The process ___ a bitter commodity into a sweet confection.",
+          "answer": "metamorphoses"
         }
       ]
-    },
-    "chartConfig": {
+    },    "chartConfig": {
       "data": [],
       "type": "process",
       "stages": [
