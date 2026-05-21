@@ -148,82 +148,92 @@ export const sampleEssaysExpansion: SampleEssay[] = [
     "chartType": "line",
     "topic": "car ownership",
     "prompt": "The line graph below shows the average number of cars per household in four cities (A, B, C, D) between 1985 and 2015. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The line graph compares average household car ownership in four cities - A, B, C and D - over a thirty-year span ending in 2015.\n\nOverall, every city saw an **incremental** rise in vehicle ownership, but City A consistently maintained the highest figures while City D **lagged** behind. A clear urban-rural pattern can be **discerned** across the data.\n\nIn 1985, City A reported about 1.2 cars per household, double the figure in City D (0.6). City A continued an almost **uninterrupted** climb, peaking at roughly 2.1 by 2015. City B also recorded steady growth, **mirroring** A but at a slightly lower level, and ended the period at about 1.8 vehicles.\n\nIn contrast, City C and D advanced more **modestly**. City C **inched up** from 0.8 to 1.4, while City D remained the lowest, only just **edging past** the one-vehicle mark. Despite the convergence of the upper two cities, the gap between A and D actually **widened** over the period in absolute terms.",
+    "essayBody": "The line graph compares average household car ownership in four cities - A, B, C and D - across a thirty-year span ending in 2015, charting the long arc of post-industrial motorisation.\n\nOverall, every city recorded an **incremental** rise in vehicle ownership, yet City A consistently retained the highest figures while City D **lagged** considerably. A clear urban-affluence pattern can be **discerned**, with the absolute gap between leaders and laggards actually **widening** in absolute terms despite partial **convergence** at the top.\n\nIn 1985, City A reported about 1.2 cars per household, exactly double the figure in City D (0.6). City A then continued an almost **uninterrupted** climb, peaking at roughly 2.1 by 2015 - a level approaching the saturation thresholds reported by the IEA for OECD metros. City B traced a parallel curve, **mirroring** A at a slightly lower altitude and finishing near 1.8.\n\nIn contrast, City C and D advanced more **modestly**. City C **inched up** from 0.8 to 1.4, while City D, constrained by lower median incomes, only just **edged past** the one-vehicle threshold at 1.05. The chart therefore exemplifies how rising affluence accelerates car dependency rather than uniformly compressing it.",
     "glossary": [
       {
         "term": "incremental",
         "vietnamese": "từng bước",
-        "context": "incremental rise"
+        "context": "Every city recorded an **incremental** rise in vehicle ownership over thirty years."
       },
       {
         "term": "lagged",
         "vietnamese": "tụt lại",
-        "context": "City D lagged behind"
+        "context": "City D **lagged** considerably throughout the period."
       },
       {
         "term": "discerned",
         "vietnamese": "nhận ra",
-        "context": "pattern can be discerned"
+        "context": "A clear urban-affluence pattern can be **discerned** across the four cities."
       },
       {
-        "term": "uninterrupted",
-        "vietnamese": "không bị gián đoạn",
-        "context": "uninterrupted climb"
-      },
-      {
-        "term": "mirroring",
-        "vietnamese": "phản ánh",
-        "context": "mirroring A"
-      },
-      {
-        "term": "modestly",
-        "vietnamese": "khiêm tốn",
-        "context": "advanced more modestly"
-      },
-      {
-        "term": "inched up",
-        "vietnamese": "tăng nhẹ",
-        "context": "inched up from 0.8"
-      },
-      {
-        "term": "edging past",
-        "vietnamese": "vượt nhẹ qua",
-        "context": "edging past the one-vehicle mark"
-      },
-      {
-        "term": "widened",
+        "term": "widening",
         "vietnamese": "mở rộng",
-        "context": "gap widened"
+        "context": "The absolute gap between leaders and laggards was actually **widening** despite partial convergence at the top."
       },
       {
         "term": "convergence",
         "vietnamese": "sự hội tụ",
-        "context": "convergence of the upper two cities"
+        "context": "Partial **convergence** emerged among the highest-ownership cities by 2015."
+      },
+      {
+        "term": "uninterrupted",
+        "vietnamese": "không bị gián đoạn",
+        "context": "City A continued an almost **uninterrupted** climb to roughly 2.1 vehicles per household."
+      },
+      {
+        "term": "mirroring",
+        "vietnamese": "phản ánh",
+        "context": "City B traced a parallel curve, **mirroring** City A at a slightly lower altitude."
+      },
+      {
+        "term": "modestly",
+        "vietnamese": "khiêm tốn",
+        "context": "City C and D advanced more **modestly** than the leading pair."
+      },
+      {
+        "term": "inched up",
+        "vietnamese": "tăng nhẹ",
+        "context": "City C **inched up** from 0.8 to 1.4 cars per household."
+      },
+      {
+        "term": "edged past",
+        "vietnamese": "vượt nhẹ qua",
+        "context": "City D only just **edged past** the one-vehicle threshold at 1.05."
+      },
+      {
+        "term": "car dependency",
+        "vietnamese": "sự phụ thuộc vào xe hơi",
+        "context": "Rising affluence accelerates **car dependency** rather than uniformly compressing it."
+      },
+      {
+        "term": "saturation thresholds",
+        "vietnamese": "ngưỡng bão hòa",
+        "context": "City A approached the **saturation thresholds** reported by the IEA for OECD metros."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "City A continued an almost ___ climb.",
-          "answer": "uninterrupted"
-        },
-        {
-          "sentence": "City C ___ from 0.8 to 1.4.",
-          "answer": "inched up"
-        },
-        {
-          "sentence": "Cars per household showed ___ growth.",
+          "sentence": "Every city recorded an ___ rise in vehicle ownership.",
           "answer": "incremental"
         },
         {
-          "sentence": "City D ___ behind throughout.",
-          "answer": "lagged"
+          "sentence": "City A's level approached IEA-reported ___ thresholds.",
+          "answer": "saturation"
         },
         {
-          "sentence": "The gap between A and D ___.",
-          "answer": "widened"
+          "sentence": "City C ___ from 0.8 to 1.4 over thirty years.",
+          "answer": "inched up"
+        },
+        {
+          "sentence": "City B traced a parallel curve, ___ City A at lower altitude.",
+          "answer": "mirroring"
+        },
+        {
+          "sentence": "Rising affluence accelerates car ___ rather than compressing it.",
+          "answer": "dependency"
         }
       ]
     },
