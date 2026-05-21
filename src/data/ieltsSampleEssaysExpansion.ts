@@ -2716,92 +2716,166 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     }
   },
-  {
+    {
     "id": "t1-29",
     "taskType": 1,
     "chartType": "line",
     "topic": "museum visitors",
     "prompt": "The line graph below shows the number of visitors (thousands) to three museums (Modern Art, History, Science) in City T from 2012 to 2022. Summarise the information by selecting and reporting the main features.",
-    "essayBody": "The line graph plots annual visitor numbers at three of City T's museums over an eleven-year span.\n\nOverall, visitor figures **fluctuated** considerably, with all three institutions experiencing a sharp **trough** in 2020 before recovering. The Science Museum emerged as the most popular destination by the end of the period.\n\nIn 2012, the History Museum led with 420 thousand visitors, followed by Modern Art at 380 and Science at 300. All three rose **gradually** through the mid-2010s, with the Science Museum showing the steepest **upward gradient**, reaching 480 thousand by 2019. The pandemic year of 2020 produced a synchronised collapse across all venues, with attendance roughly halved.\n\nRecovery was **uneven**: the Science Museum bounced back fastest, **eclipsing** its pre-pandemic peak at 520 thousand by 2022. The History Museum recovered only partially to 400 thousand, while Modern Art has yet to regain its earlier level, ending at 360. The pattern indicates that science-themed venues enjoy the most **resilient appeal**.",
+    "essayBody": "The line graph plots annual **visitation** numbers at three of City T\'s principal museums over an eleven-year span.\n\nOverall, **attendance** **fluctuated** considerably, with all three institutions experiencing a sharp **trough** in 2020 before recovering at **markedly divergent** speeds. The Science Museum ultimately **emerged** as the most popular destination by the close of the period, a development plausibly linked to the **diffusion** of **immersive** and **interactive exhibitions** that **resonate** with contemporary **edutainment** expectations.\n\nIn 2012, the History Museum led with 420 thousand visitors, followed by Modern Art at 380 and Science at 300. All three rose **gradually** through the mid-2010s, with the Science Museum exhibiting the steepest **upward gradient**, reaching 480 thousand by 2019 as it **pivoted** toward **hands-on** STEM displays. The pandemic year of 2020 produced a **synchronous contraction** across all venues, with attendance roughly halved as public-health **mandates** restricted indoor gathering.\n\nRecovery was **uneven** and **differentiated**: the Science Museum bounced back fastest, **eclipsing** its pre-pandemic peak at 520 thousand by 2022—a **post-pandemic resurgence** driven by renewed interest in **science communication**. The History Museum recovered only partially to 400 thousand, while Modern Art has yet to regain its earlier level, ending at 360, possibly reflecting **saturation** in conventional gallery formats. The pattern indicates that science-themed venues enjoy the most **resilient appeal** during periods of societal **disruption**.",
     "glossary": [
+      {
+        "term": "visitation",
+        "vietnamese": "lượng khách thăm",
+        "context": "The graph plots annual **visitation** numbers at three principal museums."
+      },
+      {
+        "term": "attendance",
+        "vietnamese": "số lượng khách",
+        "context": "**Attendance** fluctuated considerably across the eleven-year span."
+      },
       {
         "term": "fluctuated",
         "vietnamese": "dao động",
-        "context": "figures fluctuated"
+        "context": "Attendance **fluctuated** before collapsing in 2020."
       },
       {
         "term": "trough",
-        "vietnamese": "đáy",
-        "context": "sharp trough in 2020"
+        "vietnamese": "đáy / mức thấp nhất",
+        "context": "All three institutions experienced a sharp **trough** in 2020."
+      },
+      {
+        "term": "markedly divergent",
+        "vietnamese": "khác biệt rõ rệt",
+        "context": "Recovery occurred at **markedly divergent** speeds."
+      },
+      {
+        "term": "emerged",
+        "vietnamese": "nổi lên",
+        "context": "The Science Museum ultimately **emerged** as the most popular destination."
+      },
+      {
+        "term": "diffusion",
+        "vietnamese": "sự lan tỏa",
+        "context": "Plausibly linked to the **diffusion** of immersive exhibitions."
+      },
+      {
+        "term": "immersive",
+        "vietnamese": "đắm chìm",
+        "context": "The **diffusion** of **immersive** and interactive exhibitions."
+      },
+      {
+        "term": "interactive",
+        "vietnamese": "tương tác",
+        "context": "**Interactive exhibitions** that resonate with edutainment expectations."
+      },
+      {
+        "term": "resonate",
+        "vietnamese": "gây tiếng vang / phù hợp",
+        "context": "Exhibitions that **resonate** with contemporary expectations."
+      },
+      {
+        "term": "edutainment",
+        "vietnamese": "giáo dục giải trí",
+        "context": "Contemporary **edutainment** expectations of museum-goers."
       },
       {
         "term": "gradually",
         "vietnamese": "dần dần",
-        "context": "rose gradually"
+        "context": "All three rose **gradually** through the mid-2010s."
       },
       {
         "term": "upward gradient",
         "vietnamese": "độ dốc đi lên",
-        "context": "steepest upward gradient"
+        "context": "The Science Museum exhibited the steepest **upward gradient**."
       },
       {
-        "term": "synchronised",
-        "vietnamese": "đồng bộ",
-        "context": "synchronised collapse"
+        "term": "pivoted",
+        "vietnamese": "chuyển hướng",
+        "context": "The museum **pivoted** toward hands-on STEM displays."
+      },
+      {
+        "term": "hands-on",
+        "vietnamese": "thực hành / trải nghiệm trực tiếp",
+        "context": "It **pivoted** toward **hands-on** STEM displays."
+      },
+      {
+        "term": "synchronous contraction",
+        "vietnamese": "sự co lại đồng bộ",
+        "context": "The pandemic produced a **synchronous contraction** across all venues."
+      },
+      {
+        "term": "mandates",
+        "vietnamese": "lệnh / quy định bắt buộc",
+        "context": "Public-health **mandates** restricted indoor gathering."
       },
       {
         "term": "uneven",
         "vietnamese": "không đồng đều",
-        "context": "recovery was uneven"
+        "context": "Recovery was **uneven** and differentiated."
+      },
+      {
+        "term": "differentiated",
+        "vietnamese": "khác biệt",
+        "context": "Recovery was uneven and **differentiated**."
       },
       {
         "term": "eclipsing",
         "vietnamese": "vượt qua",
-        "context": "eclipsing its pre-pandemic peak"
+        "context": "The Science Museum bounced back, **eclipsing** its pre-pandemic peak."
+      },
+      {
+        "term": "post-pandemic resurgence",
+        "vietnamese": "sự hồi sinh sau đại dịch",
+        "context": "A **post-pandemic resurgence** driven by renewed interest in science."
+      },
+      {
+        "term": "science communication",
+        "vietnamese": "truyền thông khoa học",
+        "context": "Driven by renewed interest in **science communication**."
+      },
+      {
+        "term": "saturation",
+        "vietnamese": "bão hòa",
+        "context": "Possibly reflecting **saturation** in conventional gallery formats."
       },
       {
         "term": "resilient appeal",
         "vietnamese": "sức hút bền vững",
-        "context": "resilient appeal"
+        "context": "Science-themed venues enjoy the most **resilient appeal**."
       },
       {
-        "term": "attendance",
-        "vietnamese": "lượng khách",
-        "context": "attendance roughly halved"
-      },
-      {
-        "term": "synchronised collapse",
-        "vietnamese": "sự sụp đổ đồng bộ",
-        "context": "produced a synchronised collapse"
+        "term": "disruption",
+        "vietnamese": "gián đoạn",
+        "context": "During periods of societal **disruption**."
       }
     ],
     "reviewExercise": {
       "type": "gap-fill",
-      "instruction": "Fill in the blanks.",
+      "instruction": "Fill in the blanks with the academic term used in the essay.",
       "items": [
         {
-          "sentence": "Visitor figures ___ over the period.",
-          "answer": "fluctuated"
-        },
-        {
-          "sentence": "There was a sharp ___ in 2020.",
+          "sentence": "All three museums experienced a sharp ___ in 2020.",
           "answer": "trough"
         },
         {
-          "sentence": "Recovery was ___.",
+          "sentence": "Recovery was ___ and differentiated across venues.",
           "answer": "uneven"
         },
         {
-          "sentence": "Science museum showed steep ___ gradient.",
-          "answer": "upward"
+          "sentence": "The Science Museum ___ toward hands-on STEM displays.",
+          "answer": "pivoted"
         },
         {
-          "sentence": "Science museums have ___ appeal.",
+          "sentence": "The museum bounced back, ___ its pre-pandemic peak.",
+          "answer": "eclipsing"
+        },
+        {
+          "sentence": "Science venues enjoy the most ___ appeal during disruption.",
           "answer": "resilient"
         }
       ]
-    },
-    "chartConfig": {
+    },    "chartConfig": {
       "type": "line",
       "xKey": "year",
       "yKeys": [
