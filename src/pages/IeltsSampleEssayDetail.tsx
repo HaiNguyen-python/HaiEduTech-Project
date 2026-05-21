@@ -163,15 +163,8 @@ const IeltsSampleEssayDetail = () => {
           {/* Outline - structure & key ideas */}
           <EssayOutline essay={essay} />
 
-          {/* Interactive Writing Guide - step-by-step sentence lesson */}
-          <InteractiveWritingGuide
-            essayBody={essay.essayBody}
-            glossary={essay.glossary}
-            taskType={essay.taskType}
-          />
-
-          {/* Full essay reference (collapsed view + PDF) */}
-          <details className="glass-card rounded-xl p-6 md:p-8 group">
+          {/* Full essay reference with click-to-reveal teaching mode */}
+          <details className="glass-card rounded-xl p-6 md:p-8 group" open>
             <summary className="cursor-pointer flex items-center justify-between gap-2 list-none">
               <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
                 <BookOpen className="w-5 h-5 text-primary" />
@@ -180,8 +173,12 @@ const IeltsSampleEssayDetail = () => {
               <span className="text-xs text-muted-foreground group-open:hidden">{t("Mở", "Show")}</span>
               <span className="text-xs text-muted-foreground hidden group-open:inline">{t("Đóng", "Hide")}</span>
             </summary>
-            <div className="mt-4">
-              <ClickRevealEssay essayBody={essay.essayBody} />
+            <div className="mt-4 space-y-5">
+              {/* Re-display chart inside the essay viewer so students can follow the visual while reading */}
+              {essay.taskType === 1 && essay.chartConfig && (
+                <IELTSChart config={essay.chartConfig} />
+              )}
+              <ClickRevealEssay essayBody={essay.essayBody} taskType={essay.taskType} />
             </div>
             <div className="mt-4 flex justify-end">
               <Button size="sm" variant="outline" onClick={handleDownloadPDF}>
@@ -189,6 +186,7 @@ const IeltsSampleEssayDetail = () => {
               </Button>
             </div>
           </details>
+
 
           {/* Band 7.0+ Analysis - TA/TR, CC, LR, GRA */}
           <EssayBand8Analysis essay={essay} />
