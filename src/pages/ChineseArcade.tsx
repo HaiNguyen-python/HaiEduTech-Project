@@ -254,11 +254,12 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 1.5, opacity: 0, rotate: 180 }}
               onClick={() => handleTapMeteor(m)}
-              className="absolute -translate-x-1/2 px-3 py-2 rounded-xl bg-gradient-to-br from-rose-500/80 to-amber-500/80 border-2 border-amber-300 shadow-[0_0_15px_rgba(251,191,36,0.6)] text-white font-bold text-center min-w-[60px] cursor-pointer"
+              className="absolute -translate-x-1/2 px-4 py-3 rounded-2xl bg-gradient-to-br from-rose-500/90 to-amber-500/90 border-2 border-amber-300 shadow-[0_0_18px_rgba(251,191,36,0.7)] text-white font-bold text-center min-w-[120px] cursor-pointer"
               style={{ left: `${m.x}%`, top: `${m.y}%` }}
             >
-              <div className="text-xl sm:text-2xl leading-tight">{m.word.character}</div>
-              <div className="text-[10px] opacity-80 font-mono">{stripTones(m.word.pinyin)}</div>
+              <div className="text-4xl sm:text-5xl leading-tight drop-shadow">{m.word.character}</div>
+              <div className="text-sm font-mono text-amber-100 mt-0.5">{stripTones(m.word.pinyin)}</div>
+              <div className="text-xs text-white/95 mt-1 max-w-[180px] mx-auto leading-snug">{m.word.definition.vi}</div>
             </motion.button>
           ))}
         </AnimatePresence>
