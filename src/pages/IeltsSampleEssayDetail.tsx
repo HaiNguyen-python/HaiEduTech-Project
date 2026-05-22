@@ -203,8 +203,17 @@ const IeltsSampleEssayDetail = () => {
             <IELTSChart config={essay.chartConfig} />
           )}
 
-          {/* Outline - structure & key ideas */}
-          <EssayOutline essay={essay} />
+          {/* Outline - structure & key ideas (collapsible) */}
+          <details className="glass-card rounded-xl p-3.5 md:p-4 group" open>
+            <summary className="cursor-pointer flex items-center justify-between gap-2 list-none">
+              <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+                🗂️ {t("Dàn ý & Cấu trúc", "Outline & Structure")}
+              </h2>
+              <span className="text-xs text-muted-foreground group-open:hidden">{t("Mở", "Show")}</span>
+              <span className="text-xs text-muted-foreground hidden group-open:inline">{t("Đóng", "Hide")}</span>
+            </summary>
+            <div className="mt-3"><EssayOutline essay={essay} /></div>
+          </details>
 
           {/* Full essay reference with click-to-reveal teaching mode */}
           <details className="glass-card rounded-xl p-3.5 md:p-4 group" open>
@@ -231,14 +240,27 @@ const IeltsSampleEssayDetail = () => {
           </details>
 
 
-          {/* Band 7.0+ Analysis - TA/TR, CC, LR, GRA */}
-          <EssayBand8Analysis essay={essay} />
+          {/* Band 7.0+ Analysis - TA/TR, CC, LR, GRA (collapsible) */}
+          <details className="glass-card rounded-xl p-3.5 md:p-4 group">
+            <summary className="cursor-pointer flex items-center justify-between gap-2 list-none">
+              <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+                📊 {t("Phân tích Band 8.0+ (TA/CC/LR/GRA)", "Band 8.0+ Analysis (TA/CC/LR/GRA)")}
+              </h2>
+              <span className="text-xs text-muted-foreground group-open:hidden">{t("Mở", "Show")}</span>
+              <span className="text-xs text-muted-foreground hidden group-open:inline">{t("Đóng", "Hide")}</span>
+            </summary>
+            <div className="mt-3"><EssayBand8Analysis essay={essay} /></div>
+          </details>
 
-          {/* Bilingual Glossary with per-phrase writing practice */}
-          <div className="glass-card rounded-xl p-3.5">
-            <h2 className="text-lg font-semibold text-foreground mb-1">
-              📚 {t("Bảng Chú Giải Song Ngữ", "Bilingual Glossary")}
-            </h2>
+          {/* Bilingual Glossary with per-phrase writing practice (collapsible) */}
+          <details className="glass-card rounded-xl p-3.5 group">
+            <summary className="cursor-pointer flex items-center justify-between gap-2 list-none mb-1">
+              <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+                📚 {t("Bảng Chú Giải Song Ngữ", "Bilingual Glossary")}
+              </h2>
+              <span className="text-xs text-muted-foreground group-open:hidden">{t("Mở", "Show")}</span>
+              <span className="text-xs text-muted-foreground hidden group-open:inline">{t("Đóng", "Hide")}</span>
+            </summary>
             <p className="text-xs text-muted-foreground mb-2.5">
               {t(
                 "Mỗi cụm từ có sẵn câu ví dụ hoàn chỉnh - hãy viết lại câu để vận dụng và được chấm điểm ngay.",
@@ -285,10 +307,18 @@ const IeltsSampleEssayDetail = () => {
                 </TableBody>
               </Table>
             </div>
-          </div>
+          </details>
 
-          {/* Interactive Mini-Review Challenge */}
-          <div className="glass-card rounded-xl p-3.5">
+          {/* Interactive Mini-Review Challenge (collapsible) */}
+          <details className="glass-card rounded-xl p-3.5 group">
+            <summary className="cursor-pointer flex items-center justify-between gap-2 list-none mb-1.5">
+              <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-primary" />
+                {t("Bài Tập Ôn Tập", "Mini-Review Challenge")}
+              </h2>
+              <span className="text-xs text-muted-foreground group-open:hidden">{t("Mở", "Show")}</span>
+              <span className="text-xs text-muted-foreground hidden group-open:inline">{t("Đóng", "Hide")}</span>
+            </summary>
             <h2 className="text-lg font-semibold text-foreground mb-1.5 flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-primary" />
               {t("Bài Tập Ôn Tập", "Mini-Review Challenge")}
@@ -404,7 +434,7 @@ const IeltsSampleEssayDetail = () => {
                 </AnimatePresence>
               )}
             </div>
-          </div>
+          </details>
         </motion.div>
       </main>
       <Footer />

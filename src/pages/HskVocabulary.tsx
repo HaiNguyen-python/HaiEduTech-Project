@@ -117,7 +117,7 @@ const HskExercise = ({ masteredWords, t }: { masteredWords: HskWord[]; t: (vi: s
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
   const scoreSavedRef = useRef(false);
-  const QUIZ_SIZE = 10;
+  const [quizSize, setQuizSize] = useState<number>(10);
 
   const generateQuiz = useCallback(() => {
     if (masteredWords.length < 4) {
@@ -125,7 +125,8 @@ const HskExercise = ({ masteredWords, t }: { masteredWords: HskWord[]; t: (vi: s
       setFinished(false);
       return;
     }
-    const picked = shuffle(masteredWords).slice(0, Math.min(QUIZ_SIZE, masteredWords.length));
+    const size = Math.min(quizSize, masteredWords.length);
+    const picked = shuffle(masteredWords).slice(0, size);
     const distractorPool = hskVocabData;
     const qs = picked.map(w => {
       const wrongs = shuffle(distractorPool.filter(x => x.character !== w.character && x.definition.vi !== w.definition.vi))
@@ -139,7 +140,7 @@ const HskExercise = ({ masteredWords, t }: { masteredWords: HskWord[]; t: (vi: s
     setScore(0);
     setFinished(false);
     scoreSavedRef.current = false;
-  }, [masteredWords]);
+  }, [masteredWords, quizSize]);
 
   useEffect(() => {
     if (!finished || scoreSavedRef.current) return;
@@ -228,6 +229,25 @@ const HskExercise = ({ masteredWords, t }: { masteredWords: HskWord[]; t: (vi: s
 
   return (
     <div className="max-w-2xl mx-auto">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <div className="flex items-center gap-2 text-sm">
+          <label className="text-muted-foreground">{t("Số câu hỏi:", "Questions:")}</label>
+          <select
+            value={quizSize}
+            onChange={(e) => setQuizSize(Number(e.target.value))}
+            className="rounded-md border border-border bg-card px-2 py-1 text-sm"
+          >
+            {[5, 10, 15, 20, 30, 50].map(n => (
+              <option key={n} value={n} disabled={n > masteredWords.length && n !== 5}>
+                {n} {n > masteredWords.length ? `(${t("chỉ có", "only")} ${masteredWords.length})` : ""}
+              </option>
+            ))}
+          </select>
+          <Button size="sm" variant="outline" onClick={generateQuiz} className="ml-2">
+            <RotateCcw className="w-3 h-3 mr-1" /> {t("Tạo mới", "New quiz")}
+          </Button>
+        </div>
+      </div>
       <div className="flex items-center justify-between mb-6">
         <span className="text-sm text-muted-foreground">{t("Câu", "Question")} {current + 1}/{questions.length}</span>
         <span className="text-sm font-semibold text-primary">{t("Điểm", "Score")}: {score}</span>

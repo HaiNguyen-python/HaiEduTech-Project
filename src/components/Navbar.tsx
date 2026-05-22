@@ -84,6 +84,12 @@ const Navbar = () => {
   };
 
   // IELTS nested sub-items with dedicated icons
+   const ieltsSkillsPracticeChildren: SubItem[] = [
+    { to: "/ielts-writing-practice", label: t("Luyện viết", "Writing Practice"), icon: PenTool },
+    { to: "/ielts-speaking-practice", label: t("Luyện nói", "Speaking Practice"), icon: MessageSquare },
+    { to: "/ielts-reading-practice", label: t("Luyện đọc", "Reading Practice"), icon: BookOpen },
+    { to: "/ielts-listening-practice", label: t("Luyện nghe", "Listening Practice"), icon: Mic2 },
+  ];
    const ieltsChildren: SubItem[] = [
     // 📚 Học & Ôn
     { to: "#h-study", label: t("Học & Ôn", "Study & Review"), header: true },
@@ -95,8 +101,7 @@ const Navbar = () => {
     { to: "/vocab-arena", label: t("Vocab Arena", "Vocab Arena"), icon: Swords },
     // ✍️ Luyện tập & Chấm
     { to: "#h-practice", label: t("Luyện tập & Chấm điểm", "Practice & Grading"), header: true },
-    { to: "/ielts-writing-practice", label: t("Luyện viết", "Writing Practice"), icon: PenTool },
-    { to: "/ielts-speaking-practice", label: t("Luyện nói", "Speaking Practice"), icon: MessageSquare },
+    { to: "#ielts-skills-practice", label: t("🎯 IELTS Skills Practice", "🎯 IELTS Skills Practice"), groupLabel: "ielts-skills", children: ieltsSkillsPracticeChildren },
     { to: "/ielts-sample-essays", label: t("Bài mẫu 8.0+", "Sample Essays 8.0+"), icon: FileText },
     { to: "/ai-grading", label: t("IELTS Smart Grading", "IELTS Smart Grading"), icon: Cpu },
   ];
@@ -148,6 +153,7 @@ const Navbar = () => {
     ] },
     { to: "#cn-div2", label: "", divider: true },
     { to: "/chinese/hsk/vocabulary?tab=radicals", label: t("🀄 214 Bộ thủ Khang Hi", "🀄 214 Kangxi Radicals") },
+    { to: "/chinese/arcade", label: t("🎮 Chinese Arcade Hub", "🎮 Chinese Arcade Hub") },
     { to: "/songs/chinese", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
     { to: "/speaking-coach/chinese", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
     { to: "/specialized-language?lang=chinese", label: t("🧠 AI Ngôn ngữ Chuyên ngành", "🧠 AI Specialized Language") },
@@ -539,6 +545,7 @@ const Navbar = () => {
                                                 : sub.groupLabel === "cn-conv" ? t("Giao tiếp & Tương tác", "Conversational")
                                                 : sub.groupLabel === "vn-curriculum" ? t("Chương trình học", "Curriculum")
                                                 : sub.groupLabel === "vn-practice" ? t("Luyện tập & Tương tác", "Practice & Interactive")
+                                                : sub.groupLabel === "ielts-skills" ? t("IELTS Skills Practice", "IELTS Skills Practice")
                                                 : sub.label}
                                             </span>
                                           </div>
