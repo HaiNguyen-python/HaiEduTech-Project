@@ -1344,6 +1344,7 @@ const ChineseArcade = () => {
             />
           </div>
         )}
+        {active === "sentence" && <SentenceBuilder difficulty={difficulty} onExit={() => setActive("menu")} />}
       </main>
       <Footer />
     </div>
