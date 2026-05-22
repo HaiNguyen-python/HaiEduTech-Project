@@ -30,7 +30,17 @@ import {
   type ReadingQuestion,
 } from "@/data/ieltsFullReadingExams";
 import { IELTS_FULL_READING_EXAMS_EXPANSION } from "@/data/ieltsFullReadingExamsExpansion";
-const IELTS_FULL_READING_EXAMS: ReadingExam[] = [..._BASE_EXAMS, ...IELTS_FULL_READING_EXAMS_EXPANSION];
+import { READING_PASSAGE_EXTENSIONS } from "@/data/ieltsReadingPassageExtensions";
+import { IELTS_FULL_TESTS, type FullTest } from "@/data/ieltsFullTests";
+
+// Extend each exam's passage with its bonus paragraphs so length matches real IELTS.
+const _MERGED_EXAMS: ReadingExam[] = [..._BASE_EXAMS, ...IELTS_FULL_READING_EXAMS_EXPANSION].map(e => {
+  const extra = READING_PASSAGE_EXTENSIONS[e.id];
+  return extra ? { ...e, passage: e.passage + extra } : e;
+});
+const IELTS_FULL_READING_EXAMS: ReadingExam[] = _MERGED_EXAMS;
+const EXAMS_BY_ID: Record<string, ReadingExam> = Object.fromEntries(IELTS_FULL_READING_EXAMS.map(e => [e.id, e]));
+
 
 // ============================================================
 // Split-screen Full-Text Exam Engine
