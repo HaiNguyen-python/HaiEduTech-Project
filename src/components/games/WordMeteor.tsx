@@ -105,10 +105,10 @@ export default function WordMeteor({
       .slice(0, 2)
       .map((d) => d.meaning);
     const options = [...distractors, item.meaning].sort(() => Math.random() - 0.5);
-    // Progressive speed: starts slow, ramps up with score
+    // Progressive speed: starts very slow, ramps up gently with score
     const s = scoreRef.current;
-    const base = 0.18 + Math.min(0.55, s / 350); // 0.18 → ~0.73
-    const jitter = Math.random() * 0.18;
+    const base = 0.10 + Math.min(0.25, s / 600); // 0.10 → ~0.35 (much slower)
+    const jitter = Math.random() * 0.08;
     setMeteors((prev) => [
       ...prev,
       {
