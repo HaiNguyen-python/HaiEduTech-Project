@@ -754,7 +754,11 @@ const ChineseArcade = () => {
                 onClick={() => setDifficulty("easy")}
                 variant={difficulty === "easy" ? "default" : "outline"}
                 size="sm"
-                className={difficulty === "easy" ? "bg-cyan-500 hover:bg-cyan-600" : ""}
+                className={
+                  difficulty === "easy"
+                    ? "bg-cyan-500 hover:bg-cyan-600 text-white border-cyan-400"
+                    : "bg-slate-800/60 text-cyan-100 border-cyan-400/50 hover:bg-slate-700 hover:text-white"
+                }
               >
                 HSK 1-2 · {t("Dễ", "Easy")}
               </Button>
@@ -762,7 +766,11 @@ const ChineseArcade = () => {
                 onClick={() => setDifficulty("hard")}
                 variant={difficulty === "hard" ? "default" : "outline"}
                 size="sm"
-                className={difficulty === "hard" ? "bg-pink-500 hover:bg-pink-600" : ""}
+                className={
+                  difficulty === "hard"
+                    ? "bg-pink-500 hover:bg-pink-600 text-white border-pink-400"
+                    : "bg-slate-800/60 text-pink-100 border-pink-400/50 hover:bg-slate-700 hover:text-white"
+                }
               >
                 HSK 3-4 · {t("Khó", "Hard")}
               </Button>
