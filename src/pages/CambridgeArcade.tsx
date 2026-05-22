@@ -875,7 +875,7 @@ function SynonymSprint({ level, onExit }: { level: CambridgeKidsLevel; onExit: (
       </div>
 
       <aside className="rounded-2xl border border-border bg-card/60 p-3">
-        <GameLeaderboard gameType="synonym_sprint" currentScore={score} />
+        <GameLeaderboard gameType={`synonym_sprint_${level.toLowerCase()}`} currentScore={score} />
       </aside>
     </div>
   );
