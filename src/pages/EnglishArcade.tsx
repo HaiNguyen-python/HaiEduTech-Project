@@ -7,14 +7,15 @@
  */
 import { useEffect, useMemo, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Trophy, Zap, Heart, Sparkles, Volume2, Type, BookOpen, Brain } from "lucide-react";
+import { ArrowLeft, Trophy, Zap, Heart, Sparkles, Volume2, Type, BookOpen, Brain, Rocket } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
+import WordMeteor from "@/components/games/WordMeteor";
 
-type GameId = "menu" | "synonym" | "spelling" | "builder";
+type GameId = "menu" | "synonym" | "spelling" | "builder" | "meteor";
 
 interface WordItem {
   word: string;
@@ -324,6 +325,7 @@ const EnglishArcade = () => {
     { id: "synonym" as const, title: t("Synonym Sprint", "Synonym Sprint"), desc: t("Chọn từ đồng nghĩa trước khi hết giờ.", "Pick the synonym before time runs out."), icon: Brain, color: "from-violet-500 to-fuchsia-500" },
     { id: "spelling" as const, title: t("Spelling Bee", "Spelling Bee"), desc: t("Nghe và gõ chính xác từ tiếng Anh.", "Listen and type the English word."), icon: Type, color: "from-amber-500 to-orange-500" },
     { id: "builder" as const, title: t("Word Builder", "Word Builder"), desc: t("Sắp xếp lại chữ cái thành từ đúng.", "Unscramble letters into the correct word."), icon: BookOpen, color: "from-cyan-500 to-blue-500" },
+    { id: "meteor" as const, title: t("Word Meteor (EN)", "Word Meteor (EN)"), desc: t("Bắn nghĩa đúng cho thiên thạch từ vựng tiếng Anh đang rơi.", "Tap the correct meaning of falling English vocabulary meteors."), icon: Rocket, color: "from-orange-500 to-red-600" },
   ];
 
   return (
@@ -380,6 +382,7 @@ const EnglishArcade = () => {
             {game === "synonym" && <motion.div key="syn" initial={{ opacity: 0 }} animate={{ opacity: 1 }}><SynonymSprint onScore={n => setTotalXp(x => x + n)} /></motion.div>}
             {game === "spelling" && <motion.div key="sp" initial={{ opacity: 0 }} animate={{ opacity: 1 }}><SpellingBee onScore={n => setTotalXp(x => x + n)} /></motion.div>}
             {game === "builder" && <motion.div key="b" initial={{ opacity: 0 }} animate={{ opacity: 1 }}><WordBuilder onScore={n => setTotalXp(x => x + n)} /></motion.div>}
+            {game === "meteor" && <motion.div key="m" initial={{ opacity: 0 }} animate={{ opacity: 1 }}><WordMeteor lang="en" onExit={() => setGame("menu")} onScore={n => setTotalXp(x => x + n)} /></motion.div>}
           </AnimatePresence>
         </div>
       </div>
