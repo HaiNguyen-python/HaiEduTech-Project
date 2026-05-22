@@ -35,10 +35,11 @@ export function useMasteredVocab(subject: string) {
   const userIdRef = useRef<string | null>(null);
   const loadedFromDbRef = useRef(false);
 
-  // Initial DB load + merge
+  // Initial DB load + merge. Also re-runs when auth state changes so a user
+  // who marks words while signed out gets them pushed up the moment they log in.
   useEffect(() => {
     let cancelled = false;
-    (async () => {
+    const sync = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user || cancelled) return;
       userIdRef.current = user.id;
@@ -51,7 +52,6 @@ export function useMasteredVocab(subject: string) {
       if (error || cancelled) return;
       const dbSet = new Set<string>((data || []).map((r: any) => r.word as string));
       const local = readLocal(subject);
-      // Merge: any word marked locally but not yet synced should be pushed up
       const toInsert = [...local].filter(w => !dbSet.has(w));
       if (toInsert.length > 0) {
         await (supabase as any).from("user_vocab_mastered").insert(
@@ -65,8 +65,14 @@ export function useMasteredVocab(subject: string) {
         loadedFromDbRef.current = true;
         window.dispatchEvent(new CustomEvent(MASTERY_UPDATED_EVENT, { detail: { subject } }));
       }
-    })();
-    return () => { cancelled = true; };
+    };
+    sync();
+    // Re-sync on sign-in (covers guest → logged-in transitions)
+    const { data: authSub } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED") sync();
+      if (event === "SIGNED_OUT") userIdRef.current = null;
+    });
+    return () => { cancelled = true; authSub.subscription.unsubscribe(); };
   }, [subject]);
 
   const toggle = useCallback((word: string) => {
