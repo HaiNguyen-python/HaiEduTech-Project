@@ -2,6 +2,7 @@
 // Organized by 10 professional categories with IPA, bilingual definitions, examples, synonyms & collocations
 import { toeicVocabExpansion } from "./toeicVocabExpansion";
 import { toeicVocabExpansion2 } from "./toeicVocabExpansion2";
+import { toeicVocabExpansion3 } from "./toeicVocabExpansion3";
 import type { ToeicWord } from "./toeicVocabTypes";
 
 // Re-export the shared type so existing consumers keep working.
@@ -1177,6 +1178,7 @@ export const toeicVocabData: ToeicWord[] = [
   },
   ...toeicVocabExpansion,
   ...toeicVocabExpansion2,
+  ...toeicVocabExpansion3,
 ].sort((a: ToeicWord, b: ToeicWord) => {
   // Sort within each category: basic → intermediate → advanced (easy → hard)
   const levelOrder: Record<string, number> = { basic: 0, intermediate: 1, advanced: 2 };

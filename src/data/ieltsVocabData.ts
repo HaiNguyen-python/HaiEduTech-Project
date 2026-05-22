@@ -66,7 +66,7 @@ export const IELTS_CATEGORIES = [
 
 export const CEFR_LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"] as const;
 
-export const ieltsVocabData: IeltsWord[] = [
+const _ieltsBase: IeltsWord[] = [
   { word: "academic", ipa: "/ˌæk.əˈdem.ɪk/", level: "B2", definition: { en: "relating to education, especially at college or university level", vi: "thuộc về học thuật" }, example: "Academic research requires rigorous methodology.", synonyms: ["scholarly", "educational", "intellectual"], collocations: ["academic research", "academic performance", "academic institution"], category: "Education", partOfSpeech: "adj" },
   { word: "curriculum", ipa: "/kəˈrɪk.jə.ləm/", level: "B2", definition: { en: "the subjects comprising a course of study", vi: "chương trình giảng dạy" }, example: "The school revised its curriculum to include more technology courses.", synonyms: ["syllabus", "program", "course of study"], collocations: ["national curriculum", "curriculum design", "curriculum reform"], category: "Education", partOfSpeech: "noun" },
   { word: "literacy", ipa: "/ˈlɪt.ər.ə.si/", level: "B2", definition: { en: "the ability to read and write", vi: "khả năng đọc viết" }, example: "Improving literacy rates is a key educational goal.", synonyms: ["reading ability", "proficiency", "competence"], collocations: ["literacy rate", "digital literacy", "financial literacy"], category: "Education", partOfSpeech: "noun" },
@@ -868,3 +868,13 @@ export const ieltsVocabData: IeltsWord[] = [
   { word: "vulnerability", ipa: "/ˌvʌl.nər.əˈbɪl.ə.ti/", level: "B2", definition: { en: "the quality of being exposed to harm", vi: "tính dễ bị tổn thương" }, example: "Vulnerability to natural disasters varies by region.", synonyms: ["the quality of being exposed to harm"], collocations: ["vulnerability analysis", "vulnerability process"], category: "Disaster & Risk", partOfSpeech: "noun" },
   { word: "unprecedented", ipa: "/ʌnˈpres.ɪ.den.tɪd/", level: "B2", definition: { en: "never done or known before", vi: "chưa từng có" }, example: "The pandemic caused unprecedented disruption.", synonyms: ["never done or known before"], collocations: ["unprecedented analysis", "unprecedented process"], category: "Disaster & Risk", partOfSpeech: "noun" },
 ];
+
+import { ieltsVocabExpansion } from "./ieltsVocabExpansion";
+
+const _ieltsSeen = new Set<string>();
+export const ieltsVocabData: IeltsWord[] = [..._ieltsBase, ...ieltsVocabExpansion].filter((w) => {
+  const k = w.word.toLowerCase();
+  if (_ieltsSeen.has(k)) return false;
+  _ieltsSeen.add(k);
+  return true;
+});
