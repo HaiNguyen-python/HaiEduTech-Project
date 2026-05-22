@@ -149,7 +149,7 @@ export default function WordMeteor({
         id: ++idRef.current,
         word: item.word,
         meaning: item.meaning,
-        x: Math.random() * 78 + 6,
+        x: Math.random() * 50 + 25, // 25%-75% — keeps wide answer panel inside container
         y: 0,
         speed: base + jitter,
         options,
