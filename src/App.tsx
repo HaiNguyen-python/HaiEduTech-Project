@@ -88,6 +88,8 @@ const MultiLangArcade = lazy(() => import("./pages/MultiLangArcade.tsx"));
 const HskHub = lazy(() => import("./pages/HskHub.tsx"));
 const HskLevelGuide = lazy(() => import("./pages/HskLevelGuide.tsx"));
 const HskGrammar = lazy(() => import("./pages/HskGrammar.tsx"));
+const HskTestHub = lazy(() => import("./pages/HskTestHub.tsx"));
+const HskTestRoom = lazy(() => import("./pages/HskTestRoom.tsx"));
 const KnowledgeHubPage = lazy(() => import("./pages/KnowledgeHubPage.tsx"));
 const FolkloreLibrary = lazy(() => import("./pages/FolkloreLibrary.tsx"));
 const VietnameseForForeigners = lazy(() => import("./pages/VietnameseForForeigners.tsx"));
