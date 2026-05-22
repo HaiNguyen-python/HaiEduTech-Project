@@ -232,7 +232,7 @@ export default function WordMeteor({
           </Button>
         </div>
 
-        <div className="relative h-[560px] w-full overflow-hidden rounded-2xl border border-border bg-gradient-to-b from-slate-950 via-indigo-950 to-slate-900">
+        <div className="relative h-[78vh] min-h-[640px] w-full overflow-hidden rounded-2xl border border-border bg-gradient-to-b from-slate-950 via-indigo-950 to-slate-900">
           {Array.from({ length: 60 }).map((_, i) => (
             <div
               key={i}
