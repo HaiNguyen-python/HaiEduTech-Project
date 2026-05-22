@@ -225,13 +225,13 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
   }
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 max-w-5xl mx-auto">
       <HUD score={score} combo={combo} level={level} lives={lives} />
       <motion.div
         ref={containerRef}
         animate={shake ? { x: [-8, 8, -6, 6, 0] } : {}}
         transition={{ duration: 0.3 }}
-        className="relative h-[480px] sm:h-[560px] rounded-2xl border-2 border-cyan-500/40 bg-gradient-to-b from-slate-950 via-purple-950/30 to-slate-900 overflow-hidden"
+        className="relative h-[600px] sm:h-[680px] rounded-2xl border-2 border-cyan-500/40 bg-gradient-to-b from-slate-950 via-purple-950/30 to-slate-900 overflow-hidden"
         style={{
           backgroundImage: "radial-gradient(circle at 20% 30%, rgba(168,85,247,0.15), transparent 40%), radial-gradient(circle at 80% 70%, rgba(6,182,212,0.15), transparent 40%)",
         }}
