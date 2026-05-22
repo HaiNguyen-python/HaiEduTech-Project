@@ -457,7 +457,15 @@ const SatVocabulary = () => {
               <p className="text-xs text-muted-foreground mb-4">{filtered.length} {t("kết quả", "results")}</p>
 
               {viewMode === "exercise" ? (
-                <VocabExercise words={satVocabData.filter(w => mastered.has(w.word))} allWords={satVocabData} t={t} />
+                <div>
+                  <div className="flex flex-wrap items-center gap-2 mb-4">
+                    <label className="text-xs text-muted-foreground">{t("Số câu", "Questions")}:</label>
+                    <select value={quizSize} onChange={e => setQuizSize(Number(e.target.value))} className="rounded-md border border-border bg-background px-2 py-1 text-xs">
+                      {[5, 10, 15, 20, 30, 50, 100, 200].map(n => <option key={n} value={n}>{n}</option>)}
+                    </select>
+                  </div>
+                  <VocabExercise words={satVocabData.filter(w => mastered.has(w.word))} allWords={satVocabData} t={t} quizSize={quizSize} setQuizSize={setQuizSize} />
+                </div>
               ) : viewMode === "flashcard" ? (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                   <AnimatePresence mode="popLayout">
