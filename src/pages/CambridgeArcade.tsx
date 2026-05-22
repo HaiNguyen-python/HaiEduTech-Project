@@ -805,7 +805,7 @@ function SynonymSprint({ level, onExit }: { level: CambridgeKidsLevel; onExit: (
   useEffect(() => {
     if (done && !submitted && score > 0) {
       setSubmitted(true);
-      submitGameScore({ gameType: "synonym_sprint", score, maxStreak });
+      submitGameScore({ gameType: `synonym_sprint_${level.toLowerCase()}`, score, maxStreak, difficulty: level });
     }
   }, [done, submitted, score, maxStreak]);
 
