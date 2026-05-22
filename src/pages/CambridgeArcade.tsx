@@ -813,7 +813,18 @@ function SynonymSprint({ level, onExit }: { level: CambridgeKidsLevel; onExit: (
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4">
-      <div className="min-h-[70vh] bg-gradient-to-br from-violet-200 via-fuchsia-100 to-amber-100 dark:from-violet-950 dark:via-fuchsia-950 dark:to-slate-900 rounded-3xl p-4 sm:p-6">
+      <div className="relative overflow-hidden min-h-[70vh] bg-[linear-gradient(140deg,#c4b5fd_0%,#f0abfc_30%,#fbcfe8_60%,#fde68a_100%)] dark:from-violet-950 dark:via-fuchsia-950 dark:to-slate-900 rounded-3xl p-4 sm:p-6">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 3, repeat: Infinity }} className="absolute top-6 left-8 text-5xl opacity-80">💫</motion.div>
+          <motion.div animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 4, repeat: Infinity, delay: 0.7 }} className="absolute top-10 right-10 text-5xl opacity-80">✨</motion.div>
+          <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 4, repeat: Infinity }} className="absolute top-1/3 left-4 text-4xl">📚</motion.div>
+          <motion.div animate={{ y: [0, -12, 0] }} transition={{ duration: 5, repeat: Infinity, delay: 1 }} className="absolute top-1/2 right-6 text-4xl">🪄</motion.div>
+          <div className="absolute bottom-4 left-6 text-5xl opacity-90">🌟</div>
+          <div className="absolute bottom-8 left-1/3 text-4xl opacity-80">💎</div>
+          <div className="absolute bottom-2 right-1/4 text-5xl opacity-90">🔮</div>
+          <motion.div animate={{ y: [0, -6, 0] }} transition={{ duration: 2.5, repeat: Infinity }} className="absolute bottom-4 right-4 text-7xl drop-shadow-xl">🧚</motion.div>
+        </div>
+        <div className="relative">
         <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
           <Button variant="secondary" size="sm" onClick={onExit}>
             <ArrowLeft className="w-4 h-4 mr-1" /> Exit
