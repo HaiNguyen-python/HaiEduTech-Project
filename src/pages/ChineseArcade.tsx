@@ -803,14 +803,22 @@ const ChineseArcade = () => {
                   whileHover={{ scale: 1.03, y: -3 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setActive(g.id)}
-                  className={`relative p-6 min-h-[240px] rounded-2xl border-2 border-slate-700 bg-slate-900 text-left transition-all hover:border-cyan-500/50 hover:${g.glow}`}
+                  className={`relative overflow-hidden p-6 min-h-[240px] rounded-2xl border-2 border-slate-700 bg-slate-900 text-left transition-all hover:border-cyan-500/50 hover:${g.glow}`}
                 >
                   <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${g.color} rounded-t-2xl`} />
+                  <motion.div
+                    animate={{ y: [0, -6, 0], rotate: [-3, 3, -3] }}
+                    transition={{ duration: 3, repeat: Infinity }}
+                    className="absolute -bottom-2 -right-2 text-7xl drop-shadow-2xl select-none opacity-90"
+                    aria-hidden
+                  >
+                    {g.chibi}
+                  </motion.div>
                   <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${g.color} flex items-center justify-center text-white mb-4`}>
                     {g.icon}
                   </div>
                   <h3 className="font-bold text-lg text-white mb-2 leading-tight">{g.title}</h3>
-                  <p className="text-sm text-slate-300 leading-relaxed">{g.desc}</p>
+                  <p className="text-sm text-slate-300 leading-relaxed max-w-[75%]">{g.desc}</p>
                   <div className="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-mono">▶ PLAY</div>
                 </motion.button>
               ))}
