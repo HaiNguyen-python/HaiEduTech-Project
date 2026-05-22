@@ -193,18 +193,26 @@ function BalloonPop({ level, onExit }: { level: CambridgeKidsLevel; onExit: () =
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4">
-      <div className="min-h-[70vh] rounded-3xl p-4 sm:p-6 relative overflow-hidden bg-[linear-gradient(180deg,#7dd3fc_0%,#bae6fd_35%,#bbf7d0_70%,#86efac_100%)] dark:bg-[linear-gradient(180deg,#0f172a_0%,#1e1b4b_50%,#0f172a_100%)]">
-        {/* Playful decorations */}
+      <div className="min-h-[70vh] rounded-3xl p-4 sm:p-6 relative overflow-hidden bg-[linear-gradient(180deg,#fcd34d_0%,#fda4af_25%,#a5f3fc_55%,#86efac_85%,#bbf7d0_100%)] dark:bg-[linear-gradient(180deg,#1e1b4b_0%,#312e81_45%,#0f172a_100%)]">
+        {/* Playful animated decorations */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute top-4 left-6 text-5xl opacity-90 animate-pulse">☁️</div>
-          <div className="absolute top-10 right-10 text-6xl opacity-90">🌈</div>
-          <div className="absolute top-2 right-1/3 text-5xl">☀️</div>
-          <div className="absolute top-24 left-1/3 text-4xl opacity-80">☁️</div>
-          <div className="absolute bottom-10 left-4 text-5xl">🌷</div>
-          <div className="absolute bottom-6 right-8 text-5xl">🌻</div>
-          <div className="absolute bottom-2 left-1/2 text-4xl">🦋</div>
-          <div className="absolute top-1/2 left-2 text-3xl opacity-70">⭐</div>
-          <div className="absolute top-1/3 right-4 text-3xl opacity-70">✨</div>
+          <motion.div animate={{ rotate: 360 }} transition={{ duration: 30, repeat: Infinity, ease: "linear" }} className="absolute top-2 right-6 text-7xl">☀️</motion.div>
+          <div className="absolute top-6 right-1/4 text-8xl opacity-80">🌈</div>
+          <motion.div animate={{ x: [0, 40, 0] }} transition={{ duration: 14, repeat: Infinity }} className="absolute top-8 left-6 text-6xl opacity-90">☁️</motion.div>
+          <motion.div animate={{ x: [0, -30, 0] }} transition={{ duration: 18, repeat: Infinity }} className="absolute top-32 left-1/2 text-5xl opacity-80">☁️</motion.div>
+          <motion.div animate={{ x: [0, 24, 0] }} transition={{ duration: 16, repeat: Infinity }} className="absolute top-20 right-1/2 text-4xl opacity-70">☁️</motion.div>
+          <motion.div animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 2, repeat: Infinity }} className="absolute top-1/3 left-3 text-3xl">✨</motion.div>
+          <motion.div animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 2.4, repeat: Infinity, delay: 0.5 }} className="absolute top-1/2 right-3 text-3xl">⭐</motion.div>
+          <motion.div animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 2.8, repeat: Infinity, delay: 1 }} className="absolute top-2/3 left-1/4 text-2xl">✨</motion.div>
+          <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-emerald-400/80 to-transparent" />
+          <div className="absolute bottom-2 left-6 text-5xl">🌷</div>
+          <div className="absolute bottom-3 left-1/4 text-4xl">🌼</div>
+          <div className="absolute bottom-1 left-1/2 text-5xl">🌻</div>
+          <div className="absolute bottom-4 right-1/3 text-4xl">🌸</div>
+          <div className="absolute bottom-2 right-6 text-5xl">🌷</div>
+          <motion.div animate={{ y: [0, -10, 0], x: [0, 6, 0] }} transition={{ duration: 3, repeat: Infinity }} className="absolute bottom-12 left-1/3 text-3xl">🦋</motion.div>
+          <motion.div animate={{ y: [0, -8, 0], x: [0, -8, 0] }} transition={{ duration: 4, repeat: Infinity }} className="absolute bottom-16 right-1/4 text-3xl">🐝</motion.div>
+          <motion.div animate={{ y: [0, -6, 0] }} transition={{ duration: 2, repeat: Infinity }} className="absolute bottom-6 right-4 text-7xl drop-shadow-xl">🧒</motion.div>
         </div>
         <div className="relative">
         <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
@@ -244,7 +252,7 @@ function BalloonPop({ level, onExit }: { level: CambridgeKidsLevel; onExit: () =
               </button>
             </div>
 
-            <div className="relative h-[460px] w-full">
+            <div className="relative h-[520px] w-full">
               <AnimatePresence>
                 {balloons.map((b) => (
                   <motion.button
@@ -255,14 +263,14 @@ function BalloonPop({ level, onExit }: { level: CambridgeKidsLevel; onExit: () =
                     whileHover={{ scale: 1.08 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={() => handlePick(b)}
-                    className={`absolute -translate-x-1/2 w-28 sm:w-32 aspect-[4/5] rounded-[50%_50%_50%_50%/45%_45%_55%_55%] bg-gradient-to-b ${LEVEL_COLOR[b.word.level]} shadow-2xl flex flex-col items-center justify-center gap-1 p-2 border-4 border-white/40`}
+                    className={`absolute -translate-x-1/2 w-40 sm:w-48 aspect-[4/5] rounded-[50%_50%_50%_50%/45%_45%_55%_55%] bg-gradient-to-b ${LEVEL_COLOR[b.word.level]} shadow-2xl flex flex-col items-center justify-center gap-2 p-3 border-4 border-white/50`}
                     style={{ left: `${b.x}%`, top: `${b.y}%` }}
                   >
-                    <span className="text-4xl drop-shadow-lg">{b.word.emoji}</span>
-                    <span className="text-sm sm:text-base font-extrabold text-white drop-shadow capitalize text-center leading-tight">
+                    <span className="text-5xl sm:text-6xl drop-shadow-lg">{b.word.emoji}</span>
+                    <span className="text-lg sm:text-2xl font-extrabold text-white drop-shadow-md capitalize text-center leading-tight">
                       {b.word.word}
                     </span>
-                    <span className="absolute -bottom-3 w-1 h-6 bg-white/60" />
+                    <span className="absolute -bottom-3 w-1 h-6 bg-white/70" />
                   </motion.button>
                 ))}
               </AnimatePresence>
