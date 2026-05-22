@@ -10,13 +10,14 @@
  */
 import { useState, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Heart, Trophy, Sparkles, Soup, Droplets } from "lucide-react";
+import { ArrowLeft, Heart, Trophy, Sparkles, Soup, Droplets, Rocket } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { dailyMicroLessons } from "@/data/vietnamese/dailyVietnameseData";
+import WordMeteor from "@/components/games/WordMeteor";
 import { dailyMicroLessonsExpansion } from "@/data/vietnamese/dailyVietnameseExpansion";
 
 // ============================================================
@@ -292,7 +293,7 @@ const BongNuocPop = ({ onExit }: { onExit: () => void }) => {
 // ============================================================
 // HUB
 // ============================================================
-type GameId = "menu" | "match" | "bubble";
+type GameId = "menu" | "match" | "bubble" | "meteor";
 
 const VietnameseArcade = () => {
   const { t } = useLanguage();
@@ -312,6 +313,13 @@ const VietnameseArcade = () => {
       title: t("Bóng Nước Pop", "Bubble Pop"),
       desc: t("Đập bóng có nghĩa khớp với từ Tiếng Anh được hỏi.", "Pop the bubble that matches the English prompt."),
       color: "from-cyan-500 to-emerald-600",
+    },
+    {
+      id: "meteor" as const,
+      icon: <Rocket className="w-7 h-7" />,
+      title: t("Word Meteor (Tiếng Việt)", "Word Meteor (Vietnamese)"),
+      desc: t("Bắn nghĩa tiếng Anh đúng cho thiên thạch Tiếng Việt đang rơi.", "Tap the correct English meaning of falling Vietnamese meteors."),
+      color: "from-red-500 to-orange-600",
     },
   ];
 
@@ -338,7 +346,7 @@ const VietnameseArcade = () => {
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {games.map((g, i) => (
                 <motion.button
                   key={g.id}
@@ -370,6 +378,11 @@ const VietnameseArcade = () => {
         <AnimatePresence mode="wait">
           {active === "match" && <PhoMatch onExit={() => setActive("menu")} />}
           {active === "bubble" && <BongNuocPop onExit={() => setActive("menu")} />}
+          {active === "meteor" && (
+            <div className="max-w-3xl mx-auto">
+              <WordMeteor lang="vi" onExit={() => setActive("menu")} />
+            </div>
+          )}
         </AnimatePresence>
       </main>
       <Footer />

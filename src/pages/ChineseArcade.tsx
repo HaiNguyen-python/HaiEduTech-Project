@@ -7,19 +7,20 @@
  */
 import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Heart, ArrowLeft, Rocket, ChefHat, Footprints, Trophy, Zap } from "lucide-react";
+import { Heart, ArrowLeft, Rocket, ChefHat, Footprints, Trophy, Zap, Sparkles } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { hskVocabData, type HskWord } from "@/data/hskVocab";
+import WordMeteor from "@/components/games/WordMeteor";
 
 // ============================================================
 // Shared types & helpers
 // ============================================================
 
-type GameId = "menu" | "shooter" | "hotpot" | "runner";
+type GameId = "menu" | "shooter" | "hotpot" | "runner" | "meteor";
 type Difficulty = "easy" | "hard"; // easy = HSK 1-2, hard = HSK 3-4
 
 // Strip tone marks from pinyin and return plain ASCII letters
@@ -714,6 +715,14 @@ const ChineseArcade = () => {
       color: "from-pink-500 to-purple-600",
       glow: "shadow-[0_0_30px_rgba(236,72,153,0.4)]",
     },
+    {
+      id: "meteor" as const,
+      icon: <Sparkles className="w-7 h-7" />,
+      title: t("Word Meteor (中文)", "Word Meteor (中文)"),
+      desc: t("Bắn nghĩa đúng cho thiên thạch Hán tự + Pinyin đang rơi.", "Tap the correct meaning of falling Hanzi + Pinyin meteors."),
+      color: "from-red-500 to-orange-600",
+      glow: "shadow-[0_0_30px_rgba(239,68,68,0.4)]",
+    },
   ];
 
   return (
@@ -760,7 +769,7 @@ const ChineseArcade = () => {
             </div>
 
             {/* Game cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {games.map((g, i) => (
                 <motion.button
                   key={g.id}
@@ -794,6 +803,11 @@ const ChineseArcade = () => {
         {active === "shooter" && <SpaceShooter difficulty={difficulty} onExit={() => setActive("menu")} />}
         {active === "hotpot" && <HotpotChef difficulty={difficulty} onExit={() => setActive("menu")} />}
         {active === "runner" && <PinyinRunner difficulty={difficulty} onExit={() => setActive("menu")} />}
+        {active === "meteor" && (
+          <div className="max-w-3xl mx-auto">
+            <WordMeteor lang="zh" onExit={() => setActive("menu")} />
+          </div>
+        )}
       </main>
       <Footer />
     </div>
