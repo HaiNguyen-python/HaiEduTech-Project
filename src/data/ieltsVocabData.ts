@@ -870,9 +870,10 @@ const _ieltsBase: IeltsWord[] = [
 ];
 
 import { ieltsVocabExpansion } from "./ieltsVocabExpansion";
+import { ieltsVocabExpansion2 } from "./ieltsVocabExpansion2";
 
 const _ieltsSeen = new Set<string>();
-export const ieltsVocabData: IeltsWord[] = [..._ieltsBase, ...ieltsVocabExpansion].filter((w) => {
+export const ieltsVocabData: IeltsWord[] = [..._ieltsBase, ...ieltsVocabExpansion, ...ieltsVocabExpansion2].filter((w) => {
   const k = w.word.toLowerCase();
   if (_ieltsSeen.has(k)) return false;
   _ieltsSeen.add(k);
