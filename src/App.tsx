@@ -81,6 +81,7 @@ const HskVocabulary = lazy(() => import("./pages/HskVocabulary.tsx"));
 const ChineseArcade = lazy(() => import("./pages/ChineseArcade.tsx"));
 const VietnameseArcade = lazy(() => import("./pages/VietnameseArcade.tsx"));
 const CambridgeArcade = lazy(() => import("./pages/CambridgeArcade.tsx"));
+const ProgrammingArcade = lazy(() => import("./pages/ProgrammingArcade.tsx"));
 const HskHub = lazy(() => import("./pages/HskHub.tsx"));
 const HskLevelGuide = lazy(() => import("./pages/HskLevelGuide.tsx"));
 const HskGrammar = lazy(() => import("./pages/HskGrammar.tsx"));
