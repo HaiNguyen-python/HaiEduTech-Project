@@ -21,6 +21,7 @@ import { hskExpansion8Words } from "./hskExpansion8";
 import { hskExpansion9Words } from "./hskExpansion9";
 import { hskExpansion10Words } from "./hskExpansion10";
 import { hskExpansion11Words } from "./hskExpansion11";
+import { hskExpansion12Words } from "./hskExpansion12";
 
 import type { HskWord } from "./types";
 
@@ -42,6 +43,7 @@ const _all: HskWord[] = [
   ...hskExpansion9Words,
   ...hskExpansion10Words,
   ...hskExpansion11Words,
+  ...hskExpansion12Words,
 ];
 
 // Deduplicate by character (keeps first occurrence)
