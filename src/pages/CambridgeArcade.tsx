@@ -763,10 +763,13 @@ function SynonymSprint({ level, onExit }: { level: CambridgeKidsLevel; onExit: (
   const current = pool[idx];
   const options = useMemo(() => {
     if (!current) return [];
-    const wrong = shuffle(SYNONYM_BANK.filter((w) => w.word !== current.word && w.synonym !== current.synonym))
-      .slice(0, 3).map((w) => w.synonym);
+    // distractors from the same CEFR pool only, fall back to whole bank if too small
+    const sameLevelWrong = levelPool.filter((w) => w.synonym !== current.synonym && w.word !== current.word);
+    const sourcePool = sameLevelWrong.length >= 3 ? sameLevelWrong
+      : SYNONYM_BANK.filter((w) => w.synonym !== current.synonym && w.word !== current.word);
+    const wrong = shuffle(sourcePool).slice(0, 3).map((w) => w.synonym);
     return shuffle([current.synonym, ...wrong]);
-  }, [current]);
+  }, [current, levelPool]);
 
   useEffect(() => {
     if (lives <= 0 || idx >= pool.length || feedback) return;
