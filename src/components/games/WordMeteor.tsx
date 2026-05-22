@@ -213,6 +213,11 @@ export default function WordMeteor({
   }, [running, lives, score, maxStreak, scoreSubmitted, resolvedGameType, difficulty]);
 
   const handlePick = (m: Meteor, picked: string) => {
+    // Rocket slides under the meteor and "shoots" it
+    setRocketX(m.x);
+    setLaserAt({ x: m.x, y: m.y, id: m.id });
+    window.setTimeout(() => setLaserAt(null), 240);
+
     if (picked === m.meaning) {
       const delta = 10 + streak * 2;
       setScore((s) => s + delta);
