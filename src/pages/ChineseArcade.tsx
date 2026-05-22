@@ -7,7 +7,7 @@
  */
 import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Heart, ArrowLeft, Rocket, ChefHat, Footprints, Trophy, Zap, Sparkles } from "lucide-react";
+import { Heart, ArrowLeft, Rocket, ChefHat, Footprints, Trophy, Zap, Sparkles, Timer } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -15,6 +15,8 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { hskVocabData, type HskWord } from "@/data/hskVocab";
 import WordMeteor from "@/components/games/WordMeteor";
+import GameLeaderboard from "@/components/games/GameLeaderboard";
+import { submitGameScore } from "@/lib/submitGameScore";
 
 // ============================================================
 // Shared types & helpers
