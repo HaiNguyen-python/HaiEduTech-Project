@@ -1,0 +1,51 @@
+/**
+ * @file toeicVocabExpansion3.ts
+ * @description Additional TOEIC vocabulary — modern business, finance,
+ *              HR, marketing, logistics. Brings the bank past 540 words.
+ */
+import type { ToeicWord } from "./toeicVocabTypes";
+
+export const toeicVocabExpansion3: ToeicWord[] = [
+  // Finance & Accounting
+  { word: "invoice", wordClass: "n", ipa: "/ˈɪn.vɔɪs/", level: "basic", definition: { en: "A bill listing goods or services", vi: "Hóa đơn" }, example: "Please send the invoice by Friday.", synonyms: ["bill", "statement"], collocations: ["issue an invoice", "pay an invoice"], category: "Finance & Accounting" },
+  { word: "reimburse", wordClass: "v", ipa: "/ˌriː.ɪmˈbɜːrs/", level: "intermediate", definition: { en: "To repay money spent", vi: "Hoàn trả" }, example: "We will reimburse all travel expenses.", synonyms: ["refund", "repay"], collocations: ["reimburse expenses"], category: "Finance & Accounting" },
+  { word: "expenditure", wordClass: "n", ipa: "/ɪkˈspen.dɪ.tʃər/", level: "advanced", definition: { en: "The act of spending money", vi: "Chi tiêu" }, example: "Capital expenditure rose 12% last year.", synonyms: ["spending", "outlay"], collocations: ["capital expenditure", "reduce expenditure"], category: "Finance & Accounting" },
+  { word: "audit", wordClass: "n", ipa: "/ˈɔː.dɪt/", level: "intermediate", definition: { en: "An official examination of accounts", vi: "Kiểm toán" }, example: "An external audit begins next month.", synonyms: ["inspection", "review"], collocations: ["internal audit", "audit report"], category: "Finance & Accounting" },
+  { word: "asset", wordClass: "n", ipa: "/ˈæs.et/", level: "intermediate", definition: { en: "A useful or valuable thing owned", vi: "Tài sản" }, example: "Their main asset is intellectual property.", synonyms: ["resource", "holding"], collocations: ["valuable asset", "fixed asset"], category: "Finance & Accounting" },
+  { word: "liability", wordClass: "n", ipa: "/ˌlaɪ.əˈbɪl.ə.ti/", level: "advanced", definition: { en: "A debt or financial obligation", vi: "Nghĩa vụ tài chính" }, example: "The merger increased the firm's liabilities.", synonyms: ["debt", "obligation"], collocations: ["limited liability"], category: "Finance & Accounting" },
+  { word: "depreciation", wordClass: "n", ipa: "/dɪˌpriː.ʃiˈeɪ.ʃən/", level: "advanced", definition: { en: "Loss of value over time", vi: "Khấu hao" }, example: "Depreciation reduces taxable income.", synonyms: ["devaluation"], collocations: ["asset depreciation"], category: "Finance & Accounting" },
+
+  // Marketing & Sales
+  { word: "promotion", wordClass: "n", ipa: "/prəˈmoʊ.ʃən/", level: "basic", definition: { en: "Activities to publicise a product", vi: "Khuyến mãi" }, example: "The summer promotion boosted sales.", synonyms: ["campaign", "advertising"], collocations: ["sales promotion", "launch a promotion"], category: "Marketing & Sales" },
+  { word: "endorsement", wordClass: "n", ipa: "/ɪnˈdɔːrs.mənt/", level: "advanced", definition: { en: "Public approval of a product or person", vi: "Sự ủng hộ, chứng thực" }, example: "Celebrity endorsements doubled brand awareness.", synonyms: ["approval", "backing"], collocations: ["celebrity endorsement"], category: "Marketing & Sales" },
+  { word: "outreach", wordClass: "n", ipa: "/ˈaʊt.riːtʃ/", level: "intermediate", definition: { en: "Effort to engage a target audience", vi: "Công tác tiếp cận cộng đồng" }, example: "Our outreach focuses on small businesses.", synonyms: ["engagement"], collocations: ["community outreach"], category: "Marketing & Sales" },
+  { word: "rebrand", wordClass: "v", ipa: "/ˌriːˈbrænd/", level: "intermediate", definition: { en: "Change corporate image or name", vi: "Tái định vị thương hiệu" }, example: "The company will rebrand next quarter.", synonyms: ["relaunch"], collocations: ["rebrand the company"], category: "Marketing & Sales" },
+  { word: "demographic", wordClass: "n", ipa: "/ˌdem.əˈɡræf.ɪk/", level: "advanced", definition: { en: "A particular segment of a population", vi: "Nhóm nhân khẩu học" }, example: "We target the 25-34 demographic.", synonyms: ["segment"], collocations: ["target demographic"], category: "Marketing & Sales" },
+
+  // Human Resources
+  { word: "onboarding", wordClass: "n", ipa: "/ˈɒnˌbɔːr.dɪŋ/", level: "intermediate", definition: { en: "Integrating a new employee", vi: "Hội nhập nhân viên mới" }, example: "Onboarding lasts two weeks.", synonyms: ["orientation"], collocations: ["onboarding process"], category: "Human Resources" },
+  { word: "appraisal", wordClass: "n", ipa: "/əˈpreɪ.zəl/", level: "advanced", definition: { en: "Formal performance review", vi: "Đánh giá hiệu suất" }, example: "Annual appraisals happen in December.", synonyms: ["evaluation", "review"], collocations: ["performance appraisal"], category: "Human Resources" },
+  { word: "retention", wordClass: "n", ipa: "/rɪˈten.ʃən/", level: "advanced", definition: { en: "The ability to keep employees", vi: "Sự giữ chân nhân viên" }, example: "Flexible hours improved staff retention.", synonyms: ["staying power"], collocations: ["employee retention"], category: "Human Resources" },
+  { word: "severance", wordClass: "n", ipa: "/ˈsev.ər.əns/", level: "advanced", definition: { en: "Payment given when employment ends", vi: "Trợ cấp thôi việc" }, example: "She received a generous severance package.", synonyms: ["redundancy pay"], collocations: ["severance package"], category: "Human Resources" },
+  { word: "headhunt", wordClass: "v", ipa: "/ˈhed.hʌnt/", level: "intermediate", definition: { en: "Recruit a senior executive", vi: "Săn đầu người" }, example: "A rival firm headhunted our CTO.", synonyms: ["recruit"], collocations: ["headhunt a candidate"], category: "Human Resources" },
+
+  // Logistics & Operations
+  { word: "supply chain", wordClass: "n", ipa: "/səˈplaɪ tʃeɪn/", level: "intermediate", definition: { en: "System producing and delivering a product", vi: "Chuỗi cung ứng" }, example: "Pandemic disruption exposed supply chain risks.", synonyms: ["logistics network"], collocations: ["global supply chain"], category: "Logistics & Operations" },
+  { word: "inventory", wordClass: "n", ipa: "/ˈɪn.vən.tɔː.ri/", level: "intermediate", definition: { en: "Goods in stock", vi: "Hàng tồn kho" }, example: "Inventory levels are checked weekly.", synonyms: ["stock"], collocations: ["inventory management"], category: "Logistics & Operations" },
+  { word: "warehouse", wordClass: "n", ipa: "/ˈweə.haʊs/", level: "basic", definition: { en: "A large building for storing goods", vi: "Nhà kho" }, example: "The new warehouse opens in May.", synonyms: ["depot", "storehouse"], collocations: ["distribution warehouse"], category: "Logistics & Operations" },
+  { word: "outsource", wordClass: "v", ipa: "/ˈaʊt.sɔːrs/", level: "advanced", definition: { en: "Contract work to an external supplier", vi: "Thuê ngoài" }, example: "We outsource our customer support.", synonyms: ["subcontract"], collocations: ["outsource production"], category: "Logistics & Operations" },
+  { word: "procurement", wordClass: "n", ipa: "/prəˈkjʊər.mənt/", level: "advanced", definition: { en: "The action of obtaining supplies", vi: "Mua sắm, thu mua" }, example: "The procurement team negotiates with vendors.", synonyms: ["purchasing"], collocations: ["procurement process"], category: "Logistics & Operations" },
+
+  // Contracts & Legal
+  { word: "clause", wordClass: "n", ipa: "/klɔːz/", level: "intermediate", definition: { en: "A particular section of a legal document", vi: "Điều khoản" }, example: "Read the confidentiality clause carefully.", synonyms: ["provision"], collocations: ["contract clause"], category: "Contracts & Legal" },
+  { word: "breach", wordClass: "n", ipa: "/briːtʃ/", level: "advanced", definition: { en: "Violation of an agreement", vi: "Sự vi phạm" }, example: "Late delivery counts as a breach.", synonyms: ["violation"], collocations: ["breach of contract"], category: "Contracts & Legal" },
+  { word: "litigation", wordClass: "n", ipa: "/ˌlɪt.ɪˈɡeɪ.ʃən/", level: "advanced", definition: { en: "The process of legal action", vi: "Việc kiện tụng" }, example: "The firm aims to avoid litigation.", synonyms: ["lawsuit"], collocations: ["commercial litigation"], category: "Contracts & Legal" },
+  { word: "compliance", wordClass: "n", ipa: "/kəmˈplaɪ.əns/", level: "advanced", definition: { en: "Acting in accordance with rules", vi: "Sự tuân thủ" }, example: "Regulatory compliance is mandatory.", synonyms: ["conformity"], collocations: ["compliance officer"], category: "Contracts & Legal" },
+
+  // Meetings & Communication
+  { word: "agenda", wordClass: "n", ipa: "/əˈdʒen.də/", level: "basic", definition: { en: "List of items to discuss in a meeting", vi: "Chương trình nghị sự" }, example: "Please review the agenda before we begin.", synonyms: ["program", "schedule"], collocations: ["meeting agenda"], category: "Meetings & Communication" },
+  { word: "convene", wordClass: "v", ipa: "/kənˈviːn/", level: "advanced", definition: { en: "To bring people together for a meeting", vi: "Triệu tập" }, example: "The board will convene at noon.", synonyms: ["assemble"], collocations: ["convene a meeting"], category: "Meetings & Communication" },
+  { word: "adjourn", wordClass: "v", ipa: "/əˈdʒɜːrn/", level: "advanced", definition: { en: "Break off a meeting until later", vi: "Hoãn họp" }, example: "The session was adjourned until Monday.", synonyms: ["postpone"], collocations: ["adjourn the meeting"], category: "Meetings & Communication" },
+  { word: "stakeholder", wordClass: "n", ipa: "/ˈsteɪkˌhoʊl.dər/", level: "intermediate", definition: { en: "Person with an interest in a project", vi: "Bên liên quan" }, example: "Engage every stakeholder before launch.", synonyms: ["interested party"], collocations: ["key stakeholder"], category: "Meetings & Communication" },
+  { word: "follow-up", wordClass: "n", ipa: "/ˈfɒl.oʊ ʌp/", level: "basic", definition: { en: "Continued action after a meeting", vi: "Việc theo sát" }, example: "I'll send a follow-up email tomorrow.", synonyms: ["update"], collocations: ["follow-up call"], category: "Meetings & Communication" },
+];
