@@ -10,7 +10,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { ieltsListeningPracticeSets as _BASE_LIST } from "@/data/ieltsListeningPractice";
 import { ieltsListeningPracticeSetsExpansion } from "@/data/ieltsListeningPracticeExpansion";
 import { ieltsListeningPracticeSetsExpansion2 } from "@/data/ieltsListeningPracticeExpansion2";
-const ieltsListeningPracticeSets = [..._BASE_LIST, ...ieltsListeningPracticeSetsExpansion, ...ieltsListeningPracticeSetsExpansion2];
+import { ieltsListeningPracticeSetsExpansion3 } from "@/data/ieltsListeningPracticeExpansion3";
+const ieltsListeningPracticeSets = [..._BASE_LIST, ...ieltsListeningPracticeSetsExpansion, ...ieltsListeningPracticeSetsExpansion2, ...ieltsListeningPracticeSetsExpansion3];
 
 import ListeningPracticeSetCard from "@/components/ielts/ListeningPracticeSetCard";
 
