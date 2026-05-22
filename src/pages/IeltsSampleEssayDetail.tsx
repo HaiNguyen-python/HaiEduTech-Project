@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 import { sampleEssays } from "@/data/ieltsSampleEssays";
 import IELTSChart from "@/components/IELTSChart";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, BookOpen, CheckCircle, XCircle, RotateCcw, Download, Sparkles } from "lucide-react";
+import { ArrowLeft, BookOpen, CheckCircle, XCircle, RotateCcw, Download, Sparkles, ChevronDown } from "lucide-react"; 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -204,28 +204,26 @@ const IeltsSampleEssayDetail = () => {
           )}
 
           {/* Outline - structure & key ideas (collapsible) */}
-          <details className="glass-card rounded-xl p-3.5 md:p-4 group" open>
-            <summary className="cursor-pointer flex items-center justify-between gap-2 list-none">
+          <details className="glass-card rounded-xl border border-border/40 overflow-hidden group transition-shadow hover:shadow-lg [&[open]>summary]:border-b [&[open]>summary]:border-border/30" open>
+            <summary className="cursor-pointer flex items-center justify-between gap-3 list-none px-4 py-3 md:px-5 md:py-4 bg-gradient-to-r from-primary/5 to-transparent hover:from-primary/10 transition-colors">
               <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
                 🗂️ {t("Dàn ý & Cấu trúc", "Outline & Structure")}
               </h2>
-              <span className="text-xs text-muted-foreground group-open:hidden">{t("Mở", "Show")}</span>
-              <span className="text-xs text-muted-foreground hidden group-open:inline">{t("Đóng", "Hide")}</span>
+              <ChevronDown className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-open:rotate-180 flex-shrink-0" />
             </summary>
-            <div className="mt-3"><EssayOutline essay={essay} /></div>
+            <div className="px-4 pb-4 pt-3 md:px-5"><EssayOutline essay={essay} /></div>
           </details>
 
           {/* Full essay reference with click-to-reveal teaching mode */}
-          <details className="glass-card rounded-xl p-3.5 md:p-4 group" open>
-            <summary className="cursor-pointer flex items-center justify-between gap-2 list-none">
+          <details className="glass-card rounded-xl border border-border/40 overflow-hidden group transition-shadow hover:shadow-lg [&[open]>summary]:border-b [&[open]>summary]:border-border/30" open>
+            <summary className="cursor-pointer flex items-center justify-between gap-3 list-none px-4 py-3 md:px-5 md:py-4 bg-gradient-to-r from-primary/5 to-transparent hover:from-primary/10 transition-colors">
               <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
                 <BookOpen className="w-5 h-5 text-primary" />
                 {t("Xem toàn bộ bài mẫu (Band 8.0+)", "View full sample essay (Band 8.0+)")}
               </h2>
-              <span className="text-xs text-muted-foreground group-open:hidden">{t("Mở", "Show")}</span>
-              <span className="text-xs text-muted-foreground hidden group-open:inline">{t("Đóng", "Hide")}</span>
+              <ChevronDown className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-open:rotate-180 flex-shrink-0" />
             </summary>
-            <div className="mt-3 space-y-4">
+            <div className="px-4 pb-4 pt-3 md:px-5 space-y-4">
               {/* Re-display chart inside the essay viewer so students can follow the visual while reading */}
               {essay.taskType === 1 && essay.chartConfig && (
                 <IELTSChart config={essay.chartConfig} />
@@ -241,25 +239,23 @@ const IeltsSampleEssayDetail = () => {
 
 
           {/* Band 7.0+ Analysis - TA/TR, CC, LR, GRA (collapsible) */}
-          <details className="glass-card rounded-xl p-3.5 md:p-4 group">
-            <summary className="cursor-pointer flex items-center justify-between gap-2 list-none">
+          <details className="glass-card rounded-xl border border-border/40 overflow-hidden group transition-shadow hover:shadow-lg [&[open]>summary]:border-b [&[open]>summary]:border-border/30">
+            <summary className="cursor-pointer flex items-center justify-between gap-3 list-none px-4 py-3 md:px-5 md:py-4 bg-gradient-to-r from-primary/5 to-transparent hover:from-primary/10 transition-colors">
               <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
                 📊 {t("Phân tích Band 8.0+ (TA/CC/LR/GRA)", "Band 8.0+ Analysis (TA/CC/LR/GRA)")}
               </h2>
-              <span className="text-xs text-muted-foreground group-open:hidden">{t("Mở", "Show")}</span>
-              <span className="text-xs text-muted-foreground hidden group-open:inline">{t("Đóng", "Hide")}</span>
+              <ChevronDown className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-open:rotate-180 flex-shrink-0" />
             </summary>
-            <div className="mt-3"><EssayBand8Analysis essay={essay} /></div>
+            <div className="px-4 pb-4 pt-3 md:px-5"><EssayBand8Analysis essay={essay} /></div>
           </details>
 
           {/* Bilingual Glossary with per-phrase writing practice (collapsible) */}
-          <details className="glass-card rounded-xl p-3.5 group">
-            <summary className="cursor-pointer flex items-center justify-between gap-2 list-none mb-1">
+          <details className="glass-card rounded-xl border border-border/40 overflow-hidden group transition-shadow hover:shadow-lg [&[open]>summary]:border-b [&[open]>summary]:border-border/30">
+            <summary className="cursor-pointer flex items-center justify-between gap-3 list-none px-4 py-3 md:px-5 md:py-4 bg-gradient-to-r from-primary/5 to-transparent hover:from-primary/10 transition-colors">
               <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
                 📚 {t("Bảng Chú Giải Song Ngữ", "Bilingual Glossary")}
               </h2>
-              <span className="text-xs text-muted-foreground group-open:hidden">{t("Mở", "Show")}</span>
-              <span className="text-xs text-muted-foreground hidden group-open:inline">{t("Đóng", "Hide")}</span>
+              <ChevronDown className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-open:rotate-180 flex-shrink-0" />
             </summary>
             <p className="text-xs text-muted-foreground mb-2.5">
               {t(
@@ -310,14 +306,13 @@ const IeltsSampleEssayDetail = () => {
           </details>
 
           {/* Interactive Mini-Review Challenge (collapsible) */}
-          <details className="glass-card rounded-xl p-3.5 group">
-            <summary className="cursor-pointer flex items-center justify-between gap-2 list-none mb-1.5">
+          <details className="glass-card rounded-xl border border-border/40 overflow-hidden group transition-shadow hover:shadow-lg [&[open]>summary]:border-b [&[open]>summary]:border-border/30">
+            <summary className="cursor-pointer flex items-center justify-between gap-3 list-none px-4 py-3 md:px-5 md:py-4 bg-gradient-to-r from-primary/5 to-transparent hover:from-primary/10 transition-colors">
               <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-primary" />
                 {t("Bài Tập Ôn Tập", "Mini-Review Challenge")}
               </h2>
-              <span className="text-xs text-muted-foreground group-open:hidden">{t("Mở", "Show")}</span>
-              <span className="text-xs text-muted-foreground hidden group-open:inline">{t("Đóng", "Hide")}</span>
+              <ChevronDown className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-open:rotate-180 flex-shrink-0" />
             </summary>
             <h2 className="text-lg font-semibold text-foreground mb-1.5 flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-primary" />

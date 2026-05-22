@@ -1759,6 +1759,15 @@ export type Database = {
           user_id: string
         }[]
       }
+      get_overall_vocab_leaderboard: {
+        Args: never
+        Returns: {
+          display_name: string
+          score: number
+          subjects: string[]
+          user_id: string
+        }[]
+      }
       get_streak_leaderboard: {
         Args: never
         Returns: {
