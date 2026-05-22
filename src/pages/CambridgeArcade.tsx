@@ -316,7 +316,7 @@ function SpellingBee({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
     setLetters(shuffle(chars).map(ch => ({ ch, used: false })));
     setTyped("");
     setFeedback(null);
-    setTimeLeft(15);
+    setTimeLeft(20);
     setRound(r => r + 1);
     speakEn(w.word);
   };
