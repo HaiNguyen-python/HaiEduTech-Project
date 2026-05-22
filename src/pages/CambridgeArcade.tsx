@@ -978,11 +978,11 @@ const CambridgeArcade = () => {
         {!active && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
             {[
-              { key: "balloon" as const, emoji: "🎈", title: "Balloon Pop", desc: t("Bóng rớt xuống — chọn nhanh!", "Balloons drift down — pop the right one!"), color: "from-sky-400 to-cyan-500" },
-              { key: "spelling" as const, emoji: "🔤", title: "Spelling Bee", desc: t("Đánh vần trong 20 giây — gõ phím luôn!", "Spell in 20s — type on your keyboard!"), color: "from-orange-400 to-amber-500" },
-              { key: "memory" as const, emoji: "🃏", title: "Memory Match", desc: t("3 độ khó: 3×4 / 4×4 / 5×4", "3 difficulties: 3×4 / 4×4 / 5×4"), color: "from-fuchsia-500 to-purple-600" },
-              { key: "meteor" as const, emoji: "☄️", title: "Word Meteor", desc: t("Từ vựng theo level Cambridge", "Cambridge-level vocabulary meteors"), color: "from-red-500 to-orange-600" },
-              { key: "synonym" as const, emoji: "🧠", title: "Synonym Sprint", desc: t("Chọn từ đồng nghĩa trước khi hết giờ", "Pick the synonym before time runs out"), color: "from-violet-500 to-fuchsia-500" },
+              { key: "balloon" as const, emoji: "🎈", chibi: "🧒", title: "Balloon Pop", desc: t("Bóng rớt xuống — chọn nhanh!", "Balloons drift down — pop the right one!"), color: "from-sky-400 to-cyan-500" },
+              { key: "spelling" as const, emoji: "🔤", chibi: "🐻", title: "Spelling Bee", desc: t("Đánh vần trong 20 giây — gõ phím luôn!", "Spell in 20s — type on your keyboard!"), color: "from-orange-400 to-amber-500" },
+              { key: "memory" as const, emoji: "🃏", chibi: "🦄", title: "Memory Match", desc: t("Có đồng hồ — về đích nhanh nhất!", "With stopwatch — finish as fast as you can!"), color: "from-fuchsia-500 to-purple-600" },
+              { key: "meteor" as const, emoji: "☄️", chibi: "🚀", title: "Word Meteor", desc: t("Từ vựng theo level Cambridge", "Cambridge-level vocabulary meteors"), color: "from-red-500 to-orange-600" },
+              { key: "synonym" as const, emoji: "🧠", chibi: "🧚", title: "Synonym Sprint", desc: t("Chọn từ đồng nghĩa trước khi hết giờ", "Pick the synonym before time runs out"), color: "from-violet-500 to-fuchsia-500" },
             ].map((g, idx) => (
               <motion.button
                 key={g.key}
@@ -994,11 +994,19 @@ const CambridgeArcade = () => {
                 className={`relative overflow-hidden rounded-3xl p-6 text-left bg-gradient-to-br ${g.color} text-white shadow-2xl`}
               >
                 <Sparkles className="absolute top-3 right-3 w-5 h-5 opacity-50" />
+                <motion.div
+                  animate={{ y: [0, -6, 0], rotate: [-3, 3, -3] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                  className="absolute -bottom-2 -right-2 text-7xl drop-shadow-2xl select-none"
+                  aria-hidden
+                >
+                  {g.chibi}
+                </motion.div>
                 <div className="text-6xl mb-3">{g.emoji}</div>
                 <h3 className="text-2xl font-extrabold">{g.title}</h3>
-                <p className="text-sm opacity-90 mt-1">{g.desc}</p>
+                <p className="text-sm opacity-90 mt-1 max-w-[80%]">{g.desc}</p>
                 <div className="mt-4 inline-flex items-center gap-1 text-xs bg-white/20 rounded-full px-3 py-1">
-                  {g.key === "synonym" ? "All levels" : `Level: ${level}`}
+                  Level: {level}
                 </div>
               </motion.button>
             ))}
