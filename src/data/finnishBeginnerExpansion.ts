@@ -219,7 +219,67 @@ export const BEGINNER_VOCAB_EXTRA: BeginnerVocab[] = [
   { fi: "jalka", vi: "chân", en: "leg/foot", illustration: "🦵", category: "body" },
   { fi: "silmä", vi: "mắt", en: "eye", illustration: "👁️", category: "body" },
   { fi: "sydän", vi: "tim", en: "heart", illustration: "❤️", category: "body" },
+  // Số đếm & màu sắc
+  { fi: "punainen", vi: "đỏ", en: "red", illustration: "🔴", category: "color" },
+  { fi: "sininen", vi: "xanh dương", en: "blue", illustration: "🔵", category: "color" },
+  { fi: "vihreä", vi: "xanh lá", en: "green", illustration: "🟢", category: "color" },
+  { fi: "keltainen", vi: "vàng", en: "yellow", illustration: "🟡", category: "color" },
+  { fi: "musta", vi: "đen", en: "black", illustration: "⚫", category: "color" },
+  { fi: "valkoinen", vi: "trắng", en: "white", illustration: "⚪", category: "color" },
+  // Đồ vật trong nhà
+  { fi: "talo", vi: "ngôi nhà", en: "house", illustration: "🏠", category: "home" },
+  { fi: "huone", vi: "căn phòng", en: "room", illustration: "🚪", category: "home" },
+  { fi: "sänky", vi: "cái giường", en: "bed", illustration: "🛏️", category: "home" },
+  { fi: "tuoli", vi: "cái ghế", en: "chair", illustration: "🪑", category: "home" },
+  { fi: "pöytä", vi: "cái bàn", en: "table", illustration: "🪟", category: "home" },
+  { fi: "ikkuna", vi: "cửa sổ", en: "window", illustration: "🪟", category: "home" },
+  { fi: "ovi", vi: "cửa ra vào", en: "door", illustration: "🚪", category: "home" },
+  // Phương tiện & đi lại
+  { fi: "auto", vi: "ô tô", en: "car", illustration: "🚗", category: "transport" },
+  { fi: "bussi", vi: "xe buýt", en: "bus", illustration: "🚌", category: "transport" },
+  { fi: "juna", vi: "tàu hỏa", en: "train", illustration: "🚆", category: "transport" },
+  { fi: "polkupyörä", vi: "xe đạp", en: "bicycle", illustration: "🚲", category: "transport" },
+  { fi: "lentokone", vi: "máy bay", en: "airplane", illustration: "✈️", category: "transport" },
+  // Động vật
+  { fi: "koira", vi: "con chó", en: "dog", illustration: "🐕", category: "animal" },
+  { fi: "kissa", vi: "con mèo", en: "cat", illustration: "🐈", category: "animal" },
+  { fi: "lintu", vi: "con chim", en: "bird", illustration: "🐦", category: "animal" },
+  { fi: "hevonen", vi: "con ngựa", en: "horse", illustration: "🐴", category: "animal" },
+  { fi: "karhu", vi: "con gấu", en: "bear", illustration: "🐻", category: "animal" },
+  { fi: "poro", vi: "tuần lộc", en: "reindeer", illustration: "🦌", category: "animal" },
+  // Cảm xúc
+  { fi: "iloinen", vi: "vui", en: "happy", illustration: "😊", category: "emotion" },
+  { fi: "surullinen", vi: "buồn", en: "sad", illustration: "😢", category: "emotion" },
+  { fi: "vihainen", vi: "giận", en: "angry", illustration: "😡", category: "emotion" },
+  { fi: "väsynyt", vi: "mệt", en: "tired", illustration: "😴", category: "emotion" },
+  { fi: "innoissaan", vi: "phấn khích", en: "excited", illustration: "🤩", category: "emotion" },
+  // Nghề nghiệp
+  { fi: "lääkäri", vi: "bác sĩ", en: "doctor", illustration: "🧑‍⚕️", category: "job" },
+  { fi: "insinööri", vi: "kỹ sư", en: "engineer", illustration: "👷", category: "job" },
+  { fi: "kokki", vi: "đầu bếp", en: "cook", illustration: "🧑‍🍳", category: "job" },
+  { fi: "ohjelmoija", vi: "lập trình viên", en: "programmer", illustration: "💻", category: "job" },
+  { fi: "hoitaja", vi: "y tá", en: "nurse", illustration: "🩺", category: "job" },
 ];
+
+// =============================================================
+// DAILY PHRASES MỞ RỘNG SET 2 - giao tiếp dài hơn
+// =============================================================
+export const DAILY_PHRASES_EXTRA_2: DailyPhrase[] = [
+  { fi: "Mitä kuuluu?", en: "How are you?", vi: "Bạn khỏe không?", category: "greeting", illustration: "😊" },
+  { fi: "Kiitos, hyvää. Entä sinulle?", en: "Thanks, good. And you?", vi: "Cảm ơn, tôi khỏe. Còn bạn?", category: "greeting", illustration: "👋" },
+  { fi: "Nähdään huomenna!", en: "See you tomorrow!", vi: "Hẹn gặp ngày mai!", category: "polite", illustration: "👋" },
+  { fi: "Onnea uudelle vuodelle!", en: "Happy New Year!", vi: "Chúc mừng năm mới!", category: "polite", illustration: "🎊" },
+  { fi: "Olen pahoillani.", en: "I'm sorry.", vi: "Tôi xin lỗi.", category: "polite", illustration: "🙇" },
+  { fi: "Voitko auttaa minua?", en: "Can you help me?", vi: "Bạn có thể giúp tôi không?", category: "asking", illustration: "🙋" },
+  { fi: "Mihin aikaan juna lähtee?", en: "What time does the train leave?", vi: "Tàu mấy giờ chạy?", category: "asking", illustration: "🕒" },
+  { fi: "Onko lähellä ravintolaa?", en: "Is there a restaurant nearby?", vi: "Gần đây có nhà hàng không?", category: "asking", illustration: "🍽️" },
+  { fi: "Voinko saada veden, kiitos?", en: "Can I have water, please?", vi: "Cho tôi xin nước với?", category: "shopping", illustration: "💧" },
+  { fi: "Olen opiskelija.", en: "I am a student.", vi: "Tôi là sinh viên.", category: "intro", illustration: "🎓" },
+  { fi: "Asun Helsingissä.", en: "I live in Helsinki.", vi: "Tôi sống ở Helsinki.", category: "intro", illustration: "🏙️" },
+  { fi: "Opin suomea, koska rakastan Suomea.", en: "I'm learning Finnish because I love Finland.", vi: "Tôi học tiếng Phần Lan vì tôi yêu nước Phần Lan.", category: "intro", illustration: "❤️" },
+];
+// Re-export merged phrases for convenience
+export const DAILY_PHRASES_EXTRA_FULL = [...DAILY_PHRASES_EXTRA, ...DAILY_PHRASES_EXTRA_2];
 
 // =============================================================
 // PITFALLS MỞ RỘNG
