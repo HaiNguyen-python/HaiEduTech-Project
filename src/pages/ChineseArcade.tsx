@@ -344,13 +344,14 @@ const HotpotChef = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: ()
   const [boiling, setBoiling] = useState(false);
   const [wrong, setWrong] = useState(false);
   const [gameOver, setGameOver] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(20);
   const ingredientIdRef = useRef(0);
+  const scoreSubmittedRef = useRef(false);
 
   const loadNewRound = useCallback(() => {
     if (compoundWords.length === 0) return;
     const w = compoundWords[Math.floor(Math.random() * compoundWords.length)];
     const targetChars = Array.from(w.character);
-    // Add 3-4 distractor characters from other words
     const distractors: string[] = [];
     while (distractors.length < 3) {
       const other = compoundWords[Math.floor(Math.random() * compoundWords.length)];
@@ -365,11 +366,42 @@ const HotpotChef = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: ()
     setTarget(w);
     setIngredients(all);
     setSelected([]);
+    setTimeLeft(20); // reset 20-second countdown per word
   }, [compoundWords]);
 
   useEffect(() => {
     loadNewRound();
   }, [loadNewRound]);
+
+  // 20-second countdown per word
+  useEffect(() => {
+    if (gameOver || boiling || wrong) return;
+    if (timeLeft <= 0) {
+      // Time's up: lose a life, reset round
+      setCombo(1);
+      setWrong(true);
+      setLives(l => {
+        const nl = l - 1;
+        if (nl <= 0) setGameOver(true);
+        return nl;
+      });
+      setTimeout(() => {
+        setWrong(false);
+        loadNewRound();
+      }, 700);
+      return;
+    }
+    const id = setTimeout(() => setTimeLeft(t => t - 1), 1000);
+    return () => clearTimeout(id);
+  }, [timeLeft, gameOver, boiling, wrong, loadNewRound]);
+
+  // Submit final score once on game over
+  useEffect(() => {
+    if (gameOver && !scoreSubmittedRef.current) {
+      scoreSubmittedRef.current = true;
+      submitGameScore(`hotpot_chef_${difficulty}`, score, combo);
+    }
+  }, [gameOver, score, combo, difficulty]);
 
   const handleSelect = (ing: IngredientWord) => {
     if (ing.used || !target) return;
@@ -377,16 +409,14 @@ const HotpotChef = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: ()
     setSelected(next);
     setIngredients(prev => prev.map(i => (i.id === ing.id ? { ...i, used: true } : i)));
 
-    const targetChars = Array.from(target.character);
     const typed = next.map(n => n.char).join("");
     const expected = target.character.slice(0, typed.length);
 
     if (typed === expected) {
-      // Partial or full match
       if (typed === target.character) {
-        // Full match - boil!
         setBoiling(true);
-        setScore(s => s + 20 * combo);
+        // Bonus points for remaining time
+        setScore(s => s + 20 * combo + timeLeft);
         setCombo(c => Math.min(c + 1, 10));
         speakChinese(target.character);
         setTimeout(() => {
@@ -396,7 +426,6 @@ const HotpotChef = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: ()
         }, 1100);
       }
     } else {
-      // Wrong order
       setWrong(true);
       setCombo(1);
       setLives(l => {
@@ -406,7 +435,6 @@ const HotpotChef = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: ()
       });
       setTimeout(() => {
         setWrong(false);
-        // Reset ingredients back to bowls
         setIngredients(prev => prev.map(i => ({ ...i, used: false })));
         setSelected([]);
       }, 700);
@@ -416,78 +444,160 @@ const HotpotChef = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: ()
   if (gameOver) return <GameOverScreen score={score} onRetry={() => window.location.reload()} onExit={onExit} />;
   if (!target) return <p className="text-center p-8">Loading...</p>;
 
-  return (
-    <div className="space-y-3 max-w-5xl mx-auto">
-      <HUD score={score} combo={combo} level={level} lives={lives} />
-      <div className="rounded-2xl border-2 border-amber-500/40 bg-gradient-to-b from-amber-950/40 via-rose-950/30 to-slate-900 p-4 sm:p-6 min-h-[500px]">
-        {/* Target */}
-        <div className="text-center mb-6">
-          <p className="text-xs text-amber-300 font-mono mb-1">{t("MỤC TIÊU - Ghép ra từ:", "TARGET - Combine to make:")}</p>
-          <p className="text-2xl sm:text-3xl font-bold text-white mb-1">{target.definition.vi}</p>
-          <p className="text-sm text-amber-200">{target.definition.en}</p>
-        </div>
+  const timeColor = timeLeft <= 5 ? "text-rose-300" : timeLeft <= 10 ? "text-amber-300" : "text-emerald-300";
+  const timeBar = (timeLeft / 20) * 100;
 
-        {/* Hotpot */}
-        <motion.div
-          animate={boiling ? { scale: [1, 1.1, 1], rotate: [0, 3, -3, 0] } : wrong ? { x: [-10, 10, -10, 10, 0] } : {}}
-          transition={{ duration: 0.5 }}
-          className={`mx-auto w-48 h-32 sm:w-64 sm:h-40 rounded-b-full border-4 mb-4 flex items-end justify-center relative ${
-            boiling
-              ? "border-amber-300 bg-gradient-to-b from-amber-400/40 to-rose-500/60 shadow-[0_0_40px_rgba(251,191,36,0.8)]"
-              : wrong
-              ? "border-rose-500 bg-rose-900/40"
-              : "border-amber-500/50 bg-amber-950/50"
-          }`}
-        >
-          {/* Steam */}
-          {boiling && (
-            <>
-              <motion.div initial={{ y: 0, opacity: 0.8 }} animate={{ y: -60, opacity: 0 }} transition={{ duration: 1.5, repeat: Infinity }} className="absolute -top-4 left-1/3 text-3xl">💨</motion.div>
-              <motion.div initial={{ y: 0, opacity: 0.8 }} animate={{ y: -80, opacity: 0 }} transition={{ duration: 1.5, repeat: Infinity, delay: 0.3 }} className="absolute -top-4 right-1/3 text-3xl">💨</motion.div>
-            </>
-          )}
-          {/* Selected chars sitting in pot */}
-          <div className="flex gap-2 mb-4">
-            {selected.map((s, i) => (
+  // Decorative floating hanzi (purely visual background)
+  const bgHanzi = ["香", "辣", "麻", "鲜", "汤", "火", "锅", "美", "味", "热"];
+
+  return (
+    <div className="space-y-3 max-w-6xl mx-auto">
+      <div className="flex items-center justify-between gap-2">
+        <Button variant="outline" size="sm" onClick={onExit} className="bg-slate-900 border-amber-500/60 text-amber-200 hover:bg-slate-800 hover:text-white">
+          <ArrowLeft className="w-4 h-4 mr-1" /> {t("Quay lại", "Back")}
+        </Button>
+        <span className="text-xs text-amber-300/80 font-mono uppercase tracking-wider">🍲 Hanzi Hotpot Chef</span>
+      </div>
+      <HUD score={score} combo={combo} level={level} lives={lives} />
+
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4">
+        {/* Main play area */}
+        <div className="relative rounded-2xl border-2 border-amber-500/40 bg-gradient-to-b from-amber-950/50 via-rose-950/40 to-slate-900 p-4 sm:p-6 min-h-[560px] overflow-hidden">
+          {/* Lively background: floating hanzi + lanterns */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden>
+            {bgHanzi.map((ch, i) => (
               <motion.span
-                key={s.id}
-                initial={{ y: -50, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                className="text-3xl sm:text-4xl font-bold text-amber-100 drop-shadow-[0_0_8px_rgba(251,191,36,0.9)]"
+                key={i}
+                initial={{ y: "110%", opacity: 0 }}
+                animate={{ y: "-10%", opacity: [0, 0.18, 0.18, 0] }}
+                transition={{ duration: 14 + (i % 5) * 2, repeat: Infinity, delay: i * 1.2, ease: "linear" }}
+                className="absolute text-6xl sm:text-7xl font-bold text-amber-200/30 select-none"
+                style={{ left: `${(i * 13 + 5) % 92}%` }}
               >
-                {s.char}
+                {ch}
               </motion.span>
             ))}
+            {/* Red lanterns */}
+            <div className="absolute top-2 left-4 text-3xl opacity-70 animate-pulse">🏮</div>
+            <div className="absolute top-2 right-4 text-3xl opacity-70 animate-pulse" style={{ animationDelay: "0.5s" }}>🏮</div>
           </div>
-          {boiling && (
-            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="absolute -top-12 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-amber-400 text-amber-950 text-xs font-bold whitespace-nowrap">
-              ✨ Delicious Match! ✨
-            </motion.div>
-          )}
-        </motion.div>
 
-        {/* Ingredient bowls */}
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 max-w-2xl mx-auto">
-          {ingredients.map(ing => (
-            <motion.button
-              key={ing.id}
-              whileHover={!ing.used ? { scale: 1.1 } : {}}
-              whileTap={!ing.used ? { scale: 0.95 } : {}}
-              onClick={() => handleSelect(ing)}
-              disabled={ing.used}
-              className={`aspect-square rounded-2xl border-2 flex items-center justify-center text-4xl sm:text-5xl font-bold transition-all ${
-                ing.used
-                  ? "border-slate-600 bg-slate-800/70 text-slate-500 opacity-50"
-                  : "border-amber-400/70 bg-gradient-to-br from-amber-800/80 to-rose-800/80 text-amber-50 hover:border-amber-200 shadow-[0_0_12px_rgba(251,191,36,0.4)]"
-              }`}
-            >
-              {ing.char}
-            </motion.button>
-          ))}
+          {/* Timer bar */}
+          <div className="relative mb-3">
+            <div className="flex items-center justify-between mb-1">
+              <span className={`inline-flex items-center gap-1 text-xs font-mono ${timeColor}`}>
+                <Timer className="w-3.5 h-3.5" /> {timeLeft}s
+              </span>
+              <span className="text-xs text-amber-200/70 font-mono">{t("Mỗi từ 20 giây", "20s per word")}</span>
+            </div>
+            <div className="h-2 rounded-full bg-slate-800/80 overflow-hidden border border-amber-500/30">
+              <motion.div
+                animate={{ width: `${timeBar}%` }}
+                transition={{ duration: 0.3 }}
+                className={`h-full ${timeLeft <= 5 ? "bg-rose-500" : timeLeft <= 10 ? "bg-amber-400" : "bg-emerald-400"}`}
+              />
+            </div>
+          </div>
+
+          {/* Target */}
+          <div className="relative text-center mb-6">
+            <p className="text-xs text-amber-300 font-mono mb-1">{t("MỤC TIÊU - Ghép ra từ:", "TARGET - Combine to make:")}</p>
+            <p className="text-2xl sm:text-3xl font-bold text-white mb-1 drop-shadow">{target.definition.vi}</p>
+            <p className="text-sm text-amber-200">{target.definition.en}</p>
+          </div>
+
+          {/* Hotpot with constant steam + fire */}
+          <motion.div
+            animate={boiling ? { scale: [1, 1.12, 1], rotate: [0, 3, -3, 0] } : wrong ? { x: [-10, 10, -10, 10, 0] } : {}}
+            transition={{ duration: 0.5 }}
+            className={`relative mx-auto w-56 h-36 sm:w-72 sm:h-44 rounded-b-full border-4 mb-6 flex items-end justify-center ${
+              boiling
+                ? "border-amber-300 bg-gradient-to-b from-amber-400/40 to-rose-500/60 shadow-[0_0_50px_rgba(251,191,36,0.9)]"
+                : wrong
+                ? "border-rose-500 bg-rose-900/40"
+                : "border-amber-500/70 bg-gradient-to-b from-amber-900/60 to-rose-900/70 shadow-[0_0_25px_rgba(251,191,36,0.4)]"
+            }`}
+          >
+            {/* Continuous steam puffs */}
+            {[0, 1, 2, 3, 4].map(i => (
+              <motion.div
+                key={i}
+                initial={{ y: 0, opacity: 0, scale: 0.8 }}
+                animate={{ y: -90, opacity: [0, 0.85, 0], scale: [0.8, 1.4, 1.6] }}
+                transition={{ duration: 2.2, repeat: Infinity, delay: i * 0.4, ease: "easeOut" }}
+                className="absolute -top-2 text-4xl"
+                style={{ left: `${20 + i * 14}%` }}
+              >
+                💨
+              </motion.div>
+            ))}
+            {/* Fire flames under pot */}
+            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 flex gap-1">
+              {[0, 1, 2, 3, 4].map(i => (
+                <motion.span
+                  key={i}
+                  animate={{ scaleY: [1, 1.4, 0.9, 1.2, 1], opacity: [0.8, 1, 0.9, 1, 0.8] }}
+                  transition={{ duration: 0.6, repeat: Infinity, delay: i * 0.1 }}
+                  className="text-2xl origin-bottom"
+                >
+                  🔥
+                </motion.span>
+              ))}
+            </div>
+            {/* Selected chars sitting in pot */}
+            <div className="flex gap-2 mb-4">
+              {selected.map(s => (
+                <motion.span
+                  key={s.id}
+                  initial={{ y: -50, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  className="text-4xl sm:text-5xl font-bold text-amber-50 drop-shadow-[0_0_10px_rgba(251,191,36,1)]"
+                >
+                  {s.char}
+                </motion.span>
+              ))}
+            </div>
+            {boiling && (
+              <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="absolute -top-14 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-amber-400 text-amber-950 text-sm font-bold whitespace-nowrap shadow-lg">
+                ✨ {t("Tuyệt vời!", "Delicious!")} +{20 * combo + timeLeft} ✨
+              </motion.div>
+            )}
+          </motion.div>
+
+          {/* Ingredient bowls */}
+          <div className="relative grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 max-w-2xl mx-auto">
+            {ingredients.map(ing => (
+              <motion.button
+                key={ing.id}
+                whileHover={!ing.used ? { scale: 1.1 } : {}}
+                whileTap={!ing.used ? { scale: 0.95 } : {}}
+                onClick={() => handleSelect(ing)}
+                disabled={ing.used}
+                className={`aspect-square rounded-2xl border-2 flex items-center justify-center text-4xl sm:text-5xl font-bold transition-all ${
+                  ing.used
+                    ? "border-slate-600 bg-slate-800 text-slate-400 opacity-60"
+                    : "border-amber-300 bg-gradient-to-br from-amber-700 to-rose-700 text-white hover:border-amber-100 shadow-[0_0_14px_rgba(251,191,36,0.5)]"
+                }`}
+              >
+                {ing.char}
+              </motion.button>
+            ))}
+          </div>
         </div>
+
+        {/* Leaderboard sidebar */}
+        <aside className="rounded-2xl border-2 border-amber-500/40 bg-slate-900 p-4">
+          <div className="flex items-center gap-2 mb-3">
+            <Trophy className="w-5 h-5 text-amber-400" />
+            <h3 className="font-bold text-white">{t("Bảng xếp hạng", "Leaderboard")}</h3>
+          </div>
+          <p className="text-xs text-amber-200/70 mb-2 font-mono uppercase">Hotpot · {difficulty}</p>
+          <GameLeaderboard gameType={`hotpot_chef_${difficulty}`} currentScore={score} />
+        </aside>
       </div>
-      <Button variant="outline" onClick={onExit} className="w-full">
-        <ArrowLeft className="w-4 h-4 mr-2" /> {t("Thoát", "Exit")}
+
+      <Button variant="outline" onClick={onExit} className="w-full bg-slate-900 border-amber-500/60 text-amber-200 hover:bg-slate-800 hover:text-white">
+        <ArrowLeft className="w-4 h-4 mr-2" /> {t("Về menu game", "Back to game menu")}
       </Button>
     </div>
   );
