@@ -401,7 +401,7 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
             onChange={(e) => setQuizSize(Number(e.target.value))}
             className="rounded-md border border-border bg-card px-2 py-1 text-sm"
           >
-            {[5, 10, 12, 15, 20, 30, 50].map(n => (
+            {[5, 10, 12, 15, 20, 30, 50, 100, 200].map(n => (
               <option key={n} value={n} disabled={n > words.length && n !== 5}>
                 {n} {n > words.length ? `(${t("chỉ có", "only")} ${words.length})` : ""}
               </option>

@@ -22,7 +22,7 @@ import { submitGameScore } from "@/lib/submitGameScore";
 // Shared types & helpers
 // ============================================================
 
-type GameId = "menu" | "shooter" | "hotpot" | "runner" | "meteor";
+type GameId = "menu" | "shooter" | "hotpot" | "runner" | "meteor" | "sentence";
 type Difficulty = "easy" | "hard" | "expert"; // easy=HSK1-2, hard=HSK3-4, expert=HSK5-6
 
 // Strip tone marks from pinyin and return plain ASCII letters
@@ -119,10 +119,12 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
   const [combo, setCombo] = useState(1);
   const [lives, setLives] = useState(3);
   const [level, setLevel] = useState(1);
-  const [laser, setLaser] = useState<{ x: number } | null>(null);
+  const [laser, setLaser] = useState<{ x: number; from: number } | null>(null);
   const [particles, setParticles] = useState<{ id: number; x: number; y: number }[]>([]);
   const [shake, setShake] = useState(false);
   const [gameOver, setGameOver] = useState(false);
+  const [shipX, setShipX] = useState(50); // 0-100 percentage
+  const keysRef = useRef<{ left: boolean; right: boolean }>({ left: false, right: false });
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const meteorIdRef = useRef(0);
@@ -181,6 +183,38 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
     return () => clearInterval(id);
   }, [gameOver]);
 
+  // Ship movement loop — smooth glide while arrow keys held
+  useEffect(() => {
+    if (gameOver) return;
+    const id = setInterval(() => {
+      setShipX(x => {
+        let nx = x;
+        if (keysRef.current.left) nx -= 1.8;
+        if (keysRef.current.right) nx += 1.8;
+        return Math.max(4, Math.min(96, nx));
+      });
+    }, 30);
+    return () => clearInterval(id);
+  }, [gameOver]);
+
+  // Keyboard: arrow keys for movement (don't steal typing keys)
+  useEffect(() => {
+    const onDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") { keysRef.current.left = true; e.preventDefault(); }
+      if (e.key === "ArrowRight") { keysRef.current.right = true; e.preventDefault(); }
+    };
+    const onUp = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") keysRef.current.left = false;
+      if (e.key === "ArrowRight") keysRef.current.right = false;
+    };
+    window.addEventListener("keydown", onDown);
+    window.addEventListener("keyup", onUp);
+    return () => {
+      window.removeEventListener("keydown", onDown);
+      window.removeEventListener("keyup", onUp);
+    };
+  }, []);
+
   // Level up every 10 hits
   useEffect(() => {
     setLevel(Math.floor(score / 50) + 1);
@@ -198,7 +232,7 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
     const target = meteors.find(m => stripTones(m.word.pinyin) === typed);
     if (target) {
       // Fire laser, destroy meteor
-      setLaser({ x: target.x });
+      setLaser({ x: target.x, from: shipX });
       setTimeout(() => setLaser(null), 200);
       setParticles(prev => [
         ...prev,
@@ -240,19 +274,23 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
         ref={containerRef}
         animate={shake ? { x: [-8, 8, -6, 6, 0] } : {}}
         transition={{ duration: 0.3 }}
-        className="relative h-[640px] sm:h-[760px] rounded-2xl border-2 border-cyan-500/40 bg-gradient-to-b from-slate-950 via-purple-950/30 to-slate-900 overflow-hidden"
+        className="relative h-[640px] sm:h-[760px] rounded-2xl border-2 border-cyan-300 bg-gradient-to-b from-sky-400 via-indigo-500 to-fuchsia-600 overflow-hidden"
         style={{
-          backgroundImage: "radial-gradient(circle at 20% 30%, rgba(168,85,247,0.15), transparent 40%), radial-gradient(circle at 80% 70%, rgba(6,182,212,0.15), transparent 40%)",
+          backgroundImage:
+            "radial-gradient(circle at 18% 22%, rgba(253,224,71,0.55), transparent 38%), radial-gradient(circle at 82% 75%, rgba(34,211,238,0.45), transparent 40%), radial-gradient(circle at 60% 40%, rgba(244,114,182,0.35), transparent 45%)",
         }}
       >
-        {/* Starfield */}
-        {Array.from({ length: 20 }).map((_, i) => (
+        {/* Bright twinkling starfield */}
+        {Array.from({ length: 36 }).map((_, i) => (
           <div
             key={i}
-            className="absolute w-0.5 h-0.5 bg-white rounded-full opacity-50 animate-pulse"
+            className="absolute w-1 h-1 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.9)]"
             style={{ left: `${(i * 37) % 100}%`, top: `${(i * 53) % 100}%`, animationDelay: `${i * 0.1}s` }}
           />
         ))}
+        {/* Floating planets for fun */}
+        <div className="absolute top-6 right-8 w-16 h-16 rounded-full bg-gradient-to-br from-amber-300 to-orange-500 shadow-[0_0_30px_rgba(251,146,60,0.7)] opacity-80" />
+        <div className="absolute top-32 left-6 w-10 h-10 rounded-full bg-gradient-to-br from-pink-300 to-rose-500 shadow-[0_0_20px_rgba(244,114,182,0.7)] opacity-80" />
 
         {/* Meteors */}
         <AnimatePresence>
@@ -263,7 +301,7 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 1.5, opacity: 0, rotate: 180 }}
               onClick={() => handleTapMeteor(m)}
-              className="absolute -translate-x-1/2 px-5 py-4 rounded-2xl bg-gradient-to-br from-rose-500/95 to-amber-500/95 border-2 border-amber-300 shadow-[0_0_22px_rgba(251,191,36,0.75)] text-white font-bold text-center min-w-[170px] cursor-pointer"
+              className="absolute -translate-x-1/2 px-5 py-4 rounded-2xl bg-gradient-to-br from-rose-500/95 to-amber-500/95 border-2 border-amber-200 shadow-[0_0_22px_rgba(251,191,36,0.85)] text-white font-bold text-center min-w-[170px] cursor-pointer"
               style={{ left: `${m.x}%`, top: `${m.y}%` }}
             >
               <div className="text-5xl sm:text-6xl leading-tight drop-shadow">{m.word.character}</div>
@@ -274,13 +312,25 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
           ))}
         </AnimatePresence>
 
-        {/* Laser beam */}
+        {/* Laser beam — fires from ship's current x */}
+        {laser && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="absolute bottom-14 h-1.5 bg-gradient-to-r from-cyan-200 via-white to-cyan-200 shadow-[0_0_18px_rgba(34,211,238,1)] origin-left"
+            style={{
+              left: `${Math.min(laser.from, laser.x)}%`,
+              width: `${Math.abs(laser.x - laser.from)}%`,
+              transform: "translateY(0)",
+            }}
+          />
+        )}
         {laser && (
           <motion.div
             initial={{ scaleY: 0 }}
             animate={{ scaleY: 1 }}
-            className="absolute bottom-12 w-1 bg-cyan-400 shadow-[0_0_20px_rgba(6,182,212,1)] origin-bottom"
-            style={{ left: `calc(${laser.x}% - 2px)`, height: "85%" }}
+            className="absolute bottom-14 w-1.5 bg-cyan-200 shadow-[0_0_18px_rgba(34,211,238,1)] origin-bottom"
+            style={{ left: `calc(${laser.x}% - 3px)`, height: "75%" }}
           />
         )}
 
@@ -291,17 +341,48 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
             initial={{ scale: 0, opacity: 1 }}
             animate={{ scale: 3, opacity: 0 }}
             transition={{ duration: 0.6 }}
-            className="absolute -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-amber-400 shadow-[0_0_30px_rgba(251,191,36,1)]"
+            className="absolute -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-amber-300 shadow-[0_0_30px_rgba(251,191,36,1)]"
             style={{ left: `${p.x}%`, top: `${p.y}%` }}
           />
         ))}
 
-        {/* Cannon */}
-        <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-12 h-12 rounded-t-2xl bg-gradient-to-t from-cyan-600 to-cyan-300 border-2 border-cyan-200 shadow-[0_0_20px_rgba(6,182,212,0.8)]" />
+        {/* Movable spaceship 🚀 */}
+        <motion.div
+          animate={{ left: `${shipX}%` }}
+          transition={{ type: "tween", duration: 0.05, ease: "linear" }}
+          className="absolute bottom-2 -translate-x-1/2 text-5xl drop-shadow-[0_0_12px_rgba(34,211,238,0.9)] select-none"
+          aria-hidden
+        >
+          🚀
+        </motion.div>
 
         {/* Floor line */}
-        <div className="absolute bottom-12 left-0 right-0 h-0.5 bg-rose-500/50 shadow-[0_0_8px_rgba(244,63,94,0.6)]" />
+        <div className="absolute bottom-14 left-0 right-0 h-0.5 bg-rose-300/60 shadow-[0_0_8px_rgba(244,63,94,0.5)]" />
       </motion.div>
+
+      {/* Mobile move controls */}
+      <div className="grid grid-cols-2 gap-2 sm:hidden">
+        <Button
+          onTouchStart={() => { keysRef.current.left = true; }}
+          onTouchEnd={() => { keysRef.current.left = false; }}
+          onMouseDown={() => { keysRef.current.left = true; }}
+          onMouseUp={() => { keysRef.current.left = false; }}
+          onMouseLeave={() => { keysRef.current.left = false; }}
+          className="h-14 bg-cyan-600 hover:bg-cyan-700 text-2xl"
+        >
+          ◀ {t("Trái", "Left")}
+        </Button>
+        <Button
+          onTouchStart={() => { keysRef.current.right = true; }}
+          onTouchEnd={() => { keysRef.current.right = false; }}
+          onMouseDown={() => { keysRef.current.right = true; }}
+          onMouseUp={() => { keysRef.current.right = false; }}
+          onMouseLeave={() => { keysRef.current.right = false; }}
+          className="h-14 bg-cyan-600 hover:bg-cyan-700 text-2xl"
+        >
+          {t("Phải", "Right")} ▶
+        </Button>
+      </div>
 
       {/* Input — students type WITHOUT tone marks */}
       <input
@@ -610,10 +691,11 @@ const TONE_MARKS = ["ˉ", "ˊ", "ˇ", "ˋ"];
 
 const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: () => void }) => {
   const { t } = useLanguage();
-  // Pick only single-syllable words so we have exactly one tone to target
+  // Pick only single-character + single-syllable words so the tone target is unambiguous
   const singleTone = useMemo(
     () =>
       wordsForDifficulty(difficulty).filter(w => {
+        if (Array.from(w.character).length !== 1) return false;
         const tones = extractTones(w.pinyin);
         return tones.length === 1 && TONE_MARKS.includes(tones[0]);
       }),
@@ -786,6 +868,266 @@ const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
 };
 
 // ============================================================
+// GAME 4: Sentence Builder (Câu Hoàn Hảo) - drag word tiles to build a sentence
+// ============================================================
+type SentenceItem = { zh: string[]; pinyin: string; vi: string; en: string };
+
+const SENTENCE_BANK: Record<Difficulty, SentenceItem[]> = {
+  easy: [
+    { zh: ["我", "是", "学生"], pinyin: "Wǒ shì xuéshēng.", vi: "Tôi là học sinh.", en: "I am a student." },
+    { zh: ["你", "好", "吗"], pinyin: "Nǐ hǎo ma?", vi: "Bạn khỏe không?", en: "How are you?" },
+    { zh: ["我", "喜欢", "中文"], pinyin: "Wǒ xǐhuān Zhōngwén.", vi: "Tôi thích tiếng Trung.", en: "I like Chinese." },
+    { zh: ["他", "是", "我的", "朋友"], pinyin: "Tā shì wǒ de péngyǒu.", vi: "Anh ấy là bạn của tôi.", en: "He is my friend." },
+    { zh: ["今天", "天气", "很", "好"], pinyin: "Jīntiān tiānqì hěn hǎo.", vi: "Hôm nay thời tiết rất đẹp.", en: "The weather is nice today." },
+    { zh: ["我", "想", "喝", "水"], pinyin: "Wǒ xiǎng hē shuǐ.", vi: "Tôi muốn uống nước.", en: "I want to drink water." },
+    { zh: ["这", "是", "我的", "书"], pinyin: "Zhè shì wǒ de shū.", vi: "Đây là sách của tôi.", en: "This is my book." },
+    { zh: ["他", "在", "学校"], pinyin: "Tā zài xuéxiào.", vi: "Anh ấy ở trường.", en: "He is at school." },
+  ],
+  hard: [
+    { zh: ["我", "每天", "都", "学习", "汉语"], pinyin: "Wǒ měitiān dōu xuéxí Hànyǔ.", vi: "Tôi học tiếng Hán mỗi ngày.", en: "I study Chinese every day." },
+    { zh: ["他", "比", "我", "高", "一点"], pinyin: "Tā bǐ wǒ gāo yīdiǎn.", vi: "Anh ấy cao hơn tôi một chút.", en: "He is a little taller than me." },
+    { zh: ["昨天", "我", "去", "了", "图书馆"], pinyin: "Zuótiān wǒ qù le túshūguǎn.", vi: "Hôm qua tôi đã đi thư viện.", en: "I went to the library yesterday." },
+    { zh: ["如果", "下雨", "我", "就", "不去"], pinyin: "Rúguǒ xià yǔ wǒ jiù bù qù.", vi: "Nếu trời mưa thì tôi không đi.", en: "If it rains, I won't go." },
+    { zh: ["这", "本", "书", "非常", "有意思"], pinyin: "Zhè běn shū fēicháng yǒuyìsi.", vi: "Quyển sách này rất thú vị.", en: "This book is very interesting." },
+    { zh: ["我", "觉得", "中国", "菜", "很", "好吃"], pinyin: "Wǒ juéde Zhōngguó cài hěn hǎochī.", vi: "Tôi thấy đồ ăn Trung Quốc rất ngon.", en: "I think Chinese food is delicious." },
+    { zh: ["请", "你", "再", "说", "一遍"], pinyin: "Qǐng nǐ zài shuō yī biàn.", vi: "Xin hãy nói lại lần nữa.", en: "Please say it again." },
+  ],
+  expert: [
+    { zh: ["虽然", "很", "累", "但是", "我", "很", "开心"], pinyin: "Suīrán hěn lèi, dànshì wǒ hěn kāixīn.", vi: "Tuy mệt nhưng tôi rất vui.", en: "Although tired, I'm very happy." },
+    { zh: ["环境", "保护", "是", "每个人", "的", "责任"], pinyin: "Huánjìng bǎohù shì měi gè rén de zérèn.", vi: "Bảo vệ môi trường là trách nhiệm của mọi người.", en: "Environmental protection is everyone's responsibility." },
+    { zh: ["随着", "科技", "的", "发展", "生活", "变得", "更", "方便"], pinyin: "Suízhe kējì de fāzhǎn, shēnghuó biànde gèng fāngbiàn.", vi: "Cùng với sự phát triển của công nghệ, cuộc sống ngày càng tiện lợi.", en: "With tech development, life becomes more convenient." },
+    { zh: ["我", "希望", "将来", "能", "去", "中国", "留学"], pinyin: "Wǒ xīwàng jiānglái néng qù Zhōngguó liúxué.", vi: "Tôi hy vọng tương lai có thể đi du học Trung Quốc.", en: "I hope to study in China in the future." },
+    { zh: ["不仅", "他", "聪明", "而且", "很", "努力"], pinyin: "Bùjǐn tā cōngmíng, érqiě hěn nǔlì.", vi: "Anh ấy không chỉ thông minh mà còn rất chăm chỉ.", en: "He is not only smart but also hardworking." },
+    { zh: ["无论", "天气", "怎么样", "我", "都", "会", "去"], pinyin: "Wúlùn tiānqì zěnmeyàng, wǒ dōu huì qù.", vi: "Bất kể thời tiết thế nào tôi cũng sẽ đi.", en: "No matter the weather, I will go." },
+  ],
+};
+
+const SentenceBuilder = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: () => void }) => {
+  const { t } = useLanguage();
+  const bank = SENTENCE_BANK[difficulty];
+  const [pool, setPool] = useState<SentenceItem[]>(() => shuffle(bank));
+  const [idx, setIdx] = useState(0);
+  const [tiles, setTiles] = useState<{ word: string; id: number; used: boolean }[]>([]);
+  const [picked, setPicked] = useState<{ word: string; id: number }[]>([]);
+  const [score, setScore] = useState(0);
+  const [combo, setCombo] = useState(1);
+  const [lives, setLives] = useState(3);
+  const [feedback, setFeedback] = useState<"idle" | "ok" | "wrong">("idle");
+  const [timeLeft, setTimeLeft] = useState(30);
+  const [gameOver, setGameOver] = useState(false);
+  const tileIdRef = useRef(0);
+  const scoreSubmittedRef = useRef(false);
+
+  const current = pool[idx % pool.length];
+
+  const loadRound = useCallback(() => {
+    const sent = pool[idx % pool.length];
+    if (!sent) return;
+    // Add 2 distractor words from a random other sentence
+    const other = bank[Math.floor(Math.random() * bank.length)];
+    const distractors = shuffle(other.zh).slice(0, 2).filter(d => !sent.zh.includes(d));
+    const all = shuffle([...sent.zh, ...distractors.slice(0, 2)]).map(w => ({
+      word: w,
+      id: ++tileIdRef.current,
+      used: false,
+    }));
+    setTiles(all);
+    setPicked([]);
+    setFeedback("idle");
+    setTimeLeft(30);
+  }, [idx, pool, bank]);
+
+  useEffect(() => { loadRound(); }, [loadRound]);
+
+  // Countdown
+  useEffect(() => {
+    if (gameOver || feedback !== "idle") return;
+    if (timeLeft <= 0) {
+      setFeedback("wrong");
+      setCombo(1);
+      setLives(l => {
+        const nl = l - 1;
+        if (nl <= 0) setGameOver(true);
+        return nl;
+      });
+      setTimeout(() => {
+        setIdx(i => i + 1);
+      }, 900);
+      return;
+    }
+    const id = setTimeout(() => setTimeLeft(t => t - 1), 1000);
+    return () => clearTimeout(id);
+  }, [timeLeft, gameOver, feedback]);
+
+  // Reshuffle pool when exhausted
+  useEffect(() => {
+    if (idx > 0 && idx % pool.length === 0) {
+      setPool(shuffle(bank));
+    }
+  }, [idx, pool.length, bank]);
+
+  useEffect(() => {
+    if (gameOver && !scoreSubmittedRef.current) {
+      scoreSubmittedRef.current = true;
+      submitGameScore({ gameType: `sentence_builder_${difficulty}`, score, maxStreak: combo, difficulty });
+    }
+  }, [gameOver, score, combo, difficulty]);
+
+  const pickTile = (tile: { word: string; id: number; used: boolean }) => {
+    if (tile.used || feedback !== "idle" || !current) return;
+    const next = [...picked, { word: tile.word, id: tile.id }];
+    setTiles(prev => prev.map(t => (t.id === tile.id ? { ...t, used: true } : t)));
+    setPicked(next);
+    // Check completeness
+    if (next.length === current.zh.length) {
+      const ok = next.every((p, i) => p.word === current.zh[i]);
+      if (ok) {
+        setFeedback("ok");
+        setScore(s => s + 30 * combo + timeLeft);
+        setCombo(c => Math.min(c + 1, 10));
+        speakChinese(current.zh.join(""));
+        setTimeout(() => setIdx(i => i + 1), 1100);
+      } else {
+        setFeedback("wrong");
+        setCombo(1);
+        setLives(l => {
+          const nl = l - 1;
+          if (nl <= 0) setGameOver(true);
+          return nl;
+        });
+        setTimeout(() => {
+          setTiles(prev => prev.map(t => ({ ...t, used: false })));
+          setPicked([]);
+          setFeedback("idle");
+        }, 900);
+      }
+    }
+  };
+
+  const undoTile = () => {
+    if (picked.length === 0 || feedback !== "idle") return;
+    const last = picked[picked.length - 1];
+    setPicked(p => p.slice(0, -1));
+    setTiles(prev => prev.map(t => (t.id === last.id ? { ...t, used: false } : t)));
+  };
+
+  if (gameOver) return <GameOverScreen score={score} onRetry={() => window.location.reload()} onExit={onExit} />;
+  if (!current) return <p className="text-center p-8">Loading...</p>;
+
+  const timeBar = (timeLeft / 30) * 100;
+  const timeColor = timeLeft <= 8 ? "bg-rose-500" : timeLeft <= 15 ? "bg-amber-400" : "bg-emerald-400";
+
+  return (
+    <div className="space-y-3 max-w-6xl mx-auto">
+      <div className="flex items-center justify-between gap-2">
+        <Button variant="outline" size="sm" onClick={onExit} className="bg-slate-900 border-emerald-500/60 text-emerald-200 hover:bg-slate-800 hover:text-white">
+          <ArrowLeft className="w-4 h-4 mr-1" /> {t("Quay lại", "Back")}
+        </Button>
+        <span className="text-xs text-emerald-300/80 font-mono uppercase tracking-wider">📝 Sentence Builder · 句子大师</span>
+      </div>
+      <HUD score={score} combo={combo} level={Math.floor(score / 100) + 1} lives={lives} />
+
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4">
+        <div className={`relative rounded-2xl border-2 p-4 sm:p-6 min-h-[520px] bg-gradient-to-br from-emerald-100 via-teal-50 to-sky-100 dark:from-emerald-950/60 dark:via-teal-950/40 dark:to-sky-950/60 transition-colors ${
+          feedback === "ok" ? "border-emerald-400 shadow-[0_0_30px_rgba(52,211,153,0.5)]" : feedback === "wrong" ? "border-rose-400 shadow-[0_0_30px_rgba(244,63,94,0.5)]" : "border-emerald-500/40"
+        }`}>
+          {/* Decorative bamboo */}
+          <div className="absolute top-3 right-4 text-4xl opacity-70">🎋</div>
+          <div className="absolute bottom-3 left-4 text-4xl opacity-70">🏯</div>
+
+          {/* Timer */}
+          <div className="mb-3">
+            <div className="flex items-center justify-between mb-1 text-xs">
+              <span className="inline-flex items-center gap-1 text-foreground font-mono"><Timer className="w-3.5 h-3.5" /> {timeLeft}s</span>
+              <span className="text-muted-foreground font-mono">{t("30s mỗi câu", "30s per sentence")}</span>
+            </div>
+            <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
+              <motion.div animate={{ width: `${timeBar}%` }} transition={{ duration: 0.3 }} className={`h-full ${timeColor}`} />
+            </div>
+          </div>
+
+          {/* Target meaning */}
+          <div className="text-center mb-5">
+            <p className="text-xs uppercase tracking-wider text-emerald-700 dark:text-emerald-300 font-mono mb-1">{t("Sắp xếp thành câu:", "Arrange into sentence:")}</p>
+            <p className="text-xl sm:text-2xl font-bold text-foreground">{current.vi}</p>
+            <p className="text-sm text-muted-foreground italic mt-1">{current.en}</p>
+          </div>
+
+          {/* Picked tiles slot */}
+          <div className="min-h-[80px] mx-auto max-w-3xl p-3 rounded-xl bg-white/70 dark:bg-slate-900/60 border-2 border-dashed border-emerald-400/50 flex flex-wrap gap-2 items-center justify-center mb-5">
+            {picked.length === 0 ? (
+              <span className="text-sm text-muted-foreground">{t("Bấm vào các thẻ bên dưới...", "Tap the tiles below...")}</span>
+            ) : (
+              picked.map((p, i) => (
+                <motion.span
+                  key={p.id}
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  className="px-4 py-2 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 text-white text-2xl font-bold shadow-md"
+                >
+                  {p.word}
+                </motion.span>
+              ))
+            )}
+          </div>
+
+          {/* Tile bank */}
+          <div className="flex flex-wrap gap-2 justify-center max-w-3xl mx-auto">
+            {tiles.map(tile => (
+              <motion.button
+                key={tile.id}
+                whileHover={!tile.used ? { scale: 1.08 } : {}}
+                whileTap={!tile.used ? { scale: 0.95 } : {}}
+                onClick={() => pickTile(tile)}
+                disabled={tile.used || feedback !== "idle"}
+                className={`px-5 py-3 rounded-xl text-2xl sm:text-3xl font-bold border-2 transition-all ${
+                  tile.used
+                    ? "opacity-30 bg-slate-200 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-500"
+                    : "bg-white dark:bg-slate-900 border-emerald-400 text-emerald-700 dark:text-emerald-200 hover:bg-emerald-50 dark:hover:bg-emerald-900/40 shadow-md"
+                }`}
+              >
+                {tile.word}
+              </motion.button>
+            ))}
+          </div>
+
+          <div className="flex justify-center gap-2 mt-5">
+            <Button variant="outline" size="sm" onClick={undoTile} disabled={picked.length === 0 || feedback !== "idle"}>
+              ↶ {t("Hoàn tác", "Undo")}
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => { setTiles(prev => prev.map(t => ({ ...t, used: false }))); setPicked([]); }} disabled={picked.length === 0 || feedback !== "idle"}>
+              ♻ {t("Làm lại", "Reset")}
+            </Button>
+          </div>
+
+          {feedback === "ok" && (
+            <motion.div initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="absolute inset-x-4 bottom-4 p-3 rounded-xl bg-emerald-500/90 text-white text-center font-bold shadow-lg">
+              ✨ {t("Tuyệt vời!", "Perfect!")} +{30 * combo + timeLeft} · <span className="font-mono">{current.pinyin}</span>
+            </motion.div>
+          )}
+          {feedback === "wrong" && (
+            <motion.div initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="absolute inset-x-4 bottom-4 p-3 rounded-xl bg-rose-500/90 text-white text-center font-bold shadow-lg">
+              ❌ {t("Đáp án đúng:", "Correct answer:")} <span className="text-2xl">{current.zh.join(" ")}</span> · <span className="font-mono">{current.pinyin}</span>
+            </motion.div>
+          )}
+        </div>
+
+        {/* Leaderboard */}
+        <aside className="rounded-2xl border-2 border-emerald-500/40 bg-card p-4">
+          <p className="text-xs text-emerald-600 dark:text-emerald-300 mb-2 font-mono uppercase">Sentence Builder · {difficulty}</p>
+          <GameLeaderboard gameType={`sentence_builder_${difficulty}`} currentScore={score} />
+        </aside>
+      </div>
+
+      <Button variant="outline" onClick={onExit} className="w-full">
+        <ArrowLeft className="w-4 h-4 mr-2" /> {t("Về menu game", "Back to game menu")}
+      </Button>
+    </div>
+  );
+};
+
+
+// ============================================================
 // Game Over Screen
 // ============================================================
 const GameOverScreen = ({ score, onRetry, onExit }: { score: number; onRetry: () => void; onExit: () => void }) => {
@@ -856,6 +1198,15 @@ const ChineseArcade = () => {
       color: "from-red-500 to-orange-600",
       glow: "shadow-[0_0_30px_rgba(239,68,68,0.4)]",
     },
+    {
+      id: "sentence" as const,
+      icon: <Sparkles className="w-7 h-7" />,
+      chibi: "🐯",
+      title: t("Sentence Builder · 句子大师", "Sentence Builder · 句子大师"),
+      desc: t("Sắp xếp các thẻ Hán tự để tạo câu hoàn chỉnh — luyện ngữ pháp & viết câu!", "Arrange Hanzi tiles to build a complete sentence — practice grammar & sentence writing!"),
+      color: "from-emerald-500 to-teal-600",
+      glow: "shadow-[0_0_30px_rgba(16,185,129,0.4)]",
+    },
   ];
 
   // Floating background hanzi characters for the hub
@@ -895,7 +1246,7 @@ const ChineseArcade = () => {
                 {t("Trung tâm trò chơi tiếng Trung", "Chinese Vocabulary Arcade")}
               </h1>
               <p className="text-sm text-slate-400 max-w-md mx-auto">
-                {t("3 mini-game arcade luyện Hanzi, Pinyin và thanh điệu theo phong cách neon-cyberpunk.", "3 neon-cyberpunk arcade mini-games to drill Hanzi, Pinyin, and tones.")}
+                {t("5 mini-game arcade luyện Hanzi, Pinyin, thanh điệu và viết câu theo phong cách neon-cyberpunk.", "5 neon-cyberpunk arcade mini-games to drill Hanzi, Pinyin, tones, and sentence building.")}
               </p>
             </motion.div>
 
@@ -993,6 +1344,7 @@ const ChineseArcade = () => {
             />
           </div>
         )}
+        {active === "sentence" && <SentenceBuilder difficulty={difficulty} onExit={() => setActive("menu")} />}
       </main>
       <Footer />
     </div>
