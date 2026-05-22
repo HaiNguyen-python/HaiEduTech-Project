@@ -21,7 +21,7 @@ import WordMeteor from "@/components/games/WordMeteor";
 // ============================================================
 
 type GameId = "menu" | "shooter" | "hotpot" | "runner" | "meteor";
-type Difficulty = "easy" | "hard"; // easy = HSK 1-2, hard = HSK 3-4
+type Difficulty = "easy" | "hard" | "expert"; // easy=HSK1-2, hard=HSK3-4, expert=HSK5-6
 
 // Strip tone marks from pinyin and return plain ASCII letters
 const stripTones = (pinyin: string): string => {
@@ -78,7 +78,10 @@ const isTouchDevice = () => typeof window !== "undefined" && ("ontouchstart" in 
 
 // Filter words by difficulty level
 const wordsForDifficulty = (diff: Difficulty): HskWord[] => {
-  const levels = diff === "easy" ? ["HSK 1", "HSK 2"] : ["HSK 3", "HSK 4"];
+  const levels =
+    diff === "easy" ? ["HSK 1", "HSK 2"]
+    : diff === "hard" ? ["HSK 3", "HSK 4"]
+    : ["HSK 5", "HSK 6"];
   return hskVocabData.filter(w => levels.includes(w.level));
 };
 
@@ -222,13 +225,13 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
   }
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 max-w-5xl mx-auto">
       <HUD score={score} combo={combo} level={level} lives={lives} />
       <motion.div
         ref={containerRef}
         animate={shake ? { x: [-8, 8, -6, 6, 0] } : {}}
         transition={{ duration: 0.3 }}
-        className="relative h-[480px] sm:h-[560px] rounded-2xl border-2 border-cyan-500/40 bg-gradient-to-b from-slate-950 via-purple-950/30 to-slate-900 overflow-hidden"
+        className="relative h-[600px] sm:h-[680px] rounded-2xl border-2 border-cyan-500/40 bg-gradient-to-b from-slate-950 via-purple-950/30 to-slate-900 overflow-hidden"
         style={{
           backgroundImage: "radial-gradient(circle at 20% 30%, rgba(168,85,247,0.15), transparent 40%), radial-gradient(circle at 80% 70%, rgba(6,182,212,0.15), transparent 40%)",
         }}
@@ -251,11 +254,12 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 1.5, opacity: 0, rotate: 180 }}
               onClick={() => handleTapMeteor(m)}
-              className="absolute -translate-x-1/2 px-3 py-2 rounded-xl bg-gradient-to-br from-rose-500/80 to-amber-500/80 border-2 border-amber-300 shadow-[0_0_15px_rgba(251,191,36,0.6)] text-white font-bold text-center min-w-[60px] cursor-pointer"
+              className="absolute -translate-x-1/2 px-4 py-3 rounded-2xl bg-gradient-to-br from-rose-500/90 to-amber-500/90 border-2 border-amber-300 shadow-[0_0_18px_rgba(251,191,36,0.7)] text-white font-bold text-center min-w-[120px] cursor-pointer"
               style={{ left: `${m.x}%`, top: `${m.y}%` }}
             >
-              <div className="text-xl sm:text-2xl leading-tight">{m.word.character}</div>
-              <div className="text-[10px] opacity-80 font-mono">{stripTones(m.word.pinyin)}</div>
+              <div className="text-4xl sm:text-5xl leading-tight drop-shadow">{m.word.character}</div>
+              <div className="text-sm font-mono text-amber-100 mt-0.5">{stripTones(m.word.pinyin)}</div>
+              <div className="text-xs text-white/95 mt-1 max-w-[180px] mx-auto leading-snug">{m.word.definition.vi}</div>
             </motion.button>
           ))}
         </AnimatePresence>
@@ -403,7 +407,7 @@ const HotpotChef = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: ()
   if (!target) return <p className="text-center p-8">Loading...</p>;
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 max-w-5xl mx-auto">
       <HUD score={score} combo={combo} level={level} lives={lives} />
       <div className="rounded-2xl border-2 border-amber-500/40 bg-gradient-to-b from-amber-950/40 via-rose-950/30 to-slate-900 p-4 sm:p-6 min-h-[500px]">
         {/* Target */}
@@ -453,7 +457,7 @@ const HotpotChef = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: ()
         </motion.div>
 
         {/* Ingredient bowls */}
-        <div className="grid grid-cols-4 sm:grid-cols-6 gap-3 max-w-xl mx-auto">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 max-w-2xl mx-auto">
           {ingredients.map(ing => (
             <motion.button
               key={ing.id}
@@ -461,10 +465,10 @@ const HotpotChef = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: ()
               whileTap={!ing.used ? { scale: 0.95 } : {}}
               onClick={() => handleSelect(ing)}
               disabled={ing.used}
-              className={`aspect-square rounded-full border-2 flex items-center justify-center text-2xl sm:text-3xl font-bold transition-all ${
+              className={`aspect-square rounded-2xl border-2 flex items-center justify-center text-4xl sm:text-5xl font-bold transition-all ${
                 ing.used
-                  ? "border-slate-700 bg-slate-900/40 text-slate-700"
-                  : "border-amber-400/60 bg-gradient-to-br from-amber-900/60 to-rose-900/60 text-amber-100 hover:border-amber-300 shadow-[0_0_10px_rgba(251,191,36,0.3)]"
+                  ? "border-slate-600 bg-slate-800/70 text-slate-500 opacity-50"
+                  : "border-amber-400/70 bg-gradient-to-br from-amber-800/80 to-rose-800/80 text-amber-50 hover:border-amber-200 shadow-[0_0_12px_rgba(251,191,36,0.4)]"
               }`}
             >
               {ing.char}
@@ -579,7 +583,7 @@ const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
   const maskedPinyin = currentWord.pinyin.replace(/[āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜüaeiou]/g, "_");
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 max-w-5xl mx-auto">
       <HUD score={score} combo={combo} level={level} lives={lives} />
       <div
         className={`relative rounded-2xl border-2 overflow-hidden bg-gradient-to-b from-slate-950 via-pink-950/30 to-slate-900 transition-colors ${
@@ -638,9 +642,8 @@ const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
         {[0, 1, 2, 3].map(i => (
           <Button
             key={i}
-            variant="outline"
             onClick={() => submitChoice(i)}
-            className="h-14 text-2xl font-bold border-pink-500/40 hover:bg-pink-500/10"
+            className="h-16 text-3xl font-bold bg-slate-800 hover:bg-pink-600 text-white border-2 border-pink-400 shadow-[0_0_10px_rgba(236,72,153,0.4)]"
           >
             {trackTones[i]}
           </Button>
@@ -733,7 +736,7 @@ const ChineseArcade = () => {
         path="/chinese/arcade"
       />
       <Navbar />
-      <main className="container mx-auto px-4 py-8 max-w-3xl">
+      <main className="container mx-auto px-4 py-8 max-w-7xl">
         {active === "menu" && (
           <>
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-6">
@@ -749,35 +752,44 @@ const ChineseArcade = () => {
             </motion.div>
 
             {/* Difficulty selector */}
-            <div className="flex gap-2 justify-center mb-6">
+            <div className="flex flex-wrap gap-2 justify-center mb-6">
               <Button
                 onClick={() => setDifficulty("easy")}
-                variant={difficulty === "easy" ? "default" : "outline"}
                 size="sm"
                 className={
                   difficulty === "easy"
-                    ? "bg-cyan-500 hover:bg-cyan-600 text-white border-cyan-400"
-                    : "bg-slate-800/60 text-cyan-100 border-cyan-400/50 hover:bg-slate-700 hover:text-white"
+                    ? "bg-cyan-500 hover:bg-cyan-600 text-white border-2 border-cyan-300"
+                    : "bg-slate-800 text-cyan-100 border-2 border-cyan-400/60 hover:bg-slate-700 hover:text-white"
                 }
               >
                 HSK 1-2 · {t("Dễ", "Easy")}
               </Button>
               <Button
                 onClick={() => setDifficulty("hard")}
-                variant={difficulty === "hard" ? "default" : "outline"}
                 size="sm"
                 className={
                   difficulty === "hard"
-                    ? "bg-pink-500 hover:bg-pink-600 text-white border-pink-400"
-                    : "bg-slate-800/60 text-pink-100 border-pink-400/50 hover:bg-slate-700 hover:text-white"
+                    ? "bg-pink-500 hover:bg-pink-600 text-white border-2 border-pink-300"
+                    : "bg-slate-800 text-pink-100 border-2 border-pink-400/60 hover:bg-slate-700 hover:text-white"
                 }
               >
                 HSK 3-4 · {t("Khó", "Hard")}
               </Button>
+              <Button
+                onClick={() => setDifficulty("expert")}
+                size="sm"
+                className={
+                  difficulty === "expert"
+                    ? "bg-amber-500 hover:bg-amber-600 text-white border-2 border-amber-300"
+                    : "bg-slate-800 text-amber-100 border-2 border-amber-400/60 hover:bg-slate-700 hover:text-white"
+                }
+              >
+                HSK 5-6 · {t("Chuyên gia", "Expert")}
+              </Button>
             </div>
 
             {/* Game cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto">
               {games.map((g, i) => (
                 <motion.button
                   key={g.id}
@@ -787,14 +799,14 @@ const ChineseArcade = () => {
                   whileHover={{ scale: 1.03, y: -3 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setActive(g.id)}
-                  className={`relative p-5 rounded-2xl border-2 border-slate-700 bg-slate-900 text-left transition-all hover:border-cyan-500/50 hover:${g.glow}`}
+                  className={`relative p-6 min-h-[240px] rounded-2xl border-2 border-slate-700 bg-slate-900 text-left transition-all hover:border-cyan-500/50 hover:${g.glow}`}
                 >
                   <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${g.color} rounded-t-2xl`} />
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${g.color} flex items-center justify-center text-white mb-3`}>
+                  <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${g.color} flex items-center justify-center text-white mb-4`}>
                     {g.icon}
                   </div>
-                  <h3 className="font-bold text-white mb-1">{g.title}</h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">{g.desc}</p>
+                  <h3 className="font-bold text-lg text-white mb-2 leading-tight">{g.title}</h3>
+                  <p className="text-sm text-slate-300 leading-relaxed">{g.desc}</p>
                   <div className="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-mono">▶ PLAY</div>
                 </motion.button>
               ))}
@@ -812,8 +824,17 @@ const ChineseArcade = () => {
         {active === "hotpot" && <HotpotChef difficulty={difficulty} onExit={() => setActive("menu")} />}
         {active === "runner" && <PinyinRunner difficulty={difficulty} onExit={() => setActive("menu")} />}
         {active === "meteor" && (
-          <div className="max-w-3xl mx-auto">
-            <WordMeteor lang="zh" onExit={() => setActive("menu")} />
+          <div className="max-w-6xl mx-auto">
+            <WordMeteor
+              lang="zh"
+              difficulty={difficulty}
+              gameType={`meteor_zh_${difficulty}`}
+              customBank={wordsForDifficulty(difficulty).map(w => ({
+                word: `${w.character} ${w.pinyin}`,
+                meaning: w.definition.vi,
+              }))}
+              onExit={() => setActive("menu")}
+            />
           </div>
         )}
       </main>

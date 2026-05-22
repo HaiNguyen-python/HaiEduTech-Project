@@ -210,7 +210,7 @@ export default function WordMeteor({
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4">
+    <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-4">
       <div className="space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-card/60 p-3">
           <div className="flex items-center gap-2 text-sm">
@@ -253,11 +253,11 @@ export default function WordMeteor({
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 1.4 }}
                 className="absolute -translate-x-1/2"
-                style={{ left: `${m.x}%`, top: `${m.y}%`, maxWidth: "min(94vw, 560px)" }}
+                style={{ left: `${m.x}%`, top: `${m.y}%`, maxWidth: "min(96vw, 720px)" }}
               >
                 <div className="relative">
                   <div className="absolute -inset-3 rounded-full bg-orange-500/30 blur-xl" />
-                  <div className="relative mx-auto w-fit rounded-xl border border-orange-300/40 bg-gradient-to-br from-orange-500 to-red-600 px-5 py-3 text-xl font-bold text-white shadow-lg">
+                  <div className="relative mx-auto w-fit rounded-2xl border-2 border-orange-300/60 bg-gradient-to-br from-orange-500 to-red-600 px-7 py-4 text-2xl font-bold text-white shadow-lg">
                     ☄️ {m.word}
                   </div>
                   <div className="mt-3 flex flex-wrap justify-center gap-3">
@@ -265,7 +265,7 @@ export default function WordMeteor({
                       <button
                         key={opt}
                         onClick={() => handlePick(m, opt)}
-                        className="min-w-[140px] rounded-xl border-2 border-white/40 bg-white/20 px-5 py-3 text-base font-semibold text-white backdrop-blur transition hover:scale-105 hover:bg-white/35 active:scale-95"
+                        className="min-w-[180px] rounded-xl border-2 border-white/60 bg-white/25 px-6 py-4 text-lg font-semibold text-white backdrop-blur transition hover:scale-105 hover:bg-white/45 active:scale-95"
                       >
                         {opt}
                       </button>
@@ -294,7 +294,7 @@ export default function WordMeteor({
       </div>
 
       {/* Leaderboard sidebar */}
-      <aside className="rounded-2xl border border-border bg-card/60 p-3">
+      <aside className="rounded-2xl border-2 border-amber-400/40 bg-slate-900 p-4 text-white shadow-[0_0_20px_rgba(251,191,36,0.15)]">
         <GameLeaderboard gameType={resolvedGameType} currentScore={score} />
       </aside>
     </div>
