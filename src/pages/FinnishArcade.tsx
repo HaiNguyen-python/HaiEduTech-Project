@@ -367,12 +367,13 @@ const FinnishArcade = () => {
                   return (
                     <motion.button key={g.id} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
                       onClick={() => setGame(g.id)}
-                      className="text-left rounded-2xl border border-slate-700 bg-slate-950/80 hover:border-sky-400/50 hover:shadow-[0_0_40px_-15px_rgba(56,189,248,0.6)] transition-all p-5 group">
+                      className="relative overflow-hidden text-left rounded-2xl border border-slate-700 bg-slate-950/80 hover:border-sky-400/50 hover:shadow-[0_0_40px_-15px_rgba(56,189,248,0.6)] transition-all p-5 group min-h-[180px]">
+                      <motion.div animate={{ y: [0, -6, 0], rotate: [-3, 3, -3] }} transition={{ duration: 3, repeat: Infinity }} className="absolute -bottom-2 -right-2 text-6xl drop-shadow-xl select-none opacity-90" aria-hidden>{g.chibi}</motion.div>
                       <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${g.color} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
                         <Icon className="w-6 h-6 text-white" />
                       </div>
                       <h3 className="text-lg font-bold text-slate-100 mb-1">{g.title}</h3>
-                      <p className="text-xs text-slate-400">{g.desc}</p>
+                      <p className="text-xs text-slate-400 max-w-[75%]">{g.desc}</p>
                     </motion.button>
                   );
                 })}
