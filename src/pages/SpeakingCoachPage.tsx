@@ -106,15 +106,7 @@ const SpeakingCoachPage = () => {
             animate={{ opacity: 1, height: "auto" }}
             className="mb-6"
           >
-            {lang === "english" && (
-              <MountainClimber
-                mastered={excellentCount}
-                total={totalTarget}
-                flyingStars={flyingStars}
-                onStarLanded={handleStarLanded}
-                containerRef={containerRef}
-              />
-            )}
+            {/* English no longer shows MountainClimber per request — stars still fly via handlePerfectScore but no climber UI */}
             {lang === "finnish" && (
               <FinnishSkier
                 mastered={excellentCount}
