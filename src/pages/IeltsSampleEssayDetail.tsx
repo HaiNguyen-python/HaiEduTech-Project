@@ -240,8 +240,17 @@ const IeltsSampleEssayDetail = () => {
           </details>
 
 
-          {/* Band 7.0+ Analysis - TA/TR, CC, LR, GRA */}
-          <EssayBand8Analysis essay={essay} />
+          {/* Band 7.0+ Analysis - TA/TR, CC, LR, GRA (collapsible) */}
+          <details className="glass-card rounded-xl p-3.5 md:p-4 group">
+            <summary className="cursor-pointer flex items-center justify-between gap-2 list-none">
+              <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+                📊 {t("Phân tích Band 8.0+ (TA/CC/LR/GRA)", "Band 8.0+ Analysis (TA/CC/LR/GRA)")}
+              </h2>
+              <span className="text-xs text-muted-foreground group-open:hidden">{t("Mở", "Show")}</span>
+              <span className="text-xs text-muted-foreground hidden group-open:inline">{t("Đóng", "Hide")}</span>
+            </summary>
+            <div className="mt-3"><EssayBand8Analysis essay={essay} /></div>
+          </details>
 
           {/* Bilingual Glossary with per-phrase writing practice */}
           <div className="glass-card rounded-xl p-3.5">
