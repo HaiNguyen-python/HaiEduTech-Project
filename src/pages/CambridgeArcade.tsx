@@ -415,7 +415,21 @@ function SpellingBee({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4">
-      <div className="min-h-[70vh] bg-gradient-to-br from-amber-200 via-yellow-100 to-orange-200 dark:from-amber-950 dark:via-orange-950 dark:to-yellow-950 rounded-3xl p-4 sm:p-6">
+      <div className="relative overflow-hidden min-h-[70vh] bg-[linear-gradient(140deg,#fde68a_0%,#fbbf24_30%,#fb923c_60%,#fdba74_100%)] dark:from-amber-950 dark:via-orange-950 dark:to-yellow-950 rounded-3xl p-4 sm:p-6">
+        {/* Honeycomb + bee scenery */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden opacity-90">
+          <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "radial-gradient(circle at 20% 30%, rgba(255,255,255,0.7) 0 14px, transparent 16px), radial-gradient(circle at 70% 60%, rgba(255,255,255,0.5) 0 10px, transparent 12px), radial-gradient(circle at 90% 20%, rgba(255,255,255,0.5) 0 12px, transparent 14px)" }} />
+          <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "repeating-conic-gradient(from 30deg, rgba(255,255,255,0.4) 0deg 60deg, transparent 60deg 120deg)", backgroundSize: "60px 60px" }} />
+          <motion.div animate={{ x: [0, 50, 0], y: [0, -10, 0] }} transition={{ duration: 6, repeat: Infinity }} className="absolute top-8 left-6 text-5xl">🐝</motion.div>
+          <motion.div animate={{ x: [0, -40, 0], y: [0, 14, 0] }} transition={{ duration: 7, repeat: Infinity }} className="absolute top-20 right-8 text-4xl">🐝</motion.div>
+          <motion.div animate={{ x: [0, 30, 0] }} transition={{ duration: 8, repeat: Infinity }} className="absolute bottom-24 left-10 text-3xl">🐝</motion.div>
+          <div className="absolute bottom-2 left-4 text-5xl">🌻</div>
+          <div className="absolute bottom-4 left-1/3 text-4xl">🌼</div>
+          <div className="absolute bottom-2 right-1/4 text-5xl">🌻</div>
+          <div className="absolute bottom-4 right-6 text-4xl">🌸</div>
+          <motion.div animate={{ y: [0, -8, 0] }} transition={{ duration: 2.5, repeat: Infinity }} className="absolute bottom-8 right-2 text-7xl drop-shadow-xl">🐻</motion.div>
+        </div>
+        <div className="relative">
         <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
           <Button variant="secondary" size="sm" onClick={onExit}>
             <ArrowLeft className="w-4 h-4 mr-1" /> Exit
