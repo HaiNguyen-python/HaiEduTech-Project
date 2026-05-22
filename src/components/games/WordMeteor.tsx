@@ -74,6 +74,9 @@ export default function WordMeteor({
   const [maxStreak, setMaxStreak] = useState(0);
   const [running, setRunning] = useState(false);
   const [scoreSubmitted, setScoreSubmitted] = useState(false);
+  const [rocketX, setRocketX] = useState(50); // 0-100 horizontal % of play area
+  const [laserAt, setLaserAt] = useState<{ x: number; y: number; id: number } | null>(null);
+  const keysRef = useRef({ left: false, right: false });
 
   const queueRef = useRef<MeteorItem[]>([]);
   const recentRef = useRef<string[]>([]); // last few meanings on screen to avoid simultaneous repeats
@@ -82,6 +85,37 @@ export default function WordMeteor({
   const idRef = useRef(0);
   const scoreRef = useRef(0);
   useEffect(() => { scoreRef.current = score; }, [score]);
+
+  // Keyboard rocket movement
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft" || e.key === "a") keysRef.current.left = true;
+      if (e.key === "ArrowRight" || e.key === "d") keysRef.current.right = true;
+    };
+    const up = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft" || e.key === "a") keysRef.current.left = false;
+      if (e.key === "ArrowRight" || e.key === "d") keysRef.current.right = false;
+    };
+    window.addEventListener("keydown", down);
+    window.addEventListener("keyup", up);
+    return () => {
+      window.removeEventListener("keydown", down);
+      window.removeEventListener("keyup", up);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!running) return;
+    const id = window.setInterval(() => {
+      setRocketX((x) => {
+        let nx = x;
+        if (keysRef.current.left) nx -= 1.8;
+        if (keysRef.current.right) nx += 1.8;
+        return Math.max(5, Math.min(95, nx));
+      });
+    }, 30);
+    return () => clearInterval(id);
+  }, [running]);
 
   // Refill shuffled queue when empty so each word appears once before repeating
   const drawNext = (): MeteorItem => {
