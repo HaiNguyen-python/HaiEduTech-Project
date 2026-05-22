@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 import { sampleEssays } from "@/data/ieltsSampleEssays";
 import IELTSChart from "@/components/IELTSChart";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, BookOpen, CheckCircle, XCircle, RotateCcw, Download, Sparkles } 
+import { ArrowLeft, BookOpen, CheckCircle, XCircle, RotateCcw, Download, Sparkles, ChevronDown } from "lucide-react"; 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
