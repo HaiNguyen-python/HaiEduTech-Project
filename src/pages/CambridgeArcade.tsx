@@ -276,6 +276,7 @@ function BalloonPop({ level, onExit }: { level: CambridgeKidsLevel; onExit: () =
             )}
           </>
         )}
+        </div>
       </div>
 
       <aside className="rounded-2xl border border-border bg-card/60 p-3">
