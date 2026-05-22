@@ -203,8 +203,17 @@ const IeltsSampleEssayDetail = () => {
             <IELTSChart config={essay.chartConfig} />
           )}
 
-          {/* Outline - structure & key ideas */}
-          <EssayOutline essay={essay} />
+          {/* Outline - structure & key ideas (collapsible) */}
+          <details className="glass-card rounded-xl p-3.5 md:p-4 group" open>
+            <summary className="cursor-pointer flex items-center justify-between gap-2 list-none">
+              <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+                🗂️ {t("Dàn ý & Cấu trúc", "Outline & Structure")}
+              </h2>
+              <span className="text-xs text-muted-foreground group-open:hidden">{t("Mở", "Show")}</span>
+              <span className="text-xs text-muted-foreground hidden group-open:inline">{t("Đóng", "Hide")}</span>
+            </summary>
+            <div className="mt-3"><EssayOutline essay={essay} /></div>
+          </details>
 
           {/* Full essay reference with click-to-reveal teaching mode */}
           <details className="glass-card rounded-xl p-3.5 md:p-4 group" open>
