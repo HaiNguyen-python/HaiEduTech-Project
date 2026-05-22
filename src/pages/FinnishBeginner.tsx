@@ -19,9 +19,24 @@ import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { playFinnishTts } from "@/lib/finnishTts";
 import {
-  ALPHABET_SOUNDS, VERB_TYPES, KPT_PAIRS, PARTITIVE_CASES,
-  DAILY_PHRASES, BEGINNER_VOCAB, VIETNAMESE_PITFALLS, BEGINNER_QUIZ,
+  ALPHABET_SOUNDS as ALPHABET_BASE, VERB_TYPES, KPT_PAIRS as KPT_BASE, PARTITIVE_CASES as PART_BASE,
+  DAILY_PHRASES as PHRASES_BASE, BEGINNER_VOCAB as VOCAB_BASE,
+  VIETNAMESE_PITFALLS as PITFALLS_BASE, BEGINNER_QUIZ as QUIZ_BASE,
 } from "@/data/finnishBeginnerData";
+import {
+  ALPHABET_SOUNDS_EXTRA, KPT_PAIRS_EXTRA, PARTITIVE_CASES_EXTRA,
+  DAILY_PHRASES_EXTRA_FULL, BEGINNER_VOCAB_EXTRA,
+  VIETNAMESE_PITFALLS_EXTRA, BEGINNER_QUIZ_EXTRA_FULL,
+} from "@/data/finnishBeginnerExpansion";
+
+// Merge base + extra so A1-A2 content is significantly larger
+const ALPHABET_SOUNDS = [...ALPHABET_BASE, ...ALPHABET_SOUNDS_EXTRA];
+const KPT_PAIRS = [...KPT_BASE, ...KPT_PAIRS_EXTRA];
+const PARTITIVE_CASES = [...PART_BASE, ...PARTITIVE_CASES_EXTRA];
+const DAILY_PHRASES = [...PHRASES_BASE, ...DAILY_PHRASES_EXTRA_FULL];
+const BEGINNER_VOCAB = [...VOCAB_BASE, ...BEGINNER_VOCAB_EXTRA];
+const VIETNAMESE_PITFALLS = [...PITFALLS_BASE, ...VIETNAMESE_PITFALLS_EXTRA];
+const BEGINNER_QUIZ = [...QUIZ_BASE, ...BEGINNER_QUIZ_EXTRA_FULL];
 
 // Use Finnish TTS pipeline (proxy → Google translate_tts → native fi-FI voice)
 // to guarantee proper Finnish pronunciation, not the system's English fallback voice.

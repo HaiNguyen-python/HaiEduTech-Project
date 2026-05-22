@@ -219,7 +219,67 @@ export const BEGINNER_VOCAB_EXTRA: BeginnerVocab[] = [
   { fi: "jalka", vi: "chân", en: "leg/foot", illustration: "🦵", category: "body" },
   { fi: "silmä", vi: "mắt", en: "eye", illustration: "👁️", category: "body" },
   { fi: "sydän", vi: "tim", en: "heart", illustration: "❤️", category: "body" },
+  // Số đếm & màu sắc
+  { fi: "punainen", vi: "đỏ", en: "red", illustration: "🔴", category: "color" },
+  { fi: "sininen", vi: "xanh dương", en: "blue", illustration: "🔵", category: "color" },
+  { fi: "vihreä", vi: "xanh lá", en: "green", illustration: "🟢", category: "color" },
+  { fi: "keltainen", vi: "vàng", en: "yellow", illustration: "🟡", category: "color" },
+  { fi: "musta", vi: "đen", en: "black", illustration: "⚫", category: "color" },
+  { fi: "valkoinen", vi: "trắng", en: "white", illustration: "⚪", category: "color" },
+  // Đồ vật trong nhà
+  { fi: "talo", vi: "ngôi nhà", en: "house", illustration: "🏠", category: "home" },
+  { fi: "huone", vi: "căn phòng", en: "room", illustration: "🚪", category: "home" },
+  { fi: "sänky", vi: "cái giường", en: "bed", illustration: "🛏️", category: "home" },
+  { fi: "tuoli", vi: "cái ghế", en: "chair", illustration: "🪑", category: "home" },
+  { fi: "pöytä", vi: "cái bàn", en: "table", illustration: "🪟", category: "home" },
+  { fi: "ikkuna", vi: "cửa sổ", en: "window", illustration: "🪟", category: "home" },
+  { fi: "ovi", vi: "cửa ra vào", en: "door", illustration: "🚪", category: "home" },
+  // Phương tiện & đi lại
+  { fi: "auto", vi: "ô tô", en: "car", illustration: "🚗", category: "transport" },
+  { fi: "bussi", vi: "xe buýt", en: "bus", illustration: "🚌", category: "transport" },
+  { fi: "juna", vi: "tàu hỏa", en: "train", illustration: "🚆", category: "transport" },
+  { fi: "polkupyörä", vi: "xe đạp", en: "bicycle", illustration: "🚲", category: "transport" },
+  { fi: "lentokone", vi: "máy bay", en: "airplane", illustration: "✈️", category: "transport" },
+  // Động vật
+  { fi: "koira", vi: "con chó", en: "dog", illustration: "🐕", category: "animal" },
+  { fi: "kissa", vi: "con mèo", en: "cat", illustration: "🐈", category: "animal" },
+  { fi: "lintu", vi: "con chim", en: "bird", illustration: "🐦", category: "animal" },
+  { fi: "hevonen", vi: "con ngựa", en: "horse", illustration: "🐴", category: "animal" },
+  { fi: "karhu", vi: "con gấu", en: "bear", illustration: "🐻", category: "animal" },
+  { fi: "poro", vi: "tuần lộc", en: "reindeer", illustration: "🦌", category: "animal" },
+  // Cảm xúc
+  { fi: "iloinen", vi: "vui", en: "happy", illustration: "😊", category: "emotion" },
+  { fi: "surullinen", vi: "buồn", en: "sad", illustration: "😢", category: "emotion" },
+  { fi: "vihainen", vi: "giận", en: "angry", illustration: "😡", category: "emotion" },
+  { fi: "väsynyt", vi: "mệt", en: "tired", illustration: "😴", category: "emotion" },
+  { fi: "innoissaan", vi: "phấn khích", en: "excited", illustration: "🤩", category: "emotion" },
+  // Nghề nghiệp
+  { fi: "lääkäri", vi: "bác sĩ", en: "doctor", illustration: "🧑‍⚕️", category: "job" },
+  { fi: "insinööri", vi: "kỹ sư", en: "engineer", illustration: "👷", category: "job" },
+  { fi: "kokki", vi: "đầu bếp", en: "cook", illustration: "🧑‍🍳", category: "job" },
+  { fi: "ohjelmoija", vi: "lập trình viên", en: "programmer", illustration: "💻", category: "job" },
+  { fi: "hoitaja", vi: "y tá", en: "nurse", illustration: "🩺", category: "job" },
 ];
+
+// =============================================================
+// DAILY PHRASES MỞ RỘNG SET 2 - giao tiếp dài hơn
+// =============================================================
+export const DAILY_PHRASES_EXTRA_2: DailyPhrase[] = [
+  { fi: "Mitä kuuluu?", en: "How are you?", vi: "Bạn khỏe không?", category: "greeting", illustration: "😊" },
+  { fi: "Kiitos, hyvää. Entä sinulle?", en: "Thanks, good. And you?", vi: "Cảm ơn, tôi khỏe. Còn bạn?", category: "greeting", illustration: "👋" },
+  { fi: "Nähdään huomenna!", en: "See you tomorrow!", vi: "Hẹn gặp ngày mai!", category: "polite", illustration: "👋" },
+  { fi: "Onnea uudelle vuodelle!", en: "Happy New Year!", vi: "Chúc mừng năm mới!", category: "polite", illustration: "🎊" },
+  { fi: "Olen pahoillani.", en: "I'm sorry.", vi: "Tôi xin lỗi.", category: "polite", illustration: "🙇" },
+  { fi: "Voitko auttaa minua?", en: "Can you help me?", vi: "Bạn có thể giúp tôi không?", category: "asking", illustration: "🙋" },
+  { fi: "Mihin aikaan juna lähtee?", en: "What time does the train leave?", vi: "Tàu mấy giờ chạy?", category: "asking", illustration: "🕒" },
+  { fi: "Onko lähellä ravintolaa?", en: "Is there a restaurant nearby?", vi: "Gần đây có nhà hàng không?", category: "asking", illustration: "🍽️" },
+  { fi: "Voinko saada veden, kiitos?", en: "Can I have water, please?", vi: "Cho tôi xin nước với?", category: "shopping", illustration: "💧" },
+  { fi: "Olen opiskelija.", en: "I am a student.", vi: "Tôi là sinh viên.", category: "intro", illustration: "🎓" },
+  { fi: "Asun Helsingissä.", en: "I live in Helsinki.", vi: "Tôi sống ở Helsinki.", category: "intro", illustration: "🏙️" },
+  { fi: "Opin suomea, koska rakastan Suomea.", en: "I'm learning Finnish because I love Finland.", vi: "Tôi học tiếng Phần Lan vì tôi yêu nước Phần Lan.", category: "intro", illustration: "❤️" },
+];
+// Re-export merged phrases for convenience
+export const DAILY_PHRASES_EXTRA_FULL = [...DAILY_PHRASES_EXTRA, ...DAILY_PHRASES_EXTRA_2];
 
 // =============================================================
 // PITFALLS MỞ RỘNG
@@ -354,6 +414,25 @@ export const BEGINNER_QUIZ_EXTRA: BeginnerQuiz[] = [
     explanationVi: "kylmä = lạnh; kuuma = nóng, lämmin = ấm, viileä = mát.",
   },
 ];
+
+// =============================================================
+// QUIZ MỞ RỘNG SET 2 - 10 câu nữa (A1-A2)
+// =============================================================
+const BEGINNER_QUIZ_EXTRA_2: BeginnerQuiz[] = [
+  { question: "What does 'koira' mean?", questionVi: "'koira' nghĩa là gì?", options: ["mèo", "chó", "ngựa", "chim"], answer: 1, explanation: "koira = dog.", explanationVi: "koira = con chó." },
+  { question: "How do you say 'red' in Finnish?", questionVi: "'Đỏ' tiếng Phần Lan là gì?", options: ["sininen", "vihreä", "punainen", "keltainen"], answer: 2, explanation: "punainen = red.", explanationVi: "punainen = đỏ." },
+  { question: "Negative present of 'puhua' (he speaks) is…", questionVi: "Phủ định hiện tại 'hän puhuu' là…", options: ["hän ei puhuu", "hän ei puhu", "hän en puhu", "hän ole puhu"], answer: 1, explanation: "Negation uses ei + verb stem without ending: ei puhu.", explanationVi: "Phủ định: 'ei' + thân động từ không đuôi → ei puhu." },
+  { question: "Pick the correct: 'I have a cat'.", questionVi: "Chọn đúng: 'Tôi có một con mèo'.", options: ["Minulla on kissa", "Minä on kissa", "Minä omistan kissan", "Minä olen kissa"], answer: 0, explanation: "Possession uses 'minulla on' = 'on me is'.", explanationVi: "Sở hữu dùng 'minulla on' = 'tôi có'." },
+  { question: "Plural of 'kirja' (book) is…", questionVi: "Số nhiều của 'kirja' là…", options: ["kirjat", "kirjas", "kirjoja", "kirjojen"], answer: 0, explanation: "Nominative plural: kirja → kirjat.", explanationVi: "Số nhiều cách 1: kirja → kirjat." },
+  { question: "'Talo' means…", questionVi: "'Talo' nghĩa là…", options: ["xe", "trường", "nhà", "đường"], answer: 2, explanation: "talo = house.", explanationVi: "talo = nhà." },
+  { question: "Correct partitive of 'vesi' (water)?", questionVi: "Partitive đúng của 'vesi'?", options: ["vesi", "vetta", "vettä", "vesiä"], answer: 2, explanation: "vesi → vettä (consonant gradation t→tt + ä).", explanationVi: "vesi → vettä (biến đổi t→tt + ä)." },
+  { question: "How to ask 'What is your name?'", questionVi: "Hỏi 'Bạn tên gì?'", options: ["Mikä on nimesi?", "Mistä olet?", "Kuka sinä?", "Missä asut?"], answer: 0, explanation: "Mikä on nimesi? literally 'What is your name?'", explanationVi: "Mikä on nimesi? nghĩa đen 'Tên bạn là gì?'" },
+  { question: "Translate 'Anteeksi'.", questionVi: "Dịch 'Anteeksi'.", options: ["Cảm ơn", "Xin chào", "Xin lỗi", "Tạm biệt"], answer: 2, explanation: "Anteeksi = sorry / excuse me.", explanationVi: "Anteeksi = xin lỗi." },
+  { question: "Which verb means 'to eat'?", questionVi: "Động từ nào nghĩa 'ăn'?", options: ["juoda", "syödä", "nukkua", "mennä"], answer: 1, explanation: "syödä = to eat (Type 2).", explanationVi: "syödä = ăn (Loại 2)." },
+];
+
+// Re-export merged quiz
+export const BEGINNER_QUIZ_EXTRA_FULL = [...BEGINNER_QUIZ_EXTRA, ...BEGINNER_QUIZ_EXTRA_2];
 
 // Optional: re-export verb examples helper
 export const _verbTypesPlaceholder = (v: VerbType) => v.type;
