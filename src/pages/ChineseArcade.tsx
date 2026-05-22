@@ -642,9 +642,8 @@ const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
         {[0, 1, 2, 3].map(i => (
           <Button
             key={i}
-            variant="outline"
             onClick={() => submitChoice(i)}
-            className="h-14 text-2xl font-bold border-pink-500/40 hover:bg-pink-500/10"
+            className="h-16 text-3xl font-bold bg-slate-800 hover:bg-pink-600 text-white border-2 border-pink-400 shadow-[0_0_10px_rgba(236,72,153,0.4)]"
           >
             {trackTones[i]}
           </Button>
