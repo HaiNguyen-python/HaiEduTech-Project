@@ -824,8 +824,17 @@ const ChineseArcade = () => {
         {active === "hotpot" && <HotpotChef difficulty={difficulty} onExit={() => setActive("menu")} />}
         {active === "runner" && <PinyinRunner difficulty={difficulty} onExit={() => setActive("menu")} />}
         {active === "meteor" && (
-          <div className="max-w-3xl mx-auto">
-            <WordMeteor lang="zh" onExit={() => setActive("menu")} />
+          <div className="max-w-6xl mx-auto">
+            <WordMeteor
+              lang="zh"
+              difficulty={difficulty}
+              gameType={`meteor_zh_${difficulty}`}
+              customBank={wordsForDifficulty(difficulty).map(w => ({
+                word: `${w.character} ${w.pinyin}`,
+                meaning: w.definition.vi,
+              }))}
+              onExit={() => setActive("menu")}
+            />
           </div>
         )}
       </main>
