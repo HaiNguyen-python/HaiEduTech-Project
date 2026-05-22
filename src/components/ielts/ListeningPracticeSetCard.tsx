@@ -236,10 +236,18 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
             </div>
           </div>
           {showTranscript && (
-            <div className="mt-2 p-3 rounded-lg bg-background border border-border text-sm whitespace-pre-line leading-relaxed text-foreground/90 max-h-72 overflow-y-auto">
-              {s.transcript}
+            <div className="mt-2 rounded-lg bg-background border border-border overflow-hidden">
+              <div className="px-3 py-1.5 bg-muted/60 text-xs font-semibold text-foreground border-b border-border">
+                {submitted
+                  ? t("📝 Script bài nghe — đối chiếu lại từng câu", "📝 Listening transcript — review every line")
+                  : t("📝 Script bài nghe", "📝 Listening transcript")}
+              </div>
+              <div className="p-3 text-sm whitespace-pre-line leading-relaxed text-foreground/90 max-h-80 overflow-y-auto">
+                {s.transcript}
+              </div>
             </div>
           )}
+
         </div>
 
         {s.matchingOptions && (
