@@ -622,15 +622,71 @@ const IeltsReadingPractice: React.FC = () => {
         </section>
 
         <section className="container mx-auto px-4 sm:px-6">
-          <Tabs defaultValue="quick" className="w-full">
-            <TabsList className="grid w-full max-w-xl grid-cols-2">
+          <Tabs defaultValue="full-test" className="w-full">
+            <TabsList className="grid w-full max-w-3xl grid-cols-3">
               <TabsTrigger value="quick">
                 {t("⚡ Bài tập nhanh", "⚡ Quick Exercises")}
               </TabsTrigger>
               <TabsTrigger value="full">
-                {t("🏆 Đề full-text", "🏆 Full-Text Exams")}
+                {t("📖 Đơn đoạn (20 phút)", "📖 Single passages (20 min)")}
+              </TabsTrigger>
+              <TabsTrigger value="full-test">
+                {t("🏆 Full Test (60 phút)", "🏆 Full Test (60 min)")}
               </TabsTrigger>
             </TabsList>
+
+            <TabsContent value="full-test" className="mt-6">
+              <div className="mb-4 rounded-xl border-2 border-dashed border-primary/30 bg-gradient-to-r from-primary/5 to-emerald-500/5 p-4">
+                <h2 className="text-base font-bold text-foreground flex items-center gap-2">
+                  <Trophy className="w-5 h-5 text-primary" />
+                  {t("🏆 Đề thi đầy đủ — 3 passages, 60 phút", "🏆 Complete tests — 3 passages, 60 minutes")}
+                </h2>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {t(
+                    "Mô phỏng chính xác phòng thi IELTS Academic Reading: 3 passages liền nhau, ~40 câu hỏi, đồng hồ đếm ngược 60 phút và ma trận câu hỏi 1–40.",
+                    "Exactly mirrors the IELTS Academic Reading exam: 3 connected passages, ~40 questions, 60-minute countdown and a global 1–40 question matrix."
+                  )}
+                </p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {IELTS_FULL_TESTS.map(ft => {
+                  const ps = ft.passageIds.map(id => EXAMS_BY_ID[id]).filter(Boolean);
+                  const totalQs = ps.reduce((a, p) => a + p.questions.length, 0);
+                  return (
+                    <motion.div
+                      key={ft.id}
+                      whileHover={{ y: -2 }}
+                      className="rounded-xl border bg-card p-4 hover:shadow-lg transition-all"
+                    >
+                      <div className="flex items-center gap-2 mb-2 flex-wrap">
+                        <Badge variant="secondary" className="text-[10px]">{t("Đề đầy đủ", "Full Test")}</Badge>
+                        <span className="text-[11px] text-muted-foreground inline-flex items-center gap-1">
+                          <Clock className="w-3 h-3" /> {ft.durationMinutes} min
+                        </span>
+                        <span className="text-[11px] text-muted-foreground">{totalQs} Qs</span>
+                      </div>
+                      <h3 className="font-bold text-foreground text-base mb-1">{ft.title}</h3>
+                      <ul className="text-xs text-muted-foreground mb-3 space-y-0.5 list-disc list-inside">
+                        {ps.map((p, i) => (
+                          <li key={p.id}>{t(`Đoạn ${i + 1}`, `Passage ${i + 1}`)}: {p.passageTitle}</li>
+                        ))}
+                      </ul>
+                      <Button
+                        size="sm"
+                        className="w-full bg-gradient-to-r from-primary to-emerald-500 text-white"
+                        onClick={() => setActiveFullTest(ft)}
+                      >
+                        <Trophy className="w-4 h-4 mr-1" />
+                        {t("Bắt đầu Full Test", "Start Full Test")}
+                        <ChevronRight className="w-4 h-4 ml-auto" />
+                      </Button>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </TabsContent>
+
+
 
             <TabsContent value="quick" className="mt-6">
               <Card>
