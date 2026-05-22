@@ -137,8 +137,8 @@ const Navbar = () => {
     { to: "#en-div2", label: "", divider: true },
     { to: "/english/fun-facts", label: t("✨ Fun Facts tiếng Anh", "✨ English Fun Facts") },
     { to: "/songs/english", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
-    { to: "/speaking-coach/english", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
-    { to: "/specialized-language?lang=english", label: t("🧠 AI Ngôn ngữ Chuyên ngành", "🧠 AI Specialized Language") },
+    { to: "/speaking-coach/english", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
+    { to: "/specialized-language?lang=english", label: t("🧠 Ngôn ngữ Chuyên ngành", "🧠 Specialized Language") },
   ];
   const chineseSubs: SubItem[] = [
     { to: "/chinese", label: t("📚 Tổng quan", "📚 Overview") },
@@ -153,11 +153,10 @@ const Navbar = () => {
       { to: "/chinese/culture", label: t("🎎 Văn hóa Giao tiếp", "🎎 Communication Culture") },
     ] },
     { to: "#cn-div2", label: "", divider: true },
-    { to: "/chinese/hsk/vocabulary?tab=radicals", label: t("🀄 214 Bộ thủ Khang Hi", "🀄 214 Kangxi Radicals") },
     { to: "/chinese/arcade", label: t("🎮 Chinese Arcade Hub", "🎮 Chinese Arcade Hub") },
     { to: "/songs/chinese", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
-    { to: "/speaking-coach/chinese", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
-    { to: "/specialized-language?lang=chinese", label: t("🧠 AI Ngôn ngữ Chuyên ngành", "🧠 AI Specialized Language") },
+    { to: "/speaking-coach/chinese", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
+    { to: "/specialized-language?lang=chinese", label: t("🧠 Ngôn ngữ Chuyên ngành", "🧠 Specialized Language") },
   ];
   const vietnameseSubs: SubItem[] = [
     { to: "/learn-vietnamese", label: t("📚 Tổng quan", "📚 Overview") },
@@ -186,8 +185,8 @@ const Navbar = () => {
     { to: "#vn-div2", label: "", divider: true },
     { to: "/learn-vietnamese/arcade", label: t("🕹️ Vietnamese Arcade Hub", "🕹️ Vietnamese Arcade Hub") },
     { to: "/songs/vietnamese", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
-    { to: "/speaking-coach/vietnamese", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
-    { to: "/specialized-language?lang=vietnamese", label: t("🧠 AI Ngôn ngữ Chuyên ngành", "🧠 AI Specialized Language") },
+    { to: "/speaking-coach/vietnamese", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
+    { to: "/specialized-language?lang=vietnamese", label: t("🧠 Ngôn ngữ Chuyên ngành", "🧠 Specialized Language") },
   ];
   const finnishSubs: SubItem[] = [
     { to: "/finnish", label: t("📚 Tổng quan", "📚 Overview") },
@@ -198,8 +197,8 @@ const Navbar = () => {
     { to: "/finnish/life-in-finland", label: t("🇫🇮 Cuộc sống ở Phần Lan", "🇫🇮 Life in Finland") },
     { to: "#fi-div2", label: "", divider: true },
     { to: "/songs/finnish", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
-    { to: "/speaking-coach/finnish", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
-    { to: "/specialized-language?lang=finnish", label: t("🧠 AI Ngôn ngữ Chuyên ngành", "🧠 AI Specialized Language") },
+    { to: "/speaking-coach/finnish", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
+    { to: "/specialized-language?lang=finnish", label: t("🧠 Ngôn ngữ Chuyên ngành", "🧠 Specialized Language") },
   ];
   const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("Tổng quan", "Overview"), icon: Library },
@@ -227,6 +226,8 @@ const Navbar = () => {
       { to: "/programming/interview-questions", label: t("Câu hỏi Phỏng vấn", "Interview Questions"), icon: MessagesSquare },
       { to: "/programming/job-opportunities", label: t("Cơ hội Việc làm 🇫🇮", "Job Opportunities 🇫🇮"), icon: Target },
     ] },
+    { to: "#prog-div-arcade", label: "", divider: true },
+    { to: "/programming/arcade", label: t("🕹️ Tech & Code Game Hub", "🕹️ Tech & Code Game Hub"), icon: Gamepad2 },
   ];
 
   const studyAbroadSubs: SubItem[] = [

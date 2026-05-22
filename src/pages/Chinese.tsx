@@ -13,6 +13,7 @@ import { allChineseModules } from "@/data/languageCurriculum";
 import SongsBanner from "@/components/songs/SongsBanner";
 import { cn } from "@/lib/utils";
 import LanguageDataDashboard from "@/components/LanguageDataDashboard";
+import KangxiRadicalsBrowser from "@/components/KangxiRadicalsBrowser";
 
 const Chinese = () => {
   const { t } = useLanguage();
@@ -259,6 +260,18 @@ const Chinese = () => {
                   🎮 {t("Chơi Arcade tiếng Trung", "Chinese Arcade Hub")} <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
+            </motion.div>
+
+            {/* 214 Kangxi Radicals - embedded into Overview */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.28 }} className="glass-card rounded-2xl p-6 sm:p-8 mb-10 border-2 border-amber-500/25 bg-gradient-to-br from-amber-500/5 via-transparent to-red-500/5">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-2xl">🀄</div>
+                <div>
+                  <h2 className="text-2xl font-display font-bold text-foreground">{t("214 Bộ thủ Khang Hi", "214 Kangxi Radicals")}</h2>
+                  <p className="text-sm text-muted-foreground">{t("Học bộ thủ với thứ tự nét, flashcard, quiz và tra cứu từ HSK theo bộ thủ.", "Master radicals with stroke order, flashcards, quizzes, and HSK word lookup by radical.")}</p>
+                </div>
+              </div>
+              <KangxiRadicalsBrowser />
             </motion.div>
 
             {/* Word of the Day */}
