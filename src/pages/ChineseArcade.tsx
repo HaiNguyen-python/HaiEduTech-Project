@@ -274,23 +274,27 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
         ref={containerRef}
         animate={shake ? { x: [-8, 8, -6, 6, 0] } : {}}
         transition={{ duration: 0.3 }}
-        className="relative h-[640px] sm:h-[760px] rounded-2xl border-2 border-cyan-300 bg-gradient-to-b from-sky-400 via-indigo-500 to-fuchsia-600 overflow-hidden"
+        className="relative h-[640px] sm:h-[760px] rounded-2xl border-2 border-amber-300 bg-gradient-to-b from-rose-200 via-amber-100 to-rose-300 overflow-hidden"
         style={{
           backgroundImage:
-            "radial-gradient(circle at 18% 22%, rgba(253,224,71,0.55), transparent 38%), radial-gradient(circle at 82% 75%, rgba(34,211,238,0.45), transparent 40%), radial-gradient(circle at 60% 40%, rgba(244,114,182,0.35), transparent 45%)",
+            "radial-gradient(circle at 20% 20%, rgba(251,191,36,0.5), transparent 40%), radial-gradient(circle at 80% 70%, rgba(244,63,94,0.35), transparent 45%), radial-gradient(circle at 50% 50%, rgba(254,243,199,0.6), transparent 55%)",
         }}
       >
-        {/* Bright twinkling starfield */}
-        {Array.from({ length: 36 }).map((_, i) => (
-          <div
+        {/* Floating Chinese lanterns & cultural icons */}
+        {["🏮","🐉","🌸","🏮","🎋","🌸","🏮","🎏"].map((e, i) => (
+          <motion.span
             key={i}
-            className="absolute w-1 h-1 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.9)]"
-            style={{ left: `${(i * 37) % 100}%`, top: `${(i * 53) % 100}%`, animationDelay: `${i * 0.1}s` }}
-          />
+            animate={{ y: [0, -12, 0], rotate: [-4, 4, -4] }}
+            transition={{ duration: 4 + (i % 3), repeat: Infinity, delay: i * 0.3 }}
+            className="absolute text-4xl sm:text-5xl drop-shadow-[0_3px_8px_rgba(190,18,60,0.4)] select-none"
+            style={{ left: `${(i * 13 + 5) % 90}%`, top: `${(i * 11 + 4) % 70}%`, opacity: 0.85 }}
+          >
+            {e}
+          </motion.span>
         ))}
-        {/* Floating planets for fun */}
-        <div className="absolute top-6 right-8 w-16 h-16 rounded-full bg-gradient-to-br from-amber-300 to-orange-500 shadow-[0_0_30px_rgba(251,146,60,0.7)] opacity-80" />
-        <div className="absolute top-32 left-6 w-10 h-10 rounded-full bg-gradient-to-br from-pink-300 to-rose-500 shadow-[0_0_20px_rgba(244,114,182,0.7)] opacity-80" />
+        {/* Decorative seal-style hanzi */}
+        <div className="absolute top-6 right-8 text-6xl font-bold text-rose-500/30 select-none" aria-hidden>福</div>
+        <div className="absolute bottom-24 left-6 text-6xl font-bold text-amber-600/30 select-none" aria-hidden>龙</div>
 
         {/* Meteors */}
         <AnimatePresence>
@@ -800,23 +804,43 @@ const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
         </Button>
         <span className="text-xs text-pink-100 font-mono uppercase tracking-wider bg-slate-900/70 px-2 py-1 rounded">🐉 Pinyin Tone Runner</span>
       </div>
-      <HUD score={score} combo={combo} level={level} lives={lives} />
+      <div className="flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-900/80 border border-pink-500/40 backdrop-blur-sm mb-3">
+        <div className="flex items-center gap-3 text-sm font-mono">
+          <span className="text-cyan-400">SCORE <span className="text-white font-bold">{score}</span></span>
+          <span className="text-amber-400">x{combo}</span>
+          <span className="text-pink-400 hidden sm:inline">LVL {level}</span>
+          <span className="hidden md:inline text-[11px] text-pink-100/90 font-sans normal-case tracking-normal ml-2 px-2 py-0.5 rounded bg-pink-500/20 border border-pink-400/40">
+            🎯 {t("Chọn dấu thanh đúng", "Pick the correct tone")}
+          </span>
+        </div>
+        <div className="flex items-center gap-1">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <Heart key={i} className={`w-5 h-5 ${i < lives ? "text-rose-500 fill-rose-500" : "text-slate-700"}`} />
+          ))}
+        </div>
+      </div>
+      {/* Mobile-only hint (HUD is too narrow on phones) */}
+      <p className="md:hidden -mt-1 text-center text-[11px] text-pink-200 font-semibold">
+        🎯 {t("Chọn dấu thanh đúng cho âm này", "Pick the correct tone for this syllable")}
+      </p>
       <div
-        className={`relative rounded-2xl border-2 overflow-hidden bg-gradient-to-b from-sky-400 via-fuchsia-400 to-amber-300 transition-colors ${
-          flashCorrect ? "border-green-400 shadow-[0_0_30px_rgba(74,222,128,0.7)]" : flashWrong ? "border-rose-500 shadow-[0_0_30px_rgba(244,63,94,0.7)]" : "border-pink-500/60"
+        className={`relative rounded-2xl border-2 overflow-hidden bg-gradient-to-b from-rose-300 via-amber-200 to-rose-400 transition-colors ${
+          flashCorrect ? "border-green-400 shadow-[0_0_30px_rgba(74,222,128,0.7)]" : flashWrong ? "border-rose-500 shadow-[0_0_30px_rgba(244,63,94,0.7)]" : "border-amber-500/70"
         }`}
         style={{ height: 520 }}
       >
-        {/* Sparkly clouds backdrop */}
+        {/* Chinese cultural backdrop: lanterns, blossoms, dragons */}
         <div className="absolute inset-0 pointer-events-none">
-          {["☁️","☁️","✨","🌸","⭐","🎈"].map((e, i) => (
+          {["🏮","🌸","🐉","🏮","🎋","🌸","🏮","🎏"].map((e, i) => (
             <motion.span key={i}
-              animate={{ y: [0, -12, 0], x: [0, 6, 0] }}
+              animate={{ y: [0, -12, 0], x: [0, 6, 0], rotate: [-3, 3, -3] }}
               transition={{ duration: 4 + i, repeat: Infinity, delay: i * 0.4 }}
-              className="absolute text-3xl opacity-80"
-              style={{ left: `${(i * 17 + 6) % 92}%`, top: `${(i * 13 + 8) % 40}%` }}
+              className="absolute text-3xl sm:text-4xl drop-shadow-[0_2px_6px_rgba(190,18,60,0.35)]"
+              style={{ left: `${(i * 17 + 6) % 92}%`, top: `${(i * 13 + 8) % 45}%`, opacity: 0.85 }}
             >{e}</motion.span>
           ))}
+          <div className="absolute top-3 left-4 text-7xl font-bold text-rose-600/20 select-none">福</div>
+          <div className="absolute bottom-10 right-6 text-7xl font-bold text-amber-700/20 select-none">乐</div>
         </div>
 
         {/* Word display top */}
@@ -826,7 +850,6 @@ const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
           </p>
           <p className="text-2xl font-mono text-white tracking-widest drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]">{tonelessPinyin}</p>
           <p className="text-sm text-white mt-1 drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)] font-semibold">{currentWord.definition.vi}</p>
-          <p className="text-[11px] text-white/90 mt-0.5">{t("Chọn dấu thanh đúng cho âm này", "Pick the correct tone for this syllable")}</p>
         </div>
 
         {/* 4 vertical tracks with tone clouds */}
@@ -1231,25 +1254,36 @@ const ChineseArcade = () => {
   const floatHanzi = ["学", "中", "文", "你", "好", "汉", "字", "拼", "音", "龙", "福", "爱", "家", "天", "山", "水"];
 
   return (
-    <div className="relative min-h-screen bg-slate-950 text-white overflow-hidden">
+    <div className="relative min-h-screen bg-gradient-to-br from-rose-50 via-amber-50 to-rose-100 dark:from-rose-950 dark:via-amber-950 dark:to-rose-900 text-foreground overflow-hidden">
       <SEO
         title="Chinese Arcade: 3 Game Học Tiếng Trung HSK | HaiEduTech"
         description="Bộ 3 mini-game tiếng Trung phong cách cyberpunk-arcade: Space Shooter Pinyin, Hotpot Chef ghép từ ghép, Pinyin Tone Runner luyện phản xạ thanh điệu."
         path="/chinese/arcade"
       />
       <Navbar />
-      {/* Floating hanzi background (visual only) */}
+      {/* Floating hanzi + lanterns background — Chinese cultural theme */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden z-0" aria-hidden>
         {floatHanzi.map((ch, i) => (
           <motion.span
             key={i}
             initial={{ y: "110vh", opacity: 0 }}
-            animate={{ y: "-15vh", opacity: [0, 0.12, 0.12, 0] }}
+            animate={{ y: "-15vh", opacity: [0, 0.18, 0.18, 0] }}
             transition={{ duration: 18 + (i % 6) * 3, repeat: Infinity, delay: i * 1.6, ease: "linear" }}
-            className="absolute text-7xl sm:text-8xl font-bold text-cyan-300/20 select-none"
+            className="absolute text-7xl sm:text-8xl font-bold text-rose-500/25 dark:text-amber-300/15 select-none"
             style={{ left: `${(i * 11 + 4) % 94}%` }}
           >
             {ch}
+          </motion.span>
+        ))}
+        {["🏮","🐉","🌸","🎏","🏮","🌸"].map((e, i) => (
+          <motion.span
+            key={`l-${i}`}
+            animate={{ y: [0, -14, 0], rotate: [-5, 5, -5] }}
+            transition={{ duration: 5 + i, repeat: Infinity, delay: i * 0.5 }}
+            className="absolute text-5xl sm:text-6xl opacity-40 select-none"
+            style={{ left: `${(i * 17 + 7) % 90}%`, top: `${(i * 19 + 5) % 80}%` }}
+          >
+            {e}
           </motion.span>
         ))}
       </div>
