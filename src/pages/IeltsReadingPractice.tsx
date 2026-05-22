@@ -25,10 +25,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import SEO from "@/components/SEO";
 import {
-  IELTS_FULL_READING_EXAMS,
+  IELTS_FULL_READING_EXAMS as _BASE_EXAMS,
   type ReadingExam,
   type ReadingQuestion,
 } from "@/data/ieltsFullReadingExams";
+import { IELTS_FULL_READING_EXAMS_EXPANSION } from "@/data/ieltsFullReadingExamsExpansion";
+const IELTS_FULL_READING_EXAMS: ReadingExam[] = [..._BASE_EXAMS, ...IELTS_FULL_READING_EXAMS_EXPANSION];
 
 // ============================================================
 // Split-screen Full-Text Exam Engine

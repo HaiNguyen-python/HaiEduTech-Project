@@ -7,7 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Headphones } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { ieltsListeningPracticeSets } from "@/data/ieltsListeningPractice";
+import { ieltsListeningPracticeSets as _BASE_LIST } from "@/data/ieltsListeningPractice";
+import { ieltsListeningPracticeSetsExpansion } from "@/data/ieltsListeningPracticeExpansion";
+const ieltsListeningPracticeSets = [..._BASE_LIST, ...ieltsListeningPracticeSetsExpansion];
 import ListeningPracticeSetCard from "@/components/ielts/ListeningPracticeSetCard";
 
 const IeltsListeningPractice = () => {
