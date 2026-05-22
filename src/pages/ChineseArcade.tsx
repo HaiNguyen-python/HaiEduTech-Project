@@ -274,19 +274,23 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
         ref={containerRef}
         animate={shake ? { x: [-8, 8, -6, 6, 0] } : {}}
         transition={{ duration: 0.3 }}
-        className="relative h-[640px] sm:h-[760px] rounded-2xl border-2 border-cyan-500/40 bg-gradient-to-b from-slate-950 via-purple-950/30 to-slate-900 overflow-hidden"
+        className="relative h-[640px] sm:h-[760px] rounded-2xl border-2 border-cyan-300 bg-gradient-to-b from-sky-400 via-indigo-500 to-fuchsia-600 overflow-hidden"
         style={{
-          backgroundImage: "radial-gradient(circle at 20% 30%, rgba(168,85,247,0.15), transparent 40%), radial-gradient(circle at 80% 70%, rgba(6,182,212,0.15), transparent 40%)",
+          backgroundImage:
+            "radial-gradient(circle at 18% 22%, rgba(253,224,71,0.55), transparent 38%), radial-gradient(circle at 82% 75%, rgba(34,211,238,0.45), transparent 40%), radial-gradient(circle at 60% 40%, rgba(244,114,182,0.35), transparent 45%)",
         }}
       >
-        {/* Starfield */}
-        {Array.from({ length: 20 }).map((_, i) => (
+        {/* Bright twinkling starfield */}
+        {Array.from({ length: 36 }).map((_, i) => (
           <div
             key={i}
-            className="absolute w-0.5 h-0.5 bg-white rounded-full opacity-50 animate-pulse"
+            className="absolute w-1 h-1 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.9)]"
             style={{ left: `${(i * 37) % 100}%`, top: `${(i * 53) % 100}%`, animationDelay: `${i * 0.1}s` }}
           />
         ))}
+        {/* Floating planets for fun */}
+        <div className="absolute top-6 right-8 w-16 h-16 rounded-full bg-gradient-to-br from-amber-300 to-orange-500 shadow-[0_0_30px_rgba(251,146,60,0.7)] opacity-80" />
+        <div className="absolute top-32 left-6 w-10 h-10 rounded-full bg-gradient-to-br from-pink-300 to-rose-500 shadow-[0_0_20px_rgba(244,114,182,0.7)] opacity-80" />
 
         {/* Meteors */}
         <AnimatePresence>
@@ -297,7 +301,7 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 1.5, opacity: 0, rotate: 180 }}
               onClick={() => handleTapMeteor(m)}
-              className="absolute -translate-x-1/2 px-5 py-4 rounded-2xl bg-gradient-to-br from-rose-500/95 to-amber-500/95 border-2 border-amber-300 shadow-[0_0_22px_rgba(251,191,36,0.75)] text-white font-bold text-center min-w-[170px] cursor-pointer"
+              className="absolute -translate-x-1/2 px-5 py-4 rounded-2xl bg-gradient-to-br from-rose-500/95 to-amber-500/95 border-2 border-amber-200 shadow-[0_0_22px_rgba(251,191,36,0.85)] text-white font-bold text-center min-w-[170px] cursor-pointer"
               style={{ left: `${m.x}%`, top: `${m.y}%` }}
             >
               <div className="text-5xl sm:text-6xl leading-tight drop-shadow">{m.word.character}</div>
@@ -308,13 +312,25 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
           ))}
         </AnimatePresence>
 
-        {/* Laser beam */}
+        {/* Laser beam — fires from ship's current x */}
+        {laser && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="absolute bottom-14 h-1.5 bg-gradient-to-r from-cyan-200 via-white to-cyan-200 shadow-[0_0_18px_rgba(34,211,238,1)] origin-left"
+            style={{
+              left: `${Math.min(laser.from, laser.x)}%`,
+              width: `${Math.abs(laser.x - laser.from)}%`,
+              transform: "translateY(0)",
+            }}
+          />
+        )}
         {laser && (
           <motion.div
             initial={{ scaleY: 0 }}
             animate={{ scaleY: 1 }}
-            className="absolute bottom-12 w-1 bg-cyan-400 shadow-[0_0_20px_rgba(6,182,212,1)] origin-bottom"
-            style={{ left: `calc(${laser.x}% - 2px)`, height: "85%" }}
+            className="absolute bottom-14 w-1.5 bg-cyan-200 shadow-[0_0_18px_rgba(34,211,238,1)] origin-bottom"
+            style={{ left: `calc(${laser.x}% - 3px)`, height: "75%" }}
           />
         )}
 
@@ -325,17 +341,48 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
             initial={{ scale: 0, opacity: 1 }}
             animate={{ scale: 3, opacity: 0 }}
             transition={{ duration: 0.6 }}
-            className="absolute -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-amber-400 shadow-[0_0_30px_rgba(251,191,36,1)]"
+            className="absolute -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-amber-300 shadow-[0_0_30px_rgba(251,191,36,1)]"
             style={{ left: `${p.x}%`, top: `${p.y}%` }}
           />
         ))}
 
-        {/* Cannon */}
-        <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-12 h-12 rounded-t-2xl bg-gradient-to-t from-cyan-600 to-cyan-300 border-2 border-cyan-200 shadow-[0_0_20px_rgba(6,182,212,0.8)]" />
+        {/* Movable spaceship 🚀 */}
+        <motion.div
+          animate={{ left: `${shipX}%` }}
+          transition={{ type: "tween", duration: 0.05, ease: "linear" }}
+          className="absolute bottom-2 -translate-x-1/2 text-5xl drop-shadow-[0_0_12px_rgba(34,211,238,0.9)] select-none"
+          aria-hidden
+        >
+          🚀
+        </motion.div>
 
         {/* Floor line */}
-        <div className="absolute bottom-12 left-0 right-0 h-0.5 bg-rose-500/50 shadow-[0_0_8px_rgba(244,63,94,0.6)]" />
+        <div className="absolute bottom-14 left-0 right-0 h-0.5 bg-rose-300/60 shadow-[0_0_8px_rgba(244,63,94,0.5)]" />
       </motion.div>
+
+      {/* Mobile move controls */}
+      <div className="grid grid-cols-2 gap-2 sm:hidden">
+        <Button
+          onTouchStart={() => { keysRef.current.left = true; }}
+          onTouchEnd={() => { keysRef.current.left = false; }}
+          onMouseDown={() => { keysRef.current.left = true; }}
+          onMouseUp={() => { keysRef.current.left = false; }}
+          onMouseLeave={() => { keysRef.current.left = false; }}
+          className="h-14 bg-cyan-600 hover:bg-cyan-700 text-2xl"
+        >
+          ◀ {t("Trái", "Left")}
+        </Button>
+        <Button
+          onTouchStart={() => { keysRef.current.right = true; }}
+          onTouchEnd={() => { keysRef.current.right = false; }}
+          onMouseDown={() => { keysRef.current.right = true; }}
+          onMouseUp={() => { keysRef.current.right = false; }}
+          onMouseLeave={() => { keysRef.current.right = false; }}
+          className="h-14 bg-cyan-600 hover:bg-cyan-700 text-2xl"
+        >
+          {t("Phải", "Right")} ▶
+        </Button>
+      </div>
 
       {/* Input — students type WITHOUT tone marks */}
       <input
