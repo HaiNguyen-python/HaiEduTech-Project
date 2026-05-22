@@ -13,6 +13,7 @@ import { allChineseModules } from "@/data/languageCurriculum";
 import SongsBanner from "@/components/songs/SongsBanner";
 import { cn } from "@/lib/utils";
 import LanguageDataDashboard from "@/components/LanguageDataDashboard";
+import KangxiRadicalsBrowser from "@/components/KangxiRadicalsBrowser";
 
 const Chinese = () => {
   const { t } = useLanguage();
