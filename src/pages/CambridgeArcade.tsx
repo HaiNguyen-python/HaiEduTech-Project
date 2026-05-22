@@ -503,6 +503,7 @@ function SpellingBee({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
             </div>
           </div>
         )}
+        </div>
       </div>
 
       <aside className="rounded-2xl border border-border bg-card/60 p-3">
