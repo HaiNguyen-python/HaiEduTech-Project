@@ -41,7 +41,7 @@ export interface ReadingExam {
 export const IELTS_FULL_READING_EXAMS: ReadingExam[] = [
   {
     id: "rx-1",
-    title: "The Rise of Renewable Energy",
+    title: "Test 1 — The Rise of Renewable Energy",
     level: "Medium",
     durationMinutes: 20,
     passageTitle: "The Rise of Renewable Energy",
@@ -160,7 +160,7 @@ D. Building such storage is expensive. A recent IEA report estimates the world n
 
   {
     id: "rx-2",
-    title: "The Science of Sleep",
+    title: "Test 2 — The Science of Sleep",
     level: "Hard",
     durationMinutes: 20,
     passageTitle: "Why We Sleep — and Why We Sleep Less",
@@ -281,7 +281,7 @@ D. Practical strategies for better sleep are well known: regular bed and wake ti
 
   {
     id: "rx-3",
-    title: "Cambridge-Style Test 25 — The Story of the Bicycle",
+    title: "Test 3 — The Story of the Bicycle",
     level: "Medium",
     durationMinutes: 20,
     passageTitle: "The Story of the Bicycle",
@@ -353,7 +353,7 @@ E. Today, more than a century later, the bicycle is enjoying a renaissance. Conc
 
   {
     id: "rx-4",
-    title: "Cambridge-Style Test 26 — How Coral Reefs Build Themselves",
+    title: "Test 4 — How Coral Reefs Build Themselves",
     level: "Hard",
     durationMinutes: 20,
     passageTitle: "How Coral Reefs Build Themselves",
@@ -425,7 +425,7 @@ E. Restoration efforts are now under way around the world. Scientists in Austral
 
   {
     id: "rx-5",
-    title: "Cambridge-Style Test 27 — The Quiet Rise of Remote Work",
+    title: "Test 5 — The Quiet Rise of Remote Work",
     level: "Medium",
     durationMinutes: 20,
     passageTitle: "The Quiet Rise of Remote Work",

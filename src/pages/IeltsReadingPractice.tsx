@@ -30,7 +30,17 @@ import {
   type ReadingQuestion,
 } from "@/data/ieltsFullReadingExams";
 import { IELTS_FULL_READING_EXAMS_EXPANSION } from "@/data/ieltsFullReadingExamsExpansion";
-const IELTS_FULL_READING_EXAMS: ReadingExam[] = [..._BASE_EXAMS, ...IELTS_FULL_READING_EXAMS_EXPANSION];
+import { READING_PASSAGE_EXTENSIONS } from "@/data/ieltsReadingPassageExtensions";
+import { IELTS_FULL_TESTS, type FullTest } from "@/data/ieltsFullTests";
+
+// Extend each exam's passage with its bonus paragraphs so length matches real IELTS.
+const _MERGED_EXAMS: ReadingExam[] = [..._BASE_EXAMS, ...IELTS_FULL_READING_EXAMS_EXPANSION].map(e => {
+  const extra = READING_PASSAGE_EXTENSIONS[e.id];
+  return extra ? { ...e, passage: e.passage + extra } : e;
+});
+const IELTS_FULL_READING_EXAMS: ReadingExam[] = _MERGED_EXAMS;
+const EXAMS_BY_ID: Record<string, ReadingExam> = Object.fromEntries(IELTS_FULL_READING_EXAMS.map(e => [e.id, e]));
+
 
 // ============================================================
 // Split-screen Full-Text Exam Engine
@@ -360,12 +370,222 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
 };
 
 // ============================================================
+// Full Test Engine — 3 passages, 60-min countdown, sequential
+// question numbering (Passage 1: Q1–N, Passage 2: continues, ...).
+// ============================================================
+
+interface FullTestEngineProps {
+  test: FullTest;
+  onClose: () => void;
+}
+
+const FullTestEngine: React.FC<FullTestEngineProps> = ({ test, onClose }) => {
+  const { t } = useLanguage();
+  const passages = useMemo(
+    () => test.passageIds.map(id => EXAMS_BY_ID[id]).filter(Boolean) as ReadingExam[],
+    [test]
+  );
+
+  // Build a flat question list with re-numbered "global" numbers 1..N.
+  const flat = useMemo(() => {
+    let n = 1;
+    const list: { passageIndex: number; q: ReadingQuestion; globalNumber: number }[] = [];
+    passages.forEach((p, pi) => {
+      p.questions.forEach(q => {
+        list.push({ passageIndex: pi, q, globalNumber: n++ });
+      });
+    });
+    return list;
+  }, [passages]);
+
+  const totalQs = flat.length;
+  const [answers, setAnswers] = useState<Record<number, string>>({});
+  const [submitted, setSubmitted] = useState(false);
+  const [secondsLeft, setSecondsLeft] = useState(test.durationMinutes * 60);
+  const [activePassage, setActivePassage] = useState(0);
+
+  useEffect(() => {
+    if (submitted) return;
+    const id = setInterval(() => {
+      setSecondsLeft(s => {
+        if (s <= 1) { clearInterval(id); setSubmitted(true); return 0; }
+        return s - 1;
+      });
+    }, 1000);
+    return () => clearInterval(id);
+  }, [submitted]);
+
+  const mm = String(Math.floor(secondsLeft / 60)).padStart(2, "0");
+  const ss = String(secondsLeft % 60).padStart(2, "0");
+  const timerLow = secondsLeft < 300;
+
+  const score = useMemo(() => {
+    let s = 0;
+    for (const item of flat) {
+      const ans = (answers[item.globalNumber] || "").trim().toLowerCase();
+      if (ans && ans === item.q.answer.toLowerCase()) s += 1;
+    }
+    return s;
+  }, [answers, flat]);
+
+  const passageOffsets = useMemo(() => {
+    const offsets: number[] = [];
+    let acc = 1;
+    passages.forEach(p => { offsets.push(acc); acc += p.questions.length; });
+    return offsets;
+  }, [passages]);
+
+  const handleClose = () => {
+    if (!submitted && Object.keys(answers).length > 0) {
+      const ok = window.confirm(
+        t("Bạn chắc muốn thoát? Câu trả lời sẽ bị mất.", "Are you sure you want to exit? Your answers will be lost.")
+      );
+      if (!ok) return;
+    }
+    onClose();
+  };
+
+  const currentPassage = passages[activePassage];
+  const currentItems = flat.filter(i => i.passageIndex === activePassage);
+
+  return (
+    <div className="fixed inset-0 z-[60] bg-background flex flex-col">
+      <header className="border-b bg-card shadow-sm shrink-0">
+        <div className="container mx-auto px-3 sm:px-4 py-2.5 flex items-center gap-3 flex-wrap">
+          <Button variant="ghost" size="sm" onClick={handleClose}>
+            <X className="w-4 h-4 mr-1" /> {t("Thoát", "Exit")}
+          </Button>
+          <div className="font-semibold text-sm text-foreground truncate flex-1 min-w-[160px]">
+            🏆 {test.title}
+          </div>
+          <div className={cn(
+            "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border font-mono text-sm font-bold",
+            timerLow ? "bg-destructive/10 border-destructive text-destructive animate-pulse" : "bg-muted border-border text-foreground"
+          )}>
+            <Timer className="w-4 h-4" /> {mm}:{ss}
+          </div>
+          {/* Passage tabs */}
+          <div className="flex gap-1">
+            {passages.map((p, i) => (
+              <button
+                key={p.id}
+                onClick={() => setActivePassage(i)}
+                className={cn(
+                  "px-3 py-1.5 rounded text-xs font-semibold border transition-all",
+                  activePassage === i ? "bg-primary text-primary-foreground border-primary" : "bg-background text-foreground border-border hover:border-primary/40"
+                )}
+              >
+                {t(`Đoạn ${i + 1}`, `Passage ${i + 1}`)} ({passageOffsets[i]}-{passageOffsets[i] + p.questions.length - 1})
+              </button>
+            ))}
+          </div>
+          {!submitted ? (
+            <Button size="sm" onClick={() => setSubmitted(true)} className="bg-gradient-to-r from-primary to-emerald-500 text-white">
+              {t("Nộp bài", "Submit Test")}
+            </Button>
+          ) : (
+            <Badge className="text-sm px-3 py-1">{t("Điểm: ", "Score: ")}{score}/{totalQs}</Badge>
+          )}
+        </div>
+        {/* Global question matrix */}
+        <div className="container mx-auto px-3 sm:px-4 pb-2 flex flex-wrap gap-1">
+          {flat.map(item => {
+            const answered = !!answers[item.globalNumber];
+            const correct = submitted && (answers[item.globalNumber] || "").trim().toLowerCase() === item.q.answer.toLowerCase();
+            const wrong = submitted && !correct;
+            return (
+              <button
+                key={item.globalNumber}
+                onClick={() => setActivePassage(item.passageIndex)}
+                className={cn(
+                  "w-7 h-7 rounded text-[10px] font-semibold border transition-all",
+                  submitted
+                    ? correct ? "bg-emerald-500 text-white border-emerald-500"
+                      : wrong ? "bg-destructive text-white border-destructive"
+                      : "bg-muted text-muted-foreground border-border"
+                    : answered ? "bg-primary text-primary-foreground border-primary"
+                      : "bg-background text-foreground border-border hover:border-primary/50"
+                )}
+              >
+                {item.globalNumber}
+              </button>
+            );
+          })}
+        </div>
+      </header>
+
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 overflow-hidden">
+        <section aria-label="Reading passage" className="overflow-y-auto bg-white dark:bg-slate-900 border-r">
+          <div className="w-full px-5 md:px-8 lg:px-10 py-6 md:py-8">
+            <Badge variant="outline" className="mb-2 text-[10px]">
+              {t(`Đoạn ${activePassage + 1} / ${passages.length}`, `Passage ${activePassage + 1} of ${passages.length}`)}
+            </Badge>
+            <h2 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 mb-1">
+              {currentPassage.passageTitle}
+            </h2>
+            <p className="text-xs uppercase tracking-wide text-slate-500 mb-5">
+              {t("Đoạn văn", "Reading Passage")}
+            </p>
+            <article className="prose prose-slate dark:prose-invert max-w-none text-[15px] md:text-[15.5px] leading-[1.8] md:leading-[1.85] font-['Georgia',_'Merriweather',_serif] text-slate-900 dark:text-slate-100">
+              {currentPassage.passage.split("\n\n").map((para, i) => (
+                <p key={i} className="mb-4">{para}</p>
+              ))}
+            </article>
+          </div>
+        </section>
+
+        <section aria-label="Questions" className="overflow-y-auto bg-background">
+          <div className="max-w-2xl mx-auto px-5 md:px-8 py-6 md:py-8 space-y-6">
+            <div className="text-xs text-muted-foreground">
+              {t(
+                `Câu hỏi ${passageOffsets[activePassage]}–${passageOffsets[activePassage] + currentPassage.questions.length - 1}`,
+                `Questions ${passageOffsets[activePassage]}–${passageOffsets[activePassage] + currentPassage.questions.length - 1}`
+              )}
+            </div>
+            {currentItems.map(item => (
+              <QuestionBlock
+                key={item.globalNumber}
+                // Override displayed number via cloning
+                question={{ ...item.q, number: item.globalNumber }}
+                value={answers[item.globalNumber] || ""}
+                onChange={v => setAnswers(p => ({ ...p, [item.globalNumber]: v }))}
+                submitted={submitted}
+                onFocus={() => { /* no-op */ }}
+              />
+            ))}
+            {submitted && (
+              <div className="rounded-xl border-2 border-primary/30 bg-gradient-to-br from-primary/5 to-emerald-500/5 p-5 text-center">
+                <Trophy className="w-8 h-8 text-primary mx-auto mb-2" />
+                <p className="font-bold text-lg">{t("Kết quả", "Final Score")}: {score}/{totalQs}</p>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {score >= totalQs * 0.85
+                    ? t("Xuất sắc — Band 8.0+!", "Excellent — Band 8.0+!")
+                    : score >= totalQs * 0.7
+                      ? t("Tốt — quanh Band 7.0", "Strong — around Band 7.0")
+                      : t("Tiếp tục luyện tập!", "Keep practising!")}
+                </p>
+                <div className="mt-3"><Button variant="outline" size="sm" onClick={onClose}>
+                  <ArrowLeft className="w-4 h-4 mr-1" /> {t("Quay lại danh sách", "Back to list")}
+                </Button></div>
+              </div>
+            )}
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+};
+
+// ============================================================
 // Page shell
 // ============================================================
 
 const IeltsReadingPractice: React.FC = () => {
   const { t } = useLanguage();
   const [activeExam, setActiveExam] = useState<ReadingExam | null>(null);
+  const [activeFullTest, setActiveFullTest] = useState<FullTest | null>(null);
+
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -402,15 +622,71 @@ const IeltsReadingPractice: React.FC = () => {
         </section>
 
         <section className="container mx-auto px-4 sm:px-6">
-          <Tabs defaultValue="quick" className="w-full">
-            <TabsList className="grid w-full max-w-xl grid-cols-2">
+          <Tabs defaultValue="full-test" className="w-full">
+            <TabsList className="grid w-full max-w-3xl grid-cols-3">
               <TabsTrigger value="quick">
                 {t("⚡ Bài tập nhanh", "⚡ Quick Exercises")}
               </TabsTrigger>
               <TabsTrigger value="full">
-                {t("🏆 Đề full-text", "🏆 Full-Text Exams")}
+                {t("📖 Đơn đoạn (20 phút)", "📖 Single passages (20 min)")}
+              </TabsTrigger>
+              <TabsTrigger value="full-test">
+                {t("🏆 Full Test (60 phút)", "🏆 Full Test (60 min)")}
               </TabsTrigger>
             </TabsList>
+
+            <TabsContent value="full-test" className="mt-6">
+              <div className="mb-4 rounded-xl border-2 border-dashed border-primary/30 bg-gradient-to-r from-primary/5 to-emerald-500/5 p-4">
+                <h2 className="text-base font-bold text-foreground flex items-center gap-2">
+                  <Trophy className="w-5 h-5 text-primary" />
+                  {t("🏆 Đề thi đầy đủ — 3 passages, 60 phút", "🏆 Complete tests — 3 passages, 60 minutes")}
+                </h2>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {t(
+                    "Mô phỏng chính xác phòng thi IELTS Academic Reading: 3 passages liền nhau, ~40 câu hỏi, đồng hồ đếm ngược 60 phút và ma trận câu hỏi 1–40.",
+                    "Exactly mirrors the IELTS Academic Reading exam: 3 connected passages, ~40 questions, 60-minute countdown and a global 1–40 question matrix."
+                  )}
+                </p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {IELTS_FULL_TESTS.map(ft => {
+                  const ps = ft.passageIds.map(id => EXAMS_BY_ID[id]).filter(Boolean);
+                  const totalQs = ps.reduce((a, p) => a + p.questions.length, 0);
+                  return (
+                    <motion.div
+                      key={ft.id}
+                      whileHover={{ y: -2 }}
+                      className="rounded-xl border bg-card p-4 hover:shadow-lg transition-all"
+                    >
+                      <div className="flex items-center gap-2 mb-2 flex-wrap">
+                        <Badge variant="secondary" className="text-[10px]">{t("Đề đầy đủ", "Full Test")}</Badge>
+                        <span className="text-[11px] text-muted-foreground inline-flex items-center gap-1">
+                          <Clock className="w-3 h-3" /> {ft.durationMinutes} min
+                        </span>
+                        <span className="text-[11px] text-muted-foreground">{totalQs} Qs</span>
+                      </div>
+                      <h3 className="font-bold text-foreground text-base mb-1">{ft.title}</h3>
+                      <ul className="text-xs text-muted-foreground mb-3 space-y-0.5 list-disc list-inside">
+                        {ps.map((p, i) => (
+                          <li key={p.id}>{t(`Đoạn ${i + 1}`, `Passage ${i + 1}`)}: {p.passageTitle}</li>
+                        ))}
+                      </ul>
+                      <Button
+                        size="sm"
+                        className="w-full bg-gradient-to-r from-primary to-emerald-500 text-white"
+                        onClick={() => setActiveFullTest(ft)}
+                      >
+                        <Trophy className="w-4 h-4 mr-1" />
+                        {t("Bắt đầu Full Test", "Start Full Test")}
+                        <ChevronRight className="w-4 h-4 ml-auto" />
+                      </Button>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </TabsContent>
+
+
 
             <TabsContent value="quick" className="mt-6">
               <Card>
@@ -491,15 +767,17 @@ const IeltsReadingPractice: React.FC = () => {
 
       <AnimatePresence>
         {activeExam && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <ExamEngine exam={activeExam} onClose={() => setActiveExam(null)} />
           </motion.div>
         )}
+        {activeFullTest && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            <FullTestEngine test={activeFullTest} onClose={() => setActiveFullTest(null)} />
+          </motion.div>
+        )}
       </AnimatePresence>
+
     </div>
   );
 };
