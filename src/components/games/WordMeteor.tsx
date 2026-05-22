@@ -294,7 +294,7 @@ export default function WordMeteor({
       </div>
 
       {/* Leaderboard sidebar */}
-      <aside className="rounded-2xl border border-border bg-card/60 p-3">
+      <aside className="rounded-2xl border-2 border-amber-400/40 bg-slate-900 p-4 text-white shadow-[0_0_20px_rgba(251,191,36,0.15)]">
         <GameLeaderboard gameType={resolvedGameType} currentScore={score} />
       </aside>
     </div>
