@@ -122,6 +122,7 @@ const Navbar = () => {
       { to: "/english/conversational/curriculum", label: t("Giao tiếp", "Conversational"), icon: MessageSquare },
       { to: "/english/idioms", label: t("Thành ngữ & Danh ngôn", "Idioms & Quotes"), icon: Quote },
       { to: "/cambridge-lectures", label: t("Bài giảng Cambridge", "Cambridge Lectures"), icon: BookOpen },
+      { to: "/cambridge/arcade", label: t("🎪 Cambridge Kids Arcade", "🎪 Cambridge Kids Arcade"), icon: BookOpen },
     ] },
     // IELTS - promoted to top-level so all 10 IELTS items are reachable in one hover
     { to: "#ielts-group", label: t("🎯 IELTS Program", "🎯 IELTS Program"), groupLabel: "ielts", children: ieltsChildren },
