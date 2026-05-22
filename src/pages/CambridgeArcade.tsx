@@ -193,18 +193,26 @@ function BalloonPop({ level, onExit }: { level: CambridgeKidsLevel; onExit: () =
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4">
-      <div className="min-h-[70vh] rounded-3xl p-4 sm:p-6 relative overflow-hidden bg-[linear-gradient(180deg,#7dd3fc_0%,#bae6fd_35%,#bbf7d0_70%,#86efac_100%)] dark:bg-[linear-gradient(180deg,#0f172a_0%,#1e1b4b_50%,#0f172a_100%)]">
-        {/* Playful decorations */}
+      <div className="min-h-[70vh] rounded-3xl p-4 sm:p-6 relative overflow-hidden bg-[linear-gradient(180deg,#fcd34d_0%,#fda4af_25%,#a5f3fc_55%,#86efac_85%,#bbf7d0_100%)] dark:bg-[linear-gradient(180deg,#1e1b4b_0%,#312e81_45%,#0f172a_100%)]">
+        {/* Playful animated decorations */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute top-4 left-6 text-5xl opacity-90 animate-pulse">☁️</div>
-          <div className="absolute top-10 right-10 text-6xl opacity-90">🌈</div>
-          <div className="absolute top-2 right-1/3 text-5xl">☀️</div>
-          <div className="absolute top-24 left-1/3 text-4xl opacity-80">☁️</div>
-          <div className="absolute bottom-10 left-4 text-5xl">🌷</div>
-          <div className="absolute bottom-6 right-8 text-5xl">🌻</div>
-          <div className="absolute bottom-2 left-1/2 text-4xl">🦋</div>
-          <div className="absolute top-1/2 left-2 text-3xl opacity-70">⭐</div>
-          <div className="absolute top-1/3 right-4 text-3xl opacity-70">✨</div>
+          <motion.div animate={{ rotate: 360 }} transition={{ duration: 30, repeat: Infinity, ease: "linear" }} className="absolute top-2 right-6 text-7xl">☀️</motion.div>
+          <div className="absolute top-6 right-1/4 text-8xl opacity-80">🌈</div>
+          <motion.div animate={{ x: [0, 40, 0] }} transition={{ duration: 14, repeat: Infinity }} className="absolute top-8 left-6 text-6xl opacity-90">☁️</motion.div>
+          <motion.div animate={{ x: [0, -30, 0] }} transition={{ duration: 18, repeat: Infinity }} className="absolute top-32 left-1/2 text-5xl opacity-80">☁️</motion.div>
+          <motion.div animate={{ x: [0, 24, 0] }} transition={{ duration: 16, repeat: Infinity }} className="absolute top-20 right-1/2 text-4xl opacity-70">☁️</motion.div>
+          <motion.div animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 2, repeat: Infinity }} className="absolute top-1/3 left-3 text-3xl">✨</motion.div>
+          <motion.div animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 2.4, repeat: Infinity, delay: 0.5 }} className="absolute top-1/2 right-3 text-3xl">⭐</motion.div>
+          <motion.div animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 2.8, repeat: Infinity, delay: 1 }} className="absolute top-2/3 left-1/4 text-2xl">✨</motion.div>
+          <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-emerald-400/80 to-transparent" />
+          <div className="absolute bottom-2 left-6 text-5xl">🌷</div>
+          <div className="absolute bottom-3 left-1/4 text-4xl">🌼</div>
+          <div className="absolute bottom-1 left-1/2 text-5xl">🌻</div>
+          <div className="absolute bottom-4 right-1/3 text-4xl">🌸</div>
+          <div className="absolute bottom-2 right-6 text-5xl">🌷</div>
+          <motion.div animate={{ y: [0, -10, 0], x: [0, 6, 0] }} transition={{ duration: 3, repeat: Infinity }} className="absolute bottom-12 left-1/3 text-3xl">🦋</motion.div>
+          <motion.div animate={{ y: [0, -8, 0], x: [0, -8, 0] }} transition={{ duration: 4, repeat: Infinity }} className="absolute bottom-16 right-1/4 text-3xl">🐝</motion.div>
+          <motion.div animate={{ y: [0, -6, 0] }} transition={{ duration: 2, repeat: Infinity }} className="absolute bottom-6 right-4 text-7xl drop-shadow-xl">🧒</motion.div>
         </div>
         <div className="relative">
         <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
@@ -244,7 +252,7 @@ function BalloonPop({ level, onExit }: { level: CambridgeKidsLevel; onExit: () =
               </button>
             </div>
 
-            <div className="relative h-[460px] w-full">
+            <div className="relative h-[520px] w-full">
               <AnimatePresence>
                 {balloons.map((b) => (
                   <motion.button
@@ -255,14 +263,14 @@ function BalloonPop({ level, onExit }: { level: CambridgeKidsLevel; onExit: () =
                     whileHover={{ scale: 1.08 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={() => handlePick(b)}
-                    className={`absolute -translate-x-1/2 w-28 sm:w-32 aspect-[4/5] rounded-[50%_50%_50%_50%/45%_45%_55%_55%] bg-gradient-to-b ${LEVEL_COLOR[b.word.level]} shadow-2xl flex flex-col items-center justify-center gap-1 p-2 border-4 border-white/40`}
+                    className={`absolute -translate-x-1/2 w-40 sm:w-48 aspect-[4/5] rounded-[50%_50%_50%_50%/45%_45%_55%_55%] bg-gradient-to-b ${LEVEL_COLOR[b.word.level]} shadow-2xl flex flex-col items-center justify-center gap-2 p-3 border-4 border-white/50`}
                     style={{ left: `${b.x}%`, top: `${b.y}%` }}
                   >
-                    <span className="text-4xl drop-shadow-lg">{b.word.emoji}</span>
-                    <span className="text-sm sm:text-base font-extrabold text-white drop-shadow capitalize text-center leading-tight">
+                    <span className="text-5xl sm:text-6xl drop-shadow-lg">{b.word.emoji}</span>
+                    <span className="text-lg sm:text-2xl font-extrabold text-white drop-shadow-md capitalize text-center leading-tight">
                       {b.word.word}
                     </span>
-                    <span className="absolute -bottom-3 w-1 h-6 bg-white/60" />
+                    <span className="absolute -bottom-3 w-1 h-6 bg-white/70" />
                   </motion.button>
                 ))}
               </AnimatePresence>
@@ -407,7 +415,21 @@ function SpellingBee({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4">
-      <div className="min-h-[70vh] bg-gradient-to-br from-amber-200 via-yellow-100 to-orange-200 dark:from-amber-950 dark:via-orange-950 dark:to-yellow-950 rounded-3xl p-4 sm:p-6">
+      <div className="relative overflow-hidden min-h-[70vh] bg-[linear-gradient(140deg,#fde68a_0%,#fbbf24_30%,#fb923c_60%,#fdba74_100%)] dark:from-amber-950 dark:via-orange-950 dark:to-yellow-950 rounded-3xl p-4 sm:p-6">
+        {/* Honeycomb + bee scenery */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden opacity-90">
+          <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "radial-gradient(circle at 20% 30%, rgba(255,255,255,0.7) 0 14px, transparent 16px), radial-gradient(circle at 70% 60%, rgba(255,255,255,0.5) 0 10px, transparent 12px), radial-gradient(circle at 90% 20%, rgba(255,255,255,0.5) 0 12px, transparent 14px)" }} />
+          <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "repeating-conic-gradient(from 30deg, rgba(255,255,255,0.4) 0deg 60deg, transparent 60deg 120deg)", backgroundSize: "60px 60px" }} />
+          <motion.div animate={{ x: [0, 50, 0], y: [0, -10, 0] }} transition={{ duration: 6, repeat: Infinity }} className="absolute top-8 left-6 text-5xl">🐝</motion.div>
+          <motion.div animate={{ x: [0, -40, 0], y: [0, 14, 0] }} transition={{ duration: 7, repeat: Infinity }} className="absolute top-20 right-8 text-4xl">🐝</motion.div>
+          <motion.div animate={{ x: [0, 30, 0] }} transition={{ duration: 8, repeat: Infinity }} className="absolute bottom-24 left-10 text-3xl">🐝</motion.div>
+          <div className="absolute bottom-2 left-4 text-5xl">🌻</div>
+          <div className="absolute bottom-4 left-1/3 text-4xl">🌼</div>
+          <div className="absolute bottom-2 right-1/4 text-5xl">🌻</div>
+          <div className="absolute bottom-4 right-6 text-4xl">🌸</div>
+          <motion.div animate={{ y: [0, -8, 0] }} transition={{ duration: 2.5, repeat: Infinity }} className="absolute bottom-8 right-2 text-7xl drop-shadow-xl">🐻</motion.div>
+        </div>
+        <div className="relative">
         <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
           <Button variant="secondary" size="sm" onClick={onExit}>
             <ArrowLeft className="w-4 h-4 mr-1" /> Exit
@@ -481,6 +503,7 @@ function SpellingBee({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
             </div>
           </div>
         )}
+        </div>
       </div>
 
       <aside className="rounded-2xl border border-border bg-card/60 p-3">
@@ -509,6 +532,9 @@ function MemoryMatch({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
   const [moves, setMoves] = useState(0);
   const [matches, setMatches] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [elapsed, setElapsed] = useState(0);
+  const [running, setRunning] = useState(false);
+  const startRef = useRef<number>(0);
 
   const config = MEMORY_CONFIG[difficulty];
 
@@ -525,14 +551,27 @@ function MemoryMatch({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
     setMoves(0);
     setMatches(0);
     setSubmitted(false);
+    setElapsed(0);
+    setRunning(false);
+    startRef.current = 0;
   };
 
   useEffect(() => { setup(); /* eslint-disable-next-line */ }, [level, difficulty]);
+
+  // Stopwatch
+  useEffect(() => {
+    if (!running) return;
+    const id = window.setInterval(() => {
+      setElapsed(Math.floor((Date.now() - startRef.current) / 1000));
+    }, 250);
+    return () => clearInterval(id);
+  }, [running]);
 
   const click = (id: number) => {
     if (flipped.includes(id) || flipped.length === 2) return;
     const card = cards.find(c => c.id === id);
     if (!card || card.matched) return;
+    if (!running) { startRef.current = Date.now(); setRunning(true); }
     const newFlipped = [...flipped, id];
     setFlipped(newFlipped);
 
@@ -555,8 +594,14 @@ function MemoryMatch({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
   const done = matches > 0 && matches === cards.length / 2;
   const gameType = `memory_match_${difficulty}`;
 
-  // Score: more pairs + fewer moves = higher
-  const finalScore = done ? Math.max(0, config.pairs * 30 - (moves - config.pairs) * 5) : 0;
+  // Stop the clock when finished
+  useEffect(() => { if (done) setRunning(false); }, [done]);
+
+  // Final score: faster + fewer moves = higher. Sorts naturally desc on leaderboard.
+  const finalScore = done
+    ? Math.max(1, config.pairs * 200 - elapsed * 5 - Math.max(0, moves - config.pairs) * 8)
+    : 0;
+
   useEffect(() => {
     if (done && !submitted) {
       setSubmitted(true);
@@ -564,23 +609,31 @@ function MemoryMatch({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
         gameType,
         score: finalScore,
         difficulty: `${level}-${difficulty}`,
-        metadata: { moves, pairs: config.pairs },
+        metadata: { moves, pairs: config.pairs, timeSec: elapsed },
       });
     }
-  }, [done, submitted, finalScore, gameType, level, difficulty, moves, config.pairs]);
+  }, [done, submitted, finalScore, gameType, level, difficulty, moves, config.pairs, elapsed]);
+
+  const fmtTime = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4">
-      <div className="min-h-[70vh] bg-gradient-to-br from-purple-200 via-pink-100 to-rose-200 dark:from-purple-950 dark:via-fuchsia-950 dark:to-rose-950 rounded-3xl p-4 sm:p-6">
-        <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
+      <div className="relative overflow-hidden min-h-[70vh] bg-gradient-to-br from-purple-200 via-pink-100 to-rose-200 dark:from-purple-950 dark:via-fuchsia-950 dark:to-rose-950 rounded-3xl p-4 sm:p-6">
+        <motion.div animate={{ y: [0, -8, 0] }} transition={{ duration: 2.5, repeat: Infinity }} className="pointer-events-none absolute bottom-4 right-4 text-7xl drop-shadow-xl">🦄</motion.div>
+        <div className="relative flex items-center justify-between flex-wrap gap-3 mb-4">
           <Button variant="secondary" size="sm" onClick={onExit}>
             <ArrowLeft className="w-4 h-4 mr-1" /> Exit
           </Button>
           <div className="flex gap-2 flex-wrap">
+            <Badge className={`text-white ${elapsed >= 60 ? "bg-rose-600" : "bg-emerald-600"}`}>
+              <Timer className="w-4 h-4 mr-1" /> {fmtTime(elapsed)}
+            </Badge>
             <Badge className="bg-purple-500 text-white">Moves: {moves}</Badge>
             <Badge className="bg-pink-500 text-white">Pairs: {matches}/{cards.length / 2}</Badge>
           </div>
         </div>
+
+
 
         {/* Difficulty selector */}
         <div className="flex flex-wrap justify-center gap-2 mb-4">
@@ -680,7 +733,16 @@ const SYNONYM_BANK: SynonymItem[] = [
   { word: "magnificent", vi: "tráng lệ", synonym: "splendid", emoji: "🏰", level: "B2" },
 ];
 
-function SynonymSprint({ onExit }: { onExit: () => void }) {
+// Cambridge level → cumulative CEFR pool
+const LEVEL_TO_CEFR: Record<CambridgeKidsLevel, ("A1" | "A2" | "B1" | "B2")[]> = {
+  Starters: ["A1"],
+  Movers:   ["A1", "A2"],
+  Flyers:   ["A1", "A2"],
+  KET:      ["A1", "A2", "B1"],
+  PET:      ["A1", "A2", "B1", "B2"],
+};
+
+function SynonymSprint({ level, onExit }: { level: CambridgeKidsLevel; onExit: () => void }) {
   const { t } = useLanguage();
   const [idx, setIdx] = useState(0);
   const [lives, setLives] = useState(3);
@@ -690,14 +752,24 @@ function SynonymSprint({ onExit }: { onExit: () => void }) {
   const [timer, setTimer] = useState(10);
   const [feedback, setFeedback] = useState<"ok" | "err" | null>(null);
   const [submitted, setSubmitted] = useState(false);
-  const pool = useMemo(() => shuffle(SYNONYM_BANK).slice(0, 14), []);
+  const levelPool = useMemo(
+    () => SYNONYM_BANK.filter((w) => LEVEL_TO_CEFR[level].includes(w.level)),
+    [level]
+  );
+  const pool = useMemo(
+    () => shuffle(levelPool).slice(0, Math.min(14, levelPool.length)),
+    [levelPool]
+  );
   const current = pool[idx];
   const options = useMemo(() => {
     if (!current) return [];
-    const wrong = shuffle(SYNONYM_BANK.filter((w) => w.word !== current.word && w.synonym !== current.synonym))
-      .slice(0, 3).map((w) => w.synonym);
+    // distractors from the same CEFR pool only, fall back to whole bank if too small
+    const sameLevelWrong = levelPool.filter((w) => w.synonym !== current.synonym && w.word !== current.word);
+    const sourcePool = sameLevelWrong.length >= 3 ? sameLevelWrong
+      : SYNONYM_BANK.filter((w) => w.synonym !== current.synonym && w.word !== current.word);
+    const wrong = shuffle(sourcePool).slice(0, 3).map((w) => w.synonym);
     return shuffle([current.synonym, ...wrong]);
-  }, [current]);
+  }, [current, levelPool]);
 
   useEffect(() => {
     if (lives <= 0 || idx >= pool.length || feedback) return;
@@ -733,7 +805,7 @@ function SynonymSprint({ onExit }: { onExit: () => void }) {
   useEffect(() => {
     if (done && !submitted && score > 0) {
       setSubmitted(true);
-      submitGameScore({ gameType: "synonym_sprint", score, maxStreak });
+      submitGameScore({ gameType: `synonym_sprint_${level.toLowerCase()}`, score, maxStreak, difficulty: level });
     }
   }, [done, submitted, score, maxStreak]);
 
@@ -741,7 +813,18 @@ function SynonymSprint({ onExit }: { onExit: () => void }) {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4">
-      <div className="min-h-[70vh] bg-gradient-to-br from-violet-200 via-fuchsia-100 to-amber-100 dark:from-violet-950 dark:via-fuchsia-950 dark:to-slate-900 rounded-3xl p-4 sm:p-6">
+      <div className="relative overflow-hidden min-h-[70vh] bg-[linear-gradient(140deg,#c4b5fd_0%,#f0abfc_30%,#fbcfe8_60%,#fde68a_100%)] dark:from-violet-950 dark:via-fuchsia-950 dark:to-slate-900 rounded-3xl p-4 sm:p-6">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 3, repeat: Infinity }} className="absolute top-6 left-8 text-5xl opacity-80">💫</motion.div>
+          <motion.div animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 4, repeat: Infinity, delay: 0.7 }} className="absolute top-10 right-10 text-5xl opacity-80">✨</motion.div>
+          <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 4, repeat: Infinity }} className="absolute top-1/3 left-4 text-4xl">📚</motion.div>
+          <motion.div animate={{ y: [0, -12, 0] }} transition={{ duration: 5, repeat: Infinity, delay: 1 }} className="absolute top-1/2 right-6 text-4xl">🪄</motion.div>
+          <div className="absolute bottom-4 left-6 text-5xl opacity-90">🌟</div>
+          <div className="absolute bottom-8 left-1/3 text-4xl opacity-80">💎</div>
+          <div className="absolute bottom-2 right-1/4 text-5xl opacity-90">🔮</div>
+          <motion.div animate={{ y: [0, -6, 0] }} transition={{ duration: 2.5, repeat: Infinity }} className="absolute bottom-4 right-4 text-7xl drop-shadow-xl">🧚</motion.div>
+        </div>
+        <div className="relative">
         <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
           <Button variant="secondary" size="sm" onClick={onExit}>
             <ArrowLeft className="w-4 h-4 mr-1" /> Exit
@@ -788,10 +871,11 @@ function SynonymSprint({ onExit }: { onExit: () => void }) {
             </div>
           </motion.div>
         )}
+        </div>
       </div>
 
       <aside className="rounded-2xl border border-border bg-card/60 p-3">
-        <GameLeaderboard gameType="synonym_sprint" currentScore={score} />
+        <GameLeaderboard gameType={`synonym_sprint_${level.toLowerCase()}`} currentScore={score} />
       </aside>
     </div>
   );
@@ -874,7 +958,7 @@ const CambridgeArcade = () => {
         {active === "balloon" && <BalloonPop level={level} onExit={() => setActive(null)} />}
         {active === "spelling" && <SpellingBee level={level} onExit={() => setActive(null)} />}
         {active === "memory" && <MemoryMatch level={level} onExit={() => setActive(null)} />}
-        {active === "synonym" && <SynonymSprint onExit={() => setActive(null)} />}
+        {active === "synonym" && <SynonymSprint key={level} level={level} onExit={() => setActive(null)} />}
         {active === "meteor" && (
           <div className="max-w-5xl mx-auto">
             <Button variant="ghost" size="sm" onClick={() => setActive(null)} className="mb-3">
@@ -894,11 +978,11 @@ const CambridgeArcade = () => {
         {!active && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
             {[
-              { key: "balloon" as const, emoji: "🎈", title: "Balloon Pop", desc: t("Bóng rớt xuống — chọn nhanh!", "Balloons drift down — pop the right one!"), color: "from-sky-400 to-cyan-500" },
-              { key: "spelling" as const, emoji: "🔤", title: "Spelling Bee", desc: t("Đánh vần trong 20 giây — gõ phím luôn!", "Spell in 20s — type on your keyboard!"), color: "from-orange-400 to-amber-500" },
-              { key: "memory" as const, emoji: "🃏", title: "Memory Match", desc: t("3 độ khó: 3×4 / 4×4 / 5×4", "3 difficulties: 3×4 / 4×4 / 5×4"), color: "from-fuchsia-500 to-purple-600" },
-              { key: "meteor" as const, emoji: "☄️", title: "Word Meteor", desc: t("Từ vựng theo level Cambridge", "Cambridge-level vocabulary meteors"), color: "from-red-500 to-orange-600" },
-              { key: "synonym" as const, emoji: "🧠", title: "Synonym Sprint", desc: t("Chọn từ đồng nghĩa trước khi hết giờ", "Pick the synonym before time runs out"), color: "from-violet-500 to-fuchsia-500" },
+              { key: "balloon" as const, emoji: "🎈", chibi: "🧒", title: "Balloon Pop", desc: t("Bóng rớt xuống — chọn nhanh!", "Balloons drift down — pop the right one!"), color: "from-sky-400 to-cyan-500" },
+              { key: "spelling" as const, emoji: "🔤", chibi: "🐻", title: "Spelling Bee", desc: t("Đánh vần trong 20 giây — gõ phím luôn!", "Spell in 20s — type on your keyboard!"), color: "from-orange-400 to-amber-500" },
+              { key: "memory" as const, emoji: "🃏", chibi: "🦄", title: "Memory Match", desc: t("Có đồng hồ — về đích nhanh nhất!", "With stopwatch — finish as fast as you can!"), color: "from-fuchsia-500 to-purple-600" },
+              { key: "meteor" as const, emoji: "☄️", chibi: "🚀", title: "Word Meteor", desc: t("Từ vựng theo level Cambridge", "Cambridge-level vocabulary meteors"), color: "from-red-500 to-orange-600" },
+              { key: "synonym" as const, emoji: "🧠", chibi: "🧚", title: "Synonym Sprint", desc: t("Chọn từ đồng nghĩa trước khi hết giờ", "Pick the synonym before time runs out"), color: "from-violet-500 to-fuchsia-500" },
             ].map((g, idx) => (
               <motion.button
                 key={g.key}
@@ -910,11 +994,19 @@ const CambridgeArcade = () => {
                 className={`relative overflow-hidden rounded-3xl p-6 text-left bg-gradient-to-br ${g.color} text-white shadow-2xl`}
               >
                 <Sparkles className="absolute top-3 right-3 w-5 h-5 opacity-50" />
+                <motion.div
+                  animate={{ y: [0, -6, 0], rotate: [-3, 3, -3] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                  className="absolute -bottom-2 -right-2 text-7xl drop-shadow-2xl select-none"
+                  aria-hidden
+                >
+                  {g.chibi}
+                </motion.div>
                 <div className="text-6xl mb-3">{g.emoji}</div>
                 <h3 className="text-2xl font-extrabold">{g.title}</h3>
-                <p className="text-sm opacity-90 mt-1">{g.desc}</p>
+                <p className="text-sm opacity-90 mt-1 max-w-[80%]">{g.desc}</p>
                 <div className="mt-4 inline-flex items-center gap-1 text-xs bg-white/20 rounded-full px-3 py-1">
-                  {g.key === "synonym" ? "All levels" : `Level: ${level}`}
+                  Level: {level}
                 </div>
               </motion.button>
             ))}

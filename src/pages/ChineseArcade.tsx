@@ -697,6 +697,7 @@ const ChineseArcade = () => {
     {
       id: "shooter" as const,
       icon: <Rocket className="w-7 h-7" />,
+      chibi: "👾",
       title: t("Hanzi Space Shooter", "Hanzi Space Shooter"),
       desc: t("Gõ Pinyin để bắn hạ thiên thạch Hán tự đang rơi!", "Type Pinyin to shoot down falling Hanzi meteorites!"),
       color: "from-cyan-500 to-blue-600",
@@ -705,6 +706,7 @@ const ChineseArcade = () => {
     {
       id: "hotpot" as const,
       icon: <ChefHat className="w-7 h-7" />,
+      chibi: "🐼",
       title: t("Hanzi Hotpot Chef", "Hanzi Hotpot Chef"),
       desc: t("Ghép các ký tự thành từ ghép tiếng Trung trong nồi lẩu!", "Combine characters to form compound words in the hotpot!"),
       color: "from-amber-500 to-rose-600",
@@ -713,6 +715,7 @@ const ChineseArcade = () => {
     {
       id: "runner" as const,
       icon: <Footprints className="w-7 h-7" />,
+      chibi: "🐉",
       title: t("Pinyin Tone Runner", "Pinyin Tone Runner"),
       desc: t("Chạy vào làn có dấu thanh đúng. Phản xạ là tất cả!", "Run into the track with the correct tone mark. Reflexes are everything!"),
       color: "from-pink-500 to-purple-600",
@@ -721,6 +724,7 @@ const ChineseArcade = () => {
     {
       id: "meteor" as const,
       icon: <Sparkles className="w-7 h-7" />,
+      chibi: "🐲",
       title: t("Word Meteor (中文)", "Word Meteor (中文)"),
       desc: t("Bắn nghĩa đúng cho thiên thạch Hán tự + Pinyin đang rơi.", "Tap the correct meaning of falling Hanzi + Pinyin meteors."),
       color: "from-red-500 to-orange-600",
@@ -799,14 +803,22 @@ const ChineseArcade = () => {
                   whileHover={{ scale: 1.03, y: -3 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setActive(g.id)}
-                  className={`relative p-6 min-h-[240px] rounded-2xl border-2 border-slate-700 bg-slate-900 text-left transition-all hover:border-cyan-500/50 hover:${g.glow}`}
+                  className={`relative overflow-hidden p-6 min-h-[240px] rounded-2xl border-2 border-slate-700 bg-slate-900 text-left transition-all hover:border-cyan-500/50 hover:${g.glow}`}
                 >
                   <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${g.color} rounded-t-2xl`} />
+                  <motion.div
+                    animate={{ y: [0, -6, 0], rotate: [-3, 3, -3] }}
+                    transition={{ duration: 3, repeat: Infinity }}
+                    className="absolute -bottom-2 -right-2 text-7xl drop-shadow-2xl select-none opacity-90"
+                    aria-hidden
+                  >
+                    {g.chibi}
+                  </motion.div>
                   <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${g.color} flex items-center justify-center text-white mb-4`}>
                     {g.icon}
                   </div>
                   <h3 className="font-bold text-lg text-white mb-2 leading-tight">{g.title}</h3>
-                  <p className="text-sm text-slate-300 leading-relaxed">{g.desc}</p>
+                  <p className="text-sm text-slate-300 leading-relaxed max-w-[75%]">{g.desc}</p>
                   <div className="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-mono">▶ PLAY</div>
                 </motion.button>
               ))}

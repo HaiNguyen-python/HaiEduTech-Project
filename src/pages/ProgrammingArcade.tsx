@@ -473,10 +473,10 @@ const ProgrammingArcade = () => {
   };
 
   const cards = [
-    { id: "sql" as const, title: "SQL Dungeon", desc: t("Trận đấu RPG dùng SELECT/WHERE/COUNT để hạ quái.", "Retro RPG: defeat monsters with SQL queries."), icon: Database, color: "from-violet-500 to-purple-600" },
-    { id: "pipeline" as const, title: "Data Pipeline Plumber", desc: t("Kéo thả Extract → Filter → Transform → Load.", "Drag Extract → Filter → Transform → Load."), icon: Code2, color: "from-cyan-500 to-emerald-500" },
-    { id: "tuner" as const, title: "AI Parameter Tuner", desc: t("Tinh chỉnh siêu tham số để chạm Sweet Spot.", "Tune hyperparameters to hit the Sweet Spot."), icon: Brain, color: "from-fuchsia-500 to-pink-500" },
-    { id: "galaxy" as const, title: "Code Galaxy", desc: t("Sắp xếp snippet code đúng category — Foundations, Data, AI.", "Sort code snippets by category — Foundations, Data, AI."), icon: Sparkles, color: "from-emerald-500 to-cyan-500" },
+    { id: "sql" as const, chibi: "🧙", title: "SQL Dungeon", desc: t("Trận đấu RPG dùng SELECT/WHERE/COUNT để hạ quái.", "Retro RPG: defeat monsters with SQL queries."), icon: Database, color: "from-violet-500 to-purple-600" },
+    { id: "pipeline" as const, chibi: "🤖", title: "Data Pipeline Plumber", desc: t("Kéo thả Extract → Filter → Transform → Load.", "Drag Extract → Filter → Transform → Load."), icon: Code2, color: "from-cyan-500 to-emerald-500" },
+    { id: "tuner" as const, chibi: "🧠", title: "AI Parameter Tuner", desc: t("Tinh chỉnh siêu tham số để chạm Sweet Spot.", "Tune hyperparameters to hit the Sweet Spot."), icon: Brain, color: "from-fuchsia-500 to-pink-500" },
+    { id: "galaxy" as const, chibi: "🚀", title: "Code Galaxy", desc: t("Sắp xếp snippet code đúng category — Foundations, Data, AI.", "Sort code snippets by category — Foundations, Data, AI."), icon: Sparkles, color: "from-emerald-500 to-cyan-500" },
   ];
 
   return (
@@ -516,13 +516,14 @@ const ProgrammingArcade = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
                     onClick={() => switchTo(c.id)}
-                    className="text-left rounded-xl border border-slate-700 bg-slate-950/80 hover:border-emerald-400/50 hover:shadow-[0_0_40px_-15px_rgba(16,185,129,0.6)] transition-all p-5 group"
+                    className="relative overflow-hidden text-left rounded-xl border border-slate-700 bg-slate-950/80 hover:border-emerald-400/50 hover:shadow-[0_0_40px_-15px_rgba(16,185,129,0.6)] transition-all p-5 group min-h-[180px]"
                   >
+                    <motion.div animate={{ y: [0, -6, 0], rotate: [-3, 3, -3] }} transition={{ duration: 3, repeat: Infinity }} className="absolute -bottom-2 -right-2 text-6xl drop-shadow-xl select-none opacity-90" aria-hidden>{c.chibi}</motion.div>
                     <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${c.color} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
                       <Icon className="w-6 h-6 text-white" />
                     </div>
                     <h3 className="text-lg font-bold text-slate-100 mb-1 font-mono">{c.title}</h3>
-                    <p className="text-xs text-slate-400 mb-3">{c.desc}</p>
+                    <p className="text-xs text-slate-400 mb-3 max-w-[75%]">{c.desc}</p>
                     <div className="text-xs text-emerald-300 font-mono group-hover:text-emerald-200">&gt; ./run</div>
                   </motion.button>
                 );
