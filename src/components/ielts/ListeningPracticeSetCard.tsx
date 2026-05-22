@@ -221,12 +221,14 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
                 value={rate}
                 onChange={(e) => setRate(Number(e.target.value))}
                 className="text-xs bg-background border border-border rounded px-2 py-1"
+                title={t("Tốc độ phát", "Playback speed")}
               >
-                <option value={0.7}>0.7x</option>
-                <option value={0.85}>0.85x</option>
-                <option value={0.95}>1.0x</option>
-                <option value={1.1}>1.15x</option>
+                <option value={0.7}>0.7x — {t("rất chậm", "very slow")}</option>
+                <option value={0.85}>0.85x — {t("tự nhiên", "natural")}</option>
+                <option value={0.95}>0.95x — {t("đề thi thật", "exam pace")}</option>
+                <option value={1.1}>1.1x — {t("nhanh", "fast")}</option>
               </select>
+
               <Button onClick={() => setShowTranscript(v => !v)} size="sm" variant="ghost" className="gap-2">
                 {showTranscript ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 {showTranscript ? t("Ẩn script", "Hide script") : t("Hiện script", "Show script")}
