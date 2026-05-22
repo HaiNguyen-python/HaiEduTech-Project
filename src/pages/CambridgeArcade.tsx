@@ -193,7 +193,20 @@ function BalloonPop({ level, onExit }: { level: CambridgeKidsLevel; onExit: () =
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4">
-      <div className="min-h-[70vh] bg-gradient-to-br from-sky-300 via-cyan-200 to-emerald-200 dark:from-slate-900 dark:via-indigo-950 dark:to-slate-900 rounded-3xl p-4 sm:p-6 relative overflow-hidden">
+      <div className="min-h-[70vh] rounded-3xl p-4 sm:p-6 relative overflow-hidden bg-[linear-gradient(180deg,#7dd3fc_0%,#bae6fd_35%,#bbf7d0_70%,#86efac_100%)] dark:bg-[linear-gradient(180deg,#0f172a_0%,#1e1b4b_50%,#0f172a_100%)]">
+        {/* Playful decorations */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute top-4 left-6 text-5xl opacity-90 animate-pulse">☁️</div>
+          <div className="absolute top-10 right-10 text-6xl opacity-90">🌈</div>
+          <div className="absolute top-2 right-1/3 text-5xl">☀️</div>
+          <div className="absolute top-24 left-1/3 text-4xl opacity-80">☁️</div>
+          <div className="absolute bottom-10 left-4 text-5xl">🌷</div>
+          <div className="absolute bottom-6 right-8 text-5xl">🌻</div>
+          <div className="absolute bottom-2 left-1/2 text-4xl">🦋</div>
+          <div className="absolute top-1/2 left-2 text-3xl opacity-70">⭐</div>
+          <div className="absolute top-1/3 right-4 text-3xl opacity-70">✨</div>
+        </div>
+        <div className="relative">
         <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
           <Button variant="secondary" size="sm" onClick={onExit}>
             <ArrowLeft className="w-4 h-4 mr-1" /> Exit
