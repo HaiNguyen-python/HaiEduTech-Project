@@ -874,6 +874,7 @@ const CambridgeArcade = () => {
         {active === "balloon" && <BalloonPop level={level} onExit={() => setActive(null)} />}
         {active === "spelling" && <SpellingBee level={level} onExit={() => setActive(null)} />}
         {active === "memory" && <MemoryMatch level={level} onExit={() => setActive(null)} />}
+        {active === "synonym" && <SynonymSprint onExit={() => setActive(null)} />}
         {active === "meteor" && (
           <div className="max-w-5xl mx-auto">
             <Button variant="ghost" size="sm" onClick={() => setActive(null)} className="mb-3">
@@ -891,53 +892,33 @@ const CambridgeArcade = () => {
         )}
 
         {!active && (
-          <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                { key: "balloon" as const, emoji: "🎈", title: "Balloon Pop", desc: t("Bóng rớt xuống — chọn nhanh!", "Balloons drift down — pop the right one!"), color: "from-sky-400 to-cyan-500" },
-                { key: "spelling" as const, emoji: "🔤", title: "Spelling Bee", desc: t("Đánh vần trong 15 giây", "Spell the word in 15 seconds"), color: "from-orange-400 to-amber-500" },
-                { key: "memory" as const, emoji: "🃏", title: "Memory Match", desc: t("3 độ khó: 3×4 / 4×4 / 5×4", "3 difficulties: 3×4 / 4×4 / 5×4"), color: "from-fuchsia-500 to-purple-600" },
-                { key: "meteor" as const, emoji: "☄️", title: "Word Meteor", desc: t("Từ vựng theo level Cambridge", "Cambridge-level vocabulary meteors"), color: "from-red-500 to-orange-600" },
-              ].map((g, idx) => (
-                <motion.button
-                  key={g.key}
-                  initial={{ y: 30, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: idx * 0.1 }}
-                  whileHover={{ scale: 1.03, y: -4 }}
-                  onClick={() => setActive(g.key)}
-                  className={`relative overflow-hidden rounded-3xl p-6 text-left bg-gradient-to-br ${g.color} text-white shadow-2xl`}
-                >
-                  <Sparkles className="absolute top-3 right-3 w-5 h-5 opacity-50" />
-                  <div className="text-6xl mb-3">{g.emoji}</div>
-                  <h3 className="text-2xl font-extrabold">{g.title}</h3>
-                  <p className="text-sm opacity-90 mt-1">{g.desc}</p>
-                  <div className="mt-4 inline-flex items-center gap-1 text-xs bg-white/20 rounded-full px-3 py-1">
-                    Level: {level}
-                  </div>
-                </motion.button>
-              ))}
-            </div>
-
-            {/* Bridge to older-learner English Arcade Hub */}
-            <div className="mt-10 rounded-3xl border border-violet-300/30 bg-gradient-to-r from-violet-500/10 via-fuchsia-500/10 to-amber-500/10 p-6 text-center">
-              <Badge variant="outline" className="mb-2"><Gamepad2 className="w-3 h-3 mr-1" /> More English Games</Badge>
-              <h3 className="text-xl font-bold mb-1">
-                {t("Game tiếng Anh cho Teen & Adult", "Teen & Adult English Games")}
-              </h3>
-              <p className="text-sm text-muted-foreground max-w-xl mx-auto mb-4">
-                {t(
-                  "Synonym Sprint, Spelling Bee và Word Builder — mini-game từ vựng B1+ cho học viên lớn tuổi hơn.",
-                  "Synonym Sprint, Spelling Bee, and Word Builder — B1+ vocabulary games for older learners."
-                )}
-              </p>
-              <Link to="/english/arcade">
-                <Button className="bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white hover:opacity-90">
-                  <Rocket className="w-4 h-4 mr-2" /> {t("Mở English Arcade Hub", "Open English Arcade Hub")}
-                </Button>
-              </Link>
-            </div>
-          </>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+            {[
+              { key: "balloon" as const, emoji: "🎈", title: "Balloon Pop", desc: t("Bóng rớt xuống — chọn nhanh!", "Balloons drift down — pop the right one!"), color: "from-sky-400 to-cyan-500" },
+              { key: "spelling" as const, emoji: "🔤", title: "Spelling Bee", desc: t("Đánh vần trong 20 giây — gõ phím luôn!", "Spell in 20s — type on your keyboard!"), color: "from-orange-400 to-amber-500" },
+              { key: "memory" as const, emoji: "🃏", title: "Memory Match", desc: t("3 độ khó: 3×4 / 4×4 / 5×4", "3 difficulties: 3×4 / 4×4 / 5×4"), color: "from-fuchsia-500 to-purple-600" },
+              { key: "meteor" as const, emoji: "☄️", title: "Word Meteor", desc: t("Từ vựng theo level Cambridge", "Cambridge-level vocabulary meteors"), color: "from-red-500 to-orange-600" },
+              { key: "synonym" as const, emoji: "🧠", title: "Synonym Sprint", desc: t("Chọn từ đồng nghĩa trước khi hết giờ", "Pick the synonym before time runs out"), color: "from-violet-500 to-fuchsia-500" },
+            ].map((g, idx) => (
+              <motion.button
+                key={g.key}
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: idx * 0.08 }}
+                whileHover={{ scale: 1.03, y: -4 }}
+                onClick={() => setActive(g.key)}
+                className={`relative overflow-hidden rounded-3xl p-6 text-left bg-gradient-to-br ${g.color} text-white shadow-2xl`}
+              >
+                <Sparkles className="absolute top-3 right-3 w-5 h-5 opacity-50" />
+                <div className="text-6xl mb-3">{g.emoji}</div>
+                <h3 className="text-2xl font-extrabold">{g.title}</h3>
+                <p className="text-sm opacity-90 mt-1">{g.desc}</p>
+                <div className="mt-4 inline-flex items-center gap-1 text-xs bg-white/20 rounded-full px-3 py-1">
+                  {g.key === "synonym" ? "All levels" : `Level: ${level}`}
+                </div>
+              </motion.button>
+            ))}
+          </div>
         )}
       </main>
       <Footer />
