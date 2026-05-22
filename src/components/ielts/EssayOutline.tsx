@@ -1,8 +1,9 @@
 /**
  * @file EssayOutline.tsx
  * @description Concise outline of the key focus points for each section of a
- *   Band 7.0+ sample essay. Shown as short bullet lists so students grasp the
- *   structure at a glance.
+ *   Band 7.0+ sample essay. Task 2 essays use the I/II/III structure
+ *   (Intro → SP1/SP2 → Conclusion) with bullets derived from THIS essay's
+ *   own paragraphs so the outline stays prompt-specific.
  */
 import { useMemo } from "react";
 import { motion } from "framer-motion";
@@ -14,6 +15,24 @@ interface Props {
   essay: SampleEssay;
 }
 
+// Extract the first complete sentence of a paragraph (markdown stripped, capped length)
+const firstSentence = (para: string): string => {
+  const clean = para.replace(/\*\*/g, "").trim();
+  const m = clean.match(/[^.!?]+[.!?]/);
+  let s = (m ? m[0] : clean).trim();
+  if (s.length > 180) s = s.slice(0, 177).trimEnd() + "…";
+  return s;
+};
+
+// Best-effort extraction of the writer's short thesis (typically the last sentence of intro)
+const shortAnswer = (intro: string): string => {
+  const clean = intro.replace(/\*\*/g, "").trim();
+  const sentences = clean.match(/[^.!?]+[.!?]/g) || [clean];
+  let s = (sentences[sentences.length - 1] || "").trim();
+  if (s.length > 180) s = s.slice(0, 177).trimEnd() + "…";
+  return s;
+};
+
 const EssayOutline = ({ essay }: Props) => {
   const { t } = useLanguage();
 
@@ -22,11 +41,11 @@ const EssayOutline = ({ essay }: Props) => {
     const total = paras.length;
     const isTask1 = essay.taskType === 1;
 
-    return paras.map((_, i) => {
-      let label = "";
-      let bullets: string[] = [];
-
-      if (isTask1) {
+    // === TASK 1 — keep the existing generic outline ===
+    if (isTask1) {
+      return paras.map((_, i) => {
+        let label = "";
+        let bullets: string[] = [];
         if (i === 0) {
           label = t("Mở bài", "Introduction");
           bullets = [
@@ -47,27 +66,68 @@ const EssayOutline = ({ essay }: Props) => {
             t("So sánh hoặc đối chiếu giữa các nhóm.", "Comparisons or contrasts between groups."),
           ];
         }
-      } else {
-        if (i === 0) {
-          label = t("Mở bài", "Introduction");
-          bullets = [
-            t("Paraphrase đề + nêu rõ thesis (quan điểm).", "Paraphrase the prompt + clear thesis."),
-          ];
-        } else if (i === total - 1) {
-          label = t("Kết bài", "Conclusion");
-          bullets = [
-            t("Khẳng định lại quan điểm + tóm tắt nhanh 2 luận điểm.", "Restate stance + quick recap of 2 main points."),
-          ];
-        } else {
-          label = t(`Thân bài ${i}`, `Body ${i}`);
-          bullets = [
-            t("1 luận điểm chính + lý do + ví dụ ngắn.", "One main point + reason + brief example."),
-          ];
-        }
-      }
+        return { label, bullets };
+      });
+    }
 
-      return { label, bullets };
+    // === TASK 2 — I. Intro → II. Body (SP1, SP2[, SP3]) → III. Conclusion ===
+    // Each bullet pulls a real sentence from THIS essay so the outline is
+    // specific to the prompt instead of being generic boilerplate.
+    const result: { label: string; bullets: string[] }[] = [];
+    const introPara = paras[0] || "";
+    const conclusionPara = paras[total - 1] || "";
+    const bodyParas = total >= 3 ? paras.slice(1, total - 1) : [];
+
+    // I. Introduction
+    result.push({
+      label: t("I. Mở bài (Intro)", "I. Introduction (Intro)"),
+      bullets: [
+        t(
+          `Paraphrase đề bài → ${firstSentence(introPara)}`,
+          `Paraphrase the topic → ${firstSentence(introPara)}`,
+        ),
+        t(
+          `Trả lời ngắn (thesis) → ${shortAnswer(introPara)}`,
+          `Give your short answer (thesis) → ${shortAnswer(introPara)}`,
+        ),
+      ],
     });
+
+    // II. Body — SP1 / SP2 / SP3
+    bodyParas.forEach((bp, idx) => {
+      const n = idx + 1;
+      const letter = "ABCD"[idx] || "?";
+      result.push({
+        label: t(
+          `II.${letter}. Đoạn thân bài ${n} (SP${n})`,
+          `II.${letter}. Supporting Paragraph ${n} (SP${n})`,
+        ),
+        bullets: [
+          t(
+            `Trả lời Question ${n} = Points + Clarification + Example`,
+            `Answer Question ${n} = Points + Clarification + Example`,
+          ),
+          t(`Ý chính của đoạn → ${firstSentence(bp)}`, `Main point of this paragraph → ${firstSentence(bp)}`),
+        ],
+      });
+    });
+
+    // III. Conclusion
+    result.push({
+      label: t("III. Kết bài (Conclusion)", "III. Conclusion"),
+      bullets: [
+        t(
+          "Viết lại Intro theo cách khác (paraphrase + tóm tắt 2 luận điểm).",
+          "Rewrite the introduction in another way (paraphrase + recap of the 2 main points).",
+        ),
+        t(
+          `Gợi ý từ bài mẫu → ${firstSentence(conclusionPara)}`,
+          `Reference from the sample → ${firstSentence(conclusionPara)}`,
+        ),
+      ],
+    });
+
+    return result;
   }, [essay, t]);
 
   return (
