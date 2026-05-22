@@ -122,6 +122,7 @@ const Navbar = () => {
       { to: "/english/conversational/curriculum", label: t("Giao tiếp", "Conversational"), icon: MessageSquare },
       { to: "/english/idioms", label: t("Thành ngữ & Danh ngôn", "Idioms & Quotes"), icon: Quote },
       { to: "/cambridge-lectures", label: t("Bài giảng Cambridge", "Cambridge Lectures"), icon: BookOpen },
+      { to: "/cambridge/arcade", label: t("🎪 Cambridge Kids Arcade", "🎪 Cambridge Kids Arcade"), icon: BookOpen },
     ] },
     // IELTS - promoted to top-level so all 10 IELTS items are reachable in one hover
     { to: "#ielts-group", label: t("🎯 IELTS Program", "🎯 IELTS Program"), groupLabel: "ielts", children: ieltsChildren },
@@ -183,6 +184,7 @@ const Navbar = () => {
       { to: "/learn-vietnamese/kids-overseas", label: t("👨‍👩‍👧 Cho trẻ Việt kiều", "👨‍👩‍👧 For Overseas Vietnamese Kids") },
     ] },
     { to: "#vn-div2", label: "", divider: true },
+    { to: "/learn-vietnamese/arcade", label: t("🕹️ Vietnamese Arcade Hub", "🕹️ Vietnamese Arcade Hub") },
     { to: "/songs/vietnamese", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
     { to: "/speaking-coach/vietnamese", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
     { to: "/specialized-language?lang=vietnamese", label: t("🧠 AI Ngôn ngữ Chuyên ngành", "🧠 AI Specialized Language") },

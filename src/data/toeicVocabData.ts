@@ -4,6 +4,7 @@ import { toeicVocabExpansion } from "./toeicVocabExpansion";
 import { toeicVocabExpansion2 } from "./toeicVocabExpansion2";
 import { toeicVocabExpansion3 } from "./toeicVocabExpansion3";
 import { toeicVocabExpansion4 } from "./toeicVocabExpansion4";
+import { toeicVocabExpansion5 } from "./toeicVocabExpansion5";
 import type { ToeicWord } from "./toeicVocabTypes";
 
 // Re-export the shared type so existing consumers keep working.
@@ -1181,6 +1182,7 @@ export const toeicVocabData: ToeicWord[] = [
   ...toeicVocabExpansion2,
   ...toeicVocabExpansion3,
   ...toeicVocabExpansion4,
+  ...toeicVocabExpansion5,
 ].sort((a: ToeicWord, b: ToeicWord) => {
   // Sort within each category: basic → intermediate → advanced (easy → hard)
   const levelOrder: Record<string, number> = { basic: 0, intermediate: 1, advanced: 2 };
