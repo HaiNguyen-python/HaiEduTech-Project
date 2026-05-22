@@ -8,7 +8,7 @@ import type { ReadingExam } from "./ieltsFullReadingExams";
 export const IELTS_FULL_READING_EXAMS_EXPANSION: ReadingExam[] = [
   {
     id: "rx-cam-1",
-    title: "Cambridge-Style Test 1: The Science of Sleep",
+    title: "Test 6 — The Science of Sleep (Extended)",
     level: "Medium",
     durationMinutes: 20,
     passageTitle: "The Science of Sleep",
