@@ -16,6 +16,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useState, useEffect, useMemo, useRef } from "react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft, Heart, Trophy, Sparkles, Star, Volume2, Timer,
