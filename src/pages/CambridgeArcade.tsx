@@ -430,7 +430,7 @@ const CambridgeArcade = () => {
       <SEO
         title="Cambridge Kids Arcade — Starters/Movers/Flyers/KET/PET"
         description="Fun mini-games for Cambridge English kids: Balloon Pop, Spelling Bee, Memory Match across Starters, Movers, Flyers, KET and PET levels."
-        canonical="/cambridge/arcade"
+        path="/cambridge/arcade"
       />
       <Navbar />
 
