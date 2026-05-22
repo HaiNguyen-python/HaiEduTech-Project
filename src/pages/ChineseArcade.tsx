@@ -22,7 +22,7 @@ import { submitGameScore } from "@/lib/submitGameScore";
 // Shared types & helpers
 // ============================================================
 
-type GameId = "menu" | "shooter" | "hotpot" | "runner" | "meteor";
+type GameId = "menu" | "shooter" | "hotpot" | "runner" | "meteor" | "sentence";
 type Difficulty = "easy" | "hard" | "expert"; // easy=HSK1-2, hard=HSK3-4, expert=HSK5-6
 
 // Strip tone marks from pinyin and return plain ASCII letters
