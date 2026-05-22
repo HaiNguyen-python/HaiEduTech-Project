@@ -99,6 +99,12 @@ export const ieltsVocabExpansion2: IeltsWord[] = [
   w("integration", "/ˌɪn.tɪˈɡreɪ.ʃən/", "B2", "hòa nhập", "the process of becoming part of a community", "Language classes accelerate the integration of newcomers.", "Migration & Identity", "noun", [], ["successful integration"]),
   w("xenophobia", "/ˌzen.əˈfəʊ.bi.ə/", "C1", "bài ngoại", "dislike or prejudice against people from other countries", "Economic downturns can fuel xenophobia.", "Migration & Identity", "noun", [], ["rising xenophobia"]),
   w("brain drain", "/breɪn dreɪn/", "C1", "chảy máu chất xám", "emigration of highly skilled people", "Better incentives can reverse the brain drain.", "Migration & Identity", "noun", [], ["reverse the brain drain"]),
+  w("diaspora", "/daɪˈæs.pər.ə/", "C1", "cộng đồng kiều bào", "people of one origin scattered across many countries", "The Vietnamese diaspora maintains strong cultural ties.", "Migration & Identity", "noun", [], ["large diaspora"]),
+  w("assimilation", "/əˌsɪm.ɪˈleɪ.ʃən/", "C1", "đồng hóa văn hóa", "the process by which migrants adopt host culture", "Critics argue full assimilation erases identity.", "Migration & Identity", "noun", [], ["cultural assimilation"]),
+  w("repatriation", "/riːˌpæt.riˈeɪ.ʃən/", "C1", "hồi hương", "the return of someone to their own country", "Voluntary repatriation programmes assisted thousands of refugees.", "Migration & Identity", "noun", [], ["voluntary repatriation"]),
+  w("brain gain", "/breɪn ɡeɪn/", "C1", "thu hút chất xám", "the inflow of skilled workers", "Returning graduates contribute to a nation's brain gain.", "Migration & Identity", "noun", [], ["brain gain effect"]),
+  w("multiculturalism", "/ˌmʌl.tiˈkʌl.tʃər.əl.ɪ.zəm/", "C1", "đa văn hóa", "presence of several distinct cultural groups in a society", "Canada's multiculturalism is enshrined in law.", "Migration & Identity", "noun", [], ["embrace multiculturalism"]),
+  w("indigenous", "/ɪnˈdɪdʒ.ə.nəs/", "C1", "bản địa", "originating naturally in a particular place", "Indigenous languages deserve official recognition.", "Migration & Identity", "adj", ["native"], ["indigenous communities"]),
 ];
 
 export default ieltsVocabExpansion2;
