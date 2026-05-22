@@ -457,7 +457,7 @@ const HotpotChef = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: ()
         </motion.div>
 
         {/* Ingredient bowls */}
-        <div className="grid grid-cols-4 sm:grid-cols-6 gap-3 max-w-xl mx-auto">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 max-w-2xl mx-auto">
           {ingredients.map(ing => (
             <motion.button
               key={ing.id}
@@ -465,10 +465,10 @@ const HotpotChef = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: ()
               whileTap={!ing.used ? { scale: 0.95 } : {}}
               onClick={() => handleSelect(ing)}
               disabled={ing.used}
-              className={`aspect-square rounded-full border-2 flex items-center justify-center text-2xl sm:text-3xl font-bold transition-all ${
+              className={`aspect-square rounded-2xl border-2 flex items-center justify-center text-4xl sm:text-5xl font-bold transition-all ${
                 ing.used
-                  ? "border-slate-700 bg-slate-900/40 text-slate-700"
-                  : "border-amber-400/60 bg-gradient-to-br from-amber-900/60 to-rose-900/60 text-amber-100 hover:border-amber-300 shadow-[0_0_10px_rgba(251,191,36,0.3)]"
+                  ? "border-slate-600 bg-slate-800/70 text-slate-500 opacity-50"
+                  : "border-amber-400/70 bg-gradient-to-br from-amber-800/80 to-rose-800/80 text-amber-50 hover:border-amber-200 shadow-[0_0_12px_rgba(251,191,36,0.4)]"
               }`}
             >
               {ing.char}
