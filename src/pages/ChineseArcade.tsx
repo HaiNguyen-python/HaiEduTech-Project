@@ -21,7 +21,7 @@ import WordMeteor from "@/components/games/WordMeteor";
 // ============================================================
 
 type GameId = "menu" | "shooter" | "hotpot" | "runner" | "meteor";
-type Difficulty = "easy" | "hard"; // easy = HSK 1-2, hard = HSK 3-4
+type Difficulty = "easy" | "hard" | "expert"; // easy=HSK1-2, hard=HSK3-4, expert=HSK5-6
 
 // Strip tone marks from pinyin and return plain ASCII letters
 const stripTones = (pinyin: string): string => {
