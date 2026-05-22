@@ -226,6 +226,8 @@ const Navbar = () => {
       { to: "/programming/interview-questions", label: t("Câu hỏi Phỏng vấn", "Interview Questions"), icon: MessagesSquare },
       { to: "/programming/job-opportunities", label: t("Cơ hội Việc làm 🇫🇮", "Job Opportunities 🇫🇮"), icon: Target },
     ] },
+    { to: "#prog-div-arcade", label: "", divider: true },
+    { to: "/programming/arcade", label: t("🕹️ Tech & Code Game Hub", "🕹️ Tech & Code Game Hub"), icon: Gamepad2 },
   ];
 
   const studyAbroadSubs: SubItem[] = [
