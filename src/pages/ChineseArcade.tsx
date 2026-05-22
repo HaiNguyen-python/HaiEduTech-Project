@@ -78,7 +78,10 @@ const isTouchDevice = () => typeof window !== "undefined" && ("ontouchstart" in 
 
 // Filter words by difficulty level
 const wordsForDifficulty = (diff: Difficulty): HskWord[] => {
-  const levels = diff === "easy" ? ["HSK 1", "HSK 2"] : ["HSK 3", "HSK 4"];
+  const levels =
+    diff === "easy" ? ["HSK 1", "HSK 2"]
+    : diff === "hard" ? ["HSK 3", "HSK 4"]
+    : ["HSK 5", "HSK 6"];
   return hskVocabData.filter(w => levels.includes(w.level));
 };
 
