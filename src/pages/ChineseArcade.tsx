@@ -119,10 +119,12 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
   const [combo, setCombo] = useState(1);
   const [lives, setLives] = useState(3);
   const [level, setLevel] = useState(1);
-  const [laser, setLaser] = useState<{ x: number } | null>(null);
+  const [laser, setLaser] = useState<{ x: number; from: number } | null>(null);
   const [particles, setParticles] = useState<{ id: number; x: number; y: number }[]>([]);
   const [shake, setShake] = useState(false);
   const [gameOver, setGameOver] = useState(false);
+  const [shipX, setShipX] = useState(50); // 0-100 percentage
+  const keysRef = useRef<{ left: boolean; right: boolean }>({ left: false, right: false });
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const meteorIdRef = useRef(0);
@@ -180,6 +182,38 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
     }, 50);
     return () => clearInterval(id);
   }, [gameOver]);
+
+  // Ship movement loop — smooth glide while arrow keys held
+  useEffect(() => {
+    if (gameOver) return;
+    const id = setInterval(() => {
+      setShipX(x => {
+        let nx = x;
+        if (keysRef.current.left) nx -= 1.8;
+        if (keysRef.current.right) nx += 1.8;
+        return Math.max(4, Math.min(96, nx));
+      });
+    }, 30);
+    return () => clearInterval(id);
+  }, [gameOver]);
+
+  // Keyboard: arrow keys for movement (don't steal typing keys)
+  useEffect(() => {
+    const onDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") { keysRef.current.left = true; e.preventDefault(); }
+      if (e.key === "ArrowRight") { keysRef.current.right = true; e.preventDefault(); }
+    };
+    const onUp = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") keysRef.current.left = false;
+      if (e.key === "ArrowRight") keysRef.current.right = false;
+    };
+    window.addEventListener("keydown", onDown);
+    window.addEventListener("keyup", onUp);
+    return () => {
+      window.removeEventListener("keydown", onDown);
+      window.removeEventListener("keyup", onUp);
+    };
+  }, []);
 
   // Level up every 10 hits
   useEffect(() => {
