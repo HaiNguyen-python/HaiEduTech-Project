@@ -194,7 +194,7 @@ const App = () => (
             <Route path="/chinese/hsk/vocabulary" element={<LazyRoute><HskVocabulary /></LazyRoute>} />
             <Route path="/chinese/arcade" element={<LazyRoute><ChineseArcade /></LazyRoute>} />
             <Route path="/learn-vietnamese/arcade" element={<LazyRoute><VietnameseArcade /></LazyRoute>} />
-            <Route path="/english/arcade" element={<LazyRoute><EnglishArcade /></LazyRoute>} />
+            <Route path="/english/arcade" element={<Navigate to="/cambridge/arcade" replace />} />
             <Route path="/finnish/arcade" element={<LazyRoute><FinnishArcade /></LazyRoute>} />
             <Route path="/cambridge/arcade" element={<LazyRoute><CambridgeArcade /></LazyRoute>} />
             <Route path="/arcade-plus" element={<LazyRoute><MultiLangArcade /></LazyRoute>} />
