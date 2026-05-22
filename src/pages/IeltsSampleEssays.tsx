@@ -31,6 +31,15 @@ const IeltsSampleEssays = () => {
   const [taskFilter, setTaskFilter] = useState<"all" | "1" | "2">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [subtypeFilter, setSubtypeFilter] = useState<string>("all");
+  const [starredOnly, setStarredOnly] = useState(false);
+  const [stars, setStars] = useState<Set<string>>(() => {
+    try { return new Set(JSON.parse(localStorage.getItem(STAR_KEY) || "[]")); } catch { return new Set(); }
+  });
+  useEffect(() => { localStorage.setItem(STAR_KEY, JSON.stringify([...stars])); }, [stars]);
+  const toggleStar = useCallback((id: string, e: React.MouseEvent) => {
+    e.preventDefault(); e.stopPropagation();
+    setStars(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
+  }, []);
 
   // Get available subtypes based on task filter
   const subtypes = useMemo(() => {
