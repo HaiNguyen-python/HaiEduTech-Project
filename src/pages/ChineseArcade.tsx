@@ -1246,7 +1246,7 @@ const ChineseArcade = () => {
                 {t("Trung tâm trò chơi tiếng Trung", "Chinese Vocabulary Arcade")}
               </h1>
               <p className="text-sm text-slate-400 max-w-md mx-auto">
-                {t("3 mini-game arcade luyện Hanzi, Pinyin và thanh điệu theo phong cách neon-cyberpunk.", "3 neon-cyberpunk arcade mini-games to drill Hanzi, Pinyin, and tones.")}
+                {t("5 mini-game arcade luyện Hanzi, Pinyin, thanh điệu và viết câu theo phong cách neon-cyberpunk.", "5 neon-cyberpunk arcade mini-games to drill Hanzi, Pinyin, tones, and sentence building.")}
               </p>
             </motion.div>
 
