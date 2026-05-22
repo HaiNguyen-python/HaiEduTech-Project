@@ -804,23 +804,43 @@ const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
         </Button>
         <span className="text-xs text-pink-100 font-mono uppercase tracking-wider bg-slate-900/70 px-2 py-1 rounded">🐉 Pinyin Tone Runner</span>
       </div>
-      <HUD score={score} combo={combo} level={level} lives={lives} />
+      <div className="flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-900/80 border border-pink-500/40 backdrop-blur-sm mb-3">
+        <div className="flex items-center gap-3 text-sm font-mono">
+          <span className="text-cyan-400">SCORE <span className="text-white font-bold">{score}</span></span>
+          <span className="text-amber-400">x{combo}</span>
+          <span className="text-pink-400 hidden sm:inline">LVL {level}</span>
+          <span className="hidden md:inline text-[11px] text-pink-100/90 font-sans normal-case tracking-normal ml-2 px-2 py-0.5 rounded bg-pink-500/20 border border-pink-400/40">
+            🎯 {t("Chọn dấu thanh đúng", "Pick the correct tone")}
+          </span>
+        </div>
+        <div className="flex items-center gap-1">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <Heart key={i} className={`w-5 h-5 ${i < lives ? "text-rose-500 fill-rose-500" : "text-slate-700"}`} />
+          ))}
+        </div>
+      </div>
+      {/* Mobile-only hint (HUD is too narrow on phones) */}
+      <p className="md:hidden -mt-1 text-center text-[11px] text-pink-200 font-semibold">
+        🎯 {t("Chọn dấu thanh đúng cho âm này", "Pick the correct tone for this syllable")}
+      </p>
       <div
-        className={`relative rounded-2xl border-2 overflow-hidden bg-gradient-to-b from-sky-400 via-fuchsia-400 to-amber-300 transition-colors ${
-          flashCorrect ? "border-green-400 shadow-[0_0_30px_rgba(74,222,128,0.7)]" : flashWrong ? "border-rose-500 shadow-[0_0_30px_rgba(244,63,94,0.7)]" : "border-pink-500/60"
+        className={`relative rounded-2xl border-2 overflow-hidden bg-gradient-to-b from-rose-300 via-amber-200 to-rose-400 transition-colors ${
+          flashCorrect ? "border-green-400 shadow-[0_0_30px_rgba(74,222,128,0.7)]" : flashWrong ? "border-rose-500 shadow-[0_0_30px_rgba(244,63,94,0.7)]" : "border-amber-500/70"
         }`}
         style={{ height: 520 }}
       >
-        {/* Sparkly clouds backdrop */}
+        {/* Chinese cultural backdrop: lanterns, blossoms, dragons */}
         <div className="absolute inset-0 pointer-events-none">
-          {["☁️","☁️","✨","🌸","⭐","🎈"].map((e, i) => (
+          {["🏮","🌸","🐉","🏮","🎋","🌸","🏮","🎏"].map((e, i) => (
             <motion.span key={i}
-              animate={{ y: [0, -12, 0], x: [0, 6, 0] }}
+              animate={{ y: [0, -12, 0], x: [0, 6, 0], rotate: [-3, 3, -3] }}
               transition={{ duration: 4 + i, repeat: Infinity, delay: i * 0.4 }}
-              className="absolute text-3xl opacity-80"
-              style={{ left: `${(i * 17 + 6) % 92}%`, top: `${(i * 13 + 8) % 40}%` }}
+              className="absolute text-3xl sm:text-4xl drop-shadow-[0_2px_6px_rgba(190,18,60,0.35)]"
+              style={{ left: `${(i * 17 + 6) % 92}%`, top: `${(i * 13 + 8) % 45}%`, opacity: 0.85 }}
             >{e}</motion.span>
           ))}
+          <div className="absolute top-3 left-4 text-7xl font-bold text-rose-600/20 select-none">福</div>
+          <div className="absolute bottom-10 right-6 text-7xl font-bold text-amber-700/20 select-none">乐</div>
         </div>
 
         {/* Word display top */}
@@ -830,7 +850,6 @@ const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
           </p>
           <p className="text-2xl font-mono text-white tracking-widest drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]">{tonelessPinyin}</p>
           <p className="text-sm text-white mt-1 drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)] font-semibold">{currentWord.definition.vi}</p>
-          <p className="text-[11px] text-white/90 mt-0.5">{t("Chọn dấu thanh đúng cho âm này", "Pick the correct tone for this syllable")}</p>
         </div>
 
         {/* 4 vertical tracks with tone clouds */}
