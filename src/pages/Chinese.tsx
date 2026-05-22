@@ -247,6 +247,9 @@ const Chinese = () => {
                 <Link to="/chinese/hsk-guide" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-red-500 to-amber-500 text-white font-semibold hover:brightness-110 transition-all shadow-lg">
                   🎓 {t("Cẩm nang HSK Hub", "HSK Exam Guide Hub")} <ArrowRight className="w-4 h-4" />
                 </Link>
+                <Link to="/chinese/hsk/test" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-rose-600 to-orange-600 text-white font-semibold hover:brightness-110 transition-all shadow-lg ring-2 ring-amber-300/60">
+                  📝 {t("HSK Test · Đề thi thử", "HSK Test · Mock Exams")} <ArrowRight className="w-4 h-4" />
+                </Link>
                 <Link to="/chinese/hsk/vocabulary" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-red-500 text-white font-semibold hover:brightness-110 transition-all">
                   {t("Vào học ngay", "Start Learning")} <ArrowRight className="w-4 h-4" />
                 </Link>
