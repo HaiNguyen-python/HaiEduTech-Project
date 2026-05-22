@@ -226,13 +226,19 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
   }
 
   return (
-    <div className="space-y-3 max-w-5xl mx-auto">
+    <div className="space-y-3 max-w-6xl mx-auto">
+      <div className="flex items-center justify-between gap-2">
+        <Button variant="outline" size="sm" onClick={onExit} className="bg-slate-900 border-cyan-500/60 text-cyan-200 hover:bg-slate-800 hover:text-white">
+          <ArrowLeft className="w-4 h-4 mr-1" /> {t("Quay lại", "Back")}
+        </Button>
+        <span className="text-xs text-cyan-300/70 font-mono uppercase tracking-wider">Hanzi Space Shooter</span>
+      </div>
       <HUD score={score} combo={combo} level={level} lives={lives} />
       <motion.div
         ref={containerRef}
         animate={shake ? { x: [-8, 8, -6, 6, 0] } : {}}
         transition={{ duration: 0.3 }}
-        className="relative h-[600px] sm:h-[680px] rounded-2xl border-2 border-cyan-500/40 bg-gradient-to-b from-slate-950 via-purple-950/30 to-slate-900 overflow-hidden"
+        className="relative h-[640px] sm:h-[760px] rounded-2xl border-2 border-cyan-500/40 bg-gradient-to-b from-slate-950 via-purple-950/30 to-slate-900 overflow-hidden"
         style={{
           backgroundImage: "radial-gradient(circle at 20% 30%, rgba(168,85,247,0.15), transparent 40%), radial-gradient(circle at 80% 70%, rgba(6,182,212,0.15), transparent 40%)",
         }}
@@ -255,12 +261,13 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 1.5, opacity: 0, rotate: 180 }}
               onClick={() => handleTapMeteor(m)}
-              className="absolute -translate-x-1/2 px-4 py-3 rounded-2xl bg-gradient-to-br from-rose-500/90 to-amber-500/90 border-2 border-amber-300 shadow-[0_0_18px_rgba(251,191,36,0.7)] text-white font-bold text-center min-w-[120px] cursor-pointer"
+              className="absolute -translate-x-1/2 px-5 py-4 rounded-2xl bg-gradient-to-br from-rose-500/95 to-amber-500/95 border-2 border-amber-300 shadow-[0_0_22px_rgba(251,191,36,0.75)] text-white font-bold text-center min-w-[170px] cursor-pointer"
               style={{ left: `${m.x}%`, top: `${m.y}%` }}
             >
-              <div className="text-4xl sm:text-5xl leading-tight drop-shadow">{m.word.character}</div>
-              <div className="text-sm font-mono text-amber-100 mt-0.5">{stripTones(m.word.pinyin)}</div>
-              <div className="text-xs text-white/95 mt-1 max-w-[180px] mx-auto leading-snug">{m.word.definition.vi}</div>
+              <div className="text-5xl sm:text-6xl leading-tight drop-shadow">{m.word.character}</div>
+              {/* Pinyin shown WITH tone marks so students still see thanh điệu */}
+              <div className="text-xl sm:text-2xl font-mono text-amber-50 mt-1 tracking-wide">{m.word.pinyin}</div>
+              <div className="text-sm text-white/95 mt-1 max-w-[220px] mx-auto leading-snug">{m.word.definition.vi}</div>
             </motion.button>
           ))}
         </AnimatePresence>
@@ -294,7 +301,7 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
         <div className="absolute bottom-12 left-0 right-0 h-0.5 bg-rose-500/50 shadow-[0_0_8px_rgba(244,63,94,0.6)]" />
       </motion.div>
 
-      {/* Input */}
+      {/* Input — students type WITHOUT tone marks */}
       <input
         ref={inputRef}
         value={input}
@@ -302,12 +309,12 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
           setInput(e.target.value);
           checkMatch(e.target.value);
         }}
-        placeholder={t("Gõ Pinyin (không cần dấu thanh)...", "Type Pinyin (no tones)...")}
+        placeholder={t("Gõ Pinyin (không cần dấu thanh)...", "Type Pinyin (no tones needed)...")}
         className="w-full px-4 py-3 rounded-xl bg-slate-900 border-2 border-cyan-500/50 text-cyan-100 placeholder:text-slate-500 font-mono text-lg focus:border-cyan-400 focus:outline-none focus:shadow-[0_0_15px_rgba(6,182,212,0.5)]"
         autoFocus
       />
-      <Button variant="outline" onClick={onExit} className="w-full">
-        <ArrowLeft className="w-4 h-4 mr-2" /> {t("Thoát", "Exit")}
+      <Button variant="outline" onClick={onExit} className="w-full bg-slate-900 border-cyan-500/60 text-cyan-200 hover:bg-slate-800 hover:text-white">
+        <ArrowLeft className="w-4 h-4 mr-2" /> {t("Về menu game", "Back to game menu")}
       </Button>
     </div>
   );
