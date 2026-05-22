@@ -752,30 +752,39 @@ const ChineseArcade = () => {
             </motion.div>
 
             {/* Difficulty selector */}
-            <div className="flex gap-2 justify-center mb-6">
+            <div className="flex flex-wrap gap-2 justify-center mb-6">
               <Button
                 onClick={() => setDifficulty("easy")}
-                variant={difficulty === "easy" ? "default" : "outline"}
                 size="sm"
                 className={
                   difficulty === "easy"
-                    ? "bg-cyan-500 hover:bg-cyan-600 text-white border-cyan-400"
-                    : "bg-slate-800/60 text-cyan-100 border-cyan-400/50 hover:bg-slate-700 hover:text-white"
+                    ? "bg-cyan-500 hover:bg-cyan-600 text-white border-2 border-cyan-300"
+                    : "bg-slate-800 text-cyan-100 border-2 border-cyan-400/60 hover:bg-slate-700 hover:text-white"
                 }
               >
                 HSK 1-2 · {t("Dễ", "Easy")}
               </Button>
               <Button
                 onClick={() => setDifficulty("hard")}
-                variant={difficulty === "hard" ? "default" : "outline"}
                 size="sm"
                 className={
                   difficulty === "hard"
-                    ? "bg-pink-500 hover:bg-pink-600 text-white border-pink-400"
-                    : "bg-slate-800/60 text-pink-100 border-pink-400/50 hover:bg-slate-700 hover:text-white"
+                    ? "bg-pink-500 hover:bg-pink-600 text-white border-2 border-pink-300"
+                    : "bg-slate-800 text-pink-100 border-2 border-pink-400/60 hover:bg-slate-700 hover:text-white"
                 }
               >
                 HSK 3-4 · {t("Khó", "Hard")}
+              </Button>
+              <Button
+                onClick={() => setDifficulty("expert")}
+                size="sm"
+                className={
+                  difficulty === "expert"
+                    ? "bg-amber-500 hover:bg-amber-600 text-white border-2 border-amber-300"
+                    : "bg-slate-800 text-amber-100 border-2 border-amber-400/60 hover:bg-slate-700 hover:text-white"
+                }
+              >
+                HSK 5-6 · {t("Chuyên gia", "Expert")}
               </Button>
             </div>
 
