@@ -252,11 +252,15 @@ const IeltsSampleEssayDetail = () => {
             <div className="mt-3"><EssayBand8Analysis essay={essay} /></div>
           </details>
 
-          {/* Bilingual Glossary with per-phrase writing practice */}
-          <div className="glass-card rounded-xl p-3.5">
-            <h2 className="text-lg font-semibold text-foreground mb-1">
-              📚 {t("Bảng Chú Giải Song Ngữ", "Bilingual Glossary")}
-            </h2>
+          {/* Bilingual Glossary with per-phrase writing practice (collapsible) */}
+          <details className="glass-card rounded-xl p-3.5 group">
+            <summary className="cursor-pointer flex items-center justify-between gap-2 list-none mb-1">
+              <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+                📚 {t("Bảng Chú Giải Song Ngữ", "Bilingual Glossary")}
+              </h2>
+              <span className="text-xs text-muted-foreground group-open:hidden">{t("Mở", "Show")}</span>
+              <span className="text-xs text-muted-foreground hidden group-open:inline">{t("Đóng", "Hide")}</span>
+            </summary>
             <p className="text-xs text-muted-foreground mb-2.5">
               {t(
                 "Mỗi cụm từ có sẵn câu ví dụ hoàn chỉnh - hãy viết lại câu để vận dụng và được chấm điểm ngay.",
