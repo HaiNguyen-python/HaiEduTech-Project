@@ -1254,25 +1254,36 @@ const ChineseArcade = () => {
   const floatHanzi = ["学", "中", "文", "你", "好", "汉", "字", "拼", "音", "龙", "福", "爱", "家", "天", "山", "水"];
 
   return (
-    <div className="relative min-h-screen bg-slate-950 text-white overflow-hidden">
+    <div className="relative min-h-screen bg-gradient-to-br from-rose-50 via-amber-50 to-rose-100 dark:from-rose-950 dark:via-amber-950 dark:to-rose-900 text-foreground overflow-hidden">
       <SEO
         title="Chinese Arcade: 3 Game Học Tiếng Trung HSK | HaiEduTech"
         description="Bộ 3 mini-game tiếng Trung phong cách cyberpunk-arcade: Space Shooter Pinyin, Hotpot Chef ghép từ ghép, Pinyin Tone Runner luyện phản xạ thanh điệu."
         path="/chinese/arcade"
       />
       <Navbar />
-      {/* Floating hanzi background (visual only) */}
+      {/* Floating hanzi + lanterns background — Chinese cultural theme */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden z-0" aria-hidden>
         {floatHanzi.map((ch, i) => (
           <motion.span
             key={i}
             initial={{ y: "110vh", opacity: 0 }}
-            animate={{ y: "-15vh", opacity: [0, 0.12, 0.12, 0] }}
+            animate={{ y: "-15vh", opacity: [0, 0.18, 0.18, 0] }}
             transition={{ duration: 18 + (i % 6) * 3, repeat: Infinity, delay: i * 1.6, ease: "linear" }}
-            className="absolute text-7xl sm:text-8xl font-bold text-cyan-300/20 select-none"
+            className="absolute text-7xl sm:text-8xl font-bold text-rose-500/25 dark:text-amber-300/15 select-none"
             style={{ left: `${(i * 11 + 4) % 94}%` }}
           >
             {ch}
+          </motion.span>
+        ))}
+        {["🏮","🐉","🌸","🎏","🏮","🌸"].map((e, i) => (
+          <motion.span
+            key={`l-${i}`}
+            animate={{ y: [0, -14, 0], rotate: [-5, 5, -5] }}
+            transition={{ duration: 5 + i, repeat: Infinity, delay: i * 0.5 }}
+            className="absolute text-5xl sm:text-6xl opacity-40 select-none"
+            style={{ left: `${(i * 17 + 7) % 90}%`, top: `${(i * 19 + 5) % 80}%` }}
+          >
+            {e}
           </motion.span>
         ))}
       </div>
