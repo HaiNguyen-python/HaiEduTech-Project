@@ -767,15 +767,17 @@ const IeltsReadingPractice: React.FC = () => {
 
       <AnimatePresence>
         {activeExam && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <ExamEngine exam={activeExam} onClose={() => setActiveExam(null)} />
           </motion.div>
         )}
+        {activeFullTest && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            <FullTestEngine test={activeFullTest} onClose={() => setActiveFullTest(null)} />
+          </motion.div>
+        )}
       </AnimatePresence>
+
     </div>
   );
 };
