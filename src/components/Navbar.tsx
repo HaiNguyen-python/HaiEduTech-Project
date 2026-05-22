@@ -101,7 +101,7 @@ const Navbar = () => {
     { to: "/vocab-arena", label: t("Vocab Arena", "Vocab Arena"), icon: Swords },
     // ✍️ Luyện tập & Chấm
     { to: "#h-practice", label: t("Luyện tập & Chấm điểm", "Practice & Grading"), header: true },
-    { to: "/ielts-skills-practice", label: t("🎯 IELTS Skills Practice", "🎯 IELTS Skills Practice"), icon: PenTool },
+    { to: "/ielts-skills-practice", label: t("IELTS Skills Practice", "IELTS Skills Practice"), icon: PenTool },
     { to: "/ielts-sample-essays", label: t("Bài mẫu 8.0+", "Sample Essays 8.0+"), icon: FileText },
     { to: "/ai-grading", label: t("IELTS Smart Grading", "IELTS Smart Grading"), icon: Cpu },
   ];
@@ -139,7 +139,7 @@ const Navbar = () => {
     { to: "/english/arcade", label: t("🕹️ English Arcade Hub", "🕹️ English Arcade Hub") },
     { to: "/songs/english", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
     { to: "/speaking-coach/english", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
-    { to: "/specialized-language?lang=english", label: t("🧠 Ngôn ngữ Chuyên ngành", "🧠 Specialized Language") },
+    { to: "/specialized-language?lang=english", label: t("🧠 Tiếng Anh Chuyên ngành", "🧠 Specialized English") },
   ];
   const chineseSubs: SubItem[] = [
     { to: "/chinese", label: t("📚 Tổng quan", "📚 Overview") },
@@ -157,7 +157,7 @@ const Navbar = () => {
     { to: "/chinese/arcade", label: t("🎮 Chinese Arcade Hub", "🎮 Chinese Arcade Hub") },
     { to: "/songs/chinese", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
     { to: "/speaking-coach/chinese", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
-    { to: "/specialized-language?lang=chinese", label: t("🧠 Ngôn ngữ Chuyên ngành", "🧠 Specialized Language") },
+    { to: "/specialized-language?lang=chinese", label: t("🧠 Tiếng Trung Chuyên ngành", "🧠 Specialized Chinese") },
   ];
   const vietnameseSubs: SubItem[] = [
     { to: "/learn-vietnamese", label: t("📚 Tổng quan", "📚 Overview") },
@@ -187,7 +187,7 @@ const Navbar = () => {
     { to: "/learn-vietnamese/arcade", label: t("🕹️ Vietnamese Arcade Hub", "🕹️ Vietnamese Arcade Hub") },
     { to: "/songs/vietnamese", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
     { to: "/speaking-coach/vietnamese", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
-    { to: "/specialized-language?lang=vietnamese", label: t("🧠 Ngôn ngữ Chuyên ngành", "🧠 Specialized Language") },
+    { to: "/specialized-language?lang=vietnamese", label: t("🧠 Tiếng Việt Chuyên ngành", "🧠 Specialized Vietnamese") },
   ];
   const finnishSubs: SubItem[] = [
     { to: "/finnish", label: t("📚 Tổng quan", "📚 Overview") },
@@ -200,7 +200,7 @@ const Navbar = () => {
     { to: "/finnish/arcade", label: t("🕹️ Finnish Arcade Hub", "🕹️ Finnish Arcade Hub") },
     { to: "/songs/finnish", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
     { to: "/speaking-coach/finnish", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
-    { to: "/specialized-language?lang=finnish", label: t("🧠 Ngôn ngữ Chuyên ngành", "🧠 Specialized Language") },
+    { to: "/specialized-language?lang=finnish", label: t("🧠 Tiếng Phần Lan Chuyên ngành", "🧠 Specialized Finnish") },
   ];
   const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("Tổng quan", "Overview"), icon: Library },
