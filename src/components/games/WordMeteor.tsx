@@ -210,7 +210,7 @@ export default function WordMeteor({
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4">
+    <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-4">
       <div className="space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-card/60 p-3">
           <div className="flex items-center gap-2 text-sm">
