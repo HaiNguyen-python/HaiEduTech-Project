@@ -167,8 +167,11 @@ const levenshtein = (a: string, b: string): number => {
 
 const matchStatus = (spokenWord: string, expected: string): WordResult["status"] | null => {
   if (spokenWord === expected || isNumberEquivalent(spokenWord, expected)) return "correct";
+  // Substring/prefix tolerance — handles plural, tense, particles, etc.
+  if (expected.length >= 4 && (spokenWord.startsWith(expected.slice(0, Math.max(3, expected.length - 2))) || expected.startsWith(spokenWord.slice(0, Math.max(3, spokenWord.length - 2))))) return "close";
   const dist = levenshtein(spokenWord, expected);
-  const threshold = expected.length <= 3 ? 1 : expected.length <= 6 ? 2 : 3;
+  // More forgiving thresholds so learners aren't punished for minor mispronunciations
+  const threshold = expected.length <= 3 ? 1 : expected.length <= 5 ? 2 : expected.length <= 8 ? 3 : 4;
   return dist <= threshold ? "close" : null;
 };
 
@@ -203,15 +206,17 @@ const compareWords = (target: string, spoken: string): WordResult[] => {
   });
 };
 
-// Calculate accuracy percentage
+// Calculate accuracy percentage — gentler: "close" counts as 0.75 (was 0.5)
 const calcAccuracy = (results: WordResult[]): number => {
   if (results.length === 0) return 0;
   const score = results.reduce((acc, r) => {
     if (r.status === "correct") return acc + 1;
-    if (r.status === "close") return acc + 0.5;
+    if (r.status === "close") return acc + 0.75;
     return acc;
   }, 0);
-  return Math.round((score / results.length) * 100);
+  // Small generosity bonus so near-perfect rounding feels rewarding
+  const raw = (score / results.length) * 100;
+  return Math.min(100, Math.round(raw + (raw >= 80 ? 3 : raw >= 50 ? 2 : 0)));
 };
 
 const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeakingCoachProps) => {
