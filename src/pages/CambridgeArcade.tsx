@@ -337,6 +337,34 @@ function SpellingBee({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
     return () => { if (timerRef.current) clearTimeout(timerRef.current); };
   }, [timeLeft, feedback, lives]);
 
+  // Physical keyboard input — type letters to spell
+  useEffect(() => {
+    if (feedback || lives <= 0 || !current) return;
+    const onKey = (e: KeyboardEvent) => {
+      const k = e.key;
+      if (k === "Backspace") {
+        // un-use the last used letter
+        const lastCh = typed.slice(-1).toLowerCase();
+        if (!lastCh) return;
+        const idx = [...letters].map((l, i) => ({ l, i }))
+          .reverse()
+          .find(({ l }) => l.used && l.ch.toLowerCase() === lastCh)?.i;
+        if (idx !== undefined) {
+          setLetters(letters.map((l, i) => i === idx ? { ...l, used: false } : l));
+          setTyped(typed.slice(0, -1));
+        }
+        return;
+      }
+      if (!/^[a-zA-Z]$/.test(k)) return;
+      const want = k.toLowerCase();
+      const idx = letters.findIndex((l) => !l.used && l.ch.toLowerCase() === want);
+      if (idx !== -1) pick(idx);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [letters, typed, feedback, lives, current]);
+
   const pick = (idx: number) => {
     if (!letters[idx] || letters[idx].used || feedback) return;
     const newLetters = letters.map((l, i) => i === idx ? { ...l, used: true } : l);
