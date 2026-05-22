@@ -632,7 +632,8 @@ function MemoryMatch({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
             <Badge className="bg-pink-500 text-white">Pairs: {matches}/{cards.length / 2}</Badge>
           </div>
         </div>
-        </div>
+
+
 
         {/* Difficulty selector */}
         <div className="flex flex-wrap justify-center gap-2 mb-4">
