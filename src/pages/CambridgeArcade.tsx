@@ -610,8 +610,8 @@ function MemoryMatch({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
         )}
 
         <div
-          className="grid gap-2 sm:gap-3 mx-auto"
-          style={{ gridTemplateColumns: `repeat(${config.cols}, minmax(0, 1fr))`, maxWidth: `${config.cols * 110}px` }}
+          className="grid gap-3 sm:gap-4 mx-auto"
+          style={{ gridTemplateColumns: `repeat(${config.cols}, minmax(0, 1fr))`, maxWidth: `${config.cols * 220}px` }}
         >
           {cards.map((card, index) => {
             const isFlipped = flipped.includes(card.id) || card.matched;
@@ -620,19 +620,19 @@ function MemoryMatch({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
                 key={card.id}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => click(card.id)}
-                className="relative aspect-square"
+                className="relative aspect-square min-h-[120px] sm:min-h-[160px]"
               >
                 <div className={`absolute inset-0 rounded-2xl transition-transform duration-500 [transform-style:preserve-3d] ${isFlipped ? "[transform:rotateY(180deg)]" : ""}`}>
                   {/* Back with number */}
                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-fuchsia-500 to-purple-600 flex items-center justify-center text-white shadow-lg [backface-visibility:hidden]">
-                    <span className="text-2xl sm:text-3xl font-extrabold drop-shadow">{index + 1}</span>
+                    <span className="text-5xl sm:text-6xl font-extrabold drop-shadow">{index + 1}</span>
                   </div>
                   {/* Front */}
-                  <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${LEVEL_COLOR[card.word.level]} flex items-center justify-center p-1 shadow-lg [backface-visibility:hidden] [transform:rotateY(180deg)] ${card.matched ? "opacity-60" : ""}`}>
+                  <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${LEVEL_COLOR[card.word.level]} flex items-center justify-center p-2 shadow-lg [backface-visibility:hidden] [transform:rotateY(180deg)] ${card.matched ? "opacity-60" : ""}`}>
                     {card.face === "emoji" ? (
-                      <span className="text-4xl sm:text-5xl">{card.word.emoji}</span>
+                      <span className="text-6xl sm:text-7xl">{card.word.emoji}</span>
                     ) : (
-                      <span className="text-xs sm:text-sm font-bold text-white text-center capitalize leading-tight px-1">{card.word.word}</span>
+                      <span className="text-base sm:text-xl font-bold text-white text-center capitalize leading-tight px-1">{card.word.word}</span>
                     )}
                   </div>
                 </div>
