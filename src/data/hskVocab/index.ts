@@ -19,6 +19,7 @@ import { hskExpansion6Words } from "./hskExpansion6";
 import { hskExpansion7Words } from "./hskExpansion7";
 import { hskExpansion8Words } from "./hskExpansion8";
 import { hskExpansion9Words } from "./hskExpansion9";
+import { hskExpansion10Words } from "./hskExpansion10";
 
 import type { HskWord } from "./types";
 
