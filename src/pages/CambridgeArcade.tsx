@@ -958,7 +958,7 @@ const CambridgeArcade = () => {
         {active === "balloon" && <BalloonPop level={level} onExit={() => setActive(null)} />}
         {active === "spelling" && <SpellingBee level={level} onExit={() => setActive(null)} />}
         {active === "memory" && <MemoryMatch level={level} onExit={() => setActive(null)} />}
-        {active === "synonym" && <SynonymSprint onExit={() => setActive(null)} />}
+        {active === "synonym" && <SynonymSprint key={level} level={level} onExit={() => setActive(null)} />}
         {active === "meteor" && (
           <div className="max-w-5xl mx-auto">
             <Button variant="ghost" size="sm" onClick={() => setActive(null)} className="mb-3">
