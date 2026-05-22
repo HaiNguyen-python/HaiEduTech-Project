@@ -313,16 +313,18 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
   const scoreSavedRef = useRef(false);
+  const [quizSize, setQuizSize] = useState<number>(12);
 
   const generateQuiz = useCallback(() => {
     if (words.length < 4) return;
-    setQuestions(buildQuestions(words, allWords && allWords.length > 4 ? allWords : words));
+    const size = Math.min(quizSize, words.length);
+    setQuestions(buildQuestions(words, allWords && allWords.length > 4 ? allWords : words, size));
     setCurrent(0);
     setSelected(null);
     setScore(0);
     setFinished(false);
     scoreSavedRef.current = false;
-  }, [words, allWords]);
+  }, [words, allWords, quizSize]);
 
   useEffect(() => {
     if (!finished || scoreSavedRef.current) return;
