@@ -858,15 +858,33 @@ const ChineseArcade = () => {
     },
   ];
 
+  // Floating background hanzi characters for the hub
+  const floatHanzi = ["学", "中", "文", "你", "好", "汉", "字", "拼", "音", "龙", "福", "爱", "家", "天", "山", "水"];
+
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="relative min-h-screen bg-slate-950 text-white overflow-hidden">
       <SEO
         title="Chinese Arcade: 3 Game Học Tiếng Trung HSK | HaiEduTech"
         description="Bộ 3 mini-game tiếng Trung phong cách cyberpunk-arcade: Space Shooter Pinyin, Hotpot Chef ghép từ ghép, Pinyin Tone Runner luyện phản xạ thanh điệu."
         path="/chinese/arcade"
       />
       <Navbar />
-      <main className="container mx-auto px-4 py-8 max-w-7xl">
+      {/* Floating hanzi background (visual only) */}
+      <div className="pointer-events-none fixed inset-0 overflow-hidden z-0" aria-hidden>
+        {floatHanzi.map((ch, i) => (
+          <motion.span
+            key={i}
+            initial={{ y: "110vh", opacity: 0 }}
+            animate={{ y: "-15vh", opacity: [0, 0.12, 0.12, 0] }}
+            transition={{ duration: 18 + (i % 6) * 3, repeat: Infinity, delay: i * 1.6, ease: "linear" }}
+            className="absolute text-7xl sm:text-8xl font-bold text-cyan-300/20 select-none"
+            style={{ left: `${(i * 11 + 4) % 94}%` }}
+          >
+            {ch}
+          </motion.span>
+        ))}
+      </div>
+      <main className="relative z-10 container mx-auto px-4 py-8 max-w-7xl">
         {active === "menu" && (
           <>
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-6">
