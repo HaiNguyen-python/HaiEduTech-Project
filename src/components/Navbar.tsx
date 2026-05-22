@@ -153,6 +153,7 @@ const Navbar = () => {
     ] },
     { to: "#cn-div2", label: "", divider: true },
     { to: "/chinese/hsk/vocabulary?tab=radicals", label: t("🀄 214 Bộ thủ Khang Hi", "🀄 214 Kangxi Radicals") },
+    { to: "/chinese/arcade", label: t("🎮 Chinese Arcade Hub", "🎮 Chinese Arcade Hub") },
     { to: "/songs/chinese", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
     { to: "/speaking-coach/chinese", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
     { to: "/specialized-language?lang=chinese", label: t("🧠 AI Ngôn ngữ Chuyên ngành", "🧠 AI Specialized Language") },
