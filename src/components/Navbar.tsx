@@ -544,6 +544,7 @@ const Navbar = () => {
                                                 : sub.groupLabel === "cn-conv" ? t("Giao tiếp & Tương tác", "Conversational")
                                                 : sub.groupLabel === "vn-curriculum" ? t("Chương trình học", "Curriculum")
                                                 : sub.groupLabel === "vn-practice" ? t("Luyện tập & Tương tác", "Practice & Interactive")
+                                                : sub.groupLabel === "ielts-skills" ? t("IELTS Skills Practice", "IELTS Skills Practice")
                                                 : sub.label}
                                             </span>
                                           </div>
