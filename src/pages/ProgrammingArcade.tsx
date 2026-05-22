@@ -473,10 +473,10 @@ const ProgrammingArcade = () => {
   };
 
   const cards = [
-    { id: "sql" as const, title: "SQL Dungeon", desc: t("Trận đấu RPG dùng SELECT/WHERE/COUNT để hạ quái.", "Retro RPG: defeat monsters with SQL queries."), icon: Database, color: "from-violet-500 to-purple-600" },
-    { id: "pipeline" as const, title: "Data Pipeline Plumber", desc: t("Kéo thả Extract → Filter → Transform → Load.", "Drag Extract → Filter → Transform → Load."), icon: Code2, color: "from-cyan-500 to-emerald-500" },
-    { id: "tuner" as const, title: "AI Parameter Tuner", desc: t("Tinh chỉnh siêu tham số để chạm Sweet Spot.", "Tune hyperparameters to hit the Sweet Spot."), icon: Brain, color: "from-fuchsia-500 to-pink-500" },
-    { id: "galaxy" as const, title: "Code Galaxy", desc: t("Sắp xếp snippet code đúng category — Foundations, Data, AI.", "Sort code snippets by category — Foundations, Data, AI."), icon: Sparkles, color: "from-emerald-500 to-cyan-500" },
+    { id: "sql" as const, chibi: "🧙", title: "SQL Dungeon", desc: t("Trận đấu RPG dùng SELECT/WHERE/COUNT để hạ quái.", "Retro RPG: defeat monsters with SQL queries."), icon: Database, color: "from-violet-500 to-purple-600" },
+    { id: "pipeline" as const, chibi: "🤖", title: "Data Pipeline Plumber", desc: t("Kéo thả Extract → Filter → Transform → Load.", "Drag Extract → Filter → Transform → Load."), icon: Code2, color: "from-cyan-500 to-emerald-500" },
+    { id: "tuner" as const, chibi: "🧠", title: "AI Parameter Tuner", desc: t("Tinh chỉnh siêu tham số để chạm Sweet Spot.", "Tune hyperparameters to hit the Sweet Spot."), icon: Brain, color: "from-fuchsia-500 to-pink-500" },
+    { id: "galaxy" as const, chibi: "🚀", title: "Code Galaxy", desc: t("Sắp xếp snippet code đúng category — Foundations, Data, AI.", "Sort code snippets by category — Foundations, Data, AI."), icon: Sparkles, color: "from-emerald-500 to-cyan-500" },
   ];
 
   return (
