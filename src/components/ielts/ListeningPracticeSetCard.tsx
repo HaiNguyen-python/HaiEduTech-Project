@@ -36,29 +36,78 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
   const [showTranscript, setShowTranscript] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [paused, setPaused] = useState(false);
-  const [rate, setRate] = useState(s.rate ?? 0.95);
-  const utterRef = useRef<SpeechSynthesisUtterance | null>(null);
+  // Slower, more natural default — matches real exam pacing.
+  const [rate, setRate] = useState(s.rate ?? 0.85);
+  const chunkTimerRef = useRef<number | null>(null);
+  const cancelledRef = useRef(false);
 
   useEffect(() => {
-    return () => { try { window.speechSynthesis?.cancel(); } catch { /* noop */ } };
+    return () => {
+      try { window.speechSynthesis?.cancel(); } catch { /* noop */ }
+      if (chunkTimerRef.current) window.clearTimeout(chunkTimerRef.current);
+    };
   }, []);
+
+  // Split transcript into natural chunks (sentences / dialogue turns) so we
+  // can insert short silences between them — much closer to real IELTS audio
+  // than the continuous monotone of raw TTS.
+  const buildChunks = (text: string): string[] => {
+    const lines = text.split(/\n+/).map(l => l.trim()).filter(Boolean);
+    const chunks: string[] = [];
+    for (const line of lines) {
+      // Split each line further on sentence boundaries
+      const parts = line.match(/[^.!?]+[.!?]+["')\]]*|[^.!?]+$/g) ?? [line];
+      for (const p of parts) {
+        const trimmed = p.trim();
+        if (trimmed) chunks.push(trimmed);
+      }
+    }
+    return chunks;
+  };
+
+  const pickVoice = () => {
+    const voices = window.speechSynthesis.getVoices();
+    // Prefer natural-sounding GB voices if available, else any GB, else any en.
+    return (
+      voices.find(v => /en[-_]GB/i.test(v.lang) && /natural|premium|neural|enhanced/i.test(v.name)) ||
+      voices.find(v => /en[-_]GB/i.test(v.lang)) ||
+      voices.find(v => v.lang?.startsWith("en"))
+    );
+  };
+
+  const speakChunks = (chunks: string[], idx: number) => {
+    if (cancelledRef.current) return;
+    if (idx >= chunks.length) {
+      setPlaying(false);
+      setPaused(false);
+      return;
+    }
+    const u = new SpeechSynthesisUtterance(chunks[idx]);
+    u.lang = "en-GB";
+    u.rate = rate;
+    u.pitch = 1;
+    const v = pickVoice();
+    if (v) u.voice = v;
+    const isDialogueChange =
+      idx > 0 && /^[A-Z][a-z]+:/.test(chunks[idx]) && !/^[A-Z][a-z]+:/.test(chunks[idx - 1]);
+    // Pause between sentences: longer for paragraph / speaker change.
+    const gapMs = isDialogueChange ? 700 : /[?!]$/.test(chunks[idx - 1] ?? "") ? 550 : 380;
+    u.onend = () => {
+      if (cancelledRef.current) return;
+      chunkTimerRef.current = window.setTimeout(() => speakChunks(chunks, idx + 1), gapMs);
+    };
+    u.onerror = () => { setPlaying(false); setPaused(false); };
+    window.speechSynthesis.speak(u);
+  };
 
   const speak = () => {
     if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
     window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(s.transcript);
-    u.lang = "en-GB";
-    u.rate = rate;
-    u.pitch = 1;
-    const voices = window.speechSynthesis.getVoices();
-    const enVoice = voices.find(v => /en[-_]GB/i.test(v.lang)) || voices.find(v => v.lang?.startsWith("en"));
-    if (enVoice) u.voice = enVoice;
-    u.onend = () => { setPlaying(false); setPaused(false); };
-    u.onerror = () => { setPlaying(false); setPaused(false); };
-    utterRef.current = u;
-    window.speechSynthesis.speak(u);
+    cancelledRef.current = false;
+    const chunks = buildChunks(s.transcript);
     setPlaying(true);
     setPaused(false);
+    speakChunks(chunks, 0);
   };
 
   const togglePause = () => {
@@ -68,10 +117,13 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
   };
 
   const stop = () => {
+    cancelledRef.current = true;
+    if (chunkTimerRef.current) window.clearTimeout(chunkTimerRef.current);
     window.speechSynthesis?.cancel();
     setPlaying(false);
     setPaused(false);
   };
+
 
   const isCorrect = (qIdx: number): boolean => {
     const q = s.questions[qIdx];
