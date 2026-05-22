@@ -62,7 +62,6 @@ const IeltsSkillsPractice = () => {
       <SEO
         title="IELTS Skills Practice | HaiEduTech"
         description="Practice all 4 IELTS skills — Writing, Speaking, Reading, Listening — with Cambridge-standard materials and AI grading."
-        canonical="/ielts-skills-practice"
       />
       <Navbar />
       <main className="container mx-auto px-4 py-10 md:py-14">
