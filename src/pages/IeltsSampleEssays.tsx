@@ -1,17 +1,19 @@
 // IELTS Sample Essays Hub - Filterable list of Band 7.0+ essays
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { sampleEssays } from "@/data/ieltsSampleEssays";
 import { motion, AnimatePresence } from "framer-motion";
-import { BookOpen, Filter, FileText, BarChart3, PieChart, Table2, Map, Cog, TrendingUp, Search } from "lucide-react";
+import { BookOpen, Filter, FileText, BarChart3, PieChart, Table2, Map, Cog, TrendingUp, Search, Star } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SEO from "@/components/SEO";
+
+const STAR_KEY = "ielts-sample-essay-stars";
 
 // Chart type icon mapping
 const chartIcons: Record<string, React.ReactNode> = {
@@ -29,6 +31,15 @@ const IeltsSampleEssays = () => {
   const [taskFilter, setTaskFilter] = useState<"all" | "1" | "2">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [subtypeFilter, setSubtypeFilter] = useState<string>("all");
+  const [starredOnly, setStarredOnly] = useState(false);
+  const [stars, setStars] = useState<Set<string>>(() => {
+    try { return new Set(JSON.parse(localStorage.getItem(STAR_KEY) || "[]")); } catch { return new Set(); }
+  });
+  useEffect(() => { localStorage.setItem(STAR_KEY, JSON.stringify([...stars])); }, [stars]);
+  const toggleStar = useCallback((id: string, e: React.MouseEvent) => {
+    e.preventDefault(); e.stopPropagation();
+    setStars(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
+  }, []);
 
   // Get available subtypes based on task filter
   const subtypes = useMemo(() => {
@@ -46,6 +57,7 @@ const IeltsSampleEssays = () => {
   // Filter essays
   const filtered = useMemo(() => {
     return sampleEssays.filter(essay => {
+      if (starredOnly && !stars.has(essay.id)) return false;
       if (taskFilter !== "all" && essay.taskType !== Number(taskFilter)) return false;
       if (subtypeFilter !== "all") {
         if (essay.taskType === 1 && essay.chartType !== subtypeFilter) return false;
@@ -57,7 +69,7 @@ const IeltsSampleEssays = () => {
       }
       return true;
     });
-  }, [taskFilter, subtypeFilter, searchQuery]);
+  }, [taskFilter, subtypeFilter, searchQuery, starredOnly, stars]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -113,6 +125,11 @@ const IeltsSampleEssays = () => {
             </div>
           )}
 
+          <Button size="sm" variant={starredOnly ? "default" : "outline"} onClick={() => setStarredOnly(s => !s)} className="gap-1.5">
+            <Star className={`w-4 h-4 ${starredOnly ? "fill-current" : ""}`} />
+            {t("Đã đánh dấu", "Starred")} ({stars.size})
+          </Button>
+
           <div className="relative md:ml-auto md:w-64">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
@@ -140,7 +157,14 @@ const IeltsSampleEssays = () => {
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ delay: i * 0.04 }}
               >
-                <Link to={`/ielts-sample-essays/${essay.id}`} className="block">
+                <Link to={`/ielts-sample-essays/${essay.id}`} className="block relative">
+                  <button
+                    onClick={(e) => toggleStar(essay.id, e)}
+                    className="absolute top-3 right-3 z-10 p-1.5 rounded-full bg-background/80 hover:bg-amber-500/20 transition-colors"
+                    aria-label={t("Đánh dấu", "Star")}
+                  >
+                    <Star className={`w-4 h-4 ${stars.has(essay.id) ? "fill-amber-400 text-amber-400" : "text-muted-foreground"}`} />
+                  </button>
                   <div className="glass-card rounded-xl p-5 h-full hover:shadow-lg hover:border-primary/30 transition-all group">
                     <div className="flex items-center gap-2 mb-3">
                       <Badge variant={essay.taskType === 1 ? "secondary" : "default"} className="text-xs">
@@ -150,7 +174,7 @@ const IeltsSampleEssays = () => {
                         {essay.chartType || essay.essayType}
                       </Badge>
                     </div>
-                    <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors capitalize mb-2">
+                    <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors capitalize mb-2 pr-8">
                       {essay.topic}
                     </h3>
                     <p className="text-xs text-muted-foreground line-clamp-3">

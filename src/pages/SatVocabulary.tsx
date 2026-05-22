@@ -143,19 +143,19 @@ const Flashcard = ({ word, isMastered, onStar }: { word: SatWord; isMastered: bo
   );
 };
 
-const VocabExercise = ({ words, allWords, t }: { words: SatWord[]; allWords?: SatWord[]; t: (vi: string, en: string) => string }) => {
+const VocabExercise = ({ words, allWords, t, quizSize, setQuizSize }: { words: SatWord[]; allWords?: SatWord[]; t: (vi: string, en: string) => string; quizSize: number; setQuizSize: (n: number) => void }) => {
   const [questions, setQuestions] = useState<{ word: SatWord; options: string[]; correct: number }[]>([]);
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
   const scoreSavedRef = useRef(false);
-  const QUIZ_SIZE = 10;
 
   const generateQuiz = useCallback(() => {
     if (words.length < 4) return;
     const distractorPool = allWords && allWords.length > 4 ? allWords : words;
-    const picked = shuffle(words).slice(0, QUIZ_SIZE);
+    const size = Math.min(quizSize, words.length);
+    const picked = shuffle(words).slice(0, size);
     const qs = picked.map(w => {
       const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.definition.vi);
       const allOpts = shuffle([w.definition.vi, ...wrongs]);
@@ -164,7 +164,7 @@ const VocabExercise = ({ words, allWords, t }: { words: SatWord[]; allWords?: Sa
     setQuestions(qs);
     setCurrent(0); setSelected(null); setScore(0); setFinished(false);
     scoreSavedRef.current = false;
-  }, [words, allWords]);
+  }, [words, allWords, quizSize]);
 
   useEffect(() => {
     if (!finished || scoreSavedRef.current) return;
@@ -337,6 +337,7 @@ const SatVocabulary = () => {
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [page, setPage] = useState(1);
   const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise">("list");
+  const [quizSize, setQuizSize] = useState<number>(10);
 
   const availableCategories = useMemo(() => {
     if (sectionFilter === "all") return [...SAT_CATEGORIES_BY_SECTION["Reading & Writing"], ...SAT_CATEGORIES_BY_SECTION["Math"]];
@@ -456,7 +457,15 @@ const SatVocabulary = () => {
               <p className="text-xs text-muted-foreground mb-4">{filtered.length} {t("kết quả", "results")}</p>
 
               {viewMode === "exercise" ? (
-                <VocabExercise words={satVocabData.filter(w => mastered.has(w.word))} allWords={satVocabData} t={t} />
+                <div>
+                  <div className="flex flex-wrap items-center gap-2 mb-4">
+                    <label className="text-xs text-muted-foreground">{t("Số câu", "Questions")}:</label>
+                    <select value={quizSize} onChange={e => setQuizSize(Number(e.target.value))} className="rounded-md border border-border bg-background px-2 py-1 text-xs">
+                      {[5, 10, 15, 20, 30, 50, 100, 200].map(n => <option key={n} value={n}>{n}</option>)}
+                    </select>
+                  </div>
+                  <VocabExercise words={satVocabData.filter(w => mastered.has(w.word))} allWords={satVocabData} t={t} quizSize={quizSize} setQuizSize={setQuizSize} />
+                </div>
               ) : viewMode === "flashcard" ? (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                   <AnimatePresence mode="popLayout">

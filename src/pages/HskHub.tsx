@@ -123,7 +123,18 @@ const HskHub = () => {
         </div>
 
         {/* Quick links */}
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <Link to="/chinese/hsk/test" className="block">
+            <Card className="p-5 hover:bg-red-500/5 transition-all border-red-500/30">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-xl bg-red-500/15 flex items-center justify-center text-2xl">📝</div>
+                <div>
+                  <h3 className="font-bold">{t("HSK Test · Đề thi thử", "HSK Test · Mock Exams")}</h3>
+                  <p className="text-xs text-muted-foreground">{t("Bài thi mô phỏng HSK 1-6", "Mock exams for HSK 1-6")}</p>
+                </div>
+              </div>
+            </Card>
+          </Link>
           <Link to="/chinese/hsk/vocabulary" className="block">
             <Card className="p-5 hover:bg-red-500/5 transition-all">
               <div className="flex items-center gap-3">
