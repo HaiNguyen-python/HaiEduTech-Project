@@ -19,7 +19,7 @@ import { useState, useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ArrowLeft, Heart, Trophy, Sparkles, Star, Volume2, Rocket, Gamepad2, Timer,
+  ArrowLeft, Heart, Trophy, Sparkles, Star, Volume2, Timer,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -193,7 +193,20 @@ function BalloonPop({ level, onExit }: { level: CambridgeKidsLevel; onExit: () =
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4">
-      <div className="min-h-[70vh] bg-gradient-to-br from-sky-300 via-cyan-200 to-emerald-200 dark:from-slate-900 dark:via-indigo-950 dark:to-slate-900 rounded-3xl p-4 sm:p-6 relative overflow-hidden">
+      <div className="min-h-[70vh] rounded-3xl p-4 sm:p-6 relative overflow-hidden bg-[linear-gradient(180deg,#7dd3fc_0%,#bae6fd_35%,#bbf7d0_70%,#86efac_100%)] dark:bg-[linear-gradient(180deg,#0f172a_0%,#1e1b4b_50%,#0f172a_100%)]">
+        {/* Playful decorations */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute top-4 left-6 text-5xl opacity-90 animate-pulse">☁️</div>
+          <div className="absolute top-10 right-10 text-6xl opacity-90">🌈</div>
+          <div className="absolute top-2 right-1/3 text-5xl">☀️</div>
+          <div className="absolute top-24 left-1/3 text-4xl opacity-80">☁️</div>
+          <div className="absolute bottom-10 left-4 text-5xl">🌷</div>
+          <div className="absolute bottom-6 right-8 text-5xl">🌻</div>
+          <div className="absolute bottom-2 left-1/2 text-4xl">🦋</div>
+          <div className="absolute top-1/2 left-2 text-3xl opacity-70">⭐</div>
+          <div className="absolute top-1/3 right-4 text-3xl opacity-70">✨</div>
+        </div>
+        <div className="relative">
         <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
           <Button variant="secondary" size="sm" onClick={onExit}>
             <ArrowLeft className="w-4 h-4 mr-1" /> Exit
@@ -263,6 +276,7 @@ function BalloonPop({ level, onExit }: { level: CambridgeKidsLevel; onExit: () =
             )}
           </>
         )}
+        </div>
       </div>
 
       <aside className="rounded-2xl border border-border bg-card/60 p-3">
@@ -290,7 +304,7 @@ function SpellingBee({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
   const [letters, setLetters] = useState<{ ch: string; used: boolean }[]>([]);
   const [typed, setTyped] = useState<string>("");
   const [feedback, setFeedback] = useState<"correct" | "wrong" | "timeout" | null>(null);
-  const [timeLeft, setTimeLeft] = useState(15);
+  const [timeLeft, setTimeLeft] = useState(20);
   const [submitted, setSubmitted] = useState(false);
   const timerRef = useRef<number>();
 
@@ -302,7 +316,7 @@ function SpellingBee({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
     setLetters(shuffle(chars).map(ch => ({ ch, used: false })));
     setTyped("");
     setFeedback(null);
-    setTimeLeft(15);
+    setTimeLeft(20);
     setRound(r => r + 1);
     speakEn(w.word);
   };
@@ -322,6 +336,34 @@ function SpellingBee({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
     timerRef.current = window.setTimeout(() => setTimeLeft((t) => t - 1), 1000);
     return () => { if (timerRef.current) clearTimeout(timerRef.current); };
   }, [timeLeft, feedback, lives]);
+
+  // Physical keyboard input — type letters to spell
+  useEffect(() => {
+    if (feedback || lives <= 0 || !current) return;
+    const onKey = (e: KeyboardEvent) => {
+      const k = e.key;
+      if (k === "Backspace") {
+        // un-use the last used letter
+        const lastCh = typed.slice(-1).toLowerCase();
+        if (!lastCh) return;
+        const idx = [...letters].map((l, i) => ({ l, i }))
+          .reverse()
+          .find(({ l }) => l.used && l.ch.toLowerCase() === lastCh)?.i;
+        if (idx !== undefined) {
+          setLetters(letters.map((l, i) => i === idx ? { ...l, used: false } : l));
+          setTyped(typed.slice(0, -1));
+        }
+        return;
+      }
+      if (!/^[a-zA-Z]$/.test(k)) return;
+      const want = k.toLowerCase();
+      const idx = letters.findIndex((l) => !l.used && l.ch.toLowerCase() === want);
+      if (idx !== -1) pick(idx);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [letters, typed, feedback, lives, current]);
 
   const pick = (idx: number) => {
     if (!letters[idx] || letters[idx].used || feedback) return;
@@ -391,7 +433,7 @@ function SpellingBee({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
         ) : current && (
           <div className="text-center">
             <div className="text-7xl mb-2">{current.emoji}</div>
-            <p className="text-sm text-foreground/70 mb-1">Spell this word in 15 seconds!</p>
+            <p className="text-sm text-foreground/70 mb-1">Spell this word in 20 seconds! (type or tap letters)</p>
             <button
               onClick={() => speakEn(current.word)}
               className="inline-flex items-center gap-2 text-xl font-bold text-foreground/80 hover:text-primary"
@@ -568,8 +610,8 @@ function MemoryMatch({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
         )}
 
         <div
-          className="grid gap-2 sm:gap-3 mx-auto"
-          style={{ gridTemplateColumns: `repeat(${config.cols}, minmax(0, 1fr))`, maxWidth: `${config.cols * 110}px` }}
+          className="grid gap-3 sm:gap-4 mx-auto"
+          style={{ gridTemplateColumns: `repeat(${config.cols}, minmax(0, 1fr))`, maxWidth: `${config.cols * 220}px` }}
         >
           {cards.map((card, index) => {
             const isFlipped = flipped.includes(card.id) || card.matched;
@@ -578,19 +620,19 @@ function MemoryMatch({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
                 key={card.id}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => click(card.id)}
-                className="relative aspect-square"
+                className="relative aspect-square min-h-[120px] sm:min-h-[160px]"
               >
                 <div className={`absolute inset-0 rounded-2xl transition-transform duration-500 [transform-style:preserve-3d] ${isFlipped ? "[transform:rotateY(180deg)]" : ""}`}>
                   {/* Back with number */}
                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-fuchsia-500 to-purple-600 flex items-center justify-center text-white shadow-lg [backface-visibility:hidden]">
-                    <span className="text-2xl sm:text-3xl font-extrabold drop-shadow">{index + 1}</span>
+                    <span className="text-5xl sm:text-6xl font-extrabold drop-shadow">{index + 1}</span>
                   </div>
                   {/* Front */}
-                  <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${LEVEL_COLOR[card.word.level]} flex items-center justify-center p-1 shadow-lg [backface-visibility:hidden] [transform:rotateY(180deg)] ${card.matched ? "opacity-60" : ""}`}>
+                  <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${LEVEL_COLOR[card.word.level]} flex items-center justify-center p-2 shadow-lg [backface-visibility:hidden] [transform:rotateY(180deg)] ${card.matched ? "opacity-60" : ""}`}>
                     {card.face === "emoji" ? (
-                      <span className="text-4xl sm:text-5xl">{card.word.emoji}</span>
+                      <span className="text-6xl sm:text-7xl">{card.word.emoji}</span>
                     ) : (
-                      <span className="text-xs sm:text-sm font-bold text-white text-center capitalize leading-tight px-1">{card.word.word}</span>
+                      <span className="text-base sm:text-xl font-bold text-white text-center capitalize leading-tight px-1">{card.word.word}</span>
                     )}
                   </div>
                 </div>
@@ -608,9 +650,157 @@ function MemoryMatch({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
 }
 
 // ─────────────────────────────────────────────────────────────
+// GAME 5 — Synonym Sprint (pick the matching synonym)
+// ─────────────────────────────────────────────────────────────
+interface SynonymItem { word: string; vi: string; synonym: string; emoji: string; level: "A1" | "A2" | "B1" | "B2"; }
+const SYNONYM_BANK: SynonymItem[] = [
+  { word: "happy", vi: "vui vẻ", synonym: "joyful", emoji: "😊", level: "A1" },
+  { word: "sad", vi: "buồn", synonym: "unhappy", emoji: "😢", level: "A1" },
+  { word: "big", vi: "to lớn", synonym: "large", emoji: "🐘", level: "A1" },
+  { word: "small", vi: "nhỏ", synonym: "tiny", emoji: "🐭", level: "A1" },
+  { word: "fast", vi: "nhanh", synonym: "quick", emoji: "⚡", level: "A1" },
+  { word: "slow", vi: "chậm", synonym: "sluggish", emoji: "🐢", level: "A2" },
+  { word: "smart", vi: "thông minh", synonym: "clever", emoji: "🧠", level: "A2" },
+  { word: "brave", vi: "dũng cảm", synonym: "courageous", emoji: "🦁", level: "A2" },
+  { word: "begin", vi: "bắt đầu", synonym: "start", emoji: "🚀", level: "A2" },
+  { word: "end", vi: "kết thúc", synonym: "finish", emoji: "🏁", level: "A2" },
+  { word: "help", vi: "giúp đỡ", synonym: "assist", emoji: "🤝", level: "A2" },
+  { word: "important", vi: "quan trọng", synonym: "crucial", emoji: "⭐", level: "B1" },
+  { word: "ancient", vi: "cổ xưa", synonym: "old", emoji: "🏛️", level: "B1" },
+  { word: "huge", vi: "khổng lồ", synonym: "enormous", emoji: "🐋", level: "B1" },
+  { word: "wealthy", vi: "giàu có", synonym: "rich", emoji: "💰", level: "B1" },
+  { word: "powerful", vi: "mạnh mẽ", synonym: "strong", emoji: "💪", level: "B1" },
+  { word: "beautiful", vi: "xinh đẹp", synonym: "gorgeous", emoji: "🌸", level: "B1" },
+  { word: "difficult", vi: "khó", synonym: "hard", emoji: "🧩", level: "B1" },
+  { word: "essential", vi: "thiết yếu", synonym: "vital", emoji: "🔑", level: "B2" },
+  { word: "abundant", vi: "dồi dào", synonym: "plentiful", emoji: "🌾", level: "B2" },
+  { word: "deliberate", vi: "cố ý", synonym: "intentional", emoji: "🎯", level: "B2" },
+  { word: "fragile", vi: "dễ vỡ", synonym: "delicate", emoji: "🪞", level: "B2" },
+  { word: "intricate", vi: "phức tạp", synonym: "complex", emoji: "🕸️", level: "B2" },
+  { word: "magnificent", vi: "tráng lệ", synonym: "splendid", emoji: "🏰", level: "B2" },
+];
+
+function SynonymSprint({ onExit }: { onExit: () => void }) {
+  const { t } = useLanguage();
+  const [idx, setIdx] = useState(0);
+  const [lives, setLives] = useState(3);
+  const [score, setScore] = useState(0);
+  const [maxStreak, setMaxStreak] = useState(0);
+  const [streak, setStreak] = useState(0);
+  const [timer, setTimer] = useState(10);
+  const [feedback, setFeedback] = useState<"ok" | "err" | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+  const pool = useMemo(() => shuffle(SYNONYM_BANK).slice(0, 14), []);
+  const current = pool[idx];
+  const options = useMemo(() => {
+    if (!current) return [];
+    const wrong = shuffle(SYNONYM_BANK.filter((w) => w.word !== current.word && w.synonym !== current.synonym))
+      .slice(0, 3).map((w) => w.synonym);
+    return shuffle([current.synonym, ...wrong]);
+  }, [current]);
+
+  useEffect(() => {
+    if (lives <= 0 || idx >= pool.length || feedback) return;
+    setTimer(10);
+    const tick = setInterval(() => setTimer((t) => Math.max(0, t - 1)), 1000);
+    const out = setTimeout(() => {
+      setLives((l) => l - 1);
+      setStreak(0);
+      setFeedback("err");
+      setTimeout(() => { setFeedback(null); setIdx((i) => i + 1); }, 700);
+    }, 10_000);
+    return () => { clearInterval(tick); clearTimeout(out); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idx, lives]);
+
+  const pick = (opt: string) => {
+    if (!current || feedback) return;
+    if (opt === current.synonym) {
+      const delta = 12 + streak * 2 + timer;
+      setScore((s) => s + delta);
+      setStreak((s) => { const ns = s + 1; setMaxStreak((m) => Math.max(m, ns)); return ns; });
+      setFeedback("ok");
+      speakEn(current.word);
+    } else {
+      setLives((l) => l - 1);
+      setStreak(0);
+      setFeedback("err");
+    }
+    setTimeout(() => { setFeedback(null); setIdx((i) => i + 1); }, 700);
+  };
+
+  const done = lives <= 0 || idx >= pool.length;
+  useEffect(() => {
+    if (done && !submitted && score > 0) {
+      setSubmitted(true);
+      submitGameScore({ gameType: "synonym_sprint", score, maxStreak });
+    }
+  }, [done, submitted, score, maxStreak]);
+
+  const restart = () => { setIdx(0); setLives(3); setScore(0); setStreak(0); setMaxStreak(0); setSubmitted(false); };
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4">
+      <div className="min-h-[70vh] bg-gradient-to-br from-violet-200 via-fuchsia-100 to-amber-100 dark:from-violet-950 dark:via-fuchsia-950 dark:to-slate-900 rounded-3xl p-4 sm:p-6">
+        <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
+          <Button variant="secondary" size="sm" onClick={onExit}>
+            <ArrowLeft className="w-4 h-4 mr-1" /> Exit
+          </Button>
+          <div className="flex items-center gap-2 flex-wrap">
+            <Badge className="bg-violet-500 text-white text-base"><Trophy className="w-4 h-4 mr-1" /> {score}</Badge>
+            <Badge className="bg-orange-500 text-white text-base">🔥 {streak}</Badge>
+            <Badge className={`text-white text-base ${timer <= 3 ? "bg-rose-600 animate-pulse" : "bg-emerald-600"}`}><Timer className="w-4 h-4 mr-1" /> {timer}s</Badge>
+            <Badge className="bg-rose-500 text-white">❤️ {lives}</Badge>
+          </div>
+        </div>
+
+        {done ? (
+          <div className="text-center py-10 space-y-3">
+            <div className="text-6xl">{lives <= 0 ? "💔" : "🏆"}</div>
+            <h3 className="text-2xl font-bold text-foreground">{t("Kết quả", "Result")}: {score}</h3>
+            <Button onClick={restart} className="bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white">{t("Chơi lại", "Play again")}</Button>
+          </div>
+        ) : current && (
+          <motion.div key={idx} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="max-w-xl mx-auto">
+            <div className="rounded-2xl border-2 border-violet-400/50 bg-white/70 dark:bg-slate-900/70 p-8 text-center mb-4 backdrop-blur">
+              <div className="text-6xl mb-2">{current.emoji}</div>
+              <button onClick={() => speakEn(current.word)} className="text-3xl font-extrabold text-foreground hover:scale-105 transition inline-flex items-center gap-2">
+                <Volume2 className="w-6 h-6 text-violet-500" /> {current.word}
+              </button>
+              <div className="text-sm text-muted-foreground mt-2">{t("Chọn từ đồng nghĩa", "Pick the synonym")}</div>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              {options.map((opt) => (
+                <button
+                  key={opt}
+                  onClick={() => pick(opt)}
+                  className={`px-4 py-5 rounded-2xl border-2 text-lg font-bold transition-all active:scale-95 ${
+                    feedback === "ok" && opt === current.synonym
+                      ? "border-emerald-500 bg-emerald-500/30 text-emerald-900 dark:text-emerald-100"
+                      : feedback === "err" && opt === current.synonym
+                      ? "border-emerald-500 bg-emerald-500/30 text-emerald-900 dark:text-emerald-100"
+                      : "border-violet-400/60 bg-white text-violet-900 dark:bg-slate-900 dark:text-violet-100 hover:border-violet-500 hover:bg-violet-50 dark:hover:bg-violet-900/40"
+                  }`}
+                >
+                  {opt}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </div>
+
+      <aside className="rounded-2xl border border-border bg-card/60 p-3">
+        <GameLeaderboard gameType="synonym_sprint" currentScore={score} />
+      </aside>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
 // Hub
 // ─────────────────────────────────────────────────────────────
-type GameKey = "balloon" | "spelling" | "memory" | "meteor" | null;
+type GameKey = "balloon" | "spelling" | "memory" | "meteor" | "synonym" | null;
 
 const CambridgeArcade = () => {
   const { t } = useLanguage();
@@ -684,6 +874,7 @@ const CambridgeArcade = () => {
         {active === "balloon" && <BalloonPop level={level} onExit={() => setActive(null)} />}
         {active === "spelling" && <SpellingBee level={level} onExit={() => setActive(null)} />}
         {active === "memory" && <MemoryMatch level={level} onExit={() => setActive(null)} />}
+        {active === "synonym" && <SynonymSprint onExit={() => setActive(null)} />}
         {active === "meteor" && (
           <div className="max-w-5xl mx-auto">
             <Button variant="ghost" size="sm" onClick={() => setActive(null)} className="mb-3">
@@ -701,53 +892,33 @@ const CambridgeArcade = () => {
         )}
 
         {!active && (
-          <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                { key: "balloon" as const, emoji: "🎈", title: "Balloon Pop", desc: t("Bóng rớt xuống — chọn nhanh!", "Balloons drift down — pop the right one!"), color: "from-sky-400 to-cyan-500" },
-                { key: "spelling" as const, emoji: "🔤", title: "Spelling Bee", desc: t("Đánh vần trong 15 giây", "Spell the word in 15 seconds"), color: "from-orange-400 to-amber-500" },
-                { key: "memory" as const, emoji: "🃏", title: "Memory Match", desc: t("3 độ khó: 3×4 / 4×4 / 5×4", "3 difficulties: 3×4 / 4×4 / 5×4"), color: "from-fuchsia-500 to-purple-600" },
-                { key: "meteor" as const, emoji: "☄️", title: "Word Meteor", desc: t("Từ vựng theo level Cambridge", "Cambridge-level vocabulary meteors"), color: "from-red-500 to-orange-600" },
-              ].map((g, idx) => (
-                <motion.button
-                  key={g.key}
-                  initial={{ y: 30, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: idx * 0.1 }}
-                  whileHover={{ scale: 1.03, y: -4 }}
-                  onClick={() => setActive(g.key)}
-                  className={`relative overflow-hidden rounded-3xl p-6 text-left bg-gradient-to-br ${g.color} text-white shadow-2xl`}
-                >
-                  <Sparkles className="absolute top-3 right-3 w-5 h-5 opacity-50" />
-                  <div className="text-6xl mb-3">{g.emoji}</div>
-                  <h3 className="text-2xl font-extrabold">{g.title}</h3>
-                  <p className="text-sm opacity-90 mt-1">{g.desc}</p>
-                  <div className="mt-4 inline-flex items-center gap-1 text-xs bg-white/20 rounded-full px-3 py-1">
-                    Level: {level}
-                  </div>
-                </motion.button>
-              ))}
-            </div>
-
-            {/* Bridge to older-learner English Arcade Hub */}
-            <div className="mt-10 rounded-3xl border border-violet-300/30 bg-gradient-to-r from-violet-500/10 via-fuchsia-500/10 to-amber-500/10 p-6 text-center">
-              <Badge variant="outline" className="mb-2"><Gamepad2 className="w-3 h-3 mr-1" /> More English Games</Badge>
-              <h3 className="text-xl font-bold mb-1">
-                {t("Game tiếng Anh cho Teen & Adult", "Teen & Adult English Games")}
-              </h3>
-              <p className="text-sm text-muted-foreground max-w-xl mx-auto mb-4">
-                {t(
-                  "Synonym Sprint, Spelling Bee và Word Builder — mini-game từ vựng B1+ cho học viên lớn tuổi hơn.",
-                  "Synonym Sprint, Spelling Bee, and Word Builder — B1+ vocabulary games for older learners."
-                )}
-              </p>
-              <Link to="/english/arcade">
-                <Button className="bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white hover:opacity-90">
-                  <Rocket className="w-4 h-4 mr-2" /> {t("Mở English Arcade Hub", "Open English Arcade Hub")}
-                </Button>
-              </Link>
-            </div>
-          </>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+            {[
+              { key: "balloon" as const, emoji: "🎈", title: "Balloon Pop", desc: t("Bóng rớt xuống — chọn nhanh!", "Balloons drift down — pop the right one!"), color: "from-sky-400 to-cyan-500" },
+              { key: "spelling" as const, emoji: "🔤", title: "Spelling Bee", desc: t("Đánh vần trong 20 giây — gõ phím luôn!", "Spell in 20s — type on your keyboard!"), color: "from-orange-400 to-amber-500" },
+              { key: "memory" as const, emoji: "🃏", title: "Memory Match", desc: t("3 độ khó: 3×4 / 4×4 / 5×4", "3 difficulties: 3×4 / 4×4 / 5×4"), color: "from-fuchsia-500 to-purple-600" },
+              { key: "meteor" as const, emoji: "☄️", title: "Word Meteor", desc: t("Từ vựng theo level Cambridge", "Cambridge-level vocabulary meteors"), color: "from-red-500 to-orange-600" },
+              { key: "synonym" as const, emoji: "🧠", title: "Synonym Sprint", desc: t("Chọn từ đồng nghĩa trước khi hết giờ", "Pick the synonym before time runs out"), color: "from-violet-500 to-fuchsia-500" },
+            ].map((g, idx) => (
+              <motion.button
+                key={g.key}
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: idx * 0.08 }}
+                whileHover={{ scale: 1.03, y: -4 }}
+                onClick={() => setActive(g.key)}
+                className={`relative overflow-hidden rounded-3xl p-6 text-left bg-gradient-to-br ${g.color} text-white shadow-2xl`}
+              >
+                <Sparkles className="absolute top-3 right-3 w-5 h-5 opacity-50" />
+                <div className="text-6xl mb-3">{g.emoji}</div>
+                <h3 className="text-2xl font-extrabold">{g.title}</h3>
+                <p className="text-sm opacity-90 mt-1">{g.desc}</p>
+                <div className="mt-4 inline-flex items-center gap-1 text-xs bg-white/20 rounded-full px-3 py-1">
+                  {g.key === "synonym" ? "All levels" : `Level: ${level}`}
+                </div>
+              </motion.button>
+            ))}
+          </div>
         )}
       </main>
       <Footer />

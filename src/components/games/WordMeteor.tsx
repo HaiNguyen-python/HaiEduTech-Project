@@ -105,10 +105,10 @@ export default function WordMeteor({
       .slice(0, 2)
       .map((d) => d.meaning);
     const options = [...distractors, item.meaning].sort(() => Math.random() - 0.5);
-    // Progressive speed: starts slow, ramps up with score
+    // Progressive speed: starts very slow, ramps up gently with score
     const s = scoreRef.current;
-    const base = 0.18 + Math.min(0.55, s / 350); // 0.18 → ~0.73
-    const jitter = Math.random() * 0.18;
+    const base = 0.10 + Math.min(0.25, s / 600); // 0.10 → ~0.35 (much slower)
+    const jitter = Math.random() * 0.08;
     setMeteors((prev) => [
       ...prev,
       {
@@ -128,7 +128,7 @@ export default function WordMeteor({
     setScoreSubmitted(false);
     const scheduleSpawn = () => {
       const s = scoreRef.current;
-      const interval = Math.max(1100, 2800 - s * 8); // spawn slows from 2.8s → 1.1s
+      const interval = Math.max(2200, 4200 - s * 6); // 4.2s → 2.2s — bigger gaps
       spawnTimerRef.current = window.setTimeout(() => {
         spawn();
         scheduleSpawn();
@@ -232,7 +232,7 @@ export default function WordMeteor({
           </Button>
         </div>
 
-        <div className="relative h-[560px] w-full overflow-hidden rounded-2xl border border-border bg-gradient-to-b from-slate-950 via-indigo-950 to-slate-900">
+        <div className="relative h-[78vh] min-h-[640px] w-full overflow-hidden rounded-2xl border border-border bg-gradient-to-b from-slate-950 via-indigo-950 to-slate-900">
           {Array.from({ length: 60 }).map((_, i) => (
             <div
               key={i}
@@ -253,19 +253,19 @@ export default function WordMeteor({
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 1.4 }}
                 className="absolute -translate-x-1/2"
-                style={{ left: `${m.x}%`, top: `${m.y}%`, maxWidth: "min(92vw, 460px)" }}
+                style={{ left: `${m.x}%`, top: `${m.y}%`, maxWidth: "min(94vw, 560px)" }}
               >
                 <div className="relative">
                   <div className="absolute -inset-3 rounded-full bg-orange-500/30 blur-xl" />
-                  <div className="relative mx-auto w-fit rounded-xl border border-orange-300/40 bg-gradient-to-br from-orange-500 to-red-600 px-4 py-2 text-base font-bold text-white shadow-lg">
+                  <div className="relative mx-auto w-fit rounded-xl border border-orange-300/40 bg-gradient-to-br from-orange-500 to-red-600 px-5 py-3 text-xl font-bold text-white shadow-lg">
                     ☄️ {m.word}
                   </div>
-                  <div className="mt-2 flex flex-wrap justify-center gap-2">
+                  <div className="mt-3 flex flex-wrap justify-center gap-3">
                     {m.options.map((opt) => (
                       <button
                         key={opt}
                         onClick={() => handlePick(m, opt)}
-                        className="rounded-lg border border-white/40 bg-white/15 px-3 py-2 text-sm font-semibold text-white backdrop-blur transition hover:scale-105 hover:bg-white/30 active:scale-95"
+                        className="min-w-[140px] rounded-xl border-2 border-white/40 bg-white/20 px-5 py-3 text-base font-semibold text-white backdrop-blur transition hover:scale-105 hover:bg-white/35 active:scale-95"
                       >
                         {opt}
                       </button>
