@@ -232,7 +232,7 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
     const target = meteors.find(m => stripTones(m.word.pinyin) === typed);
     if (target) {
       // Fire laser, destroy meteor
-      setLaser({ x: target.x });
+      setLaser({ x: target.x, from: shipX });
       setTimeout(() => setLaser(null), 200);
       setParticles(prev => [
         ...prev,
