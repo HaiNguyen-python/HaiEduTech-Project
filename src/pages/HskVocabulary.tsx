@@ -117,7 +117,7 @@ const HskExercise = ({ masteredWords, t }: { masteredWords: HskWord[]; t: (vi: s
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
   const scoreSavedRef = useRef(false);
-  const QUIZ_SIZE = 10;
+  const [quizSize, setQuizSize] = useState<number>(10);
 
   const generateQuiz = useCallback(() => {
     if (masteredWords.length < 4) {
@@ -125,7 +125,8 @@ const HskExercise = ({ masteredWords, t }: { masteredWords: HskWord[]; t: (vi: s
       setFinished(false);
       return;
     }
-    const picked = shuffle(masteredWords).slice(0, Math.min(QUIZ_SIZE, masteredWords.length));
+    const size = Math.min(quizSize, masteredWords.length);
+    const picked = shuffle(masteredWords).slice(0, size);
     const distractorPool = hskVocabData;
     const qs = picked.map(w => {
       const wrongs = shuffle(distractorPool.filter(x => x.character !== w.character && x.definition.vi !== w.definition.vi))
@@ -139,7 +140,7 @@ const HskExercise = ({ masteredWords, t }: { masteredWords: HskWord[]; t: (vi: s
     setScore(0);
     setFinished(false);
     scoreSavedRef.current = false;
-  }, [masteredWords]);
+  }, [masteredWords, quizSize]);
 
   useEffect(() => {
     if (!finished || scoreSavedRef.current) return;
