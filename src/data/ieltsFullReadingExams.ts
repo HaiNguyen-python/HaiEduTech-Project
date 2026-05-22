@@ -41,7 +41,7 @@ export interface ReadingExam {
 export const IELTS_FULL_READING_EXAMS: ReadingExam[] = [
   {
     id: "rx-1",
-    title: "The Rise of Renewable Energy",
+    title: "Test 1 — The Rise of Renewable Energy",
     level: "Medium",
     durationMinutes: 20,
     passageTitle: "The Rise of Renewable Energy",
@@ -160,7 +160,7 @@ D. Building such storage is expensive. A recent IEA report estimates the world n
 
   {
     id: "rx-2",
-    title: "The Science of Sleep",
+    title: "Test 2 — The Science of Sleep",
     level: "Hard",
     durationMinutes: 20,
     passageTitle: "Why We Sleep — and Why We Sleep Less",
