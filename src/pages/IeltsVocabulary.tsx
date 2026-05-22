@@ -229,10 +229,9 @@ interface ExQuestion {
   hint?: string;
 }
 
-const buildQuestions = (words: IeltsWord[], allWords: IeltsWord[]): ExQuestion[] => {
-  const QUIZ_SIZE = 12;
+const buildQuestions = (words: IeltsWord[], allWords: IeltsWord[], quizSize = 12): ExQuestion[] => {
   const distractorPool = allWords.length > 4 ? allWords : words;
-  const picked = shuffle(words).slice(0, QUIZ_SIZE);
+  const picked = shuffle(words).slice(0, quizSize);
 
   return picked.map((w, idx) => {
     // Cycle through available types based on word data
