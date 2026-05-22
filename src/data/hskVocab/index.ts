@@ -39,6 +39,7 @@ const _all: HskWord[] = [
   ...hskExpansion7Words,
   ...hskExpansion8Words,
   ...hskExpansion9Words,
+  ...hskExpansion10Words,
 ];
 
 // Deduplicate by character (keeps first occurrence)
