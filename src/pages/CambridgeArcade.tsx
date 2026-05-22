@@ -14,8 +14,7 @@ import { useState, useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ArrowLeft, Heart, Trophy, Sparkles, Star,
-  Music, Balloon as BalloonIcon, Volume2,
+  ArrowLeft, Heart, Trophy, Sparkles, Star, Volume2,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
