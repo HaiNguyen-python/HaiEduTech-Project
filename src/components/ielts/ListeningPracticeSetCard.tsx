@@ -37,7 +37,7 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
   const [playing, setPlaying] = useState(false);
   const [paused, setPaused] = useState(false);
   // Slower, more natural default — matches real exam pacing.
-  const [rate, setRate] = useState(s.rate ?? 0.85);
+  const [rate, setRate] = useState(s.rate ?? 0.78);
   const chunkTimerRef = useRef<number | null>(null);
   const cancelledRef = useRef(false);
 
@@ -82,16 +82,23 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
       setPaused(false);
       return;
     }
-    const u = new SpeechSynthesisUtterance(chunks[idx]);
+    const raw = chunks[idx];
+    // Detect spelling (A-B-C, hyphenated single letters) or long digit sequences and slow down + add pauses
+    const isSpelling = /(?:\b[A-Z](?:[-\s][A-Z]){2,}\b)|(?:\b(?:zero|one|two|three|four|five|six|seven|eight|nine|oh|double|triple)(?:[\s,-]+(?:zero|one|two|three|four|five|six|seven|eight|nine|oh|double|triple)){2,}\b)|(?:\b\d{4,}\b)/i.test(raw);
+    // Insert tiny pauses between hyphen-separated letters so each letter is heard clearly
+    const text = isSpelling
+      ? raw.replace(/-/g, ", ").replace(/\b([A-Z])\b/g, "$1,")
+      : raw;
+    const u = new SpeechSynthesisUtterance(text);
     u.lang = "en-GB";
-    u.rate = rate;
+    u.rate = isSpelling ? Math.min(rate, 0.55) : rate;
     u.pitch = 1;
     const v = pickVoice();
     if (v) u.voice = v;
     const isDialogueChange =
       idx > 0 && /^[A-Z][a-z]+:/.test(chunks[idx]) && !/^[A-Z][a-z]+:/.test(chunks[idx - 1]);
-    // Pause between sentences: longer for paragraph / speaker change.
-    const gapMs = isDialogueChange ? 700 : /[?!]$/.test(chunks[idx - 1] ?? "") ? 550 : 380;
+    // Pause between sentences: longer for paragraph / speaker change. Even longer after spelling.
+    const gapMs = isSpelling ? 900 : isDialogueChange ? 700 : /[?!]$/.test(chunks[idx - 1] ?? "") ? 550 : 420;
     u.onend = () => {
       if (cancelledRef.current) return;
       chunkTimerRef.current = window.setTimeout(() => speakChunks(chunks, idx + 1), gapMs);

@@ -781,53 +781,72 @@ const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
   if (gameOver) return <GameOverScreen score={score} onRetry={() => window.location.reload()} onExit={onExit} />;
   if (!currentWord) return <p className="text-center p-8">Loading...</p>;
 
-  // Build masked pinyin: replace vowels with _
-  const maskedPinyin = currentWord.pinyin.replace(/[āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜüaeiou]/g, "_");
+  // Strip tone diacritics but keep the letters — students see the syllable and only pick the tone.
+  const TONE_MAP: Record<string, string> = {
+    "ā":"a","á":"a","ǎ":"a","à":"a",
+    "ē":"e","é":"e","ě":"e","è":"e",
+    "ī":"i","í":"i","ǐ":"i","ì":"i",
+    "ō":"o","ó":"o","ǒ":"o","ò":"o",
+    "ū":"u","ú":"u","ǔ":"u","ù":"u",
+    "ǖ":"ü","ǘ":"ü","ǚ":"ü","ǜ":"ü",
+  };
+  const tonelessPinyin = currentWord.pinyin.replace(/[āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ]/g, (c) => TONE_MAP[c] ?? c);
 
   return (
     <div className="space-y-3 max-w-5xl mx-auto">
       <div className="flex items-center justify-between gap-2">
-        <Button variant="outline" size="sm" onClick={onExit} className="bg-slate-900 border-pink-500/60 text-pink-200 hover:bg-slate-800 hover:text-white">
+        <Button size="sm" onClick={onExit} className="bg-slate-900 hover:bg-slate-800 text-pink-100 border-2 border-pink-400 shadow-[0_0_10px_rgba(236,72,153,0.35)]">
           <ArrowLeft className="w-4 h-4 mr-1" /> {t("Quay lại", "Back")}
         </Button>
-        <span className="text-xs text-pink-300/80 font-mono uppercase tracking-wider">🐉 Pinyin Tone Runner</span>
+        <span className="text-xs text-pink-100 font-mono uppercase tracking-wider bg-slate-900/70 px-2 py-1 rounded">🐉 Pinyin Tone Runner</span>
       </div>
       <HUD score={score} combo={combo} level={level} lives={lives} />
       <div
-        className={`relative rounded-2xl border-2 overflow-hidden bg-gradient-to-b from-slate-950 via-pink-950/30 to-slate-900 transition-colors ${
-          flashCorrect ? "border-green-400 shadow-[0_0_30px_rgba(74,222,128,0.6)]" : flashWrong ? "border-rose-500 shadow-[0_0_30px_rgba(244,63,94,0.6)]" : "border-pink-500/40"
+        className={`relative rounded-2xl border-2 overflow-hidden bg-gradient-to-b from-sky-400 via-fuchsia-400 to-amber-300 transition-colors ${
+          flashCorrect ? "border-green-400 shadow-[0_0_30px_rgba(74,222,128,0.7)]" : flashWrong ? "border-rose-500 shadow-[0_0_30px_rgba(244,63,94,0.7)]" : "border-pink-500/60"
         }`}
         style={{ height: 520 }}
       >
+        {/* Sparkly clouds backdrop */}
+        <div className="absolute inset-0 pointer-events-none">
+          {["☁️","☁️","✨","🌸","⭐","🎈"].map((e, i) => (
+            <motion.span key={i}
+              animate={{ y: [0, -12, 0], x: [0, 6, 0] }}
+              transition={{ duration: 4 + i, repeat: Infinity, delay: i * 0.4 }}
+              className="absolute text-3xl opacity-80"
+              style={{ left: `${(i * 17 + 6) % 92}%`, top: `${(i * 13 + 8) % 40}%` }}
+            >{e}</motion.span>
+          ))}
+        </div>
+
         {/* Word display top */}
         <div className="absolute top-4 left-0 right-0 text-center z-10">
-          <p className="text-5xl sm:text-6xl font-bold text-white drop-shadow-[0_0_10px_rgba(236,72,153,0.8)] mb-1">
+          <p className="text-5xl sm:text-6xl font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)] mb-1">
             {currentWord.character}
           </p>
-          <p className="text-xl font-mono text-pink-300 tracking-widest">{maskedPinyin}</p>
-          <p className="text-xs text-pink-200/70 mt-1">{currentWord.definition.vi}</p>
+          <p className="text-2xl font-mono text-white tracking-widest drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]">{tonelessPinyin}</p>
+          <p className="text-sm text-white mt-1 drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)] font-semibold">{currentWord.definition.vi}</p>
+          <p className="text-[11px] text-white/90 mt-0.5">{t("Chọn dấu thanh đúng cho âm này", "Pick the correct tone for this syllable")}</p>
         </div>
 
         {/* 4 vertical tracks with tone clouds */}
-        <div className="absolute inset-0 grid grid-cols-4 pt-32">
+        <div className="absolute inset-0 grid grid-cols-4 pt-40">
           {trackTones.map((tone, idx) => (
             <button
               key={idx}
               onClick={() => submitChoice(idx)}
-              className={`relative border-x border-pink-500/20 flex flex-col items-center justify-start pt-4 transition-colors ${
-                playerTrack === idx ? "bg-pink-500/10" : "hover:bg-pink-500/5"
+              className={`relative border-x border-white/30 flex flex-col items-center justify-start pt-4 transition-colors ${
+                playerTrack === idx ? "bg-white/25" : "hover:bg-white/15"
               }`}
             >
-              {/* Tone cloud */}
               <motion.div
                 animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 2, repeat: Infinity }}
-                className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-pink-400 to-purple-600 flex items-center justify-center text-3xl sm:text-4xl font-bold text-white shadow-[0_0_20px_rgba(236,72,153,0.6)] border-2 border-pink-200"
+                className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-pink-500 to-purple-700 flex items-center justify-center text-3xl sm:text-4xl font-bold text-white shadow-[0_0_20px_rgba(236,72,153,0.6)] border-2 border-white"
               >
                 {tone}
               </motion.div>
-              {/* Track number */}
-              <span className="absolute bottom-24 text-xs text-pink-300 font-mono">{idx + 1}</span>
+              <span className="absolute bottom-24 text-xs text-white font-mono bg-black/40 px-2 py-0.5 rounded">{idx + 1}</span>
             </button>
           ))}
         </div>
@@ -841,7 +860,6 @@ const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
           🏃
         </motion.div>
 
-        {/* Ground */}
         <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 shadow-[0_0_15px_rgba(236,72,153,0.6)]" />
       </div>
 
@@ -860,7 +878,7 @@ const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
       <p className="text-xs text-center text-muted-foreground">
         {t("Phím 1-4 hoặc bấm vào ô có dấu thanh đúng", "Press 1-4 or tap the track with the correct tone")}
       </p>
-      <Button variant="outline" onClick={onExit} className="w-full">
+      <Button onClick={onExit} className="w-full bg-slate-900 hover:bg-slate-800 text-pink-100 border-2 border-pink-400 shadow-[0_0_15px_rgba(236,72,153,0.35)]">
         <ArrowLeft className="w-4 h-4 mr-2" /> {t("Thoát", "Exit")}
       </Button>
     </div>
@@ -1288,7 +1306,7 @@ const ChineseArcade = () => {
             </div>
 
             {/* Game cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 max-w-7xl mx-auto">
               {games.map((g, i) => (
                 <motion.button
                   key={g.id}
