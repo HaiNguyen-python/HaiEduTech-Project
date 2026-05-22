@@ -532,6 +532,9 @@ function MemoryMatch({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
   const [moves, setMoves] = useState(0);
   const [matches, setMatches] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [elapsed, setElapsed] = useState(0);
+  const [running, setRunning] = useState(false);
+  const startRef = useRef<number>(0);
 
   const config = MEMORY_CONFIG[difficulty];
 
@@ -548,14 +551,27 @@ function MemoryMatch({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
     setMoves(0);
     setMatches(0);
     setSubmitted(false);
+    setElapsed(0);
+    setRunning(false);
+    startRef.current = 0;
   };
 
   useEffect(() => { setup(); /* eslint-disable-next-line */ }, [level, difficulty]);
+
+  // Stopwatch
+  useEffect(() => {
+    if (!running) return;
+    const id = window.setInterval(() => {
+      setElapsed(Math.floor((Date.now() - startRef.current) / 1000));
+    }, 250);
+    return () => clearInterval(id);
+  }, [running]);
 
   const click = (id: number) => {
     if (flipped.includes(id) || flipped.length === 2) return;
     const card = cards.find(c => c.id === id);
     if (!card || card.matched) return;
+    if (!running) { startRef.current = Date.now(); setRunning(true); }
     const newFlipped = [...flipped, id];
     setFlipped(newFlipped);
 
@@ -578,8 +594,14 @@ function MemoryMatch({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
   const done = matches > 0 && matches === cards.length / 2;
   const gameType = `memory_match_${difficulty}`;
 
-  // Score: more pairs + fewer moves = higher
-  const finalScore = done ? Math.max(0, config.pairs * 30 - (moves - config.pairs) * 5) : 0;
+  // Stop the clock when finished
+  useEffect(() => { if (done) setRunning(false); }, [done]);
+
+  // Final score: faster + fewer moves = higher. Sorts naturally desc on leaderboard.
+  const finalScore = done
+    ? Math.max(1, config.pairs * 200 - elapsed * 5 - Math.max(0, moves - config.pairs) * 8)
+    : 0;
+
   useEffect(() => {
     if (done && !submitted) {
       setSubmitted(true);
@@ -587,22 +609,29 @@ function MemoryMatch({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
         gameType,
         score: finalScore,
         difficulty: `${level}-${difficulty}`,
-        metadata: { moves, pairs: config.pairs },
+        metadata: { moves, pairs: config.pairs, timeSec: elapsed },
       });
     }
-  }, [done, submitted, finalScore, gameType, level, difficulty, moves, config.pairs]);
+  }, [done, submitted, finalScore, gameType, level, difficulty, moves, config.pairs, elapsed]);
+
+  const fmtTime = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4">
-      <div className="min-h-[70vh] bg-gradient-to-br from-purple-200 via-pink-100 to-rose-200 dark:from-purple-950 dark:via-fuchsia-950 dark:to-rose-950 rounded-3xl p-4 sm:p-6">
-        <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
+      <div className="relative overflow-hidden min-h-[70vh] bg-gradient-to-br from-purple-200 via-pink-100 to-rose-200 dark:from-purple-950 dark:via-fuchsia-950 dark:to-rose-950 rounded-3xl p-4 sm:p-6">
+        <motion.div animate={{ y: [0, -8, 0] }} transition={{ duration: 2.5, repeat: Infinity }} className="pointer-events-none absolute bottom-4 right-4 text-7xl drop-shadow-xl">🦄</motion.div>
+        <div className="relative flex items-center justify-between flex-wrap gap-3 mb-4">
           <Button variant="secondary" size="sm" onClick={onExit}>
             <ArrowLeft className="w-4 h-4 mr-1" /> Exit
           </Button>
           <div className="flex gap-2 flex-wrap">
+            <Badge className={`text-white ${elapsed >= 60 ? "bg-rose-600" : "bg-emerald-600"}`}>
+              <Timer className="w-4 h-4 mr-1" /> {fmtTime(elapsed)}
+            </Badge>
             <Badge className="bg-purple-500 text-white">Moves: {moves}</Badge>
             <Badge className="bg-pink-500 text-white">Pairs: {matches}/{cards.length / 2}</Badge>
           </div>
+        </div>
         </div>
 
         {/* Difficulty selector */}
