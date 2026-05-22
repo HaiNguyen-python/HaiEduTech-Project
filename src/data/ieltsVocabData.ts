@@ -868,3 +868,13 @@ const _ieltsBase: IeltsWord[] = [
   { word: "vulnerability", ipa: "/ˌvʌl.nər.əˈbɪl.ə.ti/", level: "B2", definition: { en: "the quality of being exposed to harm", vi: "tính dễ bị tổn thương" }, example: "Vulnerability to natural disasters varies by region.", synonyms: ["the quality of being exposed to harm"], collocations: ["vulnerability analysis", "vulnerability process"], category: "Disaster & Risk", partOfSpeech: "noun" },
   { word: "unprecedented", ipa: "/ʌnˈpres.ɪ.den.tɪd/", level: "B2", definition: { en: "never done or known before", vi: "chưa từng có" }, example: "The pandemic caused unprecedented disruption.", synonyms: ["never done or known before"], collocations: ["unprecedented analysis", "unprecedented process"], category: "Disaster & Risk", partOfSpeech: "noun" },
 ];
+
+import { ieltsVocabExpansion } from "./ieltsVocabExpansion";
+
+const _ieltsSeen = new Set<string>();
+export const ieltsVocabData: IeltsWord[] = [..._ieltsBase, ...ieltsVocabExpansion].filter((w) => {
+  const k = w.word.toLowerCase();
+  if (_ieltsSeen.has(k)) return false;
+  _ieltsSeen.add(k);
+  return true;
+});
