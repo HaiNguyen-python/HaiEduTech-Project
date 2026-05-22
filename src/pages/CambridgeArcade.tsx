@@ -733,7 +733,16 @@ const SYNONYM_BANK: SynonymItem[] = [
   { word: "magnificent", vi: "tráng lệ", synonym: "splendid", emoji: "🏰", level: "B2" },
 ];
 
-function SynonymSprint({ onExit }: { onExit: () => void }) {
+// Cambridge level → cumulative CEFR pool
+const LEVEL_TO_CEFR: Record<CambridgeKidsLevel, ("A1" | "A2" | "B1" | "B2")[]> = {
+  Starters: ["A1"],
+  Movers:   ["A1", "A2"],
+  Flyers:   ["A1", "A2"],
+  KET:      ["A1", "A2", "B1"],
+  PET:      ["A1", "A2", "B1", "B2"],
+};
+
+function SynonymSprint({ level, onExit }: { level: CambridgeKidsLevel; onExit: () => void }) {
   const { t } = useLanguage();
   const [idx, setIdx] = useState(0);
   const [lives, setLives] = useState(3);
@@ -743,7 +752,14 @@ function SynonymSprint({ onExit }: { onExit: () => void }) {
   const [timer, setTimer] = useState(10);
   const [feedback, setFeedback] = useState<"ok" | "err" | null>(null);
   const [submitted, setSubmitted] = useState(false);
-  const pool = useMemo(() => shuffle(SYNONYM_BANK).slice(0, 14), []);
+  const levelPool = useMemo(
+    () => SYNONYM_BANK.filter((w) => LEVEL_TO_CEFR[level].includes(w.level)),
+    [level]
+  );
+  const pool = useMemo(
+    () => shuffle(levelPool).slice(0, Math.min(14, levelPool.length)),
+    [levelPool]
+  );
   const current = pool[idx];
   const options = useMemo(() => {
     if (!current) return [];
