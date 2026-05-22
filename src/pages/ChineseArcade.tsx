@@ -399,7 +399,7 @@ const HotpotChef = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: ()
   useEffect(() => {
     if (gameOver && !scoreSubmittedRef.current) {
       scoreSubmittedRef.current = true;
-      submitGameScore(`hotpot_chef_${difficulty}`, score, combo);
+      submitGameScore({ gameType: `hotpot_chef_${difficulty}`, score, maxStreak: combo, difficulty });
     }
   }, [gameOver, score, combo, difficulty]);
 
