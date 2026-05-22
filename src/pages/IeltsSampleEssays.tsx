@@ -125,6 +125,11 @@ const IeltsSampleEssays = () => {
             </div>
           )}
 
+          <Button size="sm" variant={starredOnly ? "default" : "outline"} onClick={() => setStarredOnly(s => !s)} className="gap-1.5">
+            <Star className={`w-4 h-4 ${starredOnly ? "fill-current" : ""}`} />
+            {t("Đã đánh dấu", "Starred")} ({stars.size})
+          </Button>
+
           <div className="relative md:ml-auto md:w-64">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
