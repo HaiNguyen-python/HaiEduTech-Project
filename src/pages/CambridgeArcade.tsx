@@ -304,7 +304,7 @@ function SpellingBee({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
   const [letters, setLetters] = useState<{ ch: string; used: boolean }[]>([]);
   const [typed, setTyped] = useState<string>("");
   const [feedback, setFeedback] = useState<"correct" | "wrong" | "timeout" | null>(null);
-  const [timeLeft, setTimeLeft] = useState(15);
+  const [timeLeft, setTimeLeft] = useState(20);
   const [submitted, setSubmitted] = useState(false);
   const timerRef = useRef<number>();
 
