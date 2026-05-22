@@ -415,5 +415,24 @@ export const BEGINNER_QUIZ_EXTRA: BeginnerQuiz[] = [
   },
 ];
 
+// =============================================================
+// QUIZ MỞ RỘNG SET 2 - 10 câu nữa (A1-A2)
+// =============================================================
+const BEGINNER_QUIZ_EXTRA_2: BeginnerQuiz[] = [
+  { question: "What does 'koira' mean?", questionVi: "'koira' nghĩa là gì?", options: ["mèo", "chó", "ngựa", "chim"], answer: 1, explanation: "koira = dog.", explanationVi: "koira = con chó." },
+  { question: "How do you say 'red' in Finnish?", questionVi: "'Đỏ' tiếng Phần Lan là gì?", options: ["sininen", "vihreä", "punainen", "keltainen"], answer: 2, explanation: "punainen = red.", explanationVi: "punainen = đỏ." },
+  { question: "Negative present of 'puhua' (he speaks) is…", questionVi: "Phủ định hiện tại 'hän puhuu' là…", options: ["hän ei puhuu", "hän ei puhu", "hän en puhu", "hän ole puhu"], answer: 1, explanation: "Negation uses ei + verb stem without ending: ei puhu.", explanationVi: "Phủ định: 'ei' + thân động từ không đuôi → ei puhu." },
+  { question: "Pick the correct: 'I have a cat'.", questionVi: "Chọn đúng: 'Tôi có một con mèo'.", options: ["Minulla on kissa", "Minä on kissa", "Minä omistan kissan", "Minä olen kissa"], answer: 0, explanation: "Possession uses 'minulla on' = 'on me is'.", explanationVi: "Sở hữu dùng 'minulla on' = 'tôi có'." },
+  { question: "Plural of 'kirja' (book) is…", questionVi: "Số nhiều của 'kirja' là…", options: ["kirjat", "kirjas", "kirjoja", "kirjojen"], answer: 0, explanation: "Nominative plural: kirja → kirjat.", explanationVi: "Số nhiều cách 1: kirja → kirjat." },
+  { question: "'Talo' means…", questionVi: "'Talo' nghĩa là…", options: ["xe", "trường", "nhà", "đường"], answer: 2, explanation: "talo = house.", explanationVi: "talo = nhà." },
+  { question: "Correct partitive of 'vesi' (water)?", questionVi: "Partitive đúng của 'vesi'?", options: ["vesi", "vetta", "vettä", "vesiä"], answer: 2, explanation: "vesi → vettä (consonant gradation t→tt + ä).", explanationVi: "vesi → vettä (biến đổi t→tt + ä)." },
+  { question: "How to ask 'What is your name?'", questionVi: "Hỏi 'Bạn tên gì?'", options: ["Mikä on nimesi?", "Mistä olet?", "Kuka sinä?", "Missä asut?"], answer: 0, explanation: "Mikä on nimesi? literally 'What is your name?'", explanationVi: "Mikä on nimesi? nghĩa đen 'Tên bạn là gì?'" },
+  { question: "Translate 'Anteeksi'.", questionVi: "Dịch 'Anteeksi'.", options: ["Cảm ơn", "Xin chào", "Xin lỗi", "Tạm biệt"], answer: 2, explanation: "Anteeksi = sorry / excuse me.", explanationVi: "Anteeksi = xin lỗi." },
+  { question: "Which verb means 'to eat'?", questionVi: "Động từ nào nghĩa 'ăn'?", options: ["juoda", "syödä", "nukkua", "mennä"], answer: 1, explanation: "syödä = to eat (Type 2).", explanationVi: "syödä = ăn (Loại 2)." },
+];
+
+// Re-export merged quiz
+export const BEGINNER_QUIZ_EXTRA_FULL = [...BEGINNER_QUIZ_EXTRA, ...BEGINNER_QUIZ_EXTRA_2];
+
 // Optional: re-export verb examples helper
 export const _verbTypesPlaceholder = (v: VerbType) => v.type;
