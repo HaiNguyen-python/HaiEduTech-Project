@@ -405,7 +405,7 @@ function SpellingBee({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
         ) : current && (
           <div className="text-center">
             <div className="text-7xl mb-2">{current.emoji}</div>
-            <p className="text-sm text-foreground/70 mb-1">Spell this word in 15 seconds!</p>
+            <p className="text-sm text-foreground/70 mb-1">Spell this word in 20 seconds! (type or tap letters)</p>
             <button
               onClick={() => speakEn(current.word)}
               className="inline-flex items-center gap-2 text-xl font-bold text-foreground/80 hover:text-primary"
