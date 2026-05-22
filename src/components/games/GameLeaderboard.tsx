@@ -101,13 +101,13 @@ const GameLeaderboard = ({ gameType, currentScore }: GameLeaderboardProps) => {
 
   return (
     <div className="space-y-2">
-      <h3 className="text-sm font-bold text-foreground flex items-center gap-2 mb-3">
+      <h3 className="text-base font-bold flex items-center gap-2 mb-3">
         <Trophy className="w-4 h-4 text-amber-400" />
-        {t("Bảng xếp hạng", "Leaderboard")}
+        <span className="text-amber-200">{t("Bảng xếp hạng", "Leaderboard")}</span>
       </h3>
 
       {entries.length === 0 ? (
-        <p className="text-xs text-muted-foreground text-center py-4">
+        <p className="text-xs text-slate-300 text-center py-4">
           {t("Chưa có điểm nào. Hãy là người đầu tiên!", "No scores yet. Be the first!")}
         </p>
       ) : (
@@ -117,19 +117,19 @@ const GameLeaderboard = ({ gameType, currentScore }: GameLeaderboardProps) => {
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: i * 0.05 }}
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs ${
+            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm ${
               i === 0
-                ? "bg-amber-500/10 border border-amber-500/30"
-                : "bg-card/50 border border-border/50"
+                ? "bg-amber-500/20 border border-amber-400/50"
+                : "bg-slate-800/80 border border-slate-700"
             }`}
           >
             <span className="w-5 flex-shrink-0">
-              {i < 3 ? rankIcons[i] : <span className="text-muted-foreground font-mono">#{i + 1}</span>}
+              {i < 3 ? rankIcons[i] : <span className="text-slate-400 font-mono">#{i + 1}</span>}
             </span>
-            <span className="flex-1 truncate font-medium text-foreground">
+            <span className="flex-1 truncate font-medium text-slate-100">
               {entry.display_name}
             </span>
-            <span className="font-bold text-primary">{entry.score}</span>
+            <span className="font-bold text-amber-300">{entry.score}</span>
             {entry.max_streak > 0 && (
               <span className="text-orange-400">🔥{entry.max_streak}</span>
             )}
@@ -138,8 +138,8 @@ const GameLeaderboard = ({ gameType, currentScore }: GameLeaderboardProps) => {
       )}
 
       {currentScore !== undefined && currentScore > 0 && (
-        <div className="mt-2 px-3 py-2 rounded-lg bg-primary/10 border border-primary/30 text-xs">
-          <span className="text-primary font-bold">
+        <div className="mt-2 px-3 py-2 rounded-lg bg-cyan-500/20 border border-cyan-400/50 text-sm">
+          <span className="text-cyan-200 font-bold">
             {t("Điểm của bạn", "Your score")}: {currentScore}
           </span>
         </div>
