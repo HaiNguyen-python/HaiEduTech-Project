@@ -610,10 +610,11 @@ const TONE_MARKS = ["ˉ", "ˊ", "ˇ", "ˋ"];
 
 const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: () => void }) => {
   const { t } = useLanguage();
-  // Pick only single-syllable words so we have exactly one tone to target
+  // Pick only single-character + single-syllable words so the tone target is unambiguous
   const singleTone = useMemo(
     () =>
       wordsForDifficulty(difficulty).filter(w => {
+        if (Array.from(w.character).length !== 1) return false;
         const tones = extractTones(w.pinyin);
         return tones.length === 1 && TONE_MARKS.includes(tones[0]);
       }),
