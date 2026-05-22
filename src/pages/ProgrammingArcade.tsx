@@ -15,8 +15,9 @@ import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
+import CodeGalaxy from "@/components/games/CodeGalaxy";
 
-type GameId = "menu" | "sql" | "pipeline" | "tuner";
+type GameId = "menu" | "sql" | "pipeline" | "tuner" | "galaxy";
 
 interface LogLine {
   id: number;
@@ -475,6 +476,7 @@ const ProgrammingArcade = () => {
     { id: "sql" as const, title: "SQL Dungeon", desc: t("Trận đấu RPG dùng SELECT/WHERE/COUNT để hạ quái.", "Retro RPG: defeat monsters with SQL queries."), icon: Database, color: "from-violet-500 to-purple-600" },
     { id: "pipeline" as const, title: "Data Pipeline Plumber", desc: t("Kéo thả Extract → Filter → Transform → Load.", "Drag Extract → Filter → Transform → Load."), icon: Code2, color: "from-cyan-500 to-emerald-500" },
     { id: "tuner" as const, title: "AI Parameter Tuner", desc: t("Tinh chỉnh siêu tham số để chạm Sweet Spot.", "Tune hyperparameters to hit the Sweet Spot."), icon: Brain, color: "from-fuchsia-500 to-pink-500" },
+    { id: "galaxy" as const, title: "Code Galaxy", desc: t("Sắp xếp snippet code đúng category — Foundations, Data, AI.", "Sort code snippets by category — Foundations, Data, AI."), icon: Sparkles, color: "from-emerald-500 to-cyan-500" },
   ];
 
   return (
@@ -531,6 +533,7 @@ const ProgrammingArcade = () => {
           {!loading && game === "sql" && <SqlDungeon pushLog={pushLog} addXp={addXp} />}
           {!loading && game === "pipeline" && <PipelinePlumber pushLog={pushLog} addXp={addXp} />}
           {!loading && game === "tuner" && <AiTuner pushLog={pushLog} addXp={addXp} />}
+          {!loading && game === "galaxy" && <CodeGalaxy onExit={() => setGame("menu")} onScore={addXp} />}
 
           <div className="text-center mt-8">
             <Link to="/programming" className="text-xs font-mono text-slate-500 hover:text-emerald-300">&lt; ../programming</Link>
