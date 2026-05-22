@@ -469,7 +469,7 @@ const HskVocabulary = () => {
 
             {/* Content based on mode */}
             {viewMode === "exercise" ? (
-              <HskExercise words={filtered} t={t} />
+              <HskExercise masteredWords={hskVocabData.filter(w => mastered.has(w.character))} t={t} />
             ) : viewMode === "flashcard" ? (
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <AnimatePresence mode="popLayout">
