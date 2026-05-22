@@ -321,10 +321,10 @@ const FinnishArcade = () => {
   const [totalXp, setTotalXp] = useState(0);
 
   const games = [
-    { id: "sauna" as const, title: t("Sauna Match", "Sauna Match"), desc: t("Ghép từ tiếng Phần với nghĩa tiếng Việt.", "Match Finnish words with Vietnamese meanings."), icon: Snowflake, color: "from-sky-500 to-cyan-500" },
-    { id: "runner" as const, title: t("Reindeer Runner", "Reindeer Runner"), desc: t("Chọn từ tiếng Phần đúng để tuần lộc về đích.", "Pick the right Finnish word to help the reindeer."), icon: Compass, color: "from-amber-500 to-rose-500" },
-    { id: "inflection" as const, title: t("Inflection Detective", "Inflection Detective"), desc: t("Nhận diện cách (case) của danh từ Phần Lan.", "Identify the correct Finnish noun case."), icon: Target, color: "from-fuchsia-500 to-purple-500" },
-    { id: "meteor" as const, title: t("Word Meteor (Suomi)", "Word Meteor (Suomi)"), desc: t("Bắn nghĩa đúng cho thiên thạch từ vựng tiếng Phần Lan.", "Tap the correct meaning of falling Finnish meteors."), icon: Rocket, color: "from-red-500 to-orange-600" },
+    { id: "sauna" as const, chibi: "🧖", title: t("Sauna Match", "Sauna Match"), desc: t("Ghép từ tiếng Phần với nghĩa tiếng Việt.", "Match Finnish words with Vietnamese meanings."), icon: Snowflake, color: "from-sky-500 to-cyan-500" },
+    { id: "runner" as const, chibi: "🦌", title: t("Reindeer Runner", "Reindeer Runner"), desc: t("Chọn từ tiếng Phần đúng để tuần lộc về đích.", "Pick the right Finnish word to help the reindeer."), icon: Compass, color: "from-amber-500 to-rose-500" },
+    { id: "inflection" as const, chibi: "🕵️", title: t("Inflection Detective", "Inflection Detective"), desc: t("Nhận diện cách (case) của danh từ Phần Lan.", "Identify the correct Finnish noun case."), icon: Target, color: "from-fuchsia-500 to-purple-500" },
+    { id: "meteor" as const, chibi: "☃️", title: t("Word Meteor (Suomi)", "Word Meteor (Suomi)"), desc: t("Bắn nghĩa đúng cho thiên thạch từ vựng tiếng Phần Lan.", "Tap the correct meaning of falling Finnish meteors."), icon: Rocket, color: "from-red-500 to-orange-600" },
   ];
 
   return (
