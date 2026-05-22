@@ -76,6 +76,33 @@ const HskHub = () => {
           </ul>
         </motion.div>
 
+        {/* HSK Test CTA Banner — prominent entry to mock exams */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="mb-8"
+        >
+          <Link to="/chinese/hsk/test" className="block group">
+            <Card className="p-6 border-2 border-rose-500/40 bg-gradient-to-r from-rose-500/10 via-orange-500/10 to-amber-500/10 hover:border-rose-500/70 hover:shadow-xl transition-all">
+              <div className="flex items-center gap-4 flex-wrap">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-rose-500 to-orange-500 flex items-center justify-center text-3xl shadow-lg shrink-0">📝</div>
+                <div className="flex-1 min-w-[220px]">
+                  <h2 className="text-xl md:text-2xl font-display font-bold text-foreground">
+                    {t("HSK Test · Đề thi thử HSK 1-6", "HSK Test · Mock Exams HSK 1-6")}
+                  </h2>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {t("Bài thi mô phỏng đề thật cho cả 6 cấp độ — Listening, Reading, Writing, có hẹn giờ và chấm điểm tự động.", "Realistic mock exams for all 6 levels — Listening, Reading, Writing with auto-timing and scoring.")}
+                  </p>
+                </div>
+                <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-rose-500 to-orange-500 text-white font-semibold shadow-md group-hover:brightness-110 transition-all">
+                  {t("Vào thi ngay", "Take a Test")} <ArrowRight className="w-4 h-4" />
+                </div>
+              </div>
+            </Card>
+          </Link>
+        </motion.div>
+
         {/* Level Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {HSK_LEVEL_GUIDES.map((g, i) => {
