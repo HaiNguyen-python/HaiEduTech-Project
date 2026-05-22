@@ -650,9 +650,157 @@ function MemoryMatch({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
 }
 
 // ─────────────────────────────────────────────────────────────
+// GAME 5 — Synonym Sprint (pick the matching synonym)
+// ─────────────────────────────────────────────────────────────
+interface SynonymItem { word: string; vi: string; synonym: string; emoji: string; level: "A1" | "A2" | "B1" | "B2"; }
+const SYNONYM_BANK: SynonymItem[] = [
+  { word: "happy", vi: "vui vẻ", synonym: "joyful", emoji: "😊", level: "A1" },
+  { word: "sad", vi: "buồn", synonym: "unhappy", emoji: "😢", level: "A1" },
+  { word: "big", vi: "to lớn", synonym: "large", emoji: "🐘", level: "A1" },
+  { word: "small", vi: "nhỏ", synonym: "tiny", emoji: "🐭", level: "A1" },
+  { word: "fast", vi: "nhanh", synonym: "quick", emoji: "⚡", level: "A1" },
+  { word: "slow", vi: "chậm", synonym: "sluggish", emoji: "🐢", level: "A2" },
+  { word: "smart", vi: "thông minh", synonym: "clever", emoji: "🧠", level: "A2" },
+  { word: "brave", vi: "dũng cảm", synonym: "courageous", emoji: "🦁", level: "A2" },
+  { word: "begin", vi: "bắt đầu", synonym: "start", emoji: "🚀", level: "A2" },
+  { word: "end", vi: "kết thúc", synonym: "finish", emoji: "🏁", level: "A2" },
+  { word: "help", vi: "giúp đỡ", synonym: "assist", emoji: "🤝", level: "A2" },
+  { word: "important", vi: "quan trọng", synonym: "crucial", emoji: "⭐", level: "B1" },
+  { word: "ancient", vi: "cổ xưa", synonym: "old", emoji: "🏛️", level: "B1" },
+  { word: "huge", vi: "khổng lồ", synonym: "enormous", emoji: "🐋", level: "B1" },
+  { word: "wealthy", vi: "giàu có", synonym: "rich", emoji: "💰", level: "B1" },
+  { word: "powerful", vi: "mạnh mẽ", synonym: "strong", emoji: "💪", level: "B1" },
+  { word: "beautiful", vi: "xinh đẹp", synonym: "gorgeous", emoji: "🌸", level: "B1" },
+  { word: "difficult", vi: "khó", synonym: "hard", emoji: "🧩", level: "B1" },
+  { word: "essential", vi: "thiết yếu", synonym: "vital", emoji: "🔑", level: "B2" },
+  { word: "abundant", vi: "dồi dào", synonym: "plentiful", emoji: "🌾", level: "B2" },
+  { word: "deliberate", vi: "cố ý", synonym: "intentional", emoji: "🎯", level: "B2" },
+  { word: "fragile", vi: "dễ vỡ", synonym: "delicate", emoji: "🪞", level: "B2" },
+  { word: "intricate", vi: "phức tạp", synonym: "complex", emoji: "🕸️", level: "B2" },
+  { word: "magnificent", vi: "tráng lệ", synonym: "splendid", emoji: "🏰", level: "B2" },
+];
+
+function SynonymSprint({ onExit }: { onExit: () => void }) {
+  const { t } = useLanguage();
+  const [idx, setIdx] = useState(0);
+  const [lives, setLives] = useState(3);
+  const [score, setScore] = useState(0);
+  const [maxStreak, setMaxStreak] = useState(0);
+  const [streak, setStreak] = useState(0);
+  const [timer, setTimer] = useState(10);
+  const [feedback, setFeedback] = useState<"ok" | "err" | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+  const pool = useMemo(() => shuffle(SYNONYM_BANK).slice(0, 14), []);
+  const current = pool[idx];
+  const options = useMemo(() => {
+    if (!current) return [];
+    const wrong = shuffle(SYNONYM_BANK.filter((w) => w.word !== current.word && w.synonym !== current.synonym))
+      .slice(0, 3).map((w) => w.synonym);
+    return shuffle([current.synonym, ...wrong]);
+  }, [current]);
+
+  useEffect(() => {
+    if (lives <= 0 || idx >= pool.length || feedback) return;
+    setTimer(10);
+    const tick = setInterval(() => setTimer((t) => Math.max(0, t - 1)), 1000);
+    const out = setTimeout(() => {
+      setLives((l) => l - 1);
+      setStreak(0);
+      setFeedback("err");
+      setTimeout(() => { setFeedback(null); setIdx((i) => i + 1); }, 700);
+    }, 10_000);
+    return () => { clearInterval(tick); clearTimeout(out); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idx, lives]);
+
+  const pick = (opt: string) => {
+    if (!current || feedback) return;
+    if (opt === current.synonym) {
+      const delta = 12 + streak * 2 + timer;
+      setScore((s) => s + delta);
+      setStreak((s) => { const ns = s + 1; setMaxStreak((m) => Math.max(m, ns)); return ns; });
+      setFeedback("ok");
+      speakEn(current.word);
+    } else {
+      setLives((l) => l - 1);
+      setStreak(0);
+      setFeedback("err");
+    }
+    setTimeout(() => { setFeedback(null); setIdx((i) => i + 1); }, 700);
+  };
+
+  const done = lives <= 0 || idx >= pool.length;
+  useEffect(() => {
+    if (done && !submitted && score > 0) {
+      setSubmitted(true);
+      submitGameScore({ gameType: "synonym_sprint", score, maxStreak });
+    }
+  }, [done, submitted, score, maxStreak]);
+
+  const restart = () => { setIdx(0); setLives(3); setScore(0); setStreak(0); setMaxStreak(0); setSubmitted(false); };
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4">
+      <div className="min-h-[70vh] bg-gradient-to-br from-violet-200 via-fuchsia-100 to-amber-100 dark:from-violet-950 dark:via-fuchsia-950 dark:to-slate-900 rounded-3xl p-4 sm:p-6">
+        <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
+          <Button variant="secondary" size="sm" onClick={onExit}>
+            <ArrowLeft className="w-4 h-4 mr-1" /> Exit
+          </Button>
+          <div className="flex items-center gap-2 flex-wrap">
+            <Badge className="bg-violet-500 text-white text-base"><Trophy className="w-4 h-4 mr-1" /> {score}</Badge>
+            <Badge className="bg-orange-500 text-white text-base">🔥 {streak}</Badge>
+            <Badge className={`text-white text-base ${timer <= 3 ? "bg-rose-600 animate-pulse" : "bg-emerald-600"}`}><Timer className="w-4 h-4 mr-1" /> {timer}s</Badge>
+            <Badge className="bg-rose-500 text-white">❤️ {lives}</Badge>
+          </div>
+        </div>
+
+        {done ? (
+          <div className="text-center py-10 space-y-3">
+            <div className="text-6xl">{lives <= 0 ? "💔" : "🏆"}</div>
+            <h3 className="text-2xl font-bold text-foreground">{t("Kết quả", "Result")}: {score}</h3>
+            <Button onClick={restart} className="bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white">{t("Chơi lại", "Play again")}</Button>
+          </div>
+        ) : current && (
+          <motion.div key={idx} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="max-w-xl mx-auto">
+            <div className="rounded-2xl border-2 border-violet-400/50 bg-white/70 dark:bg-slate-900/70 p-8 text-center mb-4 backdrop-blur">
+              <div className="text-6xl mb-2">{current.emoji}</div>
+              <button onClick={() => speakEn(current.word)} className="text-3xl font-extrabold text-foreground hover:scale-105 transition inline-flex items-center gap-2">
+                <Volume2 className="w-6 h-6 text-violet-500" /> {current.word}
+              </button>
+              <div className="text-sm text-muted-foreground mt-2">{t("Chọn từ đồng nghĩa", "Pick the synonym")}</div>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              {options.map((opt) => (
+                <button
+                  key={opt}
+                  onClick={() => pick(opt)}
+                  className={`px-4 py-5 rounded-2xl border-2 text-lg font-bold transition-all active:scale-95 ${
+                    feedback === "ok" && opt === current.synonym
+                      ? "border-emerald-500 bg-emerald-500/30 text-emerald-900 dark:text-emerald-100"
+                      : feedback === "err" && opt === current.synonym
+                      ? "border-emerald-500 bg-emerald-500/30 text-emerald-900 dark:text-emerald-100"
+                      : "border-violet-400/60 bg-white text-violet-900 dark:bg-slate-900 dark:text-violet-100 hover:border-violet-500 hover:bg-violet-50 dark:hover:bg-violet-900/40"
+                  }`}
+                >
+                  {opt}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </div>
+
+      <aside className="rounded-2xl border border-border bg-card/60 p-3">
+        <GameLeaderboard gameType="synonym_sprint" currentScore={score} />
+      </aside>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
 // Hub
 // ─────────────────────────────────────────────────────────────
-type GameKey = "balloon" | "spelling" | "memory" | "meteor" | null;
+type GameKey = "balloon" | "spelling" | "memory" | "meteor" | "synonym" | null;
 
 const CambridgeArcade = () => {
   const { t } = useLanguage();
