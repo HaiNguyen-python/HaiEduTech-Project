@@ -303,6 +303,7 @@ const VietnameseArcade = () => {
     {
       id: "match" as const,
       icon: <Soup className="w-7 h-7" />,
+      chibi: "🐉",
       title: t("Phở Match", "Phở Match"),
       desc: t("Ghép thẻ Tiếng Việt với nghĩa Tiếng Anh.", "Match Vietnamese cards with their English meanings."),
       color: "from-amber-500 to-rose-600",
@@ -310,6 +311,7 @@ const VietnameseArcade = () => {
     {
       id: "bubble" as const,
       icon: <Droplets className="w-7 h-7" />,
+      chibi: "🐢",
       title: t("Bóng Nước Pop", "Bubble Pop"),
       desc: t("Đập bóng có nghĩa khớp với từ Tiếng Anh được hỏi.", "Pop the bubble that matches the English prompt."),
       color: "from-cyan-500 to-emerald-600",
@@ -317,6 +319,7 @@ const VietnameseArcade = () => {
     {
       id: "meteor" as const,
       icon: <Rocket className="w-7 h-7" />,
+      chibi: "🪷",
       title: t("Word Meteor (Tiếng Việt)", "Word Meteor (Vietnamese)"),
       desc: t("Bắn nghĩa tiếng Anh đúng cho thiên thạch Tiếng Việt đang rơi.", "Tap the correct English meaning of falling Vietnamese meteors."),
       color: "from-red-500 to-orange-600",
