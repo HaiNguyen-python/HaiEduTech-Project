@@ -704,6 +704,12 @@ const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
 
   return (
     <div className="space-y-3 max-w-5xl mx-auto">
+      <div className="flex items-center justify-between gap-2">
+        <Button variant="outline" size="sm" onClick={onExit} className="bg-slate-900 border-pink-500/60 text-pink-200 hover:bg-slate-800 hover:text-white">
+          <ArrowLeft className="w-4 h-4 mr-1" /> {t("Quay lại", "Back")}
+        </Button>
+        <span className="text-xs text-pink-300/80 font-mono uppercase tracking-wider">🐉 Pinyin Tone Runner</span>
+      </div>
       <HUD score={score} combo={combo} level={level} lives={lives} />
       <div
         className={`relative rounded-2xl border-2 overflow-hidden bg-gradient-to-b from-slate-950 via-pink-950/30 to-slate-900 transition-colors ${
