@@ -197,6 +197,7 @@ const Navbar = () => {
     { to: "/finnish/yki-b1", label: t("🎯 YKI B1 Dashboard", "🎯 YKI B1 Dashboard") },
     { to: "/finnish/life-in-finland", label: t("🇫🇮 Cuộc sống ở Phần Lan", "🇫🇮 Life in Finland") },
     { to: "#fi-div2", label: "", divider: true },
+    { to: "/finnish/arcade", label: t("🕹️ Finnish Arcade Hub", "🕹️ Finnish Arcade Hub") },
     { to: "/songs/finnish", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
     { to: "/speaking-coach/finnish", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
     { to: "/specialized-language?lang=finnish", label: t("🧠 Ngôn ngữ Chuyên ngành", "🧠 Specialized Language") },
