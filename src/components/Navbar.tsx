@@ -137,6 +137,7 @@ const Navbar = () => {
     { to: "#en-div2", label: "", divider: true },
     { to: "/english/fun-facts", label: t("✨ Fun Facts tiếng Anh", "✨ English Fun Facts") },
     { to: "/english/arcade", label: t("🕹️ English Arcade Hub", "🕹️ English Arcade Hub") },
+    { to: "/arcade-plus", label: t("🚀 Arcade Plus (Word Meteor)", "🚀 Arcade Plus (Word Meteor)") },
     { to: "/songs/english", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
     { to: "/speaking-coach/english", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
     { to: "/specialized-language?lang=english", label: t("🧠 Tiếng Anh Chuyên ngành", "🧠 Specialized English") },
@@ -155,6 +156,7 @@ const Navbar = () => {
     ] },
     { to: "#cn-div2", label: "", divider: true },
     { to: "/chinese/arcade", label: t("🎮 Chinese Arcade Hub", "🎮 Chinese Arcade Hub") },
+    { to: "/arcade-plus", label: t("🚀 Arcade Plus (Word Meteor)", "🚀 Arcade Plus (Word Meteor)") },
     { to: "/songs/chinese", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
     { to: "/speaking-coach/chinese", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
     { to: "/specialized-language?lang=chinese", label: t("🧠 Tiếng Trung Chuyên ngành", "🧠 Specialized Chinese") },
@@ -185,6 +187,7 @@ const Navbar = () => {
     ] },
     { to: "#vn-div2", label: "", divider: true },
     { to: "/learn-vietnamese/arcade", label: t("🕹️ Vietnamese Arcade Hub", "🕹️ Vietnamese Arcade Hub") },
+    { to: "/arcade-plus", label: t("🚀 Arcade Plus (Word Meteor)", "🚀 Arcade Plus (Word Meteor)") },
     { to: "/songs/vietnamese", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
     { to: "/speaking-coach/vietnamese", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
     { to: "/specialized-language?lang=vietnamese", label: t("🧠 Tiếng Việt Chuyên ngành", "🧠 Specialized Vietnamese") },
@@ -198,6 +201,7 @@ const Navbar = () => {
     { to: "/finnish/life-in-finland", label: t("🇫🇮 Cuộc sống ở Phần Lan", "🇫🇮 Life in Finland") },
     { to: "#fi-div2", label: "", divider: true },
     { to: "/finnish/arcade", label: t("🕹️ Finnish Arcade Hub", "🕹️ Finnish Arcade Hub") },
+    { to: "/arcade-plus", label: t("🚀 Arcade Plus (Word Meteor)", "🚀 Arcade Plus (Word Meteor)") },
     { to: "/songs/finnish", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
     { to: "/speaking-coach/finnish", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
     { to: "/specialized-language?lang=finnish", label: t("🧠 Tiếng Phần Lan Chuyên ngành", "🧠 Specialized Finnish") },
@@ -230,6 +234,7 @@ const Navbar = () => {
     ] },
     { to: "#prog-div-arcade", label: "", divider: true },
     { to: "/programming/arcade", label: t("🕹️ Tech & Code Game Hub", "🕹️ Tech & Code Game Hub"), icon: Gamepad2 },
+    { to: "/arcade-plus", label: t("🌌 Arcade Plus — Code Galaxy", "🌌 Arcade Plus — Code Galaxy"), icon: Gamepad2 },
   ];
 
   const studyAbroadSubs: SubItem[] = [
