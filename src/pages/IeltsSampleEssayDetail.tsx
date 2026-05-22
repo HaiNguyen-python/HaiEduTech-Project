@@ -307,10 +307,18 @@ const IeltsSampleEssayDetail = () => {
                 </TableBody>
               </Table>
             </div>
-          </div>
+          </details>
 
-          {/* Interactive Mini-Review Challenge */}
-          <div className="glass-card rounded-xl p-3.5">
+          {/* Interactive Mini-Review Challenge (collapsible) */}
+          <details className="glass-card rounded-xl p-3.5 group">
+            <summary className="cursor-pointer flex items-center justify-between gap-2 list-none mb-1.5">
+              <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-primary" />
+                {t("Bài Tập Ôn Tập", "Mini-Review Challenge")}
+              </h2>
+              <span className="text-xs text-muted-foreground group-open:hidden">{t("Mở", "Show")}</span>
+              <span className="text-xs text-muted-foreground hidden group-open:inline">{t("Đóng", "Hide")}</span>
+            </summary>
             <h2 className="text-lg font-semibold text-foreground mb-1.5 flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-primary" />
               {t("Bài Tập Ôn Tập", "Mini-Review Challenge")}
