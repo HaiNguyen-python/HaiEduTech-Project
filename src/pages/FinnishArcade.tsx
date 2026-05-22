@@ -7,14 +7,15 @@
  */
 import { useEffect, useMemo, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Trophy, Zap, Heart, Sparkles, Snowflake, Compass, Target, Volume2 } from "lucide-react";
+import { ArrowLeft, Trophy, Zap, Heart, Sparkles, Snowflake, Compass, Target, Volume2, Rocket } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
+import WordMeteor from "@/components/games/WordMeteor";
 
-type GameId = "menu" | "sauna" | "runner" | "inflection";
+type GameId = "menu" | "sauna" | "runner" | "inflection" | "meteor";
 
 interface FiWord {
   fi: string;
@@ -323,6 +324,7 @@ const FinnishArcade = () => {
     { id: "sauna" as const, title: t("Sauna Match", "Sauna Match"), desc: t("Ghép từ tiếng Phần với nghĩa tiếng Việt.", "Match Finnish words with Vietnamese meanings."), icon: Snowflake, color: "from-sky-500 to-cyan-500" },
     { id: "runner" as const, title: t("Reindeer Runner", "Reindeer Runner"), desc: t("Chọn từ tiếng Phần đúng để tuần lộc về đích.", "Pick the right Finnish word to help the reindeer."), icon: Compass, color: "from-amber-500 to-rose-500" },
     { id: "inflection" as const, title: t("Inflection Detective", "Inflection Detective"), desc: t("Nhận diện cách (case) của danh từ Phần Lan.", "Identify the correct Finnish noun case."), icon: Target, color: "from-fuchsia-500 to-purple-500" },
+    { id: "meteor" as const, title: t("Word Meteor (Suomi)", "Word Meteor (Suomi)"), desc: t("Bắn nghĩa đúng cho thiên thạch từ vựng tiếng Phần Lan.", "Tap the correct meaning of falling Finnish meteors."), icon: Rocket, color: "from-red-500 to-orange-600" },
   ];
 
   return (
@@ -359,7 +361,7 @@ const FinnishArcade = () => {
 
           <AnimatePresence mode="wait">
             {game === "menu" && (
-              <motion.div key="menu" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="grid sm:grid-cols-3 gap-4">
+              <motion.div key="menu" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {games.map((g, i) => {
                   const Icon = g.icon;
                   return (
@@ -379,6 +381,7 @@ const FinnishArcade = () => {
             {game === "sauna" && <motion.div key="s" initial={{ opacity: 0 }} animate={{ opacity: 1 }}><SaunaMatch onScore={n => setTotalXp(x => x + n)} /></motion.div>}
             {game === "runner" && <motion.div key="r" initial={{ opacity: 0 }} animate={{ opacity: 1 }}><ReindeerRunner onScore={n => setTotalXp(x => x + n)} /></motion.div>}
             {game === "inflection" && <motion.div key="i" initial={{ opacity: 0 }} animate={{ opacity: 1 }}><InflectionDetective onScore={n => setTotalXp(x => x + n)} /></motion.div>}
+            {game === "meteor" && <motion.div key="m" initial={{ opacity: 0 }} animate={{ opacity: 1 }}><WordMeteor lang="fi" onExit={() => setGame("menu")} onScore={n => setTotalXp(x => x + n)} /></motion.div>}
           </AnimatePresence>
         </div>
       </div>
