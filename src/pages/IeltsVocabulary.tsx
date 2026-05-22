@@ -393,6 +393,25 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
 
   return (
     <div className="max-w-2xl mx-auto">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <div className="flex items-center gap-2 text-sm">
+          <label className="text-muted-foreground">{t("Số câu hỏi:", "Questions:")}</label>
+          <select
+            value={quizSize}
+            onChange={(e) => setQuizSize(Number(e.target.value))}
+            className="rounded-md border border-border bg-card px-2 py-1 text-sm"
+          >
+            {[5, 10, 12, 15, 20, 30, 50].map(n => (
+              <option key={n} value={n} disabled={n > words.length && n !== 5}>
+                {n} {n > words.length ? `(${t("chỉ có", "only")} ${words.length})` : ""}
+              </option>
+            ))}
+          </select>
+          <Button size="sm" variant="outline" onClick={generateQuiz} className="ml-2">
+            <RotateCcw className="w-3 h-3 mr-1" /> {t("Tạo mới", "New quiz")}
+          </Button>
+        </div>
+      </div>
       <div className="flex items-center justify-between mb-6">
         <span className="text-sm text-muted-foreground">{t("Câu", "Question")} {current + 1}/{questions.length}</span>
         <Badge variant="outline" className="text-xs">{label.emoji} {t(label.vi, label.en)}</Badge>
