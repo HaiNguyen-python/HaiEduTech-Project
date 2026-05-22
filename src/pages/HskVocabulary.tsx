@@ -237,7 +237,7 @@ const HskExercise = ({ masteredWords, t }: { masteredWords: HskWord[]; t: (vi: s
             onChange={(e) => setQuizSize(Number(e.target.value))}
             className="rounded-md border border-border bg-card px-2 py-1 text-sm"
           >
-            {[5, 10, 15, 20, 30, 50].map(n => (
+            {[5, 10, 15, 20, 30, 50, 100, 200].map(n => (
               <option key={n} value={n} disabled={n > masteredWords.length && n !== 5}>
                 {n} {n > masteredWords.length ? `(${t("chỉ có", "only")} ${masteredWords.length})` : ""}
               </option>
