@@ -736,7 +736,7 @@ const ChineseArcade = () => {
         path="/chinese/arcade"
       />
       <Navbar />
-      <main className="container mx-auto px-4 py-8 max-w-3xl">
+      <main className="container mx-auto px-4 py-8 max-w-7xl">
         {active === "menu" && (
           <>
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-6">
