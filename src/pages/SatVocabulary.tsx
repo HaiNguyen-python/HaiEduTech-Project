@@ -143,19 +143,19 @@ const Flashcard = ({ word, isMastered, onStar }: { word: SatWord; isMastered: bo
   );
 };
 
-const VocabExercise = ({ words, allWords, t }: { words: SatWord[]; allWords?: SatWord[]; t: (vi: string, en: string) => string }) => {
+const VocabExercise = ({ words, allWords, t, quizSize, setQuizSize }: { words: SatWord[]; allWords?: SatWord[]; t: (vi: string, en: string) => string; quizSize: number; setQuizSize: (n: number) => void }) => {
   const [questions, setQuestions] = useState<{ word: SatWord; options: string[]; correct: number }[]>([]);
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
   const scoreSavedRef = useRef(false);
-  const QUIZ_SIZE = 10;
 
   const generateQuiz = useCallback(() => {
     if (words.length < 4) return;
     const distractorPool = allWords && allWords.length > 4 ? allWords : words;
-    const picked = shuffle(words).slice(0, QUIZ_SIZE);
+    const size = Math.min(quizSize, words.length);
+    const picked = shuffle(words).slice(0, size);
     const qs = picked.map(w => {
       const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.definition.vi);
       const allOpts = shuffle([w.definition.vi, ...wrongs]);
@@ -164,7 +164,7 @@ const VocabExercise = ({ words, allWords, t }: { words: SatWord[]; allWords?: Sa
     setQuestions(qs);
     setCurrent(0); setSelected(null); setScore(0); setFinished(false);
     scoreSavedRef.current = false;
-  }, [words, allWords]);
+  }, [words, allWords, quizSize]);
 
   useEffect(() => {
     if (!finished || scoreSavedRef.current) return;
