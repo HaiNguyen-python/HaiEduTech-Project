@@ -407,7 +407,7 @@ const HotpotChef = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: ()
   if (!target) return <p className="text-center p-8">Loading...</p>;
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 max-w-5xl mx-auto">
       <HUD score={score} combo={combo} level={level} lives={lives} />
       <div className="rounded-2xl border-2 border-amber-500/40 bg-gradient-to-b from-amber-950/40 via-rose-950/30 to-slate-900 p-4 sm:p-6 min-h-[500px]">
         {/* Target */}
@@ -583,7 +583,7 @@ const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
   const maskedPinyin = currentWord.pinyin.replace(/[āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜüaeiou]/g, "_");
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 max-w-5xl mx-auto">
       <HUD score={score} combo={combo} level={level} lives={lives} />
       <div
         className={`relative rounded-2xl border-2 overflow-hidden bg-gradient-to-b from-slate-950 via-pink-950/30 to-slate-900 transition-colors ${
