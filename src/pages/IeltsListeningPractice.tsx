@@ -9,7 +9,9 @@ import { ArrowLeft, Headphones } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ieltsListeningPracticeSets as _BASE_LIST } from "@/data/ieltsListeningPractice";
 import { ieltsListeningPracticeSetsExpansion } from "@/data/ieltsListeningPracticeExpansion";
-const ieltsListeningPracticeSets = [..._BASE_LIST, ...ieltsListeningPracticeSetsExpansion];
+import { ieltsListeningPracticeSetsExpansion2 } from "@/data/ieltsListeningPracticeExpansion2";
+const ieltsListeningPracticeSets = [..._BASE_LIST, ...ieltsListeningPracticeSetsExpansion, ...ieltsListeningPracticeSetsExpansion2];
+
 import ListeningPracticeSetCard from "@/components/ielts/ListeningPracticeSetCard";
 
 const IeltsListeningPractice = () => {
