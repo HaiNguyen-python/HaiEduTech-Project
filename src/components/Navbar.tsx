@@ -136,6 +136,7 @@ const Navbar = () => {
     { to: "#national-exam-group", label: t("🏫 Luyện thi THPT", "🏫 National Exam Prep"), groupLabel: "national-exam", children: nationalExamChildren },
     { to: "#en-div2", label: "", divider: true },
     { to: "/english/fun-facts", label: t("✨ Fun Facts tiếng Anh", "✨ English Fun Facts") },
+    { to: "/english/arcade", label: t("🕹️ English Arcade Hub", "🕹️ English Arcade Hub") },
     { to: "/songs/english", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
     { to: "/speaking-coach/english", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
     { to: "/specialized-language?lang=english", label: t("🧠 Ngôn ngữ Chuyên ngành", "🧠 Specialized Language") },
