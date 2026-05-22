@@ -126,10 +126,10 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
   const meteorIdRef = useRef(0);
   const particleIdRef = useRef(0);
 
-  // Spawn meteors at increasing rate based on level
+  // Spawn meteors at increasing rate based on level (gentler ramp + bigger gaps)
   useEffect(() => {
     if (gameOver) return;
-    const spawnInterval = Math.max(2200 - level * 250, 700);
+    const spawnInterval = Math.max(3800 - level * 200, 1800);
     const id = setInterval(() => {
       const w = words[Math.floor(Math.random() * words.length)];
       if (!w) return;
@@ -140,7 +140,8 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
           word: w,
           x: 10 + Math.random() * 80,
           y: 0,
-          speed: 0.15 + level * 0.05 + Math.random() * 0.1,
+          // Much slower fall, gentle ramp by level
+          speed: 0.05 + level * 0.012 + Math.random() * 0.03,
         },
       ]);
     }, spawnInterval);
