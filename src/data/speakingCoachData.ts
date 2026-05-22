@@ -880,30 +880,32 @@ const vietnameseThemes: SpeakingTheme[] = [
 ];
 
 // Language configurations
+import { englishExtraThemes, chineseExtraThemes, vietnameseExtraThemes, finnishExtraThemes } from "./speakingCoachExpansion";
+
 export const speakingCoachLanguages: Record<string, SpeakingLanguageConfig> = {
   english: {
     lang: "English",
     langCode: "en",
     speechLang: "en-US",
-    themes: englishThemes,
+    themes: [...englishThemes, ...englishExtraThemes],
   },
   finnish: {
     lang: "Suomi",
     langCode: "fi",
     speechLang: "fi-FI",
-    themes: finnishThemes,
+    themes: [...finnishThemes, ...finnishExtraThemes],
   },
   chinese: {
     lang: "中文",
     langCode: "zh",
     speechLang: "zh-CN",
-    themes: chineseThemes,
+    themes: [...chineseThemes, ...chineseExtraThemes],
   },
   vietnamese: {
     lang: "Tiếng Việt",
     langCode: "vi",
     speechLang: "vi-VN",
-    themes: vietnameseThemes,
+    themes: [...vietnameseThemes, ...vietnameseExtraThemes],
   },
 };
 
