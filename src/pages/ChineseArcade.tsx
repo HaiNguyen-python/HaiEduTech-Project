@@ -789,7 +789,7 @@ const ChineseArcade = () => {
             </div>
 
             {/* Game cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto">
               {games.map((g, i) => (
                 <motion.button
                   key={g.id}
@@ -799,14 +799,14 @@ const ChineseArcade = () => {
                   whileHover={{ scale: 1.03, y: -3 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setActive(g.id)}
-                  className={`relative p-5 rounded-2xl border-2 border-slate-700 bg-slate-900 text-left transition-all hover:border-cyan-500/50 hover:${g.glow}`}
+                  className={`relative p-6 min-h-[240px] rounded-2xl border-2 border-slate-700 bg-slate-900 text-left transition-all hover:border-cyan-500/50 hover:${g.glow}`}
                 >
                   <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${g.color} rounded-t-2xl`} />
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${g.color} flex items-center justify-center text-white mb-3`}>
+                  <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${g.color} flex items-center justify-center text-white mb-4`}>
                     {g.icon}
                   </div>
-                  <h3 className="font-bold text-white mb-1">{g.title}</h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">{g.desc}</p>
+                  <h3 className="font-bold text-lg text-white mb-2 leading-tight">{g.title}</h3>
+                  <p className="text-sm text-slate-300 leading-relaxed">{g.desc}</p>
                   <div className="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-mono">▶ PLAY</div>
                 </motion.button>
               ))}
