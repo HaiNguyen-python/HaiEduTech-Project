@@ -1,17 +1,19 @@
 // IELTS Sample Essays Hub - Filterable list of Band 7.0+ essays
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { sampleEssays } from "@/data/ieltsSampleEssays";
 import { motion, AnimatePresence } from "framer-motion";
-import { BookOpen, Filter, FileText, BarChart3, PieChart, Table2, Map, Cog, TrendingUp, Search } from "lucide-react";
+import { BookOpen, Filter, FileText, BarChart3, PieChart, Table2, Map, Cog, TrendingUp, Search, Star } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SEO from "@/components/SEO";
+
+const STAR_KEY = "ielts-sample-essay-stars";
 
 // Chart type icon mapping
 const chartIcons: Record<string, React.ReactNode> = {
