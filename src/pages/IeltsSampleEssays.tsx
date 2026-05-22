@@ -157,7 +157,14 @@ const IeltsSampleEssays = () => {
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ delay: i * 0.04 }}
               >
-                <Link to={`/ielts-sample-essays/${essay.id}`} className="block">
+                <Link to={`/ielts-sample-essays/${essay.id}`} className="block relative">
+                  <button
+                    onClick={(e) => toggleStar(essay.id, e)}
+                    className="absolute top-3 right-3 z-10 p-1.5 rounded-full bg-background/80 hover:bg-amber-500/20 transition-colors"
+                    aria-label={t("Đánh dấu", "Star")}
+                  >
+                    <Star className={`w-4 h-4 ${stars.has(essay.id) ? "fill-amber-400 text-amber-400" : "text-muted-foreground"}`} />
+                  </button>
                   <div className="glass-card rounded-xl p-5 h-full hover:shadow-lg hover:border-primary/30 transition-all group">
                     <div className="flex items-center gap-2 mb-3">
                       <Badge variant={essay.taskType === 1 ? "secondary" : "default"} className="text-xs">
@@ -167,7 +174,7 @@ const IeltsSampleEssays = () => {
                         {essay.chartType || essay.essayType}
                       </Badge>
                     </div>
-                    <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors capitalize mb-2">
+                    <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors capitalize mb-2 pr-8">
                       {essay.topic}
                     </h3>
                     <p className="text-xs text-muted-foreground line-clamp-3">
