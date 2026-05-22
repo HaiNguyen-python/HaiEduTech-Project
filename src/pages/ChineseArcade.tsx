@@ -274,23 +274,27 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
         ref={containerRef}
         animate={shake ? { x: [-8, 8, -6, 6, 0] } : {}}
         transition={{ duration: 0.3 }}
-        className="relative h-[640px] sm:h-[760px] rounded-2xl border-2 border-cyan-300 bg-gradient-to-b from-sky-400 via-indigo-500 to-fuchsia-600 overflow-hidden"
+        className="relative h-[640px] sm:h-[760px] rounded-2xl border-2 border-amber-300 bg-gradient-to-b from-rose-200 via-amber-100 to-rose-300 overflow-hidden"
         style={{
           backgroundImage:
-            "radial-gradient(circle at 18% 22%, rgba(253,224,71,0.55), transparent 38%), radial-gradient(circle at 82% 75%, rgba(34,211,238,0.45), transparent 40%), radial-gradient(circle at 60% 40%, rgba(244,114,182,0.35), transparent 45%)",
+            "radial-gradient(circle at 20% 20%, rgba(251,191,36,0.5), transparent 40%), radial-gradient(circle at 80% 70%, rgba(244,63,94,0.35), transparent 45%), radial-gradient(circle at 50% 50%, rgba(254,243,199,0.6), transparent 55%)",
         }}
       >
-        {/* Bright twinkling starfield */}
-        {Array.from({ length: 36 }).map((_, i) => (
-          <div
+        {/* Floating Chinese lanterns & cultural icons */}
+        {["🏮","🐉","🌸","🏮","🎋","🌸","🏮","🎏"].map((e, i) => (
+          <motion.span
             key={i}
-            className="absolute w-1 h-1 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.9)]"
-            style={{ left: `${(i * 37) % 100}%`, top: `${(i * 53) % 100}%`, animationDelay: `${i * 0.1}s` }}
-          />
+            animate={{ y: [0, -12, 0], rotate: [-4, 4, -4] }}
+            transition={{ duration: 4 + (i % 3), repeat: Infinity, delay: i * 0.3 }}
+            className="absolute text-4xl sm:text-5xl drop-shadow-[0_3px_8px_rgba(190,18,60,0.4)] select-none"
+            style={{ left: `${(i * 13 + 5) % 90}%`, top: `${(i * 11 + 4) % 70}%`, opacity: 0.85 }}
+          >
+            {e}
+          </motion.span>
         ))}
-        {/* Floating planets for fun */}
-        <div className="absolute top-6 right-8 w-16 h-16 rounded-full bg-gradient-to-br from-amber-300 to-orange-500 shadow-[0_0_30px_rgba(251,146,60,0.7)] opacity-80" />
-        <div className="absolute top-32 left-6 w-10 h-10 rounded-full bg-gradient-to-br from-pink-300 to-rose-500 shadow-[0_0_20px_rgba(244,114,182,0.7)] opacity-80" />
+        {/* Decorative seal-style hanzi */}
+        <div className="absolute top-6 right-8 text-6xl font-bold text-rose-500/30 select-none" aria-hidden>福</div>
+        <div className="absolute bottom-24 left-6 text-6xl font-bold text-amber-600/30 select-none" aria-hidden>龙</div>
 
         {/* Meteors */}
         <AnimatePresence>
