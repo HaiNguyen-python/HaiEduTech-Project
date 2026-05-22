@@ -57,6 +57,7 @@ const IeltsSampleEssays = () => {
   // Filter essays
   const filtered = useMemo(() => {
     return sampleEssays.filter(essay => {
+      if (starredOnly && !stars.has(essay.id)) return false;
       if (taskFilter !== "all" && essay.taskType !== Number(taskFilter)) return false;
       if (subtypeFilter !== "all") {
         if (essay.taskType === 1 && essay.chartType !== subtypeFilter) return false;
@@ -68,7 +69,7 @@ const IeltsSampleEssays = () => {
       }
       return true;
     });
-  }, [taskFilter, subtypeFilter, searchQuery]);
+  }, [taskFilter, subtypeFilter, searchQuery, starredOnly, stars]);
 
   return (
     <div className="min-h-screen bg-background">
