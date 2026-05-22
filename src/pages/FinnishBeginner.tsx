@@ -36,7 +36,7 @@ const PARTITIVE_CASES = [...PART_BASE, ...PARTITIVE_CASES_EXTRA];
 const DAILY_PHRASES = [...PHRASES_BASE, ...DAILY_PHRASES_EXTRA_FULL];
 const BEGINNER_VOCAB = [...VOCAB_BASE, ...BEGINNER_VOCAB_EXTRA];
 const VIETNAMESE_PITFALLS = [...PITFALLS_BASE, ...VIETNAMESE_PITFALLS_EXTRA];
-const BEGINNER_QUIZ = [...QUIZ_BASE, ...BEGINNER_QUIZ_EXTRA];
+const BEGINNER_QUIZ = [...QUIZ_BASE, ...BEGINNER_QUIZ_EXTRA_FULL];
 
 // Use Finnish TTS pipeline (proxy → Google translate_tts → native fi-FI voice)
 // to guarantee proper Finnish pronunciation, not the system's English fallback voice.
