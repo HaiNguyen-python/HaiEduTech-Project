@@ -3639,15 +3639,20 @@ const appliedGrammar: IeltsLecture[] = [
 ];
 
 import { grammarExpansion, vocabExpansion, tipsExpansion } from "./ieltsLecturesExpansion";
+import { skillsExpansion2, tipsExpansion2, vocabExpansion2, grammarExpansion2 } from "./ieltsLecturesExpansion2";
 
 export const allIeltsLectures: IeltsLecture[] = [
   ...skillBasedLectures,
+  ...skillsExpansion2,
   ...tipsAndHacks,
   ...tipsExpansion,
+  ...tipsExpansion2,
   ...thematicVocab,
   ...vocabExpansion,
+  ...vocabExpansion2,
   ...appliedGrammar,
   ...grammarExpansion,
+  ...grammarExpansion2,
 ];
 
 export const PILLAR_META = {
