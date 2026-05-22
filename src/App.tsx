@@ -78,6 +78,7 @@ const ChineseConversationalDashboard = lazy(() => import("./pages/ChineseConvers
 const ChineseConversationalLessonView = lazy(() => import("./pages/ChineseConversationalLessonView.tsx"));
 const ChineseCultureHub = lazy(() => import("./pages/ChineseCultureHub.tsx"));
 const HskVocabulary = lazy(() => import("./pages/HskVocabulary.tsx"));
+const ChineseArcade = lazy(() => import("./pages/ChineseArcade.tsx"));
 const HskHub = lazy(() => import("./pages/HskHub.tsx"));
 const HskLevelGuide = lazy(() => import("./pages/HskLevelGuide.tsx"));
 const HskGrammar = lazy(() => import("./pages/HskGrammar.tsx"));
@@ -184,6 +185,7 @@ const App = () => (
             <Route path="/chinese/culture" element={<LazyRoute><ChineseCultureHub /></LazyRoute>} />
             <Route path="/chinese/:courseId" element={<LazyRoute><ChineseCourse /></LazyRoute>} />
             <Route path="/chinese/hsk/vocabulary" element={<LazyRoute><HskVocabulary /></LazyRoute>} />
+            <Route path="/chinese/arcade" element={<LazyRoute><ChineseArcade /></LazyRoute>} />
             <Route path="/chinese/hsk-guide" element={<LazyRoute><HskHub /></LazyRoute>} />
             <Route path="/chinese/hsk-guide/:level" element={<LazyRoute><HskLevelGuide /></LazyRoute>} />
             <Route path="/chinese/hsk-grammar" element={<LazyRoute><HskGrammar /></LazyRoute>} />

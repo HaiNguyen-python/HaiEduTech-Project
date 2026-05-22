@@ -255,6 +255,9 @@ const Chinese = () => {
                 <Link to="/chinese/hsk/vocabulary?mode=exercise" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-secondary text-foreground font-semibold hover:bg-red-500/10 transition-all border border-border">
                   ✍️ {t("Bài tập", "Exercise")}
                 </Link>
+                <Link to="/chinese/arcade" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 via-pink-500 to-amber-500 text-white font-semibold hover:brightness-110 transition-all shadow-lg">
+                  🎮 {t("Chơi Arcade tiếng Trung", "Chinese Arcade Hub")} <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
             </motion.div>
 

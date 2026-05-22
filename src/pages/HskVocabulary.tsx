@@ -108,7 +108,9 @@ const HskFlashcard = ({ word }: { word: HskWord }) => {
 };
 
 // MCQ Exercise component for HSK vocabulary
-const HskExercise = ({ words, t }: { words: HskWord[]; t: (vi: string, en: string) => string }) => {
+// Only quizzes words the user has marked as mastered (starred).
+// Distractors are drawn from the full vocab bank to keep options challenging.
+const HskExercise = ({ masteredWords, t }: { masteredWords: HskWord[]; t: (vi: string, en: string) => string }) => {
   const [questions, setQuestions] = useState<{ word: HskWord; options: string[]; correct: number }[]>([]);
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
@@ -118,10 +120,16 @@ const HskExercise = ({ words, t }: { words: HskWord[]; t: (vi: string, en: strin
   const QUIZ_SIZE = 10;
 
   const generateQuiz = useCallback(() => {
-    const pool = words.length >= 4 ? words : hskVocabData;
-    const picked = shuffle(pool).slice(0, QUIZ_SIZE);
+    if (masteredWords.length < 4) {
+      setQuestions([]);
+      setFinished(false);
+      return;
+    }
+    const picked = shuffle(masteredWords).slice(0, Math.min(QUIZ_SIZE, masteredWords.length));
+    const distractorPool = hskVocabData;
     const qs = picked.map(w => {
-      const wrongs = shuffle(pool.filter(x => x.character !== w.character)).slice(0, 3).map(x => x.definition.vi);
+      const wrongs = shuffle(distractorPool.filter(x => x.character !== w.character && x.definition.vi !== w.definition.vi))
+        .slice(0, 3).map(x => x.definition.vi);
       const allOpts = shuffle([w.definition.vi, ...wrongs]);
       return { word: w, options: allOpts, correct: allOpts.indexOf(w.definition.vi) };
     });
@@ -131,7 +139,7 @@ const HskExercise = ({ words, t }: { words: HskWord[]; t: (vi: string, en: strin
     setScore(0);
     setFinished(false);
     scoreSavedRef.current = false;
-  }, [words]);
+  }, [masteredWords]);
 
   useEffect(() => {
     if (!finished || scoreSavedRef.current) return;
@@ -164,7 +172,27 @@ const HskExercise = ({ words, t }: { words: HskWord[]; t: (vi: string, en: strin
     }
   };
 
-  if (questions.length === 0) return <p className="text-muted-foreground text-center py-12">{t("Cần ít nhất 4 từ để tạo bài tập", "Need at least 4 words to generate exercises")}</p>;
+  if (masteredWords.length < 4) {
+    return (
+      <div className="flex flex-col items-center justify-center py-16 text-center max-w-md mx-auto">
+        <Star className="w-12 h-12 text-yellow-400 mb-3" />
+        <h3 className="text-xl font-bold text-foreground mb-2">
+          {t("Cần đánh dấu sao ít nhất 4 từ", "Star at least 4 words first")}
+        </h3>
+        <p className="text-sm text-muted-foreground mb-4">
+          {t(
+            `Bài tập chỉ hỏi những từ bạn đã đánh dấu ⭐ là đã học. Hiện tại bạn có ${masteredWords.length}/4 từ đã đánh dấu.`,
+            `Quiz only asks words you have starred ⭐ as learned. You currently have ${masteredWords.length}/4 starred words.`
+          )}
+        </p>
+        <p className="text-xs text-muted-foreground">
+          {t("👉 Quay lại chế độ Danh sách và nhấn ⭐ vào các từ bạn đã học.", "👉 Switch back to List mode and tap ⭐ on words you've learned.")}
+        </p>
+      </div>
+    );
+  }
+
+  if (questions.length === 0) return <p className="text-muted-foreground text-center py-12">{t("Đang chuẩn bị câu hỏi...", "Preparing questions...")}</p>;
 
   // Mascot encouragement messages per HSK level
   const mascotMessages = [
@@ -441,7 +469,7 @@ const HskVocabulary = () => {
 
             {/* Content based on mode */}
             {viewMode === "exercise" ? (
-              <HskExercise words={filtered} t={t} />
+              <HskExercise masteredWords={hskVocabData.filter(w => mastered.has(w.character))} t={t} />
             ) : viewMode === "flashcard" ? (
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <AnimatePresence mode="popLayout">
