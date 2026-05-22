@@ -1198,6 +1198,15 @@ const ChineseArcade = () => {
       color: "from-red-500 to-orange-600",
       glow: "shadow-[0_0_30px_rgba(239,68,68,0.4)]",
     },
+    {
+      id: "sentence" as const,
+      icon: <Sparkles className="w-7 h-7" />,
+      chibi: "🐯",
+      title: t("Sentence Builder · 句子大师", "Sentence Builder · 句子大师"),
+      desc: t("Sắp xếp các thẻ Hán tự để tạo câu hoàn chỉnh — luyện ngữ pháp & viết câu!", "Arrange Hanzi tiles to build a complete sentence — practice grammar & sentence writing!"),
+      color: "from-emerald-500 to-teal-600",
+      glow: "shadow-[0_0_30px_rgba(16,185,129,0.4)]",
+    },
   ];
 
   // Floating background hanzi characters for the hub
