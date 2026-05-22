@@ -28,6 +28,7 @@ import { satVocabExpansion3 } from './satVocabExpansion3';
 import { satVocabExpansion4 } from './satVocabExpansion4';
 import { satVocabExpansion5 } from './satVocabExpansion5';
 import { satVocabExpansion6 } from './satVocabExpansion6';
+import { satVocabExpansion7 } from './satVocabExpansion7';
 
 const satVocabBase: SatWord[] = [
   {
@@ -2102,7 +2103,7 @@ const satVocabBase: SatWord[] = [
 // Merge base + expansion, deduped by lowercased word (base wins)
 const _seen = new Set<string>();
 export const satVocabData: SatWord[] = [];
-for (const w of [...satVocabBase, ...satVocabExpansion, ...satVocabExpansion2, ...satVocabExpansion3, ...satVocabExpansion4, ...satVocabExpansion5, ...satVocabExpansion6]) {
+for (const w of [...satVocabBase, ...satVocabExpansion, ...satVocabExpansion2, ...satVocabExpansion3, ...satVocabExpansion4, ...satVocabExpansion5, ...satVocabExpansion6, ...satVocabExpansion7]) {
   const k = w.word.toLowerCase();
   if (_seen.has(k)) continue;
   _seen.add(k);
