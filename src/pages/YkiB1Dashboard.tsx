@@ -101,6 +101,7 @@ const YkiB1Dashboard = () => {
   const [grading, setGrading] = useState(false);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [activeWriting, setActiveWriting] = useState(B1_WRITING[0]);
+  const [activeWritingCat, setActiveWritingCat] = useState<string>("opinion");
   const [showSample, setShowSample] = useState(false);
 
   const gradeEssay = async () => {
