@@ -128,7 +128,7 @@ export default function WordMeteor({
     setScoreSubmitted(false);
     const scheduleSpawn = () => {
       const s = scoreRef.current;
-      const interval = Math.max(1100, 2800 - s * 8); // spawn slows from 2.8s → 1.1s
+      const interval = Math.max(2200, 4200 - s * 6); // 4.2s → 2.2s — bigger gaps
       spawnTimerRef.current = window.setTimeout(() => {
         spawn();
         scheduleSpawn();
