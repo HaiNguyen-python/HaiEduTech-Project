@@ -434,7 +434,7 @@ const IeltsSampleEssayDetail = () => {
                 </AnimatePresence>
               )}
             </div>
-          </div>
+          </details>
         </motion.div>
       </main>
       <Footer />
