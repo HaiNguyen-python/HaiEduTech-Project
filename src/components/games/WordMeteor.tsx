@@ -271,18 +271,28 @@ export default function WordMeteor({
           </Button>
         </div>
 
-        <div className="relative h-[78vh] min-h-[640px] w-full overflow-hidden rounded-2xl border border-border bg-gradient-to-b from-slate-950 via-indigo-950 to-slate-900">
-          {Array.from({ length: 60 }).map((_, i) => (
-            <div
-              key={i}
-              className="absolute h-0.5 w-0.5 animate-pulse rounded-full bg-white/70"
-              style={{
-                left: `${(i * 53) % 100}%`,
-                top: `${(i * 31) % 100}%`,
-                animationDelay: `${i * 80}ms`,
-              }}
-            />
+        <div
+          className="relative h-[78vh] min-h-[640px] w-full overflow-hidden rounded-2xl border-2 border-amber-400/60 bg-gradient-to-b from-rose-200 via-amber-100 to-rose-300 dark:from-rose-900 dark:via-amber-900 dark:to-rose-950"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 20% 20%, rgba(251,191,36,0.45), transparent 40%), radial-gradient(circle at 80% 70%, rgba(244,63,94,0.35), transparent 45%)",
+          }}
+        >
+          {/* Chinese cultural floating decor */}
+          {["🏮","🐉","🌸","🎏","🏮","🌸","🎋","🏮"].map((e, i) => (
+            <motion.span
+              key={`d-${i}`}
+              animate={{ y: [0, -10, 0], rotate: [-4, 4, -4] }}
+              transition={{ duration: 4 + (i % 3), repeat: Infinity, delay: i * 0.3 }}
+              className="absolute text-3xl sm:text-4xl select-none drop-shadow-[0_2px_6px_rgba(190,18,60,0.35)]"
+              style={{ left: `${(i * 13 + 4) % 92}%`, top: `${(i * 11 + 6) % 70}%`, opacity: 0.7 }}
+              aria-hidden
+            >
+              {e}
+            </motion.span>
           ))}
+          <div className="absolute top-4 right-6 text-7xl font-bold text-rose-600/25 select-none" aria-hidden>福</div>
+          <div className="absolute top-1/3 left-4 text-7xl font-bold text-amber-700/20 select-none" aria-hidden>龙</div>
 
           <AnimatePresence>
             {meteors.map((m) => (
@@ -292,19 +302,31 @@ export default function WordMeteor({
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 1.4 }}
                 className="absolute -translate-x-1/2"
-                style={{ left: `${m.x}%`, top: `${m.y}%`, maxWidth: "min(96vw, 720px)" }}
+                style={{ left: `${m.x}%`, top: `${m.y}%`, width: "min(92vw, 520px)" }}
               >
                 <div className="relative">
-                  <div className="absolute -inset-3 rounded-full bg-orange-500/30 blur-xl" />
-                  <div className="relative mx-auto w-fit rounded-2xl border-2 border-orange-300/60 bg-gradient-to-br from-orange-500 to-red-600 px-7 py-4 text-2xl font-bold text-white shadow-lg">
-                    ☄️ {m.word}
-                  </div>
+                  {/* Meteor body — asteroid-shaped pill with fiery trail */}
+                  <motion.div
+                    animate={{ rotate: [-2, 2, -2] }}
+                    transition={{ duration: 1.2, repeat: Infinity }}
+                    className="relative mx-auto w-fit"
+                  >
+                    <div className="absolute -top-7 left-1/2 -translate-x-1/2 text-4xl select-none" aria-hidden>☄️</div>
+                    <div className="absolute -inset-4 rounded-full bg-orange-500/50 blur-2xl" />
+                    <div className="absolute -inset-2 rounded-[40%] bg-gradient-to-br from-amber-300/70 to-rose-500/70 blur-md" />
+                    <div
+                      className="relative rounded-[45%_55%_50%_50%/55%_45%_55%_45%] border-[3px] border-amber-200 bg-gradient-to-br from-rose-600 via-orange-500 to-amber-500 px-8 py-5 text-2xl font-bold text-white shadow-[0_0_25px_rgba(251,146,60,0.8)]"
+                      style={{ textShadow: "0 2px 6px rgba(0,0,0,0.5)" }}
+                    >
+                      {m.word}
+                    </div>
+                  </motion.div>
                   <div className="mt-3 flex flex-wrap justify-center gap-3">
                     {m.options.map((opt) => (
                       <button
                         key={opt}
                         onClick={() => handlePick(m, opt)}
-                        className="min-w-[180px] rounded-xl border-2 border-white/60 bg-white/25 px-6 py-4 text-lg font-semibold text-white backdrop-blur transition hover:scale-105 hover:bg-white/45 active:scale-95"
+                        className="min-w-[160px] max-w-[240px] rounded-xl border-2 border-amber-200 bg-rose-900/70 px-5 py-3 text-base font-semibold text-amber-50 backdrop-blur transition hover:scale-105 hover:bg-rose-800 active:scale-95 shadow-lg"
                       >
                         {opt}
                       </button>
@@ -315,14 +337,36 @@ export default function WordMeteor({
             ))}
           </AnimatePresence>
 
+          {/* Laser beam from rocket to meteor */}
+          {laserAt && (
+            <div
+              className="absolute w-1.5 bg-gradient-to-t from-cyan-200 via-white to-cyan-200 shadow-[0_0_18px_rgba(34,211,238,1)] pointer-events-none"
+              style={{
+                left: `calc(${rocketX}% - 3px)`,
+                bottom: "5%",
+                height: `${Math.max(10, 95 - laserAt.y)}%`,
+              }}
+            />
+          )}
+
+          {/* Movable rocket 🚀 */}
+          <motion.div
+            animate={{ left: `${rocketX}%` }}
+            transition={{ type: "tween", duration: 0.06, ease: "linear" }}
+            className="absolute bottom-2 -translate-x-1/2 text-5xl drop-shadow-[0_0_12px_rgba(251,191,36,0.9)] select-none pointer-events-none"
+            aria-hidden
+          >
+            🚀
+          </motion.div>
+
           {!running && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/70 text-center text-white p-4">
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/70 text-center text-white p-4 z-20">
               <Sparkles className="h-10 w-10 text-amber-300" />
               <h3 className="text-2xl font-bold">
                 {lives <= 0 ? `Game Over — ${score} pts` : `${theme.emoji} Word Meteor — ${theme.label}`}
               </h3>
               <p className="max-w-sm text-sm text-white/80">
-                Pick the correct meaning before the meteor lands. Meteors start slow and speed up — chain answers for bonus points!
+                Pick the correct meaning before the meteor lands. Use ← → (or A/D) to fly the rocket. Chain answers for bonus points!
               </p>
               <Button onClick={reset} className={`bg-gradient-to-r ${theme.accent} text-white`}>
                 {lives <= 0 ? "Play Again" : "Start"}
@@ -330,6 +374,32 @@ export default function WordMeteor({
             </div>
           )}
         </div>
+
+        {/* Mobile rocket controls */}
+        {running && (
+          <div className="grid grid-cols-2 gap-2 lg:hidden">
+            <Button
+              onTouchStart={() => { keysRef.current.left = true; }}
+              onTouchEnd={() => { keysRef.current.left = false; }}
+              onMouseDown={() => { keysRef.current.left = true; }}
+              onMouseUp={() => { keysRef.current.left = false; }}
+              onMouseLeave={() => { keysRef.current.left = false; }}
+              className="h-12 bg-rose-600 hover:bg-rose-700 text-2xl"
+            >
+              ◀
+            </Button>
+            <Button
+              onTouchStart={() => { keysRef.current.right = true; }}
+              onTouchEnd={() => { keysRef.current.right = false; }}
+              onMouseDown={() => { keysRef.current.right = true; }}
+              onMouseUp={() => { keysRef.current.right = false; }}
+              onMouseLeave={() => { keysRef.current.right = false; }}
+              className="h-12 bg-rose-600 hover:bg-rose-700 text-2xl"
+            >
+              ▶
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* Leaderboard sidebar */}
