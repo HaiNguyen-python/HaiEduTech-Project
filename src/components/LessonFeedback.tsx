@@ -76,18 +76,22 @@ const LessonFeedback = ({
       const fbType: "like" | "dislike" =
         quick ?? ((clarity + aiTool + confidence) / 3 >= 3 ? "like" : "dislike");
 
+      const path = typeof window !== "undefined" ? window.location.pathname : "/";
+      const resolvedLessonId = lessonId || path;
+      const resolvedType = lessonType || "general";
+
       await supabase.from("lesson_feedback").insert({
-        lesson_id: lessonId,
+        lesson_id: resolvedLessonId,
         module_id: moduleId || null,
-        lesson_type: lessonType,
+        lesson_type: resolvedType,
         feedback_type: fbType,
-        subject: subject || lessonType,
+        subject: subject || resolvedType,
         user_id: user?.id || null,
         rating_clarity: clarity || null,
         rating_ai_tool: aiTool || null,
         rating_confidence: confidence || null,
         suggestion: suggestion.trim() || null,
-        lesson_title: lessonTitle || null,
+        lesson_title: lessonTitle || (typeof document !== "undefined" ? document.title : null),
       } as never);
 
       setSubmitted(true);
