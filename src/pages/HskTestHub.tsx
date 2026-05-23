@@ -20,17 +20,20 @@ const LEVEL_COLORS: Record<number, string> = {
   4: "from-amber-500 to-orange-500",
   5: "from-rose-500 to-pink-600",
   6: "from-red-600 to-rose-700",
+  7: "from-fuchsia-500 to-purple-600",
+  8: "from-purple-600 to-indigo-700",
+  9: "from-slate-700 to-zinc-900",
 };
 
 const HskTestHub = () => {
   const { t } = useLanguage();
-  const levels = [1, 2, 3, 4, 5, 6] as const;
+  const levels = [1, 2, 3, 4, 5, 6, 7, 8, 9] as const;
 
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="HSK Test 1-6: Đề Thi Thử Chuẩn Hanban Online | HaiEduTech"
-        description="Bộ đề thi thử HSK 1, 2, 3, 4, 5, 6 mô phỏng chuẩn Hanban với phần Nghe (TTS tự động), Đọc và Viết. Tự chấm điểm và có giải thích chi tiết."
+        title="HSK Test 1-9: Đề Thi Thử Chuẩn HSK 3.0 Online | HaiEduTech"
+        description="Bộ đề thi thử HSK 1 đến HSK 9 (HSK 3.0) mô phỏng chuẩn Hanban với phần Nghe (TTS tự động), Đọc và Viết. Tự chấm điểm và giải thích chi tiết."
         path="/chinese/hsk/test"
       />
       <Navbar />
@@ -38,12 +41,12 @@ const HskTestHub = () => {
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10">
           <Badge variant="secondary" className="mb-3"><ClipboardCheck className="w-4 h-4 mr-1 inline" /> {t("Phòng thi HSK", "HSK Test Room")}</Badge>
           <h1 className="text-4xl md:text-5xl font-display font-bold mb-3 bg-gradient-to-r from-red-500 to-amber-500 bg-clip-text text-transparent">
-            {t("HSK Test - Đề thi thử HSK 1-6", "HSK Test - Mock Exams HSK 1-6")}
+            {t("HSK Test - Đề thi thử HSK 1-9", "HSK Test - Mock Exams HSK 1-9")}
           </h1>
           <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
             {t(
-              "Đề thi mô phỏng chuẩn Hanban: đầy đủ phần Nghe (đọc bằng TTS tiếng Trung), Đọc và Viết. Tự chấm điểm, hiển thị giải thích chi tiết sau mỗi câu.",
-              "Hanban-style mock exams: full Listening (Chinese TTS), Reading, and Writing sections. Auto-graded with detailed explanations."
+              "Đề thi mô phỏng chuẩn Hanban (HSK 3.0 - 9 cấp độ): đầy đủ phần Nghe (đọc bằng TTS tiếng Trung), Đọc và Viết. Tự chấm điểm, hiển thị giải thích chi tiết sau mỗi câu.",
+              "Hanban-style mock exams (HSK 3.0 — 9 levels): full Listening (Chinese TTS), Reading, and Writing sections. Auto-graded with detailed explanations."
             )}
           </p>
         </motion.div>
