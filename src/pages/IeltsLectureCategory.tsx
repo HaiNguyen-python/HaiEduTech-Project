@@ -104,7 +104,7 @@ const IeltsLectureCategory = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [levelFilter, setLevelFilter] = useState<"all" | "foundation" | "intermediate" | "advanced">("all");
   const [sortBy, setSortBy] = useState<"easy" | "hard" | "newest">("easy");
-  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({ task1: true, task2: true, other: true });
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({ task1: true, task2: true, part1: true, part2: true, part3: true, other: true });
   const toggleGroup = useCallback((key: string) => {
     setOpenGroups(prev => ({ ...prev, [key]: !prev[key] }));
   }, []);
