@@ -107,7 +107,7 @@ export const ieltsVocabExpansion7: IeltsWord[] = [
   { word: "fortitude", ipa: "/ˈfɔːtɪtjuːd/", level: "C2", definition: { en: "mental strength", vi: "sự dũng cảm" }, example: "She faced illness with fortitude.", category: "Psychology", partOfSpeech: "noun" },
   { word: "grievance", ipa: "/ˈɡriːvəns/", level: "C1", definition: { en: "cause for complaint", vi: "sự bất bình" }, example: "Workers aired their grievances.", category: "Work & Career", partOfSpeech: "noun" },
   { word: "hallmark", ipa: "/ˈhɔːlmɑːk/", level: "C1", definition: { en: "distinctive feature", vi: "dấu ấn" }, example: "Precision is the hallmark of her work.", category: "General Academic", partOfSpeech: "noun" },
-  { word: "impasse", ipa: "/æmˈpɑːs/", level: "C1", definition: { en: "situation with no progress", vi: "bế tắc" }, example: "Negotiations reached an impasse.", category: "Government & Politics", partOfSpeech: "noun" },
+  { word: "impasse", ipa: "/ɪmˈpɑːs/", level: "C1", definition: { en: "situation with no progress", vi: "bế tắc" }, example: "Negotiations reached an impasse.", category: "Government & Politics", partOfSpeech: "noun" },
   { word: "impetus", ipa: "/ˈɪmpɪtəs/", level: "C1", definition: { en: "force that drives action", vi: "động lực" }, example: "The report gave impetus to reform.", category: "Society", partOfSpeech: "noun" },
   { word: "influx", ipa: "/ˈɪnflʌks/", level: "C1", definition: { en: "arrival of many", vi: "sự đổ vào" }, example: "An influx of tourists boosted the economy.", category: "Economy", partOfSpeech: "noun" },
   { word: "myriad", ipa: "/ˈmɪriəd/", level: "C1", definition: { en: "countless number", vi: "vô số" }, example: "There are myriad reasons to learn languages.", category: "General Academic", partOfSpeech: "noun" },
