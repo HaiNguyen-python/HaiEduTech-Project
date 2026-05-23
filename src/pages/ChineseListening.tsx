@@ -176,8 +176,8 @@ const ChineseListening = () => {
           </div>
           <p className="text-muted-foreground max-w-3xl">
             {t(
-              "15 video YouTube tuyển chọn từ HSK 1 đến HSK 5 — chủ đề thú vị: ẩm thực đường phố, du lịch, gia đình, thành ngữ, vlog bản xứ. Phát trực tiếp ngay trên trang, có mẹo nghe cho mỗi video.",
-              "15 hand-picked YouTube videos from HSK 1 to HSK 5 — engaging topics: street food, travel, family, idioms, native vlogs. Plays right on this page with listening tips per video."
+              "25 video YouTube tuyển chọn từ HSK 1 đến HSK 5 — chủ đề thú vị: ẩm thực đường phố, du lịch, gia đình, thời tiết, thành ngữ, vlog bản xứ. Phát trực tiếp ngay trên trang, có mẹo nghe cho mỗi video.",
+              "25 hand-picked YouTube videos from HSK 1 to HSK 5 — engaging topics: street food, travel, family, weather, idioms, native vlogs. Plays right on this page with listening tips per video."
             )}
           </p>
         </motion.div>
