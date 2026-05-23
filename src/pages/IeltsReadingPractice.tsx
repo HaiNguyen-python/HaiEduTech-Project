@@ -798,9 +798,6 @@ const FullTestEngine: React.FC<FullTestEngineProps> = ({ test, onClose }) => {
         </div>
       </header>
 
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 overflow-hidden">
-        <section aria-label="Reading passage" className="overflow-y-auto bg-white dark:bg-slate-900 border-r">
-          <div className="w-full px-5 md:px-8 lg:px-10 py-6 md:py-8">
       <div className="border-b bg-card/60 px-3 py-1.5 flex items-center justify-end gap-2">
         <RoomToolbar fontIdx={fontIdx} setFontIdx={setFontIdx} paperTheme={paperTheme} setPaperTheme={setPaperTheme} />
       </div>
