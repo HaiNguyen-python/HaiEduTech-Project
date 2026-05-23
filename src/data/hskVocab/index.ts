@@ -69,11 +69,16 @@ const _all: HskWord[] = [
   ...hsk30Level79Words,
 ];
 
-// Dedupe (keep first occurrence) and apply official re-leveling.
+// Clean each entry (strip digit suffix from char, clean CC-CEDICT annotations,
+// translate common English glosses into Vietnamese, normalise pinyin), THEN
+// dedupe by cleaned character and apply official re-leveling.
+import { cleanHskWord } from "./cleanData";
+
 const _seen = new Set<string>();
 const _deduped: HskWord[] = [];
-for (const w of _all) {
-  if (_seen.has(w.character)) continue;
+for (const raw of _all) {
+  const w = cleanHskWord(raw);
+  if (!w.character || _seen.has(w.character)) continue;
   _seen.add(w.character);
   const officialLevel = HSK30_OFFICIAL_LEVELS[w.character];
   _deduped.push(officialLevel ? { ...w, level: officialLevel } : w);
