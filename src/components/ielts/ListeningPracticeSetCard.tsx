@@ -46,7 +46,7 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
   const [playing, setPlaying] = useState(false);
   const [paused, setPaused] = useState(false);
   // Slower, more natural default — matches real exam pacing.
-  const [rate, setRate] = useState(s.rate ?? 0.78);
+  const [rate, setRate] = useState(s.rate ?? 0.85);
   const chunkTimerRef = useRef<number | null>(null);
   const cancelledRef = useRef(false);
   const [currentIdx, setCurrentIdx] = useState(0);
