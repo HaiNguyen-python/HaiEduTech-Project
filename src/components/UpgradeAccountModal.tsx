@@ -276,22 +276,22 @@ interface RowProps {
   big?: boolean; mono?: boolean;
 }
 const Row = ({ label, value, copyable, copied, onCopy, big, mono }: RowProps) => (
-  <div className="flex items-center justify-between gap-6 py-1.5 border-b border-amber-200/50 dark:border-amber-800/30 last:border-0">
-    <span className="text-xs font-medium text-muted-foreground shrink-0 w-[110px]">{label}</span>
-    <div className="flex items-center gap-2 min-w-0 flex-1 justify-end">
-      <span className={`text-foreground break-all ${big ? "text-sm sm:text-base font-extrabold tracking-wider" : "text-xs font-semibold"} ${mono ? "font-mono text-xs sm:text-sm" : ""}`}>
-        {value}
-      </span>
-      {copyable && (
-        <button
-          onClick={onCopy}
-          className="p-1 rounded-md bg-white dark:bg-card border border-amber-300 dark:border-amber-700 hover:bg-amber-100 dark:hover:bg-amber-900/30 transition shrink-0"
-          aria-label="Copy"
-        >
-          {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" />}
-        </button>
-      )}
-    </div>
+  <div className="grid grid-cols-[110px_1fr_auto] items-center gap-2 py-1.5 border-b border-amber-200/50 dark:border-amber-800/30 last:border-0">
+    <span className="text-xs font-medium text-muted-foreground">{label}</span>
+    <span className={`text-foreground break-all text-right ${big ? "text-sm sm:text-base font-extrabold tracking-wider" : "text-xs font-semibold"} ${mono ? "font-mono text-xs sm:text-sm" : ""}`}>
+      {value}
+    </span>
+    {copyable ? (
+      <button
+        onClick={onCopy}
+        className="p-1 rounded-md bg-white dark:bg-card border border-amber-300 dark:border-amber-700 hover:bg-amber-100 dark:hover:bg-amber-900/30 transition shrink-0"
+        aria-label="Copy"
+      >
+        {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" />}
+      </button>
+    ) : (
+      <div className="w-[27px]" />
+    )}
   </div>
 );
 
