@@ -1,17 +1,26 @@
 // Reusable listening practice card with TTS audio + collapsible transcript + auto-grading.
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
+import { Slider } from "@/components/ui/slider";
 import {
   Play, Pause, Square, Headphones, Eye, EyeOff,
   CheckCircle2, XCircle, RotateCcw, Gauge,
+  SkipBack, SkipForward,
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { ListeningPracticeSet } from "@/data/ieltsListeningPractice";
 import { cn } from "@/lib/utils";
+
+const formatTime = (sec: number) => {
+  if (!isFinite(sec) || sec < 0) sec = 0;
+  const m = Math.floor(sec / 60);
+  const s = Math.floor(sec % 60);
+  return `${m}:${s.toString().padStart(2, "0")}`;
+};
 
 const sectionColor = (s: number) => {
   switch (s) {
@@ -40,22 +49,18 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
   const [rate, setRate] = useState(s.rate ?? 0.78);
   const chunkTimerRef = useRef<number | null>(null);
   const cancelledRef = useRef(false);
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const [elapsedInChunk, setElapsedInChunk] = useState(0);
+  const chunkStartedAtRef = useRef<number>(0);
+  const tickRef = useRef<number | null>(null);
+  const pausedAccumRef = useRef(0);
+  const pausedAtRef = useRef<number | null>(null);
 
-  useEffect(() => {
-    return () => {
-      try { window.speechSynthesis?.cancel(); } catch { /* noop */ }
-      if (chunkTimerRef.current) window.clearTimeout(chunkTimerRef.current);
-    };
-  }, []);
-
-  // Split transcript into natural chunks (sentences / dialogue turns) so we
-  // can insert short silences between them — much closer to real IELTS audio
-  // than the continuous monotone of raw TTS.
+  // Split transcript into natural chunks (sentences / dialogue turns).
   const buildChunks = (text: string): string[] => {
     const lines = text.split(/\n+/).map(l => l.trim()).filter(Boolean);
     const chunks: string[] = [];
     for (const line of lines) {
-      // Split each line further on sentence boundaries
       const parts = line.match(/[^.!?]+[.!?]+["')\]]*|[^.!?]+$/g) ?? [line];
       for (const p of parts) {
         const trimmed = p.trim();
@@ -65,9 +70,57 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
     return chunks;
   };
 
+  const chunks = useMemo(() => buildChunks(s.transcript), [s.transcript]);
+
+  // Estimate per-chunk duration (speak time + trailing gap) in seconds.
+  // Baseline ~160 wpm at rate=1.0 → ~0.375s/word; account for spelling slowdown + gap.
+  const chunkDurations = useMemo(() => {
+    return chunks.map((c, i) => {
+      const words = c.trim().split(/\s+/).length;
+      const isSpelling = /(?:\b[A-Z](?:[-\s][A-Z]){2,}\b)|(?:\b\d{4,}\b)/.test(c);
+      const effRate = isSpelling ? Math.min(rate, 0.55) : rate;
+      const speakSec = (words * 0.38) / Math.max(effRate, 0.3);
+      const next = chunks[i + 1] ?? "";
+      const isDialogueChange = /^[A-Z][a-z]+:/.test(next) && !/^[A-Z][a-z]+:/.test(c);
+      const gapMs = isSpelling ? 900 : isDialogueChange ? 700 : /[?!]$/.test(c) ? 550 : 420;
+      return speakSec + gapMs / 1000;
+    });
+  }, [chunks, rate]);
+
+  const cumulative = useMemo(() => {
+    const arr: number[] = [0];
+    for (let i = 0; i < chunkDurations.length - 1; i++) arr.push(arr[i] + chunkDurations[i]);
+    return arr;
+  }, [chunkDurations]);
+  const totalDuration = useMemo(
+    () => chunkDurations.reduce((a, b) => a + b, 0),
+    [chunkDurations]
+  );
+  const currentTime = Math.min(totalDuration, (cumulative[currentIdx] ?? 0) + elapsedInChunk);
+
+  const stopTick = () => {
+    if (tickRef.current) { window.clearInterval(tickRef.current); tickRef.current = null; }
+  };
+  const startTick = () => {
+    stopTick();
+    tickRef.current = window.setInterval(() => {
+      if (pausedAtRef.current != null) return;
+      const now = performance.now();
+      const e = (now - chunkStartedAtRef.current - pausedAccumRef.current) / 1000;
+      setElapsedInChunk(Math.max(0, e));
+    }, 200) as unknown as number;
+  };
+
+  useEffect(() => {
+    return () => {
+      try { window.speechSynthesis?.cancel(); } catch { /* noop */ }
+      if (chunkTimerRef.current) window.clearTimeout(chunkTimerRef.current);
+      stopTick();
+    };
+  }, []);
+
   const pickVoice = () => {
     const voices = window.speechSynthesis.getVoices();
-    // Prefer natural-sounding GB voices if available, else any GB, else any en.
     return (
       voices.find(v => /en[-_]GB/i.test(v.lang) && /natural|premium|neural|enhanced/i.test(v.name)) ||
       voices.find(v => /en[-_]GB/i.test(v.lang)) ||
@@ -75,17 +128,24 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
     );
   };
 
-  const speakChunks = (chunks: string[], idx: number) => {
+  const speakChunks = useCallback((startIdx: number) => {
     if (cancelledRef.current) return;
-    if (idx >= chunks.length) {
+    if (startIdx >= chunks.length) {
       setPlaying(false);
       setPaused(false);
+      setCurrentIdx(0);
+      setElapsedInChunk(0);
+      stopTick();
       return;
     }
-    const raw = chunks[idx];
-    // Detect spelling (A-B-C, hyphenated single letters) or long digit sequences and slow down + add pauses
+    setCurrentIdx(startIdx);
+    setElapsedInChunk(0);
+    chunkStartedAtRef.current = performance.now();
+    pausedAccumRef.current = 0;
+    pausedAtRef.current = null;
+
+    const raw = chunks[startIdx];
     const isSpelling = /(?:\b[A-Z](?:[-\s][A-Z]){2,}\b)|(?:\b(?:zero|one|two|three|four|five|six|seven|eight|nine|oh|double|triple)(?:[\s,-]+(?:zero|one|two|three|four|five|six|seven|eight|nine|oh|double|triple)){2,}\b)|(?:\b\d{4,}\b)/i.test(raw);
-    // Insert tiny pauses between hyphen-separated letters so each letter is heard clearly
     const text = isSpelling
       ? raw.replace(/-/g, ", ").replace(/\b([A-Z])\b/g, "$1,")
       : raw;
@@ -96,39 +156,73 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
     const v = pickVoice();
     if (v) u.voice = v;
     const isDialogueChange =
-      idx > 0 && /^[A-Z][a-z]+:/.test(chunks[idx]) && !/^[A-Z][a-z]+:/.test(chunks[idx - 1]);
-    // Pause between sentences: longer for paragraph / speaker change. Even longer after spelling.
-    const gapMs = isSpelling ? 900 : isDialogueChange ? 700 : /[?!]$/.test(chunks[idx - 1] ?? "") ? 550 : 420;
+      startIdx > 0 && /^[A-Z][a-z]+:/.test(chunks[startIdx]) && !/^[A-Z][a-z]+:/.test(chunks[startIdx - 1]);
+    const gapMs = isSpelling ? 900 : isDialogueChange ? 700 : /[?!]$/.test(chunks[startIdx - 1] ?? "") ? 550 : 420;
     u.onend = () => {
       if (cancelledRef.current) return;
-      chunkTimerRef.current = window.setTimeout(() => speakChunks(chunks, idx + 1), gapMs);
+      chunkTimerRef.current = window.setTimeout(() => speakChunks(startIdx + 1), gapMs);
     };
-    u.onerror = () => { setPlaying(false); setPaused(false); };
+    u.onerror = () => { setPlaying(false); setPaused(false); stopTick(); };
     window.speechSynthesis.speak(u);
-  };
+  }, [chunks, rate]);
 
-  const speak = () => {
+  const speak = (fromIdx = 0) => {
     if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    if (chunkTimerRef.current) window.clearTimeout(chunkTimerRef.current);
     window.speechSynthesis.cancel();
     cancelledRef.current = false;
-    const chunks = buildChunks(s.transcript);
     setPlaying(true);
     setPaused(false);
-    speakChunks(chunks, 0);
+    startTick();
+    speakChunks(fromIdx);
   };
 
   const togglePause = () => {
     if (!window.speechSynthesis) return;
-    if (paused) { window.speechSynthesis.resume(); setPaused(false); }
-    else { window.speechSynthesis.pause(); setPaused(true); }
+    if (paused) {
+      window.speechSynthesis.resume();
+      if (pausedAtRef.current != null) {
+        pausedAccumRef.current += performance.now() - pausedAtRef.current;
+        pausedAtRef.current = null;
+      }
+      setPaused(false);
+    } else {
+      window.speechSynthesis.pause();
+      pausedAtRef.current = performance.now();
+      setPaused(true);
+    }
   };
 
   const stop = () => {
     cancelledRef.current = true;
     if (chunkTimerRef.current) window.clearTimeout(chunkTimerRef.current);
     window.speechSynthesis?.cancel();
+    stopTick();
     setPlaying(false);
     setPaused(false);
+    setCurrentIdx(0);
+    setElapsedInChunk(0);
+  };
+
+  // Seek to a time (seconds) by finding the corresponding chunk and restarting playback there.
+  const seekToTime = (timeSec: number) => {
+    if (!chunks.length) return;
+    let idx = 0;
+    for (let i = 0; i < cumulative.length; i++) {
+      if (cumulative[i] <= timeSec) idx = i; else break;
+    }
+    if (playing) {
+      speak(idx);
+    } else {
+      setCurrentIdx(idx);
+      setElapsedInChunk(0);
+    }
+  };
+
+  const skipChunks = (delta: number) => {
+    const target = Math.max(0, Math.min(chunks.length - 1, currentIdx + delta));
+    if (playing) speak(target);
+    else { setCurrentIdx(target); setElapsedInChunk(0); }
   };
 
 
@@ -208,8 +302,9 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
           </div>
           <div className="flex flex-wrap items-center gap-2">
             {!playing ? (
-              <Button onClick={speak} size="sm" className="gap-2">
-                <Play className="w-4 h-4" /> {t("Phát", "Play")}
+              <Button onClick={() => speak(currentIdx)} size="sm" className="gap-2">
+                <Play className="w-4 h-4" />
+                {currentIdx > 0 ? t("Tiếp tục", "Resume") : t("Phát", "Play")}
               </Button>
             ) : (
               <>
@@ -222,6 +317,26 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
                 </Button>
               </>
             )}
+            <Button
+              onClick={() => skipChunks(-1)}
+              size="sm"
+              variant="outline"
+              className="gap-1 px-2"
+              title={t("Lùi 1 câu", "Previous sentence")}
+              disabled={currentIdx <= 0 && elapsedInChunk < 0.5}
+            >
+              <SkipBack className="w-4 h-4" />
+            </Button>
+            <Button
+              onClick={() => skipChunks(1)}
+              size="sm"
+              variant="outline"
+              className="gap-1 px-2"
+              title={t("Tới 1 câu", "Next sentence")}
+              disabled={currentIdx >= chunks.length - 1}
+            >
+              <SkipForward className="w-4 h-4" />
+            </Button>
             <div className="flex items-center gap-2 ml-auto">
               <Gauge className="w-4 h-4 text-muted-foreground" />
               <select
@@ -242,6 +357,36 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
               </Button>
             </div>
           </div>
+
+          {/* Seekable progress bar */}
+          <div className="flex items-center gap-3 pt-1">
+            <span className="text-xs font-mono text-muted-foreground tabular-nums w-10 text-right">
+              {formatTime(currentTime)}
+            </span>
+            <Slider
+              value={[Math.min(currentTime, totalDuration)]}
+              min={0}
+              max={Math.max(1, totalDuration)}
+              step={0.5}
+              onValueChange={(v) => {
+                const t0 = v[0] ?? 0;
+                // Update display immediately for responsive scrubbing
+                let idx = 0;
+                for (let i = 0; i < cumulative.length; i++) {
+                  if (cumulative[i] <= t0) idx = i; else break;
+                }
+                setCurrentIdx(idx);
+                setElapsedInChunk(Math.max(0, t0 - (cumulative[idx] ?? 0)));
+              }}
+              onValueCommit={(v) => seekToTime(v[0] ?? 0)}
+              className="flex-1"
+              aria-label={t("Thanh tua bài nghe", "Audio seek bar")}
+            />
+            <span className="text-xs font-mono text-muted-foreground tabular-nums w-10">
+              {formatTime(totalDuration)}
+            </span>
+          </div>
+
           {showTranscript && (
             <div className="mt-2 rounded-lg bg-background border border-border overflow-hidden">
               <div className="px-3 py-1.5 bg-muted/60 text-xs font-semibold text-foreground border-b border-border">
