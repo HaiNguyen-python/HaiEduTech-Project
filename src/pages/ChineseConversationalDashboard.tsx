@@ -78,7 +78,7 @@ const ChineseConversationalDashboard = () => {
       <main className="container mx-auto px-4 py-8 max-w-5xl">
         <Link to="/chinese/conversational" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary mb-6">
           <ArrowLeft className="h-4 w-4" />
-          Conversational Chinese
+          Chinese Foundation
         </Link>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-10">

@@ -90,7 +90,7 @@ const courseData: Record<string, {
     duration: "Thời gian học linh hoạt", durationEn: "Flexible schedule",
   },
   conversational: {
-    title: "Tiếng Trung Giao tiếp", titleEn: "Conversational Chinese",
+    title: "Tiếng Trung Nền tảng", titleEn: "Chinese Foundation",
     level: "Tất cả trình độ", levelEn: "All Levels",
     heroDesc: "Nói tiếng Trung tự tin trong 4 tháng! Khóa học tập trung vào nói và nghe trong tình huống thực tế - du lịch, kinh doanh với đối tác Trung Quốc, và cuộc sống hàng ngày.",
     heroDescEn: "Speak Chinese confidently in 4 months! Focused on speaking and listening in real situations - travel, business with Chinese partners, and daily life.",

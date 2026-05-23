@@ -80,6 +80,7 @@ const ChineseConversationalLessonView = lazy(() => import("./pages/ChineseConver
 const ChineseCultureHub = lazy(() => import("./pages/ChineseCultureHub.tsx"));
 const HskVocabulary = lazy(() => import("./pages/HskVocabulary.tsx"));
 const ChineseArcade = lazy(() => import("./pages/ChineseArcade.tsx"));
+const ChineseReading = lazy(() => import("./pages/ChineseReading.tsx"));
 const VietnameseArcade = lazy(() => import("./pages/VietnameseArcade.tsx"));
 const CambridgeArcade = lazy(() => import("./pages/CambridgeArcade.tsx"));
 const ProgrammingArcade = lazy(() => import("./pages/ProgrammingArcade.tsx"));
@@ -197,6 +198,7 @@ const App = () => (
             <Route path="/chinese/:courseId" element={<LazyRoute><ChineseCourse /></LazyRoute>} />
             <Route path="/chinese/hsk/vocabulary" element={<LazyRoute><HskVocabulary /></LazyRoute>} />
             <Route path="/chinese/arcade" element={<LazyRoute><ChineseArcade /></LazyRoute>} />
+            <Route path="/chinese/reading" element={<LazyRoute><ChineseReading /></LazyRoute>} />
             <Route path="/learn-vietnamese/arcade" element={<LazyRoute><VietnameseArcade /></LazyRoute>} />
             <Route path="/english/arcade" element={<Navigate to="/cambridge/arcade" replace />} />
             <Route path="/finnish/arcade" element={<LazyRoute><FinnishArcade /></LazyRoute>} />
