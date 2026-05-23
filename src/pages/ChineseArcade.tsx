@@ -726,6 +726,8 @@ const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
   const [gameOver, setGameOver] = useState(false);
   const [flashCorrect, setFlashCorrect] = useState(false);
   const [flashWrong, setFlashWrong] = useState(false);
+  // Reveal panel shown after a wrong choice so the student can review the right tone
+  const [reveal, setReveal] = useState<{ word: HskWord; correctTone: string; chosenTone: string } | null>(null);
 
   const loadNewWord = useCallback(() => {
     if (singleTone.length === 0) return;
@@ -745,7 +747,7 @@ const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
 
   const submitChoice = useCallback(
     (trackIdx: number) => {
-      if (!currentWord) return;
+      if (!currentWord || reveal) return;
       const correctTone = extractTones(currentWord.pinyin)[0];
       const chosenTone = trackTones[trackIdx];
       if (chosenTone === correctTone) {
@@ -760,19 +762,25 @@ const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
       } else {
         setCombo(1);
         setFlashWrong(true);
+        setReveal({ word: currentWord, correctTone, chosenTone });
+        speakChinese(currentWord.character);
         setLives(l => {
           const nl = l - 1;
-          if (nl <= 0) setGameOver(true);
+          if (nl <= 0) {
+            setTimeout(() => setGameOver(true), 1800);
+          }
           return nl;
         });
-        setTimeout(() => {
-          setFlashWrong(false);
-          loadNewWord();
-        }, 600);
       }
     },
-    [currentWord, trackTones, combo, loadNewWord]
+    [currentWord, trackTones, combo, loadNewWord, reveal]
   );
+
+  const dismissReveal = useCallback(() => {
+    setReveal(null);
+    setFlashWrong(false);
+    loadNewWord();
+  }, [loadNewWord]);
 
   // Keyboard controls (1-4 keys, or Arrow Left/Right to switch tracks then Enter)
   useEffect(() => {
