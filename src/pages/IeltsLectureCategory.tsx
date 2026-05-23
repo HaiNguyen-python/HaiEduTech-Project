@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/select";
 import {
   CheckCircle, Clock, BookOpen, Pen, Mic, Search, Heart, Sparkles,
-  ArrowLeft, Wrench, Lightbulb, BookOpenText, X,
+  ArrowLeft, Wrench, Lightbulb, BookOpenText, X, ChevronDown,
 } from "lucide-react";
 import { allIeltsLectures, PILLAR_META } from "@/data/ieltsLecturesData";
 
