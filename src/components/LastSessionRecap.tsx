@@ -86,6 +86,18 @@ function truncate(str: string, len: number) {
   return clean.length > len ? clean.slice(0, len) + "…" : clean;
 }
 
+// Convert lecture slug ids like "ielts-band-7-task-1" → "IELTS Band 7 Task 1"
+function prettyLectureId(id: string) {
+  if (!id) return "(không rõ)";
+  return id
+    .replace(/[-_]+/g, " ")
+    .replace(/\b([a-z])/g, (_, c) => c.toUpperCase())
+    .replace(/\bIelts\b/g, "IELTS")
+    .replace(/\bToeic\b/g, "TOEIC")
+    .replace(/\bHsk\b/g, "HSK")
+    .replace(/\bYki\b/g, "YKI");
+}
+
 export default function LastSessionRecap() {
   const [open, setOpen] = useState(false);
   const [activities, setActivities] = useState<Activity[]>([]);
