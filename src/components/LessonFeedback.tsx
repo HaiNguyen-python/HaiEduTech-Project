@@ -194,9 +194,9 @@ const LessonFeedback = ({
                 ) : (
                   <>
                     <p className="text-xs text-muted-foreground">
-                      {t(
-                        "Bạn thấy bài học này thế nào? Phản hồi giúp thầy cải thiện nội dung.",
-                        "How was this lesson? Your feedback helps improve content.",
+                       {t(
+                        "Bạn thấy bài học hôm nay thế nào? Phản hồi giúp thầy cải thiện nội dung.",
+                        "How was this lesson today? Your feedback helps improve content.",
                       )}
                     </p>
 
@@ -222,7 +222,7 @@ const LessonFeedback = ({
                         }`}
                       >
                         <ThumbsDown className={`w-4 h-4 ${quick === "dislike" ? "fill-orange-500" : ""}`} />
-                        {t("Cần cải thiện", "Needs work")}
+                        {t("Cần cải thiện", "Needs Improvement")}
                       </button>
                     </div>
 
@@ -234,7 +234,7 @@ const LessonFeedback = ({
                         onChange={setClarity}
                       />
                       <StarRow
-                        label={t("Trải nghiệm công cụ AI", "AI tool experience")}
+                        label={t("Mức độ hấp dẫn của bài học", "Lesson Engagement")}
                         value={aiTool}
                         onChange={setAiTool}
                       />
