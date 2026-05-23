@@ -49,6 +49,7 @@ const Navbar = () => {
   const { user, isTeacher } = useUserRole();
   const { streak } = useStreak();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [upgradeOpen, setUpgradeOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
   // Get display name from user metadata or email
