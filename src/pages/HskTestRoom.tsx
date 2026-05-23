@@ -234,7 +234,7 @@ const HskTestRoom = () => {
                 const isRight = submitted && i === item.q.correct;
                 const isWrong = submitted && picked && i !== item.q.correct;
                 // If the option label is purely emoji/picture content, render it much larger like real HSK 1-3 papers.
-                const isPicOption = /^[\p{Extended_Pictographic}\s\d:°⚕️\u200d✓✗🕐🕑🕒🕓🕔🕕🕖🕗🕘🕙🕚🕛]+$/u.test(opt.label);
+                const isPicOption = /^[\p{Extended_Pictographic}\p{Emoji_Modifier_Base}\p{Emoji_Modifier}\p{Emoji_Component}\s\d:°✓✗\u200d\uFE0F]+$/u.test(opt.label);
                 return (
                   <button
                     key={i}
