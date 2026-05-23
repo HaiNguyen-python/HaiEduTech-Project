@@ -187,9 +187,9 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
 
                 {/* Payment block */}
                 <div className="rounded-xl border-2 border-amber-500/30 bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-950/30 dark:to-yellow-950/20 p-3 sm:p-4">
-                  <div className="flex items-center gap-2 mb-2">
+                  <div className="flex items-center gap-2 mb-3">
                     <ShieldCheck className="w-5 h-5 text-emerald-600" />
-                    <h3 className="text-sm font-bold text-foreground">
+                    <h3 className="text-base font-bold text-foreground">
                       {t("Thông tin chuyển khoản", "Bank Transfer Details")}
                     </h3>
                   </div>
