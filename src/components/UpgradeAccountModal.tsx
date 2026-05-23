@@ -172,13 +172,13 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                     <Sparkles className="w-4 h-4 text-amber-500" />
                     {t("Đặc quyền Premium", "Premium Perks")}
                   </h3>
-                  <div className="grid grid-cols-2 lg:grid-cols-3 gap-1.5">
+                  <div className="grid grid-cols-2 lg:grid-cols-3 gap-2">
                     {features.map((f) => (
-                      <div key={f.title} className="flex items-start gap-1.5 p-1.5 rounded-md border border-border bg-secondary/40 hover:border-amber-500/40 transition">
-                        <div className="text-base leading-none mt-0.5">{f.icon}</div>
+                      <div key={f.title} className="flex items-start gap-2 p-2 rounded-md border border-border bg-secondary/40 hover:border-amber-500/40 transition">
+                        <div className="text-lg leading-none mt-0.5">{f.icon}</div>
                         <div className="min-w-0">
-                          <div className="text-[11px] font-semibold text-foreground leading-tight">{f.title}</div>
-                          <div className="text-[10px] text-muted-foreground leading-snug mt-0.5">{f.desc}</div>
+                          <div className="text-[13px] font-semibold text-foreground leading-tight">{f.title}</div>
+                          <div className="text-[11px] text-muted-foreground leading-snug mt-0.5">{f.desc}</div>
                         </div>
                       </div>
                     ))}
@@ -202,11 +202,11 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                     )}
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-[240px,1fr] gap-3 items-start">
+                  <div className="grid grid-cols-1 md:grid-cols-[200px,1fr] gap-3 items-start">
                     {/* QR */}
-                    <div className="mx-auto md:mx-0 bg-white rounded-xl p-2 shadow-sm border border-amber-200">
-                      <img src={qrImage} alt="VietQR Vietcombank" className="w-[240px] h-auto rounded-md" loading="lazy" />
-                      <div className="text-[11px] text-center text-muted-foreground mt-1 font-medium">
+                    <div className="mx-auto md:mx-0 bg-white rounded-xl p-1.5 shadow-sm border border-amber-200">
+                      <img src={qrImage} alt="VietQR Vietcombank" className="w-[200px] h-auto rounded-md" loading="lazy" />
+                      <div className="text-[10px] text-center text-muted-foreground mt-0.5 font-medium">
                         {t("Quét VietQR để chuyển nhanh", "Scan VietQR to pay")}
                       </div>
                     </div>
@@ -276,16 +276,16 @@ interface RowProps {
   big?: boolean; mono?: boolean;
 }
 const Row = ({ label, value, copyable, copied, onCopy, big, mono }: RowProps) => (
-  <div className="flex items-center justify-between gap-3 py-1 border-b border-amber-200/50 dark:border-amber-800/30 last:border-0">
-    <span className="text-xs font-medium text-muted-foreground shrink-0">{label}</span>
-    <div className="flex items-center gap-2 min-w-0">
-      <span className={`text-foreground text-right break-all ${big ? "text-sm sm:text-base font-extrabold tracking-wider" : "text-xs font-semibold"} ${mono ? "font-mono text-xs sm:text-sm" : ""}`}>
+  <div className="flex items-center gap-2 py-1 border-b border-amber-200/50 dark:border-amber-800/30 last:border-0">
+    <span className="text-xs font-medium text-muted-foreground shrink-0 w-[110px]">{label}</span>
+    <div className="flex items-center gap-2 min-w-0 flex-1">
+      <span className={`text-foreground break-all ${big ? "text-sm sm:text-base font-extrabold tracking-wider" : "text-xs font-semibold"} ${mono ? "font-mono text-xs sm:text-sm" : ""}`}>
         {value}
       </span>
       {copyable && (
         <button
           onClick={onCopy}
-          className="p-1 rounded-md bg-white dark:bg-card border border-amber-300 dark:border-amber-700 hover:bg-amber-100 dark:hover:bg-amber-900/30 transition shrink-0"
+          className="p-1 rounded-md bg-white dark:bg-card border border-amber-300 dark:border-amber-700 hover:bg-amber-100 dark:hover:bg-amber-900/30 transition shrink-0 ml-auto"
           aria-label="Copy"
         >
           {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" />}
