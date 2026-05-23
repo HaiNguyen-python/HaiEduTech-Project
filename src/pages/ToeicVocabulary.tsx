@@ -483,7 +483,7 @@ const ToeicVocabulary = () => {
 
         {/* Filters */}
         {mode !== "exercise" && (
-          <div className="space-y-4 mb-8">
+          <div className="space-y-3 mb-8">
             {/* Search */}
             <div className="relative max-w-md">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
@@ -496,79 +496,59 @@ const ToeicVocabulary = () => {
               />
             </div>
 
-            {/* Level Filter */}
-            <div className="flex flex-wrap gap-2">
-              <span className="text-slate-700 text-sm font-bold uppercase self-center mr-2">{t("Cấp độ", "Level")}:</span>
-              {["All", ...TOEIC_LEVELS].map((lvl) => (
-                <button
-                  key={lvl}
-                  onClick={() => { setActiveLevel(lvl); setPage(1); }}
-                  className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all border shadow-sm ${
-                    activeLevel === lvl
-                      ? "bg-blue-600 text-white border-blue-500 shadow-blue-300/40"
-                      : "bg-white text-slate-700 border-sky-200 hover:border-blue-400 hover:bg-blue-50"
-                  }`}
+            {/* Compact dropdown row */}
+            <div className="flex flex-wrap gap-3 items-end">
+              {/* Level dropdown */}
+              <label className="flex flex-col gap-1 min-w-[150px] flex-1 sm:flex-none">
+                <span className="text-xs font-bold uppercase text-slate-600 dark:text-slate-300 tracking-wide">{t("Cấp độ", "Level")}</span>
+                <select
+                  value={activeLevel}
+                  onChange={(e) => { setActiveLevel(e.target.value); setPage(1); }}
+                  className="px-3 py-2 rounded-lg bg-white dark:bg-[#1E293B]/80 border border-sky-200 dark:border-slate-700/50 text-slate-900 dark:text-white font-semibold text-sm shadow-sm hover:border-blue-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-500/30 cursor-pointer"
                 >
-                  {lvl === "All" ? t("Tất cả", "All") : levelLabels[lvl]}
-                </button>
-              ))}
-            </div>
+                  <option value="All">{t("Tất cả", "All")}</option>
+                  {TOEIC_LEVELS.map(lvl => (
+                    <option key={lvl} value={lvl}>{levelLabels[lvl]}</option>
+                  ))}
+                </select>
+              </label>
 
-            {/* Sort Filter */}
-            <div className="flex flex-wrap gap-2 items-center">
-              <span className="text-slate-700 text-sm font-bold uppercase self-center mr-2">{t("Sắp xếp", "Sort")}:</span>
-              {[
-                { key: "default", vi: "Mặc định", en: "Default" },
-                { key: "az", vi: "A → Z", en: "A → Z" },
-                { key: "za", vi: "Z → A", en: "Z → A" },
-                { key: "easy", vi: "Dễ → Khó", en: "Easy → Hard" },
-                { key: "hard", vi: "Khó → Dễ", en: "Hard → Easy" },
-                { key: "mastered", vi: "Đã thuộc trước", en: "Mastered first" },
-                { key: "unmastered", vi: "Chưa thuộc trước", en: "Unmastered first" },
-              ].map((s) => (
-                <button
-                  key={s.key}
-                  onClick={() => { setSortBy(s.key as SortKey); setPage(1); }}
-                  className={`px-3 py-2 rounded-lg text-sm font-semibold transition-all border shadow-sm ${
-                    sortBy === s.key
-                      ? "bg-emerald-600 text-white border-emerald-500 shadow-emerald-300/40"
-                      : "bg-white text-slate-700 border-emerald-200 hover:border-emerald-400 hover:bg-emerald-50"
-                  }`}
+              {/* Sort dropdown */}
+              <label className="flex flex-col gap-1 min-w-[170px] flex-1 sm:flex-none">
+                <span className="text-xs font-bold uppercase text-slate-600 dark:text-slate-300 tracking-wide">{t("Sắp xếp", "Sort")}</span>
+                <select
+                  value={sortBy}
+                  onChange={(e) => { setSortBy(e.target.value as SortKey); setPage(1); }}
+                  className="px-3 py-2 rounded-lg bg-white dark:bg-[#1E293B]/80 border border-emerald-200 dark:border-slate-700/50 text-slate-900 dark:text-white font-semibold text-sm shadow-sm hover:border-emerald-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200 dark:focus:ring-emerald-500/30 cursor-pointer"
                 >
-                  {t(s.vi, s.en)}
-                </button>
-              ))}
-            </div>
+                  {[
+                    { key: "default", vi: "Mặc định", en: "Default" },
+                    { key: "az", vi: "A → Z", en: "A → Z" },
+                    { key: "za", vi: "Z → A", en: "Z → A" },
+                    { key: "easy", vi: "Dễ → Khó", en: "Easy → Hard" },
+                    { key: "hard", vi: "Khó → Dễ", en: "Hard → Easy" },
+                    { key: "mastered", vi: "Đã thuộc trước", en: "Mastered first" },
+                    { key: "unmastered", vi: "Chưa thuộc trước", en: "Unmastered first" },
+                  ].map(s => (
+                    <option key={s.key} value={s.key}>{t(s.vi, s.en)}</option>
+                  ))}
+                </select>
+              </label>
 
-            {/* Category Filter */}
-            <div className="flex flex-wrap gap-2">
-              <span className="text-slate-700 text-sm font-bold uppercase self-center mr-2">{t("Chủ đề", "Topic")}:</span>
-              <button
-                onClick={() => { setActiveCategory("All"); setPage(1); }}
-                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all border shadow-sm ${
-                  activeCategory === "All"
-                    ? "bg-blue-600 text-white border-blue-500 shadow-blue-300/40"
-                    : "bg-white text-slate-700 border-sky-200 hover:border-blue-400 hover:bg-blue-50"
-                }`}
-              >
-                {t("Tất cả", "All")} ({categoryStats["All"]})
-              </button>
-              {TOEIC_CATEGORIES.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => { setActiveCategory(cat); setPage(1); }}
-                  className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all border shadow-sm flex items-center gap-2 ${
-                    activeCategory === cat
-                      ? "bg-blue-600 text-white border-blue-500 shadow-blue-300/40"
-                      : "bg-white text-slate-700 border-sky-200 hover:border-blue-400 hover:bg-blue-50"
-                  }`}
+              {/* Category dropdown */}
+              <label className="flex flex-col gap-1 min-w-[220px] flex-1">
+                <span className="text-xs font-bold uppercase text-slate-600 dark:text-slate-300 tracking-wide">{t("Chủ đề", "Topic")}</span>
+                <select
+                  value={activeCategory}
+                  onChange={(e) => { setActiveCategory(e.target.value); setPage(1); }}
+                  className="px-3 py-2 rounded-lg bg-white dark:bg-[#1E293B]/80 border border-sky-200 dark:border-slate-700/50 text-slate-900 dark:text-white font-semibold text-sm shadow-sm hover:border-blue-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-500/30 cursor-pointer"
                 >
-                  {categoryIcons[cat]}
-                  <span className="hidden sm:inline">{cat}</span>
-                  <span className="sm:hidden">{cat.split(" ")[0]}</span>
-                  <span className="text-xs opacity-70">({categoryStats[cat]})</span>
-                </button>
-              ))}
+                  <option value="All">{t("Tất cả", "All")} ({categoryStats["All"]})</option>
+                  {TOEIC_CATEGORIES.map(cat => (
+                    <option key={cat} value={cat}>{cat} ({categoryStats[cat]})</option>
+                  ))}
+                </select>
+              </label>
             </div>
           </div>
         )}
