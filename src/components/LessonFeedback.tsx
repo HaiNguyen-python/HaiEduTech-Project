@@ -125,11 +125,14 @@ const LessonFeedback = ({
         whileHover={{ scale: 1.05, x: -2 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setOpen(true)}
-        className="fixed right-0 top-[40%] -translate-y-1/2 z-[60] flex items-center gap-1.5 px-2.5 py-2 rounded-l-xl bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-xl shadow-orange-500/30 border-l border-y border-amber-300/50 hover:shadow-2xl"
+        className="fixed right-0 top-[40%] -translate-y-1/2 z-[60] flex flex-col items-center gap-1 px-1.5 py-2.5 rounded-l-xl bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-xl shadow-orange-500/30 border-l border-y border-amber-300/50 hover:shadow-2xl"
         aria-label={t("Gửi phản hồi bài học", "Send lesson feedback")}
       >
         <MessageSquareHeart className="w-4 h-4 shrink-0" />
-        <span className="text-[10px] font-bold tracking-wider leading-tight">
+        <span
+          className="text-[10px] font-bold tracking-wider leading-tight"
+          style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
+        >
           {t("PHẢN HỒI", "FEEDBACK")}
         </span>
       </motion.button>
