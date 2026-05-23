@@ -229,7 +229,7 @@ const LessonFeedback = ({
                       </div>
 
                       {/* Detailed ratings */}
-                      <div className="space-y-3 p-3 rounded-xl bg-muted/40 border border-border">
+                      <div className="space-y-2 p-2.5 rounded-xl bg-muted/40 border border-border">
                         <StarRow
                           label={t("Độ rõ ràng nội dung", "Content clarity")}
                           value={clarity}
@@ -249,13 +249,13 @@ const LessonFeedback = ({
 
                       {/* Suggestion */}
                       <div className="flex flex-col gap-1">
-                        <label className="text-[13px] font-bold text-foreground">
+                        <label className="text-xs font-bold text-foreground">
                           {t("Góp ý cho thầy (tùy chọn)", "Suggestion (optional)")}
                         </label>
                         <textarea
                           value={suggestion}
                           onChange={(e) => setSuggestion(e.target.value.slice(0, 500))}
-                          rows={3}
+                          rows={2}
                           placeholder={t(
                             "Bạn muốn thầy điều chỉnh điều gì?",
                             "What would you like Mr. Hai to improve?",
@@ -272,11 +272,11 @@ const LessonFeedback = ({
               </div>
 
               {/* Sticky submit footer */}
-              <div className="shrink-0 p-3 border-t-2 border-amber-300/40 bg-card rounded-b-2xl">
+              <div className="shrink-0 p-3 border-t-2 border-amber-300/40 bg-card rounded-b-2xl shadow-[0_-10px_24px_-18px_hsl(var(--foreground))]">
                 <button
                   onClick={handleSubmit}
                   disabled={submitted || !canSubmit}
-                  className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-bold text-sm shadow-lg shadow-orange-500/30 disabled:opacity-60 disabled:cursor-not-allowed hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all"
+                  className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-bold text-sm shadow-lg shadow-orange-500/30 disabled:opacity-60 disabled:cursor-not-allowed hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all"
                 >
                   <Send className="w-4 h-4" />
                   {submitted
