@@ -12,21 +12,26 @@ import type { HskWord } from "./types";
 const stripAnnotations = (s: string): string => {
   if (!s) return s;
   let out = s;
+  // Strip bracketed pinyin first: [pin1 yin1]
+  out = out.replace(/\[[^\]]*\]/g, "");
+  // Remove "see also X", "erhua variant of X", "old variant of X", "variant of X", "same as X"
+  out = out.replace(/\b(see also|erhua variant of|old variant of|variant of|same as|see)\s+\S+/gi, "");
   // Remove parenthesised annotations: (...)
   out = out.replace(/\([^()]*\)/g, "");
-  // Remove bracketed pinyin: [pin1 yin1]
-  out = out.replace(/\[[^\]]*\]/g, "");
   // Remove "CL:..." classifier hints up to ; or end
   out = out.replace(/\bCL:[^;]*;?/g, "");
-  // Remove "see also ...", "erhua variant of ...", "variant of ...", "old variant of ..."
-  out = out.replace(/\b(see also|erhua variant of|old variant of|variant of|same as|see)\s+[^;,]+/gi, "");
-  // Collapse stray punctuation and whitespace
-  out = out.replace(/\s+/g, " ").replace(/\s*([;,])\s*/g, "$1 ").replace(/^[;, \s]+|[;, \s]+$/g, "");
-  // If multiple senses remain, keep the first 2 to stay concise
+  // Collapse stray punctuation/pipes/whitespace
+  out = out.replace(/\s+/g, " ").replace(/\s*([;,])\s*/g, "$1 ").replace(/^[;,\s|]+|[;,\s|]+$/g, "");
   const parts = out.split(";").map(p => p.trim()).filter(Boolean);
   if (parts.length > 2) out = parts.slice(0, 2).join("; ");
   else out = parts.join("; ");
   return out.trim();
+};
+
+// Fallback when the entire gloss was an annotation. Keep words, drop punctuation.
+const lossyFallback = (s: string): string => {
+  if (!s) return s;
+  return s.replace(/\[[^\]]*\]/g, "").replace(/[()|"']/g, "").replace(/\s+/g, " ").trim().slice(0, 80);
 };
 
 // ---- Small EN→VI dictionary for the most common HSK-style glosses ----
