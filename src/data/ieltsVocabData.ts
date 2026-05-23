@@ -875,11 +875,12 @@ import { ieltsVocabExpansion3 } from "./ieltsVocabExpansion3";
 import { ieltsVocabExpansion4 } from "./ieltsVocabExpansion4";
 import { ieltsVocabExpansion5 } from "./ieltsVocabExpansion5";
 import { ieltsVocabExpansion6 } from "./ieltsVocabExpansion6";
+import { ieltsVocabExpansion7 } from "./ieltsVocabExpansion7";
 
 const _ieltsSeen = new Set<string>();
-export const ieltsVocabData: IeltsWord[] = [..._ieltsBase, ...ieltsVocabExpansion, ...ieltsVocabExpansion2, ...ieltsVocabExpansion3, ...ieltsVocabExpansion4, ...ieltsVocabExpansion5, ...ieltsVocabExpansion6].filter((w) => {
+export const ieltsVocabData: IeltsWord[] = [..._ieltsBase, ...ieltsVocabExpansion, ...ieltsVocabExpansion2, ...ieltsVocabExpansion3, ...ieltsVocabExpansion4, ...ieltsVocabExpansion5, ...ieltsVocabExpansion6, ...ieltsVocabExpansion7].filter((w) => {
   const k = w.word.toLowerCase();
   if (_ieltsSeen.has(k)) return false;
   _ieltsSeen.add(k);
   return true;
-});
+}).slice(0, 999);
