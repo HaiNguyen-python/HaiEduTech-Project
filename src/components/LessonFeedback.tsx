@@ -222,7 +222,7 @@ const LessonFeedback = ({
                         }`}
                       >
                         <ThumbsDown className={`w-4 h-4 ${quick === "dislike" ? "fill-orange-500" : ""}`} />
-                        {t("Cần cải thiện", "Needs work")}
+                        {t("Cần cải thiện", "Needs Improvement")}
                       </button>
                     </div>
 
