@@ -173,6 +173,10 @@ const TeacherDashboard = () => {
                   <ThumbsUp className="w-3.5 h-3.5" />
                   {t("Phản hồi bài học", "Content Performance")}
                 </TabsTrigger>
+                <TabsTrigger value="feedback-analytics" className="gap-1.5">
+                  <BarChart3 className="w-3.5 h-3.5" />
+                  {t("Phân tích phản hồi", "Feedback Analytics")}
+                </TabsTrigger>
               </TabsList>
 
               {/* Generate Tab - Embed TeacherAdmin */}
