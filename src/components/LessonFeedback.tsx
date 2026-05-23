@@ -2,7 +2,7 @@
 // Lets students submit a quick post-lesson rating + suggestion without leaving the page.
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageSquareHeart, X, Star, Send, ThumbsUp, ThumbsDown } from "lucide-react";
+import { MessageSquareHeart, X, Star, Send, ThumbsUp, ThumbsDown, Heart } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
@@ -171,8 +171,9 @@ const LessonFeedback = ({
                     <span className="text-sm font-bold">
                       {t("Phản hồi bài học", "Lesson Feedback")}
                     </span>
-                    <span className="text-[11px] font-extrabold opacity-95 tracking-wide">
+                    <span className="text-[11px] font-extrabold opacity-95 tracking-wide flex items-center gap-1">
                       {t("Mr. Hai lắng nghe bạn", "Mr. Hai always listens to your opinion.")}
+                      <Heart className="w-3 h-3 fill-red-500 text-red-500" />
                     </span>
                   </div>
                 </div>
