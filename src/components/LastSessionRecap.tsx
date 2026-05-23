@@ -269,7 +269,7 @@ export default function LastSessionRecap() {
               ) : lectures.map((l, i) => (
                 <div key={i} className="flex items-center justify-between p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors">
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium truncate">{l.lecture_id}</p>
+                    <p className="text-sm font-medium truncate">{prettyLectureId(l.lecture_id)}</p>
                     <div className="flex items-center gap-2 mt-1">
                       <Badge variant="secondary" className="text-[10px] px-1.5 py-0">{l.source}</Badge>
                       {l.completed_at && (
