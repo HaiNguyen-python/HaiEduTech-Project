@@ -104,7 +104,7 @@ const IeltsLectureCategory = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [levelFilter, setLevelFilter] = useState<"all" | "foundation" | "intermediate" | "advanced">("all");
   const [sortBy, setSortBy] = useState<"easy" | "hard" | "newest">("easy");
-  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({ task1: true, task2: true, other: true });
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({ task1: true, task2: true, part1: true, part2: true, part3: true, other: true });
   const toggleGroup = useCallback((key: string) => {
     setOpenGroups(prev => ({ ...prev, [key]: !prev[key] }));
   }, []);
@@ -422,6 +422,33 @@ const IeltsLectureCategory = () => {
                   {task1.length > 0 && renderGroup("task1", "Writing Task 1", "Writing Task 1", "📊", task1)}
                   {task2.length > 0 && renderGroup("task2", "Writing Task 2", "Writing Task 2", "✍️", task2)}
                   {other.length > 0 && renderGroup("other", "Khác", "Other", "📚", other)}
+                </motion.div>
+              );
+            }
+
+            if (catKey === "speaking") {
+              const matchPart = (l: typeof filtered[0], n: 1 | 2 | 3) => {
+                const id = l.id.toLowerCase();
+                const title = l.title.toLowerCase();
+                if (id.includes(`part${n}`) || new RegExp(`part\\s*${n}`, "i").test(title)) return true;
+                if (n === 2 && (id.includes("cue-card") || /cue\s*card/i.test(title))) return true;
+                return false;
+              };
+              const part1 = filtered.filter(l => matchPart(l, 1));
+              const part2 = filtered.filter(l => matchPart(l, 2));
+              const part3 = filtered.filter(l => matchPart(l, 3));
+              const other = filtered.filter(l => !part1.includes(l) && !part2.includes(l) && !part3.includes(l));
+              return (
+                <motion.div
+                  key={`speaking-grouped-${levelFilter}-${sortBy}-${searchQuery}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {part1.length > 0 && renderGroup("part1", "Speaking Part 1", "Speaking Part 1", "🗣️", part1)}
+                  {part2.length > 0 && renderGroup("part2", "Speaking Part 2 (Cue Card)", "Speaking Part 2 (Cue Card)", "🎴", part2)}
+                  {part3.length > 0 && renderGroup("part3", "Speaking Part 3", "Speaking Part 3", "💭", part3)}
+                  {other.length > 0 && renderGroup("other", "Kỹ năng chung", "General Skills", "🎯", other)}
                 </motion.div>
               );
             }
