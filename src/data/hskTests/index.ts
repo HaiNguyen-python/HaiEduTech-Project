@@ -62,7 +62,7 @@ export interface HskTestSection {
 }
 
 export interface HskTest {
-  level: 1 | 2 | 3 | 4 | 5 | 6;
+  level: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
   code: string;             // e.g. "HSK1-MOCK-01"
   title: string;
   titleVi: string;
@@ -80,6 +80,9 @@ import { hsk3Test } from "./hsk3";
 import { hsk4Test } from "./hsk4";
 import { hsk5Test } from "./hsk5";
 import { hsk6Test } from "./hsk6";
+import { hsk7Test } from "./hsk7";
+import { hsk8Test } from "./hsk8";
+import { hsk9Test } from "./hsk9";
 
 export const HSK_TESTS: Record<number, HskTest> = {
   1: hsk1Test,
@@ -88,6 +91,9 @@ export const HSK_TESTS: Record<number, HskTest> = {
   4: hsk4Test,
   5: hsk5Test,
   6: hsk6Test,
+  7: hsk7Test,
+  8: hsk8Test,
+  9: hsk9Test,
 };
 
 export const totalQuestions = (test: HskTest) =>
