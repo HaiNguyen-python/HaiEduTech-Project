@@ -26,8 +26,8 @@ const StarRow = ({
   value: number;
   onChange: (n: number) => void;
 }) => (
-  <div className="flex flex-col gap-1">
-    <span className="text-[11px] font-medium text-muted-foreground">{label}</span>
+  <div className="flex flex-col gap-1.5">
+    <span className="text-[13px] font-bold text-foreground">{label}</span>
     <div className="flex gap-1">
       {[1, 2, 3, 4, 5].map((n) => (
         <button
@@ -193,7 +193,7 @@ const LessonFeedback = ({
                   </motion.div>
                 ) : (
                   <>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-[13px] font-bold text-foreground leading-relaxed">
                        {t(
                         "Bạn thấy bài học hôm nay thế nào? Phản hồi giúp thầy cải thiện nội dung.",
                         "How was this lesson today? Your feedback helps improve content.",
@@ -204,24 +204,24 @@ const LessonFeedback = ({
                     <div className="flex gap-2">
                       <button
                         onClick={() => setQuick("like")}
-                        className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium border-2 transition-all ${
+                        className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold border-2 transition-all ${
                           quick === "like"
                             ? "bg-green-500/15 border-green-500/50 text-green-600"
                             : "bg-muted border-transparent hover:border-green-500/30 text-muted-foreground"
                         }`}
                       >
-                        <ThumbsUp className={`w-4 h-4 ${quick === "like" ? "fill-green-500" : ""}`} />
+                        <ThumbsUp className={`w-3.5 h-3.5 ${quick === "like" ? "fill-green-500" : ""}`} />
                         {t("Hữu ích", "Helpful")}
                       </button>
                       <button
                         onClick={() => setQuick("dislike")}
-                        className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium border-2 transition-all ${
+                        className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold border-2 transition-all ${
                           quick === "dislike"
                             ? "bg-orange-500/15 border-orange-500/50 text-orange-600"
                             : "bg-muted border-transparent hover:border-orange-500/30 text-muted-foreground"
                         }`}
                       >
-                        <ThumbsDown className={`w-4 h-4 ${quick === "dislike" ? "fill-orange-500" : ""}`} />
+                        <ThumbsDown className={`w-3.5 h-3.5 ${quick === "dislike" ? "fill-orange-500" : ""}`} />
                         {t("Cần cải thiện", "Needs Improvement")}
                       </button>
                     </div>
@@ -247,7 +247,7 @@ const LessonFeedback = ({
 
                     {/* Suggestion */}
                     <div className="flex flex-col gap-1">
-                      <label className="text-[11px] font-medium text-muted-foreground">
+                      <label className="text-[13px] font-bold text-foreground">
                         {t("Góp ý cho thầy (tùy chọn)", "Suggestion (optional)")}
                       </label>
                       <textarea
