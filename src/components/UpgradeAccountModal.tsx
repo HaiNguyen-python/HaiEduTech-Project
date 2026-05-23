@@ -202,11 +202,11 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                     )}
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-[240px,1fr] gap-3 items-start">
+                  <div className="grid grid-cols-1 md:grid-cols-[200px,1fr] gap-3 items-start">
                     {/* QR */}
-                    <div className="mx-auto md:mx-0 bg-white rounded-xl p-2 shadow-sm border border-amber-200">
-                      <img src={qrImage} alt="VietQR Vietcombank" className="w-[240px] h-auto rounded-md" loading="lazy" />
-                      <div className="text-[11px] text-center text-muted-foreground mt-1 font-medium">
+                    <div className="mx-auto md:mx-0 bg-white rounded-xl p-1.5 shadow-sm border border-amber-200">
+                      <img src={qrImage} alt="VietQR Vietcombank" className="w-[200px] h-auto rounded-md" loading="lazy" />
+                      <div className="text-[10px] text-center text-muted-foreground mt-0.5 font-medium">
                         {t("Quét VietQR để chuyển nhanh", "Scan VietQR to pay")}
                       </div>
                     </div>
