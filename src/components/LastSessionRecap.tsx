@@ -171,8 +171,9 @@ export default function LastSessionRecap() {
 
           setLoading(false);
 
-          const hasData = visibleActivities.length + (writRes.data?.length || 0) + (noteRes.data?.length || 0) + lects.length > 0;
-          if (hasData) setOpen(true);
+          // Always open the recap dialog on first login of the session, even if there's no data yet —
+          // an empty-state message is friendlier than the popup silently failing to appear.
+          setOpen(true);
         }
       }
     );
