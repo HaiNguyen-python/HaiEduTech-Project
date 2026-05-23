@@ -102,7 +102,16 @@ const LessonFeedback = ({
           "We'll use this to improve future lessons.",
         ),
       });
-      setTimeout(() => setOpen(false), 1200);
+      // Reset form so the student can submit fresh feedback after the next lesson
+      setTimeout(() => {
+        setOpen(false);
+        setSubmitted(false);
+        setQuick(null);
+        setClarity(0);
+        setAiTool(0);
+        setConfidence(0);
+        setSuggestion("");
+      }, 1500);
     } catch (err) {
       console.error("Feedback error:", err);
       toast({
