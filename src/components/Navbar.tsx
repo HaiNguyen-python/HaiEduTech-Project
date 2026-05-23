@@ -147,6 +147,7 @@ const Navbar = () => {
       { to: "/chinese/hsk-guide", label: t("🎓 HSK Exam Guide", "🎓 HSK Exam Guide") },
       { to: "/chinese/hsk-grammar", label: t("📐 HSK Grammar", "📐 HSK Grammar") },
       { to: "/chinese/hsk/vocabulary", label: t("📖 HSK Vocabulary", "📖 HSK Vocabulary") },
+      { to: "/chinese/hsk/test", label: t("📝 HSK Test (Đề thi thử)", "📝 HSK Test (Mock Exams)") },
     ] },
     { to: "#cn-conv-group", label: t("💬 Giao tiếp & Tương tác", "💬 Conversational"), groupLabel: "cn-conv", children: [
       { to: "/chinese/conversational/curriculum", label: t("🎯 Chương trình Tương tác", "🎯 Interactive Curriculum") },

@@ -142,7 +142,8 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
         {
           id: ++meteorIdRef.current,
           word: w,
-          x: 10 + Math.random() * 80,
+          // Tighter clamp so the ~190px meteor card never clips on either edge
+          x: 22 + Math.random() * 56,
           y: 0,
           // Much slower fall, gentle ramp by level
           speed: 0.05 + level * 0.012 + Math.random() * 0.03,
@@ -414,9 +415,19 @@ type IngredientWord = { char: string; id: number; used: boolean };
 
 const HotpotChef = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: () => void }) => {
   const { t } = useLanguage();
-  // Pick only multi-character HSK words for compound matching
+  // Pick HSK words appropriate to difficulty.
+  // easy = HSK 1-2, strictly 2-character compounds (real beginner compound words)
+  // hard = HSK 3-4, 2-3 char
+  // expert = HSK 5-6, 2-3 char
   const compoundWords = useMemo(
-    () => wordsForDifficulty(difficulty).filter(w => Array.from(w.character).length >= 2 && Array.from(w.character).length <= 3),
+    () => {
+      const pool = wordsForDifficulty(difficulty).filter(w => {
+        const len = Array.from(w.character).length;
+        if (difficulty === "easy") return len === 2;
+        return len >= 2 && len <= 3;
+      });
+      return pool;
+    },
     [difficulty]
   );
   const [score, setScore] = useState(0);
@@ -715,6 +726,8 @@ const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
   const [gameOver, setGameOver] = useState(false);
   const [flashCorrect, setFlashCorrect] = useState(false);
   const [flashWrong, setFlashWrong] = useState(false);
+  // Reveal panel shown after a wrong choice so the student can review the right tone
+  const [reveal, setReveal] = useState<{ word: HskWord; correctTone: string; chosenTone: string } | null>(null);
 
   const loadNewWord = useCallback(() => {
     if (singleTone.length === 0) return;
@@ -734,7 +747,7 @@ const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
 
   const submitChoice = useCallback(
     (trackIdx: number) => {
-      if (!currentWord) return;
+      if (!currentWord || reveal) return;
       const correctTone = extractTones(currentWord.pinyin)[0];
       const chosenTone = trackTones[trackIdx];
       if (chosenTone === correctTone) {
@@ -749,19 +762,25 @@ const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
       } else {
         setCombo(1);
         setFlashWrong(true);
+        setReveal({ word: currentWord, correctTone, chosenTone });
+        speakChinese(currentWord.character);
         setLives(l => {
           const nl = l - 1;
-          if (nl <= 0) setGameOver(true);
+          if (nl <= 0) {
+            setTimeout(() => setGameOver(true), 1800);
+          }
           return nl;
         });
-        setTimeout(() => {
-          setFlashWrong(false);
-          loadNewWord();
-        }, 600);
       }
     },
-    [currentWord, trackTones, combo, loadNewWord]
+    [currentWord, trackTones, combo, loadNewWord, reveal]
   );
+
+  const dismissReveal = useCallback(() => {
+    setReveal(null);
+    setFlashWrong(false);
+    loadNewWord();
+  }, [loadNewWord]);
 
   // Keyboard controls (1-4 keys, or Arrow Left/Right to switch tracks then Enter)
   useEffect(() => {
@@ -884,6 +903,38 @@ const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
         </motion.div>
 
         <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 shadow-[0_0_15px_rgba(236,72,153,0.6)]" />
+
+        {/* Reveal panel — appears when student picks the wrong tone */}
+        <AnimatePresence>
+          {reveal && (
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-x-4 bottom-16 z-20 rounded-2xl border-4 border-rose-500 bg-white/95 dark:bg-slate-900/95 backdrop-blur p-4 shadow-2xl"
+            >
+              <p className="text-center text-rose-600 font-bold text-sm mb-2 uppercase tracking-wider">
+                ❌ {t("Sai rồi! Đáp án đúng:", "Wrong! Correct answer:")}
+              </p>
+              <div className="flex items-center justify-center gap-4 flex-wrap mb-2">
+                <span className="text-5xl font-bold text-slate-900 dark:text-white">{reveal.word.character}</span>
+                <span className="text-3xl font-mono font-bold text-emerald-600">{reveal.word.pinyin}</span>
+              </div>
+              <div className="flex items-center justify-center gap-6 text-sm flex-wrap">
+                <span className="text-rose-600">
+                  {t("Bạn chọn:", "You picked:")} <strong className="text-2xl ml-1">{reveal.chosenTone}</strong>
+                </span>
+                <span className="text-emerald-700">
+                  {t("Đáp án:", "Correct:")} <strong className="text-2xl ml-1">{reveal.correctTone}</strong>
+                </span>
+              </div>
+              <p className="text-center text-sm text-slate-700 dark:text-slate-200 mt-2 font-semibold">{reveal.word.definition.vi}</p>
+              <Button onClick={dismissReveal} size="sm" className="mt-3 w-full bg-rose-500 hover:bg-rose-600 text-white">
+                {t("Tiếp tục →", "Continue →")}
+              </Button>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Mobile virtual controls */}

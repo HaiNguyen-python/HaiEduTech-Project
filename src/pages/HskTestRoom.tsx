@@ -195,21 +195,29 @@ const HskTestRoom = () => {
             {/* Reading prompt + optional pinyin */}
             {item.q.prompt && (
               <div className="mb-5">
-                <p className="text-foreground text-xl sm:text-2xl font-bold leading-relaxed whitespace-pre-wrap">{item.q.prompt}</p>
+                {/* Make picture-style prompts (emoji-heavy) much larger so they read as illustrations */}
+                {(() => {
+                  const isPicPrompt = item.q.type === "listen-tf" || /^[\p{Extended_Pictographic}\s\d:°⚕️\u200d✓✗📚🍳🏫🌡️☀️🍎🍌🍇🍉🥛📖🔥🌧️❄️🐶🐱🐰]+$/u.test(item.q.prompt || "");
+                  return (
+                    <p className={`text-foreground leading-relaxed whitespace-pre-wrap font-bold ${isPicPrompt ? "text-5xl sm:text-7xl text-center py-4" : "text-2xl sm:text-3xl"}`}>
+                      {item.q.prompt}
+                    </p>
+                  );
+                })()}
                 {(test.showPinyin || submitted) && item.q.promptPinyin && (
-                  <p className="text-sm text-muted-foreground italic mt-1">{item.q.promptPinyin}</p>
+                  <p className="text-base text-muted-foreground italic mt-1">{item.q.promptPinyin}</p>
                 )}
                 {submitted && item.q.promptVi && (
-                  <p className="text-sm text-primary mt-1">↳ {item.q.promptVi}</p>
+                  <p className="text-base text-primary mt-1">↳ {item.q.promptVi}</p>
                 )}
               </div>
             )}
 
             {/* Scrambled words for write-order */}
             {item.q.scrambled && (
-              <div className="mb-5 p-3 rounded-lg bg-secondary border border-border flex flex-wrap gap-2 justify-center">
+              <div className="mb-5 p-4 rounded-lg bg-secondary border border-border flex flex-wrap gap-2 justify-center">
                 {item.q.scrambled.map((w, i) => (
-                  <span key={i} className="px-3 py-1.5 rounded-md bg-card border border-border text-foreground text-lg font-bold">{w}</span>
+                  <span key={i} className="px-4 py-2 rounded-md bg-card border border-border text-foreground text-2xl sm:text-3xl font-bold">{w}</span>
                 ))}
               </div>
             )}
@@ -220,12 +228,14 @@ const HskTestRoom = () => {
                 const picked = answers[item.q.id] === i;
                 const isRight = submitted && i === item.q.correct;
                 const isWrong = submitted && picked && i !== item.q.correct;
+                // If the option label is purely emoji/picture content, render it much larger like real HSK 1-3 papers.
+                const isPicOption = /^[\p{Extended_Pictographic}\s\d:°⚕️\u200d✓✗🕐🕑🕒🕓🕔🕕🕖🕗🕘🕙🕚🕛]+$/u.test(opt.label);
                 return (
                   <button
                     key={i}
                     onClick={() => pick(i)}
                     disabled={submitted}
-                    className={`text-left p-4 rounded-xl border-2 transition-all min-h-[64px] ${
+                    className={`text-left p-5 rounded-xl border-2 transition-all min-h-[88px] ${
                       isRight ? "border-emerald-500 bg-emerald-500/10" :
                       isWrong ? "border-rose-500 bg-rose-500/10" :
                       picked ? "border-primary bg-primary/10" :
@@ -242,12 +252,12 @@ const HskTestRoom = () => {
                         {String.fromCharCode(65 + i)}
                       </span>
                       <div className="flex-1">
-                        <p className="text-foreground font-medium text-lg leading-snug">{opt.label}</p>
+                        <p className={`text-foreground font-bold leading-snug ${isPicOption ? "text-5xl sm:text-6xl text-center py-2" : "text-xl sm:text-2xl"}`}>{opt.label}</p>
                         {(test.showPinyin || submitted) && opt.pinyin && (
-                          <p className="text-xs text-muted-foreground italic">{opt.pinyin}</p>
+                          <p className="text-sm text-muted-foreground italic mt-1">{opt.pinyin}</p>
                         )}
                         {submitted && opt.vi && (
-                          <p className="text-xs text-primary mt-0.5">↳ {opt.vi}</p>
+                          <p className="text-sm text-primary mt-1 font-semibold">↳ {opt.vi}</p>
                         )}
                       </div>
                       {isRight && <CheckCircle2 className="w-5 h-5 text-emerald-500" />}

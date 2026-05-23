@@ -86,6 +86,18 @@ function truncate(str: string, len: number) {
   return clean.length > len ? clean.slice(0, len) + "…" : clean;
 }
 
+// Convert lecture slug ids like "ielts-band-7-task-1" → "IELTS Band 7 Task 1"
+function prettyLectureId(id: string) {
+  if (!id) return "(không rõ)";
+  return id
+    .replace(/[-_]+/g, " ")
+    .replace(/\b([a-z])/g, (_, c) => c.toUpperCase())
+    .replace(/\bIelts\b/g, "IELTS")
+    .replace(/\bToeic\b/g, "TOEIC")
+    .replace(/\bHsk\b/g, "HSK")
+    .replace(/\bYki\b/g, "YKI");
+}
+
 export default function LastSessionRecap() {
   const [open, setOpen] = useState(false);
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -159,8 +171,9 @@ export default function LastSessionRecap() {
 
           setLoading(false);
 
-          const hasData = visibleActivities.length + (writRes.data?.length || 0) + (noteRes.data?.length || 0) + lects.length > 0;
-          if (hasData) setOpen(true);
+          // Always open the recap dialog on first login of the session, even if there's no data yet —
+          // an empty-state message is friendlier than the popup silently failing to appear.
+          setOpen(true);
         }
       }
     );
@@ -192,10 +205,12 @@ export default function LastSessionRecap() {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-xl">
             <Trophy className="w-6 h-6 text-primary" />
-            Ôn lại buổi học trước
+            {totalItems > 0 ? "Ôn lại buổi học trước" : "Chào mừng bạn quay lại!"}
           </DialogTitle>
           <DialogDescription>
-            Tổng kết {totalItems} hoạt động gần nhất của bạn. Hãy ôn lại trước khi bắt đầu bài mới!
+            {totalItems > 0
+              ? `Tổng kết ${totalItems} hoạt động gần nhất của bạn. Hãy ôn lại trước khi bắt đầu bài mới!`
+              : "Chưa có buổi học nào được ghi lại. Hãy bắt đầu một bài học để bảng tóm tắt này hoạt động nhé."}
           </DialogDescription>
         </DialogHeader>
 
@@ -256,7 +271,7 @@ export default function LastSessionRecap() {
               ) : lectures.map((l, i) => (
                 <div key={i} className="flex items-center justify-between p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors">
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium truncate">{l.lecture_id}</p>
+                    <p className="text-sm font-medium truncate">{prettyLectureId(l.lecture_id)}</p>
                     <div className="flex items-center gap-2 mt-1">
                       <Badge variant="secondary" className="text-[10px] px-1.5 py-0">{l.source}</Badge>
                       {l.completed_at && (
