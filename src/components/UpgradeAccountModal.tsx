@@ -140,7 +140,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                     <Sparkles className="w-3 h-3" /> HaiEduTech Premium
                   </div>
                   <h2 className="text-lg sm:text-xl font-extrabold leading-tight">
-                    {t("Mở khoá Premium & Bứt phá việc học!", "Unlock Premium Features & Level Up Your Learning!")}
+                  {t("Mở khoá Premium vĩnh viễn & Bứt phá việc học!", "Unlock Premium Features & Level Up Your Learning!")}
                   </h2>
                 </div>
               </div>
