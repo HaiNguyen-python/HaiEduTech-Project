@@ -273,15 +273,25 @@ const LessonFeedback = ({
 
               {/* Sticky submit footer */}
               {!submitted && (
-                <div className="shrink-0 p-4 pt-0">
+                <div className="shrink-0 p-3 border-t-2 border-amber-300/40 bg-card rounded-b-2xl">
                   <button
                     onClick={handleSubmit}
                     disabled={!canSubmit}
-                    className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-semibold text-sm shadow-lg shadow-orange-500/20 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-xl transition-all"
+                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-bold text-sm shadow-lg shadow-orange-500/30 disabled:opacity-60 disabled:cursor-not-allowed hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all"
                   >
                     <Send className="w-4 h-4" />
-                    {submitting ? t("Đang gửi...", "Sending...") : t("Gửi phản hồi", "Submit feedback")}
+                    {submitting
+                      ? t("Đang gửi...", "Sending...")
+                      : t("Gửi phản hồi", "Submit Feedback")}
                   </button>
+                  {!canSubmit && (
+                    <p className="text-[10px] text-muted-foreground text-center mt-1.5">
+                      {t(
+                        "Chọn ít nhất 1 mục để gửi",
+                        "Select at least one item to submit",
+                      )}
+                    </p>
+                  )}
                 </div>
               )}
             </motion.div>
