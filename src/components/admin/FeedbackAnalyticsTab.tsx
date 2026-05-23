@@ -341,7 +341,7 @@ const FeedbackAnalyticsTab = () => {
               <Line
                 type="monotone"
                 dataKey="ai"
-                name={t("Trải nghiệm AI", "AI Tool Experience")}
+                name={t("Mức độ hấp dẫn bài học", "Lesson Engagement")}
                 stroke="#06b6d4"
                 strokeWidth={2}
                 dot={{ r: 3 }}
