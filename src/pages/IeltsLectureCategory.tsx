@@ -426,6 +426,33 @@ const IeltsLectureCategory = () => {
               );
             }
 
+            if (catKey === "speaking") {
+              const matchPart = (l: typeof filtered[0], n: 1 | 2 | 3) => {
+                const id = l.id.toLowerCase();
+                const title = l.title.toLowerCase();
+                if (id.includes(`part${n}`) || new RegExp(`part\\s*${n}`, "i").test(title)) return true;
+                if (n === 2 && (id.includes("cue-card") || /cue\s*card/i.test(title))) return true;
+                return false;
+              };
+              const part1 = filtered.filter(l => matchPart(l, 1));
+              const part2 = filtered.filter(l => matchPart(l, 2));
+              const part3 = filtered.filter(l => matchPart(l, 3));
+              const other = filtered.filter(l => !part1.includes(l) && !part2.includes(l) && !part3.includes(l));
+              return (
+                <motion.div
+                  key={`speaking-grouped-${levelFilter}-${sortBy}-${searchQuery}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {part1.length > 0 && renderGroup("part1", "Speaking Part 1", "Speaking Part 1", "🗣️", part1)}
+                  {part2.length > 0 && renderGroup("part2", "Speaking Part 2 (Cue Card)", "Speaking Part 2 (Cue Card)", "🎴", part2)}
+                  {part3.length > 0 && renderGroup("part3", "Speaking Part 3", "Speaking Part 3", "💭", part3)}
+                  {other.length > 0 && renderGroup("other", "Kỹ năng chung", "General Skills", "🎯", other)}
+                </motion.div>
+              );
+            }
+
             return (
               <motion.div
                 key={`grid-${levelFilter}-${sortBy}-${searchQuery}`}
