@@ -69,7 +69,7 @@ const _all: HskWord[] = [
   ...hsk30Level79Words,
 ];
 
-// Deduplicate by character (keeps first occurrence)
+// Dedupe (keep first occurrence) and apply official re-leveling.
 const _seen = new Set<string>();
 const _deduped: HskWord[] = [];
 for (const w of _all) {
@@ -79,25 +79,47 @@ for (const w of _all) {
   _deduped.push(officialLevel ? { ...w, level: officialLevel } : w);
 }
 
-// Cap total at TARGET_TOTAL: take all lower levels first, trim from HSK 7-9.
+// Pyramid caps so the distribution stays sensible (HSK1 < HSK2 < ... < HSK7-9).
+// Total = 6000. HSK 1 capped at 300 because the official HSK 3.0 L1 list only
+// contains 300 entries — adding more would dilute the level.
+const LEVEL_CAPS: Record<string, number> = {
+  "HSK 1": 300,
+  "HSK 2": 500,
+  "HSK 3": 700,
+  "HSK 4": 1000,
+  "HSK 5": 1150,
+  "HSK 6": 1300,
+  "HSK 7-9": 1050,
+};
+
+// Officially-mapped words go to their canonical level (respecting caps).
+// Unmapped words are "floating" and get promoted up the pyramid if their
+// requested level is already full — this preserves the strict ascending shape.
 const _buckets: Record<string, HskWord[]> = {};
 for (const lvl of LEVEL_ORDER) _buckets[lvl] = [];
-const _other: HskWord[] = [];
+const _floating: HskWord[] = [];
+
 for (const w of _deduped) {
-  if (_buckets[w.level]) _buckets[w.level].push(w);
-  else _other.push(w);
+  const isOfficial = !!HSK30_OFFICIAL_LEVELS[w.character];
+  if (isOfficial && _buckets[w.level] && _buckets[w.level].length < LEVEL_CAPS[w.level]) {
+    _buckets[w.level].push(w);
+  } else {
+    _floating.push(w);
+  }
+}
+
+for (const w of _floating) {
+  const startIdx = Math.max(0, LEVEL_ORDER.indexOf(w.level));
+  for (let i = startIdx; i < LEVEL_ORDER.length; i++) {
+    const lvl = LEVEL_ORDER[i];
+    if (_buckets[lvl].length < LEVEL_CAPS[lvl]) {
+      _buckets[lvl].push({ ...w, level: lvl });
+      break;
+    }
+  }
 }
 
 const _final: HskWord[] = [];
-for (const lvl of LEVEL_ORDER) {
-  const remaining = TARGET_TOTAL - _final.length;
-  if (remaining <= 0) break;
-  const take = _buckets[lvl].slice(0, remaining);
-  _final.push(...take);
-}
-// Fill any leftover slots with words that have unknown levels (rare)
-if (_final.length < TARGET_TOTAL && _other.length) {
-  _final.push(..._other.slice(0, TARGET_TOTAL - _final.length));
-}
+for (const lvl of LEVEL_ORDER) _final.push(..._buckets[lvl]);
 
-export const hskVocabData: HskWord[] = _final;
+export const hskVocabData: HskWord[] = _final.slice(0, TARGET_TOTAL);
