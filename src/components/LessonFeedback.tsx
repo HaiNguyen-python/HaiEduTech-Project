@@ -26,9 +26,9 @@ const StarRow = ({
   value: number;
   onChange: (n: number) => void;
 }) => (
-  <div className="flex flex-col gap-1.5">
-    <span className="text-[13px] font-bold text-foreground">{label}</span>
-    <div className="flex gap-1">
+  <div className="flex items-center justify-between gap-2">
+    <span className="text-xs font-bold text-foreground leading-tight">{label}</span>
+    <div className="flex gap-0.5 shrink-0">
       {[1, 2, 3, 4, 5].map((n) => (
         <button
           key={n}
@@ -38,7 +38,7 @@ const StarRow = ({
           aria-label={`${label} ${n}`}
         >
           <Star
-            className={`w-5 h-5 ${
+            className={`w-4 h-4 ${
               n <= value ? "fill-amber-400 text-amber-400" : "text-muted-foreground/40"
             }`}
           />
