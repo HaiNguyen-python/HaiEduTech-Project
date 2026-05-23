@@ -319,6 +319,7 @@ const App = () => (
           <GlobalSuperDictionary />
           <SessionTracker />
           <PageViewTracker />
+          <LessonFeedback />
         </BrowserRouter>
       </TooltipProvider>
     </LanguageProvider>
