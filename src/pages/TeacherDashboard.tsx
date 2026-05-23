@@ -6,11 +6,12 @@ import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useUserRole } from "@/hooks/useUserRole";
 import { supabase } from "@/integrations/supabase/client";
-import { Shield, Users, BookOpen, Code2, TrendingUp, Loader2, Sparkles, Library, ThumbsUp, ThumbsDown } from "lucide-react";
+import { Shield, Users, BookOpen, Code2, TrendingUp, Loader2, Sparkles, Library, ThumbsUp, ThumbsDown, BarChart3 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import TeacherAdmin from "@/pages/TeacherAdmin";
+import FeedbackAnalyticsTab from "@/components/admin/FeedbackAnalyticsTab";
 
 interface Stats {
   totalStudents: number;
@@ -172,6 +173,10 @@ const TeacherDashboard = () => {
                   <ThumbsUp className="w-3.5 h-3.5" />
                   {t("Phản hồi bài học", "Content Performance")}
                 </TabsTrigger>
+                <TabsTrigger value="feedback-analytics" className="gap-1.5">
+                  <BarChart3 className="w-3.5 h-3.5" />
+                  {t("Phân tích phản hồi", "Feedback Analytics")}
+                </TabsTrigger>
               </TabsList>
 
               {/* Generate Tab - Embed TeacherAdmin */}
@@ -304,6 +309,11 @@ const TeacherDashboard = () => {
                     )}
                   </CardContent>
                 </Card>
+              </TabsContent>
+
+              {/* Feedback Analytics Tab */}
+              <TabsContent value="feedback-analytics">
+                <FeedbackAnalyticsTab />
               </TabsContent>
             </Tabs>
           </motion.div>

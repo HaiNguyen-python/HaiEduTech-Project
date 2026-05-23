@@ -734,9 +734,14 @@ export type Database = {
           feedback_type: string
           id: string
           lesson_id: string
+          lesson_title: string | null
           lesson_type: string
           module_id: string | null
+          rating_ai_tool: number | null
+          rating_clarity: number | null
+          rating_confidence: number | null
           subject: string | null
+          suggestion: string | null
           user_id: string | null
         }
         Insert: {
@@ -744,9 +749,14 @@ export type Database = {
           feedback_type: string
           id?: string
           lesson_id: string
+          lesson_title?: string | null
           lesson_type: string
           module_id?: string | null
+          rating_ai_tool?: number | null
+          rating_clarity?: number | null
+          rating_confidence?: number | null
           subject?: string | null
+          suggestion?: string | null
           user_id?: string | null
         }
         Update: {
@@ -754,9 +764,14 @@ export type Database = {
           feedback_type?: string
           id?: string
           lesson_id?: string
+          lesson_title?: string | null
           lesson_type?: string
           module_id?: string | null
+          rating_ai_tool?: number | null
+          rating_clarity?: number | null
+          rating_confidence?: number | null
           subject?: string | null
+          suggestion?: string | null
           user_id?: string | null
         }
         Relationships: []
