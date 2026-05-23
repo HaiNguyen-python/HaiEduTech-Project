@@ -2,7 +2,7 @@
 // Dedicated route mirroring the Reading/Listening page format. Sorted easy → hard.
 import { useMemo, useState, useCallback } from "react";
 import { Link, useParams, Navigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useIeltsLectureProgress } from "@/hooks/useIeltsLectureProgress";
 import Navbar from "@/components/Navbar";
