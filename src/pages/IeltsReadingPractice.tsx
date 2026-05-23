@@ -309,6 +309,9 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
   const [submitted, setSubmitted] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(exam.durationMinutes * 60);
   const [activeQ, setActiveQ] = useState<number>(exam.questions[0].number);
+  const [fontIdx, setFontIdx] = useState(2);
+  const [paperTheme, setPaperTheme] = useState<"light" | "dark">("light");
+  const { leftPct, containerRef, onMouseDown } = useSplit();
 
   // Countdown timer
   useEffect(() => {
@@ -429,21 +432,28 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
         </div>
       </header>
 
-      {/* Split-screen dual panes */}
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 overflow-hidden">
-        {/* LEFT — Passage (white, high-contrast academic) */}
+      {/* Toolbar: font size + paper theme */}
+      <div className="border-b bg-card/60 px-3 py-1.5 flex items-center justify-end gap-2">
+        <RoomToolbar fontIdx={fontIdx} setFontIdx={setFontIdx} paperTheme={paperTheme} setPaperTheme={setPaperTheme} />
+      </div>
+
+      {/* Split-screen dual panes — resizable on lg+ */}
+      <div ref={containerRef} className="flex-1 flex flex-col lg:flex-row overflow-hidden">
+        {/* LEFT — Passage */}
         <section
           aria-label="Reading passage"
-          className="overflow-y-auto bg-white dark:bg-slate-900 border-r"
+          className={cn("overflow-y-auto border-b lg:border-b-0 lg:border-r min-h-[40vh] lg:min-h-0", paperClass(paperTheme))}
+          style={{ flexBasis: `${leftPct}%`, flexGrow: 0, flexShrink: 0 } as React.CSSProperties}
         >
           <div className="w-full px-5 md:px-8 lg:px-10 py-6 md:py-8">
-            <h2 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 mb-1">
-              {exam.passageTitle}
-            </h2>
-            <p className="text-xs uppercase tracking-wide text-slate-500 mb-5">
+            <h2 className="text-xl md:text-2xl font-bold mb-1">{exam.passageTitle}</h2>
+            <p className={cn("text-xs uppercase tracking-wide mb-5", paperTheme === "light" ? "text-slate-500" : "text-slate-400")}>
               {t("Đoạn văn", "Reading Passage")}
             </p>
-            <article className="prose prose-slate dark:prose-invert max-w-none text-[15px] md:text-[15.5px] leading-[1.8] md:leading-[1.85] font-['Georgia',_'Merriweather',_serif] text-slate-900 dark:text-slate-100 columns-1 md:[column-gap:2.5rem]">
+            <article
+              className="max-w-none font-['Georgia',_'Merriweather',_serif] leading-[1.85]"
+              style={{ fontSize: `${FONT_SIZES[fontIdx]}px` }}
+            >
               {exam.passage.split("\n\n").map((para, i) => (
                 <p key={i} className="mb-4 break-inside-avoid">{para}</p>
               ))}
@@ -451,13 +461,24 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
           </div>
         </section>
 
+        {/* Splitter handle — visible on lg+ only */}
+        <div
+          role="separator"
+          aria-orientation="vertical"
+          onMouseDown={onMouseDown}
+          className="hidden lg:flex items-center justify-center w-2 cursor-col-resize bg-border hover:bg-primary/40 transition-colors shrink-0"
+          title={t("Kéo để chỉnh kích thước", "Drag to resize")}
+        >
+          <GripVertical className="w-3 h-3 text-muted-foreground pointer-events-none" />
+        </div>
+
         {/* RIGHT — Questions */}
         <section
           aria-label="Questions"
-          className="overflow-y-auto bg-background"
+          className="overflow-y-auto bg-background flex-1 min-h-[40vh] lg:min-h-0"
         >
           <div className="max-w-2xl mx-auto px-5 md:px-8 py-6 md:py-8 space-y-6">
-            {exam.questions.map((q) => (
+            {!submitted && exam.questions.map((q) => (
               <QuestionBlock
                 key={q.number}
                 question={q}
@@ -468,24 +489,32 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
               />
             ))}
             {submitted && (
-              <div className="rounded-xl border-2 border-primary/30 bg-gradient-to-br from-primary/5 to-emerald-500/5 p-5 text-center">
-                <Trophy className="w-8 h-8 text-primary mx-auto mb-2" />
-                <p className="font-bold text-lg">
-                  {t("Kết quả", "Final Score")}: {score}/{exam.questions.length}
-                </p>
-                <p className="text-sm text-muted-foreground mt-1">
-                  {score === exam.questions.length
-                    ? t("Xuất sắc!", "Excellent!")
-                    : score >= exam.questions.length * 0.7
-                      ? t("Tốt — gần Band 7!", "Strong — around Band 7!")
-                      : t("Tiếp tục luyện tập!", "Keep practising!")}
-                </p>
-                <div className="mt-3 flex gap-2 justify-center">
-                  <Button variant="outline" size="sm" onClick={onClose}>
-                    <ArrowLeft className="w-4 h-4 mr-1" /> {t("Quay lại danh sách", "Back to list")}
-                  </Button>
+              <>
+                <div className="rounded-xl border-2 border-primary/30 bg-gradient-to-br from-primary/5 to-emerald-500/5 p-5 text-center">
+                  <Trophy className="w-8 h-8 text-primary mx-auto mb-2" />
+                  <p className="font-bold text-lg">
+                    {t("Kết quả", "Final Score")}: {score}/{exam.questions.length}
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {score === exam.questions.length
+                      ? t("Xuất sắc!", "Excellent!")
+                      : score >= exam.questions.length * 0.7
+                        ? t("Tốt — gần Band 7!", "Strong — around Band 7!")
+                        : t("Tiếp tục luyện tập!", "Keep practising!")}
+                  </p>
+                  <div className="mt-3 flex gap-2 justify-center">
+                    <Button variant="outline" size="sm" onClick={onClose}>
+                      <ArrowLeft className="w-4 h-4 mr-1" /> {t("Quay lại danh sách", "Back to list")}
+                    </Button>
+                  </div>
                 </div>
-              </div>
+                <PostSubmitReview
+                  exam={exam}
+                  questions={exam.questions}
+                  answers={answers}
+                  vocabExamIds={[exam.id]}
+                />
+              </>
             )}
           </div>
         </section>
