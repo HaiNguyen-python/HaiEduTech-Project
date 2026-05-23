@@ -861,5 +861,201 @@ export const writingSpeakingExpansion3: IeltsLecture[] = [
       "Never memorise scripts - practice flexible frameworks instead",
       "Don't repeat the question - answer directly and confidently"
     ]
+  },
+
+  // ============ ADDITIONAL WRITING LECTURES (Task 1 + Task 2) ============
+  {
+    id: "writing-task1-overview-mastery",
+    title: "Writing Task 1: The Perfect Overview Paragraph",
+    titleVi: "Writing Task 1: Đoạn Overview hoàn hảo",
+    pillar: "skill-based",
+    skill: "writing",
+    icon: "🎯",
+    duration: "20 min",
+    level: "foundation",
+    description: "The Overview is the single most important paragraph in Task 1 - worth 25% of your Task Achievement score. Learn the 3-sentence formula that guarantees Band 7.0+.",
+    descriptionVi: "Overview là đoạn quan trọng nhất Task 1 - chiếm 25% điểm Task Achievement. Học công thức 3 câu đảm bảo Band 7.0+.",
+    strategySteps: [
+      { step: 1, title: "Place the Overview Right After the Introduction", titleVi: "Đặt Overview ngay sau phần mở bài", description: "Don't put it at the end. Examiners look for it as paragraph 2. Use signal phrases: 'Overall, it is clear that...', 'It is evident that...', 'In general...'", descriptionVi: "Đừng đặt ở cuối. Giám khảo tìm nó ở đoạn 2. Dùng cụm tín hiệu: 'Overall, it is clear that...', 'It is evident that...', 'In general...'.", example: "'Overall, it is clear that car usage rose dramatically, while bicycle use declined steadily over the period.'" },
+      { step: 2, title: "Identify 2 Big-Picture Trends - NO Numbers", titleVi: "Xác định 2 xu hướng tổng quát - KHÔNG dùng số", description: "Overview = high-level patterns only. Save exact figures for the detail paragraphs. Look for: highest/lowest, biggest change, dominant category.", descriptionVi: "Overview = chỉ mô hình tổng quát. Để dành số liệu chính xác cho đoạn chi tiết. Tìm: cao/thấp nhất, thay đổi lớn nhất, danh mục chiếm ưu thế.", example: "WRONG: 'Cars increased from 30% to 60%.' RIGHT: 'Car usage saw a substantial increase, becoming the dominant mode of transport.'" },
+      { step: 3, title: "Use Contrast or Comparison Language", titleVi: "Dùng ngôn ngữ tương phản hoặc so sánh", description: "Connect the two trends with: 'whereas', 'while', 'in contrast', 'similarly', 'by comparison'. This creates a smooth, sophisticated overview.", descriptionVi: "Kết nối hai xu hướng với: 'whereas', 'while', 'in contrast', 'similarly', 'by comparison'. Tạo overview mượt mà, tinh tế.", example: "'Public transport ridership climbed sharply, whereas private vehicle use fell significantly over the same period.'" },
+      { step: 4, title: "Adapt the Formula by Chart Type", titleVi: "Điều chỉnh công thức theo loại biểu đồ", description: "Line/Bar with time: focus on trends. Pie/Table without time: focus on largest vs smallest. Map: focus on biggest changes.", descriptionVi: "Đường/Cột có thời gian: tập trung xu hướng. Tròn/Bảng không thời gian: tập trung lớn nhất vs nhỏ nhất. Bản đồ: tập trung thay đổi lớn nhất.", example: "Pie chart overview: 'Electricity dominates household energy consumption, whereas solar power represents only a marginal share.'" }
+    ],
+    practicalExamples: [
+      { context: "Line graph: Internet usage in 4 countries 2000-2020", contextVi: "Biểu đồ đường: Sử dụng internet ở 4 nước 2000-2020", example: "'Overall, internet penetration grew exponentially across all four nations, with developed countries reaching near-saturation while developing economies showed the fastest growth rates.'", explanation: "Two clear trends, sophisticated vocab, no specific numbers." },
+      { context: "Map: A town centre in 1990 vs 2020", contextVi: "Bản đồ: Trung tâm thị trấn 1990 vs 2020", example: "'Overall, the town underwent significant commercialisation, with several green spaces being replaced by retail facilities and the road network expanded considerably.'", explanation: "'Underwent significant commercialisation' is Band 8+ phrasing for map transformation." }
+    ],
+    mistakesToAvoid: [
+      { mistake: "Including specific numbers in the Overview", mistakeVi: "Đưa số liệu cụ thể vào Overview", why: "Numbers belong in detail paragraphs. Overview = trends only.", whyVi: "Số liệu thuộc đoạn chi tiết. Overview = chỉ xu hướng." },
+      { mistake: "Writing only 1 trend in the Overview", mistakeVi: "Chỉ viết 1 xu hướng trong Overview", why: "You need at least 2 key features for full Task Achievement marks.", whyVi: "Bạn cần ít nhất 2 đặc điểm chính để đạt điểm Task Achievement đầy đủ." },
+      { mistake: "Using 'I think' or opinions", mistakeVi: "Dùng 'I think' hoặc ý kiến cá nhân", why: "Task 1 is 100% descriptive. Opinions are penalised heavily.", whyVi: "Task 1 mang tính mô tả 100%. Ý kiến bị trừ điểm nặng." }
+    ],
+    goldenSecret: "Mr. Hai's Golden Rule: Write your Overview in EXACTLY 2 sentences using the 'X did Y, whereas A did B' template. This structure shows the examiner you can compare AND summarise - master it and your Task Achievement will jump a full band.",
+    goldenSecretVi: "Quy tắc vàng của thầy Hải: Viết Overview CHÍNH XÁC 2 câu dùng mẫu 'X did Y, whereas A did B'. Cấu trúc này thể hiện bạn có thể so sánh VÀ tổng kết - thành thạo nó và Task Achievement sẽ nhảy nguyên một band.",
+    vocabHighlights: [
+      { word: "dominant", definition: "Most important or largest", definitionVi: "Quan trọng nhất hoặc lớn nhất", example: "Cars became the dominant form of transport.", band: "7.0+" },
+      { word: "substantial increase", definition: "A large rise", definitionVi: "Sự tăng đáng kể", example: "There was a substantial increase in tourism.", band: "7.0+" },
+      { word: "underwent", definition: "Experienced a change", definitionVi: "Trải qua sự thay đổi", example: "The city underwent rapid development.", band: "7.5+" },
+      { word: "near-saturation", definition: "Almost reaching the maximum", definitionVi: "Gần đạt mức tối đa", example: "Smartphone ownership has reached near-saturation.", band: "8.0+" }
+    ],
+    quiz: [
+      { question: "Where should the Overview paragraph be placed?", options: ["At the end", "Right after the introduction", "In the middle of detail paragraphs", "It's optional"], answer: 1, explanation: "Place the Overview as paragraph 2 - examiners look for it there first." },
+      { question: "Which is the BEST Overview sentence?", options: ["Cars went from 30% to 60% while bicycles dropped from 40% to 10%.", "Overall, car usage rose substantially, whereas bicycle use saw a marked decline.", "I think cars became more popular.", "Cars are good."], answer: 1, explanation: "It identifies 2 trends, uses contrast language, avoids numbers - perfect Band 7+ overview." },
+      { question: "How many key trends should the Overview mention?", options: ["1", "At least 2", "At least 5", "As many as possible"], answer: 1, explanation: "At least 2 key trends are required for full Task Achievement marks." }
+    ],
+    cheatSheetPoints: [
+      "Place Overview as paragraph 2 - right after intro",
+      "Identify 2 big-picture trends - NO specific numbers",
+      "Use contrast language: 'whereas', 'while', 'in contrast'",
+      "Signal phrases: 'Overall, it is clear that...', 'It is evident that...'",
+      "Adapt to chart type: trends for graphs, dominance for pies, transformation for maps",
+      "Never include opinions, predictions, or reasons"
+    ]
+  },
+  {
+    id: "writing-task1-comparison-table",
+    title: "Writing Task 1: Comparison Tables & Multi-Charts",
+    titleVi: "Writing Task 1: Bảng So sánh & Biểu đồ Kết hợp",
+    pillar: "skill-based",
+    skill: "writing",
+    icon: "🗂️",
+    duration: "26 min",
+    level: "advanced",
+    description: "Conquer the trickiest Task 1 formats: tables packed with data and reports combining 2+ charts. Master selective description and high-level synthesis.",
+    descriptionVi: "Chinh phục định dạng Task 1 khó nhất: bảng đầy dữ liệu và báo cáo kết hợp 2+ biểu đồ. Thành thạo mô tả chọn lọc và tổng hợp cao cấp.",
+    strategySteps: [
+      { step: 1, title: "Tables: Spend 3 Minutes on Selection", titleVi: "Bảng: Dành 3 phút để chọn lọc", description: "Tables overwhelm students with data. Don't describe everything. Circle the HIGHEST, LOWEST, and 1-2 NOTABLE patterns per row/column.", descriptionVi: "Bảng làm học viên ngợp dữ liệu. Đừng mô tả tất cả. Khoanh CAO NHẤT, THẤP NHẤT, và 1-2 mô hình ĐÁNG CHÚ Ý mỗi hàng/cột.", example: "Table with 5 countries × 4 products: pick top 2 countries + top 2 products = 4 cells to focus on." },
+      { step: 2, title: "Multi-Charts: Find the LINK Between Them", titleVi: "Biểu đồ kết hợp: Tìm MỐI LIÊN HỆ giữa chúng", description: "Two charts are always related. Find the connection and build your overview around it.", descriptionVi: "Hai biểu đồ luôn liên quan. Tìm liên kết và xây overview quanh nó.", example: "Pie (energy sources 2020) + Bar (trends 2000-2020) → Link: 'While renewables grew rapidly, fossil fuels still dominate.'" },
+      { step: 3, title: "Structure: One Body Paragraph Per Chart", titleVi: "Cấu trúc: Mỗi đoạn thân bài cho 1 biểu đồ", description: "For 2 charts: Intro → Overview (both) → Body 1 (Chart A) → Body 2 (Chart B). For tables: group by category or time.", descriptionVi: "Cho 2 biểu đồ: Mở bài → Overview (cả hai) → Thân 1 (Biểu đồ A) → Thân 2 (Biểu đồ B). Cho bảng: nhóm theo danh mục hoặc thời gian.", example: "Body 1: 'Turning to the pie chart, oil constituted 35%...' Body 2: 'The bar chart reveals that solar usage tripled...'" },
+      { step: 4, title: "Use Strong Synthesis Language", titleVi: "Dùng ngôn ngữ tổng hợp mạnh", description: "High-band phrases: 'In tandem with...', 'Mirroring this trend...', 'Conversely...', 'A similar pattern emerges in...'.", descriptionVi: "Cụm Band cao: 'In tandem with...', 'Mirroring this trend...', 'Conversely...', 'A similar pattern emerges in...'.", example: "'Mirroring the growth in solar energy seen in the bar chart, the pie chart confirms that renewables now hold a quarter of the energy mix.'" }
+    ],
+    practicalExamples: [
+      { context: "Table: Average house prices in 4 cities, 2010-2020", contextVi: "Bảng: Giá nhà trung bình ở 4 thành phố, 2010-2020", example: "'London consistently recorded the highest prices, peaking at £580,000 in 2020 - more than double the figure in Manchester (£240,000) over the same period.'", explanation: "Highest extreme, exact figure, comparison ratio." },
+      { context: "Pie chart + Bar chart on global tourism", contextVi: "Biểu đồ tròn + Biểu đồ cột về du lịch toàn cầu", example: "'Overall, while Europe remains the most visited region according to the pie chart, the bar chart reveals that Asian destinations are experiencing the fastest growth in tourist arrivals.'", explanation: "Single overview sentence synthesises BOTH charts." }
+    ],
+    mistakesToAvoid: [
+      { mistake: "Describing every cell of the table", mistakeVi: "Mô tả từng ô của bảng", why: "You'll exceed 250 words and run out of time. Selective description is THE Band 7 skill.", whyVi: "Bạn sẽ vượt 250 từ và hết giờ. Mô tả chọn lọc CHÍNH LÀ kỹ năng Band 7." },
+      { mistake: "Treating multi-charts as 2 separate reports", mistakeVi: "Coi biểu đồ kết hợp như 2 báo cáo riêng", why: "Examiners want SYNTHESIS - your overview must combine insights from both.", whyVi: "Giám khảo muốn TỔNG HỢP - overview phải kết hợp insight từ cả hai." },
+      { mistake: "Forgetting to compare across columns", mistakeVi: "Quên so sánh giữa các cột", why: "Tables exist to show comparisons. Just listing rows wastes the data's value.", whyVi: "Bảng tồn tại để thể hiện so sánh. Chỉ liệt kê hàng là phí giá trị dữ liệu." }
+    ],
+    goldenSecret: "Mr. Hai's Golden Rule: For multi-chart Task 1, write ONE overview sentence that summarises BOTH charts together. Format: 'Overall, [Chart A finding], while [Chart B finding linked to A]'. Master it and you're in the top 10% automatically scoring Band 7.5+.",
+    goldenSecretVi: "Quy tắc vàng của thầy Hải: Cho Task 1 đa biểu đồ, viết MỘT câu overview tổng kết CẢ HAI biểu đồ. Mẫu: 'Overall, [phát hiện A], while [phát hiện B liên kết với A]'. Thành thạo là bạn vào top 10% tự động Band 7.5+.",
+    vocabHighlights: [
+      { word: "in tandem with", definition: "At the same time as; alongside", definitionVi: "Đồng thời với; song hành", example: "Prices rose in tandem with demand.", band: "8.0+" },
+      { word: "mirroring this trend", definition: "Showing the same pattern", definitionVi: "Thể hiện cùng mô hình", example: "Mirroring this trend, exports also doubled.", band: "8.0+" },
+      { word: "a similar pattern emerges", definition: "A comparable trend appears", definitionVi: "Mô hình tương tự xuất hiện", example: "A similar pattern emerges in the second chart.", band: "8.0+" },
+      { word: "conversely", definition: "On the other hand", definitionVi: "Ngược lại", example: "Conversely, imports declined sharply.", band: "7.0+" }
+    ],
+    quiz: [
+      { question: "When describing a data-heavy table, you should:", options: ["Describe every cell", "Select 4-6 most significant data points", "Describe only the first row", "Skip the table"], answer: 1, explanation: "Selective description (4-6 key points) is the Band 7 skill." },
+      { question: "For 2-chart Task 1 reports, the overview should:", options: ["Only summarise Chart A", "Treat each chart separately", "Synthesise BOTH charts in one connected statement", "Use bullet points"], answer: 2, explanation: "Synthesising both charts in one overview is the top-band skill." },
+      { question: "Which phrase shows the BEST synthesis?", options: ["And also...", "Mirroring the growth in solar energy seen in the bar chart, the pie chart confirms...", "Next, the second chart...", "Also, the pie chart..."], answer: 1, explanation: "'Mirroring the growth' actively connects the two charts - Band 8+ synthesis." }
+    ],
+    cheatSheetPoints: [
+      "Tables: Select 4-6 key data points - don't describe everything",
+      "Multi-charts: Find the LINK between them for the overview",
+      "Structure: 1 body paragraph per chart OR per theme",
+      "Synthesis phrases: 'in tandem with', 'mirroring this trend', 'conversely'",
+      "Always include comparisons (ratios, multiples, differences)",
+      "ONE overview sentence covering BOTH charts for top-band scores"
+    ]
+  },
+  {
+    id: "writing-task2-double-question",
+    title: "Writing Task 2: Double Question Essays",
+    titleVi: "Writing Task 2: Bài luận Hai câu hỏi (Double Question)",
+    pillar: "skill-based",
+    skill: "writing",
+    icon: "❓",
+    duration: "28 min",
+    level: "intermediate",
+    description: "The trickiest Task 2 type asks 2 different questions. Learn the dedicated 4-paragraph structure to answer BOTH fully without overlap.",
+    descriptionVi: "Dạng Task 2 khó nhất hỏi 2 câu khác nhau. Học cấu trúc 4 đoạn chuyên biệt để trả lời ĐẦY ĐỦ cả hai mà không bị trùng lặp.",
+    strategySteps: [
+      { step: 1, title: "Spot Double Questions Immediately", titleVi: "Nhận diện Double Question ngay lập tức", description: "Look for 2 distinct questions: 'What are the causes? How can it be solved?' or 'Why is this happening? Is it a positive or negative development?'", descriptionVi: "Tìm 2 câu hỏi riêng biệt: 'What are the causes? How can it be solved?' hoặc 'Why is this happening? Is it a positive or negative development?'", example: "'Many people now eat unhealthy food. What are the causes? What are the effects on individuals and society?'" },
+      { step: 2, title: "Address Both Questions in the Introduction", titleVi: "Đề cập cả hai câu hỏi ở phần mở bài", description: "Your thesis must preview answers to BOTH questions.", descriptionVi: "Luận điểm phải xem trước câu trả lời cho CẢ HAI câu.", example: "'This essay will examine the key drivers behind rising obesity rates, namely sedentary lifestyles and fast-food culture, before analysing its devastating effects on both individuals and society.'" },
+      { step: 3, title: "Body 1 = Question 1, Body 2 = Question 2 (Equal Weight)", titleVi: "Thân 1 = Câu hỏi 1, Thân 2 = Câu hỏi 2 (Cân bằng)", description: "Each body paragraph fully answers ONE question with 2 developed ideas. Give equal time.", descriptionVi: "Mỗi đoạn thân bài trả lời ĐẦY ĐỦ MỘT câu hỏi với 2 ý phát triển. Cân bằng thời gian.", example: "Body 1 (Causes): Cause 1 + Cause 2. Body 2 (Effects): Personal health + Healthcare system costs." },
+      { step: 4, title: "Use Clear Topic Sentences That Reference the Question", titleVi: "Dùng câu chủ đề rõ ràng có nhắc đến câu hỏi", description: "Signal which question you're answering at the start of each body paragraph.", descriptionVi: "Báo hiệu bạn đang trả lời câu nào ngay đầu mỗi đoạn thân bài.", example: "Body 2 opener: 'The repercussions of this dietary shift extend far beyond individual health.'" },
+      { step: 5, title: "Conclusion: Summarise BOTH Answers Concisely", titleVi: "Kết bài: Tóm tắt CẢ HAI câu trả lời ngắn gọn", description: "Two sentences: one for each question's answer. End with a recommendation.", descriptionVi: "Hai câu: mỗi câu cho mỗi câu hỏi. Kết thúc bằng đề xuất.", example: "'In conclusion, sedentary lifestyles and aggressive fast-food marketing are the primary culprits, with consequences ranging from chronic illness to overburdened health systems. Immediate intervention from policymakers is essential.'" }
+    ],
+    practicalExamples: [
+      { context: "Q: 'Many young people leave their hometowns for cities. Why? Is it positive or negative for society?'", contextVi: "Đề: 'Nhiều người trẻ rời quê đến thành phố. Tại sao? Tích cực hay tiêu cực?'", example: "Thesis: 'This essay will first explore the principal drivers of rural-to-urban migration - chiefly employment opportunities and lifestyle aspirations - before arguing that, on balance, this trend has more negative consequences for society.'", explanation: "Previews answers to BOTH questions AND takes a position on Q2." },
+      { context: "Body 1 opener (Why does this happen?)", contextVi: "Mở Thân 1 (Tại sao điều này xảy ra?)", example: "'Several compelling factors drive this exodus. Firstly, urban centres offer significantly higher salaries and a wider range of career paths, particularly in technology and finance...'", explanation: "Sophisticated topic sentence that directly addresses the question." }
+    ],
+    mistakesToAvoid: [
+      { mistake: "Answering only one question fully", mistakeVi: "Chỉ trả lời đầy đủ một câu hỏi", why: "Both questions carry equal weight. Ignoring one = Task Response Band 5 max.", whyVi: "Cả hai câu có trọng số bằng nhau. Bỏ qua một = Task Response tối đa Band 5." },
+      { mistake: "Confusing Double Question with Problem/Solution", mistakeVi: "Nhầm Double Question với Problem/Solution", why: "Different structures. Wrong structure = Band 5.", whyVi: "Cấu trúc khác nhau. Sai cấu trúc = Band 5." },
+      { mistake: "Spending 70% on the easier question", mistakeVi: "Dành 70% cho câu dễ hơn", why: "Examiners penalise unbalanced essays. Aim for 50/50.", whyVi: "Giám khảo trừ điểm bài không cân bằng. Nhắm 50/50." }
+    ],
+    goldenSecret: "Mr. Hai's Golden Rule: After writing, do a 30-second 'balance check' - count the sentences in Body 1 and Body 2. If one has 6 sentences and the other has 3, you've failed Task Response. Aim for 5-6 sentences EACH.",
+    goldenSecretVi: "Quy tắc vàng của thầy Hải: Sau khi viết, kiểm tra 'cân bằng' 30 giây - đếm số câu Thân 1 và Thân 2. Nếu một bên 6 câu, bên kia 3 câu, bạn đã thất bại Task Response. Nhắm 5-6 câu MỖI BÊN.",
+    vocabHighlights: [
+      { word: "compelling factors", definition: "Strong reasons", definitionVi: "Lý do mạnh mẽ", example: "Several compelling factors explain this shift.", band: "7.5+" },
+      { word: "repercussions", definition: "Unintended consequences", definitionVi: "Hậu quả không mong muốn", example: "The repercussions of this policy are still emerging.", band: "8.0+" },
+      { word: "exodus", definition: "Large-scale departure", definitionVi: "Sự rời đi quy mô lớn", example: "The rural exodus has accelerated since 2010.", band: "8.0+" },
+      { word: "on balance", definition: "Taking everything into account", definitionVi: "Xét toàn diện", example: "On balance, the benefits outweigh the drawbacks.", band: "7.5+" }
+    ],
+    quiz: [
+      { question: "How should you distribute words between Body 1 and Body 2 in a Double Question essay?", options: ["80/20", "50/50 (roughly equal)", "100% on the easier question", "Random"], answer: 1, explanation: "Roughly 50/50 distribution ensures balanced Task Response." },
+      { question: "What is the structure of a Double Question essay?", options: ["Intro → Problems → Solutions → Conclusion", "Intro → Q1 answer → Q2 answer → Conclusion (covers both)", "Intro → Conclusion", "Intro → Opinions → Examples → Conclusion"], answer: 1, explanation: "Body 1 answers Q1, Body 2 answers Q2, Conclusion summarises BOTH." },
+      { question: "Which phrase signals the SECOND question's body paragraph?", options: ["Firstly...", "The consequences of this shift are profound.", "In conclusion...", "I think..."], answer: 1, explanation: "Signal phrases like 'The consequences are profound' clearly tell the examiner you're addressing the 'effects' question." }
+    ],
+    cheatSheetPoints: [
+      "Structure: Intro → Q1 body → Q2 body → Conclusion (4 paragraphs)",
+      "Address BOTH questions in your thesis statement",
+      "50/50 word distribution between Body 1 and Body 2",
+      "Each body = 2 developed ideas with examples",
+      "Strong topic sentences signal which question you're answering",
+      "30-second balance check after writing - count sentences in each body"
+    ]
+  },
+  {
+    id: "writing-task2-coherence-cohesion",
+    title: "Writing Task 2: Coherence & Cohesion Mastery",
+    titleVi: "Writing Task 2: Thành thạo Mạch lạc & Liên kết",
+    pillar: "skill-based",
+    skill: "writing",
+    icon: "🔗",
+    duration: "24 min",
+    level: "advanced",
+    description: "Coherence & Cohesion is 25% of your Writing score - yet most students misuse linking words. Learn the Band 8 approach that examiners reward.",
+    descriptionVi: "Mạch lạc & Liên kết chiếm 25% điểm Writing - nhưng đa số học viên dùng sai từ nối. Học phương pháp Band 8 mà giám khảo khen ngợi.",
+    strategySteps: [
+      { step: 1, title: "STOP Starting Every Sentence with 'Firstly/Furthermore/Moreover'", titleVi: "DỪNG bắt đầu mỗi câu với 'Firstly/Furthermore/Moreover'", description: "Overusing basic connectors caps you at Band 6. Band 8 essays use them sparingly and rely on referencing instead.", descriptionVi: "Lạm dụng từ nối cơ bản giới hạn ở Band 6. Bài Band 8 dùng tiết kiệm và dựa vào referencing.", example: "WEAK: 'Firstly, X. Secondly, Y. Furthermore, Z.' STRONG: 'X is a primary factor. This trend has also led to Y. Such developments have caused Z.'" },
+      { step: 2, title: "Master REFERENCING (Pronouns & Demonstratives)", titleVi: "Thành thạo REFERENCING (Đại từ & Chỉ định)", description: "Use 'this', 'these', 'such', 'it', 'they' to refer back to previous ideas. Invisible flow without overusing connectors.", descriptionVi: "Dùng 'this', 'these', 'such', 'it', 'they' để chỉ lại ý trước. Dòng chảy vô hình mà không lạm dụng từ nối.", example: "'Many cities now ban single-use plastics. This policy has reduced waste by 30% in cities like Berlin. Such measures, however, face resistance from manufacturers.'" },
+      { step: 3, title: "Use SUBSTITUTION (Synonyms & Paraphrases)", titleVi: "Dùng SUBSTITUTION (Từ đồng nghĩa & Paraphrase)", description: "Don't repeat 'students' 6 times. Substitute: 'learners', 'pupils', 'young people'.", descriptionVi: "Đừng lặp 'students' 6 lần. Thay thế: 'learners', 'pupils', 'young people'.", example: "'Children benefit from outdoor play. Such activity boosts their physical health. Youngsters who engage in these pursuits develop better social skills.'" },
+      { step: 4, title: "Use ADVANCED Linking Phrases - Sparingly", titleVi: "Dùng cụm nối CAO CẤP - Tiết kiệm", description: "Replace overused connectors with: 'A further point worth noting...', 'This is compounded by...', 'In a similar vein...', 'Notwithstanding this...'", descriptionVi: "Thay từ nối lạm dụng bằng: 'A further point worth noting...', 'This is compounded by...', 'In a similar vein...', 'Notwithstanding this...'", example: "'Pollution levels are rising. This is compounded by inadequate public transport infrastructure.'" },
+      { step: 5, title: "Apply the '1-2-3 Paragraph Flow' Rule", titleVi: "Áp dụng quy tắc '1-2-3 trong đoạn'", description: "Each paragraph: topic sentence → development with reference back → example → mini-conclusion linking forward.", descriptionVi: "Mỗi đoạn: câu chủ đề → phát triển có tham chiếu ngược → ví dụ → tiểu kết kết nối tiếp.", example: "'Public transport reduces emissions. This effect is most pronounced in dense cities. Tokyo's metro carries 9M people daily. Such systems demonstrate that urban planning is key to environmental progress.'" }
+    ],
+    practicalExamples: [
+      { context: "Replacing repetitive connectors", contextVi: "Thay thế từ nối lặp lại", example: "BEFORE: 'Firstly, technology helps students. Secondly, it makes learning fun. Moreover, online courses are cheap.' AFTER: 'Technology enhances modern education in multiple ways. It transforms passive lessons into interactive experiences. The proliferation of online courses has also slashed costs.'", explanation: "Only 1 explicit connector. Flow comes from referencing and varied structures." },
+      { context: "Referencing in action", contextVi: "Referencing trong thực tế", example: "'Governments have invested heavily in renewable energy. These investments have yielded impressive results in countries like Germany. However, such policies remain underfunded in much of the developing world.'", explanation: "'These investments', 'such policies' link back without repeating." }
+    ],
+    mistakesToAvoid: [
+      { mistake: "Starting every sentence with a connector", mistakeVi: "Bắt đầu mỗi câu với từ nối", why: "Mechanical and repetitive. Examiners specifically downgrade essays following this pattern - caps at Band 6.", whyVi: "Máy móc, lặp lại. Giám khảo cụ thể trừ điểm bài theo mẫu này - giới hạn Band 6." },
+      { mistake: "Using 'In conclusion' twice or in body paragraphs", mistakeVi: "Dùng 'In conclusion' hai lần hoặc trong thân bài", why: "'In conclusion' belongs ONLY at the start of the conclusion paragraph.", whyVi: "'In conclusion' CHỈ ở đầu đoạn kết." },
+      { mistake: "Forgetting to refer back to the question", mistakeVi: "Quên tham chiếu lại đề bài", why: "Each body paragraph should link back to the question to show focus.", whyVi: "Mỗi đoạn thân bài nên kết nối lại đề bài để thể hiện tập trung." }
+    ],
+    goldenSecret: "Mr. Hai's Golden Rule: After drafting, count your basic connectors (Firstly, Furthermore, Moreover, In addition). If you have more than 3 in a single essay, you've overused them. Replace half with referencing ('This trend...', 'Such measures...') - this single edit lifts Coherence & Cohesion from Band 6 to Band 8 in under 2 minutes.",
+    goldenSecretVi: "Quy tắc vàng của thầy Hải: Sau khi viết nháp, đếm từ nối cơ bản (Firstly, Furthermore, Moreover, In addition). Nếu hơn 3 lần, bạn đã lạm dụng. Thay một nửa bằng referencing - một chỉnh sửa đưa Coherence & Cohesion từ Band 6 lên Band 8 trong dưới 2 phút.",
+    vocabHighlights: [
+      { word: "this is compounded by", definition: "This is made worse by", definitionVi: "Điều này trầm trọng hơn bởi", example: "Inflation is compounded by supply shortages.", band: "8.0+" },
+      { word: "in a similar vein", definition: "In the same way", definitionVi: "Theo cách tương tự", example: "In a similar vein, Sweden adopted the same approach.", band: "8.0+" },
+      { word: "notwithstanding", definition: "Despite", definitionVi: "Mặc dù vậy", example: "Notwithstanding the cost, the project proceeded.", band: "8.0+" },
+      { word: "proliferation", definition: "Rapid increase", definitionVi: "Sự gia tăng nhanh chóng", example: "The proliferation of smartphones has reshaped society.", band: "8.0+" }
+    ],
+    quiz: [
+      { question: "How many basic connectors (Firstly, Furthermore, Moreover) should appear in a Band 8 essay?", options: ["At least one per sentence", "Maximum 1-2 per essay", "0 - never use them", "As many as possible"], answer: 1, explanation: "Band 8 essays use basic connectors sparingly (max 1-2 per essay) and rely on referencing/substitution for flow." },
+      { question: "Which technique creates the SMOOTHEST flow?", options: ["Starting every sentence with 'Furthermore'", "Using 'this', 'these', 'such' to reference back to previous ideas", "Using 'In conclusion' multiple times", "Writing short choppy sentences"], answer: 1, explanation: "Referencing creates invisible cohesion without overusing connectors." },
+      { question: "Where does 'In conclusion' belong?", options: ["At the start of every paragraph", "ONLY at the start of the conclusion paragraph", "In body paragraphs to signal endings", "Anywhere"], answer: 1, explanation: "'In conclusion' is reserved for the conclusion paragraph only." }
+    ],
+    cheatSheetPoints: [
+      "Use basic connectors sparingly: max 1-2 'Firstly/Furthermore' per essay",
+      "Master REFERENCING: 'this trend', 'these policies', 'such measures'",
+      "Use SUBSTITUTION: synonyms for repeated nouns and verbs",
+      "Advanced phrases: 'This is compounded by...', 'In a similar vein...', 'Notwithstanding...'",
+      "'In conclusion' = conclusion paragraph ONLY",
+      "Each paragraph: topic sentence → development → example → mini-conclusion"
+    ]
   }
 ];
