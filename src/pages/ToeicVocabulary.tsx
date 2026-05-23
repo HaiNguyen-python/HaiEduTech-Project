@@ -158,7 +158,7 @@ const highlightKeyword = (sentence: string, word: string): React.ReactNode => {
   const re = new RegExp(`(${escaped}[a-zA-Z]*)`, "gi");
   const parts = sentence.split(re);
   return parts.map((p, i) =>
-    re.test(p) && i % 2 === 1 ? (
+    i % 2 === 1 ? (
       <strong key={i} className="not-italic font-bold text-blue-700 dark:text-blue-300">{p}</strong>
     ) : (
       <span key={i}>{p}</span>
