@@ -12,7 +12,7 @@ import {
   Menu, X, Brain, BookOpen, Languages, Code2, GraduationCap,
   Globe, UserPlus, Heart, LogIn, ChevronDown, ChevronRight, Cpu, LogOut, Library, Shield,
   FileText, PenTool, Map, MessageSquare, Award, School, Swords, User, LayoutDashboard, Newspaper,
-  FolderLock, Compass, Briefcase, Trophy, Sparkles, Bot, Database, Workflow, Cloud, Network, Gamepad2, MessagesSquare, Target, Settings2, Flame, Music, Quote, Mic2
+  FolderLock, Compass, Briefcase, Trophy, Sparkles, Bot, Database, Workflow, Cloud, Network, Gamepad2, MessagesSquare, Target, Settings2, Flame, Music, Quote, Mic2, Crown
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -21,6 +21,7 @@ import { useStreak } from "@/hooks/useStreak";
 import teacherLogo from "@/assets/teacher-logo.webp";
 import teacherWave from "@/assets/teacher-wave.webp";
 import GlobalSearch from "@/components/GlobalSearch";
+import UpgradeAccountModal from "@/components/UpgradeAccountModal";
 
 // Sub-item with optional icon and nested children
 interface SubItem {
@@ -48,6 +49,7 @@ const Navbar = () => {
   const { user, isTeacher } = useUserRole();
   const { streak } = useStreak();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [upgradeOpen, setUpgradeOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
   // Get display name from user metadata or email
@@ -384,12 +386,20 @@ const Navbar = () => {
                           initial={{ opacity: 0, y: -4 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -4 }}
-                          className="absolute right-0 top-full mt-1 w-44 bg-card border border-border rounded-xl shadow-lg z-[100] py-1 overflow-hidden"
+                          className="absolute right-0 top-full mt-1 w-52 bg-card border border-border rounded-xl shadow-lg z-[100] py-1 overflow-hidden"
                         >
                           <Link to="/dashboard" onClick={() => setUserMenuOpen(false)}
                             className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
                             <LayoutDashboard className="w-3.5 h-3.5" /> Dashboard
                           </Link>
+                          <button
+                            onClick={() => { setUserMenuOpen(false); setUpgradeOpen(true); }}
+                            className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-amber-600 dark:text-amber-400 hover:bg-amber-500/10 transition-colors"
+                          >
+                            <Crown className="w-3.5 h-3.5" />
+                            {t("Nâng cấp tài khoản", "Upgrade Account")}
+                            <Sparkles className="w-3 h-3 ml-auto text-amber-500" />
+                          </button>
                           <div className="border-t border-border my-1" />
                           <button onClick={() => { handleLogout(); setUserMenuOpen(false); }}
                             className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-destructive hover:bg-destructive/10 transition-colors">
@@ -820,6 +830,12 @@ const Navbar = () => {
                       className="flex items-center justify-center gap-2 w-full px-4 py-4 rounded-xl text-base font-bold bg-gradient-to-r from-primary to-accent text-white shadow-lg transition-all">
                       <LayoutDashboard className="w-5 h-5" /> Dashboard
                     </Link>
+                    <button
+                      onClick={() => { setOpen(false); setUpgradeOpen(true); }}
+                      className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl text-sm font-bold bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md transition-all"
+                    >
+                      <Crown className="w-5 h-5" /> {t("Nâng cấp tài khoản", "Upgrade Account")}
+                    </button>
                     <button onClick={() => { handleLogout(); setOpen(false); }}
                       className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl text-sm font-semibold text-destructive hover:bg-destructive/10 transition-all">
                       <LogOut className="w-5 h-5" /> {t("Đăng Xuất", "Logout")}
@@ -846,6 +862,13 @@ const Navbar = () => {
       {/* Spacer: mobile = branding only (48px), desktop = branding + nav (92px) */}
       {/* Spacer: mobile = branding+slogan (~60px), desktop = branding+nav (92px) */}
       <div className="h-[60px] lg:h-[92px]" aria-hidden="true" />
+
+      {/* Premium upgrade modal */}
+      <UpgradeAccountModal
+        open={upgradeOpen}
+        onClose={() => setUpgradeOpen(false)}
+        user={user ? { id: user.id, email: user.email } : null}
+      />
     </header>
   );
 };
