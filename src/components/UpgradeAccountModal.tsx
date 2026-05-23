@@ -119,10 +119,10 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: "spring", damping: 24, stiffness: 280 }}
-            className="relative w-full max-w-3xl max-h-[92vh] overflow-y-auto rounded-2xl bg-card border border-border shadow-2xl"
+            className="relative w-full max-w-4xl max-h-[92vh] overflow-y-auto rounded-2xl bg-card border border-border shadow-2xl"
           >
             {/* Premium header */}
-            <div className="relative overflow-hidden rounded-t-2xl bg-gradient-to-br from-amber-500 via-orange-500 to-amber-600 px-5 sm:px-8 py-6 text-white">
+            <div className="relative overflow-hidden rounded-t-2xl bg-gradient-to-br from-amber-500 via-orange-500 to-amber-600 px-5 sm:px-8 py-4 text-white">
               <div className="absolute -top-8 -right-8 w-40 h-40 bg-white/10 rounded-full blur-3xl" />
               <button
                 onClick={onClose}
@@ -132,14 +132,14 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                 <X className="w-4 h-4" />
               </button>
               <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-white/20 backdrop-blur-sm">
-                  <Crown className="w-6 h-6 text-yellow-100" />
+                <div className="p-2 rounded-xl bg-white/20 backdrop-blur-sm">
+                  <Crown className="w-5 h-5 text-yellow-100" />
                 </div>
                 <div>
                   <div className="text-xs font-semibold uppercase tracking-wider text-yellow-100/90 flex items-center gap-1">
                     <Sparkles className="w-3 h-3" /> HaiEduTech Premium
                   </div>
-                  <h2 className="text-lg sm:text-2xl font-extrabold leading-tight">
+                  <h2 className="text-lg sm:text-xl font-extrabold leading-tight">
                     {t("Mở khoá Premium & Bứt phá việc học!", "Unlock Premium Features & Level Up Your Learning!")}
                   </h2>
                 </div>
@@ -149,7 +149,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
             {success ? (
               <motion.div
                 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-                className="px-6 py-12 text-center"
+                className="px-6 py-8 text-center"
               >
                 <div className="mx-auto w-16 h-16 rounded-full bg-emerald-500/15 flex items-center justify-center mb-4">
                   <BadgeCheck className="w-9 h-9 text-emerald-500" />
@@ -165,19 +165,19 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                 </p>
               </motion.div>
             ) : (
-              <div className="px-5 sm:px-8 py-6 space-y-6">
+              <div className="px-5 sm:px-8 py-4 space-y-3">
                 {/* Features grid */}
                 <div>
                   <h3 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
                     <Sparkles className="w-4 h-4 text-amber-500" />
                     {t("Đặc quyền Premium", "Premium Perks")}
                   </h3>
-                  <div className="grid grid-cols-2 lg:grid-cols-3 gap-2">
+                  <div className="grid grid-cols-2 lg:grid-cols-3 gap-1.5">
                     {features.map((f) => (
-                      <div key={f.title} className="flex items-start gap-2 p-2 rounded-lg border border-border bg-secondary/40 hover:border-amber-500/40 transition">
-                        <div className="text-lg leading-none mt-0.5">{f.icon}</div>
+                      <div key={f.title} className="flex items-start gap-1.5 p-1.5 rounded-md border border-border bg-secondary/40 hover:border-amber-500/40 transition">
+                        <div className="text-base leading-none mt-0.5">{f.icon}</div>
                         <div className="min-w-0">
-                          <div className="text-xs font-semibold text-foreground leading-tight">{f.title}</div>
+                          <div className="text-[11px] font-semibold text-foreground leading-tight">{f.title}</div>
                           <div className="text-[10px] text-muted-foreground leading-snug mt-0.5">{f.desc}</div>
                         </div>
                       </div>
@@ -186,33 +186,33 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                 </div>
 
                 {/* Payment block */}
-                <div className="rounded-2xl border-2 border-amber-500/30 bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-950/30 dark:to-yellow-950/20 p-4 sm:p-5">
-                  <div className="flex items-center gap-2 mb-4">
+                <div className="rounded-xl border-2 border-amber-500/30 bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-950/30 dark:to-yellow-950/20 p-3 sm:p-4">
+                  <div className="flex items-center gap-2 mb-2">
                     <ShieldCheck className="w-5 h-5 text-emerald-600" />
-                    <h3 className="text-base font-bold text-foreground">
+                    <h3 className="text-sm font-bold text-foreground">
                       {t("Thông tin chuyển khoản", "Bank Transfer Details")}
                     </h3>
                   </div>
 
-                  <div className="mb-3 px-3 py-2 rounded-lg bg-amber-100/70 dark:bg-amber-900/30 border border-amber-300/60 dark:border-amber-700/40 text-xs sm:text-sm font-semibold text-amber-900 dark:text-amber-100 flex items-center gap-2">
-                    <Crown className="w-4 h-4 text-amber-600 dark:text-amber-300 shrink-0" />
+                  <div className="mb-2 px-3 py-1.5 rounded-lg bg-amber-100/70 dark:bg-amber-900/30 border border-amber-300/60 dark:border-amber-700/40 text-xs font-semibold text-amber-900 dark:text-amber-100 flex items-center gap-2">
+                    <Crown className="w-3.5 h-3.5 text-amber-600 dark:text-amber-300 shrink-0" />
                     {t(
                       "Đây là phí dành cho tài khoản Premium VĨNH VIỄN — đóng 1 lần, dùng trọn đời.",
                       "This is a fee for a LIFETIME Premium account — pay once, use forever.",
                     )}
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-[300px,1fr] gap-4 items-start">
+                  <div className="grid grid-cols-1 md:grid-cols-[240px,1fr] gap-3 items-start">
                     {/* QR */}
                     <div className="mx-auto md:mx-0 bg-white rounded-xl p-2 shadow-sm border border-amber-200">
-                      <img src={qrImage} alt="VietQR Vietcombank" className="w-[280px] h-auto rounded-md" loading="lazy" />
+                      <img src={qrImage} alt="VietQR Vietcombank" className="w-[240px] h-auto rounded-md" loading="lazy" />
                       <div className="text-[11px] text-center text-muted-foreground mt-1 font-medium">
                         {t("Quét VietQR để chuyển nhanh", "Scan VietQR to pay")}
                       </div>
                     </div>
 
                     {/* Details */}
-                    <div className="space-y-2.5">
+                    <div className="space-y-1.5">
                       <Row label={t("Ngân hàng", "Bank")} value={BANK.name} />
                       <Row
                         label={t("Số tài khoản", "Account No.")}
@@ -248,7 +248,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                 <button
                   onClick={handleConfirm}
                   disabled={submitting || !user}
-                  className="w-full flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold text-sm sm:text-base shadow-lg hover:brightness-110 transition disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="w-full flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold text-sm shadow-lg hover:brightness-110 transition disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   {submitting ? (
                     <><Loader2 className="w-4 h-4 animate-spin" /> {t("Đang gửi...", "Submitting...")}</>
@@ -276,16 +276,16 @@ interface RowProps {
   big?: boolean; mono?: boolean;
 }
 const Row = ({ label, value, copyable, copied, onCopy, big, mono }: RowProps) => (
-  <div className="flex items-center justify-between gap-3 py-1.5 border-b border-amber-200/50 dark:border-amber-800/30 last:border-0">
+  <div className="flex items-center justify-between gap-3 py-1 border-b border-amber-200/50 dark:border-amber-800/30 last:border-0">
     <span className="text-xs font-medium text-muted-foreground shrink-0">{label}</span>
     <div className="flex items-center gap-2 min-w-0">
-      <span className={`text-foreground truncate ${big ? "text-base sm:text-lg font-extrabold tracking-wider" : "text-sm font-semibold"} ${mono ? "font-mono text-xs sm:text-sm" : ""}`}>
+      <span className={`text-foreground text-right break-all ${big ? "text-sm sm:text-base font-extrabold tracking-wider" : "text-xs font-semibold"} ${mono ? "font-mono text-xs sm:text-sm" : ""}`}>
         {value}
       </span>
       {copyable && (
         <button
           onClick={onCopy}
-          className="p-1.5 rounded-md bg-white dark:bg-card border border-amber-300 dark:border-amber-700 hover:bg-amber-100 dark:hover:bg-amber-900/30 transition shrink-0"
+          className="p-1 rounded-md bg-white dark:bg-card border border-amber-300 dark:border-amber-700 hover:bg-amber-100 dark:hover:bg-amber-900/30 transition shrink-0"
           aria-label="Copy"
         >
           {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" />}
