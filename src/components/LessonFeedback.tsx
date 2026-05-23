@@ -1,7 +1,8 @@
-// Micro-survey component for lesson rating (Like/Dislike)
+// Floating right-edge lesson feedback widget (chatbot-style tab)
+// Lets students submit a quick post-lesson rating + suggestion without leaving the page.
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ThumbsUp, ThumbsDown } from "lucide-react";
+import { MessageSquareHeart, X, Star, Send, ThumbsUp, ThumbsDown } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
@@ -11,122 +12,271 @@ interface LessonFeedbackProps {
   moduleId?: string;
   lessonType: "english" | "chinese" | "programming";
   subject?: string;
+  lessonTitle?: string;
 }
 
-const LessonFeedback = ({ lessonId, moduleId, lessonType, subject }: LessonFeedbackProps) => {
+type Quick = "like" | "dislike" | null;
+
+const StarRow = ({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: number;
+  onChange: (n: number) => void;
+}) => (
+  <div className="flex flex-col gap-1">
+    <span className="text-[11px] font-medium text-muted-foreground">{label}</span>
+    <div className="flex gap-1">
+      {[1, 2, 3, 4, 5].map((n) => (
+        <button
+          key={n}
+          type="button"
+          onClick={() => onChange(n)}
+          className="transition-transform hover:scale-110"
+          aria-label={`${label} ${n}`}
+        >
+          <Star
+            className={`w-5 h-5 ${
+              n <= value ? "fill-amber-400 text-amber-400" : "text-muted-foreground/40"
+            }`}
+          />
+        </button>
+      ))}
+    </div>
+  </div>
+);
+
+const LessonFeedback = ({
+  lessonId,
+  moduleId,
+  lessonType,
+  subject,
+  lessonTitle,
+}: LessonFeedbackProps) => {
   const { t } = useLanguage();
-  const [feedback, setFeedback] = useState<"like" | "dislike" | null>(null);
+  const [open, setOpen] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [quick, setQuick] = useState<Quick>(null);
+  const [clarity, setClarity] = useState(0);
+  const [aiTool, setAiTool] = useState(0);
+  const [confidence, setConfidence] = useState(0);
+  const [suggestion, setSuggestion] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  const handleFeedback = async (type: "like" | "dislike") => {
-    if (feedback) return; // Already submitted
-    setSubmitting(true);
-    setFeedback(type);
+  const canSubmit =
+    !submitting && (quick !== null || clarity > 0 || aiTool > 0 || confidence > 0 || suggestion.trim().length > 0);
 
+  const handleSubmit = async () => {
+    if (!canSubmit) return;
+    setSubmitting(true);
     try {
       const { data: { user } } = await supabase.auth.getUser();
+      const fbType: "like" | "dislike" =
+        quick ?? ((clarity + aiTool + confidence) / 3 >= 3 ? "like" : "dislike");
 
       await supabase.from("lesson_feedback").insert({
         lesson_id: lessonId,
         module_id: moduleId || null,
         lesson_type: lessonType,
-        feedback_type: type,
+        feedback_type: fbType,
         subject: subject || lessonType,
         user_id: user?.id || null,
-      });
+        rating_clarity: clarity || null,
+        rating_ai_tool: aiTool || null,
+        rating_confidence: confidence || null,
+        suggestion: suggestion.trim() || null,
+        lesson_title: lessonTitle || null,
+      } as never);
 
+      setSubmitted(true);
       toast({
-        title: type === "like"
-          ? t("Cảm ơn bạn! 🎉", "Thank you! 🎉")
-          : t("Cảm ơn phản hồi! 💪", "Thanks for the feedback! 💪"),
-        description: type === "like"
-          ? t("Rất vui vì bạn thấy bài học hữu ích!", "Glad you found this lesson helpful!")
-          : t("Chúng tôi sẽ cải thiện nội dung này.", "We'll work on improving this content."),
+        title: t("Cảm ơn phản hồi của bạn! 💛", "Thanks for your feedback! 💛"),
+        description: t(
+          "Thầy sẽ dùng phản hồi này để cải thiện bài học.",
+          "We'll use this to improve future lessons.",
+        ),
       });
+      setTimeout(() => setOpen(false), 1200);
     } catch (err) {
       console.error("Feedback error:", err);
+      toast({
+        title: t("Gửi thất bại", "Submit failed"),
+        description: t("Vui lòng thử lại sau.", "Please try again."),
+        variant: "destructive",
+      });
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.5 }}
-      className="flex flex-col items-center gap-3 py-6 mt-6 border-t border-border"
-    >
-      <p className="text-sm text-muted-foreground font-medium">
-        {t("Bạn có thấy phần này bổ ích không?", "Did you find this lesson helpful?")}
-      </p>
-
-      <div className="flex items-center gap-4">
-        <AnimatePresence>
-          <motion.button
-            whileTap={{ scale: 0.85 }}
-            whileHover={{ scale: 1.1 }}
-            onClick={() => handleFeedback("like")}
-            disabled={!!feedback || submitting}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all ${
-              feedback === "like"
-                ? "bg-green-500/20 text-green-600 border-2 border-green-500/40 scale-110"
-                : feedback
-                  ? "opacity-40 cursor-not-allowed bg-muted text-muted-foreground"
-                  : "bg-muted hover:bg-green-500/10 hover:text-green-600 text-muted-foreground border border-border hover:border-green-500/30"
-            }`}
-          >
-            <ThumbsUp className={`w-4 h-4 ${feedback === "like" ? "fill-green-500" : ""}`} />
-            {t("Hữu ích", "Helpful")}
-            {feedback === "like" && (
-              <motion.span
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ type: "spring", stiffness: 500, damping: 15 }}
-              >
-                ✓
-              </motion.span>
-            )}
-          </motion.button>
-
-          <motion.button
-            whileTap={{ scale: 0.85 }}
-            whileHover={{ scale: 1.1 }}
-            onClick={() => handleFeedback("dislike")}
-            disabled={!!feedback || submitting}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all ${
-              feedback === "dislike"
-                ? "bg-orange-500/20 text-orange-600 border-2 border-orange-500/40 scale-110"
-                : feedback
-                  ? "opacity-40 cursor-not-allowed bg-muted text-muted-foreground"
-                  : "bg-muted hover:bg-orange-500/10 hover:text-orange-600 text-muted-foreground border border-border hover:border-orange-500/30"
-            }`}
-          >
-            <ThumbsDown className={`w-4 h-4 ${feedback === "dislike" ? "fill-orange-500" : ""}`} />
-            {t("Cần cải thiện", "Needs improvement")}
-            {feedback === "dislike" && (
-              <motion.span
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ type: "spring", stiffness: 500, damping: 15 }}
-              >
-                ✓
-              </motion.span>
-            )}
-          </motion.button>
-        </AnimatePresence>
-      </div>
-
-      {feedback && (
-        <motion.p
-          initial={{ opacity: 0, y: 5 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-xs text-muted-foreground italic"
+    <>
+      {/* Floating tab on right edge */}
+      <motion.button
+        initial={{ x: 60, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ delay: 0.6, type: "spring", stiffness: 200, damping: 20 }}
+        whileHover={{ scale: 1.05, x: -2 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={() => setOpen(true)}
+        className="fixed right-0 top-1/2 -translate-y-1/2 z-40 flex items-center gap-2 px-3 py-4 rounded-l-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-xl shadow-orange-500/30 border-l-2 border-y-2 border-amber-300/60 hover:shadow-2xl"
+        aria-label={t("Gửi phản hồi bài học", "Send lesson feedback")}
+      >
+        <MessageSquareHeart className="w-5 h-5" />
+        <span
+          className="text-xs font-bold tracking-wider"
+          style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
         >
-          {t("Phản hồi đã được ghi nhận. Cảm ơn bạn!", "Feedback recorded. Thank you!")}
-        </motion.p>
-      )}
-    </motion.div>
+          {t("PHẢN HỒI", "FEEDBACK")}
+        </span>
+      </motion.button>
+
+      <AnimatePresence>
+        {open && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setOpen(false)}
+              className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ x: 400, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: 400, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 260, damping: 28 }}
+              className="fixed right-4 top-1/2 -translate-y-1/2 z-50 w-[min(360px,calc(100vw-2rem))] max-h-[85vh] overflow-y-auto rounded-2xl bg-card border-2 border-amber-300/40 shadow-2xl"
+            >
+              {/* Header */}
+              <div className="sticky top-0 flex items-center justify-between gap-2 px-4 py-3 bg-gradient-to-r from-amber-400 to-orange-500 text-white rounded-t-2xl">
+                <div className="flex items-center gap-2">
+                  <span className="text-xl">🧑‍🏫</span>
+                  <div className="flex flex-col">
+                    <span className="text-sm font-bold">
+                      {t("Phản hồi bài học", "Lesson Feedback")}
+                    </span>
+                    <span className="text-[10px] opacity-90">
+                      {t("Mr. Hai lắng nghe bạn", "Mr. Hai is listening")}
+                    </span>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setOpen(false)}
+                  className="p-1 rounded-full hover:bg-white/20 transition-colors"
+                  aria-label="Close"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="p-4 space-y-4">
+                {submitted ? (
+                  <motion.div
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    className="flex flex-col items-center gap-2 py-8 text-center"
+                  >
+                    <div className="text-5xl">🎉</div>
+                    <p className="font-semibold text-foreground">
+                      {t("Đã ghi nhận!", "Recorded!")}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {t("Cảm ơn bạn rất nhiều.", "Thank you so much.")}
+                    </p>
+                  </motion.div>
+                ) : (
+                  <>
+                    <p className="text-xs text-muted-foreground">
+                      {t(
+                        "Bạn thấy bài học này thế nào? Phản hồi giúp thầy cải thiện nội dung.",
+                        "How was this lesson? Your feedback helps improve content.",
+                      )}
+                    </p>
+
+                    {/* Quick reaction */}
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => setQuick("like")}
+                        className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium border-2 transition-all ${
+                          quick === "like"
+                            ? "bg-green-500/15 border-green-500/50 text-green-600"
+                            : "bg-muted border-transparent hover:border-green-500/30 text-muted-foreground"
+                        }`}
+                      >
+                        <ThumbsUp className={`w-4 h-4 ${quick === "like" ? "fill-green-500" : ""}`} />
+                        {t("Hữu ích", "Helpful")}
+                      </button>
+                      <button
+                        onClick={() => setQuick("dislike")}
+                        className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium border-2 transition-all ${
+                          quick === "dislike"
+                            ? "bg-orange-500/15 border-orange-500/50 text-orange-600"
+                            : "bg-muted border-transparent hover:border-orange-500/30 text-muted-foreground"
+                        }`}
+                      >
+                        <ThumbsDown className={`w-4 h-4 ${quick === "dislike" ? "fill-orange-500" : ""}`} />
+                        {t("Cần cải thiện", "Needs work")}
+                      </button>
+                    </div>
+
+                    {/* Detailed ratings */}
+                    <div className="space-y-3 p-3 rounded-xl bg-muted/40 border border-border">
+                      <StarRow
+                        label={t("Độ rõ ràng nội dung", "Content clarity")}
+                        value={clarity}
+                        onChange={setClarity}
+                      />
+                      <StarRow
+                        label={t("Trải nghiệm công cụ AI", "AI tool experience")}
+                        value={aiTool}
+                        onChange={setAiTool}
+                      />
+                      <StarRow
+                        label={t("Tự tin sau bài học", "Confidence after lesson")}
+                        value={confidence}
+                        onChange={setConfidence}
+                      />
+                    </div>
+
+                    {/* Suggestion */}
+                    <div className="flex flex-col gap-1">
+                      <label className="text-[11px] font-medium text-muted-foreground">
+                        {t("Góp ý cho thầy (tùy chọn)", "Suggestion (optional)")}
+                      </label>
+                      <textarea
+                        value={suggestion}
+                        onChange={(e) => setSuggestion(e.target.value.slice(0, 500))}
+                        rows={3}
+                        placeholder={t(
+                          "Bạn muốn thầy điều chỉnh điều gì?",
+                          "What would you like Mr. Hai to improve?",
+                        )}
+                        className="w-full px-3 py-2 rounded-lg bg-background border border-border text-sm focus:outline-none focus:ring-2 focus:ring-amber-400/50 resize-none"
+                      />
+                      <span className="text-[10px] text-muted-foreground text-right">
+                        {suggestion.length}/500
+                      </span>
+                    </div>
+
+                    <button
+                      onClick={handleSubmit}
+                      disabled={!canSubmit}
+                      className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-semibold text-sm shadow-lg shadow-orange-500/20 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-xl transition-all"
+                    >
+                      <Send className="w-4 h-4" />
+                      {submitting ? t("Đang gửi...", "Sending...") : t("Gửi phản hồi", "Submit feedback")}
+                    </button>
+                  </>
+                )}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 
