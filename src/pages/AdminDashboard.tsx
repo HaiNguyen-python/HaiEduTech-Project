@@ -36,6 +36,7 @@ import IncomeManagement from "@/components/IncomeManagement";
 import ClassScheduleManager from "@/components/admin/ClassScheduleManager";
 import BusinessStrategyTab from "@/components/admin/BusinessStrategyTab";
 import UserInsightsTab from "@/components/admin/UserInsightsTab";
+import FeedbackAnalyticsTab from "@/components/admin/FeedbackAnalyticsTab";
 
 // Priority colors
 const PRIORITY_COLORS = {
@@ -413,6 +414,9 @@ const AdminDashboard = () => {
                 </TabsTrigger>
                 <TabsTrigger value="strategy" className="gap-1.5">
                   <TrendingUp className="w-3.5 h-3.5" /> {t("Chiến lược", "Strategy")}
+                </TabsTrigger>
+                <TabsTrigger value="feedback" className="gap-1.5">
+                  <Search className="w-3.5 h-3.5" /> {t("Phản hồi học viên", "Feedback")}
                 </TabsTrigger>
               </TabsList>
 
@@ -873,6 +877,10 @@ const AdminDashboard = () => {
               {/* ===== BUSINESS STRATEGY TAB (Admin BI) ===== */}
               <TabsContent value="strategy">
                 <BusinessStrategyTab />
+              </TabsContent>
+
+              <TabsContent value="feedback">
+                <FeedbackAnalyticsTab />
               </TabsContent>
             </Tabs>
           </motion.div>
