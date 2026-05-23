@@ -25,7 +25,7 @@ const speak = (text: string) => {
   } catch { /* noop */ }
 };
 
-const PassageCard = ({ passage }: { passage: ChineseReadingPassage }) => {
+const PassageCard = ({ passage, chibi }: { passage: ChineseReadingPassage; chibi: string }) => {
   const { t } = useLanguage();
   const [showPinyin, setShowPinyin] = useState(true);
   const [showVi, setShowVi] = useState(false);
@@ -41,25 +41,38 @@ const PassageCard = ({ passage }: { passage: ChineseReadingPassage }) => {
   return (
     <Card className="overflow-hidden border-2">
       <CardContent className="p-5 sm:p-6 space-y-5">
-        <div className="flex items-center justify-between gap-3 flex-wrap">
-          <h3 className="text-xl font-bold flex items-center gap-2">
-            <span className="text-2xl">{passage.emoji}</span>
-            {t(passage.titleVi, passage.title)}
-          </h3>
-          <div className="flex gap-2">
-            <Button size="sm" variant="outline" onClick={() => setShowPinyin(v => !v)} className="gap-1.5">
-              {showPinyin ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-              Pinyin
-            </Button>
-            <Button size="sm" variant="outline" onClick={() => setShowVi(v => !v)} className="gap-1.5">
-              {showVi ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-              {t("Dịch", "Translate")}
-            </Button>
-            <Button size="sm" variant="outline" onClick={() => speak(passage.hanzi)} className="gap-1.5">
-              <Volume2 className="w-4 h-4" />
-            </Button>
+        <div className="flex items-start gap-4">
+          <img
+            src={chibi}
+            alt={passage.title}
+            loading="lazy"
+            width={96}
+            height={96}
+            className="w-20 h-20 sm:w-24 sm:h-24 object-contain shrink-0 drop-shadow-md"
+          />
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center justify-between gap-3 flex-wrap">
+              <h3 className="text-xl font-bold flex items-center gap-2">
+                <span className="text-2xl">{passage.emoji}</span>
+                {t(passage.titleVi, passage.title)}
+              </h3>
+              <div className="flex gap-2">
+                <Button size="sm" variant="outline" onClick={() => setShowPinyin(v => !v)} className="gap-1.5">
+                  {showPinyin ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  Pinyin
+                </Button>
+                <Button size="sm" variant="outline" onClick={() => setShowVi(v => !v)} className="gap-1.5">
+                  {showVi ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {t("Dịch", "Translate")}
+                </Button>
+                <Button size="sm" variant="outline" onClick={() => speak(passage.hanzi)} className="gap-1.5">
+                  <Volume2 className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
+
 
         <div className="space-y-3 bg-muted/30 rounded-xl p-4 sm:p-5 border">
           {hanziLines.map((line, i) => (
@@ -168,6 +181,7 @@ const LevelSection = ({ lvl, open, onToggle }: { lvl: ChineseReadingLevel; open:
         className={`w-full flex items-center gap-3 p-4 rounded-xl bg-gradient-to-r ${lvl.colorFrom} ${lvl.colorTo} text-white shadow-md hover:shadow-lg transition-shadow`}
         aria-expanded={open}
       >
+        <img src={lvl.chibi} alt="" loading="lazy" width={56} height={56} className="w-12 h-12 sm:w-14 sm:h-14 object-contain shrink-0 drop-shadow" />
         <span className="text-2xl font-black">HSK {lvl.level}</span>
         <div className="text-left flex-1">
           <p className="font-bold text-base sm:text-lg leading-tight">{t(lvl.labelVi, lvl.label)}</p>
@@ -176,6 +190,7 @@ const LevelSection = ({ lvl, open, onToggle }: { lvl: ChineseReadingLevel; open:
         <Badge className="bg-white/25 text-white border-white/30">{lvl.passages.length} {t("bài", "texts")}</Badge>
         <ChevronDown className={`w-5 h-5 transition-transform ${open ? "rotate-180" : ""}`} />
       </button>
+
       <AnimatePresence initial={false}>
         {open && (
           <motion.div
@@ -186,7 +201,7 @@ const LevelSection = ({ lvl, open, onToggle }: { lvl: ChineseReadingLevel; open:
             className="overflow-hidden"
           >
             <div className="grid grid-cols-1 gap-5 pt-5">
-              {lvl.passages.map(p => <PassageCard key={p.id} passage={p} />)}
+              {lvl.passages.map(p => <PassageCard key={p.id} passage={p} chibi={lvl.chibi} />)}
             </div>
           </motion.div>
         )}
