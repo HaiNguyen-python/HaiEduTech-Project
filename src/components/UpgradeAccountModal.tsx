@@ -168,7 +168,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
               <div className="px-5 sm:px-8 py-4 space-y-3">
                 {/* Features grid */}
                 <div>
-                  <h3 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
+                  <h3 className="text-base font-bold text-foreground mb-4 flex items-center gap-2">
                     <Sparkles className="w-4 h-4 text-amber-500" />
                     {t("Đặc quyền Premium", "Premium Perks")}
                   </h3>
