@@ -205,10 +205,12 @@ export default function LastSessionRecap() {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-xl">
             <Trophy className="w-6 h-6 text-primary" />
-            Ôn lại buổi học trước
+            {totalItems > 0 ? "Ôn lại buổi học trước" : "Chào mừng bạn quay lại!"}
           </DialogTitle>
           <DialogDescription>
-            Tổng kết {totalItems} hoạt động gần nhất của bạn. Hãy ôn lại trước khi bắt đầu bài mới!
+            {totalItems > 0
+              ? `Tổng kết ${totalItems} hoạt động gần nhất của bạn. Hãy ôn lại trước khi bắt đầu bài mới!`
+              : "Chưa có buổi học nào được ghi lại. Hãy bắt đầu một bài học để bảng tóm tắt này hoạt động nhé."}
           </DialogDescription>
         </DialogHeader>
 
