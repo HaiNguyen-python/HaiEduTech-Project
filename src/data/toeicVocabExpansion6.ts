@@ -73,7 +73,7 @@ export const toeicVocabExpansion6: ToeicWord[] = [
   w("encryption", "n", "/ɪnˈkrɪp.ʃən/", "advanced", "Sự mã hóa", "Converting data into secure code", "All customer data is protected by strong encryption.", [], ["data encryption"], "Technology & IT"),
   w("dashboard", "n", "/ˈdæʃ.bɔːd/", "intermediate", "Bảng điều khiển", "A visual interface showing key data", "The new dashboard displays real-time sales figures.", [], ["analytics dashboard"], "Technology & IT"),
   w("scalable", "adj", "/ˈskeɪ.lə.bəl/", "advanced", "Có khả năng mở rộng", "Able to grow easily", "Our cloud platform is highly scalable.", [], ["scalable solution"], "Technology & IT"),
-  w("downtime", "n", "/ˈdaʊn.taɪm/", "basic", "Thời gian nghỉ", "Time when work pauses", "Use the downtime to update your software.", [], ["scheduled downtime"], "Technology & IT"),
+  w("firewall", "n", "/ˈfaɪə.wɔːl/", "intermediate", "Tường lửa", "A system that blocks unwanted network access", "The new firewall blocks suspicious traffic automatically.", [], ["corporate firewall"], "Technology & IT"),
   w("patch", "n", "/pætʃ/", "intermediate", "Bản vá lỗi", "A software update fixing issues", "The IT team released a security patch this morning.", ["update"], ["security patch"], "Technology & IT"),
 
   // Customer Service
