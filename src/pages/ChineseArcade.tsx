@@ -142,7 +142,8 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
         {
           id: ++meteorIdRef.current,
           word: w,
-          x: 10 + Math.random() * 80,
+          // Tighter clamp so the ~190px meteor card never clips on either edge
+          x: 22 + Math.random() * 56,
           y: 0,
           // Much slower fall, gentle ramp by level
           speed: 0.05 + level * 0.012 + Math.random() * 0.03,
