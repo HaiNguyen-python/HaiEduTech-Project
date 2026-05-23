@@ -862,6 +862,13 @@ const Navbar = () => {
       {/* Spacer: mobile = branding only (48px), desktop = branding + nav (92px) */}
       {/* Spacer: mobile = branding+slogan (~60px), desktop = branding+nav (92px) */}
       <div className="h-[60px] lg:h-[92px]" aria-hidden="true" />
+
+      {/* Premium upgrade modal */}
+      <UpgradeAccountModal
+        open={upgradeOpen}
+        onClose={() => setUpgradeOpen(false)}
+        user={user ? { id: user.id, email: user.email } : null}
+      />
     </header>
   );
 };
