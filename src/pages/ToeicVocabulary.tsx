@@ -624,7 +624,7 @@ const ToeicVocabulary = () => {
                         {/* Example */}
                         <p className="text-sm text-slate-700 dark:text-[#cbd5e1] italic mb-2">
                           <span className="not-italic font-semibold text-blue-700 dark:text-blue-300">E.g. </span>
-                          {w.example}
+                          {highlightKeyword(w.example, w.word)}
                         </p>
                         <TypePractice example={w.example} t={t} />
 
