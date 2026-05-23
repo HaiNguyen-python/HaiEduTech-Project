@@ -1,17 +1,26 @@
 // Reusable listening practice card with TTS audio + collapsible transcript + auto-grading.
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
+import { Slider } from "@/components/ui/slider";
 import {
   Play, Pause, Square, Headphones, Eye, EyeOff,
   CheckCircle2, XCircle, RotateCcw, Gauge,
+  SkipBack, SkipForward,
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { ListeningPracticeSet } from "@/data/ieltsListeningPractice";
 import { cn } from "@/lib/utils";
+
+const formatTime = (sec: number) => {
+  if (!isFinite(sec) || sec < 0) sec = 0;
+  const m = Math.floor(sec / 60);
+  const s = Math.floor(sec % 60);
+  return `${m}:${s.toString().padStart(2, "0")}`;
+};
 
 const sectionColor = (s: number) => {
   switch (s) {
