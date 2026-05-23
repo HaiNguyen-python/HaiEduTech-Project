@@ -8,9 +8,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 
 interface LessonFeedbackProps {
-  lessonId: string;
+  lessonId?: string;
   moduleId?: string;
-  lessonType: "english" | "chinese" | "programming";
+  lessonType?: "english" | "chinese" | "programming" | "vietnamese" | "finnish" | "general";
   subject?: string;
   lessonTitle?: string;
 }
@@ -76,18 +76,22 @@ const LessonFeedback = ({
       const fbType: "like" | "dislike" =
         quick ?? ((clarity + aiTool + confidence) / 3 >= 3 ? "like" : "dislike");
 
+      const path = typeof window !== "undefined" ? window.location.pathname : "/";
+      const resolvedLessonId = lessonId || path;
+      const resolvedType = lessonType || "general";
+
       await supabase.from("lesson_feedback").insert({
-        lesson_id: lessonId,
+        lesson_id: resolvedLessonId,
         module_id: moduleId || null,
-        lesson_type: lessonType,
+        lesson_type: resolvedType,
         feedback_type: fbType,
-        subject: subject || lessonType,
+        subject: subject || resolvedType,
         user_id: user?.id || null,
         rating_clarity: clarity || null,
         rating_ai_tool: aiTool || null,
         rating_confidence: confidence || null,
         suggestion: suggestion.trim() || null,
-        lesson_title: lessonTitle || null,
+        lesson_title: lessonTitle || (typeof document !== "undefined" ? document.title : null),
       } as never);
 
       setSubmitted(true);
@@ -121,7 +125,7 @@ const LessonFeedback = ({
         whileHover={{ scale: 1.05, x: -2 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setOpen(true)}
-        className="fixed right-0 top-1/2 -translate-y-1/2 z-40 flex items-center gap-2 px-3 py-4 rounded-l-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-xl shadow-orange-500/30 border-l-2 border-y-2 border-amber-300/60 hover:shadow-2xl"
+        className="fixed right-0 top-[40%] -translate-y-1/2 z-[60] flex items-center gap-2 px-3 py-4 rounded-l-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-2xl shadow-orange-500/40 border-l-2 border-y-2 border-amber-300/60 hover:shadow-2xl"
         aria-label={t("Gửi phản hồi bài học", "Send lesson feedback")}
       >
         <MessageSquareHeart className="w-5 h-5" />
