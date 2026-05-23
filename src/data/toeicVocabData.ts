@@ -7,6 +7,7 @@ import { toeicVocabExpansion4 } from "./toeicVocabExpansion4";
 import { toeicVocabExpansion5 } from "./toeicVocabExpansion5";
 import { toeicVocabExpansion6 } from "./toeicVocabExpansion6";
 import { toeicVocabExpansion7 } from "./toeicVocabExpansion7";
+import { toeicVocabExpansion8 } from "./toeicVocabExpansion8";
 import type { ToeicWord } from "./toeicVocabTypes";
 
 // Re-export the shared type so existing consumers keep working.
