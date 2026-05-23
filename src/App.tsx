@@ -111,6 +111,7 @@ const IeltsListeningPractice = lazy(() => import("./pages/IeltsListeningPractice
 const IeltsReadingPractice = lazy(() => import("./pages/IeltsReadingPractice.tsx"));
 const IeltsSkillsPractice = lazy(() => import("./pages/IeltsSkillsPractice.tsx"));
 const IeltsLectureView = lazy(() => import("./pages/IeltsLectureView.tsx"));
+const IeltsLectureCategory = lazy(() => import("./pages/IeltsLectureCategory.tsx"));
 const ToeicLectures = lazy(() => import("./pages/ToeicLectures.tsx"));
 const ToeicHub = lazy(() => import("./pages/ToeicHub.tsx"));
 const ToeicLectureView = lazy(() => import("./pages/ToeicLectureView.tsx"));
