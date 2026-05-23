@@ -50,9 +50,9 @@ const categoryIcons: Record<string, React.ReactNode> = {
 
 // Level color mapping - Business Blue palette
 const levelColors: Record<string, string> = {
-  basic: "bg-sky-500/20 text-sky-300 border-sky-500/30",
-  intermediate: "bg-blue-500/20 text-blue-300 border-blue-500/30",
-  advanced: "bg-purple-600/25 text-purple-300 border-purple-500/40",
+  basic: "bg-sky-500 text-white border-sky-600 font-semibold",
+  intermediate: "bg-blue-600 text-white border-blue-700 font-semibold",
+  advanced: "bg-purple-600 text-white border-purple-700 font-semibold",
 };
 
 const levelLabels: Record<string, string> = {
