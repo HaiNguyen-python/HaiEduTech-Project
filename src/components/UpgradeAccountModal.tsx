@@ -90,18 +90,18 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
   };
 
   const features = [
-    { icon: "🎯", title: t("Full Exam Engine", "Full Exam Engine"), desc: t("Truy cập toàn bộ đề thi & chấm điểm AI", "Unlock all mock exams & AI grading") },
-    { icon: "🎮", title: t("Interactive Games", "Interactive Games"), desc: t("Trò chơi học tập không giới hạn", "Unlimited learning mini-games") },
-    { icon: "🤖", title: t("AI Feedback Coach", "AI Feedback Coach"), desc: t("Phản hồi cá nhân hoá từ AI", "Personalised AI feedback") },
+    { icon: "🎯", title: t("Full Exam Engine", "Full Exam Engine"), desc: t("Toàn bộ đề thi & chấm Smart", "All mock exams & Smart grading") },
+    { icon: "🎮", title: t("Interactive Games", "Interactive Games"), desc: t("Mini-games học tập không giới hạn", "Unlimited learning mini-games") },
+    { icon: "🤖", title: t("Smart Feedback Coach", "Smart Feedback Coach"), desc: t("Phản hồi cá nhân hoá tức thì", "Instant personalised feedback") },
     { icon: "📚", title: t("Premium Lessons", "Premium Lessons"), desc: t("Bài học nâng cao độc quyền", "Exclusive advanced lessons") },
-    { icon: "✍️", title: t("AI Writing Grading", "AI Writing Grading"), desc: t("Chấm bài viết IELTS/TOEIC bằng AI chi tiết", "Detailed AI grading for IELTS/TOEIC writing") },
-    { icon: "🗣️", title: t("AI Speaking Coach", "AI Speaking Coach"), desc: t("Luyện nói với AI 24/7, nhận điểm & góp ý", "Practice speaking with AI 24/7, get scores & feedback") },
-    { icon: "📊", title: t("Progress Analytics", "Progress Analytics"), desc: t("Báo cáo tiến độ học tập trực quan", "Visual learning progress reports") },
-    { icon: "🏆", title: t("Priority Support", "Priority Support"), desc: t("Hỗ trợ ưu tiên từ Thầy Hải & đội ngũ", "Priority support from Teacher Hai & team") },
-    { icon: "📖", title: t("Downloadable Resources", "Downloadable Resources"), desc: t("Tài liệu PDF, bảng từ vựng & mẫu bài luận", "PDF materials, vocab sheets & essay templates") },
-    { icon: "🔥", title: t("Study Streaks & Badges", "Study Streaks & Badges"), desc: t("Theo dõi chuỗi ngày học & nhận huy hiệu", "Track study streaks & earn achievement badges") },
-    { icon: "🎓", title: t("Scholarship Advisor", "Scholarship Advisor"), desc: t("Tư vấn học bổng du học cá nhân hoá", "Personalised study-abroad scholarship advice") },
-    { icon: "💼", title: t("Career Roadmap AI", "Career Roadmap AI"), desc: t("Lộ trình nghề nghiệp IT & lập trình AI", "AI-powered IT & programming career roadmap") },
+    { icon: "✍️", title: t("Smart Writing Grading", "Smart Writing Grading"), desc: t("Chấm Writing IELTS/TOEIC chi tiết", "Detailed IELTS/TOEIC writing grading") },
+    { icon: "🗣️", title: t("Smart Speaking Coach", "Smart Speaking Coach"), desc: t("Luyện nói 24/7, chấm điểm & góp ý", "Practice speaking 24/7 with feedback") },
+    { icon: "📊", title: t("Progress Analytics", "Progress Analytics"), desc: t("Báo cáo tiến độ trực quan", "Visual progress reports") },
+    { icon: "🏆", title: t("Priority Support", "Priority Support"), desc: t("Hỗ trợ ưu tiên từ Thầy Hải", "Priority support from Teacher Hai") },
+    { icon: "📖", title: t("Downloadable Resources", "Downloadable Resources"), desc: t("PDF, từ vựng & mẫu bài luận", "PDFs, vocab sheets & essay templates") },
+    { icon: "🔥", title: t("Streaks & Badges", "Streaks & Badges"), desc: t("Chuỗi ngày học & huy hiệu", "Study streaks & achievement badges") },
+    { icon: "🎓", title: t("Scholarship Advisor", "Scholarship Advisor"), desc: t("Tư vấn học bổng cá nhân hoá", "Personalised scholarship advice") },
+    { icon: "💼", title: t("Smart Career Roadmap", "Smart Career Roadmap"), desc: t("Lộ trình IT & lập trình", "IT & programming career roadmap") },
   ];
 
   return (
@@ -177,18 +177,17 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                     <Sparkles className="w-4 h-4 text-amber-500" />
                     {t("Đặc quyền Premium", "Premium Perks")}
                   </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 lg:grid-cols-3 gap-2">
                     {features.map((f) => (
-                      <div key={f.title} className="flex items-start gap-3 p-3 rounded-xl border border-border bg-secondary/40 hover:border-amber-500/40 transition">
-                        <div className="text-2xl">{f.icon}</div>
+                      <div key={f.title} className="flex items-start gap-2 p-2 rounded-lg border border-border bg-secondary/40 hover:border-amber-500/40 transition">
+                        <div className="text-lg leading-none mt-0.5">{f.icon}</div>
                         <div className="min-w-0">
-                          <div className="text-sm font-semibold text-foreground">{f.title}</div>
-                          <div className="text-xs text-muted-foreground">{f.desc}</div>
+                          <div className="text-xs font-semibold text-foreground leading-tight">{f.title}</div>
+                          <div className="text-[10px] text-muted-foreground leading-snug mt-0.5">{f.desc}</div>
                         </div>
                       </div>
                     ))}
                   </div>
-                  {/* Note: detailed features will be added later */}
                 </div>
 
                 {/* Payment block */}
@@ -200,11 +199,19 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                     </h3>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-[220px,1fr] gap-4 items-start">
+                  <div className="mb-3 px-3 py-2 rounded-lg bg-amber-100/70 dark:bg-amber-900/30 border border-amber-300/60 dark:border-amber-700/40 text-xs sm:text-sm font-semibold text-amber-900 dark:text-amber-100 flex items-center gap-2">
+                    <Crown className="w-4 h-4 text-amber-600 dark:text-amber-300 shrink-0" />
+                    {t(
+                      "Đây là phí dành cho tài khoản Premium VĨNH VIỄN — đóng 1 lần, dùng trọn đời.",
+                      "This is a fee for a LIFETIME Premium account — pay once, use forever.",
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-[300px,1fr] gap-4 items-start">
                     {/* QR */}
                     <div className="mx-auto md:mx-0 bg-white rounded-xl p-2 shadow-sm border border-amber-200">
-                      <img src={qrImage} alt="VietQR Vietcombank" className="w-52 h-auto rounded-md" loading="lazy" />
-                      <div className="text-[10px] text-center text-muted-foreground mt-1 font-medium">
+                      <img src={qrImage} alt="VietQR Vietcombank" className="w-[280px] h-auto rounded-md" loading="lazy" />
+                      <div className="text-[11px] text-center text-muted-foreground mt-1 font-medium">
                         {t("Quét VietQR để chuyển nhanh", "Scan VietQR to pay")}
                       </div>
                     </div>
@@ -224,10 +231,10 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                       <Row label={t("Chi nhánh", "Branch")} value={BANK.branch} />
                       <Row
                         label={t("Số tiền", "Amount")}
-                        value="199.000đ"
+                        value="299.000đ"
                         copyable
                         copied={copied === "amount"}
-                        onCopy={() => copy("199000", "amount")}
+                        onCopy={() => copy("299000", "amount")}
                         big
                       />
                       <Row
