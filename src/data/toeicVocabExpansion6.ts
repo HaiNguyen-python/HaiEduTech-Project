@@ -69,7 +69,7 @@ export const toeicVocabExpansion6: ToeicWord[] = [
   w("renewal", "n", "/rɪˈnjuː.əl/", "intermediate", "Sự gia hạn", "Extending an agreement", "The contract is up for renewal next month.", [], ["contract renewal"], "Contracts & Legal"),
 
   // Technology & IT
-  w("downtime", "n", "/ˈdaʊn.taɪm/", "intermediate", "Thời gian gián đoạn hệ thống", "Time when a system is unavailable", "Server downtime will be limited to one hour tonight.", [], ["system downtime"], "Technology & IT"),
+  w("outage", "n", "/ˈaʊ.tɪdʒ/", "intermediate", "Sự cố ngừng dịch vụ", "A period when a service is unavailable", "A brief outage affected our payment system this morning.", [], ["service outage"], "Technology & IT"),
   w("encryption", "n", "/ɪnˈkrɪp.ʃən/", "advanced", "Sự mã hóa", "Converting data into secure code", "All customer data is protected by strong encryption.", [], ["data encryption"], "Technology & IT"),
   w("dashboard", "n", "/ˈdæʃ.bɔːd/", "intermediate", "Bảng điều khiển", "A visual interface showing key data", "The new dashboard displays real-time sales figures.", [], ["analytics dashboard"], "Technology & IT"),
   w("scalable", "adj", "/ˈskeɪ.lə.bəl/", "advanced", "Có khả năng mở rộng", "Able to grow easily", "Our cloud platform is highly scalable.", [], ["scalable solution"], "Technology & IT"),
