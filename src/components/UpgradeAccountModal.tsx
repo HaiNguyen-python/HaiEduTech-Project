@@ -177,18 +177,17 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                     <Sparkles className="w-4 h-4 text-amber-500" />
                     {t("Đặc quyền Premium", "Premium Perks")}
                   </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 lg:grid-cols-3 gap-2">
                     {features.map((f) => (
-                      <div key={f.title} className="flex items-start gap-3 p-3 rounded-xl border border-border bg-secondary/40 hover:border-amber-500/40 transition">
-                        <div className="text-2xl">{f.icon}</div>
+                      <div key={f.title} className="flex items-start gap-2 p-2 rounded-lg border border-border bg-secondary/40 hover:border-amber-500/40 transition">
+                        <div className="text-lg leading-none mt-0.5">{f.icon}</div>
                         <div className="min-w-0">
-                          <div className="text-sm font-semibold text-foreground">{f.title}</div>
-                          <div className="text-xs text-muted-foreground">{f.desc}</div>
+                          <div className="text-xs font-semibold text-foreground leading-tight">{f.title}</div>
+                          <div className="text-[10px] text-muted-foreground leading-snug mt-0.5">{f.desc}</div>
                         </div>
                       </div>
                     ))}
                   </div>
-                  {/* Note: detailed features will be added later */}
                 </div>
 
                 {/* Payment block */}
