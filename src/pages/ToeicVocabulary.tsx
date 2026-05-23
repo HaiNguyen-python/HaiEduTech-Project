@@ -655,7 +655,11 @@ const ToeicVocabulary = () => {
                         <p className="text-base text-blue-700 dark:text-[#93c5fd] mb-3">{w.definition.vi}</p>
 
                         {/* Example */}
-                        <p className="text-sm text-slate-700 dark:text-[#cbd5e1] italic mb-3">"{w.example}"</p>
+                        <p className="text-sm text-slate-700 dark:text-[#cbd5e1] italic mb-2">
+                          <span className="not-italic font-semibold text-blue-700 dark:text-blue-300">E.g. </span>
+                          {w.example}
+                        </p>
+                        <TypePractice example={w.example} t={t} />
 
                         {/* Synonyms */}
                         {w.synonyms.length > 0 && (
