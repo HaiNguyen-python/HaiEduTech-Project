@@ -149,7 +149,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
             {success ? (
               <motion.div
                 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-                className="px-6 py-12 text-center"
+                className="px-6 py-8 text-center"
               >
                 <div className="mx-auto w-16 h-16 rounded-full bg-emerald-500/15 flex items-center justify-center mb-4">
                   <BadgeCheck className="w-9 h-9 text-emerald-500" />
