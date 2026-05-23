@@ -903,6 +903,38 @@ const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
         </motion.div>
 
         <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 shadow-[0_0_15px_rgba(236,72,153,0.6)]" />
+
+        {/* Reveal panel — appears when student picks the wrong tone */}
+        <AnimatePresence>
+          {reveal && (
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-x-4 bottom-16 z-20 rounded-2xl border-4 border-rose-500 bg-white/95 dark:bg-slate-900/95 backdrop-blur p-4 shadow-2xl"
+            >
+              <p className="text-center text-rose-600 font-bold text-sm mb-2 uppercase tracking-wider">
+                ❌ {t("Sai rồi! Đáp án đúng:", "Wrong! Correct answer:")}
+              </p>
+              <div className="flex items-center justify-center gap-4 flex-wrap mb-2">
+                <span className="text-5xl font-bold text-slate-900 dark:text-white">{reveal.word.character}</span>
+                <span className="text-3xl font-mono font-bold text-emerald-600">{reveal.word.pinyin}</span>
+              </div>
+              <div className="flex items-center justify-center gap-6 text-sm flex-wrap">
+                <span className="text-rose-600">
+                  {t("Bạn chọn:", "You picked:")} <strong className="text-2xl ml-1">{reveal.chosenTone}</strong>
+                </span>
+                <span className="text-emerald-700">
+                  {t("Đáp án:", "Correct:")} <strong className="text-2xl ml-1">{reveal.correctTone}</strong>
+                </span>
+              </div>
+              <p className="text-center text-sm text-slate-700 dark:text-slate-200 mt-2 font-semibold">{reveal.word.definition.vi}</p>
+              <Button onClick={dismissReveal} size="sm" className="mt-3 w-full bg-rose-500 hover:bg-rose-600 text-white">
+                {t("Tiếp tục →", "Continue →")}
+              </Button>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Mobile virtual controls */}
