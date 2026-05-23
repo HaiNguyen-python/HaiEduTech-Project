@@ -171,8 +171,8 @@ const LessonFeedback = ({
                     <span className="text-sm font-bold">
                       {t("Phản hồi bài học", "Lesson Feedback")}
                     </span>
-                    <span className="text-[10px] opacity-90">
-                      {t("Mr. Hai lắng nghe bạn", "Mr. Hai is listening")}
+                    <span className="text-[11px] font-extrabold opacity-95 tracking-wide">
+                      {t("Mr. Hai lắng nghe bạn", "Mr. Hai is listening to")}
                     </span>
                   </div>
                 </div>
