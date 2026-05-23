@@ -257,117 +257,159 @@ const IeltsLectureCategory = () => {
 
         {/* Grid */}
         <section className="container mx-auto px-4 sm:px-6 pb-16">
-          <AnimatePresence mode="wait">
-            {filtered.length > 0 ? (
+          {(() => {
+            const renderCard = (lecture: typeof filtered[0], idx: number, orderNumber: number | null) => {
+              const isCompleted = completedIds.includes(lecture.id);
+              const isBookmarked = bookmarkedIds.includes(lecture.id);
+              const pillarMeta = PILLAR_META[lecture.pillar];
+              return (
+                <motion.div
+                  key={lecture.id}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: Math.min(idx * 0.03, 0.4) }}
+                >
+                  <Link to={`/ielts-lectures/${lecture.id}`}>
+                    <Card className="h-full hover:shadow-lg hover:border-primary/30 transition-all duration-300 group cursor-pointer relative overflow-hidden">
+                      <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${pillarMeta.color}`} />
+                      <CardContent className="p-5 pt-5">
+                        <div className="flex items-start justify-between mb-3">
+                          <div className="flex items-center gap-2">
+                            {orderNumber !== null && (
+                              <span className={`inline-flex items-center justify-center w-7 h-7 rounded-full bg-primary/10 ${meta.accent} text-xs font-bold`}>
+                                {orderNumber}
+                              </span>
+                            )}
+                            <span className="text-2xl">{lecture.icon}</span>
+                            {isCompleted && (
+                              <Badge variant="secondary" className="bg-green-500/15 text-green-600 text-[10px] gap-0.5 px-1.5 py-0">
+                                <CheckCircle className="w-3 h-3" /> {t("Xong", "Done")}
+                              </Badge>
+                            )}
+                          </div>
+                          <button
+                            onClick={(e) => handleBookmark(e, lecture.id)}
+                            className="p-1.5 rounded-full hover:bg-muted transition-colors"
+                            aria-label="Bookmark"
+                          >
+                            <Heart
+                              className={`w-4 h-4 transition-colors ${
+                                isBookmarked ? "fill-red-500 text-red-500" : "text-muted-foreground hover:text-red-400"
+                              }`}
+                            />
+                          </button>
+                        </div>
+
+                        <h3 className="text-[17px] font-bold text-foreground mb-1.5 group-hover:text-primary transition-colors leading-snug line-clamp-2">
+                          {t(lecture.titleVi, lecture.title)}
+                        </h3>
+                        <p className="text-[13px] text-muted-foreground mb-3 line-clamp-2 leading-relaxed">
+                          {t(lecture.descriptionVi, lecture.description)}
+                        </p>
+
+                        <div className="flex items-center gap-3 text-xs text-muted-foreground mb-3">
+                          <span className="flex items-center gap-1">
+                            <Clock className="w-3.5 h-3.5" /> {lecture.duration}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Sparkles className="w-3.5 h-3.5" /> {lecture.quiz.length} quiz
+                          </span>
+                        </div>
+
+                        <div className="flex items-center justify-between pt-3 border-t border-border">
+                          <Badge variant="outline" className={`text-[10px] px-2 py-0.5 ${LEVEL_STYLE[lecture.level]}`}>
+                            {t(LEVEL_LABELS[lecture.level].vi, LEVEL_LABELS[lecture.level].en)}
+                          </Badge>
+                          <span className={`inline-flex items-center gap-1 text-[10px] font-medium px-2 py-0.5 rounded-full bg-gradient-to-r ${pillarMeta.color} text-white`}>
+                            {pillarMeta.icon} {t(pillarMeta.labelVi, pillarMeta.label)}
+                          </span>
+                        </div>
+
+                        {isCompleted && (
+                          <div className="mt-3">
+                            <Progress value={100} className="h-1.5" />
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </Link>
+                </motion.div>
+              );
+            };
+
+            const renderGroup = (
+              groupKey: string,
+              titleVi: string,
+              titleEn: string,
+              icon: string,
+              items: typeof filtered,
+            ) => (
+              <div key={groupKey} className="mb-10 last:mb-0">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="text-2xl">{icon}</span>
+                  <h2 className="text-xl sm:text-2xl font-bold text-foreground">
+                    {t(titleVi, titleEn)}
+                  </h2>
+                  <Badge variant="secondary" className="ml-1 text-xs">
+                    {items.length}
+                  </Badge>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {items.map((lec, i) => renderCard(lec, i, sortBy === "easy" ? i + 1 : null))}
+                </div>
+              </div>
+            );
+
+            if (filtered.length === 0) {
+              return (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="flex flex-col items-center justify-center py-20 text-center"
+                >
+                  <div className="w-20 h-20 rounded-full bg-muted/50 flex items-center justify-center mb-5">
+                    <BookOpen className="w-8 h-8 text-muted-foreground/50" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-foreground mb-2">
+                    {t("Không tìm thấy bài giảng", "No lectures found")}
+                  </h3>
+                  <Button variant="outline" onClick={() => { setSearchQuery(""); setLevelFilter("all"); }} className="gap-2">
+                    <X className="w-4 h-4" /> {t("Xóa bộ lọc", "Clear filters")}
+                  </Button>
+                </motion.div>
+              );
+            }
+
+            if (catKey === "writing") {
+              const task1 = filtered.filter(l => l.id.includes("task1") || /task\s*1/i.test(l.title));
+              const task2 = filtered.filter(l => l.id.includes("task2") || /task\s*2/i.test(l.title));
+              const other = filtered.filter(l => !task1.includes(l) && !task2.includes(l));
+              return (
+                <motion.div
+                  key={`writing-grouped-${levelFilter}-${sortBy}-${searchQuery}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {task1.length > 0 && renderGroup("task1", "Writing Task 1", "Writing Task 1", "📊", task1)}
+                  {task2.length > 0 && renderGroup("task2", "Writing Task 2", "Writing Task 2", "✍️", task2)}
+                  {other.length > 0 && renderGroup("other", "Khác", "Other", "📚", other)}
+                </motion.div>
+              );
+            }
+
+            return (
               <motion.div
                 key={`grid-${levelFilter}-${sortBy}-${searchQuery}`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
               >
-                {filtered.map((lecture, idx) => {
-                  const isCompleted = completedIds.includes(lecture.id);
-                  const isBookmarked = bookmarkedIds.includes(lecture.id);
-                  const pillarMeta = PILLAR_META[lecture.pillar];
-                  const orderNumber = sortBy === "easy" ? idx + 1 : null;
-
-                  return (
-                    <motion.div
-                      key={lecture.id}
-                      initial={{ opacity: 0, y: 15 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: Math.min(idx * 0.03, 0.4) }}
-                    >
-                      <Link to={`/ielts-lectures/${lecture.id}`}>
-                        <Card className="h-full hover:shadow-lg hover:border-primary/30 transition-all duration-300 group cursor-pointer relative overflow-hidden">
-                          <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${pillarMeta.color}`} />
-                          <CardContent className="p-5 pt-5">
-                            <div className="flex items-start justify-between mb-3">
-                              <div className="flex items-center gap-2">
-                                {orderNumber !== null && (
-                                  <span className={`inline-flex items-center justify-center w-7 h-7 rounded-full bg-primary/10 ${meta.accent} text-xs font-bold`}>
-                                    {orderNumber}
-                                  </span>
-                                )}
-                                <span className="text-2xl">{lecture.icon}</span>
-                                {isCompleted && (
-                                  <Badge variant="secondary" className="bg-green-500/15 text-green-600 text-[10px] gap-0.5 px-1.5 py-0">
-                                    <CheckCircle className="w-3 h-3" /> {t("Xong", "Done")}
-                                  </Badge>
-                                )}
-                              </div>
-                              <button
-                                onClick={(e) => handleBookmark(e, lecture.id)}
-                                className="p-1.5 rounded-full hover:bg-muted transition-colors"
-                                aria-label="Bookmark"
-                              >
-                                <Heart
-                                  className={`w-4 h-4 transition-colors ${
-                                    isBookmarked ? "fill-red-500 text-red-500" : "text-muted-foreground hover:text-red-400"
-                                  }`}
-                                />
-                              </button>
-                            </div>
-
-                            <h3 className="text-[17px] font-bold text-foreground mb-1.5 group-hover:text-primary transition-colors leading-snug line-clamp-2">
-                              {t(lecture.titleVi, lecture.title)}
-                            </h3>
-                            <p className="text-[13px] text-muted-foreground mb-3 line-clamp-2 leading-relaxed">
-                              {t(lecture.descriptionVi, lecture.description)}
-                            </p>
-
-                            <div className="flex items-center gap-3 text-xs text-muted-foreground mb-3">
-                              <span className="flex items-center gap-1">
-                                <Clock className="w-3.5 h-3.5" /> {lecture.duration}
-                              </span>
-                              <span className="flex items-center gap-1">
-                                <Sparkles className="w-3.5 h-3.5" /> {lecture.quiz.length} quiz
-                              </span>
-                            </div>
-
-                            <div className="flex items-center justify-between pt-3 border-t border-border">
-                              <Badge variant="outline" className={`text-[10px] px-2 py-0.5 ${LEVEL_STYLE[lecture.level]}`}>
-                                {t(LEVEL_LABELS[lecture.level].vi, LEVEL_LABELS[lecture.level].en)}
-                              </Badge>
-                              <span className={`inline-flex items-center gap-1 text-[10px] font-medium px-2 py-0.5 rounded-full bg-gradient-to-r ${pillarMeta.color} text-white`}>
-                                {pillarMeta.icon} {t(pillarMeta.labelVi, pillarMeta.label)}
-                              </span>
-                            </div>
-
-                            {isCompleted && (
-                              <div className="mt-3">
-                                <Progress value={100} className="h-1.5" />
-                              </div>
-                            )}
-                          </CardContent>
-                        </Card>
-                      </Link>
-                    </motion.div>
-                  );
-                })}
+                {filtered.map((lec, i) => renderCard(lec, i, sortBy === "easy" ? i + 1 : null))}
               </motion.div>
-            ) : (
-              <motion.div
-                key="empty"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                className="flex flex-col items-center justify-center py-20 text-center"
-              >
-                <div className="w-20 h-20 rounded-full bg-muted/50 flex items-center justify-center mb-5">
-                  <BookOpen className="w-8 h-8 text-muted-foreground/50" />
-                </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">
-                  {t("Không tìm thấy bài giảng", "No lectures found")}
-                </h3>
-                <Button variant="outline" onClick={() => { setSearchQuery(""); setLevelFilter("all"); }} className="gap-2">
-                  <X className="w-4 h-4" /> {t("Xóa bộ lọc", "Clear filters")}
-                </Button>
-              </motion.div>
-            )}
-          </AnimatePresence>
+            );
+          })()}
         </section>
       </main>
       <Footer />
