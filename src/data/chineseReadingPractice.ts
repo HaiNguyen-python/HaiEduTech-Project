@@ -34,8 +34,10 @@ export interface ChineseReadingLevel {
   descriptionVi: string;
   colorFrom: string;        // tailwind from-XXX
   colorTo: string;          // tailwind to-XXX
+  chibi: string;            // chibi illustration asset URL for this level
   passages: ChineseReadingPassage[];
 }
+
 
 // =================================================================
 // HSK 1 — VERY BEGINNER (3-5 sentences, only most common words)
