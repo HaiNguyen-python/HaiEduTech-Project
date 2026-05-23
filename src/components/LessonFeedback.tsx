@@ -152,7 +152,7 @@ const LessonFeedback = ({
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: 400, opacity: 0 }}
               transition={{ type: "spring", stiffness: 260, damping: 28 }}
-              className="fixed right-4 top-1/2 -translate-y-1/2 z-50 w-[min(360px,calc(100vw-2rem))] max-h-[85vh] flex flex-col overflow-hidden rounded-2xl bg-card border-2 border-amber-300/40 shadow-2xl"
+              className="fixed right-4 top-4 bottom-4 z-50 w-[min(360px,calc(100vw-2rem))] flex flex-col overflow-hidden rounded-2xl bg-card border-2 border-amber-300/40 shadow-2xl"
             >
               {/* Header */}
               <div className="sticky top-0 flex items-center justify-between gap-2 px-4 py-3 bg-gradient-to-r from-amber-400 to-orange-500 text-white rounded-t-2xl">
@@ -177,8 +177,8 @@ const LessonFeedback = ({
               </div>
 
               {/* Scrollable body */}
-              <div className="min-h-0 flex-1 overflow-y-auto">
-                <div className="p-4 space-y-4">
+              <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+                <div className="p-3 space-y-3">
                   {submitted ? (
                     <motion.div
                       initial={{ scale: 0.9, opacity: 0 }}
@@ -195,7 +195,7 @@ const LessonFeedback = ({
                     </motion.div>
                   ) : (
                     <>
-                      <p className="text-[13px] font-bold text-foreground leading-relaxed">
+                      <p className="text-xs font-bold text-foreground leading-snug">
                          {t(
                           "Bạn thấy bài học hôm nay thế nào? Phản hồi giúp thầy cải thiện nội dung.",
                           "How was this lesson today? Your feedback helps improve content.",
@@ -203,7 +203,7 @@ const LessonFeedback = ({
                       </p>
 
                       {/* Quick reaction */}
-                      <div className="flex gap-2">
+                      <div className="flex gap-1.5">
                         <button
                           onClick={() => setQuick("like")}
                           className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold border-2 transition-all ${
