@@ -200,10 +200,10 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                     </h3>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-[180px,1fr] gap-4 items-start">
+                  <div className="grid grid-cols-1 md:grid-cols-[220px,1fr] gap-4 items-start">
                     {/* QR */}
                     <div className="mx-auto md:mx-0 bg-white rounded-xl p-2 shadow-sm border border-amber-200">
-                      <img src={qrImage} alt="VietQR Vietcombank" className="w-40 h-auto rounded-md" loading="lazy" />
+                      <img src={qrImage} alt="VietQR Vietcombank" className="w-52 h-auto rounded-md" loading="lazy" />
                       <div className="text-[10px] text-center text-muted-foreground mt-1 font-medium">
                         {t("Quét VietQR để chuyển nhanh", "Scan VietQR to pay")}
                       </div>
@@ -223,8 +223,16 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                       <Row label={t("Chủ tài khoản", "Account Holder")} value={BANK.holder} />
                       <Row label={t("Chi nhánh", "Branch")} value={BANK.branch} />
                       <Row
+                        label={t("Số tiền", "Amount")}
+                        value="199.000đ"
+                        copyable
+                        copied={copied === "amount"}
+                        onCopy={() => copy("199000", "amount")}
+                        big
+                      />
+                      <Row
                         label={t("Nội dung CK", "Transfer Note")}
-                        value={transferRef}
+                        value={transferRefDisplay}
                         copyable
                         copied={copied === "ref"}
                         onCopy={() => copy(transferRef, "ref")}
