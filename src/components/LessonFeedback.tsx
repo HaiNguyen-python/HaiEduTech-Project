@@ -26,9 +26,9 @@ const StarRow = ({
   value: number;
   onChange: (n: number) => void;
 }) => (
-  <div className="flex flex-col gap-1.5">
-    <span className="text-[13px] font-bold text-foreground">{label}</span>
-    <div className="flex gap-1">
+  <div className="flex items-center justify-between gap-2">
+    <span className="text-xs font-bold text-foreground leading-tight">{label}</span>
+    <div className="flex gap-0.5 shrink-0">
       {[1, 2, 3, 4, 5].map((n) => (
         <button
           key={n}
@@ -38,7 +38,7 @@ const StarRow = ({
           aria-label={`${label} ${n}`}
         >
           <Star
-            className={`w-5 h-5 ${
+            className={`w-4 h-4 ${
               n <= value ? "fill-amber-400 text-amber-400" : "text-muted-foreground/40"
             }`}
           />
@@ -152,7 +152,7 @@ const LessonFeedback = ({
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: 400, opacity: 0 }}
               transition={{ type: "spring", stiffness: 260, damping: 28 }}
-              className="fixed right-4 top-1/2 -translate-y-1/2 z-50 w-[min(360px,calc(100vw-2rem))] max-h-[85vh] flex flex-col overflow-hidden rounded-2xl bg-card border-2 border-amber-300/40 shadow-2xl"
+              className="fixed right-4 top-4 bottom-4 z-50 w-[min(360px,calc(100vw-2rem))] flex flex-col overflow-hidden rounded-2xl bg-card border-2 border-amber-300/40 shadow-2xl"
             >
               {/* Header */}
               <div className="sticky top-0 flex items-center justify-between gap-2 px-4 py-3 bg-gradient-to-r from-amber-400 to-orange-500 text-white rounded-t-2xl">
@@ -177,8 +177,8 @@ const LessonFeedback = ({
               </div>
 
               {/* Scrollable body */}
-              <div className="min-h-0 flex-1 overflow-y-auto">
-                <div className="p-4 space-y-4">
+              <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+                <div className="p-3 space-y-3">
                   {submitted ? (
                     <motion.div
                       initial={{ scale: 0.9, opacity: 0 }}
@@ -195,7 +195,7 @@ const LessonFeedback = ({
                     </motion.div>
                   ) : (
                     <>
-                      <p className="text-[13px] font-bold text-foreground leading-relaxed">
+                      <p className="text-xs font-bold text-foreground leading-snug">
                          {t(
                           "Bạn thấy bài học hôm nay thế nào? Phản hồi giúp thầy cải thiện nội dung.",
                           "How was this lesson today? Your feedback helps improve content.",
@@ -203,7 +203,7 @@ const LessonFeedback = ({
                       </p>
 
                       {/* Quick reaction */}
-                      <div className="flex gap-2">
+                      <div className="flex gap-1.5">
                         <button
                           onClick={() => setQuick("like")}
                           className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold border-2 transition-all ${
@@ -229,7 +229,7 @@ const LessonFeedback = ({
                       </div>
 
                       {/* Detailed ratings */}
-                      <div className="space-y-3 p-3 rounded-xl bg-muted/40 border border-border">
+                      <div className="space-y-2 p-2.5 rounded-xl bg-muted/40 border border-border">
                         <StarRow
                           label={t("Độ rõ ràng nội dung", "Content clarity")}
                           value={clarity}
@@ -249,13 +249,13 @@ const LessonFeedback = ({
 
                       {/* Suggestion */}
                       <div className="flex flex-col gap-1">
-                        <label className="text-[13px] font-bold text-foreground">
+                        <label className="text-xs font-bold text-foreground">
                           {t("Góp ý cho thầy (tùy chọn)", "Suggestion (optional)")}
                         </label>
                         <textarea
                           value={suggestion}
                           onChange={(e) => setSuggestion(e.target.value.slice(0, 500))}
-                          rows={3}
+                          rows={2}
                           placeholder={t(
                             "Bạn muốn thầy điều chỉnh điều gì?",
                             "What would you like Mr. Hai to improve?",
@@ -272,11 +272,11 @@ const LessonFeedback = ({
               </div>
 
               {/* Sticky submit footer */}
-              <div className="shrink-0 p-3 border-t-2 border-amber-300/40 bg-card rounded-b-2xl">
+              <div className="shrink-0 p-3 border-t-2 border-amber-300/40 bg-card rounded-b-2xl shadow-[0_-10px_24px_-18px_hsl(var(--foreground))]">
                 <button
                   onClick={handleSubmit}
                   disabled={submitted || !canSubmit}
-                  className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-bold text-sm shadow-lg shadow-orange-500/30 disabled:opacity-60 disabled:cursor-not-allowed hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all"
+                  className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-bold text-sm shadow-lg shadow-orange-500/30 disabled:opacity-60 disabled:cursor-not-allowed hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all"
                 >
                   <Send className="w-4 h-4" />
                   {submitted
