@@ -197,13 +197,18 @@ const HskTestRoom = () => {
               <div className="mb-5">
                 {/* Make picture-style prompts (emoji-heavy) much larger so they read as illustrations */}
                 {(() => {
-                  const isPicPrompt = item.q.type === "listen-tf" || /^[\p{Extended_Pictographic}\s\d:°⚕️\u200d✓✗📚🍳🏫🌡️☀️🍎🍌🍇🍉🥛📖🔥🌧️❄️🐶🐱🐰]+$/u.test(item.q.prompt || "");
+                  const raw = item.q.prompt || "";
+                  // Picture-style prompt: only pictographs (flags, emoji, symbols), digits, punctuation.
+                  const isPicPrompt =
+                    item.q.type === "listen-tf" ||
+                    /^[\p{Extended_Pictographic}\p{Emoji_Modifier_Base}\p{Emoji_Modifier}\p{Emoji_Component}\s\d:°✓✗\u200d\uFE0F]+$/u.test(raw);
                   return (
                     <p className={`text-foreground leading-relaxed whitespace-pre-wrap font-bold ${isPicPrompt ? "text-5xl sm:text-7xl text-center py-4" : "text-2xl sm:text-3xl"}`}>
                       {item.q.prompt}
                     </p>
                   );
                 })()}
+
                 {(test.showPinyin || submitted) && item.q.promptPinyin && (
                   <p className="text-base text-muted-foreground italic mt-1">{item.q.promptPinyin}</p>
                 )}
