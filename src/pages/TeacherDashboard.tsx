@@ -310,6 +310,11 @@ const TeacherDashboard = () => {
                   </CardContent>
                 </Card>
               </TabsContent>
+
+              {/* Feedback Analytics Tab */}
+              <TabsContent value="feedback-analytics">
+                <FeedbackAnalyticsTab />
+              </TabsContent>
             </Tabs>
           </motion.div>
         </div>
