@@ -1188,6 +1188,7 @@ export const toeicVocabData: ToeicWord[] = [
   ...toeicVocabExpansion5,
   ...toeicVocabExpansion6,
   ...toeicVocabExpansion7,
+  ...toeicVocabExpansion8,
 ].sort((a: ToeicWord, b: ToeicWord) => {
   // Sort within each category: basic → intermediate → advanced (easy → hard)
   const levelOrder: Record<string, number> = { basic: 0, intermediate: 1, advanced: 2 };
