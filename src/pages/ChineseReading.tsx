@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { chineseReadingLevels, type ChineseReadingPassage, type ChineseReadingLevel } from "@/data/chineseReadingPractice";
+import { chineseReadingQuestionsZh } from "@/data/chineseReadingQuestionsZh";
 
 const speak = (text: string) => {
   try {
@@ -112,42 +113,65 @@ const PassageCard = ({ passage, chibi }: { passage: ChineseReadingPassage; chibi
             {t("Câu hỏi đọc hiểu", "Comprehension")}
           </h4>
           <div className="space-y-4">
-            {passage.questions.map((q, qi) => (
-              <div key={qi} className="space-y-2">
-                <p className="text-sm font-medium">
-                  {qi + 1}. {t(q.qVi, q.q)}
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {q.options.map((opt, oi) => {
-                    const isSel = selected[qi] === oi;
-                    const isCorrect = q.answer === oi;
-                    let cls = "border-border hover:border-primary/50";
-                    if (submitted) {
-                      if (isCorrect) cls = "border-green-500 bg-green-500/10";
-                      else if (isSel) cls = "border-red-500 bg-red-500/10";
-                    } else if (isSel) {
-                      cls = "border-primary bg-primary/10";
-                    }
-                    return (
+            {passage.questions.map((q, qi) => {
+              const zh = chineseReadingQuestionsZh[`${passage.id}#${qi}`];
+              return (
+                <div key={qi} className="space-y-2">
+                  <div className="space-y-0.5">
+                    <p className="text-base font-semibold text-foreground flex items-start gap-1.5">
+                      <span className="text-primary">{qi + 1}.</span>
                       <button
-                        key={oi}
-                        onClick={() => !submitted && setSelected(s => ({ ...s, [qi]: oi }))}
-                        disabled={submitted}
-                        className={`text-left px-3 py-2 rounded-lg border-2 text-sm transition-colors ${cls}`}
+                        onClick={() => zh && speak(zh.qZh)}
+                        className="text-left hover:text-primary transition-colors"
+                        title="Nghe / Listen"
                       >
-                        <span className="font-semibold mr-1.5">{String.fromCharCode(65 + oi)}.</span>
-                        {t(q.optionsVi[oi], opt)}
+                        {zh?.qZh ?? q.q}
                       </button>
-                    );
-                  })}
+                    </p>
+                    <p className="text-xs text-muted-foreground italic pl-5">
+                      → {t(q.qVi, q.q)}
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {q.options.map((opt, oi) => {
+                      const isSel = selected[qi] === oi;
+                      const isCorrect = q.answer === oi;
+                      let cls = "border-border hover:border-primary/50";
+                      if (submitted) {
+                        if (isCorrect) cls = "border-green-500 bg-green-500/10";
+                        else if (isSel) cls = "border-red-500 bg-red-500/10";
+                      } else if (isSel) {
+                        cls = "border-primary bg-primary/10";
+                      }
+                      const optZh = zh?.optionsZh?.[oi];
+                      return (
+                        <button
+                          key={oi}
+                          onClick={() => !submitted && setSelected(s => ({ ...s, [qi]: oi }))}
+                          disabled={submitted}
+                          className={`text-left px-3 py-2 rounded-lg border-2 text-sm transition-colors ${cls}`}
+                        >
+                          <div className="flex items-start gap-1.5">
+                            <span className="font-semibold shrink-0">{String.fromCharCode(65 + oi)}.</span>
+                            <div className="min-w-0">
+                              <div className="font-medium text-foreground">{optZh ?? opt}</div>
+                              <div className="text-[11px] text-muted-foreground italic mt-0.5">
+                                → {t(q.optionsVi[oi], opt)}
+                              </div>
+                            </div>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  {submitted && (
+                    <p className="text-xs text-muted-foreground italic pl-1">
+                      💡 {t(q.explanationVi, q.explanation)}
+                    </p>
+                  )}
                 </div>
-                {submitted && (
-                  <p className="text-xs text-muted-foreground italic pl-1">
-                    💡 {t(q.explanationVi, q.explanation)}
-                  </p>
-                )}
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="mt-4 flex items-center gap-3">
