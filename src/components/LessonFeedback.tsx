@@ -194,9 +194,9 @@ const LessonFeedback = ({
                 ) : (
                   <>
                     <p className="text-xs text-muted-foreground">
-                      {t(
-                        "Bạn thấy bài học này thế nào? Phản hồi giúp thầy cải thiện nội dung.",
-                        "How was this lesson? Your feedback helps improve content.",
+                       {t(
+                        "Bạn thấy bài học hôm nay thế nào? Phản hồi giúp thầy cải thiện nội dung.",
+                        "How was this lesson today? Your feedback helps improve content.",
                       )}
                     </p>
 
