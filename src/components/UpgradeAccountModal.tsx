@@ -168,17 +168,17 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
               <div className="px-5 sm:px-8 py-4 space-y-3">
                 {/* Features grid */}
                 <div>
-                  <h3 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
+                  <h3 className="text-base font-bold text-foreground mb-4 flex items-center gap-2">
                     <Sparkles className="w-4 h-4 text-amber-500" />
                     {t("Đặc quyền Premium", "Premium Perks")}
                   </h3>
                   <div className="grid grid-cols-2 lg:grid-cols-3 gap-2">
                     {features.map((f) => (
-                      <div key={f.title} className="flex items-start gap-2 p-2 rounded-md border border-border bg-secondary/40 hover:border-amber-500/40 transition">
-                        <div className="text-lg leading-none mt-0.5">{f.icon}</div>
+                      <div key={f.title} className="flex items-start gap-2 p-2.5 rounded-md border border-border bg-secondary/40 hover:border-amber-500/40 transition">
+                        <div className="text-xl leading-none mt-0.5">{f.icon}</div>
                         <div className="min-w-0">
-                          <div className="text-[13px] font-semibold text-foreground leading-tight">{f.title}</div>
-                          <div className="text-[11px] text-muted-foreground leading-snug mt-0.5">{f.desc}</div>
+                          <div className="text-[15px] font-semibold text-foreground leading-tight">{f.title}</div>
+                          <div className="text-[12px] text-muted-foreground leading-snug mt-1">{f.desc}</div>
                         </div>
                       </div>
                     ))}
@@ -187,9 +187,9 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
 
                 {/* Payment block */}
                 <div className="rounded-xl border-2 border-amber-500/30 bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-950/30 dark:to-yellow-950/20 p-3 sm:p-4">
-                  <div className="flex items-center gap-2 mb-2">
+                  <div className="flex items-center gap-2 mb-3">
                     <ShieldCheck className="w-5 h-5 text-emerald-600" />
-                    <h3 className="text-sm font-bold text-foreground">
+                    <h3 className="text-base font-bold text-foreground">
                       {t("Thông tin chuyển khoản", "Bank Transfer Details")}
                     </h3>
                   </div>
