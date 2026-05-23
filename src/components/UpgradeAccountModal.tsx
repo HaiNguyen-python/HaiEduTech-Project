@@ -186,33 +186,33 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                 </div>
 
                 {/* Payment block */}
-                <div className="rounded-2xl border-2 border-amber-500/30 bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-950/30 dark:to-yellow-950/20 p-4 sm:p-5">
-                  <div className="flex items-center gap-2 mb-4">
+                <div className="rounded-xl border-2 border-amber-500/30 bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-950/30 dark:to-yellow-950/20 p-3 sm:p-4">
+                  <div className="flex items-center gap-2 mb-2">
                     <ShieldCheck className="w-5 h-5 text-emerald-600" />
-                    <h3 className="text-base font-bold text-foreground">
+                    <h3 className="text-sm font-bold text-foreground">
                       {t("Thông tin chuyển khoản", "Bank Transfer Details")}
                     </h3>
                   </div>
 
-                  <div className="mb-3 px-3 py-2 rounded-lg bg-amber-100/70 dark:bg-amber-900/30 border border-amber-300/60 dark:border-amber-700/40 text-xs sm:text-sm font-semibold text-amber-900 dark:text-amber-100 flex items-center gap-2">
-                    <Crown className="w-4 h-4 text-amber-600 dark:text-amber-300 shrink-0" />
+                  <div className="mb-2 px-3 py-1.5 rounded-lg bg-amber-100/70 dark:bg-amber-900/30 border border-amber-300/60 dark:border-amber-700/40 text-xs font-semibold text-amber-900 dark:text-amber-100 flex items-center gap-2">
+                    <Crown className="w-3.5 h-3.5 text-amber-600 dark:text-amber-300 shrink-0" />
                     {t(
                       "Đây là phí dành cho tài khoản Premium VĨNH VIỄN — đóng 1 lần, dùng trọn đời.",
                       "This is a fee for a LIFETIME Premium account — pay once, use forever.",
                     )}
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-[300px,1fr] gap-4 items-start">
+                  <div className="grid grid-cols-1 md:grid-cols-[240px,1fr] gap-3 items-start">
                     {/* QR */}
                     <div className="mx-auto md:mx-0 bg-white rounded-xl p-2 shadow-sm border border-amber-200">
-                      <img src={qrImage} alt="VietQR Vietcombank" className="w-[280px] h-auto rounded-md" loading="lazy" />
+                      <img src={qrImage} alt="VietQR Vietcombank" className="w-[240px] h-auto rounded-md" loading="lazy" />
                       <div className="text-[11px] text-center text-muted-foreground mt-1 font-medium">
                         {t("Quét VietQR để chuyển nhanh", "Scan VietQR to pay")}
                       </div>
                     </div>
 
                     {/* Details */}
-                    <div className="space-y-2.5">
+                    <div className="space-y-1.5">
                       <Row label={t("Ngân hàng", "Bank")} value={BANK.name} />
                       <Row
                         label={t("Số tài khoản", "Account No.")}
