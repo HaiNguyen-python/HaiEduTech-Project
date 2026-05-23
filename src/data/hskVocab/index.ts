@@ -79,17 +79,17 @@ for (const w of _all) {
   _deduped.push(officialLevel ? { ...w, level: officialLevel } : w);
 }
 
-// Pyramid caps so the distribution stays sensible (HSK1 < HSK2 < ... < HSK7-9).
-// Total = 6000. HSK 1 capped at 300 because the official HSK 3.0 L1 list only
-// contains 300 entries — adding more would dilute the level.
+// Pyramid caps so the distribution stays strictly ascending (HSK1 < HSK2 < ... < HSK7-9).
+// Total target = 6000. HSK 1 capped below the 300-word official limit so that
+// HSK 2 can clearly exceed it after floating words are promoted upward.
 const LEVEL_CAPS: Record<string, number> = {
-  "HSK 1": 300,
-  "HSK 2": 500,
-  "HSK 3": 700,
-  "HSK 4": 1000,
-  "HSK 5": 1150,
+  "HSK 1": 280,
+  "HSK 2": 320,
+  "HSK 3": 600,
+  "HSK 4": 1020,
+  "HSK 5": 1130,
   "HSK 6": 1300,
-  "HSK 7-9": 1050,
+  "HSK 7-9": 1500,
 };
 
 // Officially-mapped words go to their canonical level (respecting caps).
