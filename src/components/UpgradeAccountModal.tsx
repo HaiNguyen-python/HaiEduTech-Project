@@ -122,7 +122,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
             className="relative w-full max-w-4xl max-h-[92vh] overflow-y-auto rounded-2xl bg-card border border-border shadow-2xl"
           >
             {/* Premium header */}
-            <div className="relative overflow-hidden rounded-t-2xl bg-gradient-to-br from-amber-500 via-orange-500 to-amber-600 px-5 sm:px-8 py-6 text-white">
+            <div className="relative overflow-hidden rounded-t-2xl bg-gradient-to-br from-amber-500 via-orange-500 to-amber-600 px-5 sm:px-8 py-4 text-white">
               <div className="absolute -top-8 -right-8 w-40 h-40 bg-white/10 rounded-full blur-3xl" />
               <button
                 onClick={onClose}
@@ -132,14 +132,14 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                 <X className="w-4 h-4" />
               </button>
               <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-white/20 backdrop-blur-sm">
-                  <Crown className="w-6 h-6 text-yellow-100" />
+                <div className="p-2 rounded-xl bg-white/20 backdrop-blur-sm">
+                  <Crown className="w-5 h-5 text-yellow-100" />
                 </div>
                 <div>
                   <div className="text-xs font-semibold uppercase tracking-wider text-yellow-100/90 flex items-center gap-1">
                     <Sparkles className="w-3 h-3" /> HaiEduTech Premium
                   </div>
-                  <h2 className="text-lg sm:text-2xl font-extrabold leading-tight">
+                  <h2 className="text-lg sm:text-xl font-extrabold leading-tight">
                     {t("Mở khoá Premium & Bứt phá việc học!", "Unlock Premium Features & Level Up Your Learning!")}
                   </h2>
                 </div>
