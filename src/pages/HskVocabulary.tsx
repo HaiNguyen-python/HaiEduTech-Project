@@ -31,6 +31,7 @@ const levelColors: Record<string, string> = {
   "HSK 4": "bg-indigo-500/20 text-indigo-400",
   "HSK 5": "bg-purple-500/20 text-purple-400",
   "HSK 6": "bg-rose-500/20 text-rose-400",
+  "HSK 7-9": "bg-amber-500/20 text-amber-400",
 };
 
 // Text-to-Speech helper for Mandarin
