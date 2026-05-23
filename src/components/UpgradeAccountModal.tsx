@@ -199,11 +199,19 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                     </h3>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-[220px,1fr] gap-4 items-start">
+                  <div className="mb-3 px-3 py-2 rounded-lg bg-amber-100/70 dark:bg-amber-900/30 border border-amber-300/60 dark:border-amber-700/40 text-xs sm:text-sm font-semibold text-amber-900 dark:text-amber-100 flex items-center gap-2">
+                    <Crown className="w-4 h-4 text-amber-600 dark:text-amber-300 shrink-0" />
+                    {t(
+                      "Đây là phí dành cho tài khoản Premium VĨNH VIỄN — đóng 1 lần, dùng trọn đời.",
+                      "This is a fee for a LIFETIME Premium account — pay once, use forever.",
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-[300px,1fr] gap-4 items-start">
                     {/* QR */}
                     <div className="mx-auto md:mx-0 bg-white rounded-xl p-2 shadow-sm border border-amber-200">
-                      <img src={qrImage} alt="VietQR Vietcombank" className="w-52 h-auto rounded-md" loading="lazy" />
-                      <div className="text-[10px] text-center text-muted-foreground mt-1 font-medium">
+                      <img src={qrImage} alt="VietQR Vietcombank" className="w-[280px] h-auto rounded-md" loading="lazy" />
+                      <div className="text-[11px] text-center text-muted-foreground mt-1 font-medium">
                         {t("Quét VietQR để chuyển nhanh", "Scan VietQR to pay")}
                       </div>
                     </div>
@@ -223,10 +231,10 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                       <Row label={t("Chi nhánh", "Branch")} value={BANK.branch} />
                       <Row
                         label={t("Số tiền", "Amount")}
-                        value="199.000đ"
+                        value="299.000đ"
                         copyable
                         copied={copied === "amount"}
-                        onCopy={() => copy("199000", "amount")}
+                        onCopy={() => copy("299000", "amount")}
                         big
                       />
                       <Row
