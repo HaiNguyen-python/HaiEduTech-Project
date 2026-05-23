@@ -1,204 +1,335 @@
 /**
- * @file hsk6.ts - HSK 6 Mock Test
- * Real: Listening 50 + Reading 50 + Writing 1 essay. Mini-mock: 10 + 12 + 1 essay.
+ * @file hsk6.ts — HSK 6 Mock Test (authentic Hanban format)
+ * Listening 50 + Reading 50 + Writing 1 essay = 101 Q, 135 minutes.
+ * Prompts in Chinese only; Vietnamese moved to explanation
+ * so the paper mirrors the real Hanban HSK 6 exam.
  */
-import type { HskTest } from "./index";
+import type { HskTest, HskQuestion } from "./index";
+
+/* ============================================================
+ * LISTENING (50)
+ * Part 1 (Q1-15): Single short passage → choose the matching summary
+ * Part 2 (Q16-30): Long interview / dialog → MCQ
+ * Part 3 (Q31-50): Lecture / news report → MCQ
+ * ========================================================== */
+const listeningRows: { a: string; q: string; o: string[]; c: number; exp?: string }[] = [
+  // Part 1 — 15 short single-passage items
+  { a: "随着人工智能的迅速发展，许多传统行业正在面临巨大的变革。专家认为，未来五到十年，将有大量的工作被机器取代。", q: "专家预测什么？",
+    o: ["未来 5–10 年大量工作会被机器取代", "AI 即将消失", "完全不会改变"], c: 0 },
+  { a: "他在演讲中强调，教育的目的不仅是传授知识，更重要的是培养独立思考的能力。", q: "演讲者强调教育的核心是？",
+    o: ["传授知识", "培养独立思考", "应试技巧"], c: 1 },
+  { a: "这部纪录片真实地记录了三位企业家从创业到成功的全过程，引发了观众的强烈共鸣。", q: "纪录片的主题是？",
+    o: ["军事历史", "三位企业家的创业历程", "环球旅行"], c: 1, exp: "共鸣 gòngmíng = sự đồng cảm." },
+  { a: "面对突如其来的疫情，全社会展现出了惊人的团结与勇气。", q: "社会在疫情前表现出？",
+    o: ["惊慌失措", "团结与勇气", "冷漠无视"], c: 1 },
+  { a: "古人云：\"读万卷书，行万里路。\"这句话告诉我们，知识不仅来自书本，更来自亲身的经历。", q: "这句古语强调什么？",
+    o: ["只读书足矣", "知识来自书本和实践", "旅行最重要"], c: 1 },
+  { a: "经济全球化使各国之间的联系更加紧密，但同时也带来了新的挑战。", q: "全球化的影响是？",
+    o: ["全是好处", "联系紧密但有新挑战", "完全负面"], c: 1 },
+  { a: "这位科学家的研究成果，为人类抗击疾病提供了新的希望。", q: "这项研究的意义？",
+    o: ["带来新希望", "令人失望", "毫无意义"], c: 0 },
+  { a: "我们必须正视环境污染问题，否则将给子孙后代留下严重的后果。", q: "作者的态度是？",
+    o: ["环保不重要", "必须正视环境污染", "无法解决"], c: 1, exp: "正视 zhèngshì = nhìn thẳng vào." },
+  { a: "成功的企业家往往具备坚韧的意志、敏锐的洞察力和持续学习的能力。", q: "成功企业家具备什么？",
+    o: ["只靠运气", "意志、洞察力、持续学习", "家世背景"], c: 1 },
+  { a: "保护文化遗产，不仅是政府的责任，更是每个公民应尽的义务。", q: "保护文化遗产是？",
+    o: ["只政府的事", "每个公民的义务", "不必要"], c: 1 },
+  { a: "随着信息技术的发展，人们获取知识的方式变得前所未有的便捷，但同时也带来了信息过载的问题。", q: "信息技术带来什么问题？",
+    o: ["信息过载", "信息太少", "网络变慢"], c: 0 },
+  { a: "现代医学不断进步，许多过去无法治愈的疾病，如今已经能够得到有效控制。", q: "现代医学的进步表现为？",
+    o: ["疾病更难治", "可控制许多旧疾病", "毫无变化"], c: 1 },
+  { a: "城市化进程加快，给城市带来了繁荣，也带来了交通拥堵和环境污染等问题。", q: "城市化有什么副作用？",
+    o: ["人口减少", "交通拥堵和环境污染", "经济衰退"], c: 1 },
+  { a: "心理健康与身体健康同样重要，二者相互影响，缺一不可。", q: "作者强调什么？",
+    o: ["只重视身体", "只重视心理", "心理与身体同等重要"], c: 2 },
+  { a: "在快节奏的现代生活中，越来越多的人开始关注\"慢生活\"的理念。", q: "本段主要谈？",
+    o: ["快节奏的好处", "\"慢生活\"理念兴起", "工作压力"], c: 1 },
+
+  // Part 2 — 15 long-dialog/interview items
+  { a: "记者：您从事这个行业三十多年，最大的体会是什么？嘉宾：踏踏实实地做事，把每一件小事做到极致。", q: "嘉宾的体会是什么？",
+    o: ["把小事做到极致", "尽快赚大钱", "经常跳槽"], c: 0 },
+  { a: "记者：年轻人创业最重要的是什么？嘉宾：心态。不要急于求成，也不要害怕失败。", q: "嘉宾认为创业最重要的是？",
+    o: ["资金", "心态", "学历"], c: 1 },
+  { a: "记者：作为一名教师，您怎么看现在的应试教育？嘉宾：我认为应试是必要的，但绝不应该是教育的全部。", q: "嘉宾的观点是？",
+    o: ["应试是教育全部", "应试必要但非全部", "应彻底取消考试"], c: 1 },
+  { a: "记者：您觉得艺术对孩子的成长有什么意义？嘉宾：艺术教育能培养孩子的审美和想象力。", q: "艺术教育的意义是？",
+    o: ["让孩子安静", "培养审美和想象力", "让孩子出名"], c: 1 },
+  { a: "记者：很多人认为读书无用，您怎么看？嘉宾：读书的价值往往不在当下，而是在未来某一刻悄然显现。", q: "嘉宾认为读书的价值是？",
+    o: ["立刻显现", "未来才会显现", "毫无价值"], c: 1 },
+  { a: "记者：旅行对您意味着什么？嘉宾：旅行是认识世界，更是认识自己的方式。", q: "嘉宾眼中的旅行是？",
+    o: ["浪费时间", "认识世界和自己", "只为拍照"], c: 1 },
+  { a: "记者：作为运动员，您最想感谢谁？嘉宾：我最想感谢父母，是他们一路的支持让我走到今天。", q: "运动员最想感谢谁？",
+    o: ["教练", "队友", "父母"], c: 2 },
+  { a: "记者：您怎么看人工智能取代人类工作？嘉宾：机器替代的是重复性劳动，而创造力和情感是机器无法替代的。", q: "嘉宾的观点是？",
+    o: ["机器全面取代人类", "机器无法替代创造力和情感", "人类毫无优势"], c: 1 },
+  { a: "记者：您认为成功的关键是什么？嘉宾：是坚持，还有不断学习的能力。", q: "嘉宾认为成功靠？",
+    o: ["运气和背景", "坚持和不断学习", "天赋"], c: 1 },
+  { a: "记者：作为环保志愿者，您最希望看到什么变化？嘉宾：希望每个人都能从生活的小事做起。", q: "嘉宾希望看到？",
+    o: ["政府出更多法律", "每个人从小事做起", "工厂全部关闭"], c: 1 },
+  { a: "记者：作为科学家，您给年轻人什么建议？嘉宾：保持好奇心，敢于提出别人没有想过的问题。", q: "嘉宾建议年轻人？",
+    o: ["少问问题", "保持好奇心、敢提问", "听老师的话"], c: 1 },
+  { a: "记者：您觉得家庭和事业能不能平衡？嘉宾：可以，但需要双方共同努力和理解。", q: "嘉宾认为平衡需要？",
+    o: ["完全靠女方", "双方共同努力", "无法平衡"], c: 1 },
+  { a: "记者：您怎么看现在的网络红人现象？嘉宾：流量来得快，去得也快。真正能留下来的是内容。", q: "嘉宾认为最重要的是？",
+    o: ["流量", "颜值", "内容"], c: 2 },
+  { a: "记者：您给迷茫的年轻人什么建议？嘉宾：先动起来。哪怕方向错了，比原地不动也强。", q: "嘉宾建议是？",
+    o: ["先动起来", "再想三年", "完全休息"], c: 0 },
+  { a: "记者：作为导演，您怎么看观众的口味？嘉宾：观众的眼光在不断提高，敷衍的作品越来越没有市场。", q: "嘉宾对观众的看法？",
+    o: ["容易被骗", "眼光在提高", "都不专业"], c: 1 },
+
+  // Part 3 — 20 lecture / news report items
+  { a: "据报道，今年我国新能源汽车销量首次突破一千万辆，市场占有率超过百分之四十。", q: "新能源汽车的销量怎么样？",
+    o: ["首次突破 1000 万辆", "下降明显", "保持去年水平"], c: 0 },
+  { a: "考古学家在西北地区发现了一处距今约四千年的古代遗址，出土了大量精美的陶器和玉器。", q: "本则新闻报道什么？",
+    o: ["新的科技产品", "古代遗址的发现", "天气变化"], c: 1 },
+  { a: "近期，多地出现持续高温天气，气象部门提醒公众注意防暑降温。", q: "气象部门提醒大家？",
+    o: ["注意防寒", "注意防暑降温", "出门远行"], c: 1 },
+  { a: "最新一项研究发现，每天步行超过六千步的人，心血管疾病的发病率显著降低。", q: "研究发现什么？",
+    o: ["走得越少越好", "每天走 6000 步以上降低心血管病", "走路毫无作用"], c: 1 },
+  { a: "教育部今天宣布，将进一步减轻义务教育阶段学生的课业负担。", q: "新政策的目的是？",
+    o: ["减轻学生课业负担", "增加考试次数", "取消英语课"], c: 0 },
+  { a: "我国成功发射一颗新型通信卫星，将进一步完善卫星通信网络。", q: "新闻报道了什么？",
+    o: ["新型通信卫星发射成功", "飞机失事", "新港口开通"], c: 0 },
+  { a: "心理学家指出，长时间使用手机不仅影响视力，还可能引发焦虑、失眠等心理问题。", q: "心理学家提醒什么？",
+    o: ["手机毫无影响", "影响视力和心理", "应完全禁用"], c: 1 },
+  { a: "我国一项调查显示，越来越多的年轻人愿意把钱花在体验型消费上，比如旅游、运动和文化活动。", q: "年轻人消费偏好是？",
+    o: ["购买奢侈品", "体验型消费", "储蓄"], c: 1 },
+  { a: "我国在西部地区启动了大规模的植树造林工程，旨在改善当地的生态环境。", q: "植树工程的目的是？",
+    o: ["改善生态环境", "增加木材产量", "建设房屋"], c: 0 },
+  { a: "随着\"双减\"政策的推行，许多课外补习机构开始转型，向素质教育方向发展。", q: "补习机构如何应对？",
+    o: ["立刻关门", "转型为素质教育", "提高价格"], c: 1 },
+  { a: "近日，国内多所高校宣布扩大研究生招生规模，以培养更多高层次人才。", q: "高校的举措是？",
+    o: ["缩小招生", "扩大研究生招生", "停止招生"], c: 1 },
+  { a: "联合国发布最新报告称，全球极端天气事件正变得越来越频繁，气候变化已成为不容忽视的挑战。", q: "报告强调什么？",
+    o: ["天气变好", "气候变化是严峻挑战", "无需重视"], c: 1 },
+  { a: "考古发现一座保存完好的汉代墓葬，出土了珍贵的青铜器和漆器。", q: "墓葬属于哪个朝代？",
+    o: ["唐代", "宋代", "汉代"], c: 2 },
+  { a: "数据显示，去年我国移动支付交易额再创新高，覆盖了城市和农村的方方面面。", q: "数据说明什么？",
+    o: ["移动支付迅速普及", "现金更受欢迎", "移动支付不安全"], c: 0 },
+  { a: "气象专家预计，未来几天将有一次较强冷空气南下，请公众注意保暖。", q: "气象专家提醒？",
+    o: ["注意防晒", "注意保暖", "出门野餐"], c: 1 },
+  { a: "教育专家指出，孩子的阅读习惯应该从小培养，家庭环境的影响尤为关键。", q: "专家强调什么？",
+    o: ["阅读习惯不重要", "家庭对培养阅读至关重要", "只能靠学校"], c: 1 },
+  { a: "我国一项调研显示，乡村振兴战略正在改变越来越多农村的面貌，吸引年轻人回乡创业。", q: "本段说明？",
+    o: ["年轻人都进城", "乡村振兴吸引青年返乡", "农村没有变化"], c: 1 },
+  { a: "卫生部门提醒，养成良好的饮食和作息习惯，是预防各种慢性疾病最有效的方式。", q: "卫生部门的建议是？",
+    o: ["少喝水", "良好作息饮食", "完全不吃肉"], c: 1 },
+  { a: "经济学家分析，未来几年，绿色经济将成为推动全球增长的重要引擎。", q: "未来增长引擎是？",
+    o: ["传统重工业", "绿色经济", "煤炭行业"], c: 1 },
+  { a: "近年来，越来越多的博物馆开始推出夜间开放服务，深受年轻参观者欢迎。", q: "博物馆的新做法是？",
+    o: ["夜间开放", "提高门票", "停止展览"], c: 0 },
+];
+
+/* ============================================================
+ * READING (50)
+ * Part 1 (Q51-60): Identify the sentence with a grammar error
+ * Part 2 (Q61-70): Cloze passage — fill three blanks with best words
+ * Part 3 (Q71-80): Match the missing sentence to the gap in a paragraph
+ * Part 4 (Q81-100): Long passage with multiple comprehension MCQs
+ * ========================================================== */
+const findError: { o: string[]; c: number; exp: string }[] = [
+  { o: ["他不仅聪明，而且非常勤奋。","通过这次活动，使我学到了很多。","我已经学了三年汉语了。"], c: 1,
+    exp: "Lỗi: \"通过…使\" khiến câu thiếu chủ ngữ. Bỏ \"通过\" hoặc bỏ \"使\"." },
+  { o: ["他的成功是经过多年努力的结果。","我们应该认真对待每一个机会。","为了提高汉语水平，他报名参加了的辅导班。"], c: 2,
+    exp: "Lỗi: \"参加了的辅导班\" — thừa \"的\"; đúng là \"参加了辅导班\"." },
+  { o: ["他用了大约两个小时才完成。","这本书的内容大约二百页左右。","她对中国文化非常感兴趣。"], c: 1,
+    exp: "Lỗi: \"大约\" và \"左右\" đồng nghĩa — chỉ dùng một trong hai." },
+  { o: ["他无论刮风下雨，都坚持锻炼。","这件事的责任在于我们大家都有。","只要努力，就能成功。"], c: 1,
+    exp: "Lỗi: \"在于\" + \"都有\" cấu trúc thừa; đúng là \"责任在于我们\"." },
+  { o: ["这个问题非常重要，必须马上解决。","我们要避免不再犯同样的错误。","他是我最好的朋友之一。"], c: 1,
+    exp: "Lỗi: \"避免\" đã mang nghĩa phủ định, không cần \"不再\". Đúng: 避免再犯." },
+  { o: ["他对工作的认真态度让大家很感动。","为了能够顺利完成任务，他做了大量的准备工作。","通过这件事后，我懂得了很多道理。"], c: 2,
+    exp: "Lỗi: \"通过…后\" trùng nghĩa; chỉ dùng \"通过\" hoặc \"…后\"." },
+  { o: ["这本书的价格大约是 60 元。","他突然想起了那件事来。","学习是一个长期的过程。"], c: 1,
+    exp: "Lỗi: 想起 + 来 không đi cùng tân ngữ \"那件事\"; đúng: 突然想起了那件事." },
+  { o: ["如果不下雨的话，我们就去爬山。","为了健康的原因，他每天坚持跑步。","他的中文说得非常流利。"], c: 1,
+    exp: "Lỗi: \"为了\" và \"原因\" lặp nghĩa; đúng: 为了健康 hoặc 出于健康原因." },
+  { o: ["他不但成绩好，而且性格也很好。","我对这件事的看法是觉得很奇怪。","老师对我们的要求很严格。"], c: 1,
+    exp: "Lỗi: \"看法\" và \"觉得\" trùng nghĩa; đúng: 我觉得这件事很奇怪." },
+  { o: ["他终于实现了自己的梦想。","这次会议的目的是为了讨论新计划。","我们应该保护环境。"], c: 1,
+    exp: "Lỗi: \"目的\" và \"为了\" trùng nghĩa; đúng: 目的是讨论新计划." },
+];
+
+const cloze: { p: string; o: string[]; c: number; exp?: string }[] = [
+  { p: "环境问题是全球___的挑战。", o: ["面临","面向","面对"], c: 0, exp: "面临的挑战 = thách thức đang đối mặt." },
+  { p: "他的理论虽然有___性，但是缺少实际证据。", o: ["创新","新鲜","崭新"], c: 0, exp: "创新性 = tính sáng tạo." },
+  { p: "面对复杂的国际形势，我们必须___应对策略。", o: ["调整","调动","调查"], c: 0, exp: "调整策略 = điều chỉnh chiến lược." },
+  { p: "这本书___了作者多年来的研究心得。", o: ["凝聚","凝固","凝视"], c: 0, exp: "凝聚 = kết tinh, đúc kết." },
+  { p: "面对突发情况，他___地做出了决定。", o: ["果断","果然","果实"], c: 0, exp: "果断 = quyết đoán." },
+  { p: "这项政策的实施___了社会经济的发展。", o: ["推动","推开","推迟"], c: 0 },
+  { p: "他的话引起了在场所有人的___。", o: ["共鸣","共同","共有"], c: 0 },
+  { p: "我们应当___每一次学习的机会。", o: ["珍惜","珍藏","珍贵"], c: 0 },
+  { p: "经过___调查，警方终于找到了线索。", o: ["深入","深刻","深奥"], c: 0 },
+  { p: "他的研究为这一领域做出了___的贡献。", o: ["杰出","出色","突出"], c: 0, exp: "杰出贡献 là cụm cố định." },
+];
+
+const sentenceMatch: { p: string; o: string[]; c: number; exp?: string }[] = [
+  { p: "在快节奏的现代生活中，越来越多的人开始关注\"慢生活\"的理念。所谓\"慢生活\"，并不是指真正放慢一切，___。专家指出，适当的\"慢\"，反而能让人活得更高效、更幸福。\n\n该段落空格处应填？",
+    o: ["而是希望人们在繁忙中给自己留出思考的时间","它跟现代社会无关","因此年轻人都不喜欢"], c: 0 },
+  { p: "中医认为，人的健康与季节变化密切相关。春养肝，夏养心，秋养肺，冬养肾。___，是保持健康的根本。\n\n空格处应填？",
+    o: ["顺应自然规律，注意饮食和作息","完全依赖西药","只休息不运动"], c: 0 },
+  { p: "中国古代有句话：\"己所不欲，勿施于人。\"这句话出自《论语》，___。它体现了中华民族尊重他人、宽容待人的传统美德。\n\n空格处应填？",
+    o: ["意思是说，自己不愿意承受的事情，也不要强加给别人","与现代人毫无关系","表明应将自己的意愿强加于人"], c: 0 },
+  { p: "随着城市化进程的加快，越来越多的人选择在大城市发展。___，比如生活成本高、竞争激烈等。\n\n空格处应填？",
+    o: ["但是城市生活也带来了不少压力","因此乡村已经被遗忘","大城市没有任何问题"], c: 0 },
+  { p: "科技的进步给我们的生活带来了极大便利，___。我们应该正确地使用科技，让它为我们服务，而不是被它控制。\n\n空格处应填？",
+    o: ["同时也带来了一些新的挑战","但和我们生活毫无关系","所以我们应该拒绝使用科技"], c: 0 },
+  { p: "在教育孩子时，鼓励远比批评更有效。___，孩子才能在轻松的环境中健康成长。\n\n空格处应填？",
+    o: ["父母多给予肯定和支持","父母应该不断指责","让孩子完全自由放任"], c: 0 },
+  { p: "随着移动互联网的发展，人们获取信息的方式发生了巨大变化。___，使得我们更容易被错误信息误导。\n\n空格处应填？",
+    o: ["然而信息真假难辨","因此我们再也不需要书本","所有信息都绝对可靠"], c: 0 },
+  { p: "环境保护是每个人的责任。从节约用水、少用塑料袋这样的小事做起，___。\n\n空格处应填？",
+    o: ["每个人都能为地球贡献力量","只有政府才能解决问题","个人的行为毫无意义"], c: 0 },
+  { p: "成功的人生并不在于拥有多少财富，___。这才是值得我们追求的目标。\n\n空格处应填？",
+    o: ["而在于实现自我价值并感到幸福","只在于地位的高低","完全取决于运气"], c: 0 },
+  { p: "传统文化是一个民族的根。___，才能在世界文化的潮流中保持自己的特色。\n\n空格处应填？",
+    o: ["只有继承并创新","只有完全抛弃旧文化","只要照搬国外文化"], c: 0 },
+];
+
+const longPassages: { p: string; q: string; o: string[]; c: number; exp?: string }[] = [
+  { p: "随着移动互联网的发展，外卖行业在中国迅速崛起。短短几年时间，外卖已经渗透到城市生活的方方面面。它既方便了人们的生活，也催生了一个庞大的新兴产业。然而，外卖在带来便利的同时，也带来了食品安全、骑手权益和环境污染等多重问题，引发了广泛讨论。",
+    q: "本段主要谈外卖行业的什么？", o: ["快速崛起及其带来的问题","历史起源","与餐厅的合作"], c: 0 },
+  { p: "（上文）作者对外卖行业的态度是？", q: "",
+    o: ["完全支持","看到便利也看到问题","完全反对"], c: 1 },
+  { p: "故宫，曾经是明清两代的皇宫，如今已成为世界上最大、最完整的古代宫殿建筑群之一。它不仅是中国传统建筑的杰作，更承载着丰富的历史文化。每年，吸引着来自世界各地的游客前来参观，了解中华文明的辉煌。",
+    q: "故宫今天的身份是？", o: ["皇帝住所","世界文化遗产、博物院","政府办公地"], c: 1 },
+  { p: "（上文）作者对故宫的态度是？", q: "",
+    o: ["自豪和敬仰","批评和抱怨","漠不关心"], c: 0 },
+  { p: "近年来，越来越多的年轻人选择回到家乡创业。他们带回了在大城市学到的知识和经验，结合当地的实际，开办农产品加工厂、文创工作室、电商企业等。这一现象不仅缓解了城市的就业压力，也为乡村振兴注入了新的活力。",
+    q: "本段主要介绍了什么现象？", o: ["年轻人逃离家乡","年轻人返乡创业","城市青年增多"], c: 1 },
+  { p: "（上文）这种现象有什么意义？", q: "",
+    o: ["增加城市压力","推动乡村振兴","带来负面影响"], c: 1 },
+  { p: "一项最新的研究指出，长期睡眠不足不仅影响身体健康，还会显著降低人的注意力和判断力。研究人员建议，成年人每天应保证七到八小时的睡眠。同时，应避免在睡前长时间使用手机，因为屏幕光线会抑制褪黑素分泌，影响入睡质量。",
+    q: "成年人理想的睡眠时间是？", o: ["五六小时","七八小时","十小时以上"], c: 1 },
+  { p: "（上文）研究人员建议睡前不要做什么？", q: "",
+    o: ["读书","喝水","长时间使用手机"], c: 2 },
+  { p: "中国茶文化源远流长。从神农尝百草到陆羽著《茶经》，茶不仅是一种饮品，更承载着深厚的文化内涵。今天，无论是清雅的茶馆，还是日常的茶杯，都在以不同方式延续着这一传统。喝茶，对许多中国人而言，是一种生活，也是一种修身养性的方式。",
+    q: "中国茶文化的最早记载可追溯到？", o: ["神农尝百草","唐朝","宋朝"], c: 0 },
+  { p: "（上文）作者认为喝茶是？", q: "",
+    o: ["浪费时间","修身养性的方式","商业行为"], c: 1 },
+  { p: "中国的高铁建设取得了举世瞩目的成就。截至目前，全国高铁运营里程已稳居世界第一。高铁不仅极大地改变了人们的出行方式，也带动了沿线城市的经济发展。从北上广深到偏远的中小城市，越来越多的人享受到了\"半小时通勤\"和\"一日游千里\"的便利。",
+    q: "中国高铁的里程在世界上的位置？", o: ["第一","第二","第三"], c: 0 },
+  { p: "（上文）高铁带来了什么变化？", q: "",
+    o: ["仅交通便利","出行方式与经济双重改变","让人不愿出门"], c: 1 },
+  { p: "终身学习已经成为现代社会的共识。在知识更新越来越快的今天，仅靠学校阶段掌握的知识远远不够。无论从事什么职业，都需要不断学习新的技能、了解新的趋势，才能在激烈的竞争中保持优势。",
+    q: "为什么要终身学习？", o: ["知识更新太快","学校太短","只为升职"], c: 0 },
+  { p: "（上文）终身学习的对象包括？", q: "",
+    o: ["只有学生","所有职业的人","只有老人"], c: 1 },
+  { p: "中国传统建筑非常重视与自然的和谐统一。无论是江南的园林，还是北方的四合院，都讲究因地制宜、就地取材，使建筑融入周围的环境之中。这种\"天人合一\"的理念，体现了中国人对自然的尊重，也成为中国建筑独特的美学特征。",
+    q: "本段主要谈中国传统建筑的什么特点？", o: ["豪华奢侈","与自然和谐","高大坚固"], c: 1 },
+  { p: "（上文）\"天人合一\"体现了什么思想？", q: "",
+    o: ["征服自然","尊重自然","逃避自然"], c: 1 },
+  { p: "在中国，越来越多的家庭开始重视心理健康。过去，一旦提到心理问题，许多人会下意识地回避或否认。如今，人们逐渐意识到，心理健康与身体健康同等重要，及时寻求专业帮助，是一种成熟的表现。",
+    q: "现在人们对心理健康的态度有什么变化？", o: ["越来越重视","越来越回避","完全没有变化"], c: 0 },
+  { p: "（上文）作者认为寻求专业帮助意味着什么？", q: "",
+    o: ["软弱","成熟","羞耻"], c: 1 },
+];
+
+/* ---- Writing (1 essay) ---- */
+const essay: HskQuestion[] = [
+  {
+    id: "h6-w1",
+    section: "writing",
+    type: "write-order",
+    prompt:
+      "Đoạn gốc: 现代社会，时间是最宝贵的资源。能够合理安排时间的人，往往比别人取得更多的成就。\n\n请选出最符合 HSK 6 缩写要求（约 400 字以内、保留要点）的句子。",
+    options: [
+      { label: "时间是现代社会最宝贵的资源，善于安排时间的人更容易取得成就。" },
+      { label: "现代社会不需要时间。" },
+      { label: "成就与时间无关。" },
+    ],
+    correct: 0,
+    explanation:
+      "Câu A giữ đúng hai ý chính của đoạn gốc: thời gian là tài nguyên quý giá + người biết sắp xếp dễ thành công hơn.",
+  },
+];
+
+/* ---- Compose ---- */
+const L = listeningRows.map<HskQuestion>((r, i) => ({
+  id: `h6-l${i + 1}`,
+  section: "listening",
+  type: "listen-mcq",
+  audio: r.a,
+  prompt: r.q,
+  options: r.o.map((label) => ({ label })),
+  correct: r.c,
+  explanation: r.exp,
+}));
+
+const R1 = findError.map<HskQuestion>((r, i) => ({
+  id: `h6-r${51 + i}`,
+  section: "reading",
+  type: "read-mcq",
+  prompt: "请选出有语病的一句。",
+  options: r.o.map((label) => ({ label })),
+  correct: r.c,
+  explanation: r.exp,
+}));
+
+const R2 = cloze.map<HskQuestion>((r, i) => ({
+  id: `h6-r${61 + i}`,
+  section: "reading",
+  type: "read-fill",
+  prompt: r.p,
+  options: r.o.map((label) => ({ label })),
+  correct: r.c,
+  explanation: r.exp,
+}));
+
+const R3 = sentenceMatch.map<HskQuestion>((r, i) => ({
+  id: `h6-r${71 + i}`,
+  section: "reading",
+  type: "read-mcq",
+  prompt: r.p,
+  options: r.o.map((label) => ({ label })),
+  correct: r.c,
+  explanation: r.exp,
+}));
+
+const R4 = longPassages.map<HskQuestion>((r, i) => ({
+  id: `h6-r${81 + i}`,
+  section: "reading",
+  type: "read-mcq",
+  prompt: r.q ? `${r.p}\n\n${r.q}` : r.p,
+  options: r.o.map((label) => ({ label })),
+  correct: r.c,
+  explanation: r.exp,
+}));
 
 export const hsk6Test: HskTest = {
   level: 6,
   code: "HSK6-MOCK-01",
   title: "HSK 6 Mock Test 01",
-  titleVi: "Đề thi thử HSK 6 - Số 01",
-  durationMin: 100,
+  titleVi: "Đề thi thử HSK 6 — Số 01",
+  durationMin: 135,
   passScore: 60,
   showPinyin: false,
-  intro: "Listening 10 + Reading 12 + Writing 1 essay. Native-speed audio, complex argumentation.",
-  introVi: "Nghe 10 + Đọc 12 + Viết 1 bài luận. Tốc độ bản ngữ, lập luận phức tạp.",
+  intro:
+    "Listening 50 + Reading 50 + Writing 1 essay = 101 questions. Mirrors official Hanban HSK 6.",
+  introVi:
+    "Nghe 50 + Đọc 50 + Viết 1 bài tóm tắt = 101 câu. Cùng cấu trúc đề thi HSK 6 chính thức.",
   sections: [
     {
       id: "listening",
-      nameVi: "Phần 1: Nghe",
-      nameEn: "Listening",
-      description: "Đoạn hội thoại và bài giảng dài, từ vựng học thuật.",
-      questions: [
-        { id: "h6-l1", section: "listening", type: "listen-mcq",
-          audio: "随着人工智能的迅速发展，许多传统行业正在面临巨大的变革。专家认为，未来五到十年，将有大量的工作被机器取代。",
-          prompt: "Chuyên gia dự đoán điều gì?",
-          options: [
-            { label: "Sẽ có nhiều công việc bị máy thay thế trong 5-10 năm tới" },
-            { label: "AI sẽ biến mất" },
-            { label: "Không có thay đổi gì" },
-          ], correct: 0 },
-        { id: "h6-l2", section: "listening", type: "listen-mcq",
-          audio: "他在演讲中强调，教育的目的不仅仅是传授知识，更重要的是培养独立思考的能力。",
-          prompt: "Người diễn thuyết nhấn mạnh điều gì?",
-          options: [
-            { label: "Chỉ cần truyền đạt kiến thức" },
-            { label: "Quan trọng hơn là nuôi dưỡng tư duy độc lập" },
-            { label: "Phải học thuộc lòng" },
-          ], correct: 1 },
-        { id: "h6-l3", section: "listening", type: "listen-mcq",
-          audio: "这部纪录片真实地记录了三位企业家从创业到成功的全过程，引发了观众的强烈共鸣。",
-          prompt: "Phim tài liệu kể về điều gì?",
-          options: [
-            { label: "Lịch sử quân sự" },
-            { label: "Hành trình khởi nghiệp của 3 doanh nhân" },
-            { label: "Du lịch quanh thế giới" },
-          ], correct: 1, explanation: "共鸣 = sự đồng cảm/cộng hưởng." },
-        { id: "h6-l4", section: "listening", type: "listen-mcq",
-          audio: "面对突如其来的疫情，全社会展现出了惊人的团结与勇气。",
-          prompt: "Xã hội đã thể hiện điều gì trước đại dịch?",
-          options: [
-            { label: "Hoảng loạn và bỏ chạy" },
-            { label: "Đoàn kết và dũng cảm đáng kinh ngạc" },
-            { label: "Thờ ơ" },
-          ], correct: 1 },
-        { id: "h6-l5", section: "listening", type: "listen-mcq",
-          audio: "古人云：\"读万卷书，行万里路。\"这句话告诉我们，知识不仅来自书本，更来自亲身的经历。",
-          prompt: "Câu cổ ngữ truyền tải điều gì?",
-          options: [
-            { label: "Chỉ cần đọc sách" },
-            { label: "Tri thức đến từ cả sách vở và trải nghiệm thực tế" },
-            { label: "Đi du lịch là đủ" },
-          ], correct: 1 },
-        { id: "h6-l6", section: "listening", type: "listen-mcq",
-          audio: "经济全球化使各国之间的联系更加紧密，但同时也带来了新的挑战。",
-          prompt: "Tác động của toàn cầu hoá kinh tế?",
-          options: [
-            { label: "Chỉ có lợi ích, không thách thức" },
-            { label: "Kết nối chặt hơn nhưng cũng có thách thức mới" },
-            { label: "Hoàn toàn tiêu cực" },
-          ], correct: 1 },
-        { id: "h6-l7", section: "listening", type: "listen-mcq",
-          audio: "这位科学家的研究成果，为人类抗击疾病提供了新的希望。",
-          prompt: "Thành tựu của nhà khoa học mang lại điều gì?",
-          options: [
-            { label: "Hy vọng mới trong chống bệnh tật" },
-            { label: "Sự thất vọng" },
-            { label: "Không có gì đặc biệt" },
-          ], correct: 0 },
-        { id: "h6-l8", section: "listening", type: "listen-mcq",
-          audio: "我们必须正视环境污染问题，否则将给子孙后代留下严重的后果。",
-          prompt: "Tác giả cảnh báo gì?",
-          options: [
-            { label: "Phải đối mặt với ô nhiễm, nếu không hậu quả nghiêm trọng cho đời sau" },
-            { label: "Ô nhiễm không quan trọng" },
-            { label: "Không thể giải quyết" },
-          ], correct: 0, explanation: "正视 = nhìn nhận đối diện." },
-        { id: "h6-l9", section: "listening", type: "listen-mcq",
-          audio: "成功的企业家往往具备坚韧的意志、敏锐的洞察力和持续学习的能力。",
-          prompt: "Đặc điểm doanh nhân thành công?",
-          options: [
-            { label: "Chỉ cần may mắn" },
-            { label: "Ý chí kiên cường, quan sát nhạy bén, học hỏi liên tục" },
-            { label: "Cha mẹ giàu có" },
-          ], correct: 1 },
-        { id: "h6-l10", section: "listening", type: "listen-mcq",
-          audio: "保护文化遗产，不仅是政府的责任，更是每个公民应尽的义务。",
-          prompt: "Bảo vệ di sản văn hoá là?",
-          options: [
-            { label: "Chỉ trách nhiệm của chính phủ" },
-            { label: "Nghĩa vụ của mỗi công dân" },
-            { label: "Không cần thiết" },
-          ], correct: 1 },
-      ],
+      nameVi: "第一部分 听力 (Phần 1: Nghe)",
+      nameEn: "Part 1: Listening",
+      description: "短文、访谈与讲座，请根据录音选择答案。",
+      questions: L,
     },
     {
       id: "reading",
-      nameVi: "Phần 2: Đọc",
-      nameEn: "Reading",
-      description: "Phát hiện lỗi sai + đọc hiểu dài (đặc trưng HSK 6).",
-      questions: [
-        // Find the sentence with grammar error (Part 1 of real HSK 6)
-        { id: "h6-r1", section: "reading", type: "read-mcq",
-          prompt: "Câu nào có lỗi ngữ pháp?",
-          options: [
-            { label: "他不仅聪明，而且非常勤奋。" },
-            { label: "通过这次活动，使我学到了很多。" },
-            { label: "我已经学了三年汉语了。" },
-          ], correct: 1, explanation: "Lỗi: '通过…使' khiến câu thiếu chủ ngữ. Bỏ '通过' hoặc bỏ '使'." },
-        { id: "h6-r2", section: "reading", type: "read-mcq",
-          prompt: "Câu nào có lỗi ngữ pháp?",
-          options: [
-            { label: "他的成功是经过多年努力的结果。" },
-            { label: "我们应该认真对待每一个机会。" },
-            { label: "为了提高汉语水平，他报名参加了的辅导班。" },
-          ], correct: 2, explanation: "Lỗi: 报名参加了的辅导班 — thừa 的, đúng là 报名参加了辅导班。" },
-        { id: "h6-r3", section: "reading", type: "read-mcq",
-          prompt: "Câu nào có lỗi dùng từ?",
-          options: [
-            { label: "他用了大约两个小时才完成。" },
-            { label: "这本书的内容大约二百页左右。" },
-            { label: "她对中国文化非常感兴趣。" },
-          ], correct: 1, explanation: "Lỗi: 大约 và 左右 đồng nghĩa - chỉ dùng 1 trong 2." },
-
-        // Cloze with mixed slots
-        { id: "h6-r4", section: "reading", type: "read-fill",
-          prompt: "环境问题是全球___的挑战。",
-          options: [{ label: "面临" }, { label: "面向" }, { label: "面对" }],
-          correct: 0, explanation: "面临的挑战 = thách thức đang đối mặt (cụm cố định)." },
-        { id: "h6-r5", section: "reading", type: "read-fill",
-          prompt: "他的理论虽然有___性，但是缺少实际证据。",
-          options: [{ label: "创新" }, { label: "新鲜" }, { label: "崭新" }],
-          correct: 0, explanation: "创新性 = tính sáng tạo." },
-        { id: "h6-r6", section: "reading", type: "read-fill",
-          prompt: "面对复杂的国际形势，我们必须___应对策略。",
-          options: [{ label: "调整" }, { label: "调动" }, { label: "调查" }],
-          correct: 0, explanation: "调整策略 = điều chỉnh chiến lược." },
-        { id: "h6-r7", section: "reading", type: "read-fill",
-          prompt: "这本书___了作者多年来的研究心得。",
-          options: [{ label: "凝聚" }, { label: "凝固" }, { label: "凝视" }],
-          correct: 0, explanation: "凝聚 = kết tinh, đúc kết." },
-
-        // Long passage comprehension
-        { id: "h6-r8", section: "reading", type: "read-mcq",
-          prompt: "在快节奏的现代生活中，越来越多的人开始关注\"慢生活\"的理念。所谓\"慢生活\"，并不是指真正放慢一切，而是希望人们在繁忙中能给自己留出思考、休息和与家人相处的时间。专家指出，适当的\"慢\"，反而能让人活得更高效、更幸福。\n\n\"Cuộc sống chậm\" được hiểu thế nào?",
-          options: [
-            { label: "Làm mọi thứ thật chậm" },
-            { label: "Dành thời gian để suy nghĩ, nghỉ ngơi, ở bên gia đình trong bận rộn" },
-            { label: "Bỏ việc làm" },
-          ], correct: 1 },
-        { id: "h6-r9", section: "reading", type: "read-mcq",
-          prompt: "(Đoạn trên) Theo các chuyên gia, sống chậm có lợi ích gì?",
-          options: [
-            { label: "Khiến người ta lười biếng" },
-            { label: "Sống hiệu quả và hạnh phúc hơn" },
-            { label: "Mất việc làm" },
-          ], correct: 1 },
-        { id: "h6-r10", section: "reading", type: "read-mcq",
-          prompt: "中医认为，人的健康与季节变化密切相关。春天养肝，夏天养心，秋天养肺，冬天养肾。顺应自然规律，注意饮食和作息，是保持健康的根本。\n\nTheo Trung y, mùa thu nên dưỡng cơ quan nào?",
-          options: [{ label: "Gan" }, { label: "Tim" }, { label: "Phổi" }],
-          correct: 2 },
-        { id: "h6-r11", section: "reading", type: "read-mcq",
-          prompt: "(Đoạn trên) Quan điểm cơ bản của tác giả là gì?",
-          options: [
-            { label: "Sức khoẻ liên quan chặt chẽ đến mùa và phải thuận theo tự nhiên" },
-            { label: "Sức khoẻ chỉ phụ thuộc gen" },
-            { label: "Không cần quan tâm đến mùa" },
-          ], correct: 0 },
-        { id: "h6-r12", section: "reading", type: "read-mcq",
-          prompt: "中国古代有句话：\"己所不欲，勿施于人。\"这句话出自《论语》，意思是说，自己不愿意承受的事情，也不要强加给别人。它体现了中华民族尊重他人、宽容待人的传统美德。\n\nÝ nghĩa câu \"己所不欲，勿施于人\"?",
-          options: [
-            { label: "Điều mình không muốn thì cũng đừng làm với người khác" },
-            { label: "Phải ép người khác giống mình" },
-            { label: "Không quan tâm người khác" },
-          ], correct: 0 },
-      ],
+      nameVi: "第二部分 阅读 (Phần 2: Đọc)",
+      nameEn: "Part 2: Reading",
+      description: "病句辨析 + 完形填空 + 句子还原 + 长篇阅读。",
+      questions: [...R1, ...R2, ...R3, ...R4],
     },
     {
       id: "writing",
-      nameVi: "Phần 3: Viết bài luận",
-      nameEn: "Writing essay",
-      description: "Phần 3 HSK 6 thực tế yêu cầu đọc tài liệu 1000 chữ rồi tóm tắt 400 chữ. Tại đây bạn được hướng dẫn luyện theo dạng MCQ chọn câu tóm tắt đúng.",
-      questions: [
-        { id: "h6-w1", section: "writing", type: "write-order",
-          prompt: "Đoạn gốc: 现代社会，时间是最宝贵的资源。能够合理安排时间的人，往往比别人取得更多的成就。— Câu tóm tắt nào sát ý nhất?",
-          options: [
-            { label: "时间是现代社会最宝贵的资源，善于安排时间的人更容易成功。" },
-            { label: "现代社会不需要时间。" },
-            { label: "成就与时间无关。" },
-          ], correct: 0, explanation: "Câu A giữ đúng 2 ý chính: thời gian quý giá + người biết sắp xếp thành công hơn." },
-      ],
+      nameVi: "第三部分 书写 (Phần 3: Viết tóm tắt)",
+      nameEn: "Part 3: Summary writing",
+      description:
+        "Phần 3 HSK 6 chính thức yêu cầu đọc bài 1000 chữ rồi viết tóm tắt 400 chữ. Phiên bản luyện tập rút gọn dưới dạng MCQ chọn câu tóm tắt sát ý nhất.",
+      questions: essay,
     },
   ],
 };
