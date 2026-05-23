@@ -165,7 +165,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                 </p>
               </motion.div>
             ) : (
-              <div className="px-5 sm:px-8 py-6 space-y-6">
+              <div className="px-5 sm:px-8 py-4 space-y-3">
                 {/* Features grid */}
                 <div>
                   <h3 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
