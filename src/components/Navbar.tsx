@@ -151,9 +151,10 @@ const Navbar = () => {
       { to: "/chinese/hsk/vocabulary", label: t("📖 HSK Vocabulary", "📖 HSK Vocabulary") },
       { to: "/chinese/hsk/test", label: t("📝 HSK Test (Đề thi thử)", "📝 HSK Test (Mock Exams)") },
     ] },
-    { to: "#cn-conv-group", label: t("💬 Giao tiếp & Tương tác", "💬 Conversational"), groupLabel: "cn-conv", children: [
+    { to: "#cn-foundation-group", label: t("🧱 Chinese Foundation", "🧱 Chinese Foundation"), groupLabel: "cn-foundation", children: [
       { to: "/chinese/conversational/curriculum", label: t("🎯 Chương trình Tương tác", "🎯 Interactive Curriculum") },
       { to: "/chinese/culture", label: t("🎎 Văn hóa Giao tiếp", "🎎 Communication Culture") },
+      { to: "/chinese/reading", label: t("📖 Luyện đọc", "📖 Reading Practice") },
     ] },
     { to: "#cn-div2", label: "", divider: true },
     { to: "/chinese/arcade", label: t("🎮 Chinese Arcade Hub", "🎮 Chinese Arcade Hub") },
