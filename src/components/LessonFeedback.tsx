@@ -8,9 +8,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 
 interface LessonFeedbackProps {
-  lessonId: string;
+  lessonId?: string;
   moduleId?: string;
-  lessonType: "english" | "chinese" | "programming";
+  lessonType?: "english" | "chinese" | "programming" | "vietnamese" | "finnish" | "general";
   subject?: string;
   lessonTitle?: string;
 }
