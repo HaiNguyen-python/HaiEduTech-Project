@@ -28,10 +28,20 @@ const stripAnnotations = (s: string): string => {
   return out.trim();
 };
 
-// Fallback when the entire gloss was an annotation. Keep words, drop punctuation.
+// Fallback when stripAnnotations returns empty (the whole gloss was annotation).
+// Aggressively rewrite common HSK/CC-CEDICT noise into short readable text.
 const lossyFallback = (s: string): string => {
   if (!s) return s;
-  return s.replace(/\[[^\]]*\]/g, "").replace(/[()|"']/g, "").replace(/\s+/g, " ").trim().slice(0, 80);
+  let out = s
+    .replace(/\[[^\]]*\]/g, "")
+    .replace(/\b(erhua variant of|old variant of|variant of|same as|see also)\s+\S+/gi, "biến thể")
+    .replace(/^\(prefix indicating[^)]*\)?/i, "tiền tố thứ tự")
+    .replace(/^\(suffix[^)]*\)?/i, "hậu tố")
+    .replace(/\bplural marker[^;,]*/i, "hậu tố số nhiều")
+    .replace(/[()|"']/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  return out.slice(0, 80);
 };
 
 // ---- Small EN→VI dictionary for the most common HSK-style glosses ----
