@@ -415,9 +415,19 @@ type IngredientWord = { char: string; id: number; used: boolean };
 
 const HotpotChef = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: () => void }) => {
   const { t } = useLanguage();
-  // Pick only multi-character HSK words for compound matching
+  // Pick HSK words appropriate to difficulty.
+  // easy = HSK 1-2, strictly 2-character compounds (real beginner compound words)
+  // hard = HSK 3-4, 2-3 char
+  // expert = HSK 5-6, 2-3 char
   const compoundWords = useMemo(
-    () => wordsForDifficulty(difficulty).filter(w => Array.from(w.character).length >= 2 && Array.from(w.character).length <= 3),
+    () => {
+      const pool = wordsForDifficulty(difficulty).filter(w => {
+        const len = Array.from(w.character).length;
+        if (difficulty === "easy") return len === 2;
+        return len >= 2 && len <= 3;
+      });
+      return pool;
+    },
     [difficulty]
   );
   const [score, setScore] = useState(0);
