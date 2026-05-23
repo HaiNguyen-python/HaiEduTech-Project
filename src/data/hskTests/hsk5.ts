@@ -11,7 +11,8 @@ import type { HskTest, HskQuestion } from "./index";
  * Part 1 (Q1-20): Two-line dialog → MCQ (3 options)
  * Part 2 (Q21-45): Longer dialog or short passage → MCQ
  * ========================================================== */
-const listeningPart1: HskQuestion[] = [
+type LRow = { a: string; q: string; o: string[]; c: number; exp?: string };
+const listeningPart1: LRow[] = [
   { a: "男：你怎么还在加班？女：这份报告必须今晚交。", q: "女的为什么还没下班？",
     o: ["报告今晚要交", "在等朋友", "电脑坏了"], c: 0, exp: "必须今晚交 = bắt buộc nộp tối nay." },
   { a: "女：听说你换工作了？男：是啊，新公司离家更近，待遇也更好。", q: "男的为什么换工作？",
@@ -54,7 +55,7 @@ const listeningPart1: HskQuestion[] = [
     o: ["做过类似工作", "上网查过", "朋友告诉的"], c: 0 },
 ];
 
-const listeningPart2: HskQuestion[] = [
+const listeningPart2: LRow[] = [
   { a: "随着科技的发展，越来越多的人开始使用智能手机付款。这种方式既方便又安全，但也带来了一些新的问题，比如信息安全和老年人的使用困难。", q: "这段话主要谈什么？",
     o: ["智能手机付款的利与弊", "老年人不会用手机", "科技很重要"], c: 0 },
   { a: "学习一门外语并不是一件容易的事，它需要时间、耐心和正确的方法。如果只是死记硬背，效果往往不好。多听、多说、多用，才是关键。", q: "学习外语最重要的是什么？",
@@ -113,7 +114,8 @@ const listeningPart2: HskQuestion[] = [
  * Part 2 (Q61-70): Short paragraph → choose best summary
  * Part 3 (Q71-90): Longer passage → MCQ comprehension
  * ========================================================== */
-const readingPart1: HskQuestion[] = [
+type R1Row = { p: string; o: string[]; c: number; exp?: string };
+const readingPart1: R1Row[] = [
   { p: "这家公司在市场上的___越来越大。", o: ["影响", "情况", "原因"], c: 0, exp: "影响力 = sức ảnh hưởng." },
   { p: "我们应该尊重每个人的不同___。", o: ["观点", "效果", "习惯"], c: 0 },
   { p: "这次活动得到了很多人的___。", o: ["支持", "反对", "怀疑"], c: 0 },
@@ -131,7 +133,8 @@ const readingPart1: HskQuestion[] = [
   { p: "他的态度十分___。", o: ["真诚", "真实", "真正"], c: 0 },
 ];
 
-const readingPart2: HskQuestion[] = [
+type R2Row = { p: string; q?: string; o: string[]; c: number; exp?: string };
+const readingPart2: R2Row[] = [
   { p: "现在很多家长非常重视孩子的教育，从小就让孩子学习各种各样的课程。然而，过多的课外班可能会让孩子失去童年的乐趣，反而影响他们的成长。",
     q: "本段主要意思是？", o: ["课外班越多越好", "过多课外班反而不利成长", "孩子不需要学习"], c: 1 },
   { p: "随着互联网的普及，传统书店受到了不小的冲击。但是仍然有一些人喜欢去实体书店，因为他们觉得在那里能感受到一种特别的氛围。",
@@ -154,7 +157,7 @@ const readingPart2: HskQuestion[] = [
     q: "作者对中国的态度是？", o: ["自豪", "失望", "无所谓"], c: 0 },
 ];
 
-const readingPart3: HskQuestion[] = [
+const readingPart3: R2Row[] = [
   { p: "现代社会节奏快、压力大。许多研究表明，长期处于高压状态会引发各种身心问题，包括失眠、焦虑甚至心脏病。专家建议，每天给自己留一点时间，做喜欢的事，是缓解压力最有效的方法之一。",
     q: "长期高压会导致什么？", o: ["更聪明", "失眠和心脏病", "运气变好"], c: 1 },
   { p: "（上文）作者建议怎么缓解压力？", o: ["每天做喜欢的事", "辞职", "去医院"], c: 0 },
@@ -192,7 +195,8 @@ const readingPart3: HskQuestion[] = [
  * Part 1 (Q91-98): Re-order scrambled words into a sentence
  * Part 2 (Q99-100): Choose the correct character to complete a word
  * ========================================================== */
-const writingOrder: HskQuestion[] = [
+type WORow = { s: string[]; a: string; o: string[]; c: number; exp?: string };
+const writingOrder: WORow[] = [
   { s: ["这","问题","个","值得","我们","认真","思考"], a: "这个问题值得我们认真思考。",
     o: ["这个问题值得我们认真思考。","我们值得这个问题认真思考。","值得这个问题我们认真思考。"], c: 0 },
   { s: ["他","的","提出","建议","得到了","大家","支持"], a: "他提出的建议得到了大家的支持。",
@@ -212,7 +216,7 @@ const writingOrder: HskQuestion[] = [
     o: ["健康比什么都重要。","什么都比健康重要。","重要比什么都健康。"], c: 0 },
 ];
 
-const writingChar: HskQuestion[] = [
+const writingChar: R1Row[] = [
   { p: "我对这个___（jié）果感到满意。", o: ["结","节","解"], c: 0, exp: "结果 jiéguǒ = kết quả." },
   { p: "我们要___（zūn）守交通规则。", o: ["尊","遵","樽"], c: 1, exp: "遵守 zūnshǒu = tuân thủ (bộ 辶)." },
 ];
