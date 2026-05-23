@@ -38,12 +38,10 @@ const GameLeaderboard = ({ gameType, currentScore }: GameLeaderboardProps) => {
       if (data) {
         // Fetch display names for unique user IDs
         const userIds = [...new Set(data.map((d: any) => d.user_id))];
-        const { data: profiles } = await supabase
-          .from("profiles")
-          .select("id, full_name")
-          .in("id", userIds as string[]);
+        const { data: profiles } = await (supabase as any)
+          .rpc("get_public_profiles", { _ids: userIds });
 
-        const nameMap = new Map(profiles?.map((p) => [p.id, p.full_name]) || []);
+        const nameMap = new Map((profiles || []).map((p: any) => [p.id, p.full_name]));
 
         // Keep only best score per user
         const bestScores = new Map<string, LeaderboardEntry>();
