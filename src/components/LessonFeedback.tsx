@@ -176,106 +176,114 @@ const LessonFeedback = ({
                 </button>
               </div>
 
-              <div className="p-4 space-y-4">
-                {submitted ? (
-                  <motion.div
-                    initial={{ scale: 0.9, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    className="flex flex-col items-center gap-2 py-8 text-center"
-                  >
-                    <div className="text-5xl">🎉</div>
-                    <p className="font-semibold text-foreground">
-                      {t("Đã ghi nhận!", "Recorded!")}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {t("Cảm ơn bạn rất nhiều.", "Thank you so much.")}
-                    </p>
-                  </motion.div>
-                ) : (
-                  <>
-                    <p className="text-[13px] font-bold text-foreground leading-relaxed">
-                       {t(
-                        "Bạn thấy bài học hôm nay thế nào? Phản hồi giúp thầy cải thiện nội dung.",
-                        "How was this lesson today? Your feedback helps improve content.",
-                      )}
-                    </p>
-
-                    {/* Quick reaction */}
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => setQuick("like")}
-                        className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold border-2 transition-all ${
-                          quick === "like"
-                            ? "bg-green-500/15 border-green-500/50 text-green-600"
-                            : "bg-muted border-transparent hover:border-green-500/30 text-muted-foreground"
-                        }`}
-                      >
-                        <ThumbsUp className={`w-3.5 h-3.5 ${quick === "like" ? "fill-green-500" : ""}`} />
-                        {t("Hữu ích", "Helpful")}
-                      </button>
-                      <button
-                        onClick={() => setQuick("dislike")}
-                        className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold border-2 transition-all ${
-                          quick === "dislike"
-                            ? "bg-orange-500/15 border-orange-500/50 text-orange-600"
-                            : "bg-muted border-transparent hover:border-orange-500/30 text-muted-foreground"
-                        }`}
-                      >
-                        <ThumbsDown className={`w-3.5 h-3.5 ${quick === "dislike" ? "fill-orange-500" : ""}`} />
-                        {t("Cần cải thiện", "Needs Improvement")}
-                      </button>
-                    </div>
-
-                    {/* Detailed ratings */}
-                    <div className="space-y-3 p-3 rounded-xl bg-muted/40 border border-border">
-                      <StarRow
-                        label={t("Độ rõ ràng nội dung", "Content clarity")}
-                        value={clarity}
-                        onChange={setClarity}
-                      />
-                      <StarRow
-                        label={t("Mức độ hấp dẫn của bài học", "Lesson Engagement")}
-                        value={aiTool}
-                        onChange={setAiTool}
-                      />
-                      <StarRow
-                        label={t("Tự tin sau bài học", "Confidence after lesson")}
-                        value={confidence}
-                        onChange={setConfidence}
-                      />
-                    </div>
-
-                    {/* Suggestion */}
-                    <div className="flex flex-col gap-1">
-                      <label className="text-[13px] font-bold text-foreground">
-                        {t("Góp ý cho thầy (tùy chọn)", "Suggestion (optional)")}
-                      </label>
-                      <textarea
-                        value={suggestion}
-                        onChange={(e) => setSuggestion(e.target.value.slice(0, 500))}
-                        rows={3}
-                        placeholder={t(
-                          "Bạn muốn thầy điều chỉnh điều gì?",
-                          "What would you like Mr. Hai to improve?",
-                        )}
-                        className="w-full px-3 py-2 rounded-lg bg-background border border-border text-sm focus:outline-none focus:ring-2 focus:ring-amber-400/50 resize-none"
-                      />
-                      <span className="text-[10px] text-muted-foreground text-right">
-                        {suggestion.length}/500
-                      </span>
-                    </div>
-
-                    <button
-                      onClick={handleSubmit}
-                      disabled={!canSubmit}
-                      className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-semibold text-sm shadow-lg shadow-orange-500/20 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-xl transition-all"
+              {/* Scrollable body */}
+              <div className="flex-1 overflow-y-auto">
+                <div className="p-4 space-y-4">
+                  {submitted ? (
+                    <motion.div
+                      initial={{ scale: 0.9, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      className="flex flex-col items-center gap-2 py-8 text-center"
                     >
-                      <Send className="w-4 h-4" />
-                      {submitting ? t("Đang gửi...", "Sending...") : t("Gửi phản hồi", "Submit feedback")}
-                    </button>
-                  </>
-                )}
+                      <div className="text-5xl">🎉</div>
+                      <p className="font-semibold text-foreground">
+                        {t("Đã ghi nhận!", "Recorded!")}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {t("Cảm ơn bạn rất nhiều.", "Thank you so much.")}
+                      </p>
+                    </motion.div>
+                  ) : (
+                    <>
+                      <p className="text-[13px] font-bold text-foreground leading-relaxed">
+                         {t(
+                          "Bạn thấy bài học hôm nay thế nào? Phản hồi giúp thầy cải thiện nội dung.",
+                          "How was this lesson today? Your feedback helps improve content.",
+                        )}
+                      </p>
+
+                      {/* Quick reaction */}
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => setQuick("like")}
+                          className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold border-2 transition-all ${
+                            quick === "like"
+                              ? "bg-green-500/15 border-green-500/50 text-green-600"
+                              : "bg-muted border-transparent hover:border-green-500/30 text-muted-foreground"
+                          }`}
+                        >
+                          <ThumbsUp className={`w-3.5 h-3.5 ${quick === "like" ? "fill-green-500" : ""}`} />
+                          {t("Hữu ích", "Helpful")}
+                        </button>
+                        <button
+                          onClick={() => setQuick("dislike")}
+                          className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold border-2 transition-all ${
+                            quick === "dislike"
+                              ? "bg-orange-500/15 border-orange-500/50 text-orange-600"
+                              : "bg-muted border-transparent hover:border-orange-500/30 text-muted-foreground"
+                          }`}
+                        >
+                          <ThumbsDown className={`w-3.5 h-3.5 ${quick === "dislike" ? "fill-orange-500" : ""}`} />
+                          {t("Cần cải thiện", "Needs Improvement")}
+                        </button>
+                      </div>
+
+                      {/* Detailed ratings */}
+                      <div className="space-y-3 p-3 rounded-xl bg-muted/40 border border-border">
+                        <StarRow
+                          label={t("Độ rõ ràng nội dung", "Content clarity")}
+                          value={clarity}
+                          onChange={setClarity}
+                        />
+                        <StarRow
+                          label={t("Mức độ hấp dẫn của bài học", "Lesson Engagement")}
+                          value={aiTool}
+                          onChange={setAiTool}
+                        />
+                        <StarRow
+                          label={t("Tự tin sau bài học", "Confidence after lesson")}
+                          value={confidence}
+                          onChange={setConfidence}
+                        />
+                      </div>
+
+                      {/* Suggestion */}
+                      <div className="flex flex-col gap-1">
+                        <label className="text-[13px] font-bold text-foreground">
+                          {t("Góp ý cho thầy (tùy chọn)", "Suggestion (optional)")}
+                        </label>
+                        <textarea
+                          value={suggestion}
+                          onChange={(e) => setSuggestion(e.target.value.slice(0, 500))}
+                          rows={3}
+                          placeholder={t(
+                            "Bạn muốn thầy điều chỉnh điều gì?",
+                            "What would you like Mr. Hai to improve?",
+                          )}
+                          className="w-full px-3 py-2 rounded-lg bg-background border border-border text-sm focus:outline-none focus:ring-2 focus:ring-amber-400/50 resize-none"
+                        />
+                        <span className="text-[10px] text-muted-foreground text-right">
+                          {suggestion.length}/500
+                        </span>
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
+
+              {/* Sticky submit footer */}
+              {!submitted && (
+                <div className="shrink-0 p-4 pt-0">
+                  <button
+                    onClick={handleSubmit}
+                    disabled={!canSubmit}
+                    className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-semibold text-sm shadow-lg shadow-orange-500/20 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-xl transition-all"
+                  >
+                    <Send className="w-4 h-4" />
+                    {submitting ? t("Đang gửi...", "Sending...") : t("Gửi phản hồi", "Submit feedback")}
+                  </button>
+                </div>
+              )}
             </motion.div>
           </>
         )}
