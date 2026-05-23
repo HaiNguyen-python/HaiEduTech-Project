@@ -90,18 +90,18 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
   };
 
   const features = [
-    { icon: "🎯", title: t("Full Exam Engine", "Full Exam Engine"), desc: t("Truy cập toàn bộ đề thi & chấm điểm AI", "Unlock all mock exams & AI grading") },
-    { icon: "🎮", title: t("Interactive Games", "Interactive Games"), desc: t("Trò chơi học tập không giới hạn", "Unlimited learning mini-games") },
-    { icon: "🤖", title: t("AI Feedback Coach", "AI Feedback Coach"), desc: t("Phản hồi cá nhân hoá từ AI", "Personalised AI feedback") },
+    { icon: "🎯", title: t("Full Exam Engine", "Full Exam Engine"), desc: t("Toàn bộ đề thi & chấm Smart", "All mock exams & Smart grading") },
+    { icon: "🎮", title: t("Interactive Games", "Interactive Games"), desc: t("Mini-games học tập không giới hạn", "Unlimited learning mini-games") },
+    { icon: "🤖", title: t("Smart Feedback Coach", "Smart Feedback Coach"), desc: t("Phản hồi cá nhân hoá tức thì", "Instant personalised feedback") },
     { icon: "📚", title: t("Premium Lessons", "Premium Lessons"), desc: t("Bài học nâng cao độc quyền", "Exclusive advanced lessons") },
-    { icon: "✍️", title: t("AI Writing Grading", "AI Writing Grading"), desc: t("Chấm bài viết IELTS/TOEIC bằng AI chi tiết", "Detailed AI grading for IELTS/TOEIC writing") },
-    { icon: "🗣️", title: t("AI Speaking Coach", "AI Speaking Coach"), desc: t("Luyện nói với AI 24/7, nhận điểm & góp ý", "Practice speaking with AI 24/7, get scores & feedback") },
-    { icon: "📊", title: t("Progress Analytics", "Progress Analytics"), desc: t("Báo cáo tiến độ học tập trực quan", "Visual learning progress reports") },
-    { icon: "🏆", title: t("Priority Support", "Priority Support"), desc: t("Hỗ trợ ưu tiên từ Thầy Hải & đội ngũ", "Priority support from Teacher Hai & team") },
-    { icon: "📖", title: t("Downloadable Resources", "Downloadable Resources"), desc: t("Tài liệu PDF, bảng từ vựng & mẫu bài luận", "PDF materials, vocab sheets & essay templates") },
-    { icon: "🔥", title: t("Study Streaks & Badges", "Study Streaks & Badges"), desc: t("Theo dõi chuỗi ngày học & nhận huy hiệu", "Track study streaks & earn achievement badges") },
-    { icon: "🎓", title: t("Scholarship Advisor", "Scholarship Advisor"), desc: t("Tư vấn học bổng du học cá nhân hoá", "Personalised study-abroad scholarship advice") },
-    { icon: "💼", title: t("Career Roadmap AI", "Career Roadmap AI"), desc: t("Lộ trình nghề nghiệp IT & lập trình AI", "AI-powered IT & programming career roadmap") },
+    { icon: "✍️", title: t("Smart Writing Grading", "Smart Writing Grading"), desc: t("Chấm Writing IELTS/TOEIC chi tiết", "Detailed IELTS/TOEIC writing grading") },
+    { icon: "🗣️", title: t("Smart Speaking Coach", "Smart Speaking Coach"), desc: t("Luyện nói 24/7, chấm điểm & góp ý", "Practice speaking 24/7 with feedback") },
+    { icon: "📊", title: t("Progress Analytics", "Progress Analytics"), desc: t("Báo cáo tiến độ trực quan", "Visual progress reports") },
+    { icon: "🏆", title: t("Priority Support", "Priority Support"), desc: t("Hỗ trợ ưu tiên từ Thầy Hải", "Priority support from Teacher Hai") },
+    { icon: "📖", title: t("Downloadable Resources", "Downloadable Resources"), desc: t("PDF, từ vựng & mẫu bài luận", "PDFs, vocab sheets & essay templates") },
+    { icon: "🔥", title: t("Streaks & Badges", "Streaks & Badges"), desc: t("Chuỗi ngày học & huy hiệu", "Study streaks & achievement badges") },
+    { icon: "🎓", title: t("Scholarship Advisor", "Scholarship Advisor"), desc: t("Tư vấn học bổng cá nhân hoá", "Personalised scholarship advice") },
+    { icon: "💼", title: t("Smart Career Roadmap", "Smart Career Roadmap"), desc: t("Lộ trình IT & lập trình", "IT & programming career roadmap") },
   ];
 
   return (
