@@ -6,7 +6,7 @@ import {
   Search, Volume2, ChevronLeft, ChevronRight, Layers, List,
   RotateCcw, BookOpen, CheckCircle, XCircle, Building2, Users,
   Presentation, TrendingUp, DollarSign, Plane, Handshake, Cpu,
-  Headphones, CalendarDays, ArrowLeft, Bookmark
+  Headphones, CalendarDays, ArrowLeft, Bookmark, Keyboard
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { toeicVocabData, TOEIC_CATEGORIES, TOEIC_LEVELS, type ToeicWord } from "@/data/toeicVocabData";
