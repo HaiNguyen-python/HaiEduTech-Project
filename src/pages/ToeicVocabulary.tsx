@@ -156,7 +156,6 @@ const TypePractice = ({
   example: string;
   t: (vi: string, en: string) => string;
 }) => {
-  const [open, setOpen] = useState(true);
   const [value, setValue] = useState("");
   const [checked, setChecked] = useState(false);
   const correct = checked && normalize(value) === normalize(example);
