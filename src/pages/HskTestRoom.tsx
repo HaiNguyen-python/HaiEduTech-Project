@@ -252,12 +252,12 @@ const HskTestRoom = () => {
                         {String.fromCharCode(65 + i)}
                       </span>
                       <div className="flex-1">
-                        <p className="text-foreground font-medium text-lg leading-snug">{opt.label}</p>
+                        <p className={`text-foreground font-bold leading-snug ${isPicOption ? "text-5xl sm:text-6xl text-center py-2" : "text-xl sm:text-2xl"}`}>{opt.label}</p>
                         {(test.showPinyin || submitted) && opt.pinyin && (
-                          <p className="text-xs text-muted-foreground italic">{opt.pinyin}</p>
+                          <p className="text-sm text-muted-foreground italic mt-1">{opt.pinyin}</p>
                         )}
                         {submitted && opt.vi && (
-                          <p className="text-xs text-primary mt-0.5">↳ {opt.vi}</p>
+                          <p className="text-sm text-primary mt-1 font-semibold">↳ {opt.vi}</p>
                         )}
                       </div>
                       {isRight && <CheckCircle2 className="w-5 h-5 text-emerald-500" />}
