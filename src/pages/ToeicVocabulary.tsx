@@ -149,6 +149,23 @@ const Flashcard = ({ word }: { word: ToeicWord }) => {
 const normalize = (s: string) =>
   s.toLowerCase().replace(/[.,!?;:'"`’“”\-]/g, "").replace(/\s+/g, " ").trim();
 
+// Bold the keyword (and simple morphological variants) inside an example sentence.
+const highlightKeyword = (sentence: string, word: string): React.ReactNode => {
+  if (!word) return sentence;
+  const stem = word.trim().replace(/(ing|ed|es|s|ly|tion|sion|ment|er|or|ies|y)$/i, "");
+  const root = stem.length >= 3 ? stem : word.trim();
+  const escaped = root.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const re = new RegExp(`(${escaped}[a-zA-Z]*)`, "gi");
+  const parts = sentence.split(re);
+  return parts.map((p, i) =>
+    re.test(p) && i % 2 === 1 ? (
+      <strong key={i} className="not-italic font-bold text-blue-700 dark:text-blue-300">{p}</strong>
+    ) : (
+      <span key={i}>{p}</span>
+    )
+  );
+};
+
 const TypePractice = ({
   example,
   t,
