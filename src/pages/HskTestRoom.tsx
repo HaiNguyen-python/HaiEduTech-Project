@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { HSK_TESTS, totalQuestions, type HskQuestion } from "@/data/hskTests";
+import { inferReadingEmoji } from "@/lib/hskReadingIllustration";
 
 const speakZh = (text: string, rate = 0.85) => {
   if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
@@ -202,10 +203,26 @@ const HskTestRoom = () => {
                   const isPicPrompt =
                     item.q.type === "listen-tf" ||
                     /^[\p{Extended_Pictographic}\p{Emoji_Modifier_Base}\p{Emoji_Modifier}\p{Emoji_Component}\s\d:°✓✗\u200d\uFE0F]+$/u.test(raw);
+
+                  // Auto-illustration for reading questions that ship without a picture
+                  const autoEmoji =
+                    item.q.section === "reading" && !isPicPrompt
+                      ? inferReadingEmoji(raw)
+                      : "";
+
                   return (
-                    <p className={`text-foreground leading-relaxed whitespace-pre-wrap font-bold ${isPicPrompt ? "text-5xl sm:text-7xl text-center py-4" : "text-2xl sm:text-3xl"}`}>
-                      {item.q.prompt}
-                    </p>
+                    <>
+                      {autoEmoji && (
+                        <div className="mb-3 flex justify-center">
+                          <div className="px-6 py-3 rounded-2xl bg-gradient-to-br from-amber-100 to-rose-100 dark:from-amber-500/15 dark:to-rose-500/15 border-2 border-amber-400/50 dark:border-amber-400/30 text-6xl sm:text-7xl leading-none">
+                            {autoEmoji}
+                          </div>
+                        </div>
+                      )}
+                      <p className={`text-foreground leading-relaxed whitespace-pre-wrap font-bold ${isPicPrompt ? "text-5xl sm:text-7xl text-center py-4" : "text-2xl sm:text-3xl"}`}>
+                        {item.q.prompt}
+                      </p>
+                    </>
                   );
                 })()}
 
