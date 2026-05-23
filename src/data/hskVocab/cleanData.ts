@@ -140,17 +140,15 @@ export function cleanHskWord(w: HskWord): HskWord {
   const viRaw = w.definition?.vi || "";
   // For EN: stripped version is always better; only keep raw if stripping nukes everything.
   const enStripped = stripAnnotations(enRaw);
-  const enClean = enStripped || enRaw.replace(/[\[\]]/g, "").trim();
+  const enClean = enStripped || lossyFallback(enRaw);
 
   let viClean: string;
   if (looksVietnamese(viRaw) && viRaw !== enRaw) {
     viClean = viRaw.trim();
   } else {
-    // VI field was English (leaked from CC-CEDICT). Clean + try translate.
     const viStripped = stripAnnotations(viRaw);
     const translated = translateEnToVi(viStripped || enClean);
-    // Prefer translation > stripped EN > cleaned EN. Never fall back to noisy raw.
-    viClean = translated || viStripped || enClean;
+    viClean = translated || viStripped || enClean || lossyFallback(viRaw);
   }
 
   // 3. Pinyin cleanup: 'shú/shóu' → 'shú'
