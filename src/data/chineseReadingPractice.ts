@@ -34,8 +34,10 @@ export interface ChineseReadingLevel {
   descriptionVi: string;
   colorFrom: string;        // tailwind from-XXX
   colorTo: string;          // tailwind to-XXX
+  chibi: string;            // chibi illustration asset URL for this level
   passages: ChineseReadingPassage[];
 }
+
 
 // =================================================================
 // HSK 1 — VERY BEGINNER (3-5 sentences, only most common words)
@@ -413,6 +415,13 @@ const hsk5: ChineseReadingPassage[] = [
 // =================================================================
 // LEVELS EXPORT
 // =================================================================
+import { hsk1Extra, hsk2Extra, hsk3Extra, hsk4Extra, hsk5Extra } from "./chineseReadingExpansion";
+import chibiHsk1 from "@/assets/chibi-cn-hsk1.png";
+import chibiHsk2 from "@/assets/chibi-cn-hsk2.png";
+import chibiHsk3 from "@/assets/chibi-cn-hsk3.png";
+import chibiHsk4 from "@/assets/chibi-cn-hsk4.png";
+import chibiHsk5 from "@/assets/chibi-cn-hsk5.png";
+
 export const chineseReadingLevels: ChineseReadingLevel[] = [
   {
     level: 1,
@@ -422,7 +431,8 @@ export const chineseReadingLevels: ChineseReadingLevel[] = [
     descriptionVi: "Bài đọc cực ngắn với 150 từ phổ biến nhất. Hoàn hảo cho lần đầu đọc.",
     colorFrom: "from-emerald-500",
     colorTo: "to-teal-500",
-    passages: hsk1,
+    chibi: chibiHsk1,
+    passages: [...hsk1, ...hsk1Extra],
   },
   {
     level: 2,
@@ -432,7 +442,8 @@ export const chineseReadingLevels: ChineseReadingLevel[] = [
     descriptionVi: "Đoạn ngắn về đời sống hằng ngày — gia đình, cuối tuần, ăn uống, bạn bè.",
     colorFrom: "from-sky-500",
     colorTo: "to-cyan-500",
-    passages: hsk2,
+    chibi: chibiHsk2,
+    passages: [...hsk2, ...hsk2Extra],
   },
   {
     level: 3,
@@ -442,7 +453,8 @@ export const chineseReadingLevels: ChineseReadingLevel[] = [
     descriptionVi: "Bài đọc nhiều đoạn về du lịch, mua sắm, sống khoẻ.",
     colorFrom: "from-indigo-500",
     colorTo: "to-blue-600",
-    passages: hsk3,
+    chibi: chibiHsk3,
+    passages: [...hsk3, ...hsk3Extra],
   },
   {
     level: 4,
@@ -452,7 +464,8 @@ export const chineseReadingLevels: ChineseReadingLevel[] = [
     descriptionVi: "Bài nghị luận & tự sự: môi trường, tình bạn, sự nghiệp.",
     colorFrom: "from-purple-500",
     colorTo: "to-violet-600",
-    passages: hsk4,
+    chibi: chibiHsk4,
+    passages: [...hsk4, ...hsk4Extra],
   },
   {
     level: 5,
@@ -462,6 +475,7 @@ export const chineseReadingLevels: ChineseReadingLevel[] = [
     descriptionVi: "Từ vựng phong phú, ý tưởng phức tạp: văn hoá, AI, biến đổi xã hội.",
     colorFrom: "from-rose-500",
     colorTo: "to-red-600",
-    passages: hsk5,
+    chibi: chibiHsk5,
+    passages: [...hsk5, ...hsk5Extra],
   },
 ];
