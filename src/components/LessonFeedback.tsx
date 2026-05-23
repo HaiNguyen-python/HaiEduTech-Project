@@ -171,9 +171,9 @@ const LessonFeedback = ({
                     <span className="text-sm font-bold">
                       {t("Phản hồi bài học", "Lesson Feedback")}
                     </span>
-                    <span className="text-[11px] font-extrabold opacity-95 tracking-wide flex items-center gap-1">
+                    <span className="text-[11px] font-extrabold opacity-95 tracking-wide flex items-center gap-1 whitespace-nowrap">
                       {t("Mr. Hai lắng nghe bạn", "Mr. Hai always listens to your opinion.")}
-                      <Heart className="w-3 h-3 fill-red-500 text-red-500" />
+                      <Heart className="w-3 h-3 fill-red-500 text-red-500 shrink-0" />
                     </span>
                   </div>
                 </div>
