@@ -126,7 +126,7 @@ const Flashcard = ({ word }: { word: ToeicWord }) => {
         >
           <p className="text-base font-semibold text-white">{word.definition.en}</p>
           <p className="text-base text-blue-300">{word.definition.vi}</p>
-          <p className="text-sm text-slate-300 italic mt-2">"{word.example}"</p>
+          <p className="text-sm text-slate-300 italic mt-2"><span className="not-italic font-semibold text-blue-300">E.g. </span>{word.example}</p>
           {word.synonyms.length > 0 && (
             <div className="mt-2">
               <span className="text-xs text-slate-500 uppercase font-bold">Synonyms: </span>
