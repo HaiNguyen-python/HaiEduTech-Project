@@ -37,6 +37,14 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
     return `HAIEDUTECH_UPGRADE_${handle}`;
   }, [user]);
 
+  // Display-friendly transfer note example
+  const transferRefDisplay = useMemo(() => {
+    const handle = (user?.email?.split("@")[0] || user?.id?.slice(0, 8) || "TenCuaBan")
+      .toUpperCase()
+      .replace(/[^A-Z0-9]/g, "");
+    return `HAIEDUTECH_UPGRADE_${handle}`;
+  }, [user]);
+
   useEffect(() => {
     if (!open) {
       // Reset when fully closed
@@ -86,6 +94,14 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
     { icon: "🎮", title: t("Interactive Games", "Interactive Games"), desc: t("Trò chơi học tập không giới hạn", "Unlimited learning mini-games") },
     { icon: "🤖", title: t("AI Feedback Coach", "AI Feedback Coach"), desc: t("Phản hồi cá nhân hoá từ AI", "Personalised AI feedback") },
     { icon: "📚", title: t("Premium Lessons", "Premium Lessons"), desc: t("Bài học nâng cao độc quyền", "Exclusive advanced lessons") },
+    { icon: "✍️", title: t("AI Writing Grading", "AI Writing Grading"), desc: t("Chấm bài viết IELTS/TOEIC bằng AI chi tiết", "Detailed AI grading for IELTS/TOEIC writing") },
+    { icon: "🗣️", title: t("AI Speaking Coach", "AI Speaking Coach"), desc: t("Luyện nói với AI 24/7, nhận điểm & góp ý", "Practice speaking with AI 24/7, get scores & feedback") },
+    { icon: "📊", title: t("Progress Analytics", "Progress Analytics"), desc: t("Báo cáo tiến độ học tập trực quan", "Visual learning progress reports") },
+    { icon: "🏆", title: t("Priority Support", "Priority Support"), desc: t("Hỗ trợ ưu tiên từ Thầy Hải & đội ngũ", "Priority support from Teacher Hai & team") },
+    { icon: "📖", title: t("Downloadable Resources", "Downloadable Resources"), desc: t("Tài liệu PDF, bảng từ vựng & mẫu bài luận", "PDF materials, vocab sheets & essay templates") },
+    { icon: "🔥", title: t("Study Streaks & Badges", "Study Streaks & Badges"), desc: t("Theo dõi chuỗi ngày học & nhận huy hiệu", "Track study streaks & earn achievement badges") },
+    { icon: "🎓", title: t("Scholarship Advisor", "Scholarship Advisor"), desc: t("Tư vấn học bổng du học cá nhân hoá", "Personalised study-abroad scholarship advice") },
+    { icon: "💼", title: t("Career Roadmap AI", "Career Roadmap AI"), desc: t("Lộ trình nghề nghiệp IT & lập trình AI", "AI-powered IT & programming career roadmap") },
   ];
 
   return (
@@ -184,10 +200,10 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                     </h3>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-[180px,1fr] gap-4 items-start">
+                  <div className="grid grid-cols-1 md:grid-cols-[220px,1fr] gap-4 items-start">
                     {/* QR */}
                     <div className="mx-auto md:mx-0 bg-white rounded-xl p-2 shadow-sm border border-amber-200">
-                      <img src={qrImage} alt="VietQR Vietcombank" className="w-40 h-auto rounded-md" loading="lazy" />
+                      <img src={qrImage} alt="VietQR Vietcombank" className="w-52 h-auto rounded-md" loading="lazy" />
                       <div className="text-[10px] text-center text-muted-foreground mt-1 font-medium">
                         {t("Quét VietQR để chuyển nhanh", "Scan VietQR to pay")}
                       </div>
@@ -207,8 +223,16 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                       <Row label={t("Chủ tài khoản", "Account Holder")} value={BANK.holder} />
                       <Row label={t("Chi nhánh", "Branch")} value={BANK.branch} />
                       <Row
+                        label={t("Số tiền", "Amount")}
+                        value="199.000đ"
+                        copyable
+                        copied={copied === "amount"}
+                        onCopy={() => copy("199000", "amount")}
+                        big
+                      />
+                      <Row
                         label={t("Nội dung CK", "Transfer Note")}
-                        value={transferRef}
+                        value={transferRefDisplay}
                         copyable
                         copied={copied === "ref"}
                         onCopy={() => copy(transferRef, "ref")}
