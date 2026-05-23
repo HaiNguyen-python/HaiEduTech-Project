@@ -20,11 +20,14 @@ const LEVEL_COLORS: Record<number, string> = {
   4: "from-amber-500 to-orange-500",
   5: "from-rose-500 to-pink-600",
   6: "from-red-600 to-rose-700",
+  7: "from-fuchsia-500 to-purple-600",
+  8: "from-purple-600 to-indigo-700",
+  9: "from-slate-700 to-zinc-900",
 };
 
 const HskTestHub = () => {
   const { t } = useLanguage();
-  const levels = [1, 2, 3, 4, 5, 6] as const;
+  const levels = [1, 2, 3, 4, 5, 6, 7, 8, 9] as const;
 
   return (
     <div className="min-h-screen bg-background">
