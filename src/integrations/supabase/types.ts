@@ -1655,6 +1655,48 @@ export type Database = {
         }
         Relationships: []
       }
+      user_subscriptions: {
+        Row: {
+          created_at: string
+          id: string
+          notes: string | null
+          plan: string
+          requested_at: string
+          status: string
+          transfer_reference: string | null
+          updated_at: string
+          user_email: string | null
+          user_id: string
+          verified_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          notes?: string | null
+          plan?: string
+          requested_at?: string
+          status?: string
+          transfer_reference?: string | null
+          updated_at?: string
+          user_email?: string | null
+          user_id: string
+          verified_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          notes?: string | null
+          plan?: string
+          requested_at?: string
+          status?: string
+          transfer_reference?: string | null
+          updated_at?: string
+          user_email?: string | null
+          user_id?: string
+          verified_at?: string | null
+        }
+        Relationships: []
+      }
       user_vocab_mastered: {
         Row: {
           created_at: string
