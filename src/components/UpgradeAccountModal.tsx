@@ -248,7 +248,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                 <button
                   onClick={handleConfirm}
                   disabled={submitting || !user}
-                  className="w-full flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold text-sm sm:text-base shadow-lg hover:brightness-110 transition disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="w-full flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold text-sm shadow-lg hover:brightness-110 transition disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   {submitting ? (
                     <><Loader2 className="w-4 h-4 animate-spin" /> {t("Đang gửi...", "Submitting...")}</>
