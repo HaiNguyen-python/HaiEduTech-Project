@@ -94,6 +94,14 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
     { icon: "🎮", title: t("Interactive Games", "Interactive Games"), desc: t("Trò chơi học tập không giới hạn", "Unlimited learning mini-games") },
     { icon: "🤖", title: t("AI Feedback Coach", "AI Feedback Coach"), desc: t("Phản hồi cá nhân hoá từ AI", "Personalised AI feedback") },
     { icon: "📚", title: t("Premium Lessons", "Premium Lessons"), desc: t("Bài học nâng cao độc quyền", "Exclusive advanced lessons") },
+    { icon: "✍️", title: t("AI Writing Grading", "AI Writing Grading"), desc: t("Chấm bài viết IELTS/TOEIC bằng AI chi tiết", "Detailed AI grading for IELTS/TOEIC writing") },
+    { icon: "🗣️", title: t("AI Speaking Coach", "AI Speaking Coach"), desc: t("Luyện nói với AI 24/7, nhận điểm & góp ý", "Practice speaking with AI 24/7, get scores & feedback") },
+    { icon: "📊", title: t("Progress Analytics", "Progress Analytics"), desc: t("Báo cáo tiến độ học tập trực quan", "Visual learning progress reports") },
+    { icon: "🏆", title: t("Priority Support", "Priority Support"), desc: t("Hỗ trợ ưu tiên từ Thầy Hải & đội ngũ", "Priority support from Teacher Hai & team") },
+    { icon: "📖", title: t("Downloadable Resources", "Downloadable Resources"), desc: t("Tài liệu PDF, bảng từ vựng & mẫu bài luận", "PDF materials, vocab sheets & essay templates") },
+    { icon: "🔥", title: t("Study Streaks & Badges", "Study Streaks & Badges"), desc: t("Theo dõi chuỗi ngày học & nhận huy hiệu", "Track study streaks & earn achievement badges") },
+    { icon: "🎓", title: t("Scholarship Advisor", "Scholarship Advisor"), desc: t("Tư vấn học bổng du học cá nhân hoá", "Personalised study-abroad scholarship advice") },
+    { icon: "💼", title: t("Career Roadmap AI", "Career Roadmap AI"), desc: t("Lộ trình nghề nghiệp IT & lập trình AI", "AI-powered IT & programming career roadmap") },
   ];
 
   return (
