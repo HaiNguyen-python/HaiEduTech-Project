@@ -37,6 +37,14 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
     return `HAIEDUTECH_UPGRADE_${handle}`;
   }, [user]);
 
+  // Display-friendly transfer note example
+  const transferRefDisplay = useMemo(() => {
+    const handle = (user?.email?.split("@")[0] || user?.id?.slice(0, 8) || "TenCuaBan")
+      .toUpperCase()
+      .replace(/[^A-Z0-9]/g, "");
+    return `HAIEDUTECH_UPGRADE_${handle}`;
+  }, [user]);
+
   useEffect(() => {
     if (!open) {
       // Reset when fully closed
