@@ -83,7 +83,7 @@ const wordsForDifficulty = (diff: Difficulty): HskWord[] => {
   const levels =
     diff === "easy" ? ["HSK 1", "HSK 2"]
     : diff === "hard" ? ["HSK 3", "HSK 4"]
-    : ["HSK 5", "HSK 6"];
+    : ["HSK 5", "HSK 6", "HSK 7-9"];
   return hskVocabData.filter(w => levels.includes(w.level));
 };
 
