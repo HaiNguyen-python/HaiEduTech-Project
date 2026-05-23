@@ -174,11 +174,11 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                   </h3>
                   <div className="grid grid-cols-2 lg:grid-cols-3 gap-2">
                     {features.map((f) => (
-                      <div key={f.title} className="flex items-start gap-2 p-2 rounded-md border border-border bg-secondary/40 hover:border-amber-500/40 transition">
-                        <div className="text-lg leading-none mt-0.5">{f.icon}</div>
+                      <div key={f.title} className="flex items-start gap-2 p-2.5 rounded-md border border-border bg-secondary/40 hover:border-amber-500/40 transition">
+                        <div className="text-xl leading-none mt-0.5">{f.icon}</div>
                         <div className="min-w-0">
-                          <div className="text-[13px] font-semibold text-foreground leading-tight">{f.title}</div>
-                          <div className="text-[11px] text-muted-foreground leading-snug mt-0.5">{f.desc}</div>
+                          <div className="text-[15px] font-semibold text-foreground leading-tight">{f.title}</div>
+                          <div className="text-[12px] text-muted-foreground leading-snug mt-1">{f.desc}</div>
                         </div>
                       </div>
                     ))}
