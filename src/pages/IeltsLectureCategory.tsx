@@ -347,22 +347,46 @@ const IeltsLectureCategory = () => {
               titleEn: string,
               icon: string,
               items: typeof filtered,
-            ) => (
-              <div key={groupKey} className="mb-10 last:mb-0">
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="text-2xl">{icon}</span>
-                  <h2 className="text-xl sm:text-2xl font-bold text-foreground">
-                    {t(titleVi, titleEn)}
-                  </h2>
-                  <Badge variant="secondary" className="ml-1 text-xs">
-                    {items.length}
-                  </Badge>
+            ) => {
+              const isOpen = openGroups[groupKey] !== false;
+              return (
+                <div key={groupKey} className="mb-6 last:mb-0">
+                  <button
+                    type="button"
+                    onClick={() => toggleGroup(groupKey)}
+                    className="w-full flex items-center gap-2 mb-4 p-3 rounded-xl bg-card hover:bg-muted/60 border border-border transition-colors group"
+                    aria-expanded={isOpen}
+                  >
+                    <span className="text-2xl">{icon}</span>
+                    <h2 className="text-lg sm:text-xl font-bold text-foreground text-left">
+                      {t(titleVi, titleEn)}
+                    </h2>
+                    <Badge variant="secondary" className="ml-1 text-xs">
+                      {items.length} {t("bài", "lectures")}
+                    </Badge>
+                    <ChevronDown
+                      className={`ml-auto w-5 h-5 text-muted-foreground transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                    />
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        key={`${groupKey}-content`}
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.25, ease: "easeInOut" }}
+                        className="overflow-hidden"
+                      >
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 pt-1 pb-2">
+                          {items.map((lec, i) => renderCard(lec, i, sortBy === "easy" ? i + 1 : null))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                  {items.map((lec, i) => renderCard(lec, i, sortBy === "easy" ? i + 1 : null))}
-                </div>
-              </div>
-            );
+              );
+            };
 
             if (filtered.length === 0) {
               return (
