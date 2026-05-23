@@ -234,7 +234,7 @@ const LessonFeedback = ({
                         onChange={setClarity}
                       />
                       <StarRow
-                        label={t("Trải nghiệm công cụ AI", "AI tool experience")}
+                        label={t("Mức độ hấp dẫn của bài học", "Lesson Engagement")}
                         value={aiTool}
                         onChange={setAiTool}
                       />
