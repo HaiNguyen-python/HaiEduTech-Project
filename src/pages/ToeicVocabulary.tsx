@@ -6,7 +6,7 @@ import {
   Search, Volume2, ChevronLeft, ChevronRight, Layers, List,
   RotateCcw, BookOpen, CheckCircle, XCircle, Building2, Users,
   Presentation, TrendingUp, DollarSign, Plane, Handshake, Cpu,
-  Headphones, CalendarDays, ArrowLeft, Bookmark
+  Headphones, CalendarDays, ArrowLeft, Bookmark, Keyboard
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { toeicVocabData, TOEIC_CATEGORIES, TOEIC_LEVELS, type ToeicWord } from "@/data/toeicVocabData";
@@ -126,7 +126,7 @@ const Flashcard = ({ word }: { word: ToeicWord }) => {
         >
           <p className="text-base font-semibold text-white">{word.definition.en}</p>
           <p className="text-base text-blue-300">{word.definition.vi}</p>
-          <p className="text-sm text-slate-300 italic mt-2">"{word.example}"</p>
+          <p className="text-sm text-slate-300 italic mt-2"><span className="not-italic font-semibold text-blue-300">E.g. </span>{word.example}</p>
           {word.synonyms.length > 0 && (
             <div className="mt-2">
               <span className="text-xs text-slate-500 uppercase font-bold">Synonyms: </span>
@@ -141,6 +141,90 @@ const Flashcard = ({ word }: { word: ToeicWord }) => {
           )}
         </div>
       </motion.div>
+    </div>
+  );
+};
+
+// ── Typing Practice (gõ lại câu ví dụ) ──
+const normalize = (s: string) =>
+  s.toLowerCase().replace(/[.,!?;:'"`’“”\-]/g, "").replace(/\s+/g, " ").trim();
+
+const TypePractice = ({
+  example,
+  t,
+}: {
+  example: string;
+  t: (vi: string, en: string) => string;
+}) => {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
+  const [checked, setChecked] = useState(false);
+  const correct = checked && normalize(value) === normalize(example);
+  const targetWords = example.split(/\s+/);
+  const inputWords = value.trim().split(/\s+/);
+
+  return (
+    <div className="mt-2">
+      <button
+        type="button"
+        onClick={() => { setOpen((v) => !v); setChecked(false); }}
+        className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-700 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-100 transition-colors"
+      >
+        <Keyboard className="w-3.5 h-3.5" />
+        {open ? t("Ẩn luyện gõ", "Hide typing drill") : t("Gõ lại câu ví dụ", "Type the example")}
+      </button>
+      {open && (
+        <div className="mt-2 space-y-2">
+          <textarea
+            value={value}
+            onChange={(e) => { setValue(e.target.value); setChecked(false); }}
+            placeholder={t("Gõ lại câu ví dụ ở đây...", "Retype the example sentence here...")}
+            rows={2}
+            className="w-full text-sm rounded-lg border border-sky-300 dark:border-slate-600 bg-white dark:bg-slate-900/60 text-slate-900 dark:text-slate-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
+          <div className="flex flex-wrap items-center gap-2">
+            <Button
+              size="sm"
+              onClick={() => setChecked(true)}
+              className="bg-blue-600 hover:bg-blue-700 text-white h-8 px-3 text-xs"
+            >
+              {t("Kiểm tra", "Check")}
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => { setValue(""); setChecked(false); }}
+              className="h-8 px-3 text-xs"
+            >
+              <RotateCcw className="w-3.5 h-3.5 mr-1" /> {t("Xóa", "Reset")}
+            </Button>
+            {checked && (
+              <span className={`text-xs font-semibold inline-flex items-center gap-1 ${correct ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
+                {correct
+                  ? (<><CheckCircle className="w-4 h-4" /> {t("Chính xác!", "Perfect!")}</>)
+                  : (<><XCircle className="w-4 h-4" /> {t("Chưa đúng – xem gợi ý bên dưới", "Not quite – check the diff below")}</>)}
+              </span>
+            )}
+          </div>
+          {checked && !correct && (
+            <p className="text-xs leading-relaxed">
+              {targetWords.map((tw, i) => {
+                const ok = normalize(inputWords[i] || "") === normalize(tw);
+                return (
+                  <span
+                    key={i}
+                    className={ok
+                      ? "text-emerald-600 dark:text-emerald-400"
+                      : "text-rose-600 dark:text-rose-400 underline decoration-rose-400"}
+                  >
+                    {tw}{i < targetWords.length - 1 ? " " : ""}
+                  </span>
+                );
+              })}
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 };
@@ -571,7 +655,11 @@ const ToeicVocabulary = () => {
                         <p className="text-base text-blue-700 dark:text-[#93c5fd] mb-3">{w.definition.vi}</p>
 
                         {/* Example */}
-                        <p className="text-sm text-slate-700 dark:text-[#cbd5e1] italic mb-3">"{w.example}"</p>
+                        <p className="text-sm text-slate-700 dark:text-[#cbd5e1] italic mb-2">
+                          <span className="not-italic font-semibold text-blue-700 dark:text-blue-300">E.g. </span>
+                          {w.example}
+                        </p>
+                        <TypePractice example={w.example} t={t} />
 
                         {/* Synonyms */}
                         {w.synonyms.length > 0 && (
