@@ -302,8 +302,9 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
           </div>
           <div className="flex flex-wrap items-center gap-2">
             {!playing ? (
-              <Button onClick={speak} size="sm" className="gap-2">
-                <Play className="w-4 h-4" /> {t("Phát", "Play")}
+              <Button onClick={() => speak(currentIdx)} size="sm" className="gap-2">
+                <Play className="w-4 h-4" />
+                {currentIdx > 0 ? t("Tiếp tục", "Resume") : t("Phát", "Play")}
               </Button>
             ) : (
               <>
@@ -316,6 +317,26 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
                 </Button>
               </>
             )}
+            <Button
+              onClick={() => skipChunks(-1)}
+              size="sm"
+              variant="outline"
+              className="gap-1 px-2"
+              title={t("Lùi 1 câu", "Previous sentence")}
+              disabled={currentIdx <= 0 && elapsedInChunk < 0.5}
+            >
+              <SkipBack className="w-4 h-4" />
+            </Button>
+            <Button
+              onClick={() => skipChunks(1)}
+              size="sm"
+              variant="outline"
+              className="gap-1 px-2"
+              title={t("Tới 1 câu", "Next sentence")}
+              disabled={currentIdx >= chunks.length - 1}
+            >
+              <SkipForward className="w-4 h-4" />
+            </Button>
             <div className="flex items-center gap-2 ml-auto">
               <Gauge className="w-4 h-4 text-muted-foreground" />
               <select
@@ -336,6 +357,36 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
               </Button>
             </div>
           </div>
+
+          {/* Seekable progress bar */}
+          <div className="flex items-center gap-3 pt-1">
+            <span className="text-xs font-mono text-muted-foreground tabular-nums w-10 text-right">
+              {formatTime(currentTime)}
+            </span>
+            <Slider
+              value={[Math.min(currentTime, totalDuration)]}
+              min={0}
+              max={Math.max(1, totalDuration)}
+              step={0.5}
+              onValueChange={(v) => {
+                const t0 = v[0] ?? 0;
+                // Update display immediately for responsive scrubbing
+                let idx = 0;
+                for (let i = 0; i < cumulative.length; i++) {
+                  if (cumulative[i] <= t0) idx = i; else break;
+                }
+                setCurrentIdx(idx);
+                setElapsedInChunk(Math.max(0, t0 - (cumulative[idx] ?? 0)));
+              }}
+              onValueCommit={(v) => seekToTime(v[0] ?? 0)}
+              className="flex-1"
+              aria-label={t("Thanh tua bài nghe", "Audio seek bar")}
+            />
+            <span className="text-xs font-mono text-muted-foreground tabular-nums w-10">
+              {formatTime(totalDuration)}
+            </span>
+          </div>
+
           {showTranscript && (
             <div className="mt-2 rounded-lg bg-background border border-border overflow-hidden">
               <div className="px-3 py-1.5 bg-muted/60 text-xs font-semibold text-foreground border-b border-border">
