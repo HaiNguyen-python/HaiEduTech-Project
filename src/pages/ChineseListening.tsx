@@ -19,7 +19,7 @@ import {
 } from "@/data/chineseListeningVideos";
 
 const VideoCard = ({ video }: { video: ChineseListeningVideo }) => {
-  const { t, language } = useLanguage();
+  const { t, lang } = useLanguage();
   return (
     <Card className="overflow-hidden border-2">
       <CardContent className="p-0">
@@ -67,7 +67,7 @@ const VideoCard = ({ video }: { video: ChineseListeningVideo }) => {
               {t("Mẹo luyện nghe", "Listening tips")}
             </p>
             <ul className="text-sm space-y-1 list-disc pl-5">
-              {(language === "vi" ? video.tipsVi : video.tips).map((tip, i) => (
+              {(lang === "vi" ? video.tipsVi : video.tips).map((tip, i) => (
                 <li key={i}>{tip}</li>
               ))}
             </ul>
