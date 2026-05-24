@@ -1,7 +1,7 @@
 /**
  * @file KidsChibiMascot.tsx
- * @description Cute animated chibi mascot fixed in the top-right corner.
- * Pure CSS/SVG — arms wave, legs kick, body bobs. Click for a little jump + speech bubble.
+ * @description Two cute animated chibi mascots (boy + girl) fixed at the bottom-right corner.
+ * Pure CSS/SVG — arms wave, legs kick, body bobs, eyes blink. Click for jump + speech bubble.
  */
 import { useState, useEffect } from "react";
 
@@ -11,6 +11,8 @@ const TIPS_VI = [
   "Bạn giỏi lắm! 💪",
   "Đánh dấu 'đã thuộc' nhé! ✨",
   "Mỗi ngày 5 từ thôi! 🎯",
+  "Tuyệt vời! 🎉",
+  "Đọc to lên nào! 🎤",
 ];
 const TIPS_EN = [
   "You can do it! 🌟",
@@ -18,24 +20,155 @@ const TIPS_EN = [
   "You're awesome! 💪",
   "Mark 'mastered'! ✨",
   "Just 5 words a day! 🎯",
+  "Amazing! 🎉",
+  "Say it out loud! 🎤",
 ];
+
+type Who = "boy" | "girl";
+
+function ChibiSVG({ who, jump }: { who: Who; jump: boolean }) {
+  const isGirl = who === "girl";
+  // Color palettes
+  const skin = "#FFE0BD";
+  const cheek = "#FF9DB6";
+  const hair = isGirl ? "#6B3A1F" : "#2C1810";
+  const shirt = isGirl ? "#FF6FA8" : "#4F8CFF";
+  const shirtLight = isGirl ? "#FFD0E2" : "#C9DCFF";
+  const pants = isGirl ? "#A24BE0" : "#2C3E66";
+  const shoe = isGirl ? "#E91E63" : "#1f2937";
+  const bow = "#FFD93D";
+
+  return (
+    <svg
+      width="92"
+      height="118"
+      viewBox="0 0 120 150"
+      className={`chibi-wrap ${jump ? "jump" : ""}`}
+      style={{ filter: "drop-shadow(0 6px 10px rgba(0,0,0,.22))", overflow: "visible" }}
+    >
+      {/* Shadow */}
+      <ellipse cx="60" cy="144" rx="26" ry="4" fill="rgba(0,0,0,.18)" />
+
+      {/* Legs */}
+      <g className="chibi-leg-l">
+        <rect x="44" y="108" width="13" height="22" rx="6" fill={pants} />
+        <ellipse cx="50" cy="132" rx="10" ry="5" fill={shoe} />
+      </g>
+      <g className="chibi-leg-r">
+        <rect x="63" y="108" width="13" height="22" rx="6" fill={pants} />
+        <ellipse cx="70" cy="132" rx="10" ry="5" fill={shoe} />
+      </g>
+
+      {/* Body / shirt */}
+      <path
+        d="M32,90 Q32,72 60,72 Q88,72 88,90 L86,108 Q60,116 34,108 Z"
+        fill={shirt}
+      />
+      {/* Shirt highlight */}
+      <ellipse cx="60" cy="92" rx="16" ry="9" fill={shirtLight} opacity="0.7" />
+      {/* Star on chest */}
+      <text x="60" y="98" textAnchor="middle" fontSize="14">⭐</text>
+
+      {/* Arms */}
+      <g className="chibi-arm-l">
+        <rect x="26" y="74" width="12" height="28" rx="6" fill={shirt} />
+        <circle cx="32" cy="104" r="7.5" fill={skin} />
+      </g>
+      <g className="chibi-arm-r">
+        <rect x="82" y="74" width="12" height="28" rx="6" fill={shirt} />
+        <circle cx="88" cy="104" r="7.5" fill={skin} />
+      </g>
+
+      {/* Head */}
+      <circle cx="60" cy="46" r="30" fill={skin} />
+
+      {/* Hair */}
+      {isGirl ? (
+        <>
+          {/* Long hair back */}
+          <path d="M28,46 Q26,82 38,90 L44,86 Q40,64 42,48 Z" fill={hair} />
+          <path d="M92,46 Q94,82 82,90 L76,86 Q80,64 78,48 Z" fill={hair} />
+          {/* Top hair */}
+          <path d="M28,44 Q28,14 60,12 Q92,14 92,44 Q88,28 60,26 Q32,28 28,44 Z" fill={hair} />
+          {/* Bangs */}
+          <path d="M34,40 Q44,30 58,36 Q72,30 86,40 Q72,42 60,40 Q48,42 34,40 Z" fill={hair} />
+          {/* Bow */}
+          <g className="chibi-bow">
+            <circle cx="60" cy="18" r="3" fill={bow} />
+            <path d="M60,18 Q50,12 48,20 Q50,24 60,18 Z" fill={bow} />
+            <path d="M60,18 Q70,12 72,20 Q70,24 60,18 Z" fill={bow} />
+          </g>
+        </>
+      ) : (
+        <>
+          {/* Short messy boy hair */}
+          <path
+            d="M30,44 Q28,16 60,14 Q92,16 90,44 Q86,32 78,32 Q72,24 60,26 Q48,24 42,32 Q34,32 30,44 Z"
+            fill={hair}
+          />
+          <path d="M34,42 Q40,36 46,40 L42,46 Z" fill={hair} />
+          <path d="M86,42 Q80,36 74,40 L78,46 Z" fill={hair} />
+        </>
+      )}
+
+      {/* Ears */}
+      <ellipse cx="30" cy="50" rx="3" ry="5" fill={skin} />
+      <ellipse cx="90" cy="50" rx="3" ry="5" fill={skin} />
+
+      {/* Cheeks */}
+      <circle cx="42" cy="56" r="4.5" fill={cheek} opacity="0.75" />
+      <circle cx="78" cy="56" r="4.5" fill={cheek} opacity="0.75" />
+
+      {/* Eyes (big sparkly) */}
+      <g className="chibi-eye">
+        <ellipse cx="50" cy="50" rx="4.2" ry="5.4" fill="#1f2937" />
+        <circle cx="51.4" cy="48.2" r="1.5" fill="#fff" />
+        <circle cx="49.2" cy="51.6" r="0.7" fill="#fff" />
+      </g>
+      <g className="chibi-eye" style={{ animationDelay: ".15s" } as any}>
+        <ellipse cx="70" cy="50" rx="4.2" ry="5.4" fill="#1f2937" />
+        <circle cx="71.4" cy="48.2" r="1.5" fill="#fff" />
+        <circle cx="69.2" cy="51.6" r="0.7" fill="#fff" />
+      </g>
+
+      {/* Smile */}
+      <path
+        d="M53,60 Q60,66 67,60"
+        stroke="#7a3b1f"
+        strokeWidth="2.2"
+        fill="none"
+        strokeLinecap="round"
+      />
+      {/* Tiny tongue for girl */}
+      {isGirl && (
+        <ellipse cx="60" cy="63" rx="2.5" ry="1.6" fill="#FF6B9D" />
+      )}
+    </svg>
+  );
+}
 
 export default function KidsChibiMascot({ lang = "vi" as "vi" | "en" }) {
   const [bubble, setBubble] = useState<string | null>(null);
-  const [jump, setJump] = useState(false);
+  const [jumpBoy, setJumpBoy] = useState(false);
+  const [jumpGirl, setJumpGirl] = useState(false);
 
   useEffect(() => {
     const tips = lang === "vi" ? TIPS_VI : TIPS_EN;
     setBubble(tips[Math.floor(Math.random() * tips.length)]);
     const id = setInterval(() => {
       setBubble(tips[Math.floor(Math.random() * tips.length)]);
-    }, 8000);
+    }, 9000);
     return () => clearInterval(id);
   }, [lang]);
 
-  const handleClick = () => {
-    setJump(true);
-    setTimeout(() => setJump(false), 700);
+  const poke = (who: Who) => {
+    if (who === "boy") {
+      setJumpBoy(true);
+      setTimeout(() => setJumpBoy(false), 700);
+    } else {
+      setJumpGirl(true);
+      setTimeout(() => setJumpGirl(false), 700);
+    }
     const tips = lang === "vi" ? TIPS_VI : TIPS_EN;
     setBubble(tips[Math.floor(Math.random() * tips.length)]);
   };
@@ -43,32 +176,45 @@ export default function KidsChibiMascot({ lang = "vi" as "vi" | "en" }) {
   return (
     <>
       <style>{`
-        @keyframes chibi-bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
-        @keyframes chibi-arm-l { 0%,100%{transform:rotate(-20deg)} 50%{transform:rotate(-55deg)} }
-        @keyframes chibi-arm-r { 0%,100%{transform:rotate(20deg)} 50%{transform:rotate(55deg)} }
-        @keyframes chibi-leg-l { 0%,100%{transform:rotate(-8deg)} 50%{transform:rotate(15deg)} }
-        @keyframes chibi-leg-r { 0%,100%{transform:rotate(8deg)} 50%{transform:rotate(-15deg)} }
-        @keyframes chibi-blink { 0%,92%,100%{transform:scaleY(1)} 95%{transform:scaleY(0.1)} }
-        @keyframes chibi-jump { 0%{transform:translateY(0)} 40%{transform:translateY(-26px) rotate(-6deg)} 70%{transform:translateY(-10px) rotate(4deg)} 100%{transform:translateY(0)} }
+        @keyframes chibi-bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+        @keyframes chibi-bob2 { 0%,100%{transform:translateY(-3px)} 50%{transform:translateY(-9px)} }
+        @keyframes chibi-arm-l { 0%,100%{transform:rotate(-18deg)} 50%{transform:rotate(-55deg)} }
+        @keyframes chibi-arm-r { 0%,100%{transform:rotate(18deg)} 50%{transform:rotate(55deg)} }
+        @keyframes chibi-leg-l { 0%,100%{transform:rotate(-6deg)} 50%{transform:rotate(12deg)} }
+        @keyframes chibi-leg-r { 0%,100%{transform:rotate(6deg)} 50%{transform:rotate(-12deg)} }
+        @keyframes chibi-blink { 0%,92%,100%{transform:scaleY(1)} 95%{transform:scaleY(.1)} }
+        @keyframes chibi-bow-wiggle { 0%,100%{transform:rotate(-6deg)} 50%{transform:rotate(8deg)} }
+        @keyframes chibi-jump {
+          0%{transform:translateY(0)}
+          40%{transform:translateY(-28px) rotate(-6deg)}
+          70%{transform:translateY(-10px) rotate(5deg)}
+          100%{transform:translateY(0)}
+        }
         @keyframes bubble-pop { 0%{opacity:0; transform:translateY(6px) scale(.85)} 100%{opacity:1; transform:translateY(0) scale(1)} }
         .chibi-wrap { animation: chibi-bob 2.4s ease-in-out infinite; transform-origin: 50% 100%; }
-        .chibi-wrap.jump { animation: chibi-jump .7s cubic-bezier(.3,1.4,.5,1) 1; }
-        .chibi-arm-l { transform-origin: 38px 70px; animation: chibi-arm-l 1.1s ease-in-out infinite; }
-        .chibi-arm-r { transform-origin: 82px 70px; animation: chibi-arm-r 1.1s ease-in-out infinite; }
-        .chibi-leg-l { transform-origin: 50px 108px; animation: chibi-leg-l 1.3s ease-in-out infinite; }
-        .chibi-leg-r { transform-origin: 70px 108px; animation: chibi-leg-r 1.3s ease-in-out infinite; }
-        .chibi-eye  { transform-origin: center; animation: chibi-blink 4s infinite; }
+        .chibi-wrap.boy { animation: chibi-bob 2.4s ease-in-out infinite; }
+        .chibi-wrap.girl { animation: chibi-bob2 2.6s ease-in-out infinite .3s; }
+        .chibi-wrap.jump { animation: chibi-jump .7s cubic-bezier(.3,1.4,.5,1) 1 !important; }
+        .chibi-arm-l { transform-origin: 32px 78px; animation: chibi-arm-l 1.1s ease-in-out infinite; }
+        .chibi-arm-r { transform-origin: 88px 78px; animation: chibi-arm-r 1.1s ease-in-out infinite; }
+        .chibi-leg-l { transform-origin: 50px 112px; animation: chibi-leg-l 1.3s ease-in-out infinite; }
+        .chibi-leg-r { transform-origin: 70px 112px; animation: chibi-leg-r 1.3s ease-in-out infinite; }
+        .chibi-eye  { transform-origin: center; animation: chibi-blink 4.2s infinite; }
+        .chibi-bow  { transform-origin: 60px 18px; animation: chibi-bow-wiggle 2s ease-in-out infinite; }
       `}</style>
 
       <div
-        className="hidden md:block fixed z-40 select-none"
-        style={{ top: 84, right: 18, pointerEvents: "none" }}
+        className="hidden md:flex fixed z-40 select-none items-end gap-1"
+        style={{ bottom: 16, right: 18, pointerEvents: "none" }}
         aria-hidden="true"
       >
+        {/* Speech bubble above the pair */}
         {bubble && (
           <div
-            className="absolute right-[110px] top-2 px-3 py-1.5 rounded-2xl text-xs font-semibold whitespace-nowrap shadow-lg"
+            className="absolute px-3 py-1.5 rounded-2xl text-xs font-semibold whitespace-nowrap shadow-lg"
             style={{
+              right: 30,
+              top: -10,
               background: "linear-gradient(135deg,#FFF7CC,#FFE9A8)",
               color: "#7c4a00",
               border: "2px solid #FFD46B",
@@ -79,76 +225,35 @@ export default function KidsChibiMascot({ lang = "vi" as "vi" | "en" }) {
             <span
               className="absolute"
               style={{
-                right: -8, top: 12,
+                left: 22, bottom: -8,
                 width: 0, height: 0,
-                borderTop: "6px solid transparent",
-                borderBottom: "6px solid transparent",
-                borderLeft: "10px solid #FFD46B",
+                borderLeft: "6px solid transparent",
+                borderRight: "6px solid transparent",
+                borderTop: "10px solid #FFD46B",
               }}
             />
           </div>
         )}
 
         <button
-          onClick={handleClick}
-          className="group"
+          onClick={() => poke("boy")}
           style={{ pointerEvents: "auto", background: "transparent", border: "none", cursor: "pointer", padding: 0 }}
-          aria-label="Chibi mascot"
+          aria-label="Boy chibi"
+          className="boy-btn"
         >
-          <svg
-            width="110"
-            height="130"
-            viewBox="0 0 120 140"
-            className={`chibi-wrap ${jump ? "jump" : ""}`}
-            style={{ filter: "drop-shadow(0 6px 8px rgba(0,0,0,.18))" }}
-          >
-            {/* Legs */}
-            <g className="chibi-leg-l">
-              <rect x="44" y="104" width="12" height="22" rx="6" fill="#4F46E5" />
-              <ellipse cx="50" cy="128" rx="9" ry="5" fill="#1f2937" />
-            </g>
-            <g className="chibi-leg-r">
-              <rect x="64" y="104" width="12" height="22" rx="6" fill="#4F46E5" />
-              <ellipse cx="70" cy="128" rx="9" ry="5" fill="#1f2937" />
-            </g>
+          <div className={`chibi-wrap boy ${jumpBoy ? "jump" : ""}`}>
+            <ChibiSVG who="boy" jump={jumpBoy} />
+          </div>
+        </button>
 
-            {/* Body */}
-            <ellipse cx="60" cy="92" rx="28" ry="24" fill="#FF6B9D" />
-            <ellipse cx="60" cy="96" rx="18" ry="14" fill="#FFD9E6" />
-
-            {/* Arms */}
-            <g className="chibi-arm-l">
-              <rect x="30" y="68" width="12" height="28" rx="6" fill="#FF6B9D" />
-              <circle cx="36" cy="98" r="7" fill="#FFD9B3" />
-            </g>
-            <g className="chibi-arm-r">
-              <rect x="78" y="68" width="12" height="28" rx="6" fill="#FF6B9D" />
-              <circle cx="84" cy="98" r="7" fill="#FFD9B3" />
-            </g>
-
-            {/* Head */}
-            <circle cx="60" cy="46" r="30" fill="#FFE0BD" />
-            {/* Hair */}
-            <path d="M30,42 Q30,16 60,14 Q90,16 90,42 Q86,28 60,28 Q34,28 30,42Z" fill="#3B2A1A" />
-            <path d="M30,42 Q36,34 44,38 L40,46 Z" fill="#3B2A1A" />
-            <path d="M90,42 Q84,34 76,38 L80,46 Z" fill="#3B2A1A" />
-            {/* Cheeks */}
-            <circle cx="42" cy="54" r="4" fill="#FF9DB6" opacity="0.7" />
-            <circle cx="78" cy="54" r="4" fill="#FF9DB6" opacity="0.7" />
-            {/* Eyes */}
-            <g className="chibi-eye">
-              <ellipse cx="50" cy="48" rx="3.5" ry="4.5" fill="#1f2937" />
-              <circle cx="51.2" cy="46.5" r="1.2" fill="#fff" />
-            </g>
-            <g className="chibi-eye" style={{ animationDelay: ".1s" } as any}>
-              <ellipse cx="70" cy="48" rx="3.5" ry="4.5" fill="#1f2937" />
-              <circle cx="71.2" cy="46.5" r="1.2" fill="#fff" />
-            </g>
-            {/* Smile */}
-            <path d="M54,58 Q60,64 66,58" stroke="#7a3b1f" strokeWidth="2" fill="none" strokeLinecap="round" />
-            {/* Little star on chest */}
-            <text x="60" y="96" textAnchor="middle" fontSize="14">⭐</text>
-          </svg>
+        <button
+          onClick={() => poke("girl")}
+          style={{ pointerEvents: "auto", background: "transparent", border: "none", cursor: "pointer", padding: 0 }}
+          aria-label="Girl chibi"
+        >
+          <div className={`chibi-wrap girl ${jumpGirl ? "jump" : ""}`}>
+            <ChibiSVG who="girl" jump={jumpGirl} />
+          </div>
         </button>
       </div>
     </>
