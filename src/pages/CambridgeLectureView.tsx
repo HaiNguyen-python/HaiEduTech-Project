@@ -253,10 +253,7 @@ const CambridgeLectureView = () => {
           )}
 
           {/* Deep Dive - Collapsible by default to keep the page short & visual for kids */}
-          <motion.details
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.27 }}
+          <details
             className="mb-8 rounded-2xl border-2 border-indigo-200 bg-white/80 overflow-hidden group"
           >
             <summary className="cursor-pointer list-none px-5 py-4 flex items-center justify-between gap-3 bg-gradient-to-r from-indigo-100 to-purple-100">
