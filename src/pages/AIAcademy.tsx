@@ -1260,7 +1260,11 @@ const AIAcademy = () => {
           </div>
         </motion.div>
 
+        {/* XP / Streak / Daily Quest HUD */}
+        <XPStreakHUD />
+
         {/* Track cards */}
+
         <div className="grid md:grid-cols-3 gap-5 mb-10">
           {ORDERED_TRACKS.map((t, i) => {
             const p = progress[t.id] ?? { stars: 0 };
