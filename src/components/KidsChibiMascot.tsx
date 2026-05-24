@@ -26,125 +26,148 @@ const TIPS_EN = [
 
 type Who = "boy" | "girl";
 
-function ChibiSVG({ who, jump }: { who: Who; jump: boolean }) {
+function ChibiSVG({ who }: { who: Who; jump?: boolean }) {
   const isGirl = who === "girl";
-  // Color palettes
-  const skin = "#FFE0BD";
-  const cheek = "#FF9DB6";
-  const hair = isGirl ? "#6B3A1F" : "#2C1810";
-  const shirt = isGirl ? "#FF6FA8" : "#4F8CFF";
-  const shirtLight = isGirl ? "#FFD0E2" : "#C9DCFF";
-  const pants = isGirl ? "#A24BE0" : "#2C3E66";
-  const shoe = isGirl ? "#E91E63" : "#1f2937";
-  const bow = "#FFD93D";
+  // Soft kawaii palette
+  const skin = "#FFE3CC";
+  const skinShade = "#FFCBA8";
+  const cheek = "#FF8FB1";
+  const hair = isGirl ? "#8B4A2B" : "#3A2418";
+  const hairShine = isGirl ? "#C77E55" : "#6B4A3A";
+  const shirt = isGirl ? "#FF7FB6" : "#5DA9FF";
+  const shirtLight = isGirl ? "#FFD6E8" : "#CFE4FF";
+  const overall = isGirl ? "#E94B8A" : "#3B5BA5";
+  const shoe = isGirl ? "#C72A6D" : "#1f2937";
+  const bow = "#FFE066";
+  const mouth = "#C2185B";
 
   return (
     <svg
-      width="92"
-      height="118"
-      viewBox="0 0 120 150"
-      style={{ filter: "drop-shadow(0 6px 10px rgba(0,0,0,.22))", overflow: "visible" }}
+      width="100"
+      height="128"
+      viewBox="0 0 120 160"
+      style={{ filter: "drop-shadow(0 8px 12px rgba(0,0,0,.22))", overflow: "visible" }}
     >
-      {/* Shadow */}
-      <ellipse cx="60" cy="144" rx="26" ry="4" fill="rgba(0,0,0,.18)" />
+      {/* Ground shadow */}
+      <ellipse cx="60" cy="154" rx="30" ry="4.5" fill="rgba(0,0,0,.18)" />
 
-      {/* Legs */}
+      {/* Legs (chubby) */}
       <g className="chibi-leg-l">
-        <rect x="44" y="108" width="13" height="22" rx="6" fill={pants} />
-        <ellipse cx="50" cy="132" rx="10" ry="5" fill={shoe} />
+        <rect x="42" y="112" width="15" height="24" rx="7.5" fill={overall} />
+        <ellipse cx="49.5" cy="138" rx="11" ry="5.5" fill={shoe} />
+        <ellipse cx="47" cy="137" rx="3" ry="1.4" fill="#fff" opacity=".5" />
       </g>
       <g className="chibi-leg-r">
-        <rect x="63" y="108" width="13" height="22" rx="6" fill={pants} />
-        <ellipse cx="70" cy="132" rx="10" ry="5" fill={shoe} />
+        <rect x="63" y="112" width="15" height="24" rx="7.5" fill={overall} />
+        <ellipse cx="70.5" cy="138" rx="11" ry="5.5" fill={shoe} />
+        <ellipse cx="68" cy="137" rx="3" ry="1.4" fill="#fff" opacity=".5" />
       </g>
 
-      {/* Body / shirt */}
+      {/* Body / shirt (rounder, pillow shape) */}
       <path
-        d="M32,90 Q32,72 60,72 Q88,72 88,90 L86,108 Q60,116 34,108 Z"
+        d="M30,92 Q30,72 60,72 Q90,72 90,92 L88,114 Q60,122 32,114 Z"
         fill={shirt}
       />
-      {/* Shirt highlight */}
-      <ellipse cx="60" cy="92" rx="16" ry="9" fill={shirtLight} opacity="0.7" />
-      {/* Star on chest */}
-      <text x="60" y="98" textAnchor="middle" fontSize="14">⭐</text>
+      {/* Soft shirt highlight */}
+      <ellipse cx="52" cy="88" rx="14" ry="8" fill={shirtLight} opacity="0.75" />
+      {/* Cute chest emblem */}
+      <text x="60" y="103" textAnchor="middle" fontSize="16">{isGirl ? "🌸" : "⭐"}</text>
 
-      {/* Arms */}
+      {/* Arms (rounded) */}
       <g className="chibi-arm-l">
-        <rect x="26" y="74" width="12" height="28" rx="6" fill={shirt} />
-        <circle cx="32" cy="104" r="7.5" fill={skin} />
+        <rect x="22" y="74" width="13" height="30" rx="6.5" fill={shirt} />
+        <circle cx="28.5" cy="106" r="8.5" fill={skin} />
+        <circle cx="26" cy="104" r="2" fill="#fff" opacity=".55" />
       </g>
       <g className="chibi-arm-r">
-        <rect x="82" y="74" width="12" height="28" rx="6" fill={shirt} />
-        <circle cx="88" cy="104" r="7.5" fill={skin} />
+        <rect x="85" y="74" width="13" height="30" rx="6.5" fill={shirt} />
+        <circle cx="91.5" cy="106" r="8.5" fill={skin} />
+        <circle cx="89" cy="104" r="2" fill="#fff" opacity=".55" />
       </g>
 
-      {/* Head */}
-      <circle cx="60" cy="46" r="30" fill={skin} />
+      {/* Head (extra round, big chibi head) */}
+      <circle cx="60" cy="44" r="34" fill={skin} />
+      {/* Subtle face shading */}
+      <ellipse cx="60" cy="62" rx="22" ry="8" fill={skinShade} opacity=".35" />
 
       {/* Hair */}
       {isGirl ? (
         <>
-          {/* Long hair back */}
-          <path d="M28,46 Q26,82 38,90 L44,86 Q40,64 42,48 Z" fill={hair} />
-          <path d="M92,46 Q94,82 82,90 L76,86 Q80,64 78,48 Z" fill={hair} />
-          {/* Top hair */}
-          <path d="M28,44 Q28,14 60,12 Q92,14 92,44 Q88,28 60,26 Q32,28 28,44 Z" fill={hair} />
-          {/* Bangs */}
-          <path d="M34,40 Q44,30 58,36 Q72,30 86,40 Q72,42 60,40 Q48,42 34,40 Z" fill={hair} />
-          {/* Bow */}
+          {/* Long flowing hair back */}
+          <path d="M24,46 Q20,90 38,98 Q44,94 42,70 Q40,54 44,44 Z" fill={hair} />
+          <path d="M96,46 Q100,90 82,98 Q76,94 78,70 Q80,54 76,44 Z" fill={hair} />
+          {/* Twin tails hint */}
+          <ellipse cx="30" cy="86" rx="6" ry="10" fill={hair} />
+          <ellipse cx="90" cy="86" rx="6" ry="10" fill={hair} />
+          {/* Top dome */}
+          <path d="M26,46 Q26,10 60,8 Q94,10 94,46 Q90,28 60,24 Q30,28 26,46 Z" fill={hair} />
+          {/* Soft bangs sweep */}
+          <path d="M30,42 Q44,32 56,38 Q70,30 90,42 Q76,46 60,42 Q46,46 30,42 Z" fill={hair} />
+          {/* Hair shine */}
+          <path d="M40,20 Q50,16 58,20 Q50,22 42,26 Z" fill={hairShine} opacity=".7" />
+          {/* Big bow */}
           <g className="chibi-bow">
-            <circle cx="60" cy="18" r="3" fill={bow} />
-            <path d="M60,18 Q50,12 48,20 Q50,24 60,18 Z" fill={bow} />
-            <path d="M60,18 Q70,12 72,20 Q70,24 60,18 Z" fill={bow} />
+            <ellipse cx="40" cy="20" rx="9" ry="6" fill={bow} />
+            <ellipse cx="40" cy="20" rx="3" ry="3" fill="#FF8FB1" />
+            <path d="M32,18 Q28,12 26,22 Q30,24 34,22 Z" fill={bow} />
+            <path d="M48,18 Q52,12 54,22 Q50,24 46,22 Z" fill={bow} />
           </g>
         </>
       ) : (
         <>
-          {/* Short messy boy hair */}
+          {/* Fluffy boy hair */}
           <path
-            d="M30,44 Q28,16 60,14 Q92,16 90,44 Q86,32 78,32 Q72,24 60,26 Q48,24 42,32 Q34,32 30,44 Z"
+            d="M26,44 Q24,12 60,8 Q96,12 94,44 Q90,28 80,30 Q74,18 60,22 Q46,18 40,30 Q30,28 26,44 Z"
             fill={hair}
           />
-          <path d="M34,42 Q40,36 46,40 L42,46 Z" fill={hair} />
-          <path d="M86,42 Q80,36 74,40 L78,46 Z" fill={hair} />
+          {/* Cowlick tufts */}
+          <path d="M52,12 Q56,4 62,12 Q58,14 54,16 Z" fill={hair} />
+          <path d="M36,28 Q42,22 46,28 Q42,32 38,32 Z" fill={hair} />
+          <path d="M84,28 Q78,22 74,28 Q78,32 82,32 Z" fill={hair} />
+          {/* Hair shine */}
+          <path d="M44,18 Q56,12 66,18 Q56,22 48,24 Z" fill={hairShine} opacity=".55" />
         </>
       )}
 
       {/* Ears */}
-      <ellipse cx="30" cy="50" rx="3" ry="5" fill={skin} />
-      <ellipse cx="90" cy="50" rx="3" ry="5" fill={skin} />
+      <ellipse cx="28" cy="48" rx="3.5" ry="5.5" fill={skin} />
+      <ellipse cx="92" cy="48" rx="3.5" ry="5.5" fill={skin} />
 
-      {/* Cheeks */}
-      <circle cx="42" cy="56" r="4.5" fill={cheek} opacity="0.75" />
-      <circle cx="78" cy="56" r="4.5" fill={cheek} opacity="0.75" />
+      {/* Cheeks (big & blushy) */}
+      <ellipse cx="40" cy="58" rx="6" ry="4" fill={cheek} opacity="0.7" />
+      <ellipse cx="80" cy="58" rx="6" ry="4" fill={cheek} opacity="0.7" />
 
-      {/* Eyes (big sparkly) */}
+      {/* Eyes — huge sparkly kawaii eyes */}
       <g className="chibi-eye">
-        <ellipse cx="50" cy="50" rx="4.2" ry="5.4" fill="#1f2937" />
-        <circle cx="51.4" cy="48.2" r="1.5" fill="#fff" />
-        <circle cx="49.2" cy="51.6" r="0.7" fill="#fff" />
+        <ellipse cx="48" cy="52" rx="6" ry="8" fill="#1a1a2e" />
+        <ellipse cx="48" cy="55" rx="4" ry="5" fill={isGirl ? "#6B2C5C" : "#1a3a6b"} />
+        <circle cx="50" cy="50" r="2.4" fill="#fff" />
+        <circle cx="46" cy="56" r="1.2" fill="#fff" />
       </g>
       <g className="chibi-eye" style={{ animationDelay: ".15s" } as any}>
-        <ellipse cx="70" cy="50" rx="4.2" ry="5.4" fill="#1f2937" />
-        <circle cx="71.4" cy="48.2" r="1.5" fill="#fff" />
-        <circle cx="69.2" cy="51.6" r="0.7" fill="#fff" />
+        <ellipse cx="72" cy="52" rx="6" ry="8" fill="#1a1a2e" />
+        <ellipse cx="72" cy="55" rx="4" ry="5" fill={isGirl ? "#6B2C5C" : "#1a3a6b"} />
+        <circle cx="74" cy="50" r="2.4" fill="#fff" />
+        <circle cx="70" cy="56" r="1.2" fill="#fff" />
       </g>
 
-      {/* Smile */}
+      {/* Tiny nose hint */}
+      <ellipse cx="60" cy="62" rx="1.3" ry="1" fill={skinShade} opacity=".7" />
+
+      {/* Big smile */}
       <path
-        d="M53,60 Q60,66 67,60"
-        stroke="#7a3b1f"
-        strokeWidth="2.2"
+        d="M51,67 Q60,75 69,67"
+        stroke={mouth}
+        strokeWidth="2.4"
         fill="none"
         strokeLinecap="round"
       />
-      {/* Tiny tongue for girl */}
-      {isGirl && (
-        <ellipse cx="60" cy="63" rx="2.5" ry="1.6" fill="#FF6B9D" />
-      )}
+      {/* Inner mouth */}
+      <path d="M54,68 Q60,73 66,68 Q60,71 54,68 Z" fill="#FF6B9D" opacity=".75" />
     </svg>
   );
 }
+
 
 export default function KidsChibiMascot({ lang = "vi" as "vi" | "en" }) {
   const [bubble, setBubble] = useState<string | null>(null);
