@@ -122,7 +122,7 @@ const EnglishIdioms = () => {
               <Quote className="w-4 h-4" /> {t("English Foundation", "English Foundation")}
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold leading-tight mb-3">
-              <span className="bg-gradient-to-r from-amber-600 via-orange-600 to-rose-600 dark:from-amber-400 dark:via-orange-400 dark:to-rose-400 bg-clip-text text-transparent drop-shadow-sm">
+              <span className="bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 dark:from-emerald-400 dark:via-green-400 dark:to-teal-400 bg-clip-text text-transparent drop-shadow-sm">
                 {t("Thành ngữ, Tục ngữ", "Idioms, Proverbs")} & {t("Danh ngôn", "Quotes")}
               </span>
             </h1>
