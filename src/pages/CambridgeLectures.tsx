@@ -125,7 +125,7 @@ const CambridgeLectures = () => {
           <div className="absolute bottom-10 left-20 w-48 h-48 rounded-full bg-[#FFD93D]/30 blur-[80px] animate-pulse" style={{ animationDelay: "1s" }} />
           <div className="absolute top-1/2 left-1/2 w-56 h-56 rounded-full bg-[#6BCB77]/25 blur-[90px] animate-pulse" style={{ animationDelay: "2s" }} />
 
-          <div className="relative container mx-auto px-4 py-14 md:py-20">
+          <div className="relative container mx-auto px-4 py-8 md:py-12">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl">
               <div className="flex items-center gap-3 mb-5">
                 <div className="p-3 rounded-2xl bg-gradient-to-br from-[#FF6B9D] via-[#FFD93D] to-[#4D96FF] border-2 border-white shadow-lg">
