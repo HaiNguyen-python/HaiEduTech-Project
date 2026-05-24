@@ -191,7 +191,7 @@ const LessonFeedback = ({
           className="text-[10px] font-bold tracking-wider leading-tight"
           style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
         >
-          {t("ĐIỂM DANH", "ATTENDANCE")}
+          {t("ĐIỂM DANH & PHẢN HỒI", "ATTENDANCE & FEEDBACK")}
         </span>
       </motion.button>
 
