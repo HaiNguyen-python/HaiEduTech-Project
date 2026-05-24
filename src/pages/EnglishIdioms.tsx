@@ -378,40 +378,40 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
                 <Star className={cn("w-4 h-4", isLearned && "fill-current")} />
               </button>
               <div className="flex items-start justify-between gap-3 mb-3 pr-12">
-                <span className={cn("inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wide border", meta.chip)}>
+                <span className={cn("inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-bold uppercase tracking-wide border", meta.chip)}>
                   <span>{meta.emoji}</span>
                   {meta.labelEn}
                 </span>
                 <span className="text-3xl leading-none">{entry.emoji}</span>
               </div>
 
-              <p className="text-lg font-display font-bold text-foreground leading-snug mb-2">
+              <p className="text-xl sm:text-2xl font-display font-extrabold text-foreground leading-snug mb-2">
                 "{entry.phrase}"
               </p>
               {entry.author && (
-                <p className="text-xs text-muted-foreground italic mb-2">- {entry.author}</p>
+                <p className="text-sm text-muted-foreground italic mb-2 font-medium">- {entry.author}</p>
               )}
 
-              <div className="rounded-xl bg-background/80 border border-emerald-500/40 p-3.5 mb-3 space-y-2.5 text-sm">
+              <div className="rounded-xl bg-background/80 border-2 border-emerald-500/50 p-4 mb-3 space-y-3 text-base">
                 <div>
-                  <div className="text-[11px] font-bold uppercase tracking-wide text-primary mb-1">{t("Ý nghĩa", "Meaning")}</div>
-                  <p className="text-foreground leading-relaxed font-medium">{t(entry.meaningVi, entry.meaningEn)}</p>
+                  <div className="text-sm font-bold uppercase tracking-wide text-primary mb-1.5">{t("Ý nghĩa", "Meaning")}</div>
+                  <p className="text-foreground leading-relaxed font-semibold text-base sm:text-lg">{t(entry.meaningVi, entry.meaningEn)}</p>
                 </div>
                 <div>
-                  <div className="text-[11px] font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-400 mb-1">{t("Ví dụ", "Example")}</div>
-                  <p className="text-foreground italic leading-relaxed">"{entry.exampleEn}"</p>
-                  <p className="text-muted-foreground text-xs mt-1">{entry.exampleVi}</p>
+                  <div className="text-sm font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-400 mb-1.5">{t("Ví dụ", "Example")}</div>
+                  <p className="text-foreground italic leading-relaxed font-medium text-base">"{entry.exampleEn}"</p>
+                  <p className="text-muted-foreground text-sm mt-1.5 font-medium">{entry.exampleVi}</p>
                 </div>
               </div>
 
               <div className="flex items-center gap-2 mt-auto">
                 <button
                   onClick={() => speakEn(entry.phrase)}
-                  className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white shadow-md shadow-emerald-500/30"
+                  className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-base font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white shadow-md shadow-emerald-500/30"
                   title={t("Nghe phát âm", "Listen")}
                   aria-label={t("Nghe phát âm", "Listen")}
                 >
-                  <Volume2 className="w-4 h-4" /> {t("Nghe phát âm", "Listen")}
+                  <Volume2 className="w-5 h-5" /> {t("Nghe phát âm", "Listen")}
                 </button>
               </div>
             </motion.article>
