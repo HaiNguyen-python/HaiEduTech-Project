@@ -78,6 +78,9 @@ const TRACK_ILLUSTRATIONS: Record<string, string> = {
 
 import FloatingAIIcons from "@/components/ai-academy/FloatingAIIcons";
 import GraduationCertificate from "@/components/ai-academy/GraduationCertificate";
+import XPStreakHUD from "@/components/ai-academy/XPStreakHUD";
+import { useAIAcademyXP } from "@/hooks/useAIAcademyXP";
+
 import AutoTranslateBoundary from "@/components/ai-academy/AutoTranslateBoundary";
 import StudySmartSandbox from "@/components/ai-academy/StudySmartSandbox";
 import CareersMapSandbox from "@/components/ai-academy/CareersMapSandbox";
