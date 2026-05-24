@@ -285,7 +285,4 @@ const SatLandingExtras = () => {
   );
 };
 
-// Need Target icon import for bandTiers
-import { Target } from "lucide-react";
-
 export default SatLandingExtras;
