@@ -1,73 +1,86 @@
-## Mục tiêu
 
-1. Bổ sung **1–2 hoạt động tương tác mới** vào các sandbox còn nhiều khoảng trống để tăng độ thực hành.
-2. Rà soát và **sửa lỗi ngắt dòng phi logic** trong nội dung 12 bài học (Vietnam Case, Golden Tip, Story, Glossary…).
+## Hiện trạng (sau khi rà soát)
 
----
-
-## Phần 1 — Nguồn gốc lỗi "ngắt dòng không hợp logic"
-
-Khi kiểm tra `SmartText` (`src/pages/AIAcademy.tsx` dòng 51–82), bộ tách câu hiện đang split text theo:
-
-```
-.split(/(?<=[.!?])\s+/)            // OK — ngắt theo dấu chấm câu
-.flatMap((s) => s.split(/\s+—\s+/)) // ⚠️ ngắt thêm theo em-dash " — "
-```
-
-Trong nội dung 12 bài có **86 chỗ** dùng em-dash " — " làm dấu phẩy / giải thích **bên trong cùng một câu**, ví dụ:
-
-> "Kiki là trợ lý ảo thuần Việt do Zalo phát triển — hiểu tiếng Việt giọng 3 miền, xử lý teen-code..."
-
-Hiện đang bị tách thành 2 bullet rời rạc, mất ngữ nghĩa. Đây là nguyên nhân chính của các "ngắt dòng không hợp logic" mà Thầy đang thấy.
-
-### Cách xử lý
-
-- **Bỏ rule `split(/\s+—\s+/)`** — chỉ tách theo dấu chấm/!/? thực sự.
-- **Nâng ngưỡng bulletize** từ 3 lên 2 câu cho nội dung ngắn để tránh tách lẻ.
-- **Thêm guard** không tách sau các viết tắt phổ biến tiếng Việt (`TP.`, `GS.`, `TS.`, `Th.S`, `Ph.D`, `Mr.`, `St.`, `vs.`).
-- Rà soát thủ công 12 bài (vision, nlp, nn, genai, rl, ethics, recsys, aiot, capstone, deepfake, agent, graduation) trong `aiAcademyContent.ts` + story body trong `AIAcademy.tsx` — chỗ nào ý vẫn dính nhau thì thay dấu câu (`. ` → `, `) hoặc bỏ em-dash thừa.
+- **12 bài hiện có** trong `src/pages/AIAcademy.tsx` (TRACKS): Vision, NLP, Neural Net, GenAI, RL, Ethics, Recsys, AIoT, Capstone, Deepfake, Agent, Graduation. Nội dung mở rộng nằm ở `src/data/aiAcademyContent.ts` (Vietnam case, Golden tip, Glossary, Careers, Homework, External demos).
+- **Ngôn ngữ**: `AIAcademy.tsx` **KHÔNG** import `useLanguage()`. Mọi text (title, tagline, story, glossary, quiz, sandbox UI) đều hard-code tiếng Việt → toggle EN/VI ở header không có tác dụng cho khu vực này. Các sandbox component cũng gần như 100% tiếng Việt cứng.
 
 ---
 
-## Phần 2 — Bổ sung hoạt động cho sandbox còn trống
+## Phần A — Bổ sung bài học cho HS cấp 2–3 Việt Nam
 
-Hiện cấu trúc mỗi sandbox = **1 simulator chính + 2 bonus games** (True/False + Match Pairs).
+### Đánh giá độ phủ hiện tại
 
-Các sandbox **simulator ngắn / còn nhiều khoảng trắng** sẽ nhận thêm **1 mini-activity**:
+12 bài đã phủ tốt nền tảng kỹ thuật (Vision/NLP/NN/GenAI/RL/Recsys/AIoT/Agent) + 2 bài "mềm" (Ethics, Deepfake) + Capstone + Graduation. Tuy nhiên còn **thiếu 4 mảng** rất cần cho học sinh VN trong giai đoạn 2025–2030:
 
-| Sandbox | Hoạt động bổ sung đề xuất |
-|---|---|
-| **Ethics** | "Tỉa CV thiên vị" — kéo bỏ các từ gây bias (`women's chess club`, `nam giới ưu tiên`…) khỏi mô tả tuyển dụng, xem điểm fairness tăng. |
-| **NeuralNet** | "Bộ Predictor cảm xúc" — 3 slider (vui/buồn/bất ngờ) → mạng neuron mini đoán emoji output. |
-| **Recsys** | "Trộn vector sở thích" — chọn 3 video đã xem, hệ thống tính `cosine similarity` và highlight top-3 gợi ý. |
-| **AIoT** | "Tủ lạnh thông minh" — toggle cảm biến (cửa mở, nhiệt độ, hết sữa) → hiển thị action AI nên gửi đến điện thoại. |
-| **GenAI** | "Đoán Prompt từ ảnh" — show 4 ảnh emoji, học sinh ghép với 1 trong 4 prompt phù hợp nhất. |
-| **NLP** (đã dài nhưng còn chỗ ở phần cuối) | Bỏ qua — đã đủ. |
-| Các sandbox khác (Vision / Deepfake / Agent / Capstone / Graduation / RL) | Đã có nhiều khu vực — chỉ giữ nguyên. |
+| # | Bài đề xuất | Vì sao cần cho HS VN |
+|---|---|---|
+| **13** | **🎓 AI & Học tập thông minh** (AI for Study) — Cách dùng ChatGPT/NotebookLM/Gemini học bài, ôn thi THPT QG, IELTS, không bị "AI làm hộ" | Trực tiếp giải quyết nỗi sợ "AI làm thay" của phụ huynh + dạy kỹ năng prompt cho việc học |
+| **14** | **💼 AI & Nghề nghiệp tương lai** (AI Careers Map VN) — Bản đồ nghề AI tại VN (FPT.AI, VinAI, Zalo, VNG, MoMo) + lộ trình từ lớp 10 → ĐH → Job | Định hướng nghề, kết nối với Counseling Hub |
+| **15** | **🧠 AI & Tư duy phản biện** (Critical Thinking with AI) — Cách phát hiện hallucination, fact-check, không tin AI mù quáng | Tránh "thế hệ ngu hơn vì AI" — kỹ năng sống còn |
+| **16** | **🔐 AI & An toàn số** (AI Safety for Teens) — Lừa đảo giả giọng, deepfake bạn cùng lớp, AI bot dụ dỗ trên MXH, bảo vệ dữ liệu cá nhân | Bài Ethics & Deepfake hiện thiên về lý thuyết; bài này nói thẳng về tình huống thực tế HS gặp trên Zalo/TikTok |
 
-### Cách triển khai
+(Tùy chọn nâng cao nếu Thầy muốn):
+- **17** AI trong Toán/Lý/Hóa (Wolfram, PhotoMath, AlphaProof) — gợi ý cho HS giỏi Toán
+- **18** Khởi nghiệp với AI (No-code AI: Lovable, Bolt, Cursor) — gắn với chính HaiEduTech
 
-- Tạo **1 helper component dùng chung** `SandboxMiniActivity.tsx` chứa 2 dạng tái sử dụng:
-  1. `ChipFilter` — học sinh bật/tắt các "yếu tố" → 1 thanh metric thay đổi realtime.
-  2. `BestMatchPick` — show 4 input → ghép với 1 trong 4 output, có chấm đúng/sai và animation.
-- Mỗi sandbox đích chỉ cần `import` và truyền config (label, options, target metric) → giữ code gọn.
+### Cấu trúc mỗi bài mới (giữ đồng nhất với 12 bài cũ)
 
----
-
-## Phần 3 — Phạm vi file thay đổi (dự kiến)
-
-- `src/pages/AIAcademy.tsx` — sửa `SmartText` (split rules + abbreviation guard).
-- `src/data/aiAcademyContent.ts` — chỉnh nhẹ em-dash / dấu câu ở các đoạn còn dính ý sau khi đổi split.
-- `src/components/ai-academy/SandboxMiniActivity.tsx` — **mới**, helper dùng chung.
-- 5 sandbox: `EthicsSandbox.tsx`, `NeuralNetSandbox.tsx`, `RecsysSandbox.tsx`, `AIoTSandbox.tsx`, `GenAISandbox.tsx` — thêm 1 mini-activity / file.
+- Thêm entry vào `TrackId` + `TRACKS[]` trong `AIAcademy.tsx` (title, tagline, icon, color, story, sandbox component, quiz, badge).
+- Thêm entry tương ứng vào `TRACK_EXTRAS` trong `aiAcademyContent.ts` (vietnamCase, goldenTip, glossary, careers, homework, externalDemo).
+- Tạo 4 sandbox mới trong `src/components/ai-academy/`:
+  - `StudySmartSandbox.tsx` — "Prompt Coach": HS gõ câu hỏi học bài, AI gợi ý prompt tốt hơn + mô phỏng kết quả Hay/Dở.
+  - `CareersMapSandbox.tsx` — bản đồ nghề tương tác: chọn sở thích (Toán/Vẽ/Ngôn ngữ/Code) → highlight 3 nghề AI phù hợp tại VN + range lương.
+  - `FactCheckSandbox.tsx` — "Phát hiện AI nói xạo": show 5 câu trả lời ChatGPT (3 đúng, 2 hallucinate), HS chọn → giải thích red-flag.
+  - `DigitalSafetySandbox.tsx` — "Lừa đảo deepfake giọng bố/mẹ": kịch bản chat/cuộc gọi giả, HS chọn xử lý đúng.
 
 ---
 
-## Phần 4 — Kiểm thử sau khi build
+## Phần B — i18n hoá AI Academy (EN/VI)
 
-- Mở từng tab trong 12 bài tại `/programming/ai-academy`, đảm bảo:
-  - Các bullet không còn bị ngắt giữa câu khi có em-dash.
-  - 5 sandbox được bổ sung có hoạt động mới chạy mượt, có animation + chấm điểm.
-  - Layout vẫn cân (border-t-2 dividers giữ nguyên).
+### Vấn đề
 
-Thầy duyệt plan để em chuyển sang **Build mode** và thực hiện ạ.
+`AIAcademy.tsx` không gọi `useLanguage()` → toggle EN/VI ở header chỉ đổi navbar, không đổi nội dung bài học. Đây là lỗi đồng nhất với phần còn lại của app.
+
+### Cách triển khai (gọn, không phá vỡ cấu trúc)
+
+1. **Mở rộng schema dữ liệu** — thêm field song ngữ:
+   - `Track`: thêm `titleEn`, `taglineEn`, `story.bodyEn`, `quiz[].questionEn`, `quiz[].optionsEn`, `quiz[].explanationEn`, `badge.nameEn`.
+   - `TrackExtra` (`aiAcademyContent.ts`): thêm `vietnamCase.titleEn/bodyEn`, `goldenTipEn`, `glossary[].termEn/defEn`, `careersEn`, `homeworkEn`, `externalDemo[].labelEn`, `safetyNote.titleEn/bodyEn`.
+
+2. **Thêm helper `t(vi, en)`** từ `useLanguage()` ở `AIAcademy.tsx` và mọi nơi render text → bọc qua `t(track.title, track.titleEn)`.
+
+3. **Các sandbox component**: import `useLanguage`, bọc tất cả label/tooltip/button tiếng Việt cứng (hiện có 14+ file). Mỗi sandbox có ~20–60 chuỗi → tổng ~500 chuỗi.
+
+4. **Bonus games** (`SandboxBonusGames.tsx`, `SandboxMiniActivity.tsx`, `MiniCVChallenges.tsx`, `DragDropQuiz.tsx`): truyền thêm prop `tfItems` & `matchPairs` dạng `{vi, en}` thay vì string thuần.
+
+5. **Quiz data** (`aiAcademyQuizExtras.ts`): nhân bản EN cho toàn bộ câu hỏi.
+
+### Khối lượng dịch
+
+- ~12 story × 200 từ = 2.400 từ
+- 12 vietnamCase + 12 goldenTip + ~60 glossary terms + ~50 careers + 12 homework + ~36 demo labels = ~3.000 từ
+- ~60+ quiz questions × 4 options = ~250 câu cần dịch
+- ~500 chuỗi UI sandbox
+
+→ Em sẽ dịch trực tiếp trong code (tự viết EN tự nhiên, không dùng Google Translate), giữ thuật ngữ kỹ thuật chuẩn quốc tế (token, embedding, backprop…) và tone gần gũi như bản VN.
+
+---
+
+## Phần C — Phạm vi file thay đổi (dự kiến)
+
+- `src/pages/AIAcademy.tsx` — i18n + thêm 4 track mới + import 4 sandbox mới.
+- `src/data/aiAcademyContent.ts` — thêm field EN + 4 entry mới.
+- `src/data/aiAcademyQuizExtras.ts` — thêm `questionEn`/`optionsEn`.
+- **Mới**: `StudySmartSandbox.tsx`, `CareersMapSandbox.tsx`, `FactCheckSandbox.tsx`, `DigitalSafetySandbox.tsx`.
+- 14 sandbox cũ — i18n hóa chuỗi UI.
+- `SandboxBonusGames.tsx`, `SandboxMiniActivity.tsx` — đổi shape props sang `{vi, en}`.
+
+---
+
+## Câu hỏi cần Thầy xác nhận trước khi build
+
+1. **Số bài mới**: thêm đủ **4 bài** (Study / Careers / Critical Thinking / Digital Safety), hay thêm cả **6 bài** (gồm 2 tùy chọn AI-Toán + AI-Khởi nghiệp)?
+2. **i18n phạm vi**: dịch toàn bộ (story + sandbox UI + quiz + extras), hay chỉ dịch phần khung (title/tagline/story/extras) còn sandbox UI giữ VN ở giai đoạn 1?
+3. **Thứ tự build**: làm i18n trước rồi thêm bài mới (an toàn), hay thêm 4 bài mới trước rồi i18n cả lô (tiết kiệm 1 lượt sửa)?
+
+Sau khi Thầy chốt, em sẽ chuyển sang **Build mode** và thực hiện theo đúng phạm vi đã duyệt.
