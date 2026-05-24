@@ -1225,7 +1225,7 @@ const AIAcademy = () => {
                                 🏠 Thử sức ở nhà
                               </h4>
                             </div>
-                            <p className="text-sm text-foreground/85 leading-relaxed">{extra.homework}</p>
+                            <SmartText text={extra.homework} className="text-[15px] text-foreground leading-relaxed" />
                           </div>
 
                           {/* External demos */}
