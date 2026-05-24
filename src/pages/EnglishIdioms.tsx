@@ -999,7 +999,7 @@ const EquivalentExercise = ({ t, toast }: { t: (vi: string, en: string) => strin
         </div>
       </div>
 
-      <div className="rounded-2xl bg-background/80 border border-border/60 p-5 sm:p-7 mb-5">
+      <div className="rounded-2xl bg-background/80 border-2 border-rose-500/50 p-5 sm:p-7 mb-5">
         <div className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-3">
           🇬🇧 {t(CATEGORY_META[q.correct.category].labelVi, CATEGORY_META[q.correct.category].labelEn)}
         </div>
@@ -1026,16 +1026,16 @@ const EquivalentExercise = ({ t, toast }: { t: (vi: string, en: string) => strin
               disabled={!!picked}
               className={cn(
                 "text-left px-4 py-3 rounded-xl border-2 transition-all text-sm font-semibold",
-                !showResult && "bg-background border-border hover:border-rose-500/50 hover:bg-rose-500/5",
+                !showResult && "bg-background border-rose-500/50 hover:border-rose-500 hover:bg-rose-500/5",
                 showResult && isCorrect && "bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-300",
                 showResult && isPicked && !isCorrect && "bg-rose-500/15 border-rose-500 text-rose-700 dark:text-rose-300",
-                showResult && !isPicked && !isCorrect && "bg-background border-border opacity-60",
+                showResult && !isPicked && !isCorrect && "bg-background border-rose-500/30 opacity-60",
               )}
             >
               <div className="flex items-start gap-2">
                 <span className={cn(
                   "mt-0.5 w-6 h-6 rounded-full inline-flex items-center justify-center text-xs font-bold border-2 shrink-0",
-                  !showResult && "border-border text-muted-foreground",
+                  !showResult && "border-rose-500/60 text-muted-foreground",
                   showResult && isCorrect && "border-emerald-500 bg-emerald-500 text-white",
                   showResult && isPicked && !isCorrect && "border-rose-500 bg-rose-500 text-white",
                 )}>
