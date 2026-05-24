@@ -43,7 +43,6 @@ function ChibiSVG({ who, jump }: { who: Who; jump: boolean }) {
       width="92"
       height="118"
       viewBox="0 0 120 150"
-      className={`chibi-wrap ${jump ? "jump" : ""}`}
       style={{ filter: "drop-shadow(0 6px 10px rgba(0,0,0,.22))", overflow: "visible" }}
     >
       {/* Shadow */}
