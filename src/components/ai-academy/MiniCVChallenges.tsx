@@ -1,138 +1,165 @@
 /**
  * MiniCVChallenges — two bite-sized Computer Vision mini-games:
- *  1) "Tìm phương tiện giao thông" — tap all vehicle emojis in a 4x3 grid.
+ *  1) "Pixel Reveal" — guess the image while it's still pixelated/blurred.
  *  2) "Đoán độ tự tin" — slider where the student predicts AI confidence
  *     for a given scene, then we reveal the true number.
  * Both reward sound + bounce and live entirely on the client.
  */
 import { useMemo, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Car, Sparkles, RefreshCcw, Target } from "lucide-react";
+import { Eye, Sparkles, RefreshCcw, Target, ZoomIn } from "lucide-react";
 import { playSuccessSound, playFailureSound, bounceVariant } from "@/lib/aiAcademyFx";
 
 // ============================================================
-// Mini-game 1 — Vehicle finder (multi-tap classification)
+// Mini-game 1 — Pixel Reveal (image clarity vs AI vision)
 // ============================================================
-type Tile = { emoji: string; isVehicle: boolean };
-const POOL: Tile[] = [
-  { emoji: "🚗", isVehicle: true },
-  { emoji: "🚌", isVehicle: true },
-  { emoji: "🛵", isVehicle: true },
-  { emoji: "🚲", isVehicle: true },
-  { emoji: "✈️", isVehicle: true },
-  { emoji: "🚂", isVehicle: true },
-  { emoji: "🍎", isVehicle: false },
-  { emoji: "🐶", isVehicle: false },
-  { emoji: "🌳", isVehicle: false },
-  { emoji: "📱", isVehicle: false },
-  { emoji: "🎨", isVehicle: false },
-  { emoji: "⚽", isVehicle: false },
+type Puzzle = { emoji: string; label: string; options: string[] };
+
+const PUZZLES: Puzzle[] = [
+  { emoji: "🐱", label: "Mèo",       options: ["Mèo", "Chó", "Thỏ", "Cáo"] },
+  { emoji: "🚗", label: "Ô tô",      options: ["Xe máy", "Ô tô", "Xe buýt", "Tàu hỏa"] },
+  { emoji: "🌳", label: "Cây xanh",  options: ["Hoa", "Cỏ", "Cây xanh", "Bụi rậm"] },
+  { emoji: "🍕", label: "Pizza",     options: ["Bánh mì", "Pizza", "Hamburger", "Bánh ngọt"] },
+  { emoji: "✈️", label: "Máy bay",   options: ["Tàu hỏa", "Tên lửa", "Máy bay", "Khinh khí cầu"] },
+  { emoji: "🐘", label: "Voi",       options: ["Tê giác", "Voi", "Hà mã", "Trâu"] },
+  { emoji: "⚽", label: "Quả bóng",  options: ["Quả bóng", "Đồng hồ", "Mặt trăng", "Bánh xe"] },
+  { emoji: "🌻", label: "Hoa hướng dương", options: ["Hoa hồng", "Hoa cúc", "Hoa hướng dương", "Hoa sen"] },
 ];
 
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
+const BLUR_STEPS = [24, 14, 7, 3, 0];
+const POINTS = [5, 4, 3, 2, 1];
 
-const VehicleFinder = () => {
+const PixelReveal = () => {
   const [round, setRound] = useState(0);
-  const tiles = useMemo(() => shuffle(POOL), [round]);
-  const [picked, setPicked] = useState<Set<number>>(new Set());
-  const [checked, setChecked] = useState(false);
+  const puzzle = useMemo(() => {
+    const p = PUZZLES[Math.floor(Math.random() * PUZZLES.length)];
+    const opts = [...p.options].sort(() => Math.random() - 0.5);
+    return { ...p, options: opts };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [round]);
 
-  const toggle = (idx: number) => {
-    if (checked) return;
-    setPicked((p) => {
-      const next = new Set(p);
-      if (next.has(idx)) next.delete(idx);
-      else next.add(idx);
-      return next;
-    });
+  const [level, setLevel] = useState(0);
+  const [picked, setPicked] = useState<string | null>(null);
+  const [score, setScore] = useState<number | null>(null);
+
+  const reveal = () => {
+    if (level < BLUR_STEPS.length - 1) setLevel((l) => l + 1);
   };
 
-  const check = () => {
-    setChecked(true);
-    const correct = tiles.every((t, i) => t.isVehicle === picked.has(i));
-    if (correct) playSuccessSound();
-    else playFailureSound();
+  const choose = (opt: string) => {
+    if (picked) return;
+    setPicked(opt);
+    if (opt === puzzle.label) {
+      setScore(POINTS[level]);
+      playSuccessSound();
+    } else {
+      setScore(0);
+      playFailureSound();
+    }
   };
 
   const reset = () => {
-    setPicked(new Set());
-    setChecked(false);
+    setLevel(0);
+    setPicked(null);
+    setScore(null);
     setRound((r) => r + 1);
   };
 
-  const score = tiles.reduce(
-    (s, t, i) => s + (t.isVehicle === picked.has(i) ? 1 : 0),
-    0
-  );
+  const blurPx = BLUR_STEPS[level];
 
   return (
     <div className="rounded-2xl border-2 border-emerald-400/40 bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 p-4 space-y-3">
       <div className="flex items-center gap-2">
-        <Car className="w-4 h-4 text-emerald-600" />
+        <Eye className="w-4 h-4 text-emerald-600" />
         <h4 className="font-bold text-sm uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
-          🚦 Mini-game: Tìm phương tiện giao thông
+          🔍 Mini-game: AI nhìn thấy gì? (Pixel Reveal)
         </h4>
       </div>
       <p className="text-[13px] text-foreground/85">
-        Hãy chọn <b>tất cả</b> ô là phương tiện giao thông (AI gọi đây là{" "}
-        <b>multi-label classification</b>).
+        Đoán đúng vật thể khi ảnh còn <b>mờ</b> để được nhiều điểm. Càng phải bấm “Rõ hơn” nhiều lần, điểm càng ít —
+        đây chính là cách AI thị giác cần đủ <b>pixel</b> để nhận diện chính xác.
       </p>
 
-      <div className="grid grid-cols-4 gap-2">
-        {tiles.map((t, i) => {
-          const isPicked = picked.has(i);
-          const correctWhenChecked =
-            checked && t.isVehicle === isPicked;
-          const wrongWhenChecked = checked && t.isVehicle !== isPicked;
+      <div className="relative mx-auto w-full max-w-[260px] aspect-square rounded-2xl bg-gradient-to-br from-slate-900 to-slate-700 grid place-items-center overflow-hidden border-2 border-cyan-400/40 shadow-inner">
+        <motion.div
+          key={`${round}-${level}`}
+          initial={{ scale: 0.9, opacity: 0.6 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.35 }}
+          style={{ filter: `blur(${blurPx}px)` }}
+          className="text-[140px] leading-none select-none"
+        >
+          {puzzle.emoji}
+        </motion.div>
+        <div className="absolute top-2 left-2 px-2 py-1 rounded-md bg-black/55 text-white text-[11px] font-bold tracking-wide">
+          Pixel level {level + 1}/{BLUR_STEPS.length}
+        </div>
+        <div className="absolute bottom-2 right-2 px-2 py-1 rounded-md bg-emerald-500/90 text-white text-[11px] font-bold">
+          Điểm tối đa: {POINTS[level]}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-2">
+        {puzzle.options.map((opt) => {
+          const isPicked = picked === opt;
+          const isCorrectShown = !!picked && opt === puzzle.label;
+          const isWrongPick = isPicked && opt !== puzzle.label;
           return (
             <motion.button
-              key={`${round}-${i}`}
-              whileTap={{ scale: 0.9 }}
-              animate={correctWhenChecked && isPicked ? bounceVariant : undefined}
-              onClick={() => toggle(i)}
-              className={`aspect-square rounded-xl text-3xl flex items-center justify-center border-2 transition select-none ${
-                wrongWhenChecked
-                  ? "border-rose-500 bg-rose-100 dark:bg-rose-900/40"
-                  : correctWhenChecked
-                  ? "border-emerald-500 bg-emerald-100 dark:bg-emerald-900/40"
-                  : isPicked
-                  ? "border-cyan-500 bg-cyan-100 dark:bg-cyan-900/40"
-                  : "border-border bg-card hover:bg-muted"
+              key={opt}
+              whileTap={{ scale: 0.95 }}
+              animate={isPicked && opt === puzzle.label ? bounceVariant : undefined}
+              onClick={() => choose(opt)}
+              disabled={!!picked}
+              className={`px-3 py-2.5 rounded-xl text-sm font-bold border-2 transition select-none ${
+                isCorrectShown
+                  ? "border-emerald-500 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-200"
+                  : isWrongPick
+                  ? "border-rose-500 bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-200"
+                  : "border-border bg-card hover:bg-muted text-foreground"
               }`}
             >
-              {t.emoji}
+              {opt}
             </motion.button>
           );
         })}
       </div>
 
-      <div className="flex items-center justify-between gap-2">
-        {!checked ? (
+      <div className="flex items-center justify-between gap-2 flex-wrap">
+        {!picked ? (
           <Button
-            onClick={check}
-            disabled={picked.size === 0}
-            className="bg-gradient-to-r from-emerald-500 to-cyan-600 text-white min-h-[40px]"
+            onClick={reveal}
+            disabled={level >= BLUR_STEPS.length - 1}
+            variant="outline"
+            className="min-h-[40px]"
           >
-            <Sparkles className="w-4 h-4 mr-1" /> Kiểm tra
+            <ZoomIn className="w-4 h-4 mr-1" /> Rõ hơn 1 chút
           </Button>
         ) : (
-          <Button onClick={reset} variant="outline" className="min-h-[40px]">
-            <RefreshCcw className="w-4 h-4 mr-1" /> Chơi lại
+          <Button
+            onClick={reset}
+            className="bg-gradient-to-r from-emerald-500 to-cyan-600 text-white min-h-[40px]"
+          >
+            <RefreshCcw className="w-4 h-4 mr-1" /> Ảnh khác
           </Button>
         )}
-        {checked && (
-          <span className="text-sm font-bold text-foreground">
-            🎯 Đúng <span className="text-emerald-600">{score}/{tiles.length}</span>
-          </span>
-        )}
+        <AnimatePresence>
+          {picked && (
+            <motion.span
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className={`text-sm font-extrabold ${
+                score && score > 0 ? "text-emerald-600" : "text-rose-600"
+              }`}
+            >
+              {score && score > 0
+                ? `🎉 +${score} điểm — Đáp án: ${puzzle.label}`
+                : `😅 Sai rồi — Đáp án: ${puzzle.label}`}
+            </motion.span>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
@@ -239,7 +266,7 @@ const ConfidencePredictor = () => {
 
 const MiniCVChallenges = () => (
   <div className="space-y-3 pt-2">
-    <VehicleFinder />
+    <PixelReveal />
     <ConfidencePredictor />
   </div>
 );
