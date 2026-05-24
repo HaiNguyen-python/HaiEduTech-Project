@@ -11,6 +11,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Eye, MessageSquare, Brain, Sparkles, Trophy, Star, ArrowLeft, Lock,
   Zap, Award, Rocket, CheckCircle2, Wand2, Car, Scale, Database, Radio, Cpu,
+  ShieldAlert, Bot, GraduationCap,
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import Navbar from "@/components/Navbar";
@@ -30,11 +31,14 @@ import RecsysSandbox from "@/components/ai-academy/RecsysSandbox";
 import AIoTSandbox from "@/components/ai-academy/AIoTSandbox";
 import CapstoneSandbox from "@/components/ai-academy/CapstoneSandbox";
 import DragDropQuiz, { type DDQuestion } from "@/components/ai-academy/DragDropQuiz";
+import DeepfakeSandbox from "@/components/ai-academy/DeepfakeSandbox";
+import AgentWorkflowSandbox from "@/components/ai-academy/AgentWorkflowSandbox";
+import GraduationSandbox from "@/components/ai-academy/GraduationSandbox";
 import FloatingAIIcons from "@/components/ai-academy/FloatingAIIcons";
 import heroBg from "@/assets/ai-academy-hero-bg.jpg";
 import chibiRobot from "@/assets/ai-chibi-robot.png";
 
-type TrackId = "vision" | "nlp" | "nn" | "genai" | "rl" | "ethics" | "recsys" | "aiot" | "capstone";
+type TrackId = "vision" | "nlp" | "nn" | "genai" | "rl" | "ethics" | "recsys" | "aiot" | "capstone" | "deepfake" | "agent" | "graduation";
 
 type Track = {
   id: TrackId;
