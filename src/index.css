@@ -561,60 +561,93 @@
   .theory-content .katex-display > .katex { font-size: 1.05em; }
 }
 
-/* ===== AI Academy: Electric Border Effect ===== */
-/* Rotating conic gradient border that gives cards a "circuit/electric" feel. */
-@keyframes electricRotate {
-  to { transform: rotate(1turn); }
+/* ===== AI Academy: Electric Border Effect =====
+   Một tia sáng chạy dọc theo viền card (chu vi), không xoay trong ô. */
+@keyframes electricTrace {
+  0%   { background-position:   0%   0%; }
+  25%  { background-position: 100%   0%; }
+  50%  { background-position: 100% 100%; }
+  75%  { background-position:   0% 100%; }
+  100% { background-position:   0%   0%; }
 }
-@keyframes electricGlow {
-  0%, 100% { box-shadow: 0 0 18px hsl(var(--primary) / 0.28), 0 0 36px hsl(160 84% 39% / 0.18); }
-  50%      { box-shadow: 0 0 28px hsl(var(--primary) / 0.45), 0 0 56px hsl(160 84% 39% / 0.32); }
+@keyframes electricPulse {
+  0%, 100% { box-shadow: 0 0 14px hsl(217 91% 60% / 0.22), 0 0 28px hsl(160 84% 39% / 0.14); }
+  50%      { box-shadow: 0 0 22px hsl(217 91% 60% / 0.38), 0 0 44px hsl(160 84% 39% / 0.26); }
 }
+
 .electric-border {
   position: relative;
   isolation: isolate;
-  animation: electricGlow 3.6s ease-in-out infinite;
+  animation: electricPulse 3.6s ease-in-out infinite;
 }
+
+/* Lớp viền "dây dẫn" tĩnh — gradient mờ 2 màu thương hiệu */
 .electric-border::before {
   content: "";
   position: absolute;
-  inset: -2px;
-  z-index: -1;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
   border-radius: inherit;
-  padding: 2px;
-  background: conic-gradient(
-    from 0deg,
-    #3B82F6 0deg,
-    #06B6D4 90deg,
-    #10B981 180deg,
-    #8B5CF6 270deg,
-    #3B82F6 360deg
-  );
+  padding: 1.5px;
+  background: linear-gradient(135deg, hsl(217 91% 60% / 0.55), hsl(160 84% 39% / 0.55));
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  animation: electricRotate 6s linear infinite;
-  filter: drop-shadow(0 0 6px hsl(var(--primary) / 0.5));
+}
+
+/* Lớp tia sáng chạy dọc viền — đốm radial nhỏ animate background-position
+   đi 4 góc theo chiều kim đồng hồ → cảm giác dòng điện chạy quanh viền. */
+.electric-border::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: inherit;
+  padding: 2px;
+  background:
+    radial-gradient(
+      circle at center,
+      #ffffff 0%,
+      #67E8F9 25%,
+      #3B82F6 55%,
+      transparent 75%
+    ) 0% 0% / 28% 28% no-repeat;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  filter: drop-shadow(0 0 6px #3B82F6) drop-shadow(0 0 12px #67E8F9);
+  mix-blend-mode: screen;
+  animation: electricTrace 3.5s linear infinite;
+}
+
+/* Biến thể mạnh: cho card đã đạt ≥ 3 sao */
+.electric-border.electric-strong {
+  animation: electricPulse 1.8s ease-in-out infinite;
 }
 .electric-border.electric-strong::before {
-  padding: 3px;
-  filter: drop-shadow(0 0 10px hsl(45 95% 55% / 0.8));
-  animation: electricRotate 3s linear infinite;
-  background: conic-gradient(
-    from 0deg,
-    #F59E0B 0deg,
-    #EF4444 72deg,
-    #8B5CF6 144deg,
-    #06B6D4 216deg,
-    #10B981 288deg,
-    #F59E0B 360deg
-  );
+  background: linear-gradient(135deg, hsl(45 95% 55% / 0.7), hsl(0 84% 60% / 0.7));
 }
-.electric-border.electric-strong {
-  animation: electricGlow 1.8s ease-in-out infinite;
+.electric-border.electric-strong::after {
+  background:
+    radial-gradient(
+      circle at center,
+      #ffffff 0%,
+      #FDE047 25%,
+      #F59E0B 50%,
+      #EF4444 70%,
+      transparent 80%
+    ) 0% 0% / 30% 30% no-repeat;
+  filter: drop-shadow(0 0 8px #F59E0B) drop-shadow(0 0 16px #FDE047);
+  animation: electricTrace 1.8s linear infinite;
 }
+
 @media (prefers-reduced-motion: reduce) {
   .electric-border,
-  .electric-border::before { animation: none !important; }
+  .electric-border::before,
+  .electric-border::after { animation: none !important; }
+  .electric-border::after { opacity: 0; }
 }
