@@ -266,11 +266,9 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
 
   return (
     <div>
-      {/* Filters */}
-      <div className="mb-6 space-y-3">
-        <div className="flex items-center gap-2 text-base text-muted-foreground flex-wrap">
-          <Filter className="w-5 h-5" />
-          <span className="font-bold text-foreground">{t("Lọc & xáo trộn", "Filter & shuffle")}</span>
+      {/* Learned filter only */}
+      <div className="mb-6">
+        <div className="flex items-center gap-2 flex-wrap">
           <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-500/15 border-2 border-amber-500/40 text-amber-700 dark:text-amber-300 text-sm font-bold">
             <Star className="w-4 h-4 fill-current" />
             {t(`Đã thuộc: ${learned.size}`, `Learned: ${learned.size}`)}
@@ -290,71 +288,9 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
               ? t("Đang xem: Đã thuộc", "Viewing: Learned")
               : t(`Chỉ Đã thuộc (${learnedCountInView})`, `Only Learned (${learnedCountInView})`)}
           </button>
-          <button
-            onClick={() => setShuffleSeed(shuffleSeed + 1)}
-            className="ml-auto inline-flex items-center gap-1.5 px-4 py-2 rounded-full border-2 border-emerald-500/60 bg-background hover:bg-emerald-500/10 hover:border-emerald-500 transition-colors text-sm font-bold text-foreground"
-          >
-            <Shuffle className="w-4 h-4" /> {t("Xáo trộn", "Shuffle")}
-          </button>
-
-        </div>
-
-        {/* Category chips */}
-        <div className="flex flex-wrap gap-2">
-          {(["all", "idiom", "proverb", "quote"] as const).map((c) => {
-            const isActive = filterCategory === c;
-            const label = c === "all" ? t("Tất cả", "All") : t(CATEGORY_META[c].labelVi, CATEGORY_META[c].labelEn);
-            const emoji = c === "all" ? "✨" : CATEGORY_META[c].emoji;
-            return (
-              <button
-                key={c}
-                onClick={() => setFilterCategory(c)}
-                className={cn(
-                  "px-5 py-2.5 rounded-full text-base font-bold transition-all border-2 shadow-sm",
-                  isActive
-                    ? "bg-gradient-to-r from-emerald-500 to-green-600 text-white border-emerald-700 shadow-md shadow-emerald-500/40"
-                    : "bg-background text-foreground border-emerald-500/60 hover:border-emerald-600 hover:bg-emerald-500/10 hover:text-emerald-700 dark:hover:text-emerald-300",
-                )}
-              >
-                <span className="mr-1.5 text-lg">{emoji}</span>{label}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Theme chips */}
-        <div className="flex flex-wrap gap-2">
-          <button
-            onClick={() => setFilterTheme("all")}
-            className={cn(
-              "px-5 py-2.5 rounded-full text-base font-bold border-2 transition-colors shadow-sm",
-              filterTheme === "all"
-                ? "bg-gradient-to-r from-emerald-500 to-green-600 text-white border-emerald-700 shadow-md shadow-emerald-500/40"
-                : "bg-background border-emerald-500/60 text-foreground hover:border-emerald-600 hover:bg-emerald-500/10 hover:text-emerald-700 dark:hover:text-emerald-300",
-            )}
-          >
-            {t("Mọi chủ đề", "All themes")}
-          </button>
-          {THEME_GROUPS.map((g) => {
-            const isActive = filterTheme === g.key;
-            return (
-              <button
-                key={g.key}
-                onClick={() => setFilterTheme(g.key)}
-                className={cn(
-                  "px-5 py-2.5 rounded-full text-base font-bold border-2 transition-colors shadow-sm",
-                  isActive
-                    ? "bg-gradient-to-r from-emerald-500 to-green-600 text-white border-emerald-700 shadow-md shadow-emerald-500/40"
-                    : "bg-background border-emerald-500/60 text-foreground hover:border-emerald-600 hover:bg-emerald-500/10 hover:text-emerald-700 dark:hover:text-emerald-300",
-                )}
-              >
-                <span className="mr-1.5 text-lg">{g.emoji}</span>
-                {t(g.labelVi, g.labelEn)}
-              </button>
-            );
-          })}
         </div>
       </div>
+
 
       {/* Cards grid */}
       {display.length === 0 ? (
