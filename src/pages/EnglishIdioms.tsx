@@ -312,10 +312,10 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
           <button
             onClick={() => setFilterTheme("all")}
             className={cn(
-              "px-4 py-2 rounded-full text-sm font-semibold border-2 transition-colors",
+              "px-4 py-2 rounded-full text-sm font-semibold border-2 transition-colors shadow-sm",
               filterTheme === "all"
-                ? "bg-primary/15 border-primary text-primary"
-                : "bg-background border-border text-foreground hover:border-primary/40",
+                ? "bg-gradient-to-r from-emerald-500 to-green-600 text-white border-emerald-700 shadow-md shadow-emerald-500/40"
+                : "bg-background border-emerald-500/60 text-foreground hover:border-emerald-600 hover:bg-emerald-500/10 hover:text-emerald-700 dark:hover:text-emerald-300",
             )}
           >
             {t("Mọi chủ đề", "All themes")}
@@ -327,10 +327,10 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
                 key={th.key}
                 onClick={() => setFilterTheme(th.key)}
                 className={cn(
-                  "px-4 py-2 rounded-full text-sm font-semibold border-2 transition-colors",
+                  "px-4 py-2 rounded-full text-sm font-semibold border-2 transition-colors shadow-sm",
                   isActive
-                    ? "bg-primary/15 border-primary text-primary"
-                    : "bg-background border-border text-foreground hover:border-primary/40",
+                    ? "bg-gradient-to-r from-emerald-500 to-green-600 text-white border-emerald-700 shadow-md shadow-emerald-500/40"
+                    : "bg-background border-emerald-500/60 text-foreground hover:border-emerald-600 hover:bg-emerald-500/10 hover:text-emerald-700 dark:hover:text-emerald-300",
                 )}
               >
                 <span className="mr-1.5 text-base">{th.emoji}</span>
