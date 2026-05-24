@@ -1260,7 +1260,7 @@ const AIAcademy = () => {
                                   {extra.safetyNote.title}
                                 </h4>
                               </div>
-                              <p className="text-sm text-foreground/90 leading-relaxed">{extra.safetyNote.body}</p>
+                              <SmartText text={extra.safetyNote.body} className="text-[15px] text-foreground leading-relaxed" />
                             </div>
                           )}
                         </div>
