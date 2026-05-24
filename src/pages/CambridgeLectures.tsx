@@ -315,52 +315,6 @@ const CambridgeLectures = () => {
           </div>
         </section>
 
-        {/* 📝 Cambridge Test Prep Section */}
-        <section className="container mx-auto px-4 pt-2 pb-6">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-2.5 rounded-xl bg-gradient-to-br from-[#F9A826] to-[#FF6B9D] border-2 border-white shadow-md">
-              <GraduationCap className="w-6 h-6 text-white" />
-            </div>
-            <h2 className="text-2xl font-bold text-slate-800">🎯 {t("Đề thi thử Cambridge", "Cambridge Test Prep")}</h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-            {cambridgeMockExams.map((exam) => {
-              const lvl = CAMBRIDGE_LEVEL_LABELS[exam.level];
-              const bestRaw = localStorage.getItem(`cambridge-mock-best-${exam.id}`);
-              const best = bestRaw ? Math.round((parseInt(bestRaw) / exam.totalQuestions) * 100) : null;
-              return (
-                <div key={exam.id} className="rounded-xl border-2 border-white bg-white/85 p-4 hover:bg-white shadow-md hover:shadow-lg transition-all group">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-lg">{lvl.emoji}</span>
-                    <span className="text-xs font-black uppercase tracking-wider px-2 py-0.5 rounded" style={{ background: `${lvl.color}20`, color: lvl.color }}>{lvl.label}</span>
-                  </div>
-                  <h3 className="text-sm font-semibold text-slate-800 mb-1 line-clamp-2">{t(exam.titleVi, exam.title)}</h3>
-                  <div className="flex items-center gap-3 text-xs text-slate-500 mb-3">
-                    <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{exam.duration}m</span>
-                    <span>{exam.totalQuestions} {t("câu", "Qs")}</span>
-                  </div>
-                  {best !== null && (
-                    <div className={`text-xs font-bold mb-2 ${best >= 80 ? "text-emerald-600" : best >= 60 ? "text-amber-600" : "text-red-500"}`}>
-                      🏆 {t("Cao nhất", "Best")}: {best}%
-                    </div>
-                  )}
-                  <div className="flex gap-2">
-                    <Link to={`/cambridge-mock-exam/${exam.id}?mode=timed`} className="flex-1">
-                      <Button size="sm" className="w-full text-xs bg-gradient-to-r from-[#C780FA] to-[#7C3AED] hover:opacity-90 text-white">
-                        <Clock className="w-3 h-3 mr-1" />{t("Có giờ", "Timed")}
-                      </Button>
-                    </Link>
-                    <Link to={`/cambridge-mock-exam/${exam.id}?mode=untimed`} className="flex-1">
-                      <Button size="sm" variant="outline" className="w-full text-xs border-2 border-slate-300 text-slate-700 hover:bg-slate-100">
-                        {t("Tự do", "Free")}
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </section>
 
         {/* 🎯 Grouped Lectures - by Level → by Skill */}
         <section className="container mx-auto px-4 pb-8">
