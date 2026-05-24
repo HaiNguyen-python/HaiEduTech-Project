@@ -17,3 +17,10 @@ verify_jwt = false
 
 [functions.generate-specialized-lesson]
 verify_jwt = false
+
+[functions.grade-speaking]
+verify_jwt = false
+
+[functions.upgrade-speaking]
+verify_jwt = false
+
