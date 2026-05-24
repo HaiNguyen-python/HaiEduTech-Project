@@ -419,16 +419,6 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 mt-auto">
-                <button
-                  onClick={() => speakEn(entry.phrase)}
-                  className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-base font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white shadow-md shadow-emerald-500/30"
-                  title={t("Nghe phát âm", "Listen")}
-                  aria-label={t("Nghe phát âm", "Listen")}
-                >
-                  <Volume2 className="w-5 h-5" /> {t("Nghe phát âm", "Listen")}
-                </button>
-              </div>
             </motion.article>
           );
         };
