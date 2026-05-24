@@ -430,47 +430,45 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
           );
         };
 
-        // Group by theme when no specific theme filter is applied — collapsible accordion.
-        if (filterTheme === "all") {
-          const groups = IDIOM_THEMES
-            .map((th) => ({ theme: th, items: display.filter((e) => e.theme === th.key) }))
-            .filter((g) => g.items.length > 0);
-          return (
-            <div className="space-y-4">
-              {groups.map(({ theme, items }) => {
-                const isOpen = openThemes.has(theme.key);
-                return (
-                  <section key={theme.key} className="rounded-2xl border-2 border-emerald-500/40 bg-emerald-500/5 overflow-hidden">
-                    <button
-                      type="button"
-                      onClick={() => toggleTheme(theme.key)}
-                      aria-expanded={isOpen}
-                      className="w-full flex items-center gap-3 p-5 hover:bg-emerald-500/10 transition-colors"
-                    >
-                      <span className="text-3xl">{theme.emoji}</span>
-                      <h3 className="text-xl sm:text-2xl font-extrabold text-foreground flex-1 text-left">
-                        {t(theme.labelVi, theme.labelEn)}
-                      </h3>
-                      <span className="text-base font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-500/15 border-2 border-emerald-500/50 px-3 py-1 rounded-full">
-                        {items.length}
-                      </span>
-                      <span className={cn("text-emerald-700 dark:text-emerald-300 transition-transform text-2xl font-bold", isOpen && "rotate-180")}>▾</span>
-                    </button>
-                    {isOpen && (
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 p-4 pt-2">
+        // Group by THEME_GROUPS when no specific group filter is applied — collapsible accordion with a quiz per group.
+        const activeGroups = filterTheme === "all"
+          ? THEME_GROUPS
+          : THEME_GROUPS.filter((g) => g.key === filterTheme);
+        const groups = activeGroups
+          .map((g) => ({ group: g, items: display.filter((e) => g.themes.includes(e.theme)) }))
+          .filter((g) => g.items.length > 0);
+        return (
+          <div className="space-y-4">
+            {groups.map(({ group, items }) => {
+              const isOpen = openThemes.has(group.key);
+              return (
+                <section key={group.key} className="rounded-2xl border-2 border-emerald-500/40 bg-emerald-500/5 overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={() => toggleTheme(group.key)}
+                    aria-expanded={isOpen}
+                    className="w-full flex items-center gap-3 p-5 hover:bg-emerald-500/10 transition-colors"
+                  >
+                    <span className="text-3xl">{group.emoji}</span>
+                    <h3 className="text-xl sm:text-2xl font-extrabold text-foreground flex-1 text-left">
+                      {t(group.labelVi, group.labelEn)}
+                    </h3>
+                    <span className="text-base font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-500/15 border-2 border-emerald-500/50 px-3 py-1 rounded-full">
+                      {items.length}
+                    </span>
+                    <span className={cn("text-emerald-700 dark:text-emerald-300 transition-transform text-2xl font-bold", isOpen && "rotate-180")}>▾</span>
+                  </button>
+                  {isOpen && (
+                    <div className="p-4 pt-2 space-y-5">
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                         {items.map((entry, idx) => renderCard(entry, idx))}
                       </div>
-                    )}
-                  </section>
-                );
-              })}
-            </div>
-          );
-        }
-
-        return (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {display.map((entry, idx) => renderCard(entry, idx))}
+                      <GroupMiniQuiz groupKey={group.key} groupLabel={t(group.labelVi, group.labelEn)} items={items} t={t} />
+                    </div>
+                  )}
+                </section>
+              );
+            })}
           </div>
         );
       })()}
