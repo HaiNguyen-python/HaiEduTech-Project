@@ -101,23 +101,32 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
           <Camera className="w-3 h-3" /> LIVE • FACE ID SCANNER
         </div>
 
-        {/* Avatar in centre */}
+        {/* Avatar in centre — custom cartoon face so accessories overlay exactly. */}
         <div className="absolute inset-0 flex items-center justify-center">
           <motion.div
             animate={result && result.conf >= 75 ? bounceVariant : undefined}
-            className="relative"
+            className="relative w-44 h-44 sm:w-48 sm:h-48"
           >
-            <div className="text-[110px] leading-none select-none drop-shadow-[0_8px_18px_rgba(34,211,238,0.45)]">
-              🧑‍🎓
-            </div>
-            {/* Accessory overlays positioned over the face */}
+            {/* Face circle */}
+            <div className="absolute inset-x-[10%] top-[12%] bottom-[6%] rounded-[45%] bg-gradient-to-b from-amber-200 to-amber-300 shadow-[0_8px_24px_rgba(34,211,238,0.35)]" />
+            {/* Hair */}
+            <div className="absolute top-[8%] left-[14%] right-[14%] h-[18%] rounded-t-full bg-slate-800" />
+            {/* Eyes */}
+            <div className="absolute top-[42%] left-[28%] w-3 h-3 rounded-full bg-slate-900" />
+            <div className="absolute top-[42%] right-[28%] w-3 h-3 rounded-full bg-slate-900" />
+            {/* Nose */}
+            <div className="absolute top-[55%] left-1/2 -translate-x-1/2 w-1.5 h-3 rounded-full bg-amber-500/70" />
+            {/* Mouth */}
+            <div className="absolute top-[70%] left-1/2 -translate-x-1/2 w-8 h-2 rounded-b-full bg-rose-500" />
+
+            {/* Accessory overlays — pinned to exact face regions */}
             <AnimatePresence>
               {worn.hat && (
                 <motion.span
-                  initial={{ y: -20, opacity: 0 }}
+                  initial={{ y: -16, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -20, opacity: 0 }}
-                  className="absolute -top-6 left-1/2 -translate-x-1/2 text-5xl"
+                  exit={{ y: -16, opacity: 0 }}
+                  className="absolute -top-2 left-1/2 -translate-x-1/2 text-5xl pointer-events-none"
                 >
                   🎩
                 </motion.span>
@@ -127,7 +136,7 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   exit={{ scale: 0 }}
-                  className="absolute top-[38%] left-1/2 -translate-x-1/2 text-3xl"
+                  className="absolute top-[36%] left-1/2 -translate-x-1/2 text-[44px] leading-none pointer-events-none"
                 >
                   🕶️
                 </motion.span>
@@ -137,7 +146,7 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
                   initial={{ y: 10, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: 10, opacity: 0 }}
-                  className="absolute top-[62%] left-1/2 -translate-x-1/2 text-3xl"
+                  className="absolute top-[64%] left-1/2 -translate-x-1/2 text-[42px] leading-none pointer-events-none"
                 >
                   🧔
                 </motion.span>
@@ -147,7 +156,7 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   exit={{ scale: 0 }}
-                  className="absolute top-[55%] left-1/2 -translate-x-1/2 text-4xl"
+                  className="absolute top-[52%] left-1/2 -translate-x-1/2 text-[52px] leading-none pointer-events-none"
                 >
                   😷
                 </motion.span>
