@@ -38,6 +38,7 @@ import {
   Wrench,
   Lightbulb,
   BookOpenText,
+  Trophy,
 } from "lucide-react";
 import { allIeltsLectures, PILLAR_META, PillarKey } from "@/data/ieltsLecturesData";
 
@@ -243,6 +244,43 @@ const IeltsLectures = () => {
               </div>
             </motion.div>
           </div>
+        </section>
+
+        {/* Master Quiz CTA */}
+        <section className="container mx-auto px-4 sm:px-6 mt-5">
+          <Link to="/ielts-lectures/master-quiz" className="block group">
+            <Card className="overflow-hidden border-2 border-primary/40 hover:border-primary transition-all hover:shadow-xl">
+              <div className="bg-gradient-to-r from-primary/15 via-accent/10 to-primary/15 p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg shrink-0">
+                  <Trophy className="w-7 h-7 text-white" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1 flex-wrap">
+                    <h3 className="text-lg sm:text-xl font-bold text-foreground">
+                      {t("Quiz Tổng Hợp Kiến Thức IELTS", "IELTS Master Quiz")}
+                    </h3>
+                    <Badge className="bg-gradient-to-r from-primary to-accent text-white border-0 text-[10px]">NEW</Badge>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    {t(
+                      "Hỏi đáp tổng hợp 4 kỹ năng — chọn 5, 10, 20, 30 hoặc 50 câu hỏi rút ngẫu nhiên từ toàn bộ bài giảng.",
+                      "Mixed Q&A across all 4 skills — choose 5, 10, 20, 30 or 50 questions drawn from every lecture."
+                    )}
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  {[5, 10, 20, 30, 50].map(n => (
+                    <span key={n} className="px-2.5 py-1 rounded-full bg-card border border-border text-xs font-bold text-foreground">
+                      {n}
+                    </span>
+                  ))}
+                </div>
+                <Button className="bg-primary text-primary-foreground group-hover:scale-105 transition-transform shrink-0">
+                  {t("Bắt đầu", "Start")} →
+                </Button>
+              </div>
+            </Card>
+          </Link>
         </section>
 
         {/* Skill-based Lectures CTA - 2-row beautiful grid with inline lecture previews */}
