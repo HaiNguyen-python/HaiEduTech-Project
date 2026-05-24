@@ -1243,11 +1243,11 @@ export const sampleEssaysExpansion: SampleEssay[] = [
             { "x": 30, "y": 6,  "w": 40, "h": 16, "label": "Shopping Mall", "color": "#F59E0B", "icon": "🏬", "shape": "rect" },
             { "x": 4,  "y": 26, "w": 22, "h": 14, "label": "Houses", "color": "#F472B6", "icon": "🏠", "shape": "rect" },
             { "x": 74, "y": 26, "w": 22, "h": 14, "label": "Houses", "color": "#F472B6", "icon": "🏠", "shape": "rect" },
-            { "x": 8,  "y": 56, "w": 50, "h": 30, "label": "Housing Estate (≈50)", "color": "#F472B6", "icon": "🏘️", "shape": "rect" },
+            { "x": 8,  "y": 56, "w": 50, "h": 30, "label": "Housing Estate (~50 homes)", "color": "#F472B6", "icon": "🏘️", "shape": "rect" },
             { "x": 64, "y": 46, "w": 22, "h": 44, "label": "Community Park", "color": "#10B981", "icon": "🌳", "shape": "rect" },
             { "x": 88, "y": 70, "w": 8,  "h": 8,  "label": "Pond", "color": "#60A5FA", "icon": "💧", "shape": "circle" },
-            { "x": 44, "y": 22, "w": 10, "h": 70, "label": "Dual Carriageway", "shape": "road" },
-            { "x": 0,  "y": 92, "w": 100,"h": 4,  "label": "Motorway", "shape": "road" }
+            { "x": 47, "y": 22, "w": 4,  "h": 66, "label": "Dual Carriageway", "shape": "road" },
+            { "x": 0,  "y": 90, "w": 100,"h": 4,  "label": "Motorway", "shape": "road" }
           ]
         }
       ]
