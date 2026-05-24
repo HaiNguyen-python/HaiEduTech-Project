@@ -1,121 +1,237 @@
 /**
- * ComputerVisionSandbox
- * A simulated "camera" canvas where the student drops emojis and the mock AI
- * draws bounding boxes + a confidence score. No real ML — pure DOM physics so
- * younger students see the idea of object detection in a friendly way.
+ * ComputerVisionSandbox — "Siêu thám tử AI".
+ * Student dresses an avatar with accessories (kính râm / râu giả / mũ / khẩu trang),
+ * then a scanline radar effect sweeps the face and outputs a recognition
+ * confidence. Each successful scan triggers a star-worthy bounce + chime.
  */
-import { useEffect, useMemo, useRef, useState } from "react";
-import { motion } from "framer-motion";
-import { Camera, Sparkles, RefreshCcw } from "lucide-react";
+import { useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Camera, Sparkles, RefreshCcw, ScanFace } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  playSuccessSound,
+  playFailureSound,
+  bounceVariant,
+  shakeVariant,
+} from "@/lib/aiAcademyFx";
 
-type Detected = { id: string; emoji: string; label: string; x: number; y: number; conf: number };
+type AccessoryId = "glasses" | "beard" | "hat" | "mask";
 
-const EMOJI_BANK: { emoji: string; label: string }[] = [
-  { emoji: "😀", label: "Khuôn mặt vui" },
-  { emoji: "😢", label: "Khuôn mặt buồn" },
-  { emoji: "🐱", label: "Mèo" },
-  { emoji: "🐶", label: "Chó" },
-  { emoji: "🍎", label: "Quả táo" },
-  { emoji: "⚽", label: "Quả bóng" },
-  { emoji: "✋", label: "Bàn tay" },
-  { emoji: "📱", label: "Điện thoại" },
+const ACCESSORIES: {
+  id: AccessoryId;
+  emoji: string;
+  label: string;
+  /** Each accessory hides a few face landmarks → drops the AI confidence. */
+  penalty: number;
+}[] = [
+  { id: "glasses", emoji: "🕶️", label: "Kính râm", penalty: 6 },
+  { id: "beard", emoji: "🧔", label: "Râu giả", penalty: 4 },
+  { id: "hat", emoji: "🎩", label: "Mũ", penalty: 3 },
+  { id: "mask", emoji: "😷", label: "Khẩu trang", penalty: 14 },
 ];
 
-const CVSandbox = () => {
-  const [items, setItems] = useState<Detected[]>([]);
+interface Props {
+  onSuccess?: () => void;
+}
+
+const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
+  const [worn, setWorn] = useState<Record<AccessoryId, boolean>>({
+    glasses: false,
+    beard: false,
+    hat: false,
+    mask: false,
+  });
   const [scanning, setScanning] = useState(false);
+  const [result, setResult] = useState<{ name: string; conf: number } | null>(
+    null
+  );
+  const [shake, setShake] = useState(false);
   const stageRef = useRef<HTMLDivElement>(null);
 
-  const place = (e: { emoji: string; label: string }) => {
-    const stage = stageRef.current;
-    if (!stage) return;
-    const rect = stage.getBoundingClientRect();
-    const id = `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
-    const x = 16 + Math.random() * (rect.width - 96);
-    const y = 16 + Math.random() * (rect.height - 96);
-    const conf = 0.7 + Math.random() * 0.29;
-    setItems((prev) => [...prev, { id, emoji: e.emoji, label: e.label, x, y, conf }]);
-  };
+  const toggle = (id: AccessoryId) =>
+    setWorn((p) => ({ ...p, [id]: !p[id] }));
 
   const scan = () => {
+    if (scanning) return;
     setScanning(true);
-    setTimeout(() => setScanning(false), 1100);
+    setResult(null);
+    // Base confidence 99% minus penalties from each accessory worn.
+    const penalty = ACCESSORIES.reduce(
+      (s, a) => s + (worn[a.id] ? a.penalty : 0),
+      0
+    );
+    const conf = Math.max(38, 99 - penalty - Math.floor(Math.random() * 3));
+    setTimeout(() => {
+      setScanning(false);
+      setResult({ name: "Học sinh A", conf });
+      if (conf >= 75) {
+        playSuccessSound();
+        onSuccess?.();
+      } else {
+        playFailureSound();
+        setShake(true);
+        setTimeout(() => setShake(false), 450);
+      }
+    }, 1300);
   };
 
-  const reset = () => setItems([]);
+  const reset = () => {
+    setWorn({ glasses: false, beard: false, hat: false, mask: false });
+    setResult(null);
+  };
 
   return (
     <div className="space-y-3">
-      <div
+      <motion.div
         ref={stageRef}
+        animate={shake ? shakeVariant : undefined}
         className="relative w-full h-72 sm:h-80 rounded-2xl overflow-hidden border-2 border-cyan-400/40 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 shadow-inner"
       >
-        {/* scan grid */}
-        <div className="absolute inset-0 opacity-20"
-             style={{ backgroundImage: "linear-gradient(rgba(34,211,238,.4) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,.4) 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
+        {/* Scanner grid */}
+        <div
+          className="absolute inset-0 opacity-20"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(34,211,238,.4) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,.4) 1px, transparent 1px)",
+            backgroundSize: "32px 32px",
+          }}
+        />
+
         <div className="absolute top-2 left-2 inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-cyan-500/20 border border-cyan-400/40 text-cyan-100 text-[10px] font-bold">
-          <Camera className="w-3 h-3" /> LIVE • AI VISION
+          <Camera className="w-3 h-3" /> LIVE • FACE ID SCANNER
         </div>
+
+        {/* Avatar in centre */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <motion.div
+            animate={result && result.conf >= 75 ? bounceVariant : undefined}
+            className="relative"
+          >
+            <div className="text-[110px] leading-none select-none drop-shadow-[0_8px_18px_rgba(34,211,238,0.45)]">
+              🧑‍🎓
+            </div>
+            {/* Accessory overlays positioned over the face */}
+            <AnimatePresence>
+              {worn.hat && (
+                <motion.span
+                  initial={{ y: -20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -20, opacity: 0 }}
+                  className="absolute -top-6 left-1/2 -translate-x-1/2 text-5xl"
+                >
+                  🎩
+                </motion.span>
+              )}
+              {worn.glasses && (
+                <motion.span
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0 }}
+                  className="absolute top-[38%] left-1/2 -translate-x-1/2 text-3xl"
+                >
+                  🕶️
+                </motion.span>
+              )}
+              {worn.beard && (
+                <motion.span
+                  initial={{ y: 10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: 10, opacity: 0 }}
+                  className="absolute top-[62%] left-1/2 -translate-x-1/2 text-3xl"
+                >
+                  🧔
+                </motion.span>
+              )}
+              {worn.mask && (
+                <motion.span
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0 }}
+                  className="absolute top-[55%] left-1/2 -translate-x-1/2 text-4xl"
+                >
+                  😷
+                </motion.span>
+              )}
+            </AnimatePresence>
+
+            {/* Bounding box */}
+            {(scanning || result) && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="absolute -inset-3 border-2 border-emerald-400 rounded-md shadow-[0_0_18px_2px_rgba(52,211,153,0.5)]"
+              />
+            )}
+          </motion.div>
+        </div>
+
+        {/* Scanline */}
         {scanning && (
           <motion.div
             initial={{ y: 0 }}
             animate={{ y: "100%" }}
-            transition={{ duration: 1.1, ease: "linear" }}
+            transition={{ duration: 1.2, ease: "linear" }}
             className="absolute left-0 right-0 top-0 h-1.5 bg-gradient-to-r from-transparent via-cyan-300 to-transparent shadow-[0_0_24px_4px_rgba(34,211,238,0.8)]"
           />
         )}
 
-        {items.length === 0 && (
-          <div className="absolute inset-0 flex items-center justify-center text-cyan-100/70 text-sm text-center px-6">
-            Chọn emoji bên dưới để thả vào "camera". AI sẽ vẽ khung và đoán nhãn.
-          </div>
-        )}
+        {/* Result chip */}
+        <AnimatePresence>
+          {result && !scanning && (
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 20, opacity: 0 }}
+              className={`absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1.5 rounded-lg text-xs font-bold border ${
+                result.conf >= 75
+                  ? "bg-emerald-500/20 border-emerald-400/60 text-emerald-100"
+                  : "bg-rose-500/20 border-rose-400/60 text-rose-100"
+              }`}
+            >
+              <ScanFace className="inline w-3.5 h-3.5 mr-1" />
+              Nhận diện: {result.name} · Độ tự tin: {result.conf}%
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
 
-        {items.map((it) => (
-          <motion.div
-            key={it.id}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="absolute"
-            style={{ left: it.x, top: it.y }}
-          >
-            <div className="relative">
-              <div className="w-20 h-20 rounded-md border-2 border-emerald-400 shadow-[0_0_18px_2px_rgba(52,211,153,0.5)] flex items-center justify-center text-4xl bg-black/20">
-                {it.emoji}
-              </div>
-              <div className="absolute -top-6 left-0 text-[10px] font-bold text-emerald-300 bg-slate-900/80 px-1.5 py-0.5 rounded whitespace-nowrap">
-                {it.label} · {(it.conf * 100).toFixed(0)}%
-              </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
+      {/* Accessory toggles — large touch targets for mobile */}
       <div className="flex flex-wrap items-center gap-2">
-        {EMOJI_BANK.map((e) => (
-          <button
-            key={e.emoji}
-            onClick={() => place(e)}
-            className="w-11 h-11 text-2xl rounded-xl border-2 border-cyan-300/40 bg-cyan-500/5 hover:bg-cyan-500/15 active:scale-95 transition"
-            title={`Thả ${e.label} vào camera`}
-          >
-            {e.emoji}
-          </button>
-        ))}
+        {ACCESSORIES.map((a) => {
+          const active = worn[a.id];
+          return (
+            <button
+              key={a.id}
+              onClick={() => toggle(a.id)}
+              className={`min-h-[48px] px-3 rounded-xl border-2 text-sm font-semibold transition active:scale-95 flex items-center gap-2 ${
+                active
+                  ? "border-cyan-300 bg-cyan-500/20 text-cyan-100 shadow-[0_0_12px_2px_rgba(34,211,238,0.45)]"
+                  : "border-cyan-300/30 bg-cyan-500/5 text-cyan-50/80 hover:bg-cyan-500/15"
+              }`}
+            >
+              <span className="text-xl">{a.emoji}</span> {a.label}
+            </button>
+          );
+        })}
       </div>
 
       <div className="flex gap-2">
-        <Button onClick={scan} className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white">
-          <Sparkles className="w-4 h-4 mr-1" /> Quét lại
+        <Button
+          onClick={scan}
+          disabled={scanning}
+          className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white min-h-[44px]"
+        >
+          <Sparkles className="w-4 h-4 mr-1" />
+          {scanning ? "Đang quét…" : "Quét khuôn mặt"}
         </Button>
-        <Button onClick={reset} variant="outline">
-          <RefreshCcw className="w-4 h-4 mr-1" /> Xoá hết
+        <Button onClick={reset} variant="outline" className="min-h-[44px]">
+          <RefreshCcw className="w-4 h-4 mr-1" /> Reset
         </Button>
       </div>
 
       <p className="text-xs text-muted-foreground">
-        💡 Đây là <b>mô phỏng</b>: AI thật học từ hàng triệu ảnh để vẽ "bounding box" và đoán nhãn — y hệt cách FaceID nhận diện khuôn mặt khi điểm danh.
+        💡 Mỗi phụ kiện che một số <b>điểm mốc khuôn mặt</b> (mắt, mũi, miệng).
+        Càng che nhiều, độ tự tin của AI càng giảm — y hệt FaceID đời thực.
       </p>
     </div>
   );
