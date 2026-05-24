@@ -348,15 +348,18 @@ const App = () => (
             <Route path="/study-abroad/checklist" element={<LazyRoute><PreDepartureChecklist /></LazyRoute>} />
             <Route path="/songs/:lang" element={<LazyRoute><SongsLibraryPage /></LazyRoute>} />
             <Route path="/specialized-language" element={<LazyRoute><SpecializedLanguage /></LazyRoute>} />
-            <Route path="*" element={<NotFound />} />
+            <Route path="*" element={<LazyRoute><NotFound /></LazyRoute>} />
           </Routes>
-          <ChatBot />
-          <FloatingNotebook />
-          <LastSessionRecap />
-          <GlobalSuperDictionary />
-          <SessionTracker />
-          <PageViewTracker />
-          <LessonFeedback />
+          <DeferredMount>
+            <ChatBot />
+            <FloatingNotebook />
+            <LastSessionRecap />
+            <GlobalSuperDictionary />
+            <SessionTracker />
+            <PageViewTracker />
+            <LessonFeedback />
+          </DeferredMount>
+
         </BrowserRouter>
       </TooltipProvider>
     </LanguageProvider>
