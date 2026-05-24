@@ -15,6 +15,7 @@ import {
   shakeVariant,
 } from "@/lib/aiAcademyFx";
 import MiniCVChallenges from "./MiniCVChallenges";
+import lanFace from "@/assets/ai-academy-lan-face.png";
 
 type AccessoryId = "glasses" | "beard" | "hat" | "mask";
 
@@ -64,7 +65,7 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
     const conf = Math.max(38, 99 - penalty - Math.floor(Math.random() * 3));
     setTimeout(() => {
       setScanning(false);
-      setResult({ name: "Học sinh A", conf });
+      setResult({ name: "Bé Lan", conf });
       if (conf >= 75) {
         playSuccessSound();
         onSuccess?.();
@@ -102,81 +103,20 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
           <Camera className="w-3 h-3" /> LIVE • FACE ID SCANNER
         </div>
 
-        {/* Avatar in centre — semi-realistic human face built with SVG so accessories overlay precisely. */}
+        {/* Avatar in centre — cute cartoon portrait of "Lan", a Vietnamese girl. */}
         <div className="absolute inset-0 flex items-center justify-center">
           <motion.div
             animate={result && result.conf >= 75 ? bounceVariant : undefined}
-            className="relative w-52 h-52 sm:w-60 sm:h-60"
+            className="relative w-56 h-56 sm:w-64 sm:h-64"
           >
-            <svg
-              viewBox="0 0 200 220"
-              className="absolute inset-0 w-full h-full drop-shadow-[0_8px_18px_rgba(34,211,238,0.35)]"
-            >
-              <defs>
-                <radialGradient id="cv-skin" cx="50%" cy="40%" r="60%">
-                  <stop offset="0%" stopColor="#fbd9b6" />
-                  <stop offset="70%" stopColor="#f0b48a" />
-                  <stop offset="100%" stopColor="#c98b65" />
-                </radialGradient>
-                <radialGradient id="cv-cheek" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#ff8a8a" stopOpacity="0.55" />
-                  <stop offset="100%" stopColor="#ff8a8a" stopOpacity="0" />
-                </radialGradient>
-                <linearGradient id="cv-hair" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stopColor="#2a1a10" />
-                  <stop offset="100%" stopColor="#4a2c1a" />
-                </linearGradient>
-                <radialGradient id="cv-iris" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#6b4a2a" />
-                  <stop offset="100%" stopColor="#2d1a08" />
-                </radialGradient>
-              </defs>
-
-              {/* Neck */}
-              <path d="M78 178 Q78 200 100 204 Q122 200 122 178 Z" fill="url(#cv-skin)" />
-              {/* Ears */}
-              <ellipse cx="38" cy="112" rx="10" ry="16" fill="url(#cv-skin)" />
-              <ellipse cx="162" cy="112" rx="10" ry="16" fill="url(#cv-skin)" />
-              {/* Face shape */}
-              <path
-                d="M100 28 C145 28 162 66 162 110 C162 156 135 188 100 188 C65 188 38 156 38 110 C38 66 55 28 100 28 Z"
-                fill="url(#cv-skin)"
-              />
-              {/* Cheeks */}
-              <ellipse cx="62" cy="130" rx="14" ry="10" fill="url(#cv-cheek)" />
-              <ellipse cx="138" cy="130" rx="14" ry="10" fill="url(#cv-cheek)" />
-              {/* Hair */}
-              <path
-                d="M40 92 C40 50 70 22 100 22 C130 22 160 50 160 92 C150 70 140 62 122 60 C110 50 90 50 78 60 C60 62 50 70 40 92 Z"
-                fill="url(#cv-hair)"
-              />
-              {/* Eyebrows */}
-              <path d="M58 92 Q72 84 86 92" stroke="#2a1a10" strokeWidth="4" strokeLinecap="round" fill="none" />
-              <path d="M114 92 Q128 84 142 92" stroke="#2a1a10" strokeWidth="4" strokeLinecap="round" fill="none" />
-              {/* Eyes — sclera + iris + pupil + highlight */}
-              <ellipse cx="72" cy="108" rx="10" ry="6" fill="#fff" />
-              <ellipse cx="128" cy="108" rx="10" ry="6" fill="#fff" />
-              <circle cx="72" cy="108" r="5" fill="url(#cv-iris)" />
-              <circle cx="128" cy="108" r="5" fill="url(#cv-iris)" />
-              <circle cx="72" cy="108" r="2.2" fill="#0a0a0a" />
-              <circle cx="128" cy="108" r="2.2" fill="#0a0a0a" />
-              <circle cx="73.5" cy="106" r="1" fill="#fff" />
-              <circle cx="129.5" cy="106" r="1" fill="#fff" />
-              {/* Nose */}
-              <path
-                d="M100 116 Q96 138 92 148 Q100 154 108 148 Q104 138 100 116"
-                fill="none"
-                stroke="#b07a55"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              />
-              <ellipse cx="96" cy="150" rx="2" ry="1.2" fill="#8a5a3a" opacity="0.5" />
-              <ellipse cx="104" cy="150" rx="2" ry="1.2" fill="#8a5a3a" opacity="0.5" />
-              {/* Lips */}
-              <path d="M86 164 Q100 158 114 164 Q100 168 86 164 Z" fill="#c64a55" />
-              <path d="M86 164 Q100 174 114 164 Q100 172 86 164 Z" fill="#a83444" />
-              <path d="M86 164 Q100 162 114 164" stroke="#7a2030" strokeWidth="0.8" fill="none" />
-            </svg>
+            <img
+              src={lanFace}
+              alt="Bé Lan — học sinh trong ví dụ nhận diện khuôn mặt"
+              width={512}
+              height={512}
+              loading="lazy"
+              className="absolute inset-0 w-full h-full object-contain drop-shadow-[0_8px_18px_rgba(34,211,238,0.35)]"
+            />
 
             {/* Accessory overlays — pinned to exact face regions */}
             <AnimatePresence>
