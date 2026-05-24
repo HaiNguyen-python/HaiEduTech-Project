@@ -195,6 +195,8 @@ const RLSandbox = () => {
         <Car className="w-3.5 h-3.5 mt-0.5 text-emerald-500 shrink-0" />
         <span>Khi <b>phạt &gt; thưởng</b>, agent học cách <b>tránh</b> chướng ngại. Xe tự lái của Tesla & Waymo huấn luyện theo cơ chế Thưởng–Phạt y hệt thế này — chỉ là lớn hơn hàng tỷ lần.</span>
       </p>
+
+      <BonusGames tfItems={RL_TF} matchPairs={RL_PAIRS} accent="from-emerald-500 to-cyan-600" border="border-emerald-400/40" />
     </div>
   );
 };
