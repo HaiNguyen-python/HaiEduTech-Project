@@ -11,6 +11,7 @@ import { Cpu, TrafficCone, Play, Pause } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { BonusGames } from "./SandboxBonusGames";
+import { BestMatchPick } from "./SandboxMiniActivity";
 
 const IOT_TF = [
   { q: "AIoT = AI + IoT (cảm biến kết nối Internet).", a: true },
@@ -172,6 +173,25 @@ const AIoTSandbox = () => {
         <Cpu className="w-3.5 h-3.5 mt-0.5 text-cyan-500 shrink-0" />
         <span>Cảm biến IoT đếm xe → vi điều khiển chạy luật <b>If-Else</b> → bật đèn xanh cho luồng đông nhất. Singapore, Tokyo, Hà Nội đang dùng nguyên lý này để giảm 20-40% kẹt xe.</span>
       </p>
+
+      <BestMatchPick
+        title="🏠 Tủ lạnh thông minh nên làm gì?"
+        hint="Với mỗi tín hiệu cảm biến, chọn hành động AIoT hợp lý nhất mà tủ lạnh thông minh nên gửi tới điện thoại bạn."
+        accent="from-cyan-500 to-blue-600"
+        border="border-cyan-400/40"
+        options={[
+          { id: "alert", label: "🔔 Gửi cảnh báo" },
+          { id: "order", label: "🛒 Tự đặt hàng" },
+          { id: "cool", label: "❄️ Tăng độ lạnh" },
+          { id: "nothing", label: "💤 Không làm gì" },
+        ]}
+        items={[
+          { prompt: "Cảm biến: cửa tủ mở quá 2 phút", correctId: "alert" },
+          { prompt: "Cảm biến: hộp sữa sắp hết hạn 2 ngày nữa", correctId: "alert" },
+          { prompt: "Cảm biến: hết sữa hoàn toàn", correctId: "order" },
+          { prompt: "Cảm biến: nhiệt độ ngăn mát lên 12°C (bình thường 4°C)", correctId: "cool" },
+        ]}
+      />
 
       <BonusGames tfItems={IOT_TF} matchPairs={IOT_PAIRS} accent="from-cyan-500 to-blue-600" border="border-cyan-400/40" />
     </div>

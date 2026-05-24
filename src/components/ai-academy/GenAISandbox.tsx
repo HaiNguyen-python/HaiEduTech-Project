@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import { Wand2, Sparkles, RefreshCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BonusGames } from "./SandboxBonusGames";
+import { BestMatchPick } from "./SandboxMiniActivity";
 
 const GEN_TF = [
   { q: "Generative AI tạo ra nội dung mới chưa từng tồn tại.", a: true },
@@ -137,6 +138,25 @@ const GenAISandbox = () => {
         <Sparkles className="w-3.5 h-3.5 mt-0.5 text-pink-500 shrink-0" />
         <span>Prompt = công thức nấu ăn cho AI. Càng <b>cụ thể</b> (chủ thể + phong cách + bối cảnh), ảnh càng đẹp. Đây là kỹ năng <b>Prompt Engineering</b> mà các kỹ sư AI đang được trả lương cao!</span>
       </p>
+
+      <BestMatchPick
+        title="🔮 Đoán prompt từ ảnh"
+        hint="Mỗi 'ảnh AI' bên dưới được sinh từ một prompt. Hãy đoán prompt nào tạo ra nó!"
+        accent="from-pink-500 to-purple-600"
+        border="border-pink-400/40"
+        options={[
+          { id: "cat-cyber", label: "mèo · cyberpunk · neon" },
+          { id: "astro-space", label: "phi hành gia · 3D · vũ trụ" },
+          { id: "dragon-water", label: "rồng · watercolor · rừng" },
+          { id: "robot-beach", label: "robot · pixel · biển hoàng hôn" },
+        ]}
+        items={[
+          { prompt: "🐱🌃 (mèo phát sáng giữa thành phố neon)", correctId: "cat-cyber" },
+          { prompt: "🧑‍🚀🌌 (phi hành gia 3D giữa các vì sao)", correctId: "astro-space" },
+          { prompt: "🐉🌲 (rồng màu nước giữa rừng huyền bí)", correctId: "dragon-water" },
+          { prompt: "🤖🏖️ (robot 8-bit trên bãi biển vàng cam)", correctId: "robot-beach" },
+        ]}
+      />
 
       <BonusGames tfItems={GEN_TF} matchPairs={GEN_PAIRS} accent="from-pink-500 to-purple-600" border="border-pink-400/40" />
     </div>
