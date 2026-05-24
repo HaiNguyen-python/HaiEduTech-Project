@@ -193,44 +193,6 @@ const SatLandingExtras = () => {
         </div>
       </Section>
 
-      {/* 5 · Testimonials with score deltas */}
-      <Section delay={0.25}>
-        <div className="glass-card rounded-2xl p-6 md:p-8">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-yellow-500 to-amber-500 flex items-center justify-center shadow-md">
-              <Star className="w-5 h-5 text-white" />
-            </div>
-            <h2 className="text-xl md:text-2xl font-display font-bold text-foreground">
-              {t("Học viên SAT đã đỗ trường top", "SAT students who landed top schools")}
-            </h2>
-          </div>
-          <div className="grid md:grid-cols-3 gap-4">
-            {testimonials.map((tm, i) => (
-              <div key={i} className="rounded-2xl p-5 border border-border bg-background/60 hover:shadow-lg transition-shadow">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${tm.color} flex items-center justify-center text-white font-display font-bold text-lg shadow-md`}>
-                    {tm.name.charAt(0)}
-                  </div>
-                  <div>
-                    <p className="font-display font-bold text-foreground">{tm.name}</p>
-                    <p className="text-xs text-muted-foreground">{tm.grade}</p>
-                  </div>
-                </div>
-                <div className="flex items-center justify-center gap-3 mb-3 py-3 rounded-xl bg-gradient-to-r from-secondary to-secondary/60">
-                  <span className="text-lg font-bold text-muted-foreground line-through">{tm.before}</span>
-                  <ChevronRight className="w-4 h-4 text-primary" />
-                  <span className={`text-2xl font-display font-extrabold bg-gradient-to-r ${tm.color} bg-clip-text text-transparent`}>{tm.after}</span>
-                </div>
-                <p className="text-sm text-foreground/90 italic leading-relaxed mb-3">"{tm.quote}"</p>
-                <div className="flex items-center gap-2 pt-3 border-t border-border">
-                  <GraduationCap className="w-4 h-4 text-primary shrink-0" />
-                  <p className="text-xs font-semibold text-foreground/80">{tm.school}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </Section>
 
       {/* 6 · FAQ */}
       <Section delay={0.3}>
