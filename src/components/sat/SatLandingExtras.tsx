@@ -197,27 +197,32 @@ const SatLandingExtras = () => {
       {/* 6 · FAQ */}
       <Section delay={0.3}>
         <div className="glass-card rounded-2xl p-6 md:p-8">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-500 flex items-center justify-center shadow-md">
-              <BookOpen className="w-5 h-5 text-white" />
+          <div className="flex items-center gap-3 mb-5">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-500 flex items-center justify-center shadow-sm">
+              <BookOpen className="w-4 h-4 text-white" />
             </div>
-            <h2 className="text-xl md:text-2xl font-display font-bold text-foreground">
+            <h2 className="text-lg md:text-xl font-display font-semibold text-foreground tracking-tight">
               {t("Câu hỏi thường gặp về SAT", "SAT — Frequently asked questions")}
             </h2>
           </div>
-          <Accordion type="single" collapsible className="space-y-2">
+          <Accordion type="single" collapsible className="space-y-2.5">
             {faqs.map((f, i) => (
-              <AccordionItem key={i} value={`q${i}`} className="border border-border rounded-xl px-4 bg-background/50">
-                <AccordionTrigger className="text-left font-semibold text-foreground hover:no-underline py-4">
+              <AccordionItem
+                key={i}
+                value={`q${i}`}
+                className="border border-border/60 rounded-2xl px-4 bg-background/40 data-[state=open]:bg-background/70 data-[state=open]:border-border transition-colors"
+              >
+                <AccordionTrigger className="text-left text-[15px] font-medium text-foreground/90 tracking-tight hover:no-underline py-3.5 gap-3">
                   {f.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-sm text-muted-foreground leading-relaxed pb-4">
+                <AccordionContent className="text-[14px] text-muted-foreground/90 leading-7 pb-4">
                   {f.a}
                 </AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
         </div>
+
       </Section>
     </>
   );
