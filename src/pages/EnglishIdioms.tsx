@@ -233,7 +233,6 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
       return new Set(raw ? (JSON.parse(raw) as string[]) : []);
     } catch { return new Set(); }
   });
-  const [showLearnedOnly, setShowLearnedOnly] = useState(false);
   const [openThemes, setOpenThemes] = useState<Set<string>>(new Set());
 
   useEffect(() => {
@@ -255,45 +254,11 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
     });
 
   const baseDisplay = useMemo(() => shuffle(entries, shuffleSeed), [entries, shuffleSeed]);
-  const display = useMemo(
-    () => (showLearnedOnly ? baseDisplay.filter((e) => learned.has(e.id)) : baseDisplay),
-    [baseDisplay, showLearnedOnly, learned],
-  );
-  const learnedCountInView = useMemo(
-    () => baseDisplay.filter((e) => learned.has(e.id)).length,
-    [baseDisplay, learned],
-  );
 
   return (
     <div>
-      {/* Learned filter only */}
-      <div className="mb-6">
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-500/15 border-2 border-amber-500/40 text-amber-700 dark:text-amber-300 text-sm font-bold">
-            <Star className="w-4 h-4 fill-current" />
-            {t(`Đã thuộc: ${learned.size}`, `Learned: ${learned.size}`)}
-          </span>
-          <button
-            onClick={() => setShowLearnedOnly((v) => !v)}
-            className={cn(
-              "inline-flex items-center gap-1.5 px-4 py-2 rounded-full border-2 text-sm font-bold transition-colors",
-              showLearnedOnly
-                ? "bg-amber-500 text-white border-amber-600 shadow-sm"
-                : "bg-background border-amber-500/60 text-foreground hover:bg-amber-500/10 hover:border-amber-500",
-            )}
-            title={t("Chỉ hiện các từ đã đánh dấu sao", "Show only starred entries")}
-          >
-            <Star className={cn("w-4 h-4", showLearnedOnly && "fill-current")} />
-            {showLearnedOnly
-              ? t("Đang xem: Đã thuộc", "Viewing: Learned")
-              : t(`Chỉ Đã thuộc (${learnedCountInView})`, `Only Learned (${learnedCountInView})`)}
-          </button>
-        </div>
-      </div>
-
-
       {/* Cards grid */}
-      {display.length === 0 ? (
+      {baseDisplay.length === 0 ? (
         <div className="text-center py-16 text-muted-foreground">
           {t("Không có kết quả với bộ lọc hiện tại.", "No entries match the current filters.")}
         </div>
@@ -364,7 +329,7 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
           ? THEME_GROUPS
           : THEME_GROUPS.filter((g) => g.key === filterTheme);
         const groups = activeGroups
-          .map((g) => ({ group: g, items: display.filter((e) => g.themes.includes(e.theme)) }))
+          .map((g) => ({ group: g, items: baseDisplay.filter((e) => g.themes.includes(e.theme)) }))
           .filter((g) => g.items.length > 0);
         return (
           <div className="space-y-4">
