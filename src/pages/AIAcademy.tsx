@@ -78,6 +78,9 @@ const TRACK_ILLUSTRATIONS: Record<string, string> = {
 
 import FloatingAIIcons from "@/components/ai-academy/FloatingAIIcons";
 import GraduationCertificate from "@/components/ai-academy/GraduationCertificate";
+import XPStreakHUD from "@/components/ai-academy/XPStreakHUD";
+import { useAIAcademyXP } from "@/hooks/useAIAcademyXP";
+
 import AutoTranslateBoundary from "@/components/ai-academy/AutoTranslateBoundary";
 import StudySmartSandbox from "@/components/ai-academy/StudySmartSandbox";
 import CareersMapSandbox from "@/components/ai-academy/CareersMapSandbox";
@@ -1094,6 +1097,10 @@ const AIAcademy = () => {
   const [progress, setProgress] = useState<Progress>(() => loadProgress());
   const [active, setActive] = useState<TrackId | null>(null);
   const [overlay, setOverlay] = useState<{ track: Track; stars: number } | null>(null);
+  const { touchStreak, awardXP } = useAIAcademyXP();
+  // Touch streak once on mount (visiting AI Academy counts as activity)
+  useEffect(() => { touchStreak(); }, [touchStreak]);
+
   // Certificate state — unlocks only when totalStars === maxStars
   const [certOpen, setCertOpen] = useState(false);
   const [studentName, setStudentName] = useState<string>("");
@@ -1128,13 +1135,21 @@ const AIAcademy = () => {
 
   const handleQuizComplete = async (track: Track, passed: boolean, score: number) => {
     const stars = Math.min(3, score);
+    const prevStars = progress[track.id]?.stars ?? 0;
+    const newStars = Math.max(prevStars, stars);
+    const starsGained = Math.max(0, newStars - prevStars);
     setProgress((p) => ({
       ...p,
       [track.id]: {
-        stars: Math.max(p[track.id]?.stars ?? 0, stars),
+        stars: newStars,
         badge: p[track.id]?.badge || passed,
       },
     }));
+
+    // Award XP: 20 per quiz attempt + 30 per new star earned + 100 bonus first-pass
+    const xpGain = 20 + starsGained * 30 + (passed && !progress[track.id]?.badge ? 100 : 0);
+    awardXP(xpGain, "quiz");
+    if (starsGained > 0) awardXP(0, "star");
 
     if (passed) {
       confetti({ particleCount: 180, spread: 110, origin: { y: 0.6 } });
@@ -1166,6 +1181,7 @@ const AIAcademy = () => {
       });
     }
   };
+
 
   const activeTrack = useMemo(() => TRACKS.find((t) => t.id === active) ?? null, [active]);
 
@@ -1244,7 +1260,11 @@ const AIAcademy = () => {
           </div>
         </motion.div>
 
+        {/* XP / Streak / Daily Quest HUD */}
+        <XPStreakHUD />
+
         {/* Track cards */}
+
         <div className="grid md:grid-cols-3 gap-5 mb-10">
           {ORDERED_TRACKS.map((t, i) => {
             const p = progress[t.id] ?? { stars: 0 };
@@ -1258,6 +1278,9 @@ const AIAcademy = () => {
                 transition={{ delay: i * 0.05 }}
                 onClick={() => {
                   setActive(t.id);
+                  // Award 10 XP first-time-per-session open, mark daily quest
+                  awardXP(10, "lesson");
+
                   setTimeout(() => {
                     document.getElementById("ai-track-detail")?.scrollIntoView({ behavior: "smooth", block: "start" });
                   }, 50);
