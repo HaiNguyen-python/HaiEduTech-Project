@@ -210,7 +210,6 @@ interface LibraryViewProps {
 const LEARNED_STORAGE_KEY = "haiedu_learned_idioms_v1";
 
 const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, setFilterTheme, shuffleSeed, setShuffleSeed, t }: LibraryViewProps) => {
-  const [revealed, setRevealed] = useState<Set<string>>(new Set());
   const [learned, setLearned] = useState<Set<string>>(() => {
     if (typeof window === "undefined") return new Set();
     try {
@@ -219,22 +218,23 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
     } catch { return new Set(); }
   });
   const [showLearnedOnly, setShowLearnedOnly] = useState(false);
+  const [openThemes, setOpenThemes] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     try { localStorage.setItem(LEARNED_STORAGE_KEY, JSON.stringify(Array.from(learned))); } catch { /* noop */ }
   }, [learned]);
 
-  const toggle = (id: string) =>
-    setRevealed((p) => {
+  const toggleLearned = (id: string) =>
+    setLearned((p) => {
       const n = new Set(p);
       n.has(id) ? n.delete(id) : n.add(id);
       return n;
     });
 
-  const toggleLearned = (id: string) =>
-    setLearned((p) => {
+  const toggleTheme = (key: string) =>
+    setOpenThemes((p) => {
       const n = new Set(p);
-      n.has(id) ? n.delete(id) : n.add(id);
+      n.has(key) ? n.delete(key) : n.add(key);
       return n;
     });
 
