@@ -243,6 +243,9 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
         💡 Mỗi phụ kiện che một số <b>điểm mốc khuôn mặt</b> (mắt, mũi, miệng).
         Càng che nhiều, độ tự tin của AI càng giảm — y hệt FaceID đời thực.
       </p>
+
+      {/* Bonus mini-games to fill remaining space below the main scanner */}
+      <MiniCVChallenges />
     </div>
   );
 };
