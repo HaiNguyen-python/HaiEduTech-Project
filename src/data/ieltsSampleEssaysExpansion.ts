@@ -1233,8 +1233,8 @@ export const sampleEssaysExpansion: SampleEssay[] = [
             { "x": 74, "y": 26, "w": 22, "h": 14, "label": "Farmstead", "color": "#A3E635", "icon": "🚜", "shape": "rect" },
             { "x": 8,  "y": 56, "w": 50, "h": 30, "label": "Orchards", "color": "#10B981", "icon": "🍎", "shape": "rect" },
             { "x": 64, "y": 46, "w": 32, "h": 44, "label": "Farmland", "color": "#A3E635", "icon": "🌾", "shape": "rect" },
-            { "x": 88, "y": 46, "w": 3,  "h": 50, "label": "Stream", "shape": "river" },
-            { "x": 48, "y": 22, "w": 2,  "h": 70, "label": "Lane", "shape": "road" }
+            { "x": 88, "y": 46, "w": 4,  "h": 44, "label": "Stream", "shape": "river" },
+            { "x": 47, "y": 22, "w": 4,  "h": 66, "label": "Lane", "shape": "road" }
           ]
         },
         {
