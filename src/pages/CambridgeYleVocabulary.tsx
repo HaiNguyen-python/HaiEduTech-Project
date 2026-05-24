@@ -292,6 +292,7 @@ const CambridgeYleVocabulary = () => {
             <div className="space-y-4">
               {grouped.map(({ category, words }) => {
                 const meta = CATEGORY_META[category];
+                const catBg = CATEGORY_BG[category];
                 const catKey = `${level}:${category}`;
                 const open = isOpen(catKey);
                 const doneInCat = words.filter(w => mastered.has(`${w.level}:${w.word}`)).length;
@@ -302,7 +303,7 @@ const CambridgeYleVocabulary = () => {
                       type="button"
                       onClick={() => toggleCat(catKey)}
                       className="w-full flex items-center justify-between px-4 py-3 text-left transition-colors hover:bg-white"
-                      style={{ background: open ? theme.soft : "transparent" }}
+                      style={{ background: open ? catBg.tint : "transparent" }}
                     >
                       <div className="flex items-center gap-3">
                         <span className="text-2xl">{meta.emoji}</span>
@@ -328,7 +329,36 @@ const CambridgeYleVocabulary = () => {
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.2 }}
                         >
-                          <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5 p-4">
+                          <div className="relative overflow-hidden" style={{ background: catBg.tint }}>
+                            {/* Themed watermark illustration */}
+                            <div className="pointer-events-none absolute inset-0 select-none overflow-hidden" aria-hidden="true">
+                              {catBg.pattern.map((emoji, i) => {
+                                const positions = [
+                                  { top: "6%", left: "4%", size: "5rem", rot: -12, op: 0.10 },
+                                  { top: "12%", right: "6%", size: "6rem", rot: 14, op: 0.09 },
+                                  { bottom: "10%", left: "10%", size: "5.5rem", rot: 8, op: 0.10 },
+                                  { bottom: "8%", right: "12%", size: "6.5rem", rot: -10, op: 0.08 },
+                                  { top: "45%", left: "48%", size: "7rem", rot: 5, op: 0.07 },
+                                ];
+                                const p = positions[i % positions.length];
+                                return (
+                                  <span
+                                    key={i}
+                                    className="absolute"
+                                    style={{
+                                      top: p.top, left: (p as any).left, right: (p as any).right, bottom: (p as any).bottom,
+                                      fontSize: p.size,
+                                      transform: `rotate(${p.rot}deg)`,
+                                      opacity: p.op,
+                                      filter: "blur(0.3px)",
+                                    }}
+                                  >
+                                    {emoji}
+                                  </span>
+                                );
+                              })}
+                            </div>
+                            <div className="relative grid sm:grid-cols-2 xl:grid-cols-3 gap-7 md:gap-8 p-6 md:p-7">
                             {words.map((w, idx) => {
                               const key = `${w.level}:${w.word}`;
                               const isMastered = mastered.has(key);
