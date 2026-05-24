@@ -886,6 +886,10 @@ const AdminDashboard = () => {
               <TabsContent value="feedback">
                 <FeedbackAnalyticsTab />
               </TabsContent>
+
+              <TabsContent value="attendance">
+                <AttendanceAnalyticsTab />
+              </TabsContent>
             </Tabs>
           </motion.div>
         </div>
