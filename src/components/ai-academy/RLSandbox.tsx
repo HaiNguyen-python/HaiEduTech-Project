@@ -197,6 +197,26 @@ const RLSandbox = () => {
         <span>Khi <b>phạt &gt; thưởng</b>, agent học cách <b>tránh</b> chướng ngại. Xe tự lái của Tesla & Waymo huấn luyện theo cơ chế Thưởng–Phạt y hệt thế này — chỉ là lớn hơn hàng tỷ lần.</span>
       </p>
 
+      <BestMatchPick
+        title="🎮 Reward hay Penalty? Phân loại tín hiệu RL"
+        hint="Trong huấn luyện xe tự lái, mỗi hành vi nên cho thưởng hay phạt?"
+        accent="from-emerald-500 to-cyan-600"
+        border="border-emerald-400/40"
+        options={[
+          { id: "reward", label: "🍬 Reward (+)" },
+          { id: "penalty", label: "⚡ Penalty (-)" },
+          { id: "neutral", label: "➖ Neutral (0)" },
+        ]}
+        items={[
+          { prompt: "Xe giữ đúng làn đường suốt 10 giây", correctId: "reward" },
+          { prompt: "Xe đâm vào chướng ngại", correctId: "penalty" },
+          { prompt: "Xe phanh gấp không cần thiết", correctId: "penalty" },
+          { prompt: "Xe về đích an toàn nhanh hơn mục tiêu", correctId: "reward" },
+          { prompt: "Xe dừng đúng đèn đỏ", correctId: "reward" },
+          { prompt: "Xe đứng yên không di chuyển", correctId: "neutral" },
+        ]}
+      />
+
       <BonusGames tfItems={RL_TF} matchPairs={RL_PAIRS} accent="from-emerald-500 to-cyan-600" border="border-emerald-400/40" />
     </div>
   );
