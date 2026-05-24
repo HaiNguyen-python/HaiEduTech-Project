@@ -35,7 +35,7 @@ const EthicsSandbox = () => {
   const fair = gap < 0.08;
 
   return (
-    <div className="space-y-6 sm:space-y-7">
+    <div className="space-y-10 sm:space-y-12">
       <div className="rounded-2xl border-2 border-amber-400/40 bg-gradient-to-br from-amber-500/5 to-rose-500/5 p-4">
         <div className="text-[11px] font-bold uppercase text-amber-700 dark:text-amber-300 mb-2 flex items-center gap-1">
           <Scale className="w-3 h-3" /> Dữ liệu huấn luyện AI tuyển dụng
