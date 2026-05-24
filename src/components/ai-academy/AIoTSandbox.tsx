@@ -169,6 +169,8 @@ const AIoTSandbox = () => {
         <Cpu className="w-3.5 h-3.5 mt-0.5 text-cyan-500 shrink-0" />
         <span>Cảm biến IoT đếm xe → vi điều khiển chạy luật <b>If-Else</b> → bật đèn xanh cho luồng đông nhất. Singapore, Tokyo, Hà Nội đang dùng nguyên lý này để giảm 20-40% kẹt xe.</span>
       </p>
+
+      <BonusGames tfItems={IOT_TF} matchPairs={IOT_PAIRS} accent="from-cyan-500 to-blue-600" border="border-cyan-400/40" />
     </div>
   );
 };
