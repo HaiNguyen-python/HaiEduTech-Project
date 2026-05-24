@@ -315,15 +315,23 @@ const CambridgeYleVocabulary = () => {
 
                       {/* Example sentence */}
                       <div
-                        className="mt-2 rounded-xl px-2.5 py-2 text-[12px] leading-snug"
-                        style={{ background: theme.soft, borderLeft: `3px solid ${theme.color}` }}
+                        className="mt-2 rounded-xl px-3 py-2.5 text-[14px] leading-relaxed relative"
+                        style={{ background: theme.soft, borderLeft: `4px solid ${theme.color}` }}
                       >
-                        <p className="text-slate-800">
-                          <span className="font-semibold" style={{ color: theme.color }}>EN · </span>
-                          {ex.en}
+                        <button
+                          onClick={() => speak(ex.en, { rate: 0.85 })}
+                          className="absolute top-1.5 right-1.5 p-1.5 rounded-full bg-white/80 hover:bg-white shadow-sm"
+                          style={{ color: theme.color }}
+                          aria-label="Listen to example"
+                        >
+                          <Volume2 className="w-3.5 h-3.5" />
+                        </button>
+                        <p className="text-slate-900 font-semibold pr-7">
+                          <span className="font-bold mr-1" style={{ color: theme.color }}>EN ·</span>
+                          {renderBolded(ex.en, w.word)}
                         </p>
-                        <p className="text-slate-600 mt-0.5">
-                          <span className="font-semibold" style={{ color: theme.color }}>VI · </span>
+                        <p className="text-slate-700 mt-1 font-medium">
+                          <span className="font-bold mr-1" style={{ color: theme.color }}>VI ·</span>
                           {ex.vi}
                         </p>
                       </div>
