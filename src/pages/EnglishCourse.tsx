@@ -259,7 +259,7 @@ const EnglishCourse = () => {
   const course = courseData[courseId || ""];
   const { hasAccess, loading: accessLoading } = useCourseAccess("conversational-english");
   const [showAccessModal, setShowAccessModal] = useState(false);
-  const [showSatCurriculum, setShowSatCurriculum] = useState(false);
+  
 
   const handleCurriculumClick = () => {
     if (accessLoading) return;
