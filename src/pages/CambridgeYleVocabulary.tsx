@@ -7,7 +7,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Volume2, Sparkles, Trophy, Star, Search, ArrowLeft, Mountain, CheckCircle2 } from "lucide-react";
+import { Volume2, Sparkles, Trophy, Star, Search, ArrowLeft, Mountain, CheckCircle2, ChevronDown } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingKidsDecor from "@/components/FloatingKidsDecor";
@@ -18,6 +18,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { CAMBRIDGE_LEVELS, type CambridgeKidsLevel, type CambridgeKidsWord } from "@/data/cambridgeKidsVocab";
 import { CAMBRIDGE_KIDS_WORDS_DEDUPED } from "@/data/cambridgeKidsVocabMaster";
 import { getIpa } from "@/data/cambridgeKidsIpa";
+import { getCategory, CATEGORY_META, CATEGORY_ORDER, type KidsCategory } from "@/data/cambridgeKidsCategories";
+import { getPos, POS_LABEL } from "@/data/cambridgeKidsPos";
 import KidsSpeechCheck from "@/components/KidsSpeechCheck";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import { toast } from "@/hooks/use-toast";
