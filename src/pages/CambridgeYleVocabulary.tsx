@@ -207,7 +207,7 @@ const CambridgeYleVocabulary = () => {
   const theme = LEVEL_THEME[level];
 
   return (
-    <div className="min-h-screen relative" style={{ background: "linear-gradient(180deg, #FFF8E7 0%, #FFE5EC 25%, #E0F4FF 50%, #E8FFE0 75%, #FFF0F5 100%)" }}>
+    <div className="min-h-screen relative" style={{ background: "linear-gradient(180deg, #FEFCF7 0%, #FFF7FA 35%, #F4FAFF 70%, #F8FFF6 100%)" }}>
       <FloatingKidsDecor />
       <Navbar />
       <main className="pt-16 pb-8 relative z-10">
@@ -284,6 +284,7 @@ const CambridgeYleVocabulary = () => {
                 {filtered.map((w, idx) => {
                   const key = `${w.level}:${w.word}`;
                   const isMastered = mastered.has(key);
+                  const ex = getExample(w);
                   return (
                     <motion.div
                       key={key}
@@ -293,42 +294,57 @@ const CambridgeYleVocabulary = () => {
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.18, delay: Math.min(idx, 12) * 0.015 }}
                       whileHover={{ y: -3 }}
-                      className="relative rounded-2xl p-3 border-2 shadow-md overflow-hidden"
+                      className="relative rounded-2xl p-3 border shadow-sm overflow-hidden bg-white"
                       style={{
                         borderColor: theme.color,
-                        background: `linear-gradient(135deg, #fff 0%, ${theme.bg} 100%)`,
-                        boxShadow: `0 2px 0 ${theme.color}, 0 6px 14px ${theme.color}33`,
+                        boxShadow: `0 1px 0 ${theme.color}66, 0 4px 10px ${theme.color}22`,
                       }}
                     >
                       {isMastered && (
-                        <div className="absolute top-2 right-2 text-[#10B981]">
-                          <CheckCircle2 className="w-5 h-5 fill-[#D1FAE5]" />
+                        <div className="absolute top-2 right-2 text-emerald-600">
+                          <CheckCircle2 className="w-5 h-5 fill-emerald-100" />
                         </div>
                       )}
-                      <div className="flex items-center gap-3">
-                        <div className="text-4xl drop-shadow">{w.emoji}</div>
+                      <div className="flex items-start gap-3">
+                        <div className="text-4xl drop-shadow shrink-0">{w.emoji}</div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
-                            <p className="text-lg font-bold text-slate-800 truncate">{w.word}</p>
+                            <p className="text-lg font-bold text-slate-900 truncate">{w.word}</p>
                             <button
                               onClick={() => speak(w.word)}
-                              className="p-1 rounded-full hover:bg-white"
+                              className="p-1 rounded-full hover:bg-slate-100"
                               style={{ color: theme.color }}
                               aria-label="Listen"
                             >
                               <Volume2 className="w-4 h-4" />
                             </button>
                           </div>
-                          <p className="text-sm text-slate-600 truncate">{w.vi}</p>
+                          <p className="text-sm text-slate-700 truncate">{w.vi}</p>
                         </div>
                       </div>
+
+                      {/* Example sentence */}
+                      <div
+                        className="mt-2 rounded-xl px-2.5 py-2 text-[12px] leading-snug"
+                        style={{ background: theme.soft, borderLeft: `3px solid ${theme.color}` }}
+                      >
+                        <p className="text-slate-800">
+                          <span className="font-semibold" style={{ color: theme.color }}>EN · </span>
+                          {ex.en}
+                        </p>
+                        <p className="text-slate-600 mt-0.5">
+                          <span className="font-semibold" style={{ color: theme.color }}>VI · </span>
+                          {ex.vi}
+                        </p>
+                      </div>
+
                       <button
                         onClick={() => toggleMaster(w.level, w.word)}
-                        className="mt-3 w-full text-xs font-bold uppercase tracking-wide rounded-xl py-2 transition-all flex items-center justify-center gap-1.5"
+                        className="mt-2 w-full text-xs font-bold uppercase tracking-wide rounded-xl py-2 transition-all flex items-center justify-center gap-1.5"
                         style={{
-                          background: isMastered ? "#10B981" : `${theme.color}1A`,
+                          background: isMastered ? "#10B981" : "#FFFFFF",
                           color: isMastered ? "#FFFFFF" : theme.color,
-                          border: `2px solid ${isMastered ? "#10B981" : theme.color}`,
+                          border: `1.5px solid ${isMastered ? "#10B981" : theme.color}`,
                         }}
                       >
                         <Star className={`w-3.5 h-3.5 ${isMastered ? "fill-white" : ""}`} />
