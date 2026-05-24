@@ -8,6 +8,21 @@ import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Wand2, Sparkles, RefreshCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { BonusGames } from "./SandboxBonusGames";
+
+const GEN_TF = [
+  { q: "Generative AI tạo ra nội dung mới chưa từng tồn tại.", a: true },
+  { q: "Prompt càng mơ hồ → kết quả càng đẹp.", a: false, why: "Ngược lại: prompt càng cụ thể (chủ thể + style + mood) càng đẹp." },
+  { q: "ChatGPT có thể bịa thông tin — gọi là Hallucination.", a: true },
+  { q: "Midjourney là AI vẽ tranh từ prompt văn bản.", a: true },
+  { q: "AI tạo sinh không cần dữ liệu huấn luyện.", a: false, why: "Nó học từ HÀNG TỶ ảnh / bài viết trên Internet." },
+];
+const GEN_PAIRS = [
+  { a: "Prompt", b: "Câu lệnh ra cho AI" },
+  { a: "Hallucination", b: "AI bịa thông tin trông như thật" },
+  { a: "Seed", b: "Số ngẫu nhiên — đổi seed ra ảnh khác" },
+  { a: "Style", b: "Phong cách: anime, 3D, watercolor…" },
+];
 
 const SUBJECTS = [
   { id: "cat", emoji: "🐱", label: "mèo" },
@@ -122,6 +137,8 @@ const GenAISandbox = () => {
         <Sparkles className="w-3.5 h-3.5 mt-0.5 text-pink-500 shrink-0" />
         <span>Prompt = công thức nấu ăn cho AI. Càng <b>cụ thể</b> (chủ thể + phong cách + bối cảnh), ảnh càng đẹp. Đây là kỹ năng <b>Prompt Engineering</b> mà các kỹ sư AI đang được trả lương cao!</span>
       </p>
+
+      <BonusGames tfItems={GEN_TF} matchPairs={GEN_PAIRS} accent="from-pink-500 to-purple-600" border="border-pink-400/40" />
     </div>
   );
 };

@@ -4,6 +4,21 @@
  */
 import { useRef, useState } from "react";
 import { ShieldCheck, ShieldAlert, Search } from "lucide-react";
+import { BonusGames } from "./SandboxBonusGames";
+
+const DF_TF = [
+  { q: "Deepfake là video / ảnh do AI tạo trông như người thật.", a: true },
+  { q: "Deepfake luôn dễ phát hiện bằng mắt thường.", a: false, why: "Nhiều deepfake rất tinh vi — cần soi artifact (mép, bóng, răng…)." },
+  { q: "Nên kiểm chứng nguồn trước khi chia sẻ video lạ.", a: true },
+  { q: "Tai và bóng đổ thường là điểm AI deepfake hay lỗi.", a: true },
+  { q: "Deepfake không bị xem là vi phạm pháp luật.", a: false, why: "Nhiều nước (VN, EU, Mỹ) đã có luật xử phạt deepfake lừa đảo." },
+];
+const DF_PAIRS = [
+  { a: "GAN", b: "Mạng AI sinh ra ảnh giả" },
+  { a: "Artifact", b: "Dấu vết lỗi do AI để lại" },
+  { a: "Liveness check", b: "Kiểm tra người thật trước camera" },
+  { a: "Watermark", b: "Dấu chìm tố cáo nội dung do AI tạo" },
+];
 
 type Frame = {
   id: "real" | "fake";
@@ -145,6 +160,8 @@ const DeepfakeSandbox = () => {
             : "❌ Sai rồi — soi kỹ ảnh phải sẽ thấy artifact của deepfake."}
         </div>
       )}
+
+      <BonusGames tfItems={DF_TF} matchPairs={DF_PAIRS} accent="from-rose-500 to-fuchsia-600" border="border-rose-400/40" />
     </div>
   );
 };

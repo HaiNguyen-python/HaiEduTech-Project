@@ -5,6 +5,21 @@
 import { useEffect, useState } from "react";
 import { GraduationCap, Printer, X, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { BonusGames } from "./SandboxBonusGames";
+
+const GR_TF = [
+  { q: "Hoàn thành đồ án giúp bạn tổng hợp kiến thức đã học.", a: true },
+  { q: "Trình bày đồ án không cần luyện tập.", a: false, why: "Luyện trước giúp tự tin & rõ ý." },
+  { q: "Một đề tài tốt nên có vấn đề thực tế cần giải quyết.", a: true },
+  { q: "Bằng AI Academy có thể in ra để khoe ba mẹ.", a: true },
+  { q: "Học AI xong là không cần học thêm gì nữa.", a: false, why: "AI thay đổi hàng tháng — cần học suốt đời." },
+];
+const GR_PAIRS = [
+  { a: "Capstone", b: "Đồ án tốt nghiệp tổng kết khoá" },
+  { a: "Pitch", b: "Bài thuyết trình ngắn về ý tưởng" },
+  { a: "Portfolio", b: "Bộ sưu tập sản phẩm để khoe" },
+  { a: "Lifelong learning", b: "Tinh thần học suốt đời" },
+];
 
 const TOPICS = [
   { id: "vision", label: "Computer Vision cho FaceID", emoji: "👁️" },
@@ -115,6 +130,8 @@ const GraduationSandbox = () => {
           </div>
         </div>
       )}
+
+      <BonusGames tfItems={GR_TF} matchPairs={GR_PAIRS} accent="from-amber-500 to-fuchsia-600" border="border-amber-400/40" />
     </div>
   );
 };

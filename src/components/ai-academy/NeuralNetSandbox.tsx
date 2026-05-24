@@ -8,6 +8,21 @@ import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Brain } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
+import { BonusGames } from "./SandboxBonusGames";
+
+const NN_TF = [
+  { q: "Não AI mô phỏng các tế bào thần kinh gọi là neuron.", a: true },
+  { q: "AI 'học' bằng cách điều chỉnh hàng triệu trọng số.", a: true },
+  { q: "Mỗi neuron có cảm xúc giống con người.", a: false, why: "Neuron chỉ là phép toán: input × weight + bias." },
+  { q: "Càng nhiều dữ liệu huấn luyện, AI càng dự đoán chuẩn hơn.", a: true },
+  { q: "Mạng neuron sâu (Deep Learning) chỉ có 1 lớp ẩn.", a: false, why: "'Sâu' = nhiều lớp ẩn xếp chồng (có khi hàng trăm)." },
+];
+const NN_PAIRS = [
+  { a: "Weight (trọng số)", b: "Con số gắn vào mỗi đường nối" },
+  { a: "Activation", b: "Hàm 'bật / tắt' tín hiệu của neuron" },
+  { a: "Backpropagation", b: "Cách AI sửa trọng số khi sai" },
+  { a: "Epoch", b: "1 lần học hết toàn bộ dữ liệu" },
+];
 
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
 
@@ -111,6 +126,8 @@ const NeuralNetSandbox = () => {
         <Brain className="w-3.5 h-3.5 mt-0.5 text-emerald-500 shrink-0" />
         Đường nối sáng hơn = "trọng số" lớn hơn. Não AI thật học hàng triệu trọng số như vậy để dự đoán mọi thứ — từ điểm thi đến giá nhà.
       </p>
+
+      <BonusGames tfItems={NN_TF} matchPairs={NN_PAIRS} accent="from-emerald-500 to-teal-600" border="border-emerald-400/40" />
     </div>
   );
 };

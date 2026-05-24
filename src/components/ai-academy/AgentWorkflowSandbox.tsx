@@ -5,6 +5,21 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Play, RotateCcw, Cloud, GitBranch, MessageCircle, Sparkles } from "lucide-react";
+import { BonusGames } from "./SandboxBonusGames";
+
+const AG_TF = [
+  { q: "AI Agent có thể gọi nhiều 'công cụ' (tools) khác nhau.", a: true },
+  { q: "Một agent chỉ làm được 1 việc duy nhất.", a: false, why: "Agent xâu chuỗi nhiều bước: fetch → suy luận → hành động." },
+  { q: "Pipeline = chuỗi các bước nối tiếp nhau.", a: true },
+  { q: "ChatGPT 'Browse + Code Interpreter' là một dạng AI Agent.", a: true },
+  { q: "Agent không cần điều kiện rẽ nhánh.", a: false, why: "Nó cần kiểm tra (if mưa thì SMS, nếu không thì lưu log)." },
+];
+const AG_PAIRS = [
+  { a: "Tool calling", b: "Agent gọi hàm bên ngoài" },
+  { a: "Pipeline", b: "Chuỗi các node thực thi nối tiếp" },
+  { a: "Condition", b: "Bước rẽ nhánh dựa trên dữ liệu" },
+  { a: "Memory", b: "Lưu lại ngữ cảnh cho lần sau" },
+];
 
 type NodeKind = "fetch" | "condition" | "sms" | "translate" | "summarize";
 const PALETTE: { kind: NodeKind; label: string; icon: typeof Cloud; color: string }[] = [
@@ -127,6 +142,8 @@ const AgentWorkflowSandbox = () => {
           <RotateCcw className="w-4 h-4" />
         </button>
       </div>
+
+      <BonusGames tfItems={AG_TF} matchPairs={AG_PAIRS} accent="from-indigo-500 to-blue-600" border="border-indigo-400/40" />
     </div>
   );
 };

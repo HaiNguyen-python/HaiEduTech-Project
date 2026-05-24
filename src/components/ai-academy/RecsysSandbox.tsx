@@ -9,6 +9,21 @@ import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Users, Sparkles } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
+import { BonusGames } from "./SandboxBonusGames";
+
+const REC_TF = [
+  { q: "TikTok & YouTube dùng hệ gợi ý để chọn video cho bạn.", a: true },
+  { q: "Hệ gợi ý đo độ giống nhau bằng cosine similarity.", a: true },
+  { q: "Ngưỡng quá cao sẽ tạo ra 'filter bubble'.", a: true, why: "Bạn chỉ thấy nội dung lặp lại sở thích — thiếu đa dạng." },
+  { q: "Vector sở thích chỉ có 1 con số duy nhất.", a: false, why: "Vector có nhiều chiều (thể thao, nhạc, khoa học…)." },
+  { q: "Spotify gợi ý nhạc cũng dùng nguyên lý tương tự.", a: true },
+];
+const REC_PAIRS = [
+  { a: "Cosine similarity", b: "Đo độ giống giữa 2 vector" },
+  { a: "User vector", b: "Sở thích người dùng dạng số" },
+  { a: "Filter bubble", b: "Bị mắc kẹt trong vùng nội dung quen" },
+  { a: "Hit rate", b: "% nội dung được gợi ý" },
+];
 
 const TOPICS = ["⚽ Thể thao", "🎮 Game", "🎵 Nhạc", "🔬 Khoa học", "🎨 Nghệ thuật"];
 
@@ -131,6 +146,8 @@ const RecsysSandbox = () => {
       <p className="text-xs text-muted-foreground">
         💡 YouTube & TikTok tính cosine similarity giữa <b>vector sở thích</b> của bạn và hàng tỷ video — chỉ những video vượt ngưỡng mới xuất hiện trên feed.
       </p>
+
+      <BonusGames tfItems={REC_TF} matchPairs={REC_PAIRS} accent="from-orange-500 to-rose-500" border="border-orange-400/40" />
     </div>
   );
 };
