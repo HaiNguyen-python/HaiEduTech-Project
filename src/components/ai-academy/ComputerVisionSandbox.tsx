@@ -15,6 +15,7 @@ import {
   shakeVariant,
 } from "@/lib/aiAcademyFx";
 import MiniCVChallenges from "./MiniCVChallenges";
+import lanFace from "@/assets/ai-academy-lan-face.png";
 
 type AccessoryId = "glasses" | "beard" | "hat" | "mask";
 
