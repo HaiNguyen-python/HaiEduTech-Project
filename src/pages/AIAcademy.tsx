@@ -257,7 +257,7 @@ const loadProgress = (): Progress => {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) return JSON.parse(raw);
   } catch (_e) { /* ignore */ }
-  return { vision: { stars: 0 }, nlp: { stars: 0 }, nn: { stars: 0 } };
+  return { vision: { stars: 0 }, nlp: { stars: 0 }, nn: { stars: 0 }, genai: { stars: 0 }, recsys: { stars: 0 }, ethics: { stars: 0 } };
 };
 
 const saveProgress = (p: Progress) => {
