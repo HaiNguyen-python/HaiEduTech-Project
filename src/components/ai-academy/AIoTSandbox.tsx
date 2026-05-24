@@ -83,28 +83,32 @@ const AIoTSandbox = () => {
 
   const avgWait = useMemo(() => (tick === 0 ? 0 : (totalWait / Math.max(throughput, 1)).toFixed(1)), [tick, totalWait, throughput]);
 
-  const LaneCars = ({ lane, dir }: { lane: Lane; dir: "row" | "row-reverse" | "col" | "col-reverse" }) => (
-    <div className={`flex ${dir.startsWith("row") ? "flex-row" : "flex-col"} ${dir.endsWith("reverse") ? "flex-row-reverse flex-col-reverse" : ""} gap-0.5 items-center justify-center`}>
-      {Array.from({ length: Math.min(queues[lane], 6) }).map((_, i) => (
-        <motion.span key={i} initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-lg">🚗</motion.span>
-      ))}
-    </div>
-  );
+  const LaneCars = ({ lane, orientation }: { lane: Lane; orientation: "vertical" | "horizontal" }) => {
+    const cars = Array.from({ length: Math.min(queues[lane], 5) });
+    return (
+      <div
+        className={`flex items-center justify-center gap-0.5 overflow-hidden w-full h-full ${
+          orientation === "vertical" ? "flex-col" : "flex-row"
+        }`}
+      >
+        {cars.map((_, i) => (
+          <motion.span key={i} initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-base leading-none">🚗</motion.span>
+        ))}
+      </div>
+    );
+  };
 
   return (
-    <div className="space-y-10 sm:space-y-12">
+    <div className="space-y-10 sm:space-y-12 [&>*+*]:pt-10 sm:[&>*+*]:pt-12 [&>*+*]:border-t-2 [&>*+*]:border-border/70">
       {/* Crossroad */}
       <div className="rounded-2xl border-2 border-cyan-400/40 bg-gradient-to-br from-slate-900 via-cyan-950/60 to-slate-900 p-3">
-        <div className="grid grid-cols-3 grid-rows-3 aspect-square max-w-xs mx-auto gap-0">
-          {/* row 1 */}
+        <div className="grid grid-cols-3 grid-rows-3 aspect-square max-w-xs mx-auto gap-1">
           <div />
-          <div className="flex items-end justify-center pb-1"><LaneCars lane="N" dir="col" /></div>
+          <div className="overflow-hidden flex items-end justify-center pb-1"><LaneCars lane="N" orientation="vertical" /></div>
           <div />
-          {/* row 2 */}
-          <div className="flex items-center justify-end pr-1"><LaneCars lane="W" dir="row" /></div>
+          <div className="overflow-hidden flex items-center justify-end pr-1"><LaneCars lane="W" orientation="horizontal" /></div>
           <div className="relative bg-slate-800 border-2 border-slate-700 rounded-lg flex items-center justify-center">
-            {/* Lights */}
-            <div className="grid grid-cols-3 gap-1 text-xs">
+            <div className="grid grid-cols-2 gap-1 text-xs p-1">
               {LANES.map((l) => (
                 <div
                   key={l}
@@ -114,13 +118,12 @@ const AIoTSandbox = () => {
                 >
                   {l}
                 </div>
-              )).slice(0, 4)}
+              ))}
             </div>
           </div>
-          <div className="flex items-center justify-start pl-1"><LaneCars lane="E" dir="row-reverse" /></div>
-          {/* row 3 */}
+          <div className="overflow-hidden flex items-center justify-start pl-1"><LaneCars lane="E" orientation="horizontal" /></div>
           <div />
-          <div className="flex items-start justify-center pt-1"><LaneCars lane="S" dir="col-reverse" /></div>
+          <div className="overflow-hidden flex items-start justify-center pt-1"><LaneCars lane="S" orientation="vertical" /></div>
           <div />
         </div>
 
