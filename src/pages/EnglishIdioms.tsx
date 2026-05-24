@@ -546,7 +546,7 @@ const MatchExercise = ({ t, toast }: { t: (vi: string, en: string) => string; to
                     "w-full text-left px-4 py-3 rounded-xl border-2 transition-all font-medium",
                     isMatched && "bg-emerald-500/15 border-emerald-500/50 text-emerald-700 dark:text-emerald-300 line-through opacity-70",
                     !isMatched && isSelected && "bg-teal-500/15 border-teal-500 text-foreground scale-[1.02] shadow-md",
-                    !isMatched && !isSelected && !isWrong && "bg-background border-border hover:border-teal-500/40",
+                    !isMatched && !isSelected && !isWrong && "bg-background border-teal-500/60 hover:border-teal-500",
                     isWrong && "bg-rose-500/15 border-rose-500 animate-pulse",
                   )}
                 >
@@ -571,7 +571,7 @@ const MatchExercise = ({ t, toast }: { t: (vi: string, en: string) => string; to
                     "w-full text-left px-4 py-3 rounded-xl border-2 transition-all text-sm",
                     isMatched && "bg-emerald-500/15 border-emerald-500/50 text-emerald-700 dark:text-emerald-300 line-through opacity-70",
                     !isMatched && isSelected && "bg-teal-500/15 border-teal-500 text-foreground scale-[1.02] shadow-md",
-                    !isMatched && !isSelected && !isWrong && "bg-background border-border hover:border-teal-500/40",
+                    !isMatched && !isSelected && !isWrong && "bg-background border-teal-500/60 hover:border-teal-500",
                     isWrong && "bg-rose-500/15 border-rose-500 animate-pulse",
                   )}
                 >
@@ -690,7 +690,7 @@ const FillExercise = ({ t, toast }: { t: (vi: string, en: string) => string; toa
         </div>
       </div>
 
-      <div className="rounded-2xl bg-background/80 border border-border/60 p-5 sm:p-7 mb-5">
+      <div className="rounded-2xl bg-background/80 border-2 border-sky-500/50 p-5 sm:p-7 mb-5">
         <div className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-3">
           {CATEGORY_META[q.entry.category].emoji} {t(CATEGORY_META[q.entry.category].labelVi, CATEGORY_META[q.entry.category].labelEn)} · {q.entry.emoji}
         </div>
@@ -712,7 +712,7 @@ const FillExercise = ({ t, toast }: { t: (vi: string, en: string) => string; toa
           disabled={reveal !== "idle"}
           className={cn(
             "flex-1 px-4 py-3 rounded-xl border-2 text-base font-semibold bg-background text-foreground transition-all",
-            reveal === "idle" && "border-border focus:border-sky-500 outline-none",
+            reveal === "idle" && "border-sky-500/60 focus:border-sky-500 outline-none",
             reveal === "right" && "border-emerald-500 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
             reveal === "wrong" && "border-rose-500 bg-rose-500/10 text-rose-700 dark:text-rose-300",
           )}
@@ -843,7 +843,7 @@ const QuizExercise = ({ t, toast }: { t: (vi: string, en: string) => string; toa
         </div>
       </div>
 
-      <div className="rounded-2xl bg-background/80 border border-border/60 p-5 sm:p-7 mb-5">
+      <div className="rounded-2xl bg-background/80 border-2 border-violet-500/50 p-5 sm:p-7 mb-5">
         <div className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-3">
           {CATEGORY_META[q.correct.category].emoji} {t(CATEGORY_META[q.correct.category].labelVi, CATEGORY_META[q.correct.category].labelEn)}
         </div>
@@ -870,16 +870,16 @@ const QuizExercise = ({ t, toast }: { t: (vi: string, en: string) => string; toa
               disabled={!!picked}
               className={cn(
                 "text-left px-4 py-3 rounded-xl border-2 transition-all text-sm font-medium",
-                !showResult && "bg-background border-border hover:border-violet-500/50 hover:bg-violet-500/5",
+                !showResult && "bg-background border-violet-500/50 hover:border-violet-500 hover:bg-violet-500/5",
                 showResult && isCorrect && "bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-300",
                 showResult && isPicked && !isCorrect && "bg-rose-500/15 border-rose-500 text-rose-700 dark:text-rose-300",
-                showResult && !isPicked && !isCorrect && "bg-background border-border opacity-60",
+                showResult && !isPicked && !isCorrect && "bg-background border-violet-500/30 opacity-60",
               )}
             >
               <div className="flex items-start gap-2">
                 <span className={cn(
                   "mt-0.5 w-6 h-6 rounded-full inline-flex items-center justify-center text-xs font-bold border-2",
-                  !showResult && "border-border text-muted-foreground",
+                  !showResult && "border-violet-500/60 text-muted-foreground",
                   showResult && isCorrect && "border-emerald-500 bg-emerald-500 text-white",
                   showResult && isPicked && !isCorrect && "border-rose-500 bg-rose-500 text-white",
                 )}>
