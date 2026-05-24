@@ -214,8 +214,8 @@ interface LibraryViewProps {
   entries: IdiomEntry[];
   filterCategory: IdiomCategory | "all";
   setFilterCategory: (c: IdiomCategory | "all") => void;
-  filterTheme: IdiomEntry["theme"] | "all";
-  setFilterTheme: (th: IdiomEntry["theme"] | "all") => void;
+  filterTheme: GroupKey | "all";
+  setFilterTheme: (th: GroupKey | "all") => void;
   shuffleSeed: number;
   setShuffleSeed: (n: number) => void;
   t: (vi: string, en: string) => string;
