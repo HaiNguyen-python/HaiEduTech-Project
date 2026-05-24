@@ -65,7 +65,7 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
     const conf = Math.max(38, 99 - penalty - Math.floor(Math.random() * 3));
     setTimeout(() => {
       setScanning(false);
-      setResult({ name: "Học sinh A", conf });
+      setResult({ name: "Bé Lan", conf });
       if (conf >= 75) {
         playSuccessSound();
         onSuccess?.();
