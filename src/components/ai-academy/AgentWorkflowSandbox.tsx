@@ -6,6 +6,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Play, RotateCcw, Cloud, GitBranch, MessageCircle, Sparkles } from "lucide-react";
 import { BonusGames } from "./SandboxBonusGames";
+import { BestMatchPick } from "./SandboxMiniActivity";
 
 const AG_TF = [
   { q: "AI Agent có thể gọi nhiều 'công cụ' (tools) khác nhau.", a: true },
@@ -142,6 +143,44 @@ const AgentWorkflowSandbox = () => {
           <RotateCcw className="w-4 h-4" />
         </button>
       </div>
+
+      <BestMatchPick
+        title="🧰 Chọn đúng tool cho từng việc"
+        hint="Agent cần chọn công cụ phù hợp với từng yêu cầu."
+        accent="from-indigo-500 to-blue-600"
+        border="border-indigo-400/40"
+        options={[
+          { id: "search", label: "🔎 Web Search" },
+          { id: "code", label: "💻 Code Interpreter" },
+          { id: "cal", label: "📅 Calendar" },
+          { id: "mail", label: "📧 Email" },
+        ]}
+        items={[
+          { prompt: "Tổng hợp tin AI mới nhất tuần này", correctId: "search" },
+          { prompt: "Vẽ biểu đồ doanh thu từ file Excel", correctId: "code" },
+          { prompt: "Đặt lịch họp với 3 bạn vào thứ 6 lúc 8h", correctId: "cal" },
+          { prompt: "Gửi mail cảm ơn cho danh sách khách hàng", correctId: "mail" },
+        ]}
+      />
+
+      <BestMatchPick
+        title="📋 Sắp xếp đúng thứ tự kế hoạch agent"
+        hint="Một agent đặt vé máy bay nên làm những bước này theo thứ tự nào?"
+        accent="from-indigo-500 to-blue-600"
+        border="border-indigo-400/40"
+        options={[
+          { id: "1", label: "Bước 1" },
+          { id: "2", label: "Bước 2" },
+          { id: "3", label: "Bước 3" },
+          { id: "4", label: "Bước 4" },
+        ]}
+        items={[
+          { prompt: "Hỏi user: ngày bay, sân bay đi/đến, ngân sách", correctId: "1" },
+          { prompt: "Search nhiều hãng (VietJet, Bamboo, VNA) so giá", correctId: "2" },
+          { prompt: "Đề xuất 3 chuyến rẻ nhất + xác nhận với user", correctId: "3" },
+          { prompt: "Gọi API thanh toán và gửi vé qua email", correctId: "4" },
+        ]}
+      />
 
       <BonusGames tfItems={AG_TF} matchPairs={AG_PAIRS} accent="from-indigo-500 to-blue-600" border="border-indigo-400/40" />
     </div>

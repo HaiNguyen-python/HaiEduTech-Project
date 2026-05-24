@@ -9,6 +9,7 @@ import { Sparkles, CheckCircle2, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { BonusGames } from "./SandboxBonusGames";
+import { BestMatchPick, ChipFilter } from "./SandboxMiniActivity";
 
 const TF = [
   { q: "Prompt càng cụ thể, AI trả lời càng đúng.", a: true },
@@ -87,6 +88,52 @@ const StudySmartSandbox = () => {
           Thử mẫu này →
         </Button>
       </div>
+
+      <ChipFilter
+        title="🧱 Lắp ráp prompt 4 lớp"
+        hint="Một prompt mạnh có 4 lớp: Vai trò + Ngữ cảnh + Yêu cầu + Định dạng. Chọn các viên gạch để cộng điểm."
+        baseline={20}
+        positive
+        goal={75}
+        goodLabel="Prompt đã đủ chuẩn 4 lớp ✅"
+        badLabel="Còn thiếu — thêm vài viên gạch nữa"
+        metricLabel="Điểm Prompt"
+        accent="from-blue-500 to-cyan-600"
+        border="border-blue-400/40"
+        options={[
+          { id: "1", label: "🎭 Vai trò: 'Bạn là gia sư Toán lớp 10'", weight: 20 },
+          { id: "2", label: "📚 Ngữ cảnh: 'Em đang ôn THPT QG'", weight: 18 },
+          { id: "3", label: "🎯 Yêu cầu cụ thể: 'Giải phương trình bậc 2'", weight: 18 },
+          { id: "4", label: "📝 Định dạng: 'Trình bày 5 bước, đánh số'", weight: 14 },
+          { id: "5", label: "🚫 Ràng buộc: 'Không làm hộ, chỉ hướng dẫn'", weight: 12 },
+        ]}
+      />
+
+      <BestMatchPick
+        title="🥇 Chọn prompt tốt nhất cho IELTS"
+        hint="Với mỗi mục tiêu học, chọn prompt 'chuẩn bài' nhất."
+        accent="from-blue-500 to-cyan-600"
+        border="border-blue-400/40"
+        options={[
+          { id: "a", label: "A · Lười" },
+          { id: "b", label: "B · Hời hợt" },
+          { id: "c", label: "C · Chuẩn" },
+        ]}
+        items={[
+          {
+            prompt: "Em muốn cải thiện Writing Task 2 từ band 5.5 → 6.5",
+            correctId: "c",
+          },
+          {
+            prompt: "Em muốn ôn 50 từ vựng IELTS chủ đề Environment",
+            correctId: "c",
+          },
+          {
+            prompt: "Em cần phân tích lỗi grammar trong bài essay tự viết",
+            correctId: "c",
+          },
+        ]}
+      />
 
       <BonusGames tfItems={TF} matchPairs={PAIRS} accent="from-blue-500 to-cyan-600" border="border-blue-400/40" />
     </div>

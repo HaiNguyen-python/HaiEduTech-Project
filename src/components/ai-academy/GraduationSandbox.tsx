@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { GraduationCap, Printer, X, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { BonusGames } from "./SandboxBonusGames";
+import { ChipFilter, BestMatchPick } from "./SandboxMiniActivity";
 
 const GR_TF = [
   { q: "Hoàn thành đồ án giúp bạn tổng hợp kiến thức đã học.", a: true },
@@ -103,7 +104,7 @@ const GraduationSandbox = () => {
               {name}
             </p>
             <p className="text-sm text-slate-700 mt-4 max-w-md mx-auto">
-              Đã hoàn thành xuất sắc 12 chặng AI Academy và bảo vệ thành công đồ án:
+              Đã hoàn thành xuất sắc tất cả các chặng AI Academy và bảo vệ thành công đồ án:
             </p>
             <p className="font-bold text-base sm:text-lg text-fuchsia-700 mt-1">
               {topic.emoji} {topic.label}
@@ -130,6 +131,54 @@ const GraduationSandbox = () => {
           </div>
         </div>
       )}
+
+      <ChipFilter
+        title="🎤 Cấu trúc pitch deck 5 phút"
+        hint="Một bài pitch đỉnh cao gồm các slide cốt lõi. Bật từng slide để điểm pitch tăng lên."
+        baseline={10}
+        positive
+        goal={80}
+        goodLabel="Pitch của bạn đã đủ thuyết phục ✅"
+        badLabel="Còn thiếu slide quan trọng — bật thêm nhé"
+        metricLabel="Điểm Pitch"
+        accent="from-amber-500 to-fuchsia-600"
+        border="border-amber-400/40"
+        options={[
+          { id: "1", label: "🎯 Vấn đề thực tế (Problem)", weight: 18 },
+          { id: "2", label: "💡 Giải pháp AI (Solution)", weight: 18 },
+          { id: "3", label: "🎬 Demo trực tiếp", weight: 18 },
+          { id: "4", label: "📊 Kết quả số liệu", weight: 14 },
+          { id: "5", label: "👥 Team & lời cảm ơn", weight: 12 },
+          { id: "6", label: "📞 Call to action / liên hệ", weight: 10 },
+        ]}
+      />
+
+      <BestMatchPick
+        title="🧠 Ôn tập toàn khoá — bạn còn nhớ?"
+        hint="Mỗi mô tả tương ứng với chặng AI Academy nào?"
+        accent="from-amber-500 to-fuchsia-600"
+        border="border-amber-400/40"
+        options={[
+          { id: "vision", label: "Computer Vision" },
+          { id: "nlp", label: "NLP" },
+          { id: "nn", label: "Neural Net" },
+          { id: "genai", label: "Generative AI" },
+          { id: "rl", label: "Reinforcement" },
+          { id: "ethics", label: "Ethics" },
+          { id: "deepfake", label: "Deepfake" },
+          { id: "agent", label: "AI Agent" },
+        ]}
+        items={[
+          { prompt: "AI nhận diện khuôn mặt cho FaceID iPhone", correctId: "vision" },
+          { prompt: "Chatbot Kiki hiểu teen-code 'k bít' = 'không biết'", correctId: "nlp" },
+          { prompt: "Mạng nhiều lớp neuron điều chỉnh trọng số khi sai", correctId: "nn" },
+          { prompt: "ChatGPT viết văn, Midjourney vẽ ảnh từ prompt", correctId: "genai" },
+          { prompt: "AI tự lái xe học qua Reward & Punishment", correctId: "rl" },
+          { prompt: "Amazon dừng AI tuyển dụng vì thiên vị giới", correctId: "ethics" },
+          { prompt: "Ghép mặt người khác lên video — cần forensic", correctId: "deepfake" },
+          { prompt: "Tự lập kế hoạch nhiều bước, gọi tool đặt vé bay", correctId: "agent" },
+        ]}
+      />
 
       <BonusGames tfItems={GR_TF} matchPairs={GR_PAIRS} accent="from-amber-500 to-fuchsia-600" border="border-amber-400/40" />
     </div>

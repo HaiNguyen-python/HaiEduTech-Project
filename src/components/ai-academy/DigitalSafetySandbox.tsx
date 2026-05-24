@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { Shield, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BonusGames } from "./SandboxBonusGames";
+import { ChipFilter, BestMatchPick } from "./SandboxMiniActivity";
 
 type Scenario = {
   title: string;
@@ -110,6 +111,46 @@ const DigitalSafetySandbox = () => {
           Tình huống tiếp theo →
         </Button>
       )}
+
+      <ChipFilter
+        title="🛡️ Bật các thói quen an toàn"
+        hint="Mỗi thói quen bật lên sẽ cộng điểm An toàn số của bạn."
+        baseline={20}
+        positive
+        goal={80}
+        goodLabel="Bạn đã đủ trang bị chống lừa đảo AI ✅"
+        badLabel="Bật thêm vài thói quen nữa nhé"
+        metricLabel="Điểm An toàn"
+        accent="from-rose-500 to-orange-600"
+        border="border-rose-400/40"
+        options={[
+          { id: "1", label: "🔒 Bật xác thực 2 lớp (2FA) cho Zalo/Facebook", weight: 18 },
+          { id: "2", label: "📞 Luôn gọi lại số gốc khi nghe 'người thân cần tiền'", weight: 20 },
+          { id: "3", label: "🚫 Không đăng ảnh chân dung HD công khai", weight: 14 },
+          { id: "4", label: "🆔 Không gửi CMND/CCCD qua chat", weight: 18 },
+          { id: "5", label: "🚨 Report tài khoản đáng nghi cho TikTok/FB", weight: 12 },
+          { id: "6", label: "🗣️ Báo bố mẹ/thầy cô khi gặp deepfake", weight: 14 },
+        ]}
+      />
+
+      <BestMatchPick
+        title="📨 Phân loại tin nhắn đáng nghi"
+        hint="Mỗi tin nhắn dưới đây nên xếp vào nhóm nào?"
+        accent="from-rose-500 to-orange-600"
+        border="border-rose-400/40"
+        options={[
+          { id: "safe", label: "✅ An toàn" },
+          { id: "doubt", label: "⚠️ Nghi ngờ" },
+          { id: "scam", label: "🚨 Lừa đảo" },
+        ]}
+        items={[
+          { prompt: "'Mẹ đây, mẹ bị tai nạn, chuyển gấp 5 triệu' (số lạ)", correctId: "scam" },
+          { prompt: "'Em trúng học bổng 200tr, gửi CMND để nhận'", correctId: "scam" },
+          { prompt: "'Anh là AI tutor, gửi ảnh thẻ để học miễn phí'", correctId: "scam" },
+          { prompt: "'Ngày mai 7h con học toán nhé' (số mẹ đã lưu)", correctId: "safe" },
+          { prompt: "'Bạn nhận được lời mời kết bạn từ tài khoản lạ ảnh mờ'", correctId: "doubt" },
+        ]}
+      />
 
       <BonusGames tfItems={TF} matchPairs={PAIRS} accent="from-rose-500 to-orange-600" border="border-rose-400/40" />
     </div>
