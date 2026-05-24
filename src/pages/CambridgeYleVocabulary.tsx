@@ -7,7 +7,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Volume2, Sparkles, Trophy, Star, Search, ArrowLeft, Mountain, CheckCircle2 } from "lucide-react";
+import { Volume2, Sparkles, Trophy, Star, Search, ArrowLeft, Mountain, CheckCircle2, ChevronDown } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingKidsDecor from "@/components/FloatingKidsDecor";
@@ -18,6 +18,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { CAMBRIDGE_LEVELS, type CambridgeKidsLevel, type CambridgeKidsWord } from "@/data/cambridgeKidsVocab";
 import { CAMBRIDGE_KIDS_WORDS_DEDUPED } from "@/data/cambridgeKidsVocabMaster";
 import { getIpa } from "@/data/cambridgeKidsIpa";
+import { getCategory, CATEGORY_META, CATEGORY_ORDER, type KidsCategory } from "@/data/cambridgeKidsCategories";
+import { getPos, POS_LABEL } from "@/data/cambridgeKidsPos";
 import KidsSpeechCheck from "@/components/KidsSpeechCheck";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import { toast } from "@/hooks/use-toast";
@@ -25,15 +27,15 @@ import { toast } from "@/hooks/use-toast";
 const ALL_WORDS: CambridgeKidsWord[] = CAMBRIDGE_KIDS_WORDS_DEDUPED;
 const MASTERY_SUBJECT = "cambridge-yle";
 
-// Softer, kid-friendly palette — pastel borders, light tints, strong text contrast.
+// Softer tints + STRONG borders for high visibility on white cards.
 const LEVEL_THEME: Record<CambridgeKidsLevel, {
-  color: string; soft: string; bg: string; emoji: string; cefr: string; gradient: string;
+  color: string; border: string; soft: string; bg: string; emoji: string; cefr: string; gradient: string;
 }> = {
-  Starters: { color: "#EC8FB0", soft: "#FFF1F6", bg: "#FFE5EC", emoji: "🎨", cefr: "A1",     gradient: "linear-gradient(135deg, #FFB4C8, #FFD6E2)" },
-  Movers:   { color: "#7FB1F0", soft: "#F0F8FF", bg: "#E0F4FF", emoji: "🚀", cefr: "A1+",    gradient: "linear-gradient(135deg, #A0CDFF, #CDE5FF)" },
-  Flyers:   { color: "#8AD195", soft: "#F1FFF1", bg: "#E8FFE0", emoji: "🦅", cefr: "A2",     gradient: "linear-gradient(135deg, #B8F0BE, #D7F7DC)" },
-  KET:      { color: "#C19FE6", soft: "#F8F1FF", bg: "#F3E8FF", emoji: "📝", cefr: "A2 Key", gradient: "linear-gradient(135deg, #DCC1F5, #ECDCFB)" },
-  PET:      { color: "#F0B469", soft: "#FFF8EC", bg: "#FFF4E0", emoji: "🏆", cefr: "B1",     gradient: "linear-gradient(135deg, #FFD49A, #FFE6C2)" },
+  Starters: { color: "#EC4E89", border: "#D81B60", soft: "#FFF1F6", bg: "#FFE5EC", emoji: "🎨", cefr: "A1",     gradient: "linear-gradient(135deg, #FF6FA3, #FFB4C8)" },
+  Movers:   { color: "#2D7FE0", border: "#1565C0", soft: "#F0F8FF", bg: "#E0F4FF", emoji: "🚀", cefr: "A1+",    gradient: "linear-gradient(135deg, #4D96FF, #A0CDFF)" },
+  Flyers:   { color: "#1FA855", border: "#1B7A3E", soft: "#F1FFF1", bg: "#E8FFE0", emoji: "🦅", cefr: "A2",     gradient: "linear-gradient(135deg, #45C77D, #B8F0BE)" },
+  KET:      { color: "#7B3FE4", border: "#5B21B6", soft: "#F8F1FF", bg: "#F3E8FF", emoji: "📝", cefr: "A2 Key", gradient: "linear-gradient(135deg, #A472F0, #DCC1F5)" },
+  PET:      { color: "#E8841A", border: "#B45309", soft: "#FFF8EC", bg: "#FFF4E0", emoji: "🏆", cefr: "B1",     gradient: "linear-gradient(135deg, #FFA94D, #FFD49A)" },
 };
 
 const getExample = (w: CambridgeKidsWord) => ({
@@ -180,6 +182,30 @@ const CambridgeYleVocabulary = () => {
     return wordsForLevel.filter(w => w.word.toLowerCase().includes(q) || w.vi.toLowerCase().includes(q));
   }, [wordsForLevel, search]);
 
+  // Group filtered words by thematic category
+  const grouped = useMemo(() => {
+    const m = new Map<KidsCategory, CambridgeKidsWord[]>();
+    for (const w of filtered) {
+      const c = getCategory(w.word);
+      if (!m.has(c)) m.set(c, []);
+      m.get(c)!.push(w);
+    }
+    return CATEGORY_ORDER
+      .filter(c => m.has(c))
+      .map(c => ({ category: c, words: m.get(c)! }));
+  }, [filtered]);
+
+  const [openCats, setOpenCats] = useState<Set<string>>(new Set());
+  const isSearching = search.trim().length > 0;
+  const isOpen = (key: string) => isSearching ? true : openCats.has(key);
+  const toggleCat = (key: string) => {
+    setOpenCats(prev => {
+      const n = new Set(prev);
+      if (n.has(key)) n.delete(key); else n.add(key);
+      return n;
+    });
+  };
+
   const masteredInLevel = useMemo(
     () => wordsForLevel.filter(w => mastered.has(`${w.level}:${w.word}`)).length,
     [wordsForLevel, mastered]
@@ -271,97 +297,147 @@ const CambridgeYleVocabulary = () => {
               />
             </div>
 
-            {/* Words grid — wider cards, more breathing room */}
-            <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">
-              <AnimatePresence mode="popLayout">
-                {filtered.map((w, idx) => {
-                  const key = `${w.level}:${w.word}`;
-                  const isMastered = mastered.has(key);
-                  const ex = getExample(w);
-                  const ipa = getIpa(w.word);
-                  return (
-                    <motion.div
-                      key={key}
-                      layout
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.18, delay: Math.min(idx, 12) * 0.015 }}
-                      whileHover={{ y: -3 }}
-                      className="relative rounded-2xl p-4 border shadow-sm overflow-hidden bg-white"
-                      style={{
-                        borderColor: theme.color,
-                        boxShadow: `0 1px 0 ${theme.color}66, 0 6px 14px ${theme.color}22`,
-                      }}
+            {/* Grouped by thematic categories — collapsible */}
+            <div className="space-y-4">
+              {grouped.map(({ category, words }) => {
+                const meta = CATEGORY_META[category];
+                const catKey = `${level}:${category}`;
+                const open = isOpen(catKey);
+                const doneInCat = words.filter(w => mastered.has(`${w.level}:${w.word}`)).length;
+                return (
+                  <div key={catKey} className="rounded-2xl bg-white/70 backdrop-blur-sm border-2 shadow-sm overflow-hidden"
+                       style={{ borderColor: theme.border }}>
+                    <button
+                      type="button"
+                      onClick={() => toggleCat(catKey)}
+                      className="w-full flex items-center justify-between px-4 py-3 text-left transition-colors hover:bg-white"
+                      style={{ background: open ? theme.soft : "transparent" }}
                     >
-                      {isMastered && (
-                        <div className="absolute top-2 right-2 text-emerald-600">
-                          <CheckCircle2 className="w-5 h-5 fill-emerald-100" />
-                        </div>
-                      )}
-                      <div className="flex items-start gap-3">
-                        <div className="text-4xl drop-shadow shrink-0">{w.emoji}</div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <p className="text-lg font-bold text-slate-900 break-words">{w.word}</p>
-                            <button
-                              onClick={() => speak(w.word)}
-                              className="p-1 rounded-full hover:bg-slate-100"
-                              style={{ color: theme.color }}
-                              aria-label="Listen"
-                            >
-                              <Volume2 className="w-4 h-4" />
-                            </button>
-                          </div>
-                          {ipa && (
-                            <p className="text-xs font-mono text-slate-500 mt-0.5">/{ipa}/</p>
-                          )}
-                          <p className="text-sm text-slate-700 mt-0.5">{w.vi}</p>
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl">{meta.emoji}</span>
+                        <div>
+                          <p className="font-bold text-slate-900 text-base">
+                            {category} <span className="text-slate-500 font-medium">· {meta.vi}</span>
+                          </p>
+                          <p className="text-xs text-slate-600 font-semibold">
+                            {doneInCat}/{words.length} {t("đã thuộc", "mastered")}
+                          </p>
                         </div>
                       </div>
+                      <ChevronDown className={`w-5 h-5 transition-transform ${open ? "rotate-180" : ""}`}
+                                   style={{ color: theme.border }} />
+                    </button>
 
-                      {/* Mic practice */}
-                      <KidsSpeechCheck word={w.word} accentColor={theme.color} />
-
-                      {/* Example sentence */}
-                      <div
-                        className="mt-3 rounded-xl px-3 py-2.5 text-[14px] leading-relaxed relative"
-                        style={{ background: theme.soft, borderLeft: `4px solid ${theme.color}` }}
-                      >
-                        <button
-                          onClick={() => speak(ex.en, { rate: 0.85 })}
-                          className="absolute top-1.5 right-1.5 p-1.5 rounded-full bg-white/80 hover:bg-white shadow-sm"
-                          style={{ color: theme.color }}
-                          aria-label="Listen to example"
+                    <AnimatePresence initial={false}>
+                      {open && (
+                        <motion.div
+                          key="content"
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.2 }}
                         >
-                          <Volume2 className="w-3.5 h-3.5" />
-                        </button>
-                        <p className="text-slate-900 font-semibold pr-7">
-                          <span className="font-bold mr-1" style={{ color: theme.color }}>EN ·</span>
-                          {renderBolded(ex.en, w.word)}
-                        </p>
-                        <p className="text-slate-700 mt-1 font-medium">
-                          <span className="font-bold mr-1" style={{ color: theme.color }}>VI ·</span>
-                          {ex.vi}
-                        </p>
-                      </div>
+                          <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5 p-4">
+                            {words.map((w, idx) => {
+                              const key = `${w.level}:${w.word}`;
+                              const isMastered = mastered.has(key);
+                              const ex = getExample(w);
+                              const ipa = getIpa(w.word);
+                              const pos = getPos(w.word);
+                              const posMeta = POS_LABEL[pos];
+                              return (
+                                <motion.div
+                                  key={key}
+                                  layout
+                                  initial={{ opacity: 0, y: 8 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  transition={{ duration: 0.18, delay: Math.min(idx, 10) * 0.012 }}
+                                  whileHover={{ y: -3 }}
+                                  className="relative rounded-2xl p-4 shadow-sm overflow-hidden bg-white"
+                                  style={{
+                                    border: `2.5px solid ${theme.border}`,
+                                    boxShadow: `0 2px 0 ${theme.border}55, 0 6px 14px ${theme.border}33`,
+                                  }}
+                                >
+                                  {isMastered && (
+                                    <div className="absolute top-2 right-2 text-emerald-600">
+                                      <CheckCircle2 className="w-5 h-5 fill-emerald-100" />
+                                    </div>
+                                  )}
+                                  <div className="flex items-start gap-3">
+                                    <div className="text-4xl drop-shadow shrink-0">{w.emoji}</div>
+                                    <div className="flex-1 min-w-0">
+                                      <div className="flex items-center gap-2 flex-wrap">
+                                        <p className="text-lg font-bold text-slate-900 break-words">{w.word}</p>
+                                        <span
+                                          className="px-1.5 py-0.5 rounded-md text-[10px] font-extrabold uppercase tracking-wider"
+                                          style={{ background: `${posMeta.color}1A`, color: posMeta.color, border: `1px solid ${posMeta.color}55` }}
+                                          title={`${posMeta.en} · ${posMeta.vi}`}
+                                        >
+                                          {pos}
+                                        </span>
+                                        <button
+                                          onClick={() => speak(w.word)}
+                                          className="p-1 rounded-full hover:bg-slate-100"
+                                          style={{ color: theme.border }}
+                                          aria-label="Listen"
+                                        >
+                                          <Volume2 className="w-4 h-4" />
+                                        </button>
+                                      </div>
+                                      {ipa && (
+                                        <p className="text-xs font-mono text-slate-500 mt-0.5">/{ipa}/</p>
+                                      )}
+                                      <p className="text-sm text-slate-700 mt-0.5">{w.vi}</p>
+                                    </div>
+                                  </div>
 
-                      <button
-                        onClick={() => toggleMaster(w.level, w.word)}
-                        className="mt-3 w-full text-xs font-bold uppercase tracking-wide rounded-xl py-2 transition-all flex items-center justify-center gap-1.5"
-                        style={{
-                          background: isMastered ? "#10B981" : "#FFFFFF",
-                          color: isMastered ? "#FFFFFF" : theme.color,
-                          border: `1.5px solid ${isMastered ? "#10B981" : theme.color}`,
-                        }}
-                      >
-                        <Star className={`w-3.5 h-3.5 ${isMastered ? "fill-white" : ""}`} />
-                        {isMastered ? t("Đã thuộc", "Mastered") : t("Đánh dấu thuộc", "Mark mastered")}
-                      </button>
-                    </motion.div>
-                  );
-                })}
-              </AnimatePresence>
+                                  <KidsSpeechCheck word={w.word} accentColor={theme.border} />
+
+                                  <div
+                                    className="mt-3 rounded-xl px-3 py-2.5 text-[14px] leading-relaxed relative"
+                                    style={{ background: theme.soft, borderLeft: `4px solid ${theme.border}` }}
+                                  >
+                                    <button
+                                      onClick={() => speak(ex.en, { rate: 0.85 })}
+                                      className="absolute top-1.5 right-1.5 p-1.5 rounded-full bg-white/80 hover:bg-white shadow-sm"
+                                      style={{ color: theme.border }}
+                                      aria-label="Listen to example"
+                                    >
+                                      <Volume2 className="w-3.5 h-3.5" />
+                                    </button>
+                                    <p className="text-slate-900 font-semibold pr-7">
+                                      <span className="font-bold mr-1" style={{ color: theme.border }}>EN ·</span>
+                                      {renderBolded(ex.en, w.word)}
+                                    </p>
+                                    <p className="text-slate-700 mt-1 font-medium">
+                                      <span className="font-bold mr-1" style={{ color: theme.border }}>VI ·</span>
+                                      {ex.vi}
+                                    </p>
+                                  </div>
+
+                                  <button
+                                    onClick={() => toggleMaster(w.level, w.word)}
+                                    className="mt-3 w-full text-xs font-bold uppercase tracking-wide rounded-xl py-2 transition-all flex items-center justify-center gap-1.5"
+                                    style={{
+                                      background: isMastered ? "#10B981" : "#FFFFFF",
+                                      color: isMastered ? "#FFFFFF" : theme.border,
+                                      border: `2px solid ${isMastered ? "#10B981" : theme.border}`,
+                                    }}
+                                  >
+                                    <Star className={`w-3.5 h-3.5 ${isMastered ? "fill-white" : ""}`} />
+                                    {isMastered ? t("Đã thuộc", "Mastered") : t("Đánh dấu thuộc", "Mark mastered")}
+                                  </button>
+                                </motion.div>
+                              );
+                            })}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              })}
             </div>
 
             {filtered.length === 0 && (

@@ -550,8 +550,14 @@ const LEVEL_RANK: Record<CambridgeKidsLevel, number> = {
 };
 import { CAMBRIDGE_KIDS_WORDS_MASTER_2 } from "./cambridgeKidsVocabMaster2";
 import { CAMBRIDGE_KIDS_WORDS_MASTER_3 } from "./cambridgeKidsVocabMaster3";
+import { CAMBRIDGE_KIDS_WORDS_MASTER_4 } from "./cambridgeKidsVocabMaster4";
 const map = new Map<string, W>();
-for (const w of [...CAMBRIDGE_KIDS_WORDS_MASTER, ...CAMBRIDGE_KIDS_WORDS_MASTER_2, ...CAMBRIDGE_KIDS_WORDS_MASTER_3]) {
+for (const w of [
+  ...CAMBRIDGE_KIDS_WORDS_MASTER,
+  ...CAMBRIDGE_KIDS_WORDS_MASTER_2,
+  ...CAMBRIDGE_KIDS_WORDS_MASTER_3,
+  ...CAMBRIDGE_KIDS_WORDS_MASTER_4,
+]) {
   const k = w.word.toLowerCase().trim();
   const cur = map.get(k);
   if (!cur || LEVEL_RANK[w.level] < LEVEL_RANK[cur.level]) map.set(k, w);
