@@ -286,16 +286,6 @@ const CambridgeYleVocabulary = () => {
               })}
             </div>
 
-            {/* Search */}
-            <div className="relative max-w-md mb-4">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-              <Input
-                placeholder={t("Tìm từ tiếng Anh hoặc nghĩa tiếng Việt...", "Search English or Vietnamese...")}
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-                className="pl-11 h-11 bg-white/80 border-2 border-white"
-              />
-            </div>
 
             {/* Grouped by thematic categories — collapsible */}
             <div className="space-y-4">
