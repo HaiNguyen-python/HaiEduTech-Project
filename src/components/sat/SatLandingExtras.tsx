@@ -91,20 +91,6 @@ const SatLandingExtras = () => {
 
   return (
     <>
-      {/* 1 · Trust stats */}
-      <Section delay={0.05}>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {stats.map((s, i) => (
-            <div key={i} className="glass-card rounded-2xl p-5 text-center hover:shadow-lg transition-shadow">
-              <div className={`w-12 h-12 mx-auto mb-3 rounded-xl bg-gradient-to-br ${s.color} flex items-center justify-center shadow-md`}>
-                <s.icon className="w-6 h-6 text-white" />
-              </div>
-              <p className="text-2xl md:text-3xl font-display font-extrabold text-foreground">{s.value}</p>
-              <p className="text-xs text-muted-foreground mt-1 leading-snug">{s.label}</p>
-            </div>
-          ))}
-        </div>
-      </Section>
 
       {/* 2 · Digital SAT 2026 format */}
       <Section delay={0.1}>
