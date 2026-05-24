@@ -1151,7 +1151,8 @@ const AIAcademy = () => {
     awardXP(xpGain, "quiz");
     if (starsGained > 0) awardXP(0, "star");
 
-
+    if (passed) {
+      confetti({ particleCount: 180, spread: 110, origin: { y: 0.6 } });
       setTimeout(() => confetti({
         particleCount: 120, spread: 100, origin: { y: 0.4 },
         colors: ["#a855f7", "#06b6d4", "#10b981"],
@@ -1180,6 +1181,7 @@ const AIAcademy = () => {
       });
     }
   };
+
 
   const activeTrack = useMemo(() => TRACKS.find((t) => t.id === active) ?? null, [active]);
 
