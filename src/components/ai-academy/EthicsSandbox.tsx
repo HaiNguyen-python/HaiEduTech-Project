@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 import { Scale, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { BonusGames } from "./SandboxBonusGames";
-import { ChipFilter } from "./SandboxMiniActivity";
+import { ChipFilter, BestMatchPick } from "./SandboxMiniActivity";
 
 const ETH_TF = [
   { q: "AI có ý thức và có thể tự quyết định đạo đức.", a: false, why: "AI chỉ học theo dữ liệu — không có 'lương tâm'." },
