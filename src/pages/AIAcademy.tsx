@@ -1193,14 +1193,17 @@ const AIAcademy = () => {
                               <BookOpen className="w-4 h-4" />
                               📖 Từ điển AI ({extra.glossary.length} thuật ngữ)
                             </summary>
-                            <div className="mt-3 space-y-2">
+                            <ul className="mt-3 space-y-2 list-none">
                               {extra.glossary.map((g, i) => (
-                                <div key={i} className="text-sm">
-                                  <span className="font-bold text-indigo-700 dark:text-indigo-300">{g.term}:</span>{" "}
-                                  <span className="text-foreground">{g.def}</span>
-                                </div>
+                                <li key={i} className="flex gap-2 text-sm leading-relaxed">
+                                  <span className="text-indigo-500 mt-0.5 shrink-0 font-bold">▸</span>
+                                  <span className="flex-1">
+                                    <span className="font-bold text-indigo-700 dark:text-indigo-300">{g.term}:</span>{" "}
+                                    <span className="text-foreground">{g.def}</span>
+                                  </span>
+                                </li>
                               ))}
-                            </div>
+                            </ul>
                           </details>
 
                           {/* Careers */}

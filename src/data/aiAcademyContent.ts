@@ -28,7 +28,7 @@ export const TRACK_EXTRAS: Record<string, TrackExtra> = {
   vision: {
     vietnamCase: {
       title: "🇻🇳 VinAI Face Recognition tại sân bay Nội Bài",
-      body: "VinAI Research (thuộc Vingroup) đã phát triển hệ thống FaceID dùng cho sân bay Nội Bài và Tân Sơn Nhất — quét khuôn mặt hành khách thay vé giấy, rút ngắn thời gian check-in từ 4 phút xuống chỉ 5 giây. Hệ thống vẫn nhận diện chính xác 99,2% kể cả khi đeo khẩu trang (di sản từ thời COVID-19).",
+      body: "🏢 VinAI Research (thuộc Vingroup) đã triển khai hệ thống FaceID cho hai sân bay lớn nhất Việt Nam là Nội Bài và Tân Sơn Nhất. ⚡ Hành khách chỉ cần quét khuôn mặt thay vé giấy, giảm thời gian check-in từ 4 phút xuống còn 5 giây. 🎯 Độ chính xác đạt 99,2%, kể cả khi hành khách đang đeo khẩu trang (di sản công nghệ từ thời COVID-19). 🌏 Đây là một trong những hệ thống face recognition quy mô sân bay quốc tế lớn nhất khu vực Đông Nam Á.",
     },
     goldenTip:
       "Khi training model Vision, đừng chỉ thu ảnh đẹp! Hãy cố tình thêm ảnh mờ, ngược sáng, nghiêng góc 45°. Model học từ data 'xấu' mới robust ngoài đời thật — đó là bí mật của Tesla Autopilot.",

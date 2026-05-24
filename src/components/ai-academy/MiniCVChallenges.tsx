@@ -239,7 +239,7 @@ const ConfidencePredictor = () => {
 
 const MiniCVChallenges = () => (
   <div className="space-y-3 pt-2">
-    <VehicleFinder />
+    <PixelReveal />
     <ConfidencePredictor />
   </div>
 );
