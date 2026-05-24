@@ -244,6 +244,7 @@ const App = () => (
             <Route path="/cambridge-lectures" element={<LazyRoute><CambridgeLectures /></LazyRoute>} />
             <Route path="/cambridge-lectures/:lectureId" element={<LazyRoute><CambridgeLectureView /></LazyRoute>} />
             <Route path="/cambridge-mock-exam/:examId" element={<LazyRoute><CambridgeMockExamPage /></LazyRoute>} />
+            <Route path="/cambridge-yle-test-prep" element={<LazyRoute><CambridgeYleTestPrep /></LazyRoute>} />
             <Route path="/vocab-arena" element={<LazyRoute><VocabArena /></LazyRoute>} />
             <Route path="/national-exam" element={<LazyRoute><NationalExamPrep /></LazyRoute>} />
             <Route path="/national-exam/essential-review" element={<LazyRoute><ThptEssentialReview /></LazyRoute>} />
