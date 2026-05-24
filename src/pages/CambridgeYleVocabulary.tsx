@@ -164,6 +164,7 @@ const CambridgeYleVocabulary = () => {
   const { t } = useLanguage();
   const [level, setLevel] = useState<CambridgeKidsLevel>("Starters");
   const [search, setSearch] = useState("");
+  const [tab, setTab] = useState<"learn" | "practice">("learn");
   const { mastered, toggle } = useMasteredVocab(MASTERY_SUBJECT);
 
   const wordsForLevel = useMemo(
