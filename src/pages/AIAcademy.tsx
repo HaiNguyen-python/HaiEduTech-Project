@@ -11,7 +11,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Eye, MessageSquare, Brain, Sparkles, Trophy, Star, ArrowLeft, Lock,
   Zap, Award, Rocket, CheckCircle2, Wand2, Car, Scale, Database, Radio, Cpu,
-  ShieldAlert, Bot, GraduationCap, Lightbulb, BookOpen, Briefcase, Home, ExternalLink, AlertTriangle, MapPin,
+  ShieldAlert, Bot, GraduationCap, Lightbulb, BookOpen, Briefcase, Home, ExternalLink, AlertTriangle, MapPin, ChevronDown,
 } from "lucide-react";
 import { TRACK_EXTRAS } from "@/data/aiAcademyContent";
 import confetti from "canvas-confetti";
