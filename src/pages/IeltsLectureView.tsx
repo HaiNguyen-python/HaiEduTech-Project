@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { allIeltsLectures, PILLAR_META } from "@/data/ieltsLecturesData";
 import type { VocabHighlight } from "@/data/ieltsLecturesData";
+import { getLectureQuizWithExtras } from "@/data/ieltsLectureQuizExtras";
 import IeltsLectureDiagram from "@/components/ielts/IeltsLectureDiagram";
 import IeltsLectureExpansionPanel from "@/components/ielts/IeltsLectureExpansionPanel";
 import { lectureExpansions } from "@/data/ieltsLectureExpansion";
@@ -84,7 +85,8 @@ const IeltsLectureView = () => {
   }
 
   const pillarMeta = PILLAR_META[lecture.pillar];
-  const quizScore = lecture.quiz.reduce((acc, q, i) => acc + (quizAnswers[i] === q.answer ? 1 : 0), 0);
+  const lectureQuiz = useMemo(() => getLectureQuizWithExtras(lecture.id, lecture.quiz), [lecture.id, lecture.quiz]);
+  const quizScore = lectureQuiz.reduce((acc, q, i) => acc + (quizAnswers[i] === q.answer ? 1 : 0), 0);
 
   const handleComplete = () => {
     if (lecture) {
@@ -93,7 +95,7 @@ const IeltsLectureView = () => {
         activityType: "ielts_lecture",
         activityId: lecture.id,
         score: quizSubmitted ? quizScore : 0,
-        maxScore: quizSubmitted ? lecture.quiz.length : 1,
+        maxScore: quizSubmitted ? lectureQuiz.length : 1,
         domain: "english",
       });
     }
@@ -101,12 +103,12 @@ const IeltsLectureView = () => {
 
   const handleQuizSubmit = () => {
     setQuizSubmitted(true);
-    const score = lecture.quiz.reduce((acc, q, i) => acc + (quizAnswers[i] === q.answer ? 1 : 0), 0);
+    const score = lectureQuiz.reduce((acc, q, i) => acc + (quizAnswers[i] === q.answer ? 1 : 0), 0);
     logStudentActivity({
       activityType: "ielts_lecture_quiz",
       activityId: lecture.id,
       score,
-      maxScore: lecture.quiz.length,
+      maxScore: lectureQuiz.length,
       domain: "english",
     });
   };
