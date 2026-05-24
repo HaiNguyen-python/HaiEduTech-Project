@@ -392,4 +392,82 @@ export const TRACK_EXTRAS: Record<string, TrackExtra> = {
       { label: "Notion — portfolio CV cho dev AI", url: "https://www.notion.so/templates/category/personal-brand" },
     ],
   },
+
+  // ============== Bài 13 — Study Smart ==============
+  study: {
+    vietnamCase: { title: "🇻🇳 Học sinh chuyên Toán Hà Nội + NotebookLM", body: "Nhóm HS chuyên Toán Hà Nội Amsterdam dùng NotebookLM nạp toàn bộ SGK + đề thi Toán quốc gia 5 năm vào → AI tạo flashcard, tóm tắt, podcast nghe lúc đi học. Kết quả: 18/20 bạn đạt 9+ điểm THPT QG Toán 2024." },
+    goldenTip: "Quy tắc 3 bước của thầy Hải: Tự làm trước → Hỏi AI giải thích cách (không phải đáp án) → Kiểm chứng bằng SGK. Nếu bỏ bước 1, em mất 90% kỹ năng tư duy.",
+    glossary: [
+      { term: "Prompt", def: "Câu lệnh em gửi cho AI. Càng cụ thể, càng đúng." },
+      { term: "NotebookLM", def: "AI của Google đọc PDF/tài liệu → tạo tóm tắt, flashcard, podcast." },
+      { term: "Hallucination", def: "AI bịa thông tin nghe có vẻ thật — phải luôn kiểm chứng." },
+      { term: "Context", def: "Ngữ cảnh em cung cấp (lớp, môn, mục tiêu) — AI dùng để cá nhân hóa." },
+    ],
+    careers: ["EdTech Product Manager", "AI Tutor Designer", "Prompt Engineer cho giáo dục", "Học liệu AI Specialist"],
+    homework: "Mở NotebookLM, upload 1 PDF SGK môn em yếu nhất, yêu cầu AI tạo 10 flashcard + 1 podcast 5 phút. Nghe podcast lúc đi học 3 ngày liên tiếp — kiểm tra điểm số có cải thiện không.",
+    externalDemo: [
+      { label: "NotebookLM — gia sư đọc PDF", url: "https://notebooklm.google.com/" },
+      { label: "ChatGPT — trợ lý đa năng", url: "https://chat.openai.com/" },
+      { label: "Khanmigo — gia sư AI của Khan Academy", url: "https://www.khanmigo.ai/" },
+    ],
+  },
+
+  // ============== Bài 14 — Careers Map ==============
+  careers: {
+    vietnamCase: { title: "🇻🇳 VinAI tuyển 500 kỹ sư AI 2024–2026", body: "VinAI Research công bố kế hoạch tuyển thêm 500 kỹ sư AI từ 2024–2026, lương từ 30 triệu (junior) đến 150 triệu/tháng (senior). FPT.AI, Zalo AI Lab, VinBigdata, MoMo cũng đang ráo riết tuyển. Việt Nam được Gartner đánh giá là top 5 thị trường AI tăng trưởng nhanh nhất châu Á." },
+    goldenTip: "Không cần giỏi Toán đỉnh cao mới làm AI! Prompt Engineer, AI PM, AI UX, AI Linguist — 4 nghề HOT chỉ cần tư duy tốt + tiếng Anh khá + đam mê công nghệ. Quan trọng nhất là chủ động làm dự án nhỏ ngay từ lớp 10.",
+    glossary: [
+      { term: "AI Engineer", def: "Xây dựng và triển khai model ML — cần Python + Toán." },
+      { term: "Prompt Engineer", def: "Thiết kế câu lệnh AI cho doanh nghiệp — không cần code thành thạo." },
+      { term: "AI PM", def: "Quản lý sản phẩm AI — kết hợp kinh doanh + công nghệ." },
+      { term: "MLOps", def: "Vận hành hạ tầng AI cho công ty — cần biết Docker, K8s, Cloud." },
+    ],
+    careers: ["AI / ML Engineer (30–80 triệu)", "Data Scientist (25–60 triệu)", "Prompt Engineer (20–50 triệu)", "AI Product Manager (40–100 triệu)", "AI UX Designer (20–45 triệu)"],
+    homework: "Vào LinkedIn, tìm 'AI Engineer Vietnam' → đọc 10 JD (job description). Ghi lại 5 kỹ năng được nhắc nhiều nhất. Đây chính là lộ trình tự học của em từ giờ đến hết lớp 12.",
+    externalDemo: [
+      { label: "VinAI Careers", url: "https://www.vinai.io/careers/" },
+      { label: "FPT.AI Careers", url: "https://fpt.ai/career" },
+      { label: "TopDev — việc làm IT VN", url: "https://topdev.vn/viec-lam-it/ai-ml" },
+    ],
+  },
+
+  // ============== Bài 15 — Fact Check ==============
+  factcheck: {
+    vietnamCase: { title: "🇻🇳 Vụ AI bịa luận án Tiến sĩ tại ĐH HN 2024", body: "Năm 2024, một nghiên cứu sinh ĐH Hà Nội bị phát hiện dùng ChatGPT viết luận án Tiến sĩ với 23 trích dẫn 'sách' KHÔNG TỒN TẠI — AI hoàn toàn bịa ra. Vụ việc gây chấn động giới học thuật. Bài học: AI có thể bịa với độ tự tin 100%, người dùng phải tự kiểm chứng." },
+    goldenTip: "4 dấu hiệu AI đang bịa: (1) số liệu cực cụ thể như 2.347.891 người; (2) trích dẫn sách/báo lạ; (3) ngày + tên người + thành tựu quá đẹp; (4) sự kiện lịch sử chi tiết bất thường. Gặp 1 trong 4 → mở Google kiểm tra ngay.",
+    glossary: [
+      { term: "Hallucination", def: "AI bịa thông tin sai sự thật, nghe rất hợp lý." },
+      { term: "Cross-Check", def: "Kiểm chứng bằng nguồn thứ 2 (Wiki, sách, báo)." },
+      { term: "Source Citation", def: "Yêu cầu AI dẫn nguồn — nếu không có thì 90% là bịa." },
+      { term: "Red Flag", def: "Dấu hiệu đáng nghi cần kiểm chứng ngay." },
+    ],
+    careers: ["AI Safety Researcher", "Fact-Checking Journalist", "AI Auditor", "Content Moderation Specialist"],
+    homework: "Hỏi ChatGPT 5 câu về lịch sử VN có chi tiết (tên người, năm, số liệu). Kiểm chứng từng câu trên Wikipedia tiếng Việt. Đếm xem AI bịa bao nhiêu chi tiết — kết quả sẽ làm em bất ngờ.",
+    externalDemo: [
+      { label: "Google Scholar — kiểm chứng học thuật", url: "https://scholar.google.com/" },
+      { label: "Snopes — fact-check toàn cầu", url: "https://www.snopes.com/" },
+      { label: "Wikipedia Vietnam", url: "https://vi.wikipedia.org/" },
+    ],
+    safetyNote: { title: "⚠️ Cảnh báo quan trọng", body: "KHÔNG BAO GIỜ nộp bài tập / luận văn 100% do AI viết mà chưa kiểm chứng từng trích dẫn. Hậu quả: đuổi học, mất bằng, tổn hại danh tiếng cả đời." },
+  },
+
+  // ============== Bài 16 — Digital Safety ==============
+  safety: {
+    vietnamCase: { title: "🇻🇳 Lừa đảo deepfake voice tại TP.HCM 2024", body: "Tháng 8/2024, Công an TP.HCM ghi nhận 47 vụ lừa đảo bằng giọng AI giả người thân chỉ trong 1 tháng. Tổng thiệt hại hơn 12 tỷ đồng. Thủ đoạn: lấy 3 giây ghi âm từ TikTok/Facebook → AI nhái giọng → gọi điện 'cấp cứu cần chuyển tiền'. Nạn nhân trẻ chiếm 60%." },
+    goldenTip: "QUY TẮC VÀNG 3-2-1: Nghi ngờ trong 3 giây → Xác minh qua 2 kênh (gọi số cũ + hỏi người thân khác) → Báo 1 người lớn tin cậy. Áp dụng cho MỌI yêu cầu chuyển tiền / gửi giấy tờ qua điện thoại, chat.",
+    glossary: [
+      { term: "Deepfake Voice", def: "Giọng AI giả y hệt người thật chỉ từ 3 giây mẫu." },
+      { term: "Two-Channel Verify", def: "Xác minh qua kênh thứ 2 trước khi tin." },
+      { term: "Grooming", def: "Người lớn dụ dỗ trẻ em qua mạng để lừa đảo / xâm hại." },
+      { term: "Phishing", def: "Lừa lấy thông tin cá nhân qua link / chat giả mạo." },
+    ],
+    careers: ["Cybersecurity Analyst", "Trust & Safety Officer", "Digital Forensics Investigator", "AI Policy Advisor"],
+    homework: "Kiểm tra TikTok / Facebook cá nhân: gỡ mọi video / ghi âm có giọng nói em rõ ràng. Hỏi bố mẹ + người thân thiết lập 'mật khẩu gia đình' bí mật — chỉ dùng khi cần xác minh khẩn cấp.",
+    externalDemo: [
+      { label: "Cục An toàn Thông tin VN", url: "https://www.ais.gov.vn/" },
+      { label: "Báo cáo lừa đảo: tinnhiemmang.vn", url: "https://tinnhiemmang.vn/" },
+      { label: "Google Take Action", url: "https://safety.google/families/" },
+    ],
+    safetyNote: { title: "🚨 Số khẩn cấp cần nhớ", body: "Báo lừa đảo: 113 (Công an) hoặc 069.219.6395 (Cục An toàn TT). Bị đe dọa qua mạng: nói ngay với bố mẹ / thầy cô. Không xử lý một mình." },
+  },
 };
