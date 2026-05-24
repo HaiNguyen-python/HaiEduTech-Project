@@ -570,7 +570,7 @@ const GroupedLectureSections = ({ lectures, bookmarked, completed, onToggleBookm
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {LEVEL_ORDER.map((lvl) => {
         const levelLectures = byLevel[lvl] || [];
         if (levelLectures.length === 0) return null;
