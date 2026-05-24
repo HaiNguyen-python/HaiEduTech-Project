@@ -199,12 +199,12 @@ const CambridgeLectures = () => {
                 <button
                   key={f.key}
                   onClick={() => setActiveLevel(f.key)}
-                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold uppercase tracking-wide transition-all border backdrop-blur-sm ${
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold uppercase tracking-wide transition-all border-2 backdrop-blur-sm shadow-sm ${
                     isActive
                       ? cfg
                         ? `${cfg.bgClass} ${cfg.textClass} ${cfg.borderClass}`
-                        : "bg-white/10 text-white border-white/20"
-                      : "bg-white/[0.03] text-[#64748B] border-white/[0.06] hover:bg-white/[0.06]"
+                        : "bg-white text-slate-800 border-white"
+                      : "bg-white/70 text-slate-700 border-white/80 hover:bg-white"
                   }`}
                   style={isActive && cfg ? { boxShadow: `0 0 12px ${cfg.glowColor}` } : undefined}
                 >
