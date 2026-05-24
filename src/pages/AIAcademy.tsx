@@ -1208,7 +1208,9 @@ const AIAcademy = () => {
                     document.getElementById("ai-track-detail")?.scrollIntoView({ behavior: "smooth", block: "start" });
                   }, 50);
                 }}
-                className={`group relative text-left rounded-3xl p-5 bg-card border-2 transition-all overflow-hidden hover:shadow-2xl active:scale-[0.98] ${
+                className={`group relative text-left rounded-3xl p-5 bg-card border-2 transition-all overflow-hidden hover:shadow-2xl active:scale-[0.98] electric-border ${
+                  stars >= 3 ? "electric-strong" : ""
+                } ${
                   active === t.id ? `border-transparent ring-4 ${t.ring}` : "border-border hover:border-primary/30"
                 }`}
               >
