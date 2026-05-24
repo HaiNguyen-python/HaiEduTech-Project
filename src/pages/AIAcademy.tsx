@@ -1264,6 +1264,9 @@ const AIAcademy = () => {
         {/* XP / Streak / Daily Quest HUD */}
         <XPStreakHUD />
 
+        {/* Cây kinh nghiệm AI */}
+        <AISkillTree totalStars={totalStars} totalBadges={totalBadges} />
+
         {/* Track cards */}
 
         <div className="grid md:grid-cols-3 gap-5 mb-10">
