@@ -433,4 +433,33 @@ const baseIdioms: IdiomEntry[] = [
   },
 ];
 
-export const englishIdioms: IdiomEntry[] = [...baseIdioms, ...englishIdiomsExpansion, ...englishIdiomsExtra];
+/**
+ * Normalize an idiom phrase for duplicate detection:
+ * lowercase, strip punctuation, collapse whitespace, drop a leading "it's"/"its".
+ */
+const normalizePhrase = (s: string): string =>
+  s
+    .toLowerCase()
+    .replace(/[''`]/g, "'")
+    .replace(/[^\p{L}\p{N}\s]/gu, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/^it s /, "");
+
+const dedupeByPhrase = (entries: IdiomEntry[]): IdiomEntry[] => {
+  const seen = new Set<string>();
+  const out: IdiomEntry[] = [];
+  for (const e of entries) {
+    const key = normalizePhrase(e.phrase);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(e);
+  }
+  return out;
+};
+
+export const englishIdioms: IdiomEntry[] = dedupeByPhrase([
+  ...baseIdioms,
+  ...englishIdiomsExpansion,
+  ...englishIdiomsExtra,
+]);
