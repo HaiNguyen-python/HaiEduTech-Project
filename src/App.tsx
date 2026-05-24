@@ -205,9 +205,10 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<RootEntry />} />
-            <Route path="/home" element={<Index />} />
-            <Route path="/welcome" element={<Welcome />} />
+            <Route path="/" element={<LazyRoute><RootEntry /></LazyRoute>} />
+            <Route path="/home" element={<LazyRoute><Index /></LazyRoute>} />
+            <Route path="/welcome" element={<LazyRoute><Welcome /></LazyRoute>} />
+
             <Route path="/about" element={<LazyRoute><About /></LazyRoute>} />
             <Route path="/english" element={<LazyRoute><English /></LazyRoute>} />
             <Route path="/english/fun-facts" element={<LazyRoute><EnglishFunFacts /></LazyRoute>} />
