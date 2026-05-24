@@ -6,7 +6,7 @@
  */
 import type { CambridgeKidsWord } from "./cambridgeKidsVocab";
 
-export const CAMBRIDGE_KIDS_WORDS_EXPANSION_2: CambridgeKidsWord[] = [
+export const CAMBRIDGE_KIDS_WORDS_EXPANSION_2: CambridgeKidsWord[] = ([
   // ============== STARTERS (A1) ==============
   { word: "ant", vi: "con kiến", emoji: "🐜", level: "Starters", example: "An ant is very small.", exampleVi: "Con kiến rất nhỏ." },
   { word: "bag", vi: "cái túi", emoji: "🎒", level: "Starters", example: "My bag is full of books.", exampleVi: "Túi của em đầy sách." },
