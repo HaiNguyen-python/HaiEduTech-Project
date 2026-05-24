@@ -18,6 +18,8 @@ export interface CambridgeKidsWord {
   vi: string;
   emoji: string;
   level: CambridgeKidsLevel;
+  example?: string;
+  exampleVi?: string;
 }
 
 export const CAMBRIDGE_KIDS_WORDS: CambridgeKidsWord[] = [

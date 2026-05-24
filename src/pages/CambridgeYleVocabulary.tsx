@@ -14,20 +14,41 @@ import FloatingKidsDecor from "@/components/FloatingKidsDecor";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { CAMBRIDGE_KIDS_WORDS, CAMBRIDGE_LEVELS, type CambridgeKidsLevel } from "@/data/cambridgeKidsVocab";
+import { CAMBRIDGE_KIDS_WORDS, CAMBRIDGE_LEVELS, type CambridgeKidsLevel, type CambridgeKidsWord } from "@/data/cambridgeKidsVocab";
 import { CAMBRIDGE_KIDS_WORDS_EXPANSION } from "@/data/cambridgeKidsVocabExpansion";
+import { CAMBRIDGE_KIDS_WORDS_EXPANSION_2 } from "@/data/cambridgeKidsVocabExpansion2";
+import { getExample } from "@/data/cambridgeKidsExamples";
 import { toast } from "@/hooks/use-toast";
 
-const ALL_WORDS = [...CAMBRIDGE_KIDS_WORDS, ...CAMBRIDGE_KIDS_WORDS_EXPANSION];
+// Merge and dedupe by lowercase word — keep the FIRST occurrence (lower CEFR
+// wins, so a word like "rainbow" only appears at the easiest level it teaches).
+const LEVEL_ORDER: Record<CambridgeKidsLevel, number> = {
+  Starters: 0, Movers: 1, Flyers: 2, KET: 3, PET: 4,
+};
+const RAW_WORDS = [
+  ...CAMBRIDGE_KIDS_WORDS,
+  ...CAMBRIDGE_KIDS_WORDS_EXPANSION,
+  ...CAMBRIDGE_KIDS_WORDS_EXPANSION_2,
+];
+const seen = new Map<string, CambridgeKidsWord>();
+for (const w of RAW_WORDS) {
+  const key = w.word.toLowerCase().trim();
+  const existing = seen.get(key);
+  if (!existing || LEVEL_ORDER[w.level] < LEVEL_ORDER[existing.level]) {
+    seen.set(key, w);
+  }
+}
+const ALL_WORDS: CambridgeKidsWord[] = [...seen.values()].sort((a, b) => a.word.localeCompare(b.word));
 
+// Softer, kid-friendly palette — pastel borders, light tints, strong text contrast.
 const LEVEL_THEME: Record<CambridgeKidsLevel, {
-  color: string; bg: string; emoji: string; cefr: string; gradient: string;
+  color: string; soft: string; bg: string; emoji: string; cefr: string; gradient: string;
 }> = {
-  Starters: { color: "#FF6B9D", bg: "#FFE5EC", emoji: "🎨", cefr: "A1", gradient: "linear-gradient(135deg, #FF6B9D, #FFB4C8)" },
-  Movers:   { color: "#4D96FF", bg: "#E0F4FF", emoji: "🚀", cefr: "A1+", gradient: "linear-gradient(135deg, #4D96FF, #A0CDFF)" },
-  Flyers:   { color: "#6BCB77", bg: "#E8FFE0", emoji: "🦅", cefr: "A2", gradient: "linear-gradient(135deg, #6BCB77, #B8F0BE)" },
-  KET:      { color: "#C780FA", bg: "#F3E8FF", emoji: "📝", cefr: "A2 Key", gradient: "linear-gradient(135deg, #C780FA, #E2B8FF)" },
-  PET:      { color: "#FF9F1C", bg: "#FFF4E0", emoji: "🏆", cefr: "B1", gradient: "linear-gradient(135deg, #FF9F1C, #FFD49A)" },
+  Starters: { color: "#EC8FB0", soft: "#FFF1F6", bg: "#FFE5EC", emoji: "🎨", cefr: "A1",     gradient: "linear-gradient(135deg, #FFB4C8, #FFD6E2)" },
+  Movers:   { color: "#7FB1F0", soft: "#F0F8FF", bg: "#E0F4FF", emoji: "🚀", cefr: "A1+",    gradient: "linear-gradient(135deg, #A0CDFF, #CDE5FF)" },
+  Flyers:   { color: "#8AD195", soft: "#F1FFF1", bg: "#E8FFE0", emoji: "🦅", cefr: "A2",     gradient: "linear-gradient(135deg, #B8F0BE, #D7F7DC)" },
+  KET:      { color: "#C19FE6", soft: "#F8F1FF", bg: "#F3E8FF", emoji: "📝", cefr: "A2 Key", gradient: "linear-gradient(135deg, #DCC1F5, #ECDCFB)" },
+  PET:      { color: "#F0B469", soft: "#FFF8EC", bg: "#FFF4E0", emoji: "🏆", cefr: "B1",     gradient: "linear-gradient(135deg, #FFD49A, #FFE6C2)" },
 };
 
 const STORAGE_KEY = "cambridge-yle-vocab-mastered-v1";
@@ -186,7 +207,7 @@ const CambridgeYleVocabulary = () => {
   const theme = LEVEL_THEME[level];
 
   return (
-    <div className="min-h-screen relative" style={{ background: "linear-gradient(180deg, #FFF8E7 0%, #FFE5EC 25%, #E0F4FF 50%, #E8FFE0 75%, #FFF0F5 100%)" }}>
+    <div className="min-h-screen relative" style={{ background: "linear-gradient(180deg, #FEFCF7 0%, #FFF7FA 35%, #F4FAFF 70%, #F8FFF6 100%)" }}>
       <FloatingKidsDecor />
       <Navbar />
       <main className="pt-16 pb-8 relative z-10">
@@ -227,17 +248,17 @@ const CambridgeYleVocabulary = () => {
                     onClick={() => setLevel(lv)}
                     className="px-4 py-2.5 rounded-2xl border-2 font-bold uppercase tracking-wide text-sm transition-all shadow-sm flex items-center gap-2"
                     style={{
-                      background: active ? th.gradient : "rgba(255,255,255,0.85)",
-                      color: active ? "#FFFFFF" : th.color,
-                      borderColor: active ? "#FFFFFF" : th.color,
-                      boxShadow: active ? `0 4px 14px ${th.color}55` : undefined,
+                      background: active ? th.gradient : "#FFFFFF",
+                      color: active ? "#1F2937" : "#475569",
+                      borderColor: th.color,
+                      boxShadow: active ? `0 3px 10px ${th.color}55` : undefined,
                     }}
                   >
                     <span>{th.emoji}</span>
                     {lv}
-                    <span className="px-2 py-0.5 rounded-full text-[10px]" style={{
-                      background: active ? "rgba(255,255,255,0.3)" : `${th.color}22`,
-                      color: active ? "#FFFFFF" : th.color,
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold" style={{
+                      background: active ? "rgba(255,255,255,0.55)" : th.soft,
+                      color: "#334155",
                     }}>
                       {lvDone}/{lvWords.length}
                     </span>
@@ -263,6 +284,7 @@ const CambridgeYleVocabulary = () => {
                 {filtered.map((w, idx) => {
                   const key = `${w.level}:${w.word}`;
                   const isMastered = mastered.has(key);
+                  const ex = getExample(w);
                   return (
                     <motion.div
                       key={key}
@@ -272,42 +294,57 @@ const CambridgeYleVocabulary = () => {
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.18, delay: Math.min(idx, 12) * 0.015 }}
                       whileHover={{ y: -3 }}
-                      className="relative rounded-2xl p-3 border-2 shadow-md overflow-hidden"
+                      className="relative rounded-2xl p-3 border shadow-sm overflow-hidden bg-white"
                       style={{
                         borderColor: theme.color,
-                        background: `linear-gradient(135deg, #fff 0%, ${theme.bg} 100%)`,
-                        boxShadow: `0 2px 0 ${theme.color}, 0 6px 14px ${theme.color}33`,
+                        boxShadow: `0 1px 0 ${theme.color}66, 0 4px 10px ${theme.color}22`,
                       }}
                     >
                       {isMastered && (
-                        <div className="absolute top-2 right-2 text-[#10B981]">
-                          <CheckCircle2 className="w-5 h-5 fill-[#D1FAE5]" />
+                        <div className="absolute top-2 right-2 text-emerald-600">
+                          <CheckCircle2 className="w-5 h-5 fill-emerald-100" />
                         </div>
                       )}
-                      <div className="flex items-center gap-3">
-                        <div className="text-4xl drop-shadow">{w.emoji}</div>
+                      <div className="flex items-start gap-3">
+                        <div className="text-4xl drop-shadow shrink-0">{w.emoji}</div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
-                            <p className="text-lg font-bold text-slate-800 truncate">{w.word}</p>
+                            <p className="text-lg font-bold text-slate-900 truncate">{w.word}</p>
                             <button
                               onClick={() => speak(w.word)}
-                              className="p-1 rounded-full hover:bg-white"
+                              className="p-1 rounded-full hover:bg-slate-100"
                               style={{ color: theme.color }}
                               aria-label="Listen"
                             >
                               <Volume2 className="w-4 h-4" />
                             </button>
                           </div>
-                          <p className="text-sm text-slate-600 truncate">{w.vi}</p>
+                          <p className="text-sm text-slate-700 truncate">{w.vi}</p>
                         </div>
                       </div>
+
+                      {/* Example sentence */}
+                      <div
+                        className="mt-2 rounded-xl px-2.5 py-2 text-[12px] leading-snug"
+                        style={{ background: theme.soft, borderLeft: `3px solid ${theme.color}` }}
+                      >
+                        <p className="text-slate-800">
+                          <span className="font-semibold" style={{ color: theme.color }}>EN · </span>
+                          {ex.en}
+                        </p>
+                        <p className="text-slate-600 mt-0.5">
+                          <span className="font-semibold" style={{ color: theme.color }}>VI · </span>
+                          {ex.vi}
+                        </p>
+                      </div>
+
                       <button
                         onClick={() => toggleMaster(w.level, w.word)}
-                        className="mt-3 w-full text-xs font-bold uppercase tracking-wide rounded-xl py-2 transition-all flex items-center justify-center gap-1.5"
+                        className="mt-2 w-full text-xs font-bold uppercase tracking-wide rounded-xl py-2 transition-all flex items-center justify-center gap-1.5"
                         style={{
-                          background: isMastered ? "#10B981" : `${theme.color}1A`,
+                          background: isMastered ? "#10B981" : "#FFFFFF",
                           color: isMastered ? "#FFFFFF" : theme.color,
-                          border: `2px solid ${isMastered ? "#10B981" : theme.color}`,
+                          border: `1.5px solid ${isMastered ? "#10B981" : theme.color}`,
                         }}
                       >
                         <Star className={`w-3.5 h-3.5 ${isMastered ? "fill-white" : ""}`} />
