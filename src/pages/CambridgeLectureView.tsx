@@ -15,6 +15,7 @@ import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import FloatingBalloons from "@/components/FloatingBalloons";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { allCambridgeLectures, LEVEL_CONFIG } from "@/data/cambridgeLecturesData";
 import { enrichCambridgeLecture } from "@/lib/cambridgeEnrichment";
