@@ -1026,6 +1026,15 @@ const TRACKS: Track[] = [
   },
 ];
 
+// Difficulty-ordered learning path (easy → hard). Card list & numbering follow this order.
+const TRACK_ORDER: TrackId[] = [
+  "study", "safety", "factcheck", "vision", "nlp", "genai", "recsys",
+  "nn", "rl", "ethics", "deepfake", "aiot", "agent", "careers", "capstone", "graduation",
+];
+const ORDERED_TRACKS: Track[] = TRACK_ORDER
+  .map((id) => TRACKS.find((t) => t.id === id))
+  .filter((t): t is Track => Boolean(t));
+
 const STORAGE_KEY = "haiedu_ai_academy_progress";
 
 type Progress = Record<TrackId, { stars: number; badge?: boolean }>;
@@ -1197,15 +1206,16 @@ const AIAcademy = () => {
 
         {/* Track cards */}
         <div className="grid md:grid-cols-3 gap-5 mb-10">
-          {TRACKS.map((t, i) => {
+          {ORDERED_TRACKS.map((t, i) => {
             const p = progress[t.id] ?? { stars: 0 };
             const stars = p.stars;
+            const lessonNo = i + 1;
             return (
               <motion.button
                 key={t.id}
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.08 }}
+                transition={{ delay: i * 0.05 }}
                 onClick={() => {
                   setActive(t.id);
                   setTimeout(() => {
@@ -1219,12 +1229,19 @@ const AIAcademy = () => {
                 }`}
               >
                 <div className={`absolute -top-16 -right-16 w-48 h-48 rounded-full bg-gradient-to-br ${t.gradient} opacity-20 blur-2xl group-hover:opacity-40 transition`} />
+                {/* Lesson number badge — sequence in the easy→hard path */}
+                <div className={`absolute top-3 right-3 z-10 flex items-center gap-1 px-2.5 py-1 rounded-full bg-gradient-to-r ${t.gradient} text-white text-[11px] font-black shadow-md`}>
+                  <span className="opacity-90">Bài</span>
+                  <span className="text-sm leading-none">{String(lessonNo).padStart(2, "0")}</span>
+                </div>
                 <div className={`relative w-14 h-14 rounded-2xl bg-gradient-to-br ${t.gradient} flex items-center justify-center text-2xl text-white shadow-lg mb-3`}>
                   {t.emoji}
                 </div>
                 <div className="relative">
                   <div className="text-[10px] uppercase tracking-wider font-bold text-muted-foreground">{t.tag}</div>
-                  <h3 className="font-display font-black text-lg text-foreground leading-tight">{t.title}</h3>
+                  <h3 className="font-display font-black text-lg text-foreground leading-tight">
+                    <span className="text-primary mr-1.5">{lessonNo}.</span>{t.title}
+                  </h3>
                   <p className="text-xs text-muted-foreground mt-1.5 line-clamp-3">{t.desc}</p>
 
                   <div className="flex items-center justify-between mt-4">
