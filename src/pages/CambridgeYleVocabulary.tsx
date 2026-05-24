@@ -182,6 +182,30 @@ const CambridgeYleVocabulary = () => {
     return wordsForLevel.filter(w => w.word.toLowerCase().includes(q) || w.vi.toLowerCase().includes(q));
   }, [wordsForLevel, search]);
 
+  // Group filtered words by thematic category
+  const grouped = useMemo(() => {
+    const m = new Map<KidsCategory, CambridgeKidsWord[]>();
+    for (const w of filtered) {
+      const c = getCategory(w.word);
+      if (!m.has(c)) m.set(c, []);
+      m.get(c)!.push(w);
+    }
+    return CATEGORY_ORDER
+      .filter(c => m.has(c))
+      .map(c => ({ category: c, words: m.get(c)! }));
+  }, [filtered]);
+
+  const [openCats, setOpenCats] = useState<Set<string>>(new Set());
+  const isSearching = search.trim().length > 0;
+  const isOpen = (key: string) => isSearching ? true : openCats.has(key);
+  const toggleCat = (key: string) => {
+    setOpenCats(prev => {
+      const n = new Set(prev);
+      if (n.has(key)) n.delete(key); else n.add(key);
+      return n;
+    });
+  };
+
   const masteredInLevel = useMemo(
     () => wordsForLevel.filter(w => mastered.has(`${w.level}:${w.word}`)).length,
     [wordsForLevel, mastered]
