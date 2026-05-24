@@ -190,53 +190,88 @@ const CambridgeLectures = () => {
         </section>
 
         {/* Filters Section */}
-        <section className="container mx-auto px-4 pb-4">
-          {/* Level filter pills */}
-          <div className="flex flex-wrap gap-2.5 mb-4">
-            {LEVEL_FILTERS.map(f => {
-              const isActive = activeLevel === f.key;
-              const cfg = f.key !== "all" ? LEVEL_CONFIG[f.key as CambridgeLevel] : null;
-              return (
-                <button
-                  key={f.key}
-                  onClick={() => setActiveLevel(f.key)}
-                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold uppercase tracking-wide transition-all border-2 backdrop-blur-sm shadow-sm ${
-                    isActive
-                      ? cfg
-                        ? `${cfg.bgClass} ${cfg.textClass} ${cfg.borderClass}`
-                        : "bg-white text-slate-800 border-white"
-                      : "bg-white/70 text-slate-700 border-white/80 hover:bg-white"
-                  }`}
-                  style={isActive && cfg ? { boxShadow: `0 0 12px ${cfg.glowColor}` } : undefined}
-                >
-                  <span className="text-base">{f.emoji}</span>
-                  {t(f.labelVi, f.label)}
-                </button>
-              );
-            })}
-          </div>
+        <section className="container mx-auto px-4 pb-3">
+          {/* Collapsible Filter Toggle */}
+          <button
+            onClick={() => setShowFilters(s => !s)}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-bold uppercase tracking-wide bg-white/80 border-2 border-white text-slate-700 hover:bg-white shadow-sm transition-all mb-3"
+          >
+            <SlidersHorizontal className="w-4 h-4" />
+            {t("Bộ lọc", "Filters")}
+            {(activeLevel !== "all" || activeSkill !== "all") && (
+              <span className="ml-1 px-2 py-0.5 rounded-full bg-[#C780FA] text-white text-[10px]">
+                {[activeLevel !== "all" ? 1 : 0, activeSkill !== "all" ? 1 : 0].reduce((a, b) => a + b, 0)}
+              </span>
+            )}
+            <ChevronDown className={`w-4 h-4 transition-transform ${showFilters ? "rotate-180" : ""}`} />
+          </button>
 
-          {/* Skill filter pills */}
-          <div className="flex flex-wrap gap-2 mb-5">
-            {SKILL_FILTERS.map(f => {
-              const Icon = f.icon;
-              const isActive = activeSkill === f.key;
-              return (
-                <button
-                  key={f.key}
-                  onClick={() => setActiveSkill(f.key)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wide transition-all border-2 ${
-                    isActive
-                      ? "bg-[#C780FA]/30 text-[#7C3AED] border-[#C780FA]"
-                      : "bg-white/70 text-slate-600 border-white/80 hover:bg-white"
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  {t(f.labelVi, f.label)}
-                </button>
-              );
-            })}
-          </div>
+          <AnimatePresence initial={false}>
+            {showFilters && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.25 }}
+                className="overflow-hidden"
+              >
+                <div className="p-4 rounded-2xl bg-white/70 border-2 border-white shadow-sm mb-3 space-y-3">
+                  {/* Level filter pills */}
+                  <div>
+                    <p className="text-[11px] font-bold uppercase tracking-widest text-slate-500 mb-2">{t("Cấp độ", "Level")}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {LEVEL_FILTERS.map(f => {
+                        const isActive = activeLevel === f.key;
+                        const cfg = f.key !== "all" ? LEVEL_CONFIG[f.key as CambridgeLevel] : null;
+                        return (
+                          <button
+                            key={f.key}
+                            onClick={() => setActiveLevel(f.key)}
+                            className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all border-2 shadow-sm ${
+                              isActive
+                                ? cfg
+                                  ? `${cfg.bgClass} ${cfg.textClass} ${cfg.borderClass}`
+                                  : "bg-white text-slate-800 border-slate-300"
+                                : "bg-white text-slate-700 border-slate-200 hover:border-slate-400"
+                            }`}
+                            style={isActive && cfg ? { boxShadow: `0 0 10px ${cfg.glowColor}` } : undefined}
+                          >
+                            <span className="text-sm">{f.emoji}</span>
+                            {t(f.labelVi, f.label)}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Skill filter pills */}
+                  <div>
+                    <p className="text-[11px] font-bold uppercase tracking-widest text-slate-500 mb-2">{t("Kỹ năng", "Skill")}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {SKILL_FILTERS.map(f => {
+                        const Icon = f.icon;
+                        const isActive = activeSkill === f.key;
+                        return (
+                          <button
+                            key={f.key}
+                            onClick={() => setActiveSkill(f.key)}
+                            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide transition-all border-2 ${
+                              isActive
+                                ? "bg-[#C780FA]/30 text-[#7C3AED] border-[#C780FA]"
+                                : "bg-white text-slate-600 border-slate-200 hover:border-slate-400"
+                            }`}
+                          >
+                            <Icon className="w-3.5 h-3.5" />
+                            {t(f.labelVi, f.label)}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Search + Sort + Bookmark */}
           <div className="flex flex-wrap gap-3 items-center">
