@@ -433,4 +433,4 @@ const baseIdioms: IdiomEntry[] = [
   },
 ];
 
-export const englishIdioms: IdiomEntry[] = [...baseIdioms, ...englishIdiomsExpansion];
+export const englishIdioms: IdiomEntry[] = [...baseIdioms, ...englishIdiomsExpansion, ...englishIdiomsExtra];
