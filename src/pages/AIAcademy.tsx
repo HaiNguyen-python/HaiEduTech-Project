@@ -38,6 +38,8 @@ import { QUIZ_EXTRAS } from "@/data/aiAcademyQuizExtras";
 import DeepfakeSandbox from "@/components/ai-academy/DeepfakeSandbox";
 import AgentWorkflowSandbox from "@/components/ai-academy/AgentWorkflowSandbox";
 import GraduationSandbox from "@/components/ai-academy/GraduationSandbox";
+import DataDetectiveSandbox from "@/components/ai-academy/DataDetectiveSandbox";
+import MLMagicSandbox from "@/components/ai-academy/MLMagicSandbox";
 
 // Lesson illustrations (kid-friendly AI cartoons)
 import illVision from "@/assets/ai-academy/vision.jpg";
@@ -56,6 +58,8 @@ import illCareers from "@/assets/ai-academy/careers.jpg";
 import illFactcheck from "@/assets/ai-academy/factcheck.jpg";
 import illSafety from "@/assets/ai-academy/safety.jpg";
 import illGraduation from "@/assets/ai-academy/graduation.jpg";
+import illDataDet from "@/assets/ai-academy/data-detective.jpg";
+import illMLMagic from "@/assets/ai-academy/ml-magic.jpg";
 
 const TRACK_ILLUSTRATIONS: Record<string, string> = {
   vision: illVision,
@@ -74,6 +78,8 @@ const TRACK_ILLUSTRATIONS: Record<string, string> = {
   factcheck: illFactcheck,
   safety: illSafety,
   graduation: illGraduation,
+  datadet: illDataDet,
+  mlmagic: illMLMagic,
 };
 
 import FloatingAIIcons from "@/components/ai-academy/FloatingAIIcons";
@@ -136,7 +142,7 @@ const SmartText = ({ text, className = "", html = false }: { text: string; class
   );
 };
 
-type TrackId = "vision" | "nlp" | "nn" | "genai" | "rl" | "ethics" | "recsys" | "aiot" | "capstone" | "deepfake" | "agent" | "study" | "careers" | "factcheck" | "safety" | "mathai" | "promptlab" | "startup" | "graduation";
+type TrackId = "vision" | "nlp" | "nn" | "datadet" | "mlmagic" | "genai" | "rl" | "ethics" | "recsys" | "aiot" | "capstone" | "deepfake" | "agent" | "study" | "careers" | "factcheck" | "safety" | "mathai" | "promptlab" | "startup" | "graduation";
 
 type Track = {
   id: TrackId;
