@@ -7,9 +7,9 @@
  */
 import { motion } from "framer-motion";
 import {
-  TrendingUp, GraduationCap, Trophy, Clock,
+  TrendingUp, Trophy,
   BookOpen, Calculator, Sparkles, ShieldCheck,
-  AlertTriangle, Lightbulb, Star, ChevronRight, Target,
+  AlertTriangle, Lightbulb, ChevronRight, Target,
 } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useLanguage } from "@/contexts/LanguageContext";
