@@ -230,7 +230,7 @@ const HskExercise = ({ masteredWords, t }: { masteredWords: HskWord[]; t: (vi: s
 
   return (
     <div className="max-w-2xl mx-auto">
-      <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
         <div className="flex items-center gap-2 text-sm">
           <label className="text-muted-foreground">{t("Số câu hỏi:", "Questions:")}</label>
           <select
@@ -248,29 +248,29 @@ const HskExercise = ({ masteredWords, t }: { masteredWords: HskWord[]; t: (vi: s
             <RotateCcw className="w-3 h-3 mr-1" /> {t("Tạo mới", "New quiz")}
           </Button>
         </div>
+        <div className="flex items-center gap-4">
+          <span className="text-sm text-muted-foreground">{t("Câu", "Question")} {current + 1}/{questions.length}</span>
+          <span className="text-sm font-semibold text-primary">{t("Điểm", "Score")}: {score}</span>
+        </div>
       </div>
-      <div className="flex items-center justify-between mb-6">
-        <span className="text-sm text-muted-foreground">{t("Câu", "Question")} {current + 1}/{questions.length}</span>
-        <span className="text-sm font-semibold text-primary">{t("Điểm", "Score")}: {score}</span>
-      </div>
-      <div className="rounded-xl border border-border bg-card p-8 mb-6">
-        <div className="flex items-center gap-3 mb-2">
-          <h3 className="text-4xl font-bold text-foreground">{q.word.character}</h3>
-          <button onClick={() => speakChinese(q.word.character)} className="p-2 rounded-full hover:bg-primary/10">
+      <div className="rounded-xl border border-border bg-card px-4 py-3 mb-3">
+        <div className="flex items-center gap-3">
+          <h3 className="text-3xl font-bold text-foreground">{q.word.character}</h3>
+          <button onClick={() => speakChinese(q.word.character)} className="p-1.5 rounded-full hover:bg-primary/10">
             <Volume2 className="w-5 h-5 text-primary" />
           </button>
+          <p className="text-base text-primary font-medium">{q.word.pinyin}</p>
         </div>
-        <p className="text-base text-primary font-medium mb-1">{q.word.pinyin}</p>
-        <div className="p-3 rounded-lg bg-secondary/50 mt-2">
+        <div className="px-3 py-2 rounded-lg bg-secondary/50 mt-2">
           <p className="text-base font-bold text-foreground">{q.word.example}</p>
-          <p className="text-xs text-muted-foreground mt-1">{q.word.examplePinyin}</p>
+          <p className="text-xs text-muted-foreground mt-0.5">{q.word.examplePinyin}</p>
           <HskExampleTranslation example={q.word.example} />
         </div>
-        <p className="text-sm text-muted-foreground mt-3">{t("Chọn nghĩa đúng:", "Choose the correct meaning:")}</p>
       </div>
-      <div className="space-y-3">
+      <p className="text-sm text-muted-foreground mb-2">{t("Chọn nghĩa đúng:", "Choose the correct meaning:")}</p>
+      <div className="space-y-2">
         {q.options.map((opt, idx) => {
-          let cls = "rounded-xl border p-4 cursor-pointer transition-all text-sm text-foreground ";
+          let cls = "rounded-lg border p-2.5 cursor-pointer transition-all text-sm text-foreground ";
           if (selected !== null) {
             if (idx === q.correct) cls += "border-green-500 bg-green-500/10 ";
             else if (idx === selected) cls += "border-red-500 bg-red-500/10 ";
@@ -292,6 +292,7 @@ const HskExercise = ({ masteredWords, t }: { masteredWords: HskWord[]; t: (vi: s
           );
         })}
       </div>
+
       {selected !== null && (
         <div className="flex justify-between items-center mt-6">
           <p className="text-sm text-muted-foreground italic">{q.word.definition.en}</p>
