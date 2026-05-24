@@ -1180,7 +1180,7 @@ const AIAcademy = () => {
                                 💡 Mẹo vàng của thầy Hải
                               </h4>
                             </div>
-                            <p className="text-sm text-foreground/90 leading-relaxed italic">{extra.goldenTip}</p>
+                            <SmartText text={extra.goldenTip} className="text-[15px] text-foreground leading-relaxed italic font-medium" />
                           </div>
 
                           {/* Glossary */}
