@@ -212,7 +212,7 @@ export default function KidsChibiMascot({ lang = "vi" as "vi" | "en" }) {
 
       <div
         className="hidden md:flex fixed z-40 select-none items-end gap-2"
-        style={{ top: 110, right: 24, pointerEvents: "none" }}
+        style={{ top: 180, right: 110, pointerEvents: "none" }}
         aria-hidden="true"
       >
         {/* Soft cloud platform behind chibis */}
