@@ -32,6 +32,9 @@ import RecsysSandbox from "@/components/ai-academy/RecsysSandbox";
 import AIoTSandbox from "@/components/ai-academy/AIoTSandbox";
 import CapstoneSandbox from "@/components/ai-academy/CapstoneSandbox";
 import DragDropQuiz, { type DDQuestion } from "@/components/ai-academy/DragDropQuiz";
+import MultipleChoiceQuiz from "@/components/ai-academy/MultipleChoiceQuiz";
+import ScenarioQuiz from "@/components/ai-academy/ScenarioQuiz";
+import { QUIZ_EXTRAS } from "@/data/aiAcademyQuizExtras";
 import DeepfakeSandbox from "@/components/ai-academy/DeepfakeSandbox";
 import AgentWorkflowSandbox from "@/components/ai-academy/AgentWorkflowSandbox";
 import GraduationSandbox from "@/components/ai-academy/GraduationSandbox";
@@ -1254,6 +1257,36 @@ const AIAcademy = () => {
                     onComplete={(passed, score) => handleQuizComplete(activeTrack, passed, score)}
                   />
                 </div>
+
+                {/* Bonus practice — Multiple Choice + Scenario (no extra stars) */}
+                {QUIZ_EXTRAS[activeTrack.id] && (
+                  <div className="grid lg:grid-cols-2 gap-5">
+                    <div className="rounded-3xl border-2 border-indigo-400/40 bg-gradient-to-br from-indigo-500/5 to-pink-500/5 p-5">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Sparkles className="w-4 h-4 text-indigo-600" />
+                        <h3 className="font-bold text-sm uppercase tracking-wider text-indigo-700 dark:text-indigo-400">
+                          🎯 Luyện thêm — Trắc nghiệm
+                        </h3>
+                      </div>
+                      <MultipleChoiceQuiz
+                        key={`mc-${activeTrack.id}`}
+                        questions={QUIZ_EXTRAS[activeTrack.id].mc}
+                      />
+                    </div>
+                    <div className="rounded-3xl border-2 border-teal-400/40 bg-gradient-to-br from-teal-500/5 to-violet-500/5 p-5">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Sparkles className="w-4 h-4 text-teal-600" />
+                        <h3 className="font-bold text-sm uppercase tracking-wider text-teal-700 dark:text-teal-400">
+                          🎬 Tình huống đời thực
+                        </h3>
+                      </div>
+                      <ScenarioQuiz
+                        key={`sc-${activeTrack.id}`}
+                        questions={QUIZ_EXTRAS[activeTrack.id].scenario}
+                      />
+                    </div>
+                  </div>
+                )}
               </motion.div>
             )}
           </AnimatePresence>
