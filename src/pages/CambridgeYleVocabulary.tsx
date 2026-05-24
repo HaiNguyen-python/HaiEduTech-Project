@@ -17,6 +17,8 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { CAMBRIDGE_LEVELS, type CambridgeKidsLevel, type CambridgeKidsWord } from "@/data/cambridgeKidsVocab";
 import { CAMBRIDGE_KIDS_WORDS_DEDUPED } from "@/data/cambridgeKidsVocabMaster";
+import { getIpa } from "@/data/cambridgeKidsIpa";
+import KidsSpeechCheck from "@/components/KidsSpeechCheck";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import { toast } from "@/hooks/use-toast";
 
@@ -269,13 +271,14 @@ const CambridgeYleVocabulary = () => {
               />
             </div>
 
-            {/* Words grid */}
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3">
+            {/* Words grid — wider cards, more breathing room */}
+            <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">
               <AnimatePresence mode="popLayout">
                 {filtered.map((w, idx) => {
                   const key = `${w.level}:${w.word}`;
                   const isMastered = mastered.has(key);
                   const ex = getExample(w);
+                  const ipa = getIpa(w.word);
                   return (
                     <motion.div
                       key={key}
@@ -285,10 +288,10 @@ const CambridgeYleVocabulary = () => {
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.18, delay: Math.min(idx, 12) * 0.015 }}
                       whileHover={{ y: -3 }}
-                      className="relative rounded-2xl p-3 border shadow-sm overflow-hidden bg-white"
+                      className="relative rounded-2xl p-4 border shadow-sm overflow-hidden bg-white"
                       style={{
                         borderColor: theme.color,
-                        boxShadow: `0 1px 0 ${theme.color}66, 0 4px 10px ${theme.color}22`,
+                        boxShadow: `0 1px 0 ${theme.color}66, 0 6px 14px ${theme.color}22`,
                       }}
                     >
                       {isMastered && (
@@ -299,8 +302,8 @@ const CambridgeYleVocabulary = () => {
                       <div className="flex items-start gap-3">
                         <div className="text-4xl drop-shadow shrink-0">{w.emoji}</div>
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2">
-                            <p className="text-lg font-bold text-slate-900 truncate">{w.word}</p>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <p className="text-lg font-bold text-slate-900 break-words">{w.word}</p>
                             <button
                               onClick={() => speak(w.word)}
                               className="p-1 rounded-full hover:bg-slate-100"
@@ -310,13 +313,19 @@ const CambridgeYleVocabulary = () => {
                               <Volume2 className="w-4 h-4" />
                             </button>
                           </div>
-                          <p className="text-sm text-slate-700 truncate">{w.vi}</p>
+                          {ipa && (
+                            <p className="text-xs font-mono text-slate-500 mt-0.5">/{ipa}/</p>
+                          )}
+                          <p className="text-sm text-slate-700 mt-0.5">{w.vi}</p>
                         </div>
                       </div>
 
+                      {/* Mic practice */}
+                      <KidsSpeechCheck word={w.word} accentColor={theme.color} />
+
                       {/* Example sentence */}
                       <div
-                        className="mt-2 rounded-xl px-3 py-2.5 text-[14px] leading-relaxed relative"
+                        className="mt-3 rounded-xl px-3 py-2.5 text-[14px] leading-relaxed relative"
                         style={{ background: theme.soft, borderLeft: `4px solid ${theme.color}` }}
                       >
                         <button
@@ -339,7 +348,7 @@ const CambridgeYleVocabulary = () => {
 
                       <button
                         onClick={() => toggleMaster(w.level, w.word)}
-                        className="mt-2 w-full text-xs font-bold uppercase tracking-wide rounded-xl py-2 transition-all flex items-center justify-center gap-1.5"
+                        className="mt-3 w-full text-xs font-bold uppercase tracking-wide rounded-xl py-2 transition-all flex items-center justify-center gap-1.5"
                         style={{
                           background: isMastered ? "#10B981" : "#FFFFFF",
                           color: isMastered ? "#FFFFFF" : theme.color,
