@@ -123,7 +123,11 @@ export const ChipFilter = ({
 
 /* ─────────────────────────── BestMatchPick ─────────────────────────── */
 
-export type MatchItem = { prompt: string; correctId: string };
+export type MatchItem = {
+  prompt: string;
+  correctId: string;
+  candidates?: { id: string; label: string; text: string }[];
+};
 
 export const BestMatchPick = ({
   title,
