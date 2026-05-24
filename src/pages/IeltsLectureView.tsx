@@ -367,12 +367,12 @@ const IeltsLectureView = () => {
             <TabsContent value="quiz" className="space-y-5">
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-bold text-foreground">
-                  ✏️ Mini Practice ({lecture.quiz.length} {t("câu", "questions")})
+                  ✏️ Mini Practice ({lectureQuiz.length} {t("câu", "questions")})
                 </h2>
                 {quizSubmitted && (
                   <div className="flex items-center gap-3">
-                    <span className={`text-sm font-bold ${quizScore === lecture.quiz.length ? "text-green-500" : quizScore >= lecture.quiz.length / 2 ? "text-amber-500" : "text-destructive"}`}>
-                      {quizScore}/{lecture.quiz.length} {t("đúng", "correct")}
+                    <span className={`text-sm font-bold ${quizScore === lectureQuiz.length ? "text-green-500" : quizScore >= lectureQuiz.length / 2 ? "text-amber-500" : "text-destructive"}`}>
+                      {quizScore}/{lectureQuiz.length} {t("đúng", "correct")}
                     </span>
                     <Button variant="ghost" size="sm" onClick={handleQuizReset} className="gap-1">
                       <RotateCcw className="w-3.5 h-3.5" /> {t("Làm lại", "Retry")}
@@ -382,7 +382,7 @@ const IeltsLectureView = () => {
               </div>
 
               <div className="space-y-5">
-                {lecture.quiz.map((q, qi) => (
+                {lectureQuiz.map((q, qi) => (
                   <motion.div
                     key={qi}
                     initial={{ opacity: 0, y: 10 }}
