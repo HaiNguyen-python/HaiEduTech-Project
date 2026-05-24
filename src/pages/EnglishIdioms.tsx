@@ -33,10 +33,10 @@ const TABS: { key: Tab; labelEn: string; labelVi: string; icon: React.ComponentT
   { key: "equivalent", labelEn: "VN Equivalent",      labelVi: "Tục ngữ tương đương", icon: Trophy, color: "from-rose-500 to-pink-500" },
 ];
 
-const CATEGORY_META: Record<IdiomCategory, { labelEn: string; labelVi: string; emoji: string; chip: string }> = {
-  idiom:   { labelEn: "Idiom",   labelVi: "Thành ngữ",    emoji: "🎭", chip: "bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/40" },
-  proverb: { labelEn: "Proverb", labelVi: "Tục ngữ",      emoji: "📜", chip: "bg-teal-500/15 text-teal-700 dark:text-teal-300 border-teal-500/40" },
-  quote:   { labelEn: "Quote",   labelVi: "Danh ngôn",    emoji: "💬", chip: "bg-violet-500/15 text-violet-700 dark:text-violet-300 border-violet-500/40" },
+const CATEGORY_META: Record<IdiomCategory, { labelEn: string; labelVi: string; emoji: string; chip: string; cardBg: string; cardBorder: string; revealBtn: string }> = {
+  idiom:   { labelEn: "Idiom",   labelVi: "Thành ngữ",    emoji: "🎭", chip: "bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/40", cardBg: "bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-amber-950/40 dark:via-orange-950/30 dark:to-yellow-950/30", cardBorder: "border-amber-300/70 dark:border-amber-700/50", revealBtn: "bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md shadow-amber-500/30" },
+  proverb: { labelEn: "Proverb", labelVi: "Tục ngữ",      emoji: "📜", chip: "bg-teal-500/15 text-teal-700 dark:text-teal-300 border-teal-500/40",    cardBg: "bg-gradient-to-br from-teal-50 via-emerald-50 to-cyan-50 dark:from-teal-950/40 dark:via-emerald-950/30 dark:to-cyan-950/30",      cardBorder: "border-teal-300/70 dark:border-teal-700/50",   revealBtn: "bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-white shadow-md shadow-teal-500/30" },
+  quote:   { labelEn: "Quote",   labelVi: "Danh ngôn",    emoji: "💬", chip: "bg-violet-500/15 text-violet-700 dark:text-violet-300 border-violet-500/40", cardBg: "bg-gradient-to-br from-violet-50 via-fuchsia-50 to-pink-50 dark:from-violet-950/40 dark:via-fuchsia-950/30 dark:to-pink-950/30",      cardBorder: "border-violet-300/70 dark:border-violet-700/50", revealBtn: "bg-gradient-to-r from-violet-500 to-fuchsia-500 hover:from-violet-600 hover:to-fuchsia-600 text-white shadow-md shadow-violet-500/30" },
 };
 
 // Deterministic shuffle (Fisher–Yates with sin-based RNG)
@@ -354,8 +354,9 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: Math.min(idx * 0.02, 0.2) }}
                 className={cn(
-                  "rounded-2xl border bg-gradient-to-br from-background to-secondary/40 hover:shadow-lg hover:-translate-y-0.5 transition-all p-5 flex flex-col relative",
-                  isLearned ? "border-amber-500/60 ring-1 ring-amber-500/30" : "border-border/60",
+                  "rounded-2xl border-2 hover:shadow-xl hover:-translate-y-1 transition-all p-5 flex flex-col relative",
+                  meta.cardBg,
+                  isLearned ? "border-amber-500 ring-2 ring-amber-400/50 shadow-lg shadow-amber-500/20" : meta.cardBorder,
                 )}
               >
                 <button
@@ -415,17 +416,21 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
                   <button
                     onClick={() => toggle(entry.id)}
                     className={cn(
-                      "flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold transition-all",
+                      "flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-bold transition-all hover:scale-[1.02] active:scale-[0.98]",
                       isOpen
-                        ? "bg-foreground/10 text-foreground hover:bg-foreground/15"
-                        : "bg-foreground text-background hover:opacity-90 shadow-sm",
+                        ? "bg-white/70 dark:bg-background/60 text-foreground border border-border hover:bg-white"
+                        : meta.revealBtn,
                     )}
                   >
-                    {isOpen ? t("Ẩn chi tiết", "Hide details") : t("Xem ý nghĩa", "Reveal meaning")}
+                    {isOpen ? (
+                      <>👁️ {t("Ẩn chi tiết", "Hide details")}</>
+                    ) : (
+                      <>✨ {t("Xem ý nghĩa", "Reveal meaning")}</>
+                    )}
                   </button>
                   <button
                     onClick={() => speakEn(entry.phrase)}
-                    className="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-border bg-background hover:bg-primary/10 hover:border-primary/40 transition-colors text-foreground"
+                    className="inline-flex items-center justify-center w-11 h-11 rounded-xl border-2 border-border bg-white/80 dark:bg-background hover:bg-primary/10 hover:border-primary/50 hover:scale-105 transition-all text-foreground shadow-sm"
                     title={t("Nghe phát âm", "Listen")}
                     aria-label={t("Nghe phát âm", "Listen")}
                   >
