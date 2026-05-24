@@ -10,6 +10,7 @@ import { motion } from "framer-motion";
 import { Users, Sparkles } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { BonusGames } from "./SandboxBonusGames";
+import { ChipFilter } from "./SandboxMiniActivity";
 
 const REC_TF = [
   { q: "TikTok & YouTube dùng hệ gợi ý để chọn video cho bạn.", a: true },
@@ -146,6 +147,27 @@ const RecsysSandbox = () => {
       <p className="text-xs text-muted-foreground">
         💡 YouTube & TikTok tính cosine similarity giữa <b>vector sở thích</b> của bạn và hàng tỷ video — chỉ những video vượt ngưỡng mới xuất hiện trên feed.
       </p>
+
+      <ChipFilter
+        title="🎬 Trộn vector sở thích của bạn"
+        hint="Chọn các chủ đề bạn hay xem trên TikTok. Càng nhiều tín hiệu rõ ràng → AI càng dễ gợi ý đúng (similarity cao)."
+        baseline={20}
+        positive
+        goal={70}
+        goodLabel="Vector sở thích rõ ràng — AI gợi ý chính xác!"
+        badLabel="AI chưa hiểu bạn — hãy bật thêm vài chủ đề bạn thực sự thích."
+        metricLabel="Độ chính xác gợi ý"
+        accent="from-orange-500 to-rose-500"
+        border="border-orange-400/40"
+        options={[
+          { id: "sport", label: "⚽ Thể thao", weight: 14 },
+          { id: "game", label: "🎮 Game", weight: 14 },
+          { id: "music", label: "🎵 Nhạc Vpop", weight: 12 },
+          { id: "food", label: "🍜 Food review", weight: 12 },
+          { id: "study", label: "📚 Học tiếng Anh", weight: 16 },
+          { id: "tech", label: "💻 Công nghệ", weight: 12 },
+        ]}
+      />
 
       <BonusGames tfItems={REC_TF} matchPairs={REC_PAIRS} accent="from-orange-500 to-rose-500" border="border-orange-400/40" />
     </div>

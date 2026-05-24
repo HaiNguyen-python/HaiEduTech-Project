@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import { Brain } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { BonusGames } from "./SandboxBonusGames";
+import { BestMatchPick } from "./SandboxMiniActivity";
 
 const NN_TF = [
   { q: "Não AI mô phỏng các tế bào thần kinh gọi là neuron.", a: true },
@@ -126,6 +127,24 @@ const NeuralNetSandbox = () => {
         <Brain className="w-3.5 h-3.5 mt-0.5 text-emerald-500 shrink-0" />
         Đường nối sáng hơn = "trọng số" lớn hơn. Não AI thật học hàng triệu trọng số như vậy để dự đoán mọi thứ — từ điểm thi đến giá nhà.
       </p>
+
+      <BestMatchPick
+        title="🎯 Đoán đầu ra của Neural Net"
+        hint="Với mỗi tình huống đầu vào, chọn xem mạng neuron sẽ dự đoán kết quả nào hợp lý nhất."
+        accent="from-emerald-500 to-teal-600"
+        border="border-emerald-400/40"
+        options={[
+          { id: "low", label: "Điểm thấp 📉" },
+          { id: "mid", label: "Điểm trung bình 😐" },
+          { id: "high", label: "Điểm cao 🚀" },
+        ]}
+        items={[
+          { prompt: "Học 8h/ngày · Ngủ 8h/ngày", correctId: "high" },
+          { prompt: "Học 0h/ngày · Ngủ 12h/ngày", correctId: "low" },
+          { prompt: "Học 3h/ngày · Ngủ 4h/ngày (thiếu ngủ)", correctId: "mid" },
+          { prompt: "Học 6h/ngày · Ngủ 7h/ngày", correctId: "high" },
+        ]}
+      />
 
       <BonusGames tfItems={NN_TF} matchPairs={NN_PAIRS} accent="from-emerald-500 to-teal-600" border="border-emerald-400/40" />
     </div>

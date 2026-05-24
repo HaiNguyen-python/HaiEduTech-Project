@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import { Scale, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { BonusGames } from "./SandboxBonusGames";
+import { ChipFilter } from "./SandboxMiniActivity";
 
 const ETH_TF = [
   { q: "AI có ý thức và có thể tự quyết định đạo đức.", a: false, why: "AI chỉ học theo dữ liệu — không có 'lương tâm'." },
@@ -99,6 +100,26 @@ const EthicsSandbox = () => {
       <p className="text-xs text-muted-foreground">
         💡 AI <b>không có ý thức</b> — nó chỉ học từ dữ liệu. Nếu dữ liệu thiên vị, AI sẽ thiên vị. Đó là lý do <b>AI Ethics</b> là môn quan trọng nhất ở MIT, Stanford.
       </p>
+
+      <ChipFilter
+        title="✂️ Tỉa bias khỏi mô tả tuyển dụng"
+        hint="Bỏ các cụm từ gây thiên vị khỏi job description để điểm fairness của AI tăng lên."
+        baseline={40}
+        positive
+        goal={75}
+        goodLabel="Mô tả đã đủ trung lập ✅"
+        badLabel="Vẫn còn từ ngữ gây bias — bỏ thêm vài chip nữa nhé!"
+        metricLabel="Điểm Fairness"
+        accent="from-amber-500 to-rose-500"
+        border="border-amber-400/40"
+        options={[
+          { id: "1", label: "❌ 'ưu tiên nam giới'", weight: 18 },
+          { id: "2", label: "❌ 'phù hợp với người dưới 30'", weight: 14 },
+          { id: "3", label: "❌ 'không nhận mẹ bỉm sữa'", weight: 16 },
+          { id: "4", label: "❌ 'cần ngoại hình ưa nhìn'", weight: 10 },
+          { id: "5", label: "❌ 'chỉ tuyển sinh viên trường top'", weight: 8 },
+        ]}
+      />
 
       <BonusGames tfItems={ETH_TF} matchPairs={ETH_PAIRS} accent="from-amber-500 to-rose-500" border="border-amber-400/40" />
     </div>
