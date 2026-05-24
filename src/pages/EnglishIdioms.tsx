@@ -27,12 +27,15 @@ type Tab = "library" | "match" | "fill" | "quiz" | "equivalent";
 
 // Grouped themes for a cleaner Library layout (related themes merged).
 type ThemeKey = IdiomEntry["theme"];
-type GroupKey = "life-wisdom" | "work-money" | "time-courage" | "friendship-love";
+type GroupKey = "life" | "wisdom" | "work-money" | "time-courage" | "friendship-love" | "success-comm" | "nature";
 const THEME_GROUPS: { key: GroupKey; labelEn: string; labelVi: string; emoji: string; themes: ThemeKey[] }[] = [
-  { key: "life-wisdom",     labelEn: "Life & Wisdom",       labelVi: "Cuộc sống & Trí tuệ", emoji: "🌱", themes: ["life", "wisdom"] },
-  { key: "work-money",      labelEn: "Work & Money",        labelVi: "Công việc & Tiền bạc", emoji: "💼", themes: ["work", "money"] },
-  { key: "time-courage",    labelEn: "Time & Courage",      labelVi: "Thời gian & Dũng cảm", emoji: "⏰", themes: ["time", "courage"] },
-  { key: "friendship-love", labelEn: "Friendship & Love",   labelVi: "Tình bạn & Tình yêu",  emoji: "🤝", themes: ["friendship", "love"] },
+  { key: "life",            labelEn: "Life",                     labelVi: "Cuộc sống",            emoji: "🌱", themes: ["life"] },
+  { key: "wisdom",          labelEn: "Wisdom & Knowledge",       labelVi: "Trí tuệ & Tri thức",   emoji: "🦉", themes: ["wisdom"] },
+  { key: "work-money",      labelEn: "Work & Money",             labelVi: "Công việc & Tiền bạc", emoji: "💼", themes: ["work", "money"] },
+  { key: "time-courage",    labelEn: "Time & Courage",           labelVi: "Thời gian & Dũng cảm", emoji: "⏰", themes: ["time", "courage"] },
+  { key: "friendship-love", labelEn: "Friendship & Love",        labelVi: "Tình bạn & Tình yêu",  emoji: "🤝", themes: ["friendship", "love"] },
+  { key: "success-comm",    labelEn: "Success & Communication",  labelVi: "Thành công & Giao tiếp", emoji: "🏆", themes: ["success", "communication"] },
+  { key: "nature",          labelEn: "Nature & Weather",         labelVi: "Thiên nhiên",          emoji: "🌿", themes: ["nature"] },
 ];
 const themesOfGroup = (g: GroupKey): ThemeKey[] => THEME_GROUPS.find((x) => x.key === g)?.themes ?? [];
 
