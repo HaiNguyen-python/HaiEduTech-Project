@@ -1447,6 +1447,7 @@ const AIAcademy = () => {
           )}
         </div>
       </div>
+      </AutoTranslateBoundary>
 
       {/* Reward overlay */}
       <AnimatePresence>
