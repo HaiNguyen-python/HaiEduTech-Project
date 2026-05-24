@@ -1060,11 +1060,9 @@ const AIAcademy = () => {
   const [certOpen, setCertOpen] = useState(false);
   const [studentName, setStudentName] = useState<string>("");
   const [studentSeed, setStudentSeed] = useState<string>("");
-  const [storyRevealed, setStoryRevealed] = useState(1);
-
-  useEffect(() => { setStoryRevealed(1); }, [active]);
 
   useEffect(() => { saveProgress(progress); }, [progress]);
+
 
 
   // Fetch the signed-in user's display name once so the certificate can be
