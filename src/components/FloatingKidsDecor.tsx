@@ -25,6 +25,18 @@ const CHIBIS = [
   { emoji: "⭐", left: "55%", top: "75%", delay: 2.5 },
   { emoji: "🎈", left: "92%", top: "50%", delay: 0.3 },
   { emoji: "🦊", left: "3%", top: "45%", delay: 1.8 },
+  { emoji: "🦋", left: "25%", top: "35%", delay: 1.1 },
+  { emoji: "🦋", left: "78%", top: "30%", delay: 2.2 },
+  { emoji: "💖", left: "38%", top: "55%", delay: 0.6 },
+  { emoji: "🎵", left: "62%", top: "25%", delay: 1.9 },
+  { emoji: "🎶", left: "20%", top: "85%", delay: 2.8 },
+  { emoji: "✈️", left: "5%", top: "8%", delay: 0.4 },
+  { emoji: "🍭", left: "88%", top: "80%", delay: 1.3 },
+  { emoji: "🐢", left: "50%", top: "92%", delay: 2.1 },
+  { emoji: "🐳", left: "30%", top: "12%", delay: 0.9 },
+  { emoji: "🪁", left: "65%", top: "8%", delay: 1.6 },
+  { emoji: "🌟", left: "10%", top: "55%", delay: 2.4 },
+  { emoji: "🧸", left: "75%", top: "88%", delay: 0.7 },
 ];
 
 const Balloon = ({ color, size }: { color: string; size: number }) => (
