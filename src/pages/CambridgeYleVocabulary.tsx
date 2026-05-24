@@ -452,6 +452,7 @@ const CambridgeYleVocabulary = () => {
                                 </motion.div>
                               );
                             })}
+                            </div>
                           </div>
                         </motion.div>
                       )}
