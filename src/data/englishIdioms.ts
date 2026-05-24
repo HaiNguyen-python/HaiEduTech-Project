@@ -28,22 +28,26 @@ export interface IdiomEntry {
   /** For quotes: the author. */
   author?: string;
   /** Theme tag used for filters. */
-  theme: "life" | "work" | "wisdom" | "money" | "time" | "friendship" | "courage" | "love";
+  theme: "life" | "work" | "wisdom" | "money" | "time" | "friendship" | "courage" | "love" | "success" | "communication" | "nature";
   emoji: string;
 }
 
 export const IDIOM_THEMES: { key: IdiomEntry["theme"]; labelEn: string; labelVi: string; emoji: string }[] = [
-  { key: "life",       labelEn: "Life",        labelVi: "Cuộc sống",  emoji: "🌱" },
-  { key: "wisdom",     labelEn: "Wisdom",      labelVi: "Trí tuệ",    emoji: "🦉" },
-  { key: "work",       labelEn: "Work",        labelVi: "Công việc",  emoji: "💼" },
-  { key: "money",      labelEn: "Money",       labelVi: "Tiền bạc",   emoji: "💰" },
-  { key: "time",       labelEn: "Time",        labelVi: "Thời gian",  emoji: "⏰" },
-  { key: "friendship", labelEn: "Friendship",  labelVi: "Tình bạn",   emoji: "🤝" },
-  { key: "courage",    labelEn: "Courage",     labelVi: "Dũng cảm",   emoji: "🔥" },
-  { key: "love",       labelEn: "Love",        labelVi: "Tình yêu",   emoji: "❤️" },
+  { key: "life",          labelEn: "Life",          labelVi: "Cuộc sống",  emoji: "🌱" },
+  { key: "wisdom",        labelEn: "Wisdom",        labelVi: "Trí tuệ",    emoji: "🦉" },
+  { key: "work",          labelEn: "Work",          labelVi: "Công việc",  emoji: "💼" },
+  { key: "money",         labelEn: "Money",         labelVi: "Tiền bạc",   emoji: "💰" },
+  { key: "time",          labelEn: "Time",          labelVi: "Thời gian",  emoji: "⏰" },
+  { key: "friendship",    labelEn: "Friendship",    labelVi: "Tình bạn",   emoji: "🤝" },
+  { key: "courage",       labelEn: "Courage",       labelVi: "Dũng cảm",   emoji: "🔥" },
+  { key: "love",          labelEn: "Love",          labelVi: "Tình yêu",   emoji: "❤️" },
+  { key: "success",       labelEn: "Success",       labelVi: "Thành công", emoji: "🏆" },
+  { key: "communication", labelEn: "Communication", labelVi: "Giao tiếp",  emoji: "💬" },
+  { key: "nature",        labelEn: "Nature",        labelVi: "Thiên nhiên", emoji: "🌿" },
 ];
 
 import { englishIdiomsExpansion } from "./englishIdiomsExpansion";
+import { englishIdiomsExtra } from "./englishIdiomsExtra";
 
 const baseIdioms: IdiomEntry[] = [
   // ============== IDIOMS ==============
@@ -429,4 +433,4 @@ const baseIdioms: IdiomEntry[] = [
   },
 ];
 
-export const englishIdioms: IdiomEntry[] = [...baseIdioms, ...englishIdiomsExpansion];
+export const englishIdioms: IdiomEntry[] = [...baseIdioms, ...englishIdiomsExpansion, ...englishIdiomsExtra];
