@@ -1077,6 +1077,38 @@ const baseSampleEssays: SampleEssay[] = [
         {"title": "Industry Relocated to Peripheral Park", "description": "Industrial activity moves from the riverside to a southern business park.", "icon": "cog"},
         {"title": "2020: Transit-oriented Urban Center", "description": "Greenbelt established. Mixed-use infill replaces parking lots. School relocated near residents.", "icon": "map"}
       ],
+      "mapLayouts": [
+        {
+          "title": "Riverdale — 1990",
+          "zones": [
+            { "x": 4,  "y": 6,  "w": 92, "h": 6,  "label": "Farmland (North)", "color": "#A3E635", "icon": "🌾", "shape": "rect" },
+            { "x": 4,  "y": 14, "w": 30, "h": 32, "label": "Farmland (West)", "color": "#A3E635", "icon": "🌾", "shape": "rect" },
+            { "x": 66, "y": 14, "w": 30, "h": 50, "label": "Farmland (East)", "color": "#A3E635", "icon": "🌾", "shape": "rect" },
+            { "x": 38, "y": 22, "w": 24, "h": 18, "label": "Town Centre", "color": "#FBBF24", "icon": "🏘️", "shape": "rect" },
+            { "x": 44, "y": 44, "w": 12, "h": 6,  "label": "School", "color": "#8B5CF6", "icon": "🏫", "shape": "rect" },
+            { "x": 4,  "y": 58, "w": 60, "h": 8,  "label": "Industrial Zone", "color": "#EF4444", "icon": "🏭", "shape": "rect" },
+            { "x": 0,  "y": 68, "w": 100,"h": 6,  "label": "River", "shape": "river" },
+            { "x": 44, "y": 30, "w": 2,  "h": 38, "label": "", "shape": "road" }
+          ]
+        },
+        {
+          "title": "Riverdale — 2020",
+          "zones": [
+            { "x": 4,  "y": 6,  "w": 92, "h": 14, "label": "Housing Estates (North)", "color": "#F472B6", "icon": "🏠", "shape": "rect" },
+            { "x": 66, "y": 22, "w": 30, "h": 34, "label": "Housing Estates (East)", "color": "#F472B6", "icon": "🏠", "shape": "rect" },
+            { "x": 4,  "y": 22, "w": 14, "h": 42, "label": "Greenbelt", "color": "#10B981", "icon": "🌳", "shape": "rect" },
+            { "x": 22, "y": 24, "w": 40, "h": 14, "label": "Pedestrian Square", "color": "#FBBF24", "icon": "🚶", "shape": "rect" },
+            { "x": 22, "y": 40, "w": 40, "h": 14, "label": "Mixed-use Infill", "color": "#F59E0B", "icon": "🏬", "shape": "rect" },
+            { "x": 38, "y": 56, "w": 18, "h": 8,  "label": "School", "color": "#8B5CF6", "icon": "🏫", "shape": "rect" },
+            { "x": 0,  "y": 68, "w": 100,"h": 6,  "label": "River (cleaned)", "shape": "river" },
+            { "x": 28, "y": 78, "w": 60, "h": 14, "label": "Business Park", "color": "#0EA5E9", "icon": "🏢", "shape": "rect" },
+            { "x": 2,  "y": 4,  "w": 96, "h": 2,  "label": "", "shape": "road" },
+            { "x": 2,  "y": 64, "w": 96, "h": 2,  "label": "", "shape": "road" },
+            { "x": 2,  "y": 6,  "w": 2,  "h": 60, "label": "", "shape": "road" },
+            { "x": 96, "y": 6,  "w": 2,  "h": 60, "label": "Ring Road", "shape": "road" }
+          ]
+        }
+      ],
       "data": []
     }
   },
