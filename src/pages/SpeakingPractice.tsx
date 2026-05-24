@@ -401,6 +401,8 @@ const SpeakingPractice = () => {
       recordScore(fallback);
     }
     setLoading(false);
+    // Auto-trigger Band 8.0+ upgrade right after grading
+    handleUpgrade();
   };
 
   // Upgrade student's answer to Band 8.0+ (independent from grading)
