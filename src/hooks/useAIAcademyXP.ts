@@ -7,7 +7,9 @@ import { useCallback, useEffect, useState } from "react";
 
 const STORAGE_KEY = "ai_academy_xp_v1";
 
-const LEVELS = [
+type LevelDef = { level: number; name: string; emoji: string; xpRequired: number };
+
+const LEVELS: LevelDef[] = [
   { level: 1, name: "Newbie", emoji: "🌱", xpRequired: 0 },
   { level: 2, name: "Explorer", emoji: "🔭", xpRequired: 100 },
   { level: 3, name: "Apprentice", emoji: "⚡", xpRequired: 250 },
@@ -16,7 +18,8 @@ const LEVELS = [
   { level: 6, name: "Architect", emoji: "🏛️", xpRequired: 1400 },
   { level: 7, name: "Master", emoji: "🧙", xpRequired: 2000 },
   { level: 8, name: "AI Sensei", emoji: "👑", xpRequired: 3000 },
-] as const;
+];
+
 
 export type DailyQuest = {
   date: string; // YYYY-MM-DD
