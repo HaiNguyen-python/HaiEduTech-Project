@@ -1193,7 +1193,7 @@ const AIAcademy = () => {
                               {extra.glossary.map((g, i) => (
                                 <div key={i} className="text-sm">
                                   <span className="font-bold text-indigo-700 dark:text-indigo-300">{g.term}:</span>{" "}
-                                  <span className="text-foreground/80">{g.def}</span>
+                                  <span className="text-foreground">{g.def}</span>
                                 </div>
                               ))}
                             </div>
