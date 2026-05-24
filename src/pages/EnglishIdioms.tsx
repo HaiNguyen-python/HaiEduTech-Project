@@ -33,10 +33,16 @@ const TABS: { key: Tab; labelEn: string; labelVi: string; icon: React.ComponentT
   { key: "equivalent", labelEn: "VN Equivalent",      labelVi: "Tục ngữ tương đương", icon: Trophy, color: "from-rose-500 to-pink-500" },
 ];
 
+// Unified palette across all categories (amber/orange) for a calm, consistent look.
+// Borders are deeper (amber-500/amber-600) for clear separation between cards.
+const UNIFIED_CARD_BG = "bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-amber-950/40 dark:via-orange-950/30 dark:to-yellow-950/30";
+const UNIFIED_CARD_BORDER = "border-amber-500/70 dark:border-amber-600/70";
+const UNIFIED_REVEAL_BTN = "bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md shadow-amber-500/30";
+
 const CATEGORY_META: Record<IdiomCategory, { labelEn: string; labelVi: string; emoji: string; chip: string; cardBg: string; cardBorder: string; revealBtn: string }> = {
-  idiom:   { labelEn: "Idiom",   labelVi: "Thành ngữ",    emoji: "🎭", chip: "bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/40", cardBg: "bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-amber-950/40 dark:via-orange-950/30 dark:to-yellow-950/30", cardBorder: "border-amber-300/70 dark:border-amber-700/50", revealBtn: "bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md shadow-amber-500/30" },
-  proverb: { labelEn: "Proverb", labelVi: "Tục ngữ",      emoji: "📜", chip: "bg-teal-500/15 text-teal-700 dark:text-teal-300 border-teal-500/40",    cardBg: "bg-gradient-to-br from-teal-50 via-emerald-50 to-cyan-50 dark:from-teal-950/40 dark:via-emerald-950/30 dark:to-cyan-950/30",      cardBorder: "border-teal-300/70 dark:border-teal-700/50",   revealBtn: "bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-white shadow-md shadow-teal-500/30" },
-  quote:   { labelEn: "Quote",   labelVi: "Danh ngôn",    emoji: "💬", chip: "bg-violet-500/15 text-violet-700 dark:text-violet-300 border-violet-500/40", cardBg: "bg-gradient-to-br from-violet-50 via-fuchsia-50 to-pink-50 dark:from-violet-950/40 dark:via-fuchsia-950/30 dark:to-pink-950/30",      cardBorder: "border-violet-300/70 dark:border-violet-700/50", revealBtn: "bg-gradient-to-r from-violet-500 to-fuchsia-500 hover:from-violet-600 hover:to-fuchsia-600 text-white shadow-md shadow-violet-500/30" },
+  idiom:   { labelEn: "Idiom",   labelVi: "Thành ngữ", emoji: "🎭", chip: "bg-amber-500/20 text-amber-800 dark:text-amber-200 border-amber-600/60",   cardBg: UNIFIED_CARD_BG, cardBorder: UNIFIED_CARD_BORDER, revealBtn: UNIFIED_REVEAL_BTN },
+  proverb: { labelEn: "Proverb", labelVi: "Tục ngữ",   emoji: "📜", chip: "bg-orange-500/20 text-orange-800 dark:text-orange-200 border-orange-600/60", cardBg: UNIFIED_CARD_BG, cardBorder: UNIFIED_CARD_BORDER, revealBtn: UNIFIED_REVEAL_BTN },
+  quote:   { labelEn: "Quote",   labelVi: "Danh ngôn", emoji: "💬", chip: "bg-yellow-500/20 text-yellow-800 dark:text-yellow-200 border-yellow-600/60", cardBg: UNIFIED_CARD_BG, cardBorder: UNIFIED_CARD_BORDER, revealBtn: UNIFIED_REVEAL_BTN },
 };
 
 // Deterministic shuffle (Fisher–Yates with sin-based RNG)
@@ -116,10 +122,9 @@ const EnglishIdioms = () => {
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-rose-500/15 to-amber-500/15 border border-rose-500/30 text-rose-700 dark:text-rose-300 text-sm font-semibold mb-4">
               <Quote className="w-4 h-4" /> {t("English Foundation", "English Foundation")}
             </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-foreground leading-tight mb-3">
-              {t("Thành ngữ, Tục ngữ", "Idioms, Proverbs")}{" "}
-              <span className="bg-gradient-to-r from-rose-500 via-amber-500 to-teal-500 bg-clip-text text-transparent">
-                & {t("Danh ngôn", "Quotes")}
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold leading-tight mb-3">
+              <span className="bg-gradient-to-r from-amber-600 via-orange-600 to-rose-600 dark:from-amber-400 dark:via-orange-400 dark:to-rose-400 bg-clip-text text-transparent drop-shadow-sm">
+                {t("Thành ngữ, Tục ngữ", "Idioms, Proverbs")} & {t("Danh ngôn", "Quotes")}
               </span>
             </h1>
             <p className="text-base sm:text-lg text-muted-foreground max-w-3xl">
@@ -306,10 +311,10 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
           <button
             onClick={() => setFilterTheme("all")}
             className={cn(
-              "px-3 py-1.5 rounded-full text-xs font-medium border transition-colors",
+              "px-4 py-2 rounded-full text-sm font-semibold border-2 transition-colors",
               filterTheme === "all"
-                ? "bg-primary/15 border-primary/40 text-primary"
-                : "bg-background border-border text-muted-foreground hover:border-primary/30",
+                ? "bg-primary/15 border-primary text-primary"
+                : "bg-background border-border text-foreground hover:border-primary/40",
             )}
           >
             {t("Mọi chủ đề", "All themes")}
@@ -321,13 +326,13 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
                 key={th.key}
                 onClick={() => setFilterTheme(th.key)}
                 className={cn(
-                  "px-3 py-1.5 rounded-full text-xs font-medium border transition-colors",
+                  "px-4 py-2 rounded-full text-sm font-semibold border-2 transition-colors",
                   isActive
-                    ? "bg-primary/15 border-primary/40 text-primary"
-                    : "bg-background border-border text-muted-foreground hover:border-primary/30",
+                    ? "bg-primary/15 border-primary text-primary"
+                    : "bg-background border-border text-foreground hover:border-primary/40",
                 )}
               >
-                <span className="mr-1">{th.emoji}</span>
+                <span className="mr-1.5 text-base">{th.emoji}</span>
                 {t(th.labelVi, th.labelEn)}
               </button>
             );
@@ -340,108 +345,139 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
         <div className="text-center py-16 text-muted-foreground">
           {t("Không có kết quả với bộ lọc hiện tại.", "No entries match the current filters.")}
         </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {display.map((entry, idx) => {
-            const meta = CATEGORY_META[entry.category];
-            const isOpen = revealed.has(entry.id);
-            const isLearned = learned.has(entry.id);
-            return (
-              <motion.article
-                key={entry.id}
-                layout
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: Math.min(idx * 0.02, 0.2) }}
+      ) : (() => {
+        const renderCard = (entry: IdiomEntry, idx: number) => {
+          const meta = CATEGORY_META[entry.category];
+          const isOpen = revealed.has(entry.id);
+          const isLearned = learned.has(entry.id);
+          return (
+            <motion.article
+              key={entry.id}
+              layout
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: Math.min(idx * 0.02, 0.2) }}
+              className={cn(
+                "rounded-2xl border-2 hover:shadow-xl hover:-translate-y-1 transition-all p-5 flex flex-col relative",
+                meta.cardBg,
+                isLearned ? "border-amber-500 ring-2 ring-amber-400/50 shadow-lg shadow-amber-500/20" : meta.cardBorder,
+              )}
+            >
+              <button
+                type="button"
+                onClick={() => toggleLearned(entry.id)}
+                aria-pressed={isLearned}
+                aria-label={isLearned ? t("Bỏ đánh dấu Đã thuộc", "Unmark as learned") : t("Đánh dấu Đã thuộc", "Mark as learned")}
+                title={isLearned ? t("Đã thuộc – nhấn để bỏ", "Learned – click to unmark") : t("Đánh dấu là Đã thuộc", "Mark as learned")}
                 className={cn(
-                  "rounded-2xl border-2 hover:shadow-xl hover:-translate-y-1 transition-all p-5 flex flex-col relative",
-                  meta.cardBg,
-                  isLearned ? "border-amber-500 ring-2 ring-amber-400/50 shadow-lg shadow-amber-500/20" : meta.cardBorder,
+                  "absolute top-3 right-3 inline-flex items-center justify-center w-9 h-9 rounded-full border transition-all z-10",
+                  isLearned
+                    ? "bg-amber-500 text-white border-amber-500 shadow-md scale-105"
+                    : "bg-background/80 text-muted-foreground border-border hover:text-amber-500 hover:border-amber-500/60 hover:bg-amber-500/10",
                 )}
               >
+                <Star className={cn("w-4 h-4", isLearned && "fill-current")} />
+              </button>
+              <div className="flex items-start justify-between gap-3 mb-3 pr-12">
+                <span className={cn("inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wide border", meta.chip)}>
+                  <span>{meta.emoji}</span>
+                  {meta.labelEn}
+                </span>
+                <span className="text-3xl leading-none">{entry.emoji}</span>
+              </div>
+
+              <p className="text-lg font-display font-bold text-foreground leading-snug mb-2">
+                "{entry.phrase}"
+              </p>
+              {entry.author && (
+                <p className="text-xs text-muted-foreground italic mb-2">- {entry.author}</p>
+              )}
+              <p className="text-xs text-muted-foreground italic mb-3">
+                {t("Dịch nghĩa đen:", "Literal:")} {entry.literalVi}
+              </p>
+
+              {isOpen && (
+                <div className="rounded-xl bg-background/80 border border-border/60 p-3.5 mb-3 space-y-2.5 text-sm">
+                  <div>
+                    <div className="text-[11px] font-bold uppercase tracking-wide text-primary mb-1">{t("Ý nghĩa thật", "Real meaning")}</div>
+                    <p className="text-foreground leading-relaxed">{t(entry.meaningVi, entry.meaningEn)}</p>
+                  </div>
+                  <div>
+                    <div className="text-[11px] font-bold uppercase tracking-wide text-emerald-600 dark:text-emerald-400 mb-1">{t("Ví dụ", "Example")}</div>
+                    <p className="text-foreground italic leading-relaxed">"{entry.exampleEn}"</p>
+                    <p className="text-muted-foreground text-xs mt-1">{entry.exampleVi}</p>
+                  </div>
+                  {entry.vietnameseEquivalent && (
+                    <div>
+                      <div className="text-[11px] font-bold uppercase tracking-wide text-rose-600 dark:text-rose-400 mb-1">{t("Tương đương tiếng Việt", "Vietnamese equivalent")}</div>
+                      <p className="text-foreground font-semibold">🇻🇳 {entry.vietnameseEquivalent}</p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              <div className="flex items-center gap-2 mt-auto">
                 <button
-                  type="button"
-                  onClick={() => toggleLearned(entry.id)}
-                  aria-pressed={isLearned}
-                  aria-label={isLearned ? t("Bỏ đánh dấu Đã thuộc", "Unmark as learned") : t("Đánh dấu Đã thuộc", "Mark as learned")}
-                  title={isLearned ? t("Đã thuộc – nhấn để bỏ", "Learned – click to unmark") : t("Đánh dấu là Đã thuộc", "Mark as learned")}
+                  onClick={() => toggle(entry.id)}
                   className={cn(
-                    "absolute top-3 right-3 inline-flex items-center justify-center w-9 h-9 rounded-full border transition-all z-10",
-                    isLearned
-                      ? "bg-amber-500 text-white border-amber-500 shadow-md scale-105"
-                      : "bg-background/80 text-muted-foreground border-border hover:text-amber-500 hover:border-amber-500/60 hover:bg-amber-500/10",
+                    "flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-bold transition-all hover:scale-[1.02] active:scale-[0.98]",
+                    isOpen
+                      ? "bg-white/70 dark:bg-background/60 text-foreground border border-border hover:bg-white"
+                      : meta.revealBtn,
                   )}
                 >
-                  <Star className={cn("w-4 h-4", isLearned && "fill-current")} />
+                  {isOpen ? (
+                    <>👁️ {t("Ẩn chi tiết", "Hide details")}</>
+                  ) : (
+                    <>✨ {t("Xem ý nghĩa", "Reveal meaning")}</>
+                  )}
                 </button>
-                <div className="flex items-start justify-between gap-3 mb-3 pr-12">
-                  <span className={cn("inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wide border", meta.chip)}>
-                    <span>{meta.emoji}</span>
-                    {meta.labelEn}
-                  </span>
-                  <span className="text-3xl leading-none">{entry.emoji}</span>
-                </div>
+                <button
+                  onClick={() => speakEn(entry.phrase)}
+                  className="inline-flex items-center justify-center w-11 h-11 rounded-xl border-2 border-border bg-white/80 dark:bg-background hover:bg-primary/10 hover:border-primary/50 hover:scale-105 transition-all text-foreground shadow-sm"
+                  title={t("Nghe phát âm", "Listen")}
+                  aria-label={t("Nghe phát âm", "Listen")}
+                >
+                  <Volume2 className="w-4 h-4" />
+                </button>
+              </div>
+            </motion.article>
+          );
+        };
 
-                <p className="text-lg font-display font-bold text-foreground leading-snug mb-2">
-                  "{entry.phrase}"
-                </p>
-                {entry.author && (
-                  <p className="text-xs text-muted-foreground italic mb-2">- {entry.author}</p>
-                )}
-                <p className="text-xs text-muted-foreground italic mb-3">
-                  {t("Dịch nghĩa đen:", "Literal:")} {entry.literalVi}
-                </p>
-
-                {isOpen && (
-                  <div className="rounded-xl bg-background/80 border border-border/60 p-3.5 mb-3 space-y-2.5 text-sm">
-                    <div>
-                      <div className="text-[11px] font-bold uppercase tracking-wide text-primary mb-1">{t("Ý nghĩa thật", "Real meaning")}</div>
-                      <p className="text-foreground leading-relaxed">{t(entry.meaningVi, entry.meaningEn)}</p>
-                    </div>
-                    <div>
-                      <div className="text-[11px] font-bold uppercase tracking-wide text-emerald-600 dark:text-emerald-400 mb-1">{t("Ví dụ", "Example")}</div>
-                      <p className="text-foreground italic leading-relaxed">"{entry.exampleEn}"</p>
-                      <p className="text-muted-foreground text-xs mt-1">{entry.exampleVi}</p>
-                    </div>
-                    {entry.vietnameseEquivalent && (
-                      <div>
-                        <div className="text-[11px] font-bold uppercase tracking-wide text-rose-600 dark:text-rose-400 mb-1">{t("Tương đương tiếng Việt", "Vietnamese equivalent")}</div>
-                        <p className="text-foreground font-semibold">🇻🇳 {entry.vietnameseEquivalent}</p>
-                      </div>
-                    )}
+        // Group by theme when no specific theme filter is applied — easier to browse.
+        if (filterTheme === "all") {
+          const groups = IDIOM_THEMES
+            .map((th) => ({ theme: th, items: display.filter((e) => e.theme === th.key) }))
+            .filter((g) => g.items.length > 0);
+          return (
+            <div className="space-y-10">
+              {groups.map(({ theme, items }) => (
+                <section key={theme.key}>
+                  <div className="flex items-center gap-3 mb-4 pb-2 border-b-2 border-amber-500/40">
+                    <span className="text-2xl">{theme.emoji}</span>
+                    <h3 className="text-xl sm:text-2xl font-bold text-foreground">
+                      {t(theme.labelVi, theme.labelEn)}
+                    </h3>
+                    <span className="text-sm font-semibold text-muted-foreground bg-amber-500/10 border border-amber-500/30 px-2.5 py-0.5 rounded-full">
+                      {items.length}
+                    </span>
                   </div>
-                )}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {items.map((entry, idx) => renderCard(entry, idx))}
+                  </div>
+                </section>
+              ))}
+            </div>
+          );
+        }
 
-                <div className="flex items-center gap-2 mt-auto">
-                  <button
-                    onClick={() => toggle(entry.id)}
-                    className={cn(
-                      "flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-bold transition-all hover:scale-[1.02] active:scale-[0.98]",
-                      isOpen
-                        ? "bg-white/70 dark:bg-background/60 text-foreground border border-border hover:bg-white"
-                        : meta.revealBtn,
-                    )}
-                  >
-                    {isOpen ? (
-                      <>👁️ {t("Ẩn chi tiết", "Hide details")}</>
-                    ) : (
-                      <>✨ {t("Xem ý nghĩa", "Reveal meaning")}</>
-                    )}
-                  </button>
-                  <button
-                    onClick={() => speakEn(entry.phrase)}
-                    className="inline-flex items-center justify-center w-11 h-11 rounded-xl border-2 border-border bg-white/80 dark:bg-background hover:bg-primary/10 hover:border-primary/50 hover:scale-105 transition-all text-foreground shadow-sm"
-                    title={t("Nghe phát âm", "Listen")}
-                    aria-label={t("Nghe phát âm", "Listen")}
-                  >
-                    <Volume2 className="w-4 h-4" />
-                  </button>
-                </div>
-              </motion.article>
-            );
-          })}
-        </div>
-      )}
+        return (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {display.map((entry, idx) => renderCard(entry, idx))}
+          </div>
+        );
+      })()}
     </div>
   );
 };
