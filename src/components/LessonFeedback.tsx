@@ -1,8 +1,10 @@
-// Floating right-edge lesson feedback widget (chatbot-style tab)
-// Lets students submit a quick post-lesson rating + suggestion without leaving the page.
-import { useState } from "react";
+// Floating lesson Attendance & Feedback widget.
+// Only renders when a student is logged in. Combines:
+//   - Attendance check-in (Present / Absent) -> lesson_attendance table
+//   - Likert ratings + free-form suggestion  -> lesson_feedback table
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageSquareHeart, X, Star, Send, ThumbsUp, ThumbsDown, Heart } from "lucide-react";
+import { MessageSquareHeart, X, Star, Send, CheckCircle2, XCircle, Heart } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
@@ -15,7 +17,7 @@ interface LessonFeedbackProps {
   lessonTitle?: string;
 }
 
-type Quick = "like" | "dislike" | null;
+type Attendance = "present" | "absent" | null;
 
 const StarRow = ({
   label,
@@ -56,57 +58,101 @@ const LessonFeedback = ({
   lessonTitle,
 }: LessonFeedbackProps) => {
   const { t } = useLanguage();
+  const [authed, setAuthed] = useState(false);
   const [open, setOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [quick, setQuick] = useState<Quick>(null);
+  const [attendance, setAttendance] = useState<Attendance>(null);
   const [clarity, setClarity] = useState(0);
   const [aiTool, setAiTool] = useState(0);
   const [confidence, setConfidence] = useState(0);
   const [suggestion, setSuggestion] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
+  // Only show widget for logged-in students
+  useEffect(() => {
+    let mounted = true;
+    supabase.auth.getUser().then(({ data }) => {
+      if (mounted) setAuthed(!!data.user);
+    });
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
+      setAuthed(!!session?.user);
+    });
+    return () => {
+      mounted = false;
+      sub.subscription.unsubscribe();
+    };
+  }, []);
+
   const canSubmit =
-    !submitting && (quick !== null || clarity > 0 || aiTool > 0 || confidence > 0 || suggestion.trim().length > 0);
+    !submitting && (attendance !== null || clarity > 0 || aiTool > 0 || confidence > 0 || suggestion.trim().length > 0);
 
   const handleSubmit = async () => {
     if (!canSubmit) return;
     setSubmitting(true);
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      const fbType: "like" | "dislike" =
-        quick ?? ((clarity + aiTool + confidence) / 3 >= 3 ? "like" : "dislike");
+      if (!user) {
+        toast({
+          title: t("Cần đăng nhập", "Login required"),
+          description: t("Vui lòng đăng nhập để điểm danh.", "Please log in to check in."),
+          variant: "destructive",
+        });
+        setSubmitting(false);
+        return;
+      }
 
       const path = typeof window !== "undefined" ? window.location.pathname : "/";
       const resolvedLessonId = lessonId || path;
       const resolvedType = lessonType || "general";
+      const resolvedTitle = lessonTitle || (typeof document !== "undefined" ? document.title : null);
 
-      await supabase.from("lesson_feedback").insert({
-        lesson_id: resolvedLessonId,
-        module_id: moduleId || null,
-        lesson_type: resolvedType,
-        feedback_type: fbType,
-        subject: subject || resolvedType,
-        user_id: user?.id || null,
-        rating_clarity: clarity || null,
-        rating_ai_tool: aiTool || null,
-        rating_confidence: confidence || null,
-        suggestion: suggestion.trim() || null,
-        lesson_title: lessonTitle || (typeof document !== "undefined" ? document.title : null),
-      } as never);
+      // 1) Attendance row
+      if (attendance) {
+        await supabase.from("lesson_attendance").upsert(
+          {
+            user_id: user.id,
+            lesson_id: resolvedLessonId,
+            lesson_title: resolvedTitle,
+            lesson_type: resolvedType,
+            subject: subject || resolvedType,
+            status: attendance,
+          } as never,
+          { onConflict: "user_id,lesson_id,attendance_date" } as never,
+        );
+      }
+
+      // 2) Feedback row (only if ratings/suggestion present)
+      const hasFeedback = clarity > 0 || aiTool > 0 || confidence > 0 || suggestion.trim().length > 0;
+      if (hasFeedback) {
+        const fbType: "like" | "dislike" =
+          ((clarity + aiTool + confidence) / 3) >= 3 ? "like" : "dislike";
+        await supabase.from("lesson_feedback").insert({
+          lesson_id: resolvedLessonId,
+          module_id: moduleId || null,
+          lesson_type: resolvedType,
+          feedback_type: fbType,
+          subject: subject || resolvedType,
+          user_id: user.id,
+          rating_clarity: clarity || null,
+          rating_ai_tool: aiTool || null,
+          rating_confidence: confidence || null,
+          suggestion: suggestion.trim() || null,
+          lesson_title: resolvedTitle,
+        } as never);
+      }
 
       setSubmitted(true);
       toast({
-        title: t("Cảm ơn phản hồi của bạn! 💛", "Thanks for your feedback! 💛"),
-        description: t(
-          "Thầy sẽ dùng phản hồi này để cải thiện bài học.",
-          "We'll use this to improve future lessons.",
-        ),
+        title: t("Đã ghi nhận! 💛", "Recorded! 💛"),
+        description: attendance
+          ? t("Cảm ơn bạn đã điểm danh hôm nay.", "Thanks for checking in today.")
+          : t("Cảm ơn phản hồi của bạn.", "Thanks for your feedback."),
       });
-      // Reset form so the student can submit fresh feedback after the next lesson
+
       setTimeout(() => {
         setOpen(false);
         setSubmitted(false);
-        setQuick(null);
+        setAttendance(null);
         setClarity(0);
         setAiTool(0);
         setConfidence(0);
@@ -124,6 +170,9 @@ const LessonFeedback = ({
     }
   };
 
+  // Hide entirely for guests
+  if (!authed) return null;
+
   return (
     <>
       {/* Floating tab on right edge */}
@@ -135,14 +184,14 @@ const LessonFeedback = ({
         whileTap={{ scale: 0.95 }}
         onClick={() => setOpen(true)}
         className="fixed right-0 top-[40%] -translate-y-1/2 z-[60] flex flex-col items-center gap-1 px-1.5 py-2.5 rounded-l-xl bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-xl shadow-orange-500/30 border-l border-y border-amber-300/50 hover:shadow-2xl"
-        aria-label={t("Gửi phản hồi bài học", "Send lesson feedback")}
+        aria-label={t("Điểm danh & phản hồi", "Attendance & Feedback")}
       >
         <MessageSquareHeart className="w-4 h-4 shrink-0" />
         <span
           className="text-[10px] font-bold tracking-wider leading-tight"
           style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
         >
-          {t("PHẢN HỒI", "FEEDBACK")}
+          {t("ĐIỂM DANH", "ATTENDANCE")}
         </span>
       </motion.button>
 
@@ -169,10 +218,10 @@ const LessonFeedback = ({
                   <span className="text-xl">🧑‍🏫</span>
                   <div className="flex flex-col">
                     <span className="text-sm font-bold">
-                      {t("Phản hồi bài học", "Lesson Feedback")}
+                      {t("Điểm danh & Phản hồi bài học", "Attendance & Lesson Feedback")}
                     </span>
                     <span className="text-[11px] font-extrabold opacity-95 tracking-wide flex items-center gap-1 whitespace-nowrap">
-                      {t("Mr. Hai lắng nghe bạn", "Mr. Hai always listens to your opinion.")}
+                      {t("Mr. Hai lắng nghe bạn", "Mr. Hai always listens to you")}
                       <Heart className="w-3 h-3 fill-red-500 text-red-500 shrink-0" />
                     </span>
                   </div>
@@ -205,40 +254,38 @@ const LessonFeedback = ({
                     </motion.div>
                   ) : (
                     <>
-                      <p className="text-xs font-bold text-foreground leading-snug">
-                         {t(
-                          "Bạn thấy bài học hôm nay thế nào? Phản hồi giúp thầy cải thiện nội dung.",
-                          "How was this lesson today? Your feedback helps improve content.",
-                        )}
-                      </p>
-
-                      {/* Quick reaction */}
-                      <div className="flex gap-1.5">
-                        <button
-                          onClick={() => setQuick("like")}
-                          className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold border-2 transition-all ${
-                            quick === "like"
-                              ? "bg-green-500/15 border-green-500/50 text-green-600"
-                              : "bg-muted border-transparent hover:border-green-500/30 text-muted-foreground"
-                          }`}
-                        >
-                          <ThumbsUp className={`w-3.5 h-3.5 ${quick === "like" ? "fill-green-500" : ""}`} />
-                          {t("Hữu ích", "Helpful")}
-                        </button>
-                        <button
-                          onClick={() => setQuick("dislike")}
-                          className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold border-2 transition-all ${
-                            quick === "dislike"
-                              ? "bg-orange-500/15 border-orange-500/50 text-orange-600"
-                              : "bg-muted border-transparent hover:border-orange-500/30 text-muted-foreground"
-                          }`}
-                        >
-                          <ThumbsDown className={`w-3.5 h-3.5 ${quick === "dislike" ? "fill-orange-500" : ""}`} />
-                          {t("Cần cải thiện", "Needs Improvement")}
-                        </button>
+                      {/* Attendance check-in (moved up & relabeled) */}
+                      <div>
+                        <p className="text-xs font-bold text-foreground mb-1.5">
+                          {t("📋 Điểm danh hôm nay", "📋 Check in for today")}
+                        </p>
+                        <div className="flex gap-1.5">
+                          <button
+                            onClick={() => setAttendance("present")}
+                            className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold border-2 transition-all ${
+                              attendance === "present"
+                                ? "bg-green-500/15 border-green-500/50 text-green-600"
+                                : "bg-muted border-transparent hover:border-green-500/30 text-muted-foreground"
+                            }`}
+                          >
+                            <CheckCircle2 className={`w-3.5 h-3.5 ${attendance === "present" ? "fill-green-500/30" : ""}`} />
+                            {t("Có mặt", "Present")}
+                          </button>
+                          <button
+                            onClick={() => setAttendance("absent")}
+                            className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold border-2 transition-all ${
+                              attendance === "absent"
+                                ? "bg-orange-500/15 border-orange-500/50 text-orange-600"
+                                : "bg-muted border-transparent hover:border-orange-500/30 text-muted-foreground"
+                            }`}
+                          >
+                            <XCircle className={`w-3.5 h-3.5 ${attendance === "absent" ? "fill-orange-500/30" : ""}`} />
+                            {t("Vắng mặt", "Absent")}
+                          </button>
+                        </div>
                       </div>
 
-                      {/* Detailed ratings */}
+                      {/* Detailed Likert ratings */}
                       <div className="space-y-2 p-2.5 rounded-xl bg-muted/40 border border-border">
                         <StarRow
                           label={t("Độ rõ ràng nội dung", "Content clarity")}
@@ -257,11 +304,14 @@ const LessonFeedback = ({
                         />
                       </div>
 
-                      {/* Suggestion */}
+                      {/* Prompt + suggestion (moved DOWN, right next to Likert) */}
+                      <p className="text-xs font-bold text-foreground leading-snug pt-1">
+                        {t(
+                          "Bạn thấy bài học hôm nay thế nào?",
+                          "How was this lesson today?",
+                        )}
+                      </p>
                       <div className="flex flex-col gap-1">
-                        <label className="text-xs font-bold text-foreground">
-                          {t("Góp ý cho thầy (tùy chọn)", "Suggestion (optional)")}
-                        </label>
                         <textarea
                           value={suggestion}
                           onChange={(e) => setSuggestion(e.target.value.slice(0, 500))}
@@ -293,13 +343,13 @@ const LessonFeedback = ({
                     ? t("Đã gửi", "Submitted")
                     : submitting
                       ? t("Đang gửi...", "Sending...")
-                      : t("Nộp feedback", "Submit")}
+                      : t("Gửi", "Submit")}
                 </button>
                 {!submitted && !canSubmit && (
                   <p className="text-[10px] text-muted-foreground text-center mt-1.5">
                     {t(
-                      "Chọn ít nhất 1 mục để gửi",
-                      "Select at least one item to submit",
+                      "Hãy điểm danh hoặc đánh giá để gửi",
+                      "Check in or rate to submit",
                     )}
                   </p>
                 )}
