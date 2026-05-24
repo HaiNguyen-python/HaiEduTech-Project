@@ -316,10 +316,7 @@ const LessonFeedback = ({
                           value={suggestion}
                           onChange={(e) => setSuggestion(e.target.value.slice(0, 500))}
                           rows={2}
-                          placeholder={t(
-                            "Bạn muốn thầy điều chỉnh điều gì?",
-                            "What would you like Mr. Hai to improve?",
-                          )}
+                          placeholder={t("Viết cảm nhận của bạn...", "Write your thoughts...")}
                           className="w-full px-3 py-2 rounded-lg bg-background border border-border text-sm focus:outline-none focus:ring-2 focus:ring-amber-400/50 resize-none"
                         />
                         <span className="text-[10px] text-muted-foreground text-right">
