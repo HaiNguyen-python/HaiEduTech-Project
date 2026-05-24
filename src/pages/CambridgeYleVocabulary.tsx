@@ -4,41 +4,24 @@
  * playful UI for kids with a Mountain Climber gamification: each "mastered"
  * word lifts the climber up the mountain for the active level.
  */
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Volume2, Sparkles, Trophy, Star, Search, ArrowLeft, Mountain, CheckCircle2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingKidsDecor from "@/components/FloatingKidsDecor";
+import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { CAMBRIDGE_KIDS_WORDS, CAMBRIDGE_LEVELS, type CambridgeKidsLevel, type CambridgeKidsWord } from "@/data/cambridgeKidsVocab";
-import { CAMBRIDGE_KIDS_WORDS_EXPANSION } from "@/data/cambridgeKidsVocabExpansion";
-import { CAMBRIDGE_KIDS_WORDS_EXPANSION_2 } from "@/data/cambridgeKidsVocabExpansion2";
-import { getExample } from "@/data/cambridgeKidsExamples";
+import { CAMBRIDGE_LEVELS, type CambridgeKidsLevel, type CambridgeKidsWord } from "@/data/cambridgeKidsVocab";
+import { CAMBRIDGE_KIDS_WORDS_DEDUPED } from "@/data/cambridgeKidsVocabMaster";
+import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import { toast } from "@/hooks/use-toast";
 
-// Merge and dedupe by lowercase word — keep the FIRST occurrence (lower CEFR
-// wins, so a word like "rainbow" only appears at the easiest level it teaches).
-const LEVEL_ORDER: Record<CambridgeKidsLevel, number> = {
-  Starters: 0, Movers: 1, Flyers: 2, KET: 3, PET: 4,
-};
-const RAW_WORDS = [
-  ...CAMBRIDGE_KIDS_WORDS,
-  ...CAMBRIDGE_KIDS_WORDS_EXPANSION,
-  ...CAMBRIDGE_KIDS_WORDS_EXPANSION_2,
-];
-const seen = new Map<string, CambridgeKidsWord>();
-for (const w of RAW_WORDS) {
-  const key = w.word.toLowerCase().trim();
-  const existing = seen.get(key);
-  if (!existing || LEVEL_ORDER[w.level] < LEVEL_ORDER[existing.level]) {
-    seen.set(key, w);
-  }
-}
-const ALL_WORDS: CambridgeKidsWord[] = [...seen.values()].sort((a, b) => a.word.localeCompare(b.word));
+const ALL_WORDS: CambridgeKidsWord[] = CAMBRIDGE_KIDS_WORDS_DEDUPED;
+const MASTERY_SUBJECT = "cambridge-yle";
 
 // Softer, kid-friendly palette — pastel borders, light tints, strong text contrast.
 const LEVEL_THEME: Record<CambridgeKidsLevel, {
@@ -51,14 +34,10 @@ const LEVEL_THEME: Record<CambridgeKidsLevel, {
   PET:      { color: "#F0B469", soft: "#FFF8EC", bg: "#FFF4E0", emoji: "🏆", cefr: "B1",     gradient: "linear-gradient(135deg, #FFD49A, #FFE6C2)" },
 };
 
-const STORAGE_KEY = "cambridge-yle-vocab-mastered-v1";
-
-const readMastered = (): Set<string> => {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return new Set(raw ? JSON.parse(raw) : []);
-  } catch { return new Set(); }
-};
+const getExample = (w: CambridgeKidsWord) => ({
+  en: w.example || `A ${w.word} can be amazing!`,
+  vi: w.exampleVi || `${w.vi} thật tuyệt vời!`,
+});
 
 const speak = (word: string) => {
   try {
@@ -165,11 +144,7 @@ const CambridgeYleVocabulary = () => {
   const { t } = useLanguage();
   const [level, setLevel] = useState<CambridgeKidsLevel>("Starters");
   const [search, setSearch] = useState("");
-  const [mastered, setMastered] = useState<Set<string>>(readMastered);
-
-  useEffect(() => {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify([...mastered])); } catch { /* noop */ }
-  }, [mastered]);
+  const { mastered, toggle } = useMasteredVocab(MASTERY_SUBJECT);
 
   const wordsForLevel = useMemo(
     () => ALL_WORDS.filter(w => w.level === level),
@@ -189,19 +164,14 @@ const CambridgeYleVocabulary = () => {
 
   const toggleMaster = (level: CambridgeKidsLevel, word: string) => {
     const key = `${level}:${word}`;
-    setMastered(prev => {
-      const next = new Set(prev);
-      if (next.has(key)) {
-        next.delete(key);
-      } else {
-        next.add(key);
-        toast({
-          title: t("🎉 Tuyệt vời!", "🎉 Awesome!"),
-          description: t(`Bạn vừa leo lên 1 bước!`, `You climbed up one step!`),
-        });
-      }
-      return next;
-    });
+    const wasMastered = mastered.has(key);
+    toggle(key);
+    if (!wasMastered) {
+      toast({
+        title: t("🎉 Tuyệt vời!", "🎉 Awesome!"),
+        description: t(`Bạn vừa leo lên 1 bước!`, `You climbed up one step!`),
+      });
+    }
   };
 
   const theme = LEVEL_THEME[level];
@@ -396,12 +366,24 @@ const CambridgeYleVocabulary = () => {
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => { if (confirm(t("Đặt lại tiến độ?", "Reset progress?"))) setMastered(new Set()); }}
+                  onClick={() => {
+                    if (!confirm(t("Đặt lại tiến độ?", "Reset progress?"))) return;
+                    [...mastered].forEach(k => toggle(k));
+                  }}
                   className="mt-3 text-xs text-slate-500 hover:text-rose-600 w-full"
                 >
                   {t("Đặt lại tiến độ", "Reset progress")}
                 </Button>
               )}
+            </div>
+
+            {/* Student leaderboard */}
+            <div className="mt-3">
+              <VocabMasteryLeaderboard
+                subject={MASTERY_SUBJECT}
+                currentCount={mastered.size}
+                label={t("🏆 BXH Cambridge YLE", "🏆 Cambridge YLE Ranking")}
+              />
             </div>
           </aside>
         </section>
