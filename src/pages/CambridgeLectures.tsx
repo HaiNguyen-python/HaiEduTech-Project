@@ -224,10 +224,10 @@ const CambridgeLectures = () => {
                 <button
                   key={f.key}
                   onClick={() => setActiveSkill(f.key)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wide transition-all border ${
+                  className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wide transition-all border-2 ${
                     isActive
-                      ? "bg-[#A78BFA]/20 text-[#C4B5FD] border-[#A78BFA]/40"
-                      : "bg-white/[0.02] text-[#475569] border-white/[0.06] hover:bg-white/[0.04]"
+                      ? "bg-[#C780FA]/30 text-[#7C3AED] border-[#C780FA]"
+                      : "bg-white/70 text-slate-600 border-white/80 hover:bg-white"
                   }`}
                 >
                   <Icon className="w-4 h-4" />
