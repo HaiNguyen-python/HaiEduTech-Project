@@ -1,49 +1,76 @@
-## Thay đổi tại `src/pages/AIAcademy.tsx`
+## Hiện trạng AI Academy
 
-### 1. Đổi tiêu đề hero
-- Dòng 1237-1239: thay `"Học AI siêu vui 🚀"` → `"Chương trình khám phá AI tài năng trẻ Việt Nam 🇻🇳"`.
-- Giảm size text một chút (`text-2xl sm:text-4xl`) để tiêu đề dài hiển thị đẹp trên mobile, và tăng `pr-` cho đoạn mô tả để không đè lên chibi robot.
+16 bài học, mỗi bài đã có: minh họa hoạt hình, story 3 ô, Vietnam case + golden tip + glossary, sandbox tương tác, drag-drop quiz, multiple-choice + scenario quiz, sao thưởng, badge tên riêng, chứng chỉ tốt nghiệp khi đủ sao.
 
-### 2. Thêm "Cây kinh nghiệm AI" (AI Skill Tree)
-Component mới `AISkillTree.tsx` đặt ngay dưới `<XPStreakHUD />` (sau dòng 1264), trước grid Track cards.
+Dưới đây là 10 ý tưởng (xếp theo độ hiệu quả) để nâng cấp trải nghiệm cho học sinh. Mỗi ý tưởng độc lập — thầy chọn 1, vài, hoặc tất cả, mình sẽ triển khai.
 
-**Cấu trúc trực quan:**
-```text
-        🌱 Mầm AI (Lv 1)
-            │
-        🤖 Khám phá (Lv 2-3) ── ⭐ Bonus: Quiz Master
-            │
-        🧠 Tư duy máy (Lv 4-5) ── 🎨 Bonus: Sáng tạo
-            │
-        🚀 Kiến tạo (Lv 6-7) ── 🏆 Bonus: AI Builder
-            │
-        👑 AI Sensei (Lv 8) ── 💎 Bonus: Tài năng VN
-```
+---
 
-**Hành vi & UI:**
-- Render dạng cây dọc với SVG đường nối (gradient primary→emerald), mỗi nút là 1 chặng (milestone) có icon, tên, mô tả ngắn, XP yêu cầu.
-- Đọc state từ `useAIAcademyXP` (đã có sẵn) — so sánh `xp` & `level` để bật trạng thái: `locked` (xám + 🔒), `current` (glow pulse + ring primary), `unlocked` (gradient + ✓).
-- Nhánh phụ ("Bonus quests") gắn bên phải mỗi milestone — kích hoạt khi đạt huy hiệu/quiz tương ứng (đọc từ `progress`/`totalBadges`).
-- Animation: framer-motion stagger fade-in, nút `current` có animation pulse, đường nối "fill" theo % XP đến milestone tiếp theo.
-- Có header: "🌳 Cây kinh nghiệm AI — Hành trình từ Mầm non đến AI Sensei" + progress tổng (current XP / next milestone XP).
-- Responsive: desktop dạng cây dọc trung tâm có nhánh, mobile dạng timeline dọc đơn giản (ẩn nhánh phụ, chuyển thành chip bên dưới).
+### 🥇 NHÓM "WOW" — Cảm xúc & gắn kết
 
-**Dữ liệu milestone** (8 chặng, khớp 8 level của `useAIAcademyXP`):
-```ts
-const MILESTONES = [
-  { lv: 1, xp: 0,    title: "Mầm AI",        icon: "🌱", desc: "Bắt đầu hành trình", bonus: null },
-  { lv: 2, xp: 100,  title: "Khám phá",      icon: "🤖", desc: "Học khái niệm cốt lõi", bonus: { icon: "⭐", title: "Quiz Master", req: "Đạt 3 sao 3 bài" } },
-  { lv: 3, xp: 250,  title: "Thực hành",     icon: "🛠️", desc: "Thử lab AI đầu tiên", bonus: null },
-  { lv: 4, xp: 450,  title: "Tư duy máy",    icon: "🧠", desc: "Hiểu neural network", bonus: { icon: "🎨", title: "Sáng tạo", req: "Hoàn thành GenAI" } },
-  { lv: 5, xp: 700,  title: "Ứng dụng",      icon: "⚡", desc: "Vận dụng AI thực tế", bonus: null },
-  { lv: 6, xp: 1000, title: "Kiến tạo",      icon: "🚀", desc: "Tự build dự án mini", bonus: { icon: "🏆", title: "AI Builder", req: "Đạt 8 huy hiệu" } },
-  { lv: 7, xp: 1400, title: "Chuyên gia trẻ",icon: "🎓", desc: "Hoàn thành Capstone", bonus: null },
-  { lv: 8, xp: 2000, title: "AI Sensei",     icon: "👑", desc: "Bậc thầy AI tương lai", bonus: { icon: "💎", title: "Tài năng VN", req: "Tốt nghiệp 16 bài" } },
-];
-```
-(XP threshold sẽ đối chiếu với hằng số sẵn có trong `useAIAcademyXP.ts` để khớp.)
+**1. AI Buddy — bạn đồng hành biết nói (Mascot AI)**
+Một robot pet nhỏ (chibi) xuất hiện góc màn hình, đổi biểu cảm theo tiến trình: nhảy khi đúng quiz, buồn khi sai, đeo cap khi tốt nghiệp. Có thể click để nghe TTS đọc câu chuyện hoặc gợi ý "Bạn đang học bài nào?". Tạo cảm giác có người bạn cùng học — cực kỳ giữ chân học sinh nhỏ tuổi.
 
-### 3. File mới
-- `src/components/ai-academy/AISkillTree.tsx` (~180 dòng, framer-motion + SVG inline, dùng semantic tokens `primary`/`emerald`/`muted`).
+**2. Story dạng comic strip thay vì khối chữ**
+Biến 3 ô story thành 3 khung truyện tranh (mỗi khung: ảnh + 1-2 câu thoại trong speech bubble + emoji phản ứng). Click "Đọc to" → robot lồng tiếng từng khung. Giảm cảm giác "đọc text", tăng cảm giác "xem hoạt hình".
 
-Không đụng business logic XP hiện có — chỉ là lớp visualization mới đọc từ hook.
+**3. XP + Level + Streak ngày 🔥**
+Đã có sao; thêm:
+
+- Thanh XP toàn cục → lên level (Newbie → Apprentice → AI Master).
+- Streak ngày học liên tiếp (lửa 🔥 hiển thị navbar).
+- Daily Quest: "Hôm nay học 1 bài mới + làm 1 quiz = +50 XP".
+Học sinh quay lại mỗi ngày.
+
+---
+
+### 🥈 NHÓM tương tác sâu
+
+**4. "Hỏi AI Mr. Hai" sau mỗi bài**
+Cuối mỗi bài có 1 ô chat AI mini (dùng Lovable AI Gateway) đã được prompt sẵn bối cảnh bài học. Học sinh có thể hỏi "Tại sao xe tự lái cần nhiều camera?", AI trả lời theo phong cách thân thiện, có ví dụ Việt Nam. → Khắc phục giới hạn nội dung tĩnh.
+
+**5. AI Lab thử nghiệm thật**
+Mở rộng sandbox: cho học sinh upload ảnh thật để AI nhận diện (bài Vision), thu âm để AI phân loại cảm xúc (bài NLP), gõ prompt thật để sinh ảnh (bài GenAI — qua Gateway). Học bằng cách CHƠI THẬT, không chỉ mô phỏng.
+
+**6. Mini Boss Battle — Quiz đối kháng**
+Cuối mỗi bài có "Trận chiến cuối": học sinh đấu với "Boss AI" (5 câu hỏi, 30s, đáp đúng → tấn công, sai → bị trừ máu). Có hiệu ứng tấn công, máu giảm, victory animation. Gamification cực mạnh.
+
+---
+
+### 🥉 NHÓM xã hội & cá nhân hóa
+
+**7. Leaderboard AI Academy**
+Bảng xếp hạng theo XP/sao trong tuần & all-time (dùng Supabase). Khi học sinh thấy tên mình leo top → động lực khổng lồ. Có Top 10 + vị trí của bạn.
+
+**8. Learning Path cá nhân hóa**
+Trang chính hiện "Lộ trình của bạn": bài tiếp theo nên học, % hoàn thành tổng thể, ước tính số bài để tốt nghiệp. Dùng AI gợi ý: "Bạn mạnh về CV, hãy thử bài Robotics tiếp theo."
+
+**9. Project khoe sản phẩm (Showcase)**
+Sau bài Capstone, học sinh nộp 1 sản phẩm AI nhỏ (đoạn prompt sáng tạo, ảnh AI tự sinh, ý tưởng chatbot...). Hiện ở trang Hall of Fame. Có nút "tym" để bạn bè vote. → Tạo cộng đồng.
+
+---
+
+### 🎨 NHÓM polish
+
+**10. Hiệu ứng "wow" khi hoàn thành**
+
+- Confetti 3D rơi xuống khi đạt 3 sao.
+- Badge nhảy ra với animation flip + sound effect tinh tế (chime).
+- Khi tốt nghiệp: cinematic — màn hình tối lại, ánh sáng spotlight chiếu vào chứng chỉ, robot Mr. Hai bay tới chúc mừng.
+- Background nhạc nhẹ tùy chọn (lofi study) bật/tắt được.
+
+---
+
+## Gợi ý ưu tiên (nếu chỉ làm 3)
+
+Để có **tác động lớn nhất với công sức hợp lý**, mình đề xuất combo:
+
+1. **Ý #1 AI Buddy mascot** — cảm xúc & branding tức thì.
+2. **Ý #3 XP + Streak + Daily Quest** — giữ chân học sinh quay lại.
+3. **Ý #4 Hỏi AI Mr. Hai** — biến nội dung tĩnh thành tương tác vô hạn.
+
+Thầy chọn ý tưởng nào (hoặc combo nào), mình sẽ chuyển sang build mode và triển khai luôn.
+
+mình chọn ý **Ý #3 XP + Streak + Daily Quest** — giữ chân học sinh quay lại.
+
+&nbsp;

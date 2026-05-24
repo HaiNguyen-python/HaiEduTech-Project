@@ -79,7 +79,6 @@ const TRACK_ILLUSTRATIONS: Record<string, string> = {
 import FloatingAIIcons from "@/components/ai-academy/FloatingAIIcons";
 import GraduationCertificate from "@/components/ai-academy/GraduationCertificate";
 import XPStreakHUD from "@/components/ai-academy/XPStreakHUD";
-import AISkillTree from "@/components/ai-academy/AISkillTree";
 import { useAIAcademyXP } from "@/hooks/useAIAcademyXP";
 
 import AutoTranslateBoundary from "@/components/ai-academy/AutoTranslateBoundary";
@@ -1235,8 +1234,8 @@ const AIAcademy = () => {
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur text-xs font-bold mb-3">
               <Sparkles className="w-3 h-3" /> AI ACADEMY · CẤP 2 – CẤP 3
             </div>
-            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-display font-black leading-tight mb-2 drop-shadow-lg pr-24 sm:pr-36 lg:pr-48">
-              Chương trình khám phá AI tài năng trẻ Việt Nam 🇻🇳
+            <h1 className="text-3xl sm:text-5xl font-display font-black leading-tight mb-2 drop-shadow-lg">
+              Học AI siêu vui 🚀
             </h1>
             <p className="text-white/95 max-w-2xl text-sm sm:text-base pr-24 sm:pr-36 lg:pr-48 drop-shadow">
               {TRACKS.length - 1} chặng phiêu lưu trực quan — chạm, kéo, thả, dạy bot, vẽ neuron. Hoàn thành để mở khoá huy hiệu, sao thưởng và Chứng chỉ tốt nghiệp!
@@ -1263,9 +1262,6 @@ const AIAcademy = () => {
 
         {/* XP / Streak / Daily Quest HUD */}
         <XPStreakHUD />
-
-        {/* Cây kinh nghiệm AI */}
-        <AISkillTree totalStars={totalStars} totalBadges={totalBadges} />
 
         {/* Track cards */}
 
