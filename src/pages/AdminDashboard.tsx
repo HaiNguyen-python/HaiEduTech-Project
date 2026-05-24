@@ -392,46 +392,6 @@ const AdminDashboard = () => {
             )}
 
             {/* Main Tabs - grouped */}
-            {(() => {
-              const TAB_GROUPS = {
-                overview: {
-                  label: t("Tổng quan", "Overview"),
-                  icon: Globe,
-                  tabs: [
-                    { value: "overview", label: t("Tổng quan", "Overview"), icon: Globe },
-                    { value: "system", label: t("Hệ thống API", "System Status"), icon: Activity },
-                  ],
-                },
-                students: {
-                  label: t("Học sinh", "Students"),
-                  icon: Users,
-                  tabs: [
-                    { value: "students", label: t("Học sinh", "Students"), icon: Users },
-                    { value: "insights", label: t("Quan tâm người dùng", "User Insights"), icon: Search },
-                    { value: "attendance", label: t("Điểm danh", "Attendance"), icon: Users },
-                    { value: "feedback", label: t("Phản hồi học viên", "Feedback"), icon: Search },
-                  ],
-                },
-                learning: {
-                  label: t("Học tập & AI", "Learning & AI"),
-                  icon: Brain,
-                  tabs: [
-                    { value: "rl-engine", label: t("Hệ thống can thiệp", "RL Engine"), icon: Brain },
-                    { value: "strategy", label: t("Chiến lược", "Strategy"), icon: TrendingUp },
-                  ],
-                },
-                operations: {
-                  label: t("Vận hành", "Operations"),
-                  icon: DollarSign,
-                  tabs: [
-                    { value: "income", label: t("Thu nhập", "Income"), icon: DollarSign },
-                    { value: "schedule", label: t("Lịch học", "Schedule"), icon: Clock },
-                  ],
-                },
-              } as const;
-              const currentGroup = TAB_GROUPS[tabGroup];
-              return null;
-            })()}
             <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
               {/* Group selector (top row) */}
               <div className="flex flex-wrap gap-2 p-1 bg-secondary/50 rounded-lg">
