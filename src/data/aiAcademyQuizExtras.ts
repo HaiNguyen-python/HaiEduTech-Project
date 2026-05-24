@@ -90,6 +90,84 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
     ],
   },
 
+  // ============== Bài Data — Thám tử dữ liệu ==============
+  datadet: {
+    mc: [
+      {
+        prompt: "Quy luật 'Garbage In, Garbage Out' nghĩa là gì?",
+        options: [
+          "AI sẽ tự lọc dữ liệu xấu",
+          "Dữ liệu vào bẩn → AI cho ra kết quả bẩn",
+          "AI chỉ làm việc với rác",
+          "Cần thùng rác để chứa dữ liệu",
+        ],
+        answer: 1,
+        explanation: "Đây là quy luật nền tảng nhất của ML — chất lượng output phụ thuộc trực tiếp vào chất lượng input.",
+      },
+      {
+        prompt: "Trong 4 thứ sau, đâu là 'outlier' (giá trị ngoại lai)?",
+        options: [
+          "Tuổi học sinh = 14",
+          "Chiều cao học sinh = 155 cm",
+          "Cân nặng học sinh = 500 kg",
+          "Điểm Toán = 8.5",
+        ],
+        answer: 2,
+        explanation: "500 kg là bất thường — chắc chắn lỗi nhập liệu. Outlier kéo trung bình lệch và làm AI học sai.",
+      },
+    ],
+    scenario: [
+      {
+        situation: "Bạn xây AI dự đoán điểm thi từ giờ học. Bạn có 100 dòng dữ liệu, nhưng 20 dòng để trống cột 'giờ học'.",
+        prompt: "Bạn nên làm gì?",
+        choices: [
+          { label: "Cứ train luôn, AI sẽ tự hiểu", verdict: "wrong", feedback: "AI không tự đoán — sẽ học sai và dự đoán bậy." },
+          { label: "Xoá 20 dòng hoặc điền trung bình, rồi mới train", verdict: "good", feedback: "Đúng — đó là 2 cách xử lý missing data phổ biến nhất." },
+          { label: "Gán hết bằng 0", verdict: "wrong", feedback: "Sai — gán 0 sẽ tạo bias vì 0 giờ học không phản ánh thực tế." },
+        ],
+      },
+    ],
+  },
+
+  // ============== Bài ML — Học máy siêu đơn giản ==============
+  mlmagic: {
+    mc: [
+      {
+        prompt: "Khi AI gom khách hàng Shopee thành các nhóm mà không cần ai dán nhãn — đó là loại học gì?",
+        options: [
+          "Supervised Learning",
+          "Unsupervised Learning",
+          "Reinforcement Learning",
+          "Deep Learning",
+        ],
+        answer: 1,
+        explanation: "Không có nhãn → Unsupervised. K-Means là thuật toán điển hình cho việc này.",
+      },
+      {
+        prompt: "Ưu điểm lớn nhất của Decision Tree so với Neural Network là gì?",
+        options: [
+          "Chạy nhanh hơn 1000 lần",
+          "Dễ giải thích — ta nhìn thấy từng câu hỏi AI đang hỏi",
+          "Không cần dữ liệu",
+          "Luôn cho kết quả 100% đúng",
+        ],
+        answer: 1,
+        explanation: "Decision Tree là 'white-box' — ta xem được logic. Neural Network là 'black-box' khó giải thích.",
+      },
+    ],
+    scenario: [
+      {
+        situation: "Trường bạn muốn AI gợi ý CLB phù hợp cho học sinh. Có 2 cách: (A) Hỏi 100 bạn đã chọn CLB nào để làm nhãn, (B) Không hỏi, để AI tự gom theo sở thích.",
+        prompt: "Cách nào dùng Supervised, cách nào Unsupervised?",
+        choices: [
+          { label: "Cả hai đều Supervised", verdict: "wrong", feedback: "Sai — chỉ (A) có nhãn." },
+          { label: "(A) Supervised, (B) Unsupervised", verdict: "good", feedback: "Chính xác! (A) có nhãn 'CLB đã chọn' để học, (B) không có nhãn nên AI phải tự gom nhóm." },
+          { label: "(A) Unsupervised, (B) Supervised", verdict: "wrong", feedback: "Ngược rồi — có nhãn mới là Supervised." },
+        ],
+      },
+    ],
+  },
+
   // ============== Bài 3 — Neural Network ==============
   nn: {
     mc: [

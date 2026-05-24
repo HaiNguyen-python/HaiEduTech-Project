@@ -1,76 +1,63 @@
-## Hiện trạng AI Academy
+## Thêm 2 bài học mới vào AI Academy
 
-16 bài học, mỗi bài đã có: minh họa hoạt hình, story 3 ô, Vietnam case + golden tip + glossary, sandbox tương tác, drag-drop quiz, multiple-choice + scenario quiz, sao thưởng, badge tên riêng, chứng chỉ tốt nghiệp khi đủ sao.
-
-Dưới đây là 10 ý tưởng (xếp theo độ hiệu quả) để nâng cấp trải nghiệm cho học sinh. Mỗi ý tưởng độc lập — thầy chọn 1, vài, hoặc tất cả, mình sẽ triển khai.
+Bổ sung **Data → ML** vào curriculum, chèn sau bài Neural Networks (lesson 5) và trước Generative AI, để học sinh có lộ trình hoàn chỉnh: Data → ML cổ điển → Deep Learning → GenAI.
 
 ---
 
-### 🥇 NHÓM "WOW" — Cảm xúc & gắn kết
+### Bài mới #1: "Thám tử dữ liệu" 🕵️ (Data Detective)
 
-**1. AI Buddy — bạn đồng hành biết nói (Mascot AI)**
-Một robot pet nhỏ (chibi) xuất hiện góc màn hình, đổi biểu cảm theo tiến trình: nhảy khi đúng quiz, buồn khi sai, đeo cap khi tốt nghiệp. Có thể click để nghe TTS đọc câu chuyện hoặc gợi ý "Bạn đang học bài nào?". Tạo cảm giác có người bạn cùng học — cực kỳ giữ chân học sinh nhỏ tuổi.
+**Mục tiêu:** Hiểu AI "ăn" dữ liệu thế nào, dữ liệu sạch vs bẩn, và bias.
 
-**2. Story dạng comic strip thay vì khối chữ**
-Biến 3 ô story thành 3 khung truyện tranh (mỗi khung: ảnh + 1-2 câu thoại trong speech bubble + emoji phản ứng). Click "Đọc to" → robot lồng tiếng từng khung. Giảm cảm giác "đọc text", tăng cảm giác "xem hoạt hình".
+**Nội dung:**
+- **3 story cards** (giữ format hiện tại):
+  1. "AI là đầu bếp, dữ liệu là nguyên liệu" — rác vào = rác ra
+  2. Dữ liệu có cấu trúc (bảng Excel) vs phi cấu trúc (ảnh, video, tin nhắn)
+  3. Bias thực tế: FaceID nhận diện kém học sinh Việt vì train chủ yếu trên data người phương Tây
+- **Vietnam case:** VinAI thu thập 1 triệu ảnh người Việt để fix bias FaceID
+- **Golden tip của thầy Hải:** "Trước khi train AI, hãy nhìn data như thám tử — thiếu gì? lệch gì? bẩn chỗ nào?"
+- **Glossary:** dataset, feature, label, bias, outlier, structured/unstructured
+- **Sandbox "Làm sạch dữ liệu":**
+  - Bảng 8 dòng học sinh có lỗi (tuổi = -5, tên trống, chiều cao = 999cm)
+  - Click vào ô bẩn để "xóa/sửa" → biểu đồ cột bên cạnh tự cập nhật real-time
+  - Hiển thị "Độ sạch dữ liệu: 60% → 100%"
+- **Quiz drag-drop:** Kéo 6 ví dụ vào 2 cột Structured / Unstructured (bảng điểm, ảnh selfie, file Excel, video TikTok, tin nhắn Zalo, danh bạ)
+- **Quiz multiple-choice + scenario:** 4 câu về bias, outlier, garbage-in-garbage-out
 
-**3. XP + Level + Streak ngày 🔥**
-Đã có sao; thêm:
-
-- Thanh XP toàn cục → lên level (Newbie → Apprentice → AI Master).
-- Streak ngày học liên tiếp (lửa 🔥 hiển thị navbar).
-- Daily Quest: "Hôm nay học 1 bài mới + làm 1 quiz = +50 XP".
-Học sinh quay lại mỗi ngày.
-
----
-
-### 🥈 NHÓM tương tác sâu
-
-**4. "Hỏi AI Mr. Hai" sau mỗi bài**
-Cuối mỗi bài có 1 ô chat AI mini (dùng Lovable AI Gateway) đã được prompt sẵn bối cảnh bài học. Học sinh có thể hỏi "Tại sao xe tự lái cần nhiều camera?", AI trả lời theo phong cách thân thiện, có ví dụ Việt Nam. → Khắc phục giới hạn nội dung tĩnh.
-
-**5. AI Lab thử nghiệm thật**
-Mở rộng sandbox: cho học sinh upload ảnh thật để AI nhận diện (bài Vision), thu âm để AI phân loại cảm xúc (bài NLP), gõ prompt thật để sinh ảnh (bài GenAI — qua Gateway). Học bằng cách CHƠI THẬT, không chỉ mô phỏng.
-
-**6. Mini Boss Battle — Quiz đối kháng**
-Cuối mỗi bài có "Trận chiến cuối": học sinh đấu với "Boss AI" (5 câu hỏi, 30s, đáp đúng → tấn công, sai → bị trừ máu). Có hiệu ứng tấn công, máu giảm, victory animation. Gamification cực mạnh.
+**Ảnh minh họa:** `src/assets/ai-academy/data-detective.jpg` (chibi thám tử cầm kính lúp soi bảng dữ liệu, gradient xanh dương)
 
 ---
 
-### 🥉 NHÓM xã hội & cá nhân hóa
+### Bài mới #2: "Học máy siêu đơn giản" 🎩 (ML Magic)
 
-**7. Leaderboard AI Academy**
-Bảng xếp hạng theo XP/sao trong tuần & all-time (dùng Supabase). Khi học sinh thấy tên mình leo top → động lực khổng lồ. Có Top 10 + vị trí của bạn.
+**Mục tiêu:** Phân biệt Supervised vs Unsupervised qua 2 thuật toán trực quan: Decision Tree và K-Means.
 
-**8. Learning Path cá nhân hóa**
-Trang chính hiện "Lộ trình của bạn": bài tiếp theo nên học, % hoàn thành tổng thể, ước tính số bài để tốt nghiệp. Dùng AI gợi ý: "Bạn mạnh về CV, hãy thử bài Robotics tiếp theo."
+**Nội dung:**
+- **3 story cards:**
+  1. Decision Tree = chơi "20 câu hỏi" với AI ("Có lông không?" → "Biết bay không?" → Chim!)
+  2. K-Means = AI tự gom nhóm bạn cùng sở thích mà không cần ai dạy nhãn
+  3. Supervised (có thầy giáo chấm điểm) vs Unsupervised (tự khám phá)
+- **Vietnam case:** Shopee dùng K-Means gom khách hàng theo hành vi mua sắm để gợi ý sản phẩm
+- **Golden tip:** "Có nhãn → Supervised. Không nhãn → Unsupervised. Đơn giản vậy thôi!"
+- **Glossary:** supervised, unsupervised, decision tree, cluster, K-Means, classification
+- **Sandbox kép:**
+  - **Tab 1 — Cây quyết định trái cây:** Click vào branch ("Vỏ trơn?" → Yes/No) → cây phát triển dần → đoán Táo/Cam/Chuối
+  - **Tab 2 — K-Means clustering:** 20 chấm màu rải trên canvas, slider K=2/3/4 → AI gom nhóm bằng màu khác nhau với animation
+- **Quiz drag-drop:** Kéo 6 bài toán vào Supervised / Unsupervised (lọc spam, gom khách hàng, đoán giá nhà, phát hiện gian lận lạ, dịch tiếng Anh, nhóm bài hát giống nhau)
+- **Quiz multiple-choice:** 4 câu về cây quyết định, clustering, khi nào dùng cái nào
 
-**9. Project khoe sản phẩm (Showcase)**
-Sau bài Capstone, học sinh nộp 1 sản phẩm AI nhỏ (đoạn prompt sáng tạo, ảnh AI tự sinh, ý tưởng chatbot...). Hiện ở trang Hall of Fame. Có nút "tym" để bạn bè vote. → Tạo cộng đồng.
-
----
-
-### 🎨 NHÓM polish
-
-**10. Hiệu ứng "wow" khi hoàn thành**
-
-- Confetti 3D rơi xuống khi đạt 3 sao.
-- Badge nhảy ra với animation flip + sound effect tinh tế (chime).
-- Khi tốt nghiệp: cinematic — màn hình tối lại, ánh sáng spotlight chiếu vào chứng chỉ, robot Mr. Hai bay tới chúc mừng.
-- Background nhạc nhẹ tùy chọn (lofi study) bật/tắt được.
+**Ảnh minh họa:** `src/assets/ai-academy/ml-magic.jpg` (chibi pháp sư với mũ phù thủy, cây quyết định + chấm cluster lơ lửng, gradient tím-vàng)
 
 ---
 
-## Gợi ý ưu tiên (nếu chỉ làm 3)
+### Chi tiết kỹ thuật
 
-Để có **tác động lớn nhất với công sức hợp lý**, mình đề xuất combo:
+**Files thay đổi:**
+- `src/pages/AIAcademy.tsx` — thêm 2 lesson objects vào array `LESSONS`, chèn vào vị trí index 5 và 6 (sau Neural Networks). Cập nhật badge logic nếu cần (tổng 18 bài thay vì 16).
+- `src/assets/ai-academy/data-detective.jpg` — generate bằng imagegen (style chibi nhất quán với 16 ảnh hiện có)
+- `src/assets/ai-academy/ml-magic.jpg` — generate bằng imagegen
 
-1. **Ý #1 AI Buddy mascot** — cảm xúc & branding tức thì.
-2. **Ý #3 XP + Streak + Daily Quest** — giữ chân học sinh quay lại.
-3. **Ý #4 Hỏi AI Mr. Hai** — biến nội dung tĩnh thành tương tác vô hạn.
+**Tái sử dụng các component sandbox hiện có** (drag-drop quiz, multiple-choice, glossary card, story card) — không tạo component mới trừ khi cần.
 
-Thầy chọn ý tưởng nào (hoặc combo nào), mình sẽ chuyển sang build mode và triển khai luôn.
+**Sandbox Data Cleaning** và **K-Means** sẽ là 2 component nhỏ inline trong AIAcademy.tsx (giữ nguyên pattern hiện tại của các sandbox khác), dùng state local + Framer Motion cho animation. Không cần backend, không cần migration DB.
 
-mình chọn ý **Ý #3 XP + Streak + Daily Quest** — giữ chân học sinh quay lại.
-
-&nbsp;
+**XP integration:** 2 bài mới tự động hoạt động với `useAIAcademyXP` hook đã có — không cần sửa.

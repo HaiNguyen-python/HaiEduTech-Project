@@ -114,7 +114,70 @@ export const TRACK_EXTRAS: Record<string, TrackExtra> = {
     ],
   },
 
+  // ============== Bài Data — Thám tử dữ liệu ==============
+  datadet: {
+    vietnamCase: {
+      title: "🇻🇳 VinAI thu 1 triệu ảnh người Việt để fix bias FaceID",
+      body: "📷 Năm 2018, FaceID Apple bị nhiều người Việt phàn nàn vì nhận diện kém — nguyên nhân chính là dữ liệu train lệch về người da trắng. 🇻🇳 VinAI Research đã đáp lại bằng cách xây dataset hơn 1 triệu ảnh người Việt (đủ giới tính, độ tuổi, kiểu tóc, có/không kính, đeo khẩu trang). 🎯 Mô hình mới đạt 99,2% độ chính xác trên người Việt — bằng chứng sống động rằng 'data quyết định trí thông minh của AI'.",
+    },
+    goldenTip:
+      "Trước khi train AI, hãy nhìn data như thám tử: thiếu gì? lệch gì? bẩn chỗ nào? 80% thời gian của một AI Engineer giỏi là dọn dữ liệu, chỉ 20% là code thuật toán.",
+    glossary: [
+      { term: "Dataset", def: "Tập dữ liệu AI dùng để học (ví dụ: 10.000 ảnh mèo)." },
+      { term: "Feature", def: "Đặc trưng của 1 mẫu (chiều cao, màu, tuổi...)." },
+      { term: "Label", def: "Nhãn / đáp án đúng đi kèm mỗi mẫu (mèo, chó, spam...)." },
+      { term: "Bias", def: "Định kiến do dữ liệu lệch khiến AI dự đoán bất công." },
+      { term: "Outlier", def: "Giá trị ngoại lai bất thường (tuổi = 999) kéo trung bình lệch." },
+      { term: "Structured / Unstructured", def: "Có cấu trúc (bảng) vs phi cấu trúc (ảnh, video, text)." },
+    ],
+    careers: [
+      "Data Engineer (25–70 triệu)",
+      "Data Analyst (20–55 triệu)",
+      "Data Quality Specialist",
+      "ML Data Curator (mới — rất hot)",
+    ],
+    homework:
+      "Mở 1 file Excel ở nhà (bảng điểm, danh bạ, chi tiêu...). Tìm 3 lỗi: ô trống, sai chính tả, hoặc giá trị bất thường. Sửa lại và viết 2 câu giải thích vì sao dữ liệu sạch giúp ra quyết định tốt hơn.",
+    externalDemo: [
+      { label: "Kaggle Datasets — kho dữ liệu miễn phí", url: "https://www.kaggle.com/datasets" },
+      { label: "OpenRefine — dọn data như magic", url: "https://openrefine.org/" },
+      { label: "Google Dataset Search", url: "https://datasetsearch.research.google.com/" },
+    ],
+  },
+
+  // ============== Bài ML — Học máy siêu đơn giản ==============
+  mlmagic: {
+    vietnamCase: {
+      title: "🇻🇳 Shopee dùng K-Means gom 50 triệu khách hàng",
+      body: "🛍️ Shopee Việt Nam có hơn 50 triệu user. Họ dùng K-Means để gom thành các 'persona': sinh viên săn deal < 200k, mẹ bỉm sữa mua đồ trẻ em, dân văn phòng mua mỹ phẩm... 🎯 Mỗi nhóm nhận gợi ý sản phẩm khác nhau → tỷ lệ click tăng 35%. Đây là ví dụ kinh điển của Unsupervised Learning mang lại tiền tỉ.",
+    },
+    goldenTip:
+      "Quy tắc 5 giây: nhìn data — <b>có cột 'đáp án đúng' không?</b> Có → Supervised. Không → Unsupervised. Đừng học thuộc định nghĩa, hãy nhìn data!",
+    glossary: [
+      { term: "Supervised", def: "Học có giám sát — data có nhãn (label) làm đáp án." },
+      { term: "Unsupervised", def: "Học không giám sát — data không nhãn, AI tự tìm pattern." },
+      { term: "Decision Tree", def: "Cây quyết định — chuỗi câu hỏi Yes/No để phân loại." },
+      { term: "Cluster", def: "Nhóm các mẫu giống nhau mà AI tự gom được." },
+      { term: "K-Means", def: "Thuật toán gom K cụm dựa trên khoảng cách giữa các điểm." },
+      { term: "Classification", def: "Phân loại — gán mỗi mẫu vào 1 lớp (mèo/chó/chim)." },
+    ],
+    careers: [
+      "Machine Learning Engineer (30–80 triệu)",
+      "Data Scientist (25–60 triệu)",
+      "MLOps Engineer",
+      "Quant Analyst (ngân hàng, fintech)",
+    ],
+    homework:
+      "Mở Google Sheets → tạo bảng 10 bạn cùng lớp với 2 cột (chiều cao, cân nặng). Tự tay 'gom nhóm' bằng mắt — bạn thấy mấy cụm? Đó chính là K-Means mà não bạn vừa chạy!",
+    externalDemo: [
+      { label: "Teachable Machine — tự train classifier 5 phút", url: "https://teachablemachine.withgoogle.com/" },
+      { label: "MLDemos — visualize K-Means trực quan", url: "https://stanford.edu/class/ee103/visualizations/kmeans/kmeans.html" },
+      { label: "Decision Tree Visualizer", url: "https://mlu-explain.github.io/decision-tree/" },
+    ],
+  },
+
   // ============== Bài 4 — Generative AI ==============
+
   genai: {
     vietnamCase: {
       title: "🇻🇳 PhởGPT — LLM thuần Việt của VinAI",

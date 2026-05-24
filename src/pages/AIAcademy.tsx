@@ -38,6 +38,8 @@ import { QUIZ_EXTRAS } from "@/data/aiAcademyQuizExtras";
 import DeepfakeSandbox from "@/components/ai-academy/DeepfakeSandbox";
 import AgentWorkflowSandbox from "@/components/ai-academy/AgentWorkflowSandbox";
 import GraduationSandbox from "@/components/ai-academy/GraduationSandbox";
+import DataDetectiveSandbox from "@/components/ai-academy/DataDetectiveSandbox";
+import MLMagicSandbox from "@/components/ai-academy/MLMagicSandbox";
 
 // Lesson illustrations (kid-friendly AI cartoons)
 import illVision from "@/assets/ai-academy/vision.jpg";
@@ -56,6 +58,8 @@ import illCareers from "@/assets/ai-academy/careers.jpg";
 import illFactcheck from "@/assets/ai-academy/factcheck.jpg";
 import illSafety from "@/assets/ai-academy/safety.jpg";
 import illGraduation from "@/assets/ai-academy/graduation.jpg";
+import illDataDet from "@/assets/ai-academy/data-detective.jpg";
+import illMLMagic from "@/assets/ai-academy/ml-magic.jpg";
 
 const TRACK_ILLUSTRATIONS: Record<string, string> = {
   vision: illVision,
@@ -74,6 +78,8 @@ const TRACK_ILLUSTRATIONS: Record<string, string> = {
   factcheck: illFactcheck,
   safety: illSafety,
   graduation: illGraduation,
+  datadet: illDataDet,
+  mlmagic: illMLMagic,
 };
 
 import FloatingAIIcons from "@/components/ai-academy/FloatingAIIcons";
@@ -136,7 +142,7 @@ const SmartText = ({ text, className = "", html = false }: { text: string; class
   );
 };
 
-type TrackId = "vision" | "nlp" | "nn" | "genai" | "rl" | "ethics" | "recsys" | "aiot" | "capstone" | "deepfake" | "agent" | "study" | "careers" | "factcheck" | "safety" | "mathai" | "promptlab" | "startup" | "graduation";
+type TrackId = "vision" | "nlp" | "nn" | "datadet" | "mlmagic" | "genai" | "rl" | "ethics" | "recsys" | "aiot" | "capstone" | "deepfake" | "agent" | "study" | "careers" | "factcheck" | "safety" | "mathai" | "promptlab" | "startup" | "graduation";
 
 type Track = {
   id: TrackId;
@@ -350,6 +356,146 @@ const TRACKS: Track[] = [
         buckets: [
           { id: "yes", label: "AI làm" },
           { id: "no", label: "AI không làm" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "datadet",
+    emoji: "🕵️",
+    Icon: Database,
+    title: "Thám tử dữ liệu",
+    tag: "AI ăn gì để thông minh?",
+    desc: "Khám phá cách dữ liệu nuôi AI: dữ liệu sạch vs bẩn, có cấu trúc vs phi cấu trúc, và bias.",
+    gradient: "from-blue-400 via-sky-500 to-indigo-600",
+    ring: "ring-sky-400/50",
+    badge: { name: "Data Detective", emoji: "🔎" },
+    story: [
+      {
+        heading: "🍳 AI là đầu bếp, dữ liệu là nguyên liệu",
+        body: "Cho AI ăn dữ liệu <b>bẩn</b> (sai, thiếu, lệch) → nó nấu ra món <b>dở</b>. Đó là quy luật <i>Garbage In, Garbage Out</i> — rác vào thì rác ra.",
+      },
+      {
+        heading: "📊 Có cấu trúc vs phi cấu trúc",
+        body: "<b>Có cấu trúc</b>: bảng Excel, danh bạ — gọn gàng theo hàng cột. <b>Phi cấu trúc</b>: ảnh selfie, video TikTok, tin nhắn Zalo — 80% dữ liệu thế giới thuộc loại này.",
+      },
+      {
+        heading: "⚖️ Bias — AI cũng có định kiến",
+        body: "FaceID Apple lúc mới ra <b>nhận diện kém học sinh châu Á</b> vì train chủ yếu trên ảnh người da trắng. Dữ liệu lệch → AI lệch. Đó là vì sao VinAI phải thu 1 triệu ảnh người Việt.",
+      },
+    ],
+    Sandbox: DataDetectiveSandbox,
+    quiz: [
+      {
+        prompt: "Sắp xếp các loại dữ liệu sau:",
+        items: [
+          { id: "a", label: "Bảng điểm học sinh 📑", bucket: "struct" },
+          { id: "b", label: "File Excel doanh thu", bucket: "struct" },
+          { id: "c", label: "Danh bạ điện thoại", bucket: "struct" },
+          { id: "d", label: "Ảnh selfie 📷", bucket: "unstruct" },
+          { id: "e", label: "Video TikTok 🎵", bucket: "unstruct" },
+          { id: "f", label: "Tin nhắn Zalo 💬", bucket: "unstruct" },
+        ],
+        buckets: [
+          { id: "struct", label: "Có cấu trúc 📊" },
+          { id: "unstruct", label: "Phi cấu trúc 🎨" },
+        ],
+      },
+      {
+        prompt: "Cái nào là 'dữ liệu bẩn' cần làm sạch?",
+        items: [
+          { id: "1", label: "Tuổi học sinh = -5", bucket: "dirty" },
+          { id: "2", label: "Chiều cao = 999 cm", bucket: "dirty" },
+          { id: "3", label: "Tên để trống", bucket: "dirty" },
+          { id: "4", label: "Điểm Toán = 8.5", bucket: "clean" },
+          { id: "5", label: "Tuổi = 14", bucket: "clean" },
+        ],
+        buckets: [
+          { id: "dirty", label: "Cần làm sạch 🧹" },
+          { id: "clean", label: "Đã sạch ✅" },
+        ],
+      },
+      {
+        prompt: "Vì sao FaceID nhận diện kém học sinh Việt lúc mới ra?",
+        items: [
+          { id: "a", label: "Vì dữ liệu train lệch về người phương Tây", bucket: "yes" },
+          { id: "b", label: "Đó là 'bias' do dữ liệu", bucket: "yes" },
+          { id: "c", label: "Vì người Việt có khuôn mặt 'xấu'", bucket: "no" },
+          { id: "d", label: "Vì AI ghét học sinh", bucket: "no" },
+        ],
+        buckets: [
+          { id: "yes", label: "Đúng ✅" },
+          { id: "no", label: "Sai ❌" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "mlmagic",
+    emoji: "🎩",
+    Icon: Sparkles,
+    title: "Học máy siêu đơn giản",
+    tag: "Supervised vs Unsupervised",
+    desc: "Hai thuật toán trực quan nhất: Cây quyết định (có thầy giáo) và K-Means (tự khám phá).",
+    gradient: "from-violet-400 via-purple-500 to-fuchsia-600",
+    ring: "ring-violet-400/50",
+    badge: { name: "ML Magician", emoji: "🪄" },
+    story: [
+      {
+        heading: "🌳 Cây quyết định = trò '20 câu hỏi'",
+        body: "AI chơi 20 câu hỏi Yes/No: 'Có lông không?' → 'Biết bay không?' → <b>Chim!</b>. Đó là <b>Decision Tree</b> — dễ hiểu, dễ giải thích, và rất chính xác cho nhiều bài toán.",
+      },
+      {
+        heading: "🎨 K-Means = AI tự gom nhóm",
+        body: "Cho AI 20 chấm rải rác → nó tự gom thành K nhóm gần nhau, <b>không cần ai dạy nhãn</b>. Shopee dùng K-Means để gom khách hàng cùng sở thích, gợi ý sản phẩm.",
+      },
+      {
+        heading: "🎓 Supervised vs Unsupervised",
+        body: "<b>Supervised</b> (có giám sát) = data có nhãn, như có thầy giáo chấm điểm. <b>Unsupervised</b> (không giám sát) = data không nhãn, AI tự khám phá quy luật. Đơn giản vậy thôi!",
+      },
+    ],
+    Sandbox: MLMagicSandbox,
+    quiz: [
+      {
+        prompt: "Bài toán nào là Supervised, bài nào Unsupervised?",
+        items: [
+          { id: "a", label: "Lọc email spam (có nhãn spam/không)", bucket: "sup" },
+          { id: "b", label: "Đoán giá nhà (có giá thật)", bucket: "sup" },
+          { id: "c", label: "Dịch Anh ↔ Việt (có cặp câu mẫu)", bucket: "sup" },
+          { id: "d", label: "Gom khách hàng theo hành vi", bucket: "unsup" },
+          { id: "e", label: "Phát hiện giao dịch lạ bất thường", bucket: "unsup" },
+          { id: "f", label: "Nhóm bài hát có giai điệu giống", bucket: "unsup" },
+        ],
+        buckets: [
+          { id: "sup", label: "Supervised 👨‍🏫" },
+          { id: "unsup", label: "Unsupervised 🔍" },
+        ],
+      },
+      {
+        prompt: "Cây quyết định hoạt động thế nào?",
+        items: [
+          { id: "a", label: "Hỏi 1 chuỗi câu Yes/No", bucket: "yes" },
+          { id: "b", label: "Chia data thành các nhánh con", bucket: "yes" },
+          { id: "c", label: "Dễ giải thích cho con người", bucket: "yes" },
+          { id: "d", label: "Cần GPU siêu mạnh để chạy", bucket: "no" },
+          { id: "e", label: "Chỉ làm được với ảnh", bucket: "no" },
+        ],
+        buckets: [
+          { id: "yes", label: "Đúng ✅" },
+          { id: "no", label: "Sai ❌" },
+        ],
+      },
+      {
+        prompt: "K trong K-Means là gì?",
+        items: [
+          { id: "1", label: "Số nhóm (cluster) muốn chia", bucket: "yes" },
+          { id: "2", label: "Một siêu tham số do người chọn", bucket: "yes" },
+          { id: "3", label: "Tên một ngôn ngữ lập trình", bucket: "no" },
+          { id: "4", label: "Tốc độ chạy của AI", bucket: "no" },
+        ],
+        buckets: [
+          { id: "yes", label: "Đúng ✅" },
+          { id: "no", label: "Sai ❌" },
         ],
       },
     ],
@@ -1069,8 +1215,8 @@ const TRACKS: Track[] = [
 
 // Difficulty-ordered learning path (easy → hard). Card list & numbering follow this order.
 const TRACK_ORDER: TrackId[] = [
-  "study", "safety", "factcheck", "vision", "nlp", "genai", "recsys",
-  "nn", "rl", "ethics", "deepfake", "aiot", "agent", "careers", "capstone", "graduation",
+  "study", "safety", "factcheck", "datadet", "vision", "nlp", "genai", "recsys",
+  "nn", "mlmagic", "rl", "ethics", "deepfake", "aiot", "agent", "careers", "capstone", "graduation",
 ];
 const ORDERED_TRACKS: Track[] = TRACK_ORDER
   .map((id) => TRACKS.find((t) => t.id === id))
@@ -1081,7 +1227,7 @@ const STORAGE_KEY = "haiedu_ai_academy_progress";
 type Progress = Record<TrackId, { stars: number; badge?: boolean }>;
 
 const loadProgress = (): Progress => {
-  const defaults: Progress = { vision: { stars: 0 }, nlp: { stars: 0 }, nn: { stars: 0 }, genai: { stars: 0 }, rl: { stars: 0 }, ethics: { stars: 0 }, recsys: { stars: 0 }, aiot: { stars: 0 }, capstone: { stars: 0 }, deepfake: { stars: 0 }, agent: { stars: 0 }, study: { stars: 0 }, careers: { stars: 0 }, factcheck: { stars: 0 }, safety: { stars: 0 }, mathai: { stars: 0 }, promptlab: { stars: 0 }, startup: { stars: 0 }, graduation: { stars: 0 } };
+  const defaults: Progress = { vision: { stars: 0 }, nlp: { stars: 0 }, nn: { stars: 0 }, datadet: { stars: 0 }, mlmagic: { stars: 0 }, genai: { stars: 0 }, rl: { stars: 0 }, ethics: { stars: 0 }, recsys: { stars: 0 }, aiot: { stars: 0 }, capstone: { stars: 0 }, deepfake: { stars: 0 }, agent: { stars: 0 }, study: { stars: 0 }, careers: { stars: 0 }, factcheck: { stars: 0 }, safety: { stars: 0 }, mathai: { stars: 0 }, promptlab: { stars: 0 }, startup: { stars: 0 }, graduation: { stars: 0 } };
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) return { ...defaults, ...JSON.parse(raw) };
