@@ -266,10 +266,10 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 20, opacity: 0 }}
-              className={`absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1.5 rounded-lg text-xs font-bold border ${
+              className={`absolute bottom-3 left-1/2 -translate-x-1/2 px-3.5 py-2 rounded-lg text-sm font-extrabold border-2 backdrop-blur-md shadow-[0_4px_14px_rgba(0,0,0,0.45)] whitespace-nowrap ${
                 result.conf >= 75
-                  ? "bg-emerald-500/20 border-emerald-400/60 text-emerald-100"
-                  : "bg-rose-500/20 border-rose-400/60 text-rose-100"
+                  ? "bg-emerald-600/95 border-emerald-300 text-white"
+                  : "bg-rose-600/95 border-rose-300 text-white"
               }`}
             >
               <ScanFace className="inline w-3.5 h-3.5 mr-1" />
