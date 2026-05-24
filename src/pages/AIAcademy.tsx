@@ -246,6 +246,211 @@ const TRACKS: Track[] = [
       },
     ],
   },
+  {
+    id: "genai",
+    emoji: "✨",
+    Icon: Wand2,
+    title: "Generative AI",
+    tag: "Tạo ảnh & văn bằng AI",
+    desc: "Chơi với Prompt Engineering — chỉ đường cho AI vẽ tranh, viết văn theo ý mình.",
+    gradient: "from-pink-400 via-fuchsia-500 to-purple-600",
+    ring: "ring-pink-400/50",
+    badge: { name: "Prompt Master", emoji: "🪄" },
+    story: [
+      {
+        heading: "🎨 Generative AI là gì?",
+        body: "Khác với AI 'phân loại' (đoán mèo/chó), AI <b>tạo sinh</b> sản xuất ra nội dung MỚI: hình ảnh, văn bản, nhạc, video — chưa từng tồn tại trên Internet.",
+      },
+      {
+        heading: "📝 Prompt — câu thần chú",
+        body: "Bạn ra lệnh cho AI bằng <b>prompt</b>. Prompt càng cụ thể (chủ thể + phong cách + ánh sáng + cảm xúc) → kết quả càng đẹp. Đó là vì sao công ty trả lương $200k cho 'Prompt Engineer'.",
+      },
+      {
+        heading: "⚖️ Hallucination — AI bịa",
+        body: "Generative AI đôi khi bịa thông tin trông rất 'thật' (gọi là hallucination). Vì vậy hãy luôn <b>kiểm chứng</b> trước khi tin ChatGPT trả lời bài tập!",
+      },
+    ],
+    Sandbox: GenAISandbox,
+    quiz: [
+      {
+        prompt: "AI nào là Generative, AI nào KHÔNG phải?",
+        items: [
+          { id: "a", label: "ChatGPT viết bài văn", bucket: "gen" },
+          { id: "b", label: "Midjourney vẽ tranh", bucket: "gen" },
+          { id: "c", label: "Suno tạo bài hát", bucket: "gen" },
+          { id: "d", label: "Camera nhận diện biển số", bucket: "no" },
+          { id: "e", label: "Lọc email spam", bucket: "no" },
+        ],
+        buckets: [
+          { id: "gen", label: "Tạo sinh ✨" },
+          { id: "no", label: "Không phải" },
+        ],
+      },
+      {
+        prompt: "Prompt nào tốt hơn? Sắp xếp thành 'rõ ràng' vs 'mơ hồ':",
+        items: [
+          { id: "1", label: "'vẽ con mèo'", bucket: "bad" },
+          { id: "2", label: "'cái gì đó đẹp đẹp'", bucket: "bad" },
+          { id: "3", label: "'mèo cam ngồi cửa sổ Hà Nội, hoàng hôn, watercolor'", bucket: "good" },
+          { id: "4", label: "'robot kim loại bạc, sci-fi neon, góc nghiêng, 4K'", bucket: "good" },
+        ],
+        buckets: [
+          { id: "good", label: "Rõ ràng ✅" },
+          { id: "bad", label: "Mơ hồ ❌" },
+        ],
+      },
+      {
+        prompt: "ChatGPT trả lời sai một cách tự tin — đó là gì?",
+        items: [
+          { id: "a", label: "Hallucination 🤖", bucket: "yes" },
+          { id: "b", label: "AI bịa thông tin", bucket: "yes" },
+          { id: "c", label: "AI suy nghĩ như người", bucket: "no" },
+          { id: "d", label: "AI có ý thức tự tin", bucket: "no" },
+        ],
+        buckets: [
+          { id: "yes", label: "Đúng bản chất" },
+          { id: "no", label: "Hiểu sai" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "recsys",
+    emoji: "🎯",
+    Icon: Film,
+    title: "Hệ gợi ý",
+    tag: "Mini Netflix của bạn",
+    desc: "Chấm 4 phim — xem AI dựng 'hồ sơ sở thích' và gợi ý phim tiếp theo y như Netflix, TikTok.",
+    gradient: "from-rose-400 via-orange-500 to-amber-500",
+    ring: "ring-rose-400/50",
+    badge: { name: "Algo Curator", emoji: "🎬" },
+    story: [
+      {
+        heading: "🍿 Vì sao TikTok 'gây nghiện'?",
+        body: "Mỗi lần bạn xem, lướt, like — TikTok ghi lại. Sau ~50 video, nó biết bạn thích gì hơn cả bạn bè thân nhất. Đó là <b>Recommender System</b>.",
+      },
+      {
+        heading: "📊 Vector sở thích",
+        body: "AI biểu diễn mỗi phim/clip thành một <b>vector</b> (danh sách số) cho các thể loại. Sở thích của bạn cũng là vector. Phim có vector 'gần' bạn nhất sẽ được đề xuất.",
+      },
+      {
+        heading: "⚠️ Bong bóng lọc (Filter Bubble)",
+        body: "Nếu chỉ xem video một phía, AI sẽ chỉ đề xuất video đó → bạn bị nhốt trong 'bong bóng' thông tin. Hãy chủ động xem nhiều thể loại để mở rộng tầm nhìn!",
+      },
+    ],
+    Sandbox: RecommenderSandbox,
+    quiz: [
+      {
+        prompt: "App nào dùng Recommender System mạnh nhất?",
+        items: [
+          { id: "a", label: "TikTok 🎵", bucket: "yes" },
+          { id: "b", label: "Netflix 🎬", bucket: "yes" },
+          { id: "c", label: "YouTube ▶️", bucket: "yes" },
+          { id: "d", label: "Máy tính bỏ túi 🧮", bucket: "no" },
+          { id: "e", label: "Notepad đơn giản 📝", bucket: "no" },
+        ],
+        buckets: [
+          { id: "yes", label: "Có Recommender" },
+          { id: "no", label: "Không cần" },
+        ],
+      },
+      {
+        prompt: "AI dùng dữ liệu gì để hiểu bạn?",
+        items: [
+          { id: "1", label: "Lượt xem & thời gian xem", bucket: "use" },
+          { id: "2", label: "Lượt like/share", bucket: "use" },
+          { id: "3", label: "Bạn theo dõi ai", bucket: "use" },
+          { id: "4", label: "Đọc suy nghĩ não bạn 🧠", bucket: "no" },
+        ],
+        buckets: [
+          { id: "use", label: "Dữ liệu thật" },
+          { id: "no", label: "Không thể" },
+        ],
+      },
+      {
+        prompt: "Filter Bubble nguy hiểm vì sao?",
+        items: [
+          { id: "a", label: "Chỉ thấy quan điểm 1 phía", bucket: "bad" },
+          { id: "b", label: "Khó tiếp cận thông tin trái chiều", bucket: "bad" },
+          { id: "c", label: "Học được nhiều thứ mới", bucket: "good" },
+          { id: "d", label: "Mở rộng tư duy", bucket: "good" },
+        ],
+        buckets: [
+          { id: "bad", label: "Tác hại ⚠️" },
+          { id: "good", label: "Lợi ích" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "ethics",
+    emoji: "⚖️",
+    Icon: Scale,
+    title: "AI có công bằng?",
+    tag: "AI Ethics & Bias",
+    desc: "Khám phá vì sao AI tuyển dụng của Amazon đã loại CV của phụ nữ — và cách sửa.",
+    gradient: "from-amber-400 via-orange-500 to-rose-600",
+    ring: "ring-amber-400/50",
+    badge: { name: "Fairness Guardian", emoji: "🛡️" },
+    story: [
+      {
+        heading: "🔬 AI học từ dữ liệu",
+        body: "AI <b>không có ý thức</b>. Nó chỉ tìm quy luật trong dữ liệu. Nếu dữ liệu lệch, AI sẽ lệch theo — đó gọi là <b>Bias</b> (thiên vị).",
+      },
+      {
+        heading: "📰 Bài học Amazon 2018",
+        body: "Amazon từng dùng AI lọc CV. Vì 10 năm trước hầu hết kỹ sư là nam, AI 'học' rằng nữ = ít phù hợp → tự động loại CV có chữ 'women's chess club'. Amazon đã phải tắt hệ thống đó.",
+      },
+      {
+        heading: "🛡️ Sửa lỗi bằng cách nào?",
+        body: "1) Thu thập dữ liệu <b>đa dạng</b> (giới, vùng miền, độ tuổi). 2) Đo lường công bằng (fairness metrics). 3) Có người <b>giám sát</b>. Đây là việc của AI Ethics Engineer.",
+      },
+    ],
+    Sandbox: EthicsSandbox,
+    quiz: [
+      {
+        prompt: "Nguyên nhân AI thiên vị là gì?",
+        items: [
+          { id: "a", label: "Dữ liệu huấn luyện lệch", bucket: "yes" },
+          { id: "b", label: "Thiếu đa dạng người dán nhãn", bucket: "yes" },
+          { id: "c", label: "Mục tiêu tối ưu sai", bucket: "yes" },
+          { id: "d", label: "AI ghét một nhóm người", bucket: "no" },
+          { id: "e", label: "AI có cảm xúc cá nhân", bucket: "no" },
+        ],
+        buckets: [
+          { id: "yes", label: "Đúng nguyên nhân" },
+          { id: "no", label: "Hiểu sai về AI" },
+        ],
+      },
+      {
+        prompt: "Tình huống nào là AI thiên vị?",
+        items: [
+          { id: "1", label: "AI tuyển dụng loại CV nữ", bucket: "bias" },
+          { id: "2", label: "AI nhận diện da màu kém hơn da trắng", bucket: "bias" },
+          { id: "3", label: "AI gợi ý sách dựa trên lịch sử đọc", bucket: "ok" },
+          { id: "4", label: "AI dịch tiếng Anh sang tiếng Việt", bucket: "ok" },
+        ],
+        buckets: [
+          { id: "bias", label: "Có thiên vị ⚠️" },
+          { id: "ok", label: "Bình thường" },
+        ],
+      },
+      {
+        prompt: "Cách giảm bias trong AI?",
+        items: [
+          { id: "a", label: "Dữ liệu đa dạng", bucket: "yes" },
+          { id: "b", label: "Người giám sát kết quả", bucket: "yes" },
+          { id: "c", label: "Đo fairness định kỳ", bucket: "yes" },
+          { id: "d", label: "Để AI tự quyết hết", bucket: "no" },
+          { id: "e", label: "Giấu lỗi đi", bucket: "no" },
+        ],
+        buckets: [
+          { id: "yes", label: "Đúng cách ✅" },
+          { id: "no", label: "Sai cách ❌" },
+        ],
+      },
+    ],
+  },
 ];
 
 const STORAGE_KEY = "haiedu_ai_academy_progress";
