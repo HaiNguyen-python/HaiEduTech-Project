@@ -24,11 +24,11 @@ import CVSandbox from "@/components/ai-academy/ComputerVisionSandbox";
 import NLPSandbox from "@/components/ai-academy/NLPSandbox";
 import NeuralNetSandbox from "@/components/ai-academy/NeuralNetSandbox";
 import GenAISandbox from "@/components/ai-academy/GenAISandbox";
-import RecommenderSandbox from "@/components/ai-academy/RecommenderSandbox";
+import RLSandbox from "@/components/ai-academy/RLSandbox";
 import EthicsSandbox from "@/components/ai-academy/EthicsSandbox";
 import DragDropQuiz, { type DDQuestion } from "@/components/ai-academy/DragDropQuiz";
 
-type TrackId = "vision" | "nlp" | "nn" | "genai" | "recsys" | "ethics";
+type TrackId = "vision" | "nlp" | "nn" | "genai" | "rl" | "ethics";
 
 type Track = {
   id: TrackId;
