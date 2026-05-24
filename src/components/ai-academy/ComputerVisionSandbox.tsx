@@ -267,7 +267,7 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
             initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 10, opacity: 0 }}
-            className={`mx-auto mt-2 inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-extrabold border-2 shadow-[0_4px_14px_rgba(0,0,0,0.45)] whitespace-nowrap ${
+            className={`mx-auto mt-2 flex items-center justify-center px-4 py-2 rounded-xl text-sm font-extrabold border-2 shadow-[0_4px_14px_rgba(0,0,0,0.45)] whitespace-nowrap ${
               result.conf >= 75
                 ? "bg-emerald-600/95 border-emerald-300 text-white"
                 : "bg-rose-600/95 border-rose-300 text-white"
