@@ -258,6 +258,7 @@ const App = () => (
             <Route path="/sat-vocabulary" element={<LazyRoute><SatVocabulary /></LazyRoute>} />
             <Route path="/sat-exercises" element={<LazyRoute><SatExercises /></LazyRoute>} />
             <Route path="/sat-exams" element={<LazyRoute><SatExams /></LazyRoute>} />
+            <Route path="/sat-curriculum" element={<LazyRoute><SatCurriculum /></LazyRoute>} />
             <Route path="/sat-exams/:examId" element={<LazyRoute><SatMockExam /></LazyRoute>} />
             <Route path="/ielts-lectures" element={<LazyRoute><IeltsLectures /></LazyRoute>} />
             <Route path="/ielts-lectures/master-quiz" element={<LazyRoute><IeltsMasterQuiz /></LazyRoute>} />
