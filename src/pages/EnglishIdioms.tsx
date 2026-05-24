@@ -33,16 +33,15 @@ const TABS: { key: Tab; labelEn: string; labelVi: string; icon: React.ComponentT
   { key: "equivalent", labelEn: "VN Equivalent",      labelVi: "Tục ngữ tương đương", icon: Trophy, color: "from-rose-500 to-pink-500" },
 ];
 
-// Unified palette across all categories (amber/orange) for a calm, consistent look.
-// Borders are deeper (amber-500/amber-600) for clear separation between cards.
-const UNIFIED_CARD_BG = "bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-amber-950/40 dark:via-orange-950/30 dark:to-yellow-950/30";
-const UNIFIED_CARD_BORDER = "border-amber-500/70 dark:border-amber-600/70";
-const UNIFIED_REVEAL_BTN = "bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md shadow-amber-500/30";
+// Unified green palette across all categories for a calm, consistent look.
+const UNIFIED_CARD_BG = "bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 dark:from-emerald-950/40 dark:via-green-950/30 dark:to-teal-950/30";
+const UNIFIED_CARD_BORDER = "border-emerald-500/70 dark:border-emerald-600/70";
+const UNIFIED_REVEAL_BTN = "bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white shadow-md shadow-emerald-500/30";
 
 const CATEGORY_META: Record<IdiomCategory, { labelEn: string; labelVi: string; emoji: string; chip: string; cardBg: string; cardBorder: string; revealBtn: string }> = {
-  idiom:   { labelEn: "Idiom",   labelVi: "Thành ngữ", emoji: "🎭", chip: "bg-amber-500/20 text-amber-800 dark:text-amber-200 border-amber-600/60",   cardBg: UNIFIED_CARD_BG, cardBorder: UNIFIED_CARD_BORDER, revealBtn: UNIFIED_REVEAL_BTN },
-  proverb: { labelEn: "Proverb", labelVi: "Tục ngữ",   emoji: "📜", chip: "bg-orange-500/20 text-orange-800 dark:text-orange-200 border-orange-600/60", cardBg: UNIFIED_CARD_BG, cardBorder: UNIFIED_CARD_BORDER, revealBtn: UNIFIED_REVEAL_BTN },
-  quote:   { labelEn: "Quote",   labelVi: "Danh ngôn", emoji: "💬", chip: "bg-yellow-500/20 text-yellow-800 dark:text-yellow-200 border-yellow-600/60", cardBg: UNIFIED_CARD_BG, cardBorder: UNIFIED_CARD_BORDER, revealBtn: UNIFIED_REVEAL_BTN },
+  idiom:   { labelEn: "Idiom",   labelVi: "Thành ngữ", emoji: "🎭", chip: "bg-emerald-500/20 text-emerald-800 dark:text-emerald-200 border-emerald-600/60", cardBg: UNIFIED_CARD_BG, cardBorder: UNIFIED_CARD_BORDER, revealBtn: UNIFIED_REVEAL_BTN },
+  proverb: { labelEn: "Proverb", labelVi: "Tục ngữ",   emoji: "📜", chip: "bg-green-500/20 text-green-800 dark:text-green-200 border-green-600/60",       cardBg: UNIFIED_CARD_BG, cardBorder: UNIFIED_CARD_BORDER, revealBtn: UNIFIED_REVEAL_BTN },
+  quote:   { labelEn: "Quote",   labelVi: "Danh ngôn", emoji: "💬", chip: "bg-teal-500/20 text-teal-800 dark:text-teal-200 border-teal-600/60",          cardBg: UNIFIED_CARD_BG, cardBorder: UNIFIED_CARD_BORDER, revealBtn: UNIFIED_REVEAL_BTN },
 };
 
 // Deterministic shuffle (Fisher–Yates with sin-based RNG)
@@ -123,7 +122,7 @@ const EnglishIdioms = () => {
               <Quote className="w-4 h-4" /> {t("English Foundation", "English Foundation")}
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold leading-tight mb-3">
-              <span className="bg-gradient-to-r from-amber-600 via-orange-600 to-rose-600 dark:from-amber-400 dark:via-orange-400 dark:to-rose-400 bg-clip-text text-transparent drop-shadow-sm">
+              <span className="bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 dark:from-emerald-400 dark:via-green-400 dark:to-teal-400 bg-clip-text text-transparent drop-shadow-sm">
                 {t("Thành ngữ, Tục ngữ", "Idioms, Proverbs")} & {t("Danh ngôn", "Quotes")}
               </span>
             </h1>
@@ -294,10 +293,10 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
                 key={c}
                 onClick={() => setFilterCategory(c)}
                 className={cn(
-                  "px-4 py-2 rounded-full text-sm font-semibold transition-all border",
+                  "px-4 py-2 rounded-full text-sm font-semibold transition-all border-2",
                   isActive
-                    ? "bg-foreground text-background border-foreground shadow-md"
-                    : "bg-secondary text-foreground border-border hover:border-primary/40",
+                    ? "bg-gradient-to-r from-emerald-500 to-green-600 text-white border-emerald-600 shadow-md shadow-emerald-500/30"
+                    : "bg-secondary text-foreground border-border hover:border-emerald-500/50 hover:text-emerald-700 dark:hover:text-emerald-300",
                 )}
               >
                 <span className="mr-1.5">{emoji}</span>{label}
@@ -454,12 +453,12 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
             <div className="space-y-10">
               {groups.map(({ theme, items }) => (
                 <section key={theme.key}>
-                  <div className="flex items-center gap-3 mb-4 pb-2 border-b-2 border-amber-500/40">
+                  <div className="flex items-center gap-3 mb-4 pb-2 border-b-2 border-emerald-500/40">
                     <span className="text-2xl">{theme.emoji}</span>
                     <h3 className="text-xl sm:text-2xl font-bold text-foreground">
                       {t(theme.labelVi, theme.labelEn)}
                     </h3>
-                    <span className="text-sm font-semibold text-muted-foreground bg-amber-500/10 border border-amber-500/30 px-2.5 py-0.5 rounded-full">
+                    <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-500/10 border border-emerald-500/40 px-2.5 py-0.5 rounded-full">
                       {items.length}
                     </span>
                   </div>
