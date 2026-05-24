@@ -14,20 +14,41 @@ import FloatingKidsDecor from "@/components/FloatingKidsDecor";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { CAMBRIDGE_KIDS_WORDS, CAMBRIDGE_LEVELS, type CambridgeKidsLevel } from "@/data/cambridgeKidsVocab";
+import { CAMBRIDGE_KIDS_WORDS, CAMBRIDGE_LEVELS, type CambridgeKidsLevel, type CambridgeKidsWord } from "@/data/cambridgeKidsVocab";
 import { CAMBRIDGE_KIDS_WORDS_EXPANSION } from "@/data/cambridgeKidsVocabExpansion";
+import { CAMBRIDGE_KIDS_WORDS_EXPANSION_2 } from "@/data/cambridgeKidsVocabExpansion2";
+import { getExample } from "@/data/cambridgeKidsExamples";
 import { toast } from "@/hooks/use-toast";
 
-const ALL_WORDS = [...CAMBRIDGE_KIDS_WORDS, ...CAMBRIDGE_KIDS_WORDS_EXPANSION];
+// Merge and dedupe by lowercase word — keep the FIRST occurrence (lower CEFR
+// wins, so a word like "rainbow" only appears at the easiest level it teaches).
+const LEVEL_ORDER: Record<CambridgeKidsLevel, number> = {
+  Starters: 0, Movers: 1, Flyers: 2, KET: 3, PET: 4,
+};
+const RAW_WORDS = [
+  ...CAMBRIDGE_KIDS_WORDS,
+  ...CAMBRIDGE_KIDS_WORDS_EXPANSION,
+  ...CAMBRIDGE_KIDS_WORDS_EXPANSION_2,
+];
+const seen = new Map<string, CambridgeKidsWord>();
+for (const w of RAW_WORDS) {
+  const key = w.word.toLowerCase().trim();
+  const existing = seen.get(key);
+  if (!existing || LEVEL_ORDER[w.level] < LEVEL_ORDER[existing.level]) {
+    seen.set(key, w);
+  }
+}
+const ALL_WORDS: CambridgeKidsWord[] = [...seen.values()].sort((a, b) => a.word.localeCompare(b.word));
 
+// Softer, kid-friendly palette — pastel borders, light tints, strong text contrast.
 const LEVEL_THEME: Record<CambridgeKidsLevel, {
-  color: string; bg: string; emoji: string; cefr: string; gradient: string;
+  color: string; soft: string; bg: string; emoji: string; cefr: string; gradient: string;
 }> = {
-  Starters: { color: "#FF6B9D", bg: "#FFE5EC", emoji: "🎨", cefr: "A1", gradient: "linear-gradient(135deg, #FF6B9D, #FFB4C8)" },
-  Movers:   { color: "#4D96FF", bg: "#E0F4FF", emoji: "🚀", cefr: "A1+", gradient: "linear-gradient(135deg, #4D96FF, #A0CDFF)" },
-  Flyers:   { color: "#6BCB77", bg: "#E8FFE0", emoji: "🦅", cefr: "A2", gradient: "linear-gradient(135deg, #6BCB77, #B8F0BE)" },
-  KET:      { color: "#C780FA", bg: "#F3E8FF", emoji: "📝", cefr: "A2 Key", gradient: "linear-gradient(135deg, #C780FA, #E2B8FF)" },
-  PET:      { color: "#FF9F1C", bg: "#FFF4E0", emoji: "🏆", cefr: "B1", gradient: "linear-gradient(135deg, #FF9F1C, #FFD49A)" },
+  Starters: { color: "#EC8FB0", soft: "#FFF1F6", bg: "#FFE5EC", emoji: "🎨", cefr: "A1",     gradient: "linear-gradient(135deg, #FFB4C8, #FFD6E2)" },
+  Movers:   { color: "#7FB1F0", soft: "#F0F8FF", bg: "#E0F4FF", emoji: "🚀", cefr: "A1+",    gradient: "linear-gradient(135deg, #A0CDFF, #CDE5FF)" },
+  Flyers:   { color: "#8AD195", soft: "#F1FFF1", bg: "#E8FFE0", emoji: "🦅", cefr: "A2",     gradient: "linear-gradient(135deg, #B8F0BE, #D7F7DC)" },
+  KET:      { color: "#C19FE6", soft: "#F8F1FF", bg: "#F3E8FF", emoji: "📝", cefr: "A2 Key", gradient: "linear-gradient(135deg, #DCC1F5, #ECDCFB)" },
+  PET:      { color: "#F0B469", soft: "#FFF8EC", bg: "#FFF4E0", emoji: "🏆", cefr: "B1",     gradient: "linear-gradient(135deg, #FFD49A, #FFE6C2)" },
 };
 
 const STORAGE_KEY = "cambridge-yle-vocab-mastered-v1";
