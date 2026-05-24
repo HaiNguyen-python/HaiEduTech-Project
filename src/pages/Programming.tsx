@@ -297,6 +297,30 @@ const Programming = () => {
             })}
           </div>
 
+          {/* AI Academy banner — for middle & high school students */}
+          <Link
+            to="/programming/ai-academy"
+            className="group relative block max-w-6xl mx-auto mb-10 rounded-2xl overflow-hidden border-2 border-fuchsia-400/40 bg-gradient-to-r from-purple-600 via-fuchsia-500 to-cyan-500 text-white p-5 sm:p-6 shadow-lg hover:shadow-2xl transition-all active:scale-[0.99]"
+          >
+            <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-white/10 blur-3xl" />
+            <div className="absolute -bottom-12 -left-8 w-44 h-44 rounded-full bg-cyan-300/20 blur-3xl" />
+            <div className="relative flex items-center gap-4 flex-wrap">
+              <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-3xl shrink-0">
+                🤖
+              </div>
+              <div className="flex-1 min-w-[200px]">
+                <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/20 backdrop-blur text-[10px] font-bold mb-1">
+                  <Sparkles className="w-3 h-3" /> MỚI · CẤP 2 – CẤP 3
+                </div>
+                <h3 className="font-display font-black text-xl sm:text-2xl leading-tight">AI Academy 🚀</h3>
+                <p className="text-white/90 text-xs sm:text-sm mt-1">
+                  Computer Vision · NLP Chatbot · Mạng thần kinh — sandbox tương tác, quiz kéo thả, huy hiệu thưởng.
+                </p>
+              </div>
+              <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition" />
+            </div>
+          </Link>
+
           {/* Active Pillar Content */}
           <div className="max-w-5xl mx-auto">
             <AnimatePresence mode="wait">
