@@ -449,7 +449,7 @@ const CambridgeYleVocabulary = () => {
                                     }}
                                   >
                                     <Star className={`w-3.5 h-3.5 ${isMastered ? "fill-white" : ""}`} />
-                                    {isMastered ? t("Đã thuộc", "Mastered") : t("Đánh dấu thuộc", "Mark mastered")}
+                                    {isMastered ? t("Tớ thuộc rồi! 🎉", "I got it! 🎉") : t("Tớ đã học xong ⭐", "I learned it! ⭐")}
                                   </button>
                                 </motion.div>
                               );
