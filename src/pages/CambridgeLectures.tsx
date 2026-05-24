@@ -138,7 +138,7 @@ const CambridgeLectures = () => {
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-5 leading-tight" style={{ background: "linear-gradient(135deg, #FF6B9D 0%, #FF9F1C 35%, #6BCB77 70%, #4D96FF 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
                 {t("Cambridge: Starters đến PET 🎓", "Cambridge: Starters to PET 🎓")}
               </h1>
-              <p className="text-slate-700 mb-8 font-medium" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+              <p className="text-slate-700 mb-5 font-medium" style={{ fontSize: "18px", lineHeight: "1.6" }}>
                 {t(
                   "🎨 15 bài giảng vui nhộn với kỹ thuật tránh bẫy, công thức ghi điểm, và bài tập tương tác cho MỌI cấp độ Cambridge dành cho thiếu nhi! 🚀",
                   "🎨 15 fun strategic lessons with trap-avoidance techniques, scoring formulas, and interactive practice for EVERY Cambridge level for kids! 🚀"
