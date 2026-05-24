@@ -40,6 +40,11 @@ import AgentWorkflowSandbox from "@/components/ai-academy/AgentWorkflowSandbox";
 import GraduationSandbox from "@/components/ai-academy/GraduationSandbox";
 import FloatingAIIcons from "@/components/ai-academy/FloatingAIIcons";
 import GraduationCertificate from "@/components/ai-academy/GraduationCertificate";
+import AutoTranslateBoundary from "@/components/ai-academy/AutoTranslateBoundary";
+import StudySmartSandbox from "@/components/ai-academy/StudySmartSandbox";
+import CareersMapSandbox from "@/components/ai-academy/CareersMapSandbox";
+import FactCheckSandbox from "@/components/ai-academy/FactCheckSandbox";
+import DigitalSafetySandbox from "@/components/ai-academy/DigitalSafetySandbox";
 import heroBg from "@/assets/ai-academy-hero-bg.jpg";
 import chibiRobot from "@/assets/ai-chibi-robot.png";
 
@@ -87,7 +92,7 @@ const SmartText = ({ text, className = "", html = false }: { text: string; class
   );
 };
 
-type TrackId = "vision" | "nlp" | "nn" | "genai" | "rl" | "ethics" | "recsys" | "aiot" | "capstone" | "deepfake" | "agent" | "graduation";
+type TrackId = "vision" | "nlp" | "nn" | "genai" | "rl" | "ethics" | "recsys" | "aiot" | "capstone" | "deepfake" | "agent" | "study" | "careers" | "factcheck" | "safety" | "graduation";
 
 type Track = {
   id: TrackId;
@@ -855,6 +860,98 @@ const TRACKS: Track[] = [
     ],
   },
   {
+    id: "study", emoji: "🎓", Icon: BookOpen,
+    title: "AI & Học tập thông minh", tag: "Học bá thời AI",
+    desc: "Dùng ChatGPT, NotebookLM, Gemini đúng cách để học bài, ôn thi — không để AI làm thay.",
+    gradient: "from-blue-400 via-sky-500 to-cyan-600", ring: "ring-blue-400/50",
+    badge: { name: "Smart Learner", emoji: "📚" },
+    story: [
+      { heading: "🧠 AI là gia sư, không phải đáp án", body: "AI giỏi giải thích từng bước, gợi ý ví dụ, kiểm tra lập luận. Nếu bạn copy đề bài và bảo 'làm hộ' — bạn mất cơ hội tự suy nghĩ. Hãy hỏi <b>'giải thích cách'</b> thay vì <b>'làm hộ'</b>." },
+      { heading: "📚 NotebookLM — gia sư đọc PDF", body: "Upload PDF bài giảng/SGK → AI tạo tóm tắt, flashcard, podcast nghe lúc đi đường. Công cụ mạnh nhất cho ôn THPT QG / IELTS / TOEIC 2025." },
+      { heading: "🎯 Quy tắc 3 bước của thầy Hải", body: "<b>1. Tự làm trước</b> — bí mới hỏi AI.  <b>2. Yêu cầu giải thích từng bước</b> — không phải đáp án.  <b>3. Kiểm chứng</b> bằng SGK hoặc hỏi thầy cô." },
+    ],
+    Sandbox: StudySmartSandbox,
+    quiz: [
+      { prompt: "Cái nào là cách HỌC THÔNG MINH với AI?",
+        items: [
+          { id: "a", label: "Yêu cầu AI giải thích từng bước", bucket: "smart" },
+          { id: "b", label: "Hỏi AI 'tại sao' sau mỗi đáp án", bucket: "smart" },
+          { id: "c", label: "Dùng NotebookLM tóm tắt PDF bài giảng", bucket: "smart" },
+          { id: "d", label: "Copy nguyên đề rồi nộp đáp án AI", bucket: "lazy" },
+          { id: "e", label: "Tin tuyệt đối, không kiểm chứng", bucket: "lazy" },
+        ], buckets: [{ id: "smart", label: "Thông minh ✅" }, { id: "lazy", label: "Lười & nguy hiểm ❌" }] },
+    ],
+  },
+  {
+    id: "careers", emoji: "💼", Icon: Briefcase,
+    title: "Bản đồ nghề AI tại Việt Nam", tag: "La bàn nghề nghiệp",
+    desc: "Khám phá 8 nghề AI hot tại VinAI, FPT.AI, Zalo, Sky Mavis — và lộ trình từ lớp 10 đến job mơ ước.",
+    gradient: "from-violet-400 via-purple-500 to-fuchsia-600", ring: "ring-violet-400/50",
+    badge: { name: "Career Explorer", emoji: "🗺️" },
+    story: [
+      { heading: "🚀 Việt Nam đang khát nhân lực AI", body: "VinAI, FPT.AI, Zalo AI Lab, VinBigdata tuyển 2000+ kỹ sư AI mỗi năm. Lương từ 25 triệu (junior) đến 100 triệu+ (senior). Cơ hội cho thế hệ Gen Z chưa bao giờ tốt như bây giờ." },
+      { heading: "🎨 Không cần code vẫn có nghề AI", body: "Prompt Engineer, AI Product Manager, AI UX Designer, AI Linguist — bốn nghề HOT không đòi hỏi code thành thạo. Phù hợp HS giỏi ngôn ngữ, vẽ, giao tiếp." },
+      { heading: "📍 Lộ trình từ lớp 10 → Job", body: "<b>Lớp 10–11:</b> học Toán/Lập trình cơ bản, chơi Teachable Machine.  <b>Lớp 12:</b> ôn IELTS 6.5+, học Python.  <b>ĐH:</b> thi vào FPT/BK/UIT ngành AI, làm dự án mở GitHub.  <b>Năm 3 ĐH:</b> intern VinAI / Zalo." },
+    ],
+    Sandbox: CareersMapSandbox,
+    quiz: [
+      { prompt: "Công ty nào dưới đây làm AI tại Việt Nam?",
+        items: [
+          { id: "a", label: "VinAI Research", bucket: "yes" },
+          { id: "b", label: "Zalo AI Lab", bucket: "yes" },
+          { id: "c", label: "FPT.AI", bucket: "yes" },
+          { id: "d", label: "Sky Mavis (Axie)", bucket: "yes" },
+          { id: "e", label: "Tiệm phở Hà Nội", bucket: "no" },
+        ], buckets: [{ id: "yes", label: "Công ty AI VN ✅" }, { id: "no", label: "Không phải" }] },
+    ],
+  },
+  {
+    id: "factcheck", emoji: "🧠", Icon: AlertTriangle,
+    title: "Tư duy phản biện với AI", tag: "Thám tử sự thật",
+    desc: "Học cách phát hiện khi ChatGPT bịa (hallucination) — kỹ năng sống còn của Gen Z 2025.",
+    gradient: "from-amber-400 via-orange-500 to-rose-600", ring: "ring-amber-400/50",
+    badge: { name: "Fact Checker", emoji: "🔍" },
+    story: [
+      { heading: "🤖 Vì sao AI nói xạo?", body: "LLM dự đoán từ tiếp theo dựa trên xác suất — không kiểm tra sự thật. Khi không biết, nó bịa ra câu nghe hợp lý. Hiện tượng này gọi là <b>hallucination</b>." },
+      { heading: "🚩 4 dấu hiệu đáng nghi", body: "1) Con số cực cụ thể (2.347.891 người).  2) Sự kiện lịch sử chi tiết.  3) Trích dẫn 'sách/báo' không tồn tại.  4) Tên người + ngày tháng + thành tựu nghe quá đẹp." },
+      { heading: "✅ Quy tắc Cross-Check", body: "Luôn kiểm chứng AI bằng <b>nguồn thứ 2</b>: Wikipedia, SGK, Google Scholar, báo chính thống. Nếu không tìm thấy nguồn → 90% là AI bịa." },
+    ],
+    Sandbox: FactCheckSandbox,
+    quiz: [
+      { prompt: "Cái nào là dấu hiệu AI có thể đang bịa?",
+        items: [
+          { id: "a", label: "Số liệu siêu cụ thể, lạ", bucket: "red" },
+          { id: "b", label: "Trích dẫn 'cuốn sách' không tìm được", bucket: "red" },
+          { id: "c", label: "Ngày tháng + tên người + thành tựu quá đẹp", bucket: "red" },
+          { id: "d", label: "Trả lời ngắn gọn, có dẫn link Wikipedia", bucket: "ok" },
+          { id: "e", label: "Công thức Toán có thể kiểm chứng", bucket: "ok" },
+        ], buckets: [{ id: "red", label: "🚩 Đáng nghi" }, { id: "ok", label: "✅ Đáng tin hơn" }] },
+    ],
+  },
+  {
+    id: "safety", emoji: "🔐", Icon: ShieldAlert,
+    title: "An toàn số trong kỷ nguyên AI", tag: "Vệ sĩ kỹ thuật số",
+    desc: "Lừa đảo giả giọng, deepfake bạn cùng lớp, bot dụ dỗ trên MXH — cách tự bảo vệ trên Zalo, TikTok.",
+    gradient: "from-rose-500 via-red-500 to-orange-600", ring: "ring-rose-400/50",
+    badge: { name: "Digital Guardian", emoji: "🛡️" },
+    story: [
+      { heading: "📞 Deepfake voice — nỗi sợ 2025", body: "AI có thể nhái giọng bố/mẹ chỉ từ 3 giây ghi âm trên TikTok. Đã có hàng trăm vụ lừa chuyển tiền ở VN với chiêu 'mẹ bị tai nạn cần gấp'. <b>Quy tắc:</b> luôn xác minh qua kênh thứ 2 trước khi chuyển tiền." },
+      { heading: "📸 Deepfake ảnh & video bạn học", body: "App AI cho phép ghép mặt bạn lên video xấu hổ trong 30 giây. Đây là tội hình sự theo Nghị định 53/2022. Báo thầy cô + report nền tảng — không bao giờ chia sẻ lại." },
+      { heading: "🤖 Bot AI dụ dỗ qua Messenger/Zalo", body: "Tài khoản lạ tự xưng 'AI tutor / tuyển dụng' xin CMND, ảnh thẻ, mã OTP. <b>100% là lừa đảo</b>. Không bao giờ gửi giấy tờ cá nhân qua chat — kể cả bạn bè (account có thể bị hack)." },
+    ],
+    Sandbox: DigitalSafetySandbox,
+    quiz: [
+      { prompt: "Cách phản ứng AN TOÀN với deepfake / lừa đảo AI?",
+        items: [
+          { id: "a", label: "Xác minh bằng kênh thứ 2 trước khi chuyển tiền", bucket: "safe" },
+          { id: "b", label: "Report tài khoản đáng nghi cho nền tảng", bucket: "safe" },
+          { id: "c", label: "Báo thầy cô / bố mẹ khi gặp deepfake", bucket: "safe" },
+          { id: "d", label: "Gửi CMND cho 'AI tutor' lạ để học miễn phí", bucket: "danger" },
+          { id: "e", label: "Chia sẻ lại deepfake để 'vạch trần'", bucket: "danger" },
+        ], buckets: [{ id: "safe", label: "An toàn ✅" }, { id: "danger", label: "Nguy hiểm ❌" }] },
+    ],
+  },
+  {
     id: "graduation",
     emoji: "🎓",
     Icon: GraduationCap,
@@ -931,7 +1028,7 @@ const STORAGE_KEY = "haiedu_ai_academy_progress";
 type Progress = Record<TrackId, { stars: number; badge?: boolean }>;
 
 const loadProgress = (): Progress => {
-  const defaults: Progress = { vision: { stars: 0 }, nlp: { stars: 0 }, nn: { stars: 0 }, genai: { stars: 0 }, rl: { stars: 0 }, ethics: { stars: 0 }, recsys: { stars: 0 }, aiot: { stars: 0 }, capstone: { stars: 0 }, deepfake: { stars: 0 }, agent: { stars: 0 }, graduation: { stars: 0 } };
+  const defaults: Progress = { vision: { stars: 0 }, nlp: { stars: 0 }, nn: { stars: 0 }, genai: { stars: 0 }, rl: { stars: 0 }, ethics: { stars: 0 }, recsys: { stars: 0 }, aiot: { stars: 0 }, capstone: { stars: 0 }, deepfake: { stars: 0 }, agent: { stars: 0 }, study: { stars: 0 }, careers: { stars: 0 }, factcheck: { stars: 0 }, safety: { stars: 0 }, graduation: { stars: 0 } };
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) return { ...defaults, ...JSON.parse(raw) };
@@ -1030,6 +1127,7 @@ const AIAcademy = () => {
       <FloatingAIIcons />
       <div className="relative z-10">
       <Navbar />
+      <AutoTranslateBoundary>
       <div className="container mx-auto px-4 sm:px-6 pt-6 pb-16 max-w-6xl">
         {/* Breadcrumb */}
         <Link to="/programming" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-primary mb-4">
@@ -1446,6 +1544,7 @@ const AIAcademy = () => {
           )}
         </div>
       </div>
+      </AutoTranslateBoundary>
 
       {/* Reward overlay */}
       <AnimatePresence>
