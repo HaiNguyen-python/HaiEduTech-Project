@@ -39,6 +39,7 @@ import DeepfakeSandbox from "@/components/ai-academy/DeepfakeSandbox";
 import AgentWorkflowSandbox from "@/components/ai-academy/AgentWorkflowSandbox";
 import GraduationSandbox from "@/components/ai-academy/GraduationSandbox";
 import FloatingAIIcons from "@/components/ai-academy/FloatingAIIcons";
+import GraduationCertificate from "@/components/ai-academy/GraduationCertificate";
 import heroBg from "@/assets/ai-academy-hero-bg.jpg";
 import chibiRobot from "@/assets/ai-chibi-robot.png";
 
