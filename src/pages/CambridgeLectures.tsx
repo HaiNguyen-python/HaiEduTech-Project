@@ -57,6 +57,7 @@ const CambridgeLectures = () => {
     catch { return new Set(); }
   });
   const [showBookmarked, setShowBookmarked] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
 
   const toggleBookmark = (id: string) => {
     setBookmarked(prev => {
