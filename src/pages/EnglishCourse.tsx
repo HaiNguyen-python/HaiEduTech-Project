@@ -396,8 +396,6 @@ const EnglishCourse = () => {
             {/* SAT — professional landing sections always visible */}
             {courseId === "sat" && <SatLandingExtras />}
 
-            {/* SAT detailed format + 30-week curriculum (toggled via "SAT Curriculum" button) */}
-            {courseId === "sat" && showSatCurriculum && <SatExamFormat />}
 
             {/* Stats — hidden for IELTS & Conversational */}
             {course.stats && courseId !== "ielts" && courseId !== "conversational" && (
