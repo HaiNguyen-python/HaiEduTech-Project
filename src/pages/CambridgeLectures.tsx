@@ -15,6 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Progress } from "@/components/ui/progress";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import FloatingKidsDecor from "@/components/FloatingKidsDecor";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { allCambridgeLectures, LEVEL_CONFIG, type CambridgeLecture, type CambridgeLevel, type CambridgeSkill } from "@/data/cambridgeLecturesData";
 
@@ -111,44 +112,45 @@ const CambridgeLectures = () => {
   const progress = allCambridgeLectures.length > 0 ? Math.round((completed.size / allCambridgeLectures.length) * 100) : 0;
 
   return (
-    <div className="min-h-screen bg-[#0A0E1A]">
+    <div className="min-h-screen relative" style={{ background: "linear-gradient(180deg, #FFF8E7 0%, #FFE5EC 25%, #E0F4FF 50%, #E8FFE0 75%, #FFF0F5 100%)" }}>
+      <FloatingKidsDecor />
       <Navbar />
-      <main className="pt-24 pb-16">
-        {/* Hero Section - Vibrant Dark */}
+      <main className="pt-24 pb-16 relative z-10">
+        {/* Hero Section - Bright & Cheerful for Kids */}
         <section className="relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#1a0a2e] via-[#0A0E1A] to-[#0a1628]" />
-          {/* Animated glow orbs */}
-          <div className="absolute top-10 right-20 w-64 h-64 rounded-full bg-[#FF6B6B]/10 blur-[100px] animate-pulse" />
-          <div className="absolute bottom-10 left-20 w-48 h-48 rounded-full bg-[#4ECDC4]/10 blur-[80px] animate-pulse" style={{ animationDelay: "1s" }} />
-          <div className="absolute top-1/2 left-1/2 w-56 h-56 rounded-full bg-[#A78BFA]/8 blur-[90px] animate-pulse" style={{ animationDelay: "2s" }} />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, #FFE5EC 0%, #FFF8DC 30%, #E0F4FF 70%, #E8FFE0 100%)" }} />
+          {/* Cheerful soft glow orbs */}
+          <div className="absolute top-10 right-20 w-64 h-64 rounded-full bg-[#FF6B9D]/30 blur-[100px] animate-pulse" />
+          <div className="absolute bottom-10 left-20 w-48 h-48 rounded-full bg-[#FFD93D]/30 blur-[80px] animate-pulse" style={{ animationDelay: "1s" }} />
+          <div className="absolute top-1/2 left-1/2 w-56 h-56 rounded-full bg-[#6BCB77]/25 blur-[90px] animate-pulse" style={{ animationDelay: "2s" }} />
 
           <div className="relative container mx-auto px-4 py-14 md:py-20">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl">
               <div className="flex items-center gap-3 mb-5">
-                <div className="p-3 rounded-2xl bg-gradient-to-br from-[#FF6B6B]/20 via-[#4ECDC4]/20 to-[#A78BFA]/20 border border-white/10 backdrop-blur-sm">
-                  <GraduationCap className="w-8 h-8 text-[#C4B5FD]" />
+                <div className="p-3 rounded-2xl bg-gradient-to-br from-[#FF6B9D] via-[#FFD93D] to-[#4D96FF] border-2 border-white shadow-lg">
+                  <GraduationCap className="w-8 h-8 text-white" />
                 </div>
-                <Badge className="bg-gradient-to-r from-[#FF6B6B]/20 to-[#A78BFA]/20 text-white border-white/20 text-sm px-4 py-1.5 font-bold uppercase tracking-wider">
-                  Cambridge Journey
+                <Badge className="bg-gradient-to-r from-[#FF6B9D] to-[#C780FA] text-white border-2 border-white shadow-md text-sm px-4 py-1.5 font-bold uppercase tracking-wider">
+                  🌈 Cambridge Journey 🎈
                 </Badge>
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-5 leading-tight">
-                {t("Cambridge: Starters đến PET", "Cambridge: Starters to PET")}
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-5 leading-tight" style={{ background: "linear-gradient(135deg, #FF6B9D 0%, #FF9F1C 35%, #6BCB77 70%, #4D96FF 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+                {t("Cambridge: Starters đến PET 🎓", "Cambridge: Starters to PET 🎓")}
               </h1>
-              <p className="text-[#94A3B8] mb-8" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+              <p className="text-slate-700 mb-8 font-medium" style={{ fontSize: "20px", lineHeight: "1.8" }}>
                 {t(
-                  "15 bài giảng chiến lược với kỹ thuật tránh bẫy, công thức ghi điểm, và bài tập tương tác cho MỌI cấp độ Cambridge.",
-                  "15 strategic lessons with trap-avoidance techniques, scoring formulas, and interactive practice for EVERY Cambridge level."
+                  "🎨 15 bài giảng vui nhộn với kỹ thuật tránh bẫy, công thức ghi điểm, và bài tập tương tác cho MỌI cấp độ Cambridge dành cho thiếu nhi! 🚀",
+                  "🎨 15 fun strategic lessons with trap-avoidance techniques, scoring formulas, and interactive practice for EVERY Cambridge level for kids! 🚀"
                 )}
               </p>
 
               {/* Overall progress */}
-              <div className="rounded-2xl p-5 border border-white/10 max-w-md backdrop-blur-md bg-white/[0.03]">
+              <div className="rounded-2xl p-5 border-2 border-white max-w-md backdrop-blur-md bg-white/70 shadow-lg">
                 <div className="flex justify-between text-sm mb-2.5">
-                  <span className="text-[#C4B5FD] font-medium">{t("Tiến độ tổng", "Overall Progress")}</span>
-                  <span className="text-white font-bold">{completed.size}/{allCambridgeLectures.length} {t("bài", "lessons")}</span>
+                  <span className="text-[#7C3AED] font-bold">⭐ {t("Tiến độ tổng", "Overall Progress")}</span>
+                  <span className="text-slate-800 font-bold">{completed.size}/{allCambridgeLectures.length} {t("bài", "lessons")}</span>
                 </div>
-                <Progress value={progress} className="h-3 bg-white/10" />
+                <Progress value={progress} className="h-3 bg-slate-200" />
               </div>
             </motion.div>
           </div>
@@ -167,16 +169,16 @@ const CambridgeLectures = () => {
                   key={level}
                   whileHover={{ scale: 1.03 }}
                   onClick={() => setActiveLevel(activeLevel === level ? "all" : level)}
-                  className={`relative p-4 rounded-2xl border transition-all backdrop-blur-sm text-left ${
+                  className={`relative p-4 rounded-2xl border-2 transition-all backdrop-blur-sm text-left shadow-md ${
                     activeLevel === level
-                      ? "border-white/30 bg-white/[0.08]"
-                      : "border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.05]"
+                      ? "border-white bg-white/90"
+                      : "border-white/60 bg-white/70 hover:bg-white/85"
                   }`}
                   style={isComplete ? { boxShadow: `0 0 20px ${cfg.glowColor}, 0 0 40px ${cfg.glowColor}` } : undefined}
                 >
                   <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: cfg.color }}>{cfg.label}</p>
-                  <p className="text-lg font-bold text-white">{stats.done}/{stats.total}</p>
-                  <div className="mt-2 h-1.5 rounded-full bg-white/10 overflow-hidden">
+                  <p className="text-lg font-bold text-slate-800">{stats.done}/{stats.total}</p>
+                  <div className="mt-2 h-1.5 rounded-full bg-slate-200 overflow-hidden">
                     <div className="h-full rounded-full transition-all duration-500" style={{ width: `${pct}%`, background: `linear-gradient(90deg, ${cfg.gradientFrom}, ${cfg.gradientTo})` }} />
                   </div>
                   {isComplete && <span className="absolute -top-1 -right-1 text-lg">🌟</span>}
@@ -197,12 +199,12 @@ const CambridgeLectures = () => {
                 <button
                   key={f.key}
                   onClick={() => setActiveLevel(f.key)}
-                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold uppercase tracking-wide transition-all border backdrop-blur-sm ${
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold uppercase tracking-wide transition-all border-2 backdrop-blur-sm shadow-sm ${
                     isActive
                       ? cfg
                         ? `${cfg.bgClass} ${cfg.textClass} ${cfg.borderClass}`
-                        : "bg-white/10 text-white border-white/20"
-                      : "bg-white/[0.03] text-[#64748B] border-white/[0.06] hover:bg-white/[0.06]"
+                        : "bg-white text-slate-800 border-white"
+                      : "bg-white/70 text-slate-700 border-white/80 hover:bg-white"
                   }`}
                   style={isActive && cfg ? { boxShadow: `0 0 12px ${cfg.glowColor}` } : undefined}
                 >
@@ -222,10 +224,10 @@ const CambridgeLectures = () => {
                 <button
                   key={f.key}
                   onClick={() => setActiveSkill(f.key)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wide transition-all border ${
+                  className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wide transition-all border-2 ${
                     isActive
-                      ? "bg-[#A78BFA]/20 text-[#C4B5FD] border-[#A78BFA]/40"
-                      : "bg-white/[0.02] text-[#475569] border-white/[0.06] hover:bg-white/[0.04]"
+                      ? "bg-[#C780FA]/30 text-[#7C3AED] border-[#C780FA]"
+                      : "bg-white/70 text-slate-600 border-white/80 hover:bg-white"
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -238,17 +240,17 @@ const CambridgeLectures = () => {
           {/* Search + Sort + Bookmark */}
           <div className="flex flex-wrap gap-3 items-center">
             <div className="relative flex-1 min-w-[220px] max-w-sm">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#475569]" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <Input
                 placeholder={t("Tìm theo cấp độ, kỹ năng, chủ đề...", "Search by level, skill, topic...")}
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                className="pl-11 h-11 bg-white/[0.04] border-white/[0.08] text-white placeholder:text-[#475569] text-base"
+                className="pl-11 h-11 bg-white/80 border-2 border-white text-slate-800 placeholder:text-slate-400 text-base shadow-sm"
               />
             </div>
 
             <Select value={sortOrder} onValueChange={setSortOrder}>
-              <SelectTrigger className="w-[170px] h-11 bg-white/[0.04] border-white/[0.08] text-[#94A3B8]">
+              <SelectTrigger className="w-[170px] h-11 bg-white/80 border-2 border-white text-slate-700 shadow-sm">
                 <ArrowUpDown className="w-4 h-4 mr-2" />
                 <SelectValue placeholder={t("Sắp xếp", "Sort")} />
               </SelectTrigger>
@@ -263,15 +265,15 @@ const CambridgeLectures = () => {
               variant={showBookmarked ? "default" : "outline"}
               size="default"
               onClick={() => setShowBookmarked(!showBookmarked)}
-              className={`h-11 ${showBookmarked ? "bg-rose-500/20 text-rose-300 border-rose-500/30 hover:bg-rose-500/30" : "border-white/[0.08] text-[#64748B] hover:bg-white/[0.06]"}`}
+              className={`h-11 ${showBookmarked ? "bg-rose-400 text-white border-rose-400 hover:bg-rose-500" : "bg-white/80 border-2 border-white text-slate-700 hover:bg-white shadow-sm"}`}
             >
-              <Heart className={`w-4 h-4 mr-2 ${showBookmarked ? "fill-rose-400" : ""}`} />
+              <Heart className={`w-4 h-4 mr-2 ${showBookmarked ? "fill-white" : ""}`} />
               {t("Đã lưu", "Saved")} ({bookmarked.size})
             </Button>
           </div>
 
           {/* Stats */}
-          <div className="mt-4 flex items-center gap-5 text-sm text-[#475569]">
+          <div className="mt-4 flex items-center gap-5 text-sm text-slate-600 font-medium">
             <span className="flex items-center gap-1.5"><GraduationCap className="w-4 h-4" /> {filtered.length} {t("bài giảng", "lectures")}</span>
             <span className="flex items-center gap-1.5"><TrendingUp className="w-4 h-4" /> {completed.size} {t("đã hoàn thành", "completed")}</span>
           </div>
@@ -280,10 +282,10 @@ const CambridgeLectures = () => {
         {/* 📝 Cambridge Test Prep Section */}
         <section className="container mx-auto px-4 pb-12">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2.5 rounded-xl bg-gradient-to-br from-[#F9A826]/20 to-[#FF6B6B]/20 border border-white/10">
-              <GraduationCap className="w-6 h-6 text-[#F9A826]" />
+            <div className="p-2.5 rounded-xl bg-gradient-to-br from-[#F9A826] to-[#FF6B9D] border-2 border-white shadow-md">
+              <GraduationCap className="w-6 h-6 text-white" />
             </div>
-            <h2 className="text-2xl font-bold text-white">{t("Đề thi thử Cambridge", "Cambridge Test Prep")}</h2>
+            <h2 className="text-2xl font-bold text-slate-800">🎯 {t("Đề thi thử Cambridge", "Cambridge Test Prep")}</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
             {cambridgeMockExams.map((exam) => {
@@ -291,29 +293,29 @@ const CambridgeLectures = () => {
               const bestRaw = localStorage.getItem(`cambridge-mock-best-${exam.id}`);
               const best = bestRaw ? Math.round((parseInt(bestRaw) / exam.totalQuestions) * 100) : null;
               return (
-                <div key={exam.id} className="rounded-xl border border-white/10 bg-white/[0.03] p-4 hover:bg-white/[0.06] transition-all group">
+                <div key={exam.id} className="rounded-xl border-2 border-white bg-white/85 p-4 hover:bg-white shadow-md hover:shadow-lg transition-all group">
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-lg">{lvl.emoji}</span>
                     <span className="text-xs font-black uppercase tracking-wider px-2 py-0.5 rounded" style={{ background: `${lvl.color}20`, color: lvl.color }}>{lvl.label}</span>
                   </div>
-                  <h3 className="text-sm font-semibold text-white mb-1 line-clamp-2">{t(exam.titleVi, exam.title)}</h3>
-                  <div className="flex items-center gap-3 text-xs text-[#64748B] mb-3">
+                  <h3 className="text-sm font-semibold text-slate-800 mb-1 line-clamp-2">{t(exam.titleVi, exam.title)}</h3>
+                  <div className="flex items-center gap-3 text-xs text-slate-500 mb-3">
                     <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{exam.duration}m</span>
                     <span>{exam.totalQuestions} {t("câu", "Qs")}</span>
                   </div>
                   {best !== null && (
-                    <div className={`text-xs font-bold mb-2 ${best >= 80 ? "text-emerald-400" : best >= 60 ? "text-amber-400" : "text-red-400"}`}>
+                    <div className={`text-xs font-bold mb-2 ${best >= 80 ? "text-emerald-600" : best >= 60 ? "text-amber-600" : "text-red-500"}`}>
                       🏆 {t("Cao nhất", "Best")}: {best}%
                     </div>
                   )}
                   <div className="flex gap-2">
                     <Link to={`/cambridge-mock-exam/${exam.id}?mode=timed`} className="flex-1">
-                      <Button size="sm" className="w-full text-xs bg-gradient-to-r from-[#A78BFA] to-[#7C3AED] hover:opacity-90">
+                      <Button size="sm" className="w-full text-xs bg-gradient-to-r from-[#C780FA] to-[#7C3AED] hover:opacity-90 text-white">
                         <Clock className="w-3 h-3 mr-1" />{t("Có giờ", "Timed")}
                       </Button>
                     </Link>
                     <Link to={`/cambridge-mock-exam/${exam.id}?mode=untimed`} className="flex-1">
-                      <Button size="sm" variant="outline" className="w-full text-xs border-white/20 text-[#94A3B8] hover:bg-white/10">
+                      <Button size="sm" variant="outline" className="w-full text-xs border-2 border-slate-300 text-slate-700 hover:bg-slate-100">
                         {t("Tự do", "Free")}
                       </Button>
                     </Link>
@@ -545,44 +547,44 @@ const GroupedLectureSections = ({ lectures, bookmarked, completed, onToggleBookm
           <motion.div
             key={lvl}
             layout
-            className="rounded-2xl border backdrop-blur-sm overflow-hidden"
+            className="rounded-2xl border-2 backdrop-blur-sm overflow-hidden shadow-lg"
             style={{
-              background: "rgba(15,18,35,0.5)",
-              borderColor: `${cfg.color}33`,
+              background: "rgba(255,255,255,0.85)",
+              borderColor: `${cfg.color}66`,
             }}
           >
             {/* Level header - clickable to expand/collapse */}
             <button
               onClick={() => toggleLevel(lvl)}
-              className="w-full px-5 md:px-6 py-5 flex items-center gap-4 hover:bg-white/[0.03] transition-colors text-left"
-              style={{ background: `linear-gradient(90deg, ${cfg.gradientFrom}15, transparent)` }}
+              className="w-full px-5 md:px-6 py-5 flex items-center gap-4 hover:bg-white/60 transition-colors text-left"
+              style={{ background: `linear-gradient(90deg, ${cfg.gradientFrom}30, ${cfg.gradientTo}15)` }}
             >
               <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shrink-0 border"
-                style={{ background: `${cfg.color}20`, borderColor: `${cfg.color}40` }}
+                className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shrink-0 border-2 shadow-sm"
+                style={{ background: `${cfg.color}30`, borderColor: cfg.color }}
               >
                 {LEVEL_FILTERS.find(f => f.key === lvl)?.emoji}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1 flex-wrap">
-                  <h2 className="text-xl md:text-2xl font-bold text-white">{cfg.label}</h2>
-                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: `${cfg.color}20`, color: cfg.color }}>
+                  <h2 className="text-xl md:text-2xl font-bold text-slate-800">{cfg.label}</h2>
+                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: `${cfg.color}30`, color: cfg.color }}>
                     {levelLectures.length} {t("bài", "lessons")}
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="flex-1 max-w-xs h-1.5 rounded-full bg-white/10 overflow-hidden">
+                  <div className="flex-1 max-w-xs h-1.5 rounded-full bg-slate-200 overflow-hidden">
                     <div
                       className="h-full transition-all duration-500"
                       style={{ width: `${pct}%`, background: `linear-gradient(90deg, ${cfg.gradientFrom}, ${cfg.gradientTo})` }}
                     />
                   </div>
-                  <span className="text-xs font-medium text-[#94A3B8] tabular-nums">
+                  <span className="text-xs font-medium text-slate-600 tabular-nums">
                     {doneCount}/{levelLectures.length}
                   </span>
                 </div>
               </div>
-              <ChevronDown className={`w-6 h-6 text-[#94A3B8] shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+              <ChevronDown className={`w-6 h-6 text-slate-500 shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`} />
             </button>
 
             {/* Skill sub-sections */}
@@ -605,14 +607,14 @@ const GroupedLectureSections = ({ lectures, bookmarked, completed, onToggleBookm
                       return (
                         <div key={skill.key}>
                           {/* Skill heading */}
-                          <div className="flex items-center gap-2.5 mb-3 pb-2 border-b border-white/[0.06]">
-                            <div className="w-8 h-8 rounded-lg bg-white/[0.04] border border-white/10 flex items-center justify-center">
-                              <SkillIcon className="w-4 h-4 text-[#C4B5FD]" />
+                          <div className="flex items-center gap-2.5 mb-3 pb-2 border-b-2 border-slate-200">
+                            <div className="w-8 h-8 rounded-lg bg-[#C780FA]/20 border-2 border-[#C780FA]/40 flex items-center justify-center">
+                              <SkillIcon className="w-4 h-4 text-[#7C3AED]" />
                             </div>
-                            <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+                            <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider">
                               {t(skill.labelVi, skill.label)}
                             </h3>
-                            <span className="text-xs text-[#64748B] tabular-nums ml-auto">
+                            <span className="text-xs text-slate-500 tabular-nums ml-auto font-medium">
                               {skillDone}/{skillLessons.length}
                             </span>
                           </div>
@@ -626,14 +628,14 @@ const GroupedLectureSections = ({ lectures, bookmarked, completed, onToggleBookm
                                 <Link
                                   key={lec.id}
                                   to={`/cambridge-lectures/${lec.id}`}
-                                  className="group relative flex items-start gap-3 px-3.5 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.07] hover:border-white/20 transition-all"
+                                  className="group relative flex items-start gap-3 px-3.5 py-3 rounded-xl bg-white border-2 border-slate-200 hover:bg-yellow-50 hover:border-[#FFD93D] transition-all shadow-sm hover:shadow-md"
                                 >
                                   {/* Number / done badge */}
                                   <div
                                     className={`w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold shrink-0 ${
                                       isDone
-                                        ? "bg-emerald-500/20 text-emerald-300"
-                                        : "bg-white/[0.06] text-[#CBD5E1]"
+                                        ? "bg-emerald-100 text-emerald-600 border-2 border-emerald-300"
+                                        : "bg-gradient-to-br from-[#FFD93D] to-[#FF9F1C] text-white shadow-sm"
                                     }`}
                                   >
                                     {isDone ? <CheckCircle2 className="w-5 h-5" /> : String(idx + 1).padStart(2, "0")}
@@ -641,20 +643,20 @@ const GroupedLectureSections = ({ lectures, bookmarked, completed, onToggleBookm
                                   <div className="flex-1 min-w-0">
                                     <div className="flex items-center gap-1.5 mb-1 flex-wrap">
                                       {isStart && (
-                                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-gradient-to-r from-[#A78BFA] to-[#7C3AED] text-white animate-pulse">
+                                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-gradient-to-r from-[#FF6B9D] to-[#C780FA] text-white animate-pulse">
                                           ★ {t("Bắt đầu", "Start")}
                                         </span>
                                       )}
                                       {lec.isNew && (
-                                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#FF6B6B]/20 text-[#FCA5A5] border border-[#FF6B6B]/30">
+                                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#FF6B6B] text-white">
                                           NEW
                                         </span>
                                       )}
                                     </div>
-                                    <p className="text-sm font-semibold text-white leading-snug line-clamp-2 group-hover:text-[#C4B5FD] transition-colors">
+                                    <p className="text-sm font-semibold text-slate-800 leading-snug line-clamp-2 group-hover:text-[#7C3AED] transition-colors">
                                       {t(lec.titleVi, lec.title)}
                                     </p>
-                                    <div className="flex items-center gap-2 mt-1 text-[11px] text-[#64748B]">
+                                    <div className="flex items-center gap-2 mt-1 text-[11px] text-slate-500">
                                       <span className="flex items-center gap-0.5"><Clock className="w-3 h-3" />{lec.duration}</span>
                                       <span>•</span>
                                       <span>{lec.practiceSet.length} {t("BT", "ex")}</span>
@@ -662,10 +664,10 @@ const GroupedLectureSections = ({ lectures, bookmarked, completed, onToggleBookm
                                   </div>
                                   <button
                                     onClick={e => { e.preventDefault(); e.stopPropagation(); onToggleBookmark(lec.id); }}
-                                    className="p-1 rounded hover:bg-white/10 transition-colors shrink-0"
+                                    className="p-1 rounded hover:bg-rose-50 transition-colors shrink-0"
                                     aria-label="Bookmark"
                                   >
-                                    <Heart className={`w-4 h-4 ${bookmarked.has(lec.id) ? "fill-rose-400 text-rose-400" : "text-[#334155]"}`} />
+                                    <Heart className={`w-4 h-4 ${bookmarked.has(lec.id) ? "fill-rose-400 text-rose-400" : "text-slate-300"}`} />
                                   </button>
                                 </Link>
                               );
