@@ -1181,26 +1181,12 @@ const SpeakingPractice = () => {
                         </div>
                       ) : (
                         <div className="bg-emerald-50/30 dark:bg-emerald-950/10 border border-dashed border-emerald-300/50 rounded-xl p-5 text-center">
-                          <p className="text-sm text-muted-foreground mb-3">
-                            {t(
-                              "Chưa có phiên bản nâng cấp cho câu trả lời này.",
-                              "No upgraded version yet for your answer."
-                            )}
-                          </p>
-                          <Button
-                            onClick={handleUpgrade}
-                            disabled={upgrading}
-                            className="gap-2 bg-gradient-to-r from-emerald-500 to-primary text-white hover:brightness-110"
-                          >
-                            {upgrading ? (
-                              <motion.div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full" animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} />
-                            ) : (
-                              <Sparkles className="w-4 h-4" />
-                            )}
-                            {upgrading
-                              ? t("Đang nâng cấp...", "Upgrading...")
-                              : t("Nâng cấp câu trả lời lên Band 8.0+", "Upgrade my answer to Band 8.0+")}
-                          </Button>
+                          <div className="flex items-center justify-center gap-3 text-emerald-700 dark:text-emerald-400">
+                            <motion.div className="w-4 h-4 border-2 border-emerald-500/30 border-t-emerald-500 rounded-full" animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} />
+                            <span className="text-sm font-medium">
+                              {t("Đang tự động nâng cấp câu trả lời lên Band 8.0+...", "Auto-upgrading your answer to Band 8.0+...")}
+                            </span>
+                          </div>
                         </div>
                       )}
 
