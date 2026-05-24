@@ -30,6 +30,9 @@ import RecsysSandbox from "@/components/ai-academy/RecsysSandbox";
 import AIoTSandbox from "@/components/ai-academy/AIoTSandbox";
 import CapstoneSandbox from "@/components/ai-academy/CapstoneSandbox";
 import DragDropQuiz, { type DDQuestion } from "@/components/ai-academy/DragDropQuiz";
+import FloatingAIIcons from "@/components/ai-academy/FloatingAIIcons";
+import heroBg from "@/assets/ai-academy-hero-bg.jpg";
+import chibiRobot from "@/assets/ai-chibi-robot.png";
 
 type TrackId = "vision" | "nlp" | "nn" | "genai" | "rl" | "ethics" | "recsys" | "aiot" | "capstone";
 
@@ -734,12 +737,14 @@ const AIAcademy = () => {
   const activeTrack = useMemo(() => TRACKS.find((t) => t.id === active) ?? null, [active]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-950 dark:via-background dark:to-slate-950">
+    <div className="relative min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-950 dark:via-background dark:to-slate-950">
       <SEO
         title="AI Academy cho học sinh THCS & THPT | HaiEduTech"
         description="Học AI siêu trực quan dành cho học sinh cấp 2-3: Computer Vision, NLP Chatbot, Mạng thần kinh nhân tạo. Sandbox tương tác, quiz kéo thả, huy hiệu và phần thưởng."
         path="/programming/ai-academy"
       />
+      <FloatingAIIcons />
+      <div className="relative z-10">
       <Navbar />
       <div className="container mx-auto px-4 sm:px-6 pt-6 pb-16 max-w-6xl">
         {/* Breadcrumb */}
@@ -747,37 +752,56 @@ const AIAcademy = () => {
           <ArrowLeft className="w-3 h-3" /> Lập trình
         </Link>
 
-        {/* Hero */}
+        {/* Hero with AI image background + animated chibi robot */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative overflow-hidden rounded-3xl p-6 sm:p-8 mb-8 bg-gradient-to-br from-purple-600 via-fuchsia-500 to-cyan-500 text-white shadow-xl"
+          className="relative overflow-hidden rounded-3xl p-6 sm:p-8 mb-8 text-white shadow-xl min-h-[280px] sm:min-h-[320px]"
         >
+          {/* Background image layer */}
+          <img
+            src={heroBg}
+            alt=""
+            aria-hidden
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          {/* Color overlay for contrast */}
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-900/75 via-fuchsia-700/55 to-cyan-700/60" />
           <div className="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-white/10 blur-3xl" />
           <div className="absolute -bottom-24 -left-10 w-72 h-72 rounded-full bg-cyan-300/20 blur-3xl" />
+
+          {/* Animated chibi robot — top/right corner */}
+          <motion.img
+            src={chibiRobot}
+            alt="Robot trợ lý AI Academy"
+            className="absolute right-2 sm:right-4 lg:right-8 bottom-2 sm:bottom-3 w-20 sm:w-32 lg:w-44 h-auto drop-shadow-2xl select-none pointer-events-none"
+            animate={{ y: [0, -12, 0], rotate: [-3, 3, -3] }}
+            transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+          />
+
           <div className="relative">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur text-xs font-bold mb-3">
               <Sparkles className="w-3 h-3" /> AI ACADEMY · CẤP 2 – CẤP 3
             </div>
-            <h1 className="text-3xl sm:text-5xl font-display font-black leading-tight mb-2">
+            <h1 className="text-3xl sm:text-5xl font-display font-black leading-tight mb-2 drop-shadow-lg">
               Học AI siêu vui 🚀
             </h1>
-            <p className="text-white/90 max-w-2xl text-sm sm:text-base">
-              3 chặng phiêu lưu trực quan — chạm, kéo, thả, dạy bot, vẽ neuron. Hoàn thành để mở khoá huy hiệu và sao thưởng!
+            <p className="text-white/95 max-w-2xl text-sm sm:text-base pr-24 sm:pr-36 lg:pr-48 drop-shadow">
+              9 chặng phiêu lưu trực quan — chạm, kéo, thả, dạy bot, vẽ neuron. Hoàn thành để mở khoá huy hiệu và sao thưởng!
             </p>
 
             {/* Progress strip */}
             <div className="mt-5 grid grid-cols-3 gap-3 max-w-xl">
-              <div className="rounded-xl bg-white/15 backdrop-blur p-3">
-                <div className="text-xs opacity-80">⭐ Sao</div>
+              <div className="rounded-xl bg-white/20 backdrop-blur-md p-3 border border-white/20">
+                <div className="text-xs opacity-90">⭐ Sao</div>
                 <div className="text-xl font-black">{totalStars}/{TRACKS.length * 3}</div>
               </div>
-              <div className="rounded-xl bg-white/15 backdrop-blur p-3">
-                <div className="text-xs opacity-80">🏅 Huy hiệu</div>
+              <div className="rounded-xl bg-white/20 backdrop-blur-md p-3 border border-white/20">
+                <div className="text-xs opacity-90">🏅 Huy hiệu</div>
                 <div className="text-xl font-black">{totalBadges}/{TRACKS.length}</div>
               </div>
-              <div className="rounded-xl bg-white/15 backdrop-blur p-3">
-                <div className="text-xs opacity-80">📊 Tiến độ</div>
+              <div className="rounded-xl bg-white/20 backdrop-blur-md p-3 border border-white/20">
+                <div className="text-xs opacity-90">📊 Tiến độ</div>
                 <div className="text-xl font-black">{Math.round(overallPct)}%</div>
               </div>
             </div>
@@ -959,6 +983,7 @@ const AIAcademy = () => {
       </AnimatePresence>
 
       <Footer />
+      </div>
     </div>
   );
 };
