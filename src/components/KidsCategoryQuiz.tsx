@@ -31,9 +31,9 @@ const shuffle = <T,>(arr: T[]): T[] => {
   return a;
 };
 
-const buildQuestions = (words: CambridgeKidsWord[], count: number): Question[] => {
+const buildQuestions = (words: CambridgeKidsWord[]): Question[] => {
   if (words.length < 4) return [];
-  const picks = shuffle(words).slice(0, Math.min(count, words.length));
+  const picks = shuffle(words);
   return picks.map((prompt) => {
     const distractors = shuffle(words.filter(w => w.word !== prompt.word)).slice(0, 3);
     return { prompt, choices: shuffle([prompt, ...distractors]) };
@@ -43,7 +43,7 @@ const buildQuestions = (words: CambridgeKidsWord[], count: number): Question[] =
 export default function KidsCategoryQuiz({ words, accentColor, softColor, lang }: Props) {
   const t = (vi: string, en: string) => (lang === "vi" ? vi : en);
   const [seed, setSeed] = useState(0);
-  const questions = useMemo(() => buildQuestions(words, 5), [words, seed]);
+  const questions = useMemo(() => buildQuestions(words), [words, seed]);
   const [step, setStep] = useState(0);
   const [picked, setPicked] = useState<string | null>(null);
   const [score, setScore] = useState(0);
@@ -86,8 +86,8 @@ export default function KidsCategoryQuiz({ words, accentColor, softColor, lang }
           </h4>
         </div>
         <p className="text-sm text-slate-700 mb-3">
-          {t("Trả lời 5 câu hỏi vui để ôn lại chủ đề này nhé! 🎉",
-             "Answer 5 fun questions to review this topic! 🎉")}
+          {t(`Trả lời ${words.length} câu hỏi vui để ôn lại toàn bộ chủ đề này nhé! 🎉`,
+             `Answer all ${words.length} fun questions to review this whole topic! 🎉`)}
         </p>
         <button
           onClick={() => setStarted(true)}

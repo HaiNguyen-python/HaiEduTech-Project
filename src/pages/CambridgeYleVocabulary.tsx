@@ -24,6 +24,7 @@ import { getPos, POS_LABEL } from "@/data/cambridgeKidsPos";
 import KidsSpeechCheck from "@/components/KidsSpeechCheck";
 import KidsChibiMascot from "@/components/KidsChibiMascot";
 import KidsCategoryQuiz from "@/components/KidsCategoryQuiz";
+import { CambridgeArcadeInner } from "@/pages/CambridgeArcade";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import { toast } from "@/hooks/use-toast";
 
@@ -172,6 +173,7 @@ const CambridgeYleVocabulary = () => {
   const [level, setLevel] = useState<CambridgeKidsLevel>("Starters");
   const [search, setSearch] = useState("");
   const [tab, setTab] = useState<"learn" | "practice">("learn");
+  const [view, setView] = useState<"vocab" | "arcade">("vocab");
   const { mastered, toggle } = useMasteredVocab(MASTERY_SUBJECT);
 
   const wordsForLevel = useMemo(
@@ -255,7 +257,29 @@ const CambridgeYleVocabulary = () => {
           </div>
         </section>
 
-        {/* Mountain + Level tabs */}
+        {/* View toggle: Vocabulary vs Arcade */}
+        <section className="container mx-auto px-4 mb-4">
+          <div className="inline-flex p-1 rounded-2xl bg-white/80 border-2 border-white shadow-md gap-1">
+            <button
+              onClick={() => setView("vocab")}
+              className={`px-4 py-2 rounded-xl text-sm font-bold transition ${view === "vocab" ? "bg-gradient-to-r from-pink-500 to-amber-500 text-white shadow" : "text-slate-600 hover:bg-slate-100"}`}
+            >
+              📚 {t("Học từ vựng", "Learn Vocabulary")}
+            </button>
+            <button
+              onClick={() => setView("arcade")}
+              className={`px-4 py-2 rounded-xl text-sm font-bold transition ${view === "arcade" ? "bg-gradient-to-r from-fuchsia-500 to-purple-600 text-white shadow" : "text-slate-600 hover:bg-slate-100"}`}
+            >
+              🎪 {t("Arcade Mini-games", "Arcade Mini-games")}
+            </button>
+          </div>
+        </section>
+
+        {view === "arcade" ? (
+          <section className="container mx-auto px-4 pb-8">
+            <CambridgeArcadeInner embedded />
+          </section>
+        ) : (
         <section className="container mx-auto px-4 grid lg:grid-cols-[1fr_360px] gap-4 items-start">
           {/* Level tabs */}
           <div>
@@ -361,7 +385,7 @@ const CambridgeYleVocabulary = () => {
                                 );
                               })}
                             </div>
-                            <div className="relative grid md:grid-cols-2 2xl:grid-cols-3 gap-7 md:gap-8 p-6 md:p-7">
+                            <div className="relative grid md:grid-cols-1 xl:grid-cols-2 gap-10 md:gap-12 p-7 md:p-9">
                             {words.map((w, idx) => {
                               const key = `${w.level}:${w.word}`;
                               const isMastered = mastered.has(key);
@@ -534,6 +558,7 @@ const CambridgeYleVocabulary = () => {
             </div>
           </aside>
         </section>
+        )}
       </main>
       <Footer />
     </div>
