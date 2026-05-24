@@ -332,12 +332,12 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
           >
             {t("Mọi chủ đề", "All themes")}
           </button>
-          {IDIOM_THEMES.map((th) => {
-            const isActive = filterTheme === th.key;
+          {THEME_GROUPS.map((g) => {
+            const isActive = filterTheme === g.key;
             return (
               <button
-                key={th.key}
-                onClick={() => setFilterTheme(th.key)}
+                key={g.key}
+                onClick={() => setFilterTheme(g.key)}
                 className={cn(
                   "px-5 py-2.5 rounded-full text-base font-bold border-2 transition-colors shadow-sm",
                   isActive
@@ -345,8 +345,8 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
                     : "bg-background border-emerald-500/60 text-foreground hover:border-emerald-600 hover:bg-emerald-500/10 hover:text-emerald-700 dark:hover:text-emerald-300",
                 )}
               >
-                <span className="mr-1.5 text-lg">{th.emoji}</span>
-                {t(th.labelVi, th.labelEn)}
+                <span className="mr-1.5 text-lg">{g.emoji}</span>
+                {t(g.labelVi, g.labelEn)}
               </button>
             );
           })}
