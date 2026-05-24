@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { allIeltsLectures, PILLAR_META } from "@/data/ieltsLecturesData";
 import type { VocabHighlight } from "@/data/ieltsLecturesData";
+import { getLectureQuizWithExtras } from "@/data/ieltsLectureQuizExtras";
 import IeltsLectureDiagram from "@/components/ielts/IeltsLectureDiagram";
 import IeltsLectureExpansionPanel from "@/components/ielts/IeltsLectureExpansionPanel";
 import { lectureExpansions } from "@/data/ieltsLectureExpansion";
@@ -84,7 +85,8 @@ const IeltsLectureView = () => {
   }
 
   const pillarMeta = PILLAR_META[lecture.pillar];
-  const quizScore = lecture.quiz.reduce((acc, q, i) => acc + (quizAnswers[i] === q.answer ? 1 : 0), 0);
+  const lectureQuiz = useMemo(() => getLectureQuizWithExtras(lecture.id, lecture.quiz), [lecture.id, lecture.quiz]);
+  const quizScore = lectureQuiz.reduce((acc, q, i) => acc + (quizAnswers[i] === q.answer ? 1 : 0), 0);
 
   const handleComplete = () => {
     if (lecture) {
@@ -93,7 +95,7 @@ const IeltsLectureView = () => {
         activityType: "ielts_lecture",
         activityId: lecture.id,
         score: quizSubmitted ? quizScore : 0,
-        maxScore: quizSubmitted ? lecture.quiz.length : 1,
+        maxScore: quizSubmitted ? lectureQuiz.length : 1,
         domain: "english",
       });
     }
@@ -101,12 +103,12 @@ const IeltsLectureView = () => {
 
   const handleQuizSubmit = () => {
     setQuizSubmitted(true);
-    const score = lecture.quiz.reduce((acc, q, i) => acc + (quizAnswers[i] === q.answer ? 1 : 0), 0);
+    const score = lectureQuiz.reduce((acc, q, i) => acc + (quizAnswers[i] === q.answer ? 1 : 0), 0);
     logStudentActivity({
       activityType: "ielts_lecture_quiz",
       activityId: lecture.id,
       score,
-      maxScore: lecture.quiz.length,
+      maxScore: lectureQuiz.length,
       domain: "english",
     });
   };
@@ -365,12 +367,12 @@ const IeltsLectureView = () => {
             <TabsContent value="quiz" className="space-y-5">
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-bold text-foreground">
-                  ✏️ Mini Practice ({lecture.quiz.length} {t("câu", "questions")})
+                  ✏️ Mini Practice ({lectureQuiz.length} {t("câu", "questions")})
                 </h2>
                 {quizSubmitted && (
                   <div className="flex items-center gap-3">
-                    <span className={`text-sm font-bold ${quizScore === lecture.quiz.length ? "text-green-500" : quizScore >= lecture.quiz.length / 2 ? "text-amber-500" : "text-destructive"}`}>
-                      {quizScore}/{lecture.quiz.length} {t("đúng", "correct")}
+                    <span className={`text-sm font-bold ${quizScore === lectureQuiz.length ? "text-green-500" : quizScore >= lectureQuiz.length / 2 ? "text-amber-500" : "text-destructive"}`}>
+                      {quizScore}/{lectureQuiz.length} {t("đúng", "correct")}
                     </span>
                     <Button variant="ghost" size="sm" onClick={handleQuizReset} className="gap-1">
                       <RotateCcw className="w-3.5 h-3.5" /> {t("Làm lại", "Retry")}
@@ -380,7 +382,7 @@ const IeltsLectureView = () => {
               </div>
 
               <div className="space-y-5">
-                {lecture.quiz.map((q, qi) => (
+                {lectureQuiz.map((q, qi) => (
                   <motion.div
                     key={qi}
                     initial={{ opacity: 0, y: 10 }}
