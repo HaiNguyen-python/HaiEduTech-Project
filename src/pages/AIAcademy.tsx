@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Eye, MessageSquare, Brain, Sparkles, Trophy, Star, ArrowLeft, Lock,
-  Zap, Award, Rocket, CheckCircle2, Wand2, Film, Scale,
+  Zap, Award, Rocket, CheckCircle2, Wand2, Car, Scale,
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import Navbar from "@/components/Navbar";
@@ -24,11 +24,11 @@ import CVSandbox from "@/components/ai-academy/ComputerVisionSandbox";
 import NLPSandbox from "@/components/ai-academy/NLPSandbox";
 import NeuralNetSandbox from "@/components/ai-academy/NeuralNetSandbox";
 import GenAISandbox from "@/components/ai-academy/GenAISandbox";
-import RecommenderSandbox from "@/components/ai-academy/RecommenderSandbox";
+import RLSandbox from "@/components/ai-academy/RLSandbox";
 import EthicsSandbox from "@/components/ai-academy/EthicsSandbox";
 import DragDropQuiz, { type DDQuestion } from "@/components/ai-academy/DragDropQuiz";
 
-type TrackId = "vision" | "nlp" | "nn" | "genai" | "recsys" | "ethics";
+type TrackId = "vision" | "nlp" | "nn" | "genai" | "rl" | "ethics";
 
 type Track = {
   id: TrackId;
@@ -250,9 +250,9 @@ const TRACKS: Track[] = [
     id: "genai",
     emoji: "✨",
     Icon: Wand2,
-    title: "Generative AI",
-    tag: "Tạo ảnh & văn bằng AI",
-    desc: "Chơi với Prompt Engineering — chỉ đường cho AI vẽ tranh, viết văn theo ý mình.",
+    title: "Trí tuệ nhân tạo tạo sinh",
+    tag: "Thế giới sáng tạo",
+    desc: "Khám phá cách AI tự viết văn, vẽ tranh từ những câu lệnh (Prompt) và thử tài làm một Prompt Master.",
     gradient: "from-pink-400 via-fuchsia-500 to-purple-600",
     ring: "ring-pink-400/50",
     badge: { name: "Prompt Master", emoji: "🪄" },
@@ -315,69 +315,69 @@ const TRACKS: Track[] = [
     ],
   },
   {
-    id: "recsys",
-    emoji: "🎯",
-    Icon: Film,
-    title: "Hệ gợi ý",
-    tag: "Mini Netflix của bạn",
-    desc: "Chấm 4 phim — xem AI dựng 'hồ sơ sở thích' và gợi ý phim tiếp theo y như Netflix, TikTok.",
-    gradient: "from-rose-400 via-orange-500 to-amber-500",
-    ring: "ring-rose-400/50",
-    badge: { name: "Algo Curator", emoji: "🎬" },
+    id: "rl",
+    emoji: "🎮",
+    Icon: Car,
+    title: "Học tăng cường",
+    tag: "Tự học để trưởng thành",
+    desc: "Học cách AI tự tối ưu hóa hành vi qua cơ chế Thưởng – Phạt để điều khiển xe tự lái vượt chướng ngại vật.",
+    gradient: "from-emerald-400 via-teal-500 to-cyan-600",
+    ring: "ring-emerald-400/50",
+    badge: { name: "RL Strategist", emoji: "🧭" },
     story: [
       {
-        heading: "🍿 Vì sao TikTok 'gây nghiện'?",
-        body: "Mỗi lần bạn xem, lướt, like — TikTok ghi lại. Sau ~50 video, nó biết bạn thích gì hơn cả bạn bè thân nhất. Đó là <b>Recommender System</b>.",
+        heading: "🎯 Reinforcement Learning là gì?",
+        body: "Khác với học có giám sát (cho ảnh + nhãn), RL <b>không có nhãn</b>. Agent <b>thử – sai – nhận điểm</b>: làm đúng được thưởng, làm sai bị phạt. Lặp hàng triệu lần → tự khám phá chiến lược tối ưu.",
       },
       {
-        heading: "📊 Vector sở thích",
-        body: "AI biểu diễn mỗi phim/clip thành một <b>vector</b> (danh sách số) cho các thể loại. Sở thích của bạn cũng là vector. Phim có vector 'gần' bạn nhất sẽ được đề xuất.",
+        heading: "🏎️ Xe tự lái Tesla & Waymo",
+        body: "Mỗi mét đi đúng làn = +điểm, mỗi va chạm = -điểm cực lớn. Sau hàng tỷ km mô phỏng, AI tự học cách <b>né người, dừng đèn đỏ, đỗ xe</b> mà không cần ai dạy từng bước.",
       },
       {
-        heading: "⚠️ Bong bóng lọc (Filter Bubble)",
-        body: "Nếu chỉ xem video một phía, AI sẽ chỉ đề xuất video đó → bạn bị nhốt trong 'bong bóng' thông tin. Hãy chủ động xem nhiều thể loại để mở rộng tầm nhìn!",
+        heading: "♟️ AlphaGo & DeepMind",
+        body: "Google DeepMind dùng RL để dạy AI chơi cờ vây — và đánh bại nhà vô địch thế giới Lee Sedol năm 2016. AI không học từ sách, nó <b>tự chơi với chính nó</b> hàng triệu ván.",
       },
     ],
-    Sandbox: RecommenderSandbox,
+    Sandbox: RLSandbox,
     quiz: [
       {
-        prompt: "App nào dùng Recommender System mạnh nhất?",
+        prompt: "Cái gì là tín hiệu HỌC chính của Reinforcement Learning?",
         items: [
-          { id: "a", label: "TikTok 🎵", bucket: "yes" },
-          { id: "b", label: "Netflix 🎬", bucket: "yes" },
-          { id: "c", label: "YouTube ▶️", bucket: "yes" },
-          { id: "d", label: "Máy tính bỏ túi 🧮", bucket: "no" },
-          { id: "e", label: "Notepad đơn giản 📝", bucket: "no" },
+          { id: "a", label: "Thưởng (+điểm) khi đúng", bucket: "yes" },
+          { id: "b", label: "Phạt (-điểm) khi sai", bucket: "yes" },
+          { id: "c", label: "Nhãn chính xác từng bước", bucket: "no" },
+          { id: "d", label: "Ai đó nói 'đúng/sai' liên tục", bucket: "no" },
         ],
         buckets: [
-          { id: "yes", label: "Có Recommender" },
-          { id: "no", label: "Không cần" },
+          { id: "yes", label: "Tín hiệu RL ✅" },
+          { id: "no", label: "Không phải RL" },
         ],
       },
       {
-        prompt: "AI dùng dữ liệu gì để hiểu bạn?",
+        prompt: "Ứng dụng nào dùng Reinforcement Learning?",
         items: [
-          { id: "1", label: "Lượt xem & thời gian xem", bucket: "use" },
-          { id: "2", label: "Lượt like/share", bucket: "use" },
-          { id: "3", label: "Bạn theo dõi ai", bucket: "use" },
-          { id: "4", label: "Đọc suy nghĩ não bạn 🧠", bucket: "no" },
+          { id: "1", label: "Xe tự lái Tesla 🚗", bucket: "rl" },
+          { id: "2", label: "AlphaGo chơi cờ vây ♟️", bucket: "rl" },
+          { id: "3", label: "Robot hút bụi tự sạc 🤖", bucket: "rl" },
+          { id: "4", label: "Máy tính bỏ túi 🧮", bucket: "no" },
+          { id: "5", label: "Trang web tĩnh HTML 📄", bucket: "no" },
         ],
         buckets: [
-          { id: "use", label: "Dữ liệu thật" },
-          { id: "no", label: "Không thể" },
+          { id: "rl", label: "Có dùng RL" },
+          { id: "no", label: "Không cần RL" },
         ],
       },
       {
-        prompt: "Filter Bubble nguy hiểm vì sao?",
+        prompt: "Nếu phạt va chạm CAO hơn thưởng đi nhanh — agent sẽ làm gì?",
         items: [
-          { id: "a", label: "Chỉ thấy quan điểm 1 phía", bucket: "bad" },
-          { id: "b", label: "Khó tiếp cận thông tin trái chiều", bucket: "bad" },
-          { id: "c", label: "Học được nhiều thứ mới", bucket: "good" },
-          { id: "d", label: "Mở rộng tư duy", bucket: "good" },
+          { id: "a", label: "Đi chậm, né chướng ngại", bucket: "ok" },
+          { id: "b", label: "Ưu tiên an toàn", bucket: "ok" },
+          { id: "c", label: "Đâm thẳng vào mọi thứ", bucket: "no" },
+          { id: "d", label: "Bỏ cuộc đứng yên mãi", bucket: "no" },
         ],
         buckets: [
-          { id: "bad", label: "Tác hại ⚠️" },
-          { id: "good", label: "Lợi ích" },
+          { id: "ok", label: "Hành vi đúng ✅" },
+          { id: "no", label: "Sai logic ❌" },
         ],
       },
     ],
@@ -386,12 +386,12 @@ const TRACKS: Track[] = [
     id: "ethics",
     emoji: "⚖️",
     Icon: Scale,
-    title: "AI có công bằng?",
-    tag: "AI Ethics & Bias",
-    desc: "Khám phá vì sao AI tuyển dụng của Amazon đã loại CV của phụ nữ — và cách sửa.",
-    gradient: "from-amber-400 via-orange-500 to-rose-600",
-    ring: "ring-amber-400/50",
-    badge: { name: "Fairness Guardian", emoji: "🛡️" },
+    title: "Đạo đức & An toàn AI",
+    tag: "Trợ lý công bằng",
+    desc: "Trở thành hộ vệ công nghệ: Lọc dữ liệu, loại bỏ thiên vị (Bias) để giữ cho AI luôn khách quan và an toàn.",
+    gradient: "from-purple-400 via-fuchsia-500 to-violet-600",
+    ring: "ring-purple-400/50",
+    badge: { name: "Ethics Guardian", emoji: "🛡️" },
     story: [
       {
         heading: "🔬 AI học từ dữ liệu",
@@ -458,7 +458,7 @@ const STORAGE_KEY = "haiedu_ai_academy_progress";
 type Progress = Record<TrackId, { stars: number; badge?: boolean }>;
 
 const loadProgress = (): Progress => {
-  const defaults: Progress = { vision: { stars: 0 }, nlp: { stars: 0 }, nn: { stars: 0 }, genai: { stars: 0 }, recsys: { stars: 0 }, ethics: { stars: 0 } };
+  const defaults: Progress = { vision: { stars: 0 }, nlp: { stars: 0 }, nn: { stars: 0 }, genai: { stars: 0 }, rl: { stars: 0 }, ethics: { stars: 0 } };
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) return { ...defaults, ...JSON.parse(raw) };
