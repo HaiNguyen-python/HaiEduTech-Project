@@ -5,6 +5,7 @@
 import { useRef, useState } from "react";
 import { ShieldCheck, ShieldAlert, Search } from "lucide-react";
 import { BonusGames } from "./SandboxBonusGames";
+import { BestMatchPick } from "./SandboxMiniActivity";
 
 const DF_TF = [
   { q: "Deepfake là video / ảnh do AI tạo trông như người thật.", a: true },
@@ -160,6 +161,26 @@ const DeepfakeSandbox = () => {
             : "❌ Sai rồi — soi kỹ ảnh phải sẽ thấy artifact của deepfake."}
         </div>
       )}
+
+      <BestMatchPick
+        title="🕵️ Bằng chứng nào tố cáo deepfake?"
+        hint="Ghép mỗi dấu hiệu với loại bằng chứng phù hợp nhất."
+        accent="from-rose-500 to-fuchsia-600"
+        border="border-rose-400/40"
+        options={[
+          { id: "visual", label: "👁️ Bằng chứng hình ảnh" },
+          { id: "audio", label: "🔊 Bằng chứng âm thanh" },
+          { id: "meta", label: "📂 Bằng chứng metadata" },
+          { id: "behav", label: "🧠 Bằng chứng hành vi" },
+        ]}
+        items={[
+          { prompt: "Viền tóc/tai mờ, răng méo khi cười", correctId: "visual" },
+          { prompt: "Chớp mắt bất thường, ánh sáng không khớp nền", correctId: "visual" },
+          { prompt: "Giọng nói thiếu hơi thở, ngữ điệu phẳng", correctId: "audio" },
+          { prompt: "File MP4 không có thông tin máy quay gốc", correctId: "meta" },
+          { prompt: "'Mẹ' nhắn tin lúc 3h sáng đòi chuyển tiền gấp", correctId: "behav" },
+        ]}
+      />
 
       <BonusGames tfItems={DF_TF} matchPairs={DF_PAIRS} accent="from-rose-500 to-fuchsia-600" border="border-rose-400/40" />
     </div>

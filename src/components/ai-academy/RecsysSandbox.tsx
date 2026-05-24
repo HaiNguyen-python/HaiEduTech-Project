@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 import { Users, Sparkles } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { BonusGames } from "./SandboxBonusGames";
-import { ChipFilter } from "./SandboxMiniActivity";
+import { ChipFilter, BestMatchPick } from "./SandboxMiniActivity";
 
 const REC_TF = [
   { q: "TikTok & YouTube dùng hệ gợi ý để chọn video cho bạn.", a: true },
@@ -166,6 +166,26 @@ const RecsysSandbox = () => {
           { id: "food", label: "🍜 Food review", weight: 12 },
           { id: "study", label: "📚 Học tiếng Anh", weight: 16 },
           { id: "tech", label: "💻 Công nghệ", weight: 12 },
+        ]}
+      />
+
+      <BestMatchPick
+        title="🎯 Thuật toán gợi ý nào phù hợp nhất?"
+        hint="Mỗi nền tảng dưới đây dùng kiểu recommender nào là chính?"
+        accent="from-orange-500 to-rose-500"
+        border="border-orange-400/40"
+        options={[
+          { id: "content", label: "📄 Content-based" },
+          { id: "collab", label: "👥 Collaborative Filtering" },
+          { id: "hybrid", label: "🔀 Hybrid" },
+          { id: "pop", label: "🔥 Popularity-based" },
+        ]}
+        items={[
+          { prompt: "TikTok For You — học từ video bạn xem & like", correctId: "collab" },
+          { prompt: "Spotify 'Có thể bạn cũng thích' theo thể loại bài đang nghe", correctId: "content" },
+          { prompt: "Top trending YouTube hôm nay", correctId: "pop" },
+          { prompt: "Netflix — kết hợp sở thích bạn + người dùng giống bạn", correctId: "hybrid" },
+          { prompt: "Shopee 'Sản phẩm tương tự' theo mô tả/ảnh", correctId: "content" },
         ]}
       />
 
