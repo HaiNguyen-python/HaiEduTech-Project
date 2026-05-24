@@ -23,6 +23,7 @@ import { CATEGORY_BG } from "@/data/cambridgeKidsCategoryBg";
 import { getPos, POS_LABEL } from "@/data/cambridgeKidsPos";
 import KidsSpeechCheck from "@/components/KidsSpeechCheck";
 import KidsChibiMascot from "@/components/KidsChibiMascot";
+import KidsCategoryQuiz from "@/components/KidsCategoryQuiz";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import { toast } from "@/hooks/use-toast";
 
@@ -360,7 +361,7 @@ const CambridgeYleVocabulary = () => {
                                 );
                               })}
                             </div>
-                            <div className="relative grid sm:grid-cols-2 xl:grid-cols-3 gap-7 md:gap-8 p-6 md:p-7">
+                            <div className="relative grid md:grid-cols-2 2xl:grid-cols-3 gap-7 md:gap-8 p-6 md:p-7">
                             {words.map((w, idx) => {
                               const key = `${w.level}:${w.word}`;
                               const isMastered = mastered.has(key);
@@ -449,11 +450,19 @@ const CambridgeYleVocabulary = () => {
                                     }}
                                   >
                                     <Star className={`w-3.5 h-3.5 ${isMastered ? "fill-white" : ""}`} />
-                                    {isMastered ? t("Tớ thuộc rồi! 🎉", "I got it! 🎉") : t("Tớ đã học xong ⭐", "I learned it! ⭐")}
+                                    {isMastered ? t("Đã xong! 🎉", "Done! 🎉") : t("Finish ⭐", "Finish ⭐")}
                                   </button>
                                 </motion.div>
                               );
                             })}
+                            </div>
+                            <div className="px-6 md:px-7 pb-6">
+                              <KidsCategoryQuiz
+                                words={words}
+                                accentColor={theme.border}
+                                softColor={theme.soft}
+                                lang={lang as "vi" | "en"}
+                              />
                             </div>
                           </div>
                         </motion.div>

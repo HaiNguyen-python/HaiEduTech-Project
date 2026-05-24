@@ -554,6 +554,7 @@ import { CAMBRIDGE_KIDS_WORDS_MASTER_4 } from "./cambridgeKidsVocabMaster4";
 import { CAMBRIDGE_KIDS_WORDS_MASTER_5 } from "./cambridgeKidsVocabMaster5";
 import { CAMBRIDGE_KIDS_WORDS_MASTER_6 } from "./cambridgeKidsVocabMaster6";
 import { CAMBRIDGE_KIDS_WORDS_MASTER_7 } from "./cambridgeKidsVocabMaster7";
+import { CAMBRIDGE_KIDS_WORDS_MASTER_8 } from "./cambridgeKidsVocabMaster8";
 const map = new Map<string, W>();
 for (const w of [
   ...CAMBRIDGE_KIDS_WORDS_MASTER,
@@ -563,6 +564,7 @@ for (const w of [
   ...CAMBRIDGE_KIDS_WORDS_MASTER_5,
   ...CAMBRIDGE_KIDS_WORDS_MASTER_6,
   ...CAMBRIDGE_KIDS_WORDS_MASTER_7,
+  ...CAMBRIDGE_KIDS_WORDS_MASTER_8,
 ]) {
   const k = w.word.toLowerCase().trim();
   const cur = map.get(k);
