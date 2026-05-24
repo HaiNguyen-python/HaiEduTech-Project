@@ -728,6 +728,42 @@ export type Database = {
         }
         Relationships: []
       }
+      lesson_attendance: {
+        Row: {
+          attendance_date: string
+          created_at: string
+          id: string
+          lesson_id: string
+          lesson_title: string | null
+          lesson_type: string | null
+          status: string
+          subject: string | null
+          user_id: string
+        }
+        Insert: {
+          attendance_date?: string
+          created_at?: string
+          id?: string
+          lesson_id: string
+          lesson_title?: string | null
+          lesson_type?: string | null
+          status: string
+          subject?: string | null
+          user_id: string
+        }
+        Update: {
+          attendance_date?: string
+          created_at?: string
+          id?: string
+          lesson_id?: string
+          lesson_title?: string | null
+          lesson_type?: string | null
+          status?: string
+          subject?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       lesson_feedback: {
         Row: {
           created_at: string

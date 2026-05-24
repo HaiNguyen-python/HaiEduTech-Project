@@ -37,6 +37,7 @@ import ClassScheduleManager from "@/components/admin/ClassScheduleManager";
 import BusinessStrategyTab from "@/components/admin/BusinessStrategyTab";
 import UserInsightsTab from "@/components/admin/UserInsightsTab";
 import FeedbackAnalyticsTab from "@/components/admin/FeedbackAnalyticsTab";
+import AttendanceAnalyticsTab from "@/components/admin/AttendanceAnalyticsTab";
 
 // Priority colors
 const PRIORITY_COLORS = {
@@ -417,6 +418,9 @@ const AdminDashboard = () => {
                 </TabsTrigger>
                 <TabsTrigger value="feedback" className="gap-1.5">
                   <Search className="w-3.5 h-3.5" /> {t("Phản hồi học viên", "Feedback")}
+                </TabsTrigger>
+                <TabsTrigger value="attendance" className="gap-1.5">
+                  <Users className="w-3.5 h-3.5" /> {t("Điểm danh", "Attendance")}
                 </TabsTrigger>
               </TabsList>
 
@@ -881,6 +885,10 @@ const AdminDashboard = () => {
 
               <TabsContent value="feedback">
                 <FeedbackAnalyticsTab />
+              </TabsContent>
+
+              <TabsContent value="attendance">
+                <AttendanceAnalyticsTab />
               </TabsContent>
             </Tabs>
           </motion.div>
