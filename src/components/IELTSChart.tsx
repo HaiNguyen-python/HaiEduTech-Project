@@ -316,6 +316,9 @@ const IELTSChart = ({ config }: Props) => {
       case "pie": return <RenderPieChart config={config} />;
       case "table": return <RenderTable config={config} />;
       case "map":
+        return config.mapLayouts && config.mapLayouts.length > 0
+          ? <RenderBeforeAfterMap config={config} />
+          : <RenderProcessMap config={config} />;
       case "process": return <RenderProcessMap config={config} />;
       case "mixed": return <RenderMixedChart config={config} />;
       default: return null;
