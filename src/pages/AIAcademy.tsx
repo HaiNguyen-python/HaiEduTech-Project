@@ -1097,6 +1097,10 @@ const AIAcademy = () => {
   const [progress, setProgress] = useState<Progress>(() => loadProgress());
   const [active, setActive] = useState<TrackId | null>(null);
   const [overlay, setOverlay] = useState<{ track: Track; stars: number } | null>(null);
+  const { touchStreak, awardXP } = useAIAcademyXP();
+  // Touch streak once on mount (visiting AI Academy counts as activity)
+  useEffect(() => { touchStreak(); }, [touchStreak]);
+
   // Certificate state — unlocks only when totalStars === maxStars
   const [certOpen, setCertOpen] = useState(false);
   const [studentName, setStudentName] = useState<string>("");
