@@ -1379,48 +1379,31 @@ const AIAcademy = () => {
                       <Rocket className="w-4 h-4 text-purple-600" />
                       <h3 className="font-bold text-sm uppercase tracking-wider text-muted-foreground">📖 Câu chuyện</h3>
                     </div>
-                    <AnimatePresence initial={false}>
-                      {activeTrack.story.slice(0, storyRevealed).map((s, i) => (
-                        <motion.div
-                          key={i}
-                          initial={{ opacity: 0, y: 8 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.35, ease: "easeOut" }}
-                          className="p-3 rounded-2xl border-l-4 border-purple-500 bg-purple-500/10"
-                        >
-                          <h4 className="font-bold text-foreground mb-1.5">{s.heading}</h4>
-                          <SmartText
-                            text={s.body}
-                            html
-                            className="text-[15px] text-foreground leading-relaxed"
-                          />
-                        </motion.div>
-                      ))}
-                    </AnimatePresence>
 
-                    {storyRevealed < activeTrack.story.length ? (
-                      <div className="flex items-center justify-center gap-3 pt-1">
-                        <button
-                          type="button"
-                          onClick={() => setStoryRevealed((n) => Math.min(n + 1, activeTrack.story.length))}
-                          className="inline-flex items-center gap-1.5 text-purple-600 dark:text-purple-300 hover:bg-purple-500/10 rounded-full px-4 py-1.5 text-sm font-medium border border-purple-500/30 transition-all"
-                        >
-                          Tiếp tục đọc · {storyRevealed}/{activeTrack.story.length}
-                          <ChevronDown className="w-4 h-4 animate-bounce" />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setStoryRevealed(activeTrack.story.length)}
-                          className="text-xs text-muted-foreground hover:text-foreground underline-offset-2 hover:underline transition"
-                        >
-                          Xem tất cả
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="text-center text-xs text-muted-foreground/70 pt-1">
-                        ✓ Hết phần câu chuyện
+                    {TRACK_ILLUSTRATIONS[activeTrack.id] && (
+                      <div className="rounded-2xl overflow-hidden border border-border/50 shadow-sm ring-1 ring-purple-500/10">
+                        <img
+                          src={TRACK_ILLUSTRATIONS[activeTrack.id]}
+                          alt={`Minh họa bài học ${activeTrack.title}`}
+                          loading="lazy"
+                          width={1024}
+                          height={768}
+                          className="w-full h-auto object-cover"
+                        />
                       </div>
                     )}
+
+                    {activeTrack.story.map((s, i) => (
+                      <div key={i} className="p-3 rounded-2xl border-l-4 border-purple-500 bg-purple-500/10">
+                        <h4 className="font-bold text-foreground mb-1.5">{s.heading}</h4>
+                        <SmartText
+                          text={s.body}
+                          html
+                          className="text-[15px] text-foreground leading-relaxed"
+                        />
+                      </div>
+                    ))}
+
 
 
                     {/* ===== Extended educational content (Đợt 1) ===== */}
