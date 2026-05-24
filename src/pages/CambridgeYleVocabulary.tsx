@@ -280,7 +280,7 @@ const CambridgeYleVocabulary = () => {
             <CambridgeArcadeInner embedded />
           </section>
         ) : (
-        <section className="container mx-auto px-4 grid lg:grid-cols-[1fr_360px] gap-4 items-start">
+        <section className="container mx-auto px-4 grid lg:grid-cols-[1fr_280px] gap-6 items-start max-w-[1500px]">
           {/* Level tabs */}
           <div>
             <div className="flex flex-wrap gap-2 mb-4">
@@ -385,7 +385,7 @@ const CambridgeYleVocabulary = () => {
                                 );
                               })}
                             </div>
-                            <div className="relative grid md:grid-cols-1 xl:grid-cols-2 gap-10 md:gap-12 p-7 md:p-9">
+                            <div className="relative grid grid-cols-1 2xl:grid-cols-2 gap-8 md:gap-10 p-8 md:p-10">
                             {words.map((w, idx) => {
                               const key = `${w.level}:${w.word}`;
                               const isMastered = mastered.has(key);
