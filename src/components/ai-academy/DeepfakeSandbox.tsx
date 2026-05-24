@@ -160,6 +160,8 @@ const DeepfakeSandbox = () => {
             : "❌ Sai rồi — soi kỹ ảnh phải sẽ thấy artifact của deepfake."}
         </div>
       )}
+
+      <BonusGames tfItems={DF_TF} matchPairs={DF_PAIRS} accent="from-rose-500 to-fuchsia-600" border="border-rose-400/40" />
     </div>
   );
 };
