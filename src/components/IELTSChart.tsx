@@ -203,20 +203,27 @@ const RenderMapLayout = ({ layout }: { layout: NonNullable<ChartConfig["mapLayou
   return (
     <div className="flex-1 min-w-[260px]">
       <p className="text-center text-sm font-semibold text-foreground mb-2">{layout.title}</p>
-      <div className="rounded-lg border border-border/60 bg-gradient-to-br from-emerald-50/40 to-blue-50/40 dark:from-emerald-950/20 dark:to-blue-950/20 overflow-hidden">
-        <svg viewBox="0 0 100 100" className="w-full h-auto block" preserveAspectRatio="xMidYMid meet">
-          {/* compass */}
-          <g transform="translate(92,8)" className="opacity-60">
-            <circle r="5" fill="hsl(var(--background))" stroke="hsl(var(--border))" strokeWidth="0.4" />
-            <text textAnchor="middle" y="-1.2" fontSize="3.2" fill="hsl(var(--foreground))" fontWeight="700">N</text>
-            <path d="M0,-4 L1,0 L-1,0 Z" fill="#EF4444" />
+      <div className="rounded-lg border border-border/60 bg-gradient-to-br from-emerald-50/40 to-blue-50/40 dark:from-emerald-950/20 dark:to-blue-950/20 overflow-hidden p-2">
+        {/* viewBox padded so labels at edges (Ring Road, River bottom, etc.) never clip */}
+        <svg
+          viewBox="-8 -6 116 116"
+          className="w-full h-auto block"
+          preserveAspectRatio="xMidYMid meet"
+          style={{ overflow: "visible" }}
+        >
+          {/* compass — kept inside the padded gutter */}
+          <g transform="translate(95,4)" className="opacity-70">
+            <circle r="4.5" fill="hsl(var(--background))" stroke="hsl(var(--border))" strokeWidth="0.4" />
+            <text textAnchor="middle" y="-0.8" fontSize="3" fill="hsl(var(--foreground))" fontWeight="700">N</text>
+            <path d="M0,-3.6 L0.9,0 L-0.9,0 Z" fill="#EF4444" />
           </g>
           {layout.zones.map((z, i) => {
             const color = z.color || "#3B82F6";
             const cx = z.x + z.w / 2;
             const cy = z.y + z.h / 2;
-            const fontSize = Math.min(2.6, Math.max(1.8, z.w / 8));
-            const iconSize = Math.min(4.5, Math.max(2.8, z.w / 4));
+            // Slightly smaller font + icon so they fit inside thin/short zones
+            const fontSize = Math.min(2.8, Math.max(2.0, Math.min(z.w, z.h * 1.6) / 7));
+            const iconSize = Math.min(4.2, Math.max(2.4, Math.min(z.w, z.h) / 3.2));
             const fillOpacity = z.shape === "road" || z.shape === "river" ? 1 : 0.28;
             let shapeEl: JSX.Element;
             if (z.shape === "circle") {
@@ -232,23 +239,66 @@ const RenderMapLayout = ({ layout }: { layout: NonNullable<ChartConfig["mapLayou
             } else {
               shapeEl = <rect x={z.x} y={z.y} width={z.w} height={z.h} fill={color} fillOpacity={fillOpacity} stroke={color} strokeWidth="0.5" rx="1" />;
             }
-            const labelTop = z.shape === "road" || z.shape === "river";
+
+            // Decide where the text label sits:
+            // - Roads/rivers: above the shape; vertical roads use right side.
+            // - Thin/short zones (w<14 or h<10): place below the shape so it doesn't overlap the icon.
+            // - Otherwise: centered below the icon, clamped so it never falls outside the viewBox.
+            const isLine = z.shape === "road" || z.shape === "river";
+            const isVerticalLine = isLine && z.h > z.w * 2;
+            const isThin = !isLine && (z.w < 14 || z.h < 10);
+
+            let labelX = cx;
+            let labelY: number;
+            let labelAnchor: "start" | "middle" | "end" = "middle";
+
+            if (isVerticalLine) {
+              // Place label to the right (or left if too close to right edge)
+              const onRight = z.x + z.w + 1 + fontSize * z.label.length * 0.55 < 100;
+              labelX = onRight ? z.x + z.w + 1 : z.x - 1;
+              labelAnchor = onRight ? "start" : "end";
+              labelY = cy + fontSize * 0.35;
+            } else if (isLine) {
+              // Horizontal road/river: above if room, else below
+              const above = z.y - 0.6 > 0;
+              labelY = above ? z.y - 0.8 : z.y + z.h + fontSize + 0.2;
+            } else if (isThin) {
+              // Below the shape, clamped to viewBox
+              labelY = Math.min(108, z.y + z.h + fontSize + 0.4);
+            } else {
+              // Inside-ish: below the centered icon
+              labelY = cy + iconSize / 1.6 + fontSize * 0.9;
+              // If that overflows the shape, push to just below the shape
+              if (labelY > z.y + z.h - 0.4) labelY = z.y + z.h + fontSize + 0.2;
+              // Final clamp inside padded viewBox
+              labelY = Math.min(109, Math.max(2, labelY));
+            }
+
             return (
               <g key={i}>
                 {shapeEl}
-                {z.icon && z.shape !== "road" && z.shape !== "river" && (
-                  <text x={cx} y={cy - 0.4} textAnchor="middle" fontSize={iconSize} dominantBaseline="middle">{z.icon}</text>
+                {z.icon && !isLine && (
+                  <text
+                    x={cx}
+                    y={isThin ? cy + iconSize / 3 : cy - 0.2}
+                    textAnchor="middle"
+                    fontSize={iconSize}
+                    dominantBaseline="middle"
+                  >
+                    {z.icon}
+                  </text>
                 )}
                 <text
-                  x={cx}
-                  y={labelTop ? z.y - 0.8 : cy + iconSize / 1.4 + fontSize * 0.9}
-                  textAnchor="middle"
+                  x={labelX}
+                  y={labelY}
+                  textAnchor={labelAnchor}
                   fontSize={fontSize}
                   fill="hsl(var(--foreground))"
-                  fontWeight="600"
+                  fontWeight="700"
                   style={{ paintOrder: "stroke" }}
                   stroke="hsl(var(--background))"
-                  strokeWidth="0.45"
+                  strokeWidth="0.7"
+                  strokeLinejoin="round"
                 >
                   {z.label}
                 </text>
