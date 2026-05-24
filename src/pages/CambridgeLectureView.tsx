@@ -133,14 +133,13 @@ const CambridgeLectureView = () => {
               {t(lecture.descriptionVi, lecture.description)}
             </p>
 
-            {/* Lesson context bar - explains what this lecture really is */}
-            <div className="mt-5 flex items-start gap-3 p-4 rounded-xl bg-gradient-to-r from-[#A855F7]/10 to-[#3B82F6]/5 border border-[#A855F7]/20">
-              <GraduationCap className="w-5 h-5 text-[#C4B5FD] flex-shrink-0 mt-0.5" />
-              <p className="text-slate-700 text-sm leading-relaxed">
-                <span className="font-bold text-slate-900">{t("Bài học này là gì?", "What is this lecture?")} </span>
+            {/* Lesson context bar — short & visual */}
+            <div className="mt-5 flex items-center gap-3 p-4 rounded-2xl bg-white/80 border-2 border-amber-200 shadow-sm">
+              <span className="text-3xl">🎈</span>
+              <p className="text-slate-700 text-sm font-semibold leading-snug">
                 {t(
-                  `Một buổi học tương tác chuẩn Cambridge ${levelCfg.label} giúp bạn hiểu chiến lược làm bài, tránh lỗi thường gặp, và luyện tập với câu hỏi mô phỏng đề thi thật. Hãy đọc theo đúng thứ tự: Mục tiêu → Quy tắc → Cảnh báo → Luyện tập → Quiz.`,
-                  `An interactive Cambridge ${levelCfg.label}-style lesson that walks you through exam strategy, common pitfalls, and exam-style practice. Follow this order: Objective → Rules → Watch Out → Practice → Quiz.`
+                  `Lộ trình bài học: 🎯 Mục tiêu → 📐 Quy tắc → 🐉 Cảnh báo → ✏️ Luyện tập → ⭐ Quiz`,
+                  `Lesson flow: 🎯 Objective → 📐 Rules → 🐉 Watch Out → ✏️ Practice → ⭐ Quiz`
                 )}
               </p>
             </div>
