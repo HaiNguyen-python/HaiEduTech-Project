@@ -224,10 +224,12 @@ export const BestMatchPick = ({
                             : "bg-card border-border hover:border-indigo-400/60"
                         }`}
                       >
-                        <div className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground mb-1">
+                        <div className="text-xs font-extrabold uppercase tracking-wide text-indigo-700 dark:text-indigo-300 mb-1.5">
                           {o.label}
                         </div>
-                        <div className="text-[13px] leading-snug text-foreground italic">"{(o as any).text}"</div>
+                        <div className="text-[15px] leading-relaxed text-foreground font-medium">
+                          "{(o as any).text}"
+                        </div>
                       </button>
                     );
                   }
