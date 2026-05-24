@@ -1,7 +1,6 @@
 // Cambridge Journey Dashboard - Vibrant Dark Theme with Rainbow Glow
 import { useState, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { cambridgeMockExams, CAMBRIDGE_LEVEL_LABELS } from "@/data/cambridgeMockExamData";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search, BookOpen, ArrowUpDown, Heart, Clock,
