@@ -547,44 +547,44 @@ const GroupedLectureSections = ({ lectures, bookmarked, completed, onToggleBookm
           <motion.div
             key={lvl}
             layout
-            className="rounded-2xl border backdrop-blur-sm overflow-hidden"
+            className="rounded-2xl border-2 backdrop-blur-sm overflow-hidden shadow-lg"
             style={{
-              background: "rgba(15,18,35,0.5)",
-              borderColor: `${cfg.color}33`,
+              background: "rgba(255,255,255,0.85)",
+              borderColor: `${cfg.color}66`,
             }}
           >
             {/* Level header - clickable to expand/collapse */}
             <button
               onClick={() => toggleLevel(lvl)}
-              className="w-full px-5 md:px-6 py-5 flex items-center gap-4 hover:bg-white/[0.03] transition-colors text-left"
-              style={{ background: `linear-gradient(90deg, ${cfg.gradientFrom}15, transparent)` }}
+              className="w-full px-5 md:px-6 py-5 flex items-center gap-4 hover:bg-white/60 transition-colors text-left"
+              style={{ background: `linear-gradient(90deg, ${cfg.gradientFrom}30, ${cfg.gradientTo}15)` }}
             >
               <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shrink-0 border"
-                style={{ background: `${cfg.color}20`, borderColor: `${cfg.color}40` }}
+                className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shrink-0 border-2 shadow-sm"
+                style={{ background: `${cfg.color}30`, borderColor: cfg.color }}
               >
                 {LEVEL_FILTERS.find(f => f.key === lvl)?.emoji}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1 flex-wrap">
-                  <h2 className="text-xl md:text-2xl font-bold text-white">{cfg.label}</h2>
-                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: `${cfg.color}20`, color: cfg.color }}>
+                  <h2 className="text-xl md:text-2xl font-bold text-slate-800">{cfg.label}</h2>
+                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: `${cfg.color}30`, color: cfg.color }}>
                     {levelLectures.length} {t("bài", "lessons")}
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="flex-1 max-w-xs h-1.5 rounded-full bg-white/10 overflow-hidden">
+                  <div className="flex-1 max-w-xs h-1.5 rounded-full bg-slate-200 overflow-hidden">
                     <div
                       className="h-full transition-all duration-500"
                       style={{ width: `${pct}%`, background: `linear-gradient(90deg, ${cfg.gradientFrom}, ${cfg.gradientTo})` }}
                     />
                   </div>
-                  <span className="text-xs font-medium text-[#94A3B8] tabular-nums">
+                  <span className="text-xs font-medium text-slate-600 tabular-nums">
                     {doneCount}/{levelLectures.length}
                   </span>
                 </div>
               </div>
-              <ChevronDown className={`w-6 h-6 text-[#94A3B8] shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+              <ChevronDown className={`w-6 h-6 text-slate-500 shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`} />
             </button>
 
             {/* Skill sub-sections */}
