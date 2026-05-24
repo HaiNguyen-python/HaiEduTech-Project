@@ -102,23 +102,81 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
           <Camera className="w-3 h-3" /> LIVE • FACE ID SCANNER
         </div>
 
-        {/* Avatar in centre — custom cartoon face so accessories overlay exactly. */}
+        {/* Avatar in centre — semi-realistic human face built with SVG so accessories overlay precisely. */}
         <div className="absolute inset-0 flex items-center justify-center">
           <motion.div
             animate={result && result.conf >= 75 ? bounceVariant : undefined}
-            className="relative w-44 h-44 sm:w-48 sm:h-48"
+            className="relative w-52 h-52 sm:w-60 sm:h-60"
           >
-            {/* Face circle */}
-            <div className="absolute inset-x-[10%] top-[12%] bottom-[6%] rounded-[45%] bg-gradient-to-b from-amber-200 to-amber-300 shadow-[0_8px_24px_rgba(34,211,238,0.35)]" />
-            {/* Hair */}
-            <div className="absolute top-[8%] left-[14%] right-[14%] h-[18%] rounded-t-full bg-slate-800" />
-            {/* Eyes */}
-            <div className="absolute top-[42%] left-[28%] w-3 h-3 rounded-full bg-slate-900" />
-            <div className="absolute top-[42%] right-[28%] w-3 h-3 rounded-full bg-slate-900" />
-            {/* Nose */}
-            <div className="absolute top-[55%] left-1/2 -translate-x-1/2 w-1.5 h-3 rounded-full bg-amber-500/70" />
-            {/* Mouth */}
-            <div className="absolute top-[70%] left-1/2 -translate-x-1/2 w-8 h-2 rounded-b-full bg-rose-500" />
+            <svg
+              viewBox="0 0 200 220"
+              className="absolute inset-0 w-full h-full drop-shadow-[0_8px_18px_rgba(34,211,238,0.35)]"
+            >
+              <defs>
+                <radialGradient id="cv-skin" cx="50%" cy="40%" r="60%">
+                  <stop offset="0%" stopColor="#fbd9b6" />
+                  <stop offset="70%" stopColor="#f0b48a" />
+                  <stop offset="100%" stopColor="#c98b65" />
+                </radialGradient>
+                <radialGradient id="cv-cheek" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#ff8a8a" stopOpacity="0.55" />
+                  <stop offset="100%" stopColor="#ff8a8a" stopOpacity="0" />
+                </radialGradient>
+                <linearGradient id="cv-hair" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stopColor="#2a1a10" />
+                  <stop offset="100%" stopColor="#4a2c1a" />
+                </linearGradient>
+                <radialGradient id="cv-iris" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#6b4a2a" />
+                  <stop offset="100%" stopColor="#2d1a08" />
+                </radialGradient>
+              </defs>
+
+              {/* Neck */}
+              <path d="M78 178 Q78 200 100 204 Q122 200 122 178 Z" fill="url(#cv-skin)" />
+              {/* Ears */}
+              <ellipse cx="38" cy="112" rx="10" ry="16" fill="url(#cv-skin)" />
+              <ellipse cx="162" cy="112" rx="10" ry="16" fill="url(#cv-skin)" />
+              {/* Face shape */}
+              <path
+                d="M100 28 C145 28 162 66 162 110 C162 156 135 188 100 188 C65 188 38 156 38 110 C38 66 55 28 100 28 Z"
+                fill="url(#cv-skin)"
+              />
+              {/* Cheeks */}
+              <ellipse cx="62" cy="130" rx="14" ry="10" fill="url(#cv-cheek)" />
+              <ellipse cx="138" cy="130" rx="14" ry="10" fill="url(#cv-cheek)" />
+              {/* Hair */}
+              <path
+                d="M40 92 C40 50 70 22 100 22 C130 22 160 50 160 92 C150 70 140 62 122 60 C110 50 90 50 78 60 C60 62 50 70 40 92 Z"
+                fill="url(#cv-hair)"
+              />
+              {/* Eyebrows */}
+              <path d="M58 92 Q72 84 86 92" stroke="#2a1a10" strokeWidth="4" strokeLinecap="round" fill="none" />
+              <path d="M114 92 Q128 84 142 92" stroke="#2a1a10" strokeWidth="4" strokeLinecap="round" fill="none" />
+              {/* Eyes — sclera + iris + pupil + highlight */}
+              <ellipse cx="72" cy="108" rx="10" ry="6" fill="#fff" />
+              <ellipse cx="128" cy="108" rx="10" ry="6" fill="#fff" />
+              <circle cx="72" cy="108" r="5" fill="url(#cv-iris)" />
+              <circle cx="128" cy="108" r="5" fill="url(#cv-iris)" />
+              <circle cx="72" cy="108" r="2.2" fill="#0a0a0a" />
+              <circle cx="128" cy="108" r="2.2" fill="#0a0a0a" />
+              <circle cx="73.5" cy="106" r="1" fill="#fff" />
+              <circle cx="129.5" cy="106" r="1" fill="#fff" />
+              {/* Nose */}
+              <path
+                d="M100 116 Q96 138 92 148 Q100 154 108 148 Q104 138 100 116"
+                fill="none"
+                stroke="#b07a55"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+              />
+              <ellipse cx="96" cy="150" rx="2" ry="1.2" fill="#8a5a3a" opacity="0.5" />
+              <ellipse cx="104" cy="150" rx="2" ry="1.2" fill="#8a5a3a" opacity="0.5" />
+              {/* Lips */}
+              <path d="M86 164 Q100 158 114 164 Q100 168 86 164 Z" fill="#c64a55" />
+              <path d="M86 164 Q100 174 114 164 Q100 172 86 164 Z" fill="#a83444" />
+              <path d="M86 164 Q100 162 114 164" stroke="#7a2030" strokeWidth="0.8" fill="none" />
+            </svg>
 
             {/* Accessory overlays — pinned to exact face regions */}
             <AnimatePresence>
@@ -127,7 +185,7 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
                   initial={{ y: -16, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: -16, opacity: 0 }}
-                  className="absolute -top-2 left-1/2 -translate-x-1/2 text-5xl pointer-events-none"
+                  className="absolute -top-3 left-1/2 -translate-x-1/2 text-6xl pointer-events-none"
                 >
                   🎩
                 </motion.span>
@@ -137,7 +195,7 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   exit={{ scale: 0 }}
-                  className="absolute top-[36%] left-1/2 -translate-x-1/2 text-[44px] leading-none pointer-events-none"
+                  className="absolute top-[44%] left-1/2 -translate-x-1/2 -translate-y-1/2 text-[44px] leading-none pointer-events-none"
                 >
                   🕶️
                 </motion.span>
@@ -147,7 +205,7 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
                   initial={{ y: 10, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: 10, opacity: 0 }}
-                  className="absolute top-[64%] left-1/2 -translate-x-1/2 text-[42px] leading-none pointer-events-none"
+                  className="absolute top-[72%] left-1/2 -translate-x-1/2 text-[44px] leading-none pointer-events-none"
                 >
                   🧔
                 </motion.span>
@@ -157,7 +215,7 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   exit={{ scale: 0 }}
-                  className="absolute top-[52%] left-1/2 -translate-x-1/2 text-[52px] leading-none pointer-events-none"
+                  className="absolute top-[62%] left-1/2 -translate-x-1/2 text-[54px] leading-none pointer-events-none"
                 >
                   😷
                 </motion.span>
