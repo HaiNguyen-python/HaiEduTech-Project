@@ -860,7 +860,6 @@ const TRACKS: Track[] = [
     ],
   },
   {
-  {
     id: "study", emoji: "🎓", Icon: BookOpen,
     title: "AI & Học tập thông minh", tag: "Học bá thời AI",
     desc: "Dùng ChatGPT, NotebookLM, Gemini đúng cách để học bài, ôn thi — không để AI làm thay.",
