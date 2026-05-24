@@ -169,10 +169,10 @@ const CambridgeLectures = () => {
                   key={level}
                   whileHover={{ scale: 1.03 }}
                   onClick={() => setActiveLevel(activeLevel === level ? "all" : level)}
-                  className={`relative p-4 rounded-2xl border transition-all backdrop-blur-sm text-left ${
+                  className={`relative p-4 rounded-2xl border-2 transition-all backdrop-blur-sm text-left shadow-md ${
                     activeLevel === level
-                      ? "border-white/30 bg-white/[0.08]"
-                      : "border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.05]"
+                      ? "border-white bg-white/90"
+                      : "border-white/60 bg-white/70 hover:bg-white/85"
                   }`}
                   style={isComplete ? { boxShadow: `0 0 20px ${cfg.glowColor}, 0 0 40px ${cfg.glowColor}` } : undefined}
                 >
