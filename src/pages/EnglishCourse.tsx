@@ -220,7 +220,7 @@ const courseData: Record<string, {
   sat: {
     title: "Luyện thi SAT", titleEn: "SAT Preparation",
     level: "Trung cấp → Nâng cao", levelEn: "Intermediate → Advanced",
-    image: ieltsImg,
+    image: satImg,
     heroDesc: "Chương trình luyện thi SAT toàn diện giúp học sinh Việt Nam đạt điểm cao trong kỳ thi SAT Digital. Tập trung vào Reading & Writing, từ vựng nâng cao và chiến lược làm bài thông minh - mở cổng vào các trường đại học hàng đầu tại Mỹ.",
     heroDescEn: "Comprehensive SAT preparation helping Vietnamese students achieve high scores on the Digital SAT. Focused on Reading & Writing, advanced vocabulary, and smart test strategies - your gateway to top US universities.",
     stats: [],
