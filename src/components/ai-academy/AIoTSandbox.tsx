@@ -10,6 +10,21 @@ import { motion } from "framer-motion";
 import { Cpu, TrafficCone, Play, Pause } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
+import { BonusGames } from "./SandboxBonusGames";
+
+const IOT_TF = [
+  { q: "AIoT = AI + IoT (cảm biến kết nối Internet).", a: true },
+  { q: "Đèn giao thông thông minh tự thay đổi theo lưu lượng xe.", a: true },
+  { q: "Cảm biến IoT chỉ thu thập dữ liệu, không gửi đi đâu.", a: false, why: "IoT phải truyền dữ liệu về cloud / edge để xử lý." },
+  { q: "Singapore dùng AIoT để giảm 20-40% kẹt xe.", a: true },
+  { q: "Edge computing nghĩa là xử lý ngay tại thiết bị.", a: true },
+];
+const IOT_PAIRS = [
+  { a: "Sensor", b: "Thiết bị đo (nhiệt độ, ánh sáng, xe…)" },
+  { a: "Actuator", b: "Bộ phận hành động (mở đèn, quay quạt)" },
+  { a: "Edge AI", b: "AI chạy ngay trên thiết bị nhỏ" },
+  { a: "Smart City", b: "Thành phố dùng AIoT để vận hành" },
+];
 
 type Lane = "N" | "S" | "E" | "W";
 const LANES: Lane[] = ["N", "S", "E", "W"];
