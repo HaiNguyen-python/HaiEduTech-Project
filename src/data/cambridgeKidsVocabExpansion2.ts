@@ -192,4 +192,4 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION_2: CambridgeKidsWord[] = ([
   { word: "reliable", vi: "đáng tin cậy", emoji: "🔒", level: "PET", example: "He is a reliable friend.", exampleVi: "Cậu ấy là một người bạn đáng tin cậy." },
   { word: "reputation", vi: "danh tiếng", emoji: "🌟", level: "PET", example: "The hotel has a great reputation.", exampleVi: "Khách sạn có danh tiếng tốt." },
   { word: "sufficient", vi: "đủ", emoji: "✅", level: "PET", example: "We have sufficient food.", exampleVi: "Chúng ta có đủ thức ăn." },
-].filter(w => w.word !== "ice cream"); // drop placeholder duplicate
+] as CambridgeKidsWord[]).filter(w => w.word !== "ice cream"); // drop placeholder duplicate
