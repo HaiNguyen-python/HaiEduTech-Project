@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Search, BookOpen, ArrowUpDown, Heart, Clock,
   Headphones, FileText, MessageSquare, BookType, ChevronRight, ChevronDown,
-  GraduationCap, TrendingUp, Sparkles, Star, PlayCircle, CheckCircle2, Lock, SlidersHorizontal
+  GraduationCap, TrendingUp, Sparkles, Star, PlayCircle, CheckCircle2, Lock
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -56,7 +56,7 @@ const CambridgeLectures = () => {
     catch { return new Set(); }
   });
   const [showBookmarked, setShowBookmarked] = useState(false);
-  const [showFilters, setShowFilters] = useState(false);
+  
 
   const toggleBookmark = (id: string) => {
     setBookmarked(prev => {
