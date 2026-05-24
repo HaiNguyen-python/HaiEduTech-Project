@@ -941,12 +941,35 @@ const AIAcademy = () => {
   const [progress, setProgress] = useState<Progress>(() => loadProgress());
   const [active, setActive] = useState<TrackId | null>(null);
   const [overlay, setOverlay] = useState<{ track: Track; stars: number } | null>(null);
+  // Certificate state — unlocks only when totalStars === maxStars
+  const [certOpen, setCertOpen] = useState(false);
+  const [studentName, setStudentName] = useState<string>("");
+  const [studentSeed, setStudentSeed] = useState<string>("");
 
   useEffect(() => { saveProgress(progress); }, [progress]);
 
+  // Fetch the signed-in user's display name once so the certificate can be
+  // personalized. Guests fall back to a default label.
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!active || !user) return;
+        const meta = (user.user_metadata || {}) as Record<string, unknown>;
+        const name = (meta.full_name as string) || (meta.name as string) || user.email?.split("@")[0] || "";
+        setStudentName(name);
+        setStudentSeed(user.id);
+      } catch { /* ignore */ }
+    })();
+    return () => { active = false; };
+  }, []);
+
   const totalStars = (Object.values(progress) as Progress[TrackId][]).reduce((a, b) => a + b.stars, 0);
   const totalBadges = (Object.values(progress) as Progress[TrackId][]).filter((p) => p.badge).length;
-  const overallPct = (totalStars / (TRACKS.length * 3)) * 100;
+  const maxStars = TRACKS.length * 3;
+  const overallPct = (totalStars / maxStars) * 100;
+  const certificateUnlocked = totalStars >= maxStars;
 
   const handleQuizComplete = async (track: Track, passed: boolean, score: number) => {
     const stars = Math.min(3, score);
