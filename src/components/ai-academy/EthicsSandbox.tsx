@@ -99,6 +99,8 @@ const EthicsSandbox = () => {
       <p className="text-xs text-muted-foreground">
         💡 AI <b>không có ý thức</b> — nó chỉ học từ dữ liệu. Nếu dữ liệu thiên vị, AI sẽ thiên vị. Đó là lý do <b>AI Ethics</b> là môn quan trọng nhất ở MIT, Stanford.
       </p>
+
+      <BonusGames tfItems={ETH_TF} matchPairs={ETH_PAIRS} accent="from-amber-500 to-rose-500" border="border-amber-400/40" />
     </div>
   );
 };
