@@ -295,9 +295,9 @@ const EnglishCourse = () => {
 
             {/* Hero with image */}
             <div className="glass-card rounded-2xl overflow-hidden mb-8">
-              <div className="relative h-48 md:h-64 overflow-hidden">
-                <img src={course.image} alt={t(course.title, course.titleEn)} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <div className={`relative ${courseId === "sat" ? "h-64 md:h-80" : "h-48 md:h-64"} overflow-hidden`}>
+                <img src={course.image} alt={t(course.title, course.titleEn)} className={`w-full h-full object-cover ${courseId === "sat" ? "object-[center_30%]" : ""}`} />
+                <div className={`absolute inset-0 ${courseId === "sat" ? "bg-gradient-to-t from-violet-950/85 via-indigo-900/40 to-transparent" : "bg-gradient-to-t from-black/60 to-transparent"}`} />
                 <div className="absolute bottom-4 left-6 right-6">
                   <div className="flex items-center gap-2 mb-2">
                     <BookOpen className="w-5 h-5 text-white" />
