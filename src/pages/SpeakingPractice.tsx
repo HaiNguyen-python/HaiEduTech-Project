@@ -115,6 +115,7 @@ const SpeakingPractice = () => {
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [timer, setTimer] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [upgrading, setUpgrading] = useState(false);
   const [result, setResult] = useState<SpeakingResult | null>(null);
   const [showSuggestions, setShowSuggestions] = useState(true);
   const [showModelAnswer, setShowModelAnswer] = useState(false);
@@ -401,6 +402,39 @@ const SpeakingPractice = () => {
     }
     setLoading(false);
   };
+
+  // Upgrade student's answer to Band 8.0+ (independent from grading)
+  const handleUpgrade = useCallback(async () => {
+    if (!currentQ) return;
+    setUpgrading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("upgrade-speaking", {
+        body: {
+          question: currentQ.question,
+          part: selectedPart,
+          transcript: liveTranscript,
+        },
+      });
+      if (error) throw error;
+      const upgraded = (data as { upgradedAnswer?: string; error?: string })?.upgradedAnswer;
+      if (!upgraded) throw new Error((data as any)?.error || "Empty upgrade");
+      setResult((prev) => {
+        if (prev) return { ...prev, upgradedAnswer: upgraded };
+        // No grading yet — create a minimal result so the upgrade panel renders
+        return {
+          overall: 0,
+          criteria: [],
+          transcript: liveTranscript || "",
+          suggestions: [],
+          upgradedAnswer: upgraded,
+        } as SpeakingResult;
+      });
+    } catch (e) {
+      console.error("upgrade failed", e);
+    } finally {
+      setUpgrading(false);
+    }
+  }, [currentQ, selectedPart, liveTranscript]);
 
   const getScoreColor = (score: number) => {
     if (score >= 7.5) return "text-green-600";
@@ -853,6 +887,21 @@ const SpeakingPractice = () => {
                           )}
                           {loading ? t("Đang chấm...", "Grading...") : t("Chấm điểm", "Grade")}
                         </Button>
+                        <Button
+                          onClick={handleUpgrade}
+                          disabled={upgrading}
+                          variant="outline"
+                          className="gap-2 border-emerald-400/60 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
+                        >
+                          {upgrading ? (
+                            <motion.div className="w-4 h-4 border-2 border-emerald-500/30 border-t-emerald-500 rounded-full" animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} />
+                          ) : (
+                            <Sparkles className="w-4 h-4" />
+                          )}
+                          {upgrading
+                            ? t("Đang nâng cấp...", "Upgrading...")
+                            : t("Nâng cấp lên Band 8.0+", "Upgrade to Band 8.0+")}
+                        </Button>
                       </>
                     )}
                   </div>
@@ -1112,13 +1161,29 @@ const SpeakingPractice = () => {
                         </div>
                       )}
 
-                      {/* Upgraded Answer */}
-                      {result.upgradedAnswer && (
+                      {/* Upgraded Answer (Band 8.0+) */}
+                      {result.upgradedAnswer ? (
                         <div className="bg-emerald-50/50 dark:bg-emerald-950/10 border border-emerald-200/40 rounded-xl p-5">
-                          <h4 className="text-base font-bold text-foreground mb-3 flex items-center gap-2">
-                            <BookOpen className="w-5 h-5 text-emerald-600" />
-                            {t("Bài nói của bạn – Phiên bản Band 7.5+", "Your Answer – Band 7.5+ Version")}
-                          </h4>
+                          <div className="flex items-start justify-between gap-2 mb-3">
+                            <h4 className="text-base font-bold text-foreground flex items-center gap-2">
+                              <BookOpen className="w-5 h-5 text-emerald-600" />
+                              {t("Bài nói của bạn – Phiên bản Band 8.0+", "Your Answer – Band 8.0+ Version")}
+                            </h4>
+                            <Button
+                              onClick={handleUpgrade}
+                              disabled={upgrading}
+                              size="sm"
+                              variant="ghost"
+                              className="text-emerald-700 dark:text-emerald-400 gap-1.5 h-7 px-2"
+                            >
+                              {upgrading ? (
+                                <motion.div className="w-3 h-3 border-2 border-emerald-500/30 border-t-emerald-500 rounded-full" animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} />
+                              ) : (
+                                <Sparkles className="w-3.5 h-3.5" />
+                              )}
+                              {t("Tạo lại", "Regenerate")}
+                            </Button>
+                          </div>
                           <p className="text-base text-foreground leading-8">
                             {result.upgradedAnswer.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
                               part.startsWith("**") && part.endsWith("**")
@@ -1126,6 +1191,29 @@ const SpeakingPractice = () => {
                                 : <span key={i}>{part}</span>
                             )}
                           </p>
+                        </div>
+                      ) : (
+                        <div className="bg-emerald-50/30 dark:bg-emerald-950/10 border border-dashed border-emerald-300/50 rounded-xl p-5 text-center">
+                          <p className="text-sm text-muted-foreground mb-3">
+                            {t(
+                              "Chưa có phiên bản nâng cấp cho câu trả lời này.",
+                              "No upgraded version yet for your answer."
+                            )}
+                          </p>
+                          <Button
+                            onClick={handleUpgrade}
+                            disabled={upgrading}
+                            className="gap-2 bg-gradient-to-r from-emerald-500 to-primary text-white hover:brightness-110"
+                          >
+                            {upgrading ? (
+                              <motion.div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full" animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} />
+                            ) : (
+                              <Sparkles className="w-4 h-4" />
+                            )}
+                            {upgrading
+                              ? t("Đang nâng cấp...", "Upgrading...")
+                              : t("Nâng cấp câu trả lời lên Band 8.0+", "Upgrade my answer to Band 8.0+")}
+                          </Button>
                         </div>
                       )}
 
