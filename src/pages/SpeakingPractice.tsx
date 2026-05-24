@@ -115,6 +115,7 @@ const SpeakingPractice = () => {
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [timer, setTimer] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [upgrading, setUpgrading] = useState(false);
   const [result, setResult] = useState<SpeakingResult | null>(null);
   const [showSuggestions, setShowSuggestions] = useState(true);
   const [showModelAnswer, setShowModelAnswer] = useState(false);
