@@ -248,17 +248,17 @@ const CambridgeYleVocabulary = () => {
                     onClick={() => setLevel(lv)}
                     className="px-4 py-2.5 rounded-2xl border-2 font-bold uppercase tracking-wide text-sm transition-all shadow-sm flex items-center gap-2"
                     style={{
-                      background: active ? th.gradient : "rgba(255,255,255,0.85)",
-                      color: active ? "#FFFFFF" : th.color,
-                      borderColor: active ? "#FFFFFF" : th.color,
-                      boxShadow: active ? `0 4px 14px ${th.color}55` : undefined,
+                      background: active ? th.gradient : "#FFFFFF",
+                      color: active ? "#1F2937" : "#475569",
+                      borderColor: th.color,
+                      boxShadow: active ? `0 3px 10px ${th.color}55` : undefined,
                     }}
                   >
                     <span>{th.emoji}</span>
                     {lv}
-                    <span className="px-2 py-0.5 rounded-full text-[10px]" style={{
-                      background: active ? "rgba(255,255,255,0.3)" : `${th.color}22`,
-                      color: active ? "#FFFFFF" : th.color,
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold" style={{
+                      background: active ? "rgba(255,255,255,0.55)" : th.soft,
+                      color: "#334155",
                     }}>
                       {lvDone}/{lvWords.length}
                     </span>
