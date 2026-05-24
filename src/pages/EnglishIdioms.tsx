@@ -33,10 +33,16 @@ const TABS: { key: Tab; labelEn: string; labelVi: string; icon: React.ComponentT
   { key: "equivalent", labelEn: "VN Equivalent",      labelVi: "Tục ngữ tương đương", icon: Trophy, color: "from-rose-500 to-pink-500" },
 ];
 
+// Unified palette across all categories (amber/orange) for a calm, consistent look.
+// Borders are deeper (amber-500/amber-600) for clear separation between cards.
+const UNIFIED_CARD_BG = "bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-amber-950/40 dark:via-orange-950/30 dark:to-yellow-950/30";
+const UNIFIED_CARD_BORDER = "border-amber-500/70 dark:border-amber-600/70";
+const UNIFIED_REVEAL_BTN = "bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md shadow-amber-500/30";
+
 const CATEGORY_META: Record<IdiomCategory, { labelEn: string; labelVi: string; emoji: string; chip: string; cardBg: string; cardBorder: string; revealBtn: string }> = {
-  idiom:   { labelEn: "Idiom",   labelVi: "Thành ngữ",    emoji: "🎭", chip: "bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/40", cardBg: "bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-amber-950/40 dark:via-orange-950/30 dark:to-yellow-950/30", cardBorder: "border-amber-300/70 dark:border-amber-700/50", revealBtn: "bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md shadow-amber-500/30" },
-  proverb: { labelEn: "Proverb", labelVi: "Tục ngữ",      emoji: "📜", chip: "bg-teal-500/15 text-teal-700 dark:text-teal-300 border-teal-500/40",    cardBg: "bg-gradient-to-br from-teal-50 via-emerald-50 to-cyan-50 dark:from-teal-950/40 dark:via-emerald-950/30 dark:to-cyan-950/30",      cardBorder: "border-teal-300/70 dark:border-teal-700/50",   revealBtn: "bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-white shadow-md shadow-teal-500/30" },
-  quote:   { labelEn: "Quote",   labelVi: "Danh ngôn",    emoji: "💬", chip: "bg-violet-500/15 text-violet-700 dark:text-violet-300 border-violet-500/40", cardBg: "bg-gradient-to-br from-violet-50 via-fuchsia-50 to-pink-50 dark:from-violet-950/40 dark:via-fuchsia-950/30 dark:to-pink-950/30",      cardBorder: "border-violet-300/70 dark:border-violet-700/50", revealBtn: "bg-gradient-to-r from-violet-500 to-fuchsia-500 hover:from-violet-600 hover:to-fuchsia-600 text-white shadow-md shadow-violet-500/30" },
+  idiom:   { labelEn: "Idiom",   labelVi: "Thành ngữ", emoji: "🎭", chip: "bg-amber-500/20 text-amber-800 dark:text-amber-200 border-amber-600/60",   cardBg: UNIFIED_CARD_BG, cardBorder: UNIFIED_CARD_BORDER, revealBtn: UNIFIED_REVEAL_BTN },
+  proverb: { labelEn: "Proverb", labelVi: "Tục ngữ",   emoji: "📜", chip: "bg-orange-500/20 text-orange-800 dark:text-orange-200 border-orange-600/60", cardBg: UNIFIED_CARD_BG, cardBorder: UNIFIED_CARD_BORDER, revealBtn: UNIFIED_REVEAL_BTN },
+  quote:   { labelEn: "Quote",   labelVi: "Danh ngôn", emoji: "💬", chip: "bg-yellow-500/20 text-yellow-800 dark:text-yellow-200 border-yellow-600/60", cardBg: UNIFIED_CARD_BG, cardBorder: UNIFIED_CARD_BORDER, revealBtn: UNIFIED_REVEAL_BTN },
 };
 
 // Deterministic shuffle (Fisher–Yates with sin-based RNG)
