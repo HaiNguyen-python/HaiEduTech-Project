@@ -607,14 +607,14 @@ const GroupedLectureSections = ({ lectures, bookmarked, completed, onToggleBookm
                       return (
                         <div key={skill.key}>
                           {/* Skill heading */}
-                          <div className="flex items-center gap-2.5 mb-3 pb-2 border-b border-white/[0.06]">
-                            <div className="w-8 h-8 rounded-lg bg-white/[0.04] border border-white/10 flex items-center justify-center">
-                              <SkillIcon className="w-4 h-4 text-[#C4B5FD]" />
+                          <div className="flex items-center gap-2.5 mb-3 pb-2 border-b-2 border-slate-200">
+                            <div className="w-8 h-8 rounded-lg bg-[#C780FA]/20 border-2 border-[#C780FA]/40 flex items-center justify-center">
+                              <SkillIcon className="w-4 h-4 text-[#7C3AED]" />
                             </div>
-                            <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+                            <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider">
                               {t(skill.labelVi, skill.label)}
                             </h3>
-                            <span className="text-xs text-[#64748B] tabular-nums ml-auto">
+                            <span className="text-xs text-slate-500 tabular-nums ml-auto font-medium">
                               {skillDone}/{skillLessons.length}
                             </span>
                           </div>
@@ -628,14 +628,14 @@ const GroupedLectureSections = ({ lectures, bookmarked, completed, onToggleBookm
                                 <Link
                                   key={lec.id}
                                   to={`/cambridge-lectures/${lec.id}`}
-                                  className="group relative flex items-start gap-3 px-3.5 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.07] hover:border-white/20 transition-all"
+                                  className="group relative flex items-start gap-3 px-3.5 py-3 rounded-xl bg-white border-2 border-slate-200 hover:bg-yellow-50 hover:border-[#FFD93D] transition-all shadow-sm hover:shadow-md"
                                 >
                                   {/* Number / done badge */}
                                   <div
                                     className={`w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold shrink-0 ${
                                       isDone
-                                        ? "bg-emerald-500/20 text-emerald-300"
-                                        : "bg-white/[0.06] text-[#CBD5E1]"
+                                        ? "bg-emerald-100 text-emerald-600 border-2 border-emerald-300"
+                                        : "bg-gradient-to-br from-[#FFD93D] to-[#FF9F1C] text-white shadow-sm"
                                     }`}
                                   >
                                     {isDone ? <CheckCircle2 className="w-5 h-5" /> : String(idx + 1).padStart(2, "0")}
@@ -643,20 +643,20 @@ const GroupedLectureSections = ({ lectures, bookmarked, completed, onToggleBookm
                                   <div className="flex-1 min-w-0">
                                     <div className="flex items-center gap-1.5 mb-1 flex-wrap">
                                       {isStart && (
-                                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-gradient-to-r from-[#A78BFA] to-[#7C3AED] text-white animate-pulse">
+                                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-gradient-to-r from-[#FF6B9D] to-[#C780FA] text-white animate-pulse">
                                           ★ {t("Bắt đầu", "Start")}
                                         </span>
                                       )}
                                       {lec.isNew && (
-                                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#FF6B6B]/20 text-[#FCA5A5] border border-[#FF6B6B]/30">
+                                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#FF6B6B] text-white">
                                           NEW
                                         </span>
                                       )}
                                     </div>
-                                    <p className="text-sm font-semibold text-white leading-snug line-clamp-2 group-hover:text-[#C4B5FD] transition-colors">
+                                    <p className="text-sm font-semibold text-slate-800 leading-snug line-clamp-2 group-hover:text-[#7C3AED] transition-colors">
                                       {t(lec.titleVi, lec.title)}
                                     </p>
-                                    <div className="flex items-center gap-2 mt-1 text-[11px] text-[#64748B]">
+                                    <div className="flex items-center gap-2 mt-1 text-[11px] text-slate-500">
                                       <span className="flex items-center gap-0.5"><Clock className="w-3 h-3" />{lec.duration}</span>
                                       <span>•</span>
                                       <span>{lec.practiceSet.length} {t("BT", "ex")}</span>
@@ -664,10 +664,10 @@ const GroupedLectureSections = ({ lectures, bookmarked, completed, onToggleBookm
                                   </div>
                                   <button
                                     onClick={e => { e.preventDefault(); e.stopPropagation(); onToggleBookmark(lec.id); }}
-                                    className="p-1 rounded hover:bg-white/10 transition-colors shrink-0"
+                                    className="p-1 rounded hover:bg-rose-50 transition-colors shrink-0"
                                     aria-label="Bookmark"
                                   >
-                                    <Heart className={`w-4 h-4 ${bookmarked.has(lec.id) ? "fill-rose-400 text-rose-400" : "text-[#334155]"}`} />
+                                    <Heart className={`w-4 h-4 ${bookmarked.has(lec.id) ? "fill-rose-400 text-rose-400" : "text-slate-300"}`} />
                                   </button>
                                 </Link>
                               );
