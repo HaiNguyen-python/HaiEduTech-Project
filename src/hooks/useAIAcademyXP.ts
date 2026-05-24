@@ -74,8 +74,9 @@ const save = (s: XPState) => {
 };
 
 export const getLevelInfo = (xp: number) => {
-  let current = LEVELS[0];
-  let next: typeof LEVELS[number] | null = LEVELS[1] ?? null;
+  let current: LevelDef = LEVELS[0];
+  let next: LevelDef | null = LEVELS[1] ?? null;
+
   for (let i = 0; i < LEVELS.length; i++) {
     if (xp >= LEVELS[i].xpRequired) {
       current = LEVELS[i];
