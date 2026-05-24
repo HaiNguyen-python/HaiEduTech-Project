@@ -366,12 +366,24 @@ const CambridgeYleVocabulary = () => {
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => { if (confirm(t("Đặt lại tiến độ?", "Reset progress?"))) setMastered(new Set()); }}
+                  onClick={() => {
+                    if (!confirm(t("Đặt lại tiến độ?", "Reset progress?"))) return;
+                    [...mastered].forEach(k => toggle(k));
+                  }}
                   className="mt-3 text-xs text-slate-500 hover:text-rose-600 w-full"
                 >
                   {t("Đặt lại tiến độ", "Reset progress")}
                 </Button>
               )}
+            </div>
+
+            {/* Student leaderboard */}
+            <div className="mt-3">
+              <VocabMasteryLeaderboard
+                subject={MASTERY_SUBJECT}
+                currentCount={mastered.size}
+                label={t("🏆 BXH Cambridge YLE", "🏆 Cambridge YLE Ranking")}
+              />
             </div>
           </aside>
         </section>
