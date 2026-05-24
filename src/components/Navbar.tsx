@@ -212,12 +212,12 @@ const Navbar = () => {
     { to: "/specialized-language?lang=finnish", label: t("🧠 Tiếng Phần Lan Chuyên ngành", "🧠 Specialized Finnish") },
   ];
   const programmingSubs: SubItem[] = [
-    { to: "/programming", label: t("Tổng quan", "Overview"), icon: Library },
-    { to: "#prog-foundation-group", label: t("Lộ trình Cơ bản", "Foundation Track"), icon: GraduationCap, groupLabel: "prog-foundation", children: [
+    { to: "/programming", label: t("Tổng quan", "Overview"), icon: Compass },
+    { to: "#prog-foundation-group", label: t("Lộ trình Cơ bản", "Foundation Track"), icon: Blocks, groupLabel: "prog-foundation", children: [
       { to: "/programming?pillar=python-pathway", label: t("Introduction to Programming", "Introduction to Programming"), icon: Code2 },
       { to: "/python-challenges", label: t("150 Thử thách Python", "150 Python Challenges"), icon: Trophy },
     ] },
-    { to: "#prog-ai-data-group", label: t("AI & Data Engineering", "AI & Data Engineering"), icon: Sparkles, groupLabel: "prog-ai-data", children: [
+    { to: "#prog-ai-data-group", label: t("AI & Data Engineering", "AI & Data Engineering"), icon: Brain, groupLabel: "prog-ai-data", children: [
       { to: "/programming/prog-ai-foundation", label: t("AI Foundation", "AI Foundation"), icon: Brain },
       { to: "/programming/prog-ml", label: t("Machine Learning", "Machine Learning"), icon: Bot },
       { to: "/programming/dl-foundations", label: t("Deep Learning", "Deep Learning"), icon: Network },
@@ -227,13 +227,13 @@ const Navbar = () => {
       { to: "/programming/prog-data-pipeline", label: t("Data Engineer", "Data Engineer"), icon: Workflow },
       { to: "/programming/cloud-fundamentals", label: t("Cloud Engineer", "Cloud Engineer"), icon: Cloud },
     ] },
-    { to: "#prog-software-web-group", label: t("Software & Web Engineering", "Software & Web Engineering"), icon: Settings2, groupLabel: "prog-software-web", children: [
-      { to: "/programming?pillar=software-eng", label: t("Software & Web Engineering", "Software & Web Engineering"), icon: Settings2 },
+    { to: "#prog-software-web-group", label: t("Software & Web Engineering", "Software & Web Engineering"), icon: Code2, groupLabel: "prog-software-web", children: [
+      { to: "/programming?pillar=software-eng", label: t("Software & Web Engineering", "Software & Web Engineering"), icon: Code2 },
       { to: "/programming/se-foundations/se-git", label: t("Git Branching Simulator", "Git Branching Simulator"), icon: Workflow },
       { to: "/programming/software-eng-interview", label: t("Software Engineer Interview", "Software Engineer Interview"), icon: MessagesSquare },
     ] },
     { to: "/programming/ai-academy", label: t("AI Academy (Cấp 2–3)", "AI Academy (Grade 6–12)"), icon: RobotIcon },
-    { to: "#prog-career-group", label: t("Sự nghiệp", "Career"), icon: Briefcase, groupLabel: "prog-career", children: [
+    { to: "#prog-career-group", label: t("Sự nghiệp", "Career"), icon: Rocket, groupLabel: "prog-career", children: [
       { to: "/programming/career-roadmap", label: t("Career Roadmap", "Career Roadmap"), icon: Sparkles },
       { to: "/programming/interview-questions", label: t("Câu hỏi Phỏng vấn", "Interview Questions"), icon: MessagesSquare },
       { to: "/programming/job-opportunities", label: t("Cơ hội Việc làm 🇫🇮", "Job Opportunities 🇫🇮"), icon: Target },
