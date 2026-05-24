@@ -454,6 +454,212 @@ const TRACKS: Track[] = [
       },
     ],
   },
+  {
+    id: "recsys",
+    emoji: "📊",
+    Icon: Database,
+    title: "Phân tích & Gợi ý dữ liệu",
+    tag: "Kho báu dữ liệu",
+    desc: "Khám phá cách thuật toán YouTube, TikTok hiểu sở thích của bạn và thử tài xây dựng một bộ lọc gợi ý nội dung thông minh.",
+    gradient: "from-amber-400 via-orange-500 to-yellow-600",
+    ring: "ring-amber-400/50",
+    badge: { name: "Data Engineer", emoji: "📈" },
+    story: [
+      {
+        heading: "📦 Dữ liệu = Dầu mỏ thế kỷ 21",
+        body: "Mỗi giây trên thế giới: 6 triệu tìm kiếm Google, 500 giờ video lên YouTube, 100 triệu story Instagram. Ai biết <b>khai thác</b> dữ liệu đó = vàng.",
+      },
+      {
+        heading: "🎯 Vector sở thích",
+        body: "App biểu diễn bạn thành dãy số (vector) cho từng chủ đề: thể thao 0.9, game 0.7, nhạc 0.3... Mỗi video cũng có vector. AI tính <b>cosine similarity</b> để đề xuất.",
+      },
+      {
+        heading: "⚠️ Bong bóng lọc",
+        body: "Ngưỡng càng cao → AI chỉ gợi ý nội dung <b>cực kỳ</b> giống bạn → bạn bị nhốt trong 'bong bóng'. Tự chủ động xem nhiều thể loại để mở rộng tầm nhìn!",
+      },
+    ],
+    Sandbox: RecsysSandbox,
+    quiz: [
+      {
+        prompt: "App nào dùng Recommender System mạnh nhất?",
+        items: [
+          { id: "a", label: "TikTok 🎵", bucket: "yes" },
+          { id: "b", label: "Netflix 🎬", bucket: "yes" },
+          { id: "c", label: "Shopee Mall 🛍️", bucket: "yes" },
+          { id: "d", label: "Máy tính bỏ túi 🧮", bucket: "no" },
+          { id: "e", label: "Notepad đơn giản 📝", bucket: "no" },
+        ],
+        buckets: [
+          { id: "yes", label: "Có Recommender" },
+          { id: "no", label: "Không cần" },
+        ],
+      },
+      {
+        prompt: "Dữ liệu nào AI thu thập để hiểu bạn?",
+        items: [
+          { id: "1", label: "Lượt xem & thời gian xem", bucket: "use" },
+          { id: "2", label: "Lượt like/share/comment", bucket: "use" },
+          { id: "3", label: "Bạn theo dõi ai", bucket: "use" },
+          { id: "4", label: "Đọc suy nghĩ trong não 🧠", bucket: "no" },
+        ],
+        buckets: [
+          { id: "use", label: "Dữ liệu thật" },
+          { id: "no", label: "Không thể" },
+        ],
+      },
+      {
+        prompt: "Ngưỡng tương đồng quá cao gây hại vì sao?",
+        items: [
+          { id: "a", label: "Chỉ thấy 1 quan điểm", bucket: "bad" },
+          { id: "b", label: "Khó tiếp cận góc nhìn khác", bucket: "bad" },
+          { id: "c", label: "Học được nhiều thứ mới", bucket: "good" },
+          { id: "d", label: "Mở rộng tư duy", bucket: "good" },
+        ],
+        buckets: [
+          { id: "bad", label: "Tác hại ⚠️" },
+          { id: "good", label: "Lợi ích" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "aiot",
+    emoji: "🌐",
+    Icon: Radio,
+    title: "Vạn vật kết nối trí tuệ nhân tạo",
+    tag: "Thành phố tương lai",
+    desc: "Kết nối AI với thiết bị ngoại vi để tự động hóa đèn giao thông chống kẹt xe và vận hành mô hình đô thị thông minh.",
+    gradient: "from-cyan-400 via-sky-500 to-blue-600",
+    ring: "ring-cyan-400/50",
+    badge: { name: "AIoT Architect", emoji: "🛰️" },
+    story: [
+      {
+        heading: "📡 IoT là gì?",
+        body: "Internet of Things = thiết bị có cảm biến + Internet. Đèn, camera, tủ lạnh, đồng hồ thông minh đều là IoT. Cộng thêm AI → <b>AIoT</b>: thiết bị tự ra quyết định.",
+      },
+      {
+        heading: "🚦 Đèn giao thông thông minh",
+        body: "Cảm biến đếm xe ở 4 hướng → vi điều khiển chạy luật <b>If-Else</b> → ưu tiên hướng đông nhất. Singapore giảm 25% thời gian chờ đèn đỏ nhờ AIoT.",
+      },
+      {
+        heading: "🏙️ Smart City",
+        body: "Đèn đường tự bật khi có người, thùng rác báo đầy, bãi xe chỉ chỗ trống, trạm bus dự đoán giờ đến — tất cả nhờ AIoT phối hợp hàng triệu thiết bị.",
+      },
+    ],
+    Sandbox: AIoTSandbox,
+    quiz: [
+      {
+        prompt: "Thiết bị nào là IoT?",
+        items: [
+          { id: "a", label: "Đồng hồ thông minh ⌚", bucket: "iot" },
+          { id: "b", label: "Camera an ninh online 📹", bucket: "iot" },
+          { id: "c", label: "Tủ lạnh smart 🧊", bucket: "iot" },
+          { id: "d", label: "Bàn gỗ thường 🪵", bucket: "no" },
+          { id: "e", label: "Cây bút bi 🖊️", bucket: "no" },
+        ],
+        buckets: [
+          { id: "iot", label: "Là IoT" },
+          { id: "no", label: "Không phải" },
+        ],
+      },
+      {
+        prompt: "Đèn giao thông thông minh hoạt động thế nào?",
+        items: [
+          { id: "1", label: "Cảm biến đếm xe", bucket: "yes" },
+          { id: "2", label: "Vi điều khiển chạy luật If-Else", bucket: "yes" },
+          { id: "3", label: "Bật đèn xanh cho hướng đông", bucket: "yes" },
+          { id: "4", label: "Cảnh sát đứng bấm tay 👮", bucket: "no" },
+          { id: "5", label: "Bốc thăm ngẫu nhiên 🎲", bucket: "no" },
+        ],
+        buckets: [
+          { id: "yes", label: "Cơ chế AIoT" },
+          { id: "no", label: "Không phải" },
+        ],
+      },
+      {
+        prompt: "Lợi ích của Smart City là gì?",
+        items: [
+          { id: "a", label: "Giảm kẹt xe", bucket: "good" },
+          { id: "b", label: "Tiết kiệm điện đèn đường", bucket: "good" },
+          { id: "c", label: "Báo thùng rác đầy kịp thời", bucket: "good" },
+          { id: "d", label: "Làm người dân lười đi", bucket: "bad" },
+        ],
+        buckets: [
+          { id: "good", label: "Lợi ích ✅" },
+          { id: "bad", label: "Hiểu sai" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "capstone",
+    emoji: "🤖",
+    Icon: Cpu,
+    title: "Tự chế tạo Trợ lý AI",
+    tag: "Dự án đầu tay",
+    desc: "Trận chiến cuối cùng! Kết hợp các mảnh ghép công nghệ đã học để tự tay lắp ráp và vận hành một siêu Robot trợ lý.",
+    gradient: "from-amber-400 via-fuchsia-500 to-purple-600",
+    ring: "ring-fuchsia-400/50",
+    badge: { name: "AI Certified Guru", emoji: "🏆" },
+    story: [
+      {
+        heading: "🧩 Tích hợp là kỹ năng quan trọng nhất",
+        body: "Một AI thực dụng không chỉ giỏi 1 thứ. Trợ lý Siri / Google Assistant kết hợp <b>Vision</b> (nhìn QR), <b>NLP</b> (nghe lệnh), <b>Neural Net</b> (suy luận), <b>Ethics</b> (lọc nội dung độc hại).",
+      },
+      {
+        heading: "🔧 Quy trình lắp ráp AI",
+        body: "1) Chọn các mô-đun phù hợp · 2) Cắm vào lõi xử lý · 3) Chạy diagnostic boot · 4) Test với dữ liệu thật · 5) Lặp lại cho đến khi ổn định.",
+      },
+      {
+        heading: "🏆 Bạn đã đến cuối hành trình!",
+        body: "Hoàn thành Capstone = chính thức là <b>AI Certified Guru</b> của HaiEduTech. Tiếp theo? Đăng ký lớp Lập trình Python với thầy Hải để biến trợ lý này thành code thật!",
+      },
+    ],
+    Sandbox: CapstoneSandbox,
+    quiz: [
+      {
+        prompt: "Trợ lý AI tốt cần kết hợp những công nghệ nào?",
+        items: [
+          { id: "a", label: "Computer Vision 👁️", bucket: "yes" },
+          { id: "b", label: "NLP 💬", bucket: "yes" },
+          { id: "c", label: "Neural Network 🧠", bucket: "yes" },
+          { id: "d", label: "Ethics & Safety 🛡️", bucket: "yes" },
+          { id: "e", label: "May rủi hên xui 🎲", bucket: "no" },
+        ],
+        buckets: [
+          { id: "yes", label: "Cần có" },
+          { id: "no", label: "Không cần" },
+        ],
+      },
+      {
+        prompt: "Quy trình build sản phẩm AI đúng là?",
+        items: [
+          { id: "1", label: "Định nghĩa bài toán", bucket: "right" },
+          { id: "2", label: "Thu thập dữ liệu", bucket: "right" },
+          { id: "3", label: "Huấn luyện & đánh giá", bucket: "right" },
+          { id: "4", label: "Code mò không kế hoạch", bucket: "wrong" },
+          { id: "5", label: "Bỏ qua test, deploy luôn", bucket: "wrong" },
+        ],
+        buckets: [
+          { id: "right", label: "Đúng quy trình ✅" },
+          { id: "wrong", label: "Sai cách ❌" },
+        ],
+      },
+      {
+        prompt: "Sau khi tốt nghiệp AI Academy bạn nên làm gì?",
+        items: [
+          { id: "a", label: "Học Python với thầy Hải", bucket: "good" },
+          { id: "b", label: "Tham gia thi AI Olympic", bucket: "good" },
+          { id: "c", label: "Tự build dự án nhỏ trên Lovable", bucket: "good" },
+          { id: "d", label: "Đóng máy ngủ luôn 😴", bucket: "bad" },
+        ],
+        buckets: [
+          { id: "good", label: "Hành động đúng 🚀" },
+          { id: "bad", label: "Đáng tiếc" },
+        ],
+      },
+    ],
+  },
 ];
 
 const STORAGE_KEY = "haiedu_ai_academy_progress";
