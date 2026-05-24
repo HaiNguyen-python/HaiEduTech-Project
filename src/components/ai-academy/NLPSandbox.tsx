@@ -85,11 +85,11 @@ const IntentTrainer = () => {
     <div className="grid md:grid-cols-2 gap-3">
       {/* Trainer */}
       <div className="rounded-2xl border-2 border-fuchsia-400/40 bg-fuchsia-500/5 p-4">
-        <div className="flex items-center gap-2 mb-3">
+        <div className="flex items-center gap-2 mb-2">
           <Bot className="w-4 h-4 text-fuchsia-600" />
           <h4 className="font-bold text-sm">🧠 Dạy chatbot (Intents)</h4>
         </div>
-        <div className="space-y-2 max-h-40 overflow-y-auto mb-3">
+        <div className="space-y-2 max-h-40 overflow-y-auto mb-2">
           {intents.map((i) => (
             <div key={i.id} className="flex items-center gap-2 p-2 rounded-lg bg-background border">
               <span className="text-xs font-mono px-2 py-0.5 rounded bg-fuchsia-500/15 text-fuchsia-700 dark:text-fuchsia-300 shrink-0">
@@ -132,12 +132,12 @@ const IntentTrainer = () => {
       </div>
 
       {/* Chat */}
-      <div className="rounded-2xl border-2 border-purple-400/40 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 p-4 flex flex-col">
-        <div className="flex items-center gap-2 mb-3">
+      <div className="rounded-2xl border-2 border-purple-400/40 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 p-3.5 flex flex-col">
+        <div className="flex items-center gap-2 mb-2">
           <MessageSquare className="w-4 h-4 text-purple-600" />
           <h4 className="font-bold text-sm">💬 Thử nói với bot</h4>
         </div>
-        <div className="flex-1 min-h-[180px] max-h-[260px] overflow-y-auto space-y-2 mb-3 p-2 rounded-lg bg-background/60">
+        <div className="flex-1 min-h-[180px] max-h-[260px] overflow-y-auto space-y-2 mb-2 p-2 rounded-lg bg-background/60">
           {chat.length === 0 && (
             <p className="text-xs text-muted-foreground text-center py-8">
               Gõ "hello" hoặc "game" để bot trả lời 👇
@@ -211,7 +211,7 @@ const SentimentMeter = () => {
   const widthPct = ((analysis.ratio + 1) / 2) * 100;
 
   return (
-    <div className="rounded-2xl border-2 border-emerald-400/40 bg-gradient-to-br from-emerald-500/10 to-rose-500/10 p-4 space-y-3">
+    <div className="rounded-2xl border-2 border-emerald-400/40 bg-gradient-to-br from-emerald-500/10 to-rose-500/10 p-3 space-y-2">
       <div className="flex items-center gap-2">
         <Smile className="w-4 h-4 text-emerald-600" />
         <h4 className="font-bold text-sm uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
@@ -308,7 +308,7 @@ const TokenizerLive = () => {
   const colors = ["bg-cyan-500/20 text-cyan-700 dark:text-cyan-200", "bg-fuchsia-500/20 text-fuchsia-700 dark:text-fuchsia-200", "bg-emerald-500/20 text-emerald-700 dark:text-emerald-200", "bg-amber-500/20 text-amber-700 dark:text-amber-200", "bg-purple-500/20 text-purple-700 dark:text-purple-200"];
 
   return (
-    <div className="rounded-2xl border-2 border-cyan-400/40 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 p-4 space-y-3">
+    <div className="rounded-2xl border-2 border-cyan-400/40 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 p-3 space-y-2">
       <div className="flex items-center gap-2">
         <Hash className="w-4 h-4 text-cyan-600" />
         <h4 className="font-bold text-sm uppercase tracking-wide text-cyan-700 dark:text-cyan-300">
@@ -400,7 +400,7 @@ const TeenCodeNormalizer = () => {
   const changedCount = normalized.filter((n) => n.changed).length;
 
   return (
-    <div className="rounded-2xl border-2 border-orange-400/40 bg-gradient-to-br from-orange-500/10 to-amber-500/10 p-4 space-y-3">
+    <div className="rounded-2xl border-2 border-orange-400/40 bg-gradient-to-br from-orange-500/10 to-amber-500/10 p-3 space-y-2">
       <div className="flex items-center gap-2">
         <Wand2 className="w-4 h-4 text-orange-600" />
         <h4 className="font-bold text-sm uppercase tracking-wide text-orange-700 dark:text-orange-300">
@@ -473,7 +473,7 @@ const NLP_PAIRS = [
 /* ───────────────────────── Root export ─────────────────────── */
 
 const NLPSandbox = () => (
-  <div className="space-y-3">
+  <div className="space-y-2">
     <IntentTrainer />
     <SentimentMeter />
     <TokenizerLive />

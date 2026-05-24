@@ -85,7 +85,7 @@ const CapstoneSandbox = () => {
   };
 
   return (
-    <div className="space-y-6 sm:space-y-8 [&>*+*]:pt-6 sm:[&>*+*]:pt-8 [&>*+*]:border-t [&>*+*]:border-border/50">
+    <div className="space-y-3 sm:space-y-4 [&>*+*]:pt-3 sm:[&>*+*]:pt-4 [&>*+*]:border-t [&>*+*]:border-border/40">
       {/* Module library */}
       <div className="rounded-2xl border-2 border-amber-400/40 bg-amber-500/5 p-3">
         <div className="text-[11px] font-bold uppercase text-amber-700 dark:text-amber-300 mb-2 flex items-center gap-1">
@@ -128,11 +128,11 @@ const CapstoneSandbox = () => {
             <motion.div
               animate={{ rotate: installed.length > 0 ? 360 : 0 }}
               transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-              className="w-28 h-28 mx-auto rounded-full border-4 border-dashed border-purple-400/60 flex items-center justify-center text-5xl mb-3"
+              className="w-28 h-28 mx-auto rounded-full border-4 border-dashed border-purple-400/60 flex items-center justify-center text-5xl mb-2"
             >
               🤖
             </motion.div>
-            <div className="flex flex-wrap justify-center gap-1 max-w-xs mx-auto mb-3">
+            <div className="flex flex-wrap justify-center gap-1 max-w-xs mx-auto mb-2">
               <AnimatePresence>
                 {installed.map((id) => {
                   const m = MODULES.find((x) => x.id === id)!;
@@ -159,7 +159,7 @@ const CapstoneSandbox = () => {
 
         {booting && (
           <div className="relative w-full">
-            <div className="text-center mb-3">
+            <div className="text-center mb-2">
               <motion.div
                 animate={{ scale: [1, 1.1, 1] }}
                 transition={{ duration: 0.8, repeat: Infinity }}

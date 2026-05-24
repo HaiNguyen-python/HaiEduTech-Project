@@ -69,7 +69,7 @@ const RecsysSandbox = () => {
   const hitRate = Math.round((recs.length / CONTENT.length) * 100);
 
   return (
-    <div className="space-y-6 sm:space-y-8 [&>*+*]:pt-6 sm:[&>*+*]:pt-8 [&>*+*]:border-t [&>*+*]:border-border/50">
+    <div className="space-y-3 sm:space-y-4 [&>*+*]:pt-3 sm:[&>*+*]:pt-4 [&>*+*]:border-t [&>*+*]:border-border/40">
       {/* Persona picker */}
       <div className="rounded-2xl border-2 border-amber-400/40 bg-amber-500/5 p-3">
         <div className="text-[11px] font-bold uppercase text-amber-700 dark:text-amber-300 mb-2 flex items-center gap-1">
