@@ -39,15 +39,35 @@ const getExample = (w: CambridgeKidsWord) => ({
   vi: w.exampleVi || `${w.vi} thật tuyệt vời!`,
 });
 
-const speak = (word: string) => {
+const speak = (text: string, opts?: { rate?: number; lang?: string }) => {
   try {
     if (!("speechSynthesis" in window)) return;
     window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(word);
-    u.lang = "en-US";
-    u.rate = 0.9;
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = opts?.lang ?? "en-US";
+    u.rate = opts?.rate ?? 0.9;
     window.speechSynthesis.speak(u);
   } catch { /* noop */ }
+};
+
+// Render example with the target word (and simple inflections) bolded.
+const renderBolded = (sentence: string, word: string) => {
+  const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  // Match the word, optionally followed by s/es/ed/ing/'s
+  const re = new RegExp(`\\b(${escaped}(?:s|es|ed|ing|'s)?)\\b`, "gi");
+  const parts: Array<{ text: string; bold: boolean }> = [];
+  let last = 0;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(sentence)) !== null) {
+    if (m.index > last) parts.push({ text: sentence.slice(last, m.index), bold: false });
+    parts.push({ text: m[0], bold: true });
+    last = m.index + m[0].length;
+  }
+  if (last < sentence.length) parts.push({ text: sentence.slice(last), bold: false });
+  if (parts.length === 0) return sentence;
+  return parts.map((p, i) => p.bold
+    ? <strong key={i} className="font-extrabold underline decoration-2 underline-offset-2">{p.text}</strong>
+    : <span key={i}>{p.text}</span>);
 };
 
 const MountainClimber = ({ level, masteredCount, total }: { level: CambridgeKidsLevel; masteredCount: number; total: number }) => {
