@@ -606,23 +606,29 @@
   z-index: 2;
   pointer-events: none;
   border-radius: inherit;
-  padding: 2px;
+  padding: 3px;
   background:
     radial-gradient(
       circle at center,
       #ffffff 0%,
-      #67E8F9 25%,
-      #3B82F6 55%,
-      transparent 75%
-    ) 0% 0% / 28% 28% no-repeat;
+      #ffffff 12%,
+      #67E8F9 35%,
+      #3B82F6 60%,
+      rgba(59,130,246,0.4) 78%,
+      transparent 92%
+    ) 0% 0% / 45% 45% no-repeat;
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  filter: drop-shadow(0 0 6px #3B82F6) drop-shadow(0 0 12px #67E8F9);
+  filter:
+    drop-shadow(0 0 4px #ffffff)
+    drop-shadow(0 0 10px #67E8F9)
+    drop-shadow(0 0 18px #3B82F6);
   mix-blend-mode: screen;
-  animation: electricTrace 3.5s linear infinite;
+  animation: electricTrace 4.5s linear infinite;
 }
+
 
 /* Biến thể mạnh: cho card đã đạt ≥ 3 sao */
 .electric-border.electric-strong {
@@ -632,18 +638,24 @@
   background: linear-gradient(135deg, hsl(45 95% 55% / 0.7), hsl(0 84% 60% / 0.7));
 }
 .electric-border.electric-strong::after {
+  padding: 3.5px;
   background:
     radial-gradient(
       circle at center,
       #ffffff 0%,
-      #FDE047 25%,
-      #F59E0B 50%,
-      #EF4444 70%,
-      transparent 80%
-    ) 0% 0% / 30% 30% no-repeat;
-  filter: drop-shadow(0 0 8px #F59E0B) drop-shadow(0 0 16px #FDE047);
-  animation: electricTrace 1.8s linear infinite;
+      #ffffff 14%,
+      #FDE047 32%,
+      #F59E0B 55%,
+      #EF4444 72%,
+      transparent 92%
+    ) 0% 0% / 50% 50% no-repeat;
+  filter:
+    drop-shadow(0 0 5px #ffffff)
+    drop-shadow(0 0 12px #F59E0B)
+    drop-shadow(0 0 22px #FDE047);
+  animation: electricTrace 2.4s linear infinite;
 }
+
 
 @media (prefers-reduced-motion: reduce) {
   .electric-border,
