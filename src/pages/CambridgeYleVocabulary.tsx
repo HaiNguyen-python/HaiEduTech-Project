@@ -27,15 +27,15 @@ import { toast } from "@/hooks/use-toast";
 const ALL_WORDS: CambridgeKidsWord[] = CAMBRIDGE_KIDS_WORDS_DEDUPED;
 const MASTERY_SUBJECT = "cambridge-yle";
 
-// Softer, kid-friendly palette — pastel borders, light tints, strong text contrast.
+// Softer tints + STRONG borders for high visibility on white cards.
 const LEVEL_THEME: Record<CambridgeKidsLevel, {
-  color: string; soft: string; bg: string; emoji: string; cefr: string; gradient: string;
+  color: string; border: string; soft: string; bg: string; emoji: string; cefr: string; gradient: string;
 }> = {
-  Starters: { color: "#EC8FB0", soft: "#FFF1F6", bg: "#FFE5EC", emoji: "🎨", cefr: "A1",     gradient: "linear-gradient(135deg, #FFB4C8, #FFD6E2)" },
-  Movers:   { color: "#7FB1F0", soft: "#F0F8FF", bg: "#E0F4FF", emoji: "🚀", cefr: "A1+",    gradient: "linear-gradient(135deg, #A0CDFF, #CDE5FF)" },
-  Flyers:   { color: "#8AD195", soft: "#F1FFF1", bg: "#E8FFE0", emoji: "🦅", cefr: "A2",     gradient: "linear-gradient(135deg, #B8F0BE, #D7F7DC)" },
-  KET:      { color: "#C19FE6", soft: "#F8F1FF", bg: "#F3E8FF", emoji: "📝", cefr: "A2 Key", gradient: "linear-gradient(135deg, #DCC1F5, #ECDCFB)" },
-  PET:      { color: "#F0B469", soft: "#FFF8EC", bg: "#FFF4E0", emoji: "🏆", cefr: "B1",     gradient: "linear-gradient(135deg, #FFD49A, #FFE6C2)" },
+  Starters: { color: "#EC4E89", border: "#D81B60", soft: "#FFF1F6", bg: "#FFE5EC", emoji: "🎨", cefr: "A1",     gradient: "linear-gradient(135deg, #FF6FA3, #FFB4C8)" },
+  Movers:   { color: "#2D7FE0", border: "#1565C0", soft: "#F0F8FF", bg: "#E0F4FF", emoji: "🚀", cefr: "A1+",    gradient: "linear-gradient(135deg, #4D96FF, #A0CDFF)" },
+  Flyers:   { color: "#1FA855", border: "#1B7A3E", soft: "#F1FFF1", bg: "#E8FFE0", emoji: "🦅", cefr: "A2",     gradient: "linear-gradient(135deg, #45C77D, #B8F0BE)" },
+  KET:      { color: "#7B3FE4", border: "#5B21B6", soft: "#F8F1FF", bg: "#F3E8FF", emoji: "📝", cefr: "A2 Key", gradient: "linear-gradient(135deg, #A472F0, #DCC1F5)" },
+  PET:      { color: "#E8841A", border: "#B45309", soft: "#FFF8EC", bg: "#FFF4E0", emoji: "🏆", cefr: "B1",     gradient: "linear-gradient(135deg, #FFA94D, #FFD49A)" },
 };
 
 const getExample = (w: CambridgeKidsWord) => ({
