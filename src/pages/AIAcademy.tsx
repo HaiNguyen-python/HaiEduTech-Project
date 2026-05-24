@@ -486,8 +486,8 @@ const AIAcademy = () => {
     setProgress((p) => ({
       ...p,
       [track.id]: {
-        stars: Math.max(p[track.id].stars, stars),
-        badge: p[track.id].badge || passed,
+        stars: Math.max(p[track.id]?.stars ?? 0, stars),
+        badge: p[track.id]?.badge || passed,
       },
     }));
 
@@ -579,7 +579,7 @@ const AIAcademy = () => {
         {/* Track cards */}
         <div className="grid md:grid-cols-3 gap-5 mb-10">
           {TRACKS.map((t, i) => {
-            const p = progress[t.id];
+            const p = progress[t.id] ?? { stars: 0 };
             const stars = p.stars;
             return (
               <motion.button
@@ -693,7 +693,7 @@ const AIAcademy = () => {
                     </h3>
                   </div>
                   <DragDropQuiz
-                    key={`${activeTrack.id}-${progress[activeTrack.id].stars}`}
+                    key={`${activeTrack.id}-${progress[activeTrack.id]?.stars ?? 0}`}
                     questions={activeTrack.quiz}
                     onComplete={(passed, score) => handleQuizComplete(activeTrack, passed, score)}
                   />
