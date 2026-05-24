@@ -126,6 +126,8 @@ const NeuralNetSandbox = () => {
         <Brain className="w-3.5 h-3.5 mt-0.5 text-emerald-500 shrink-0" />
         Đường nối sáng hơn = "trọng số" lớn hơn. Não AI thật học hàng triệu trọng số như vậy để dự đoán mọi thứ — từ điểm thi đến giá nhà.
       </p>
+
+      <BonusGames tfItems={NN_TF} matchPairs={NN_PAIRS} accent="from-emerald-500 to-teal-600" border="border-emerald-400/40" />
     </div>
   );
 };
