@@ -667,6 +667,214 @@ const TRACKS: Track[] = [
       },
     ],
   },
+  {
+    id: "deepfake",
+    emoji: "🕵️",
+    Icon: ShieldAlert,
+    title: "Nhận diện và Bảo mật AI",
+    tag: "Thám tử an ninh",
+    desc: "Lật tẩy công nghệ Deepfake, học cách phân biệt thật giả và bảo vệ an toàn hình ảnh cá nhân trên không gian mạng.",
+    gradient: "from-rose-500 via-red-500 to-orange-500",
+    ring: "ring-rose-400/50",
+    badge: { name: "Cyber Shield", emoji: "🛡️" },
+    story: [
+      {
+        heading: "🎭 Deepfake là gì?",
+        body: "Deepfake dùng <b>Generative AI</b> để ghép mặt người này lên video người khác — gần như không phân biệt bằng mắt thường. Đã xuất hiện video giả CEO, chính trị gia, thậm chí bạn bè vay tiền qua Zalo.",
+      },
+      {
+        heading: "🔬 Dấu vết AI để lại",
+        body: "Mép tóc / tai bị mờ, bóng đổ sai hướng, mắt chớp không tự nhiên, răng méo, ánh sáng da không khớp nền. Phần mềm forensic phóng to để soi <b>noise pattern</b> của camera thật.",
+      },
+      {
+        heading: "🛡️ Bảo vệ bản thân",
+        body: "1) Không đăng ảnh chân dung HD công khai. 2) Đặt mật khẩu 2FA. 3) Gọi video xác minh khi người thân nhắn vay tiền. 4) Báo cáo deepfake xúc phạm cho Cục An toàn TT.",
+      },
+    ],
+    Sandbox: DeepfakeSandbox,
+    quiz: [
+      {
+        prompt: "Dấu hiệu nào tố cáo một video là Deepfake?",
+        items: [
+          { id: "a", label: "Mép tóc/tai bị mờ", bucket: "yes" },
+          { id: "b", label: "Bóng đổ sai hướng", bucket: "yes" },
+          { id: "c", label: "Mắt ít chớp", bucket: "yes" },
+          { id: "d", label: "Video quay rõ HD 4K", bucket: "no" },
+          { id: "e", label: "Có chữ phụ đề", bucket: "no" },
+        ],
+        buckets: [
+          { id: "yes", label: "Dấu hiệu deepfake ⚠️" },
+          { id: "no", label: "Bình thường" },
+        ],
+      },
+      {
+        prompt: "Cách bảo vệ ảnh cá nhân khỏi bị lạm dụng?",
+        items: [
+          { id: "1", label: "Bật 2FA cho mọi tài khoản", bucket: "ok" },
+          { id: "2", label: "Hạn chế đăng ảnh HD công khai", bucket: "ok" },
+          { id: "3", label: "Gọi video xác minh người vay tiền", bucket: "ok" },
+          { id: "4", label: "Chia sẻ CCCD lên Facebook", bucket: "no" },
+          { id: "5", label: "Đăng ảnh selfie kèm địa chỉ nhà", bucket: "no" },
+        ],
+        buckets: [
+          { id: "ok", label: "An toàn ✅" },
+          { id: "no", label: "Nguy hiểm ❌" },
+        ],
+      },
+      {
+        prompt: "Tình huống nào CÓ THỂ là lừa đảo deepfake?",
+        items: [
+          { id: "a", label: "Sếp gọi video gấp yêu cầu chuyển khoản", bucket: "scam" },
+          { id: "b", label: "Bạn thân video bảo vay tiền nóng", bucket: "scam" },
+          { id: "c", label: "Mẹ gọi điện thoại bình thường hỏi thăm", bucket: "ok" },
+          { id: "d", label: "Em họ nhắn tin Zalo về sinh nhật", bucket: "ok" },
+        ],
+        buckets: [
+          { id: "scam", label: "Cảnh giác ⚠️" },
+          { id: "ok", label: "Bình thường" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "agent",
+    emoji: "🤖",
+    Icon: Bot,
+    title: "Kỹ nghệ câu lệnh & Đặc vụ tự hành",
+    tag: "Trợ lý đa năng",
+    desc: "Học cách thiết kế các Đặc vụ AI (AI Agent) biết tự động tư duy, đọc tin tức và thay bạn giải quyết chuỗi công việc phức tạp.",
+    gradient: "from-indigo-500 via-blue-600 to-violet-600",
+    ring: "ring-indigo-400/50",
+    badge: { name: "Agent Commander", emoji: "🎖️" },
+    story: [
+      {
+        heading: "🧠 AI Agent là gì?",
+        body: "Chatbot chỉ trả lời 1 câu. <b>AI Agent</b> thì có <b>vòng lặp tư duy</b>: nhận mục tiêu → tự lên kế hoạch → gọi công cụ (search, gửi mail, đặt vé) → quan sát kết quả → lặp lại đến khi xong.",
+      },
+      {
+        heading: "🔧 Tool Use",
+        body: "Agent của bạn có thể có nhiều 'tay': API thời tiết, gửi SMS, đọc file Excel, vẽ biểu đồ. Bạn chỉ cần ra lệnh: 'Mỗi sáng 6h check thời tiết Hà Nội, nếu mưa thì SMS nhắc mang ô'.",
+      },
+      {
+        heading: "🚀 Prompt Engineering",
+        body: "Một prompt tốt cho agent gồm: <b>Vai trò</b> (Bạn là chuyên viên...) + <b>Mục tiêu</b> + <b>Ràng buộc</b> (chỉ tiếng Việt, ≤300 từ) + <b>Format đầu ra</b> (JSON, bảng). Đây là kỹ năng siêu hot 2025.",
+      },
+    ],
+    Sandbox: AgentWorkflowSandbox,
+    quiz: [
+      {
+        prompt: "Khác biệt giữa Chatbot và AI Agent?",
+        items: [
+          { id: "a", label: "Agent tự lập kế hoạch nhiều bước", bucket: "agent" },
+          { id: "b", label: "Agent gọi được tool/API ngoài", bucket: "agent" },
+          { id: "c", label: "Agent lặp đến khi đạt mục tiêu", bucket: "agent" },
+          { id: "d", label: "Chỉ trả lời 1 câu hỏi đơn lẻ", bucket: "bot" },
+          { id: "e", label: "Không truy cập internet được", bucket: "bot" },
+        ],
+        buckets: [
+          { id: "agent", label: "AI Agent 🤖" },
+          { id: "bot", label: "Chatbot thường" },
+        ],
+      },
+      {
+        prompt: "Thành phần nào của một prompt tốt?",
+        items: [
+          { id: "1", label: "Vai trò (Bạn là...)", bucket: "good" },
+          { id: "2", label: "Mục tiêu rõ ràng", bucket: "good" },
+          { id: "3", label: "Ràng buộc & format output", bucket: "good" },
+          { id: "4", label: "Viết mơ hồ, ai hiểu sao thì hiểu", bucket: "bad" },
+          { id: "5", label: "Không nói AI cần làm gì", bucket: "bad" },
+        ],
+        buckets: [
+          { id: "good", label: "Prompt tốt ✅" },
+          { id: "bad", label: "Prompt tệ ❌" },
+        ],
+      },
+      {
+        prompt: "Ứng dụng nào hợp lý cho AI Agent?",
+        items: [
+          { id: "a", label: "Tự lên lịch học theo deadline", bucket: "ok" },
+          { id: "b", label: "Tổng hợp tin tức buổi sáng", bucket: "ok" },
+          { id: "c", label: "Đặt vé tàu rẻ nhất tuần sau", bucket: "ok" },
+          { id: "d", label: "Thay bạn đi học mặt-đối-mặt 🏫", bucket: "no" },
+        ],
+        buckets: [
+          { id: "ok", label: "Agent làm được" },
+          { id: "no", label: "Không thay được" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "graduation",
+    emoji: "🎓",
+    Icon: GraduationCap,
+    title: "Trình diễn sản phẩm & Định hướng",
+    tag: "Nhà hùng biện tương lai",
+    desc: "Ứng dụng AI làm slide thuyết trình đồ án cuối khóa và khám phá những bản đồ nghề nghiệp công nghệ đỉnh cao trong tương lai.",
+    gradient: "from-amber-400 via-pink-500 to-purple-600",
+    ring: "ring-fuchsia-400/50",
+    badge: { name: "AI Grandmaster", emoji: "🏆" },
+    story: [
+      {
+        heading: "🎤 Trình diễn = 50% giá trị sản phẩm",
+        body: "Code giỏi mà không trình bày được = thiệt thòi. Steve Jobs từng nói: <b>'Ý tưởng không demo được thì không tồn tại'</b>. Hãy luyện kể chuyện AI bằng slide, video demo, sandbox tương tác.",
+      },
+      {
+        heading: "🛠️ AI làm slide tự động",
+        body: "Gamma, Tome, Beautiful.ai sinh slide từ prompt trong 30s. Canva Magic Design vẽ poster. Adobe Express dựng video. Bạn chỉ cần tập trung <b>nội dung & câu chuyện</b>.",
+      },
+      {
+        heading: "🌟 Nghề AI hot 2025–2030",
+        body: "AI Engineer ($120k+), Prompt Engineer, AI Product Manager, MLOps, AI Ethics Officer, Data Scientist, AI UX Designer. Việt Nam khát nhân lực — đây là cơ hội vàng cho thế hệ Gen Z.",
+      },
+    ],
+    Sandbox: GraduationSandbox,
+    quiz: [
+      {
+        prompt: "Công cụ AI hỗ trợ thuyết trình?",
+        items: [
+          { id: "a", label: "Gamma — sinh slide tự động", bucket: "yes" },
+          { id: "b", label: "Canva Magic Design — poster", bucket: "yes" },
+          { id: "c", label: "Adobe Express — video demo", bucket: "yes" },
+          { id: "d", label: "Notepad thuần chữ", bucket: "no" },
+          { id: "e", label: "Máy tính bỏ túi", bucket: "no" },
+        ],
+        buckets: [
+          { id: "yes", label: "Hữu ích ✅" },
+          { id: "no", label: "Không phù hợp" },
+        ],
+      },
+      {
+        prompt: "Cấu trúc một bài thuyết trình AI tốt?",
+        items: [
+          { id: "1", label: "Vấn đề thực tế cần giải quyết", bucket: "good" },
+          { id: "2", label: "Giải pháp AI & demo trực tiếp", bucket: "good" },
+          { id: "3", label: "Kết quả số liệu thuyết phục", bucket: "good" },
+          { id: "4", label: "Copy nguyên slide người khác", bucket: "bad" },
+          { id: "5", label: "Đọc nguyên văn chữ trên slide", bucket: "bad" },
+        ],
+        buckets: [
+          { id: "good", label: "Đúng cách ✅" },
+          { id: "bad", label: "Sai cách ❌" },
+        ],
+      },
+      {
+        prompt: "Nghề nào HOT trong kỷ nguyên AI 2025–2030?",
+        items: [
+          { id: "a", label: "AI / ML Engineer", bucket: "hot" },
+          { id: "b", label: "Prompt Engineer", bucket: "hot" },
+          { id: "c", label: "AI Product Manager", bucket: "hot" },
+          { id: "d", label: "AI Ethics Officer", bucket: "hot" },
+          { id: "e", label: "Nghề copy-paste thủ công", bucket: "cold" },
+        ],
+        buckets: [
+          { id: "hot", label: "Nghề HOT 🔥" },
+          { id: "cold", label: "Bị thay thế" },
+        ],
+      },
+    ],
+  },
 ];
 
 const STORAGE_KEY = "haiedu_ai_academy_progress";
@@ -674,7 +882,7 @@ const STORAGE_KEY = "haiedu_ai_academy_progress";
 type Progress = Record<TrackId, { stars: number; badge?: boolean }>;
 
 const loadProgress = (): Progress => {
-  const defaults: Progress = { vision: { stars: 0 }, nlp: { stars: 0 }, nn: { stars: 0 }, genai: { stars: 0 }, rl: { stars: 0 }, ethics: { stars: 0 }, recsys: { stars: 0 }, aiot: { stars: 0 }, capstone: { stars: 0 } };
+  const defaults: Progress = { vision: { stars: 0 }, nlp: { stars: 0 }, nn: { stars: 0 }, genai: { stars: 0 }, rl: { stars: 0 }, ethics: { stars: 0 }, recsys: { stars: 0 }, aiot: { stars: 0 }, capstone: { stars: 0 }, deepfake: { stars: 0 }, agent: { stars: 0 }, graduation: { stars: 0 } };
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) return { ...defaults, ...JSON.parse(raw) };
