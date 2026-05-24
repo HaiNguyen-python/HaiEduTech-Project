@@ -155,7 +155,7 @@ const Navbar = () => {
       { to: "/chinese/conversational/curriculum", label: t("🎯 Chương trình Tương tác", "🎯 Interactive Curriculum") },
       { to: "/chinese/culture", label: t("🎎 Văn hóa Giao tiếp", "🎎 Communication Culture") },
       { to: "/chinese/reading", label: t("📖 Luyện đọc", "📖 Reading Practice") },
-      { to: "/chinese/listening", label: t("🎧 Luyện nghe (YouTube)", "🎧 Listening (YouTube)") },
+      { to: "/chinese/listening", label: t("🎧 Luyện nghe", "🎧 Listening Practice") },
     ] },
     { to: "#cn-div2", label: "", divider: true },
     { to: "/chinese/arcade", label: t("🎮 Chinese Arcade Hub", "🎮 Chinese Arcade Hub") },
