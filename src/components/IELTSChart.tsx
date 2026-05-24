@@ -221,10 +221,31 @@ const RenderMapLayout = ({ layout }: { layout: NonNullable<ChartConfig["mapLayou
             const color = z.color || "#3B82F6";
             const cx = z.x + z.w / 2;
             const cy = z.y + z.h / 2;
-            // Slightly smaller font + icon so they fit inside thin/short zones
-            const fontSize = Math.min(2.8, Math.max(2.0, Math.min(z.w, z.h * 1.6) / 7));
+            const isLine = z.shape === "road" || z.shape === "river";
+            const isVerticalLine = isLine && z.h > z.w * 2;
+            const isHorizontalLine = isLine && !isVerticalLine;
+            const isThin = !isLine && (z.w < 14 || z.h < 10);
+            const fillOpacity = isLine ? 1 : 0.28;
+
+            // Base font size, then auto-shrink so label fits inside its allowed width
+            const labelLen = (z.label || "").length || 1;
+            // char-width factor for our font ≈ 0.55 of fontSize
+            const CHAR_W = 0.55;
+            // Available width depends on placement target:
+            //  - inside a normal rect: width of the rect (minus padding)
+            //  - vertical line: rotated → available "width" is the road's HEIGHT
+            //  - horizontal line / thin zone: label sits outside → use a generous budget
+            let availableForLabel: number;
+            if (isVerticalLine) availableForLabel = z.h - 2;
+            else if (isHorizontalLine) availableForLabel = z.w + 14;
+            else if (isThin) availableForLabel = z.w + 12;
+            else availableForLabel = z.w - 2;
+
+            const baseFontSize = Math.min(2.8, Math.max(2.0, Math.min(z.w, z.h * 1.6) / 7));
+            const fitFontSize = availableForLabel / (labelLen * CHAR_W);
+            const fontSize = Math.max(1.6, Math.min(baseFontSize, fitFontSize));
             const iconSize = Math.min(4.2, Math.max(2.4, Math.min(z.w, z.h) / 3.2));
-            const fillOpacity = z.shape === "road" || z.shape === "river" ? 1 : 0.28;
+
             let shapeEl: JSX.Element;
             if (z.shape === "circle") {
               const r = Math.min(z.w, z.h) / 2;
@@ -240,37 +261,33 @@ const RenderMapLayout = ({ layout }: { layout: NonNullable<ChartConfig["mapLayou
               shapeEl = <rect x={z.x} y={z.y} width={z.w} height={z.h} fill={color} fillOpacity={fillOpacity} stroke={color} strokeWidth="0.5" rx="1" />;
             }
 
-            // Decide where the text label sits:
-            // - Roads/rivers: above the shape; vertical roads use right side.
-            // - Thin/short zones (w<14 or h<10): place below the shape so it doesn't overlap the icon.
-            // - Otherwise: centered below the icon, clamped so it never falls outside the viewBox.
-            const isLine = z.shape === "road" || z.shape === "river";
-            const isVerticalLine = isLine && z.h > z.w * 2;
-            const isThin = !isLine && (z.w < 14 || z.h < 10);
-
+            // Label positioning
             let labelX = cx;
-            let labelY: number;
+            let labelY = cy;
             let labelAnchor: "start" | "middle" | "end" = "middle";
+            let labelRotate = 0;
+            let labelFill = "hsl(var(--foreground))";
 
             if (isVerticalLine) {
-              // Place label to the right (or left if too close to right edge)
-              const onRight = z.x + z.w + 1 + fontSize * z.label.length * 0.55 < 100;
-              labelX = onRight ? z.x + z.w + 1 : z.x - 1;
-              labelAnchor = onRight ? "start" : "end";
+              // Rotate -90° and run the label along the road's centerline
+              labelRotate = -90;
+              labelX = cx;
               labelY = cy + fontSize * 0.35;
-            } else if (isLine) {
-              // Horizontal road/river: above if room, else below
-              const above = z.y - 0.6 > 0;
-              labelY = above ? z.y - 0.8 : z.y + z.h + fontSize + 0.2;
+              labelAnchor = "middle";
+            } else if (isHorizontalLine) {
+              // Place outside the road with a clear gap; pick the side with most room
+              const spaceAbove = z.y;
+              const spaceBelow = 100 - (z.y + z.h);
+              const above = spaceAbove >= spaceBelow ? spaceAbove > fontSize + 1 : false;
+              labelY = above
+                ? z.y - fontSize * 0.5
+                : z.y + z.h + fontSize + 0.4;
             } else if (isThin) {
-              // Below the shape, clamped to viewBox
               labelY = Math.min(108, z.y + z.h + fontSize + 0.4);
             } else {
-              // Inside-ish: below the centered icon
+              // Inside-rect label: just below centered icon
               labelY = cy + iconSize / 1.6 + fontSize * 0.9;
-              // If that overflows the shape, push to just below the shape
               if (labelY > z.y + z.h - 0.4) labelY = z.y + z.h + fontSize + 0.2;
-              // Final clamp inside padded viewBox
               labelY = Math.min(109, Math.max(2, labelY));
             }
 
@@ -294,12 +311,13 @@ const RenderMapLayout = ({ layout }: { layout: NonNullable<ChartConfig["mapLayou
                     y={labelY}
                     textAnchor={labelAnchor}
                     fontSize={fontSize}
-                    fill="hsl(var(--foreground))"
+                    fill={labelFill}
                     fontWeight="700"
                     style={{ paintOrder: "stroke" }}
                     stroke="hsl(var(--background))"
-                    strokeWidth="0.7"
+                    strokeWidth={Math.max(0.8, fontSize * 0.45)}
                     strokeLinejoin="round"
+                    transform={labelRotate ? `rotate(${labelRotate} ${labelX} ${labelY})` : undefined}
                   >
                     {z.label}
                   </text>
