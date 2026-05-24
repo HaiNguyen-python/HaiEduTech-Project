@@ -1218,30 +1218,37 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       "data": [],
       "type": "map",
       "stages": [
+        { "title": "Town centre", "description": "1990: small market square; 2020: modern shopping mall.", "icon": "🏙️" },
+        { "title": "Orchards", "description": "1990: orchards in the south; 2020: housing estate (≈50 homes).", "icon": "🏘️" },
+        { "title": "Eastern farmland", "description": "1990: open farmland; 2020: community park.", "icon": "🌳" },
+        { "title": "Stream", "description": "1990: natural stream; 2020: decorative water feature.", "icon": "💧" },
+        { "title": "Road", "description": "1990: single-track road; 2020: dual carriageway connecting to motorway.", "icon": "🛣️" }
+      ],
+      "mapLayouts": [
         {
-          "title": "Town centre",
-          "description": "1990: small market square; 2020: modern shopping mall.",
-          "icon": "🏙️"
+          "title": "Greenfield — 1990",
+          "zones": [
+            { "x": 30, "y": 6,  "w": 40, "h": 16, "label": "Market Square", "color": "#FBBF24", "icon": "🏪", "shape": "rect" },
+            { "x": 4,  "y": 26, "w": 22, "h": 14, "label": "Farmstead", "color": "#A3E635", "icon": "🚜", "shape": "rect" },
+            { "x": 74, "y": 26, "w": 22, "h": 14, "label": "Farmstead", "color": "#A3E635", "icon": "🚜", "shape": "rect" },
+            { "x": 8,  "y": 56, "w": 50, "h": 30, "label": "Orchards", "color": "#10B981", "icon": "🍎", "shape": "rect" },
+            { "x": 64, "y": 46, "w": 32, "h": 44, "label": "Farmland", "color": "#A3E635", "icon": "🌾", "shape": "rect" },
+            { "x": 88, "y": 46, "w": 3,  "h": 50, "label": "Stream", "shape": "river" },
+            { "x": 48, "y": 22, "w": 2,  "h": 70, "label": "Lane", "shape": "road" }
+          ]
         },
         {
-          "title": "Orchards",
-          "description": "1990: orchards in the south; 2020: housing estate (≈50 homes).",
-          "icon": "🏘️"
-        },
-        {
-          "title": "Eastern farmland",
-          "description": "1990: open farmland; 2020: community park.",
-          "icon": "🌳"
-        },
-        {
-          "title": "Stream",
-          "description": "1990: natural stream; 2020: decorative water feature.",
-          "icon": "💧"
-        },
-        {
-          "title": "Road",
-          "description": "1990: single-track road; 2020: dual carriageway connecting to motorway.",
-          "icon": "🛣️"
+          "title": "Greenfield — 2020",
+          "zones": [
+            { "x": 30, "y": 6,  "w": 40, "h": 16, "label": "Shopping Mall", "color": "#F59E0B", "icon": "🏬", "shape": "rect" },
+            { "x": 4,  "y": 26, "w": 22, "h": 14, "label": "Houses", "color": "#F472B6", "icon": "🏠", "shape": "rect" },
+            { "x": 74, "y": 26, "w": 22, "h": 14, "label": "Houses", "color": "#F472B6", "icon": "🏠", "shape": "rect" },
+            { "x": 8,  "y": 56, "w": 50, "h": 30, "label": "Housing Estate (≈50)", "color": "#F472B6", "icon": "🏘️", "shape": "rect" },
+            { "x": 64, "y": 46, "w": 22, "h": 44, "label": "Community Park", "color": "#10B981", "icon": "🌳", "shape": "rect" },
+            { "x": 88, "y": 70, "w": 8,  "h": 8,  "label": "Pond", "color": "#60A5FA", "icon": "💧", "shape": "circle" },
+            { "x": 44, "y": 22, "w": 10, "h": 70, "label": "Dual Carriageway", "shape": "road" },
+            { "x": 0,  "y": 92, "w": 100,"h": 4,  "label": "Motorway", "shape": "road" }
+          ]
         }
       ]
     }
@@ -1339,30 +1346,37 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       "data": [],
       "type": "map",
       "stages": [
+        { "title": "Main building", "description": "L-shaped block retained in both layouts.", "icon": "🏫" },
+        { "title": "Canteen", "description": "2000: small canteen; 2020: enlarged multi-purpose dining hall.", "icon": "🍽️" },
+        { "title": "Playground", "description": "2000: gravel playground; 2020: artificial-turf sports field.", "icon": "⚽" },
+        { "title": "Eastern fields", "description": "2000: open fields; 2020: new gymnasium.", "icon": "🏋️" },
+        { "title": "Boundary", "description": "Trees preserved with new sensory garden added.", "icon": "🌿" }
+      ],
+      "mapLayouts": [
         {
-          "title": "Main building",
-          "description": "L-shaped block retained in both layouts.",
-          "icon": "🏫"
+          "title": "St. Mary's School — 2000",
+          "zones": [
+            { "x": 8,  "y": 8,  "w": 30, "h": 38, "label": "Main Building (L)", "color": "#8B5CF6", "icon": "🏫", "shape": "rect" },
+            { "x": 8,  "y": 46, "w": 18, "h": 18, "label": "Main Building", "color": "#8B5CF6", "icon": "🏫", "shape": "rect" },
+            { "x": 40, "y": 8,  "w": 30, "h": 36, "label": "Gravel Playground", "color": "#D1D5DB", "icon": "🪨", "shape": "rect" },
+            { "x": 40, "y": 56, "w": 26, "h": 14, "label": "Canteen", "color": "#F59E0B", "icon": "🍽️", "shape": "rect" },
+            { "x": 2,  "y": 78, "w": 22, "h": 16, "label": "Car Park", "color": "#6B7280", "icon": "🚗", "shape": "rect" },
+            { "x": 74, "y": 8,  "w": 22, "h": 60, "label": "Open Fields", "color": "#A3E635", "icon": "🌾", "shape": "rect" },
+            { "x": 70, "y": 8,  "w": 3,  "h": 84, "label": "Trees", "color": "#10B981", "shape": "rect" }
+          ]
         },
         {
-          "title": "Canteen",
-          "description": "2000: small canteen; 2020: enlarged multi-purpose dining hall.",
-          "icon": "🍽️"
-        },
-        {
-          "title": "Playground",
-          "description": "2000: gravel playground; 2020: artificial-turf sports field.",
-          "icon": "⚽"
-        },
-        {
-          "title": "Eastern fields",
-          "description": "2000: open fields; 2020: new gymnasium.",
-          "icon": "🏋️"
-        },
-        {
-          "title": "Boundary",
-          "description": "Trees preserved with new sensory garden added.",
-          "icon": "🌿"
+          "title": "St. Mary's School — 2020",
+          "zones": [
+            { "x": 8,  "y": 8,  "w": 30, "h": 38, "label": "Main Building (retained)", "color": "#8B5CF6", "icon": "🏫", "shape": "rect" },
+            { "x": 8,  "y": 46, "w": 18, "h": 18, "label": "Main Building", "color": "#8B5CF6", "icon": "🏫", "shape": "rect" },
+            { "x": 40, "y": 8,  "w": 30, "h": 36, "label": "Sports Pitch (turf)", "color": "#10B981", "icon": "⚽", "shape": "rect" },
+            { "x": 40, "y": 50, "w": 30, "h": 20, "label": "Dining Hall (enlarged)", "color": "#F59E0B", "icon": "🍽️", "shape": "rect" },
+            { "x": 2,  "y": 76, "w": 38, "h": 18, "label": "Car Park (expanded)", "color": "#6B7280", "icon": "🚗", "shape": "rect" },
+            { "x": 74, "y": 8,  "w": 22, "h": 38, "label": "Gymnasium", "color": "#EF4444", "icon": "🏋️", "shape": "rect" },
+            { "x": 74, "y": 50, "w": 22, "h": 44, "label": "Sensory Garden", "color": "#A3E635", "icon": "🌿", "shape": "rect" },
+            { "x": 70, "y": 8,  "w": 3,  "h": 84, "label": "Trees (preserved)", "color": "#10B981", "shape": "rect" }
+          ]
         }
       ]
     }
