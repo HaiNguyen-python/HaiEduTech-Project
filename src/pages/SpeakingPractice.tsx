@@ -887,6 +887,21 @@ const SpeakingPractice = () => {
                           )}
                           {loading ? t("Đang chấm...", "Grading...") : t("Chấm điểm", "Grade")}
                         </Button>
+                        <Button
+                          onClick={handleUpgrade}
+                          disabled={upgrading}
+                          variant="outline"
+                          className="gap-2 border-emerald-400/60 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
+                        >
+                          {upgrading ? (
+                            <motion.div className="w-4 h-4 border-2 border-emerald-500/30 border-t-emerald-500 rounded-full" animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} />
+                          ) : (
+                            <Sparkles className="w-4 h-4" />
+                          )}
+                          {upgrading
+                            ? t("Đang nâng cấp...", "Upgrading...")
+                            : t("Nâng cấp lên Band 8.0+", "Upgrade to Band 8.0+")}
+                        </Button>
                       </>
                     )}
                   </div>
