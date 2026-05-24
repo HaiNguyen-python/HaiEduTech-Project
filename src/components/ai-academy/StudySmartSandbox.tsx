@@ -39,7 +39,7 @@ const score = (p: string) => {
 };
 
 const StudySmartSandbox = () => {
-  const [text, setText] = useState("Giải bài tập hộ tôi.");
+  const [text, setText] = useState("Em chưa hiểu cách giải phương trình bậc 2, hãy giúp em.");
   const r = score(text);
   const better = `Em đang học lớp 10, môn Toán. Hãy giải thích từng bước cách giải phương trình bậc 2 ax² + bx + c = 0, kèm 1 ví dụ cụ thể và cách kiểm tra nghiệm. Đừng làm hộ bài tập của em — chỉ hướng dẫn cách suy nghĩ.`;
 
