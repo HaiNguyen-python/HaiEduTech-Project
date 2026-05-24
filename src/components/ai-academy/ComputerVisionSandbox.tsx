@@ -258,26 +258,26 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
             className="absolute left-0 right-0 top-0 h-1.5 bg-gradient-to-r from-transparent via-cyan-300 to-transparent shadow-[0_0_24px_4px_rgba(34,211,238,0.8)]"
           />
         )}
-
-        {/* Result chip */}
-        <AnimatePresence>
-          {result && !scanning && (
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: 20, opacity: 0 }}
-              className={`absolute bottom-3 left-1/2 -translate-x-1/2 px-3.5 py-2 rounded-lg text-sm font-extrabold border-2 backdrop-blur-md shadow-[0_4px_14px_rgba(0,0,0,0.45)] whitespace-nowrap ${
-                result.conf >= 75
-                  ? "bg-emerald-600/95 border-emerald-300 text-white"
-                  : "bg-rose-600/95 border-rose-300 text-white"
-              }`}
-            >
-              <ScanFace className="inline w-3.5 h-3.5 mr-1" />
-              Nhận diện: {result.name} · Độ tự tin: {result.conf}%
-            </motion.div>
-          )}
-        </AnimatePresence>
       </motion.div>
+
+      {/* Result chip — placed OUTSIDE the overflow-hidden stage so it never clips */}
+      <AnimatePresence>
+        {result && !scanning && (
+          <motion.div
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 10, opacity: 0 }}
+            className={`mx-auto mt-2 inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-extrabold border-2 shadow-[0_4px_14px_rgba(0,0,0,0.45)] whitespace-nowrap ${
+              result.conf >= 75
+                ? "bg-emerald-600/95 border-emerald-300 text-white"
+                : "bg-rose-600/95 border-rose-300 text-white"
+            }`}
+          >
+            <ScanFace className="inline w-4 h-4 mr-1.5 shrink-0" />
+            Nhận diện: {result.name} · Độ tự tin: {result.conf}%
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Accessory toggles — large touch targets for mobile */}
       <div className="flex flex-wrap items-center gap-2">
