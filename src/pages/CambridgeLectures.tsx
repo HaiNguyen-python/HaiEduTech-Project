@@ -363,7 +363,7 @@ const CambridgeLectures = () => {
         </section>
 
         {/* 🎯 Grouped Lectures - by Level → by Skill */}
-        <section className="container mx-auto px-4 pb-16">
+        <section className="container mx-auto px-4 pb-8">
           {filtered.length === 0 ? (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-20">
               <BookOpen className="w-14 h-14 mx-auto text-[#334155] mb-4" />
