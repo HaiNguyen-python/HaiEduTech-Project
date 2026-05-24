@@ -298,7 +298,7 @@ const CambridgeLectureView = () => {
                 );
               })}
             </div>
-          </motion.details>
+          </details>
 
 
           {/* Content Tabs */}
