@@ -386,12 +386,12 @@ const TRACKS: Track[] = [
     id: "ethics",
     emoji: "⚖️",
     Icon: Scale,
-    title: "AI có công bằng?",
-    tag: "AI Ethics & Bias",
-    desc: "Khám phá vì sao AI tuyển dụng của Amazon đã loại CV của phụ nữ — và cách sửa.",
-    gradient: "from-amber-400 via-orange-500 to-rose-600",
-    ring: "ring-amber-400/50",
-    badge: { name: "Fairness Guardian", emoji: "🛡️" },
+    title: "Đạo đức & An toàn AI",
+    tag: "Trợ lý công bằng",
+    desc: "Trở thành hộ vệ công nghệ: Lọc dữ liệu, loại bỏ thiên vị (Bias) để giữ cho AI luôn khách quan và an toàn.",
+    gradient: "from-purple-400 via-fuchsia-500 to-violet-600",
+    ring: "ring-purple-400/50",
+    badge: { name: "Ethics Guardian", emoji: "🛡️" },
     story: [
       {
         heading: "🔬 AI học từ dữ liệu",
