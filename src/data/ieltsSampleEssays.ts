@@ -44,6 +44,18 @@ export interface ChartConfig {
   rows?: string[][];
   // For map/process: descriptive stages
   stages?: { title: string; description: string; icon?: string }[];
+  // For map: rich before/after layouts rendered as labeled SVG diagrams (preferred over stages)
+  // Coordinates are on a 0–100 grid. Use shape: rect (default) | circle | road | river | tree.
+  mapLayouts?: {
+    title: string;
+    zones: {
+      x: number; y: number; w: number; h: number;
+      label: string;
+      color?: string; // tailwind hex
+      icon?: string; // emoji
+      shape?: "rect" | "circle" | "road" | "river" | "tree";
+    }[];
+  }[];
   // For mixed: which keys are bars vs line
   barKeys?: string[];
   lineKey?: string;
