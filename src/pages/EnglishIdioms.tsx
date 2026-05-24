@@ -477,6 +477,111 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
 };
 
 /* ==================================================================== */
+/*                        GROUP MINI QUIZ (LIBRARY)                      */
+/* ==================================================================== */
+const GroupMiniQuiz = ({ groupKey, groupLabel, items, t }: {
+  groupKey: string;
+  groupLabel: string;
+  items: IdiomEntry[];
+  t: (vi: string, en: string) => string;
+}) => {
+  const [seed, setSeed] = useState(1);
+  const [picked, setPicked] = useState<Record<number, string>>({});
+
+  const questions = useMemo(() => {
+    if (items.length < 2) return [];
+    const pool = shuffle(items, seed).slice(0, Math.min(5, items.length));
+    return pool.map((entry, qi) => {
+      const distractors = shuffle(items.filter((x) => x.id !== entry.id), seed * 13 + qi).slice(0, 3);
+      const options = shuffle([entry, ...distractors], seed * 7 + qi);
+      return { entry, options };
+    });
+  }, [items, seed]);
+
+  if (questions.length === 0) return null;
+
+  const answered = Object.keys(picked).length;
+  const correctCount = questions.reduce(
+    (acc, q, qi) => acc + (picked[qi] === q.entry.id ? 1 : 0),
+    0,
+  );
+  const allDone = answered === questions.length;
+
+  return (
+    <div className="rounded-2xl border-2 border-emerald-500/60 bg-background/70 dark:bg-background/40 p-5 shadow-sm">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <h4 className="text-lg sm:text-xl font-extrabold text-foreground flex items-center gap-2">
+          <Sparkles className="w-5 h-5 text-emerald-600" />
+          {t(`Ôn tập: ${groupLabel}`, `Quick Review: ${groupLabel}`)}
+        </h4>
+        <div className="flex items-center gap-2">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/15 border-2 border-emerald-500/50 text-emerald-700 dark:text-emerald-300 text-sm font-bold">
+            <Trophy className="w-4 h-4" /> {correctCount}/{questions.length}
+          </span>
+          <button
+            onClick={() => { setSeed((s) => s + 1); setPicked({}); }}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border-2 border-emerald-500/60 bg-background hover:bg-emerald-500/10 text-sm font-bold text-foreground"
+          >
+            <RefreshCw className="w-4 h-4" /> {t("Làm lại", "Reset")}
+          </button>
+        </div>
+      </div>
+
+      <div className="space-y-5">
+        {questions.map((q, qi) => {
+          const userPick = picked[qi];
+          const isCorrect = userPick === q.entry.id;
+          return (
+            <div key={`${groupKey}-${qi}-${q.entry.id}`} className="rounded-xl border-2 border-emerald-500/40 bg-background/80 p-4">
+              <div className="flex items-start gap-2 mb-3">
+                <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-emerald-500 text-white font-bold text-sm shrink-0">{qi + 1}</span>
+                <p className="text-base sm:text-lg font-bold text-foreground leading-snug">
+                  <span className="mr-1">{q.entry.emoji}</span>"{q.entry.phrase}"
+                </p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                {q.options.map((opt) => {
+                  const isPicked = userPick === opt.id;
+                  const isRight = opt.id === q.entry.id;
+                  const showResult = userPick !== undefined;
+                  return (
+                    <button
+                      key={opt.id}
+                      disabled={showResult}
+                      onClick={() => setPicked((p) => ({ ...p, [qi]: opt.id }))}
+                      className={cn(
+                        "text-left px-3 py-2.5 rounded-lg border-2 text-sm sm:text-base font-medium transition-all",
+                        !showResult && "bg-background border-emerald-500/40 hover:border-emerald-500 hover:bg-emerald-500/5",
+                        showResult && isRight && "bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-300 font-semibold",
+                        showResult && isPicked && !isRight && "bg-rose-500/15 border-rose-500 text-rose-700 dark:text-rose-300 font-semibold",
+                        showResult && !isPicked && !isRight && "bg-background border-emerald-500/20 opacity-60",
+                      )}
+                    >
+                      {opt.meaningVi}
+                    </button>
+                  );
+                })}
+              </div>
+              {userPick !== undefined && !isCorrect && (
+                <p className="mt-2 text-sm text-emerald-700 dark:text-emerald-300 font-semibold">
+                  ✓ {t("Đáp án đúng:", "Correct:")} {q.entry.meaningVi}
+                </p>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {allDone && (
+        <div className="mt-4 rounded-xl border-2 border-emerald-500/60 bg-emerald-500/10 p-3 text-center text-emerald-800 dark:text-emerald-200 font-bold">
+          🎉 {t(`Hoàn thành! Bạn đúng ${correctCount}/${questions.length}.`, `Done! You scored ${correctCount}/${questions.length}.`)}
+        </div>
+      )}
+    </div>
+  );
+};
+
+/* ==================================================================== */
 /*                        EXERCISE 1: MEANING MATCH                      */
 /* ==================================================================== */
 const MatchExercise = ({ t, toast }: { t: (vi: string, en: string) => string; toast: ReturnType<typeof useToast>["toast"] }) => {
