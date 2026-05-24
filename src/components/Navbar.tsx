@@ -123,8 +123,7 @@ const Navbar = () => {
       { to: "/english/pronunciation", label: t("Phát âm & Ngữ điệu", "Pronunciation & Intonation"), icon: Mic2 },
       { to: "/english/conversational/curriculum", label: t("Giao tiếp", "Conversational"), icon: MessageSquare },
       { to: "/english/idioms", label: t("Thành ngữ & Danh ngôn", "Idioms & Quotes"), icon: Quote },
-      { to: "/cambridge-lectures", label: t("Bài giảng Cambridge", "Cambridge Lectures"), icon: BookOpen },
-      { to: "/cambridge-yle-test-prep", label: t("Cambridge YLE Test Prep", "Cambridge YLE Test Prep"), icon: Trophy },
+      { to: "/cambridge-lectures", label: t("Cambridge Lectures & Test Prep", "Cambridge Lectures & Test Prep"), icon: BookOpen },
       { to: "/cambridge-yle-vocabulary", label: t("Cambridge YLE Vocabulary & Arcade", "Cambridge YLE Vocabulary & Arcade"), icon: BookType },
     ] },
     // IELTS - promoted to top-level so all 10 IELTS items are reachable in one hover
