@@ -295,13 +295,13 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
                 key={c}
                 onClick={() => setFilterCategory(c)}
                 className={cn(
-                  "px-4 py-2 rounded-full text-sm font-semibold transition-all border-2 shadow-sm",
+                  "px-5 py-2.5 rounded-full text-base font-bold transition-all border-2 shadow-sm",
                   isActive
                     ? "bg-gradient-to-r from-emerald-500 to-green-600 text-white border-emerald-700 shadow-md shadow-emerald-500/40"
                     : "bg-background text-foreground border-emerald-500/60 hover:border-emerald-600 hover:bg-emerald-500/10 hover:text-emerald-700 dark:hover:text-emerald-300",
                 )}
               >
-                <span className="mr-1.5">{emoji}</span>{label}
+                <span className="mr-1.5 text-lg">{emoji}</span>{label}
               </button>
             );
           })}
@@ -312,7 +312,7 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
           <button
             onClick={() => setFilterTheme("all")}
             className={cn(
-              "px-4 py-2 rounded-full text-sm font-semibold border-2 transition-colors shadow-sm",
+              "px-5 py-2.5 rounded-full text-base font-bold border-2 transition-colors shadow-sm",
               filterTheme === "all"
                 ? "bg-gradient-to-r from-emerald-500 to-green-600 text-white border-emerald-700 shadow-md shadow-emerald-500/40"
                 : "bg-background border-emerald-500/60 text-foreground hover:border-emerald-600 hover:bg-emerald-500/10 hover:text-emerald-700 dark:hover:text-emerald-300",
@@ -327,13 +327,13 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
                 key={th.key}
                 onClick={() => setFilterTheme(th.key)}
                 className={cn(
-                  "px-4 py-2 rounded-full text-sm font-semibold border-2 transition-colors shadow-sm",
+                  "px-5 py-2.5 rounded-full text-base font-bold border-2 transition-colors shadow-sm",
                   isActive
                     ? "bg-gradient-to-r from-emerald-500 to-green-600 text-white border-emerald-700 shadow-md shadow-emerald-500/40"
                     : "bg-background border-emerald-500/60 text-foreground hover:border-emerald-600 hover:bg-emerald-500/10 hover:text-emerald-700 dark:hover:text-emerald-300",
                 )}
               >
-                <span className="mr-1.5 text-base">{th.emoji}</span>
+                <span className="mr-1.5 text-lg">{th.emoji}</span>
                 {t(th.labelVi, th.labelEn)}
               </button>
             );
