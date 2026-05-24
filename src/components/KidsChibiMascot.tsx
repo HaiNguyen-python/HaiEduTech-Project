@@ -138,7 +138,7 @@ function ChibiSVG({ who }: { who: Who; jump?: boolean }) {
       <ellipse cx="80" cy="58" rx="6" ry="4" fill={cheek} opacity="0.7" />
 
       {/* Eyes — huge sparkly kawaii eyes */}
-      <g className="chibi-eye">
+      <g className="chibi-eye-l">
         <ellipse cx="48" cy="52" rx="6" ry="8" fill="#1a1a2e" />
         <ellipse cx="48" cy="55" rx="4" ry="5" fill={isGirl ? "#6B2C5C" : "#1a3a6b"} />
         <circle cx="50" cy="50" r="2.4" fill="#fff" />
