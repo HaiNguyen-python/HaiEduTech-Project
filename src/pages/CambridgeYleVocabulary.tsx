@@ -24,6 +24,7 @@ import { getPos, POS_LABEL } from "@/data/cambridgeKidsPos";
 import KidsSpeechCheck from "@/components/KidsSpeechCheck";
 import KidsChibiMascot from "@/components/KidsChibiMascot";
 import KidsCategoryQuiz from "@/components/KidsCategoryQuiz";
+import { CambridgeArcadeInner } from "@/pages/CambridgeArcade";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import { toast } from "@/hooks/use-toast";
 
@@ -172,6 +173,7 @@ const CambridgeYleVocabulary = () => {
   const [level, setLevel] = useState<CambridgeKidsLevel>("Starters");
   const [search, setSearch] = useState("");
   const [tab, setTab] = useState<"learn" | "practice">("learn");
+  const [view, setView] = useState<"vocab" | "arcade">("vocab");
   const { mastered, toggle } = useMasteredVocab(MASTERY_SUBJECT);
 
   const wordsForLevel = useMemo(
