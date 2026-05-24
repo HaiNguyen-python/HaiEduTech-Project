@@ -11,12 +11,14 @@ import { useCourseAccess } from "@/hooks/useCourseAccess";
 import AccessDeniedModal from "@/components/AccessDeniedModal";
 import IeltsExamBreakdown from "@/components/ielts/IeltsExamBreakdown";
 import SatExamFormat from "@/components/SatExamFormat";
+import SatLandingExtras from "@/components/sat/SatLandingExtras";
 
 import cambridgeImg from "@/assets/course-cambridge.jpg";
 import ieltsImg from "@/assets/course-ielts.jpg";
 import toeicImg from "@/assets/course-toeic.jpg";
 import conversationImg from "@/assets/course-conversation.jpg";
 import nationalExamImg from "@/assets/course-national-exam.jpg";
+import satImg from "@/assets/sat-hero.jpg";
 
 const courseData: Record<string, {
   title: string; titleEn: string; level: string; levelEn: string;
@@ -218,7 +220,7 @@ const courseData: Record<string, {
   sat: {
     title: "Luyện thi SAT", titleEn: "SAT Preparation",
     level: "Trung cấp → Nâng cao", levelEn: "Intermediate → Advanced",
-    image: ieltsImg,
+    image: satImg,
     heroDesc: "Chương trình luyện thi SAT toàn diện giúp học sinh Việt Nam đạt điểm cao trong kỳ thi SAT Digital. Tập trung vào Reading & Writing, từ vựng nâng cao và chiến lược làm bài thông minh - mở cổng vào các trường đại học hàng đầu tại Mỹ.",
     heroDescEn: "Comprehensive SAT preparation helping Vietnamese students achieve high scores on the Digital SAT. Focused on Reading & Writing, advanced vocabulary, and smart test strategies - your gateway to top US universities.",
     stats: [],
@@ -293,9 +295,9 @@ const EnglishCourse = () => {
 
             {/* Hero with image */}
             <div className="glass-card rounded-2xl overflow-hidden mb-8">
-              <div className="relative h-48 md:h-64 overflow-hidden">
-                <img src={course.image} alt={t(course.title, course.titleEn)} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <div className={`relative ${courseId === "sat" ? "h-64 md:h-80" : "h-48 md:h-64"} overflow-hidden`}>
+                <img src={course.image} alt={t(course.title, course.titleEn)} className={`w-full h-full object-cover ${courseId === "sat" ? "object-[center_30%]" : ""}`} />
+                <div className={`absolute inset-0 ${courseId === "sat" ? "bg-gradient-to-t from-violet-950/85 via-indigo-900/40 to-transparent" : "bg-gradient-to-t from-black/60 to-transparent"}`} />
                 <div className="absolute bottom-4 left-6 right-6">
                   <div className="flex items-center gap-2 mb-2">
                     <BookOpen className="w-5 h-5 text-white" />
@@ -378,7 +380,10 @@ const EnglishCourse = () => {
             {/* IELTS Exam Breakdown — 4 skills + Roadmap by Band */}
             {courseId === "ielts" && <IeltsExamBreakdown />}
 
-            {/* SAT detailed format + 10-week curriculum (replaces generic Highlights/Curriculum/Audience/Testimonials) */}
+            {/* SAT — professional landing sections always visible */}
+            {courseId === "sat" && <SatLandingExtras />}
+
+            {/* SAT detailed format + 30-week curriculum (toggled via "SAT Curriculum" button) */}
             {courseId === "sat" && showSatCurriculum && <SatExamFormat />}
 
             {/* Stats — hidden for IELTS & Conversational */}

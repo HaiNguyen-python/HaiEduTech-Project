@@ -1,63 +1,65 @@
-## Thêm 2 bài học mới vào AI Academy
+## Hiện trạng
 
-Bổ sung **Data → ML** vào curriculum, chèn sau bài Neural Networks (lesson 5) và trước Generative AI, để học sinh có lộ trình hoàn chỉnh: Data → ML cổ điển → Deep Learning → GenAI.
+Trang `/english/sat` hiện chỉ có:
+- 1 hero ảnh nền xám (placeholder `ieltsImg` dùng chung, không liên quan SAT)
+- 1 đoạn mô tả ngắn
+- 4 nút CTA gradient (Curriculum / Vocabulary / Exercises / Exams)
+- Footer
 
----
+So với trang IELTS/TOEIC vốn có `ExamBreakdown`, dashboard số liệu, testimonial, breakdown skill — trang SAT đang trống tới ~70% màn hình. Đây là lý do "đơn điệu".
 
-### Bài mới #1: "Thám tử dữ liệu" 🕵️ (Data Detective)
+## Gợi ý các block nên thêm (xếp theo mức ưu tiên)
 
-**Mục tiêu:** Hiểu AI "ăn" dữ liệu thế nào, dữ liệu sạch vs bẩn, và bias.
+### A · Bắt buộc nâng cấp (giá trị thị giác cao, tốn ít công)
 
-**Nội dung:**
-- **3 story cards** (giữ format hiện tại):
-  1. "AI là đầu bếp, dữ liệu là nguyên liệu" — rác vào = rác ra
-  2. Dữ liệu có cấu trúc (bảng Excel) vs phi cấu trúc (ảnh, video, tin nhắn)
-  3. Bias thực tế: FaceID nhận diện kém học sinh Việt vì train chủ yếu trên data người phương Tây
-- **Vietnam case:** VinAI thu thập 1 triệu ảnh người Việt để fix bias FaceID
-- **Golden tip của thầy Hải:** "Trước khi train AI, hãy nhìn data như thám tử — thiếu gì? lệch gì? bẩn chỗ nào?"
-- **Glossary:** dataset, feature, label, bias, outlier, structured/unstructured
-- **Sandbox "Làm sạch dữ liệu":**
-  - Bảng 8 dòng học sinh có lỗi (tuổi = -5, tên trống, chiều cao = 999cm)
-  - Click vào ô bẩn để "xóa/sửa" → biểu đồ cột bên cạnh tự cập nhật real-time
-  - Hiển thị "Độ sạch dữ liệu: 60% → 100%"
-- **Quiz drag-drop:** Kéo 6 ví dụ vào 2 cột Structured / Unstructured (bảng điểm, ảnh selfie, file Excel, video TikTok, tin nhắn Zalo, danh bạ)
-- **Quiz multiple-choice + scenario:** 4 câu về bias, outlier, garbage-in-garbage-out
+1. **Hero ảnh riêng cho SAT** — thay `ieltsImg` bằng ảnh mới (sinh viên Mỹ / khuôn viên Ivy League / bảng điểm 1500+). Đặt overlay gradient tím-indigo (đúng tone `color: purple` đã khai báo). Thêm badge "Digital SAT 2026" + chip điểm mục tiêu "1100 → 1500+".
 
-**Ảnh minh họa:** `src/assets/ai-academy/data-detective.jpg` (chibi thám tử cầm kính lúp soi bảng dữ liệu, gradient xanh dương)
+2. **Dải Trust Stats (4 ô)** — ngay dưới hero, dạng glass-card grid 4 cột:
+   - Học viên đạt 1400+: **47 em**
+   - Điểm trung bình tăng: **+280 điểm**
+   - Trường ĐH Mỹ đã đỗ: **18 trường**
+   - Giờ học cá nhân hóa: **120h/lộ trình**
 
----
+3. **"Digital SAT 2026 ở mức nào?"** — bảng phá vỡ format SAT mới (Module 1 → Module 2 adaptive, Reading & Writing 64 phút, Math 70 phút, Desmos tích hợp). Trình bày dạng 2 card lớn (R&W và Math) với icon, thời lượng, số câu, dạng câu hỏi đặc trưng.
 
-### Bài mới #2: "Học máy siêu đơn giản" 🎩 (ML Magic)
+4. **Thang điểm Band Score Roadmap** — thanh ngang chia 4 cấp 1000-1199 / 1200-1349 / 1350-1499 / 1500-1600, mỗi cấp gắn icon + 1 dòng "Bạn cần làm gì để leo lên cấp tiếp theo". Thiết kế giống `IeltsExamBreakdown` đã có sẵn để tái sử dụng pattern.
 
-**Mục tiêu:** Phân biệt Supervised vs Unsupervised qua 2 thuật toán trực quan: Decision Tree và K-Means.
+### B · Nên có (tăng độ chuyên nghiệp và chuyển đổi)
 
-**Nội dung:**
-- **3 story cards:**
-  1. Decision Tree = chơi "20 câu hỏi" với AI ("Có lông không?" → "Biết bay không?" → Chim!)
-  2. K-Means = AI tự gom nhóm bạn cùng sở thích mà không cần ai dạy nhãn
-  3. Supervised (có thầy giáo chấm điểm) vs Unsupervised (tự khám phá)
-- **Vietnam case:** Shopee dùng K-Means gom khách hàng theo hành vi mua sắm để gợi ý sản phẩm
-- **Golden tip:** "Có nhãn → Supervised. Không nhãn → Unsupervised. Đơn giản vậy thôi!"
-- **Glossary:** supervised, unsupervised, decision tree, cluster, K-Means, classification
-- **Sandbox kép:**
-  - **Tab 1 — Cây quyết định trái cây:** Click vào branch ("Vỏ trơn?" → Yes/No) → cây phát triển dần → đoán Táo/Cam/Chuối
-  - **Tab 2 — K-Means clustering:** 20 chấm màu rải trên canvas, slider K=2/3/4 → AI gom nhóm bằng màu khác nhau với animation
-- **Quiz drag-drop:** Kéo 6 bài toán vào Supervised / Unsupervised (lọc spam, gom khách hàng, đoán giá nhà, phát hiện gian lận lạ, dịch tiếng Anh, nhóm bài hát giống nhau)
-- **Quiz multiple-choice:** 4 câu về cây quyết định, clustering, khi nào dùng cái nào
+5. **"Tại sao SAT khó với học sinh Việt"** — 3 thẻ pain-points (Reading dài & academic / Math wording bẫy / Time pressure 1 phút/câu), mỗi thẻ kèm 1 "Cách thầy Hải giải quyết".
 
-**Ảnh minh họa:** `src/assets/ai-academy/ml-magic.jpg` (chibi pháp sư với mũ phù thủy, cây quyết định + chấm cluster lơ lửng, gradient tím-vàng)
+6. **Mini Diagnostic CTA** — 1 widget rủ học sinh làm 5 câu test nhanh để ước lượng điểm hiện tại, link sang `/sat-exercises`. Tận dụng `AssessmentTool` đã có sẵn cho ngôn ngữ Anh, chỉ cần `preSelectedSubject="english"` + filter SAT.
 
----
+7. **Lộ trình 10 tuần dạng timeline** — chuyển mảng `curriculum` 5 dòng hiện tại thành timeline dọc với gradient connector, icon mỗi giai đoạn (BookOpen / Target / Clock), thay vì chỉ liệt kê text khô như IELTS roadmap đã làm tốt.
 
-### Chi tiết kỹ thuật
+8. **Testimonials carousel có ảnh + điểm số** — hiện đã có 2 testimonial dạng text. Nâng lên dạng card có avatar (initials gradient), điểm trước/sau (1100 → 1420), trường đã đỗ. Có thể marquee tự cuộn.
 
-**Files thay đổi:**
-- `src/pages/AIAcademy.tsx` — thêm 2 lesson objects vào array `LESSONS`, chèn vào vị trí index 5 và 6 (sau Neural Networks). Cập nhật badge logic nếu cần (tổng 18 bài thay vì 16).
-- `src/assets/ai-academy/data-detective.jpg` — generate bằng imagegen (style chibi nhất quán với 16 ảnh hiện có)
-- `src/assets/ai-academy/ml-magic.jpg` — generate bằng imagegen
+### C · Nice-to-have (làm trang "wow")
 
-**Tái sử dụng các component sandbox hiện có** (drag-drop quiz, multiple-choice, glossary card, story card) — không tạo component mới trừ khi cần.
+9. **Common SAT Words of the Day** (tái dùng `WordOfTheDay` đã có, lọc theo `sat-vocabulary`).
 
-**Sandbox Data Cleaning** và **K-Means** sẽ là 2 component nhỏ inline trong AIAcademy.tsx (giữ nguyên pattern hiện tại của các sandbox khác), dùng state local + Framer Motion cho animation. Không cần backend, không cần migration DB.
+10. **Lộ trình du học Mỹ liên kết chéo** — banner nối sang `/study-abroad/sat` và `/global-scholarship` để khép vòng "SAT → học bổng → nộp ĐH Mỹ".
 
-**XP integration:** 2 bài mới tự động hoạt động với `useAIAcademyXP` hook đã có — không cần sửa.
+11. **FAQ accordion** — 6-8 câu (Digital SAT khác SAT cũ thế nào, có cho Desmos không, học bao lâu, học phí, đỗ trường top cần bao nhiêu, mất bao lâu lên 1500, etc).
+
+12. **Sticky bottom CTA** chỉ hiện sau khi cuộn 50% — "Đăng ký tư vấn lộ trình SAT" gắn link `/contact`.
+
+## Đề xuất scope build
+
+Đề xuất build **mục A đầy đủ (1-4) + mục B (5, 7, 8) + FAQ (11)** trong một lần — đủ đậm để trang chuyên nghiệp, không sa đà. Mục 9-10-12 để vòng sau nếu muốn.
+
+## Chi tiết kỹ thuật (cho người dev)
+
+- File chính cần sửa: `src/pages/EnglishCourse.tsx` (block `courseId === "sat"`).
+- Tách 2 component mới: `src/components/sat/SatDigitalFormat.tsx` (mục 3) và `src/components/sat/SatBandRoadmap.tsx` (mục 4) để tránh phình EnglishCourse.tsx.
+- Hero image: dùng `imagegen` model `standard` — prompt "professional Vietnamese student studying at desk with SAT prep books, laptop showing Digital SAT Bluebook, soft purple/indigo lighting, study abroad mood", 1920×768.
+- Tone màu: giữ purple-indigo gradient (đã khai báo `color: "purple"` trong `courseData.sat`), không phá brand Royal Blue → Soft Emerald.
+- Stats có thể hardcode trong `courseData.sat.stats` thay vì query DB (chưa có bảng SAT enrollment).
+- Tái sử dụng pattern từ `IeltsExamBreakdown.tsx` cho band score roadmap.
+
+## Trước khi build
+
+Vui lòng xác nhận:
+- Có duyệt scope A+B+FAQ như trên không, hay muốn thu hẹp/mở rộng?
+- Số liệu Trust Stats (mục 2) — dùng con số gợi ý ở trên hay anh muốn cung cấp số thật?
+- Có muốn mình tạo ảnh hero SAT mới (mục 1) không, hay anh tự upload?
