@@ -159,7 +159,7 @@ const RenderTable = ({ config }: Props) => (
   </div>
 );
 
-// Renders a process/map diagram as a step-flow
+// Renders a process/map diagram as a step-flow (fallback when no mapLayouts)
 const RenderProcessMap = ({ config }: Props) => {
   const iconMap: Record<string, any> = {
     map: MapPin, cog: Cog, database: Database, shield: Shield, server: Server,
@@ -196,6 +196,94 @@ const RenderProcessMap = ({ config }: Props) => {
     </div>
   );
 };
+
+// Renders a single before/after map as labeled SVG
+const RenderMapLayout = ({ layout }: { layout: NonNullable<ChartConfig["mapLayouts"]>[number] }) => {
+  // viewBox 0..100 with 4-unit padding
+  return (
+    <div className="flex-1 min-w-[260px]">
+      <p className="text-center text-sm font-semibold text-foreground mb-2">{layout.title}</p>
+      <div className="rounded-lg border border-border/60 bg-gradient-to-br from-emerald-50/40 to-blue-50/40 dark:from-emerald-950/20 dark:to-blue-950/20 overflow-hidden">
+        <svg viewBox="0 0 100 100" className="w-full h-auto block" preserveAspectRatio="xMidYMid meet">
+          {/* compass */}
+          <g transform="translate(92,8)" className="opacity-60">
+            <circle r="5" fill="hsl(var(--background))" stroke="hsl(var(--border))" strokeWidth="0.4" />
+            <text textAnchor="middle" y="-1.2" fontSize="3.2" fill="hsl(var(--foreground))" fontWeight="700">N</text>
+            <path d="M0,-4 L1,0 L-1,0 Z" fill="#EF4444" />
+          </g>
+          {layout.zones.map((z, i) => {
+            const color = z.color || "#3B82F6";
+            const cx = z.x + z.w / 2;
+            const cy = z.y + z.h / 2;
+            const fontSize = Math.min(2.6, Math.max(1.8, z.w / 8));
+            const iconSize = Math.min(4.5, Math.max(2.8, z.w / 4));
+            const fillOpacity = z.shape === "road" || z.shape === "river" ? 1 : 0.28;
+            let shapeEl: JSX.Element;
+            if (z.shape === "circle") {
+              const r = Math.min(z.w, z.h) / 2;
+              shapeEl = <circle cx={cx} cy={cy} r={r} fill={color} fillOpacity={fillOpacity} stroke={color} strokeWidth="0.4" />;
+            } else if (z.shape === "road") {
+              shapeEl = <rect x={z.x} y={z.y} width={z.w} height={z.h} fill="#6B7280" rx="0.4" stroke="#374151" strokeWidth="0.2" strokeDasharray="1.2 0.6" />;
+            } else if (z.shape === "river") {
+              shapeEl = <rect x={z.x} y={z.y} width={z.w} height={z.h} fill="#60A5FA" rx={Math.min(z.w, z.h) / 2} />;
+            } else if (z.shape === "tree") {
+              const r = Math.min(z.w, z.h) / 2;
+              shapeEl = <circle cx={cx} cy={cy} r={r} fill="#10B981" fillOpacity="0.55" />;
+            } else {
+              shapeEl = <rect x={z.x} y={z.y} width={z.w} height={z.h} fill={color} fillOpacity={fillOpacity} stroke={color} strokeWidth="0.5" rx="1" />;
+            }
+            const labelTop = z.shape === "road" || z.shape === "river";
+            return (
+              <g key={i}>
+                {shapeEl}
+                {z.icon && z.shape !== "road" && z.shape !== "river" && (
+                  <text x={cx} y={cy - 0.4} textAnchor="middle" fontSize={iconSize} dominantBaseline="middle">{z.icon}</text>
+                )}
+                <text
+                  x={cx}
+                  y={labelTop ? z.y - 0.8 : cy + iconSize / 1.4 + fontSize * 0.9}
+                  textAnchor="middle"
+                  fontSize={fontSize}
+                  fill="hsl(var(--foreground))"
+                  fontWeight="600"
+                  style={{ paintOrder: "stroke" }}
+                  stroke="hsl(var(--background))"
+                  strokeWidth="0.45"
+                >
+                  {z.label}
+                </text>
+              </g>
+            );
+          })}
+        </svg>
+      </div>
+    </div>
+  );
+};
+
+const RenderBeforeAfterMap = ({ config }: Props) => (
+  <div className="space-y-4">
+    <div className="flex flex-col md:flex-row gap-4">
+      {(config.mapLayouts || []).map((layout, i) => (
+        <RenderMapLayout key={i} layout={layout} />
+      ))}
+    </div>
+    {/* compact change list below maps */}
+    {config.stages && config.stages.length > 0 && (
+      <div className="grid sm:grid-cols-2 gap-2 text-xs">
+        {config.stages.map((s, i) => (
+          <div key={i} className="flex items-start gap-2 rounded-md bg-muted/40 px-2.5 py-1.5">
+            <span className="w-5 h-5 rounded-full bg-gradient-to-br from-primary to-emerald-500 text-white font-bold flex items-center justify-center shrink-0 text-[10px]">{i + 1}</span>
+            <div>
+              <p className="font-semibold text-foreground">{s.title}</p>
+              <p className="text-muted-foreground">{s.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+);
 
 // Renders a mixed chart (bars + line)
 const RenderMixedChart = ({ config }: Props) => {
