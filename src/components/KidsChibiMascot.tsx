@@ -144,7 +144,7 @@ function ChibiSVG({ who }: { who: Who; jump?: boolean }) {
         <circle cx="50" cy="50" r="2.4" fill="#fff" />
         <circle cx="46" cy="56" r="1.2" fill="#fff" />
       </g>
-      <g className="chibi-eye" style={{ animationDelay: ".15s" } as any}>
+      <g className="chibi-eye-r" style={{ animationDelay: ".15s" } as any}>
         <ellipse cx="72" cy="52" rx="6" ry="8" fill="#1a1a2e" />
         <ellipse cx="72" cy="55" rx="4" ry="5" fill={isGirl ? "#6B2C5C" : "#1a3a6b"} />
         <circle cx="74" cy="50" r="2.4" fill="#fff" />
