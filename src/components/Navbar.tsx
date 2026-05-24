@@ -214,7 +214,6 @@ const Navbar = () => {
   const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("Tổng quan", "Overview"), icon: Library },
     { to: "#prog-foundation-group", label: t("Lộ trình Cơ bản", "Foundation Track"), icon: GraduationCap, groupLabel: "prog-foundation", children: [
-      { to: "/programming/ai-academy", label: t("🚀 AI Academy (Cấp 2–3)", "🚀 AI Academy (Grade 6–12)"), icon: Sparkles },
       { to: "/programming?pillar=python-pathway", label: t("Introduction to Programming", "Introduction to Programming"), icon: Code2 },
       { to: "/python-challenges", label: t("150 Thử thách Python", "150 Python Challenges"), icon: Trophy },
     ] },
@@ -233,6 +232,7 @@ const Navbar = () => {
       { to: "/programming/se-foundations/se-git", label: t("Git Branching Simulator", "Git Branching Simulator"), icon: Workflow },
       { to: "/programming/software-eng-interview", label: t("Software Engineer Interview", "Software Engineer Interview"), icon: MessagesSquare },
     ] },
+    { to: "/programming/ai-academy", label: t("AI Academy (Cấp 2–3)", "AI Academy (Grade 6–12)"), icon: RobotIcon },
     { to: "#prog-career-group", label: t("Sự nghiệp", "Career"), icon: Briefcase, groupLabel: "prog-career", children: [
       { to: "/programming/career-roadmap", label: t("Career Roadmap", "Career Roadmap"), icon: Sparkles },
       { to: "/programming/interview-questions", label: t("Câu hỏi Phỏng vấn", "Interview Questions"), icon: MessagesSquare },
