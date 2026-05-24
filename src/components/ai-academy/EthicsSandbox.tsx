@@ -8,6 +8,21 @@ import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Scale, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
+import { BonusGames } from "./SandboxBonusGames";
+
+const ETH_TF = [
+  { q: "AI có ý thức và có thể tự quyết định đạo đức.", a: false, why: "AI chỉ học theo dữ liệu — không có 'lương tâm'." },
+  { q: "Dữ liệu thiên vị → AI thiên vị.", a: true },
+  { q: "Amazon từng phải bỏ AI tuyển dụng vì phân biệt giới.", a: true, why: "Năm 2018, vì dữ liệu lịch sử lệch về nam giới." },
+  { q: "Cân bằng dữ liệu giúp AI công bằng hơn.", a: true },
+  { q: "AI Ethics chỉ quan trọng cho công ty lớn.", a: false, why: "Mọi sản phẩm AI dùng cho con người đều cần — kể cả app nhỏ." },
+];
+const ETH_PAIRS = [
+  { a: "Bias", b: "Thiên vị trong dữ liệu / mô hình" },
+  { a: "Fairness", b: "Công bằng giữa các nhóm người" },
+  { a: "Transparency", b: "Người dùng hiểu được AI quyết định ra sao" },
+  { a: "Privacy", b: "Bảo vệ dữ liệu cá nhân" },
+];
 
 const EthicsSandbox = () => {
   // % of training examples that are male engineers (rest female)
