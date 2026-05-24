@@ -334,44 +334,57 @@ const EnglishCourse = () => {
                     <AccessDeniedModal open={showAccessModal} onOpenChange={setShowAccessModal} />
                   </div>
                 )}
-                {/* SAT Curriculum CTA */}
+                {/* SAT — 4 entry-points as unified cards */}
                 {courseId === "sat" && (
-                  <div className="mt-4 pt-4 border-t flex flex-wrap gap-3">
-                    <button
-                      onClick={() => {
-                        setShowSatCurriculum(true);
-                        setTimeout(() => {
-                          document.getElementById("sat-lessons")?.scrollIntoView({ behavior: "smooth" });
-                        }, 80);
-                      }}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all shadow-md"
-                    >
-                      <BookOpen className="h-4 w-4" />
-                      {showSatCurriculum
-                        ? t("Chương trình SAT ↓", "SAT Curriculum ↓")
-                        : t("Chương trình SAT →", "SAT Curriculum →")}
-                    </button>
-                    <button
-                      onClick={() => navigate("/sat-vocabulary")}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-amber-500 to-orange-500 text-white font-semibold hover:from-amber-600 hover:to-orange-600 transition-all shadow-md"
-                    >
-                      <BookOpen className="h-4 w-4" />
-                      {t("Từ vựng SAT →", "SAT Vocabulary →")}
-                    </button>
-                    <button
-                      onClick={() => navigate("/sat-exercises")}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold hover:from-emerald-600 hover:to-teal-600 transition-all shadow-md"
-                    >
-                      <Sparkles className="h-4 w-4" />
-                      {t("SAT Exercises →", "SAT Exercises →")}
-                    </button>
-                    <button
-                      onClick={() => navigate("/sat-exams")}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500 text-white font-semibold hover:opacity-90 transition-all shadow-md"
-                    >
-                      <Sparkles className="h-4 w-4" />
-                      {t("SAT Exams →", "SAT Exams →")}
-                    </button>
+                  <div className="mt-5 pt-5 border-t">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                      {[
+                        {
+                          to: "/sat-curriculum",
+                          icon: BookOpen,
+                          title: t("Chương trình SAT", "SAT Curriculum"),
+                          sub: t("30 tuần · Bluebook", "30 weeks · Bluebook"),
+                          iconBg: "from-violet-500 to-indigo-500",
+                        },
+                        {
+                          to: "/sat-vocabulary",
+                          icon: Layers,
+                          title: t("Từ vựng SAT", "SAT Vocabulary"),
+                          sub: t("1000+ từ học thuật", "1000+ academic words"),
+                          iconBg: "from-amber-500 to-orange-500",
+                        },
+                        {
+                          to: "/sat-exercises",
+                          icon: Sparkles,
+                          title: t("Bài tập SAT", "SAT Exercises"),
+                          sub: t("Drills theo dạng câu", "Question-type drills"),
+                          iconBg: "from-emerald-500 to-teal-500",
+                        },
+                        {
+                          to: "/sat-exams",
+                          icon: Award,
+                          title: t("Đề thi SAT", "SAT Exams"),
+                          sub: t("10 mock test full", "10 full mock tests"),
+                          iconBg: "from-fuchsia-500 to-rose-500",
+                        },
+                      ].map((card) => (
+                        <button
+                          key={card.to}
+                          onClick={() => navigate(card.to)}
+                          className="group text-left p-4 rounded-2xl border border-border bg-background/60 hover:border-primary/60 hover:bg-background hover:shadow-md transition-all"
+                        >
+                          <div className={`w-9 h-9 mb-3 rounded-xl bg-gradient-to-br ${card.iconBg} flex items-center justify-center shadow-sm`}>
+                            <card.icon className="w-4 h-4 text-white" />
+                          </div>
+                          <p className="text-sm font-display font-semibold text-foreground group-hover:text-primary transition-colors leading-tight">
+                            {card.title}
+                          </p>
+                          <p className="text-[11px] text-muted-foreground mt-1 leading-snug">
+                            {card.sub}
+                          </p>
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
