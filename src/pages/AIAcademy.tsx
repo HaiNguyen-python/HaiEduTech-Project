@@ -38,6 +38,44 @@ import { QUIZ_EXTRAS } from "@/data/aiAcademyQuizExtras";
 import DeepfakeSandbox from "@/components/ai-academy/DeepfakeSandbox";
 import AgentWorkflowSandbox from "@/components/ai-academy/AgentWorkflowSandbox";
 import GraduationSandbox from "@/components/ai-academy/GraduationSandbox";
+
+// Lesson illustrations (kid-friendly AI cartoons)
+import illVision from "@/assets/ai-academy/vision.jpg";
+import illNlp from "@/assets/ai-academy/nlp.jpg";
+import illNn from "@/assets/ai-academy/nn.jpg";
+import illGenai from "@/assets/ai-academy/genai.jpg";
+import illRl from "@/assets/ai-academy/rl.jpg";
+import illEthics from "@/assets/ai-academy/ethics.jpg";
+import illRecsys from "@/assets/ai-academy/recsys.jpg";
+import illAiot from "@/assets/ai-academy/aiot.jpg";
+import illCapstone from "@/assets/ai-academy/capstone.jpg";
+import illDeepfake from "@/assets/ai-academy/deepfake.jpg";
+import illAgent from "@/assets/ai-academy/agent.jpg";
+import illStudy from "@/assets/ai-academy/study.jpg";
+import illCareers from "@/assets/ai-academy/careers.jpg";
+import illFactcheck from "@/assets/ai-academy/factcheck.jpg";
+import illSafety from "@/assets/ai-academy/safety.jpg";
+import illGraduation from "@/assets/ai-academy/graduation.jpg";
+
+const TRACK_ILLUSTRATIONS: Record<string, string> = {
+  vision: illVision,
+  nlp: illNlp,
+  nn: illNn,
+  genai: illGenai,
+  rl: illRl,
+  ethics: illEthics,
+  recsys: illRecsys,
+  aiot: illAiot,
+  capstone: illCapstone,
+  deepfake: illDeepfake,
+  agent: illAgent,
+  study: illStudy,
+  careers: illCareers,
+  factcheck: illFactcheck,
+  safety: illSafety,
+  graduation: illGraduation,
+};
+
 import FloatingAIIcons from "@/components/ai-academy/FloatingAIIcons";
 import GraduationCertificate from "@/components/ai-academy/GraduationCertificate";
 import AutoTranslateBoundary from "@/components/ai-academy/AutoTranslateBoundary";
