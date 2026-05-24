@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Eye, MessageSquare, Brain, Sparkles, Trophy, Star, ArrowLeft, Lock,
-  Zap, Award, Rocket, CheckCircle2, Wand2, Film, Scale,
+  Zap, Award, Rocket, CheckCircle2, Wand2, Car, Scale,
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import Navbar from "@/components/Navbar";
