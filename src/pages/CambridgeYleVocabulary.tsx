@@ -456,6 +456,14 @@ const CambridgeYleVocabulary = () => {
                               );
                             })}
                             </div>
+                            <div className="px-6 md:px-7 pb-6">
+                              <KidsCategoryQuiz
+                                words={words}
+                                accentColor={theme.border}
+                                softColor={theme.soft}
+                                lang={lang as "vi" | "en"}
+                              />
+                            </div>
                           </div>
                         </motion.div>
                       )}
