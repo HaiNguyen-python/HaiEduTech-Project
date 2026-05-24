@@ -9,6 +9,21 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Cpu, CheckCircle2, Sparkles, RefreshCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import confetti from "canvas-confetti";
+import { BonusGames } from "./SandboxBonusGames";
+
+const CAP_TF = [
+  { q: "Một trợ lý AI tốt cần kết hợp nhiều mô-đun (vision, NLP, ethics…).", a: true },
+  { q: "Chỉ cần 1 mô-đun NLP là đủ để làm trợ lý đa năng.", a: false, why: "Trợ lý mạnh cần kết hợp nhiều năng lực." },
+  { q: "Bộ lọc đạo đức giúp AI từ chối yêu cầu nguy hiểm.", a: true },
+  { q: "Càng nhiều mô-đun thì trợ lý càng tốn tài nguyên.", a: true },
+  { q: "AI sẵn sàng đi làm mà không cần đánh giá an toàn.", a: false, why: "Mọi sản phẩm AI phải qua kiểm thử đạo đức + an toàn." },
+];
+const CAP_PAIRS = [
+  { a: "Vision module", b: "Mắt — nhận diện ảnh / camera" },
+  { a: "NLP module", b: "Hiểu và tạo ngôn ngữ" },
+  { a: "Neural core", b: "Bộ não suy luận" },
+  { a: "Ethics layer", b: "Lớp bảo vệ đạo đức & an toàn" },
+];
 
 type ModuleId = "vision" | "nlp" | "brain" | "ethics" | "rl" | "iot";
 
