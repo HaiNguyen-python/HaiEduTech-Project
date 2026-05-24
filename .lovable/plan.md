@@ -1,101 +1,81 @@
-# Rà soát nội dung AI Academy & đề xuất bổ sung
+## Mục tiêu (Bước A)
 
-## 1. Hiện trạng (tổng kết nhanh)
+Giảm First Paint của preview từ ~7.5s xuống ước tính 4–5s bằng cách:
+1. Lazy-hoá các trang đang import trực tiếp trong `src/App.tsx` (`Index`, `Welcome`, `NotFound`).
+2. Lazy + **defer mount** 7 widget toàn cục hiện đang chạy ngay khi app khởi động: `ChatBot`, `FloatingNotebook`, `LastSessionRecap`, `GlobalSuperDictionary`, `SessionTracker`, `PageViewTracker`, `LessonFeedback`.
 
-12 bài hiện có cấu trúc đồng nhất:
-- **Story (pane trái):** 3 thẻ × ~50–80 từ (heading emoji + body) → ~210 từ/bài
-- **Sandbox (pane phải):** 1 mini-game tương tác (Bài 1 đã viết lại theo spec mới; Bài 2–12 vẫn ở phiên bản cũ)
-- **Quiz:** 3 câu drag-drop vào 2 bucket
-- **Phần thưởng:** sao + huy hiệu + confetti + log Supabase
+Các widget này có tổng cỡ ~80KB+ source (riêng `FloatingNotebook.tsx` 27KB, `LessonFeedback.tsx` 17KB) và đều xuất hiện trong top "slowest resources" của lần đo trước.
 
-## 2. Phát hiện thiếu sót lớn
+## Thay đổi trong `src/App.tsx`
 
-| # | Vấn đề | Mức độ |
-|---|--------|--------|
-| A | Nội dung story quá ngắn (~210 từ) so với chuẩn long-read 300–500 từ của HaiEduTech | **Cao** |
-| B | Thiếu case study Việt Nam (VinAI, FPT.AI, Zalo AI, VinFast tự lái, vụ deepfake VTV) — chỉ Bài 6 có Amazon 2018 | **Cao** |
-| C | Chỉ 1 dạng quiz duy nhất (drag-drop). Học sinh chơi 12 bài → nhàm | **Cao** |
-| D | Thiếu **"Mẹo vàng của thầy Hải"** — pattern đặc trưng của các lecture khác trên hệ thống | **Trung bình** |
-| E | Không có glossary / thuật ngữ (tokenization, bounding box, cosine similarity…) để tra cứu nhanh | **Trung bình** |
-| F | Không có gợi ý nghề nghiệp cho từng bài (chỉ Bài 12 có) | **Trung bình** |
-| G | Không có bài tập về nhà / dự án mini sau mỗi bài | **Trung bình** |
-| H | Không link tới demo thật ngoài đời (Teachable Machine, HuggingFace Spaces, Scratch ML4Kids, Quick Draw) | **Trung bình** |
-| I | Không có video YouTube nhúng minh hoạ | **Thấp** |
-| J | Bài 9 (Capstone) và Bài 12 (Graduation) chồng lấp khái niệm "kết thúc" — cần phân vai rõ | **Thấp** |
-| K | Bài 6 (Ethics) & Bài 10 (Deepfake) chưa có cảnh báo an toàn cho phụ huynh / hotline báo cáo VN | **Trung bình** |
-| L | Không có reflection prompt ("Em hiểu gì sau bài này?") | **Thấp** |
-| M | Sandbox Bài 2–12 chưa khớp spec gameplay mới (đã thảo luận turn trước) | **Cao** |
-| N | Không có map tiên quyết / thứ tự học gợi ý (Bài 4 nên sau Bài 3?) | **Thấp** |
-| O | Không có cheat sheet / mindmap in được sau khi tốt nghiệp | **Thấp** |
+### 1) Đổi import tĩnh → `lazy()`
 
-## 3. Đề xuất bổ sung — chia 3 đợt
+```tsx
+const Index = lazy(() => import("./pages/Index.tsx"));
+const Welcome = lazy(() => import("./pages/Welcome.tsx"));
+const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
-### Đợt 1 — Nội dung cốt lõi (ưu tiên cao, ~3–4 turn)
+const ChatBot = lazy(() => import("./components/ChatBot.tsx"));
+const FloatingNotebook = lazy(() => import("./components/FloatingNotebook.tsx"));
+const LastSessionRecap = lazy(() => import("./components/LastSessionRecap.tsx"));
+const GlobalSuperDictionary = lazy(() => import("./components/GlobalSuperDictionary.tsx"));
+const SessionTracker = lazy(() => import("./components/SessionTracker.tsx"));
+const PageViewTracker = lazy(() => import("./components/PageViewTracker.tsx"));
+const LessonFeedback = lazy(() => import("./components/LessonFeedback.tsx"));
+```
 
-Mở rộng schema `Track` thêm các trường:
+### 2) Thêm helper `DeferredMount`
 
-```ts
-type Track = {
-  // ...giữ nguyên các trường cũ
-  story: { heading: string; body: string }[];   // nâng từ 3 → 4–5 thẻ, mỗi thẻ 80–120 từ
-  vietnamCase?: { title: string; body: string }; // case study VN
-  goldenTip?: string;                            // "Mẹo vàng của thầy Hải"
-  glossary?: { term: string; def: string }[];    // 4–6 thuật ngữ/bài
-  careers?: string[];                            // 3–5 nghề liên quan
-  homework?: string;                             // 1 dự án mini
-  externalDemo?: { label: string; url: string }[]; // 2–3 link tools thật
+Mount con sau khi browser idle (`requestIdleCallback`, fallback `setTimeout 1200ms`) để không cản trở first paint:
+
+```tsx
+const DeferredMount = ({ children, delay = 1200 }) => {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    const trigger = () => setReady(true);
+    if ("requestIdleCallback" in window) {
+      const id = (window as any).requestIdleCallback(trigger, { timeout: delay + 1500 });
+      return () => (window as any).cancelIdleCallback?.(id);
+    }
+    const t = setTimeout(trigger, delay);
+    return () => clearTimeout(t);
+  }, [delay]);
+  return ready ? <Suspense fallback={null}>{children}</Suspense> : null;
 };
 ```
 
-UI: Render thêm 4 section dưới Story:
-1. 🇻🇳 **Câu chuyện Việt Nam**
-2. 💡 **Mẹo vàng của thầy Hải** (highlight vàng)
-3. 📖 **Từ điển AI** (accordion expand)
-4. 🎯 **Thử sức ở nhà** + 🔗 **Chơi với AI thật**
+### 3) Bọc các widget toàn cục
 
-### Đợt 2 — Đa dạng hoá quiz (ưu tiên cao, ~2 turn)
-
-Thêm 2 component quiz mới ngoài drag-drop:
-- `MultipleChoiceQuiz.tsx` — 1 câu hỏi, 4 đáp án, có giải thích sau khi chọn
-- `ScenarioQuiz.tsx` — kể 1 tình huống đời thực, học sinh chọn hành động đúng
-
-Mỗi track có thể trộn 2–3 loại quiz khác nhau thay vì chỉ drag-drop. Mở rộng `quiz` field:
-
-```ts
-quiz: (DDQuestion | MCQuestion | ScenarioQuestion)[]
+```tsx
+<DeferredMount>
+  <ChatBot />
+  <FloatingNotebook />
+  <LastSessionRecap />
+  <GlobalSuperDictionary />
+  <SessionTracker />
+  <PageViewTracker />
+  <LessonFeedback />
+</DeferredMount>
 ```
 
-### Đợt 3 — Hoàn thiện sandbox theo spec (ưu tiên cao, ~6–8 turn)
+### 4) Bảo đảm `<Suspense>` đã bao bọc `<Routes>`
 
-Viết lại 11 sandbox còn lại (Bài 2–12) theo spec gameplay đã chốt ở turn trước, dùng `aiAcademyFx.ts` đã có sẵn (bounce / shake / sound). Mỗi sandbox 1 turn riêng để kiểm soát chất lượng.
+Vì `Index`/`Welcome`/`NotFound` giờ là lazy, kiểm tra `Routes` đang nằm trong `<Suspense fallback={...}>` (hiện đã có `LazyRoute` cho các route khác — sẽ kiểm tra và bổ sung nếu thiếu ở route gốc `/`, `/home`, `/welcome`, `*`).
 
-### Đợt 4 — Phụ kiện thưởng thêm (tuỳ chọn, ~2 turn)
+## Hiệu quả dự kiến
 
-- **Bài 6 & Bài 10:** Thêm khung ⚠️ "Khi gặp tình huống thật" + hotline 113 / Cục An toàn TT (0339.829.929) / form báo cáo
-- **Tổng quan:** "Bản đồ học tập" SVG hiển thị thứ tự gợi ý 12 bài (graph có mũi tên)
-- **Cuối Bài 12:** Nút "Tải mindmap PDF" tổng hợp 12 bài
+- Loại bỏ ~7 file component khỏi đường tải ban đầu → bớt 7 request và ~80KB JS parse khỏi giai đoạn FCP.
+- `Index.tsx` (home page) sẽ chia thành chunk riêng, được tải song song nhưng không khoá khung app.
+- Tracking widgets (`SessionTracker`, `PageViewTracker`) vẫn chạy sau khi idle nên không mất dữ liệu — chỉ trì hoãn ~1.2s.
 
-## 4. Đề xuất tách Bài 9 vs Bài 12
+## Không thay đổi
 
-| | Bài 9 — Capstone | Bài 12 — Graduation |
-|---|---|---|
-| Hiện tại | Lắp Robot từ huy hiệu | Generate certificate |
-| **Đề xuất** | **BUILD** — đóng vai kỹ sư, ráp module thật | **PRESENT** — đóng vai diễn giả, pitch sản phẩm |
-| Story nên về | Quy trình kỹ thuật MLOps | Storytelling, public speaking, career |
-| Sandbox | Giữ Robot assembly | Giữ certificate, thêm "viết pitch 60s" |
+- Hành vi UI/UX của các widget.
+- Cấu trúc routing và các `lazy()` đã có sẵn.
+- File ngoài `src/App.tsx`.
 
-## 5. Phần kỹ thuật
+## Kiểm tra sau khi triển khai
 
-- Toàn bộ comment trong code bằng tiếng Anh (theo rule)
-- Sanitize HTML body bằng DOMPurify nếu cho phép `<b>` (đã có sẵn pattern trên hệ thống)
-- Giữ localStorage key `haiedu_ai_academy_progress`, không break dữ liệu cũ
-- Mỗi quiz type mới phải có biến thể mobile-friendly (button ≥44px)
-- Glossary và career list lưu trong cùng object TRACKS để dễ bảo trì
-
-## 6. Đề xuất thứ tự thực thi nếu bạn đồng ý
-
-1. **Turn tiếp theo:** Mở rộng story + thêm vietnamCase + goldenTip + glossary + careers + homework cho cả 12 bài (1 file lớn `AIAcademy.tsx` — chỉ sửa mảng TRACKS + JSX render section mới)
-2. **Sau đó:** Thêm 2 loại quiz mới (MC + Scenario) + viết lại quiz array cho 12 bài
-3. **Cuối:** Viết lại tuần tự sandbox Bài 2–12 (1 bài/turn)
-
-Bạn muốn mình chốt theo phương án này, hay chỉ chọn một số mục cụ thể trong bảng phát hiện ở mục 2 để làm trước?
+1. Mở preview → quan sát FCP mới qua performance profile.
+2. Reload `/`, `/programming/ai-academy`, `/dashboard` — chắc chắn ChatBot, Notebook, SuperDictionary vẫn hiện sau 1–2s.
+3. Kiểm tra Network để xác nhận các file widget chỉ tải sau khi app idle.

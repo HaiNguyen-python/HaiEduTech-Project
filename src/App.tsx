@@ -11,23 +11,47 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/contexts/LanguageContext";
-import { lazy, Suspense } from "react";
-import Index from "./pages/Index.tsx";
-import Welcome from "./pages/Welcome.tsx";
-import NotFound from "./pages/NotFound.tsx";
+import { lazy, Suspense, useEffect, useState, type ReactNode } from "react";
+
+// Lazy-loaded route shells (off the critical path for first paint)
+const Index = lazy(() => import("./pages/Index.tsx"));
+const Welcome = lazy(() => import("./pages/Welcome.tsx"));
+const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
 /** Decides whether to show the splash welcome or the home page on `/`. */
 const RootEntry = () => {
   const welcomed = typeof window !== "undefined" && sessionStorage.getItem("haiedu_welcomed") === "1";
   return welcomed ? <Index /> : <Welcome />;
 };
-import ChatBot from "./components/ChatBot.tsx";
-import FloatingNotebook from "./components/FloatingNotebook.tsx";
-import LastSessionRecap from "./components/LastSessionRecap.tsx";
-import GlobalSuperDictionary from "./components/GlobalSuperDictionary.tsx";
-import SessionTracker from "./components/SessionTracker.tsx";
-import PageViewTracker from "./components/PageViewTracker.tsx";
-import LessonFeedback from "./components/LessonFeedback.tsx";
+
+// Global floating widgets — lazy + deferred so they never block FCP
+const ChatBot = lazy(() => import("./components/ChatBot.tsx"));
+const FloatingNotebook = lazy(() => import("./components/FloatingNotebook.tsx"));
+const LastSessionRecap = lazy(() => import("./components/LastSessionRecap.tsx"));
+const GlobalSuperDictionary = lazy(() => import("./components/GlobalSuperDictionary.tsx"));
+const SessionTracker = lazy(() => import("./components/SessionTracker.tsx"));
+const PageViewTracker = lazy(() => import("./components/PageViewTracker.tsx"));
+const LessonFeedback = lazy(() => import("./components/LessonFeedback.tsx"));
+
+/** Mounts children only after the browser is idle so first paint isn't blocked. */
+const DeferredMount = ({ children, delay = 1200 }: { children: ReactNode; delay?: number }) => {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    const w = window as Window & {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    const trigger = () => setReady(true);
+    if (typeof w.requestIdleCallback === "function") {
+      const id = w.requestIdleCallback(trigger, { timeout: delay + 1500 });
+      return () => w.cancelIdleCallback?.(id);
+    }
+    const t = window.setTimeout(trigger, delay);
+    return () => window.clearTimeout(t);
+  }, [delay]);
+  return ready ? <Suspense fallback={null}>{children}</Suspense> : null;
+};
+
 
 // Lazy-load all heavy route components for optimal code splitting
 const About = lazy(() => import("./pages/About.tsx"));
@@ -181,9 +205,10 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<RootEntry />} />
-            <Route path="/home" element={<Index />} />
-            <Route path="/welcome" element={<Welcome />} />
+            <Route path="/" element={<LazyRoute><RootEntry /></LazyRoute>} />
+            <Route path="/home" element={<LazyRoute><Index /></LazyRoute>} />
+            <Route path="/welcome" element={<LazyRoute><Welcome /></LazyRoute>} />
+
             <Route path="/about" element={<LazyRoute><About /></LazyRoute>} />
             <Route path="/english" element={<LazyRoute><English /></LazyRoute>} />
             <Route path="/english/fun-facts" element={<LazyRoute><EnglishFunFacts /></LazyRoute>} />
@@ -323,15 +348,18 @@ const App = () => (
             <Route path="/study-abroad/checklist" element={<LazyRoute><PreDepartureChecklist /></LazyRoute>} />
             <Route path="/songs/:lang" element={<LazyRoute><SongsLibraryPage /></LazyRoute>} />
             <Route path="/specialized-language" element={<LazyRoute><SpecializedLanguage /></LazyRoute>} />
-            <Route path="*" element={<NotFound />} />
+            <Route path="*" element={<LazyRoute><NotFound /></LazyRoute>} />
           </Routes>
-          <ChatBot />
-          <FloatingNotebook />
-          <LastSessionRecap />
-          <GlobalSuperDictionary />
-          <SessionTracker />
-          <PageViewTracker />
-          <LessonFeedback />
+          <DeferredMount>
+            <ChatBot />
+            <FloatingNotebook />
+            <LastSessionRecap />
+            <GlobalSuperDictionary />
+            <SessionTracker />
+            <PageViewTracker />
+            <LessonFeedback />
+          </DeferredMount>
+
         </BrowserRouter>
       </TooltipProvider>
     </LanguageProvider>
