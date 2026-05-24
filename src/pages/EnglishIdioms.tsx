@@ -135,7 +135,7 @@ const EnglishIdioms = () => {
           </motion.div>
 
           {/* Tabs */}
-          <div className="flex flex-wrap gap-2 mb-8 p-1.5 rounded-2xl bg-secondary/50 border border-border/50 backdrop-blur">
+          <div className="flex flex-wrap gap-2 mb-8 p-1.5 rounded-2xl bg-secondary/50 border-2 border-emerald-500/50 backdrop-blur shadow-sm">
             {TABS.map((tabDef) => {
               const Icon = tabDef.icon;
               const isActive = tab === tabDef.key;
@@ -144,10 +144,10 @@ const EnglishIdioms = () => {
                   key={tabDef.key}
                   onClick={() => switchTab(tabDef.key)}
                   className={cn(
-                    "flex-1 min-w-[140px] inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all",
+                    "flex-1 min-w-[140px] inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all border-2",
                     isActive
-                      ? `bg-gradient-to-r ${tabDef.color} text-white shadow-md`
-                      : "text-foreground/70 hover:bg-background hover:text-foreground",
+                      ? `bg-gradient-to-r ${tabDef.color} text-white shadow-md border-transparent`
+                      : "text-foreground/80 bg-background border-emerald-500/40 hover:bg-emerald-500/10 hover:border-emerald-500 hover:text-foreground",
                   )}
                 >
                   <Icon className="w-4 h-4" />
@@ -156,6 +156,7 @@ const EnglishIdioms = () => {
               );
             })}
           </div>
+
 
           {/* Content */}
           <div ref={contentRef} className="scroll-mt-24">
@@ -262,10 +263,10 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
           <button
             onClick={() => setShowLearnedOnly((v) => !v)}
             className={cn(
-              "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-medium transition-colors",
+              "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border-2 text-xs font-semibold transition-colors",
               showLearnedOnly
-                ? "bg-amber-500 text-white border-amber-500 shadow-sm"
-                : "bg-secondary border-border text-foreground hover:bg-amber-500/10 hover:border-amber-500/40",
+                ? "bg-amber-500 text-white border-amber-600 shadow-sm"
+                : "bg-background border-amber-500/60 text-foreground hover:bg-amber-500/10 hover:border-amber-500",
             )}
             title={t("Chỉ hiện các từ đã đánh dấu sao", "Show only starred entries")}
           >
@@ -276,10 +277,11 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
           </button>
           <button
             onClick={() => setShuffleSeed(shuffleSeed + 1)}
-            className="ml-auto inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border bg-secondary hover:bg-primary/10 hover:border-primary/30 transition-colors text-xs font-medium text-foreground"
+            className="ml-auto inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border-2 border-emerald-500/60 bg-background hover:bg-emerald-500/10 hover:border-emerald-500 transition-colors text-xs font-semibold text-foreground"
           >
             <Shuffle className="w-3.5 h-3.5" /> {t("Xáo trộn", "Shuffle")}
           </button>
+
         </div>
 
         {/* Category chips */}
@@ -293,10 +295,10 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
                 key={c}
                 onClick={() => setFilterCategory(c)}
                 className={cn(
-                  "px-4 py-2 rounded-full text-sm font-semibold transition-all border-2",
+                  "px-4 py-2 rounded-full text-sm font-semibold transition-all border-2 shadow-sm",
                   isActive
-                    ? "bg-gradient-to-r from-emerald-500 to-green-600 text-white border-emerald-600 shadow-md shadow-emerald-500/30"
-                    : "bg-secondary text-foreground border-border hover:border-emerald-500/50 hover:text-emerald-700 dark:hover:text-emerald-300",
+                    ? "bg-gradient-to-r from-emerald-500 to-green-600 text-white border-emerald-700 shadow-md shadow-emerald-500/40"
+                    : "bg-background text-foreground border-emerald-500/60 hover:border-emerald-600 hover:bg-emerald-500/10 hover:text-emerald-700 dark:hover:text-emerald-300",
                 )}
               >
                 <span className="mr-1.5">{emoji}</span>{label}
@@ -310,10 +312,10 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
           <button
             onClick={() => setFilterTheme("all")}
             className={cn(
-              "px-4 py-2 rounded-full text-sm font-semibold border-2 transition-colors",
+              "px-4 py-2 rounded-full text-sm font-semibold border-2 transition-colors shadow-sm",
               filterTheme === "all"
-                ? "bg-primary/15 border-primary text-primary"
-                : "bg-background border-border text-foreground hover:border-primary/40",
+                ? "bg-gradient-to-r from-emerald-500 to-green-600 text-white border-emerald-700 shadow-md shadow-emerald-500/40"
+                : "bg-background border-emerald-500/60 text-foreground hover:border-emerald-600 hover:bg-emerald-500/10 hover:text-emerald-700 dark:hover:text-emerald-300",
             )}
           >
             {t("Mọi chủ đề", "All themes")}
@@ -325,10 +327,10 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
                 key={th.key}
                 onClick={() => setFilterTheme(th.key)}
                 className={cn(
-                  "px-4 py-2 rounded-full text-sm font-semibold border-2 transition-colors",
+                  "px-4 py-2 rounded-full text-sm font-semibold border-2 transition-colors shadow-sm",
                   isActive
-                    ? "bg-primary/15 border-primary text-primary"
-                    : "bg-background border-border text-foreground hover:border-primary/40",
+                    ? "bg-gradient-to-r from-emerald-500 to-green-600 text-white border-emerald-700 shadow-md shadow-emerald-500/40"
+                    : "bg-background border-emerald-500/60 text-foreground hover:border-emerald-600 hover:bg-emerald-500/10 hover:text-emerald-700 dark:hover:text-emerald-300",
                 )}
               >
                 <span className="mr-1.5 text-base">{th.emoji}</span>
