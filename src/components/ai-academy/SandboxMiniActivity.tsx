@@ -202,7 +202,7 @@ export const BestMatchPick = ({
                   : "border-border bg-card"
               }`}
             >
-              <div className="text-sm font-semibold text-foreground mb-2">🎯 {it.prompt}</div>
+              <div className="text-base sm:text-lg font-extrabold text-foreground mb-3">🎯 {it.prompt}</div>
               <div className={it.candidates ? "flex flex-col gap-2" : "flex flex-wrap gap-1.5"}>
                 {(it.candidates ?? options.map((o) => ({ ...o, text: "" }))).map((o) => {
                   const isSel = sel === o.id;
