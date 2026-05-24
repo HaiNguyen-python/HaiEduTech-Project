@@ -1239,9 +1239,7 @@ const AIAcademy = () => {
                 </div>
                 <div className="relative">
                   <div className="text-[10px] uppercase tracking-wider font-bold text-muted-foreground">{t.tag}</div>
-                  <h3 className="font-display font-black text-lg text-foreground leading-tight">
-                    <span className="text-primary mr-1.5">{lessonNo}.</span>{t.title}
-                  </h3>
+                  <h3 className="font-display font-black text-lg text-foreground leading-tight">{t.title}</h3>
                   <p className="text-xs text-muted-foreground mt-1.5 line-clamp-3">{t.desc}</p>
 
                   <div className="flex items-center justify-between mt-4">
