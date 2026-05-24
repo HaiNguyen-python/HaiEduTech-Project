@@ -71,11 +71,7 @@ const SatLandingExtras = () => {
     },
   ];
 
-  const testimonials = [
-    { name: "Minh Anh", grade: t("Lớp 11", "Grade 11"), before: 1100, after: 1420, school: "Đang nộp UCLA, NYU", quote: t("Phần Words in Context giúp em hiểu từ trong ngữ cảnh rất nhanh. Sau 3 tháng tăng 320 điểm!", "Words in Context helped me grasp vocab in context fast. +320 in 3 months!"), color: "from-violet-500 to-fuchsia-500" },
-    { name: "Đức Anh", grade: t("Du học sinh", "Study-abroad student"), before: 1280, after: 1520, school: "Đã đỗ Boston University", quote: t("Chiến lược Evidence-Based Reading cực hiệu quả. Em được 780/800 Reading & Writing!", "Evidence-Based Reading strategy was killer. Got 780/800 R&W!"), color: "from-sky-500 to-indigo-500" },
-    { name: "Phương Linh", grade: t("Lớp 12", "Grade 12"), before: 1190, after: 1480, school: "Học bổng 60% Purdue", quote: t("Hệ thống mock test trên web + error log của thầy giúp em phát hiện đúng điểm yếu.", "Mock tests on the web + the error log helped me pinpoint weaknesses."), color: "from-emerald-500 to-teal-500" },
-  ];
+  const testimonials: Array<{ name: string; grade: string; before: number; after: number; school: string; quote: string; color: string }> = [];
 
   const faqs = [
     { q: t("Digital SAT khác SAT giấy cũ thế nào?", "How is Digital SAT different from paper SAT?"), a: t("Digital SAT ngắn hơn (2h14 vs 3h), thi trên laptop qua app Bluebook, có Desmos tích hợp, Module 2 adaptive theo điểm Module 1, và đoạn văn ngắn (25–150 từ) thay vì passage dài.", "Digital SAT is shorter (2h14 vs 3h), taken on laptop via Bluebook app, includes built-in Desmos, Module 2 adapts to Module 1, and uses short passages (25–150 words) instead of long ones.") },
