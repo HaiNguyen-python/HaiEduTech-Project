@@ -221,8 +221,8 @@ export default function KidsChibiMascot({ lang = "vi" as "vi" | "en" }) {
         .chibi-arm-r { transform-origin: 88px 78px; animation: chibi-arm-r 1.1s ease-in-out infinite; }
         .chibi-leg-l { transform-origin: 50px 112px; animation: chibi-leg-l 1.3s ease-in-out infinite; }
         .chibi-leg-r { transform-origin: 70px 112px; animation: chibi-leg-r 1.3s ease-in-out infinite; }
-        .chibi-eye-l { transform-origin: 48px 52px; transform-box: fill-box; animation: chibi-blink 4.2s infinite; }
-        .chibi-eye-r { transform-origin: 72px 52px; transform-box: fill-box; animation: chibi-blink 4.2s infinite; }
+        .chibi-eye-l { transform-origin: 48px 52px; animation: chibi-blink 4.2s infinite; }
+        .chibi-eye-r { transform-origin: 72px 52px; animation: chibi-blink 4.2s infinite; }
         .chibi-bow  { transform-origin: 60px 18px; animation: chibi-bow-wiggle 2s ease-in-out infinite; }
       `}</style>
 
