@@ -34,7 +34,7 @@ const TREE: Node = {
   },
   no: {
     q: "Có gai?",
-    yes: { fruit: "Sầu riêng", emoji: "🴴" /* fallback */ },
+    yes: { fruit: "Sầu riêng", emoji: "🥭" },
     no: { fruit: "Kiwi", emoji: "🥝" },
   },
 };
