@@ -11,12 +11,14 @@ import { useCourseAccess } from "@/hooks/useCourseAccess";
 import AccessDeniedModal from "@/components/AccessDeniedModal";
 import IeltsExamBreakdown from "@/components/ielts/IeltsExamBreakdown";
 import SatExamFormat from "@/components/SatExamFormat";
+import SatLandingExtras from "@/components/sat/SatLandingExtras";
 
 import cambridgeImg from "@/assets/course-cambridge.jpg";
 import ieltsImg from "@/assets/course-ielts.jpg";
 import toeicImg from "@/assets/course-toeic.jpg";
 import conversationImg from "@/assets/course-conversation.jpg";
 import nationalExamImg from "@/assets/course-national-exam.jpg";
+import satImg from "@/assets/sat-hero.jpg";
 
 const courseData: Record<string, {
   title: string; titleEn: string; level: string; levelEn: string;
