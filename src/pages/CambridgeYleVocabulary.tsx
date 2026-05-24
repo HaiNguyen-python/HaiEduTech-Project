@@ -558,6 +558,7 @@ const CambridgeYleVocabulary = () => {
             </div>
           </aside>
         </section>
+        )}
       </main>
       <Footer />
     </div>
