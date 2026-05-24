@@ -1081,31 +1081,28 @@ const baseSampleEssays: SampleEssay[] = [
         {
           "title": "Riverdale — 1990",
           "zones": [
-            { "x": 4,  "y": 6,  "w": 92, "h": 6,  "label": "Farmland (North)", "color": "#A3E635", "icon": "🌾", "shape": "rect" },
-            { "x": 4,  "y": 14, "w": 30, "h": 32, "label": "Farmland (West)", "color": "#A3E635", "icon": "🌾", "shape": "rect" },
-            { "x": 66, "y": 14, "w": 30, "h": 50, "label": "Farmland (East)", "color": "#A3E635", "icon": "🌾", "shape": "rect" },
-            { "x": 38, "y": 22, "w": 24, "h": 18, "label": "Town Centre", "color": "#FBBF24", "icon": "🏘️", "shape": "rect" },
-            { "x": 44, "y": 44, "w": 12, "h": 6,  "label": "School", "color": "#8B5CF6", "icon": "🏫", "shape": "rect" },
-            { "x": 4,  "y": 58, "w": 60, "h": 8,  "label": "Industrial Zone", "color": "#EF4444", "icon": "🏭", "shape": "rect" },
-            { "x": 0,  "y": 68, "w": 100,"h": 6,  "label": "River", "shape": "river" },
-            { "x": 44, "y": 30, "w": 2,  "h": 38, "label": "", "shape": "road" }
+            { "x": 6,  "y": 6,  "w": 88, "h": 8,  "label": "Farmland (North)", "color": "#A3E635", "icon": "🌾", "shape": "rect" },
+            { "x": 6,  "y": 20, "w": 26, "h": 26, "label": "Farmland (West)", "color": "#A3E635", "icon": "🌾", "shape": "rect" },
+            { "x": 38, "y": 20, "w": 24, "h": 18, "label": "Town Centre", "color": "#FBBF24", "icon": "🏘️", "shape": "rect" },
+            { "x": 68, "y": 20, "w": 26, "h": 38, "label": "Farmland (East)", "color": "#A3E635", "icon": "🌾", "shape": "rect" },
+            { "x": 42, "y": 44, "w": 16, "h": 8,  "label": "School", "color": "#8B5CF6", "icon": "🏫", "shape": "rect" },
+            { "x": 6,  "y": 58, "w": 56, "h": 10, "label": "Industrial Zone", "color": "#EF4444", "icon": "🏭", "shape": "rect" },
+            { "x": 0,  "y": 74, "w": 100,"h": 6,  "label": "River", "shape": "river" },
+            { "x": 33, "y": 14, "w": 2,  "h": 60, "label": "", "shape": "road" }
           ]
         },
         {
           "title": "Riverdale — 2020",
           "zones": [
-            { "x": 4,  "y": 6,  "w": 92, "h": 14, "label": "Housing Estates (North)", "color": "#F472B6", "icon": "🏠", "shape": "rect" },
-            { "x": 66, "y": 22, "w": 30, "h": 34, "label": "Housing Estates (East)", "color": "#F472B6", "icon": "🏠", "shape": "rect" },
-            { "x": 4,  "y": 22, "w": 14, "h": 42, "label": "Greenbelt", "color": "#10B981", "icon": "🌳", "shape": "rect" },
-            { "x": 22, "y": 24, "w": 40, "h": 14, "label": "Pedestrian Square", "color": "#FBBF24", "icon": "🚶", "shape": "rect" },
-            { "x": 22, "y": 40, "w": 40, "h": 14, "label": "Mixed-use Infill", "color": "#F59E0B", "icon": "🏬", "shape": "rect" },
-            { "x": 38, "y": 56, "w": 18, "h": 8,  "label": "School", "color": "#8B5CF6", "icon": "🏫", "shape": "rect" },
-            { "x": 0,  "y": 68, "w": 100,"h": 6,  "label": "River (cleaned)", "shape": "river" },
-            { "x": 28, "y": 78, "w": 60, "h": 14, "label": "Business Park", "color": "#0EA5E9", "icon": "🏢", "shape": "rect" },
-            { "x": 2,  "y": 4,  "w": 96, "h": 2,  "label": "", "shape": "road" },
-            { "x": 2,  "y": 64, "w": 96, "h": 2,  "label": "", "shape": "road" },
-            { "x": 2,  "y": 6,  "w": 2,  "h": 60, "label": "", "shape": "road" },
-            { "x": 96, "y": 6,  "w": 2,  "h": 60, "label": "Ring Road", "shape": "road" }
+            { "x": 8,  "y": 10, "w": 84, "h": 14, "label": "Housing Estates (North)", "color": "#F472B6", "icon": "🏠", "shape": "rect" },
+            { "x": 6,  "y": 28, "w": 12, "h": 30, "label": "Greenbelt", "color": "#10B981", "icon": "🌳", "shape": "rect" },
+            { "x": 22, "y": 28, "w": 36, "h": 12, "label": "Pedestrian Square", "color": "#FBBF24", "icon": "🚶", "shape": "rect" },
+            { "x": 22, "y": 44, "w": 36, "h": 12, "label": "Mixed-use Infill", "color": "#F59E0B", "icon": "🏬", "shape": "rect" },
+            { "x": 62, "y": 28, "w": 30, "h": 28, "label": "Housing Estates (East)", "color": "#F472B6", "icon": "🏠", "shape": "rect" },
+            { "x": 40, "y": 60, "w": 20, "h": 8,  "label": "School", "color": "#8B5CF6", "icon": "🏫", "shape": "rect" },
+            { "x": 0,  "y": 74, "w": 100,"h": 6,  "label": "River (cleaned)", "shape": "river" },
+            { "x": 22, "y": 84, "w": 56, "h": 12, "label": "Business Park", "color": "#0EA5E9", "icon": "🏢", "shape": "rect" },
+            { "x": 4,  "y": 4,  "w": 92, "h": 2,  "label": "Ring Road", "shape": "road" }
           ]
         }
       ],

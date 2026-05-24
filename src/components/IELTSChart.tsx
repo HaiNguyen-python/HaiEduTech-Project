@@ -211,11 +211,11 @@ const RenderMapLayout = ({ layout }: { layout: NonNullable<ChartConfig["mapLayou
           preserveAspectRatio="xMidYMid meet"
           style={{ overflow: "visible" }}
         >
-          {/* compass — kept inside the padded gutter */}
-          <g transform="translate(95,4)" className="opacity-70">
+          {/* compass — placed in the padded right gutter so it never overlaps roads */}
+          <g transform="translate(108,2)" className="opacity-80">
             <circle r="4.5" fill="hsl(var(--background))" stroke="hsl(var(--border))" strokeWidth="0.4" />
-            <text textAnchor="middle" y="-0.8" fontSize="3" fill="hsl(var(--foreground))" fontWeight="700">N</text>
-            <path d="M0,-3.6 L0.9,0 L-0.9,0 Z" fill="#EF4444" />
+            <text textAnchor="middle" y="0.6" fontSize="3" fill="hsl(var(--foreground))" fontWeight="700">N</text>
+            <path d="M0,-3.6 L0.9,-0.6 L-0.9,-0.6 Z" fill="#EF4444" />
           </g>
           {layout.zones.map((z, i) => {
             const color = z.color || "#3B82F6";
@@ -288,20 +288,22 @@ const RenderMapLayout = ({ layout }: { layout: NonNullable<ChartConfig["mapLayou
                     {z.icon}
                   </text>
                 )}
-                <text
-                  x={labelX}
-                  y={labelY}
-                  textAnchor={labelAnchor}
-                  fontSize={fontSize}
-                  fill="hsl(var(--foreground))"
-                  fontWeight="700"
-                  style={{ paintOrder: "stroke" }}
-                  stroke="hsl(var(--background))"
-                  strokeWidth="0.7"
-                  strokeLinejoin="round"
-                >
-                  {z.label}
-                </text>
+                {z.label && (
+                  <text
+                    x={labelX}
+                    y={labelY}
+                    textAnchor={labelAnchor}
+                    fontSize={fontSize}
+                    fill="hsl(var(--foreground))"
+                    fontWeight="700"
+                    style={{ paintOrder: "stroke" }}
+                    stroke="hsl(var(--background))"
+                    strokeWidth="0.7"
+                    strokeLinejoin="round"
+                  >
+                    {z.label}
+                  </text>
+                )}
               </g>
             );
           })}
