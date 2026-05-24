@@ -14,6 +14,7 @@ import {
   bounceVariant,
   shakeVariant,
 } from "@/lib/aiAcademyFx";
+import MiniCVChallenges from "./MiniCVChallenges";
 
 type AccessoryId = "glasses" | "beard" | "hat" | "mask";
 
