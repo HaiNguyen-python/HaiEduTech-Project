@@ -118,125 +118,123 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
               className="absolute inset-0 w-full h-full object-contain drop-shadow-[0_8px_18px_rgba(34,211,238,0.35)]"
             />
 
-            {/* Accessory overlays — real SVG pieces fitted to Lan's face landmarks */}
+            {/* Accessory overlays — outer wrapper handles centering, inner motion handles animation */}
             <AnimatePresence>
               {worn.hat && (
-                <motion.div
-                  initial={{ y: -24, opacity: 0, rotate: -8 }}
-                  animate={{ y: 0, opacity: 1, rotate: -6 }}
-                  exit={{ y: -24, opacity: 0 }}
-                  transition={{ type: "spring", stiffness: 220, damping: 16 }}
+                <div
                   className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
-                  style={{ top: "-6%", width: "62%" }}
+                  style={{ top: "-4%", width: "54%" }}
                 >
-                  {/* Top hat resting on the bangs */}
-                  <svg viewBox="0 0 200 130" className="w-full h-auto drop-shadow-[0_4px_6px_rgba(0,0,0,0.35)]">
-                    <ellipse cx="100" cy="118" rx="92" ry="10" fill="#1a1a1a" />
-                    <rect x="38" y="38" width="124" height="78" rx="6" fill="#2a2438" />
-                    <rect x="38" y="38" width="124" height="78" rx="6" fill="url(#hatShine)" opacity="0.35" />
-                    <rect x="34" y="90" width="132" height="14" fill="#c8395c" />
-                    <rect x="34" y="90" width="132" height="3" fill="#ff5c80" opacity="0.7" />
-                    <defs>
-                      <linearGradient id="hatShine" x1="0" x2="1" y1="0" y2="0">
-                        <stop offset="0%" stopColor="#fff" stopOpacity="0.0" />
-                        <stop offset="50%" stopColor="#fff" stopOpacity="0.5" />
-                        <stop offset="100%" stopColor="#fff" stopOpacity="0.0" />
-                      </linearGradient>
-                    </defs>
-                  </svg>
-                </motion.div>
+                  <motion.div
+                    initial={{ y: -24, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1, rotate: -5 }}
+                    exit={{ y: -24, opacity: 0 }}
+                    transition={{ type: "spring", stiffness: 220, damping: 16 }}
+                  >
+                    <svg viewBox="0 0 200 130" className="w-full h-auto drop-shadow-[0_4px_6px_rgba(0,0,0,0.35)]">
+                      <ellipse cx="100" cy="118" rx="92" ry="10" fill="#1a1a1a" />
+                      <rect x="38" y="38" width="124" height="78" rx="6" fill="#2a2438" />
+                      <rect x="38" y="38" width="124" height="78" rx="6" fill="url(#hatShine)" opacity="0.35" />
+                      <rect x="34" y="90" width="132" height="14" fill="#c8395c" />
+                      <rect x="34" y="90" width="132" height="3" fill="#ff5c80" opacity="0.7" />
+                      <defs>
+                        <linearGradient id="hatShine" x1="0" x2="1" y1="0" y2="0">
+                          <stop offset="0%" stopColor="#fff" stopOpacity="0" />
+                          <stop offset="50%" stopColor="#fff" stopOpacity="0.5" />
+                          <stop offset="100%" stopColor="#fff" stopOpacity="0" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                  </motion.div>
+                </div>
               )}
 
               {worn.glasses && (
-                <motion.div
-                  initial={{ scale: 0.4, opacity: 0, y: -8 }}
-                  animate={{ scale: 1, opacity: 1, y: 0 }}
-                  exit={{ scale: 0.4, opacity: 0 }}
-                  transition={{ type: "spring", stiffness: 260, damping: 18 }}
+                <div
                   className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
-                  style={{ top: "44%", width: "62%" }}
+                  style={{ top: "44%", width: "48%" }}
                 >
-                  {/* Sunglasses fitted across both eyes */}
-                  <svg viewBox="0 0 220 70" className="w-full h-auto drop-shadow-[0_3px_4px_rgba(0,0,0,0.4)]">
-                    {/* Temple arms */}
-                    <path d="M4 30 L26 28" stroke="#111" strokeWidth="6" strokeLinecap="round" />
-                    <path d="M216 30 L194 28" stroke="#111" strokeWidth="6" strokeLinecap="round" />
-                    {/* Bridge */}
-                    <path d="M96 30 Q110 22 124 30" stroke="#111" strokeWidth="5" strokeLinecap="round" fill="none" />
-                    {/* Left lens */}
-                    <ellipse cx="62" cy="34" rx="38" ry="22" fill="#1a1133" stroke="#0a0a0a" strokeWidth="5" />
-                    <ellipse cx="50" cy="24" rx="14" ry="6" fill="#fff" opacity="0.35" />
-                    {/* Right lens */}
-                    <ellipse cx="158" cy="34" rx="38" ry="22" fill="#1a1133" stroke="#0a0a0a" strokeWidth="5" />
-                    <ellipse cx="146" cy="24" rx="14" ry="6" fill="#fff" opacity="0.35" />
-                  </svg>
-                </motion.div>
+                  <motion.div
+                    initial={{ scale: 0.4, opacity: 0, y: -8 }}
+                    animate={{ scale: 1, opacity: 1, y: 0 }}
+                    exit={{ scale: 0.4, opacity: 0 }}
+                    transition={{ type: "spring", stiffness: 260, damping: 18 }}
+                  >
+                    <svg viewBox="0 0 220 70" className="w-full h-auto drop-shadow-[0_3px_4px_rgba(0,0,0,0.4)]">
+                      <path d="M4 30 L26 28" stroke="#111" strokeWidth="6" strokeLinecap="round" />
+                      <path d="M216 30 L194 28" stroke="#111" strokeWidth="6" strokeLinecap="round" />
+                      <path d="M96 30 Q110 22 124 30" stroke="#111" strokeWidth="5" strokeLinecap="round" fill="none" />
+                      <ellipse cx="62" cy="34" rx="38" ry="22" fill="#1a1133" stroke="#0a0a0a" strokeWidth="5" />
+                      <ellipse cx="50" cy="24" rx="14" ry="6" fill="#fff" opacity="0.35" />
+                      <ellipse cx="158" cy="34" rx="38" ry="22" fill="#1a1133" stroke="#0a0a0a" strokeWidth="5" />
+                      <ellipse cx="146" cy="24" rx="14" ry="6" fill="#fff" opacity="0.35" />
+                    </svg>
+                  </motion.div>
+                </div>
               )}
 
               {worn.mask && (
-                <motion.div
-                  initial={{ y: 14, opacity: 0, scale: 0.8 }}
-                  animate={{ y: 0, opacity: 1, scale: 1 }}
-                  exit={{ y: 14, opacity: 0 }}
-                  transition={{ type: "spring", stiffness: 240, damping: 18 }}
+                <div
                   className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
-                  style={{ top: "55%", width: "70%" }}
+                  style={{ top: "55%", width: "52%" }}
                 >
-                  {/* Surgical mask covering nose + mouth, with ear loops */}
-                  <svg viewBox="0 0 220 130" className="w-full h-auto drop-shadow-[0_3px_5px_rgba(0,0,0,0.3)]">
-                    {/* Ear loops */}
-                    <path d="M22 30 Q4 62 22 96" stroke="#cdd6e0" strokeWidth="3" fill="none" />
-                    <path d="M198 30 Q216 62 198 96" stroke="#cdd6e0" strokeWidth="3" fill="none" />
-                    {/* Mask body */}
-                    <path
-                      d="M22 28 Q60 14 110 14 Q160 14 198 28 L198 92 Q160 116 110 116 Q60 116 22 92 Z"
-                      fill="#eaf3ff"
-                      stroke="#9fb6cc"
-                      strokeWidth="2"
-                    />
-                    {/* Pleats */}
-                    <path d="M28 50 Q110 60 192 50" stroke="#b9c8d6" strokeWidth="1.5" fill="none" />
-                    <path d="M28 70 Q110 80 192 70" stroke="#b9c8d6" strokeWidth="1.5" fill="none" />
-                    <path d="M28 88 Q110 98 192 88" stroke="#b9c8d6" strokeWidth="1.5" fill="none" />
-                    {/* Nose wire highlight */}
-                    <path d="M70 22 Q110 16 150 22" stroke="#7892ad" strokeWidth="2" fill="none" />
-                  </svg>
-                </motion.div>
+                  <motion.div
+                    initial={{ y: 14, opacity: 0, scale: 0.85 }}
+                    animate={{ y: 0, opacity: 1, scale: 1 }}
+                    exit={{ y: 14, opacity: 0 }}
+                    transition={{ type: "spring", stiffness: 240, damping: 18 }}
+                  >
+                    <svg viewBox="0 0 220 130" className="w-full h-auto drop-shadow-[0_3px_5px_rgba(0,0,0,0.3)]">
+                      <path d="M22 30 Q4 62 22 96" stroke="#cdd6e0" strokeWidth="3" fill="none" />
+                      <path d="M198 30 Q216 62 198 96" stroke="#cdd6e0" strokeWidth="3" fill="none" />
+                      <path
+                        d="M22 28 Q60 14 110 14 Q160 14 198 28 L198 92 Q160 116 110 116 Q60 116 22 92 Z"
+                        fill="#eaf3ff"
+                        stroke="#9fb6cc"
+                        strokeWidth="2"
+                      />
+                      <path d="M28 50 Q110 60 192 50" stroke="#b9c8d6" strokeWidth="1.5" fill="none" />
+                      <path d="M28 70 Q110 80 192 70" stroke="#b9c8d6" strokeWidth="1.5" fill="none" />
+                      <path d="M28 88 Q110 98 192 88" stroke="#b9c8d6" strokeWidth="1.5" fill="none" />
+                      <path d="M70 22 Q110 16 150 22" stroke="#7892ad" strokeWidth="2" fill="none" />
+                    </svg>
+                  </motion.div>
+                </div>
               )}
 
               {worn.beard && (
-                <motion.div
-                  initial={{ y: 10, opacity: 0, scaleY: 0.5 }}
-                  animate={{ y: 0, opacity: 1, scaleY: 1 }}
-                  exit={{ y: 10, opacity: 0 }}
-                  transition={{ type: "spring", stiffness: 220, damping: 18 }}
-                  className="absolute left-1/2 -translate-x-1/2 pointer-events-none origin-top"
-                  style={{ top: "62%", width: "58%" }}
+                <div
+                  className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
+                  style={{ top: "60%", width: "44%" }}
                 >
-                  {/* Bushy fake beard wrapping the chin */}
-                  <svg viewBox="0 0 200 140" className="w-full h-auto drop-shadow-[0_4px_5px_rgba(0,0,0,0.35)]">
-                    <defs>
-                      <radialGradient id="beardG" cx="50%" cy="35%" r="65%">
-                        <stop offset="0%" stopColor="#5a3a22" />
-                        <stop offset="100%" stopColor="#2a1808" />
-                      </radialGradient>
-                    </defs>
-                    {/* Moustache */}
-                    <path
-                      d="M40 30 Q70 12 100 30 Q130 12 160 30 Q150 46 130 42 Q115 38 100 44 Q85 38 70 42 Q50 46 40 30 Z"
-                      fill="url(#beardG)"
-                    />
-                    {/* Sideburns + chin beard */}
-                    <path
-                      d="M22 40 Q14 90 50 120 Q80 138 100 134 Q120 138 150 120 Q186 90 178 40 Q170 70 150 78 Q130 84 130 96 Q120 118 100 120 Q80 118 70 96 Q70 84 50 78 Q30 70 22 40 Z"
-                      fill="url(#beardG)"
-                    />
-                    {/* Texture tufts */}
-                    <circle cx="55" cy="105" r="6" fill="#3a230f" opacity="0.6" />
-                    <circle cx="145" cy="105" r="6" fill="#3a230f" opacity="0.6" />
-                    <circle cx="100" cy="125" r="7" fill="#3a230f" opacity="0.6" />
-                  </svg>
-                </motion.div>
+                  <motion.div
+                    initial={{ y: 10, opacity: 0, scaleY: 0.5 }}
+                    animate={{ y: 0, opacity: 1, scaleY: 1 }}
+                    exit={{ y: 10, opacity: 0 }}
+                    transition={{ type: "spring", stiffness: 220, damping: 18 }}
+                    style={{ transformOrigin: "top center" }}
+                  >
+                    <svg viewBox="0 0 200 140" className="w-full h-auto drop-shadow-[0_4px_5px_rgba(0,0,0,0.35)]">
+                      <defs>
+                        <radialGradient id="beardG" cx="50%" cy="35%" r="65%">
+                          <stop offset="0%" stopColor="#5a3a22" />
+                          <stop offset="100%" stopColor="#2a1808" />
+                        </radialGradient>
+                      </defs>
+                      <path
+                        d="M40 30 Q70 12 100 30 Q130 12 160 30 Q150 46 130 42 Q115 38 100 44 Q85 38 70 42 Q50 46 40 30 Z"
+                        fill="url(#beardG)"
+                      />
+                      <path
+                        d="M22 40 Q14 90 50 120 Q80 138 100 134 Q120 138 150 120 Q186 90 178 40 Q170 70 150 78 Q130 84 130 96 Q120 118 100 120 Q80 118 70 96 Q70 84 50 78 Q30 70 22 40 Z"
+                        fill="url(#beardG)"
+                      />
+                      <circle cx="55" cy="105" r="6" fill="#3a230f" opacity="0.6" />
+                      <circle cx="145" cy="105" r="6" fill="#3a230f" opacity="0.6" />
+                      <circle cx="100" cy="125" r="7" fill="#3a230f" opacity="0.6" />
+                    </svg>
+                  </motion.div>
+                </div>
               )}
             </AnimatePresence>
 
