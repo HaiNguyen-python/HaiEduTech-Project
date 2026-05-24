@@ -39,15 +39,35 @@ const getExample = (w: CambridgeKidsWord) => ({
   vi: w.exampleVi || `${w.vi} thật tuyệt vời!`,
 });
 
-const speak = (word: string) => {
+const speak = (text: string, opts?: { rate?: number; lang?: string }) => {
   try {
     if (!("speechSynthesis" in window)) return;
     window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(word);
-    u.lang = "en-US";
-    u.rate = 0.9;
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = opts?.lang ?? "en-US";
+    u.rate = opts?.rate ?? 0.9;
     window.speechSynthesis.speak(u);
   } catch { /* noop */ }
+};
+
+// Render example with the target word (and simple inflections) bolded.
+const renderBolded = (sentence: string, word: string) => {
+  const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  // Match the word, optionally followed by s/es/ed/ing/'s
+  const re = new RegExp(`\\b(${escaped}(?:s|es|ed|ing|'s)?)\\b`, "gi");
+  const parts: Array<{ text: string; bold: boolean }> = [];
+  let last = 0;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(sentence)) !== null) {
+    if (m.index > last) parts.push({ text: sentence.slice(last, m.index), bold: false });
+    parts.push({ text: m[0], bold: true });
+    last = m.index + m[0].length;
+  }
+  if (last < sentence.length) parts.push({ text: sentence.slice(last), bold: false });
+  if (parts.length === 0) return sentence;
+  return parts.map((p, i) => p.bold
+    ? <strong key={i} className="font-extrabold underline decoration-2 underline-offset-2">{p.text}</strong>
+    : <span key={i}>{p.text}</span>);
 };
 
 const MountainClimber = ({ level, masteredCount, total }: { level: CambridgeKidsLevel; masteredCount: number; total: number }) => {
@@ -144,6 +164,7 @@ const CambridgeYleVocabulary = () => {
   const { t } = useLanguage();
   const [level, setLevel] = useState<CambridgeKidsLevel>("Starters");
   const [search, setSearch] = useState("");
+  const [tab, setTab] = useState<"learn" | "practice">("learn");
   const { mastered, toggle } = useMasteredVocab(MASTERY_SUBJECT);
 
   const wordsForLevel = useMemo(
@@ -295,15 +316,23 @@ const CambridgeYleVocabulary = () => {
 
                       {/* Example sentence */}
                       <div
-                        className="mt-2 rounded-xl px-2.5 py-2 text-[12px] leading-snug"
-                        style={{ background: theme.soft, borderLeft: `3px solid ${theme.color}` }}
+                        className="mt-2 rounded-xl px-3 py-2.5 text-[14px] leading-relaxed relative"
+                        style={{ background: theme.soft, borderLeft: `4px solid ${theme.color}` }}
                       >
-                        <p className="text-slate-800">
-                          <span className="font-semibold" style={{ color: theme.color }}>EN · </span>
-                          {ex.en}
+                        <button
+                          onClick={() => speak(ex.en, { rate: 0.85 })}
+                          className="absolute top-1.5 right-1.5 p-1.5 rounded-full bg-white/80 hover:bg-white shadow-sm"
+                          style={{ color: theme.color }}
+                          aria-label="Listen to example"
+                        >
+                          <Volume2 className="w-3.5 h-3.5" />
+                        </button>
+                        <p className="text-slate-900 font-semibold pr-7">
+                          <span className="font-bold mr-1" style={{ color: theme.color }}>EN ·</span>
+                          {renderBolded(ex.en, w.word)}
                         </p>
-                        <p className="text-slate-600 mt-0.5">
-                          <span className="font-semibold" style={{ color: theme.color }}>VI · </span>
+                        <p className="text-slate-700 mt-1 font-medium">
+                          <span className="font-bold mr-1" style={{ color: theme.color }}>VI ·</span>
                           {ex.vi}
                         </p>
                       </div>
