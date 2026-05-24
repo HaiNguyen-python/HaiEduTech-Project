@@ -64,7 +64,7 @@ const CambridgeLectureView = () => {
 
   if (!lecture) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-sky-50 via-amber-50 to-pink-50">
+      <div className="min-h-screen bg-gradient-to-b from-sky-100 via-amber-50 to-pink-100">
         <Navbar />
         <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
           <BookOpen className="w-16 h-16 text-slate-400" />
