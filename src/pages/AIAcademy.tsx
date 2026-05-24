@@ -42,6 +42,40 @@ import FloatingAIIcons from "@/components/ai-academy/FloatingAIIcons";
 import heroBg from "@/assets/ai-academy-hero-bg.jpg";
 import chibiRobot from "@/assets/ai-chibi-robot.png";
 
+/**
+ * SmartText — renders long Vietnamese paragraphs as bullet points
+ * when 3+ sentences are detected, otherwise as a single paragraph.
+ * Strips inline HTML to keep things safe (only used for plain text fields).
+ */
+const SmartText = ({ text, className = "", html = false }: { text: string; className?: string; html?: boolean }) => {
+  // Split sentences while preserving punctuation. Vietnamese commonly uses ". " or "! " or "? ".
+  const parts = text
+    .split(/(?<=[.!?])\s+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+  if (parts.length >= 3) {
+    return (
+      <ul className={`space-y-1.5 list-none ${className}`}>
+        {parts.map((p, i) => (
+          <li key={i} className="flex gap-2">
+            <span className="text-primary mt-0.5 shrink-0">▸</span>
+            {html ? (
+              <span className="flex-1" dangerouslySetInnerHTML={{ __html: p }} />
+            ) : (
+              <span className="flex-1">{p}</span>
+            )}
+          </li>
+        ))}
+      </ul>
+    );
+  }
+  return html ? (
+    <p className={className} dangerouslySetInnerHTML={{ __html: text }} />
+  ) : (
+    <p className={className}>{text}</p>
+  );
+};
+
 type TrackId = "vision" | "nlp" | "nn" | "genai" | "rl" | "ethics" | "recsys" | "aiot" | "capstone" | "deepfake" | "agent" | "graduation";
 
 type Track = {
