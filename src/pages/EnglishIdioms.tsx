@@ -263,10 +263,10 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
           <button
             onClick={() => setShowLearnedOnly((v) => !v)}
             className={cn(
-              "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-medium transition-colors",
+              "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border-2 text-xs font-semibold transition-colors",
               showLearnedOnly
-                ? "bg-amber-500 text-white border-amber-500 shadow-sm"
-                : "bg-secondary border-border text-foreground hover:bg-amber-500/10 hover:border-amber-500/40",
+                ? "bg-amber-500 text-white border-amber-600 shadow-sm"
+                : "bg-background border-amber-500/60 text-foreground hover:bg-amber-500/10 hover:border-amber-500",
             )}
             title={t("Chỉ hiện các từ đã đánh dấu sao", "Show only starred entries")}
           >
@@ -277,10 +277,11 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
           </button>
           <button
             onClick={() => setShuffleSeed(shuffleSeed + 1)}
-            className="ml-auto inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border bg-secondary hover:bg-primary/10 hover:border-primary/30 transition-colors text-xs font-medium text-foreground"
+            className="ml-auto inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border-2 border-emerald-500/60 bg-background hover:bg-emerald-500/10 hover:border-emerald-500 transition-colors text-xs font-semibold text-foreground"
           >
             <Shuffle className="w-3.5 h-3.5" /> {t("Xáo trộn", "Shuffle")}
           </button>
+
         </div>
 
         {/* Category chips */}
