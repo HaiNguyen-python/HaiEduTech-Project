@@ -1150,10 +1150,11 @@ const AIAcademy = () => {
             aria-hidden
             className="absolute inset-0 w-full h-full object-cover"
           />
-          {/* Color overlay for contrast */}
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-900/75 via-fuchsia-700/55 to-cyan-700/60" />
-          <div className="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-white/10 blur-3xl" />
-          <div className="absolute -bottom-24 -left-10 w-72 h-72 rounded-full bg-cyan-300/20 blur-3xl" />
+          {/* Color overlay for contrast — darker on the left to keep text readable */}
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-900/75 to-slate-900/40" />
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-transparent to-slate-950/60" />
+          <div className="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-cyan-400/10 blur-3xl" />
+          <div className="absolute -bottom-24 -left-10 w-72 h-72 rounded-full bg-primary/15 blur-3xl" />
 
           {/* Animated chibi robot — top/right corner */}
           <motion.img
