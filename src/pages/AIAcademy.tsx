@@ -1075,8 +1075,8 @@ const TRACKS: Track[] = [
 
 // Difficulty-ordered learning path (easy → hard). Card list & numbering follow this order.
 const TRACK_ORDER: TrackId[] = [
-  "study", "safety", "factcheck", "vision", "nlp", "genai", "recsys",
-  "nn", "rl", "ethics", "deepfake", "aiot", "agent", "careers", "capstone", "graduation",
+  "study", "safety", "factcheck", "datadet", "vision", "nlp", "genai", "recsys",
+  "nn", "mlmagic", "rl", "ethics", "deepfake", "aiot", "agent", "careers", "capstone", "graduation",
 ];
 const ORDERED_TRACKS: Track[] = TRACK_ORDER
   .map((id) => TRACKS.find((t) => t.id === id))
@@ -1087,7 +1087,7 @@ const STORAGE_KEY = "haiedu_ai_academy_progress";
 type Progress = Record<TrackId, { stars: number; badge?: boolean }>;
 
 const loadProgress = (): Progress => {
-  const defaults: Progress = { vision: { stars: 0 }, nlp: { stars: 0 }, nn: { stars: 0 }, genai: { stars: 0 }, rl: { stars: 0 }, ethics: { stars: 0 }, recsys: { stars: 0 }, aiot: { stars: 0 }, capstone: { stars: 0 }, deepfake: { stars: 0 }, agent: { stars: 0 }, study: { stars: 0 }, careers: { stars: 0 }, factcheck: { stars: 0 }, safety: { stars: 0 }, mathai: { stars: 0 }, promptlab: { stars: 0 }, startup: { stars: 0 }, graduation: { stars: 0 } };
+  const defaults: Progress = { vision: { stars: 0 }, nlp: { stars: 0 }, nn: { stars: 0 }, datadet: { stars: 0 }, mlmagic: { stars: 0 }, genai: { stars: 0 }, rl: { stars: 0 }, ethics: { stars: 0 }, recsys: { stars: 0 }, aiot: { stars: 0 }, capstone: { stars: 0 }, deepfake: { stars: 0 }, agent: { stars: 0 }, study: { stars: 0 }, careers: { stars: 0 }, factcheck: { stars: 0 }, safety: { stars: 0 }, mathai: { stars: 0 }, promptlab: { stars: 0 }, startup: { stars: 0 }, graduation: { stars: 0 } };
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) return { ...defaults, ...JSON.parse(raw) };
