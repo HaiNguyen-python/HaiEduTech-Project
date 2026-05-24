@@ -1,81 +1,73 @@
-## Mục tiêu (Bước A)
+## Mục tiêu
 
-Giảm First Paint của preview từ ~7.5s xuống ước tính 4–5s bằng cách:
-1. Lazy-hoá các trang đang import trực tiếp trong `src/App.tsx` (`Index`, `Welcome`, `NotFound`).
-2. Lazy + **defer mount** 7 widget toàn cục hiện đang chạy ngay khi app khởi động: `ChatBot`, `FloatingNotebook`, `LastSessionRecap`, `GlobalSuperDictionary`, `SessionTracker`, `PageViewTracker`, `LessonFeedback`.
+1. Bổ sung **1–2 hoạt động tương tác mới** vào các sandbox còn nhiều khoảng trống để tăng độ thực hành.
+2. Rà soát và **sửa lỗi ngắt dòng phi logic** trong nội dung 12 bài học (Vietnam Case, Golden Tip, Story, Glossary…).
 
-Các widget này có tổng cỡ ~80KB+ source (riêng `FloatingNotebook.tsx` 27KB, `LessonFeedback.tsx` 17KB) và đều xuất hiện trong top "slowest resources" của lần đo trước.
+---
 
-## Thay đổi trong `src/App.tsx`
+## Phần 1 — Nguồn gốc lỗi "ngắt dòng không hợp logic"
 
-### 1) Đổi import tĩnh → `lazy()`
+Khi kiểm tra `SmartText` (`src/pages/AIAcademy.tsx` dòng 51–82), bộ tách câu hiện đang split text theo:
 
-```tsx
-const Index = lazy(() => import("./pages/Index.tsx"));
-const Welcome = lazy(() => import("./pages/Welcome.tsx"));
-const NotFound = lazy(() => import("./pages/NotFound.tsx"));
-
-const ChatBot = lazy(() => import("./components/ChatBot.tsx"));
-const FloatingNotebook = lazy(() => import("./components/FloatingNotebook.tsx"));
-const LastSessionRecap = lazy(() => import("./components/LastSessionRecap.tsx"));
-const GlobalSuperDictionary = lazy(() => import("./components/GlobalSuperDictionary.tsx"));
-const SessionTracker = lazy(() => import("./components/SessionTracker.tsx"));
-const PageViewTracker = lazy(() => import("./components/PageViewTracker.tsx"));
-const LessonFeedback = lazy(() => import("./components/LessonFeedback.tsx"));
+```
+.split(/(?<=[.!?])\s+/)            // OK — ngắt theo dấu chấm câu
+.flatMap((s) => s.split(/\s+—\s+/)) // ⚠️ ngắt thêm theo em-dash " — "
 ```
 
-### 2) Thêm helper `DeferredMount`
+Trong nội dung 12 bài có **86 chỗ** dùng em-dash " — " làm dấu phẩy / giải thích **bên trong cùng một câu**, ví dụ:
 
-Mount con sau khi browser idle (`requestIdleCallback`, fallback `setTimeout 1200ms`) để không cản trở first paint:
+> "Kiki là trợ lý ảo thuần Việt do Zalo phát triển — hiểu tiếng Việt giọng 3 miền, xử lý teen-code..."
 
-```tsx
-const DeferredMount = ({ children, delay = 1200 }) => {
-  const [ready, setReady] = useState(false);
-  useEffect(() => {
-    const trigger = () => setReady(true);
-    if ("requestIdleCallback" in window) {
-      const id = (window as any).requestIdleCallback(trigger, { timeout: delay + 1500 });
-      return () => (window as any).cancelIdleCallback?.(id);
-    }
-    const t = setTimeout(trigger, delay);
-    return () => clearTimeout(t);
-  }, [delay]);
-  return ready ? <Suspense fallback={null}>{children}</Suspense> : null;
-};
-```
+Hiện đang bị tách thành 2 bullet rời rạc, mất ngữ nghĩa. Đây là nguyên nhân chính của các "ngắt dòng không hợp logic" mà Thầy đang thấy.
 
-### 3) Bọc các widget toàn cục
+### Cách xử lý
 
-```tsx
-<DeferredMount>
-  <ChatBot />
-  <FloatingNotebook />
-  <LastSessionRecap />
-  <GlobalSuperDictionary />
-  <SessionTracker />
-  <PageViewTracker />
-  <LessonFeedback />
-</DeferredMount>
-```
+- **Bỏ rule `split(/\s+—\s+/)`** — chỉ tách theo dấu chấm/!/? thực sự.
+- **Nâng ngưỡng bulletize** từ 3 lên 2 câu cho nội dung ngắn để tránh tách lẻ.
+- **Thêm guard** không tách sau các viết tắt phổ biến tiếng Việt (`TP.`, `GS.`, `TS.`, `Th.S`, `Ph.D`, `Mr.`, `St.`, `vs.`).
+- Rà soát thủ công 12 bài (vision, nlp, nn, genai, rl, ethics, recsys, aiot, capstone, deepfake, agent, graduation) trong `aiAcademyContent.ts` + story body trong `AIAcademy.tsx` — chỗ nào ý vẫn dính nhau thì thay dấu câu (`. ` → `, `) hoặc bỏ em-dash thừa.
 
-### 4) Bảo đảm `<Suspense>` đã bao bọc `<Routes>`
+---
 
-Vì `Index`/`Welcome`/`NotFound` giờ là lazy, kiểm tra `Routes` đang nằm trong `<Suspense fallback={...}>` (hiện đã có `LazyRoute` cho các route khác — sẽ kiểm tra và bổ sung nếu thiếu ở route gốc `/`, `/home`, `/welcome`, `*`).
+## Phần 2 — Bổ sung hoạt động cho sandbox còn trống
 
-## Hiệu quả dự kiến
+Hiện cấu trúc mỗi sandbox = **1 simulator chính + 2 bonus games** (True/False + Match Pairs).
 
-- Loại bỏ ~7 file component khỏi đường tải ban đầu → bớt 7 request và ~80KB JS parse khỏi giai đoạn FCP.
-- `Index.tsx` (home page) sẽ chia thành chunk riêng, được tải song song nhưng không khoá khung app.
-- Tracking widgets (`SessionTracker`, `PageViewTracker`) vẫn chạy sau khi idle nên không mất dữ liệu — chỉ trì hoãn ~1.2s.
+Các sandbox **simulator ngắn / còn nhiều khoảng trắng** sẽ nhận thêm **1 mini-activity**:
 
-## Không thay đổi
+| Sandbox | Hoạt động bổ sung đề xuất |
+|---|---|
+| **Ethics** | "Tỉa CV thiên vị" — kéo bỏ các từ gây bias (`women's chess club`, `nam giới ưu tiên`…) khỏi mô tả tuyển dụng, xem điểm fairness tăng. |
+| **NeuralNet** | "Bộ Predictor cảm xúc" — 3 slider (vui/buồn/bất ngờ) → mạng neuron mini đoán emoji output. |
+| **Recsys** | "Trộn vector sở thích" — chọn 3 video đã xem, hệ thống tính `cosine similarity` và highlight top-3 gợi ý. |
+| **AIoT** | "Tủ lạnh thông minh" — toggle cảm biến (cửa mở, nhiệt độ, hết sữa) → hiển thị action AI nên gửi đến điện thoại. |
+| **GenAI** | "Đoán Prompt từ ảnh" — show 4 ảnh emoji, học sinh ghép với 1 trong 4 prompt phù hợp nhất. |
+| **NLP** (đã dài nhưng còn chỗ ở phần cuối) | Bỏ qua — đã đủ. |
+| Các sandbox khác (Vision / Deepfake / Agent / Capstone / Graduation / RL) | Đã có nhiều khu vực — chỉ giữ nguyên. |
 
-- Hành vi UI/UX của các widget.
-- Cấu trúc routing và các `lazy()` đã có sẵn.
-- File ngoài `src/App.tsx`.
+### Cách triển khai
 
-## Kiểm tra sau khi triển khai
+- Tạo **1 helper component dùng chung** `SandboxMiniActivity.tsx` chứa 2 dạng tái sử dụng:
+  1. `ChipFilter` — học sinh bật/tắt các "yếu tố" → 1 thanh metric thay đổi realtime.
+  2. `BestMatchPick` — show 4 input → ghép với 1 trong 4 output, có chấm đúng/sai và animation.
+- Mỗi sandbox đích chỉ cần `import` và truyền config (label, options, target metric) → giữ code gọn.
 
-1. Mở preview → quan sát FCP mới qua performance profile.
-2. Reload `/`, `/programming/ai-academy`, `/dashboard` — chắc chắn ChatBot, Notebook, SuperDictionary vẫn hiện sau 1–2s.
-3. Kiểm tra Network để xác nhận các file widget chỉ tải sau khi app idle.
+---
+
+## Phần 3 — Phạm vi file thay đổi (dự kiến)
+
+- `src/pages/AIAcademy.tsx` — sửa `SmartText` (split rules + abbreviation guard).
+- `src/data/aiAcademyContent.ts` — chỉnh nhẹ em-dash / dấu câu ở các đoạn còn dính ý sau khi đổi split.
+- `src/components/ai-academy/SandboxMiniActivity.tsx` — **mới**, helper dùng chung.
+- 5 sandbox: `EthicsSandbox.tsx`, `NeuralNetSandbox.tsx`, `RecsysSandbox.tsx`, `AIoTSandbox.tsx`, `GenAISandbox.tsx` — thêm 1 mini-activity / file.
+
+---
+
+## Phần 4 — Kiểm thử sau khi build
+
+- Mở từng tab trong 12 bài tại `/programming/ai-academy`, đảm bảo:
+  - Các bullet không còn bị ngắt giữa câu khi có em-dash.
+  - 5 sandbox được bổ sung có hoạt động mới chạy mượt, có animation + chấm điểm.
+  - Layout vẫn cân (border-t-2 dividers giữ nguyên).
+
+Thầy duyệt plan để em chuyển sang **Build mode** và thực hiện ạ.

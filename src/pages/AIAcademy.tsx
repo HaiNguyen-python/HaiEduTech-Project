@@ -49,15 +49,21 @@ import chibiRobot from "@/assets/ai-chibi-robot.png";
  * Strips inline HTML to keep things safe (only used for plain text fields).
  */
 const SmartText = ({ text, className = "", html = false }: { text: string; className?: string; html?: boolean }) => {
-  // Split sentences first (Vietnamese . ! ? ), then also break long clauses
-  // separated by " — " (em dash) so dense paragraphs become easy-to-scan bullets.
-  const rough = text
+  // Protect common Vietnamese/English abbreviations from being split mid-sentence.
+  const ABBR = ["TP.", "GS.", "TS.", "PGS.", "Th.S", "Ths.", "Ph.D", "Mr.", "Mrs.", "Ms.", "St.", "vs.", "Dr.", "ĐH."];
+  const PLACEHOLDER = "\u0001";
+  let safe = text;
+  ABBR.forEach((a) => { safe = safe.split(a).join(a.replace(/\./g, PLACEHOLDER)); });
+
+  // Only split on real sentence boundaries (. ! ?). Em-dash " — " is parenthetical
+  // and must NOT split — keeping it intact preserves the original meaning.
+  const rough = safe
     .split(/(?<=[.!?])\s+/)
-    .flatMap((s) => s.split(/\s+—\s+/))
-    .map((s) => s.trim())
+    .map((s) => s.replace(new RegExp(PLACEHOLDER, "g"), ".").trim())
     .filter(Boolean);
-  // Bulletize if there are at least 3 parts, OR 2+ parts and the text is long.
-  const shouldBullet = rough.length >= 3 || (rough.length >= 2 && text.length > 140);
+
+  // Bulletize only when there are 3+ real sentences, OR 2 sentences and text is long.
+  const shouldBullet = rough.length >= 3 || (rough.length >= 2 && text.length > 180);
   if (shouldBullet) {
     return (
       <ul className={`space-y-1.5 list-none ${className}`}>
