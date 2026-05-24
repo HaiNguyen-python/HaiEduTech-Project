@@ -41,6 +41,10 @@ import GraduationSandbox from "@/components/ai-academy/GraduationSandbox";
 import FloatingAIIcons from "@/components/ai-academy/FloatingAIIcons";
 import GraduationCertificate from "@/components/ai-academy/GraduationCertificate";
 import AutoTranslateBoundary from "@/components/ai-academy/AutoTranslateBoundary";
+import StudySmartSandbox from "@/components/ai-academy/StudySmartSandbox";
+import CareersMapSandbox from "@/components/ai-academy/CareersMapSandbox";
+import FactCheckSandbox from "@/components/ai-academy/FactCheckSandbox";
+import DigitalSafetySandbox from "@/components/ai-academy/DigitalSafetySandbox";
 import heroBg from "@/assets/ai-academy-hero-bg.jpg";
 import chibiRobot from "@/assets/ai-chibi-robot.png";
 
