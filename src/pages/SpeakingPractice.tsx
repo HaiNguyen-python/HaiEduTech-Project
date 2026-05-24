@@ -403,6 +403,39 @@ const SpeakingPractice = () => {
     setLoading(false);
   };
 
+  // Upgrade student's answer to Band 8.0+ (independent from grading)
+  const handleUpgrade = useCallback(async () => {
+    if (!currentQ) return;
+    setUpgrading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("upgrade-speaking", {
+        body: {
+          question: currentQ.question,
+          part: selectedPart,
+          transcript: liveTranscript,
+        },
+      });
+      if (error) throw error;
+      const upgraded = (data as { upgradedAnswer?: string; error?: string })?.upgradedAnswer;
+      if (!upgraded) throw new Error((data as any)?.error || "Empty upgrade");
+      setResult((prev) => {
+        if (prev) return { ...prev, upgradedAnswer: upgraded };
+        // No grading yet — create a minimal result so the upgrade panel renders
+        return {
+          overall: 0,
+          criteria: [],
+          transcript: liveTranscript || "",
+          suggestions: [],
+          upgradedAnswer: upgraded,
+        } as SpeakingResult;
+      });
+    } catch (e) {
+      console.error("upgrade failed", e);
+    } finally {
+      setUpgrading(false);
+    }
+  }, [currentQ, selectedPart, liveTranscript]);
+
   const getScoreColor = (score: number) => {
     if (score >= 7.5) return "text-green-600";
     if (score >= 6.5) return "text-primary";
