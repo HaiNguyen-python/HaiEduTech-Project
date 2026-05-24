@@ -17,12 +17,6 @@ import { useLanguage } from "@/contexts/LanguageContext";
 const SatLandingExtras = () => {
   const { t } = useLanguage();
 
-  const stats = [
-    { icon: Trophy, value: "47+", label: t("Học viên đạt 1400+", "Students scoring 1400+"), color: "from-amber-500 to-orange-500" },
-    { icon: TrendingUp, value: "+280", label: t("Điểm tăng trung bình", "Avg. score gain"), color: "from-emerald-500 to-teal-500" },
-    { icon: GraduationCap, value: "18", label: t("Trường ĐH Mỹ đã đỗ", "US universities admitted"), color: "from-violet-500 to-fuchsia-500" },
-    { icon: Clock, value: "120h", label: t("Giờ học cá nhân hóa / lộ trình", "Personalized hours / track"), color: "from-sky-500 to-indigo-500" },
-  ];
 
   const formatCards = [
     {
