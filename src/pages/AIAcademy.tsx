@@ -1209,7 +1209,7 @@ const AIAcademy = () => {
                             </div>
                             <ul className="space-y-1">
                               {extra.careers.map((c, i) => (
-                                <li key={i} className="text-sm text-foreground/85 flex gap-2">
+                                <li key={i} className="text-[15px] text-foreground flex gap-2">
                                   <span className="text-emerald-500">▸</span>
                                   <span>{c}</span>
                                 </li>
