@@ -219,6 +219,8 @@ const CapstoneSandbox = () => {
           ⚠️ Cần đủ 4 mô-đun ★ (Mắt thần, Ngôn ngữ, Não bộ, Đạo đức) để khởi động.
         </p>
       )}
+
+      <BonusGames tfItems={CAP_TF} matchPairs={CAP_PAIRS} accent="from-amber-500 to-fuchsia-600" border="border-amber-400/40" />
     </div>
   );
 };
