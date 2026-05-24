@@ -132,6 +132,7 @@ const EnglishGrammar = lazy(() => import("./pages/EnglishGrammar.tsx"));
 const NotebookPage = lazy(() => import("./pages/Notebook.tsx"));
 const CambridgeMockExamPage = lazy(() => import("./pages/CambridgeMockExam.tsx"));
 const CambridgeYleTestPrep = lazy(() => import("./pages/CambridgeYleTestPrep.tsx"));
+const CambridgeYleVocabulary = lazy(() => import("./pages/CambridgeYleVocabulary.tsx"));
 const JobOpportunities = lazy(() => import("./pages/JobOpportunities.tsx"));
 const CareerRoadmap = lazy(() => import("./pages/CareerRoadmap.tsx"));
 const PteHub = lazy(() => import("./pages/PteHub.tsx"));
@@ -245,6 +246,7 @@ const App = () => (
             <Route path="/cambridge-lectures/:lectureId" element={<LazyRoute><CambridgeLectureView /></LazyRoute>} />
             <Route path="/cambridge-mock-exam/:examId" element={<LazyRoute><CambridgeMockExamPage /></LazyRoute>} />
             <Route path="/cambridge-yle-test-prep" element={<LazyRoute><CambridgeYleTestPrep /></LazyRoute>} />
+            <Route path="/cambridge-yle-vocabulary" element={<LazyRoute><CambridgeYleVocabulary /></LazyRoute>} />
             <Route path="/vocab-arena" element={<LazyRoute><VocabArena /></LazyRoute>} />
             <Route path="/national-exam" element={<LazyRoute><NationalExamPrep /></LazyRoute>} />
             <Route path="/national-exam/essential-review" element={<LazyRoute><ThptEssentialReview /></LazyRoute>} />

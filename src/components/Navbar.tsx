@@ -12,7 +12,7 @@ import {
   Menu, X, Brain, BookOpen, Languages, Code2, GraduationCap,
   Globe, UserPlus, Heart, LogIn, ChevronDown, ChevronRight, Cpu, LogOut, Library, Shield,
   FileText, PenTool, Map, MessageSquare, Award, School, Swords, User, LayoutDashboard, Newspaper,
-  FolderLock, Compass, Briefcase, Trophy, Sparkles, Bot, Database, Workflow, Cloud, Network, Gamepad2, MessagesSquare, Target, Settings2, Flame, Music, Quote, Mic2, Crown
+  FolderLock, Compass, Briefcase, Trophy, Sparkles, Bot, Database, Workflow, Cloud, Network, Gamepad2, MessagesSquare, Target, Settings2, Flame, Music, Quote, Mic2, Crown, BookType
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -125,6 +125,7 @@ const Navbar = () => {
       { to: "/english/idioms", label: t("Thành ngữ & Danh ngôn", "Idioms & Quotes"), icon: Quote },
       { to: "/cambridge-lectures", label: t("Bài giảng Cambridge", "Cambridge Lectures"), icon: BookOpen },
       { to: "/cambridge-yle-test-prep", label: t("Cambridge YLE Test Prep", "Cambridge YLE Test Prep"), icon: Trophy },
+      { to: "/cambridge-yle-vocabulary", label: t("Cambridge YLE Vocabulary", "Cambridge YLE Vocabulary"), icon: BookType },
       { to: "/cambridge/arcade", label: t("🎪 Cambridge Kids Arcade", "🎪 Cambridge Kids Arcade"), icon: BookOpen },
     ] },
     // IELTS - promoted to top-level so all 10 IELTS items are reachable in one hover
