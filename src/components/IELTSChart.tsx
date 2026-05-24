@@ -288,20 +288,22 @@ const RenderMapLayout = ({ layout }: { layout: NonNullable<ChartConfig["mapLayou
                     {z.icon}
                   </text>
                 )}
-                <text
-                  x={labelX}
-                  y={labelY}
-                  textAnchor={labelAnchor}
-                  fontSize={fontSize}
-                  fill="hsl(var(--foreground))"
-                  fontWeight="700"
-                  style={{ paintOrder: "stroke" }}
-                  stroke="hsl(var(--background))"
-                  strokeWidth="0.7"
-                  strokeLinejoin="round"
-                >
-                  {z.label}
-                </text>
+                {z.label && (
+                  <text
+                    x={labelX}
+                    y={labelY}
+                    textAnchor={labelAnchor}
+                    fontSize={fontSize}
+                    fill="hsl(var(--foreground))"
+                    fontWeight="700"
+                    style={{ paintOrder: "stroke" }}
+                    stroke="hsl(var(--background))"
+                    strokeWidth="0.7"
+                    strokeLinejoin="round"
+                  >
+                    {z.label}
+                  </text>
+                )}
               </g>
             );
           })}
