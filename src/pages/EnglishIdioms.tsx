@@ -415,7 +415,7 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
                 <div>
                   <div className="text-sm font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-400 mb-1.5">{t("Ví dụ", "Example")}</div>
                   <p className="text-foreground italic leading-relaxed font-medium text-base">"{entry.exampleEn}"</p>
-                  <p className="text-muted-foreground text-sm mt-1.5 font-medium">{entry.exampleVi}</p>
+                  <p className="text-foreground/90 text-base mt-1.5 font-bold">{entry.exampleVi}</p>
                 </div>
               </div>
 
