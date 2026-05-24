@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Search, BookOpen, ArrowUpDown, Heart, Clock,
   Headphones, FileText, MessageSquare, BookType, ChevronRight, ChevronDown,
-  GraduationCap, TrendingUp, Sparkles, Star, PlayCircle, CheckCircle2, Lock
+  GraduationCap, TrendingUp, Sparkles, Star, PlayCircle, CheckCircle2, Lock, SlidersHorizontal
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -57,6 +57,7 @@ const CambridgeLectures = () => {
     catch { return new Set(); }
   });
   const [showBookmarked, setShowBookmarked] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
 
   const toggleBookmark = (id: string) => {
     setBookmarked(prev => {
@@ -115,7 +116,7 @@ const CambridgeLectures = () => {
     <div className="min-h-screen relative" style={{ background: "linear-gradient(180deg, #FFF8E7 0%, #FFE5EC 25%, #E0F4FF 50%, #E8FFE0 75%, #FFF0F5 100%)" }}>
       <FloatingKidsDecor />
       <Navbar />
-      <main className="pt-24 pb-16 relative z-10">
+      <main className="pt-20 pb-8 relative z-10">
         {/* Hero Section - Bright & Cheerful for Kids */}
         <section className="relative overflow-hidden">
           <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, #FFE5EC 0%, #FFF8DC 30%, #E0F4FF 70%, #E8FFE0 100%)" }} />
@@ -124,7 +125,7 @@ const CambridgeLectures = () => {
           <div className="absolute bottom-10 left-20 w-48 h-48 rounded-full bg-[#FFD93D]/30 blur-[80px] animate-pulse" style={{ animationDelay: "1s" }} />
           <div className="absolute top-1/2 left-1/2 w-56 h-56 rounded-full bg-[#6BCB77]/25 blur-[90px] animate-pulse" style={{ animationDelay: "2s" }} />
 
-          <div className="relative container mx-auto px-4 py-14 md:py-20">
+          <div className="relative container mx-auto px-4 py-8 md:py-12">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl">
               <div className="flex items-center gap-3 mb-5">
                 <div className="p-3 rounded-2xl bg-gradient-to-br from-[#FF6B9D] via-[#FFD93D] to-[#4D96FF] border-2 border-white shadow-lg">
@@ -137,7 +138,7 @@ const CambridgeLectures = () => {
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-5 leading-tight" style={{ background: "linear-gradient(135deg, #FF6B9D 0%, #FF9F1C 35%, #6BCB77 70%, #4D96FF 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
                 {t("Cambridge: Starters đến PET 🎓", "Cambridge: Starters to PET 🎓")}
               </h1>
-              <p className="text-slate-700 mb-8 font-medium" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+              <p className="text-slate-700 mb-5 font-medium" style={{ fontSize: "18px", lineHeight: "1.6" }}>
                 {t(
                   "🎨 15 bài giảng vui nhộn với kỹ thuật tránh bẫy, công thức ghi điểm, và bài tập tương tác cho MỌI cấp độ Cambridge dành cho thiếu nhi! 🚀",
                   "🎨 15 fun strategic lessons with trap-avoidance techniques, scoring formulas, and interactive practice for EVERY Cambridge level for kids! 🚀"
@@ -157,8 +158,8 @@ const CambridgeLectures = () => {
         </section>
 
         {/* Level Progress Cards */}
-        <section className="container mx-auto px-4 py-6">
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mb-8">
+        <section className="container mx-auto px-4 pt-4 pb-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mb-4">
             {(["starters", "movers", "flyers", "ket", "pet"] as CambridgeLevel[]).map(level => {
               const cfg = LEVEL_CONFIG[level];
               const stats = levelCounts[level] || { total: 0, done: 0 };
@@ -189,53 +190,88 @@ const CambridgeLectures = () => {
         </section>
 
         {/* Filters Section */}
-        <section className="container mx-auto px-4 pb-4">
-          {/* Level filter pills */}
-          <div className="flex flex-wrap gap-2.5 mb-4">
-            {LEVEL_FILTERS.map(f => {
-              const isActive = activeLevel === f.key;
-              const cfg = f.key !== "all" ? LEVEL_CONFIG[f.key as CambridgeLevel] : null;
-              return (
-                <button
-                  key={f.key}
-                  onClick={() => setActiveLevel(f.key)}
-                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold uppercase tracking-wide transition-all border-2 backdrop-blur-sm shadow-sm ${
-                    isActive
-                      ? cfg
-                        ? `${cfg.bgClass} ${cfg.textClass} ${cfg.borderClass}`
-                        : "bg-white text-slate-800 border-white"
-                      : "bg-white/70 text-slate-700 border-white/80 hover:bg-white"
-                  }`}
-                  style={isActive && cfg ? { boxShadow: `0 0 12px ${cfg.glowColor}` } : undefined}
-                >
-                  <span className="text-base">{f.emoji}</span>
-                  {t(f.labelVi, f.label)}
-                </button>
-              );
-            })}
-          </div>
+        <section className="container mx-auto px-4 pb-3">
+          {/* Collapsible Filter Toggle */}
+          <button
+            onClick={() => setShowFilters(s => !s)}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-bold uppercase tracking-wide bg-white/80 border-2 border-white text-slate-700 hover:bg-white shadow-sm transition-all mb-3"
+          >
+            <SlidersHorizontal className="w-4 h-4" />
+            {t("Bộ lọc", "Filters")}
+            {(activeLevel !== "all" || activeSkill !== "all") && (
+              <span className="ml-1 px-2 py-0.5 rounded-full bg-[#C780FA] text-white text-[10px]">
+                {[activeLevel !== "all" ? 1 : 0, activeSkill !== "all" ? 1 : 0].reduce((a, b) => a + b, 0)}
+              </span>
+            )}
+            <ChevronDown className={`w-4 h-4 transition-transform ${showFilters ? "rotate-180" : ""}`} />
+          </button>
 
-          {/* Skill filter pills */}
-          <div className="flex flex-wrap gap-2 mb-5">
-            {SKILL_FILTERS.map(f => {
-              const Icon = f.icon;
-              const isActive = activeSkill === f.key;
-              return (
-                <button
-                  key={f.key}
-                  onClick={() => setActiveSkill(f.key)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wide transition-all border-2 ${
-                    isActive
-                      ? "bg-[#C780FA]/30 text-[#7C3AED] border-[#C780FA]"
-                      : "bg-white/70 text-slate-600 border-white/80 hover:bg-white"
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  {t(f.labelVi, f.label)}
-                </button>
-              );
-            })}
-          </div>
+          <AnimatePresence initial={false}>
+            {showFilters && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.25 }}
+                className="overflow-hidden"
+              >
+                <div className="p-4 rounded-2xl bg-white/70 border-2 border-white shadow-sm mb-3 space-y-3">
+                  {/* Level filter pills */}
+                  <div>
+                    <p className="text-[11px] font-bold uppercase tracking-widest text-slate-500 mb-2">{t("Cấp độ", "Level")}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {LEVEL_FILTERS.map(f => {
+                        const isActive = activeLevel === f.key;
+                        const cfg = f.key !== "all" ? LEVEL_CONFIG[f.key as CambridgeLevel] : null;
+                        return (
+                          <button
+                            key={f.key}
+                            onClick={() => setActiveLevel(f.key)}
+                            className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all border-2 shadow-sm ${
+                              isActive
+                                ? cfg
+                                  ? `${cfg.bgClass} ${cfg.textClass} ${cfg.borderClass}`
+                                  : "bg-white text-slate-800 border-slate-300"
+                                : "bg-white text-slate-700 border-slate-200 hover:border-slate-400"
+                            }`}
+                            style={isActive && cfg ? { boxShadow: `0 0 10px ${cfg.glowColor}` } : undefined}
+                          >
+                            <span className="text-sm">{f.emoji}</span>
+                            {t(f.labelVi, f.label)}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Skill filter pills */}
+                  <div>
+                    <p className="text-[11px] font-bold uppercase tracking-widest text-slate-500 mb-2">{t("Kỹ năng", "Skill")}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {SKILL_FILTERS.map(f => {
+                        const Icon = f.icon;
+                        const isActive = activeSkill === f.key;
+                        return (
+                          <button
+                            key={f.key}
+                            onClick={() => setActiveSkill(f.key)}
+                            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide transition-all border-2 ${
+                              isActive
+                                ? "bg-[#C780FA]/30 text-[#7C3AED] border-[#C780FA]"
+                                : "bg-white text-slate-600 border-slate-200 hover:border-slate-400"
+                            }`}
+                          >
+                            <Icon className="w-3.5 h-3.5" />
+                            {t(f.labelVi, f.label)}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Search + Sort + Bookmark */}
           <div className="flex flex-wrap gap-3 items-center">
@@ -273,15 +309,15 @@ const CambridgeLectures = () => {
           </div>
 
           {/* Stats */}
-          <div className="mt-4 flex items-center gap-5 text-sm text-slate-600 font-medium">
+          <div className="mt-3 flex items-center gap-5 text-sm text-slate-600 font-medium">
             <span className="flex items-center gap-1.5"><GraduationCap className="w-4 h-4" /> {filtered.length} {t("bài giảng", "lectures")}</span>
             <span className="flex items-center gap-1.5"><TrendingUp className="w-4 h-4" /> {completed.size} {t("đã hoàn thành", "completed")}</span>
           </div>
         </section>
 
         {/* 📝 Cambridge Test Prep Section */}
-        <section className="container mx-auto px-4 pb-12">
-          <div className="flex items-center gap-3 mb-6">
+        <section className="container mx-auto px-4 pt-2 pb-6">
+          <div className="flex items-center gap-3 mb-4">
             <div className="p-2.5 rounded-xl bg-gradient-to-br from-[#F9A826] to-[#FF6B9D] border-2 border-white shadow-md">
               <GraduationCap className="w-6 h-6 text-white" />
             </div>
@@ -327,7 +363,7 @@ const CambridgeLectures = () => {
         </section>
 
         {/* 🎯 Grouped Lectures - by Level → by Skill */}
-        <section className="container mx-auto px-4 pb-16">
+        <section className="container mx-auto px-4 pb-8">
           {filtered.length === 0 ? (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-20">
               <BookOpen className="w-14 h-14 mx-auto text-[#334155] mb-4" />
@@ -534,7 +570,7 @@ const GroupedLectureSections = ({ lectures, bookmarked, completed, onToggleBookm
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {LEVEL_ORDER.map((lvl) => {
         const levelLectures = byLevel[lvl] || [];
         if (levelLectures.length === 0) return null;
@@ -628,7 +664,12 @@ const GroupedLectureSections = ({ lectures, bookmarked, completed, onToggleBookm
                                 <Link
                                   key={lec.id}
                                   to={`/cambridge-lectures/${lec.id}`}
-                                  className="group relative flex items-start gap-3 px-3.5 py-3 rounded-xl bg-white border-2 border-slate-200 hover:bg-yellow-50 hover:border-[#FFD93D] transition-all shadow-sm hover:shadow-md"
+                                  className="group relative flex items-start gap-3 px-3.5 py-3 rounded-xl bg-white border-2 transition-all shadow-sm hover:shadow-lg hover:-translate-y-0.5"
+                                  style={{
+                                    borderColor: cfg.color,
+                                    boxShadow: `0 2px 0 ${cfg.color}, 0 4px 12px ${cfg.glowColor}40`,
+                                    background: `linear-gradient(135deg, #fff 0%, ${cfg.color}10 100%)`,
+                                  }}
                                 >
                                   {/* Number / done badge */}
                                   <div
