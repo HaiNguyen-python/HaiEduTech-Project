@@ -983,6 +983,7 @@ const AIAcademy = () => {
       </AnimatePresence>
 
       <Footer />
+      </div>
     </div>
   );
 };
