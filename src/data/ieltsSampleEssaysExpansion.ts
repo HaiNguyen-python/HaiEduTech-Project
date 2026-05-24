@@ -1346,30 +1346,37 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       "data": [],
       "type": "map",
       "stages": [
+        { "title": "Main building", "description": "L-shaped block retained in both layouts.", "icon": "🏫" },
+        { "title": "Canteen", "description": "2000: small canteen; 2020: enlarged multi-purpose dining hall.", "icon": "🍽️" },
+        { "title": "Playground", "description": "2000: gravel playground; 2020: artificial-turf sports field.", "icon": "⚽" },
+        { "title": "Eastern fields", "description": "2000: open fields; 2020: new gymnasium.", "icon": "🏋️" },
+        { "title": "Boundary", "description": "Trees preserved with new sensory garden added.", "icon": "🌿" }
+      ],
+      "mapLayouts": [
         {
-          "title": "Main building",
-          "description": "L-shaped block retained in both layouts.",
-          "icon": "🏫"
+          "title": "St. Mary's School — 2000",
+          "zones": [
+            { "x": 8,  "y": 8,  "w": 30, "h": 38, "label": "Main Building (L)", "color": "#8B5CF6", "icon": "🏫", "shape": "rect" },
+            { "x": 8,  "y": 46, "w": 18, "h": 18, "label": "Main Building", "color": "#8B5CF6", "icon": "🏫", "shape": "rect" },
+            { "x": 40, "y": 8,  "w": 30, "h": 36, "label": "Gravel Playground", "color": "#D1D5DB", "icon": "🪨", "shape": "rect" },
+            { "x": 40, "y": 56, "w": 26, "h": 14, "label": "Canteen", "color": "#F59E0B", "icon": "🍽️", "shape": "rect" },
+            { "x": 2,  "y": 78, "w": 22, "h": 16, "label": "Car Park", "color": "#6B7280", "icon": "🚗", "shape": "rect" },
+            { "x": 74, "y": 8,  "w": 22, "h": 60, "label": "Open Fields", "color": "#A3E635", "icon": "🌾", "shape": "rect" },
+            { "x": 70, "y": 8,  "w": 3,  "h": 84, "label": "Trees", "shape": "river" }
+          ]
         },
         {
-          "title": "Canteen",
-          "description": "2000: small canteen; 2020: enlarged multi-purpose dining hall.",
-          "icon": "🍽️"
-        },
-        {
-          "title": "Playground",
-          "description": "2000: gravel playground; 2020: artificial-turf sports field.",
-          "icon": "⚽"
-        },
-        {
-          "title": "Eastern fields",
-          "description": "2000: open fields; 2020: new gymnasium.",
-          "icon": "🏋️"
-        },
-        {
-          "title": "Boundary",
-          "description": "Trees preserved with new sensory garden added.",
-          "icon": "🌿"
+          "title": "St. Mary's School — 2020",
+          "zones": [
+            { "x": 8,  "y": 8,  "w": 30, "h": 38, "label": "Main Building (retained)", "color": "#8B5CF6", "icon": "🏫", "shape": "rect" },
+            { "x": 8,  "y": 46, "w": 18, "h": 18, "label": "Main Building", "color": "#8B5CF6", "icon": "🏫", "shape": "rect" },
+            { "x": 40, "y": 8,  "w": 30, "h": 36, "label": "Sports Pitch (turf)", "color": "#10B981", "icon": "⚽", "shape": "rect" },
+            { "x": 40, "y": 50, "w": 30, "h": 20, "label": "Dining Hall (enlarged)", "color": "#F59E0B", "icon": "🍽️", "shape": "rect" },
+            { "x": 2,  "y": 76, "w": 38, "h": 18, "label": "Car Park (expanded)", "color": "#6B7280", "icon": "🚗", "shape": "rect" },
+            { "x": 74, "y": 8,  "w": 22, "h": 38, "label": "Gymnasium", "color": "#EF4444", "icon": "🏋️", "shape": "rect" },
+            { "x": 74, "y": 50, "w": 22, "h": 44, "label": "Sensory Garden", "color": "#A3E635", "icon": "🌿", "shape": "rect" },
+            { "x": 70, "y": 8,  "w": 3,  "h": 84, "label": "Trees (preserved)", "shape": "river" }
+          ]
         }
       ]
     }
