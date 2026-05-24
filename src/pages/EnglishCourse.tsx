@@ -380,7 +380,10 @@ const EnglishCourse = () => {
             {/* IELTS Exam Breakdown — 4 skills + Roadmap by Band */}
             {courseId === "ielts" && <IeltsExamBreakdown />}
 
-            {/* SAT detailed format + 10-week curriculum (replaces generic Highlights/Curriculum/Audience/Testimonials) */}
+            {/* SAT — professional landing sections always visible */}
+            {courseId === "sat" && <SatLandingExtras />}
+
+            {/* SAT detailed format + 30-week curriculum (toggled via "SAT Curriculum" button) */}
             {courseId === "sat" && showSatCurriculum && <SatExamFormat />}
 
             {/* Stats — hidden for IELTS & Conversational */}
