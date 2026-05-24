@@ -1274,6 +1274,9 @@ const AIAcademy = () => {
                 transition={{ delay: i * 0.05 }}
                 onClick={() => {
                   setActive(t.id);
+                  // Award 10 XP first-time-per-session open, mark daily quest
+                  awardXP(10, "lesson");
+
                   setTimeout(() => {
                     document.getElementById("ai-track-detail")?.scrollIntoView({ behavior: "smooth", block: "start" });
                   }, 50);
