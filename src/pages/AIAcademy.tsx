@@ -951,18 +951,18 @@ const AIAcademy = () => {
   // Fetch the signed-in user's display name once so the certificate can be
   // personalized. Guests fall back to a default label.
   useEffect(() => {
-    let active = true;
+    let mounted = true;
     (async () => {
       try {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!active || !user) return;
+        if (!mounted || !user) return;
         const meta = (user.user_metadata || {}) as Record<string, unknown>;
         const name = (meta.full_name as string) || (meta.name as string) || user.email?.split("@")[0] || "";
         setStudentName(name);
         setStudentSeed(user.id);
       } catch { /* ignore */ }
     })();
-    return () => { active = false; };
+    return () => { mounted = false; };
   }, []);
 
   const totalStars = (Object.values(progress) as Progress[TrackId][]).reduce((a, b) => a + b.stars, 0);
