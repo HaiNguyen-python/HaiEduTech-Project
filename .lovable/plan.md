@@ -1,38 +1,29 @@
 ## Mục tiêu
-Thay hiệu ứng conic-gradient xoay (đang nhìn như đường chéo quay trong ô) bằng hiệu ứng **một tia sáng/dòng điện chạy dọc theo viền** của mỗi ô bài học — giống "marching ants" phát sáng, đi vòng quanh chu vi card.
-
-## Cách làm (chỉ sửa CSS, không đụng JSX)
-
-File: `src/index.css` — viết lại block `.electric-border` ở cuối file.
-
-### Kỹ thuật
-Dùng **2 lớp gradient tuyến tính** chạy quanh viền qua `background` + `mask` để chỉ hiện ở viền (border 2px):
-
-1. **Lớp nền viền**: gradient mờ tĩnh (xanh dương → emerald) làm "dây dẫn".
-2. **Lớp tia sáng chạy**: một dải sáng hẹp (~20% chiều dài) di chuyển dọc theo chu vi bằng `background-position` animation, blend-mode `screen`, có `drop-shadow` glow.
-
-Cách triển khai gọn:
-- `::before` = viền tĩnh phát sáng nhẹ (gradient 2 màu thương hiệu) + mask để chỉ hiện đường viền 2px.
-- `::after` = một đoạn gradient sáng trắng/cyan ngắn, dùng `background-size: 400% 400%` và animate `background-position` từ `0% 0%` → `100% 0%` → `100% 100%` → `0% 100%` → `0% 0%` (đi 4 cạnh theo chiều kim đồng hồ), thời lượng 3.5s linear infinite. Cũng dùng mask viền 2px.
-
-Không còn `conic-gradient` xoay, không còn cảm giác "quay trong ô".
-
-### Biến thể `.electric-strong` (cho card ≥3 sao)
-- Tia sáng chạy nhanh hơn (1.8s)
-- Màu vàng/cam (#F59E0B → #EF4444) thay vì xanh
-- Glow mạnh hơn (drop-shadow lớn)
-- Thêm pulse nhẹ ở lớp viền nền
-
-### Giữ nguyên
-- Tên class `.electric-border` và `.electric-border.electric-strong` → không cần sửa `AIAcademy.tsx`.
-- `@media (prefers-reduced-motion: reduce)` tắt animation.
-- Glow box-shadow xung quanh card vẫn pulse nhẹ.
+Làm cho phần 📖 Câu chuyện (story) của 16 bài học trong /programming/ai-academy hiện ra dần — chỉ 1 ô đầu tiên hiện sẵn, các ô sau xuất hiện tinh tế khi người học click "Tiếp theo".
 
 ## Phạm vi
-- Sửa 1 file duy nhất: `src/index.css` (block "AI Academy: Electric Border Effect").
-- Không thay đổi component, không thay đổi data, không thay đổi behavior.
+Chỉ chỉnh UI trong `src/pages/AIAcademy.tsx` quanh khối render `activeTrack.story.map(...)` (dòng ~1378–1387). Không động vào data, không động vào phần Vietnam case / Golden tip / Glossary phía dưới.
 
-## Kiểm tra sau khi build
-- Mở `/programming/ai-academy`, xem 1 tia sáng chạy dọc viền theo chu vi mỗi card (không xoay chéo trong ô nữa).
-- Card đã đạt ≥3 sao: tia vàng/cam chạy nhanh + glow ấm hơn.
-- Reduced motion: viền tĩnh, không animation.
+## Thay đổi cụ thể
+
+1. **State theo bài học**: thêm `const [revealedCount, setRevealedCount] = useState(1)` và `useEffect` reset về `1` mỗi khi `activeTrack.id` đổi (để chuyển bài luôn bắt đầu lại từ ô đầu).
+
+2. **Render có điều kiện**: thay `activeTrack.story.map(...)` bằng `activeTrack.story.slice(0, revealedCount).map(...)`, mỗi ô bọc trong `motion.div` (đã import framer-motion trong project) với `initial={{opacity:0, y:8}} animate={{opacity:1, y:0}} transition={{duration:0.35, ease:"easeOut"}}` cho hiệu ứng fade-slide nhẹ nhàng.
+
+3. **Nút "Tiếp theo" tinh tế**: ngay dưới ô cuối cùng vừa lộ, nếu `revealedCount < activeTrack.story.length`, hiện một button ghost nhỏ căn giữa:
+   - Text: `Tiếp tục đọc · {revealedCount}/{total}` + icon `ChevronDown` nhẹ nhàng bounce.
+   - Style: `text-purple-600 hover:bg-purple-500/10 rounded-full px-4 py-1.5 text-sm font-medium border border-purple-500/30 transition-all`.
+   - Bên cạnh có link nhỏ `Xem tất cả` (text-xs muted) để bỏ qua, set `revealedCount = total`.
+   - Khi đã lộ hết (`revealedCount === total`): ẩn button, có thể hiện 1 dòng micro-hint `✓ Hết phần câu chuyện` mờ.
+
+4. **Auto-scroll nhẹ**: sau khi click "Tiếp theo", scroll ô mới vào view bằng `ref` + `scrollIntoView({behavior:"smooth", block:"nearest"})` để không bị giật.
+
+## Lý do thiết kế
+- Giữ trang ngắn gọn ngay từ đầu, người học không bị ngợp chữ.
+- Hành vi click tạo nhịp đọc chủ động (active reading), tăng ghi nhớ.
+- Không phá layout split-view (concept | sandbox) hiện có; phần extras (Vietnam case, golden tip, glossary) vẫn nằm dưới như cũ — chỉ story mới progressive.
+
+## Không thay đổi
+- Data `aiAcademyContent.ts`.
+- Logic sandbox, quiz, certificate.
+- Các phần extended content phía dưới (vẫn hiện ngay).
