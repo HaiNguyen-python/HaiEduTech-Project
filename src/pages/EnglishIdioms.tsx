@@ -453,12 +453,12 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
             <div className="space-y-10">
               {groups.map(({ theme, items }) => (
                 <section key={theme.key}>
-                  <div className="flex items-center gap-3 mb-4 pb-2 border-b-2 border-amber-500/40">
+                  <div className="flex items-center gap-3 mb-4 pb-2 border-b-2 border-emerald-500/40">
                     <span className="text-2xl">{theme.emoji}</span>
                     <h3 className="text-xl sm:text-2xl font-bold text-foreground">
                       {t(theme.labelVi, theme.labelEn)}
                     </h3>
-                    <span className="text-sm font-semibold text-muted-foreground bg-amber-500/10 border border-amber-500/30 px-2.5 py-0.5 rounded-full">
+                    <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-500/10 border border-emerald-500/40 px-2.5 py-0.5 rounded-full">
                       {items.length}
                     </span>
                   </div>
