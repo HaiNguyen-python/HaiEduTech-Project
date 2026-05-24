@@ -253,33 +253,33 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
     <div>
       {/* Filters */}
       <div className="mb-6 space-y-3">
-        <div className="flex items-center gap-2 text-sm text-muted-foreground flex-wrap">
-          <Filter className="w-4 h-4" />
-          <span className="font-medium">{t("Lọc & xáo trộn", "Filter & shuffle")}</span>
-          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-500/15 border border-amber-500/40 text-amber-700 dark:text-amber-300 text-xs font-semibold">
-            <Star className="w-3.5 h-3.5 fill-current" />
+        <div className="flex items-center gap-2 text-base text-muted-foreground flex-wrap">
+          <Filter className="w-5 h-5" />
+          <span className="font-bold text-foreground">{t("Lọc & xáo trộn", "Filter & shuffle")}</span>
+          <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-500/15 border-2 border-amber-500/40 text-amber-700 dark:text-amber-300 text-sm font-bold">
+            <Star className="w-4 h-4 fill-current" />
             {t(`Đã thuộc: ${learned.size}`, `Learned: ${learned.size}`)}
           </span>
           <button
             onClick={() => setShowLearnedOnly((v) => !v)}
             className={cn(
-              "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border-2 text-xs font-semibold transition-colors",
+              "inline-flex items-center gap-1.5 px-4 py-2 rounded-full border-2 text-sm font-bold transition-colors",
               showLearnedOnly
                 ? "bg-amber-500 text-white border-amber-600 shadow-sm"
                 : "bg-background border-amber-500/60 text-foreground hover:bg-amber-500/10 hover:border-amber-500",
             )}
             title={t("Chỉ hiện các từ đã đánh dấu sao", "Show only starred entries")}
           >
-            <Star className={cn("w-3.5 h-3.5", showLearnedOnly && "fill-current")} />
+            <Star className={cn("w-4 h-4", showLearnedOnly && "fill-current")} />
             {showLearnedOnly
               ? t("Đang xem: Đã thuộc", "Viewing: Learned")
               : t(`Chỉ Đã thuộc (${learnedCountInView})`, `Only Learned (${learnedCountInView})`)}
           </button>
           <button
             onClick={() => setShuffleSeed(shuffleSeed + 1)}
-            className="ml-auto inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border-2 border-emerald-500/60 bg-background hover:bg-emerald-500/10 hover:border-emerald-500 transition-colors text-xs font-semibold text-foreground"
+            className="ml-auto inline-flex items-center gap-1.5 px-4 py-2 rounded-full border-2 border-emerald-500/60 bg-background hover:bg-emerald-500/10 hover:border-emerald-500 transition-colors text-sm font-bold text-foreground"
           >
-            <Shuffle className="w-3.5 h-3.5" /> {t("Xáo trộn", "Shuffle")}
+            <Shuffle className="w-4 h-4" /> {t("Xáo trộn", "Shuffle")}
           </button>
 
         </div>
