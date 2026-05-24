@@ -135,7 +135,7 @@ const EnglishIdioms = () => {
           </motion.div>
 
           {/* Tabs */}
-          <div className="flex flex-wrap gap-2 mb-8 p-1.5 rounded-2xl bg-secondary/50 border border-border/50 backdrop-blur">
+          <div className="flex flex-wrap gap-2 mb-8 p-1.5 rounded-2xl bg-secondary/50 border-2 border-emerald-500/50 backdrop-blur shadow-sm">
             {TABS.map((tabDef) => {
               const Icon = tabDef.icon;
               const isActive = tab === tabDef.key;
@@ -144,10 +144,10 @@ const EnglishIdioms = () => {
                   key={tabDef.key}
                   onClick={() => switchTab(tabDef.key)}
                   className={cn(
-                    "flex-1 min-w-[140px] inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all",
+                    "flex-1 min-w-[140px] inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all border-2",
                     isActive
-                      ? `bg-gradient-to-r ${tabDef.color} text-white shadow-md`
-                      : "text-foreground/70 hover:bg-background hover:text-foreground",
+                      ? `bg-gradient-to-r ${tabDef.color} text-white shadow-md border-transparent`
+                      : "text-foreground/80 bg-background border-emerald-500/40 hover:bg-emerald-500/10 hover:border-emerald-500 hover:text-foreground",
                   )}
                 >
                   <Icon className="w-4 h-4" />
@@ -156,6 +156,7 @@ const EnglishIdioms = () => {
               );
             })}
           </div>
+
 
           {/* Content */}
           <div ref={contentRef} className="scroll-mt-24">
