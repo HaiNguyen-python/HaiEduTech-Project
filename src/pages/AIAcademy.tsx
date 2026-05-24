@@ -1169,7 +1169,7 @@ const AIAcademy = () => {
                               <MapPin className="w-4 h-4 text-red-600" />
                               <h4 className="font-bold text-foreground text-sm">{extra.vietnamCase.title}</h4>
                             </div>
-                            <p className="text-sm text-foreground/85 leading-relaxed">{extra.vietnamCase.body}</p>
+                            <SmartText text={extra.vietnamCase.body} className="text-[15px] text-foreground leading-relaxed" />
                           </div>
 
                           {/* Golden tip */}
