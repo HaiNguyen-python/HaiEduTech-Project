@@ -639,89 +639,109 @@ const IeltsVocabulary = () => {
             {/* Content based on mode */}
             {viewMode === "exercise" ? (
               <VocabExercise words={ieltsVocabData.filter(w => mastered.has(w.word))} allWords={ieltsVocabData} t={t} />
-            ) : viewMode === "flashcard" ? (
-              /* Flashcard grid - generous gap, responsive columns */
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <AnimatePresence mode="popLayout">
-                  {paginated.map(w => (
-                    <motion.div key={w.word + w.category} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
-                      <Flashcard word={w} />
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
-              </div>
-            ) : (
-              /* List grid - 1 col mobile, 2 tablet, 3 desktop */
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                {paginated.map(w => (
-                  <motion.div
-                    key={w.word + w.category}
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="group min-w-0 h-full rounded-xl bg-white dark:bg-card hover:shadow-lg transition-all duration-300 hover:scale-[1.02]"
-                    style={{ padding: "2rem", border: "2px solid #cbd5e1", boxShadow: "0 4px 12px -2px rgb(0 0 0 / 0.08), 0 0 0 1px rgb(0 0 0 / 0.04)", borderRadius: "1rem" }}
-                  >
-                    {/* Header: Word + Illustration + Audio + Star */}
-                    <div className="mb-2 min-w-0 flex items-start gap-3">
-                      <div className="min-w-0 flex-1">
-                        <h3 className="break-words font-extrabold" style={{ fontSize: "1.5rem", lineHeight: 1.35, overflowWrap: "break-word", wordBreak: "normal" }}>
-                          <span style={{ color: "#059669" }}>{w.word}</span>
-                          {w.synonyms && w.synonyms.length > 0 && (
-                            <span className="ml-2 italic font-medium" style={{ fontSize: "0.95rem", color: "#111827" }}>
-                              = {w.synonyms.slice(0, 2).join(", ")}
-                            </span>
-                          )}
-                        </h3>
-                        <p className="break-words font-mono" style={{ fontSize: "0.875rem", color: "#4b5563", overflowWrap: "break-word", wordBreak: "normal" }}>{w.ipa}</p>
-                        <div className="mt-2 flex items-center gap-1">
-                          <button onClick={() => speak(w.word)} className="rounded-lg p-1.5 transition-colors hover:bg-primary/10">
-                            <Volume2 size={20} style={{ color: "#4b5563" }} />
-                          </button>
-                          <motion.button
-                            onClick={(e) => handleStarClick(w.word, e)}
-                            className="rounded-lg p-1.5 transition-colors hover:bg-yellow-500/10"
-                            whileTap={{ scale: 1.4 }}
-                            transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                          >
-                            <Star
-                              size={20}
-                              className={mastered.has(w.word) ? "text-yellow-400 fill-yellow-400 drop-shadow-[0_0_6px_rgba(250,204,21,0.6)]" : ""}
-                              style={mastered.has(w.word) ? {} : { color: "#4b5563" }}
-                            />
-                          </motion.button>
-                        </div>
+            ) : (() => {
+              // Group paginated words by category so each topic shows its own section
+              const groups = paginated.reduce<Record<string, IeltsWord[]>>((acc, w) => {
+                (acc[w.category] ||= []).push(w);
+                return acc;
+              }, {});
+              const orderedCats = IELTS_CATEGORIES.filter(c => groups[c]);
+              // include any category not in the predefined list (defensive)
+              Object.keys(groups).forEach(c => { if (!(orderedCats as string[]).includes(c)) (orderedCats as string[]).push(c); });
+
+              return (
+                <div className="space-y-8">
+                  {orderedCats.map(cat => (
+                    <section key={cat}>
+                      <div className="flex items-baseline gap-3 mb-3 border-b border-border/60 pb-1.5">
+                        <h3 className="text-lg font-bold text-primary">{cat}</h3>
+                        <span className="text-xs text-muted-foreground">{groups[cat].length} {t("từ", "words")}</span>
                       </div>
-                      <VocabIllustration word={w.word} definition={w.definition.en} category={w.category} size={64} />
-                    </div>
 
-                    {/* Badges */}
-                    <div className="mb-3 flex flex-wrap items-center gap-2">
-                      <Badge className={levelColors[w.level] + " text-xs"}>{w.level}</Badge>
-                      {w.partOfSpeech && <Badge variant="secondary" className="text-xs italic">{w.partOfSpeech}</Badge>}
-                      <Badge variant="outline" className="text-xs">{w.category}</Badge>
-                    </div>
+                      {viewMode === "flashcard" ? (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                          <AnimatePresence mode="popLayout">
+                            {groups[cat].map(w => (
+                              <motion.div key={w.word + w.category} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
+                                <Flashcard word={w} />
+                              </motion.div>
+                            ))}
+                          </AnimatePresence>
+                        </div>
+                      ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                          {groups[cat].map(w => (
+                            <motion.div
+                              key={w.word + w.category}
+                              initial={{ opacity: 0, y: 12 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              className="group min-w-0 h-full rounded-xl bg-white dark:bg-card hover:shadow-lg transition-all duration-300"
+                              style={{ padding: "1rem 1.1rem", border: "1px solid #e2e8f0", boxShadow: "0 2px 6px -2px rgb(0 0 0 / 0.08)", borderRadius: "0.85rem" }}
+                            >
+                              {/* Header: Word + Illustration + Audio + Star */}
+                              <div className="mb-1.5 min-w-0 flex items-start gap-2">
+                                <div className="min-w-0 flex-1">
+                                  <h4 className="break-words font-extrabold" style={{ fontSize: "1.2rem", lineHeight: 1.25, overflowWrap: "break-word", wordBreak: "normal" }}>
+                                    <span style={{ color: "#059669" }}>{w.word}</span>
+                                    {w.synonyms && w.synonyms.length > 0 && (
+                                      <span className="ml-1.5 italic font-medium" style={{ fontSize: "0.82rem", color: "#374151" }}>
+                                        = {w.synonyms.slice(0, 2).join(", ")}
+                                      </span>
+                                    )}
+                                  </h4>
+                                  <p className="break-words font-mono" style={{ fontSize: "0.78rem", color: "#6b7280", overflowWrap: "break-word", wordBreak: "normal" }}>{w.ipa}</p>
+                                  <div className="mt-1 flex items-center gap-0.5">
+                                    <button onClick={() => speak(w.word)} className="rounded-md p-1 transition-colors hover:bg-primary/10">
+                                      <Volume2 size={16} style={{ color: "#4b5563" }} />
+                                    </button>
+                                    <motion.button
+                                      onClick={(e) => handleStarClick(w.word, e)}
+                                      className="rounded-md p-1 transition-colors hover:bg-yellow-500/10"
+                                      whileTap={{ scale: 1.4 }}
+                                      transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                                    >
+                                      <Star
+                                        size={16}
+                                        className={mastered.has(w.word) ? "text-yellow-400 fill-yellow-400 drop-shadow-[0_0_6px_rgba(250,204,21,0.6)]" : ""}
+                                        style={mastered.has(w.word) ? {} : { color: "#4b5563" }}
+                                      />
+                                    </motion.button>
+                                  </div>
+                                </div>
+                                <VocabIllustration word={w.word} definition={w.definition.en} category={w.category} size={48} />
+                              </div>
 
-                    {/* Definition - high contrast */}
-                    <p className="min-w-0 break-words font-semibold leading-relaxed whitespace-normal" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6, overflowWrap: "break-word", wordBreak: "normal" }}>{w.definition.en}</p>
-                    <p className="mt-1 min-w-0 break-words font-bold whitespace-normal" style={{ fontSize: "1.1875rem", color: "#1d4ed8", lineHeight: 1.6, overflowWrap: "break-word", wordBreak: "normal" }}>{w.definition.vi}</p>
+                              {/* Badges */}
+                              <div className="mb-1.5 flex flex-wrap items-center gap-1.5">
+                                <Badge className={levelColors[w.level] + " text-[10px] px-1.5 py-0"}>{w.level}</Badge>
+                                {w.partOfSpeech && <Badge variant="secondary" className="text-[10px] px-1.5 py-0 italic">{w.partOfSpeech}</Badge>}
+                              </div>
 
-                    {/* Example sentence */}
-                    <p className="mt-3 min-w-0 break-words italic leading-relaxed whitespace-normal" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6, overflowWrap: "break-word", wordBreak: "normal" }}>
-                      <span className="font-bold not-italic" style={{ color: "#1d4ed8" }}>E.g. </span>
-                      {w.example.split(new RegExp(`(${w.word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "ig")).map((part, i) =>
-                        part.toLowerCase() === w.word.toLowerCase()
-                          ? <strong key={i} className="font-extrabold italic" style={{ color: "#111827" }}>{part}</strong>
-                          : <span key={i}>{part}</span>
+                              {/* Definition - high contrast */}
+                              <p className="min-w-0 break-words font-semibold whitespace-normal" style={{ fontSize: "0.9rem", color: "#374151", lineHeight: 1.45, overflowWrap: "break-word", wordBreak: "normal" }}>{w.definition.en}</p>
+                              <p className="mt-0.5 min-w-0 break-words font-bold whitespace-normal" style={{ fontSize: "1rem", color: "#1d4ed8", lineHeight: 1.45, overflowWrap: "break-word", wordBreak: "normal" }}>{w.definition.vi}</p>
+
+                              {/* Example sentence */}
+                              <p className="mt-1.5 min-w-0 break-words italic whitespace-normal" style={{ fontSize: "0.88rem", color: "#374151", lineHeight: 1.5, overflowWrap: "break-word", wordBreak: "normal" }}>
+                                <span className="font-bold not-italic" style={{ color: "#1d4ed8" }}>E.g. </span>
+                                {w.example.split(new RegExp(`(${w.word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "ig")).map((part, i) =>
+                                  part.toLowerCase() === w.word.toLowerCase()
+                                    ? <strong key={i} className="font-extrabold italic" style={{ color: "#111827" }}>{part}</strong>
+                                    : <span key={i}>{part}</span>
+                                )}
+                              </p>
+
+                              {/* Inline Type-the-example widget */}
+                              <InlineTypeExample word={w} t={t} />
+                            </motion.div>
+                          ))}
+                        </div>
                       )}
-                    </p>
-
-                    {/* Inline Type-the-example widget */}
-                    <InlineTypeExample word={w} t={t} />
-
-                  </motion.div>
-                ))}
-              </div>
-            )}
+                    </section>
+                  ))}
+                </div>
+              );
+            })()}
 
             {/* Pagination (hide in exercise mode) */}
             {viewMode !== "exercise" && totalPages > 1 && (
