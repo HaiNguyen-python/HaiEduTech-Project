@@ -146,6 +146,8 @@ const RecsysSandbox = () => {
       <p className="text-xs text-muted-foreground">
         💡 YouTube & TikTok tính cosine similarity giữa <b>vector sở thích</b> của bạn và hàng tỷ video — chỉ những video vượt ngưỡng mới xuất hiện trên feed.
       </p>
+
+      <BonusGames tfItems={REC_TF} matchPairs={REC_PAIRS} accent="from-orange-500 to-rose-500" border="border-orange-400/40" />
     </div>
   );
 };
