@@ -42,6 +42,40 @@ import FloatingAIIcons from "@/components/ai-academy/FloatingAIIcons";
 import heroBg from "@/assets/ai-academy-hero-bg.jpg";
 import chibiRobot from "@/assets/ai-chibi-robot.png";
 
+/**
+ * SmartText — renders long Vietnamese paragraphs as bullet points
+ * when 3+ sentences are detected, otherwise as a single paragraph.
+ * Strips inline HTML to keep things safe (only used for plain text fields).
+ */
+const SmartText = ({ text, className = "", html = false }: { text: string; className?: string; html?: boolean }) => {
+  // Split sentences while preserving punctuation. Vietnamese commonly uses ". " or "! " or "? ".
+  const parts = text
+    .split(/(?<=[.!?])\s+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+  if (parts.length >= 3) {
+    return (
+      <ul className={`space-y-1.5 list-none ${className}`}>
+        {parts.map((p, i) => (
+          <li key={i} className="flex gap-2">
+            <span className="text-primary mt-0.5 shrink-0">▸</span>
+            {html ? (
+              <span className="flex-1" dangerouslySetInnerHTML={{ __html: p }} />
+            ) : (
+              <span className="flex-1">{p}</span>
+            )}
+          </li>
+        ))}
+      </ul>
+    );
+  }
+  return html ? (
+    <p className={className} dangerouslySetInnerHTML={{ __html: text }} />
+  ) : (
+    <p className={className}>{text}</p>
+  );
+};
+
 type TrackId = "vision" | "nlp" | "nn" | "genai" | "rl" | "ethics" | "recsys" | "aiot" | "capstone" | "deepfake" | "agent" | "graduation";
 
 type Track = {
@@ -1113,11 +1147,12 @@ const AIAcademy = () => {
                       <h3 className="font-bold text-sm uppercase tracking-wider text-muted-foreground">📖 Câu chuyện</h3>
                     </div>
                     {activeTrack.story.map((s, i) => (
-                      <div key={i} className="p-3 rounded-2xl border-l-4 border-purple-500 bg-purple-500/5">
-                        <h4 className="font-bold text-foreground mb-1">{s.heading}</h4>
-                        <p
-                          className="text-sm text-foreground/80 leading-relaxed"
-                          dangerouslySetInnerHTML={{ __html: s.body }}
+                      <div key={i} className="p-3 rounded-2xl border-l-4 border-purple-500 bg-purple-500/10">
+                        <h4 className="font-bold text-foreground mb-1.5">{s.heading}</h4>
+                        <SmartText
+                          text={s.body}
+                          html
+                          className="text-[15px] text-foreground leading-relaxed"
                         />
                       </div>
                     ))}
@@ -1134,7 +1169,7 @@ const AIAcademy = () => {
                               <MapPin className="w-4 h-4 text-red-600" />
                               <h4 className="font-bold text-foreground text-sm">{extra.vietnamCase.title}</h4>
                             </div>
-                            <p className="text-sm text-foreground/85 leading-relaxed">{extra.vietnamCase.body}</p>
+                            <SmartText text={extra.vietnamCase.body} className="text-[15px] text-foreground leading-relaxed" />
                           </div>
 
                           {/* Golden tip */}
@@ -1145,7 +1180,7 @@ const AIAcademy = () => {
                                 💡 Mẹo vàng của thầy Hải
                               </h4>
                             </div>
-                            <p className="text-sm text-foreground/90 leading-relaxed italic">{extra.goldenTip}</p>
+                            <SmartText text={extra.goldenTip} className="text-[15px] text-foreground leading-relaxed italic font-medium" />
                           </div>
 
                           {/* Glossary */}
@@ -1158,7 +1193,7 @@ const AIAcademy = () => {
                               {extra.glossary.map((g, i) => (
                                 <div key={i} className="text-sm">
                                   <span className="font-bold text-indigo-700 dark:text-indigo-300">{g.term}:</span>{" "}
-                                  <span className="text-foreground/80">{g.def}</span>
+                                  <span className="text-foreground">{g.def}</span>
                                 </div>
                               ))}
                             </div>
@@ -1174,7 +1209,7 @@ const AIAcademy = () => {
                             </div>
                             <ul className="space-y-1">
                               {extra.careers.map((c, i) => (
-                                <li key={i} className="text-sm text-foreground/85 flex gap-2">
+                                <li key={i} className="text-[15px] text-foreground flex gap-2">
                                   <span className="text-emerald-500">▸</span>
                                   <span>{c}</span>
                                 </li>
@@ -1190,7 +1225,7 @@ const AIAcademy = () => {
                                 🏠 Thử sức ở nhà
                               </h4>
                             </div>
-                            <p className="text-sm text-foreground/85 leading-relaxed">{extra.homework}</p>
+                            <SmartText text={extra.homework} className="text-[15px] text-foreground leading-relaxed" />
                           </div>
 
                           {/* External demos */}
@@ -1225,7 +1260,7 @@ const AIAcademy = () => {
                                   {extra.safetyNote.title}
                                 </h4>
                               </div>
-                              <p className="text-sm text-foreground/90 leading-relaxed">{extra.safetyNote.body}</p>
+                              <SmartText text={extra.safetyNote.body} className="text-[15px] text-foreground leading-relaxed" />
                             </div>
                           )}
                         </div>
