@@ -96,9 +96,11 @@ const CambridgeLectureView = () => {
   const revealPractice = (idx: number) => setPracticeRevealed(prev => new Set(prev).add(idx));
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-50 via-amber-50 to-pink-50">
+    <div className="relative min-h-screen bg-gradient-to-b from-sky-100 via-amber-50 to-pink-100 overflow-hidden">
+      <FloatingBalloons count={16} />
+      <div className="relative z-10">
       <Navbar />
-      <main className="pt-24 pb-16">
+      <main className="pt-24 pb-16 relative">
         <div className="container mx-auto px-4 max-w-4xl">
           {/* Back */}
           <Button variant="ghost" onClick={() => navigate("/cambridge-lectures")} className="text-slate-500 hover:text-slate-900 mb-6">
