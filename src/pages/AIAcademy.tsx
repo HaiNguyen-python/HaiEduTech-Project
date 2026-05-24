@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Eye, MessageSquare, Brain, Sparkles, Trophy, Star, ArrowLeft, Lock,
-  Zap, Award, Rocket, CheckCircle2, Wand2, Car, Scale,
+  Zap, Award, Rocket, CheckCircle2, Wand2, Car, Scale, Database, Radio, Cpu,
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import Navbar from "@/components/Navbar";
@@ -26,9 +26,12 @@ import NeuralNetSandbox from "@/components/ai-academy/NeuralNetSandbox";
 import GenAISandbox from "@/components/ai-academy/GenAISandbox";
 import RLSandbox from "@/components/ai-academy/RLSandbox";
 import EthicsSandbox from "@/components/ai-academy/EthicsSandbox";
+import RecsysSandbox from "@/components/ai-academy/RecsysSandbox";
+import AIoTSandbox from "@/components/ai-academy/AIoTSandbox";
+import CapstoneSandbox from "@/components/ai-academy/CapstoneSandbox";
 import DragDropQuiz, { type DDQuestion } from "@/components/ai-academy/DragDropQuiz";
 
-type TrackId = "vision" | "nlp" | "nn" | "genai" | "rl" | "ethics";
+type TrackId = "vision" | "nlp" | "nn" | "genai" | "rl" | "ethics" | "recsys" | "aiot" | "capstone";
 
 type Track = {
   id: TrackId;
