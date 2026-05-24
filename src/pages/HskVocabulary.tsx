@@ -527,26 +527,26 @@ const HskVocabulary = () => {
                               <div className="bg-secondary/30 flex items-center justify-center p-2">
                                 <HanziWord characters={w.character} size={64} />
                               </div>
-                              <div className="p-3">
-                                <div className="flex items-start justify-between gap-2 mb-1.5">
-                                  <p className="text-sm text-primary font-medium">{w.pinyin}</p>
+                              <div className="p-4">
+                                <div className="flex items-start justify-between gap-2 mb-2">
+                                  <p className="text-lg text-primary font-bold">{w.pinyin}</p>
                                   <div className="flex items-center gap-0.5">
-                                    <button onClick={() => speakChinese(w.character)} className="p-1 rounded-md hover:bg-primary/10 transition-colors">
-                                      <Volume2 className="w-3.5 h-3.5 text-primary" />
+                                    <button onClick={() => speakChinese(w.character)} className="p-1.5 rounded-md hover:bg-primary/10 transition-colors">
+                                      <Volume2 className="w-4 h-4 text-primary" />
                                     </button>
-                                    <button onClick={(e) => handleStarClick(w.character, e)} className="p-1 rounded-md hover:bg-yellow-500/10 transition-colors">
-                                      <Star className={`w-3.5 h-3.5 ${mastered.has(w.character) ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"}`} />
+                                    <button onClick={(e) => handleStarClick(w.character, e)} className="p-1.5 rounded-md hover:bg-yellow-500/10 transition-colors">
+                                      <Star className={`w-4 h-4 ${mastered.has(w.character) ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"}`} />
                                     </button>
                                   </div>
                                 </div>
-                                <div className="flex items-center gap-1.5 mb-1.5">
-                                  <Badge className={levelColors[w.level] + " text-[10px] px-1.5 py-0"}>{w.level}</Badge>
+                                <div className="flex items-center gap-1.5 mb-2">
+                                  <Badge className={levelColors[w.level] + " text-xs px-2 py-0.5"}>{w.level}</Badge>
                                 </div>
-                                <p className="text-sm text-foreground font-medium leading-snug">{w.definition.en}</p>
-                                <p className="text-sm text-primary leading-snug">{w.definition.vi}</p>
-                                <div className="mt-1.5 p-2 rounded-lg bg-secondary/50">
-                                  <p className="text-sm font-bold text-foreground leading-snug">{w.example}</p>
-                                  <p className="text-[11px] text-muted-foreground mt-0.5">{w.examplePinyin}</p>
+                                <p className="text-base text-foreground font-semibold leading-snug">{w.definition.en}</p>
+                                <p className="text-base text-primary font-medium leading-snug">{w.definition.vi}</p>
+                                <div className="mt-2 p-3 rounded-lg bg-secondary/50">
+                                  <p className="text-lg font-bold text-foreground leading-snug">{w.example}</p>
+                                  <p className="text-sm text-muted-foreground mt-1">{w.examplePinyin}</p>
                                   <HskExampleTranslation example={w.example} />
                                 </div>
                                 <HskExamplePractice example={w.example} examplePinyin={w.examplePinyin} />

@@ -110,19 +110,19 @@ const HskExamplePractice = ({ example, examplePinyin }: Props) => {
             type="button"
             variant={mode === "typing" ? "default" : "outline"}
             size="sm"
-            className="h-7 px-2 text-xs gap-1"
+            className="h-8 px-3 text-sm gap-1 font-semibold"
             onClick={() => { setMode("typing"); handleReset(); }}
           >
-            <Keyboard className="w-3 h-3" /> Gõ
+            <Keyboard className="w-3.5 h-3.5" /> Gõ
           </Button>
           <Button
             type="button"
             variant={mode === "voice" ? "default" : "outline"}
             size="sm"
-            className="h-7 px-2 text-xs gap-1"
+            className="h-8 px-3 text-sm gap-1 font-semibold"
             onClick={() => { setMode("voice"); handleReset(); }}
           >
-            <Mic className="w-3 h-3" /> Nói
+            <Mic className="w-3.5 h-3.5" /> Nói
           </Button>
         </div>
         <div className="flex items-center gap-1">
@@ -132,7 +132,7 @@ const HskExamplePractice = ({ example, examplePinyin }: Props) => {
             className="p-1.5 rounded hover:bg-primary/10"
             title="Nghe mẫu"
           >
-            <Volume2 className="w-3.5 h-3.5 text-primary" />
+            <Volume2 className="w-4 h-4 text-primary" />
           </button>
           <button
             type="button"
@@ -140,13 +140,13 @@ const HskExamplePractice = ({ example, examplePinyin }: Props) => {
             className="p-1.5 rounded hover:bg-primary/10"
             title="Gợi ý Pinyin"
           >
-            {showHint ? <EyeOff className="w-3.5 h-3.5 text-primary" /> : <Eye className="w-3.5 h-3.5 text-primary" />}
+            {showHint ? <EyeOff className="w-4 h-4 text-primary" /> : <Eye className="w-4 h-4 text-primary" />}
           </button>
         </div>
       </div>
 
       {showHint && (
-        <p className="text-xs text-muted-foreground italic mb-2">{examplePinyin}</p>
+        <p className="text-sm text-muted-foreground italic mb-2">{examplePinyin}</p>
       )}
 
       {mode === "typing" ? (
@@ -155,7 +155,7 @@ const HskExamplePractice = ({ example, examplePinyin }: Props) => {
           onChange={(e) => { setTyped(e.target.value); setChecked(false); }}
           placeholder="Gõ lại câu Hán tự..."
           rows={2}
-          className="w-full px-2 py-1.5 rounded-md bg-secondary border border-border text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none resize-none"
+          className="w-full px-3 py-2 rounded-md bg-secondary border border-border text-base text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none resize-none"
         />
       ) : (
         <div className="flex items-center gap-2">
@@ -163,33 +163,33 @@ const HskExamplePractice = ({ example, examplePinyin }: Props) => {
             type="button"
             variant={listening ? "destructive" : "outline"}
             size="sm"
-            className="h-8 gap-1"
+            className="h-9 gap-1 text-sm"
             onClick={listening ? stopVoice : startVoice}
           >
-            {listening ? <MicOff className="w-3.5 h-3.5" /> : <Mic className="w-3.5 h-3.5" />}
+            {listening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
             {listening ? "Dừng" : "Nói"}
           </Button>
-          <p className="text-sm text-foreground flex-1 truncate">
+          <p className="text-base text-foreground flex-1 truncate">
             {recognized || <span className="text-muted-foreground italic">Nhấn "Nói" rồi đọc câu...</span>}
           </p>
         </div>
       )}
 
       <div className="flex items-center gap-2 mt-2">
-        <Button type="button" size="sm" className="h-7 text-xs" onClick={handleCheck} disabled={!userText}>
+        <Button type="button" size="sm" className="h-8 text-sm font-semibold" onClick={handleCheck} disabled={!userText}>
           Kiểm tra
         </Button>
-        <Button type="button" size="sm" variant="ghost" className="h-7 text-xs" onClick={handleReset}>
+        <Button type="button" size="sm" variant="ghost" className="h-8 text-sm" onClick={handleReset}>
           Xóa
         </Button>
         {isCorrect && (
-          <span className="flex items-center gap-1 text-xs text-green-500 font-medium">
-            <CheckCircle2 className="w-3.5 h-3.5" /> Tuyệt vời!
+          <span className="flex items-center gap-1 text-sm text-green-500 font-semibold">
+            <CheckCircle2 className="w-4 h-4" /> Tuyệt vời!
           </span>
         )}
         {isWrong && (
-          <span className="flex items-center gap-1 text-xs text-red-500 font-medium">
-            <XCircle className="w-3.5 h-3.5" /> Chưa đúng
+          <span className="flex items-center gap-1 text-sm text-red-500 font-semibold">
+            <XCircle className="w-4 h-4" /> Chưa đúng
           </span>
         )}
       </div>

@@ -103,10 +103,10 @@ const HskExampleTranslation = ({ example }: Props) => {
   const secondaryLabel = lang === "en" ? "VI" : "EN";
 
   return (
-    <div className="mt-1.5 text-xs">
+    <div className="mt-2 text-sm">
       {loading && !trans && (
         <span className="inline-flex items-center gap-1 text-muted-foreground italic">
-          <Loader2 className="w-3 h-3 animate-spin" />
+          <Loader2 className="w-3.5 h-3.5 animate-spin" />
           {t("Đang dịch...", "Translating...")}
         </span>
       )}
@@ -114,14 +114,14 @@ const HskExampleTranslation = ({ example }: Props) => {
         <button
           type="button"
           onClick={fetchTranslation}
-          className="inline-flex items-center gap-1 text-primary hover:underline"
+          className="inline-flex items-center gap-1 text-primary font-medium hover:underline"
         >
-          <Languages className="w-3 h-3" /> {t("Thử lại dịch", "Retry translate")}
+          <Languages className="w-3.5 h-3.5" /> {t("Thử lại dịch", "Retry translate")}
         </button>
       )}
       {trans && (
-        <div className="space-y-0.5">
-          <p className="text-foreground/90 italic leading-snug">{primary}</p>
+        <div className="space-y-1">
+          <p className="text-foreground italic font-medium leading-snug">{primary}</p>
           {showBoth && (
             <p className="text-muted-foreground italic leading-snug">
               <span className="font-semibold mr-1">{secondaryLabel}:</span>{secondary}
@@ -130,7 +130,7 @@ const HskExampleTranslation = ({ example }: Props) => {
           <button
             type="button"
             onClick={() => setShowBoth(s => !s)}
-            className="inline-flex items-center gap-1 text-[11px] text-primary hover:underline"
+            className="inline-flex items-center gap-1 text-xs text-primary font-medium hover:underline"
           >
             <Languages className="w-3 h-3" />
             {showBoth
