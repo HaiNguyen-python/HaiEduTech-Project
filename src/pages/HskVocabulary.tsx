@@ -492,56 +492,74 @@ const HskVocabulary = () => {
             {/* Content based on mode */}
             {viewMode === "exercise" ? (
               <HskExercise masteredWords={hskVocabData.filter(w => mastered.has(w.character))} t={t} />
-            ) : viewMode === "flashcard" ? (
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <AnimatePresence mode="popLayout">
-                  {paginated.map(w => (
-                    <motion.div key={w.character + w.category} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
-                      <HskFlashcard word={w} />
-                    </motion.div>
+            ) : (() => {
+              const groups = paginated.reduce<Record<string, HskWord[]>>((acc, w) => {
+                (acc[w.category] ||= []).push(w);
+                return acc;
+              }, {});
+              const orderedCats = (HSK_CATEGORIES as readonly string[]).filter(c => groups[c]) as string[];
+              Object.keys(groups).forEach(c => { if (!orderedCats.includes(c)) orderedCats.push(c); });
+
+              return (
+                <div className="space-y-8">
+                  {orderedCats.map(cat => (
+                    <section key={cat}>
+                      <div className="flex items-baseline gap-3 mb-3 border-b border-border/60 pb-1.5">
+                        <h3 className="text-lg font-bold text-primary">{cat}</h3>
+                        <span className="text-xs text-muted-foreground">{groups[cat].length} {t("từ", "words")}</span>
+                      </div>
+
+                      {viewMode === "flashcard" ? (
+                        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                          <AnimatePresence mode="popLayout">
+                            {groups[cat].map(w => (
+                              <motion.div key={w.character + w.category} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
+                                <HskFlashcard word={w} />
+                              </motion.div>
+                            ))}
+                          </AnimatePresence>
+                        </div>
+                      ) : (
+                        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                          {groups[cat].map(w => (
+                            <div key={w.character + w.category} className="rounded-xl border border-border bg-card overflow-hidden hover:border-primary/30 transition-colors">
+                              {/* Stroke order area */}
+                              <div className="bg-secondary/30 flex items-center justify-center p-2">
+                                <HanziWord characters={w.character} size={64} />
+                              </div>
+                              <div className="p-3">
+                                <div className="flex items-start justify-between gap-2 mb-1.5">
+                                  <p className="text-sm text-primary font-medium">{w.pinyin}</p>
+                                  <div className="flex items-center gap-0.5">
+                                    <button onClick={() => speakChinese(w.character)} className="p-1 rounded-md hover:bg-primary/10 transition-colors">
+                                      <Volume2 className="w-3.5 h-3.5 text-primary" />
+                                    </button>
+                                    <button onClick={(e) => handleStarClick(w.character, e)} className="p-1 rounded-md hover:bg-yellow-500/10 transition-colors">
+                                      <Star className={`w-3.5 h-3.5 ${mastered.has(w.character) ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"}`} />
+                                    </button>
+                                  </div>
+                                </div>
+                                <div className="flex items-center gap-1.5 mb-1.5">
+                                  <Badge className={levelColors[w.level] + " text-[10px] px-1.5 py-0"}>{w.level}</Badge>
+                                </div>
+                                <p className="text-sm text-foreground font-medium leading-snug">{w.definition.en}</p>
+                                <p className="text-sm text-primary leading-snug">{w.definition.vi}</p>
+                                <div className="mt-1.5 p-2 rounded-lg bg-secondary/50">
+                                  <p className="text-sm font-bold text-foreground leading-snug">{w.example}</p>
+                                  <p className="text-[11px] text-muted-foreground mt-0.5">{w.examplePinyin}</p>
+                                  <HskExampleTranslation example={w.example} />
+                                </div>
+                                <HskExamplePractice example={w.example} examplePinyin={w.examplePinyin} />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </section>
                   ))}
-                </AnimatePresence>
-              </div>
-            ) : (
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {paginated.map((w, idx) => (
-                  <div key={w.character + w.category} className="rounded-xl border border-border bg-card overflow-hidden hover:border-primary/30 transition-colors">
-                    {/* Stroke order area */}
-                    <div className="bg-secondary/30 flex items-center justify-center p-4">
-                      <HanziWord characters={w.character} size={84} />
-                    </div>
-                    <div className="p-4">
-                      <div className="flex items-start justify-between gap-2 mb-2">
-                        <div>
-                          <p className="text-sm text-primary font-medium sr-only">{w.character}</p>
-                          <p className="text-sm text-primary font-medium">{w.pinyin}</p>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <button onClick={() => speakChinese(w.character)} className="p-1.5 rounded-lg hover:bg-primary/10 transition-colors">
-                            <Volume2 className="w-4 h-4 text-primary" />
-                          </button>
-                          <button onClick={(e) => handleStarClick(w.character, e)} className="p-1.5 rounded-lg hover:bg-yellow-500/10 transition-colors">
-                            <Star className={`w-4 h-4 ${mastered.has(w.character) ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"}`} />
-                          </button>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2 mb-2">
-                        <Badge className={levelColors[w.level] + " text-xs"}>{w.level}</Badge>
-                        <Badge variant="outline" className="text-xs">{w.category}</Badge>
-                      </div>
-                      <p className="text-sm text-foreground font-medium">{w.definition.en}</p>
-                      <p className="text-sm text-primary">{w.definition.vi}</p>
-                      <div className="mt-2 p-2.5 rounded-lg bg-secondary/50">
-                        <p className="text-base font-bold text-foreground leading-relaxed">{w.example}</p>
-                        <p className="text-xs text-muted-foreground mt-0.5">{w.examplePinyin}</p>
-                        <HskExampleTranslation example={w.example} />
-                      </div>
-                      <HskExamplePractice example={w.example} examplePinyin={w.examplePinyin} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+                </div>
+              );
+            })()}
 
             {/* Pagination (hide in exercise mode) */}
             {viewMode !== "exercise" && totalPages > 1 && (
