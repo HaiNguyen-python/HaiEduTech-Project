@@ -71,7 +71,7 @@ const SatLandingExtras = () => {
     },
   ];
 
-  const testimonials: Array<{ name: string; grade: string; before: number; after: number; school: string; quote: string; color: string }> = [];
+
 
   const faqs = [
     { q: t("Digital SAT khác SAT giấy cũ thế nào?", "How is Digital SAT different from paper SAT?"), a: t("Digital SAT ngắn hơn (2h14 vs 3h), thi trên laptop qua app Bluebook, có Desmos tích hợp, Module 2 adaptive theo điểm Module 1, và đoạn văn ngắn (25–150 từ) thay vì passage dài.", "Digital SAT is shorter (2h14 vs 3h), taken on laptop via Bluebook app, includes built-in Desmos, Module 2 adapts to Module 1, and uses short passages (25–150 words) instead of long ones.") },
