@@ -308,7 +308,7 @@ export const BonusGames = ({
   accent?: string;
   border?: string;
 }) => (
-  <div className="space-y-3 pt-2">
+  <div className="space-y-6 sm:space-y-7 pt-4 mt-2 border-t border-border/40">
     <TrueFalseRapid items={tfItems} accent={accent} border={border} />
     <MatchPairs pairs={matchPairs} accent={accent} border={border} />
   </div>

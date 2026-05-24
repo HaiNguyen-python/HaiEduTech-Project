@@ -92,7 +92,7 @@ const AIoTSandbox = () => {
   );
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6 sm:space-y-7">
       {/* Crossroad */}
       <div className="rounded-2xl border-2 border-cyan-400/40 bg-gradient-to-br from-slate-900 via-cyan-950/60 to-slate-900 p-3">
         <div className="grid grid-cols-3 grid-rows-3 aspect-square max-w-xs mx-auto gap-0">
