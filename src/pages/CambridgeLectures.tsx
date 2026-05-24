@@ -664,7 +664,12 @@ const GroupedLectureSections = ({ lectures, bookmarked, completed, onToggleBookm
                                 <Link
                                   key={lec.id}
                                   to={`/cambridge-lectures/${lec.id}`}
-                                  className="group relative flex items-start gap-3 px-3.5 py-3 rounded-xl bg-white border-2 border-slate-200 hover:bg-yellow-50 hover:border-[#FFD93D] transition-all shadow-sm hover:shadow-md"
+                                  className="group relative flex items-start gap-3 px-3.5 py-3 rounded-xl bg-white border-2 transition-all shadow-sm hover:shadow-lg hover:-translate-y-0.5"
+                                  style={{
+                                    borderColor: cfg.color,
+                                    boxShadow: `0 2px 0 ${cfg.color}, 0 4px 12px ${cfg.glowColor}40`,
+                                    background: `linear-gradient(135deg, #fff 0%, ${cfg.color}10 100%)`,
+                                  }}
                                 >
                                   {/* Number / done badge */}
                                   <div
