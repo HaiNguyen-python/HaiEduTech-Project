@@ -23,6 +23,7 @@ import { CATEGORY_BG } from "@/data/cambridgeKidsCategoryBg";
 import { getPos, POS_LABEL } from "@/data/cambridgeKidsPos";
 import KidsSpeechCheck from "@/components/KidsSpeechCheck";
 import KidsChibiMascot from "@/components/KidsChibiMascot";
+import KidsCategoryQuiz from "@/components/KidsCategoryQuiz";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import { toast } from "@/hooks/use-toast";
 
