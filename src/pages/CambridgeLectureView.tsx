@@ -252,32 +252,25 @@ const CambridgeLectureView = () => {
             </motion.div>
           )}
 
-          {/* Deep Dive - Strategy Breakdown (auto-enriched, bilingual) */}
-          <motion.div
+          {/* Deep Dive - Collapsible by default to keep the page short & visual for kids */}
+          <motion.details
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.27 }}
-            className="mb-8 rounded-2xl border border-indigo-500/20 bg-gradient-to-br from-indigo-500/[0.06] to-purple-500/[0.04] overflow-hidden"
+            className="mb-8 rounded-2xl border-2 border-indigo-200 bg-white/80 overflow-hidden group"
           >
-            <div className="px-5 py-4 border-b border-indigo-500/20 bg-indigo-500/[0.04]">
-              <div className="flex items-center gap-2 mb-1">
-                <Sparkles className="w-5 h-5 text-indigo-300" />
-                <span className="text-sm font-bold text-indigo-200 uppercase tracking-wide">
-                  {t("Phân tích chuyên sâu", "Deep Dive - Strategy Breakdown")}
+            <summary className="cursor-pointer list-none px-5 py-4 flex items-center justify-between gap-3 bg-gradient-to-r from-indigo-100 to-purple-100">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-indigo-500" />
+                <span className="text-sm font-bold text-indigo-700 uppercase tracking-wide">
+                  {t("Phân tích chuyên sâu (cho ai muốn đọc thêm)", "Deep Dive (optional reading)")}
                 </span>
               </div>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                {t(
-                  "Bốn góc nhìn giúp bạn hiểu sâu mục đích và chiến thuật của bài học này - đọc trước khi vào phần Quy tắc & Luyện tập.",
-                  "Four perspectives that help you understand the purpose and strategy of this lecture - read this BEFORE going into Rules & Practice."
-                )}
-              </p>
-            </div>
+              <ChevronRight className="w-5 h-5 text-indigo-500 transition-transform group-open:rotate-90" />
+            </summary>
             <div className="p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
               {lecture.deepDive.map((d, i) => {
                 const text = t(d.bodyVi, d.body);
-                // Split long paragraphs into individual sentences for breathing room.
-                // Keep punctuation; ignore splits inside parentheses like "(1)", "(2)".
                 const sentences = text
                   .split(/(?<=[.!?])\s+(?=[A-ZÀ-Ỹ"“(])/)
                   .map(s => s.trim())
@@ -285,20 +278,20 @@ const CambridgeLectureView = () => {
                 return (
                   <div
                     key={i}
-                    className="p-5 rounded-xl bg-white/70 border border-slate-200"
+                    className="p-5 rounded-xl bg-white/90 border border-slate-200"
                   >
-                    <div className="flex items-center gap-2.5 mb-4">
+                    <div className="flex items-center gap-2.5 mb-3">
                       <span className="text-2xl">{d.icon}</span>
                       <h3 className="text-slate-900 font-bold text-base leading-snug">
                         {t(d.headingVi, d.heading)}
                       </h3>
                     </div>
-                    <div className="space-y-3.5">
+                    <div className="space-y-2.5">
                       {sentences.map((s, si) => (
                         <p
                           key={si}
                           className="text-slate-700"
-                          style={{ fontSize: "15px", lineHeight: "1.95" }}
+                          style={{ fontSize: "14px", lineHeight: "1.7" }}
                         >
                           {s}
                         </p>
@@ -308,7 +301,8 @@ const CambridgeLectureView = () => {
                 );
               })}
             </div>
-          </motion.div>
+          </motion.details>
+
 
           {/* Content Tabs */}
           <Tabs defaultValue="rules" className="space-y-6">
