@@ -91,6 +91,7 @@ const IeltsVocabulary = lazy(() => import("./pages/IeltsVocabulary.tsx"));
 const SatVocabulary = lazy(() => import("./pages/SatVocabulary.tsx"));
 const SatExercises = lazy(() => import("./pages/SatExercises.tsx"));
 const SatExams = lazy(() => import("./pages/SatExams.tsx"));
+const SatCurriculum = lazy(() => import("./pages/SatCurriculum.tsx"));
 const SatMockExam = lazy(() => import("./pages/SatMockExam.tsx"));
 const VocabArena = lazy(() => import("./pages/VocabArena.tsx"));
 const NationalExamPrep = lazy(() => import("./pages/NationalExamPrep.tsx"));
