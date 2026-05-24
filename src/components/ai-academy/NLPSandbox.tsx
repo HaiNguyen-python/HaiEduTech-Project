@@ -479,6 +479,26 @@ const NLPSandbox = () => (
     <SentimentMeter />
     <TokenizerLive />
     <TeenCodeNormalizer />
+    <BestMatchPick
+      title="🗣️ Ứng dụng NLP — nhận diện tác vụ"
+      hint="Mỗi tính năng quen thuộc thuộc loại tác vụ NLP nào?"
+      accent="from-fuchsia-500 to-purple-600"
+      border="border-fuchsia-400/40"
+      options={[
+        { id: "sent", label: "😀 Sentiment Analysis" },
+        { id: "trans", label: "🌐 Machine Translation" },
+        { id: "ner", label: "🏷️ Named Entity Recognition" },
+        { id: "sum", label: "📰 Summarization" },
+      ]}
+      items={[
+        { prompt: "Shopee tự gắn nhãn review 1-5 sao theo lời bình", correctId: "sent" },
+        { prompt: "Google Dịch từ tiếng Việt sang tiếng Anh", correctId: "trans" },
+        { prompt: "Báo VnExpress AI tóm tắt 5 dòng cho bài 1000 từ", correctId: "sum" },
+        { prompt: "Apple Maps tự nhận ra 'Hồ Gươm' là địa danh", correctId: "ner" },
+        { prompt: "Lazada gom comment tiêu cực để cảnh báo shop", correctId: "sent" },
+      ]}
+    />
+
     <BonusGames tfItems={NLP_TF} matchPairs={NLP_PAIRS} accent="from-fuchsia-500 to-purple-600" border="border-fuchsia-400/40" />
   </div>
 );
