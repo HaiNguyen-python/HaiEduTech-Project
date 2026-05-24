@@ -109,6 +109,8 @@ const SmartText = ({ text, className = "", html = false }: { text: string; class
   const PLACEHOLDER = "\u0001";
   let safe = text;
   ABBR.forEach((a) => { safe = safe.split(a).join(a.replace(/\./g, PLACEHOLDER)); });
+  // Also protect numbered list markers like "1.", "2.", "10." so they don't trigger a split.
+  safe = safe.replace(/(\b\d{1,2})\.(?=\s)/g, `$1${PLACEHOLDER}`);
 
   // Only split on real sentence boundaries (. ! ?). Em-dash " — " is parenthetical
   // and must NOT split — keeping it intact preserves the original meaning.
@@ -116,6 +118,7 @@ const SmartText = ({ text, className = "", html = false }: { text: string; class
     .split(/(?<=[.!?])\s+/)
     .map((s) => s.replace(new RegExp(PLACEHOLDER, "g"), ".").trim())
     .filter(Boolean);
+
 
   // Bulletize only when there are 3+ real sentences, OR 2 sentences and text is long.
   const shouldBullet = rough.length >= 3 || (rough.length >= 2 && text.length > 180);
