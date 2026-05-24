@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { CheckCircle2, XCircle, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BonusGames } from "./SandboxBonusGames";
+import { BestMatchPick } from "./SandboxMiniActivity";
 
 type Claim = { text: string; isTrue: boolean; explain: string };
 const CLAIMS: Claim[] = [
@@ -127,6 +128,25 @@ const FactCheckSandbox = () => {
           {correct >= 4 ? " 🌟 xuất sắc!" : correct >= 3 ? " 👍 khá tốt." : " cần luyện thêm."}
         </p>
       )}
+
+      <BestMatchPick
+        title="🔗 Ghép tuyên bố với nguồn kiểm chứng tốt nhất"
+        hint="Nếu bạn cần fact-check một tuyên bố, đâu là nguồn đáng tin nhất?"
+        accent="from-amber-500 to-rose-600"
+        border="border-amber-400/40"
+        options={[
+          { id: "wiki", label: "📚 Wikipedia/SGK" },
+          { id: "gov", label: "🏛️ Trang chính phủ" },
+          { id: "scholar", label: "🔬 Google Scholar" },
+          { id: "news", label: "📰 Báo lớn (VnExpress, Tuổi Trẻ)" },
+        ]}
+        items={[
+          { prompt: "Dân số Hà Nội năm 2024", correctId: "gov" },
+          { prompt: "Công thức tính diện tích hình tròn", correctId: "wiki" },
+          { prompt: "Kết quả nghiên cứu mới về AlphaFold", correctId: "scholar" },
+          { prompt: "Tin tức bóng đá hôm qua", correctId: "news" },
+        ]}
+      />
 
       <BonusGames tfItems={TF} matchPairs={PAIRS} accent="from-amber-500 to-rose-600" border="border-amber-400/40" />
     </div>

@@ -6,6 +6,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Briefcase, Sparkles } from "lucide-react";
 import { BonusGames } from "./SandboxBonusGames";
+import { BestMatchPick } from "./SandboxMiniActivity";
 
 const INTERESTS = [
   { id: "math", label: "Toán / Logic", emoji: "🔢" },
@@ -108,6 +109,25 @@ const CareersMapSandbox = () => {
           </ul>
         )}
       </div>
+
+      <BestMatchPick
+        title="🛤️ Xếp đúng giai đoạn lộ trình lớp 10 → việc đầu tiên"
+        hint="Mỗi cột mốc nên rơi vào giai đoạn nào của hành trình AI?"
+        accent="from-violet-500 to-fuchsia-600"
+        border="border-violet-400/40"
+        options={[
+          { id: "hs", label: "🎒 Cấp 3" },
+          { id: "uni", label: "🎓 Đại học" },
+          { id: "first", label: "💼 Việc đầu tiên" },
+        ]}
+        items={[
+          { prompt: "Học Python cơ bản, chơi Teachable Machine, làm 1 dự án nhỏ trên Lovable", correctId: "hs" },
+          { prompt: "Đạt IELTS 6.5+, học Toán Xác suất, mở GitHub, tham gia AI Olympic", correctId: "hs" },
+          { prompt: "Thi vào FPT/BK/UIT ngành AI, làm dự án mở GitHub, dự AI Hackathon", correctId: "uni" },
+          { prompt: "Intern tại VinAI / Zalo / Misa, đọc paper, viết blog kỹ thuật", correctId: "uni" },
+          { prompt: "Junior AI/ML Engineer hoặc Prompt Engineer 25–40tr/tháng", correctId: "first" },
+        ]}
+      />
 
       <BonusGames tfItems={TF} matchPairs={PAIRS} accent="from-violet-500 to-fuchsia-600" border="border-violet-400/40" />
     </div>
