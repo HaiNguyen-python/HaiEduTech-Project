@@ -419,6 +419,9 @@ const AdminDashboard = () => {
                 <TabsTrigger value="feedback" className="gap-1.5">
                   <Search className="w-3.5 h-3.5" /> {t("Phản hồi học viên", "Feedback")}
                 </TabsTrigger>
+                <TabsTrigger value="attendance" className="gap-1.5">
+                  <Users className="w-3.5 h-3.5" /> {t("Điểm danh", "Attendance")}
+                </TabsTrigger>
               </TabsList>
 
               {/* ===== GLOBAL OVERVIEW TAB ===== */}
