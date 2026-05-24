@@ -144,11 +144,7 @@ const CambridgeYleVocabulary = () => {
   const { t } = useLanguage();
   const [level, setLevel] = useState<CambridgeKidsLevel>("Starters");
   const [search, setSearch] = useState("");
-  const [mastered, setMastered] = useState<Set<string>>(readMastered);
-
-  useEffect(() => {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify([...mastered])); } catch { /* noop */ }
-  }, [mastered]);
+  const { mastered, toggle } = useMasteredVocab(MASTERY_SUBJECT);
 
   const wordsForLevel = useMemo(
     () => ALL_WORDS.filter(w => w.level === level),
@@ -168,19 +164,14 @@ const CambridgeYleVocabulary = () => {
 
   const toggleMaster = (level: CambridgeKidsLevel, word: string) => {
     const key = `${level}:${word}`;
-    setMastered(prev => {
-      const next = new Set(prev);
-      if (next.has(key)) {
-        next.delete(key);
-      } else {
-        next.add(key);
-        toast({
-          title: t("🎉 Tuyệt vời!", "🎉 Awesome!"),
-          description: t(`Bạn vừa leo lên 1 bước!`, `You climbed up one step!`),
-        });
-      }
-      return next;
-    });
+    const wasMastered = mastered.has(key);
+    toggle(key);
+    if (!wasMastered) {
+      toast({
+        title: t("🎉 Tuyệt vời!", "🎉 Awesome!"),
+        description: t(`Bạn vừa leo lên 1 bước!`, `You climbed up one step!`),
+      });
+    }
   };
 
   const theme = LEVEL_THEME[level];
