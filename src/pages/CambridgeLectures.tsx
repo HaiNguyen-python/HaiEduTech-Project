@@ -15,6 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Progress } from "@/components/ui/progress";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import FloatingKidsDecor from "@/components/FloatingKidsDecor";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { allCambridgeLectures, LEVEL_CONFIG, type CambridgeLecture, type CambridgeLevel, type CambridgeSkill } from "@/data/cambridgeLecturesData";
 
