@@ -65,7 +65,7 @@ export const ChipFilter = ({
   };
 
   return (
-    <div className={`rounded-2xl border-2 ${border} bg-gradient-to-br from-emerald-500/10 to-teal-500/10 p-4 space-y-3`}>
+    <div className={`rounded-2xl border-2 ${border} bg-gradient-to-br from-emerald-500/10 to-teal-500/10 p-3.5 space-y-2.5`}>
       <div className="flex items-center gap-2">
         <Sparkles className="w-4 h-4 text-emerald-600" />
         <h4 className="font-bold text-sm uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
@@ -169,7 +169,7 @@ export const BestMatchPick = ({
   const allPicked = Object.keys(picks).length === items.length;
 
   return (
-    <div className={`rounded-2xl border-2 ${border} bg-gradient-to-br from-indigo-500/10 to-purple-500/10 p-4 space-y-3`} key={round}>
+    <div className={`rounded-2xl border-2 ${border} bg-gradient-to-br from-indigo-500/10 to-purple-500/10 p-3.5 space-y-2.5`} key={round}>
       <div className="flex items-center gap-2">
         <Lightbulb className="w-4 h-4 text-indigo-600" />
         <h4 className="font-bold text-sm uppercase tracking-wide text-indigo-700 dark:text-indigo-300">
@@ -181,7 +181,7 @@ export const BestMatchPick = ({
       </div>
       {hint && <p className="text-xs text-muted-foreground">{hint}</p>}
 
-      <div className="space-y-3">
+      <div className="space-y-2.5">
         {items.map((it, i) => {
           const sel = picks[i];
           const isRight = revealed && sel === it.correctId;

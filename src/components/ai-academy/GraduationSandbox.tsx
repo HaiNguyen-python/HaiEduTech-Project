@@ -45,7 +45,7 @@ const GraduationSandbox = () => {
   const print = () => window.print();
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2.5">
       <p className="text-xs text-muted-foreground">
         🎓 Chọn chủ đề đồ án rồi tạo <b>Bằng tốt nghiệp AI Academy</b> mang tên bạn.
       </p>

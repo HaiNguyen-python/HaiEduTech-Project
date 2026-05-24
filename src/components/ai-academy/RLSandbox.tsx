@@ -117,7 +117,7 @@ const RLSandbox = () => {
   const agent = path[Math.min(step, path.length - 1)];
 
   return (
-    <div className="space-y-6 sm:space-y-8 [&>*+*]:pt-6 sm:[&>*+*]:pt-8 [&>*+*]:border-t [&>*+*]:border-border/50">
+    <div className="space-y-4 sm:space-y-5 [&>*+*]:pt-4 sm:[&>*+*]:pt-5 [&>*+*]:border-t [&>*+*]:border-border/40">
       {/* Grid */}
       <div className="rounded-2xl border-2 border-emerald-400/40 bg-gradient-to-br from-slate-900 via-emerald-950/60 to-slate-900 p-3">
         <div className="grid grid-cols-4 gap-1.5 aspect-square max-w-xs mx-auto">
@@ -156,7 +156,7 @@ const RLSandbox = () => {
           )}
         </div>
 
-        <div className="flex items-center justify-between mt-3 text-sm">
+        <div className="flex items-center justify-between mt-2 text-sm">
           <div className="text-emerald-300">Bước: <b>{step}</b></div>
           <div className="text-cyan-300">
             Điểm: <motion.span key={score} initial={{ scale: 1.3 }} animate={{ scale: 1 }} className="font-black text-lg">{score}</motion.span>

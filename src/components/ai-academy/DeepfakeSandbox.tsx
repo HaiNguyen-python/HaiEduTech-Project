@@ -65,7 +65,7 @@ const DeepfakeSandbox = () => {
   };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2.5">
       <p className="text-xs text-muted-foreground">
         🔍 Di chuột (hoặc chạm) lên từng ảnh để soi <b>kính lúp</b> tìm dấu vết deepfake.
       </p>

@@ -57,7 +57,7 @@ const AgentWorkflowSandbox = () => {
   };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2.5">
       <p className="text-xs text-muted-foreground">
         🧩 Chạm để thêm node vào pipeline. Bấm <b>Run</b> xem agent thực thi từng bước.
       </p>

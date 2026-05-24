@@ -36,14 +36,14 @@ const EthicsSandbox = () => {
   const fair = gap < 0.08;
 
   return (
-    <div className="space-y-6 sm:space-y-8 [&>*+*]:pt-6 sm:[&>*+*]:pt-8 [&>*+*]:border-t [&>*+*]:border-border/50">
+    <div className="space-y-4 sm:space-y-5 [&>*+*]:pt-4 sm:[&>*+*]:pt-5 [&>*+*]:border-t [&>*+*]:border-border/40">
       <div className="rounded-2xl border-2 border-amber-400/40 bg-gradient-to-br from-amber-500/5 to-rose-500/5 p-4">
         <div className="text-[11px] font-bold uppercase text-amber-700 dark:text-amber-300 mb-2 flex items-center gap-1">
           <Scale className="w-3 h-3" /> Dữ liệu huấn luyện AI tuyển dụng
         </div>
 
         {/* Avatar bar */}
-        <div className="grid grid-cols-20 gap-0.5 mb-3" style={{ gridTemplateColumns: "repeat(20, minmax(0, 1fr))" }}>
+        <div className="grid grid-cols-20 gap-0.5 mb-2" style={{ gridTemplateColumns: "repeat(20, minmax(0, 1fr))" }}>
           {Array.from({ length: 20 }).map((_, i) => {
             const isMale = i < Math.round(maleRatio / 5);
             return (
