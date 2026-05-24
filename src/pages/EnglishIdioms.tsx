@@ -25,6 +25,17 @@ import { englishIdioms, IDIOM_THEMES, type IdiomEntry, type IdiomCategory } from
 
 type Tab = "library" | "match" | "fill" | "quiz" | "equivalent";
 
+// Grouped themes for a cleaner Library layout (related themes merged).
+type ThemeKey = IdiomEntry["theme"];
+type GroupKey = "life-wisdom" | "work-money" | "time-courage" | "friendship-love";
+const THEME_GROUPS: { key: GroupKey; labelEn: string; labelVi: string; emoji: string; themes: ThemeKey[] }[] = [
+  { key: "life-wisdom",     labelEn: "Life & Wisdom",       labelVi: "Cuộc sống & Trí tuệ", emoji: "🌱", themes: ["life", "wisdom"] },
+  { key: "work-money",      labelEn: "Work & Money",        labelVi: "Công việc & Tiền bạc", emoji: "💼", themes: ["work", "money"] },
+  { key: "time-courage",    labelEn: "Time & Courage",      labelVi: "Thời gian & Dũng cảm", emoji: "⏰", themes: ["time", "courage"] },
+  { key: "friendship-love", labelEn: "Friendship & Love",   labelVi: "Tình bạn & Tình yêu",  emoji: "🤝", themes: ["friendship", "love"] },
+];
+const themesOfGroup = (g: GroupKey): ThemeKey[] => THEME_GROUPS.find((x) => x.key === g)?.themes ?? [];
+
 const TABS: { key: Tab; labelEn: string; labelVi: string; icon: React.ComponentType<{ className?: string }>; color: string }[] = [
   { key: "library",    labelEn: "Library",            labelVi: "Thư viện",         icon: BookOpen,  color: "from-amber-500 to-orange-500" },
   { key: "match",      labelEn: "Meaning Match",      labelVi: "Ghép nghĩa",       icon: Target,    color: "from-teal-500 to-emerald-500" },
@@ -70,7 +81,7 @@ const EnglishIdioms = () => {
 
   const [tab, setTab] = useState<Tab>("library");
   const [filterCategory, setFilterCategory] = useState<IdiomCategory | "all">("all");
-  const [filterTheme, setFilterTheme] = useState<IdiomEntry["theme"] | "all">("all");
+  const [filterTheme, setFilterTheme] = useState<GroupKey | "all">("all");
   const [shuffleSeed, setShuffleSeed] = useState(1);
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -82,9 +93,10 @@ const EnglishIdioms = () => {
   };
 
   const filteredEntries = useMemo(() => {
+    const groupThemes = filterTheme === "all" ? null : themesOfGroup(filterTheme);
     return englishIdioms.filter((e) =>
       (filterCategory === "all" || e.category === filterCategory) &&
-      (filterTheme === "all" || e.theme === filterTheme),
+      (groupThemes === null || groupThemes.includes(e.theme)),
     );
   }, [filterCategory, filterTheme]);
 
@@ -202,8 +214,8 @@ interface LibraryViewProps {
   entries: IdiomEntry[];
   filterCategory: IdiomCategory | "all";
   setFilterCategory: (c: IdiomCategory | "all") => void;
-  filterTheme: IdiomEntry["theme"] | "all";
-  setFilterTheme: (th: IdiomEntry["theme"] | "all") => void;
+  filterTheme: GroupKey | "all";
+  setFilterTheme: (th: GroupKey | "all") => void;
   shuffleSeed: number;
   setShuffleSeed: (n: number) => void;
   t: (vi: string, en: string) => string;
@@ -320,12 +332,12 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
           >
             {t("Mọi chủ đề", "All themes")}
           </button>
-          {IDIOM_THEMES.map((th) => {
-            const isActive = filterTheme === th.key;
+          {THEME_GROUPS.map((g) => {
+            const isActive = filterTheme === g.key;
             return (
               <button
-                key={th.key}
-                onClick={() => setFilterTheme(th.key)}
+                key={g.key}
+                onClick={() => setFilterTheme(g.key)}
                 className={cn(
                   "px-5 py-2.5 rounded-full text-base font-bold border-2 transition-colors shadow-sm",
                   isActive
@@ -333,8 +345,8 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
                     : "bg-background border-emerald-500/60 text-foreground hover:border-emerald-600 hover:bg-emerald-500/10 hover:text-emerald-700 dark:hover:text-emerald-300",
                 )}
               >
-                <span className="mr-1.5 text-lg">{th.emoji}</span>
-                {t(th.labelVi, th.labelEn)}
+                <span className="mr-1.5 text-lg">{g.emoji}</span>
+                {t(g.labelVi, g.labelEn)}
               </button>
             );
           })}
@@ -418,50 +430,153 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
           );
         };
 
-        // Group by theme when no specific theme filter is applied — collapsible accordion.
-        if (filterTheme === "all") {
-          const groups = IDIOM_THEMES
-            .map((th) => ({ theme: th, items: display.filter((e) => e.theme === th.key) }))
-            .filter((g) => g.items.length > 0);
-          return (
-            <div className="space-y-4">
-              {groups.map(({ theme, items }) => {
-                const isOpen = openThemes.has(theme.key);
-                return (
-                  <section key={theme.key} className="rounded-2xl border-2 border-emerald-500/40 bg-emerald-500/5 overflow-hidden">
-                    <button
-                      type="button"
-                      onClick={() => toggleTheme(theme.key)}
-                      aria-expanded={isOpen}
-                      className="w-full flex items-center gap-3 p-5 hover:bg-emerald-500/10 transition-colors"
-                    >
-                      <span className="text-3xl">{theme.emoji}</span>
-                      <h3 className="text-xl sm:text-2xl font-extrabold text-foreground flex-1 text-left">
-                        {t(theme.labelVi, theme.labelEn)}
-                      </h3>
-                      <span className="text-base font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-500/15 border-2 border-emerald-500/50 px-3 py-1 rounded-full">
-                        {items.length}
-                      </span>
-                      <span className={cn("text-emerald-700 dark:text-emerald-300 transition-transform text-2xl font-bold", isOpen && "rotate-180")}>▾</span>
-                    </button>
-                    {isOpen && (
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 p-4 pt-2">
+        // Group by THEME_GROUPS when no specific group filter is applied — collapsible accordion with a quiz per group.
+        const activeGroups = filterTheme === "all"
+          ? THEME_GROUPS
+          : THEME_GROUPS.filter((g) => g.key === filterTheme);
+        const groups = activeGroups
+          .map((g) => ({ group: g, items: display.filter((e) => g.themes.includes(e.theme)) }))
+          .filter((g) => g.items.length > 0);
+        return (
+          <div className="space-y-4">
+            {groups.map(({ group, items }) => {
+              const isOpen = openThemes.has(group.key);
+              return (
+                <section key={group.key} className="rounded-2xl border-2 border-emerald-500/40 bg-emerald-500/5 overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={() => toggleTheme(group.key)}
+                    aria-expanded={isOpen}
+                    className="w-full flex items-center gap-3 p-5 hover:bg-emerald-500/10 transition-colors"
+                  >
+                    <span className="text-3xl">{group.emoji}</span>
+                    <h3 className="text-xl sm:text-2xl font-extrabold text-foreground flex-1 text-left">
+                      {t(group.labelVi, group.labelEn)}
+                    </h3>
+                    <span className="text-base font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-500/15 border-2 border-emerald-500/50 px-3 py-1 rounded-full">
+                      {items.length}
+                    </span>
+                    <span className={cn("text-emerald-700 dark:text-emerald-300 transition-transform text-2xl font-bold", isOpen && "rotate-180")}>▾</span>
+                  </button>
+                  {isOpen && (
+                    <div className="p-4 pt-2 space-y-5">
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                         {items.map((entry, idx) => renderCard(entry, idx))}
                       </div>
-                    )}
-                  </section>
-                );
-              })}
-            </div>
-          );
-        }
-
-        return (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {display.map((entry, idx) => renderCard(entry, idx))}
+                      <GroupMiniQuiz groupKey={group.key} groupLabel={t(group.labelVi, group.labelEn)} items={items} t={t} />
+                    </div>
+                  )}
+                </section>
+              );
+            })}
           </div>
         );
       })()}
+    </div>
+  );
+};
+
+/* ==================================================================== */
+/*                        GROUP MINI QUIZ (LIBRARY)                      */
+/* ==================================================================== */
+const GroupMiniQuiz = ({ groupKey, groupLabel, items, t }: {
+  groupKey: string;
+  groupLabel: string;
+  items: IdiomEntry[];
+  t: (vi: string, en: string) => string;
+}) => {
+  const [seed, setSeed] = useState(1);
+  const [picked, setPicked] = useState<Record<number, string>>({});
+
+  const questions = useMemo(() => {
+    if (items.length < 2) return [];
+    const pool = shuffle(items, seed).slice(0, Math.min(5, items.length));
+    return pool.map((entry, qi) => {
+      const distractors = shuffle(items.filter((x) => x.id !== entry.id), seed * 13 + qi).slice(0, 3);
+      const options = shuffle([entry, ...distractors], seed * 7 + qi);
+      return { entry, options };
+    });
+  }, [items, seed]);
+
+  if (questions.length === 0) return null;
+
+  const answered = Object.keys(picked).length;
+  const correctCount = questions.reduce(
+    (acc, q, qi) => acc + (picked[qi] === q.entry.id ? 1 : 0),
+    0,
+  );
+  const allDone = answered === questions.length;
+
+  return (
+    <div className="rounded-2xl border-2 border-emerald-500/60 bg-background/70 dark:bg-background/40 p-5 shadow-sm">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <h4 className="text-lg sm:text-xl font-extrabold text-foreground flex items-center gap-2">
+          <Sparkles className="w-5 h-5 text-emerald-600" />
+          {t(`Ôn tập: ${groupLabel}`, `Quick Review: ${groupLabel}`)}
+        </h4>
+        <div className="flex items-center gap-2">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/15 border-2 border-emerald-500/50 text-emerald-700 dark:text-emerald-300 text-sm font-bold">
+            <Trophy className="w-4 h-4" /> {correctCount}/{questions.length}
+          </span>
+          <button
+            onClick={() => { setSeed((s) => s + 1); setPicked({}); }}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border-2 border-emerald-500/60 bg-background hover:bg-emerald-500/10 text-sm font-bold text-foreground"
+          >
+            <RefreshCw className="w-4 h-4" /> {t("Làm lại", "Reset")}
+          </button>
+        </div>
+      </div>
+
+      <div className="space-y-5">
+        {questions.map((q, qi) => {
+          const userPick = picked[qi];
+          const isCorrect = userPick === q.entry.id;
+          return (
+            <div key={`${groupKey}-${qi}-${q.entry.id}`} className="rounded-xl border-2 border-emerald-500/40 bg-background/80 p-4">
+              <div className="flex items-start gap-2 mb-3">
+                <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-emerald-500 text-white font-bold text-sm shrink-0">{qi + 1}</span>
+                <p className="text-base sm:text-lg font-bold text-foreground leading-snug">
+                  <span className="mr-1">{q.entry.emoji}</span>"{q.entry.phrase}"
+                </p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                {q.options.map((opt) => {
+                  const isPicked = userPick === opt.id;
+                  const isRight = opt.id === q.entry.id;
+                  const showResult = userPick !== undefined;
+                  return (
+                    <button
+                      key={opt.id}
+                      disabled={showResult}
+                      onClick={() => setPicked((p) => ({ ...p, [qi]: opt.id }))}
+                      className={cn(
+                        "text-left px-3 py-2.5 rounded-lg border-2 text-sm sm:text-base font-medium transition-all",
+                        !showResult && "bg-background border-emerald-500/40 hover:border-emerald-500 hover:bg-emerald-500/5",
+                        showResult && isRight && "bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-300 font-semibold",
+                        showResult && isPicked && !isRight && "bg-rose-500/15 border-rose-500 text-rose-700 dark:text-rose-300 font-semibold",
+                        showResult && !isPicked && !isRight && "bg-background border-emerald-500/20 opacity-60",
+                      )}
+                    >
+                      {opt.meaningVi}
+                    </button>
+                  );
+                })}
+              </div>
+              {userPick !== undefined && !isCorrect && (
+                <p className="mt-2 text-sm text-emerald-700 dark:text-emerald-300 font-semibold">
+                  ✓ {t("Đáp án đúng:", "Correct:")} {q.entry.meaningVi}
+                </p>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {allDone && (
+        <div className="mt-4 rounded-xl border-2 border-emerald-500/60 bg-emerald-500/10 p-3 text-center text-emerald-800 dark:text-emerald-200 font-bold">
+          🎉 {t(`Hoàn thành! Bạn đúng ${correctCount}/${questions.length}.`, `Done! You scored ${correctCount}/${questions.length}.`)}
+        </div>
+      )}
     </div>
   );
 };
@@ -501,7 +616,7 @@ const MatchExercise = ({ t, toast }: { t: (vi: string, en: string) => string; to
   const allDone = matched.size === pool.length;
 
   return (
-    <div className="rounded-3xl border border-border bg-gradient-to-br from-teal-500/5 to-emerald-500/5 p-5 sm:p-8">
+    <div className="rounded-3xl border-[3px] border-teal-500/70 shadow-lg shadow-teal-500/10 bg-gradient-to-br from-teal-500/5 to-emerald-500/5 p-5 sm:p-8">
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <div>
           <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
@@ -655,7 +770,7 @@ const FillExercise = ({ t, toast }: { t: (vi: string, en: string) => string; toa
 
   if (done) {
     return (
-      <div className="rounded-3xl border border-border bg-gradient-to-br from-sky-500/5 to-blue-500/5 p-5 sm:p-8">
+      <div className="rounded-3xl border-[3px] border-sky-500/70 shadow-lg shadow-sky-500/10 bg-gradient-to-br from-sky-500/5 to-blue-500/5 p-5 sm:p-8">
         <CompletionCard score={score} t={t} onReplay={restart} />
       </div>
     );
@@ -669,7 +784,7 @@ const FillExercise = ({ t, toast }: { t: (vi: string, en: string) => string; toa
   ));
 
   return (
-    <div className="rounded-3xl border border-border bg-gradient-to-br from-sky-500/5 to-blue-500/5 p-5 sm:p-8">
+    <div className="rounded-3xl border-[3px] border-sky-500/70 shadow-lg shadow-sky-500/10 bg-gradient-to-br from-sky-500/5 to-blue-500/5 p-5 sm:p-8">
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <div>
           <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
@@ -815,14 +930,14 @@ const QuizExercise = ({ t, toast }: { t: (vi: string, en: string) => string; toa
 
   if (done) {
     return (
-      <div className="rounded-3xl border border-border bg-gradient-to-br from-violet-500/5 to-fuchsia-500/5 p-5 sm:p-8">
+      <div className="rounded-3xl border-[3px] border-violet-500/70 shadow-lg shadow-violet-500/10 bg-gradient-to-br from-violet-500/5 to-fuchsia-500/5 p-5 sm:p-8">
         <CompletionCard score={score} t={t} onReplay={restart} />
       </div>
     );
   }
 
   return (
-    <div className="rounded-3xl border border-border bg-gradient-to-br from-violet-500/5 to-fuchsia-500/5 p-5 sm:p-8">
+    <div className="rounded-3xl border-[3px] border-violet-500/70 shadow-lg shadow-violet-500/10 bg-gradient-to-br from-violet-500/5 to-fuchsia-500/5 p-5 sm:p-8">
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <div>
           <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
@@ -971,14 +1086,14 @@ const EquivalentExercise = ({ t, toast }: { t: (vi: string, en: string) => strin
 
   if (done) {
     return (
-      <div className="rounded-3xl border border-border bg-gradient-to-br from-rose-500/5 to-pink-500/5 p-5 sm:p-8">
+      <div className="rounded-3xl border-[3px] border-rose-500/70 shadow-lg shadow-rose-500/10 bg-gradient-to-br from-rose-500/5 to-pink-500/5 p-5 sm:p-8">
         <CompletionCard score={score} t={t} onReplay={restart} />
       </div>
     );
   }
 
   return (
-    <div className="rounded-3xl border border-border bg-gradient-to-br from-rose-500/5 to-pink-500/5 p-5 sm:p-8">
+    <div className="rounded-3xl border-[3px] border-rose-500/70 shadow-lg shadow-rose-500/10 bg-gradient-to-br from-rose-500/5 to-pink-500/5 p-5 sm:p-8">
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <div>
           <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
