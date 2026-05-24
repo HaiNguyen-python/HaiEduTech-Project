@@ -309,15 +309,15 @@ const CambridgeLectures = () => {
           </div>
 
           {/* Stats */}
-          <div className="mt-4 flex items-center gap-5 text-sm text-slate-600 font-medium">
+          <div className="mt-3 flex items-center gap-5 text-sm text-slate-600 font-medium">
             <span className="flex items-center gap-1.5"><GraduationCap className="w-4 h-4" /> {filtered.length} {t("bài giảng", "lectures")}</span>
             <span className="flex items-center gap-1.5"><TrendingUp className="w-4 h-4" /> {completed.size} {t("đã hoàn thành", "completed")}</span>
           </div>
         </section>
 
         {/* 📝 Cambridge Test Prep Section */}
-        <section className="container mx-auto px-4 pb-12">
-          <div className="flex items-center gap-3 mb-6">
+        <section className="container mx-auto px-4 pt-2 pb-6">
+          <div className="flex items-center gap-3 mb-4">
             <div className="p-2.5 rounded-xl bg-gradient-to-br from-[#F9A826] to-[#FF6B9D] border-2 border-white shadow-md">
               <GraduationCap className="w-6 h-6 text-white" />
             </div>
