@@ -11,14 +11,28 @@ import { ArrowLeft, ChevronDown, Layers } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import SatExamFormat from "@/components/SatExamFormat";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { allEnglishModules } from "@/data/languageCurriculum";
+
+const DIFFICULTY_ORDER: Record<string, number> = {
+  beginner: 1,
+  intermediate: 2,
+  advanced: 3,
+};
 
 const SatCurriculum = () => {
   const { t } = useLanguage();
   const navigate = useNavigate();
-  const satModules = allEnglishModules.filter((m) => m.category === "sat");
+  const satModules = allEnglishModules
+    .filter((m) => m.category === "sat")
+    .map((m) => ({
+      ...m,
+      lessons: [...m.lessons].sort(
+        (a, b) =>
+          (DIFFICULTY_ORDER[a.difficulty ?? "advanced"] ?? 99) -
+          (DIFFICULTY_ORDER[b.difficulty ?? "advanced"] ?? 99)
+      ),
+    }));
   const totalLessons = satModules.reduce((s, m) => s + m.lessons.length, 0);
 
   return (
