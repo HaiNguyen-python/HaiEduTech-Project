@@ -142,6 +142,8 @@ const AgentWorkflowSandbox = () => {
           <RotateCcw className="w-4 h-4" />
         </button>
       </div>
+
+      <BonusGames tfItems={AG_TF} matchPairs={AG_PAIRS} accent="from-indigo-500 to-blue-600" border="border-indigo-400/40" />
     </div>
   );
 };
