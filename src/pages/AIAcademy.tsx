@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Eye, MessageSquare, Brain, Sparkles, Trophy, Star, ArrowLeft, Lock,
-  Zap, Award, Rocket, CheckCircle2,
+  Zap, Award, Rocket, CheckCircle2, Wand2, Film, Scale,
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import Navbar from "@/components/Navbar";
@@ -23,9 +23,12 @@ import { supabase } from "@/integrations/supabase/client";
 import CVSandbox from "@/components/ai-academy/ComputerVisionSandbox";
 import NLPSandbox from "@/components/ai-academy/NLPSandbox";
 import NeuralNetSandbox from "@/components/ai-academy/NeuralNetSandbox";
+import GenAISandbox from "@/components/ai-academy/GenAISandbox";
+import RecommenderSandbox from "@/components/ai-academy/RecommenderSandbox";
+import EthicsSandbox from "@/components/ai-academy/EthicsSandbox";
 import DragDropQuiz, { type DDQuestion } from "@/components/ai-academy/DragDropQuiz";
 
-type TrackId = "vision" | "nlp" | "nn";
+type TrackId = "vision" | "nlp" | "nn" | "genai" | "recsys" | "ethics";
 
 type Track = {
   id: TrackId;
