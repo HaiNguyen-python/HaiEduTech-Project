@@ -81,7 +81,7 @@ const EnglishIdioms = () => {
 
   const [tab, setTab] = useState<Tab>("library");
   const [filterCategory, setFilterCategory] = useState<IdiomCategory | "all">("all");
-  const [filterTheme, setFilterTheme] = useState<IdiomEntry["theme"] | "all">("all");
+  const [filterTheme, setFilterTheme] = useState<GroupKey | "all">("all");
   const [shuffleSeed, setShuffleSeed] = useState(1);
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -93,9 +93,10 @@ const EnglishIdioms = () => {
   };
 
   const filteredEntries = useMemo(() => {
+    const groupThemes = filterTheme === "all" ? null : themesOfGroup(filterTheme);
     return englishIdioms.filter((e) =>
       (filterCategory === "all" || e.category === filterCategory) &&
-      (filterTheme === "all" || e.theme === filterTheme),
+      (groupThemes === null || groupThemes.includes(e.theme)),
     );
   }, [filterCategory, filterTheme]);
 
