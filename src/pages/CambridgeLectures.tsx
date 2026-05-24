@@ -116,7 +116,7 @@ const CambridgeLectures = () => {
     <div className="min-h-screen relative" style={{ background: "linear-gradient(180deg, #FFF8E7 0%, #FFE5EC 25%, #E0F4FF 50%, #E8FFE0 75%, #FFF0F5 100%)" }}>
       <FloatingKidsDecor />
       <Navbar />
-      <main className="pt-24 pb-16 relative z-10">
+      <main className="pt-20 pb-8 relative z-10">
         {/* Hero Section - Bright & Cheerful for Kids */}
         <section className="relative overflow-hidden">
           <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, #FFE5EC 0%, #FFF8DC 30%, #E0F4FF 70%, #E8FFE0 100%)" }} />
