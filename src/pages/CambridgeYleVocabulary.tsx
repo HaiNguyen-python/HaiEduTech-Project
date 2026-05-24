@@ -167,7 +167,7 @@ const MountainClimber = ({ level, masteredCount, total }: { level: CambridgeKids
 };
 
 const CambridgeYleVocabulary = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [level, setLevel] = useState<CambridgeKidsLevel>("Starters");
   const [search, setSearch] = useState("");
   const [tab, setTab] = useState<"learn" | "practice">("learn");
@@ -231,7 +231,7 @@ const CambridgeYleVocabulary = () => {
     <div className="min-h-screen relative" style={{ background: "linear-gradient(180deg, #FEFCF7 0%, #FFF7FA 35%, #F4FAFF 70%, #F8FFF6 100%)" }}>
       <FloatingKidsDecor />
       <Navbar />
-      <KidsChibiMascot lang={lang as "vi" | "en"} />
+      <KidsChibiMascot lang={language === "en" ? "en" : "vi"} />
       <main className="pt-16 pb-8 relative z-10">
         {/* Hero */}
         <section className="container mx-auto px-4 py-4">
