@@ -1480,6 +1480,14 @@ const AIAcademy = () => {
         )}
       </AnimatePresence>
 
+      {/* Graduation certificate modal */}
+      <GraduationCertificate
+        open={certOpen}
+        onClose={() => setCertOpen(false)}
+        studentName={studentName}
+        seed={studentSeed}
+      />
+
       <Footer />
       </div>
     </div>
