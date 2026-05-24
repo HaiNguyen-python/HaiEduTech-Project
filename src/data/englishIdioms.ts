@@ -47,6 +47,7 @@ export const IDIOM_THEMES: { key: IdiomEntry["theme"]; labelEn: string; labelVi:
 ];
 
 import { englishIdiomsExpansion } from "./englishIdiomsExpansion";
+import { englishIdiomsExtra } from "./englishIdiomsExtra";
 
 const baseIdioms: IdiomEntry[] = [
   // ============== IDIOMS ==============
