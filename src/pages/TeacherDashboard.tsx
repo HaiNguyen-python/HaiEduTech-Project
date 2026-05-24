@@ -320,6 +320,11 @@ const TeacherDashboard = () => {
               <TabsContent value="feedback-analytics">
                 <FeedbackAnalyticsTab />
               </TabsContent>
+
+              {/* Attendance Tab */}
+              <TabsContent value="attendance">
+                <AttendanceAnalyticsTab />
+              </TabsContent>
             </Tabs>
           </motion.div>
         </div>
