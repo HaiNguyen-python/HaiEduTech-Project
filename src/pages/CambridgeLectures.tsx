@@ -240,17 +240,17 @@ const CambridgeLectures = () => {
           {/* Search + Sort + Bookmark */}
           <div className="flex flex-wrap gap-3 items-center">
             <div className="relative flex-1 min-w-[220px] max-w-sm">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#475569]" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <Input
                 placeholder={t("Tìm theo cấp độ, kỹ năng, chủ đề...", "Search by level, skill, topic...")}
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                className="pl-11 h-11 bg-white/[0.04] border-white/[0.08] text-white placeholder:text-[#475569] text-base"
+                className="pl-11 h-11 bg-white/80 border-2 border-white text-slate-800 placeholder:text-slate-400 text-base shadow-sm"
               />
             </div>
 
             <Select value={sortOrder} onValueChange={setSortOrder}>
-              <SelectTrigger className="w-[170px] h-11 bg-white/[0.04] border-white/[0.08] text-[#94A3B8]">
+              <SelectTrigger className="w-[170px] h-11 bg-white/80 border-2 border-white text-slate-700 shadow-sm">
                 <ArrowUpDown className="w-4 h-4 mr-2" />
                 <SelectValue placeholder={t("Sắp xếp", "Sort")} />
               </SelectTrigger>
@@ -265,15 +265,15 @@ const CambridgeLectures = () => {
               variant={showBookmarked ? "default" : "outline"}
               size="default"
               onClick={() => setShowBookmarked(!showBookmarked)}
-              className={`h-11 ${showBookmarked ? "bg-rose-500/20 text-rose-300 border-rose-500/30 hover:bg-rose-500/30" : "border-white/[0.08] text-[#64748B] hover:bg-white/[0.06]"}`}
+              className={`h-11 ${showBookmarked ? "bg-rose-400 text-white border-rose-400 hover:bg-rose-500" : "bg-white/80 border-2 border-white text-slate-700 hover:bg-white shadow-sm"}`}
             >
-              <Heart className={`w-4 h-4 mr-2 ${showBookmarked ? "fill-rose-400" : ""}`} />
+              <Heart className={`w-4 h-4 mr-2 ${showBookmarked ? "fill-white" : ""}`} />
               {t("Đã lưu", "Saved")} ({bookmarked.size})
             </Button>
           </div>
 
           {/* Stats */}
-          <div className="mt-4 flex items-center gap-5 text-sm text-[#475569]">
+          <div className="mt-4 flex items-center gap-5 text-sm text-slate-600 font-medium">
             <span className="flex items-center gap-1.5"><GraduationCap className="w-4 h-4" /> {filtered.length} {t("bài giảng", "lectures")}</span>
             <span className="flex items-center gap-1.5"><TrendingUp className="w-4 h-4" /> {completed.size} {t("đã hoàn thành", "completed")}</span>
           </div>
