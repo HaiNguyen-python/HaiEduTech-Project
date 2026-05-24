@@ -122,10 +122,9 @@ const EnglishIdioms = () => {
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-rose-500/15 to-amber-500/15 border border-rose-500/30 text-rose-700 dark:text-rose-300 text-sm font-semibold mb-4">
               <Quote className="w-4 h-4" /> {t("English Foundation", "English Foundation")}
             </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-foreground leading-tight mb-3">
-              {t("Thành ngữ, Tục ngữ", "Idioms, Proverbs")}{" "}
-              <span className="bg-gradient-to-r from-rose-500 via-amber-500 to-teal-500 bg-clip-text text-transparent">
-                & {t("Danh ngôn", "Quotes")}
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold leading-tight mb-3">
+              <span className="bg-gradient-to-r from-amber-600 via-orange-600 to-rose-600 dark:from-amber-400 dark:via-orange-400 dark:to-rose-400 bg-clip-text text-transparent drop-shadow-sm">
+                {t("Thành ngữ, Tục ngữ", "Idioms, Proverbs")} & {t("Danh ngôn", "Quotes")}
               </span>
             </h1>
             <p className="text-base sm:text-lg text-muted-foreground max-w-3xl">
