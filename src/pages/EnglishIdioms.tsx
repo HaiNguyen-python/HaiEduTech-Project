@@ -616,7 +616,7 @@ const MatchExercise = ({ t, toast }: { t: (vi: string, en: string) => string; to
   const allDone = matched.size === pool.length;
 
   return (
-    <div className="rounded-3xl border border-border bg-gradient-to-br from-teal-500/5 to-emerald-500/5 p-5 sm:p-8">
+    <div className="rounded-3xl border-[3px] border-teal-500/70 shadow-lg shadow-teal-500/10 bg-gradient-to-br from-teal-500/5 to-emerald-500/5 p-5 sm:p-8">
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <div>
           <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
@@ -770,7 +770,7 @@ const FillExercise = ({ t, toast }: { t: (vi: string, en: string) => string; toa
 
   if (done) {
     return (
-      <div className="rounded-3xl border border-border bg-gradient-to-br from-sky-500/5 to-blue-500/5 p-5 sm:p-8">
+      <div className="rounded-3xl border-[3px] border-sky-500/70 shadow-lg shadow-sky-500/10 bg-gradient-to-br from-sky-500/5 to-blue-500/5 p-5 sm:p-8">
         <CompletionCard score={score} t={t} onReplay={restart} />
       </div>
     );
@@ -784,7 +784,7 @@ const FillExercise = ({ t, toast }: { t: (vi: string, en: string) => string; toa
   ));
 
   return (
-    <div className="rounded-3xl border border-border bg-gradient-to-br from-sky-500/5 to-blue-500/5 p-5 sm:p-8">
+    <div className="rounded-3xl border-[3px] border-sky-500/70 shadow-lg shadow-sky-500/10 bg-gradient-to-br from-sky-500/5 to-blue-500/5 p-5 sm:p-8">
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <div>
           <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
@@ -930,14 +930,14 @@ const QuizExercise = ({ t, toast }: { t: (vi: string, en: string) => string; toa
 
   if (done) {
     return (
-      <div className="rounded-3xl border border-border bg-gradient-to-br from-violet-500/5 to-fuchsia-500/5 p-5 sm:p-8">
+      <div className="rounded-3xl border-[3px] border-violet-500/70 shadow-lg shadow-violet-500/10 bg-gradient-to-br from-violet-500/5 to-fuchsia-500/5 p-5 sm:p-8">
         <CompletionCard score={score} t={t} onReplay={restart} />
       </div>
     );
   }
 
   return (
-    <div className="rounded-3xl border border-border bg-gradient-to-br from-violet-500/5 to-fuchsia-500/5 p-5 sm:p-8">
+    <div className="rounded-3xl border-[3px] border-violet-500/70 shadow-lg shadow-violet-500/10 bg-gradient-to-br from-violet-500/5 to-fuchsia-500/5 p-5 sm:p-8">
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <div>
           <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
@@ -1086,14 +1086,14 @@ const EquivalentExercise = ({ t, toast }: { t: (vi: string, en: string) => strin
 
   if (done) {
     return (
-      <div className="rounded-3xl border border-border bg-gradient-to-br from-rose-500/5 to-pink-500/5 p-5 sm:p-8">
+      <div className="rounded-3xl border-[3px] border-rose-500/70 shadow-lg shadow-rose-500/10 bg-gradient-to-br from-rose-500/5 to-pink-500/5 p-5 sm:p-8">
         <CompletionCard score={score} t={t} onReplay={restart} />
       </div>
     );
   }
 
   return (
-    <div className="rounded-3xl border border-border bg-gradient-to-br from-rose-500/5 to-pink-500/5 p-5 sm:p-8">
+    <div className="rounded-3xl border-[3px] border-rose-500/70 shadow-lg shadow-rose-500/10 bg-gradient-to-br from-rose-500/5 to-pink-500/5 p-5 sm:p-8">
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <div>
           <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
