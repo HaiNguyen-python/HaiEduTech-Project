@@ -433,16 +433,16 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
                       type="button"
                       onClick={() => toggleTheme(theme.key)}
                       aria-expanded={isOpen}
-                      className="w-full flex items-center gap-3 p-4 hover:bg-emerald-500/10 transition-colors"
+                      className="w-full flex items-center gap-3 p-5 hover:bg-emerald-500/10 transition-colors"
                     >
-                      <span className="text-2xl">{theme.emoji}</span>
-                      <h3 className="text-lg sm:text-xl font-bold text-foreground flex-1 text-left">
+                      <span className="text-3xl">{theme.emoji}</span>
+                      <h3 className="text-xl sm:text-2xl font-extrabold text-foreground flex-1 text-left">
                         {t(theme.labelVi, theme.labelEn)}
                       </h3>
-                      <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-500/15 border border-emerald-500/50 px-2.5 py-0.5 rounded-full">
+                      <span className="text-base font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-500/15 border-2 border-emerald-500/50 px-3 py-1 rounded-full">
                         {items.length}
                       </span>
-                      <span className={cn("text-emerald-700 dark:text-emerald-300 transition-transform text-xl", isOpen && "rotate-180")}>▾</span>
+                      <span className={cn("text-emerald-700 dark:text-emerald-300 transition-transform text-2xl font-bold", isOpen && "rotate-180")}>▾</span>
                     </button>
                     {isOpen && (
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 p-4 pt-2">
