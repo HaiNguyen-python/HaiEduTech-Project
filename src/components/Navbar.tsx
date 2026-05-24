@@ -20,8 +20,14 @@ import { useUserRole } from "@/hooks/useUserRole";
 import { useStreak } from "@/hooks/useStreak";
 import teacherLogo from "@/assets/teacher-logo.webp";
 import teacherWave from "@/assets/teacher-wave.webp";
+import robotIconImg from "@/assets/ai-chibi-robot.png";
 import GlobalSearch from "@/components/GlobalSearch";
 import UpgradeAccountModal from "@/components/UpgradeAccountModal";
+
+// Small robot image wrapper for menu icon
+const RobotIcon = ({ className }: { className?: string }) => (
+  <img src={robotIconImg} alt="" className={`${className || ""} object-contain`} />
+);
 
 // Sub-item with optional icon and nested children
 interface SubItem {
