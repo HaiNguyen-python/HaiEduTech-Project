@@ -1088,7 +1088,7 @@ const baseSampleEssays: SampleEssay[] = [
             { "x": 42, "y": 44, "w": 16, "h": 8,  "label": "School", "color": "#8B5CF6", "icon": "🏫", "shape": "rect" },
             { "x": 6,  "y": 58, "w": 56, "h": 10, "label": "Industrial Zone", "color": "#EF4444", "icon": "🏭", "shape": "rect" },
             { "x": 0,  "y": 74, "w": 100,"h": 6,  "label": "River", "shape": "river" },
-            { "x": 33, "y": 14, "w": 2,  "h": 60, "label": "Main Road", "shape": "road" }
+            { "x": 33, "y": 14, "w": 2,  "h": 60, "label": "", "shape": "road" }
           ]
         },
         {
