@@ -1375,7 +1375,7 @@ export const sampleEssaysExpansion: SampleEssay[] = [
             { "x": 2,  "y": 76, "w": 38, "h": 18, "label": "Car Park (expanded)", "color": "#6B7280", "icon": "🚗", "shape": "rect" },
             { "x": 74, "y": 8,  "w": 22, "h": 38, "label": "Gymnasium", "color": "#EF4444", "icon": "🏋️", "shape": "rect" },
             { "x": 74, "y": 50, "w": 22, "h": 44, "label": "Sensory Garden", "color": "#A3E635", "icon": "🌿", "shape": "rect" },
-            { "x": 70, "y": 8,  "w": 3,  "h": 84, "label": "Trees (preserved)", "shape": "river" }
+            { "x": 70, "y": 8,  "w": 3,  "h": 84, "label": "Trees (preserved)", "color": "#10B981", "shape": "rect" }
           ]
         }
       ]
