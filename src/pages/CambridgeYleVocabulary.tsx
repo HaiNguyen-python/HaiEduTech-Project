@@ -22,6 +22,7 @@ import { getCategory, CATEGORY_META, CATEGORY_ORDER, type KidsCategory } from "@
 import { CATEGORY_BG } from "@/data/cambridgeKidsCategoryBg";
 import { getPos, POS_LABEL } from "@/data/cambridgeKidsPos";
 import KidsSpeechCheck from "@/components/KidsSpeechCheck";
+import KidsChibiMascot from "@/components/KidsChibiMascot";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import { toast } from "@/hooks/use-toast";
 
@@ -166,7 +167,7 @@ const MountainClimber = ({ level, masteredCount, total }: { level: CambridgeKids
 };
 
 const CambridgeYleVocabulary = () => {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [level, setLevel] = useState<CambridgeKidsLevel>("Starters");
   const [search, setSearch] = useState("");
   const [tab, setTab] = useState<"learn" | "practice">("learn");
@@ -230,6 +231,7 @@ const CambridgeYleVocabulary = () => {
     <div className="min-h-screen relative" style={{ background: "linear-gradient(180deg, #FEFCF7 0%, #FFF7FA 35%, #F4FAFF 70%, #F8FFF6 100%)" }}>
       <FloatingKidsDecor />
       <Navbar />
+      <KidsChibiMascot lang={lang} />
       <main className="pt-16 pb-8 relative z-10">
         {/* Hero */}
         <section className="container mx-auto px-4 py-4">
