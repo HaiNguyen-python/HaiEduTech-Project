@@ -11,6 +11,7 @@ import { Car, Play, RefreshCcw, Coins, Bomb } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { BonusGames } from "./SandboxBonusGames";
+import { BestMatchPick } from "./SandboxMiniActivity";
 
 const RL_TF = [
   { q: "RL học bằng cơ chế Thưởng – Phạt.", a: true },
