@@ -10,6 +10,21 @@ import { motion } from "framer-motion";
 import { Car, Play, RefreshCcw, Coins, Bomb } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
+import { BonusGames } from "./SandboxBonusGames";
+
+const RL_TF = [
+  { q: "RL học bằng cơ chế Thưởng – Phạt.", a: true },
+  { q: "AlphaGo của DeepMind dùng RL để học cờ vây.", a: true },
+  { q: "RL cần ai đó gắn nhãn từng hành động đúng/sai.", a: false, why: "Không cần nhãn — agent thử sai và nhận điểm số." },
+  { q: "Tesla Autopilot huấn luyện qua hàng tỷ km mô phỏng.", a: true },
+  { q: "Agent là tên gọi của 'người chơi' trong RL.", a: true },
+];
+const RL_PAIRS = [
+  { a: "Agent", b: "Nhân vật ra quyết định" },
+  { a: "Environment", b: "Thế giới agent sống trong đó" },
+  { a: "Reward", b: "Điểm thưởng khi làm đúng" },
+  { a: "Policy", b: "Chiến lược chọn hành động" },
+];
 
 type Cell = "empty" | "coin" | "obstacle" | "goal";
 
