@@ -72,10 +72,6 @@ const SatCurriculum = () => {
           </p>
         </header>
 
-        {/* 30-week format & roadmap */}
-        <section className="mb-10">
-          <SatExamFormat />
-        </section>
 
         {/* Interactive lessons grid */}
         {satModules.length > 0 && (
