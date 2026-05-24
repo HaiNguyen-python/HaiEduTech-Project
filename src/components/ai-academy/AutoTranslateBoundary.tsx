@@ -100,11 +100,18 @@ interface Props {
   enabled?: boolean;
 }
 
+interface NodeMeta {
+  full: string;     // original nodeValue verbatim (incl. surrounding whitespace)
+  trimmed: string;  // VN text used as cache key
+  pre: string;      // leading whitespace of original
+  post: string;     // trailing whitespace of original
+}
+
 const AutoTranslateBoundary: React.FC<Props> = ({ children, enabled = true }) => {
   const { lang } = useLanguage();
   const rootRef = useRef<HTMLDivElement | null>(null);
-  // Map text node → original VN (so we can re-apply when cache fills)
-  const originals = useRef(new WeakMap<Text, string>());
+  // Map text node → meta about its original VN
+  const metaMap = useRef(new WeakMap<Text, NodeMeta>());
   const bumpRef = useRef(0);
 
   // Walk DOM and translate/restore based on current lang.
@@ -113,22 +120,39 @@ const AutoTranslateBoundary: React.FC<Props> = ({ children, enabled = true }) =>
     const root = rootRef.current;
 
     const applyNode = (node: Text) => {
-      // Capture the original VN value the first time we visit this node.
-      let original = originals.current.get(node);
-      if (!original) {
-        original = node.nodeValue || "";
-        if (!isVietnamese(original)) return; // skip non-VN nodes forever
-        originals.current.set(node, original);
+      // Capture original on first visit
+      let meta = metaMap.current.get(node);
+      if (!meta) {
+        const full = node.nodeValue || "";
+        const trimmed = full.trim();
+        if (!isVietnamese(trimmed)) return; // skip non-VN nodes forever
+        const preMatch = full.match(/^\s*/);
+        const postMatch = full.match(/\s*$/);
+        meta = {
+          full,
+          trimmed,
+          pre: preMatch ? preMatch[0] : "",
+          post: postMatch ? postMatch[0] : "",
+        };
+        metaMap.current.set(node, meta);
       }
       if (lang === "vi") {
-        if (node.nodeValue !== original) node.nodeValue = original;
+        if (node.nodeValue !== meta.full) node.nodeValue = meta.full;
         return;
       }
-      const en = cacheGet(original);
+      const en = cacheGet(meta.trimmed);
       if (en) {
-        if (node.nodeValue !== en) node.nodeValue = en;
+        // Preserve original whitespace. If original had none but this text node
+        // sits next to an inline element sibling (e.g. <b>), inject a single
+        // space so adjacent words don't stick together after translation.
+        const prevIsElem = node.previousSibling?.nodeType === 1;
+        const nextIsElem = node.nextSibling?.nodeType === 1;
+        const pre = meta.pre || (prevIsElem ? " " : "");
+        const post = meta.post || (nextIsElem ? " " : "");
+        const next = pre + en.trim() + post;
+        if (node.nodeValue !== next) node.nodeValue = next;
       } else {
-        requestTranslation(original);
+        requestTranslation(meta.trimmed);
       }
     };
 
@@ -154,7 +178,6 @@ const AutoTranslateBoundary: React.FC<Props> = ({ children, enabled = true }) =>
 
     // Re-translate when DOM mutates (track switch, dynamic content).
     const mo = new MutationObserver(() => {
-      // Debounce slightly to batch React updates.
       window.requestAnimationFrame(walk);
     });
     mo.observe(root, { childList: true, subtree: true, characterData: true });
