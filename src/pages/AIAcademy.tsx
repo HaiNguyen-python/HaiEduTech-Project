@@ -1169,7 +1169,7 @@ const AIAcademy = () => {
               Học AI siêu vui 🚀
             </h1>
             <p className="text-white/95 max-w-2xl text-sm sm:text-base pr-24 sm:pr-36 lg:pr-48 drop-shadow">
-              9 chặng phiêu lưu trực quan — chạm, kéo, thả, dạy bot, vẽ neuron. Hoàn thành để mở khoá huy hiệu và sao thưởng!
+              {TRACKS.length - 1} chặng phiêu lưu trực quan — chạm, kéo, thả, dạy bot, vẽ neuron. Hoàn thành để mở khoá huy hiệu, sao thưởng và Chứng chỉ tốt nghiệp!
             </p>
 
             {/* Progress strip */}
@@ -1293,7 +1293,7 @@ const AIAcademy = () => {
                 </h3>
               ) : (
                 <h3 className="font-bold text-sm sm:text-base text-foreground leading-snug">
-                  Hoàn thành 12 bài học và đạt {maxStars}/{maxStars} sao để mở khoá Chứng chỉ tốt nghiệp!
+                  Hoàn thành {TRACKS.length - 1} bài học và đạt {maxStars}/{maxStars} sao để mở khoá Chứng chỉ tốt nghiệp!
                 </h3>
               )}
               <div className="mt-1 text-xs text-muted-foreground">

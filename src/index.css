@@ -560,3 +560,61 @@
   .theory-content .katex { font-size: 1em; }
   .theory-content .katex-display > .katex { font-size: 1.05em; }
 }
+
+/* ===== AI Academy: Electric Border Effect ===== */
+/* Rotating conic gradient border that gives cards a "circuit/electric" feel. */
+@keyframes electricRotate {
+  to { transform: rotate(1turn); }
+}
+@keyframes electricGlow {
+  0%, 100% { box-shadow: 0 0 18px hsl(var(--primary) / 0.28), 0 0 36px hsl(160 84% 39% / 0.18); }
+  50%      { box-shadow: 0 0 28px hsl(var(--primary) / 0.45), 0 0 56px hsl(160 84% 39% / 0.32); }
+}
+.electric-border {
+  position: relative;
+  isolation: isolate;
+  animation: electricGlow 3.6s ease-in-out infinite;
+}
+.electric-border::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(
+    from 0deg,
+    #3B82F6 0deg,
+    #06B6D4 90deg,
+    #10B981 180deg,
+    #8B5CF6 270deg,
+    #3B82F6 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: electricRotate 6s linear infinite;
+  filter: drop-shadow(0 0 6px hsl(var(--primary) / 0.5));
+}
+.electric-border.electric-strong::before {
+  padding: 3px;
+  filter: drop-shadow(0 0 10px hsl(45 95% 55% / 0.8));
+  animation: electricRotate 3s linear infinite;
+  background: conic-gradient(
+    from 0deg,
+    #F59E0B 0deg,
+    #EF4444 72deg,
+    #8B5CF6 144deg,
+    #06B6D4 216deg,
+    #10B981 288deg,
+    #F59E0B 360deg
+  );
+}
+.electric-border.electric-strong {
+  animation: electricGlow 1.8s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .electric-border,
+  .electric-border::before { animation: none !important; }
+}
