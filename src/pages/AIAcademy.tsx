@@ -1030,6 +1030,7 @@ const AIAcademy = () => {
       <FloatingAIIcons />
       <div className="relative z-10">
       <Navbar />
+      <AutoTranslateBoundary>
       <div className="container mx-auto px-4 sm:px-6 pt-6 pb-16 max-w-6xl">
         {/* Breadcrumb */}
         <Link to="/programming" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-primary mb-4">
