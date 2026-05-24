@@ -280,7 +280,7 @@ const CambridgeYleVocabulary = () => {
             <CambridgeArcadeInner embedded />
           </section>
         ) : (
-        <section className="container mx-auto px-4 grid lg:grid-cols-[1fr_360px] gap-4 items-start">
+        <section className="container mx-auto px-4 grid lg:grid-cols-[1fr_280px] gap-6 items-start max-w-[1500px]">
           {/* Level tabs */}
           <div>
             <div className="flex flex-wrap gap-2 mb-4">
