@@ -39,6 +39,7 @@ import DeepfakeSandbox from "@/components/ai-academy/DeepfakeSandbox";
 import AgentWorkflowSandbox from "@/components/ai-academy/AgentWorkflowSandbox";
 import GraduationSandbox from "@/components/ai-academy/GraduationSandbox";
 import FloatingAIIcons from "@/components/ai-academy/FloatingAIIcons";
+import GraduationCertificate from "@/components/ai-academy/GraduationCertificate";
 import heroBg from "@/assets/ai-academy-hero-bg.jpg";
 import chibiRobot from "@/assets/ai-chibi-robot.png";
 
@@ -940,12 +941,35 @@ const AIAcademy = () => {
   const [progress, setProgress] = useState<Progress>(() => loadProgress());
   const [active, setActive] = useState<TrackId | null>(null);
   const [overlay, setOverlay] = useState<{ track: Track; stars: number } | null>(null);
+  // Certificate state — unlocks only when totalStars === maxStars
+  const [certOpen, setCertOpen] = useState(false);
+  const [studentName, setStudentName] = useState<string>("");
+  const [studentSeed, setStudentSeed] = useState<string>("");
 
   useEffect(() => { saveProgress(progress); }, [progress]);
 
+  // Fetch the signed-in user's display name once so the certificate can be
+  // personalized. Guests fall back to a default label.
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!mounted || !user) return;
+        const meta = (user.user_metadata || {}) as Record<string, unknown>;
+        const name = (meta.full_name as string) || (meta.name as string) || user.email?.split("@")[0] || "";
+        setStudentName(name);
+        setStudentSeed(user.id);
+      } catch { /* ignore */ }
+    })();
+    return () => { mounted = false; };
+  }, []);
+
   const totalStars = (Object.values(progress) as Progress[TrackId][]).reduce((a, b) => a + b.stars, 0);
   const totalBadges = (Object.values(progress) as Progress[TrackId][]).filter((p) => p.badge).length;
-  const overallPct = (totalStars / (TRACKS.length * 3)) * 100;
+  const maxStars = TRACKS.length * 3;
+  const overallPct = (totalStars / maxStars) * 100;
+  const certificateUnlocked = totalStars >= maxStars;
 
   const handleQuizComplete = async (track: Track, passed: boolean, score: number) => {
     const stars = Math.min(3, score);
@@ -1117,6 +1141,82 @@ const AIAcademy = () => {
             );
           })}
         </div>
+
+        {/* ============= GRADUATION CERTIFICATE BANNER ============= */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          className={`relative rounded-3xl p-5 sm:p-6 mb-10 overflow-hidden border-2 transition-all ${
+            certificateUnlocked
+              ? "border-amber-400/60 bg-gradient-to-br from-amber-50 via-yellow-50 to-amber-100 dark:from-amber-950/40 dark:via-yellow-950/30 dark:to-amber-900/40 shadow-[0_0_40px_rgba(217,170,68,0.35)]"
+              : "border-border bg-muted/40"
+          }`}
+        >
+          {certificateUnlocked && (
+            <>
+              {/* Celebration ring pulse */}
+              <motion.div
+                aria-hidden
+                className="absolute -top-20 -right-20 w-72 h-72 rounded-full border-4 border-amber-400/30"
+                animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0.15, 0.4] }}
+                transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
+              />
+              <motion.div
+                aria-hidden
+                className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full border-4 border-yellow-400/30"
+                animate={{ scale: [1.1, 1, 1.1], opacity: [0.3, 0.1, 0.3] }}
+                transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+              />
+            </>
+          )}
+          <div className="relative flex flex-col sm:flex-row items-center gap-4 sm:gap-5">
+            <div
+              className={`shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center text-4xl sm:text-5xl ${
+                certificateUnlocked
+                  ? "bg-gradient-to-br from-amber-400 to-yellow-500 text-white shadow-xl"
+                  : "bg-muted text-muted-foreground/60 grayscale opacity-60"
+              }`}
+            >
+              {certificateUnlocked ? "🎓" : <Lock className="w-8 h-8" />}
+            </div>
+            <div className="flex-1 text-center sm:text-left">
+              <div className={`text-[10px] uppercase tracking-widest font-bold mb-1 ${certificateUnlocked ? "text-amber-700 dark:text-amber-300" : "text-muted-foreground"}`}>
+                Chứng chỉ tốt nghiệp · Graduation Certificate
+              </div>
+              {certificateUnlocked ? (
+                <h3 className="font-display font-black text-lg sm:text-2xl text-foreground leading-tight">
+                  Chúc mừng! Em đã đạt {totalStars}/{maxStars} sao 🌟
+                </h3>
+              ) : (
+                <h3 className="font-bold text-sm sm:text-base text-foreground leading-snug">
+                  Hoàn thành 12 bài học và đạt {maxStars}/{maxStars} sao để mở khoá Chứng chỉ tốt nghiệp!
+                </h3>
+              )}
+              <div className="mt-1 text-xs text-muted-foreground">
+                Tiến độ hiện tại: <span className="font-bold text-foreground">{totalStars}/{maxStars} sao</span>
+              </div>
+            </div>
+            {certificateUnlocked ? (
+              <motion.button
+                onClick={() => setCertOpen(true)}
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.97 }}
+                animate={{ boxShadow: [
+                  "0 0 0 0 rgba(217,170,68,0.55)",
+                  "0 0 0 14px rgba(217,170,68,0)",
+                ] }}
+                transition={{ boxShadow: { duration: 1.8, repeat: Infinity, ease: "easeOut" } }}
+                className="shrink-0 px-5 sm:px-6 py-3 rounded-2xl bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-500 text-white font-black text-sm sm:text-base shadow-xl"
+              >
+                🎓 Nhận chứng chỉ tốt nghiệp của bạn
+              </motion.button>
+            ) : (
+              <div className="shrink-0 px-5 py-3 rounded-2xl bg-muted text-muted-foreground font-bold text-sm inline-flex items-center gap-2 border-2 border-dashed border-border">
+                <Lock className="w-4 h-4" /> Chưa mở khoá
+              </div>
+            )}
+          </div>
+        </motion.div>
 
         {/* Active track detail */}
         <div id="ai-track-detail">
@@ -1379,6 +1479,14 @@ const AIAcademy = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Graduation certificate modal */}
+      <GraduationCertificate
+        open={certOpen}
+        onClose={() => setCertOpen(false)}
+        studentName={studentName}
+        seed={studentSeed}
+      />
 
       <Footer />
       </div>
