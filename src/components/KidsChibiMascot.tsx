@@ -202,21 +202,48 @@ export default function KidsChibiMascot({ lang = "vi" as "vi" | "en" }) {
         .chibi-bow  { transform-origin: 60px 18px; animation: chibi-bow-wiggle 2s ease-in-out infinite; }
       `}</style>
 
+      <style>{`
+        @keyframes heart-float { 0%{transform:translateY(0) scale(.8); opacity:0} 30%{opacity:1} 100%{transform:translateY(-30px) scale(1.1); opacity:0} }
+        @keyframes sparkle-twinkle { 0%,100%{opacity:.3; transform:scale(.8) rotate(0)} 50%{opacity:1; transform:scale(1.2) rotate(180deg)} }
+        @keyframes cloud-drift { 0%,100%{transform:translateX(0)} 50%{transform:translateX(4px)} }
+        .heart-fx { position:absolute; animation: heart-float 2.4s ease-out infinite; }
+        .sparkle-fx { animation: sparkle-twinkle 2.2s ease-in-out infinite; }
+      `}</style>
+
       <div
-        className="hidden md:flex fixed z-40 select-none items-end gap-1"
-        style={{ bottom: 16, right: 18, pointerEvents: "none" }}
+        className="hidden md:flex fixed z-40 select-none items-end gap-2"
+        style={{ top: 110, right: 24, pointerEvents: "none" }}
         aria-hidden="true"
       >
-        {/* Speech bubble above the pair */}
+        {/* Soft cloud platform behind chibis */}
+        <div
+          className="absolute"
+          style={{
+            bottom: -10, right: 0, width: 230, height: 60,
+            background: "radial-gradient(ellipse at center, rgba(255,255,255,.85), rgba(255,255,255,0) 70%)",
+            animation: "cloud-drift 4s ease-in-out infinite",
+          }}
+        />
+
+        {/* Floating sparkles */}
+        <span className="sparkle-fx absolute" style={{ top: -6, right: 30, fontSize: 18 }}>✨</span>
+        <span className="sparkle-fx absolute" style={{ top: 30, left: -10, fontSize: 14, animationDelay: ".6s" }}>⭐</span>
+        <span className="sparkle-fx absolute" style={{ bottom: 20, right: -8, fontSize: 16, animationDelay: "1.1s" }}>💫</span>
+
+        {/* Floating hearts */}
+        <span className="heart-fx" style={{ left: 10, bottom: 40, fontSize: 14, color: "#FF6FA8" }}>💖</span>
+        <span className="heart-fx" style={{ right: 14, bottom: 50, fontSize: 12, animationDelay: "1.2s" }}>💕</span>
+
+        {/* Speech bubble */}
         {bubble && (
           <div
-            className="absolute px-3 py-1.5 rounded-2xl text-xs font-semibold whitespace-nowrap shadow-lg"
+            className="absolute px-3 py-2 rounded-2xl text-xs font-bold whitespace-nowrap shadow-xl"
             style={{
-              right: 30,
-              top: -10,
-              background: "linear-gradient(135deg,#FFF7CC,#FFE9A8)",
+              right: 60,
+              top: -28,
+              background: "linear-gradient(135deg,#FFF7CC,#FFE0A8)",
               color: "#7c4a00",
-              border: "2px solid #FFD46B",
+              border: "2.5px solid #FFB347",
               animation: "bubble-pop .35s ease-out",
             }}
           >
@@ -224,11 +251,11 @@ export default function KidsChibiMascot({ lang = "vi" as "vi" | "en" }) {
             <span
               className="absolute"
               style={{
-                left: 22, bottom: -8,
+                right: 18, bottom: -9,
                 width: 0, height: 0,
-                borderLeft: "6px solid transparent",
-                borderRight: "6px solid transparent",
-                borderTop: "10px solid #FFD46B",
+                borderLeft: "7px solid transparent",
+                borderRight: "7px solid transparent",
+                borderTop: "11px solid #FFB347",
               }}
             />
           </div>
@@ -238,7 +265,6 @@ export default function KidsChibiMascot({ lang = "vi" as "vi" | "en" }) {
           onClick={() => poke("boy")}
           style={{ pointerEvents: "auto", background: "transparent", border: "none", cursor: "pointer", padding: 0 }}
           aria-label="Boy chibi"
-          className="boy-btn"
         >
           <div className={`chibi-wrap boy ${jumpBoy ? "jump" : ""}`}>
             <ChibiSVG who="boy" jump={jumpBoy} />
