@@ -693,7 +693,7 @@ const AIAcademy = () => {
                     </h3>
                   </div>
                   <DragDropQuiz
-                    key={`${activeTrack.id}-${progress[activeTrack.id].stars}`}
+                    key={`${activeTrack.id}-${progress[activeTrack.id]?.stars ?? 0}`}
                     questions={activeTrack.quiz}
                     onComplete={(passed, score) => handleQuizComplete(activeTrack, passed, score)}
                   />
