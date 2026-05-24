@@ -25,6 +25,17 @@ import { englishIdioms, IDIOM_THEMES, type IdiomEntry, type IdiomCategory } from
 
 type Tab = "library" | "match" | "fill" | "quiz" | "equivalent";
 
+// Grouped themes for a cleaner Library layout (related themes merged).
+type ThemeKey = IdiomEntry["theme"];
+type GroupKey = "life-wisdom" | "work-money" | "time-courage" | "friendship-love";
+const THEME_GROUPS: { key: GroupKey; labelEn: string; labelVi: string; emoji: string; themes: ThemeKey[] }[] = [
+  { key: "life-wisdom",     labelEn: "Life & Wisdom",       labelVi: "Cuộc sống & Trí tuệ", emoji: "🌱", themes: ["life", "wisdom"] },
+  { key: "work-money",      labelEn: "Work & Money",        labelVi: "Công việc & Tiền bạc", emoji: "💼", themes: ["work", "money"] },
+  { key: "time-courage",    labelEn: "Time & Courage",      labelVi: "Thời gian & Dũng cảm", emoji: "⏰", themes: ["time", "courage"] },
+  { key: "friendship-love", labelEn: "Friendship & Love",   labelVi: "Tình bạn & Tình yêu",  emoji: "🤝", themes: ["friendship", "love"] },
+];
+const themesOfGroup = (g: GroupKey): ThemeKey[] => THEME_GROUPS.find((x) => x.key === g)?.themes ?? [];
+
 const TABS: { key: Tab; labelEn: string; labelVi: string; icon: React.ComponentType<{ className?: string }>; color: string }[] = [
   { key: "library",    labelEn: "Library",            labelVi: "Thư viện",         icon: BookOpen,  color: "from-amber-500 to-orange-500" },
   { key: "match",      labelEn: "Meaning Match",      labelVi: "Ghép nghĩa",       icon: Target,    color: "from-teal-500 to-emerald-500" },
