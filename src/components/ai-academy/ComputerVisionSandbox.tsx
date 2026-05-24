@@ -83,7 +83,7 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
   };
 
   return (
-    <div className="space-y-2.5">
+    <div className="space-y-2">
       <motion.div
         ref={stageRef}
         animate={shake ? shakeVariant : undefined}

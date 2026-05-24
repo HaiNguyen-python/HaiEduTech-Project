@@ -211,7 +211,7 @@ const SentimentMeter = () => {
   const widthPct = ((analysis.ratio + 1) / 2) * 100;
 
   return (
-    <div className="rounded-2xl border-2 border-emerald-400/40 bg-gradient-to-br from-emerald-500/10 to-rose-500/10 p-3.5 space-y-2.5">
+    <div className="rounded-2xl border-2 border-emerald-400/40 bg-gradient-to-br from-emerald-500/10 to-rose-500/10 p-3 space-y-2">
       <div className="flex items-center gap-2">
         <Smile className="w-4 h-4 text-emerald-600" />
         <h4 className="font-bold text-sm uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
@@ -308,7 +308,7 @@ const TokenizerLive = () => {
   const colors = ["bg-cyan-500/20 text-cyan-700 dark:text-cyan-200", "bg-fuchsia-500/20 text-fuchsia-700 dark:text-fuchsia-200", "bg-emerald-500/20 text-emerald-700 dark:text-emerald-200", "bg-amber-500/20 text-amber-700 dark:text-amber-200", "bg-purple-500/20 text-purple-700 dark:text-purple-200"];
 
   return (
-    <div className="rounded-2xl border-2 border-cyan-400/40 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 p-3.5 space-y-2.5">
+    <div className="rounded-2xl border-2 border-cyan-400/40 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 p-3 space-y-2">
       <div className="flex items-center gap-2">
         <Hash className="w-4 h-4 text-cyan-600" />
         <h4 className="font-bold text-sm uppercase tracking-wide text-cyan-700 dark:text-cyan-300">
@@ -400,7 +400,7 @@ const TeenCodeNormalizer = () => {
   const changedCount = normalized.filter((n) => n.changed).length;
 
   return (
-    <div className="rounded-2xl border-2 border-orange-400/40 bg-gradient-to-br from-orange-500/10 to-amber-500/10 p-3.5 space-y-2.5">
+    <div className="rounded-2xl border-2 border-orange-400/40 bg-gradient-to-br from-orange-500/10 to-amber-500/10 p-3 space-y-2">
       <div className="flex items-center gap-2">
         <Wand2 className="w-4 h-4 text-orange-600" />
         <h4 className="font-bold text-sm uppercase tracking-wide text-orange-700 dark:text-orange-300">
@@ -473,7 +473,7 @@ const NLP_PAIRS = [
 /* ───────────────────────── Root export ─────────────────────── */
 
 const NLPSandbox = () => (
-  <div className="space-y-2.5">
+  <div className="space-y-2">
     <IntentTrainer />
     <SentimentMeter />
     <TokenizerLive />

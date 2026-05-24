@@ -45,7 +45,7 @@ const GraduationSandbox = () => {
   const print = () => window.print();
 
   return (
-    <div className="space-y-2.5">
+    <div className="space-y-2">
       <p className="text-xs text-muted-foreground">
         🎓 Chọn chủ đề đồ án rồi tạo <b>Bằng tốt nghiệp AI Academy</b> mang tên bạn.
       </p>
@@ -109,7 +109,7 @@ const GraduationSandbox = () => {
               {topic.emoji} {topic.label}
             </p>
 
-            <div className="mt-6 flex items-end justify-between gap-4 text-[11px] text-slate-600">
+            <div className="mt-6 flex items-end justify-between gap-3 text-[11px] text-slate-600">
               <div className="text-left">
                 <div className="border-t border-slate-400 pt-1 w-32">Ngày cấp</div>
                 <div>{new Date().toLocaleDateString("vi-VN")}</div>

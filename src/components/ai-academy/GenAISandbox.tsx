@@ -84,7 +84,7 @@ const GenAISandbox = () => {
   );
 
   return (
-    <div className="space-y-4 sm:space-y-5 [&>*+*]:pt-4 sm:[&>*+*]:pt-5 [&>*+*]:border-t [&>*+*]:border-border/40">
+    <div className="space-y-3 sm:space-y-4 [&>*+*]:pt-3 sm:[&>*+*]:pt-4 [&>*+*]:border-t [&>*+*]:border-border/40">
       <div className="relative h-60 sm:h-72 rounded-2xl overflow-hidden border-2 border-pink-400/40 bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900">
         {sparkles.map((sp, i) => (
           <motion.div

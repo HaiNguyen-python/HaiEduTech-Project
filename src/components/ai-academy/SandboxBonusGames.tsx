@@ -67,7 +67,7 @@ export const TrueFalseRapid = ({
   };
 
   return (
-    <div className={`rounded-2xl border-2 ${border} bg-gradient-to-br from-amber-500/10 to-orange-500/10 p-3.5 space-y-2.5`}>
+    <div className={`rounded-2xl border-2 ${border} bg-gradient-to-br from-amber-500/10 to-orange-500/10 p-3 space-y-2`}>
       <div className="flex items-center gap-2">
         <Zap className="w-4 h-4 text-amber-600" />
         <h4 className="font-bold text-sm uppercase tracking-wide text-amber-700 dark:text-amber-300">
@@ -227,7 +227,7 @@ export const MatchPairs = ({
   };
 
   return (
-    <div className={`rounded-2xl border-2 ${border} bg-gradient-to-br from-violet-500/10 to-fuchsia-500/10 p-3.5 space-y-2.5`}>
+    <div className={`rounded-2xl border-2 ${border} bg-gradient-to-br from-violet-500/10 to-fuchsia-500/10 p-3 space-y-2`}>
       <div className="flex items-center gap-2">
         <Layers className="w-4 h-4 text-violet-600" />
         <h4 className="font-bold text-sm uppercase tracking-wide text-violet-700 dark:text-violet-300">
@@ -308,7 +308,7 @@ export const BonusGames = ({
   accent?: string;
   border?: string;
 }) => (
-  <div className="space-y-5 sm:space-y-6 pt-5 mt-4 border-t-4 border-border">
+  <div className="space-y-4 sm:space-y-5 pt-4 mt-3 border-t-4 border-border">
     <TrueFalseRapid items={tfItems} accent={accent} border={border} />
     <MatchPairs pairs={matchPairs} accent={accent} border={border} />
   </div>

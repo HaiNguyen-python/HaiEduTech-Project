@@ -70,7 +70,7 @@ const NeuralNetSandbox = () => {
   );
 
   return (
-    <div className="space-y-4 sm:space-y-5 [&>*+*]:pt-4 sm:[&>*+*]:pt-5 [&>*+*]:border-t [&>*+*]:border-border/40">
+    <div className="space-y-3 sm:space-y-4 [&>*+*]:pt-3 sm:[&>*+*]:pt-4 [&>*+*]:border-t [&>*+*]:border-border/40">
       <div className="rounded-2xl border-2 border-emerald-400/40 bg-gradient-to-br from-slate-900 to-emerald-950/60 p-4">
         <svg viewBox="0 0 400 220" className="w-full h-48">
           {/* connections input → hidden */}
@@ -106,7 +106,7 @@ const NeuralNetSandbox = () => {
         </div>
       </div>
 
-      <div className="grid sm:grid-cols-2 gap-4">
+      <div className="grid sm:grid-cols-2 gap-3">
         <div className="p-3 rounded-xl border bg-card">
           <div className="flex items-center justify-between text-sm mb-2">
             <span>📚 Giờ học / ngày</span>
