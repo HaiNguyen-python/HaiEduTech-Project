@@ -1147,11 +1147,12 @@ const AIAcademy = () => {
                       <h3 className="font-bold text-sm uppercase tracking-wider text-muted-foreground">📖 Câu chuyện</h3>
                     </div>
                     {activeTrack.story.map((s, i) => (
-                      <div key={i} className="p-3 rounded-2xl border-l-4 border-purple-500 bg-purple-500/5">
-                        <h4 className="font-bold text-foreground mb-1">{s.heading}</h4>
-                        <p
-                          className="text-sm text-foreground/80 leading-relaxed"
-                          dangerouslySetInnerHTML={{ __html: s.body }}
+                      <div key={i} className="p-3 rounded-2xl border-l-4 border-purple-500 bg-purple-500/10">
+                        <h4 className="font-bold text-foreground mb-1.5">{s.heading}</h4>
+                        <SmartText
+                          text={s.body}
+                          html
+                          className="text-[15px] text-foreground leading-relaxed"
                         />
                       </div>
                     ))}
