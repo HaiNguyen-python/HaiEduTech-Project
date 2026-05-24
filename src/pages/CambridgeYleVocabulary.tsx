@@ -361,7 +361,7 @@ const CambridgeYleVocabulary = () => {
                                 );
                               })}
                             </div>
-                            <div className="relative grid md:grid-cols-2 2xl:grid-cols-3 gap-7 md:gap-8 p-6 md:p-7">
+                            <div className="relative grid md:grid-cols-1 xl:grid-cols-2 gap-10 md:gap-12 p-7 md:p-9">
                             {words.map((w, idx) => {
                               const key = `${w.level}:${w.word}`;
                               const isMastered = mastered.has(key);
