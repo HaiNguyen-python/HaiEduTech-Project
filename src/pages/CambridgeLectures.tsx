@@ -177,8 +177,8 @@ const CambridgeLectures = () => {
                   style={isComplete ? { boxShadow: `0 0 20px ${cfg.glowColor}, 0 0 40px ${cfg.glowColor}` } : undefined}
                 >
                   <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: cfg.color }}>{cfg.label}</p>
-                  <p className="text-lg font-bold text-white">{stats.done}/{stats.total}</p>
-                  <div className="mt-2 h-1.5 rounded-full bg-white/10 overflow-hidden">
+                  <p className="text-lg font-bold text-slate-800">{stats.done}/{stats.total}</p>
+                  <div className="mt-2 h-1.5 rounded-full bg-slate-200 overflow-hidden">
                     <div className="h-full rounded-full transition-all duration-500" style={{ width: `${pct}%`, background: `linear-gradient(90deg, ${cfg.gradientFrom}, ${cfg.gradientTo})` }} />
                   </div>
                   {isComplete && <span className="absolute -top-1 -right-1 text-lg">🌟</span>}
