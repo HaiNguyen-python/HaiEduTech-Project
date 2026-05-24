@@ -112,44 +112,45 @@ const CambridgeLectures = () => {
   const progress = allCambridgeLectures.length > 0 ? Math.round((completed.size / allCambridgeLectures.length) * 100) : 0;
 
   return (
-    <div className="min-h-screen bg-[#0A0E1A]">
+    <div className="min-h-screen relative" style={{ background: "linear-gradient(180deg, #FFF8E7 0%, #FFE5EC 25%, #E0F4FF 50%, #E8FFE0 75%, #FFF0F5 100%)" }}>
+      <FloatingKidsDecor />
       <Navbar />
-      <main className="pt-24 pb-16">
-        {/* Hero Section - Vibrant Dark */}
+      <main className="pt-24 pb-16 relative z-10">
+        {/* Hero Section - Bright & Cheerful for Kids */}
         <section className="relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#1a0a2e] via-[#0A0E1A] to-[#0a1628]" />
-          {/* Animated glow orbs */}
-          <div className="absolute top-10 right-20 w-64 h-64 rounded-full bg-[#FF6B6B]/10 blur-[100px] animate-pulse" />
-          <div className="absolute bottom-10 left-20 w-48 h-48 rounded-full bg-[#4ECDC4]/10 blur-[80px] animate-pulse" style={{ animationDelay: "1s" }} />
-          <div className="absolute top-1/2 left-1/2 w-56 h-56 rounded-full bg-[#A78BFA]/8 blur-[90px] animate-pulse" style={{ animationDelay: "2s" }} />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, #FFE5EC 0%, #FFF8DC 30%, #E0F4FF 70%, #E8FFE0 100%)" }} />
+          {/* Cheerful soft glow orbs */}
+          <div className="absolute top-10 right-20 w-64 h-64 rounded-full bg-[#FF6B9D]/30 blur-[100px] animate-pulse" />
+          <div className="absolute bottom-10 left-20 w-48 h-48 rounded-full bg-[#FFD93D]/30 blur-[80px] animate-pulse" style={{ animationDelay: "1s" }} />
+          <div className="absolute top-1/2 left-1/2 w-56 h-56 rounded-full bg-[#6BCB77]/25 blur-[90px] animate-pulse" style={{ animationDelay: "2s" }} />
 
           <div className="relative container mx-auto px-4 py-14 md:py-20">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl">
               <div className="flex items-center gap-3 mb-5">
-                <div className="p-3 rounded-2xl bg-gradient-to-br from-[#FF6B6B]/20 via-[#4ECDC4]/20 to-[#A78BFA]/20 border border-white/10 backdrop-blur-sm">
-                  <GraduationCap className="w-8 h-8 text-[#C4B5FD]" />
+                <div className="p-3 rounded-2xl bg-gradient-to-br from-[#FF6B9D] via-[#FFD93D] to-[#4D96FF] border-2 border-white shadow-lg">
+                  <GraduationCap className="w-8 h-8 text-white" />
                 </div>
-                <Badge className="bg-gradient-to-r from-[#FF6B6B]/20 to-[#A78BFA]/20 text-white border-white/20 text-sm px-4 py-1.5 font-bold uppercase tracking-wider">
-                  Cambridge Journey
+                <Badge className="bg-gradient-to-r from-[#FF6B9D] to-[#C780FA] text-white border-2 border-white shadow-md text-sm px-4 py-1.5 font-bold uppercase tracking-wider">
+                  🌈 Cambridge Journey 🎈
                 </Badge>
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-5 leading-tight">
-                {t("Cambridge: Starters đến PET", "Cambridge: Starters to PET")}
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-5 leading-tight" style={{ background: "linear-gradient(135deg, #FF6B9D 0%, #FF9F1C 35%, #6BCB77 70%, #4D96FF 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+                {t("Cambridge: Starters đến PET 🎓", "Cambridge: Starters to PET 🎓")}
               </h1>
-              <p className="text-[#94A3B8] mb-8" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+              <p className="text-slate-700 mb-8 font-medium" style={{ fontSize: "20px", lineHeight: "1.8" }}>
                 {t(
-                  "15 bài giảng chiến lược với kỹ thuật tránh bẫy, công thức ghi điểm, và bài tập tương tác cho MỌI cấp độ Cambridge.",
-                  "15 strategic lessons with trap-avoidance techniques, scoring formulas, and interactive practice for EVERY Cambridge level."
+                  "🎨 15 bài giảng vui nhộn với kỹ thuật tránh bẫy, công thức ghi điểm, và bài tập tương tác cho MỌI cấp độ Cambridge dành cho thiếu nhi! 🚀",
+                  "🎨 15 fun strategic lessons with trap-avoidance techniques, scoring formulas, and interactive practice for EVERY Cambridge level for kids! 🚀"
                 )}
               </p>
 
               {/* Overall progress */}
-              <div className="rounded-2xl p-5 border border-white/10 max-w-md backdrop-blur-md bg-white/[0.03]">
+              <div className="rounded-2xl p-5 border-2 border-white max-w-md backdrop-blur-md bg-white/70 shadow-lg">
                 <div className="flex justify-between text-sm mb-2.5">
-                  <span className="text-[#C4B5FD] font-medium">{t("Tiến độ tổng", "Overall Progress")}</span>
-                  <span className="text-white font-bold">{completed.size}/{allCambridgeLectures.length} {t("bài", "lessons")}</span>
+                  <span className="text-[#7C3AED] font-bold">⭐ {t("Tiến độ tổng", "Overall Progress")}</span>
+                  <span className="text-slate-800 font-bold">{completed.size}/{allCambridgeLectures.length} {t("bài", "lessons")}</span>
                 </div>
-                <Progress value={progress} className="h-3 bg-white/10" />
+                <Progress value={progress} className="h-3 bg-slate-200" />
               </div>
             </motion.div>
           </div>
