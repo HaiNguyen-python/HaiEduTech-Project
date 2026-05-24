@@ -347,7 +347,6 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
       ) : (() => {
         const renderCard = (entry: IdiomEntry, idx: number) => {
           const meta = CATEGORY_META[entry.category];
-          const isOpen = revealed.has(entry.id);
           const isLearned = learned.has(entry.id);
           return (
             <motion.article
@@ -357,9 +356,9 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: Math.min(idx * 0.02, 0.2) }}
               className={cn(
-                "rounded-2xl border-2 hover:shadow-xl hover:-translate-y-1 transition-all p-5 flex flex-col relative",
+                "rounded-2xl border-[3px] hover:shadow-xl hover:-translate-y-1 transition-all p-5 flex flex-col relative shadow-md",
                 meta.cardBg,
-                isLearned ? "border-amber-500 ring-2 ring-amber-400/50 shadow-lg shadow-amber-500/20" : meta.cardBorder,
+                isLearned ? "border-amber-500 ring-2 ring-amber-400/50 shadow-lg shadow-amber-500/20" : "border-emerald-600 dark:border-emerald-500",
               )}
             >
               <button
@@ -367,7 +366,6 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
                 onClick={() => toggleLearned(entry.id)}
                 aria-pressed={isLearned}
                 aria-label={isLearned ? t("Bỏ đánh dấu Đã thuộc", "Unmark as learned") : t("Đánh dấu Đã thuộc", "Mark as learned")}
-                title={isLearned ? t("Đã thuộc – nhấn để bỏ", "Learned – click to unmark") : t("Đánh dấu là Đã thuộc", "Mark as learned")}
                 className={cn(
                   "absolute top-3 right-3 inline-flex items-center justify-center w-9 h-9 rounded-full border transition-all z-10",
                   isLearned
@@ -391,82 +389,67 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
               {entry.author && (
                 <p className="text-xs text-muted-foreground italic mb-2">- {entry.author}</p>
               )}
-              <p className="text-xs text-muted-foreground italic mb-3">
-                {t("Dịch nghĩa đen:", "Literal:")} {entry.literalVi}
-              </p>
 
-              {isOpen && (
-                <div className="rounded-xl bg-background/80 border border-border/60 p-3.5 mb-3 space-y-2.5 text-sm">
-                  <div>
-                    <div className="text-[11px] font-bold uppercase tracking-wide text-primary mb-1">{t("Ý nghĩa thật", "Real meaning")}</div>
-                    <p className="text-foreground leading-relaxed">{t(entry.meaningVi, entry.meaningEn)}</p>
-                  </div>
-                  <div>
-                    <div className="text-[11px] font-bold uppercase tracking-wide text-emerald-600 dark:text-emerald-400 mb-1">{t("Ví dụ", "Example")}</div>
-                    <p className="text-foreground italic leading-relaxed">"{entry.exampleEn}"</p>
-                    <p className="text-muted-foreground text-xs mt-1">{entry.exampleVi}</p>
-                  </div>
-                  {entry.vietnameseEquivalent && (
-                    <div>
-                      <div className="text-[11px] font-bold uppercase tracking-wide text-rose-600 dark:text-rose-400 mb-1">{t("Tương đương tiếng Việt", "Vietnamese equivalent")}</div>
-                      <p className="text-foreground font-semibold">🇻🇳 {entry.vietnameseEquivalent}</p>
-                    </div>
-                  )}
+              <div className="rounded-xl bg-background/80 border border-emerald-500/40 p-3.5 mb-3 space-y-2.5 text-sm">
+                <div>
+                  <div className="text-[11px] font-bold uppercase tracking-wide text-primary mb-1">{t("Ý nghĩa", "Meaning")}</div>
+                  <p className="text-foreground leading-relaxed font-medium">{t(entry.meaningVi, entry.meaningEn)}</p>
                 </div>
-              )}
+                <div>
+                  <div className="text-[11px] font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-400 mb-1">{t("Ví dụ", "Example")}</div>
+                  <p className="text-foreground italic leading-relaxed">"{entry.exampleEn}"</p>
+                  <p className="text-muted-foreground text-xs mt-1">{entry.exampleVi}</p>
+                </div>
+              </div>
 
               <div className="flex items-center gap-2 mt-auto">
                 <button
-                  onClick={() => toggle(entry.id)}
-                  className={cn(
-                    "flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-bold transition-all hover:scale-[1.02] active:scale-[0.98]",
-                    isOpen
-                      ? "bg-white/70 dark:bg-background/60 text-foreground border border-border hover:bg-white"
-                      : meta.revealBtn,
-                  )}
-                >
-                  {isOpen ? (
-                    <>👁️ {t("Ẩn chi tiết", "Hide details")}</>
-                  ) : (
-                    <>✨ {t("Xem ý nghĩa", "Reveal meaning")}</>
-                  )}
-                </button>
-                <button
                   onClick={() => speakEn(entry.phrase)}
-                  className="inline-flex items-center justify-center w-11 h-11 rounded-xl border-2 border-border bg-white/80 dark:bg-background hover:bg-primary/10 hover:border-primary/50 hover:scale-105 transition-all text-foreground shadow-sm"
+                  className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white shadow-md shadow-emerald-500/30"
                   title={t("Nghe phát âm", "Listen")}
                   aria-label={t("Nghe phát âm", "Listen")}
                 >
-                  <Volume2 className="w-4 h-4" />
+                  <Volume2 className="w-4 h-4" /> {t("Nghe phát âm", "Listen")}
                 </button>
               </div>
             </motion.article>
           );
         };
 
-        // Group by theme when no specific theme filter is applied — easier to browse.
+        // Group by theme when no specific theme filter is applied — collapsible accordion.
         if (filterTheme === "all") {
           const groups = IDIOM_THEMES
             .map((th) => ({ theme: th, items: display.filter((e) => e.theme === th.key) }))
             .filter((g) => g.items.length > 0);
           return (
-            <div className="space-y-10">
-              {groups.map(({ theme, items }) => (
-                <section key={theme.key}>
-                  <div className="flex items-center gap-3 mb-4 pb-2 border-b-2 border-emerald-500/40">
-                    <span className="text-2xl">{theme.emoji}</span>
-                    <h3 className="text-xl sm:text-2xl font-bold text-foreground">
-                      {t(theme.labelVi, theme.labelEn)}
-                    </h3>
-                    <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-500/10 border border-emerald-500/40 px-2.5 py-0.5 rounded-full">
-                      {items.length}
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                    {items.map((entry, idx) => renderCard(entry, idx))}
-                  </div>
-                </section>
-              ))}
+            <div className="space-y-4">
+              {groups.map(({ theme, items }) => {
+                const isOpen = openThemes.has(theme.key);
+                return (
+                  <section key={theme.key} className="rounded-2xl border-2 border-emerald-500/40 bg-emerald-500/5 overflow-hidden">
+                    <button
+                      type="button"
+                      onClick={() => toggleTheme(theme.key)}
+                      aria-expanded={isOpen}
+                      className="w-full flex items-center gap-3 p-4 hover:bg-emerald-500/10 transition-colors"
+                    >
+                      <span className="text-2xl">{theme.emoji}</span>
+                      <h3 className="text-lg sm:text-xl font-bold text-foreground flex-1 text-left">
+                        {t(theme.labelVi, theme.labelEn)}
+                      </h3>
+                      <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-500/15 border border-emerald-500/50 px-2.5 py-0.5 rounded-full">
+                        {items.length}
+                      </span>
+                      <span className={cn("text-emerald-700 dark:text-emerald-300 transition-transform text-xl", isOpen && "rotate-180")}>▾</span>
+                    </button>
+                    {isOpen && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 p-4 pt-2">
+                        {items.map((entry, idx) => renderCard(entry, idx))}
+                      </div>
+                    )}
+                  </section>
+                );
+              })}
             </div>
           );
         }
