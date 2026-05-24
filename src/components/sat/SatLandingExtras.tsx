@@ -7,9 +7,9 @@
  */
 import { motion } from "framer-motion";
 import {
-  TrendingUp, GraduationCap, Trophy, Clock,
+  TrendingUp, Trophy,
   BookOpen, Calculator, Sparkles, ShieldCheck,
-  AlertTriangle, Lightbulb, Star, ChevronRight, Target,
+  AlertTriangle, Lightbulb, ChevronRight, Target,
 } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -17,12 +17,6 @@ import { useLanguage } from "@/contexts/LanguageContext";
 const SatLandingExtras = () => {
   const { t } = useLanguage();
 
-  const stats = [
-    { icon: Trophy, value: "47+", label: t("Học viên đạt 1400+", "Students scoring 1400+"), color: "from-amber-500 to-orange-500" },
-    { icon: TrendingUp, value: "+280", label: t("Điểm tăng trung bình", "Avg. score gain"), color: "from-emerald-500 to-teal-500" },
-    { icon: GraduationCap, value: "18", label: t("Trường ĐH Mỹ đã đỗ", "US universities admitted"), color: "from-violet-500 to-fuchsia-500" },
-    { icon: Clock, value: "120h", label: t("Giờ học cá nhân hóa / lộ trình", "Personalized hours / track"), color: "from-sky-500 to-indigo-500" },
-  ];
 
   const formatCards = [
     {
@@ -77,11 +71,7 @@ const SatLandingExtras = () => {
     },
   ];
 
-  const testimonials = [
-    { name: "Minh Anh", grade: t("Lớp 11", "Grade 11"), before: 1100, after: 1420, school: "Đang nộp UCLA, NYU", quote: t("Phần Words in Context giúp em hiểu từ trong ngữ cảnh rất nhanh. Sau 3 tháng tăng 320 điểm!", "Words in Context helped me grasp vocab in context fast. +320 in 3 months!"), color: "from-violet-500 to-fuchsia-500" },
-    { name: "Đức Anh", grade: t("Du học sinh", "Study-abroad student"), before: 1280, after: 1520, school: "Đã đỗ Boston University", quote: t("Chiến lược Evidence-Based Reading cực hiệu quả. Em được 780/800 Reading & Writing!", "Evidence-Based Reading strategy was killer. Got 780/800 R&W!"), color: "from-sky-500 to-indigo-500" },
-    { name: "Phương Linh", grade: t("Lớp 12", "Grade 12"), before: 1190, after: 1480, school: "Học bổng 60% Purdue", quote: t("Hệ thống mock test trên web + error log của thầy giúp em phát hiện đúng điểm yếu.", "Mock tests on the web + the error log helped me pinpoint weaknesses."), color: "from-emerald-500 to-teal-500" },
-  ];
+
 
   const faqs = [
     { q: t("Digital SAT khác SAT giấy cũ thế nào?", "How is Digital SAT different from paper SAT?"), a: t("Digital SAT ngắn hơn (2h14 vs 3h), thi trên laptop qua app Bluebook, có Desmos tích hợp, Module 2 adaptive theo điểm Module 1, và đoạn văn ngắn (25–150 từ) thay vì passage dài.", "Digital SAT is shorter (2h14 vs 3h), taken on laptop via Bluebook app, includes built-in Desmos, Module 2 adapts to Module 1, and uses short passages (25–150 words) instead of long ones.") },
@@ -101,20 +91,6 @@ const SatLandingExtras = () => {
 
   return (
     <>
-      {/* 1 · Trust stats */}
-      <Section delay={0.05}>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {stats.map((s, i) => (
-            <div key={i} className="glass-card rounded-2xl p-5 text-center hover:shadow-lg transition-shadow">
-              <div className={`w-12 h-12 mx-auto mb-3 rounded-xl bg-gradient-to-br ${s.color} flex items-center justify-center shadow-md`}>
-                <s.icon className="w-6 h-6 text-white" />
-              </div>
-              <p className="text-2xl md:text-3xl font-display font-extrabold text-foreground">{s.value}</p>
-              <p className="text-xs text-muted-foreground mt-1 leading-snug">{s.label}</p>
-            </div>
-          ))}
-        </div>
-      </Section>
 
       {/* 2 · Digital SAT 2026 format */}
       <Section delay={0.1}>
@@ -217,69 +193,36 @@ const SatLandingExtras = () => {
         </div>
       </Section>
 
-      {/* 5 · Testimonials with score deltas */}
-      <Section delay={0.25}>
-        <div className="glass-card rounded-2xl p-6 md:p-8">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-yellow-500 to-amber-500 flex items-center justify-center shadow-md">
-              <Star className="w-5 h-5 text-white" />
-            </div>
-            <h2 className="text-xl md:text-2xl font-display font-bold text-foreground">
-              {t("Học viên SAT đã đỗ trường top", "SAT students who landed top schools")}
-            </h2>
-          </div>
-          <div className="grid md:grid-cols-3 gap-4">
-            {testimonials.map((tm, i) => (
-              <div key={i} className="rounded-2xl p-5 border border-border bg-background/60 hover:shadow-lg transition-shadow">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${tm.color} flex items-center justify-center text-white font-display font-bold text-lg shadow-md`}>
-                    {tm.name.charAt(0)}
-                  </div>
-                  <div>
-                    <p className="font-display font-bold text-foreground">{tm.name}</p>
-                    <p className="text-xs text-muted-foreground">{tm.grade}</p>
-                  </div>
-                </div>
-                <div className="flex items-center justify-center gap-3 mb-3 py-3 rounded-xl bg-gradient-to-r from-secondary to-secondary/60">
-                  <span className="text-lg font-bold text-muted-foreground line-through">{tm.before}</span>
-                  <ChevronRight className="w-4 h-4 text-primary" />
-                  <span className={`text-2xl font-display font-extrabold bg-gradient-to-r ${tm.color} bg-clip-text text-transparent`}>{tm.after}</span>
-                </div>
-                <p className="text-sm text-foreground/90 italic leading-relaxed mb-3">"{tm.quote}"</p>
-                <div className="flex items-center gap-2 pt-3 border-t border-border">
-                  <GraduationCap className="w-4 h-4 text-primary shrink-0" />
-                  <p className="text-xs font-semibold text-foreground/80">{tm.school}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </Section>
 
       {/* 6 · FAQ */}
       <Section delay={0.3}>
         <div className="glass-card rounded-2xl p-6 md:p-8">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-500 flex items-center justify-center shadow-md">
-              <BookOpen className="w-5 h-5 text-white" />
+          <div className="flex items-center gap-3 mb-5">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-500 flex items-center justify-center shadow-sm">
+              <BookOpen className="w-4 h-4 text-white" />
             </div>
-            <h2 className="text-xl md:text-2xl font-display font-bold text-foreground">
+            <h2 className="text-lg md:text-xl font-display font-semibold text-foreground tracking-tight">
               {t("Câu hỏi thường gặp về SAT", "SAT — Frequently asked questions")}
             </h2>
           </div>
-          <Accordion type="single" collapsible className="space-y-2">
+          <Accordion type="single" collapsible className="space-y-2.5">
             {faqs.map((f, i) => (
-              <AccordionItem key={i} value={`q${i}`} className="border border-border rounded-xl px-4 bg-background/50">
-                <AccordionTrigger className="text-left font-semibold text-foreground hover:no-underline py-4">
+              <AccordionItem
+                key={i}
+                value={`q${i}`}
+                className="border border-border/60 rounded-2xl px-4 bg-background/40 data-[state=open]:bg-background/70 data-[state=open]:border-border transition-colors"
+              >
+                <AccordionTrigger className="text-left text-[15px] font-medium text-foreground/90 tracking-tight hover:no-underline py-3.5 gap-3">
                   {f.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-sm text-muted-foreground leading-relaxed pb-4">
+                <AccordionContent className="text-[14px] text-muted-foreground/90 leading-7 pb-4">
                   {f.a}
                 </AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
         </div>
+
       </Section>
     </>
   );
