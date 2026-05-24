@@ -111,7 +111,7 @@ const StudySmartSandbox = () => {
 
       <BestMatchPick
         title="🥇 Chọn prompt tốt nhất cho IELTS"
-        hint="Với mỗi mục tiêu học, chọn prompt 'chuẩn bài' nhất."
+        hint="Mỗi mục tiêu có 3 prompt mẫu (A · Lười / B · Hời hợt / C · Chuẩn). Hãy chọn prompt 'chuẩn bài' nhất."
         accent="from-blue-500 to-cyan-600"
         border="border-blue-400/40"
         options={[
@@ -121,16 +121,31 @@ const StudySmartSandbox = () => {
         ]}
         items={[
           {
-            prompt: "Em muốn cải thiện Writing Task 2 từ band 5.5 → 6.5",
+            prompt: "Mục tiêu: Cải thiện Writing Task 2 từ band 5.5 → 6.5",
             correctId: "c",
+            candidates: [
+              { id: "a", label: "A · Lười", text: "Viết hộ tôi 1 bài essay band 6.5 chủ đề Education." },
+              { id: "b", label: "B · Hời hợt", text: "Làm sao để tăng band Writing Task 2 lên 6.5?" },
+              { id: "c", label: "C · Chuẩn", text: "Bạn là examiner IELTS. Tôi đang ở band 5.5 Writing Task 2, điểm yếu là Task Response và Coherence. Hãy: (1) liệt kê 5 lỗi phổ biến khiến bài bị giữ ở band 5.5, (2) đưa 3 cấu trúc câu band 6.5 thay thế cho câu đơn giản, (3) cho 1 đề mẫu chủ đề Education kèm outline 4 đoạn theo tiêu chí band 6.5." },
+            ],
           },
           {
-            prompt: "Em muốn ôn 50 từ vựng IELTS chủ đề Environment",
+            prompt: "Mục tiêu: Ôn 50 từ vựng IELTS chủ đề Environment",
             correctId: "c",
+            candidates: [
+              { id: "a", label: "A · Lười", text: "Cho tôi 50 từ vựng Environment." },
+              { id: "b", label: "B · Hời hợt", text: "Liệt kê 50 từ vựng IELTS chủ đề Environment có nghĩa tiếng Việt." },
+              { id: "c", label: "C · Chuẩn", text: "Bạn là giáo viên IELTS band 8.0. Hãy tạo bảng 50 từ vựng band 6.5–7.5 chủ đề Environment gồm: từ | loại từ | phiên âm | nghĩa tiếng Việt | collocation phổ biến | 1 câu ví dụ dùng trong Writing Task 2. Nhóm theo 5 chủ đề con (pollution, climate change, conservation, energy, waste). Cuối cùng tạo 10 câu hỏi quiz fill-in-blank để tôi tự kiểm tra." },
+            ],
           },
           {
-            prompt: "Em cần phân tích lỗi grammar trong bài essay tự viết",
+            prompt: "Mục tiêu: Phân tích lỗi grammar trong bài essay tự viết",
             correctId: "c",
+            candidates: [
+              { id: "a", label: "A · Lười", text: "Sửa bài essay này cho tôi: [paste]" },
+              { id: "b", label: "B · Hời hợt", text: "Kiểm tra grammar bài essay sau và sửa lỗi giúp tôi: [paste]" },
+              { id: "c", label: "C · Chuẩn", text: "Bạn là IELTS examiner. Đây là bài Writing Task 2 của tôi (mục tiêu band 6.5): [paste]. Hãy: (1) liệt kê từng lỗi grammar theo bảng (câu gốc | loại lỗi | câu sửa | giải thích ngắn), (2) chấm điểm 4 tiêu chí (TR/CC/LR/GRA) kèm lý do, (3) gợi ý 3 câu nâng cấp từ band 5.5 lên 6.5, (4) KHÔNG viết lại cả bài hộ tôi — chỉ hướng dẫn để tôi tự sửa." },
+            ],
           },
         ]}
       />

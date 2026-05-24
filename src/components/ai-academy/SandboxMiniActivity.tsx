@@ -123,7 +123,11 @@ export const ChipFilter = ({
 
 /* ─────────────────────────── BestMatchPick ─────────────────────────── */
 
-export type MatchItem = { prompt: string; correctId: string };
+export type MatchItem = {
+  prompt: string;
+  correctId: string;
+  candidates?: { id: string; label: string; text: string }[];
+};
 
 export const BestMatchPick = ({
   title,
@@ -198,11 +202,35 @@ export const BestMatchPick = ({
                   : "border-border bg-card"
               }`}
             >
-              <div className="text-sm font-semibold text-foreground mb-2">{it.prompt}</div>
-              <div className="flex flex-wrap gap-1.5">
-                {options.map((o) => {
+              <div className="text-sm font-semibold text-foreground mb-2">🎯 {it.prompt}</div>
+              <div className={it.candidates ? "flex flex-col gap-2" : "flex flex-wrap gap-1.5"}>
+                {(it.candidates ?? options.map((o) => ({ ...o, text: "" }))).map((o) => {
                   const isSel = sel === o.id;
                   const isCorrectAnswer = revealed && o.id === it.correctId;
+                  const isSelWrong = revealed && isSel && o.id !== it.correctId;
+                  if (it.candidates) {
+                    return (
+                      <button
+                        key={o.id}
+                        onClick={() => pick(i, o.id)}
+                        disabled={revealed}
+                        className={`text-left p-2.5 rounded-xl border-2 transition active:scale-[0.99] ${
+                          isCorrectAnswer
+                            ? "bg-emerald-500/15 border-emerald-500"
+                            : isSelWrong
+                            ? "bg-rose-500/10 border-rose-500"
+                            : isSel
+                            ? `border-indigo-500 bg-indigo-500/10`
+                            : "bg-card border-border hover:border-indigo-400/60"
+                        }`}
+                      >
+                        <div className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground mb-1">
+                          {o.label}
+                        </div>
+                        <div className="text-[13px] leading-snug text-foreground italic">"{(o as any).text}"</div>
+                      </button>
+                    );
+                  }
                   return (
                     <button
                       key={o.id}
@@ -211,7 +239,7 @@ export const BestMatchPick = ({
                       className={`px-2.5 py-1 rounded-full text-xs font-bold border-2 transition active:scale-95 ${
                         isCorrectAnswer
                           ? "bg-emerald-500 text-white border-emerald-300"
-                          : isSel && isWrong
+                          : isSelWrong
                           ? "bg-rose-500 text-white border-rose-300"
                           : isSel
                           ? `bg-gradient-to-r ${accent} text-white border-transparent`
