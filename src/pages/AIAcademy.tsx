@@ -486,8 +486,8 @@ const AIAcademy = () => {
     setProgress((p) => ({
       ...p,
       [track.id]: {
-        stars: Math.max(p[track.id].stars, stars),
-        badge: p[track.id].badge || passed,
+        stars: Math.max(p[track.id]?.stars ?? 0, stars),
+        badge: p[track.id]?.badge || passed,
       },
     }));
 
