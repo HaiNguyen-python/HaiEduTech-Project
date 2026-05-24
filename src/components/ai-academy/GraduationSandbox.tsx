@@ -130,6 +130,8 @@ const GraduationSandbox = () => {
           </div>
         </div>
       )}
+
+      <BonusGames tfItems={GR_TF} matchPairs={GR_PAIRS} accent="from-amber-500 to-fuchsia-600" border="border-amber-400/40" />
     </div>
   );
 };
