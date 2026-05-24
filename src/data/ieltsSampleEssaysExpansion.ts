@@ -1362,7 +1362,7 @@ export const sampleEssaysExpansion: SampleEssay[] = [
             { "x": 40, "y": 56, "w": 26, "h": 14, "label": "Canteen", "color": "#F59E0B", "icon": "🍽️", "shape": "rect" },
             { "x": 2,  "y": 78, "w": 22, "h": 16, "label": "Car Park", "color": "#6B7280", "icon": "🚗", "shape": "rect" },
             { "x": 74, "y": 8,  "w": 22, "h": 60, "label": "Open Fields", "color": "#A3E635", "icon": "🌾", "shape": "rect" },
-            { "x": 70, "y": 8,  "w": 3,  "h": 84, "label": "Trees", "shape": "river" }
+            { "x": 70, "y": 8,  "w": 3,  "h": 84, "label": "Trees", "color": "#10B981", "shape": "rect" }
           ]
         },
         {
