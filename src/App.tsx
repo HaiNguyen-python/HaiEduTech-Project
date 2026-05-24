@@ -91,6 +91,7 @@ const IeltsVocabulary = lazy(() => import("./pages/IeltsVocabulary.tsx"));
 const SatVocabulary = lazy(() => import("./pages/SatVocabulary.tsx"));
 const SatExercises = lazy(() => import("./pages/SatExercises.tsx"));
 const SatExams = lazy(() => import("./pages/SatExams.tsx"));
+const SatCurriculum = lazy(() => import("./pages/SatCurriculum.tsx"));
 const SatMockExam = lazy(() => import("./pages/SatMockExam.tsx"));
 const VocabArena = lazy(() => import("./pages/VocabArena.tsx"));
 const NationalExamPrep = lazy(() => import("./pages/NationalExamPrep.tsx"));
@@ -257,6 +258,7 @@ const App = () => (
             <Route path="/sat-vocabulary" element={<LazyRoute><SatVocabulary /></LazyRoute>} />
             <Route path="/sat-exercises" element={<LazyRoute><SatExercises /></LazyRoute>} />
             <Route path="/sat-exams" element={<LazyRoute><SatExams /></LazyRoute>} />
+            <Route path="/sat-curriculum" element={<LazyRoute><SatCurriculum /></LazyRoute>} />
             <Route path="/sat-exams/:examId" element={<LazyRoute><SatMockExam /></LazyRoute>} />
             <Route path="/ielts-lectures" element={<LazyRoute><IeltsLectures /></LazyRoute>} />
             <Route path="/ielts-lectures/master-quiz" element={<LazyRoute><IeltsMasterQuiz /></LazyRoute>} />
