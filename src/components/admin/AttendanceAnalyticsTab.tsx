@@ -50,11 +50,11 @@ const AttendanceAnalyticsTab = () => {
       if (ids.length > 0) {
         const { data: profs } = await supabase
           .from("profiles")
-          .select("user_id, full_name, email")
-          .in("user_id", ids);
+          .select("id, full_name")
+          .in("id", ids);
         const map: Record<string, string> = {};
-        (profs || []).forEach((p: { user_id: string; full_name: string | null; email?: string | null }) => {
-          map[p.user_id] = p.full_name || p.email || p.user_id.slice(0, 8);
+        ((profs as Array<{ id: string; full_name: string | null }> | null) || []).forEach((p) => {
+          map[p.id] = p.full_name || p.id.slice(0, 8);
         });
         setNames(map);
       }
