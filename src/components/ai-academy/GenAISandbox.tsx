@@ -137,6 +137,8 @@ const GenAISandbox = () => {
         <Sparkles className="w-3.5 h-3.5 mt-0.5 text-pink-500 shrink-0" />
         <span>Prompt = công thức nấu ăn cho AI. Càng <b>cụ thể</b> (chủ thể + phong cách + bối cảnh), ảnh càng đẹp. Đây là kỹ năng <b>Prompt Engineering</b> mà các kỹ sư AI đang được trả lương cao!</span>
       </p>
+
+      <BonusGames tfItems={GEN_TF} matchPairs={GEN_PAIRS} accent="from-pink-500 to-purple-600" border="border-pink-400/40" />
     </div>
   );
 };
