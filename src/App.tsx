@@ -131,6 +131,7 @@ const SpeakingCoachPage = lazy(() => import("./pages/SpeakingCoachPage.tsx"));
 const EnglishGrammar = lazy(() => import("./pages/EnglishGrammar.tsx"));
 const NotebookPage = lazy(() => import("./pages/Notebook.tsx"));
 const CambridgeMockExamPage = lazy(() => import("./pages/CambridgeMockExam.tsx"));
+const CambridgeYleTestPrep = lazy(() => import("./pages/CambridgeYleTestPrep.tsx"));
 const JobOpportunities = lazy(() => import("./pages/JobOpportunities.tsx"));
 const CareerRoadmap = lazy(() => import("./pages/CareerRoadmap.tsx"));
 const PteHub = lazy(() => import("./pages/PteHub.tsx"));
