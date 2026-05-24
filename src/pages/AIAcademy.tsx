@@ -579,7 +579,7 @@ const AIAcademy = () => {
         {/* Track cards */}
         <div className="grid md:grid-cols-3 gap-5 mb-10">
           {TRACKS.map((t, i) => {
-            const p = progress[t.id];
+            const p = progress[t.id] ?? { stars: 0 };
             const stars = p.stars;
             return (
               <motion.button
