@@ -169,6 +169,26 @@ const RecsysSandbox = () => {
         ]}
       />
 
+      <BestMatchPick
+        title="🎯 Thuật toán gợi ý nào phù hợp nhất?"
+        hint="Mỗi nền tảng dưới đây dùng kiểu recommender nào là chính?"
+        accent="from-orange-500 to-rose-500"
+        border="border-orange-400/40"
+        options={[
+          { id: "content", label: "📄 Content-based" },
+          { id: "collab", label: "👥 Collaborative Filtering" },
+          { id: "hybrid", label: "🔀 Hybrid" },
+          { id: "pop", label: "🔥 Popularity-based" },
+        ]}
+        items={[
+          { prompt: "TikTok For You — học từ video bạn xem & like", correctId: "collab" },
+          { prompt: "Spotify 'Có thể bạn cũng thích' theo thể loại bài đang nghe", correctId: "content" },
+          { prompt: "Top trending YouTube hôm nay", correctId: "pop" },
+          { prompt: "Netflix — kết hợp sở thích bạn + người dùng giống bạn", correctId: "hybrid" },
+          { prompt: "Shopee 'Sản phẩm tương tự' theo mô tả/ảnh", correctId: "content" },
+        ]}
+      />
+
       <BonusGames tfItems={REC_TF} matchPairs={REC_PAIRS} accent="from-orange-500 to-rose-500" border="border-orange-400/40" />
     </div>
   );
