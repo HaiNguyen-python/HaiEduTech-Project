@@ -11,8 +11,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Eye, MessageSquare, Brain, Sparkles, Trophy, Star, ArrowLeft, Lock,
   Zap, Award, Rocket, CheckCircle2, Wand2, Car, Scale, Database, Radio, Cpu,
-  ShieldAlert, Bot, GraduationCap,
+  ShieldAlert, Bot, GraduationCap, Lightbulb, BookOpen, Briefcase, Home, ExternalLink, AlertTriangle, MapPin,
 } from "lucide-react";
+import { TRACK_EXTRAS } from "@/data/aiAcademyContent";
 import confetti from "canvas-confetti";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -1117,6 +1118,116 @@ const AIAcademy = () => {
                         />
                       </div>
                     ))}
+
+                    {/* ===== Extended educational content (Đợt 1) ===== */}
+                    {(() => {
+                      const extra = TRACK_EXTRAS[activeTrack.id];
+                      if (!extra) return null;
+                      return (
+                        <div className="space-y-4 pt-2">
+                          {/* Vietnam case study */}
+                          <div className="p-4 rounded-2xl border-2 border-red-500/30 bg-gradient-to-br from-red-500/10 to-yellow-500/10">
+                            <div className="flex items-center gap-2 mb-2">
+                              <MapPin className="w-4 h-4 text-red-600" />
+                              <h4 className="font-bold text-foreground text-sm">{extra.vietnamCase.title}</h4>
+                            </div>
+                            <p className="text-sm text-foreground/85 leading-relaxed">{extra.vietnamCase.body}</p>
+                          </div>
+
+                          {/* Golden tip */}
+                          <div className="p-4 rounded-2xl border-2 border-amber-400/50 bg-gradient-to-br from-amber-400/15 to-orange-400/10">
+                            <div className="flex items-center gap-2 mb-2">
+                              <Lightbulb className="w-4 h-4 text-amber-600" />
+                              <h4 className="font-bold text-amber-700 dark:text-amber-300 text-sm uppercase tracking-wide">
+                                💡 Mẹo vàng của thầy Hải
+                              </h4>
+                            </div>
+                            <p className="text-sm text-foreground/90 leading-relaxed italic">{extra.goldenTip}</p>
+                          </div>
+
+                          {/* Glossary */}
+                          <details className="p-4 rounded-2xl border-2 border-indigo-400/40 bg-indigo-500/5 group">
+                            <summary className="flex items-center gap-2 cursor-pointer font-bold text-sm text-indigo-700 dark:text-indigo-300">
+                              <BookOpen className="w-4 h-4" />
+                              📖 Từ điển AI ({extra.glossary.length} thuật ngữ)
+                            </summary>
+                            <div className="mt-3 space-y-2">
+                              {extra.glossary.map((g, i) => (
+                                <div key={i} className="text-sm">
+                                  <span className="font-bold text-indigo-700 dark:text-indigo-300">{g.term}:</span>{" "}
+                                  <span className="text-foreground/80">{g.def}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </details>
+
+                          {/* Careers */}
+                          <div className="p-4 rounded-2xl border-2 border-emerald-400/40 bg-emerald-500/5">
+                            <div className="flex items-center gap-2 mb-2">
+                              <Briefcase className="w-4 h-4 text-emerald-600" />
+                              <h4 className="font-bold text-emerald-700 dark:text-emerald-300 text-sm uppercase tracking-wide">
+                                🎯 Nghề tương lai liên quan
+                              </h4>
+                            </div>
+                            <ul className="space-y-1">
+                              {extra.careers.map((c, i) => (
+                                <li key={i} className="text-sm text-foreground/85 flex gap-2">
+                                  <span className="text-emerald-500">▸</span>
+                                  <span>{c}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+
+                          {/* Homework */}
+                          <div className="p-4 rounded-2xl border-2 border-fuchsia-400/40 bg-fuchsia-500/5">
+                            <div className="flex items-center gap-2 mb-2">
+                              <Home className="w-4 h-4 text-fuchsia-600" />
+                              <h4 className="font-bold text-fuchsia-700 dark:text-fuchsia-300 text-sm uppercase tracking-wide">
+                                🏠 Thử sức ở nhà
+                              </h4>
+                            </div>
+                            <p className="text-sm text-foreground/85 leading-relaxed">{extra.homework}</p>
+                          </div>
+
+                          {/* External demos */}
+                          <div className="p-4 rounded-2xl border-2 border-cyan-400/40 bg-cyan-500/5">
+                            <div className="flex items-center gap-2 mb-2">
+                              <ExternalLink className="w-4 h-4 text-cyan-600" />
+                              <h4 className="font-bold text-cyan-700 dark:text-cyan-300 text-sm uppercase tracking-wide">
+                                🔗 Chơi với AI thật
+                              </h4>
+                            </div>
+                            <div className="space-y-1.5">
+                              {extra.externalDemo.map((d, i) => (
+                                <a
+                                  key={i}
+                                  href={d.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="block text-sm text-cyan-700 dark:text-cyan-300 hover:underline hover:text-cyan-600 font-medium"
+                                >
+                                  → {d.label}
+                                </a>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Safety note (optional, only for sensitive tracks) */}
+                          {extra.safetyNote && (
+                            <div className="p-4 rounded-2xl border-2 border-rose-500/50 bg-gradient-to-br from-rose-500/15 to-red-500/10">
+                              <div className="flex items-center gap-2 mb-2">
+                                <AlertTriangle className="w-4 h-4 text-rose-600" />
+                                <h4 className="font-bold text-rose-700 dark:text-rose-300 text-sm uppercase tracking-wide">
+                                  {extra.safetyNote.title}
+                                </h4>
+                              </div>
+                              <p className="text-sm text-foreground/90 leading-relaxed">{extra.safetyNote.body}</p>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })()}
                   </div>
 
                   {/* Sandbox */}
