@@ -1135,16 +1135,23 @@ const AIAcademy = () => {
 
   const handleQuizComplete = async (track: Track, passed: boolean, score: number) => {
     const stars = Math.min(3, score);
+    const prevStars = progress[track.id]?.stars ?? 0;
+    const newStars = Math.max(prevStars, stars);
+    const starsGained = Math.max(0, newStars - prevStars);
     setProgress((p) => ({
       ...p,
       [track.id]: {
-        stars: Math.max(p[track.id]?.stars ?? 0, stars),
+        stars: newStars,
         badge: p[track.id]?.badge || passed,
       },
     }));
 
-    if (passed) {
-      confetti({ particleCount: 180, spread: 110, origin: { y: 0.6 } });
+    // Award XP: 20 per quiz attempt + 30 per new star earned + 100 bonus first-pass
+    const xpGain = 20 + starsGained * 30 + (passed && !progress[track.id]?.badge ? 100 : 0);
+    awardXP(xpGain, "quiz");
+    if (starsGained > 0) awardXP(0, "star");
+
+
       setTimeout(() => confetti({
         particleCount: 120, spread: 100, origin: { y: 0.4 },
         colors: ["#a855f7", "#06b6d4", "#10b981"],
