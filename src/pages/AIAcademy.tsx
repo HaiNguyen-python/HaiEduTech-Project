@@ -1026,6 +1026,15 @@ const TRACKS: Track[] = [
   },
 ];
 
+// Difficulty-ordered learning path (easy → hard). Card list & numbering follow this order.
+const TRACK_ORDER: TrackId[] = [
+  "study", "safety", "factcheck", "vision", "nlp", "genai", "recsys",
+  "nn", "rl", "ethics", "deepfake", "aiot", "agent", "careers", "capstone", "graduation",
+];
+const ORDERED_TRACKS: Track[] = TRACK_ORDER
+  .map((id) => TRACKS.find((t) => t.id === id))
+  .filter((t): t is Track => Boolean(t));
+
 const STORAGE_KEY = "haiedu_ai_academy_progress";
 
 type Progress = Record<TrackId, { stars: number; badge?: boolean }>;
