@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 import { Users, Sparkles } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { BonusGames } from "./SandboxBonusGames";
-import { ChipFilter } from "./SandboxMiniActivity";
+import { ChipFilter, BestMatchPick } from "./SandboxMiniActivity";
 
 const REC_TF = [
   { q: "TikTok & YouTube dùng hệ gợi ý để chọn video cho bạn.", a: true },
