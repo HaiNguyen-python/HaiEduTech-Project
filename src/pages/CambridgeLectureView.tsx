@@ -699,6 +699,7 @@ const CambridgeLectureView = () => {
         </div>
       </main>
       <Footer />
+      </div>
     </div>
   );
 };
