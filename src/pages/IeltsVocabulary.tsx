@@ -647,7 +647,7 @@ const IeltsVocabulary = () => {
               }, {});
               const orderedCats = IELTS_CATEGORIES.filter(c => groups[c]);
               // include any category not in the predefined list (defensive)
-              Object.keys(groups).forEach(c => { if (!orderedCats.includes(c)) orderedCats.push(c); });
+              Object.keys(groups).forEach(c => { if (!(orderedCats as string[]).includes(c)) (orderedCats as string[]).push(c); });
 
               return (
                 <div className="space-y-8">
