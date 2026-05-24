@@ -1,86 +1,88 @@
+## Bối cảnh phát hiện
 
-## Hiện trạng (sau khi rà soát)
-
-- **12 bài hiện có** trong `src/pages/AIAcademy.tsx` (TRACKS): Vision, NLP, Neural Net, GenAI, RL, Ethics, Recsys, AIoT, Capstone, Deepfake, Agent, Graduation. Nội dung mở rộng nằm ở `src/data/aiAcademyContent.ts` (Vietnam case, Golden tip, Glossary, Careers, Homework, External demos).
-- **Ngôn ngữ**: `AIAcademy.tsx` **KHÔNG** import `useLanguage()`. Mọi text (title, tagline, story, glossary, quiz, sandbox UI) đều hard-code tiếng Việt → toggle EN/VI ở header không có tác dụng cho khu vực này. Các sandbox component cũng gần như 100% tiếng Việt cứng.
-
----
-
-## Phần A — Bổ sung bài học cho HS cấp 2–3 Việt Nam
-
-### Đánh giá độ phủ hiện tại
-
-12 bài đã phủ tốt nền tảng kỹ thuật (Vision/NLP/NN/GenAI/RL/Recsys/AIoT/Agent) + 2 bài "mềm" (Ethics, Deepfake) + Capstone + Graduation. Tuy nhiên còn **thiếu 4 mảng** rất cần cho học sinh VN trong giai đoạn 2025–2030:
-
-| # | Bài đề xuất | Vì sao cần cho HS VN |
-|---|---|---|
-| **13** | **🎓 AI & Học tập thông minh** (AI for Study) — Cách dùng ChatGPT/NotebookLM/Gemini học bài, ôn thi THPT QG, IELTS, không bị "AI làm hộ" | Trực tiếp giải quyết nỗi sợ "AI làm thay" của phụ huynh + dạy kỹ năng prompt cho việc học |
-| **14** | **💼 AI & Nghề nghiệp tương lai** (AI Careers Map VN) — Bản đồ nghề AI tại VN (FPT.AI, VinAI, Zalo, VNG, MoMo) + lộ trình từ lớp 10 → ĐH → Job | Định hướng nghề, kết nối với Counseling Hub |
-| **15** | **🧠 AI & Tư duy phản biện** (Critical Thinking with AI) — Cách phát hiện hallucination, fact-check, không tin AI mù quáng | Tránh "thế hệ ngu hơn vì AI" — kỹ năng sống còn |
-| **16** | **🔐 AI & An toàn số** (AI Safety for Teens) — Lừa đảo giả giọng, deepfake bạn cùng lớp, AI bot dụ dỗ trên MXH, bảo vệ dữ liệu cá nhân | Bài Ethics & Deepfake hiện thiên về lý thuyết; bài này nói thẳng về tình huống thực tế HS gặp trên Zalo/TikTok |
-
-(Tùy chọn nâng cao nếu Thầy muốn):
-- **17** AI trong Toán/Lý/Hóa (Wolfram, PhotoMath, AlphaProof) — gợi ý cho HS giỏi Toán
-- **18** Khởi nghiệp với AI (No-code AI: Lovable, Bolt, Cursor) — gắn với chính HaiEduTech
-
-### Cấu trúc mỗi bài mới (giữ đồng nhất với 12 bài cũ)
-
-- Thêm entry vào `TrackId` + `TRACKS[]` trong `AIAcademy.tsx` (title, tagline, icon, color, story, sandbox component, quiz, badge).
-- Thêm entry tương ứng vào `TRACK_EXTRAS` trong `aiAcademyContent.ts` (vietnamCase, goldenTip, glossary, careers, homework, externalDemo).
-- Tạo 4 sandbox mới trong `src/components/ai-academy/`:
-  - `StudySmartSandbox.tsx` — "Prompt Coach": HS gõ câu hỏi học bài, AI gợi ý prompt tốt hơn + mô phỏng kết quả Hay/Dở.
-  - `CareersMapSandbox.tsx` — bản đồ nghề tương tác: chọn sở thích (Toán/Vẽ/Ngôn ngữ/Code) → highlight 3 nghề AI phù hợp tại VN + range lương.
-  - `FactCheckSandbox.tsx` — "Phát hiện AI nói xạo": show 5 câu trả lời ChatGPT (3 đúng, 2 hallucinate), HS chọn → giải thích red-flag.
-  - `DigitalSafetySandbox.tsx` — "Lừa đảo deepfake giọng bố/mẹ": kịch bản chat/cuộc gọi giả, HS chọn xử lý đúng.
+- Hiện AI Academy có **16 tracks** (15 bài + Graduation). Header vẫn ghi cứng `"9 chặng phiêu lưu trực quan"` (line 1172) và footer ghi `"Hoàn thành 12 bài học"` (line 1296) → **lệch số liệu**. Strip Sao/Huy hiệu thì đã dùng `TRACKS.length` nên đúng (0/48, 0/16).
+- 8 sandbox có dung lượng nhỏ → còn dư khoảng trống cần lấp activity:
+  StudySmart (96 dòng), CareersMap (117), DigitalSafety (119), Ethics (129), FactCheck (136), Graduation (139), AgentWorkflow (151), NeuralNet (154).
+- Card track hiện chỉ có border tĩnh — chưa có cảm giác "công nghệ chạy điện".
 
 ---
 
-## Phần B — i18n hoá AI Academy (EN/VI)
+## A. Sửa nội dung header & footer (chỉnh số liệu động)
 
-### Vấn đề
-
-`AIAcademy.tsx` không gọi `useLanguage()` → toggle EN/VI ở header chỉ đổi navbar, không đổi nội dung bài học. Đây là lỗi đồng nhất với phần còn lại của app.
-
-### Cách triển khai (gọn, không phá vỡ cấu trúc)
-
-1. **Mở rộng schema dữ liệu** — thêm field song ngữ:
-   - `Track`: thêm `titleEn`, `taglineEn`, `story.bodyEn`, `quiz[].questionEn`, `quiz[].optionsEn`, `quiz[].explanationEn`, `badge.nameEn`.
-   - `TrackExtra` (`aiAcademyContent.ts`): thêm `vietnamCase.titleEn/bodyEn`, `goldenTipEn`, `glossary[].termEn/defEn`, `careersEn`, `homeworkEn`, `externalDemo[].labelEn`, `safetyNote.titleEn/bodyEn`.
-
-2. **Thêm helper `t(vi, en)`** từ `useLanguage()` ở `AIAcademy.tsx` và mọi nơi render text → bọc qua `t(track.title, track.titleEn)`.
-
-3. **Các sandbox component**: import `useLanguage`, bọc tất cả label/tooltip/button tiếng Việt cứng (hiện có 14+ file). Mỗi sandbox có ~20–60 chuỗi → tổng ~500 chuỗi.
-
-4. **Bonus games** (`SandboxBonusGames.tsx`, `SandboxMiniActivity.tsx`, `MiniCVChallenges.tsx`, `DragDropQuiz.tsx`): truyền thêm prop `tfItems` & `matchPairs` dạng `{vi, en}` thay vì string thuần.
-
-5. **Quiz data** (`aiAcademyQuizExtras.ts`): nhân bản EN cho toàn bộ câu hỏi.
-
-### Khối lượng dịch
-
-- ~12 story × 200 từ = 2.400 từ
-- 12 vietnamCase + 12 goldenTip + ~60 glossary terms + ~50 careers + 12 homework + ~36 demo labels = ~3.000 từ
-- ~60+ quiz questions × 4 options = ~250 câu cần dịch
-- ~500 chuỗi UI sandbox
-
-→ Em sẽ dịch trực tiếp trong code (tự viết EN tự nhiên, không dùng Google Translate), giữ thuật ngữ kỹ thuật chuẩn quốc tế (token, embedding, backprop…) và tone gần gũi như bản VN.
+- Đổi tagline thành dynamic: `"{TRACKS.length - 1} chặng phiêu lưu trực quan — chạm, kéo, thả, dạy bot, vẽ neuron..."` (trừ Graduation).
+- Footer Certificate: `"Hoàn thành {TRACKS.length - 1} bài học và đạt {maxStars}/{maxStars} sao..."`.
+- Thêm i18n EN tự động qua `AutoTranslateBoundary` đã có.
 
 ---
 
-## Phần C — Phạm vi file thay đổi (dự kiến)
+## B. Bổ sung activity cho 8 sandbox còn dư chỗ
 
-- `src/pages/AIAcademy.tsx` — i18n + thêm 4 track mới + import 4 sandbox mới.
-- `src/data/aiAcademyContent.ts` — thêm field EN + 4 entry mới.
-- `src/data/aiAcademyQuizExtras.ts` — thêm `questionEn`/`optionsEn`.
-- **Mới**: `StudySmartSandbox.tsx`, `CareersMapSandbox.tsx`, `FactCheckSandbox.tsx`, `DigitalSafetySandbox.tsx`.
-- 14 sandbox cũ — i18n hóa chuỗi UI.
-- `SandboxBonusGames.tsx`, `SandboxMiniActivity.tsx` — đổi shape props sang `{vi, en}`.
+Mỗi sandbox sẽ được thêm **1–2 mini-activity** dùng các component có sẵn (DragDropQuiz, MultipleChoiceQuiz, ScenarioQuiz, SandboxMiniActivity) để giữ nhất quán UI và không sinh code mới.
+
+| Sandbox | Activity thêm vào |
+|---|---|
+| StudySmartSandbox | (1) Prompt Builder kéo-thả: "Vai trò + Ngữ cảnh + Yêu cầu + Định dạng" → so với prompt yếu. (2) Quiz: chọn prompt tốt nhất để học IELTS. |
+| CareersMapSandbox | (1) Ghép sở thích → nghề AI tại VN (VinAI, FPT.AI, Zalo AI, MoMo, VNG). (2) Timeline kéo-thả: lộ trình từ lớp 9 → ĐH → việc đầu tiên. |
+| DigitalSafetySandbox | (1) Spot-the-Deepfake: 4 ảnh/video, chọn cái giả. (2) Tin nhắn lừa đảo: phân loại "An toàn / Nghi ngờ / Lừa đảo". |
+| EthicsSandbox | (1) Trolley-style cho xe tự lái (5 tình huống). (2) Bias detector: 4 dataset mẫu, chọn cái có bias giới/sắc tộc. |
+| FactCheckSandbox | (1) Hallucination Hunt: 6 câu AI trả lời, đánh dấu phần sai. (2) "Triangulate": ghép tuyên bố với nguồn tin cậy. |
+| AgentWorkflowSandbox | (1) Tool-picker: agent chọn đúng tool (search/code/calendar) cho từng task. (2) Plan-then-act: sắp xếp 6 bước cho agent đặt vé máy bay. |
+| NeuralNetSandbox | (1) Activation playground: chọn ReLU/Sigmoid/Tanh để khớp đồ thị. (2) "Bao nhiêu lớp là đủ?" — slider số layer, dự đoán overfit/underfit. |
+| GraduationSandbox | (1) Recap quiz tổng hợp 10 câu từ tất cả tracks. (2) "Đặt tên cho AI của em" — input + preview chứng chỉ với tên đó. |
+
+Tất cả sẽ cộng sao như mini-activity hiện tại (tận dụng cơ chế `awardStar` đã có).
 
 ---
 
-## Câu hỏi cần Thầy xác nhận trước khi build
+## C. Hiệu ứng viền "điện chạy" cho card bài học
 
-1. **Số bài mới**: thêm đủ **4 bài** (Study / Careers / Critical Thinking / Digital Safety), hay thêm cả **6 bài** (gồm 2 tùy chọn AI-Toán + AI-Khởi nghiệp)?
-2. **i18n phạm vi**: dịch toàn bộ (story + sandbox UI + quiz + extras), hay chỉ dịch phần khung (title/tagline/story/extras) còn sandbox UI giữ VN ở giai đoạn 1?
-3. **Thứ tự build**: làm i18n trước rồi thêm bài mới (an toàn), hay thêm 4 bài mới trước rồi i18n cả lô (tiết kiệm 1 lượt sửa)?
+Thêm class utility mới `electric-border` vào `index.css` + Tailwind:
 
-Sau khi Thầy chốt, em sẽ chuyển sang **Build mode** và thực hiện theo đúng phạm vi đã duyệt.
+- **Lớp gradient quay**: pseudo-element `::before` chứa conic-gradient (Royal Blue → Cyan → Emerald → Violet → Blue), animate `rotate 6s linear infinite`.
+- **Lớp mask**: dùng `padding: 2px` + nội dung con có `border-radius` + `background: hsl(var(--card))` để chỉ thấy viền sáng.
+- **Glow pulse**: `box-shadow: 0 0 24px hsl(var(--primary)/.35)` animate độ mờ.
+- Tôn trọng `prefers-reduced-motion`: tắt animation nếu user yêu cầu.
+- Áp dụng cho mỗi `<motion.button>` track card trong AIAcademy.tsx (line ~1200) và bật mạnh hơn khi `stars >= 3` (hoàn thành).
+
+Không dùng JS — pure CSS để giữ hiệu năng. Đồng nhất với palette HaiEduTech.
+
+```text
+┌──────────── Electric border ───────────┐
+│  ╔═════════════════════════════════╗   │   <- conic gradient rotate
+│  ║       Card content (bg-card)    ║   │
+│  ╚═════════════════════════════════╝   │
+└────────────────────────────────────────┘
+```
+
+---
+
+## D. Rà soát đủ cho G6–G12 — gợi ý mở rộng
+
+Hiện 15 bài đã bao phủ tốt: nhận thức AI (Vision/NLP/NN), sáng tạo (GenAI/Deepfake), hệ thống (RL/Agent/AIoT/Recsys), đạo đức & an toàn (Ethics/Safety/FactCheck), định hướng (Study/Careers), thực hành (Capstone). **Còn thiếu mảng** cho học sinh G9–G12 muốn thi/khởi nghiệp:
+
+Tôi đề xuất chọn thêm **3–6 bài** sau (ưu tiên đậm):
+
+1. **🧮 AI & Toán học trực quan** — xác suất, hồi quy tuyến tính, gradient descent dạng game kéo đường thẳng. *(rất cần cho G9–12)*
+2. **🛠️ Prompt Engineering Lab** — tách riêng khỏi StudySmart: 5 patterns (CoT, Few-shot, Role, ReAct, Self-critique) với playground.
+3. **🚀 AI Khởi nghiệp Việt** — case VinAI/Got It/Misa, từ ý tưởng → MVP → pitch deck mẫu. *(G11–12)*
+4. **🧬 AI trong Khoa học** — AlphaFold, dự báo bão, phát hiện ung thư — story-driven, ít tương tác hơn.
+5. **🎼 AI Sáng tạo Nghệ thuật** — Suno/MusicLM, Midjourney prompt, kết hợp nhạc + ảnh + thơ.
+6. **🤖 Robotics & Embodied AI** — Boston Dynamics, ROS cơ bản, mini simulator xếp khối.
+
+Tôi sẽ chờ bạn chốt số lượng trước khi build (mặc định khuyến nghị 3 bài: **Toán AI + Prompt Lab + Khởi nghiệp VN**).
+
+---
+
+## Phạm vi kỹ thuật (cho dev)
+
+- **Files sửa**: `src/pages/AIAcademy.tsx` (header text + class card + Progress type nếu thêm tracks), `src/index.css` (keyframes + `.electric-border`), 8 file `*Sandbox.tsx` (thêm activity).
+- **Files mới** (chỉ nếu user duyệt phần D): 3–6 file `*Sandbox.tsx` mới + entry trong `TRACKS` + content trong `aiAcademyContent.ts`.
+- **Không động** vào `IELTSChart.tsx` / data IELTS đã sửa ở turn trước.
+
+---
+
+## Câu hỏi cần chốt trước khi build
+
+1. **Phần D mở rộng**: build 0 / 3 (đề xuất) / 6 bài thêm?
+2. **Electric border**: áp dụng cho **tất cả card** hay chỉ card **đã đạt 3 sao** (kiểu reward unlock)?
+3. **Graduation recap quiz**: 10 câu auto-sample từ quiz có sẵn của các tracks, hay viết riêng 10 câu tổng hợp mới?
