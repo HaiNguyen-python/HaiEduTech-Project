@@ -158,8 +158,8 @@ const CambridgeLectures = () => {
         </section>
 
         {/* Level Progress Cards */}
-        <section className="container mx-auto px-4 py-6">
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mb-8">
+        <section className="container mx-auto px-4 pt-4 pb-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mb-4">
             {(["starters", "movers", "flyers", "ket", "pet"] as CambridgeLevel[]).map(level => {
               const cfg = LEVEL_CONFIG[level];
               const stats = levelCounts[level] || { total: 0, done: 0 };
