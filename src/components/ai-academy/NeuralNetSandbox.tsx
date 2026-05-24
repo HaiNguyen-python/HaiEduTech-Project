@@ -69,7 +69,7 @@ const NeuralNetSandbox = () => {
   );
 
   return (
-    <div className="space-y-6 sm:space-y-7">
+    <div className="space-y-10 sm:space-y-12">
       <div className="rounded-2xl border-2 border-emerald-400/40 bg-gradient-to-br from-slate-900 to-emerald-950/60 p-4">
         <svg viewBox="0 0 400 220" className="w-full h-48">
           {/* connections input → hidden */}

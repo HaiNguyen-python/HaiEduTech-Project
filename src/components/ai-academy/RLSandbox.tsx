@@ -117,7 +117,7 @@ const RLSandbox = () => {
   const agent = path[Math.min(step, path.length - 1)];
 
   return (
-    <div className="space-y-6 sm:space-y-7">
+    <div className="space-y-10 sm:space-y-12">
       {/* Grid */}
       <div className="rounded-2xl border-2 border-emerald-400/40 bg-gradient-to-br from-slate-900 via-emerald-950/60 to-slate-900 p-3">
         <div className="grid grid-cols-4 gap-1.5 aspect-square max-w-xs mx-auto">

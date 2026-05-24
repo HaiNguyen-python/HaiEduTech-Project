@@ -85,7 +85,7 @@ const CapstoneSandbox = () => {
   };
 
   return (
-    <div className="space-y-6 sm:space-y-7">
+    <div className="space-y-10 sm:space-y-12">
       {/* Module library */}
       <div className="rounded-2xl border-2 border-amber-400/40 bg-amber-500/5 p-3">
         <div className="text-[11px] font-bold uppercase text-amber-700 dark:text-amber-300 mb-2 flex items-center gap-1">
