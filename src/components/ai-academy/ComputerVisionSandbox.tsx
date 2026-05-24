@@ -203,10 +203,10 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
             <button
               key={a.id}
               onClick={() => toggle(a.id)}
-              className={`min-h-[48px] px-3 rounded-xl border-2 text-sm font-semibold transition active:scale-95 flex items-center gap-2 ${
+              className={`min-h-[48px] px-3 rounded-xl border-2 text-sm font-bold transition active:scale-95 flex items-center gap-2 ${
                 active
-                  ? "border-cyan-300 bg-cyan-500/20 text-cyan-100 shadow-[0_0_12px_2px_rgba(34,211,238,0.45)]"
-                  : "border-cyan-300/30 bg-cyan-500/5 text-cyan-50/80 hover:bg-cyan-500/15"
+                  ? "border-cyan-500 bg-cyan-500/90 text-white shadow-[0_0_12px_2px_rgba(34,211,238,0.45)]"
+                  : "border-cyan-500/50 bg-white dark:bg-slate-800 text-slate-900 dark:text-cyan-100 hover:bg-cyan-50 dark:hover:bg-slate-700"
               }`}
             >
               <span className="text-xl">{a.emoji}</span> {a.label}

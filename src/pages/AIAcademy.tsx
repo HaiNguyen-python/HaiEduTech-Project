@@ -48,15 +48,19 @@ import chibiRobot from "@/assets/ai-chibi-robot.png";
  * Strips inline HTML to keep things safe (only used for plain text fields).
  */
 const SmartText = ({ text, className = "", html = false }: { text: string; className?: string; html?: boolean }) => {
-  // Split sentences while preserving punctuation. Vietnamese commonly uses ". " or "! " or "? ".
-  const parts = text
+  // Split sentences first (Vietnamese . ! ? ), then also break long clauses
+  // separated by " — " (em dash) so dense paragraphs become easy-to-scan bullets.
+  const rough = text
     .split(/(?<=[.!?])\s+/)
+    .flatMap((s) => s.split(/\s+—\s+/))
     .map((s) => s.trim())
     .filter(Boolean);
-  if (parts.length >= 3) {
+  // Bulletize if there are at least 3 parts, OR 2+ parts and the text is long.
+  const shouldBullet = rough.length >= 3 || (rough.length >= 2 && text.length > 140);
+  if (shouldBullet) {
     return (
       <ul className={`space-y-1.5 list-none ${className}`}>
-        {parts.map((p, i) => (
+        {rough.map((p, i) => (
           <li key={i} className="flex gap-2">
             <span className="text-primary mt-0.5 shrink-0">▸</span>
             {html ? (
