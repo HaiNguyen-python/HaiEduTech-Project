@@ -510,7 +510,7 @@ const HskVocabulary = () => {
                       </div>
 
                       {viewMode === "flashcard" ? (
-                        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                           <AnimatePresence mode="popLayout">
                             {groups[cat].map(w => (
                               <motion.div key={w.character + w.category} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
@@ -520,7 +520,7 @@ const HskVocabulary = () => {
                           </AnimatePresence>
                         </div>
                       ) : (
-                        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
                           {groups[cat].map(w => (
                             <div key={w.character + w.category} className="rounded-xl border border-border bg-card overflow-hidden hover:border-primary/30 transition-colors">
                               {/* Stroke order area */}
