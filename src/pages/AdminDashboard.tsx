@@ -88,6 +88,8 @@ const AdminDashboard = () => {
   const [studentStates, setStudentStates] = useState<StudentState[]>([]);
   const [selectedStudent, setSelectedStudent] = useState<StudentState | null>(null);
   const [recommendations, setRecommendations] = useState<RLRecommendation[]>([]);
+  const [tabGroup, setTabGroup] = useState<"overview" | "students" | "learning" | "operations">("overview");
+  const [activeTab, setActiveTab] = useState<string>("overview");
   const [searchQuery, setSearchQuery] = useState("");
   const [classStats, setClassStats] = useState({
     totalStudents: 0,
