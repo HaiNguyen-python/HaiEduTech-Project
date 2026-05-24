@@ -293,10 +293,10 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
                 key={c}
                 onClick={() => setFilterCategory(c)}
                 className={cn(
-                  "px-4 py-2 rounded-full text-sm font-semibold transition-all border",
+                  "px-4 py-2 rounded-full text-sm font-semibold transition-all border-2",
                   isActive
-                    ? "bg-foreground text-background border-foreground shadow-md"
-                    : "bg-secondary text-foreground border-border hover:border-primary/40",
+                    ? "bg-gradient-to-r from-emerald-500 to-green-600 text-white border-emerald-600 shadow-md shadow-emerald-500/30"
+                    : "bg-secondary text-foreground border-border hover:border-emerald-500/50 hover:text-emerald-700 dark:hover:text-emerald-300",
                 )}
               >
                 <span className="mr-1.5">{emoji}</span>{label}
