@@ -88,6 +88,8 @@ const AdminDashboard = () => {
   const [studentStates, setStudentStates] = useState<StudentState[]>([]);
   const [selectedStudent, setSelectedStudent] = useState<StudentState | null>(null);
   const [recommendations, setRecommendations] = useState<RLRecommendation[]>([]);
+  const [tabGroup, setTabGroup] = useState<"overview" | "students" | "learning" | "operations">("overview");
+  const [activeTab, setActiveTab] = useState<string>("overview");
   const [searchQuery, setSearchQuery] = useState("");
   const [classStats, setClassStats] = useState({
     totalStudents: 0,
@@ -389,39 +391,62 @@ const AdminDashboard = () => {
               </motion.div>
             )}
 
-            {/* Main Tabs */}
-            <Tabs defaultValue="overview" className="space-y-6">
-              <TabsList className="bg-secondary/50 flex-wrap h-auto gap-1 p-1">
-                <TabsTrigger value="overview" className="gap-1.5">
-                  <Globe className="w-3.5 h-3.5" /> {t("Tổng quan", "Overview")}
-                </TabsTrigger>
-                <TabsTrigger value="insights" className="gap-1.5">
-                  <Search className="w-3.5 h-3.5" /> {t("Quan tâm người dùng", "User Insights")}
-                </TabsTrigger>
-                <TabsTrigger value="students" className="gap-1.5">
-                  <Users className="w-3.5 h-3.5" /> {t("Học sinh", "Students")}
-                </TabsTrigger>
-                <TabsTrigger value="rl-engine" className="gap-1.5">
-                  <Brain className="w-3.5 h-3.5" /> {t("Hệ thống can thiệp", "RL Engine")}
-                </TabsTrigger>
-                <TabsTrigger value="income" className="gap-1.5">
-                  <DollarSign className="w-3.5 h-3.5" /> {t("Thu nhập", "Income")}
-                </TabsTrigger>
-                <TabsTrigger value="schedule" className="gap-1.5">
-                  <Clock className="w-3.5 h-3.5" /> {t("Lịch học", "Schedule")}
-                </TabsTrigger>
-                <TabsTrigger value="system" className="gap-1.5">
-                  <Activity className="w-3.5 h-3.5" /> {t("Hệ thống API", "System Status")}
-                </TabsTrigger>
-                <TabsTrigger value="strategy" className="gap-1.5">
-                  <TrendingUp className="w-3.5 h-3.5" /> {t("Chiến lược", "Strategy")}
-                </TabsTrigger>
-                <TabsTrigger value="feedback" className="gap-1.5">
-                  <Search className="w-3.5 h-3.5" /> {t("Phản hồi học viên", "Feedback")}
-                </TabsTrigger>
-                <TabsTrigger value="attendance" className="gap-1.5">
-                  <Users className="w-3.5 h-3.5" /> {t("Điểm danh", "Attendance")}
-                </TabsTrigger>
+            {/* Main Tabs - grouped */}
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+              {/* Group selector (top row) */}
+              <div className="flex flex-wrap gap-2 p-1 bg-secondary/50 rounded-lg">
+                {([
+                  { key: "overview", label: t("Tổng quan", "Overview"), icon: Globe, first: "overview" },
+                  { key: "students", label: t("Học sinh", "Students"), icon: Users, first: "students" },
+                  { key: "learning", label: t("Học tập & AI", "Learning & AI"), icon: Brain, first: "rl-engine" },
+                  { key: "operations", label: t("Vận hành", "Operations"), icon: DollarSign, first: "income" },
+                ] as const).map((g) => {
+                  const Icon = g.icon;
+                  const active = tabGroup === g.key;
+                  return (
+                    <button
+                      key={g.key}
+                      onClick={() => { setTabGroup(g.key); setActiveTab(g.first); }}
+                      className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-semibold transition-all ${
+                        active
+                          ? "bg-primary text-primary-foreground shadow-md"
+                          : "text-foreground/70 hover:bg-secondary hover:text-foreground"
+                      }`}
+                    >
+                      <Icon className="w-4 h-4" /> {g.label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Sub-tabs (filtered by group) */}
+              <TabsList className="bg-secondary/30 flex-wrap h-auto gap-1 p-1 border border-border">
+                {tabGroup === "overview" && (
+                  <>
+                    <TabsTrigger value="overview" className="gap-1.5"><Globe className="w-3.5 h-3.5" /> {t("Tổng quan", "Overview")}</TabsTrigger>
+                    <TabsTrigger value="system" className="gap-1.5"><Activity className="w-3.5 h-3.5" /> {t("Hệ thống API", "System Status")}</TabsTrigger>
+                  </>
+                )}
+                {tabGroup === "students" && (
+                  <>
+                    <TabsTrigger value="students" className="gap-1.5"><Users className="w-3.5 h-3.5" /> {t("Học sinh", "Students")}</TabsTrigger>
+                    <TabsTrigger value="insights" className="gap-1.5"><Search className="w-3.5 h-3.5" /> {t("Quan tâm người dùng", "User Insights")}</TabsTrigger>
+                    <TabsTrigger value="attendance" className="gap-1.5"><Users className="w-3.5 h-3.5" /> {t("Điểm danh", "Attendance")}</TabsTrigger>
+                    <TabsTrigger value="feedback" className="gap-1.5"><Search className="w-3.5 h-3.5" /> {t("Phản hồi học viên", "Feedback")}</TabsTrigger>
+                  </>
+                )}
+                {tabGroup === "learning" && (
+                  <>
+                    <TabsTrigger value="rl-engine" className="gap-1.5"><Brain className="w-3.5 h-3.5" /> {t("Hệ thống can thiệp", "RL Engine")}</TabsTrigger>
+                    <TabsTrigger value="strategy" className="gap-1.5"><TrendingUp className="w-3.5 h-3.5" /> {t("Chiến lược", "Strategy")}</TabsTrigger>
+                  </>
+                )}
+                {tabGroup === "operations" && (
+                  <>
+                    <TabsTrigger value="income" className="gap-1.5"><DollarSign className="w-3.5 h-3.5" /> {t("Thu nhập", "Income")}</TabsTrigger>
+                    <TabsTrigger value="schedule" className="gap-1.5"><Clock className="w-3.5 h-3.5" /> {t("Lịch học", "Schedule")}</TabsTrigger>
+                  </>
+                )}
               </TabsList>
 
               {/* ===== GLOBAL OVERVIEW TAB ===== */}
