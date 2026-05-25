@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Search, BookOpen, ArrowUpDown, Heart, Clock,
   Headphones, FileText, MessageSquare, BookType, ChevronRight, ChevronDown,
-  GraduationCap, TrendingUp, Sparkles, Star, PlayCircle, CheckCircle2, Lock
+  GraduationCap, TrendingUp, Sparkles, Star, PlayCircle, CheckCircle2, Lock, ArrowLeft
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
