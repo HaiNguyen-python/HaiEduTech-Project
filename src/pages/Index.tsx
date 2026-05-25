@@ -68,11 +68,17 @@ const Index = () => (
         ]
       }}
     />
+    <ScrollProgressBar />
+    <LiveActivityToasts />
     <Navbar />
     <HeroSection />
+    <SectionDivider />
     <CoursesOverview />
+    <SectionDivider flip />
     <LazySection><LearningRoadmaps /></LazySection>
+    <SectionDivider />
     <LazySection><ModernTechTools /></LazySection>
+    <SectionDivider flip />
     <LazySection><SuccessMetrics /></LazySection>
     <Footer />
   </div>
