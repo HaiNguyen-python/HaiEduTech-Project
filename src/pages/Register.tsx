@@ -31,6 +31,7 @@ const Register = () => {
     { value: "chinese-hsk", label: t("Tiếng Trung – Luyện thi HSK", "Chinese – HSK Preparation") },
     { value: "chinese-conversation", label: t("Tiếng Trung – Giao tiếp", "Chinese – Conversational") },
     { value: "programming", label: t("Lập trình / AI / Data", "Programming / AI / Data") },
+    { value: "other", label: t("Khác (tự điền)", "Other (please specify)") },
   ];
 
   const handleSubmit = async (e: React.FormEvent) => {
