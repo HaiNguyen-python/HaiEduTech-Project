@@ -336,51 +336,51 @@ const IeltsLectures = () => {
                 titleEn: "Reading", titleVi: "Reading", count: readingLectureCount,
                 gradient: "from-blue-500/15 via-blue-500/5 to-transparent",
                 chipBg: "bg-blue-500/15", chipText: "text-blue-700 dark:text-blue-300",
-                ring: "ring-blue-500/30 border-blue-500/60",
+                ring: "ring-blue-500/30 border-blue-500",
                 previews: previewSkill("reading") },
               { id: "listening", href: "/english/learn/ielts-listening", icon: Headphones,
                 titleEn: "Listening", titleVi: "Listening", count: listeningLectureCount,
                 gradient: "from-emerald-500/15 via-emerald-500/5 to-transparent",
                 chipBg: "bg-emerald-500/15", chipText: "text-emerald-700 dark:text-emerald-300",
-                ring: "ring-emerald-500/30 border-emerald-500/60",
+                ring: "ring-emerald-500/30 border-emerald-500",
                 previews: previewSkill("listening") },
               { id: "writing", href: "/ielts-lectures/category/writing", icon: Pen,
                 titleEn: "Writing", titleVi: "Writing", count: writingLectureCount,
                 gradient: "from-purple-500/15 via-purple-500/5 to-transparent",
                 chipBg: "bg-purple-500/15", chipText: "text-purple-700 dark:text-purple-300",
-                ring: "ring-purple-500/30 border-purple-500/60",
+                ring: "ring-purple-500/30 border-purple-500",
                 previews: previewFor("writing") },
               { id: "speaking", href: "/ielts-lectures/category/speaking", icon: Mic,
                 titleEn: "Speaking", titleVi: "Speaking", count: speakingLectureCount,
                 gradient: "from-rose-500/15 via-rose-500/5 to-transparent",
                 chipBg: "bg-rose-500/15", chipText: "text-rose-700 dark:text-rose-300",
-                ring: "ring-rose-500/30 border-rose-500/60",
+                ring: "ring-rose-500/30 border-rose-500",
                 previews: previewFor("speaking") },
               { id: "grammar", href: "/ielts-lectures/category/grammar", icon: Wrench,
                 titleEn: "Grammar", titleVi: "Ngữ pháp", count: grammarLectureCount,
                 gradient: "from-violet-500/15 via-violet-500/5 to-transparent",
                 chipBg: "bg-violet-500/15", chipText: "text-violet-700 dark:text-violet-300",
-                ring: "ring-violet-500/30 border-violet-500/60",
+                ring: "ring-violet-500/30 border-violet-500",
                 previews: previewFor("grammar") },
               { id: "vocabulary", href: "/ielts-lectures/category/vocabulary", icon: BookOpenText,
                 titleEn: "Vocabulary", titleVi: "Từ vựng", count: vocabularyLectureCount,
                 gradient: "from-teal-500/15 via-teal-500/5 to-transparent",
                 chipBg: "bg-teal-500/15", chipText: "text-teal-700 dark:text-teal-300",
-                ring: "ring-teal-500/30 border-teal-500/60",
+                ring: "ring-teal-500/30 border-teal-500",
                 previews: previewFor("vocabulary") },
               { id: "tips", href: "/ielts-lectures/category/tips", icon: Lightbulb,
                 titleEn: "Exam Tips", titleVi: "Mẹo thi", count: tipsLectureCount,
                 gradient: "from-amber-500/15 via-amber-500/5 to-transparent",
                 chipBg: "bg-amber-500/15", chipText: "text-amber-700 dark:text-amber-300",
-                ring: "ring-amber-500/30 border-amber-500/60",
+                ring: "ring-amber-500/30 border-amber-500",
                 previews: previewFor("tips") },
             ];
 
             const renderTile = (tile: Tile) => {
               const active = focusKey === tile.focusKey;
               const Inner = (
-                <Card className={`h-full overflow-hidden border-2 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
-                  active ? `${tile.ring} ring-2` : "border-border hover:border-primary/40"
+                <Card className={`h-full overflow-hidden border-[3px] ${tile.ring} transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
+                  active ? "ring-2" : ""
                 }`}>
                   <div className={`bg-gradient-to-br ${tile.gradient} p-5 h-full flex flex-col`}>
                     <div className="flex items-center justify-between mb-3">
