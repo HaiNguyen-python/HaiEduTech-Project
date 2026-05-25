@@ -57,8 +57,8 @@ const LearningRoadmaps = () => {
     <section className="relative overflow-x-clip py-16 sm:py-20">
       {/* Subtle background accent */}
       <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 via-transparent to-transparent" />
-      <FloatingChibi src={chibiGraduate} alt="" className="absolute left-[7%] top-10 z-0 opacity-90" size={104} />
-      <FloatingChibi src={chibiPanda} alt="" className="absolute right-[18%] bottom-4 z-0 opacity-90" size={108} delay={1.3} />
+      <FloatingChibi src={chibiGraduate} alt="" className="absolute left-[4%] top-12 z-20 opacity-90" size={100} />
+      <FloatingChibi src={chibiPanda} alt="" className="absolute right-[4%] bottom-16 z-20 opacity-90" size={104} delay={1.3} />
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6">
         {/* Section header */}

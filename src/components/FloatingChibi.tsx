@@ -36,7 +36,7 @@ const FloatingChibi = ({ src, alt, className = "", size = 110, delay = 0, flip =
       transition: { duration: 0.7, ease: "easeInOut" },
     }}
     style={{ width: size, height: size, transform: flip ? "scaleX(-1)" : undefined, transformOrigin: "center bottom" }}
-    className={`pointer-events-auto cursor-pointer select-none drop-shadow-[0_8px_24px_rgba(59,130,246,0.25)] hidden lg:block ${className}`}
+    className={`pointer-events-auto hidden cursor-pointer select-none drop-shadow-[0_8px_24px_hsl(var(--primary)/0.25)] xl:block ${className}`}
   />
 );
 
