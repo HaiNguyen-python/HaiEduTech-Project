@@ -124,10 +124,7 @@ const Navbar = () => {
     { to: "#en-div1", label: "", divider: true },
     // Foundation (everyday English)
     { to: "#en-foundation-group", label: t("📖 Nền tảng Anh ngữ", "📖 English Foundation"), groupLabel: "en-foundation", children: [
-      { to: "/english/grammar", label: t("Ngữ pháp", "Grammar"), icon: BookOpen },
-      { to: "/english/pronunciation", label: t("Phát âm & Ngữ điệu", "Pronunciation & Intonation"), icon: Mic2 },
-      { to: "/english/conversational/curriculum", label: t("Giao tiếp", "Conversational"), icon: MessageSquare },
-      { to: "/english/idioms", label: t("Thành ngữ & Danh ngôn", "Idioms & Quotes"), icon: Quote },
+      { to: "/english/essentials", label: t("💎 Tinh hoa Anh ngữ (4-in-1)", "💎 English Essentials (4-in-1)"), icon: BookOpen },
       { to: "/cambridge-lectures", label: t("Cambridge Lectures & Test Prep", "Cambridge Lectures & Test Prep"), icon: BookOpen },
       { to: "/cambridge-yle-vocabulary", label: t("Cambridge YLE Vocabulary & Arcade", "Cambridge YLE Vocabulary & Arcade"), icon: BookType },
     ] },
