@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import confetti from "canvas-confetti";
 import { Flame, Zap, Sparkles, Trophy, Crown, Medal } from "lucide-react";
-import { comboLabel, getHighScores, type GameKey, type HighScore } from "./gameFx";
+import { comboLabel, comboMultiplier, getHighScores, sfx, type GameKey, type HighScore } from "./gameFx";
 
 // ====== Floating "+N" points anywhere on screen ======
 export interface FloatPoint {
