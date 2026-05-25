@@ -589,9 +589,9 @@ const ChatBot = () => {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 8, scale: 0.9 }}
                   transition={{ duration: 0.3 }}
-                  className="relative max-w-[220px] rounded-xl border border-border bg-card px-4 py-2.5 text-center text-sm text-foreground shadow-lg"
+                  className="relative max-w-[260px] rounded-xl border border-border bg-card px-4 py-2.5 text-left text-sm leading-snug text-foreground shadow-lg"
                 >
-                  <span>Hi! I'm Mr.Hai. Ask me something? 😊</span>
+                  <span>{tooltipText}</span>
                   <div className="absolute -bottom-1.5 right-6 h-3 w-3 rotate-45 border-b border-r border-border bg-card" />
                 </motion.div>
               )}
