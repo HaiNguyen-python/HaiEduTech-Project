@@ -466,70 +466,97 @@ const SatVocabulary = () => {
                   </div>
                   <VocabExercise words={satVocabData.filter(w => mastered.has(w.word))} allWords={satVocabData} t={t} quizSize={quizSize} setQuizSize={setQuizSize} />
                 </div>
-              ) : viewMode === "flashcard" ? (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                  <AnimatePresence mode="popLayout">
-                    {paginated.map(w => (
-                      <motion.div key={w.word + w.category} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
-                        <Flashcard word={w} isMastered={mastered.has(w.word)} onStar={handleStarClick} />
-                      </motion.div>
-                    ))}
-                  </AnimatePresence>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  {paginated.map(w => (
-                    <motion.div
-                      key={w.word + w.category}
-                      initial={{ opacity: 0, y: 12 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="group min-w-0 h-full rounded-xl bg-white dark:bg-card hover:shadow-lg transition-all duration-300 hover:scale-[1.02]"
-                      style={{ padding: "1.5rem", border: "2px solid #cbd5e1", boxShadow: "0 4px 12px -2px rgb(0 0 0 / 0.08)" }}
-                    >
-                      <div className="mb-2 min-w-0 flex items-start justify-between gap-3">
-                        <div className="min-w-0 flex-1">
-                          <h3 className="break-words font-extrabold" style={{ fontSize: "1.5rem", color: "#111827", lineHeight: 1.35 }}><span className="mr-1.5">{iconFor(w.category)}</span>{w.word}</h3>
-                          {w.ipa && (
-                            <p className="break-words" style={{ fontSize: "0.95rem", color: "#6b7280", fontFamily: "Georgia, serif", marginTop: "2px" }}>{w.ipa}</p>
-                          )}
-                          <div className="mt-2 flex items-center gap-1">
-                            <button onClick={() => speak(w.word)} className="rounded-lg p-1.5 transition-colors hover:bg-primary/10">
-                              <Volume2 size={20} style={{ color: "#4b5563" }} />
-                            </button>
-                            <motion.button
-                              onClick={(e) => handleStarClick(w.word, e)}
-                              className="rounded-lg p-1.5 transition-colors hover:bg-yellow-500/10"
-                              whileTap={{ scale: 1.4 }}
-                              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                            >
-                              <Star size={20}
-                                className={mastered.has(w.word) ? "text-yellow-400 fill-yellow-400 drop-shadow-[0_0_6px_rgba(250,204,21,0.6)]" : ""}
-                                style={mastered.has(w.word) ? {} : { color: "#4b5563" }}
-                              />
-                            </motion.button>
-                          </div>
+              ) : (() => {
+                // Group paginated words by category so each lesson/topic has its own section
+                const groups = paginated.reduce<Record<string, SatWord[]>>((acc, w) => {
+                  (acc[w.category] ||= []).push(w);
+                  return acc;
+                }, {});
+                const allCats = [...SAT_CATEGORIES_BY_SECTION["Reading & Writing"], ...SAT_CATEGORIES_BY_SECTION["Math"]];
+                const orderedCats = allCats.filter(c => groups[c]);
+                Object.keys(groups).forEach(c => { if (!orderedCats.includes(c)) orderedCats.push(c); });
+
+                return (
+                  <div className="space-y-8">
+                    {orderedCats.map(cat => (
+                      <section key={cat}>
+                        <div className="flex items-baseline gap-3 mb-3 border-b border-border/60 pb-1.5">
+                          <h3 className="text-lg font-bold text-primary">
+                            <span className="mr-1.5">{iconFor(cat)}</span>{cat}
+                          </h3>
+                          <span className="text-xs text-muted-foreground">{groups[cat].length} {t("từ", "words")}</span>
                         </div>
-                      </div>
 
-                      <div className="mb-3 flex flex-wrap items-center gap-2">
-                        <Badge className={levelColors[w.level] + " text-xs"}>{w.level}</Badge>
-                        {w.partOfSpeech && <Badge variant="secondary" className="text-xs italic">{w.partOfSpeech}</Badge>}
-                        <Badge variant="outline" className="text-xs">{w.category}</Badge>
-                        <Badge className={(w.section === "Math" ? "bg-orange-500/20 text-orange-500" : "bg-blue-500/20 text-blue-500") + " text-xs"}>
-                          {w.section === "Math" ? "📐 Math" : "📖 R&W"}
-                        </Badge>
-                      </div>
+                        {viewMode === "flashcard" ? (
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                            <AnimatePresence mode="popLayout">
+                              {groups[cat].map(w => (
+                                <motion.div key={w.word + w.category} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
+                                  <Flashcard word={w} isMastered={mastered.has(w.word)} onStar={handleStarClick} />
+                                </motion.div>
+                              ))}
+                            </AnimatePresence>
+                          </div>
+                        ) : (
+                          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                            {groups[cat].map(w => (
+                              <motion.div
+                                key={w.word + w.category}
+                                initial={{ opacity: 0, y: 12 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="group min-w-0 h-full rounded-xl bg-white dark:bg-card hover:shadow-lg transition-all duration-300"
+                                style={{ padding: "1rem 1.1rem", border: "1px solid #e2e8f0", boxShadow: "0 2px 6px -2px rgb(0 0 0 / 0.08)", borderRadius: "0.85rem" }}
+                              >
+                                <div className="mb-1.5 min-w-0 flex items-start gap-2">
+                                  <div className="min-w-0 flex-1">
+                                    <h4 className="break-words font-extrabold" style={{ fontSize: "1.2rem", color: "#111827", lineHeight: 1.25 }}>
+                                      <span className="mr-1">{iconFor(w.category)}</span>{w.word}
+                                    </h4>
+                                    {w.ipa && (
+                                      <p className="break-words font-mono" style={{ fontSize: "0.78rem", color: "#6b7280" }}>{w.ipa}</p>
+                                    )}
+                                    <div className="mt-1 flex items-center gap-0.5">
+                                      <button onClick={() => speak(w.word)} className="rounded-md p-1 transition-colors hover:bg-primary/10">
+                                        <Volume2 size={16} style={{ color: "#4b5563" }} />
+                                      </button>
+                                      <motion.button
+                                        onClick={(e) => handleStarClick(w.word, e)}
+                                        className="rounded-md p-1 transition-colors hover:bg-yellow-500/10"
+                                        whileTap={{ scale: 1.4 }}
+                                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                                      >
+                                        <Star size={16}
+                                          className={mastered.has(w.word) ? "text-yellow-400 fill-yellow-400 drop-shadow-[0_0_6px_rgba(250,204,21,0.6)]" : ""}
+                                          style={mastered.has(w.word) ? {} : { color: "#4b5563" }}
+                                        />
+                                      </motion.button>
+                                    </div>
+                                  </div>
+                                </div>
 
-                      <p className="min-w-0 break-words font-bold whitespace-normal" style={{ fontSize: "1.1875rem", color: "#1d4ed8", lineHeight: 1.6 }}>{w.definition.vi}</p>
+                                <div className="mb-1.5 flex flex-wrap items-center gap-1.5">
+                                  <Badge className={levelColors[w.level] + " text-[10px] px-1.5 py-0"}>{w.level}</Badge>
+                                  {w.partOfSpeech && <Badge variant="secondary" className="text-[10px] px-1.5 py-0 italic">{w.partOfSpeech}</Badge>}
+                                  <Badge className={(w.section === "Math" ? "bg-orange-500/20 text-orange-500" : "bg-blue-500/20 text-blue-500") + " text-[10px] px-1.5 py-0"}>
+                                    {w.section === "Math" ? "📐 Math" : "📖 R&W"}
+                                  </Badge>
+                                </div>
 
-                      {w.example && (
-                        <p className="mt-3 min-w-0 break-words italic leading-relaxed whitespace-normal" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6 }}>{renderExample(w.example, w.word)}</p>
-                      )}
-                      <InlineTypeExample word={w} t={t} />
-                    </motion.div>
-                  ))}
-                </div>
-              )}
+                                <p className="min-w-0 break-words font-bold whitespace-normal" style={{ fontSize: "1rem", color: "#1d4ed8", lineHeight: 1.45 }}>{w.definition.vi}</p>
+
+                                {w.example && (
+                                  <p className="mt-1.5 min-w-0 break-words italic whitespace-normal" style={{ fontSize: "0.88rem", color: "#374151", lineHeight: 1.5 }}>{renderExample(w.example, w.word)}</p>
+                                )}
+                                <InlineTypeExample word={w} t={t} />
+                              </motion.div>
+                            ))}
+                          </div>
+                        )}
+                      </section>
+                    ))}
+                  </div>
+                );
+              })()}
 
               {viewMode !== "exercise" && totalPages > 1 && (
                 <div className="flex items-center justify-center gap-2 mt-8">
