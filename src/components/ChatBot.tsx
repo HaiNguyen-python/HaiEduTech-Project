@@ -297,28 +297,16 @@ const ChatBot = () => {
     }
   }, []);
 
-  // ── Tooltip / shake animation effect ──
+  // ── Shake animation effect (separate from fun-fact rotation) ──
   useEffect(() => {
     if (open) return;
     const interval = setInterval(() => {
       setShake(true);
-      setTimeout(() => {
-        setShake(false);
-        setShowTooltip(true);
-        tooltipTimerRef.current = setTimeout(() => setShowTooltip(false), 5000);
-      }, 600);
-    }, 300000);
-
-    const initialTimer = setTimeout(() => {
-      if (!open) {
-        setShowTooltip(true);
-        tooltipTimerRef.current = setTimeout(() => setShowTooltip(false), 5000);
-      }
-    }, 3000);
+      setTimeout(() => setShake(false), 600);
+    }, 180000);
 
     return () => {
       clearInterval(interval);
-      clearTimeout(initialTimer);
       if (tooltipTimerRef.current) clearTimeout(tooltipTimerRef.current);
     };
   }, [open, isMobile]);
