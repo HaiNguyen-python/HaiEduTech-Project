@@ -61,12 +61,12 @@ const levelLabels: Record<string, string> = {
   advanced: "Advanced Business",
 };
 
-// Word class badge colors
+// Word class badge colors (readable on white)
 const wordClassColors: Record<string, string> = {
-  n: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30",
-  v: "bg-amber-500/20 text-amber-300 border-amber-500/30",
-  adj: "bg-violet-500/20 text-violet-300 border-violet-500/30",
-  adv: "bg-rose-500/20 text-rose-300 border-rose-500/30",
+  n: "bg-emerald-100 text-emerald-800 border-emerald-300",
+  v: "bg-amber-100 text-amber-800 border-amber-300",
+  adj: "bg-violet-100 text-violet-800 border-violet-300",
+  adv: "bg-rose-100 text-rose-800 border-rose-300",
 };
 
 // Text-to-Speech helper
