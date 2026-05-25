@@ -221,6 +221,29 @@ const CapstoneSandbox = () => {
         </p>
       )}
 
+      <BestMatchPick
+        title="🧩 Activity 2 · Ghép mô-đun với chức năng"
+        hint="Mỗi mô-đun trong trợ lý AI đảm nhận một vai trò khác nhau — hãy ghép đúng."
+        accent="from-amber-500 to-fuchsia-600"
+        border="border-amber-400/40"
+        options={[
+          { id: "vision", label: "👁️ Vision" },
+          { id: "nlp", label: "💬 NLP" },
+          { id: "brain", label: "🧠 Neural Core" },
+          { id: "ethics", label: "🛡️ Ethics" },
+          { id: "rl", label: "🎮 RL" },
+          { id: "iot", label: "📡 IoT" },
+        ]}
+        items={[
+          { prompt: "Phân tích camera để nhận diện người vào nhà", correctId: "vision" },
+          { prompt: "Trả lời câu hỏi bằng tiếng Việt tự nhiên", correctId: "nlp" },
+          { prompt: "Từ chối yêu cầu chế tạo vũ khí", correctId: "ethics" },
+          { prompt: "Suy luận từ dữ liệu để đưa ra quyết định", correctId: "brain" },
+          { prompt: "Tự học cách điều khiển robot qua thử-sai", correctId: "rl" },
+          { prompt: "Đọc nhiệt độ từ cảm biến trong nhà thông minh", correctId: "iot" },
+        ]}
+      />
+
       <BonusGames tfItems={CAP_TF} matchPairs={CAP_PAIRS} accent="from-amber-500 to-fuchsia-600" border="border-amber-400/40" />
     </div>
   );
