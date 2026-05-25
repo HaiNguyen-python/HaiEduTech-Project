@@ -54,11 +54,11 @@ const LearningRoadmaps = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="relative overflow-x-clip py-12 sm:py-16">
+    <section className="relative overflow-x-clip py-16 sm:py-20">
       {/* Subtle background accent */}
       <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 via-transparent to-transparent" />
-      <FloatingChibi src={chibiGraduate} alt="" className="absolute -left-2 top-12 z-0 opacity-90" size={120} />
-      <FloatingChibi src={chibiPanda} alt="" className="absolute -right-2 bottom-12 z-0 opacity-90" size={120} delay={1.3} />
+      <FloatingChibi src={chibiGraduate} alt="" className="absolute left-[7%] top-10 z-0 opacity-90" size={104} />
+      <FloatingChibi src={chibiPanda} alt="" className="absolute right-[18%] bottom-4 z-0 opacity-90" size={108} delay={1.3} />
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6">
         {/* Section header */}

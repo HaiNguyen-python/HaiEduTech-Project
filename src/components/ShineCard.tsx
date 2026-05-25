@@ -19,7 +19,7 @@ const ShineCard = ({ children, className = "", tilt = true }: Props) => {
   return (
     <div
       ref={tilt ? (ref as any) : undefined}
-      className={`group/shine relative overflow-hidden ${className}`}
+      className={`group/shine relative overflow-visible ${className}`}
     >
       {/* Shine sweep */}
       <span
