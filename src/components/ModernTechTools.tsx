@@ -68,6 +68,7 @@ const ModernTechTools = () => {
       to: "/arcade-plus",
       gradient: "from-fuchsia-500/25 to-primary/10",
       iconColor: "text-fuchsia-500",
+      live: true,
     },
     {
       icon: Target,
