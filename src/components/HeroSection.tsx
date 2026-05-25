@@ -69,7 +69,7 @@ const HeroSection = () => {
       {/* Decorative hero chibis (desktop only) — purely visual, never speak */}
       <FloatingChibi src={chibiOwl} alt="" size={95} delay={0} className="absolute left-[2%] top-[14%] z-20" />
       <FloatingChibi src={chibiRocket} alt="" size={100} delay={0.8} className="absolute right-[3%] bottom-[18%] z-20" />
-      <FloatingChibi src={chibiGraduate} alt="" size={90} delay={1.6} className="absolute right-[4%] top-[12%] z-20" />
+      <FloatingChibi src={chibiGraduate} alt="" size={90} delay={1.6} className="absolute right-[3%] top-[38%] z-20" />
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6">
         <div className="mx-auto max-w-5xl">
