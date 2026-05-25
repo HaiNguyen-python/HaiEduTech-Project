@@ -391,6 +391,8 @@ const WordHunt = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
   const [picked, setPicked] = useState<string | null>(null);
   const [timeLeft, setTimeLeft] = useState(15);
   const [done, setDone] = useState(false);
+  const fx = useGameFx();
+  const [saved, setSaved] = useState<{ rank: number | null; isNew: boolean } | null>(null);
 
   const questions = useMemo(() => {
     return shuffle(ieltsVocabData).slice(0, ROUNDS).map((correct) => {
@@ -419,16 +421,25 @@ const WordHunt = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [round, done]);
 
-  const handlePick = (word: string) => {
+  useEffect(() => {
+    if (done && mode === "solo" && !saved) {
+      sfx("win");
+      setSaved(saveHighScore("hunt", scoreA));
+    }
+  }, [done, mode, scoreA, saved]);
+
+  const handlePick = (word: string, evt?: MouseEvent<HTMLButtonElement>) => {
     if (picked) return;
     setPicked(word);
-    const correct = word === q.correct.word;
-    if (correct) {
-      const pts = 10 + Math.round(timeLeft / 2);
+    const isCorrect = word === q.correct.word;
+    if (isCorrect) {
+      const base = 10 + Math.round(timeLeft / 2);
+      const pts = fx.onCorrect(base, { clientX: evt?.clientX, clientY: evt?.clientY });
       if (mode === "solo") setScoreA((s) => s + pts);
       else if (player === 1) setScoreA((s) => s + pts);
       else setScoreB((s) => s + pts);
-      burst();
+    } else {
+      fx.onWrong();
     }
     setTimeout(() => {
       if (round + 1 >= ROUNDS) { setDone(true); return; }
@@ -442,18 +453,60 @@ const WordHunt = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
     return (
       <div className="max-w-2xl mx-auto">
         <GameHeader title={t("Săn từ", "Word Hunt")} mode={mode} onExit={onExit} scoreA={scoreA} scoreB={scoreB} currentPlayer={player} />
-        <div className="p-8 rounded-2xl bg-card border-2 border-primary text-center">
-          <Trophy className="w-14 h-14 text-amber-500 mx-auto mb-3" />
-          <h3 className="text-2xl font-bold mb-3">
-            {mode === "solo"
-              ? t(`Tổng điểm: ${scoreA}`, `Final score: ${scoreA}`)
-              : scoreA === scoreB ? t("Hòa!", "Tie!") : scoreA > scoreB ? `🏆 P1 ${scoreA} - ${scoreB} P2` : `P1 ${scoreA} - ${scoreB} P2 🏆`}
-          </h3>
-          <Button onClick={() => window.location.reload()} className="gap-2"><RotateCcw className="w-4 h-4" /> {t("Chơi lại", "Play again")}</Button>
-        </div>
+        <FinalScreen
+          mode={mode}
+          scoreA={scoreA}
+          scoreB={scoreB}
+          maxCombo={fx.maxCombo}
+          rank={saved?.rank ?? null}
+          isNew={saved?.isNew ?? false}
+          gameKey="hunt"
+          gameTitle={t("Săn từ", "Word Hunt")}
+        />
       </div>
     );
   }
+
+  return (
+    <ShakeWrap trigger={fx.shake}>
+    <div className="max-w-2xl mx-auto">
+      <fx.FxOverlay />
+      <GameHeader title={t("Săn từ", "Word Hunt")} mode={mode} onExit={onExit} scoreA={scoreA} scoreB={scoreB} currentPlayer={player} combo={fx.combo} />
+
+      <div className="flex items-center justify-between mb-3 text-sm text-muted-foreground">
+        <span>{t(`Câu ${round + 1}/${ROUNDS}`, `Q ${round + 1}/${ROUNDS}`)}</span>
+        <span className={`flex items-center gap-1 font-bold ${timeLeft <= 5 ? "text-red-500" : "text-foreground"}`}>
+          <Timer className="w-4 h-4" /> {timeLeft}s
+        </span>
+      </div>
+
+      <motion.div key={round} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="p-6 rounded-2xl bg-card border-2 border-border mb-4">
+        <p className="text-xs uppercase tracking-wide text-muted-foreground mb-2">{t("Định nghĩa", "Definition")}</p>
+        <p className="text-lg font-semibold text-foreground mb-2">{q.correct.definition.en}</p>
+        <p className="text-sm text-muted-foreground italic">{q.correct.definition.vi}</p>
+      </motion.div>
+
+      <div className="grid grid-cols-3 gap-2">
+        {q.options.map((o) => {
+          const isCorrect = picked && o.word === q.correct.word;
+          const isWrong = picked === o.word && o.word !== q.correct.word;
+          return (
+            <motion.button
+              key={o.word}
+              whileTap={{ scale: 0.95 }}
+              onClick={(e) => handlePick(o.word, e)}
+              disabled={!!picked}
+              className={`px-3 py-3 rounded-xl border-2 text-sm font-semibold transition-all ${
+                isCorrect ? "bg-emerald-500 text-white border-emerald-600" :
+                isWrong ? "bg-red-500 text-white border-red-600" :
+                picked ? "bg-secondary border-border text-muted-foreground" :
+                "bg-card border-border hover:border-primary hover:bg-primary/5 text-foreground"
+              }`}
+            >
+              {o.word}
+            </motion.button>
+          );
+        })}
 
   return (
     <div className="max-w-2xl mx-auto">
