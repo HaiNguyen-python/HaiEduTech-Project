@@ -44,7 +44,7 @@ interface Spot {
 }
 
 const HomeChibiFunFacts = () => {
-  const { language } = useLanguage();
+  const { lang } = useLanguage();
   const [mounted, setMounted] = useState(false);
   const [viewport, setViewport] = useState({ w: 0, h: 0 });
   const [factIdx, setFactIdx] = useState(0);
