@@ -26,6 +26,7 @@ Deno.serve(async (req) => {
     const numbered = texts.map((t, i) => `${i + 1}. ${t.replace(/\\n/g, " ")}`).join("\n");
     const system =
       "You translate Vietnamese educational content for middle/high school students into clear, friendly English. " +
+      "OUTPUT MUST BE ENGLISH ONLY. Do NOT include any Chinese, Japanese, Korean, or other non-Latin script characters under any circumstance. " +
       "Preserve emojis, numbers, brand names (VinAI, Zalo, Tesla, ChatGPT…), markdown, and any HTML tags. " +
       "Keep tone playful but informative. Do NOT translate code, English brand names, or technical acronyms (CNN, NLP, GPT, RL, IoT…). " +
       "If a string is already English, return it unchanged. Return exactly one translation per numbered input, in order.";
@@ -81,6 +82,10 @@ Deno.serve(async (req) => {
     } catch {
       translations = [];
     }
+    // Defensive: if the model leaked CJK characters into a translation,
+    // fall back to the original VN text — the client will retry next session.
+    const CJK = /[\u3400-\u9FFF\uF900-\uFAFF\u3040-\u30FF\uAC00-\uD7AF]/;
+    translations = translations.map((t, i) => (typeof t === "string" && !CJK.test(t) ? t : texts[i]));
     // Pad / trim defensively so client never crashes
     if (translations.length < texts.length) {
       translations = [...translations, ...texts.slice(translations.length)];

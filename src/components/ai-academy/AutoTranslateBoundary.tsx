@@ -1,32 +1,23 @@
 /**
- * AutoTranslateBoundary — wraps a subtree and, when the app language is EN,
- * walks all descendant text nodes and replaces Vietnamese strings with
- * English translations fetched from the `translate-vi-en` edge function.
+ * AutoTranslateBoundary — wraps a subtree and replaces Vietnamese strings
+ * with English translations fetched from the `translate-vi-en` edge function.
  *
- * Why a DOM-walk instead of per-string `t()`:
- *  - AIAcademy + 14 sandbox components contain ~1000+ hardcoded Vietnamese
- *    strings. Refactoring each one to a bilingual object is high-risk.
- *  - Runtime translation with localStorage cache is "set and forget":
- *    first visit takes ~1 batch call per panel, subsequent visits are instant.
- *
- * Heuristic for "is Vietnamese": text node contains at least one diacritic
- * char that doesn't appear in English. Pure-English nodes (e.g. "ChatGPT",
- * "FaceID", numbers, dates) are skipped — saves ~70% of translation tokens.
- *
- * Cache key: SHA-1 of the original VN string. Cache lives in localStorage
- * under `aiacad_tr_v1_<hash>`. Capped at ~5MB by browser default; we don't
- * proactively evict.
+ * AI Academy is **forced to English** regardless of app language, because
+ * historically the auto-translation occasionally returned Chinese tokens.
+ * We also reject any cached translation that contains CJK characters and
+ * re-request, and bumped the cache prefix to invalidate bad legacy entries.
  */
 import { useEffect, useRef } from "react";
-import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 
 const VN_DIACRITIC = /[àáảãạâầấẩẫậăằắẳẵặèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđÀÁẢÃẠÂẦẤẨẪẬĂẰẮẲẴẶÈÉẺẼẸÊỀẾỂỄỆÌÍỈĨỊÒÓỎÕỌÔỒỐỔỖỘƠỜỚỞỠỢÙÚỦŨỤƯỪỨỬỮỰỲÝỶỸỴĐ]/;
 const VN_WORDS = /\b(và|hoặc|của|cho|với|bạn|được|này|kia|là|những|nhất|thì|nào|sao|chưa|rồi|đã|đang|sẽ|không|có|một|hai|ba|bốn|năm|sáu|bảy|tám|chín|mười)\b/i;
+// Reject any string containing CJK (Chinese/Japanese/Korean) ideographs.
+const CJK = /[\u3400-\u9FFF\uF900-\uFAFF\u3040-\u30FF\uAC00-\uD7AF]/;
 
-const STORAGE_PREFIX = "aiacad_tr_v1_";
+// v2 — bumped from v1 to invalidate cached entries that may contain Chinese.
+const STORAGE_PREFIX = "aiacad_tr_v2_";
 
-// Tiny sync hash for cache keys. Not cryptographic; FNV-1a 32-bit.
 const hash = (s: string): string => {
   let h = 0x811c9dc5;
   for (let i = 0; i < s.length; i++) {
@@ -38,11 +29,25 @@ const hash = (s: string): string => {
 
 const cache = new Map<string, string>();
 
+const isValidEnglish = (s: string) => !!s && !CJK.test(s);
+
 const cacheGet = (vi: string): string | undefined => {
-  if (cache.has(vi)) return cache.get(vi);
+  const cached = cache.get(vi);
+  if (cached !== undefined) {
+    if (!isValidEnglish(cached)) {
+      cache.delete(vi);
+      try { localStorage.removeItem(STORAGE_PREFIX + hash(vi)); } catch { /* ignore */ }
+      return undefined;
+    }
+    return cached;
+  }
   try {
     const en = localStorage.getItem(STORAGE_PREFIX + hash(vi));
     if (en) {
+      if (!isValidEnglish(en)) {
+        try { localStorage.removeItem(STORAGE_PREFIX + hash(vi)); } catch { /* ignore */ }
+        return undefined;
+      }
       cache.set(vi, en);
       return en;
     }
@@ -51,6 +56,7 @@ const cacheGet = (vi: string): string | undefined => {
 };
 
 const cachePut = (vi: string, en: string) => {
+  if (!isValidEnglish(en)) return; // never store Chinese garbage
   cache.set(vi, en);
   try { localStorage.setItem(STORAGE_PREFIX + hash(vi), en); } catch { /* quota — silently skip */ }
 };
@@ -58,17 +64,16 @@ const cachePut = (vi: string, en: string) => {
 const isVietnamese = (s: string) => {
   const t = s.trim();
   if (t.length < 2) return false;
-  if (!/[a-zA-Zàáả-ỹđ]/i.test(t)) return false; // skip pure digit/symbol
+  if (!/[a-zA-Zàáả-ỹđ]/i.test(t)) return false;
   return VN_DIACRITIC.test(t) || VN_WORDS.test(t);
 };
 
-// Module-level batch queue so multiple boundaries share one call.
 const pending = new Set<string>();
 let flushTimer: number | null = null;
 const listeners = new Set<() => void>();
 
 const requestTranslation = (vi: string) => {
-  if (cache.has(vi)) return;
+  if (cache.has(vi) && isValidEnglish(cache.get(vi)!)) return;
   pending.add(vi);
   if (flushTimer != null) return;
   flushTimer = window.setTimeout(flush, 200);
@@ -79,7 +84,6 @@ const flush = async () => {
   if (pending.size === 0) return;
   const batch = Array.from(pending);
   pending.clear();
-  // Split into chunks of 60
   for (let i = 0; i < batch.length; i += 60) {
     const slice = batch.slice(i, i + 60);
     try {
@@ -88,7 +92,7 @@ const flush = async () => {
       const arr: string[] = data?.translations ?? [];
       slice.forEach((vi, idx) => {
         const en = arr[idx];
-        if (typeof en === "string" && en.trim()) cachePut(vi, en);
+        if (typeof en === "string" && en.trim() && isValidEnglish(en)) cachePut(vi, en);
       });
     } catch (e) { console.error("translate batch failed", e); }
   }
@@ -101,31 +105,26 @@ interface Props {
 }
 
 interface NodeMeta {
-  full: string;     // original nodeValue verbatim (incl. surrounding whitespace)
-  trimmed: string;  // VN text used as cache key
-  pre: string;      // leading whitespace of original
-  post: string;     // trailing whitespace of original
+  full: string;
+  trimmed: string;
+  pre: string;
+  post: string;
 }
 
 const AutoTranslateBoundary: React.FC<Props> = ({ children, enabled = true }) => {
-  const { lang } = useLanguage();
   const rootRef = useRef<HTMLDivElement | null>(null);
-  // Map text node → meta about its original VN
   const metaMap = useRef(new WeakMap<Text, NodeMeta>());
-  const bumpRef = useRef(0);
 
-  // Walk DOM and translate/restore based on current lang.
   useEffect(() => {
     if (!enabled || !rootRef.current) return;
     const root = rootRef.current;
 
     const applyNode = (node: Text) => {
-      // Capture original on first visit
       let meta = metaMap.current.get(node);
       if (!meta) {
         const full = node.nodeValue || "";
         const trimmed = full.trim();
-        if (!isVietnamese(trimmed)) return; // skip non-VN nodes forever
+        if (!isVietnamese(trimmed)) return;
         const preMatch = full.match(/^\s*/);
         const postMatch = full.match(/\s*$/);
         meta = {
@@ -136,15 +135,9 @@ const AutoTranslateBoundary: React.FC<Props> = ({ children, enabled = true }) =>
         };
         metaMap.current.set(node, meta);
       }
-      if (lang === "vi") {
-        if (node.nodeValue !== meta.full) node.nodeValue = meta.full;
-        return;
-      }
+      // AI Academy is forced to English — ignore app lang.
       const en = cacheGet(meta.trimmed);
       if (en) {
-        // Preserve original whitespace. If original had none but this text node
-        // sits next to an inline element sibling (e.g. <b>), inject a single
-        // space so adjacent words don't stick together after translation.
         const prevIsElem = node.previousSibling?.nodeType === 1;
         const nextIsElem = node.nextSibling?.nodeType === 1;
         const pre = meta.pre || (prevIsElem ? " " : "");
@@ -176,24 +169,19 @@ const AutoTranslateBoundary: React.FC<Props> = ({ children, enabled = true }) =>
 
     walk();
 
-    // Re-translate when DOM mutates (track switch, dynamic content).
     const mo = new MutationObserver(() => {
       window.requestAnimationFrame(walk);
     });
     mo.observe(root, { childList: true, subtree: true, characterData: true });
 
-    // Listen for batch completion → re-walk to apply newly cached translations.
-    const onFlush = () => {
-      bumpRef.current++;
-      walk();
-    };
+    const onFlush = () => walk();
     listeners.add(onFlush);
 
     return () => {
       mo.disconnect();
       listeners.delete(onFlush);
     };
-  }, [lang, enabled]);
+  }, [enabled]);
 
   return <div ref={rootRef}>{children}</div>;
 };
