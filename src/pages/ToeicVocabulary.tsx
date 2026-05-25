@@ -739,13 +739,44 @@ const ToeicVocabulary = () => {
                 <div className="text-center py-16">
                   <p className="text-slate-400 text-lg">{t("Không có từ vựng nào", "No vocabulary found")}</p>
                 </div>
-              ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                  {paged.map((w) => (
-                    <Flashcard key={w.word + w.category} word={w} />
-                  ))}
-                </div>
-              )}
+              ) : (() => {
+                const groups = paged.reduce<Record<string, ToeicWord[]>>((acc, w) => {
+                  (acc[w.category] ||= []).push(w);
+                  return acc;
+                }, {});
+                const orderedCats = (TOEIC_CATEGORIES as readonly string[]).filter(c => groups[c]);
+                Object.keys(groups).forEach(c => { if (!orderedCats.includes(c)) orderedCats.push(c); });
+                return (
+                  <div className="space-y-10">
+                    {orderedCats.map((cat, sectionIdx) => (
+                      <motion.section
+                        key={cat}
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, delay: sectionIdx * 0.05 }}
+                      >
+                        <div className="flex items-center gap-3 mb-4 pb-2 border-b-2 border-sky-200 dark:border-sky-800">
+                          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-blue-600 text-white shadow-lg shadow-sky-200 dark:shadow-sky-900/40">
+                            {categoryIcons[cat]}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white leading-tight">{cat}</h3>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                              {groups[cat].length} {t("từ trong trang này", "words on this page")}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                          {groups[cat].map((w) => (
+                            <Flashcard key={w.word + w.category} word={w} />
+                          ))}
+                        </div>
+                      </motion.section>
+                    ))}
+                  </div>
+                );
+              })()}
+
               {totalPages > 1 && (
                 <div className="flex justify-center items-center gap-4 mt-8">
                   <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage((p) => p - 1)} className="border-slate-700 text-slate-300">
