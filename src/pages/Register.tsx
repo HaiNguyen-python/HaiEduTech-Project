@@ -71,19 +71,18 @@ const Register = () => {
         timeStyle: "short",
       });
 
-      const { error: emailError } = await supabase.functions.invoke("send-transactional-email", {
+      const { error: emailError } = await supabase.functions.invoke("send-contact-email", {
         body: {
-          templateName: "registration-notification",
+          type: "course_registration",
           idempotencyKey: `course-registration-${form.phone.trim()}-${Date.now()}`,
-          templateData: {
-            name: form.name.trim(),
-            email: form.email.trim() || undefined,
-            phone: form.phone.trim(),
-            program: programLabel,
-            level: form.level.trim() || undefined,
-            message: form.message.trim() || undefined,
-            submittedAt,
-          },
+          name: form.name.trim(),
+          email: form.email.trim() || undefined,
+          phone: form.phone.trim(),
+          subject: `[Đăng ký khóa học] ${programLabel}`,
+          program: programLabel,
+          level: form.level.trim() || undefined,
+          message: form.message.trim() || undefined,
+          submittedAt,
         },
       });
 
