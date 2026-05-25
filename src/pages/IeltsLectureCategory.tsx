@@ -212,8 +212,7 @@ const IeltsLectureCategory = () => {
             </motion.div>
           </div>
         </section>
-        {/* placeholder removed – Sample Essays CTA moved below Task 2 */}
-        <div className="hidden">
+
 
           </div>
         </section>
