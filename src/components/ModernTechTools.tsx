@@ -107,10 +107,10 @@ const ModernTechTools = () => {
   };
 
   return (
-    <section className="relative overflow-x-clip py-12 sm:py-16">
-      <FloatingChibi src={chibiRobot} alt="" className="absolute -right-2 top-2 z-0 opacity-90" size={140} />
-      <FloatingChibi src={chibiRocket} alt="" className="absolute left-2 top-1/3 z-0 opacity-85" size={100} delay={0.8} />
-      <FloatingChibi src={chibiGraduate} alt="" className="absolute -left-2 bottom-6 z-0 opacity-90" size={130} delay={1.5} />
+    <section className="relative overflow-x-clip py-16 sm:py-20">
+      <FloatingChibi src={chibiRobot} alt="" className="absolute right-8 top-4 z-0 opacity-90 xl:right-24" size={130} />
+      <FloatingChibi src={chibiRocket} alt="" className="absolute -left-3 top-32 z-0 opacity-85 xl:left-12" size={96} delay={0.8} />
+      <FloatingChibi src={chibiGraduate} alt="" className="absolute left-12 bottom-2 z-0 opacity-90 xl:left-28" size={120} delay={1.5} />
       <div className="container relative z-10 mx-auto px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -134,7 +134,7 @@ const ModernTechTools = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 pt-2 sm:gap-7 md:grid-cols-2 lg:grid-cols-3">
           {tools.map((tool, i) => (
             <motion.div
               key={tool.title}
