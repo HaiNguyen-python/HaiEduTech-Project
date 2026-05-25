@@ -70,8 +70,10 @@ const Index = () => (
     />
     <ScrollProgressBar />
     <Navbar />
-    <HeroSection />
-    <HomeChibiFunFacts />
+    <div className="relative isolate">
+      <HeroSection />
+      <HomeChibiFunFacts />
+    </div>
     <SectionDivider />
     <CoursesOverview />
     <SectionDivider flip />
