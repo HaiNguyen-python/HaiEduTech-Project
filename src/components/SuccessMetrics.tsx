@@ -70,7 +70,7 @@ const SuccessMetrics = () => {
   ];
 
   return (
-    <section className="relative py-16 sm:py-20">
+    <section className="relative py-10 sm:py-14">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary/10 to-transparent" />
 
       <div className="container relative mx-auto px-4 sm:px-6">

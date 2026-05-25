@@ -51,7 +51,7 @@ const LearningRoadmaps = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="relative py-20 sm:py-24">
+    <section className="relative py-12 sm:py-16">
       {/* Subtle background accent */}
       <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 via-transparent to-transparent" />
 

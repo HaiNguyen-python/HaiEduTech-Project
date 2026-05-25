@@ -330,7 +330,7 @@ const AssessmentTool = ({ preSelectedSubject, inline }: AssessmentToolProps) => 
     <>
       {/* CTA Section - hidden when inline */}
       {!inline && (
-        <section className="relative py-20 sm:py-24">
+        <section className="relative py-12 sm:py-16">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
           <div className="container relative mx-auto px-4 sm:px-6">
             <motion.div

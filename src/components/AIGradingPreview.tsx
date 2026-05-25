@@ -7,7 +7,7 @@ const AIGradingPreview = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section className="py-14 relative overflow-hidden">
       <div className="absolute inset-0 cyber-grid opacity-5" />
       <div className="container mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">

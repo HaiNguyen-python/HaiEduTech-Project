@@ -44,7 +44,21 @@ const LanguageLessonView = () => {
   const { moduleId, lessonId } = useParams();
   const { t } = useLanguage();
 
-  const mod = useMemo(() => allLanguageModules.find(m => m.id === moduleId), [moduleId]);
+  const rawMod = useMemo(() => allLanguageModules.find(m => m.id === moduleId), [moduleId]);
+  const mod = useMemo(() => {
+    if (!rawMod) return undefined;
+    // For English grammar modules, sort lessons by difficulty (beginner → advanced)
+    // then by level so the sidebar acts as a clear learning roadmap.
+    if (rawMod.category !== "grammar" || rawMod.language !== "english") return rawMod;
+    const order = { beginner: 1, intermediate: 2, advanced: 3 } as const;
+    return {
+      ...rawMod,
+      lessons: [...rawMod.lessons].sort((a, b) => {
+        const d = order[a.difficulty] - order[b.difficulty];
+        return d !== 0 ? d : (a.level ?? 0) - (b.level ?? 0);
+      }),
+    };
+  }, [rawMod]);
   const [selectedLesson, setSelectedLesson] = useState<LanguageLesson | null>(null);
   const [expandedSidebar, setExpandedSidebar] = useState(true);
   const [quizScore, setQuizScore] = useState<{ score: number; total: number } | null>(null);
@@ -148,13 +162,19 @@ const LanguageLessonView = () => {
               {/* Sidebar - lesson list */}
               <div className="lg:w-72 shrink-0">
                 <div className="glass-card rounded-xl p-4 sticky top-28">
-                  <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center justify-between mb-2">
                     <h3 className="font-semibold text-foreground text-sm flex items-center gap-2">
                       <BookOpen className="w-4 h-4 text-primary" />
                       {tr("Danh sách bài học", "Lessons")}
                     </h3>
                     <span className="text-xs text-muted-foreground">{mod.lessons.length} {tr("bài", "lessons")}</span>
                   </div>
+                  {isEnglishGrammarLesson && (
+                    <p className="text-[11px] text-muted-foreground mb-3 flex items-center gap-1.5">
+                      <Sparkles className="w-3 h-3 text-primary" />
+                      {tr("Sắp xếp theo độ khó tăng dần — học theo thứ tự để hiệu quả nhất.", "Sorted by difficulty — follow the order for the best results.")}
+                    </p>
+                  )}
                   <div className="space-y-1 max-h-[60vh] overflow-y-auto pr-1">
                     {mod.lessons.map((l, i) => {
                       const d = difficultyConfig[l.difficulty];
@@ -178,6 +198,16 @@ const LanguageLessonView = () => {
                               {i + 1}
                             </span>
                             <span className="truncate">{isEnglishGrammarLesson ? l.titleEn : t(l.title, l.titleEn)}</span>
+                            {isEnglishGrammarLesson && i === 0 && (
+                              <span className="ml-auto text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-700 border border-emerald-500/30 shrink-0">
+                                {tr("BẮT ĐẦU", "START")}
+                              </span>
+                            )}
+                            {isEnglishGrammarLesson && i === 1 && (
+                              <span className="ml-auto text-[9px] font-bold px-1.5 py-0.5 rounded bg-primary/15 text-primary border border-primary/30 shrink-0">
+                                {tr("KẾ TIẾP", "NEXT")}
+                              </span>
+                            )}
                             {isSatLesson && <SatLessonStarDot lessonKey={`sat:lesson:${mod.id}:${l.id}`} />}
                           </div>
                           <div className="flex items-center gap-2 ml-7 mt-1">

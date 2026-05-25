@@ -127,51 +127,9 @@ const buildChecklist = (lesson: LanguageLesson) => {
 };
 
 export const getEnhancedGrammarTheory = (lesson: LanguageLesson, module: LanguageModule) => {
-  const baseTheory = (lesson.theoryEn || lesson.theory || "").trim();
-
-  if (module.category !== "grammar" || module.language !== "english" || !baseTheory) {
-    return baseTheory;
-  }
-
-  const strippedTheory = stripMarkdown(baseTheory);
-  const sectionCount = extractSectionTitles(baseTheory).length;
-  const ruleBullets = extractRuleBullets(baseTheory);
-  const workedExamples = buildWorkedExamples(lesson);
-  const quizInsights = buildQuizInsights(lesson);
-  const vocabPointers = buildVocabularyPointers(lesson);
-  const usageSummary = buildUsageSummary(lesson, module);
-  const checklist = buildChecklist(lesson);
-
-  const needsExpansion = strippedTheory.length < 900 || sectionCount < 4 || ruleBullets.length < 4;
-
-  if (!needsExpansion) {
-    return baseTheory;
-  }
-
-  const additions = [
-    "## Study Guide",
-    "### What this lesson is for",
-    ...usageSummary,
-    "",
-    "### Key rules in plain English",
-    ...(ruleBullets.length
-      ? ruleBullets.map((rule) => `- ${toSentence(rule).replace(/\.$/, "")}`)
-      : ["- Focus on how the grammar pattern connects meaning, sentence position, and punctuation."]),
-    "",
-    "### Worked examples",
-    ...(workedExamples.length
-      ? workedExamples
-      : ["- Review each guided exercise slowly and say the full corrected sentence aloud before moving on."]),
-    "",
-    "### Common mistakes to avoid",
-    ...(quizInsights.length
-      ? quizInsights
-      : ["- Do not choose an answer only because it looks familiar; check the grammar role and the sentence context first."]),
-    ...(vocabPointers.length ? ["", "### Useful words in this lesson", ...vocabPointers] : []),
-    "",
-    "### Self-check before the quiz",
-    ...checklist.map((item) => `- ${item}`),
-  ].join("\n");
-
-  return `${baseTheory}\n\n${additions}`.trim();
+  // Keep the original concise theory as authored. The previous auto-appended
+  // "Study Guide" block made grammar lessons overly long and text-heavy.
+  // Visual aids, examples, quick-checks, and extra practice are now handled by
+  // GrammarLessonOverview / GrammarLessonCompanion / GrammarExtraPractice.
+  return (lesson.theoryEn || lesson.theory || "").trim();
 };
