@@ -276,8 +276,8 @@ const AdminDashboard = () => {
     setRecommendations(generateRecommendations(state));
   };
 
-  // Build heatmap data from all student states
-  const buildHeatmapData = () => {
+  // Build heatmap data from all student states (memoized — heavy iteration)
+  const heatmapData = useMemo(() => {
     const skillTotals: Record<string, { total: number; count: number }> = {};
     for (const state of studentStates) {
       for (const [cat, data] of Object.entries(state.skillBreakdown)) {
@@ -294,19 +294,19 @@ const AdminDashboard = () => {
         studentCount: data.count,
       }))
       .sort((a, b) => a.avgScore - b.avgScore);
-  };
+  }, [studentStates, t]);
 
-  // Build domain pie chart data
-  const domainPieData = Object.entries(classStats.domainCounts)
+  // Build domain pie chart data (memoized)
+  const domainPieData = useMemo(() => Object.entries(classStats.domainCounts)
     .filter(([, count]) => count > 0)
     .map(([domain, count]) => ({
       name: DOMAIN_LABELS[domain as LearningDomain]?.[t("vi", "en") === "vi" ? "vi" : "en"] || domain,
       value: count,
       fill: DOMAIN_LABELS[domain as LearningDomain]?.color || "hsl(var(--primary))",
-    }));
+    })), [classStats.domainCounts, t]);
 
-  // Build weekly trend data from activities
-  const buildWeeklyTrend = () => {
+  // Build weekly trend data from activities (memoized)
+  const weeklyTrend = useMemo(() => {
     const weeks: Record<string, Record<LearningDomain, number>> = {};
     for (const act of activities) {
       const date = new Date(act.created_at);
@@ -325,17 +325,45 @@ const AdminDashboard = () => {
         week: week.slice(5), // MM-DD
         ...data,
       }));
-  };
+  }, [activities]);
 
-  // Filtered student list
-  const filteredStudents = searchQuery
-    ? studentStates.filter(s => s.fullName.toLowerCase().includes(searchQuery.toLowerCase()))
-    : studentStates;
+  // Last Speaking / Writing date per user (memoized)
+  const lastActivityByUser = useMemo(() => {
+    const m = new Map<string, { lastSpeak: number; lastWrite: number }>();
+    const speakSet = new Set(SPEAKING_ACTIVITY_TYPES);
+    const writeSet = new Set(WRITING_ACTIVITY_TYPES);
+    for (const act of activities) {
+      const ts = new Date(act.created_at).getTime();
+      const cur = m.get(act.user_id) || { lastSpeak: 0, lastWrite: 0 };
+      if (speakSet.has(act.activity_type) && ts > cur.lastSpeak) cur.lastSpeak = ts;
+      if (writeSet.has(act.activity_type) && ts > cur.lastWrite) cur.lastWrite = ts;
+      m.set(act.user_id, cur);
+    }
+    return m;
+  }, [activities]);
 
-  // Students needing intervention (score < 5)
-  const interventionNeeded = studentStates.filter(
-    s => s.totalActivities >= 3 && (s.avgScore < 5 || s.recentTrend === "declining")
-  );
+  // Filtered student list (diacritic-insensitive, memoized)
+  const filteredStudents = useMemo(() => {
+    if (!searchQuery) return studentStates;
+    const q = normalizeForSearch(searchQuery);
+    return studentStates.filter(s => normalizeForSearch(s.fullName).includes(q));
+  }, [studentStates, searchQuery]);
+
+  // Students needing intervention (score < 5 OR declining OR silent on speak/write > 14 days)
+  const interventionNeeded = useMemo(() => {
+    const now = Date.now();
+    const FOURTEEN_DAYS = 14 * 24 * 60 * 60 * 1000;
+    return studentStates.filter((s) => {
+      const last = lastActivityByUser.get(s.userId);
+      const silentSpeak = last && last.lastSpeak > 0 && now - last.lastSpeak > FOURTEEN_DAYS;
+      const silentWrite = last && last.lastWrite > 0 && now - last.lastWrite > FOURTEEN_DAYS;
+      return (
+        (s.totalActivities >= 3 && (s.avgScore < 5 || s.recentTrend === "declining")) ||
+        silentSpeak ||
+        silentWrite
+      );
+    });
+  }, [studentStates, lastActivityByUser]);
 
   if (roleLoading) {
     return (
