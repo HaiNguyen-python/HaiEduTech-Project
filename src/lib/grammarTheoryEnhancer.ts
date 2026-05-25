@@ -127,17 +127,13 @@ const buildChecklist = (lesson: LanguageLesson) => {
 };
 
 export const getEnhancedGrammarTheory = (lesson: LanguageLesson, module: LanguageModule) => {
-  const baseTheory = (lesson.theoryEn || lesson.theory || "").trim();
+  // Keep the original concise theory as authored. The previous auto-appended
+  // "Study Guide" block made grammar lessons overly long and text-heavy.
+  // Visual aids, examples, quick-checks, and extra practice are now handled by
+  // GrammarLessonOverview / GrammarLessonCompanion / GrammarExtraPractice.
+  return (lesson.theoryEn || lesson.theory || "").trim();
+};
 
-  if (module.category !== "grammar" || module.language !== "english" || !baseTheory) {
-    return baseTheory;
-  }
-
-  const strippedTheory = stripMarkdown(baseTheory);
-  const sectionCount = extractSectionTitles(baseTheory).length;
-  const ruleBullets = extractRuleBullets(baseTheory);
-  const workedExamples = buildWorkedExamples(lesson);
-  const quizInsights = buildQuizInsights(lesson);
   const vocabPointers = buildVocabularyPointers(lesson);
   const usageSummary = buildUsageSummary(lesson, module);
   const checklist = buildChecklist(lesson);
