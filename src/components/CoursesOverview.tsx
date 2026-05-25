@@ -6,6 +6,9 @@ import ShineCard from "@/components/ShineCard";
 import FloatingChibi from "@/components/FloatingChibi";
 import chibiTeacher from "@/assets/chibi-teacher.png";
 import chibiCoder from "@/assets/chibi-coder.png";
+import chibiPanda from "@/assets/chibi-panda.png";
+import chibiOwl from "@/assets/chibi-owl.png";
+
 
 
 const CoursesOverview = () => {
@@ -63,10 +66,13 @@ const CoursesOverview = () => {
   ];
 
   return (
-    <section className="relative py-10 sm:py-12">
-      <FloatingChibi src={chibiTeacher} alt="" className="absolute left-2 top-4 lg:left-6 z-10" size={120} />
-      <FloatingChibi src={chibiCoder} alt="" className="absolute right-2 top-8 lg:right-6 z-10" size={120} delay={1.2} flip />
-      <div className="container mx-auto px-4 sm:px-6">
+    <section className="relative overflow-hidden py-10 sm:py-12">
+      <FloatingChibi src={chibiTeacher} alt="" className="absolute -left-4 bottom-0 z-0 opacity-90" size={140} />
+      <FloatingChibi src={chibiPanda} alt="" className="absolute -right-4 bottom-0 z-0 opacity-90" size={140} delay={1.2} />
+      <FloatingChibi src={chibiOwl} alt="" className="absolute left-4 top-2 z-0 opacity-80" size={90} delay={0.6} />
+      <FloatingChibi src={chibiCoder} alt="" className="absolute right-4 top-2 z-0 opacity-80" size={90} delay={1.8} flip />
+      <div className="container relative z-10 mx-auto px-4 sm:px-6">
+
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -95,7 +101,7 @@ const CoursesOverview = () => {
               <ShineCard className="h-full rounded-2xl">
                 <Link
                   to={c.to}
-                  className="group relative block h-full rounded-2xl border-2 border-border/80 bg-card p-5 shadow-md ring-1 ring-black/[0.03] transition-all hover:-translate-y-1 hover:border-primary/70 hover:shadow-xl hover:shadow-primary/15"
+                  className="group relative block h-full rounded-2xl border-2 border-primary/40 bg-card p-5 shadow-[0_4px_20px_-4px_hsl(var(--primary)/0.18)] ring-1 ring-primary/10 transition-all hover:-translate-y-1 hover:border-primary hover:shadow-xl hover:shadow-primary/25"
                 >
                   {c.isNew && (
                     <span className="absolute right-3 top-3 rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-md">
