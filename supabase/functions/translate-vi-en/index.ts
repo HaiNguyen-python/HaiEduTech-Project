@@ -82,6 +82,10 @@ Deno.serve(async (req) => {
     } catch {
       translations = [];
     }
+    // Defensive: if the model leaked CJK characters into a translation,
+    // fall back to the original VN text — the client will retry next session.
+    const CJK = /[\u3400-\u9FFF\uF900-\uFAFF\u3040-\u30FF\uAC00-\uD7AF]/;
+    translations = translations.map((t, i) => (typeof t === "string" && !CJK.test(t) ? t : texts[i]));
     // Pad / trim defensively so client never crashes
     if (translations.length < texts.length) {
       translations = [...translations, ...texts.slice(translations.length)];
