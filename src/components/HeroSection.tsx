@@ -85,7 +85,7 @@ const HeroSection = () => {
               transition={{ duration: 0.8 }}
               className="w-full max-w-[320px] shrink-0 sm:max-w-[360px]"
             >
-              <div className="aspect-square overflow-hidden rounded-[1.75rem] border-[6px] border-emerald-500 shadow-[0_18px_50px_-8px_rgba(16,185,129,0.55)] ring-[6px] ring-emerald-500/40 ring-offset-2 ring-offset-background">
+              <div className="aspect-square overflow-hidden rounded-[1.75rem] border-2 border-emerald-500 shadow-[0_10px_30px_-12px_rgba(16,185,129,0.4)]">
                 <img src={haiProfile} alt="Teacher Hai" width="720" height="720" fetchPriority="high" decoding="async" className="h-full w-full object-cover" />
               </div>
             </motion.div>
