@@ -102,12 +102,24 @@ const HeroSection = () => {
                 <span className="block text-gradient sm:inline">{t("Thầy Hải", "Teacher Hai")}</span>
               </h1>
 
+              <div className="mb-4 text-center font-display text-lg font-semibold text-muted-foreground sm:text-xl lg:text-left">
+                <span>{t("Chinh phục ", "Master ")}</span>
+                <TypingHeadline
+                  words={
+                    t("vi", "en") === "vi"
+                      ? ["IELTS", "TOEIC", "HSK", "AI", "Lập trình", "YKI"]
+                      : ["IELTS", "TOEIC", "HSK", "AI", "Coding", "YKI"]
+                  }
+                />
+              </div>
+
               <p className="mx-auto mb-6 max-w-md px-1 text-[15px] leading-7 text-muted-foreground sm:mb-8 sm:max-w-xl sm:px-0 sm:text-base md:text-lg lg:mx-0">
                 {t(
                   "Chinh phục Tiếng Anh, Tiếng Trung và Lập trình cùng thầy Hải – Thạc sĩ Ngôn ngữ & Văn hóa Anh, Kỹ sư Dữ Liệu & Trí tuệ nhân tạo tại Phần Lan.",
                   "Master English, Chinese and Programming with Teacher Hai – M.A. in English Language & Culture and a Data & AI Engineer in Finland."
                 )}
               </p>
+
 
               <div className="mx-auto flex w-full max-w-sm flex-col gap-3 lg:mx-0">
                 <Link
