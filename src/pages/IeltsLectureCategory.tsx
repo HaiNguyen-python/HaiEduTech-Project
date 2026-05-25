@@ -214,9 +214,6 @@ const IeltsLectureCategory = () => {
         </section>
 
 
-          </div>
-        </section>
-
         {/* Filters */}
         <section className="container mx-auto px-4 sm:px-6 py-5">
           <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
