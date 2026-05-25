@@ -1,44 +1,88 @@
-## Review hiện trạng `/english/sat`
+## Mục tiêu
 
-Trang đang dồn quá nhiều thứ vào 1 màn cuộn:
-1. Hero + 4 nút CTA (SAT Curriculum / Vocabulary / Exercises / Exams)
-2. `SatLandingExtras` (Digital SAT format · Band roadmap · Pain points · FAQ)
-3. Khi bấm **SAT Curriculum**: toggle hiện `SatExamFormat` (30‑week curriculum chi tiết) + grid 30 bài học bên dưới → kéo dài thêm ~3–4 màn cuộn nữa → đây là phần khiến trang "rối và dài".
+Đưa **AI Academy** thành một điểm nhấn ở Home, đồng thời **tinh giản Home chỉ còn 2 trụ chính**:
 
-Trong khi đó SAT Vocabulary / Exercises / Exams **đã** là trang riêng (`/sat-vocabulary`, `/sat-exercises`, `/sat-exams`). Chỉ có SAT Curriculum là vẫn inline. Cần đồng bộ.
+1. Các **chương trình học** (English, Chinese, Programming, AI Academy)
+2. Các **công cụ công nghệ hiện đại** của web (AI Grading, AI Speaking Coach, Mr. Hai Chatbot, Game Center, Skill Assessment, Student Dashboard…)
 
-## Điểm cần cải thiện
+Loại bỏ các section "rời rạc" (KnowledgeHub/Scholarship, Roadmaps độc lập, SuccessMetrics dài) để Home gọn, đúng trọng tâm.
 
-1. **Tách SAT Curriculum ra trang riêng** `/sat-curriculum` (đúng yêu cầu).
-2. **4 nút CTA** đang dàn ngang chiều rộng, gradient mỗi nút mỗi màu → loè loẹt, không phân cấp. Đổi thành **grid 4 ô card đồng bộ** (icon + tiêu đề + sub-label), cùng tông tím‑chàm, để 4 entry-points trông như "4 cánh cửa" rõ ràng.
-3. **Bỏ logic toggle** `showSatCurriculum` + `scrollIntoView('sat-lessons')`. Trang `/english/sat` chỉ còn: Hero → 4 cánh cửa → `SatLandingExtras` (format/roadmap/pain/FAQ). Ngắn, gọn, "landing-style".
+---
 
-## Kế hoạch triển khai
+## Thay đổi cụ thể
 
-### 1. Tạo trang mới `src/pages/SatCurriculum.tsx`
-- Header nhỏ: nút Back về `/english/sat`, tiêu đề "📚 Chương trình SAT chi tiết" + mô tả.
-- Section A: `<SatExamFormat />` (giữ nguyên component — 30‑week roadmap).
-- Section B: Grid bài học SAT (copy block lines 478‑538 của `EnglishCourse.tsx` — `allEnglishModules.filter(m => m.category === "sat")`, modules collapsible, mỗi lesson click → `/english/learn/:modId/:lessonId`).
-- SEO: `<Helmet>` với title "Chương trình SAT — HaiEduTech", description, canonical `/sat-curriculum`.
+### 1) Mở rộng `CoursesOverview` — thêm AI Academy thành trụ cột thứ 4
 
-### 2. Đăng ký route trong `src/App.tsx`
-```tsx
-<Route path="/sat-curriculum" element={<LazyRoute><SatCurriculum /></LazyRoute>} />
+Đổi grid từ 3 cột → 4 cột (lg) / 2 cột (md) / 1 cột (mobile). Thêm card mới:
+
+- **Icon**: `Brain` hoặc `Sparkles` (lucide)
+- **Title**: "AI Academy" — "Học AI cho học sinh cấp 2–3"
+- **Description**: "12 chủ đề AI thực hành với sandbox tương tác — từ Machine Learning, Computer Vision đến NLP và Capstone."
+- **Tags**: `ML` · `Vision` · `NLP` · `Sandbox`
+- **to**: `/programming/ai-academy`
+- **Color**: gradient tím–xanh nổi bật so với 3 card hiện có
+- Thêm **badge "MỚI"** góc card
+
+### 2) Tạo section mới `ModernTechTools` (thay cho KnowledgeHub + AssessmentTool + AIGradingPreview + DashboardPreview)
+
+Section này showcase **6 công cụ công nghệ** của web dưới dạng bento grid (2 hàng × 3 ô, responsive):
+
+
+| Ô   | Công cụ                   | Link                      | Mô tả ngắn                                             |
+| --- | ------------------------- | ------------------------- | ------------------------------------------------------ |
+| 1   | 🎯 **AI Grading**         | `/english/ielts/writing`  | Chấm IELTS Writing tức thì, có feedback chi tiết & PDF |
+| 2   | 🎙️ **AI Speaking Coach** | `/english/ielts/speaking` | Nhận diện giọng nói, đánh giá phát âm theo IPA         |
+| 3   | 🤖 **Mr. Hai Chatbot**    | mở ChatBot                | Trợ lý AI 24/7, đa ngôn ngữ                            |
+| 4   | 🎮 **Game Center**        | `/games`                  | Vocab Arena, Duel Battle, leaderboard công khai        |
+| 5   | 📊 **Skill Assessment**   | `/assessment`             | Test 10 câu sinh Skill Profile cá nhân                 |
+| 6   | 📈 **Student Dashboard**  | `/dashboard`              | Study Streak, Skill Radar, theo dõi tiến độ            |
+
+
+Mỗi ô là card có icon lớn, gradient riêng theo brand (Royal Blue → Soft Emerald), hover lift, link điều hướng. Không nhúng UI thật → trang nhẹ.
+
+### 3) Thứ tự Home mới (gọn từ 8 → 5 section)
+
 ```
-(thêm lazy import gần các route `sat-*` khác, dòng ~257).
+1. Hero (giữ nguyên)
+2. CoursesOverview (4 trụ: English / Chinese / Programming / AI Academy)
+3. LearningRoadmaps (giữ — kể chuyện lộ trình từng chương trình)
+4. ModernTechTools (MỚI — 6 công cụ công nghệ)
+5. SuccessMetrics (rút gọn — số liệu credibility)
+6. Footer
+```
 
-### 3. Sửa `src/pages/EnglishCourse.tsx`
-- Xoá state `showSatCurriculum` + `setShowSatCurriculum` (kiểm tra & xoá hết tham chiếu).
-- Đổi nút **SAT Curriculum** từ toggle → `navigate("/sat-curriculum")`.
-- Refactor khối 4 nút (lines 338–376) thành **grid card 4 ô**:
-  - 2 cột (mobile) / 4 cột (md+), `gap-3`.
-  - Mỗi card: icon trong vòng tròn nhẹ, tiêu đề (Curriculum / Vocabulary / Exercises / Exams), 1 dòng phụ ("30 tuần · Bluebook" · "1000+ từ" · "Drills theo dạng" · "10 mock test"), `border border-border bg-background/60 hover:border-primary hover:shadow-md transition`, cùng tông tím‑chàm xuyên suốt (chỉ icon hơi khác màu để phân biệt).
-- Xoá block render `SatExamFormat` (line 387) và block 30‑week lessons (lines 478–538) khỏi `EnglishCourse.tsx` — chúng giờ sống ở `/sat-curriculum`.
+### 4) Bỏ khỏi Home (vẫn truy cập qua nav)
 
-### 4. Không thay đổi
-- `SatLandingExtras.tsx`, `SatExamFormat.tsx`, các trang `/sat-vocabulary`, `/sat-exercises`, `/sat-exams` — giữ nguyên.
+- `KnowledgeHub` (scholarship) — đã có ở nav riêng `/scholarship`
+- `AssessmentTool` (giữ ở route riêng) — được giới thiệu qua ô trong `ModernTechTools`
+- `AIGradingPreview` — được giới thiệu qua ô trong `ModernTechTools`
+- `DashboardPreview` — được giới thiệu qua ô trong `ModernTechTools`
 
-## Kết quả người dùng nhận được
-- `/english/sat` trở thành landing ngắn (~1.5 màn): hero · 4 cánh cửa · format · roadmap · pain · FAQ.
-- Mỗi mục SAT (Curriculum / Vocabulary / Exercises / Exams) là 1 trang độc lập, navigate sạch, dễ chia sẻ link, dễ SEO.
-- Thị giác bớt rối: 4 nút gradient sặc sỡ → 4 card thống nhất.
+→ Bốn section bị bỏ này gộp lại thành **1 bento grid duy nhất** → trang ngắn hơn ~40%, mỗi tính năng vẫn có "cửa sổ" giới thiệu.
+
+---
+
+## Chi tiết kỹ thuật
+
+- **File tạo mới**: `src/components/ModernTechTools.tsx` (lazy load qua `LazySection` đã có).
+- **File sửa**:
+  - `src/components/CoursesOverview.tsx` — thêm card AI Academy + đổi grid `md:grid-cols-3` → `md:grid-cols-2 lg:grid-cols-4`.
+  - `src/pages/Index.tsx` — bỏ import & render của 4 section cũ, thêm `ModernTechTools`.
+- **Design tokens**: tuân thủ semantic tokens (`bg-card`, `text-foreground`, `text-gradient`); gradient brand HSL trong `index.css`.
+- **i18n**: dùng `useLanguage().t(vi, en)` cho mọi label.
+- **SEO**: cập nhật JSON-LD `ItemList` trong `Index.tsx` thêm AI Academy.
+- **Không động backend / migration**.
+
+---
+
+## Xác nhận trước khi build
+
+- OK với việc **bỏ hẳn** KnowledgeHub/Scholarship khỏi Home (chỉ còn ở nav)?
+- Giữ hay bỏ `SuccessMetrics`?
+- Có muốn **trial widget nhỏ** (chấm thử 1 câu) nhúng trong ô AI Grading không, hay chỉ link sang trang riêng?
+
+Trả lời 3 câu trên là mình bắt tay làm luôn.
+
+&nbsp;
+
+ok 
