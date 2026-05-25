@@ -41,15 +41,24 @@ const MiniGames = ({ onBack }: Props) => {
   const { t } = useLanguage();
   const [game, setGame] = useState<Game>("menu");
   const [mode, setMode] = useState<Mode>("solo");
+  const [name, setName] = useState(getPlayerName());
+
+  useEffect(() => { setPlayerName(name); }, [name]);
 
   if (game === "menu") {
+    const totalGames: GameKey[] = ["memory", "hunt", "sprint", "synonym", "scramble"];
+    const grandBest = totalGames.reduce((acc, g) => {
+      const top = getHighScores(g)[0];
+      return top && top.score > acc ? top.score : acc;
+    }, 0);
+
     return (
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <button onClick={onBack} className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6">
           <ArrowLeft className="w-4 h-4" /> {t("Quay lại", "Back")}
         </button>
 
-        <div className="text-center mb-8">
+        <div className="text-center mb-6">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-3">
             <Sparkles className="w-4 h-4" /> {t("Mini Games", "Mini Games")}
           </div>
@@ -58,14 +67,42 @@ const MiniGames = ({ onBack }: Props) => {
             <span className="text-gradient">{t("Từ vựng", "Vocab Games")}</span>
           </h2>
           <p className="text-muted-foreground text-sm">
-            {t("Chơi solo hoặc chia lượt cùng bạn (2 người 1 máy)", "Play solo or take turns with a friend (2 players, 1 device)")}
+            {t("Combo 3-5-8 nhân điểm × thi đấu bảng xếp hạng lớp", "Combo 3-5-8 score multipliers × class leaderboards")}
           </p>
         </div>
 
+        {/* Player + Daily Challenge */}
+        <div className="grid sm:grid-cols-2 gap-3 mb-6">
+          <div className="flex items-center gap-2 px-4 py-3 rounded-2xl border-2 border-border bg-card">
+            <Crown className="w-5 h-5 text-amber-500 shrink-0" />
+            <label className="text-xs text-muted-foreground shrink-0">{t("Tên", "Name")}:</label>
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              maxLength={20}
+              placeholder={t("Tên của bạn", "Your name")}
+              className="flex-1 bg-transparent text-sm font-bold text-foreground outline-none placeholder:text-muted-foreground/60"
+            />
+            {grandBest > 0 && (
+              <span className="px-2 py-1 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-bold">
+                🏆 {grandBest}
+              </span>
+            )}
+          </div>
+          <div className="flex items-center gap-2 px-4 py-3 rounded-2xl border-2 border-fuchsia-500/40 bg-gradient-to-r from-fuchsia-500/10 to-pink-500/10">
+            <CalendarDays className="w-5 h-5 text-fuchsia-500 shrink-0" />
+            <div className="flex-1">
+              <p className="text-xs font-bold text-fuchsia-600 dark:text-fuchsia-400">{t("Thử thách hôm nay", "Daily Challenge")}</p>
+              <p className="text-[10px] text-muted-foreground">{dailyLabel()} • {t("Chơi mỗi ngày để giữ chuỗi!", "Play daily to keep your streak!")}</p>
+            </div>
+            <Flame className="w-5 h-5 text-orange-500" />
+          </div>
+        </div>
+
         {/* Mode toggle */}
-        <div className="flex justify-center gap-2 mb-8">
+        <div className="flex justify-center gap-2 mb-6">
           <button
-            onClick={() => setMode("solo")}
+            onClick={() => { setMode("solo"); sfx("flip"); }}
             className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 ${
               mode === "solo" ? "bg-primary text-primary-foreground shadow-lg" : "bg-secondary text-muted-foreground hover:text-foreground"
             }`}
@@ -73,7 +110,7 @@ const MiniGames = ({ onBack }: Props) => {
             <User className="w-4 h-4" /> Solo
           </button>
           <button
-            onClick={() => setMode("team")}
+            onClick={() => { setMode("team"); sfx("flip"); }}
             className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 ${
               mode === "team" ? "bg-amber-500 text-white shadow-lg" : "bg-secondary text-muted-foreground hover:text-foreground"
             }`}
@@ -88,6 +125,7 @@ const MiniGames = ({ onBack }: Props) => {
             color="purple"
             title={t("Lật thẻ ghi nhớ", "Memory Match")}
             desc={t("Ghép từ với định nghĩa", "Match word ↔ definition pairs")}
+            gameKey="memory"
             onClick={() => setGame("memory")}
           />
           <GameCard
@@ -95,6 +133,7 @@ const MiniGames = ({ onBack }: Props) => {
             color="rose"
             title={t("Săn từ", "Word Hunt")}
             desc={t("Chọn đúng từ theo định nghĩa", "Pick the word that fits the clue")}
+            gameKey="hunt"
             onClick={() => setGame("hunt")}
           />
           <GameCard
@@ -102,6 +141,7 @@ const MiniGames = ({ onBack }: Props) => {
             color="emerald"
             title={t("Gõ tốc độ", "Definition Sprint")}
             desc={t("Gõ từ đúng theo IPA + định nghĩa", "Type the word from IPA + definition")}
+            gameKey="sprint"
             onClick={() => setGame("sprint")}
           />
           <GameCard
@@ -109,6 +149,7 @@ const MiniGames = ({ onBack }: Props) => {
             color="amber"
             title={t("Ghép từ đồng nghĩa", "Synonym Showdown")}
             desc={t("Chọn từ đồng nghĩa với từ cho sẵn", "Pick the synonym of the given word")}
+            gameKey="synonym"
             onClick={() => setGame("synonym")}
           />
           <GameCard
@@ -116,8 +157,21 @@ const MiniGames = ({ onBack }: Props) => {
             color="sky"
             title={t("Xếp chữ cái", "Word Scramble")}
             desc={t("Sắp xếp lại các chữ cái thành từ đúng", "Unscramble letters to form the word")}
+            gameKey="scramble"
             onClick={() => setGame("scramble")}
           />
+          <div className="hidden md:block rounded-2xl border-2 border-dashed border-border bg-card/50 p-6">
+            <div className="flex items-center gap-2 mb-2">
+              <Flame className="w-5 h-5 text-orange-500" />
+              <h3 className="text-sm font-bold text-foreground">{t("Mẹo chơi", "Pro tip")}</h3>
+            </div>
+            <ul className="text-xs text-muted-foreground space-y-1.5">
+              <li>🔥 {t("3 đúng liên tiếp = x1.5 điểm", "3 correct in a row = x1.5 pts")}</li>
+              <li>⚡ {t("5 chuỗi = x2 + pháo hoa", "5-streak = x2 + confetti")}</li>
+              <li>👑 {t("8 chuỗi = x3 'ON FIRE'", "8-streak = x3 'ON FIRE'")}</li>
+              <li>🏆 {t("Top 10 lưu lại trên thiết bị", "Top 10 saved on this device")}</li>
+            </ul>
+          </div>
         </div>
       </div>
     );
