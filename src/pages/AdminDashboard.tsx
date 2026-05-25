@@ -116,11 +116,39 @@ const AdminDashboard = () => {
     const teacherIds = new Set((teacherRoles || []).map((r) => r.user_id));
     // Deduplicate by id and exclude teachers
     const seenIds = new Set<string>();
-    const studentList = (profiles || []).filter((p) => {
+    const rawStudents = (profiles || []).filter((p) => {
       if (teacherIds.has(p.id) || seenIds.has(p.id)) return false;
       seenIds.add(p.id);
       return true;
     });
+
+    // Merge duplicates by normalized full_name (e.g., same student signed up via email + Google)
+    const normalizeName = (n: string | null | undefined) =>
+      (n || "").trim().toLowerCase().replace(/\s+/g, " ");
+    const nameGroups = new Map<string, typeof rawStudents>();
+    const unnamed: typeof rawStudents = [];
+    for (const p of rawStudents) {
+      const key = normalizeName(p.full_name);
+      if (!key) { unnamed.push(p); continue; }
+      if (!nameGroups.has(key)) nameGroups.set(key, []);
+      nameGroups.get(key)!.push(p);
+    }
+    // Primary id = oldest profile for that name. Map all duplicate ids -> primary id.
+    const idToPrimary = new Map<string, string>();
+    const studentList: typeof rawStudents = [];
+    for (const group of nameGroups.values()) {
+      const sorted = [...group].sort((a, b) =>
+        new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+      );
+      const primary = sorted[0];
+      studentList.push(primary);
+      for (const p of sorted) idToPrimary.set(p.id, primary.id);
+    }
+    // Keep unnamed profiles as-is (cannot safely merge)
+    for (const p of unnamed) {
+      studentList.push(p);
+      idToPrimary.set(p.id, p.id);
+    }
     setStudents(studentList);
 
     // Fetch all activity logs
@@ -128,7 +156,11 @@ const AdminDashboard = () => {
       .from("student_activity_log")
       .select("*")
       .order("created_at", { ascending: true });
-    const allActivities = activityData || [];
+    // Remap activity user_id to primary id so merged students share their history
+    const allActivities = (activityData || []).map((a) => ({
+      ...a,
+      user_id: idToPrimary.get(a.user_id) || a.user_id,
+    }));
     setActivities(allActivities);
 
     // Compute student states
@@ -156,6 +188,7 @@ const AdminDashboard = () => {
 
     states.sort((a, b) => b.totalActivities - a.totalActivities);
     setStudentStates(states);
+
 
     // Class stats with domain breakdown
     const oneWeekAgo = new Date();
