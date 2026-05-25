@@ -710,6 +710,8 @@ const SynonymShowdown = ({ mode, onExit }: { mode: Mode; onExit: () => void }) =
   const [picked, setPicked] = useState<string | null>(null);
   const [timeLeft, setTimeLeft] = useState(15);
   const [done, setDone] = useState(false);
+  const fx = useGameFx();
+  const [saved, setSaved] = useState<{ rank: number | null; isNew: boolean } | null>(null);
 
   const questions = useMemo(() => {
     const pool = ieltsVocabData.filter((w) => w.synonyms && w.synonyms.length > 0);
@@ -740,15 +742,23 @@ const SynonymShowdown = ({ mode, onExit }: { mode: Mode; onExit: () => void }) =
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [round, done]);
 
-  const handlePick = (word: string) => {
+  useEffect(() => {
+    if (done && mode === "solo" && !saved) { sfx("win"); setSaved(saveHighScore("synonym", scoreA)); }
+  }, [done, mode, scoreA, saved]);
+
+  const handlePick = (word: string, evt?: MouseEvent<HTMLButtonElement>) => {
     if (picked) return;
     setPicked(word);
     if (word === q.correct) {
-      const pts = 10 + Math.round(timeLeft / 2);
+      const base = 10 + Math.round(timeLeft / 2);
+      const pts = fx.onCorrect(base, { clientX: evt?.clientX, clientY: evt?.clientY });
       if (mode === "solo") setScoreA((s) => s + pts);
       else if (player === 1) setScoreA((s) => s + pts);
       else setScoreB((s) => s + pts);
-      burst();
+    } else if (word !== "__timeout__") {
+      fx.onWrong();
+    } else {
+      fx.onWrong();
     }
     setTimeout(() => {
       if (round + 1 >= ROUNDS) { setDone(true); return; }
@@ -762,22 +772,20 @@ const SynonymShowdown = ({ mode, onExit }: { mode: Mode; onExit: () => void }) =
     return (
       <div className="max-w-2xl mx-auto">
         <GameHeader title={t("Ghép từ đồng nghĩa", "Synonym Showdown")} mode={mode} onExit={onExit} scoreA={scoreA} scoreB={scoreB} currentPlayer={player} />
-        <div className="p-8 rounded-2xl bg-card border-2 border-primary text-center">
-          <Trophy className="w-14 h-14 text-amber-500 mx-auto mb-3" />
-          <h3 className="text-2xl font-bold mb-3">
-            {mode === "solo"
-              ? t(`Tổng điểm: ${scoreA}`, `Final score: ${scoreA}`)
-              : scoreA === scoreB ? t("Hòa!", "Tie!") : scoreA > scoreB ? `🏆 P1 ${scoreA} - ${scoreB} P2` : `P1 ${scoreA} - ${scoreB} P2 🏆`}
-          </h3>
-          <Button onClick={() => window.location.reload()} className="gap-2"><RotateCcw className="w-4 h-4" /> {t("Chơi lại", "Play again")}</Button>
-        </div>
+        <FinalScreen
+          mode={mode} scoreA={scoreA} scoreB={scoreB} maxCombo={fx.maxCombo}
+          rank={saved?.rank ?? null} isNew={saved?.isNew ?? false}
+          gameKey="synonym" gameTitle={t("Đồng nghĩa", "Synonym")}
+        />
       </div>
     );
   }
 
   return (
+    <ShakeWrap trigger={fx.shake}>
     <div className="max-w-2xl mx-auto">
-      <GameHeader title={t("Ghép từ đồng nghĩa", "Synonym Showdown")} mode={mode} onExit={onExit} scoreA={scoreA} scoreB={scoreB} currentPlayer={player} />
+      <fx.FxOverlay />
+      <GameHeader title={t("Ghép từ đồng nghĩa", "Synonym Showdown")} mode={mode} onExit={onExit} scoreA={scoreA} scoreB={scoreB} currentPlayer={player} combo={fx.combo} />
 
       <div className="flex items-center justify-between mb-3 text-sm text-muted-foreground">
         <span>{t(`Câu ${round + 1}/${ROUNDS}`, `Q ${round + 1}/${ROUNDS}`)}</span>
