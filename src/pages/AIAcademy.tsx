@@ -1613,16 +1613,40 @@ const AIAcademy = () => {
                       </div>
                     )}
 
-                    {activeTrack.story.map((s, i) => (
-                      <div key={i} className="p-3 rounded-2xl border-l-4 border-purple-500 bg-purple-500/10">
-                        <h4 className="font-bold text-foreground mb-1.5">{s.heading}</h4>
-                        <SmartText
-                          text={s.body}
-                          html
-                          className="text-[15px] text-foreground leading-relaxed"
-                        />
-                      </div>
-                    ))}
+                    {activeTrack.story.map((s, i) => {
+                      // Pull the leading emoji from heading for a visual badge.
+                      const emojiMatch = s.heading.match(/^(\p{Extended_Pictographic}(?:\uFE0F)?(?:\u200D\p{Extended_Pictographic})*)/u);
+                      const emoji = emojiMatch ? emojiMatch[1] : "✨";
+                      const headingText = s.heading.replace(/^(\p{Extended_Pictographic}(?:\uFE0F)?(?:\u200D\p{Extended_Pictographic})*)\s*/u, "");
+                      const gradients = [
+                        "from-purple-500/20 via-fuchsia-500/15 to-pink-500/20",
+                        "from-cyan-500/20 via-sky-500/15 to-blue-500/20",
+                        "from-emerald-500/20 via-teal-500/15 to-green-500/20",
+                        "from-amber-500/20 via-orange-500/15 to-rose-500/20",
+                      ];
+                      const grad = gradients[i % gradients.length];
+                      return (
+                        <div
+                          key={i}
+                          className={`flex items-start gap-3 p-3 sm:p-4 rounded-2xl border-l-4 border-purple-500 bg-gradient-to-br ${grad} shadow-sm`}
+                        >
+                          <div
+                            aria-hidden
+                            className="shrink-0 flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white/70 dark:bg-white/10 backdrop-blur ring-1 ring-white/40 dark:ring-white/10 shadow-md text-3xl sm:text-4xl"
+                          >
+                            <span data-no-translate>{emoji}</span>
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-bold text-foreground mb-1.5 text-[15px] sm:text-base">{headingText}</h4>
+                            <SmartText
+                              text={s.body}
+                              html
+                              className="text-[15px] text-foreground leading-relaxed"
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
 
 
 
