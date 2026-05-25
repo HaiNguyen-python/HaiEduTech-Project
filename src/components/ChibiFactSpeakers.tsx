@@ -5,7 +5,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useEffect, useMemo, useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -78,12 +78,32 @@ const ChibiFactSpeakers = () => {
   const END_PCT = 88;
   const total = facts.length;
 
+  // Only ONE chibi speaks at a time. Speaks for SPEAK_MS, then bubble hides
+  // for GAP_MS before the next chibi takes the mic.
+  const SPEAK_MS = 8000;
+  const GAP_MS = 3000;
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [speaking, setSpeaking] = useState(true);
+  useEffect(() => {
+    let timer: number;
+    if (speaking) {
+      timer = window.setTimeout(() => setSpeaking(false), SPEAK_MS);
+    } else {
+      timer = window.setTimeout(() => {
+        setActiveIdx((i) => (i + 1) % total);
+        setSpeaking(true);
+      }, GAP_MS);
+    }
+    return () => clearTimeout(timer);
+  }, [speaking, total]);
+
   return (
     <div aria-hidden={false} className="pointer-events-none absolute inset-0 hidden lg:block z-40 overflow-hidden">
       {facts.map((f, i) => {
         const top = total > 1 ? START_PCT + (i * (END_PCT - START_PCT)) / (total - 1) : START_PCT;
         const isLeft = f.side === "left";
         const funEmoji = FUN_EMOJIS[(i * 7 + rotation) % FUN_EMOJIS.length];
+        const isActive = i === activeIdx && speaking;
         return (
           <motion.div
             key={`${rotation}-${i}`}
@@ -113,33 +133,42 @@ const ChibiFactSpeakers = () => {
                   transform: isLeft ? "none" : "scaleX(-1)",
                 }}
               />
-              <div
-                className={`relative rounded-2xl border-[3px] border-primary/70 bg-background shadow-2xl shadow-primary/30 px-4 py-3 text-sm leading-snug text-foreground ${isLeft ? "rounded-bl-sm" : "rounded-br-sm"}`}
-              >
-                {/* Tail */}
-                <span
-                  aria-hidden
-                  className={`absolute bottom-3 w-3 h-3 rotate-45 bg-background ${isLeft ? "-left-[8px] border-l-[3px] border-b-[3px] border-primary/70" : "-right-[8px] border-r-[3px] border-t-[3px] border-primary/70"}`}
-                />
-                <p className="font-medium">
-                  {lang === "vi" ? f.vi : f.en}
-                  <motion.span
-                    aria-hidden
-                    animate={{ rotate: [0, -12, 12, -8, 0], scale: [1, 1.15, 1, 1.1, 1] }}
-                    transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }}
-                    className="inline-block ml-1.5 text-base"
+              <AnimatePresence>
+                {isActive && (
+                  <motion.div
+                    key="bubble"
+                    initial={{ opacity: 0, scale: 0.85, y: 10 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.85, y: 10 }}
+                    transition={{ duration: 0.35, ease: "easeOut" }}
+                    className={`relative rounded-2xl border-[3px] border-primary/70 bg-background shadow-2xl shadow-primary/30 px-4 py-3 text-sm leading-snug text-foreground ${isLeft ? "rounded-bl-sm" : "rounded-br-sm"}`}
                   >
-                    {funEmoji}
-                  </motion.span>
-                </p>
-                <Link
-                  to={f.to}
-                  className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary/80 group"
-                >
-                  {lang === "vi" ? f.ctaVi : f.ctaEn}
-                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
-                </Link>
-              </div>
+                    {/* Tail */}
+                    <span
+                      aria-hidden
+                      className={`absolute bottom-3 w-3 h-3 rotate-45 bg-background ${isLeft ? "-left-[8px] border-l-[3px] border-b-[3px] border-primary/70" : "-right-[8px] border-r-[3px] border-t-[3px] border-primary/70"}`}
+                    />
+                    <p className="font-medium">
+                      {lang === "vi" ? f.vi : f.en}
+                      <motion.span
+                        aria-hidden
+                        animate={{ rotate: [0, -12, 12, -8, 0], scale: [1, 1.15, 1, 1.1, 1] }}
+                        transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }}
+                        className="inline-block ml-1.5 text-base"
+                      >
+                        {funEmoji}
+                      </motion.span>
+                    </p>
+                    <Link
+                      to={f.to}
+                      className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary/80 group"
+                    >
+                      {lang === "vi" ? f.ctaVi : f.ctaEn}
+                      <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                    </Link>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </motion.div>
         );
