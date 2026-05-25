@@ -210,14 +210,16 @@ const VocabArena = () => {
                   </h3>
                   <p className="text-sm text-muted-foreground mb-4">
                     {t(
-                      "3 trò chơi nhỏ: Lật thẻ, Săn từ, Gõ tốc độ — solo hoặc 2 người",
-                      "3 fun games: Memory, Hunt, Sprint — solo or 2-player"
+                      "5 trò chơi nhỏ: Lật thẻ, Săn từ, Gõ tốc độ, Đồng nghĩa, Xếp chữ — solo hoặc 2 người",
+                      "5 fun games: Memory, Hunt, Sprint, Synonym, Scramble — solo or 2-player"
                     )}
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <span className="px-2 py-1 rounded-lg bg-secondary text-xs text-muted-foreground">🧠 Memory</span>
                     <span className="px-2 py-1 rounded-lg bg-secondary text-xs text-muted-foreground">🎯 Hunt</span>
                     <span className="px-2 py-1 rounded-lg bg-secondary text-xs text-muted-foreground">⌨️ Sprint</span>
+                    <span className="px-2 py-1 rounded-lg bg-secondary text-xs text-muted-foreground">🔗 Synonym</span>
+                    <span className="px-2 py-1 rounded-lg bg-secondary text-xs text-muted-foreground">🔀 Scramble</span>
                   </div>
                 </motion.div>
               </div>
