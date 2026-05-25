@@ -239,23 +239,34 @@ const ChatBot = () => {
     return () => window.removeEventListener("chatbot:open", handler);
   }, []);
 
-  // Show tooltip popup every 5 minutes when chat is closed
+  // Pop a random fun fact every 3 minutes when chat is closed
   useEffect(() => {
     if (open) return;
-    const interval = setInterval(() => {
+    const greeting = lang === "vi" ? "Chào! Mình là thầy Hải. Hỏi mình nhé? 😊" : "Hi! I'm Mr.Hai. Ask me something? 😊";
+
+    const popFact = () => {
+      const fact = FUN_FACTS[Math.floor(Math.random() * FUN_FACTS.length)];
+      setTooltipText(`💡 ${lang === "vi" ? fact.vi : fact.en}`);
       setShowTooltip(true);
-      setTimeout(() => setShowTooltip(false), 5000);
-    }, 300000);
-    // Show immediately on mount after a short delay
+      setTimeout(() => {
+        setShowTooltip(false);
+        setTooltipText(greeting);
+      }, 12000);
+    };
+
+    // First greeting shortly after mount, then fun facts every 3 minutes
     const initial = setTimeout(() => {
+      setTooltipText(greeting);
       setShowTooltip(true);
       setTimeout(() => setShowTooltip(false), 5000);
     }, 3000);
+    const interval = setInterval(popFact, 3 * 60 * 1000);
+
     return () => {
       clearInterval(interval);
       clearTimeout(initial);
     };
-  }, [open]);
+  }, [open, lang]);
 
   /**
    * Check if the user has 3+ warnings in the last 24 hours → lock chat for 1 hour.
