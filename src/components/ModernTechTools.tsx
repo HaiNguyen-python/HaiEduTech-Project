@@ -11,6 +11,7 @@ import ShineCard from "@/components/ShineCard";
 import FloatingChibi from "@/components/FloatingChibi";
 import chibiRobot from "@/assets/chibi-robot.png";
 import chibiGraduate from "@/assets/chibi-graduate.png";
+import chibiRocket from "@/assets/chibi-rocket.png";
 
 type Tool = {
   icon: LucideIcon;
@@ -106,10 +107,11 @@ const ModernTechTools = () => {
   };
 
   return (
-    <section className="relative py-10 sm:py-14">
-      <FloatingChibi src={chibiRobot} alt="" className="absolute right-2 top-6 lg:right-8 z-10" size={130} />
-      <FloatingChibi src={chibiGraduate} alt="" className="absolute left-2 bottom-10 lg:left-8 z-10" size={120} delay={1.5} />
-      <div className="container mx-auto px-4 sm:px-6">
+    <section className="relative overflow-hidden py-10 sm:py-14">
+      <FloatingChibi src={chibiRobot} alt="" className="absolute -right-4 top-4 z-0 opacity-90" size={140} />
+      <FloatingChibi src={chibiGraduate} alt="" className="absolute -left-4 bottom-2 z-0 opacity-90" size={140} delay={1.5} />
+      <FloatingChibi src={chibiRocket} alt="" className="absolute right-6 bottom-4 z-0 opacity-85" size={100} delay={0.8} />
+      <div className="container relative z-10 mx-auto px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -145,7 +147,7 @@ const ModernTechTools = () => {
                 <button
                   type="button"
                   onClick={() => handleClick(tool)}
-                  className="group relative block h-full w-full overflow-hidden rounded-2xl border-2 border-border/80 bg-card p-5 text-left shadow-md ring-1 ring-black/[0.03] transition-all hover:-translate-y-1 hover:border-primary/70 hover:shadow-xl hover:shadow-primary/15 sm:p-6"
+                  className="group relative block h-full w-full overflow-hidden rounded-2xl border-2 border-primary/40 bg-card p-5 text-left shadow-[0_4px_20px_-4px_hsl(var(--primary)/0.18)] ring-1 ring-primary/10 transition-all hover:-translate-y-1 hover:border-primary hover:shadow-xl hover:shadow-primary/25 sm:p-6"
                 >
                   {tool.live && (
                     <span className="absolute right-3 top-3 z-20 inline-flex items-center gap-1.5 rounded-full bg-rose-500/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-rose-600">
