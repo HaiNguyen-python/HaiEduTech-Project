@@ -14,6 +14,8 @@ import FloatingParticles from "@/components/FloatingParticles";
 import TechParticles from "@/components/TechParticles";
 import TypingHeadline from "@/components/TypingHeadline";
 import LearningJourneyTimeline from "@/components/LearningJourneyTimeline";
+import FloatingChibi from "@/components/FloatingChibi";
+import chibiRocket from "@/assets/chibi-rocket.png";
 import heroBg from "@/assets/hero-bg.jpg";
 import haiProfile from "@/assets/hai-profile.webp";
 
