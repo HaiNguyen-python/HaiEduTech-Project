@@ -86,15 +86,15 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
 
   const features = [
     { icon: "🎯", title: t("Full Exam Engine", "Full Exam Engine"), desc: t("Toàn bộ đề thi & chấm Smart", "All mock exams & Smart grading") },
-    { icon: "🎮", title: t("Interactive Games", "Interactive Games"), desc: t("Mini-games học tập không giới hạn", "Unlimited learning mini-games") },
+    { icon: "👁️", title: t("AI Vision Sandbox", "AI Vision Sandbox"), desc: t("Thực hành Computer Vision tương tác", "Hands-on Computer Vision labs") },
     { icon: "🤖", title: t("Smart Feedback Coach", "Smart Feedback Coach"), desc: t("Phản hồi cá nhân hoá tức thì", "Instant personalised feedback") },
     { icon: "📚", title: t("Premium Lessons", "Premium Lessons"), desc: t("Bài học nâng cao độc quyền", "Exclusive advanced lessons") },
     { icon: "✍️", title: t("Smart Writing Grading", "Smart Writing Grading"), desc: t("Chấm Writing IELTS/TOEIC chi tiết", "Detailed IELTS/TOEIC writing grading") },
     { icon: "🗣️", title: t("Smart Speaking Coach", "Smart Speaking Coach"), desc: t("Luyện nói 24/7, chấm điểm & góp ý", "Practice speaking 24/7 with feedback") },
-    { icon: "📊", title: t("Progress Analytics", "Progress Analytics"), desc: t("Báo cáo tiến độ trực quan", "Visual progress reports") },
+    { icon: "🧠", title: t("GenAI & Neural Net Labs", "GenAI & Neural Net Labs"), desc: t("Học Generative AI & mạng nơ-ron", "Learn Generative AI & neural networks") },
     { icon: "🏆", title: t("Priority Support", "Priority Support"), desc: t("Hỗ trợ ưu tiên từ Thầy Hải", "Priority support from Teacher Hai") },
-    { icon: "📖", title: t("Downloadable Resources", "Downloadable Resources"), desc: t("PDF, từ vựng & mẫu bài luận", "PDFs, vocab sheets & essay templates") },
-    { icon: "🔥", title: t("Streaks & Badges", "Streaks & Badges"), desc: t("Chuỗi ngày học & huy hiệu", "Study streaks & achievement badges") },
+    { icon: "🛡️", title: t("AI Ethics & Deepfake Lab", "AI Ethics & Deepfake Lab"), desc: t("Nhận biết deepfake & AI an toàn", "Spot deepfakes & stay AI-safe") },
+    { icon: "🎖️", title: t("AI Academy Certificate", "AI Academy Certificate"), desc: t("Chứng chỉ tốt nghiệp AI Academy", "AI Academy graduation certificate") },
     { icon: "🎓", title: t("Scholarship Advisor", "Scholarship Advisor"), desc: t("Tư vấn học bổng cá nhân hoá", "Personalised scholarship advice") },
     { icon: "💼", title: t("Smart Career Roadmap", "Smart Career Roadmap"), desc: t("Lộ trình IT & lập trình", "IT & programming career roadmap") },
   ];
