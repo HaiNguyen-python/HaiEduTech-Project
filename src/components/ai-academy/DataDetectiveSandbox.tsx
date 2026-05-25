@@ -113,13 +113,18 @@ const DataDetectiveSandbox = () => {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center gap-2 text-sm text-foreground/80">
-        <Search className="w-4 h-4 text-primary" />
-        <span>
-          Bấm vào các ô <span className="text-destructive font-bold">đỏ nhấp nháy</span> để "làm
-          sạch" dữ liệu. Biểu đồ và độ sạch sẽ tự cập nhật.
-        </span>
+    <div className="space-y-3 sm:space-y-4 [&>*+*]:pt-3 sm:[&>*+*]:pt-4 [&>*+*]:border-t [&>*+*]:border-border/40">
+      <div>
+        <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-gradient-to-r from-primary/15 to-emerald-500/15 border border-primary/30 text-[11px] font-bold uppercase tracking-wide text-primary mb-2">
+          🧹 Activity 1 · Làm sạch dữ liệu
+        </div>
+        <div className="flex items-center gap-2 text-sm text-foreground/80">
+          <Search className="w-4 h-4 text-primary" />
+          <span>
+            Bấm vào các ô <span className="text-destructive font-bold">đỏ nhấp nháy</span> để "làm
+            sạch" dữ liệu. Biểu đồ và độ sạch sẽ tự cập nhật.
+          </span>
+        </div>
       </div>
 
       {/* Cleanliness gauge */}
