@@ -67,7 +67,6 @@ const Index = () => (
       }}
     />
     <ScrollProgressBar />
-    <LiveActivityToasts />
     <Navbar />
     <HeroSection />
     <SectionDivider />
