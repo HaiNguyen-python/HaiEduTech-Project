@@ -1,5 +1,4 @@
 import { useMemo, useState } from "react";
-import FloatingLessonChibis from "@/components/decorations/FloatingLessonChibis";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -106,7 +105,6 @@ const EnglishGrammar = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <FloatingLessonChibis theme="grammar" seed="en-grammar" />
       <SEO title="Ngữ Pháp Tiếng Anh Toàn Diện - 30 Bài Học | HaiEduTech" description="9 module ngữ pháp tiếng Anh từ cơ bản đến nâng cao với 30 bài học: Tenses, Conditionals, Modal Verbs, Reported Speech, Passive Voice. Luyện tập tương tác." path="/english/grammar" />
       <Navbar />
       <main className="container mx-auto px-4 py-10 max-w-6xl">

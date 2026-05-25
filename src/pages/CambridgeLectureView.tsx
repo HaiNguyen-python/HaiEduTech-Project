@@ -1,5 +1,4 @@
 // Cambridge Lecture Detail View - Kid-friendly, Exam-ready with Learning Objectives
-import FloatingLessonChibis from "@/components/decorations/FloatingLessonChibis";
 import { useState, useMemo } from "react";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { useParams, useNavigate, Link } from "react-router-dom";
@@ -98,7 +97,6 @@ const CambridgeLectureView = () => {
 
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-sky-100 via-amber-50 to-pink-100 overflow-hidden">
-      <FloatingLessonChibis theme="cambridge" />
       <FloatingBalloons count={16} />
       <div className="relative z-10">
       <Navbar />

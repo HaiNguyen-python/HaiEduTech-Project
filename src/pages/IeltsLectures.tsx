@@ -1,5 +1,4 @@
 // IELTS Lectures Dashboard - Advanced filtering, search, sort, bookmarks, and responsive grid
-import FloatingLessonChibis from "@/components/decorations/FloatingLessonChibis";
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -210,7 +209,6 @@ const IeltsLectures = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <FloatingLessonChibis theme="ielts" seed="ielts-lectures" />
       <SEO title="Bài Giảng IELTS Skills: Listening, Reading, Writing, Speaking | HaiEduTech" description="95+ bài giảng IELTS chuyên sâu theo 4 trụ cột: Skill-Based, Tips & Hacks, Thematic Vocab, Test Prep. Mẹo vàng của Thầy Hải, Band 5.0 đến 7.0+." path="/ielts-lectures" />
       <Navbar />
       <main className="flex-1">
