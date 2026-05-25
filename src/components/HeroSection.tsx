@@ -66,9 +66,10 @@ const HeroSection = () => {
       <div className="absolute left-1/2 top-24 h-48 w-48 -translate-x-1/2 rounded-full bg-primary/10 blur-3xl animate-aurora-drift sm:left-1/4 sm:top-1/4 sm:h-64 sm:w-64 sm:translate-x-0" />
       <div className="absolute bottom-20 right-0 h-56 w-56 rounded-full bg-accent/10 blur-3xl animate-aurora-drift sm:bottom-1/3 sm:right-1/4 sm:h-80 sm:w-80" style={{ animationDelay: "4s", animationDuration: "26s" }} />
 
-      {/* Decorative hero chibis (desktop only) — keep minimal: 2 mascots, well spaced */}
+      {/* Decorative hero chibis (desktop only) — purely visual, never speak */}
       <FloatingChibi src={chibiOwl} alt="" size={95} delay={0} className="absolute left-[2%] top-[14%] z-20" />
       <FloatingChibi src={chibiRocket} alt="" size={100} delay={0.8} className="absolute right-[3%] bottom-[18%] z-20" />
+      <FloatingChibi src={chibiGraduate} alt="" size={90} delay={1.6} className="absolute right-[4%] top-[12%] z-20" />
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6">
         <div className="mx-auto max-w-5xl">
