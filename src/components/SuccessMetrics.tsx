@@ -2,6 +2,9 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Mic, PenTool, GraduationCap, Languages, ArrowRight, Sparkles } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import FloatingChibi from "@/components/FloatingChibi";
+import chibiOwl from "@/assets/chibi-owl.png";
+import chibiRocket from "@/assets/chibi-rocket.png";
 
 /**
  * Signature Features section
@@ -73,7 +76,9 @@ const SuccessMetrics = () => {
     <section className="relative py-8 sm:py-10">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary/10 to-transparent" />
 
-      <div className="container relative mx-auto px-4 sm:px-6">
+      <FloatingChibi src={chibiOwl} alt="" className="absolute -left-2 top-4 z-0 opacity-90" size={110} />
+      <FloatingChibi src={chibiRocket} alt="" className="absolute -right-2 bottom-4 z-0 opacity-90" size={120} delay={1.4} />
+      <div className="container relative z-10 mx-auto px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -106,7 +111,7 @@ const SuccessMetrics = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08, duration: 0.5 }}
-                className="group relative overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl sm:p-7"
+                className="group relative overflow-hidden rounded-2xl border-[3px] border-primary/60 bg-card p-6 shadow-[0_6px_24px_-4px_hsl(var(--primary)/0.28)] ring-2 ring-primary/15 transition-all hover:-translate-y-1 hover:border-primary hover:shadow-2xl hover:shadow-primary/35 sm:p-7"
               >
                 {/* Gradient halo */}
                 <div

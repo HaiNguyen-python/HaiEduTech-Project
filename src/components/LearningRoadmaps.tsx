@@ -4,6 +4,9 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { learningRoadmaps, type RoadmapStep } from "@/data/homePageData";
 import { Cpu } from "lucide-react";
+import FloatingChibi from "@/components/FloatingChibi";
+import chibiGraduate from "@/assets/chibi-graduate.png";
+import chibiPanda from "@/assets/chibi-panda.png";
 
 /** Resolve a Lucide icon by name, with fallback */
 const getIcon = (name: string) => (icons as Record<string, any>)[name] ?? Cpu;
@@ -51,11 +54,13 @@ const LearningRoadmaps = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="relative py-10 sm:py-12">
+    <section className="relative overflow-hidden py-10 sm:py-12">
       {/* Subtle background accent */}
       <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 via-transparent to-transparent" />
+      <FloatingChibi src={chibiGraduate} alt="" className="absolute -left-2 top-6 z-0 opacity-90" size={120} />
+      <FloatingChibi src={chibiPanda} alt="" className="absolute -right-2 bottom-6 z-0 opacity-90" size={120} delay={1.3} />
 
-      <div className="container relative mx-auto px-4 sm:px-6">
+      <div className="container relative z-10 mx-auto px-4 sm:px-6">
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

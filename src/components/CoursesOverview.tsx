@@ -101,7 +101,7 @@ const CoursesOverview = () => {
               <ShineCard className="h-full rounded-2xl">
                 <Link
                   to={c.to}
-                  className="group relative block h-full rounded-2xl border-2 border-primary/40 bg-card p-5 shadow-[0_4px_20px_-4px_hsl(var(--primary)/0.18)] ring-1 ring-primary/10 transition-all hover:-translate-y-1 hover:border-primary hover:shadow-xl hover:shadow-primary/25"
+                  className="group relative block h-full rounded-2xl border-[3px] border-primary/60 bg-card p-5 shadow-[0_6px_24px_-4px_hsl(var(--primary)/0.28)] ring-2 ring-primary/15 transition-all hover:-translate-y-1 hover:border-primary hover:shadow-2xl hover:shadow-primary/35"
                 >
                   {c.isNew && (
                     <span className="absolute right-3 top-3 rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-md">

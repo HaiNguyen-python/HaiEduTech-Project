@@ -1,6 +1,6 @@
 /**
  * @file FloatingChibi.tsx
- * @description Decorative chibi mascot with gentle floating animation.
+ * @description Decorative chibi mascot with gentle floating + interactive hover animation.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { motion } from "framer-motion";
@@ -30,8 +30,13 @@ const FloatingChibi = ({ src, alt, className = "", size = 110, delay = 0, flip =
       y: { duration: 4, repeat: Infinity, ease: "easeInOut", delay },
       opacity: { duration: 0.6 },
     }}
-    style={{ width: size, height: size, transform: flip ? "scaleX(-1)" : undefined }}
-    className={`pointer-events-none select-none drop-shadow-[0_8px_20px_rgba(59,130,246,0.18)] hidden lg:block ${className}`}
+    whileHover={{
+      scale: 1.18,
+      rotate: flip ? [0, 8, -8, 6, 0] : [0, -8, 8, -6, 0],
+      transition: { duration: 0.7, ease: "easeInOut" },
+    }}
+    style={{ width: size, height: size, transform: flip ? "scaleX(-1)" : undefined, transformOrigin: "center bottom" }}
+    className={`pointer-events-auto cursor-pointer select-none drop-shadow-[0_8px_24px_rgba(59,130,246,0.25)] hidden lg:block ${className}`}
   />
 );
 
