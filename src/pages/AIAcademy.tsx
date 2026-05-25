@@ -84,7 +84,7 @@ const TRACK_ILLUSTRATIONS: Record<string, string> = {
 
 import FloatingAIIcons from "@/components/ai-academy/FloatingAIIcons";
 import FloatingChibi from "@/components/FloatingChibi";
-import chibiRobot from "@/assets/ai-chibi-robot.png";
+import chibiRobotHero from "@/assets/ai-chibi-robot.png";
 import chibiCoder from "@/assets/chibi-coder.png";
 import chibiOwl from "@/assets/chibi-owl.png";
 import chibiRocket from "@/assets/chibi-rocket.png";
