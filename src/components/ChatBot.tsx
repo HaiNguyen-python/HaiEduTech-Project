@@ -163,6 +163,22 @@ function containsProfanity(text: string): boolean {
 
 // Topic filter removed - students can ask freely about any subject
 
+// ── Fun facts the chatbot pops to learners every 3 minutes ──
+const FUN_FACTS: { vi: string; en: string }[] = [
+  { vi: "Bật mí: hơn 60% từ vựng học thuật tiếng Anh có gốc Latin hoặc Pháp.", en: "Fun fact: over 60% of academic English vocabulary comes from Latin or French roots." },
+  { vi: "Bật mí: chữ 好 ghép từ 女 và 子 — một chữ Hán nhỏ chứa cả câu chuyện văn hoá.", en: "Fun fact: the Chinese character 好 combines 女 and 子 — one small symbol with a full cultural story." },
+  { vi: "Bật mí: Python được đặt theo nhóm hài Monty Python, không phải theo loài rắn.", en: "Fun fact: Python was named after Monty Python, not the snake." },
+  { vi: "Bật mí: luyện nói tiếng Anh 10 phút mỗi ngày hiệu quả hơn học dồn cuối tuần.", en: "Fun fact: 10 minutes of spoken English daily beats one long cramming session on the weekend." },
+  { vi: "Bật mí: khoảng 3.000 chữ Hán thông dụng đã đủ đọc phần lớn báo chí cơ bản.", en: "Fun fact: roughly 3,000 common Hanzi are enough to read most basic news content." },
+  { vi: "Bật mí: học lập trình sớm giúp não quen với tư duy chia nhỏ vấn đề.", en: "Fun fact: learning to code early trains your brain to break big problems into clear steps." },
+  { vi: "Bật mí: IELTS Speaking chỉ 11–14 phút, phản xạ tự nhiên quan trọng hơn nói dài.", en: "Fun fact: IELTS Speaking lasts only 11–14 minutes — natural response beats speaking too long." },
+  { vi: "Bật mí: 电脑 trong tiếng Trung nghĩa đen là 'máy não điện', tức computer.", en: "Fun fact: 电脑 in Chinese literally means 'electric brain' — it's the word for computer." },
+  { vi: "Bật mí: JavaScript được viết trong khoảng 10 ngày, nhưng nay đứng sau vô số website lớn.", en: "Fun fact: JavaScript was created in about 10 days, yet now powers countless major websites." },
+  { vi: "Bật mí: nghe podcast tiếng Anh 15 phút/ngày cải thiện listening rõ rệt sau 1 tháng.", en: "Fun fact: 15 minutes of English podcasts daily noticeably improves listening within a month." },
+  { vi: "Bật mí: SQL ra đời từ những năm 1970 và vẫn là ngôn ngữ truy vấn phổ biến nhất.", en: "Fun fact: SQL was born in the 1970s and is still the most widely used query language." },
+  { vi: "Bật mí: viết tay từ vựng giúp nhớ lâu hơn gõ phím — kể cả với Hán tự!", en: "Fun fact: writing vocabulary by hand boosts retention better than typing — even for Hanzi!" },
+];
+
 // ── Speech Recognition type shim ──
 interface ISpeechRecognition extends EventTarget {
   lang: string;
@@ -183,6 +199,7 @@ const ChatBot = () => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
+  const [tooltipText, setTooltipText] = useState<string>("Hi! I'm Mr.Hai. Ask me something? 😊");
   const [shake, setShake] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [profanityWarning, setProfanityWarning] = useState(false);
@@ -222,23 +239,34 @@ const ChatBot = () => {
     return () => window.removeEventListener("chatbot:open", handler);
   }, []);
 
-  // Show tooltip popup every 5 minutes when chat is closed
+  // Pop a random fun fact every 3 minutes when chat is closed
   useEffect(() => {
     if (open) return;
-    const interval = setInterval(() => {
+    const greeting = lang === "vi" ? "Chào! Mình là thầy Hải. Hỏi mình nhé? 😊" : "Hi! I'm Mr.Hai. Ask me something? 😊";
+
+    const popFact = () => {
+      const fact = FUN_FACTS[Math.floor(Math.random() * FUN_FACTS.length)];
+      setTooltipText(`💡 ${lang === "vi" ? fact.vi : fact.en}`);
       setShowTooltip(true);
-      setTimeout(() => setShowTooltip(false), 5000);
-    }, 300000);
-    // Show immediately on mount after a short delay
+      setTimeout(() => {
+        setShowTooltip(false);
+        setTooltipText(greeting);
+      }, 12000);
+    };
+
+    // First greeting shortly after mount, then fun facts every 3 minutes
     const initial = setTimeout(() => {
+      setTooltipText(greeting);
       setShowTooltip(true);
       setTimeout(() => setShowTooltip(false), 5000);
     }, 3000);
+    const interval = setInterval(popFact, 3 * 60 * 1000);
+
     return () => {
       clearInterval(interval);
       clearTimeout(initial);
     };
-  }, [open]);
+  }, [open, lang]);
 
   /**
    * Check if the user has 3+ warnings in the last 24 hours → lock chat for 1 hour.
@@ -269,28 +297,16 @@ const ChatBot = () => {
     }
   }, []);
 
-  // ── Tooltip / shake animation effect ──
+  // ── Shake animation effect (separate from fun-fact rotation) ──
   useEffect(() => {
     if (open) return;
     const interval = setInterval(() => {
       setShake(true);
-      setTimeout(() => {
-        setShake(false);
-        setShowTooltip(true);
-        tooltipTimerRef.current = setTimeout(() => setShowTooltip(false), 5000);
-      }, 600);
-    }, 300000);
-
-    const initialTimer = setTimeout(() => {
-      if (!open) {
-        setShowTooltip(true);
-        tooltipTimerRef.current = setTimeout(() => setShowTooltip(false), 5000);
-      }
-    }, 3000);
+      setTimeout(() => setShake(false), 600);
+    }, 180000);
 
     return () => {
       clearInterval(interval);
-      clearTimeout(initialTimer);
       if (tooltipTimerRef.current) clearTimeout(tooltipTimerRef.current);
     };
   }, [open, isMobile]);
@@ -573,9 +589,9 @@ const ChatBot = () => {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 8, scale: 0.9 }}
                   transition={{ duration: 0.3 }}
-                  className="relative max-w-[220px] rounded-xl border border-border bg-card px-4 py-2.5 text-center text-sm text-foreground shadow-lg"
+                  className="relative max-w-[260px] rounded-xl border border-border bg-card px-4 py-2.5 text-left text-sm leading-snug text-foreground shadow-lg"
                 >
-                  <span>Hi! I'm Mr.Hai. Ask me something? 😊</span>
+                  <span>{tooltipText}</span>
                   <div className="absolute -bottom-1.5 right-6 h-3 w-3 rotate-45 border-b border-r border-border bg-card" />
                 </motion.div>
               )}
