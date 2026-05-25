@@ -595,7 +595,12 @@ const ChatBot = () => {
               className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border-2 border-primary-foreground/20 bg-primary shadow-2xl transition-all hover:brightness-110 sm:h-16 sm:w-16"
               title="Chat with Teacher Hai"
             >
-              <img src={chatbotIcon} alt="Thầy Hải" className="h-12 w-12 object-cover sm:h-14 sm:w-14" />
+              <img
+                src={chatbotIcon}
+                alt="Thầy Hải"
+                className="h-12 w-12 object-cover origin-[50%_70%] sm:h-14 sm:w-14"
+                style={{ animation: "wave-hand 1.6s ease-in-out 2s infinite", animationDelay: "2s", animationIterationCount: "infinite", animationDuration: "12s" }}
+              />
             </motion.button>
           </div>
         )}
