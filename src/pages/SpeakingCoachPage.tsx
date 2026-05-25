@@ -62,7 +62,21 @@ const SpeakingCoachPage = () => {
     const id = ++starIdRef.current;
     // Start from center of viewport
     setFlyingStars((prev) => [...prev, { id, startX: window.innerWidth / 2, startY: window.innerHeight / 2 }]);
-  }, []);
+    // Log to admin dashboard so teacher sees speaking practice frequency
+    (async () => {
+      try {
+        const { logStudentActivity } = await import("@/hooks/useActivityLogger");
+        const domain = lang === "chinese" ? "chinese" : "english";
+        await logStudentActivity({
+          activityType: `speaking_coach_${lang}`,
+          score: 10,
+          maxScore: 10,
+          domain,
+          metadata: { language: lang },
+        });
+      } catch (e) { console.error("log speaking coach failed", e); }
+    })();
+  }, [lang]);
 
   const handleStarLanded = useCallback((id: number) => {
     setFlyingStars((prev) => prev.filter((s) => s.id !== id));

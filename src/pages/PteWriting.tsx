@@ -112,6 +112,18 @@ const PteWriting = () => {
       }
       window.dispatchEvent(new Event("notebook:updated"));
       toast.success("Saved to your Electronic Notebook 📓");
+      // Log to admin dashboard so teacher can track writing frequency
+      try {
+        const { logStudentActivity } = await import("@/hooks/useActivityLogger");
+        await logStudentActivity({
+          activityType: mode === "essay" ? "pte_writing_essay" : "pte_writing_summary",
+          activityId: current.id,
+          score: result.band,
+          maxScore: 90,
+          domain: "english",
+          metadata: { mode, wordCount, coverage: result.coverage },
+        });
+      } catch (e) { console.error("log pte writing failed", e); }
     })();
   }, [submitted, result, current, mode, essay, wordCount, recordCompletion]);
 
