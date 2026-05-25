@@ -1,64 +1,112 @@
-## Mục tiêu
-Nâng cấp trang chủ với 4 gói hiệu ứng EduTech theo phong cách **Apple-style tinh tế** — chuyển động mượt, nhẹ, không gây nhiễu, chạy 60fps và tự giảm tải trên mobile / `prefers-reduced-motion`.
+# Rà soát Admin Dashboard — Báo cáo & Đề xuất
 
----
+## 1. Hiện trạng data thực tế (kiểm tra DB)
 
-## 1. Gói Hero Tech (`src/components/Hero.tsx`)
-- **TechParticles layer**: canvas background nhẹ với ký hiệu `</>`, `{}`, `AI`, `α`, `中`, `Suomi`, `π` bay chậm, opacity 10–15%, blend `screen`. Tắt trên mobile.
-- **Aurora Blob**: 2 vệt gradient `--primary` → `--accent` blur-3xl di chuyển chậm (CSS keyframes, 20s loop).
-- **Typing Effect** cho 1 từ trong headline luân phiên: `AI | IELTS | Lập trình | Tiếng Trung | YKI` — dùng hook nhỏ tự viết, 1 từ duy nhất, headline còn lại tĩnh để giữ ổn định layout.
-- **Spotlight follow cursor**: lớp `radial-gradient` mờ theo `mousemove` (throttled), chỉ desktop.
+Tra cứu `student_activity_log` cho thấy **lý do thầy không thấy data Speaking/Writing**:
 
-## 2. Gói Card Interactions
-**`CoursesOverview.tsx` & `ModernTechTools.tsx`:**
-- **3D Tilt nhẹ** (max ±6°) qua hook `useTilt` thuần (mousemove → CSS transform), không cần thư viện.
-- **Shine sweep**: pseudo-element `::before` gradient trắng nghiêng 20°, translate khi hover (700ms ease-out).
-- **Magnetic CTA**: nút "Khám phá" hút nhẹ về phía chuột (max 6px), spring transition.
-- **Soft glow**: `box-shadow` theo màu gradient của card khi hover.
 
-Tạo file dùng chung: `src/hooks/useTilt.ts`, `src/hooks/useMagnetic.ts`, `src/components/ShineCard.tsx` (wrapper áp dụng shine + tilt).
+| activity_type         | Tổng   | Lần cuối                 |
+| --------------------- | ------ | ------------------------ |
+| session_heartbeat     | 12.798 | hôm nay                  |
+| daily_login           | 306    | hôm nay                  |
+| ielts_writing         | 85     | **18/05** (1 tuần trước) |
+| conv_english          | 20     | 07/04                    |
+| language_lesson_quiz  | 17     | 22/05                    |
+| toeic_lecture_quiz    | 6      | 24/05                    |
+| ielts_speaking        | **3**  | **13/04**                |
+| python_pathway_lesson | 3      | 03/05                    |
 
-## 3. Gói Scroll & Numbers
-- **Reveal stagger**: tạo `src/components/RevealOnScroll.tsx` (IntersectionObserver + framer-motion variants). Áp dụng cho `CoursesOverview`, `LearningRoadmaps`, `ModernTechTools`, `SuccessMetrics` — children fade-up lệch 80ms.
-- **CountUp** cho `SuccessMetrics`: hook `useCountUp` tự viết (requestAnimationFrame, 1.5s ease-out), kích hoạt khi vào viewport.
-- **SVG path draw** trong `LearningRoadmaps`: `strokeDasharray` + `strokeDashoffset` animate khi visible.
-- **Section wave dividers**: thêm SVG wave/blob mềm giữa các section trong `Index.tsx` thay vì padding cứng — `src/components/SectionDivider.tsx` với 2 biến thể (wave, blob).
-- **Scroll progress bar**: thanh gradient brand `fixed top-0` cao 2px theo `scrollY/scrollHeight`.
 
-## 4. Gói Social Proof
-- **Live toast giả** (sonner): `src/components/LiveActivityToasts.tsx` mount ở `Index.tsx`. Mảng tin nhắn xoay vòng mỗi 25–40s (random): "🎉 Minh vừa đạt IELTS 7.5", "🔥 Lan hoàn thành HSK 3", "✨ Khoa nhận chứng chỉ YKI A2"... Tự dừng khi tab ẩn (`document.hidden`).
-- **Mr. Hai wave**: trong `ChatBot.tsx`, thêm animation `wave` (rotate -10° → 14° → 0, 1.2s) cho icon mỗi 12s khi widget đóng.
-- **🔴 Live badge** trên card "Game Center" trong `ModernTechTools.tsx`: chấm đỏ pulse + text "Live".
+→ Code log Speaking/Writing đã được thêm ở vòng trước, **nhưng hoặc không trigger, hoặc học sinh chưa tương tác lại từ lúc deploy**. Hoàn toàn không có log cho: `pte_speaking`, `pte_writing_essay/summary`, `speaking_coach_en/zh/fi/vi`, `cambridge_mock`, `sat_mock`, `national_exam`, `hsk_vocab`, `ielts_vocab`, `finnish_*`, `dictation_*`, `chatbot_chat`…
 
----
+Page views: 3.243 row, 34 user, vẫn cập nhật → con số "1000" trước đây là do `fetchAllRows` chưa được dùng ở mọi nơi (giờ đã sửa). Cần verify lần cuối.
 
-## Chi tiết kỹ thuật
-- **Hiệu năng**: tất cả animation dùng `transform`/`opacity`, kèm `will-change`. Particles canvas giới hạn ~30 hạt, tự huỷ khi unmount.
-- **Accessibility**: bọc bằng `@media (prefers-reduced-motion: reduce)` để tắt typing, tilt, particles, aurora.
-- **Mobile**: tắt particles + spotlight + tilt khi `window.innerWidth < 1024`.
-- **Không thêm dependency mới** — dùng framer-motion (đã có), sonner (đã có), CSS thuần.
+## 2. Lỗi & rủi ro cần fix
 
-## Files
-**Tạo mới:**
-- `src/hooks/useTilt.ts`
-- `src/hooks/useMagnetic.ts`
-- `src/hooks/useCountUp.ts`
-- `src/components/RevealOnScroll.tsx`
-- `src/components/SectionDivider.tsx`
-- `src/components/ShineCard.tsx`
-- `src/components/TechParticles.tsx`
-- `src/components/TypingHeadline.tsx`
-- `src/components/ScrollProgressBar.tsx`
-- `src/components/LiveActivityToasts.tsx`
+1. **Speaking/Writing không thực sự được log**
+  - Verify lại các call `logStudentActivity` trong `SpeakingPractice.tsx`, `SpeakingCoachPage.tsx`, `PteSpeaking.tsx`, `PteWriting.tsx`, `IeltsWritingPractice.tsx` — kiểm tra điều kiện trigger (có phải chỉ chạy khi đạt điểm tối đa?). Mở `PteWriting` log ngay khi nộp bài, không đợi notebook save effect.
+  - Thêm log frequency-only (không cần điểm) cho mọi lần submit Speaking/Writing để đếm tần suất.
+2. **Mở rộng logging cho các module còn trống** (thêm `logStudentActivity` vào):
+  - `IeltsVocabularyBank`, `HskVocabularyBank`, `FinnishVocabulary` — log khi master từ
+  - `CambridgeMockExam`, `SatMockExam`, `NationalExamRoom` — log khi nộp bài
+  - `IeltsReadingPractice`, `IeltsListeningPractice` — log khi hoàn thành
+  - `DictationSystem` — log mỗi lần luyện
+  - `IeltsMasterQuiz`, lectures với quiz cuối bài
+  - Chatbot Compass AI, Mr. Hai: log số phiên/độ dài (đánh giá engagement)
+3. **Realtime spam**: Hook hiện refetch TOÀN BỘ data mỗi khi có 1 INSERT (kể cả `session_heartbeat` cứ vài giây). Với 12k heartbeat, dashboard sẽ tự refresh liên tục → CPU cao. Filter event theo `activity_type ≠ session_heartbeat/daily_login` hoặc debounce 10s.
+4. **Dedup học sinh theo tên có rủi ro**: hai học sinh trùng tên thật bị gộp. Nên dedup theo **email/`auth.users.email**` thay vì `full_name`; nếu phải dùng tên thì hiện badge "merged from N accounts" để giáo viên có thể tách thủ công.
+5. **Hiệu năng**: `buildHeatmapData`, `buildWeeklyTrend`, `domainPieData`, `filteredStudents`, `interventionNeeded` đều tính lại mỗi render. Bọc `useMemo`. Với 13k+ row, render hiện tại chậm rõ rệt.
+6. **CSV export** không escape dấu `"` trong cell → Excel parse lỗi với metadata JSON. Dùng helper escape chuẩn (`""`).
+7. **Bug nhỏ**: ô tìm kiếm học sinh không bỏ dấu (Tiếng Việt "Hà" vs "ha"). Dùng `normalizeName` đã có.
 
-**Sửa:**
-- `src/components/Hero.tsx` (particles + aurora + typing + spotlight)
-- `src/components/CoursesOverview.tsx` (ShineCard wrapper + magnetic CTA + reveal)
-- `src/components/ModernTechTools.tsx` (ShineCard + Live badge + reveal)
-- `src/components/LearningRoadmaps.tsx` (SVG path draw + reveal)
-- `src/components/SuccessMetrics.tsx` (CountUp + reveal)
-- `src/components/ChatBot.tsx` (wave animation cho icon đóng)
-- `src/pages/Index.tsx` (SectionDivider giữa các section + ScrollProgressBar + LiveActivityToasts)
-- `tailwind.config.ts` / `src/index.css` (thêm keyframes `wave`, `aurora-float`, `shine-sweep` nếu cần)
+## 3. Đề xuất tính năng mới (tăng giá trị admin)
 
-Không động backend, không thay đổi business logic.
+### A. Tab "Engagement Heatmap" (mới)
+
+- Bảng 7×24 (ngày trong tuần × giờ) hiển thị mật độ học sinh online → biết giờ vàng để mở lớp.
+- DAU / WAU / MAU + tỷ lệ retention 7/30 ngày.
+
+### B. Skill Frequency Card cho từng học sinh
+
+Hiện đã có cột Speaking/Writing count → bổ sung:
+
+- **Streak Speaking riêng & Streak Writing riêng** (không chung streak login)
+- **Cảnh báo "X ngày chưa nói/viết"** highlight đỏ ở bảng Students nếu > 7 ngày
+- Mini bar chart 30 ngày qua cho mỗi học sinh khi click expand row
+
+### C. Cohort Analysis
+
+Nhóm học sinh theo tuần đăng ký → biểu đồ retention curve. Giúp đánh giá nội dung onboarding.
+
+### E. Quick Actions trên row học sinh
+
+- Nút "Gửi nhắc nhở" (insert vào `teacher_contact_requests`)
+- Nút "Tặng badge thủ công"
+- Nút "Reset streak / Cộng XP"
+
+### F. Compare Mode
+
+Chọn 2-3 học sinh để so sánh radar skill side-by-side — hữu ích cho buổi tư vấn phụ huynh.
+
+### G. Content Health Tab
+
+- Bài học/quiz nào có **completion rate thấp nhất**
+- Câu hỏi nào học sinh sai nhiều nhất (>70%) → flag review nội dung
+- Top vocab khó nhất theo `user_vocab_mastered` reverse
+
+### H. Revenue × Engagement
+
+Tab Income đã có. Bổ sung: scatter plot "Hours studied vs months paid" → tìm học sinh chuẩn bị churn.
+
+### I. Export PDF báo cáo phụ huynh
+
+Một học sinh → PDF 1 trang gồm radar, streak, gợi ý RL, lời nhắn từ Mr. Hai (AI gen).
+
+### J. Notification center
+
+Bell icon: cảnh báo realtime (học sinh đang distress qua Compass AI, học sinh vừa đạt band 8.0, học sinh vắng ≥ 14 ngày).
+
+## 4. Thứ tự thực hiện đề xuất (ưu tiên)
+
+**P0 — Sửa data (tuần này):**
+
+1. Audit & fix log Speaking/Writing (mục 2.1, 2.2)
+2. Debounce realtime + filter heartbeat (2.3)
+3. Memoize tính toán nặng (2.5)
+
+**P1 — Insight cốt lõi:**
+4. Cảnh báo "X ngày chưa nói/viết" + streak riêng (3.B)
+5. Tab Content Health (3.G)
+6. Engagement Heatmap + DAU/WAU (3.A)
+
+**P2 — Mở rộng:**
+7. Auto-insight AI (3.D)
+8. Quick Actions + Notification center (3.E, 3.J)
+9. Compare Mode + PDF báo cáo (3.F, 3.I)
+
+## 5. Câu hỏi cho thầy trước khi build
+
+- Thầy muốn fix toàn bộ **P0** trước (mất ~1 lượt prompt) rồi quyết P1 sau, hay muốn em gộp P0+P1 luôn?
+- Có muốn em audit kỹ từng file Speaking/Writing để chỉ rõ chỗ nào không log không, hay tin tưởng em tự fix?  
+  
+ok hãy làm đi 
