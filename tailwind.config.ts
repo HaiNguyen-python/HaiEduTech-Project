@@ -88,10 +88,10 @@ export default {
           "50%": { transform: "translateY(-10px)" },
         },
         "wave-hand": {
-          "0%, 60%, 100%": { transform: "rotate(0deg)" },
-          "10%, 30%": { transform: "rotate(-12deg)" },
-          "20%, 40%": { transform: "rotate(14deg)" },
-          "50%": { transform: "rotate(0deg)" },
+          "0%, 100%": { transform: "rotate(0deg)" },
+          "2%, 6%": { transform: "rotate(-14deg)" },
+          "4%, 8%": { transform: "rotate(16deg)" },
+          "10%": { transform: "rotate(0deg)" },
         },
         "aurora-drift": {
           "0%, 100%": { transform: "translate3d(0,0,0) scale(1)" },
