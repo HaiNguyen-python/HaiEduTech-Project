@@ -4,14 +4,25 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { PenTool, Mic, Bot, Gamepad2, Target, LineChart, ArrowRight } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { PenTool, Mic, Bot, Gamepad2, Target, LineChart, ArrowRight, LucideIcon } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+
+type Tool = {
+  icon: LucideIcon;
+  title: string;
+  desc: string;
+  to?: string;
+  action?: "open-chatbot";
+  gradient: string;
+  iconColor: string;
+};
 
 const ModernTechTools = () => {
   const { t } = useLanguage();
+  const navigate = useNavigate();
 
-  const tools = [
+  const tools: Tool[] = [
     {
       icon: PenTool,
       title: t("AI Grading", "AI Grading"),
@@ -19,7 +30,7 @@ const ModernTechTools = () => {
         "Chấm IELTS Writing tức thì, feedback chi tiết theo 4 tiêu chí, xuất PDF.",
         "Instant IELTS Writing grading with 4-criteria feedback and PDF export."
       ),
-      to: "/english/ielts/writing",
+      to: "/ai-grading",
       gradient: "from-sky-500/25 to-primary/10",
       iconColor: "text-sky-500",
     },
@@ -30,7 +41,7 @@ const ModernTechTools = () => {
         "Nhận diện giọng nói real-time, đánh giá phát âm theo IPA & Pinyin.",
         "Real-time speech recognition, pronunciation feedback with IPA & Pinyin."
       ),
-      to: "/english/ielts/speaking",
+      to: "/ielts-speaking-practice",
       gradient: "from-emerald-500/25 to-primary/10",
       iconColor: "text-emerald-500",
     },
@@ -41,7 +52,7 @@ const ModernTechTools = () => {
         "Trợ lý AI 24/7, đa ngôn ngữ — giải đáp mọi câu hỏi học tập.",
         "24/7 multilingual AI tutor — answers any learning question."
       ),
-      to: "/chatbot",
+      action: "open-chatbot",
       gradient: "from-indigo-500/25 to-primary/10",
       iconColor: "text-indigo-500",
     },
@@ -52,7 +63,7 @@ const ModernTechTools = () => {
         "Vocab Arena, Duel Battle 1v1 với bảng xếp hạng công khai.",
         "Vocab Arena & 1v1 Duel Battle with public leaderboards."
       ),
-      to: "/games",
+      to: "/arcade-plus",
       gradient: "from-fuchsia-500/25 to-primary/10",
       iconColor: "text-fuchsia-500",
     },
@@ -63,7 +74,7 @@ const ModernTechTools = () => {
         "Bài test 10 câu adaptive, sinh Skill Profile cá nhân cho lộ trình.",
         "10-question adaptive test generating a personal Skill Profile."
       ),
-      to: "/assessment",
+      to: "/dashboard?tab=assessment",
       gradient: "from-amber-500/25 to-primary/10",
       iconColor: "text-amber-500",
     },
@@ -79,6 +90,14 @@ const ModernTechTools = () => {
       iconColor: "text-teal-500",
     },
   ];
+
+  const handleClick = (tool: Tool) => {
+    if (tool.action === "open-chatbot") {
+      window.dispatchEvent(new CustomEvent("chatbot:open"));
+      return;
+    }
+    if (tool.to) navigate(tool.to);
+  };
 
   return (
     <section className="relative py-10 sm:py-14">
@@ -114,9 +133,10 @@ const ModernTechTools = () => {
               viewport={{ once: true }}
               transition={{ delay: i * 0.08 }}
             >
-              <Link
-                to={tool.to}
-                className="group relative block h-full overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-sm transition-all hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg sm:p-6"
+              <button
+                type="button"
+                onClick={() => handleClick(tool)}
+                className="group relative block h-full w-full overflow-hidden rounded-2xl border border-border bg-card p-5 text-left shadow-sm transition-all hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg sm:p-6"
               >
                 <div
                   className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${tool.gradient} opacity-0 transition-opacity group-hover:opacity-100`}
@@ -135,7 +155,7 @@ const ModernTechTools = () => {
                     {t("Trải nghiệm", "Try it")} <ArrowRight className="h-4 w-4" />
                   </span>
                 </div>
-              </Link>
+              </button>
             </motion.div>
           ))}
         </div>
