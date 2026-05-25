@@ -131,7 +131,7 @@ const extractRuleBullets = (sections: TheorySection[]) =>
       return plain.slice(0, 2).map((line) => `${section.title}: ${line}`);
     })
     .filter(Boolean)
-    .slice(0, 6);
+    .slice(0, 4);
 
 const buildWorkedExamples = (lesson: LanguageLesson): CompanionExample[] => {
   const fillBlankExamples = lesson.exercises
@@ -147,7 +147,7 @@ const buildWorkedExamples = (lesson: LanguageLesson): CompanionExample[] => {
         ),
       }))
     )
-    .slice(0, 3)
+    .slice(0, 2)
     .map((item): CompanionExample => ({
       label: "Model answer",
       value: stripMarkdown(item.prompt.replace("___", item.answer)),
@@ -162,7 +162,7 @@ const buildWorkedExamples = (lesson: LanguageLesson): CompanionExample[] => {
         value: item.correctEn || item.correct,
       }))
     )
-    .slice(0, Math.max(0, 3 - fillBlankExamples.length));
+    .slice(0, Math.max(0, 2 - fillBlankExamples.length));
 
   return [...fillBlankExamples, ...reorderExamples].slice(0, 3);
 };
@@ -192,7 +192,7 @@ const buildCommonMistakes = (lesson: LanguageLesson, theoryText: string) => {
     .filter((tip) => /not|don't|do not|must|always|never/i.test(tip))
     .slice(0, Math.max(0, 4 - explicitMistakes.length - quizTraps.length));
 
-  return [...explicitMistakes, ...quizTraps, ...proTips].slice(0, 4);
+  return [...explicitMistakes, ...quizTraps, ...proTips].slice(0, 3);
 };
 
 const buildWrongVsRight = (theoryText: string): CompanionExample[] => {
