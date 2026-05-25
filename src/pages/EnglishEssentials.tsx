@@ -89,20 +89,20 @@ const EnglishEssentials = () => {
               >
                 <Link
                   to={p.to}
-                  className={`group block p-6 lg:p-8 rounded-2xl bg-gradient-to-br ${p.gradient} border-2 ${p.border} hover:scale-[1.02] hover:shadow-2xl transition-all duration-300`}
+                  className={`group block p-6 lg:p-8 rounded-2xl bg-gradient-to-br ${p.gradient} border-[3px] ${p.border} shadow-lg hover:scale-[1.02] hover:shadow-2xl transition-all duration-300`}
                 >
                   <div className="flex items-start gap-4">
-                    <div className="shrink-0 w-14 h-14 rounded-xl bg-background/80 backdrop-blur flex items-center justify-center border-2 border-border group-hover:border-primary transition-colors">
-                      <Icon className="w-7 h-7 text-primary" />
+                    <div className="shrink-0 w-14 h-14 rounded-xl bg-background/90 backdrop-blur flex items-center justify-center border-2 border-foreground/40 group-hover:border-primary transition-colors">
+                      <Icon className={`w-7 h-7 ${p.iconColor}`} strokeWidth={2.5} />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-xl lg:text-2xl font-bold mb-2 text-foreground group-hover:text-primary transition-colors">
+                      <h3 className="text-xl lg:text-2xl font-extrabold mb-2 text-foreground group-hover:text-primary transition-colors">
                         {p.title}
                       </h3>
-                      <p className="text-sm text-muted-foreground leading-relaxed">
+                      <p className="text-sm font-medium text-foreground/80 leading-relaxed">
                         {p.desc}
                       </p>
-                      <div className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary">
+                      <div className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-primary">
                         {t("Vào học", "Start learning")} →
                       </div>
                     </div>
