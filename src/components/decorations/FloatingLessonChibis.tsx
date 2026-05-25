@@ -136,7 +136,7 @@ interface FloatingLessonChibisProps {
   seed?: string;
 }
 
-const FloatingLessonChibis = ({ theme, count = 14, seed }: FloatingLessonChibisProps) => {
+const FloatingLessonChibis = ({ theme, count = 8, seed }: FloatingLessonChibisProps) => {
   const pool = THEMES[theme] ?? THEMES.english;
   const seedStr = seed ?? theme;
 
