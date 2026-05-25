@@ -9,6 +9,9 @@ import HeroSection from "@/components/HeroSection";
 import CoursesOverview from "@/components/CoursesOverview";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
+import ScrollProgressBar from "@/components/ScrollProgressBar";
+import SectionDivider from "@/components/SectionDivider";
+import LiveActivityToasts from "@/components/LiveActivityToasts";
 
 const LearningRoadmaps = lazy(() => import("@/components/LearningRoadmaps"));
 const ModernTechTools = lazy(() => import("@/components/ModernTechTools"));
