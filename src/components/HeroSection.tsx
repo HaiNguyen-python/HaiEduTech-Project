@@ -113,8 +113,8 @@ const HeroSection = () => {
                 <TypingHeadline
                   words={
                     t("vi", "en") === "vi"
-                      ? ["IELTS", "TOEIC", "HSK", "AI", "Lập trình", "YKI"]
-                      : ["IELTS", "TOEIC", "HSK", "AI", "Coding", "YKI"]
+                      ? ["IELTS", "TOEIC", "HSK", "AI", "Lập trình"]
+                      : ["IELTS", "TOEIC", "HSK", "AI", "Coding"]
                   }
                 />
               </div>
