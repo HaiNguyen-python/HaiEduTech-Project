@@ -1,4 +1,5 @@
 // Chinese Conversational interactive dashboard with accordion timeline and pillar tabs
+import FloatingLessonChibis from "@/components/decorations/FloatingLessonChibis";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
@@ -74,6 +75,7 @@ const ChineseConversationalDashboard = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <FloatingLessonChibis theme="chinese" seed="zh-conversational" />
       <Navbar />
       <main className="container mx-auto px-4 py-8 max-w-5xl">
         <Link to="/chinese/conversational" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary mb-6">
