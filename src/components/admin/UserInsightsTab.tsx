@@ -15,6 +15,7 @@ import {
 import {
   Eye, TrendingUp, Users, Clock, Loader2, RefreshCw, MousePointerClick, Lightbulb, CalendarRange,
 } from "lucide-react";
+import { fetchAllRows } from "@/lib/adminData";
 
 type Range = "1d" | "7d" | "30d" | "90d" | "all";
 
@@ -117,19 +118,29 @@ export default function UserInsightsTab() {
 
   const fetchViews = async () => {
     setLoading(true);
-    let q = supabase
-      .from("page_view_log")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .limit(10000);
-    if (range !== "all") {
-      const since = new Date();
-      since.setDate(since.getDate() - RANGE_DAYS[range]);
-      q = q.gte("created_at", since.toISOString());
+    try {
+      const sinceIso = (() => {
+        if (range === "all") return null;
+        const since = new Date();
+        since.setDate(since.getDate() - RANGE_DAYS[range]);
+        return since.toISOString();
+      })();
+
+      const data = await fetchAllRows<PageView>((from, to) => {
+        let query = supabase
+          .from("page_view_log")
+          .select("*")
+          .order("created_at", { ascending: false })
+          .range(from, to);
+
+        if (sinceIso) query = query.gte("created_at", sinceIso);
+        return query;
+      });
+
+      setViews(data);
+    } finally {
+      setLoading(false);
     }
-    const { data, error } = await q;
-    if (!error && data) setViews(data as any);
-    setLoading(false);
   };
 
   useEffect(() => {
