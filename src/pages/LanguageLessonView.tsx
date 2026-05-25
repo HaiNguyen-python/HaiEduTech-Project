@@ -271,13 +271,23 @@ const LanguageLessonView = () => {
                       </div>
                       <span className="text-xs text-muted-foreground">Level {lesson.level}</span>
                     </div>
-                    <div className="flex items-start justify-between gap-3">
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                       <h1 className="text-2xl font-display font-bold text-foreground">
                         {mod.icon} {isEnglishGrammarLesson ? lesson.titleEn : t(lesson.title, lesson.titleEn)}
                       </h1>
-                      {isSatLesson && (
-                        <SatStarToggle storageKey={`sat:lesson:${mod.id}:${lesson.id}`} size="lg" />
-                      )}
+                      <div className="flex shrink-0 flex-wrap gap-2">
+                        {isEnglishGrammarLesson && (
+                          <Button asChild variant="outline" size="sm" className="gap-2">
+                            <Link to="/english/grammar">
+                              <ArrowLeft className="w-4 h-4" />
+                              Back to Grammar
+                            </Link>
+                          </Button>
+                        )}
+                        {isSatLesson && (
+                          <SatStarToggle storageKey={`sat:lesson:${mod.id}:${lesson.id}`} size="lg" />
+                        )}
+                      </div>
                     </div>
                   </div>
 
