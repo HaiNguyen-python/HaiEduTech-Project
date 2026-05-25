@@ -1,24 +1,18 @@
 /**
  * @file Index.tsx
- * @description Home page for HaiEduTech Platform - lazy loads below-fold sections.
+ * @description Home page for HaiEduTech Platform - focused on programs + modern AI tools.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import { lazy, Suspense, useEffect, useState, useRef, ComponentType } from "react";
+import { lazy, Suspense, useEffect, useState, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import CoursesOverview from "@/components/CoursesOverview";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 
-// Lazy load heavy below-fold components
-// Upcoming Courses removed from home page per request
 const LearningRoadmaps = lazy(() => import("@/components/LearningRoadmaps"));
+const ModernTechTools = lazy(() => import("@/components/ModernTechTools"));
 const SuccessMetrics = lazy(() => import("@/components/SuccessMetrics"));
-
-const KnowledgeHub = lazy(() => import("@/components/KnowledgeHub"));
-const AssessmentTool = lazy(() => import("@/components/AssessmentTool"));
-const AIGradingPreview = lazy(() => import("@/components/AIGradingPreview"));
-const DashboardPreview = lazy(() => import("@/components/DashboardPreview"));
 
 const SectionPlaceholder = () => (
   <div className="w-full h-20 flex items-center justify-center">
@@ -26,7 +20,6 @@ const SectionPlaceholder = () => (
   </div>
 );
 
-/** Renders children only when the wrapper scrolls into view */
 const LazySection = ({ children }: { children: React.ReactNode }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -56,8 +49,8 @@ const LazySection = ({ children }: { children: React.ReactNode }) => {
 const Index = () => (
   <div className="min-h-screen bg-background">
     <SEO
-      title="HaiEduTech | AI-Powered Learning for IELTS, HSK & Coding"
-      description="AI-powered personalized learning paths for IELTS, TOEIC, HSK, Finnish YKI, Python & global study abroad — by HaiEduTech."
+      title="HaiEduTech | AI-Powered Learning for IELTS, HSK, AI Academy & Coding"
+      description="AI-powered personalized learning for IELTS, TOEIC, HSK, Finnish YKI, Python, and AI Academy for grades 6–12 — by HaiEduTech."
       path="/"
       locale="en_US"
       jsonLd={{
@@ -65,12 +58,10 @@ const Index = () => (
         "@type": "ItemList",
         "name": "HaiEduTech Learning Programs",
         "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Learn IELTS", "url": "https://haiedutech.com/english/ielts" },
-          { "@type": "ListItem", "position": 2, "name": "Learn HSK Chinese", "url": "https://haiedutech.com/chinese/hsk-guide" },
-          { "@type": "ListItem", "position": 3, "name": "Learn TOEIC", "url": "https://haiedutech.com/english/toeic" },
-          { "@type": "ListItem", "position": 4, "name": "Learn Finnish YKI", "url": "https://haiedutech.com/finnish" },
-          { "@type": "ListItem", "position": 5, "name": "Learn Python Programming", "url": "https://haiedutech.com/programming" },
-          { "@type": "ListItem", "position": 6, "name": "Study Abroad Consulting", "url": "https://haiedutech.com/study-abroad" }
+          { "@type": "ListItem", "position": 1, "name": "English Program (IELTS/TOEIC/Cambridge)", "url": "https://haiedutech.com/english" },
+          { "@type": "ListItem", "position": 2, "name": "Chinese Program (HSK)", "url": "https://haiedutech.com/chinese" },
+          { "@type": "ListItem", "position": 3, "name": "Programming Program", "url": "https://haiedutech.com/programming" },
+          { "@type": "ListItem", "position": 4, "name": "AI Academy (Grades 6–12)", "url": "https://haiedutech.com/programming/ai-academy" }
         ]
       }}
     />
@@ -78,12 +69,8 @@ const Index = () => (
     <HeroSection />
     <CoursesOverview />
     <LazySection><LearningRoadmaps /></LazySection>
+    <LazySection><ModernTechTools /></LazySection>
     <LazySection><SuccessMetrics /></LazySection>
-    
-    <LazySection><KnowledgeHub /></LazySection>
-    <LazySection><AssessmentTool /></LazySection>
-    <LazySection><AIGradingPreview /></LazySection>
-    <LazySection><DashboardPreview /></LazySection>
     <Footer />
   </div>
 );

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { BookOpen, Languages, Code2, ArrowRight } from "lucide-react";
+import { BookOpen, Languages, Code2, Brain, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -17,6 +17,7 @@ const CoursesOverview = () => {
       tags: ["IELTS", "TOEIC", "Cambridge", t("THPT QG", "High School")],
       to: "/english",
       color: "from-sky-500/20 to-sky-600/5",
+      isNew: false,
     },
     {
       icon: Languages,
@@ -28,6 +29,7 @@ const CoursesOverview = () => {
       tags: [t("Sơ cấp", "Elementary"), "HSK", t("Giao tiếp", "Conversational")],
       to: "/chinese",
       color: "from-red-500/20 to-red-600/5",
+      isNew: false,
     },
     {
       icon: Code2,
@@ -39,6 +41,19 @@ const CoursesOverview = () => {
       tags: ["Python", "Data", "AI", t("Cho trẻ", "For Kids")],
       to: "/programming",
       color: "from-primary/20 to-primary/5",
+      isNew: false,
+    },
+    {
+      icon: Brain,
+      title: t("AI Academy", "AI Academy"),
+      description: t(
+        "Học AI cho cấp 2–3 với 12 chủ đề sandbox tương tác: Machine Learning, Computer Vision, NLP và Capstone.",
+        "AI learning for grades 6–12 with 12 interactive sandbox topics: Machine Learning, Computer Vision, NLP and Capstone."
+      ),
+      tags: ["ML", "Vision", "NLP", "Sandbox"],
+      to: "/programming/ai-academy",
+      color: "from-violet-500/25 to-fuchsia-500/10",
+      isNew: true,
     },
   ];
 
@@ -56,23 +71,28 @@ const CoursesOverview = () => {
             <span className="text-gradient">{t("đào tạo", "Learning")}</span>
           </h2>
           <p className="mx-auto max-w-xl px-2 text-sm leading-7 text-muted-foreground sm:px-0 sm:text-base">
-            {t("Ba lĩnh vực chuyên biệt với phương pháp giảng dạy dựa trên dữ liệu", "Three specialized tracks designed with data-driven methodology")}
+            {t("Bốn trụ cột chuyên biệt với phương pháp giảng dạy dựa trên dữ liệu", "Four specialized tracks designed with data-driven methodology")}
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-4">
           {courses.map((c, i) => (
             <motion.div
               key={c.title}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.15 }}
+              transition={{ delay: i * 0.12 }}
             >
               <Link
                 to={c.to}
-                className="group block h-full rounded-2xl border border-border bg-card p-5 shadow-sm transition-all hover:border-primary/30 hover:shadow-lg"
+                className="group relative block h-full rounded-2xl border border-border bg-card p-5 shadow-sm transition-all hover:border-primary/30 hover:shadow-lg"
               >
+                {c.isNew && (
+                  <span className="absolute right-3 top-3 rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-md">
+                    {t("Mới", "New")}
+                  </span>
+                )}
                 <div className={`mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-br ${c.color}`}>
                   <c.icon className="h-6 w-6 text-foreground" />
                 </div>
