@@ -14,7 +14,7 @@ import SectionDivider from "@/components/SectionDivider";
 const LearningRoadmaps = lazy(() => import("@/components/LearningRoadmaps"));
 const ModernTechTools = lazy(() => import("@/components/ModernTechTools"));
 const SuccessMetrics = lazy(() => import("@/components/SuccessMetrics"));
-const DidYouKnow = lazy(() => import("@/components/DidYouKnow"));
+const ChibiFactSpeakers = lazy(() => import("@/components/ChibiFactSpeakers"));
 
 const SectionPlaceholder = () => (
   <div className="w-full h-20 flex items-center justify-center">
