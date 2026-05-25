@@ -6,7 +6,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { ieltsVocabData, type IeltsWord } from "@/data/ieltsVocabData";
 import confetti from "canvas-confetti";
 
-type Game = "menu" | "memory" | "hunt" | "sprint";
+type Game = "menu" | "memory" | "hunt" | "sprint" | "synonym" | "scramble";
 type Mode = "solo" | "team";
 
 const shuffle = <T,>(a: T[]) => {
