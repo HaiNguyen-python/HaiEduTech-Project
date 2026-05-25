@@ -83,6 +83,11 @@ const TRACK_ILLUSTRATIONS: Record<string, string> = {
 };
 
 import FloatingAIIcons from "@/components/ai-academy/FloatingAIIcons";
+import FloatingChibi from "@/components/FloatingChibi";
+import chibiRobotHero from "@/assets/ai-chibi-robot.png";
+import chibiCoder from "@/assets/chibi-coder.png";
+import chibiOwl from "@/assets/chibi-owl.png";
+import chibiRocket from "@/assets/chibi-rocket.png";
 import GraduationCertificate from "@/components/ai-academy/GraduationCertificate";
 import XPStreakHUD from "@/components/ai-academy/XPStreakHUD";
 import { useAIAcademyXP } from "@/hooks/useAIAcademyXP";
@@ -1342,6 +1347,13 @@ const AIAcademy = () => {
         path="/programming/ai-academy"
       />
       <FloatingAIIcons />
+      {/* Side floating chibis (desktop only) — like homepage */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 z-[5] hidden xl:block">
+        <FloatingChibi src={chibiRobotHero} alt="" size={110} delay={0} className="absolute left-[1.5%] top-[18%]" />
+        <FloatingChibi src={chibiCoder} alt="" size={100} delay={0.8} className="absolute left-[2%] top-[58%]" />
+        <FloatingChibi src={chibiRocket} alt="" size={105} delay={0.4} className="absolute right-[2%] top-[22%]" />
+        <FloatingChibi src={chibiOwl} alt="" size={95} delay={1.2} className="absolute right-[1.5%] top-[62%]" />
+      </div>
       <div className="relative z-10">
       <Navbar />
       <AutoTranslateBoundary>

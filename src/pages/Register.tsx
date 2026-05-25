@@ -15,6 +15,7 @@ const Register = () => {
     phone: "",
     email: "",
     program: "",
+    programOther: "",
     level: "",
     message: "",
   });
@@ -30,6 +31,7 @@ const Register = () => {
     { value: "chinese-hsk", label: t("Tiếng Trung – Luyện thi HSK", "Chinese – HSK Preparation") },
     { value: "chinese-conversation", label: t("Tiếng Trung – Giao tiếp", "Chinese – Conversational") },
     { value: "programming", label: t("Lập trình / AI / Data", "Programming / AI / Data") },
+    { value: "other", label: t("Khác (tự điền)", "Other (please specify)") },
   ];
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -41,9 +43,19 @@ const Register = () => {
       });
       return;
     }
+    if (form.program === "other" && !form.programOther.trim()) {
+      toast({
+        title: t("Vui lòng nhập chương trình bạn muốn đăng ký", "Please specify the program you want to register for"),
+        variant: "destructive",
+      });
+      return;
+    }
     setSubmitting(true);
     try {
-      const programLabel = programs.find((p) => p.value === form.program)?.label || form.program;
+      const programLabel =
+        form.program === "other"
+          ? form.programOther.trim()
+          : programs.find((p) => p.value === form.program)?.label || form.program;
       const { error: insertError } = await supabase.from("course_registrations").insert({
         name: form.name.trim(),
         phone: form.phone.trim(),
@@ -198,6 +210,16 @@ const Register = () => {
                     <option key={p.value} value={p.value}>{p.label}</option>
                   ))}
                 </select>
+                {form.program === "other" && (
+                  <input
+                    type="text"
+                    value={form.programOther}
+                    onChange={(e) => updateField("programOther", e.target.value)}
+                    placeholder={t("Nhập tên khóa học bạn muốn đăng ký...", "Enter the course you want to register for...")}
+                    className="mt-2 w-full px-4 py-2.5 rounded-lg border border-border bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                    maxLength={200}
+                  />
+                )}
               </div>
 
               <div>
