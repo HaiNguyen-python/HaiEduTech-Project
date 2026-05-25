@@ -835,9 +835,9 @@ const Navbar = () => {
                         </span>
                       )}
                     </div>
-                    <Link to="/dashboard" onClick={() => setOpen(false)}
+                    <Link to={isTeacher ? "/admin-dashboard" : "/dashboard"} onClick={() => setOpen(false)}
                       className="flex items-center justify-center gap-2 w-full px-4 py-4 rounded-xl text-base font-bold bg-gradient-to-r from-primary to-accent text-white shadow-lg transition-all">
-                      <LayoutDashboard className="w-5 h-5" /> Dashboard
+                      {isTeacher ? <><Shield className="w-5 h-5" /> {t("Quản trị", "Admin")}</> : <><LayoutDashboard className="w-5 h-5" /> Dashboard</>}
                     </Link>
                     <button
                       onClick={() => { setOpen(false); setUpgradeOpen(true); }}
