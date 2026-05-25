@@ -82,27 +82,41 @@ const FloatingLessonChibis = ({ theme, count = 14, seed }: FloatingLessonChibisP
 
   const spots = useMemo<ChibiSpot[]>(() => {
     const rand = mulberry32(hashString(seedStr));
-    // Build evenly-spread vertical slots per side, then jitter them
-    const perSide = Math.ceil(count / 2);
-    const buildSide = (side: "left" | "right"): ChibiSpot[] => {
-      const slotHeight = 100 / perSide;
-      return Array.from({ length: perSide }, (_, i) => {
-        const baseTop = i * slotHeight + slotHeight * 0.2;
-        const jitter = (rand() - 0.5) * slotHeight * 0.6;
-        return {
-          emoji: pool[Math.floor(rand() * pool.length)],
-          side,
-          top: Math.max(3, Math.min(94, baseTop + jitter)),
-          offset: 0.5 + rand() * 2.5, // 0.5vw - 3vw from edge
-          size: 28 + Math.floor(rand() * 20), // 28-48px
-          delay: rand() * 4,
-          duration: 5 + rand() * 5, // 5-10s
-          rotate: (rand() - 0.5) * 20,
-          opacity: 0.45 + rand() * 0.3, // 0.45 - 0.75
-        };
-      });
-    };
-    return [...buildSide("left"), ...buildSide("right")];
+
+    // Shuffle the emoji pool (Fisher-Yates) so each emoji appears at most once
+    const shuffled = [...pool];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(rand() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    const total = Math.min(count, shuffled.length);
+
+    // Alternate sides so both sides get an even share
+    const leftCount = Math.ceil(total / 2);
+    const rightCount = total - leftCount;
+    const leftSlot = 100 / Math.max(leftCount, 1);
+    const rightSlot = 100 / Math.max(rightCount, 1);
+    let li = 0;
+    let ri = 0;
+
+    return shuffled.slice(0, total).map((emoji, i): ChibiSpot => {
+      const side: "left" | "right" = i % 2 === 0 ? "left" : "right";
+      const slot = side === "left" ? leftSlot : rightSlot;
+      const idx = side === "left" ? li++ : ri++;
+      const baseTop = idx * slot + slot * 0.2;
+      const jitter = (rand() - 0.5) * slot * 0.4;
+      return {
+        emoji,
+        side,
+        top: Math.max(3, Math.min(94, baseTop + jitter)),
+        offset: 0.5 + rand() * 2.5,
+        size: 28 + Math.floor(rand() * 20),
+        delay: rand() * 4,
+        duration: 5 + rand() * 5,
+        rotate: (rand() - 0.5) * 20,
+        opacity: 0.45 + rand() * 0.3,
+      };
+    });
   }, [pool, count, seedStr]);
 
   return (
