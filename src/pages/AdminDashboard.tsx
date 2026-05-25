@@ -375,8 +375,6 @@ const AdminDashboard = () => {
 
   if (!isTeacher) return null;
 
-  const heatmapData = buildHeatmapData();
-  const weeklyTrend = buildWeeklyTrend();
 
   // Spider chart data for selected student
   const spiderData = selectedStudent
