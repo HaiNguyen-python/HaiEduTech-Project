@@ -209,7 +209,7 @@ const Navbar = () => {
   ];
   const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("Tổng quan", "Overview"), icon: Compass },
-    { to: "/programming/ai-academy", label: t("🎓 AI Academy", "🎓 AI Academy"), icon: RobotIcon },
+    { to: "/programming/ai-academy", label: t("AI Academy", "AI Academy"), icon: RobotIcon },
     { to: "#prog-foundation-group", label: t("Lộ trình Cơ bản", "Foundation Track"), icon: Blocks, groupLabel: "prog-foundation", children: [
       { to: "/programming?pillar=python-pathway", label: t("Introduction to Programming", "Introduction to Programming"), icon: Code2 },
       { to: "/python-challenges", label: t("150 Thử thách Python", "150 Python Challenges"), icon: Trophy },
@@ -236,7 +236,7 @@ const Navbar = () => {
       { to: "/programming/job-opportunities", label: t("Cơ hội Việc làm 🇫🇮", "Job Opportunities 🇫🇮"), icon: Target },
     ] },
     { to: "#prog-div-arcade", label: "", divider: true },
-    { to: "/programming/arcade", label: t("🕹️ Tech & Code Game Hub", "🕹️ Tech & Code Game Hub"), icon: Gamepad2 },
+    { to: "/programming/arcade", label: t("Tech & Code Game Hub", "Tech & Code Game Hub"), icon: Gamepad2 },
   ];
 
   const studyAbroadSubs: SubItem[] = [
