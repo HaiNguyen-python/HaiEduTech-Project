@@ -397,9 +397,9 @@ const Navbar = () => {
                           exit={{ opacity: 0, y: -4 }}
                           className="absolute right-0 top-full mt-1 w-52 bg-card border border-border rounded-xl shadow-lg z-[100] py-1 overflow-hidden"
                         >
-                          <Link to="/dashboard" onClick={() => setUserMenuOpen(false)}
+                          <Link to={isTeacher ? "/admin-dashboard" : "/dashboard"} onClick={() => setUserMenuOpen(false)}
                             className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
-                            <LayoutDashboard className="w-3.5 h-3.5" /> Dashboard
+                            {isTeacher ? <><Shield className="w-3.5 h-3.5" /> {t("Quản trị", "Admin")}</> : <><LayoutDashboard className="w-3.5 h-3.5" /> Dashboard</>}
                           </Link>
                           <button
                             onClick={() => { setUserMenuOpen(false); setUpgradeOpen(true); }}
