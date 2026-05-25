@@ -237,6 +237,34 @@ const DataDetectiveSandbox = () => {
           </p>
         </div>
       </div>
+
+      <BestMatchPick
+        title="🩺 Activity 2 · Chẩn đoán loại lỗi dữ liệu"
+        hint="Mỗi ô dưới đây bị lỗi gì? Chọn đúng loại để bác sĩ dữ liệu kê đơn đúng cách."
+        accent="from-primary to-emerald-600"
+        border="border-primary/40"
+        options={[
+          { id: "missing", label: "⬜ Missing" },
+          { id: "outlier", label: "🚨 Outlier" },
+          { id: "duplicate", label: "🔁 Duplicate" },
+          { id: "invalid", label: "❌ Invalid" },
+        ]}
+        items={[
+          { prompt: "Cột 'Tên' để trống hoàn toàn", correctId: "missing" },
+          { prompt: "Chiều cao học sinh = 999 cm", correctId: "outlier" },
+          { prompt: "Tuổi = -5 (số âm)", correctId: "invalid" },
+          { prompt: "Cùng một học sinh xuất hiện 3 lần", correctId: "duplicate" },
+          { prompt: "Điểm = 99 trên thang 0-10", correctId: "outlier" },
+          { prompt: "Email không có dấu @ (không hợp lệ)", correctId: "invalid" },
+        ]}
+      />
+
+      <BonusGames
+        tfItems={DD_TF}
+        matchPairs={DD_PAIRS}
+        accent="from-primary to-emerald-600"
+        border="border-primary/40"
+      />
     </div>
   );
 };
