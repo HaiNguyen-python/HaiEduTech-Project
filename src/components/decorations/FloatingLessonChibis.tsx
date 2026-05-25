@@ -176,8 +176,6 @@ const FloatingLessonChibis = ({ theme, count = 2, seed }: FloatingLessonChibisPr
         // the side so they never overlap the centered content column.
         offset: 0.5 + rand() * 1.8,
         size: baseSize + Math.floor(rand() * variance),
-        delay: rand() * 4,
-        duration: 5 + rand() * 5,
         rotate: (rand() - 0.5) * 18,
         opacity: item.kind === "img" ? 0.9 + rand() * 0.1 : 0.85 + rand() * 0.15,
       };
