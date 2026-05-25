@@ -44,7 +44,21 @@ const LanguageLessonView = () => {
   const { moduleId, lessonId } = useParams();
   const { t } = useLanguage();
 
-  const mod = useMemo(() => allLanguageModules.find(m => m.id === moduleId), [moduleId]);
+  const rawMod = useMemo(() => allLanguageModules.find(m => m.id === moduleId), [moduleId]);
+  const mod = useMemo(() => {
+    if (!rawMod) return undefined;
+    // For English grammar modules, sort lessons by difficulty (beginner → advanced)
+    // then by level so the sidebar acts as a clear learning roadmap.
+    if (rawMod.category !== "grammar" || rawMod.language !== "english") return rawMod;
+    const order = { beginner: 1, intermediate: 2, advanced: 3 } as const;
+    return {
+      ...rawMod,
+      lessons: [...rawMod.lessons].sort((a, b) => {
+        const d = order[a.difficulty] - order[b.difficulty];
+        return d !== 0 ? d : (a.level ?? 0) - (b.level ?? 0);
+      }),
+    };
+  }, [rawMod]);
   const [selectedLesson, setSelectedLesson] = useState<LanguageLesson | null>(null);
   const [expandedSidebar, setExpandedSidebar] = useState(true);
   const [quizScore, setQuizScore] = useState<{ score: number; total: number } | null>(null);
