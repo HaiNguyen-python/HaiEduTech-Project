@@ -575,6 +575,8 @@ const DefinitionSprint = ({ mode, onExit }: { mode: Mode; onExit: () => void }) 
   const [hint, setHint] = useState(0);
   const [timeLeft, setTimeLeft] = useState(20);
   const [done, setDone] = useState(false);
+  const fx = useGameFx();
+  const [saved, setSaved] = useState<{ rank: number | null; isNew: boolean } | null>(null);
 
   const words = useMemo(() => shuffle(ieltsVocabData).slice(0, ROUNDS), []);
   const w = words[round];
@@ -594,17 +596,25 @@ const DefinitionSprint = ({ mode, onExit }: { mode: Mode; onExit: () => void }) 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [round, done]);
 
+  useEffect(() => {
+    if (done && mode === "solo" && !saved) {
+      sfx("win");
+      setSaved(saveHighScore("sprint", scoreA));
+    }
+  }, [done, mode, scoreA, saved]);
+
   const submit = (timedOut = false) => {
     if (feedback) return;
-    const correct = !timedOut && input.trim().toLowerCase() === w.word.toLowerCase();
-    if (correct) {
-      const pts = Math.max(5, 20 + timeLeft - hint * 3);
+    const isCorrect = !timedOut && input.trim().toLowerCase() === w.word.toLowerCase();
+    if (isCorrect) {
+      const base = Math.max(5, 20 + timeLeft - hint * 3);
+      const pts = fx.onCorrect(base);
       if (mode === "solo") setScoreA((s) => s + pts);
       else if (player === 1) setScoreA((s) => s + pts);
       else setScoreB((s) => s + pts);
       setFeedback("correct");
-      burst();
     } else {
+      fx.onWrong();
       setFeedback("wrong");
     }
     setTimeout(() => {
@@ -622,22 +632,20 @@ const DefinitionSprint = ({ mode, onExit }: { mode: Mode; onExit: () => void }) 
     return (
       <div className="max-w-2xl mx-auto">
         <GameHeader title={t("Gõ tốc độ", "Definition Sprint")} mode={mode} onExit={onExit} scoreA={scoreA} scoreB={scoreB} currentPlayer={player} />
-        <div className="p-8 rounded-2xl bg-card border-2 border-primary text-center">
-          <Trophy className="w-14 h-14 text-amber-500 mx-auto mb-3" />
-          <h3 className="text-2xl font-bold mb-3">
-            {mode === "solo"
-              ? t(`Tổng điểm: ${scoreA}`, `Final score: ${scoreA}`)
-              : scoreA === scoreB ? t("Hòa!", "Tie!") : scoreA > scoreB ? `🏆 P1 ${scoreA} - ${scoreB} P2` : `P1 ${scoreA} - ${scoreB} P2 🏆`}
-          </h3>
-          <Button onClick={() => window.location.reload()} className="gap-2"><RotateCcw className="w-4 h-4" /> {t("Chơi lại", "Play again")}</Button>
-        </div>
+        <FinalScreen
+          mode={mode} scoreA={scoreA} scoreB={scoreB} maxCombo={fx.maxCombo}
+          rank={saved?.rank ?? null} isNew={saved?.isNew ?? false}
+          gameKey="sprint" gameTitle={t("Gõ tốc độ", "Definition Sprint")}
+        />
       </div>
     );
   }
 
   return (
+    <ShakeWrap trigger={fx.shake}>
     <div className="max-w-2xl mx-auto">
-      <GameHeader title={t("Gõ tốc độ", "Definition Sprint")} mode={mode} onExit={onExit} scoreA={scoreA} scoreB={scoreB} currentPlayer={player} />
+      <fx.FxOverlay />
+      <GameHeader title={t("Gõ tốc độ", "Definition Sprint")} mode={mode} onExit={onExit} scoreA={scoreA} scoreB={scoreB} currentPlayer={player} combo={fx.combo} />
 
       <div className="flex items-center justify-between mb-3 text-sm text-muted-foreground">
         <span>{t(`Câu ${round + 1}/${ROUNDS}`, `Q ${round + 1}/${ROUNDS}`)}</span>
@@ -687,6 +695,7 @@ const DefinitionSprint = ({ mode, onExit }: { mode: Mode; onExit: () => void }) 
         {feedback === "wrong" && <span className="text-xs text-red-500">{t("Đáp án:", "Answer:")} <b>{w.word}</b></span>}
       </div>
     </div>
+    </ShakeWrap>
   );
 };
 
