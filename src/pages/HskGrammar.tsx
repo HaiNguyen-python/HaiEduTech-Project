@@ -21,7 +21,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { BookOpen, GraduationCap, Lightbulb, Volume2 } from "lucide-react";
+import { BookOpen, GraduationCap, Lightbulb, Volume2, ArrowLeft } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const speak = (text: string) => {
   if (typeof window === "undefined" || !window.speechSynthesis) return;
