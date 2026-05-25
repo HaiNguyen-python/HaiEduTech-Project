@@ -6,39 +6,33 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useEffect, useMemo, useState } from "react";
-import { createPortal } from "react-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import chibiTeacher from "@/assets/chibi-teacher.png";
 import chibiOwl from "@/assets/chibi-owl.png";
 import chibiRocket from "@/assets/chibi-rocket.png";
-import chibiGraduate from "@/assets/chibi-graduate.png";
-import chibiCoder from "@/assets/chibi-coder.png";
-import chibiPanda from "@/assets/chibi-panda.png";
 
 type Fact = { vi: string; en: string };
 
 const FACTS: Fact[] = [
-  { vi: "Bộ não bạn đốt ~20% năng lượng cơ thể đấy!", en: "Your brain burns ~20% of your body's energy!" },
-  { vi: "Học 20 phút mỗi ngày hiệu quả hơn 3 tiếng cuối tuần.", en: "20 minutes daily beats 3 hours on weekends." },
-  { vi: "Tiếng Trung có hơn 50.000 chữ Hán — nhưng chỉ cần ~3.000 để đọc báo!", en: "Chinese has 50,000+ characters — but ~3,000 is enough to read the news!" },
-  { vi: "IELTS Speaking dài chỉ 11–14 phút thôi 😉", en: "IELTS Speaking is only 11–14 minutes long 😉" },
-  { vi: "Python được đặt theo tên… nhóm hài Monty Python!", en: "Python is named after… the Monty Python comedy group!" },
-  { vi: "Nghe nhạc khi học từ vựng giúp ghi nhớ lâu hơn.", en: "Listening to music while learning vocab boosts retention." },
-  { vi: "Thầy Hải có 15+ năm kinh nghiệm giảng dạy 🇻🇳🇫🇮", en: "Mr. Hai has 15+ years of teaching experience 🇻🇳🇫🇮" },
-  { vi: "AI có thể chấm IELTS Writing trong 10 giây tại HaiEduTech!", en: "AI can grade IELTS Writing in 10 seconds at HaiEduTech!" },
-  { vi: "Học song ngữ làm chậm lão hóa não tới 4–5 năm.", en: "Bilingualism can delay brain aging by 4–5 years." },
-  { vi: "TOEIC có 200 câu hỏi trong 2 tiếng — bình quân 36 giây/câu!", en: "TOEIC has 200 questions in 2 hours — ~36 seconds each!" },
-  { vi: "Chữ 'HSK' nghĩa là 汉语水平考试 — Hán Ngữ Thủy Bình Khảo Thí.", en: "'HSK' means 汉语水平考试 — Chinese Proficiency Test." },
-  { vi: "Học code giúp bạn tư duy logic tốt hơn ở mọi môn học!", en: "Coding improves logical thinking across every subject!" },
+  { vi: "AI chatbot bật mí: hơn 60% từ vựng học thuật tiếng Anh có gốc Latin hoặc Pháp.", en: "AI chatbot fact: over 60% of academic English vocabulary comes from Latin or French roots." },
+  { vi: "AI chatbot bật mí: chữ 好 ghép từ 女 và 子 — một chữ Hán nhỏ nhưng chứa cả câu chuyện văn hoá.", en: "AI chatbot fact: the Chinese character 好 combines 女 and 子 — one small symbol with a full cultural story." },
+  { vi: "AI chatbot bật mí: Python được đặt theo nhóm hài Monty Python, không phải theo loài rắn.", en: "AI chatbot fact: Python was named after Monty Python, not the snake." },
+  { vi: "AI chatbot bật mí: luyện nói tiếng Anh 10 phút mỗi ngày hiệu quả hơn học dồn 1 buổi dài cuối tuần.", en: "AI chatbot fact: 10 minutes of spoken English daily beats one long cramming session on the weekend." },
+  { vi: "AI chatbot bật mí: chỉ khoảng 3.000 chữ Hán thông dụng là đã đủ đọc phần lớn nội dung báo chí cơ bản.", en: "AI chatbot fact: roughly 3,000 common Hanzi are enough to read most basic news content." },
+  { vi: "AI chatbot bật mí: học lập trình sớm giúp não quen với tư duy chia nhỏ vấn đề và giải từng bước.", en: "AI chatbot fact: learning to code early trains your brain to break big problems into clear steps." },
+  { vi: "AI chatbot bật mí: IELTS Speaking chỉ khoảng 11–14 phút, nên phản xạ tự nhiên quan trọng hơn nói quá dài.", en: "AI chatbot fact: IELTS Speaking lasts only 11–14 minutes, so natural response matters more than speaking too long." },
+  { vi: "AI chatbot bật mí: nhiều từ tiếng Trung hiện đại dùng rất gọn — 电脑 là 'máy não điện', tức computer.", en: "AI chatbot fact: many modern Chinese words are compact — 电脑 literally means 'electric brain', or computer." },
+  { vi: "AI chatbot bật mí: JavaScript được viết trong khoảng 10 ngày, nhưng nay lại đứng sau vô số website lớn.", en: "AI chatbot fact: JavaScript was created in about 10 days, yet now powers countless major websites." },
 ];
 
-const CHIBIS = [chibiTeacher, chibiOwl, chibiRocket, chibiGraduate, chibiCoder, chibiPanda];
+const CHIBIS = [chibiTeacher, chibiOwl, chibiRocket];
+const ROTATE_MS = 3 * 60 * 1000;
 
 interface Spot {
   src: string;
   side: "left" | "right";
-  top: number;     // vh percentage
-  offset: number;  // px from side
+  top: string;
+  offset: string;
   size: number;
   bubbleSide: "left" | "right";
 }
@@ -46,45 +40,37 @@ interface Spot {
 const HomeChibiFunFacts = () => {
   const { lang } = useLanguage();
   const [mounted, setMounted] = useState(false);
-  const [viewport, setViewport] = useState({ w: 0, h: 0 });
   const [factIdx, setFactIdx] = useState(0);
 
   useEffect(() => {
     setMounted(true);
-    const update = () => setViewport({ w: window.innerWidth, h: window.innerHeight });
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
   }, []);
 
-  // Rotate the displayed fun fact every ~6s
+   // Rotate the displayed fun fact every 3 minutes
   useEffect(() => {
     const id = setInterval(() => {
       setFactIdx((i) => (i + Math.floor(Math.random() * (FACTS.length - 1)) + 1) % FACTS.length);
-    }, 6000);
+    }, ROTATE_MS);
     return () => clearInterval(id);
   }, []);
 
   const spots = useMemo<Spot[]>(() => {
-    // 3 chibis distributed top/middle/bottom on alternating sides
     return [
-      { src: CHIBIS[0], side: "left",  top: 18, offset: 14, size: 110, bubbleSide: "right" },
-      { src: CHIBIS[1], side: "right", top: 42, offset: 14, size: 100, bubbleSide: "left"  },
-      { src: CHIBIS[2], side: "left",  top: 70, offset: 18, size: 105, bubbleSide: "right" },
+      { src: CHIBIS[0], side: "left", top: "clamp(5.5rem, 8vw, 7rem)", offset: "clamp(0.75rem, 2vw, 2rem)", size: 94, bubbleSide: "right" },
+      { src: CHIBIS[1], side: "right", top: "clamp(14rem, 28vw, 19rem)", offset: "clamp(0.75rem, 2vw, 2rem)", size: 92, bubbleSide: "left" },
+      { src: CHIBIS[2], side: "left", top: "clamp(25rem, 44vw, 33rem)", offset: "clamp(0.75rem, 2.5vw, 2.25rem)", size: 96, bubbleSide: "right" },
     ];
   }, []);
 
-  if (!mounted || viewport.w < 1024 || viewport.h === 0) return null;
+  if (!mounted) return null;
 
-  // One chibi at a time "speaks" — cycle which one
   const speakerIdx = factIdx % spots.length;
   const currentFact = FACTS[factIdx];
   const factText = lang === "vi" ? currentFact.vi : currentFact.en;
 
-  return createPortal(
-    <div aria-hidden className="pointer-events-none hidden lg:block select-none">
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 hidden h-[48rem] select-none lg:block">
       {spots.map((s, i) => {
-        const topPx = Math.round((s.top / 100) * viewport.h);
         const isSpeaker = i === speakerIdx;
         const bubblePosStyle: React.CSSProperties =
           s.bubbleSide === "right"
@@ -94,10 +80,10 @@ const HomeChibiFunFacts = () => {
           <div
             key={i}
             style={{
-              position: "fixed",
-              top: `${topPx}px`,
-              [s.side]: `${s.offset}px`,
-              zIndex: 5,
+              position: "absolute",
+              top: s.top,
+              [s.side]: s.offset,
+              zIndex: 4,
               width: `${s.size}px`,
               height: `${s.size}px`,
             }}
@@ -138,7 +124,7 @@ const HomeChibiFunFacts = () => {
                 }}
               >
                 <span style={{ fontWeight: 600, color: "hsl(var(--primary))" }}>
-                  💡 {lang === "vi" ? "Bạn biết không?" : "Did you know?"}
+                  🤖 {lang === "vi" ? "AI chatbot nói nhỏ" : "AI chatbot says"}
                 </span>
                 <div style={{ marginTop: 4 }}>{factText}</div>
               </div>
@@ -152,8 +138,7 @@ const HomeChibiFunFacts = () => {
           to   { opacity: 1; transform: translateY(0) scale(1); }
         }
       `}</style>
-    </div>,
-    document.body
+    </div>
   );
 };
 

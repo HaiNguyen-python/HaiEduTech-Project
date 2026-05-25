@@ -66,16 +66,29 @@ const Register = () => {
       });
       if (insertError) throw insertError;
 
-      // Best-effort email notification to Teacher Hai
-      await supabase.functions.invoke("send-contact-email", {
+      const submittedAt = new Date().toLocaleString("vi-VN", {
+        dateStyle: "short",
+        timeStyle: "short",
+      });
+
+      const { error: emailError } = await supabase.functions.invoke("send-contact-email", {
         body: {
-          name: form.name,
-          email: form.email,
-          phone: form.phone,
+          type: "course_registration",
+          idempotencyKey: `course-registration-${form.phone.trim()}-${Date.now()}`,
+          name: form.name.trim(),
+          email: form.email.trim() || undefined,
+          phone: form.phone.trim(),
           subject: `[Đăng ký khóa học] ${programLabel}`,
-          message: `Chương trình: ${programLabel}\nTrình độ: ${form.level || "-"}\nGhi chú: ${form.message || "-"}`,
+          program: programLabel,
+          level: form.level.trim() || undefined,
+          message: form.message.trim() || undefined,
+          submittedAt,
         },
-      }).catch(() => undefined);
+      });
+
+      if (emailError) {
+        console.error("Registration email queue failed:", emailError);
+      }
 
       setSubmitted(true);
       toast({

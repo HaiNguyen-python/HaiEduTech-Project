@@ -69,6 +69,7 @@ const Dashboard = lazy(() => import("./pages/Dashboard.tsx"));
 const ActivityLog = lazy(() => import("./pages/ActivityLog.tsx"));
 const Register = lazy(() => import("./pages/Register.tsx"));
 const Contact = lazy(() => import("./pages/Contact.tsx"));
+const Unsubscribe = lazy(() => import("./pages/Unsubscribe.tsx"));
 const WorldPlayground = lazy(() => import("./pages/WorldPlayground.tsx"));
 const Login = lazy(() => import("./pages/Login.tsx"));
 const Signup = lazy(() => import("./pages/Signup.tsx"));
@@ -286,6 +287,7 @@ const App = () => (
             <Route path="/activity-log" element={<LazyRoute><ActivityLog /></LazyRoute>} />
             <Route path="/register" element={<LazyRoute><Register /></LazyRoute>} />
             <Route path="/contact" element={<LazyRoute><Contact /></LazyRoute>} />
+            <Route path="/unsubscribe" element={<LazyRoute><Unsubscribe /></LazyRoute>} />
             <Route path="/world-playground" element={<LazyRoute><WorldPlayground /></LazyRoute>} />
             <Route path="/for-vietnamese-children" element={<Navigate to="/world-playground" replace />} />
             <Route path="/login" element={<LazyRoute><Login /></LazyRoute>} />
