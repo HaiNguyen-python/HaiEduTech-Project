@@ -9,8 +9,24 @@ import { motion, AnimatePresence } from "framer-motion";
 import { TreePine, Sparkles, RotateCcw, Wand2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
+import { BonusGames } from "./SandboxBonusGames";
+import { BestMatchPick } from "./SandboxMiniActivity";
 
 type Tab = "tree" | "kmeans";
+
+const ML_TF = [
+  { q: "Supervised Learning cần dữ liệu đã gắn nhãn để học.", a: true },
+  { q: "K-Means là thuật toán Unsupervised — tự tìm nhóm.", a: true },
+  { q: "Decision Tree luôn cần GPU mạnh mới chạy được.", a: false, why: "Cây quyết định rất nhẹ — chạy được cả trên điện thoại." },
+  { q: "Càng nhiều dữ liệu chất lượng, mô hình ML càng chính xác.", a: true },
+  { q: "Unsupervised Learning có sẵn đáp án đúng cho mỗi mẫu.", a: false, why: "Không — nó tự tìm cấu trúc mà không có nhãn." },
+];
+const ML_PAIRS = [
+  { a: "Supervised", b: "Học có nhãn — như giáo viên chỉ bài" },
+  { a: "Unsupervised", b: "Tự gom nhóm — không cần nhãn" },
+  { a: "Decision Tree", b: "Hỏi Yes/No theo nhánh" },
+  { a: "K-Means", b: "Tìm K trung tâm nhóm gần nhất" },
+];
 
 // ============== Decision Tree ==============
 type Node = {
