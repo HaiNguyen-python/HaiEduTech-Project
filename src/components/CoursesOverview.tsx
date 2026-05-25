@@ -6,8 +6,8 @@ import ShineCard from "@/components/ShineCard";
 import FloatingChibi from "@/components/FloatingChibi";
 import chibiTeacher from "@/assets/chibi-teacher.png";
 import chibiCoder from "@/assets/chibi-coder.png";
-import chibiPanda from "@/assets/chibi-panda.png";
-import chibiOwl from "@/assets/chibi-owl.png";
+import chibiReading from "@/assets/chibi-reading.png";
+import chibiSpeaking from "@/assets/chibi-speaking.png";
 
 
 
