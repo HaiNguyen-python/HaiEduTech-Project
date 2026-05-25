@@ -69,7 +69,7 @@ const ChibiFactSpeakers = () => {
   // Only ONE chibi speaks at a time. Speaks for SPEAK_MS, then bubble hides
   // for GAP_MS before the next chibi takes the mic.
   const SPEAK_MS = 8000;
-  const GAP_MS = 3000;
+  const GAP_MS = 10000;
   const [activeIdx, setActiveIdx] = useState(0);
   const [speaking, setSpeaking] = useState(true);
   useEffect(() => {
