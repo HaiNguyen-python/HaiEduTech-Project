@@ -62,7 +62,7 @@ const TREND_ICONS = {
   stable: <Minus className="w-4 h-4 text-muted-foreground" />,
 };
 
-// Export data as CSV or JSON
+// Export data as CSV or JSON (RFC-4180 compliant escaping)
 function exportData(data: any[], format: "csv" | "json", filename: string) {
   let blob: Blob;
   if (format === "json") {
@@ -71,13 +71,10 @@ function exportData(data: any[], format: "csv" | "json", filename: string) {
     if (data.length === 0) return;
     const headers = Object.keys(data[0]);
     const csv = [
-      headers.join(","),
-      ...data.map(row => headers.map(h => {
-        const val = row[h];
-        return typeof val === "object" ? `"${JSON.stringify(val)}"` : `"${val}"`;
-      }).join(","))
+      headers.map(csvEscape).join(","),
+      ...data.map(row => headers.map(h => csvEscape(row[h])).join(","))
     ].join("\n");
-    blob = new Blob([csv], { type: "text/csv" });
+    blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8" }); // BOM for Excel UTF-8
   }
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
