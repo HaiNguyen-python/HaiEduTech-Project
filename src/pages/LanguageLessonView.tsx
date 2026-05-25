@@ -162,13 +162,19 @@ const LanguageLessonView = () => {
               {/* Sidebar - lesson list */}
               <div className="lg:w-72 shrink-0">
                 <div className="glass-card rounded-xl p-4 sticky top-28">
-                  <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center justify-between mb-2">
                     <h3 className="font-semibold text-foreground text-sm flex items-center gap-2">
                       <BookOpen className="w-4 h-4 text-primary" />
                       {tr("Danh sách bài học", "Lessons")}
                     </h3>
                     <span className="text-xs text-muted-foreground">{mod.lessons.length} {tr("bài", "lessons")}</span>
                   </div>
+                  {isEnglishGrammarLesson && (
+                    <p className="text-[11px] text-muted-foreground mb-3 flex items-center gap-1.5">
+                      <Sparkles className="w-3 h-3 text-primary" />
+                      {tr("Sắp xếp theo độ khó tăng dần — học theo thứ tự để hiệu quả nhất.", "Sorted by difficulty — follow the order for the best results.")}
+                    </p>
+                  )}
                   <div className="space-y-1 max-h-[60vh] overflow-y-auto pr-1">
                     {mod.lessons.map((l, i) => {
                       const d = difficultyConfig[l.difficulty];
