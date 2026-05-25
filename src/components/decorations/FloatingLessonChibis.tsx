@@ -1,4 +1,5 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 
 // Chibi character images (studious mascots) — imported so Vite bundles them
 import chibiTeacher from "@/assets/chibi-teacher.png";
@@ -136,7 +137,9 @@ interface FloatingLessonChibisProps {
   seed?: string;
 }
 
-const FloatingLessonChibis = ({ theme, count = 4, seed }: FloatingLessonChibisProps) => {
+const FloatingLessonChibis = ({ theme, count = 2, seed }: FloatingLessonChibisProps) => {
+  // Cap to keep subpages uncluttered: at most 2 chibis on screen
+  count = Math.min(count, 2);
   const pool = THEMES[theme] ?? THEMES.english;
   const seedStr = seed ?? theme;
 
@@ -183,8 +186,13 @@ const FloatingLessonChibis = ({ theme, count = 4, seed }: FloatingLessonChibisPr
     });
   }, [pool, count, seedStr]);
 
-  return (
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
+  if (!mounted || typeof document === "undefined") return null;
+
+  return createPortal(
     <>
+
       <style>{`
         @keyframes chibi-float-a {
           0%, 100% { transform: translateY(0) rotate(var(--r,0deg)); }
@@ -238,7 +246,8 @@ const FloatingLessonChibis = ({ theme, count = 4, seed }: FloatingLessonChibisPr
           );
         })}
       </div>
-    </>
+    </>,
+    document.body
   );
 };
 
