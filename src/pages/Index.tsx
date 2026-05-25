@@ -73,6 +73,8 @@ const Index = () => (
     <SectionDivider />
     <CoursesOverview />
     <SectionDivider flip />
+    <LazySection><DidYouKnow /></LazySection>
+    <SectionDivider />
     <LazySection><LearningRoadmaps /></LazySection>
     <SectionDivider />
     <LazySection><ModernTechTools /></LazySection>
