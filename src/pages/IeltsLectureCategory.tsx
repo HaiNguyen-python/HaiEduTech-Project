@@ -209,28 +209,12 @@ const IeltsLectureCategory = () => {
                 <Progress value={progressPercent} className="h-3" />
               </div>
 
-              {/* Sample Essays 8.0+ CTA — only on Writing category */}
-              {catKey === "writing" && (
-                <Link
-                  to="/ielts-sample-essays"
-                  className="group mt-4 flex items-center gap-3 rounded-xl border-2 border-purple-500/40 bg-gradient-to-r from-purple-500/10 via-violet-500/5 to-pink-500/10 p-4 transition-all hover:border-purple-500/70 hover:shadow-lg"
-                >
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-purple-500/15 text-purple-600 dark:text-purple-300">
-                    <Sparkles className="h-5 w-5" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="text-sm font-bold text-foreground">
-                      {t("📚 Bài mẫu 8.0+ (Sample Essays)", "📚 Sample Essays 8.0+")}
-                    </div>
-                    <div className="text-xs text-muted-foreground">
-                      {t("Bộ sưu tập bài mẫu Band 8.0+ Task 1 & Task 2, kèm phân tích chi tiết của Thầy Hải.",
-                         "Curated Band 8.0+ Task 1 & Task 2 model essays with Teacher Hai's deep analysis.")}
-                    </div>
-                  </div>
-                  <ChevronDown className="h-5 w-5 -rotate-90 text-purple-500 transition-transform group-hover:translate-x-1" />
-                </Link>
-              )}
             </motion.div>
+          </div>
+        </section>
+        {/* placeholder removed – Sample Essays CTA moved below Task 2 */}
+        <div className="hidden">
+
           </div>
         </section>
 
