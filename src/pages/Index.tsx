@@ -49,7 +49,7 @@ const LazySection = ({ children }: { children: React.ReactNode }) => {
 };
 
 const Index = () => (
-  <div className="min-h-screen bg-background">
+  <div className="min-h-screen bg-background relative">
     <SEO
       title="HaiEduTech | AI-Powered Learning for IELTS, HSK, AI Academy & Coding"
       description="AI-powered personalized learning for IELTS, TOEIC, HSK, Finnish YKI, Python, and AI Academy for grades 6–12 — by HaiEduTech."
@@ -73,13 +73,12 @@ const Index = () => (
     <SectionDivider />
     <CoursesOverview />
     <SectionDivider flip />
-    <LazySection><DidYouKnow /></LazySection>
-    <SectionDivider />
     <LazySection><LearningRoadmaps /></LazySection>
     <SectionDivider />
     <LazySection><ModernTechTools /></LazySection>
     <SectionDivider flip />
     <LazySection><SuccessMetrics /></LazySection>
+    <Suspense fallback={null}><ChibiFactSpeakers /></Suspense>
     <Footer />
   </div>
 );
