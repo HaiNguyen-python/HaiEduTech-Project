@@ -391,21 +391,21 @@ const IeltsLectures = () => {
                         {tile.count} {t("bài", "lectures")}
                       </Badge>
                     </div>
-                    <h3 className="text-lg font-bold text-foreground mb-3 leading-tight">
+                    <h3 className="text-xl font-extrabold text-slate-900 mb-3 leading-tight">
                       {t(tile.titleVi, tile.titleEn)}
                     </h3>
-                    <ul className="space-y-1.5 flex-1">
+                    <ul className="space-y-2 flex-1">
                       {tile.previews.map((lec) => (
-                        <li key={lec.id} className="flex items-start gap-2 text-[12.5px] text-foreground/85 leading-snug">
+                        <li key={lec.id} className="flex items-start gap-2 text-sm font-semibold text-slate-800 leading-snug">
                           <span className="text-base shrink-0 leading-none mt-0.5">{lec.icon}</span>
                           <span className="line-clamp-2">{t(lec.titleVi, lec.title)}</span>
                         </li>
                       ))}
                       {tile.previews.length === 0 && (
-                        <li className="text-xs text-muted-foreground italic">{t("Đang cập nhật...", "Coming soon...")}</li>
+                        <li className="text-sm font-semibold text-slate-600 italic">{t("Đang cập nhật...", "Coming soon...")}</li>
                       )}
                     </ul>
-                    <div className={`mt-3 pt-3 border-t border-border/50 text-xs font-semibold ${tile.chipText} flex items-center gap-1`}>
+                    <div className={`mt-3 pt-3 border-t border-border/50 text-sm font-extrabold ${tile.chipText} flex items-center gap-1`}>
                       {t("Xem tất cả", "View all")} →
                     </div>
                   </div>
