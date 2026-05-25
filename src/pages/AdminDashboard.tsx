@@ -27,6 +27,13 @@ import {
   DOMAIN_LABELS,
   type StudentState, type RLRecommendation, type LearningDomain
 } from "@/lib/rlEngine";
+import {
+  fetchAllRows,
+  isLearningActivity,
+  SPEAKING_ACTIVITY_TYPES,
+  sumActivityTypeCounts,
+  WRITING_ACTIVITY_TYPES,
+} from "@/lib/adminData";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import TeacherAdmin from "@/pages/TeacherAdmin";
@@ -107,12 +114,22 @@ const AdminDashboard = () => {
   // Fetch all data
   const fetchAll = useCallback(async () => {
     if (!isTeacher) return;
+    setLoadingData(true);
     // Fetch students (exclude teachers/admins) and deduplicate by id
-    const { data: profiles } = await supabase.from("profiles").select("id, full_name, created_at");
-    const { data: teacherRoles } = await supabase
-      .from("user_roles")
-      .select("user_id")
-      .in("role", ["teacher", "admin"]);
+    const profiles = await fetchAllRows<{ id: string; full_name: string | null; created_at: string }>((from, to) =>
+      supabase
+        .from("profiles")
+        .select("id, full_name, created_at")
+        .order("created_at", { ascending: true })
+        .range(from, to)
+    );
+    const teacherRoles = await fetchAllRows<{ user_id: string }>((from, to) =>
+      supabase
+        .from("user_roles")
+        .select("user_id")
+        .in("role", ["teacher", "admin"])
+        .range(from, to)
+    );
     const teacherIds = new Set((teacherRoles || []).map((r) => r.user_id));
     // Deduplicate by id and exclude teachers
     const seenIds = new Set<string>();
@@ -152,24 +169,28 @@ const AdminDashboard = () => {
     setStudents(studentList);
 
     // Fetch all activity logs
-    const { data: activityData } = await supabase
-      .from("student_activity_log")
-      .select("*")
-      .order("created_at", { ascending: true });
+    const activityData = await fetchAllRows<any>((from, to) =>
+      supabase
+        .from("student_activity_log")
+        .select("*")
+        .order("created_at", { ascending: true })
+        .range(from, to)
+    );
     // Remap activity user_id to primary id so merged students share their history
     const allActivities = (activityData || []).map((a) => ({
       ...a,
       user_id: idToPrimary.get(a.user_id) || a.user_id,
     }));
-    setActivities(allActivities);
+    const learningActivities = allActivities.filter((a) => isLearningActivity(a.activity_type));
+    setActivities(learningActivities);
 
     // Compute student states
     const states: StudentState[] = [];
     const studentMap = new Map(studentList.map(s => [s.id, s.full_name || "Unknown"]));
 
     // Group activities by user
-    const activityByUser = new Map<string, typeof allActivities>();
-    for (const act of allActivities) {
+    const activityByUser = new Map<string, typeof learningActivities>();
+    for (const act of learningActivities) {
       if (!activityByUser.has(act.user_id)) activityByUser.set(act.user_id, []);
       activityByUser.get(act.user_id)!.push(act);
     }
@@ -194,7 +215,7 @@ const AdminDashboard = () => {
     const oneWeekAgo = new Date();
     oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
     const activeThisWeek = new Set(
-      allActivities.filter(a => new Date(a.created_at) > oneWeekAgo).map(a => a.user_id)
+      learningActivities.filter(a => new Date(a.created_at) > oneWeekAgo).map(a => a.user_id)
     ).size;
 
     const classAvg = states.length > 0
@@ -204,15 +225,16 @@ const AdminDashboard = () => {
 
     // Domain counts (map unknown domains to "english")
     const domainCounts: Record<LearningDomain, number> = { english: 0, chinese: 0, programming: 0 };
-    for (const act of allActivities) {
+    for (const act of learningActivities) {
       const raw = (act.domain as string) || "english";
-      const d = (raw in domainCounts ? raw : "english") as LearningDomain;
+      if (!(raw in domainCounts)) continue;
+      const d = raw as LearningDomain;
       domainCounts[d]++;
     }
 
     setClassStats({
       totalStudents: studentList.length,
-      totalActivities: allActivities.length,
+      totalActivities: learningActivities.length,
       classAvg: Math.round(classAvg * 10) / 10,
       activeThisWeek,
       domainCounts,
