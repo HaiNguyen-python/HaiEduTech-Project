@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { Mic, PenTool, GraduationCap, Languages, ArrowRight, Sparkles } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import FloatingChibi from "@/components/FloatingChibi";
-import chibiOwl from "@/assets/chibi-owl.png";
-import chibiRocket from "@/assets/chibi-rocket.png";
+import chibiTrophy from "@/assets/chibi-quiz-trophy.png";
+import chibiCheer from "@/assets/chibi-vocab-cheer.png";
 
 /**
  * Signature Features section
