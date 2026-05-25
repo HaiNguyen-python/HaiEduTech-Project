@@ -78,7 +78,7 @@ const Index = () => (
     <LazySection><ModernTechTools /></LazySection>
     <SectionDivider flip />
     <LazySection><SuccessMetrics /></LazySection>
-    <Suspense fallback={null}><ChibiFactSpeakers /></Suspense>
+    
     <Footer />
   </div>
 );

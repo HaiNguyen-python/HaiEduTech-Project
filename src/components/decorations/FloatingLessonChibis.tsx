@@ -171,8 +171,9 @@ const FloatingLessonChibis = ({ theme, count = 4, seed }: FloatingLessonChibisPr
         item,
         side,
         top: Math.max(5, Math.min(92, baseTop + jitter)),
-        // Hug the very edge (or hang slightly off-screen) so chibis never cover content text
-        offset: -2.5 + rand() * 2.5,
+        // Sit just inside the viewport edge: visible in full, but tucked against
+        // the side so they never overlap the centered content column.
+        offset: 0.5 + rand() * 1.8,
         size: baseSize + Math.floor(rand() * variance),
         delay: rand() * 4,
         duration: 5 + rand() * 5,
