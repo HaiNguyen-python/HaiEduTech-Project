@@ -10,6 +10,7 @@ import GrammarExtraPractice from "@/components/grammar/GrammarExtraPractice";
 import GrammarLessonOverview from "@/components/grammar/GrammarLessonOverview";
 import LessonFeedback from "@/components/LessonFeedback";
 import TheorySections from "@/components/TheorySections";
+import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ArrowLeft, ChevronRight, Loader2, BookOpen, GraduationCap, Sparkles, Star } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -93,14 +94,22 @@ const LanguageLessonView = () => {
 
   const lesson = selectedLesson;
   const diff = difficultyConfig[lesson.difficulty];
-  const parentPath = mod.language === "chinese" ? "/chinese" : "/english";
-  const parentLabel = mod.language === "chinese" ? t("Tiếng Trung", "Chinese") : t("Tiếng Anh", "English");
   const isEnglishGrammarLesson = mod.category === "grammar" && mod.language === "english";
+  const parentPath = isEnglishGrammarLesson ? "/english/grammar" : mod.language === "chinese" ? "/chinese" : "/english";
+  const parentLabel = isEnglishGrammarLesson ? "Grammar" : mod.language === "chinese" ? t("Tiếng Trung", "Chinese") : t("Tiếng Anh", "English");
   const isSatLesson = mod.category === "sat";
   const tr = (vi: string, en: string) => (isEnglishGrammarLesson ? en : t(vi, en));
   const lessonTheory = isEnglishGrammarLesson
     ? getEnhancedGrammarTheory(lesson, mod).replace(/^\s*#\s+[^\n]+\n+/, "")
     : (t(lesson.theory, lesson.theoryEn) || "");
+  const grammarDifficultyKeys = ["beginner", "intermediate", "advanced"] as const;
+  const lessonSequence = new Map(mod.lessons.map((item, index) => [item.id, index + 1]));
+  const groupedLessonSections = grammarDifficultyKeys
+    .map((levelKey) => ({
+      levelKey,
+      lessons: mod.lessons.filter((item) => item.difficulty === levelKey),
+    }))
+    .filter((section) => section.lessons.length > 0);
 
   // Exercise renderer
   const renderExercise = (exercise: InteractiveExercise, idx: number) => {
