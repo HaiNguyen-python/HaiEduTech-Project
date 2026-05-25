@@ -234,7 +234,7 @@ const EnglishGrammar = () => {
                             {t("Bài học tiêu biểu", "Featured lessons")}
                           </p>
                           <ul className="space-y-1.5 text-sm text-muted-foreground">
-                            {mod.lessons.slice(0, 3).map((lesson) => (
+                            {sortLessons(mod).slice(0, 3).map((lesson) => (
                               <li key={lesson.id} className="flex items-start gap-2">
                                 <span className="text-primary mt-0.5">•</span>
                                 <span>{t(lesson.title, lesson.titleEn)}</span>
