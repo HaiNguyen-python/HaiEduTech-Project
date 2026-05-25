@@ -66,11 +66,11 @@ const CoursesOverview = () => {
   ];
 
   return (
-    <section className="relative overflow-x-clip py-12 sm:py-16">
-      <FloatingChibi src={chibiOwl} alt="" className="absolute left-2 top-1 z-0 opacity-90" size={100} />
-      <FloatingChibi src={chibiTeacher} alt="" className="absolute -left-2 bottom-8 z-0 opacity-90" size={140} delay={0.6} />
-      <FloatingChibi src={chibiPanda} alt="" className="absolute right-2 top-1/2 -translate-y-1/2 z-0 opacity-90" size={130} delay={1.2} />
-      <FloatingChibi src={chibiCoder} alt="" className="absolute -right-2 bottom-8 z-0 opacity-90" size={110} delay={1.8} flip />
+    <section className="relative overflow-x-clip py-16 sm:py-20">
+      <FloatingChibi src={chibiOwl} alt="" className="absolute left-8 top-0 z-0 opacity-90 xl:left-20" size={92} />
+      <FloatingChibi src={chibiTeacher} alt="" className="absolute -left-4 bottom-14 z-0 opacity-90 xl:left-10" size={128} delay={0.6} />
+      <FloatingChibi src={chibiPanda} alt="" className="absolute right-14 top-24 z-0 opacity-90 xl:right-28" size={118} delay={1.2} />
+      <FloatingChibi src={chibiCoder} alt="" className="absolute -right-4 bottom-6 z-0 opacity-90 xl:right-8" size={102} delay={1.8} flip />
       <div className="container relative z-10 mx-auto px-4 sm:px-6">
 
 
@@ -89,7 +89,7 @@ const CoursesOverview = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-6 pt-2 sm:gap-7 md:grid-cols-2 lg:grid-cols-4">
           {courses.map((c, i) => (
             <motion.div
               key={c.title}
