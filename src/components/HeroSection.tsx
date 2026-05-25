@@ -19,6 +19,7 @@ import heroBg from "@/assets/hero-bg.jpg";
 import haiProfile from "@/assets/hai-profile.webp";
 import chibiRocket from "@/assets/chibi-rocket.png";
 import chibiOwl from "@/assets/chibi-owl.png";
+import chibiGraduate from "@/assets/chibi-graduate.png";
 
 const HeroSection = () => {
   const { t } = useLanguage();
