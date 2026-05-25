@@ -8,6 +8,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { PenTool, Mic, Bot, Gamepad2, Target, LineChart, ArrowRight, LucideIcon } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import ShineCard from "@/components/ShineCard";
+import FloatingChibi from "@/components/FloatingChibi";
+import chibiRobot from "@/assets/chibi-robot.png";
+import chibiGraduate from "@/assets/chibi-graduate.png";
 
 type Tool = {
   icon: LucideIcon;
@@ -104,6 +107,8 @@ const ModernTechTools = () => {
 
   return (
     <section className="relative py-10 sm:py-14">
+      <FloatingChibi src={chibiRobot} alt="" className="absolute right-2 top-6 lg:right-8 z-10" size={130} />
+      <FloatingChibi src={chibiGraduate} alt="" className="absolute left-2 bottom-10 lg:left-8 z-10" size={120} delay={1.5} />
       <div className="container mx-auto px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -140,7 +145,7 @@ const ModernTechTools = () => {
                 <button
                   type="button"
                   onClick={() => handleClick(tool)}
-                  className="group relative block h-full w-full overflow-hidden rounded-2xl border border-border bg-card p-5 text-left shadow-sm transition-all hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10 sm:p-6"
+                  className="group relative block h-full w-full overflow-hidden rounded-2xl border-2 border-border/80 bg-card p-5 text-left shadow-md ring-1 ring-black/[0.03] transition-all hover:-translate-y-1 hover:border-primary/70 hover:shadow-xl hover:shadow-primary/15 sm:p-6"
                 >
                   {tool.live && (
                     <span className="absolute right-3 top-3 z-20 inline-flex items-center gap-1.5 rounded-full bg-rose-500/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-rose-600">
