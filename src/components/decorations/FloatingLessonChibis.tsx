@@ -179,17 +179,6 @@ const FloatingLessonChibis = ({ theme, count = 8, seed }: FloatingLessonChibisPr
         opacity: item.kind === "img" ? 0.9 + rand() * 0.1 : 0.85 + rand() * 0.15,
       };
     });
-        item,
-        side,
-        top: Math.max(3, Math.min(92, baseTop + jitter)),
-        offset: 0.4 + rand() * 2.6,
-        size: baseSize + Math.floor(rand() * variance),
-        delay: rand() * 4,
-        duration: 5 + rand() * 5,
-        rotate: (rand() - 0.5) * 18,
-        opacity: item.kind === "img" ? 0.9 + rand() * 0.1 : 0.85 + rand() * 0.15,
-      };
-    });
   }, [pool, count, seedStr]);
 
   return (
