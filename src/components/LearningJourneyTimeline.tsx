@@ -136,7 +136,7 @@ const LearningJourneyTimeline = () => {
         textRendering: "optimizeLegibility",
       }}
     >
-      <div className="glass-card rounded-3xl border-[5px] border-primary ring-4 ring-primary/30 shadow-[0_12px_38px_-6px_hsl(var(--primary)/0.45)] px-4 py-8 sm:px-8 sm:py-10 relative overflow-visible">
+      <div className="glass-card rounded-3xl border-[6px] border-primary ring-[6px] ring-primary/50 ring-offset-2 ring-offset-background shadow-[0_18px_50px_-8px_hsl(var(--primary)/0.6)] px-4 py-8 sm:px-8 sm:py-10 relative overflow-visible">
         {/* Section header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold mb-2">
