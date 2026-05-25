@@ -245,7 +245,9 @@ const AdminDashboard = () => {
 
   useEffect(() => { fetchAll(); }, [fetchAll]);
 
-  // Realtime subscription for live updates
+  // Realtime subscription for live updates — ignore high-frequency system events
+  // (heartbeat/daily_login) and debounce to prevent refetch storms.
+  const refetchTimerRef = useRef<number | null>(null);
   useEffect(() => {
     if (!isTeacher) return;
     const channel = supabase
@@ -253,14 +255,19 @@ const AdminDashboard = () => {
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "student_activity_log" },
-        () => {
-          // Refetch all data on new activity
-          fetchAll();
+        (payload: any) => {
+          const t = payload?.new?.activity_type as string | undefined;
+          if (!t || SYSTEM_ACTIVITY_TYPES.has(t)) return; // skip heartbeats
+          if (refetchTimerRef.current) window.clearTimeout(refetchTimerRef.current);
+          refetchTimerRef.current = window.setTimeout(() => fetchAll(), 4000);
         }
       )
       .subscribe();
 
-    return () => { supabase.removeChannel(channel); };
+    return () => {
+      if (refetchTimerRef.current) window.clearTimeout(refetchTimerRef.current);
+      supabase.removeChannel(channel);
+    };
   }, [isTeacher, fetchAll]);
 
   // Select student and generate recommendations
