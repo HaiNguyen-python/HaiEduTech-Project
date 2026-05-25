@@ -73,11 +73,11 @@ const SuccessMetrics = () => {
   ];
 
   return (
-    <section className="relative overflow-x-clip py-12 sm:py-16">
+    <section className="relative overflow-x-clip py-16 sm:py-20">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary/10 to-transparent" />
 
-      <FloatingChibi src={chibiOwl} alt="" className="absolute -left-2 top-4 z-0 opacity-90" size={110} />
-      <FloatingChibi src={chibiRocket} alt="" className="absolute -right-2 bottom-4 z-0 opacity-90" size={120} delay={1.4} />
+      <FloatingChibi src={chibiOwl} alt="" className="absolute left-10 top-2 z-0 opacity-90 xl:left-24" size={104} />
+      <FloatingChibi src={chibiRocket} alt="" className="absolute right-6 bottom-0 z-0 opacity-90 xl:right-20" size={112} delay={1.4} />
       <div className="container relative z-10 mx-auto px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -101,7 +101,7 @@ const SuccessMetrics = () => {
           </p>
         </motion.div>
 
-        <div className="mx-auto grid max-w-6xl gap-5 sm:gap-6 md:grid-cols-2">
+        <div className="mx-auto grid max-w-6xl gap-6 pt-2 sm:gap-7 md:grid-cols-2">
           {features.map((feature, i) => {
             const Icon = feature.icon;
             return (
