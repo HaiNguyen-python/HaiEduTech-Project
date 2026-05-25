@@ -265,7 +265,7 @@ const Navbar = () => {
 
   const navLinks = user
     ? isTeacher
-      ? [...baseLinks, { to: "/dashboard", label: t("Dashboard", "Dashboard"), icon: LayoutDashboard }, { to: "/admin-dashboard", label: t("Quản trị", "Admin"), icon: Shield }]
+      ? [...baseLinks, { to: "/admin-dashboard", label: t("Quản trị", "Admin"), icon: Shield }]
       : [...baseLinks, { to: "/dashboard", label: t("Dashboard", "Dashboard"), icon: LayoutDashboard }]
     : baseLinks;
 
@@ -397,9 +397,9 @@ const Navbar = () => {
                           exit={{ opacity: 0, y: -4 }}
                           className="absolute right-0 top-full mt-1 w-52 bg-card border border-border rounded-xl shadow-lg z-[100] py-1 overflow-hidden"
                         >
-                          <Link to="/dashboard" onClick={() => setUserMenuOpen(false)}
+                          <Link to={isTeacher ? "/admin-dashboard" : "/dashboard"} onClick={() => setUserMenuOpen(false)}
                             className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
-                            <LayoutDashboard className="w-3.5 h-3.5" /> Dashboard
+                            {isTeacher ? <><Shield className="w-3.5 h-3.5" /> {t("Quản trị", "Admin")}</> : <><LayoutDashboard className="w-3.5 h-3.5" /> Dashboard</>}
                           </Link>
                           <button
                             onClick={() => { setUserMenuOpen(false); setUpgradeOpen(true); }}
@@ -835,9 +835,9 @@ const Navbar = () => {
                         </span>
                       )}
                     </div>
-                    <Link to="/dashboard" onClick={() => setOpen(false)}
+                    <Link to={isTeacher ? "/admin-dashboard" : "/dashboard"} onClick={() => setOpen(false)}
                       className="flex items-center justify-center gap-2 w-full px-4 py-4 rounded-xl text-base font-bold bg-gradient-to-r from-primary to-accent text-white shadow-lg transition-all">
-                      <LayoutDashboard className="w-5 h-5" /> Dashboard
+                      {isTeacher ? <><Shield className="w-5 h-5" /> {t("Quản trị", "Admin")}</> : <><LayoutDashboard className="w-5 h-5" /> Dashboard</>}
                     </Link>
                     <button
                       onClick={() => { setOpen(false); setUpgradeOpen(true); }}
