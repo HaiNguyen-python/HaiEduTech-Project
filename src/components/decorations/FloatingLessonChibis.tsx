@@ -186,8 +186,13 @@ const FloatingLessonChibis = ({ theme, count = 2, seed }: FloatingLessonChibisPr
     });
   }, [pool, count, seedStr]);
 
-  return (
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
+  if (!mounted || typeof document === "undefined") return null;
+
+  return createPortal(
     <>
+
       <style>{`
         @keyframes chibi-float-a {
           0%, 100% { transform: translateY(0) rotate(var(--r,0deg)); }
