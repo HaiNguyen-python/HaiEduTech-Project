@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Search, BookOpen, Filter, ArrowUpDown, Heart, Clock, Target,
   Headphones, FileText, BookType, Briefcase, Zap, Flame, ChevronRight,
-  GraduationCap, TrendingUp
+  GraduationCap, TrendingUp, ArrowLeft
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
