@@ -10,8 +10,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import ShineCard from "@/components/ShineCard";
 import FloatingChibi from "@/components/FloatingChibi";
 import chibiRobot from "@/assets/chibi-robot.png";
-import chibiGraduate from "@/assets/chibi-graduate.png";
-import chibiRocket from "@/assets/chibi-rocket.png";
+import aiChibiRobot from "@/assets/ai-chibi-robot.png";
+import chibiWriting from "@/assets/chibi-writing.png";
 
 type Tool = {
   icon: LucideIcon;
@@ -109,8 +109,8 @@ const ModernTechTools = () => {
   return (
     <section className="relative overflow-x-clip py-16 sm:py-20">
       <FloatingChibi src={chibiRobot} alt="" className="absolute right-[4%] top-10 z-20 opacity-90" size={112} />
-      <FloatingChibi src={chibiRocket} alt="" className="absolute left-[4%] top-44 z-20 opacity-85" size={88} delay={0.8} />
-      <FloatingChibi src={chibiGraduate} alt="" className="absolute left-[4%] bottom-16 z-20 opacity-90" size={102} delay={1.5} />
+      <FloatingChibi src={aiChibiRobot} alt="" className="absolute left-[4%] top-44 z-20 opacity-85" size={88} delay={0.8} />
+      <FloatingChibi src={chibiWriting} alt="" className="absolute left-[4%] bottom-16 z-20 opacity-90" size={102} delay={1.5} />
       <div className="container relative z-10 mx-auto px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

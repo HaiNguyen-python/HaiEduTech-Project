@@ -6,8 +6,8 @@ import ShineCard from "@/components/ShineCard";
 import FloatingChibi from "@/components/FloatingChibi";
 import chibiTeacher from "@/assets/chibi-teacher.png";
 import chibiCoder from "@/assets/chibi-coder.png";
-import chibiPanda from "@/assets/chibi-panda.png";
-import chibiOwl from "@/assets/chibi-owl.png";
+import chibiReading from "@/assets/chibi-reading.png";
+import chibiSpeaking from "@/assets/chibi-speaking.png";
 
 
 
@@ -67,9 +67,9 @@ const CoursesOverview = () => {
 
   return (
     <section className="relative overflow-x-clip py-16 sm:py-20">
-      <FloatingChibi src={chibiOwl} alt="" className="absolute left-[4%] top-6 z-20 opacity-90" size={88} />
+      <FloatingChibi src={chibiReading} alt="" className="absolute left-[4%] top-6 z-20 opacity-90" size={88} />
       <FloatingChibi src={chibiTeacher} alt="" className="absolute left-[4%] bottom-16 z-20 opacity-90" size={106} delay={0.6} />
-      <FloatingChibi src={chibiPanda} alt="" className="absolute right-[4%] top-28 z-20 opacity-90" size={104} delay={1.2} />
+      <FloatingChibi src={chibiSpeaking} alt="" className="absolute right-[4%] top-28 z-20 opacity-90" size={104} delay={1.2} />
       <FloatingChibi src={chibiCoder} alt="" className="absolute right-[4%] bottom-20 z-20 opacity-90" size={92} delay={1.8} flip />
       <div className="container relative z-10 mx-auto px-4 sm:px-6">
 

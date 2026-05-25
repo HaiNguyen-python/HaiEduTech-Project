@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { Mic, PenTool, GraduationCap, Languages, ArrowRight, Sparkles } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import FloatingChibi from "@/components/FloatingChibi";
-import chibiOwl from "@/assets/chibi-owl.png";
-import chibiRocket from "@/assets/chibi-rocket.png";
+import chibiTrophy from "@/assets/chibi-quiz-trophy.png";
+import chibiCheer from "@/assets/chibi-vocab-cheer.png";
 
 /**
  * Signature Features section
@@ -76,8 +76,8 @@ const SuccessMetrics = () => {
     <section className="relative overflow-x-clip py-16 sm:py-20">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary/10 to-transparent" />
 
-      <FloatingChibi src={chibiOwl} alt="" className="absolute left-[4%] top-10 z-20 opacity-90" size={94} />
-      <FloatingChibi src={chibiRocket} alt="" className="absolute right-[4%] bottom-16 z-20 opacity-90" size={102} delay={1.4} />
+      <FloatingChibi src={chibiTrophy} alt="" className="absolute left-[4%] top-10 z-20 opacity-90" size={94} />
+      <FloatingChibi src={chibiCheer} alt="" className="absolute right-[4%] bottom-16 z-20 opacity-90" size={102} delay={1.4} />
       <div className="container relative z-10 mx-auto px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
