@@ -2,6 +2,10 @@ import type { LanguageLesson, LanguageModule } from "@/data/languageCurriculum";
 import { BookMarked, CheckCircle2, CircleAlert, Lightbulb, ListChecks, ScanSearch, Shapes } from "lucide-react";
 import { getEnhancedGrammarTheory } from "@/lib/grammarTheoryEnhancer";
 import { pickEnglishGrammarCopy } from "@/lib/englishGrammarCopy";
+import grammarChibiBeginner from "@/assets/grammar-chibi-beginner.png";
+import grammarChibiIntermediate from "@/assets/grammar-chibi-intermediate.png";
+import grammarChibiAdvanced from "@/assets/grammar-chibi-advanced.png";
+import chibiQuizTrophy from "@/assets/chibi-quiz-trophy.png";
 
 interface GrammarLessonCompanionProps {
   lesson: LanguageLesson;
