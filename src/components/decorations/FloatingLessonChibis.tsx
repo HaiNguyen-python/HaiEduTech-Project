@@ -125,8 +125,6 @@ interface ChibiSpot {
   top: number;
   offset: number;
   size: number;
-  delay: number;
-  duration: number;
   rotate: number;
   opacity: number;
 }
@@ -178,8 +176,6 @@ const FloatingLessonChibis = ({ theme, count = 2, seed }: FloatingLessonChibisPr
         // the side so they never overlap the centered content column.
         offset: 0.5 + rand() * 1.8,
         size: baseSize + Math.floor(rand() * variance),
-        delay: rand() * 4,
-        duration: 5 + rand() * 5,
         rotate: (rand() - 0.5) * 18,
         opacity: item.kind === "img" ? 0.9 + rand() * 0.1 : 0.85 + rand() * 0.15,
       };
@@ -187,33 +183,38 @@ const FloatingLessonChibis = ({ theme, count = 2, seed }: FloatingLessonChibisPr
   }, [pool, count, seedStr]);
 
   const [mounted, setMounted] = useState(false);
-  useEffect(() => { setMounted(true); }, []);
-  if (!mounted || typeof document === "undefined") return null;
+  const [viewport, setViewport] = useState({ width: 0, height: 0 });
+
+  useEffect(() => {
+    setMounted(true);
+
+    const updateViewport = () => {
+      setViewport({ width: window.innerWidth, height: window.innerHeight });
+    };
+
+    updateViewport();
+    window.addEventListener("resize", updateViewport);
+
+    return () => window.removeEventListener("resize", updateViewport);
+  }, []);
+
+  if (!mounted || typeof document === "undefined" || viewport.width === 0 || viewport.height === 0) return null;
 
   return createPortal(
     <>
 
-      <style>{`
-        @keyframes chibi-float-a {
-          0%, 100% { transform: translateY(0) rotate(var(--r,0deg)); }
-          50%      { transform: translateY(-18px) rotate(calc(var(--r,0deg) + 6deg)); }
-        }
-        @keyframes chibi-float-b {
-          0%, 100% { transform: translateY(0) rotate(var(--r,0deg)); }
-          50%      { transform: translateY(14px) rotate(calc(var(--r,0deg) - 6deg)); }
-        }
-      `}</style>
       <div aria-hidden className="pointer-events-none hidden lg:block select-none">
         {spots.map((s, i) => {
+          const topPx = Math.round((s.top / 100) * viewport.height);
+          const sidePx = Math.round((s.offset / 100) * viewport.width);
           const common: React.CSSProperties = {
             position: "fixed",
-            top: `${s.top}vh`,
-            [s.side]: `${s.offset}vw`,
+            top: `${topPx}px`,
+            [s.side]: `${sidePx}px`,
             opacity: s.opacity,
             zIndex: 0,
-            ["--r" as string]: `${s.rotate}deg`,
-            animation: `${i % 2 === 0 ? "chibi-float-a" : "chibi-float-b"} ${s.duration}s ease-in-out ${s.delay}s infinite`,
-            willChange: "transform",
+            transform: `rotate(${s.rotate}deg)`,
+            willChange: "auto",
           } as React.CSSProperties;
           if (s.item.kind === "img") {
             return (
