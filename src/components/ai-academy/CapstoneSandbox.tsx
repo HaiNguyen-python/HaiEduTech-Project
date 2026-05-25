@@ -10,6 +10,7 @@ import { Cpu, CheckCircle2, Sparkles, RefreshCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import confetti from "canvas-confetti";
 import { BonusGames } from "./SandboxBonusGames";
+import { BestMatchPick } from "./SandboxMiniActivity";
 
 const CAP_TF = [
   { q: "Một trợ lý AI tốt cần kết hợp nhiều mô-đun (vision, NLP, ethics…).", a: true },
