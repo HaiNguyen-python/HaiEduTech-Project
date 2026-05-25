@@ -524,7 +524,7 @@ const HskVocabulary = () => {
                       ) : (
                         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
                           {groups[cat].map(w => (
-                            <div key={w.character + w.category} className="rounded-xl border border-border bg-card overflow-hidden hover:border-primary/30 transition-colors">
+                            <div key={w.character + w.category} className="rounded-xl border-[3px] border-primary/40 bg-card overflow-hidden hover:border-primary/70 shadow-sm hover:shadow-md transition-all">
                               {/* Stroke order area */}
                               <div className="bg-secondary/30 flex items-center justify-center p-2">
                                 <HanziWord characters={w.character} size={64} />
