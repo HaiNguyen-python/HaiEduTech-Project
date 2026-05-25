@@ -79,7 +79,7 @@ const HomeChibiFunFacts = () => {
   // One chibi at a time "speaks" — cycle which one
   const speakerIdx = factIdx % spots.length;
   const currentFact = FACTS[factIdx];
-  const factText = language === "vi" ? currentFact.vi : currentFact.en;
+  const factText = lang === "vi" ? currentFact.vi : currentFact.en;
 
   return createPortal(
     <div aria-hidden className="pointer-events-none hidden lg:block select-none">
@@ -138,7 +138,7 @@ const HomeChibiFunFacts = () => {
                 }}
               >
                 <span style={{ fontWeight: 600, color: "hsl(var(--primary))" }}>
-                  💡 {language === "vi" ? "Bạn biết không?" : "Did you know?"}
+                  💡 {lang === "vi" ? "Bạn biết không?" : "Did you know?"}
                 </span>
                 <div style={{ marginTop: 4 }}>{factText}</div>
               </div>
