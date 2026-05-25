@@ -107,10 +107,10 @@ const ModernTechTools = () => {
   };
 
   return (
-    <section className="relative overflow-hidden py-10 sm:py-14">
-      <FloatingChibi src={chibiRobot} alt="" className="absolute -right-4 top-4 z-0 opacity-90" size={140} />
-      <FloatingChibi src={chibiGraduate} alt="" className="absolute -left-4 bottom-2 z-0 opacity-90" size={140} delay={1.5} />
-      <FloatingChibi src={chibiRocket} alt="" className="absolute right-6 bottom-4 z-0 opacity-85" size={100} delay={0.8} />
+    <section className="relative overflow-x-clip py-12 sm:py-16">
+      <FloatingChibi src={chibiRobot} alt="" className="absolute -right-2 top-2 z-0 opacity-90" size={140} />
+      <FloatingChibi src={chibiRocket} alt="" className="absolute left-2 top-1/3 z-0 opacity-85" size={100} delay={0.8} />
+      <FloatingChibi src={chibiGraduate} alt="" className="absolute -left-2 bottom-6 z-0 opacity-90" size={130} delay={1.5} />
       <div className="container relative z-10 mx-auto px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

@@ -66,11 +66,11 @@ const CoursesOverview = () => {
   ];
 
   return (
-    <section className="relative overflow-hidden py-10 sm:py-12">
-      <FloatingChibi src={chibiTeacher} alt="" className="absolute -left-4 bottom-0 z-0 opacity-90" size={140} />
-      <FloatingChibi src={chibiPanda} alt="" className="absolute -right-4 bottom-0 z-0 opacity-90" size={140} delay={1.2} />
-      <FloatingChibi src={chibiOwl} alt="" className="absolute left-4 top-2 z-0 opacity-80" size={90} delay={0.6} />
-      <FloatingChibi src={chibiCoder} alt="" className="absolute right-4 top-2 z-0 opacity-80" size={90} delay={1.8} flip />
+    <section className="relative overflow-x-clip py-12 sm:py-16">
+      <FloatingChibi src={chibiOwl} alt="" className="absolute left-2 top-1 z-0 opacity-90" size={100} />
+      <FloatingChibi src={chibiTeacher} alt="" className="absolute -left-2 bottom-8 z-0 opacity-90" size={140} delay={0.6} />
+      <FloatingChibi src={chibiPanda} alt="" className="absolute right-2 top-1/2 -translate-y-1/2 z-0 opacity-90" size={130} delay={1.2} />
+      <FloatingChibi src={chibiCoder} alt="" className="absolute -right-2 bottom-8 z-0 opacity-90" size={110} delay={1.8} flip />
       <div className="container relative z-10 mx-auto px-4 sm:px-6">
 
 
