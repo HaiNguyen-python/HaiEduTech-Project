@@ -171,7 +171,8 @@ const FloatingLessonChibis = ({ theme, count = 4, seed }: FloatingLessonChibisPr
         item,
         side,
         top: Math.max(5, Math.min(92, baseTop + jitter)),
-        offset: 2.5 + rand() * 3.0,
+        // Hug the very edge (or hang slightly off-screen) so chibis never cover content text
+        offset: -2.5 + rand() * 2.5,
         size: baseSize + Math.floor(rand() * variance),
         delay: rand() * 4,
         duration: 5 + rand() * 5,
