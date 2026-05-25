@@ -6,7 +6,7 @@
  * @license Private / Proprietary - No unauthorized copying or distribution.
  */
 import { motion } from "framer-motion";
-import { ArrowRight, Sparkles, GraduationCap, BookOpen, Languages, Code2 } from "lucide-react";
+import { ArrowRight, Sparkles, BookOpen, Languages, Code2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -14,11 +14,8 @@ import FloatingParticles from "@/components/FloatingParticles";
 import TechParticles from "@/components/TechParticles";
 import TypingHeadline from "@/components/TypingHeadline";
 import LearningJourneyTimeline from "@/components/LearningJourneyTimeline";
-import FloatingChibi from "@/components/FloatingChibi";
 import heroBg from "@/assets/hero-bg.jpg";
 import haiProfile from "@/assets/hai-profile.webp";
-import chibiOwl from "@/assets/chibi-owl.png";
-import chibiGraduate from "@/assets/chibi-graduate.png";
 
 const HeroSection = () => {
   const { t } = useLanguage();
@@ -64,10 +61,6 @@ const HeroSection = () => {
       {/* Aurora blobs */}
       <div className="absolute left-1/2 top-24 h-48 w-48 -translate-x-1/2 rounded-full bg-primary/10 blur-3xl animate-aurora-drift sm:left-1/4 sm:top-1/4 sm:h-64 sm:w-64 sm:translate-x-0" />
       <div className="absolute bottom-20 right-0 h-56 w-56 rounded-full bg-accent/10 blur-3xl animate-aurora-drift sm:bottom-1/3 sm:right-1/4 sm:h-80 sm:w-80" style={{ animationDelay: "4s", animationDuration: "26s" }} />
-
-      {/* Decorative hero chibis (desktop only) — purely visual, never speak */}
-      <FloatingChibi src={chibiOwl} alt="" size={95} delay={0} className="absolute left-[2%] top-[14%] z-20" />
-      <FloatingChibi src={chibiGraduate} alt="" size={90} delay={1.6} className="absolute right-[3%] top-[38%] z-20" />
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6">
         <div className="mx-auto max-w-5xl">
@@ -121,7 +114,7 @@ const HeroSection = () => {
 
               <p className="mx-auto mb-6 max-w-md px-1 text-[15px] leading-7 text-muted-foreground sm:mb-8 sm:max-w-xl sm:px-0 sm:text-base md:text-lg lg:mx-0">
                 {t(
-                  "Chinh phục Tiếng Anh, Tiếng Trung và Lập trình cùng thầy Hải – Thạc sĩ Ngôn ngữ & Văn hóa Anh, Kỹ sư Dữ Liệu & Trí tuệ nhân tạo tại Phần Lan.",
+                  "Chinh phục Tiếng Anh, Tiếng Trung và Lập trình cùng thầy Hải – Thạc sĩ Ngôn ngữ & Văn hóa Anh, Kỹ sư Dữ liệu & Trí tuệ nhân tạo tại Phần Lan.",
                   "Master English, Chinese and Programming with Teacher Hai – M.A. in English Language & Culture and a Data & AI Engineer in Finland."
                 )}
               </p>
