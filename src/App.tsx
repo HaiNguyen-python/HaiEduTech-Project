@@ -182,6 +182,7 @@ const SoftwareEngInterview = lazy(() => import("./pages/SoftwareEngInterview.tsx
 const SongsLibraryPage = lazy(() => import("./pages/SongsLibraryPage.tsx"));
 const SpecializedLanguage = lazy(() => import("./pages/SpecializedLanguage.tsx"));
 const EnglishPronunciation = lazy(() => import("./pages/EnglishPronunciation.tsx"));
+const EnglishEssentials = lazy(() => import("./pages/EnglishEssentials.tsx"));
 
 // Shared loading fallback component
 const PageLoader = () => (
