@@ -398,8 +398,12 @@ const SatVocabulary = () => {
         path="/sat-vocabulary"
       />
       <Navbar />
-      <div className="pt-6 pb-16">
+      <div className="pt-24 lg:pt-28 pb-16">
         <div className="container mx-auto px-4 max-w-7xl">
+          <Link to="/english/sat" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary mb-4">
+            <ArrowLeft className="w-4 h-4" />
+            {t("Quay lại SAT Preparation", "Back to SAT Preparation")}
+          </Link>
           <div className="flex gap-6">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex-1 min-w-0">
               {/* Header */}
