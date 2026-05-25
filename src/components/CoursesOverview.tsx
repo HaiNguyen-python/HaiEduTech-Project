@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { BookOpen, Languages, Code2, Brain, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
+import ShineCard from "@/components/ShineCard";
 
 const CoursesOverview = () => {
   const { t } = useLanguage();
