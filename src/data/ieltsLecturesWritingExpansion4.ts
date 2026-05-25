@@ -161,25 +161,7 @@ const task1: IeltsLecture[] = [
       "Stable: levelled off, plateaued, remained constant, held steady",
     ],
   ),
-  mk(
-    "writing-task1-letter-style",
-    "✉️",
-    "Task 1 (General): Letter Writing Mastery",
-    "Task 1 (General): Viết thư đỉnh cao",
-    "20 min",
-    "intermediate",
-    "GT Task 1 letters across formal, semi-formal and informal registers — opening, 3 bullet points and sign-off.",
-    "Task 1 GT viết thư ở 3 mức trang trọng — mở thư, 3 ý chính và lời chào kết.",
-    "Decide the register in 30 seconds by looking at WHO receives the letter — then NEVER switch tone mid-letter.",
-    "Quyết định mức độ trang trọng trong 30 giây dựa trên NGƯỜI NHẬN — rồi đừng đổi tông giữa thư.",
-    [
-      "Formal: 'Dear Sir/Madam' → 'Yours faithfully'",
-      "Semi-formal: 'Dear Mr Smith' → 'Yours sincerely'",
-      "Informal: 'Dear Anna' → 'Best wishes / Love'",
-      "Cover all 3 bullet points equally — missing one = Band 5",
-      "150 words minimum, no headers or addresses needed",
-    ],
-  ),
+  // NOTE: GT letter lecture removed — Writing curriculum focuses on Academic Task 1 only.
 ];
 
 // ============ WRITING TASK 2 ============
