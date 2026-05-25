@@ -53,6 +53,19 @@ const EnglishGrammar = () => {
     return t("Độ chính xác nâng cao", "Advanced Accuracy");
   };
 
+  const difficultyOrder = { beginner: 1, intermediate: 2, advanced: 3 } as const;
+  const sortLessons = (module: typeof allGrammarModules[number]) =>
+    [...module.lessons].sort((a, b) => {
+      const diff = difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty];
+      return diff !== 0 ? diff : a.level - b.level;
+    });
+
+  const sortModules = (modules: typeof allGrammarModules) =>
+    [...modules].sort((a, b) => {
+      const diff = difficultyOrder[getModuleLevel(a)] - difficultyOrder[getModuleLevel(b)];
+      return diff !== 0 ? diff : a.titleEn.localeCompare(b.titleEn);
+    });
+
   const groupedModules = useMemo(() => {
     const normalizedSearch = searchTerm.trim().toLowerCase();
 
@@ -75,9 +88,9 @@ const EnglishGrammar = () => {
     });
 
     return {
-      beginner: filtered.filter((module) => getModuleLevel(module) === "beginner"),
-      intermediate: filtered.filter((module) => getModuleLevel(module) === "intermediate"),
-      advanced: filtered.filter((module) => getModuleLevel(module) === "advanced"),
+      beginner: sortModules(filtered.filter((module) => getModuleLevel(module) === "beginner")),
+      intermediate: sortModules(filtered.filter((module) => getModuleLevel(module) === "intermediate")),
+      advanced: sortModules(filtered.filter((module) => getModuleLevel(module) === "advanced")),
       total: filtered.length,
     };
   }, [activeLevel, searchTerm]);
