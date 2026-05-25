@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Brain, Target, Keyboard, User, Users, Trophy, Timer, RotateCcw, Sparkles, Volume2 } from "lucide-react";
+import { ArrowLeft, Brain, Target, Keyboard, User, Users, Trophy, Timer, RotateCcw, Sparkles, Volume2, Shuffle, Link2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ieltsVocabData, type IeltsWord } from "@/data/ieltsVocabData";
