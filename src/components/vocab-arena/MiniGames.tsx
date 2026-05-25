@@ -1,10 +1,12 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, type MouseEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Brain, Target, Keyboard, User, Users, Trophy, Timer, RotateCcw, Sparkles, Volume2, Shuffle, Link2 } from "lucide-react";
+import { ArrowLeft, Brain, Target, Keyboard, User, Users, Trophy, Timer, RotateCcw, Sparkles, Volume2, Shuffle, Link2, Flame, CalendarDays, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ieltsVocabData, type IeltsWord } from "@/data/ieltsVocabData";
 import confetti from "canvas-confetti";
+import { sfx, saveHighScore, getHighScores, getPlayerName, setPlayerName, dailyLabel, type GameKey } from "./gameFx";
+import { ComboBadge, HighScorePanel, useGameFx, ShakeWrap } from "./GameEffects";
 
 type Game = "menu" | "memory" | "hunt" | "sprint" | "synonym" | "scramble";
 type Mode = "solo" | "team";
@@ -39,15 +41,24 @@ const MiniGames = ({ onBack }: Props) => {
   const { t } = useLanguage();
   const [game, setGame] = useState<Game>("menu");
   const [mode, setMode] = useState<Mode>("solo");
+  const [name, setName] = useState(getPlayerName());
+
+  useEffect(() => { setPlayerName(name); }, [name]);
 
   if (game === "menu") {
+    const totalGames: GameKey[] = ["memory", "hunt", "sprint", "synonym", "scramble"];
+    const grandBest = totalGames.reduce((acc, g) => {
+      const top = getHighScores(g)[0];
+      return top && top.score > acc ? top.score : acc;
+    }, 0);
+
     return (
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <button onClick={onBack} className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6">
           <ArrowLeft className="w-4 h-4" /> {t("Quay lại", "Back")}
         </button>
 
-        <div className="text-center mb-8">
+        <div className="text-center mb-6">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-3">
             <Sparkles className="w-4 h-4" /> {t("Mini Games", "Mini Games")}
           </div>
@@ -56,14 +67,42 @@ const MiniGames = ({ onBack }: Props) => {
             <span className="text-gradient">{t("Từ vựng", "Vocab Games")}</span>
           </h2>
           <p className="text-muted-foreground text-sm">
-            {t("Chơi solo hoặc chia lượt cùng bạn (2 người 1 máy)", "Play solo or take turns with a friend (2 players, 1 device)")}
+            {t("Combo 3-5-8 nhân điểm × thi đấu bảng xếp hạng lớp", "Combo 3-5-8 score multipliers × class leaderboards")}
           </p>
         </div>
 
+        {/* Player + Daily Challenge */}
+        <div className="grid sm:grid-cols-2 gap-3 mb-6">
+          <div className="flex items-center gap-2 px-4 py-3 rounded-2xl border-2 border-border bg-card">
+            <Crown className="w-5 h-5 text-amber-500 shrink-0" />
+            <label className="text-xs text-muted-foreground shrink-0">{t("Tên", "Name")}:</label>
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              maxLength={20}
+              placeholder={t("Tên của bạn", "Your name")}
+              className="flex-1 bg-transparent text-sm font-bold text-foreground outline-none placeholder:text-muted-foreground/60"
+            />
+            {grandBest > 0 && (
+              <span className="px-2 py-1 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-bold">
+                🏆 {grandBest}
+              </span>
+            )}
+          </div>
+          <div className="flex items-center gap-2 px-4 py-3 rounded-2xl border-2 border-fuchsia-500/40 bg-gradient-to-r from-fuchsia-500/10 to-pink-500/10">
+            <CalendarDays className="w-5 h-5 text-fuchsia-500 shrink-0" />
+            <div className="flex-1">
+              <p className="text-xs font-bold text-fuchsia-600 dark:text-fuchsia-400">{t("Thử thách hôm nay", "Daily Challenge")}</p>
+              <p className="text-[10px] text-muted-foreground">{dailyLabel()} • {t("Chơi mỗi ngày để giữ chuỗi!", "Play daily to keep your streak!")}</p>
+            </div>
+            <Flame className="w-5 h-5 text-orange-500" />
+          </div>
+        </div>
+
         {/* Mode toggle */}
-        <div className="flex justify-center gap-2 mb-8">
+        <div className="flex justify-center gap-2 mb-6">
           <button
-            onClick={() => setMode("solo")}
+            onClick={() => { setMode("solo"); sfx("flip"); }}
             className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 ${
               mode === "solo" ? "bg-primary text-primary-foreground shadow-lg" : "bg-secondary text-muted-foreground hover:text-foreground"
             }`}
@@ -71,7 +110,7 @@ const MiniGames = ({ onBack }: Props) => {
             <User className="w-4 h-4" /> Solo
           </button>
           <button
-            onClick={() => setMode("team")}
+            onClick={() => { setMode("team"); sfx("flip"); }}
             className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 ${
               mode === "team" ? "bg-amber-500 text-white shadow-lg" : "bg-secondary text-muted-foreground hover:text-foreground"
             }`}
@@ -86,6 +125,7 @@ const MiniGames = ({ onBack }: Props) => {
             color="purple"
             title={t("Lật thẻ ghi nhớ", "Memory Match")}
             desc={t("Ghép từ với định nghĩa", "Match word ↔ definition pairs")}
+            gameKey="memory"
             onClick={() => setGame("memory")}
           />
           <GameCard
@@ -93,6 +133,7 @@ const MiniGames = ({ onBack }: Props) => {
             color="rose"
             title={t("Săn từ", "Word Hunt")}
             desc={t("Chọn đúng từ theo định nghĩa", "Pick the word that fits the clue")}
+            gameKey="hunt"
             onClick={() => setGame("hunt")}
           />
           <GameCard
@@ -100,6 +141,7 @@ const MiniGames = ({ onBack }: Props) => {
             color="emerald"
             title={t("Gõ tốc độ", "Definition Sprint")}
             desc={t("Gõ từ đúng theo IPA + định nghĩa", "Type the word from IPA + definition")}
+            gameKey="sprint"
             onClick={() => setGame("sprint")}
           />
           <GameCard
@@ -107,6 +149,7 @@ const MiniGames = ({ onBack }: Props) => {
             color="amber"
             title={t("Ghép từ đồng nghĩa", "Synonym Showdown")}
             desc={t("Chọn từ đồng nghĩa với từ cho sẵn", "Pick the synonym of the given word")}
+            gameKey="synonym"
             onClick={() => setGame("synonym")}
           />
           <GameCard
@@ -114,8 +157,21 @@ const MiniGames = ({ onBack }: Props) => {
             color="sky"
             title={t("Xếp chữ cái", "Word Scramble")}
             desc={t("Sắp xếp lại các chữ cái thành từ đúng", "Unscramble letters to form the word")}
+            gameKey="scramble"
             onClick={() => setGame("scramble")}
           />
+          <div className="hidden md:block rounded-2xl border-2 border-dashed border-border bg-card/50 p-6">
+            <div className="flex items-center gap-2 mb-2">
+              <Flame className="w-5 h-5 text-orange-500" />
+              <h3 className="text-sm font-bold text-foreground">{t("Mẹo chơi", "Pro tip")}</h3>
+            </div>
+            <ul className="text-xs text-muted-foreground space-y-1.5">
+              <li>🔥 {t("3 đúng liên tiếp = x1.5 điểm", "3 correct in a row = x1.5 pts")}</li>
+              <li>⚡ {t("5 chuỗi = x2 + pháo hoa", "5-streak = x2 + confetti")}</li>
+              <li>👑 {t("8 chuỗi = x3 'ON FIRE'", "8-streak = x3 'ON FIRE'")}</li>
+              <li>🏆 {t("Top 10 lưu lại trên thiết bị", "Top 10 saved on this device")}</li>
+            </ul>
+          </div>
         </div>
       </div>
     );
@@ -129,29 +185,40 @@ const MiniGames = ({ onBack }: Props) => {
   return null;
 };
 
-const GameCard = ({ icon, color, title, desc, onClick }: { icon: React.ReactNode; color: "purple" | "rose" | "emerald" | "amber" | "sky"; title: string; desc: string; onClick: () => void }) => {
+const GameCard = ({ icon, color, title, desc, gameKey, onClick }: { icon: React.ReactNode; color: "purple" | "rose" | "emerald" | "amber" | "sky"; title: string; desc: string; gameKey: GameKey; onClick: () => void }) => {
   const bg =
     color === "purple" ? "bg-purple-500/10" :
     color === "rose" ? "bg-rose-500/10" :
     color === "emerald" ? "bg-emerald-500/10" :
     color === "amber" ? "bg-amber-500/10" :
     "bg-sky-500/10";
+  const top = getHighScores(gameKey)[0];
   return (
     <motion.button
       whileHover={{ scale: 1.03, y: -4 }}
       whileTap={{ scale: 0.97 }}
-      onClick={onClick}
-      className="text-left rounded-2xl border-2 border-border bg-card p-6 hover:border-primary/50 transition-all"
+      onClick={() => { sfx("powerup"); onClick(); }}
+      className="relative text-left rounded-2xl border-2 border-border bg-card p-6 hover:border-primary/50 transition-all overflow-hidden"
     >
+      {top && (
+        <span className="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400 text-[10px] font-black flex items-center gap-1">
+          <Crown className="w-3 h-3" /> {top.score}
+        </span>
+      )}
       <div className={`w-14 h-14 rounded-2xl ${bg} flex items-center justify-center mb-4`}>{icon}</div>
       <h3 className="text-lg font-bold text-foreground mb-1">{title}</h3>
-      <p className="text-sm text-muted-foreground">{desc}</p>
+      <p className="text-sm text-muted-foreground mb-2">{desc}</p>
+      {top && (
+        <p className="text-[11px] text-muted-foreground/70 truncate">
+          👑 {top.name} · <span className="font-bold text-primary">{top.score}</span>
+        </p>
+      )}
     </motion.button>
   );
 };
 
 // ============ Shared header ============
-const GameHeader = ({ title, mode, onExit, currentPlayer, scoreA, scoreB }: { title: string; mode: Mode; onExit: () => void; currentPlayer?: 1 | 2; scoreA: number; scoreB?: number }) => {
+const GameHeader = ({ title, mode, onExit, currentPlayer, scoreA, scoreB, combo }: { title: string; mode: Mode; onExit: () => void; currentPlayer?: 1 | 2; scoreA: number; scoreB?: number; combo?: number }) => {
   const { t } = useLanguage();
   return (
     <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
@@ -159,11 +226,17 @@ const GameHeader = ({ title, mode, onExit, currentPlayer, scoreA, scoreB }: { ti
         <ArrowLeft className="w-4 h-4" /> {t("Thoát", "Exit")}
       </button>
       <h2 className="text-xl font-bold text-foreground">{title}</h2>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 flex-wrap">
+        {combo !== undefined && combo >= 2 && <ComboBadge combo={combo} />}
         {mode === "solo" ? (
-          <span className="px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-sm font-bold flex items-center gap-1">
+          <motion.span
+            key={scoreA}
+            initial={{ scale: 1.25 }}
+            animate={{ scale: 1 }}
+            className="px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-sm font-bold flex items-center gap-1"
+          >
             <Trophy className="w-4 h-4" /> {scoreA}
-          </span>
+          </motion.span>
         ) : (
           <>
             <span className={`px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1 transition-all ${currentPlayer === 1 ? "bg-blue-500 text-white scale-110" : "bg-blue-500/10 text-blue-500"}`}>
@@ -175,6 +248,55 @@ const GameHeader = ({ title, mode, onExit, currentPlayer, scoreA, scoreB }: { ti
           </>
         )}
       </div>
+    </div>
+  );
+};
+
+// ============ Shared Final Screen ============
+const FinalScreen = ({
+  mode, scoreA, scoreB, maxCombo, rank, isNew, gameKey, gameTitle,
+}: {
+  mode: Mode; scoreA: number; scoreB: number; maxCombo: number;
+  rank: number | null; isNew: boolean; gameKey: GameKey; gameTitle: string;
+}) => {
+  const { t } = useLanguage();
+  return (
+    <div className="p-8 rounded-2xl bg-card border-2 border-primary text-center">
+      {isNew && (
+        <motion.div
+          initial={{ scale: 0, rotate: -10 }}
+          animate={{ scale: 1, rotate: 0 }}
+          className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-black mb-3 shadow-lg"
+        >
+          👑 {t("KỶ LỤC MỚI!", "NEW RECORD!")}
+        </motion.div>
+      )}
+      <Trophy className="w-14 h-14 text-amber-500 mx-auto mb-3" />
+      <h3 className="text-2xl font-bold mb-2">
+        {mode === "solo"
+          ? t(`Tổng điểm: ${scoreA}`, `Final score: ${scoreA}`)
+          : scoreA === scoreB ? t("Hòa!", "Tie!") : scoreA > scoreB ? `🏆 P1 ${scoreA} - ${scoreB} P2` : `P1 ${scoreA} - ${scoreB} P2 🏆`}
+      </h3>
+      <div className="flex items-center justify-center gap-2 flex-wrap mb-4 text-sm">
+        {maxCombo > 0 && (
+          <span className="px-3 py-1 rounded-full bg-fuchsia-500/10 text-fuchsia-600 dark:text-fuchsia-400 font-bold">
+            🔥 {t(`Combo cao nhất: ${maxCombo}`, `Max combo: ${maxCombo}`)}
+          </span>
+        )}
+        {rank && mode === "solo" && (
+          <span className="px-3 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 font-bold">
+            🏅 {t(`Hạng #${rank} trên thiết bị`, `Rank #${rank} on this device`)}
+          </span>
+        )}
+      </div>
+      {mode === "solo" && (
+        <div className="max-w-sm mx-auto mb-4">
+          <HighScorePanel game={gameKey} title={t(`Top ${gameTitle}`, `Top ${gameTitle}`)} highlight={scoreA} />
+        </div>
+      )}
+      <Button onClick={() => window.location.reload()} className="gap-2">
+        <RotateCcw className="w-4 h-4" /> {t("Chơi lại", "Play again")}
+      </Button>
     </div>
   );
 };
@@ -318,6 +440,8 @@ const WordHunt = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
   const [picked, setPicked] = useState<string | null>(null);
   const [timeLeft, setTimeLeft] = useState(15);
   const [done, setDone] = useState(false);
+  const fx = useGameFx();
+  const [saved, setSaved] = useState<{ rank: number | null; isNew: boolean } | null>(null);
 
   const questions = useMemo(() => {
     return shuffle(ieltsVocabData).slice(0, ROUNDS).map((correct) => {
@@ -346,16 +470,25 @@ const WordHunt = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [round, done]);
 
-  const handlePick = (word: string) => {
+  useEffect(() => {
+    if (done && mode === "solo" && !saved) {
+      sfx("win");
+      setSaved(saveHighScore("hunt", scoreA));
+    }
+  }, [done, mode, scoreA, saved]);
+
+  const handlePick = (word: string, evt?: MouseEvent<HTMLButtonElement>) => {
     if (picked) return;
     setPicked(word);
-    const correct = word === q.correct.word;
-    if (correct) {
-      const pts = 10 + Math.round(timeLeft / 2);
+    const isCorrect = word === q.correct.word;
+    if (isCorrect) {
+      const base = 10 + Math.round(timeLeft / 2);
+      const pts = fx.onCorrect(base, { clientX: evt?.clientX, clientY: evt?.clientY });
       if (mode === "solo") setScoreA((s) => s + pts);
       else if (player === 1) setScoreA((s) => s + pts);
       else setScoreB((s) => s + pts);
-      burst();
+    } else {
+      fx.onWrong();
     }
     setTimeout(() => {
       if (round + 1 >= ROUNDS) { setDone(true); return; }
@@ -369,22 +502,25 @@ const WordHunt = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
     return (
       <div className="max-w-2xl mx-auto">
         <GameHeader title={t("Săn từ", "Word Hunt")} mode={mode} onExit={onExit} scoreA={scoreA} scoreB={scoreB} currentPlayer={player} />
-        <div className="p-8 rounded-2xl bg-card border-2 border-primary text-center">
-          <Trophy className="w-14 h-14 text-amber-500 mx-auto mb-3" />
-          <h3 className="text-2xl font-bold mb-3">
-            {mode === "solo"
-              ? t(`Tổng điểm: ${scoreA}`, `Final score: ${scoreA}`)
-              : scoreA === scoreB ? t("Hòa!", "Tie!") : scoreA > scoreB ? `🏆 P1 ${scoreA} - ${scoreB} P2` : `P1 ${scoreA} - ${scoreB} P2 🏆`}
-          </h3>
-          <Button onClick={() => window.location.reload()} className="gap-2"><RotateCcw className="w-4 h-4" /> {t("Chơi lại", "Play again")}</Button>
-        </div>
+        <FinalScreen
+          mode={mode}
+          scoreA={scoreA}
+          scoreB={scoreB}
+          maxCombo={fx.maxCombo}
+          rank={saved?.rank ?? null}
+          isNew={saved?.isNew ?? false}
+          gameKey="hunt"
+          gameTitle={t("Săn từ", "Word Hunt")}
+        />
       </div>
     );
   }
 
   return (
+    <ShakeWrap trigger={fx.shake}>
     <div className="max-w-2xl mx-auto">
-      <GameHeader title={t("Săn từ", "Word Hunt")} mode={mode} onExit={onExit} scoreA={scoreA} scoreB={scoreB} currentPlayer={player} />
+      <fx.FxOverlay />
+      <GameHeader title={t("Săn từ", "Word Hunt")} mode={mode} onExit={onExit} scoreA={scoreA} scoreB={scoreB} currentPlayer={player} combo={fx.combo} />
 
       <div className="flex items-center justify-between mb-3 text-sm text-muted-foreground">
         <span>{t(`Câu ${round + 1}/${ROUNDS}`, `Q ${round + 1}/${ROUNDS}`)}</span>
@@ -407,7 +543,7 @@ const WordHunt = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
             <motion.button
               key={o.word}
               whileTap={{ scale: 0.95 }}
-              onClick={() => handlePick(o.word)}
+              onClick={(e) => handlePick(o.word, e)}
               disabled={!!picked}
               className={`px-3 py-3 rounded-xl border-2 text-sm font-semibold transition-all ${
                 isCorrect ? "bg-emerald-500 text-white border-emerald-600" :
@@ -422,6 +558,7 @@ const WordHunt = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
         })}
       </div>
     </div>
+    </ShakeWrap>
   );
 };
 
@@ -438,6 +575,8 @@ const DefinitionSprint = ({ mode, onExit }: { mode: Mode; onExit: () => void }) 
   const [hint, setHint] = useState(0);
   const [timeLeft, setTimeLeft] = useState(20);
   const [done, setDone] = useState(false);
+  const fx = useGameFx();
+  const [saved, setSaved] = useState<{ rank: number | null; isNew: boolean } | null>(null);
 
   const words = useMemo(() => shuffle(ieltsVocabData).slice(0, ROUNDS), []);
   const w = words[round];
@@ -457,17 +596,25 @@ const DefinitionSprint = ({ mode, onExit }: { mode: Mode; onExit: () => void }) 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [round, done]);
 
+  useEffect(() => {
+    if (done && mode === "solo" && !saved) {
+      sfx("win");
+      setSaved(saveHighScore("sprint", scoreA));
+    }
+  }, [done, mode, scoreA, saved]);
+
   const submit = (timedOut = false) => {
     if (feedback) return;
-    const correct = !timedOut && input.trim().toLowerCase() === w.word.toLowerCase();
-    if (correct) {
-      const pts = Math.max(5, 20 + timeLeft - hint * 3);
+    const isCorrect = !timedOut && input.trim().toLowerCase() === w.word.toLowerCase();
+    if (isCorrect) {
+      const base = Math.max(5, 20 + timeLeft - hint * 3);
+      const pts = fx.onCorrect(base);
       if (mode === "solo") setScoreA((s) => s + pts);
       else if (player === 1) setScoreA((s) => s + pts);
       else setScoreB((s) => s + pts);
       setFeedback("correct");
-      burst();
     } else {
+      fx.onWrong();
       setFeedback("wrong");
     }
     setTimeout(() => {
@@ -485,22 +632,20 @@ const DefinitionSprint = ({ mode, onExit }: { mode: Mode; onExit: () => void }) 
     return (
       <div className="max-w-2xl mx-auto">
         <GameHeader title={t("Gõ tốc độ", "Definition Sprint")} mode={mode} onExit={onExit} scoreA={scoreA} scoreB={scoreB} currentPlayer={player} />
-        <div className="p-8 rounded-2xl bg-card border-2 border-primary text-center">
-          <Trophy className="w-14 h-14 text-amber-500 mx-auto mb-3" />
-          <h3 className="text-2xl font-bold mb-3">
-            {mode === "solo"
-              ? t(`Tổng điểm: ${scoreA}`, `Final score: ${scoreA}`)
-              : scoreA === scoreB ? t("Hòa!", "Tie!") : scoreA > scoreB ? `🏆 P1 ${scoreA} - ${scoreB} P2` : `P1 ${scoreA} - ${scoreB} P2 🏆`}
-          </h3>
-          <Button onClick={() => window.location.reload()} className="gap-2"><RotateCcw className="w-4 h-4" /> {t("Chơi lại", "Play again")}</Button>
-        </div>
+        <FinalScreen
+          mode={mode} scoreA={scoreA} scoreB={scoreB} maxCombo={fx.maxCombo}
+          rank={saved?.rank ?? null} isNew={saved?.isNew ?? false}
+          gameKey="sprint" gameTitle={t("Gõ tốc độ", "Definition Sprint")}
+        />
       </div>
     );
   }
 
   return (
+    <ShakeWrap trigger={fx.shake}>
     <div className="max-w-2xl mx-auto">
-      <GameHeader title={t("Gõ tốc độ", "Definition Sprint")} mode={mode} onExit={onExit} scoreA={scoreA} scoreB={scoreB} currentPlayer={player} />
+      <fx.FxOverlay />
+      <GameHeader title={t("Gõ tốc độ", "Definition Sprint")} mode={mode} onExit={onExit} scoreA={scoreA} scoreB={scoreB} currentPlayer={player} combo={fx.combo} />
 
       <div className="flex items-center justify-between mb-3 text-sm text-muted-foreground">
         <span>{t(`Câu ${round + 1}/${ROUNDS}`, `Q ${round + 1}/${ROUNDS}`)}</span>
@@ -550,6 +695,7 @@ const DefinitionSprint = ({ mode, onExit }: { mode: Mode; onExit: () => void }) 
         {feedback === "wrong" && <span className="text-xs text-red-500">{t("Đáp án:", "Answer:")} <b>{w.word}</b></span>}
       </div>
     </div>
+    </ShakeWrap>
   );
 };
 
@@ -564,6 +710,8 @@ const SynonymShowdown = ({ mode, onExit }: { mode: Mode; onExit: () => void }) =
   const [picked, setPicked] = useState<string | null>(null);
   const [timeLeft, setTimeLeft] = useState(15);
   const [done, setDone] = useState(false);
+  const fx = useGameFx();
+  const [saved, setSaved] = useState<{ rank: number | null; isNew: boolean } | null>(null);
 
   const questions = useMemo(() => {
     const pool = ieltsVocabData.filter((w) => w.synonyms && w.synonyms.length > 0);
@@ -594,15 +742,23 @@ const SynonymShowdown = ({ mode, onExit }: { mode: Mode; onExit: () => void }) =
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [round, done]);
 
-  const handlePick = (word: string) => {
+  useEffect(() => {
+    if (done && mode === "solo" && !saved) { sfx("win"); setSaved(saveHighScore("synonym", scoreA)); }
+  }, [done, mode, scoreA, saved]);
+
+  const handlePick = (word: string, evt?: MouseEvent<HTMLButtonElement>) => {
     if (picked) return;
     setPicked(word);
     if (word === q.correct) {
-      const pts = 10 + Math.round(timeLeft / 2);
+      const base = 10 + Math.round(timeLeft / 2);
+      const pts = fx.onCorrect(base, { clientX: evt?.clientX, clientY: evt?.clientY });
       if (mode === "solo") setScoreA((s) => s + pts);
       else if (player === 1) setScoreA((s) => s + pts);
       else setScoreB((s) => s + pts);
-      burst();
+    } else if (word !== "__timeout__") {
+      fx.onWrong();
+    } else {
+      fx.onWrong();
     }
     setTimeout(() => {
       if (round + 1 >= ROUNDS) { setDone(true); return; }
@@ -616,22 +772,20 @@ const SynonymShowdown = ({ mode, onExit }: { mode: Mode; onExit: () => void }) =
     return (
       <div className="max-w-2xl mx-auto">
         <GameHeader title={t("Ghép từ đồng nghĩa", "Synonym Showdown")} mode={mode} onExit={onExit} scoreA={scoreA} scoreB={scoreB} currentPlayer={player} />
-        <div className="p-8 rounded-2xl bg-card border-2 border-primary text-center">
-          <Trophy className="w-14 h-14 text-amber-500 mx-auto mb-3" />
-          <h3 className="text-2xl font-bold mb-3">
-            {mode === "solo"
-              ? t(`Tổng điểm: ${scoreA}`, `Final score: ${scoreA}`)
-              : scoreA === scoreB ? t("Hòa!", "Tie!") : scoreA > scoreB ? `🏆 P1 ${scoreA} - ${scoreB} P2` : `P1 ${scoreA} - ${scoreB} P2 🏆`}
-          </h3>
-          <Button onClick={() => window.location.reload()} className="gap-2"><RotateCcw className="w-4 h-4" /> {t("Chơi lại", "Play again")}</Button>
-        </div>
+        <FinalScreen
+          mode={mode} scoreA={scoreA} scoreB={scoreB} maxCombo={fx.maxCombo}
+          rank={saved?.rank ?? null} isNew={saved?.isNew ?? false}
+          gameKey="synonym" gameTitle={t("Đồng nghĩa", "Synonym")}
+        />
       </div>
     );
   }
 
   return (
+    <ShakeWrap trigger={fx.shake}>
     <div className="max-w-2xl mx-auto">
-      <GameHeader title={t("Ghép từ đồng nghĩa", "Synonym Showdown")} mode={mode} onExit={onExit} scoreA={scoreA} scoreB={scoreB} currentPlayer={player} />
+      <fx.FxOverlay />
+      <GameHeader title={t("Ghép từ đồng nghĩa", "Synonym Showdown")} mode={mode} onExit={onExit} scoreA={scoreA} scoreB={scoreB} currentPlayer={player} combo={fx.combo} />
 
       <div className="flex items-center justify-between mb-3 text-sm text-muted-foreground">
         <span>{t(`Câu ${round + 1}/${ROUNDS}`, `Q ${round + 1}/${ROUNDS}`)}</span>
@@ -658,7 +812,7 @@ const SynonymShowdown = ({ mode, onExit }: { mode: Mode; onExit: () => void }) =
             <motion.button
               key={o}
               whileTap={{ scale: 0.95 }}
-              onClick={() => handlePick(o)}
+              onClick={(e) => handlePick(o, e)}
               disabled={!!picked}
               className={`px-3 py-3 rounded-xl border-2 text-sm font-semibold transition-all ${
                 isCorrect ? "bg-emerald-500 text-white border-emerald-600" :
@@ -673,6 +827,7 @@ const SynonymShowdown = ({ mode, onExit }: { mode: Mode; onExit: () => void }) =
         })}
       </div>
     </div>
+    </ShakeWrap>
   );
 };
 
