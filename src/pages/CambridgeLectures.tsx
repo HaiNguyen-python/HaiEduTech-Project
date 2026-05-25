@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Search, BookOpen, ArrowUpDown, Heart, Clock,
   Headphones, FileText, MessageSquare, BookType, ChevronRight, ChevronDown,
-  GraduationCap, TrendingUp, Sparkles, Star, PlayCircle, CheckCircle2, Lock
+  GraduationCap, TrendingUp, Sparkles, Star, PlayCircle, CheckCircle2, Lock, ArrowLeft
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -120,6 +120,12 @@ const CambridgeLectures = () => {
       <FloatingKidsDecor />
       <Navbar />
       <main className="pt-16 pb-6 relative z-10">
+        <div className="container mx-auto px-4 pt-6">
+          <Link to="/english/cambridge" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground mb-2">
+            <ArrowLeft className="w-4 h-4" />
+            {t("Quay lại Cambridge", "Back to Cambridge")}
+          </Link>
+        </div>
         {/* Hero Section - Bright & Cheerful for Kids */}
         <section className="relative overflow-hidden">
           <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, #FFE5EC 0%, #FFF8DC 30%, #E0F4FF 70%, #E8FFE0 100%)" }} />

@@ -40,6 +40,7 @@ import {
   Lightbulb,
   BookOpenText,
   Trophy,
+  ArrowLeft,
 } from "lucide-react";
 import { allIeltsLectures, PILLAR_META, PillarKey } from "@/data/ieltsLecturesData";
 
@@ -213,6 +214,12 @@ const IeltsLectures = () => {
       <SEO title="Bài Giảng IELTS Skills: Listening, Reading, Writing, Speaking | HaiEduTech" description="95+ bài giảng IELTS chuyên sâu theo 4 trụ cột: Skill-Based, Tips & Hacks, Thematic Vocab, Test Prep. Mẹo vàng của Thầy Hải, Band 5.0 đến 7.0+." path="/ielts-lectures" />
       <Navbar />
       <main className="flex-1">
+        <div className="container mx-auto px-4 sm:px-6 pt-24 lg:pt-28">
+          <Link to="/english/ielts" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary mb-2">
+            <ArrowLeft className="w-4 h-4" />
+            {t("Quay lại IELTS", "Back to IELTS")}
+          </Link>
+        </div>
         {/* Hero Section */}
         <section className="relative overflow-hidden bg-gradient-to-br from-primary/8 via-background to-accent/8 pt-8 pb-10">
           <div className="container mx-auto px-4 sm:px-6">

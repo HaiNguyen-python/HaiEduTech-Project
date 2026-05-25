@@ -110,11 +110,11 @@ const FloatingLessonChibis = ({ theme, count = 14, seed }: FloatingLessonChibisP
         side,
         top: Math.max(3, Math.min(94, baseTop + jitter)),
         offset: 0.5 + rand() * 2.5,
-        size: 28 + Math.floor(rand() * 20),
+        size: 44 + Math.floor(rand() * 24),
         delay: rand() * 4,
         duration: 5 + rand() * 5,
         rotate: (rand() - 0.5) * 20,
-        opacity: 0.45 + rand() * 0.3,
+        opacity: 0.85 + rand() * 0.15,
       };
     });
   }, [pool, count, seedStr]);
@@ -143,7 +143,8 @@ const FloatingLessonChibis = ({ theme, count = 14, seed }: FloatingLessonChibisP
               opacity: s.opacity,
               ["--r" as string]: `${s.rotate}deg`,
               animation: `${i % 2 === 0 ? "chibi-float-a" : "chibi-float-b"} ${s.duration}s ease-in-out ${s.delay}s infinite`,
-              filter: "drop-shadow(0 4px 8px rgba(59,130,246,0.2))",
+              filter: "drop-shadow(0 4px 10px rgba(59,130,246,0.45)) drop-shadow(0 2px 4px rgba(16,185,129,0.35))",
+              textShadow: "0 2px 6px rgba(0,0,0,0.25)",
             } as React.CSSProperties}
           >
             {spots[i].emoji}

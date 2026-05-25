@@ -21,7 +21,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { BookOpen, GraduationCap, Lightbulb, Volume2 } from "lucide-react";
+import { BookOpen, GraduationCap, Lightbulb, Volume2, ArrowLeft } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const speak = (text: string) => {
   if (typeof window === "undefined" || !window.speechSynthesis) return;
@@ -51,6 +52,10 @@ const HskGrammar = () => {
       />
       <Navbar />
       <main className="container mx-auto px-4 py-12 max-w-6xl">
+        <Link to="/chinese/hsk-guide" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary mb-4">
+          <ArrowLeft className="w-4 h-4" />
+          {t("Quay lại HSK Hub", "Back to HSK Hub")}
+        </Link>
         {/* Hero */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
