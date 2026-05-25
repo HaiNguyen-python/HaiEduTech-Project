@@ -507,45 +507,6 @@ const WordHunt = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
             </motion.button>
           );
         })}
-
-  return (
-    <div className="max-w-2xl mx-auto">
-      <GameHeader title={t("Săn từ", "Word Hunt")} mode={mode} onExit={onExit} scoreA={scoreA} scoreB={scoreB} currentPlayer={player} />
-
-      <div className="flex items-center justify-between mb-3 text-sm text-muted-foreground">
-        <span>{t(`Câu ${round + 1}/${ROUNDS}`, `Q ${round + 1}/${ROUNDS}`)}</span>
-        <span className={`flex items-center gap-1 font-bold ${timeLeft <= 5 ? "text-red-500" : "text-foreground"}`}>
-          <Timer className="w-4 h-4" /> {timeLeft}s
-        </span>
-      </div>
-
-      <motion.div key={round} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="p-6 rounded-2xl bg-card border-2 border-border mb-4">
-        <p className="text-xs uppercase tracking-wide text-muted-foreground mb-2">{t("Định nghĩa", "Definition")}</p>
-        <p className="text-lg font-semibold text-foreground mb-2">{q.correct.definition.en}</p>
-        <p className="text-sm text-muted-foreground italic">{q.correct.definition.vi}</p>
-      </motion.div>
-
-      <div className="grid grid-cols-3 gap-2">
-        {q.options.map((o) => {
-          const isCorrect = picked && o.word === q.correct.word;
-          const isWrong = picked === o.word && o.word !== q.correct.word;
-          return (
-            <motion.button
-              key={o.word}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => handlePick(o.word)}
-              disabled={!!picked}
-              className={`px-3 py-3 rounded-xl border-2 text-sm font-semibold transition-all ${
-                isCorrect ? "bg-emerald-500 text-white border-emerald-600" :
-                isWrong ? "bg-red-500 text-white border-red-600" :
-                picked ? "bg-secondary border-border text-muted-foreground" :
-                "bg-card border-border hover:border-primary hover:bg-primary/5 text-foreground"
-              }`}
-            >
-              {o.word}
-            </motion.button>
-          );
-        })}
       </div>
     </div>
     </ShakeWrap>
