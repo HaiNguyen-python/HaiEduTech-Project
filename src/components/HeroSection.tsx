@@ -15,7 +15,7 @@ import TechParticles from "@/components/TechParticles";
 import TypingHeadline from "@/components/TypingHeadline";
 import LearningJourneyTimeline from "@/components/LearningJourneyTimeline";
 import FloatingChibi from "@/components/FloatingChibi";
-import chibiRocket from "@/assets/chibi-rocket.png";
+import chibiReading from "@/assets/chibi-reading.png";
 import heroBg from "@/assets/hero-bg.jpg";
 import haiProfile from "@/assets/hai-profile.webp";
 
@@ -155,8 +155,8 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Chibi decoration — bottom-right of hero */}
-      <FloatingChibi src={chibiRocket} alt="" className="absolute right-[3%] bottom-[8%] z-20 opacity-90 hidden lg:block" size={110} delay={0.6} />
+      {/* Chibi decoration — aligned with Programming Courses button */}
+      <FloatingChibi src={chibiReading} alt="" className="absolute right-[3%] bottom-[22%] z-20 opacity-90 hidden lg:block" size={120} delay={0.6} />
     </section>
   );
 };
