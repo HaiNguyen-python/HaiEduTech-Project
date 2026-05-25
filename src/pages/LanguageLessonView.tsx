@@ -10,6 +10,7 @@ import GrammarExtraPractice from "@/components/grammar/GrammarExtraPractice";
 import GrammarLessonOverview from "@/components/grammar/GrammarLessonOverview";
 import LessonFeedback from "@/components/LessonFeedback";
 import TheorySections from "@/components/TheorySections";
+import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ArrowLeft, ChevronRight, Loader2, BookOpen, GraduationCap, Sparkles, Star } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -60,7 +61,6 @@ const LanguageLessonView = () => {
     };
   }, [rawMod]);
   const [selectedLesson, setSelectedLesson] = useState<LanguageLesson | null>(null);
-  const [expandedSidebar, setExpandedSidebar] = useState(true);
   const [quizScore, setQuizScore] = useState<{ score: number; total: number } | null>(null);
 
   useEffect(() => {
@@ -93,14 +93,22 @@ const LanguageLessonView = () => {
 
   const lesson = selectedLesson;
   const diff = difficultyConfig[lesson.difficulty];
-  const parentPath = mod.language === "chinese" ? "/chinese" : "/english";
-  const parentLabel = mod.language === "chinese" ? t("Tiếng Trung", "Chinese") : t("Tiếng Anh", "English");
   const isEnglishGrammarLesson = mod.category === "grammar" && mod.language === "english";
+  const parentPath = isEnglishGrammarLesson ? "/english/grammar" : mod.language === "chinese" ? "/chinese" : "/english";
+  const parentLabel = isEnglishGrammarLesson ? "Grammar" : mod.language === "chinese" ? t("Tiếng Trung", "Chinese") : t("Tiếng Anh", "English");
   const isSatLesson = mod.category === "sat";
   const tr = (vi: string, en: string) => (isEnglishGrammarLesson ? en : t(vi, en));
   const lessonTheory = isEnglishGrammarLesson
     ? getEnhancedGrammarTheory(lesson, mod).replace(/^\s*#\s+[^\n]+\n+/, "")
     : (t(lesson.theory, lesson.theoryEn) || "");
+  const grammarDifficultyKeys = ["beginner", "intermediate", "advanced"] as const;
+  const lessonSequence = new Map(mod.lessons.map((item, index) => [item.id, index + 1]));
+  const groupedLessonSections = grammarDifficultyKeys
+    .map((levelKey) => ({
+      levelKey,
+      lessons: mod.lessons.filter((item) => item.difficulty === levelKey),
+    }))
+    .filter((section) => section.lessons.length > 0);
 
   // Exercise renderer
   const renderExercise = (exercise: InteractiveExercise, idx: number) => {
@@ -170,59 +178,73 @@ const LanguageLessonView = () => {
                     <span className="text-xs text-muted-foreground">{mod.lessons.length} {tr("bài", "lessons")}</span>
                   </div>
                   {isEnglishGrammarLesson && (
-                    <p className="text-[11px] text-muted-foreground mb-3 flex items-center gap-1.5">
-                      <Sparkles className="w-3 h-3 text-primary" />
-                      {tr("Sắp xếp theo độ khó tăng dần — học theo thứ tự để hiệu quả nhất.", "Sorted by difficulty — follow the order for the best results.")}
-                    </p>
+                    <div className="mb-3 rounded-lg border border-border bg-secondary/40 p-3 text-[11px] text-muted-foreground">
+                      <p className="mb-2 flex items-center gap-1.5 font-medium text-foreground">
+                        <Sparkles className="w-3 h-3 text-primary" />
+                        {tr("Lộ trình học", "Learning order")}
+                      </p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {grammarDifficultyKeys.map((levelKey) => (
+                          <span key={levelKey} className={cn("rounded border px-2 py-0.5", difficultyConfig[levelKey].cls)}>
+                            {difficultyConfig[levelKey].label}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   )}
-                  <div className="space-y-1 max-h-[60vh] overflow-y-auto pr-1">
-                    {mod.lessons.map((l, i) => {
-                      const d = difficultyConfig[l.difficulty];
-                      const isActive = selectedLesson.id === l.id;
-                      return (
-                        <button
-                          key={l.id}
-                          onClick={() => { setSelectedLesson(l); setQuizScore(null); }}
-                          className={cn(
-                            "w-full text-left px-3 py-2.5 rounded-lg text-sm transition-all group",
-                            isActive
-                              ? "bg-primary/10 text-primary font-medium border border-primary/20"
-                              : "text-muted-foreground hover:bg-secondary hover:text-foreground"
-                          )}
-                        >
-                          <div className="flex items-center gap-2">
-                            <span className={cn(
-                              "w-5 h-5 rounded-full text-[10px] flex items-center justify-center font-bold shrink-0",
-                              isActive ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
-                            )}>
-                              {i + 1}
-                            </span>
-                            <span className="truncate">{isEnglishGrammarLesson ? l.titleEn : t(l.title, l.titleEn)}</span>
-                            {isEnglishGrammarLesson && i === 0 && (
-                              <span className="ml-auto text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-700 border border-emerald-500/30 shrink-0">
-                                {tr("BẮT ĐẦU", "START")}
-                              </span>
-                            )}
-                            {isEnglishGrammarLesson && i === 1 && (
-                              <span className="ml-auto text-[9px] font-bold px-1.5 py-0.5 rounded bg-primary/15 text-primary border border-primary/30 shrink-0">
-                                {tr("KẾ TIẾP", "NEXT")}
-                              </span>
-                            )}
-                            {isSatLesson && <SatLessonStarDot lessonKey={`sat:lesson:${mod.id}:${l.id}`} />}
+                  <div className="max-h-[60vh] space-y-3 overflow-y-auto pr-1">
+                    {(isEnglishGrammarLesson ? groupedLessonSections : [{ levelKey: lesson.difficulty, lessons: mod.lessons }]).map((section) => (
+                      <div key={section.levelKey} className="space-y-1">
+                        {isEnglishGrammarLesson && (
+                          <div className="px-2 text-[10px] font-bold uppercase text-muted-foreground">
+                            {difficultyConfig[section.levelKey].label}
                           </div>
-                          <div className="flex items-center gap-2 ml-7 mt-1">
-                            <span className={cn("text-[10px] px-1.5 py-0.5 rounded border", d.cls)}>
-                              {isEnglishGrammarLesson ? d.label : t(d.labelVi, d.label)}
-                            </span>
-                            <div className="flex gap-0.5">
-                              {Array.from({ length: 5 }).map((_, si) => (
-                                <Star key={si} className={cn("w-2.5 h-2.5", si < l.level ? "text-yellow-500 fill-yellow-500" : "text-muted")} />
-                              ))}
-                            </div>
-                          </div>
-                        </button>
-                      );
-                    })}
+                        )}
+                        {section.lessons.map((l) => {
+                          const d = difficultyConfig[l.difficulty];
+                          const isActive = selectedLesson.id === l.id;
+                          const sequence = lessonSequence.get(l.id) ?? 1;
+                          return (
+                            <button
+                              key={l.id}
+                              onClick={() => { setSelectedLesson(l); setQuizScore(null); }}
+                              className={cn(
+                                "w-full text-left px-3 py-2.5 rounded-lg text-sm transition-all group",
+                                isActive
+                                  ? "bg-primary/10 text-primary font-medium border border-primary/20"
+                                  : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                              )}
+                            >
+                              <div className="flex items-center gap-2">
+                                <span className={cn(
+                                  "w-5 h-5 rounded-full text-[10px] flex items-center justify-center font-bold shrink-0",
+                                  isActive ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+                                )}>
+                                  {sequence}
+                                </span>
+                                <span className="truncate">{isEnglishGrammarLesson ? l.titleEn : t(l.title, l.titleEn)}</span>
+                                {isEnglishGrammarLesson && sequence === 1 && (
+                                  <span className="ml-auto text-[9px] font-bold px-1.5 py-0.5 rounded bg-primary/15 text-primary border border-primary/30 shrink-0">
+                                    START
+                                  </span>
+                                )}
+                                {isSatLesson && <SatLessonStarDot lessonKey={`sat:lesson:${mod.id}:${l.id}`} />}
+                              </div>
+                              <div className="flex items-center gap-2 ml-7 mt-1">
+                                <span className={cn("text-[10px] px-1.5 py-0.5 rounded border", d.cls)}>
+                                  {isEnglishGrammarLesson ? d.label : t(d.labelVi, d.label)}
+                                </span>
+                                <div className="flex gap-0.5">
+                                  {Array.from({ length: 5 }).map((_, si) => (
+                                    <Star key={si} className={cn("w-2.5 h-2.5", si < l.level ? "text-yellow-500 fill-yellow-500" : "text-muted")} />
+                                  ))}
+                                </div>
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -248,13 +270,23 @@ const LanguageLessonView = () => {
                       </div>
                       <span className="text-xs text-muted-foreground">Level {lesson.level}</span>
                     </div>
-                    <div className="flex items-start justify-between gap-3">
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                       <h1 className="text-2xl font-display font-bold text-foreground">
                         {mod.icon} {isEnglishGrammarLesson ? lesson.titleEn : t(lesson.title, lesson.titleEn)}
                       </h1>
-                      {isSatLesson && (
-                        <SatStarToggle storageKey={`sat:lesson:${mod.id}:${lesson.id}`} size="lg" />
-                      )}
+                      <div className="flex shrink-0 flex-wrap gap-2">
+                        {isEnglishGrammarLesson && (
+                          <Button asChild variant="outline" size="sm" className="gap-2">
+                            <Link to="/english/grammar">
+                              <ArrowLeft className="w-4 h-4" />
+                              Back to Grammar
+                            </Link>
+                          </Button>
+                        )}
+                        {isSatLesson && (
+                          <SatStarToggle storageKey={`sat:lesson:${mod.id}:${lesson.id}`} size="lg" />
+                        )}
+                      </div>
                     </div>
                   </div>
 
@@ -552,6 +584,17 @@ const LanguageLessonView = () => {
                             : tr("Cố gắng thêm! Hãy đọc lại lý thuyết và thử lại.", "Keep trying! Re-read the theory and try again.")}
                       </p>
                     </motion.div>
+                  )}
+
+                  {isEnglishGrammarLesson && (
+                    <div className="flex justify-center">
+                      <Button asChild variant="outline" className="gap-2">
+                        <Link to="/english/grammar">
+                          <ArrowLeft className="w-4 h-4" />
+                          Back to Grammar lessons
+                        </Link>
+                      </Button>
+                    </div>
                   )}
 
                   {/* Lesson Feedback */}

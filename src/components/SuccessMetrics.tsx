@@ -70,7 +70,7 @@ const SuccessMetrics = () => {
   ];
 
   return (
-    <section className="relative py-10 sm:py-14">
+    <section className="relative py-8 sm:py-10">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary/10 to-transparent" />
 
       <div className="container relative mx-auto px-4 sm:px-6">
@@ -78,7 +78,7 @@ const SuccessMetrics = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-12 text-center"
+          className="mb-8 text-center"
         >
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-xs font-medium text-primary">
             <Sparkles className="h-3.5 w-3.5" />

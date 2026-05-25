@@ -16,13 +16,13 @@ const KnowledgeHub = () => {
   const featured = scholarships.filter((s) => s.isFeatured).slice(0, 6);
 
   return (
-    <section className="relative py-12 sm:py-16">
+    <section className="relative py-10 sm:py-12">
       <div className="container mx-auto px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-12 text-center"
+          className="mb-8 text-center"
         >
           <div className="flex items-center justify-center gap-2 mb-3">
             <GraduationCap className="h-7 w-7 text-primary" />

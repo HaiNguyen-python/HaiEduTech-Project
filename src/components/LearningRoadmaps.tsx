@@ -32,7 +32,7 @@ const StepNode = ({ step, index, total }: { step: RoadmapStep; index: number; to
       </div>
 
       {/* Content */}
-      <div className="pb-8">
+      <div className="pb-6">
         <span className="mb-1 inline-block text-xs font-bold uppercase tracking-wider text-primary">
           Step {step.step}
         </span>
@@ -51,7 +51,7 @@ const LearningRoadmaps = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="relative py-12 sm:py-16">
+    <section className="relative py-10 sm:py-12">
       {/* Subtle background accent */}
       <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 via-transparent to-transparent" />
 
@@ -61,7 +61,7 @@ const LearningRoadmaps = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-12 text-center"
+          className="mb-8 text-center"
         >
           <h2 className="mb-4 font-display text-2xl font-bold sm:text-3xl md:text-4xl">
             {t("Lộ Trình ", "Learning ")}
@@ -77,7 +77,7 @@ const LearningRoadmaps = () => {
 
         {/* Tabbed roadmaps */}
         <Tabs defaultValue="english" className="mx-auto max-w-2xl">
-          <TabsList className="mx-auto mb-10 flex w-full max-w-md">
+          <TabsList className="mx-auto mb-6 flex w-full max-w-md">
             {learningRoadmaps.map((rm) => (
               <TabsTrigger key={rm.id} value={rm.id} className="flex-1 text-xs sm:text-sm">
                 {t(rm.title.replace("Lộ trình ", ""), rm.titleEn.replace(" Roadmap", "").replace("Programming ", "Prog. "))}

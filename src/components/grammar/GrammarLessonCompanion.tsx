@@ -2,6 +2,10 @@ import type { LanguageLesson, LanguageModule } from "@/data/languageCurriculum";
 import { BookMarked, CheckCircle2, CircleAlert, Lightbulb, ListChecks, ScanSearch, Shapes } from "lucide-react";
 import { getEnhancedGrammarTheory } from "@/lib/grammarTheoryEnhancer";
 import { pickEnglishGrammarCopy } from "@/lib/englishGrammarCopy";
+import grammarChibiBeginner from "@/assets/grammar-chibi-beginner.png";
+import grammarChibiIntermediate from "@/assets/grammar-chibi-intermediate.png";
+import grammarChibiAdvanced from "@/assets/grammar-chibi-advanced.png";
+import chibiQuizTrophy from "@/assets/chibi-quiz-trophy.png";
 
 interface GrammarLessonCompanionProps {
   lesson: LanguageLesson;
@@ -127,7 +131,7 @@ const extractRuleBullets = (sections: TheorySection[]) =>
       return plain.slice(0, 2).map((line) => `${section.title}: ${line}`);
     })
     .filter(Boolean)
-    .slice(0, 6);
+    .slice(0, 4);
 
 const buildWorkedExamples = (lesson: LanguageLesson): CompanionExample[] => {
   const fillBlankExamples = lesson.exercises
@@ -143,7 +147,7 @@ const buildWorkedExamples = (lesson: LanguageLesson): CompanionExample[] => {
         ),
       }))
     )
-    .slice(0, 3)
+    .slice(0, 2)
     .map((item): CompanionExample => ({
       label: "Model answer",
       value: stripMarkdown(item.prompt.replace("___", item.answer)),
@@ -158,7 +162,7 @@ const buildWorkedExamples = (lesson: LanguageLesson): CompanionExample[] => {
         value: item.correctEn || item.correct,
       }))
     )
-    .slice(0, Math.max(0, 3 - fillBlankExamples.length));
+    .slice(0, Math.max(0, 2 - fillBlankExamples.length));
 
   return [...fillBlankExamples, ...reorderExamples].slice(0, 3);
 };
@@ -188,7 +192,7 @@ const buildCommonMistakes = (lesson: LanguageLesson, theoryText: string) => {
     .filter((tip) => /not|don't|do not|must|always|never/i.test(tip))
     .slice(0, Math.max(0, 4 - explicitMistakes.length - quizTraps.length));
 
-  return [...explicitMistakes, ...quizTraps, ...proTips].slice(0, 4);
+  return [...explicitMistakes, ...quizTraps, ...proTips].slice(0, 3);
 };
 
 const buildWrongVsRight = (theoryText: string): CompanionExample[] => {
@@ -221,6 +225,18 @@ const buildSummaryChecklist = (lesson: LanguageLesson, module: LanguageModule) =
   ];
 };
 
+const visualByDifficulty = {
+  beginner: grammarChibiBeginner,
+  intermediate: grammarChibiIntermediate,
+  advanced: grammarChibiAdvanced,
+} as const;
+
+const visualAltByDifficulty = {
+  beginner: "Cute grammar study buddy showing a simple beginner grammar rule",
+  intermediate: "Cute grammar study buddy reading an intermediate grammar book",
+  advanced: "Cute grammar study buddy inspecting advanced grammar patterns",
+} as const;
+
 const GrammarLessonCompanion = ({ lesson, module }: GrammarLessonCompanionProps) => {
   if (module.category !== "grammar" || module.language !== "english") return null;
 
@@ -233,6 +249,7 @@ const GrammarLessonCompanion = ({ lesson, module }: GrammarLessonCompanionProps)
   const wrongVsRight = buildWrongVsRight(theoryText);
   const recognitionSignals = extractRecognitionSignals(theoryText);
   const summaryChecklist = buildSummaryChecklist(lesson, module);
+  const lessonVisual = visualByDifficulty[lesson.difficulty];
 
   return (
     <section className="space-y-4" aria-label="Grammar lesson companion">
@@ -249,11 +266,14 @@ const GrammarLessonCompanion = ({ lesson, module }: GrammarLessonCompanionProps)
 
       <div className="grid gap-4 xl:grid-cols-2">
         <div className="rounded-xl border border-border bg-card p-6">
-          <div className="mb-4 flex items-center gap-2 text-foreground">
-            <ListChecks className="h-5 w-5 text-primary" />
-            <h3 className="text-base font-semibold">Core rules</h3>
+          <div className="mb-4 flex items-start justify-between gap-4 text-foreground">
+            <div className="flex items-center gap-2">
+              <ListChecks className="h-5 w-5 text-primary" />
+              <h3 className="text-base font-semibold">Core rules</h3>
+            </div>
+            <img src={lessonVisual} alt={visualAltByDifficulty[lesson.difficulty]} loading="lazy" className="h-16 w-16 shrink-0 object-contain" />
           </div>
-          <ul className="space-y-3 text-sm leading-7 text-foreground">
+          <ul className="space-y-2 text-sm leading-6 text-foreground">
             {coreRules.map((rule) => (
               <li key={rule} className="flex items-start gap-2">
                 <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
@@ -264,9 +284,12 @@ const GrammarLessonCompanion = ({ lesson, module }: GrammarLessonCompanionProps)
         </div>
 
         <div className="rounded-xl border border-border bg-card p-6">
-          <div className="mb-4 flex items-center gap-2 text-foreground">
-            <Shapes className="h-5 w-5 text-primary" />
-            <h3 className="text-base font-semibold">Rule patterns</h3>
+          <div className="mb-4 flex items-start justify-between gap-4 text-foreground">
+            <div className="flex items-center gap-2">
+              <Shapes className="h-5 w-5 text-primary" />
+              <h3 className="text-base font-semibold">Rule patterns</h3>
+            </div>
+            <img src={lessonVisual} alt="Grammar pattern illustration for this lesson" loading="lazy" className="h-16 w-16 shrink-0 object-contain" />
           </div>
           <div className="space-y-3 text-sm leading-7 text-foreground">
             {rulePatterns.length > 0 ? rulePatterns.map((item) => (
@@ -281,9 +304,12 @@ const GrammarLessonCompanion = ({ lesson, module }: GrammarLessonCompanionProps)
         </div>
 
         <div className="rounded-xl border border-border bg-card p-6">
-          <div className="mb-4 flex items-center gap-2 text-foreground">
-            <CheckCircle2 className="h-5 w-5 text-primary" />
-            <h3 className="text-base font-semibold">Correct models</h3>
+          <div className="mb-4 flex items-start justify-between gap-4 text-foreground">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="h-5 w-5 text-primary" />
+              <h3 className="text-base font-semibold">Correct models</h3>
+            </div>
+            <img src={chibiQuizTrophy} alt="Cheerful quiz trophy illustration for correct grammar models" loading="lazy" className="h-16 w-16 shrink-0 object-contain" />
           </div>
           <div className="space-y-3">
             {workedExamples.map((example) => (
@@ -297,9 +323,12 @@ const GrammarLessonCompanion = ({ lesson, module }: GrammarLessonCompanionProps)
         </div>
 
         <div className="rounded-xl border border-border bg-card p-6">
-          <div className="mb-4 flex items-center gap-2 text-foreground">
-            <ScanSearch className="h-5 w-5 text-primary" />
-            <h3 className="text-base font-semibold">Recognition signals</h3>
+          <div className="mb-4 flex items-start justify-between gap-4 text-foreground">
+            <div className="flex items-center gap-2">
+              <ScanSearch className="h-5 w-5 text-primary" />
+              <h3 className="text-base font-semibold">Recognition signals</h3>
+            </div>
+            <img src={lessonVisual} alt="Grammar clue illustration for recognition signals" loading="lazy" className="h-16 w-16 shrink-0 object-contain" />
           </div>
           <ul className="space-y-3 text-sm leading-7 text-foreground">
             {recognitionSignals.length > 0 ? recognitionSignals.map((item) => (
@@ -313,11 +342,14 @@ const GrammarLessonCompanion = ({ lesson, module }: GrammarLessonCompanionProps)
         </div>
 
         <div className="rounded-xl border border-border bg-card p-6">
-          <div className="mb-4 flex items-center gap-2 text-foreground">
-            <CircleAlert className="h-5 w-5 text-primary" />
-            <h3 className="text-base font-semibold">Common mistakes to avoid</h3>
+          <div className="mb-4 flex items-start justify-between gap-4 text-foreground">
+            <div className="flex items-center gap-2">
+              <CircleAlert className="h-5 w-5 text-primary" />
+              <h3 className="text-base font-semibold">Common mistakes to avoid</h3>
+            </div>
+            <img src={grammarChibiAdvanced} alt="Grammar detective illustration for common mistakes" loading="lazy" className="h-16 w-16 shrink-0 object-contain" />
           </div>
-          <ul className="space-y-3 text-sm leading-7 text-foreground">
+          <ul className="space-y-2 text-sm leading-6 text-foreground">
             {commonMistakes.map((item) => (
               <li key={item} className="rounded-lg border border-border bg-secondary/40 p-4">
                 {item}
@@ -327,9 +359,12 @@ const GrammarLessonCompanion = ({ lesson, module }: GrammarLessonCompanionProps)
         </div>
 
         <div className="rounded-xl border border-border bg-card p-6">
-          <div className="mb-4 flex items-center gap-2 text-foreground">
-            <CheckCircle2 className="h-5 w-5 text-primary" />
-            <h3 className="text-base font-semibold">Right vs wrong models</h3>
+          <div className="mb-4 flex items-start justify-between gap-4 text-foreground">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="h-5 w-5 text-primary" />
+              <h3 className="text-base font-semibold">Right vs wrong models</h3>
+            </div>
+            <img src={chibiQuizTrophy} alt="Grammar comparison illustration for right and wrong models" loading="lazy" className="h-16 w-16 shrink-0 object-contain" />
           </div>
           <div className="space-y-3 text-sm leading-7 text-foreground">
             {wrongVsRight.length > 0 ? wrongVsRight.map((item) => (
@@ -346,9 +381,12 @@ const GrammarLessonCompanion = ({ lesson, module }: GrammarLessonCompanionProps)
         </div>
 
         <div className="rounded-xl border border-border bg-card p-6">
-          <div className="mb-4 flex items-center gap-2 text-foreground">
-            <Lightbulb className="h-5 w-5 text-primary" />
-            <h3 className="text-base font-semibold">Quick review summary</h3>
+          <div className="mb-4 flex items-start justify-between gap-4 text-foreground">
+            <div className="flex items-center gap-2">
+              <Lightbulb className="h-5 w-5 text-primary" />
+              <h3 className="text-base font-semibold">Quick review summary</h3>
+            </div>
+            <img src={grammarChibiBeginner} alt="Friendly grammar review illustration" loading="lazy" className="h-16 w-16 shrink-0 object-contain" />
           </div>
           <ul className="space-y-3 text-sm leading-7 text-foreground">
             {summaryChecklist.map((item) => (

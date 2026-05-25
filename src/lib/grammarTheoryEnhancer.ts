@@ -127,9 +127,19 @@ const buildChecklist = (lesson: LanguageLesson) => {
 };
 
 export const getEnhancedGrammarTheory = (lesson: LanguageLesson, module: LanguageModule) => {
-  // Keep the original concise theory as authored. The previous auto-appended
-  // "Study Guide" block made grammar lessons overly long and text-heavy.
-  // Visual aids, examples, quick-checks, and extra practice are now handled by
-  // GrammarLessonOverview / GrammarLessonCompanion / GrammarExtraPractice.
-  return (lesson.theoryEn || lesson.theory || "").trim();
+  const source = (lesson.theoryEn || lesson.theory || "").trim();
+  const sectionTitles = extractSectionTitles(source).slice(0, 3);
+  const rules = extractRuleBullets(source).slice(0, 4);
+  const examples = buildWorkedExamples(lesson).slice(0, 2);
+  const quizInsights = buildQuizInsights(lesson).slice(0, 2);
+  const fallbackIntro = stripMarkdown(source).split(/\.\s+/).filter(Boolean).slice(0, 2).join(". ");
+
+  return [
+    `## Key idea`,
+    fallbackIntro ? toSentence(fallbackIntro).slice(0, 260) : `Study **${lesson.titleEn || lesson.title}** through short rules, visual cues, and practice sentences.`,
+    sectionTitles.length ? `## What to notice\n${sectionTitles.map((title) => `- ${title}`).join("\n")}` : "",
+    rules.length ? `## Core rules\n${rules.map((rule) => `- ${rule}`).join("\n")}` : "",
+    examples.length ? `## Model examples\n${examples.join("\n")}` : "",
+    quizInsights.length ? `## Quick traps\n${quizInsights.join("\n")}` : "",
+  ].filter(Boolean).join("\n\n");
 };
