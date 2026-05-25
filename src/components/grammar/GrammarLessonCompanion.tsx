@@ -342,11 +342,14 @@ const GrammarLessonCompanion = ({ lesson, module }: GrammarLessonCompanionProps)
         </div>
 
         <div className="rounded-xl border border-border bg-card p-6">
-          <div className="mb-4 flex items-center gap-2 text-foreground">
-            <CircleAlert className="h-5 w-5 text-primary" />
-            <h3 className="text-base font-semibold">Common mistakes to avoid</h3>
+          <div className="mb-4 flex items-start justify-between gap-4 text-foreground">
+            <div className="flex items-center gap-2">
+              <CircleAlert className="h-5 w-5 text-primary" />
+              <h3 className="text-base font-semibold">Common mistakes to avoid</h3>
+            </div>
+            <img src={grammarChibiAdvanced} alt="Grammar detective illustration for common mistakes" loading="lazy" className="h-16 w-16 shrink-0 object-contain" />
           </div>
-          <ul className="space-y-3 text-sm leading-7 text-foreground">
+          <ul className="space-y-2 text-sm leading-6 text-foreground">
             {commonMistakes.map((item) => (
               <li key={item} className="rounded-lg border border-border bg-secondary/40 p-4">
                 {item}
@@ -356,9 +359,12 @@ const GrammarLessonCompanion = ({ lesson, module }: GrammarLessonCompanionProps)
         </div>
 
         <div className="rounded-xl border border-border bg-card p-6">
-          <div className="mb-4 flex items-center gap-2 text-foreground">
-            <CheckCircle2 className="h-5 w-5 text-primary" />
-            <h3 className="text-base font-semibold">Right vs wrong models</h3>
+          <div className="mb-4 flex items-start justify-between gap-4 text-foreground">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="h-5 w-5 text-primary" />
+              <h3 className="text-base font-semibold">Right vs wrong models</h3>
+            </div>
+            <img src={chibiQuizTrophy} alt="Grammar comparison illustration for right and wrong models" loading="lazy" className="h-16 w-16 shrink-0 object-contain" />
           </div>
           <div className="space-y-3 text-sm leading-7 text-foreground">
             {wrongVsRight.length > 0 ? wrongVsRight.map((item) => (
@@ -375,9 +381,12 @@ const GrammarLessonCompanion = ({ lesson, module }: GrammarLessonCompanionProps)
         </div>
 
         <div className="rounded-xl border border-border bg-card p-6">
-          <div className="mb-4 flex items-center gap-2 text-foreground">
-            <Lightbulb className="h-5 w-5 text-primary" />
-            <h3 className="text-base font-semibold">Quick review summary</h3>
+          <div className="mb-4 flex items-start justify-between gap-4 text-foreground">
+            <div className="flex items-center gap-2">
+              <Lightbulb className="h-5 w-5 text-primary" />
+              <h3 className="text-base font-semibold">Quick review summary</h3>
+            </div>
+            <img src={grammarChibiBeginner} alt="Friendly grammar review illustration" loading="lazy" className="h-16 w-16 shrink-0 object-contain" />
           </div>
           <ul className="space-y-3 text-sm leading-7 text-foreground">
             {summaryChecklist.map((item) => (
