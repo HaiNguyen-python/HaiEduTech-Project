@@ -345,6 +345,39 @@ export type Database = {
         }
         Relationships: []
       }
+      course_registrations: {
+        Row: {
+          created_at: string
+          email: string | null
+          id: string
+          level: string | null
+          message: string | null
+          name: string
+          phone: string
+          program: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          level?: string | null
+          message?: string | null
+          name: string
+          phone: string
+          program: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          level?: string | null
+          message?: string | null
+          name?: string
+          phone?: string
+          program?: string
+        }
+        Relationships: []
+      }
       game_participants: {
         Row: {
           answers_correct: number
