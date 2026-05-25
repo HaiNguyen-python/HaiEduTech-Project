@@ -3,6 +3,10 @@ import { BookOpen, Languages, Code2, Brain, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import ShineCard from "@/components/ShineCard";
+import FloatingChibi from "@/components/FloatingChibi";
+import chibiTeacher from "@/assets/chibi-teacher.png";
+import chibiCoder from "@/assets/chibi-coder.png";
+
 
 const CoursesOverview = () => {
   const { t } = useLanguage();
@@ -60,7 +64,10 @@ const CoursesOverview = () => {
 
   return (
     <section className="relative py-10 sm:py-12">
+      <FloatingChibi src={chibiTeacher} alt="" className="absolute left-2 top-4 lg:left-6 z-10" size={120} />
+      <FloatingChibi src={chibiCoder} alt="" className="absolute right-2 top-8 lg:right-6 z-10" size={120} delay={1.2} flip />
       <div className="container mx-auto px-4 sm:px-6">
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -88,7 +95,7 @@ const CoursesOverview = () => {
               <ShineCard className="h-full rounded-2xl">
                 <Link
                   to={c.to}
-                  className="group relative block h-full rounded-2xl border border-border bg-card p-5 shadow-sm transition-all hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10"
+                  className="group relative block h-full rounded-2xl border-2 border-border/80 bg-card p-5 shadow-md ring-1 ring-black/[0.03] transition-all hover:-translate-y-1 hover:border-primary/70 hover:shadow-xl hover:shadow-primary/15"
                 >
                   {c.isNew && (
                     <span className="absolute right-3 top-3 rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-md">
