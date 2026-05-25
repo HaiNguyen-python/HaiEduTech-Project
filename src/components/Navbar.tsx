@@ -124,7 +124,7 @@ const Navbar = () => {
     { to: "#en-div1", label: "", divider: true },
     // Foundation (everyday English)
     { to: "#en-foundation-group", label: t("📖 Nền tảng Anh ngữ", "📖 English Foundation"), groupLabel: "en-foundation", children: [
-      { to: "/english/essentials", label: t("💎 Tinh hoa Anh ngữ (4-in-1)", "💎 English Essentials (4-in-1)"), icon: BookOpen },
+      { to: "/english/essentials", label: t("💎 Tinh hoa Anh ngữ", "💎 English Essentials"), icon: BookOpen },
       { to: "/cambridge-lectures", label: t("Cambridge Lectures & Test Prep", "Cambridge Lectures & Test Prep"), icon: BookOpen },
       { to: "/cambridge-yle-vocabulary", label: t("Cambridge YLE Vocabulary & Arcade", "Cambridge YLE Vocabulary & Arcade"), icon: BookType },
     ] },
