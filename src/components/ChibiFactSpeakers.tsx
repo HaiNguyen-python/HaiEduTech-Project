@@ -60,8 +60,9 @@ const ChibiFactSpeakers = () => {
 
   // Distribute chibis evenly between hero (~12%) and footer (~88%) of the
   // parent's actual content height, so they NEVER extend past the footer.
-  // Start well below the hero section so chibis never speak over the hero area
-  const START_PCT = 26;
+  // Start AFTER the entire hero section (including the Learning & Teaching
+  // Journey timeline) so chibis never speak over that area.
+  const START_PCT = 42;
   const END_PCT = 88;
   const total = facts.length;
 
