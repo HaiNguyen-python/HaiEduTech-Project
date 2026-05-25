@@ -11,6 +11,7 @@ import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
 import SectionDivider from "@/components/SectionDivider";
+import HomeChibiFunFacts from "@/components/decorations/HomeChibiFunFacts";
 const LearningRoadmaps = lazy(() => import("@/components/LearningRoadmaps"));
 const ModernTechTools = lazy(() => import("@/components/ModernTechTools"));
 const SuccessMetrics = lazy(() => import("@/components/SuccessMetrics"));
