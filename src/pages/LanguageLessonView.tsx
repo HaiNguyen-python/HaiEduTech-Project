@@ -587,6 +587,17 @@ const LanguageLessonView = () => {
                     </motion.div>
                   )}
 
+                  {isEnglishGrammarLesson && (
+                    <div className="flex justify-center">
+                      <Button asChild variant="outline" className="gap-2">
+                        <Link to="/english/grammar">
+                          <ArrowLeft className="w-4 h-4" />
+                          Back to Grammar lessons
+                        </Link>
+                      </Button>
+                    </div>
+                  )}
+
                   {/* Lesson Feedback */}
                   {selectedLesson && (
                     <LessonFeedback
