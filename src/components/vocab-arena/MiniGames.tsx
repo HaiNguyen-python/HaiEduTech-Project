@@ -252,6 +252,55 @@ const GameHeader = ({ title, mode, onExit, currentPlayer, scoreA, scoreB, combo 
   );
 };
 
+// ============ Shared Final Screen ============
+const FinalScreen = ({
+  mode, scoreA, scoreB, maxCombo, rank, isNew, gameKey, gameTitle,
+}: {
+  mode: Mode; scoreA: number; scoreB: number; maxCombo: number;
+  rank: number | null; isNew: boolean; gameKey: GameKey; gameTitle: string;
+}) => {
+  const { t } = useLanguage();
+  return (
+    <div className="p-8 rounded-2xl bg-card border-2 border-primary text-center">
+      {isNew && (
+        <motion.div
+          initial={{ scale: 0, rotate: -10 }}
+          animate={{ scale: 1, rotate: 0 }}
+          className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-black mb-3 shadow-lg"
+        >
+          👑 {t("KỶ LỤC MỚI!", "NEW RECORD!")}
+        </motion.div>
+      )}
+      <Trophy className="w-14 h-14 text-amber-500 mx-auto mb-3" />
+      <h3 className="text-2xl font-bold mb-2">
+        {mode === "solo"
+          ? t(`Tổng điểm: ${scoreA}`, `Final score: ${scoreA}`)
+          : scoreA === scoreB ? t("Hòa!", "Tie!") : scoreA > scoreB ? `🏆 P1 ${scoreA} - ${scoreB} P2` : `P1 ${scoreA} - ${scoreB} P2 🏆`}
+      </h3>
+      <div className="flex items-center justify-center gap-2 flex-wrap mb-4 text-sm">
+        {maxCombo > 0 && (
+          <span className="px-3 py-1 rounded-full bg-fuchsia-500/10 text-fuchsia-600 dark:text-fuchsia-400 font-bold">
+            🔥 {t(`Combo cao nhất: ${maxCombo}`, `Max combo: ${maxCombo}`)}
+          </span>
+        )}
+        {rank && mode === "solo" && (
+          <span className="px-3 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 font-bold">
+            🏅 {t(`Hạng #${rank} trên thiết bị`, `Rank #${rank} on this device`)}
+          </span>
+        )}
+      </div>
+      {mode === "solo" && (
+        <div className="max-w-sm mx-auto mb-4">
+          <HighScorePanel game={gameKey} title={t(`Top ${gameTitle}`, `Top ${gameTitle}`)} highlight={scoreA} />
+        </div>
+      )}
+      <Button onClick={() => window.location.reload()} className="gap-2">
+        <RotateCcw className="w-4 h-4" /> {t("Chơi lại", "Play again")}
+      </Button>
+    </div>
+  );
+};
+
 // ============ MEMORY MATCH ============
 interface Card {
   id: number;
