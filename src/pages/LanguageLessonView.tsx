@@ -61,7 +61,6 @@ const LanguageLessonView = () => {
     };
   }, [rawMod]);
   const [selectedLesson, setSelectedLesson] = useState<LanguageLesson | null>(null);
-  const [expandedSidebar, setExpandedSidebar] = useState(true);
   const [quizScore, setQuizScore] = useState<{ score: number; total: number } | null>(null);
 
   useEffect(() => {
