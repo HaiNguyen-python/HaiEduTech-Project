@@ -26,6 +26,7 @@ Deno.serve(async (req) => {
     const numbered = texts.map((t, i) => `${i + 1}. ${t.replace(/\\n/g, " ")}`).join("\n");
     const system =
       "You translate Vietnamese educational content for middle/high school students into clear, friendly English. " +
+      "OUTPUT MUST BE ENGLISH ONLY. Do NOT include any Chinese, Japanese, Korean, or other non-Latin script characters under any circumstance. " +
       "Preserve emojis, numbers, brand names (VinAI, Zalo, Tesla, ChatGPT…), markdown, and any HTML tags. " +
       "Keep tone playful but informative. Do NOT translate code, English brand names, or technical acronyms (CNN, NLP, GPT, RL, IoT…). " +
       "If a string is already English, return it unchanged. Return exactly one translation per numbered input, in order.";
