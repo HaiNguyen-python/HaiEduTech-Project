@@ -21,7 +21,7 @@ const AIGradingPreview = lazy(() => import("@/components/AIGradingPreview"));
 const DashboardPreview = lazy(() => import("@/components/DashboardPreview"));
 
 const SectionPlaceholder = () => (
-  <div className="w-full h-32 flex items-center justify-center">
+  <div className="w-full h-20 flex items-center justify-center">
     <div className="animate-spin w-6 h-6 border-3 border-primary border-t-transparent rounded-full" />
   </div>
 );
