@@ -154,6 +154,9 @@ const HeroSection = () => {
           <LearningJourneyTimeline />
         </div>
       </div>
+
+      {/* Chibi decoration — bottom-right of hero */}
+      <FloatingChibi src={chibiRocket} alt="" className="absolute right-[3%] bottom-[8%] z-20 opacity-90 hidden lg:block" size={110} delay={0.6} />
     </section>
   );
 };

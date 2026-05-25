@@ -11,7 +11,6 @@ import ShineCard from "@/components/ShineCard";
 import FloatingChibi from "@/components/FloatingChibi";
 import chibiRobot from "@/assets/chibi-robot.png";
 import aiChibiRobot from "@/assets/ai-chibi-robot.png";
-import chibiWriting from "@/assets/chibi-writing.png";
 
 type Tool = {
   icon: LucideIcon;

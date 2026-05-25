@@ -5,9 +5,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import ShineCard from "@/components/ShineCard";
 import FloatingChibi from "@/components/FloatingChibi";
 import chibiTeacher from "@/assets/chibi-teacher.png";
-import chibiCoder from "@/assets/chibi-coder.png";
-import chibiReading from "@/assets/chibi-reading.png";
 import chibiSpeaking from "@/assets/chibi-speaking.png";
+import chibiCoder from "@/assets/chibi-coder.png";
 
 
 
