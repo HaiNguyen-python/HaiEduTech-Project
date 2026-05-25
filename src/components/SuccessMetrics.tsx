@@ -77,7 +77,7 @@ const SuccessMetrics = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary/10 to-transparent" />
 
       <FloatingChibi src={chibiOwl} alt="" className="absolute left-[4%] top-10 z-20 opacity-90" size={94} />
-      <FloatingChibi src={chibiRocket} alt="" className="absolute right-[4%] bottom-4 z-20 opacity-90" size={102} delay={1.4} />
+      <FloatingChibi src={chibiRocket} alt="" className="absolute right-[4%] bottom-16 z-20 opacity-90" size={102} delay={1.4} />
       <div className="container relative z-10 mx-auto px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
