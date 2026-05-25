@@ -553,4 +553,257 @@ const DefinitionSprint = ({ mode, onExit }: { mode: Mode; onExit: () => void }) 
   );
 };
 
+// ============ SYNONYM SHOWDOWN ============
+const SynonymShowdown = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
+  const { t } = useLanguage();
+  const ROUNDS = 10;
+  const [round, setRound] = useState(0);
+  const [scoreA, setScoreA] = useState(0);
+  const [scoreB, setScoreB] = useState(0);
+  const [player, setPlayer] = useState<1 | 2>(1);
+  const [picked, setPicked] = useState<string | null>(null);
+  const [timeLeft, setTimeLeft] = useState(15);
+  const [done, setDone] = useState(false);
+
+  const questions = useMemo(() => {
+    const pool = ieltsVocabData.filter((w) => w.synonyms && w.synonyms.length > 0);
+    return shuffle(pool).slice(0, ROUNDS).map((target) => {
+      const correct = target.synonyms![Math.floor(Math.random() * target.synonyms!.length)];
+      const distractors = shuffle(
+        ieltsVocabData
+          .filter((w) => w.word !== target.word && (!target.synonyms || !target.synonyms.includes(w.word)))
+          .map((w) => w.word)
+      ).slice(0, 3);
+      const options = shuffle([correct, ...distractors]);
+      return { target, correct, options };
+    });
+  }, []);
+
+  const q = questions[round];
+
+  useEffect(() => {
+    if (done || picked) return;
+    setTimeLeft(15);
+    const id = setInterval(() => {
+      setTimeLeft((t) => {
+        if (t <= 1) { clearInterval(id); handlePick("__timeout__"); return 0; }
+        return t - 1;
+      });
+    }, 1000);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [round, done]);
+
+  const handlePick = (word: string) => {
+    if (picked) return;
+    setPicked(word);
+    if (word === q.correct) {
+      const pts = 10 + Math.round(timeLeft / 2);
+      if (mode === "solo") setScoreA((s) => s + pts);
+      else if (player === 1) setScoreA((s) => s + pts);
+      else setScoreB((s) => s + pts);
+      burst();
+    }
+    setTimeout(() => {
+      if (round + 1 >= ROUNDS) { setDone(true); return; }
+      setRound((r) => r + 1);
+      setPicked(null);
+      if (mode === "team") setPlayer((p) => (p === 1 ? 2 : 1));
+    }, 1100);
+  };
+
+  if (done) {
+    return (
+      <div className="max-w-2xl mx-auto">
+        <GameHeader title={t("Ghép từ đồng nghĩa", "Synonym Showdown")} mode={mode} onExit={onExit} scoreA={scoreA} scoreB={scoreB} currentPlayer={player} />
+        <div className="p-8 rounded-2xl bg-card border-2 border-primary text-center">
+          <Trophy className="w-14 h-14 text-amber-500 mx-auto mb-3" />
+          <h3 className="text-2xl font-bold mb-3">
+            {mode === "solo"
+              ? t(`Tổng điểm: ${scoreA}`, `Final score: ${scoreA}`)
+              : scoreA === scoreB ? t("Hòa!", "Tie!") : scoreA > scoreB ? `🏆 P1 ${scoreA} - ${scoreB} P2` : `P1 ${scoreA} - ${scoreB} P2 🏆`}
+          </h3>
+          <Button onClick={() => window.location.reload()} className="gap-2"><RotateCcw className="w-4 h-4" /> {t("Chơi lại", "Play again")}</Button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-2xl mx-auto">
+      <GameHeader title={t("Ghép từ đồng nghĩa", "Synonym Showdown")} mode={mode} onExit={onExit} scoreA={scoreA} scoreB={scoreB} currentPlayer={player} />
+
+      <div className="flex items-center justify-between mb-3 text-sm text-muted-foreground">
+        <span>{t(`Câu ${round + 1}/${ROUNDS}`, `Q ${round + 1}/${ROUNDS}`)}</span>
+        <span className={`flex items-center gap-1 font-bold ${timeLeft <= 5 ? "text-red-500" : "text-foreground"}`}>
+          <Timer className="w-4 h-4" /> {timeLeft}s
+        </span>
+      </div>
+
+      <motion.div key={round} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="p-6 rounded-2xl bg-card border-2 border-border mb-4 text-center">
+        <p className="text-xs uppercase tracking-wide text-muted-foreground mb-2">{t("Tìm từ đồng nghĩa với", "Find a synonym of")}</p>
+        <div className="flex items-center justify-center gap-3 mb-2">
+          <p className="text-3xl font-black text-foreground">{q.target.word}</p>
+          <button onClick={() => speak(q.target.word)} className="text-primary hover:scale-110 transition"><Volume2 className="w-5 h-5" /></button>
+        </div>
+        <code className="px-2 py-1 rounded bg-secondary text-primary text-xs">{q.target.ipa}</code>
+        <p className="text-sm text-muted-foreground italic mt-3">{q.target.definition.vi}</p>
+      </motion.div>
+
+      <div className="grid grid-cols-2 gap-2">
+        {q.options.map((o) => {
+          const isCorrect = picked && o === q.correct;
+          const isWrong = picked === o && o !== q.correct;
+          return (
+            <motion.button
+              key={o}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => handlePick(o)}
+              disabled={!!picked}
+              className={`px-3 py-3 rounded-xl border-2 text-sm font-semibold transition-all ${
+                isCorrect ? "bg-emerald-500 text-white border-emerald-600" :
+                isWrong ? "bg-red-500 text-white border-red-600" :
+                picked ? "bg-secondary border-border text-muted-foreground" :
+                "bg-card border-border hover:border-primary hover:bg-primary/5 text-foreground"
+              }`}
+            >
+              {o}
+            </motion.button>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+// ============ WORD SCRAMBLE ============
+const WordScramble = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
+  const { t } = useLanguage();
+  const ROUNDS = 8;
+  const [round, setRound] = useState(0);
+  const [scoreA, setScoreA] = useState(0);
+  const [scoreB, setScoreB] = useState(0);
+  const [player, setPlayer] = useState<1 | 2>(1);
+  const [input, setInput] = useState("");
+  const [feedback, setFeedback] = useState<null | "correct" | "wrong">(null);
+  const [timeLeft, setTimeLeft] = useState(25);
+  const [done, setDone] = useState(false);
+
+  const words = useMemo(
+    () => shuffle(ieltsVocabData.filter((w) => w.word.length >= 4 && w.word.length <= 11)).slice(0, ROUNDS),
+    []
+  );
+  const w = words[round];
+
+  const scrambled = useMemo(() => {
+    if (!w) return "";
+    let s = w.word;
+    for (let i = 0; i < 5; i++) {
+      const arr = shuffle(s.split(""));
+      s = arr.join("");
+      if (s.toLowerCase() !== w.word.toLowerCase()) break;
+    }
+    return s.toUpperCase();
+  }, [w]);
+
+  useEffect(() => {
+    if (done || feedback) return;
+    setTimeLeft(25);
+    setInput("");
+    const id = setInterval(() => {
+      setTimeLeft((t) => {
+        if (t <= 1) { clearInterval(id); submit(true); return 0; }
+        return t - 1;
+      });
+    }, 1000);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [round, done]);
+
+  const submit = (timedOut = false) => {
+    if (feedback) return;
+    const correct = !timedOut && input.trim().toLowerCase() === w.word.toLowerCase();
+    if (correct) {
+      const pts = Math.max(5, 15 + timeLeft);
+      if (mode === "solo") setScoreA((s) => s + pts);
+      else if (player === 1) setScoreA((s) => s + pts);
+      else setScoreB((s) => s + pts);
+      setFeedback("correct");
+      burst();
+    } else {
+      setFeedback("wrong");
+    }
+    setTimeout(() => {
+      if (round + 1 >= ROUNDS) { setDone(true); return; }
+      setRound((r) => r + 1);
+      setFeedback(null);
+      if (mode === "team") setPlayer((p) => (p === 1 ? 2 : 1));
+    }, 1400);
+  };
+
+  if (done) {
+    return (
+      <div className="max-w-2xl mx-auto">
+        <GameHeader title={t("Xếp chữ cái", "Word Scramble")} mode={mode} onExit={onExit} scoreA={scoreA} scoreB={scoreB} currentPlayer={player} />
+        <div className="p-8 rounded-2xl bg-card border-2 border-primary text-center">
+          <Trophy className="w-14 h-14 text-amber-500 mx-auto mb-3" />
+          <h3 className="text-2xl font-bold mb-3">
+            {mode === "solo"
+              ? t(`Tổng điểm: ${scoreA}`, `Final score: ${scoreA}`)
+              : scoreA === scoreB ? t("Hòa!", "Tie!") : scoreA > scoreB ? `🏆 P1 ${scoreA} - ${scoreB} P2` : `P1 ${scoreA} - ${scoreB} P2 🏆`}
+          </h3>
+          <Button onClick={() => window.location.reload()} className="gap-2"><RotateCcw className="w-4 h-4" /> {t("Chơi lại", "Play again")}</Button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-2xl mx-auto">
+      <GameHeader title={t("Xếp chữ cái", "Word Scramble")} mode={mode} onExit={onExit} scoreA={scoreA} scoreB={scoreB} currentPlayer={player} />
+
+      <div className="flex items-center justify-between mb-3 text-sm text-muted-foreground">
+        <span>{t(`Câu ${round + 1}/${ROUNDS}`, `Q ${round + 1}/${ROUNDS}`)}</span>
+        <span className={`flex items-center gap-1 font-bold ${timeLeft <= 5 ? "text-red-500" : "text-foreground"}`}>
+          <Timer className="w-4 h-4" /> {timeLeft}s
+        </span>
+      </div>
+
+      <motion.div key={round} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="p-6 rounded-2xl bg-card border-2 border-border mb-4 text-center">
+        <p className="text-xs uppercase tracking-wide text-muted-foreground mb-3">{t("Sắp xếp lại chữ cái", "Unscramble the letters")}</p>
+        <div className="flex flex-wrap justify-center gap-2 mb-4">
+          {scrambled.split("").map((ch, i) => (
+            <span key={i} className="w-10 h-12 rounded-lg bg-gradient-to-br from-sky-500 to-primary text-white text-xl font-black flex items-center justify-center shadow">
+              {ch}
+            </span>
+          ))}
+        </div>
+        <p className="text-sm text-foreground font-medium">{w.definition.en}</p>
+        <p className="text-xs text-muted-foreground italic mt-1">{w.definition.vi}</p>
+      </motion.div>
+
+      <div className="flex gap-2 mb-2">
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && submit()}
+          disabled={!!feedback}
+          placeholder={t("Gõ từ đúng…", "Type the word…")}
+          className={`flex-1 px-4 py-3 rounded-xl bg-secondary border-2 text-foreground font-semibold text-lg transition-all ${
+            feedback === "correct" ? "border-emerald-500 bg-emerald-500/10" :
+            feedback === "wrong" ? "border-red-500 bg-red-500/10" :
+            "border-border focus:border-primary"
+          }`}
+          autoFocus
+        />
+        <Button onClick={() => submit()} disabled={!!feedback}>OK</Button>
+      </div>
+
+      {feedback === "wrong" && (
+        <p className="text-xs text-red-500 text-right">{t("Đáp án:", "Answer:")} <b>{w.word}</b></p>
+      )}
+    </div>
+  );
+};
+
 export default MiniGames;
