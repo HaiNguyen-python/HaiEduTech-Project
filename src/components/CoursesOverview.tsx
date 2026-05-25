@@ -43,13 +43,13 @@ const CoursesOverview = () => {
   ];
 
   return (
-    <section className="relative py-12 sm:py-16">
+    <section className="relative py-10 sm:py-12">
       <div className="container mx-auto px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-12 text-center sm:mb-16"
+          className="mb-8 text-center sm:mb-10"
         >
           <h2 className="mb-4 font-display text-2xl font-bold sm:text-3xl md:text-4xl">
             {t("Các chương trình ", "Multi-Disciplinary ")}
