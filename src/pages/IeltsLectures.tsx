@@ -40,6 +40,7 @@ import {
   Lightbulb,
   BookOpenText,
   Trophy,
+  ArrowLeft,
 } from "lucide-react";
 import { allIeltsLectures, PILLAR_META, PillarKey } from "@/data/ieltsLecturesData";
 
