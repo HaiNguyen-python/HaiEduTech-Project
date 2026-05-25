@@ -17,7 +17,6 @@ import LearningJourneyTimeline from "@/components/LearningJourneyTimeline";
 import FloatingChibi from "@/components/FloatingChibi";
 import heroBg from "@/assets/hero-bg.jpg";
 import haiProfile from "@/assets/hai-profile.webp";
-import chibiRocket from "@/assets/chibi-rocket.png";
 import chibiOwl from "@/assets/chibi-owl.png";
 import chibiGraduate from "@/assets/chibi-graduate.png";
 
@@ -68,7 +67,6 @@ const HeroSection = () => {
 
       {/* Decorative hero chibis (desktop only) — purely visual, never speak */}
       <FloatingChibi src={chibiOwl} alt="" size={95} delay={0} className="absolute left-[2%] top-[14%] z-20" />
-      <FloatingChibi src={chibiRocket} alt="" size={100} delay={0.8} className="absolute right-[3%] bottom-[18%] z-20" />
       <FloatingChibi src={chibiGraduate} alt="" size={90} delay={1.6} className="absolute right-[3%] top-[38%] z-20" />
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6">
