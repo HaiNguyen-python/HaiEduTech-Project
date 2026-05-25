@@ -110,6 +110,10 @@ const EnglishGrammar = () => {
       <SEO title="Ngữ Pháp Tiếng Anh Toàn Diện - 30 Bài Học | HaiEduTech" description="9 module ngữ pháp tiếng Anh từ cơ bản đến nâng cao với 30 bài học: Tenses, Conditionals, Modal Verbs, Reported Speech, Passive Voice. Luyện tập tương tác." path="/english/grammar" />
       <Navbar />
       <main className="container mx-auto px-4 py-10 max-w-6xl">
+        <Link to="/english" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary mb-4">
+          <ArrowLeft className="w-4 h-4" />
+          {t("Quay lại Tiếng Anh", "Back to English")}
+        </Link>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10">
           <h1 className="text-3xl md:text-4xl font-bold mb-3">
             📖 {t("Ngữ pháp tiếng Anh", "English Grammar")}
