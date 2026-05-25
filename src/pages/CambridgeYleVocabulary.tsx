@@ -1,4 +1,3 @@
-import FloatingLessonChibis from "@/components/decorations/FloatingLessonChibis";
 /**
  * @file CambridgeYleVocabulary.tsx
  * @description Cambridge YLE Vocabulary practice — Starters → PET. Colourful,
@@ -233,7 +232,6 @@ const CambridgeYleVocabulary = () => {
 
   return (
     <div className="min-h-screen relative" style={{ background: "linear-gradient(180deg, #FEFCF7 0%, #FFF7FA 35%, #F4FAFF 70%, #F8FFF6 100%)" }}>
-      <FloatingLessonChibis theme="cambridge" seed="cambridge-vocab" />
       <FloatingKidsDecor />
       <Navbar />
       <KidsChibiMascot lang={lang} />

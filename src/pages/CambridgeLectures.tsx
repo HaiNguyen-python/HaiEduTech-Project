@@ -1,5 +1,4 @@
 // Cambridge Journey Dashboard - Vibrant Dark Theme with Rainbow Glow
-import FloatingLessonChibis from "@/components/decorations/FloatingLessonChibis";
 import { useState, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -116,7 +115,6 @@ const CambridgeLectures = () => {
 
   return (
     <div className="min-h-screen relative" style={{ background: "linear-gradient(180deg, #FFF8E7 0%, #FFE5EC 25%, #E0F4FF 50%, #E8FFE0 75%, #FFF0F5 100%)" }}>
-      <FloatingLessonChibis theme="cambridge" seed="cambridge-lectures" />
       <FloatingKidsDecor />
       <Navbar />
       <main className="pt-16 pb-6 relative z-10">

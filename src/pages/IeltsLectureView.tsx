@@ -1,5 +1,4 @@
 // IELTS Lecture Detail View - Rich content with strategy steps, vocab highlighter, quiz, cheat sheet
-import FloatingLessonChibis from "@/components/decorations/FloatingLessonChibis";
 import { useState, useMemo } from "react";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { useParams, Link } from "react-router-dom";
@@ -144,7 +143,6 @@ const IeltsLectureView = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <FloatingLessonChibis theme="ielts" />
       <SEO
         title={`${lecture.title} — IELTS Lecture`}
         description={(lecture.description || lecture.title).slice(0, 158)}

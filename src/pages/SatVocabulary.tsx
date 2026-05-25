@@ -1,5 +1,4 @@
 import Navbar from "@/components/Navbar";
-import FloatingLessonChibis from "@/components/decorations/FloatingLessonChibis";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
@@ -391,7 +390,6 @@ const SatVocabulary = () => {
 
   return (
     <div ref={pageContainerRef} className="min-h-screen bg-background">
-      <FloatingLessonChibis theme="sat" seed="sat-vocab" />
       <SEO
         title="SAT Vocabulary – Ngân hàng từ vựng SAT | HaiEduTech"
         description={`${satVocabData.length}+ từ vựng SAT theo bài học - flashcard, quiz, leaderboard và Mountain Climber gamification.`}

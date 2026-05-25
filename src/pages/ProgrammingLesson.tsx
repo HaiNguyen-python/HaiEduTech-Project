@@ -1,5 +1,4 @@
 import LessonFeedback from "@/components/LessonFeedback";
-import FloatingLessonChibis from "@/components/decorations/FloatingLessonChibis";
 import { boldAndSanitize } from "@/lib/utils";
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
@@ -393,7 +392,6 @@ const ProgrammingLessonPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <FloatingLessonChibis theme="programming" />
       <Navbar />
       <div className="pt-6 pb-16">
         <div className={`mx-auto px-4 sm:px-6 ${showIDE && !isMobile ? "max-w-[1600px]" : "container"}`}>

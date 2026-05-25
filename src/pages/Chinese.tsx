@@ -1,5 +1,4 @@
 import Navbar from "@/components/Navbar";
-import FloatingLessonChibis from "@/components/decorations/FloatingLessonChibis";
 import AssessmentTool from "@/components/AssessmentTool";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -110,7 +109,6 @@ const Chinese = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <FloatingLessonChibis theme="chinese" />
       <SEO title="Học Tiếng Trung Online: HSK 1-6, Giao tiếp, Pinyin | HaiEduTech" description="Học tiếng Trung từ HSK 1 đến HSK 6 với 1100+ từ vựng, bài giảng tương tác, luyện viết Hanzi và giao tiếp thực tế. Lộ trình AI cá nhân hóa miễn phí." path="/chinese" jsonLd={COURSE_LD} />
       <Navbar />
       <div className="pt-6 pb-16">

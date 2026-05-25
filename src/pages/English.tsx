@@ -1,5 +1,4 @@
 import Navbar from "@/components/Navbar";
-import FloatingLessonChibis from "@/components/decorations/FloatingLessonChibis";
 import AssessmentTool from "@/components/AssessmentTool";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -118,7 +117,6 @@ const English = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <FloatingLessonChibis theme="english" />
       <SEO title="Học Tiếng Anh Online: IELTS, TOEIC, SAT, Cambridge | HaiEduTech" description="Lộ trình học tiếng Anh toàn diện: IELTS, TOEIC, SAT, Cambridge, Grammar và Giao tiếp. Bài giảng AI cá nhân hóa, luyện đề, chấm Writing và Speaking miễn phí." path="/english" jsonLd={COURSE_LD} />
       <Navbar />
       <div className="pt-6 pb-16">

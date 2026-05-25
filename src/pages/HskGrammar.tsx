@@ -1,4 +1,3 @@
-import FloatingLessonChibis from "@/components/decorations/FloatingLessonChibis";
 /**
  * @file HskGrammar.tsx
  * @description HSK Grammar review hub for HSK 1-6.
@@ -44,7 +43,6 @@ const HskGrammar = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <FloatingLessonChibis theme="hsk" seed="hsk-grammar" />
       <SEO
         title="HSK Grammar 1-6: Ngữ Pháp Tiếng Trung Đầy Đủ | HaiEduTech"
         description="Tổng hợp các điểm ngữ pháp HSK từ HSK 1 đến HSK 6: cấu trúc, giải thích song ngữ, ví dụ Hán tự + Pinyin, mẹo làm bài."
