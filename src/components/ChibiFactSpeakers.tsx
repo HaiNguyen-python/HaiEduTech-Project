@@ -10,16 +10,12 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-import chibiTeacher from "@/assets/chibi-teacher.png";
 import chibiTeacherIelts from "@/assets/chibi-teacher-ielts.png";
-import chibiReading from "@/assets/chibi-reading.png";
 import chibiSpeaking from "@/assets/chibi-speaking.png";
 import chibiGraduate from "@/assets/chibi-graduate.png";
 import chibiPanda from "@/assets/chibi-panda.png";
 import chibiCoder from "@/assets/chibi-coder.png";
-import chibiRobot from "@/assets/chibi-robot.png";
 import aiChibiRobot from "@/assets/ai-chibi-robot.png";
-import chibiHsk3 from "@/assets/chibi-cn-hsk3.png";
 import chibiHsk5 from "@/assets/chibi-cn-hsk5.png";
 import chibiVocabCheer from "@/assets/chibi-vocab-cheer.png";
 
