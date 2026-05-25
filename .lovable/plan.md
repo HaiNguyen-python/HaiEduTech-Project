@@ -1,88 +1,64 @@
 ## Mục tiêu
-
-Đưa **AI Academy** thành một điểm nhấn ở Home, đồng thời **tinh giản Home chỉ còn 2 trụ chính**:
-
-1. Các **chương trình học** (English, Chinese, Programming, AI Academy)
-2. Các **công cụ công nghệ hiện đại** của web (AI Grading, AI Speaking Coach, Mr. Hai Chatbot, Game Center, Skill Assessment, Student Dashboard…)
-
-Loại bỏ các section "rời rạc" (KnowledgeHub/Scholarship, Roadmaps độc lập, SuccessMetrics dài) để Home gọn, đúng trọng tâm.
+Nâng cấp trang chủ với 4 gói hiệu ứng EduTech theo phong cách **Apple-style tinh tế** — chuyển động mượt, nhẹ, không gây nhiễu, chạy 60fps và tự giảm tải trên mobile / `prefers-reduced-motion`.
 
 ---
 
-## Thay đổi cụ thể
+## 1. Gói Hero Tech (`src/components/Hero.tsx`)
+- **TechParticles layer**: canvas background nhẹ với ký hiệu `</>`, `{}`, `AI`, `α`, `中`, `Suomi`, `π` bay chậm, opacity 10–15%, blend `screen`. Tắt trên mobile.
+- **Aurora Blob**: 2 vệt gradient `--primary` → `--accent` blur-3xl di chuyển chậm (CSS keyframes, 20s loop).
+- **Typing Effect** cho 1 từ trong headline luân phiên: `AI | IELTS | Lập trình | Tiếng Trung | YKI` — dùng hook nhỏ tự viết, 1 từ duy nhất, headline còn lại tĩnh để giữ ổn định layout.
+- **Spotlight follow cursor**: lớp `radial-gradient` mờ theo `mousemove` (throttled), chỉ desktop.
 
-### 1) Mở rộng `CoursesOverview` — thêm AI Academy thành trụ cột thứ 4
+## 2. Gói Card Interactions
+**`CoursesOverview.tsx` & `ModernTechTools.tsx`:**
+- **3D Tilt nhẹ** (max ±6°) qua hook `useTilt` thuần (mousemove → CSS transform), không cần thư viện.
+- **Shine sweep**: pseudo-element `::before` gradient trắng nghiêng 20°, translate khi hover (700ms ease-out).
+- **Magnetic CTA**: nút "Khám phá" hút nhẹ về phía chuột (max 6px), spring transition.
+- **Soft glow**: `box-shadow` theo màu gradient của card khi hover.
 
-Đổi grid từ 3 cột → 4 cột (lg) / 2 cột (md) / 1 cột (mobile). Thêm card mới:
+Tạo file dùng chung: `src/hooks/useTilt.ts`, `src/hooks/useMagnetic.ts`, `src/components/ShineCard.tsx` (wrapper áp dụng shine + tilt).
 
-- **Icon**: `Brain` hoặc `Sparkles` (lucide)
-- **Title**: "AI Academy" — "Học AI cho học sinh cấp 2–3"
-- **Description**: "12 chủ đề AI thực hành với sandbox tương tác — từ Machine Learning, Computer Vision đến NLP và Capstone."
-- **Tags**: `ML` · `Vision` · `NLP` · `Sandbox`
-- **to**: `/programming/ai-academy`
-- **Color**: gradient tím–xanh nổi bật so với 3 card hiện có
-- Thêm **badge "MỚI"** góc card
+## 3. Gói Scroll & Numbers
+- **Reveal stagger**: tạo `src/components/RevealOnScroll.tsx` (IntersectionObserver + framer-motion variants). Áp dụng cho `CoursesOverview`, `LearningRoadmaps`, `ModernTechTools`, `SuccessMetrics` — children fade-up lệch 80ms.
+- **CountUp** cho `SuccessMetrics`: hook `useCountUp` tự viết (requestAnimationFrame, 1.5s ease-out), kích hoạt khi vào viewport.
+- **SVG path draw** trong `LearningRoadmaps`: `strokeDasharray` + `strokeDashoffset` animate khi visible.
+- **Section wave dividers**: thêm SVG wave/blob mềm giữa các section trong `Index.tsx` thay vì padding cứng — `src/components/SectionDivider.tsx` với 2 biến thể (wave, blob).
+- **Scroll progress bar**: thanh gradient brand `fixed top-0` cao 2px theo `scrollY/scrollHeight`.
 
-### 2) Tạo section mới `ModernTechTools` (thay cho KnowledgeHub + AssessmentTool + AIGradingPreview + DashboardPreview)
-
-Section này showcase **6 công cụ công nghệ** của web dưới dạng bento grid (2 hàng × 3 ô, responsive):
-
-
-| Ô   | Công cụ                   | Link                      | Mô tả ngắn                                             |
-| --- | ------------------------- | ------------------------- | ------------------------------------------------------ |
-| 1   | 🎯 **AI Grading**         | `/english/ielts/writing`  | Chấm IELTS Writing tức thì, có feedback chi tiết & PDF |
-| 2   | 🎙️ **AI Speaking Coach** | `/english/ielts/speaking` | Nhận diện giọng nói, đánh giá phát âm theo IPA         |
-| 3   | 🤖 **Mr. Hai Chatbot**    | mở ChatBot                | Trợ lý AI 24/7, đa ngôn ngữ                            |
-| 4   | 🎮 **Game Center**        | `/games`                  | Vocab Arena, Duel Battle, leaderboard công khai        |
-| 5   | 📊 **Skill Assessment**   | `/assessment`             | Test 10 câu sinh Skill Profile cá nhân                 |
-| 6   | 📈 **Student Dashboard**  | `/dashboard`              | Study Streak, Skill Radar, theo dõi tiến độ            |
-
-
-Mỗi ô là card có icon lớn, gradient riêng theo brand (Royal Blue → Soft Emerald), hover lift, link điều hướng. Không nhúng UI thật → trang nhẹ.
-
-### 3) Thứ tự Home mới (gọn từ 8 → 5 section)
-
-```
-1. Hero (giữ nguyên)
-2. CoursesOverview (4 trụ: English / Chinese / Programming / AI Academy)
-3. LearningRoadmaps (giữ — kể chuyện lộ trình từng chương trình)
-4. ModernTechTools (MỚI — 6 công cụ công nghệ)
-5. SuccessMetrics (rút gọn — số liệu credibility)
-6. Footer
-```
-
-### 4) Bỏ khỏi Home (vẫn truy cập qua nav)
-
-- `KnowledgeHub` (scholarship) — đã có ở nav riêng `/scholarship`
-- `AssessmentTool` (giữ ở route riêng) — được giới thiệu qua ô trong `ModernTechTools`
-- `AIGradingPreview` — được giới thiệu qua ô trong `ModernTechTools`
-- `DashboardPreview` — được giới thiệu qua ô trong `ModernTechTools`
-
-→ Bốn section bị bỏ này gộp lại thành **1 bento grid duy nhất** → trang ngắn hơn ~40%, mỗi tính năng vẫn có "cửa sổ" giới thiệu.
+## 4. Gói Social Proof
+- **Live toast giả** (sonner): `src/components/LiveActivityToasts.tsx` mount ở `Index.tsx`. Mảng tin nhắn xoay vòng mỗi 25–40s (random): "🎉 Minh vừa đạt IELTS 7.5", "🔥 Lan hoàn thành HSK 3", "✨ Khoa nhận chứng chỉ YKI A2"... Tự dừng khi tab ẩn (`document.hidden`).
+- **Mr. Hai wave**: trong `ChatBot.tsx`, thêm animation `wave` (rotate -10° → 14° → 0, 1.2s) cho icon mỗi 12s khi widget đóng.
+- **🔴 Live badge** trên card "Game Center" trong `ModernTechTools.tsx`: chấm đỏ pulse + text "Live".
 
 ---
 
 ## Chi tiết kỹ thuật
+- **Hiệu năng**: tất cả animation dùng `transform`/`opacity`, kèm `will-change`. Particles canvas giới hạn ~30 hạt, tự huỷ khi unmount.
+- **Accessibility**: bọc bằng `@media (prefers-reduced-motion: reduce)` để tắt typing, tilt, particles, aurora.
+- **Mobile**: tắt particles + spotlight + tilt khi `window.innerWidth < 1024`.
+- **Không thêm dependency mới** — dùng framer-motion (đã có), sonner (đã có), CSS thuần.
 
-- **File tạo mới**: `src/components/ModernTechTools.tsx` (lazy load qua `LazySection` đã có).
-- **File sửa**:
-  - `src/components/CoursesOverview.tsx` — thêm card AI Academy + đổi grid `md:grid-cols-3` → `md:grid-cols-2 lg:grid-cols-4`.
-  - `src/pages/Index.tsx` — bỏ import & render của 4 section cũ, thêm `ModernTechTools`.
-- **Design tokens**: tuân thủ semantic tokens (`bg-card`, `text-foreground`, `text-gradient`); gradient brand HSL trong `index.css`.
-- **i18n**: dùng `useLanguage().t(vi, en)` cho mọi label.
-- **SEO**: cập nhật JSON-LD `ItemList` trong `Index.tsx` thêm AI Academy.
-- **Không động backend / migration**.
+## Files
+**Tạo mới:**
+- `src/hooks/useTilt.ts`
+- `src/hooks/useMagnetic.ts`
+- `src/hooks/useCountUp.ts`
+- `src/components/RevealOnScroll.tsx`
+- `src/components/SectionDivider.tsx`
+- `src/components/ShineCard.tsx`
+- `src/components/TechParticles.tsx`
+- `src/components/TypingHeadline.tsx`
+- `src/components/ScrollProgressBar.tsx`
+- `src/components/LiveActivityToasts.tsx`
 
----
+**Sửa:**
+- `src/components/Hero.tsx` (particles + aurora + typing + spotlight)
+- `src/components/CoursesOverview.tsx` (ShineCard wrapper + magnetic CTA + reveal)
+- `src/components/ModernTechTools.tsx` (ShineCard + Live badge + reveal)
+- `src/components/LearningRoadmaps.tsx` (SVG path draw + reveal)
+- `src/components/SuccessMetrics.tsx` (CountUp + reveal)
+- `src/components/ChatBot.tsx` (wave animation cho icon đóng)
+- `src/pages/Index.tsx` (SectionDivider giữa các section + ScrollProgressBar + LiveActivityToasts)
+- `tailwind.config.ts` / `src/index.css` (thêm keyframes `wave`, `aurora-float`, `shine-sweep` nếu cần)
 
-## Xác nhận trước khi build
-
-- OK với việc **bỏ hẳn** KnowledgeHub/Scholarship khỏi Home (chỉ còn ở nav)?
-- Giữ hay bỏ `SuccessMetrics`?
-- Có muốn **trial widget nhỏ** (chấm thử 1 câu) nhúng trong ô AI Grading không, hay chỉ link sang trang riêng?
-
-Trả lời 3 câu trên là mình bắt tay làm luôn.
-
-&nbsp;
-
-ok 
+Không động backend, không thay đổi business logic.
