@@ -20,32 +20,36 @@ const EnglishEssentials = () => {
       icon: BookOpen,
       title: t("Ngữ pháp", "Grammar"),
       desc: t("Hệ thống ngữ pháp từ cơ bản đến nâng cao, dễ hiểu, có bài tập tương tác.", "Grammar mastery from fundamentals to advanced, with interactive exercises."),
-      gradient: "from-violet-500/20 to-purple-500/20",
-      border: "border-violet-500/40",
+      gradient: "from-violet-400/50 to-purple-500/50",
+      border: "border-violet-700",
+      iconColor: "text-violet-800",
     },
     {
       to: "/english/pronunciation",
       icon: Mic2,
       title: t("Phát âm & Ngữ điệu", "Pronunciation & Intonation"),
       desc: t("Luyện phát âm chuẩn IPA với phản hồi AI theo thời gian thực.", "IPA-based pronunciation training with real-time AI feedback."),
-      gradient: "from-rose-500/20 to-pink-500/20",
-      border: "border-rose-500/40",
+      gradient: "from-rose-400/50 to-pink-500/50",
+      border: "border-rose-700",
+      iconColor: "text-rose-800",
     },
     {
       to: "/english/conversational/curriculum",
       icon: MessageSquare,
       title: t("Giao tiếp", "Conversational"),
       desc: t("38 bài học hội thoại đời sống, dual-speed TTS, 3 trụ cột mở khoá.", "38 real-life conversation lessons, dual-speed TTS, 3 pillars unlocked."),
-      gradient: "from-emerald-500/20 to-teal-500/20",
-      border: "border-emerald-500/40",
+      gradient: "from-emerald-400/50 to-teal-500/50",
+      border: "border-emerald-700",
+      iconColor: "text-emerald-800",
     },
     {
       to: "/english/idioms",
       icon: Quote,
       title: t("Thành ngữ & Danh ngôn", "Idioms & Quotes"),
       desc: t("Học idioms, phrasal verbs và danh ngôn truyền cảm hứng như người bản xứ.", "Learn idioms, phrasal verbs & inspiring quotes like a native."),
-      gradient: "from-amber-500/20 to-orange-500/20",
-      border: "border-amber-500/40",
+      gradient: "from-amber-400/50 to-orange-500/50",
+      border: "border-amber-700",
+      iconColor: "text-amber-800",
     },
   ];
 
@@ -85,20 +89,20 @@ const EnglishEssentials = () => {
               >
                 <Link
                   to={p.to}
-                  className={`group block p-6 lg:p-8 rounded-2xl bg-gradient-to-br ${p.gradient} border-2 ${p.border} hover:scale-[1.02] hover:shadow-2xl transition-all duration-300`}
+                  className={`group block p-6 lg:p-8 rounded-2xl bg-gradient-to-br ${p.gradient} border-[3px] ${p.border} shadow-lg hover:scale-[1.02] hover:shadow-2xl transition-all duration-300`}
                 >
                   <div className="flex items-start gap-4">
-                    <div className="shrink-0 w-14 h-14 rounded-xl bg-background/80 backdrop-blur flex items-center justify-center border-2 border-border group-hover:border-primary transition-colors">
-                      <Icon className="w-7 h-7 text-primary" />
+                    <div className="shrink-0 w-14 h-14 rounded-xl bg-background/90 backdrop-blur flex items-center justify-center border-2 border-foreground/40 group-hover:border-primary transition-colors">
+                      <Icon className={`w-7 h-7 ${p.iconColor}`} strokeWidth={2.5} />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-xl lg:text-2xl font-bold mb-2 text-foreground group-hover:text-primary transition-colors">
+                      <h3 className="text-xl lg:text-2xl font-extrabold mb-2 text-foreground group-hover:text-primary transition-colors">
                         {p.title}
                       </h3>
-                      <p className="text-sm text-muted-foreground leading-relaxed">
+                      <p className="text-sm font-medium text-foreground/80 leading-relaxed">
                         {p.desc}
                       </p>
-                      <div className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary">
+                      <div className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-primary">
                         {t("Vào học", "Start learning")} →
                       </div>
                     </div>
