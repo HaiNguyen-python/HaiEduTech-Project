@@ -72,14 +72,16 @@ const ChibiFactSpeakers = () => {
     return shifted;
   }, [rotation]);
 
-  // Vertical spacing — keep chibis FAR apart so they don't overlap text
-  const STEP_VH = 75;
-  const START_VH = 85;
+  // Distribute chibis evenly between hero (~12%) and footer (~88%) of the
+  // parent's actual content height, so they NEVER extend past the footer.
+  const START_PCT = 12;
+  const END_PCT = 88;
+  const total = facts.length;
 
   return (
-    <div aria-hidden={false} className="pointer-events-none absolute inset-x-0 top-0 hidden lg:block z-40">
+    <div aria-hidden={false} className="pointer-events-none absolute inset-0 hidden lg:block z-40 overflow-hidden">
       {facts.map((f, i) => {
-        const top = START_VH + i * STEP_VH;
+        const top = total > 1 ? START_PCT + (i * (END_PCT - START_PCT)) / (total - 1) : START_PCT;
         const isLeft = f.side === "left";
         const funEmoji = FUN_EMOJIS[(i * 7 + rotation) % FUN_EMOJIS.length];
         return (
@@ -91,7 +93,7 @@ const ChibiFactSpeakers = () => {
             transition={{ duration: 0.55, ease: "easeOut" }}
             className="absolute pointer-events-auto"
             style={{
-              top: `${top}vh`,
+              top: `${top}%`,
               [isLeft ? "left" : "right"]: "1.2vw",
               maxWidth: "320px",
             }}
