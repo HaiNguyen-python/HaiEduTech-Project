@@ -412,8 +412,7 @@ const IeltsLectureCategory = () => {
 
             if (catKey === "writing") {
               const task1 = filtered.filter(l => l.id.includes("task1") || /task\s*1/i.test(l.title));
-              const task2 = filtered.filter(l => l.id.includes("task2") || /task\s*2/i.test(l.title));
-              const other = filtered.filter(l => !task1.includes(l) && !task2.includes(l));
+              const others = filtered.filter(l => !task1.includes(l));
               return (
                 <motion.div
                   key={`writing-grouped-${levelFilter}-${sortBy}-${searchQuery}`}
@@ -422,11 +421,33 @@ const IeltsLectureCategory = () => {
                   transition={{ duration: 0.2 }}
                 >
                   {task1.length > 0 && renderGroup("task1", "Writing Task 1", "Writing Task 1", "📊", task1)}
-                  {task2.length > 0 && renderGroup("task2", "Writing Task 2", "Writing Task 2", "✍️", task2)}
-                  {other.length > 0 && renderGroup("other", "Khác", "Other", "📚", other)}
+                  {others.length > 0 && renderGroup("task2", "Writing Task 2", "Writing Task 2", "✍️", others)}
+
+                  {/* Sample Essays 8.0+ — styled to match group headers */}
+                  <Link
+                    to="/ielts-sample-essays"
+                    className="group mb-6 flex items-center gap-3 w-full p-3 rounded-xl border-2 border-purple-500/40 bg-gradient-to-r from-purple-500/10 via-violet-500/5 to-pink-500/10 hover:border-purple-500/70 hover:shadow-lg transition-all"
+                  >
+                    <span className="text-2xl">📚</span>
+                    <div className="flex-1 text-left">
+                      <div className="text-lg sm:text-xl font-bold text-foreground">
+                        {t("Bài mẫu 8.0+ (Sample Essays)", "Sample Essays 8.0+")}
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        {t("Bộ sưu tập bài mẫu Band 8.0+ Task 1 & Task 2, kèm phân tích chi tiết của Thầy Hải.",
+                           "Curated Band 8.0+ Task 1 & Task 2 model essays with Teacher Hai's deep analysis.")}
+                      </div>
+                    </div>
+                    <Badge variant="secondary" className="text-xs bg-purple-500/15 text-purple-700 dark:text-purple-300">
+                      Band 8.0+
+                    </Badge>
+                    <ChevronDown className="w-5 h-5 -rotate-90 text-purple-500 transition-transform group-hover:translate-x-1" />
+                  </Link>
                 </motion.div>
               );
             }
+
+
 
             if (catKey === "speaking") {
               const matchPart = (l: typeof filtered[0], n: 1 | 2 | 3) => {
