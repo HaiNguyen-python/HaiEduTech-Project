@@ -14,9 +14,11 @@ const VN_DIACRITIC = /[àáảãạâầấẩẫậăằắẳẵặèéẻẽ�
 const VN_WORDS = /\b(và|hoặc|của|cho|với|bạn|được|này|kia|là|những|nhất|thì|nào|sao|chưa|rồi|đã|đang|sẽ|không|có|một|hai|ba|bốn|năm|sáu|bảy|tám|chín|mười)\b/i;
 // Reject any string containing CJK (Chinese/Japanese/Korean) ideographs.
 const CJK = /[\u3400-\u9FFF\uF900-\uFAFF\u3040-\u30FF\uAC00-\uD7AF]/;
+// Reject cached translations that leaked the numbered-prompt prefix (e.g. "1. ", "23. ").
+const LEADING_NUM = /^\s*\d{1,3}\.\s+/;
 
-// v2 — bumped from v1 to invalidate cached entries that may contain Chinese.
-const STORAGE_PREFIX = "aiacad_tr_v2_";
+// v3 — bumped from v2 to invalidate cached entries with stray "N." numbering.
+const STORAGE_PREFIX = "aiacad_tr_v3_";
 
 const hash = (s: string): string => {
   let h = 0x811c9dc5;
@@ -29,7 +31,7 @@ const hash = (s: string): string => {
 
 const cache = new Map<string, string>();
 
-const isValidEnglish = (s: string) => !!s && !CJK.test(s);
+const isValidEnglish = (s: string) => !!s && !CJK.test(s) && !LEADING_NUM.test(s);
 
 const cacheGet = (vi: string): string | undefined => {
   const cached = cache.get(vi);
