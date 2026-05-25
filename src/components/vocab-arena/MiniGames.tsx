@@ -129,8 +129,13 @@ const MiniGames = ({ onBack }: Props) => {
   return null;
 };
 
-const GameCard = ({ icon, color, title, desc, onClick }: { icon: React.ReactNode; color: "purple" | "rose" | "emerald"; title: string; desc: string; onClick: () => void }) => {
-  const bg = color === "purple" ? "bg-purple-500/10" : color === "rose" ? "bg-rose-500/10" : "bg-emerald-500/10";
+const GameCard = ({ icon, color, title, desc, onClick }: { icon: React.ReactNode; color: "purple" | "rose" | "emerald" | "amber" | "sky"; title: string; desc: string; onClick: () => void }) => {
+  const bg =
+    color === "purple" ? "bg-purple-500/10" :
+    color === "rose" ? "bg-rose-500/10" :
+    color === "emerald" ? "bg-emerald-500/10" :
+    color === "amber" ? "bg-amber-500/10" :
+    "bg-sky-500/10";
   return (
     <motion.button
       whileHover={{ scale: 1.03, y: -4 }}
