@@ -43,9 +43,19 @@ const Register = () => {
       });
       return;
     }
+    if (form.program === "other" && !form.programOther.trim()) {
+      toast({
+        title: t("Vui lòng nhập chương trình bạn muốn đăng ký", "Please specify the program you want to register for"),
+        variant: "destructive",
+      });
+      return;
+    }
     setSubmitting(true);
     try {
-      const programLabel = programs.find((p) => p.value === form.program)?.label || form.program;
+      const programLabel =
+        form.program === "other"
+          ? form.programOther.trim()
+          : programs.find((p) => p.value === form.program)?.label || form.program;
       const { error: insertError } = await supabase.from("course_registrations").insert({
         name: form.name.trim(),
         phone: form.phone.trim(),
