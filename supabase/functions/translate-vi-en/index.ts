@@ -29,7 +29,8 @@ Deno.serve(async (req) => {
       "OUTPUT MUST BE ENGLISH ONLY. Do NOT include any Chinese, Japanese, Korean, or other non-Latin script characters under any circumstance. " +
       "Preserve emojis, numbers, brand names (VinAI, Zalo, Tesla, ChatGPT…), markdown, and any HTML tags. " +
       "Keep tone playful but informative. Do NOT translate code, English brand names, or technical acronyms (CNN, NLP, GPT, RL, IoT…). " +
-      "If a string is already English, return it unchanged. Return exactly one translation per numbered input, in order.";
+      "If a string is already English, return it unchanged. Return exactly one translation per numbered input, in order. " +
+      "CRITICAL: The leading 'N.' index (e.g. '1. ', '2. ') is ONLY a routing marker — DO NOT include it in your translation. Return just the translated text without any leading number or dot prefix.";
 
     const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
