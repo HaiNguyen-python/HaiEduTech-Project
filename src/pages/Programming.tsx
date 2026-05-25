@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import FloatingLessonChibis from "@/components/decorations/FloatingLessonChibis";
 import { useSearchParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import AssessmentTool from "@/components/AssessmentTool";
@@ -234,6 +235,7 @@ const Programming = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <FloatingLessonChibis theme="programming" />
       <SEO title="Học Lập Trình Python, SQL, ML, AI Tiếng Việt | HaiEduTech" description="Lộ trình lập trình toàn diện: Python từ cơ bản (47 bài), SQL, Machine Learning, Data Engineering, Software Engineering. Code trực tiếp trên trình duyệt với Pyodide." path="/programming" jsonLd={COURSE_LD} />
       <Navbar />
       <div className="pt-6 pb-16">

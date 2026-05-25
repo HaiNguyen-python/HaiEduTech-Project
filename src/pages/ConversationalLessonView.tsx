@@ -1,4 +1,5 @@
 // Interactive Conversational English lesson view with situations, vocab, listening, and roleplay
+import FloatingLessonChibis from "@/components/decorations/FloatingLessonChibis";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useParams, useNavigate } from "react-router-dom";
@@ -136,6 +137,7 @@ const ConversationalLessonView = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <FloatingLessonChibis theme="conversation" />
       <Navbar />
 
       <main className="container mx-auto px-4 py-8 max-w-4xl">
