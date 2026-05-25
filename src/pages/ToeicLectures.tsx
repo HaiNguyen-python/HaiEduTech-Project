@@ -110,6 +110,12 @@ const ToeicLectures = () => {
       <SEO title="Bài Giảng TOEIC Masterclass Parts 1-7 | HaiEduTech" description="Khóa TOEIC Masterclass: Skills & Strategies cho toàn bộ Parts 1-7. Bài giảng chuyên sâu, mẹo làm bài, từ vựng theo chủ đề công việc." path="/toeic-lectures" />
       <Navbar />
       <main className="pt-24 pb-16">
+        <div className="container mx-auto px-4 mb-2">
+          <Link to="/english/toeic" className="inline-flex items-center gap-1.5 text-sm text-white/60 hover:text-white">
+            <ArrowLeft className="w-4 h-4" />
+            {t("Quay lại TOEIC", "Back to TOEIC")}
+          </Link>
+        </div>
         {/* Hero Section - Deep Business Blue */}
         <section className="relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-[#1E293B] via-[#0F172A] to-[#1E3A5F]" />
