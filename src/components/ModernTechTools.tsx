@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { PenTool, Mic, Bot, Gamepad2, Target, LineChart, ArrowRight, LucideIcon } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import ShineCard from "@/components/ShineCard";
 
 type Tool = {
   icon: LucideIcon;
@@ -16,6 +17,7 @@ type Tool = {
   action?: "open-chatbot";
   gradient: string;
   iconColor: string;
+  live?: boolean;
 };
 
 const ModernTechTools = () => {
@@ -66,6 +68,7 @@ const ModernTechTools = () => {
       to: "/arcade-plus",
       gradient: "from-fuchsia-500/25 to-primary/10",
       iconColor: "text-fuchsia-500",
+      live: true,
     },
     {
       icon: Target,
@@ -133,29 +136,37 @@ const ModernTechTools = () => {
               viewport={{ once: true }}
               transition={{ delay: i * 0.08 }}
             >
-              <button
-                type="button"
-                onClick={() => handleClick(tool)}
-                className="group relative block h-full w-full overflow-hidden rounded-2xl border border-border bg-card p-5 text-left shadow-sm transition-all hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg sm:p-6"
-              >
-                <div
-                  className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${tool.gradient} opacity-0 transition-opacity group-hover:opacity-100`}
-                />
-                <div className="relative">
+              <ShineCard className="h-full rounded-2xl">
+                <button
+                  type="button"
+                  onClick={() => handleClick(tool)}
+                  className="group relative block h-full w-full overflow-hidden rounded-2xl border border-border bg-card p-5 text-left shadow-sm transition-all hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10 sm:p-6"
+                >
+                  {tool.live && (
+                    <span className="absolute right-3 top-3 z-20 inline-flex items-center gap-1.5 rounded-full bg-rose-500/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-rose-600">
+                      <span className="h-1.5 w-1.5 rounded-full bg-rose-500 animate-live-dot" />
+                      Live
+                    </span>
+                  )}
                   <div
-                    className={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${tool.gradient}`}
-                  >
-                    <tool.icon className={`h-6 w-6 ${tool.iconColor}`} />
+                    className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${tool.gradient} opacity-0 transition-opacity group-hover:opacity-100`}
+                  />
+                  <div className="relative">
+                    <div
+                      className={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${tool.gradient}`}
+                    >
+                      <tool.icon className={`h-6 w-6 ${tool.iconColor}`} />
+                    </div>
+                    <h3 className="mb-2 font-display text-lg font-semibold text-foreground sm:text-xl">
+                      {tool.title}
+                    </h3>
+                    <p className="mb-4 text-sm leading-7 text-muted-foreground">{tool.desc}</p>
+                    <span className="inline-flex items-center gap-1 text-sm font-medium text-primary transition-all group-hover:gap-2">
+                      {t("Trải nghiệm", "Try it")} <ArrowRight className="h-4 w-4" />
+                    </span>
                   </div>
-                  <h3 className="mb-2 font-display text-lg font-semibold text-foreground sm:text-xl">
-                    {tool.title}
-                  </h3>
-                  <p className="mb-4 text-sm leading-7 text-muted-foreground">{tool.desc}</p>
-                  <span className="inline-flex items-center gap-1 text-sm font-medium text-primary transition-all group-hover:gap-2">
-                    {t("Trải nghiệm", "Try it")} <ArrowRight className="h-4 w-4" />
-                  </span>
-                </div>
-              </button>
+                </button>
+              </ShineCard>
             </motion.div>
           ))}
         </div>

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { BookOpen, Languages, Code2, Brain, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
+import ShineCard from "@/components/ShineCard";
 
 const CoursesOverview = () => {
   const { t } = useLanguage();
@@ -84,31 +85,33 @@ const CoursesOverview = () => {
               viewport={{ once: true }}
               transition={{ delay: i * 0.12 }}
             >
-              <Link
-                to={c.to}
-                className="group relative block h-full rounded-2xl border border-border bg-card p-5 shadow-sm transition-all hover:border-primary/30 hover:shadow-lg"
-              >
-                {c.isNew && (
-                  <span className="absolute right-3 top-3 rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-md">
-                    {t("Mới", "New")}
-                  </span>
-                )}
-                <div className={`mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-br ${c.color}`}>
-                  <c.icon className="h-6 w-6 text-foreground" />
-                </div>
-                <h3 className="mb-2 font-display text-lg font-semibold leading-tight text-foreground sm:text-xl">{c.title}</h3>
-                <p className="mb-4 text-sm leading-7 text-muted-foreground">{c.description}</p>
-                <div className="mb-4 flex flex-wrap gap-2">
-                  {c.tags.map((tag) => (
-                    <span key={tag} className="rounded-md bg-secondary px-2 py-1 text-xs text-secondary-foreground">
-                      {tag}
+              <ShineCard className="h-full rounded-2xl">
+                <Link
+                  to={c.to}
+                  className="group relative block h-full rounded-2xl border border-border bg-card p-5 shadow-sm transition-all hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10"
+                >
+                  {c.isNew && (
+                    <span className="absolute right-3 top-3 rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-md">
+                      {t("Mới", "New")}
                     </span>
-                  ))}
-                </div>
-                <span className="inline-flex items-center gap-1 text-sm font-medium text-primary transition-all group-hover:gap-2">
-                  {t("Xem chi tiết", "Explore")} <ArrowRight className="h-4 w-4" />
-                </span>
-              </Link>
+                  )}
+                  <div className={`mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-br ${c.color}`}>
+                    <c.icon className="h-6 w-6 text-foreground" />
+                  </div>
+                  <h3 className="mb-2 font-display text-lg font-semibold leading-tight text-foreground sm:text-xl">{c.title}</h3>
+                  <p className="mb-4 text-sm leading-7 text-muted-foreground">{c.description}</p>
+                  <div className="mb-4 flex flex-wrap gap-2">
+                    {c.tags.map((tag) => (
+                      <span key={tag} className="rounded-md bg-secondary px-2 py-1 text-xs text-secondary-foreground">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <span className="inline-flex items-center gap-1 text-sm font-medium text-primary transition-all group-hover:gap-2">
+                    {t("Xem chi tiết", "Explore")} <ArrowRight className="h-4 w-4" />
+                  </span>
+                </Link>
+              </ShineCard>
             </motion.div>
           ))}
         </div>

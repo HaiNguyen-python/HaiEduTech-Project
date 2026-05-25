@@ -8,14 +8,39 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, GraduationCap, BookOpen, Languages, Code2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useEffect, useRef } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import FloatingParticles from "@/components/FloatingParticles";
+import TechParticles from "@/components/TechParticles";
+import TypingHeadline from "@/components/TypingHeadline";
 import LearningJourneyTimeline from "@/components/LearningJourneyTimeline";
 import heroBg from "@/assets/hero-bg.jpg";
 import haiProfile from "@/assets/hai-profile.webp";
 
 const HeroSection = () => {
   const { t } = useLanguage();
+  const spotlightRef = useRef<HTMLDivElement | null>(null);
+
+  // Spotlight follow cursor — desktop only, throttled via rAF
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (window.innerWidth < 1024) return;
+    const el = spotlightRef.current;
+    if (!el) return;
+    let raf = 0;
+    const onMove = (e: MouseEvent) => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        el.style.background = `radial-gradient(600px circle at ${e.clientX}px ${e.clientY}px, hsl(var(--primary) / 0.10), transparent 55%)`;
+      });
+    };
+    window.addEventListener("mousemove", onMove);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("mousemove", onMove);
+    };
+  }, []);
 
   return (
     <section className="relative flex items-center justify-center overflow-hidden py-8 sm:py-10 lg:min-h-[90vh]">
@@ -25,10 +50,18 @@ const HeroSection = () => {
         <div className="absolute inset-0 cyber-grid opacity-10" />
       </div>
 
+      {/* EduTech canvas particles (desktop only) */}
+      <TechParticles count={22} />
+
+      {/* Spotlight follow cursor */}
+      <div ref={spotlightRef} className="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden />
+
       <FloatingParticles count={34} />
 
-      <div className="absolute left-1/2 top-24 h-48 w-48 -translate-x-1/2 rounded-full bg-primary/8 blur-3xl sm:left-1/4 sm:top-1/4 sm:h-64 sm:w-64 sm:translate-x-0" />
-      <div className="absolute bottom-20 right-0 h-56 w-56 rounded-full bg-accent/8 blur-3xl sm:bottom-1/3 sm:right-1/4 sm:h-80 sm:w-80" style={{ animationDelay: "1.5s" }} />
+      {/* Aurora blobs */}
+      <div className="absolute left-1/2 top-24 h-48 w-48 -translate-x-1/2 rounded-full bg-primary/10 blur-3xl animate-aurora-drift sm:left-1/4 sm:top-1/4 sm:h-64 sm:w-64 sm:translate-x-0" />
+      <div className="absolute bottom-20 right-0 h-56 w-56 rounded-full bg-accent/10 blur-3xl animate-aurora-drift sm:bottom-1/3 sm:right-1/4 sm:h-80 sm:w-80" style={{ animationDelay: "4s", animationDuration: "26s" }} />
+
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6">
         <div className="mx-auto max-w-5xl">
@@ -69,12 +102,24 @@ const HeroSection = () => {
                 <span className="block text-gradient sm:inline">{t("Thầy Hải", "Teacher Hai")}</span>
               </h1>
 
+              <div className="mb-4 text-center font-display text-lg font-semibold text-muted-foreground sm:text-xl lg:text-left">
+                <span>{t("Chinh phục ", "Master ")}</span>
+                <TypingHeadline
+                  words={
+                    t("vi", "en") === "vi"
+                      ? ["IELTS", "TOEIC", "HSK", "AI", "Lập trình", "YKI"]
+                      : ["IELTS", "TOEIC", "HSK", "AI", "Coding", "YKI"]
+                  }
+                />
+              </div>
+
               <p className="mx-auto mb-6 max-w-md px-1 text-[15px] leading-7 text-muted-foreground sm:mb-8 sm:max-w-xl sm:px-0 sm:text-base md:text-lg lg:mx-0">
                 {t(
                   "Chinh phục Tiếng Anh, Tiếng Trung và Lập trình cùng thầy Hải – Thạc sĩ Ngôn ngữ & Văn hóa Anh, Kỹ sư Dữ Liệu & Trí tuệ nhân tạo tại Phần Lan.",
                   "Master English, Chinese and Programming with Teacher Hai – M.A. in English Language & Culture and a Data & AI Engineer in Finland."
                 )}
               </p>
+
 
               <div className="mx-auto flex w-full max-w-sm flex-col gap-3 lg:mx-0">
                 <Link
