@@ -304,9 +304,12 @@ const GrammarLessonCompanion = ({ lesson, module }: GrammarLessonCompanionProps)
         </div>
 
         <div className="rounded-xl border border-border bg-card p-6">
-          <div className="mb-4 flex items-center gap-2 text-foreground">
-            <CheckCircle2 className="h-5 w-5 text-primary" />
-            <h3 className="text-base font-semibold">Correct models</h3>
+          <div className="mb-4 flex items-start justify-between gap-4 text-foreground">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="h-5 w-5 text-primary" />
+              <h3 className="text-base font-semibold">Correct models</h3>
+            </div>
+            <img src={chibiQuizTrophy} alt="Cheerful quiz trophy illustration for correct grammar models" loading="lazy" className="h-16 w-16 shrink-0 object-contain" />
           </div>
           <div className="space-y-3">
             {workedExamples.map((example) => (
@@ -320,9 +323,12 @@ const GrammarLessonCompanion = ({ lesson, module }: GrammarLessonCompanionProps)
         </div>
 
         <div className="rounded-xl border border-border bg-card p-6">
-          <div className="mb-4 flex items-center gap-2 text-foreground">
-            <ScanSearch className="h-5 w-5 text-primary" />
-            <h3 className="text-base font-semibold">Recognition signals</h3>
+          <div className="mb-4 flex items-start justify-between gap-4 text-foreground">
+            <div className="flex items-center gap-2">
+              <ScanSearch className="h-5 w-5 text-primary" />
+              <h3 className="text-base font-semibold">Recognition signals</h3>
+            </div>
+            <img src={lessonVisual} alt="Grammar clue illustration for recognition signals" loading="lazy" className="h-16 w-16 shrink-0 object-contain" />
           </div>
           <ul className="space-y-3 text-sm leading-7 text-foreground">
             {recognitionSignals.length > 0 ? recognitionSignals.map((item) => (
