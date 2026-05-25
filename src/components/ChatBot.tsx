@@ -215,6 +215,13 @@ const ChatBot = () => {
     window.dispatchEvent(new CustomEvent("chatbot:toggle", { detail: { open } }));
   }, [open]);
 
+  // Allow other components (e.g. Home page tiles) to open the chatbot externally
+  useEffect(() => {
+    const handler = () => setOpen(true);
+    window.addEventListener("chatbot:open", handler);
+    return () => window.removeEventListener("chatbot:open", handler);
+  }, []);
+
   // Show tooltip popup every 5 minutes when chat is closed
   useEffect(() => {
     if (open) return;
