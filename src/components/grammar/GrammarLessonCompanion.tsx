@@ -249,6 +249,7 @@ const GrammarLessonCompanion = ({ lesson, module }: GrammarLessonCompanionProps)
   const wrongVsRight = buildWrongVsRight(theoryText);
   const recognitionSignals = extractRecognitionSignals(theoryText);
   const summaryChecklist = buildSummaryChecklist(lesson, module);
+  const lessonVisual = visualByDifficulty[lesson.difficulty];
 
   return (
     <section className="space-y-4" aria-label="Grammar lesson companion">
@@ -265,11 +266,14 @@ const GrammarLessonCompanion = ({ lesson, module }: GrammarLessonCompanionProps)
 
       <div className="grid gap-4 xl:grid-cols-2">
         <div className="rounded-xl border border-border bg-card p-6">
-          <div className="mb-4 flex items-center gap-2 text-foreground">
-            <ListChecks className="h-5 w-5 text-primary" />
-            <h3 className="text-base font-semibold">Core rules</h3>
+          <div className="mb-4 flex items-start justify-between gap-4 text-foreground">
+            <div className="flex items-center gap-2">
+              <ListChecks className="h-5 w-5 text-primary" />
+              <h3 className="text-base font-semibold">Core rules</h3>
+            </div>
+            <img src={lessonVisual} alt={visualAltByDifficulty[lesson.difficulty]} loading="lazy" className="h-16 w-16 shrink-0 object-contain" />
           </div>
-          <ul className="space-y-3 text-sm leading-7 text-foreground">
+          <ul className="space-y-2 text-sm leading-6 text-foreground">
             {coreRules.map((rule) => (
               <li key={rule} className="flex items-start gap-2">
                 <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
@@ -280,9 +284,12 @@ const GrammarLessonCompanion = ({ lesson, module }: GrammarLessonCompanionProps)
         </div>
 
         <div className="rounded-xl border border-border bg-card p-6">
-          <div className="mb-4 flex items-center gap-2 text-foreground">
-            <Shapes className="h-5 w-5 text-primary" />
-            <h3 className="text-base font-semibold">Rule patterns</h3>
+          <div className="mb-4 flex items-start justify-between gap-4 text-foreground">
+            <div className="flex items-center gap-2">
+              <Shapes className="h-5 w-5 text-primary" />
+              <h3 className="text-base font-semibold">Rule patterns</h3>
+            </div>
+            <img src={lessonVisual} alt="Grammar pattern illustration for this lesson" loading="lazy" className="h-16 w-16 shrink-0 object-contain" />
           </div>
           <div className="space-y-3 text-sm leading-7 text-foreground">
             {rulePatterns.length > 0 ? rulePatterns.map((item) => (
