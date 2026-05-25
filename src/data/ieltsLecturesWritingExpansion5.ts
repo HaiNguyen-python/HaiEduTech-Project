@@ -493,4 +493,5 @@ const task2: IeltsLecture[] = [
   ),
 ];
 
-export const writingExpansion5: IeltsLecture[] = [...task1Academic, ...task1GT, ...task2];
+// NOTE: task1GT (General Training letters) intentionally excluded — Writing focus is Academic only.
+export const writingExpansion5: IeltsLecture[] = [...task1Academic, ...task2];
