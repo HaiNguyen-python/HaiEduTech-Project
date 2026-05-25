@@ -246,7 +246,8 @@ const FloatingLessonChibis = ({ theme, count = 2, seed }: FloatingLessonChibisPr
           );
         })}
       </div>
-    </>
+    </>,
+    document.body
   );
 };
 
