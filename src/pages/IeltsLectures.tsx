@@ -256,7 +256,7 @@ const IeltsLectures = () => {
         </section>
 
         {/* Master Quiz CTA */}
-        <section className="container mx-auto px-4 sm:px-6 mt-5">
+        <section className="container mx-auto px-4 sm:px-6 mt-5 mb-6">
           <Link to="/ielts-lectures/master-quiz" className="block group">
             <Card className="overflow-hidden border-2 border-primary/40 hover:border-primary transition-all hover:shadow-xl">
               <div className="bg-gradient-to-r from-primary/15 via-accent/10 to-primary/15 p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
@@ -293,7 +293,7 @@ const IeltsLectures = () => {
         </section>
 
         {/* Skill-based Lectures CTA - 2-row beautiful grid with inline lecture previews */}
-        <section className="container mx-auto px-4 sm:px-6 -mt-2">
+        <section className="container mx-auto px-4 sm:px-6 pt-1">
           {focusKey && (
             <div className="mb-3 flex items-center justify-between flex-wrap gap-2">
               <div className="flex items-center gap-2 text-sm">
