@@ -97,82 +97,80 @@ const ChibiFactSpeakers = () => {
     return () => clearTimeout(timer);
   }, [speaking, total]);
 
+  const activeFact = facts[activeIdx];
+  const activeTop = total > 1 ? START_PCT + (activeIdx * (END_PCT - START_PCT)) / (total - 1) : START_PCT;
+  const isLeft = activeFact.side === "left";
+  const funEmoji = FUN_EMOJIS[(activeIdx * 7 + rotation) % FUN_EMOJIS.length];
+
   return (
     <div aria-hidden={false} className="pointer-events-none absolute inset-0 hidden lg:block z-40 overflow-hidden">
-      {facts.map((f, i) => {
-        const top = total > 1 ? START_PCT + (i * (END_PCT - START_PCT)) / (total - 1) : START_PCT;
-        const isLeft = f.side === "left";
-        const funEmoji = FUN_EMOJIS[(i * 7 + rotation) % FUN_EMOJIS.length];
-        const isActive = i === activeIdx && speaking;
-        return (
-          <motion.div
-            key={`${rotation}-${i}`}
-            initial={{ opacity: 0, x: isLeft ? -40 : 40, y: 20 }}
-            whileInView={{ opacity: 1, x: 0, y: 0 }}
-            viewport={{ once: false, amount: 0.4, margin: "-15% 0px -15% 0px" }}
-            transition={{ duration: 0.55, ease: "easeOut" }}
-            className="absolute pointer-events-auto"
-            style={{
-              top: `${top}%`,
-              [isLeft ? "left" : "right"]: "1.2vw",
-              maxWidth: "320px",
-            }}
-          >
-            <div className={`flex items-end gap-2 ${isLeft ? "flex-row" : "flex-row-reverse"}`}>
-              <motion.img
-                src={f.chibi}
-                alt=""
-                width={120}
-                height={120}
-                loading="lazy"
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.15 }}
-                className="w-[110px] h-[110px] xl:w-[130px] xl:h-[130px] object-contain shrink-0"
-                style={{
-                  filter: "drop-shadow(0 8px 18px rgba(59,130,246,0.45)) drop-shadow(0 4px 8px rgba(16,185,129,0.35))",
-                  transform: isLeft ? "none" : "scaleX(-1)",
-                }}
-              />
-              <AnimatePresence>
-                {isActive && (
-                  <motion.div
-                    key="bubble"
-                    initial={{ opacity: 0, scale: 0.85, y: 10 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.85, y: 10 }}
-                    transition={{ duration: 0.35, ease: "easeOut" }}
-                    className={`relative rounded-2xl border-[3px] border-primary/70 bg-background shadow-2xl shadow-primary/30 px-4 py-3 text-sm leading-snug text-foreground ${isLeft ? "rounded-bl-sm" : "rounded-br-sm"}`}
-                  >
-                    {/* Tail */}
-                    <span
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={`${rotation}-${activeIdx}`}
+          initial={{ opacity: 0, x: isLeft ? -40 : 40, y: 20 }}
+          animate={{ opacity: 1, x: 0, y: 0 }}
+          exit={{ opacity: 0, x: isLeft ? -30 : 30, y: -10 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="absolute pointer-events-auto"
+          style={{
+            top: `${activeTop}%`,
+            [isLeft ? "left" : "right"]: "1.2vw",
+            maxWidth: "320px",
+          }}
+        >
+          <div className={`flex items-end gap-2 ${isLeft ? "flex-row" : "flex-row-reverse"}`}>
+            <motion.img
+              src={activeFact.chibi}
+              alt=""
+              width={120}
+              height={120}
+              loading="lazy"
+              animate={{ y: [0, -8, 0] }}
+              transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+              className="w-[110px] h-[110px] xl:w-[130px] xl:h-[130px] object-contain shrink-0"
+              style={{
+                filter: "drop-shadow(0 8px 18px rgba(59,130,246,0.45)) drop-shadow(0 4px 8px rgba(16,185,129,0.35))",
+                transform: isLeft ? "none" : "scaleX(-1)",
+              }}
+            />
+            <AnimatePresence>
+              {speaking && (
+                <motion.div
+                  key="bubble"
+                  initial={{ opacity: 0, scale: 0.85, y: 10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.85, y: 10 }}
+                  transition={{ duration: 0.35, ease: "easeOut" }}
+                  className={`relative rounded-2xl border-[3px] border-primary/70 bg-background shadow-2xl shadow-primary/30 px-4 py-3 text-sm leading-snug text-foreground ${isLeft ? "rounded-bl-sm" : "rounded-br-sm"}`}
+                >
+                  <span
+                    aria-hidden
+                    className={`absolute bottom-3 w-3 h-3 rotate-45 bg-background ${isLeft ? "-left-[8px] border-l-[3px] border-b-[3px] border-primary/70" : "-right-[8px] border-r-[3px] border-t-[3px] border-primary/70"}`}
+                  />
+                  <p className="font-medium">
+                    {lang === "vi" ? activeFact.vi : activeFact.en}
+                    <motion.span
                       aria-hidden
-                      className={`absolute bottom-3 w-3 h-3 rotate-45 bg-background ${isLeft ? "-left-[8px] border-l-[3px] border-b-[3px] border-primary/70" : "-right-[8px] border-r-[3px] border-t-[3px] border-primary/70"}`}
-                    />
-                    <p className="font-medium">
-                      {lang === "vi" ? f.vi : f.en}
-                      <motion.span
-                        aria-hidden
-                        animate={{ rotate: [0, -12, 12, -8, 0], scale: [1, 1.15, 1, 1.1, 1] }}
-                        transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }}
-                        className="inline-block ml-1.5 text-base"
-                      >
-                        {funEmoji}
-                      </motion.span>
-                    </p>
-                    <Link
-                      to={f.to}
-                      className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary/80 group"
+                      animate={{ rotate: [0, -12, 12, -8, 0], scale: [1, 1.15, 1, 1.1, 1] }}
+                      transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+                      className="inline-block ml-1.5 text-base"
                     >
-                      {lang === "vi" ? f.ctaVi : f.ctaEn}
-                      <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
-                    </Link>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </motion.div>
-        );
-      })}
+                      {funEmoji}
+                    </motion.span>
+                  </p>
+                  <Link
+                    to={activeFact.to}
+                    className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary/80 group"
+                  >
+                    {lang === "vi" ? activeFact.ctaVi : activeFact.ctaEn}
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                  </Link>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 };
