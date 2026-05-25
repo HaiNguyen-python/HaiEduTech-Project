@@ -16,13 +16,13 @@ const DashboardPreview = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="py-14 relative">
+    <section className="py-10 sm:py-12 relative">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-8"
         >
           <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
             {t("Phân tích ", "Professional-Grade ")}
