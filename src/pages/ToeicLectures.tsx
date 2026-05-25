@@ -40,24 +40,24 @@ const TARGET_SCORE_FILTERS = [
 ];
 
 const LEVEL_LABELS: Record<string, { label: string; labelVi: string; color: string }> = {
-  foundation: { label: "Foundation", labelVi: "Nền tảng", color: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30" },
-  intermediate: { label: "Intermediate", labelVi: "Trung cấp", color: "bg-amber-500/20 text-amber-300 border-amber-500/30" },
-  advanced: { label: "Advanced", labelVi: "Nâng cao", color: "bg-rose-500/20 text-rose-300 border-rose-500/30" },
+  foundation: { label: "Foundation", labelVi: "Nền tảng", color: "bg-emerald-50 text-emerald-700 border-emerald-300" },
+  intermediate: { label: "Intermediate", labelVi: "Trung cấp", color: "bg-amber-50 text-amber-700 border-amber-300" },
+  advanced: { label: "Advanced", labelVi: "Nâng cao", color: "bg-rose-50 text-rose-700 border-rose-300" },
 };
 
 const SCORE_COLORS: Record<string, string> = {
-  "450+": "bg-emerald-500/20 text-emerald-300 border-emerald-500/30",
-  "600+": "bg-blue-500/20 text-blue-300 border-blue-500/30",
-  "750+": "bg-amber-500/20 text-amber-300 border-amber-500/30",
-  "900+": "bg-rose-500/20 text-rose-300 border-rose-500/30",
+  "450+": "bg-emerald-50 text-emerald-700 border-emerald-300",
+  "600+": "bg-sky-50 text-sky-700 border-sky-300",
+  "750+": "bg-amber-50 text-amber-700 border-amber-300",
+  "900+": "bg-rose-50 text-rose-700 border-rose-300",
 };
 
 // Color-coded Part badges: listening (blue), reading (orange)
 const getPartBadgeColor = (part: string) => {
   const num = parseInt(part.replace(/\D/g, ""), 10);
-  if (num >= 1 && num <= 4) return "bg-blue-500/20 text-blue-300 border-blue-500/30";
-  if (num >= 5 && num <= 7) return "bg-orange-500/20 text-orange-300 border-orange-500/30";
-  return "bg-slate-500/20 text-slate-300 border-slate-500/30";
+  if (num >= 1 && num <= 4) return "bg-sky-50 text-sky-700 border-sky-300";
+  if (num >= 5 && num <= 7) return "bg-orange-50 text-orange-700 border-orange-300";
+  return "bg-slate-50 text-slate-700 border-slate-300";
 };
 
 const ToeicLectures = () => {
