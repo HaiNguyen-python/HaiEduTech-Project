@@ -203,14 +203,17 @@ const FloatingLessonChibis = ({ theme, count = 2, seed }: FloatingLessonChibisPr
           50%      { transform: translateY(14px) rotate(calc(var(--r,0deg) - 6deg)); }
         }
       `}</style>
-      <div aria-hidden className="pointer-events-none fixed inset-0 z-0 hidden lg:block overflow-hidden select-none">
+      <div aria-hidden className="pointer-events-none hidden lg:block select-none">
         {spots.map((s, i) => {
           const common: React.CSSProperties = {
+            position: "fixed",
             top: `${s.top}vh`,
             [s.side]: `${s.offset}vw`,
             opacity: s.opacity,
+            zIndex: 0,
             ["--r" as string]: `${s.rotate}deg`,
             animation: `${i % 2 === 0 ? "chibi-float-a" : "chibi-float-b"} ${s.duration}s ease-in-out ${s.delay}s infinite`,
+            willChange: "transform",
           } as React.CSSProperties;
           if (s.item.kind === "img") {
             return (
@@ -219,7 +222,6 @@ const FloatingLessonChibis = ({ theme, count = 2, seed }: FloatingLessonChibisPr
                 src={s.item.src}
                 alt=""
                 loading="lazy"
-                className="absolute"
                 style={{
                   ...common,
                   width: `${s.size}px`,
@@ -233,7 +235,6 @@ const FloatingLessonChibis = ({ theme, count = 2, seed }: FloatingLessonChibisPr
           return (
             <div
               key={i}
-              className="absolute"
               style={{
                 ...common,
                 fontSize: `${s.size}px`,
