@@ -198,6 +198,16 @@ const LanguageLessonView = () => {
                               {i + 1}
                             </span>
                             <span className="truncate">{isEnglishGrammarLesson ? l.titleEn : t(l.title, l.titleEn)}</span>
+                            {isEnglishGrammarLesson && i === 0 && (
+                              <span className="ml-auto text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-700 border border-emerald-500/30 shrink-0">
+                                {tr("BẮT ĐẦU", "START")}
+                              </span>
+                            )}
+                            {isEnglishGrammarLesson && i === 1 && (
+                              <span className="ml-auto text-[9px] font-bold px-1.5 py-0.5 rounded bg-primary/15 text-primary border border-primary/30 shrink-0">
+                                {tr("KẾ TIẾP", "NEXT")}
+                              </span>
+                            )}
                             {isSatLesson && <SatLessonStarDot lessonKey={`sat:lesson:${mod.id}:${l.id}`} />}
                           </div>
                           <div className="flex items-center gap-2 ml-7 mt-1">
