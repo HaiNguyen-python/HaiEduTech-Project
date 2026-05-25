@@ -15,6 +15,7 @@ const Register = () => {
     phone: "",
     email: "",
     program: "",
+    programOther: "",
     level: "",
     message: "",
   });
