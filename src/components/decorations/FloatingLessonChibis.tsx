@@ -1,4 +1,5 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 
 // Chibi character images (studious mascots) — imported so Vite bundles them
 import chibiTeacher from "@/assets/chibi-teacher.png";
