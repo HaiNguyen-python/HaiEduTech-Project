@@ -1,6 +1,6 @@
 import type { PostgrestError } from "@supabase/supabase-js";
 
-type PageResult<T> = PromiseLike<{ data: T[] | null; error: PostgrestError | null }>;
+type PageResult = PromiseLike<{ data: unknown[] | null; error: PostgrestError | null }>;
 
 export const SYSTEM_ACTIVITY_TYPES = new Set(["session_heartbeat", "daily_login"]);
 
@@ -35,7 +35,7 @@ export function sumActivityTypeCounts(
 }
 
 export async function fetchAllRows<T>(
-  fetchPage: (from: number, to: number) => PageResult<T>,
+  fetchPage: (from: number, to: number) => PageResult,
   batchSize = 1000,
 ) {
   const rows: T[] = [];
@@ -47,7 +47,7 @@ export async function fetchAllRows<T>(
 
     if (error) throw error;
 
-    const batch = data || [];
+    const batch = ((data || []) as T[]);
     rows.push(...batch);
 
     if (batch.length < batchSize) break;

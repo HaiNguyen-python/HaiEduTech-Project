@@ -137,7 +137,7 @@ export default function UserInsightsTab() {
         return query;
       });
 
-      setViews(data);
+      setViews(data as PageView[]);
     } finally {
       setLoading(false);
     }

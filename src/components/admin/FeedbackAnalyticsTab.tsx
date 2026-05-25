@@ -92,7 +92,7 @@ const FeedbackAnalyticsTab = () => {
           .order("created_at", { ascending: false })
           .range(from, to)
       );
-      setRows(list);
+      setRows(list as FeedbackRow[]);
 
       // Fetch profile names in one query
       const userIds = Array.from(new Set(list.map((r) => r.user_id).filter(Boolean))) as string[];

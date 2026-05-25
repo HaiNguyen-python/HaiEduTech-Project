@@ -46,7 +46,7 @@ const AttendanceAnalyticsTab = () => {
           .order("attendance_date", { ascending: false })
           .range(from, to)
       );
-      setRows(list);
+      setRows(list as AttendanceRow[]);
 
       const ids = Array.from(new Set(list.map((r) => r.user_id)));
       if (ids.length > 0) {
