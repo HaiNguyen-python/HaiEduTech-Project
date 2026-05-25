@@ -162,12 +162,23 @@ const FloatingLessonChibis = ({ theme, count = 8, seed }: FloatingLessonChibisPr
       const side: "left" | "right" = i % 2 === 0 ? "left" : "right";
       const slot = side === "left" ? leftSlot : rightSlot;
       const idx = side === "left" ? li++ : ri++;
-      const baseTop = idx * slot + slot * 0.2;
-      const jitter = (rand() - 0.5) * slot * 0.4;
+      const baseTop = idx * slot + slot * 0.3;
+      const jitter = (rand() - 0.5) * slot * 0.25;
       // Image chibis are bigger than emoji
       const baseSize = item.kind === "img" ? 90 : 46;
       const variance = item.kind === "img" ? 40 : 22;
       return {
+        item,
+        side,
+        top: Math.max(5, Math.min(92, baseTop + jitter)),
+        offset: 1.0 + rand() * 2.2,
+        size: baseSize + Math.floor(rand() * variance),
+        delay: rand() * 4,
+        duration: 5 + rand() * 5,
+        rotate: (rand() - 0.5) * 18,
+        opacity: item.kind === "img" ? 0.9 + rand() * 0.1 : 0.85 + rand() * 0.15,
+      };
+    });
         item,
         side,
         top: Math.max(3, Math.min(92, baseTop + jitter)),
