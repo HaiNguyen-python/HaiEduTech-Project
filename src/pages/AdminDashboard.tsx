@@ -718,6 +718,8 @@ const AdminDashboard = () => {
                                   <TableHead className="text-center">{t("Hoạt động", "Activities")}</TableHead>
                                  <TableHead className="text-center">{t("Speaking", "Speaking")}</TableHead>
                                  <TableHead className="text-center">{t("Writing", "Writing")}</TableHead>
+                                 <TableHead className="text-center" title={t("Số ngày kể từ lần Speaking gần nhất", "Days since last speaking")}>{t("Speak (ngày)", "Last Speak")}</TableHead>
+                                 <TableHead className="text-center" title={t("Số ngày kể từ lần Writing gần nhất", "Days since last writing")}>{t("Write (ngày)", "Last Write")}</TableHead>
                                   <TableHead className="text-center">{t("Điểm TB", "Avg Score")}</TableHead>
                                   <TableHead className="text-center">{t("Lĩnh vực", "Domains")}</TableHead>
                                   <TableHead className="text-center">{t("Xu hướng", "Trend")}</TableHead>
@@ -728,6 +730,12 @@ const AdminDashboard = () => {
                               <TableBody>
                                 {filteredStudents.map((state) => {
                                   const needsIntervention = state.totalActivities >= 3 && (state.avgScore < 5 || state.recentTrend === "declining");
+                                  const last = lastActivityByUser.get(state.userId);
+                                  const now = Date.now();
+                                  const daysSpeak = last && last.lastSpeak > 0 ? Math.floor((now - last.lastSpeak) / 86400000) : null;
+                                  const daysWrite = last && last.lastWrite > 0 ? Math.floor((now - last.lastWrite) / 86400000) : null;
+                                  const speakClass = daysSpeak === null ? "text-muted-foreground" : daysSpeak > 14 ? "text-red-600 font-bold" : daysSpeak > 7 ? "text-yellow-600 font-semibold" : "text-green-600";
+                                  const writeClass = daysWrite === null ? "text-muted-foreground" : daysWrite > 14 ? "text-red-600 font-bold" : daysWrite > 7 ? "text-yellow-600 font-semibold" : "text-green-600";
                                   return (
                                     <TableRow
                                       key={state.userId}
@@ -738,6 +746,8 @@ const AdminDashboard = () => {
                                       <TableCell className="text-center tabular-nums">{state.totalActivities}</TableCell>
                                        <TableCell className="text-center tabular-nums">{sumActivityTypeCounts(state.skillBreakdown, SPEAKING_ACTIVITY_TYPES)}</TableCell>
                                        <TableCell className="text-center tabular-nums">{sumActivityTypeCounts(state.skillBreakdown, WRITING_ACTIVITY_TYPES)}</TableCell>
+                                       <TableCell className={`text-center tabular-nums ${speakClass}`}>{daysSpeak === null ? "—" : daysSpeak === 0 ? t("Hôm nay", "today") : `${daysSpeak}d`}</TableCell>
+                                       <TableCell className={`text-center tabular-nums ${writeClass}`}>{daysWrite === null ? "—" : daysWrite === 0 ? t("Hôm nay", "today") : `${daysWrite}d`}</TableCell>
                                       <TableCell className="text-center">
                                         <span className={`font-bold tabular-nums ${state.avgScore >= 7 ? "text-green-600" : state.avgScore >= 5 ? "text-yellow-600" : "text-red-600"}`}>
                                           {state.avgScore > 0 ? state.avgScore : "-"}
