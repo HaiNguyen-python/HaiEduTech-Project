@@ -110,11 +110,11 @@ const FloatingLessonChibis = ({ theme, count = 14, seed }: FloatingLessonChibisP
         side,
         top: Math.max(3, Math.min(94, baseTop + jitter)),
         offset: 0.5 + rand() * 2.5,
-        size: 28 + Math.floor(rand() * 20),
+        size: 44 + Math.floor(rand() * 24),
         delay: rand() * 4,
         duration: 5 + rand() * 5,
         rotate: (rand() - 0.5) * 20,
-        opacity: 0.45 + rand() * 0.3,
+        opacity: 0.85 + rand() * 0.15,
       };
     });
   }, [pool, count, seedStr]);
