@@ -6,10 +6,8 @@
  */
 import { useEffect, useMemo, useState } from "react";
 import chibiTeacher from "@/assets/chibi-teacher.png";
-import chibiOwl from "@/assets/chibi-owl.png";
-import chibiRocket from "@/assets/chibi-rocket.png";
 
-const CHIBIS = [chibiTeacher, chibiOwl, chibiRocket];
+const CHIBIS = [chibiTeacher];
 
 interface Spot {
   src: string;
@@ -29,8 +27,6 @@ const HomeChibiFunFacts = () => {
   const spots = useMemo<Spot[]>(() => {
     return [
       { src: CHIBIS[0], side: "left", top: "clamp(5.5rem, 8vw, 7rem)", offset: "clamp(0.75rem, 2vw, 2rem)", size: 94 },
-      { src: CHIBIS[1], side: "right", top: "clamp(14rem, 28vw, 19rem)", offset: "clamp(0.75rem, 2vw, 2rem)", size: 92 },
-      { src: CHIBIS[2], side: "left", top: "clamp(25rem, 44vw, 33rem)", offset: "clamp(0.75rem, 2.5vw, 2.25rem)", size: 96 },
     ];
   }, []);
 
