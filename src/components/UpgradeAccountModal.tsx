@@ -226,10 +226,10 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                       <Row label={t("Chi nhánh", "Branch")} value={BANK.branch} />
                       <Row
                         label={t("Số tiền", "Amount")}
-                        value="299.000đ"
+                        value="199.000đ"
                         copyable
                         copied={copied === "amount"}
-                        onCopy={() => copy("299000", "amount")}
+                        onCopy={() => copy("199000", "amount")}
                         big
                       />
                       <Row
