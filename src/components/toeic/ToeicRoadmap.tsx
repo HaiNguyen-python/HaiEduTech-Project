@@ -31,9 +31,9 @@ const STAGES: Stage[] = [
     subtitle: "Target 450+ - Start here if you're new to TOEIC",
     subtitleVi: "Mục tiêu 450+ - Bắt đầu nếu bạn mới làm quen TOEIC",
     icon: Rocket,
-    gradient: "from-emerald-500/20 to-teal-500/10",
-    ring: "ring-emerald-500/30 border-emerald-500/30",
-    iconColor: "text-emerald-300 bg-emerald-500/20",
+    gradient: "from-emerald-50 to-teal-50",
+    ring: "border-emerald-300",
+    iconColor: "text-white bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg shadow-emerald-200",
     filter: (l) => l.targetScore === "450+",
   },
   {
@@ -43,9 +43,9 @@ const STAGES: Stage[] = [
     subtitle: "Target 600+ - Master Part 5/6 grammar & Part 3/4 listening",
     subtitleVi: "Mục tiêu 600+ - Làm chủ ngữ pháp Part 5/6 & nghe Part 3/4",
     icon: Target,
-    gradient: "from-blue-500/20 to-cyan-500/10",
-    ring: "ring-blue-500/30 border-blue-500/30",
-    iconColor: "text-blue-300 bg-blue-500/20",
+    gradient: "from-sky-50 to-cyan-50",
+    ring: "border-sky-300",
+    iconColor: "text-white bg-gradient-to-br from-sky-500 to-blue-600 shadow-lg shadow-sky-200",
     filter: (l) => l.targetScore === "600+",
   },
   {
@@ -55,9 +55,9 @@ const STAGES: Stage[] = [
     subtitle: "Target 750+ - Tackle inference, indirect answers, and Part 7 double passages",
     subtitleVi: "Mục tiêu 750+ - Suy luận, câu trả lời gián tiếp, Part 7 đa đoạn",
     icon: Trophy,
-    gradient: "from-amber-500/20 to-orange-500/10",
-    ring: "ring-amber-500/30 border-amber-500/30",
-    iconColor: "text-amber-300 bg-amber-500/20",
+    gradient: "from-amber-50 to-orange-50",
+    ring: "border-amber-300",
+    iconColor: "text-white bg-gradient-to-br from-amber-500 to-orange-600 shadow-lg shadow-amber-200",
     filter: (l) => l.targetScore === "750+",
   },
   {
@@ -67,12 +67,13 @@ const STAGES: Stage[] = [
     subtitle: "Target 900+ - Perfect score techniques (coming soon)",
     subtitleVi: "Mục tiêu 900+ - Kỹ thuật điểm tuyệt đối (sắp ra mắt)",
     icon: Crown,
-    gradient: "from-rose-500/20 to-pink-500/10",
-    ring: "ring-rose-500/30 border-rose-500/30",
-    iconColor: "text-rose-300 bg-rose-500/20",
+    gradient: "from-rose-50 to-pink-50",
+    ring: "border-rose-300",
+    iconColor: "text-white bg-gradient-to-br from-rose-500 to-pink-600 shadow-lg shadow-rose-200",
     filter: (l) => l.targetScore === "900+",
   },
 ];
+
 
 interface ToeicRoadmapProps {
   completedSet: Set<string>;
@@ -105,14 +106,14 @@ const ToeicRoadmap = ({ completedSet }: ToeicRoadmapProps) => {
       {/* Heading + Start Here CTA */}
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#3B82F6]/15 border border-[#3B82F6]/30 text-[#93C5FD] text-xs font-semibold mb-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border-2 border-sky-200 text-sky-700 text-xs font-semibold mb-3 shadow-sm">
             <Sparkles className="w-3.5 h-3.5" />
             {t("Lộ trình học chuẩn", "Recommended Learning Path")}
           </div>
-          <h2 id="toeic-roadmap-heading" className="text-2xl md:text-3xl font-display font-bold text-white mb-2">
+          <h2 id="toeic-roadmap-heading" className="text-2xl md:text-3xl font-display font-bold text-slate-900 mb-2">
             {t("Bắt đầu từ đâu? Theo lộ trình 4 chặng", "Where to start? Follow the 4-stage roadmap")}
           </h2>
-          <p className="text-sm md:text-base text-[#94A3B8] max-w-2xl">
+          <p className="text-sm md:text-base text-slate-600 max-w-2xl">
             {t(
               "Các bài học được sắp xếp từ dễ đến khó. Học theo thứ tự sẽ giúp bạn tiến bộ chắc chắn từ 450 lên 900+.",
               "Lessons are arranged from easy to hard. Following the order ensures steady progress from 450 to 900+."
@@ -123,10 +124,11 @@ const ToeicRoadmap = ({ completedSet }: ToeicRoadmapProps) => {
         {startHereLesson && (
           <Link
             to={`/toeic-lectures/${startHereLesson.id}`}
-            className="group inline-flex items-center gap-3 px-5 py-3 rounded-xl bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] text-white font-semibold shadow-lg shadow-[#3B82F6]/30 hover:shadow-[#3B82F6]/50 hover:scale-[1.02] transition-all"
+            className="group inline-flex items-center gap-3 px-6 py-3.5 rounded-xl bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 text-white font-semibold shadow-lg shadow-sky-300/50 hover:shadow-2xl hover:shadow-sky-400/60 hover:scale-[1.03] transition-all relative overflow-hidden"
           >
-            <PlayCircle className="w-5 h-5" />
-            <span className="text-sm">
+            <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12" />
+            <PlayCircle className="w-5 h-5 relative" />
+            <span className="text-sm relative">
               {completedSet.size === 0
                 ? t("Bắt đầu từ đây", "Start Here")
                 : t("Học tiếp", "Continue Learning")}
@@ -150,7 +152,7 @@ const ToeicRoadmap = ({ completedSet }: ToeicRoadmapProps) => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: stageIdx * 0.05 }}
-              className={`relative rounded-2xl border bg-gradient-to-br ${stage.gradient} p-5 md:p-6 backdrop-blur-sm ${stage.ring}`}
+              className={`relative rounded-2xl border-2 bg-gradient-to-br ${stage.gradient} p-5 md:p-6 ${stage.ring} shadow-lg shadow-slate-200/50 hover:shadow-xl transition-shadow`}
             >
               {/* Stage header */}
               <div className="flex items-start gap-4 mb-5">
@@ -158,21 +160,21 @@ const ToeicRoadmap = ({ completedSet }: ToeicRoadmapProps) => {
                   <StageIcon className="w-6 h-6" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-lg md:text-xl font-bold text-white mb-1">
+                  <h3 className="text-lg md:text-xl font-bold text-slate-900 mb-1">
                     {t(stage.titleVi, stage.title)}
                   </h3>
-                  <p className="text-sm text-[#CBD5E1] mb-2">
+                  <p className="text-sm text-slate-600 mb-2">
                     {t(stage.subtitleVi, stage.subtitle)}
                   </p>
                   {!isEmpty && (
                     <div className="flex items-center gap-3">
-                      <div className="flex-1 max-w-xs h-1.5 rounded-full bg-white/10 overflow-hidden">
+                      <div className="flex-1 max-w-xs h-2 rounded-full bg-white/70 overflow-hidden border border-slate-200">
                         <div
-                          className="h-full bg-gradient-to-r from-emerald-400 to-teal-300 transition-all"
+                          className="h-full bg-gradient-to-r from-emerald-400 to-teal-500 transition-all"
                           style={{ width: `${progress}%` }}
                         />
                       </div>
-                      <span className="text-xs text-[#94A3B8] font-medium tabular-nums">
+                      <span className="text-xs text-slate-600 font-semibold tabular-nums">
                         {stage.completedCount}/{total} {t("bài", "lessons")}
                       </span>
                     </div>
@@ -182,9 +184,9 @@ const ToeicRoadmap = ({ completedSet }: ToeicRoadmapProps) => {
 
               {/* Lesson list - numbered */}
               {isEmpty ? (
-                <div className="flex items-center gap-3 px-4 py-6 rounded-xl bg-white/[0.03] border border-dashed border-white/10 text-center justify-center">
-                  <Lock className="w-4 h-4 text-[#64748B]" />
-                  <span className="text-sm text-[#64748B]">
+                <div className="flex items-center gap-3 px-4 py-6 rounded-xl bg-white/60 border-2 border-dashed border-slate-300 text-center justify-center">
+                  <Lock className="w-4 h-4 text-slate-400" />
+                  <span className="text-sm text-slate-500">
                     {t("Bài học chặng này sẽ sớm được mở.", "Lessons for this stage are coming soon.")}
                   </span>
                 </div>
@@ -197,18 +199,18 @@ const ToeicRoadmap = ({ completedSet }: ToeicRoadmapProps) => {
                       <Link
                         key={lesson.id}
                         to={`/toeic-lectures/${lesson.id}`}
-                        className="group relative flex items-start gap-3 px-3.5 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.07] hover:border-white/20 transition-all"
+                        className="group relative flex items-start gap-3 px-3.5 py-3 rounded-xl bg-white border-2 border-slate-200 hover:bg-sky-50 hover:border-sky-400 hover:shadow-lg hover:shadow-sky-200/60 hover:-translate-y-0.5 transition-all"
                       >
                         {/* Number badge */}
                         <div
-                          className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold shrink-0 ${
+                          className={`w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold shrink-0 ${
                             isCompleted
-                              ? "bg-emerald-500/20 text-emerald-300"
-                              : "bg-white/[0.06] text-[#CBD5E1]"
+                              ? "bg-emerald-500 text-white shadow-md shadow-emerald-200"
+                              : "bg-gradient-to-br from-sky-100 to-blue-100 text-sky-700 border border-sky-200"
                           }`}
                         >
                           {isCompleted ? (
-                            <CheckCircle2 className="w-4.5 h-4.5" />
+                            <CheckCircle2 className="w-5 h-5" />
                           ) : (
                             String(idx + 1).padStart(2, "0")
                           )}
@@ -218,21 +220,21 @@ const ToeicRoadmap = ({ completedSet }: ToeicRoadmapProps) => {
                             {lesson.parts.slice(0, 2).map((p) => (
                               <span
                                 key={p}
-                                className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-blue-500/15 text-blue-300 border border-blue-500/20"
+                                className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-sky-50 text-sky-700 border border-sky-200"
                               >
                                 {p}
                               </span>
                             ))}
                             {isFirst && !isCompleted && (
-                              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] text-white animate-pulse">
+                              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-gradient-to-r from-sky-500 to-blue-600 text-white animate-pulse shadow-sm">
                                 ★ {t("Bắt đầu", "Start")}
                               </span>
                             )}
                           </div>
-                          <p className="text-sm font-medium text-white leading-snug line-clamp-2 group-hover:text-[#93C5FD] transition-colors">
+                          <p className="text-sm font-semibold text-slate-900 leading-snug line-clamp-2 group-hover:text-sky-700 transition-colors">
                             {t(lesson.titleVi, lesson.title)}
                           </p>
-                          <span className="text-[11px] text-[#64748B] mt-1 block">
+                          <span className="text-[11px] text-slate-500 mt-1 block">
                             {lesson.duration}
                           </span>
                         </div>
@@ -248,5 +250,6 @@ const ToeicRoadmap = ({ completedSet }: ToeicRoadmapProps) => {
     </section>
   );
 };
+
 
 export default ToeicRoadmap;
