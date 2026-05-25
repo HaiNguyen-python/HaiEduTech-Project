@@ -90,53 +90,73 @@ const shuffle = <T,>(arr: T[]): T[] => {
   return a;
 };
 
-// ── Flashcard Component ──
+// ── Flashcard Component (Bright Corporate) ──
+const cardPalettes = [
+  { front: "from-sky-50 via-white to-blue-50", border: "border-sky-300", accent: "text-sky-700", back: "from-sky-500 to-blue-600" },
+  { front: "from-emerald-50 via-white to-teal-50", border: "border-emerald-300", accent: "text-emerald-700", back: "from-emerald-500 to-teal-600" },
+  { front: "from-amber-50 via-white to-orange-50", border: "border-amber-300", accent: "text-amber-700", back: "from-amber-500 to-orange-500" },
+  { front: "from-rose-50 via-white to-pink-50", border: "border-rose-300", accent: "text-rose-700", back: "from-rose-500 to-pink-600" },
+  { front: "from-violet-50 via-white to-indigo-50", border: "border-violet-300", accent: "text-violet-700", back: "from-violet-500 to-indigo-600" },
+  { front: "from-cyan-50 via-white to-sky-50", border: "border-cyan-300", accent: "text-cyan-700", back: "from-cyan-500 to-sky-600" },
+];
+const pickPalette = (key: string) => {
+  let h = 0;
+  for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
+  return cardPalettes[h % cardPalettes.length];
+};
+
 const Flashcard = ({ word }: { word: ToeicWord }) => {
   const [flipped, setFlipped] = useState(false);
+  const p = pickPalette(word.word + word.category);
   return (
-    <div className="cursor-pointer h-80" onClick={() => setFlipped(!flipped)} style={{ perspective: "1000px" }}>
+    <div className="cursor-pointer h-96" onClick={() => setFlipped(!flipped)} style={{ perspective: "1000px" }}>
       <motion.div
         className="relative w-full h-full"
         animate={{ rotateY: flipped ? 180 : 0 }}
         transition={{ duration: 0.5 }}
         style={{ transformStyle: "preserve-3d" }}
+        whileHover={{ scale: 1.02 }}
       >
         {/* Front */}
         <div
-          className="absolute inset-0 rounded-xl border border-slate-600/50 bg-[#1E293B]/80 p-6 flex flex-col items-center justify-center gap-3"
+          className={`absolute inset-0 rounded-2xl border-2 ${p.border} bg-gradient-to-br ${p.front} p-6 flex flex-col items-center justify-center gap-4 shadow-lg hover:shadow-2xl transition-shadow`}
           style={{ backfaceVisibility: "hidden" }}
         >
-          <h3 className="text-2xl font-bold text-white">{word.word}</h3>
-          <p className="text-sm text-slate-400 font-mono">{word.ipa}</p>
-          <div className="flex gap-2">
-            <Badge className={`${wordClassColors[word.wordClass]} border text-xs font-bold uppercase`}>{word.wordClass}</Badge>
-            <Badge className={`${levelColors[word.level]} border text-xs`}>{levelLabels[word.level]}</Badge>
+          <div className={`absolute top-0 left-0 right-0 h-1.5 rounded-t-2xl bg-gradient-to-r ${p.back}`} />
+          <h3 className="text-4xl font-extrabold text-slate-900 text-center tracking-tight">{word.word}</h3>
+          <p className={`text-lg ${p.accent} font-mono font-semibold`}>{word.ipa}</p>
+          <div className="flex gap-2 flex-wrap justify-center">
+            <Badge className={`${wordClassColors[word.wordClass]} border text-sm font-bold uppercase px-3 py-1`}>{word.wordClass}</Badge>
+            <Badge className={`${levelColors[word.level]} border text-sm px-3 py-1`}>{levelLabels[word.level]}</Badge>
           </div>
           <button
             onClick={(e) => { e.stopPropagation(); speak(word.word); }}
-            className="mt-2 p-2 rounded-full hover:bg-blue-500/10 transition-colors"
+            className={`mt-2 p-3 rounded-full bg-gradient-to-r ${p.back} text-white shadow-md hover:shadow-xl hover:scale-110 transition-all`}
           >
-            <Volume2 className="w-5 h-5 text-blue-400" />
+            <Volume2 className="w-6 h-6" />
           </button>
+          <p className="text-xs text-slate-500 mt-1 italic">Click để xem nghĩa →</p>
         </div>
         {/* Back */}
         <div
-          className="absolute inset-0 rounded-xl border border-slate-600/50 bg-[#1E293B]/80 px-5 py-6 flex flex-col justify-start gap-2 overflow-y-auto"
+          className={`absolute inset-0 rounded-2xl border-2 ${p.border} bg-gradient-to-br ${p.back} px-5 py-6 flex flex-col justify-start gap-3 overflow-y-auto shadow-lg text-white`}
           style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
         >
-          <p className="text-base font-semibold text-white">{word.definition.en}</p>
-          <p className="text-base text-blue-300">{word.definition.vi}</p>
-          <p className="text-sm text-slate-300 italic mt-2"><span className="not-italic font-semibold text-blue-300">E.g. </span>{word.example}</p>
+          <p className="text-lg font-bold leading-snug">{word.definition.en}</p>
+          <p className="text-base font-semibold text-white/95 leading-snug">🇻🇳 {word.definition.vi}</p>
+          <div className="mt-1 pt-3 border-t border-white/30">
+            <p className="text-sm italic leading-relaxed"><span className="not-italic font-bold">E.g. </span>{word.example}</p>
+          </div>
           {word.synonyms.length > 0 && (
-            <div className="mt-2">
-              <span className="text-xs text-slate-500 uppercase font-bold">Synonyms: </span>
-              <span className="text-sm text-slate-300">{word.synonyms.join(", ")}</span>
+            <div className="mt-1">
+              <span className="text-xs uppercase font-bold tracking-wider text-white/80">Synonyms: </span>
+              <span className="text-sm font-medium">{word.synonyms.join(", ")}</span>
             </div>
           )}
           {word.collocations.length > 0 && (
             <div>
-              <span className="text-xs text-slate-500 uppercase font-bold">Collocations: </span>
-              <span className="text-sm text-blue-300">{word.collocations.join(", ")}</span>
+              <span className="text-xs uppercase font-bold tracking-wider text-white/80">Collocations: </span>
+              <span className="text-sm font-medium">{word.collocations.join(", ")}</span>
             </div>
           )}
         </div>
