@@ -153,3 +153,47 @@ export const HighScorePanel = ({
     </div>
   );
 };
+
+// ====== Unified Game FX hook ======
+export const useGameFx = () => {
+  const [combo, setCombo] = useState(0);
+  const [maxCombo, setMaxCombo] = useState(0);
+  const { points, fire: fireFloat } = useFloatingPoints();
+  const { shake, trigger: triggerShake } = useShake();
+
+  const onCorrect = useCallback(
+    (basePts: number, evt?: { clientX?: number; clientY?: number }) => {
+      const newCombo = combo + 1;
+      setCombo(newCombo);
+      setMaxCombo((m) => Math.max(m, newCombo));
+      const mult = comboMultiplier(newCombo);
+      const pts = Math.round(basePts * mult);
+      const color =
+        newCombo >= 8 ? "#ef4444" : newCombo >= 5 ? "#d946ef" : newCombo >= 3 ? "#f59e0b" : "#10b981";
+      fireFloat(pts, { x: evt?.clientX, y: evt?.clientY, color });
+      const isMilestone = newCombo === 3 || newCombo === 5 || newCombo === 8;
+      sfx(isMilestone ? "combo" : "correct");
+      if (isMilestone) {
+        triggerShake();
+        confetti({
+          particleCount: newCombo >= 8 ? 140 : newCombo >= 5 ? 90 : 60,
+          spread: 80,
+          origin: { y: 0.55 },
+          colors: newCombo >= 8 ? ["#ef4444", "#f59e0b", "#fbbf24"] : ["#d946ef", "#3b82f6", "#10b981"],
+        });
+      }
+      return pts;
+    },
+    [combo, fireFloat, triggerShake]
+  );
+
+  const onWrong = useCallback(() => {
+    setCombo(0);
+    sfx("wrong");
+  }, []);
+
+  const resetCombo = useCallback(() => setCombo(0), []);
+  const FxOverlay = useCallback(() => <FloatingPointsLayer points={points} />, [points]);
+
+  return { combo, maxCombo, onCorrect, onWrong, resetCombo, FxOverlay, shake };
+};
