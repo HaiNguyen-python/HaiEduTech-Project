@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -31,8 +31,11 @@ import {
   fetchAllRows,
   isLearningActivity,
   SPEAKING_ACTIVITY_TYPES,
+  SYSTEM_ACTIVITY_TYPES,
   sumActivityTypeCounts,
   WRITING_ACTIVITY_TYPES,
+  normalizeForSearch,
+  csvEscape,
 } from "@/lib/adminData";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -59,7 +62,7 @@ const TREND_ICONS = {
   stable: <Minus className="w-4 h-4 text-muted-foreground" />,
 };
 
-// Export data as CSV or JSON
+// Export data as CSV or JSON (RFC-4180 compliant escaping)
 function exportData(data: any[], format: "csv" | "json", filename: string) {
   let blob: Blob;
   if (format === "json") {
@@ -68,13 +71,10 @@ function exportData(data: any[], format: "csv" | "json", filename: string) {
     if (data.length === 0) return;
     const headers = Object.keys(data[0]);
     const csv = [
-      headers.join(","),
-      ...data.map(row => headers.map(h => {
-        const val = row[h];
-        return typeof val === "object" ? `"${JSON.stringify(val)}"` : `"${val}"`;
-      }).join(","))
+      headers.map(csvEscape).join(","),
+      ...data.map(row => headers.map(h => csvEscape(row[h])).join(","))
     ].join("\n");
-    blob = new Blob([csv], { type: "text/csv" });
+    blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8" }); // BOM for Excel UTF-8
   }
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
@@ -245,7 +245,9 @@ const AdminDashboard = () => {
 
   useEffect(() => { fetchAll(); }, [fetchAll]);
 
-  // Realtime subscription for live updates
+  // Realtime subscription for live updates — ignore high-frequency system events
+  // (heartbeat/daily_login) and debounce to prevent refetch storms.
+  const refetchTimerRef = useRef<number | null>(null);
   useEffect(() => {
     if (!isTeacher) return;
     const channel = supabase
@@ -253,14 +255,19 @@ const AdminDashboard = () => {
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "student_activity_log" },
-        () => {
-          // Refetch all data on new activity
-          fetchAll();
+        (payload: any) => {
+          const t = payload?.new?.activity_type as string | undefined;
+          if (!t || SYSTEM_ACTIVITY_TYPES.has(t)) return; // skip heartbeats
+          if (refetchTimerRef.current) window.clearTimeout(refetchTimerRef.current);
+          refetchTimerRef.current = window.setTimeout(() => fetchAll(), 4000);
         }
       )
       .subscribe();
 
-    return () => { supabase.removeChannel(channel); };
+    return () => {
+      if (refetchTimerRef.current) window.clearTimeout(refetchTimerRef.current);
+      supabase.removeChannel(channel);
+    };
   }, [isTeacher, fetchAll]);
 
   // Select student and generate recommendations
@@ -269,8 +276,8 @@ const AdminDashboard = () => {
     setRecommendations(generateRecommendations(state));
   };
 
-  // Build heatmap data from all student states
-  const buildHeatmapData = () => {
+  // Build heatmap data from all student states (memoized — heavy iteration)
+  const heatmapData = useMemo(() => {
     const skillTotals: Record<string, { total: number; count: number }> = {};
     for (const state of studentStates) {
       for (const [cat, data] of Object.entries(state.skillBreakdown)) {
@@ -287,19 +294,19 @@ const AdminDashboard = () => {
         studentCount: data.count,
       }))
       .sort((a, b) => a.avgScore - b.avgScore);
-  };
+  }, [studentStates, t]);
 
-  // Build domain pie chart data
-  const domainPieData = Object.entries(classStats.domainCounts)
+  // Build domain pie chart data (memoized)
+  const domainPieData = useMemo(() => Object.entries(classStats.domainCounts)
     .filter(([, count]) => count > 0)
     .map(([domain, count]) => ({
       name: DOMAIN_LABELS[domain as LearningDomain]?.[t("vi", "en") === "vi" ? "vi" : "en"] || domain,
       value: count,
       fill: DOMAIN_LABELS[domain as LearningDomain]?.color || "hsl(var(--primary))",
-    }));
+    })), [classStats.domainCounts, t]);
 
-  // Build weekly trend data from activities
-  const buildWeeklyTrend = () => {
+  // Build weekly trend data from activities (memoized)
+  const weeklyTrend = useMemo(() => {
     const weeks: Record<string, Record<LearningDomain, number>> = {};
     for (const act of activities) {
       const date = new Date(act.created_at);
@@ -318,17 +325,45 @@ const AdminDashboard = () => {
         week: week.slice(5), // MM-DD
         ...data,
       }));
-  };
+  }, [activities]);
 
-  // Filtered student list
-  const filteredStudents = searchQuery
-    ? studentStates.filter(s => s.fullName.toLowerCase().includes(searchQuery.toLowerCase()))
-    : studentStates;
+  // Last Speaking / Writing date per user (memoized)
+  const lastActivityByUser = useMemo(() => {
+    const m = new Map<string, { lastSpeak: number; lastWrite: number }>();
+    const speakSet = new Set(SPEAKING_ACTIVITY_TYPES);
+    const writeSet = new Set(WRITING_ACTIVITY_TYPES);
+    for (const act of activities) {
+      const ts = new Date(act.created_at).getTime();
+      const cur = m.get(act.user_id) || { lastSpeak: 0, lastWrite: 0 };
+      if (speakSet.has(act.activity_type) && ts > cur.lastSpeak) cur.lastSpeak = ts;
+      if (writeSet.has(act.activity_type) && ts > cur.lastWrite) cur.lastWrite = ts;
+      m.set(act.user_id, cur);
+    }
+    return m;
+  }, [activities]);
 
-  // Students needing intervention (score < 5)
-  const interventionNeeded = studentStates.filter(
-    s => s.totalActivities >= 3 && (s.avgScore < 5 || s.recentTrend === "declining")
-  );
+  // Filtered student list (diacritic-insensitive, memoized)
+  const filteredStudents = useMemo(() => {
+    if (!searchQuery) return studentStates;
+    const q = normalizeForSearch(searchQuery);
+    return studentStates.filter(s => normalizeForSearch(s.fullName).includes(q));
+  }, [studentStates, searchQuery]);
+
+  // Students needing intervention (score < 5 OR declining OR silent on speak/write > 14 days)
+  const interventionNeeded = useMemo(() => {
+    const now = Date.now();
+    const FOURTEEN_DAYS = 14 * 24 * 60 * 60 * 1000;
+    return studentStates.filter((s) => {
+      const last = lastActivityByUser.get(s.userId);
+      const silentSpeak = last && last.lastSpeak > 0 && now - last.lastSpeak > FOURTEEN_DAYS;
+      const silentWrite = last && last.lastWrite > 0 && now - last.lastWrite > FOURTEEN_DAYS;
+      return (
+        (s.totalActivities >= 3 && (s.avgScore < 5 || s.recentTrend === "declining")) ||
+        silentSpeak ||
+        silentWrite
+      );
+    });
+  }, [studentStates, lastActivityByUser]);
 
   if (roleLoading) {
     return (
@@ -340,8 +375,6 @@ const AdminDashboard = () => {
 
   if (!isTeacher) return null;
 
-  const heatmapData = buildHeatmapData();
-  const weeklyTrend = buildWeeklyTrend();
 
   // Spider chart data for selected student
   const spiderData = selectedStudent
@@ -685,6 +718,8 @@ const AdminDashboard = () => {
                                   <TableHead className="text-center">{t("Hoạt động", "Activities")}</TableHead>
                                  <TableHead className="text-center">{t("Speaking", "Speaking")}</TableHead>
                                  <TableHead className="text-center">{t("Writing", "Writing")}</TableHead>
+                                 <TableHead className="text-center" title={t("Số ngày kể từ lần Speaking gần nhất", "Days since last speaking")}>{t("Speak (ngày)", "Last Speak")}</TableHead>
+                                 <TableHead className="text-center" title={t("Số ngày kể từ lần Writing gần nhất", "Days since last writing")}>{t("Write (ngày)", "Last Write")}</TableHead>
                                   <TableHead className="text-center">{t("Điểm TB", "Avg Score")}</TableHead>
                                   <TableHead className="text-center">{t("Lĩnh vực", "Domains")}</TableHead>
                                   <TableHead className="text-center">{t("Xu hướng", "Trend")}</TableHead>
@@ -695,6 +730,12 @@ const AdminDashboard = () => {
                               <TableBody>
                                 {filteredStudents.map((state) => {
                                   const needsIntervention = state.totalActivities >= 3 && (state.avgScore < 5 || state.recentTrend === "declining");
+                                  const last = lastActivityByUser.get(state.userId);
+                                  const now = Date.now();
+                                  const daysSpeak = last && last.lastSpeak > 0 ? Math.floor((now - last.lastSpeak) / 86400000) : null;
+                                  const daysWrite = last && last.lastWrite > 0 ? Math.floor((now - last.lastWrite) / 86400000) : null;
+                                  const speakClass = daysSpeak === null ? "text-muted-foreground" : daysSpeak > 14 ? "text-red-600 font-bold" : daysSpeak > 7 ? "text-yellow-600 font-semibold" : "text-green-600";
+                                  const writeClass = daysWrite === null ? "text-muted-foreground" : daysWrite > 14 ? "text-red-600 font-bold" : daysWrite > 7 ? "text-yellow-600 font-semibold" : "text-green-600";
                                   return (
                                     <TableRow
                                       key={state.userId}
@@ -705,6 +746,8 @@ const AdminDashboard = () => {
                                       <TableCell className="text-center tabular-nums">{state.totalActivities}</TableCell>
                                        <TableCell className="text-center tabular-nums">{sumActivityTypeCounts(state.skillBreakdown, SPEAKING_ACTIVITY_TYPES)}</TableCell>
                                        <TableCell className="text-center tabular-nums">{sumActivityTypeCounts(state.skillBreakdown, WRITING_ACTIVITY_TYPES)}</TableCell>
+                                       <TableCell className={`text-center tabular-nums ${speakClass}`}>{daysSpeak === null ? "—" : daysSpeak === 0 ? t("Hôm nay", "today") : `${daysSpeak}d`}</TableCell>
+                                       <TableCell className={`text-center tabular-nums ${writeClass}`}>{daysWrite === null ? "—" : daysWrite === 0 ? t("Hôm nay", "today") : `${daysWrite}d`}</TableCell>
                                       <TableCell className="text-center">
                                         <span className={`font-bold tabular-nums ${state.avgScore >= 7 ? "text-green-600" : state.avgScore >= 5 ? "text-yellow-600" : "text-red-600"}`}>
                                           {state.avgScore > 0 ? state.avgScore : "-"}

@@ -431,6 +431,22 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
         if (acc > prevBest) newThemeScores[selectedTheme.id][currentSentence.id] = acc;
         saveThemeScores(language, newThemeScores);
 
+        // Log EVERY attempt to admin dashboard so teacher sees real practice frequency
+        (async () => {
+          try {
+            const { logStudentActivity } = await import("@/hooks/useActivityLogger");
+            const domain = language === "chinese" ? "chinese" : "english";
+            await logStudentActivity({
+              activityType: `speaking_coach_${language}`,
+              activityId: currentSentence?.id,
+              score: Math.round(acc / 10), // 0-10 scale
+              maxScore: 10,
+              domain,
+              metadata: { language, accuracy: acc, themeId: selectedTheme?.id },
+            });
+          } catch {}
+        })();
+
         // Check theme completion & update stats
         setStats(prevStats => {
           const newStats = { ...prevStats };

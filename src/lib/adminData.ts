@@ -34,6 +34,23 @@ export function sumActivityTypeCounts(
   return activityTypes.reduce((total, type) => total + (skillBreakdown[type]?.count || 0), 0);
 }
 
+// Strip Vietnamese diacritics for case/diacritic-insensitive search.
+export function normalizeForSearch(input: string): string {
+  return (input || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/gi, "d")
+    .toLowerCase()
+    .trim();
+}
+
+// Safe CSV value escaping (RFC 4180): wrap in quotes, double inner quotes.
+export function csvEscape(value: unknown): string {
+  if (value === null || value === undefined) return '""';
+  const s = typeof value === "object" ? JSON.stringify(value) : String(value);
+  return `"${s.replace(/"/g, '""')}"`;
+}
+
 export async function fetchAllRows<T>(
   fetchPage: (from: number, to: number) => PageResult,
   batchSize = 1000,
