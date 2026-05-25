@@ -136,7 +136,7 @@ interface FloatingLessonChibisProps {
   seed?: string;
 }
 
-const FloatingLessonChibis = ({ theme, count = 8, seed }: FloatingLessonChibisProps) => {
+const FloatingLessonChibis = ({ theme, count = 4, seed }: FloatingLessonChibisProps) => {
   const pool = THEMES[theme] ?? THEMES.english;
   const seedStr = seed ?? theme;
 
@@ -171,7 +171,7 @@ const FloatingLessonChibis = ({ theme, count = 8, seed }: FloatingLessonChibisPr
         item,
         side,
         top: Math.max(5, Math.min(92, baseTop + jitter)),
-        offset: 1.0 + rand() * 2.2,
+        offset: 2.5 + rand() * 3.0,
         size: baseSize + Math.floor(rand() * variance),
         delay: rand() * 4,
         duration: 5 + rand() * 5,

@@ -14,14 +14,11 @@ import chibiTeacher from "@/assets/chibi-teacher.png";
 import chibiTeacherIelts from "@/assets/chibi-teacher-ielts.png";
 import chibiReading from "@/assets/chibi-reading.png";
 import chibiSpeaking from "@/assets/chibi-speaking.png";
-import chibiListening from "@/assets/chibi-listening.png";
 import chibiGraduate from "@/assets/chibi-graduate.png";
-import chibiOwl from "@/assets/chibi-owl.png";
 import chibiPanda from "@/assets/chibi-panda.png";
 import chibiCoder from "@/assets/chibi-coder.png";
 import chibiRobot from "@/assets/chibi-robot.png";
 import aiChibiRobot from "@/assets/ai-chibi-robot.png";
-import chibiRocket from "@/assets/chibi-rocket.png";
 import chibiHsk3 from "@/assets/chibi-cn-hsk3.png";
 import chibiHsk5 from "@/assets/chibi-cn-hsk5.png";
 import chibiVocabCheer from "@/assets/chibi-vocab-cheer.png";
@@ -112,7 +109,7 @@ const ChibiFactSpeakers = () => {
           className="absolute pointer-events-auto"
           style={{
             top: `${activeTop}%`,
-            [isLeft ? "left" : "right"]: "1.2vw",
+            [isLeft ? "left" : "right"]: "2.5vw",
             maxWidth: "320px",
           }}
         >
