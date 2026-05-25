@@ -7,10 +7,10 @@ const AIGradingPreview = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="py-14 relative overflow-hidden">
+    <section className="py-10 sm:py-12 relative overflow-hidden">
       <div className="absolute inset-0 cyber-grid opacity-5" />
       <div className="container mx-auto px-6 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 items-center">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -30,7 +30,7 @@ const AIGradingPreview = () => {
                 "Get instant examiner-level feedback on your Writing & Speaking. Our AI analyzes across all 4 IELTS criteria."
               )}
             </p>
-            <ul className="space-y-3 mb-8">
+            <ul className="space-y-3 mb-6">
               {[
                 t("Chấm điểm chi tiết Band 1.0–9.0", "Band 1.0–9.0 detailed score breakdown"),
                 t("Đánh dấu lỗi Ngữ pháp, Từ vựng & Liên kết", "Grammar, Vocabulary & Cohesion error highlighting"),
