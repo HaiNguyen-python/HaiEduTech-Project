@@ -401,6 +401,9 @@ const ToeicVocabulary = () => {
     }
 
     // Apply sorting (work on a copy to keep the source data untouched)
+    const catOrder: Record<string, number> = Object.fromEntries(
+      (TOEIC_CATEGORIES as readonly string[]).map((c, i) => [c, i])
+    );
     if (sortBy !== "default") {
       result = [...result].sort((a, b) => {
         switch (sortBy) {
@@ -428,7 +431,15 @@ const ToeicVocabulary = () => {
             return 0;
         }
       });
+    } else {
+      // Default sort groups words by topic so each page is topic-coherent.
+      result = [...result].sort((a, b) => {
+        const ca = catOrder[a.category] ?? 99;
+        const cb = catOrder[b.category] ?? 99;
+        return ca - cb || a.word.localeCompare(b.word);
+      });
     }
+
 
     return result;
   }, [activeCategory, activeLevel, search, sortBy, mastered]);
