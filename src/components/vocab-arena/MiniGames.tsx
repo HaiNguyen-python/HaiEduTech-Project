@@ -185,23 +185,34 @@ const MiniGames = ({ onBack }: Props) => {
   return null;
 };
 
-const GameCard = ({ icon, color, title, desc, onClick }: { icon: React.ReactNode; color: "purple" | "rose" | "emerald" | "amber" | "sky"; title: string; desc: string; onClick: () => void }) => {
+const GameCard = ({ icon, color, title, desc, gameKey, onClick }: { icon: React.ReactNode; color: "purple" | "rose" | "emerald" | "amber" | "sky"; title: string; desc: string; gameKey: GameKey; onClick: () => void }) => {
   const bg =
     color === "purple" ? "bg-purple-500/10" :
     color === "rose" ? "bg-rose-500/10" :
     color === "emerald" ? "bg-emerald-500/10" :
     color === "amber" ? "bg-amber-500/10" :
     "bg-sky-500/10";
+  const top = getHighScores(gameKey)[0];
   return (
     <motion.button
       whileHover={{ scale: 1.03, y: -4 }}
       whileTap={{ scale: 0.97 }}
-      onClick={onClick}
-      className="text-left rounded-2xl border-2 border-border bg-card p-6 hover:border-primary/50 transition-all"
+      onClick={() => { sfx("powerup"); onClick(); }}
+      className="relative text-left rounded-2xl border-2 border-border bg-card p-6 hover:border-primary/50 transition-all overflow-hidden"
     >
+      {top && (
+        <span className="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400 text-[10px] font-black flex items-center gap-1">
+          <Crown className="w-3 h-3" /> {top.score}
+        </span>
+      )}
       <div className={`w-14 h-14 rounded-2xl ${bg} flex items-center justify-center mb-4`}>{icon}</div>
       <h3 className="text-lg font-bold text-foreground mb-1">{title}</h3>
-      <p className="text-sm text-muted-foreground">{desc}</p>
+      <p className="text-sm text-muted-foreground mb-2">{desc}</p>
+      {top && (
+        <p className="text-[11px] text-muted-foreground/70 truncate">
+          👑 {top.name} · <span className="font-bold text-primary">{top.score}</span>
+        </p>
+      )}
     </motion.button>
   );
 };
