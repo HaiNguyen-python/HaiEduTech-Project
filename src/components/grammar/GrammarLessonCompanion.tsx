@@ -225,6 +225,18 @@ const buildSummaryChecklist = (lesson: LanguageLesson, module: LanguageModule) =
   ];
 };
 
+const visualByDifficulty = {
+  beginner: grammarChibiBeginner,
+  intermediate: grammarChibiIntermediate,
+  advanced: grammarChibiAdvanced,
+} as const;
+
+const visualAltByDifficulty = {
+  beginner: "Cute grammar study buddy showing a simple beginner grammar rule",
+  intermediate: "Cute grammar study buddy reading an intermediate grammar book",
+  advanced: "Cute grammar study buddy inspecting advanced grammar patterns",
+} as const;
+
 const GrammarLessonCompanion = ({ lesson, module }: GrammarLessonCompanionProps) => {
   if (module.category !== "grammar" || module.language !== "english") return null;
 
