@@ -137,7 +137,9 @@ interface FloatingLessonChibisProps {
   seed?: string;
 }
 
-const FloatingLessonChibis = ({ theme, count = 4, seed }: FloatingLessonChibisProps) => {
+const FloatingLessonChibis = ({ theme, count = 2, seed }: FloatingLessonChibisProps) => {
+  // Cap to keep subpages uncluttered: at most 2 chibis on screen
+  count = Math.min(count, 2);
   const pool = THEMES[theme] ?? THEMES.english;
   const seedStr = seed ?? theme;
 
