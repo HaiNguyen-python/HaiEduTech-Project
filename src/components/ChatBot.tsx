@@ -199,6 +199,7 @@ const ChatBot = () => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
+  const [tooltipText, setTooltipText] = useState<string>("Hi! I'm Mr.Hai. Ask me something? 😊");
   const [shake, setShake] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [profanityWarning, setProfanityWarning] = useState(false);
