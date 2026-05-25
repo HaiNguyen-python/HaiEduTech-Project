@@ -683,6 +683,8 @@ const AdminDashboard = () => {
                                 <TableRow>
                                   <TableHead>{t("Học sinh", "Student")}</TableHead>
                                   <TableHead className="text-center">{t("Hoạt động", "Activities")}</TableHead>
+                                 <TableHead className="text-center">{t("Speaking", "Speaking")}</TableHead>
+                                 <TableHead className="text-center">{t("Writing", "Writing")}</TableHead>
                                   <TableHead className="text-center">{t("Điểm TB", "Avg Score")}</TableHead>
                                   <TableHead className="text-center">{t("Lĩnh vực", "Domains")}</TableHead>
                                   <TableHead className="text-center">{t("Xu hướng", "Trend")}</TableHead>
@@ -701,6 +703,8 @@ const AdminDashboard = () => {
                                     >
                                       <TableCell className="font-medium">{state.fullName}</TableCell>
                                       <TableCell className="text-center tabular-nums">{state.totalActivities}</TableCell>
+                                       <TableCell className="text-center tabular-nums">{sumActivityTypeCounts(state.skillBreakdown, SPEAKING_ACTIVITY_TYPES)}</TableCell>
+                                       <TableCell className="text-center tabular-nums">{sumActivityTypeCounts(state.skillBreakdown, WRITING_ACTIVITY_TYPES)}</TableCell>
                                       <TableCell className="text-center">
                                         <span className={`font-bold tabular-nums ${state.avgScore >= 7 ? "text-green-600" : state.avgScore >= 5 ? "text-yellow-600" : "text-red-600"}`}>
                                           {state.avgScore > 0 ? state.avgScore : "-"}
@@ -798,6 +802,14 @@ const AdminDashboard = () => {
                                     selectedStudent.recentTrend === "improving" ? "Improving" : selectedStudent.recentTrend === "declining" ? "Declining" : "Stable"
                                   )}
                                 </span>
+                              </div>
+                              <div className="flex items-center justify-between text-sm">
+                                <span className="text-muted-foreground">{t("Số lần luyện speaking", "Speaking attempts")}</span>
+                                <span className="font-bold">{sumActivityTypeCounts(selectedStudent.skillBreakdown, SPEAKING_ACTIVITY_TYPES)}</span>
+                              </div>
+                              <div className="flex items-center justify-between text-sm">
+                                <span className="text-muted-foreground">{t("Số lần luyện writing", "Writing attempts")}</span>
+                                <span className="font-bold">{sumActivityTypeCounts(selectedStudent.skillBreakdown, WRITING_ACTIVITY_TYPES)}</span>
                               </div>
                               {selectedStudent.weakestAreas.length > 0 && (
                                 <div className="pt-2 border-t border-border">
