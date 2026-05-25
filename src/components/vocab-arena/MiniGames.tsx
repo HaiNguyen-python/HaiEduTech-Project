@@ -812,7 +812,7 @@ const SynonymShowdown = ({ mode, onExit }: { mode: Mode; onExit: () => void }) =
             <motion.button
               key={o}
               whileTap={{ scale: 0.95 }}
-              onClick={() => handlePick(o)}
+              onClick={(e) => handlePick(o, e)}
               disabled={!!picked}
               className={`px-3 py-3 rounded-xl border-2 text-sm font-semibold transition-all ${
                 isCorrect ? "bg-emerald-500 text-white border-emerald-600" :
@@ -827,6 +827,7 @@ const SynonymShowdown = ({ mode, onExit }: { mode: Mode; onExit: () => void }) =
         })}
       </div>
     </div>
+    </ShakeWrap>
   );
 };
 
