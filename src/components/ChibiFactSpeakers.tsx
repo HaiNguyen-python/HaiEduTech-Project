@@ -36,6 +36,9 @@ interface Fact {
   side: "left" | "right";
 }
 
+// Fun trailing emojis added after each fact for liveliness
+const FUN_EMOJIS = ["😄", "😆", "🤩", "😎", "🥳", "😋", "🤓", "😝", "🤪", "😺", "✨", "💫", "🎉", "🙌", "👀", "💖"];
+
 // Curated facts, each with a unique chibi speaker
 const FACTS: Fact[] = [
   { chibi: chibiPanda,        side: "left",  vi: "Tiếng Trung không có thì! 了, 过, 将 sẽ thay bạn chia động từ đó.", en: "Mandarin has no tenses! 了, 过, 将 do the time-marking for you.", to: "/chinese", ctaVi: "Học HSK ngay", ctaEn: "Start HSK" },
@@ -65,20 +68,20 @@ const ChibiFactSpeakers = () => {
   }, []);
 
   const facts = useMemo(() => {
-    // Shuffle deterministically using rotation as seed offset
     const shifted = [...FACTS.slice(rotation % FACTS.length), ...FACTS.slice(0, rotation % FACTS.length)];
     return shifted;
   }, [rotation]);
 
   // Vertical spacing — keep chibis FAR apart so they don't overlap text
-  const STEP_VH = 55; // ~55vh between speakers
-  const START_VH = 80;
+  const STEP_VH = 75;
+  const START_VH = 85;
 
   return (
-    <div aria-hidden={false} className="pointer-events-none absolute inset-x-0 top-0 hidden lg:block z-[5]">
+    <div aria-hidden={false} className="pointer-events-none absolute inset-x-0 top-0 hidden lg:block z-40">
       {facts.map((f, i) => {
         const top = START_VH + i * STEP_VH;
         const isLeft = f.side === "left";
+        const funEmoji = FUN_EMOJIS[(i * 7 + rotation) % FUN_EMOJIS.length];
         return (
           <motion.div
             key={`${rotation}-${i}`}
@@ -109,14 +112,24 @@ const ChibiFactSpeakers = () => {
                 }}
               />
               <div
-                className={`relative rounded-2xl border-2 border-primary/30 bg-background/95 backdrop-blur-sm shadow-xl shadow-primary/15 px-4 py-3 text-sm leading-snug text-foreground/90 ${isLeft ? "rounded-bl-sm" : "rounded-br-sm"}`}
+                className={`relative rounded-2xl border-[3px] border-primary/70 bg-background shadow-2xl shadow-primary/30 px-4 py-3 text-sm leading-snug text-foreground ${isLeft ? "rounded-bl-sm" : "rounded-br-sm"}`}
               >
                 {/* Tail */}
                 <span
                   aria-hidden
-                  className={`absolute bottom-3 w-3 h-3 rotate-45 bg-background border-primary/30 ${isLeft ? "-left-[7px] border-l-2 border-b-2" : "-right-[7px] border-r-2 border-t-2"}`}
+                  className={`absolute bottom-3 w-3 h-3 rotate-45 bg-background ${isLeft ? "-left-[8px] border-l-[3px] border-b-[3px] border-primary/70" : "-right-[8px] border-r-[3px] border-t-[3px] border-primary/70"}`}
                 />
-                <p className="font-medium">{lang === "vi" ? f.vi : f.en}</p>
+                <p className="font-medium">
+                  {lang === "vi" ? f.vi : f.en}
+                  <motion.span
+                    aria-hidden
+                    animate={{ rotate: [0, -12, 12, -8, 0], scale: [1, 1.15, 1, 1.1, 1] }}
+                    transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }}
+                    className="inline-block ml-1.5 text-base"
+                  >
+                    {funEmoji}
+                  </motion.span>
+                </p>
                 <Link
                   to={f.to}
                   className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary/80 group"
