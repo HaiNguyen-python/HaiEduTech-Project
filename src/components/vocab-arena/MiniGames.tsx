@@ -1,10 +1,12 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, type MouseEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Brain, Target, Keyboard, User, Users, Trophy, Timer, RotateCcw, Sparkles, Volume2, Shuffle, Link2 } from "lucide-react";
+import { ArrowLeft, Brain, Target, Keyboard, User, Users, Trophy, Timer, RotateCcw, Sparkles, Volume2, Shuffle, Link2, Flame, CalendarDays, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ieltsVocabData, type IeltsWord } from "@/data/ieltsVocabData";
 import confetti from "canvas-confetti";
+import { sfx, saveHighScore, getHighScores, getPlayerName, setPlayerName, dailyLabel, type GameKey } from "./gameFx";
+import { ComboBadge, HighScorePanel, useGameFx, ShakeWrap } from "./GameEffects";
 
 type Game = "menu" | "memory" | "hunt" | "sprint" | "synonym" | "scramble";
 type Mode = "solo" | "team";
