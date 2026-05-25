@@ -2,9 +2,10 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Send, CheckCircle, UserPlus } from "lucide-react";
+import { Send, CheckCircle, UserPlus, Loader2 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const Register = () => {
   const { t } = useLanguage();
@@ -18,6 +19,7 @@ const Register = () => {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const programs = [
     { value: "english-cambridge", label: t("Tiếng Anh – Cambridge (Starters–PET)", "English – Cambridge (Starters–PET)") },
@@ -27,9 +29,10 @@ const Register = () => {
     { value: "chinese-elementary", label: t("Tiếng Trung – Sơ cấp", "Chinese – Elementary") },
     { value: "chinese-hsk", label: t("Tiếng Trung – Luyện thi HSK", "Chinese – HSK Preparation") },
     { value: "chinese-conversation", label: t("Tiếng Trung – Giao tiếp", "Chinese – Conversational") },
+    { value: "programming", label: t("Lập trình / AI / Data", "Programming / AI / Data") },
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name.trim() || !form.phone.trim() || !form.program) {
       toast({
@@ -38,12 +41,46 @@ const Register = () => {
       });
       return;
     }
-    setSubmitted(true);
-    toast({
-      title: t("Đăng ký thành công!", "Registration successful!"),
-      description: t("Chúng tôi sẽ liên hệ bạn sớm nhất.", "We will contact you shortly."),
-    });
+    setSubmitting(true);
+    try {
+      const programLabel = programs.find((p) => p.value === form.program)?.label || form.program;
+      const { error: insertError } = await supabase.from("course_registrations").insert({
+        name: form.name.trim(),
+        phone: form.phone.trim(),
+        email: form.email.trim() || null,
+        program: programLabel,
+        level: form.level.trim() || null,
+        message: form.message.trim() || null,
+      });
+      if (insertError) throw insertError;
+
+      // Best-effort email notification to Teacher Hai
+      await supabase.functions.invoke("send-contact-email", {
+        body: {
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          subject: `[Đăng ký khóa học] ${programLabel}`,
+          message: `Chương trình: ${programLabel}\nTrình độ: ${form.level || "-"}\nGhi chú: ${form.message || "-"}`,
+        },
+      }).catch(() => undefined);
+
+      setSubmitted(true);
+      toast({
+        title: t("Đăng ký thành công!", "Registration successful!"),
+        description: t("Chúng tôi sẽ liên hệ bạn sớm nhất.", "We will contact you shortly."),
+      });
+    } catch (err: any) {
+      toast({
+        title: t("Có lỗi xảy ra", "Something went wrong"),
+        description: err?.message ?? "",
+        variant: "destructive",
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
+
 
   const updateField = (field: string, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -193,10 +230,11 @@ const Register = () => {
 
               <button
                 type="submit"
-                className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:brightness-110 transition-all shadow-lg shadow-primary/20"
+                disabled={submitting}
+                className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:brightness-110 transition-all shadow-lg shadow-primary/20 disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                <Send className="w-4 h-4" />
-                {t("Gửi đăng ký", "Submit Registration")}
+                {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+                {submitting ? t("Đang gửi...", "Sending...") : t("Gửi đăng ký", "Submit Registration")}
               </button>
             </form>
           </motion.div>
