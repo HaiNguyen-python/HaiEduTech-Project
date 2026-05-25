@@ -598,8 +598,8 @@ const ChatBot = () => {
               <img
                 src={chatbotIcon}
                 alt="Thầy Hải"
-                className="h-12 w-12 object-cover origin-[50%_70%] sm:h-14 sm:w-14"
-                style={{ animation: "wave-hand 1.6s ease-in-out 2s infinite", animationDelay: "2s", animationIterationCount: "infinite", animationDuration: "12s" }}
+                className="h-12 w-12 object-cover sm:h-14 sm:w-14"
+                style={{ transformOrigin: "50% 75%", animation: "wave-hand 12s ease-in-out infinite" }}
               />
             </motion.button>
           </div>
