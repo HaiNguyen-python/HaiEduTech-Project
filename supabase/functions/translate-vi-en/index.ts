@@ -85,8 +85,14 @@ Deno.serve(async (req) => {
     }
     // Defensive: if the model leaked CJK characters into a translation,
     // fall back to the original VN text — the client will retry next session.
+    // Also strip any leading "N." numbering the model may have echoed back
+    // from our numbered prompt (root cause of stray sequential numbers in UI).
     const CJK = /[\u3400-\u9FFF\uF900-\uFAFF\u3040-\u30FF\uAC00-\uD7AF]/;
-    translations = translations.map((t, i) => (typeof t === "string" && !CJK.test(t) ? t : texts[i]));
+    const LEADING_NUM = /^\s*\d{1,3}\.\s+/;
+    translations = translations.map((t, i) => {
+      if (typeof t !== "string" || CJK.test(t)) return texts[i];
+      return t.replace(LEADING_NUM, "");
+    });
     // Pad / trim defensively so client never crashes
     if (translations.length < texts.length) {
       translations = [...translations, ...texts.slice(translations.length)];
