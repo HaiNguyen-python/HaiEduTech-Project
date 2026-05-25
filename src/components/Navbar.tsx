@@ -110,7 +110,6 @@ const Navbar = () => {
     // ✍️ Luyện tập & Chấm
     { to: "#h-practice", label: t("Luyện tập & Chấm điểm", "Practice & Grading"), header: true },
     { to: "/ielts-skills-practice", label: t("IELTS Skills Practice", "IELTS Skills Practice"), icon: PenTool },
-    { to: "/ielts-sample-essays", label: t("Bài mẫu 8.0+", "Sample Essays 8.0+"), icon: FileText },
     { to: "/ai-grading", label: t("IELTS Smart Grading", "IELTS Smart Grading"), icon: Cpu },
   ];
 
