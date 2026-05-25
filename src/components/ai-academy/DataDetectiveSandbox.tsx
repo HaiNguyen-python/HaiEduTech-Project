@@ -6,6 +6,22 @@
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Trash2, CheckCircle2, Search } from "lucide-react";
+import { BonusGames } from "./SandboxBonusGames";
+import { BestMatchPick } from "./SandboxMiniActivity";
+
+const DD_TF = [
+  { q: "Dữ liệu bẩn có thể khiến AI đưa ra dự đoán sai lệch.", a: true },
+  { q: "Outlier (giá trị bất thường) luôn nên xoá khỏi dữ liệu.", a: false, why: "Đôi khi outlier là phát hiện quan trọng (gian lận, lỗi hệ thống)." },
+  { q: "Giá trị bị thiếu (missing) có thể điền bằng trung bình của cột.", a: true },
+  { q: "Một bảng dữ liệu sạch là điều kiện cần để huấn luyện AI tốt.", a: true },
+  { q: "Chiều cao 999 cm là dữ liệu hợp lệ cho học sinh cấp 2.", a: false, why: "Không người thật nào cao 999cm — đó là outlier do lỗi nhập." },
+];
+const DD_PAIRS = [
+  { a: "Missing", b: "Ô trống — chưa có giá trị" },
+  { a: "Outlier", b: "Giá trị bất thường, lệch hẳn nhóm" },
+  { a: "Duplicate", b: "Bản ghi bị lặp lại" },
+  { a: "Imputation", b: "Điền giá trị thiếu bằng ước lượng" },
+];
 
 type Row = {
   id: number;
@@ -97,13 +113,18 @@ const DataDetectiveSandbox = () => {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center gap-2 text-sm text-foreground/80">
-        <Search className="w-4 h-4 text-primary" />
-        <span>
-          Bấm vào các ô <span className="text-destructive font-bold">đỏ nhấp nháy</span> để "làm
-          sạch" dữ liệu. Biểu đồ và độ sạch sẽ tự cập nhật.
-        </span>
+    <div className="space-y-3 sm:space-y-4 [&>*+*]:pt-3 sm:[&>*+*]:pt-4 [&>*+*]:border-t [&>*+*]:border-border/40">
+      <div>
+        <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-gradient-to-r from-primary/15 to-emerald-500/15 border border-primary/30 text-[11px] font-bold uppercase tracking-wide text-primary mb-2">
+          🧹 Activity 1 · Làm sạch dữ liệu
+        </div>
+        <div className="flex items-center gap-2 text-sm text-foreground/80">
+          <Search className="w-4 h-4 text-primary" />
+          <span>
+            Bấm vào các ô <span className="text-destructive font-bold">đỏ nhấp nháy</span> để "làm
+            sạch" dữ liệu. Biểu đồ và độ sạch sẽ tự cập nhật.
+          </span>
+        </div>
       </div>
 
       {/* Cleanliness gauge */}
@@ -216,6 +237,34 @@ const DataDetectiveSandbox = () => {
           </p>
         </div>
       </div>
+
+      <BestMatchPick
+        title="🩺 Activity 2 · Chẩn đoán loại lỗi dữ liệu"
+        hint="Mỗi ô dưới đây bị lỗi gì? Chọn đúng loại để bác sĩ dữ liệu kê đơn đúng cách."
+        accent="from-primary to-emerald-600"
+        border="border-primary/40"
+        options={[
+          { id: "missing", label: "⬜ Missing" },
+          { id: "outlier", label: "🚨 Outlier" },
+          { id: "duplicate", label: "🔁 Duplicate" },
+          { id: "invalid", label: "❌ Invalid" },
+        ]}
+        items={[
+          { prompt: "Cột 'Tên' để trống hoàn toàn", correctId: "missing" },
+          { prompt: "Chiều cao học sinh = 999 cm", correctId: "outlier" },
+          { prompt: "Tuổi = -5 (số âm)", correctId: "invalid" },
+          { prompt: "Cùng một học sinh xuất hiện 3 lần", correctId: "duplicate" },
+          { prompt: "Điểm = 99 trên thang 0-10", correctId: "outlier" },
+          { prompt: "Email không có dấu @ (không hợp lệ)", correctId: "invalid" },
+        ]}
+      />
+
+      <BonusGames
+        tfItems={DD_TF}
+        matchPairs={DD_PAIRS}
+        accent="from-primary to-emerald-600"
+        border="border-primary/40"
+      />
     </div>
   );
 };

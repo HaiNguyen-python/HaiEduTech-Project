@@ -9,8 +9,24 @@ import { motion, AnimatePresence } from "framer-motion";
 import { TreePine, Sparkles, RotateCcw, Wand2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
+import { BonusGames } from "./SandboxBonusGames";
+import { BestMatchPick } from "./SandboxMiniActivity";
 
 type Tab = "tree" | "kmeans";
+
+const ML_TF = [
+  { q: "Supervised Learning cần dữ liệu đã gắn nhãn để học.", a: true },
+  { q: "K-Means là thuật toán Unsupervised — tự tìm nhóm.", a: true },
+  { q: "Decision Tree luôn cần GPU mạnh mới chạy được.", a: false, why: "Cây quyết định rất nhẹ — chạy được cả trên điện thoại." },
+  { q: "Càng nhiều dữ liệu chất lượng, mô hình ML càng chính xác.", a: true },
+  { q: "Unsupervised Learning có sẵn đáp án đúng cho mỗi mẫu.", a: false, why: "Không — nó tự tìm cấu trúc mà không có nhãn." },
+];
+const ML_PAIRS = [
+  { a: "Supervised", b: "Học có nhãn — như giáo viên chỉ bài" },
+  { a: "Unsupervised", b: "Tự gom nhóm — không cần nhãn" },
+  { a: "Decision Tree", b: "Hỏi Yes/No theo nhánh" },
+  { a: "K-Means", b: "Tìm K trung tâm nhóm gần nhất" },
+];
 
 // ============== Decision Tree ==============
 type Node = {
@@ -274,37 +290,71 @@ const MLMagicSandbox = () => {
   const [tab, setTab] = useState<Tab>("tree");
 
   return (
-    <div className="space-y-3">
-      <div className="flex gap-2 p-1 bg-muted/40 rounded-lg w-fit">
-        <button
-          onClick={() => setTab("tree")}
-          className={`px-4 py-1.5 rounded-md text-sm font-semibold transition ${
-            tab === "tree" ? "bg-background shadow text-foreground" : "text-foreground/60"
-          }`}
-        >
-          🌳 Cây quyết định
-        </button>
-        <button
-          onClick={() => setTab("kmeans")}
-          className={`px-4 py-1.5 rounded-md text-sm font-semibold transition ${
-            tab === "kmeans" ? "bg-background shadow text-foreground" : "text-foreground/60"
-          }`}
-        >
-          🎨 K-Means clustering
-        </button>
+    <div className="space-y-3 sm:space-y-4 [&>*+*]:pt-3 sm:[&>*+*]:pt-4 [&>*+*]:border-t [&>*+*]:border-border/40">
+      {/* Activity 1 — Interactive playground (tabs) */}
+      <div>
+        <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-gradient-to-r from-emerald-500/15 to-fuchsia-500/15 border border-emerald-400/40 text-[11px] font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
+            🧪 Activity 1 · Phòng thí nghiệm
+          </div>
+          <div className="flex gap-1.5 p-1 bg-muted/40 rounded-lg">
+            <button
+              onClick={() => setTab("tree")}
+              className={`px-3 py-1 rounded-md text-xs font-semibold transition ${
+                tab === "tree" ? "bg-background shadow text-foreground" : "text-foreground/60"
+              }`}
+            >
+              🌳 Cây quyết định
+            </button>
+            <button
+              onClick={() => setTab("kmeans")}
+              className={`px-3 py-1 rounded-md text-xs font-semibold transition ${
+                tab === "kmeans" ? "bg-background shadow text-foreground" : "text-foreground/60"
+              }`}
+            >
+              🎨 K-Means
+            </button>
+          </div>
+        </div>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={tab}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.2 }}
+          >
+            {tab === "tree" ? <DecisionTreeGame /> : <KMeansGame />}
+          </motion.div>
+        </AnimatePresence>
       </div>
 
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={tab}
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -6 }}
-          transition={{ duration: 0.2 }}
-        >
-          {tab === "tree" ? <DecisionTreeGame /> : <KMeansGame />}
-        </motion.div>
-      </AnimatePresence>
+      <BestMatchPick
+        title="🔍 Activity 2 · Supervised hay Unsupervised?"
+        hint="Mỗi tình huống thuộc loại học có giám sát (có nhãn) hay không giám sát (tự gom nhóm)?"
+        accent="from-emerald-500 to-fuchsia-600"
+        border="border-emerald-400/40"
+        options={[
+          { id: "sup", label: "🎓 Supervised" },
+          { id: "uns", label: "🪄 Unsupervised" },
+        ]}
+        items={[
+          { prompt: "Phân loại email là spam / không spam (đã có 10.000 email gắn nhãn)", correctId: "sup" },
+          { prompt: "Tự nhóm 1 triệu khách hàng thành các phân khúc thị trường", correctId: "uns" },
+          { prompt: "Dự đoán giá nhà từ dữ liệu nhà đã bán + giá thật", correctId: "sup" },
+          { prompt: "AI tự tìm các chủ đề thường xuất hiện trong bài báo (không gắn sẵn chủ đề)", correctId: "uns" },
+          { prompt: "Nhận diện chữ số viết tay (đã có ảnh + nhãn 0-9)", correctId: "sup" },
+          { prompt: "Phát hiện giao dịch ngân hàng bất thường khi chưa biết kiểu lừa đảo", correctId: "uns" },
+        ]}
+      />
+
+      <BonusGames
+        tfItems={ML_TF}
+        matchPairs={ML_PAIRS}
+        accent="from-emerald-500 to-fuchsia-600"
+        border="border-emerald-400/40"
+      />
     </div>
   );
 };
