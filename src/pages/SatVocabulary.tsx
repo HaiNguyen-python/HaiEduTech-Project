@@ -512,7 +512,8 @@ const SatVocabulary = () => {
                                 initial={{ opacity: 0, y: 12 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 className="group min-w-0 h-full rounded-xl bg-white dark:bg-card hover:shadow-lg transition-all duration-300"
-                                style={{ padding: "1rem 1.1rem", border: "1px solid #e2e8f0", boxShadow: "0 2px 6px -2px rgb(0 0 0 / 0.08)", borderRadius: "0.85rem" }}
+                                style={{ padding: "1rem 1.1rem", border: "3px solid hsl(var(--primary) / 0.4)", boxShadow: "0 2px 8px -2px hsl(var(--primary) / 0.15)", borderRadius: "0.85rem" }}
+
                               >
                                 <div className="mb-1.5 min-w-0 flex items-start gap-2">
                                   <div className="min-w-0 flex-1">
