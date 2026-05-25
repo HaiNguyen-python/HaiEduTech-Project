@@ -260,6 +260,7 @@ const Navbar = () => {
     { to: "/programming", label: t("Học Lập Trình", "Learn Programming"), icon: Code2, subs: programmingSubs, key: "prog" },
     { to: "/programming/ai-academy", label: t("AI Academy", "AI Academy"), icon: RobotIcon },
     { to: "/study-abroad", label: t("Du Học", "Study Abroad"), icon: Briefcase, subs: studyAbroadSubs, key: "abroad" },
+    { to: "/register", label: t("Đăng ký khóa học", "Register"), icon: UserPlus },
   ];
 
   const navLinks = user
