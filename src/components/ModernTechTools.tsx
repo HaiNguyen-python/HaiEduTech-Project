@@ -10,8 +10,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import ShineCard from "@/components/ShineCard";
 import FloatingChibi from "@/components/FloatingChibi";
 import chibiRobot from "@/assets/chibi-robot.png";
-import chibiGraduate from "@/assets/chibi-graduate.png";
-import chibiRocket from "@/assets/chibi-rocket.png";
+import aiChibiRobot from "@/assets/ai-chibi-robot.png";
+import chibiWriting from "@/assets/chibi-writing.png";
 
 type Tool = {
   icon: LucideIcon;
