@@ -147,7 +147,7 @@ const ModernTechTools = () => {
                 <button
                   type="button"
                   onClick={() => handleClick(tool)}
-                  className="group relative block h-full w-full overflow-hidden rounded-2xl border-2 border-primary/40 bg-card p-5 text-left shadow-[0_4px_20px_-4px_hsl(var(--primary)/0.18)] ring-1 ring-primary/10 transition-all hover:-translate-y-1 hover:border-primary hover:shadow-xl hover:shadow-primary/25 sm:p-6"
+                  className="group relative block h-full w-full overflow-hidden rounded-2xl border-[3px] border-primary/60 bg-card p-5 text-left shadow-[0_6px_24px_-4px_hsl(var(--primary)/0.28)] ring-2 ring-primary/15 transition-all hover:-translate-y-1 hover:border-primary hover:shadow-2xl hover:shadow-primary/35 sm:p-6"
                 >
                   {tool.live && (
                     <span className="absolute right-3 top-3 z-20 inline-flex items-center gap-1.5 rounded-full bg-rose-500/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-rose-600">
