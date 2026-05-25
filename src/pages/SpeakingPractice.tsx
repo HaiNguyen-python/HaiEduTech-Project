@@ -376,6 +376,19 @@ const SpeakingPractice = () => {
       const graded = data as SpeakingResult;
       setResult(graded);
       recordScore(graded);
+      // Log to admin dashboard so teacher can track speaking frequency
+      try {
+        const { logStudentActivity } = await import("@/hooks/useActivityLogger");
+        await logStudentActivity({
+          activityType: "ielts_speaking",
+          activityId: currentQ?.id,
+          score: graded.overall,
+          maxScore: 9,
+          timeSpentSeconds: timer,
+          domain: "english",
+          metadata: { part: selectedPart, topic: currentQ?.topic, question: currentQ?.question },
+        });
+      } catch (e) { console.error("log speaking failed", e); }
     } catch {
       // Fallback mock grading
       const base = 5.0 + Math.min(timer / 120, 1) * 2;
