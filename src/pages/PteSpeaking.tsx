@@ -156,6 +156,20 @@ const PteSpeaking = () => {
     }
     setScore(band);
     recordCompletion(item.id, band);
+    // Log to admin dashboard for teacher visibility on speaking practice frequency
+    (async () => {
+      try {
+        const { logStudentActivity } = await import("@/hooks/useActivityLogger");
+        await logStudentActivity({
+          activityType: "pte_speaking",
+          activityId: item.id,
+          score: band,
+          maxScore: 90,
+          domain: "english",
+          metadata: { mode, transcript: transcript.slice(0, 500) },
+        });
+      } catch (e) { console.error("log pte speaking failed", e); }
+    })();
     toast.success(`Recorded! Estimated PTE Band: ${band}`);
   };
 
