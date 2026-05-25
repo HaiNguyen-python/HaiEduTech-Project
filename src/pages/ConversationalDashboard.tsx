@@ -1,4 +1,5 @@
 // Conversational English interactive dashboard with accordion timeline and pillar tabs
+import FloatingLessonChibis from "@/components/decorations/FloatingLessonChibis";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
@@ -78,6 +79,7 @@ const ConversationalDashboard = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <FloatingLessonChibis theme="conversation" seed="en-conversational" />
       <Navbar />
       <main className="container mx-auto px-4 py-8 max-w-5xl">
         {/* Back link */}

@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import FloatingLessonChibis from "@/components/decorations/FloatingLessonChibis";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
@@ -563,6 +564,7 @@ const IeltsVocabulary = () => {
 
   return (
     <div ref={pageContainerRef} className="min-h-screen bg-background">
+      <FloatingLessonChibis theme="ielts" seed="ielts-vocab" />
       <SEO title="800 Từ Vựng IELTS Có Hình Minh Họa | HaiEduTech" description="Ngân hàng 800 từ vựng IELTS theo chủ đề & cấp độ CEFR, có hình minh họa, IPA, ví dụ. Flashcard, quiz, leaderboard và Mountain Climber gamification." path="/ielts-vocabulary" />
       <Navbar />
       <div className="pt-6 pb-16">

@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import FloatingLessonChibis from "@/components/decorations/FloatingLessonChibis";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
@@ -393,6 +394,7 @@ const HskVocabulary = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <FloatingLessonChibis theme="hsk" seed="hsk-vocab" />
       <SEO title="1100+ Từ Vựng HSK 1-6 Có Pinyin & Phát Âm | HaiEduTech" description="Ngân hàng từ vựng HSK 1 đến HSK 6 với Pinyin, dịch nghĩa, phát âm, viết Hanzi tương tác. Học theo flashcard, quiz, gamified với Great Wall Climber." path="/chinese/hsk/vocabulary" />
       <Navbar />
       <div className="pt-6 pb-16">
