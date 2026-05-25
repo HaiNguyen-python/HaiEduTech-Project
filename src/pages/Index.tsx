@@ -71,6 +71,7 @@ const Index = () => (
     <ScrollProgressBar />
     <Navbar />
     <HeroSection />
+    <HomeChibiFunFacts />
     <SectionDivider />
     <CoursesOverview />
     <SectionDivider flip />
