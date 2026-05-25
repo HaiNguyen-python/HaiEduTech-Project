@@ -73,7 +73,7 @@ const SuccessMetrics = () => {
   ];
 
   return (
-    <section className="relative py-8 sm:py-10">
+    <section className="relative overflow-x-clip py-12 sm:py-16">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary/10 to-transparent" />
 
       <FloatingChibi src={chibiOwl} alt="" className="absolute -left-2 top-4 z-0 opacity-90" size={110} />
