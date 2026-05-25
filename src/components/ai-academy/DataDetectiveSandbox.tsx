@@ -6,6 +6,22 @@
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Trash2, CheckCircle2, Search } from "lucide-react";
+import { BonusGames } from "./SandboxBonusGames";
+import { BestMatchPick } from "./SandboxMiniActivity";
+
+const DD_TF = [
+  { q: "Dữ liệu bẩn có thể khiến AI đưa ra dự đoán sai lệch.", a: true },
+  { q: "Outlier (giá trị bất thường) luôn nên xoá khỏi dữ liệu.", a: false, why: "Đôi khi outlier là phát hiện quan trọng (gian lận, lỗi hệ thống)." },
+  { q: "Giá trị bị thiếu (missing) có thể điền bằng trung bình của cột.", a: true },
+  { q: "Một bảng dữ liệu sạch là điều kiện cần để huấn luyện AI tốt.", a: true },
+  { q: "Chiều cao 999 cm là dữ liệu hợp lệ cho học sinh cấp 2.", a: false, why: "Không người thật nào cao 999cm — đó là outlier do lỗi nhập." },
+];
+const DD_PAIRS = [
+  { a: "Missing", b: "Ô trống — chưa có giá trị" },
+  { a: "Outlier", b: "Giá trị bất thường, lệch hẳn nhóm" },
+  { a: "Duplicate", b: "Bản ghi bị lặp lại" },
+  { a: "Imputation", b: "Điền giá trị thiếu bằng ước lượng" },
+];
 
 type Row = {
   id: number;
