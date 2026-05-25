@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { PenTool, Mic, Bot, Gamepad2, Target, LineChart, ArrowRight, LucideIcon } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import ShineCard from "@/components/ShineCard";
 
 type Tool = {
   icon: LucideIcon;
@@ -16,6 +17,7 @@ type Tool = {
   action?: "open-chatbot";
   gradient: string;
   iconColor: string;
+  live?: boolean;
 };
 
 const ModernTechTools = () => {
