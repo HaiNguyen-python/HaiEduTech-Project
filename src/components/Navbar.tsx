@@ -265,7 +265,7 @@ const Navbar = () => {
 
   const navLinks = user
     ? isTeacher
-      ? [...baseLinks, { to: "/dashboard", label: t("Dashboard", "Dashboard"), icon: LayoutDashboard }, { to: "/admin-dashboard", label: t("Quản trị", "Admin"), icon: Shield }]
+      ? [...baseLinks, { to: "/admin-dashboard", label: t("Quản trị", "Admin"), icon: Shield }]
       : [...baseLinks, { to: "/dashboard", label: t("Dashboard", "Dashboard"), icon: LayoutDashboard }]
     : baseLinks;
 
