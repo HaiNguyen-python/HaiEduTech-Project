@@ -102,6 +102,20 @@ const MiniGames = ({ onBack }: Props) => {
             desc={t("Gõ từ đúng theo IPA + định nghĩa", "Type the word from IPA + definition")}
             onClick={() => setGame("sprint")}
           />
+          <GameCard
+            icon={<Link2 className="w-7 h-7 text-amber-500" />}
+            color="amber"
+            title={t("Ghép từ đồng nghĩa", "Synonym Showdown")}
+            desc={t("Chọn từ đồng nghĩa với từ cho sẵn", "Pick the synonym of the given word")}
+            onClick={() => setGame("synonym")}
+          />
+          <GameCard
+            icon={<Shuffle className="w-7 h-7 text-sky-500" />}
+            color="sky"
+            title={t("Xếp chữ cái", "Word Scramble")}
+            desc={t("Sắp xếp lại các chữ cái thành từ đúng", "Unscramble letters to form the word")}
+            onClick={() => setGame("scramble")}
+          />
         </div>
       </div>
     );
@@ -110,6 +124,8 @@ const MiniGames = ({ onBack }: Props) => {
   if (game === "memory") return <MemoryMatch mode={mode} onExit={() => setGame("menu")} />;
   if (game === "hunt") return <WordHunt mode={mode} onExit={() => setGame("menu")} />;
   if (game === "sprint") return <DefinitionSprint mode={mode} onExit={() => setGame("menu")} />;
+  if (game === "synonym") return <SynonymShowdown mode={mode} onExit={() => setGame("menu")} />;
+  if (game === "scramble") return <WordScramble mode={mode} onExit={() => setGame("menu")} />;
   return null;
 };
 
