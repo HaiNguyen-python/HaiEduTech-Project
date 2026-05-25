@@ -691,13 +691,13 @@ const ToeicVocabulary = () => {
                                 {/* Word header */}
                                 <div className="flex items-start justify-between mb-3 pr-10">
                                   <div>
-                                    <h3 className="text-xl font-bold text-slate-900 dark:text-white">{w.word}</h3>
-                                    <p className="text-sm text-blue-600 dark:text-blue-200/70 font-mono">{w.ipa}</p>
+                                    <h3 className="text-xl font-extrabold text-slate-950 dark:text-white">{w.word}</h3>
+                                    <p className="text-sm text-blue-800 dark:text-blue-200/70 font-mono font-bold">{w.ipa}</p>
                                   </div>
                                   <div className="flex items-center gap-2">
                                     <Badge className={`${wordClassColors[w.wordClass]} border text-xs font-bold uppercase`}>{w.wordClass}</Badge>
                                     <button onClick={() => speak(w.word)} className="p-2 rounded-full hover:bg-blue-100 dark:hover:bg-blue-500/15 transition-colors">
-                                      <Volume2 className="w-5 h-5 text-blue-600 dark:text-blue-300" />
+                                      <Volume2 className="w-5 h-5 text-blue-700 dark:text-blue-300" />
                                     </button>
                                   </div>
                                 </div>
@@ -705,19 +705,19 @@ const ToeicVocabulary = () => {
                                 {/* Level & category */}
                                 <div className="flex items-center gap-2 mb-3">
                                   <Badge className={`${levelColors[w.level]} border text-xs`}>{levelLabels[w.level]}</Badge>
-                                  <span className="text-xs text-slate-600 dark:text-slate-400 flex items-center gap-1">
+                                  <span className="text-xs text-slate-800 dark:text-slate-400 font-semibold flex items-center gap-1">
                                     {categoryIcons[w.category]}
                                     {w.category}
                                   </span>
                                 </div>
 
                                 {/* Definition */}
-                                <p className="text-base text-slate-900 dark:text-[#f8fafc] font-medium mb-1">{w.definition.en}</p>
-                                <p className="text-base text-blue-700 dark:text-[#93c5fd] mb-3">{w.definition.vi}</p>
+                                <p className="text-base text-slate-950 dark:text-[#f8fafc] font-bold mb-1">{w.definition.en}</p>
+                                <p className="text-base text-blue-900 dark:text-[#93c5fd] font-bold mb-3">{w.definition.vi}</p>
 
                                 {/* Example */}
-                                <p className="text-sm text-slate-700 dark:text-[#cbd5e1] italic mb-2">
-                                  <span className="not-italic font-semibold text-blue-700 dark:text-blue-300">E.g. </span>
+                                <p className="text-sm text-slate-900 dark:text-[#cbd5e1] italic font-medium mb-2">
+                                  <span className="not-italic font-extrabold text-blue-800 dark:text-blue-300">E.g. </span>
                                   {highlightKeyword(w.example, w.word)}
                                 </p>
                                 <TypePractice example={w.example} t={t} />
@@ -725,16 +725,16 @@ const ToeicVocabulary = () => {
                                 {/* Synonyms */}
                                 {w.synonyms.length > 0 && (
                                   <div className="mb-2">
-                                    <span className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold">Synonyms: </span>
-                                    <span className="text-sm text-slate-700 dark:text-[#cbd5e1]">{w.synonyms.join(", ")}</span>
+                                    <span className="text-xs text-slate-700 dark:text-slate-400 uppercase font-extrabold">Synonyms: </span>
+                                    <span className="text-sm text-slate-900 dark:text-[#cbd5e1] font-semibold">{w.synonyms.join(", ")}</span>
                                   </div>
                                 )}
 
                                 {/* Collocations */}
                                 {w.collocations.length > 0 && (
                                   <div>
-                                    <span className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold">Collocations: </span>
-                                    <span className="text-sm text-blue-700 dark:text-[#93c5fd]">{w.collocations.join(" · ")}</span>
+                                    <span className="text-xs text-slate-700 dark:text-slate-400 uppercase font-extrabold">Collocations: </span>
+                                    <span className="text-sm text-blue-900 dark:text-[#93c5fd] font-semibold">{w.collocations.join(" · ")}</span>
                                   </div>
                                 )}
                               </motion.div>
