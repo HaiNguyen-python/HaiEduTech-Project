@@ -548,6 +548,7 @@ const WordHunt = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
         })}
       </div>
     </div>
+    </ShakeWrap>
   );
 };
 
