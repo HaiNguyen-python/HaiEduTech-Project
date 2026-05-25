@@ -218,7 +218,7 @@ const GameCard = ({ icon, color, title, desc, gameKey, onClick }: { icon: React.
 };
 
 // ============ Shared header ============
-const GameHeader = ({ title, mode, onExit, currentPlayer, scoreA, scoreB }: { title: string; mode: Mode; onExit: () => void; currentPlayer?: 1 | 2; scoreA: number; scoreB?: number }) => {
+const GameHeader = ({ title, mode, onExit, currentPlayer, scoreA, scoreB, combo }: { title: string; mode: Mode; onExit: () => void; currentPlayer?: 1 | 2; scoreA: number; scoreB?: number; combo?: number }) => {
   const { t } = useLanguage();
   return (
     <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
@@ -226,11 +226,17 @@ const GameHeader = ({ title, mode, onExit, currentPlayer, scoreA, scoreB }: { ti
         <ArrowLeft className="w-4 h-4" /> {t("Thoát", "Exit")}
       </button>
       <h2 className="text-xl font-bold text-foreground">{title}</h2>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 flex-wrap">
+        {combo !== undefined && combo >= 2 && <ComboBadge combo={combo} />}
         {mode === "solo" ? (
-          <span className="px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-sm font-bold flex items-center gap-1">
+          <motion.span
+            key={scoreA}
+            initial={{ scale: 1.25 }}
+            animate={{ scale: 1 }}
+            className="px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-sm font-bold flex items-center gap-1"
+          >
             <Trophy className="w-4 h-4" /> {scoreA}
-          </span>
+          </motion.span>
         ) : (
           <>
             <span className={`px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1 transition-all ${currentPlayer === 1 ? "bg-blue-500 text-white scale-110" : "bg-blue-500/10 text-blue-500"}`}>
