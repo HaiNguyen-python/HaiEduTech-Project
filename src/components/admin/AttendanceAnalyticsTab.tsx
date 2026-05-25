@@ -7,6 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { CalendarCheck, CalendarX, Users, TrendingUp } from "lucide-react";
+import { fetchAllRows } from "@/lib/adminData";
 import {
   ResponsiveContainer,
   BarChart,
@@ -38,13 +39,14 @@ const AttendanceAnalyticsTab = () => {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const { data } = await supabase
-        .from("lesson_attendance")
-        .select("*")
-        .order("attendance_date", { ascending: false })
-        .limit(2000);
-      const list = (data || []) as AttendanceRow[];
-      setRows(list);
+      const list = await fetchAllRows<AttendanceRow>((from, to) =>
+        supabase
+          .from("lesson_attendance")
+          .select("*")
+          .order("attendance_date", { ascending: false })
+          .range(from, to)
+      );
+      setRows(list as AttendanceRow[]);
 
       const ids = Array.from(new Set(list.map((r) => r.user_id)));
       if (ids.length > 0) {

@@ -31,6 +31,7 @@ export const usePageViewTracker = () => {
   const enterTimeRef = useRef<number>(Date.now());
   const lastPathRef = useRef<string>("");
   const lastRowIdRef = useRef<string | null>(null);
+  const accessTokenRef = useRef<string | null>(null);
 
   useEffect(() => {
     const currentPath = location.pathname + location.search;
@@ -56,6 +57,7 @@ export const usePageViewTracker = () => {
         // can stall and hold the auth lock — was blocking OAuth login completion).
         const { data: { session } } = await supabase.auth.getSession();
         const user = session?.user ?? null;
+        accessTokenRef.current = session?.access_token ?? null;
         const sessionId = getSessionId();
 
         const { data, error } = await supabase
@@ -103,7 +105,7 @@ export const usePageViewTracker = () => {
             headers: {
               "Content-Type": "application/json",
               apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-              Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+              Authorization: `Bearer ${accessTokenRef.current || import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
               Prefer: "return=minimal",
             },
             body: JSON.stringify({ time_on_page_seconds: seconds }),

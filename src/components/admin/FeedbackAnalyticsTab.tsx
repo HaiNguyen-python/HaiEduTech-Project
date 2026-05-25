@@ -18,6 +18,7 @@ import {
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Star, AlertTriangle, MessageSquare, TrendingDown, BarChart3 } from "lucide-react";
+import { fetchAllRows } from "@/lib/adminData";
 import {
   ResponsiveContainer,
   LineChart,
@@ -82,16 +83,16 @@ const FeedbackAnalyticsTab = () => {
   useEffect(() => {
     const fetchAll = async () => {
       setLoading(true);
-      const { data } = await supabase
-        .from("lesson_feedback")
-        .select(
-          "id,created_at,lesson_id,lesson_type,subject,feedback_type,user_id,rating_clarity,rating_ai_tool,rating_confidence,suggestion,lesson_title",
-        )
-        .order("created_at", { ascending: false })
-        .limit(5000);
-
-      const list = (data || []) as FeedbackRow[];
-      setRows(list);
+      const list = await fetchAllRows<FeedbackRow>((from, to) =>
+        supabase
+          .from("lesson_feedback")
+          .select(
+            "id,created_at,lesson_id,lesson_type,subject,feedback_type,user_id,rating_clarity,rating_ai_tool,rating_confidence,suggestion,lesson_title",
+          )
+          .order("created_at", { ascending: false })
+          .range(from, to)
+      );
+      setRows(list as FeedbackRow[]);
 
       // Fetch profile names in one query
       const userIds = Array.from(new Set(list.map((r) => r.user_id).filter(Boolean))) as string[];
