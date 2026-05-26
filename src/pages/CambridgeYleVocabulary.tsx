@@ -22,7 +22,7 @@ import { getCategory, CATEGORY_META, CATEGORY_ORDER, type KidsCategory } from "@
 import { CATEGORY_BG } from "@/data/cambridgeKidsCategoryBg";
 import { getPos, POS_LABEL } from "@/data/cambridgeKidsPos";
 import KidsSpeechCheck from "@/components/KidsSpeechCheck";
-import KidsChibiMascot from "@/components/KidsChibiMascot";
+
 import KidsCategoryQuiz from "@/components/KidsCategoryQuiz";
 import { CambridgeArcadeInner } from "@/pages/CambridgeArcade";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
