@@ -104,7 +104,7 @@ const HeroSection = () => {
               </h1>
 
               <div className="mb-4 text-center font-display text-lg font-semibold text-muted-foreground sm:text-xl lg:text-left">
-                <span>{t("Chinh phục ", "Master ")}</span>
+                <span>{t("Chinh phục ", "Master your ")}</span>
                 <TypingHeadline
                   words={
                     t("vi", "en") === "vi"
@@ -117,7 +117,7 @@ const HeroSection = () => {
               <p className="mx-auto mb-6 max-w-md px-1 text-[15px] leading-7 text-muted-foreground sm:mb-8 sm:max-w-xl sm:px-0 sm:text-base md:text-lg lg:mx-0">
                 {t(
                   "Chinh phục Tiếng Anh, Tiếng Trung và Lập trình cùng thầy Hải – Thạc sĩ Ngôn ngữ & Văn hóa Anh, Kỹ sư Dữ liệu & Trí tuệ nhân tạo tại Phần Lan.",
-                  "Master English, Chinese and Programming with Teacher Hai – M.A. in English Language & Culture and a Data & AI Engineer in Finland."
+                  "Master your English, Chinese and Programming with Teacher Hai – M.A. in English Language & Culture and a Data & AI Engineer in Finland."
                 )}
               </p>
 
