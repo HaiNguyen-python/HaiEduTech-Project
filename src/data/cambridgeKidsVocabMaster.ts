@@ -564,6 +564,7 @@ import { CAMBRIDGE_KIDS_WORDS_KET_PET_EXPANSION_3 } from "./cambridgeKidsVocabKe
 import { CAMBRIDGE_KIDS_WORDS_EXPANSION_4 } from "./cambridgeKidsVocabExpansion4";
 import { CAMBRIDGE_KIDS_WORDS_EXPANSION_5 } from "./cambridgeKidsVocabExpansion5";
 import { CAMBRIDGE_KIDS_WORDS_EXPANSION_6 } from "./cambridgeKidsVocabExpansion6";
+import { CAMBRIDGE_KIDS_WORDS_EXPANSION_7 } from "./cambridgeKidsVocabExpansion7";
 const map = new Map<string, W>();
 for (const w of [
   ...CAMBRIDGE_KIDS_WORDS_MASTER,
@@ -582,7 +583,10 @@ for (const w of [
   ...CAMBRIDGE_KIDS_WORDS_KET_PET_EXPANSION_3,
   ...CAMBRIDGE_KIDS_WORDS_EXPANSION_4,
   ...CAMBRIDGE_KIDS_WORDS_EXPANSION_5,
+  ...CAMBRIDGE_KIDS_WORDS_EXPANSION_6,
+  ...CAMBRIDGE_KIDS_WORDS_EXPANSION_7,
 ]) {
+
   const k = w.word.toLowerCase().trim();
   const cur = map.get(k);
   if (!cur || LEVEL_RANK[w.level] < LEVEL_RANK[cur.level]) map.set(k, w);
