@@ -586,6 +586,7 @@ for (const w of [
   ...CAMBRIDGE_KIDS_WORDS_EXPANSION_5,
   ...CAMBRIDGE_KIDS_WORDS_EXPANSION_6,
   ...CAMBRIDGE_KIDS_WORDS_EXPANSION_7,
+  ...CAMBRIDGE_KIDS_WORDS_EXPANSION_8,
 ]) {
 
   const k = w.word.toLowerCase().trim();
