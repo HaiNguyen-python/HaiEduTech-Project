@@ -19,7 +19,7 @@ const StudyChibisStatic = () => (
       style={{
         position: "fixed",
         left: "12px",
-        bottom: "24px",
+        bottom: "160px",
         width: 140,
         height: 140,
         objectFit: "contain",
