@@ -22,7 +22,7 @@ import { getCategory, CATEGORY_META, CATEGORY_ORDER, type KidsCategory } from "@
 import { CATEGORY_BG } from "@/data/cambridgeKidsCategoryBg";
 import { getPos, POS_LABEL } from "@/data/cambridgeKidsPos";
 import KidsSpeechCheck from "@/components/KidsSpeechCheck";
-import KidsChibiMascot from "@/components/KidsChibiMascot";
+
 import KidsCategoryQuiz from "@/components/KidsCategoryQuiz";
 import { CambridgeArcadeInner } from "@/pages/CambridgeArcade";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
@@ -234,7 +234,6 @@ const CambridgeYleVocabulary = () => {
     <div className="min-h-screen relative" style={{ background: "linear-gradient(180deg, #FEFCF7 0%, #FFF7FA 35%, #F4FAFF 70%, #F8FFF6 100%)" }}>
       <FloatingKidsDecor />
       <Navbar />
-      <KidsChibiMascot lang={lang} />
       <main className="pt-16 pb-8 relative z-10">
         {/* Hero */}
         <section className="container mx-auto px-4 py-4">
