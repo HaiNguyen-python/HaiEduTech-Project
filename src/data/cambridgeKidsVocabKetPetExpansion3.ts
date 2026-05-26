@@ -188,4 +188,4 @@ export const CAMBRIDGE_KIDS_WORDS_KET_PET_EXPANSION_3: W[] = [
   mk("telephone", "điện thoại", "☎️", "KET", "I spoke to her on the telephone.", "Em nói chuyện với cô ấy qua điện thoại."),
   mk("temperature", "nhiệt độ", "🌡️", "KET", "The temperature is thirty degrees.", "Nhiệt độ là ba mươi độ."),
   mk("tenant", "người thuê nhà", "🏠", "KET", "The tenant pays rent monthly.", "Người thuê trả tiền thuê hàng tháng."),
-  mk(
+];
