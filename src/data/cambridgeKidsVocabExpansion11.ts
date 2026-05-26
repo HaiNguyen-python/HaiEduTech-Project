@@ -86,7 +86,7 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION_11: W[] = [
   mk("possibility", "khả năng", "💭", "Flyers", "There is a possibility of rain.", "Có khả năng trời sẽ mưa."),
   mk("paperwork", "giấy tờ", "📄", "Flyers", "Mum finishes the paperwork.", "Mẹ hoàn thành giấy tờ."),
   mk("workload", "khối lượng công việc", "📚", "Flyers", "My workload is heavy this week.", "Tuần này em có nhiều bài tập."),
-  mk("dove", "chim bồ câu (Fl)", "🕊️", "Flyers", "A dove is a symbol of peace.", "Bồ câu là biểu tượng của hoà bình."),
+  mk("symbolize", "tượng trưng cho", "🕊️", "Flyers", "A dove symbolizes peace.", "Bồ câu tượng trưng cho hoà bình."),
 
   // ───── KET ─────
   mk("cautious", "thận trọng", "⚠️", "KET", "Be cautious on the road.", "Hãy thận trọng khi đi đường."),
@@ -116,6 +116,6 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION_11: W[] = [
   mk("canyon", "hẻm núi", "🏜️", "PET", "The Grand Canyon is famous.", "Hẻm núi Grand Canyon nổi tiếng."),
   mk("facilitate", "tạo điều kiện", "🤝", "PET", "The tool facilitates learning.", "Công cụ này tạo điều kiện cho việc học."),
   mk("eliminate", "loại bỏ", "❌", "PET", "We eliminate unhealthy food.", "Chúng em loại bỏ đồ ăn không lành mạnh."),
-  mk("authority", "thẩm quyền", "👮", "PET", "Police have legal authority.", "Cảnh sát có thẩm quyền pháp lý."),
-  mk("capacity", "sức chứa / năng lực", "📦", "PET", "The hall's capacity is 500.", "Sức chứa của hội trường là 500."),
+  mk("biodiversity", "đa dạng sinh học", "🌿", "PET", "Coral reefs have rich biodiversity.", "Rạn san hô có đa dạng sinh học phong phú."),
+  mk("urbanization", "đô thị hoá", "🏙️", "PET", "Urbanization changes village life.", "Đô thị hoá thay đổi cuộc sống làng quê."),
 ];
