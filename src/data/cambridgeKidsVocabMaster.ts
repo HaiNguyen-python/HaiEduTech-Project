@@ -566,6 +566,7 @@ import { CAMBRIDGE_KIDS_WORDS_EXPANSION_5 } from "./cambridgeKidsVocabExpansion5
 import { CAMBRIDGE_KIDS_WORDS_EXPANSION_6 } from "./cambridgeKidsVocabExpansion6";
 import { CAMBRIDGE_KIDS_WORDS_EXPANSION_7 } from "./cambridgeKidsVocabExpansion7";
 import { CAMBRIDGE_KIDS_WORDS_EXPANSION_8 } from "./cambridgeKidsVocabExpansion8";
+import { CAMBRIDGE_KIDS_WORDS_EXPANSION_9 } from "./cambridgeKidsVocabExpansion9";
 const map = new Map<string, W>();
 for (const w of [
   ...CAMBRIDGE_KIDS_WORDS_MASTER,
@@ -587,6 +588,8 @@ for (const w of [
   ...CAMBRIDGE_KIDS_WORDS_EXPANSION_6,
   ...CAMBRIDGE_KIDS_WORDS_EXPANSION_7,
   ...CAMBRIDGE_KIDS_WORDS_EXPANSION_8,
+  ...CAMBRIDGE_KIDS_WORDS_EXPANSION_9,
+
 ]) {
 
   const k = w.word.toLowerCase().trim();
