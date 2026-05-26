@@ -227,15 +227,22 @@ export default function KidsChibiMascot({ lang = "vi" as "vi" | "en" }) {
       `}</style>
 
       <style>{`
-        /* Chibis are intentionally static — no movement on hover or idle. */
-        .chibi-wrap { transform-origin: 50% 100%; }
-        .chibi-wrap:hover, .chibi-wrap:focus { transform: none !important; animation: none !important; }
+        /* Chibis are completely static — no idle motion, no hover motion. */
         @keyframes bubble-pop { 0%{opacity:0; transform:translateY(6px) scale(.85)} 100%{opacity:1; transform:translateY(0) scale(1)} }
+        .chibi-wrap,
+        .chibi-wrap.boy,
+        .chibi-wrap.girl,
+        .chibi-arm-l, .chibi-arm-r,
+        .chibi-leg-l, .chibi-leg-r,
+        .chibi-eye-l, .chibi-eye-r,
+        .chibi-bow {
+          animation: none !important;
+          transform: none !important;
+        }
+        .chibi-wrap:hover, .chibi-wrap:focus { transform: none !important; animation: none !important; }
+        .sparkle-fx { opacity: .85; animation: none !important; }
       `}</style>
 
-      <style>{`
-        .sparkle-fx { opacity: .85; }
-      `}</style>
 
       <div
         className="hidden md:flex fixed z-40 select-none items-end gap-2"
