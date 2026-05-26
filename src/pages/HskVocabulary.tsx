@@ -1,3 +1,4 @@
+import StudyChibisStatic from "@/components/decorations/StudyChibisStatic";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -395,6 +396,7 @@ const HskVocabulary = () => {
     <div className="min-h-screen bg-background">
       <SEO title="1100+ Từ Vựng HSK 1-6 Có Pinyin & Phát Âm | HaiEduTech" description="Ngân hàng từ vựng HSK 1 đến HSK 6 với Pinyin, dịch nghĩa, phát âm, viết Hanzi tương tác. Học theo flashcard, quiz, gamified với Great Wall Climber." path="/chinese/hsk/vocabulary" />
       <Navbar />
+      <StudyChibisStatic />
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-4 max-w-7xl">
           <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">

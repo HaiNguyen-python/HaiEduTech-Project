@@ -1,3 +1,4 @@
+import StudyChibisStatic from "@/components/decorations/StudyChibisStatic";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
@@ -490,6 +491,7 @@ const ToeicVocabulary = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800">
       <Navbar />
+      <StudyChibisStatic />
       <main className="max-w-7xl mx-auto px-4 py-8 sm:py-12">
         <div className="flex gap-6">
         <div className="flex-1 min-w-0">
