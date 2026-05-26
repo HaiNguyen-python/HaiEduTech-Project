@@ -1,3 +1,4 @@
+import StudyChibisStatic from "@/components/decorations/StudyChibisStatic";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -566,6 +567,7 @@ const IeltsVocabulary = () => {
     <div ref={pageContainerRef} className="min-h-screen bg-background">
       <SEO title="800 Từ Vựng IELTS Có Hình Minh Họa | HaiEduTech" description="Ngân hàng 800 từ vựng IELTS theo chủ đề & cấp độ CEFR, có hình minh họa, IPA, ví dụ. Flashcard, quiz, leaderboard và Mountain Climber gamification." path="/ielts-vocabulary" />
       <Navbar />
+      <StudyChibisStatic />
       <div className="pt-24 lg:pt-28 pb-16">
         <div className="container mx-auto px-4 max-w-7xl">
           <RouterLink to="/english/ielts" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary mb-4">

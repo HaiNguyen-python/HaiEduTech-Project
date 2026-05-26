@@ -1,3 +1,4 @@
+import StudyChibisStatic from "@/components/decorations/StudyChibisStatic";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -396,6 +397,7 @@ const SatVocabulary = () => {
         path="/sat-vocabulary"
       />
       <Navbar />
+      <StudyChibisStatic />
       <div className="pt-24 lg:pt-28 pb-16">
         <div className="container mx-auto px-4 max-w-7xl">
           <Link to="/english/sat" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary mb-4">
