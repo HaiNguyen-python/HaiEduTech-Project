@@ -574,6 +574,7 @@ for (const w of [
   ...CAMBRIDGE_KIDS_WORDS_MASTER_10,
   ...CAMBRIDGE_KIDS_WORDS_KET_EXPANSION,
   ...CAMBRIDGE_KIDS_WORDS_ALL_EXPANSION,
+  ...CAMBRIDGE_KIDS_WORDS_KET_PET_EXPANSION_2,
 ]) {
   const k = w.word.toLowerCase().trim();
   const cur = map.get(k);
