@@ -227,18 +227,22 @@ export default function KidsChibiMascot({ lang = "vi" as "vi" | "en" }) {
       `}</style>
 
       <style>{`
-        @keyframes heart-float { 0%{transform:translateY(0) scale(.8); opacity:0} 30%{opacity:1} 100%{transform:translateY(-30px) scale(1.1); opacity:0} }
-        @keyframes sparkle-twinkle { 0%,100%{opacity:.3; transform:scale(.8) rotate(0)} 50%{opacity:1; transform:scale(1.2) rotate(180deg)} }
-        @keyframes cloud-drift { 0%,100%{transform:translateX(0)} 50%{transform:translateX(4px)} }
-        .heart-fx { position:absolute; animation: heart-float 2.4s ease-out infinite; }
-        .sparkle-fx { animation: sparkle-twinkle 2.2s ease-in-out infinite; }
+        /* Chibis are intentionally static — no movement on hover or idle. */
+        .chibi-wrap { transform-origin: 50% 100%; }
+        .chibi-wrap:hover, .chibi-wrap:focus { transform: none !important; animation: none !important; }
+        @keyframes bubble-pop { 0%{opacity:0; transform:translateY(6px) scale(.85)} 100%{opacity:1; transform:translateY(0) scale(1)} }
+      `}</style>
+
+      <style>{`
+        .sparkle-fx { opacity: .85; }
       `}</style>
 
       <div
         className="hidden md:flex fixed z-40 select-none items-end gap-2"
-        style={{ top: 200, right: 200, pointerEvents: "none" }}
+        style={{ bottom: 16, right: 16, pointerEvents: "none" }}
         aria-hidden="true"
       >
+
         {/* Soft cloud platform behind chibis */}
         <div
           className="absolute"
