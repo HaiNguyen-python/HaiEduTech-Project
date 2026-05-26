@@ -243,24 +243,20 @@ export default function KidsChibiMascot({ lang = "vi" as "vi" | "en" }) {
         aria-hidden="true"
       >
 
-        {/* Soft cloud platform behind chibis */}
+        {/* Soft cloud platform behind chibis (static) */}
         <div
           className="absolute"
           style={{
             bottom: -10, right: 0, width: 230, height: 60,
             background: "radial-gradient(ellipse at center, rgba(255,255,255,.85), rgba(255,255,255,0) 70%)",
-            animation: "cloud-drift 4s ease-in-out infinite",
           }}
         />
 
-        {/* Floating sparkles */}
+        {/* Static sparkles (no animation) */}
         <span className="sparkle-fx absolute" style={{ top: -6, right: 30, fontSize: 18 }}>✨</span>
-        <span className="sparkle-fx absolute" style={{ top: 30, left: -10, fontSize: 14, animationDelay: ".6s" }}>⭐</span>
-        <span className="sparkle-fx absolute" style={{ bottom: 20, right: -8, fontSize: 16, animationDelay: "1.1s" }}>💫</span>
+        <span className="sparkle-fx absolute" style={{ top: 30, left: -10, fontSize: 14 }}>⭐</span>
+        <span className="sparkle-fx absolute" style={{ bottom: 20, right: -8, fontSize: 16 }}>💫</span>
 
-        {/* Floating hearts */}
-        <span className="heart-fx" style={{ left: 10, bottom: 40, fontSize: 14, color: "#FF6FA8" }}>💖</span>
-        <span className="heart-fx" style={{ right: 14, bottom: 50, fontSize: 12, animationDelay: "1.2s" }}>💕</span>
 
         {/* Speech bubble */}
         {bubble && (
