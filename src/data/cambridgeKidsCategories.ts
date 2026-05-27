@@ -193,6 +193,48 @@ add("Descriptions (Adjectives)", [
   "achievement","argument","circumstance","consequence","evidence","influence","perspective","authority","variety","universe","volunteer",
 ]);
 
+// ===== Expansion 16 additions =====
+add("Technology", [
+  "desktop","charger","headset","usb","app","remote","selfie","podcast",
+  "download","upload","screenshot","wifi","bluetooth",
+]);
+add("Time, Numbers, Colors & Shapes", [
+  "week","weekday","rectangle","oval","dozen","hexagon","pentagon","twilight",
+  "crimson","turquoise","magenta","era","eternity","duration","interval",
+  "fortnight","decimal","fraction","quarter","milestone","sequence",
+  "chronological","epoch","span","simultaneous","periodic",
+]);
+add("Actions (Verbs)", ["throw"]);
+add("Home & Clothes", [
+  "hoodie","slipper","raincoat","drawer","lampshade","bookshelf","helmet","beanie",
+  "attic","hallway","fireplace","sleeve","gown","tuxedo","doormat",
+]);
+add("School & Stationery", [
+  "marker","folder","textbook","locker","stapler","highlighter",
+  "semester","syllabus","faculty","scholarship","tuition","lecture",
+]);
+add("Animals", [
+  "hippopotamus","platypus","peacock","antelope","otter","walrus","raven","pelican","sloth",
+]);
+add("Food & Drink", [
+  "croissant","syrup","smoothie","brownie","donut","cupcake","oatmeal","marshmallow",
+  "appetizer","beverage","seasoning","cuisine","vegetarian","organic","leftovers","takeaway",
+]);
+add("Sports, Hobbies & Music", [
+  "drums","trumpet","surfing","photography","knitting","karate","judo","badminton","rugby",
+  "championship","opponent","marathon","tactic","victory","rivalry","spectator",
+]);
+add("Nature & Weather", [
+  "humidity","hailstorm","dew","mist","drizzle",
+]);
+add("Places, Transport & Travel", [
+  "terminal","runway","lodge","expedition","itinerary","embassy","plaza",
+]);
+add("Body, Health & Feelings", [
+  "depression","wellbeing","resilience","fatigue","posture","immunity","recovery",
+  "empathy","gratitude","optimism","pessimism","mindfulness","compassion",
+]);
+
 export const getCategory = (word: string): KidsCategory => {
   const c = CATEGORY_MAP[word.toLowerCase().trim()];
   return c ?? "Other";

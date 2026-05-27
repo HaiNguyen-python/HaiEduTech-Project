@@ -24,6 +24,7 @@ import { getPos, POS_LABEL } from "@/data/cambridgeKidsPos";
 import KidsSpeechCheck from "@/components/KidsSpeechCheck";
 
 import KidsCategoryQuiz from "@/components/KidsCategoryQuiz";
+import CambridgeVocabPractice from "@/components/CambridgeVocabPractice";
 import { CambridgeArcadeInner } from "@/pages/CambridgeArcade";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import { toast } from "@/hooks/use-toast";
@@ -173,7 +174,7 @@ const CambridgeYleVocabulary = () => {
   const [level, setLevel] = useState<CambridgeKidsLevel>("Starters");
   const [search, setSearch] = useState("");
   const [tab, setTab] = useState<"learn" | "practice">("learn");
-  const [view, setView] = useState<"vocab" | "arcade">("vocab");
+  const [view, setView] = useState<"vocab" | "practice" | "arcade">("vocab");
   const { mastered, toggle } = useMasteredVocab(MASTERY_SUBJECT);
 
   const wordsForLevel = useMemo(
@@ -256,14 +257,20 @@ const CambridgeYleVocabulary = () => {
           </div>
         </section>
 
-        {/* View toggle: Vocabulary vs Arcade */}
+        {/* View toggle: Vocabulary / Practice / Arcade */}
         <section className="container mx-auto px-4 mb-4">
-          <div className="inline-flex p-1 rounded-2xl bg-white/80 border-2 border-white shadow-md gap-1">
+          <div className="inline-flex p-1 rounded-2xl bg-white/80 border-2 border-white shadow-md gap-1 flex-wrap">
             <button
               onClick={() => setView("vocab")}
               className={`px-4 py-2 rounded-xl text-sm font-bold transition ${view === "vocab" ? "bg-gradient-to-r from-pink-500 to-amber-500 text-white shadow" : "text-slate-600 hover:bg-slate-100"}`}
             >
               📚 {t("Học từ vựng", "Learn Vocabulary")}
+            </button>
+            <button
+              onClick={() => setView("practice")}
+              className={`px-4 py-2 rounded-xl text-sm font-bold transition ${view === "practice" ? "bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white shadow" : "text-slate-600 hover:bg-slate-100"}`}
+            >
+              ✨ {t("Luyện tập từ vựng", "Vocabulary Practice")}
             </button>
             <button
               onClick={() => setView("arcade")}
@@ -277,6 +284,10 @@ const CambridgeYleVocabulary = () => {
         {view === "arcade" ? (
           <section className="container mx-auto px-4 pb-8">
             <CambridgeArcadeInner embedded />
+          </section>
+        ) : view === "practice" ? (
+          <section className="container mx-auto px-4 pb-8 max-w-3xl">
+            <CambridgeVocabPractice lang={lang as "vi" | "en"} />
           </section>
         ) : (
         <section className="container mx-auto px-4 grid lg:grid-cols-[1fr_280px] gap-6 items-start max-w-[1500px]">
