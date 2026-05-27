@@ -75,7 +75,7 @@ const MISSIONS: Mission[] = [
       "Khi táo chạm mép dưới → 'change Điểm by -1' (trừ mạng).",
       "Trang trí nền và thêm âm thanh 'pop' khi hứng được.",
     ],
-    scratchUrl: "https://scratch.mit.edu/projects/10128067/",
+    scratchUrl: "https://scratch.mit.edu/search/projects?q=catch%20apple%20game",
   },
   {
     id: 2,
@@ -97,7 +97,7 @@ const MISSIONS: Mission[] = [
       "Khi Mèo chạm ống hoặc rơi xuống đáy → 'stop all' và hiện 'Game Over'.",
       "Cộng điểm mỗi lần ống biến mất khỏi màn hình.",
     ],
-    scratchUrl: "https://scratch.mit.edu/projects/121633270/",
+    scratchUrl: "https://scratch.mit.edu/search/projects?q=flappy%20cat",
   },
   {
     id: 3,
@@ -119,7 +119,7 @@ const MISSIONS: Mission[] = [
       "Đặt một ngôi sao 🌟 đích. Khi chạm sao → hiện 'Bạn thắng!'.",
       "Thêm đồng hồ đếm ngược 30s để tăng độ căng thẳng.",
     ],
-    scratchUrl: "https://scratch.mit.edu/projects/10015963/",
+    scratchUrl: "https://scratch.mit.edu/search/projects?q=maze%20game",
   },
   {
     id: 4,
@@ -141,7 +141,7 @@ const MISSIONS: Mission[] = [
       "Nếu đúng → cộng điểm và phát tiếng vỗ tay; sai → hiệu ứng buồn.",
       "Tạo vòng lặp 10 câu rồi hiện điểm tổng kết.",
     ],
-    scratchUrl: "https://scratch.mit.edu/projects/352620051/",
+    scratchUrl: "https://scratch.mit.edu/search/projects?q=english%20vocabulary%20quiz",
   },
   {
     id: 5,
@@ -163,7 +163,7 @@ const MISSIONS: Mission[] = [
       "Khi đạn chạm thiên thạch → 'delete this clone' + cộng điểm.",
       "Khi tàu chạm thiên thạch → mất HP, HP=0 thì 'Game Over'.",
     ],
-    scratchUrl: "https://scratch.mit.edu/projects/11414041/",
+    scratchUrl: "https://scratch.mit.edu/search/projects?q=space%20shooter%20asteroid",
   },
   {
     id: 6,
@@ -207,7 +207,7 @@ const MISSIONS: Mission[] = [
       "Cho Piano chơi giai điệu C-D-E-F-G bằng 'play note'.",
       "Khi nhấn cờ xanh → cả 3 sprite cùng phát nhạc liên tục.",
     ],
-    scratchUrl: "https://scratch.mit.edu/projects/editor/?tutorial=music",
+    scratchUrl: "https://scratch.mit.edu/search/projects?q=music%20drum%20band",
   },
   {
     id: 8,
@@ -229,7 +229,7 @@ const MISSIONS: Mission[] = [
       "Tạo biến 'Thời gian' = 30, mỗi giây giảm 1.",
       "Khi Thời gian = 0 → 'stop all' và hiện điểm cuối.",
     ],
-    scratchUrl: "https://scratch.mit.edu/projects/22162144/",
+    scratchUrl: "https://scratch.mit.edu/search/projects?q=whack%20a%20ghost",
   },
   {
     id: 9,
@@ -251,7 +251,7 @@ const MISSIONS: Mission[] = [
       "Mỗi tick → 'change pen color by 2' để có cầu vồng.",
       "Phím C → 'erase all' để xóa toàn bộ tranh.",
     ],
-    scratchUrl: "https://scratch.mit.edu/projects/editor/?tutorial=pen",
+    scratchUrl: "https://scratch.mit.edu/search/projects?q=pen%20drawing%20rainbow",
   },
   {
     id: 10,
@@ -273,7 +273,7 @@ const MISSIONS: Mission[] = [
       "Mũi tên Trái/Phải → 'turn ±5 degrees'.",
       "Sau khi rời vạch, khi chạm lại vạch → hiện 'timer' rồi 'reset timer'.",
     ],
-    scratchUrl: "https://scratch.mit.edu/projects/148628377/",
+    scratchUrl: "https://scratch.mit.edu/search/projects?q=racing%20car%20timer",
   },
   {
     id: 11,
@@ -295,7 +295,7 @@ const MISSIONS: Mission[] = [
       "Đúng → +10 điểm, combo +1; Sai → reset combo về 0.",
       "Lặp 10 câu rồi tổng kết điểm theo cấp bậc (Ninja Trắng → Đỏ).",
     ],
-    scratchUrl: "https://scratch.mit.edu/projects/120796408/",
+    scratchUrl: "https://scratch.mit.edu/search/projects?q=math%20ninja%20quiz",
   },
   {
     id: 12,
@@ -317,7 +317,7 @@ const MISSIONS: Mission[] = [
       "Nếu không khớp → 'Xin lỗi, tớ chưa hiểu, hỏi lại nhé.'",
       "Lặp lại vòng hỏi-đáp cho tới khi người dùng gõ 'bye'.",
     ],
-    scratchUrl: "https://scratch.mit.edu/projects/532898299/",
+    scratchUrl: "https://scratch.mit.edu/search/projects?q=chatbot%20cat",
   },
 ];
 
