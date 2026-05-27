@@ -208,7 +208,7 @@ const CambridgeYleVocabulary = () => {
   }, [filtered]);
 
   const [openCats, setOpenCats] = useState<Set<string>>(new Set());
-  const isSearching = search.trim().length > 0;
+  const isSearching = search.trim().length > 0 || categoryFilter !== "all" || showMasteredOnly;
   const isOpen = (key: string) => isSearching ? true : openCats.has(key);
   const toggleCat = (key: string) => {
     setOpenCats(prev => {
