@@ -77,7 +77,7 @@ const MISSIONS: Mission[] = [
       "Khi táo chạm mép dưới → 'change Điểm by -1' (trừ mạng).",
       "Trang trí nền và thêm âm thanh 'pop' khi hứng được.",
     ],
-    scratchUrl: SCRATCH_NEW,
+    scratchUrl: "https://scratch.mit.edu/projects/10128067/",
   },
   {
     id: 2,
@@ -99,7 +99,7 @@ const MISSIONS: Mission[] = [
       "Khi Mèo chạm ống hoặc rơi xuống đáy → 'stop all' và hiện 'Game Over'.",
       "Cộng điểm mỗi lần ống biến mất khỏi màn hình.",
     ],
-    scratchUrl: SCRATCH_NEW,
+    scratchUrl: "https://scratch.mit.edu/projects/121633270/",
   },
   {
     id: 3,
@@ -121,7 +121,7 @@ const MISSIONS: Mission[] = [
       "Đặt một ngôi sao 🌟 đích. Khi chạm sao → hiện 'Bạn thắng!'.",
       "Thêm đồng hồ đếm ngược 30s để tăng độ căng thẳng.",
     ],
-    scratchUrl: SCRATCH_NEW,
+    scratchUrl: "https://scratch.mit.edu/projects/10015963/",
   },
   {
     id: 4,
@@ -143,7 +143,7 @@ const MISSIONS: Mission[] = [
       "Nếu đúng → cộng điểm và phát tiếng vỗ tay; sai → hiệu ứng buồn.",
       "Tạo vòng lặp 10 câu rồi hiện điểm tổng kết.",
     ],
-    scratchUrl: SCRATCH_NEW,
+    scratchUrl: "https://scratch.mit.edu/projects/352620051/",
   },
   {
     id: 5,
@@ -165,7 +165,7 @@ const MISSIONS: Mission[] = [
       "Khi đạn chạm thiên thạch → 'delete this clone' + cộng điểm.",
       "Khi tàu chạm thiên thạch → mất HP, HP=0 thì 'Game Over'.",
     ],
-    scratchUrl: SCRATCH_NEW,
+    scratchUrl: "https://scratch.mit.edu/projects/11414041/",
   },
   {
     id: 6,
@@ -187,7 +187,7 @@ const MISSIONS: Mission[] = [
       "Thêm âm thanh và hiệu ứng đẹp mắt.",
       "Bấm 'Share' trên Scratch rồi gửi link cho Thầy Hải.",
     ],
-    scratchUrl: SCRATCH_NEW,
+    scratchUrl: "https://scratch.mit.edu/ideas",
   },
   {
     id: 7,
@@ -209,7 +209,7 @@ const MISSIONS: Mission[] = [
       "Cho Piano chơi giai điệu C-D-E-F-G bằng 'play note'.",
       "Khi nhấn cờ xanh → cả 3 sprite cùng phát nhạc liên tục.",
     ],
-    scratchUrl: SCRATCH_NEW,
+    scratchUrl: "https://scratch.mit.edu/projects/editor/?tutorial=music",
   },
   {
     id: 8,
@@ -231,7 +231,7 @@ const MISSIONS: Mission[] = [
       "Tạo biến 'Thời gian' = 30, mỗi giây giảm 1.",
       "Khi Thời gian = 0 → 'stop all' và hiện điểm cuối.",
     ],
-    scratchUrl: SCRATCH_NEW,
+    scratchUrl: "https://scratch.mit.edu/projects/22162144/",
   },
   {
     id: 9,
@@ -253,7 +253,7 @@ const MISSIONS: Mission[] = [
       "Mỗi tick → 'change pen color by 2' để có cầu vồng.",
       "Phím C → 'erase all' để xóa toàn bộ tranh.",
     ],
-    scratchUrl: SCRATCH_NEW,
+    scratchUrl: "https://scratch.mit.edu/projects/editor/?tutorial=pen",
   },
   {
     id: 10,
@@ -275,7 +275,7 @@ const MISSIONS: Mission[] = [
       "Mũi tên Trái/Phải → 'turn ±5 degrees'.",
       "Sau khi rời vạch, khi chạm lại vạch → hiện 'timer' rồi 'reset timer'.",
     ],
-    scratchUrl: SCRATCH_NEW,
+    scratchUrl: "https://scratch.mit.edu/projects/148628377/",
   },
   {
     id: 11,
@@ -297,7 +297,7 @@ const MISSIONS: Mission[] = [
       "Đúng → +10 điểm, combo +1; Sai → reset combo về 0.",
       "Lặp 10 câu rồi tổng kết điểm theo cấp bậc (Ninja Trắng → Đỏ).",
     ],
-    scratchUrl: SCRATCH_NEW,
+    scratchUrl: "https://scratch.mit.edu/projects/120796408/",
   },
   {
     id: 12,
@@ -319,7 +319,7 @@ const MISSIONS: Mission[] = [
       "Nếu không khớp → 'Xin lỗi, tớ chưa hiểu, hỏi lại nhé.'",
       "Lặp lại vòng hỏi-đáp cho tới khi người dùng gõ 'bye'.",
     ],
-    scratchUrl: SCRATCH_NEW,
+    scratchUrl: "https://scratch.mit.edu/projects/532898299/",
   },
 ];
 
