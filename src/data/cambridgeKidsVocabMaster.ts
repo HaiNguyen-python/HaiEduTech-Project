@@ -571,6 +571,7 @@ import { CAMBRIDGE_KIDS_WORDS_EXPANSION_10 } from "./cambridgeKidsVocabExpansion
 import { CAMBRIDGE_KIDS_WORDS_EXPANSION_11 } from "./cambridgeKidsVocabExpansion11";
 import { CAMBRIDGE_KIDS_WORDS_EXPANSION_12 } from "./cambridgeKidsVocabExpansion12";
 import { CAMBRIDGE_KIDS_WORDS_EXPANSION_13 } from "./cambridgeKidsVocabExpansion13";
+import { CAMBRIDGE_KIDS_WORDS_EXPANSION_14 } from "./cambridgeKidsVocabExpansion14";
 const map = new Map<string, W>();
 for (const w of [
   ...CAMBRIDGE_KIDS_WORDS_MASTER,
@@ -597,6 +598,7 @@ for (const w of [
   ...CAMBRIDGE_KIDS_WORDS_EXPANSION_11,
   ...CAMBRIDGE_KIDS_WORDS_EXPANSION_12,
   ...CAMBRIDGE_KIDS_WORDS_EXPANSION_13,
+  ...CAMBRIDGE_KIDS_WORDS_EXPANSION_14,
 
 
 ]) {
