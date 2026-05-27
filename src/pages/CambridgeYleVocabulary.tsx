@@ -7,12 +7,11 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Volume2, Sparkles, Trophy, Star, Search, ArrowLeft, Mountain, CheckCircle2, ChevronDown } from "lucide-react";
+import { Volume2, Sparkles, Trophy, Star, Search, ArrowLeft, Mountain, CheckCircle2, ChevronDown, RotateCcw } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingKidsDecor from "@/components/FloatingKidsDecor";
 import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { CAMBRIDGE_LEVELS, type CambridgeKidsLevel, type CambridgeKidsWord } from "@/data/cambridgeKidsVocab";
@@ -173,6 +172,8 @@ const CambridgeYleVocabulary = () => {
   const { t, lang } = useLanguage();
   const [level, setLevel] = useState<CambridgeKidsLevel>("Starters");
   const [search, setSearch] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState<"all" | KidsCategory>("all");
+  const [showMasteredOnly, setShowMasteredOnly] = useState(false);
   const [tab, setTab] = useState<"learn" | "practice">("learn");
   const [view, setView] = useState<"vocab" | "practice" | "arcade">("vocab");
   const { mastered, toggle } = useMasteredVocab(MASTERY_SUBJECT);
@@ -184,9 +185,12 @@ const CambridgeYleVocabulary = () => {
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
-    if (!q) return wordsForLevel;
-    return wordsForLevel.filter(w => w.word.toLowerCase().includes(q) || w.vi.toLowerCase().includes(q));
-  }, [wordsForLevel, search]);
+    let list = wordsForLevel;
+    if (q) list = list.filter(w => w.word.toLowerCase().includes(q) || w.vi.toLowerCase().includes(q));
+    if (categoryFilter !== "all") list = list.filter(w => getCategory(w.word) === categoryFilter);
+    if (showMasteredOnly) list = list.filter(w => !mastered.has(`${w.level}:${w.word}`));
+    return list;
+  }, [wordsForLevel, search, categoryFilter, showMasteredOnly, mastered]);
 
   // Group filtered words by thematic category
   const grouped = useMemo(() => {
@@ -202,7 +206,7 @@ const CambridgeYleVocabulary = () => {
   }, [filtered]);
 
   const [openCats, setOpenCats] = useState<Set<string>>(new Set());
-  const isSearching = search.trim().length > 0;
+  const isSearching = search.trim().length > 0 || categoryFilter !== "all" || showMasteredOnly;
   const isOpen = (key: string) => isSearching ? true : openCats.has(key);
   const toggleCat = (key: string) => {
     setOpenCats(prev => {
@@ -293,36 +297,76 @@ const CambridgeYleVocabulary = () => {
         <section className="container mx-auto px-4 grid lg:grid-cols-[1fr_280px] gap-6 items-start max-w-[1500px]">
           {/* Level tabs */}
           <div>
-            <div className="flex flex-wrap gap-2 mb-4">
-              {CAMBRIDGE_LEVELS.map(lv => {
-                const th = LEVEL_THEME[lv];
-                const active = lv === level;
-                const lvWords = ALL_WORDS.filter(w => w.level === lv);
-                const lvDone = lvWords.filter(w => mastered.has(`${lv}:${w.word}`)).length;
-                return (
-                  <button
-                    key={lv}
-                    onClick={() => setLevel(lv)}
-                    className="px-4 py-2.5 rounded-2xl border-2 font-bold uppercase tracking-wide text-sm transition-all shadow-sm flex items-center gap-2"
-                    style={{
-                      background: active ? th.gradient : "#FFFFFF",
-                      color: active ? "#1F2937" : "#475569",
-                      borderColor: th.color,
-                      boxShadow: active ? `0 3px 10px ${th.color}55` : undefined,
-                    }}
-                  >
-                    <span>{th.emoji}</span>
-                    {lv}
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold" style={{
-                      background: active ? "rgba(255,255,255,0.55)" : th.soft,
-                      color: "#334155",
-                    }}>
-                      {lvDone}/{lvWords.length}
-                    </span>
-                  </button>
-                );
-              })}
+            {/* Unified filter bar — matches HSK / SAT / TOEIC Vocabulary Word Bank */}
+            <div className="flex flex-wrap items-center gap-3 mb-4">
+              {/* Search */}
+              <div className="relative flex-1 min-w-[200px] max-w-sm">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <input
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                  placeholder={t("Tìm từ vựng...", "Search words...")}
+                  className="w-full pl-10 pr-4 py-2.5 rounded-full bg-white border-2 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:border-sky-400 focus:outline-none text-sm shadow-sm"
+                />
+              </div>
+
+              {/* Level select */}
+              <select
+                value={level}
+                onChange={e => setLevel(e.target.value as CambridgeKidsLevel)}
+                className="px-4 py-2.5 rounded-full bg-white border-2 border-slate-200 text-slate-800 text-sm font-semibold focus:outline-none focus:border-sky-400 shadow-sm cursor-pointer"
+                style={{ color: LEVEL_THEME[level].border }}
+              >
+                {CAMBRIDGE_LEVELS.map(lv => (
+                  <option key={lv} value={lv}>
+                    {LEVEL_THEME[lv].emoji} {lv} · {LEVEL_THEME[lv].cefr}
+                  </option>
+                ))}
+              </select>
+
+              {/* Topic / Category select */}
+              <select
+                value={categoryFilter}
+                onChange={e => setCategoryFilter(e.target.value as "all" | KidsCategory)}
+                className="px-4 py-2.5 rounded-full bg-white border-2 border-slate-200 text-slate-800 text-sm font-semibold focus:outline-none focus:border-sky-400 shadow-sm cursor-pointer max-w-[240px]"
+              >
+                <option value="all">{t("Tất cả chủ đề", "All Topics")}</option>
+                {CATEGORY_ORDER.map(c => (
+                  <option key={c} value={c}>
+                    {CATEGORY_META[c].emoji} {c}
+                  </option>
+                ))}
+              </select>
+
+              {/* Need Review toggle */}
+              <button
+                type="button"
+                onClick={() => setShowMasteredOnly(v => !v)}
+                className={`px-4 py-2.5 rounded-full text-sm font-semibold transition-all shadow-sm border-2 flex items-center gap-1.5 ${
+                  showMasteredOnly
+                    ? "bg-orange-500 text-white border-orange-500"
+                    : "bg-white text-slate-700 border-slate-200 hover:border-orange-300"
+                }`}
+              >
+                <RotateCcw className="w-4 h-4" />
+                {t("Cần ôn", "Need Review")}
+              </button>
+
+              {/* Per-level mastery pill */}
+              <div className="ml-auto flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border-2 border-slate-200 shadow-sm text-xs font-bold">
+                <span className="text-base">{LEVEL_THEME[level].emoji}</span>
+                <span style={{ color: LEVEL_THEME[level].border }}>{level}</span>
+                <span className="text-slate-500">
+                  {wordsForLevel.filter(w => mastered.has(`${w.level}:${w.word}`)).length}/{wordsForLevel.length}
+                </span>
+              </div>
             </div>
+
+            <p className="text-xs text-slate-500 mb-4 font-medium">
+              {filtered.length} {t("kết quả", "results")}
+            </p>
+
+
 
 
             {/* Grouped by thematic categories — collapsible */}
