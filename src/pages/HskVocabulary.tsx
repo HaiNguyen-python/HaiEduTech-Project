@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle } from "lucide-react";
+import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle, Dumbbell } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { hskVocabData, HSK_LEVELS, HSK_CATEGORIES, type HskWord } from "@/data/hskVocab";
 import HanziStrokeOrder from "@/components/HanziStrokeOrder";
@@ -472,19 +472,18 @@ const HskVocabulary = () => {
                 {HSK_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
               <Button
-                variant={showMasteredOnly ? "default" : "outline"}
+                variant={viewMode === "exercise" ? "default" : "outline"}
                 size="sm"
-                onClick={() => setShowMasteredOnly(!showMasteredOnly)}
+                onClick={() => setViewMode(viewMode === "exercise" ? "list" : "exercise")}
                 className="gap-1.5"
               >
-                <RotateCcw className="w-4 h-4" />
-                {t("Cần ôn", "Need Review")}
+                <Dumbbell className="w-4 h-4" />
+                {t("Luyện tập", "Practice")}
               </Button>
-              <Tabs value={viewMode} onValueChange={v => setViewMode(v as "list" | "flashcard" | "exercise")} className="ml-auto">
+              <Tabs value={viewMode === "exercise" ? "list" : viewMode} onValueChange={v => setViewMode(v as "list" | "flashcard")} className="ml-auto">
                 <TabsList>
                   <TabsTrigger value="list"><List className="w-4 h-4" /></TabsTrigger>
                   <TabsTrigger value="flashcard"><Layers className="w-4 h-4" /></TabsTrigger>
-                  <TabsTrigger value="exercise"><BookOpen className="w-4 h-4" /></TabsTrigger>
                 </TabsList>
               </Tabs>
             </div>
