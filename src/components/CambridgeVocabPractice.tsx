@@ -2,22 +2,27 @@
  * @file CambridgeVocabPractice.tsx
  * @description Kid-friendly multi-question vocabulary practice for Cambridge
  * YLE. Lets learners pick a level (or random across all levels) and the number
- * of questions (10–50). Mixes 3 task types: Vietnamese→English, English→
- * Vietnamese, and "pick the matching emoji". Instant feedback, score summary.
+ * of questions (10–50). Mixes 4 task types: Vietnamese→English, English→
+ * Vietnamese, "pick the matching emoji", and "unscramble the letters".
+ * Instant feedback, score summary, confetti vibes.
  */
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, Trophy, RotateCcw, Check, X, ArrowRight, Volume2, Shuffle } from "lucide-react";
+import {
+  Sparkles, Trophy, RotateCcw, Check, X, Volume2, Shuffle, Eraser, Lightbulb,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CAMBRIDGE_LEVELS, type CambridgeKidsLevel, type CambridgeKidsWord } from "@/data/cambridgeKidsVocab";
 import { CAMBRIDGE_KIDS_WORDS_DEDUPED } from "@/data/cambridgeKidsVocabMaster";
 
-type Mode = "viToEn" | "enToVi" | "emoji";
+type Mode = "viToEn" | "enToVi" | "emoji" | "scramble";
 
 interface PracticeQuestion {
   mode: Mode;
   prompt: CambridgeKidsWord;
   choices: CambridgeKidsWord[];
+  /** Pre-shuffled letter tiles for the scramble mode. */
+  scrambled?: string[];
 }
 
 const QUESTION_COUNT_OPTIONS = [10, 20, 30, 40, 50] as const;
@@ -41,6 +46,20 @@ const shuffle = <T,>(arr: T[]): T[] => {
   return a;
 };
 
+/** Cleaned word for scramble (letters & spaces only, lowercase). */
+const cleanWord = (w: string) => w.toLowerCase().replace(/[^a-z ]/g, "");
+
+const scrambleLetters = (word: string): string[] => {
+  const letters = cleanWord(word).replace(/\s+/g, "").split("");
+  if (letters.length < 2) return letters;
+  // Re-shuffle until different from original (max 8 tries)
+  for (let i = 0; i < 8; i++) {
+    const s = shuffle(letters);
+    if (s.join("") !== letters.join("")) return s;
+  }
+  return shuffle(letters);
+};
+
 const buildQuestions = (
   level: CambridgeKidsLevel | "Random",
   count: number
@@ -51,13 +70,16 @@ const buildQuestions = (
       : CAMBRIDGE_KIDS_WORDS_DEDUPED.filter((w) => w.level === level);
   if (pool.length < 4) return [];
   const picks = shuffle(pool).slice(0, Math.min(count, pool.length));
-  const modes: Mode[] = ["viToEn", "enToVi", "emoji"];
+  // Cycle through all 4 modes so every quiz contains every game type.
+  const modes: Mode[] = ["viToEn", "enToVi", "emoji", "scramble"];
   return picks.map((prompt, i) => {
+    const mode = modes[i % modes.length];
     const distractors = shuffle(pool.filter((w) => w.word !== prompt.word)).slice(0, 3);
     return {
-      mode: modes[i % modes.length],
+      mode,
       prompt,
       choices: shuffle([prompt, ...distractors]),
+      scrambled: mode === "scramble" ? scrambleLetters(prompt.word) : undefined,
     };
   });
 };
@@ -79,6 +101,155 @@ interface Props {
   lang: "vi" | "en";
 }
 
+/** ---------------- Scramble sub-component ---------------- */
+interface ScrambleBoardProps {
+  word: string;
+  tiles: string[];
+  color: string;
+  onResolved: (correct: boolean) => void;
+  lang: "vi" | "en";
+}
+
+const ScrambleBoard = ({ word, tiles, color, onResolved, lang }: ScrambleBoardProps) => {
+  const target = cleanWord(word).replace(/\s+/g, "");
+  // Each tile in `tiles` keeps a stable index so duplicate letters work.
+  const [picked, setPicked] = useState<number[]>([]);
+  const [revealed, setRevealed] = useState(false);
+  const [showHint, setShowHint] = useState(false);
+
+  useEffect(() => {
+    setPicked([]);
+    setRevealed(false);
+    setShowHint(false);
+  }, [word]);
+
+  const built = picked.map((i) => tiles[i]).join("");
+
+  useEffect(() => {
+    if (revealed || picked.length !== target.length) return;
+    const ok = built === target;
+    setRevealed(true);
+    setTimeout(() => onResolved(ok), 850);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [picked]);
+
+  const t = (vi: string, en: string) => (lang === "vi" ? vi : en);
+
+  return (
+    <div>
+      {/* Built word slots */}
+      <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2 mb-4 min-h-[60px]">
+        {Array.from({ length: target.length }).map((_, i) => {
+          const ch = built[i];
+          const filled = !!ch;
+          const isWrong = revealed && built !== target && ch;
+          const isRight = revealed && built === target;
+          return (
+            <div
+              key={i}
+              className="w-9 h-12 sm:w-11 sm:h-14 rounded-xl border-2 border-dashed flex items-center justify-center text-xl sm:text-2xl font-extrabold transition-all"
+              style={{
+                borderColor: isRight ? "#10B981" : isWrong ? "#EF4444" : color + "66",
+                background: filled
+                  ? isRight
+                    ? "#10B981"
+                    : isWrong
+                    ? "#EF4444"
+                    : "#FFFFFF"
+                  : "#F8FAFC",
+                color: filled ? (isRight || isWrong ? "#FFFFFF" : "#0f172a") : "#94a3b8",
+                boxShadow: filled ? `0 3px 8px ${color}33` : undefined,
+              }}
+            >
+              {ch?.toUpperCase() ?? ""}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Hint */}
+      {showHint && (
+        <p className="text-center text-sm font-bold text-amber-600 mb-2">
+          💡 {t("Bắt đầu bằng chữ", "Starts with")}{" "}
+          <span className="text-lg">{target[0].toUpperCase()}</span>
+        </p>
+      )}
+
+      {/* Letter tiles */}
+      <div className="flex flex-wrap justify-center gap-2 mb-4">
+        {tiles.map((ch, idx) => {
+          const used = picked.includes(idx);
+          return (
+            <motion.button
+              key={idx}
+              whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: used ? 1 : 1.06, y: used ? 0 : -2 }}
+              disabled={used || revealed}
+              onClick={() => setPicked((p) => [...p, idx])}
+              className="w-10 h-12 sm:w-12 sm:h-14 rounded-2xl font-extrabold text-xl sm:text-2xl shadow-md border-2 transition-all"
+              style={{
+                background: used ? "#E2E8F0" : `linear-gradient(135deg, ${color}, #F472B6)`,
+                color: used ? "#94A3B8" : "#FFFFFF",
+                borderColor: used ? "#CBD5E1" : "#FFFFFF",
+                opacity: used ? 0.4 : 1,
+              }}
+            >
+              {ch.toUpperCase()}
+            </motion.button>
+          );
+        })}
+      </div>
+
+      {/* Controls */}
+      <div className="flex flex-wrap justify-center gap-2">
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          onClick={() => setPicked((p) => p.slice(0, -1))}
+          disabled={revealed || picked.length === 0}
+          className="rounded-full"
+        >
+          <Eraser className="w-4 h-4 mr-1" />
+          {t("Xoá", "Erase")}
+        </Button>
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          onClick={() => setPicked([])}
+          disabled={revealed || picked.length === 0}
+          className="rounded-full"
+        >
+          <RotateCcw className="w-4 h-4 mr-1" />
+          {t("Làm lại", "Reset")}
+        </Button>
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          onClick={() => setShowHint(true)}
+          disabled={revealed || showHint}
+          className="rounded-full"
+        >
+          <Lightbulb className="w-4 h-4 mr-1" />
+          {t("Gợi ý", "Hint")}
+        </Button>
+        <Button
+          type="button"
+          size="sm"
+          onClick={() => speak(word)}
+          className="rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white"
+        >
+          <Volume2 className="w-4 h-4 mr-1" />
+          {t("Nghe", "Listen")}
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+/** ---------------- Main component ---------------- */
 const CambridgeVocabPractice = ({ lang }: Props) => {
   const t = (vi: string, en: string) => (lang === "vi" ? vi : en);
   const [level, setLevel] = useState<CambridgeKidsLevel | "Random">("Random");
@@ -122,6 +293,11 @@ const CambridgeVocabPractice = ({ lang }: Props) => {
     }, 900);
   };
 
+  const handleScrambleResolved = (correct: boolean) => {
+    if (correct) setScore((s) => s + 1);
+    setStep((s) => s + 1);
+  };
+
   // ---- Start screen ----
   if (!started) {
     return (
@@ -136,8 +312,8 @@ const CambridgeVocabPractice = ({ lang }: Props) => {
             </h2>
             <p className="text-sm text-slate-600 font-medium">
               {t(
-                "Chọn level và số câu hỏi để bắt đầu ôn tập vui nhộn nào!",
-                "Pick a level and number of questions to start a fun review!"
+                "4 dạng bài tập vui: Việt → Anh, Anh → Việt, Đoán biểu tượng & Xếp chữ!",
+                "4 fun task types: VI→EN, EN→VI, Emoji match & Letter scramble!"
               )}
             </p>
           </div>
@@ -195,6 +371,24 @@ const CambridgeVocabPractice = ({ lang }: Props) => {
               );
             })}
           </div>
+        </div>
+
+        {/* Game types preview */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-6">
+          {[
+            { e: "🇻🇳", l: t("Việt → Anh", "VI → EN") },
+            { e: "🇬🇧", l: t("Anh → Việt", "EN → VI") },
+            { e: "🎨", l: t("Đoán biểu tượng", "Emoji match") },
+            { e: "🔤", l: t("Xếp chữ", "Scramble") },
+          ].map((it) => (
+            <div
+              key={it.l}
+              className="rounded-2xl bg-white/70 backdrop-blur border-2 border-white px-3 py-2 text-center shadow-sm"
+            >
+              <div className="text-2xl">{it.e}</div>
+              <div className="text-xs font-bold text-slate-700">{it.l}</div>
+            </div>
+          ))}
         </div>
 
         <Button
@@ -271,9 +465,7 @@ const CambridgeVocabPractice = ({ lang }: Props) => {
           </span>
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-sm font-bold text-slate-700">
-            ⭐ {score}
-          </span>
+          <span className="text-sm font-bold text-slate-700">⭐ {score}</span>
           <button
             onClick={reset}
             className="text-xs font-bold text-slate-500 hover:text-rose-600"
@@ -343,50 +535,71 @@ const CambridgeVocabPractice = ({ lang }: Props) => {
               <p className="text-sm text-slate-600 mt-1">({q.prompt.vi})</p>
             </>
           )}
+          {q.mode === "scramble" && (
+            <>
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+                🔤 {t("Xếp các chữ cái để tạo từ:", "Arrange the letters to form:")}
+              </p>
+              <p className="text-4xl mb-1">{q.prompt.emoji}</p>
+              <p className="text-2xl md:text-3xl font-extrabold text-slate-900">
+                {q.prompt.vi}
+              </p>
+            </>
+          )}
         </motion.div>
       </AnimatePresence>
 
-      {/* Choices */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {q.choices.map((c) => {
-          const isCorrect = c.word === q.prompt.word;
-          const isPicked = picked === c.word;
-          const reveal = picked !== null;
-          const bg = !reveal
-            ? "#FFFFFF"
-            : isCorrect
-            ? "#10B981"
-            : isPicked
-            ? "#EF4444"
-            : "#FFFFFF";
-          const color = !reveal ? "#0f172a" : isCorrect || isPicked ? "#FFFFFF" : "#94a3b8";
-          let label: React.ReactNode;
-          if (q.mode === "viToEn") label = c.word;
-          else if (q.mode === "enToVi") label = c.vi;
-          else label = <span className="text-3xl">{c.emoji}</span>;
+      {/* Body — choices OR scramble board */}
+      {q.mode === "scramble" ? (
+        <ScrambleBoard
+          word={q.prompt.word}
+          tiles={q.scrambled ?? scrambleLetters(q.prompt.word)}
+          color={accent}
+          onResolved={handleScrambleResolved}
+          lang={lang}
+        />
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {q.choices.map((c) => {
+            const isCorrect = c.word === q.prompt.word;
+            const isPicked = picked === c.word;
+            const reveal = picked !== null;
+            const bg = !reveal
+              ? "#FFFFFF"
+              : isCorrect
+              ? "#10B981"
+              : isPicked
+              ? "#EF4444"
+              : "#FFFFFF";
+            const color = !reveal ? "#0f172a" : isCorrect || isPicked ? "#FFFFFF" : "#94a3b8";
+            let label: React.ReactNode;
+            if (q.mode === "viToEn") label = c.word;
+            else if (q.mode === "enToVi") label = c.vi;
+            else label = <span className="text-3xl">{c.emoji}</span>;
 
-          return (
-            <motion.button
-              key={c.word}
-              layout
-              whileHover={{ scale: picked ? 1 : 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => handlePick(c.word)}
-              disabled={picked !== null}
-              className="rounded-2xl px-4 py-4 font-bold text-base shadow-sm border-2 transition-colors flex items-center justify-center gap-2 min-h-[60px]"
-              style={{
-                background: bg,
-                color,
-                borderColor: !reveal ? accent : bg,
-              }}
-            >
-              {reveal && isCorrect && <Check className="w-5 h-5" />}
-              {reveal && isPicked && !isCorrect && <X className="w-5 h-5" />}
-              {label}
-            </motion.button>
-          );
-        })}
-      </div>
+            return (
+              <motion.button
+                key={c.word}
+                layout
+                whileHover={{ scale: picked ? 1 : 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => handlePick(c.word)}
+                disabled={picked !== null}
+                className="rounded-2xl px-4 py-4 font-bold text-base shadow-sm border-2 transition-colors flex items-center justify-center gap-2 min-h-[60px]"
+                style={{
+                  background: bg,
+                  color,
+                  borderColor: !reveal ? accent : bg,
+                }}
+              >
+                {reveal && isCorrect && <Check className="w-5 h-5" />}
+                {reveal && isPicked && !isCorrect && <X className="w-5 h-5" />}
+                {label}
+              </motion.button>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };
