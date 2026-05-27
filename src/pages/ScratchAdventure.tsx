@@ -489,7 +489,7 @@ const ScratchAdventure = () => {
                     whileHover={{ y: -4 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setOpenMission(m)}
-                    className="group relative text-left rounded-3xl overflow-hidden border-2 border-white/60 dark:border-white/10 bg-white dark:bg-card shadow-md hover:shadow-2xl transition-shadow focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FF8C1A]/40"
+                    className="group relative text-left rounded-3xl overflow-hidden border-4 border-slate-900/80 dark:border-white/30 bg-white dark:bg-card shadow-[0_6px_0_0_rgba(15,23,42,0.85)] hover:shadow-[0_10px_0_0_rgba(15,23,42,0.9)] hover:-translate-y-0.5 transition-all focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FF8C1A]/50"
                   >
                     {/* Color header */}
                     <div className={`relative h-28 bg-gradient-to-br ${m.gradient} p-4 flex items-start justify-between`}>
