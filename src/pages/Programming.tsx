@@ -321,6 +321,29 @@ const Programming = () => {
             </div>
           </Link>
 
+          {/* Scratch Coding Adventure banner — for middle school students */}
+          <Link
+            to="/programming/scratch-adventure"
+            className="group relative block max-w-6xl mx-auto mb-10 rounded-2xl overflow-hidden border-2 border-[#FF8C1A]/50 bg-gradient-to-r from-[#FF8C1A] via-[#FFD400] to-[#1E90FF] text-white p-5 sm:p-6 shadow-lg hover:shadow-2xl transition-all active:scale-[0.99]"
+          >
+            <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-white/15 blur-3xl" />
+            <div className="absolute -bottom-12 -left-8 w-44 h-44 rounded-full bg-[#FFD400]/30 blur-3xl" />
+            <div className="relative flex items-center gap-4 flex-wrap">
+              <div className="w-14 h-14 rounded-2xl bg-white/25 backdrop-blur flex items-center justify-center text-3xl shrink-0 ring-2 ring-white/40">
+                🐱
+              </div>
+              <div className="flex-1 min-w-[200px]">
+                <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/25 backdrop-blur text-[10px] font-bold mb-1">
+                  <Sparkles className="w-3 h-3" /> MỚI · CẤP 2
+                </div>
+                <h3 className="font-display font-black text-xl sm:text-2xl leading-tight">Scratch Coding Adventure 🚀</h3>
+                <p className="text-white/95 text-xs sm:text-sm mt-1">
+                  6 nhiệm vụ chế tạo game: Hứng táo · Flappy Cat · Mê cung · Vòng quay từ vựng · Né thiên thạch · Đồ án tự do.
+                </p>
+              </div>
+              <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition" />
+            </div>
+
           {/* Active Pillar Content */}
           <div className="max-w-5xl mx-auto">
             <AnimatePresence mode="wait">
