@@ -51,10 +51,8 @@ interface Mission {
   scratchUrl: string;     // Scratch project or editor URL
 }
 
-// Each mission links to a curated Scratch starter project / tutorial / search
+// Each mission links to a curated Scratch starter project / tutorial
 // so learners land on a relevant example instead of an empty editor.
-const scratchSearch = (q: string) =>
-  `https://scratch.mit.edu/search/projects?q=${encodeURIComponent(q)}`;
 
 const MISSIONS: Mission[] = [
   {
