@@ -471,19 +471,11 @@ const HskVocabulary = () => {
                 <option value="all">{t("Tất cả chủ đề", "All Topics")}</option>
                 {HSK_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
-              <Button
-                variant={viewMode === "exercise" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setViewMode(viewMode === "exercise" ? "list" : "exercise")}
-                className="gap-1.5"
-              >
-                <Dumbbell className="w-4 h-4" />
-                {t("Luyện tập", "Practice")}
-              </Button>
-              <Tabs value={viewMode === "exercise" ? "list" : viewMode} onValueChange={v => setViewMode(v as "list" | "flashcard")} className="ml-auto">
+              <Tabs value={viewMode} onValueChange={v => setViewMode(v as "list" | "flashcard" | "exercise")}>
                 <TabsList>
                   <TabsTrigger value="list" className="gap-1.5 px-4"><List className="w-4 h-4" /> {t("Từ vựng", "Vocabulary")}</TabsTrigger>
                   <TabsTrigger value="flashcard" className="gap-1.5 px-4"><Layers className="w-4 h-4" /> Flashcard</TabsTrigger>
+                  <TabsTrigger value="exercise" className="gap-1.5 px-4"><Dumbbell className="w-4 h-4" /> {t("Luyện tập", "Practice")}</TabsTrigger>
                 </TabsList>
               </Tabs>
             </div>
