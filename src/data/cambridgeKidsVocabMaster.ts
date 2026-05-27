@@ -573,6 +573,7 @@ import { CAMBRIDGE_KIDS_WORDS_EXPANSION_12 } from "./cambridgeKidsVocabExpansion
 import { CAMBRIDGE_KIDS_WORDS_EXPANSION_13 } from "./cambridgeKidsVocabExpansion13";
 import { CAMBRIDGE_KIDS_WORDS_EXPANSION_14 } from "./cambridgeKidsVocabExpansion14";
 import { CAMBRIDGE_KIDS_WORDS_EXPANSION_15 } from "./cambridgeKidsVocabExpansion15";
+import { CAMBRIDGE_KIDS_WORDS_EXPANSION_16 } from "./cambridgeKidsVocabExpansion16";
 const map = new Map<string, W>();
 for (const w of [
   ...CAMBRIDGE_KIDS_WORDS_MASTER,
