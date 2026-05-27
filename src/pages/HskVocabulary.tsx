@@ -446,13 +446,13 @@ const HskVocabulary = () => {
 
             {/* Filters */}
             <div className="flex flex-wrap items-center gap-3 mb-6">
-              <div className="relative flex-1 min-w-[200px] max-w-sm">
+              <div className="relative w-[200px] sm:w-[220px]">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <input
                   value={search}
                   onChange={e => setSearch(e.target.value)}
-                  placeholder={t("Tìm Hán tự, Pinyin, nghĩa...", "Search Hanzi, Pinyin, meaning...")}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none text-sm"
+                  placeholder={t("Tìm Hán tự, Pinyin...", "Search Hanzi, Pinyin...")}
+                  className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none text-sm"
                 />
               </div>
               <select
@@ -482,8 +482,8 @@ const HskVocabulary = () => {
               </Button>
               <Tabs value={viewMode === "exercise" ? "list" : viewMode} onValueChange={v => setViewMode(v as "list" | "flashcard")} className="ml-auto">
                 <TabsList>
-                  <TabsTrigger value="list"><List className="w-4 h-4" /></TabsTrigger>
-                  <TabsTrigger value="flashcard"><Layers className="w-4 h-4" /></TabsTrigger>
+                  <TabsTrigger value="list" className="gap-1.5 px-4"><List className="w-4 h-4" /> {t("Từ vựng", "Vocabulary")}</TabsTrigger>
+                  <TabsTrigger value="flashcard" className="gap-1.5 px-4"><Layers className="w-4 h-4" /> Flashcard</TabsTrigger>
                 </TabsList>
               </Tabs>
             </div>
