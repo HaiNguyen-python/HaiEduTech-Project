@@ -343,6 +343,9 @@ const Programming = () => {
               </div>
               <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition" />
             </div>
+          </Link>
+
+
 
           {/* Active Pillar Content */}
           <div className="max-w-5xl mx-auto">
