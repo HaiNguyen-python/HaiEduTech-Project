@@ -174,6 +174,8 @@ const CambridgeYleVocabulary = () => {
   const { t, lang } = useLanguage();
   const [level, setLevel] = useState<CambridgeKidsLevel>("Starters");
   const [search, setSearch] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState<"all" | KidsCategory>("all");
+  const [showMasteredOnly, setShowMasteredOnly] = useState(false);
   const [tab, setTab] = useState<"learn" | "practice">("learn");
   const [view, setView] = useState<"vocab" | "practice" | "arcade">("vocab");
   const { mastered, toggle } = useMasteredVocab(MASTERY_SUBJECT);
@@ -185,9 +187,12 @@ const CambridgeYleVocabulary = () => {
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
-    if (!q) return wordsForLevel;
-    return wordsForLevel.filter(w => w.word.toLowerCase().includes(q) || w.vi.toLowerCase().includes(q));
-  }, [wordsForLevel, search]);
+    let list = wordsForLevel;
+    if (q) list = list.filter(w => w.word.toLowerCase().includes(q) || w.vi.toLowerCase().includes(q));
+    if (categoryFilter !== "all") list = list.filter(w => getCategory(w.word) === categoryFilter);
+    if (showMasteredOnly) list = list.filter(w => !mastered.has(`${w.level}:${w.word}`));
+    return list;
+  }, [wordsForLevel, search, categoryFilter, showMasteredOnly, mastered]);
 
   // Group filtered words by thematic category
   const grouped = useMemo(() => {
