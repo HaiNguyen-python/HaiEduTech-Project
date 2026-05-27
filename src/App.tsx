@@ -64,6 +64,7 @@ const ChineseCourse = lazy(() => import("./pages/ChineseCourse.tsx"));
 const Programming = lazy(() => import("./pages/Programming.tsx"));
 const ProgrammingLesson = lazy(() => import("./pages/ProgrammingLesson.tsx"));
 const AIAcademy = lazy(() => import("./pages/AIAcademy.tsx"));
+const ScratchAdventure = lazy(() => import("./pages/ScratchAdventure.tsx"));
 const AIGrading = lazy(() => import("./pages/AIGrading.tsx"));
 const Dashboard = lazy(() => import("./pages/Dashboard.tsx"));
 const ActivityLog = lazy(() => import("./pages/ActivityLog.tsx"));
