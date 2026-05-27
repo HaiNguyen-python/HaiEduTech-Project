@@ -24,6 +24,7 @@ import { getPos, POS_LABEL } from "@/data/cambridgeKidsPos";
 import KidsSpeechCheck from "@/components/KidsSpeechCheck";
 
 import KidsCategoryQuiz from "@/components/KidsCategoryQuiz";
+import CambridgeVocabPractice from "@/components/CambridgeVocabPractice";
 import { CambridgeArcadeInner } from "@/pages/CambridgeArcade";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import { toast } from "@/hooks/use-toast";
