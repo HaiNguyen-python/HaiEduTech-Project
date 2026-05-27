@@ -482,8 +482,8 @@ const HskVocabulary = () => {
               </Button>
               <Tabs value={viewMode === "exercise" ? "list" : viewMode} onValueChange={v => setViewMode(v as "list" | "flashcard")} className="ml-auto">
                 <TabsList>
-                  <TabsTrigger value="list"><List className="w-4 h-4" /></TabsTrigger>
-                  <TabsTrigger value="flashcard"><Layers className="w-4 h-4" /></TabsTrigger>
+                  <TabsTrigger value="list" className="gap-1.5 px-4"><List className="w-4 h-4" /> {t("Từ vựng", "Vocabulary")}</TabsTrigger>
+                  <TabsTrigger value="flashcard" className="gap-1.5 px-4"><Layers className="w-4 h-4" /> Flashcard</TabsTrigger>
                 </TabsList>
               </Tabs>
             </div>
