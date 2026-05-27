@@ -19,7 +19,6 @@ import { CAMBRIDGE_LEVELS, type CambridgeKidsLevel, type CambridgeKidsWord } fro
 import { CAMBRIDGE_KIDS_WORDS_DEDUPED } from "@/data/cambridgeKidsVocabMaster";
 import { getIpa } from "@/data/cambridgeKidsIpa";
 import { getCategory, CATEGORY_META, CATEGORY_ORDER, type KidsCategory } from "@/data/cambridgeKidsCategories";
-import { cn } from "@/lib/utils";
 import { CATEGORY_BG } from "@/data/cambridgeKidsCategoryBg";
 import { getPos, POS_LABEL } from "@/data/cambridgeKidsPos";
 import KidsSpeechCheck from "@/components/KidsSpeechCheck";
