@@ -1,112 +1,95 @@
-# Rà soát Admin Dashboard — Báo cáo & Đề xuất
+## Mục tiêu
 
-## 1. Hiện trạng data thực tế (kiểm tra DB)
+Biến `/study-abroad/phd` từ trang 3-tab + 1 cold email generator thành **PhD Strategy Hub toàn diện**: dữ liệu sâu hơn, nhiều công cụ AI hơn, lộ trình rõ ràng từ 0 → nhập học.
 
-Tra cứu `student_activity_log` cho thấy **lý do thầy không thấy data Speaking/Writing**:
+## Hiện trạng (file `src/pages/PhdGlobalPathway.tsx`, 235 dòng)
 
+- Header + 2 thẻ download (Research Proposal & Cold Email .docx)
+- 3 tab quốc gia: Europe / US / Australia — mỗi tab chỉ ~5 bullet tips
+- 1 form AI Cold Email (gọi edge function `draft-cold-email`)
+- Không có lộ trình thời gian, không có funding database, không có kiểm tra Research Proposal, không có danh sách giáo sư mẫu
 
-| activity_type         | Tổng   | Lần cuối                 |
-| --------------------- | ------ | ------------------------ |
-| session_heartbeat     | 12.798 | hôm nay                  |
-| daily_login           | 306    | hôm nay                  |
-| ielts_writing         | 85     | **18/05** (1 tuần trước) |
-| conv_english          | 20     | 07/04                    |
-| language_lesson_quiz  | 17     | 22/05                    |
-| toeic_lecture_quiz    | 6      | 24/05                    |
-| ielts_speaking        | **3**  | **13/04**                |
-| python_pathway_lesson | 3      | 03/05                    |
+## Hướng nâng cấp (6 khối mới)
 
+### 1. Hero + Progress Tracker
 
-→ Code log Speaking/Writing đã được thêm ở vòng trước, **nhưng hoặc không trigger, hoặc học sinh chưa tương tác lại từ lúc deploy**. Hoàn toàn không có log cho: `pte_speaking`, `pte_writing_essay/summary`, `speaking_coach_en/zh/fi/vi`, `cambridge_mock`, `sat_mock`, `national_exam`, `hsk_vocab`, `ielts_vocab`, `finnish_*`, `dictation_*`, `chatbot_chat`…
+- Hero gradient violet→fuchsia với chibi PhD scholar
+- Thanh **"Hành trình PhD của bạn"**: 5 mốc (Define → Find Supervisor → Proposal → Apply → Visa), lưu `localStorage` checkbox để học viên đánh dấu tiến độ
 
-Page views: 3.243 row, 34 user, vẫn cập nhật → con số "1000" trước đây là do `fetchAllRows` chưa được dùng ở mọi nơi (giờ đã sửa). Cần verify lần cuối.
+### 2. Mở rộng Country Strategy (3 → 8 quốc gia / khu vực)
 
-## 2. Lỗi & rủi ro cần fix
+Thêm: **UK, Nhật Bản (MEXT), Hàn Quốc (GKS), Phần Lan, Singapore (A*STAR)**.
+Mỗi quốc gia mở rộng dữ liệu:
 
-1. **Speaking/Writing không thực sự được log**
-  - Verify lại các call `logStudentActivity` trong `SpeakingPractice.tsx`, `SpeakingCoachPage.tsx`, `PteSpeaking.tsx`, `PteWriting.tsx`, `IeltsWritingPractice.tsx` — kiểm tra điều kiện trigger (có phải chỉ chạy khi đạt điểm tối đa?). Mở `PteWriting` log ngay khi nộp bài, không đợi notebook save effect.
-  - Thêm log frequency-only (không cần điểm) cho mọi lần submit Speaking/Writing để đếm tần suất.
-2. **Mở rộng logging cho các module còn trống** (thêm `logStudentActivity` vào):
-  - `IeltsVocabularyBank`, `HskVocabularyBank`, `FinnishVocabulary` — log khi master từ
-  - `CambridgeMockExam`, `SatMockExam`, `NationalExamRoom` — log khi nộp bài
-  - `IeltsReadingPractice`, `IeltsListeningPractice` — log khi hoàn thành
-  - `DictationSystem` — log mỗi lần luyện
-  - `IeltsMasterQuiz`, lectures với quiz cuối bài
-  - Chatbot Compass AI, Mr. Hai: log số phiên/độ dài (đánh giá engagement)
-3. **Realtime spam**: Hook hiện refetch TOÀN BỘ data mỗi khi có 1 INSERT (kể cả `session_heartbeat` cứ vài giây). Với 12k heartbeat, dashboard sẽ tự refresh liên tục → CPU cao. Filter event theo `activity_type ≠ session_heartbeat/daily_login` hoặc debounce 10s.
-4. **Dedup học sinh theo tên có rủi ro**: hai học sinh trùng tên thật bị gộp. Nên dedup theo **email/`auth.users.email**` thay vì `full_name`; nếu phải dùng tên thì hiện badge "merged from N accounts" để giáo viên có thể tách thủ công.
-5. **Hiệu năng**: `buildHeatmapData`, `buildWeeklyTrend`, `domainPieData`, `filteredStudents`, `interventionNeeded` đều tính lại mỗi render. Bọc `useMemo`. Với 13k+ row, render hiện tại chậm rõ rệt.
-6. **CSV export** không escape dấu `"` trong cell → Excel parse lỗi với metadata JSON. Dùng helper escape chuẩn (`""`).
-7. **Bug nhỏ**: ô tìm kiếm học sinh không bỏ dấu (Tiếng Việt "Hà" vs "ha"). Dùng `normalizeName` đã có.
+- `strategy`, `tips` (đã có)
+- `funding`: tên học bổng chính + mức stipend/tháng + deadline điển hình
+- `topUnis`: 5 trường gợi ý
+- `requirements`: bảng IELTS/GRE/GPA tối thiểu
+- `timeline`: khi nào nên bắt đầu (T-18 / T-12 / T-6 / T-3 tháng)
+- `redFlags`: 2-3 sai lầm phổ biến
+Tách dữ liệu sang file mới `src/data/phdCountryGuides.ts`.
 
-## 3. Đề xuất tính năng mới (tăng giá trị admin)
+### 3. PhD Funding Database (mới)
 
-### A. Tab "Engagement Heatmap" (mới)
+Component `PhdFundingDatabase`:
 
-- Bảng 7×24 (ngày trong tuần × giờ) hiển thị mật độ học sinh online → biết giờ vàng để mở lớp.
-- DAU / WAU / MAU + tỷ lệ retention 7/30 ngày.
+- 25-30 học bổng PhD lớn (Marie Curie, DAAD, MEXT, GKS, Vingroup, VEF, Fulbright, Chevening PhD, Australia Awards, RTP, NTU PhD…)
+- Lọc theo: quốc gia, ngành (STEM/SocSci/Business…), mức tài trợ (full/partial), deadline gần
+- Card hiển thị: name, country flag, stipend/năm, deadline, link chính thức
+- Tận dụng pattern `ScholarshipCard` đã có để đồng bộ thẩm mỹ
 
-### B. Skill Frequency Card cho từng học sinh
+### 4. Research Proposal Builder (mới — AI)
 
-Hiện đã có cột Speaking/Writing count → bổ sung:
+Thay thế chỉ download .docx bằng wizard 7 bước (Title → Background → Research Question → Literature Gap → Methodology → Timeline → Expected Contribution):
 
-- **Streak Speaking riêng & Streak Writing riêng** (không chung streak login)
-- **Cảnh báo "X ngày chưa nói/viết"** highlight đỏ ở bảng Students nếu > 7 ngày
-- Mini bar chart 30 ngày qua cho mỗi học sinh khi click expand row
+- Mỗi bước: input + ví dụ chuẩn + nút **"AI gợi ý cho tôi"** gọi edge function `draft-research-proposal-section` (tạo mới)
+- Bước cuối: tổng hợp full proposal, nút **Copy** + **Download .md**
+- Vẫn giữ nút download .docx template gốc cho ai muốn xài offline
 
-### C. Cohort Analysis
+### 5. Supervisor Finder + Cold Email v2 (nâng cấp)
 
-Nhóm học sinh theo tuần đăng ký → biểu đồ retention curve. Giúp đánh giá nội dung onboarding.
+- Trường mới: **Tone** (formal / friendly / concise), **Length** (short 120 từ / standard 200 / detailed 280), **Follow-up variant** (sinh sẵn email follow-up sau 7 ngày)
+- Sau khi sinh email: hiển thị **Email Health Score** (độ dài, có tham chiếu paper cụ thể chưa, có CTA chưa, có quantitative achievement chưa) — chấm 0-100 với gợi ý cải thiện
+- Sửa edge function `draft-cold-email` để nhận `tone`, `length`, `followUp` và trả về `{ email, followUpEmail, healthScore, suggestions[] }`
 
-### E. Quick Actions trên row học sinh
+### 6. PhD Timeline 12 tháng + FAQ
 
-- Nút "Gửi nhắc nhở" (insert vào `teacher_contact_requests`)
-- Nút "Tặng badge thủ công"
-- Nút "Reset streak / Cộng XP"
+- Timeline ngang (horizontal scroll trên mobile): 12 tháng với task mỗi tháng
+- Accordion FAQ 10 câu phổ biến (lương PhD đủ sống không, có nên bỏ việc đi PhD, PhD vs Master, etc.) — tận dụng `Accordion` của shadcn
 
-### F. Compare Mode
+## Cấu trúc file
 
-Chọn 2-3 học sinh để so sánh radar skill side-by-side — hữu ích cho buổi tư vấn phụ huynh.
+```text
+src/pages/PhdGlobalPathway.tsx          (refactor → orchestrator, ~250 dòng)
+src/components/phd/
+  PhdProgressTracker.tsx                (mới)
+  PhdCountryGuides.tsx                  (mới — tách Tabs ra)
+  PhdFundingDatabase.tsx                (mới)
+  PhdProposalBuilder.tsx                (mới — wizard 7 bước)
+  PhdColdEmailStudio.tsx                (mới — nâng cấp form hiện tại)
+  PhdTimeline12Months.tsx               (mới)
+  PhdFaq.tsx                            (mới)
+src/data/
+  phdCountryGuides.ts                   (mới — 8 quốc gia)
+  phdFundingDatabase.ts                 (mới — 25-30 học bổng)
+  phdFaq.ts                             (mới)
+  phdTimeline.ts                        (mới)
+supabase/functions/
+  draft-research-proposal-section/index.ts   (mới — Lovable AI Gateway, gemini-2.5-flash)
+  draft-cold-email/index.ts             (cập nhật: tone/length/followUp/healthScore)
+```
 
-### G. Content Health Tab
+## Kỹ thuật
 
-- Bài học/quiz nào có **completion rate thấp nhất**
-- Câu hỏi nào học sinh sai nhiều nhất (>70%) → flag review nội dung
-- Top vocab khó nhất theo `user_vocab_mastered` reverse
+- AI dùng **Perplexity API** 
+- Tất cả progress (checkbox tracker, proposal draft từng bước) lưu `localStorage` theo guest mode (key `phd-hub-*`)
+- Theme: tiếp tục gradient violet→fuchsia của trang hiện tại, kết hợp brand Royal Blue → Soft Emerald cho phần mới để đồng bộ HaiEduTech
+- Mobile-first: tabs cuộn ngang khi có 8 quốc gia, bảng requirements có `min-w-[600px]` + horizontal scroll theo chuẩn dự án
+- Đa ngôn ngữ Vi/En qua `useLanguage().t()` — KHÔNG hard-code text
+- Không thêm gated content (theo Core memory: mọi nội dung mở hoàn toàn)
 
-### H. Revenue × Engagement
+## Phạm vi không làm
 
-Tab Income đã có. Bổ sung: scatter plot "Hours studied vs months paid" → tìm học sinh chuẩn bị churn.
-
-### I. Export PDF báo cáo phụ huynh
-
-Một học sinh → PDF 1 trang gồm radar, streak, gợi ý RL, lời nhắn từ Mr. Hai (AI gen).
-
-### J. Notification center
-
-Bell icon: cảnh báo realtime (học sinh đang distress qua Compass AI, học sinh vừa đạt band 8.0, học sinh vắng ≥ 14 ngày).
-
-## 4. Thứ tự thực hiện đề xuất (ưu tiên)
-
-**P0 — Sửa data (tuần này):**
-
-1. Audit & fix log Speaking/Writing (mục 2.1, 2.2)
-2. Debounce realtime + filter heartbeat (2.3)
-3. Memoize tính toán nặng (2.5)
-
-**P1 — Insight cốt lõi:**
-4. Cảnh báo "X ngày chưa nói/viết" + streak riêng (3.B)
-5. Tab Content Health (3.G)
-6. Engagement Heatmap + DAU/WAU (3.A)
-
-**P2 — Mở rộng:**
-7. Auto-insight AI (3.D)
-8. Quick Actions + Notification center (3.E, 3.J)
-9. Compare Mode + PDF báo cáo (3.F, 3.I)
-
-## 5. Câu hỏi cho thầy trước khi build
-
-- Thầy muốn fix toàn bộ **P0** trước (mất ~1 lượt prompt) rồi quyết P1 sau, hay muốn em gộp P0+P1 luôn?
-- Có muốn em audit kỹ từng file Speaking/Writing để chỉ rõ chỗ nào không log không, hay tin tưởng em tự fix?  
-  
-ok hãy làm đi 
+- Không đổi route hiện tại `/study-abroad/phd`
+- Không động vào các module Master/Bachelor/Scholarship khác
+- Không thêm bảng Supabase mới (chỉ dùng edge function + localStorage)
