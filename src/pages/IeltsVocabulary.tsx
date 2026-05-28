@@ -462,6 +462,12 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
             <h3 className="text-2xl font-bold text-foreground mb-2">{q.prompt}</h3>
             <p className="text-sm text-muted-foreground">{t("Chọn từ tiếng Anh tương ứng:", "Pick the matching English word:")}</p>
           </>
+        ) : q.type === "defEn" ? (
+          <>
+            <p className="text-xs text-muted-foreground mb-2">{t("Định nghĩa tiếng Anh:", "English definition:")}</p>
+            <h3 className="text-xl font-semibold text-foreground mb-2 leading-relaxed">"{q.prompt}"</h3>
+            <p className="text-sm text-muted-foreground">{t("Từ nào khớp với định nghĩa trên?", "Which word matches?")}</p>
+          </>
         ) : q.type === "fillBlank" ? (
           <>
             <p className="text-xs text-muted-foreground mb-2">{t("Điền từ thích hợp vào chỗ trống:", "Fill in the blank:")}</p>
@@ -476,6 +482,32 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
               </button>
             </div>
             <p className="text-sm text-muted-foreground">{t("Chọn từ đồng nghĩa:", "Choose the synonym:")}</p>
+          </>
+        ) : q.type === "collocation" ? (
+          <>
+            <div className="flex items-center gap-3 mb-2">
+              <h3 className="text-3xl font-bold text-foreground">{q.prompt}</h3>
+              <button onClick={() => speak(q.word.word)} className="p-2 rounded-full hover:bg-primary/10">
+                <Volume2 className="w-5 h-5 text-primary" />
+              </button>
+            </div>
+            <p className="text-sm text-muted-foreground">{t("Cụm từ nào thường đi kèm với từ này?", "Which collocation goes with this word?")}</p>
+          </>
+        ) : q.type === "scramble" ? (
+          <>
+            <p className="text-xs text-muted-foreground mb-2">{t("Sắp xếp lại các chữ cái để được từ đúng:", "Unscramble the letters:")}</p>
+            <h3 className="text-3xl font-extrabold tracking-[0.4em] text-primary mb-2 uppercase">{q.prompt}</h3>
+            <p className="text-sm text-muted-foreground italic">{t("Gợi ý:", "Hint:")} {q.word.definition.vi}</p>
+          </>
+        ) : q.type === "context" ? (
+          <>
+            <div className="flex items-center gap-3 mb-2">
+              <h3 className="text-3xl font-bold text-foreground">{q.prompt}</h3>
+              <button onClick={() => speak(q.word.word)} className="p-2 rounded-full hover:bg-primary/10">
+                <Volume2 className="w-5 h-5 text-primary" />
+              </button>
+            </div>
+            <p className="text-sm text-muted-foreground">{t("Câu nào dùng từ này một cách tự nhiên?", "Which sentence uses it naturally?")}</p>
           </>
         ) : (
           <>
