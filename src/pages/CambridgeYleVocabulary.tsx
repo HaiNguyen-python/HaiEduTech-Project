@@ -497,7 +497,7 @@ const CambridgeYleVocabulary = () => {
                                   <KidsSpeechCheck word={w.word} accentColor={theme.border} />
 
                                   <div
-                                    className="mt-3 rounded-xl px-3 py-2.5 text-[14px] leading-relaxed relative"
+                                    className="mt-3 rounded-xl px-3 py-2.5 text-base leading-relaxed relative"
                                     style={{ background: theme.soft, borderLeft: `4px solid ${theme.border}` }}
                                   >
                                     <button
