@@ -29,39 +29,6 @@ const PhdGlobalPathway = () => {
   const { t, lang } = useLanguage();
   const vi = lang === "vi";
 
-  // ---------- AI Cold Email ----------
-  const [emailInput, setEmailInput] = useState({
-    studentName: "", professorName: "", university: "", researchArea: "",
-    paperOrProject: "", masterThesis: "", achievement: "", intakeYear: "Fall 2026",
-  });
-  const [emailLoading, setEmailLoading] = useState(false);
-  const [emailDraft, setEmailDraft] = useState("");
-
-  const handleGenerateEmail = async () => {
-    if (!emailInput.professorName || !emailInput.researchArea) {
-      toast({ title: t("Thiếu thông tin", "Missing"), description: t("Cần tên giáo sư & lĩnh vực", "Need professor name & area"), variant: "destructive" });
-      return;
-    }
-    setEmailLoading(true);
-    setEmailDraft("");
-    try {
-      const { data, error } = await supabase.functions.invoke("draft-cold-email", { body: { ...emailInput, language: lang } });
-      if (error) throw error;
-      if ((data as any)?.error) throw new Error((data as any).error);
-      setEmailDraft((data as any).email || "");
-      setTimeout(() => document.getElementById("email-output")?.scrollIntoView({ behavior: "smooth" }), 100);
-    } catch (e: any) {
-      toast({ title: t("Lỗi", "Error"), description: e?.message || "AI failed", variant: "destructive" });
-    } finally {
-      setEmailLoading(false);
-    }
-  };
-
-  const copyEmail = () => {
-    navigator.clipboard.writeText(emailDraft);
-    toast({ title: t("Đã sao chép", "Copied") });
-  };
-
   // ---------- Funding filters ----------
   const [fCountry, setFCountry] = useState<string>("all");
   const [fField, setFField] = useState<PhdFundingField | "all">("all");
