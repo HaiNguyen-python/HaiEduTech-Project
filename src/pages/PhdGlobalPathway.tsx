@@ -281,48 +281,14 @@ const PhdGlobalPathway = () => {
             </div>
           </div>
 
-          {/* AI Cold Email */}
-          <Card className="border-primary/30 shadow-xl">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-rose-500 to-orange-600 flex items-center justify-center">
-                  <Mail className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold">{t("AI Cold Email Generator", "AI Cold Email Generator")}</h3>
-                  <p className="text-xs text-muted-foreground">{t("Soạn email gửi giáo sư chuyên nghiệp trong 30 giây", "Craft a professional supervisor email in 30 seconds")}</p>
-                </div>
-              </div>
+          {/* AI Research Proposal Builder */}
+          <PhdProposalBuilder />
 
-              <div className="grid sm:grid-cols-2 gap-3">
-                <div><Label className="text-xs">{t("Tên của em", "Your Name")}</Label><Input value={emailInput.studentName} onChange={(e) => setEmailInput({ ...emailInput, studentName: e.target.value })} /></div>
-                <div><Label className="text-xs">{t("Tên giáo sư *", "Professor Name *")}</Label><Input value={emailInput.professorName} onChange={(e) => setEmailInput({ ...emailInput, professorName: e.target.value })} placeholder="Prof. Smith" /></div>
-                <div><Label className="text-xs">{t("Trường", "University")}</Label><Input value={emailInput.university} onChange={(e) => setEmailInput({ ...emailInput, university: e.target.value })} /></div>
-                <div><Label className="text-xs">{t("Lĩnh vực nghiên cứu *", "Research Area *")}</Label><Input value={emailInput.researchArea} onChange={(e) => setEmailInput({ ...emailInput, researchArea: e.target.value })} placeholder="Graph Neural Networks" /></div>
-                <div className="sm:col-span-2"><Label className="text-xs">{t("Bài báo / project cụ thể của giáo sư", "Specific paper/project to reference")}</Label><Input value={emailInput.paperOrProject} onChange={(e) => setEmailInput({ ...emailInput, paperOrProject: e.target.value })} placeholder='"GNNs for protein folding (Nature 2024)"' /></div>
-                <div className="sm:col-span-2"><Label className="text-xs">{t("Đề tài thesis Master của em", "Your Master thesis topic")}</Label><Input value={emailInput.masterThesis} onChange={(e) => setEmailInput({ ...emailInput, masterThesis: e.target.value })} /></div>
-                <div className="sm:col-span-2"><Label className="text-xs">{t("Thành tích định lượng", "Quantitative achievement")}</Label><Input value={emailInput.achievement} onChange={(e) => setEmailInput({ ...emailInput, achievement: e.target.value })} placeholder='"improved baseline by 12%"' /></div>
-                <div><Label className="text-xs">{t("Kỳ nhập học", "Intake")}</Label><Input value={emailInput.intakeYear} onChange={(e) => setEmailInput({ ...emailInput, intakeYear: e.target.value })} /></div>
-              </div>
+          {/* AI Cold Email Studio v2 */}
+          <PhdColdEmailStudio />
 
-              <Button className="mt-4 gap-2" onClick={handleGenerateEmail} disabled={emailLoading}>
-                {emailLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-                {t("Soạn email", "Generate Email")}
-              </Button>
-            </CardContent>
-          </Card>
-
-          {emailDraft && (
-            <Card id="email-output" className="mt-6 border-emerald-500/40">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-bold flex items-center gap-2"><Mail className="w-5 h-5 text-emerald-500" />{t("Email AI đã soạn", "AI Drafted Email")}</h3>
-                  <Button size="sm" variant="outline" onClick={copyEmail} className="gap-2"><Copy className="w-4 h-4" />{t("Sao chép", "Copy")}</Button>
-                </div>
-                <div className="whitespace-pre-wrap text-sm leading-relaxed bg-muted/30 rounded-lg p-4">{emailDraft}</div>
-              </CardContent>
-            </Card>
-          )}
+          {/* FAQ */}
+          <PhdFaq />
         </div>
       </main>
       <Footer />
