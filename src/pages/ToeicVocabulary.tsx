@@ -265,29 +265,140 @@ const TypePractice = ({
   );
 };
 
-// ── Exercise Component ──
+// ── Multi-mode Exercise Component ──
+type ToeicExType =
+  | "meaningVi"   // word → Vietnamese meaning
+  | "meaningEn"   // word → English meaning
+  | "reverse"     // Vietnamese meaning → word
+  | "listening"   // audio → word
+  | "fillBlank"   // example with blank → word
+  | "synonym"     // word → synonym
+  | "collocation" // word → collocation
+  | "wordClass"   // word → part-of-speech
+  | "scramble";   // scrambled letters → word
+
+interface ToeicExQuestion {
+  type: ToeicExType;
+  word: ToeicWord;
+  prompt: string;
+  options: string[];
+  correct: number;
+}
+
+const WORD_CLASS_LABELS: Record<string, { vi: string; en: string }> = {
+  n: { vi: "Danh từ (noun)", en: "Noun" },
+  v: { vi: "Động từ (verb)", en: "Verb" },
+  adj: { vi: "Tính từ (adjective)", en: "Adjective" },
+  adv: { vi: "Trạng từ (adverb)", en: "Adverb" },
+};
+
+const scrambleLetters = (w: string): string => {
+  const letters = w.split("");
+  if (letters.length < 2) return w;
+  for (let i = 0; i < 10; i++) {
+    const shuffled = shuffle(letters).join("");
+    if (shuffled !== w) return shuffled;
+  }
+  return letters.reverse().join("");
+};
+
+const TOEIC_TYPE_LABELS: Record<ToeicExType, { vi: string; en: string; emoji: string }> = {
+  meaningVi: { vi: "Chọn nghĩa tiếng Việt", en: "Choose Vietnamese meaning", emoji: "🇻🇳" },
+  meaningEn: { vi: "Chọn nghĩa tiếng Anh", en: "Choose English meaning", emoji: "📖" },
+  reverse: { vi: "Chọn từ theo nghĩa tiếng Việt", en: "Pick the English word", emoji: "🔁" },
+  listening: { vi: "Nghe và chọn từ", en: "Listen & choose", emoji: "🎧" },
+  fillBlank: { vi: "Điền từ vào chỗ trống", en: "Fill in the blank", emoji: "✏️" },
+  synonym: { vi: "Chọn từ đồng nghĩa", en: "Pick the synonym", emoji: "🔗" },
+  collocation: { vi: "Chọn cụm từ đi kèm", en: "Pick the collocation", emoji: "🧩" },
+  wordClass: { vi: "Xác định loại từ", en: "Identify the part of speech", emoji: "🏷️" },
+  scramble: { vi: "Sắp xếp lại chữ cái", en: "Unscramble the letters", emoji: "🔤" },
+};
+
+const buildToeicQuestions = (words: ToeicWord[], quizSize: number): ToeicExQuestion[] => {
+  const picked = shuffle(words).slice(0, quizSize);
+  return picked.map((w, idx) => {
+    const candidates: ToeicExType[] = ["meaningVi", "meaningEn", "reverse", "listening", "scramble", "wordClass"];
+    if (w.example && w.example.toLowerCase().includes(w.word.toLowerCase())) candidates.push("fillBlank");
+    if (w.synonyms && w.synonyms.length > 0) candidates.push("synonym");
+    if (w.collocations && w.collocations.length > 0) candidates.push("collocation");
+    const type = candidates[idx % candidates.length];
+
+    if (type === "meaningVi") {
+      const wrongs = shuffle(words.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.definition.vi);
+      const opts = shuffle([w.definition.vi, ...wrongs]);
+      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(w.definition.vi) };
+    }
+    if (type === "meaningEn") {
+      const wrongs = shuffle(words.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.definition.en);
+      const opts = shuffle([w.definition.en, ...wrongs]);
+      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(w.definition.en) };
+    }
+    if (type === "reverse") {
+      const wrongs = shuffle(words.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.word);
+      const opts = shuffle([w.word, ...wrongs]);
+      return { type, word: w, prompt: w.definition.vi, options: opts, correct: opts.indexOf(w.word) };
+    }
+    if (type === "listening") {
+      const wrongs = shuffle(words.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.word);
+      const opts = shuffle([w.word, ...wrongs]);
+      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(w.word) };
+    }
+    if (type === "fillBlank") {
+      const re = new RegExp(w.word, "ig");
+      const blanked = w.example.replace(re, "_____");
+      const wrongs = shuffle(words.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.word);
+      const opts = shuffle([w.word, ...wrongs]);
+      return { type, word: w, prompt: blanked, options: opts, correct: opts.indexOf(w.word) };
+    }
+    if (type === "synonym") {
+      const correctSyn = w.synonyms[0];
+      const synPool = words.filter(x => x.word !== w.word).flatMap(x => x.synonyms || []);
+      const wrongs = shuffle(synPool.filter(s => s !== correctSyn && s !== w.word)).slice(0, 3);
+      while (wrongs.length < 3) wrongs.push(shuffle(words)[0].word);
+      const opts = shuffle([correctSyn, ...wrongs]);
+      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(correctSyn) };
+    }
+    if (type === "collocation") {
+      const correctColl = w.collocations[0];
+      const collPool = words.filter(x => x.word !== w.word).flatMap(x => x.collocations || []);
+      const wrongs = shuffle(collPool.filter(c => c !== correctColl && !c.toLowerCase().includes(w.word.toLowerCase()))).slice(0, 3);
+      while (wrongs.length < 3) wrongs.push(shuffle(words)[0].word);
+      const opts = shuffle([correctColl, ...wrongs]);
+      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(correctColl) };
+    }
+    if (type === "wordClass") {
+      const classes = ["n", "v", "adj", "adv"];
+      const wrongs = classes.filter(c => c !== w.wordClass).slice(0, 3);
+      const opts = shuffle([w.wordClass, ...wrongs]).map(c => WORD_CLASS_LABELS[c]?.vi || c);
+      const correctLabel = WORD_CLASS_LABELS[w.wordClass]?.vi || w.wordClass;
+      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(correctLabel) };
+    }
+    // scramble
+    const scrambled = scrambleLetters(w.word);
+    const wrongs = shuffle(words.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.word);
+    const opts = shuffle([w.word, ...wrongs]);
+    return { type, word: w, prompt: scrambled, options: opts, correct: opts.indexOf(w.word) };
+  });
+};
+
 const VocabExercise = ({ words, t }: { words: ToeicWord[]; t: (vi: string, en: string) => string }) => {
-  const [questions, setQuestions] = useState<{ word: ToeicWord; options: string[]; correct: number }[]>([]);
+  const [questions, setQuestions] = useState<ToeicExQuestion[]>([]);
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
+  const [quizSize, setQuizSize] = useState<number>(10);
   const scoreSavedRef = useRef(false);
+  const autoPlayedRef = useRef<number>(-1);
 
   const generate = useCallback(() => {
-    const pool = shuffle(words).slice(0, 10);
-    const qs = pool.map((w) => {
-      const wrong = shuffle(words.filter((x) => x.word !== w.word)).slice(0, 3).map((x) => x.definition.en);
-      const opts = shuffle([w.definition.en, ...wrong]);
-      return { word: w, options: opts, correct: opts.indexOf(w.definition.en) };
-    });
-    setQuestions(qs);
-    setCurrent(0);
-    setSelected(null);
-    setScore(0);
-    setFinished(false);
+    if (words.length < 4) { setQuestions([]); return; }
+    const size = Math.min(quizSize, words.length);
+    setQuestions(buildToeicQuestions(words, size));
+    setCurrent(0); setSelected(null); setScore(0); setFinished(false);
     scoreSavedRef.current = false;
-  }, [words]);
+    autoPlayedRef.current = -1;
+  }, [words, quizSize]);
 
   useEffect(() => {
     if (!finished || scoreSavedRef.current) return;
@@ -303,11 +414,45 @@ const VocabExercise = ({ words, t }: { words: ToeicWord[]; t: (vi: string, en: s
     })();
   }, [finished]);
 
+  // Auto-play audio when a listening question first appears
+  useEffect(() => {
+    const q = questions[current];
+    if (q && q.type === "listening" && autoPlayedRef.current !== current) {
+      autoPlayedRef.current = current;
+      const id = setTimeout(() => speak(q.word.word), 250);
+      return () => clearTimeout(id);
+    }
+  }, [current, questions]);
+
+  if (words.length < 4) {
+    return (
+      <div className="text-center py-12">
+        <BookOpen className="mx-auto mb-4 w-12 h-12 text-blue-400" />
+        <p className="text-slate-600 dark:text-slate-300 text-lg">
+          {t(`Cần ít nhất 4 từ để bắt đầu (hiện có ${words.length}).`, `Need at least 4 words to start (currently ${words.length}).`)}
+        </p>
+      </div>
+    );
+  }
+
   if (questions.length === 0) {
     return (
       <div className="text-center py-12">
         <BookOpen className="mx-auto mb-4 w-12 h-12 text-blue-400" />
-        <p className="text-slate-300 mb-4 text-lg">{t("Trắc nghiệm 10 câu ngẫu nhiên từ ngân hàng từ vựng", "10-question random quiz from the vocabulary bank")}</p>
+        <p className="text-slate-600 dark:text-slate-300 mb-4 text-lg">
+          {t("Trắc nghiệm đa dạng: nghĩa, nghe, điền chỗ trống, đồng nghĩa, cụm từ, loại từ và sắp xếp chữ cái.",
+            "Multi-mode quiz: meaning, listening, fill-in-blank, synonyms, collocations, word class, and unscramble.")}
+        </p>
+        <div className="flex items-center justify-center gap-2 mb-4 text-sm">
+          <label className="text-slate-600 dark:text-slate-400">{t("Số câu hỏi:", "Questions:")}</label>
+          <select value={quizSize} onChange={e => setQuizSize(Number(e.target.value))} className="rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-2 py-1">
+            {[5, 10, 15, 20, 30, 50, 100].map(n => (
+              <option key={n} value={n} disabled={n > words.length && n !== 5}>
+                {n} {n > words.length ? `(${t("chỉ có", "only")} ${words.length})` : ""}
+              </option>
+            ))}
+          </select>
+        </div>
         <Button onClick={generate} className="bg-blue-600 hover:bg-blue-700 text-white">{t("Bắt đầu", "Start Quiz")}</Button>
       </div>
     );
@@ -316,11 +461,11 @@ const VocabExercise = ({ words, t }: { words: ToeicWord[]; t: (vi: string, en: s
   if (finished) {
     return (
       <div className="text-center py-12">
-        <div className="text-5xl mb-4">{score >= 8 ? "🏆" : score >= 5 ? "👍" : "💪"}</div>
-        <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">{t("Kết quả", "Result")}: {score}/10</h3>
+        <div className="text-5xl mb-4">{score >= questions.length * 0.8 ? "🏆" : score >= questions.length / 2 ? "👍" : "💪"}</div>
+        <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">{t("Kết quả", "Result")}: {score}/{questions.length}</h3>
         <p className="text-slate-600 dark:text-slate-400 mb-6 text-lg">
-          {score >= 8 ? t("Xuất sắc! Bạn đã nắm vững từ vựng!", "Excellent! You've mastered the vocabulary!") :
-            score >= 5 ? t("Khá tốt! Tiếp tục luyện tập nhé!", "Good job! Keep practicing!") :
+          {score >= questions.length * 0.8 ? t("Xuất sắc! Bạn đã nắm vững từ vựng!", "Excellent! You've mastered the vocabulary!") :
+            score >= questions.length / 2 ? t("Khá tốt! Tiếp tục luyện tập nhé!", "Good job! Keep practicing!") :
               t("Cần ôn lại thêm. Đừng bỏ cuộc!", "Need more review. Don't give up!")}
         </p>
         <Button onClick={generate} className="bg-blue-600 hover:bg-blue-700 text-white mb-6">{t("Làm lại", "Retry")}</Button>
@@ -332,36 +477,81 @@ const VocabExercise = ({ words, t }: { words: ToeicWord[]; t: (vi: string, en: s
   }
 
   const q = questions[current];
+  const label = TOEIC_TYPE_LABELS[q.type];
+
+  const handleSelect = (i: number) => {
+    if (selected !== null) return;
+    setSelected(i);
+    if (i === q.correct) setScore(s => s + 1);
+  };
+  const handleNext = () => {
+    if (current + 1 >= questions.length) setFinished(true);
+    else { setCurrent(c => c + 1); setSelected(null); }
+  };
 
   return (
     <div className="max-w-2xl mx-auto">
-      <div className="flex justify-between items-center mb-6">
-        <Badge className="bg-blue-500/20 text-blue-700 dark:text-blue-300 border border-blue-500/30 text-base px-3 py-1">{current + 1}/10</Badge>
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <Badge className="bg-blue-500/20 text-blue-700 dark:text-blue-300 border border-blue-500/30 text-base px-3 py-1">{current + 1}/{questions.length}</Badge>
+        <Badge variant="outline" className="text-xs">{label.emoji} {t(label.vi, label.en)}</Badge>
         <span className="text-slate-600 dark:text-slate-400 text-base">{t("Điểm", "Score")}: {score}</span>
       </div>
-      <h3 className="text-xl font-bold text-slate-900 dark:text-white text-center mb-2">
-        {t("Nghĩa của từ", "What does")} <span className="text-blue-600 dark:text-blue-400">"{q.word.word}"</span> {t("là gì?", "mean?")}
-      </h3>
-      <p className="text-center text-slate-600 dark:text-slate-500 font-mono text-sm mb-6">{q.word.ipa} · {q.word.wordClass}</p>
+
+      <div className="rounded-xl border border-sky-200 dark:border-slate-700 bg-white dark:bg-slate-900/60 p-6 mb-6">
+        {q.type === "listening" ? (
+          <div className="flex flex-col items-center gap-3 py-4">
+            <button onClick={() => speak(q.word.word)} className="p-6 rounded-full bg-blue-500/10 hover:bg-blue-500/20 transition-colors">
+              <Volume2 className="w-10 h-10 text-blue-600" />
+            </button>
+            <p className="text-sm text-slate-500">{t("Nhấn để nghe lại", "Tap to listen again")}</p>
+          </div>
+        ) : q.type === "reverse" ? (
+          <>
+            <p className="text-xs text-slate-500 mb-2">{t("Nghĩa tiếng Việt:", "Vietnamese meaning:")}</p>
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">{q.prompt}</h3>
+            <p className="text-sm text-slate-500">{t("Chọn từ tiếng Anh tương ứng:", "Pick the English word:")}</p>
+          </>
+        ) : q.type === "fillBlank" ? (
+          <>
+            <p className="text-xs text-slate-500 mb-2">{t("Điền từ thích hợp vào chỗ trống:", "Fill in the blank:")}</p>
+            <p className="text-lg text-slate-900 dark:text-slate-100 italic leading-relaxed">{q.prompt}</p>
+          </>
+        ) : q.type === "scramble" ? (
+          <>
+            <p className="text-xs text-slate-500 mb-2">{t("Sắp xếp lại các chữ cái:", "Unscramble the letters:")}</p>
+            <h3 className="text-3xl font-extrabold tracking-[0.4em] text-blue-600 uppercase mb-2">{q.prompt}</h3>
+            <p className="text-sm text-slate-500 italic">{t("Gợi ý:", "Hint:")} {q.word.definition.vi}</p>
+          </>
+        ) : (
+          <>
+            <div className="flex items-center gap-3 mb-2">
+              <h3 className="text-3xl font-bold text-slate-900 dark:text-white">{q.prompt}</h3>
+              <button onClick={() => speak(q.word.word)} className="p-2 rounded-full hover:bg-blue-500/10">
+                <Volume2 className="w-5 h-5 text-blue-600" />
+              </button>
+            </div>
+            <p className="text-sm text-slate-500 font-mono mb-1">{q.word.ipa} · {q.word.wordClass}</p>
+            {q.type === "meaningVi" && <p className="text-sm text-slate-500 mt-3">{t("Chọn nghĩa tiếng Việt:", "Choose the Vietnamese meaning:")}</p>}
+            {q.type === "meaningEn" && <p className="text-sm text-slate-500 mt-3">{t("Chọn nghĩa tiếng Anh:", "Choose the English meaning:")}</p>}
+            {q.type === "synonym" && <p className="text-sm text-slate-500 mt-3">{t("Chọn từ đồng nghĩa:", "Choose the synonym:")}</p>}
+            {q.type === "collocation" && <p className="text-sm text-slate-500 mt-3">{t("Cụm từ nào đi kèm với từ này?", "Which collocation goes with it?")}</p>}
+            {q.type === "wordClass" && <p className="text-sm text-slate-500 mt-3">{t("Đây là loại từ gì?", "What part of speech is this?")}</p>}
+          </>
+        )}
+      </div>
+
       <div className="space-y-3">
         {q.options.map((opt, i) => {
           let cls = "border-sky-200 bg-white text-slate-800 hover:border-blue-500/50 dark:border-slate-600/50 dark:bg-[#1E293B]/60 dark:text-slate-200";
           if (selected !== null) {
-            if (i === q.correct) cls = "border-emerald-500 bg-emerald-500/10 text-emerald-300";
-            else if (i === selected) cls = "border-red-500 bg-red-500/10 text-red-300";
+            if (i === q.correct) cls = "border-emerald-500 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300";
+            else if (i === selected) cls = "border-red-500 bg-red-500/10 text-red-700 dark:text-red-300";
           }
           return (
             <button
               key={i}
               disabled={selected !== null}
-              onClick={() => {
-                setSelected(i);
-                if (i === q.correct) setScore((s) => s + 1);
-                setTimeout(() => {
-                  if (current < 9) { setCurrent((c) => c + 1); setSelected(null); }
-                  else setFinished(true);
-                }, 1200);
-              }}
+              onClick={() => handleSelect(i)}
               className={`w-full text-left p-4 rounded-xl border transition-all text-base ${cls}`}
             >
               {selected !== null && i === q.correct && <CheckCircle className="inline w-5 h-5 mr-2" />}
@@ -371,6 +561,25 @@ const VocabExercise = ({ words, t }: { words: ToeicWord[]; t: (vi: string, en: s
           );
         })}
       </div>
+
+      {selected !== null && (
+        <div className="mt-6 rounded-lg border border-blue-200 dark:border-slate-700 bg-blue-50/50 dark:bg-slate-900/40 p-4">
+          <div className="flex items-center justify-between gap-3 flex-wrap">
+            <p className="text-sm text-slate-700 dark:text-slate-300 italic">
+              <strong className="text-slate-900 dark:text-white not-italic">{q.word.word}</strong> ({q.word.wordClass}) — {q.word.definition.vi}
+            </p>
+            <Button onClick={handleNext} className="bg-blue-600 hover:bg-blue-700 text-white">
+              {current + 1 >= questions.length ? t("Xem kết quả", "See Results") : t("Câu tiếp", "Next")}
+              <ChevronRight className="w-4 h-4 ml-1" />
+            </Button>
+          </div>
+          {q.word.example && (
+            <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 italic">
+              <strong className="not-italic font-bold">E.g. </strong>{q.word.example}
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 };
