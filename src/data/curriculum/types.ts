@@ -30,6 +30,6 @@ export interface ExtendedProgrammingModule {
   color: string;
   description: string;
   descriptionEn: string;
-  course: "kids" | "data-ai" | "python" | "sql" | "data-eng" | "ml" | "cloud" | "dl" | "rl" | "nlp";
+  course: "kids" | "data-ai" | "python" | "sql" | "data-eng" | "ml" | "cloud" | "dl" | "rl" | "nlp" | "edtech";
   lessons: ExtendedProgrammingLesson[];
 }
