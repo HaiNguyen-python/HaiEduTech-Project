@@ -28,6 +28,7 @@ import PhdColdEmailStudio from "@/components/phd/PhdColdEmailStudio";
 import PhdFaq from "@/components/phd/PhdFaq";
 import PhdSupervisorFinder from "@/components/phd/PhdSupervisorFinder";
 import PhdDeadlineRadar from "@/components/phd/PhdDeadlineRadar";
+import PhdCostCulture from "@/components/phd/PhdCostCulture";
 
 const PhdGlobalPathway = () => {
   const { t, lang } = useLanguage();
@@ -215,6 +216,8 @@ const PhdGlobalPathway = () => {
                         </div>
                       </div>
                     </div>
+
+                    <PhdCostCulture countryId={c.id} />
                   </CardContent>
                 </Card>
               </TabsContent>

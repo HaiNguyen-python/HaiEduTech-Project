@@ -4,7 +4,7 @@
  *              Each step auto-saves to localStorage; final step assembles
  *              the full proposal with copy + .md download.
  */
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,10 +13,12 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import {
   FileText, Sparkles, Loader2, Copy, Download, ChevronLeft, ChevronRight, Check,
+  Activity, FileSearch, ExternalLink, X,
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { scoreProposal, buildProposalDocxBlob } from "@/lib/phdProposalScore";
 
 const STORAGE_KEY = "phd-hub-proposal-draft";
 
@@ -110,7 +112,32 @@ const STEPS: StepDef[] = [
     placeholderVi: "Đóng góp dự kiến…",
     placeholderEn: "Expected contributions…",
   },
+  {
+    id: "references",
+    titleVi: "8. References & nguồn tham khảo",
+    titleEn: "8. References & Sources",
+    hintVi: "Liệt kê 8–15 nguồn theo APA (Tác giả, Năm). Dùng các keyword bên dưới để tra Google Scholar.",
+    hintEn: "List 8–15 sources in APA style (Author, Year). Use the keywords below to search Google Scholar.",
+    exampleVi: "Vaswani, A., Shazeer, N., Parmar, N. et al. (2017). Attention Is All You Need. NeurIPS.",
+    exampleEn: "Vaswani, A., Shazeer, N., Parmar, N. et al. (2017). Attention Is All You Need. NeurIPS.",
+    placeholderVi: "Vaswani, A. et al. (2017). …\nGoodfellow, I. et al. (2014). …",
+    placeholderEn: "Vaswani, A. et al. (2017). …\nGoodfellow, I. et al. (2014). …",
+  },
 ];
+
+/** Build 5 search-keyword chips from the topic for the references step. */
+const buildKeywordSuggestions = (topic: string, titleDraft: string): string[] => {
+  const base = (topic || titleDraft || "research").trim();
+  const root = base.replace(/["'.,]/g, "").slice(0, 80);
+  const stems = [
+    root,
+    `${root} review`,
+    `${root} state of the art`,
+    `${root} benchmark dataset`,
+    `${root} systematic literature review`,
+  ];
+  return Array.from(new Set(stems.filter(Boolean))).slice(0, 5);
+};
 
 const PhdProposalBuilder = () => {
   const { t, lang } = useLanguage();
@@ -207,10 +234,33 @@ const PhdProposalBuilder = () => {
     URL.revokeObjectURL(url);
   };
 
+  const handleDownloadDocx = () => {
+    const title = drafts[0] || topic || t("Đề cương nghiên cứu Tiến sĩ", "PhD Research Proposal");
+    const blob = buildProposalDocxBlob(title, assembleFull());
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "phd-research-proposal.doc";
+    a.click();
+    URL.revokeObjectURL(url);
+    toast({ title: t("Đã xuất Word", "Word file exported") });
+  };
+
+  const fullText = useMemo(() => drafts.join("\n\n"), [drafts]);
+  const health = useMemo(() => scoreProposal(fullText), [fullText]);
+  const keywordChips = useMemo(() => buildKeywordSuggestions(topic, drafts[0]), [topic, drafts]);
+  const isRefStep = STEPS[step]?.id === "references";
+
   const filledCount = drafts.filter((d) => d.trim().length > 30).length;
   const pct = Math.round((filledCount / STEPS.length) * 100);
   const current = STEPS[step];
   const isLast = step === STEPS.length - 1;
+
+  const scoreColor = health.total >= 80
+    ? "from-emerald-500 to-teal-600"
+    : health.total >= 50
+      ? "from-amber-500 to-orange-500"
+      : "from-rose-500 to-red-500";
 
   return (
     <Card className="mt-12 border-violet-300 dark:border-violet-800 shadow-xl">
@@ -286,6 +336,29 @@ const PhdProposalBuilder = () => {
           </p>
         </div>
 
+        {isRefStep && (
+          <div className="p-3 mb-3 rounded-lg border border-sky-200/60 dark:border-sky-900/40 bg-sky-50/60 dark:bg-sky-950/20">
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-sky-700 dark:text-sky-400 mb-2">
+              <FileSearch className="w-3.5 h-3.5" />
+              {t("Tìm nhanh trên Google Scholar:", "Quick Google Scholar searches:")}
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {keywordChips.map((kw) => (
+                <a
+                  key={kw}
+                  href={`https://scholar.google.com/scholar?q=${encodeURIComponent(kw)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-sky-500/10 text-sky-700 dark:text-sky-300 border border-sky-500/30 text-[11px] hover:bg-sky-500/20 transition-colors"
+                >
+                  {kw}
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
         <Textarea
           value={drafts[step]}
           onChange={(e) => updateDraft(step, e.target.value)}
@@ -313,21 +386,56 @@ const PhdProposalBuilder = () => {
         </div>
 
         {isLast && (
-          <div className="mt-5 p-4 rounded-lg bg-gradient-to-br from-emerald-50 to-sky-50 dark:from-emerald-950/30 dark:to-sky-950/20 border border-emerald-300/60">
-            <h4 className="font-bold mb-2 flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
-              🎓 {t("Sẵn sàng xuất proposal", "Ready to export")}
-            </h4>
-            <p className="text-xs text-muted-foreground mb-3">
-              {t("Em có thể sao chép hoặc tải file .md để mở bằng Word, Notion, Obsidian…",
-                "Copy or download as .md to open in Word, Notion, Obsidian…")}
-            </p>
-            <div className="flex flex-wrap gap-2">
-              <Button onClick={handleCopy} size="sm" variant="outline" className="gap-2">
-                <Copy className="w-4 h-4" /> {t("Sao chép toàn bộ", "Copy full")}
-              </Button>
-              <Button onClick={handleDownloadMd} size="sm" className="gap-2">
-                <Download className="w-4 h-4" /> {t("Tải .md", "Download .md")}
-              </Button>
+          <div className="mt-5 space-y-3">
+            <div className="p-4 rounded-lg border border-violet-300/60 dark:border-violet-800/60 bg-gradient-to-br from-violet-50 to-fuchsia-50 dark:from-violet-950/30 dark:to-fuchsia-950/20">
+              <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+                <h4 className="font-bold flex items-center gap-2 text-violet-700 dark:text-violet-400">
+                  <Activity className="w-4 h-4" /> {t("Proposal Health Score", "Proposal Health Score")}
+                </h4>
+                <div className={`px-3 py-1 rounded-full text-white font-bold text-sm bg-gradient-to-r ${scoreColor}`}>
+                  {health.total}/100
+                </div>
+              </div>
+              <Progress value={health.total} className="h-2 mb-3" />
+              <ul className="space-y-1.5">
+                {health.checks.map((c) => (
+                  <li key={c.key} className="flex items-center gap-2 text-xs">
+                    {c.pass
+                      ? <Check className="w-4 h-4 text-emerald-500 flex-shrink-0" />
+                      : <X className="w-4 h-4 text-rose-500 flex-shrink-0" />}
+                    <span className={c.pass ? "text-foreground" : "text-muted-foreground"}>
+                      {t(c.labelVi, c.labelEn)}
+                    </span>
+                    {(c.detailVi || c.detailEn) && (
+                      <span className="text-[10px] text-muted-foreground">
+                        ({t(c.detailVi || "", c.detailEn || "")})
+                      </span>
+                    )}
+                    <span className="ml-auto text-[10px] text-muted-foreground">+{c.weight}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="p-4 rounded-lg bg-gradient-to-br from-emerald-50 to-sky-50 dark:from-emerald-950/30 dark:to-sky-950/20 border border-emerald-300/60">
+              <h4 className="font-bold mb-2 flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
+                🎓 {t("Sẵn sàng xuất proposal", "Ready to export")}
+              </h4>
+              <p className="text-xs text-muted-foreground mb-3">
+                {t("Tải về dưới dạng Markdown (Notion/Obsidian) hoặc Word để chỉnh sửa tiếp.",
+                  "Download as Markdown (Notion/Obsidian) or Word for further editing.")}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <Button onClick={handleCopy} size="sm" variant="outline" className="gap-2">
+                  <Copy className="w-4 h-4" /> {t("Sao chép toàn bộ", "Copy full")}
+                </Button>
+                <Button onClick={handleDownloadMd} size="sm" variant="outline" className="gap-2">
+                  <Download className="w-4 h-4" /> {t("Tải .md", "Download .md")}
+                </Button>
+                <Button onClick={handleDownloadDocx} size="sm" className="gap-2 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:opacity-90 text-white">
+                  <Download className="w-4 h-4" /> {t("Tải .doc (Word)", "Download .doc (Word)")}
+                </Button>
+              </div>
             </div>
           </div>
         )}
