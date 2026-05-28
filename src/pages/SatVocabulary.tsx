@@ -145,27 +145,124 @@ const Flashcard = ({ word, isMastered, onStar }: { word: SatWord; isMastered: bo
   );
 };
 
+// ── Multi-mode SAT Vocabulary Exercise ──
+type SatExType =
+  | "meaningVi"
+  | "reverse"
+  | "listening"
+  | "fillBlank"
+  | "defEn"
+  | "partOfSpeech"
+  | "context"
+  | "scramble";
+
+interface SatExQuestion {
+  type: SatExType;
+  word: SatWord;
+  prompt: string;
+  options: string[];
+  correct: number;
+}
+
+const SAT_TYPE_LABELS: Record<SatExType, { vi: string; en: string; emoji: string }> = {
+  meaningVi: { vi: "Chọn nghĩa tiếng Việt", en: "Choose Vietnamese meaning", emoji: "🇻🇳" },
+  reverse: { vi: "Chọn từ theo nghĩa tiếng Việt", en: "Pick the word from meaning", emoji: "🔁" },
+  listening: { vi: "Nghe và chọn từ", en: "Listen & choose", emoji: "🎧" },
+  fillBlank: { vi: "Điền từ vào chỗ trống", en: "Fill in the blank", emoji: "✏️" },
+  defEn: { vi: "Định nghĩa tiếng Anh → từ", en: "English definition → word", emoji: "📖" },
+  partOfSpeech: { vi: "Xác định loại từ", en: "Identify the part of speech", emoji: "🏷️" },
+  context: { vi: "Câu nào dùng đúng từ này?", en: "Which sentence uses it?", emoji: "💬" },
+  scramble: { vi: "Sắp xếp lại chữ cái", en: "Unscramble the letters", emoji: "🔤" },
+};
+
+const POS_OPTIONS = ["noun", "verb", "adjective", "adverb"];
+
+const scrambleLetters = (w: string): string => {
+  const letters = w.split("");
+  if (letters.length < 2) return w;
+  for (let i = 0; i < 10; i++) {
+    const shuffled = shuffle(letters).join("");
+    if (shuffled !== w) return shuffled;
+  }
+  return letters.reverse().join("");
+};
+
+const buildSatQuestions = (words: SatWord[], pool: SatWord[], quizSize: number): SatExQuestion[] => {
+  const picked = shuffle(words).slice(0, quizSize);
+  return picked.map((w, idx) => {
+    const candidates: SatExType[] = ["meaningVi", "reverse", "listening", "defEn", "scramble"];
+    if (w.example && w.example.toLowerCase().includes(w.word.toLowerCase())) {
+      candidates.push("fillBlank", "context");
+    }
+    if (w.partOfSpeech && POS_OPTIONS.includes(w.partOfSpeech.toLowerCase())) candidates.push("partOfSpeech");
+    const type = candidates[idx % candidates.length];
+
+    if (type === "meaningVi") {
+      const wrongs = shuffle(pool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.definition.vi);
+      const opts = shuffle([w.definition.vi, ...wrongs]);
+      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(w.definition.vi) };
+    }
+    if (type === "reverse") {
+      const wrongs = shuffle(pool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.word);
+      const opts = shuffle([w.word, ...wrongs]);
+      return { type, word: w, prompt: w.definition.vi, options: opts, correct: opts.indexOf(w.word) };
+    }
+    if (type === "listening") {
+      const wrongs = shuffle(pool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.word);
+      const opts = shuffle([w.word, ...wrongs]);
+      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(w.word) };
+    }
+    if (type === "fillBlank") {
+      const re = new RegExp(w.word, "ig");
+      const blanked = w.example.replace(re, "_____");
+      const wrongs = shuffle(pool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.word);
+      const opts = shuffle([w.word, ...wrongs]);
+      return { type, word: w, prompt: blanked, options: opts, correct: opts.indexOf(w.word) };
+    }
+    if (type === "defEn") {
+      const wrongs = shuffle(pool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.word);
+      const opts = shuffle([w.word, ...wrongs]);
+      return { type, word: w, prompt: w.definition.en, options: opts, correct: opts.indexOf(w.word) };
+    }
+    if (type === "partOfSpeech") {
+      const correct = w.partOfSpeech!.toLowerCase();
+      const wrongs = POS_OPTIONS.filter(p => p !== correct).slice(0, 3);
+      const opts = shuffle([correct, ...wrongs]);
+      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(correct) };
+    }
+    if (type === "context") {
+      const wrongExamples = shuffle(
+        pool.filter(x => x.word !== w.word && x.example && !x.example.toLowerCase().includes(w.word.toLowerCase()))
+      ).slice(0, 3).map(x => x.example);
+      while (wrongExamples.length < 3) wrongExamples.push(shuffle(pool)[0].example);
+      const opts = shuffle([w.example, ...wrongExamples]);
+      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(w.example) };
+    }
+    // scramble
+    const scrambled = scrambleLetters(w.word);
+    const wrongs = shuffle(pool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.word);
+    const opts = shuffle([w.word, ...wrongs]);
+    return { type, word: w, prompt: scrambled, options: opts, correct: opts.indexOf(w.word) };
+  });
+};
+
 const VocabExercise = ({ words, allWords, t, quizSize, setQuizSize }: { words: SatWord[]; allWords?: SatWord[]; t: (vi: string, en: string) => string; quizSize: number; setQuizSize: (n: number) => void }) => {
-  const [questions, setQuestions] = useState<{ word: SatWord; options: string[]; correct: number }[]>([]);
+  const [questions, setQuestions] = useState<SatExQuestion[]>([]);
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
   const scoreSavedRef = useRef(false);
+  const autoPlayedRef = useRef<number>(-1);
 
   const generateQuiz = useCallback(() => {
     if (words.length < 4) return;
     const distractorPool = allWords && allWords.length > 4 ? allWords : words;
     const size = Math.min(quizSize, words.length);
-    const picked = shuffle(words).slice(0, size);
-    const qs = picked.map(w => {
-      const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.definition.vi);
-      const allOpts = shuffle([w.definition.vi, ...wrongs]);
-      return { word: w, options: allOpts, correct: allOpts.indexOf(w.definition.vi) };
-    });
-    setQuestions(qs);
+    setQuestions(buildSatQuestions(words, distractorPool, size));
     setCurrent(0); setSelected(null); setScore(0); setFinished(false);
     scoreSavedRef.current = false;
+    autoPlayedRef.current = -1;
   }, [words, allWords, quizSize]);
 
   useEffect(() => {
@@ -183,6 +280,15 @@ const VocabExercise = ({ words, allWords, t, quizSize, setQuizSize }: { words: S
   }, [finished]);
 
   useEffect(() => { generateQuiz(); }, [generateQuiz]);
+
+  useEffect(() => {
+    const q = questions[current];
+    if (q && q.type === "listening" && autoPlayedRef.current !== current) {
+      autoPlayedRef.current = current;
+      const id = setTimeout(() => speak(q.word.word), 250);
+      return () => clearTimeout(id);
+    }
+  }, [current, questions]);
 
   const handleSelect = (idx: number) => {
     if (selected !== null) return;
@@ -207,13 +313,14 @@ const VocabExercise = ({ words, allWords, t, quizSize, setQuizSize }: { words: S
   if (questions.length === 0) return <p className="text-muted-foreground text-center py-12">{t("Đang tạo bài tập...", "Generating exercises...")}</p>;
 
   if (finished) {
+    const ratio = score / questions.length;
     return (
       <div className="flex flex-col items-center justify-center py-16 text-center">
-        <div className="text-6xl mb-4">{score >= 8 ? "🏆" : score >= 5 ? "👍" : "💪"}</div>
+        <div className="text-6xl mb-4">{ratio >= 0.8 ? "🏆" : ratio >= 0.5 ? "👍" : "💪"}</div>
         <h3 className="text-2xl font-bold text-foreground mb-2">{score}/{questions.length}</h3>
         <p className="text-muted-foreground mb-6">
-          {score >= 8 ? t("Xuất sắc! Bạn nắm vững từ vựng rất tốt!", "Excellent! You've mastered these words!")
-            : score >= 5 ? t("Khá tốt! Hãy tiếp tục ôn luyện.", "Good job! Keep practicing.")
+          {ratio >= 0.8 ? t("Xuất sắc! Bạn nắm vững từ vựng rất tốt!", "Excellent! You've mastered these words!")
+            : ratio >= 0.5 ? t("Khá tốt! Hãy tiếp tục ôn luyện.", "Good job! Keep practicing.")
               : t("Cần ôn thêm. Hãy thử lại nhé!", "Needs more review. Try again!")}
         </p>
         <Button onClick={generateQuiz} className="gap-2 mb-6"><RotateCcw className="w-4 h-4" /> {t("Làm lại", "Try Again")}</Button>
@@ -224,23 +331,85 @@ const VocabExercise = ({ words, allWords, t, quizSize, setQuizSize }: { words: S
 
   const q = questions[current];
   if (!q) return null;
+  const label = SAT_TYPE_LABELS[q.type];
+
   return (
     <div className="max-w-2xl mx-auto">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
         <span className="text-sm text-muted-foreground">{t("Câu", "Question")} {current + 1}/{questions.length}</span>
+        <Badge variant="outline" className="text-xs">{label.emoji} {t(label.vi, label.en)}</Badge>
         <span className="text-sm font-semibold text-primary">{t("Điểm", "Score")}: {score}</span>
       </div>
+
       <div className="rounded-xl border border-border bg-card p-8 mb-6">
-        <div className="flex items-center gap-3 mb-1">
-          <h3 className="text-3xl font-bold text-foreground">{q.word.word}</h3>
-          <button onClick={() => speak(q.word.word)} className="p-2 rounded-full hover:bg-primary/10">
-            <Volume2 className="w-5 h-5 text-primary" />
-          </button>
-        </div>
-        {q.word.ipa && <p className="text-sm text-muted-foreground mb-2" style={{ fontFamily: "Georgia, serif" }}>{q.word.ipa}</p>}
-        {q.word.example && <p className="text-sm text-foreground italic">{renderExample(q.word.example, q.word.word)}</p>}
-        <p className="text-sm text-muted-foreground mt-3">{t("Chọn nghĩa đúng:", "Choose the correct meaning:")}</p>
+        {q.type === "listening" ? (
+          <div className="flex flex-col items-center gap-3 py-4">
+            <button onClick={() => speak(q.word.word)} className="p-6 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors">
+              <Volume2 className="w-10 h-10 text-primary" />
+            </button>
+            <p className="text-sm text-muted-foreground">{t("Nhấn để nghe lại", "Tap to listen again")}</p>
+          </div>
+        ) : q.type === "reverse" ? (
+          <>
+            <p className="text-xs text-muted-foreground mb-2">{t("Nghĩa tiếng Việt:", "Vietnamese meaning:")}</p>
+            <h3 className="text-2xl font-bold text-foreground mb-2">{q.prompt}</h3>
+            <p className="text-sm text-muted-foreground">{t("Chọn từ tiếng Anh tương ứng:", "Pick the matching word:")}</p>
+          </>
+        ) : q.type === "defEn" ? (
+          <>
+            <p className="text-xs text-muted-foreground mb-2">{t("Định nghĩa tiếng Anh:", "English definition:")}</p>
+            <h3 className="text-xl font-semibold text-foreground mb-2 leading-relaxed">"{q.prompt}"</h3>
+            <p className="text-sm text-muted-foreground">{t("Từ nào khớp với định nghĩa trên?", "Which word matches?")}</p>
+          </>
+        ) : q.type === "fillBlank" ? (
+          <>
+            <p className="text-xs text-muted-foreground mb-2">{t("Điền từ thích hợp vào chỗ trống:", "Fill in the blank:")}</p>
+            <p className="text-lg text-foreground italic leading-relaxed">{q.prompt}</p>
+          </>
+        ) : q.type === "scramble" ? (
+          <>
+            <p className="text-xs text-muted-foreground mb-2">{t("Sắp xếp lại các chữ cái:", "Unscramble the letters:")}</p>
+            <h3 className="text-3xl font-extrabold tracking-[0.4em] text-primary mb-2 uppercase">{q.prompt}</h3>
+            <p className="text-sm text-muted-foreground italic">{t("Gợi ý:", "Hint:")} {q.word.definition.vi}</p>
+          </>
+        ) : q.type === "partOfSpeech" ? (
+          <>
+            <div className="flex items-center gap-3 mb-2">
+              <h3 className="text-3xl font-bold text-foreground">{q.word.word}</h3>
+              <button onClick={() => speak(q.word.word)} className="p-2 rounded-full hover:bg-primary/10">
+                <Volume2 className="w-5 h-5 text-primary" />
+              </button>
+            </div>
+            {q.word.ipa && <p className="text-sm text-muted-foreground" style={{ fontFamily: "Georgia, serif" }}>{q.word.ipa}</p>}
+            {q.word.example && <p className="text-sm text-foreground italic mt-2">{renderExample(q.word.example, q.word.word)}</p>}
+            <p className="text-sm text-muted-foreground mt-3">{t("Đây là loại từ gì?", "What part of speech is this?")}</p>
+          </>
+        ) : q.type === "context" ? (
+          <>
+            <div className="flex items-center gap-3 mb-2">
+              <h3 className="text-3xl font-bold text-foreground">{q.prompt}</h3>
+              <button onClick={() => speak(q.word.word)} className="p-2 rounded-full hover:bg-primary/10">
+                <Volume2 className="w-5 h-5 text-primary" />
+              </button>
+            </div>
+            <p className="text-sm text-muted-foreground italic mb-1">{q.word.definition.vi}</p>
+            <p className="text-sm text-muted-foreground">{t("Câu nào dùng từ này một cách tự nhiên?", "Which sentence uses it naturally?")}</p>
+          </>
+        ) : (
+          <>
+            <div className="flex items-center gap-3 mb-1">
+              <h3 className="text-3xl font-bold text-foreground">{q.word.word}</h3>
+              <button onClick={() => speak(q.word.word)} className="p-2 rounded-full hover:bg-primary/10">
+                <Volume2 className="w-5 h-5 text-primary" />
+              </button>
+            </div>
+            {q.word.ipa && <p className="text-sm text-muted-foreground mb-2" style={{ fontFamily: "Georgia, serif" }}>{q.word.ipa}</p>}
+            {q.word.example && <p className="text-sm text-foreground italic">{renderExample(q.word.example, q.word.word)}</p>}
+            <p className="text-sm text-muted-foreground mt-3">{t("Chọn nghĩa đúng:", "Choose the correct meaning:")}</p>
+          </>
+        )}
       </div>
+
       <div className="space-y-3">
         {q.options.map((opt, idx) => {
           let cls = "rounded-xl border p-4 cursor-pointer transition-all text-sm text-foreground ";
@@ -264,11 +433,23 @@ const VocabExercise = ({ words, allWords, t, quizSize, setQuizSize }: { words: S
         })}
       </div>
       {selected !== null && (
-        <div className="flex justify-end items-center mt-6">
-          <Button onClick={handleNext}>
-            {current + 1 >= questions.length ? t("Xem kết quả", "See Results") : t("Câu tiếp", "Next")}
-            <ChevronRight className="w-4 h-4 ml-1" />
-          </Button>
+        <div className="mt-6 rounded-lg border border-primary/20 bg-primary/5 p-4">
+          <div className="flex justify-between items-center gap-3 flex-wrap">
+            <p className="text-sm text-muted-foreground italic">
+              <strong className="text-foreground not-italic">{q.word.word}</strong>
+              {q.word.partOfSpeech && <span className="text-xs ml-1">({q.word.partOfSpeech})</span>}
+              {" — "}{q.word.definition.vi}
+            </p>
+            <Button onClick={handleNext}>
+              {current + 1 >= questions.length ? t("Xem kết quả", "See Results") : t("Câu tiếp", "Next")}
+              <ChevronRight className="w-4 h-4 ml-1" />
+            </Button>
+          </div>
+          {q.word.example && q.type !== "fillBlank" && q.type !== "context" && (
+            <p className="text-xs text-muted-foreground mt-2 italic">
+              <strong className="not-italic font-bold text-primary">E.g. </strong>{q.word.example}
+            </p>
+          )}
         </div>
       )}
     </div>
