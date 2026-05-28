@@ -88,6 +88,11 @@ const PhdGlobalPathway = () => {
             </Card>
           </div>
 
+          {/* PhD Journey Progress Tracker */}
+          <PhdProgressTracker />
+
+
+
           {/* Country guides */}
           <h2 className="text-2xl md:text-3xl font-bold mb-5 flex items-center gap-2">
             <Globe2 className="w-6 h-6 text-violet-500" /> {t("Chiến lược theo quốc gia", "Country-Specific Strategy")}
