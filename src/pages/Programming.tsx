@@ -222,6 +222,12 @@ const Programming = () => {
       descEn: "Agents that learn from rewards: MDPs, Q-Learning/DQN, Policy Gradients (PPO/SAC), and applications in robotics, self-driving cars, and Game AI (AlphaGo, ChatGPT's RLHF). Prerequisites: Python + basic probability.",
       modules: allProgrammingModules.filter(m => m.course === "rl"),
     },
+    edtech: {
+      title: "EdTech", titleEn: "EdTech",
+      desc: "Học cách xây dựng sản phẩm giáo dục số: khoa học học tập, Spaced Repetition (SM-2), adaptive difficulty & mastery, AI Tutor, auto-grading (essay/speaking) và gợi ý bài học cá nhân hóa. Đây chính là những kỹ thuật đứng sau HaiEduTech.",
+      descEn: "Build digital education products: learning science, Spaced Repetition (SM-2), adaptive difficulty & mastery, AI tutors, auto-grading (essay/speaking) and personalized recommendations — the very stack powering HaiEduTech.",
+      modules: allProgrammingModules.filter(m => m.course === "edtech"),
+    },
   };
 
   const active = pillarData[activePillar];
