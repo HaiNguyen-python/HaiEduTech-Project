@@ -7,7 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
-  Plane, CheckCircle2, Circle, Loader2, Clock, RotateCcw,
+  Plane, CheckCircle2, Circle, Loader2, Clock, RotateCcw, Printer,
   FileText, Home, Wallet, Backpack, Heart, GraduationCap,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -25,6 +25,7 @@ import {
   type ChecklistCategory,
   type CountryChecklist,
 } from "@/data/preDepartureChecklist";
+import CurrencyConverter from "@/components/study-abroad/CurrencyConverter";
 
 const CATEGORY_ICON: Record<ChecklistCategory, typeof FileText> = {
   visa: FileText,
@@ -205,9 +206,13 @@ const PreDepartureChecklist = () => {
                     {done} / {total} {t("nhiệm vụ hoàn thành", "tasks complete")}
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 flex-wrap">
                   <div className="text-3xl font-extrabold text-primary">{pct}%</div>
-                  <Button size="sm" variant="outline" onClick={handleResetCountry} className="gap-1.5">
+                  <Button size="sm" variant="outline" onClick={() => window.print()} className="gap-1.5 print:hidden">
+                    <Printer className="w-3.5 h-3.5" />
+                    {t("In PDF", "Print PDF")}
+                  </Button>
+                  <Button size="sm" variant="outline" onClick={handleResetCountry} className="gap-1.5 print:hidden">
                     <RotateCcw className="w-3.5 h-3.5" />
                     {t("Đặt lại", "Reset")}
                   </Button>
@@ -222,6 +227,11 @@ const PreDepartureChecklist = () => {
               )}
             </CardContent>
           </Card>
+
+          {/* Currency converter */}
+          <div className="mb-6">
+            <CurrencyConverter />
+          </div>
 
           {/* Task groups by category */}
           {loading ? (

@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { MENTOR_STORIES } from "@/data/mentorStories";
+import { MENTOR_STORIES, SCHOLARSHIP_TYPE_LABEL, type MentorScholarshipType } from "@/data/mentorStories";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import AdSlot from "@/components/ads/AdSlot";
@@ -24,6 +24,8 @@ import AdSlot from "@/components/ads/AdSlot";
 const MentorHub = () => {
   const { t } = useLanguage();
   const [filter, setFilter] = useState<string>("all");
+  const [typeFilter, setTypeFilter] = useState<MentorScholarshipType | "all">("all");
+  const [search, setSearch] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
     name: "",
@@ -35,9 +37,14 @@ const MentorHub = () => {
   });
 
   const countries = Array.from(new Set(MENTOR_STORIES.map((m) => m.country)));
-  const filtered = filter === "all"
-    ? MENTOR_STORIES
-    : MENTOR_STORIES.filter((m) => m.country === filter);
+  const q = search.trim().toLowerCase();
+  const filtered = MENTOR_STORIES.filter((m) => {
+    if (filter !== "all" && m.country !== filter) return false;
+    if (typeFilter !== "all" && m.scholarshipType !== typeFilter) return false;
+    if (!q) return true;
+    const hay = `${m.name} ${m.university} ${m.country} ${m.program} ${m.tags.join(" ")}`.toLowerCase();
+    return hay.includes(q);
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -100,13 +107,46 @@ const MentorHub = () => {
             </p>
           </motion.div>
 
+          {/* Search */}
+          <div className="max-w-md mx-auto mb-4">
+            <Input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder={t("Tìm theo tên, trường, ngành, học bổng…", "Search by name, school, field, scholarship…")}
+            />
+          </div>
+
+          {/* Scholarship type filter */}
+          <div className="flex gap-2 justify-center flex-wrap mb-3">
+            <button
+              onClick={() => setTypeFilter("all")}
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${typeFilter === "all" ? "bg-emerald-600 text-white" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
+            >
+              {t("Mọi loại học bổng", "All scholarship types")}
+            </button>
+            {(Object.keys(SCHOLARSHIP_TYPE_LABEL) as MentorScholarshipType[]).map((k) => {
+              const meta = SCHOLARSHIP_TYPE_LABEL[k];
+              const count = MENTOR_STORIES.filter((m) => m.scholarshipType === k).length;
+              if (!count) return null;
+              return (
+                <button
+                  key={k}
+                  onClick={() => setTypeFilter(k)}
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${typeFilter === k ? "bg-emerald-600 text-white" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
+                >
+                  {meta.emoji} {t(meta.vi, meta.en)} ({count})
+                </button>
+              );
+            })}
+          </div>
+
           {/* Country filter */}
-          <div className="flex gap-2 justify-center flex-wrap mb-8">
+          <div className="flex gap-2 justify-center flex-wrap mb-6">
             <button
               onClick={() => setFilter("all")}
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${filter === "all" ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
             >
-              {t("Tất cả", "All")} ({MENTOR_STORIES.length})
+              {t("Tất cả nước", "All countries")} ({MENTOR_STORIES.length})
             </button>
             {countries.map((c) => (
               <button
@@ -118,6 +158,12 @@ const MentorHub = () => {
               </button>
             ))}
           </div>
+
+          {filtered.length === 0 && (
+            <div className="text-center py-12 text-sm text-muted-foreground">
+              {t("Không có mentor phù hợp bộ lọc.", "No mentor matches the current filters.")}
+            </div>
+          )}
 
           {/* Stories grid */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-16">
@@ -166,6 +212,29 @@ const MentorHub = () => {
                         </p>
                       </div>
                     </div>
+
+                    {(m.gpa || m.ielts || m.scholarshipAmount) && (
+                      <div className="flex flex-wrap gap-1.5 mb-2.5 text-[10px] font-semibold">
+                        {m.gpa && (
+                          <span className="px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20">
+                            GPA {m.gpa}
+                          </span>
+                        )}
+                        {m.ielts && (
+                          <span className="px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-700 dark:text-sky-300 border border-sky-500/20">
+                            IELTS {m.ielts}
+                          </span>
+                        )}
+                        {m.scholarshipAmount && (
+                          <span className="px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/20">
+                            💰 {m.scholarshipAmount}
+                          </span>
+                        )}
+                        <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20">
+                          {SCHOLARSHIP_TYPE_LABEL[m.scholarshipType].emoji} {t(SCHOLARSHIP_TYPE_LABEL[m.scholarshipType].vi, SCHOLARSHIP_TYPE_LABEL[m.scholarshipType].en)}
+                        </span>
+                      </div>
+                    )}
 
                     <div className="flex flex-wrap gap-1 mb-3">
                       {m.tags.map((tag) => (
