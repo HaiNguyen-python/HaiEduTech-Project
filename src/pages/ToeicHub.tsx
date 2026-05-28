@@ -99,24 +99,6 @@ const ToeicHub = () => {
               "All TOEIC lectures and vocabulary in one quick-access hub."
             )}
           </p>
-          <div className="mt-6 flex items-center justify-center gap-4 md:gap-8">
-            <img
-              src={chibiBoy}
-              alt="Chibi boy studying"
-              width={120}
-              height={120}
-              loading="lazy"
-              className="w-20 h-20 md:w-28 md:h-28 object-contain drop-shadow-md"
-            />
-            <img
-              src={chibiGirl}
-              alt="Chibi girl studying"
-              width={120}
-              height={120}
-              loading="lazy"
-              className="w-20 h-20 md:w-28 md:h-28 object-contain drop-shadow-md"
-            />
-          </div>
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
