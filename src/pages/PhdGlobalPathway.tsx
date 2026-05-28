@@ -66,6 +66,21 @@ const PhdGlobalPathway = () => {
                 "8 countries · 28+ funding sources · 12-month timeline · AI supervisor email.",
               )}
             </p>
+
+            {/* Stats strip */}
+            <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-2 max-w-2xl mx-auto">
+              {[
+                { num: PHD_COUNTRY_GUIDES.length, vi: "Quốc gia", en: "Countries" },
+                { num: PHD_FUNDING.length, vi: "Học bổng", en: "Funding sources" },
+                { num: PHD_TIMELINE.length, vi: "Tháng lộ trình", en: "Roadmap months" },
+                { num: PHD_FAQ.length, vi: "Câu hỏi FAQ", en: "FAQ answered" },
+              ].map((s) => (
+                <div key={s.en} className="p-3 rounded-lg bg-gradient-to-br from-violet-500/10 to-fuchsia-500/10 border border-violet-500/20">
+                  <div className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-violet-600 to-fuchsia-600 bg-clip-text text-transparent">{s.num}</div>
+                  <div className="text-[11px] text-muted-foreground font-medium">{t(s.vi, s.en)}</div>
+                </div>
+              ))}
+            </div>
           </motion.div>
 
           {/* Templates */}
