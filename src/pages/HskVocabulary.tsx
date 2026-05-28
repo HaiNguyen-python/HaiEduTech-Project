@@ -111,15 +111,26 @@ const HskFlashcard = ({ word }: { word: HskWord }) => {
 
 // MCQ Exercise component for HSK vocabulary
 // Only quizzes words the user has marked as mastered (starred).
-// Distractors are drawn from the full vocab bank to keep options challenging.
+// Mixes 6 question modes (meaning, hanzi, pinyin, listen, fill, example)
+// to keep practice varied. Distractors are drawn from the full HSK bank.
+type QuizMode = "meaning" | "hanzi" | "pinyin" | "listen" | "fill" | "example";
+
+interface QuizQuestion {
+  word: HskWord;
+  mode: QuizMode;
+  options: string[];
+  correct: number;
+}
+
 const HskExercise = ({ masteredWords, t }: { masteredWords: HskWord[]; t: (vi: string, en: string) => string }) => {
-  const [questions, setQuestions] = useState<{ word: HskWord; options: string[]; correct: number }[]>([]);
+  const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
   const scoreSavedRef = useRef(false);
   const [quizSize, setQuizSize] = useState<number>(10);
+  const autoPlayedRef = useRef<number>(-1);
 
   const generateQuiz = useCallback(() => {
     if (masteredWords.length < 4) {
@@ -130,18 +141,56 @@ const HskExercise = ({ masteredWords, t }: { masteredWords: HskWord[]; t: (vi: s
     const size = Math.min(quizSize, masteredWords.length);
     const picked = shuffle(masteredWords).slice(0, size);
     const distractorPool = hskVocabData;
-    const qs = picked.map(w => {
-      const wrongs = shuffle(distractorPool.filter(x => x.character !== w.character && x.definition.vi !== w.definition.vi))
-        .slice(0, 3).map(x => x.definition.vi);
-      const allOpts = shuffle([w.definition.vi, ...wrongs]);
-      return { word: w, options: allOpts, correct: allOpts.indexOf(w.definition.vi) };
+    const modes: QuizMode[] = ["meaning", "hanzi", "pinyin", "listen", "fill", "example"];
+
+    const qs: QuizQuestion[] = picked.map((w, i) => {
+      // Rotate through modes so each quiz covers all skills
+      const mode = modes[i % modes.length];
+      let correctVal = "";
+      let pool: string[] = [];
+
+      switch (mode) {
+        case "meaning":
+        case "example": {
+          correctVal = w.definition.vi;
+          pool = distractorPool
+            .filter(x => x.character !== w.character && x.definition.vi !== w.definition.vi)
+            .map(x => x.definition.vi);
+          break;
+        }
+        case "hanzi":
+        case "fill":
+        case "listen": {
+          correctVal = w.character;
+          pool = distractorPool
+            .filter(x => x.character !== w.character && x.character.length === w.character.length)
+            .map(x => x.character);
+          if (pool.length < 3) {
+            pool = distractorPool.filter(x => x.character !== w.character).map(x => x.character);
+          }
+          break;
+        }
+        case "pinyin": {
+          correctVal = w.pinyin;
+          pool = distractorPool
+            .filter(x => x.character !== w.character && x.pinyin !== w.pinyin)
+            .map(x => x.pinyin);
+          break;
+        }
+      }
+
+      const wrongs = shuffle(Array.from(new Set(pool))).slice(0, 3);
+      const allOpts = shuffle([correctVal, ...wrongs]);
+      return { word: w, mode, options: allOpts, correct: allOpts.indexOf(correctVal) };
     });
-    setQuestions(qs);
+
+    setQuestions(shuffle(qs));
     setCurrent(0);
     setSelected(null);
     setScore(0);
     setFinished(false);
     scoreSavedRef.current = false;
+    autoPlayedRef.current = -1;
   }, [masteredWords, quizSize]);
 
   useEffect(() => {
@@ -159,6 +208,16 @@ const HskExercise = ({ masteredWords, t }: { masteredWords: HskWord[]; t: (vi: s
   }, [finished]);
 
   useEffect(() => { generateQuiz(); }, [generateQuiz]);
+
+  // Auto-play audio when a "listen" question first appears
+  useEffect(() => {
+    const q = questions[current];
+    if (q && q.mode === "listen" && autoPlayedRef.current !== current) {
+      autoPlayedRef.current = current;
+      const id = setTimeout(() => speakChinese(q.word.character), 250);
+      return () => clearTimeout(id);
+    }
+  }, [current, questions]);
 
   const handleSelect = (idx: number) => {
     if (selected !== null) return;
@@ -197,7 +256,6 @@ const HskExercise = ({ masteredWords, t }: { masteredWords: HskWord[]; t: (vi: s
 
   if (questions.length === 0) return <p className="text-muted-foreground text-center py-12">{t("Đang chuẩn bị câu hỏi...", "Preparing questions...")}</p>;
 
-  // Mascot encouragement messages per HSK level
   const mascotMessages = [
     { emoji: "🏆", vi: "太棒 rồi! Bạn xuất sắc lắm!", en: "太棒了! Excellent work!" },
     { emoji: "👍", vi: "不错 đó! Tiếp tục cố gắng nhé!", en: "不错! Keep going!" },
@@ -205,7 +263,8 @@ const HskExercise = ({ masteredWords, t }: { masteredWords: HskWord[]; t: (vi: s
   ];
 
   if (finished) {
-    const msg = score >= 8 ? mascotMessages[0] : score >= 5 ? mascotMessages[1] : mascotMessages[2];
+    const ratio = score / questions.length;
+    const msg = ratio >= 0.8 ? mascotMessages[0] : ratio >= 0.5 ? mascotMessages[1] : mascotMessages[2];
     return (
       <div className="flex flex-col items-center justify-center py-16 text-center">
         <div className="text-6xl mb-4">{msg.emoji}</div>
@@ -213,7 +272,7 @@ const HskExercise = ({ masteredWords, t }: { masteredWords: HskWord[]; t: (vi: s
         <p className="text-muted-foreground mb-2">{t(msg.vi, msg.en)}</p>
         <div className="mt-2 mb-6 p-4 rounded-xl bg-primary/10 border border-primary/20 max-w-sm">
           <p className="text-sm font-medium text-primary">
-            🎓 Teacher Hai: {score >= 8 ? "你真厉害！继续保持！" : score >= 5 ? "还不错，再加把劲！" : "别灰心，多练习就会进步的！"}
+            🎓 Teacher Hai: {ratio >= 0.8 ? "你真厉害！继续保持！" : ratio >= 0.5 ? "还不错，再加把劲！" : "别灰心，多练习就会进步的！"}
           </p>
         </div>
         <Button onClick={generateQuiz} className="gap-2 mb-6">
@@ -228,6 +287,28 @@ const HskExercise = ({ masteredWords, t }: { masteredWords: HskWord[]; t: (vi: s
 
   const q = questions[current];
   if (!q) return null;
+
+  const modeBadge: Record<QuizMode, { label: string; emoji: string }> = {
+    meaning: { label: t("Chọn nghĩa", "Choose meaning"), emoji: "📖" },
+    hanzi: { label: t("Chọn chữ Hán", "Choose Hanzi"), emoji: "✍️" },
+    pinyin: { label: t("Chọn Pinyin", "Choose Pinyin"), emoji: "🔤" },
+    listen: { label: t("Nghe & chọn chữ", "Listen & choose"), emoji: "🎧" },
+    fill: { label: t("Điền vào chỗ trống", "Fill in the blank"), emoji: "✏️" },
+    example: { label: t("Nghĩa trong câu", "Meaning in context"), emoji: "💬" },
+  };
+
+  const blankedExample = q.mode === "fill"
+    ? q.word.example.replace(q.word.character, "＿＿＿")
+    : q.word.example;
+
+  const questionLabel: Record<QuizMode, string> = {
+    meaning: t("Chọn nghĩa đúng:", "Choose the correct meaning:"),
+    hanzi: t("Chữ Hán nào đúng?", "Which Hanzi is correct?"),
+    pinyin: t("Pinyin nào đúng?", "Which Pinyin is correct?"),
+    listen: t("Bạn nghe được chữ nào?", "Which character did you hear?"),
+    fill: t("Chữ nào điền vào chỗ trống?", "Which character fills the blank?"),
+    example: t("Nghĩa của từ in đậm là gì?", "What does the highlighted word mean?"),
+  };
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -254,24 +335,94 @@ const HskExercise = ({ masteredWords, t }: { masteredWords: HskWord[]; t: (vi: s
           <span className="text-sm font-semibold text-primary">{t("Điểm", "Score")}: {score}</span>
         </div>
       </div>
+
       <div className="rounded-xl border border-border bg-card px-4 py-3 mb-3">
-        <div className="flex items-center gap-3">
-          <h3 className="text-3xl font-bold text-foreground">{q.word.character}</h3>
-          <button onClick={() => speakChinese(q.word.character)} className="p-1.5 rounded-full hover:bg-primary/10">
-            <Volume2 className="w-5 h-5 text-primary" />
-          </button>
-          <p className="text-base text-primary font-medium">{q.word.pinyin}</p>
-        </div>
-        <div className="px-3 py-2 rounded-lg bg-secondary/50 mt-2">
-          <p className="text-base font-bold text-foreground">{q.word.example}</p>
-          <p className="text-xs text-muted-foreground mt-0.5">{q.word.examplePinyin}</p>
-          <HskExampleTranslation example={q.word.example} />
-        </div>
+        <Badge variant="secondary" className="mb-2 text-xs">
+          {modeBadge[q.mode].emoji} {modeBadge[q.mode].label}
+        </Badge>
+
+        {q.mode === "meaning" && (
+          <>
+            <div className="flex items-center gap-3">
+              <h3 className="text-3xl font-bold text-foreground">{q.word.character}</h3>
+              <button onClick={() => speakChinese(q.word.character)} className="p-1.5 rounded-full hover:bg-primary/10">
+                <Volume2 className="w-5 h-5 text-primary" />
+              </button>
+              <p className="text-base text-primary font-medium">{q.word.pinyin}</p>
+            </div>
+            <div className="px-3 py-2 rounded-lg bg-secondary/50 mt-2">
+              <p className="text-base font-bold text-foreground">{q.word.example}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">{q.word.examplePinyin}</p>
+              <HskExampleTranslation example={q.word.example} />
+            </div>
+          </>
+        )}
+
+        {q.mode === "hanzi" && (
+          <div className="py-2">
+            <p className="text-sm text-muted-foreground mb-1">{t("Nghĩa:", "Meaning:")}</p>
+            <p className="text-xl font-bold text-foreground">{q.word.definition.vi}</p>
+            <p className="text-sm text-primary mt-1">🔤 {q.word.pinyin}</p>
+          </div>
+        )}
+
+        {q.mode === "pinyin" && (
+          <div className="py-2 flex items-center gap-3 flex-wrap">
+            <h3 className="text-4xl font-bold text-foreground">{q.word.character}</h3>
+            <button onClick={() => speakChinese(q.word.character)} className="p-1.5 rounded-full hover:bg-primary/10">
+              <Volume2 className="w-5 h-5 text-primary" />
+            </button>
+            <p className="text-base text-muted-foreground">— {q.word.definition.vi}</p>
+          </div>
+        )}
+
+        {q.mode === "listen" && (
+          <div className="py-4 flex flex-col items-center gap-3">
+            <button
+              onClick={() => speakChinese(q.word.character)}
+              className="w-16 h-16 rounded-full bg-primary/10 hover:bg-primary/20 flex items-center justify-center transition-all"
+              aria-label={t("Phát lại", "Replay")}
+            >
+              <Volume2 className="w-8 h-8 text-primary" />
+            </button>
+            <p className="text-xs text-muted-foreground">{t("Bấm để nghe lại", "Tap to replay")}</p>
+          </div>
+        )}
+
+        {q.mode === "fill" && (
+          <>
+            <p className="text-sm text-muted-foreground mb-1">
+              {t("Nghĩa:", "Meaning:")} <span className="text-foreground font-semibold">{q.word.definition.vi}</span>
+            </p>
+            <div className="px-3 py-3 rounded-lg bg-secondary/50 mt-2">
+              <p className="text-lg font-bold text-foreground">{blankedExample}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">{q.word.examplePinyin.replace(q.word.pinyin, "___")}</p>
+            </div>
+          </>
+        )}
+
+        {q.mode === "example" && (
+          <>
+            <div className="flex items-center gap-2">
+              <h3 className="text-2xl font-bold text-foreground">{q.word.character}</h3>
+              <button onClick={() => speakChinese(q.word.example)} className="p-1.5 rounded-full hover:bg-primary/10">
+                <Volume2 className="w-5 h-5 text-primary" />
+              </button>
+            </div>
+            <div className="px-3 py-2 rounded-lg bg-secondary/50 mt-2">
+              <p className="text-base font-bold text-foreground">{q.word.example}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">{q.word.examplePinyin}</p>
+            </div>
+          </>
+        )}
       </div>
-      <p className="text-sm text-muted-foreground mb-2">{t("Chọn nghĩa đúng:", "Choose the correct meaning:")}</p>
+
+      <p className="text-sm text-muted-foreground mb-2">{questionLabel[q.mode]}</p>
       <div className="space-y-2">
         {q.options.map((opt, idx) => {
-          let cls = "rounded-lg border p-2.5 cursor-pointer transition-all text-sm text-foreground ";
+          const isHanziOption = q.mode === "hanzi" || q.mode === "fill" || q.mode === "listen";
+          let cls = "rounded-lg border p-2.5 cursor-pointer transition-all text-foreground ";
+          cls += isHanziOption ? "text-lg font-semibold " : "text-sm ";
           if (selected !== null) {
             if (idx === q.correct) cls += "border-green-500 bg-green-500/10 ";
             else if (idx === selected) cls += "border-red-500 bg-red-500/10 ";
@@ -295,12 +446,22 @@ const HskExercise = ({ masteredWords, t }: { masteredWords: HskWord[]; t: (vi: s
       </div>
 
       {selected !== null && (
-        <div className="flex justify-between items-center mt-6">
-          <p className="text-sm text-muted-foreground italic">{q.word.definition.en}</p>
-          <Button onClick={handleNext}>
-            {current + 1 >= questions.length ? t("Xem kết quả", "See Results") : t("Câu tiếp", "Next")}
-            <ChevronRight className="w-4 h-4 ml-1" />
-          </Button>
+        <div className="mt-6 space-y-3">
+          <div className="rounded-lg border border-primary/20 bg-primary/5 p-3">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-2xl font-bold text-foreground">{q.word.character}</span>
+              <span className="text-sm text-primary font-medium">{q.word.pinyin}</span>
+              <span className="text-sm text-muted-foreground">— {q.word.definition.vi}</span>
+            </div>
+            <p className="text-sm text-foreground mt-1">{q.word.example}</p>
+            <p className="text-xs text-muted-foreground italic">{q.word.definition.en}</p>
+          </div>
+          <div className="flex justify-end">
+            <Button onClick={handleNext}>
+              {current + 1 >= questions.length ? t("Xem kết quả", "See Results") : t("Câu tiếp", "Next")}
+              <ChevronRight className="w-4 h-4 ml-1" />
+            </Button>
+          </div>
         </div>
       )}
     </div>
