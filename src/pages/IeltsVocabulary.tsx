@@ -623,20 +623,11 @@ const IeltsVocabulary = () => {
                 <option value="all">{t("Tất cả chủ đề", "All Topics")}</option>
                 {IELTS_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
-              <Button
-                variant={showMasteredOnly ? "default" : "outline"}
-                size="sm"
-                onClick={() => setShowMasteredOnly(!showMasteredOnly)}
-                className="gap-1.5"
-              >
-                <RotateCcw className="w-4 h-4" />
-                {t("Cần ôn", "Need Review")}
-              </Button>
-              <Tabs value={viewMode} onValueChange={v => setViewMode(v as "list" | "flashcard" | "exercise")} className="ml-auto">
+              <Tabs value={viewMode} onValueChange={v => setViewMode(v as "list" | "flashcard" | "exercise")}>
                 <TabsList>
-                  <TabsTrigger value="list"><List className="w-4 h-4" /></TabsTrigger>
-                  <TabsTrigger value="flashcard"><Layers className="w-4 h-4" /></TabsTrigger>
-                  <TabsTrigger value="exercise"><BookOpen className="w-4 h-4" /></TabsTrigger>
+                  <TabsTrigger value="list" className="gap-1.5 px-4"><List className="w-4 h-4" /> {t("Từ vựng", "Vocabulary")}</TabsTrigger>
+                  <TabsTrigger value="flashcard" className="gap-1.5 px-4"><Layers className="w-4 h-4" /> Flashcard</TabsTrigger>
+                  <TabsTrigger value="exercise" className="gap-1.5 px-4"><BookOpen className="w-4 h-4" /> {t("Luyện tập", "Practice")}</TabsTrigger>
                 </TabsList>
               </Tabs>
             </div>
