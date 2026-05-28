@@ -140,6 +140,37 @@ const ToeicHub = () => {
         </div>
       </main>
 
+      {/* Side chibis — fixed to viewport edges so they never extend page height */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 z-0 hidden select-none lg:block"
+      >
+        <img
+          src={chibiBoy}
+          alt=""
+          width={110}
+          height={110}
+          loading="lazy"
+          className="absolute left-4 top-1/2 -translate-y-1/2 w-24 h-24 object-contain drop-shadow-lg"
+          style={{
+            filter:
+              "drop-shadow(0 6px 14px rgba(59,130,246,0.35)) drop-shadow(0 3px 6px rgba(16,185,129,0.25))",
+          }}
+        />
+        <img
+          src={chibiGirl}
+          alt=""
+          width={110}
+          height={110}
+          loading="lazy"
+          className="absolute right-4 top-1/2 -translate-y-1/2 w-24 h-24 object-contain drop-shadow-lg"
+          style={{
+            filter:
+              "drop-shadow(0 6px 14px rgba(244,114,182,0.35)) drop-shadow(0 3px 6px rgba(16,185,129,0.25))",
+          }}
+        />
+      </div>
+
       <Footer />
     </div>
   );
