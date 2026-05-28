@@ -470,9 +470,9 @@ const CambridgeYleVocabulary = () => {
                                     <div className="text-4xl drop-shadow shrink-0">{w.emoji}</div>
                                     <div className="flex-1 min-w-0">
                                       <div className="flex items-center gap-2 flex-wrap">
-                                        <p className="text-lg font-bold text-slate-900 break-words">{w.word}</p>
+                                        <p className="text-xl font-bold text-slate-900 break-words">{w.word}</p>
                                         <span
-                                          className="px-1.5 py-0.5 rounded-md text-[10px] font-extrabold uppercase tracking-wider"
+                                          className="px-1.5 py-0.5 rounded-md text-xs font-extrabold uppercase tracking-wider"
                                           style={{ background: `${posMeta.color}1A`, color: posMeta.color, border: `1px solid ${posMeta.color}55` }}
                                           title={`${posMeta.en} · ${posMeta.vi}`}
                                         >
@@ -488,9 +488,9 @@ const CambridgeYleVocabulary = () => {
                                         </button>
                                       </div>
                                       {ipa && (
-                                        <p className="text-xs font-mono text-slate-500 mt-0.5">/{ipa}/</p>
+                                        <p className="text-sm font-mono text-slate-500 mt-0.5">/{ipa}/</p>
                                       )}
-                                      <p className="text-sm text-slate-700 mt-0.5">{w.vi}</p>
+                                      <p className="text-base text-slate-700 mt-0.5">{w.vi}</p>
                                     </div>
                                   </div>
 
