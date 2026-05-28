@@ -912,24 +912,24 @@ import { cambridgeLecturesExpansion6 } from "./cambridgeLecturesExpansion6";
 import { cambridgeLecturesExpansion7 } from "./cambridgeLecturesExpansion7";
 import { cambridgeLecturesExpansion8 } from "./cambridgeLecturesExpansion8";
 import { cambridgeLecturesExpansion9 } from "./cambridgeLecturesExpansion9";
+import { cambridgeLecturesExpansion10 } from "./cambridgeLecturesExpansion10";
 
-// === Export all lectures ===
 export const allCambridgeLectures: CambridgeLecture[] = [
-  startersColors,
-  startersPrepositions,
-  moversDifferences,
-  moversTenses,
-  moversReadingP6,
-  flyersMatching,
-  flyersReadingWriting,
-  flyersPictureStory,
-  ketEmail,
-  ketSpeaking,
-  ketReadingP4,
-  petReading,
-  petArticle,
-  petListeningP2,
-  vocabCommonNouns,
+  starters1,
+  starters2,
+  starters3,
+  movers1,
+  movers2,
+  movers3,
+  flyers1,
+  flyers2,
+  flyers3,
+  ket1,
+  ket2,
+  ket3,
+  pet1,
+  pet2,
+  pet3,
   ...cambridgeLecturesExpansion,
   ...cambridgeLecturesExpansion2,
   ...cambridgeLecturesExpansion3,
@@ -939,4 +939,5 @@ export const allCambridgeLectures: CambridgeLecture[] = [
   ...cambridgeLecturesExpansion7,
   ...cambridgeLecturesExpansion8,
   ...cambridgeLecturesExpansion9,
+  ...cambridgeLecturesExpansion10,
 ];
