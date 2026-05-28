@@ -12,10 +12,11 @@ import { nlpExpansionModules } from "./nlpExpansion";
 import { rlModules } from "./rlLessons";
 import { softwareEngModules } from "./softwareEngLessons";
 import { webDevModules } from "./webDevLessons";
+import { edtechModules } from "./edtechLessons";
 import type { ExtendedProgrammingModule, ExtendedProgrammingLesson, TestCase } from "./types";
 
 export type { ExtendedProgrammingModule, ExtendedProgrammingLesson, TestCase };
-export { sqlModules, aiFoundationModules, dataEngModules, mlModules, programmingExpansionModules, cloudModules, cloudExpansionModules, dlModules, nlpModules, nlpExpansionModules, rlModules, softwareEngModules, webDevModules };
+export { sqlModules, aiFoundationModules, dataEngModules, mlModules, programmingExpansionModules, cloudModules, cloudExpansionModules, dlModules, nlpModules, nlpExpansionModules, rlModules, softwareEngModules, webDevModules, edtechModules };
 
 // Combined expanded modules array
 export const expandedModules: ExtendedProgrammingModule[] = [
@@ -32,4 +33,5 @@ export const expandedModules: ExtendedProgrammingModule[] = [
   ...nlpExpansionModules,
   ...rlModules,
   ...programmingExpansionModules,
+  ...edtechModules,
 ];

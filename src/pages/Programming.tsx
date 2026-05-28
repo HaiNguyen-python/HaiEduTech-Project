@@ -5,7 +5,7 @@ import AssessmentTool from "@/components/AssessmentTool";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { motion, AnimatePresence } from "framer-motion";
-import { Code2, Database, Workflow, BrainCircuit, ChevronRight, Trophy, BookOpen, ArrowRight, Sparkles, Bot, Briefcase, Cloud, Brain, Gamepad2, Settings2, Languages } from "lucide-react";
+import { Code2, Database, Workflow, BrainCircuit, ChevronRight, Trophy, BookOpen, ArrowRight, Sparkles, Bot, Briefcase, Cloud, Brain, Gamepad2, Settings2, Languages, GraduationCap } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import CertCarousel from "@/components/CertCarousel";
@@ -116,6 +116,15 @@ const pillars = [
     borderColor: "border-orange-500/20",
     accentColor: "text-orange-600",
   },
+  {
+    id: "edtech",
+    icon: GraduationCap,
+    emoji: "🎓",
+    color: "from-pink-500 to-rose-600",
+    bgColor: "bg-pink-500/8",
+    borderColor: "border-pink-500/20",
+    accentColor: "text-pink-600",
+  },
 ];
 
 const Programming = () => {
@@ -212,6 +221,12 @@ const Programming = () => {
       desc: "Agent học từ phần thưởng: MDP, Q-Learning/DQN, Policy Gradients (PPO/SAC), ứng dụng robotics, xe tự lái và Game AI (AlphaGo, RLHF của ChatGPT). Yêu cầu: Python + xác suất cơ bản.",
       descEn: "Agents that learn from rewards: MDPs, Q-Learning/DQN, Policy Gradients (PPO/SAC), and applications in robotics, self-driving cars, and Game AI (AlphaGo, ChatGPT's RLHF). Prerequisites: Python + basic probability.",
       modules: allProgrammingModules.filter(m => m.course === "rl"),
+    },
+    edtech: {
+      title: "EdTech", titleEn: "EdTech",
+      desc: "Học cách xây dựng sản phẩm giáo dục số: khoa học học tập, Spaced Repetition (SM-2), adaptive difficulty & mastery, AI Tutor, auto-grading (essay/speaking) và gợi ý bài học cá nhân hóa. Đây chính là những kỹ thuật đứng sau HaiEduTech.",
+      descEn: "Build digital education products: learning science, Spaced Repetition (SM-2), adaptive difficulty & mastery, AI tutors, auto-grading (essay/speaking) and personalized recommendations — the very stack powering HaiEduTech.",
+      modules: allProgrammingModules.filter(m => m.course === "edtech"),
     },
   };
 
