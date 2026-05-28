@@ -912,8 +912,8 @@ import { cambridgeLecturesExpansion6 } from "./cambridgeLecturesExpansion6";
 import { cambridgeLecturesExpansion7 } from "./cambridgeLecturesExpansion7";
 import { cambridgeLecturesExpansion8 } from "./cambridgeLecturesExpansion8";
 import { cambridgeLecturesExpansion9 } from "./cambridgeLecturesExpansion9";
+import { cambridgeLecturesExpansion10 } from "./cambridgeLecturesExpansion10";
 
-// === Export all lectures ===
 export const allCambridgeLectures: CambridgeLecture[] = [
   startersColors,
   startersPrepositions,
@@ -939,4 +939,5 @@ export const allCambridgeLectures: CambridgeLecture[] = [
   ...cambridgeLecturesExpansion7,
   ...cambridgeLecturesExpansion8,
   ...cambridgeLecturesExpansion9,
+  ...cambridgeLecturesExpansion10,
 ];

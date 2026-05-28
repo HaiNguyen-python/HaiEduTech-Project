@@ -513,8 +513,11 @@ const pet2: CambridgeMockExam = {
   }),
 };
 
+import { cambridgeMockExamExpansion } from "./cambridgeMockExamExpansion";
+
 export const cambridgeMockExams: CambridgeMockExam[] = [
-  starters1, starters2, movers1, movers2, flyers1, flyers2, ket1, ket2, pet1, pet2
+  starters1, starters2, movers1, movers2, flyers1, flyers2, ket1, ket2, pet1, pet2,
+  ...cambridgeMockExamExpansion,
 ];
 
 export const CAMBRIDGE_LEVEL_LABELS: Record<string, { label: string; labelVi: string; emoji: string; color: string; bgClass: string }> = {
