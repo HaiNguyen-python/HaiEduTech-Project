@@ -527,13 +527,13 @@ const ToeicVocabulary = () => {
           <Tabs value={mode} onValueChange={(v) => setMode(v as any)}>
             <TabsList className="bg-white dark:bg-[#1E293B]/80 border border-sky-200 dark:border-slate-700/50 shadow-sm">
               <TabsTrigger value="list" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-600 dark:text-slate-400 gap-2 text-base">
-                <List className="w-4 h-4" /> {t("Danh sách", "List")}
+                <List className="w-4 h-4" /> {t("Từ vựng", "Vocabulary")}
               </TabsTrigger>
               <TabsTrigger value="flashcard" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-600 dark:text-slate-400 gap-2 text-base">
                 <Layers className="w-4 h-4" /> Flashcard
               </TabsTrigger>
               <TabsTrigger value="exercise" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-600 dark:text-slate-400 gap-2 text-base">
-                <BookOpen className="w-4 h-4" /> {t("Bài tập", "Exercise")}
+                <BookOpen className="w-4 h-4" /> {t("Luyện tập", "Practice")}
               </TabsTrigger>
             </TabsList>
           </Tabs>
