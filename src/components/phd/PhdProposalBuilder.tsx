@@ -234,10 +234,33 @@ const PhdProposalBuilder = () => {
     URL.revokeObjectURL(url);
   };
 
+  const handleDownloadDocx = () => {
+    const title = drafts[0] || topic || t("Đề cương nghiên cứu Tiến sĩ", "PhD Research Proposal");
+    const blob = buildProposalDocxBlob(title, assembleFull());
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "phd-research-proposal.doc";
+    a.click();
+    URL.revokeObjectURL(url);
+    toast({ title: t("Đã xuất Word", "Word file exported") });
+  };
+
+  const fullText = useMemo(() => drafts.join("\n\n"), [drafts]);
+  const health = useMemo(() => scoreProposal(fullText), [fullText]);
+  const keywordChips = useMemo(() => buildKeywordSuggestions(topic, drafts[0]), [topic, drafts]);
+  const isRefStep = STEPS[step]?.id === "references";
+
   const filledCount = drafts.filter((d) => d.trim().length > 30).length;
   const pct = Math.round((filledCount / STEPS.length) * 100);
   const current = STEPS[step];
   const isLast = step === STEPS.length - 1;
+
+  const scoreColor = health.total >= 80
+    ? "from-emerald-500 to-teal-600"
+    : health.total >= 50
+      ? "from-amber-500 to-orange-500"
+      : "from-rose-500 to-red-500";
 
   return (
     <Card className="mt-12 border-violet-300 dark:border-violet-800 shadow-xl">
