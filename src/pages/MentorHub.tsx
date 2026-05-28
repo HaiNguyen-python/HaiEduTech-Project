@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { MENTOR_STORIES } from "@/data/mentorStories";
+import { MENTOR_STORIES, SCHOLARSHIP_TYPE_LABEL, type MentorScholarshipType } from "@/data/mentorStories";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import AdSlot from "@/components/ads/AdSlot";
@@ -24,6 +24,8 @@ import AdSlot from "@/components/ads/AdSlot";
 const MentorHub = () => {
   const { t } = useLanguage();
   const [filter, setFilter] = useState<string>("all");
+  const [typeFilter, setTypeFilter] = useState<MentorScholarshipType | "all">("all");
+  const [search, setSearch] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
     name: "",
@@ -35,9 +37,14 @@ const MentorHub = () => {
   });
 
   const countries = Array.from(new Set(MENTOR_STORIES.map((m) => m.country)));
-  const filtered = filter === "all"
-    ? MENTOR_STORIES
-    : MENTOR_STORIES.filter((m) => m.country === filter);
+  const q = search.trim().toLowerCase();
+  const filtered = MENTOR_STORIES.filter((m) => {
+    if (filter !== "all" && m.country !== filter) return false;
+    if (typeFilter !== "all" && m.scholarshipType !== typeFilter) return false;
+    if (!q) return true;
+    const hay = `${m.name} ${m.university} ${m.country} ${m.program} ${m.tags.join(" ")}`.toLowerCase();
+    return hay.includes(q);
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
