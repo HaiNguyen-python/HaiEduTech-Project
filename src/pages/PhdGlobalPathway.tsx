@@ -221,11 +221,18 @@ const PhdGlobalPathway = () => {
             ))}
           </Tabs>
 
+          {/* Supervisor Finder Studio */}
+          <PhdSupervisorFinder />
+
           {/* Funding database */}
-          <h2 className="text-2xl md:text-3xl font-bold mb-5 flex items-center gap-2">
+          <h2 className="text-2xl md:text-3xl font-bold mt-14 mb-5 flex items-center gap-2">
             <Wallet className="w-6 h-6 text-emerald-500" /> {t("Kho học bổng PhD", "PhD Funding Database")}
             <Badge className="ml-1 bg-emerald-500/10 text-emerald-700 border-emerald-500/30">{PHD_FUNDING.length}</Badge>
           </h2>
+
+          {/* Deadline Radar */}
+          <PhdDeadlineRadar selectedMonth={fMonth} onSelect={setFMonth} />
+
 
           <Card className="mb-5">
             <CardContent className="p-4 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
