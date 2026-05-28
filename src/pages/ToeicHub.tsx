@@ -7,6 +7,8 @@ import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
+import chibiBoy from "@/assets/chibi-boy-study.png";
+import chibiGirl from "@/assets/chibi-girl-study.png";
 
 const ToeicHub = () => {
   const { t } = useLanguage();
