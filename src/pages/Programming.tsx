@@ -116,6 +116,15 @@ const pillars = [
     borderColor: "border-orange-500/20",
     accentColor: "text-orange-600",
   },
+  {
+    id: "edtech",
+    icon: GraduationCap,
+    emoji: "🎓",
+    color: "from-pink-500 to-rose-600",
+    bgColor: "bg-pink-500/8",
+    borderColor: "border-pink-500/20",
+    accentColor: "text-pink-600",
+  },
 ];
 
 const Programming = () => {
