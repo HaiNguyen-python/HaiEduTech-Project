@@ -15,6 +15,7 @@ import { Mail, Sparkles, Loader2, Copy, CheckCircle2, XCircle } from "lucide-rea
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import PhdOutreachTracker from "./PhdOutreachTracker";
 
 type Tone = "formal" | "friendly" | "concise";
 type LengthKey = "short" | "standard" | "detailed";
@@ -282,6 +283,9 @@ const PhdColdEmailStudio = () => {
           </CardContent>
         </Card>
       )}
+
+      {/* Outreach pipeline tracker */}
+      <PhdOutreachTracker />
     </>
   );
 };

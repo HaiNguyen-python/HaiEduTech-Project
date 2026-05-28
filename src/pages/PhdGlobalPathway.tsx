@@ -20,10 +20,14 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { PHD_COUNTRY_GUIDES } from "@/data/phdCountryGuides";
 import { PHD_FUNDING, PHD_FUNDING_COUNTRIES, PHD_FUNDING_FIELDS, PHD_FUNDING_TIERS, type PhdFundingField, type PhdFundingTier } from "@/data/phdFundingDatabase";
 import { PHD_TIMELINE } from "@/data/phdTimeline";
+import { PHD_FAQ } from "@/data/phdFaq";
+import { FUNDING_WITH_MONTHS } from "@/lib/phdFundingHelpers";
 import PhdProgressTracker from "@/components/phd/PhdProgressTracker";
 import PhdProposalBuilder from "@/components/phd/PhdProposalBuilder";
 import PhdColdEmailStudio from "@/components/phd/PhdColdEmailStudio";
 import PhdFaq from "@/components/phd/PhdFaq";
+import PhdSupervisorFinder from "@/components/phd/PhdSupervisorFinder";
+import PhdDeadlineRadar from "@/components/phd/PhdDeadlineRadar";
 
 const PhdGlobalPathway = () => {
   const { t, lang } = useLanguage();
@@ -33,12 +37,14 @@ const PhdGlobalPathway = () => {
   const [fCountry, setFCountry] = useState<string>("all");
   const [fField, setFField] = useState<PhdFundingField | "all">("all");
   const [fTier, setFTier] = useState<PhdFundingTier | "all">("all");
+  const [fMonth, setFMonth] = useState<number | null>(null);
 
-  const filteredFunding = useMemo(() => PHD_FUNDING.filter((f) =>
+  const filteredFunding = useMemo(() => FUNDING_WITH_MONTHS.filter((f) =>
     (fCountry === "all" || f.country === fCountry) &&
     (fField === "all" || f.fields.includes(fField as PhdFundingField) || f.fields.includes("Any")) &&
-    (fTier === "all" || f.tier === fTier),
-  ), [fCountry, fField, fTier]);
+    (fTier === "all" || f.tier === fTier) &&
+    (fMonth === null || f.months.includes(fMonth) || f.rolling),
+  ), [fCountry, fField, fTier, fMonth]);
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -60,6 +66,21 @@ const PhdGlobalPathway = () => {
                 "8 countries · 28+ funding sources · 12-month timeline · AI supervisor email.",
               )}
             </p>
+
+            {/* Stats strip */}
+            <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-2 max-w-2xl mx-auto">
+              {[
+                { num: PHD_COUNTRY_GUIDES.length, vi: "Quốc gia", en: "Countries" },
+                { num: PHD_FUNDING.length, vi: "Học bổng", en: "Funding sources" },
+                { num: PHD_TIMELINE.length, vi: "Tháng lộ trình", en: "Roadmap months" },
+                { num: PHD_FAQ.length, vi: "Câu hỏi FAQ", en: "FAQ answered" },
+              ].map((s) => (
+                <div key={s.en} className="p-3 rounded-lg bg-gradient-to-br from-violet-500/10 to-fuchsia-500/10 border border-violet-500/20">
+                  <div className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-violet-600 to-fuchsia-600 bg-clip-text text-transparent">{s.num}</div>
+                  <div className="text-[11px] text-muted-foreground font-medium">{t(s.vi, s.en)}</div>
+                </div>
+              ))}
+            </div>
           </motion.div>
 
           {/* Templates */}
@@ -200,11 +221,18 @@ const PhdGlobalPathway = () => {
             ))}
           </Tabs>
 
+          {/* Supervisor Finder Studio */}
+          <PhdSupervisorFinder />
+
           {/* Funding database */}
-          <h2 className="text-2xl md:text-3xl font-bold mb-5 flex items-center gap-2">
+          <h2 className="text-2xl md:text-3xl font-bold mt-14 mb-5 flex items-center gap-2">
             <Wallet className="w-6 h-6 text-emerald-500" /> {t("Kho học bổng PhD", "PhD Funding Database")}
             <Badge className="ml-1 bg-emerald-500/10 text-emerald-700 border-emerald-500/30">{PHD_FUNDING.length}</Badge>
           </h2>
+
+          {/* Deadline Radar */}
+          <PhdDeadlineRadar selectedMonth={fMonth} onSelect={setFMonth} />
+
 
           <Card className="mb-5">
             <CardContent className="p-4 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">

@@ -102,4 +102,68 @@ export const PHD_FAQ: PhdFaqItem[] = [
     answerEn:
       "Not required for fresh Master applicants, but 1 paper (workshop, conference, or arXiv preprint) significantly boosts admission to top programs. If you have 3+ years of work experience, some form of research evidence (paper, patent, technical report) is almost MANDATORY.",
   },
+  {
+    id: "pi-vs-supervisor",
+    questionVi: "PI và supervisor có giống nhau không?",
+    questionEn: "Is a PI the same as a supervisor?",
+    answerVi:
+      "Gần như đồng nghĩa ở Mỹ — PI (Principal Investigator) là người chủ trì grant và thường là supervisor của em. Ở EU/UK 'supervisor' là chính thức hơn, PI chỉ có khi em được trả từ project grant của họ. Một PhD có thể có 1 supervisor chính + 1–2 co-supervisor; PI luôn là người ký funding.",
+    answerEn:
+      "Almost the same in the US — the PI (Principal Investigator) holds the grant and usually is your supervisor. In EU/UK 'supervisor' is the official title; PI applies only when you're paid from their project grant. A PhD may have 1 main + 1–2 co-supervisors; the PI is whoever signs your funding.",
+  },
+  {
+    id: "dual-degree",
+    questionVi: "Có nên làm dual-degree PhD (cotutelle)?",
+    questionEn: "Should I pursue a dual-degree (cotutelle) PhD?",
+    answerVi:
+      "Có lợi nếu cần kết nối 2 hệ sinh thái (vd Pháp-Singapore, Đức-Úc). Trade-off: yêu cầu mỗi nơi 12+ tháng, bảo vệ theo cả 2 quy chế, paperwork phức tạp. Chỉ làm khi cả 2 supervisor đã chốt funding bằng văn bản trước khi ký.",
+    answerEn:
+      "Worth it when you need to bridge two ecosystems (e.g. France-Singapore, Germany-Australia). Trade-off: 12+ months at each side, defense under both rules, heavy paperwork. Only sign if BOTH supervisors confirm funding in writing first.",
+  },
+  {
+    id: "gap-year",
+    questionVi: "Có gap year 1–2 năm thì có sao không?",
+    questionEn: "Will a 1–2 year gap hurt my application?",
+    answerVi:
+      "Không sao nếu em kể được câu chuyện: đi làm để gom funding, tham gia research lab, học thêm skill (Python, lab technique), hoặc trải nghiệm nước ngoài. Gap kèm output (paper, project, GitHub) thường mạnh hơn ứng viên đi thẳng từ Master.",
+    answerEn:
+      "Not at all — if you can frame it: saving for funding, working in a research lab, picking up new skills (Python, lab technique), or living abroad. A gap with output (paper, project, GitHub) often beats a straight-through Master applicant.",
+  },
+  {
+    id: "work-visa",
+    questionVi: "Sau PhD có dễ xin work visa ở nước sở tại không?",
+    questionEn: "Is it easy to get a work visa after the PhD?",
+    answerVi:
+      "Khá thuận lợi: Đức cho 18 tháng job search, Hà Lan 'Orientation Year' 1 năm, Canada cấp PGWP 3 năm, Úc Subclass 485 lên tới 4 năm cho PhD, Anh Graduate Route 3 năm cho PhD. Mỹ là khó nhất (OPT 12 tháng + STEM extension 24 tháng, sau đó cần H-1B/EB-1/EB-2).",
+    answerEn:
+      "Generally favorable: Germany allows 18-month job search, Netherlands 1-year Orientation Year, Canada 3-year PGWP, Australia Subclass 485 up to 4 years for PhDs, UK Graduate Route 3 years for PhDs. The US is the toughest (OPT 12 months + STEM 24-month extension, then H-1B/EB-1/EB-2).",
+  },
+  {
+    id: "opt-stem",
+    questionVi: "OPT và STEM extension ở Mỹ hoạt động thế nào?",
+    questionEn: "How do OPT and the STEM extension work in the US?",
+    answerVi:
+      "Sau khi tốt nghiệp F-1 em được OPT 12 tháng làm việc full-time. Nếu ngành thuộc danh sách STEM (DHS list), nhà tuyển dụng E-Verify có thể xin gia hạn 24 tháng → tổng 36 tháng. Trong thời gian này phải xin H-1B (lottery) hoặc green card (EB-1/EB-2/NIW) để ở lại lâu dài.",
+    answerEn:
+      "After F-1 graduation you get 12 months OPT to work full-time. If your major is on the DHS STEM list, an E-Verify employer can request a 24-month extension → 36 months total. During that window you must secure H-1B (lottery) or a green card (EB-1/EB-2/NIW) for long-term stay.",
+  },
+  {
+    id: "family-visa",
+    questionVi: "Có dắt vợ/chồng/con đi cùng được không?",
+    questionEn: "Can I bring my spouse and kids along?",
+    answerVi:
+      "Phần lớn cho phép: J-2/F-2 (Mỹ, vợ/chồng được làm việc nếu J-2), Dependant Visa (UK/Úc/Canada — được làm việc full-time), Family Reunification (EU). Kiểm tra stipend có đủ chứng minh tài chính cho cả gia đình không (thường cần thêm 30–40%).",
+    answerEn:
+      "Mostly allowed: J-2/F-2 (US, J-2 spouses can work), Dependant Visa (UK/AU/Canada — full-time work permitted), Family Reunification (EU). Check whether your stipend meets the proof-of-funds bar for the whole family (usually adds 30–40%).",
+  },
+  {
+    id: "mental-health",
+    questionVi: "PhD có dễ trầm cảm/burnout không? Làm sao phòng?",
+    questionEn: "Is PhD burnout/depression common? How to prevent it?",
+    answerVi:
+      "Có — nghiên cứu Nature 2018: 36% PhD students bị triệu chứng trầm cảm trung-bình. Phòng: (1) chọn supervisor có history mentor tốt (hỏi alumni), (2) duy trì 1 hobby/cộng đồng ngoài lab, (3) tận dụng counseling service free của trường, (4) đặt mục tiêu tuần thay vì 'xong PhD', (5) không so sánh với người khác.",
+    answerEn:
+      "Yes — Nature 2018: 36% of PhD students show moderate depression symptoms. Prevent it by: (1) pick a supervisor with a strong mentoring track record (ask alumni), (2) keep one hobby/community outside the lab, (3) use the university's free counseling service, (4) set weekly goals not 'finish PhD' goals, (5) don't compare yourself to others.",
+  },
 ];
+

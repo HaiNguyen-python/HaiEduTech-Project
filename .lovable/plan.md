@@ -1,88 +1,92 @@
-## Mục tiêu
+# Plan: Study Abroad portal cleanup + PhD Pathway v2
 
-Hoàn thiện các phần còn dang dở của PhD Strategy Hub theo `.lovable/plan.md`. 4 khối đã có data + country/funding/timeline, còn lại là tracker, proposal builder, cold email v2, và FAQ.
+## Part 1 — Gỡ SAT Roadmap khỏi Study Abroad
 
-## Phạm vi đợt này
+SAT vẫn còn lộ trình trong khu vực English/SAT chính, nên chỉ cần gỡ entry "Lộ trình SAT" khỏi cổng du học (không xoá file/route để tránh vỡ link cũ).
 
-### 1. PhD Journey Progress Tracker
-- Component `src/components/phd/PhdProgressTracker.tsx`
-- 5 mốc: Define Niche → Find Supervisor → Proposal → Apply → Visa
-- Mỗi mốc là 1 checkbox + mô tả ngắn (Vi/En qua `useLanguage().t()`)
-- Lưu `localStorage` key `phd-hub-progress` (mảng boolean 5 phần tử)
-- Hiển thị thanh `Progress` % hoàn thành + badge số bước đã xong
-- Đặt ngay dưới Hero của `PhdGlobalPathway.tsx`
+- `src/pages/StudyAbroadHub.tsx` — xoá card "Lộ trình SAT".
+- `src/components/Navbar.tsx` — xoá mục `/study-abroad/sat` trong nhóm Study Abroad.
+- `src/components/GlobalSearch.tsx` — xoá entry "SAT Roadmap" thuộc group `abroad`.
+- `src/components/DidYouKnow.tsx` — đổi CTA "Lộ trình SAT" → trỏ về `/study-abroad` (hub) thay vì xoá hẳn fact.
+- Giữ `src/pages/SatRoadmap.tsx` + route `/study-abroad/sat` để không 404 với link đã chia sẻ; chỉ ẩn khỏi điều hướng.
 
-### 2. Research Proposal Builder (AI wizard 7 bước)
-- Component `src/components/phd/PhdProposalBuilder.tsx`
-- 7 step: Title → Background → Research Question → Literature Gap → Methodology → Timeline → Expected Contribution
-- Mỗi step: textarea + ví dụ mẫu + nút "AI gợi ý" gọi edge function `draft-research-proposal-section`
-- Auto-save từng step vào `localStorage` key `phd-hub-proposal-draft`
-- Step cuối: ghép full proposal, nút Copy + Download .md
-- Vẫn giữ nút download .docx template gốc đang có
+## Part 2 — Nâng cấp PhD Global Pathway (trọng tâm)
 
-- Edge function mới `supabase/functions/draft-research-proposal-section/index.ts`
-  - Dùng Perplexity API (`sonar`) — đồng bộ với pattern hiện tại của project
-  - Input: `{ section, topic, context, language }`
-  - Output: `{ suggestion: string }`
-  - `verify_jwt = false` trong `supabase/config.toml`
-  - System prompt chuyên cho từng section (background = literature review style, methodology = research design style, v.v.)
+Mục tiêu: biến hub PhD thành cockpit chiến lược đầy đủ hơn, không chỉ là "tài liệu + AI tools" rời rạc.
 
-### 3. Cold Email Studio v2 (nâng cấp form hiện tại)
-- Component mới `src/components/phd/PhdColdEmailStudio.tsx` thay block cold email inline trong `PhdGlobalPathway.tsx`
-- Thêm trường: `tone` (formal/friendly/concise), `length` (120/200/280 từ), `followUp` (checkbox sinh thêm email follow-up sau 7 ngày)
-- Sau khi sinh: hiển thị **Email Health Score** 0–100 với 4 tiêu chí:
-  - Có tham chiếu paper cụ thể (regex tìm tên paper / năm / "your paper on …")
-  - Có CTA rõ ràng (regex "are you accepting", "would you be open", "could we schedule")
-  - Có quantitative achievement (regex chứa số + %/GPA/score)
-  - Độ dài nằm trong khoảng yêu cầu
-- Mỗi tiêu chí thiếu → gợi ý cải thiện cụ thể
-- Hiển thị tab Email chính + tab Follow-up
+### 2.1 Supervisor Finder Studio (mới)
+Component mới `src/components/phd/PhdSupervisorFinder.tsx` + data `src/data/phdSupervisorSearch.ts`.
+- Form 3 trường: research keywords, target country, level (MSc/PhD/Postdoc).
+- Sinh **deep-link tìm kiếm** tới Google Scholar, ORCID, ResearchGate, OpenReview, dblp, Semantic Scholar, university directories theo country (Aalto/Helsinki, TUM, ETH, MIT…).
+- Checklist 8 bước "đánh giá supervisor" (h-index, funding hiện tại, alumni placement, last paper <12 tháng, lab size, English-friendly, complaint search, contact channel) — tick được, lưu `localStorage` `phd-supervisor-checklist`.
+- Nút "Copy shortlist template" sinh bảng Markdown (Name / Uni / Topic / Email / Last paper / Notes).
 
-- Cập nhật edge function `draft-cold-email/index.ts`:
-  - Nhận thêm `tone`, `length`, `followUp`
-  - Trả về `{ email, followUpEmail?: string }`
-  - Health score tính client-side (đơn giản, không tốn AI call)
+### 2.2 Cold Email Studio v2.1 — Outreach Tracker
+Bổ sung vào `src/components/phd/PhdColdEmailStudio.tsx`:
+- Sau khi sinh email, thêm khối **Outreach Tracker** lưu localStorage `phd-outreach-log` với các cột: Professor, University, Sent date, Status (Sent / Replied / Interview / Rejected / Ghosted), Next action.
+- Hành động: thêm dòng, đổi status (Select), xoá dòng, export CSV.
+- Hiển thị mini-stats: tỉ lệ reply, ghosted, pipeline funnel.
 
-### 4. PhD FAQ
-- Component `src/components/phd/PhdFaq.tsx` dùng `Accordion` của shadcn
-- Data file `src/data/phdFaq.ts` với 10 câu Vi/En:
-  - Lương PhD có đủ sống không?
-  - Có nên bỏ việc đi PhD?
-  - PhD vs Master khác nhau ra sao?
-  - Cần GRE không?
-  - Bao lâu thì xong PhD?
-  - Funding self vs sponsored?
-  - Đổi supervisor giữa chừng được không?
-  - PhD xong làm gì ngoài academia?
-  - Bao nhiêu tuổi là quá muộn?
-  - Cần publication trước khi apply không?
+### 2.3 Research Proposal Builder v2
+Mở rộng `src/components/phd/PhdProposalBuilder.tsx`:
+- Thêm bước 8 "References" với gợi ý 5 keyword cho Google Scholar (deep link).
+- Thanh **Proposal Health Score** 0-100 chấm theo regex client-side: ≥1500 từ, có "research question", có "methodology", có ≥3 citations style `(Author, 2023)`, không lặp >3 lần cùng câu mở.
+- Nút "Export .docx" (đơn giản: build HTML rồi `Blob` `.doc` mime `application/msword`) song song với `.md` hiện có.
 
-## Tích hợp vào `src/pages/PhdGlobalPathway.tsx`
+### 2.4 Funding Database — Deadline Radar
+Cập nhật `src/pages/PhdGlobalPathway.tsx` + `src/data/phdFundingDatabase.ts`:
+- Thêm field `deadlineMonth: number` (1-12) cho từng học bổng (đa số đã có chuỗi mô tả; map về tháng chính).
+- Thêm tab "🗓️ Deadline Radar" cạnh filter hiện tại — hiển thị heatmap 12 tháng (grid 12 ô) đếm số học bổng deadline trong tháng đó, click filter theo tháng.
+- Sort default: gần deadline nhất tính từ `new Date()`.
 
-Thứ tự section sau refactor:
-```text
-Hero
-└─ PhdProgressTracker        (mới)
-PhdCountryGuides              (đã có)
-PhdFundingDatabase            (đã có)
-PhdTimeline12Months           (đã có)
-PhdProposalBuilder            (mới)   ← thay block download .docx hiện tại, vẫn giữ nút download template
-PhdColdEmailStudio            (mới)   ← thay form cold email inline
-PhdFaq                        (mới)
-```
+### 2.5 Country Guides — Cost & Living panel
+Mở rộng `src/data/phdCountryGuides.ts`: thêm `costOfLiving` (rent, food, transport USD/tháng) + `cultureNotesVi/En` (3-4 gạch đầu dòng). Render trong tab country dưới panel Funding hiện tại.
 
-## Kỹ thuật
+### 2.6 FAQ
+`src/data/phdFaq.ts` mở rộng từ 10 → 18 câu (PI vs supervisor, dual-degree, gap year, work visa sau PhD, OPT/STEM US, family visa, mental health, publication-based PhD…).
 
-- Đa ngôn ngữ Vi/En qua `useLanguage().t()`, không hard-code
-- Tất cả progress + draft lưu `localStorage` (guest mode), key prefix `phd-hub-`
-- Giữ gradient violet → fuchsia cho khối AI, brand Royal Blue → Soft Emerald cho khối data
-- Mobile-first: bảng có `min-w-[600px]` + horizontal scroll; tabs cuộn ngang nếu tràn
-- Edge function dùng Perplexity (`sonar`) đồng bộ pattern dự án, không tạo bảng Supabase mới
-- DOMPurify nếu render HTML từ AI (proposal section)
+### 2.7 Hero — Stats strip
+Thêm strip 4 chỉ số nhỏ dưới hero: countries, funding, FAQ, timeline months — sync động từ data length.
 
-## Phạm vi không làm
+## Part 3 — Nâng cấp các mục Study Abroad khác
 
-- Không đổi route `/study-abroad/phd`
-- Không động vào module Master/Bachelor/Scholarship khác
-- Không tạo bảng Supabase mới
-- Không gated content
+### 3.1 Mentor Hub
+- `src/data/mentorStories.ts`: bổ sung thêm 4-6 alumni mới (Mỹ STEM, Anh Chevening, Hàn KGSP, Singapore SINGA, Phần Lan, Trung Quốc CSC) — tổng ≥ hiện tại + 5.
+- `src/pages/MentorHub.tsx`: thêm filter theo **scholarship type** (Government / University / Self-funded / Industry) và thanh search theo từ khoá tên/ngành.
+- Mỗi card mentor thêm badge "🎓 GPA · IELTS · Scholarship amount" để học sinh so sánh nhanh.
+
+### 3.2 Motivation Letter Master
+- Bổ sung **Inspiration Gallery**: 6 đoạn mở bài mẫu được duyệt (Engineering, Public Health, Education, CS-AI, Business, Arts), mỗi đoạn có "Why it works" — data file mới `src/data/motivationLetterSamples.ts`.
+- Thêm nút "Sanity Check" client-side trên textarea hiện tại: đếm từ (mục tiêu 500-650), cảnh báo cliché list ("Since I was a child", "passionate about", "dream came true"), gợi ý thay thế.
+
+### 3.3 Pre-Departure Checklist
+- `src/data/preDepartureChecklist.ts`: thêm quốc gia **Germany**, **Australia**, **Korea**, **Japan** (mỗi nước 18-25 mục, 6 categories).
+- `src/pages/PreDepartureChecklist.tsx`: thêm **Currency converter mini** (input VND/USD, hiển thị EUR/GBP/AUD theo tỉ giá tĩnh có ghi rõ "cập nhật thủ công, tham khảo").
+- Nút "Export checklist as PDF" (in-browser `window.print()` stylesheet `@media print`).
+
+### 3.4 Study Abroad Hub landing
+- Sau khi bỏ SAT, lưới còn 6 mục — giữ 3-col đẹp.
+- Thêm khối "📅 Mốc deadline nóng" dưới hero, đọc từ `PHD_FUNDING` và lọc 6 deadline gần nhất (tận dụng cùng metadata mới ở 2.4).
+- Thêm strip "🤝 Đã hỗ trợ 200+ học viên" + ảnh chibi đôi (tận dụng asset có sẵn) cho thân thiện.
+
+## Technical notes
+
+- Tất cả tính năng client-side, dùng `localStorage` cho guest, không tạo bảng mới (giữ rule "no new Supabase tables" cho PhD hub).
+- Edge function: không cần thêm function mới — Supervisor Finder không gọi AI, chỉ deep-link; Outreach tracker chỉ lưu local.
+- Mobile-first: bảng/heatmap dùng `min-w-[600px]` + horizontal scroll wrapper.
+- Đa ngữ qua `useLanguage().t()`, UTF-8 NFC, `<div>/<p>` cho text VI.
+- DOMPurify cho mọi HTML AI render.
+- Theme: tiếp tục dải violet→fuchsia cho PhD, emerald cho Study Abroad chung.
+- Không sửa file auto-generated (`supabase/client.ts`, `types.ts`, `.env`).
+
+## Order of execution
+
+1. Part 1 (gỡ SAT khỏi nav/hub/search) — nhanh, ít rủi ro.
+2. Part 2.1 → 2.7 PhD upgrades.
+3. Part 3 các mục còn lại theo thứ tự Mentor → Motivation → Pre-Departure → Hub landing.
+
+## Out of scope
+
+- Không động backend/RLS, không đổi route, không xoá `SatRoadmap.tsx`.
+- Không thêm gating / paywall.
+- Không thay đổi branding/typography toàn cục.
