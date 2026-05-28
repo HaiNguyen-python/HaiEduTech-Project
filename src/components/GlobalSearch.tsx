@@ -54,7 +54,7 @@ const GlobalSearch = ({ variant = "icon" }: GlobalSearchProps) => {
     { to: "/study-abroad", label: t("Cổng du học", "Study Abroad Hub"), group: "abroad", icon: Compass, keywords: "study abroad du hoc portal" },
     { to: "/study-abroad/documents", label: t("Hồ sơ của tôi (Vault)", "My Documents Vault"), group: "abroad", icon: FolderLock, keywords: "documents vault transcripts ho so" },
     { to: "/study-abroad/motivation-letter", label: t("Motivation Letter Master", "Motivation Letter Guide"), group: "abroad", icon: FileText, keywords: "motivation letter ml master" },
-    { to: "/study-abroad/sat", label: t("Lộ trình SAT", "SAT Roadmap"), group: "abroad", icon: Map, keywords: "sat roadmap" },
+    
     { to: "/study-abroad/phd", label: t("PhD Global Pathway", "PhD Pathway"), group: "abroad", icon: GraduationCap, keywords: "phd doctorate cold email research proposal" },
     { to: "/global-scholarship", label: t("Tư vấn học bổng cùng Mr. Hai", "Scholarship Consulting with Mr. Hai"), group: "abroad", icon: Newspaper, keywords: "scholarship hoc bong mr hai advisor" },
   ];
