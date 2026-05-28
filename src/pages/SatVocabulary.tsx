@@ -448,15 +448,11 @@ const SatVocabulary = () => {
                   <option value="all">{t("Tất cả bài học", "All Lessons")}</option>
                   {availableCategories.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
-                <Button variant={showMasteredOnly ? "default" : "outline"} size="sm" onClick={() => setShowMasteredOnly(!showMasteredOnly)} className="gap-1.5">
-                  <RotateCcw className="w-4 h-4" /> {t("Cần ôn", "Need Review")}
-                </Button>
-                <Tabs value={viewMode} onValueChange={v => setViewMode(v as any)} className="ml-auto">
+                <Tabs value={viewMode} onValueChange={v => setViewMode(v as any)}>
                   <TabsList>
-                    <TabsTrigger value="list" title={t("Danh sách", "List")}><List className="w-4 h-4" /></TabsTrigger>
-                    <TabsTrigger value="flashcard" title={t("Flashcard", "Flashcard")}><Layers className="w-4 h-4" /></TabsTrigger>
-                    <TabsTrigger value="exercise" title={t("Trắc nghiệm", "Quiz")}><BookOpen className="w-4 h-4" /></TabsTrigger>
-                    
+                    <TabsTrigger value="list" className="gap-1.5 px-4"><List className="w-4 h-4" /> {t("Từ vựng", "Vocabulary")}</TabsTrigger>
+                    <TabsTrigger value="flashcard" className="gap-1.5 px-4"><Layers className="w-4 h-4" /> Flashcard</TabsTrigger>
+                    <TabsTrigger value="exercise" className="gap-1.5 px-4"><BookOpen className="w-4 h-4" /> {t("Luyện tập", "Practice")}</TabsTrigger>
                   </TabsList>
                 </Tabs>
               </div>
