@@ -6,24 +6,24 @@
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import {
-  GraduationCap, Mail, Sparkles, Loader2, Copy, Download, Globe2, ChevronRight,
-  Calendar, Wallet, AlertTriangle, Building2, Filter,
+  GraduationCap, Globe2, ChevronRight,
+  Calendar, Wallet, AlertTriangle, Building2, Filter, Download,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { supabase } from "@/integrations/supabase/client";
-import { toast } from "@/hooks/use-toast";
 import { PHD_COUNTRY_GUIDES } from "@/data/phdCountryGuides";
 import { PHD_FUNDING, PHD_FUNDING_COUNTRIES, PHD_FUNDING_FIELDS, PHD_FUNDING_TIERS, type PhdFundingField, type PhdFundingTier } from "@/data/phdFundingDatabase";
 import { PHD_TIMELINE } from "@/data/phdTimeline";
+import PhdProgressTracker from "@/components/phd/PhdProgressTracker";
+import PhdProposalBuilder from "@/components/phd/PhdProposalBuilder";
+import PhdColdEmailStudio from "@/components/phd/PhdColdEmailStudio";
+import PhdFaq from "@/components/phd/PhdFaq";
 
 const PhdGlobalPathway = () => {
   const { t, lang } = useLanguage();
