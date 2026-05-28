@@ -220,7 +220,16 @@ const InlineTypeExample = ({ word, t }: { word: IeltsWord; t: (vi: string, en: s
 };
 
 // ── Multi-type Vocabulary Exercise ──
-type ExType = "meaning" | "reverse" | "fillBlank" | "synonym" | "listening";
+type ExType =
+  | "meaning"     // word → English definition
+  | "reverse"     // Vietnamese meaning → word
+  | "fillBlank"   // example with blank → word
+  | "synonym"     // word → synonym
+  | "listening"   // audio → word
+  | "defEn"       // English definition → word
+  | "collocation" // word → correct collocation
+  | "scramble"    // scrambled letters → word
+  | "context";    // word → which example uses it
 
 interface ExQuestion {
   type: ExType;
@@ -231,72 +240,88 @@ interface ExQuestion {
   hint?: string;
 }
 
+// Scramble letters of a word while guaranteeing it differs from original
+const scrambleLetters = (w: string): string => {
+  const letters = w.split("");
+  if (letters.length < 2) return w;
+  for (let i = 0; i < 10; i++) {
+    const shuffled = shuffle(letters).join("");
+    if (shuffled !== w) return shuffled;
+  }
+  return letters.reverse().join("");
+};
+
 const buildQuestions = (words: IeltsWord[], allWords: IeltsWord[], quizSize = 12): ExQuestion[] => {
   const distractorPool = allWords.length > 4 ? allWords : words;
   const picked = shuffle(words).slice(0, quizSize);
 
   return picked.map((w, idx) => {
     // Cycle through available types based on word data
-    const candidates: ExType[] = ["meaning", "reverse", "listening"];
-    if (w.example && w.example.toLowerCase().includes(w.word.toLowerCase())) candidates.push("fillBlank");
+    const candidates: ExType[] = ["meaning", "reverse", "listening", "defEn", "scramble"];
+    if (w.example && w.example.toLowerCase().includes(w.word.toLowerCase())) {
+      candidates.push("fillBlank", "context");
+    }
     if (w.synonyms && w.synonyms.length > 0) candidates.push("synonym");
+    if (w.collocations && w.collocations.length > 0) candidates.push("collocation");
     const type = candidates[idx % candidates.length];
 
     if (type === "reverse") {
-      // Show Vietnamese meaning, pick the right English word
       const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.word);
       const opts = shuffle([w.word, ...wrongs]);
-      return {
-        type, word: w,
-        prompt: w.definition.vi,
-        options: opts,
-        correct: opts.indexOf(w.word),
-      };
+      return { type, word: w, prompt: w.definition.vi, options: opts, correct: opts.indexOf(w.word) };
     }
     if (type === "fillBlank") {
       const re = new RegExp(w.word, "ig");
       const blanked = w.example.replace(re, "_____");
       const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.word);
       const opts = shuffle([w.word, ...wrongs]);
-      return {
-        type, word: w,
-        prompt: blanked,
-        options: opts,
-        correct: opts.indexOf(w.word),
-      };
+      return { type, word: w, prompt: blanked, options: opts, correct: opts.indexOf(w.word) };
     }
     if (type === "synonym") {
       const correctSyn = w.synonyms![0];
       const synPool = allWords.filter(x => x.word !== w.word).flatMap(x => x.synonyms || []);
-      const wrongs = shuffle(synPool.filter(s => s !== correctSyn)).slice(0, 3);
+      const wrongs = shuffle(synPool.filter(s => s !== correctSyn && s !== w.word)).slice(0, 3);
       while (wrongs.length < 3) wrongs.push(shuffle(distractorPool)[0].word);
       const opts = shuffle([correctSyn, ...wrongs]);
-      return {
-        type, word: w,
-        prompt: w.word,
-        options: opts,
-        correct: opts.indexOf(correctSyn),
-      };
+      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(correctSyn) };
     }
     if (type === "listening") {
       const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.word);
       const opts = shuffle([w.word, ...wrongs]);
-      return {
-        type, word: w,
-        prompt: w.word, // played via TTS
-        options: opts,
-        correct: opts.indexOf(w.word),
-      };
+      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(w.word) };
+    }
+    if (type === "defEn") {
+      const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.word);
+      const opts = shuffle([w.word, ...wrongs]);
+      return { type, word: w, prompt: w.definition.en, options: opts, correct: opts.indexOf(w.word) };
+    }
+    if (type === "collocation") {
+      const correctColl = w.collocations![0];
+      const collPool = allWords.filter(x => x.word !== w.word).flatMap(x => x.collocations || []);
+      const wrongs = shuffle(collPool.filter(c => c !== correctColl && !c.toLowerCase().includes(w.word.toLowerCase()))).slice(0, 3);
+      while (wrongs.length < 3) wrongs.push(shuffle(distractorPool)[0].word);
+      const opts = shuffle([correctColl, ...wrongs]);
+      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(correctColl) };
+    }
+    if (type === "scramble") {
+      const scrambled = scrambleLetters(w.word);
+      const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.word);
+      const opts = shuffle([w.word, ...wrongs]);
+      return { type, word: w, prompt: scrambled, options: opts, correct: opts.indexOf(w.word) };
+    }
+    if (type === "context") {
+      // Show 4 example sentences, user picks the one that actually uses the word
+      const wrongExamples = shuffle(
+        distractorPool.filter(x => x.word !== w.word && x.example && !x.example.toLowerCase().includes(w.word.toLowerCase()))
+      ).slice(0, 3).map(x => x.example);
+      while (wrongExamples.length < 3) wrongExamples.push(shuffle(distractorPool)[0].example);
+      const opts = shuffle([w.example, ...wrongExamples]);
+      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(w.example) };
     }
     // Default: meaning
     const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.definition.en);
     const opts = shuffle([w.definition.en, ...wrongs]);
-    return {
-      type: "meaning", word: w,
-      prompt: w.word,
-      options: opts,
-      correct: opts.indexOf(w.definition.en),
-    };
+    return { type: "meaning", word: w, prompt: w.word, options: opts, correct: opts.indexOf(w.definition.en) };
   });
 };
 
@@ -306,6 +331,10 @@ const TYPE_LABELS: Record<ExType, { vi: string; en: string; emoji: string }> = {
   fillBlank: { vi: "Điền từ vào chỗ trống", en: "Fill in the blank", emoji: "✏️" },
   synonym: { vi: "Chọn từ đồng nghĩa", en: "Pick the synonym", emoji: "🔗" },
   listening: { vi: "Nghe và chọn từ", en: "Listen & choose", emoji: "🎧" },
+  defEn: { vi: "Định nghĩa tiếng Anh → từ", en: "English definition → word", emoji: "📖" },
+  collocation: { vi: "Chọn cụm từ đi kèm", en: "Pick the collocation", emoji: "🧩" },
+  scramble: { vi: "Sắp xếp lại chữ cái", en: "Unscramble the letters", emoji: "🔤" },
+  context: { vi: "Câu nào dùng đúng từ này?", en: "Which sentence uses it?", emoji: "💬" },
 };
 
 const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: IeltsWord[]; t: (vi: string, en: string) => string }) => {
