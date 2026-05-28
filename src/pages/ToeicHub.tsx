@@ -6,7 +6,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const ToeicHub = () => {
@@ -26,7 +25,9 @@ const ToeicHub = () => {
         { icon: FileText, label: t("Reading P5-7", "Reading P5-7") },
         { icon: Sparkles, label: t("Mẹo & Chiến lược", "Tips & Strategy") },
       ],
-      gradient: "from-blue-600 to-cyan-500",
+      // Soft corporate blue accent
+      iconWrap: "bg-sky-50 text-sky-700 ring-1 ring-sky-200",
+      badge: "bg-sky-50 text-sky-700 ring-1 ring-sky-200",
     },
     {
       to: "/toeic-vocabulary",
@@ -41,7 +42,9 @@ const ToeicHub = () => {
         { icon: Library, label: t("Flashcards", "Flashcards") },
         { icon: Sparkles, label: t("Theo Part", "By Part") },
       ],
-      gradient: "from-indigo-600 to-blue-500",
+      // Soft indigo/cobalt accent
+      iconWrap: "bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200",
+      badge: "bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200",
     },
     {
       to: "/toeic-exams",
@@ -56,12 +59,14 @@ const ToeicHub = () => {
         { icon: Mic, label: t("Speaking", "Speaking") },
         { icon: PenLine, label: t("Writing", "Writing") },
       ],
-      gradient: "from-teal-600 to-emerald-500",
+      // Soft teal/emerald accent
+      iconWrap: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200",
+      badge: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900">
+    <div className="min-h-screen bg-slate-50">
       <SEO
         title="TOEIC Hub - HaiEduTech"
         description="Bài giảng & Từ vựng TOEIC trong cùng một nơi - học thông minh, dẫn đầu kỷ nguyên số."
@@ -74,13 +79,13 @@ const ToeicHub = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-10 lg:mb-14"
         >
-          <Badge className="bg-blue-500/20 text-blue-200 border-blue-400/30 mb-4">
+          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 ring-1 ring-slate-200 mb-4">
             {t("Trung tâm TOEIC", "TOEIC Center")}
-          </Badge>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-blue-300 via-cyan-200 to-indigo-300 bg-clip-text text-transparent">
+          </span>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900">
             TOEIC
           </h1>
-          <p className="mt-4 text-base md:text-lg text-blue-100/80 max-w-2xl mx-auto">
+          <p className="mt-4 text-base md:text-lg text-slate-600 max-w-2xl mx-auto">
             {t(
               "Tất cả bài giảng và từ vựng TOEIC gói gọn trong một trang truy cập nhanh.",
               "All TOEIC lectures and vocabulary in one quick-access hub."
@@ -97,25 +102,27 @@ const ToeicHub = () => {
               transition={{ delay: i * 0.1 }}
             >
               <Link to={s.to} className="block group h-full">
-                <div className={`relative h-full rounded-2xl p-6 lg:p-8 bg-gradient-to-br ${s.gradient} shadow-2xl hover:shadow-blue-500/40 transition-all hover:-translate-y-1 overflow-hidden`}>
-                  <div className="absolute -right-8 -top-8 w-40 h-40 rounded-full bg-white/10 blur-2xl group-hover:bg-white/20 transition" />
-                  <div className="relative z-10">
-                    <div className="w-14 h-14 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center mb-5">
-                      <s.icon className="w-7 h-7 text-white" />
-                    </div>
-                    <h2 className="text-2xl lg:text-3xl font-bold text-white mb-3">{s.title}</h2>
-                    <p className="text-white/90 text-base leading-relaxed mb-5">{s.desc}</p>
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {s.badges.map((b) => (
-                        <Badge key={b.label} className="bg-white/20 text-white border-white/30 backdrop-blur">
-                          <b.icon className="w-3 h-3 mr-1" />
-                          {b.label}
-                        </Badge>
-                      ))}
-                    </div>
-                    <Button variant="secondary" className="bg-white text-blue-700 hover:bg-white/90 font-semibold">
+                <div className="relative h-full rounded-2xl p-6 lg:p-8 bg-white border border-slate-200/80 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all flex flex-col">
+                  <div className={`w-14 h-14 rounded-xl ${s.iconWrap} flex items-center justify-center mb-5`}>
+                    <s.icon className="w-7 h-7" />
+                  </div>
+                  <h2 className="text-2xl lg:text-[1.6rem] font-bold text-slate-900 mb-3 leading-tight">{s.title}</h2>
+                  <p className="text-slate-600 text-base leading-relaxed mb-5">{s.desc}</p>
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {s.badges.map((b) => (
+                      <span
+                        key={b.label}
+                        className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${s.badge}`}
+                      >
+                        <b.icon className="w-3 h-3" />
+                        {b.label}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="mt-auto">
+                    <Button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-sm">
                       {t("Vào học ngay", "Enter now")}
-                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition" />
+                      <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
                     </Button>
                   </div>
                 </div>
