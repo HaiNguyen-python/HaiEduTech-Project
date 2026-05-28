@@ -7,6 +7,8 @@ import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
+import chibiBoy from "@/assets/chibi-boy-study.png";
+import chibiGirl from "@/assets/chibi-girl-study.png";
 
 const ToeicHub = () => {
   const { t } = useLanguage();
@@ -28,6 +30,8 @@ const ToeicHub = () => {
       // Soft corporate blue accent
       iconWrap: "bg-sky-50 text-sky-700 ring-1 ring-sky-200",
       badge: "bg-sky-50 text-sky-700 ring-1 ring-sky-200",
+      cardBorder: "border-2 border-sky-400 hover:border-sky-500",
+      cardShadow: "shadow-sky-100/50",
     },
     {
       to: "/toeic-vocabulary",
@@ -45,6 +49,8 @@ const ToeicHub = () => {
       // Soft indigo/cobalt accent
       iconWrap: "bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200",
       badge: "bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200",
+      cardBorder: "border-2 border-indigo-400 hover:border-indigo-500",
+      cardShadow: "shadow-indigo-100/50",
     },
     {
       to: "/toeic-exams",
@@ -62,6 +68,8 @@ const ToeicHub = () => {
       // Soft teal/emerald accent
       iconWrap: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200",
       badge: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200",
+      cardBorder: "border-2 border-emerald-400 hover:border-emerald-500",
+      cardShadow: "shadow-emerald-100/50",
     },
   ];
 
@@ -91,6 +99,24 @@ const ToeicHub = () => {
               "All TOEIC lectures and vocabulary in one quick-access hub."
             )}
           </p>
+          <div className="mt-6 flex items-center justify-center gap-4 md:gap-8">
+            <img
+              src={chibiBoy}
+              alt="Chibi boy studying"
+              width={120}
+              height={120}
+              loading="lazy"
+              className="w-20 h-20 md:w-28 md:h-28 object-contain drop-shadow-md"
+            />
+            <img
+              src={chibiGirl}
+              alt="Chibi girl studying"
+              width={120}
+              height={120}
+              loading="lazy"
+              className="w-20 h-20 md:w-28 md:h-28 object-contain drop-shadow-md"
+            />
+          </div>
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
@@ -102,7 +128,7 @@ const ToeicHub = () => {
               transition={{ delay: i * 0.1 }}
             >
               <Link to={s.to} className="block group h-full">
-                <div className="relative h-full rounded-2xl p-6 lg:p-8 bg-white border border-slate-200/80 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all flex flex-col">
+                <div className={`relative h-full rounded-2xl p-6 lg:p-8 bg-white ${s.cardBorder} shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all flex flex-col`}>
                   <div className={`w-14 h-14 rounded-xl ${s.iconWrap} flex items-center justify-center mb-5`}>
                     <s.icon className="w-7 h-7" />
                   </div>
