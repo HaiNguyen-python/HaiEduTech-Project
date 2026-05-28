@@ -110,7 +110,7 @@ const ToeicHub = () => {
               transition={{ delay: i * 0.1 }}
             >
               <Link to={s.to} className="block group h-full">
-                <div className="relative h-full rounded-2xl p-6 lg:p-8 bg-white border border-slate-200/80 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all flex flex-col">
+                <div className={`relative h-full rounded-2xl p-6 lg:p-8 bg-white ${s.cardBorder} shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all flex flex-col`}>
                   <div className={`w-14 h-14 rounded-xl ${s.iconWrap} flex items-center justify-center mb-5`}>
                     <s.icon className="w-7 h-7" />
                   </div>
