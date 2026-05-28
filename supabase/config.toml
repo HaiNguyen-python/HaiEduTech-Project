@@ -15,6 +15,9 @@ verify_jwt = false
 [functions.draft-cold-email]
 verify_jwt = false
 
+[functions.draft-research-proposal-section]
+verify_jwt = false
+
 [functions.generate-specialized-lesson]
 verify_jwt = false
 
