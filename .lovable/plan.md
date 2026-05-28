@@ -1,95 +1,88 @@
 ## Mục tiêu
 
-Biến `/study-abroad/phd` từ trang 3-tab + 1 cold email generator thành **PhD Strategy Hub toàn diện**: dữ liệu sâu hơn, nhiều công cụ AI hơn, lộ trình rõ ràng từ 0 → nhập học.
+Hoàn thiện các phần còn dang dở của PhD Strategy Hub theo `.lovable/plan.md`. 4 khối đã có data + country/funding/timeline, còn lại là tracker, proposal builder, cold email v2, và FAQ.
 
-## Hiện trạng (file `src/pages/PhdGlobalPathway.tsx`, 235 dòng)
+## Phạm vi đợt này
 
-- Header + 2 thẻ download (Research Proposal & Cold Email .docx)
-- 3 tab quốc gia: Europe / US / Australia — mỗi tab chỉ ~5 bullet tips
-- 1 form AI Cold Email (gọi edge function `draft-cold-email`)
-- Không có lộ trình thời gian, không có funding database, không có kiểm tra Research Proposal, không có danh sách giáo sư mẫu
+### 1. PhD Journey Progress Tracker
+- Component `src/components/phd/PhdProgressTracker.tsx`
+- 5 mốc: Define Niche → Find Supervisor → Proposal → Apply → Visa
+- Mỗi mốc là 1 checkbox + mô tả ngắn (Vi/En qua `useLanguage().t()`)
+- Lưu `localStorage` key `phd-hub-progress` (mảng boolean 5 phần tử)
+- Hiển thị thanh `Progress` % hoàn thành + badge số bước đã xong
+- Đặt ngay dưới Hero của `PhdGlobalPathway.tsx`
 
-## Hướng nâng cấp (6 khối mới)
+### 2. Research Proposal Builder (AI wizard 7 bước)
+- Component `src/components/phd/PhdProposalBuilder.tsx`
+- 7 step: Title → Background → Research Question → Literature Gap → Methodology → Timeline → Expected Contribution
+- Mỗi step: textarea + ví dụ mẫu + nút "AI gợi ý" gọi edge function `draft-research-proposal-section`
+- Auto-save từng step vào `localStorage` key `phd-hub-proposal-draft`
+- Step cuối: ghép full proposal, nút Copy + Download .md
+- Vẫn giữ nút download .docx template gốc đang có
 
-### 1. Hero + Progress Tracker
+- Edge function mới `supabase/functions/draft-research-proposal-section/index.ts`
+  - Dùng Perplexity API (`sonar`) — đồng bộ với pattern hiện tại của project
+  - Input: `{ section, topic, context, language }`
+  - Output: `{ suggestion: string }`
+  - `verify_jwt = false` trong `supabase/config.toml`
+  - System prompt chuyên cho từng section (background = literature review style, methodology = research design style, v.v.)
 
-- Hero gradient violet→fuchsia với chibi PhD scholar
-- Thanh **"Hành trình PhD của bạn"**: 5 mốc (Define → Find Supervisor → Proposal → Apply → Visa), lưu `localStorage` checkbox để học viên đánh dấu tiến độ
+### 3. Cold Email Studio v2 (nâng cấp form hiện tại)
+- Component mới `src/components/phd/PhdColdEmailStudio.tsx` thay block cold email inline trong `PhdGlobalPathway.tsx`
+- Thêm trường: `tone` (formal/friendly/concise), `length` (120/200/280 từ), `followUp` (checkbox sinh thêm email follow-up sau 7 ngày)
+- Sau khi sinh: hiển thị **Email Health Score** 0–100 với 4 tiêu chí:
+  - Có tham chiếu paper cụ thể (regex tìm tên paper / năm / "your paper on …")
+  - Có CTA rõ ràng (regex "are you accepting", "would you be open", "could we schedule")
+  - Có quantitative achievement (regex chứa số + %/GPA/score)
+  - Độ dài nằm trong khoảng yêu cầu
+- Mỗi tiêu chí thiếu → gợi ý cải thiện cụ thể
+- Hiển thị tab Email chính + tab Follow-up
 
-### 2. Mở rộng Country Strategy (3 → 8 quốc gia / khu vực)
+- Cập nhật edge function `draft-cold-email/index.ts`:
+  - Nhận thêm `tone`, `length`, `followUp`
+  - Trả về `{ email, followUpEmail?: string }`
+  - Health score tính client-side (đơn giản, không tốn AI call)
 
-Thêm: **UK, Nhật Bản (MEXT), Hàn Quốc (GKS), Phần Lan, Singapore (A*STAR)**.
-Mỗi quốc gia mở rộng dữ liệu:
+### 4. PhD FAQ
+- Component `src/components/phd/PhdFaq.tsx` dùng `Accordion` của shadcn
+- Data file `src/data/phdFaq.ts` với 10 câu Vi/En:
+  - Lương PhD có đủ sống không?
+  - Có nên bỏ việc đi PhD?
+  - PhD vs Master khác nhau ra sao?
+  - Cần GRE không?
+  - Bao lâu thì xong PhD?
+  - Funding self vs sponsored?
+  - Đổi supervisor giữa chừng được không?
+  - PhD xong làm gì ngoài academia?
+  - Bao nhiêu tuổi là quá muộn?
+  - Cần publication trước khi apply không?
 
-- `strategy`, `tips` (đã có)
-- `funding`: tên học bổng chính + mức stipend/tháng + deadline điển hình
-- `topUnis`: 5 trường gợi ý
-- `requirements`: bảng IELTS/GRE/GPA tối thiểu
-- `timeline`: khi nào nên bắt đầu (T-18 / T-12 / T-6 / T-3 tháng)
-- `redFlags`: 2-3 sai lầm phổ biến
-Tách dữ liệu sang file mới `src/data/phdCountryGuides.ts`.
+## Tích hợp vào `src/pages/PhdGlobalPathway.tsx`
 
-### 3. PhD Funding Database (mới)
-
-Component `PhdFundingDatabase`:
-
-- 25-30 học bổng PhD lớn (Marie Curie, DAAD, MEXT, GKS, Vingroup, VEF, Fulbright, Chevening PhD, Australia Awards, RTP, NTU PhD…)
-- Lọc theo: quốc gia, ngành (STEM/SocSci/Business…), mức tài trợ (full/partial), deadline gần
-- Card hiển thị: name, country flag, stipend/năm, deadline, link chính thức
-- Tận dụng pattern `ScholarshipCard` đã có để đồng bộ thẩm mỹ
-
-### 4. Research Proposal Builder (mới — AI)
-
-Thay thế chỉ download .docx bằng wizard 7 bước (Title → Background → Research Question → Literature Gap → Methodology → Timeline → Expected Contribution):
-
-- Mỗi bước: input + ví dụ chuẩn + nút **"AI gợi ý cho tôi"** gọi edge function `draft-research-proposal-section` (tạo mới)
-- Bước cuối: tổng hợp full proposal, nút **Copy** + **Download .md**
-- Vẫn giữ nút download .docx template gốc cho ai muốn xài offline
-
-### 5. Supervisor Finder + Cold Email v2 (nâng cấp)
-
-- Trường mới: **Tone** (formal / friendly / concise), **Length** (short 120 từ / standard 200 / detailed 280), **Follow-up variant** (sinh sẵn email follow-up sau 7 ngày)
-- Sau khi sinh email: hiển thị **Email Health Score** (độ dài, có tham chiếu paper cụ thể chưa, có CTA chưa, có quantitative achievement chưa) — chấm 0-100 với gợi ý cải thiện
-- Sửa edge function `draft-cold-email` để nhận `tone`, `length`, `followUp` và trả về `{ email, followUpEmail, healthScore, suggestions[] }`
-
-### 6. PhD Timeline 12 tháng + FAQ
-
-- Timeline ngang (horizontal scroll trên mobile): 12 tháng với task mỗi tháng
-- Accordion FAQ 10 câu phổ biến (lương PhD đủ sống không, có nên bỏ việc đi PhD, PhD vs Master, etc.) — tận dụng `Accordion` của shadcn
-
-## Cấu trúc file
-
+Thứ tự section sau refactor:
 ```text
-src/pages/PhdGlobalPathway.tsx          (refactor → orchestrator, ~250 dòng)
-src/components/phd/
-  PhdProgressTracker.tsx                (mới)
-  PhdCountryGuides.tsx                  (mới — tách Tabs ra)
-  PhdFundingDatabase.tsx                (mới)
-  PhdProposalBuilder.tsx                (mới — wizard 7 bước)
-  PhdColdEmailStudio.tsx                (mới — nâng cấp form hiện tại)
-  PhdTimeline12Months.tsx               (mới)
-  PhdFaq.tsx                            (mới)
-src/data/
-  phdCountryGuides.ts                   (mới — 8 quốc gia)
-  phdFundingDatabase.ts                 (mới — 25-30 học bổng)
-  phdFaq.ts                             (mới)
-  phdTimeline.ts                        (mới)
-supabase/functions/
-  draft-research-proposal-section/index.ts   (mới — Lovable AI Gateway, gemini-2.5-flash)
-  draft-cold-email/index.ts             (cập nhật: tone/length/followUp/healthScore)
+Hero
+└─ PhdProgressTracker        (mới)
+PhdCountryGuides              (đã có)
+PhdFundingDatabase            (đã có)
+PhdTimeline12Months           (đã có)
+PhdProposalBuilder            (mới)   ← thay block download .docx hiện tại, vẫn giữ nút download template
+PhdColdEmailStudio            (mới)   ← thay form cold email inline
+PhdFaq                        (mới)
 ```
 
 ## Kỹ thuật
 
-- AI dùng **Perplexity API** 
-- Tất cả progress (checkbox tracker, proposal draft từng bước) lưu `localStorage` theo guest mode (key `phd-hub-*`)
-- Theme: tiếp tục gradient violet→fuchsia của trang hiện tại, kết hợp brand Royal Blue → Soft Emerald cho phần mới để đồng bộ HaiEduTech
-- Mobile-first: tabs cuộn ngang khi có 8 quốc gia, bảng requirements có `min-w-[600px]` + horizontal scroll theo chuẩn dự án
-- Đa ngôn ngữ Vi/En qua `useLanguage().t()` — KHÔNG hard-code text
-- Không thêm gated content (theo Core memory: mọi nội dung mở hoàn toàn)
+- Đa ngôn ngữ Vi/En qua `useLanguage().t()`, không hard-code
+- Tất cả progress + draft lưu `localStorage` (guest mode), key prefix `phd-hub-`
+- Giữ gradient violet → fuchsia cho khối AI, brand Royal Blue → Soft Emerald cho khối data
+- Mobile-first: bảng có `min-w-[600px]` + horizontal scroll; tabs cuộn ngang nếu tràn
+- Edge function dùng Perplexity (`sonar`) đồng bộ pattern dự án, không tạo bảng Supabase mới
+- DOMPurify nếu render HTML từ AI (proposal section)
 
 ## Phạm vi không làm
 
-- Không đổi route hiện tại `/study-abroad/phd`
-- Không động vào các module Master/Bachelor/Scholarship khác
-- Không thêm bảng Supabase mới (chỉ dùng edge function + localStorage)
+- Không đổi route `/study-abroad/phd`
+- Không động vào module Master/Bachelor/Scholarship khác
+- Không tạo bảng Supabase mới
+- Không gated content

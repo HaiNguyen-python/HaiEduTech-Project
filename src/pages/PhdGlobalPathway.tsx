@@ -6,61 +6,28 @@
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import {
-  GraduationCap, Mail, Sparkles, Loader2, Copy, Download, Globe2, ChevronRight,
-  Calendar, Wallet, AlertTriangle, Building2, Filter,
+  GraduationCap, Globe2, ChevronRight,
+  Calendar, Wallet, AlertTriangle, Building2, Filter, Download,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { supabase } from "@/integrations/supabase/client";
-import { toast } from "@/hooks/use-toast";
 import { PHD_COUNTRY_GUIDES } from "@/data/phdCountryGuides";
 import { PHD_FUNDING, PHD_FUNDING_COUNTRIES, PHD_FUNDING_FIELDS, PHD_FUNDING_TIERS, type PhdFundingField, type PhdFundingTier } from "@/data/phdFundingDatabase";
 import { PHD_TIMELINE } from "@/data/phdTimeline";
+import PhdProgressTracker from "@/components/phd/PhdProgressTracker";
+import PhdProposalBuilder from "@/components/phd/PhdProposalBuilder";
+import PhdColdEmailStudio from "@/components/phd/PhdColdEmailStudio";
+import PhdFaq from "@/components/phd/PhdFaq";
 
 const PhdGlobalPathway = () => {
   const { t, lang } = useLanguage();
   const vi = lang === "vi";
-
-  // ---------- AI Cold Email ----------
-  const [emailInput, setEmailInput] = useState({
-    studentName: "", professorName: "", university: "", researchArea: "",
-    paperOrProject: "", masterThesis: "", achievement: "", intakeYear: "Fall 2026",
-  });
-  const [emailLoading, setEmailLoading] = useState(false);
-  const [emailDraft, setEmailDraft] = useState("");
-
-  const handleGenerateEmail = async () => {
-    if (!emailInput.professorName || !emailInput.researchArea) {
-      toast({ title: t("Thiếu thông tin", "Missing"), description: t("Cần tên giáo sư & lĩnh vực", "Need professor name & area"), variant: "destructive" });
-      return;
-    }
-    setEmailLoading(true);
-    setEmailDraft("");
-    try {
-      const { data, error } = await supabase.functions.invoke("draft-cold-email", { body: { ...emailInput, language: lang } });
-      if (error) throw error;
-      if ((data as any)?.error) throw new Error((data as any).error);
-      setEmailDraft((data as any).email || "");
-      setTimeout(() => document.getElementById("email-output")?.scrollIntoView({ behavior: "smooth" }), 100);
-    } catch (e: any) {
-      toast({ title: t("Lỗi", "Error"), description: e?.message || "AI failed", variant: "destructive" });
-    } finally {
-      setEmailLoading(false);
-    }
-  };
-
-  const copyEmail = () => {
-    navigator.clipboard.writeText(emailDraft);
-    toast({ title: t("Đã sao chép", "Copied") });
-  };
 
   // ---------- Funding filters ----------
   const [fCountry, setFCountry] = useState<string>("all");
@@ -120,6 +87,11 @@ const PhdGlobalPathway = () => {
               </CardContent>
             </Card>
           </div>
+
+          {/* PhD Journey Progress Tracker */}
+          <PhdProgressTracker />
+
+
 
           {/* Country guides */}
           <h2 className="text-2xl md:text-3xl font-bold mb-5 flex items-center gap-2">
@@ -314,48 +286,14 @@ const PhdGlobalPathway = () => {
             </div>
           </div>
 
-          {/* AI Cold Email */}
-          <Card className="border-primary/30 shadow-xl">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-rose-500 to-orange-600 flex items-center justify-center">
-                  <Mail className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold">{t("AI Cold Email Generator", "AI Cold Email Generator")}</h3>
-                  <p className="text-xs text-muted-foreground">{t("Soạn email gửi giáo sư chuyên nghiệp trong 30 giây", "Craft a professional supervisor email in 30 seconds")}</p>
-                </div>
-              </div>
+          {/* AI Research Proposal Builder */}
+          <PhdProposalBuilder />
 
-              <div className="grid sm:grid-cols-2 gap-3">
-                <div><Label className="text-xs">{t("Tên của em", "Your Name")}</Label><Input value={emailInput.studentName} onChange={(e) => setEmailInput({ ...emailInput, studentName: e.target.value })} /></div>
-                <div><Label className="text-xs">{t("Tên giáo sư *", "Professor Name *")}</Label><Input value={emailInput.professorName} onChange={(e) => setEmailInput({ ...emailInput, professorName: e.target.value })} placeholder="Prof. Smith" /></div>
-                <div><Label className="text-xs">{t("Trường", "University")}</Label><Input value={emailInput.university} onChange={(e) => setEmailInput({ ...emailInput, university: e.target.value })} /></div>
-                <div><Label className="text-xs">{t("Lĩnh vực nghiên cứu *", "Research Area *")}</Label><Input value={emailInput.researchArea} onChange={(e) => setEmailInput({ ...emailInput, researchArea: e.target.value })} placeholder="Graph Neural Networks" /></div>
-                <div className="sm:col-span-2"><Label className="text-xs">{t("Bài báo / project cụ thể của giáo sư", "Specific paper/project to reference")}</Label><Input value={emailInput.paperOrProject} onChange={(e) => setEmailInput({ ...emailInput, paperOrProject: e.target.value })} placeholder='"GNNs for protein folding (Nature 2024)"' /></div>
-                <div className="sm:col-span-2"><Label className="text-xs">{t("Đề tài thesis Master của em", "Your Master thesis topic")}</Label><Input value={emailInput.masterThesis} onChange={(e) => setEmailInput({ ...emailInput, masterThesis: e.target.value })} /></div>
-                <div className="sm:col-span-2"><Label className="text-xs">{t("Thành tích định lượng", "Quantitative achievement")}</Label><Input value={emailInput.achievement} onChange={(e) => setEmailInput({ ...emailInput, achievement: e.target.value })} placeholder='"improved baseline by 12%"' /></div>
-                <div><Label className="text-xs">{t("Kỳ nhập học", "Intake")}</Label><Input value={emailInput.intakeYear} onChange={(e) => setEmailInput({ ...emailInput, intakeYear: e.target.value })} /></div>
-              </div>
+          {/* AI Cold Email Studio v2 */}
+          <PhdColdEmailStudio />
 
-              <Button className="mt-4 gap-2" onClick={handleGenerateEmail} disabled={emailLoading}>
-                {emailLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-                {t("Soạn email", "Generate Email")}
-              </Button>
-            </CardContent>
-          </Card>
-
-          {emailDraft && (
-            <Card id="email-output" className="mt-6 border-emerald-500/40">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-bold flex items-center gap-2"><Mail className="w-5 h-5 text-emerald-500" />{t("Email AI đã soạn", "AI Drafted Email")}</h3>
-                  <Button size="sm" variant="outline" onClick={copyEmail} className="gap-2"><Copy className="w-4 h-4" />{t("Sao chép", "Copy")}</Button>
-                </div>
-                <div className="whitespace-pre-wrap text-sm leading-relaxed bg-muted/30 rounded-lg p-4">{emailDraft}</div>
-              </CardContent>
-            </Card>
-          )}
+          {/* FAQ */}
+          <PhdFaq />
         </div>
       </main>
       <Footer />
