@@ -20,10 +20,14 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { PHD_COUNTRY_GUIDES } from "@/data/phdCountryGuides";
 import { PHD_FUNDING, PHD_FUNDING_COUNTRIES, PHD_FUNDING_FIELDS, PHD_FUNDING_TIERS, type PhdFundingField, type PhdFundingTier } from "@/data/phdFundingDatabase";
 import { PHD_TIMELINE } from "@/data/phdTimeline";
+import { PHD_FAQ } from "@/data/phdFaq";
+import { FUNDING_WITH_MONTHS } from "@/lib/phdFundingHelpers";
 import PhdProgressTracker from "@/components/phd/PhdProgressTracker";
 import PhdProposalBuilder from "@/components/phd/PhdProposalBuilder";
 import PhdColdEmailStudio from "@/components/phd/PhdColdEmailStudio";
 import PhdFaq from "@/components/phd/PhdFaq";
+import PhdSupervisorFinder from "@/components/phd/PhdSupervisorFinder";
+import PhdDeadlineRadar from "@/components/phd/PhdDeadlineRadar";
 
 const PhdGlobalPathway = () => {
   const { t, lang } = useLanguage();
@@ -33,12 +37,14 @@ const PhdGlobalPathway = () => {
   const [fCountry, setFCountry] = useState<string>("all");
   const [fField, setFField] = useState<PhdFundingField | "all">("all");
   const [fTier, setFTier] = useState<PhdFundingTier | "all">("all");
+  const [fMonth, setFMonth] = useState<number | null>(null);
 
-  const filteredFunding = useMemo(() => PHD_FUNDING.filter((f) =>
+  const filteredFunding = useMemo(() => FUNDING_WITH_MONTHS.filter((f) =>
     (fCountry === "all" || f.country === fCountry) &&
     (fField === "all" || f.fields.includes(fField as PhdFundingField) || f.fields.includes("Any")) &&
-    (fTier === "all" || f.tier === fTier),
-  ), [fCountry, fField, fTier]);
+    (fTier === "all" || f.tier === fTier) &&
+    (fMonth === null || f.months.includes(fMonth) || f.rolling),
+  ), [fCountry, fField, fTier, fMonth]);
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
