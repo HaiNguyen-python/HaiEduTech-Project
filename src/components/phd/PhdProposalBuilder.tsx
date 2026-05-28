@@ -4,7 +4,7 @@
  *              Each step auto-saves to localStorage; final step assembles
  *              the full proposal with copy + .md download.
  */
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,10 +13,12 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import {
   FileText, Sparkles, Loader2, Copy, Download, ChevronLeft, ChevronRight, Check,
+  Activity, FileSearch, ExternalLink, X,
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { scoreProposal, buildProposalDocxBlob } from "@/lib/phdProposalScore";
 
 const STORAGE_KEY = "phd-hub-proposal-draft";
 
@@ -110,7 +112,32 @@ const STEPS: StepDef[] = [
     placeholderVi: "Đóng góp dự kiến…",
     placeholderEn: "Expected contributions…",
   },
+  {
+    id: "references",
+    titleVi: "8. References & nguồn tham khảo",
+    titleEn: "8. References & Sources",
+    hintVi: "Liệt kê 8–15 nguồn theo APA (Tác giả, Năm). Dùng các keyword bên dưới để tra Google Scholar.",
+    hintEn: "List 8–15 sources in APA style (Author, Year). Use the keywords below to search Google Scholar.",
+    exampleVi: "Vaswani, A., Shazeer, N., Parmar, N. et al. (2017). Attention Is All You Need. NeurIPS.",
+    exampleEn: "Vaswani, A., Shazeer, N., Parmar, N. et al. (2017). Attention Is All You Need. NeurIPS.",
+    placeholderVi: "Vaswani, A. et al. (2017). …\nGoodfellow, I. et al. (2014). …",
+    placeholderEn: "Vaswani, A. et al. (2017). …\nGoodfellow, I. et al. (2014). …",
+  },
 ];
+
+/** Build 5 search-keyword chips from the topic for the references step. */
+const buildKeywordSuggestions = (topic: string, titleDraft: string): string[] => {
+  const base = (topic || titleDraft || "research").trim();
+  const root = base.replace(/["'.,]/g, "").slice(0, 80);
+  const stems = [
+    root,
+    `${root} review`,
+    `${root} state of the art`,
+    `${root} benchmark dataset`,
+    `${root} systematic literature review`,
+  ];
+  return Array.from(new Set(stems.filter(Boolean))).slice(0, 5);
+};
 
 const PhdProposalBuilder = () => {
   const { t, lang } = useLanguage();
