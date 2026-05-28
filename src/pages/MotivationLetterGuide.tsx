@@ -22,6 +22,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import MotivationLetterDrafts from "@/components/study-profile/MotivationLetterDrafts";
+import MotivationLetterSanityCheck from "@/components/study-abroad/MotivationLetterSanityCheck";
 import { SAMPLE_LETTERS, type SampleLetter } from "@/data/motivationLetterSamples";
 
 interface LetterInput {
@@ -257,6 +258,12 @@ const MotivationLetterGuide = () => {
               </motion.button>
             ))}
           </div>
+
+          {/* Inspiration Gallery + Sanity Check */}
+          <div className="mb-10">
+            <MotivationLetterSanityCheck />
+          </div>
+
 
           {/* My Drafts */}
           <h2 className="text-2xl font-bold mb-2 flex items-center gap-2">
