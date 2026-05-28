@@ -30,6 +30,8 @@ const ToeicHub = () => {
       // Soft corporate blue accent
       iconWrap: "bg-sky-50 text-sky-700 ring-1 ring-sky-200",
       badge: "bg-sky-50 text-sky-700 ring-1 ring-sky-200",
+      cardBorder: "border-2 border-sky-400 hover:border-sky-500",
+      cardShadow: "shadow-sky-100/50",
     },
     {
       to: "/toeic-vocabulary",
@@ -47,6 +49,8 @@ const ToeicHub = () => {
       // Soft indigo/cobalt accent
       iconWrap: "bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200",
       badge: "bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200",
+      cardBorder: "border-2 border-indigo-400 hover:border-indigo-500",
+      cardShadow: "shadow-indigo-100/50",
     },
     {
       to: "/toeic-exams",
@@ -64,6 +68,8 @@ const ToeicHub = () => {
       // Soft teal/emerald accent
       iconWrap: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200",
       badge: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200",
+      cardBorder: "border-2 border-emerald-400 hover:border-emerald-500",
+      cardShadow: "shadow-emerald-100/50",
     },
   ];
 
