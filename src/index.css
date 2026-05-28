@@ -663,3 +663,14 @@
   .electric-border::after { animation: none !important; }
   .electric-border::after { opacity: 0; }
 }
+
+/* Pre-departure checklist print styles */
+@media print {
+  nav, footer, aside, [role="banner"], [role="navigation"] { display: none !important; }
+  .print\:hidden { display: none !important; }
+  body { background: white !important; color: black !important; }
+  main { padding-top: 0 !important; }
+  .container { max-width: 100% !important; padding: 0 !important; }
+  .shadow, .shadow-lg, .shadow-xl { box-shadow: none !important; }
+  a { text-decoration: none !important; color: inherit !important; }
+}
