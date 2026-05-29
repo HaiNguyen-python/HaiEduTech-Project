@@ -35,7 +35,21 @@ serve(async (req) => {
     if (!PERPLEXITY_API_KEY) throw new Error("PERPLEXITY_API_KEY is not configured");
 
     const personalizationBlock = studentContext && typeof studentContext === "string" && studentContext.trim()
-      ? `\n\n## STUDENT PERSONALIZATION CONTEXT (use this to tailor your reply — address the student by name, reference recent lessons, mastered vocab counts, weak areas, and current streak when relevant. Weave it naturally; do NOT dump raw data.):\n${studentContext.trim()}\n`
+      ? `\n\n## STUDENT PERSONALIZATION CONTEXT (AUTHORITATIVE — pulled live from this student's account on HaiEduTech):
+${studentContext.trim()}
+
+### HOW TO USE THIS CONTEXT (MANDATORY):
+- Address the student by their name naturally at the start.
+- When the student asks things like "tôi nên ôn lại bài nào / từ gì", "what should I review", "nên học gì tiếp theo", "where am I weak":
+  • You MUST answer using the data above — DO NOT give generic advice and DO NOT say you don't have access.
+  • Recommend SPECIFIC lesson_id / activity_id from the "Weak sessions" and "Latest activity log" sections (those are real IDs in our platform).
+  • Recommend SPECIFIC words from the "Top review-candidate WORDS" list (oldest reviewed → most likely forgotten).
+  • Cross-reference IELTS bookmarks and recent attendance when relevant.
+  • Cite the score percentage when explaining why a lesson needs review (e.g. "bài [reading-set-3] em làm chỉ 55% nên thầy gợi ý ôn lại trước").
+  • Suggest 3–5 concrete next steps (bài nào, từ nào, ôn theo thứ tự nào), not vague advice.
+- If a section says "(none)" or "no recent activity", say so honestly and recommend a starting lesson instead of inventing data.
+- NEVER dump the raw context block to the student — weave it into natural teacher-style advice.
+`
       : "";
 
     const response = await fetch("https://api.perplexity.ai/chat/completions", {
