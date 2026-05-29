@@ -251,6 +251,85 @@ const ChatBot = () => {
     checkLockout();
   }, []);
 
+  // ── Personalization: fetch student profile & learning data when logged in ──
+  useEffect(() => {
+    let cancelled = false;
+    const loadStudentContext = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user || cancelled) return;
+
+        const [profileRes, vocabRes, activityRes, streakRes] = await Promise.all([
+          supabase.from("profiles").select("full_name").eq("id", user.id).maybeSingle(),
+          supabase.from("user_vocab_mastered").select("subject").eq("user_id", user.id),
+          supabase
+            .from("student_activity_log")
+            .select("activity_type, lesson_id, created_at")
+            .eq("user_id", user.id)
+            .order("created_at", { ascending: false })
+            .limit(15),
+          supabase.rpc("get_streak_leaderboard"),
+        ]);
+
+        const fullName = (profileRes.data?.full_name || "").trim() || "Học viên";
+        if (!cancelled) setStudentName(fullName);
+
+        // Mastered vocab by subject
+        const vocabBySubject: Record<string, number> = {};
+        (vocabRes.data || []).forEach((r: any) => {
+          const s = r.subject || "unknown";
+          vocabBySubject[s] = (vocabBySubject[s] || 0) + 1;
+        });
+        const vocabSummary = Object.entries(vocabBySubject)
+          .sort((a, b) => b[1] - a[1])
+          .map(([s, n]) => `${s}: ${n} words`)
+          .join(", ") || "no vocabulary mastered yet";
+
+        // Recent activities
+        const activities = (activityRes.data || []) as any[];
+        const recentList = activities
+          .slice(0, 10)
+          .map((a) => `- ${a.activity_type}${a.lesson_id ? ` (${a.lesson_id})` : ""} @ ${new Date(a.created_at).toLocaleDateString()}`)
+          .join("\n") || "- (no recent activity)";
+
+        // Activity frequency by type
+        const typeCount: Record<string, number> = {};
+        activities.forEach((a) => {
+          typeCount[a.activity_type] = (typeCount[a.activity_type] || 0) + 1;
+        });
+        const topActivities = Object.entries(typeCount)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 5)
+          .map(([t, n]) => `${t} (${n}x)`)
+          .join(", ") || "none";
+
+        // Current streak
+        const streakRow = (streakRes.data || []).find((r: any) => r.user_id === user.id);
+        const streakDays = streakRow?.streak_days ?? 0;
+
+        const context = [
+          `Student name: ${fullName}`,
+          `Current study streak: ${streakDays} day(s)`,
+          `Mastered vocabulary by subject: ${vocabSummary}`,
+          `Most-used learning activities recently: ${topActivities}`,
+          `Latest 10 activities:`,
+          recentList,
+        ].join("\n");
+
+        if (!cancelled) setStudentContext(context);
+      } catch (e) {
+        console.warn("[ChatBot] personalization fetch failed", e);
+      }
+    };
+
+    loadStudentContext();
+    const { data: sub } = supabase.auth.onAuthStateChange(() => loadStudentContext());
+    return () => {
+      cancelled = true;
+      sub.subscription.unsubscribe();
+    };
+  }, []);
+
   // Notify other floating widgets (e.g. Notebook) when chatbot opens/closes
   useEffect(() => {
     window.dispatchEvent(new CustomEvent("chatbot:toggle", { detail: { open } }));
