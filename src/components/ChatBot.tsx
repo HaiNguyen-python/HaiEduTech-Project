@@ -906,6 +906,44 @@ const ChatBot = () => {
 
             {/* Input Bar */}
             <div className="border-t border-border p-3">
+              {/* Attachment preview chip */}
+              {attachment && (
+                <div className="mb-2 flex items-center gap-2 rounded-lg border border-primary/30 bg-primary/5 px-3 py-2">
+                  {attachment.kind === "image" ? (
+                    <img
+                      src={attachment.dataUrl}
+                      alt={attachment.name}
+                      className="h-10 w-10 rounded object-cover"
+                    />
+                  ) : (
+                    <FileText className="h-5 w-5 text-primary" />
+                  )}
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-xs font-medium text-foreground">{attachment.name}</p>
+                    <p className="text-[10px] text-muted-foreground">
+                      {attachment.kind === "image"
+                        ? t("Ảnh đính kèm", "Image attached")
+                        : t("File văn bản đính kèm", "Text file attached")}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setAttachment(null)}
+                    className="rounded p-1 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                    title={t("Bỏ đính kèm", "Remove attachment")}
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+              )}
+
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*,text/*,.txt,.md,.csv,.json,.js,.ts,.jsx,.tsx,.py,.html,.css,.xml,.yaml,.yml,.log"
+                className="hidden"
+                onChange={handleFileSelected}
+              />
+
               <div className="flex gap-2">
                 {/* Microphone button */}
                 <button
@@ -919,6 +957,16 @@ const ChatBot = () => {
                   title={isRecording ? t("Dừng ghi âm", "Stop recording") : t("Nhấn để nói", "Click to speak")}
                 >
                   {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+                </button>
+
+                {/* Attach file button */}
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={isLoading || chatLocked}
+                  className="flex items-center justify-center rounded-xl bg-secondary px-3 py-2.5 text-muted-foreground transition-all hover:bg-secondary/80 disabled:opacity-50"
+                  title={t("Đính kèm file hoặc ảnh", "Attach file or image")}
+                >
+                  <Paperclip className="h-4 w-4" />
                 </button>
 
                 <input
@@ -935,7 +983,7 @@ const ChatBot = () => {
                 />
                 <button
                   onClick={sendMessage}
-                  disabled={isLoading || !input.trim() || chatLocked}
+                  disabled={isLoading || (!input.trim() && !attachment) || chatLocked}
                   className="rounded-xl bg-primary px-4 py-2.5 text-primary-foreground transition-all hover:brightness-110 disabled:opacity-50"
                 >
                   <Send className="h-4 w-4" />
