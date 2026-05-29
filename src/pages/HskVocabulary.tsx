@@ -16,6 +16,7 @@ import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 import GameLeaderboard from "@/components/games/GameLeaderboard";
 import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
+import SmartReviewColumn from "@/components/SmartReviewColumn";
 import KangxiRadicalsBrowser from "@/components/KangxiRadicalsBrowser";
 import HskExamplePractice from "@/components/HskExamplePractice";
 import HskMnemonic from "@/components/HskMnemonic";
@@ -744,6 +745,21 @@ const HskVocabulary = () => {
           </Tabs>
         </div>
       </div>
+      <SmartReviewColumn
+        subject="hsk"
+        lang="zh-CN"
+        lookupWord={(w) => {
+          const found = hskVocabData.find(x => x.character === w);
+          if (!found) return null;
+          return {
+            word: found.character,
+            phonetic: found.pinyin,
+            definitionVi: found.definition.vi,
+            definitionEn: found.definition.en,
+          };
+        }}
+        allWordsForQuiz={hskVocabData.map(w => ({ word: w.character, definition: w.definition.vi }))}
+      />
       <Footer />
     </div>
   );

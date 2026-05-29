@@ -18,6 +18,7 @@ import GameLeaderboard from "@/components/games/GameLeaderboard";
 import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import StudyStreakLeaderboard from "@/components/StudyStreakLeaderboard";
+import SmartReviewColumn from "@/components/SmartReviewColumn";
 import { supabase } from "@/integrations/supabase/client";
 
 const WORDS_PER_PAGE = 10;
@@ -827,6 +828,21 @@ const IeltsVocabulary = () => {
           </div>
         </div>
       </div>
+      <SmartReviewColumn
+        subject="ielts"
+        lang="en-US"
+        lookupWord={(w) => {
+          const found = ieltsVocabData.find(x => x.word === w);
+          if (!found) return null;
+          return {
+            word: found.word,
+            phonetic: found.ipa,
+            definitionVi: found.definition.vi,
+            definitionEn: found.definition.en,
+          };
+        }}
+        allWordsForQuiz={ieltsVocabData.map(w => ({ word: w.word, definition: w.definition.vi }))}
+      />
       <Footer />
     </div>
   );

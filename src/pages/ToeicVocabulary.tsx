@@ -20,6 +20,7 @@ import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import { supabase } from "@/integrations/supabase/client";
 import { Star } from "lucide-react";
+import SmartReviewColumn from "@/components/SmartReviewColumn";
 import ToeicMountainClimber from "@/components/ToeicMountainClimber";
 import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 
@@ -1059,6 +1060,21 @@ const ToeicVocabulary = () => {
           <VocabMasteryLeaderboard subject="toeic" currentCount={mastered.size} />
         </div>
       </main>
+      <SmartReviewColumn
+        subject="toeic"
+        lang="en-US"
+        lookupWord={(w) => {
+          const found = toeicVocabData.find(x => x.word === w);
+          if (!found) return null;
+          return {
+            word: found.word,
+            phonetic: found.ipa,
+            definitionVi: found.definition.vi,
+            definitionEn: found.definition.en,
+          };
+        }}
+        allWordsForQuiz={toeicVocabData.map(w => ({ word: w.word, definition: w.definition.vi }))}
+      />
       <Footer />
     </div>
   );
