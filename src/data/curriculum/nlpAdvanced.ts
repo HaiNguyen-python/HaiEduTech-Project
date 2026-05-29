@@ -485,8 +485,6 @@ for s in samples:
           { question: "Mixed-script attack là?", options: ["Bug font", "Dùng ký tự Cyrillic trông giống Latin để vượt filter", "Spam ASCII", "Lỗi UTF-8"], answer: 1, explanation: "Cần Unicode confusables detector để chặn." },
         ],
       },
-    ],
-  },
       {
         id: "nlp-adv-5",
         title: "NLP Evaluation — đo chất lượng đầu ra LLM/NLP đúng cách",
