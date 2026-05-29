@@ -148,7 +148,17 @@ const Programming = () => {
 
   // Scroll the active pillar content into view whenever the pillar changes —
   // makes the EdTech / NLP / etc. tab clicks feel like opening a new section.
+  // Skip the very first render so a fresh page load doesn't auto-jump past the hero.
+  const didInitialScroll = useRef(false);
   useEffect(() => {
+    if (!didInitialScroll.current) {
+      didInitialScroll.current = true;
+      // If the URL explicitly requested a pillar, scroll to it on entry.
+      if (searchParams.get("pillar") && pillarContentRef.current) {
+        pillarContentRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+      return;
+    }
     if (pillarContentRef.current) {
       pillarContentRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
