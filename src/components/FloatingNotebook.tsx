@@ -366,11 +366,11 @@ const FloatingNotebook = () => {
       {!chatbotOpen && (
         <motion.button
           onClick={() => setOpen(!open)}
-          className="fixed bottom-6 right-24 z-50 w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:scale-110 transition-transform"
+          className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] right-32 z-50 w-12 h-12 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:scale-110 transition-transform sm:bottom-6 sm:right-40 sm:w-14 sm:h-14"
           whileTap={{ scale: 0.9 }}
           aria-label="Open notebook"
         >
-          <BookOpen size={24} />
+          <BookOpen size={22} />
         </motion.button>
       )}
 
