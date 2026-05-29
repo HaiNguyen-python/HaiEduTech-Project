@@ -705,6 +705,7 @@ const HskVocabulary = () => {
                                   <HskExampleTranslation example={w.example} />
                                 </div>
                                 <HskExamplePractice example={w.example} examplePinyin={w.examplePinyin} />
+                                <HskMnemonic character={w.character} pinyin={w.pinyin} meaning={w.definition.vi} />
                               </div>
                             </div>
                           ))}
