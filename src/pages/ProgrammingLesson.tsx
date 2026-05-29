@@ -17,6 +17,7 @@ import { updateSkillScore } from "@/components/SkillRadarChart";
 import SkillRadarChart from "@/components/SkillRadarChart";
 import LearningRecommendation from "@/components/LearningRecommendation";
 import { expandedModules as curriculumExpandedModules } from "@/data/curriculum";
+import { edtechQuizEn } from "@/data/curriculum/edtechQuizI18n";
 import { supabase } from "@/integrations/supabase/client";
 import { Progress } from "@/components/ui/progress";
 import SqlEditor from "@/components/SqlEditor";
