@@ -23,7 +23,7 @@ const SatLandingExtras = () => {
       icon: BookOpen,
       title: t("Reading & Writing", "Reading & Writing"),
       time: t("64 phút · 54 câu · 2 module", "64 min · 54 Qs · 2 modules"),
-      gradient: "from-violet-500/15 to-indigo-500/15 border-violet-500/30",
+      gradient: "from-violet-500/20 to-indigo-500/20 border-violet-500/70",
       bullets: [
         t("Đoạn văn ngắn 25–150 từ, mỗi câu 1 passage", "Short passages 25–150 words, one question each"),
         t("Information & Ideas, Craft & Structure, Expression of Ideas, Standard English", "Information & Ideas, Craft & Structure, Expression of Ideas, Standard English"),
@@ -34,7 +34,7 @@ const SatLandingExtras = () => {
       icon: Calculator,
       title: t("Math", "Math"),
       time: t("70 phút · 44 câu · Desmos tích hợp", "70 min · 44 Qs · Built-in Desmos"),
-      gradient: "from-sky-500/15 to-emerald-500/15 border-sky-500/30",
+      gradient: "from-sky-500/20 to-emerald-500/20 border-sky-500/70",
       bullets: [
         t("Algebra · Advanced Math · Problem Solving · Geometry/Trig", "Algebra · Advanced Math · Problem Solving · Geometry/Trig"),
         t("75% trắc nghiệm + 25% student-produced response", "75% multiple choice + 25% student-produced response"),
@@ -108,7 +108,7 @@ const SatLandingExtras = () => {
           </p>
           <div className="grid md:grid-cols-2 gap-5">
             {formatCards.map((f, i) => (
-              <div key={i} className={`rounded-2xl border bg-gradient-to-br p-6 ${f.gradient}`}>
+              <div key={i} className={`rounded-2xl border-2 bg-gradient-to-br p-6 shadow-sm ${f.gradient}`}>
                 <div className="flex items-center gap-3 mb-3">
                   <f.icon className="w-7 h-7 text-foreground" />
                   <h3 className="text-lg font-display font-bold text-foreground">{f.title}</h3>
@@ -144,15 +144,15 @@ const SatLandingExtras = () => {
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {bandTiers.map((b, i) => (
-              <div key={i} className="relative rounded-2xl p-5 border border-border bg-background/50 hover:shadow-md transition-shadow">
+              <div key={i} className="relative rounded-2xl p-5 border-2 border-slate-300 dark:border-slate-600 bg-background hover:border-primary/70 hover:shadow-lg transition-all">
                 <div className={`absolute -top-3 left-4 px-3 py-1 rounded-full bg-gradient-to-r ${b.color} text-white text-xs font-bold shadow`}>
                   {b.range}
                 </div>
                 <div className="flex items-center gap-2 mt-2 mb-2">
-                  <b.icon className="w-5 h-5 text-primary" />
-                  <h3 className="font-display font-bold text-foreground">{b.label}</h3>
+                  <b.icon className="w-5 h-5 text-primary shrink-0" />
+                  <h3 className="font-display font-bold text-foreground text-base">{b.label}</h3>
                 </div>
-                <p className="text-sm text-muted-foreground leading-relaxed">{b.action}</p>
+                <p className="text-sm text-foreground/80 leading-relaxed">{b.action}</p>
               </div>
             ))}
           </div>
@@ -177,15 +177,15 @@ const SatLandingExtras = () => {
           </div>
           <div className="grid md:grid-cols-3 gap-4">
             {painPoints.map((p, i) => (
-              <div key={i} className="rounded-2xl p-5 border border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-orange-500/5">
-                <div className="flex items-center gap-2 mb-3">
-                  <p.icon className="w-5 h-5 text-amber-600" />
-                  <h3 className="font-display font-bold text-foreground">{p.title}</h3>
+              <div key={i} className="rounded-2xl p-5 border-2 border-amber-500/60 bg-gradient-to-br from-amber-500/10 to-orange-500/10 shadow-sm">
+                <div className="flex items-start gap-2 mb-3">
+                  <p.icon className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                  <h3 className="font-display font-bold text-foreground text-[15px] leading-snug">{p.title}</h3>
                 </div>
-                <p className="text-sm text-muted-foreground mb-3 leading-relaxed">{p.pain}</p>
-                <div className="flex items-start gap-2 p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+                <p className="text-sm text-foreground/80 mb-3 leading-relaxed">{p.pain}</p>
+                <div className="flex items-start gap-2 p-3 rounded-lg bg-emerald-500/15 border-2 border-emerald-500/40">
                   <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <p className="text-sm text-foreground/90 leading-relaxed">{p.solution}</p>
+                  <p className="text-sm text-foreground leading-relaxed">{p.solution}</p>
                 </div>
               </div>
             ))}
@@ -210,12 +210,12 @@ const SatLandingExtras = () => {
               <AccordionItem
                 key={i}
                 value={`q${i}`}
-                className="border border-border/60 rounded-2xl px-4 bg-background/40 data-[state=open]:bg-background/70 data-[state=open]:border-border transition-colors"
+                className="border-2 border-slate-300 dark:border-slate-600 rounded-2xl px-4 bg-background data-[state=open]:bg-background data-[state=open]:border-primary/60 transition-colors"
               >
-                <AccordionTrigger className="text-left text-[15px] font-medium text-foreground/90 tracking-tight hover:no-underline py-3.5 gap-3">
+                <AccordionTrigger className="text-left text-[15px] font-semibold text-foreground tracking-tight hover:no-underline py-3.5 gap-3">
                   {f.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-[14px] text-muted-foreground/90 leading-7 pb-4">
+                <AccordionContent className="text-[14px] text-foreground/80 leading-7 pb-4">
                   {f.a}
                 </AccordionContent>
               </AccordionItem>

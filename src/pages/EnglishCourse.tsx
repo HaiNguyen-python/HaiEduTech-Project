@@ -371,15 +371,15 @@ const EnglishCourse = () => {
                         <button
                           key={card.to}
                           onClick={() => navigate(card.to)}
-                          className="group text-left p-4 rounded-2xl border border-border bg-background/60 hover:border-primary/60 hover:bg-background hover:shadow-md transition-all"
+                          className="group text-left p-4 rounded-2xl border-2 border-slate-300 dark:border-slate-600 bg-background hover:border-primary hover:shadow-lg transition-all"
                         >
-                          <div className={`w-9 h-9 mb-3 rounded-xl bg-gradient-to-br ${card.iconBg} flex items-center justify-center shadow-sm`}>
-                            <card.icon className="w-4 h-4 text-white" />
+                          <div className={`w-10 h-10 mb-3 rounded-xl bg-gradient-to-br ${card.iconBg} flex items-center justify-center shadow-md`}>
+                            <card.icon className="w-5 h-5 text-white" />
                           </div>
-                          <p className="text-sm font-display font-semibold text-foreground group-hover:text-primary transition-colors leading-tight">
+                          <p className="text-sm font-display font-bold text-foreground group-hover:text-primary transition-colors leading-snug">
                             {card.title}
                           </p>
-                          <p className="text-[11px] text-muted-foreground mt-1 leading-snug">
+                          <p className="text-xs text-muted-foreground mt-1.5 leading-snug">
                             {card.sub}
                           </p>
                         </button>
