@@ -72,13 +72,8 @@ B-PER    I-PER O    O       B-EVT  I-EVT        O   B-LOC     O
 
 A sequence model (BiLSTM or, today, a fine-tuned **BERT/RoBERTa**) reads the sentence and predicts a BIO tag for each token. Decoding stitches consecutive \`B-X\` + \`I-X\` tokens back into one entity.
 
-\`\`\`mermaid
-flowchart TD
-    T[Tokens] --> E[Embeddings]
-    E --> X[BiLSTM or BERT]
-    X --> P[BIO tag per token]
-    P --> S[Span decoder]
-    S --> R[Entity list]
+\`\`\`text
+Tokens → Embeddings → BiLSTM or BERT → BIO tag per token → Span decoder → Entity list
 \`\`\`
 
 ## 4. Three generations of NER
@@ -260,12 +255,8 @@ Factorises the TF-IDF matrix \`X ≈ W · H\`, where W = document-topic weights,
 
 Pre-trained sentence embeddings + clustering crushes classical methods on **short texts** (tweets, reviews, chat messages):
 
-\`\`\`mermaid
-flowchart LR
-    D[Documents] --> E[Sentence embeddings<br/>e.g. all-MiniLM]
-    E --> R[UMAP<br/>reduce to 5-D]
-    R --> H[HDBSCAN<br/>density clusters]
-    H --> L[c-TF-IDF<br/>label each cluster]
+\`\`\`text
+Documents → Sentence embeddings e.g. all-MiniLM → UMAP reduce to 5-D → HDBSCAN density clusters → c-TF-IDF label each cluster
 \`\`\`
 
 This is the **BERTopic** recipe (2022). It handles multilingual data, gives you a coherent label per cluster, and runs in seconds on a laptop.
@@ -421,14 +412,8 @@ for tid in set(topics):
 
 **RAG** = *Retrieval-Augmented Generation*. An LLM is fluent but knows nothing about *your* private data. RAG fixes that by **fetching relevant snippets** from your knowledge base and pasting them into the prompt right before the LLM answers.
 
-\`\`\`mermaid
-flowchart LR
-    Q[User question] --> E[Embed query]
-    E --> S[Vector DB search]
-    S --> C[Top-k chunks]
-    C --> P[Prompt with context]
-    P --> L[LLM]
-    L --> A[Grounded answer]
+\`\`\`text
+User question → Embed query → Vector DB search → Top-k chunks → Prompt with context → LLM → Grounded answer
 \`\`\`
 
 > 🎯 **Why it matters** - RAG is how every modern AI assistant (HaiEduTech's *Mr. Hai* chatbot, Notion AI, Perplexity, GitHub Copilot Chat) avoids making up facts about your own documents.
@@ -475,11 +460,8 @@ flowchart TD
 
 After vector search returns 50 candidates, run a **cross-encoder** (e.g. \`bge-reranker-v2-m3\`) on the (query, chunk) pairs. It is slower but dramatically more accurate. Keep the top 5 for the LLM.
 
-\`\`\`mermaid
-flowchart LR
-    Q[Query] --> R1[Vector search<br/>50 chunks]
-    R1 --> R2[Cross-encoder rerank]
-    R2 --> Top[Top 5 chunks]
+\`\`\`text
+Query → Vector search 50 chunks → Cross-encoder rerank → Top 5 chunks
 \`\`\`
 
 ## 4. Hybrid search - best of both worlds
@@ -643,13 +625,8 @@ for q in [
 
 Combine them and you get a **voice assistant**: Siri, Alexa, Google Assistant - and HaiEduTech's **AI Speaking Coach**.
 
-\`\`\`mermaid
-flowchart LR
-    Mic[Microphone] --> STT[Speech-to-Text]
-    STT --> NLU[Understand intent]
-    NLU --> LLM[LLM / business logic]
-    LLM --> TTS[Text-to-Speech]
-    TTS --> Spk[Speaker]
+\`\`\`text
+Microphone → Speech-to-Text → Understand intent → LLM / business logic → Text-to-Speech → Speaker
 \`\`\`
 
 ## 2. How modern STT works (Whisper-style)
@@ -659,12 +636,8 @@ flowchart LR
 3. Pass it through an **encoder-decoder Transformer** trained on 680k+ hours of multilingual audio.
 4. Decode tokens, including timestamps and language detection - in one shot.
 
-\`\`\`mermaid
-flowchart TD
-    A[Raw audio<br/>16 kHz waveform] --> B[Log-Mel spectrogram]
-    B --> E[Transformer encoder]
-    E --> D[Transformer decoder]
-    D --> T[Text + timestamps + language]
+\`\`\`text
+Raw audio 16 kHz waveform → Log-Mel spectrogram → Transformer encoder → Transformer decoder → Text + timestamps + language
 \`\`\`
 
 > 🎯 **Why Whisper changed everything** - One open-source model handles **99 languages**, accents, background noise, code-switching, even singing - with no per-language tuning. It was the GPT moment of speech recognition.
@@ -853,12 +826,8 @@ Brute-force "compare query to every row" works at 10k vectors and dies at 10M. *
 | **PQ** (Product Quantization) | Compress vectors 32× | Pinecone, FAISS |
 | **DiskANN** | Optimised for SSD-resident indexes | Microsoft, used by Bing |
 
-\`\`\`mermaid
-flowchart TD
-    Q[Query vector] --> L1[HNSW layer 1<br/>coarse jumps]
-    L1 --> L2[Layer 2<br/>refine]
-    L2 --> L3[Layer 3<br/>local search]
-    L3 --> Top[Top-k neighbours]
+\`\`\`text
+Query vector → HNSW layer 1 coarse jumps → Layer 2 refine → Layer 3 local search → Top-k neighbours
 \`\`\`
 
 ## 4. The 2026 vector DB landscape
