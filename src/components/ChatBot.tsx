@@ -492,9 +492,62 @@ const ChatBot = () => {
     [checkLockout],
   );
 
+  // ── File attachment handler ──
+  const handleFileSelected = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      e.target.value = ""; // allow re-selecting same file
+      if (!file) return;
+
+      const MAX_SIZE = 4 * 1024 * 1024; // 4MB
+      if (file.size > MAX_SIZE) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content: t(
+              "⚠️ File quá lớn (tối đa 4MB). Em chọn file nhỏ hơn nhé.",
+              "⚠️ File too large (max 4MB). Please pick a smaller file.",
+            ),
+          },
+        ]);
+        return;
+      }
+
+      const isImage = file.type.startsWith("image/");
+      if (isImage) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          setAttachment({ kind: "image", name: file.name, dataUrl: String(reader.result || "") });
+        };
+        reader.readAsDataURL(file);
+        return;
+      }
+
+      // Treat as text-like (txt, md, csv, json, code, etc.)
+      try {
+        const text = await file.text();
+        const trimmed = text.length > 12000 ? text.slice(0, 12000) + "\n…(truncated)" : text;
+        setAttachment({ kind: "text", name: file.name, content: trimmed });
+      } catch {
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content: t(
+              "⚠️ Không đọc được file này. Em thử file văn bản hoặc ảnh nhé.",
+              "⚠️ Could not read this file. Try a text or image file.",
+            ),
+          },
+        ]);
+      }
+    },
+    [t],
+  );
+
   // ── Send Message ──
   const sendMessage = async () => {
-    if (!input.trim() || isLoading || chatLocked) return;
+    if ((!input.trim() && !attachment) || isLoading || chatLocked) return;
 
     // Rate limiting check
     if (isRateLimited()) {
@@ -505,24 +558,50 @@ const ChatBot = () => {
       return;
     }
 
-    const userMsg: Message = { role: "user", content: input.trim() };
+    const rawInput = input.trim();
 
     // 1. Profanity check (highest priority)
-    if (containsProfanity(userMsg.content)) {
+    if (rawInput && containsProfanity(rawInput)) {
       setProfanityWarning(true);
-      logModerationEvent(userMsg.content);
+      logModerationEvent(rawInput);
       setInput("");
       // Auto-dismiss warning after 8 seconds
       setTimeout(() => setProfanityWarning(false), 8000);
       return;
     }
 
-    // Topic filter removed - students can ask freely
+    // Build display message (for UI history)
+    let displayContent = rawInput;
+    if (attachment) {
+      const tag = attachment.kind === "image" ? `🖼️ ${attachment.name}` : `📎 ${attachment.name}`;
+      displayContent = rawInput ? `${rawInput}\n\n[${tag}]` : `[${tag}]`;
+    }
+    const userMsgUi: Message = { role: "user", content: displayContent };
 
-    const allMessages = [...messages, userMsg];
-    setMessages(allMessages);
+    // Build payload message (what we actually send to Perplexity)
+    let payloadContent: any;
+    if (attachment?.kind === "image") {
+      payloadContent = [
+        { type: "text", text: rawInput || t("Em vừa gửi một ảnh, thầy xem giúp em nhé.", "I just attached an image — please take a look.") },
+        { type: "image_url", image_url: { url: attachment.dataUrl } },
+      ];
+    } else if (attachment?.kind === "text") {
+      payloadContent = `${rawInput || t("Thầy xem giúp em file này nhé.", "Please review this file for me.")}\n\n--- Attached file: ${attachment.name} ---\n${attachment.content}\n--- end of file ---`;
+    } else {
+      payloadContent = rawInput;
+    }
+
+    const uiMessages = [...messages, userMsgUi];
+    setMessages(uiMessages);
     setInput("");
+    setAttachment(null);
     setIsLoading(true);
+
+    // Send to backend with text-only history + new (possibly multimodal) message
+    const payloadMessages = [
+      ...messages.map((m) => ({ role: m.role, content: m.content })),
+      { role: "user", content: payloadContent },
+    ];
 
     let assistantSoFar = "";
 
@@ -533,7 +612,7 @@ const ChatBot = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
         },
-        body: JSON.stringify({ messages: allMessages }),
+        body: JSON.stringify({ messages: payloadMessages, studentContext }),
       });
 
       if (!resp.ok || !resp.body) {
