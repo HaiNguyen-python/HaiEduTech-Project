@@ -817,8 +817,16 @@ const ChatBot = () => {
             <div className="flex items-center gap-3 border-b border-border bg-primary/5 p-4">
               <img src={chatbotIcon} alt="Thầy Hải" className="h-10 w-10 rounded-full" />
               <div className="flex-1">
-                <h3 className="text-base font-bold text-foreground">👋 Hello, I'm Mr. Hai!</h3>
-                <p className="text-xs text-muted-foreground">Level up your skills with me today.</p>
+                <h3 className="text-base font-bold text-foreground">
+                  {studentName
+                    ? t(`👋 Chào ${studentName}!`, `👋 Hi ${studentName}!`)
+                    : "👋 Hello, I'm Mr. Hai!"}
+                </h3>
+                <p className="text-xs text-muted-foreground">
+                  {studentContext
+                    ? t("Thầy đã có dữ liệu học tập của em — hỏi gì cũng được nhé!", "I have your learning data — ask me anything!")
+                    : t("Cùng nâng cấp kỹ năng cùng thầy hôm nay nhé!", "Level up your skills with me today.")}
+                </p>
               </div>
               <button onClick={() => setOpen(false)} className="rounded-lg p-1.5 transition-colors hover:bg-secondary">
                 <X className="h-5 w-5 text-muted-foreground" />
