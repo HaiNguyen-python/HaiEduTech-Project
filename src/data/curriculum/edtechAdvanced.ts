@@ -655,6 +655,132 @@ for i, c in enumerate(history, 1):
           { question: "Khi học sinh kẹt ở 'past perfect', hệ thống nên?", options: ["Cho bài khó hơn", "Ôn lại prerequisite 'past simple' trong skill graph", "Bỏ qua", "Hiển thị quảng cáo"], answer: 1, explanation: "Skill graph cho phép route về gốc khi học sinh chưa vững cơ sở." },
         ],
       },
+      {
+        id: "edtech-adv-6",
+        title: "Onboarding & Behavioral Activation — kéo học sinh qua 'aha moment'",
+        titleEn: "Onboarding & Behavioral Activation — Getting Learners to the 'Aha Moment'",
+        level: 3,
+        difficulty: "intermediate",
+        theory: `![Adaptive onboarding funnel](/lesson-illustrations/edtech-adaptive-learning.jpg)
+
+## 1. 🎯 "Aha moment" — khoảnh khắc quyết định ở lại
+
+Trong EdTech, **aha moment** không phải khi user đăng ký, mà khi họ **lần đầu cảm nhận tiến bộ rõ rệt** (hoàn thành bài đầu tiên + thấy mastery bar nhảy).
+
+\`\`\`
+   signup ─▶ first lesson ─▶ first quiz pass ─▶ first streak day 2
+     100%      72%             48%                 31%   ← AHA cluster
+                                                   │
+                                                   ▼
+                                    user 30× nhiều khả năng retain
+\`\`\`
+
+Mục tiêu onboarding: **đưa càng nhiều user qua cụm aha càng nhanh**.
+
+## 2. 🚪 Friction audit — đếm clicks tới giá trị
+
+| Bước | Click | Thời gian | Drop |
+|------|-------|-----------|------|
+| Landing → Signup | 1 | 5s | 35% |
+| Signup → Email verify | 1 + email | 2 min | 22% |
+| Verify → First lesson | 3 | 90s | 18% |
+| First lesson → Quiz pass | quiz | 4 min | 28% |
+
+Quy tắc: **mỗi 1 click thừa = ~10% drop**. Verify-by-email là kẻ giết người im lặng — cân nhắc magic-link hoặc OAuth.
+
+## 3. 🧪 Empty state ≠ trang trắng
+
+Empty state là **cơ hội dạy**, không phải lỗi UI. Mẫu tốt:
+
+\`\`\`
+   ┌──────────────────────────────────────────────┐
+   │  👋 Chào bạn! Hãy thử bài đầu tiên:           │
+   │                                              │
+   │  [ ▶ Bắt đầu với "Hello, World!" — 3 phút ]  │
+   │                                              │
+   │  💡 Sau bài này, bạn sẽ nhận badge "First    │
+   │     Step" và mở khoá Coding Lab.             │
+   └──────────────────────────────────────────────┘
+\`\`\`
+
+Yếu tố bắt buộc: **CTA duy nhất**, **thời gian dự kiến**, **phần thưởng cụ thể**.
+
+## 4. 📣 Behavioral triggers — push đúng người, đúng lúc
+
+| Trigger | Khi nào fire | Channel | Goal |
+|---------|--------------|---------|------|
+| Welcome | T+0 | In-app + email | Đặt kỳ vọng + CTA bài 1 |
+| Lesson nudge | T+24h, chưa học | Push | Bài 5 phút |
+| Streak save | Streak risk, 22:00 | Push | Bảo vệ streak |
+| Win-back | 7d inactive | Email | Bài "mới" cá nhân hoá |
+| Re-engagement | 30d inactive | Email | Showcase tiến bộ + nudge nhẹ |
+
+**Quy tắc**: tối đa **1 push/ngày**, không bao giờ trước 8h hoặc sau 21h địa phương. Mọi noti có **deep-link tới hành động** (không phải về home).
+
+## 5. 🧭 Onboarding cá nhân hoá bằng skill assessment
+
+Thay vì 5 trang giới thiệu, hỏi 3 câu vàng:
+
+1. **Mục tiêu** (đi du học / việc làm / sở thích) → roadmap.
+2. **Trình độ hiện tại** (1 quiz 3 câu) → adaptive bắt đầu đúng level.
+3. **Thời gian/ngày** (5/15/30 phút) → kích cỡ bài đầu tiên.
+
+Output: học sinh thấy bài đầu **đúng trình độ, đúng mục tiêu, đúng thời lượng** → aha trong < 10 phút.
+
+## 6. ⚠️ Bẫy phổ biến
+
+- **Onboarding 12 màn hình "show-and-tell"** — user bỏ ngay. Nguyên tắc: dạy bằng **làm**, không bằng **kể**.
+- **Streak shaming trong tuần đầu** — đuổi user yếu trước khi họ kịp gắn bó.
+- **Không đo cohort theo onboarding version** — không biết thay đổi nào giúp/hại.
+`,
+        theoryEn: `The aha moment in EdTech isn't sign-up — it's the first felt sense of progress (first quiz pass + mastery bar moving). Optimize onboarding to push more users into that cluster fast. Audit friction click-by-click (every extra click ≈ 10% drop). Replace empty states with single-CTA teaching moments. Wire behavioral triggers with strict frequency caps (≤1/day, 8 AM – 9 PM local) and deep links. Replace marketing tours with a 3-question intake (goal, level, time/day) that personalizes the first lesson so aha lands in under 10 minutes.`,
+        code: `from dataclasses import dataclass
+from datetime import datetime, timedelta
+from typing import Optional
+
+@dataclass
+class Learner:
+    user_id: str
+    signup_at: datetime
+    last_active_at: datetime
+    streak_days: int
+    completed_lessons: int
+
+QUIET_HOURS = range(21, 24)  # don't push 21:00–08:00
+def in_quiet_hours(now: datetime) -> bool:
+    return now.hour in QUIET_HOURS or now.hour < 8
+
+def pick_trigger(l: Learner, now: datetime) -> Optional[str]:
+    if in_quiet_hours(now):
+        return None
+    inactive = (now - l.last_active_at).days
+    if l.completed_lessons == 0 and inactive >= 1:
+        return "welcome_nudge:try a 5-min starter lesson"
+    if l.streak_days >= 2 and inactive >= 1 and now.hour == 20:
+        return "streak_save:keep your streak alive"
+    if inactive == 7:
+        return "winback:a fresh lesson tailored for you"
+    if inactive == 30:
+        return "reengage:see how far you came + one small win"
+    return None
+
+now = datetime(2026, 5, 29, 20, 5)
+l = Learner("u1", now - timedelta(days=10), now - timedelta(days=1), 3, 4)
+print(pick_trigger(l, now))`,
+        codeLanguage: "python",
+        exercise:
+          "Thêm logic frequency cap: nếu user đã nhận ≥ 1 push trong 24h qua, trả về None bất kể trigger nào.",
+        exerciseEn:
+          "Add a frequency cap: if the user already received ≥1 push in the last 24h, return None regardless of trigger.",
+        quiz: [
+          { question: "Aha moment trong EdTech là?", options: ["Lúc đăng ký", "Lần đầu cảm nhận tiến bộ rõ rệt (vd quiz pass + mastery nhảy)", "Khi mở app", "Khi xoá tài khoản"], answer: 1, explanation: "User vượt qua aha cluster có khả năng retain cao hơn nhiều lần." },
+          { question: "Vì sao verify-by-email hại onboarding?", options: ["Bảo mật yếu", "Tạo break ~2 phút và 22% drop — phá đà tiến tới aha", "Tốn DB", "Không hại"], answer: 1, explanation: "Magic-link / OAuth giảm drop đáng kể." },
+          { question: "Empty state nên có gì?", options: ["Logo to", "Một CTA duy nhất + thời gian dự kiến + phần thưởng cụ thể", "3 banner ads", "Không quan trọng"], answer: 1, explanation: "Empty state là cơ hội dạy bằng hành động, không phải lỗi UI." },
+          { question: "Quy tắc tần suất push hợp lý?", options: ["Càng nhiều càng tốt", "≤1/ngày, tránh 21:00–08:00 địa phương", "Mỗi giờ", "Không có quy tắc"], answer: 1, explanation: "Vượt cap → unsubscribe và đánh giá thấp app store." },
+          { question: "Onboarding 12 màn show-and-tell vấn đề gì?", options: ["Quá đắt", "Dạy bằng kể thay vì làm — user bỏ trước khi chạm aha", "Quá nhanh", "Không vấn đề"], answer: 1, explanation: "Onboarding tốt dạy bằng hành động + phản hồi tức thì." },
+        ],
+      },
     ],
   },
 ];
+
