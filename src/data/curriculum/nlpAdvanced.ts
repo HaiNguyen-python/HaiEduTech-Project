@@ -222,7 +222,7 @@ def build_prompt(role: str, task: str, schema: dict, examples: list[tuple[str, d
     return "\\n".join(parts)
 
 def safe_json(text: str):
-    """Bóc JSON khỏi text dù LLM bọc ```json ... ``` hay thêm văn bản phụ."""
+    """Bóc JSON khỏi text dù LLM bọc trong fenced code block hay thêm văn bản phụ."""
     m = re.search(r"\\{[\\s\\S]*\\}", text)
     if not m: return None
     try: return json.loads(m.group(0))
