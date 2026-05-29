@@ -103,6 +103,10 @@ export const ieltsListeningPracticeSetsExpansion: ListeningPracticeSet[] = [
       { type: "matching", prompt: "Avoids the gap between what people say and what they actually do.", answer: "D" },
       { type: "matching", prompt: "Risks being skewed by a dominant participant.", answer: "C" },
       { type: "matching", prompt: "Requires careful ethical clearance before starting.", answer: "D" },
+      { type: "matching", prompt: "Provides numerical patterns from a very large sample.", answer: "A" },
+      { type: "matching", prompt: "Captures deep, personal accounts.", answer: "B" },
+      { type: "matching", prompt: "Rarely captures the motivations behind a choice.", answer: "A" },
+      { type: "matching", prompt: "Removes the bias caused by people describing what they think they do.", answer: "D" },
     ],
   },
   {
