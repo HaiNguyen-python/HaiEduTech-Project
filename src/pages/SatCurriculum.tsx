@@ -7,9 +7,10 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { Helmet } from "react-helmet-async";
-import { ArrowLeft, ChevronDown, Layers } from "lucide-react";
+import { ArrowLeft, ChevronDown, Layers, PlayCircle, GraduationCap } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
+import { satTeachingSequence, satSequenceUrl } from "@/lib/satTeachingSequence";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { allEnglishModules } from "@/data/languageCurriculum";
