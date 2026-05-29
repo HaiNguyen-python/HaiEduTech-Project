@@ -827,6 +827,21 @@ const IeltsVocabulary = () => {
           </div>
         </div>
       </div>
+      <SmartReviewColumn
+        subject="ielts"
+        lang="en-US"
+        lookupWord={(w) => {
+          const found = ieltsVocabData.find(x => x.word === w);
+          if (!found) return null;
+          return {
+            word: found.word,
+            phonetic: found.ipa,
+            definitionVi: found.definition.vi,
+            definitionEn: found.definition.en,
+          };
+        }}
+        allWordsForQuiz={ieltsVocabData.map(w => ({ word: w.word, definition: w.definition.vi }))}
+      />
       <Footer />
     </div>
   );
