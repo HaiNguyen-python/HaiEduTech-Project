@@ -898,7 +898,7 @@ const ChatBot = () => {
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] left-3 right-14 z-50 flex h-[70vh] max-h-[560px] flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl sm:bottom-6 sm:left-auto sm:right-20 sm:w-[400px]"
+            className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] left-3 right-20 z-50 flex h-[70vh] max-h-[560px] flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl sm:bottom-6 sm:left-auto sm:right-24 sm:w-[400px]"
           >
             {/* Header */}
             <div className="flex items-center gap-3 border-b border-border bg-primary/5 p-4">
@@ -1031,12 +1031,12 @@ const ChatBot = () => {
                 onChange={handleFileSelected}
               />
 
-              <div className="flex gap-2">
+              <div className="flex items-center gap-1.5">
                 {/* Microphone button */}
                 <button
                   onClick={toggleRecording}
                   disabled={isLoading || chatLocked}
-                  className={`flex items-center justify-center rounded-xl px-3 py-2.5 transition-all ${
+                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-all ${
                     isRecording
                       ? "animate-pulse bg-destructive text-destructive-foreground"
                       : "bg-secondary text-muted-foreground hover:bg-secondary/80"
@@ -1050,7 +1050,7 @@ const ChatBot = () => {
                 <button
                   onClick={() => fileInputRef.current?.click()}
                   disabled={isLoading || chatLocked}
-                  className="flex items-center justify-center rounded-xl bg-secondary px-3 py-2.5 text-muted-foreground transition-all hover:bg-secondary/80 disabled:opacity-50"
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary text-muted-foreground transition-all hover:bg-secondary/80 disabled:opacity-50"
                   title={t("Đính kèm file hoặc ảnh", "Attach file or image")}
                 >
                   <Paperclip className="h-4 w-4" />
@@ -1065,13 +1065,13 @@ const ChatBot = () => {
                       ? t("Chat đã bị khóa...", "Chat is locked...")
                       : t("Hỏi thầy Hải...", "Ask Teacher Hai...")
                   }
-                  className="flex-1 rounded-xl border border-border bg-secondary px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none disabled:opacity-50"
+                  className="min-w-0 flex-1 rounded-xl border border-border bg-secondary px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none disabled:opacity-50"
                   disabled={isLoading || chatLocked}
                 />
                 <button
                   onClick={sendMessage}
                   disabled={isLoading || (!input.trim() && !attachment) || chatLocked}
-                  className="rounded-xl bg-primary px-4 py-2.5 text-primary-foreground transition-all hover:brightness-110 disabled:opacity-50"
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground transition-all hover:brightness-110 disabled:opacity-50"
                 >
                   <Send className="h-4 w-4" />
                 </button>
