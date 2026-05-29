@@ -1958,11 +1958,11 @@ Designing reward functions is **harder than the original problem**. For self-dri
 
 ## Three approaches on a continuum
 
-\`\`\`mermaid
-flowchart LR
-  BC[Behavioural Cloning<br/>Supervised mimic] --> DG[DAgger<br/>Mimic + interactive correction]
-  DG --> GAIL[GAIL<br/>Adversarial: discriminator vs policy]
-  GAIL --> IRL[Inverse RL<br/>Learn reward, then RL]
+\`\`\`text
+  1. Behavioural Cloning Supervised mimic  →
+  2. DAgger Mimic + interactive correction  →
+  3. GAIL Adversarial: discriminator vs policy  →
+  4. Inverse RL Learn reward, then RL
 \`\`\`
 
 ### 1. Behavioural Cloning (BC)

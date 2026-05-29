@@ -324,12 +324,8 @@ The result: a single 3×3 filter has only **9 + 1 = 10 weights**, yet it can det
 
 ## 2. The convolution operation in one picture
 
-\`\`\`mermaid
-graph LR
-    I[Input image<br/>5x5] --> C[3x3 filter<br/>slides across]
-    C --> F[Feature map<br/>3x3]
-    F --> P[MaxPool 2x2]
-    P --> D[Smaller, denser<br/>feature map]
+\`\`\`text
+Input image 5x5 → 3x3 filter slides across → Feature map 3x3 → MaxPool 2x2 → Smaller, denser feature map
 \`\`\`
 
 A **filter** (also called a kernel) is a small matrix. At each position you multiply element-wise with the input patch underneath, sum the result, and write it into the **feature map**. Slide the filter by 1 pixel (the *stride*) and repeat. Different filters specialise in different patterns: edges, corners, textures, then later - eyes, wheels, faces.
@@ -855,12 +851,8 @@ Classification answers "*what* is in this image?" Object detection answers two h
 
 In 2025, **YOLO** dominates production real-time use cases - modern variants reach >50 mAP on COCO at >100 FPS.
 
-\`\`\`mermaid
-flowchart LR
-    IMG[Input image] --> CNN[Backbone CNN]
-    CNN --> NECK[Neck FPN: multi-scale features]
-    NECK --> HEAD[Detection head]
-    HEAD --> OUT[Boxes + classes + confidence]
+\`\`\`text
+Input image → Backbone CNN → Neck FPN: multi-scale features → Detection head → Boxes + classes + confidence
 \`\`\`
 
 ## 3. Three letters every detector uses
@@ -1151,13 +1143,13 @@ Production systems usually **combine RAG + fine-tuning** - fine-tune for tone, r
 
 ## 2. RAG in 60 seconds
 
-\`\`\`mermaid
-flowchart LR
-    Q[User question] --> EMB[Embed query]
-    EMB --> VDB[(Vector DB:<br/>Pinecone, Qdrant, pgvector)]
-    VDB --> CTX[Top-k relevant chunks]
-    CTX --> LLM[LLM answers using<br/>question + retrieved context]
-    LLM --> A[Grounded answer + citations]
+\`\`\`text
+  1. User question  →
+  2. Embed query  →
+  3. (Vector DB: Pinecone, Qdrant, pgvector)  →
+  4. Top-k relevant chunks  →
+  5. LLM answers using question + retrieved context  →
+  6. Grounded answer + citations
 \`\`\`
 
 Knowledge updates without retraining; citations make hallucinations auditable; even a 7B model with good RAG often beats a 70B model alone on factual tasks.

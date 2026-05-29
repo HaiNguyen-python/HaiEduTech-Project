@@ -59,13 +59,13 @@ Computers are great at numbers and rigid grammars (Python, SQL). Human language 
 
 Before LLMs, every NLP system followed roughly the same five-stage pipeline. You still see it inside modern systems - it just runs *under* a neural network now.
 
-\`\`\`mermaid
-graph LR
-    A["Raw text<br/>(Hello, world!)"] --> B[Preprocessing<br/>tokenize, clean]
-    B --> C[Linguistic features<br/>POS, lemma, syntax]
-    C --> D[Vector representation<br/>BoW, TF-IDF, embeddings]
-    D --> E[Model<br/>classifier, RNN, Transformer]
-    E --> F[Output<br/>label, translation, answer]
+\`\`\`text
+  1. Raw text (Hello, world!)  →
+  2. Preprocessing tokenize, clean  →
+  3. Linguistic features POS, lemma, syntax  →
+  4. Vector representation BoW, TF-IDF, embeddings  →
+  5. Model classifier, RNN, Transformer  →
+  6. Output label, translation, answer
 \`\`\`
 
 ## 4. Two waves of NLP
@@ -196,13 +196,8 @@ for r in reviews:
 
 Raw human text is hostile to a model: capitalisation, punctuation, emojis, typos, HTML tags, two ways to spell *colour/color*, Vietnamese diacritics, Finnish vowel harmony. **Preprocessing** is the first defence: we standardise text into clean, predictable tokens before any learning happens.
 
-\`\`\`mermaid
-graph LR
-    A["Hi! I'm loving NLP 🚀"] --> T[Tokenize]
-    T --> N[Normalize<br/>lowercase, strip]
-    N --> S[Stop-words<br/>remove the/a/is]
-    S --> L[Lemmatize<br/>loving → love]
-    L --> O["love nlp"]
+\`\`\`text
+Hi! I'm loving NLP 🚀 → Tokenize → Normalize lowercase, strip → Stop-words remove the/a/is → Lemmatize loving → love → love nlp
 \`\`\`
 
 ## 2. Tokenization - splitting text into atoms
@@ -256,15 +251,15 @@ Both reduce *running, ran, runs* to the root *run*. The difference matters:
 
 ## 6. Putting it all together
 
-\`\`\`mermaid
-graph TD
-    R[Raw review:<br/>'I LOVED Teacher Hai's<br/>NLP lesson!! 🚀'] --> P1[Lowercase + strip punct]
-    P1 --> P2["i loved teacher hai's nlp lesson"]
-    P2 --> T[Tokenize]
-    T --> P3["[i, loved, teacher, hai's, nlp, lesson]"]
-    P3 --> S[Stop-word filter<br/>remove 'i']
-    S --> L[Lemmatize<br/>loved → love]
-    L --> P4["[love, teacher, hai's, nlp, lesson]"]
+\`\`\`text
+  1. Raw review: 'I LOVED Teacher Hai's NLP lesson!! 🚀'  →
+  2. Lowercase + strip punct  →
+  3. i loved teacher hai's nlp lesson  →
+  4. Tokenize  →
+  5. [i, loved, teacher, hai's, nlp, lesson]  →
+  6. Stop-word filter remove 'i'  →
+  7. Lemmatize loved → love  →
+  8. [love, teacher, hai's, nlp, lesson]
 \`\`\`
 
 ## 7. Key Concept
@@ -557,12 +552,8 @@ Sentiment is usually framed as **classification**: input = text, output = label 
 | 2018+ | **Transformer fine-tune** (BERT, RoBERTa) | Hugging Face | ~95%+ |
 | 2024+ | **Zero-shot LLM prompting** (GPT-5, Gemini) | "Classify this review:" | ~93% (no training data!) |
 
-\`\`\`mermaid
-graph LR
-    R[Review text] --> P[Preprocess]
-    P --> V[TF-IDF vector]
-    V --> M[Logistic Regression]
-    M --> O[positive / negative]
+\`\`\`text
+Review text → Preprocess → TF-IDF vector → Logistic Regression → positive / negative
 \`\`\`
 
 ## 3. Why the naive approach breaks
@@ -907,14 +898,8 @@ print(sample("teacher hai ", 80))`,
 
 In June 2017 a Google team published *"Attention Is All You Need"*. They threw away recurrence and convolutions and replaced them with **self-attention**. The result - the **Transformer** - became the foundation of every modern LLM: BERT (2018), GPT-2 (2019), GPT-3 (2020), ChatGPT (2022), GPT-5 / Gemini 2.5 / Claude 4 (2025-2026).
 
-\`\`\`mermaid
-graph TD
-    Input[Input tokens] --> Embed[Token + position embeddings]
-    Embed --> SA[Self-Attention]
-    SA --> FF[Feed-Forward]
-    FF --> Add[Add & LayerNorm]
-    Add --> SA2[Self-Attention<br/>repeat N times]
-    SA2 --> Out[Output]
+\`\`\`text
+Input tokens → Token + position embeddings → Self-Attention → Feed-Forward → Add & LayerNorm → Self-Attention repeat N times → Output
 \`\`\`
 
 ## 2. Self-attention in plain English
@@ -963,12 +948,12 @@ Modern LLMs (GPT-5, Gemini 2.5, Claude 4, Llama 4) are **decoder-only Transforme
 
 The **lifecycle** of a 2026 LLM:
 
-\`\`\`mermaid
-graph TD
-    A[Pre-training<br/>trillions of tokens] --> B[Supervised Fine-Tuning<br/>SFT on quality demos]
-    B --> C[RLHF / DPO<br/>align to human preference]
-    C --> D[Safety + Red-team]
-    D --> E[Deployed model<br/>API / on-device]
+\`\`\`text
+  1. Pre-training trillions of tokens  →
+  2. Supervised Fine-Tuning SFT on quality demos  →
+  3. RLHF / DPO align to human preference  →
+  4. Safety + Red-team  →
+  5. Deployed model API / on-device
 \`\`\`
 
 > 🇻🇳 **Vietnamese context** - Open models like *Vistral-7B*, *PhoGPT*, and *VinaLLaMA* are LLMs **fine-tuned on Vietnamese data**. They are how a startup builds a chatbot that speaks natural Vietnamese without re-training a 100B-parameter model from scratch.

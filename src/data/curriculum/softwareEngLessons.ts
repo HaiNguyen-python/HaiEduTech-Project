@@ -962,12 +962,8 @@ Trước CI/CD: dev gửi code qua Zalo → SSH lên server → \`git pull\` →
 
 ## 3. 🧰 Pipeline 5 stage chuẩn
 
-\`\`\`mermaid
-graph LR
-  A[1. Checkout] --> B[2. Install]
-  B --> C[3. Lint + Test]
-  C --> D[4. Build]
-  D --> E[5. Deploy]
+\`\`\`text
+1. Checkout → 2. Install → 3. Lint + Test → 4. Build → 5. Deploy
 \`\`\`
 
 ## 4. 🎯 Ví dụ - GitHub Actions
@@ -1042,12 +1038,8 @@ Pre-CI/CD: dev DMs code over chat → SSH into server → \`git pull\` → \`npm
 
 ## 3. 🧰 Standard 5-stage Pipeline
 
-\`\`\`mermaid
-graph LR
-  A[1. Checkout] --> B[2. Install]
-  B --> C[3. Lint + Test]
-  C --> D[4. Build]
-  D --> E[5. Deploy]
+\`\`\`text
+1. Checkout → 2. Install → 3. Lint + Test → 4. Build → 5. Deploy
 \`\`\`
 
 ## 4. 🎯 GitHub Actions Example
