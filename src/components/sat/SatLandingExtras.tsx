@@ -144,15 +144,15 @@ const SatLandingExtras = () => {
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {bandTiers.map((b, i) => (
-              <div key={i} className="relative rounded-2xl p-5 border border-border bg-background/50 hover:shadow-md transition-shadow">
+              <div key={i} className="relative rounded-2xl p-5 border-2 border-slate-300 dark:border-slate-600 bg-background hover:border-primary/70 hover:shadow-lg transition-all">
                 <div className={`absolute -top-3 left-4 px-3 py-1 rounded-full bg-gradient-to-r ${b.color} text-white text-xs font-bold shadow`}>
                   {b.range}
                 </div>
                 <div className="flex items-center gap-2 mt-2 mb-2">
-                  <b.icon className="w-5 h-5 text-primary" />
-                  <h3 className="font-display font-bold text-foreground">{b.label}</h3>
+                  <b.icon className="w-5 h-5 text-primary shrink-0" />
+                  <h3 className="font-display font-bold text-foreground text-base">{b.label}</h3>
                 </div>
-                <p className="text-sm text-muted-foreground leading-relaxed">{b.action}</p>
+                <p className="text-sm text-foreground/80 leading-relaxed">{b.action}</p>
               </div>
             ))}
           </div>
