@@ -36,8 +36,10 @@ export const expandedModules: ExtendedProgrammingModule[] = [
   ...nlpModules,
   ...nlpExpansionModules,
   ...nlpProductionModules,
+  ...nlpAdvancedModules,
   ...rlModules,
   ...programmingExpansionModules,
   ...edtechModules,
   ...edtechExpansionModules,
+  ...edtechAdvancedModules,
 ];
