@@ -178,7 +178,7 @@ If asked about cooking, politics, entertainment, sports, general chit-chat:
 
 ## CONTACT INFO (only when student explicitly asks how to reach the teacher):
 - Zalo / Phone: **0962.823.800**
-- Email: hainguyen240195@gmail.com
+- Email: contact@haiedutech.com
 - Website: haiedutech.com
 
 ## EFFICIENCY:
