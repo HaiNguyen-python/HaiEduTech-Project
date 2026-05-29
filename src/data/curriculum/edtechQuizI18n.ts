@@ -362,4 +362,29 @@ export const edtechQuizEn: Record<string, QuizEn> = {
     opts: ["Push harder material", "Re-teach the prerequisite 'past simple' via the skill graph", "Skip it", "Show an ad"],
     exp: "Skill graphs let you route learners back to the root cause.",
   },
+  "Aha moment trong EdTech là?": {
+    q: "What is the 'aha moment' in EdTech?",
+    opts: ["Sign-up", "The first felt sense of progress (e.g. quiz pass + mastery bar moves)", "Opening the app", "Deleting the account"],
+    exp: "Users who cross the aha cluster are several times more likely to retain.",
+  },
+  "Vì sao verify-by-email hại onboarding?": {
+    q: "Why does email verification hurt onboarding?",
+    opts: ["Weak security", "Adds a ~2-minute break and ~22% drop — it kills momentum toward the aha", "DB cost", "It doesn't"],
+    exp: "Magic-link or OAuth significantly reduces drop-off.",
+  },
+  "Empty state nên có gì?": {
+    q: "What should an empty state contain?",
+    opts: ["A big logo", "A single CTA + expected time + a concrete reward", "Three banner ads", "Doesn't matter"],
+    exp: "Empty states are teaching opportunities, not UI errors.",
+  },
+  "Quy tắc tần suất push hợp lý?": {
+    q: "What's a sensible push-notification frequency rule?",
+    opts: ["As many as possible", "≤1/day, avoid 21:00–08:00 local time", "One per hour", "No rule"],
+    exp: "Past the cap → unsubscribes and 1-star app-store reviews.",
+  },
+  "Onboarding 12 màn show-and-tell vấn đề gì?": {
+    q: "What's wrong with a 12-screen show-and-tell onboarding?",
+    opts: ["Too expensive", "Teaches by telling instead of doing — users drop before they ever hit the aha", "Too fast", "No problem"],
+    exp: "Good onboarding teaches by action with instant feedback.",
+  },
 };
