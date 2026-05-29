@@ -121,7 +121,7 @@ const Navbar = () => {
     { to: "/english", label: t("📚 Tổng quan", "📚 Overview") },
     { to: "#en-div1", label: "", divider: true },
     // Foundation (everyday English)
-    { to: "#en-foundation-group", label: t("📖 Nền tảng Anh ngữ", "📖 English Foundation"), groupLabel: "en-foundation", children: [
+    { to: "#en-foundation-group", label: t("📖 Cambridge Starters -> PET", "📖 Cambridge Starters -> PET"), groupLabel: "en-foundation", children: [
       { to: "/english/essentials", label: t("💎 Tinh hoa Anh ngữ", "💎 English Essentials"), icon: BookOpen },
       { to: "/cambridge-lectures", label: t("Cambridge Lectures & Test Prep", "Cambridge Lectures & Test Prep"), icon: BookOpen },
       { to: "/cambridge-yle-vocabulary", label: t("Cambridge YLE Vocabulary & Arcade", "Cambridge YLE Vocabulary & Arcade"), icon: BookType },
@@ -563,7 +563,7 @@ const Navbar = () => {
                                             <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
                                               {sub.groupLabel === "ielts" ? "IELTS Program"
                                                 : sub.groupLabel === "national-exam" ? t("Luyện thi THPT", "National Exam Prep")
-                                                : sub.groupLabel === "en-foundation" ? t("Nền tảng Anh ngữ", "English Foundation")
+                                                : sub.groupLabel === "en-foundation" ? t("Cambridge Starters -> PET", "Cambridge Starters -> PET")
                                                 : sub.groupLabel === "en-exams" ? t("Luyện thi Quốc tế", "International Exams")
                                                 : sub.groupLabel === "en-tools" ? t("Công cụ AI & Học vui", "AI Tools & Fun Learning")
                                                 : sub.groupLabel === "prog-foundation" ? t("Lộ trình Cơ bản", "Foundation Track")
