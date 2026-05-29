@@ -61,7 +61,7 @@ const GlobalSearch = ({ variant = "icon" }: GlobalSearchProps) => {
 
   const learning: SearchEntry[] = [
     { to: "/english", label: t("Học Tiếng Anh", "Learn English"), group: "learn", icon: BookOpen },
-    { to: "/english/ielts", label: "IELTS Program", group: "learn", icon: BookOpen },
+    { to: "/english/ielts", label: "Cambridge IELTS", group: "learn", icon: BookOpen },
     { to: "/english/toeic", label: "TOEIC", group: "learn", icon: BookOpen },
     { to: "/english/grammar", label: t("Ngữ pháp tiếng Anh", "English Grammar"), group: "learn", icon: PenTool },
     { to: "/chinese", label: t("Học Tiếng Trung", "Learn Chinese"), group: "learn", icon: Languages },

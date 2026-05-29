@@ -127,7 +127,7 @@ const Navbar = () => {
       { to: "/cambridge-yle-vocabulary", label: t("🌈 Cambridge YLE Vocabulary & Arcade", "🌈 Cambridge YLE Vocabulary & Arcade") },
     ] },
     // IELTS - promoted to top-level so all 10 IELTS items are reachable in one hover
-    { to: "#ielts-group", label: t("🎯 IELTS Program", "🎯 IELTS Program"), groupLabel: "ielts", children: ieltsChildren },
+    { to: "#ielts-group", label: t("🎯 Cambridge IELTS", "🎯 Cambridge IELTS"), groupLabel: "ielts", children: ieltsChildren },
     // Other international exams (TOEIC / PTE / SAT)
     { to: "#en-exams-group", label: t("🌐 Luyện thi Quốc tế khác", "🌐 Other International Exams"), groupLabel: "en-exams", children: [
       { to: "/toeic", label: "TOEIC", icon: BookOpen },
@@ -561,7 +561,7 @@ const Navbar = () => {
                                         {!sub.children.some(c => c.header) && (
                                           <div className="px-4 py-1.5 mb-1">
                                             <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
-                                              {sub.groupLabel === "ielts" ? "IELTS Program"
+                                              {sub.groupLabel === "ielts" ? "Cambridge IELTS"
                                                 : sub.groupLabel === "national-exam" ? t("Luyện thi THPT", "National Exam Prep")
                                                 : sub.groupLabel === "en-foundation" ? t("Cambridge Starters -> PET", "Cambridge Starters -> PET")
                                                 : sub.groupLabel === "en-exams" ? t("Luyện thi Quốc tế", "International Exams")
