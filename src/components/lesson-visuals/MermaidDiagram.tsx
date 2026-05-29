@@ -291,6 +291,7 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const fullscreenRef = useRef<HTMLDivElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
+  const generatedIdRef = useRef(`mmd${Math.random().toString(36).slice(2, 10)}`);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -299,7 +300,7 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
   const [fitZoom, setFitZoom] = useState(1);
   const [svgSize, setSvgSize] = useState({ width: 0, height: 0 });
   const [autoFit, setAutoFit] = useState(true);
-  const safeId = id || `mmd${Math.random().toString(36).slice(2, 10)}`;
+  const safeId = id || generatedIdRef.current;
   const kind = detectKind(code);
 
   useEffect(() => {
