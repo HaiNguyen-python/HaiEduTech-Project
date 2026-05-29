@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import AssessmentTool from "@/components/AssessmentTool";
@@ -135,6 +135,8 @@ const Programming = () => {
     return initial && pillars.some(p => p.id === initial) ? initial : "python";
   });
 
+  const pillarContentRef = useRef<HTMLDivElement>(null);
+
   // Sync active pillar when ?pillar= changes (e.g. coming from Navbar link)
   useEffect(() => {
     const next = searchParams.get("pillar");
@@ -143,6 +145,24 @@ const Programming = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
+
+  // Scroll the active pillar content into view whenever the pillar changes —
+  // makes the EdTech / NLP / etc. tab clicks feel like opening a new section.
+  // Skip the very first render so a fresh page load doesn't auto-jump past the hero.
+  const didInitialScroll = useRef(false);
+  useEffect(() => {
+    if (!didInitialScroll.current) {
+      didInitialScroll.current = true;
+      // If the URL explicitly requested a pillar, scroll to it on entry.
+      if (searchParams.get("pillar") && pillarContentRef.current) {
+        pillarContentRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+      return;
+    }
+    if (pillarContentRef.current) {
+      pillarContentRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [activePillar]);
 
   const completedChallenges = pythonChallenges.filter(
     c => localStorage.getItem(`haiedu_challenge_${c.id}_passed`) === "1"
@@ -363,8 +383,9 @@ const Programming = () => {
 
 
           {/* Active Pillar Content */}
-          <div className="max-w-5xl mx-auto">
+          <div ref={pillarContentRef} className="max-w-5xl mx-auto scroll-mt-24">
             <AnimatePresence mode="wait">
+
               <motion.div
                 key={activePillar}
                 initial={{ opacity: 0, y: 16 }}
