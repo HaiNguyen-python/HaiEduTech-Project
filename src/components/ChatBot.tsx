@@ -252,83 +252,170 @@ const ChatBot = () => {
   }, []);
 
   // ── Personalization: fetch student profile & learning data when logged in ──
-  useEffect(() => {
-    let cancelled = false;
-    const loadStudentContext = async () => {
-      try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user || cancelled) return;
-
-        const [profileRes, vocabRes, activityRes, streakRes] = await Promise.all([
-          supabase.from("profiles").select("full_name").eq("id", user.id).maybeSingle(),
-          supabase.from("user_vocab_mastered").select("subject").eq("user_id", user.id),
-          supabase
-            .from("student_activity_log")
-            .select("activity_type, lesson_id, created_at")
-            .eq("user_id", user.id)
-            .order("created_at", { ascending: false })
-            .limit(15),
-          supabase.rpc("get_streak_leaderboard"),
-        ]);
-
-        const fullName = (profileRes.data?.full_name || "").trim() || "Học viên";
-        if (!cancelled) setStudentName(fullName);
-
-        // Mastered vocab by subject
-        const vocabBySubject: Record<string, number> = {};
-        (vocabRes.data || []).forEach((r: any) => {
-          const s = r.subject || "unknown";
-          vocabBySubject[s] = (vocabBySubject[s] || 0) + 1;
-        });
-        const vocabSummary = Object.entries(vocabBySubject)
-          .sort((a, b) => b[1] - a[1])
-          .map(([s, n]) => `${s}: ${n} words`)
-          .join(", ") || "no vocabulary mastered yet";
-
-        // Recent activities
-        const activities = (activityRes.data || []) as any[];
-        const recentList = activities
-          .slice(0, 10)
-          .map((a) => `- ${a.activity_type}${a.lesson_id ? ` (${a.lesson_id})` : ""} @ ${new Date(a.created_at).toLocaleDateString()}`)
-          .join("\n") || "- (no recent activity)";
-
-        // Activity frequency by type
-        const typeCount: Record<string, number> = {};
-        activities.forEach((a) => {
-          typeCount[a.activity_type] = (typeCount[a.activity_type] || 0) + 1;
-        });
-        const topActivities = Object.entries(typeCount)
-          .sort((a, b) => b[1] - a[1])
-          .slice(0, 5)
-          .map(([t, n]) => `${t} (${n}x)`)
-          .join(", ") || "none";
-
-        // Current streak
-        const streakRow = (streakRes.data || []).find((r: any) => r.user_id === user.id);
-        const streakDays = streakRow?.streak_days ?? 0;
-
-        const context = [
-          `Student name: ${fullName}`,
-          `Current study streak: ${streakDays} day(s)`,
-          `Mastered vocabulary by subject: ${vocabSummary}`,
-          `Most-used learning activities recently: ${topActivities}`,
-          `Latest 10 activities:`,
-          recentList,
-        ].join("\n");
-
-        if (!cancelled) setStudentContext(context);
-      } catch (e) {
-        console.warn("[ChatBot] personalization fetch failed", e);
+  const loadStudentContext = useCallback(async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        setStudentContext("");
+        setStudentName("");
+        return;
       }
-    };
 
+      const [
+        profileRes,
+        vocabCountRes,
+        vocabRecentRes,
+        activityRes,
+        ieltsRes,
+        attendanceRes,
+        streakRes,
+      ] = await Promise.all([
+        supabase.from("profiles").select("full_name").eq("id", user.id).maybeSingle(),
+        supabase.from("user_vocab_mastered").select("subject").eq("user_id", user.id),
+        supabase
+          .from("user_vocab_mastered")
+          .select("subject, word, reviewed_at")
+          .eq("user_id", user.id)
+          .order("reviewed_at", { ascending: true }) // oldest reviews first → best review candidates
+          .limit(40),
+        supabase
+          .from("student_activity_log")
+          .select("activity_type, activity_id, score, max_score, domain, created_at")
+          .eq("user_id", user.id)
+          .order("created_at", { ascending: false })
+          .limit(30),
+        supabase
+          .from("ielts_lecture_progress")
+          .select("lecture_id, is_completed, is_bookmarked, updated_at")
+          .eq("user_id", user.id)
+          .order("updated_at", { ascending: false })
+          .limit(15),
+        supabase
+          .from("lesson_attendance")
+          .select("lesson_id, lesson_title, lesson_type, subject, status, attendance_date")
+          .eq("user_id", user.id)
+          .order("attendance_date", { ascending: false })
+          .limit(15),
+        supabase.rpc("get_streak_leaderboard"),
+      ]);
+
+      const fullName = (profileRes?.data?.full_name || "").trim() || "Học viên";
+      setStudentName(fullName);
+
+      // Mastered vocab counts by subject
+      const vocabBySubject: Record<string, number> = {};
+      (vocabCountRes?.data || []).forEach((r: any) => {
+        const s = r.subject || "unknown";
+        vocabBySubject[s] = (vocabBySubject[s] || 0) + 1;
+      });
+      const vocabSummary = Object.entries(vocabBySubject)
+        .sort((a, b) => b[1] - a[1])
+        .map(([s, n]) => `${s}: ${n} words`)
+        .join(", ") || "no vocabulary mastered yet";
+
+      // Sample words that haven't been reviewed recently → top "ôn lại" candidates
+      const reviewCandidatesBySubject: Record<string, string[]> = {};
+      (vocabRecentRes?.data || []).forEach((r: any) => {
+        const s = r.subject || "unknown";
+        if (!reviewCandidatesBySubject[s]) reviewCandidatesBySubject[s] = [];
+        if (reviewCandidatesBySubject[s].length < 8) reviewCandidatesBySubject[s].push(r.word);
+      });
+      const reviewWordsBlock = Object.entries(reviewCandidatesBySubject)
+        .map(([s, ws]) => `  • ${s}: ${ws.join(", ")}`)
+        .join("\n") || "  • (none yet)";
+
+      // Recent activities + weak (low-score) sessions
+      const activities = (activityRes?.data || []) as any[];
+      const recentList = activities
+        .slice(0, 12)
+        .map((a) => {
+          const pct = a.score != null && a.max_score
+            ? ` ${Math.round((Number(a.score) / Number(a.max_score)) * 100)}%`
+            : "";
+          const id = a.activity_id ? ` [${a.activity_id}]` : "";
+          return `  - ${a.activity_type}${id}${pct} · ${a.domain || "general"} · ${new Date(a.created_at).toLocaleDateString()}`;
+        })
+        .join("\n") || "  - (no recent activity)";
+
+      const weakSessions = activities
+        .filter((a) => a.score != null && a.max_score && Number(a.score) / Number(a.max_score) < 0.7)
+        .slice(0, 8)
+        .map((a) => {
+          const pct = Math.round((Number(a.score) / Number(a.max_score)) * 100);
+          return `  ⚠ ${a.activity_type}${a.activity_id ? ` [${a.activity_id}]` : ""} → only ${pct}% (${a.domain || "general"}, ${new Date(a.created_at).toLocaleDateString()})`;
+        })
+        .join("\n") || "  (none — keep it up!)";
+
+      const typeCount: Record<string, number> = {};
+      activities.forEach((a) => {
+        typeCount[a.activity_type] = (typeCount[a.activity_type] || 0) + 1;
+      });
+      const topActivities = Object.entries(typeCount)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5)
+        .map(([t, n]) => `${t} (${n}x)`)
+        .join(", ") || "none";
+
+      // IELTS lecture progress
+      const ielts = (ieltsRes?.data || []) as any[];
+      const ieltsCompleted = ielts.filter((l) => l.is_completed).map((l) => l.lecture_id).slice(0, 8);
+      const ieltsBookmarked = ielts.filter((l) => l.is_bookmarked).map((l) => l.lecture_id).slice(0, 8);
+      const ieltsBlock =
+        `  • Completed: ${ieltsCompleted.join(", ") || "(none)"}\n` +
+        `  • Bookmarked (wants to revisit): ${ieltsBookmarked.join(", ") || "(none)"}`;
+
+      // Recent class/lesson attendance
+      const attendance = (attendanceRes?.data || []) as any[];
+      const attendanceBlock = attendance
+        .slice(0, 10)
+        .map((a) => `  - ${a.lesson_title || a.lesson_id} (${a.lesson_type || "lesson"}, ${a.subject || "—"}) · ${a.status} · ${a.attendance_date}`)
+        .join("\n") || "  - (no attendance records yet)";
+
+      // Current streak
+      const streakRow = (streakRes?.data || []).find((r: any) => r.user_id === user.id);
+      const streakDays = streakRow?.streak_days ?? 0;
+
+      const context = [
+        `Student name: ${fullName}`,
+        `Current study streak: ${streakDays} day(s)`,
+        `Mastered vocabulary by subject: ${vocabSummary}`,
+        ``,
+        `Top review-candidate WORDS (oldest reviewed first — recommend these when student asks "từ nào nên ôn lại"):`,
+        reviewWordsBlock,
+        ``,
+        `Most-used activities recently: ${topActivities}`,
+        ``,
+        `Latest activity log (with scores when available):`,
+        recentList,
+        ``,
+        `Weak sessions to recommend re-doing (score < 70%):`,
+        weakSessions,
+        ``,
+        `IELTS lecture progress:`,
+        ieltsBlock,
+        ``,
+        `Recent class / lesson attendance:`,
+        attendanceBlock,
+      ].join("\n");
+
+      setStudentContext(context);
+    } catch (e) {
+      console.warn("[ChatBot] personalization fetch failed", e);
+    }
+  }, []);
+
+  useEffect(() => {
     loadStudentContext();
     const { data: sub } = supabase.auth.onAuthStateChange(() => loadStudentContext());
     return () => {
-      cancelled = true;
       sub.subscription.unsubscribe();
     };
-  }, []);
+  }, [loadStudentContext]);
+
+  // Refresh personalization data each time the chat is opened
+  useEffect(() => {
+    if (open) loadStudentContext();
+  }, [open, loadStudentContext]);
 
   // Notify other floating widgets (e.g. Notebook) when chatbot opens/closes
   useEffect(() => {
