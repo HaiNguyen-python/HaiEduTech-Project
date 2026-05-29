@@ -286,7 +286,9 @@ for i, (a, b) in enumerate(items, 1):
         titleEn: "AI Tutor — RAG Over Curriculum + Child-Safety",
         level: 4,
         difficulty: "advanced",
-        theory: `## 1. 🎯 Vì sao "ChatGPT thường" không đủ làm tutor
+        theory: `![AI tutor with RAG on curriculum and safety guardrails](/lesson-illustrations/edtech-ai-tutor-rag.jpg)
+
+## 1. 🎯 Vì sao "ChatGPT thường" không đủ làm tutor
 
 - Bịa kiến thức không có trong giáo trình → mâu thuẫn bài giảng.
 - Trả lời ngôn ngữ sai trình độ (giảng đại học cho học sinh lớp 5).
@@ -418,7 +420,9 @@ print(build_prompt({"band":"kid","lesson":"add-2digit","mastery":0.42},
         titleEn: "AI Auto-Grading — Trustworthy and Fair Essay/Speaking Assessment",
         level: 5,
         difficulty: "advanced",
-        theory: `## 1. 🎯 Auto-grading không phải "LLM cho điểm là xong"
+        theory: `![AI auto-grading essay and speaking with rubric](/lesson-illustrations/edtech-auto-grading.jpg)
+
+## 1. 🎯 Auto-grading không phải "LLM cho điểm là xong"
 
 Yêu cầu thực tế:
 - **Reliable**: cùng bài, cùng rubric → điểm dao động ±0.5.
@@ -549,7 +553,9 @@ print(json.dumps(result, ensure_ascii=False, indent=2))`,
         titleEn: "Knowledge Tracing & Mastery — Measuring What a Student Really Knows",
         level: 4,
         difficulty: "advanced",
-        theory: `## 1. 🎯 Vấn đề: "trả lời đúng" ≠ "đã hiểu"
+        theory: `![Knowledge tracing: mastery curve and Bayesian network](/lesson-illustrations/edtech-knowledge-tracing.jpg)
+
+## 1. 🎯 Vấn đề: "trả lời đúng" ≠ "đã hiểu"
 
 Một học sinh có thể đoán đúng, copy đáp án, hoặc thuộc lòng mà không hiểu. **Knowledge Tracing (KT)** là bài toán **ước lượng xác suất học sinh đã nắm kỹ năng** dựa trên lịch sử trả lời.
 
@@ -661,7 +667,7 @@ for i, c in enumerate(history, 1):
         titleEn: "Onboarding & Behavioral Activation — Getting Learners to the 'Aha Moment'",
         level: 3,
         difficulty: "intermediate",
-        theory: `![Adaptive onboarding funnel](/lesson-illustrations/edtech-adaptive-learning.jpg)
+        theory: `![Onboarding funnel: signup → first lesson → aha moment → habit loop](/lesson-illustrations/edtech-onboarding-funnel.jpg)
 
 ## 1. 🎯 "Aha moment" — khoảnh khắc quyết định ở lại
 

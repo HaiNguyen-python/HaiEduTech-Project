@@ -149,7 +149,9 @@ print("output shape:", out.shape)`,
         titleEn: "Disciplined Prompt Engineering — Making LLMs Reliable Tools",
         level: 3,
         difficulty: "intermediate",
-        theory: `## 1. 🧭 Mô hình mental: "LLM là intern siêu thông minh nhưng hay quên"
+        theory: `![Prompt engineering structure](/lesson-illustrations/nlp-prompt-engineering.jpg)
+
+## 1. 🧭 Mô hình mental: "LLM là intern siêu thông minh nhưng hay quên"
 
 Bạn phải nói rõ: **vai trò → bối cảnh → nhiệm vụ → định dạng đầu ra → ví dụ → giới hạn**.
 
@@ -257,7 +259,7 @@ print("parsed:", safe_json('Đây là kết quả: \`\`\`json {"score": 7, "reas
         titleEn: "Embeddings & Vector Search — The Semi-Structured Brain of LLM Apps",
         level: 4,
         difficulty: "advanced",
-        theory: `![RAG retrieval augmented generation pipeline](/lesson-illustrations/nlp-rag-pipeline.jpg)
+        theory: `![Vector embeddings and semantic search](/lesson-illustrations/nlp-embeddings-vector.jpg)
 
 ## 1. 🎯 Embedding là gì?
 
@@ -370,7 +372,9 @@ for hit, score in search("teach me coding"):
         titleEn: "Multilingual NLP in Production — A Real Pipeline for EN / VI / FI / ZH",
         level: 5,
         difficulty: "advanced",
-        theory: `## 1. 🌐 Đa ngôn ngữ không phải "dịch rồi xử lý EN"
+        theory: `![Multilingual NLP pipeline EN VI FI ZH](/lesson-illustrations/nlp-multilingual-pipeline.jpg)
+
+## 1. 🌐 Đa ngôn ngữ không phải "dịch rồi xử lý EN"
 
 Pipeline "dịch về EN rồi NLP" mất dấu thanh (VI), mất hậu tố (FI), mất phân từ (ZH). Sản xuất nghiêm túc cần xử lý **tại ngôn ngữ gốc**.
 
@@ -491,7 +495,9 @@ for s in samples:
         titleEn: "NLP Evaluation — Measuring LLM/NLP Output Properly",
         level: 4,
         difficulty: "advanced",
-        theory: `## 1. ❓ Vì sao "đo đúng" khó hơn ta nghĩ
+        theory: `![NLP evaluation metrics: BLEU, ROUGE, BERTScore, LLM-as-judge](/lesson-illustrations/nlp-evaluation-metrics.jpg)
+
+## 1. ❓ Vì sao "đo đúng" khó hơn ta nghĩ
 
 Trong phân loại cổ điển: \`accuracy = đúng / tổng\`. Nhưng với NLP sinh ngữ (generation), **không có 1 đáp án đúng duy nhất** — có vô số cách diễn đạt cùng ý.
 
