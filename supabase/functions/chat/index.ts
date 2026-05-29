@@ -17,26 +17,69 @@ async function logUsage(functionName: string, model: string, domain: string, tok
 }
 
 // Perplexity requires strict user/assistant alternation after system messages.
-function sanitizeMessages(msgs: any[]): any[] {
-  if (!Array.isArray(msgs)) return [];
-  const cleaned = msgs
-    .filter((m) => m && (m.role === "user" || m.role === "assistant") && typeof m.content === "string" && m.content.trim().length > 0)
-    .map((m) => ({ role: m.role, content: m.content }));
-  // Merge consecutive same-role messages
-  const merged: any[] = [];
-  for (const m of cleaned) {
-    const last = merged[merged.length - 1];
-    if (last && last.role === m.role) {
-      last.content += "\n\n" + m.content;
+type ChatRole = "user" | "assistant";
+
+function normalizeMessageContent(content: unknown): string {
+  if (typeof content === "string") return content.trim();
+
+  if (Array.isArray(content)) {
+    return content
+      .map((part) => {
+        if (typeof part === "string") return part;
+        if (part && typeof part === "object" && "text" in part && typeof (part as { text?: unknown }).text === "string") {
+          return (part as { text: string }).text;
+        }
+        if (part && typeof part === "object" && "type" in part && (part as { type?: unknown }).type === "image_url") {
+          return "[Student attached an image. Ask them to describe it in text if visual analysis is needed.]";
+        }
+        return "";
+      })
+      .join("\n")
+      .trim();
+  }
+
+  return "";
+}
+
+function sanitizeMessages(msgs: unknown): Array<{ role: ChatRole; content: string }> {
+  const safeMessages: Array<{ role: ChatRole; content: string }> = [];
+  if (!Array.isArray(msgs)) return [{ role: "user", content: "Hello" }];
+
+  for (const raw of msgs) {
+    if (!raw || typeof raw !== "object") continue;
+    const role = (raw as { role?: unknown }).role;
+    if (role !== "user" && role !== "assistant") continue;
+
+    const content = normalizeMessageContent((raw as { content?: unknown }).content);
+    if (!content) continue;
+
+    if (safeMessages.length === 0) {
+      if (role === "user") safeMessages.push({ role, content });
+      continue;
+    }
+
+    const last = safeMessages[safeMessages.length - 1];
+    if (last.role === role) {
+      last.content = `${last.content}\n\n${content}`;
     } else {
-      merged.push({ ...m });
+      safeMessages.push({ role, content });
     }
   }
-  // Drop leading assistant messages
-  while (merged.length && merged[0].role !== "user") merged.shift();
-  // Ensure ends with user message
-  while (merged.length && merged[merged.length - 1].role !== "user") merged.pop();
-  return merged.length ? merged : [{ role: "user", content: "Hello" }];
+
+  while (safeMessages.length && safeMessages[safeMessages.length - 1].role !== "user") safeMessages.pop();
+
+  return safeMessages.length ? safeMessages : [{ role: "user", content: "Hello" }];
+}
+
+function latestUserMessage(msgs: unknown): Array<{ role: ChatRole; content: string }> {
+  if (!Array.isArray(msgs)) return [{ role: "user", content: "Hello" }];
+  for (let i = msgs.length - 1; i >= 0; i--) {
+    const raw = msgs[i];
+    if (!raw || typeof raw !== "object" || (raw as { role?: unknown }).role !== "user") continue;
+    const content = normalizeMessageContent((raw as { content?: unknown }).content);
+    if (content) return [{ role: "user", content }];
+  }
+  return [{ role: "user", content: "Hello" }];
 }
 
 serve(async (req) => {
@@ -141,6 +184,8 @@ ${studentContext.trim()}
 ${platformFeaturesMap}`
       : `\n\n(Student is not logged in — encourage signup at [/signup](/signup) to unlock personalized review suggestions, then still recommend specific features.)\n${platformFeaturesMap}`;
 
+    const sanitizedMessages = sanitizeMessages(messages);
+
     const response = await fetch("https://api.perplexity.ai/chat/completions", {
       method: "POST",
       headers: {
@@ -209,7 +254,7 @@ If asked about cooking, politics, entertainment, sports, general chit-chat:
 - Use markdown for code blocks and lists.
 - Always be encouraging, patient, and educational with examples.`
           },
-          ...sanitizeMessages(messages),
+          ...sanitizedMessages,
         ],
         stream: true,
       }),
@@ -229,8 +274,38 @@ If asked about cooking, politics, entertainment, sports, general chit-chat:
       }
       const t = await response.text();
       console.error("Perplexity API error:", response.status, t);
+
+      if (response.status === 400 && t.includes("alternate")) {
+        const retryResponse = await fetch("https://api.perplexity.ai/chat/completions", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            model: "sonar",
+            messages: [
+              { role: "system", content: "You are Teacher Hai from HaiEduTech. Reply in the student's language, stay concise, and help with learning knowledge only." },
+              ...latestUserMessage(messages),
+            ],
+            stream: true,
+          }),
+        });
+
+        if (retryResponse.ok && retryResponse.body) {
+          await logUsage("chat", "sonar", "multi", 200, "success");
+          return new Response(retryResponse.body, {
+            headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
+          });
+        }
+
+        const retryText = await retryResponse.text();
+        console.error("Perplexity retry error:", retryResponse.status, retryText);
+      }
+
       return new Response(JSON.stringify({ error: "AI API error" }), {
-        status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: response.status >= 500 ? 200 : 502,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
