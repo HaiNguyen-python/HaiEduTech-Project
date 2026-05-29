@@ -665,21 +665,27 @@ export type Database = {
       hsk_mnemonics: {
         Row: {
           character: string
+          components: Json | null
           created_at: string
+          formula: string | null
           id: string
           radicals: string
           story: string
         }
         Insert: {
           character: string
+          components?: Json | null
           created_at?: string
+          formula?: string | null
           id?: string
           radicals: string
           story: string
         }
         Update: {
           character?: string
+          components?: Json | null
           created_at?: string
+          formula?: string | null
           id?: string
           radicals?: string
           story?: string
