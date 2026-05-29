@@ -33,12 +33,14 @@ export const ieltsListeningPracticeSetsExpansion: ListeningPracticeSet[] = [
       "Student: That sounds useful.\n" +
       "Agent: We'll also send you a debit card within seven working days.",
     questions: [
+      { type: "fill-in", prompt: "First name: ___", answer: "Anna" },
       { type: "fill-in", prompt: "Surname: ___", answer: "Petrov" },
       { type: "fill-in", prompt: "Date of birth: 14 ___ 2003", answer: "March" },
       { type: "fill-in", prompt: "Course: ___ Engineering", answer: "Mechanical" },
+      { type: "fill-in", prompt: "University: ___ University", answer: "Westfield" },
       { type: "fill-in", prompt: "Course length: ___ years", answer: "4", maxWords: 1 },
+      { type: "fill-in", prompt: "Address: Flat ___, Maple Court", answer: "9" },
       { type: "fill-in", prompt: "Postcode: ___", answer: "BS4 2RT" },
-      { type: "fill-in", prompt: "Phone: 0795 442 ___", answer: "6180" },
       { type: "fill-in", prompt: "Overdraft up to £___ in year one", answer: "1500" },
       { type: "fill-in", prompt: "Debit card delivered in ___ working days", answer: "7", maxWords: 1 },
     ],
