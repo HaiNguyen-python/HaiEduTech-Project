@@ -31,6 +31,7 @@ import { satVocabExpansion6 } from './satVocabExpansion6';
 import { satVocabExpansion7 } from './satVocabExpansion7';
 import { satVocabExpansion8 } from './satVocabExpansion8';
 import { satVocabExpansion9 } from './satVocabExpansion9';
+import { satVocabExpansion10 } from './satVocabExpansion10';
 
 const satVocabBase: SatWord[] = [
   {
