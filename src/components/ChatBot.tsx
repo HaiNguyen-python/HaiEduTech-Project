@@ -1031,12 +1031,12 @@ const ChatBot = () => {
                 onChange={handleFileSelected}
               />
 
-              <div className="flex gap-2">
+              <div className="flex items-center gap-1.5">
                 {/* Microphone button */}
                 <button
                   onClick={toggleRecording}
                   disabled={isLoading || chatLocked}
-                  className={`flex items-center justify-center rounded-xl px-3 py-2.5 transition-all ${
+                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-all ${
                     isRecording
                       ? "animate-pulse bg-destructive text-destructive-foreground"
                       : "bg-secondary text-muted-foreground hover:bg-secondary/80"
@@ -1050,7 +1050,7 @@ const ChatBot = () => {
                 <button
                   onClick={() => fileInputRef.current?.click()}
                   disabled={isLoading || chatLocked}
-                  className="flex items-center justify-center rounded-xl bg-secondary px-3 py-2.5 text-muted-foreground transition-all hover:bg-secondary/80 disabled:opacity-50"
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary text-muted-foreground transition-all hover:bg-secondary/80 disabled:opacity-50"
                   title={t("Đính kèm file hoặc ảnh", "Attach file or image")}
                 >
                   <Paperclip className="h-4 w-4" />
@@ -1065,13 +1065,13 @@ const ChatBot = () => {
                       ? t("Chat đã bị khóa...", "Chat is locked...")
                       : t("Hỏi thầy Hải...", "Ask Teacher Hai...")
                   }
-                  className="flex-1 rounded-xl border border-border bg-secondary px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none disabled:opacity-50"
+                  className="min-w-0 flex-1 rounded-xl border border-border bg-secondary px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none disabled:opacity-50"
                   disabled={isLoading || chatLocked}
                 />
                 <button
                   onClick={sendMessage}
                   disabled={isLoading || (!input.trim() && !attachment) || chatLocked}
-                  className="rounded-xl bg-primary px-4 py-2.5 text-primary-foreground transition-all hover:brightness-110 disabled:opacity-50"
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground transition-all hover:brightness-110 disabled:opacity-50"
                 >
                   <Send className="h-4 w-4" />
                 </button>
