@@ -14,6 +14,7 @@ import {
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { ListeningPracticeSet } from "@/data/ieltsListeningPractice";
 import { cn } from "@/lib/utils";
+import DOMPurify from "dompurify";
 
 const formatTime = (sec: number) => {
   if (!isFinite(sec) || sec < 0) sec = 0;
@@ -401,6 +402,22 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
           )}
 
         </div>
+
+        {s.mapSvg && (
+          <div className="rounded-lg bg-white border-2 border-emerald-500/40 p-3 overflow-x-auto">
+            <p className="text-xs font-semibold mb-2 text-emerald-700">
+              {t("🗺️ Bản đồ / sơ đồ tham khảo", "🗺️ Map / Plan reference")}
+            </p>
+            <div
+              className="flex justify-center [&_svg]:max-w-full [&_svg]:h-auto"
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(s.mapSvg, {
+                  USE_PROFILES: { svg: true, svgFilters: true },
+                }),
+              }}
+            />
+          </div>
+        )}
 
         {s.matchingOptions && (
           <div className="rounded-lg bg-primary/5 border border-primary/20 p-3">
