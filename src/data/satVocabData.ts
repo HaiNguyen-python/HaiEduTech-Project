@@ -16,7 +16,7 @@ export const SAT_LEVELS = ['B2','C1'] as const;
 export const SAT_SECTIONS = ['Reading & Writing','Math'] as const;
 
 export const SAT_CATEGORIES_BY_SECTION: Record<string, string[]> = {
-  'Reading & Writing': ["Evidence-Based Reading","Command of Evidence","Words in Context","Standard English Conventions","High-Frequency SAT Words – Set 1","High-Frequency SAT Words – Set 2","Roots, Prefixes & Suffixes","Expression of Ideas","Rhetorical Synthesis","Transitions & Flow"],
+  'Reading & Writing': ["Evidence-Based Reading","Command of Evidence","Words in Context","Standard English Conventions","High-Frequency SAT Words – Set 1","High-Frequency SAT Words – Set 2","High-Frequency SAT Words – Set 3","Roots, Prefixes & Suffixes","Expression of Ideas","Rhetorical Synthesis","Transitions & Flow"],
   'Math': ["Heart of Algebra","Problem Solving & Data Analysis","Passport to Advanced Math","Geometry & Trigonometry"],
 };
 
