@@ -93,6 +93,7 @@ export const allEnglishModules: LanguageModule[] = [
   ...satExpansionModules9,
   ...satExpansionModules10,
   ...satExpansionModules11,
+  ...satExpansionModules12,
 ];
 
 // All Chinese modules combined
