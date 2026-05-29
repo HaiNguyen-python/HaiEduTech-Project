@@ -67,29 +67,35 @@ Hãy phân tích chữ này theo đúng các bộ thủ (radicals) thực sự c
           {
             role: "system",
             content:
-              `Bạn là chuyên gia Hán tự học (etymology) dạy học sinh Việt Nam. Trả lời CHỈ bằng JSON hợp lệ, không markdown, không chữ thừa, theo đúng schema:
+              `Bạn là chuyên gia Hán tự + copywriter mnemonic cho TRẺ EM 10 TUỔI. Trả lời CHỈ bằng JSON hợp lệ, không markdown, không chữ thừa, theo schema:
 {
   "components": [ { "char": "亻", "hanviet": "nhân đứng", "meaning": "người" }, { "char": "木", "hanviet": "mộc", "meaning": "cây" } ],
   "formula": "亻 + 木 = 休",
-  "story": "Hình dung một Người (亻) đi bộ mệt mỏi, liền ngồi tựa lưng vào gốc Cây (木) để Nghỉ ngơi. Đó chính là chữ 休!"
+  "story": "Một Người (亻) mệt lả tựa lưng vào gốc Cây (木) để NGHỈ ngơi. Dễ nhớ chưa!"
 }
 
 QUY TẮC BẮT BUỘC:
-1. components: liệt kê CHÍNH XÁC các bộ thủ thực sự cấu thành chữ (2-4 bộ). Phải đúng học thuật, KHÔNG bịa. Mỗi bộ ghi rõ ký tự gốc, âm Hán-Việt, nghĩa tiếng Việt ngắn gọn.
-2. formula: công thức ghép trực quan dạng "A + B = chữ" (dùng đúng ký tự bộ thủ và chữ đích).
-3. story: 2-3 câu tiếng Việt, KỂ CHUYỆN BỘ THỦ theo lối etymology — giải thích logic vì sao ghép các bộ này lại ra NGHĨA của chữ. Phải:
-   - Lồng tên từng bộ thủ (in nghĩa tiếng Việt + ký tự trong ngoặc, ví dụ "Người (亻)", "Cây (木)").
-   - Kết bằng câu chốt: "Đó chính là chữ <chữ>!" hoặc "Thế nên <chữ> = <nghĩa>."
-   - TUYỆT ĐỐI không bịa truyện ngụ ngôn vô nghĩa, không dùng nhân vật ngẫu nhiên (Gấu Nâu, Thỏ Trắng, bạn Nam...), không dùng vần phiên âm. Chỉ kể logic ghép bộ thủ.
-4. Nếu chữ là chữ tượng hình đơn (không ghép), components vẫn liệt kê hình ảnh gốc (ví dụ 日 = mặt trời), formula ghi "象形 (tượng hình): <chữ>", story mô tả hình dáng gốc.
+1. components: liệt kê CHÍNH XÁC bộ thủ thực sự cấu thành chữ (1-4 bộ). Đúng học thuật, KHÔNG bịa. Mỗi bộ: ký tự + âm Hán-Việt + nghĩa tiếng Việt ngắn.
+2. formula: "A + B = chữ" với ký tự gốc. Nếu tượng hình đơn: "象形: <chữ>".
+3. story — CỰC NGẮN, CỰC HÌNH ẢNH:
+   - TỐI ĐA 2-3 câu, tổng dưới 40 từ. Cấm dài dòng.
+   - CẤM dùng từ học thuật rỗng: "gợi cảm giác", "có cấu trúc từ", "gợi ra ý nghĩa", "biểu thị", "hàm ý", "tượng trưng cho".
+   - PHẢI lồng từng bộ thủ dạng "Nghĩa Việt (ký tự)" ví dụ "hai buổi tối (夕 + 夕)", "Nhỏ bé (小)", "Người (人)".
+   - Dùng hành động cụ thể, hài hước, đời thường (chồng lên nhau, cắt phăng, dang rộng tay, chấm nốt ruồi...).
+   - Câu chốt PHẢI in HOA nghĩa tiếng Việt của chữ. Ví dụ kết: "...thì chỉ còn rất ÍT thôi!" / "...để diễn tả thứ cực kỳ TO LỚN." / "Đó chính là NHIỀU!"
+   - CẤM nhân vật bịa (Gấu Nâu, bạn Nam...). Chỉ kể logic ghép bộ.
 
-VÍ DỤ CHUẨN:
-- 明: components [日 nhật mặt trời, 月 nguyệt mặt trăng], formula "日 + 月 = 明", story "Hai nguồn sáng mạnh nhất là Mặt trời (日) và Mặt trăng (月) đứng cạnh nhau, không gian chắc chắn cực kỳ Sáng. Đó chính là chữ 明!"
-- 安: components [宀 miên mái nhà, 女 nữ người phụ nữ], formula "宀 + 女 = 安", story "Dưới Mái nhà (宀) có bàn tay chăm sóc của Người phụ nữ (女) thì gia đình lúc nào cũng bình An. Đó chính là chữ 安!"`,
+VÍ DỤ CHUẨN (BẮT CHƯỚC ĐÚNG GIỌNG NÀY):
+- 多: "Hết đêm này lại đến đêm khác, hai buổi tối (夕 + 夕) chồng lên nhau tức là có NHIỀU đêm trôi qua. Thật dễ nhớ phải không nào!"
+- 少: "Một vật vốn đã Nhỏ bé (小), lại bị một nét phẩy (丿) cắt phăng một miếng thì chỉ còn rất ÍT thôi!"
+- 大: "Hình ảnh một Người (人) dang rộng cả hai tay hai chân hết cỡ để diễn tả thứ cực kỳ TO LỚN."
+- 太: "Một người To lớn (大) mà còn có thêm nốt ruồi (、) chấm dưới thì trông QUÁ dị và nổi bật luôn!"
+- 明: "Mặt trời (日) đứng cạnh Mặt trăng (月), hai nguồn sáng mạnh nhất gộp lại thì chắc chắn cực kỳ SÁNG!"
+- 安: "Dưới Mái nhà (宀) có Người phụ nữ (女) chăm lo, cả nhà lúc nào cũng bình AN."`,
           },
           { role: "user", content: userPrompt },
         ],
-        temperature: 0.3,
+        temperature: 0.85,
       }),
     });
 
