@@ -414,16 +414,22 @@ const SmartReviewColumn = ({
     );
   }
 
+  // Desktop: floating right column anchored to the right edge, sitting just
+  // to the left of any vertical feedback bar (which typically uses right-0).
   return (
-    <aside className={cn("w-80 shrink-0 hidden xl:block", className)}>
-      <div className="sticky top-24">
-        <ReviewBody
-          subject={subject}
-          lang={lang}
-          lookupWord={lookupWord}
-          allWordsForQuiz={allWordsForQuiz}
-        />
-      </div>
+    <aside
+      className={cn(
+        "hidden xl:block fixed right-14 top-24 w-80 z-30 max-h-[calc(100vh-7rem)] overflow-y-auto",
+        className
+      )}
+      style={{ scrollbarWidth: "thin" }}
+    >
+      <ReviewBody
+        subject={subject}
+        lang={lang}
+        lookupWord={lookupWord}
+        allWordsForQuiz={allWordsForQuiz}
+      />
     </aside>
   );
 };
