@@ -13,7 +13,7 @@ import LessonFeedback from "@/components/LessonFeedback";
 import TheorySections from "@/components/TheorySections";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { ArrowLeft, ChevronRight, Loader2, BookOpen, GraduationCap, Sparkles, Star } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronRight, Loader2, BookOpen, GraduationCap, Sparkles, Star, PlayCircle } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { allLanguageModules } from "@/data/languageCurriculum";
 import type { LanguageModule, LanguageLesson, InteractiveExercise } from "@/data/languageCurriculum";
