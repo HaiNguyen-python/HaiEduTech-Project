@@ -731,7 +731,7 @@ const HskVocabulary = () => {
               </div>
             )}
           </motion.div>
-          <div className="hidden lg:block w-72 flex-shrink-0 sticky top-24 self-start space-y-4 max-h-[calc(100vh-7rem)] overflow-y-auto pr-1">
+          <div className="hidden lg:block w-72 flex-shrink-0 self-start space-y-4">
             <VocabMasteryLeaderboard subject="hsk" currentCount={mastered.size} />
             <SmartReviewColumn
               subject="hsk"
