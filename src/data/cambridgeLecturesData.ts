@@ -913,6 +913,7 @@ import { cambridgeLecturesExpansion7 } from "./cambridgeLecturesExpansion7";
 import { cambridgeLecturesExpansion8 } from "./cambridgeLecturesExpansion8";
 import { cambridgeLecturesExpansion9 } from "./cambridgeLecturesExpansion9";
 import { cambridgeLecturesExpansion10 } from "./cambridgeLecturesExpansion10";
+import { cambridgeLecturesExpansion11 } from "./cambridgeLecturesExpansion11";
 
 export const allCambridgeLectures: CambridgeLecture[] = [
   startersColors,
