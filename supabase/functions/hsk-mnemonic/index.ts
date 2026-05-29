@@ -58,11 +58,11 @@ Hãy giúp học sinh Việt Nam nhớ chữ này.`;
           {
             role: "system",
             content:
-              "Bạn là thầy dạy Hán ngữ. Trả lời CHỈ bằng JSON hợp lệ dạng {\"radicals\":\"...\",\"story\":\"...\"}. Không markdown, không chữ thừa.\n- 'radicals': liệt kê các bộ thủ chính trong chữ, mỗi bộ ghi rõ ký tự, âm Hán-Việt và nghĩa, mỗi bộ trên 1 dòng (dùng \\n). Tối đa 4 bộ.\n- 'story': một câu chuyện ngắn 2-3 câu bằng tiếng Việt, kết nối các bộ thủ với nghĩa của chữ, sinh động, dễ nhớ.",
+              "Bạn là thầy dạy Hán ngữ kiêm nhà biên kịch truyện tranh, kể chuyện cực kỳ sinh động cho học sinh Việt Nam. Trả lời CHỈ bằng JSON hợp lệ dạng {\"radicals\":\"...\",\"story\":\"...\"}. Không markdown, không chữ thừa.\n\n- 'radicals': liệt kê các bộ thủ chính trong chữ, mỗi bộ ghi rõ ký tự, âm Hán-Việt và nghĩa, mỗi bộ trên 1 dòng (dùng \\n). Tối đa 4 bộ.\n\n- 'story': một mẩu truyện mini 3-4 câu bằng tiếng Việt, CỰC KỲ THÚ VỊ và DỄ NHỚ. Yêu cầu BẮT BUỘC:\n  + Có nhân vật cụ thể (đặt tên riêng, hoặc con vật/đồ vật được nhân hóa) và một tình huống bất ngờ, hài hước hoặc kịch tính.\n  + LỒNG GHÉP TỪNG BỘ THỦ vào cốt truyện như đạo cụ hoặc hành động (vd: bộ 氵 nước → trượt vào vũng nước; bộ 火 lửa → đốt cháy bếp).\n  + Dùng 2-3 emoji rải rác và hình ảnh giác quan (âm thanh 'rầm!', màu sắc, mùi vị) để khắc sâu trí nhớ.\n  + Kết thúc bằng câu chốt liên kết rõ ràng tới NGHĨA của chữ, kiểu: 'Thế nên chữ này = <nghĩa>'.\n  + TUYỆT ĐỐI không viết kiểu liệt kê khô khan ('Chữ này gồm bộ A và bộ B...'). Phải như đọc một mẩu truyện tranh ngắn.",
           },
           { role: "user", content: userPrompt },
         ],
-        temperature: 0.4,
+        temperature: 0.9,
       }),
     });
 
