@@ -662,6 +662,30 @@ export type Database = {
         }
         Relationships: []
       }
+      hsk_mnemonics: {
+        Row: {
+          character: string
+          created_at: string
+          id: string
+          radicals: string
+          story: string
+        }
+        Insert: {
+          character: string
+          created_at?: string
+          id?: string
+          radicals: string
+          story: string
+        }
+        Update: {
+          character?: string
+          created_at?: string
+          id?: string
+          radicals?: string
+          story?: string
+        }
+        Relationships: []
+      }
       ielts_lecture_progress: {
         Row: {
           completed_at: string | null
