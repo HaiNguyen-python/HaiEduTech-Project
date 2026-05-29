@@ -210,12 +210,12 @@ const SatLandingExtras = () => {
               <AccordionItem
                 key={i}
                 value={`q${i}`}
-                className="border border-border/60 rounded-2xl px-4 bg-background/40 data-[state=open]:bg-background/70 data-[state=open]:border-border transition-colors"
+                className="border-2 border-slate-300 dark:border-slate-600 rounded-2xl px-4 bg-background data-[state=open]:bg-background data-[state=open]:border-primary/60 transition-colors"
               >
-                <AccordionTrigger className="text-left text-[15px] font-medium text-foreground/90 tracking-tight hover:no-underline py-3.5 gap-3">
+                <AccordionTrigger className="text-left text-[15px] font-semibold text-foreground tracking-tight hover:no-underline py-3.5 gap-3">
                   {f.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-[14px] text-muted-foreground/90 leading-7 pb-4">
+                <AccordionContent className="text-[14px] text-foreground/80 leading-7 pb-4">
                   {f.a}
                 </AccordionContent>
               </AccordionItem>
