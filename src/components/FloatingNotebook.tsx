@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { BookOpen, Plus, Save, X, Trash2, GripVertical, Bold, Italic, Underline, List, ListOrdered, Palette, RotateCcw, Highlighter, SwatchBook } from "lucide-react";
+import { BookOpen, Plus, Save, X, Trash2, GripVertical, Bold, Italic, Underline, List, ListOrdered, Palette, RotateCcw, Highlighter, SwatchBook, FolderOpen, ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 import { useEditor, EditorContent } from "@tiptap/react";
@@ -77,6 +78,7 @@ const FloatingNotebook = () => {
   const [showHighlightPicker, setShowHighlightPicker] = useState(false);
   const [showThemePicker, setShowThemePicker] = useState(false);
   const [themeIndex, setThemeIndex] = useState(0);
+  const [showNotesList, setShowNotesList] = useState(false);
   const theme = NOTEBOOK_THEMES[themeIndex];
   const autoSaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { toast } = useToast();
@@ -151,8 +153,12 @@ const FloatingNotebook = () => {
   }, [user]);
 
   useEffect(() => {
-    if (user && open) fetchNotebooks();
-  }, [user, open, fetchNotebooks]);
+    if (user && open) {
+      fetchNotebooks();
+      // Auto-expand the saved-notes list on open if nothing is being edited yet
+      if (!selectedId && !title.trim()) setShowNotesList(true);
+    }
+  }, [user, open, fetchNotebooks, selectedId, title]);
 
   const getContent = useCallback(() => {
     return editor?.getHTML() || "";
@@ -424,21 +430,63 @@ const FloatingNotebook = () => {
               </div>
             </div>
 
-            {/* Note selector */}
+            {/* Saved notes list — visible & scrollable so old notes are easy to find */}
             <div className="px-3 pt-2">
-              <select
-                value={selectedId || ""}
-                onChange={(e) => {
-                  const nb = notebooks.find(n => n.id === e.target.value);
-                  nb ? handleSelect(nb) : handleNew();
-                }}
-                className="w-full text-xs border border-border rounded-md px-2 py-1.5 bg-background text-foreground"
+              <button
+                type="button"
+                onClick={() => setShowNotesList(s => !s)}
+                className="w-full flex items-center justify-between gap-2 text-xs font-semibold px-2 py-1.5 rounded-md hover:bg-black/5"
+                style={{ color: theme.text }}
               >
-                <option value="">+ Ghi chú mới</option>
-                {notebooks.map(nb => (
-                  <option key={nb.id} value={nb.id}>{nb.title || "Chưa có tiêu đề"}</option>
-                ))}
-              </select>
+                <span className="flex items-center gap-1.5">
+                  <FolderOpen size={13} />
+                  Ghi chú đã lưu ({notebooks.length})
+                </span>
+                {showNotesList ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+              </button>
+
+              {showNotesList && (
+                <div className="mt-1.5 max-h-44 overflow-y-auto rounded-md border border-border bg-background/60">
+                  {notebooks.length === 0 ? (
+                    <div className="px-3 py-4 text-center text-xs text-muted-foreground">
+                      Chưa có ghi chú nào — hãy tạo ghi chú đầu tiên ✨
+                    </div>
+                  ) : (
+                    <ul className="divide-y divide-border">
+                      {notebooks.map(nb => {
+                        const isActive = nb.id === selectedId;
+                        return (
+                          <li key={nb.id}>
+                            <button
+                              type="button"
+                              onClick={() => { handleSelect(nb); setShowNotesList(false); }}
+                              className={`w-full text-left px-3 py-2 text-xs hover:bg-primary/10 transition-colors ${isActive ? "bg-primary/15" : ""}`}
+                            >
+                              <div className="font-medium text-foreground truncate flex items-center gap-1.5">
+                                {isActive && <span className="text-primary">●</span>}
+                                {nb.title || "Chưa có tiêu đề"}
+                              </div>
+                              <div className="text-[10px] text-muted-foreground mt-0.5 flex items-center gap-2">
+                                <span className="px-1.5 py-0.5 rounded bg-secondary">{nb.subject}</span>
+                                <span>{new Date(nb.updated_at).toLocaleDateString("vi-VN")} {new Date(nb.updated_at).toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" })}</span>
+                              </div>
+                            </button>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                  <div className="border-t border-border px-3 py-1.5 text-center">
+                    <Link
+                      to="/notebook"
+                      onClick={() => setOpen(false)}
+                      className="inline-flex items-center gap-1 text-[11px] text-primary hover:underline"
+                    >
+                      Mở Sổ Tay đầy đủ <ExternalLink size={10} />
+                    </Link>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Title + Subject */}

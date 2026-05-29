@@ -850,7 +850,7 @@ const ChatBot = () => {
       {/* ── Floating Chat Button ── */}
       <AnimatePresence>
         {!open && (
-          <div className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] right-3 z-50 flex flex-col items-end gap-2 sm:bottom-6 sm:right-6">
+          <div className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] right-14 z-50 flex flex-col items-end gap-2 sm:bottom-6 sm:right-20">
             <AnimatePresence>
               {showTooltip && (
                 <motion.div
@@ -898,7 +898,7 @@ const ChatBot = () => {
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] left-3 right-3 z-50 flex h-[70vh] max-h-[560px] flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl sm:bottom-6 sm:left-auto sm:right-6 sm:w-[400px]"
+            className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] left-3 right-14 z-50 flex h-[70vh] max-h-[560px] flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl sm:bottom-6 sm:left-auto sm:right-20 sm:w-[400px]"
           >
             {/* Header */}
             <div className="flex items-center gap-3 border-b border-border bg-primary/5 p-4">
