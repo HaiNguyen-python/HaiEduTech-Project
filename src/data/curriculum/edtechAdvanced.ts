@@ -543,8 +543,6 @@ print(json.dumps(result, ensure_ascii=False, indent=2))`,
           { question: "Khi nào route bài cho giáo viên review?", options: ["Tất cả", "Khi confidence thấp hoặc điểm gần ngưỡng band quan trọng + 10–20% sample định kỳ", "Không bao giờ", "Mỗi 1000 bài"], answer: 1, explanation: "Human-in-loop có chọn lọc giữ chất lượng mà không quá tải giáo viên." },
         ],
       },
-    ],
-  },
       {
         id: "edtech-adv-5",
         title: "Knowledge Tracing & Mastery — đo 'học sinh thực sự biết gì'",
