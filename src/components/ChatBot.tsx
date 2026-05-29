@@ -177,6 +177,22 @@ const FUN_FACTS: { vi: string; en: string }[] = [
   { vi: "Bật mí: nghe podcast tiếng Anh 15 phút/ngày cải thiện listening rõ rệt sau 1 tháng.", en: "Fun fact: 15 minutes of English podcasts daily noticeably improves listening within a month." },
   { vi: "Bật mí: SQL ra đời từ những năm 1970 và vẫn là ngôn ngữ truy vấn phổ biến nhất.", en: "Fun fact: SQL was born in the 1970s and is still the most widely used query language." },
   { vi: "Bật mí: viết tay từ vựng giúp nhớ lâu hơn gõ phím — kể cả với Hán tự!", en: "Fun fact: writing vocabulary by hand boosts retention better than typing — even for Hanzi!" },
+  // —— Programming fun facts ——
+  { vi: "Bật mí: máy tính đầu tiên ENIAC nặng 27 tấn, chiếm cả một phòng lớn năm 1945.", en: "Fun fact: the first ENIAC computer weighed 27 tons and filled an entire room in 1945." },
+  { vi: "Bật mí: Grace Hopper tìm ra thuật ngữ 'debugging' sau khi gỡ một con bướm ra khỏi máy tính.", en: "Fun fact: Grace Hopper coined 'debugging' after removing a real moth from a computer." },
+  { vi: "Bật mí: GitHub lưu trữ hơn 200 triệu kho mã nguồn — lớn như một thư viện khổng lồ của nhân loại.", en: "Fun fact: GitHub hosts over 200 million code repositories — a giant library for humanity." },
+  { vi: "Bật mí: Linux được tạo ra bởi Linus Torvalds năm 1991 và hiện chạy 90% cloud server thế giới.", en: "Fun fact: Linux was created by Linus Torvalds in 1991 and now powers 90% of the world's cloud servers." },
+  { vi: "Bật mí: Stack Overflow được lập ra năm 2008, mỗi phút có hơn 10 câu hỏi mới từ lập trình viên.", en: "Fun fact: Stack Overflow launched in 2008 and receives over 10 new developer questions every minute." },
+  { vi: "Bật mí: mã nhị phân chỉ dùng 0 và 1, nhưng tất cả video, ảnh, game bạn xem đều là nhị phân.", en: "Fun fact: binary only uses 0 and 1, yet every video, photo, and game you see is stored in binary." },
+  { vi: "Bật mí: mọi màu sắc trên màn hình chỉ là tổ hợp của 3 giá trị: Red, Green và Blue (RGB).", en: "Fun fact: every color on your screen is just a mix of three values: Red, Green, and Blue (RGB)." },
+  { vi: "Bật mí: HTML được phát minh bởi Tim Berners-Lee năm 1993 — nền tảng đầu tiên của World Wide Web.", en: "Fun fact: HTML was invented by Tim Berners-Lee in 1993 — the very foundation of the World Wide Web." },
+  { vi: "Bật mí: một ổ cứng SSD hiện đại có thể đọc/ghi nhanh hơn 500 lần so với ổ đĩa cách đây 20 năm.", en: "Fun fact: a modern SSD can read and write data over 500× faster than a hard drive from 20 years ago." },
+  { vi: "Bật mí: AI học được nhờ 'neural network' — mô phỏng cách neuron trong não người kết nối với nhau.", en: "Fun fact: AI learns through neural networks — mimicking how neurons connect in the human brain." },
+  { vi: "Bật mí: thuật toán tìm kiếm Google xử lý hơn 8 tỷ truy vấn mỗi ngày — nhanh hơn nháy mắt.", en: "Fun fact: Google's search algorithm handles over 8 billion queries daily — faster than a blink." },
+  { vi: "Bật mí: ngôn ngữ C được tạo ra năm 1972 và vẫn là nền tảng cho hệ điều hành, trình biên dịch, game engine.", en: "Fun fact: C was created in 1972 and remains the foundation for operating systems, compilers, and game engines." },
+  { vi: "Bật mí: CAPTCHA viết tắt từ 'Completely Automated Public Turing test' — dùng AI để đánh giá con người!", en: "Fun fact: CAPTCHA stands for 'Completely Automated Public Turing test' — using AI to judge humans!" },
+  { vi: "Bật mí: một lập trình viên trung bình viết khoảng 100 dòng code mỗi ngày làm việc hiệu quả.", en: "Fun fact: an average developer writes about 100 lines of productive code per working day." },
+  { vi: "Bật mí: Unicode chứa hơn 149.000 ký tự, bao gồm cả emoji, chữ Hán, cổ ngữ và ký hiệu toán học.", en: "Fun fact: Unicode contains over 149,000 characters, including emojis, Hanzi, ancient scripts, and math symbols." },
 ];
 
 // ── Speech Recognition type shim ──
