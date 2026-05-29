@@ -1,4 +1,4 @@
-// Cambridge Journey: From Starters to PET - 15 strategic lessons with deep content
+// Cambridge Journey: From Starters to PET - 250 strategic lessons with deep content (50 per level)
 
 export type CambridgeLevel = "starters" | "movers" | "flyers" | "ket" | "pet";
 export type CambridgeSkill = "listening" | "reading-writing" | "speaking" | "vocabulary";
