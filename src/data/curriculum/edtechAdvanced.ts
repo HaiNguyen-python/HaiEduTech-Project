@@ -256,7 +256,7 @@ Phần thưởng = Δ mastery sau bài, hoặc engagement (hoàn thành / không
 
 - **2-Parameter IRT** (difficulty + discrimination) vẫn là backbone cho CAT (Computerized Adaptive Testing). Duolingo English Test, GMAT Focus dùng nó.
 - **Multi-Armed Bandits** vs **A/B test**: bandit thắng khi bạn có ≥ 5 variant và muốn tối ưu liên tục. EXP3 cho non-stationary (học sinh thay đổi theo tuần).
-- **Reinforcement Learning** (DeepTutor, AlphaTutor 2025): policy chọn bài tiếp theo tối đa hoá `Δmastery − α·time_spent`. Khó tune nhưng outperform IRT ~12%.
+- **Reinforcement Learning** (DeepTutor, AlphaTutor 2025): policy chọn bài tiếp theo tối đa hoá "Δmastery − α·time_spent". Khó tune nhưng outperform IRT ~12%.
 - **Cảnh báo**: adaptive quá nhanh = học sinh không có "comfort zone" → drop-off. Luôn để 20% bài "ngon ăn" tạo momentum.
 
 `,

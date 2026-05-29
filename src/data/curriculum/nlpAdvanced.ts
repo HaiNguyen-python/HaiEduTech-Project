@@ -345,9 +345,9 @@ Nếu vector đã normalize (‖v‖=1) → cosine và dot tương đương; dot
 
 ## ✨ Nâng cấp 2026 — Vector search trong thực tế
 
-- **Matryoshka embeddings** (OpenAI `text-embedding-3-large`, Gemini `embedding-001`): cùng 1 vector có thể "cắt" thành 256/512/1024/3072 chiều mà vẫn giữ chất lượng → tiết kiệm 80% RAM cho cold storage.
+- **Matryoshka embeddings** (OpenAI "text-embedding-3-large", Gemini "embedding-001"): cùng 1 vector có thể "cắt" thành 256/512/1024/3072 chiều mà vẫn giữ chất lượng → tiết kiệm 80% RAM cho cold storage.
 - **Hybrid search (BM25 + dense)** vẫn vô địch: dense bắt ngữ nghĩa, BM25 bắt tên riêng/mã số. Dùng **Reciprocal Rank Fusion** để gộp.
-- **Reranker** (Cohere `rerank-3.5`, BGE-reranker) là bước **bắt buộc** trước khi đưa vào LLM: cải thiện nDCG@10 trung bình +18%.
+- **Reranker** (Cohere "rerank-3.5", BGE-reranker) là bước **bắt buộc** trước khi đưa vào LLM: cải thiện nDCG@10 trung bình +18%.
 - **Chunking thông minh**: chia theo cấu trúc tài liệu (heading-aware) thay vì cắt 512 token cứng. Bài học VN: với SGK, chia theo bài/mục cho retrieval chính xác gấp đôi.
 - **Vector DB lựa chọn 2026**: pgvector (đủ ≤ 5M vector), Qdrant/Weaviate (10M-100M), Turbopuffer (serverless, rẻ nhất cho RAG cá nhân).
 
@@ -476,7 +476,7 @@ Pipeline "dịch về EN rồi NLP" mất dấu thanh (VI), mất hậu tố (FI
 ## ✨ Nâng cấp 2026 — Pipeline đa ngữ thực chiến
 
 - **Đừng dịch sang EN rồi xử lý**: mất sắc thái (kính ngữ tiếng Nhật, thanh điệu tiếng Việt). Model đa ngữ hiện đại (Gemini 2.5, GPT-5) hiểu native gần ngang EN.
-- **Tokenizer matters**: tiếng VN/ZH/FI có tỉ lệ token/từ cao → chi phí gấp 1.5-2× tiếng Anh. Đo `tiktoken` hoặc `gemini_tokenizer` trước khi quote giá khách hàng.
+- **Tokenizer matters**: tiếng VN/ZH/FI có tỉ lệ token/từ cao → chi phí gấp 1.5-2× tiếng Anh. Đo "tiktoken" hoặc "gemini_tokenizer" trước khi quote giá khách hàng.
 - **Code-switching**: người Việt thường viết "tao code cái feature này bug quá" → bắt buộc test prompt với câu pha trộn, không chỉ câu thuần Việt.
 - **Đánh giá theo locale**: FLORES-200, XNLI, MGSM — đừng chỉ chạy GLUE rồi tuyên bố "đa ngữ tốt".
 - **TTS/ASR**: Whisper-v3-large cho VN WER ~9%, FI ~11%; với ZH dùng SenseVoice hoặc Paraformer cho tốc độ × 5.
