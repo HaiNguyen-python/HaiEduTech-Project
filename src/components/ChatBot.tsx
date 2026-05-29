@@ -966,18 +966,39 @@ const ChatBot = () => {
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] left-3 right-20 z-50 flex h-[70vh] max-h-[560px] flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl sm:bottom-6 sm:left-auto sm:right-24 sm:w-[400px]"
+            drag={!isMobile}
+            dragControls={dragControls}
+            dragListener={false}
+            dragMomentum={false}
+            dragElastic={0}
+            dragConstraints={{
+              top: -window.innerHeight + 200,
+              left: -window.innerWidth + 300,
+              right: 50,
+              bottom: 50,
+            }}
+            className={`fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] left-3 right-20 z-50 flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl sm:bottom-6 sm:left-auto sm:right-24 ${
+              expanded
+                ? "h-[85vh] max-h-[900px] sm:w-[640px] md:w-[760px] lg:w-[880px]"
+                : "h-[70vh] max-h-[560px] sm:w-[400px]"
+            }`}
           >
             {/* Header */}
-            <div className="flex items-center gap-3 border-b border-border bg-primary/5 p-4">
+            <div
+              onPointerDown={(e) => {
+                if (!isMobile) dragControls.start(e);
+              }}
+              className={`flex items-center gap-3 border-b border-border bg-primary/5 p-4 ${!isMobile ? "cursor-move" : ""}`}
+            >
+              {!isMobile && <GripVertical className="h-4 w-4 text-muted-foreground/60 shrink-0" />}
               <img src={chatbotIcon} alt="Thầy Hải" className="h-10 w-10 rounded-full" />
-              <div className="flex-1">
-                <h3 className="text-base font-bold text-foreground">
+              <div className="flex-1 min-w-0">
+                <h3 className="text-base font-bold text-foreground truncate">
                   {studentName
                     ? t(`👋 Chào ${studentName}!`, `👋 Hi ${studentName}!`)
                     : "👋 Hello, I'm Mr. Hai!"}
                 </h3>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-muted-foreground truncate">
                   {studentContext
                     ? t("Thầy đã có dữ liệu học tập của em — hỏi gì cũng được nhé!", "I have your learning data — ask me anything!")
                     : t("Cùng nâng cấp kỹ năng cùng thầy hôm nay nhé!", "Level up your skills with me today.")}
@@ -985,15 +1006,29 @@ const ChatBot = () => {
               </div>
               <button
                 onClick={openAskTeacher}
+                onPointerDown={(e) => e.stopPropagation()}
                 className="rounded-lg p-1.5 transition-colors hover:bg-secondary"
                 title={t("Gửi câu hỏi cho thầy Hải qua email", "Send a question to Teacher Hai via email")}
               >
                 <Mail className="h-5 w-5 text-primary" />
               </button>
-              <button onClick={() => setOpen(false)} className="rounded-lg p-1.5 transition-colors hover:bg-secondary">
+              <button
+                onClick={() => setExpanded((v) => !v)}
+                onPointerDown={(e) => e.stopPropagation()}
+                className="hidden sm:inline-flex rounded-lg p-1.5 transition-colors hover:bg-secondary"
+                title={expanded ? t("Thu nhỏ", "Restore") : t("Phóng to", "Expand")}
+              >
+                {expanded ? <Minimize2 className="h-5 w-5 text-muted-foreground" /> : <Maximize2 className="h-5 w-5 text-muted-foreground" />}
+              </button>
+              <button
+                onClick={() => setOpen(false)}
+                onPointerDown={(e) => e.stopPropagation()}
+                className="rounded-lg p-1.5 transition-colors hover:bg-secondary"
+              >
                 <X className="h-5 w-5 text-muted-foreground" />
               </button>
             </div>
+
 
 
             {/* Chat Locked Banner */}
