@@ -95,7 +95,7 @@ VÍ DỤ CHUẨN (BẮT CHƯỚC ĐÚNG GIỌNG NÀY):
           },
           { role: "user", content: userPrompt },
         ],
-        temperature: 0.3,
+        temperature: 0.85,
       }),
     });
 
