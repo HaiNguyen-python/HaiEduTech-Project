@@ -76,6 +76,18 @@ const Index = () => (
       <HomeChibiFunFacts />
     </div>
     <SectionDivider />
+    <section className="py-12 sm:py-16">
+      <div className="container mx-auto px-4 sm:px-6 mb-6 text-center">
+        <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold mb-3">
+          Our <span className="text-gradient">Classroom</span>
+        </h2>
+        <p className="mx-auto max-w-xl text-sm sm:text-base text-muted-foreground">
+          Khoảnh khắc học tập sôi động cùng thầy Hải qua các lớp IELTS, Cambridge và General English
+        </p>
+      </div>
+      <ClassroomGallery />
+    </section>
+    <SectionDivider flip />
     <CoursesOverview />
     <SectionDivider flip />
     <LazySection><LearningRoadmaps /></LazySection>
