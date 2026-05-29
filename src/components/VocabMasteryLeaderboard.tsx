@@ -4,6 +4,7 @@ import { Trophy, Crown, Medal, Star } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { MASTERY_UPDATED_EVENT } from "@/hooks/useMasteredVocab";
+import { dedupeByDisplayName } from "@/lib/leaderboardDedup";
 
 interface LeaderboardEntry {
   user_id: string;
@@ -43,7 +44,8 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
         score: Number(row.score) || 0,
         display_name: row.display_name || t("Học viên", "Student"),
       })) as LeaderboardEntry[];
-      setEntries(merged);
+      // Collapse duplicate display names; keep the highest-scoring account per name
+      setEntries(dedupeByDisplayName(merged));
     } catch (e) {
       console.error("Failed to fetch mastery leaderboard:", e);
     }

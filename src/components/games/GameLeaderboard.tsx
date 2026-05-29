@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Trophy, Crown, Medal } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { dedupeByDisplayName } from "@/lib/leaderboardDedup";
 
 interface LeaderboardEntry {
   user_id: string;
@@ -55,10 +56,17 @@ const GameLeaderboard = ({ gameType, currentScore }: GameLeaderboardProps) => {
           }
         }
 
+        // Dedupe by display name (different accounts that share a name collapse
+        // to the single highest-scoring entry), then take the top 10.
+        const all = Array.from(bestScores.values());
+        const deduped = dedupeByDisplayName(
+          all.map(e => ({ user_id: e.user_id, score: e.score, display_name: e.display_name || "Student" })),
+        );
+        const byKey = new Map(all.map(e => [e.user_id + "|" + e.score, e]));
         setEntries(
-          Array.from(bestScores.values())
-            .sort((a, b) => b.score - a.score)
-            .slice(0, 10)
+          deduped
+            .map(d => byKey.get(d.user_id + "|" + d.score) || (d as LeaderboardEntry))
+            .slice(0, 10),
         );
       }
     } catch (e) {

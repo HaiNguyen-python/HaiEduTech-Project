@@ -5,6 +5,7 @@ import { Trophy, Crown, Medal, Star } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { MASTERY_UPDATED_EVENT } from "@/hooks/useMasteredVocab";
+import { dedupeByDisplayName } from "@/lib/leaderboardDedup";
 
 interface Entry {
   user_id: string;
@@ -32,13 +33,19 @@ const OverallVocabLeaderboard = ({ label }: { label?: string }) => {
       setCurrentUserId(user?.id || null);
       const { data, error } = await (supabase as any).rpc("get_overall_vocab_leaderboard");
       if (error) throw error;
+      const rows: Entry[] = (data || []).map((r: any) => ({
+        user_id: r.user_id,
+        score: Number(r.score) || 0,
+        display_name: r.display_name || t("Học viên", "Student"),
+        subjects: Array.isArray(r.subjects) ? r.subjects : [],
+      }));
+      // Collapse duplicate display names; keep the highest-scoring account per name
+      const deduped = dedupeByDisplayName(rows);
+      // Re-attach `subjects` from the winning row (dedupeByDisplayName preserves
+      // the full object, but we re-look-up to guarantee subjects survive).
+      const byId = new Map(rows.map(r => [r.user_id + "|" + r.score, r]));
       setEntries(
-        (data || []).map((r: any) => ({
-          user_id: r.user_id,
-          score: Number(r.score) || 0,
-          display_name: r.display_name || t("Học viên", "Student"),
-          subjects: Array.isArray(r.subjects) ? r.subjects : [],
-        })),
+        deduped.map(d => byId.get(d.user_id + "|" + d.score) || (d as Entry)),
       );
     } catch (e) {
       console.error("Failed to fetch overall leaderboard:", e);
