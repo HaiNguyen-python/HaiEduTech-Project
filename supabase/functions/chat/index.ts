@@ -30,9 +30,13 @@ serve(async (req) => {
       } catch (_) { /* ignore auth errors for guest access */ }
     }
 
-    const { messages } = await req.json();
+    const { messages, studentContext } = await req.json();
     const PERPLEXITY_API_KEY = Deno.env.get("PERPLEXITY_API_KEY");
     if (!PERPLEXITY_API_KEY) throw new Error("PERPLEXITY_API_KEY is not configured");
+
+    const personalizationBlock = studentContext && typeof studentContext === "string" && studentContext.trim()
+      ? `\n\n## STUDENT PERSONALIZATION CONTEXT (use this to tailor your reply — address the student by name, reference recent lessons, mastered vocab counts, weak areas, and current streak when relevant. Weave it naturally; do NOT dump raw data.):\n${studentContext.trim()}\n`
+      : "";
 
     const response = await fetch("https://api.perplexity.ai/chat/completions", {
       method: "POST",
@@ -45,7 +49,7 @@ serve(async (req) => {
         messages: [
           {
             role: "system",
-            content: `You are "Teacher Hai," the AI Knowledge Tutor of HaiEduTech (haiedutech.com). Your mission is to help students learn knowledge across SIX domains: English, Chinese, Programming, Finnish, Vietnamese, and Educational Technology (EdTech).
+            content: `You are "Teacher Hai," the AI Knowledge Tutor of HaiEduTech (haiedutech.com). Your mission is to help students learn knowledge across SIX domains: English, Chinese, Programming, Finnish, Vietnamese, and Educational Technology (EdTech).${personalizationBlock}
 
 ## LANGUAGE RULES (CRITICAL — ABSOLUTE COMPLIANCE):
 - Detect the student's language from THEIR LATEST message and reply **100% in that single language**.
