@@ -878,10 +878,10 @@ const ToeicVocabulary = () => {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: i * 0.03 }}
-                                className={`group relative rounded-xl border p-6 shadow-md transition-all duration-300 hover:scale-[1.03] hover:shadow-xl ${
+                                className={`group relative rounded-xl border-2 p-6 shadow-lg transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl ${
                                   isMastered
-                                    ? "border-amber-400/70 bg-gradient-to-br from-amber-50 via-yellow-50 to-white dark:from-amber-950/40 dark:via-slate-800 dark:to-slate-900 hover:shadow-amber-300/40"
-                                    : "border-sky-200 bg-gradient-to-br from-white via-sky-50 to-blue-50 dark:from-slate-800 dark:via-slate-800 dark:to-slate-900 hover:border-blue-400/70 hover:shadow-blue-300/40"
+                                    ? "border-amber-500 bg-gradient-to-br from-amber-50 via-yellow-50 to-white dark:from-amber-950/40 dark:via-slate-800 dark:to-slate-900 hover:shadow-amber-400/50"
+                                    : "border-sky-400 bg-gradient-to-br from-white via-sky-50 to-blue-50 dark:from-slate-800 dark:via-slate-800 dark:to-slate-900 hover:border-blue-500 hover:shadow-blue-400/50"
                                 }`}
                               >
                                 {/* Star toggle (top-right) */}
