@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Trophy, Crown, Medal } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { dedupeByDisplayName } from "@/lib/leaderboardDedup";
 
 interface LeaderboardEntry {
   user_id: string;
