@@ -767,6 +767,21 @@ const SatVocabulary = () => {
           </div>
         </div>
       </div>
+      <SmartReviewColumn
+        subject="sat"
+        lang="en-US"
+        lookupWord={(w) => {
+          const found = satVocabData.find(x => x.word === w);
+          if (!found) return null;
+          return {
+            word: found.word,
+            phonetic: found.ipa,
+            definitionVi: found.definition.vi,
+            definitionEn: found.definition.en,
+          };
+        }}
+        allWordsForQuiz={satVocabData.map(w => ({ word: w.word, definition: w.definition.vi }))}
+      />
       <Footer />
     </div>
   );
