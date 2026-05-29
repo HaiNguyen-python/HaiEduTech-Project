@@ -17,6 +17,7 @@ import { lazy, Suspense, useEffect, useState, type ReactNode } from "react";
 const Index = lazy(() => import("./pages/Index.tsx"));
 const Welcome = lazy(() => import("./pages/Welcome.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
+const Unsubscribe = lazy(() => import("./pages/Unsubscribe.tsx"));
 
 /** Decides whether to show the splash welcome or the home page on `/`. */
 const RootEntry = () => {
@@ -362,6 +363,7 @@ const App = () => (
             <Route path="/study-abroad/checklist" element={<LazyRoute><PreDepartureChecklist /></LazyRoute>} />
             <Route path="/songs/:lang" element={<LazyRoute><SongsLibraryPage /></LazyRoute>} />
             <Route path="/specialized-language" element={<LazyRoute><SpecializedLanguage /></LazyRoute>} />
+            <Route path="/unsubscribe" element={<LazyRoute><Unsubscribe /></LazyRoute>} />
             <Route path="*" element={<LazyRoute><NotFound /></LazyRoute>} />
           </Routes>
           <DeferredMount>
