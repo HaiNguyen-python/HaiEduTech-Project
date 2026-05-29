@@ -16,8 +16,8 @@ interface Props {
 }
 
 const LessonQuiz = ({ questions, onComplete }: Props) => {
-  // Knowledge Check is always rendered in English for Programming lessons.
-  const language = "en" as "vi" | "en";
+  const { lang } = useLanguage();
+  const language = lang;
   const [answers, setAnswers] = useState<(string | number | null)[]>(questions.map(() => null));
   const [submitted, setSubmitted] = useState(false);
 
