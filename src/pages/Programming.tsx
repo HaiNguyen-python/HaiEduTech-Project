@@ -310,7 +310,13 @@ const Programming = () => {
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.08, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                  onClick={() => setActivePillar(p.id)}
+                  onClick={() => {
+                    if (p.id === "nlp" || p.id === "edtech") {
+                      navigate(`/programming/${p.id}`);
+                    } else {
+                      setActivePillar(p.id);
+                    }
+                  }}
                   className={`relative rounded-xl p-4 text-left transition-all duration-300 border active:scale-[0.97] ${
                     isActive
                       ? `${p.bgColor} ${p.borderColor} shadow-md`
