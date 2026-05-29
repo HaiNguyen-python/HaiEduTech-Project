@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Send, Loader2, Mic, MicOff, AlertTriangle, Paperclip, FileText, Image as ImageIcon } from "lucide-react";
+import { X, Send, Loader2, Mic, MicOff, AlertTriangle, Paperclip, FileText, Image as ImageIcon, Mail, CheckCircle2 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { supabase } from "@/integrations/supabase/client";
