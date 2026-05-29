@@ -294,9 +294,14 @@ const Navbar = () => {
 
   return (
     <header className="flex flex-col">
-      {/* Row 1: Branding - fixed on all devices */}
+      {/* Row 1: Branding - fixed on all devices.
+          `translateZ(0)` + `will-change: transform` promotes this fixed bar to
+          its own GPU compositor layer so scrolling heavy content (Mermaid SVGs,
+          long lessons) doesn't repaint the navbar on every frame — fixes the
+          flicker reported at the bottom of long pages. */}
       <div
         className="w-full z-[60] bg-card border-b border-border fixed top-0"
+        style={{ transform: "translateZ(0)", willChange: "transform", contain: "layout paint" }}
       >
         <div className="container mx-auto px-4 sm:px-6">
           {/* Mobile/tablet: flex-col layout; Desktop: single row */}
