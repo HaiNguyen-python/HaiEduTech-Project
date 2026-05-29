@@ -51,7 +51,9 @@ const LazySection = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-const Index = () => (
+const Index = () => {
+  const { t } = useLanguage();
+  return (
   <div className="min-h-screen bg-background relative">
     <SEO
       title="HaiEduTech | AI-Powered Learning for IELTS, HSK, AI Academy & Coding"
