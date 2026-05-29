@@ -1010,17 +1010,19 @@ const ChatBot = () => {
               onPointerDown={(e) => {
                 if (!isMobile) dragControls.start(e);
               }}
-              className={`flex items-center gap-3 border-b border-border bg-primary/5 p-4 ${!isMobile ? "cursor-move" : ""}`}
+              onDoubleClick={resetChatPosition}
+              className={`flex items-center gap-2 border-b border-border bg-primary/5 px-3 py-2.5 ${!isMobile ? "cursor-move" : ""}`}
+              title={!isMobile ? t("Kéo để di chuyển • Nhấp đúp để đưa về vị trí gốc", "Drag to move • Double-click to reset position") : undefined}
             >
               {!isMobile && <GripVertical className="h-4 w-4 text-muted-foreground/60 shrink-0" />}
-              <img src={chatbotIcon} alt="Thầy Hải" className="h-10 w-10 rounded-full" />
+              <img src={chatbotIcon} alt="Thầy Hải" className="h-9 w-9 rounded-full shrink-0" />
               <div className="flex-1 min-w-0">
-                <h3 className="text-base font-bold text-foreground truncate">
+                <h3 className="text-sm font-bold text-foreground truncate leading-tight">
                   {studentName
                     ? t(`👋 Chào ${studentName}!`, `👋 Hi ${studentName}!`)
                     : "👋 Hello, I'm Mr. Hai!"}
                 </h3>
-                <p className="text-xs text-muted-foreground truncate">
+                <p className="text-[11px] text-muted-foreground truncate leading-tight">
                   {studentContext
                     ? t("Thầy đã có dữ liệu học tập của em — hỏi gì cũng được nhé!", "I have your learning data — ask me anything!")
                     : t("Cùng nâng cấp kỹ năng cùng thầy hôm nay nhé!", "Level up your skills with me today.")}
@@ -1029,18 +1031,10 @@ const ChatBot = () => {
               <button
                 onClick={openAskTeacher}
                 onPointerDown={(e) => e.stopPropagation()}
-                className="rounded-lg p-1.5 transition-colors hover:bg-secondary"
+                className="rounded-lg p-1.5 transition-colors hover:bg-secondary shrink-0"
                 title={t("Gửi câu hỏi cho thầy Hải qua email", "Send a question to Teacher Hai via email")}
               >
-                <Mail className="h-5 w-5 text-primary" />
-              </button>
-              <button
-                onClick={resetChatPosition}
-                onPointerDown={(e) => e.stopPropagation()}
-                className="hidden sm:inline-flex rounded-lg p-1.5 transition-colors hover:bg-secondary"
-                title={t("Đưa về vị trí gốc", "Reset position")}
-              >
-                <LocateFixed className="h-5 w-5 text-muted-foreground" />
+                <Mail className="h-4 w-4 text-primary" />
               </button>
               <button
                 onClick={() => {
@@ -1048,10 +1042,10 @@ const ChatBot = () => {
                   setTimeout(clampChatIntoView, 50);
                 }}
                 onPointerDown={(e) => e.stopPropagation()}
-                className="hidden sm:inline-flex rounded-lg p-1.5 transition-colors hover:bg-secondary"
+                className="hidden sm:inline-flex rounded-lg p-1.5 transition-colors hover:bg-secondary shrink-0"
                 title={expanded ? t("Thu nhỏ", "Restore") : t("Phóng to", "Expand")}
               >
-                {expanded ? <Minimize2 className="h-5 w-5 text-muted-foreground" /> : <Maximize2 className="h-5 w-5 text-muted-foreground" />}
+                {expanded ? <Minimize2 className="h-4 w-4 text-muted-foreground" /> : <Maximize2 className="h-4 w-4 text-muted-foreground" />}
               </button>
               <button
                 onClick={() => setOpen(false)}
