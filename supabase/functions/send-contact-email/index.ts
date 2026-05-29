@@ -75,6 +75,42 @@ This message was sent from the HaiEdu contact form.
       });
     }
 
+    const isAskTeacher = type === "ask_teacher";
+    if (isAskTeacher) {
+      const html = `
+        <div style="background:#ffffff;padding:32px 20px;font-family:Inter,Arial,sans-serif;color:#0f172a;">
+          <div style="max-width:640px;margin:0 auto;border:1px solid rgba(15,23,42,0.08);border-radius:18px;padding:32px;box-shadow:0 18px 40px rgba(15,23,42,0.08);">
+            <div style="margin-bottom:12px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#3b82f6;">HaiEduTech · Câu hỏi từ chatbot</div>
+            <h1 style="margin:0 0 16px;font-size:24px;line-height:32px;">Học viên gửi câu hỏi cho thầy Hải</h1>
+            <p style="margin:0 0 20px;font-size:14px;line-height:22px;color:#475569;">Câu hỏi được gửi trực tiếp từ chatbot trên website.</p>
+            <div style="border:1px solid rgba(59,130,246,0.18);border-radius:16px;background:#f8fafc;padding:18px;">
+              <p><strong>Họ và tên:</strong> ${name || "-"}</p>
+              <p><strong>Email:</strong> ${email || "Không có"}</p>
+              <p><strong>Số điện thoại:</strong> ${phone || "Không có"}</p>
+              <p><strong>Thời gian:</strong> ${submittedAt || "Vừa xong"}</p>
+              <div style="margin-top:12px;padding-top:12px;border-top:1px dashed rgba(15,23,42,0.12);">
+                <p style="margin:0 0 6px;font-weight:700;">Câu hỏi:</p>
+                <p style="margin:0;white-space:pre-wrap;color:#0f172a;">${(message || "").replace(/</g, "&lt;")}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `.trim();
+
+      await sendLovableEmail({
+        to: "contact@haiedutech.com",
+        from: "HaiEduTech <noreply@notify.haiedutech.com>",
+        sender_domain: "notify.haiedutech.com",
+        reply_to: email || undefined,
+        subject: `[Câu hỏi từ chatbot] ${name || "Học viên"}`,
+        html,
+        text: `Câu hỏi từ chatbot HaiEduTech\n\nHọ và tên: ${name || "-"}\nEmail: ${email || "Không có"}\nĐiện thoại: ${phone || "Không có"}\nThời gian: ${submittedAt || "Vừa xong"}\n\nCâu hỏi:\n${message || ""}`,
+        purpose: "transactional",
+        label: "chatbot-ask-teacher",
+        idempotency_key: idempotencyKey || `ask-teacher-${email || phone || name || crypto.randomUUID()}-${Date.now()}`,
+      });
+    }
+
     return new Response(
       JSON.stringify({ success: true, message: "Contact form submitted successfully" }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
