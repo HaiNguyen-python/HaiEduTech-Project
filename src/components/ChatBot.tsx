@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Send, Loader2, Mic, MicOff, AlertTriangle } from "lucide-react";
+import { X, Send, Loader2, Mic, MicOff, AlertTriangle, Paperclip, FileText, Image as ImageIcon } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { supabase } from "@/integrations/supabase/client";
@@ -220,9 +220,17 @@ const ChatBot = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [profanityWarning, setProfanityWarning] = useState(false);
   const [chatLocked, setChatLocked] = useState(false);
+  const [studentContext, setStudentContext] = useState<string>("");
+  const [studentName, setStudentName] = useState<string>("");
+  const [attachment, setAttachment] = useState<
+    | { kind: "text"; name: string; content: string }
+    | { kind: "image"; name: string; dataUrl: string }
+    | null
+  >(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const tooltipTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const recognitionRef = useRef<ISpeechRecognition | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const messageTimestamps = useRef<number[]>([]);
 
   // Rate limit: max 20 messages per minute
@@ -241,6 +249,85 @@ const ChatBot = () => {
   // Check lockout status on mount
   useEffect(() => {
     checkLockout();
+  }, []);
+
+  // ── Personalization: fetch student profile & learning data when logged in ──
+  useEffect(() => {
+    let cancelled = false;
+    const loadStudentContext = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user || cancelled) return;
+
+        const [profileRes, vocabRes, activityRes, streakRes] = await Promise.all([
+          supabase.from("profiles").select("full_name").eq("id", user.id).maybeSingle(),
+          supabase.from("user_vocab_mastered").select("subject").eq("user_id", user.id),
+          supabase
+            .from("student_activity_log")
+            .select("activity_type, lesson_id, created_at")
+            .eq("user_id", user.id)
+            .order("created_at", { ascending: false })
+            .limit(15),
+          supabase.rpc("get_streak_leaderboard"),
+        ]);
+
+        const fullName = (profileRes.data?.full_name || "").trim() || "Học viên";
+        if (!cancelled) setStudentName(fullName);
+
+        // Mastered vocab by subject
+        const vocabBySubject: Record<string, number> = {};
+        (vocabRes.data || []).forEach((r: any) => {
+          const s = r.subject || "unknown";
+          vocabBySubject[s] = (vocabBySubject[s] || 0) + 1;
+        });
+        const vocabSummary = Object.entries(vocabBySubject)
+          .sort((a, b) => b[1] - a[1])
+          .map(([s, n]) => `${s}: ${n} words`)
+          .join(", ") || "no vocabulary mastered yet";
+
+        // Recent activities
+        const activities = (activityRes.data || []) as any[];
+        const recentList = activities
+          .slice(0, 10)
+          .map((a) => `- ${a.activity_type}${a.lesson_id ? ` (${a.lesson_id})` : ""} @ ${new Date(a.created_at).toLocaleDateString()}`)
+          .join("\n") || "- (no recent activity)";
+
+        // Activity frequency by type
+        const typeCount: Record<string, number> = {};
+        activities.forEach((a) => {
+          typeCount[a.activity_type] = (typeCount[a.activity_type] || 0) + 1;
+        });
+        const topActivities = Object.entries(typeCount)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 5)
+          .map(([t, n]) => `${t} (${n}x)`)
+          .join(", ") || "none";
+
+        // Current streak
+        const streakRow = (streakRes.data || []).find((r: any) => r.user_id === user.id);
+        const streakDays = streakRow?.streak_days ?? 0;
+
+        const context = [
+          `Student name: ${fullName}`,
+          `Current study streak: ${streakDays} day(s)`,
+          `Mastered vocabulary by subject: ${vocabSummary}`,
+          `Most-used learning activities recently: ${topActivities}`,
+          `Latest 10 activities:`,
+          recentList,
+        ].join("\n");
+
+        if (!cancelled) setStudentContext(context);
+      } catch (e) {
+        console.warn("[ChatBot] personalization fetch failed", e);
+      }
+    };
+
+    loadStudentContext();
+    const { data: sub } = supabase.auth.onAuthStateChange(() => loadStudentContext());
+    return () => {
+      cancelled = true;
+      sub.subscription.unsubscribe();
+    };
   }, []);
 
   // Notify other floating widgets (e.g. Notebook) when chatbot opens/closes
@@ -405,9 +492,62 @@ const ChatBot = () => {
     [checkLockout],
   );
 
+  // ── File attachment handler ──
+  const handleFileSelected = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      e.target.value = ""; // allow re-selecting same file
+      if (!file) return;
+
+      const MAX_SIZE = 4 * 1024 * 1024; // 4MB
+      if (file.size > MAX_SIZE) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content: t(
+              "⚠️ File quá lớn (tối đa 4MB). Em chọn file nhỏ hơn nhé.",
+              "⚠️ File too large (max 4MB). Please pick a smaller file.",
+            ),
+          },
+        ]);
+        return;
+      }
+
+      const isImage = file.type.startsWith("image/");
+      if (isImage) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          setAttachment({ kind: "image", name: file.name, dataUrl: String(reader.result || "") });
+        };
+        reader.readAsDataURL(file);
+        return;
+      }
+
+      // Treat as text-like (txt, md, csv, json, code, etc.)
+      try {
+        const text = await file.text();
+        const trimmed = text.length > 12000 ? text.slice(0, 12000) + "\n…(truncated)" : text;
+        setAttachment({ kind: "text", name: file.name, content: trimmed });
+      } catch {
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content: t(
+              "⚠️ Không đọc được file này. Em thử file văn bản hoặc ảnh nhé.",
+              "⚠️ Could not read this file. Try a text or image file.",
+            ),
+          },
+        ]);
+      }
+    },
+    [t],
+  );
+
   // ── Send Message ──
   const sendMessage = async () => {
-    if (!input.trim() || isLoading || chatLocked) return;
+    if ((!input.trim() && !attachment) || isLoading || chatLocked) return;
 
     // Rate limiting check
     if (isRateLimited()) {
@@ -418,24 +558,50 @@ const ChatBot = () => {
       return;
     }
 
-    const userMsg: Message = { role: "user", content: input.trim() };
+    const rawInput = input.trim();
 
     // 1. Profanity check (highest priority)
-    if (containsProfanity(userMsg.content)) {
+    if (rawInput && containsProfanity(rawInput)) {
       setProfanityWarning(true);
-      logModerationEvent(userMsg.content);
+      logModerationEvent(rawInput);
       setInput("");
       // Auto-dismiss warning after 8 seconds
       setTimeout(() => setProfanityWarning(false), 8000);
       return;
     }
 
-    // Topic filter removed - students can ask freely
+    // Build display message (for UI history)
+    let displayContent = rawInput;
+    if (attachment) {
+      const tag = attachment.kind === "image" ? `🖼️ ${attachment.name}` : `📎 ${attachment.name}`;
+      displayContent = rawInput ? `${rawInput}\n\n[${tag}]` : `[${tag}]`;
+    }
+    const userMsgUi: Message = { role: "user", content: displayContent };
 
-    const allMessages = [...messages, userMsg];
-    setMessages(allMessages);
+    // Build payload message (what we actually send to Perplexity)
+    let payloadContent: any;
+    if (attachment?.kind === "image") {
+      payloadContent = [
+        { type: "text", text: rawInput || t("Em vừa gửi một ảnh, thầy xem giúp em nhé.", "I just attached an image — please take a look.") },
+        { type: "image_url", image_url: { url: attachment.dataUrl } },
+      ];
+    } else if (attachment?.kind === "text") {
+      payloadContent = `${rawInput || t("Thầy xem giúp em file này nhé.", "Please review this file for me.")}\n\n--- Attached file: ${attachment.name} ---\n${attachment.content}\n--- end of file ---`;
+    } else {
+      payloadContent = rawInput;
+    }
+
+    const uiMessages = [...messages, userMsgUi];
+    setMessages(uiMessages);
     setInput("");
+    setAttachment(null);
     setIsLoading(true);
+
+    // Send to backend with text-only history + new (possibly multimodal) message
+    const payloadMessages = [
+      ...messages.map((m) => ({ role: m.role, content: m.content })),
+      { role: "user", content: payloadContent },
+    ];
 
     let assistantSoFar = "";
 
@@ -446,7 +612,7 @@ const ChatBot = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
         },
-        body: JSON.stringify({ messages: allMessages }),
+        body: JSON.stringify({ messages: payloadMessages, studentContext }),
       });
 
       if (!resp.ok || !resp.body) {
@@ -651,8 +817,16 @@ const ChatBot = () => {
             <div className="flex items-center gap-3 border-b border-border bg-primary/5 p-4">
               <img src={chatbotIcon} alt="Thầy Hải" className="h-10 w-10 rounded-full" />
               <div className="flex-1">
-                <h3 className="text-base font-bold text-foreground">👋 Hello, I'm Mr. Hai!</h3>
-                <p className="text-xs text-muted-foreground">Level up your skills with me today.</p>
+                <h3 className="text-base font-bold text-foreground">
+                  {studentName
+                    ? t(`👋 Chào ${studentName}!`, `👋 Hi ${studentName}!`)
+                    : "👋 Hello, I'm Mr. Hai!"}
+                </h3>
+                <p className="text-xs text-muted-foreground">
+                  {studentContext
+                    ? t("Thầy đã có dữ liệu học tập của em — hỏi gì cũng được nhé!", "I have your learning data — ask me anything!")
+                    : t("Cùng nâng cấp kỹ năng cùng thầy hôm nay nhé!", "Level up your skills with me today.")}
+                </p>
               </div>
               <button onClick={() => setOpen(false)} className="rounded-lg p-1.5 transition-colors hover:bg-secondary">
                 <X className="h-5 w-5 text-muted-foreground" />
@@ -732,6 +906,44 @@ const ChatBot = () => {
 
             {/* Input Bar */}
             <div className="border-t border-border p-3">
+              {/* Attachment preview chip */}
+              {attachment && (
+                <div className="mb-2 flex items-center gap-2 rounded-lg border border-primary/30 bg-primary/5 px-3 py-2">
+                  {attachment.kind === "image" ? (
+                    <img
+                      src={attachment.dataUrl}
+                      alt={attachment.name}
+                      className="h-10 w-10 rounded object-cover"
+                    />
+                  ) : (
+                    <FileText className="h-5 w-5 text-primary" />
+                  )}
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-xs font-medium text-foreground">{attachment.name}</p>
+                    <p className="text-[10px] text-muted-foreground">
+                      {attachment.kind === "image"
+                        ? t("Ảnh đính kèm", "Image attached")
+                        : t("File văn bản đính kèm", "Text file attached")}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setAttachment(null)}
+                    className="rounded p-1 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                    title={t("Bỏ đính kèm", "Remove attachment")}
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+              )}
+
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*,text/*,.txt,.md,.csv,.json,.js,.ts,.jsx,.tsx,.py,.html,.css,.xml,.yaml,.yml,.log"
+                className="hidden"
+                onChange={handleFileSelected}
+              />
+
               <div className="flex gap-2">
                 {/* Microphone button */}
                 <button
@@ -745,6 +957,16 @@ const ChatBot = () => {
                   title={isRecording ? t("Dừng ghi âm", "Stop recording") : t("Nhấn để nói", "Click to speak")}
                 >
                   {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+                </button>
+
+                {/* Attach file button */}
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={isLoading || chatLocked}
+                  className="flex items-center justify-center rounded-xl bg-secondary px-3 py-2.5 text-muted-foreground transition-all hover:bg-secondary/80 disabled:opacity-50"
+                  title={t("Đính kèm file hoặc ảnh", "Attach file or image")}
+                >
+                  <Paperclip className="h-4 w-4" />
                 </button>
 
                 <input
@@ -761,7 +983,7 @@ const ChatBot = () => {
                 />
                 <button
                   onClick={sendMessage}
-                  disabled={isLoading || !input.trim() || chatLocked}
+                  disabled={isLoading || (!input.trim() && !attachment) || chatLocked}
                   className="rounded-xl bg-primary px-4 py-2.5 text-primary-foreground transition-all hover:brightness-110 disabled:opacity-50"
                 >
                   <Send className="h-4 w-4" />
