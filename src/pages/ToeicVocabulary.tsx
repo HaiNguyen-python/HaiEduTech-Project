@@ -20,6 +20,7 @@ import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import { supabase } from "@/integrations/supabase/client";
 import { Star } from "lucide-react";
+import SmartReviewColumn from "@/components/SmartReviewColumn";
 import ToeicMountainClimber from "@/components/ToeicMountainClimber";
 import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 
