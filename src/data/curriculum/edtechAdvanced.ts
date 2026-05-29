@@ -106,6 +106,14 @@ Quy tắc:
 - Reset interval về 1 khi user lỡ vắng 1 ngày → demoralizing. FSRS xử lý "lateness" mượt hơn.
 - Để target retention 99% → review quá nhiều, user bỏ. 85–90% là điểm cân bằng.
 - Trộn thẻ "mới" và "tới hạn" sai tỷ lệ → user choáng. Quy tắc: ≤ 20 thẻ mới/ngày cho người mới.
+
+## ✨ Nâng cấp 2026 — SRS hiện đại
+
+- **FSRS-5** (open-source, dùng trong Anki từ 2024) đã đánh bại SM-2 và Anki cổ điển: giảm 20-30% số lượt ôn cho cùng tỉ lệ nhớ.
+- **Half-life regression** (Duolingo) ước tính trực tiếp "khi nào người học quên" → phù hợp với app có nhiều data hơn cá nhân.
+- **Adaptive interval theo từng item**: từ "cake" dễ hơn "ubiquitous" — đừng để chung curve. FSRS chấm `difficulty 1-10` cho từng item dựa lịch sử nhớ.
+- **Tip thực hành cho HaiEduTech**: kết hợp SRS với **interleaving** (xen chủ đề) — tăng long-term retention thêm 15-25% so với block practice.
+
 `,
         theoryEn: `Memory decays exponentially (Ebbinghaus). SM-2 (1987) is a heuristic with no per-user parameters that still works. FSRS (2023+) models each card with Difficulty/Stability/Retrievability, schedules from a target retention (typically 85–90%), and beats SM-2 by 20–30% on Anki benchmarks. Always store immutable review logs with the raw rating so you can re-fit your scheduler later.`,
         code: `from dataclasses import dataclass
@@ -243,6 +251,14 @@ Phần thưởng = Δ mastery sau bài, hoặc engagement (hoàn thành / không
 - Chọn quá nhiều câu \`b ≈ θ\` → user thấy mọi câu đều ~50/50 → frustrating. Thêm chút "easy win" định kỳ.
 - Mastery không có thời gian phai → đánh giá sai 1 tháng sau. Kết hợp với spaced repetition (bài trước).
 - Bandit không có \`min_pulls\` → bài mới chưa bao giờ thắng, vĩnh viễn ngủ yên.
+
+## ✨ Nâng cấp 2026 — Adaptive thông minh hơn
+
+- **2-Parameter IRT** (difficulty + discrimination) vẫn là backbone cho CAT (Computerized Adaptive Testing). Duolingo English Test, GMAT Focus dùng nó.
+- **Multi-Armed Bandits** vs **A/B test**: bandit thắng khi bạn có ≥ 5 variant và muốn tối ưu liên tục. EXP3 cho non-stationary (học sinh thay đổi theo tuần).
+- **Reinforcement Learning** (DeepTutor, AlphaTutor 2025): policy chọn bài tiếp theo tối đa hoá `Δmastery − α·time_spent`. Khó tune nhưng outperform IRT ~12%.
+- **Cảnh báo**: adaptive quá nhanh = học sinh không có "comfort zone" → drop-off. Luôn để 20% bài "ngon ăn" tạo momentum.
+
 `,
         theoryEn: `Static tests fail both ends of the curve. Adaptive testing uses IRT to pick items where item difficulty ≈ learner ability θ, updating θ after each answer until SE(θ) drops below a threshold. Mastery Learning models the curriculum as a prerequisite graph; a skill unlocks the next when correctness exceeds ~0.85. When several lessons fit, frame next-lesson selection as a multi-armed bandit (Thompson Sampling works well). Combine with spaced repetition so mastery doesn't silently decay.`,
         code: `import math, random
@@ -368,6 +384,14 @@ Default **Socratic**: hỏi ngược → user tự tìm → tutor confirm. Chuy�
 - Cho LLM truy cập internet → mất grounding, tăng hallucination.
 - Memory dài vô hạn → user cũ chi phối câu trả lời, tốn token. Rolling 5–10 lượt là đủ.
 - Bỏ qua latency: tutor > 3s feel-time → trẻ em mất tập trung. Stream token + dùng small-LLM cho intent classify.
+
+## ✨ Nâng cấp 2026 — Tutor an toàn cho trẻ em
+
+- **Guardrails 3 lớp**: (1) system prompt cứng + spotlighting, (2) Llama-Guard / ShieldGemma trên cả input + output, (3) **toxicity classifier** chuyên biệt cho tiếng Việt (PhoBERT-toxic).
+- **COPPA/GDPR-K**: dữ liệu của trẻ <13 tuổi cần phụ huynh đồng ý + xoá khi yêu cầu. Đừng để chat log có PII vào training data.
+- **Socratic tutoring**: thay vì cho đáp án, hỏi 2-3 câu dẫn dắt. Eval bằng "% lượt LLM trả lời mà không tiết lộ key answer" — target ≥ 80%.
+- **Fallback to human**: phát hiện "distress signal" (buồn, tự ti, bạo lực) → ngắt tutor, chuyển teacher_contact_requests. Đã triển khai ở Counseling Hub.
+
 `,
         theoryEn: `A real AI tutor ≠ plain ChatGPT. It's an LLM grounded on YOUR curriculum (RAG), aware of the learner's state (current lesson, mastery, age), and wrapped in a safety pre/post filter. Default to Socratic prompting and switch to solution-first only after repeated failure or explicit request. Tune persona to age band. Evaluate beyond thumbs up/down — track groundedness, pedagogy score, age-appropriateness (Flesch), and resolution rate. Watch for hallucination from internet access, runaway memory, and >3s latency that loses young learners.`,
         code: `# Minimal child-safe tutor skeleton — pseudocode-ish but runnable
@@ -503,6 +527,15 @@ LLM chấm **từng tiêu chí riêng** với anchor cụ thể (vd "9 = lập l
 - Chấm 1 prompt → tổng score → mất tính giải thích. Luôn per-criterion.
 - LLM "rộng tay" theo thời gian (drift) → cần gold set định kỳ.
 - Trả điểm mà không trả **feedback hành động được** ("cải thiện cohesive devices") → vô dụng.
+
+## ✨ Nâng cấp 2026 — Chấm công bằng
+
+- **Per-criterion rubric** (task achievement, coherence, lexical, grammar) > 1 điểm tổng. Variance thấp hơn 3-4×, phụ huynh dễ chấp nhận.
+- **Calibration với human**: lấy 200 bài đã chấm tay → tính Quadratic Weighted Kappa (QWK). Target QWK ≥ 0.7 mới dám dùng production.
+- **Bias audit**: chia bài theo giới tính/vùng miền → kiểm score gap. IELTS auto-grader 2025 đã bị kiện vì gap 0.3 band giữa speakers ESL Á và Âu.
+- **Show your work**: trả về **feedback có trích dẫn câu cụ thể** ("Câu 3 dùng 'although' đứng đầu vế độc lập"). Tăng trust và teachable moment.
+- **Speaking grading**: WER không đủ — cần đánh giá fluency (WPM, filled pauses), pronunciation (GOP score) và content riêng.
+
 `,
         theoryEn: `Trustworthy auto-grading is rubric-first, not LLM-first: score each criterion independently with concrete anchors, weight and round to the band. Run pre-checks (word count, off-topic, copy-paste). For speaking, use word-confidence ASR, fluency (WPM, fillers), phoneme-level pronunciation, and grade transcript coherence like an essay. Calibrate against a gold set of human-graded items, target QWK ≥ 0.75, watch drift on every model/prompt change, and route low-confidence cases to humans. Audit for demographic bias and always return actionable feedback, not just a number.`,
         code: `# Per-criterion rubric grader stub (LLM call faked)
@@ -626,6 +659,14 @@ Khi học sinh kẹt ở \`past perfect\`, hệ thống tự **gợi ý ôn lạ
 - **Cold start**: chưa có dữ liệu → dùng prior nghề nghiệp (ví dụ HSK 1 mặc định mastery thấp).
 - **Skill tagging bẩn**: 1 câu bị tag 5 skill → KT loãng. Mỗi câu ≤ 2 skill chính.
 - **Time decay**: bỏ qua quên theo thời gian → kết hợp KT + SRS bắt buộc.
+
+## ✨ Nâng cấp 2026 — Đo "thực sự biết"
+
+- **BKT vs DKT vs SAKT**: BKT dễ hiểu, DKT mạnh hơn nhưng cần ≥10K học sinh, SAKT (transformer-based) hiện SOTA trên ASSISTments 2024.
+- **Hierarchical mastery**: 1 skill = nhiều subskill (subtract → borrow → multi-digit). Chỉ unlock skill khi 80% subskill ≥ 0.85 mastery.
+- **Forgetting in KT**: mastery không tăng đơn điệu — phải decay theo thời gian. Mô hình DKT-Forget hoặc KTM giải quyết.
+- **Explainability**: parents/teachers cần biết "vì sao con tôi chưa đạt". Visualize mastery dưới dạng radar chart per skill — đã làm ở Student Dashboard.
+
 `,
         theoryEn: `Knowledge Tracing estimates the probability a learner has mastered a skill from their answer history. BKT (1995) uses 4 params per skill (p_init, p_learn, p_slip, p_guess) with Bayesian updates. DKT (2015) uses RNN/Transformer to capture skill dependencies missed by BKT. Use a 0.85 mastery threshold (industry standard) and pair KT with spaced repetition to fight forgetting. Maintain a prerequisite skill graph so the system reroutes to fundamentals when a learner stalls. Watch for cold start, dirty skill tags, and ignoring time decay.`,
         code: `def bkt_update(p_known: float, correct: bool,
@@ -738,6 +779,15 @@ Output: học sinh thấy bài đầu **đúng trình độ, đúng mục tiêu,
 - **Onboarding 12 màn hình "show-and-tell"** — user bỏ ngay. Nguyên tắc: dạy bằng **làm**, không bằng **kể**.
 - **Streak shaming trong tuần đầu** — đuổi user yếu trước khi họ kịp gắn bó.
 - **Không đo cohort theo onboarding version** — không biết thay đổi nào giúp/hại.
+
+## ✨ Nâng cấp 2026 — Activation thực chiến
+
+- **Aha moment định lượng**: dùng phân tích cohort, tìm hành động mà người dùng D7-retained làm trong 24h đầu. Duolingo: "hoàn thành 2 lesson + đặt notification" → retention ×3.
+- **Empty-state design**: state đầu tiên phải có CTA rõ + ví dụ mẫu. Đừng để học sinh thấy danh sách trống → 60% bỏ ngay.
+- **Behavioral activation loops**: trigger (push) → action (lesson) → variable reward (XP, badge, streak) → investment (lưu progress). Áp dụng Nir Eyal Hook Model.
+- **Notification cap**: ≤ 1 push/ngày cho học sinh mới, ≤ 3 cho power user. Vượt cap → opt-out rate tăng phi tuyến.
+- **Cohort + funnel** là 2 dashboard bắt buộc. Mọi feature mới phải báo cáo "delta D1/D7/D30" sau A/B test 2 tuần.
+
 `,
         theoryEn: `The aha moment in EdTech isn't sign-up — it's the first felt sense of progress (first quiz pass + mastery bar moving). Optimize onboarding to push more users into that cluster fast. Audit friction click-by-click (every extra click ≈ 10% drop). Replace empty states with single-CTA teaching moments. Wire behavioral triggers with strict frequency caps (≤1/day, 8 AM – 9 PM local) and deep links. Replace marketing tours with a 3-question intake (goal, level, time/day) that personalizes the first lesson so aha lands in under 10 minutes.`,
         code: `from dataclasses import dataclass
