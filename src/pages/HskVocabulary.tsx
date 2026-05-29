@@ -775,8 +775,6 @@ const HskVocabulary = () => {
           </Tabs>
         </div>
       </div>
-        allWordsForQuiz={hskVocabData.map(w => ({ word: w.character, definition: w.definition.vi }))}
-      />
       <Footer />
     </div>
   );
