@@ -18,6 +18,7 @@ import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import KangxiRadicalsBrowser from "@/components/KangxiRadicalsBrowser";
 import HskExamplePractice from "@/components/HskExamplePractice";
+import HskMnemonic from "@/components/HskMnemonic";
 import HskExampleTranslation from "@/components/HskExampleTranslation";
 import { supabase } from "@/integrations/supabase/client";
 import { useSearchParams } from "react-router-dom";
@@ -704,6 +705,7 @@ const HskVocabulary = () => {
                                   <HskExampleTranslation example={w.example} />
                                 </div>
                                 <HskExamplePractice example={w.example} examplePinyin={w.examplePinyin} />
+                                <HskMnemonic character={w.character} pinyin={w.pinyin} meaning={w.definition.vi} />
                               </div>
                             </div>
                           ))}
