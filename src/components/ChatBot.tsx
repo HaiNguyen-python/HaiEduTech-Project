@@ -259,6 +259,7 @@ const ChatBot = () => {
       animate(dragY, dragY.get() + dy, { duration: 0.25 });
     }
   }, [dragX, dragY]);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
   const tooltipTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const recognitionRef = useRef<ISpeechRecognition | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
