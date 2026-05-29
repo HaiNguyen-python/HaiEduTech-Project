@@ -82,10 +82,13 @@ const Index = () => {
     <section className="py-12 sm:py-16">
       <div className="container mx-auto px-4 sm:px-6 mb-6 text-center">
         <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold mb-3">
-          Our <span className="text-gradient">Classroom</span>
+          {t("Lớp Học ", "Our ")}<span className="text-gradient">{t("Của Chúng Tôi", "Classroom")}</span>
         </h2>
         <p className="mx-auto max-w-xl text-sm sm:text-base text-muted-foreground">
-          Khoảnh khắc học tập sôi động cùng thầy Hải qua các lớp IELTS, Cambridge và General English
+          {t(
+            "Khoảnh khắc học tập sôi động cùng thầy Hải qua các lớp IELTS, Cambridge và General English",
+            "Vibrant learning moments with Mr. Hai across IELTS, Cambridge and General English classes"
+          )}
         </p>
       </div>
       <ClassroomGallery />
@@ -101,6 +104,7 @@ const Index = () => {
     
     <Footer />
   </div>
-);
+  );
+};
 
 export default Index;
