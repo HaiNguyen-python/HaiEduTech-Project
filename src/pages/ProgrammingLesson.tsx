@@ -26,6 +26,7 @@ import PythonIDEPanel from "@/components/PythonIDEPanel";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserRole } from "@/hooks/useUserRole";
 import CodeBlock from "@/components/CodeBlock";
+import CodeTypingRace from "@/components/programming/CodeTypingRace";
 import TheorySections from "@/components/TheorySections";
 import GitBranchingSimulator from "@/components/se/GitBranchingSimulator";
 import { trackLessonCompletion, LEAD_ENGINEER_BADGE } from "@/lib/badgeAwards";
@@ -733,58 +734,8 @@ const ProgrammingLessonPage = () => {
                     )}
                   </div>
 
-                  {/* 1-Minute Challenge */}
-                  <div className="glass-card rounded-xl p-6 border-t-4 border-yellow-500">
-                    <div className="flex items-center justify-between mb-4">
-                      <h2 className="font-semibold text-foreground flex items-center gap-2">
-                        <Trophy className="w-5 h-5 text-yellow-500" />
-                        1-Minute Challenge
-                      </h2>
-                      {challengeActive && (
-                        <span className="flex items-center gap-1 text-sm font-mono font-bold text-yellow-600">
-                          <Clock className="w-4 h-4" /> {challengeTimer}s
-                        </span>
-                      )}
-                    </div>
-                    {!challengeActive && !showChallengeResult ? (
-                      <div className="text-center py-4">
-                        <p className="text-sm text-muted-foreground mb-4">Answer quickly in 60 seconds!</p>
-                        <button onClick={startChallenge} className="px-6 py-2.5 rounded-lg bg-yellow-500 text-white font-semibold text-sm hover:bg-yellow-600 transition-colors active:scale-[0.97]">
-                          Start!
-                        </button>
-                      </div>
-                    ) : challengeQ ? (
-                      <div className="space-y-3">
-                        <p className="text-sm font-medium text-foreground">{challengeQ.question}</p>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                          {challengeQ.options.map((opt, oi) => {
-                            let cls = "px-3 py-2 rounded-lg text-sm text-left transition-all border ";
-                            if (showChallengeResult) {
-                              if (challengeQ.answer === oi) cls += "border-green-500 bg-green-500/10 text-green-700";
-                              else if (challengeAnswer === oi) cls += "border-destructive bg-destructive/10 text-destructive";
-                              else cls += "border-border text-muted-foreground";
-                            } else {
-                              cls += challengeAnswer === oi ? "border-primary bg-primary/10 text-primary" : "border-border text-secondary-foreground hover:border-primary/50";
-                            }
-                            return (
-                              <button key={oi} disabled={showChallengeResult} onClick={() => { setChallengeAnswer(oi); setChallengeActive(false); setShowChallengeResult(true); }} className={cls}>
-                                {opt}
-                              </button>
-                            );
-                          })}
-                        </div>
-                        {showChallengeResult && (
-                          <div className="mt-3">
-                            <p className={`text-sm font-semibold ${challengeAnswer === challengeQ.answer ? 'text-green-600' : 'text-destructive'}`}>
-                              {challengeAnswer === challengeQ.answer ? '🎉 Correct!' : '❌ Incorrect!'}
-                            </p>
-                            <p className="text-xs text-muted-foreground mt-1">💬 {challengeQ.explanation}</p>
-                            <button onClick={startChallenge} className="mt-3 text-sm text-primary hover:underline">Try again</button>
-                          </div>
-                        )}
-                      </div>
-                    ) : null}
-                  </div>
+                  {/* Code Typing Race — fun game replacing the redundant 1-minute quiz */}
+                  <CodeTypingRace source={lesson.code || lesson.titleEn} language={lesson.codeLanguage} />
 
                   {/* AI Code Challenge */}
                   <AnimatePresence>
