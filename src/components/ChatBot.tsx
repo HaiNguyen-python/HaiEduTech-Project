@@ -220,9 +220,17 @@ const ChatBot = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [profanityWarning, setProfanityWarning] = useState(false);
   const [chatLocked, setChatLocked] = useState(false);
+  const [studentContext, setStudentContext] = useState<string>("");
+  const [studentName, setStudentName] = useState<string>("");
+  const [attachment, setAttachment] = useState<
+    | { kind: "text"; name: string; content: string }
+    | { kind: "image"; name: string; dataUrl: string }
+    | null
+  >(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const tooltipTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const recognitionRef = useRef<ISpeechRecognition | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const messageTimestamps = useRef<number[]>([]);
 
   // Rate limit: max 20 messages per minute
