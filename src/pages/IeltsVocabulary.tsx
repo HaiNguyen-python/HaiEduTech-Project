@@ -817,32 +817,47 @@ const IeltsVocabulary = () => {
               </div>
             )}
           </motion.div>
-          <div className="hidden lg:block w-72 flex-shrink-0 sticky top-24 self-start space-y-4">
+          <div className="hidden lg:block w-72 flex-shrink-0 sticky top-24 self-start space-y-4 max-h-[calc(100vh-7rem)] overflow-y-auto pr-1">
             <VocabMasteryLeaderboard subject="ielts" currentCount={mastered.size} />
             <StudyStreakLeaderboard />
+            <SmartReviewColumn
+              subject="ielts"
+              lang="en-US"
+              lookupWord={(w) => {
+                const found = ieltsVocabData.find(x => x.word === w);
+                if (!found) return null;
+                return {
+                  word: found.word,
+                  phonetic: found.ipa,
+                  definitionVi: found.definition.vi,
+                  definitionEn: found.definition.en,
+                };
+              }}
+              allWordsForQuiz={ieltsVocabData.map(w => ({ word: w.word, definition: w.definition.vi }))}
+            />
           </div>
           </div>
           <div className="lg:hidden mt-6 space-y-4">
             <VocabMasteryLeaderboard subject="ielts" currentCount={mastered.size} />
             <StudyStreakLeaderboard />
+            <SmartReviewColumn
+              subject="ielts"
+              lang="en-US"
+              lookupWord={(w) => {
+                const found = ieltsVocabData.find(x => x.word === w);
+                if (!found) return null;
+                return {
+                  word: found.word,
+                  phonetic: found.ipa,
+                  definitionVi: found.definition.vi,
+                  definitionEn: found.definition.en,
+                };
+              }}
+              allWordsForQuiz={ieltsVocabData.map(w => ({ word: w.word, definition: w.definition.vi }))}
+            />
           </div>
         </div>
       </div>
-      <SmartReviewColumn
-        subject="ielts"
-        lang="en-US"
-        lookupWord={(w) => {
-          const found = ieltsVocabData.find(x => x.word === w);
-          if (!found) return null;
-          return {
-            word: found.word,
-            phonetic: found.ipa,
-            definitionVi: found.definition.vi,
-            definitionEn: found.definition.en,
-          };
-        }}
-        allWordsForQuiz={ieltsVocabData.map(w => ({ word: w.word, definition: w.definition.vi }))}
-      />
       <Footer />
     </div>
   );
