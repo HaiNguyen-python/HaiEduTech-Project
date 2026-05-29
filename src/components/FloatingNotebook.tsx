@@ -155,10 +155,8 @@ const FloatingNotebook = () => {
   useEffect(() => {
     if (user && open) {
       fetchNotebooks();
-      // Auto-expand the saved-notes list on open if nothing is being edited yet
-      if (!selectedId && !title.trim()) setShowNotesList(true);
     }
-  }, [user, open, fetchNotebooks, selectedId, title]);
+  }, [user, open, fetchNotebooks]);
 
   const getContent = useCallback(() => {
     return editor?.getHTML() || "";
