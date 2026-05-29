@@ -988,20 +988,17 @@ const ChatBot = () => {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 20 }}
+            ref={chatWindowRef}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            style={{ x: dragX, y: dragY }}
             drag={!isMobile}
             dragControls={dragControls}
             dragListener={false}
             dragMomentum={false}
             dragElastic={0}
-            dragConstraints={{
-              top: -window.innerHeight + 200,
-              left: -window.innerWidth + 300,
-              right: 50,
-              bottom: 50,
-            }}
+            onDragEnd={clampChatIntoView}
             className={`fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] left-3 right-20 z-50 flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl sm:bottom-6 sm:left-auto sm:right-24 ${
               expanded
                 ? "h-[85vh] max-h-[900px] sm:w-[640px] md:w-[760px] lg:w-[880px]"
