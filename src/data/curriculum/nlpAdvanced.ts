@@ -27,7 +27,9 @@ export const nlpAdvancedModules: ExtendedProgrammingModule[] = [
         titleEn: "Transformer Visualized — Decoding 'Attention is all you need'",
         level: 4,
         difficulty: "advanced",
-        theory: `## 1. 🎯 Vì sao Transformer thắng RNN?
+        theory: `![Transformer architecture overview](/lesson-illustrations/nlp-transformer-illustration.jpg)
+
+## 1. 🎯 Vì sao Transformer thắng RNN?
 
 RNN xử lý token tuần tự → chậm + quên token xa.
 Transformer xử lý **song song** + mỗi token **nhìn thẳng** tới mọi token khác qua *attention*.

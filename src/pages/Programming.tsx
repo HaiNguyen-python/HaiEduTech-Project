@@ -146,23 +146,28 @@ const Programming = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
-  // Scroll the active pillar content into view whenever the pillar changes —
-  // makes the EdTech / NLP / etc. tab clicks feel like opening a new section.
-  // Skip the very first render so a fresh page load doesn't auto-jump past the hero.
+  // Scroll the active pillar content into view whenever the pillar changes.
+  // When the URL explicitly requests a pillar (e.g. ?pillar=nlp from the navbar),
+  // jump INSTANTLY on first paint so the user lands directly inside that section
+  // instead of seeing the overview hero/cards first.
   const didInitialScroll = useRef(false);
   useEffect(() => {
+    const requestedPillar = searchParams.get("pillar");
     if (!didInitialScroll.current) {
       didInitialScroll.current = true;
-      // If the URL explicitly requested a pillar, scroll to it on entry.
-      if (searchParams.get("pillar") && pillarContentRef.current) {
-        pillarContentRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (requestedPillar && pillarContentRef.current) {
+        // Wait one frame so layout is ready, then jump (no smooth) — feels like
+        // a dedicated route for the pillar.
+        requestAnimationFrame(() => {
+          pillarContentRef.current?.scrollIntoView({ behavior: "auto", block: "start" });
+        });
       }
       return;
     }
     if (pillarContentRef.current) {
       pillarContentRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
-  }, [activePillar]);
+  }, [activePillar, searchParams]);
 
   const completedChallenges = pythonChallenges.filter(
     c => localStorage.getItem(`haiedu_challenge_${c.id}_passed`) === "1"

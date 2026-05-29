@@ -29,7 +29,9 @@ export const edtechAdvancedModules: ExtendedProgrammingModule[] = [
         titleEn: "Spaced Repetition — SM-2 and FSRS Decoded",
         level: 3,
         difficulty: "intermediate",
-        theory: `## 1. 🧠 Đường cong quên Ebbinghaus
+        theory: `![Ebbinghaus forgetting curve and spaced repetition](/lesson-illustrations/edtech-spaced-repetition.jpg)
+
+## 1. 🧠 Đường cong quên Ebbinghaus
 
 Trí nhớ phai theo hàm mũ: \`R(t) = e^(-t / S)\` với \`S\` = "stability". Mỗi lần ôn đúng → \`S\` tăng → khoảng cách lần ôn tiếp tăng.
 
