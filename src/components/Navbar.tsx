@@ -301,7 +301,7 @@ const Navbar = () => {
           flicker reported at the bottom of long pages. */}
       <div
         className="w-full z-[60] bg-card border-b border-border fixed top-0"
-        style={{ transform: "translateZ(0)", willChange: "transform", contain: "layout paint" }}
+        style={{ transform: "translateZ(0)", willChange: "transform" }}
       >
         <div className="container mx-auto px-4 sm:px-6">
           {/* Mobile/tablet: flex-col layout; Desktop: single row */}
@@ -474,7 +474,7 @@ const Navbar = () => {
           GPU layer promotion mirrors Row 1 to prevent scroll-time repaint flicker. */}
       <nav
         className="w-full fixed top-12 z-50 bg-card border-b border-border hidden lg:block"
-        style={{ transform: "translateZ(0)", willChange: "transform", contain: "layout paint" }}
+        style={{ transform: "translateZ(0)", willChange: "transform" }}
       >
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-center h-11 gap-0.5">
