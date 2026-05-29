@@ -1035,7 +1035,18 @@ const ChatBot = () => {
                 <Mail className="h-5 w-5 text-primary" />
               </button>
               <button
-                onClick={() => setExpanded((v) => !v)}
+                onClick={resetChatPosition}
+                onPointerDown={(e) => e.stopPropagation()}
+                className="hidden sm:inline-flex rounded-lg p-1.5 transition-colors hover:bg-secondary"
+                title={t("Đưa về vị trí gốc", "Reset position")}
+              >
+                <LocateFixed className="h-5 w-5 text-muted-foreground" />
+              </button>
+              <button
+                onClick={() => {
+                  setExpanded((v) => !v);
+                  setTimeout(clampChatIntoView, 50);
+                }}
                 onPointerDown={(e) => e.stopPropagation()}
                 className="hidden sm:inline-flex rounded-lg p-1.5 transition-colors hover:bg-secondary"
                 title={expanded ? t("Thu nhỏ", "Restore") : t("Phóng to", "Expand")}
