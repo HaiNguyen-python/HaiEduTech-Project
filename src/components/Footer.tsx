@@ -11,7 +11,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import teacherWave from "@/assets/teacher-wave.webp";
 
 const socialLinks = [
-  { href: "mailto:contact@haiedutech.com", icon: Mail, label: "Email" },
+  { href: "mailto:hainguyen240195@gmail.com", icon: Mail, label: "Email" },
   { href: "https://github.com/HaiNguyen-python", icon: Github, label: "GitHub" },
   { href: "https://www.linkedin.com/in/hainguyen2401/", icon: Linkedin, label: "LinkedIn" },
 ];
@@ -98,8 +98,8 @@ const Footer = () => {
               <a href="tel:+358408175366" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
                 <Phone className="w-4 h-4" /> 🇫🇮 +358 40 817 5366
               </a>
-              <a href="mailto:contact@haiedutech.com" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-                <Mail className="w-4 h-4" /> contact@haiedutech.com
+              <a href="mailto:hainguyen240195@gmail.com" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <Mail className="w-4 h-4" /> hainguyen240195@gmail.com
               </a>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <MapPin className="w-4 h-4 shrink-0" /> {t("Phần Lan & Việt Nam", "Finland & Vietnam")}
