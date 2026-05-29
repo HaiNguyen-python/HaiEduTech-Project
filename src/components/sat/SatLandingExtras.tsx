@@ -177,15 +177,15 @@ const SatLandingExtras = () => {
           </div>
           <div className="grid md:grid-cols-3 gap-4">
             {painPoints.map((p, i) => (
-              <div key={i} className="rounded-2xl p-5 border border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-orange-500/5">
-                <div className="flex items-center gap-2 mb-3">
-                  <p.icon className="w-5 h-5 text-amber-600" />
-                  <h3 className="font-display font-bold text-foreground">{p.title}</h3>
+              <div key={i} className="rounded-2xl p-5 border-2 border-amber-500/60 bg-gradient-to-br from-amber-500/10 to-orange-500/10 shadow-sm">
+                <div className="flex items-start gap-2 mb-3">
+                  <p.icon className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                  <h3 className="font-display font-bold text-foreground text-[15px] leading-snug">{p.title}</h3>
                 </div>
-                <p className="text-sm text-muted-foreground mb-3 leading-relaxed">{p.pain}</p>
-                <div className="flex items-start gap-2 p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+                <p className="text-sm text-foreground/80 mb-3 leading-relaxed">{p.pain}</p>
+                <div className="flex items-start gap-2 p-3 rounded-lg bg-emerald-500/15 border-2 border-emerald-500/40">
                   <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <p className="text-sm text-foreground/90 leading-relaxed">{p.solution}</p>
+                  <p className="text-sm text-foreground leading-relaxed">{p.solution}</p>
                 </div>
               </div>
             ))}
