@@ -16,11 +16,11 @@ export const SAT_LEVELS = ['B2','C1'] as const;
 export const SAT_SECTIONS = ['Reading & Writing','Math'] as const;
 
 export const SAT_CATEGORIES_BY_SECTION: Record<string, string[]> = {
-  'Reading & Writing': ["Evidence-Based Reading","Command of Evidence","Words in Context","Standard English Conventions","High-Frequency SAT Words – Set 1","High-Frequency SAT Words – Set 2","Roots, Prefixes & Suffixes","Expression of Ideas","Rhetorical Synthesis","Transitions & Flow"],
+  'Reading & Writing': ["Evidence-Based Reading","Command of Evidence","Words in Context","Standard English Conventions","High-Frequency SAT Words – Set 1","High-Frequency SAT Words – Set 2","High-Frequency SAT Words – Set 3","Roots, Prefixes & Suffixes","Expression of Ideas","Rhetorical Synthesis","Transitions & Flow"],
   'Math': ["Heart of Algebra","Problem Solving & Data Analysis","Passport to Advanced Math","Geometry & Trigonometry"],
 };
 
-export const SAT_CATEGORIES = ["Evidence-Based Reading","Command of Evidence","Words in Context","Standard English Conventions","High-Frequency SAT Words – Set 1","High-Frequency SAT Words – Set 2","Roots, Prefixes & Suffixes","Expression of Ideas","Rhetorical Synthesis","Transitions & Flow","Heart of Algebra","Problem Solving & Data Analysis","Passport to Advanced Math","Geometry & Trigonometry"] as const;
+export const SAT_CATEGORIES = ["Evidence-Based Reading","Command of Evidence","Words in Context","Standard English Conventions","High-Frequency SAT Words – Set 1","High-Frequency SAT Words – Set 2","High-Frequency SAT Words – Set 3","Roots, Prefixes & Suffixes","Expression of Ideas","Rhetorical Synthesis","Transitions & Flow","Heart of Algebra","Problem Solving & Data Analysis","Passport to Advanced Math","Geometry & Trigonometry"] as const;
 
 import { satVocabExpansion } from './satVocabExpansionLarge';
 import { satVocabExpansion2 } from './satVocabExpansion2';
@@ -31,6 +31,7 @@ import { satVocabExpansion6 } from './satVocabExpansion6';
 import { satVocabExpansion7 } from './satVocabExpansion7';
 import { satVocabExpansion8 } from './satVocabExpansion8';
 import { satVocabExpansion9 } from './satVocabExpansion9';
+import { satVocabExpansion10 } from './satVocabExpansion10';
 
 const satVocabBase: SatWord[] = [
   {
@@ -2105,7 +2106,7 @@ const satVocabBase: SatWord[] = [
 // Merge base + expansion, deduped by lowercased word (base wins)
 const _seen = new Set<string>();
 export const satVocabData: SatWord[] = [];
-for (const w of [...satVocabBase, ...satVocabExpansion, ...satVocabExpansion2, ...satVocabExpansion3, ...satVocabExpansion4, ...satVocabExpansion5, ...satVocabExpansion6, ...satVocabExpansion7, ...satVocabExpansion8, ...satVocabExpansion9]) {
+for (const w of [...satVocabBase, ...satVocabExpansion, ...satVocabExpansion2, ...satVocabExpansion3, ...satVocabExpansion4, ...satVocabExpansion5, ...satVocabExpansion6, ...satVocabExpansion7, ...satVocabExpansion8, ...satVocabExpansion9, ...satVocabExpansion10]) {
   const k = w.word.toLowerCase();
   if (_seen.has(k)) continue;
   _seen.add(k);
