@@ -120,7 +120,14 @@ const HskExamplePractice = ({ example, examplePinyin }: Props) => {
             variant={mode === "voice" ? "default" : "outline"}
             size="sm"
             className="h-8 px-3 text-sm gap-1 font-semibold"
-            onClick={() => { setMode("voice"); handleReset(); }}
+            onClick={() => {
+              setMode("voice");
+              handleReset();
+              // Auto-start recording immediately so users don't need a second click
+              if (!listening) {
+                setTimeout(() => startVoice(), 50);
+              }
+            }}
           >
             <Mic className="w-3.5 h-3.5" /> Nói
           </Button>
