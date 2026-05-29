@@ -257,7 +257,9 @@ print("parsed:", safe_json('Đây là kết quả: \`\`\`json {"score": 7, "reas
         titleEn: "Embeddings & Vector Search — The Semi-Structured Brain of LLM Apps",
         level: 4,
         difficulty: "advanced",
-        theory: `## 1. 🎯 Embedding là gì?
+        theory: `![RAG retrieval augmented generation pipeline](/lesson-illustrations/nlp-rag-pipeline.jpg)
+
+## 1. 🎯 Embedding là gì?
 
 Hàm \`encode(text) → vector ∈ ℝ^d\` (d ~ 384..3072) sao cho 2 đoạn có nghĩa gần nhau → vector gần nhau (cosine cao).
 

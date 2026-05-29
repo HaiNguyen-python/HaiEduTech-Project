@@ -151,7 +151,9 @@ for q in [3, 4, 5, 5, 4, 5]:
         titleEn: "Adaptive Difficulty — IRT, Mastery, and Multi-Armed Bandits",
         level: 4,
         difficulty: "advanced",
-        theory: `## 1. 🎯 Vì sao "đề tĩnh" thất bại với mọi học sinh
+        theory: `![Adaptive learning system overview](/lesson-illustrations/edtech-adaptive-learning.jpg)
+
+## 1. 🎯 Vì sao "đề tĩnh" thất bại với mọi học sinh
 
 Đề cố định: học sinh giỏi chán, học sinh yếu nản. Adaptive testing chọn câu **theo trình độ ước lượng** → mỗi câu mang nhiều thông tin nhất.
 
