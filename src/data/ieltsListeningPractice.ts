@@ -219,10 +219,10 @@ export const ieltsListeningPracticeSets: ListeningPracticeSet[] = [
     title: "Three Students Discuss Their Projects",
     titleVi: "Ba sinh viên thảo luận dự án",
     context:
-      "You will hear three students - Anna, Ben and Chloe - talking about their final-year projects. Match each comment 1-5 to the correct speaker:\n" +
+      "You will hear three students - Anna, Ben and Chloe - talking about their final-year projects. Match each comment 1-10 to the correct speaker:\n" +
       "A) Anna   B) Ben   C) Chloe",
     contextVi:
-      "Bạn sẽ nghe ba sinh viên - Anna, Ben, Chloe - nói về dự án cuối khóa. Nối mỗi nhận xét 1-5 với người nói đúng:\n" +
+      "Bạn sẽ nghe ba sinh viên - Anna, Ben, Chloe - nói về dự án cuối khóa. Nối mỗi nhận xét 1-10 với người nói đúng:\n" +
       "A) Anna   B) Ben   C) Chloe",
     transcript:
       "Tutor: So how are your projects going? Anna, you start.\n" +
@@ -243,6 +243,11 @@ export const ieltsListeningPracticeSets: ListeningPracticeSet[] = [
       { type: "matching", prompt: "Finds turning results into clear writing difficult", answer: "C" },
       { type: "matching", prompt: "Has very supportive and frequent supervisor meetings", answer: "A" },
       { type: "matching", prompt: "Would plan the writing schedule earlier next time", answer: "C" },
+      { type: "matching", prompt: "Used existing databases for the project data", answer: "B" },
+      { type: "matching", prompt: "Reports that supervisor meetings often get cancelled", answer: "B" },
+      { type: "matching", prompt: "Prefers to work independently between meetings", answer: "C" },
+      { type: "matching", prompt: "Would choose a narrower topic next time", answer: "A" },
+      { type: "matching", prompt: "Would start the statistics earlier next time", answer: "B" },
     ],
     matchingOptions: [
       { letter: "A", text: "Anna" },
