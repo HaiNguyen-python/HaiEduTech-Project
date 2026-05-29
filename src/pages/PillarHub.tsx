@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Link, useParams, Navigate } from "react-router-dom";
+import { Link, useLocation, Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, ChevronDown, ChevronRight, BookOpen, GraduationCap, Languages, Sparkles } from "lucide-react";
 import Navbar from "@/components/Navbar";
