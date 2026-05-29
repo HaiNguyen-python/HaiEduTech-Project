@@ -981,10 +981,18 @@ const ChatBot = () => {
                     : t("Cùng nâng cấp kỹ năng cùng thầy hôm nay nhé!", "Level up your skills with me today.")}
                 </p>
               </div>
+              <button
+                onClick={openAskTeacher}
+                className="rounded-lg p-1.5 transition-colors hover:bg-secondary"
+                title={t("Gửi câu hỏi cho thầy Hải qua email", "Send a question to Teacher Hai via email")}
+              >
+                <Mail className="h-5 w-5 text-primary" />
+              </button>
               <button onClick={() => setOpen(false)} className="rounded-lg p-1.5 transition-colors hover:bg-secondary">
                 <X className="h-5 w-5 text-muted-foreground" />
               </button>
             </div>
+
 
             {/* Chat Locked Banner */}
             {chatLocked && (
