@@ -186,7 +186,7 @@ If asked about cooking, politics, entertainment, sports, general chit-chat:
 - Use markdown for code blocks and lists.
 - Always be encouraging, patient, and educational with examples.`
           },
-          ...messages,
+          ...sanitizeMessages(messages),
         ],
         stream: true,
       }),
