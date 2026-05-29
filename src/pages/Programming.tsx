@@ -373,8 +373,9 @@ const Programming = () => {
 
 
           {/* Active Pillar Content */}
-          <div className="max-w-5xl mx-auto">
+          <div ref={pillarContentRef} className="max-w-5xl mx-auto scroll-mt-24">
             <AnimatePresence mode="wait">
+
               <motion.div
                 key={activePillar}
                 initial={{ opacity: 0, y: 16 }}
