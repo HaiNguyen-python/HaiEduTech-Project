@@ -79,7 +79,7 @@ export const template = {
   component: RegistrationNotificationEmail,
   subject: (data: Record<string, any>) => `[Đăng ký khóa học] ${data.program || 'Học viên mới'}`,
   displayName: 'Course registration notification',
-  to: 'contact@haiedutech.com',
+  to: 'hainguyen240195@gmail.com',
   previewData: {
     name: 'Nguyễn Minh Anh',
     email: 'minhanh@example.com',

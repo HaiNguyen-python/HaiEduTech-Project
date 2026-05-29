@@ -61,7 +61,7 @@ This message was sent from the HaiEdu contact form.
       `.trim();
 
       await sendLovableEmail({
-        to: "contact@haiedutech.com",
+        to: "hainguyen240195@gmail.com",
         from: "HaiEduTech <noreply@notify.haiedutech.com>",
         sender_domain: "notify.haiedutech.com",
         subject: `[Đăng ký khóa học] ${programName}`,
@@ -98,7 +98,7 @@ This message was sent from the HaiEdu contact form.
       `.trim();
 
       await sendLovableEmail({
-        to: "contact@haiedutech.com",
+        to: "hainguyen240195@gmail.com",
         from: "HaiEduTech <noreply@notify.haiedutech.com>",
         sender_domain: "notify.haiedutech.com",
         reply_to: email || undefined,

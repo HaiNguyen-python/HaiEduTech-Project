@@ -1178,8 +1178,8 @@ const ChatBot = () => {
                     </h5>
                     <p className="text-xs text-muted-foreground">
                       {t(
-                        "Thầy Hải sẽ phản hồi qua email contact@haiedutech.com sớm nhất nhé.",
-                        "Teacher Hai will reply via contact@haiedutech.com as soon as possible.",
+                        "Thầy Hải sẽ phản hồi qua email hainguyen240195@gmail.com sớm nhất nhé.",
+                        "Teacher Hai will reply via hainguyen240195@gmail.com as soon as possible.",
                       )}
                     </p>
                     <button
@@ -1193,8 +1193,8 @@ const ChatBot = () => {
                   <div className="flex-1 space-y-3 overflow-y-auto p-4">
                     <p className="text-xs text-muted-foreground">
                       {t(
-                        "Câu hỏi của em sẽ được gửi trực tiếp đến email contact@haiedutech.com của thầy Hải.",
-                        "Your question will be sent directly to Teacher Hai at contact@haiedutech.com.",
+                        "Câu hỏi của em sẽ được gửi trực tiếp đến email hainguyen240195@gmail.com của thầy Hải.",
+                        "Your question will be sent directly to Teacher Hai at hainguyen240195@gmail.com.",
                       )}
                     </p>
                     <div>
