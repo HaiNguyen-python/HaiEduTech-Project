@@ -193,6 +193,13 @@ const FUN_FACTS: { vi: string; en: string }[] = [
   { vi: "Bật mí: CAPTCHA viết tắt từ 'Completely Automated Public Turing test' — dùng AI để đánh giá con người!", en: "Fun fact: CAPTCHA stands for 'Completely Automated Public Turing test' — using AI to judge humans!" },
   { vi: "Bật mí: một lập trình viên trung bình viết khoảng 100 dòng code mỗi ngày làm việc hiệu quả.", en: "Fun fact: an average developer writes about 100 lines of productive code per working day." },
   { vi: "Bật mí: Unicode chứa hơn 149.000 ký tự, bao gồm cả emoji, chữ Hán, cổ ngữ và ký hiệu toán học.", en: "Fun fact: Unicode contains over 149,000 characters, including emojis, Hanzi, ancient scripts, and math symbols." },
+  { vi: "Bật mí: Scratch do MIT phát triển, dạy lập trình bằng cách kéo-thả khối lệnh — bạn nhỏ 8 tuổi cũng làm được game!", en: "Fun fact: Scratch was built at MIT and teaches coding via drag-and-drop blocks — even 8-year-olds can make games!" },
+  { vi: "Bật mí: Pyodide chạy Python ngay trong trình duyệt nhờ WebAssembly, không cần cài đặt.", en: "Fun fact: Pyodide runs full Python inside the browser via WebAssembly — no install needed." },
+  { vi: "Bật mí: Apache Spark xử lý dữ liệu nhanh hơn Hadoop tới 100 lần nhờ tính toán trong bộ nhớ (in-memory).", en: "Fun fact: Apache Spark can process data up to 100× faster than Hadoop thanks to in-memory computing." },
+  { vi: "Bật mí: một mô hình Machine Learning đơn giản có thể học từ vài trăm dòng dữ liệu — quan trọng là chất lượng, không phải số lượng.", en: "Fun fact: a simple Machine Learning model can learn from just a few hundred rows — quality of data matters more than quantity." },
+  { vi: "Bật mí: SQL JOIN giúp ghép dữ liệu từ nhiều bảng — một kỹ năng vàng cho mọi Data Engineer.", en: "Fun fact: SQL JOINs let you stitch data across tables — a golden skill for every Data Engineer." },
+  { vi: "Bật mí: Git được Linus Torvalds tạo ra trong 2 tuần năm 2005, giờ là chuẩn quản lý mã nguồn toàn cầu.", en: "Fun fact: Git was created by Linus Torvalds in just 2 weeks in 2005 — now the global standard for source control." },
+  { vi: "Bật mí: tư duy thuật toán không cần máy tính — học sắp xếp, tìm kiếm, đệ quy giúp bạn giải mọi vấn đề trong đời sống.", en: "Fun fact: algorithmic thinking doesn't need a computer — sorting, searching, and recursion sharpen real-life problem solving." },
 ];
 
 // ── Speech Recognition type shim ──
