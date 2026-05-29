@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { BookOpen, Plus, Save, X, Trash2, GripVertical, Bold, Italic, Underline, List, ListOrdered, Palette, RotateCcw, Highlighter, SwatchBook, FolderOpen, ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
+import { BookOpen, Plus, Save, X, Trash2, GripVertical, Bold, Italic, Underline, List, ListOrdered, Palette, RotateCcw, Highlighter, SwatchBook, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
@@ -78,7 +78,7 @@ const FloatingNotebook = () => {
   const [showHighlightPicker, setShowHighlightPicker] = useState(false);
   const [showThemePicker, setShowThemePicker] = useState(false);
   const [themeIndex, setThemeIndex] = useState(0);
-  const [showNotesList, setShowNotesList] = useState(false);
+  
   const theme = NOTEBOOK_THEMES[themeIndex];
   const autoSaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { toast } = useToast();
@@ -155,10 +155,8 @@ const FloatingNotebook = () => {
   useEffect(() => {
     if (user && open) {
       fetchNotebooks();
-      // Auto-expand the saved-notes list on open if nothing is being edited yet
-      if (!selectedId && !title.trim()) setShowNotesList(true);
     }
-  }, [user, open, fetchNotebooks, selectedId, title]);
+  }, [user, open, fetchNotebooks]);
 
   const getContent = useCallback(() => {
     return editor?.getHTML() || "";
@@ -366,11 +364,11 @@ const FloatingNotebook = () => {
       {!chatbotOpen && (
         <motion.button
           onClick={() => setOpen(!open)}
-          className="fixed bottom-6 right-24 z-50 w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:scale-110 transition-transform"
+          className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] right-32 z-50 w-12 h-12 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:scale-110 transition-transform sm:bottom-6 sm:right-40 sm:w-14 sm:h-14"
           whileTap={{ scale: 0.9 }}
           aria-label="Open notebook"
         >
-          <BookOpen size={24} />
+          <BookOpen size={22} />
         </motion.button>
       )}
 
@@ -430,63 +428,32 @@ const FloatingNotebook = () => {
               </div>
             </div>
 
-            {/* Saved notes list — visible & scrollable so old notes are easy to find */}
-            <div className="px-3 pt-2">
-              <button
-                type="button"
-                onClick={() => setShowNotesList(s => !s)}
-                className="w-full flex items-center justify-between gap-2 text-xs font-semibold px-2 py-1.5 rounded-md hover:bg-black/5"
-                style={{ color: theme.text }}
+            {/* Saved notes selector — compact dropdown */}
+            <div className="px-3 pt-2 flex items-center gap-2">
+              <select
+                value={selectedId || ""}
+                onChange={(e) => {
+                  const nb = notebooks.find(n => n.id === e.target.value);
+                  if (nb) handleSelect(nb);
+                  else handleNew();
+                }}
+                className="flex-1 text-xs border border-border rounded-md px-2 py-1.5 bg-background text-foreground"
               >
-                <span className="flex items-center gap-1.5">
-                  <FolderOpen size={13} />
-                  Ghi chú đã lưu ({notebooks.length})
-                </span>
-                {showNotesList ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
-              </button>
-
-              {showNotesList && (
-                <div className="mt-1.5 max-h-44 overflow-y-auto rounded-md border border-border bg-background/60">
-                  {notebooks.length === 0 ? (
-                    <div className="px-3 py-4 text-center text-xs text-muted-foreground">
-                      Chưa có ghi chú nào — hãy tạo ghi chú đầu tiên ✨
-                    </div>
-                  ) : (
-                    <ul className="divide-y divide-border">
-                      {notebooks.map(nb => {
-                        const isActive = nb.id === selectedId;
-                        return (
-                          <li key={nb.id}>
-                            <button
-                              type="button"
-                              onClick={() => { handleSelect(nb); setShowNotesList(false); }}
-                              className={`w-full text-left px-3 py-2 text-xs hover:bg-primary/10 transition-colors ${isActive ? "bg-primary/15" : ""}`}
-                            >
-                              <div className="font-medium text-foreground truncate flex items-center gap-1.5">
-                                {isActive && <span className="text-primary">●</span>}
-                                {nb.title || "Chưa có tiêu đề"}
-                              </div>
-                              <div className="text-[10px] text-muted-foreground mt-0.5 flex items-center gap-2">
-                                <span className="px-1.5 py-0.5 rounded bg-secondary">{nb.subject}</span>
-                                <span>{new Date(nb.updated_at).toLocaleDateString("vi-VN")} {new Date(nb.updated_at).toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" })}</span>
-                              </div>
-                            </button>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  )}
-                  <div className="border-t border-border px-3 py-1.5 text-center">
-                    <Link
-                      to="/notebook"
-                      onClick={() => setOpen(false)}
-                      className="inline-flex items-center gap-1 text-[11px] text-primary hover:underline"
-                    >
-                      Mở Sổ Tay đầy đủ <ExternalLink size={10} />
-                    </Link>
-                  </div>
-                </div>
-              )}
+                <option value="">📝 Ghi chú mới ({notebooks.length} đã lưu)</option>
+                {notebooks.map(nb => (
+                  <option key={nb.id} value={nb.id}>
+                    {nb.title || "(Chưa có tiêu đề)"} — {new Date(nb.updated_at).toLocaleDateString("vi-VN")}
+                  </option>
+                ))}
+              </select>
+              <Link
+                to="/notebook"
+                onClick={() => setOpen(false)}
+                className="p-1.5 rounded-md hover:bg-black/10 text-muted-foreground"
+                title="Mở Sổ Tay đầy đủ"
+              >
+                <ExternalLink size={14} />
+              </Link>
             </div>
 
             {/* Title + Subject */}
