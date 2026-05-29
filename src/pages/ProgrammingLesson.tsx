@@ -650,11 +650,16 @@ const ProgrammingLessonPage = () => {
                       )}
                     </div>
                     <div className="space-y-5">
-                      {lesson.quiz.map((q, qi) => (
+                      {lesson.quiz.map((q, qi) => {
+                        const en = lang === "en" ? edtechQuizEn[q.question] : undefined;
+                        const questionText = en?.q ?? q.question;
+                        const optionTexts = en?.opts ?? q.options;
+                        const explanationText = en?.exp ?? q.explanation;
+                        return (
                         <div key={qi} className="space-y-2">
-                          <p className="text-sm font-medium text-foreground">{qi + 1}. {q.question}</p>
+                          <p className="text-sm font-medium text-foreground">{qi + 1}. {questionText}</p>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                            {q.options.map((opt, oi) => {
+                            {optionTexts.map((opt, oi) => {
                               const selected = answers[qi] === oi;
                               const isCorrect = q.answer === oi;
                               let cls = "px-3 py-2 rounded-lg text-sm text-left transition-all border ";
@@ -674,9 +679,10 @@ const ProgrammingLessonPage = () => {
                               );
                             })}
                           </div>
-                          {showResults && <p className="text-xs text-muted-foreground ml-1 mt-1">💬 {q.explanation}</p>}
+                          {showResults && <p className="text-xs text-muted-foreground ml-1 mt-1">💬 {explanationText}</p>}
                         </div>
-                      ))}
+                        );
+                      })}
                     </div>
                     {!showResults && Object.keys(answers).length > 0 && (
                       <button onClick={async () => {
