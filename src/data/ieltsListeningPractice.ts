@@ -278,10 +278,14 @@ export const ieltsListeningPracticeSets: ListeningPracticeSet[] = [
     questions: [
       { type: "fill-in", prompt: "Coffee is thought to have originated in the highlands of ___.", answer: "Ethiopia" },
       { type: "fill-in", prompt: "A goat herder noticed his goats became energetic after eating red ___.", answer: "berries" },
+      { type: "fill-in", prompt: "First solid evidence of brewing comes from the ___ century.", answer: "fifteenth" },
+      { type: "fill-in", prompt: "The first evidence comes from ___ (country).", answer: "Yemen" },
       { type: "fill-in", prompt: "Sufi monks in Yemen used coffee during long ___ prayers.", answer: "evening" },
       { type: "fill-in", prompt: "The first coffee house opened in ___ in 1554.", answer: "Istanbul" },
+      { type: "fill-in", prompt: "Number of London coffee houses by 1675: more than ___", answer: "3000" },
       { type: "fill-in", prompt: "London coffee houses were nicknamed ___ universities.", answer: "penny" },
       { type: "fill-in", prompt: "Today, ___ is the largest coffee-producing country.", answer: "Brazil" },
+      { type: "fill-in", prompt: "Brazil accounts for roughly ___ of global supply.", answer: "one third" },
     ],
   },
 
