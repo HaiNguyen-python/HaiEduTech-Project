@@ -7,6 +7,7 @@ import { lazy, Suspense, useEffect, useState, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import CoursesOverview from "@/components/CoursesOverview";
+import ClassroomGallery from "@/components/ClassroomGallery";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
