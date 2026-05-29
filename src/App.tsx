@@ -113,6 +113,7 @@ const ChineseListening = lazy(() => import("./pages/ChineseListening.tsx"));
 const VietnameseArcade = lazy(() => import("./pages/VietnameseArcade.tsx"));
 const CambridgeArcade = lazy(() => import("./pages/CambridgeArcade.tsx"));
 const ProgrammingArcade = lazy(() => import("./pages/ProgrammingArcade.tsx"));
+const PillarHub = lazy(() => import("./pages/PillarHub.tsx"));
 
 const FinnishArcade = lazy(() => import("./pages/FinnishArcade.tsx"));
 const MultiLangArcade = lazy(() => import("./pages/MultiLangArcade.tsx"));
@@ -252,6 +253,8 @@ const App = () => (
             <Route path="/programming/arcade" element={<LazyRoute><ProgrammingArcade /></LazyRoute>} />
             <Route path="/programming/ai-academy" element={<LazyRoute><AIAcademy /></LazyRoute>} />
             <Route path="/programming/scratch-adventure" element={<LazyRoute><ScratchAdventure /></LazyRoute>} />
+            <Route path="/programming/nlp" element={<LazyRoute><PillarHub /></LazyRoute>} />
+            <Route path="/programming/edtech" element={<LazyRoute><PillarHub /></LazyRoute>} />
             <Route path="/programming/:moduleId" element={<LazyRoute><ProgrammingLesson /></LazyRoute>} />
             <Route path="/programming/python/:lessonId" element={<LazyRoute><PythonLessonView /></LazyRoute>} />
             <Route path="/programming/:moduleId/:lessonId" element={<LazyRoute><ProgrammingLesson /></LazyRoute>} />

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import AssessmentTool from "@/components/AssessmentTool";
 import Footer from "@/components/Footer";
@@ -129,6 +129,7 @@ const pillars = [
 
 const Programming = () => {
   const { t } = useLanguage();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [activePillar, setActivePillar] = useState(() => {
     const initial = searchParams.get("pillar");
@@ -140,6 +141,10 @@ const Programming = () => {
   // Sync active pillar when ?pillar= changes (e.g. coming from Navbar link)
   useEffect(() => {
     const next = searchParams.get("pillar");
+    if (next === "nlp" || next === "edtech") {
+      navigate(`/programming/${next}`, { replace: true });
+      return;
+    }
     if (next && pillars.some(p => p.id === next) && next !== activePillar) {
       setActivePillar(next);
     }
@@ -309,7 +314,13 @@ const Programming = () => {
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.08, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                  onClick={() => setActivePillar(p.id)}
+                  onClick={() => {
+                    if (p.id === "nlp" || p.id === "edtech") {
+                      navigate(`/programming/${p.id}`);
+                    } else {
+                      setActivePillar(p.id);
+                    }
+                  }}
                   className={`relative rounded-xl p-4 text-left transition-all duration-300 border active:scale-[0.97] ${
                     isActive
                       ? `${p.bgColor} ${p.borderColor} shadow-md`
