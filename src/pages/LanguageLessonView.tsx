@@ -44,6 +44,9 @@ const difficultyConfig = {
 
 const LanguageLessonView = () => {
   const { moduleId, lessonId } = useParams();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const isTeachSeq = searchParams.get("seq") === "sat";
   const { t } = useLanguage();
 
   const rawMod = useMemo(() => allLanguageModules.find(m => m.id === moduleId), [moduleId]);
