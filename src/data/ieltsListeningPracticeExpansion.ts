@@ -125,10 +125,14 @@ export const ieltsListeningPracticeSetsExpansion: ListeningPracticeSet[] = [
       "The fourth and increasingly important method is thermal imaging from satellites, which can detect new hot spots even through cloud cover.\n" +
       "Combining these four streams now allows warnings to be issued, on average, around three days before a major eruption — a dramatic improvement on the situation just twenty years ago, when warnings were rarely possible.",
     questions: [
+      { type: "fill-in", prompt: "Number of main monitoring techniques: ___", answer: "4" },
       { type: "fill-in", prompt: "Seismometers can detect tremors as weak as magnitude ___.", answer: "1" },
+      { type: "fill-in", prompt: "Small earthquakes signal that magma is moving ___.", answer: "upwards" },
       { type: "fill-in", prompt: "Ground deformation is measured by GPS receivers and satellite ___.", answer: "radar" },
       { type: "fill-in", prompt: "The surface above a chamber can bulge by several ___.", answer: "centimetres" },
       { type: "fill-in", prompt: "The ratio of ___ to carbon dioxide rises before eruption.", answer: "sulphur dioxide" },
+      { type: "fill-in", prompt: "Sulphur dioxide ratio rises as magma approaches the ___.", answer: "surface" },
+      { type: "fill-in", prompt: "Thermal imaging detects new ___ on volcanoes.", answer: "hot spots" },
       { type: "fill-in", prompt: "Thermal imaging works even through ___ cover.", answer: "cloud" },
       { type: "fill-in", prompt: "Warnings can now be issued about ___ days in advance.", answer: "3" },
     ],
