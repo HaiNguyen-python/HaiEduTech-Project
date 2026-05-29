@@ -27,7 +27,9 @@ export const nlpAdvancedModules: ExtendedProgrammingModule[] = [
         titleEn: "Transformer Visualized — Decoding 'Attention is all you need'",
         level: 4,
         difficulty: "advanced",
-        theory: `## 1. 🎯 Vì sao Transformer thắng RNN?
+        theory: `![Transformer architecture overview](/lesson-illustrations/nlp-transformer-illustration.jpg)
+
+## 1. 🎯 Vì sao Transformer thắng RNN?
 
 RNN xử lý token tuần tự → chậm + quên token xa.
 Transformer xử lý **song song** + mỗi token **nhìn thẳng** tới mọi token khác qua *attention*.
@@ -255,7 +257,9 @@ print("parsed:", safe_json('Đây là kết quả: \`\`\`json {"score": 7, "reas
         titleEn: "Embeddings & Vector Search — The Semi-Structured Brain of LLM Apps",
         level: 4,
         difficulty: "advanced",
-        theory: `## 1. 🎯 Embedding là gì?
+        theory: `![RAG retrieval augmented generation pipeline](/lesson-illustrations/nlp-rag-pipeline.jpg)
+
+## 1. 🎯 Embedding là gì?
 
 Hàm \`encode(text) → vector ∈ ℝ^d\` (d ~ 384..3072) sao cho 2 đoạn có nghĩa gần nhau → vector gần nhau (cosine cao).
 
@@ -479,6 +483,113 @@ for s in samples:
           { question: "Metric tốt nhất để đánh giá faithfulness của RAG là?", options: ["BLEU", "Accuracy", "LLM-judge faithfulness + citation overlap", "Loss"], answer: 2, explanation: "RAG cần đo 'có bịa không' — judge model + kiểm tra trích nguồn." },
           { question: "NFC vs NFD ảnh hưởng?", options: ["Tốc độ mạng", "Cùng ký tự 'ế' có 2 byte-form → so sánh string thất bại nếu không chuẩn hoá", "RAM", "Không ảnh hưởng"], answer: 1, explanation: "Phải NFC toàn pipeline để string equality hoạt động." },
           { question: "Mixed-script attack là?", options: ["Bug font", "Dùng ký tự Cyrillic trông giống Latin để vượt filter", "Spam ASCII", "Lỗi UTF-8"], answer: 1, explanation: "Cần Unicode confusables detector để chặn." },
+        ],
+      },
+      {
+        id: "nlp-adv-5",
+        title: "NLP Evaluation — đo chất lượng đầu ra LLM/NLP đúng cách",
+        titleEn: "NLP Evaluation — Measuring LLM/NLP Output Properly",
+        level: 4,
+        difficulty: "advanced",
+        theory: `## 1. ❓ Vì sao "đo đúng" khó hơn ta nghĩ
+
+Trong phân loại cổ điển: \`accuracy = đúng / tổng\`. Nhưng với NLP sinh ngữ (generation), **không có 1 đáp án đúng duy nhất** — có vô số cách diễn đạt cùng ý.
+
+\`\`\`
+   Câu hỏi: "Tóm tắt bài này trong 1 câu"
+   Tham chiếu: "Lạm phát Mỹ giảm còn 2.4% trong tháng 5."
+   AI output:  "Tháng 5/2026, CPI Mỹ hạ xuống 2.4%."
+   → BLEU thấp (ít từ trùng) nhưng nghĩa GIỐNG HỆT.
+\`\`\`
+
+## 2. 🧮 4 họ metric — chọn đúng họ trước khi tinh chỉnh
+
+| Họ | Metric tiêu biểu | Dùng cho | Điểm yếu |
+|----|------------------|----------|----------|
+| **Lexical overlap** | BLEU, ROUGE, METEOR | Dịch máy, tóm tắt có tham chiếu | Phạt paraphrase đúng nghĩa |
+| **Embedding-based** | BERTScore, MoverScore | So nghĩa, không cần trùng từ | Phụ thuộc model embedding |
+| **LLM-as-judge** | G-Eval, GPT-judge, Prometheus | Open-ended (chat, viết) | Bias, có thể tự thiên vị |
+| **Task-specific** | EM/F1 (QA), QWK (essay), WER (ASR) | Khi có ground-truth rõ | Không cover sáng tạo |
+
+## 3. 🧪 Quy trình eval một LLM-feature từ A-Z
+
+\`\`\`
+   ┌────────────────────────────────────────────────────────┐
+   │ 1. Curate eval set ~100-500 case ĐA DẠNG               │
+   │    (easy / hard / adversarial / multilingual / edge)   │
+   │           ▼                                            │
+   │ 2. Gold labels: human-written hoặc gold rubric         │
+   │           ▼                                            │
+   │ 3. Pipeline auto: chạy model → metric chính + phụ      │
+   │           ▼                                            │
+   │ 4. Sample 30 case cho human review (calibration)       │
+   │           ▼                                            │
+   │ 5. Theo dõi 4 trục: accuracy · faithfulness ·          │
+   │                       safety  · cost/latency           │
+   └────────────────────────────────────────────────────────┘
+\`\`\`
+
+## 4. 🛡️ Faithfulness vs. Fluency — đừng nhầm
+
+- **Fluency**: câu trôi chảy, ngữ pháp đúng → BLEU/perplexity đo được.
+- **Faithfulness (groundedness)**: câu có **trung thành với nguồn** không, **có bịa không**?
+- LLM **trôi chảy nhưng bịa** là kẻ thù số 1 của RAG/chatbot — phải đo riêng (NLI hoặc judge "có claim nào KHÔNG được hỗ trợ bởi nguồn?").
+
+## 5. ⚖️ LLM-as-judge — mạnh, nhưng có 4 bẫy
+
+1. **Position bias**: ưu ái câu ở vị trí A — khắc phục: hoán đổi A/B, lấy trung bình.
+2. **Self-preference**: GPT-4 ưu ái output của GPT — dùng judge khác model (cross-vendor).
+3. **Verbosity bias**: thích câu dài — yêu cầu judge "ignore length, score only correctness".
+4. **Rubric drift**: rubric mơ hồ → noise — luôn ép judge xuất \`{score, reason}\` theo rubric cụ thể.
+
+## 6. ⚠️ Sai lầm phổ biến
+
+- Báo cáo 1 con số trung bình → giấu đuôi (case khó nhất).
+- Không tách dev / test → tune trên test = leakage.
+- "Eyeball test" 5 ví dụ rồi ship → không phải evaluation, đó là cảm xúc.
+`,
+        theoryEn: `Generative NLP has no single correct answer, so a one-size metric fails. Use four metric families: lexical overlap (BLEU/ROUGE), embedding-based (BERTScore), LLM-as-judge (G-Eval/Prometheus), and task-specific (EM/F1, QWK, WER). Build a 100-500 case eval set spanning easy/hard/adversarial/multilingual/edge; gold-label it; track accuracy + faithfulness + safety + cost. Measure faithfulness separately — fluent-but-hallucinated is the #1 RAG failure. When using LLM-as-judge, defuse position/self-preference/verbosity/rubric biases.`,
+        code: `from collections import Counter
+import math
+
+def bleu1(reference: str, candidate: str) -> float:
+    """Tiny unigram BLEU — illustrative only."""
+    ref = reference.lower().split()
+    cand = candidate.lower().split()
+    if not cand: return 0.0
+    ref_counts = Counter(ref)
+    overlap = 0
+    cand_counts = Counter(cand)
+    for tok, n in cand_counts.items():
+        overlap += min(n, ref_counts.get(tok, 0))
+    precision = overlap / len(cand)
+    # brevity penalty
+    bp = 1.0 if len(cand) >= len(ref) else math.exp(1 - len(ref) / max(1, len(cand)))
+    return bp * precision
+
+def faithfulness_check(source: str, answer: str) -> dict:
+    """Toy 'judge': flag any claim word not present in source."""
+    src_tokens = set(source.lower().split())
+    unsupported = [w for w in answer.lower().split()
+                   if w.isalpha() and len(w) > 4 and w not in src_tokens]
+    return {"unsupported_tokens": unsupported,
+            "faithful": len(unsupported) == 0}
+
+ref = "US inflation dropped to 2.4 percent in May"
+cand = "In May, US CPI fell to 2.4%"
+print(f"BLEU-1 = {bleu1(ref, cand):.2f}")
+print("Faithfulness:", faithfulness_check(ref, cand))`,
+        codeLanguage: "python",
+        exercise:
+          "Viết hàm eval_suite(items) nhận list {prompt, gold, model_out, source}, trả về {bleu1_avg, faithful_rate, hardest_case}.",
+        exerciseEn:
+          "Write eval_suite(items) that takes [{prompt, gold, model_out, source}] and returns {bleu1_avg, faithful_rate, hardest_case}.",
+        quiz: [
+          { question: "Vì sao BLEU phạt oan câu paraphrase đúng nghĩa?", options: ["BLEU đo độ trùng N-gram, không đo nghĩa", "BLEU chậm", "BLEU bias ngôn ngữ", "Không có vấn đề"], answer: 0, explanation: "BLEU chỉ đếm token trùng — nghĩa giống mà từ khác vẫn 0 điểm." },
+          { question: "Faithfulness đo gì?", options: ["Câu có trôi chảy không", "Câu trả lời có được hỗ trợ bởi nguồn (không bịa)", "Tốc độ token/s", "Cost"], answer: 1, explanation: "Faithfulness = groundedness, khác fluency." },
+          { question: "Bẫy 'position bias' của LLM-judge khắc phục bằng?", options: ["Đổi model", "Hoán đổi A/B rồi lấy trung bình điểm", "Tăng temperature", "Bỏ judge"], answer: 1, explanation: "Đối xứng vị trí loại bỏ bias hệ thống." },
+          { question: "Nên tách dev/test vì?", options: ["Đẹp file", "Tránh leakage khi tune trên test → over-report kết quả", "Tiết kiệm GPU", "Không quan trọng"], answer: 1, explanation: "Tune trên test = overfit eval set, không phản ánh thực tế." },
+          { question: "Khi nào dùng task-specific metric (QWK, WER, EM/F1)?", options: ["Khi có ground-truth rõ ràng và scale ordinal/exact", "Mọi lúc", "Không bao giờ", "Chỉ cho LLM"], answer: 0, explanation: "Mỗi tác vụ có metric chuẩn — dùng đúng tránh BLEU mọi nơi." },
         ],
       },
     ],
