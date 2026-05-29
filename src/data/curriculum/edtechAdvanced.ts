@@ -111,7 +111,7 @@ Quy tắc:
 
 - **FSRS-5** (open-source, dùng trong Anki từ 2024) đã đánh bại SM-2 và Anki cổ điển: giảm 20-30% số lượt ôn cho cùng tỉ lệ nhớ.
 - **Half-life regression** (Duolingo) ước tính trực tiếp "khi nào người học quên" → phù hợp với app có nhiều data hơn cá nhân.
-- **Adaptive interval theo từng item**: từ "cake" dễ hơn "ubiquitous" — đừng để chung curve. FSRS chấm `difficulty 1-10` cho từng item dựa lịch sử nhớ.
+- **Adaptive interval theo từng item**: từ "cake" dễ hơn "ubiquitous" — đừng để chung curve. FSRS chấm "difficulty 1-10" cho từng item dựa lịch sử nhớ.
 - **Tip thực hành cho HaiEduTech**: kết hợp SRS với **interleaving** (xen chủ đề) — tăng long-term retention thêm 15-25% so với block practice.
 
 `,
