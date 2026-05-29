@@ -309,12 +309,16 @@ export const ieltsListeningPracticeSets: ListeningPracticeSet[] = [
       "Beekeepers should inspect their colonies every seven days during spring and summer to check for disease and to ensure the queen is laying eggs.\n" +
       "Finally, before harvesting honey, you must register your hives with the local council, mainly for public health reasons.",
     questions: [
+      { type: "fill-in", prompt: "Urban beekeeping has grown popular over the past ___.", answer: "decade" },
       { type: "fill-in", prompt: "Urban bees often produce more honey thanks to a greater variety of ___.", answer: "flowering plants" },
       { type: "fill-in", prompt: "Most city hives have to be placed on ___.", answer: "rooftops" },
+      { type: "fill-in", prompt: "Rooftop hives require ___ from the building owner.", answer: "permission" },
+      { type: "fill-in", prompt: "Hives should be placed in light ___.", answer: "shade" },
       { type: "fill-in", prompt: "Hives should be painted a ___ colour to reflect heat.", answer: "pale" },
       { type: "fill-in", prompt: "Bees need water within about ___ metres of the hive.", answer: "500" },
+      { type: "fill-in", prompt: "A shallow dish filled with ___ works well as a water source.", answer: "pebbles" },
       { type: "fill-in", prompt: "Inspect hives every ___ days during spring and summer.", answer: "7" },
-      { type: "fill-in", prompt: "You must register hives with the ___ council before harvesting honey.", answer: "local" },
+      { type: "fill-in", prompt: "Register hives with the local council, mainly for ___ reasons.", answer: "public health" },
     ],
   },
 ];
