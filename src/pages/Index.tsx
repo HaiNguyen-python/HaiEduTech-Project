@@ -13,6 +13,7 @@ import SEO from "@/components/SEO";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
 import SectionDivider from "@/components/SectionDivider";
 import HomeChibiFunFacts from "@/components/decorations/HomeChibiFunFacts";
+import { useLanguage } from "@/contexts/LanguageContext";
 const LearningRoadmaps = lazy(() => import("@/components/LearningRoadmaps"));
 const ModernTechTools = lazy(() => import("@/components/ModernTechTools"));
 const SuccessMetrics = lazy(() => import("@/components/SuccessMetrics"));
@@ -50,7 +51,9 @@ const LazySection = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-const Index = () => (
+const Index = () => {
+  const { t } = useLanguage();
+  return (
   <div className="min-h-screen bg-background relative">
     <SEO
       title="HaiEduTech | AI-Powered Learning for IELTS, HSK, AI Academy & Coding"
@@ -79,10 +82,13 @@ const Index = () => (
     <section className="py-12 sm:py-16">
       <div className="container mx-auto px-4 sm:px-6 mb-6 text-center">
         <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold mb-3">
-          Our <span className="text-gradient">Classroom</span>
+          {t("Lớp Học ", "Our ")}<span className="text-gradient">{t("Của Chúng Tôi", "Classroom")}</span>
         </h2>
         <p className="mx-auto max-w-xl text-sm sm:text-base text-muted-foreground">
-          Khoảnh khắc học tập sôi động cùng thầy Hải qua các lớp IELTS, Cambridge và General English
+          {t(
+            "Khoảnh khắc học tập sôi động cùng thầy Hải qua các lớp IELTS, Cambridge và General English",
+            "Vibrant learning moments with Mr. Hai across IELTS, Cambridge and General English classes"
+          )}
         </p>
       </div>
       <ClassroomGallery />
@@ -98,6 +104,7 @@ const Index = () => (
     
     <Footer />
   </div>
-);
+  );
+};
 
 export default Index;
