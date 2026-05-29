@@ -78,7 +78,7 @@ const FloatingNotebook = () => {
   const [showHighlightPicker, setShowHighlightPicker] = useState(false);
   const [showThemePicker, setShowThemePicker] = useState(false);
   const [themeIndex, setThemeIndex] = useState(0);
-  const [showNotesList, setShowNotesList] = useState(false);
+  
   const theme = NOTEBOOK_THEMES[themeIndex];
   const autoSaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { toast } = useToast();
