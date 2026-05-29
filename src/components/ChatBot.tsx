@@ -227,6 +227,11 @@ const ChatBot = () => {
     | { kind: "image"; name: string; dataUrl: string }
     | null
   >(null);
+  // Ask Teacher Hai modal
+  const [askOpen, setAskOpen] = useState(false);
+  const [askForm, setAskForm] = useState({ name: "", email: "", phone: "", message: "" });
+  const [askSending, setAskSending] = useState(false);
+  const [askSent, setAskSent] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const tooltipTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const recognitionRef = useRef<ISpeechRecognition | null>(null);
