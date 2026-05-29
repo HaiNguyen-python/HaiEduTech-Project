@@ -111,7 +111,7 @@ Quy tắc:
 
 - **FSRS-5** (open-source, dùng trong Anki từ 2024) đã đánh bại SM-2 và Anki cổ điển: giảm 20-30% số lượt ôn cho cùng tỉ lệ nhớ.
 - **Half-life regression** (Duolingo) ước tính trực tiếp "khi nào người học quên" → phù hợp với app có nhiều data hơn cá nhân.
-- **Adaptive interval theo từng item**: từ "cake" dễ hơn "ubiquitous" — đừng để chung curve. FSRS chấm `difficulty 1-10` cho từng item dựa lịch sử nhớ.
+- **Adaptive interval theo từng item**: từ "cake" dễ hơn "ubiquitous" — đừng để chung curve. FSRS chấm "difficulty 1-10" cho từng item dựa lịch sử nhớ.
 - **Tip thực hành cho HaiEduTech**: kết hợp SRS với **interleaving** (xen chủ đề) — tăng long-term retention thêm 15-25% so với block practice.
 
 `,
@@ -256,7 +256,7 @@ Phần thưởng = Δ mastery sau bài, hoặc engagement (hoàn thành / không
 
 - **2-Parameter IRT** (difficulty + discrimination) vẫn là backbone cho CAT (Computerized Adaptive Testing). Duolingo English Test, GMAT Focus dùng nó.
 - **Multi-Armed Bandits** vs **A/B test**: bandit thắng khi bạn có ≥ 5 variant và muốn tối ưu liên tục. EXP3 cho non-stationary (học sinh thay đổi theo tuần).
-- **Reinforcement Learning** (DeepTutor, AlphaTutor 2025): policy chọn bài tiếp theo tối đa hoá `Δmastery − α·time_spent`. Khó tune nhưng outperform IRT ~12%.
+- **Reinforcement Learning** (DeepTutor, AlphaTutor 2025): policy chọn bài tiếp theo tối đa hoá "Δmastery − α·time_spent". Khó tune nhưng outperform IRT ~12%.
 - **Cảnh báo**: adaptive quá nhanh = học sinh không có "comfort zone" → drop-off. Luôn để 20% bài "ngon ăn" tạo momentum.
 
 `,
