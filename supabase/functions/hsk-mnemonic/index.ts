@@ -1,5 +1,6 @@
-// Generate a mnemonic for an HSK Chinese word: radical breakdown + a short
-// Vietnamese memory story. Results are cached in `hsk_mnemonics`.
+// Generate a radical-driven etymology mnemonic for an HSK Chinese word.
+// Returns structured components, formula, and a short Vietnamese story.
+// Results are cached in `hsk_mnemonics`.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
 const cors = {
@@ -24,15 +25,23 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
     );
 
+    // Cache lookup — return only if new structured fields are present.
     const { data: cached } = await supabase
       .from("hsk_mnemonics")
-      .select("radicals,story")
+      .select("radicals,story,components,formula")
       .eq("character", key)
       .maybeSingle();
-    if (cached?.radicals && cached?.story) {
-      return new Response(JSON.stringify({ radicals: cached.radicals, story: cached.story, cached: true }), {
-        headers: { ...cors, "Content-Type": "application/json" },
-      });
+    if (cached?.components && cached?.formula && cached?.story) {
+      return new Response(
+        JSON.stringify({
+          components: cached.components,
+          formula: cached.formula,
+          story: cached.story,
+          radicals: cached.radicals,
+          cached: true,
+        }),
+        { headers: { ...cors, "Content-Type": "application/json" } },
+      );
     }
 
     const apiKey = Deno.env.get("PERPLEXITY_API_KEY");
@@ -43,11 +52,11 @@ Deno.serve(async (req) => {
       });
     }
 
-    const userPrompt = `Hán tự: ${key}
+    const userPrompt = `Hán tự cần phân tích: ${key}
 Pinyin: ${pinyin || ""}
-Nghĩa: ${meaning || ""}
+Nghĩa tiếng Việt: ${meaning || ""}
 
-Hãy giúp học sinh Việt Nam nhớ chữ này.`;
+Hãy phân tích chữ này theo đúng các bộ thủ (radicals) thực sự cấu thành nó, rồi kể một câu chuyện bộ thủ ngắn gọn, dễ hình dung, đúng học thuật.`;
 
     const aiRes = await fetch("https://api.perplexity.ai/chat/completions", {
       method: "POST",
@@ -58,11 +67,29 @@ Hãy giúp học sinh Việt Nam nhớ chữ này.`;
           {
             role: "system",
             content:
-              "Bạn là thầy dạy Hán ngữ kiêm nhà biên kịch truyện tranh, kể chuyện cực kỳ sinh động cho học sinh Việt Nam. Trả lời CHỈ bằng JSON hợp lệ dạng {\"radicals\":\"...\",\"story\":\"...\"}. Không markdown, không chữ thừa.\n\n- 'radicals': liệt kê các bộ thủ chính trong chữ, mỗi bộ ghi rõ ký tự, âm Hán-Việt và nghĩa, mỗi bộ trên 1 dòng (dùng \\n). Tối đa 4 bộ.\n\n- 'story': một mẩu truyện mini 3-4 câu bằng tiếng Việt, CỰC KỲ THÚ VỊ và DỄ NHỚ. Yêu cầu BẮT BUỘC:\n  + Có nhân vật cụ thể (đặt tên riêng, hoặc con vật/đồ vật được nhân hóa) và một tình huống bất ngờ, hài hước hoặc kịch tính.\n  + LỒNG GHÉP TỪNG BỘ THỦ vào cốt truyện như đạo cụ hoặc hành động (vd: bộ 氵 nước → trượt vào vũng nước; bộ 火 lửa → đốt cháy bếp).\n  + Dùng 2-3 emoji rải rác và hình ảnh giác quan (âm thanh 'rầm!', màu sắc, mùi vị) để khắc sâu trí nhớ.\n  + Kết thúc bằng câu chốt liên kết rõ ràng tới NGHĨA của chữ, kiểu: 'Thế nên chữ này = <nghĩa>'.\n  + TUYỆT ĐỐI không viết kiểu liệt kê khô khan ('Chữ này gồm bộ A và bộ B...'). Phải như đọc một mẩu truyện tranh ngắn.",
+              `Bạn là chuyên gia Hán tự học (etymology) dạy học sinh Việt Nam. Trả lời CHỈ bằng JSON hợp lệ, không markdown, không chữ thừa, theo đúng schema:
+{
+  "components": [ { "char": "亻", "hanviet": "nhân đứng", "meaning": "người" }, { "char": "木", "hanviet": "mộc", "meaning": "cây" } ],
+  "formula": "亻 + 木 = 休",
+  "story": "Hình dung một Người (亻) đi bộ mệt mỏi, liền ngồi tựa lưng vào gốc Cây (木) để Nghỉ ngơi. Đó chính là chữ 休!"
+}
+
+QUY TẮC BẮT BUỘC:
+1. components: liệt kê CHÍNH XÁC các bộ thủ thực sự cấu thành chữ (2-4 bộ). Phải đúng học thuật, KHÔNG bịa. Mỗi bộ ghi rõ ký tự gốc, âm Hán-Việt, nghĩa tiếng Việt ngắn gọn.
+2. formula: công thức ghép trực quan dạng "A + B = chữ" (dùng đúng ký tự bộ thủ và chữ đích).
+3. story: 2-3 câu tiếng Việt, KỂ CHUYỆN BỘ THỦ theo lối etymology — giải thích logic vì sao ghép các bộ này lại ra NGHĨA của chữ. Phải:
+   - Lồng tên từng bộ thủ (in nghĩa tiếng Việt + ký tự trong ngoặc, ví dụ "Người (亻)", "Cây (木)").
+   - Kết bằng câu chốt: "Đó chính là chữ <chữ>!" hoặc "Thế nên <chữ> = <nghĩa>."
+   - TUYỆT ĐỐI không bịa truyện ngụ ngôn vô nghĩa, không dùng nhân vật ngẫu nhiên (Gấu Nâu, Thỏ Trắng, bạn Nam...), không dùng vần phiên âm. Chỉ kể logic ghép bộ thủ.
+4. Nếu chữ là chữ tượng hình đơn (không ghép), components vẫn liệt kê hình ảnh gốc (ví dụ 日 = mặt trời), formula ghi "象形 (tượng hình): <chữ>", story mô tả hình dáng gốc.
+
+VÍ DỤ CHUẨN:
+- 明: components [日 nhật mặt trời, 月 nguyệt mặt trăng], formula "日 + 月 = 明", story "Hai nguồn sáng mạnh nhất là Mặt trời (日) và Mặt trăng (月) đứng cạnh nhau, không gian chắc chắn cực kỳ Sáng. Đó chính là chữ 明!"
+- 安: components [宀 miên mái nhà, 女 nữ người phụ nữ], formula "宀 + 女 = 安", story "Dưới Mái nhà (宀) có bàn tay chăm sóc của Người phụ nữ (女) thì gia đình lúc nào cũng bình An. Đó chính là chữ 安!"`,
           },
           { role: "user", content: userPrompt },
         ],
-        temperature: 0.9,
+        temperature: 0.3,
       }),
     });
 
@@ -85,20 +112,30 @@ Hãy giúp học sinh Việt Nam nhớ chữ này.`;
       });
     }
     const parsed = JSON.parse(match[0]);
-    const radicals = String(parsed.radicals || "").trim();
+    const components = Array.isArray(parsed.components) ? parsed.components : [];
+    const formula = String(parsed.formula || "").trim();
     const story = String(parsed.story || "").trim();
-    if (!radicals || !story) {
+    if (components.length === 0 || !formula || !story) {
       return new Response(JSON.stringify({ error: "empty" }), {
         status: 502,
         headers: { ...cors, "Content-Type": "application/json" },
       });
     }
 
-    await supabase.from("hsk_mnemonics").insert({ character: key, radicals, story });
+    // Legacy text-form radicals for backward compatibility.
+    const radicals = components
+      .map((c: any) => `${c.char || ""} - ${c.hanviet || ""} - ${c.meaning || ""}`)
+      .join("\n");
 
-    return new Response(JSON.stringify({ radicals, story, cached: false }), {
-      headers: { ...cors, "Content-Type": "application/json" },
-    });
+    await supabase.from("hsk_mnemonics").upsert(
+      { character: key, components, formula, story, radicals },
+      { onConflict: "character" },
+    );
+
+    return new Response(
+      JSON.stringify({ components, formula, story, radicals, cached: false }),
+      { headers: { ...cors, "Content-Type": "application/json" } },
+    );
   } catch (e) {
     console.error("hsk-mnemonic error", e);
     return new Response(JSON.stringify({ error: String(e) }), {
