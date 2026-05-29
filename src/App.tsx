@@ -113,6 +113,7 @@ const ChineseListening = lazy(() => import("./pages/ChineseListening.tsx"));
 const VietnameseArcade = lazy(() => import("./pages/VietnameseArcade.tsx"));
 const CambridgeArcade = lazy(() => import("./pages/CambridgeArcade.tsx"));
 const ProgrammingArcade = lazy(() => import("./pages/ProgrammingArcade.tsx"));
+const PillarHub = lazy(() => import("./pages/PillarHub.tsx"));
 
 const FinnishArcade = lazy(() => import("./pages/FinnishArcade.tsx"));
 const MultiLangArcade = lazy(() => import("./pages/MultiLangArcade.tsx"));
