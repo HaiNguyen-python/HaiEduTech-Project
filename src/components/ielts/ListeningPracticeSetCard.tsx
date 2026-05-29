@@ -14,6 +14,7 @@ import {
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { ListeningPracticeSet } from "@/data/ieltsListeningPractice";
 import { cn } from "@/lib/utils";
+import DOMPurify from "dompurify";
 
 const formatTime = (sec: number) => {
   if (!isFinite(sec) || sec < 0) sec = 0;
