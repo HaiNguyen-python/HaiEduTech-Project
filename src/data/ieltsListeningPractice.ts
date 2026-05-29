@@ -104,38 +104,22 @@ export const ieltsListeningPracticeSets: ListeningPracticeSet[] = [
       "Please remember that photography is permitted everywhere outdoors, but inside the cathedral only the main hall allows photos, and flash is not allowed.\n" +
       "If you become separated from the group, the easiest meeting point is the clock tower in the central square at three o'clock.\n" +
       "At the end of the tour you'll receive a small souvenir map. There's no extra charge - it's already included in your ticket.\n" +
-      "And finally, the most important rule: please stay together when we cross the busy roads near the market.",
+      "The tour itself costs fifteen pounds per adult, but children under twelve come along for free with a paying adult.\n" +
+      "Our short break will last about fifteen minutes, so please use the toilets at the visitor centre next to the cathedral.\n" +
+      "Drinking water is fine, but please no hot drinks inside the historic buildings — spillages have damaged the stone floors in the past.\n" +
+      "And one quick warning — the cobbled lane to the castle is uneven, so please wear sensible shoes.\n" +
+      "Finally, the most important rule: please stay together when we cross the busy roads near the market.",
     questions: [
-      {
-        type: "mcq",
-        prompt: "How long is the tour?",
-        options: ["1.5 hours", "2 hours", "2.5 hours"],
-        answer: 2,
-      },
-      {
-        type: "mcq",
-        prompt: "Where will the tour begin today?",
-        options: ["The river bridge", "The museum entrance", "The cathedral square"],
-        answer: 1,
-      },
-      {
-        type: "mcq",
-        prompt: "Inside the cathedral, photography is",
-        options: ["completely forbidden", "allowed only in the main hall", "allowed everywhere with flash"],
-        answer: 1,
-      },
-      {
-        type: "mcq",
-        prompt: "If separated, the meeting point is",
-        options: ["the museum at 2 pm", "the clock tower at 3 pm", "the bridge at 4 pm"],
-        answer: 1,
-      },
-      {
-        type: "mcq",
-        prompt: "The souvenir map is",
-        options: ["sold separately", "included in the ticket", "given only to children"],
-        answer: 1,
-      },
+      { type: "mcq", prompt: "How long is the tour?", options: ["1.5 hours", "2 hours", "2.5 hours"], answer: 2 },
+      { type: "mcq", prompt: "Where will the tour begin today?", options: ["The river bridge", "The museum entrance", "The cathedral square"], answer: 1 },
+      { type: "mcq", prompt: "Why did the start point change?", options: ["Bad weather", "Construction work", "A festival"], answer: 1 },
+      { type: "mcq", prompt: "Inside the cathedral, photography is", options: ["completely forbidden", "allowed only in the main hall", "allowed everywhere with flash"], answer: 1 },
+      { type: "mcq", prompt: "Where is the short break held?", options: ["The market", "The castle", "The cathedral square"], answer: 2 },
+      { type: "mcq", prompt: "How long is the short break?", options: ["10 minutes", "15 minutes", "20 minutes"], answer: 1 },
+      { type: "mcq", prompt: "If separated, the meeting point is", options: ["the museum at 2 pm", "the clock tower at 3 pm", "the bridge at 4 pm"], answer: 1 },
+      { type: "mcq", prompt: "The souvenir map is", options: ["sold separately", "included in the ticket", "given only to children"], answer: 1 },
+      { type: "mcq", prompt: "The ticket price for one adult is:", options: ["£10", "£12", "£15"], answer: 2 },
+      { type: "mcq", prompt: "Visitors must take care because", options: ["the cobbled lane to the castle is uneven", "the cathedral floor is slippery", "the market closes early"], answer: 0 },
     ],
   },
 
