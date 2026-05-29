@@ -147,8 +147,8 @@ const CambridgeLectures = () => {
               </h1>
               <p className="text-slate-700 mb-5 font-medium" style={{ fontSize: "18px", lineHeight: "1.6" }}>
                 {t(
-                  "🎨 15 bài giảng vui nhộn với kỹ thuật tránh bẫy, công thức ghi điểm, và bài tập tương tác cho MỌI cấp độ Cambridge dành cho thiếu nhi! 🚀",
-                  "🎨 15 fun strategic lessons with trap-avoidance techniques, scoring formulas, and interactive practice for EVERY Cambridge level for kids! 🚀"
+                  "🎨 250 bài giảng vui nhộn (50 bài/cấp) với hình ảnh trực quan, kỹ thuật tránh bẫy và bài tập tương tác cho MỌI cấp Cambridge dành cho thiếu nhi! 🚀",
+                  "🎨 250 fun strategic lessons (50 per level) with kid-friendly illustrations, trap-avoidance techniques, and interactive practice for EVERY Cambridge level for kids! 🚀"
                 )}
               </p>
 
