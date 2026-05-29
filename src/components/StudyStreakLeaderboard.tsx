@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Flame, Crown, Medal } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { dedupeByDisplayName } from "@/lib/leaderboardDedup";
 
 interface StreakEntry {
   display_name: string;
