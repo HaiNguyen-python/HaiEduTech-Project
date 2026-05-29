@@ -2,7 +2,8 @@
 import { useState, useEffect, useMemo } from "react";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { boldAndSanitize } from "@/lib/utils";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useSearchParams, useNavigate } from "react-router-dom";
+import { satTeachingSequence, findSatSequenceIndex, satSequenceUrl } from "@/lib/satTeachingSequence";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import GrammarLessonCompanion from "@/components/grammar/GrammarLessonCompanion";
@@ -12,7 +13,7 @@ import LessonFeedback from "@/components/LessonFeedback";
 import TheorySections from "@/components/TheorySections";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { ArrowLeft, ChevronRight, Loader2, BookOpen, GraduationCap, Sparkles, Star } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronRight, Loader2, BookOpen, GraduationCap, Sparkles, Star, PlayCircle } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { allLanguageModules } from "@/data/languageCurriculum";
 import type { LanguageModule, LanguageLesson, InteractiveExercise } from "@/data/languageCurriculum";
@@ -43,6 +44,9 @@ const difficultyConfig = {
 
 const LanguageLessonView = () => {
   const { moduleId, lessonId } = useParams();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const isTeachSeq = searchParams.get("seq") === "sat";
   const { t } = useLanguage();
 
   const rawMod = useMemo(() => allLanguageModules.find(m => m.id === moduleId), [moduleId]);
@@ -289,6 +293,68 @@ const LanguageLessonView = () => {
                       </div>
                     </div>
                   </div>
+
+                  {/* Sequential Teaching Mode (SAT series) — prev/next across modules */}
+                  {isTeachSeq && isSatLesson && (() => {
+                    const seqIdx = findSatSequenceIndex(mod.id, lesson.id);
+                    if (seqIdx < 0) return null;
+                    const total = satTeachingSequence.length;
+                    const prev = seqIdx > 0 ? satTeachingSequence[seqIdx - 1] : null;
+                    const next = seqIdx < total - 1 ? satTeachingSequence[seqIdx + 1] : null;
+                    const pct = ((seqIdx + 1) / total) * 100;
+                    return (
+                      <div className="rounded-xl border border-primary/30 bg-gradient-to-r from-primary/10 via-emerald-500/10 to-primary/5 p-4">
+                        <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
+                          <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
+                            <PlayCircle className="w-4 h-4 text-primary" />
+                            {t(
+                              `Chế độ giảng dạy SAT · Bài ${seqIdx + 1} / ${total}`,
+                              `SAT Teaching Mode · Lesson ${seqIdx + 1} of ${total}`,
+                            )}
+                          </div>
+                          <Link
+                            to="/sat-curriculum"
+                            className="text-xs text-muted-foreground hover:text-primary transition-colors"
+                          >
+                            {t("Thoát chuỗi", "Exit series")}
+                          </Link>
+                        </div>
+                        <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden mb-3">
+                          <div className="h-full bg-gradient-to-r from-primary to-emerald-500 transition-all" style={{ width: `${pct}%` }} />
+                        </div>
+                        <div className="flex flex-wrap items-stretch justify-between gap-2">
+                          <button
+                            disabled={!prev}
+                            onClick={() => prev && navigate(satSequenceUrl(seqIdx - 1))}
+                            className="flex-1 min-w-[150px] inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-border bg-background/60 text-left disabled:opacity-40 disabled:cursor-not-allowed hover:border-primary hover:bg-primary/5 transition-all"
+                          >
+                            <ArrowLeft className="w-4 h-4 text-primary shrink-0" />
+                            <div className="min-w-0">
+                              <div className="text-[10px] uppercase tracking-wide text-muted-foreground">{t("Bài trước", "Previous")}</div>
+                              <div className="text-xs font-medium text-foreground truncate">
+                                {prev ? `${prev.moduleIcon} ${t(prev.lessonTitle, prev.lessonTitleEn)}` : t("Đây là bài đầu", "First lesson")}
+                              </div>
+                            </div>
+                          </button>
+                          <button
+                            disabled={!next}
+                            onClick={() => next && navigate(satSequenceUrl(seqIdx + 1))}
+                            className="flex-1 min-w-[150px] inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-primary/40 bg-primary/10 text-left disabled:opacity-40 disabled:cursor-not-allowed hover:border-primary hover:bg-primary/15 transition-all"
+                          >
+                            <div className="min-w-0 flex-1">
+                              <div className="text-[10px] uppercase tracking-wide text-primary">{t("Bài tiếp theo", "Next lesson")}</div>
+                              <div className="text-xs font-semibold text-foreground truncate">
+                                {next ? `${next.moduleIcon} ${t(next.lessonTitle, next.lessonTitleEn)}` : t("Hoàn thành chuỗi 🎉", "Series complete 🎉")}
+                              </div>
+                            </div>
+                            <ArrowRight className="w-4 h-4 text-primary shrink-0" />
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })()}
+
+
 
                   {/* IELTS Listening Practice CTA */}
                   {mod.id === "ielts-listening" && (
