@@ -31,8 +31,8 @@ const ScrollProgressBar = () => {
       aria-hidden
     >
       <div
-        className="h-full origin-left bg-gradient-to-r from-primary via-sky-400 to-accent transition-[width] duration-150 ease-out"
-        style={{ width: `${pct}%` }}
+        className="h-full w-full origin-left bg-gradient-to-r from-primary via-sky-400 to-accent"
+        style={{ transform: `scaleX(${pct / 100})`, willChange: "transform" }}
       />
     </div>
   );

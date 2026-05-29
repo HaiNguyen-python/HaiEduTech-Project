@@ -471,10 +471,13 @@ const markdownComponents = (defaultLang: string) => ({
   img({ src, alt }: any) {
     if (!src) return null;
     const caption = (alt || "").trim();
+    // Use <span>s (inline) instead of <figure>/<figcaption> because react-markdown
+    // wraps images inside <p>, and block elements inside <p> trigger DOM nesting
+    // warnings + repeated reconciliation that causes scroll jank.
     return (
-      <figure className="my-6 mx-auto max-w-[720px] flex flex-col items-center">
-        <div
-          className="w-full overflow-hidden rounded-2xl border border-border/60 bg-muted/20 shadow-md"
+      <span className="my-6 mx-auto max-w-[720px] flex flex-col items-center">
+        <span
+          className="block w-full overflow-hidden rounded-2xl border border-border/60 bg-muted/20 shadow-md"
           style={{ aspectRatio: "1 / 1", contain: "layout paint" }}
         >
           <img
@@ -484,13 +487,13 @@ const markdownComponents = (defaultLang: string) => ({
             decoding="async"
             className="w-full h-full object-cover"
           />
-        </div>
+        </span>
         {caption && (
-          <figcaption className="mt-2 text-sm italic text-muted-foreground text-center">
+          <span className="mt-2 text-sm italic text-muted-foreground text-center">
             {caption}
-          </figcaption>
+          </span>
         )}
-      </figure>
+      </span>
     );
   },
 });
