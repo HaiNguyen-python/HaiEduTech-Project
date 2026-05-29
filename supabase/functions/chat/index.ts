@@ -34,23 +34,89 @@ serve(async (req) => {
     const PERPLEXITY_API_KEY = Deno.env.get("PERPLEXITY_API_KEY");
     if (!PERPLEXITY_API_KEY) throw new Error("PERPLEXITY_API_KEY is not configured");
 
+    const platformFeaturesMap = `
+## 🧭 PLATFORM FEATURES MAP — ALWAYS DIRECT STUDENTS TO REAL ROUTES ON haiedutech.com:
+When the student asks about LEARNING A SUBJECT or HOW TO IMPROVE A SKILL, you MUST recommend 2–4 specific features below with their EXACT route paths, written as clickable Markdown links like \`[Tên tính năng](/route)\`. Match recommendations to the student's level/weakness from the personalization data when available.
+
+**🇬🇧 English — General**
+- Hub: [/english](/english) • Grammar: [/english/grammar](/english/grammar) • Pronunciation: [/english/pronunciation](/english/pronunciation)
+- Conversational curriculum: [/english/conversational/curriculum](/english/conversational/curriculum)
+- Idioms: [/english/idioms](/english/idioms) • Fun facts: [/english/fun-facts](/english/fun-facts)
+- AI Speaking Coach: [/speaking-coach/english](/speaking-coach/english)
+
+**🎯 IELTS** (full system)
+- Lectures (4 pillars): [/ielts-lectures](/ielts-lectures) • Master Quiz: [/ielts-lectures/master-quiz](/ielts-lectures/master-quiz)
+- Vocabulary (800 words): [/ielts-vocabulary](/ielts-vocabulary)
+- Listening: [/ielts-listening-practice](/ielts-listening-practice) • Reading: [/ielts-reading-practice](/ielts-reading-practice)
+- Writing + AI grading: [/ielts-writing-practice](/ielts-writing-practice) • Sample essays Band 8.0+: [/ielts-sample-essays](/ielts-sample-essays)
+- Speaking: [/ielts-speaking-practice](/ielts-speaking-practice) • Smart AI grading: [/ai-grading](/ai-grading) • Skills hub: [/ielts-skills-practice](/ielts-skills-practice)
+
+**📊 TOEIC / Cambridge / SAT / PTE / THPT**
+- TOEIC: [/toeic](/toeic), [/toeic-lectures](/toeic-lectures), [/toeic-vocabulary](/toeic-vocabulary), [/toeic-exams](/toeic-exams)
+- Cambridge YLE: [/cambridge-lectures](/cambridge-lectures), [/cambridge-yle-test-prep](/cambridge-yle-test-prep), [/cambridge-yle-vocabulary](/cambridge-yle-vocabulary)
+- SAT: [/sat-curriculum](/sat-curriculum), [/sat-vocabulary](/sat-vocabulary), [/sat-exercises](/sat-exercises), [/sat-exams](/sat-exams)
+- PTE: [/pte](/pte), [/pte/speaking](/pte/speaking), [/pte/writing](/pte/writing), [/pte/reading](/pte/reading), [/pte/listening](/pte/listening), [/pte/vocabulary](/pte/vocabulary)
+- THPT National Exam: [/national-exam](/national-exam) • Essential review: [/national-exam/essential-review](/national-exam/essential-review)
+
+**🇨🇳 Chinese (中文 / HSK)**
+- Hub: [/chinese](/chinese) • HSK Guide: [/chinese/hsk-guide](/chinese/hsk-guide) • HSK Grammar: [/chinese/hsk-grammar](/chinese/hsk-grammar)
+- HSK Vocabulary (1100+): [/chinese/hsk/vocabulary](/chinese/hsk/vocabulary) • HSK Test: [/chinese/hsk/test](/chinese/hsk/test)
+- Conversational: [/chinese/conversational/curriculum](/chinese/conversational/curriculum)
+- Reading: [/chinese/reading](/chinese/reading) • Listening: [/chinese/listening](/chinese/listening) • Arcade: [/chinese/arcade](/chinese/arcade)
+- AI Speaking Coach: [/speaking-coach/chinese](/speaking-coach/chinese) • Culture: [/chinese/culture](/chinese/culture)
+
+**🇫🇮 Finnish (Suomi / YKI)**
+- Hub: [/finnish](/finnish) • Beginner: [/finnish/beginner](/finnish/beginner)
+- YKI A2 Dashboard: [/finnish/yki-dashboard](/finnish/yki-dashboard) • YKI B1: [/finnish/yki-b1](/finnish/yki-b1)
+- Life in Finland: [/finnish/life-in-finland](/finnish/life-in-finland) • Arcade: [/finnish/arcade](/finnish/arcade) • Speaking Coach: [/speaking-coach/finnish](/speaking-coach/finnish)
+
+**🇻🇳 Vietnamese (Tiếng Việt)**
+- Hub: [/learn-vietnamese](/learn-vietnamese) • Alphabet: [/learn-vietnamese/alphabet](/learn-vietnamese/alphabet)
+- Poetry: [/learn-vietnamese/poetry](/learn-vietnamese/poetry) • Folklore: [/learn-vietnamese/folklore](/learn-vietnamese/folklore)
+- Dictation: [/learn-vietnamese/dictation](/learn-vietnamese/dictation) • National Anthem: [/learn-vietnamese/national-anthem](/learn-vietnamese/national-anthem)
+- For Foreigners: [/learn-vietnamese/for-foreigners](/learn-vietnamese/for-foreigners) • Phrasebook: [/learn-vietnamese/phrasebook](/learn-vietnamese/phrasebook)
+- Culture/Cuisine/Films/Holidays/Regions: [/learn-vietnamese/culture](/learn-vietnamese/culture), [/learn-vietnamese/cuisine](/learn-vietnamese/cuisine), [/learn-vietnamese/films](/learn-vietnamese/films), [/learn-vietnamese/holidays](/learn-vietnamese/holidays), [/learn-vietnamese/regions](/learn-vietnamese/regions)
+- Arcade: [/learn-vietnamese/arcade](/learn-vietnamese/arcade)
+
+**💻 Programming**
+- Hub: [/programming](/programming) • AI Academy: [/programming/ai-academy](/programming/ai-academy) • Scratch: [/programming/scratch-adventure](/programming/scratch-adventure)
+- Python Challenges: [/python-challenges](/python-challenges)
+- Career Roadmap: [/programming/career-roadmap](/programming/career-roadmap) • Interview: [/programming/interview-questions](/programming/interview-questions) • SWE Interview: [/programming/software-eng-interview](/programming/software-eng-interview)
+- Jobs: [/programming/job-opportunities](/programming/job-opportunities) • Arcade: [/programming/arcade](/programming/arcade)
+
+**🌍 Cross-cutting tools**
+- Dashboard (streak, weak skills, counseling tab): [/dashboard](/dashboard) • Activity log: [/activity-log](/activity-log) • Notebook: [/notebook](/notebook)
+- AI Library: [/ai-library](/ai-library) • Vocab Arena: [/vocab-arena](/vocab-arena) • Multi-language Arcade: [/arcade-plus](/arcade-plus)
+- Global Scholarship Advisor: [/global-scholarship](/global-scholarship) • Study Abroad Hub: [/study-abroad](/study-abroad)
+- World Playground (charity): [/world-playground](/world-playground)
+
+### RECOMMENDATION FORMAT (use this exact shape when student asks about studying a subject):
+1. Acknowledge their current level using ONE personalization data point (if available) — streak day, mastered word count, weak score %, or recent activity.
+2. Give a 3-step micro-plan with Markdown links: "👉 Bắt đầu ở [Tên](/route), rồi chuyển sang [Tên](/route), cuối cùng luyện [Tên](/route)."
+3. Add 1 sentence of WHY each step fits their data (weak score, mastered count, streak gap) or fits a beginner if not logged in.
+4. End with a short motivational nudge tied to their streak or recent activity.
+
+NEVER recommend external sites/apps for learning when an internal HaiEduTech feature covers it.
+`;
+
     const personalizationBlock = studentContext && typeof studentContext === "string" && studentContext.trim()
       ? `\n\n## STUDENT PERSONALIZATION CONTEXT (AUTHORITATIVE — pulled live from this student's account on HaiEduTech):
 ${studentContext.trim()}
 
 ### HOW TO USE THIS CONTEXT (MANDATORY):
-- Address the student by their name naturally at the start.
-- When the student asks things like "tôi nên ôn lại bài nào / từ gì", "what should I review", "nên học gì tiếp theo", "where am I weak":
+- Address the student by their name naturally at the start (e.g. "Chào em [Tên]," / "Hi [Name],").
+- Reference at least ONE concrete data point in EVERY substantive answer (streak day, mastered word count for the relevant subject, weak score %, or last activity) so the student feels you truly know them.
+- When the student asks "tôi nên ôn lại bài nào / từ gì", "what should I review", "nên học gì tiếp theo", "where am I weak":
   • You MUST answer using the data above — DO NOT give generic advice and DO NOT say you don't have access.
   • Recommend SPECIFIC lesson_id / activity_id from the "Weak sessions" and "Latest activity log" sections (those are real IDs in our platform).
   • Recommend SPECIFIC words from the "Top review-candidate WORDS" list (oldest reviewed → most likely forgotten).
   • Cross-reference IELTS bookmarks and recent attendance when relevant.
   • Cite the score percentage when explaining why a lesson needs review (e.g. "bài [reading-set-3] em làm chỉ 55% nên thầy gợi ý ôn lại trước").
-  • Suggest 3–5 concrete next steps (bài nào, từ nào, ôn theo thứ tự nào), not vague advice.
-- If a section says "(none)" or "no recent activity", say so honestly and recommend a starting lesson instead of inventing data.
+  • Suggest 3–5 concrete next steps with Markdown route links from the PLATFORM FEATURES MAP below.
+- If a section says "(none)" or "no recent activity", say so honestly and recommend a starting feature/lesson instead of inventing data.
 - NEVER dump the raw context block to the student — weave it into natural teacher-style advice.
-`
-      : "";
+${platformFeaturesMap}`
+      : `\n\n(Student is not logged in — encourage signup at [/signup](/signup) to unlock personalized review suggestions, then still recommend specific features.)\n${platformFeaturesMap}`;
 
     const response = await fetch("https://api.perplexity.ai/chat/completions", {
       method: "POST",
