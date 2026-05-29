@@ -108,7 +108,7 @@ const SatLandingExtras = () => {
           </p>
           <div className="grid md:grid-cols-2 gap-5">
             {formatCards.map((f, i) => (
-              <div key={i} className={`rounded-2xl border bg-gradient-to-br p-6 ${f.gradient}`}>
+              <div key={i} className={`rounded-2xl border-2 bg-gradient-to-br p-6 shadow-sm ${f.gradient}`}>
                 <div className="flex items-center gap-3 mb-3">
                   <f.icon className="w-7 h-7 text-foreground" />
                   <h3 className="text-lg font-display font-bold text-foreground">{f.title}</h3>
