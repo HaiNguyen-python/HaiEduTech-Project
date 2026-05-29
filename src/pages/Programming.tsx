@@ -135,6 +135,8 @@ const Programming = () => {
     return initial && pillars.some(p => p.id === initial) ? initial : "python";
   });
 
+  const pillarContentRef = useRef<HTMLDivElement>(null);
+
   // Sync active pillar when ?pillar= changes (e.g. coming from Navbar link)
   useEffect(() => {
     const next = searchParams.get("pillar");
@@ -143,6 +145,14 @@ const Programming = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
+
+  // Scroll the active pillar content into view whenever the pillar changes —
+  // makes the EdTech / NLP / etc. tab clicks feel like opening a new section.
+  useEffect(() => {
+    if (pillarContentRef.current) {
+      pillarContentRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [activePillar]);
 
   const completedChallenges = pythonChallenges.filter(
     c => localStorage.getItem(`haiedu_challenge_${c.id}_passed`) === "1"
