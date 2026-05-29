@@ -63,19 +63,26 @@ export const ieltsListeningPracticeSets: ListeningPracticeSet[] = [
       "It's forty-two Oakwood Road, postcode B-R-three, four-Y-N.\n" +
       "Lovely. And a contact number?\n" +
       "My mobile is oh seven nine double four, three two one, eight five seven.\n" +
-      "Perfect. What type of membership would you like? We offer standard, student, or family.\n" +
+      "Perfect. What type of membership would you like? We offer standard, student, or family?\n" +
       "I'll go for the family membership please, since my children will use it too.\n" +
+      "How many children are we adding?\n" +
+      "Two children, please.\n" +
       "Of course. The annual fee for that is twenty-eight pounds.\n" +
       "That's fine. When can I collect the card?\n" +
       "It will be ready on Tuesday after two p.m. Please bring a passport for ID.\n" +
+      "And finally — would you like to subscribe to our weekly newsletter?\n" +
+      "Yes please, send it to my email: sarah dot mitchell at quickmail dot net.\n" +
       "Wonderful, thank you very much.",
     questions: [
       { type: "fill-in", prompt: "Surname: ___", answer: "Mitchell" },
       { type: "fill-in", prompt: "Date of birth: 14 ___ 1995", answer: "March" },
       { type: "fill-in", prompt: "Address: 42 ___ Road", answer: "Oakwood" },
+      { type: "fill-in", prompt: "Postcode: ___", answer: "BR3 4YN" },
       { type: "fill-in", prompt: "Mobile number ends in: ___", answer: "857" },
       { type: "fill-in", prompt: "Membership type: ___", answer: "family" },
+      { type: "fill-in", prompt: "Number of children added: ___", answer: "2" },
       { type: "fill-in", prompt: "Annual fee: £___", answer: "28" },
+      { type: "fill-in", prompt: "Card ready on: ___ after 2 p.m.", answer: "Tuesday" },
       { type: "fill-in", prompt: "ID required to collect card: ___", answer: "passport" },
     ],
   },
