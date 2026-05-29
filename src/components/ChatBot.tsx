@@ -637,6 +637,67 @@ const ChatBot = () => {
     [t],
   );
 
+  // ── Open Ask Teacher modal (prefill with logged-in user info) ──
+  const openAskTeacher = useCallback(async () => {
+    setAskSent(false);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      let fullName = studentName || "";
+      if (user) {
+        if (!fullName) {
+          const { data: p } = await supabase.from("profiles").select("full_name").eq("id", user.id).maybeSingle();
+          fullName = (p?.full_name || "").trim();
+        }
+        setAskForm((f) => ({
+          ...f,
+          name: f.name || fullName,
+          email: f.email || user.email || "",
+        }));
+      } else {
+        setAskForm((f) => ({ ...f, name: f.name || fullName }));
+      }
+    } catch {}
+    setAskOpen(true);
+  }, [studentName]);
+
+  // ── Submit question to Teacher Hai by email ──
+  const submitAskTeacher = async () => {
+    if (!askForm.name.trim() || !askForm.message.trim()) {
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: t("⚠️ Em điền tên và câu hỏi giúp thầy nhé.", "⚠️ Please fill in your name and question.") },
+      ]);
+      return;
+    }
+    setAskSending(true);
+    try {
+      const submittedAt = new Date().toLocaleString("vi-VN", { dateStyle: "short", timeStyle: "short" });
+      const { error } = await supabase.functions.invoke("send-contact-email", {
+        body: {
+          type: "ask_teacher",
+          idempotencyKey: `ask-teacher-${askForm.email || askForm.phone || askForm.name}-${Date.now()}`,
+          name: askForm.name.trim(),
+          email: askForm.email.trim() || undefined,
+          phone: askForm.phone.trim() || undefined,
+          subject: `[Câu hỏi cho thầy Hải] ${askForm.name.trim()}`,
+          message: askForm.message.trim(),
+          submittedAt,
+        },
+      });
+      if (error) throw error;
+      setAskSent(true);
+      setAskForm({ name: "", email: "", phone: "", message: "" });
+    } catch (err: any) {
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: t(`⚠️ Gửi không thành công: ${err?.message || "Vui lòng thử lại."}`, `⚠️ Failed to send: ${err?.message || "Please try again."}`) },
+      ]);
+    } finally {
+      setAskSending(false);
+    }
+  };
+
+
   // ── Send Message ──
   const sendMessage = async () => {
     if ((!input.trim() && !attachment) || isLoading || chatLocked) return;
