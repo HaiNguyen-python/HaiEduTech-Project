@@ -17,26 +17,69 @@ async function logUsage(functionName: string, model: string, domain: string, tok
 }
 
 // Perplexity requires strict user/assistant alternation after system messages.
-function sanitizeMessages(msgs: any[]): any[] {
-  if (!Array.isArray(msgs)) return [];
-  const cleaned = msgs
-    .filter((m) => m && (m.role === "user" || m.role === "assistant") && typeof m.content === "string" && m.content.trim().length > 0)
-    .map((m) => ({ role: m.role, content: m.content }));
-  // Merge consecutive same-role messages
-  const merged: any[] = [];
-  for (const m of cleaned) {
-    const last = merged[merged.length - 1];
-    if (last && last.role === m.role) {
-      last.content += "\n\n" + m.content;
+type ChatRole = "user" | "assistant";
+
+function normalizeMessageContent(content: unknown): string {
+  if (typeof content === "string") return content.trim();
+
+  if (Array.isArray(content)) {
+    return content
+      .map((part) => {
+        if (typeof part === "string") return part;
+        if (part && typeof part === "object" && "text" in part && typeof (part as { text?: unknown }).text === "string") {
+          return (part as { text: string }).text;
+        }
+        if (part && typeof part === "object" && "type" in part && (part as { type?: unknown }).type === "image_url") {
+          return "[Student attached an image. Ask them to describe it in text if visual analysis is needed.]";
+        }
+        return "";
+      })
+      .join("\n")
+      .trim();
+  }
+
+  return "";
+}
+
+function sanitizeMessages(msgs: unknown): Array<{ role: ChatRole; content: string }> {
+  const safeMessages: Array<{ role: ChatRole; content: string }> = [];
+  if (!Array.isArray(msgs)) return [{ role: "user", content: "Hello" }];
+
+  for (const raw of msgs) {
+    if (!raw || typeof raw !== "object") continue;
+    const role = (raw as { role?: unknown }).role;
+    if (role !== "user" && role !== "assistant") continue;
+
+    const content = normalizeMessageContent((raw as { content?: unknown }).content);
+    if (!content) continue;
+
+    if (safeMessages.length === 0) {
+      if (role === "user") safeMessages.push({ role, content });
+      continue;
+    }
+
+    const last = safeMessages[safeMessages.length - 1];
+    if (last.role === role) {
+      last.content = `${last.content}\n\n${content}`;
     } else {
-      merged.push({ ...m });
+      safeMessages.push({ role, content });
     }
   }
-  // Drop leading assistant messages
-  while (merged.length && merged[0].role !== "user") merged.shift();
-  // Ensure ends with user message
-  while (merged.length && merged[merged.length - 1].role !== "user") merged.pop();
-  return merged.length ? merged : [{ role: "user", content: "Hello" }];
+
+  while (safeMessages.length && safeMessages[safeMessages.length - 1].role !== "user") safeMessages.pop();
+
+  return safeMessages.length ? safeMessages : [{ role: "user", content: "Hello" }];
+}
+
+function latestUserMessage(msgs: unknown): Array<{ role: ChatRole; content: string }> {
+  if (!Array.isArray(msgs)) return [{ role: "user", content: "Hello" }];
+  for (let i = msgs.length - 1; i >= 0; i--) {
+    const raw = msgs[i];
+    if (!raw || typeof raw !== "object" || (raw as { role?: unknown }).role !== "user") continue;
+    const content = normalizeMessageContent((raw as { content?: unknown }).content);
+    if (content) return [{ role: "user", content }];
+  }
+  return [{ role: "user", content: "Hello" }];
 }
 
 serve(async (req) => {
