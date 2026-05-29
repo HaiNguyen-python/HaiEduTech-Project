@@ -71,6 +71,8 @@ const PILLAR_COURSES: Record<string, string[]> = {
   "cloud": ["cloud"],
   "deep-learning": ["dl"],
   "reinforcement-learning": ["rl"],
+  "nlp": ["nlp"],
+  "edtech": ["edtech"],
 };
 
 function getPillarForModule(moduleId: string): string | null {
@@ -171,7 +173,12 @@ const ProgrammingLessonPage = () => {
       .eq("lesson_id", lesson.id)
       .maybeSingle()
       .then(({ data }) => {
-        if (!data?.enhanced_markdown) return;
+        if (!data?.enhanced_markdown) {
+          // No cache → auto-trigger AI enhancement (illustrations + deep-dive)
+          // so users never have to click a button.
+          handleEnhanceTheory(false);
+          return;
+        }
         // Strip Perplexity citation markers like [1][2][3] from previously cached content
         const cleaned = data.enhanced_markdown
           .replace(/\s*\[\d+(?:\s*[,\s]\s*\d+)*\]/g, "")
@@ -179,7 +186,13 @@ const ProgrammingLessonPage = () => {
           .replace(/[ \t]+([.,;:!?])/g, "$1")
           .replace(/[ \t]{2,}/g, " ");
         setEnhancedMd(cleaned);
+        // If cached markdown is missing inline illustrations, re-enhance to add them.
+        const hasIllustrations = /!\[[^\]]*\]\([^)]+\)/.test(cleaned);
+        if (!hasIllustrations) {
+          handleEnhanceTheory(true);
+        }
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mod, lesson]);
 
   const handleEnhanceTheory = async (forceRefresh = false) => {
