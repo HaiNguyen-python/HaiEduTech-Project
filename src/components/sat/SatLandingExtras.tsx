@@ -23,7 +23,7 @@ const SatLandingExtras = () => {
       icon: BookOpen,
       title: t("Reading & Writing", "Reading & Writing"),
       time: t("64 phút · 54 câu · 2 module", "64 min · 54 Qs · 2 modules"),
-      gradient: "from-violet-500/15 to-indigo-500/15 border-violet-500/30",
+      gradient: "from-violet-500/20 to-indigo-500/20 border-violet-500/70",
       bullets: [
         t("Đoạn văn ngắn 25–150 từ, mỗi câu 1 passage", "Short passages 25–150 words, one question each"),
         t("Information & Ideas, Craft & Structure, Expression of Ideas, Standard English", "Information & Ideas, Craft & Structure, Expression of Ideas, Standard English"),
@@ -34,7 +34,7 @@ const SatLandingExtras = () => {
       icon: Calculator,
       title: t("Math", "Math"),
       time: t("70 phút · 44 câu · Desmos tích hợp", "70 min · 44 Qs · Built-in Desmos"),
-      gradient: "from-sky-500/15 to-emerald-500/15 border-sky-500/30",
+      gradient: "from-sky-500/20 to-emerald-500/20 border-sky-500/70",
       bullets: [
         t("Algebra · Advanced Math · Problem Solving · Geometry/Trig", "Algebra · Advanced Math · Problem Solving · Geometry/Trig"),
         t("75% trắc nghiệm + 25% student-produced response", "75% multiple choice + 25% student-produced response"),
