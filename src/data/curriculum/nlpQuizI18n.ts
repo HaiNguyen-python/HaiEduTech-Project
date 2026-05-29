@@ -11,6 +11,87 @@ export interface QuizEn {
 }
 
 export const nlpQuizEn: Record<string, QuizEn> = {
+  // --- NLP Production: RAG ---
+  "RAG chủ yếu giải quyết vấn đề nào?": {
+    q: "What problem does RAG primarily solve?",
+    opts: ["Slow LLM responses", "Hallucination & knowledge cutoff", "Expensive tokens", "Poor UI design"],
+    exp: "RAG injects fresh, relevant context into the prompt so the LLM does not have to guess or rely only on its training cutoff.",
+  },
+  "Vì sao thường dùng cosine similarity?": {
+    q: "Why is cosine similarity commonly used?",
+    opts: ["It is faster than dot product", "It ignores length and compares vector direction", "It is perfectly accurate", "It does not need normalization"],
+    exp: "Cosine compares the direction of normalized vectors, reducing bias from longer or shorter chunks.",
+  },
+  "Overlap giữa các chunk dùng để?": {
+    q: "What is overlap between chunks used for?",
+    opts: ["Saving RAM", "Avoiding context loss around chunk boundaries", "Speeding up embeddings", "Beautifying the database"],
+    exp: "A 10–20% overlap keeps sentences that cross boundaries intact in at least one chunk.",
+  },
+  "Lost-in-the-middle là hiện tượng?": {
+    q: "What is the lost-in-the-middle effect?",
+    opts: ["Embeddings drifting", "An LLM ignoring information in the middle of a long prompt", "A vector DB losing chunks", "A user disconnecting"],
+    exp: "LLMs tend to attend more to the beginning and end of long contexts; re-ranking and shorter prompts help.",
+  },
+  "Bước nào KHÔNG thuộc pipeline RAG?": {
+    q: "Which step is NOT part of a RAG pipeline?",
+    opts: ["Embed query", "Vector search", "Backprop", "Augment prompt"],
+    exp: "Backpropagation appears during training/fine-tuning; RAG is an inference-time pattern.",
+  },
+
+  // --- NLP Production: LoRA & PEFT ---
+  "LoRA huấn luyện phần nào của model?": {
+    q: "Which part of the model does LoRA train?",
+    opts: ["All weights", "Only low-rank A and B matrices inserted into layers", "Only embeddings", "Only the output layer"],
+    exp: "LoRA freezes the base weights and trains small rank-r adapters, which greatly reduces compute.",
+  },
+  "Khi nào chọn RAG thay vì fine-tune?": {
+    q: "When should you choose RAG instead of fine-tuning?",
+    opts: ["When you need new or frequently updated knowledge", "When you need a new writing style", "When you need strict JSON format", "All three"],
+    exp: "New or fast-changing knowledge belongs in retrieval; stable style or format shifts may fit fine-tuning.",
+  },
+  "Catastrophic forgetting là gì?": {
+    q: "What is catastrophic forgetting?",
+    opts: ["A server forgetting data", "A model losing old skills after learning a new one", "A broken tokenizer", "GPU out-of-memory"],
+    exp: "Over-aggressive fine-tuning can damage pre-existing capabilities, so regression tests are required.",
+  },
+  "Vì sao LoRA tiết kiệm GPU?": {
+    q: "Why does LoRA save GPU resources?",
+    opts: ["It disables the forward pass", "Only ~0.1% of parameters need gradients, so optimizer state is tiny", "It uses CPU only", "It does not need data"],
+    exp: "Optimizer memory scales with trainable parameters; LoRA trains far fewer parameters than full fine-tuning.",
+  },
+  "Win-rate vs base nghĩa là?": {
+    q: "What does win-rate vs base mean?",
+    opts: ["Game win rate", "The percentage of comparisons where humans or an LLM judge prefer the new model over the base", "Inference speed", "Number of generated tokens"],
+    exp: "Side-by-side preference comparisons reveal whether the tuned model is actually better.",
+  },
+
+  // --- NLP Production: Evaluation & Safety ---
+  "Vì sao phải đảo vị trí A/B khi dùng LLM-as-judge?": {
+    q: "Why swap A/B order when using an LLM-as-judge?",
+    opts: ["For fun", "To reduce position bias", "To save tokens", "To increase speed"],
+    exp: "Judges may prefer the first or last answer; swapping order and averaging reduces that bias.",
+  },
+  "Guardrail lớp 1 (input filter) chủ yếu để?": {
+    q: "What is layer-1 guardrail input filtering mainly for?",
+    opts: ["Speeding up the LLM", "Blocking PII and known jailbreaks before they reach the model", "Making the UI prettier", "Reducing cost"],
+    exp: "The first layer blocks sensitive data and risky prompts before model execution.",
+  },
+  "Goodhart's Law cảnh báo điều gì?": {
+    q: "What does Goodhart's Law warn about?",
+    opts: ["Code slowing down over time", "When a metric becomes the target, it stops being a good metric", "GPU overheating", "LLMs running out of tokens"],
+    exp: "Optimizing directly for a metric can damage real quality, so human spot-checks still matter.",
+  },
+  "Regression check trong release LLM nghĩa là?": {
+    q: "What does a regression check mean in an LLM release?",
+    opts: ["Testing ML regression", "Ensuring old tests still pass after the new version ships", "Linear regression", "User churn testing"],
+    exp: "Regression checks make sure the new version does not break previously working skills.",
+  },
+  "Hallucination rate đo bằng benchmark nào tiêu biểu?": {
+    q: "Which benchmark is commonly used to measure hallucination/truthfulness?",
+    opts: ["MMLU", "TruthfulQA / FActScore", "HumanEval", "GSM8K"],
+    exp: "TruthfulQA and FActScore focus on factuality and grounded truthfulness.",
+  },
+
   // --- Lesson 1: Transformer foundations ---
   "Vì sao phải chia cho √d_k trong attention?": {
     q: "Why do we divide by √d_k inside attention?",
