@@ -25,7 +25,19 @@ const StudyStreakLeaderboard = () => {
 
         const { data, error } = await supabase.rpc("get_streak_leaderboard") as { data: StreakEntry[] | null; error: any };
         if (error) throw error;
-        setEntries(data || []);
+        // Collapse duplicate display names; keep the longest streak per name
+        const deduped = dedupeByDisplayName(
+          (data || []).map(r => ({
+            user_id: r.user_id,
+            score: r.streak_days || 0,
+            display_name: r.display_name,
+          })),
+        ).map(r => ({
+          user_id: r.user_id,
+          display_name: r.display_name,
+          streak_days: r.score,
+        }));
+        setEntries(deduped);
       } catch (e) {
         console.error("Failed to fetch streak leaderboard:", e);
       }
