@@ -47,9 +47,10 @@ const PILLAR_META: Record<PillarKey, {
 };
 
 const PillarHub = () => {
-  const { pillarId } = useParams<{ pillarId: string }>();
+  const location = useLocation();
   const { t, lang } = useLanguage();
 
+  const pillarId = location.pathname.endsWith("/edtech") ? "edtech" : location.pathname.endsWith("/nlp") ? "nlp" : null;
   const isValidPillar = pillarId === "nlp" || pillarId === "edtech";
   if (!isValidPillar) {
     return <Navigate to="/programming" replace />;
