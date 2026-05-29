@@ -36,7 +36,7 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <SEO title="Liên Hệ Thầy Hải - HaiEduTech | Tư Vấn Khóa Học" description="Liên hệ Thầy Hải: 0962.823.800, hainguyen240195@gmail.com. Tư vấn IELTS, HSK, TOEIC, du học, lập trình Python miễn phí qua Zalo, Facebook, LinkedIn." path="/contact" />
+      <SEO title="Liên Hệ Thầy Hải - HaiEduTech | Tư Vấn Khóa Học" description="Liên hệ Thầy Hải: 0962.823.800, contact@haiedutech.com. Tư vấn IELTS, HSK, TOEIC, du học, lập trình Python miễn phí qua Zalo, Facebook, LinkedIn." path="/contact" />
       <Navbar />
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-6 max-w-3xl">
@@ -52,7 +52,7 @@ const Contact = () => {
             {/* Get in Touch social bar */}
             <div className="flex items-center gap-4 mb-10">
               {[
-                { href: "mailto:hainguyen240195@gmail.com", icon: Mail, label: "Email", color: "text-red-400" },
+                { href: "mailto:contact@haiedutech.com", icon: Mail, label: "Email", color: "text-red-400" },
                 { href: "https://github.com/HaiNguyen-python", icon: Github, label: "GitHub", color: "text-foreground" },
                 { href: "https://www.linkedin.com/in/hainguyen2401/", icon: Linkedin, label: "LinkedIn", color: "text-blue-400" },
               ].map((s) => (

@@ -349,7 +349,7 @@ const MentorHub = () => {
                   </div>
                   <div className="md:col-span-2 flex flex-wrap items-center justify-between gap-3">
                     <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                      <span className="flex items-center gap-1"><Mail className="w-3.5 h-3.5" /> hainguyen240195@gmail.com</span>
+                      <span className="flex items-center gap-1"><Mail className="w-3.5 h-3.5" /> contact@haiedutech.com</span>
                       <span className="flex items-center gap-1"><Phone className="w-3.5 h-3.5" /> 0962.823.800</span>
                     </div>
                     <Button type="submit" disabled={submitting} className="gap-2">
