@@ -545,4 +545,118 @@ print(json.dumps(result, ensure_ascii=False, indent=2))`,
       },
     ],
   },
+      {
+        id: "edtech-adv-5",
+        title: "Knowledge Tracing & Mastery — đo 'học sinh thực sự biết gì'",
+        titleEn: "Knowledge Tracing & Mastery — Measuring What a Student Really Knows",
+        level: 4,
+        difficulty: "advanced",
+        theory: `## 1. 🎯 Vấn đề: "trả lời đúng" ≠ "đã hiểu"
+
+Một học sinh có thể đoán đúng, copy đáp án, hoặc thuộc lòng mà không hiểu. **Knowledge Tracing (KT)** là bài toán **ước lượng xác suất học sinh đã nắm kỹ năng** dựa trên lịch sử trả lời.
+
+\`\`\`
+   Lịch sử:       Q1✓  Q2✗  Q3✓  Q4✓  Q5✗  Q6✓
+   Skill:         past-tense   articles    past-tense  ...
+   KT model →     P(mastery past-tense) = 0.82
+                  P(mastery articles)   = 0.41
+\`\`\`
+
+## 2. 🧮 BKT (Bayesian Knowledge Tracing) — kinh điển 1995
+
+4 tham số / kỹ năng:
+
+| Param | Ý nghĩa | Khoảng điển hình |
+|-------|---------|------------------|
+| \`p_init\` | P(biết trước khi học) | 0.1 – 0.3 |
+| \`p_learn\` | P(học được sau 1 lần thử) | 0.05 – 0.2 |
+| \`p_slip\` | P(biết nhưng trả lời SAI) | 0.05 – 0.1 |
+| \`p_guess\` | P(không biết nhưng trả lời ĐÚNG) | 0.1 – 0.25 |
+
+Cập nhật Bayes sau mỗi câu:
+
+\`\`\`
+   Nếu ĐÚNG:    p_known' = p_known * (1 - p_slip) /
+                            [ p_known * (1 - p_slip) + (1 - p_known) * p_guess ]
+   Nếu SAI:     p_known' = p_known * p_slip /
+                            [ p_known * p_slip + (1 - p_known) * (1 - p_guess) ]
+   Sau đó học:  p_known  = p_known' + (1 - p_known') * p_learn
+\`\`\`
+
+## 3. 🧠 DKT (Deep Knowledge Tracing, 2015) — RNN/Transformer
+
+BKT giả định độc lập giữa kỹ năng → kém khi kỹ năng liên quan (past simple ↔ past perfect). DKT dùng **RNN/Transformer** học embedding kỹ năng tự động → bắt được phụ thuộc.
+
+\`\`\`
+        x_1 ─▶ ┌────┐
+        x_2 ─▶ │RNN ├─▶ h_t ─▶ Dense ─▶ P(đúng câu kế tiếp về mỗi skill)
+        x_3 ─▶ └────┘
+        x_t = (skill_id, correct?)
+\`\`\`
+
+## 4. 🪜 Mastery threshold — khi nào coi là "đã master"?
+
+| Ngưỡng | Hệ quả |
+|--------|--------|
+| 0.70 | Tiến nhanh, nhưng nhiều bài bị quên sau |
+| **0.85** | Cân bằng tốt (ASSISTments, Khan, Duolingo) |
+| 0.95 | Chậm, tốn thời gian; phù hợp chứng chỉ |
+
+Kết hợp với **Spaced Repetition**: đạt 0.85 → đưa vào lịch ôn dài hạn (không phải xong-là-quên).
+
+## 5. 🔗 Skill Graph — bản đồ phụ thuộc
+
+\`\`\`
+              [present simple]
+                  │
+                  ▼
+              [past simple] ───▶ [past perfect]
+                  │                  │
+                  └────▶ [future] ◀──┘
+\`\`\`
+
+Khi học sinh kẹt ở \`past perfect\`, hệ thống tự **gợi ý ôn lại \`past simple\`** (prerequisite) chứ không cố nhồi bài khó hơn.
+
+## 6. ⚠️ Bẫy
+
+- **Cold start**: chưa có dữ liệu → dùng prior nghề nghiệp (ví dụ HSK 1 mặc định mastery thấp).
+- **Skill tagging bẩn**: 1 câu bị tag 5 skill → KT loãng. Mỗi câu ≤ 2 skill chính.
+- **Time decay**: bỏ qua quên theo thời gian → kết hợp KT + SRS bắt buộc.
+`,
+        theoryEn: `Knowledge Tracing estimates the probability a learner has mastered a skill from their answer history. BKT (1995) uses 4 params per skill (p_init, p_learn, p_slip, p_guess) with Bayesian updates. DKT (2015) uses RNN/Transformer to capture skill dependencies missed by BKT. Use a 0.85 mastery threshold (industry standard) and pair KT with spaced repetition to fight forgetting. Maintain a prerequisite skill graph so the system reroutes to fundamentals when a learner stalls. Watch for cold start, dirty skill tags, and ignoring time decay.`,
+        code: `def bkt_update(p_known: float, correct: bool,
+               p_slip=0.1, p_guess=0.2, p_learn=0.1) -> float:
+    """One-step Bayesian Knowledge Tracing update."""
+    if correct:
+        num = p_known * (1 - p_slip)
+        den = num + (1 - p_known) * p_guess
+    else:
+        num = p_known * p_slip
+        den = num + (1 - p_known) * (1 - p_guess)
+    posterior = num / den if den else p_known
+    # apply learning step (chance to learn from the attempt)
+    return posterior + (1 - posterior) * p_learn
+
+# Simulate a learner on "past simple"
+p = 0.15  # cold-start prior
+history = [True, False, True, True, True, False, True, True]
+for i, c in enumerate(history, 1):
+    p = bkt_update(p, c)
+    flag = "MASTERED ✓" if p >= 0.85 else ""
+    print(f"Q{i} {'✓' if c else '✗'}  p(known) = {p:.3f}  {flag}")`,
+        codeLanguage: "python",
+        exercise:
+          "Viết route_next_skill(skill_mastery: dict, graph: dict) chọn kỹ năng kế tiếp: nếu prerequisite < 0.6 → ôn nó trước; nếu hiện tại ≥ 0.85 → tiến lên skill con; ngược lại tiếp tục skill hiện tại.",
+        exerciseEn:
+          "Write route_next_skill(skill_mastery, graph): if a prerequisite is < 0.6, review it first; if current ≥ 0.85, advance to a child skill; otherwise stay on current.",
+        quiz: [
+          { question: "Vì sao 'trả lời đúng' không đồng nghĩa 'đã hiểu' trong KT?", options: ["Có thể đoán hoặc nhớ tạm", "Lỗi UI", "Sai đáp án gold", "Không có vấn đề"], answer: 0, explanation: "BKT mô hình hoá p_guess và p_slip vì lý do này." },
+          { question: "p_slip trong BKT nghĩa là?", options: ["P(không biết nhưng đúng)", "P(biết nhưng trả lời sai do bất cẩn)", "Tỉ lệ skip bài", "Cost"], answer: 1, explanation: "Slip = biết mà lỡ; Guess = không biết mà trúng." },
+          { question: "DKT khắc phục điểm yếu nào của BKT?", options: ["Quá nhanh", "Giả định kỹ năng độc lập — DKT bắt phụ thuộc qua RNN", "Quá rẻ", "Không có khác biệt"], answer: 1, explanation: "RNN/Transformer học embedding kỹ năng → bắt liên kết." },
+          { question: "Ngưỡng mastery 0.85 phổ biến vì?", options: ["Số đẹp", "Cân bằng tiến độ và retention; chuẩn ngành (Khan, Duolingo)", "Tốc độ", "Không lý do"], answer: 1, explanation: "0.70 quên nhanh; 0.95 quá chậm; 0.85 là sweet spot." },
+          { question: "Khi học sinh kẹt ở 'past perfect', hệ thống nên?", options: ["Cho bài khó hơn", "Ôn lại prerequisite 'past simple' trong skill graph", "Bỏ qua", "Hiển thị quảng cáo"], answer: 1, explanation: "Skill graph cho phép route về gốc khi học sinh chưa vững cơ sở." },
+        ],
+      },
+    ],
+  },
 ];
