@@ -71,6 +71,8 @@ const PILLAR_COURSES: Record<string, string[]> = {
   "cloud": ["cloud"],
   "deep-learning": ["dl"],
   "reinforcement-learning": ["rl"],
+  "nlp": ["nlp"],
+  "edtech": ["edtech"],
 };
 
 function getPillarForModule(moduleId: string): string | null {
