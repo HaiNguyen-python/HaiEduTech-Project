@@ -13,6 +13,7 @@ import SEO from "@/components/SEO";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
 import SectionDivider from "@/components/SectionDivider";
 import HomeChibiFunFacts from "@/components/decorations/HomeChibiFunFacts";
+import { useLanguage } from "@/contexts/LanguageContext";
 const LearningRoadmaps = lazy(() => import("@/components/LearningRoadmaps"));
 const ModernTechTools = lazy(() => import("@/components/ModernTechTools"));
 const SuccessMetrics = lazy(() => import("@/components/SuccessMetrics"));
