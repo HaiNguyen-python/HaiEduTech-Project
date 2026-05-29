@@ -1052,29 +1052,44 @@ const ToeicVocabulary = () => {
           )}
         </AnimatePresence>
         </div>
-        <div className="hidden lg:block w-72 flex-shrink-0 sticky top-24 self-start">
+        <div className="hidden lg:block w-72 flex-shrink-0 sticky top-24 self-start space-y-4 max-h-[calc(100vh-7rem)] overflow-y-auto pr-1">
           <VocabMasteryLeaderboard subject="toeic" currentCount={mastered.size} />
+          <SmartReviewColumn
+            subject="toeic"
+            lang="en-US"
+            lookupWord={(w) => {
+              const found = toeicVocabData.find(x => x.word === w);
+              if (!found) return null;
+              return {
+                word: found.word,
+                phonetic: found.ipa,
+                definitionVi: found.definition.vi,
+                definitionEn: found.definition.en,
+              };
+            }}
+            allWordsForQuiz={toeicVocabData.map(w => ({ word: w.word, definition: w.definition.vi }))}
+          />
         </div>
         </div>
-        <div className="lg:hidden mt-6 px-4">
+        <div className="lg:hidden mt-6 px-4 space-y-4">
           <VocabMasteryLeaderboard subject="toeic" currentCount={mastered.size} />
+          <SmartReviewColumn
+            subject="toeic"
+            lang="en-US"
+            lookupWord={(w) => {
+              const found = toeicVocabData.find(x => x.word === w);
+              if (!found) return null;
+              return {
+                word: found.word,
+                phonetic: found.ipa,
+                definitionVi: found.definition.vi,
+                definitionEn: found.definition.en,
+              };
+            }}
+            allWordsForQuiz={toeicVocabData.map(w => ({ word: w.word, definition: w.definition.vi }))}
+          />
         </div>
       </main>
-      <SmartReviewColumn
-        subject="toeic"
-        lang="en-US"
-        lookupWord={(w) => {
-          const found = toeicVocabData.find(x => x.word === w);
-          if (!found) return null;
-          return {
-            word: found.word,
-            phonetic: found.ipa,
-            definitionVi: found.definition.vi,
-            definitionEn: found.definition.en,
-          };
-        }}
-        allWordsForQuiz={toeicVocabData.map(w => ({ word: w.word, definition: w.definition.vi }))}
-      />
       <Footer />
     </div>
   );

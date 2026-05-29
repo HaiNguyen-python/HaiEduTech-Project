@@ -376,61 +376,17 @@ const SmartReviewColumn = ({
   allWordsForQuiz = [],
   className,
 }: SmartReviewColumnProps) => {
-  const isMobile = useIsMobile();
-  const { queue } = useReviewQueue(subject);
-
-  if (isMobile) {
-    return (
-      <Drawer>
-        <DrawerTrigger asChild>
-          <button
-            type="button"
-            className="fixed bottom-24 right-4 z-40 flex items-center gap-1.5 rounded-full bg-gradient-to-br from-primary to-emerald-500 text-white shadow-lg px-3 py-2.5 active:scale-95 transition-transform"
-            aria-label="Open smart review"
-          >
-            <RefreshCcw className="w-4 h-4" />
-            <span className="text-xs font-bold">Ôn tập</span>
-            {queue.length > 0 && (
-              <span className="ml-0.5 inline-flex items-center justify-center bg-amber-400 text-amber-950 text-[10px] font-extrabold rounded-full min-w-[18px] h-[18px] px-1">
-                {queue.length}
-              </span>
-            )}
-          </button>
-        </DrawerTrigger>
-        <DrawerContent className="max-h-[85vh]">
-          <DrawerHeader>
-            <DrawerTitle>🔄 Góc Ôn Tập Thông Minh</DrawerTitle>
-          </DrawerHeader>
-          <div className="px-4 pb-6 overflow-y-auto">
-            <ReviewBody
-              subject={subject}
-              lang={lang}
-              lookupWord={lookupWord}
-              allWordsForQuiz={allWordsForQuiz}
-            />
-          </div>
-        </DrawerContent>
-      </Drawer>
-    );
-  }
-
-  // Desktop: floating right column anchored to the right edge, sitting just
-  // to the left of any vertical feedback bar (which typically uses right-0).
+  // Inline placement: render directly inside the page layout (e.g. right
+  // below the Study Streak Ranking card) instead of floating or drawer modes.
   return (
-    <aside
-      className={cn(
-        "hidden xl:block fixed right-14 top-24 w-80 z-30 max-h-[calc(100vh-7rem)] overflow-y-auto",
-        className
-      )}
-      style={{ scrollbarWidth: "thin" }}
-    >
+    <div className={cn("rounded-xl border border-border bg-card/50 p-3 shadow-sm", className)}>
       <ReviewBody
         subject={subject}
         lang={lang}
         lookupWord={lookupWord}
         allWordsForQuiz={allWordsForQuiz}
       />
-    </aside>
+    </div>
   );
 };
 
