@@ -132,49 +132,72 @@ export const ieltsListeningPracticeSets: ListeningPracticeSet[] = [
     title: "Riverside Park Layout",
     titleVi: "Sơ đồ công viên Riverside",
     context:
-      "You will hear a description of Riverside Park. Label the locations 1-5 with the correct letter A-G from the legend.\n" +
-      "Map (text-based):\n" +
-      "  • The MAIN ENTRANCE is at the south.\n" +
-      "  • A wide path goes north from the entrance to a roundabout in the middle of the park.\n" +
-      "  • At the roundabout, a path goes west and another path goes east.\n" +
-      "  • Beyond the roundabout, the path continues north to the river.\n" +
-      "Locations along the way: A) Café  B) Playground  C) Toilets  D) Boat hire  E) Information centre  F) Picnic area  G) Statue",
+      "You will hear a description of Riverside Park. Use the MAP below to label locations 1-5 with the correct letter A-G. Then answer questions 6-10 about practical information.",
     contextVi:
-      "Bạn sẽ nghe mô tả công viên Riverside. Gắn nhãn 5 vị trí 1-5 bằng chữ cái A-G phù hợp.\n" +
-      "(LỐI VÀO CHÍNH ở phía Nam. Đường chính đi lên Bắc, có vòng xoay ở giữa, đường rẽ Đông-Tây, rồi tiếp tục lên sông.)",
+      "Bạn sẽ nghe mô tả công viên Riverside. Dùng BẢN ĐỒ bên dưới gắn nhãn vị trí 1-5 (A-G), sau đó trả lời câu 6-10 về thông tin thực tế.",
     transcript:
       "Welcome to Riverside Park. Let me describe the layout so you can find your way around.\n" +
       "As you come in through the main entrance at the south, the first thing you'll see immediately on your right is the information centre. That's where you can pick up free maps and event leaflets.\n" +
       "Walk straight ahead along the wide path heading north. About halfway up, on your left, there's a small wooden building - that's the café, which serves hot drinks and snacks.\n" +
       "Continue to the roundabout in the middle of the park. If you turn west at the roundabout and follow that path to the end, you'll reach the children's playground in the western corner.\n" +
       "Going east from the roundabout, the picnic area is the first thing you come to, on the right side of the eastern path.\n" +
-      "Finally, if you keep going north past the roundabout all the way to the river, you'll find the boat hire kiosk right by the water.",
+      "Finally, if you keep going north past the roundabout all the way to the river, you'll find the boat hire kiosk right by the water.\n" +
+      "A few practical points before you head off.\n" +
+      "The park is open from seven in the morning until nine in the evening, every day of the year except Christmas Day.\n" +
+      "The café closes thirty minutes before the rest of the park.\n" +
+      "Dogs are very welcome but must be kept on a lead in the playground area.\n" +
+      "Boat hire costs ten pounds per hour and is available only for visitors aged sixteen and over.\n" +
+      "We recommend allowing about two hours to enjoy everything the park has to offer. Enjoy your visit.",
+    mapSvg:
+      '<svg viewBox="0 0 560 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Riverside Park map">' +
+      '<rect x="0" y="0" width="560" height="380" fill="#f3efe2"/>' +
+      // River at the top
+      '<rect x="0" y="0" width="560" height="42" fill="#bfe3f3"/>' +
+      '<text x="280" y="26" text-anchor="middle" font-size="14" font-weight="700" fill="#0b6e8f">RIVER</text>' +
+      // Compass
+      '<g transform="translate(508,70)"><circle r="22" fill="#fff" stroke="#888"/><text y="-6" text-anchor="middle" font-size="11" fill="#444">N</text><text y="18" text-anchor="middle" font-size="11" fill="#444">S</text><text x="-13" y="6" text-anchor="middle" font-size="11" fill="#444">W</text><text x="13" y="6" text-anchor="middle" font-size="11" fill="#444">E</text><line x1="0" y1="-14" x2="0" y2="14" stroke="#444"/><polygon points="0,-16 -4,-8 4,-8" fill="#c0392b"/></g>' +
+      // Park boundary
+      '<rect x="40" y="60" width="450" height="300" fill="#dfead0" stroke="#4a7c3a" stroke-width="2"/>' +
+      // Vertical main path (entrance -> roundabout -> river)
+      '<line x1="260" y1="360" x2="260" y2="42" stroke="#b08a55" stroke-width="14" stroke-linecap="round"/>' +
+      // West and east paths from roundabout
+      '<line x1="60" y1="210" x2="470" y2="210" stroke="#b08a55" stroke-width="12" stroke-linecap="round"/>' +
+      // Roundabout
+      '<circle cx="260" cy="210" r="22" fill="#e2c896" stroke="#8a6a3a" stroke-width="2"/>' +
+      '<text x="260" y="214" text-anchor="middle" font-size="10" fill="#5a4012">roundabout</text>' +
+      // Main entrance
+      '<rect x="232" y="350" width="56" height="20" fill="#2c3e50"/>' +
+      '<text x="260" y="364" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">ENTRANCE</text>' +
+      // Letter markers A-G
+      // A — halfway up main path, on the left (CORRECT for café)
+      '<g><circle cx="232" cy="290" r="16" fill="#fff" stroke="#1e6f3a" stroke-width="2"/><text x="232" y="295" text-anchor="middle" font-size="14" font-weight="800" fill="#1e6f3a">A</text></g>' +
+      // E — just inside entrance, right (CORRECT for info centre)
+      '<g><circle cx="296" cy="332" r="16" fill="#fff" stroke="#1e6f3a" stroke-width="2"/><text x="296" y="337" text-anchor="middle" font-size="14" font-weight="800" fill="#1e6f3a">E</text></g>' +
+      // C — south-west corner (Toilets, distractor)
+      '<g><circle cx="90" cy="335" r="16" fill="#fff" stroke="#1e6f3a" stroke-width="2"/><text x="90" y="340" text-anchor="middle" font-size="14" font-weight="800" fill="#1e6f3a">C</text></g>' +
+      // B — west end of west path (CORRECT for playground)
+      '<g><circle cx="78" cy="210" r="16" fill="#fff" stroke="#1e6f3a" stroke-width="2"/><text x="78" y="215" text-anchor="middle" font-size="14" font-weight="800" fill="#1e6f3a">B</text></g>' +
+      // F — east path, first on the right (CORRECT for picnic area)
+      '<g><circle cx="330" cy="182" r="16" fill="#fff" stroke="#1e6f3a" stroke-width="2"/><text x="330" y="187" text-anchor="middle" font-size="14" font-weight="800" fill="#1e6f3a">F</text></g>' +
+      // G — north-east area (Statue, distractor)
+      '<g><circle cx="438" cy="110" r="16" fill="#fff" stroke="#1e6f3a" stroke-width="2"/><text x="438" y="115" text-anchor="middle" font-size="14" font-weight="800" fill="#1e6f3a">G</text></g>' +
+      // D — north end by the river (CORRECT for boat hire)
+      '<g><circle cx="260" cy="70" r="16" fill="#fff" stroke="#1e6f3a" stroke-width="2"/><text x="260" y="75" text-anchor="middle" font-size="14" font-weight="800" fill="#1e6f3a">D</text></g>' +
+      // Direction hints
+      '<text x="55" y="200" font-size="10" fill="#5a4012">west path</text>' +
+      '<text x="410" y="200" font-size="10" fill="#5a4012">east path</text>' +
+      '</svg>',
     questions: [
-      {
-        type: "matching",
-        prompt: "Just inside the main entrance, on the right",
-        answer: "E",
-      },
-      {
-        type: "matching",
-        prompt: "Halfway along the main path, on the left",
-        answer: "A",
-      },
-      {
-        type: "matching",
-        prompt: "End of the western path",
-        answer: "B",
-      },
-      {
-        type: "matching",
-        prompt: "On the eastern path, first on the right",
-        answer: "F",
-      },
-      {
-        type: "matching",
-        prompt: "By the river, at the north end",
-        answer: "D",
-      },
+      { type: "matching", prompt: "1. Just inside the main entrance, on the right", answer: "E" },
+      { type: "matching", prompt: "2. Halfway along the main path, on the left", answer: "A" },
+      { type: "matching", prompt: "3. End of the western path", answer: "B" },
+      { type: "matching", prompt: "4. On the eastern path, first on the right", answer: "F" },
+      { type: "matching", prompt: "5. By the river, at the north end", answer: "D" },
+      { type: "fill-in", prompt: "6. Park opens at ___ a.m.", answer: "7" },
+      { type: "fill-in", prompt: "7. Park is closed only on ___ Day.", answer: "Christmas" },
+      { type: "fill-in", prompt: "8. Dogs must be on a lead in the ___ area.", answer: "playground" },
+      { type: "fill-in", prompt: "9. Boat hire cost: £___ per hour", answer: "10" },
+      { type: "fill-in", prompt: "10. Minimum age for boat hire: ___", answer: "16" },
     ],
     matchingOptions: [
       { letter: "A", text: "Café" },
