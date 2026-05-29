@@ -16,6 +16,29 @@ async function logUsage(functionName: string, model: string, domain: string, tok
   } catch (e) { console.error("Usage logging failed:", e); }
 }
 
+// Perplexity requires strict user/assistant alternation after system messages.
+function sanitizeMessages(msgs: any[]): any[] {
+  if (!Array.isArray(msgs)) return [];
+  const cleaned = msgs
+    .filter((m) => m && (m.role === "user" || m.role === "assistant") && typeof m.content === "string" && m.content.trim().length > 0)
+    .map((m) => ({ role: m.role, content: m.content }));
+  // Merge consecutive same-role messages
+  const merged: any[] = [];
+  for (const m of cleaned) {
+    const last = merged[merged.length - 1];
+    if (last && last.role === m.role) {
+      last.content += "\n\n" + m.content;
+    } else {
+      merged.push({ ...m });
+    }
+  }
+  // Drop leading assistant messages
+  while (merged.length && merged[0].role !== "user") merged.shift();
+  // Ensure ends with user message
+  while (merged.length && merged[merged.length - 1].role !== "user") merged.pop();
+  return merged.length ? merged : [{ role: "user", content: "Hello" }];
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
