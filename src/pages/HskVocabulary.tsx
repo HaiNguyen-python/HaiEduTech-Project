@@ -731,12 +731,42 @@ const HskVocabulary = () => {
               </div>
             )}
           </motion.div>
-          <div className="hidden lg:block w-72 flex-shrink-0 sticky top-24 self-start">
+          <div className="hidden lg:block w-72 flex-shrink-0 sticky top-24 self-start space-y-4 max-h-[calc(100vh-7rem)] overflow-y-auto pr-1">
             <VocabMasteryLeaderboard subject="hsk" currentCount={mastered.size} />
+            <SmartReviewColumn
+              subject="hsk"
+              lang="zh-CN"
+              lookupWord={(w) => {
+                const found = hskVocabData.find(x => x.character === w);
+                if (!found) return null;
+                return {
+                  word: found.character,
+                  phonetic: found.pinyin,
+                  definitionVi: found.definition.vi,
+                  definitionEn: found.definition.en,
+                };
+              }}
+              allWordsForQuiz={hskVocabData.map(w => ({ word: w.character, definition: w.definition.vi }))}
+            />
           </div>
           </div>
-          <div className="lg:hidden mt-6">
+          <div className="lg:hidden mt-6 space-y-4">
             <VocabMasteryLeaderboard subject="hsk" currentCount={mastered.size} />
+            <SmartReviewColumn
+              subject="hsk"
+              lang="zh-CN"
+              lookupWord={(w) => {
+                const found = hskVocabData.find(x => x.character === w);
+                if (!found) return null;
+                return {
+                  word: found.character,
+                  phonetic: found.pinyin,
+                  definitionVi: found.definition.vi,
+                  definitionEn: found.definition.en,
+                };
+              }}
+              allWordsForQuiz={hskVocabData.map(w => ({ word: w.character, definition: w.definition.vi }))}
+            />
           </div>
             </TabsContent>
             <TabsContent value="radicals">
@@ -745,19 +775,6 @@ const HskVocabulary = () => {
           </Tabs>
         </div>
       </div>
-      <SmartReviewColumn
-        subject="hsk"
-        lang="zh-CN"
-        lookupWord={(w) => {
-          const found = hskVocabData.find(x => x.character === w);
-          if (!found) return null;
-          return {
-            word: found.character,
-            phonetic: found.pinyin,
-            definitionVi: found.definition.vi,
-            definitionEn: found.definition.en,
-          };
-        }}
         allWordsForQuiz={hskVocabData.map(w => ({ word: w.character, definition: w.definition.vi }))}
       />
       <Footer />
