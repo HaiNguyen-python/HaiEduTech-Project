@@ -234,7 +234,31 @@ const ChatBot = () => {
   const [askSent, setAskSent] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const dragControls = useDragControls();
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const dragX = useMotionValue(0);
+  const dragY = useMotionValue(0);
+  const chatWindowRef = useRef<HTMLDivElement>(null);
+  const resetChatPosition = useCallback(() => {
+    animate(dragX, 0, { duration: 0.3 });
+    animate(dragY, 0, { duration: 0.3 });
+  }, [dragX, dragY]);
+  const clampChatIntoView = useCallback(() => {
+    const el = chatWindowRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const margin = 16;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    let dx = 0;
+    let dy = 0;
+    if (rect.left < margin) dx = margin - rect.left;
+    else if (rect.right > vw - margin) dx = vw - margin - rect.right;
+    if (rect.top < margin) dy = margin - rect.top;
+    else if (rect.bottom > vh - margin) dy = vh - margin - rect.bottom;
+    if (dx || dy) {
+      animate(dragX, dragX.get() + dx, { duration: 0.25 });
+      animate(dragY, dragY.get() + dy, { duration: 0.25 });
+    }
+  }, [dragX, dragY]);
   const tooltipTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const recognitionRef = useRef<ISpeechRecognition | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
