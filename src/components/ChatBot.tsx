@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { motion, AnimatePresence, useDragControls } from "framer-motion";
-import { X, Send, Loader2, Mic, MicOff, AlertTriangle, Paperclip, FileText, Image as ImageIcon, Mail, CheckCircle2, Maximize2, Minimize2, GripVertical } from "lucide-react";
+import { motion, AnimatePresence, useDragControls, useMotionValue, animate } from "framer-motion";
+import { X, Send, Loader2, Mic, MicOff, AlertTriangle, Paperclip, FileText, Image as ImageIcon, Mail, CheckCircle2, Maximize2, Minimize2, GripVertical, LocateFixed } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { supabase } from "@/integrations/supabase/client";
@@ -234,6 +234,31 @@ const ChatBot = () => {
   const [askSent, setAskSent] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const dragControls = useDragControls();
+  const dragX = useMotionValue(0);
+  const dragY = useMotionValue(0);
+  const chatWindowRef = useRef<HTMLDivElement>(null);
+  const resetChatPosition = useCallback(() => {
+    animate(dragX, 0, { duration: 0.3 });
+    animate(dragY, 0, { duration: 0.3 });
+  }, [dragX, dragY]);
+  const clampChatIntoView = useCallback(() => {
+    const el = chatWindowRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const margin = 16;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    let dx = 0;
+    let dy = 0;
+    if (rect.left < margin) dx = margin - rect.left;
+    else if (rect.right > vw - margin) dx = vw - margin - rect.right;
+    if (rect.top < margin) dy = margin - rect.top;
+    else if (rect.bottom > vh - margin) dy = vh - margin - rect.bottom;
+    if (dx || dy) {
+      animate(dragX, dragX.get() + dx, { duration: 0.25 });
+      animate(dragY, dragY.get() + dy, { duration: 0.25 });
+    }
+  }, [dragX, dragY]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const tooltipTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const recognitionRef = useRef<ISpeechRecognition | null>(null);
@@ -963,20 +988,17 @@ const ChatBot = () => {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 20 }}
+            ref={chatWindowRef}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            style={{ x: dragX, y: dragY }}
             drag={!isMobile}
             dragControls={dragControls}
             dragListener={false}
             dragMomentum={false}
             dragElastic={0}
-            dragConstraints={{
-              top: -window.innerHeight + 200,
-              left: -window.innerWidth + 300,
-              right: 50,
-              bottom: 50,
-            }}
+            onDragEnd={clampChatIntoView}
             className={`fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] left-3 right-20 z-50 flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl sm:bottom-6 sm:left-auto sm:right-24 ${
               expanded
                 ? "h-[85vh] max-h-[900px] sm:w-[640px] md:w-[760px] lg:w-[880px]"
@@ -1013,7 +1035,18 @@ const ChatBot = () => {
                 <Mail className="h-5 w-5 text-primary" />
               </button>
               <button
-                onClick={() => setExpanded((v) => !v)}
+                onClick={resetChatPosition}
+                onPointerDown={(e) => e.stopPropagation()}
+                className="hidden sm:inline-flex rounded-lg p-1.5 transition-colors hover:bg-secondary"
+                title={t("Đưa về vị trí gốc", "Reset position")}
+              >
+                <LocateFixed className="h-5 w-5 text-muted-foreground" />
+              </button>
+              <button
+                onClick={() => {
+                  setExpanded((v) => !v);
+                  setTimeout(clampChatIntoView, 50);
+                }}
                 onPointerDown={(e) => e.stopPropagation()}
                 className="hidden sm:inline-flex rounded-lg p-1.5 transition-colors hover:bg-secondary"
                 title={expanded ? t("Thu nhỏ", "Restore") : t("Phóng to", "Expand")}
