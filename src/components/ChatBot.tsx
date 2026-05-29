@@ -232,6 +232,8 @@ const ChatBot = () => {
   const [askForm, setAskForm] = useState({ name: "", email: "", phone: "", message: "" });
   const [askSending, setAskSending] = useState(false);
   const [askSent, setAskSent] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const dragControls = useDragControls();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const tooltipTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const recognitionRef = useRef<ISpeechRecognition | null>(null);
