@@ -4,6 +4,7 @@ import { Trophy, Crown, Medal, Star } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { MASTERY_UPDATED_EVENT } from "@/hooks/useMasteredVocab";
+import { dedupeByDisplayName } from "@/lib/leaderboardDedup";
 
 interface LeaderboardEntry {
   user_id: string;
