@@ -46,7 +46,9 @@ const Navbar = () => {
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const [mobileSubExpanded, setMobileSubExpanded] = useState<string | null>(null);
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
-  const [scrolled, setScrolled] = useState(false);
+  // `scrolled` state removed: it was unused and forced a Navbar re-render on every
+  // scroll event, which caused noticeable flicker on long pages with heavy SVG
+  // content (e.g. Mermaid diagrams in lessons).
   const location = useLocation();
   const navigate = useNavigate();
   const { lang, setLang, t } = useLanguage();
