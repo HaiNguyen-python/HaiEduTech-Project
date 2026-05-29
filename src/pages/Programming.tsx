@@ -129,6 +129,7 @@ const pillars = [
 
 const Programming = () => {
   const { t } = useLanguage();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [activePillar, setActivePillar] = useState(() => {
     const initial = searchParams.get("pillar");
