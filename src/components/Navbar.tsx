@@ -123,8 +123,8 @@ const Navbar = () => {
     // Foundation (everyday English)
     { to: "#en-foundation-group", label: t("📖 Cambridge Starters -> PET", "📖 Cambridge Starters -> PET"), groupLabel: "en-foundation", children: [
       { to: "/english/essentials", label: t("💎 Tinh hoa Anh ngữ", "💎 English Essentials"), icon: BookOpen },
-      { to: "/cambridge-lectures", label: t("Cambridge Lectures & Test Prep", "Cambridge Lectures & Test Prep"), icon: BookOpen },
-      { to: "/cambridge-yle-vocabulary", label: t("Cambridge YLE Vocabulary & Arcade", "Cambridge YLE Vocabulary & Arcade"), icon: BookType },
+      { to: "/cambridge-lectures", label: t("🎓 Cambridge Lectures & Test Prep", "🎓 Cambridge Lectures & Test Prep"), icon: BookOpen },
+      { to: "/cambridge-yle-vocabulary", label: t("🌈 Cambridge YLE Vocabulary & Arcade", "🌈 Cambridge YLE Vocabulary & Arcade"), icon: BookType },
     ] },
     // IELTS - promoted to top-level so all 10 IELTS items are reachable in one hover
     { to: "#ielts-group", label: t("🎯 IELTS Program", "🎯 IELTS Program"), groupLabel: "ielts", children: ieltsChildren },
