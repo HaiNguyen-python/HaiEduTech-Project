@@ -33,10 +33,13 @@ export const ieltsListeningPracticeSetsExpansion2: ListeningPracticeSet[] = [
       "Receptionist: Perfect. We'll see you then.",
     rate: 0.85,
     questions: [
+      { type: "fill-in", prompt: "Receptionist's name: ___", answer: "Megan" },
       { type: "fill-in", prompt: "Surname: ___", answer: "Reilly" },
       { type: "fill-in", prompt: "Date of birth: 3 November ___", answer: "1995" },
       { type: "fill-in", prompt: "Membership type: ___", answer: "Plus" },
       { type: "fill-in", prompt: "Monthly fee: £___", answer: "45" },
+      { type: "fill-in", prompt: "Number of classes per week included: ___", answer: "2" },
+      { type: "fill-in", prompt: "Plan also includes gym and ___", answer: "pool" },
       { type: "fill-in", prompt: "Address: 26 ___ Avenue, Leeds", answer: "Beech" },
       { type: "fill-in", prompt: "Postcode: ___", answer: "LS6 4HP" },
       { type: "fill-in", prompt: "First class booked: ___ on Tuesday evening", answer: "yoga" },
