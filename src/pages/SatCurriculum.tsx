@@ -73,6 +73,39 @@ const SatCurriculum = () => {
           </p>
         </header>
 
+        {/* Teaching Mode CTA — start the full SAT series in order */}
+        {satTeachingSequence.length > 0 && (
+          <section className="mb-10 rounded-2xl border border-primary/30 bg-gradient-to-r from-primary/10 via-emerald-500/10 to-primary/5 p-5 md:p-6">
+            <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <GraduationCap className="w-5 h-5 text-primary" />
+                  <h2 className="text-lg md:text-xl font-display font-bold text-foreground">
+                    {t("Chế độ giảng dạy theo chuỗi", "Sequential Teaching Mode")}
+                  </h2>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  {t(
+                    `Dạy ${satTeachingSequence.length} bài SAT nối tiếp theo thứ tự sắp sẵn — không cần chọn từng module, mỗi bài có nút Tiếp / Trước.`,
+                    `Teach all ${satTeachingSequence.length} SAT lessons back-to-back in a fixed order — no need to pick a module, each lesson has Prev / Next.`
+                  )}
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2 shrink-0">
+                <button
+                  onClick={() => navigate(satSequenceUrl(0))}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary text-primary-foreground font-semibold text-sm shadow hover:shadow-lg transition-all hover:-translate-y-0.5"
+                >
+                  <PlayCircle className="w-5 h-5" />
+                  {t("Bắt đầu từ Bài 1", "Start from Lesson 1")}
+                </button>
+              </div>
+            </div>
+          </section>
+        )}
+
+
+
 
         {/* Interactive lessons grid */}
         {satModules.length > 0 && (
