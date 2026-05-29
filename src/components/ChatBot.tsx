@@ -1151,7 +1151,121 @@ const ChatBot = () => {
                 </button>
               </div>
             </div>
+
+            {/* Ask Teacher Hai overlay */}
+            {askOpen && (
+              <div className="absolute inset-0 z-10 flex flex-col bg-background/95 backdrop-blur-sm">
+                <div className="flex items-center justify-between border-b border-border bg-primary/5 px-4 py-3">
+                  <div className="flex items-center gap-2">
+                    <Mail className="h-4 w-4 text-primary" />
+                    <h4 className="text-sm font-bold text-foreground">
+                      {t("Gửi câu hỏi cho thầy Hải", "Send a question to Teacher Hai")}
+                    </h4>
+                  </div>
+                  <button
+                    onClick={() => setAskOpen(false)}
+                    className="rounded-lg p-1.5 transition-colors hover:bg-secondary"
+                  >
+                    <X className="h-4 w-4 text-muted-foreground" />
+                  </button>
+                </div>
+
+                {askSent ? (
+                  <div className="flex flex-1 flex-col items-center justify-center gap-3 p-6 text-center">
+                    <CheckCircle2 className="h-12 w-12 text-primary" />
+                    <h5 className="text-base font-bold text-foreground">
+                      {t("Đã gửi câu hỏi thành công!", "Question sent successfully!")}
+                    </h5>
+                    <p className="text-xs text-muted-foreground">
+                      {t(
+                        "Thầy Hải sẽ phản hồi qua email contact@haiedutech.com sớm nhất nhé.",
+                        "Teacher Hai will reply via contact@haiedutech.com as soon as possible.",
+                      )}
+                    </p>
+                    <button
+                      onClick={() => setAskOpen(false)}
+                      className="mt-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:brightness-110"
+                    >
+                      {t("Đóng", "Close")}
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex-1 space-y-3 overflow-y-auto p-4">
+                    <p className="text-xs text-muted-foreground">
+                      {t(
+                        "Câu hỏi của em sẽ được gửi trực tiếp đến email contact@haiedutech.com của thầy Hải.",
+                        "Your question will be sent directly to Teacher Hai at contact@haiedutech.com.",
+                      )}
+                    </p>
+                    <div>
+                      <label className="mb-1 block text-xs font-medium text-foreground">
+                        {t("Họ và tên", "Full name")} <span className="text-destructive">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={askForm.name}
+                        onChange={(e) => setAskForm((f) => ({ ...f, name: e.target.value }))}
+                        maxLength={100}
+                        className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground focus:border-primary/50 focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-1 block text-xs font-medium text-foreground">Email</label>
+                      <input
+                        type="email"
+                        value={askForm.email}
+                        onChange={(e) => setAskForm((f) => ({ ...f, email: e.target.value }))}
+                        maxLength={255}
+                        placeholder="email@example.com"
+                        className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground focus:border-primary/50 focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-1 block text-xs font-medium text-foreground">
+                        {t("Số điện thoại", "Phone")}
+                      </label>
+                      <input
+                        type="tel"
+                        value={askForm.phone}
+                        onChange={(e) => setAskForm((f) => ({ ...f, phone: e.target.value }))}
+                        maxLength={20}
+                        placeholder="0912 345 678"
+                        className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground focus:border-primary/50 focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-1 block text-xs font-medium text-foreground">
+                        {t("Câu hỏi", "Question")} <span className="text-destructive">*</span>
+                      </label>
+                      <textarea
+                        value={askForm.message}
+                        onChange={(e) => setAskForm((f) => ({ ...f, message: e.target.value }))}
+                        maxLength={2000}
+                        rows={5}
+                        placeholder={t("Em muốn hỏi thầy về...", "I'd like to ask about...")}
+                        className="w-full resize-none rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground focus:border-primary/50 focus:outline-none"
+                      />
+                    </div>
+                    <button
+                      onClick={submitAskTeacher}
+                      disabled={askSending}
+                      className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-2.5 text-sm font-semibold text-primary-foreground transition-all hover:brightness-110 disabled:opacity-50"
+                    >
+                      {askSending ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : (
+                        <>
+                          <Send className="h-4 w-4" />
+                          {t("Gửi cho thầy Hải", "Send to Teacher Hai")}
+                        </>
+                      )}
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </motion.div>
+
         )}
       </AnimatePresence>
     </>
