@@ -36,6 +36,8 @@ export interface ListeningPracticeSet {
   rate?: number; // TTS rate, default 0.95
   // Optional reference list for "matching" questions (A/B/C labels)
   matchingOptions?: { letter: string; text: string; textVi?: string }[];
+  // Optional inline SVG markup for map / plan labelling sets
+  mapSvg?: string;
   questions: ListeningQuestion[];
 }
 
