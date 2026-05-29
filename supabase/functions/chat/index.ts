@@ -184,6 +184,8 @@ ${studentContext.trim()}
 ${platformFeaturesMap}`
       : `\n\n(Student is not logged in — encourage signup at [/signup](/signup) to unlock personalized review suggestions, then still recommend specific features.)\n${platformFeaturesMap}`;
 
+    const sanitizedMessages = sanitizeMessages(messages);
+
     const response = await fetch("https://api.perplexity.ai/chat/completions", {
       method: "POST",
       headers: {
@@ -252,7 +254,7 @@ If asked about cooking, politics, entertainment, sports, general chit-chat:
 - Use markdown for code blocks and lists.
 - Always be encouraging, patient, and educational with examples.`
           },
-          ...sanitizeMessages(messages),
+          ...sanitizedMessages,
         ],
         stream: true,
       }),
@@ -272,8 +274,38 @@ If asked about cooking, politics, entertainment, sports, general chit-chat:
       }
       const t = await response.text();
       console.error("Perplexity API error:", response.status, t);
+
+      if (response.status === 400 && t.includes("alternate")) {
+        const retryResponse = await fetch("https://api.perplexity.ai/chat/completions", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            model: "sonar",
+            messages: [
+              { role: "system", content: "You are Teacher Hai from HaiEduTech. Reply in the student's language, stay concise, and help with learning knowledge only." },
+              ...latestUserMessage(messages),
+            ],
+            stream: true,
+          }),
+        });
+
+        if (retryResponse.ok && retryResponse.body) {
+          await logUsage("chat", "sonar", "multi", 200, "success");
+          return new Response(retryResponse.body, {
+            headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
+          });
+        }
+
+        const retryText = await retryResponse.text();
+        console.error("Perplexity retry error:", retryResponse.status, retryText);
+      }
+
       return new Response(JSON.stringify({ error: "AI API error" }), {
-        status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: response.status >= 500 ? 200 : 502,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
