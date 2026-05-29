@@ -836,7 +836,249 @@ print(pick_trigger(l, now))`,
           { question: "Onboarding 12 màn show-and-tell vấn đề gì?", options: ["Quá đắt", "Dạy bằng kể thay vì làm — user bỏ trước khi chạm aha", "Quá nhanh", "Không vấn đề"], answer: 1, explanation: "Onboarding tốt dạy bằng hành động + phản hồi tức thì." },
         ],
       },
+      {
+        id: "edtech-adv-7",
+        title: "Recommendation cho lộ trình học — gợi bài tiếp theo đúng người đúng lúc",
+        titleEn: "Learning-path Recommendation — The Right Next Lesson",
+        level: 4,
+        difficulty: "advanced",
+        theory: `## 1. 🧭 Khác biệt với recommender thương mại
+
+Netflix gợi phim **thích** → tối đa hoá click. EdTech gợi bài **nên học** → tối đa hoá **mastery growth** và **giữ động lực**. Recommend bài quá dễ = chán; quá khó = bỏ; vừa sức = "flow".
+
+## 2. 🎯 Khung Zone of Proximal Development (Vygotsky)
+
+\`\`\`
+   khó │ ░░░░░░░░░░░░░░░░ frustration zone (bỏ)
+       │ ░░░░░░░░░░░░░░░░
+       │ ████████████████  ← ZPD (sweet spot)
+       │ ████████████████
+   dễ  │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ boredom zone (chán)
+       └──────────────────
+              khả năng người học
+\`\`\`
+
+Mục tiêu: chọn bài có **xác suất pass ≈ 0.6–0.8** dựa trên mastery hiện tại.
+
+## 3. 🧮 Ba họ thuật toán
+
+| Cách | Cơ chế | Mạnh / Yếu |
+|------|--------|-----------|
+| **Content-based** | Bài tương đồng skill tags | Cold-start tốt / hẹp |
+| **Collaborative filtering** | "Học sinh giống bạn đã học X tiếp theo" | Khám phá rộng / cần dữ liệu |
+| **Knowledge-graph + mastery** | DAG prerequisite + mastery score | Sư phạm chuẩn / khó dựng |
+
+Production: **lai cả ba** — KG để hợp lệ, CF để đa dạng, content để cold-start.
+
+## 4. 🪜 Pipeline gợi ý
+
+\`\`\`
+   ┌──────────────────────────────────────────────┐
+   │ 1. Candidate generation (200 bài hợp lệ)     │
+   │    - lọc theo prerequisite đã thoả           │
+   │    - lọc theo level user                     │
+   ├──────────────────────────────────────────────┤
+   │ 2. Scoring (ranking)                          │
+   │    score = 0.5*mastery_gap                    │
+   │          + 0.2*novelty                        │
+   │          + 0.2*similar_users                  │
+   │          - 0.1*recent_seen                    │
+   ├──────────────────────────────────────────────┤
+   │ 3. Diversity re-rank (MMR)                    │
+   │    tránh 5 bài cùng chủ đề liên tiếp          │
+   ├──────────────────────────────────────────────┤
+   │ 4. Constraints                                │
+   │    daily cap, không gợi bài đã pass <7 ngày   │
+   └──────────────────────────────────────────────┘
+\`\`\`
+
+## 5. ❄️ Cold-start (user mới)
+
+- Hỏi 3–5 câu khảo sát (mục tiêu, trình độ tự đánh giá).
+- Chạy **placement quiz adaptive** 8–12 câu (IRT) để ước lượng θ.
+- Map θ → entry node trong knowledge graph.
+
+## 6. ⚠️ Bẫy
+
+- **Filter bubble sư phạm**: chỉ gợi chủ đề mạnh → user không phát triển kỹ năng yếu. Phải **gợi xen** 20% bài "kỹ năng yếu".
+- **Popularity bias**: bài hot luôn được gợi → bài tốt nhưng mới chết yểu. Inject randomness ε=0.05.
+- **Reward hack**: tối ưu CTR → gợi bài siêu dễ. Tối ưu **mastery growth/tuần**, không phải click.
+`,
+        theoryEn: `Educational recommenders optimize mastery growth, not clicks. Aim for the ZPD (~60–80% pass probability). Combine content-based, collaborative filtering, and knowledge-graph approaches. Pipeline: candidate generation → ranking → MMR diversity → constraints. Solve cold-start with surveys + adaptive placement quiz. Beware filter bubbles, popularity bias, and reward hacking — explicitly inject weak-skill practice and randomness.`,
+        code: `import math, random
+from dataclasses import dataclass
+
+@dataclass
+class Lesson:
+    id: str
+    skill: str
+    difficulty: float   # 0–1
+    prereqs: list[str]
+
+@dataclass
+class Learner:
+    mastery: dict[str, float]   # skill -> 0..1
+    completed: set[str]
+
+def passable(lesson, learner):
+    return all(p in learner.completed for p in lesson.prereqs)
+
+def pass_prob(lesson, learner):
+    m = learner.mastery.get(lesson.skill, 0.0)
+    # logistic gap: high prob if mastery ≥ difficulty
+    return 1 / (1 + math.exp(-6 * (m - lesson.difficulty + 0.1)))
+
+def score(lesson, learner):
+    p = pass_prob(lesson, learner)
+    # sweet spot p≈0.7 → max score; penalise too easy / too hard
+    fit = 1 - abs(p - 0.7) * 2
+    return max(0, fit)
+
+def recommend(catalog, learner, k=3, weak_skill_quota=0.2):
+    eligible = [l for l in catalog if passable(l, learner) and l.id not in learner.completed]
+    eligible.sort(key=lambda l: score(l, learner), reverse=True)
+    pick = eligible[:k]
+    # inject weak-skill bait
+    weakest = min(learner.mastery, key=learner.mastery.get)
+    weak = [l for l in eligible if l.skill == weakest and l not in pick]
+    if weak and random.random() < weak_skill_quota:
+        pick[-1] = weak[0]
+    return pick
+
+cat = [Lesson(f"L{i}", random.choice(["read","listen"]), random.random(), []) for i in range(20)]
+me = Learner(mastery={"read": 0.6, "listen": 0.3}, completed=set())
+for l in recommend(cat, me): print(l.id, l.skill, round(l.difficulty,2), round(score(l, me),2))`,
+        codeLanguage: "python",
+        exercise:
+          "Thêm MMR re-rank: với 5 candidate top, đảm bảo không có 2 bài cùng skill liên tiếp (xáo dạng).",
+        exerciseEn:
+          "Add MMR re-rank on the top-5 candidates so no two consecutive items share the same skill.",
+        quiz: [
+          { question: "Mục tiêu recommender EdTech khác Netflix ở chỗ?", options: ["Không khác", "Tối đa mastery growth + động lực, không phải click/watch time", "Đa dạng hơn", "Rẻ hơn"], answer: 1, explanation: "Mục tiêu giáo dục ≠ thương mại — tối ưu CTR sẽ gợi bài siêu dễ." },
+          { question: "ZPD nói rằng bài nên có pass_prob ≈?", options: ["0.1", "0.6–0.8", "0.95", "0.5 chính xác"], answer: 1, explanation: "Vừa sức = sweet spot 60–80%." },
+          { question: "Filter bubble sư phạm là?", options: ["Bug UI", "Chỉ gợi điểm mạnh → user không phát triển kỹ năng yếu", "Bài giảng quá dài", "Caching"], answer: 1, explanation: "Cần inject ~20% bài kỹ năng yếu." },
+          { question: "Cold-start tốt cho EdTech là?", options: ["Đoán random", "Survey + adaptive placement quiz IRT để ước lượng θ", "Đợi 1 tháng", "Hỏi giáo viên"], answer: 1, explanation: "Vài câu IRT tốt hơn nhiều survey thuần." },
+          { question: "Popularity bias khắc phục bằng?", options: ["Không gợi bài hot", "ε-greedy / random 5% để bài mới có cơ hội", "Tăng giá bài hot", "Không có cách"], answer: 1, explanation: "Khám phá ngẫu nhiên giúp tránh winner-takes-all." },
+        ],
+      },
+      {
+        id: "edtech-adv-8",
+        title: "Quyền riêng tư trẻ em — COPPA, GDPR-K, FERPA cho EdTech",
+        titleEn: "Children's Privacy — COPPA, GDPR-K, FERPA for EdTech",
+        level: 4,
+        difficulty: "advanced",
+        theory: `## 1. ⚖️ Vì sao EdTech bị soi đặc biệt?
+
+Người học EdTech có thể là **trẻ em < 13** (Mỹ) hoặc **< 16** (EU). Luật bảo vệ dữ liệu trẻ em **nghiêm hơn nhiều** lần luật người lớn — vi phạm = phạt triệu USD và mất app store.
+
+## 2. 🗺️ Bản đồ luật
+
+| Luật | Phạm vi | Tuổi | Điểm cốt lõi |
+|------|---------|------|--------------|
+| **COPPA** (US) | Dịch vụ Mỹ thu PII trẻ em | <13 | Verifiable Parental Consent (VPC) trước thu thập |
+| **GDPR-K** (EU) | Mọi xử lý PII công dân EU | <16 (mỗi nước có thể hạ xuống 13) | Lawful basis + parental consent |
+| **FERPA** (US) | Hồ sơ giáo dục trường học | mọi tuổi | Trường kiểm soát, vendor là 'school official' |
+| **PIPL** (TQ) | Công dân TQ | <14 | Consent riêng cho minor |
+| **Luật BVDLCN 2025** (VN) | Người Việt | <15 cần cha mẹ | Tương tự GDPR, có ngoại lệ giáo dục |
+
+## 3. 🚦 Nguyên tắc Data Minimization
+
+\`\`\`
+   ┌──────────────────────────────────────────────┐
+   │  THU CÀNG ÍT CÀNG TỐT                        │
+   │  ─────────────────────────────────────────── │
+   │  ❌ Họ tên + địa chỉ + ngày sinh + giới tính │
+   │  ✅ Nickname + tuổi-bucket (8–10, 11–13)     │
+   │                                              │
+   │  ❌ Ảnh khuôn mặt user-uploaded              │
+   │  ✅ Avatar chibi chọn từ thư viện            │
+   └──────────────────────────────────────────────┘
+\`\`\`
+
+## 4. 🔐 Patterns đúng cho EdTech trẻ em
+
+| Pattern | Mô tả |
+|---------|-------|
+| **Parent gate** | Phép tính nhân để mở Settings (chặn trẻ tự đổi consent) |
+| **Email verify cha mẹ** | Magic link tới email cha mẹ trước khi thu PII |
+| **No third-party tracking** | TUYỆT ĐỐI không Facebook Pixel, GA cá nhân hoá quảng cáo trên trang trẻ em |
+| **No DM giữa user** | Hoặc nếu có thì moderated + premade messages |
+| **Right to be forgotten** | Nút xoá tài khoản → cascade xoá real-time, không "ẩn" |
+| **Audit log** | Truy cập PII của staff phải log |
+
+## 5. 🧹 Data lifecycle
+
+\`\`\`
+   collect ─▶ encrypt at rest ─▶ retention timer ─▶ purge
+                                      ▲                │
+                                      └─ user/parent xoá ┘
+\`\`\`
+
+Retention rule mẫu: log hoạt động 90 ngày, kết quả học 2 năm, audio recording 7 ngày, **không có** raw PII trong analytics warehouse (chỉ pseudonymous ID).
+
+## 6. ⚠️ Bẫy thường gặp
+
+- "Chúng tôi không gửi cho ai cả" — nhưng SDK ads/analytics gửi giùm bạn. **Audit mọi SDK**.
+- Lưu IP + user-agent vĩnh viễn → vẫn là PII gián tiếp.
+- "Anonymous" mà có 3 thuộc tính (zip + tuổi + giới tính) = re-identify được 87% người.
+- Cho phép giáo viên export full class data về máy → mất kiểm soát, vẫn là bạn chịu trách nhiệm.
+`,
+        theoryEn: `EdTech faces stricter privacy law because users may be minors: COPPA (<13, US, parental consent), GDPR-K (<16, EU), FERPA (US school records), PIPL (China, <14), and Vietnam's 2025 PDP law (<15). Apply data minimization (no real names if a nickname will do), parent gates, email-verified parental consent, ban third-party ad SDKs, support right-to-be-forgotten with cascading deletes, and enforce strict retention timers. Avoid quasi-identifiers that re-enable re-identification.`,
+        code: `from datetime import datetime, timedelta
+from dataclasses import dataclass, field
+
+RETENTION_DAYS = {
+    "activity_log": 90,
+    "lesson_result": 730,
+    "audio_recording": 7,
+    "raw_pii_in_analytics": 0,   # never
+}
+
+@dataclass
+class Record:
+    kind: str
+    created_at: datetime
+    data: dict = field(default_factory=dict)
+
+def should_purge(r: Record, now: datetime) -> bool:
+    days = RETENTION_DAYS.get(r.kind, 30)
+    if days == 0:  # forbidden in this store
+        return True
+    return (now - r.created_at) > timedelta(days=days)
+
+def is_minor(age: int, jurisdiction: str) -> bool:
+    cap = {"US": 13, "EU": 16, "CN": 14, "VN": 15}.get(jurisdiction, 16)
+    return age < cap
+
+def requires_parental_consent(age: int, jurisdiction: str) -> bool:
+    return is_minor(age, jurisdiction)
+
+now = datetime(2026, 5, 29)
+records = [
+    Record("audio_recording", now - timedelta(days=10)),
+    Record("lesson_result",   now - timedelta(days=400)),
+    Record("raw_pii_in_analytics", now),
+]
+for r in records:
+    print(r.kind, "→ purge?" , should_purge(r, now))
+
+for age, juris in [(10,"US"), (14,"EU"), (15,"VN"), (18,"US")]:
+    print(f"age={age} {juris} → parental consent? {requires_parental_consent(age, juris)}")`,
+        codeLanguage: "python",
+        exercise:
+          "Viết hàm pseudonymize(record) thay user_id thật bằng HMAC-SHA256(salt + user_id) và loại bỏ trường tên/email khỏi bản analytics.",
+        exerciseEn:
+          "Write pseudonymize(record) that replaces real user_id with HMAC-SHA256(salt + user_id) and strips name/email fields from the analytics copy.",
+        quiz: [
+          { question: "COPPA bảo vệ trẻ em dưới?", options: ["10", "13", "16", "18"], answer: 1, explanation: "<13 ở Mỹ, cần Verifiable Parental Consent." },
+          { question: "GDPR-K có thể hạ tuổi consent xuống tối thiểu?", options: ["10", "13 (mỗi nước EU tự chọn 13–16)", "16 mọi nơi", "18"], answer: 1, explanation: "Mặc định 16, mỗi quốc gia có thể hạ xuống tối thiểu 13." },
+          { question: "Bẫy 'anonymous' tệ nhất là?", options: ["UI xấu", "Quasi-identifiers (zip+age+gender) re-identify ~87% người", "Tốn DB", "Không có"], answer: 1, explanation: "Latanya Sweeney 2000 và các nghiên cứu sau đều xác nhận." },
+          { question: "Parent gate (phép tính nhân) dùng để?", options: ["Vui", "Chặn trẻ em tự đổi consent / mua hàng", "Test toán", "Bảo mật server"], answer: 1, explanation: "Một cổng kiểm tra người lớn nhanh, không có PII." },
+          { question: "Khi user xoá tài khoản, EdTech nên?", options: ["Soft delete vĩnh viễn", "Cascade xoá thật trong khung thời gian luật quy định + audit log", "Giữ để báo cáo", "Bán cho bên thứ 3"], answer: 1, explanation: "Right to be forgotten là bắt buộc; soft-delete vô thời hạn = vi phạm." },
+        ],
+      },
     ],
   },
 ];
+
 
