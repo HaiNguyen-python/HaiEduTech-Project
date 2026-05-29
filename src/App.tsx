@@ -17,7 +17,6 @@ import { lazy, Suspense, useEffect, useState, type ReactNode } from "react";
 const Index = lazy(() => import("./pages/Index.tsx"));
 const Welcome = lazy(() => import("./pages/Welcome.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
-const Unsubscribe = lazy(() => import("./pages/Unsubscribe.tsx"));
 
 /** Decides whether to show the splash welcome or the home page on `/`. */
 const RootEntry = () => {
