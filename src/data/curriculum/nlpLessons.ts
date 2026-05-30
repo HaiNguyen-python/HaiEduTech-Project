@@ -279,7 +279,35 @@ Both reduce *running, ran, runs* to the root *run*. The difference matters:
 
 ## 7. Key Concept
 
-> 🎯 **Key Concept** - Preprocessing is **task-dependent and language-dependent**. The right pipeline for **English topic classification** is the wrong pipeline for **Finnish translation** or **Chinese sentiment**. Modern subword tokenizers (used by every LLM) sidestep most of these problems by working below the word level.`,
+> 🎯 **Key Concept** - Preprocessing is **task-dependent and language-dependent**. The right pipeline for **English topic classification** is the wrong pipeline for **Finnish translation** or **Chinese sentiment**. Modern subword tokenizers (used by every LLM) sidestep most of these problems by working below the word level.
+
+## 8. Deep dive - Subword tokenization (the trick LLMs use)
+
+Every modern LLM (GPT, Gemini, Claude, BERT) sidesteps "what is a word?" by splitting text into **subwords** with one of three algorithms:
+
+| Algorithm | Used by | Idea in one line |
+|-----------|---------|------------------|
+| **BPE** (Byte-Pair Encoding) | GPT-2/3/4, RoBERTa | Start from characters, greedily merge the most frequent adjacent pair until vocab is full |
+| **WordPiece** | BERT | Like BPE but merges by likelihood gain, not raw frequency |
+| **SentencePiece / Unigram** | T5, mBART, Gemini | Train a probabilistic model that picks the most likely segmentation per sentence |
+
+Concrete example for Finnish *"taloissanikin"* (= "in my houses too"):
+- Naive whitespace tokenizer → 1 token, model has never seen it → unknown.
+- BPE (30k vocab) → \`["talo", "issa", "ni", "kin"]\` → 4 known subwords → model generalises.
+- This is **the** reason a single multilingual model can handle Finnish, Chinese, and Vietnamese without language-specific code.
+
+## 9. Common pitfalls & pro tips
+
+| Pitfall | Why it hurts | Pro tip |
+|---------|--------------|---------|
+| Lowercasing then doing NER | "Apple" (company) vs "apple" (fruit) collapse | Lowercase only for topic / sentiment, never for NER |
+| Removing stopwords for sentiment | "not good" → "good" - opposite meaning! | Keep negations and intensifiers; drop stopwords only for topic models |
+| Stemming Vietnamese / Chinese | These languages have no inflection - stemming destroys meaning | Only stem morphologically rich languages (EN, FI, ES, DE) |
+| Tokenizing Chinese with spaces | Chinese has no spaces - whitespace split gives 1 huge token | Use **jieba** (or BPE) for CJK languages |
+| Treating emoji as garbage | 😍 is the strongest sentiment signal in social media | Map emoji → text label *before* the cleaner strips them |
+| Not normalising Unicode | "ñ" can be 1 or 2 code points - silently breaks lookups | \`unicodedata.normalize("NFC", text)\` as step one |
+
+> 💼 **Production tip** - Save the **exact** preprocessing function with the model (pickle + version tag). Inference-time skew between training and serving is the #1 silent killer of NLP systems.`,
         theoryEn: "",
         code: `# A multilingual preprocessing pipeline using NLTK + a tiny demo of jieba (Chinese).
 # Install (run once in a notebook):  pip install nltk jieba
