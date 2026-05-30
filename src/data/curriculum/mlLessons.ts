@@ -638,16 +638,48 @@ Khi 2 nhóm ngồi xen kẽ không thể kẻ đường thẳng → nhấc cả 
 ## 4. 🎯 Ví dụ chạy được ngay
 
 \`\`\`python
+# Nhập lớp SVC (Support Vector Classifier) từ thư viện scikit-learn.
+# SVC được dùng để tạo mô hình phân loại dựa trên Máy Vector Hỗ trợ.
 from sklearn.svm import SVC
+# Nhập hàm make_moons từ thư viện scikit-learn.datasets.
+# Hàm này dùng để tạo ra một tập dữ liệu giả lập có hình dạng giống hai hình bán nguyệt lồng vào nhau,
+# thường dùng để kiểm tra các thuật toán phân loại.
 from sklearn.datasets import make_moons
+# Nhập hàm train_test_split từ thư viện scikit-learn.model_selection.
+# Hàm này dùng để chia dữ liệu thành tập huấn luyện và tập kiểm tra.
 from sklearn.model_selection import train_test_split
 
+# Tạo dữ liệu giả lập hình mặt trăng.
+# n_samples=300: Tổng số điểm dữ liệu là 300.
+# noise=0.2: Thêm nhiễu vào dữ liệu để các điểm không hoàn toàn tách biệt, làm cho bài toán khó hơn một chút.
+# random_state=42: Đảm bảo kết quả tạo dữ liệu là nhất quán mỗi khi chạy (tính tái lập).
+# X sẽ chứa các đặc trưng (tọa độ x, y của các điểm), y sẽ chứa nhãn lớp (0 hoặc 1).
 X, y = make_moons(n_samples=300, noise=0.2, random_state=42)
+# Chia dữ liệu thành tập huấn luyện và tập kiểm tra.
+# Xtr, ytr: Dữ liệu đặc trưng và nhãn cho tập huấn luyện.
+# Xte, yte: Dữ liệu đặc trưng và nhãn cho tập kiểm tra.
+# test_size=0.3: 30% dữ liệu sẽ được dùng làm tập kiểm tra, 70% còn lại là tập huấn luyện.
 Xtr, Xte, ytr, yte = train_test_split(X, y, test_size=0.3)
 
+# Khởi tạo mô hình SVC (Support Vector Classifier).
+# kernel="rbf": Sử dụng hàm nhân RBF (Radial Basis Function) hay còn gọi là hàm nhân Gaussian.
+#               Đây là một lựa chọn phổ biến cho các bài toán phi tuyến tính.
+# C=1.0: Tham số C (tham số điều chuẩn) kiểm soát mức độ phạt cho các điểm dữ liệu bị phân loại sai.
+#        Giá trị C nhỏ hơn sẽ tạo ra biên phân loại rộng hơn nhưng có thể có nhiều lỗi phân loại.
+#        Giá trị C lớn hơn sẽ tạo ra biên phân loại hẹp hơn và ít lỗi phân loại hơn trên tập huấn luyện,
+#        nhưng có thể dẫn đến overfitting.
+# gamma="scale": Tham số gamma định nghĩa tầm ảnh hưởng của một điểm dữ liệu huấn luyện duy nhất.
+#                Nếu gamma là "scale", nó sẽ sử dụng 1 / (n_features * X.var()) làm giá trị gamma.
+#                Đây là một lựa chọn mặc định tốt.
 clf = SVC(kernel="rbf", C=1.0, gamma="scale")
+# Huấn luyện mô hình SVC trên tập dữ liệu huấn luyện.
+# Mô hình sẽ học cách phân loại các điểm dựa trên Xtr (đặc trưng) và ytr (nhãn).
 clf.fit(Xtr, ytr)
+# Đánh giá độ chính xác của mô hình trên tập dữ liệu kiểm tra.
+# clf.score() trả về tỷ lệ các dự đoán đúng trên tổng số mẫu trong tập kiểm tra.
+# Kết quả in ra màn hình sẽ là độ chính xác của mô hình.
 print("Accuracy:", clf.score(Xte, yte))
+# Kết quả mong đợi: Một giá trị độ chính xác (ví dụ: 0.9555...) cho thấy mô hình hoạt động tốt như thế nào.
 \`\`\`
 
 ## 5. ⚠️ Bẫy thường gặp
@@ -903,23 +935,46 @@ Có câu kinh điển: *"Garbage in, garbage out"*. Feature Engineering = **rử
 ## 4. 🎯 Ví dụ Pipeline chuẩn
 
 \`\`\`python
+# Nhập các thư viện cần thiết cho việc xây dựng pipeline xử lý dữ liệu và mô hình.
+# Pipeline giúp chuỗi các bước xử lý dữ liệu lại với nhau.
 from sklearn.pipeline import Pipeline
+# ColumnTransformer giúp áp dụng các phép biến đổi khác nhau lên các cột khác nhau.
 from sklearn.compose import ColumnTransformer
+# StandardScaler dùng để chuẩn hóa dữ liệu số (đưa về trung bình 0, độ lệch chuẩn 1).
+# OneHotEncoder dùng để chuyển đổi dữ liệu danh mục thành dạng số (one-hot encoding).
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
+# SimpleImputer dùng để điền giá trị thiếu vào dữ liệu.
 from sklearn.impute import SimpleImputer
+# LogisticRegression là mô hình hồi quy logistic, dùng cho bài toán phân loại.
 from sklearn.linear_model import LogisticRegression
 
+# Định nghĩa danh sách các cột số (numerical features).
 num = ["age", "income"]
+# Định nghĩa danh sách các cột danh mục (categorical features).
 cat = ["city", "gender"]
 
+# Tạo một ColumnTransformer để xử lý các cột khác nhau theo các cách khác nhau.
 pre = ColumnTransformer([
+    # Xử lý các cột số:
+    # - Bước 1: Điền giá trị thiếu bằng giá trị trung vị (median).
+    # - Bước 2: Chuẩn hóa dữ liệu bằng StandardScaler.
     ("num", Pipeline([("imp", SimpleImputer(strategy="median")),
                       ("sc", StandardScaler())]), num),
+    # Xử lý các cột danh mục:
+    # - Bước 1: Điền giá trị thiếu bằng giá trị xuất hiện nhiều nhất (most_frequent).
+    # - Bước 2: Chuyển đổi sang dạng one-hot encoding.
+    #   handle_unknown="ignore" để bỏ qua các giá trị danh mục mới không thấy trong lúc huấn luyện.
     ("cat", Pipeline([("imp", SimpleImputer(strategy="most_frequent")),
                       ("oh", OneHotEncoder(handle_unknown="ignore"))]), cat),
 ])
 
+# Xây dựng toàn bộ pipeline:
+# - Bước 1: Áp dụng các phép tiền xử lý đã định nghĩa trong 'pre'.
+# - Bước 2: Huấn luyện mô hình Logistic Regression.
 model = Pipeline([("pre", pre), ("clf", LogisticRegression())])
+# Huấn luyện mô hình trên dữ liệu huấn luyện X_train và nhãn y_train.
+# Đầu vào: X_train (dữ liệu đặc trưng), y_train (nhãn).
+# Đầu ra: Mô hình đã được huấn luyện, sẵn sàng để dự đoán.
 model.fit(X_train, y_train)
 \`\`\`
 
@@ -1017,14 +1072,37 @@ K phổ biến: **5** hoặc **10**.
 ## 4. 🎯 Ví dụ chạy được ngay
 
 \`\`\`python
+# Nhập các thư viện cần thiết cho việc chia tập dữ liệu và xây dựng mô hình.
+# StratifiedKFold dùng để chia dữ liệu thành các phần (folds) sao cho tỷ lệ các lớp trong mỗi phần được giữ nguyên.
+# cross_val_score dùng để thực hiện kiểm định chéo (cross-validation) và tính điểm số.
 from sklearn.model_selection import StratifiedKFold, cross_val_score
+# RandomForestClassifier là thuật toán học máy dùng để phân loại.
 from sklearn.ensemble import RandomForestClassifier
+# numpy là thư viện dùng để làm việc với các mảng số, hữu ích cho các phép toán thống kê.
 import numpy as np
 
+# Khởi tạo đối tượng StratifiedKFold để chia dữ liệu.
+# n_splits=5: Chia dữ liệu thành 5 phần.
+# shuffle=True: Trộn dữ liệu trước khi chia để đảm bảo tính ngẫu nhiên.
+# random_state=42: Đặt hạt giống ngẫu nhiên để kết quả chia luôn giống nhau mỗi lần chạy.
 skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+# Khởi tạo mô hình Random Forest Classifier.
+# n_estimators=200: Sử dụng 200 cây quyết định trong rừng.
 clf = RandomForestClassifier(n_estimators=200)
 
+# Thực hiện kiểm định chéo để đánh giá hiệu suất của mô hình.
+# clf: Mô hình Random Forest đã khởi tạo.
+# X: Dữ liệu đầu vào (các đặc trưng).
+# y: Nhãn của dữ liệu (mục tiêu cần dự đoán).
+# cv=skf: Sử dụng chiến lược chia dữ liệu StratifiedKFold đã định nghĩa.
+# scoring="f1_macro": Tiêu chí đánh giá là điểm F1-macro (tính F1 cho từng lớp rồi lấy trung bình).
+# Đầu ra là một mảng chứa điểm F1-macro từ mỗi lần chia.
 scores = cross_val_score(clf, X, y, cv=skf, scoring="f1_macro")
+# In kết quả điểm F1 trung bình và độ lệch chuẩn.
+# scores.mean(): Tính giá trị trung bình của các điểm F1.
+# scores.std(): Tính độ lệch chuẩn của các điểm F1.
+# :.3f: Định dạng số thập phân với 3 chữ số sau dấu phẩy.
+# Kết quả mong đợi: Dòng chữ hiển thị điểm F1 trung bình và độ lệch chuẩn, ví dụ: "F1: 0.850 ± 0.025"
 print(f"F1: {scores.mean():.3f} ± {scores.std():.3f}")
 \`\`\`
 
@@ -1349,17 +1427,37 @@ Giống như học sinh **cày bài tập sai**, sau mỗi vòng tốt hơn.
 ## 4. 🎯 Ví dụ XGBoost chạy được ngay
 
 \`\`\`python
+# Nhập thư viện XGBClassifier từ gói xgboost để xây dựng mô hình phân loại.
 from xgboost import XGBClassifier
+# Nhập hàm train_test_split từ sklearn.model_selection để chia dữ liệu.
 from sklearn.model_selection import train_test_split
 
+# Chia dữ liệu X và y thành tập huấn luyện và tập kiểm tra.
+# Xtr, ytr là dữ liệu huấn luyện.
+# Xte, yte là dữ liệu kiểm tra.
+# test_size=0.2 nghĩa là 20% dữ liệu sẽ dùng làm tập kiểm tra.
+# random_state=42 đảm bảo việc chia dữ liệu là nhất quán mỗi lần chạy.
 Xtr, Xte, ytr, yte = train_test_split(X, y, test_size=0.2, random_state=42)
 
+# Khởi tạo mô hình XGBoost Classifier với các tham số.
+# n_estimators: Số lượng cây quyết định (bộ ước lượng) trong mô hình.
+# max_depth: Độ sâu tối đa của mỗi cây.
+# learning_rate: Tốc độ học, kiểm soát kích thước bước khi tối ưu.
+# subsample: Tỷ lệ mẫu con được lấy ngẫu nhiên cho mỗi cây.
+# colsample_bytree: Tỷ lệ cột (đặc trưng) được lấy ngẫu nhiên cho mỗi cây.
+# eval_metric: Thước đo để đánh giá hiệu suất trong quá trình huấn luyện (ở đây là logloss).
+# early_stopping_rounds: Dừng huấn luyện sớm nếu hiệu suất trên tập kiểm tra không cải thiện sau 30 vòng.
 clf = XGBClassifier(
     n_estimators=500, max_depth=6, learning_rate=0.05,
     subsample=0.8, colsample_bytree=0.8,
     eval_metric="logloss", early_stopping_rounds=30,
 )
+# Huấn luyện mô hình trên tập dữ liệu huấn luyện (Xtr, ytr).
+# eval_set: Cung cấp tập kiểm tra (Xte, yte) để theo dõi hiệu suất và áp dụng early stopping.
+# verbose=False: Không in thông tin chi tiết quá trình huấn luyện ra màn hình.
 clf.fit(Xtr, ytr, eval_set=[(Xte, yte)], verbose=False)
+# In ra độ chính xác (accuracy) của mô hình trên tập dữ liệu kiểm tra.
+# Kết quả mong đợi: Một giá trị số thể hiện độ chính xác, ví dụ: Acc: 0.85.
 print("Acc:", clf.score(Xte, yte))
 \`\`\`
 
