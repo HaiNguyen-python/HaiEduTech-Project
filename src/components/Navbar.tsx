@@ -244,8 +244,10 @@ const Navbar = () => {
     { to: "/global-scholarship", label: t("💰 Global Scholarship", "💰 Global Scholarship"), icon: Newspaper },
     { to: "/study-abroad/documents", label: t("📁 Hồ sơ của tôi", "📁 My Documents"), icon: FolderLock },
     { to: "/study-abroad/motivation-letter", label: t("✍️ Motivation Letter", "✍️ Motivation Letter"), icon: FileText },
-    
+    { to: "/study-abroad/sat", label: t("📝 SAT Roadmap", "📝 SAT Roadmap"), icon: GraduationCap },
     { to: "/study-abroad/phd", label: t("🎓 PhD Pathway", "🎓 PhD Pathway"), icon: GraduationCap },
+    { to: "/study-abroad/mentor-hub", label: t("👥 Mentor Hub", "👥 Mentor Hub"), icon: Users },
+    { to: "/study-abroad/checklist", label: t("✈️ Pre-Departure", "✈️ Pre-Departure"), icon: Plane },
   ];
 
   const baseLinks = [
