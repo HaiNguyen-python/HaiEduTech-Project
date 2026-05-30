@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle, Dumbbell } from "lucide-react";
+import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle, Dumbbell, Brain } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { hskVocabData, HSK_LEVELS, HSK_CATEGORIES, type HskWord } from "@/data/hskVocab";
 import HanziStrokeOrder from "@/components/HanziStrokeOrder";
