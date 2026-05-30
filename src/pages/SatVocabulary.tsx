@@ -689,8 +689,8 @@ const SatVocabulary = () => {
                                 key={w.word + w.category}
                                 initial={{ opacity: 0, y: 12 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="group min-w-0 h-full rounded-xl bg-white dark:bg-card hover:shadow-xl transition-all duration-300"
-                                style={{ padding: "1rem 1.1rem", border: "4px solid hsl(var(--primary) / 0.85)", boxShadow: "0 6px 18px -4px hsl(var(--primary) / 0.35), inset 0 0 0 1px hsl(var(--primary) / 0.25)", borderRadius: "0.85rem" }}
+                                className="group min-w-0 h-full rounded-xl bg-gradient-to-br from-blue-50 to-emerald-50 dark:from-slate-800 dark:to-slate-900 hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-300"
+                                style={{ padding: "1rem 1.1rem", border: "3px solid hsl(var(--primary))", boxShadow: "0 8px 22px -6px hsl(var(--primary) / 0.5), inset 0 0 0 1px hsl(var(--primary) / 0.35)", borderRadius: "0.85rem" }}
 
                               >
                                 <div className="mb-1.5 min-w-0 flex items-start gap-2">
