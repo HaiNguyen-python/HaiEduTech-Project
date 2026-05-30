@@ -21,7 +21,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
-import MotivationLetterDrafts from "@/components/study-profile/MotivationLetterDrafts";
+// MotivationLetterDrafts is rendered in StudentDocuments (single source of truth)
 import MotivationLetterSanityCheck from "@/components/study-abroad/MotivationLetterSanityCheck";
 import { SAMPLE_LETTERS, type SampleLetter } from "@/data/motivationLetterSamples";
 
