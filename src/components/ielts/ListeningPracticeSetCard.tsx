@@ -441,6 +441,25 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
           <div className="flex items-center gap-2 flex-wrap">
             <Headphones className="w-4 h-4 text-emerald-600" />
             <span className="text-sm font-semibold">{t("Bài nghe", "Audio")}</span>
+            <Badge
+              variant={examMode ? "default" : "outline"}
+              className={cn(
+                "cursor-pointer text-[10px] gap-1",
+                examMode && "bg-rose-600 hover:bg-rose-700 text-white border-rose-600"
+              )}
+              onClick={() => {
+                if (submitted) return;
+                setExamMode(v => {
+                  const next = !v;
+                  if (next) { setShowTranscript(false); stop(); }
+                  return next;
+                });
+              }}
+              title={t("Mô phỏng phòng thi: 1 lần phát, ẩn script & thanh tua", "Exam mode: single play, hide script & seek bar")}
+            >
+              <ShieldAlert className="w-3 h-3" />
+              {examMode ? t("Exam Mode • ON", "Exam Mode • ON") : t("Bật Exam Mode", "Enable Exam Mode")}
+            </Badge>
             <span className="text-xs text-muted-foreground ml-auto">
               {t("Đọc bằng giọng máy (Web Speech)", "Spoken with browser TTS")}
             </span>
