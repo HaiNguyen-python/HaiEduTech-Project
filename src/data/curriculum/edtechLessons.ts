@@ -1,7 +1,7 @@
 import type { ExtendedProgrammingModule } from "./types";
 
 /**
- * EdTech pillar — applied lessons that teach how learning platforms (like HaiEduTech)
+ * EdTech pillar - applied lessons that teach how learning platforms (like HaiEduTech)
  * are designed and built: learning science, spaced repetition algorithms, adaptive
  * difficulty, AI tutors, content recommendation, and speech/language tooling.
  */
@@ -24,14 +24,14 @@ export const edtechModules: ExtendedProgrammingModule[] = [
         difficulty: "beginner",
         theory: `## 1. 🎓 EdTech là gì? Định nghĩa đầy đủ
 
-**EdTech (Education Technology)** là việc dùng công nghệ — web, mobile, AI, dữ liệu lớn — để **giúp người học tiến bộ nhanh hơn, sâu hơn, vui hơn, và công bằng hơn**. EdTech tốt **KHÔNG** chỉ là "số hoá sách giáo khoa": nó phải tái thiết kế trải nghiệm học theo những gì khoa học nhận thức (cognitive science) đã chứng minh trong 50 năm qua.
+**EdTech (Education Technology)** là việc dùng công nghệ - web, mobile, AI, dữ liệu lớn - để **giúp người học tiến bộ nhanh hơn, sâu hơn, vui hơn, và công bằng hơn**. EdTech tốt **KHÔNG** chỉ là "số hoá sách giáo khoa": nó phải tái thiết kế trải nghiệm học theo những gì khoa học nhận thức (cognitive science) đã chứng minh trong 50 năm qua.
 
 > 💡 **Phân biệt:** "Digital learning" = đưa nội dung lên màn hình. "EdTech" = dùng dữ liệu + AI + sư phạm để **cá nhân hoá** đường đi cho từng học sinh.
 
 ### Ba thế hệ EdTech
-1. **Gen 1 (2000s)** — LMS như Moodle, Blackboard: chủ yếu lưu trữ tài liệu + bài kiểm tra.
-2. **Gen 2 (2010s)** — MOOC (Coursera, edX), Duolingo: nội dung tương tác + game hoá.
-3. **Gen 3 (2020s+)** — AI tutor, adaptive learning, speech grading: cá nhân hoá thời gian thực.
+1. **Gen 1 (2000s)** - LMS như Moodle, Blackboard: chủ yếu lưu trữ tài liệu + bài kiểm tra.
+2. **Gen 2 (2010s)** - MOOC (Coursera, edX), Duolingo: nội dung tương tác + game hoá.
+3. **Gen 3 (2020s+)** - AI tutor, adaptive learning, speech grading: cá nhân hoá thời gian thực.
 
 ## 2. 🧠 4 nguyên lý vàng của Learning Science
 
@@ -64,7 +64,7 @@ export const edtechModules: ExtendedProgrammingModule[] = [
 \`\`\`
 
 **Các tầng phải có:**
-- **Content layer:** bài học, câu hỏi, audio — versioned để A/B test.
+- **Content layer:** bài học, câu hỏi, audio - versioned để A/B test.
 - **Progress layer:** lưu mastery, streak, XP, lần ôn cuối cùng.
 - **Adaptive engine:** chọn bài kế tiếp dựa trên mastery_gap.
 - **AI gateway:** wrap LLM/TTS/STT với rate limit + cost monitoring.
@@ -88,19 +88,19 @@ Không phải cứ thêm sao + huy hiệu là tốt. **Game hoá đúng** phải
 `,
         theoryEn: `## 1. 🎓 What is EdTech?
 
-EdTech uses web, mobile, AI, and data to help learners progress **faster, deeper, and with more joy**. Good EdTech is grounded in **learning science** — 50 years of cognitive research — not just shiny UI.
+EdTech uses web, mobile, AI, and data to help learners progress **faster, deeper, and with more joy**. Good EdTech is grounded in **learning science** - 50 years of cognitive research - not just shiny UI.
 
 ### Three generations
-1. **Gen 1 (2000s):** LMS (Moodle, Blackboard) — content storage + quizzes.
-2. **Gen 2 (2010s):** MOOC + Duolingo — interactive content + gamification.
-3. **Gen 3 (2020s+):** AI tutors, adaptive learning, speech grading — real-time personalization.
+1. **Gen 1 (2000s):** LMS (Moodle, Blackboard) - content storage + quizzes.
+2. **Gen 2 (2010s):** MOOC + Duolingo - interactive content + gamification.
+3. **Gen 3 (2020s+):** AI tutors, adaptive learning, speech grading - real-time personalization.
 
 ## 2. 🧠 Four golden principles + supporting science
 
-- **Spaced Repetition** — review just before forgetting (Ebbinghaus curve).
-- **Retrieval Practice** — actively recall beats re-reading 3× (Roediger 2006 testing effect).
-- **Interleaving** — mix problem types so the brain learns to discriminate.
-- **Feedback Loop** — corrections within 2s preserve motivation and prevent error fossilization.
+- **Spaced Repetition** - review just before forgetting (Ebbinghaus curve).
+- **Retrieval Practice** - actively recall beats re-reading 3× (Roediger 2006 testing effect).
+- **Interleaving** - mix problem types so the brain learns to discriminate.
+- **Feedback Loop** - corrections within 2s preserve motivation and prevent error fossilization.
 - **Desirable Difficulty** (Bjork): slightly above current ability gives the strongest retention.
 - **Dual Coding** (Paivio): image + word doubles recall.
 - **Worked Examples** (Sweller): for novices, show fully-solved examples before practice.
@@ -110,7 +110,7 @@ EdTech uses web, mobile, AI, and data to help learners progress **faster, deeper
 Frontend (React/RN, PWA) → API (REST/Edge Functions) → Database (Postgres + vector) → AI services (TTS, STT, LLM, embeddings) → Analytics (events, cohorts, A/B). Every layer must be **versioned and instrumented** so you can experiment safely.
 
 ## 4. 🎮 Purposeful gamification
-Stars only when **mastery threshold is hit**, streaks for **consistency**, leaderboards based on **relative progress** — never raw scores.
+Stars only when **mastery threshold is hit**, streaks for **consistency**, leaderboards based on **relative progress** - never raw scores.
 
 ## 5. ⚠️ Common pitfalls
 Over-gamification, no mastery tracking, hard-coded level locks, ignoring mobile-first, no offline support, AI giving answers instead of guiding.
@@ -135,7 +135,7 @@ for w, st in stats.items():
         exercise: "Thêm 2 phiên học mới và in ra danh sách từ có accuracy < 70% (cần ôn thêm).",
         exerciseEn: "Add 2 more sessions and print words with accuracy < 70% (need more practice).",
         quiz: [
-          { question: "Spaced Repetition giúp điều gì?", options: ["Học nhanh hơn 1 đêm", "Ôn đúng lúc sắp quên để nhớ lâu", "Tăng tốc độ đọc", "Giảm số bài tập"], answer: 1, explanation: "Spaced Repetition lên lịch ôn ngay trước khi não quên — nhớ lâu với ít công sức nhất." },
+          { question: "Spaced Repetition giúp điều gì?", options: ["Học nhanh hơn 1 đêm", "Ôn đúng lúc sắp quên để nhớ lâu", "Tăng tốc độ đọc", "Giảm số bài tập"], answer: 1, explanation: "Spaced Repetition lên lịch ôn ngay trước khi não quên - nhớ lâu với ít công sức nhất." },
           { question: "Retrieval practice là gì?", options: ["Đọc đi đọc lại", "Chủ động gợi nhớ thông tin (làm quiz)", "Xem video", "Ghi chép"], answer: 1, explanation: "Gợi nhớ chủ động hiệu quả hơn nhiều so với đọc lại thụ động." },
           { question: "EdTech tốt cần đo lường gì nhất?", options: ["Thời gian online", "Mastery / tiến bộ thực sự", "Số lượt mở app", "Màu sắc UI"], answer: 1, explanation: "Đo mastery giúp biết ai đã hiểu và ai cần hỗ trợ thêm." },
           { question: "Interleaving nghĩa là gì?", options: ["Học một chủ đề duy nhất", "Trộn nhiều dạng bài / chủ đề trong một buổi", "Học liên tục không nghỉ", "Học theo nhóm"], answer: 1, explanation: "Trộn dạng bài giúp não phân biệt và nhớ sâu hơn." },
@@ -148,7 +148,7 @@ for w, st in stats.items():
         titleEn: "Spaced Repetition Algorithm (SM-2)",
         level: 2,
         difficulty: "intermediate",
-        theory: `## 1. 🧠 Đường cong quên Ebbinghaus — gốc rễ của Spaced Repetition
+        theory: `## 1. 🧠 Đường cong quên Ebbinghaus - gốc rễ của Spaced Repetition
 
 Năm 1885, Hermann Ebbinghaus tự thí nghiệm trên bản thân và phát hiện: sau khi học một thông tin mới, tốc độ quên gần như **lũy thừa âm**:
 - Sau **20 phút** quên ~40%
@@ -172,7 +172,7 @@ Năm 1885, Hermann Ebbinghaus tự thí nghiệm trên bản thân và phát hi�
        0   20m  1h   1d   6d   31d
 \`\`\`
 
-**Spaced Repetition** đặt mỗi lần ôn **đúng lúc đường cong vừa rơi xuống ~80%** — ngay trước khi quên hẳn. Mỗi lần ôn đúng, đường cong "reset" và **dốc xuống chậm hơn** — đó là lý do interval tăng theo cấp số nhân.
+**Spaced Repetition** đặt mỗi lần ôn **đúng lúc đường cong vừa rơi xuống ~80%** - ngay trước khi quên hẳn. Mỗi lần ôn đúng, đường cong "reset" và **dốc xuống chậm hơn** - đó là lý do interval tăng theo cấp số nhân.
 
 ## 2. 📐 Thuật toán SM-2 (lõi của Anki, SuperMemo, Mochi)
 
@@ -222,8 +222,8 @@ EF = max(1.3, EF + 0.1 - (5-q)*(0.08 + (5-q)*0.02))
 
 | Thuật toán | Năm | Khác biệt chính |
 |------------|-----|-----------------|
-| **SM-2** | 1987 | Đơn giản, 3 biến — đủ tốt cho 95% use case |
-| **SM-17** | 2016 | Mô hình quên 2 chiều, dùng ML — phức tạp hơn nhiều |
+| **SM-2** | 1987 | Đơn giản, 3 biến - đủ tốt cho 95% use case |
+| **SM-17** | 2016 | Mô hình quên 2 chiều, dùng ML - phức tạp hơn nhiều |
 | **FSRS** | 2022+ | Free Spaced Repetition Scheduler, hiện đã thay SM-2 trong Anki 23+, dựa trên DSR model (Difficulty/Stability/Retrievability) |
 
 Khi mới làm sản phẩm EdTech, **bắt đầu bằng SM-2** rồi nâng cấp FSRS khi có > 10k phiên ôn để huấn luyện.
@@ -234,11 +234,11 @@ Khi mới làm sản phẩm EdTech, **bắt đầu bằng SM-2** rồi nâng c�
 2. **Không reset repetitions khi q<3** → người học quên mãi mà card vẫn bị giãn lịch → frustration.
 3. **Không giới hạn số card mới/ngày** → tuần sau đột nhiên 500 card "due" → bỏ cuộc.
 4. **Bỏ qua "leech" cards** (sai > 8 lần) → cần đánh dấu để giáo viên xem lại nội dung.
-5. **Đo q sai** — nếu UI chỉ có nút "Đúng/Sai" thì mất thông tin granular của thang 0–5.
+5. **Đo q sai** - nếu UI chỉ có nút "Đúng/Sai" thì mất thông tin granular của thang 0–5.
 `,
         theoryEn: `## 1. 🧠 Ebbinghaus forgetting curve
 
-Without review, retention drops to ~50% after 1 day and ~20% after a month. Spaced Repetition schedules each review **right before the curve crashes** — minimal effort, maximum retention.
+Without review, retention drops to ~50% after 1 day and ~20% after a month. Spaced Repetition schedules each review **right before the curve crashes** - minimal effort, maximum retention.
 
 ## 2. 📐 SM-2 algorithm (core of Anki / SuperMemo)
 
@@ -251,7 +251,7 @@ Each card stores **EF** (easiness factor, default 2.5), **interval** (days to ne
 Hard cards shrink in interval and EF; easy cards exponentially grow (weeks → months → years). Daily due-load self-balances around 5–10% of the deck.
 
 ## 4. 🆚 SM-2 vs newer
-**SM-2** (1987) is simple and good enough for 95% of cases. **FSRS** (2022+) replaced SM-2 in Anki 23+ using a Difficulty/Stability/Retrievability model — adopt it once you have > 10k reviews to fit.
+**SM-2** (1987) is simple and good enough for 95% of cases. **FSRS** (2022+) replaced SM-2 in Anki 23+ using a Difficulty/Stability/Retrievability model - adopt it once you have > 10k reviews to fit.
 
 ## 5. ⚠️ Pitfalls
 EF floor 1.3 missing → cards "vanish"; not resetting repetitions on q<3; no daily new-card cap; ignoring leech cards (failed > 8×); collapsing q into binary correct/wrong loses granularity.
@@ -295,9 +295,9 @@ for q in [5, 4, 5, 2, 5]:
         difficulty: "intermediate",
         theory: `## 1. 🎯 Adaptive Learning là gì?
 
-Hệ thống **tự tăng/giảm độ khó theo kết quả người học** — giống một huấn luyện viên cá nhân: hôm nay bạn yếu listening → mai cho thêm listening; nay bạn đã thạo present simple → chuyển sang present perfect.
+Hệ thống **tự tăng/giảm độ khó theo kết quả người học** - giống một huấn luyện viên cá nhân: hôm nay bạn yếu listening → mai cho thêm listening; nay bạn đã thạo present simple → chuyển sang present perfect.
 
-Trái với **One-size-fits-all** (cả lớp học cùng bài), Adaptive Learning đảm bảo mỗi học sinh luôn ở **Zone of Proximal Development (Vygotsky)** — vừa đủ thách thức để tiến bộ, không quá dễ (chán) cũng không quá khó (nản).
+Trái với **One-size-fits-all** (cả lớp học cùng bài), Adaptive Learning đảm bảo mỗi học sinh luôn ở **Zone of Proximal Development (Vygotsky)** - vừa đủ thách thức để tiến bộ, không quá dễ (chán) cũng không quá khó (nản).
 
 ### Hai trường phái chính
 | Cách | Nguyên lý | Ưu | Nhược |
@@ -309,7 +309,7 @@ Trái với **One-size-fits-all** (cả lớp học cùng bài), Adaptive Learni
 
 > 🎯 **Khuyến nghị thực tế:** Bắt đầu bằng rule-based (1 tuần code), thêm BKT khi có > 5k phiên (1 tháng), nâng cấp IRT/DKT khi quy mô > 100k phiên.
 
-## 2. 📊 Mastery Score — đo "đã hiểu" như thế nào?
+## 2. 📊 Mastery Score - đo "đã hiểu" như thế nào?
 
 Mastery thường được tính bằng **Exponential Moving Average (EMA)** thay vì trung bình thường, vì kết quả gần đây phản ánh năng lực hiện tại tốt hơn:
 
@@ -319,7 +319,7 @@ mastery_new = α × is_correct + (1 - α) × mastery_old
 
 | α | Đặc tính | Khi nào dùng |
 |---|---------|--------------|
-| **0.1** | "Trí nhớ dài" — phản ứng chậm | Kỹ năng nền (đọc hiểu, ngữ pháp gốc) |
+| **0.1** | "Trí nhớ dài" - phản ứng chậm | Kỹ năng nền (đọc hiểu, ngữ pháp gốc) |
 | **0.3** | Cân bằng | Mặc định cho hầu hết kỹ năng |
 | **0.5+** | Nhạy, dao động | Kỹ năng đang luyện cấp tốc trước thi |
 
@@ -367,16 +367,16 @@ mastered = (mastery ≥ 0.85)
 
 1. **Lên độ khó quá nhanh** → học sinh nản. Quy tắc: cần ≥ 5 mẫu trước khi quyết định đổi.
 2. **Bỏ qua thời gian phản hồi** → đoán bừa vẫn được tính đúng.
-3. **Không calibrate độ khó câu hỏi** — câu "khó" lúc viết có thể thực ra dễ.
+3. **Không calibrate độ khó câu hỏi** - câu "khó" lúc viết có thể thực ra dễ.
 4. **Mastery quá lạc quan** (chỉ cần 1 lần đúng = mastered) → ảo tưởng tiến bộ.
-5. **Không reset mastery sau thời gian dài** — học sinh nghỉ 6 tháng vẫn "mastered" là sai.
-6. **Áp đặt 1 mô hình cho mọi kỹ năng** — vocab cần α cao hơn ngữ pháp.
+5. **Không reset mastery sau thời gian dài** - học sinh nghỉ 6 tháng vẫn "mastered" là sai.
+6. **Áp đặt 1 mô hình cho mọi kỹ năng** - vocab cần α cao hơn ngữ pháp.
 `,
         theoryEn: `## 1. 🎯 What is Adaptive Learning?
 
 The system **automatically tunes difficulty to the learner**, keeping them in Vygotsky's Zone of Proximal Development: hard enough to grow, not so hard they quit.
 
-Two main schools: **rule-based** (if ≥80% correct → level up), **statistical** (IRT, BKT, DKT — used by TOEIC/SAT). Start rule-based, graduate to BKT after 5k sessions, IRT/DKT past 100k.
+Two main schools: **rule-based** (if ≥80% correct → level up), **statistical** (IRT, BKT, DKT - used by TOEIC/SAT). Start rule-based, graduate to BKT after 5k sessions, IRT/DKT past 100k.
 
 ## 2. 📊 Mastery via EMA
 
@@ -420,7 +420,7 @@ for ans in [True, False, True, True, True, True]:
         exerciseEn: "Add next_difficulty() returning 'easier' / 'same' / 'harder' from mastery (<0.4, 0.4–0.8, >0.8).",
         quiz: [
           { question: "EMA với alpha lớn hơn nghĩa là?", options: ["Quên kết quả cũ chậm hơn", "Kết quả gần đây có trọng số cao hơn", "Không thay đổi gì", "Reset mastery"], answer: 1, explanation: "alpha lớn → phản ứng nhanh với kết quả mới." },
-          { question: "Tại sao cần ≥ 5 mẫu trước khi đổi độ khó?", options: ["Để code đẹp", "Tránh quyết định dựa trên may mắn", "Tiết kiệm RAM", "Không cần"], answer: 1, explanation: "Mẫu nhỏ dễ bị nhiễu — quyết định sai gây frustrate." },
+          { question: "Tại sao cần ≥ 5 mẫu trước khi đổi độ khó?", options: ["Để code đẹp", "Tránh quyết định dựa trên may mắn", "Tiết kiệm RAM", "Không cần"], answer: 1, explanation: "Mẫu nhỏ dễ bị nhiễu - quyết định sai gây frustrate." },
           { question: "IRT mô hình hóa điều gì?", options: ["Mầu UI", "Năng lực học sinh và độ khó câu hỏi", "Tốc độ mạng", "Doanh thu"], answer: 1, explanation: "IRT (θ, b) là chuẩn vàng trong test chuẩn hóa như TOEIC, SAT." },
           { question: "Quy tắc 'mastered' trong bài gồm?", options: ["Mastery ≥ 0.85 và 3 lần đúng gần nhất", "Chỉ cần đúng 1 lần", "Học đủ 10 phút", "Không có quy tắc"], answer: 0, explanation: "Cần cả ngưỡng mastery và streak gần đây để chắc chắn." },
           { question: "Bẫy lớn khi adaptive?", options: ["Quá an toàn", "Tăng độ khó quá nhanh khiến nản", "Quá nhiều màu", "Không có bẫy"], answer: 1, explanation: "Adaptive sai gây frustration nặng hơn cả không adaptive." },
@@ -449,13 +449,13 @@ for ans in [True, False, True, True, True, True]:
 | Tiêu chí | Chatbot thường (ChatGPT thuần) | AI Tutor đúng nghĩa |
 |----------|-------------------------------|---------------------|
 | **Mục tiêu** | Trả lời nhanh | Giúp học sinh **tự hiểu** |
-| **Phương pháp** | Cung cấp đáp án | Socratic — đặt câu hỏi dẫn dắt |
+| **Phương pháp** | Cung cấp đáp án | Socratic - đặt câu hỏi dẫn dắt |
 | **Bối cảnh** | Quên ngay sau hội thoại | Nhớ level, lỗi gần đây, mục tiêu |
-| **Feedback** | "Good job!" chung chung | "Bạn quên 's' cuối — 3rd person số ít" |
+| **Feedback** | "Good job!" chung chung | "Bạn quên 's' cuối - 3rd person số ít" |
 | **Đánh giá** | Không log | Log mastery, dùng cho adaptive engine |
 | **Ràng buộc** | Open-ended | Strict system prompt + guardrails |
 
-> 🎓 **Triết lý:** Một AI tutor giỏi giống một **gia sư Toán giàu kinh nghiệm**: KHÔNG bao giờ giải bài hộ — họ chỉ hỏi *"Bước này em thấy gì?"* cho tới khi học sinh tự nhìn ra lỗi.
+> 🎓 **Triết lý:** Một AI tutor giỏi giống một **gia sư Toán giàu kinh nghiệm**: KHÔNG bao giờ giải bài hộ - họ chỉ hỏi *"Bước này em thấy gì?"* cho tới khi học sinh tự nhìn ra lỗi.
 
 ## 2. 🧱 Kiến trúc hoàn chỉnh của AI Tutor
 
@@ -484,13 +484,13 @@ for ans in [True, False, True, True, True, True]:
 
 ## 3. 📝 Mẫu System Prompt theo cấp độ
 
-### Mức 1 — Cơ bản (1 dòng, kém hiệu quả)
+### Mức 1 - Cơ bản (1 dòng, kém hiệu quả)
 \`\`\`
 "Bạn là gia sư tiếng Anh, giúp học sinh học IELTS."
 \`\`\`
 👉 Quá mơ hồ. LLM dễ "trượt" sang trả lời thẳng.
 
-### Mức 2 — Có cấu trúc Socratic
+### Mức 2 - Có cấu trúc Socratic
 \`\`\`
 Bạn là gia sư IELTS Writing. Học sinh hiện ở Band {{band}}, mục tiêu {{goal}}.
 QUY TẮC NGHIÊM:
@@ -501,7 +501,7 @@ QUY TẮC NGHIÊM:
 5. Nếu học sinh hỏi câu lạc đề (không IELTS), chuyển hướng lịch sự.
 \`\`\`
 
-### Mức 3 — Production (kèm output JSON để parse)
+### Mức 3 - Production (kèm output JSON để parse)
 \`\`\`
 Bạn là gia sư IELTS Writing Band {{band}}.
 Trả về JSON theo schema:
@@ -520,7 +520,7 @@ Thêm 2-3 ví dụ mẫu vào system prompt → LLM bắt chước tone & độ 
 \`\`\`
 Ví dụ tốt:
 HS: "He go to school."
-TUTOR: { "feedback_vi": "Gần đúng! 'He' là ngôi 3 số ít — động từ cần đuôi gì nhỉ?",
+TUTOR: { "feedback_vi": "Gần đúng! 'He' là ngôi 3 số ít - động từ cần đuôi gì nhỉ?",
          "socratic_question": "Thử chia lại 'go' xem?",
          "topic_tag": "tense-3rd-person-s", ... }
 \`\`\`
@@ -550,7 +550,7 @@ A tutor follows Socratic pedagogy, knows the student's profile + recent errors +
 Pre-processor (profile + last errors + goal) → system prompt + history → LLM → post-processor (validate JSON, log mastery, safety + PII filter) → UI / TTS.
 
 ## 3. 📝 Prompt levels
-- **L1:** one-line role — too vague.
+- **L1:** one-line role - too vague.
 - **L2:** add Socratic rules (no answers, one error at a time, end with a question, max 60 words).
 - **L3 production:** require strict JSON schema so the FE can render structured feedback and persist topic tags.
 
@@ -597,7 +597,7 @@ print(tutor_reply("He go to school", {"id":1,"subject":"English","band":5.5}, []
         difficulty: "advanced",
         theory: `## 1. 📝 Vì sao chấm bài tự động khó?
 
-Một bài essay IELTS Band 6 và Band 7 nhìn rất giống nhau với máy: cùng độ dài, cùng chủ đề, ít lỗi chính tả. Sự khác biệt nằm ở **chiều sâu lập luận, cohesion, lexical range** — những thứ trước 2022 chỉ con người chấm được. LLM thay đổi cuộc chơi: GPT-4 chấm IELTS Writing có **tương quan 0.85+** với chấm thủ công (gần bằng inter-rater giữa 2 giáo viên người).
+Một bài essay IELTS Band 6 và Band 7 nhìn rất giống nhau với máy: cùng độ dài, cùng chủ đề, ít lỗi chính tả. Sự khác biệt nằm ở **chiều sâu lập luận, cohesion, lexical range** - những thứ trước 2022 chỉ con người chấm được. LLM thay đổi cuộc chơi: GPT-4 chấm IELTS Writing có **tương quan 0.85+** với chấm thủ công (gần bằng inter-rater giữa 2 giáo viên người).
 
 ## 2. 🧅 Kiến trúc 3 lớp chấm bài
 
@@ -632,17 +632,17 @@ WER = (Substitutions + Insertions + Deletions) / Total_words
 
 > ⚠️ **Cẩn thận:** STT cũng có lỗi (~5-10%). Nên dùng **confidence score** từ STT để loại từ STT đoán mò trước khi tính WER.
 
-## 4. 🧪 Rubric Prompting — "linh hồn" của L3
+## 4. 🧪 Rubric Prompting - "linh hồn" của L3
 
 ### Prompt mẫu cho IELTS Writing Task 2
 \`\`\`
 Bạn là examiner IELTS có chứng chỉ. Chấm essay theo rubric chính thức
 (band 0–9, bước 0.5) trên 4 tiêu chí:
 
-1. Task Response — trả lời đúng câu hỏi chưa, có position rõ chưa
-2. Coherence & Cohesion — paragraphing, linking words
-3. Lexical Resource — từ vựng đa dạng, đúng collocation
-4. Grammatical Range & Accuracy — câu phức, đúng tense
+1. Task Response - trả lời đúng câu hỏi chưa, có position rõ chưa
+2. Coherence & Cohesion - paragraphing, linking words
+3. Lexical Resource - từ vựng đa dạng, đúng collocation
+4. Grammatical Range & Accuracy - câu phức, đúng tense
 
 QUY TẮC:
 - Trả về JSON đúng schema bên dưới.
@@ -672,7 +672,7 @@ Schema:
 | LLM chấm dao động giữa các lần | Set **temperature = 0**, gọi 3 lần và lấy median |
 | LLM thiên vị (length bias) | Truncate essay đến độ dài chuẩn trước khi chấm |
 | Học sinh paste essay mẫu Band 9 | Plagiarism check L2 trước khi tới L3 |
-| Cost vượt budget | Cache theo hash(essay) — 2 lần submit giống nhau = 1 lần gọi |
+| Cost vượt budget | Cache theo hash(essay) - 2 lần submit giống nhau = 1 lần gọi |
 
 ## 6. 📈 Calibration với chấm người thật
 
@@ -688,17 +688,17 @@ Schema:
 1. **Cho 1 điểm tổng duy nhất** → học sinh không biết sửa gì.
 2. **Không yêu cầu JSON** → khó parse, không build UI tốt được.
 3. **Không cache** → cost bùng nổ với essay lặp lại.
-4. **Tin tuyệt đối vào LLM** — phải có "Yêu cầu giáo viên review" cho band quan trọng.
+4. **Tin tuyệt đối vào LLM** - phải có "Yêu cầu giáo viên review" cho band quan trọng.
 5. **Bỏ qua chấm tự động cho writing dài < 50 từ** → cho LLM 5 từ → vô nghĩa, lãng phí token.
-6. **Không monitor drift** — mô hình LLM update → chấm có thể tăng/giảm 0.5 band bất ngờ.
+6. **Không monitor drift** - mô hình LLM update → chấm có thể tăng/giảm 0.5 band bất ngờ.
 `,
         theoryEn: `## 1. 📝 Why auto-grading is hard
 Band 6 vs Band 7 essays look similar to machines; the difference is argument depth, cohesion, lexical range. LLMs since 2022 reach 0.85+ correlation with human raters on IELTS Writing.
 
 ## 2. 🧅 Three-layer pipeline
-- **L1 Surface** (regex/wordcount/spell) — < 50ms, near-zero cost.
-- **L2 Statistical** (TF-IDF/cosine vs Band-8 reference) — topic + plagiarism.
-- **L3 Semantic** (LLM rubric) — slow & costly; only run after L1/L2 pass.
+- **L1 Surface** (regex/wordcount/spell) - < 50ms, near-zero cost.
+- **L2 Statistical** (TF-IDF/cosine vs Band-8 reference) - topic + plagiarism.
+- **L3 Semantic** (LLM rubric) - slow & costly; only run after L1/L2 pass.
 
 ## 3. 🎤 Speaking pipeline
 Audio → STT (Whisper) → WER vs sample (pronunciation) → LLM rubric (fluency, lexical, grammar). Always weight WER by STT confidence to avoid penalising STT errors.
@@ -739,7 +739,7 @@ print(json.dumps(fake_llm_grade(ESSAY), indent=2, ensure_ascii=False))`,
           { question: "Lớp 'surface' kiểm tra gì?", options: ["Ý nghĩa sâu", "Số từ, chính tả, định dạng", "Cảm xúc", "Logic"], answer: 1, explanation: "Surface là kiểm tra hình thức: đủ từ, đúng định dạng, lỗi chính tả." },
           { question: "WER trong speaking dùng để?", options: ["Đo tốc độ mạng", "Đo độ chính xác phát âm bằng so khớp text", "Đo cảm xúc", "Đo độ dài"], answer: 1, explanation: "WER so text từ STT với câu mẫu → tỉ lệ lỗi." },
           { question: "Vì sao bắt LLM trả JSON?", options: ["Để đẹp", "Để code FE parse và hiển thị từng tiêu chí", "Để LLM nghĩ kỹ hơn", "Để tốn ít token"], answer: 1, explanation: "JSON cho phép hiển thị rubric chi tiết và lưu DB." },
-          { question: "Bẫy lớn nhất của chấm tự động?", options: ["Quá đắt", "Chỉ trả 1 điểm tổng, không feedback cụ thể", "Quá chậm", "Quá chính xác"], answer: 1, explanation: "1 điểm tổng không giúp học sinh sửa — phải có feedback theo tiêu chí." },
+          { question: "Bẫy lớn nhất của chấm tự động?", options: ["Quá đắt", "Chỉ trả 1 điểm tổng, không feedback cụ thể", "Quá chậm", "Quá chính xác"], answer: 1, explanation: "1 điểm tổng không giúp học sinh sửa - phải có feedback theo tiêu chí." },
           { question: "Speaking grading thường kết hợp?", options: ["STT + WER + LLM rubric", "Chỉ STT", "Chỉ LLM", "Chỉ regex"], answer: 0, explanation: "Pipeline 3 bước cho điểm chính xác và feedback giàu." },
         ],
       },
@@ -753,9 +753,9 @@ print(json.dumps(fake_llm_grade(ESSAY), indent=2, ensure_ascii=False))`,
 
 Một nền tảng EdTech trưởng thành có **500–5000 bài học**. Học sinh đăng nhập và đối mặt câu hỏi "Học gì tiếp theo?" → đa số chọn bừa hoặc thoát app. Theo nghiên cứu Coursera (2019): **gợi ý cá nhân hoá tăng tỉ lệ hoàn thành khóa 38%** so với danh sách phẳng.
 
-> 🎯 **Mục tiêu kép:** (a) tăng retention (giữ chân) và (b) tăng learning velocity (tiến bộ nhanh) — KHÔNG chỉ là click-through rate như recommendation thương mại điện tử.
+> 🎯 **Mục tiêu kép:** (a) tăng retention (giữ chân) và (b) tăng learning velocity (tiến bộ nhanh) - KHÔNG chỉ là click-through rate như recommendation thương mại điện tử.
 
-## 2. 🧰 Ba chiến thuật phổ biến — phân tích sâu
+## 2. 🧰 Ba chiến thuật phổ biến - phân tích sâu
 
 ### a) Rule-based (Knowledge Graph)
 Bài học có quan hệ **prerequisite** (A phải xong trước B). Biểu diễn dưới dạng đồ thị có hướng:
@@ -782,17 +782,17 @@ Mỗi bài học có **vector đặc trưng** (topic, độ khó, kỹ năng, đ
 Similarity = cosine của 2 vector → > 0.7 coi là "tương tự".
 
 - ✅ **Ưu:** xử lý được học sinh mới (chỉ cần biết họ thích gì).
-- ❌ **Nhược:** "filter bubble" — chỉ gợi bài giống nhau, không khám phá topic mới.
+- ❌ **Nhược:** "filter bubble" - chỉ gợi bài giống nhau, không khám phá topic mới.
 
 ### c) Collaborative Filtering
 "Học sinh giống bạn cũng học bài X." Ma trận user × lesson với rating (mastery đạt được). Dùng SVD / ALS / Matrix Factorization để tìm latent factors.
 
 - ✅ **Ưu:** phát hiện pattern bất ngờ ("HS học HSK 2 thường thích podcast văn hoá").
-- ❌ **Nhược:** **Cold start** — học sinh mới hoặc bài mới không có data.
+- ❌ **Nhược:** **Cold start** - học sinh mới hoặc bài mới không có data.
 
-## 3. 📐 Hybrid Scoring — công thức thực dụng
+## 3. 📐 Hybrid Scoring - công thức thực dụng
 
-Không cần chọn một — kết hợp 3:
+Không cần chọn một - kết hợp 3:
 
 \`\`\`
 score(lesson) = w1 · mastery_gap(skill)
@@ -812,12 +812,12 @@ score(lesson) = w1 · mastery_gap(skill)
 
 > 🔧 **Tune trọng số bằng A/B test** trên 4 chỉ số: completion rate, mastery growth, time-to-mastery, D7 retention.
 
-## 4. 🧊 Cold Start — vấn đề luôn phải giải
+## 4. 🧊 Cold Start - vấn đề luôn phải giải
 
 | Tình huống | Giải pháp |
 |-----------|-----------|
 | **Học sinh mới** | Hỏi 3 câu onboarding (goal, level, sở thích) → khởi tạo profile |
-| **Bài học mới** | Dựa vào metadata (topic, difficulty) — fallback sang content-based |
+| **Bài học mới** | Dựa vào metadata (topic, difficulty) - fallback sang content-based |
 | **Cả hai mới** | Hiển thị "top phổ biến trong cohort tương tự" (theo độ tuổi/mục tiêu) |
 
 ## 5. 🌈 Diversity & Serendipity

@@ -126,7 +126,7 @@ export const nlpQuizEn: Record<string, QuizEn> = {
       "Unrelated to NLP",
       "Only applies to machine translation",
     ],
-    exp: "DeepMind 2022 — many large models were under-trained because they lacked tokens.",
+    exp: "DeepMind 2022 - many large models were under-trained because they lacked tokens.",
   },
   "Mô hình nào dưới đây là encoder-decoder?": {
     q: "Which of the following is an encoder-decoder model?",
@@ -195,13 +195,13 @@ export const nlpQuizEn: Record<string, QuizEn> = {
       "Hardware requirement",
       "Not necessary",
     ],
-    exp: "After normalisation, cos(A,B) = A·B — the expensive division is gone.",
+    exp: "After normalisation, cos(A,B) = A·B - the expensive division is gone.",
   },
   "Chunk 50 token có vấn đề gì?": {
     q: "What's wrong with a 50-token chunk?",
     opts: [
       "Too long",
-      "Too short — context is lost, top-k retrieval is fragmented",
+      "Too short - context is lost, top-k retrieval is fragmented",
       "No problem",
       "Wastes RAM",
     ],
@@ -221,7 +221,7 @@ export const nlpQuizEn: Record<string, QuizEn> = {
     q: "Is HNSW slower than Flat for query speed?",
     opts: [
       "True",
-      "False — HNSW is much faster at scale with ~98% recall",
+      "False - HNSW is much faster at scale with ~98% recall",
       "Same",
       "Depends on GPU",
     ],
@@ -247,7 +247,7 @@ export const nlpQuizEn: Record<string, QuizEn> = {
       "RLS violation",
       "No issue",
     ],
-    exp: "Each language has unique phenomena — translation discards the signal.",
+    exp: "Each language has unique phenomena - translation discards the signal.",
   },
   "Encoder nào phù hợp cho RAG đa ngôn ngữ context dài 8k?": {
     q: "Which encoder fits multilingual RAG with an 8k context?",
@@ -257,13 +257,13 @@ export const nlpQuizEn: Record<string, QuizEn> = {
   "Metric tốt nhất để đánh giá faithfulness của RAG là?": {
     q: "Best metric to evaluate RAG faithfulness?",
     opts: ["BLEU", "Accuracy", "LLM-judge faithfulness + citation overlap", "Loss"],
-    exp: "RAG must measure 'is this hallucinated?' — judge model + citation check.",
+    exp: "RAG must measure 'is this hallucinated?' - judge model + citation check.",
   },
   "NFC vs NFD ảnh hưởng?": {
     q: "What's the impact of NFC vs NFD?",
     opts: [
       "Network speed",
-      "The same character 'ế' has two byte-forms — string equality fails without normalisation",
+      "The same character 'ế' has two byte-forms - string equality fails without normalisation",
       "RAM",
       "No impact",
     ],
@@ -289,7 +289,7 @@ export const nlpQuizEn: Record<string, QuizEn> = {
       "BLEU is language-biased",
       "No problem",
     ],
-    exp: "BLEU only counts overlapping tokens — same meaning with different words scores 0.",
+    exp: "BLEU only counts overlapping tokens - same meaning with different words scores 0.",
   },
   "Faithfulness đo gì?": {
     q: "What does faithfulness measure?",
@@ -329,6 +329,6 @@ export const nlpQuizEn: Record<string, QuizEn> = {
       "Never",
       "Only for LLMs",
     ],
-    exp: "Every task has a canonical metric — using it correctly avoids reaching for BLEU everywhere.",
+    exp: "Every task has a canonical metric - using it correctly avoids reaching for BLEU everywhere.",
   },
 };

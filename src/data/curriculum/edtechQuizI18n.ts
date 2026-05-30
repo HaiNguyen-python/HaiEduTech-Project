@@ -15,7 +15,7 @@ export const edtechQuizEn: Record<string, QuizEn> = {
   "Spaced Repetition giúp điều gì?": {
     q: "What does Spaced Repetition achieve?",
     opts: ["Cramming overnight", "Reviewing right before you'd forget, for long-term memory", "Faster reading", "Fewer exercises"],
-    exp: "Spaced Repetition schedules reviews right before forgetting — maximum retention with minimum effort.",
+    exp: "Spaced Repetition schedules reviews right before forgetting - maximum retention with minimum effort.",
   },
   "Retrieval practice là gì?": {
     q: "What is retrieval practice?",
@@ -59,8 +59,8 @@ export const edtechQuizEn: Record<string, QuizEn> = {
   },
   "Mục tiêu của SM-2?": {
     q: "The goal of SM-2?",
-    opts: ["Cram as much as possible each day", "Review right before forgetting — minimum effort", "Punish wrong answers", "No goal"],
-    exp: "Minimum effort — maximum long-term retention.",
+    opts: ["Cram as much as possible each day", "Review right before forgetting - minimum effort", "Punish wrong answers", "No goal"],
+    exp: "Minimum effort - maximum long-term retention.",
   },
   "EMA với alpha lớn hơn nghĩa là?": {
     q: "A larger alpha in EMA means?",
@@ -70,7 +70,7 @@ export const edtechQuizEn: Record<string, QuizEn> = {
   "Tại sao cần ≥ 5 mẫu trước khi đổi độ khó?": {
     q: "Why wait for ≥5 samples before changing difficulty?",
     opts: ["For cleaner code", "Avoid decisions driven by luck", "Save RAM", "No need"],
-    exp: "Tiny samples are noisy — wrong decisions frustrate learners.",
+    exp: "Tiny samples are noisy - wrong decisions frustrate learners.",
   },
   "IRT mô hình hóa điều gì?": {
     q: "What does IRT model?",
@@ -84,13 +84,13 @@ export const edtechQuizEn: Record<string, QuizEn> = {
   },
   "Bẫy lớn khi adaptive?": {
     q: "Biggest trap of adaptive systems?",
-    opts: ["Too safe", "Ramping difficulty too fast — learners give up", "Too many colors", "No trap"],
+    opts: ["Too safe", "Ramping difficulty too fast - learners give up", "Too many colors", "No trap"],
     exp: "Bad adaptive logic is more frustrating than no adaptivity at all.",
   },
   "AI Tutor khác chatbot thường ở chỗ?": {
     q: "How does an AI Tutor differ from a regular chatbot?",
     opts: ["Prettier", "Pedagogy + learner profile", "Faster", "Cheaper"],
-    exp: "A tutor adds pedagogy and personalization — not just answers.",
+    exp: "A tutor adds pedagogy and personalization - not just answers.",
   },
   "Socratic method nghĩa là?": {
     q: "The Socratic method means?",
@@ -130,7 +130,7 @@ export const edtechQuizEn: Record<string, QuizEn> = {
   "Bẫy lớn nhất của chấm tự động?": {
     q: "Biggest trap of auto-grading?",
     opts: ["Too expensive", "Returning only a total score with no actionable feedback", "Too slow", "Too accurate"],
-    exp: "A single total isn't actionable — per-criterion feedback is required.",
+    exp: "A single total isn't actionable - per-criterion feedback is required.",
   },
   "Speaking grading thường kết hợp?": {
     q: "Speaking grading usually combines?",
@@ -139,7 +139,7 @@ export const edtechQuizEn: Record<string, QuizEn> = {
   },
   "Mastery gap cao có nghĩa?": {
     q: "A high mastery gap means?",
-    opts: ["Strong in that skill", "Weak in that skill — needs practice", "Item too hard", "Meaningless"],
+    opts: ["Strong in that skill", "Weak in that skill - needs practice", "Item too hard", "Meaningless"],
     exp: "Gap = 1 − mastery → high gap = weak skill = good recommendation target.",
   },
   "Collaborative filtering dựa trên?": {
@@ -184,7 +184,7 @@ export const edtechQuizEn: Record<string, QuizEn> = {
   },
   "Bẫy 'chỉ nhìn trung bình' nghĩa là?": {
     q: "The 'averages-only' trap means?",
-    opts: ["Ignoring the tail — the weakest users who need help most", "Median beats mean", "Meaningless", "Use mode only"],
+    opts: ["Ignoring the tail - the weakest users who need help most", "Median beats mean", "Meaningless", "Use mode only"],
     exp: "Averages hide the group that needs support; always look at p10/p50/p90.",
   },
   "Variable reward mạnh hơn fixed reward vì?": {
@@ -220,7 +220,7 @@ export const edtechQuizEn: Record<string, QuizEn> = {
   "Sample Ratio Mismatch nghĩa là?": {
     q: "What is Sample Ratio Mismatch?",
     opts: ["Sample too small", "The split deviates from the design (e.g. 60/40)", "Too many arms", "Out of RAM"],
-    exp: "SRM means assignment is broken — the results aren't trustworthy.",
+    exp: "SRM means assignment is broken - the results aren't trustworthy.",
   },
   "Novelty effect là?": {
     q: "What is the novelty effect?",
@@ -229,22 +229,22 @@ export const edtechQuizEn: Record<string, QuizEn> = {
   },
   "p < 0.05 nghĩa là?": {
     q: "What does p < 0.05 mean?",
-    opts: ["B is definitely better", "Evidence that B differs from A — still check effect size and CI", "B is 95% better", "Meaningless"],
+    opts: ["B is definitely better", "Evidence that B differs from A - still check effect size and CI", "B is 95% better", "Meaningless"],
     exp: "Always combine effect size and confidence interval for interpretation.",
   },
   "Khi nào dừng experiment sớm?": {
     q: "When should you stop an experiment early?",
     opts: ["When it feels enough", "When B causes clear harm (harm threshold) or you use a formal Bayesian framework", "When the boss asks", "Anytime"],
-    exp: "Stopping ad-hoc breaks the statistics — only stop on harm or via Bayesian.",
+    exp: "Stopping ad-hoc breaks the statistics - only stop on harm or via Bayesian.",
   },
   "Tại sao R≈0.85 thường là 'sweet spot' để ôn?": {
     q: "Why is R≈0.85 typically the review 'sweet spot'?",
     opts: ["Looks nice", "Hard enough to strengthen memory yet not fully forgotten", "Required by RLS", "To spam notifications"],
-    exp: "Too easy wastes time; too hard requires relearning — 0.85 balances both.",
+    exp: "Too easy wastes time; too hard requires relearning - 0.85 balances both.",
   },
   "FSRS hơn SM-2 ở điểm nào?": {
     q: "Where does FSRS beat SM-2?",
-    opts: ["Shorter code", "Learns parameters from real data — schedules 20–30% better", "No reviews needed", "More free"],
+    opts: ["Shorter code", "Learns parameters from real data - schedules 20–30% better", "No reviews needed", "More free"],
     exp: "FSRS fits its model on real logs → more personal than fixed heuristics.",
   },
   "Vì sao review log phải immutable?": {
@@ -270,27 +270,27 @@ export const edtechQuizEn: Record<string, QuizEn> = {
   "Mastery 0.85 trên N câu liên tiếp giúp?": {
     q: "Requiring mastery 0.85 across N consecutive items helps?",
     opts: ["Avoid accidentally unlocking on a lucky guess", "Speed up the API", "Security", "Meaningless"],
-    exp: "You need enough evidence — not a single lucky answer.",
+    exp: "You need enough evidence - not a single lucky answer.",
   },
   "Bandit thiếu min_pulls dẫn đến?": {
     q: "A bandit without min_pulls leads to?",
-    opts: ["A crash", "New items never get a fair chance — they stay forever asleep", "Higher latency", "No impact"],
+    opts: ["A crash", "New items never get a fair chance - they stay forever asleep", "Higher latency", "No impact"],
     exp: "Cold-start: you need a minimum exploration budget before trusting exploit.",
   },
   "Thompson Sampling thuộc nhóm nào?": {
     q: "Thompson Sampling belongs to which family?",
-    opts: ["Pure greedy", "Bayesian — sample from the posterior, then pick", "Heuristic", "Brute force"],
+    opts: ["Pure greedy", "Bayesian - sample from the posterior, then pick", "Heuristic", "Brute force"],
     exp: "Sample θ from the posterior each round → natural explore/exploit balance.",
   },
   "Vì sao cần kết hợp adaptive + spaced repetition?": {
     q: "Why combine adaptive testing with spaced repetition?",
     opts: ["For a nice slogan", "Adaptive measures ability; spaced repetition keeps it from fading", "Hardware reasons", "Not needed"],
-    exp: "Mastery today ≠ mastery next month — schedule reinforcement.",
+    exp: "Mastery today ≠ mastery next month - schedule reinforcement.",
   },
   "Vì sao tutor mặc định nên Socratic?": {
     q: "Why should the tutor default to Socratic?",
     opts: ["Looks nice", "It forces active thinking → deeper learning than spoon-feeding answers", "Saves tokens", "Required by RLS"],
-    exp: "Counter-questions trigger retrieval in the learner's brain — strong evidence base.",
+    exp: "Counter-questions trigger retrieval in the learner's brain - strong evidence base.",
   },
   "Khi nào chuyển sang solution-first?": {
     q: "When should we switch to solution-first?",
@@ -304,17 +304,17 @@ export const edtechQuizEn: Record<string, QuizEn> = {
   },
   "Memory rolling 5–10 lượt thay vì vô hạn vì?": {
     q: "Why use a rolling 5–10 turn memory instead of unlimited history?",
-    opts: ["Cost & focus — long logs drift the LLM and burn tokens", "RLS", "RAM", "No reason"],
+    opts: ["Cost & focus - long logs drift the LLM and burn tokens", "RLS", "RAM", "No reason"],
     exp: "Long memory raises cost and hurts quality via historical noise.",
   },
   "Self-harm signal nên dẫn tới?": {
     q: "A self-harm signal should lead to?",
     opts: ["Tutor handling it solo", "Show a hotline and escalate to teacher / guardian", "Ignore", "Silent log"],
-    exp: "Tutors aren't clinicians — escalate via the proper channels.",
+    exp: "Tutors aren't clinicians - escalate via the proper channels.",
   },
   "Vì sao phải chấm per-criterion thay vì 1 điểm tổng?": {
     q: "Why grade per-criterion instead of a single total?",
-    opts: ["More tokens", "So feedback is explainable and fixable — students know what to improve", "Hide bugs", "No difference"],
+    opts: ["More tokens", "So feedback is explainable and fixable - students know what to improve", "Hide bugs", "No difference"],
     exp: "A total isn't actionable; per-criterion + feedback drives progress.",
   },
   "QWK đo gì?": {
@@ -324,8 +324,8 @@ export const edtechQuizEn: Record<string, QuizEn> = {
   },
   "Vì sao không tự động trừ điểm khi 'AI-generated detector' báo dương?": {
     q: "Why not auto-penalize when an 'AI-generated detector' flags an essay?",
-    opts: ["AI detection is very noisy — treat it as a signal, not proof", "It's definitive evidence", "RLS", "Latency"],
-    exp: "Detectors still have high false-positive rates — automatic penalties are unfair.",
+    opts: ["AI detection is very noisy - treat it as a signal, not proof", "It's definitive evidence", "RLS", "Latency"],
+    exp: "Detectors still have high false-positive rates - automatic penalties are unfair.",
   },
   "Speaking: vì sao dùng word confidence từ ASR?": {
     q: "Speaking: why use ASR word confidence?",
@@ -349,7 +349,7 @@ export const edtechQuizEn: Record<string, QuizEn> = {
   },
   "DKT khắc phục điểm yếu nào của BKT?": {
     q: "Which BKT weakness does DKT fix?",
-    opts: ["Too fast", "Independence-of-skills assumption — DKT captures dependencies via an RNN", "Too cheap", "No difference"],
+    opts: ["Too fast", "Independence-of-skills assumption - DKT captures dependencies via an RNN", "Too cheap", "No difference"],
     exp: "RNN/Transformer learns skill embeddings → captures cross-skill links.",
   },
   "Ngưỡng mastery 0.85 phổ biến vì?": {
@@ -369,7 +369,7 @@ export const edtechQuizEn: Record<string, QuizEn> = {
   },
   "Vì sao verify-by-email hại onboarding?": {
     q: "Why does email verification hurt onboarding?",
-    opts: ["Weak security", "Adds a ~2-minute break and ~22% drop — it kills momentum toward the aha", "DB cost", "It doesn't"],
+    opts: ["Weak security", "Adds a ~2-minute break and ~22% drop - it kills momentum toward the aha", "DB cost", "It doesn't"],
     exp: "Magic-link or OAuth significantly reduces drop-off.",
   },
   "Empty state nên có gì?": {
@@ -384,7 +384,7 @@ export const edtechQuizEn: Record<string, QuizEn> = {
   },
   "Onboarding 12 màn show-and-tell vấn đề gì?": {
     q: "What's wrong with a 12-screen show-and-tell onboarding?",
-    opts: ["Too expensive", "Teaches by telling instead of doing — users drop before they ever hit the aha", "Too fast", "No problem"],
+    opts: ["Too expensive", "Teaches by telling instead of doing - users drop before they ever hit the aha", "Too fast", "No problem"],
     exp: "Good onboarding teaches by action with instant feedback.",
   },
 };
