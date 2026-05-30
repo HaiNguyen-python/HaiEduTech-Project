@@ -282,12 +282,116 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
   );
   const percent = Math.round((score / s.questions.length) * 100);
 
+  const band = useMemo(() => ieltsListeningBand(score, s.questions.length), [score, s.questions.length]);
+
+  // --- Auto-save (debounced) ---
+  useEffect(() => {
+    if (!restoredOnce) return;
+    const id = window.setTimeout(() => {
+      try {
+        localStorage.setItem(saveKey, JSON.stringify({ answers, submitted, examMode, ts: Date.now() }));
+      } catch { /* noop */ }
+    }, 400);
+    return () => window.clearTimeout(id);
+  }, [answers, submitted, examMode, saveKey, restoredOnce]);
+
+  // --- Restore on mount ---
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(saveKey);
+      if (raw) {
+        const data = JSON.parse(raw);
+        if (data?.answers && typeof data.answers === "object") setAnswers(data.answers);
+        if (data?.submitted) setSubmitted(true);
+        if (data?.examMode) setExamMode(true);
+      }
+    } catch { /* noop */ }
+    setRestoredOnce(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleReset = () => {
     setAnswers({});
     setSubmitted(false);
     setShowTranscript(false);
+    setExplainOpen({});
+    setExplainData({});
+    try { localStorage.removeItem(saveKey); } catch { /* noop */ }
     stop();
   };
+
+  // --- AI explain a wrong question ---
+  const requestExplain = async (qIdx: number) => {
+    const q = s.questions[qIdx];
+    setExplainOpen(o => ({ ...o, [qIdx]: true }));
+    if (explainData[qIdx] && !explainData[qIdx].error) return;
+    setExplainLoading(l => ({ ...l, [qIdx]: true }));
+    try {
+      const userAns = answers[qIdx] ?? "";
+      const correctAnswer = q.type === "mcq" ? `${String.fromCharCode(65 + q.answer)}. ${q.options[q.answer]}` : q.answer;
+      const userPretty = q.type === "mcq" && userAns !== ""
+        ? `${String.fromCharCode(65 + Number(userAns))}. ${q.options[Number(userAns)] ?? ""}`
+        : String(userAns);
+      const { data, error } = await supabase.functions.invoke("explain-ielts-listening", {
+        body: {
+          transcript: s.transcript,
+          question: q.prompt,
+          correctAnswer,
+          userAnswer: userPretty,
+          questionType: s.questionType,
+          language: lang,
+        },
+      });
+      if (error) throw error;
+      setExplainData(d => ({ ...d, [qIdx]: data as ExplainResult }));
+    } catch (e) {
+      console.error("explain-ielts-listening failed", e);
+      setExplainData(d => ({ ...d, [qIdx]: { error: e instanceof Error ? e.message : "Failed" } }));
+      toast({
+        title: t("Không lấy được lời giải", "Could not fetch explanation"),
+        description: t("Vui lòng thử lại sau vài giây.", "Please try again in a moment."),
+        variant: "destructive",
+      });
+    } finally {
+      setExplainLoading(l => ({ ...l, [qIdx]: false }));
+    }
+  };
+
+  // Build a set of answer keywords for transcript highlighting after submit.
+  const answerKeywords = useMemo(() => {
+    if (!submitted) return [] as string[];
+    const out: string[] = [];
+    for (const q of s.questions) {
+      if (q.type === "fill-in" && typeof q.answer === "string") {
+        const cleaned = q.answer.replace(/[.,!?;:"']/g, "").trim();
+        if (cleaned.length >= 2 && cleaned.length <= 40) out.push(cleaned);
+      }
+      if (q.type === "mcq") {
+        const opt = q.options?.[q.answer];
+        if (opt) {
+          const w = opt.split(/\s+/).filter(x => x.length >= 4).slice(0, 2);
+          out.push(...w);
+        }
+      }
+    }
+    return Array.from(new Set(out));
+  }, [submitted, s.questions]);
+
+  const highlightedTranscript = useMemo(() => {
+    if (!submitted || answerKeywords.length === 0) {
+      return s.transcript;
+    }
+    let html = s.transcript
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    for (const kw of answerKeywords) {
+      const safe = kw.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      html = html.replace(
+        new RegExp(`\\b(${safe})\\b`, "gi"),
+        `<mark class="bg-yellow-300/70 dark:bg-yellow-500/40 rounded px-0.5 font-semibold">$1</mark>`
+      );
+    }
+    return html;
+  }, [submitted, answerKeywords, s.transcript]);
 
   return (
     <Card className="border-l-4 border-l-emerald-500 overflow-hidden">
