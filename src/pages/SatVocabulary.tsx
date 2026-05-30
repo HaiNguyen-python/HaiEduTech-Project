@@ -99,8 +99,8 @@ const Flashcard = ({ word, isMastered, onStar }: { word: SatWord; isMastered: bo
           key="front"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="rounded-xl bg-white dark:bg-card flex flex-col items-center justify-center gap-3"
-          style={{ padding: "2rem", border: "2px solid #f1f5f9", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)", minHeight: "14rem" }}
+          className="rounded-xl bg-gradient-to-br from-blue-50 to-emerald-50 dark:from-slate-800 dark:to-slate-900 flex flex-col items-center justify-center gap-3"
+          style={{ padding: "2rem", border: "3px solid hsl(var(--primary))", boxShadow: "0 8px 22px -6px hsl(var(--primary) / 0.5)", minHeight: "14rem" }}
         >
           <h3 className="font-extrabold text-center" style={{ fontSize: "1.75rem", color: "#111827" }}>{word.word}</h3>
           {word.ipa && (
@@ -132,8 +132,8 @@ const Flashcard = ({ word, isMastered, onStar }: { word: SatWord; isMastered: bo
           key="back"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="rounded-xl bg-white dark:bg-card flex flex-col justify-center gap-2"
-          style={{ padding: "2rem", border: "2px solid #f1f5f9", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)", minHeight: "14rem" }}
+          className="rounded-xl bg-gradient-to-br from-emerald-50 to-blue-50 dark:from-slate-800 dark:to-slate-900 flex flex-col justify-center gap-2"
+          style={{ padding: "2rem", border: "3px solid hsl(var(--primary))", boxShadow: "0 8px 22px -6px hsl(var(--primary) / 0.5)", minHeight: "14rem" }}
         >
           <p className="font-bold break-words" style={{ fontSize: "1.1875rem", color: "#1d4ed8", lineHeight: 1.6 }}>{word.definition.vi}</p>
           {word.example && (
@@ -689,8 +689,8 @@ const SatVocabulary = () => {
                                 key={w.word + w.category}
                                 initial={{ opacity: 0, y: 12 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="group min-w-0 h-full rounded-xl bg-white dark:bg-card hover:shadow-xl transition-all duration-300"
-                                style={{ padding: "1rem 1.1rem", border: "4px solid hsl(var(--primary) / 0.85)", boxShadow: "0 6px 18px -4px hsl(var(--primary) / 0.35), inset 0 0 0 1px hsl(var(--primary) / 0.25)", borderRadius: "0.85rem" }}
+                                className="group min-w-0 h-full rounded-xl bg-gradient-to-br from-blue-50 to-emerald-50 dark:from-slate-800 dark:to-slate-900 hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-300"
+                                style={{ padding: "1rem 1.1rem", border: "3px solid hsl(var(--primary))", boxShadow: "0 8px 22px -6px hsl(var(--primary) / 0.5), inset 0 0 0 1px hsl(var(--primary) / 0.35)", borderRadius: "0.85rem" }}
 
                               >
                                 <div className="mb-1.5 min-w-0 flex items-start gap-2">
