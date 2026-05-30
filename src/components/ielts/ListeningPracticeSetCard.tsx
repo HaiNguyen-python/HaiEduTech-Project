@@ -1,4 +1,5 @@
 // Reusable listening practice card with TTS audio + collapsible transcript + auto-grading.
+// Upgrades: auto-save, multi-accent voice picker, IELTS band score, exam mode, AI explain wrong answers.
 import { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -9,12 +10,31 @@ import { Slider } from "@/components/ui/slider";
 import {
   Play, Pause, Square, Headphones, Eye, EyeOff,
   CheckCircle2, XCircle, RotateCcw, Gauge,
-  SkipBack, SkipForward,
+  SkipBack, SkipForward, Sparkles, ShieldAlert, Mic2, Save,
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { ListeningPracticeSet } from "@/data/ieltsListeningPractice";
 import { cn } from "@/lib/utils";
 import DOMPurify from "dompurify";
+import { ieltsListeningBand, bandColor } from "@/lib/ieltsListeningBand";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
+
+type AccentKey = "en-GB" | "en-US" | "en-AU";
+const ACCENT_LABELS: Record<AccentKey, string> = {
+  "en-GB": "🇬🇧 UK",
+  "en-US": "🇺🇸 US",
+  "en-AU": "🇦🇺 AU",
+};
+
+interface ExplainResult {
+  quote?: string;
+  keyword?: string;
+  why?: string;
+  trap?: string;
+  tip?: string;
+  error?: string;
+}
 
 const formatTime = (sec: number) => {
   if (!isFinite(sec) || sec < 0) sec = 0;
