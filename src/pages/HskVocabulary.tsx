@@ -21,6 +21,7 @@ import KangxiRadicalsBrowser from "@/components/KangxiRadicalsBrowser";
 import HskExamplePractice from "@/components/HskExamplePractice";
 import HskMnemonic from "@/components/HskMnemonic";
 import HskExampleTranslation from "@/components/HskExampleTranslation";
+import HskSrsReview from "@/components/chinese/HskSrsReview";
 import { supabase } from "@/integrations/supabase/client";
 import { useSearchParams } from "react-router-dom";
 
