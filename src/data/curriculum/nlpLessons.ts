@@ -33,11 +33,14 @@ export const nlpModules: ExtendedProgrammingModule[] = [
 Formally, NLP sits at the intersection of three fields:
 
 \`\`\`mermaid
-graph LR
-    L[Linguistics<br/>How language works] --> N
-    C[Computer Science<br/>Algorithms & data] --> N
-    M[Machine Learning<br/>Patterns from data] --> N
-    N((NLP))
+flowchart LR
+    L["Linguistics<br/>How language works"]
+    C["Computer Science<br/>Algorithms & data"]
+    M["Machine Learning<br/>Patterns from data"]
+    N(("NLP"))
+    L --> N
+    C --> N
+    M --> N
 \`\`\`
 
 ## 2. Why is human language hard for computers?
