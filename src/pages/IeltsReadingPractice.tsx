@@ -888,14 +888,12 @@ const FullTestEngine: React.FC<FullTestEngineProps> = ({ test, onClose }) => {
             <p className={cn("text-xs uppercase tracking-wide mb-5", paperTheme === "light" ? "text-slate-500" : "text-slate-400")}>
               {t("Đoạn văn", "Reading Passage")}
             </p>
-            <article
-              className="max-w-none font-['Georgia',_'Merriweather',_serif] leading-[1.85]"
-              style={{ fontSize: `${FONT_SIZES[fontIdx]}px` }}
-            >
-              {currentPassage.passage.split("\n\n").map((para, i) => (
-                <p key={i} className="mb-4">{para}</p>
-              ))}
-            </article>
+            <ReaderPassage
+              passageId={currentPassage.id}
+              passage={currentPassage.passage}
+              fontSize={FONT_SIZES[fontIdx]}
+              paperTheme={paperTheme}
+            />
           </div>
         </section>
 
