@@ -106,7 +106,22 @@ That entire flow is NLP. We will build simplified versions of every step in this
 
 ## 7. Key Concept
 
-> 🎯 **Key Concept** - NLP turns **unstructured text** (human messy language) into **structured signals** (numbers, labels, vectors) that downstream code can act on. Every NLP system is some variant of *text → tokens → vectors → model → answer*.`,
+> 🎯 **Key Concept** - NLP turns **unstructured text** (human messy language) into **structured signals** (numbers, labels, vectors) that downstream code can act on. Every NLP system is some variant of *text → tokens → vectors → model → answer*.
+
+## 8. Common pitfalls & pro tips
+
+| Pitfall | Why it hurts | Pro tip |
+|---------|--------------|---------|
+| Testing only on English | System silently fails on Vietnamese / Chinese / Finnish users | Always include 1 non-Latin language in your test set |
+| Ignoring Unicode normalisation | "café" vs "café" (NFC vs NFD) become different tokens | Run \`unicodedata.normalize("NFC", text)\` as step zero |
+| Throwing away punctuation too early | "Let's eat, Grandma" vs "Let's eat Grandma" - the comma is the model | Keep punctuation until you know it does not help the task |
+| Lowercasing blindly | "US" (country) becomes "us" (pronoun) | Case-sensitive NER; lowercase only for topic models |
+| Confusing *accuracy* with *usefulness* | 95% accuracy can still ship 50 wrong answers per 1000 users | Track precision / recall **per class**, not just overall accuracy |
+| Building rules forever | Rules grow into an unmaintainable jungle by month 3 | Switch to ML once you have > 500 labelled examples |
+
+## 9. Career signals
+
+Recruiters scanning your CV for NLP roles look for *four* signals: (1) you can clean dirty multilingual text, (2) you understand both classical (TF-IDF, SVM) **and** modern (Transformer, RAG) stacks, (3) you can evaluate models with the right metric for the task, and (4) you have shipped at least one end-to-end project where text became a useful action (a label, a translation, an answer). This module is designed so that by Lesson 6 you can claim all four.`,
         theoryEn: "",
         code: `# A 60-second taste of NLP using only the Python standard library.
 # We classify a movie review as positive / negative using a hand-crafted lexicon.
