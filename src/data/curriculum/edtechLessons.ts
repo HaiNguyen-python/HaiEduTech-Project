@@ -444,31 +444,125 @@ for ans in [True, False, True, True, True, True]:
         titleEn: "Building an AI Tutor with LLMs",
         level: 3,
         difficulty: "intermediate",
-        theory: `## 1. 🤖 AI Tutor khác chatbot thường ở đâu?
+        theory: `## 1. 🤖 AI Tutor vs Chatbot thông thường
 
-- **Sư phạm**: dùng phương pháp Socratic — đặt câu hỏi dẫn dắt thay vì cho đáp án ngay.
-- **Bối cảnh học sinh**: biết level, lỗi gần đây, mục tiêu (IELTS 6.5? HSK 4?).
-- **Phản hồi cụ thể**: thay vì "Good job", chỉ ra "Bạn quên 's' cuối — chia 3rd person số ít".
+| Tiêu chí | Chatbot thường (ChatGPT thuần) | AI Tutor đúng nghĩa |
+|----------|-------------------------------|---------------------|
+| **Mục tiêu** | Trả lời nhanh | Giúp học sinh **tự hiểu** |
+| **Phương pháp** | Cung cấp đáp án | Socratic — đặt câu hỏi dẫn dắt |
+| **Bối cảnh** | Quên ngay sau hội thoại | Nhớ level, lỗi gần đây, mục tiêu |
+| **Feedback** | "Good job!" chung chung | "Bạn quên 's' cuối — 3rd person số ít" |
+| **Đánh giá** | Không log | Log mastery, dùng cho adaptive engine |
+| **Ràng buộc** | Open-ended | Strict system prompt + guardrails |
 
-## 2. 🧱 Kiến trúc
+> 🎓 **Triết lý:** Một AI tutor giỏi giống một **gia sư Toán giàu kinh nghiệm**: KHÔNG bao giờ giải bài hộ — họ chỉ hỏi *"Bước này em thấy gì?"* cho tới khi học sinh tự nhìn ra lỗi.
 
-\`Student msg\` → \`Pre-processor (lấy profile, history)\` → \`System prompt sư phạm\` → \`LLM\` → \`Post-processor (validate, log mastery)\` → \`UI\`
-
-## 3. 📝 System prompt mẫu
+## 2. 🧱 Kiến trúc hoàn chỉnh của AI Tutor
 
 \`\`\`
-Bạn là gia sư IELTS Writing. Học sinh hiện ở Band {{band}}.
-- Không cho đáp án ngay. Hỏi 1 câu gợi mở trước.
-- Chỉ ra MỘT lỗi quan trọng nhất, kèm ví dụ sửa.
-- Kết thúc bằng câu hỏi: "Bạn muốn thử lại không?"
+┌───────────────┐   ┌─────────────────┐   ┌──────────────┐
+│ Student input │──▶│ Pre-processor   │──▶│  LLM call    │
+│ (msg / audio) │   │ • Load profile  │   │  + system    │
+└───────────────┘   │ • Recent errors │   │    prompt    │
+                    │ • Goal (band)   │   │  + history   │
+                    │ • Tokenize/STT  │   └──────┬───────┘
+                    └─────────────────┘          │
+                                                  ▼
+┌───────────────┐   ┌─────────────────┐   ┌──────────────┐
+│   UI / TTS    │◀──│ Post-processor  │◀──│ LLM response │
+│   render      │   │ • Validate JSON │   │  (Socratic   │
+└───────────────┘   │ • Log mastery   │   │   question)  │
+                    │ • Safety filter │   └──────────────┘
+                    │ • PII redact    │
+                    └─────────────────┘
 \`\`\`
 
-## 4. ⚠️ Bẫy
+### Vai trò từng tầng
+- **Pre-processor:** ghép \`student_profile + last_5_errors + goal\` vào context. Giảm cost bằng cách **chỉ gửi lỗi liên quan đến topic hiện tại**.
+- **System prompt:** "hợp đồng" giữ AI đúng vai trò. Phải nêu rõ: tone, độ dài, được/không được làm gì.
+- **Post-processor:** parse JSON, đánh giá an toàn (không vi phạm guideline), log mastery theo \`topic_id\`.
 
-- Cho LLM "muốn nói gì cũng được" → mất tính sư phạm.
-- Không log mastery → AI không nhớ học sinh tiến bộ tới đâu.
+## 3. 📝 Mẫu System Prompt theo cấp độ
+
+### Mức 1 — Cơ bản (1 dòng, kém hiệu quả)
+\`\`\`
+"Bạn là gia sư tiếng Anh, giúp học sinh học IELTS."
+\`\`\`
+👉 Quá mơ hồ. LLM dễ "trượt" sang trả lời thẳng.
+
+### Mức 2 — Có cấu trúc Socratic
+\`\`\`
+Bạn là gia sư IELTS Writing. Học sinh hiện ở Band {{band}}, mục tiêu {{goal}}.
+QUY TẮC NGHIÊM:
+1. KHÔNG cho đáp án ngay. Hỏi 1 câu gợi mở trước.
+2. Chỉ ra MỘT lỗi quan trọng nhất, kèm ví dụ sửa.
+3. Kết thúc bằng câu hỏi: "Bạn muốn thử lại không?"
+4. Tối đa 60 từ.
+5. Nếu học sinh hỏi câu lạc đề (không IELTS), chuyển hướng lịch sự.
+\`\`\`
+
+### Mức 3 — Production (kèm output JSON để parse)
+\`\`\`
+Bạn là gia sư IELTS Writing Band {{band}}.
+Trả về JSON theo schema:
+{
+  "feedback_vi": "...",       // tiếng Việt, < 80 từ
+  "socratic_question": "...", // 1 câu hỏi dẫn dắt
+  "topic_tag": "tense|article|cohesion|vocab|...",
+  "is_correct": boolean,
+  "next_action": "retry|new_question|explain"
+}
+\`\`\`
+
+## 4. 🔄 Few-shot examples nâng chất lượng
+
+Thêm 2-3 ví dụ mẫu vào system prompt → LLM bắt chước tone & độ dài chính xác:
+\`\`\`
+Ví dụ tốt:
+HS: "He go to school."
+TUTOR: { "feedback_vi": "Gần đúng! 'He' là ngôi 3 số ít — động từ cần đuôi gì nhỉ?",
+         "socratic_question": "Thử chia lại 'go' xem?",
+         "topic_tag": "tense-3rd-person-s", ... }
+\`\`\`
+
+## 5. 🧠 Memory & Personalization
+
+| Loại memory | Lưu ở đâu | Dùng để |
+|-------------|-----------|---------|
+| **Short-term** | Context window LLM | Hội thoại 5-10 lượt gần nhất |
+| **Mid-term** | DB summary mỗi 20 lượt | "HS hay sai article, mạnh vocab" |
+| **Long-term** | Profile + mastery map | Adaptive lesson planning |
+
+## 6. ⚠️ Bẫy thường gặp
+
+1. **Cho LLM "muốn nói gì cũng được"** → mất tính sư phạm, trả lời thẳng đáp án.
+2. **Không log mastery** → AI không nhớ học sinh tiến bộ tới đâu.
+3. **Prompt quá dài (>2k token)** → cost tăng + LLM bỏ qua rule cuối.
+4. **Không có fallback khi LLM lỗi** → app crash hoặc trả "Tôi không hiểu".
+5. **Không rate limit** → 1 học sinh spam → $100/ngày.
+6. **Bỏ PII redaction** → log lưu tên/email vi phạm GDPR.
+7. **Không A/B test prompt** → không biết phiên bản nào dạy tốt hơn.
 `,
-        theoryEn: `An AI tutor differs from a chatbot by following Socratic pedagogy, using student profile/history, and giving concrete corrective feedback — wrapped in a strict system prompt and a logging layer.`,
+        theoryEn: `## 1. 🤖 Tutor vs plain chatbot
+A tutor follows Socratic pedagogy, knows the student's profile + recent errors + goal, gives specific corrective feedback, logs mastery, and runs inside a strict system-prompt guardrail. A chatbot just answers.
+
+## 2. 🧱 Architecture
+Pre-processor (profile + last errors + goal) → system prompt + history → LLM → post-processor (validate JSON, log mastery, safety + PII filter) → UI / TTS.
+
+## 3. 📝 Prompt levels
+- **L1:** one-line role — too vague.
+- **L2:** add Socratic rules (no answers, one error at a time, end with a question, max 60 words).
+- **L3 production:** require strict JSON schema so the FE can render structured feedback and persist topic tags.
+
+## 4. 🔄 Few-shot examples
+Add 2–3 worked examples in the system prompt; the LLM imitates tone and length.
+
+## 5. 🧠 Memory tiers
+Short-term (context window), mid-term (rolling summary every 20 turns), long-term (profile + mastery map).
+
+## 6. ⚠️ Pitfalls
+No guardrails; no mastery logging; bloated prompts (>2k tokens); no fallback on LLM error; no rate limit; PII in logs; never A/B testing prompts.
+`,
         code: `# Pseudo-code cho 1 vòng tutor
 def tutor_reply(student_msg, profile, history):
     system = f"""Bạn là gia sư {profile['subject']}. Học sinh band {profile['band']}.
