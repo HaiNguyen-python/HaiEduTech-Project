@@ -80,6 +80,54 @@ export type Database = {
         }
         Relationships: []
       }
+      application_deadlines: {
+        Row: {
+          application_type: string | null
+          country: string | null
+          created_at: string
+          deadline_date: string
+          id: string
+          link: string | null
+          notes: string | null
+          priority: string
+          program: string | null
+          status: string
+          university: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          application_type?: string | null
+          country?: string | null
+          created_at?: string
+          deadline_date: string
+          id?: string
+          link?: string | null
+          notes?: string | null
+          priority?: string
+          program?: string | null
+          status?: string
+          university: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          application_type?: string | null
+          country?: string | null
+          created_at?: string
+          deadline_date?: string
+          id?: string
+          link?: string | null
+          notes?: string | null
+          priority?: string
+          program?: string | null
+          status?: string
+          university?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       article_interests: {
         Row: {
           article_id: string | null
