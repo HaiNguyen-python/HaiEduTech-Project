@@ -22,42 +22,98 @@ export const edtechModules: ExtendedProgrammingModule[] = [
         titleEn: "What is EdTech? Learning Science in Digital Products",
         level: 1,
         difficulty: "beginner",
-        theory: `## 1. 🎓 EdTech là gì?
+        theory: `## 1. 🎓 EdTech là gì? Định nghĩa đầy đủ
 
-**EdTech (Education Technology)** là việc dùng công nghệ — web, mobile, AI, dữ liệu — để **giúp người học tiến bộ nhanh hơn, sâu hơn, vui hơn**. Khác với “app học” thông thường, EdTech tốt phải dựa trên **khoa học học tập (learning science)**.
+**EdTech (Education Technology)** là việc dùng công nghệ — web, mobile, AI, dữ liệu lớn — để **giúp người học tiến bộ nhanh hơn, sâu hơn, vui hơn, và công bằng hơn**. EdTech tốt **KHÔNG** chỉ là "số hoá sách giáo khoa": nó phải tái thiết kế trải nghiệm học theo những gì khoa học nhận thức (cognitive science) đã chứng minh trong 50 năm qua.
 
-## 2. 🧠 4 nguyên lý vàng
+> 💡 **Phân biệt:** "Digital learning" = đưa nội dung lên màn hình. "EdTech" = dùng dữ liệu + AI + sư phạm để **cá nhân hoá** đường đi cho từng học sinh.
 
-| Nguyên lý | Ý nghĩa | Áp dụng |
-|-----------|---------|---------|
-| **Spaced Repetition** | Ôn đúng lúc sắp quên | Anki, HSK Vocab |
-| **Retrieval Practice** | Gợi nhớ chủ động > đọc lại | Quiz, flashcard |
-| **Interleaving** | Trộn dạng bài | Mix listening + grammar |
-| **Feedback Loop** | Phản hồi nhanh & cụ thể | AI Grading, IPA check |
+### Ba thế hệ EdTech
+1. **Gen 1 (2000s)** — LMS như Moodle, Blackboard: chủ yếu lưu trữ tài liệu + bài kiểm tra.
+2. **Gen 2 (2010s)** — MOOC (Coursera, edX), Duolingo: nội dung tương tác + game hoá.
+3. **Gen 3 (2020s+)** — AI tutor, adaptive learning, speech grading: cá nhân hoá thời gian thực.
 
-## 3. 🏗️ Kiến trúc một sản phẩm EdTech
+## 2. 🧠 4 nguyên lý vàng của Learning Science
 
-\`Frontend (React)\` → \`API\` → \`DB (progress, mastery)\` → \`AI services (TTS, grading)\` → \`Analytics\`
+| Nguyên lý | Cơ chế não bộ | Áp dụng trong sản phẩm |
+|-----------|---------------|------------------------|
+| **Spaced Repetition** | Đường cong quên Ebbinghaus: ôn ngay trước khi quên giúp củng cố synapse | Anki, HSK Vocab Bank, IELTS Mastered Words |
+| **Retrieval Practice** | "Testing effect" (Roediger 2006): gợi nhớ chủ động mạnh hơn đọc lại 3× | Quiz cuối bài, flashcard 2 chiều, fill-in-blank |
+| **Interleaving** | Trộn dạng bài buộc não chuyển ngữ cảnh → nhớ phân biệt rõ hơn | Mix listening + grammar + vocab trong 1 session |
+| **Feedback Loop** | Dopamine + correction window: phản hồi <2s giữ động lực | AI Grading band tức thì, IPA pronunciation check |
 
-## 4. ⚠️ Bẫy thường gặp
+### Nguyên lý phụ rất quan trọng
+- **Desirable Difficulty (Bjork):** bài hơi khó hơn năng lực hiện tại giúp nhớ lâu hơn bài dễ.
+- **Dual Coding (Paivio):** ghép hình ảnh + chữ → nhớ gấp đôi (vì vậy vocab có illustration).
+- **Worked Examples (Sweller):** với người mới, cho lời giải mẫu hiệu quả hơn bắt tự giải.
 
-- Game hóa quá mức → học sinh chỉ chơi, không nhớ.
-- Không đo lường mastery → không biết ai cần giúp.
+## 3. 🏗️ Kiến trúc một sản phẩm EdTech điển hình
+
+\`\`\`
+┌─────────────┐   ┌──────────┐   ┌────────────┐   ┌─────────────┐
+│  Frontend   │──▶│   API    │──▶│  Database  │   │  AI Services│
+│  React/RN   │   │ REST/RPC │   │  Postgres  │   │ TTS, LLM,   │
+│  PWA        │   │  Edge fn │   │  +Vector   │◀──│ STT, Embed  │
+└─────────────┘   └──────────┘   └────────────┘   └─────────────┘
+       ▲                │              │                  ▲
+       │                ▼              ▼                  │
+       │         ┌──────────────────────────┐             │
+       └─────────│  Analytics & Mastery     │─────────────┘
+                 │  Events · Cohorts · A/B  │
+                 └──────────────────────────┘
+\`\`\`
+
+**Các tầng phải có:**
+- **Content layer:** bài học, câu hỏi, audio — versioned để A/B test.
+- **Progress layer:** lưu mastery, streak, XP, lần ôn cuối cùng.
+- **Adaptive engine:** chọn bài kế tiếp dựa trên mastery_gap.
+- **AI gateway:** wrap LLM/TTS/STT với rate limit + cost monitoring.
+- **Analytics:** event stream để đo Activation/Retention/Mastery.
+
+## 4. 🎮 Game hoá có chủ đích (Purposeful Gamification)
+
+Không phải cứ thêm sao + huy hiệu là tốt. **Game hoá đúng** phải gắn với hành vi học:
+- ⭐ Sao thưởng **khi đạt mastery** (không phải khi mở app).
+- 🔥 Streak để khuyến khích **đều đặn** (não cần lặp lại để củng cố).
+- 🏆 Leaderboard chỉ nên dựa trên **tiến bộ tương đối**, không phải điểm tuyệt đối → tránh học sinh yếu nản.
+
+## 5. ⚠️ Bẫy thường gặp khi xây EdTech
+
+1. **Game hoá quá mức** → học sinh chỉ chơi để có sao, không hấp thụ kiến thức.
+2. **Không đo mastery** → không biết ai cần giúp, mọi quyết định dựa cảm tính.
+3. **Content khoá cứng theo level** → học sinh giỏi bị chậm, học sinh yếu bị bỏ rơi.
+4. **Bỏ qua mobile-first** → > 70% học sinh VN dùng điện thoại.
+5. **Không có offline mode** → mạng yếu = mất bài học.
+6. **Lạm dụng AI** → AI trả lời thay vì hướng dẫn → mất tính sư phạm.
 `,
         theoryEn: `## 1. 🎓 What is EdTech?
 
-EdTech uses web, mobile, AI, and data to help learners progress **faster, deeper, and with more joy**. Good EdTech is grounded in **learning science**, not just shiny UI.
+EdTech uses web, mobile, AI, and data to help learners progress **faster, deeper, and with more joy**. Good EdTech is grounded in **learning science** — 50 years of cognitive research — not just shiny UI.
 
-## 2. 🧠 Four golden principles
+### Three generations
+1. **Gen 1 (2000s):** LMS (Moodle, Blackboard) — content storage + quizzes.
+2. **Gen 2 (2010s):** MOOC + Duolingo — interactive content + gamification.
+3. **Gen 3 (2020s+):** AI tutors, adaptive learning, speech grading — real-time personalization.
 
-- **Spaced Repetition** — review just before forgetting.
-- **Retrieval Practice** — actively recall, don't re-read.
-- **Interleaving** — mix question types.
-- **Feedback Loop** — fast, specific feedback.
+## 2. 🧠 Four golden principles + supporting science
 
-## 3. 🏗️ Architecture
+- **Spaced Repetition** — review just before forgetting (Ebbinghaus curve).
+- **Retrieval Practice** — actively recall beats re-reading 3× (Roediger 2006 testing effect).
+- **Interleaving** — mix problem types so the brain learns to discriminate.
+- **Feedback Loop** — corrections within 2s preserve motivation and prevent error fossilization.
+- **Desirable Difficulty** (Bjork): slightly above current ability gives the strongest retention.
+- **Dual Coding** (Paivio): image + word doubles recall.
+- **Worked Examples** (Sweller): for novices, show fully-solved examples before practice.
 
-Frontend → API → DB (progress, mastery) → AI services (TTS, grading) → Analytics.
+## 3. 🏗️ Architecture stack
+
+Frontend (React/RN, PWA) → API (REST/Edge Functions) → Database (Postgres + vector) → AI services (TTS, STT, LLM, embeddings) → Analytics (events, cohorts, A/B). Every layer must be **versioned and instrumented** so you can experiment safely.
+
+## 4. 🎮 Purposeful gamification
+Stars only when **mastery threshold is hit**, streaks for **consistency**, leaderboards based on **relative progress** — never raw scores.
+
+## 5. ⚠️ Common pitfalls
+Over-gamification, no mastery tracking, hard-coded level locks, ignoring mobile-first, no offline support, AI giving answers instead of guiding.
 `,
         code: `# Mô phỏng đơn giản: ghi nhận một lần học và tính tỉ lệ nhớ
 sessions = [
