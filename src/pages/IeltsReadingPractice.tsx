@@ -18,8 +18,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   ArrowLeft, BookOpen, Trophy, Clock, Timer, X, CheckCircle2,
-  XCircle, ChevronLeft, ChevronRight, Plus, Minus, Sun, Moon, GripVertical, NotebookPen,
+  XCircle, ChevronLeft, ChevronRight, Plus, Minus, Sun, Moon, GripVertical, NotebookPen, Flag,
 } from "lucide-react";
+import ReaderPassage from "@/components/ielts/ReaderPassage";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
