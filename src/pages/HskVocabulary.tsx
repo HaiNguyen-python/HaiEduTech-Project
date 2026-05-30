@@ -494,7 +494,11 @@ const HskVocabulary = () => {
   const [levelFilter, setLevelFilter] = useState<string>("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [page, setPage] = useState(1);
-  const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise" | "srs">("list");
+  const initialMode = (() => {
+    const m = searchParams.get("mode");
+    return m === "flashcard" || m === "exercise" || m === "srs" ? m : "list";
+  })();
+  const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise" | "srs">(initialMode);
   const { mastered, toggle: toggleMasteredHook } = useMasteredVocab("hsk");
   const [showMasteredOnly, setShowMasteredOnly] = useState(false);
 
