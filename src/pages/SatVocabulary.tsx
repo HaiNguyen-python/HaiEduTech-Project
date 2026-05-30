@@ -99,8 +99,8 @@ const Flashcard = ({ word, isMastered, onStar }: { word: SatWord; isMastered: bo
           key="front"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="rounded-xl bg-white dark:bg-card flex flex-col items-center justify-center gap-3"
-          style={{ padding: "2rem", border: "2px solid #f1f5f9", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)", minHeight: "14rem" }}
+          className="rounded-xl bg-gradient-to-br from-blue-50 to-emerald-50 dark:from-slate-800 dark:to-slate-900 flex flex-col items-center justify-center gap-3"
+          style={{ padding: "2rem", border: "3px solid hsl(var(--primary))", boxShadow: "0 8px 22px -6px hsl(var(--primary) / 0.5)", minHeight: "14rem" }}
         >
           <h3 className="font-extrabold text-center" style={{ fontSize: "1.75rem", color: "#111827" }}>{word.word}</h3>
           {word.ipa && (
