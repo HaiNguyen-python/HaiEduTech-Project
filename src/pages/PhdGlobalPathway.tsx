@@ -27,6 +27,7 @@ import PhdProposalBuilder from "@/components/phd/PhdProposalBuilder";
 import PhdColdEmailStudio from "@/components/phd/PhdColdEmailStudio";
 import PhdFaq from "@/components/phd/PhdFaq";
 import PhdSupervisorFinder from "@/components/phd/PhdSupervisorFinder";
+import PhdRelatedResearch from "@/components/phd/PhdRelatedResearch";
 import PhdDeadlineRadar from "@/components/phd/PhdDeadlineRadar";
 import PhdCostCulture from "@/components/phd/PhdCostCulture";
 
@@ -226,6 +227,9 @@ const PhdGlobalPathway = () => {
 
           {/* Supervisor Finder Studio */}
           <PhdSupervisorFinder />
+
+          {/* Related Research Explorer */}
+          <PhdRelatedResearch />
 
           {/* Funding database */}
           <h2 className="text-2xl md:text-3xl font-bold mt-14 mb-5 flex items-center gap-2">
