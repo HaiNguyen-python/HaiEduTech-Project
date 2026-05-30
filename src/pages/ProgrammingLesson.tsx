@@ -692,7 +692,15 @@ const ProgrammingLessonPage = () => {
                                 cls += selected ? "border-primary bg-primary/10 text-primary" : "border-border text-secondary-foreground hover:border-primary/50 hover:bg-primary/5";
                               }
                               return (
-                                <button key={oi} onClick={() => handleAnswer(qi, oi)} className={cls}>
+                                <button
+                                  key={oi}
+                                  onClick={() => handleAnswer(qi, oi)}
+                                  role="radio"
+                                  aria-checked={selected}
+                                  aria-label={`${t("Đáp án", "Option")} ${String.fromCharCode(65 + oi)}: ${opt}${showResults ? (isCorrect ? ` — ${t("đúng", "correct")}` : selected ? ` — ${t("sai", "wrong")}` : "") : ""}`}
+                                  disabled={showResults}
+                                  className={cls}
+                                >
                                   {showResults && isCorrect && <CheckCircle className="w-3.5 h-3.5 inline mr-1.5" />}
                                   {showResults && selected && !isCorrect && <XCircle className="w-3.5 h-3.5 inline mr-1.5" />}
                                   {opt}
