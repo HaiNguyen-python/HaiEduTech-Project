@@ -30,6 +30,13 @@ const StudyAbroadHub = () => {
       desc: t("Công thức 5 đoạn vàng + AI viết bản nháp đầu tiên + template Word.", "The 5-paragraph golden formula + AI first draft + Word template."),
     },
     {
+      to: "/study-abroad/sat",
+      icon: BookOpen,
+      gradient: "from-amber-500 to-orange-600",
+      title: t("SAT Roadmap", "SAT Roadmap"),
+      desc: t("Lộ trình SAT 1500+: vocab, exercises, 7 mock exams, daily warmup.", "1500+ SAT roadmap: vocab, exercises, 7 mock exams, daily warmup."),
+    },
+    {
       to: "/study-abroad/phd",
       icon: GraduationCap,
       gradient: "from-violet-500 to-fuchsia-600",
