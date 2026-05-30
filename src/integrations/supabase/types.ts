@@ -1499,6 +1499,90 @@ export type Database = {
         }
         Relationships: []
       }
+      sat_daily_log: {
+        Row: {
+          correct: number
+          created_at: string
+          day: string
+          id: string
+          total: number
+          user_id: string
+        }
+        Insert: {
+          correct?: number
+          created_at?: string
+          day?: string
+          id?: string
+          total?: number
+          user_id: string
+        }
+        Update: {
+          correct?: number
+          created_at?: string
+          day?: string
+          id?: string
+          total?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      sat_mistakes: {
+        Row: {
+          chosen_index: number | null
+          correct_index: number
+          correct_streak: number
+          created_at: string
+          explanation: string | null
+          id: string
+          lesson_id: string | null
+          mastered_at: string | null
+          module_id: string | null
+          options: Json
+          question: string
+          question_type: string | null
+          section: string
+          source: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          chosen_index?: number | null
+          correct_index: number
+          correct_streak?: number
+          created_at?: string
+          explanation?: string | null
+          id?: string
+          lesson_id?: string | null
+          mastered_at?: string | null
+          module_id?: string | null
+          options?: Json
+          question: string
+          question_type?: string | null
+          section?: string
+          source?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          chosen_index?: number | null
+          correct_index?: number
+          correct_streak?: number
+          created_at?: string
+          explanation?: string | null
+          id?: string
+          lesson_id?: string | null
+          mastered_at?: string | null
+          module_id?: string | null
+          options?: Json
+          question?: string
+          question_type?: string | null
+          section?: string
+          source?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       student_activity_log: {
         Row: {
           activity_id: string | null
