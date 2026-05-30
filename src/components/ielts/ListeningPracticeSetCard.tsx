@@ -161,9 +161,10 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
 
   const pickVoice = () => {
     const voices = window.speechSynthesis.getVoices();
+    const re = new RegExp(accent.replace("-", "[-_]"), "i");
     return (
-      voices.find(v => /en[-_]GB/i.test(v.lang) && /natural|premium|neural|enhanced/i.test(v.name)) ||
-      voices.find(v => /en[-_]GB/i.test(v.lang)) ||
+      voices.find(v => re.test(v.lang) && /natural|premium|neural|enhanced/i.test(v.name)) ||
+      voices.find(v => re.test(v.lang)) ||
       voices.find(v => v.lang?.startsWith("en"))
     );
   };
