@@ -30,6 +30,7 @@ import CodeTypingRace from "@/components/programming/CodeTypingRace";
 import TheorySections from "@/components/TheorySections";
 import GitBranchingSimulator from "@/components/se/GitBranchingSimulator";
 import { trackLessonCompletion, LEAD_ENGINEER_BADGE } from "@/lib/badgeAwards";
+import { useProgrammingXP, BADGE_DEFS } from "@/hooks/useProgrammingXP";
 import imgScratch from "@/assets/programming-modules/m-scratch.jpg";
 import imgPyBasic from "@/assets/programming-modules/m-python-basic.jpg";
 import imgDS from "@/assets/programming-modules/m-data-structures.jpg";
@@ -154,6 +155,10 @@ const ProgrammingLessonPage = () => {
   const { isTeacher } = useUserRole();
   const [batchRunning, setBatchRunning] = useState(false);
   const [batchProgress, setBatchProgress] = useState({ done: 0, total: 0 });
+  // Track if learner has had a wrong attempt — used to award Bug Slayer badge
+  const [hadWrongAttempt, setHadWrongAttempt] = useState(false);
+  // Unified Programming gamification — XP, streak, badges across all pillars
+  const { awardXP, markPillarLesson, awardBadge, touchStreak } = useProgrammingXP();
 
   const isSQL = mod?.id === "prog-sql" || mod?.course === "sql";
 
@@ -320,8 +325,10 @@ const ProgrammingLessonPage = () => {
       if (l) setLesson(l);
       // Auto-expand the current module
       setExpandedModules(prev => new Set(prev).add(m.id));
+      // Touch the daily learning streak on every lesson visit
+      touchStreak();
     }
-  }, [moduleId, lessonId]);
+  }, [moduleId, lessonId, touchStreak]);
 
   useEffect(() => {
     if (lesson) {
@@ -685,7 +692,15 @@ const ProgrammingLessonPage = () => {
                                 cls += selected ? "border-primary bg-primary/10 text-primary" : "border-border text-secondary-foreground hover:border-primary/50 hover:bg-primary/5";
                               }
                               return (
-                                <button key={oi} onClick={() => handleAnswer(qi, oi)} className={cls}>
+                                <button
+                                  key={oi}
+                                  onClick={() => handleAnswer(qi, oi)}
+                                  role="radio"
+                                  aria-checked={selected}
+                                  aria-label={`${t("Đáp án", "Option")} ${String.fromCharCode(65 + oi)}: ${opt}${showResults ? (isCorrect ? ` — ${t("đúng", "correct")}` : selected ? ` — ${t("sai", "wrong")}` : "") : ""}`}
+                                  disabled={showResults}
+                                  className={cls}
+                                >
                                   {showResults && isCorrect && <CheckCircle className="w-3.5 h-3.5 inline mr-1.5" />}
                                   {showResults && selected && !isCorrect && <XCircle className="w-3.5 h-3.5 inline mr-1.5" />}
                                   {opt}
@@ -705,10 +720,29 @@ const ProgrammingLessonPage = () => {
                         if (mod) {
                           const quizScore = lesson.quiz.reduce((acc, q, i) => acc + (answers[i] === q.answer ? 1 : 0), 0);
                           updateSkillScore(mod.id, quizScore, lesson.quiz.length);
+                          const passed = quizScore / lesson.quiz.length >= 0.6;
+
+                          // Unified Programming XP — award when learner passes (>=60%)
+                          if (passed) {
+                            const pillarId = pillar || mod.course || mod.id;
+                            awardXP(50);
+                            markPillarLesson(pillarId);
+                            toast.success(t("🎉 +50 XP! Tuyệt vời!", "🎉 +50 XP! Great work!"));
+                            // Bug Slayer badge: passed after having wrong answers earlier
+                            const hadWrongNow = Object.entries(answers).some(([i, v]) => lesson.quiz[+i]?.answer !== v);
+                            if ((hadWrongAttempt || hadWrongNow) && awardBadge("bug-slayer")) {
+                              const def = BADGE_DEFS["bug-slayer"];
+                              toast(`${def.emoji} ${lang === "vi" ? def.nameVi : def.name}`, {
+                                description: lang === "vi" ? def.descriptionVi : def.description,
+                              });
+                            }
+                          } else {
+                            setHadWrongAttempt(true);
+                          }
 
                           // Auto-award the "Lead Engineer" badge when learners pass
                           // every Software Engineering lesson (≥60% on this quiz counts as completed).
-                          if (mod.id === "se-foundations" && quizScore / lesson.quiz.length >= 0.6) {
+                          if (mod.id === "se-foundations" && passed) {
                             try {
                               const { awarded } = await trackLessonCompletion(
                                 mod.id,
@@ -731,6 +765,30 @@ const ProgrammingLessonPage = () => {
                         Submit
                       </button>
                     )}
+                    {/* Next Lesson CTA — shows after quiz is submitted so learners don't think the lesson is over */}
+                    {showResults && mod && (() => {
+                      const currentIdx = mod.lessons.findIndex(l => l.id === lesson.id);
+                      const nextLesson = currentIdx >= 0 ? mod.lessons[currentIdx + 1] : null;
+                      if (nextLesson) {
+                        return (
+                          <Link
+                            to={`/programming/${mod.id}/${nextLesson.id}`}
+                            onClick={() => { resetQuiz(); setAiChallenge(null); setShowSolution(false); setShowHints(false); }}
+                            className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold text-sm hover:brightness-110 transition-all active:scale-[0.97] shadow-md"
+                            aria-label={t("Đi tới bài học tiếp theo", "Go to next lesson")}
+                          >
+                            {t("Bài tiếp theo", "Next lesson")}: {lang === "vi" ? nextLesson.title : (nextLesson.titleEn || nextLesson.title)}
+                            <ChevronRight className="w-4 h-4" />
+                          </Link>
+                        );
+                      }
+                      return (
+                        <div className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-semibold text-sm border border-emerald-500/30">
+                          <Trophy className="w-4 h-4" />
+                          {t("Bạn đã hoàn thành module này!", "You completed this module!")}
+                        </div>
+                      );
+                    })()}
                   </div>
 
                   {/* Code Typing Race — fun game replacing the redundant 1-minute quiz */}
