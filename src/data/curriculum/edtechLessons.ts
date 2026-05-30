@@ -595,37 +595,126 @@ print(tutor_reply("He go to school", {"id":1,"subject":"English","band":5.5}, []
         titleEn: "Automated Essay & Speaking Grading",
         level: 3,
         difficulty: "advanced",
-        theory: `## 1. 📝 3 lớp chấm bài
+        theory: `## 1. 📝 Vì sao chấm bài tự động khó?
 
-| Lớp | Kỹ thuật | Ví dụ |
-|-----|---------|-------|
-| **Surface** | Regex, đếm từ, spell-check | Đủ 250 từ chưa? |
-| **Statistical** | TF-IDF, similarity với đáp án mẫu | Có đúng chủ đề không? |
-| **Semantic** | LLM rubric prompting | Band 6.5 vì lý do gì? |
+Một bài essay IELTS Band 6 và Band 7 nhìn rất giống nhau với máy: cùng độ dài, cùng chủ đề, ít lỗi chính tả. Sự khác biệt nằm ở **chiều sâu lập luận, cohesion, lexical range** — những thứ trước 2022 chỉ con người chấm được. LLM thay đổi cuộc chơi: GPT-4 chấm IELTS Writing có **tương quan 0.85+** với chấm thủ công (gần bằng inter-rater giữa 2 giáo viên người).
 
-## 2. 🎤 Speaking grading
+## 2. 🧅 Kiến trúc 3 lớp chấm bài
 
-- **STT (Speech-to-Text)**: chuyển âm thanh → text.
-- So sánh **WER (Word Error Rate)** với câu mẫu để đo phát âm.
-- Dùng LLM chấm fluency, lexical resource, grammar theo rubric IELTS.
+| Lớp | Kỹ thuật | Câu hỏi trả lời | Cost | Thời gian |
+|-----|---------|------------------|------|-----------|
+| **L1 Surface** | Regex, đếm từ, spell-check, language detect | Có đủ 250 từ? Có lạc đề ngôn ngữ? | ~0 | < 50ms |
+| **L2 Statistical** | TF-IDF, cosine similarity với essay mẫu Band 8 | Có đúng chủ đề? Có vay mượn câu trả lời sẵn? | rẻ | < 200ms |
+| **L3 Semantic** | LLM với rubric prompting | Tại sao Band 6.5? Cụ thể lỗi ở đâu? | tốn | 3–8s |
 
-## 3. 🧪 Rubric prompting
+**Pipeline:** mỗi essay qua L1 trước (loại bài rỗng/spam), L2 (detect plagiarism + topic match), rồi mới gọi L3 (đắt tiền nhất).
+
+## 3. 🎤 Speaking Grading Pipeline
 
 \`\`\`
-Chấm essay theo rubric IELTS Writing Task 2 (band 0–9):
-- Task Response
-- Coherence & Cohesion
-- Lexical Resource
-- Grammatical Range & Accuracy
-Trả JSON: { "scores": {...}, "feedback": "..." }
+┌────────┐  ┌────────┐  ┌──────────┐  ┌────────────┐  ┌───────────┐
+│ Audio  │─▶│  STT   │─▶│  WER vs  │─▶│  LLM rubric │─▶│ Final band│
+│ (.wav) │  │Whisper │  │  sample  │  │  scoring    │  │ + feedback│
+└────────┘  └────────┘  └──────────┘  └────────────┘  └───────────┘
+                            │
+                            ▼
+                      pronunciation
+                          score
 \`\`\`
 
-## 4. ⚠️ Bẫy
+### WER (Word Error Rate)
+\`\`\`
+WER = (Substitutions + Insertions + Deletions) / Total_words
+\`\`\`
+- WER = 0 → phát âm hoàn hảo.
+- WER < 0.15 → fluent.
+- WER > 0.3 → khó hiểu.
 
-- Cho 1 điểm tổng duy nhất → không học được gì.
-- Không yêu cầu LLM trả JSON → khó parse, không build UI được.
+> ⚠️ **Cẩn thận:** STT cũng có lỗi (~5-10%). Nên dùng **confidence score** từ STT để loại từ STT đoán mò trước khi tính WER.
+
+## 4. 🧪 Rubric Prompting — "linh hồn" của L3
+
+### Prompt mẫu cho IELTS Writing Task 2
+\`\`\`
+Bạn là examiner IELTS có chứng chỉ. Chấm essay theo rubric chính thức
+(band 0–9, bước 0.5) trên 4 tiêu chí:
+
+1. Task Response — trả lời đúng câu hỏi chưa, có position rõ chưa
+2. Coherence & Cohesion — paragraphing, linking words
+3. Lexical Resource — từ vựng đa dạng, đúng collocation
+4. Grammatical Range & Accuracy — câu phức, đúng tense
+
+QUY TẮC:
+- Trả về JSON đúng schema bên dưới.
+- Mỗi tiêu chí: kèm 1 câu giải thích + 1 ví dụ trích từ essay.
+- Overall = trung bình 4 tiêu chí, làm tròn 0.5.
+
+Schema:
+{
+  "scores": { "task": 6.5, "coherence": 6.0, "lexical": 6.5, "grammar": 6.0 },
+  "overall": 6.5,
+  "feedback_per_criterion": { "task": "...", ... },
+  "top_3_improvements": ["...", "...", "..."],
+  "highlighted_strengths": ["..."]
+}
+\`\`\`
+
+### Vì sao bắt JSON?
+- Frontend render từng tiêu chí thành bar chart.
+- DB lưu cấu trúc để báo cáo tiến bộ theo từng kỹ năng.
+- Dễ validate (Zod / Pydantic) → fail-fast nếu LLM trả thiếu trường.
+
+## 5. 🛡️ Validation & Reliability
+
+| Vấn đề | Giải pháp |
+|--------|-----------|
+| LLM trả JSON sai format | Schema validator + retry với "Sửa JSON" prompt |
+| LLM chấm dao động giữa các lần | Set **temperature = 0**, gọi 3 lần và lấy median |
+| LLM thiên vị (length bias) | Truncate essay đến độ dài chuẩn trước khi chấm |
+| Học sinh paste essay mẫu Band 9 | Plagiarism check L2 trước khi tới L3 |
+| Cost vượt budget | Cache theo hash(essay) — 2 lần submit giống nhau = 1 lần gọi |
+
+## 6. 📈 Calibration với chấm người thật
+
+Để biết AI chấm đúng tới đâu:
+1. Lấy 100 essay đã chấm bởi 2 examiner người (ground truth).
+2. Cho LLM chấm cùng 100 essay.
+3. Tính **Pearson correlation** và **Mean Absolute Error (MAE)**.
+4. Đặt mục tiêu: correlation > 0.8, MAE < 0.5 band.
+5. Nếu chưa đạt → tinh chỉnh prompt, thêm few-shot examples.
+
+## 7. ⚠️ Bẫy lớn nhất
+
+1. **Cho 1 điểm tổng duy nhất** → học sinh không biết sửa gì.
+2. **Không yêu cầu JSON** → khó parse, không build UI tốt được.
+3. **Không cache** → cost bùng nổ với essay lặp lại.
+4. **Tin tuyệt đối vào LLM** — phải có "Yêu cầu giáo viên review" cho band quan trọng.
+5. **Bỏ qua chấm tự động cho writing dài < 50 từ** → cho LLM 5 từ → vô nghĩa, lãng phí token.
+6. **Không monitor drift** — mô hình LLM update → chấm có thể tăng/giảm 0.5 band bất ngờ.
 `,
-        theoryEn: `Auto-grading uses three layers (surface, statistical, semantic). Speaking grading combines STT, WER, and rubric-based LLM scoring returning structured JSON.`,
+        theoryEn: `## 1. 📝 Why auto-grading is hard
+Band 6 vs Band 7 essays look similar to machines; the difference is argument depth, cohesion, lexical range. LLMs since 2022 reach 0.85+ correlation with human raters on IELTS Writing.
+
+## 2. 🧅 Three-layer pipeline
+- **L1 Surface** (regex/wordcount/spell) — < 50ms, near-zero cost.
+- **L2 Statistical** (TF-IDF/cosine vs Band-8 reference) — topic + plagiarism.
+- **L3 Semantic** (LLM rubric) — slow & costly; only run after L1/L2 pass.
+
+## 3. 🎤 Speaking pipeline
+Audio → STT (Whisper) → WER vs sample (pronunciation) → LLM rubric (fluency, lexical, grammar). Always weight WER by STT confidence to avoid penalising STT errors.
+
+## 4. 🧪 Rubric prompting
+Force the LLM to return strict JSON with per-criterion scores, evidence quotes, and top-3 improvements. JSON unlocks UI rendering and DB analytics.
+
+## 5. 🛡️ Reliability tricks
+Schema validator + retry; temperature = 0 + median of 3 calls; truncate to avoid length bias; cache by essay hash; plagiarism filter before L3.
+
+## 6. 📈 Calibration
+Score 100 human-graded essays with the LLM, target Pearson > 0.8 and MAE < 0.5 bands; iterate prompts and few-shot examples.
+
+## 7. ⚠️ Pitfalls
+One total score (useless), unstructured output, no cache, blind trust without teacher review, grading sub-50-word stubs, ignoring model drift.
+`,
         code: `import json, re
 
 ESSAY = """Nowadays technology changes our life. Students use phone every day..."""
