@@ -1,59 +1,56 @@
-# Rà soát Learn Programming — Kế hoạch sửa & nâng cấp
+# Rà soát Study Abroad
 
-## A. Lỗi cần sửa (ưu tiên cao)
+Đã đọc toàn bộ 6 trang trong cụm `/study-abroad/*` + Global Scholarship + 4 edge functions + Navbar. Sản phẩm đã khá hoàn chỉnh (hồ sơ vault, Motivation Letter Master + AI draft + sample library + Sanity Check, PhD Pathway, SAT Roadmap, Mentor Hub, Pre-Departure Checklist, AI Scholarship Advisor, Compare Schools, Match Score). Dưới đây là những điểm cần fix và nâng cấp.
 
-1. **XSS risk — AIAcademy** (`src/pages/AIAcademy.tsx:137,147`)
-   - `dangerouslySetInnerHTML` chưa qua DOMPurify → bọc `DOMPurify.sanitize()` theo chuẩn dự án.
+---
 
-2. **Mobile layout — PythonLessonView** (`src/pages/PythonLessonView.tsx:199`)
-   - `grid lg:grid-cols-2` khiến playground bị đẩy xa dưới trên mobile.
-   - Thêm Tabs ("Bài học / Code") cho < lg, giữ 2-cột cho desktop.
+## A. Lỗi / thiếu sót cần fix (ưu tiên)
 
-3. **Redirect loop tiềm ẩn — Programming.tsx** (`~line 95-97`)
-   - Khi `?pillar=nlp` còn lại trong URL sau Back → loop.
-   - Sửa: dùng `navigate(..., { replace: true })` + clear searchParams trước khi điều hướng.
+1. **Navbar dropdown thiếu 3 mục** — `Navbar.tsx:242-249` chỉ liệt kê 5 link, thiếu **Mentor Hub**, **Pre-Departure Checklist**, **SAT Roadmap**. Học sinh phải vào `/study-abroad` mới biết các trang này tồn tại → giảm discoverability.
+2. **StudyAbroadHub thiếu card SAT Roadmap** — `StudyAbroadHub.tsx` hiển thị 6 card nhưng không có SAT (mặc dù route `/study-abroad/sat` đã tồn tại). Cần thêm card SAT với gradient + icon riêng.
+3. **MotivationLetterGuide.tsx có 2 chỗ render Drafts trùng** — dòng 298 render `<MotivationLetterDrafts>` lần 2 trong khi `StudentDocuments.tsx:305` cũng render component này → user có 2 nơi quản lý cùng 1 danh sách drafts dễ nhầm. Nên giữ 1 nguồn (Documents tab) và ở Motivation Letter chỉ giữ phần draft AI mới + link "Xem tất cả bản nháp".
+4. **Form draft AI gọi API mà không yêu cầu đăng nhập** — `MotivationLetterGuide.tsx:103-127` cho phép guest spam edge function (tốn Perplexity $). Cần guard `if (!userId)` redirect login hoặc rate-limit IP.
+5. **`draft-motivation-letter` dùng Perplexity `sonar` cho task không cần search realtime** — tốn chi phí. Nên chuyển sang Lovable AI Gateway (`google/gemini-2.5-flash` hoặc `openai/gpt-5-mini`) → tiết kiệm ~80% chi phí và phản hồi nhanh hơn. Giữ Perplexity cho `scholarship-advisor` (cần realtime info).
+6. **PreDepartureChecklist không có deadline timeline view** — hiện chỉ có badge "~X ngày trước bay" trên từng task nhưng không có cảnh báo trực quan. Học sinh dễ bỏ sót task gần deadline.
 
-4. **Route ordering — App.tsx:262-263**
-   - Đặt `/programming/python/:lessonId` lên trước `/programming/:moduleId` để tránh bẫy bảo trì.
+## B. Đề xuất nâng cấp (giúp học sinh apply tốt hơn)
 
-5. **Dead-link "Start" — PythonPathwayHub.tsx:90**
-   - Nếu module rỗng, hiển thị state "Sắp ra mắt" + disable button thay vì href `"#"`.
+7. **Application Deadline Tracker** (mới) — bảng quản lý deadline apply cho từng trường: trường, chương trình, deadline, trạng thái (researching / drafting / submitted / accepted / rejected), liên kết với Documents + Motivation Letter draft. Hiện học sinh đang quản lý bằng tay. Tích hợp ngay trong `/study-abroad/documents` thành 1 tab thứ 4 "🎯 Trường đang apply".
+8. **CV / Resume Builder cho du học** (mới trang `/study-abroad/cv`) — template Europass + US academic CV + UK CV, đổ data từ profile, AI gợi ý bullet point, export PDF. Hiện chỉ có Motivation Letter mà thiếu CV - đây là thành phần bắt buộc của mọi bộ hồ sơ.
+9. **Recommendation Letter (LoR) Toolkit** (mới mục trong Motivation Letter Guide hoặc trang riêng) — template email mời giáo sư viết LoR (EN + VI), 3 mẫu LoR theo lĩnh vực, AI viết draft LoR để gửi giáo sư review. Đây là điểm thiếu lớn cùng với Motivation Letter.
+10. **Interview Prep cho học bổng** (mới `/study-abroad/interview`) — 30 câu hỏi phỏng vấn học bổng phổ biến (Chevening, Fulbright, DAAD, Erasmus) + AI mock interview voice (tận dụng Web Speech API + Perplexity feedback giống IELTS Speaking đã có).
+11. **University Shortlister AI** — nâng cấp Scholarship Advisor: nhập GPA + IELTS + ngành + budget → AI gợi ý 5 trường Reach / 5 Target / 5 Safety kèm deadline + tỷ lệ accept. Hiện Advisor chỉ trả về roadmap chung, chưa phân loại Reach/Target/Safety.
+12. **Visa Document Checker AI** (trong Documents vault) — sau khi upload visa documents, AI scan PDF (Perplexity / Gemini vision) check thiếu thông tin gì so với requirement của embassy quốc gia đó.
+13. **Cost Calculator** (nâng cấp `CurrencyConverter`) — calculator tổng chi phí du học: học phí + sinh hoạt + visa + bảo hiểm + vé máy bay theo từng nước, so sánh với học bổng nhận được → ra số tiền cần tự lo. Hiện chỉ có converter đơn thuần.
+14. **Mentor Hub: Booking 1-1** — hiện chỉ có form gửi inquiry email. Nâng cấp: cho phép book lịch 30 phút với mentor (Calendly-style hoặc lưu vào `mentor_bookings` table, mentor xác nhận qua email).
 
-6. **Cleanup**: xoá `console.error` còn sót trong `ProgrammingLesson.tsx` (lines ~222/262/382).
+## C. Engagement / gamification
 
-## B. UX cải tiến (medium)
+15. **Study Abroad Journey Tracker** — dashboard hiển thị tổng quan: % hồ sơ chuẩn bị, số trường đang apply, số draft Motivation Letter, deadline gần nhất, badge "Application Master" khi hoàn thành 1 bộ hồ sơ đầy đủ.
+16. **Email reminder cho deadline** — pg_cron daily check `application_deadlines`, gửi email qua Resend nếu deadline còn 7/3/1 ngày.
 
-7. **Nút "Bài tiếp theo →" rõ ràng** sau khi pass quiz trong `ProgrammingLesson` (hiện học sinh tưởng đã hết bài).
+---
 
-8. **Việt hoá pillar descriptions** trong `Programming.tsx` + tên badge trong `AIAcademy.tsx` (hiện toàn tiếng Anh) khi `lang === "vi"`.
+## Phân nhóm thực hiện
 
-9. **Scroll indicator cho pillar tabs trên mobile** (mũi tên → mờ ở mép phải).
+**Đợt 1 — Fix (1 turn)**: mục 1-5 (Navbar, Hub card, dedupe drafts, auth guard, switch AI gateway).
 
-10. **PillarHub overview**: thay vì redirect thẳng vào lesson đầu, hiển thị 1 card overview ngắn (mô tả pillar + số bài + nút "Bắt đầu").
+**Đợt 2 — Hồ sơ thiếu (2 turn)**: mục 8 (CV Builder) + mục 9 (LoR Toolkit) + mục 7 (Deadline Tracker).
 
-11. **Accessibility quiz**: thêm `role="radio"`, `aria-checked`, `aria-label` cho quiz buttons và Pyodide textarea.
+**Đợt 3 — AI upgrade (1-2 turn)**: mục 11 (Shortlister) + mục 10 (Interview Prep) + mục 13 (Cost Calculator).
 
-## C. Nâng cấp gamification để tăng hứng thú (chọn top 5 khả thi)
+**Đợt 4 — Engagement (1 turn)**: mục 15 (Journey Dashboard) + mục 16 (Email reminder) + mục 6 (Timeline view checklist).
 
-12. **Unified XP cho toàn Programming** — tách `useAIAcademyXP` → `useProgrammingXP` dùng chung cho `ProgrammingLesson`, `PythonLessonView`, `PythonChallengeList`. Hiện chỉ AIAcademy có XP → các pillar khác bị thiệt. Hiển thị mini XP bar trong Navbar khi ở `/programming/*`.
+**Defer**: mục 12 (Visa AI scanner — cần OCR, phức tạp) + mục 14 (Mentor booking — cần workflow xác nhận).
 
-13. **Daily Code Challenge + Streak** — random 1 challenge mỗi ngày (seed = date) từ `pythonChallenges`. Pass = +100 XP bonus, streak counter (localStorage). Toast cảm xúc khi đạt mốc 3/7/30 ngày.
-
-14. **AI Code Reviewer** — Sau khi chạy code trong Pyodide, nút "💬 AI Review" gọi Lovable AI (`google/gemini-2.5-flash`) trả về 3 gợi ý ngắn: tối ưu / best practice / lỗi tiềm ẩn. Tái dùng pattern edge function hiện có.
-
-15. **Programming Progress Dashboard** trong `/programming` — circle progress mỗi pillar, tổng XP, badge, streak. Dữ liệu đã có trong localStorage (`haiedu_prog_*`, `haiedu_challenge_*`).
-
-16. **Achievement Badges riêng Programming** — *First Run*, *Bug Slayer* (chạy lại sau lỗi), *Speed Coder* (< 2 phút), *Polyglot* (3 pillars), *SQL Ninja*, *ML Pioneer*. Hiển thị ở Dashboard và profile.
-
-> Các ý tưởng bổ sung (deferred): Leaderboard lớp/trường (cần Supabase), Pair-programming chibi "Botchi" gợi ý khi idle, Portfolio builder, Certificate PNG cho mỗi pillar.
-
-## D. Phạm vi & thứ tự thực hiện đề xuất
-
-- **Đợt 1 (sửa lỗi)**: mục 1–6 — ~1 turn.
-- **Đợt 2 (UX)**: mục 7–11 — ~1 turn.
-- **Đợt 3 (gamification)**: mục 12–16 — 1–2 turn, làm theo thứ tự 12 → 13 → 15 → 14 → 16 (XP system là nền cho daily challenge, dashboard, badges).
+---
 
 ## Câu hỏi cho bạn
 
-1. Bạn muốn mình làm **cả 3 đợt** (A + B + C) hay chọn 1 đợt trước?
-2. Với gamification, đồng ý top 5 (mục 12–16) hay muốn thêm bớt ý nào (Leaderboard / Botchi / Portfolio / Certificate)?
+Bạn muốn tôi:
+- (A) Làm **Đợt 1** trước (fix gọn, 1 turn)?
+- (B) Làm **Đợt 1 + Đợt 2** (fix + thêm CV Builder + LoR + Deadline Tracker) — 3 turn?
+- (C) Làm **toàn bộ Đợt 1-4** trừ defer — 5-6 turn?
+- Hoặc bạn muốn cherry-pick mục nào cụ thể?
+
+Trong 16 mục trên, mục nào bạn thấy KHÔNG cần thiết để tôi loại khỏi roadmap?

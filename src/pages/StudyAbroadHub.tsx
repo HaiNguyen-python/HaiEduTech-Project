@@ -4,7 +4,7 @@
  */
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FolderLock, FileText, GraduationCap, Compass, Briefcase, ArrowRight, Sparkles, Users, Plane } from "lucide-react";
+import { FolderLock, FileText, GraduationCap, Compass, Briefcase, ArrowRight, Sparkles, Users, Plane, BookOpen } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -28,6 +28,13 @@ const StudyAbroadHub = () => {
       gradient: "from-sky-500 to-indigo-600",
       title: t("Motivation Letter Master", "Mastering the Motivation Letter"),
       desc: t("Công thức 5 đoạn vàng + AI viết bản nháp đầu tiên + template Word.", "The 5-paragraph golden formula + AI first draft + Word template."),
+    },
+    {
+      to: "/study-abroad/sat",
+      icon: BookOpen,
+      gradient: "from-amber-500 to-orange-600",
+      title: t("SAT Roadmap", "SAT Roadmap"),
+      desc: t("Lộ trình SAT 1500+: vocab, exercises, 7 mock exams, daily warmup.", "1500+ SAT roadmap: vocab, exercises, 7 mock exams, daily warmup."),
     },
     {
       to: "/study-abroad/phd",

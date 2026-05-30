@@ -12,7 +12,7 @@ import {
   Menu, X, Brain, BookOpen, Languages, Code2, GraduationCap,
   Globe, UserPlus, Heart, LogIn, ChevronDown, ChevronRight, Cpu, LogOut, Library, Shield,
   FileText, PenTool, Map, MessageSquare, Award, School, Swords, User, LayoutDashboard, Newspaper,
-  FolderLock, Compass, Briefcase, Trophy, Sparkles, Bot, Database, Workflow, Cloud, Network, Gamepad2, MessagesSquare, Target, Settings2, Flame, Music, Quote, Mic2, Crown, BookType, Blocks, Rocket
+  FolderLock, Compass, Briefcase, Trophy, Sparkles, Bot, Database, Workflow, Cloud, Network, Gamepad2, MessagesSquare, Target, Settings2, Flame, Music, Quote, Mic2, Crown, BookType, Blocks, Rocket, Users, Plane
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -244,8 +244,10 @@ const Navbar = () => {
     { to: "/global-scholarship", label: t("💰 Global Scholarship", "💰 Global Scholarship"), icon: Newspaper },
     { to: "/study-abroad/documents", label: t("📁 Hồ sơ của tôi", "📁 My Documents"), icon: FolderLock },
     { to: "/study-abroad/motivation-letter", label: t("✍️ Motivation Letter", "✍️ Motivation Letter"), icon: FileText },
-    
+    { to: "/study-abroad/sat", label: t("📝 SAT Roadmap", "📝 SAT Roadmap"), icon: GraduationCap },
     { to: "/study-abroad/phd", label: t("🎓 PhD Pathway", "🎓 PhD Pathway"), icon: GraduationCap },
+    { to: "/study-abroad/mentor-hub", label: t("👥 Mentor Hub", "👥 Mentor Hub"), icon: Users },
+    { to: "/study-abroad/checklist", label: t("✈️ Pre-Departure", "✈️ Pre-Departure"), icon: Plane },
   ];
 
   const baseLinks = [
