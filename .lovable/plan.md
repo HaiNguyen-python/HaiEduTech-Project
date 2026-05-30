@@ -1,67 +1,56 @@
-# Kế hoạch: Hoàn tất nâng cấp Study Abroad Portal
+# Rà soát mục SAT — Đề xuất bổ sung
 
-Các phần đã làm xong (Part 1, 2.1–2.7, một số ý của 3) được giữ nguyên. Kế hoạch này tập trung vào những hạng mục còn nợ trong `.lovable/plan.md` và bổ sung thêm vài upgrade chất lượng.
+## Hiện trạng (đã có)
+- **Landing**: `EnglishCourse` (SAT card xanh lá), `SatLandingExtras` (format, band roadmap, pain points, FAQ).
+- **Học**: `SatCurriculum` + `satTeachingSequence` (dạy nối tiếp), `LanguageLessonView` (theory/exercises/quiz, quiz đã được pad ≥5 câu qua `satQuizBuilder`).
+- **Luyện**: `SatExercises`, `SatVocabulary` (flashcard + list), `SatMockExam`, `SatExams`, `SatRoadmap`, `SatClimber` (gamification), `SatStarToggle`.
+- **Data**: 13 file `englishSatExpansion*` + `satVocabExpansion4` (đủ rộng về nội dung).
 
-## A. PhD Pathway — phần còn lại
+## Khoảng trống đáng bổ sung
 
-### A1. Research Proposal Builder v2
-File: `src/components/phd/PhdProposalBuilder.tsx` + helper mới `src/lib/phdProposalScore.ts`.
-- Thêm bước 8 **References**: gợi ý 5 từ khoá Google Scholar deep-link (mở tab mới).
-- **Proposal Health Score 0–100** (regex client-side, hiển thị thanh tiến trình + checklist mini):
-  - ≥1500 từ (25đ)
-  - chứa cụm "research question" / "câu hỏi nghiên cứu" (15đ)
-  - chứa "methodology" / "phương pháp" (15đ)
-  - ≥3 citation kiểu `(Author, 2023)` (25đ)
-  - không lặp câu mở >3 lần (20đ)
-- Nút **Export .docx**: build HTML rồi `Blob` mime `application/msword`, song song với `.md` hiện có.
+### 1. Error Log / Mistake Notebook (ưu tiên cao)
+Trang `/sat/error-log` lưu mọi câu sai từ quiz, exercises, mock exam vào Supabase (`sat_mistakes`: user_id, lesson_id, question, chosen, correct, explanation, tag, mastered_at). Hiển thị theo dạng câu hỏi (Words in Context, Evidence, Linear Eq…), nút "Ôn lại đến khi đúng 2 lần liên tiếp".
 
-### A2. Country Guides — Cost & Living panel
-File: `src/data/phdCountryGuides.ts` + render trong `PhdGlobalPathway.tsx`.
-- Thêm field `costOfLiving: { rentUsd, foodUsd, transportUsd, totalUsd }` cho từng nước.
-- Thêm `cultureNotesVi/En`: 3–4 gạch đầu dòng (work culture, weather, English-friendliness, food).
-- Panel mới "💰 Chi phí & Văn hoá" trong tab country, dưới Funding.
+### 2. Bluebook-style Timed Drill Mode
+Thêm chế độ "Timed" cho `SatExercises` và mỗi lesson: 71s/câu R&W, 95s/câu Math, đếm ngược, nút Flag/Review giống Bluebook, báo cáo pace cuối phiên. Bổ sung cảm giác phòng thi thật.
 
-## B. Mentor Hub
+### 3. Desmos & Formula Quick-Reference
+Component `SatMathToolkit` mở dạng drawer trong các lesson Math:
+- Embed Desmos calculator (iframe `desmos.com/calculator`).
+- Bảng công thức tóm tắt (Algebra, Geometry, Trig, Stats) — chỉ những công thức SAT cho sẵn + những công thức học sinh cần thuộc.
 
-File: `src/data/mentorStories.ts` + `src/pages/MentorHub.tsx`.
-- Bổ sung **6 alumni mới**: US-STEM (OPT), UK-Chevening Cambridge, Korea-KGSP, Singapore-SINGA, Germany-DAAD, Japan-MEXT. Mỗi card có `gpa`, `ielts`, `scholarshipAmount`.
-- Thêm filter **scholarship type** (Government / University / Self-funded / Industry) + ô search theo tên/ngành/quốc gia.
-- Badge mới trên card: "🎓 GPA · IELTS · $X/năm".
+### 4. Question-Type Strategy Cards
+Mỗi lesson R&W gắn 1 "Strategy Card" tái sử dụng (Words in Context, Command of Evidence, Rhetorical Synthesis, Transitions, Boundaries…): 3 bước giải + 1 ví dụ minh hoạ + 1 bẫy thường gặp. Lưu ở `src/data/satStrategyCards.ts`, render bằng component `<StrategyCard/>` chèn đầu phần Theory.
 
-## C. Motivation Letter Master
+### 5. Reading-Speed Trainer
+Mini-tool `/sat/reading-pace`: hiển thị passage 25–150 từ, đếm thời gian đọc, tính WPM, so với mục tiêu 250 wpm. Có 30 passage mẫu, lưu lịch sử.
 
-- Data mới `src/data/motivationLetterSamples.ts`: 6 đoạn mở bài mẫu (Engineering, Public Health, Education, CS-AI, Business, Arts), mỗi đoạn có `whyItWorksVi/En`.
-- Component **Inspiration Gallery** trong `src/pages/MotivationLetterMaster.tsx` (carousel/grid).
-- Nút **Sanity Check** client-side trên textarea: đếm từ (target 500–650), cảnh báo cliché ("Since I was a child", "passionate about", "dream came true", "ever since I can remember"), gợi ý thay thế. Hiển thị inline panel màu amber.
+### 6. Daily Warm-up (5 câu / ngày)
+Widget trên Dashboard + trang `/sat/daily`: random 5 câu từ pool (2 R&W, 2 Math, 1 vocab). Liên kết Study Streak hiện có. Hoàn thành tặng sao SatStars.
 
-## D. Pre-Departure Checklist
+### 7. Adaptive Score Predictor
+Sau mỗi mock + ≥20 câu drill: tính band dự đoán dựa trên % đúng theo từng question-type, hiển thị card "Bạn đang ở khoảng 1280–1340, cần +60 ở Math Algebra để chạm 1400". Logic thuần client (`src/lib/satScorePredictor.ts`).
 
-File: `src/data/preDepartureChecklist.ts` + `src/pages/PreDepartureChecklist.tsx`.
-- Thêm 4 nước: **Germany, Australia, Korea, Japan** (mỗi nước 18–25 mục × 6 categories: Visa, Tài chính, Hành lý, Y tế, Học vụ, Cuộc sống).
-- **Currency converter mini**: input VND/USD → hiển thị EUR/GBP/AUD/SGD/JPY/KRW theo tỉ giá tĩnh, kèm chú thích "cập nhật thủ công, chỉ tham khảo" + ngày cập nhật.
-- Nút **Export PDF**: `window.print()` + stylesheet `@media print` ẩn nav/footer, in checklist sạch sẽ.
+### 8. Test-Day Checklist & Bluebook Setup Guide
+Trang `/sat/test-day`: checklist trước thi (ID, snack, calculator, charger), hướng dẫn cài Bluebook (Win/Mac/iPad), video walk-through, mock đăng ký timeline. Liên kết từ FAQ.
 
-## E. Study Abroad Hub landing
+## Phụ trợ (nhỏ, tuỳ chọn)
+- **Vocab → Lesson link**: mỗi từ trong `SatVocabulary` link tới lesson đã dùng nó.
+- **Audio đọc passage**: thêm TTS cho R&W passages (đã có infra `vietnamese-tts`/`finnish-tts`, dùng Google TTS en-US).
+- **Progress dashboard SAT** riêng: % lesson hoàn thành theo module, accuracy trung bình, streak SAT.
+- **Print/PDF export** error log để học sinh ôn offline.
 
-File: `src/pages/StudyAbroadHub.tsx`.
-- Khối "📅 Mốc deadline nóng" dưới hero: 6 học bổng deadline gần nhất từ `PHD_FUNDING` (dùng `phdFundingHelpers.ts` đã có).
-- Strip "🤝 Đã hỗ trợ 200+ học viên" + 2 ảnh chibi avatar (asset có sẵn) + CTA "Đăng ký tư vấn 1-1".
-- Lưới chính: giữ 3-col, 6 card đã có (sau khi bỏ SAT) cân đối.
+## Đề xuất thứ tự triển khai (gợi ý)
+1. Error Log (impact cao, dùng Supabase, nền tảng cho #7)
+2. Strategy Cards + Formula/Desmos toolkit (cải thiện chất lượng giảng ngay)
+3. Timed Drill Mode + Daily Warm-up (tạo thói quen luyện tập)
+4. Reading-Speed Trainer + Score Predictor
+5. Test-Day Checklist + phụ trợ
 
-## Technical notes
-- 100% client-side, `localStorage` cho guest, không tạo bảng/edge function mới.
-- Mobile-first: bảng & heatmap `min-w-[600px]` + horizontal scroll.
-- Đa ngữ qua `useLanguage().t()`, UTF-8 NFC, `<div>/<p>` cho text VI.
-- DOMPurify cho mọi HTML AI render.
-- Theme: violet→fuchsia (PhD), emerald (Study Abroad chung).
-- Không sửa file auto-generated, không đổi route, không đụng backend/RLS.
+## Chi tiết kỹ thuật
+- Bảng mới: `sat_mistakes`, `sat_daily_log` (RLS theo `auth.uid()`, GRANT đầy đủ cho `authenticated` + `service_role`).
+- Reuse `useSatStars`, `useStreak`, `satTeachingSequence`.
+- Không thay đổi `client.ts` / `types.ts` / `.env`.
+- Tất cả màu dùng semantic tokens; viền giữ `border-emerald-500` đồng bộ thẻ SAT.
 
-## Thứ tự thực thi
-1. A1 Proposal v2 → A2 Cost panel (đóng nốt PhD).
-2. B Mentor Hub.
-3. C Motivation Letter.
-4. D Pre-Departure.
-5. E Hub landing (cuối, vì cần data deadline ổn định).
-
-## Out of scope
-- Không thêm gating/paywall, không backend mới, không đổi branding/typography toàn cục, không xoá file cũ.
+Hãy cho mình biết bạn muốn làm **tất cả 8 mục** theo thứ tự, hay chọn **1–3 mục ưu tiên** để bắt tay vào ngay.
