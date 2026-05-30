@@ -293,33 +293,110 @@ for q in [5, 4, 5, 2, 5]:
         titleEn: "Adaptive Difficulty & Mastery Tracking",
         level: 2,
         difficulty: "intermediate",
-        theory: `## 1. 🎯 Adaptive learning
+        theory: `## 1. 🎯 Adaptive Learning là gì?
 
-Hệ thống tự **tăng/giảm độ khó** theo kết quả người học — giống như HLV cá nhân. Hai cách phổ biến:
+Hệ thống **tự tăng/giảm độ khó theo kết quả người học** — giống một huấn luyện viên cá nhân: hôm nay bạn yếu listening → mai cho thêm listening; nay bạn đã thạo present simple → chuyển sang present perfect.
 
-- **Rule-based:** đúng ≥ 80% → lên level; sai ≥ 50% → xuống level.
-- **Item Response Theory (IRT):** mô hình hóa năng lực \\(\\theta\\) và độ khó \\(b\\) của câu hỏi.
+Trái với **One-size-fits-all** (cả lớp học cùng bài), Adaptive Learning đảm bảo mỗi học sinh luôn ở **Zone of Proximal Development (Vygotsky)** — vừa đủ thách thức để tiến bộ, không quá dễ (chán) cũng không quá khó (nản).
 
-## 2. 📊 Mastery score
+### Hai trường phái chính
+| Cách | Nguyên lý | Ưu | Nhược |
+|------|-----------|-----|-------|
+| **Rule-based** | If/else: ≥80% đúng → lên level; ≥50% sai → xuống | Đơn giản, dễ giải thích | Cứng, không học từ dữ liệu |
+| **Item Response Theory (IRT)** | Mô hình xác suất 2 tham số: năng lực θ học sinh × độ khó b câu hỏi | Chuẩn vàng (TOEIC, SAT, GMAT) | Cần dữ liệu lớn để calibrate |
+| **Bayesian Knowledge Tracing (BKT)** | Mô hình Markov: 4 xác suất (init, learn, slip, guess) | Cân bằng độ chính xác và độ phức tạp | Khó debug khi sai |
+| **Deep Knowledge Tracing (DKT)** | LSTM trên chuỗi tương tác | Bắt được pattern phức tạp | Black-box, khó giải thích cho phụ huynh |
 
-Mastery thường tính bằng **exponential moving average (EMA)**:
+> 🎯 **Khuyến nghị thực tế:** Bắt đầu bằng rule-based (1 tuần code), thêm BKT khi có > 5k phiên (1 tháng), nâng cấp IRT/DKT khi quy mô > 100k phiên.
+
+## 2. 📊 Mastery Score — đo "đã hiểu" như thế nào?
+
+Mastery thường được tính bằng **Exponential Moving Average (EMA)** thay vì trung bình thường, vì kết quả gần đây phản ánh năng lực hiện tại tốt hơn:
 
 \`\`\`
-mastery = alpha * is_correct + (1 - alpha) * mastery
+mastery_new = α × is_correct + (1 - α) × mastery_old
 \`\`\`
 
-\`alpha = 0.3\` giúp kết quả gần đây có trọng số cao hơn.
+| α | Đặc tính | Khi nào dùng |
+|---|---------|--------------|
+| **0.1** | "Trí nhớ dài" — phản ứng chậm | Kỹ năng nền (đọc hiểu, ngữ pháp gốc) |
+| **0.3** | Cân bằng | Mặc định cho hầu hết kỹ năng |
+| **0.5+** | Nhạy, dao động | Kỹ năng đang luyện cấp tốc trước thi |
 
-## 3. 🧪 Khi nào coi là "mastered"?
+### Ví dụ 10 lần trả lời (α=0.3, mastery khởi tạo 0.5)
+\`\`\`
+Lượt: 1   2   3   4   5   6   7   8   9   10
+KQ:   ✓   ✓   ✗   ✓   ✓   ✓   ✗   ✓   ✓   ✓
+Mst: .65 .76 .53 .67 .77 .84 .59 .71 .80 .86
+\`\`\`
 
-Một quy tắc đơn giản: **mastery ≥ 0.85 và đúng 3 lần gần nhất**.
+## 3. 🧪 Khi nào coi là "Mastered"?
 
-## 4. ⚠️ Bẫy
+Quy tắc đơn lẻ dễ bị lừa. Dùng **AND** của nhiều điều kiện:
 
-- Lên độ khó quá nhanh → nản. Quy tắc: cần ≥ 5 mẫu trước khi quyết định.
-- Bỏ qua thời gian phản hồi → người học đoán bừa vẫn được tính đúng.
+\`\`\`
+mastered = (mastery ≥ 0.85)
+         AND (đúng 3 lần gần nhất liên tiếp)
+         AND (tổng số lần thử ≥ 5)
+         AND (thời gian phản hồi trung bình ≤ 2× baseline)
+\`\`\`
+
+Điều kiện thứ 4 chống **"đoán bừa nhanh"**: nếu học sinh trả lời quá nhanh (<1s), khả năng cao là click bừa hoặc đã thuộc lòng vị trí đáp án.
+
+### Bộ 4 mức kết quả (đáp ứng adaptive engine)
+| Mức | mastery | Hành động hệ thống |
+|-----|---------|--------------------|
+| 🟥 **Struggling** | < 0.4 | Giảm độ khó, cho worked example |
+| 🟧 **Learning** | 0.4–0.65 | Giữ độ khó, thêm scaffold (hint) |
+| 🟨 **Practicing** | 0.65–0.85 | Tăng độ khó nhẹ, interleave |
+| 🟩 **Mastered** | ≥ 0.85 + streak | Chuyển sang spaced repetition, mở topic mới |
+
+## 4. 🔁 Vòng lặp Adaptive trong sản phẩm
+
+\`\`\`
+   ┌──────────────────────────────────────────────┐
+   │  1. Chọn câu hỏi theo mastery + độ khó target │
+   │  2. Người học trả lời                         │
+   │  3. Cập nhật mastery (EMA) + log event        │
+   │  4. Quyết định next: same / harder / easier   │
+   │  5. (định kỳ) Re-calibrate độ khó câu hỏi     │
+   └──────────────────────────────────────────────┘
+\`\`\`
+
+## 5. ⚠️ Các bẫy thường gặp
+
+1. **Lên độ khó quá nhanh** → học sinh nản. Quy tắc: cần ≥ 5 mẫu trước khi quyết định đổi.
+2. **Bỏ qua thời gian phản hồi** → đoán bừa vẫn được tính đúng.
+3. **Không calibrate độ khó câu hỏi** — câu "khó" lúc viết có thể thực ra dễ.
+4. **Mastery quá lạc quan** (chỉ cần 1 lần đúng = mastered) → ảo tưởng tiến bộ.
+5. **Không reset mastery sau thời gian dài** — học sinh nghỉ 6 tháng vẫn "mastered" là sai.
+6. **Áp đặt 1 mô hình cho mọi kỹ năng** — vocab cần α cao hơn ngữ pháp.
 `,
-        theoryEn: `Adaptive systems tune difficulty using rules or IRT, and track mastery with an exponential moving average so recent answers weigh more.`,
+        theoryEn: `## 1. 🎯 What is Adaptive Learning?
+
+The system **automatically tunes difficulty to the learner**, keeping them in Vygotsky's Zone of Proximal Development: hard enough to grow, not so hard they quit.
+
+Two main schools: **rule-based** (if ≥80% correct → level up), **statistical** (IRT, BKT, DKT — used by TOEIC/SAT). Start rule-based, graduate to BKT after 5k sessions, IRT/DKT past 100k.
+
+## 2. 📊 Mastery via EMA
+
+\`mastery = α·correct + (1-α)·mastery\`. α=0.1 = "long memory", α=0.3 = default, α=0.5+ = fast cram-mode.
+
+## 3. 🧪 "Mastered" requires multiple conditions
+mastery ≥ 0.85 AND 3 most-recent correct AND ≥ 5 attempts AND response time ≤ 2× baseline (filters lucky guesses).
+
+### Four tiers drive adaptive decisions
+- 🟥 Struggling (<0.4) → easier + worked examples
+- 🟧 Learning (0.4–0.65) → same level + hints
+- 🟨 Practicing (0.65–0.85) → harder + interleave
+- 🟩 Mastered (≥0.85 + streak) → spaced repetition, new topic
+
+## 4. 🔁 Adaptive loop
+Select → answer → update mastery → decide next difficulty → periodically re-calibrate item difficulty.
+
+## 5. ⚠️ Pitfalls
+Changing difficulty after < 5 samples; ignoring response time (rewards lucky guesses); never calibrating items; declaring mastery too easily; never decaying mastery on long absence; one model for every skill type.
+`,
         code: `class Skill:
     def __init__(self, alpha=0.3):
         self.mastery = 0.5
