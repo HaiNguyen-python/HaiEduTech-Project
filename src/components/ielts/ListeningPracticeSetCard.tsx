@@ -1,4 +1,5 @@
 // Reusable listening practice card with TTS audio + collapsible transcript + auto-grading.
+// Upgrades: auto-save, multi-accent voice picker, IELTS band score, exam mode, AI explain wrong answers.
 import { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -9,12 +10,31 @@ import { Slider } from "@/components/ui/slider";
 import {
   Play, Pause, Square, Headphones, Eye, EyeOff,
   CheckCircle2, XCircle, RotateCcw, Gauge,
-  SkipBack, SkipForward,
+  SkipBack, SkipForward, Sparkles, ShieldAlert, Mic2, Save,
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { ListeningPracticeSet } from "@/data/ieltsListeningPractice";
 import { cn } from "@/lib/utils";
 import DOMPurify from "dompurify";
+import { ieltsListeningBand, bandColor } from "@/lib/ieltsListeningBand";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
+
+type AccentKey = "en-GB" | "en-US" | "en-AU";
+const ACCENT_LABELS: Record<AccentKey, string> = {
+  "en-GB": "🇬🇧 UK",
+  "en-US": "🇺🇸 US",
+  "en-AU": "🇦🇺 AU",
+};
+
+interface ExplainResult {
+  quote?: string;
+  keyword?: string;
+  why?: string;
+  trap?: string;
+  tip?: string;
+  error?: string;
+}
 
 const formatTime = (sec: number) => {
   if (!isFinite(sec) || sec < 0) sec = 0;
@@ -56,6 +76,25 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
   const tickRef = useRef<number | null>(null);
   const pausedAccumRef = useRef(0);
   const pausedAtRef = useRef<number | null>(null);
+
+  // --- New: accent picker (UK/US/AU) ---
+  const [accent, setAccent] = useState<AccentKey>(() => {
+    if (typeof window === "undefined") return "en-GB";
+    return (localStorage.getItem("ielts-listening-accent") as AccentKey) || "en-GB";
+  });
+  useEffect(() => { localStorage.setItem("ielts-listening-accent", accent); }, [accent]);
+
+  // --- New: exam mode (mô phỏng phòng thi: 1 lần phát, ẩn transcript & seek) ---
+  const [examMode, setExamMode] = useState(false);
+
+  // --- New: AI explain per wrong question ---
+  const [explainOpen, setExplainOpen] = useState<Record<number, boolean>>({});
+  const [explainData, setExplainData] = useState<Record<number, ExplainResult>>({});
+  const [explainLoading, setExplainLoading] = useState<Record<number, boolean>>({});
+
+  // --- New: auto-save key ---
+  const saveKey = `ielts-listening-progress::${s.id}`;
+  const [restoredOnce, setRestoredOnce] = useState(false);
 
   // Split transcript into natural chunks (sentences / dialogue turns).
   const buildChunks = (text: string): string[] => {
@@ -122,9 +161,10 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
 
   const pickVoice = () => {
     const voices = window.speechSynthesis.getVoices();
+    const re = new RegExp(accent.replace("-", "[-_]"), "i");
     return (
-      voices.find(v => /en[-_]GB/i.test(v.lang) && /natural|premium|neural|enhanced/i.test(v.name)) ||
-      voices.find(v => /en[-_]GB/i.test(v.lang)) ||
+      voices.find(v => re.test(v.lang) && /natural|premium|neural|enhanced/i.test(v.name)) ||
+      voices.find(v => re.test(v.lang)) ||
       voices.find(v => v.lang?.startsWith("en"))
     );
   };
@@ -151,7 +191,7 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
       ? raw.replace(/-/g, ", ").replace(/\b([A-Z])\b/g, "$1,")
       : raw;
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = "en-GB";
+    u.lang = accent;
     u.rate = isSpelling ? Math.min(rate, 0.55) : rate;
     u.pitch = 1;
     const v = pickVoice();
@@ -242,12 +282,116 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
   );
   const percent = Math.round((score / s.questions.length) * 100);
 
+  const band = useMemo(() => ieltsListeningBand(score, s.questions.length), [score, s.questions.length]);
+
+  // --- Auto-save (debounced) ---
+  useEffect(() => {
+    if (!restoredOnce) return;
+    const id = window.setTimeout(() => {
+      try {
+        localStorage.setItem(saveKey, JSON.stringify({ answers, submitted, examMode, ts: Date.now() }));
+      } catch { /* noop */ }
+    }, 400);
+    return () => window.clearTimeout(id);
+  }, [answers, submitted, examMode, saveKey, restoredOnce]);
+
+  // --- Restore on mount ---
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(saveKey);
+      if (raw) {
+        const data = JSON.parse(raw);
+        if (data?.answers && typeof data.answers === "object") setAnswers(data.answers);
+        if (data?.submitted) setSubmitted(true);
+        if (data?.examMode) setExamMode(true);
+      }
+    } catch { /* noop */ }
+    setRestoredOnce(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleReset = () => {
     setAnswers({});
     setSubmitted(false);
     setShowTranscript(false);
+    setExplainOpen({});
+    setExplainData({});
+    try { localStorage.removeItem(saveKey); } catch { /* noop */ }
     stop();
   };
+
+  // --- AI explain a wrong question ---
+  const requestExplain = async (qIdx: number) => {
+    const q = s.questions[qIdx];
+    setExplainOpen(o => ({ ...o, [qIdx]: true }));
+    if (explainData[qIdx] && !explainData[qIdx].error) return;
+    setExplainLoading(l => ({ ...l, [qIdx]: true }));
+    try {
+      const userAns = answers[qIdx] ?? "";
+      const correctAnswer = q.type === "mcq" ? `${String.fromCharCode(65 + q.answer)}. ${q.options[q.answer]}` : q.answer;
+      const userPretty = q.type === "mcq" && userAns !== ""
+        ? `${String.fromCharCode(65 + Number(userAns))}. ${q.options[Number(userAns)] ?? ""}`
+        : String(userAns);
+      const { data, error } = await supabase.functions.invoke("explain-ielts-listening", {
+        body: {
+          transcript: s.transcript,
+          question: q.prompt,
+          correctAnswer,
+          userAnswer: userPretty,
+          questionType: s.questionType,
+          language: lang,
+        },
+      });
+      if (error) throw error;
+      setExplainData(d => ({ ...d, [qIdx]: data as ExplainResult }));
+    } catch (e) {
+      console.error("explain-ielts-listening failed", e);
+      setExplainData(d => ({ ...d, [qIdx]: { error: e instanceof Error ? e.message : "Failed" } }));
+      toast({
+        title: t("Không lấy được lời giải", "Could not fetch explanation"),
+        description: t("Vui lòng thử lại sau vài giây.", "Please try again in a moment."),
+        variant: "destructive",
+      });
+    } finally {
+      setExplainLoading(l => ({ ...l, [qIdx]: false }));
+    }
+  };
+
+  // Build a set of answer keywords for transcript highlighting after submit.
+  const answerKeywords = useMemo(() => {
+    if (!submitted) return [] as string[];
+    const out: string[] = [];
+    for (const q of s.questions) {
+      if (q.type === "fill-in" && typeof q.answer === "string") {
+        const cleaned = q.answer.replace(/[.,!?;:"']/g, "").trim();
+        if (cleaned.length >= 2 && cleaned.length <= 40) out.push(cleaned);
+      }
+      if (q.type === "mcq") {
+        const opt = q.options?.[q.answer];
+        if (opt) {
+          const w = opt.split(/\s+/).filter(x => x.length >= 4).slice(0, 2);
+          out.push(...w);
+        }
+      }
+    }
+    return Array.from(new Set(out));
+  }, [submitted, s.questions]);
+
+  const highlightedTranscript = useMemo(() => {
+    if (!submitted || answerKeywords.length === 0) {
+      return s.transcript;
+    }
+    let html = s.transcript
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    for (const kw of answerKeywords) {
+      const safe = kw.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      html = html.replace(
+        new RegExp(`\\b(${safe})\\b`, "gi"),
+        `<mark class="bg-yellow-300/70 dark:bg-yellow-500/40 rounded px-0.5 font-semibold">$1</mark>`
+      );
+    }
+    return html;
+  }, [submitted, answerKeywords, s.transcript]);
 
   return (
     <Card className="border-l-4 border-l-emerald-500 overflow-hidden">
@@ -297,6 +441,25 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
           <div className="flex items-center gap-2 flex-wrap">
             <Headphones className="w-4 h-4 text-emerald-600" />
             <span className="text-sm font-semibold">{t("Bài nghe", "Audio")}</span>
+            <Badge
+              variant={examMode ? "default" : "outline"}
+              className={cn(
+                "cursor-pointer text-[10px] gap-1",
+                examMode && "bg-rose-600 hover:bg-rose-700 text-white border-rose-600"
+              )}
+              onClick={() => {
+                if (submitted) return;
+                setExamMode(v => {
+                  const next = !v;
+                  if (next) { setShowTranscript(false); stop(); }
+                  return next;
+                });
+              }}
+              title={t("Mô phỏng phòng thi: 1 lần phát, ẩn script & thanh tua", "Exam mode: single play, hide script & seek bar")}
+            >
+              <ShieldAlert className="w-3 h-3" />
+              {examMode ? t("Exam Mode • ON", "Exam Mode • ON") : t("Bật Exam Mode", "Enable Exam Mode")}
+            </Badge>
             <span className="text-xs text-muted-foreground ml-auto">
               {t("Đọc bằng giọng máy (Web Speech)", "Spoken with browser TTS")}
             </span>
@@ -318,86 +481,119 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
                 </Button>
               </>
             )}
-            <Button
-              onClick={() => skipChunks(-1)}
-              size="sm"
-              variant="outline"
-              className="gap-1 px-2"
-              title={t("Lùi 1 câu", "Previous sentence")}
-              disabled={currentIdx <= 0 && elapsedInChunk < 0.5}
-            >
-              <SkipBack className="w-4 h-4" />
-            </Button>
-            <Button
-              onClick={() => skipChunks(1)}
-              size="sm"
-              variant="outline"
-              className="gap-1 px-2"
-              title={t("Tới 1 câu", "Next sentence")}
-              disabled={currentIdx >= chunks.length - 1}
-            >
-              <SkipForward className="w-4 h-4" />
-            </Button>
-            <div className="flex items-center gap-2 ml-auto">
-              <Gauge className="w-4 h-4 text-muted-foreground" />
+            {!examMode && (
+              <>
+                <Button
+                  onClick={() => skipChunks(-1)}
+                  size="sm"
+                  variant="outline"
+                  className="gap-1 px-2"
+                  title={t("Lùi 1 câu", "Previous sentence")}
+                  disabled={currentIdx <= 0 && elapsedInChunk < 0.5}
+                >
+                  <SkipBack className="w-4 h-4" />
+                </Button>
+                <Button
+                  onClick={() => skipChunks(1)}
+                  size="sm"
+                  variant="outline"
+                  className="gap-1 px-2"
+                  title={t("Tới 1 câu", "Next sentence")}
+                  disabled={currentIdx >= chunks.length - 1}
+                >
+                  <SkipForward className="w-4 h-4" />
+                </Button>
+              </>
+            )}
+            <div className="flex items-center gap-2 ml-auto flex-wrap">
+              <Mic2 className="w-4 h-4 text-muted-foreground" />
               <select
-                value={rate}
-                onChange={(e) => setRate(Number(e.target.value))}
+                value={accent}
+                onChange={(e) => setAccent(e.target.value as AccentKey)}
                 className="text-xs bg-background border border-border rounded px-2 py-1"
-                title={t("Tốc độ phát", "Playback speed")}
+                title={t("Giọng đọc", "Accent")}
               >
-                <option value={0.7}>0.7x — {t("rất chậm", "very slow")}</option>
-                <option value={0.85}>0.85x — {t("tự nhiên", "natural")}</option>
-                <option value={0.95}>0.95x — {t("đề thi thật", "exam pace")}</option>
-                <option value={1.1}>1.1x — {t("nhanh", "fast")}</option>
+                {(Object.keys(ACCENT_LABELS) as AccentKey[]).map(a => (
+                  <option key={a} value={a}>{ACCENT_LABELS[a]}</option>
+                ))}
               </select>
+              {!examMode && (
+                <>
+                  <Gauge className="w-4 h-4 text-muted-foreground" />
+                  <select
+                    value={rate}
+                    onChange={(e) => setRate(Number(e.target.value))}
+                    className="text-xs bg-background border border-border rounded px-2 py-1"
+                    title={t("Tốc độ phát", "Playback speed")}
+                  >
+                    <option value={0.7}>0.7x — {t("rất chậm", "very slow")}</option>
+                    <option value={0.85}>0.85x — {t("tự nhiên", "natural")}</option>
+                    <option value={0.95}>0.95x — {t("đề thi thật", "exam pace")}</option>
+                    <option value={1.1}>1.1x — {t("nhanh", "fast")}</option>
+                  </select>
 
-              <Button onClick={() => setShowTranscript(v => !v)} size="sm" variant="ghost" className="gap-2">
-                {showTranscript ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                {showTranscript ? t("Ẩn script", "Hide script") : t("Hiện script", "Show script")}
-              </Button>
+                  <Button onClick={() => setShowTranscript(v => !v)} size="sm" variant="ghost" className="gap-2">
+                    {showTranscript ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    {showTranscript ? t("Ẩn script", "Hide script") : t("Hiện script", "Show script")}
+                  </Button>
+                </>
+              )}
             </div>
           </div>
 
-          {/* Seekable progress bar */}
-          <div className="flex items-center gap-3 pt-1">
-            <span className="text-xs font-mono text-muted-foreground tabular-nums w-10 text-right">
-              {formatTime(currentTime)}
-            </span>
-            <Slider
-              value={[Math.min(currentTime, totalDuration)]}
-              min={0}
-              max={Math.max(1, totalDuration)}
-              step={0.5}
-              onValueChange={(v) => {
-                const t0 = v[0] ?? 0;
-                // Update display immediately for responsive scrubbing
-                let idx = 0;
-                for (let i = 0; i < cumulative.length; i++) {
-                  if (cumulative[i] <= t0) idx = i; else break;
-                }
-                setCurrentIdx(idx);
-                setElapsedInChunk(Math.max(0, t0 - (cumulative[idx] ?? 0)));
-              }}
-              onValueCommit={(v) => seekToTime(v[0] ?? 0)}
-              className="flex-1"
-              aria-label={t("Thanh tua bài nghe", "Audio seek bar")}
-            />
-            <span className="text-xs font-mono text-muted-foreground tabular-nums w-10">
-              {formatTime(totalDuration)}
-            </span>
-          </div>
+          {/* Seekable progress bar — hidden during exam mode to mimic real test */}
+          {!examMode && (
+            <div className="flex items-center gap-3 pt-1">
+              <span className="text-xs font-mono text-muted-foreground tabular-nums w-10 text-right">
+                {formatTime(currentTime)}
+              </span>
+              <Slider
+                value={[Math.min(currentTime, totalDuration)]}
+                min={0}
+                max={Math.max(1, totalDuration)}
+                step={0.5}
+                onValueChange={(v) => {
+                  const t0 = v[0] ?? 0;
+                  let idx = 0;
+                  for (let i = 0; i < cumulative.length; i++) {
+                    if (cumulative[i] <= t0) idx = i; else break;
+                  }
+                  setCurrentIdx(idx);
+                  setElapsedInChunk(Math.max(0, t0 - (cumulative[idx] ?? 0)));
+                }}
+                onValueCommit={(v) => seekToTime(v[0] ?? 0)}
+                className="flex-1"
+                aria-label={t("Thanh tua bài nghe", "Audio seek bar")}
+              />
+              <span className="text-xs font-mono text-muted-foreground tabular-nums w-10">
+                {formatTime(totalDuration)}
+              </span>
+            </div>
+          )}
+
+          {/* In exam mode show only elapsed time */}
+          {examMode && playing && (
+            <div className="text-xs font-mono text-muted-foreground tabular-nums">
+              ⏱ {formatTime(currentTime)} / {formatTime(totalDuration)}
+            </div>
+          )}
 
           {showTranscript && (
             <div className="mt-2 rounded-lg bg-background border border-border overflow-hidden">
               <div className="px-3 py-1.5 bg-muted/60 text-xs font-semibold text-foreground border-b border-border">
                 {submitted
-                  ? t("📝 Script bài nghe — đối chiếu lại từng câu", "📝 Listening transcript — review every line")
+                  ? t("📝 Script — đáp án được tô vàng", "📝 Transcript — answers highlighted")
                   : t("📝 Script bài nghe", "📝 Listening transcript")}
               </div>
-              <div className="p-3 text-sm whitespace-pre-line leading-relaxed text-foreground/90 max-h-80 overflow-y-auto">
-                {s.transcript}
-              </div>
+              <div
+                className="p-3 text-sm whitespace-pre-line leading-relaxed text-foreground/90 max-h-80 overflow-y-auto"
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(highlightedTranscript, {
+                    ALLOWED_TAGS: ["mark", "br", "strong", "em"],
+                    ALLOWED_ATTR: ["class"],
+                  }),
+                }}
+              />
             </div>
           )}
 
@@ -495,26 +691,85 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
                       />
                     )}
                     {submitted && (
-                      <div className="flex items-start gap-2 text-sm pt-1">
-                        {correct ? (
-                          <>
-                            <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
-                            <span className="text-emerald-700 dark:text-emerald-300">
-                              {t("Đúng!", "Correct!")}
-                            </span>
-                          </>
-                        ) : (
-                          <>
-                            <XCircle className="w-4 h-4 text-rose-600 mt-0.5 shrink-0" />
-                            <span className="text-rose-700 dark:text-rose-300">
-                              {t("Đáp án đúng:", "Correct answer:")}{" "}
-                              <strong>
-                                {q.type === "mcq"
-                                  ? `${String.fromCharCode(65 + q.answer)}. ${q.options[q.answer]}`
-                                  : q.answer}
-                              </strong>
-                            </span>
-                          </>
+                      <div className="space-y-2 pt-1">
+                        <div className="flex items-start gap-2 text-sm">
+                          {correct ? (
+                            <>
+                              <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                              <span className="text-emerald-700 dark:text-emerald-300">
+                                {t("Đúng!", "Correct!")}
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              <XCircle className="w-4 h-4 text-rose-600 mt-0.5 shrink-0" />
+                              <span className="text-rose-700 dark:text-rose-300">
+                                {t("Đáp án đúng:", "Correct answer:")}{" "}
+                                <strong>
+                                  {q.type === "mcq"
+                                    ? `${String.fromCharCode(65 + q.answer)}. ${q.options[q.answer]}`
+                                    : q.answer}
+                                </strong>
+                              </span>
+                            </>
+                          )}
+                        </div>
+
+                        {!correct && (
+                          <div>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => requestExplain(i)}
+                              disabled={explainLoading[i]}
+                              className="gap-2 h-8 text-xs border-primary/40 text-primary hover:bg-primary/5"
+                            >
+                              <Sparkles className="w-3.5 h-3.5" />
+                              {explainLoading[i]
+                                ? t("Đang phân tích...", "Analyzing...")
+                                : explainOpen[i]
+                                  ? t("Xem lại lời giải AI", "Review AI explanation")
+                                  : t("Mr. Hai giải thích vì sao", "Why? Ask Mr. Hai")}
+                            </Button>
+
+                            {explainOpen[i] && explainData[i] && !explainData[i].error && (
+                              <div className="mt-2 rounded-lg border border-primary/30 bg-primary/5 p-3 space-y-2 text-sm">
+                                {explainData[i].quote && (
+                                  <div>
+                                    <div className="text-[10px] font-semibold uppercase text-primary mb-0.5">
+                                      {t("Câu chứa đáp án trong script", "Sentence in transcript")}
+                                    </div>
+                                    <div className="italic text-foreground/90 border-l-2 border-primary/60 pl-2">
+                                      "{explainData[i].quote}"
+                                      {explainData[i].keyword && (
+                                        <span className="ml-2 inline-block rounded bg-yellow-300/70 dark:bg-yellow-500/40 px-1.5 font-semibold not-italic text-xs">
+                                          🔑 {explainData[i].keyword}
+                                        </span>
+                                      )}
+                                    </div>
+                                  </div>
+                                )}
+                                {explainData[i].why && (
+                                  <div>
+                                    <span className="text-[10px] font-semibold uppercase text-primary">{t("Vì sao", "Why")}: </span>
+                                    <span className="text-foreground/90">{explainData[i].why}</span>
+                                  </div>
+                                )}
+                                {explainData[i].trap && (
+                                  <div>
+                                    <span className="text-[10px] font-semibold uppercase text-rose-600">{t("Bẫy", "Trap")}: </span>
+                                    <span className="text-foreground/90">{explainData[i].trap}</span>
+                                  </div>
+                                )}
+                                {explainData[i].tip && (
+                                  <div>
+                                    <span className="text-[10px] font-semibold uppercase text-emerald-600">{t("Mẹo", "Tip")}: </span>
+                                    <span className="text-foreground/90">{explainData[i].tip}</span>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </div>
                         )}
                       </div>
                     )}
@@ -532,12 +787,30 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
             </Button>
           ) : (
             <>
-              <div className="flex items-center gap-3 flex-1 min-w-[200px]">
+              <div className="flex items-center gap-3 flex-1 min-w-[200px] flex-wrap">
                 <span className="text-sm font-semibold whitespace-nowrap">
                   {t("Điểm", "Score")}: {score}/{s.questions.length}
                 </span>
-                <Progress value={percent} className="h-2 flex-1 max-w-xs" />
+                <Progress value={percent} className="h-2 flex-1 max-w-xs min-w-[120px]" />
                 <span className="text-sm font-bold text-primary">{percent}%</span>
+                {s.questions.length >= 5 && (
+                  <span
+                    className={cn(
+                      "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-bold border",
+                      bandColor(band),
+                      "border-current bg-current/5"
+                    )}
+                    title={t(
+                      "Quy đổi theo bảng IELTS chính thức (chuẩn hoá về thang 40 câu)",
+                      "Estimated from official IELTS band chart (normalized to 40 questions)"
+                    )}
+                  >
+                    📊 {t("Band ước tính", "Est. Band")}: {band.toFixed(1)}
+                  </span>
+                )}
+                <span className="inline-flex items-center gap-1 text-[10px] text-muted-foreground">
+                  <Save className="w-3 h-3" /> {t("Đã tự lưu", "Auto-saved")}
+                </span>
               </div>
               <Button onClick={handleReset} variant="outline" className="gap-2">
                 <RotateCcw className="w-4 h-4" /> {t("Làm lại", "Try again")}

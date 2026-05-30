@@ -71,6 +71,13 @@ const IeltsListeningPractice = () => {
                   "Listening practice across all 4 sections covering every question type: Form Completion, Multiple Choice, Map Labelling, Matching, Sentence Completion, Note Completion. Each set includes TTS audio, transcript, and instant scoring."
                 )}
               </p>
+              <div className="mt-3 rounded-xl border border-primary/30 bg-gradient-to-r from-blue-500/10 to-emerald-500/10 px-3 py-2 text-xs sm:text-sm text-foreground/90 max-w-3xl">
+                <span className="font-semibold text-primary">✨ {t("Mới nâng cấp:", "Just upgraded:")}</span>{" "}
+                {t(
+                  "Exam Mode mô phỏng phòng thi · Band score IELTS · Giọng UK/US/AU · Tự lưu tiến độ · Mr. Hai giải thích câu sai bằng AI · Highlight đáp án trong script.",
+                  "Exam Mode (real-test simulation) · IELTS Band score · UK/US/AU voices · Auto-save · AI explains wrong answers · Answer keywords highlighted in script."
+                )}
+              </div>
             </div>
           </div>
         </section>
