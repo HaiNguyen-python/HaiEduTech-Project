@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { sanitizeHtml } from "@/lib/utils";
 import CVSandbox from "@/components/ai-academy/ComputerVisionSandbox";
 import NLPSandbox from "@/components/ai-academy/NLPSandbox";
 import NeuralNetSandbox from "@/components/ai-academy/NeuralNetSandbox";
@@ -134,7 +135,7 @@ const SmartText = ({ text, className = "", html = false }: { text: string; class
           <li key={i} className="flex gap-2">
             <span className="text-primary mt-0.5 shrink-0">▸</span>
             {html ? (
-              <span className="flex-1" dangerouslySetInnerHTML={{ __html: p }} />
+              <span className="flex-1" dangerouslySetInnerHTML={sanitizeHtml(p)} />
             ) : (
               <span className="flex-1">{p}</span>
             )}
@@ -144,7 +145,7 @@ const SmartText = ({ text, className = "", html = false }: { text: string; class
     );
   }
   return html ? (
-    <p className={className} dangerouslySetInnerHTML={{ __html: text }} />
+    <p className={className} dangerouslySetInnerHTML={sanitizeHtml(text)} />
   ) : (
     <p className={className}>{text}</p>
   );

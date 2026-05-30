@@ -86,50 +86,81 @@ const PythonPathwayHub = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.05, duration: 0.4 }}
             >
-              <Link
-                to={firstLesson ? `/programming/python/${firstLesson.id}` : "#"}
-                className={cn(
-                  "group block rounded-2xl p-5 border bg-card hover:shadow-lg transition-all active:scale-[0.99]",
-                  certified ? "border-emerald-500/40 shadow-md" : "border-border hover:border-primary/30",
-                )}
-              >
-                <div className="flex items-start justify-between mb-3">
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${m.color} flex items-center justify-center text-2xl shadow`}>
-                    {m.emoji}
-                  </div>
-                  {certified && (
-                    <div className="flex items-center gap-1 text-[10px] font-bold text-emerald-600 bg-emerald-500/10 px-2 py-1 rounded-full">
-                      <Award className="w-3 h-3" /> Certified
-                    </div>
+              {firstLesson ? (
+                <Link
+                  to={`/programming/python/${firstLesson.id}`}
+                  className={cn(
+                    "group block rounded-2xl p-5 border bg-card hover:shadow-lg transition-all active:scale-[0.99]",
+                    certified ? "border-emerald-500/40 shadow-md" : "border-border hover:border-primary/30",
                   )}
-                </div>
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${m.color} flex items-center justify-center text-2xl shadow`}>
+                      {m.emoji}
+                    </div>
+                    {certified && (
+                      <div className="flex items-center gap-1 text-[10px] font-bold text-emerald-600 bg-emerald-500/10 px-2 py-1 rounded-full">
+                        <Award className="w-3 h-3" /> Certified
+                      </div>
+                    )}
+                  </div>
 
-                <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-1">
-                  {m.level}
-                </div>
-                <h3 className="font-display font-bold text-foreground mb-1 group-hover:text-primary transition-colors">
-                  {language === "vi" ? m.title : m.titleEn}
-                </h3>
-                <p className="text-xs text-muted-foreground mb-4 line-clamp-2">
-                  {language === "vi" ? m.description : m.descriptionEn}
-                </p>
+                  <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-1">
+                    {m.level}
+                  </div>
+                  <h3 className="font-display font-bold text-foreground mb-1 group-hover:text-primary transition-colors">
+                    {language === "vi" ? m.title : m.titleEn}
+                  </h3>
+                  <p className="text-xs text-muted-foreground mb-4 line-clamp-2">
+                    {language === "vi" ? m.description : m.descriptionEn}
+                  </p>
 
-                <ModuleProgressBar
-                  completed={completed}
-                  total={lessons.length}
-                  moduleEmoji={m.emoji}
-                  moduleTitle={`${lessons.length} ${language === "vi" ? "bài" : "lessons"}`}
-                  certified={certified}
-                />
+                  <ModuleProgressBar
+                    completed={completed}
+                    total={lessons.length}
+                    moduleEmoji={m.emoji}
+                    moduleTitle={`${lessons.length} ${language === "vi" ? "bài" : "lessons"}`}
+                    certified={certified}
+                  />
 
-                <div className="mt-4 flex items-center justify-between text-xs">
-                  <span className="text-muted-foreground flex items-center gap-1">
-                    <BookOpen className="w-3 h-3" />
-                    {firstLesson ? (language === "vi" ? "Bắt đầu" : "Start") : "Coming soon"}
-                  </span>
-                  <ChevronRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform" />
+                  <div className="mt-4 flex items-center justify-between text-xs">
+                    <span className="text-muted-foreground flex items-center gap-1">
+                      <BookOpen className="w-3 h-3" />
+                      {language === "vi" ? "Bắt đầu" : "Start"}
+                    </span>
+                    <ChevronRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </Link>
+              ) : (
+                <div
+                  className={cn(
+                    "block rounded-2xl p-5 border bg-card opacity-70 cursor-not-allowed",
+                    "border-border",
+                  )}
+                  aria-disabled="true"
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${m.color} flex items-center justify-center text-2xl shadow grayscale`}>
+                      {m.emoji}
+                    </div>
+                    <span className="text-[10px] font-bold text-muted-foreground bg-muted px-2 py-1 rounded-full">
+                      {language === "vi" ? "Sắp ra mắt" : "Coming soon"}
+                    </span>
+                  </div>
+                  <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-1">
+                    {m.level}
+                  </div>
+                  <h3 className="font-display font-bold text-foreground mb-1">
+                    {language === "vi" ? m.title : m.titleEn}
+                  </h3>
+                  <p className="text-xs text-muted-foreground mb-4 line-clamp-2">
+                    {language === "vi" ? m.description : m.descriptionEn}
+                  </p>
+                  <p className="text-[11px] text-muted-foreground italic">
+                    {language === "vi" ? "Nội dung đang được biên soạn, sẽ ra mắt sớm." : "Content is being prepared, coming soon."}
+                  </p>
                 </div>
-              </Link>
+              )}
             </motion.div>
           );
         })}
