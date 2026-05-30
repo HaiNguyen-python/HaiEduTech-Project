@@ -297,6 +297,19 @@ const CambridgeYleVocabulary = () => {
         <section className="container mx-auto px-4 grid lg:grid-cols-[1fr_280px] gap-6 items-start max-w-[1500px]">
           {/* Level tabs */}
           <div>
+            {/* Unified filter bar — matches HSK / SAT / TOEIC Vocabulary Word Bank */}
+            <div className="flex flex-wrap items-center gap-3 mb-4">
+              {/* Search */}
+              <div className="relative flex-1 min-w-[200px] max-w-sm">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <input
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                  placeholder={t("Tìm từ vựng...", "Search words...")}
+                  className="w-full pl-10 pr-4 py-2.5 rounded-full bg-white border-2 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:border-sky-400 focus:outline-none text-sm shadow-sm"
+                />
+              </div>
+
             {/* Level tabs */}
             <div className="flex flex-wrap gap-2 mb-4">
               {CAMBRIDGE_LEVELS.map(lv => {
