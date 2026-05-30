@@ -379,6 +379,10 @@ const App = () => (
             <Route path="/study-abroad/phd" element={<LazyRoute><PhdGlobalPathway /></LazyRoute>} />
             <Route path="/study-abroad/mentor-hub" element={<LazyRoute><MentorHub /></LazyRoute>} />
             <Route path="/study-abroad/checklist" element={<LazyRoute><PreDepartureChecklist /></LazyRoute>} />
+            <Route path="/study-abroad/shortlister" element={<LazyRoute><UniversityShortlister /></LazyRoute>} />
+            <Route path="/study-abroad/interview-prep" element={<LazyRoute><InterviewPrep /></LazyRoute>} />
+            <Route path="/study-abroad/cost-calculator" element={<LazyRoute><CostCalculator /></LazyRoute>} />
+            <Route path="/study-abroad/journey" element={<LazyRoute><JourneyDashboard /></LazyRoute>} />
             <Route path="/songs/:lang" element={<LazyRoute><SongsLibraryPage /></LazyRoute>} />
             <Route path="/specialized-language" element={<LazyRoute><SpecializedLanguage /></LazyRoute>} />
             <Route path="/unsubscribe" element={<LazyRoute><Unsubscribe /></LazyRoute>} />
