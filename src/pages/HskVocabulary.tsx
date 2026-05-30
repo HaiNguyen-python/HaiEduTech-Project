@@ -635,11 +635,12 @@ const HskVocabulary = () => {
                 <option value="all">{t("Tất cả chủ đề", "All Topics")}</option>
                 {HSK_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
-              <Tabs value={viewMode} onValueChange={v => setViewMode(v as "list" | "flashcard" | "exercise")}>
+              <Tabs value={viewMode} onValueChange={v => setViewMode(v as "list" | "flashcard" | "exercise" | "srs")}>
                 <TabsList>
                   <TabsTrigger value="list" className="gap-1.5 px-4"><List className="w-4 h-4" /> {t("Từ vựng", "Vocabulary")}</TabsTrigger>
                   <TabsTrigger value="flashcard" className="gap-1.5 px-4"><Layers className="w-4 h-4" /> Flashcard</TabsTrigger>
                   <TabsTrigger value="exercise" className="gap-1.5 px-4"><Dumbbell className="w-4 h-4" /> {t("Luyện tập", "Practice")}</TabsTrigger>
+                  <TabsTrigger value="srs" className="gap-1.5 px-4"><Brain className="w-4 h-4" /> SRS</TabsTrigger>
                 </TabsList>
               </Tabs>
             </div>
@@ -647,7 +648,9 @@ const HskVocabulary = () => {
             <p className="text-xs text-muted-foreground mb-4">{filtered.length} {t("kết quả", "results")}</p>
 
             {/* Content based on mode */}
-            {viewMode === "exercise" ? (
+            {viewMode === "srs" ? (
+              <HskSrsReview allWords={hskVocabData} />
+            ) : viewMode === "exercise" ? (
               <HskExercise masteredWords={hskVocabData.filter(w => mastered.has(w.character))} t={t} />
             ) : (() => {
               const groups = paginated.reduce<Record<string, HskWord[]>>((acc, w) => {
