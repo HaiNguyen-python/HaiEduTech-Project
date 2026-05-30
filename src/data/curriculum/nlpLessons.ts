@@ -688,7 +688,45 @@ Teacher Hai then knows *exactly* which lesson to revise - closing the human-in-t
 
 ## 7. Key Concept
 
-> 🎯 **Key Concept** - Sentiment analysis is **supervised classification** on text. The pipeline is always *clean → vectorise → train → evaluate*. The huge leaps (lexicon → ML → BERT → LLM) are about *which vector you use* and *which model consumes it*. The framework stays the same.`,
+> 🎯 **Key Concept** - Sentiment analysis is **supervised classification** on text. The pipeline is always *clean → vectorise → train → evaluate*. The huge leaps (lexicon → ML → BERT → LLM) are about *which vector you use* and *which model consumes it*. The framework stays the same.
+
+## 8. Beyond binary - real-world sentiment tasks
+
+| Task | Output | Example |
+|------|--------|---------|
+| **Binary** | pos / neg | Movie review thumbs up |
+| **Fine-grained** | 1-5 stars | Amazon product rating |
+| **Aspect-based (ABSA)** | (aspect, sentiment) pairs | "Battery is great but screen is dim" → {battery: +, screen: -} |
+| **Emotion** | joy / anger / fear / sadness / surprise | Customer support triage |
+| **Stance** | for / against / neutral on a target | Political tweets about a policy |
+| **Sarcasm / irony** | sarcastic? yes / no | "Great, another Monday." |
+
+Most production systems combine **two or three** of these (e.g. fine-grained + aspect) to actually help product teams.
+
+## 9. Evaluation done right
+
+Accuracy alone lies. For a 95% positive / 5% negative dataset, a model that always predicts "positive" gets 95% accuracy and is useless.
+
+| Metric | What it measures | When it matters |
+|--------|------------------|-----------------|
+| **Precision** | Of predicted negatives, how many are truly negative | Spam filter (false positives annoy users) |
+| **Recall** | Of true negatives, how many we caught | Fraud / toxicity (missing one is expensive) |
+| **F1** | Harmonic mean of P & R | Default when classes are imbalanced |
+| **Macro-F1** | F1 averaged across classes (no weighting) | Forces the model to do well on the rare class |
+| **Confusion matrix** | Per-class breakdown | Always inspect before shipping |
+
+> 💡 **Rule of thumb** - If your classes are imbalanced > 70/30, report **macro-F1** and **per-class recall**, not accuracy.
+
+## 10. Common pitfalls & pro tips
+
+| Pitfall | Why it hurts | Pro tip |
+|---------|--------------|---------|
+| Removing "not" as a stopword | Flips sentiment silently | Keep negations or use n-grams (bigrams capture "not good") |
+| Training & test from same source | Inflated accuracy that collapses in production | Hold out a *different* domain (e.g. train on Amazon, test on Twitter) |
+| One model for every language | Sentiment lexicons do not translate | Use multilingual models (XLM-R) or one model per language |
+| Ignoring class imbalance | Model collapses to majority class | Class weights, oversampling (SMOTE), or focal loss |
+| Treating 1-star ≈ 2-star | They are very different - 1-star usually = anger, 2-star = disappointment | Use ordinal regression or rank loss |
+| Skipping human spot-check | Metrics hide systematic errors | Read 50 random model predictions weekly |`,
         theoryEn: "",
         code: `# Train a real sentiment classifier on a tiny dataset of HaiEduTech-style reviews.
 # pip install scikit-learn pandas
