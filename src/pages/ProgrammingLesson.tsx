@@ -30,6 +30,7 @@ import CodeTypingRace from "@/components/programming/CodeTypingRace";
 import TheorySections from "@/components/TheorySections";
 import GitBranchingSimulator from "@/components/se/GitBranchingSimulator";
 import { trackLessonCompletion, LEAD_ENGINEER_BADGE } from "@/lib/badgeAwards";
+import { useProgrammingXP, BADGE_DEFS } from "@/hooks/useProgrammingXP";
 import imgScratch from "@/assets/programming-modules/m-scratch.jpg";
 import imgPyBasic from "@/assets/programming-modules/m-python-basic.jpg";
 import imgDS from "@/assets/programming-modules/m-data-structures.jpg";
@@ -154,6 +155,10 @@ const ProgrammingLessonPage = () => {
   const { isTeacher } = useUserRole();
   const [batchRunning, setBatchRunning] = useState(false);
   const [batchProgress, setBatchProgress] = useState({ done: 0, total: 0 });
+  // Track if learner has had a wrong attempt — used to award Bug Slayer badge
+  const [hadWrongAttempt, setHadWrongAttempt] = useState(false);
+  // Unified Programming gamification — XP, streak, badges across all pillars
+  const { awardXP, markPillarLesson, awardBadge, touchStreak } = useProgrammingXP();
 
   const isSQL = mod?.id === "prog-sql" || mod?.course === "sql";
 
@@ -320,8 +325,10 @@ const ProgrammingLessonPage = () => {
       if (l) setLesson(l);
       // Auto-expand the current module
       setExpandedModules(prev => new Set(prev).add(m.id));
+      // Touch the daily learning streak on every lesson visit
+      touchStreak();
     }
-  }, [moduleId, lessonId]);
+  }, [moduleId, lessonId, touchStreak]);
 
   useEffect(() => {
     if (lesson) {
