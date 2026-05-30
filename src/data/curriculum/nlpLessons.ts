@@ -1153,7 +1153,63 @@ Earn the **🎓 Linguistics Architect** badge by completing this capstone.
 
 ## 8. Key Concept
 
-> 🎯 **Key Concept** - The Transformer's superpower is **parallel self-attention**: every token attends to every other token in one shot. Pre-train once on the internet, fine-tune on your tiny dataset, or just **prompt** the model. This pattern (BERT → GPT → ChatGPT → Gemini → Claude) is the entire roadmap of NLP from 2018 to 2026.`,
+> 🎯 **Key Concept** - The Transformer's superpower is **parallel self-attention**: every token attends to every other token in one shot. Pre-train once on the internet, fine-tune on your tiny dataset, or just **prompt** the model. This pattern (BERT → GPT → ChatGPT → Gemini → Claude) is the entire roadmap of NLP from 2018 to 2026.
+
+## 8. Self-attention in one paragraph
+
+For every token, the model builds three vectors: **Query (Q)**, **Key (K)**, **Value (V)**. The new representation of a token is a weighted sum of every other token's V, where the weight is \`softmax(Q · K^T / √d)\`. That single formula replaces recurrence: every position sees every other position **in one matrix multiply**, perfectly parallel on a GPU.
+
+\`\`\`text
+Attention(Q, K, V) = softmax( Q · K^T / sqrt(d_k) ) · V
+\`\`\`
+
+Stack multiple "heads" of this in parallel (each learning a different relation - syntax, coreference, topic) and you have **multi-head attention**, the core of every Transformer block.
+
+## 9. Three families of Transformers - pick the right tool
+
+| Family | Examples | Strength | Use case |
+|--------|----------|----------|----------|
+| **Encoder-only** | BERT, RoBERTa, DeBERTa | Reads bidirectionally, great representations | Classification, NER, sentence embeddings, search |
+| **Decoder-only** | GPT-4, Gemini, Claude, Llama | Autoregressive generation | Chatbots, code, content writing |
+| **Encoder-decoder** | T5, mBART, BART | Conditioned generation | Translation, summarisation, query → SQL |
+
+## 10. The 2026 adaptation toolkit
+
+You almost never train a Transformer from scratch. Instead pick the cheapest method that solves the problem:
+
+| Technique | Cost | When to use |
+|-----------|------|-------------|
+| **Zero-shot prompting** | $ | Quick MVP, no labels |
+| **Few-shot prompting** | $ | 5-20 examples fit in the prompt |
+| **RAG (Retrieval Augmented Generation)** | $$ | You have a knowledge base that changes weekly |
+| **LoRA / QLoRA fine-tuning** | $$$ | 500-50k labelled examples, need consistent style |
+| **Full fine-tuning** | $$$$ | > 100k examples, domain very different from internet text |
+| **Train from scratch** | $$$$$ | You are a foundation model lab, not us |
+
+> 🚀 **HaiEduTech reality check** - 90% of the AI features on this site are *prompting + RAG* over Gemini / Perplexity. We fine-tune only when prompting plateaus.
+
+## 11. Common pitfalls & pro tips
+
+| Pitfall | Why it hurts | Pro tip |
+|---------|--------------|---------|
+| Fine-tuning when a prompt would do | 100× the cost for no quality gain | Always try zero-shot + few-shot first |
+| Ignoring context window | Silent truncation = the answer the model "missed" was clipped | Log token counts; chunk + summarise long inputs |
+| No system prompt | Model drifts in tone & format across turns | Pin role, constraints, and output schema in a versioned system prompt |
+| Treating LLM output as a function call | Models hallucinate JSON keys | Validate with Zod / Pydantic and retry with the error message |
+| Building one giant prompt | Hard to debug, hard to A/B test | Break into composable stages (router → retriever → answerer → verifier) |
+| Forgetting eval | "It feels better" is not progress | Maintain a golden set of 50-200 prompts and re-run every change |
+
+## 12. Capstone challenge - put it all together
+
+Build a *Finnish-to-English lesson-review sentiment analyser*:
+
+1. **Preprocess** (Lesson 2) - normalise Unicode, segment with sentencepiece.
+2. **Embed** (Lesson 3) - use a multilingual sentence-transformer.
+3. **Classify** (Lesson 4) - logistic regression on embeddings as a strong baseline.
+4. **Sequence model** (Lesson 5) - swap in a BiLSTM and compare.
+5. **Transformer** (this lesson) - prompt Gemini with 3 few-shot examples and grade with macro-F1.
+
+Ship the winner behind a Supabase edge function and you have shipped a real NLP product end-to-end.`,
         theoryEn: "",
         code: `# Three lines of modern NLP - fine-tune-free, multilingual, 2026-style.
 # pip install transformers torch
