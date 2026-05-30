@@ -12,9 +12,10 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Progress } from "@/components/ui/progress";
 
 const ProgrammingDashboard = () => {
-  const { lang: language, t: tx } = useLanguage();
-  const t = (vi: string, en: string) => (language === "vi" ? vi : en);
+  const { lang, t } = useLanguage();
+  const language = lang;
   const { state, levelInfo, reset } = useProgrammingXP();
+
 
   const allBadgeIds = Object.keys(BADGE_DEFS) as BadgeId[];
 
