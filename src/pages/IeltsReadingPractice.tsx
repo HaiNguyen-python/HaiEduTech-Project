@@ -539,6 +539,8 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
                 onChange={(v) => handleAnswer(q.number, v)}
                 submitted={submitted}
                 onFocus={() => setActiveQ(q.number)}
+                flagged={flagged.has(q.number)}
+                onToggleFlag={() => toggleFlag(q.number)}
               />
             ))}
             {submitted && (
