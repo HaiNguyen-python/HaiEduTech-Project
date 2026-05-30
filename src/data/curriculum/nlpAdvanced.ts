@@ -835,28 +835,70 @@ Thay vì update toàn bộ 7B trọng số, **LoRA** chèn ma trận hạng th�
 - Đánh giá fine-tune mà không có **held-out test** → ảo tưởng cải thiện.
 `,
         theoryEn: `Three customization paths: prompting (cheapest, fastest), RAG (for fresh/private knowledge), fine-tuning (for style and rigid format). Use the decision tree: need new knowledge → RAG; need rigid style/format → fine-tune; else prompting. LoRA adapters make fine-tuning affordable (0.1–1% params). Don't fine-tune when prompt+RAG suffices; you'll waste money and lose flexibility.`,
-        code: `# Sketch a tiny LoRA layer in NumPy to feel how it works
+        code: `# Phác thảo một lớp LoRA nhỏ bằng NumPy để cảm nhận cách nó hoạt động.
+
+# Nhập thư viện NumPy, cần thiết cho các phép toán mảng và số học.
 import numpy as np
 
+# Định nghĩa lớp LoRALinear, mô phỏng một lớp tuyến tính (Linear Layer) với kỹ thuật LoRA.
 class LoRALinear:
+    # Hàm khởi tạo (constructor) của lớp.
+    # Được gọi khi tạo một đối tượng mới từ lớp LoRALinear.
+    # d_in: Kích thước đầu vào của lớp.
+    # d_out: Kích thước đầu ra của lớp.
+    # r: Hạng (rank) của ma trận LoRA, kiểm soát số lượng tham số thêm vào.
+    # alpha: Hệ số tỷ lệ cho ma trận LoRA, giúp điều chỉnh ảnh hưởng của LoRA.
     def __init__(self, d_in, d_out, r=8, alpha=16):
+        # Khởi tạo bộ tạo số ngẫu nhiên với seed cố định (0) để đảm bảo kết quả lặp lại.
         rng = np.random.default_rng(0)
+        
+        # Khởi tạo ma trận trọng số chính W. Đây là phần "đóng băng" (frozen) của mô hình gốc.
+        # Các giá trị được lấy từ phân phối chuẩn và nhân với 0.02 để giữ giá trị nhỏ.
         self.W = rng.standard_normal((d_in, d_out)) * 0.02  # frozen
+        
+        # Khởi tạo ma trận A của LoRA. Đây là một phần "có thể huấn luyện" (trainable).
+        # Các giá trị được lấy từ phân phối chuẩn và nhân với 0.02.
         self.A = rng.standard_normal((d_in, r)) * 0.02       # trainable
+        
+        # Khởi tạo ma trận B của LoRA. Đây cũng là một phần "có thể huấn luyện".
+        # Các giá trị được khởi tạo bằng 0.
         self.B = np.zeros((r, d_out))                        # trainable
+        
+        # Tính toán hệ số tỷ lệ (scale factor) cho đầu ra của LoRA.
+        # Giúp điều chỉnh mức độ ảnh hưởng của phần LoRA.
         self.scale = alpha / r
 
+    # Hàm forward (truyền xuôi) của lớp.
+    # Tính toán đầu ra của lớp khi nhận đầu vào x.
+    # x: Đầu vào của lớp (thường là một vector hoặc ma trận).
+    # Đầu ra: Kết quả của phép biến đổi tuyến tính kết hợp với LoRA.
     def forward(self, x):
+        # Tính toán đầu ra của lớp tuyến tính gốc (x @ W).
+        # Tính toán đầu ra của phần LoRA (x @ A @ B) và nhân với hệ số tỷ lệ.
+        # Cộng hai phần lại để có kết quả cuối cùng.
         return x @ self.W + (x @ self.A @ self.B) * self.scale
 
+    # Hàm trả về tổng số tham số có thể huấn luyện trong lớp LoRA.
+    # Đầu ra: Tổng số phần tử trong ma trận A và B.
     def trainable_params(self):
         return self.A.size + self.B.size
 
+    # Hàm trả về tổng số tham số "đóng băng" (không huấn luyện) trong lớp LoRA.
+    # Đầu ra: Tổng số phần tử trong ma trận W.
     def frozen_params(self):
         return self.W.size
 
+# Tạo một thể hiện (instance) của lớp LoRALinear với kích thước đầu vào/đầu ra là 1024 và rank r=8.
+# Đầu vào: d_in=1024, d_out=1024, r=8.
 layer = LoRALinear(1024, 1024, r=8)
+
+# Tính toán tỷ lệ phần trăm các tham số có thể huấn luyện so với tổng số tham số.
+# Đầu vào: Số tham số huấn luyện được và số tham số đóng băng.
+# Đầu ra: Tỷ lệ phần trăm.
 ratio = layer.trainable_params() / (layer.trainable_params() + layer.frozen_params())
+
+# In ra tỷ lệ phần trăm các tham số có thể huấn luyện, định dạng thành 2 chữ số thập phân.
+# Kết quả mong đợi: Một tỷ lệ phần trăm nhỏ, thường dưới 1% cho LoRA điển hình.
 print(f"trainable share = {ratio:.2%}  (typical LoRA: <1%)")`,
         codeLanguage: "python",
         exercise:

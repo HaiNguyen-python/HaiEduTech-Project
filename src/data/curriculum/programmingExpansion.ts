@@ -103,16 +103,37 @@ Imagine modeling employees: all share \`name\`, \`salary\`, \`work()\`. Develope
 ## Syntax & Mechanism
 
 \`\`\`python
+# Định nghĩa lớp cơ sở (lớp cha) tên là Employee.
+# Lớp này đại diện cho một nhân viên chung.
 class Employee:                       # Parent / Base / Superclass
+    # Phương thức khởi tạo (constructor) của lớp Employee.
+    # Được gọi khi tạo một đối tượng Employee mới.
+    # Đầu vào: name (tên nhân viên), salary (lương nhân viên).
+    # Đầu ra: Một đối tượng Employee với các thuộc tính name và salary được thiết lập.
     def __init__(self, name, salary):
         self.name = name; self.salary = salary
+    # Phương thức work (làm việc) của lớp Employee.
+    # Đầu vào: Không có (sử dụng thuộc tính của đối tượng).
+    # Đầu ra: Một chuỗi mô tả công việc của nhân viên.
     def work(self):
         return f"{self.name} is working"
 
+# Định nghĩa lớp con (lớp dẫn xuất) tên là Developer, kế thừa từ lớp Employee.
+# Lớp này đại diện cho một nhà phát triển (developer).
 class Developer(Employee):            # Child / Subclass
+    # Phương thức khởi tạo của lớp Developer.
+    # Được gọi khi tạo một đối tượng Developer mới.
+    # Đầu vào: name (tên developer), salary (lương developer), languages (ngôn ngữ lập trình).
+    # Đầu ra: Một đối tượng Developer với các thuộc tính name, salary (từ lớp cha) và languages.
     def __init__(self, name, salary, languages):
+        # Gọi phương thức khởi tạo của lớp cha (Employee) để xử lý name và salary.
         super().__init__(name, salary)
+        # Gán thuộc tính languages riêng cho lớp Developer.
         self.languages = languages
+    # Ghi đè (override) phương thức work từ lớp cha (Employee).
+    # Phương thức này sẽ được gọi khi đối tượng Developer thực hiện công việc.
+    # Đầu vào: Không có.
+    # Đầu ra: Một chuỗi mô tả công việc lập trình của developer, bao gồm các ngôn ngữ họ sử dụng.
     def work(self):                   # Override
         return f"{self.name} codes in {self.languages}"
 \`\`\`
@@ -143,8 +164,19 @@ def make_them_work(employees: list[Employee]):
 ## Abstract Classes
 
 \`\`\`python
+# Nhập khẩu các lớp cần thiết từ module 'abc' (Abstract Base Classes).
+# ABC dùng để định nghĩa một lớp trừu tượng.
+# abstractmethod dùng để đánh dấu một phương thức là trừu tượng.
 from abc import ABC, abstractmethod
+
+# Định nghĩa lớp trừu tượng 'Shape' (Hình dạng).
+# Lớp này kế thừa từ ABC, nghĩa là nó không thể được khởi tạo trực tiếp.
+# Mục đích của nó là định nghĩa một giao diện chung cho các hình dạng cụ thể.
 class Shape(ABC):
+    # Định nghĩa một phương thức trừu tượng 'area' (diện tích).
+    # Mọi lớp con kế thừa từ 'Shape' BẮT BUỘC phải triển khai phương thức này.
+    # Phương thức này không có thân (chỉ có '...'), vì nó là trừu tượng.
+    # Nó nhận vào 'self' (đối tượng của lớp) và được kỳ vọng trả về một số thực (float).
     @abstractmethod
     def area(self) -> float: ...
 \`\`\`
@@ -187,23 +219,52 @@ Django models inherit from \`models.Model\` → gain \`save()\`, \`delete()\`, q
 ## Bridge
 
 Next: **Decorators & Generators** - high-level Python tools for elegant, performant code beyond traditional OOP.`,
-        code: `class Animal:
+        code: `# Định nghĩa một lớp cơ sở (base class) tên là Animal.
+# Lớp này sẽ là nền tảng cho các loài động vật khác.
+class Animal:
+    # Phương thức khởi tạo (constructor) của lớp Animal.
+    # Được gọi khi một đối tượng Animal mới được tạo.
+    # Đầu vào: name (tên của con vật).
     def __init__(self, name):
+        # Gán giá trị của tham số 'name' cho thuộc tính 'name' của đối tượng.
         self.name = name
+
+    # Định nghĩa một phương thức 'speak' (nói) cho lớp Animal.
+    # Phương thức này sẽ được các lớp con ghi đè (override).
+    # Đầu ra: Một chuỗi mặc định "..."
     def speak(self):
         return "..."
 
+# Định nghĩa một lớp con (subclass) tên là Dog, kế thừa từ lớp Animal.
+# Điều này có nghĩa là Dog sẽ có tất cả các thuộc tính và phương thức của Animal.
 class Dog(Animal):
+    # Ghi đè phương thức 'speak' từ lớp cha (Animal).
+    # Phương thức này sẽ cung cấp cách nói riêng của loài chó.
+    # Đầu ra: Một chuỗi chứa tên con chó và tiếng sủa của nó.
     def speak(self):
         return f"{self.name} says Woof!"
 
+# Định nghĩa một lớp con (subclass) tên là Cat, kế thừa từ lớp Animal.
+# Điều này có nghĩa là Cat sẽ có tất cả các thuộc tính và phương thức của Animal.
 class Cat(Animal):
+    # Ghi đè phương thức 'speak' từ lớp cha (Animal).
+    # Phương thức này sẽ cung cấp cách nói riêng của loài mèo.
+    # Đầu ra: Một chuỗi chứa tên con mèo và tiếng kêu của nó.
     def speak(self):
         return f"{self.name} says Meow!"
 
 # Polymorphism in action
+# Tạo một danh sách chứa các đối tượng của các lớp khác nhau (Dog và Cat).
+# Đây là ví dụ về tính đa hình (polymorphism), nơi các đối tượng khác nhau có thể được xử lý thông qua một giao diện chung (phương thức speak).
+# Đầu vào: Hai đối tượng, một Dog tên "Rex" và một Cat tên "Whiskers".
 animals = [Dog("Rex"), Cat("Whiskers")]
+# Lặp qua từng đối tượng trong danh sách 'animals'.
 for animal in animals:
+    # Gọi phương thức 'speak()' cho mỗi đối tượng.
+    # Python sẽ tự động gọi phương thức 'speak' phù hợp với kiểu của từng đối tượng (Dog.speak() hoặc Cat.speak()).
+    # Đầu ra mong đợi:
+    # "Rex says Woof!"
+    # "Whiskers says Meow!"
     print(animal.speak())`,
         codeLanguage: "python",
         exercise: "Create a Bird class that inherits from Animal with a speak() method that returns 'Tweet!'",
@@ -365,19 +426,49 @@ Decorators leverage this: take a function, return a wrapped one.
 ## Full Syntax
 
 \`\`\`python
+# Nhập module \`functools\` để sử dụng các công cụ hỗ trợ cho hàm (như \`wraps\`).
 import functools
 
+# Định nghĩa một decorator tên là \`log_calls\`.
+# Decorator này sẽ ghi lại thông tin khi một hàm được gọi và khi nó trả về kết quả.
 def log_calls(func):
+    # \`@functools.wraps(func)\` là một decorator khác.
+    # Nó giúp giữ lại các thông tin quan trọng của hàm gốc \`func\` (như tên hàm, docstring)
+    # cho hàm \`wrapper\` này, thay vì hiển thị thông tin của \`wrapper\`.
     @functools.wraps(func)              # preserve metadata!
+    # Định nghĩa hàm \`wrapper\` bên trong \`log_calls\`.
+    # Hàm này sẽ thay thế hàm gốc khi được gọi.
+    # \`*args\` và \`**kwargs\` cho phép \`wrapper\` nhận mọi đối số vị trí và từ khóa
+    # mà hàm gốc \`func\` có thể nhận.
     def wrapper(*args, **kwargs):
+        # In ra thông báo khi hàm được gọi.
+        # Đầu vào: Tên hàm (\`func.__name__\`) và các đối số (\`args\`).
         print(f"→ {func.__name__}({args})")
+        # Gọi hàm gốc \`func\` với các đối số đã nhận.
+        # Đầu vào: Các đối số \`*args\` và \`**kwargs\` truyền vào \`wrapper\`.
+        # Đầu ra: Kết quả thực thi của hàm \`func\`.
         result = func(*args, **kwargs)
+        # In ra thông báo khi hàm trả về kết quả.
+        # Đầu vào: Kết quả (\`result\`) từ hàm \`func\`.
         print(f"← returned {result}")
+        # Trả về kết quả của hàm gốc.
+        # Đầu ra: Kết quả của hàm \`func\`.
         return result
+    # Trả về hàm \`wrapper\` đã được định nghĩa.
+    # Hàm \`wrapper\` này sẽ thay thế hàm gốc \`func\`.
     return wrapper
 
+# Áp dụng decorator \`log_calls\` cho hàm \`add\`.
+# Điều này tương đương với \`add = log_calls(add)\`.
 @log_calls
+# Định nghĩa hàm \`add\` đơn giản, nhận hai số và trả về tổng của chúng.
 def add(a, b): return a + b
+
+# Khi gọi \`add(1, 2)\`, output mong đợi sẽ là:
+# → add((1, 2))
+# ← returned 3
+# 3
+
 \`\`\`
 
 Without \`@functools.wraps\`, \`add.__name__\` becomes \`"wrapper"\` - breaks debugging.
@@ -438,23 +529,51 @@ A fintech startup added \`@lru_cache(maxsize=10000)\` to \`get_exchange_rate()\`
 ## Bridge
 
 Next: **Generators** - process huge datasets without loading into RAM.`,
-        code: `import time
+        code: `# Nhập module \`time\` để có thể đo thời gian thực thi.
+import time
 
+# Định nghĩa một hàm \`timer\` nhận vào một hàm khác (\`func\`) làm đối số.
+# Hàm này sẽ đóng vai trò là một decorator (hàm trang trí).
 def timer(func):
+    # Định nghĩa hàm \`wrapper\` bên trong \`timer\`.
+    # Hàm \`wrapper\` này sẽ là hàm được gọi thay thế cho \`func\` gốc.
+    # Nó nhận mọi đối số (*args, **kwargs) mà \`func\` gốc có thể nhận.
     def wrapper(*args, **kwargs):
+        # Ghi lại thời điểm bắt đầu thực thi hàm.
         start = time.time()
+        # Gọi hàm gốc (\`func\`) với các đối số đã nhận.
+        # Lưu kết quả trả về của hàm gốc.
         result = func(*args, **kwargs)
+        # Ghi lại thời điểm kết thúc thực thi hàm.
         end = time.time()
+        # In ra thời gian mà hàm gốc đã mất để thực thi.
+        # \`func.__name__\` lấy tên của hàm gốc.
+        # \`end-start:.4f\` định dạng thời gian thành số thập phân với 4 chữ số sau dấu phẩy.
         print(f"{func.__name__} took {end-start:.4f}s")
+        # Trả về kết quả của hàm gốc.
         return result
+    # Trả về hàm \`wrapper\`. Khi \`timer\` được dùng làm decorator,
+    # nó sẽ thay thế hàm gốc bằng hàm \`wrapper\` này.
     return wrapper
 
+# Sử dụng decorator \`@timer\` để "trang trí" cho hàm \`slow_function\`.
+# Điều này có nghĩa là mỗi khi \`slow_function\` được gọi,
+# hàm \`wrapper\` bên trong \`timer\` sẽ được thực thi trước và sau \`slow_function\`.
 @timer
+# Định nghĩa một hàm có tên \`slow_function\` mô phỏng một tác vụ tốn thời gian.
 def slow_function():
+    # Tính tổng các số từ 0 đến 999,999. Đây là một phép tính tốn thời gian.
     total = sum(range(1000000))
+    # Trả về tổng đã tính.
     return total
 
+# Gọi hàm \`slow_function\`.
+# Vì \`slow_function\` đã được trang trí bởi \`@timer\`,
+# thời gian thực thi của nó sẽ được in ra console.
+# Kết quả trả về của \`slow_function\` (tổng các số) sẽ được lưu vào biến \`result\`.
+# Đầu ra mong đợi: Một dòng in thời gian thực thi của \`slow_function\` và sau đó là "Result: 499999500000".
 result = slow_function()
+# In ra kết quả cuối cùng của hàm \`slow_function\`.
 print(f"Result: {result}")`,
         codeLanguage: "python",
         exercise: "Write a 'count_calls' decorator that counts the number of times the function is called",
@@ -624,10 +743,26 @@ Runs smoothly on 8GB laptop.
 
 Generators **pause at yield**, preserving locals, resume on next \`next()\`:
 \`\`\`python
+# Định nghĩa một hàm tạo (generator function) có tên 'counter'.
+# Hàm tạo này sẽ tạo ra một chuỗi các giá trị theo yêu cầu.
 def counter():
+    # Khi hàm được gọi lần đầu, nó sẽ trả về (yield) giá trị 1.
+    # Khi được gọi lại, nó sẽ tiếp tục từ đây và trả về 2.
+    # Và cứ thế, trả về 3.
     yield 1; yield 2; yield 3
+
+# Tạo một đối tượng generator từ hàm counter().
+# Đối tượng này chưa thực thi code bên trong hàm counter() mà chỉ sẵn sàng để tạo ra giá trị.
 g = counter()
+
+# Lấy giá trị tiếp theo từ generator 'g'.
+# Lần gọi này sẽ thực thi phần code đầu tiên trong counter() cho đến khi gặp 'yield 1', và trả về 1.
+# Kết quả mong đợi: 1
 next(g)  # 1
+
+# Lấy giá trị tiếp theo từ generator 'g'.
+# Lần gọi này sẽ tiếp tục thực thi từ vị trí dừng trước đó (sau 'yield 1') cho đến khi gặp 'yield 2', và trả về 2.
+# Kết quả mong đợi: 2
 next(g)  # 2 (resumes after yield 1)
 \`\`\`
 
@@ -691,21 +826,51 @@ Used heavily in asyncio.
 ## Bridge
 
 Next: **File I/O** - combined with generators, build pipelines for huge CSV/JSON files with minimal memory.`,
-        code: `def count_up(start=0):
-    """Generator counts up infinitely"""
+        code: `# Định nghĩa một hàm generator tên là 'count_up'.
+# Hàm này sẽ đếm số tăng dần vô hạn, bắt đầu từ giá trị 'start' (mặc định là 0).
+def count_up(start=0):
+    """Generator counts up infinitely""" # Generator đếm lên vô hạn
+    # Khởi tạo biến 'n' với giá trị bắt đầu.
     n = start
+    # Vòng lặp vô hạn để liên tục tạo ra các số.
     while True:
+        # 'yield' biến 'n' thành một giá trị của generator.
+        # Khi 'yield' được gọi, hàm sẽ tạm dừng và trả về giá trị 'n'.
+        # Lần tiếp theo khi generator được gọi, nó sẽ tiếp tục thực thi từ đây.
         yield n
+        # Tăng 'n' lên 1 cho lần gọi tiếp theo.
         n += 1
 
-# Use generators
-counter = count_up(1)
-for _ in range(5):
-    print(next(counter))
+# Sử dụng generator.
 
-# Generator expression (similar to list comprehension)
+# Tạo một generator 'counter' bắt đầu đếm từ 1.
+# Đầu vào: 1 (giá trị bắt đầu).
+# Đầu ra: Một đối tượng generator.
+counter = count_up(1)
+# Lặp 5 lần để lấy 5 giá trị đầu tiên từ generator.
+for _ in range(5):
+    # Lấy giá trị tiếp theo từ generator 'counter' và in ra.
+    # Đầu vào: generator 'counter'.
+    # Đầu ra: Giá trị số nguyên tiếp theo từ generator.
+    print(next(counter))
+# Kết quả mong đợi:
+# 1
+# 2
+# 3
+# 4
+# 5
+
+# Generator expression (tương tự như list comprehension nhưng tạo ra generator thay vì list).
+
+# Tạo một generator expression để tính bình phương của các số từ 0 đến 9.
+# Đầu vào: range(10) (các số từ 0 đến 9).
+# Đầu ra: Một đối tượng generator tạo ra các bình phương.
 squares = (x**2 for x in range(10))
-print(list(squares))`,
+# Chuyển đổi generator 'squares' thành một danh sách (list) và in ra.
+# Đầu vào: generator 'squares'.
+# Đầu ra: Một list chứa các giá trị bình phương.
+print(list(squares))
+# Kết quả mong đợi: [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]`,
         codeLanguage: "python",
         exercise: "Write generator 'even_numbers(n)' yielding first n even numbers",
         exerciseEn: "Write a generator 'even_numbers(n)' that yields the first n even numbers",
@@ -869,10 +1034,21 @@ with open("huge.log", encoding="utf-8") as f:
 ## CSV: Use \`csv.DictReader\`
 
 \`\`\`python
+# Nhập thư viện 'csv' để làm việc với các tệp CSV.
 import csv
+
+# Mở tệp "data.csv" để đọc.
+# 'encoding="utf-8"' đảm bảo đọc đúng các ký tự tiếng Việt hoặc các ký tự đặc biệt khác.
+# 'as f' gán đối tượng tệp đã mở cho biến 'f', đảm bảo tệp sẽ tự động đóng khi thoát khỏi khối 'with'.
 with open("data.csv", encoding="utf-8") as f:
+    # Duyệt qua từng hàng trong tệp CSV.
+    # 'csv.DictReader(f)' đọc dữ liệu CSV dưới dạng từ điển,
+    # trong đó khóa là tên cột (từ hàng tiêu đề) và giá trị là dữ liệu của hàng đó.
     for row in csv.DictReader(f):
+        # In ra giá trị của cột "name" cho mỗi hàng.
+        # 'row["name"]' truy cập giá trị của cột có tên "name" trong từ điển 'row' hiện tại.
         print(row["name"])
+# Kết quả mong đợi: In ra tên của tất cả các dòng trong cột 'name' của file data.csv.
 \`\`\`
 
 Don't manually split on \`,\` - fails with quoted commas. For >100MB, use \`pd.read_csv(chunksize=)\`.
@@ -938,26 +1114,55 @@ Either old or new file - never half-written.
 ## Bridge
 
 Next: **Advanced SQL Window Functions** - once data is in DB, how to rank, compute running totals, moving averages efficiently.`,
-        code: `import json
+        code: `# Nhập thư viện 'json' để làm việc với dữ liệu JSON.
+import json
+# Nhập thư viện 'csv' để làm việc với dữ liệu CSV.
 import csv
+# Nhập 'StringIO' từ module 'io' để xử lý chuỗi như một file.
 from io import StringIO
 
-# JSON example
+# Ví dụ về xử lý JSON.
+
+# Dữ liệu Python dạng dictionary (từ điển) để chuyển đổi thành JSON.
 data = {
     "students": [
         {"name": "An", "score": 85},
         {"name": "Binh", "score": 92}
     ]
 }
+# Chuyển đổi dictionary 'data' thành chuỗi JSON.
+# 'indent=2' giúp định dạng JSON dễ đọc hơn với 2 khoảng trắng thụt vào.
+# 'ensure_ascii=False' cho phép hiển thị ký tự tiếng Việt mà không bị mã hóa.
+# Đầu vào: dictionary 'data'.
+# Đầu ra: chuỗi JSON 'json_str'.
 json_str = json.dumps(data, indent=2, ensure_ascii=False)
+# In ra tiêu đề cho phần output JSON.
 print("JSON output:")
+# In chuỗi JSON đã được định dạng.
+# Kết quả mong đợi: chuỗi JSON với dữ liệu sinh viên.
 print(json_str)
 
-# CSV example  
-csv_data = "Name,Score\\nAn,85\\nBinh,92"
+# Ví dụ về xử lý CSV.
+
+# Dữ liệu CSV dạng chuỗi. '\\\\n' được dùng để biểu thị xuống dòng.
+csv_data = "Name,Score\\\\nAn,85\\\\nBinh,92"
+# Tạo một đối tượng StringIO từ chuỗi CSV để 'csv.DictReader' có thể đọc nó như một file.
+# Đầu vào: chuỗi 'csv_data'.
+# Đầu ra: đối tượng giống file chứa dữ liệu CSV.
+# Tạo một 'DictReader' để đọc dữ dữ liệu CSV.
+# 'DictReader' sẽ đọc mỗi hàng thành một dictionary, với khóa là tên cột (header).
+# Đầu vào: đối tượng giống file từ StringIO.
+# Đầu ra: đối tượng 'reader' có thể lặp qua từng hàng CSV dưới dạng dictionary.
 reader = csv.DictReader(StringIO(csv_data))
-print("\\nCSV rows:")
+# In ra tiêu đề cho phần output CSV.
+print("\\\\nCSV rows:")
+# Lặp qua từng hàng được đọc bởi 'csv.DictReader'.
+# Mỗi 'row' là một dictionary, ví dụ: {'Name': 'An', 'Score': '85'}.
 for row in reader:
+    # In tên và điểm của mỗi sinh viên từ dictionary 'row'.
+    # Đầu vào: dictionary 'row' (ví dụ: {'Name': 'An', 'Score': '85'}).
+    # Đầu ra: in ra chuỗi định dạng "  Tên: Điểm".
+    # Kết quả mong đợi: in ra từng hàng CSV đã được phân tích.
     print(f"  {row['Name']}: {row['Score']}")`,
         codeLanguage: "python",
         exercise: "Write a function to read a JSON file containing a list of students and calculate the average score",
@@ -1045,9 +1250,17 @@ Pre-window (SQL:2003), running totals, ranking, period-over-period required comp
 ## Syntax
 
 \`\`\`sql
+-- Hàm cửa sổ (window function) được áp dụng cho từng nhóm dữ liệu.
+-- PARTITION BY chia tập dữ liệu thành các nhóm (partitions) dựa trên giá trị của col1.
+-- Hàm sẽ được tính toán độc lập trong mỗi nhóm này.
 function() OVER (
   PARTITION BY col1
+  -- ORDER BY sắp xếp các hàng trong mỗi nhóm (partition) theo giá trị của col2.
+  -- Thứ tự này quan trọng cho các hàm cửa sổ phụ thuộc vào thứ tự như ROW_NUMBER(), LEAD(), LAG(), hoặc các phép tính tích lũy.
   ORDER BY col2
+  -- ROWS BETWEEN ... AND ... định nghĩa "khung cửa sổ" (window frame) mà hàm sẽ tính toán trên đó.
+  -- Khung này xác định các hàng nào sẽ được bao gồm trong phép tính cho hàng hiện tại.
+  -- Ví dụ: ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW (từ đầu nhóm đến hàng hiện tại).
   ROWS BETWEEN ... AND ...
 )
 \`\`\`
@@ -1081,10 +1294,18 @@ AVG(price) OVER (ORDER BY date ROWS BETWEEN 3 PRECEDING AND 3 FOLLOWING)
 ## Pattern: Top-N per Group
 
 \`\`\`sql
+-- Bảng tạm (Common Table Expression - CTE) có tên 'ranked' được tạo ra.
 WITH ranked AS (
+  -- Chọn tất cả các cột từ bảng 'products'.
+  -- Thêm một cột mới 'rn' (rank number) để đánh số thứ tự.
+  -- Số thứ tự được đánh lại từ 1 cho mỗi 'category' (PARTITION BY category).
+  -- Trong mỗi 'category', các sản phẩm được sắp xếp theo 'revenue' giảm dần (ORDER BY revenue DESC).
   SELECT *, ROW_NUMBER() OVER (PARTITION BY category ORDER BY revenue DESC) rn
   FROM products
 )
+-- Chọn tất cả các cột từ bảng tạm 'ranked'.
+-- Lọc ra những hàng mà số thứ tự 'rn' nhỏ hơn hoặc bằng 3.
+-- Điều này có nghĩa là chúng ta sẽ lấy 3 sản phẩm có doanh thu cao nhất cho mỗi danh mục.
 SELECT * FROM ranked WHERE rn <= 3;
 \`\`\`
 
@@ -1133,23 +1354,32 @@ Stripe uses window functions heavily: MRR running totals, cohort retention via \
 ## Bridge
 
 Next: **Recursive CTE** - for tree/graph data (org charts, nested categories), window functions aren't enough.`,
-        code: `-- Advanced window functions demo
+        code: `-- Demo các hàm cửa sổ (window functions) nâng cao
+-- Các hàm cửa sổ giúp thực hiện tính toán trên một tập hợp các hàng có liên quan đến hàng hiện tại.
 SELECT 
-  employee_name,
-  department,
-  salary,
+  employee_name, -- Chọn tên nhân viên
+  department, -- Chọn phòng ban
+  salary, -- Chọn mức lương
+  -- Chia dữ liệu thành 4 nhóm (quartile) dựa trên mức lương giảm dần.
+  -- NTILE(4) sẽ gán số 1, 2, 3 hoặc 4 cho mỗi hàng.
   NTILE(4) OVER (ORDER BY salary DESC) AS salary_quartile,
+  -- Tính thứ hạng phần trăm của mức lương.
+  -- Giá trị từ 0 đến 1, cho biết tỷ lệ các giá trị nhỏ hơn hoặc bằng giá trị hiện tại.
   PERCENT_RANK() OVER (ORDER BY salary) AS pct_rank,
+  -- Tính tổng lương lũy kế (running total) theo thứ tự lương tăng dần.
+  -- Bắt đầu từ hàng đầu tiên (UNBOUNDED PRECEDING) đến hàng hiện tại (CURRENT ROW).
   SUM(salary) OVER (
     ORDER BY salary 
     ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
   ) AS running_total,
+  -- Tính trung bình động của 3 hàng gần nhất (bao gồm hàng hiện tại và 2 hàng trước đó) theo thứ tự lương.
   AVG(salary) OVER (
     ORDER BY salary 
     ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
   ) AS moving_avg_3
-FROM employees
-ORDER BY salary DESC;`,
+FROM employees -- Lấy dữ liệu từ bảng 'employees'
+ORDER BY salary DESC; -- Sắp xếp kết quả theo mức lương giảm dần
+-- Kết quả sẽ hiển thị tên, phòng ban, lương, nhóm lương, thứ hạng phần trăm, tổng lương lũy kế và trung bình động 3 hàng cho mỗi nhân viên.`,
         codeLanguage: "sql",
         exercise: "Write a query to divide students into 3 groups according to scores and calculate running average",
         exerciseEn: "Write a query to divide students into 3 groups by score and calculate running average",
@@ -1197,12 +1427,25 @@ SELECT * FROM cte;
 ## 3. 🧰 Ví dụ org chart
 
 \`\`\`sql
+-- Định nghĩa một Common Table Expression (CTE) đệ quy có tên 'org'.
+-- CTE này sẽ xây dựng cấu trúc cây tổ chức từ bảng 'emp'.
 WITH RECURSIVE org AS (
+  -- Phần neo (anchor member): Chọn tất cả nhân viên không có quản lý (là cấp cao nhất).
+  -- Đây là điểm bắt đầu của cây.
   SELECT id, name, manager_id, 1 AS depth FROM emp WHERE manager_id IS NULL
+  
   UNION ALL
+  
+  -- Phần đệ quy (recursive member): Lặp lại để tìm nhân viên cấp dưới.
+  -- Nối bảng 'emp' (e) với CTE 'org' (o) để tìm nhân viên có manager_id trùng với id của nhân viên đã có trong 'org'.
+  -- Tăng độ sâu (depth) lên 1 cho mỗi cấp.
   SELECT e.id, e.name, e.manager_id, o.depth + 1
   FROM emp e JOIN org o ON e.manager_id = o.id
 )
+-- Chọn kết quả cuối cùng từ CTE 'org'.
+-- Sử dụng hàm REPEAT để tạo thụt lề (dấu cách) dựa trên độ sâu (depth),
+-- giúp hiển thị cấu trúc cây một cách trực quan.
+-- Kết quả là tên nhân viên được thụt lề để thể hiện cấp bậc trong cây tổ chức.
 SELECT REPEAT('  ', depth-1) || name AS tree FROM org;
 \`\`\`
 
@@ -1211,11 +1454,24 @@ SELECT REPEAT('  ', depth-1) || name AS tree FROM org;
 Đếm số cấp dưới của 1 manager:
 
 \`\`\`sql
+-- Định nghĩa một CTE (Common Table Expression) đệ quy tên là 'sub'
+-- CTE này sẽ tìm tất cả các nhân viên cấp dưới (trực tiếp và gián tiếp) của một quản lý cụ thể.
 WITH RECURSIVE sub AS (
+  -- Phần neo (anchor member): Chọn tất cả các nhân viên mà quản lý trực tiếp của họ có ID là 5.
+  -- Đây là điểm bắt đầu của quá trình đệ quy.
   SELECT id FROM emp WHERE manager_id = 5
+  
   UNION ALL
+  
+  -- Phần đệ quy (recursive member):
+  -- Lặp lại việc chọn các nhân viên mà quản lý của họ nằm trong tập hợp 'sub' đã được tìm thấy ở bước trước.
+  -- Điều này tiếp tục cho đến khi không còn nhân viên cấp dưới mới nào được tìm thấy.
+  -- Đầu vào: Bảng 'emp' (tất cả nhân viên) và tập hợp 'sub' từ bước trước.
+  -- Đầu ra: ID của các nhân viên cấp dưới mới.
   SELECT e.id FROM emp e JOIN sub s ON e.manager_id = s.id
 )
+-- Cuối cùng, đếm tổng số lượng nhân viên được tìm thấy trong CTE 'sub'.
+-- Kết quả: Tổng số nhân viên cấp dưới (trực tiếp và gián tiếp) của quản lý có ID là 5.
 SELECT COUNT(*) FROM sub;
 \`\`\`
 
@@ -1251,16 +1507,25 @@ All require iteration until termination - recursion. Recursive CTE solves all in
 ## Syntax & Two Required Parts
 
 \`\`\`sql
+-- Định nghĩa một CTE (Common Table Expression) đệ quy có tên là 'cte_name'.
+-- CTE đệ quy cho phép một truy vấn tham chiếu chính nó.
 WITH RECURSIVE cte_name AS (
-  -- 1️⃣ ANCHOR (base case) - runs once
+  -- 1️⃣ PHẦN NEO (ANCHOR) - Đây là trường hợp cơ sở, chạy một lần duy nhất.
+  -- Nó cung cấp các giá trị khởi tạo cho CTE.
   SELECT initial_values WHERE start_condition
 
-  UNION ALL                  -- must be UNION ALL, not UNION
+  -- Kết hợp kết quả của phần neo và phần đệ quy.
+  -- BẮT BUỘC phải dùng UNION ALL (không được dùng UNION vì UNION loại bỏ các hàng trùng lặp, có thể làm sai lệch logic đệ quy).
+  UNION ALL
 
-  -- 2️⃣ RECURSIVE - references cte_name
+  -- 2️⃣ PHẦN ĐỆ QUY (RECURSIVE) - Phần này tham chiếu đến chính 'cte_name'.
+  -- Nó sẽ chạy lặp đi lặp lại cho đến khi điều kiện dừng được đáp ứng.
   SELECT new_values FROM table JOIN cte_name ON ...
-  WHERE termination_condition  -- REQUIRED termination
+  -- Điều kiện dừng BẮT BUỘC phải có để tránh vòng lặp vô hạn.
+  WHERE termination_condition
 )
+-- Cuối cùng, chọn tất cả các hàng từ CTE 'cte_name' sau khi quá trình đệ quy hoàn tất.
+-- Kết quả sẽ là tập hợp tất cả các hàng được tạo ra bởi phần neo và các lần lặp đệ quy.
 SELECT * FROM cte_name;
 \`\`\`
 
@@ -1273,11 +1538,23 @@ Anchor → Result_0; Recursive on R0 → R1; on R1 → R2; ... until empty. Fina
 ## Example #1: Date Series
 
 \`\`\`sql
+-- Định nghĩa một Common Table Expression (CTE) đệ quy tên là 'dates'.
+-- CTE đệ quy cho phép một truy vấn tham chiếu chính nó.
 WITH RECURSIVE dates AS (
+  -- Phần neo (anchor member): Khởi tạo tập hợp kết quả.
+  -- Chọn ngày '2024-01-01' làm ngày bắt đầu và đặt tên cột là 'd'.
   SELECT DATE '2024-01-01' AS d
+  
+  -- Kết hợp kết quả của phần neo với phần đệ quy.
   UNION ALL
+  
+  -- Phần đệ quy (recursive member): Tạo các hàng tiếp theo.
+  -- Chọn ngày tiếp theo (d + 1) từ tập hợp 'dates' hiện tại.
+  -- Điều kiện dừng: Tiếp tục thêm ngày cho đến khi 'd' nhỏ hơn ngày '2024-01-30'.
   SELECT d + 1 FROM dates WHERE d < DATE '2024-01-30'
 )
+-- Truy vấn cuối cùng: Chọn tất cả các cột từ CTE 'dates'.
+-- Kết quả sẽ là một danh sách các ngày từ '2024-01-01' đến '2024-01-30'.
 SELECT * FROM dates;
 \`\`\`
 
@@ -1343,24 +1620,40 @@ GitLab uses recursive CTE on PostgreSQL to check access through nested group hie
 
 Next: **Apache Spark** - when data exceeds single DB (>1TB), distribute across a cluster. Spark is the industry #1 big data framework.`,
         code: `-- Recursive CTE: Generate a number series
+-- CTE đệ quy: Tạo một chuỗi số
 WITH RECURSIVE numbers AS (
+  -- Phần neo (anchor member): Bắt đầu chuỗi với số 1
   SELECT 1 AS n
   UNION ALL
+  -- Phần đệ quy (recursive member): Cộng thêm 1 vào số trước đó
+  -- Tiếp tục cho đến khi n đạt 20
   SELECT n + 1 FROM numbers WHERE n < 20
 )
+-- Chọn số và bình phương của nó từ chuỗi đã tạo
+-- Đầu ra: Một danh sách các số từ 1 đến 20 và bình phương của chúng
 SELECT n, n * n AS square FROM numbers;
 
 -- Hierarchical query: Category tree
+-- Truy vấn phân cấp: Cây danh mục
 WITH RECURSIVE category_tree AS (
+  -- Phần neo (anchor member): Chọn các danh mục gốc (không có parent_id)
+  -- Khởi tạo độ sâu là 0 và đường dẫn là tên danh mục
+  -- Đầu vào: Bảng 'categories'
   SELECT id, name, parent_id, 0 AS depth,
          name AS path
   FROM categories WHERE parent_id IS NULL
   UNION ALL
+  -- Phần đệ quy (recursive member): Nối các danh mục con vào danh mục cha
+  -- Tăng độ sâu lên 1 và nối tên danh mục vào đường dẫn
+  -- Đầu vào: Bảng 'categories' và CTE 'category_tree'
   SELECT c.id, c.name, c.parent_id, ct.depth + 1,
          ct.path || ' > ' || c.name
   FROM categories c
   JOIN category_tree ct ON c.parent_id = ct.id
 )
+-- Chọn độ sâu và đường dẫn của từng danh mục từ cây đã tạo
+-- Sắp xếp theo đường dẫn để dễ đọc
+-- Đầu ra: Cây danh mục với độ sâu và đường dẫn đầy đủ
 SELECT depth, path FROM category_tree ORDER BY path;`,
         codeLanguage: "sql",
         exercise: "Write a recursive CTE to display a 3-level menu tree with indentation",
@@ -1402,11 +1695,30 @@ Pandas xử lý 10 triệu dòng còn ổn - đến 1 tỷ dòng thì laptop ch�
 ## 3. 🧰 Cú pháp PySpark
 
 \`\`\`python
+# Nhập thư viện SparkSession từ pyspark.sql để làm việc với Spark SQL.
 from pyspark.sql import SparkSession
+
+# Khởi tạo SparkSession, đây là điểm vào chính để lập trình với Spark.
+# appName("demo") đặt tên cho ứng dụng Spark của chúng ta là "demo".
+# getOrCreate() sẽ tạo một SparkSession mới nếu chưa có, hoặc trả về cái hiện có.
 spark = SparkSession.builder.appName("demo").getOrCreate()
+
+# Đọc dữ liệu từ các tệp Parquet được lưu trữ trên S3.
+# "s3://my-bucket/sales/" là đường dẫn đến thư mục chứa các tệp Parquet.
+# Kết quả đọc được sẽ là một DataFrame (bảng dữ liệu phân tán).
 df = spark.read.parquet("s3://my-bucket/sales/")
+
+# Bắt đầu chuỗi các phép biến đổi trên DataFrame.
+# 1. Lọc các hàng mà cột 'amount' có giá trị lớn hơn 100.
+# 2. Nhóm các hàng còn lại theo cột 'region'.
+# 3. Tính tổng của cột 'amount' cho mỗi nhóm 'region'.
+# Kết quả là một DataFrame mới chứa tổng 'amount' theo từng 'region'.
 result = (df.filter(df.amount > 100)
             .groupBy("region").sum("amount"))
+
+# Hiển thị 20 hàng đầu tiên của DataFrame 'result' lên console.
+# Đây là hành động cuối cùng để xem kết quả của các phép biến đổi.
+# Kết quả mong đợi: Một bảng với hai cột (region và sum(amount)), hiển thị tổng doanh thu cho các giao dịch lớn hơn 100 theo từng khu vực.
 result.show()
 \`\`\`
 
@@ -1473,11 +1785,29 @@ Optimize = minimize shuffle.
 ## PySpark Example
 
 \`\`\`python
+# Đọc dữ liệu từ các tệp Parquet trong thư mục S3.
+# Đầu vào: Đường dẫn S3 đến các tệp Parquet chứa dữ liệu bán hàng.
 result = (spark.read.parquet("s3://bucket/sales/")
+    # Lọc các bản ghi mà cột 'date' lớn hơn hoặc bằng ngày '2024-01-01'.
+    # Đầu vào: DataFrame ban đầu.
+    # Đầu ra: DataFrame chỉ chứa dữ liệu từ ngày 2024-01-01 trở đi.
     .filter(F.col("date") >= "2024-01-01")
+    # Nhóm dữ liệu theo cột 'region' (khu vực).
+    # Đầu vào: DataFrame đã lọc.
+    # Đầu ra: DataFrame được nhóm theo khu vực.
     .groupBy("region")
+    # Tính tổng cột 'revenue' (doanh thu) cho mỗi nhóm và đặt tên cột kết quả là 'total'.
+    # Đầu vào: DataFrame đã nhóm.
+    # Đầu ra: DataFrame với các cột 'region' và 'total'.
     .agg(F.sum("revenue").alias("total"))
+    # Sắp xếp kết quả theo cột 'total' theo thứ tự giảm dần (từ cao xuống thấp).
+    # Đầu vào: DataFrame với 'region' và 'total'.
+    # Đầu ra: DataFrame đã sắp xếp.
     .orderBy(F.desc("total")))
+# Ghi kết quả cuối cùng ra các tệp Parquet trong thư mục S3 khác.
+# Chế độ "overwrite" sẽ ghi đè nếu thư mục đích đã tồn tại.
+# Đầu vào: DataFrame 'result' đã được xử lý.
+# Đầu ra: Các tệp Parquet được lưu tại "s3://bucket/out/".
 result.write.mode("overwrite").parquet("s3://bucket/out/")
 \`\`\`
 

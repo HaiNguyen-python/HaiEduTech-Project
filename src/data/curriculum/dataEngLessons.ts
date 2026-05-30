@@ -123,10 +123,16 @@ df['tier'] = np.select(
 
 ## GroupBy - Split-Apply-Combine
 \`\`\`python
+# Nhóm dữ liệu theo cột 'city' (thành phố)
+# Sau đó, tính toán các giá trị tổng hợp (aggregate) cho mỗi nhóm
 df.groupby('city').agg(
+    # Tính điểm trung bình (mean) của cột 'score' và đặt tên là 'avg_score'
     avg_score=('score', 'mean'),
+    # Đếm số lượng sinh viên (count) trong cột 'name' và đặt tên là 'student_count'
     student_count=('name', 'count')
 )
+# Kết quả mong đợi: Một DataFrame mới với mỗi hàng là một thành phố,
+# và các cột 'avg_score' (điểm trung bình) và 'student_count' (số lượng sinh viên) cho thành phố đó.
 \`\`\`
 
 ## Performance comparison (1M rows)
@@ -276,10 +282,22 @@ IBM invested **$5B** in Watson for Oncology but shut it down in 2018 because the
 
 ## 1. Detect missing values
 \`\`\`python
+# Đếm số lượng giá trị thiếu (NULL/NaN) cho mỗi cột trong DataFrame.
+# Đầu vào: DataFrame \`df\`.
+# Đầu ra: Một Series hiển thị số lượng giá trị thiếu cho từng cột.
 df.isnull().sum()                       # NULL count per column
+# Tính phần trăm giá trị thiếu cho mỗi cột trong DataFrame.
+# Đầu vào: DataFrame \`df\`.
+# Đầu ra: Một Series hiển thị phần trăm giá trị thiếu cho từng cột.
 df.isnull().sum() / len(df) * 100       # % missing per column
 
+# Nhập thư viện \`missingno\` để trực quan hóa dữ liệu thiếu.
 import missingno as msno
+# Vẽ biểu đồ ma trận (matrix plot) để hiển thị các mẫu dữ liệu thiếu.
+# Các dòng là các hàng dữ liệu, các cột là các cột trong DataFrame.
+# Màu trắng biểu thị giá trị thiếu, màu đen biểu thị giá trị có.
+# Đầu vào: DataFrame \`df\`.
+# Đầu ra: Biểu đồ trực quan hóa mẫu dữ liệu thiếu.
 msno.matrix(df)                         # missing pattern heatmap
 \`\`\`
 
@@ -354,14 +372,39 @@ df['outlier'] = IsolationForest(contamination=0.05).fit_predict(df[['age','incom
 ## Production-ready cleaning pipeline
 \`\`\`python
 def clean_dataframe(df):
+    # Khởi tạo một từ điển để lưu trữ các thông số (metrics) sau khi làm sạch dữ liệu.
     metrics = {}
+    
+    # Chuyển đổi cột 'age' sang kiểu số.
+    # Nếu có lỗi trong quá trình chuyển đổi (ví dụ: giá trị không phải số), thay thế bằng NaN (Not a Number).
     df['age'] = pd.to_numeric(df['age'], errors='coerce')
+    
+    # Chuyển đổi tất cả các địa chỉ email sang chữ thường và loại bỏ khoảng trắng thừa ở đầu/cuối.
     df['email'] = df['email'].str.lower().str.strip()
+    
+    # Đếm số lượng các hàng bị trùng lặp và lưu vào metrics.
+    # Đầu vào: DataFrame. Đầu ra: Số lượng hàng trùng lặp.
     metrics['duplicates'] = df.duplicated().sum()
+    
+    # Xóa các hàng bị trùng lặp khỏi DataFrame.
+    # Đầu vào: DataFrame có thể chứa các hàng trùng lặp. Đầu ra: DataFrame không còn các hàng trùng lặp.
     df = df.drop_duplicates()
+    
+    # Xử lý các giá trị thiếu (NaN) trong cột 'age' bằng cách điền giá trị trung vị (median).
+    # Sau đó, giới hạn giá trị của 'age' trong khoảng từ 0 đến 120 để đảm bảo tính hợp lệ.
     df['age'] = df['age'].fillna(df['age'].median()).clip(0, 120)
+    
+    # Xử lý các giá trị ngoại lai (outliers) trong cột 'income'.
+    # Giới hạn giá trị 'income' trong khoảng từ phân vị thứ 1 (1%) đến phân vị thứ 99 (99%).
+    # Điều này giúp loại bỏ các giá trị quá thấp hoặc quá cao bất thường.
     df['income'] = df['income'].clip(df['income'].quantile(0.01), df['income'].quantile(0.99))
+    
+    # Kiểm tra tính hợp lệ của các địa chỉ email.
+    # Đảm bảo tất cả các email đều chứa ký tự '@'. Nếu không, sẽ báo lỗi.
     assert df['email'].str.contains('@').all(), "Invalid emails"
+    
+    # Trả về DataFrame đã được làm sạch và từ điển chứa các thông số (metrics).
+    # Đầu ra: DataFrame đã làm sạch và metrics (ví dụ: số lượng bản ghi trùng lặp đã xóa).
     return df, metrics
 \`\`\`
 
@@ -486,10 +529,23 @@ df3 = pd.read_sql("SELECT * FROM users", conn)
 ## 4. 🎯 Ví dụ chạy được ngay
 
 \`\`\`python
+# Nhập thư viện pandas, một thư viện mạnh mẽ để làm việc với dữ liệu dạng bảng.
 import pandas as pd
+
+# Đọc dữ liệu bán hàng từ file CSV có tên "sales.csv" vào một DataFrame.
+# DataFrame là cấu trúc dữ liệu chính của pandas, giống như một bảng tính.
 sales = pd.read_csv("sales.csv")
+
+# Đọc dữ liệu sản phẩm từ file Excel có tên "products.xlsx" vào một DataFrame khác.
 products = pd.read_excel("products.xlsx")
+
+# Gộp (merge) hai DataFrame 'sales' và 'products' lại với nhau.
+# Việc gộp này được thực hiện dựa trên cột chung là "product_id".
+# Kết quả là một DataFrame mới chứa thông tin kết hợp từ cả hai bảng.
 merged = sales.merge(products, on="product_id")
+
+# In ra 5 dòng đầu tiên của DataFrame đã gộp để xem trước kết quả.
+# Đầu ra sẽ là một bảng với các cột từ cả sales và products, được nối với nhau.
 print(merged.head())
 \`\`\`
 
@@ -554,34 +610,75 @@ df = pd.read_csv('data.csv',
 
 ## 2. Reading JSON - flat vs nested
 \`\`\`python
+# Chuyển đổi dữ liệu JSON phức tạp thành DataFrame phẳng (flat) của pandas.
+# Điều này giúp dễ dàng làm việc với dữ liệu có cấu trúc lồng nhau.
 df = pd.json_normalize(
-    raw['data'],
-    record_path=['orders', 'items'],
-    meta=['order_id', ['customer', 'name']],
-    sep='_'
+    raw['data'],  # Dữ liệu đầu vào là phần 'data' từ đối tượng 'raw'.
+    record_path=['orders', 'items'],  # Đường dẫn đến các bản ghi cần "làm phẳng" (flatten).
+                                     # Ở đây là các 'items' bên trong mỗi 'order'.
+    meta=['order_id', ['customer', 'name']],  # Các trường siêu dữ liệu (meta data) cần giữ lại từ cấp cao hơn.
+                                             # 'order_id' được lấy trực tiếp.
+                                             # 'name' được lấy từ đối tượng 'customer' lồng bên trong.
+    sep='_'  # Ký tự phân tách được sử dụng để nối tên các cột khi làm phẳng các đối tượng lồng nhau.
 )
+# Kết quả mong đợi: Một DataFrame mới với mỗi hàng là một 'item' từ các đơn hàng,
+# kèm theo 'order_id' và 'customer_name' tương ứng.
 \`\`\`
 
 ## 3. API ingestion - production pattern
 \`\`\`python
+# Khởi tạo một đối tượng Session để tái sử dụng kết nối HTTP.
+# Điều này giúp cải thiện hiệu suất và quản lý cookie/session tốt hơn.
 session = requests.Session()
+# Cấu hình chính sách thử lại (retry) cho các yêu cầu HTTP.
+# total=5: Tổng số lần thử lại tối đa là 5.
+# backoff_factor=2: Thời gian chờ giữa các lần thử lại sẽ tăng theo cấp số nhân (ví dụ: 1s, 2s, 4s, 8s...).
+# status_forcelist: Danh sách các mã trạng thái HTTP mà khi gặp phải sẽ thử lại.
 retry = Retry(total=5, backoff_factor=2, status_forcelist=[429,500,502,503,504])
+# Gắn bộ điều hợp HTTP (HTTPAdapter) vào session cho các URL bắt đầu bằng 'https://'.
+# Bộ điều hợp này sẽ áp dụng chính sách thử lại đã cấu hình.
 session.mount('https://', HTTPAdapter(max_retries=retry))
 
+# Khởi tạo một danh sách rỗng để lưu trữ tất cả dữ liệu lấy được từ API.
 all_data = []
+# Khởi tạo biến số trang, bắt đầu từ trang 1.
 page = 1
+# Bắt đầu vòng lặp vô hạn để lấy dữ liệu từ API theo từng trang.
 while True:
+    # Gửi yêu cầu GET đến URL đã cho.
+    # url: Địa chỉ API cần gọi.
+    # headers: Thêm tiêu đề Authorization với token để xác thực.
+    # params: Truyền các tham số truy vấn 'page' và 'per_page' (số lượng mục trên mỗi trang).
+    # timeout: Đặt thời gian chờ cho yêu cầu (kết nối 5s, đọc dữ liệu 30s).
+    # Đầu vào: url, TOKEN, page, per_page.
+    # Đầu ra: Đối tượng phản hồi HTTP (r).
     r = session.get(url, headers={'Authorization': f'Bearer {TOKEN}'},
                     params={'page': page, 'per_page': 100}, timeout=(5, 30))
+    # Kiểm tra mã trạng thái của phản hồi. Nếu là lỗi (ví dụ: 4xx hoặc 5xx), sẽ ném ra một ngoại lệ.
     r.raise_for_status()
+    # Chuyển đổi nội dung phản hồi JSON thành một đối tượng Python (thường là dictionary).
+    # Đầu vào: Phản hồi HTTP dạng JSON.
+    # Đầu ra: Dictionary Python chứa dữ liệu.
     data = r.json()
+    # Kiểm tra xem trường 'items' trong dữ liệu có rỗng không.
+    # Nếu rỗng, nghĩa là không còn dữ liệu để lấy, thì thoát khỏi vòng lặp.
     if not data['items']: break
+    # Thêm tất cả các mục (items) từ trang hiện tại vào danh sách 'all_data'.
     all_data.extend(data['items'])
+    # Tăng số trang lên 1 để lấy dữ liệu của trang tiếp theo trong lần lặp kế tiếp.
     page += 1
+# Kết quả mong đợi: Biến 'all_data' sẽ chứa tất cả dữ liệu từ API sau khi duyệt qua tất cả các trang.
 \`\`\`
 
 ## 4. Database - chunked + parameterized
 \`\`\`python
+# Đọc dữ liệu từ cơ sở dữ liệu vào DataFrame của pandas.
+# Đầu vào:
+#   - Câu lệnh SQL để truy vấn dữ liệu.
+#   - Đối tượng engine để kết nối đến cơ sở dữ liệu.
+#   - Tham số cho câu lệnh SQL (start_date).
+#   - Kích thước chunksize để đọc dữ liệu theo từng phần nhỏ, giúp tiết kiệm bộ nhớ.
+# Đầu ra: Một DataFrame chứa dữ liệu từ bảng 'users' được lọc theo ngày tạo.
 df = pd.read_sql(
     "SELECT * FROM users WHERE created_at > %s",
     engine, params=(start_date,), chunksize=10000
@@ -595,12 +692,33 @@ df = pd.read_sql(
 
 ## Schema validation
 \`\`\`python
+# Nhập thư viện pandera, một công cụ để xác thực dữ liệu trong DataFrame.
 import pandera as pa
+
+# Định nghĩa một schema (khuôn mẫu) cho DataFrame.
+# Schema này sẽ mô tả cấu trúc và các quy tắc cho từng cột trong DataFrame.
 schema = pa.DataFrameSchema({
+    # Định nghĩa cột "id":
+    # - Kiểu dữ liệu phải là số nguyên (int).
+    # - Giá trị trong cột này phải là duy nhất (unique=True), không được trùng lặp.
     "id": pa.Column(int, unique=True),
-    "email": pa.Column(str, pa.Check.str_matches(r'^[\\w.+-]+@[\\w.-]+\\.\\w+$')),
+    # Định nghĩa cột "email":
+    # - Kiểu dữ liệu phải là chuỗi (str).
+    # - Thêm một kiểm tra (Check) để đảm bảo chuỗi email khớp với một biểu thức chính quy (regex).
+    #   Biểu thức này kiểm tra định dạng email cơ bản (ví dụ: user@domain.com).
+    "email": pa.Column(str, pa.Check.str_matches(r'^[\\\\w.+-]+@[\\\\w.-]+\\\\.\\\\w+\$')),
+    # Định nghĩa cột "age":
+    # - Kiểu dữ liệu phải là số nguyên (int).
+    # - Thêm một kiểm tra (Check) để đảm bảo giá trị tuổi nằm trong khoảng từ 0 đến 120 (bao gồm cả 0 và 120).
     "age": pa.Column(int, pa.Check.in_range(0, 120)),
 })
+
+# Thực hiện xác thực DataFrame 'df' dựa trên schema đã định nghĩa.
+# - 'df': DataFrame đầu vào cần được kiểm tra.
+# - 'lazy=True': Nếu có lỗi, pandera sẽ thu thập tất cả các lỗi và báo cáo cùng lúc,
+#   thay vì dừng lại ở lỗi đầu tiên.
+# Kết quả trả về là một DataFrame đã được xác thực (df_validated).
+# Nếu có bất kỳ dữ liệu nào không khớp với schema, một lỗi sẽ được ném ra.
 df_validated = schema.validate(df, lazy=True)
 \`\`\`
 
@@ -659,46 +777,93 @@ df_validated = schema.validate(df, lazy=True)
 
 ## Bridge to next
 After successful extraction, the next lesson (**ETL Pipeline Design**) covers orchestrating the **full flow** from extract → transform → load with Airflow, idempotency, and monitoring.`,
-        code: `import json
+        code: `# Nhập thư viện 'json' để làm việc với dữ liệu JSON.
+import json
+# Nhập thư viện 'csv' để làm việc với dữ liệu CSV.
 import csv
+# Nhập 'StringIO' từ thư viện 'io' để xử lý chuỗi như một file.
 from io import StringIO
 
-# Simulate CSV ingestion
+# Mô phỏng việc nạp dữ liệu từ CSV.
+# Đây là một chuỗi nhiều dòng chứa dữ liệu CSV.
 csv_data = """name,age,score
 An,22,85
 Binh,25,92
 Chi,23,78"""
 
+# Tạo một đối tượng DictReader từ chuỗi CSV.
+# StringIO(csv_data) biến chuỗi thành một đối tượng giống file để csv.DictReader có thể đọc.
+# DictReader đọc mỗi hàng thành một từ điển (dictionary), với khóa là tên cột.
 reader = csv.DictReader(StringIO(csv_data))
+# Chuyển đổi đối tượng reader thành một danh sách các từ điển.
+# Mỗi từ điển đại diện cho một hàng trong CSV.
 csv_rows = list(reader)
+# In ra số lượng hàng đã được nạp từ CSV.
+# Đầu ra: Số lượng hàng đã nạp.
 print(f"📄 CSV: {len(csv_rows)} rows loaded")
+# Lặp qua từng hàng trong danh sách csv_rows và in ra nội dung của mỗi hàng.
+# Đầu ra: Từng hàng dữ liệu CSV dưới dạng từ điển.
 for row in csv_rows:
     print(f"  {row}")
 
-# Simulate JSON ingestion
+# Mô phỏng việc nạp dữ liệu từ JSON.
+# Đây là một chuỗi JSON chứa một danh sách các đối tượng.
 json_data = '[{"name":"Dung","age":28,"score":95},{"name":"Em","age":21,"score":88}]'
+# Phân tích chuỗi JSON thành một đối tượng Python (danh sách các từ điển).
+# Đầu vào: Chuỗi JSON.
+# Đầu ra: Danh sách các từ điển Python.
 json_rows = json.loads(json_data)
-print(f"\\n📋 JSON: {len(json_rows)} records loaded")
+# In ra số lượng bản ghi đã được nạp từ JSON.
+# Đầu ra: Số lượng bản ghi JSON đã nạp.
+print(f"\\\\n📋 JSON: {len(json_rows)} records loaded")
+# Lặp qua từng bản ghi trong danh sách json_rows và in ra nội dung của mỗi bản ghi.
+# Đầu ra: Từng bản ghi dữ liệu JSON dưới dạng từ điển.
 for row in json_rows:
     print(f"  {row}")
 
-# Schema validation
+# Định nghĩa hàm để kiểm tra tính hợp lệ của lược đồ dữ liệu.
+# Hàm này kiểm tra xem các trường bắt buộc có tồn tại không và kiểu dữ liệu có đúng không.
+# Đầu vào:
+#   - data: Danh sách các từ điển (mỗi từ điển là một hàng/bản ghi).
+#   - required_fields: Danh sách các tên trường bắt buộc phải có.
+#   - field_types: Một từ điển ánh xạ tên trường với kiểu dữ liệu mong đợi (ví dụ: {'age': int}).
+# Đầu ra:
+#   - errors: Một danh sách các chuỗi mô tả lỗi tìm thấy.
 def validate_schema(data, required_fields, field_types):
+    # Khởi tạo một danh sách rỗng để lưu trữ các lỗi tìm thấy.
     errors = []
+    # Lặp qua từng hàng dữ liệu cùng với chỉ số của nó.
     for i, row in enumerate(data):
+        # Kiểm tra các trường bắt buộc.
         for field in required_fields:
+            # Nếu trường bắt buộc không có trong hàng hiện tại, thêm lỗi vào danh sách.
             if field not in row:
                 errors.append(f"Row {i}: missing '{field}'")
+        # Kiểm tra kiểu dữ liệu của các trường.
         for field, expected_type in field_types.items():
+            # Nếu trường tồn tại trong hàng, tiến hành kiểm tra kiểu.
             if field in row:
                 try:
+                    # Cố gắng chuyển đổi giá trị của trường sang kiểu dữ liệu mong đợi.
+                    # Nếu thành công, kiểu dữ liệu là đúng.
                     expected_type(row[field])
                 except (ValueError, TypeError):
+                    # Nếu xảy ra lỗi ValueError hoặc TypeError trong quá trình chuyển đổi,
+                    # nghĩa là kiểu dữ liệu không đúng. Thêm lỗi vào danh sách.
                     errors.append(f"Row {i}: '{field}' is not {expected_type.__name__}")
+    # Trả về danh sách các lỗi đã tìm thấy.
     return errors
 
+# Gọi hàm validate_schema để kiểm tra dữ liệu CSV.
+# Kiểm tra xem 'name' và 'age' có phải là trường bắt buộc không.
+# Kiểm tra xem 'age' và 'score' có phải là kiểu số nguyên không.
+# Đầu vào: csv_rows, ['name', 'age'], {'age': int, 'score': int}
+# Đầu ra: Danh sách các lỗi (nếu có).
 errors = validate_schema(csv_rows, ['name', 'age'], {'age': int, 'score': int})
-print(f"\\n✅ Validation: {len(errors)} errors" if errors else "\\n✅ Schema valid!")`,
+# In ra kết quả kiểm tra lược đồ.
+# Nếu danh sách lỗi rỗng, in ra "Schema valid!". Ngược lại, in ra số lượng lỗi.
+# Đầu ra: Thông báo về số lượng lỗi hoặc xác nhận lược đồ hợp lệ.
+print(f"\\\\n✅ Validation: {len(errors)} errors" if errors else "\\\\n✅ Schema valid!")`,
         codeLanguage: "python",
         exercise: "Build a DataIngester class that reads CSV and JSON, auto-detects schema and reports quality.",
         exerciseEn: "Build a DataIngester class that reads CSV and JSON, auto-detects schema and reports quality.",
@@ -890,59 +1055,144 @@ Every data-driven company needs reliable pipelines from operational systems (Pos
 
 ## Bridge to next
 After understanding the ETL/ELT architecture, the next lesson (**Data Modeling**) covers HOW to organize tables in the warehouse: Star Schema, Snowflake, fact vs dimension - the foundation of fast queries.`,
-        code: `import json
+        code: `# Nhập thư viện JSON để làm việc với dữ liệu JSON (nếu cần, ở đây không dùng trực tiếp nhưng thường đi kèm ETL).
+import json
+# Nhập lớp datetime từ module datetime để làm việc với thời gian, dùng để ghi log.
 from datetime import datetime
 
+# Định nghĩa một lớp (class) tên là ETLPipeline.
+# Lớp này sẽ đại diện cho một quy trình ETL (Extract, Transform, Load - Trích xuất, Biến đổi, Tải).
 class ETLPipeline:
+    # Phương thức khởi tạo (constructor) của lớp.
+    # Được gọi khi tạo một đối tượng mới từ lớp ETLPipeline.
+    # Đầu vào: self (đối tượng hiện tại), name (tên của pipeline).
     def __init__(self, name):
+        # Gán tên cho pipeline.
         self.name = name
+        # Khởi tạo một danh sách rỗng để lưu trữ các bản ghi log của pipeline.
         self.log = []
 
+    # Phương thức nội bộ (private method, theo quy ước) để ghi log.
+    # Đầu vào: self, step (bước hiện tại của pipeline), msg (thông điệp log).
+    # Đầu ra: Không trả về giá trị, chỉ ghi log vào self.log và in ra console.
     def _log(self, step, msg):
+        # Tạo một bản ghi log dưới dạng từ điển.
+        # Bao gồm thời gian hiện tại, bước và thông điệp.
         entry = {"time": datetime.now().strftime("%H:%M:%S"), "step": step, "msg": msg}
+        # Thêm bản ghi log vào danh sách log của đối tượng.
         self.log.append(entry)
+        # In bản ghi log ra màn hình console để dễ theo dõi.
         print(f"  [{entry['time']}] {step}: {msg}")
 
+    # Phương thức Extract (Trích xuất) dữ liệu.
+    # Trong ví dụ này, nó chỉ đơn giản trả về dữ liệu nguồn đã nhận.
+    # Đầu vào: self, source (dữ liệu nguồn).
+    # Đầu ra: Dữ liệu nguồn đã nhận.
     def extract(self, source):
+        # Ghi log cho bước EXTRACT, thông báo số lượng bản ghi được đọc.
         self._log("EXTRACT", f"Reading {len(source)} records")
+        # Trả về dữ liệu nguồn.
         return source
 
+    # Phương thức Transform (Biến đổi) dữ liệu.
+    # Áp dụng một loạt các phép biến đổi lên dữ liệu.
+    # Đầu vào: self, data (dữ liệu cần biến đổi), transformations (danh sách các phép biến đổi).
+    # Đầu ra: Dữ liệu đã được biến đổi.
     def transform(self, data, transformations):
+        # Ghi log cho bước TRANSFORM, thông báo số lượng phép biến đổi sẽ được áp dụng.
         self._log("TRANSFORM", f"Applying {len(transformations)} transformations")
+        # Tạo một bản sao của dữ liệu gốc để tránh làm thay đổi dữ liệu ban đầu.
         result = data.copy()
+        # Lặp qua từng phép biến đổi trong danh sách.
+        # Mỗi phép biến đổi là một cặp (tên, hàm).
         for name, fn in transformations:
+            # Áp dụng hàm biến đổi (fn) cho từng hàng (row) trong dữ liệu.
+            # Sử dụng list comprehension để tạo danh sách mới đã biến đổi.
             result = [fn(row) for row in result]
+            # Ghi log sau khi áp dụng xong một phép biến đổi cụ thể.
             self._log("TRANSFORM", f"  ✓ {name}: {len(result)} records")
+        # Trả về dữ liệu đã được biến đổi.
         return result
 
+    # Phương thức Load (Tải) dữ liệu.
+    # Trong ví dụ này, nó mô phỏng việc tải dữ liệu đến một đích nào đó.
+    # Đầu vào: self, data (dữ liệu cần tải), destination (đích đến).
+    # Đầu ra: Một từ điển chứa thông tin về số lượng bản ghi và đích đến.
     def load(self, data, destination):
+        # Ghi log cho bước LOAD, thông báo số lượng bản ghi và đích đến.
         self._log("LOAD", f"Writing {len(data)} records to {destination}")
+        # Trả về một từ điển mô tả kết quả của quá trình tải.
         return {"records": len(data), "destination": destination}
 
+    # Phương thức chính để chạy toàn bộ pipeline ETL.
+    # Đầu vào: self, source (dữ liệu nguồn), transformations (các phép biến đổi), destination (đích đến).
+    # Đầu ra: Kết quả của bước tải dữ liệu.
     def run(self, source, transformations, destination):
+        # In tiêu đề cho pipeline.
         print(f"🔄 Pipeline: {self.name}")
+        # In một đường kẻ để phân tách trực quan.
         print("=" * 50)
+        # Gọi phương thức extract để trích xuất dữ liệu.
+        # Đầu vào: source_data.
+        # Đầu ra: raw (dữ liệu thô).
         raw = self.extract(source)
+        # Gọi phương thức transform để biến đổi dữ liệu.
+        # Đầu vào: raw, transforms.
+        # Đầu ra: transformed (dữ liệu đã biến đổi).
         transformed = self.transform(raw, transformations)
+        # Gọi phương thức load để tải dữ liệu.
+        # Đầu vào: transformed, "data_warehouse.students".
+        # Đầu ra: result (kết quả tải).
         result = self.load(transformed, destination)
+        # Ghi log khi pipeline hoàn thành, bao gồm kết quả cuối cùng.
         self._log("DONE", f"Pipeline complete! {result}")
+        # Trả về kết quả của bước tải.
         return result
 
-# Run pipeline
+# --- Phần chạy pipeline ---
+
+# Dữ liệu nguồn ban đầu, là một danh sách các từ điển.
+# Mỗi từ điển đại diện cho thông tin của một sinh viên.
 source_data = [
     {"name": "an", "age": "22", "score": "85"},
     {"name": "binh", "age": "25", "score": "92"},
     {"name": "", "age": "23", "score": "78"},
 ]
 
+# Định nghĩa các phép biến đổi sẽ được áp dụng.
+# Mỗi phép biến đổi là một tuple gồm (tên_biến_đổi, hàm_lambda).
 transforms = [
+    # Biến đổi 1: Viết hoa chữ cái đầu của tên và xử lý tên rỗng.
+    # Đầu vào: r (một hàng dữ liệu).
+    # Đầu ra: Từ điển mới với tên đã được xử lý (ví dụ: "an" -> "An", "" -> "Unknown").
     ("Capitalize names", lambda r: {**r, "name": r["name"].title() if r["name"] else "Unknown"}),
+    # Biến đổi 2: Chuyển đổi kiểu dữ liệu của 'age' và 'score' từ chuỗi sang số nguyên.
+    # Đầu vào: r (một hàng dữ liệu).
+    # Đầu ra: Từ điển mới với 'age' và 'score' là số nguyên.
     ("Cast types", lambda r: {**r, "age": int(r["age"]), "score": int(r["score"])}),
+    # Biến đổi 3: Thêm trường 'grade' dựa trên điểm số.
+    # Đầu vào: r (một hàng dữ liệu).
+    # Đầu ra: Từ điển mới có thêm trường 'grade' (A, B, hoặc C).
     ("Add grade", lambda r: {**r, "grade": "A" if r["score"] >= 90 else "B" if r["score"] >= 80 else "C"}),
 ]
 
+# Tạo một đối tượng ETLPipeline mới với tên "Student Scores".
 pipeline = ETLPipeline("Student Scores")
-pipeline.run(source_data, transforms, "data_warehouse.students")`,
+# Chạy pipeline với dữ liệu nguồn, các phép biến đổi và đích đến đã định nghĩa.
+# Đầu vào: source_data, transforms, "data_warehouse.students".
+# Đầu ra: Kết quả của bước load, ví dụ: {'records': 3, 'destination': 'data_warehouse.students'}.
+pipeline.run(source_data, transforms, "data_warehouse.students")
+# Kết quả mong đợi in ra console sẽ là các dòng log của từng bước và kết quả cuối cùng của pipeline.
+# Ví dụ:
+# 🔄 Pipeline: Student Scores
+# ==================================================
+#   [HH:MM:SS] EXTRACT: Reading 3 records
+#   [HH:MM:SS] TRANSFORM: Applying 3 transformations
+#   [HH:MM:SS] TRANSFORM:   ✓ Capitalize names: 3 records
+#   [HH:MM:SS] TRANSFORM:   ✓ Cast types: 3 records
+#   [HH:MM:SS] TRANSFORM:   ✓ Add grade: 3 records
+#   [HH:MM:SS] LOAD: Writing 3 records to data_warehouse.students
+#   [HH:MM:SS] DONE: Pipeline complete! {'records': 3, 'destination': 'data_warehouse.students'}`,
         codeLanguage: "python",
         exercise: "Extend ETLPipeline: add error handling, retry logic, and data quality report.",
         exerciseEn: "Extend ETLPipeline: add error handling, retry logic, and data quality report.",
@@ -997,11 +1247,20 @@ dim_date - fact_sales - dim_product
 ## 4. 🎯 Ví dụ chạy được ngay
 
 \`\`\`sql
+-- Chọn các cột cần hiển thị: năm, danh mục sản phẩm và tổng doanh thu.
 SELECT d.year, p.category, SUM(f.amount) AS revenue
+-- Từ bảng dữ liệu thực tế về doanh số bán hàng (fact_sales), đặt tên tắt là 'f'.
 FROM fact_sales f
+-- Kết nối bảng doanh số với bảng chiều thời gian (dim_date) để lấy thông tin về năm.
+-- Điều kiện kết nối là ID ngày trong bảng doanh số phải khớp với ID trong bảng thời gian.
 JOIN dim_date d ON f.date_id = d.id
+-- Kết nối bảng doanh số với bảng chiều sản phẩm (dim_product) để lấy thông tin về danh mục sản phẩm.
+-- Điều kiện kết nối là ID sản phẩm trong bảng doanh số phải khớp với ID trong bảng sản phẩm.
 JOIN dim_product p ON f.product_id = p.id
+-- Nhóm các hàng lại với nhau dựa trên năm và danh mục sản phẩm.
+-- Điều này giúp tính tổng doanh thu cho từng sự kết hợp năm và danh mục.
 GROUP BY d.year, p.category;
+-- Kết quả mong đợi: Một bảng hiển thị tổng doanh thu cho mỗi danh mục sản phẩm trong từng năm.
 \`\`\`
 
 ## 5. ⚠️ Bẫy thường gặp
@@ -1345,10 +1604,22 @@ for s in q1:
 Producer Kafka đẩy event:
 
 \`\`\`python
+# Nhập lớp KafkaProducer từ thư viện kafka để gửi tin nhắn.
 from kafka import KafkaProducer
+# Nhập thư viện json để làm việc với dữ liệu JSON.
 import json
+
+# Khởi tạo một đối tượng KafkaProducer.
+# bootstrap_servers: Địa chỉ của Kafka broker (máy chủ Kafka).
+# value_serializer: Một hàm để chuyển đổi giá trị tin nhắn thành bytes trước khi gửi.
+# Ở đây, chúng ta chuyển đổi đối tượng Python thành chuỗi JSON, sau đó mã hóa thành bytes.
 p = KafkaProducer(bootstrap_servers="localhost:9092",
                   value_serializer=lambda v: json.dumps(v).encode())
+
+# Gửi một tin nhắn đến chủ đề (topic) có tên "orders".
+# Tin nhắn là một dictionary Python, sẽ được chuyển đổi thành JSON và gửi đi.
+# Đầu vào: "orders" (tên topic), {"order_id": 1, "amount": 100} (dữ liệu tin nhắn).
+# Đầu ra: Tin nhắn được gửi thành công đến Kafka.
 p.send("orders", {"order_id": 1, "amount": 100})
 \`\`\`
 
@@ -1679,15 +1950,35 @@ Pipeline có 10 bước: tải data → clean → transform → ML → load → 
 ## 3. 🧰 Airflow DAG mẫu
 
 \`\`\`python
+# Nhập lớp DAG từ thư viện Airflow để định nghĩa một quy trình làm việc.
 from airflow import DAG
+# Nhập lớp PythonOperator để tạo các tác vụ chạy hàm Python.
 from airflow.operators.python import PythonOperator
+# Nhập đối tượng datetime từ thư viện datetime để làm việc với ngày giờ.
 from datetime import datetime
 
+# Định nghĩa một DAG (Directed Acyclic Graph - Đồ thị có hướng không chu trình)
+# Tên của DAG là "daily_etl".
+# start_date: Ngày bắt đầu chạy DAG, ở đây là ngày 1 tháng 1 năm 2024.
+# schedule: Lịch trình chạy DAG, "@daily" nghĩa là chạy mỗi ngày một lần.
+# catchup: Nếu đặt là False, DAG sẽ không chạy lại các lần bị bỏ lỡ trong quá khứ.
 with DAG("daily_etl", start_date=datetime(2024,1,1),
          schedule="@daily", catchup=False) as dag:
+    # Định nghĩa tác vụ "extract" (trích xuất dữ liệu).
+    # task_id: ID duy nhất của tác vụ.
+    # python_callable: Hàm Python sẽ được gọi khi tác vụ này chạy. (Giả định hàm extract_fn đã được định nghĩa ở đâu đó)
     extract = PythonOperator(task_id="extract", python_callable=extract_fn)
+    # Định nghĩa tác vụ "transform" (biến đổi dữ liệu).
+    # task_id: ID duy nhất của tác vụ.
+    # python_callable: Hàm Python sẽ được gọi khi tác vụ này chạy. (Giả định hàm transform_fn đã được định nghĩa ở đâu đó)
     transform = PythonOperator(task_id="transform", python_callable=transform_fn)
+    # Định nghĩa tác vụ "load" (tải dữ liệu).
+    # task_id: ID duy nhất của tác vụ.
+    # python_callable: Hàm Python sẽ được gọi khi tác vụ này chạy. (Giả định hàm load_fn đã được định nghĩa ở đâu đó)
     load = PythonOperator(task_id="load", python_callable=load_fn)
+    # Định nghĩa thứ tự thực hiện của các tác vụ.
+    # Tác vụ 'extract' sẽ chạy trước, sau đó đến 'transform', và cuối cùng là 'load'.
+    # Đây là một chuỗi tuần tự: extract -> transform -> load.
     extract >> transform >> load
 \`\`\`
 
@@ -1871,9 +2162,20 @@ Bạn muốn build data pipeline mà không phải mua server vật lý ngồi c
 Đọc file từ S3 bằng Python:
 
 \`\`\`python
+# Nhập thư viện boto3 để tương tác với AWS S3 và pandas để xử lý dữ liệu dạng bảng.
 import boto3, pandas as pd
+
+# Tạo một đối tượng client để kết nối với dịch vụ S3 của AWS.
 s3 = boto3.client("s3")
+
+# Lấy đối tượng (file) từ S3.
+# Đầu vào: Tên bucket ("my-bucket") và tên file ("sales.csv").
+# Đầu ra: Một đối tượng chứa thông tin về file, bao gồm cả nội dung.
 obj = s3.get_object(Bucket="my-bucket", Key="sales.csv")
+
+# Đọc nội dung của file CSV từ đối tượng S3 và chuyển nó thành DataFrame của pandas.
+# Đầu vào: Phần "Body" của đối tượng S3, chứa nội dung file.
+# Đầu ra: Một DataFrame (bảng dữ liệu) chứa dữ liệu từ file sales.csv.
 df = pd.read_csv(obj["Body"])
 \`\`\`
 
@@ -2045,10 +2347,15 @@ Lineage: OpenLineage / Datahub
 Idempotent upsert thay vì append:
 
 \`\`\`sql
-MERGE INTO sales t
-USING staging s ON t.order_id = s.order_id
-WHEN MATCHED THEN UPDATE SET amount = s.amount
-WHEN NOT MATCHED THEN INSERT (order_id, amount) VALUES (s.order_id, s.amount);
+-- Lệnh MERGE dùng để đồng bộ dữ liệu giữa hai bảng.
+-- Nó sẽ cập nhật các bản ghi đã tồn tại và chèn các bản ghi mới.
+MERGE INTO sales t -- Chỉ định bảng đích (target) là 'sales' và đặt bí danh là 't'.
+USING staging s ON t.order_id = s.order_id -- Chỉ định bảng nguồn (source) là 'staging' và đặt bí danh là 's'.
+                                        -- Điều kiện ON xác định cách các hàng từ hai bảng được so khớp.
+WHEN MATCHED THEN UPDATE SET amount = s.amount -- Nếu tìm thấy hàng khớp (order_id giống nhau) giữa 'sales' và 'staging',
+                                            -- thì cập nhật cột 'amount' trong bảng 'sales' bằng giá trị từ bảng 'staging'.
+WHEN NOT MATCHED THEN INSERT (order_id, amount) VALUES (s.order_id, s.amount); -- Nếu không tìm thấy hàng khớp trong bảng 'sales' (tức là có order_id mới trong 'staging'),
+                                                                            -- thì chèn một hàng mới vào bảng 'sales' với 'order_id' và 'amount' từ bảng 'staging'.
 \`\`\`
 
 ## 5. ⚠️ Bẫy thường gặp
@@ -2120,72 +2427,151 @@ Idempotency or no ship; contract tests at every boundary; one owner + on-call; r
 No staging; muted alerts; secrets in code; hand-editing prod; blaming people.
 
 The mark of seniority: how **boring** your pipeline is to operate.`,
-        code: `import json
+        code: `# Nhập thư viện json để làm việc với dữ liệu JSON.
+import json
+# Nhập thư viện time để đo thời gian thực thi.
 import time
+# Nhập lớp datetime từ module datetime để làm việc với ngày giờ.
 from datetime import datetime
 
+# Định nghĩa một lớp (class) có tên ProductionPipeline.
+# Lớp này mô phỏng một quy trình xử lý dữ liệu trong môi trường sản xuất.
 class ProductionPipeline:
+    # Phương thức khởi tạo (constructor) của lớp.
+    # Được gọi khi tạo một đối tượng mới từ lớp ProductionPipeline.
+    # Tham số:
+    #   - name: Tên của pipeline (chuỗi).
     def __init__(self, name):
+        # Gán tên cho pipeline.
         self.name = name
+        # Khởi tạo một từ điển để lưu trữ các chỉ số (metrics) của pipeline.
+        # Bao gồm số bản ghi đã xử lý, thất bại và thử lại.
         self.metrics = {"processed": 0, "failed": 0, "retried": 0}
+        # Khởi tạo một danh sách để lưu trữ các bản ghi bị lỗi không thể xử lý (dead letter queue).
         self.dead_letter = []
 
+    # Phương thức để ghi log (nhật ký) các sự kiện của pipeline.
+    # Tham số:
+    #   - level: Mức độ của log (ví dụ: "INFO", "ERROR", "WARN").
+    #   - message: Nội dung thông báo của log.
+    #   - **kwargs: Các đối số từ khóa bổ sung sẽ được thêm vào log.
     def log(self, level, message, **kwargs):
+        # Tạo một từ điển chứa thông tin log.
+        # Bao gồm thời gian, mức độ, tên pipeline, thông báo và các đối số bổ sung.
         entry = {
-            "timestamp": datetime.now().isoformat(),
-            "level": level,
-            "pipeline": self.name,
-            "message": message,
-            **kwargs
+            "timestamp": datetime.now().isoformat(), # Thời gian hiện tại theo định dạng ISO 8601.
+            "level": level, # Mức độ log.
+            "pipeline": self.name, # Tên của pipeline.
+            "message": message, # Nội dung thông báo.
+            **kwargs # Thêm các đối số từ khóa khác vào log.
         }
+        # Chuyển đổi từ điển log thành chuỗi JSON và in ra console.
+        # Đầu ra: Một chuỗi JSON đại diện cho một bản ghi log.
         print(json.dumps(entry))
 
+    # Phương thức để xử lý một bản ghi với khả năng thử lại khi gặp lỗi.
+    # Tham số:
+    #   - record: Bản ghi dữ liệu cần xử lý.
+    #   - fn: Hàm (function) sẽ được gọi để xử lý bản ghi.
+    #   - max_retries: Số lần tối đa thử lại nếu xử lý thất bại (mặc định là 3).
+    # Đầu ra: Kết quả của hàm fn nếu thành công, hoặc None nếu thất bại sau tất cả các lần thử lại.
     def process_with_retry(self, record, fn, max_retries=3):
+        # Lặp qua số lần thử lại (bao gồm cả lần đầu tiên).
         for attempt in range(max_retries + 1):
             try:
+                # Cố gắng gọi hàm xử lý fn với bản ghi.
                 result = fn(record)
+                # Nếu thành công, tăng số lượng bản ghi đã xử lý.
                 self.metrics["processed"] += 1
+                # Trả về kết quả.
                 return result
             except Exception as e:
+                # Nếu có lỗi, tăng số lượng bản ghi đã thử lại.
                 self.metrics["retried"] += 1
+                # Kiểm tra xem đây có phải là lần thử lại cuối cùng không.
                 if attempt == max_retries:
+                    # Nếu là lần thử lại cuối cùng và vẫn lỗi, tăng số lượng bản ghi thất bại.
                     self.metrics["failed"] += 1
+                    # Thêm bản ghi và thông tin lỗi vào danh sách dead_letter.
                     self.dead_letter.append({"record": record, "error": str(e)})
+                    # Ghi log lỗi nghiêm trọng.
                     self.log("ERROR", f"Record failed after {max_retries} retries", error=str(e))
+                    # Trả về None vì không thể xử lý bản ghi này.
                     return None
 
+    # Phương thức chính để chạy pipeline.
+    # Tham số:
+    #   - data: Danh sách các bản ghi dữ liệu đầu vào.
+    #   - transform_fn: Hàm biến đổi sẽ được áp dụng cho mỗi bản ghi.
+    # Đầu ra: Danh sách các bản ghi đã được xử lý thành công.
     def run(self, data, transform_fn):
+        # Ghi log thông tin khi pipeline bắt đầu.
+        # Đầu vào: data (danh sách các bản ghi), transform_fn (hàm xử lý).
         self.log("INFO", f"Pipeline started with {len(data)} records")
+        # Ghi lại thời gian bắt đầu chạy pipeline.
         start = time.time()
         
+        # Khởi tạo danh sách để lưu trữ kết quả của các bản ghi được xử lý thành công.
         results = []
+        # Lặp qua từng bản ghi trong dữ liệu đầu vào.
         for record in data:
+            # Xử lý từng bản ghi với khả năng thử lại.
             result = self.process_with_retry(record, transform_fn)
+            # Nếu bản ghi được xử lý thành công (kết quả không phải None).
             if result:
+                # Thêm kết quả vào danh sách.
                 results.append(result)
         
+        # Tính toán thời gian đã trôi qua khi pipeline hoàn thành.
         elapsed = time.time() - start
+        # Ghi log thông tin khi pipeline hoàn thành.
+        # Bao gồm thời gian chạy và các chỉ số (metrics) đã thu thập.
         self.log("INFO", "Pipeline complete", 
-                 duration_ms=round(elapsed * 1000),
-                 **self.metrics)
+                 duration_ms=round(elapsed * 1000), # Thời gian chạy tính bằng mili giây.
+                 **self.metrics) # Thêm tất cả các chỉ số từ self.metrics vào log.
         
+        # Kiểm tra nếu có bất kỳ bản ghi nào trong dead_letter queue.
         if self.dead_letter:
+            # Ghi log cảnh báo nếu có bản ghi bị lỗi.
             self.log("WARN", f"{len(self.dead_letter)} records in dead letter queue")
         
+        # Trả về danh sách các kết quả đã được xử lý thành công.
+        # Đầu ra: Danh sách các bản ghi đã được biến đổi thành công.
+
         return results
 
-# Run
+# Phần chạy thử nghiệm pipeline.
+
+# Nhập thư viện numpy để tạo số ngẫu nhiên.
 import numpy as np
+# Đặt seed cho bộ tạo số ngẫu nhiên của numpy để đảm bảo kết quả có thể lặp lại.
 np.random.seed(42)
 
+# Định nghĩa hàm biến đổi (transform function) cho dữ liệu.
+# Hàm này mô phỏng một quá trình xử lý có thể thất bại ngẫu nhiên.
+# Tham số:
+#   - record: Một bản ghi dữ liệu đầu vào (từ điển).
+# Đầu ra: Một bản ghi dữ liệu đã được biến đổi (từ điển) hoặc gây ra lỗi.
 def transform(record):
+    # Có 15% khả năng hàm này sẽ gây ra lỗi ValueError.
     if np.random.random() < 0.15:
-        raise ValueError("Transform failed")
+        raise ValueError("Transform failed") # Gây ra lỗi.
+    # Nếu không lỗi, trả về bản ghi với một trường 'score' mới.
+    # 'score' được tính bằng 'value' nhân 2.
     return {**record, "score": record["value"] * 2}
 
+# Tạo dữ liệu đầu vào giả định cho pipeline.
+# Đây là một danh sách các từ điển, mỗi từ điển có 'id' và 'value'.
 data = [{"id": i, "value": i * 10} for i in range(20)]
+# Khởi tạo một đối tượng ProductionPipeline với tên "daily_etl".
 pipeline = ProductionPipeline("daily_etl")
-results = pipeline.run(data, transform)`,
+# Chạy pipeline với dữ liệu và hàm biến đổi đã định nghĩa.
+# Kết quả là danh sách các bản ghi đã được xử lý thành công.
+results = pipeline.run(data, transform)
+# Kết quả mong đợi:
+# - Các log sẽ được in ra console, bao gồm thông tin bắt đầu, kết thúc, và các lỗi (nếu có).
+# - Biến 'results' sẽ chứa danh sách các bản ghi đã được biến đổi thành công.
+# - Biến 'pipeline.dead_letter' sẽ chứa các bản ghi không thể xử lý được.`,
         codeLanguage: "python",
         exercise: "Add idempotency check (based on record ID) and checkpoint/resume to ProductionPipeline.",
         exerciseEn: "Add idempotency check (based on record ID) and checkpoint/resume to ProductionPipeline.",

@@ -193,11 +193,22 @@ graph LR
 ## 3. The training loop, line by line
 
 \`\`\`python
+# Lặp qua số lượng epoch đã định nghĩa
 for epoch in range(epochs):
+    # Đặt lại gradient về 0 cho tất cả các tham số của mô hình.
+    # Điều này quan trọng để tránh việc gradient tích lũy từ các bước trước.
     optimizer.zero_grad()        # reset gradients from previous step
+    # Thực hiện forward pass: đưa dữ liệu đầu vào X qua mô hình
+    # để nhận được dự đoán y_hat.
     y_hat = model(X)             # forward pass
+    # Tính toán giá trị hàm mất mát (loss) bằng cách so sánh
+    # dự đoán y_hat với giá trị thực tế y.
     loss = criterion(y_hat, y)   # compare prediction to truth
+    # Thực hiện backward pass: tính toán gradient của hàm mất mát
+    # đối với tất cả các tham số có thể huấn luyện được trong mô hình.
     loss.backward()              # autograd computes gradients
+    # Cập nhật trọng số của mô hình dựa trên gradient đã tính toán
+    # và thuật toán tối ưu hóa (optimizer) đã chọn.
     optimizer.step()             # update weights
 \`\`\`
 
@@ -365,37 +376,81 @@ The same architecture style underpins iPhone Face ID, Tesla Autopilot lane detec
 
 > 🎯 **Key Concept** - CNNs swap "every pixel talks to every neuron" for "small filter, slid everywhere". This **dramatically** reduces parameters while preserving spatial structure - the reason computer vision exploded after 2012.`,
         theoryEn: "",
-        code: `# Tiny CNN for MNIST-style 28x28 grayscale digits - written in PyTorch.
-# Architecture: Conv -> ReLU -> Pool -> Conv -> ReLU -> Pool -> Flatten -> Dense -> Logits
+        code: `# Mạng CNN nhỏ (Tiny CNN) cho các chữ số ảnh xám 28x28 kiểu MNIST - được viết bằng PyTorch.
+# Kiến trúc: Tích chập (Conv) -> ReLU -> Gộp (Pool) -> Tích chập (Conv) -> ReLU -> Gộp (Pool) -> Làm phẳng (Flatten) -> Kết nối đầy đủ (Dense) -> Logits
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+# Định nghĩa lớp TinyCNN, kế thừa từ nn.Module của PyTorch để xây dựng mô hình.
 class TinyCNN(nn.Module):
+    # Hàm khởi tạo của mô hình.
+    # Đầu vào: num_classes (số lượng lớp đầu ra, mặc định là 10 cho 10 chữ số).
     def __init__(self, num_classes: int = 10):
+        # Gọi hàm khởi tạo của lớp cha (nn.Module).
         super().__init__()
-        # Block 1: 1 input channel -> 16 feature maps
+        # Khối 1: Lớp tích chập đầu tiên.
+        # Đầu vào: 1 kênh (ảnh xám).
+        # Đầu ra: 16 bản đồ đặc trưng (feature maps).
+        # Kích thước kernel: 3x3.
+        # Padding: 1 để giữ nguyên kích thước ảnh sau tích chập.
         self.conv1 = nn.Conv2d(in_channels=1, out_channels=16, kernel_size=3, padding=1)
-        # Block 2: 16 -> 32 feature maps
+        # Khối 2: Lớp tích chập thứ hai.
+        # Đầu vào: 16 kênh (từ lớp conv1).
+        # Đầu ra: 32 bản đồ đặc trưng.
+        # Kích thước kernel: 3x3.
+        # Padding: 1 để giữ nguyên kích thước ảnh sau tích chích chập.
         self.conv2 = nn.Conv2d(in_channels=16, out_channels=32, kernel_size=3, padding=1)
-        # After two 2x2 pooling stages, a 28x28 image becomes 7x7 with 32 channels
+        # Sau hai giai đoạn gộp (pooling) 2x2, một ảnh 28x28 sẽ trở thành 7x7 với 32 kênh.
+        # Lớp kết nối đầy đủ (fully connected) đầu tiên.
+        # Đầu vào: 32 kênh * 7 * 7 = 1568 phần tử (kích thước ảnh sau pooling và làm phẳng).
+        # Đầu ra: 128 phần tử.
         self.fc1 = nn.Linear(in_features=32 * 7 * 7, out_features=128)
+        # Lớp kết nối đầy đủ thứ hai (lớp đầu ra).
+        # Đầu vào: 128 phần tử (từ lớp fc1).
+        # Đầu ra: num_classes (số lượng lớp, ví dụ 10 cho 10 chữ số).
         self.fc2 = nn.Linear(in_features=128, out_features=num_classes)
 
+    # Định nghĩa cách dữ liệu đi qua mô hình (phép truyền xuôi).
+    # Đầu vào: x (tensor chứa dữ liệu ảnh).
+    # Đầu ra: x (tensor chứa logits).
     def forward(self, x):
-        x = F.relu(self.conv1(x))           # (B, 16, 28, 28)
-        x = F.max_pool2d(x, kernel_size=2)  # (B, 16, 14, 14)
-        x = F.relu(self.conv2(x))           # (B, 32, 14, 14)
-        x = F.max_pool2d(x, kernel_size=2)  # (B, 32, 7, 7)
-        x = torch.flatten(x, start_dim=1)   # (B, 1568)
-        x = F.relu(self.fc1(x))             # (B, 128)
-        return self.fc2(x)                  # (B, 10)  raw logits
+        # Áp dụng lớp tích chập conv1, sau đó là hàm kích hoạt ReLU.
+        # Kích thước đầu ra: (Batch_size, 16 kênh, 28 chiều cao, 28 chiều rộng).
+        x = F.relu(self.conv1(x))
+        # Áp dụng lớp gộp cực đại (max pooling) với kernel_size 2x2.
+        # Kích thước đầu ra: (Batch_size, 16 kênh, 14 chiều cao, 14 chiều rộng).
+        x = F.max_pool2d(x, kernel_size=2)
+        # Áp dụng lớp tích chập conv2, sau đó là hàm kích hoạt ReLU.
+        # Kích thước đầu ra: (Batch_size, 32 kênh, 14 chiều cao, 14 chiều rộng).
+        x = F.relu(self.conv2(x))
+        # Áp dụng lớp gộp cực đại (max pooling) với kernel_size 2x2.
+        # Kích thước đầu ra: (Batch_size, 32 kênh, 7 chiều cao, 7 chiều rộng).
+        x = F.max_pool2d(x, kernel_size=2)
+        # Làm phẳng tensor, bắt đầu từ chiều thứ 1 (giữ nguyên batch_size).
+        # Kích thước đầu ra: (Batch_size, 32 * 7 * 7 = 1568 phần tử).
+        x = torch.flatten(x, start_dim=1)
+        # Áp dụng lớp kết nối đầy đủ fc1, sau đó là hàm kích hoạt ReLU.
+        # Kích thước đầu ra: (Batch_size, 128 phần tử).
+        x = F.relu(self.fc1(x))
+        # Áp dụng lớp kết nối đầy đủ fc2 (lớp đầu ra).
+        # Kích thước đầu ra: (Batch_size, 10 phần tử) - đây là các logits thô.
+        # Đầu ra: Logits thô (chưa qua softmax).
+        return self.fc2(x)
 
-# Quick sanity check on a fake batch of 4 grayscale images
+# Kiểm tra nhanh mô hình với một batch ảnh giả lập.
+# Tạo một thể hiện của mô hình TinyCNN.
 model = TinyCNN()
+# Tạo một batch giả lập gồm 4 ảnh xám 28x28.
+# Kích thước: (Batch_size=4, Kênh=1, Chiều cao=28, Chiều rộng=28).
 fake_batch = torch.randn(4, 1, 28, 28)
+# Truyền batch giả lập qua mô hình để nhận được logits.
 logits = model(fake_batch)
-print("Output shape:", logits.shape)        # (4, 10)
+# In ra hình dạng (shape) của đầu ra.
+# Kết quả mong đợi: (4, 10) - 4 mẫu, mỗi mẫu có 10 logits.
+print("Output shape:", logits.shape)
+# Tính tổng số tham số (parameters) trong mô hình.
+# Kết quả mong đợi: Một số nguyên dương biểu thị tổng số trọng số và bias.
 print("Total parameters:", sum(p.numel() for p in model.parameters()))`,
         codeLanguage: "python",
         exercise: "Add a **third** convolutional block (`Conv 32 -> 64`, ReLU, MaxPool) before the dense layers. Recalculate the input size of `fc1` (hint: a 28x28 image becomes 3x3 after three 2x2 pools - 28 / 8 = 3 with padding losses). Run the model on a fake batch and report the new total parameter count.",
@@ -505,14 +560,32 @@ Transformers (Lesson 5) have replaced RNNs for most NLP tasks. RNNs / LSTMs are 
 
 > 🎯 **Key Concept** - RNNs share weights across **time** the way CNNs share them across **space**. LSTMs add a *gated cell state* so gradients survive long sequences. Transformers (next lesson) drop recurrence entirely in favour of attention - but understanding RNNs is essential for understanding *why* attention won.`,
         theoryEn: "",
-        code: `# Sentiment classifier on a tiny toy dataset - bidirectional LSTM in PyTorch.
+        code: `# Bộ phân loại cảm xúc trên một tập dữ liệu nhỏ - sử dụng LSTM hai chiều trong PyTorch.
 import torch
 import torch.nn as nn
 
+# Định nghĩa lớp mạng nơ-ron SentimentLSTM, kế thừa từ nn.Module của PyTorch.
 class SentimentLSTM(nn.Module):
+    # Hàm khởi tạo của mô hình.
+    # Đầu vào:
+    #   - vocab_size: Kích thước từ vựng (số lượng từ duy nhất).
+    #   - embed_dim: Kích thước của vector nhúng (embedding) cho mỗi từ. Mặc định là 64.
+    #   - hidden_dim: Kích thước của trạng thái ẩn trong LSTM. Mặc định là 128.
+    #   - num_classes: Số lượng lớp đầu ra (ví dụ: 2 cho tích cực/tiêu cực). Mặc định là 2.
     def __init__(self, vocab_size: int, embed_dim: int = 64, hidden_dim: int = 128, num_classes: int = 2):
+        # Gọi hàm khởi tạo của lớp cha (nn.Module).
         super().__init__()
+        # Lớp Embedding: chuyển đổi các chỉ số từ thành các vector dày đặc.
+        # Đầu vào: vocab_size (số lượng từ), embed_dim (kích thước vector nhúng).
         self.embedding = nn.Embedding(num_embeddings=vocab_size, embedding_dim=embed_dim)
+        # Lớp LSTM: Mạng bộ nhớ dài ngắn hạn.
+        # Đầu vào:
+        #   - input_size: Kích thước của vector đầu vào cho LSTM (bằng embed_dim).
+        #   - hidden_size: Kích thước của trạng thái ẩn.
+        #   - num_layers: Số lượng lớp LSTM xếp chồng lên nhau.
+        #   - batch_first: Nếu True, đầu vào/đầu ra có dạng (batch, sequence, feature).
+        #   - bidirectional: Nếu True, LSTM sẽ xử lý theo cả hai chiều (tiến và lùi).
+        #   - dropout: Tỷ lệ dropout để tránh overfitting.
         self.lstm = nn.LSTM(
             input_size=embed_dim,
             hidden_size=hidden_dim,
@@ -521,24 +594,51 @@ class SentimentLSTM(nn.Module):
             bidirectional=True,
             dropout=0.3,
         )
-        # Bidirectional doubles the hidden dim
+        # LSTM hai chiều sẽ nhân đôi kích thước của trạng thái ẩn đầu ra.
+        # Lớp Linear (fully connected): Chuyển đổi đầu ra của LSTM thành các điểm số (logits) cho từng lớp.
+        # Đầu vào: hidden_dim * 2 (vì là LSTM hai chiều), num_classes (số lượng lớp đầu ra).
         self.fc = nn.Linear(hidden_dim * 2, num_classes)
 
+    # Hàm forward định nghĩa cách dữ liệu đi qua mô hình.
+    # Đầu vào: x - tensor chứa các chỉ số từ của một batch các câu.
+    #   - x có kích thước: (batch_size, seq_len)
     def forward(self, x):
-        # x: (batch, seq_len)  -> (batch, seq_len, embed_dim)
+        # Bước 1: Nhúng các chỉ số từ thành vector.
+        # Đầu vào x: (batch_size, seq_len)
+        # Đầu ra embedded: (batch_size, seq_len, embed_dim)
         embedded = self.embedding(x)
-        # output: (batch, seq_len, hidden_dim * 2)
+        # Bước 2: Đưa vector nhúng qua lớp LSTM.
+        # Đầu vào embedded: (batch_size, seq_len, embed_dim)
+        # Đầu ra output: (batch_size, seq_len, hidden_dim * 2) - chứa tất cả các trạng thái ẩn theo thời gian.
+        # h_n, c_n: trạng thái ẩn và trạng thái ô cuối cùng của tất cả các lớp.
         output, (h_n, c_n) = self.lstm(embedded)
-        # Use the last timestep's representation for classification
+        # Bước 3: Lấy biểu diễn của bước thời gian cuối cùng để phân loại.
+        # Chúng ta chỉ quan tâm đến trạng thái cuối cùng của chuỗi.
+        # last_step: (batch_size, hidden_dim * 2)
         last_step = output[:, -1, :]
+        # Bước 4: Đưa biểu diễn cuối cùng qua lớp tuyến tính để có các điểm số (logits).
+        # Đầu ra là các logits, chưa qua hàm softmax.
+        # Đầu ra: (batch_size, num_classes)
         return self.fc(last_step)  # raw logits
 
-# Sanity check
+# Kiểm tra nhanh mô hình (sanity check).
+
+# Khởi tạo một mô hình SentimentLSTM với kích thước từ vựng 10,000.
 model = SentimentLSTM(vocab_size=10_000)
+# Tạo dữ liệu giả lập (fake_reviews) để kiểm tra.
+# Đây là một batch gồm 8 câu, mỗi câu có độ dài 50 từ.
+# Các từ được biểu diễn bằng các chỉ số ngẫu nhiên từ 0 đến 9,999.
 fake_reviews = torch.randint(low=0, high=10_000, size=(8, 50))  # batch of 8, length 50
+# Đưa dữ liệu giả lập qua mô hình để nhận được các logits.
 logits = model(fake_reviews)
-print("Output shape:", logits.shape)  # (8, 2)
-print("Parameters: ", sum(p.numel() for p in model.parameters()))`,
+# In ra kích thước của đầu ra.
+# Kết quả mong đợi: (8, 2) - 8 mẫu, mỗi mẫu có 2 điểm số cho 2 lớp.
+print("Output shape:", logits.shape)
+# In ra tổng số tham số có thể huấn luyện trong mô hình.
+print("Parameters: ", sum(p.numel() for p in model.parameters()))
+# Kết quả mong đợi: Output shape: torch.Size([8, 2])
+# Kết quả mong đợi: Parameters:  một số nguyên lớn (ví dụ: khoảng 1.5 triệu)
+`,
         codeLanguage: "python",
         exercise: "Replace `nn.LSTM` with `nn.GRU` (the API is almost identical - drop the `c_n` cell state). Compare parameter counts. Then make the model **uni-directional** (`bidirectional=False`) and update the input dimension of the final linear layer. Which version has fewer parameters, and which would you expect to perform better on long reviews?",
         exerciseEn: "",
@@ -772,36 +872,70 @@ In 2025 transfer learning is the default in **every** subfield: BERT/Llama for N
 
 > 💡 **Key concept** - Almost no one trains foundation models from scratch in 2025. The skill that matters is choosing the right pretrained backbone and fine-tuning it efficiently.`,
         theoryEn: "",
-        code: `# Transfer learning with a pretrained ResNet-18 - freeze backbone, train new head
+        code: `# Học chuyển giao (Transfer learning) với mô hình ResNet-18 đã được huấn luyện trước - đóng băng phần xương sống (backbone), huấn luyện phần đầu (head) mới
 import torch
 import torch.nn as nn
 import torchvision.models as models
 
-# Load ResNet-18 pretrained on ImageNet
+# Tải mô hình ResNet-18 đã được huấn luyện trước trên tập dữ liệu ImageNet
+# Đầu vào: Không có.
+# Đầu ra: Một đối tượng mô hình ResNet-18 đã được tải trọng số mặc định.
 model = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
 
-# Freeze every parameter
+# Đóng băng tất cả các tham số của mô hình
+# Điều này có nghĩa là các tham số này sẽ không được cập nhật trong quá trình huấn luyện.
+# Đầu vào: Các tham số của mô hình.
+# Đầu ra: Các tham số được đặt thuộc tính requires_grad = False.
 for param in model.parameters():
     param.requires_grad = False
 
-# Replace the final layer with a 2-class head (only this gets trained)
-num_features = model.fc.in_features
-model.fc = nn.Linear(num_features, 2)
+# Thay thế lớp cuối cùng (lớp phân loại) bằng một lớp mới có 2 đầu ra (chỉ lớp này sẽ được huấn luyện)
+# Đầu vào: Mô hình ResNet-18 đã đóng băng.
+# Đầu ra: Mô hình với lớp 'fc' (fully connected) được thay thế bằng một lớp tuyến tính mới.
+num_features = model.fc.in_features # Lấy số lượng đặc trưng đầu vào của lớp cuối cùng hiện tại
+model.fc = nn.Linear(num_features, 2) # Thay thế lớp cuối cùng bằng một lớp tuyến tính mới với 2 đầu ra
 
-trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
-total = sum(p.numel() for p in model.parameters())
+# Tính toán số lượng tham số có thể huấn luyện và tổng số tham số
+# Đầu vào: Mô hình đã được sửa đổi.
+# Đầu ra: Hai số nguyên (trainable, total) và in ra tỷ lệ phần trăm.
+trainable = sum(p.numel() for p in model.parameters() if p.requires_grad) # Đếm các tham số có requires_grad = True
+total = sum(p.numel() for p in model.parameters()) # Đếm tổng số tham số
 print(f"Trainable: {trainable:,} / {total:,} ({100*trainable/total:.2f}%)")
+# Kết quả mong đợi: In ra số lượng tham số có thể huấn luyện, tổng số tham số và tỷ lệ phần trăm.
 
+# Khởi tạo bộ tối ưu hóa Adam chỉ cho các tham số của lớp 'fc' mới (lớp có thể huấn luyện)
+# Đầu vào: Tham số của lớp 'fc' và tốc độ học (learning rate).
+# Đầu ra: Một đối tượng bộ tối ưu hóa.
 optimizer = torch.optim.Adam(model.fc.parameters(), lr=1e-3)
+# Khởi tạo hàm mất mát CrossEntropyLoss, thường dùng cho bài toán phân loại đa lớp
+# Đầu vào: Không có.
+# Đầu ra: Một đối tượng hàm mất mát.
 criterion = nn.CrossEntropyLoss()
 
-# Toy training step
+# Bước huấn luyện thử nghiệm (Toy training step)
+# Tạo một batch ảnh giả lập (8 ảnh, 3 kênh màu, kích thước 224x224)
+# Đầu vào: Kích thước tensor.
+# Đầu ra: Một tensor chứa dữ liệu ảnh ngẫu nhiên.
 imgs = torch.randn(8, 3, 224, 224)
+# Tạo nhãn giả lập cho batch ảnh (8 nhãn, giá trị 0 hoặc 1)
+# Đầu vào: Phạm vi giá trị và kích thước tensor.
+# Đầu ra: Một tensor chứa nhãn ngẫu nhiên.
 labels = torch.randint(0, 2, (8,))
+# Tính toán giá trị mất mát (loss)
+# Đầu vào: Đầu ra của mô hình (dự đoán) và nhãn thực tế.
+# Đầu ra: Một tensor chứa giá trị mất mát.
 loss = criterion(model(imgs), labels)
+# Thực hiện lan truyền ngược (backpropagation) để tính gradient của loss đối với các tham số
+# Đầu vào: Giá trị mất mát.
+# Đầu ra: Gradient được tính và lưu trữ trong thuộc tính .grad của các tham số.
 loss.backward()
+# Cập nhật các tham số của mô hình dựa trên gradient đã tính và bộ tối ưu hóa
+# Đầu vào: Gradient đã tính.
+# Đầu ra: Các tham số của mô hình được cập nhật.
 optimizer.step()
-print(f"Loss: {loss.item():.4f}")`,
+print(f"Loss: {loss.item():.4f}")
+# Kết quả mong đợi: In ra giá trị mất mát sau một bước huấn luyện thử nghiệm.
+`,
         codeLanguage: "python",
         exercise: "Switch to **fine-tuning** mode: also unfreeze `model.layer4`, then build an Adam optimizer with two parameter groups - `layer4` at `lr=1e-4` and `fc` at `lr=1e-3`. Print the new trainable-parameter percentage (~20–25 %).",
         exerciseEn: "",
@@ -867,28 +1001,59 @@ Self-driving cars, license-plate recognition (YOLO + CRNN), medical imaging (U-N
 
 > 💡 **Key concept** - The bottleneck in 2025 is no longer the model - it's the **labelling**.`,
         theoryEn: "",
-        code: `# Real-world object detection in ~10 lines using a pretrained YOLOv8
-# pip install ultralytics
+        code: `# Phát hiện vật thể trong thế giới thực chỉ với khoảng 10 dòng code sử dụng mô hình YOLOv8 đã được huấn luyện trước.
+# Để chạy được code này, bạn cần cài đặt thư viện ultralytics: pip install ultralytics
 from ultralytics import YOLO
 
-model = YOLO("yolov8n.pt")  # ~6 MB, runs at 100+ FPS on a modern GPU
+# Tải mô hình YOLOv8n đã được huấn luyện trước.
+# "yolov8n.pt" là phiên bản "nano" của YOLOv8, có kích thước khoảng 6 MB và chạy rất nhanh trên GPU hiện đại.
+# Đầu vào: Tên file mô hình đã được huấn luyện (.pt).
+# Đầu ra: Một đối tượng mô hình YOLO đã sẵn sàng để dự đoán.
+model = YOLO("yolov8n.pt")  # ~6 MB, chạy với tốc độ 100+ FPS trên GPU hiện đại
 
+# Thực hiện dự đoán trên một hình ảnh.
+# Đầu vào:
+#   - source: Đường dẫn đến hình ảnh hoặc video cần phát hiện (có thể là URL).
+#   - conf: Ngưỡng tin cậy tối thiểu để chấp nhận một vật thể được phát hiện (từ 0 đến 1).
+#   - iou: Ngưỡng IoU (Intersection over Union) cho Non-Maximum Suppression (NMS).
+#          NMS giúp loại bỏ các hộp giới hạn trùng lặp cho cùng một vật thể.
+#   - save: Nếu là True, hình ảnh đã được chú thích (vẽ hộp và nhãn) sẽ được lưu vào thư mục mặc định.
+# Đầu ra: Một danh sách các đối tượng kết quả dự đoán, mỗi đối tượng chứa thông tin về các vật thể được phát hiện.
 results = model.predict(
     source="https://ultralytics.com/images/bus.jpg",
-    conf=0.25,       # min confidence
-    iou=0.45,        # NMS IoU threshold
-    save=True,       # writes annotated image to ./runs/detect/predict/
+    conf=0.25,       # ngưỡng tin cậy tối thiểu
+    iou=0.45,        # ngưỡng IoU cho NMS (Non-Maximum Suppression)
+    save=True,       # lưu hình ảnh đã chú thích vào ./runs/detect/predict/
 )
 
+# Lặp qua từng kết quả dự đoán (trong trường hợp dự đoán nhiều hình ảnh/video).
+# Đầu vào: Danh sách các đối tượng kết quả từ model.predict().
+# Đầu ra: In ra thông tin chi tiết về các vật thể được phát hiện cho mỗi hình ảnh.
 for r in results:
+    # In ra tổng số vật thể được phát hiện trong hình ảnh hiện tại và đường dẫn của hình ảnh.
     print(f"Detected {len(r.boxes)} objects in {r.path}")
+    # Lặp qua từng hộp giới hạn (box), lớp (class) và điểm tin cậy (score) của các vật thể được phát hiện.
+    # r.boxes.xyxy: Tọa độ của các hộp giới hạn (x1, y1, x2, y2).
+    # r.boxes.cls: ID của lớp vật thể.
+    # r.boxes.conf: Điểm tin cậy của vật thể.
     for box, cls, score in zip(r.boxes.xyxy, r.boxes.cls, r.boxes.conf):
+        # Chuyển đổi tọa độ hộp giới hạn từ tensor sang danh sách Python.
         x1, y1, x2, y2 = box.tolist()
+        # In thông tin chi tiết về từng vật thể: tên lớp, điểm tin cậy và tọa độ hộp giới hạn.
+        # model.names[int(cls)] chuyển ID lớp thành tên lớp dễ đọc.
+        # Định dạng chuỗi để căn chỉnh và làm tròn số.
         print(f"  {model.names[int(cls)]:12s} conf={score:.2f}  "
               f"box=({x1:.0f},{y1:.0f})->({x2:.0f},{y2:.0f})")
 
-# Fine-tune on your own dataset:
-# model.train(data="my_dataset.yaml", epochs=50, imgsz=640, batch=16)`,
+# Để huấn luyện mô hình trên tập dữ liệu của riêng bạn:
+# model.train(data="my_dataset.yaml", epochs=50, imgsz=640, batch=16)
+# Đầu vào:
+#   - data: Đường dẫn đến file cấu hình dataset (ví dụ: my_dataset.yaml).
+#   - epochs: Số lần lặp lại toàn bộ quá trình huấn luyện trên dataset.
+#   - imgsz: Kích thước hình ảnh đầu vào cho mô hình.
+#   - batch: Số lượng hình ảnh được xử lý cùng lúc trong mỗi bước huấn luyện.
+# Đầu ra: Một mô hình đã được huấn luyện trên dữ liệu của bạn.
+`,
         codeLanguage: "python",
         exercise: "Run on a different image, then change `conf=0.25` to `conf=0.7` and observe how many fewer boxes you get. Count distinct classes detected using a Python `set` over `r.boxes.cls`.",
         exerciseEn: "",
@@ -1069,18 +1234,33 @@ Condition the denoiser on a **text embedding** from CLIP/T5. **Classifier-Free G
 
 > 💡 **Key concept** - A diffusion model is a **denoiser** trained at every noise level. Generation = repeatedly denoising pure noise into something meaningful. With text conditioning, this single idea powers Stable Diffusion, DALL-E 3, Midjourney, and Sora.`,
         theoryEn: "",
-        code: `# Use a pretrained Stable Diffusion model from Hugging Face
+        code: `# Sử dụng một mô hình Stable Diffusion đã được huấn luyện trước từ Hugging Face
+# Để chạy được code này, cần cài đặt các thư viện sau:
 # pip install diffusers transformers accelerate torch
+
+# Nhập thư viện torch để làm việc với tensor và GPU
 import torch
+# Nhập lớp StableDiffusionPipeline từ thư viện diffusers
 from diffusers import StableDiffusionPipeline
 
+# Tải mô hình Stable Diffusion đã được huấn luyện trước
+# "runwayml/stable-diffusion-v1-5" là tên của mô hình trên Hugging Face
+# torch_dtype=torch.float16 giúp sử dụng ít bộ nhớ hơn và tăng tốc độ tính toán trên GPU
 pipe = StableDiffusionPipeline.from_pretrained(
     "runwayml/stable-diffusion-v1-5",
     torch_dtype=torch.float16,
 )
+# Di chuyển mô hình lên GPU nếu có, nếu không thì dùng CPU
+# Điều này giúp tăng tốc độ tạo ảnh đáng kể
 pipe = pipe.to("cuda" if torch.cuda.is_available() else "cpu")
 
+# Định nghĩa câu lệnh (prompt) để mô tả hình ảnh muốn tạo
 prompt = "A photorealistic cat astronaut on Mars, cinematic lighting"
+# Gọi mô hình để tạo ảnh dựa trên prompt
+# num_inference_steps: số bước suy luận, càng cao ảnh càng chi tiết nhưng tốn thời gian hơn
+# guidance_scale: mức độ mô hình tuân thủ prompt, giá trị cao hơn sẽ tạo ảnh sát với mô tả hơn
+# height, width: kích thước của ảnh đầu ra
+# .images[0] lấy ra ảnh đầu tiên (và duy nhất trong trường hợp này) từ kết quả
 image = pipe(
     prompt=prompt,
     num_inference_steps=30,
@@ -1088,13 +1268,23 @@ image = pipe(
     height=512, width=512,
 ).images[0]
 
+# Lưu ảnh đã tạo ra vào một tệp tin
+# Đầu ra: Một tệp ảnh tên "cat_astronaut.png"
 image.save("cat_astronaut.png")
+# In thông báo xác nhận đã lưu ảnh
 print("Saved cat_astronaut.png")
 
-# Generate 4 variations from the same prompt
+# Tạo 4 biến thể ảnh khác nhau từ cùng một prompt
+# Bằng cách truyền một danh sách prompt (ở đây là prompt lặp lại 4 lần)
+# Đầu ra: Một danh sách các đối tượng ảnh
 images = pipe(prompt=[prompt] * 4, num_inference_steps=30).images
+# Lặp qua từng ảnh trong danh sách các biến thể
+# và lưu chúng với tên tệp khác nhau
 for i, img in enumerate(images):
-    img.save(f"variation_{i}.png")`,
+    # Lưu ảnh với tên tệp có dạng "variation_0.png", "variation_1.png", v.v.
+    img.save(f"variation_{i}.png")
+# Đầu ra mong đợi: 4 tệp ảnh có tên "variation_0.png", "variation_1.png", "variation_2.png", "variation_3.png"
+`,
         codeLanguage: "python",
         exercise: "Try `guidance_scale=3.0` then `15.0`. Describe how the prompt-faithfulness vs creativity trade-off changes. Then add `negative_prompt='blurry, low quality, watermark'` and observe the quality improvement.",
         exerciseEn: "",
@@ -1303,32 +1493,93 @@ Vietnam's EVN forecasts hourly load 24 h ahead. A bidirectional LSTM ingesting t
 ## 🛠️ Practice Task
 Implement a character-level LSTM that generates Vietnamese poetry in the style of "Truyện Kiều". Train on the first 1 000 lines. Sample with temperatures 0.3, 0.7, and 1.2 - describe how outputs change.`,
         theoryEn: "",
-        code: `# Stock-price next-day forecaster with LSTM
+        code: `# Dự đoán giá cổ phiếu ngày tiếp theo bằng mạng LSTM
+
+# Nhập các thư viện cần thiết từ PyTorch.
+# \`torch\` là thư viện chính cho các phép toán tensor.
+# \`torch.nn\` chứa các lớp xây dựng mạng nơ-ron.
 import torch, torch.nn as nn
 
+# Định nghĩa lớp mạng nơ-ron PriceLSTM.
+# Đây là một mô hình dự đoán giá sử dụng mạng LSTM.
 class PriceLSTM(nn.Module):
+    # Hàm khởi tạo của mô hình.
+    # Được gọi khi tạo một đối tượng PriceLSTM mới.
+    # Đầu vào:
+    #   - n_features: Số lượng đặc trưng (features) cho mỗi ngày (mặc định là 5).
+    #   - hidden: Số lượng đơn vị ẩn (hidden units) trong mỗi lớp LSTM (mặc định là 64).
+    #   - layers: Số lượng lớp LSTM xếp chồng lên nhau (mặc định là 2).
     def __init__(self, n_features=5, hidden=64, layers=2):
+        # Gọi hàm khởi tạo của lớp cha (nn.Module).
         super().__init__()
+        # Định nghĩa lớp LSTM.
+        # Đầu vào:
+        #   - n_features: Kích thước đầu vào của mỗi bước thời gian.
+        #   - hidden: Kích thước của trạng thái ẩn.
+        #   - layers: Số lượng lớp LSTM.
+        #   - batch_first=True: Dữ liệu đầu vào có dạng (batch, sequence, feature).
+        #   - dropout=0.2: Tỷ lệ dropout để tránh overfitting.
         self.lstm = nn.LSTM(n_features, hidden, layers,
                             batch_first=True, dropout=0.2)
+        # Định nghĩa lớp tuyến tính (fully connected layer) cuối cùng.
+        # Lớp này sẽ chuyển đổi đầu ra từ LSTM (kích thước hidden) thành 1 giá trị (giá dự đoán).
         self.head = nn.Linear(hidden, 1)
 
+    # Hàm forward định nghĩa cách dữ liệu đi qua mô hình.
+    # Đầu vào:
+    #   - x: Tensor dữ liệu đầu vào.
+    #        Dạng mong đợi: (kích thước_batch, số_ngày, số_đặc_trưng)
+    #        Ví dụ: (32, 30, 5) nghĩa là 32 chuỗi, mỗi chuỗi 30 ngày, mỗi ngày có 5 đặc trưng.
+    # Đầu ra:
+    #   - Giá dự đoán cho ngày tiếp theo.
     def forward(self, x):                  # x: (batch, 30 days, 5 features)
+        # Truyền dữ liệu qua lớp LSTM.
+        # \`out\` chứa đầu ra của LSTM cho tất cả các bước thời gian.
+        # \`_\` chứa trạng thái ẩn và trạng thái ô nhớ cuối cùng (không dùng ở đây).
         out, _ = self.lstm(x)
+        # Lấy đầu ra của bước thời gian cuối cùng từ LSTM (\`out[:, -1, :]\`).
+        # Sau đó truyền qua lớp tuyến tính \`self.head\` để có được dự đoán cuối cùng.
+        # Đầu ra: (kích thước_batch, 1)
         return self.head(out[:, -1, :])    # use last time step
 
+# Khởi tạo một đối tượng mô hình PriceLSTM.
 model = PriceLSTM()
+# Khởi tạo bộ tối ưu hóa Adam.
+# Bộ tối ưu hóa này sẽ điều chỉnh các tham số của mô hình để giảm lỗi.
+# Đầu vào:
+#   - model.parameters(): Các tham số (trọng số và bias) của mô hình cần tối ưu.
+#   - lr: Tốc độ học (learning rate), kiểm soát mức độ thay đổi của các tham số.
 opt = torch.optim.Adam(model.parameters(), lr=1e-3)
+# Định nghĩa hàm mất mát (loss function) là MSE (Mean Squared Error).
+# Hàm này đo lường sự khác biệt giữa giá trị dự đoán và giá trị thực tế.
 loss_fn = nn.MSELoss()
 
-# One training step
+# --- Một bước huấn luyện (training step) mẫu ---
+
+# Tạo dữ liệu đầu vào giả định (x) cho một batch.
+# Dạng: (kích thước_batch, số_ngày, số_đặc_trưng)
+# Ví dụ: 32 chuỗi, mỗi chuỗi 30 ngày, mỗi ngày có 5 đặc trưng.
 x = torch.randn(32, 30, 5)                 # batch of 32 windows
+# Tạo nhãn (y) giả định cho một batch.
+# Đây là giá đóng cửa của ngày tiếp theo mà mô hình cần dự đoán.
+# Dạng: (kích thước_batch, 1)
 y = torch.randn(32, 1)                     # next-day close price
+
+# Đưa dữ liệu đầu vào qua mô hình để nhận được dự đoán.
 pred = model(x)
+# Tính toán giá trị mất mát giữa dự đoán (pred) và nhãn thực tế (y).
 loss = loss_fn(pred, y)
+# Thực hiện lan truyền ngược (backpropagation).
+# Tính toán gradient của hàm mất mát đối với tất cả các tham số của mô hình.
 loss.backward()
+# Cắt gradient (gradient clipping) để tránh hiện tượng "exploding gradients".
+# Điều này giúp ổn định quá trình huấn luyện, đặc biệt quan trọng với RNN/LSTM.
+# Giới hạn độ lớn của gradient không vượt quá 1.0.
 torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)  # critical!
+# Cập nhật các tham số của mô hình dựa trên gradient đã tính toán.
 opt.step()
+# In giá trị mất mát của bước huấn luyện hiện tại.
+# Kết quả mong đợi: Một số thập phân thể hiện mức độ lỗi của mô hình.
 print(f"Loss: {loss.item():.4f}")`,
         codeLanguage: "python",
         exercise: "Why does an LSTM solve the vanishing gradient problem better than a vanilla RNN? Answer in 2 sentences referring to the cell state update rule.",
@@ -1409,40 +1660,99 @@ A Vietnamese hospital has 50 000 X-rays but only 800 are labelled by radiologist
 You have 5 000 unlabelled product photos and 200 labelled ones (10 categories). Design a 2-stage training plan and justify your choice of SSL method (contrastive vs MAE).`,
         theoryEn: "",
         code: `# Tiny SimCLR on CIFAR-10 (PyTorch)
+# Nhập các thư viện cần thiết cho PyTorch và xử lý ảnh.
 import torch, torch.nn as nn, torch.nn.functional as F
 from torchvision import models, transforms
 
-# Two random augmentations of the same image → "positive pair"
+# Hai phép biến đổi ngẫu nhiên của cùng một ảnh → "cặp dương" (positive pair)
+# Định nghĩa chuỗi các phép biến đổi ảnh (data augmentation) để tạo ra các view khác nhau của cùng một ảnh.
 augment = transforms.Compose([
+    # Cắt ngẫu nhiên và thay đổi kích thước ảnh về 32x32 pixel.
+    # Đầu vào: ảnh PIL. Đầu ra: ảnh PIL.
     transforms.RandomResizedCrop(32, scale=(0.5, 1.0)),
+    # Lật ảnh ngẫu nhiên theo chiều ngang.
+    # Đầu vào: ảnh PIL. Đầu ra: ảnh PIL.
     transforms.RandomHorizontalFlip(),
+    # Điều chỉnh độ sáng, độ tương phản, độ bão hòa và sắc độ ngẫu nhiên.
+    # Đầu vào: ảnh PIL. Đầu ra: ảnh PIL.
     transforms.ColorJitter(0.4, 0.4, 0.4, 0.1),
+    # Chuyển ảnh sang thang độ xám ngẫu nhiên với xác suất p=0.2.
+    # Đầu vào: ảnh PIL. Đầu ra: ảnh PIL.
     transforms.RandomGrayscale(p=0.2),
+    # Chuyển ảnh từ PIL Image hoặc NumPy array sang Tensor.
+    # Đầu vào: ảnh PIL. Đầu ra: Tensor.
     transforms.ToTensor(),
 ])
 
+# Khởi tạo mô hình backbone (ResNet-18) và bộ chiếu (projector).
+# Sử dụng ResNet-18 làm backbone để trích xuất đặc trưng từ ảnh.
+# weights=None nghĩa là không tải các trọng số đã được huấn luyện trước.
 backbone = models.resnet18(weights=None)
-backbone.fc = nn.Identity()                       # remove classifier head
+# Thay thế lớp phân loại cuối cùng của ResNet-18 bằng một lớp Identity (không làm gì cả).
+# Điều này loại bỏ phần phân loại để chỉ giữ lại phần trích xuất đặc trưng.
+backbone.fc = nn.Identity()                       # loại bỏ lớp phân loại (classifier head)
+# Định nghĩa bộ chiếu (projector) gồm hai lớp tuyến tính (Linear) và một hàm kích hoạt ReLU.
+# Bộ chiếu này sẽ ánh xạ đặc trưng từ backbone sang một không gian chiều thấp hơn (128 chiều).
 projector = nn.Sequential(
+    # Lớp tuyến tính đầu tiên, ánh xạ từ 512 chiều (đầu ra của ResNet-18) sang 512 chiều.
     nn.Linear(512, 512), nn.ReLU(),
-    nn.Linear(512, 128),                          # projection dim
+    # Lớp tuyến tính thứ hai, ánh xạ từ 512 chiều sang 128 chiều.
+    # Đây là chiều của không gian chiếu (projection dimension).
+    nn.Linear(512, 128),                          # chiều của không gian chiếu
 )
 
+# Định nghĩa hàm tính toán InfoNCE loss.
+# Đầu vào: z1, z2 là các vector đặc trưng đã được chiếu và chuẩn hóa từ hai view của cùng một ảnh.
+#          t là tham số nhiệt độ (temperature).
+# Đầu ra: Giá trị InfoNCE loss.
 def info_nce(z1, z2, t=0.5):
+    # Chuẩn hóa các vector đặc trưng z1 và z2 về độ dài đơn vị (unit norm).
+    # Điều này giúp tính toán độ tương đồng cosine dễ dàng hơn.
     z1 = F.normalize(z1, dim=1); z2 = F.normalize(z2, dim=1)
+    # Ghép z1 và z2 lại với nhau theo chiều 0.
+    # Nếu z1, z2 có kích thước (N, 128), thì z sẽ có kích thước (2N, 128).
     z = torch.cat([z1, z2], 0)                    # (2N, 128)
-    sim = z @ z.T / t                             # cosine similarity matrix
+    # Tính ma trận độ tương đồng cosine giữa tất cả các cặp vector trong z.
+    # sim[i, j] = cosine_similarity(z[i], z[j]) / t.
+    sim = z @ z.T / t                             # ma trận độ tương đồng cosine
+    # Lấy kích thước batch (số lượng ảnh) từ z1.
     n = z1.size(0)
+    # Tạo nhãn cho hàm cross_entropy.
+    # Các nhãn này chỉ ra rằng z1[i] tương ứng với z2[i] (và ngược lại).
+    # Ví dụ: nếu n=2, labels sẽ là [2, 3, 0, 1].
+    # z[0] (z1[0]) phải khớp với z[2] (z2[0]).
+    # z[1] (z1[1]) phải khớp với z[3] (z2[1]).
+    # z[2] (z2[0]) phải khớp với z[0] (z1[0]).
+    # z[3] (z2[1]) phải khớp với z[1] (z1[1]).
     labels = torch.cat([torch.arange(n, 2*n), torch.arange(0, n)]).to(z.device)
-    sim.fill_diagonal_(-1e9)                      # mask self-similarity
+    # Đặt giá trị trên đường chéo chính của ma trận độ tương đồng thành một số rất nhỏ.
+    # Điều này loại bỏ việc một vector tự so sánh với chính nó, vì chúng ta chỉ quan tâm đến các cặp dương.
+    sim.fill_diagonal_(-1e9)                      # che đi sự tự tương đồng (self-similarity)
+    # Tính toán cross-entropy loss.
+    # Đầu vào: sim (logits), labels (nhãn của các cặp dương).
+    # Đầu ra: Giá trị loss.
     return F.cross_entropy(sim, labels)
 
-# One step (assuming dataloader yields raw images x)
+# Một bước huấn luyện (giả sử dataloader cung cấp ảnh thô x)
+# Tạo một batch ảnh giả định với kích thước (64, 3, 32, 32).
+# Đầu vào: Không có. Đầu ra: Tensor ảnh ngẫu nhiên.
 x = torch.randn(64, 3, 32, 32)
+# Tạo view thứ nhất (v1) bằng cách áp dụng các phép biến đổi augment lên từng ảnh trong batch x.
+# Chuyển Tensor sang PIL Image trước khi áp dụng augment.
+# Đầu vào: batch ảnh x. Đầu ra: Tensor của các ảnh đã được biến đổi.
 v1 = torch.stack([augment(transforms.functional.to_pil_image(img)) for img in x])
+# Tạo view thứ hai (v2) tương tự như v1.
+# Đầu vào: batch ảnh x. Đầu ra: Tensor của các ảnh đã được biến đổi.
 v2 = torch.stack([augment(transforms.functional.to_pil_image(img)) for img in x])
+# Đưa v1 và v2 qua backbone để trích xuất đặc trưng, sau đó qua projector để chiếu xuống không gian 128 chiều.
+# z1, z2 là các vector đặc trưng đã được chiếu.
+# Đầu vào: v1, v2 (Tensor ảnh). Đầu ra: z1, z2 (Tensor đặc trưng).
 z1 = projector(backbone(v1)); z2 = projector(backbone(v2))
+# Tính toán InfoNCE loss giữa z1 và z2.
+# Đầu vào: z1, z2 (Tensor đặc trưng). Đầu ra: Giá trị loss.
 loss = info_nce(z1, z2)
+# In ra giá trị InfoNCE loss.
+# Kết quả mong đợi: Một giá trị số thực cho loss.
 print(f"InfoNCE: {loss.item():.4f}")`,
         codeLanguage: "python",
         exercise: "Explain in 3 sentences why CLIP can classify a class it has never seen during training (zero-shot). What role does the text encoder play?",
@@ -1527,29 +1837,62 @@ A frozen image encoder produces 256 patches; a frozen LLM has its own token spac
 You want to build "Tutor Bot" - students upload a photo of a math problem and ask a question. Sketch the architecture (which encoder for the image, which LLM, how they connect) and the training data you would need.`,
         theoryEn: "",
         code: `# Visual Question Answering with BLIP-2 (Hugging Face)
+# Nhập các thư viện cần thiết.
+# Blip2Processor: Dùng để tiền xử lý ảnh và văn bản cho mô hình BLIP-2.
+# Blip2ForConditionalGeneration: Là mô hình BLIP-2 chính, dùng để tạo câu trả lời.
+# Image từ PIL: Dùng để xử lý ảnh.
+# torch: Thư viện PyTorch để làm việc với tensor và GPU.
+# requests: Dùng để tải ảnh từ URL.
 from transformers import Blip2Processor, Blip2ForConditionalGeneration
 from PIL import Image
 import torch, requests
 
+# Xác định thiết bị sẽ sử dụng (GPU nếu có, nếu không thì dùng CPU).
 device = "cuda" if torch.cuda.is_available() else "cpu"
+# Tải bộ xử lý (processor) đã được huấn luyện trước cho mô hình BLIP-2.
+# Bộ xử lý này sẽ chuẩn bị dữ liệu đầu vào (ảnh và câu hỏi) theo định dạng mà mô hình mong đợi.
 processor = Blip2Processor.from_pretrained("Salesforce/blip2-opt-2.7b")
+# Tải mô hình BLIP-2 đã được huấn luyện trước.
+# "Salesforce/blip2-opt-2.7b" là tên của mô hình trên Hugging Face.
+# torch_dtype=torch.float16: Sử dụng kiểu dữ liệu float16 để tiết kiệm bộ nhớ và tăng tốc độ tính toán (nếu GPU hỗ trợ).
+# .to(device): Chuyển mô hình sang thiết bị đã chọn (GPU hoặc CPU).
 model = Blip2ForConditionalGeneration.from_pretrained(
     "Salesforce/blip2-opt-2.7b", torch_dtype=torch.float16
 ).to(device)
 
+# Tải ảnh từ một URL.
+# requests.get(...).raw: Lấy nội dung thô của ảnh.
+# Image.open(...): Mở ảnh từ nội dung thô.
+# .convert("RGB"): Chuyển đổi ảnh sang định dạng RGB (đảm bảo ảnh có 3 kênh màu).
 img = Image.open(requests.get(
     "https://images.unsplash.com/photo-1574158622682-e40e69881006",
     stream=True).raw).convert("RGB")
 
+# Định nghĩa danh sách các câu hỏi (prompts) mà chúng ta muốn hỏi mô hình về bức ảnh.
+# Mỗi câu hỏi được định dạng theo cấu trúc "Question: ... Answer:".
 prompts = [
     "Question: What animal is in the image? Answer:",
     "Question: How many of them are there? Answer:",
     "Question: What color is the background? Answer:",
 ]
 
+# Lặp qua từng câu hỏi trong danh sách.
 for q in prompts:
+    # Tiền xử lý ảnh và câu hỏi để tạo ra đầu vào cho mô hình.
+    # images=img: Ảnh đầu vào.
+    # text=q: Câu hỏi đầu vào.
+    # return_tensors="pt": Trả về kết quả dưới dạng tensor của PyTorch.
+    # .to(device, torch.float16): Chuyển tensor đầu vào sang thiết bị và kiểu dữ liệu phù hợp với mô hình.
     inputs = processor(images=img, text=q, return_tensors="pt").to(device, torch.float16)
+    # Tạo câu trả lời bằng cách gọi phương thức generate của mô hình.
+    # **inputs: Truyền các tensor đầu vào (input_ids, attention_mask, pixel_values) cho mô hình.
+    # max_new_tokens=20: Giới hạn độ dài tối đa của câu trả lời được tạo ra là 20 từ/token mới.
     out = model.generate(**inputs, max_new_tokens=20)
+    # Giải mã (decode) kết quả đầu ra của mô hình thành chuỗi văn bản dễ đọc.
+    # out[0]: Lấy tensor chứa các token đã tạo.
+    # skip_special_tokens=True: Bỏ qua các token đặc biệt (như token bắt đầu/kết thúc câu) trong kết quả.
+    # In ra câu hỏi và câu trả lời tương ứng.
+    # Kết quả mong đợi: Mô hình sẽ trả lời các câu hỏi về con mèo trong ảnh.
     print(q, "->", processor.decode(out[0], skip_special_tokens=True))`,
         codeLanguage: "python",
         exercise: "List 3 differences between CLIP-style two-tower models and unified-token models like GPT-4o. For each difference, name a use-case where one wins.",
@@ -1747,37 +2090,80 @@ Grab serves >1B predictions/day across SE-Asia. Stack: feature store (DynamoDB),
 Design the MLOps stack for a Vietnamese-language chatbot deployed on web + mobile, serving 10 000 RPS. List: serving framework, GPU type, monitoring metrics, retraining trigger, and rollback strategy.`,
         theoryEn: "",
         code: `# Minimal MLflow tracking + model registry workflow
+# Nhập các thư viện cần thiết.
+# mlflow: Thư viện chính để theo dõi và quản lý vòng đời ML.
+# mlflow.pytorch: Module của MLflow để làm việc với mô hình PyTorch.
+# torch: Thư viện PyTorch để xây dựng và huấn luyện mô hình.
+# torch.nn: Module của PyTorch chứa các lớp cho mạng nơ-ron.
 import mlflow, mlflow.pytorch, torch, torch.nn as nn
 
+# Đặt địa chỉ URI của máy chủ MLflow Tracking.
+# Đây là nơi MLflow sẽ gửi và lưu trữ thông tin về các lần chạy (runs).
 mlflow.set_tracking_uri("http://mlflow.haiedu.local:5000")
+# Đặt tên cho Experiment (thử nghiệm) hiện tại.
+# Tất cả các lần chạy trong khối này sẽ được nhóm dưới Experiment "sentiment-vi".
 mlflow.set_experiment("sentiment-vi")
 
+# Bắt đầu một lần chạy MLflow mới.
+# Mọi hoạt động ghi log (tham số, metrics, mô hình) trong khối 'with' này sẽ thuộc về lần chạy này.
+# run_name: Tên hiển thị cho lần chạy cụ thể này.
 with mlflow.start_run(run_name="distilbert-vi-v3") as run:
-    # 1. Log hyperparameters
+    # 1. Ghi lại các siêu tham số (hyperparameters) của mô hình.
+    # params: Một từ điển chứa các tham số quan trọng của quá trình huấn luyện.
     params = {"lr": 2e-5, "batch_size": 32, "epochs": 3, "model": "distilbert-base-multilingual"}
+    # Ghi lại các tham số này vào MLflow.
+    # Đầu vào: Một từ điển các tham số.
     mlflow.log_params(params)
 
     # ... training loop here ...
+    # Giả định đây là kết quả từ vòng lặp huấn luyện.
+    # val_f1: Điểm F1 trên tập validation.
     val_f1 = 0.912
+    # val_loss: Giá trị loss trên tập validation.
     val_loss = 0.187
+    # Ghi lại các chỉ số (metrics) này vào MLflow.
+    # Đầu vào: Một từ điển các chỉ số.
     mlflow.log_metrics({"val_f1": val_f1, "val_loss": val_loss})
 
-    # 2. Log the trained model artifact + signature
+    # 2. Ghi lại artifact mô hình đã huấn luyện và chữ ký của nó.
+    # model: Tạo một mô hình PyTorch đơn giản làm chỗ giữ chỗ (placeholder).
+    # Trong thực tế, đây sẽ là mô hình đã được huấn luyện.
     model = nn.Linear(768, 3)        # placeholder
+    # Ghi lại mô hình PyTorch vào MLflow.
+    # model: Đối tượng mô hình PyTorch cần ghi.
+    # artifact_path: Đường dẫn lưu trữ mô hình trong thư mục artifact của lần chạy.
+    # registered_model_name: Tên của mô hình trong Model Registry.
+    # Nếu mô hình chưa tồn tại trong Registry, nó sẽ được tạo mới.
     mlflow.pytorch.log_model(
         model, artifact_path="model",
         registered_model_name="sentiment-vi",
     )
 
-    # 3. Promote to "Staging" if it beats the champion
+    # 3. Đẩy mô hình lên stage "Staging" nếu nó tốt hơn mô hình "champion" (mô hình tốt nhất hiện tại).
+    # Khởi tạo một đối tượng MlflowClient để tương tác với MLflow Tracking Server và Model Registry.
     client = mlflow.tracking.MlflowClient()
+    # Lấy phiên bản mô hình hiện đang ở stage "production" (champion).
+    # Đầu vào: Tên mô hình đã đăng ký và alias "production".
+    # Đầu ra: Đối tượng ModelVersion của mô hình champion.
     champion = client.get_model_version_by_alias("sentiment-vi", "production")
+    # Lấy điểm F1 của mô hình champion từ các tag của nó.
+    # Nếu không tìm thấy tag "val_f1", mặc định là 0.
     champion_f1 = float(champion.tags.get("val_f1", 0))
+    # So sánh điểm F1 của mô hình hiện tại với mô hình champion.
     if val_f1 > champion_f1:
+        # Nếu mô hình hiện tại tốt hơn, lấy phiên bản mới nhất của mô hình đã đăng ký.
+        # stages=["None"]: Lấy các phiên bản chưa được gán stage nào.
         new_v = client.get_latest_versions("sentiment-vi", stages=["None"])[0]
+        # Đặt alias "staging" cho phiên bản mô hình mới này.
+        # Điều này có nghĩa là mô hình mới được đẩy lên stage "Staging".
         client.set_registered_model_alias("sentiment-vi", "staging", new_v.version)
+        # In thông báo xác nhận việc đẩy lên staging.
+        # Kết quả mong đợi: "✅ Promoted v[số_phiên_bản] to staging (F1 [val_f1] > [champion_f1])"
         print(f"✅ Promoted v{new_v.version} to staging (F1 {val_f1:.3f} > {champion_f1:.3f})")
     else:
+        # Nếu mô hình champion vẫn tốt hơn hoặc bằng, không có sự thay đổi.
+        # In thông báo không có sự thăng cấp.
+        # Kết quả mong đợi: "⏭  Champion still wins, no promotion."
         print("⏭  Champion still wins, no promotion.")`,
         codeLanguage: "python",
         exercise: "You deploy a sentiment model. After 3 weeks, accuracy drops from 92 % to 78 %. List 4 diagnostic steps in order, naming the tool you would use at each step.",

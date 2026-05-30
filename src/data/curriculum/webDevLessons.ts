@@ -731,20 +731,44 @@ const double = n => n * 2;
 ## 4. 🎯 Real Example - Fetch API with async/await
 
 \`\`\`js
+// Định nghĩa một hàm bất đồng bộ (async function) để tải thông tin người dùng.
+// Hàm này sẽ trả về một Promise.
+// Đầu vào: id (số) - ID của người dùng cần tải.
+// Đầu ra: Dữ liệu người dùng (object) nếu thành công, hoặc null nếu có lỗi.
 async function loadUser(id) {
+  // Bắt đầu một khối try...catch để xử lý các lỗi có thể xảy ra trong quá trình tải dữ liệu.
   try {
+    // Gửi yêu cầu HTTP GET đến API để lấy thông tin người dùng.
+    // \`await\` sẽ đợi cho đến khi yêu cầu fetch hoàn tất và trả về đối tượng Response.
     const res = await fetch(\`/api/users/\${id}\`);
+    // Kiểm tra xem phản hồi từ server có thành công không (mã trạng thái 2xx).
+    // Nếu không thành công (ví dụ: 404 Not Found, 500 Internal Server Error), ném ra một lỗi.
     if (!res.ok) throw new Error(\`HTTP \${res.status}\`);
+    // Chuyển đổi phản hồi từ server sang định dạng JSON.
+    // \`await\` sẽ đợi cho đến khi quá trình chuyển đổi hoàn tất.
     const data = await res.json();
+    // Trả về dữ liệu người dùng đã được phân tích cú pháp từ JSON.
     return data;
   } catch (err) {
+    // Nếu có bất kỳ lỗi nào xảy ra trong khối try (ví dụ: lỗi mạng, lỗi HTTP),
+    // lỗi đó sẽ được bắt ở đây.
+    // In lỗi ra console để gỡ lỗi.
     console.error("Failed:", err);
+    // Trả về null để chỉ ra rằng việc tải người dùng đã thất bại.
     return null;
   }
 }
 
-// Usage
+// Cách sử dụng hàm loadUser.
+// \`await\` ở đây chỉ có thể được sử dụng trong một hàm async khác hoặc ở cấp độ module (top-level await).
+// Gọi hàm loadUser với ID là 42 và đợi kết quả.
+// Đầu vào: 42 (ID người dùng).
+// Đầu ra: Đối tượng người dùng hoặc null.
 const user = await loadUser(42);
+// In ra tên người dùng nếu có, hoặc "Not found" nếu không tìm thấy người dùng hoặc người dùng không có tên.
+// \`user?.name\` là Optional Chaining: nếu \`user\` là null hoặc undefined, nó sẽ trả về undefined thay vì gây lỗi.
+// \`?? "Not found"\` là Nullish Coalescing: nếu kết quả của \`user?.name\` là null hoặc undefined, nó sẽ sử dụng giá trị "Not found".
+// Kết quả mong đợi: Tên của người dùng có ID 42, hoặc "Not found".
 console.log(user?.name ?? "Not found");
 \`\`\`
 
@@ -923,14 +947,23 @@ Key APIs:
 ## 4. 🎯 Real Example - Event delegation
 
 \`\`\`js
-// ❌ Bad: one listener per button (100 buttons = 100 listeners)
+// ❌ Cách không tối ưu: mỗi nút một trình nghe sự kiện (nếu có 100 nút sẽ có 100 trình nghe)
+// Lặp qua tất cả các nút có class "delete-btn".
 document.querySelectorAll(".delete-btn").forEach(btn => {
+  // Gắn một trình nghe sự kiện 'click' cho mỗi nút.
+  // Khi nút được click, hàm handleDelete sẽ được gọi.
   btn.addEventListener("click", handleDelete);
 });
 
-// ✅ Good: one listener on the parent
+// ✅ Cách tốt: chỉ một trình nghe sự kiện trên phần tử cha
+// Chọn phần tử có class "todo-list" (thường là danh sách chứa các nút).
 document.querySelector(".todo-list").addEventListener("click", (e) => {
+  // Kiểm tra xem phần tử mà sự kiện click xảy ra (e.target) có khớp với selector ".delete-btn" hay không.
+  // Điều này có nghĩa là chỉ khi người dùng click vào một nút xóa bên trong danh sách, điều kiện này mới đúng.
   if (e.target.matches(".delete-btn")) {
+    // Nếu đúng, gọi hàm handleDelete.
+    // Đầu vào: đối tượng sự kiện (e) chứa thông tin về sự kiện click.
+    // Đầu ra: thực hiện hành động xóa tương ứng.
     handleDelete(e);
   }
 });

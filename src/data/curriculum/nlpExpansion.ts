@@ -504,16 +504,17 @@ Tools: **ragas**, **TruLens**, **promptfoo**.
 
 > 🎯 **Key Concept** - RAG = *"give the LLM open-book test"*. You **retrieve** facts from your private data and **augment** the prompt before **generation**. Quality depends 80% on retrieval (chunking, embeddings, re-ranking, hybrid) and 20% on the LLM. Measure with RAGAS, not vibes.`,
         theoryEn: "",
-        code: `# A 50-line RAG pipeline you can run today.
-# Stack: sentence-transformers + FAISS (lightweight) + the Lovable AI Gateway.
-# pip install sentence-transformers faiss-cpu requests
-import os
-import faiss
-import numpy as np
-import requests
-from sentence_transformers import SentenceTransformer
+        code: `# Một pipeline RAG (Retrieval Augmented Generation) 50 dòng bạn có thể chạy ngay hôm nay.
+# Công nghệ sử dụng: sentence-transformers + FAISS (nhẹ) + Lovable AI Gateway.
+# Cài đặt các thư viện cần thiết: pip install sentence-transformers faiss-cpu requests
+import os # Thư viện để tương tác với hệ điều hành, ví dụ lấy biến môi trường.
+import faiss # Thư viện FAISS để tìm kiếm vector hiệu quả.
+import numpy as np # Thư viện NumPy để làm việc với mảng số.
+import requests # Thư viện để gửi các yêu cầu HTTP (ví dụ: gọi API).
+from sentence_transformers import SentenceTransformer # Thư viện để tạo vector nhúng (embeddings) từ văn bản.
 
-# ---------- 1. Mini knowledge base (in real life: 1000s of lesson chunks) ----------
+# ---------- 1. Cơ sở tri thức nhỏ (trong thực tế: hàng nghìn đoạn bài học) ----------
+# docs là danh sách các đoạn văn bản (tài liệu) đóng vai trò là cơ sở tri thức.
 docs = [
     "HaiEduTech offers IELTS Speaking practice with continuous live transcription.",
     "The Mountain Climber gamification rewards every IELTS lesson completed.",
@@ -523,53 +524,110 @@ docs = [
     "Founder Mr. Hai has 15+ years teaching experience and a Master's in Linguistics.",
 ]
 
-# ---------- 2. Embed + index ----------
+# ---------- 2. Nhúng (Embed) + lập chỉ mục (index) ----------
+# Khởi tạo mô hình SentenceTransformer để chuyển văn bản thành vector số.
+# Đầu vào: Tên mô hình đã được huấn luyện.
 embed = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
+# Chuyển đổi các tài liệu trong 'docs' thành các vector nhúng.
+# normalize_embeddings=True: Chuẩn hóa các vector về độ dài đơn vị (giúp tính toán cosine similarity dễ hơn).
+# astype("float32"): Chuyển đổi kiểu dữ liệu của vector sang float32, phù hợp với FAISS.
+# Đầu vào: Danh sách các tài liệu (docs).
+# Đầu ra: Một ma trận (matrix) các vector nhúng.
 mat = embed.encode(docs, normalize_embeddings=True).astype("float32")
-index = faiss.IndexFlatIP(mat.shape[1])  # inner-product = cosine since we normalised
+# Tạo một chỉ mục FAISS kiểu IndexFlatIP (Inner Product) để lưu trữ và tìm kiếm vector.
+# mat.shape[1]: Lấy kích thước (số chiều) của vector nhúng.
+# inner-product = cosine since we normalised: Tích vô hướng (inner product) tương đương với cosine similarity khi các vector đã được chuẩn hóa.
+# Đầu vào: Kích thước của vector.
+# Đầu ra: Một đối tượng chỉ mục FAISS.
+index = faiss.IndexFlatIP(mat.shape[1])
+# Thêm các vector nhúng vào chỉ mục FAISS để có thể tìm kiếm sau này.
+# Đầu vào: Ma trận các vector nhúng.
 index.add(mat)
 
+# Định nghĩa hàm retrieve để tìm kiếm các tài liệu liên quan đến một câu hỏi.
+# Đầu vào:
+#   - question (str): Câu hỏi của người dùng.
+#   - k (int): Số lượng tài liệu liên quan nhất muốn lấy (mặc định là 3).
+# Đầu ra:
+#   - list[str]: Danh sách các đoạn văn bản (tài liệu) liên quan.
 def retrieve(question: str, k: int = 3) -> list[str]:
+    # Chuyển đổi câu hỏi thành vector nhúng, tương tự như cách làm với các tài liệu.
     q = embed.encode([question], normalize_embeddings=True).astype("float32")
+    # Tìm kiếm các vector gần nhất trong chỉ mục FAISS.
+    # _: Khoảng cách (score) đến các vector tìm được (không dùng ở đây).
+    # ids: Chỉ số (index) của các tài liệu tìm được trong danh sách 'docs'.
+    # Đầu vào: Vector câu hỏi và số lượng kết quả k.
+    # Đầu ra: Khoảng cách và chỉ số của các tài liệu phù hợp.
     _, ids = index.search(q, k)
+    # Trả về danh sách các đoạn văn bản tương ứng với các chỉ số tìm được.
     return [docs[i] for i in ids[0]]
 
-# ---------- 3. Build the prompt + ask the LLM via Lovable AI Gateway ----------
+# ---------- 3. Xây dựng prompt + hỏi LLM thông qua Lovable AI Gateway ----------
+# Lấy khóa API từ biến môi trường LOVABLE_API_KEY.
+# Nếu không có, sử dụng giá trị mặc định "PUT_YOUR_KEY_HERE".
 LOVABLE_API_KEY = os.environ.get("LOVABLE_API_KEY", "PUT_YOUR_KEY_HERE")
+# Định nghĩa hàm ask để gửi câu hỏi đến mô hình ngôn ngữ lớn (LLM) thông qua Lovable AI Gateway.
+# Đầu vào:
+#   - question (str): Câu hỏi của người dùng.
+# Đầu ra:
+#   - str: Câu trả lời từ LLM.
 def ask(question: str) -> str:
+    # Lấy các đoạn tài liệu liên quan đến câu hỏi.
+    # Đầu vào: Câu hỏi và số lượng tài liệu k=3.
+    # Đầu ra: Danh sách các đoạn văn bản liên quan.
     chunks = retrieve(question, k=3)
-    context = "\\n---\\n".join(f"[Source {i+1}] {c}" for i, c in enumerate(chunks))
+    # Tạo chuỗi ngữ cảnh (context) từ các đoạn tài liệu đã lấy được.
+    # Mỗi đoạn được đánh số thứ tự và phân tách bằng "\\n---\\n".
+    # Đầu vào: Danh sách các đoạn văn bản.
+    # Đầu ra: Một chuỗi chứa tất cả các đoạn văn bản đã định dạng.
+    context = "\\\\n---\\\\n".join(f"[Source {i+1}] {c}" for i, c in enumerate(chunks))
+    # Định nghĩa vai trò của hệ thống (system prompt) cho LLM.
+    # Hướng dẫn LLM trả lời dựa trên các nguồn cung cấp và trích dẫn nguồn.
     system = (
         "You are Mr. Hai, the HaiEduTech tutor. "
         "Answer ONLY using the sources below. Cite them as [Source N]."
     )
-    user = f"Sources:\\n{context}\\n\\nQuestion: {question}"
+    # Định nghĩa câu hỏi của người dùng (user prompt) bao gồm cả ngữ cảnh và câu hỏi gốc.
+    user = f"Sources:\\\\n{context}\\\\n\\\\nQuestion: {question}"
+    # Gửi yêu cầu POST đến API của Lovable AI Gateway.
+    # Đầu vào:
+    #   - URL của API.
+    #   - Headers chứa khóa API và kiểu nội dung.
+    #   - JSON payload chứa thông tin về mô hình, vai trò và nội dung tin nhắn.
+    #   - timeout: Thời gian chờ tối đa cho phản hồi.
+    # Đầu ra: Đối tượng phản hồi từ API.
     r = requests.post(
         "https://ai.gateway.lovable.dev/v1/chat/completions",
         headers={"Authorization": f"Bearer {LOVABLE_API_KEY}", "Content-Type": "application/json"},
         json={
-            "model": "google/gemini-3-flash-preview",
-            "messages": [
-                {"role": "system", "content": system},
-                {"role": "user", "content": user},
+            "model": "google/gemini-3-flash-preview", # Tên mô hình LLM sẽ sử dụng.
+            "messages": [ # Danh sách các tin nhắn trong cuộc hội thoại.
+                {"role": "system", "content": system}, # Tin nhắn từ hệ thống.
+                {"role": "user", "content": user}, # Tin nhắn từ người dùng.
             ],
         },
         timeout=30,
     )
+    # Trích xuất nội dung câu trả lời từ phản hồi JSON của API.
+    # Đầu ra: Chuỗi câu trả lời từ LLM.
     return r.json()["choices"][0]["message"]["content"]
 
-# ---------- 4. Try it ----------
+# ---------- 4. Thử nghiệm ----------
+# Lặp qua một danh sách các câu hỏi mẫu để kiểm tra pipeline.
 for q in [
     "How does HaiEduTech track PTE progress?",
     "What is the Mountain Climber feature?",
     "Who is Teacher Hai?",
 ]:
+    # In câu hỏi.
     print("Q:", q)
+    # Gọi hàm ask để lấy câu trả lời từ LLM và in ra.
     print("A:", ask(q))
+    # In dấu phân cách giữa các câu hỏi.
     print("---")
 
-# Expected: every answer cites [Source N], grounded in the docs above.
-# Swap FAISS for Supabase pgvector to make it production-ready.`,
+# Kết quả mong đợi: mọi câu trả lời đều trích dẫn [Source N] và dựa trên các tài liệu đã cung cấp ở trên.
+# Để sẵn sàng cho môi trường sản xuất, có thể thay thế FAISS bằng Supabase pgvector.`,
         codeLanguage: "python",
         exercise: "Add a **re-ranker** step between `retrieve` and the LLM. Use `sentence-transformers/CrossEncoder` (e.g. `cross-encoder/ms-marco-MiniLM-L-6-v2`) to score the top-10 chunks and keep only the top-3. Compare answer quality before vs after. In 2-3 sentences, explain *why* a cross-encoder beats a bi-encoder for ranking even though it's slower.",
         exerciseEn: "",
@@ -846,30 +904,53 @@ Query vector → HNSW layer 1 coarse jumps → Layer 2 refine → Layer 3 local 
 ## 5. Schema example with pgvector
 
 \`\`\`sql
--- One-time setup
+-- Thiết lập ban đầu (chỉ chạy một lần)
+
+-- Tạo extension 'vector' nếu nó chưa tồn tại.
+-- Extension này cần thiết để làm việc với kiểu dữ liệu vector (nhúng/embeddings).
 CREATE EXTENSION IF NOT EXISTS vector;
 
--- Store every lesson chunk + its 1536-d embedding (OpenAI 'text-embedding-3-small')
+-- Lưu trữ mỗi đoạn bài học (lesson chunk) cùng với vector nhúng 1536 chiều của nó.
+-- Vector nhúng này được tạo bằng mô hình 'text-embedding-3-small' của OpenAI.
 CREATE TABLE lesson_chunks (
+  -- ID duy nhất cho mỗi đoạn, tự động tạo.
   id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  -- ID của bài học mà đoạn này thuộc về.
   lesson_id   text NOT NULL,
+  -- ID của module mà bài học này thuộc về.
   module_id   text NOT NULL,
+  -- Nội dung văn bản của đoạn bài học.
   chunk_text  text NOT NULL,
+  -- Vector nhúng 1536 chiều của chunk_text.
   embedding   vector(1536) NOT NULL,
+  -- Thời gian tạo bản ghi, mặc định là thời gian hiện tại.
   created_at  timestamptz DEFAULT now()
 );
 
--- HNSW index for fast cosine search
+-- Tạo chỉ mục HNSW (Hierarchical Navigable Small Worlds) để tìm kiếm cosine nhanh.
+-- Chỉ mục này giúp tăng tốc độ tìm kiếm các vector tương tự nhau.
 CREATE INDEX ON lesson_chunks
+  -- Sử dụng chỉ mục HNSW trên cột 'embedding' với phép toán so sánh cosine.
   USING hnsw (embedding vector_cosine_ops)
+  -- Các tham số cấu hình cho chỉ mục HNSW:
+  -- m: số lượng cạnh tối đa cho mỗi nút trong biểu đồ.
+  -- ef_construction: kích thước danh sách tìm kiếm trong quá trình xây dựng chỉ mục.
   WITH (m = 16, ef_construction = 64);
 
--- Query: top-5 chunks closest to a question embedding
-SELECT id, chunk_text, 1 - (embedding <=> $1::vector) AS similarity
+-- Truy vấn: tìm 5 đoạn bài học gần nhất với vector nhúng của câu hỏi.
+
+-- Chọn ID, nội dung đoạn văn bản và tính toán độ tương đồng cosine.
+-- Độ tương đồng được tính bằng 1 - (khoảng cách cosine).
+SELECT id, chunk_text, 1 - (embedding <=> \$1::vector) AS similarity
 FROM lesson_chunks
-WHERE module_id = 'nlp-foundations'         -- metadata filter
-ORDER BY embedding <=> $1::vector
+-- Lọc theo module_id để chỉ tìm kiếm trong một module cụ thể.
+WHERE module_id = 'nlp-foundations'         -- bộ lọc siêu dữ liệu
+-- Sắp xếp kết quả theo khoảng cách cosine tăng dần (gần nhất lên đầu).
+ORDER BY embedding <=> \$1::vector
+-- Giới hạn kết quả trả về chỉ 5 đoạn gần nhất.
 LIMIT 5;
+-- Đầu vào: \$1 là vector nhúng của câu hỏi.
+-- Đầu ra: 5 đoạn văn bản (chunk_text) có nội dung liên quan nhất đến câu hỏi, cùng với ID và độ tương đồng.
 \`\`\`
 
 The \`<=>\` operator is **cosine distance**; smaller is better.
@@ -1149,110 +1230,159 @@ Earn the **🤖 NLP Master Architect** badge by shipping this on Lovable Cloud a
 
 > 🎯 **Key Concept** - An **agent** = LLM + **tools** + **memory** + **loop**. Production NLP is 10% model and 90% engineering: prompts, retrieval, validation, safety, observability, cost, latency. Master those layers and you ship products users trust.`,
         theoryEn: "",
-        code: `# A minimal, runnable agent in ~50 lines using the Lovable AI Gateway.
-# It can answer questions and call two tools: web search (mocked) and a calculator.
-# pip install requests
-import os
-import json
-import requests
+        code: `# Một agent tối thiểu, có thể chạy được chỉ với khoảng 50 dòng code sử dụng Lovable AI Gateway.
+# Agent này có thể trả lời câu hỏi và gọi hai công cụ: tìm kiếm web (được mô phỏng) và một máy tính.
 
+# Nhập các thư viện cần thiết.
+import os # Thư viện để tương tác với hệ điều hành, ví dụ đọc biến môi trường.
+import json # Thư viện để làm việc với dữ liệu JSON (chuyển đổi giữa chuỗi và đối tượng Python).
+import requests # Thư viện để gửi các yêu cầu HTTP (ví dụ: gọi API).
+
+# Lấy khóa API từ biến môi trường hoặc sử dụng giá trị mặc định.
+# LOVABLE_API_KEY là khóa xác thực để truy cập Lovable AI Gateway.
 LOVABLE_API_KEY = os.environ.get("LOVABLE_API_KEY", "PUT_YOUR_KEY_HERE")
+# GATEWAY là URL của Lovable AI Gateway API endpoint.
 GATEWAY = "https://ai.gateway.lovable.dev/v1/chat/completions"
 
-# ---------- 1. Define the tools ----------
+# ---------- 1. Định nghĩa các công cụ (tools) ----------
+# TOOLS là một danh sách các công cụ mà AI agent có thể sử dụng.
+# Mỗi công cụ được định nghĩa với tên, mô tả và các tham số đầu vào.
 TOOLS = [
     {
-        "type": "function",
+        "type": "function", # Loại công cụ là một hàm.
         "function": {
-            "name": "calculator",
-            "description": "Evaluate a Python arithmetic expression and return the number.",
-            "parameters": {
-                "type": "object",
-                "properties": {"expression": {"type": "string"}},
-                "required": ["expression"],
+            "name": "calculator", # Tên của công cụ.
+            "description": "Evaluate a Python arithmetic expression and return the number.", # Mô tả công cụ.
+            "parameters": { # Định nghĩa các tham số đầu vào của công cụ.
+                "type": "object", # Tham số là một đối tượng.
+                "properties": {"expression": {"type": "string"}}, # Có một thuộc tính 'expression' kiểu chuỗi.
+                "required": ["expression"], # Tham số 'expression' là bắt buộc.
             },
         },
     },
     {
-        "type": "function",
+        "type": "function", # Loại công cụ là một hàm.
         "function": {
-            "name": "search_haiedutech",
-            "description": "Search HaiEduTech lessons. Returns a list of titles.",
-            "parameters": {
-                "type": "object",
-                "properties": {"query": {"type": "string"}},
-                "required": ["query"],
+            "name": "search_haiedutech", # Tên của công cụ.
+            "description": "Search HaiEduTech lessons. Returns a list of titles.", # Mô tả công cụ.
+            "parameters": { # Định nghĩa các tham số đầu vào của công cụ.
+                "type": "object", # Tham số là một đối tượng.
+                "properties": {"query": {"type": "string"}}, # Có một thuộc tính 'query' kiểu chuỗi.
+                "required": ["query"], # Tham số 'query' là bắt buộc.
             },
         },
     },
 ]
 
-# ---------- 2. Implement the tools (in real life: hit pgvector / APIs) ----------
+# ---------- 2. Triển khai các công cụ (trong thực tế: gọi pgvector / API) ----------
+# Hàm calculator: nhận một biểu thức chuỗi và trả về kết quả tính toán.
+# Đầu vào: expression (chuỗi) - biểu thức toán học.
+# Đầu ra: chuỗi kết quả của biểu thức hoặc thông báo lỗi.
 def calculator(expression: str) -> str:
     try:
-        # NEVER use eval() in production - sandbox it.
+        # KHÔNG BAO GIỜ sử dụng eval() trong môi trường sản phẩm mà không có sandbox bảo mật.
+        # Ở đây, chúng ta giới hạn eval chỉ có thể truy cập các hàm tích hợp và không có biến cục bộ/toàn cục.
         return str(eval(expression, {"__builtins__": {}}, {}))
     except Exception as e:
+        # Bắt lỗi nếu biểu thức không hợp lệ.
         return f"error: {e}"
 
+# Hàm search_haiedutech: mô phỏng việc tìm kiếm các bài học của HaiEduTech.
+# Đầu vào: query (chuỗi) - từ khóa tìm kiếm.
+# Đầu ra: chuỗi JSON chứa danh sách các tiêu đề bài học.
 def search_haiedutech(query: str) -> str:
-    # Mock - replace with a real pgvector RAG call
+    # Đây là một hàm mô phỏng - trong thực tế, nó sẽ được thay thế bằng một cuộc gọi RAG (Retrieval Augmented Generation)
+    # sử dụng pgvector hoặc một API tìm kiếm thực tế.
     return json.dumps([
         "IELTS Speaking Roadmap",
         "PTE Hub progress rings",
         "AI Speaking Coach",
     ])
 
+# Ánh xạ tên công cụ với hàm thực thi tương ứng.
+# TOOL_FNS là một từ điển giúp gọi đúng hàm khi AI yêu cầu sử dụng một công cụ.
 TOOL_FNS = {"calculator": calculator, "search_haiedutech": search_haiedutech}
 
-# ---------- 3. The agent loop ----------
+# ---------- 3. Vòng lặp của agent ----------
+# Hàm agent: thực hiện vòng lặp tương tác với AI Gateway để đạt được mục tiêu.
+# Đầu vào:
+#   - goal (chuỗi): Mục tiêu hoặc câu hỏi của người dùng.
+#   - max_steps (số nguyên): Số bước tối đa mà agent sẽ thực hiện.
+# Đầu ra: chuỗi câu trả lời cuối cùng từ AI hoặc thông báo nếu đạt đến max_steps.
 def agent(goal: str, max_steps: int = 5) -> str:
+    # Khởi tạo danh sách tin nhắn hội thoại.
+    # Tin nhắn hệ thống định nghĩa vai trò của AI.
+    # Tin nhắn người dùng chứa mục tiêu ban đầu.
     messages = [
         {"role": "system", "content": "You are a HaiEduTech study assistant. "
             "Use tools when helpful. Always end with a clear final answer."},
         {"role": "user", "content": goal},
     ]
+    # Bắt đầu vòng lặp để xử lý các bước của agent.
     for step in range(max_steps):
+        # Gửi yêu cầu POST đến Lovable AI Gateway.
+        # Đầu vào:
+        #   - GATEWAY: URL của API.
+        #   - headers: Chứa khóa xác thực và loại nội dung.
+        #   - json: Dữ liệu gửi đi dưới dạng JSON, bao gồm model, tin nhắn, công cụ và cách chọn công cụ.
+        #   - timeout: Thời gian chờ tối đa cho yêu cầu.
         r = requests.post(
             GATEWAY,
             headers={"Authorization": f"Bearer {LOVABLE_API_KEY}",
                      "Content-Type": "application/json"},
             json={
-                "model": "google/gemini-3-flash-preview",
-                "messages": messages,
-                "tools": TOOLS,
-                "tool_choice": "auto",
+                "model": "google/gemini-3-flash-preview", # Model AI được sử dụng.
+                "messages": messages, # Lịch sử hội thoại.
+                "tools": TOOLS, # Danh sách các công cụ có sẵn.
+                "tool_choice": "auto", # Cho phép AI tự động chọn công cụ nếu cần.
             },
             timeout=30,
-        ).json()
+        ).json() # Chuyển đổi phản hồi JSON thành đối tượng Python.
 
+        # Lấy tin nhắn phản hồi từ AI.
         msg = r["choices"][0]["message"]
+        # Thêm tin nhắn của AI vào lịch sử hội thoại.
         messages.append(msg)
 
-        # Did the model want to call a tool?
+        # Kiểm tra xem model có muốn gọi công cụ nào không.
+        # tool_calls sẽ là một danh sách nếu AI muốn gọi công cụ, nếu không sẽ là None hoặc rỗng.
         tool_calls = msg.get("tool_calls") or []
         if not tool_calls:
+            # Nếu không có cuộc gọi công cụ nào, nghĩa là AI đã đưa ra câu trả lời cuối cùng.
+            # Đầu ra: nội dung của tin nhắn AI.
             return msg.get("content", "(empty)")
 
+        # Lặp qua từng cuộc gọi công cụ mà AI yêu cầu.
         for call in tool_calls:
-            name = call["function"]["name"]
+            name = call["function"]["name"] # Tên của công cụ cần gọi.
+            # Phân tích cú pháp các đối số của công cụ từ chuỗi JSON.
             args = json.loads(call["function"]["arguments"] or "{}")
+            # Gọi hàm công cụ tương ứng và lưu kết quả.
+            # Đầu vào: các đối số được giải nén từ 'args'.
             result = TOOL_FNS[name](**args)
+            # In ra thông tin về bước hiện tại, công cụ được gọi và kết quả.
             print(f"  step {step}: {name}({args}) -> {result[:80]}")
+            # Thêm kết quả của công cụ vào lịch sử hội thoại dưới dạng tin nhắn "tool".
             messages.append({
-                "role": "tool",
-                "tool_call_id": call["id"],
-                "content": str(result),
+                "role": "tool", # Vai trò là công cụ.
+                "tool_call_id": call["id"], # ID của cuộc gọi công cụ.
+                "content": str(result), # Nội dung là kết quả của công cụ.
             })
+    # Nếu vòng lặp kết thúc mà không có câu trả lời cuối cùng, nghĩa là đã đạt đến số bước tối đa.
+    # Đầu ra: thông báo lỗi.
     return "Reached max_steps without a final answer."
 
-# ---------- 4. Try it ----------
+# ---------- 4. Thử nghiệm ----------
+# Gọi hàm agent với một câu hỏi kết hợp cả tính toán và tìm kiếm.
+# Đầu vào: "What is 17 * 23 + 4? And which HaiEduTech lessons cover IELTS Speaking?"
 print(agent("What is 17 * 23 + 4? And which HaiEduTech lessons cover IELTS Speaking?"))
 
-# Expected behaviour:
-#   step 0: calculator({"expression": "17*23+4"}) -> 395
-#   step 1: search_haiedutech({"query": "IELTS Speaking"}) -> [...]
-#   step 2: model writes the final answer combining both results.`,
+# Hành vi mong đợi:
+#   bước 0: AI gọi công cụ calculator với biểu thức "17*23+4" và nhận kết quả là 395.
+#   bước 1: AI gọi công cụ search_haiedutech với truy vấn "IELTS Speaking" và nhận danh sách các bài học.
+#   bước 2: AI tổng hợp cả hai kết quả và đưa ra câu trả lời cuối cùng.
+# Đầu ra mong đợi: Một câu trả lời tổng hợp từ AI.
+`,
         codeLanguage: "python",
         exercise: "🏆 **Capstone challenge** - Add a **third tool** named `save_to_notebook(title: str, content: str)` that appends a row to your Smart Notebook (mock it with a Python list for now). Ask the agent: *\"Plan my IELTS Speaking practice for tomorrow and save it to my notebook.\"* Confirm the agent calls all three tools in the right order. Then write 3 sentences on **what could go wrong** in production (cost, prompt injection, infinite loops) and how you would mitigate each.",
         exerciseEn: "",

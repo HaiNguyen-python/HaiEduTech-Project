@@ -605,10 +605,25 @@ Cần lưu hình ảnh app, video user upload, file backup - không thể nhồi
 ## 3. 🧰 Cú pháp Python (boto3)
 
 \`\`\`python
+# Nhập thư viện boto3 để tương tác với các dịch vụ của AWS (Amazon Web Services).
 import boto3
+
+# Tạo một đối tượng client cho dịch vụ S3.
+# Đối tượng này sẽ được dùng để gọi các hàm S3 như upload, download.
 s3 = boto3.client("s3")
+
+# Tải lên một tệp tin từ máy cục bộ lên S3.
+# Tham số 1: Đường dẫn tệp tin cục bộ cần tải lên.
+# Tham số 2: Tên của bucket S3 đích.
+# Tham số 3: Đường dẫn (key) của tệp tin trên S3 sau khi tải lên.
 s3.upload_file("local.jpg", "my-bucket", "uploads/local.jpg")
+
+# Tải xuống một tệp tin từ S3 về máy cục bộ.
+# Tham số 1: Tên của bucket S3 chứa tệp tin.
+# Tham số 2: Đường dẫn (key) của tệp tin trên S3 cần tải xuống.
+# Tham số 3: Đường dẫn tệp tin cục bộ sẽ lưu trữ dữ liệu tải về.
 s3.download_file("my-bucket", "uploads/local.jpg", "out.jpg")
+# Sau khi chạy, tệp tin "uploads/local.jpg" từ bucket "my-bucket" sẽ được lưu vào "out.jpg" trên máy cục bộ.
 \`\`\`
 
 ## 4. 🎯 Ví dụ chạy được ngay

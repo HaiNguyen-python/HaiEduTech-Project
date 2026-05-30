@@ -539,33 +539,67 @@ LLM chấm **từng tiêu chí riêng** với anchor cụ thể (vd "9 = lập l
 `,
         theoryEn: `Trustworthy auto-grading is rubric-first, not LLM-first: score each criterion independently with concrete anchors, weight and round to the band. Run pre-checks (word count, off-topic, copy-paste). For speaking, use word-confidence ASR, fluency (WPM, fillers), phoneme-level pronunciation, and grade transcript coherence like an essay. Calibrate against a gold set of human-graded items, target QWK ≥ 0.75, watch drift on every model/prompt change, and route low-confidence cases to humans. Audit for demographic bias and always return actionable feedback, not just a number.`,
         code: `# Per-criterion rubric grader stub (LLM call faked)
+# Đây là một đoạn mã giả lập việc chấm điểm bài luận dựa trên các tiêu chí (rubric).
+# Nó giả lập cuộc gọi đến một mô hình ngôn ngữ lớn (LLM) để chấm điểm.
 import json, statistics
 
+# Định nghĩa các tiêu chí chấm điểm (rubric).
+# Mỗi tiêu chí có một trọng số (weight) và điểm tối đa (max).
 RUBRIC = {
-    "task_response": {"weight": 0.25, "max": 9},
-    "coherence":     {"weight": 0.25, "max": 9},
-    "lexical":       {"weight": 0.25, "max": 9},
-    "grammar":       {"weight": 0.25, "max": 9},
+    "task_response": {"weight": 0.25, "max": 9}, # Tiêu chí phản hồi nhiệm vụ
+    "coherence":     {"weight": 0.25, "max": 9}, # Tiêu chí mạch lạc
+    "lexical":       {"weight": 0.25, "max": 9}, # Tiêu chí từ vựng
+    "grammar":       {"weight": 0.25, "max": 9}, # Tiêu chí ngữ pháp
 }
 
+# Hàm giả lập việc chấm điểm của LLM cho một tiêu chí cụ thể.
+# Đầu vào: essay (bài luận), criterion (tiêu chí).
+# Đầu ra: Một từ điển chứa điểm số, bằng chứng và phản hồi.
 def fake_llm_judge(essay: str, criterion: str) -> dict:
     """Stub - replace with structured-output LLM call."""
+    # Đây là hàm giả lập, cần được thay thế bằng cuộc gọi LLM thực tế.
+    # Tính điểm cơ bản với một chút biến thể nhỏ dựa vào độ dài bài luận.
     base = 6 + (len(essay) % 3)        # toy variation
+    # Trả về một từ điển với điểm số (giới hạn tối đa là 9),
+    # bằng chứng (40 ký tự đầu của bài luận) và phản hồi chung.
     return {"score": min(9, base), "evidence": [essay[:40]],
             "feedback": f"Improve {criterion} by adding specific examples."}
 
+# Hàm làm tròn điểm về nửa band (ví dụ: 6.0, 6.5, 7.0).
+# Đầu vào: x (điểm số dạng float).
+# Đầu ra: Điểm đã làm tròn về nửa band.
 def half_band(x: float) -> float:
     return round(x * 2) / 2
 
+# Hàm chính để chấm điểm toàn bộ bài luận.
+# Đầu vào: essay (bài luận).
+# Đầu ra: Một từ điển chứa điểm tổng thể, điểm từng tiêu chí, độ tin cậy và liệu có cần người xem lại không.
 def grade_essay(essay: str) -> dict:
+    # Chấm điểm từng tiêu chí bằng cách gọi hàm fake_llm_judge.
+    # Đầu vào: bài luận và từng tiêu chí từ RUBRIC.
+    # Đầu ra: Một từ điển chứa kết quả chấm điểm cho mỗi tiêu chí.
     per = {c: fake_llm_judge(essay, c) for c in RUBRIC}
+    # Tính điểm tổng thể bằng cách lấy tổng điểm từng tiêu chí nhân với trọng số tương ứng,
+    # sau đó làm tròn về nửa band.
     overall = half_band(sum(per[c]["score"] * RUBRIC[c]["weight"] for c in RUBRIC))
+    # Tính độ lệch chuẩn của các điểm thành phần để đánh giá độ "phân tán" của điểm.
     spread = statistics.pstdev([per[c]["score"] for c in RUBRIC])
+    # Xác định độ tin cậy dựa trên độ lệch chuẩn.
+    # Nếu độ lệch chuẩn nhỏ, độ tin cậy cao.
     confidence = "high" if spread < 1.0 else "medium" if spread < 2.0 else "low"
+    # Xác định xem bài luận có cần người xem lại hay không.
+    # Cần xem lại nếu độ tin cậy thấp hoặc điểm tổng thể là 6.0 hoặc 7.0 (có thể là điểm biên).
     return {"overall": overall, "per": per, "confidence": confidence,
             "needs_human_review": confidence == "low" or overall in (6.0, 7.0)}
 
+# Chấm điểm một bài luận mẫu (được lặp lại 20 lần để có độ dài).
+# Đầu vào: Một chuỗi văn bản dài.
+# Đầu ra: Một từ điển chứa kết quả chấm điểm.
 result = grade_essay("Nowadays, technology helps students learn faster ... " * 20)
+# In kết quả ra màn hình dưới dạng JSON dễ đọc.
+# ensure_ascii=False để hiển thị ký tự tiếng Việt nếu có.
+# indent=2 để định dạng JSON có thụt lề 2 khoảng trắng.
+# Kết quả mong đợi là một đối tượng JSON với các trường "overall", "per", "confidence", "needs_human_review".
 print(json.dumps(result, ensure_ascii=False, indent=2))`,
         codeLanguage: "python",
         exercise:
@@ -669,25 +703,59 @@ Khi học sinh kẹt ở \`past perfect\`, hệ thống tự **gợi ý ôn lạ
 
 `,
         theoryEn: `Knowledge Tracing estimates the probability a learner has mastered a skill from their answer history. BKT (1995) uses 4 params per skill (p_init, p_learn, p_slip, p_guess) with Bayesian updates. DKT (2015) uses RNN/Transformer to capture skill dependencies missed by BKT. Use a 0.85 mastery threshold (industry standard) and pair KT with spaced repetition to fight forgetting. Maintain a prerequisite skill graph so the system reroutes to fundamentals when a learner stalls. Watch for cold start, dirty skill tags, and ignoring time decay.`,
-        code: `def bkt_update(p_known: float, correct: bool,
+        code: `# Định nghĩa một hàm để cập nhật xác suất người học biết một kỹ năng
+# Hàm này thực hiện một bước cập nhật trong mô hình Bayesian Knowledge Tracing (BKT)
+# Đầu vào:
+#   p_known: Xác suất hiện tại người học biết kỹ năng (số thực từ 0 đến 1).
+#   correct: Kết quả của lần thử hiện tại (True nếu đúng, False nếu sai).
+#   p_slip: Xác suất người học biết kỹ năng nhưng vẫn trả lời sai (lỗi trượt). Mặc định là 0.1.
+#   p_guess: Xác suất người học không biết kỹ năng nhưng vẫn trả lời đúng (đoán mò). Mặc định là 0.2.
+#   p_learn: Xác suất người học học được kỹ năng sau một lần thử. Mặc định là 0.1.
+# Đầu ra:
+#   Xác suất cập nhật người học biết kỹ năng sau lần thử.
+def bkt_update(p_known: float, correct: bool,
                p_slip=0.1, p_guess=0.2, p_learn=0.1) -> float:
     """One-step Bayesian Knowledge Tracing update."""
+    # Nếu người học trả lời đúng
     if correct:
+        # Tính tử số (numerator) của công thức Bayes khi trả lời đúng
+        # Đây là xác suất người học biết và không bị trượt
         num = p_known * (1 - p_slip)
+        # Tính mẫu số (denominator) của công thức Bayes khi trả lời đúng
+        # Đây là tổng xác suất trả lời đúng (biết và không trượt HOẶC không biết và đoán đúng)
         den = num + (1 - p_known) * p_guess
+    # Nếu người học trả lời sai
     else:
+        # Tính tử số của công thức Bayes khi trả lời sai
+        # Đây là xác suất người học biết nhưng bị trượt
         num = p_known * p_slip
+        # Tính mẫu số của công thức Bayes khi trả lời sai
+        # Đây là tổng xác suất trả lời sai (biết và trượt HOẶC không biết và không đoán đúng)
         den = num + (1 - p_known) * (1 - p_guess)
+    # Tính xác suất hậu nghiệm (posterior probability)
+    # Nếu mẫu số khác 0, thì chia tử số cho mẫu số. Ngược lại, giữ nguyên p_known để tránh lỗi chia cho 0.
     posterior = num / den if den else p_known
-    # apply learning step (chance to learn from the attempt)
+    # Áp dụng bước học (learning step)
+    # Đây là xác suất người học có thể học được kỹ năng sau lần thử, ngay cả khi xác suất hậu nghiệm thấp.
+    # Đầu ra là xác suất cuối cùng sau khi đã tính đến khả năng học.
     return posterior + (1 - posterior) * p_learn
 
-# Simulate a learner on "past simple"
+# Mô phỏng một người học với kỹ năng "quá khứ đơn" (past simple)
+# Khởi tạo xác suất ban đầu người học biết kỹ năng (trạng thái "lạnh")
 p = 0.15  # cold-start prior
+# Lịch sử các lần thử của người học (True = đúng, False = sai)
 history = [True, False, True, True, True, False, True, True]
+# Lặp qua từng lần thử trong lịch sử
+# i là số thứ tự câu hỏi (bắt đầu từ 1), c là kết quả của lần thử đó
 for i, c in enumerate(history, 1):
+    # Cập nhật xác suất người học biết kỹ năng sau mỗi lần thử
+    # Đầu vào: xác suất hiện tại p, kết quả lần thử c
+    # Đầu ra: xác suất p đã được cập nhật
     p = bkt_update(p, c)
+    # Đặt cờ "MASTERED ✓" nếu xác suất biết kỹ năng đạt ngưỡng 0.85 trở lên
     flag = "MASTERED ✓" if p >= 0.85 else ""
+    # In ra kết quả của từng câu hỏi: số câu, kết quả đúng/sai, xác suất biết kỹ năng, và cờ "MASTERED" nếu có
+    # Kết quả mong đợi: Dòng chữ hiển thị tiến trình học của người học qua từng câu hỏi.
     print(f"Q{i} {'✓' if c else '✗'}  p(known) = {p:.3f}  {flag}")`,
         codeLanguage: "python",
         exercise:
@@ -790,38 +858,80 @@ Output: học sinh thấy bài đầu **đúng trình độ, đúng mục tiêu,
 
 `,
         theoryEn: `The aha moment in EdTech isn't sign-up - it's the first felt sense of progress (first quiz pass + mastery bar moving). Optimize onboarding to push more users into that cluster fast. Audit friction click-by-click (every extra click ≈ 10% drop). Replace empty states with single-CTA teaching moments. Wire behavioral triggers with strict frequency caps (≤1/day, 8 AM – 9 PM local) and deep links. Replace marketing tours with a 3-question intake (goal, level, time/day) that personalizes the first lesson so aha lands in under 10 minutes.`,
-        code: `from dataclasses import dataclass
+        code: `# Nhập các lớp cần thiết từ thư viện \`dataclasses\` để tạo lớp dữ liệu.
+from dataclasses import dataclass
+# Nhập các đối tượng \`datetime\` và \`timedelta\` từ thư viện \`datetime\` để làm việc với ngày và thời gian.
 from datetime import datetime, timedelta
+# Nhập \`Optional\` từ thư viện \`typing\` để chỉ ra rằng một giá trị có thể là một kiểu cụ thể hoặc \`None\`.
 from typing import Optional
 
+# Định nghĩa một lớp dữ liệu (dataclass) tên là \`Learner\`.
+# Dataclass tự động tạo các phương thức như __init__, __repr__ cho chúng ta.
 @dataclass
 class Learner:
+    # ID duy nhất của người học.
     user_id: str
+    # Thời điểm người học đăng ký.
     signup_at: datetime
+    # Thời điểm người học hoạt động gần đây nhất.
     last_active_at: datetime
+    # Số ngày liên tiếp người học đã hoàn thành bài học.
     streak_days: int
+    # Tổng số bài học đã hoàn thành.
     completed_lessons: int
 
+# Định nghĩa một hằng số chứa các giờ "yên tĩnh" (từ 21h đến 23h).
+# Trong khoảng thời gian này, hệ thống sẽ không gửi thông báo.
 QUIET_HOURS = range(21, 24)  # don't push 21:00–08:00
+
+# Định nghĩa hàm kiểm tra xem thời gian hiện tại có nằm trong "giờ yên tĩnh" hay không.
+# Đầu vào: \`now\` (thời gian hiện tại).
+# Đầu ra: \`True\` nếu đang trong giờ yên tĩnh, \`False\` nếu không.
 def in_quiet_hours(now: datetime) -> bool:
+    # Trả về True nếu giờ hiện tại nằm trong QUIET_HOURS (21, 22, 23) hoặc nhỏ hơn 8 (0, 1, ..., 7).
     return now.hour in QUIET_HOURS or now.hour < 8
 
+# Định nghĩa hàm \`pick_trigger\` để chọn loại thông báo (trigger) phù hợp cho người học.
+# Đầu vào: \`l\` (đối tượng Learner), \`now\` (thời gian hiện tại).
+# Đầu ra: Một chuỗi mô tả loại thông báo hoặc \`None\` nếu không có thông báo nào phù hợp.
 def pick_trigger(l: Learner, now: datetime) -> Optional[str]:
+    # Bước 1: Kiểm tra xem có đang trong giờ yên tĩnh không.
+    # Nếu có, không gửi thông báo nào.
     if in_quiet_hours(now):
         return None
+    # Tính số ngày không hoạt động của người học.
     inactive = (now - l.last_active_at).days
+    # Bước 2: Kiểm tra điều kiện gửi thông báo "chào mừng" cho người mới.
+    # Nếu người học chưa hoàn thành bài nào và đã không hoạt động ít nhất 1 ngày.
     if l.completed_lessons == 0 and inactive >= 1:
+        # Trả về thông báo gợi ý bài học khởi đầu.
         return "welcome_nudge:try a 5-min starter lesson"
+    # Bước 3: Kiểm tra điều kiện gửi thông báo "giữ chuỗi" cho người có chuỗi học.
+    # Nếu người học có chuỗi học từ 2 ngày trở lên, không hoạt động ít nhất 1 ngày và hiện tại là 20h.
     if l.streak_days >= 2 and inactive >= 1 and now.hour == 20:
+        # Trả về thông báo nhắc nhở giữ chuỗi.
         return "streak_save:keep your streak alive"
+    # Bước 4: Kiểm tra điều kiện gửi thông báo "kéo lại" sau 7 ngày không hoạt động.
+    # Nếu người học không hoạt động đúng 7 ngày.
     if inactive == 7:
+        # Trả về thông báo gợi ý bài học mới.
         return "winback:a fresh lesson tailored for you"
+    # Bước 5: Kiểm tra điều kiện gửi thông báo "tái tương tác" sau 30 ngày không hoạt động.
+    # Nếu người học không hoạt động đúng 30 ngày.
     if inactive == 30:
+        # Trả về thông báo khuyến khích xem lại tiến độ.
         return "reengage:see how far you came + one small win"
+    # Bước 6: Nếu không có điều kiện nào ở trên khớp, không gửi thông báo nào.
     return None
 
+# Khởi tạo thời gian hiện tại giả định là 20h05 ngày 29 tháng 5 năm 2026.
 now = datetime(2026, 5, 29, 20, 5)
+# Khởi tạo một đối tượng Learner với các thông tin giả định.
+# Người học có ID "u1", đăng ký 10 ngày trước, hoạt động lần cuối 1 ngày trước, có chuỗi 3 ngày, hoàn thành 4 bài.
 l = Learner("u1", now - timedelta(days=10), now - timedelta(days=1), 3, 4)
+# Gọi hàm \`pick_trigger\` để xác định thông báo cho người học \`l\` tại thời điểm \`now\`.
+# In kết quả ra màn hình.
+# Kết quả mong đợi: "streak_save:keep your streak alive" vì l.streak_days >= 2, inactive >= 1 và now.hour == 20.
 print(pick_trigger(l, now))`,
         codeLanguage: "python",
         exercise:
@@ -905,48 +1015,105 @@ Production: **lai cả ba** - KG để hợp lệ, CF để đa dạng, content 
 - **Reward hack**: tối ưu CTR → gợi bài siêu dễ. Tối ưu **mastery growth/tuần**, không phải click.
 `,
         theoryEn: `Educational recommenders optimize mastery growth, not clicks. Aim for the ZPD (~60–80% pass probability). Combine content-based, collaborative filtering, and knowledge-graph approaches. Pipeline: candidate generation → ranking → MMR diversity → constraints. Solve cold-start with surveys + adaptive placement quiz. Beware filter bubbles, popularity bias, and reward hacking - explicitly inject weak-skill practice and randomness.`,
-        code: `import math, random
+        code: `# Nhập các thư viện cần thiết.
+# 'math' để sử dụng các hàm toán học như exp (số mũ).
+# 'random' để tạo số ngẫu nhiên.
+import math, random
+# 'dataclass' từ module 'dataclasses' giúp tạo các lớp (class) đơn giản để lưu trữ dữ liệu.
 from dataclasses import dataclass
 
+# Định nghĩa một lớp dữ liệu (dataclass) có tên 'Lesson'.
+# Lớp này dùng để biểu diễn một bài học với các thuộc tính cụ thể.
 @dataclass
 class Lesson:
+    # ID duy nhất của bài học (chuỗi).
     id: str
+    # Kỹ năng mà bài học này tập trung vào (chuỗi).
     skill: str
+    # Độ khó của bài học, giá trị từ 0 đến 1 (số thực).
     difficulty: float   # 0–1
+    # Danh sách các ID bài học là điều kiện tiên quyết để học bài này (danh sách chuỗi).
     prereqs: list[str]
 
+# Định nghĩa một lớp dữ liệu (dataclass) có tên 'Learner'.
+# Lớp này dùng để biểu diễn một người học với các thuộc tính về trình độ.
 @dataclass
 class Learner:
+    # Mức độ thành thạo của người học đối với từng kỹ năng.
+    # Là một từ điển (dict) với khóa là tên kỹ năng (chuỗi) và giá trị là mức độ thành thạo (số thực từ 0 đến 1).
     mastery: dict[str, float]   # skill -> 0..1
+    # Tập hợp (set) các ID bài học mà người học đã hoàn thành.
     completed: set[str]
 
+# Định nghĩa hàm 'passable' để kiểm tra xem người học có đủ điều kiện để học một bài học hay không.
+# Đầu vào: 'lesson' (một đối tượng Lesson), 'learner' (một đối tượng Learner).
+# Đầu ra: True nếu người học đã hoàn thành tất cả các điều kiện tiên quyết, ngược lại là False.
 def passable(lesson, learner):
+    # Kiểm tra xem TẤT CẢ các điều kiện tiên quyết (prereqs) của bài học
+    # có nằm trong danh sách các bài đã hoàn thành (completed) của người học hay không.
     return all(p in learner.completed for p in lesson.prereqs)
 
+# Định nghĩa hàm 'pass_prob' để tính xác suất người học sẽ vượt qua một bài học.
+# Đầu vào: 'lesson' (một đối tượng Lesson), 'learner' (một đối tượng Learner).
+# Đầu ra: Xác suất vượt qua bài học (số thực từ 0 đến 1).
 def pass_prob(lesson, learner):
+    # Lấy mức độ thành thạo của người học đối với kỹ năng của bài học.
+    # Nếu kỹ năng chưa có trong 'mastery', mặc định là 0.0.
     m = learner.mastery.get(lesson.skill, 0.0)
+    # Tính toán xác suất dựa trên mô hình logistic.
+    # Xác suất cao nếu mức độ thành thạo (m) cao hơn độ khó (difficulty).
     # logistic gap: high prob if mastery ≥ difficulty
     return 1 / (1 + math.exp(-6 * (m - lesson.difficulty + 0.1)))
 
+# Định nghĩa hàm 'score' để tính điểm "phù hợp" của một bài học đối với người học.
+# Điểm này cho biết bài học đó có "vừa sức" với người học hay không.
+# Đầu vào: 'lesson' (một đối tượng Lesson), 'learner' (một đối tượng Learner).
+# Đầu ra: Điểm phù hợp (số thực).
 def score(lesson, learner):
+    # Tính xác suất người học vượt qua bài học.
     p = pass_prob(lesson, learner)
+    # Tính toán độ "phù hợp" dựa trên xác suất vượt qua.
+    # Điểm cao nhất khi xác suất p gần 0.7 (bài học không quá dễ, không quá khó).
     # sweet spot p≈0.7 → max score; penalise too easy / too hard
     fit = 1 - abs(p - 0.7) * 2
+    # Đảm bảo điểm không âm (ít nhất là 0).
     return max(0, fit)
 
+# Định nghĩa hàm 'recommend' để đề xuất các bài học cho người học.
+# Đầu vào:
+#   'catalog': Danh sách tất cả các bài học có sẵn.
+#   'learner': Đối tượng người học.
+#   'k': Số lượng bài học muốn đề xuất (mặc định là 3).
+#   'weak_skill_quota': Tỷ lệ cơ hội để đề xuất một bài học về kỹ năng yếu nhất (mặc định là 0.2).
+# Đầu ra: Danh sách các bài học được đề xuất.
 def recommend(catalog, learner, k=3, weak_skill_quota=0.2):
+    # Lọc ra các bài học mà người học đủ điều kiện (passable) và chưa hoàn thành.
     eligible = [l for l in catalog if passable(l, learner) and l.id not in learner.completed]
+    # Sắp xếp các bài học đủ điều kiện theo điểm phù hợp (score) giảm dần.
     eligible.sort(key=lambda l: score(l, learner), reverse=True)
+    # Chọn 'k' bài học có điểm phù hợp cao nhất.
     pick = eligible[:k]
+    # Logic để "chèn" một bài học về kỹ năng yếu nhất của người học.
     # inject weak-skill bait
+    # Tìm kỹ năng yếu nhất của người học (kỹ năng có mức độ thành thạo thấp nhất).
     weakest = min(learner.mastery, key=learner.mastery.get)
+    # Tìm các bài học đủ điều kiện liên quan đến kỹ năng yếu nhất và chưa có trong danh sách đề xuất ban đầu.
     weak = [l for l in eligible if l.skill == weakest and l not in pick]
+    # Nếu có bài học về kỹ năng yếu và một số ngẫu nhiên nhỏ hơn 'weak_skill_quota',
+    # thì thay thế bài học cuối cùng trong danh sách đề xuất bằng bài học về kỹ năng yếu nhất.
     if weak and random.random() < weak_skill_quota:
         pick[-1] = weak[0]
+    # Trả về danh sách các bài học được đề xuất.
     return pick
 
+# Tạo một danh mục (catalog) gồm 20 bài học mẫu.
+# Mỗi bài học có ID, kỹ năng ngẫu nhiên ("read" hoặc "listen"), độ khó ngẫu nhiên và không có điều kiện tiên quyết.
 cat = [Lesson(f"L{i}", random.choice(["read","listen"]), random.random(), []) for i in range(20)]
+# Tạo một đối tượng người học mẫu với mức độ thành thạo và danh sách bài đã hoàn thành.
 me = Learner(mastery={"read": 0.6, "listen": 0.3}, completed=set())
+# Gọi hàm 'recommend' để lấy danh sách các bài học được đề xuất cho người học 'me'.
+# Sau đó, in ra ID, kỹ năng, độ khó (làm tròn 2 chữ số) và điểm phù hợp (làm tròn 2 chữ số) của mỗi bài học.
+# Kết quả mong đợi: 3 bài học được đề xuất, mỗi bài trên một dòng với các thông tin đã làm tròn.
 for l in recommend(cat, me): print(l.id, l.skill, round(l.difficulty,2), round(score(l, me),2))`,
         codeLanguage: "python",
         exercise:
@@ -1024,45 +1191,101 @@ Retention rule mẫu: log hoạt động 90 ngày, kết quả học 2 năm, aud
 - Cho phép giáo viên export full class data về máy → mất kiểm soát, vẫn là bạn chịu trách nhiệm.
 `,
         theoryEn: `EdTech faces stricter privacy law because users may be minors: COPPA (<13, US, parental consent), GDPR-K (<16, EU), FERPA (US school records), PIPL (China, <14), and Vietnam's 2025 PDP law (<15). Apply data minimization (no real names if a nickname will do), parent gates, email-verified parental consent, ban third-party ad SDKs, support right-to-be-forgotten with cascading deletes, and enforce strict retention timers. Avoid quasi-identifiers that re-enable re-identification.`,
-        code: `from datetime import datetime, timedelta
+        code: `# Nhập các lớp và hàm cần thiết từ thư viện \`datetime\` để làm việc với ngày giờ.
+from datetime import datetime, timedelta
+# Nhập các lớp và hàm cần thiết từ thư viện \`dataclasses\` để tạo các lớp dữ liệu gọn gàng.
 from dataclasses import dataclass, field
 
+# Định nghĩa một từ điển chứa số ngày lưu trữ (retention days) cho từng loại dữ liệu.
+# Đầu vào: Tên loại dữ liệu (chuỗi).
+# Đầu ra: Số ngày dữ liệu đó được giữ lại trước khi bị xóa.
 RETENTION_DAYS = {
     "activity_log": 90,
     "lesson_result": 730,
     "audio_recording": 7,
-    "raw_pii_in_analytics": 0,   # never
+    "raw_pii_in_analytics": 0,   # never - không bao giờ được lưu trữ, luôn xóa ngay lập tức
 }
 
+# Định nghĩa một lớp dữ liệu (dataclass) để biểu diễn một bản ghi.
+# Dataclass giúp tạo các lớp đơn giản để lưu trữ dữ liệu.
 @dataclass
 class Record:
+    # Trường \`kind\` (loại) của bản ghi, ví dụ: "audio_recording".
     kind: str
+    # Trường \`created_at\` (thời gian tạo) của bản ghi, kiểu datetime.
     created_at: datetime
+    # Trường \`data\` (dữ liệu) của bản ghi, là một từ điển.
+    # \`default_factory=dict\` đảm bảo mỗi đối tượng Record có một từ điển \`data\` riêng biệt.
     data: dict = field(default_factory=dict)
 
+# Định nghĩa hàm kiểm tra xem một bản ghi có nên bị xóa (purge) hay không.
+# Đầu vào:
+#   - \`r\`: Một đối tượng \`Record\` cần kiểm tra.
+#   - \`now\`: Thời điểm hiện tại (kiểu datetime) để so sánh.
+# Đầu ra: \`True\` nếu bản ghi nên bị xóa, \`False\` nếu không.
 def should_purge(r: Record, now: datetime) -> bool:
+    # Lấy số ngày lưu trữ cho loại bản ghi này từ từ điển \`RETENTION_DAYS\`.
+    # Nếu không tìm thấy loại bản ghi, mặc định là 30 ngày.
     days = RETENTION_DAYS.get(r.kind, 30)
-    if days == 0:  # forbidden in this store
+    # Nếu số ngày lưu trữ là 0, có nghĩa là bản ghi này không được phép lưu trữ.
+    # Nó phải được xóa ngay lập tức.
+    if days == 0:  # forbidden in this store - không được phép lưu trữ trong hệ thống này
         return True
+    # Tính toán sự khác biệt thời gian giữa hiện tại và thời gian tạo bản ghi.
+    # So sánh sự khác biệt này với số ngày lưu trữ.
+    # Nếu thời gian đã trôi qua lớn hơn số ngày cho phép, bản ghi nên bị xóa.
     return (now - r.created_at) > timedelta(days=days)
 
+# Định nghĩa hàm kiểm tra xem một người có phải là trẻ vị thành niên hay không.
+# Đầu vào:
+#   - \`age\`: Tuổi của người đó (số nguyên).
+#   - \`jurisdiction\`: Khu vực pháp lý (quốc gia, ví dụ: "US", "EU").
+# Đầu ra: \`True\` nếu là trẻ vị thành niên, \`False\` nếu không.
 def is_minor(age: int, jurisdiction: str) -> bool:
+    # Định nghĩa tuổi giới hạn (cap) cho từng khu vực pháp lý.
+    # Nếu khu vực không có trong danh sách, mặc định là 16 tuổi.
     cap = {"US": 13, "EU": 16, "CN": 14, "VN": 15}.get(jurisdiction, 16)
+    # So sánh tuổi với giới hạn. Nếu tuổi nhỏ hơn giới hạn, đó là trẻ vị thành niên.
     return age < cap
 
+# Định nghĩa hàm kiểm tra xem một người có cần sự đồng ý của phụ huynh hay không.
+# Hàm này chỉ đơn giản gọi hàm \`is_minor\` để xác định.
+# Đầu vào:
+#   - \`age\`: Tuổi của người đó (số nguyên).
+#   - \`jurisdiction\`: Khu vực pháp lý.
+# Đầu ra: \`True\` nếu cần sự đồng ý của phụ huynh, \`False\` nếu không.
 def requires_parental_consent(age: int, jurisdiction: str) -> bool:
+    # Trả về kết quả của việc kiểm tra xem người đó có phải là trẻ vị thành niên hay không.
     return is_minor(age, jurisdiction)
 
+# Định nghĩa thời điểm hiện tại giả định để kiểm tra.
 now = datetime(2026, 5, 29)
+# Tạo một danh sách các bản ghi mẫu để kiểm tra.
 records = [
+    # Bản ghi âm, tạo cách đây 10 ngày.
     Record("audio_recording", now - timedelta(days=10)),
+    # Kết quả bài học, tạo cách đây 400 ngày.
     Record("lesson_result",   now - timedelta(days=400)),
+    # Dữ liệu PII thô trong phân tích, tạo ngay tại thời điểm \`now\`.
     Record("raw_pii_in_analytics", now),
 ]
+# Lặp qua từng bản ghi trong danh sách.
 for r in records:
+    # In ra loại bản ghi và kết quả của việc kiểm tra xem nó có nên bị xóa hay không.
+    # Kết quả mong đợi:
+    # audio_recording → purge? True (vì 10 ngày > 7 ngày)
+    # lesson_result → purge? False (vì 400 ngày < 730 ngày)
+    # raw_pii_in_analytics → purge? True (vì retention_days là 0)
     print(r.kind, "→ purge?" , should_purge(r, now))
 
+# Lặp qua một danh sách các cặp (tuổi, khu vực pháp lý) để kiểm tra.
 for age, juris in [(10,"US"), (14,"EU"), (15,"VN"), (18,"US")]:
+    # In ra tuổi, khu vực pháp lý và kết quả của việc kiểm tra xem có cần sự đồng ý của phụ huynh hay không.
+    # Kết quả mong đợi:
+    # age=10 US → parental consent? True
+    # age=14 EU → parental consent? True
+    # age=15 VN → parental consent? False
+    # age=18 US → parental consent? False
     print(f"age={age} {juris} → parental consent? {requires_parental_consent(age, juris)}")`,
         codeLanguage: "python",
         exercise:
