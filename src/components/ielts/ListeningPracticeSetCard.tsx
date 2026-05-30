@@ -77,6 +77,25 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
   const pausedAccumRef = useRef(0);
   const pausedAtRef = useRef<number | null>(null);
 
+  // --- New: accent picker (UK/US/AU) ---
+  const [accent, setAccent] = useState<AccentKey>(() => {
+    if (typeof window === "undefined") return "en-GB";
+    return (localStorage.getItem("ielts-listening-accent") as AccentKey) || "en-GB";
+  });
+  useEffect(() => { localStorage.setItem("ielts-listening-accent", accent); }, [accent]);
+
+  // --- New: exam mode (mô phỏng phòng thi: 1 lần phát, ẩn transcript & seek) ---
+  const [examMode, setExamMode] = useState(false);
+
+  // --- New: AI explain per wrong question ---
+  const [explainOpen, setExplainOpen] = useState<Record<number, boolean>>({});
+  const [explainData, setExplainData] = useState<Record<number, ExplainResult>>({});
+  const [explainLoading, setExplainLoading] = useState<Record<number, boolean>>({});
+
+  // --- New: auto-save key ---
+  const saveKey = `ielts-listening-progress::${s.id}`;
+  const [restoredOnce, setRestoredOnce] = useState(false);
+
   // Split transcript into natural chunks (sentences / dialogue turns).
   const buildChunks = (text: string): string[] => {
     const lines = text.split(/\n+/).map(l => l.trim()).filter(Boolean);
