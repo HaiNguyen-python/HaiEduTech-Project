@@ -77,8 +77,8 @@ const LearningJourneyTimeline = () => {
       flag: "🇻🇳🇫🇮",
       color: "from-amber-500 to-orange-500",
       description: t(
-        "Hơn một thập kỷ kinh nghiệm đa dạng giảng dạy tiếng Anh, tiếng Phần Lan và lập trình tại Việt Nam & Phần Lan.",
-        "A decade of diverse experience teaching English, Finnish, and Coding across Vietnam & Finland."
+        "Hơn một thập kỷ kinh nghiệm đa dạng giảng dạy tiếng Anh và lập trình tại Việt Nam & Phần Lan.",
+        "A decade of diverse experience teaching English and Coding across Vietnam & Finland."
       ),
     },
   ];
