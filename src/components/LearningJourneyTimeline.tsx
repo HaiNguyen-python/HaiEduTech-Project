@@ -38,8 +38,8 @@ const LearningJourneyTimeline = () => {
       flag: "🇫🇮",
       color: "from-sky-500 to-blue-500",
       description: t(
-        "Chuyên sâu về Ngôn ngữ & Văn hóa Anh tại Phần Lan, am hiểu phương pháp giáo dục Bắc Âu.",
-        "Specialized in Finnish English Language & Culture, understanding Nordic pedagogical approaches."
+        "Chuyên sâu về Ngôn ngữ & Văn hóa Anh, am hiểu phương pháp giáo dục Bắc Âu.",
+        "Specialized in English Language & Culture, understanding Nordic pedagogical approaches."
       ),
     },
     {
