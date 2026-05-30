@@ -306,13 +306,55 @@ interface ExamEngineProps {
 
 const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
   const { t } = useLanguage();
-  const [answers, setAnswers] = useState<Record<number, string>>({});
+  const progressKey = `ielts-reading-progress::${exam.id}`;
+  const [answers, setAnswers] = useState<Record<number, string>>(() => {
+    try {
+      const raw = localStorage.getItem(progressKey);
+      if (raw) {
+        const p = JSON.parse(raw);
+        return p?.answers || {};
+      }
+    } catch { /* noop */ }
+    return {};
+  });
+  const [flagged, setFlagged] = useState<Set<number>>(() => {
+    try {
+      const raw = localStorage.getItem(progressKey);
+      if (raw) {
+        const p = JSON.parse(raw);
+        return new Set(Array.isArray(p?.flagged) ? p.flagged : []);
+      }
+    } catch { /* noop */ }
+    return new Set();
+  });
   const [submitted, setSubmitted] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(exam.durationMinutes * 60);
   const [activeQ, setActiveQ] = useState<number>(exam.questions[0].number);
   const [fontIdx, setFontIdx] = useState(2);
   const [paperTheme, setPaperTheme] = useState<"light" | "dark">("light");
   const { leftPct, containerRef, onMouseDown } = useSplit();
+
+  // Auto-save answers + flagged to localStorage
+  useEffect(() => {
+    if (submitted) return;
+    const handle = setTimeout(() => {
+      try {
+        localStorage.setItem(progressKey, JSON.stringify({
+          answers,
+          flagged: Array.from(flagged),
+          updatedAt: Date.now(),
+        }));
+      } catch { /* quota */ }
+    }, 400);
+    return () => clearTimeout(handle);
+  }, [answers, flagged, submitted, progressKey]);
+
+  // Clear saved progress on submit
+  useEffect(() => {
+    if (submitted) {
+      try { localStorage.removeItem(progressKey); } catch { /* noop */ }
+    }
+  }, [submitted, progressKey]);
 
   // Countdown timer
   useEffect(() => {
@@ -347,6 +389,14 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
     if (submitted) return;
     setAnswers((prev) => ({ ...prev, [qNum]: value }));
   }, [submitted]);
+
+  const toggleFlag = useCallback((qNum: number) => {
+    setFlagged(prev => {
+      const next = new Set(prev);
+      if (next.has(qNum)) next.delete(qNum); else next.add(qNum);
+      return next;
+    });
+  }, []);
 
   const handleSubmit = () => setSubmitted(true);
 
