@@ -86,13 +86,14 @@ const PythonPathwayHub = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.05, duration: 0.4 }}
             >
-              <Link
-                to={firstLesson ? `/programming/python/${firstLesson.id}` : "#"}
-                className={cn(
-                  "group block rounded-2xl p-5 border bg-card hover:shadow-lg transition-all active:scale-[0.99]",
-                  certified ? "border-emerald-500/40 shadow-md" : "border-border hover:border-primary/30",
-                )}
-              >
+              {firstLesson ? (
+                <Link
+                  to={`/programming/python/${firstLesson.id}`}
+                  className={cn(
+                    "group block rounded-2xl p-5 border bg-card hover:shadow-lg transition-all active:scale-[0.99]",
+                    certified ? "border-emerald-500/40 shadow-md" : "border-border hover:border-primary/30",
+                  )}
+                >
                 <div className="flex items-start justify-between mb-3">
                   <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${m.color} flex items-center justify-center text-2xl shadow`}>
                     {m.emoji}

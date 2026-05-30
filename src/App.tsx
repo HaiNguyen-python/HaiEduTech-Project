@@ -259,8 +259,9 @@ const App = () => (
             <Route path="/programming/scratch-adventure" element={<LazyRoute><ScratchAdventure /></LazyRoute>} />
             <Route path="/programming/nlp" element={<LazyRoute><PillarHub /></LazyRoute>} />
             <Route path="/programming/edtech" element={<LazyRoute><PillarHub /></LazyRoute>} />
-            <Route path="/programming/:moduleId" element={<LazyRoute><ProgrammingLesson /></LazyRoute>} />
+            {/* Specific routes MUST come before dynamic :moduleId to avoid shadowing */}
             <Route path="/programming/python/:lessonId" element={<LazyRoute><PythonLessonView /></LazyRoute>} />
+            <Route path="/programming/:moduleId" element={<LazyRoute><ProgrammingLesson /></LazyRoute>} />
             <Route path="/programming/:moduleId/:lessonId" element={<LazyRoute><ProgrammingLesson /></LazyRoute>} />
             <Route path="/ai-grading" element={<LazyRoute><AIGrading /></LazyRoute>} />
             <Route path="/ielts-writing-practice" element={<LazyRoute><IeltsWritingPractice /></LazyRoute>} />
