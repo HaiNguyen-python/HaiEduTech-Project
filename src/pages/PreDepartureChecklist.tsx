@@ -56,21 +56,45 @@ const PreDepartureChecklist = () => {
 
   const current = PRE_DEPARTURE_CHECKLISTS.find((c) => c.code === country)!;
 
-  // Auth + load progress per country
+  // Auth + load progress per country — use getSession() to read from local storage
+  // and subscribe to onAuthStateChange (avoids race that signed-in users get
+  // bounced to /login while session is still hydrating after OAuth redirect).
   useEffect(() => {
     let mounted = true;
-    (async () => {
-      const { data } = await supabase.auth.getUser();
+    let redirected = false;
+
+    const handleSession = async (session: any) => {
       if (!mounted) return;
-      if (!data.user) {
-        navigate("/login?redirect=/study-abroad/checklist");
+      if (!session?.user) {
+        if (redirected) return;
+        setTimeout(async () => {
+          if (!mounted || redirected) return;
+          const { data: { session: s2 } } = await supabase.auth.getSession();
+          if (!s2?.user && !redirected) {
+            redirected = true;
+            navigate("/login?redirect=/study-abroad/checklist");
+          } else if (s2?.user) {
+            setUserId(s2.user.id);
+            await loadProgress(s2.user.id, country);
+            setLoading(false);
+          }
+        }, 600);
         return;
       }
-      setUserId(data.user.id);
-      await loadProgress(data.user.id, country);
+      setUserId(session.user.id);
+      await loadProgress(session.user.id, country);
       setLoading(false);
-    })();
-    return () => { mounted = false; };
+    };
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
+      handleSession(session);
+    });
+    supabase.auth.getSession().then(({ data: { session } }) => handleSession(session));
+
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
 
