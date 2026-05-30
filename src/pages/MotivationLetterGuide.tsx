@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   FileText, Sparkles, Download, CheckCircle2, XCircle, Loader2, Copy, ChevronRight,
-  BookOpen, FilePlus2, GraduationCap, Lock,
+  BookOpen, FilePlus2, GraduationCap,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
