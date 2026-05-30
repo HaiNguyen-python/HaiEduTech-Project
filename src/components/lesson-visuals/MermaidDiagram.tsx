@@ -65,14 +65,16 @@ function initMermaid() {
     fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
     fontSize: 14,
     flowchart: {
-      curve: "basis",
-      padding: 28,
-      nodeSpacing: 80,
-      rankSpacing: 110,
+      // "linear" = straight arrows (cleaner alignment than curved "basis",
+      // which made multi-source diagrams like NLP-1 look skewed/misaligned).
+      curve: "linear",
+      padding: 32,
+      nodeSpacing: 90,
+      rankSpacing: 120,
       // htmlLabels=true lets each node auto-grow its height to fit wrapped text via foreignObject.
       htmlLabels: true,
       useMaxWidth: false,
-      diagramPadding: 32,
+      diagramPadding: 36,
       // Large enough that short labels (Workload, Public?, Yes, No, Hybrid) never wrap mid-word.
       wrappingWidth: 320,
     },
