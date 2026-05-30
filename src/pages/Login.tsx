@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { LogIn, Mail, Lock, Eye, EyeOff, Loader2 } from "lucide-react";
@@ -18,6 +18,19 @@ const Login = () => {
   const [showPw, setShowPw] = useState(false);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+
+  // If a session already exists (e.g. user just returned from OAuth redirect),
+  // jump straight to dashboard instead of showing the login form.
+  useEffect(() => {
+    let mounted = true;
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
+      if (mounted && session?.user) navigate("/dashboard", { replace: true });
+    });
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (mounted && session?.user) navigate("/dashboard", { replace: true });
+    });
+    return () => { mounted = false; subscription.unsubscribe(); };
+  }, [navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
