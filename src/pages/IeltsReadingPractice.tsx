@@ -446,13 +446,14 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
               const answered = !!answers[q.number];
               const correct = submitted && (answers[q.number] || "").trim().toLowerCase() === q.answer.toLowerCase();
               const wrong = submitted && !correct;
+              const isFlagged = flagged.has(q.number);
               return (
                 <button
                   key={q.number}
                   onClick={() => setActiveQ(q.number)}
-                  aria-label={`Question ${q.number}`}
+                  aria-label={`Question ${q.number}${isFlagged ? " (flagged)" : ""}`}
                   className={cn(
-                    "w-7 h-7 rounded text-xs font-semibold border transition-all",
+                    "relative w-7 h-7 rounded text-xs font-semibold border transition-all",
                     activeQ === q.number && "ring-2 ring-primary ring-offset-1",
                     submitted
                       ? correct
@@ -466,6 +467,9 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
                   )}
                 >
                   {q.number}
+                  {isFlagged && !submitted && (
+                    <Flag className="absolute -top-1.5 -right-1.5 w-3 h-3 text-amber-500 fill-amber-400" />
+                  )}
                 </button>
               );
             })}
