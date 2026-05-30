@@ -265,39 +265,22 @@ const MotivationLetterGuide = () => {
           </div>
 
 
-          {/* My Drafts */}
-          <h2 className="text-2xl font-bold mb-2 flex items-center gap-2">
-            <FilePlus2 className="w-6 h-6 text-primary" /> {t("Bản nháp của tôi", "My Drafts")}
-          </h2>
-          <p className="text-sm text-muted-foreground mb-5">
-            {t(
-              "Viết, lưu và hoàn thiện nhiều bản nháp theo thời gian. Mỗi bản nháp có thể xin AI gợi ý cải thiện riêng.",
-              "Write, save and refine multiple drafts over time. Each draft can request its own AI feedback.",
-            )}
-          </p>
-          {!authChecked ? (
-            <div className="flex items-center justify-center py-12"><Loader2 className="w-6 h-6 animate-spin text-primary" /></div>
-          ) : !userId ? (
-            <Card className="mb-10 border-dashed">
-              <CardContent className="p-8 text-center">
-                <Lock className="w-10 h-10 mx-auto mb-3 text-muted-foreground/60" />
-                <h3 className="font-bold mb-2">{t("Đăng nhập để lưu bản nháp", "Sign in to save your drafts")}</h3>
-                <p className="text-sm text-muted-foreground mb-4">
-                  {t(
-                    "Tạo tài khoản miễn phí để viết, lưu trữ và nhận đánh giá AI cho từng bản nháp Motivation Letter.",
-                    "Create a free account to write, store and get AI feedback for every Motivation Letter draft.",
-                  )}
-                </p>
-                <Link to="/login">
-                  <Button className="gap-2"><FilePlus2 className="w-4 h-4" />{t("Đăng nhập", "Sign in")}</Button>
-                </Link>
-              </CardContent>
-            </Card>
-          ) : (
-            <div className="mb-10">
-              <MotivationLetterDrafts userId={userId} />
-            </div>
-          )}
+          {/* Link to Drafts in Documents (single source of truth) */}
+          <Card className="mb-10 border-dashed">
+            <CardContent className="p-5 flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <FilePlus2 className="w-5 h-5 text-primary" />
+                <div>
+                  <div className="font-semibold text-sm">{t("Quản lý bản nháp tại Hồ sơ của tôi", "Manage drafts in My Documents")}</div>
+                  <div className="text-xs text-muted-foreground">{t("Tất cả bản nháp được lưu tập trung, có AI gợi ý cải thiện.", "All drafts are stored centrally, with AI feedback per draft.")}</div>
+                </div>
+              </div>
+              <Link to="/study-abroad/documents">
+                <Button variant="outline" size="sm" className="gap-2"><FilePlus2 className="w-4 h-4" />{t("Mở bản nháp", "Open drafts")}</Button>
+              </Link>
+            </CardContent>
+          </Card>
+
           <Card className="mb-6 border-primary/30 shadow-xl">
             <CardContent className="p-6">
               <div className="flex items-center gap-2 mb-4">
