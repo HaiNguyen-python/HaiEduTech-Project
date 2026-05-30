@@ -247,9 +247,9 @@ const buildAppliedFillBlankQuestions = (exercise: FillInBlankExercise, lessonAns
       const options = buildOptions(answer, lessonAnswers, index + 20);
 
       return buildQuestion(
-        `Choose the best completion for this real-use sentence: "${sanitizeSentence(template.replace("___", "_____"))}"`,
-        replaceBlankWithOption(template, answer),
-        options.map((option) => replaceBlankWithOption(template, option)),
+        `Fill in the blank: "${sanitizeSentence(template.replace("___", "_____"))}"`,
+        answer,
+        options,
         `${sentence.hint ? `${capitalize(stripMarkdown(sentence.hint))}. ` : ""}In natural English, we say: "${replaceBlankWithOption(template, answer)}".`
       );
     });
