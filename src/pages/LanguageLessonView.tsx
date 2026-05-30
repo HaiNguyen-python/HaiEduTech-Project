@@ -158,6 +158,16 @@ const LanguageLessonView = () => {
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-6xl mx-auto">
+            {/* Back button (SAT lessons) */}
+            {isSatLesson && (
+              <button
+                onClick={() => navigate(-1)}
+                className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary/80 mb-4 px-3 py-1.5 rounded-lg border-2 border-primary/30 hover:border-primary hover:bg-primary/5 transition-all"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                {tr("Quay lại trang trước", "Back to previous page")}
+              </button>
+            )}
             {/* Breadcrumb */}
             <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6 flex-wrap">
               <Link to={parentPath} className="hover:text-foreground flex items-center gap-1">
