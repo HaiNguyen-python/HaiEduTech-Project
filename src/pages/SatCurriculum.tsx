@@ -177,6 +177,7 @@ const SatCurriculum = () => {
         )}
       </main>
 
+      <SatMathToolkit />
       <Footer />
     </div>
   );
