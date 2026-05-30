@@ -745,8 +745,9 @@ Accuracy alone lies. For a 95% positive / 5% negative dataset, a model that alwa
 | Treating 1-star ≈ 2-star | They are very different - 1-star usually = anger, 2-star = disappointment | Use ordinal regression or rank loss |
 | Skipping human spot-check | Metrics hide systematic errors | Read 50 random model predictions weekly |`,
         theoryEn: "",
-        code: `# Train a real sentiment classifier on a tiny dataset of HaiEduTech-style reviews.
-# pip install scikit-learn pandas
+        code: `# Huấn luyện bộ phân loại cảm xúc thật trên tập dữ liệu nhỏ kiểu đánh giá HaiEduTech.
+# cài đặt: pip install scikit-learn pandas
+# Import thư viện cần thiết
 import pandas as pd
 from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -754,7 +755,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 
-# 1. Mini labelled dataset (in real life: thousands of rows from your DB)
+# 1. Tập dữ liệu gắn nhãn nhỏ (thực tế: hàng nghìn hàng từ DB của bạn)
 data = pd.DataFrame({
     "text": [
         "Teacher Hai's NLP lesson is amazing, super clear!",
@@ -770,34 +771,36 @@ data = pd.DataFrame({
     ],
     "label": ["pos"] * 5 + ["neg"] * 5,
 })
-
+# Chia dữ liệu thành tập huấn luyện và kiểm tra, giữ tỉ lệ nhãn (stratify)
 X_train, X_test, y_train, y_test = train_test_split(
     data["text"], data["label"], test_size=0.3, random_state=42, stratify=data["label"]
 )
 
-# 2. Pipeline: TF-IDF (1- and 2-grams) → Logistic Regression
+# 2. Pipeline: TF-IDF (1- và 2-gram) → Logistic Regression
 clf = Pipeline([
     ("tfidf", TfidfVectorizer(ngram_range=(1, 2), min_df=1, lowercase=True)),
     ("model", LogisticRegression(max_iter=1000, C=1.0)),
 ])
+# Huấn luyện mô hình trên tập huấn luyện
 clf.fit(X_train, y_train)
 
-# 3. Evaluate
+# 3. Đánh giá
 y_pred = clf.predict(X_test)
 print(classification_report(y_test, y_pred))
 
-# 4. Try it on brand-new sentences
+# 4. Thử với câu mới
 new_reviews = [
-    "I am not happy with this lesson.",                # negation - tricky
+    "I am not happy with this lesson.",                # phủ định - phức tạp
     "Phenomenal teacher, learned so much!",
     "The course was OK, nothing special.",
 ]
-print("\\nPredictions:")
+print("\\\\nPredictions:")
+# In dự đoán cho từng câu mới
 for r, p in zip(new_reviews, clf.predict(new_reviews)):
     print(f"  {p:>3} | {r}")
 
-# Notice how the bigram (1,2) helps capture 'not happy' as a negative signal.
-# Swap LogisticRegression for LinearSVC or a fine-tuned BERT for production.`,
+# Lưu ý cách bigram (1,2) giúp bắt được 'not happy' như tín hiệu tiêu cực.
+# Đổi LogisticRegression thành LinearSVC hoặc BERT tinh chỉnh cho môi trường production.`,
         codeLanguage: "python",
         exercise: "Add 3 more **mixed/sarcastic** reviews to the dataset (e.g. *\"Sure, the audio is 'great'.\"*) and re-train. Report whether bigrams alone are enough to handle sarcasm, and propose **one** richer feature you could add (hint: think about quotation marks or contrast conjunctions).",
         exerciseEn: "",
@@ -969,27 +972,27 @@ Transformers win the benchmark race, but LSTMs survive in three niches:
 | Sampling with temperature = 1 forever | Output gets repetitive or chaotic | Use temperature 0.7-0.9 + top-k or nucleus sampling |
 | Training on raw text every epoch | Tokeniser dominates wall time | Pre-tokenise once and cache to disk |`,
         theoryEn: "",
-        code: `# A character-level LSTM that learns to continue a sentence.
-# We train on a tiny corpus and let the model 'dream' the next 100 characters.
-# pip install torch
+        code: `# Một LSTM ở mức ký tự học cách tiếp tục một câu.
+# Chạy trên một tập nhỏ và cho mô hình 'mơ' 100 ký tự tiếp theo.
+# Cài đặt: pip install torch
 import torch
 import torch.nn as nn
 
-# 1. Tiny corpus -------------------------------------------------------
+# 1. Tập văn bản nhỏ -------------------------------------------------------
 text = (
     "teacher hai teaches python and nlp on haiedutech. "
     "students learn ielts speaking, hsk vocabulary, and finnish basics. "
     "the platform makes learning fun and effective. "
 ) * 10
 
-# 2. Char-level vocabulary --------------------------------------------
+# 2. Từ vựng ở mức ký tự --------------------------------------------
 chars = sorted(set(text))
 stoi = {c: i for i, c in enumerate(chars)}
 itos = {i: c for c, i in stoi.items()}
 vocab_size = len(chars)
 data = torch.tensor([stoi[c] for c in text], dtype=torch.long)
 
-# 3. Model: embedding → LSTM → linear projection ---------------------
+# 3. Mô hình: embedding → LSTM → chiếu tuyến tính ---------------------
 class CharLSTM(nn.Module):
     def __init__(self, vocab_size, emb_dim=32, hidden=64):
         super().__init__()
@@ -997,6 +1000,7 @@ class CharLSTM(nn.Module):
         self.lstm = nn.LSTM(emb_dim, hidden, batch_first=True)
         self.fc = nn.Linear(hidden, vocab_size)
 
+    # Chuyển tiếp: nhúng, chạy LSTM, trả về logits và trạng thái ẩn
     def forward(self, x, hidden=None):
         x = self.embed(x)
         out, hidden = self.lstm(x, hidden)
@@ -1006,7 +1010,7 @@ model = CharLSTM(vocab_size)
 optim = torch.optim.Adam(model.parameters(), lr=3e-3)
 loss_fn = nn.CrossEntropyLoss()
 
-# 4. Train: predict next character from the previous 50 ---------------
+# 4. Huấn luyện: dự đoán ký tự tiếp theo từ 50 ký tự trước ---------------
 SEQ = 50
 for epoch in range(800):
     i = torch.randint(0, len(data) - SEQ - 1, (1,)).item()
@@ -1015,15 +1019,17 @@ for epoch in range(800):
     logits, _ = model(x)
     loss = loss_fn(logits.squeeze(0), y)
     optim.zero_grad(); loss.backward(); optim.step()
+    # In loss mỗi 200 epoch để theo dõi tiến trình
     if epoch % 200 == 0:
         print(f"epoch {epoch:4d} | loss {loss.item():.3f}")
 
-# 5. Generate -----------------------------------------------------------
+# 5. Sinh văn bản -----------------------------------------------------------
 def sample(seed: str, n: int = 100) -> str:
     model.eval()
     out = seed
     x = torch.tensor([[stoi[c] for c in seed]])
     hidden = None
+    # Sinh từng ký tự mới dựa trên ngẫu nhiên từ phân phối dự đoán
     for _ in range(n):
         logits, hidden = model(x[:, -1:], hidden)
         probs = torch.softmax(logits[0, -1], dim=-1)
@@ -1032,7 +1038,8 @@ def sample(seed: str, n: int = 100) -> str:
         x = torch.cat([x, torch.tensor([[nxt]])], dim=1)
     return out
 
-print("\\nSeed: 'teacher hai '")
+# In seed và mẫu sinh ra
+print("\\\\nSeed: 'teacher hai '")
 print(sample("teacher hai ", 80))`,
         codeLanguage: "python",
         exercise: "Replace the `nn.LSTM` with `nn.GRU` and re-train for the same number of epochs. Compare the final loss and the quality of generated text (qualitatively). Then explain in 2-3 sentences why GRUs train faster than LSTMs for the same problem.",

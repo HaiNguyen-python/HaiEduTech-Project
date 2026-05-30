@@ -711,9 +711,13 @@ class User {
 ✅ **Refactored:**
 
 \`\`\`typescript
+// Lớp đại diện cho dữ liệu người dùng
 class User { /* user data */ }
+// Lớp chứa phương thức lưu người dùng vào kho dữ liệu
 class UserRepository { save(u: User) { /* ... */ } }
+// Lớp gửi email liên quan tới người dùng
 class EmailService { send(u: User) { /* ... */ } }
+// Lớp tạo báo cáo cho người dùng
 class ReportService { generate(u: User) { /* ... */ } }
 \`\`\`
 

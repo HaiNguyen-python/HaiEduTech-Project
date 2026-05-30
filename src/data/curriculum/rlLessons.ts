@@ -259,55 +259,67 @@ An MDP is a 5-tuple (S, A, P, R, γ) that mathematically formalizes RL. The Mark
 Implement Value Iteration for a 4x4 GridWorld where each step costs -1 and reaching the goal gives +10. Print the converged value function as a 4x4 grid.
       
       `,
-      code: `# Value Iteration on FrozenLake (known dynamics)
+      code: `# Lặp giá trị trên FrozenLake (động học biết trước)
+# Nhập thư viện cần thiết
 import numpy as np
 import gymnasium as gym
 
+# Tạo môi trường FrozenLake không trượt (deterministic)
 env = gym.make("FrozenLake-v1", is_slippery=False)
+# Lấy số trạng thái, số hành động và tham số thuật toán
 n_states = env.observation_space.n
 n_actions = env.action_space.n
 gamma = 0.99
+# theta: ngưỡng hội tụ (số rất nhỏ)
 theta = 1e-8  # Convergence threshold
 
-# Extract transition dynamics P[s][a] = list of (prob, next_state, reward, done)
+# Trích xuất ma trận chuyển tiếp P[s][a] = list của (prob, next_state, reward, done)
 P = env.unwrapped.P
 
-# Initialize value function
+# Khởi tạo hàm giá trị V với 0
 V = np.zeros(n_states)
 
-# Value Iteration loop
+# Vòng lặp Value Iteration để tìm V*
 iteration = 0
 while True:
     delta = 0
+    # Duyệt mọi trạng thái để cập nhật V
     for s in range(n_states):
         v_old = V[s]
-        # Compute Q(s,a) for each action
+        # Tính Q(s,a) cho mỗi hành động
         action_values = np.zeros(n_actions)
+        # Lặp qua từng hành động
         for a in range(n_actions):
+            # Duyệt các khả năng chuyển tiếp (prob, next_state, reward, done)
             for prob, next_s, reward, done in P[s][a]:
                 action_values[a] += prob * (reward + gamma * V[next_s] * (not done))
-        # Bellman optimality update
+        # Cập nhật theo chuẩn tối ưu Bellman: V(s)=max_a Q(s,a)
         V[s] = np.max(action_values)
         delta = max(delta, abs(v_old - V[s]))
     iteration += 1
+    # Nếu thay đổi nhỏ hơn ngưỡng thì coi là đã hội tụ
     if delta < theta:
         break
 
+# In số vòng lặp đã hội tụ và giá trị tối ưu V*
 print(f"Converged in {iteration} iterations")
 print("Optimal V*(s) reshaped as 4x4 grid:")
 print(V.reshape(4, 4).round(3))
 
-# Extract optimal policy from V
+# Lấy chính sách tối ưu từ V bằng cách chọn hành động tốt nhất tại mỗi trạng thái
 policy = np.zeros(n_states, dtype=int)
 for s in range(n_states):
+    # Tính Q(s,a) sử dụng V đã hội tụ
     action_values = np.zeros(n_actions)
     for a in range(n_actions):
         for prob, next_s, reward, done in P[s][a]:
             action_values[a] += prob * (reward + gamma * V[next_s] * (not done))
     policy[s] = np.argmax(action_values)
 
+# Biểu diễn hành động bằng ký hiệu mũi tên
 action_symbols = ["←", "↓", "→", "↑"]
-print("\\nOptimal policy (4x4):")
+# In chính sách tối ưu dưới dạng lưới 4x4
+print("\\\\nOptimal policy (4x4):")
 for row in policy.reshape(4, 4):
     print(" ".join(action_symbols[a] for a in row))`,
       exercise: "",
@@ -455,15 +467,16 @@ Q-Learning is a model-free RL algorithm that learns Q(s,a) - the expected return
 Train a tabular Q-Learning agent on FrozenLake for 5,000 episodes with ε-greedy exploration. Plot the moving average of episode rewards. You should see the agent learn to reach the goal consistently.
       
       `,
-      code: `# Tabular Q-Learning on FrozenLake
+      code: `# Q-Learning bảng trên FrozenLake
 import numpy as np
 import gymnasium as gym
 
+# Khởi tạo môi trường FrozenLake (không trượt)
 env = gym.make("FrozenLake-v1", is_slippery=False)
 n_states = env.observation_space.n
 n_actions = env.action_space.n
 
-# Hyperparameters
+# Siêu tham số
 alpha = 0.1        # Learning rate
 gamma = 0.99       # Discount factor
 epsilon = 1.0      # Initial exploration
@@ -471,27 +484,28 @@ epsilon_min = 0.01
 epsilon_decay = 0.995
 n_episodes = 2000
 
-# Initialize Q-table
+# Khởi tạo bảng Q và danh sách điểm thưởng
 Q = np.zeros((n_states, n_actions))
 episode_rewards = []
 
+# Lặp qua các episode để học hành vi
 for episode in range(n_episodes):
     state, _ = env.reset()
     total_reward = 0
     done = False
     
     while not done:
-        # ε-greedy action selection
+        # Chọn hành động theo chính sách ε-greedy
         if np.random.rand() < epsilon:
             action = env.action_space.sample()
         else:
             action = int(np.argmax(Q[state]))
         
-        # Step the environment
+        # Thực thi hành động lên môi trường, nhận trạng thái tiếp theo và phần thưởng
         next_state, reward, terminated, truncated, _ = env.step(action)
         done = terminated or truncated
         
-        # Q-Learning update: Q(s,a) ← Q(s,a) + α[r + γ·max Q(s',·) − Q(s,a)]
+        # Cập nhật Q theo công thức Q(s,a) ← Q(s,a) + α[r + γ·max Q(s',·) − Q(s,a)]
         td_target = reward + gamma * np.max(Q[next_state]) * (not done)
         td_error = td_target - Q[state, action]
         Q[state, action] += alpha * td_error
@@ -502,18 +516,23 @@ for episode in range(n_episodes):
     episode_rewards.append(total_reward)
     epsilon = max(epsilon_min, epsilon * epsilon_decay)
     
+    # In thông tin trung bình mỗi 200 episode
     if (episode + 1) % 200 == 0:
         avg = np.mean(episode_rewards[-200:])
         print(f"Episode {episode+1} | Avg reward (last 200): {avg:.3f} | ε = {epsilon:.3f}")
 
-print("\\nLearned Q-table (rounded):")
+# In bảng Q đã học và chính sách suy ra
+print("\\\\nLearned Q-table (rounded):")
 print(Q.round(2))
-print("\\nDerived policy (4x4):")
+print("\\\\nDerived policy (4x4):")
+# Tạo chính sách từ bảng Q và hiển thị dưới dạng 4x4 mũi tên
 policy = np.argmax(Q, axis=1).reshape(4, 4)
 arrows = ["←", "↓", "→", "↑"]
+# In từng hàng của chính sách dưới dạng mũi tên
 for row in policy:
     print(" ".join(arrows[a] for a in row))
 
+# Đóng môi trường
 env.close()`,
       exercise: "",
       exerciseEn: `Extend the agent to **CartPole-v1** by replacing the Q-table with a small PyTorch network (2 hidden layers of 64 units). Implement experience replay (buffer size 10,000, batch size 64) and a target network updated every 100 steps. Train for 500 episodes - you should reach the 500-step solve threshold.`,
@@ -1118,47 +1137,59 @@ SARSA is the on-policy cousin of Q-Learning. Its update target uses the *next ac
 
 Implement SARSA on **CliffWalking-v0**. Compare its trajectory and average reward against Q-Learning over 500 episodes. SARSA should take the safe upper path while Q-Learning hugs the cliff edge.
       `,
-      code: `# SARSA on CliffWalking-v0
+      code: `# SARSA trên môi trường CliffWalking-v0
+# Thư viện cần thiết
 import numpy as np
 import gymnasium as gym
 
+# Tạo môi trường và lấy số trạng thái, hành động
 env = gym.make("CliffWalking-v0")
 n_states = env.observation_space.n
 n_actions = env.action_space.n
 
+# Siêu tham số: learning rate, gamma, epsilon và decay
 alpha, gamma = 0.1, 1.0
 epsilon, eps_min, eps_decay = 1.0, 0.05, 0.995
 
+# Khởi tạo bảng Q giá trị ban đầu
 Q = np.zeros((n_states, n_actions))
 
+# Định nghĩa hàm chính sách epsilon-greedy
 def epsilon_greedy(state, eps):
+    # Nếu ngẫu nhiên < eps thì chọn hành động ngẫu nhiên (khám phá)
     if np.random.rand() < eps:
         return env.action_space.sample()
     return int(np.argmax(Q[state]))
 
+# Vòng lặp chạy nhiều episode để học
 for episode in range(500):
     state, _ = env.reset()
     action = epsilon_greedy(state, epsilon)
     total_reward = 0
     done = False
 
+    # Lặp từng bước trong episode cho tới khi kết thúc
     while not done:
         next_state, reward, terminated, truncated, _ = env.step(action)
         done = terminated or truncated
-        # Pick A' using the SAME policy (on-policy)
+        # Chọn A' theo CÙNG chính sách (on-policy)
         next_action = epsilon_greedy(next_state, epsilon)
-        # SARSA update: uses Q(S', A') - NOT max Q(S', .)
+        # Cập nhật SARSA: dùng Q(S', A') - KHÔNG phải max Q(S', .)
         td_target = reward + gamma * Q[next_state, next_action] * (not done)
         Q[state, action] += alpha * (td_target - Q[state, action])
         state, action = next_state, next_action
         total_reward += reward
 
+    # Cập nhật epsilon để giảm dần tỉ lệ khám phá
     epsilon = max(eps_min, epsilon * eps_decay)
     if (episode + 1) % 50 == 0:
         print(f"Episode {episode+1} | reward={total_reward} | eps={epsilon:.3f}")
 
+# Mũi tên tương ứng với hành động theo thứ tự [up, right, down, left]
 arrows = ["↑", "→", "↓", "←"]
-print("\\nLearned greedy policy (SARSA):")
+# In chính sách greedy (dựa trên Q)
+print("\\\\nLearned greedy policy (SARSA):")
+# In từng hàng của ma trận chính sách 4x12
 for row in np.argmax(Q, axis=1).reshape(4, 12):
     print(" ".join(arrows[a] for a in row))`,
       exercise: "",
@@ -1976,15 +2007,20 @@ A search engine crawler must discover new pages. ε-greedy revisits popular page
 
 ## Practice Task
 Implement UCB-1 for a 10-armed Bernoulli bandit and compare cumulative regret vs ε=0.1 greedy over 5 000 steps. Plot both curves.`,
-      code: `# UCB-1 vs ε-greedy on a 10-armed bandit
+      code: `# So sánh UCB-1 và ε-greedy trên bài toán 10-armed bandit
+# Thư viện cần thiết: numpy và math
 import numpy as np, math
 
+# Thiết lập số tay kéo K và thời gian T
 K, T = 10, 10_000
-true_p = np.random.uniform(0.1, 0.9, K)        # hidden Bernoulli probs
+true_p = np.random.uniform(0.1, 0.9, K)        # xác suất Bernoulli ẩn cho mỗi tay
 
+# Hàm chạy chiến lược và trả về regret tích lũy
 def run(strategy):
     Q = np.zeros(K); N = np.zeros(K); reward_hist = []
+    # Lặp qua các bước t từ 1 tới T
     for t in range(1, T+1):
+        # Chọn hành động: ε-greedy nếu strategy=='egreedy' hoặc ngược lại dùng UCB-1
         if strategy == "egreedy":
             a = np.random.randint(K) if np.random.rand() < 0.1 else int(np.argmax(Q))
         else:                                  # UCB-1
@@ -1992,14 +2028,14 @@ def run(strategy):
             a = int(np.argmax(ucb))
         r = float(np.random.rand() < true_p[a])
         N[a] += 1
-        Q[a] += (r - Q[a]) / N[a]              # incremental mean
+        Q[a] += (r - Q[a]) / N[a]              # trung bình tăng dần
         reward_hist.append(r)
     optimal = true_p.max() * T
-    return optimal - np.sum(reward_hist)        # cumulative regret
+    return optimal - np.sum(reward_hist)        # regret tích lũy
 
 print(f"ε-greedy regret: {run('egreedy'):8.1f}")
 print(f"UCB-1   regret: {run('ucb'):8.1f}")
-# UCB typically reaches ~30 % lower regret`,
+# UCB thường đạt regret thấp hơn khoảng 30%`,
       exercise: "Why does ε-greedy fail catastrophically on Montezuma's Revenge while curiosity-driven methods can solve it? Explain in 3 sentences referring to reward sparsity.",
       exerciseEn: "",
       quiz: [
@@ -2082,9 +2118,11 @@ Reinforcement learning agents proposing new molecules suffer from sparse reward 
 
 ## Practice Task
 Design a curiosity bonus for a robot vacuum cleaner. State = (room id, dirt sensor, battery). Argue whether RND or ICM is better and how you would prevent the bonus from preventing the robot from ever recharging.`,
-      code: `# Minimal RND module (PyTorch)
+      code: `# Mô-đun RND tối thiểu (PyTorch)
+# Nhập các thư viện PyTorch cần thiết
 import torch, torch.nn as nn, torch.optim as optim
 
+# Định nghĩa lớp mạng RND
 class RNDNet(nn.Module):
     def __init__(self, in_dim=64, hid=256, out=128):
         super().__init__()
@@ -2093,19 +2131,23 @@ class RNDNet(nn.Module):
             nn.Linear(hid, hid), nn.ReLU(),
             nn.Linear(hid, out),
         )
+    # Hàm forward trả về đầu ra của mạng
     def forward(self, x): return self.net(x)
 
-target = RNDNet().eval()                      # frozen, random
+# Khởi tạo mô hình target (đóng băng, ngẫu nhiên), predictor (được huấn luyện) và bộ tối ưu
+target = RNDNet().eval()                      # đóng băng, ngẫu nhiên
 predictor = RNDNet()                          # trained
 opt = optim.Adam(predictor.parameters(), lr=1e-4)
 
+# Hàm tính phần thưởng nội tại dựa trên sai số dự đoán
 def intrinsic_reward(states):
     with torch.no_grad():
         y_hat = target(states)
     y = predictor(states)
-    err = (y - y_hat).pow(2).mean(dim=1)      # per-sample novelty
-    return err.detach()                        # use as bonus
+    err = (y - y_hat).pow(2).mean(dim=1)      # độ mới cho mỗi mẫu
+    return err.detach()                        # dùng như phần thưởng phụ
 
+# Cập nhật predictor bằng tối ưu hóa MSE
 def update_predictor(states):
     with torch.no_grad():
         y_hat = target(states)
@@ -2114,12 +2156,13 @@ def update_predictor(states):
     opt.zero_grad(); loss.backward(); opt.step()
     return loss.item()
 
-# Pretend we sample random states from the env
+# Giả sử chúng ta lấy mẫu trạng thái ngẫu nhiên từ môi trường
 states = torch.randn(64, 64)
 print("novelty (high at first):", intrinsic_reward(states).mean().item())
+# Lặp nhiều lần để cập nhật predictor trên cùng bộ states
 for _ in range(200):
     update_predictor(states)
-print("novelty (after training): ", intrinsic_reward(states).mean().item())  # → near 0`,
+print("novelty (after training): ", intrinsic_reward(states).mean().item())  # → gần 0`,
       exercise: "Explain the 'noisy TV' failure of ICM and why RND avoids it. Use the words 'forward model', 'random target' and 'stochastic'.",
       exerciseEn: "",
       quiz: [
@@ -2361,16 +2404,18 @@ Assume the expert is optimal under some unknown reward \`R\`. Recover \`R\` such
 
 ## Practice Task
 You have 50 hours of expert chess gameplay logs but no engine evaluations. Compare BC, GAIL, and IRL approaches. Which would you ship to production and why?`,
-      code: `# Behavioural Cloning skeleton (PyTorch) for car steering
+      code: `# Mẫu Behavioural Cloning (PyTorch) cho điều khiển vô lăng ô tô
+# Import thư viện PyTorch cần thiết
 import torch, torch.nn as nn, torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 
-# Suppose we have expert (image, steering_angle) pairs
-# X: tensor of shape (N, 3, 64, 64)  Y: tensor of shape (N,) in [-1, 1]
+# Giả sử ta có các cặp (ảnh, góc lái) từ chuyên gia
+# X: tensor có kích thước (N, 3, 64, 64)  Y: tensor (N,) trong khoảng [-1, 1]
 N = 4096
 X = torch.randn(N, 3, 64, 64)
 Y = torch.randn(N)
 
+# Định nghĩa mô hình CNN đơn giản để dự đoán góc lái
 class CNNPolicy(nn.Module):
     def __init__(self):
         super().__init__()
@@ -2389,6 +2434,7 @@ opt = optim.Adam(policy.parameters(), lr=1e-3)
 loss_fn = nn.MSELoss()
 loader = DataLoader(TensorDataset(X, Y), batch_size=64, shuffle=True)
 
+# Vòng lặp huấn luyện: cập nhật tham số bằng Adam
 for epoch in range(3):
     total = 0
     for xb, yb in loader:
@@ -2397,7 +2443,7 @@ for epoch in range(3):
         opt.zero_grad(); loss.backward(); opt.step()
         total += loss.item() * len(xb)
     print(f"epoch {epoch}: avg MSE = {total/N:.4f}")
-# Caveat: BC will *not* recover from off-distribution states - DAgger needed for highway driving`,
+# Lưu ý: BC sẽ không phục hồi khi gặp trạng thái ngoài phân phối - cần DAgger cho lái đường cao tốc`,
       exercise: "Explain why BC suffers from quadratic regret in horizon T while DAgger achieves linear regret. Use the term 'covariate shift'.",
       exerciseEn: "",
       quiz: [
@@ -2486,10 +2532,13 @@ flowchart LR
 
 ## Practice Task
 A robotic arm has a slow simulator (5 Hz) but a perfect digital twin in PyBullet (200 Hz). Argue whether you should still bother learning a world model with Dreamer, or just train PPO inside PyBullet. Discuss reality gap.`,
-      code: `# Tiny world model: predict next state + reward (PyTorch concept)
+      code: `# Mô hình thế giới nhỏ: dự đoán trạng thái tiếp theo và phần thưởng (ý tưởng PyTorch)
+# Các thư viện PyTorch cần thiết
 import torch, torch.nn as nn, torch.optim as optim
 
+# Định nghĩa mô hình thế giới dưới dạng mạng neural
 class WorldModel(nn.Module):
+    # Khởi tạo các tầng mạng và đầu ra cho state/reward
     def __init__(self, s_dim=4, a_dim=2, hid=64):
         super().__init__()
         self.trunk = nn.Sequential(
@@ -2499,34 +2548,40 @@ class WorldModel(nn.Module):
         self.next_state = nn.Linear(hid, s_dim)
         self.reward = nn.Linear(hid, 1)
 
+    # Nạp đầu vào s,a để dự đoán state tiếp theo và reward
     def forward(self, s, a):
         h = self.trunk(torch.cat([s, a], dim=-1))
         return self.next_state(h), self.reward(h).squeeze(-1)
 
+# Tạo đối tượng mô hình, bộ tối ưu và hàm mất mát
 wm = WorldModel()
 opt = optim.Adam(wm.parameters(), lr=1e-3)
 loss_fn = nn.MSELoss()
 
-# Suppose we have a small batch from the real env
+# Giả sử ta có một batch nhỏ lấy từ môi trường thật
 B = 64
 s = torch.randn(B, 4); a = torch.randn(B, 2)
 s_next_true = torch.randn(B, 4); r_true = torch.randn(B)
 
+# Huấn luyện mô hình thế giới trên batch này (500 bước)
 for _ in range(500):
     s_next_pred, r_pred = wm(s, a)
     loss = loss_fn(s_next_pred, s_next_true) + loss_fn(r_pred, r_true)
     opt.zero_grad(); loss.backward(); opt.step()
 print(f"World-model loss after training: {loss.item():.4f}")
 
-# Imagine a rollout: cheap, fully on GPU, no real env needed
+# Tưởng tượng một rollout: rẻ, trên GPU, không cần môi trường thật
 def imagine(wm, s0, policy, horizon=20):
     s = s0; total = torch.zeros(s.size(0))
+    # Lặp trong horizon: lấy hành động từ policy và dự đoán bước tiếp theo
     for _ in range(horizon):
         a = policy(s)
         s, r = wm(s, a)
         total = total + r
+    # Tổng tưởng tượng (dùng để cập nhật actor)
     return total                                  # imagined return for actor update
 
+# Policy đơn giản tạm thời
 policy = lambda s: torch.tanh(s[:, :2])           # placeholder
 print("Imagined return:", imagine(wm, s, policy).mean().item())`,
       exercise: "DreamerV3 trains its actor-critic entirely inside latent imagination. Why is this dramatically more sample-efficient than model-free PPO? Discuss the trade-off if the world model is wrong by 5 % per step.",

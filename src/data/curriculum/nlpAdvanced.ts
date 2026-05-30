@@ -117,26 +117,29 @@ Quy luật Chinchilla: nhân đôi tham số → cần ~nhân đôi token huấn
 
 `,
         theoryEn: `Transformers process tokens in parallel via self-attention (Q·Kᵀ/√d_k → softmax → V), with positional encoding to keep order. Three architecture families: encoder-only (BERT, classification/retrieval), decoder-only (GPT/LLaMA, generation), encoder-decoder (T5, seq2seq). Chinchilla scaling: double parameters ⇒ roughly double training tokens.`,
-        code: `import numpy as np
+        code: `# Nhập thư viện numpy, dùng cho tính toán ma trận và số học
+import numpy as np
 
+# Hàm softmax ổn định về số học theo axis (trả về phân phối xác suất)
 def softmax(x, axis=-1):
     x = x - x.max(axis=axis, keepdims=True)
     e = np.exp(x)
     return e / e.sum(axis=axis, keepdims=True)
 
+# Hàm scaled dot-product attention trả về (output, weights)
 def scaled_dot_product_attention(Q, K, V):
     d_k = Q.shape[-1]
     scores = Q @ K.T / np.sqrt(d_k)
     weights = softmax(scores, axis=-1)
     return weights @ V, weights
 
-# Tiny demo: 3 tokens, dim 4
+# Ví dụ nhỏ: 3 token, kích thước 4
 rng = np.random.default_rng(0)
 X = rng.normal(size=(3, 4))
 Wq, Wk, Wv = (rng.normal(size=(4, 4)) for _ in range(3))
 Q, K, V = X @ Wq, X @ Wk, X @ Wv
 out, w = scaled_dot_product_attention(Q, K, V)
-print("attention weights:\\n", w.round(2))
+print("attention weights:\\\\n", w.round(2))
 print("output shape:", out.shape)`,
         codeLanguage: "python",
         exercise:
@@ -599,34 +602,46 @@ Trong phân loại cổ điển: \`accuracy = đúng / tổng\`. Nhưng với NL
 
 `,
         theoryEn: `Generative NLP has no single correct answer, so a one-size metric fails. Use four metric families: lexical overlap (BLEU/ROUGE), embedding-based (BERTScore), LLM-as-judge (G-Eval/Prometheus), and task-specific (EM/F1, QWK, WER). Build a 100-500 case eval set spanning easy/hard/adversarial/multilingual/edge; gold-label it; track accuracy + faithfulness + safety + cost. Measure faithfulness separately - fluent-but-hallucinated is the #1 RAG failure. When using LLM-as-judge, defuse position/self-preference/verbosity/rubric biases.`,
-        code: `from collections import Counter
+        code: `# nhập Counter để đếm từ và math cho hàm mũ
+from collections import Counter
 import math
 
+# hàm BLEU-1 rất đơn giản (unigram) dùng để minh họa
 def bleu1(reference: str, candidate: str) -> float:
     """Tiny unigram BLEU - illustrative only."""
+    # chuẩn hóa chữ thường và tách từ
     ref = reference.lower().split()
+    # chuẩn hóa chữ thường và tách từ ứng viên
     cand = candidate.lower().split()
+    # nếu candidate rỗng trả 0.0
     if not cand: return 0.0
     ref_counts = Counter(ref)
     overlap = 0
     cand_counts = Counter(cand)
+    # tính số từ chồng chéo giữa candidate và reference
     for tok, n in cand_counts.items():
         overlap += min(n, ref_counts.get(tok, 0))
     precision = overlap / len(cand)
-    # brevity penalty
+    # hệ số phạt ngắn gọn (brevity penalty)
     bp = 1.0 if len(cand) >= len(ref) else math.exp(1 - len(ref) / max(1, len(cand)))
     return bp * precision
 
+# kiểm tra 'faithfulness': đánh dấu bất kỳ từ khẳng định không có trong nguồn
 def faithfulness_check(source: str, answer: str) -> dict:
     """Toy 'judge': flag any claim word not present in source."""
+    # tạo tập token từ source
     src_tokens = set(source.lower().split())
+    # tìm các từ trong answer thỏa điều kiện alpha và dài >4 mà không có trong source
     unsupported = [w for w in answer.lower().split()
                    if w.isalpha() and len(w) > 4 and w not in src_tokens]
+    # trả về dict gồm danh sách từ không hỗ trợ và cờ faithful
     return {"unsupported_tokens": unsupported,
             "faithful": len(unsupported) == 0}
 
+# ví dụ reference và candidate
 ref = "US inflation dropped to 2.4 percent in May"
 cand = "In May, US CPI fell to 2.4%"
+# in kết quả BLEU-1 và kiểm tra faithfulness
 print(f"BLEU-1 = {bleu1(ref, cand):.2f}")
 print("Faithfulness:", faithfulness_check(ref, cand))`,
         codeLanguage: "python",

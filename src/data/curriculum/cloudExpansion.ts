@@ -942,9 +942,12 @@ Không phải lỗi nào cũng cần đánh thức kỹ sư lúc 3 giờ sáng. 
 ## 4. 🎯 Ví dụ tạo alert CPU > 80% kéo dài 5 phút
 
 \`\`\`python
+# Thư viện boto3 để tương tác với AWS
 import boto3
+# Tạo client CloudWatch để gọi API
 cw = boto3.client("cloudwatch")
 
+# Tạo cảnh báo CloudWatch khi CPU cao trên EC2
 cw.put_metric_alarm(
     AlarmName="HighCPU-Prod",
     MetricName="CPUUtilization", Namespace="AWS/EC2",
@@ -1560,9 +1563,9 @@ Single = đơn giản, nhanh. Multi-cloud = chống lock-in nhưng đắt + ph�
 - ❌ Hybrid without Direct Connect
 - ❌ Forced cloud-agnostic (skips best services)
 - ❌ Full data replication (egress kills budget)`,
-        code: `# Terraform: Multi-cloud setup (AWS + Azure)
+        code: `# Terraform: Thiết lập đa đám mây (AWS + Azure)
 
-# providers.tf
+# providers.tf (cấu hình providers Terraform)
 """
 terraform {
   required_providers {
@@ -1574,7 +1577,7 @@ provider "aws"     { region = "us-east-1" }
 provider "azurerm" { features {} }
 """
 
-# main.tf - same module, two clouds
+# main.tf - cùng module, hai đám mây
 """
 # AWS Kubernetes cluster
 resource "aws_eks_cluster" "primary" {
@@ -1598,9 +1601,10 @@ resource "azurerm_kubernetes_cluster" "secondary" {
 }
 """
 
-# Python: deploy same workload to both
+# Python: Triển khai cùng workload cho cả hai cụm
 import subprocess
 
+# Hàm: áp dụng manifest Kubernetes lên cụm với kubeconfig cụ thể
 def deploy_to_cluster(cluster_name: str, kubeconfig: str):
     """Apply Kubernetes manifests to any K8s cluster (cloud-agnostic)"""
     result = subprocess.run(
@@ -1610,18 +1614,19 @@ def deploy_to_cluster(cluster_name: str, kubeconfig: str):
     print(f"[{cluster_name}] {result.stdout}")
     return result.returncode == 0
 
-# Active-active deployment
+# Triển khai active-active (cả hai cụm cùng nhận traffic)
 clusters = [
     ('aws-eks-primary',  '~/.kube/aws-config'),
     ('azure-aks-dr',     '~/.kube/azure-config'),
 ]
+# Lặp qua danh sách cụm và gọi hàm deploy cho từng cụm
 for name, config in clusters:
     deploy_to_cluster(name, config)
 
-# Hybrid: hybrid Cloud Connect cost calculator
+# Hybrid: tính chi phí kết nối hybrid Cloud Connect
 def hybrid_connection_cost(monthly_gb: int):
-    vpn = monthly_gb * 0.05         # \\\\$0.05/GB internet egress
-    direct_connect = 250 + monthly_gb * 0.02   # \\\\$250/month port + \\\\$0.02/GB
+    vpn = monthly_gb * 0.05         # \\\\\\\$0.05/GB internet egress
+    direct_connect = 250 + monthly_gb * 0.02   # \\\\\\\$250/month port + \\\\\\\$0.02/GB
     print("VPN:", vpn, "/month")
     print("Direct Connect:", direct_connect, "/month")
     print(f"Break-even at: {(250 / 0.03):.0f} GB/month")

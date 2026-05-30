@@ -138,7 +138,8 @@ Two major periods of reduced funding and interest:
 ---
 
 **📊 Key Themes:** Symbolic AI → Expert Systems → Statistical ML → Deep Learning → Foundation Models. Each era had its own approach, strengths, and limitations.`,
-        code: `# AI Timeline Visualization
+        code: `# Trực quan hóa dòng thời gian AI
+# Dữ liệu: danh sách mốc thời gian (năm, tiêu đề, mô tả)
 timeline = [
     (1950, "Turing Test", "Alan Turing proposes machine intelligence test"),
     (1956, "AI Born", "Dartmouth Conference coins 'Artificial Intelligence'"),
@@ -149,14 +150,16 @@ timeline = [
     (2017, "Transformer", "Attention Is All You Need paper by Google"),
     (2022, "ChatGPT", "OpenAI's LLM reaches 100M users in 2 months"),
 ]
-
+# Hiển thị tiêu đề và dòng phân cách
 print("🤖 AI Timeline")
 print("=" * 60)
+# Duyệt từng mốc và in thanh biểu diễn theo năm
 for year, event, desc in timeline:
     bar = "█" * ((year - 1945) // 5)
     print(f"  {year} | {bar} {event}")
     print(f"       └─ {desc}")
-print(f"\\n📊 {len(timeline)} milestones spanning {timeline[-1][0] - timeline[0][0]} years")`,
+# In tổng số mốc và tổng số năm giữa mốc đầu và mốc cuối
+print(f"\\\\n📊 {len(timeline)} milestones spanning {timeline[-1][0] - timeline[0][0]} years")`,
         codeLanguage: "python",
         exercise: "Add 5 more important AI events and create a chart categorized by decade.",
         exerciseEn: "Add 5 more important AI events and create a chart categorized by decade.",
@@ -296,44 +299,55 @@ Each layer: z = W·x + b → a = σ(z) → pass to next layer.
 ---
 
 **Key Terms:** Weights (importance), Bias (shift), Depth (layers), Width (neurons per layer).`,
-        code: `import numpy as np
+        code: `# Nhập thư viện numpy để xử lý toán học và mảng
+import numpy as np
 
+# Định nghĩa Perceptron (một neuron đơn giản)
 class Perceptron:
+    # Khởi tạo trọng số và bias cho perceptron
     def __init__(self, n_inputs):
         self.weights = np.random.randn(n_inputs) * 0.1
         self.bias = 0.0
 
+    # Hàm kích hoạt sigmoid với clipping để tránh overflow
     def sigmoid(self, x):
         return 1 / (1 + np.exp(-np.clip(x, -500, 500)))
 
+    # Tính đầu ra neuron: z = w·x + b rồi qua sigmoid
     def forward(self, x):
         z = np.dot(x, self.weights) + self.bias
         return self.sigmoid(z)
 
-# Create a simple neuron
+# Tạo một neuron đơn giản
 neuron = Perceptron(3)
 print(f"Weights: {neuron.weights}")
 print(f"Bias: {neuron.bias}")
 
-# Forward pass
+# Thực hiện một lần truyền tiến (forward pass)
 inputs = np.array([0.5, 0.3, 0.8])
 output = neuron.forward(inputs)
-print(f"\\nInput: {inputs}")
+print(f"\\\\nInput: {inputs}")
 print(f"Output: {output:.4f}")
 
-# Simple 2-layer network
+# Mạng đơn giản 2 lớp
 class SimpleNetwork:
+    # Tạo lớp mạng 2 lớp: 3 neuron ẩn và 1 neuron đầu ra
     def __init__(self):
+        # Khởi tạo 3 neuron cho lớp ẩn bằng list comprehension
         self.hidden = [Perceptron(2) for _ in range(3)]
+        # Neuron đầu ra nhận 3 đầu vào từ lớp ẩn
         self.output = Perceptron(3)
 
+    # Chạy mạng: tính đầu ra của lớp ẩn rồi đầu ra cuối cùng
     def forward(self, x):
+        # Tính đầu ra mỗi neuron ẩn (sử dụng list comprehension)
         h = np.array([n.forward(x) for n in self.hidden])
         return self.output.forward(h)
 
+# Tạo mạng và chạy một ví dụ đầu vào
 net = SimpleNetwork()
 result = net.forward(np.array([1.0, 0.5]))
-print(f"\\n🧠 Network output: {result:.4f}")`,
+print(f"\\\\n🧠 Network output: {result:.4f}")`,
         codeLanguage: "python",
         exercise: "Build a 3-layer network (2 input → 4 hidden → 1 output) and test with different inputs.",
         exerciseEn: "Build a 3-layer network (2 input → 4 hidden → 1 output) and test with different inputs.",
@@ -622,31 +636,36 @@ Loss = đo sai; Gradient = chỉ hướng sửa; GD = bước theo hướng đó
 **Optimizers:** SGD → Momentum → RMSProp → **Adam** (most popular, combines Momentum + RMSProp).
 
 **Problems:** LR too high → diverge. LR too low → slow. Saddle points. Gradient explosion.`,
-        code: `import numpy as np
+        code: `# Nhập thư viện NumPy để xử lý mảng và phép toán số
+import numpy as np
 
-# Loss Functions
+# Hàm mất mát (loss functions)
+# Hàm MSE: sai số bình phương trung bình
 def mse(y_true, y_pred):
     return np.mean((y_true - y_pred) ** 2)
 
+# Hàm BCE: binary cross-entropy cho bài toán phân loại nhị phân
 def binary_cross_entropy(y_true, y_pred):
     y_pred = np.clip(y_pred, 1e-7, 1 - 1e-7)
     return -np.mean(y_true * np.log(y_pred) + (1 - y_true) * np.log(1 - y_pred))
 
-# Gradient Descent demo
+# Minh họa Gradient Descent
 print("📉 Gradient Descent: Finding minimum of f(x) = x²")
 x = 5.0
 lr = 0.3
 history = []
 
+# Vòng lặp tối ưu hóa: cập nhật x theo gradient descent
 for epoch in range(20):
-    gradient = 2 * x  # derivative of x²
+    gradient = 2 * x  # đạo hàm của x²
     x = x - lr * gradient
     loss = x ** 2
     history.append((epoch, round(x, 4), round(loss, 6)))
+    # In một vài epoch đầu và cuối để theo dõi tiến trình
     if epoch < 8 or epoch >= 18:
         print(f"  Epoch {epoch:2d}: x = {x:8.4f}, loss = {loss:.6f}")
 
-print(f"\\n✅ Converged to x ≈ {x:.6f} (optimal: 0)")`,
+print(f"\\\\n✅ Converged to x ≈ {x:.6f} (optimal: 0)")`,
         codeLanguage: "python",
         exercise: "Implement gradient descent for f(x,y) = x² + 2y². Find minimum starting from (5, 3).",
         exerciseEn: "Implement gradient descent for f(x,y) = x² + 2y². Find minimum starting from (5, 3).",
@@ -756,9 +775,12 @@ Backprop = chain rule truy ngược: từ loss về từng weight, biết phải
 **Exploding Gradient:** Gradients grow huge → NaN. Fix: Gradient clipping, proper initialization.
 
 **Modern Improvements:** BatchNorm, Skip Connections, Layer Norm, Xavier/He initialization.`,
-        code: `import numpy as np
+        code: `# Nhập thư viện numpy để làm việc với mảng và ma trận
+import numpy as np
 
+# Định nghĩa lớp mạng nơ-ron nhỏ
 class MiniNN:
+    # Khởi tạo trọng số và bias ngẫu nhiên với seed để tái lập kết quả
     def __init__(self):
         np.random.seed(42)
         self.w1 = np.random.randn(2, 4) * 0.5
@@ -766,9 +788,11 @@ class MiniNN:
         self.w2 = np.random.randn(4, 1) * 0.5
         self.b2 = np.zeros(1)
 
+    # Hàm kích hoạt sigmoid (cắt giá trị để tránh overflow)
     def sigmoid(self, x):
         return 1 / (1 + np.exp(-np.clip(x, -500, 500)))
 
+    # Lan truyền tiến: tính đầu vào và đầu ra cho từng lớp
     def forward(self, X):
         self.z1 = X @ self.w1 + self.b1
         self.a1 = self.sigmoid(self.z1)
@@ -776,6 +800,7 @@ class MiniNN:
         self.a2 = self.sigmoid(self.z2)
         return self.a2
 
+    # Lan truyền ngược: tính gradient và cập nhật tham số bằng learning rate
     def backward(self, X, y, lr=0.5):
         m = X.shape[0]
         dz2 = self.a2 - y
@@ -789,12 +814,15 @@ class MiniNN:
         self.w1 -= lr * dw1
         self.b1 -= lr * db1
 
-# XOR problem
+# Bài toán XOR
 X = np.array([[0,0],[0,1],[1,0],[1,1]])
 y = np.array([[0],[1],[1],[0]])
 
+# Tạo đối tượng mạng nơ-ron
 nn = MiniNN()
+# Thông báo bắt đầu huấn luyện
 print("🧠 Training Neural Network on XOR")
+# Huấn luyện trong 2000 epoch, in loss mỗi 400 epoch
 for epoch in range(2000):
     out = nn.forward(X)
     loss = np.mean((y - out) ** 2)
@@ -802,7 +830,8 @@ for epoch in range(2000):
     if epoch % 400 == 0:
         print(f"  Epoch {epoch}: loss = {loss:.4f}")
 
-print(f"\\n✅ Predictions: {nn.forward(X).flatten().round(2)}")
+# In dự đoán cuối cùng và giá trị mong đợi
+print(f"\\\\n✅ Predictions: {nn.forward(X).flatten().round(2)}")
 print(f"   Expected:    {y.flatten()}")`,
         codeLanguage: "python",
         exercise: "Add batch normalization to MiniNN and compare convergence speed with/without BN.",
@@ -856,8 +885,9 @@ Một **kernel** (ma trận nhỏ 3×3) trượt khắp ảnh. Tại mỗi vị 
 ## 4. 🎯 Ví dụ Keras chạy được ngay
 
 \`\`\`python
+# Nhập các lớp của Keras cần thiết để xây dựng mô hình CNN
 from tensorflow.keras import layers, models
-
+# Xây dựng mô hình tuần tự gồm các lớp tích chập, pooling, flatten và dense
 model = models.Sequential([
     layers.Conv2D(32, 3, activation="relu", input_shape=(28,28,1)),
     layers.MaxPooling2D(2),
@@ -867,7 +897,7 @@ model = models.Sequential([
     layers.Dense(64, activation="relu"),
     layers.Dense(10, activation="softmax"),
 ])
-
+# Biên dịch mô hình với optimizer, hàm mất mát và metric
 model.compile(optimizer="adam", loss="sparse_categorical_crossentropy",
               metrics=["accuracy"])
 \`\`\`
@@ -1103,24 +1133,29 @@ RNN = **mạng có trí nhớ** xử lý chuỗi tuần tự. LSTM thêm 3 cổn
 **Applications:** Language modeling, translation, sentiment analysis, speech recognition, time series.
 
 **Note:** Transformers have largely replaced RNNs/LSTMs for most sequence tasks.`,
-        code: `import numpy as np
+        code: `# Nhập thư viện NumPy để xử lý số và ma trận
+import numpy as np
 
+# Lớp RNN đơn giản lưu trọng số và thực hiện lan truyền tiến
 class SimpleRNN:
+    # Khởi tạo trọng số Wx, Wh và bias b
     def __init__(self, input_size, hidden_size):
         self.Wx = np.random.randn(input_size, hidden_size) * 0.1
         self.Wh = np.random.randn(hidden_size, hidden_size) * 0.1
         self.b = np.zeros(hidden_size)
         self.hidden_size = hidden_size
 
+    # Hàm forward nhận một chuỗi embedding và trả về các trạng thái ẩn
     def forward(self, sequence):
         h = np.zeros(self.hidden_size)
         states = []
+        # Lặp qua từng vector đầu vào trong chuỗi
         for x in sequence:
             h = np.tanh(x @ self.Wx + h @ self.Wh + self.b)
             states.append(h.copy())
         return states, h
 
-# Text encoding demo
+# Ví dụ mã hoá văn bản thành embedding
 vocab = {'hello': 0, 'world': 1, 'AI': 2, 'is': 3, 'great': 4}
 embed_size = 3
 embeddings = np.random.randn(len(vocab), embed_size) * 0.5
@@ -1128,13 +1163,15 @@ embeddings = np.random.randn(len(vocab), embed_size) * 0.5
 sentence = ['hello', 'world', 'AI', 'is', 'great']
 encoded = np.array([embeddings[vocab[w]] for w in sentence])
 
+# Tạo RNN và chạy forward trên chuỗi mã hoá
 rnn = SimpleRNN(input_size=embed_size, hidden_size=4)
 states, final = rnn.forward(encoded)
 
 print("🔁 RNN Processing Sequence")
+# In trạng thái ẩn sau mỗi bước
 for i, word in enumerate(sentence):
     print(f"  Step {i}: '{word}' → hidden = {np.round(states[i], 3)}")
-print(f"\\n🎯 Final hidden state: {np.round(final, 3)}")`,
+print(f"\\\\n🎯 Final hidden state: {np.round(final, 3)}")`,
         codeLanguage: "python",
         exercise: "Implement next-character prediction: train RNN on 'abcabc' to predict the next character.",
         exerciseEn: "Implement next-character prediction: train RNN on 'abcabc' to predict the next character.",
@@ -1666,36 +1703,41 @@ Transfer Learning = đứng trên vai người khổng lồ. Freeze + train head
 **PEFT Methods:** LoRA, Adapter Layers, Prefix Tuning, Prompt Tuning.
 
 **Key:** Avoid catastrophic forgetting (low LR), quality > quantity, always evaluate against baseline.`,
-        code: `import numpy as np
+        code: `# Nhập thư viện numpy để xử lý mảng và số học
+import numpy as np
 
-# Simulated Transfer Learning
+# Mô phỏng Transfer Learning
+# Định nghĩa mô hình giả lập với các lớp và trạng thái đóng băng
 class PretrainedModel:
+    # Khởi tạo trọng số và trạng thái đóng băng
     def __init__(self):
         np.random.seed(42)
-        self.layer1 = np.random.randn(4, 8)  # general features
-        self.layer2 = np.random.randn(8, 6)  # mid features
-        self.layer3 = np.random.randn(6, 3)  # task-specific
+        self.layer1 = np.random.randn(4, 8)  # đặc trưng chung
+        self.layer2 = np.random.randn(8, 6)  # đặc trưng giữa
+        self.layer3 = np.random.randn(6, 3)  # đặc trưng nhiệm vụ
         self.frozen = [True, True, False]
 
+    # In tóm tắt mô hình và tính tham số trainable
     def summary(self):
         layers = [self.layer1, self.layer2, self.layer3]
         total = sum(l.size for l in layers)
         trainable = sum(l.size for l, f in zip(layers, self.frozen) if not f)
         print(f"📊 Model Summary:")
+        # Hiển thị trạng thái từng lớp (đóng băng hoặc trainable)
         for i, (l, f) in enumerate(zip(layers, self.frozen)):
             status = "❄️ frozen" if f else "🔥 trainable"
             print(f"  Layer {i+1}: {l.shape} - {status} ({l.size} params)")
         print(f"  Total: {total} params | Trainable: {trainable} ({trainable/total*100:.1f}%)")
 
-# Feature extraction (freeze all but last)
+# Trích xuất đặc trưng (đóng băng tất cả trừ lớp cuối)
 model = PretrainedModel()
 model.summary()
 
-# LoRA simulation
-print("\\n🎯 LoRA Adaptation:")
+# Mô phỏng LoRA
+print("\\\\n🎯 LoRA Adaptation:")
 rank = 2
-lora_A = np.random.randn(6, rank) * 0.01  # down projection
-lora_B = np.random.randn(rank, 3) * 0.01  # up projection
+lora_A = np.random.randn(6, rank) * 0.01  # chiếu xuống
+lora_B = np.random.randn(rank, 3) * 0.01  # chiếu lên
 lora_params = lora_A.size + lora_B.size
 original_params = model.layer3.size
 print(f"  Original layer3: {original_params} params")
@@ -2044,15 +2086,17 @@ AI không tự kỳ thị - nó học từ data lệch. Đo bằng demographic p
 **Explainability:** LIME, SHAP, Attention visualization, Model Cards.
 
 **Best Practices:** Diverse data, regular audits, human oversight, documentation, monitoring, red teaming.`,
-        code: `import numpy as np
+        code: `# Nhập thư viện numpy để xử lý mảng và toán xác suất
+import numpy as np
 
-# Bias Audit Tool
+# Công cụ kiểm toán thiên vị
 def audit_model(predictions, demographics):
     groups = set(demographics)
     print("⚖️ Fairness Audit Report")
     print("=" * 50)
     
     rates = {}
+    # Lặp qua mỗi nhóm dân số để tính tỷ lệ dự đoán dương
     for group in groups:
         mask = [d == group for d in demographics]
         group_preds = [p for p, m in zip(predictions, mask) if m]
@@ -2060,35 +2104,38 @@ def audit_model(predictions, demographics):
         rates[group] = rate
         print(f"  {group}: positive rate = {rate:.2%} ({sum(group_preds)}/{len(group_preds)})")
     
-    # Demographic parity check
+    # Kiểm tra công bằng theo dân số (demographic parity)
     max_rate = max(rates.values())
     min_rate = min(rates.values())
     disparity = max_rate - min_rate
     threshold = 0.1
     
-    print(f"\\n📊 Demographic Parity:")
+    print(f"\\\\n📊 Demographic Parity:")
     print(f"  Disparity: {disparity:.2%}")
     print(f"  Threshold: {threshold:.2%}")
     print(f"  Status: {'✅ PASS' if disparity <= threshold else '❌ FAIL'}")
     
     return rates
 
-# Simulate biased model
+# Mô phỏng mô hình có thiên vị
 np.random.seed(42)
 n = 200
 demographics = np.random.choice(["Group_A", "Group_B"], n)
-# Intentionally biased: Group_A gets higher positive rate
+# Có thiên vị cố ý: Group_A có tỷ lệ dương cao hơn
 predictions = []
+# Duyệt từng cá thể để tạo dự đoán
 for d in demographics:
+    # Nếu thuộc Group_A, xác suất dương cao hơn
     if d == "Group_A":
         predictions.append(int(np.random.random() < 0.7))
     else:
         predictions.append(int(np.random.random() < 0.4))
 
+# Chạy hàm kiểm toán với dự đoán và dân số
 rates = audit_model(predictions, demographics)
 
-# Mitigation: threshold adjustment
-print("\\n🔧 Mitigation: Threshold Adjustment")
+# Biện pháp giảm thiểu: điều chỉnh ngưỡng
+print("\\\\n🔧 Mitigation: Threshold Adjustment")
 target_rate = np.mean(predictions)
 print(f"  Target rate: {target_rate:.2%}")`,
         codeLanguage: "python",

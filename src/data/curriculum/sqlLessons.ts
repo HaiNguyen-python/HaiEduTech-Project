@@ -495,20 +495,29 @@ Sếp hỏi: "Doanh thu từng tháng năm nay?". Bạn không thể nhìn 100.0
 ## 3. 🧰 Cú pháp
 
 \`\`\`sql
+-- Truy vấn: lấy doanh thu (tổng amount) theo tháng cho năm 2025
 SELECT month, SUM(amount) AS revenue
+-- Bảng nguồn dữ liệu là orders
 FROM orders
+-- Chỉ lấy đơn hàng của năm 2025
 WHERE year = 2025
+-- Nhóm kết quả theo tháng để tính tổng từng tháng
 GROUP BY month
+-- Chỉ giữ các tháng có tổng > 100000000
 HAVING SUM(amount) > 100000000
+-- Sắp xếp theo doanh thu giảm dần
 ORDER BY revenue DESC;
 \`\`\`
 
 ## 4. 🎯 Ví dụ chạy được ngay
 
 \`\`\`sql
+-- Lấy lớp, điểm trung bình và số học sinh cho mỗi lớp
 SELECT class, AVG(score) AS avg_score, COUNT(*) AS n_students
 FROM students
+-- Gom nhóm theo lớp để tính trung bình và đếm số học sinh
 GROUP BY class
+-- Sắp xếp kết quả theo điểm trung bình giảm dần
 ORDER BY avg_score DESC;
 \`\`\`
 
@@ -1366,10 +1375,13 @@ FROM employees;
 Top 1 mỗi phòng:
 
 \`\`\`sql
+-- Tạo CTE 'r' để chứa kết quả tạm, tính thứ tự theo mỗi dept
 WITH r AS (
+  -- Chọn tất cả cột và thêm cột rn là số thứ tự của salary trong từng dept
   SELECT *, ROW_NUMBER() OVER (PARTITION BY dept ORDER BY salary DESC) AS rn
   FROM employees
 )
+-- Lấy bản ghi có rn = 1 (lương cao nhất mỗi dept)
 SELECT * FROM r WHERE rn = 1;
 \`\`\`
 
@@ -2058,6 +2070,7 @@ Query \`SELECT * FROM orders JOIN products JOIN users WHERE …\` chạy 45 giâ
 ## 3. 🧰 Lệnh đọc kế hoạch
 
 \`\`\`sql
+-- Hiển thị kế hoạch thực thi và thống kê thời gian cho truy vấn: lấy tên người dùng và tổng giá trị đơn hàng sau 2025-01-01, nhóm theo tên
 EXPLAIN ANALYZE
 SELECT u.name, SUM(o.total)
 FROM users u JOIN orders o ON u.id = o.user_id

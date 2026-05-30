@@ -113,8 +113,11 @@ A 2D table - essentially a dict of Series sharing an index. The main Pandas stru
 
 ## Modify columns (vectorized > apply > iterrows)
 \`\`\`python
-df['passed'] = df['score'] >= 70                          # vectorized
-df['grade'] = df['score'].apply(lambda x: 'A' if x >= 90 else 'B')  # apply
+# Tạo cột 'passed' True/False nếu score >= 70
+df['passed'] = df['score'] >= 70                          # vector hóa
+# Gán cột 'grade' dùng apply với lambda để gán 'A' hoặc 'B'
+df['grade'] = df['score'].apply(lambda x: 'A' if x >= 90 else 'B')  # dùng apply
+# Tạo cột 'tier' dùng np.select để phân nhóm 'gold','silver','bronze'
 df['tier'] = np.select(
     [df['score'] >= 90, df['score'] >= 70],
     ['gold', 'silver'], default='bronze'
@@ -167,10 +170,11 @@ Analysts export 1-10M rows from Snowflake → Pandas notebooks → discover feat
 
 ## Bridge to next
 After mastering DataFrame/Series, the next lesson (**Data Cleaning**) applies these techniques to data engineering's #1 problem: **dirty data** (missing, duplicates, outliers).`,
-        code: `import pandas as pd
+        code: `# Thư viện cần thiết để xử lý dữ liệu
+import pandas as pd
 import numpy as np
 
-# Create DataFrame
+# Tạo DataFrame
 data = {
     'name': ['An', 'Binh', 'Chi', 'Dung', 'Em'],
     'age': [22, 25, 23, 28, 21],
@@ -179,19 +183,20 @@ data = {
 }
 df = pd.DataFrame(data)
 
+# Hiển thị DataFrame và thông tin cơ bản
 print("📊 DataFrame:")
 print(df)
-print(f"\\nShape: {df.shape}")
-print(f"\\n📈 Statistics:")
+print(f"\\\\nShape: {df.shape}")
+print(f"\\\\n📈 Statistics:")
 print(df.describe())
 
-# Filtering
-print(f"\\n🔍 Students with score > 85:")
+# Lọc dữ liệu
+print(f"\\\\n🔍 Students with score > 85:")
 print(df[df['score'] > 85][['name', 'score']])
 
-# Adding columns
+# Thêm cột
 df['grade'] = df['score'].apply(lambda x: 'A' if x >= 90 else 'B' if x >= 80 else 'C')
-print(f"\\n🎓 With grades:")
+print(f"\\\\n🎓 With grades:")
 print(df[['name', 'score', 'grade']])`,
         codeLanguage: "python",
         exercise: "Create a DataFrame with 10 students, calculate average score by city, find the highest scorer.",
@@ -445,36 +450,39 @@ def clean_dataframe(df):
 
 ## Bridge to next
 After learning to clean, the next lesson (**Data Ingestion**) covers HOW to get data in from various sources (CSV, JSON, API, DB) - the first step before cleaning.`,
-        code: `import pandas as pd
+        code: `# Thư viện cần thiết cho xử lý dữ liệu
+import pandas as pd
 import numpy as np
 
-# Messy data
+# Dữ liệu lộn xộn
 df = pd.DataFrame({
     'name': ['An', 'Binh', None, 'An', 'Chi', 'Dung'],
     'age': [22, np.nan, 23, 22, 25, np.nan],
     'score': [85, 92, 78, 85, 150, 88],
 })
 
+# In dữ liệu thô và kiểm tra giá trị thiếu/nhân bản
 print("🔴 Raw Data:")
 print(df)
-print(f"\\nMissing values:\\n{df.isnull().sum()}")
+print(f"\\\\nMissing values:\\\\n{df.isnull().sum()}")
 print(f"Duplicates: {df.duplicated().sum()}")
 
-# Clean
+# Dọn dữ liệu
 df_clean = df.copy()
 df_clean['name'] = df_clean['name'].fillna('Unknown')
 df_clean['age'] = df_clean['age'].fillna(df_clean['age'].median())
 df_clean = df_clean.drop_duplicates()
 
-# Detect outliers using IQR
+# Phát hiện ngoại lệ bằng phương pháp IQR
 Q1 = df_clean['score'].quantile(0.25)
 Q3 = df_clean['score'].quantile(0.75)
 IQR = Q3 - Q1
 outliers = df_clean[(df_clean['score'] < Q1 - 1.5*IQR) | (df_clean['score'] > Q3 + 1.5*IQR)]
-print(f"\\n⚠️ Outliers detected: {len(outliers)}")
+print(f"\\\\n⚠️ Outliers detected: {len(outliers)}")
 
+# Loại bỏ các hàng ngoại lệ khỏi dataframe sạch
 df_clean = df_clean[~df_clean.index.isin(outliers.index)]
-print(f"\\n✅ Clean Data ({len(df_clean)} rows):")
+print(f"\\\\n✅ Clean Data ({len(df_clean)} rows):")
 print(df_clean)`,
         codeLanguage: "python",
         exercise: "Create a 100-row dataset with 15% missing values and 5% outliers. Clean it and report changes.",
@@ -596,6 +604,7 @@ Ingestion faces:
 ## 1. Reading CSV - production tricks
 
 \`\`\`python
+# Đọc file CSV với pandas: cấu hình encoding/separator, header/skiprows, giá trị thiếu, kiểu dữ liệu, parse ngày, đọc theo chunks và cảnh báo lỗi
 df = pd.read_csv('data.csv',
     encoding='utf-8',
     sep=',', header=0, skiprows=2,
@@ -1335,10 +1344,12 @@ Declare the grain first; use surrogate keys; conform shared dimensions; thin tal
 ## Anti-patterns & next lesson
 
 Avoid god-fact-tables, storing ratios in facts, and using natural keys as primary keys. Next: **Data Warehousing & OLAP** - how Snowflake/BigQuery physically store these models.`,
-        code: `# Star Schema Design
+        code: `# Thiết kế Star Schema
+# In tiêu đề minh họa cho ví dụ
 print("⭐ Star Schema: E-Commerce")
 print("=" * 50)
 
+# Định nghĩa cấu trúc schema: bảng fact và các dimension
 schema = {
     "fact_sales": {
         "type": "FACT",
@@ -1364,15 +1375,19 @@ schema = {
     },
 }
 
+# Duyệt từng bảng trong schema để in thông tin
 for table, info in schema.items():
     icon = "📊" if info["type"] == "FACT" else "📋"
-    print(f"\\n{icon} {table} ({info['type']})")
+    print(f"\\\\n{icon} {table} ({info['type']})")
+    # Duyệt các cột để đánh dấu khóa và metric
     for col in info["columns"]:
         marker = "🔑" if col.endswith("_key") or col.endswith("_id") else "  "
         is_metric = "📈" if info.get("metrics") and col in info["metrics"] else "  "
         print(f"  {marker}{is_metric} {col}")
 
-print("\\n🔍 Sample Query: Monthly revenue by category")
+# In tiêu đề truy vấn mẫu
+print("\\\\n🔍 Sample Query: Monthly revenue by category")
+# Chuỗi SQL ví dụ: truy vấn doanh thu theo tháng và theo category
 print("""
 SELECT d.month, d.year, p.category,
        SUM(f.total_amount) AS revenue,
@@ -1438,10 +1453,15 @@ Database app (OLTP) như sổ thu chi của shop: ghi liên tục, hỏi "đơn 
 Query OLAP điển hình trên BigQuery:
 
 \`\`\`sql
+-- Chọn vùng, trích năm từ date và tính tổng doanh thu
 SELECT region, EXTRACT(YEAR FROM date) AS yr, SUM(revenue)
+-- Bảng nguồn chứa dữ liệu bán hàng
 FROM warehouse.fact_sales
+-- Lọc chỉ lấy từ ngày 2020-01-01 trở về sau
 WHERE date >= '2020-01-01'
+-- Nhóm theo vùng và năm để tính tổng cho mỗi nhóm
 GROUP BY region, yr
+-- Sắp xếp kết quả theo năm (tăng dần)
 ORDER BY yr;
 \`\`\`
 
@@ -1511,15 +1531,17 @@ Partition by date; cluster on common filter columns; use materialized views for 
 ## Anti-patterns & next lesson
 
 Avoid unpartitioned scans, OLTP-style point lookups, shared warehouses for ML + dashboards. Next: **Batch vs Streaming** - how fresh does the data need to be?`,
-        code: `# OLAP Operations Simulation
+        code: `# Mô phỏng các phép toán OLAP
 import numpy as np
-
+# Khởi tạo cấu trúc dữ liệu và danh sách mẫu
 sales_data = []
 products = ["Laptop", "Phone", "Tablet"]
 regions = ["North", "South", "East"]
 quarters = ["Q1", "Q2", "Q3", "Q4"]
 
+# Đặt seed để kết quả ngẫu nhiên lặp lại
 np.random.seed(42)
+# Tạo dữ liệu bán hàng ngẫu nhiên cho mỗi product-region-quarter
 for p in products:
     for r in regions:
         for q in quarters:
@@ -1532,24 +1554,30 @@ for p in products:
 print("🏛️ OLAP Operations Demo")
 print("=" * 50)
 
-# Roll-up: Quarter → Year
-print("\\n📊 ROLL-UP (Quarter → Annual)")
+# Tổng hợp (Roll-up): Quý → Năm
+print("\\\\n📊 ROLL-UP (Quarter → Annual)")
 annual = {}
+# Gom doanh thu theo product và region
 for s in sales_data:
     key = (s["product"], s["region"])
     annual[key] = annual.get(key, 0) + s["revenue"]
+# In kết quả tổng hợp đã sắp xếp
 for (p, r), rev in sorted(annual.items()):
     print(f"  {p:>8} | {r:>6} | \${rev:>8,}")
 
-# Drill-down: By product
-print("\\n🔍 DRILL-DOWN (Product: Laptop by quarter)")
+# Phân tích chi tiết (Drill-down) theo sản phẩm
+print("\\\\n🔍 DRILL-DOWN (Product: Laptop by quarter)")
+# Duyệt từng bản ghi để tìm Laptop ở vùng North
 for s in sales_data:
+    # Chỉ in bản ghi của Laptop ở region North
     if s["product"] == "Laptop" and s["region"] == "North":
         print(f"  {s['quarter']}: \${s['revenue']:,} ({s['units']} units)")
 
-# Slice: Only Q1
-print("\\n🔪 SLICE (Only Q1)")
+# Cắt lát (Slice): chỉ Q1
+print("\\\\n🔪 SLICE (Only Q1)")
+# Lọc các bản ghi thuộc Q1
 q1 = [s for s in sales_data if s["quarter"] == "Q1"]
+# In dữ liệu của Q1
 for s in q1:
     print(f"  {s['product']:>8} | {s['region']:>6} | \${s['revenue']:>8,}")`,
         codeLanguage: "python",
@@ -1688,41 +1716,46 @@ Default to batch; one event log feeding both; idempotent processing; explicit la
 ## Anti-patterns & next lesson
 
 Avoid streaming for show, missing idempotency, mixing event/processing time. Next: **Data Quality** - making the numbers right.`,
-        code: `import time
+        code: `# Nhập thư viện cần thiết
+import time
 from collections import deque
 
-# Batch Processing Simulation
+# Mô phỏng xử lý theo lô
 def batch_process(data):
     print("📦 Batch Processing")
     start = time.time()
     results = []
+    # Duyệt từng bản ghi và đánh dấu đã xử lý, tính điểm
     for record in data:
         results.append({**record, "processed": True, "score": record["value"] * 2})
     elapsed = time.time() - start
     print(f"  Processed {len(results)} records in {elapsed:.4f}s")
     return results
 
-# Stream Processing Simulation
+# Mô phỏng xử lý luồng
 class StreamProcessor:
+    # Khởi tạo cửa sổ trượt và bộ đếm các sự kiện đã xử lý
     def __init__(self, window_size=5):
         self.window = deque(maxlen=window_size)
         self.processed = 0
 
+    # Xử lý một sự kiện: cập nhật cửa sổ và tính trung bình
     def process_event(self, event):
         self.window.append(event["value"])
         self.processed += 1
         avg = sum(self.window) / len(self.window)
         return {"event": event, "window_avg": round(avg, 2), "count": self.processed}
 
-# Demo
+# Ví dụ
 data = [{"id": i, "value": i * 10 + 5} for i in range(20)]
 
-# Batch
+# Xử lý theo lô
 batch_results = batch_process(data)
 
-# Stream
-print("\\n⚡ Stream Processing")
+# Xử lý luồng
+print("\\\\n⚡ Stream Processing")
 stream = StreamProcessor(window_size=5)
+# Duyệt 10 sự kiện đầu tiên và in kết quả trung bình cửa sổ
 for event in data[:10]:
     result = stream.process_event(event)
     print(f"  Event {event['id']}: value={event['value']}, "
@@ -1857,44 +1890,56 @@ Tests run on every PR; SLAs per table; quality owned by producers; capture linea
 ## Anti-patterns & next lesson
 
 Avoid commented-out tests, silent retries, post-incident-only testing. Next: **Orchestration & DAGs** - running these checks in the right order with retries and observability.`,
-        code: `# Data Quality Framework
+        code: `# Khung Kiểm tra Chất lượng Dữ liệu
+# Lớp chứa các kiểm tra chất lượng dữ liệu
 class DataQualityChecker:
+    # Khởi tạo lưu data, schema và kết quả
     def __init__(self, data, schema):
         self.data = data
         self.schema = schema
         self.results = []
 
+    # Kiểm tra độ đầy đủ (không null hoặc rỗng) của cột
     def check_completeness(self, column, threshold=0.95):
+        # Đếm số giá trị không null và không rỗng trong cột
         non_null = sum(1 for row in self.data if row.get(column) is not None and row.get(column) != "")
         rate = non_null / len(self.data)
         passed = rate >= threshold
         self.results.append({"check": f"Completeness({column})", "rate": rate, "threshold": threshold, "passed": passed})
         return passed
 
+    # Kiểm tra tính duy nhất của giá trị trong cột
     def check_uniqueness(self, column):
+        # Thu thập giá trị không null để kiểm tra unique
         values = [row[column] for row in self.data if row.get(column)]
         unique_rate = len(set(values)) / len(values) if values else 0
         passed = unique_rate == 1.0
         self.results.append({"check": f"Uniqueness({column})", "rate": unique_rate, "threshold": 1.0, "passed": passed})
         return passed
 
+    # Kiểm tra giá trị nằm trong khoảng cho trước
     def check_range(self, column, min_val, max_val):
+        # Đếm số bản ghi có giá trị nằm trong khoảng
         in_range = sum(1 for row in self.data if min_val <= (row.get(column) or 0) <= max_val)
         rate = in_range / len(self.data)
         passed = rate >= 0.95
         self.results.append({"check": f"Range({column}:{min_val}-{max_val})", "rate": rate, "threshold": 0.95, "passed": passed})
         return passed
 
+    # In báo cáo kết quả các kiểm tra
     def report(self):
-        print("\\n📊 Data Quality Report")
+        print("\\\\n📊 Data Quality Report")
         print("=" * 60)
+        # Duyệt kết quả từng kiểm tra và in trạng thái
         for r in self.results:
             icon = "✅" if r["passed"] else "❌"
             print(f"  {icon} {r['check']}: {r['rate']:.1%} (threshold: {r['threshold']:.1%})")
+        # Tính tổng số kiểm tra đạt
         passed = sum(1 for r in self.results if r["passed"])
-        print(f"\\n  Overall: {passed}/{len(self.results)} checks passed")
+        print(f"\\\\n  Overall: {passed}/{len(self.results)} checks passed")
 
-# Test
+# Kiểm thử
+# Dữ liệu mẫu để kiểm thử
 data = [
     {"id": 1, "name": "An", "age": 22, "email": "an@test.com"},
     {"id": 2, "name": "Binh", "age": 25, "email": "binh@test.com"},
@@ -1902,6 +1947,7 @@ data = [
     {"id": 3, "name": "Dung", "age": 28, "email": None},
 ]
 
+# Tạo đối tượng và chạy các kiểm tra
 dq = DataQualityChecker(data, {})
 dq.check_completeness("name")
 dq.check_completeness("email")
@@ -2047,10 +2093,13 @@ Idempotency mandatory; state lives in object storage/warehouse, not orchestrator
 ## Anti-patterns & next lesson
 
 Avoid huge XCom payloads, \`datetime.now()\`, sleep loops, side-by-side cron. Next: **Cloud Platforms** - where these orchestrators live.`,
-        code: `# DAG Simulator (Airflow-like)
+        code: `# Mô phỏng DAG (tương tự Airflow)
+# Nhập hàm để lấy thời gian hiện tại
 from datetime import datetime
 
+# Định nghĩa Task: đại diện công việc trong DAG
 class Task:
+    # Khởi tạo Task với tên, hàm thực thi và số lần thử lại
     def __init__(self, name, fn, retries=1):
         self.name = name
         self.fn = fn
@@ -2058,57 +2107,72 @@ class Task:
         self.status = "pending"
         self.result = None
 
+    # Thực thi hàm của task, thử lại khi lỗi
     def run(self):
+        # Lặp theo số lần thử (bao gồm lần thử đầu tiên)
         for attempt in range(self.retries + 1):
+            # Thử chạy hàm, nếu lỗi sẽ vào except
             try:
                 self.result = self.fn()
                 self.status = "success"
                 return self.result
             except Exception as e:
+                # Nếu còn lần thử, in thông báo và tiếp tục
                 if attempt < self.retries:
                     print(f"    ⚠️ {self.name} failed, retrying ({attempt+1}/{self.retries})")
                 else:
                     self.status = "failed"
                     raise
 
+# Định nghĩa DAG để quản lý và chạy các Task
 class DAG:
+    # Khởi tạo DAG với tên, lịch và các cấu trúc lưu tasks và phụ thuộc
     def __init__(self, name, schedule="daily"):
         self.name = name
         self.schedule = schedule
         self.tasks = {}
         self.deps = {}
 
+    # Thêm task vào DAG, ghi nhận phụ thuộc nếu có
     def add_task(self, task, depends_on=None):
         self.tasks[task.name] = task
         self.deps[task.name] = depends_on or []
 
+    # Chạy DAG: in thông tin, xử lý thứ tự theo phụ thuộc
     def run(self):
         print(f"🎼 DAG: {self.name} (schedule: {self.schedule})")
         print(f"   Started: {datetime.now().strftime('%H:%M:%S')}")
         print("=" * 50)
         
+        # Lặp cho tới khi tất cả tasks hoàn thành
         completed = set()
         while len(completed) < len(self.tasks):
+            # Duyệt các task, chạy khi phụ thuộc đã hoàn thành
             for name, task in self.tasks.items():
+                # Bỏ qua nếu task đã hoàn thành
                 if name in completed:
                     continue
+                # Kiểm tra tất cả phụ thuộc đã được hoàn thành chưa
                 if all(d in completed for d in self.deps[name]):
                     print(f"  ▶ Running: {name}")
                     task.run()
                     completed.add(name)
                     print(f"    ✅ {name}: {task.status}")
         
-        print(f"\\n🏁 DAG complete! {len(completed)} tasks executed.")
+        print(f"\\\\n🏁 DAG complete! {len(completed)} tasks executed.")
 
-# Build a pipeline DAG
+# Xây dựng DAG cho pipeline
+# Khởi tạo một DAG với tên và lịch chạy
 dag = DAG("daily_student_etl", schedule="0 2 * * *")
 
+# Thêm các task (extract, transform, load, notify) và xác định phụ thuộc
 dag.add_task(Task("extract_csv", lambda: "100 rows extracted"))
 dag.add_task(Task("extract_api", lambda: "50 records from API"))
 dag.add_task(Task("transform", lambda: "150 rows cleaned"), depends_on=["extract_csv", "extract_api"])
 dag.add_task(Task("load_warehouse", lambda: "loaded to DW"), depends_on=["transform"])
 dag.add_task(Task("notify", lambda: "email sent"), depends_on=["load_warehouse"])
 
+# Chạy DAG
 dag.run()`,
         codeLanguage: "python",
         exercise: "Add parallel execution, timeout, and SLA monitoring to the DAG simulator.",
@@ -2249,7 +2313,8 @@ One primary cloud; managed services for boring stuff; tag everything; budget ale
 ## Anti-patterns & next lesson
 
 Avoid premature multi-cloud; always-on clusters for spiky loads; ignoring residency. Next: **Production Best Practices**.`,
-        code: `# Cloud Architecture Decision Framework
+        code: `# Khung quyết định kiến trúc đám mây
+# Danh sách dịch vụ theo hạng mục và nhà cung cấp
 services = {
     "Storage": {
         "GCP": ["Cloud Storage", "BigQuery", "Bigtable"],
@@ -2268,21 +2333,25 @@ services = {
     },
 }
 
+# In tiêu đề so sánh nền tảng dữ liệu đám mây
 print("☁️ Cloud Data Platform Comparison")
 print("=" * 70)
+# Duyệt từng hạng mục và in nhà cung cấp cùng công cụ
 for category, providers in services.items():
-    print(f"\\n📂 {category}:")
+    print(f"\\\\n📂 {category}:")
+    # In công cụ cho mỗi nhà cung cấp
     for provider, tools in providers.items():
         print(f"  {provider:>6}: {' | '.join(tools)}")
 
-# Cost estimator
+# Ước tính chi phí
 def estimate_cost(storage_gb, queries_tb, compute_hours):
     costs = {
         "GCP": storage_gb * 0.02 + queries_tb * 5 + compute_hours * 0.10,
         "AWS": storage_gb * 0.023 + queries_tb * 5 + compute_hours * 0.12,
         "Azure": storage_gb * 0.018 + queries_tb * 5 + compute_hours * 0.11,
     }
-    print(f"\\n💰 Cost Estimate ({storage_gb}GB, {queries_tb}TB queries, {compute_hours}h compute):")
+    print(f"\\\\n💰 Cost Estimate ({storage_gb}GB, {queries_tb}TB queries, {compute_hours}h compute):")
+    # In chi phí ước tính cho từng nhà cung cấp
     for provider, cost in costs.items():
         print(f"  {provider}: \${cost:.2f}/month")
     cheapest = min(costs, key=costs.get)

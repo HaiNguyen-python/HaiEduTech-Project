@@ -476,13 +476,19 @@ Without \`@functools.wraps\`, \`add.__name__\` becomes \`"wrapper"\` - breaks de
 ## Parametrized Decorators
 
 \`\`\`python
+# Định nghĩa decorator retry để thử lại khi hàm gặp lỗi
 def retry(max_attempts=3):
+    # Tạo decorator nhận hàm cần bọc
     def decorator(func):
         @functools.wraps(func)
+        # Wrapper gọi hàm và xử lý retry
         def wrapper(*args, **kw):
+            # Lặp tối đa max_attempts lần để thử lại
             for i in range(max_attempts):
+                # Thử gọi hàm, nếu thành công thì trả về kết quả
                 try: return func(*args, **kw)
                 except: 
+                    # Nếu là lần thử cuối cùng thì ném lại ngoại lệ
                     if i == max_attempts - 1: raise
         return wrapper
     return decorator
@@ -1081,11 +1087,16 @@ json.dump(data, f, indent=2, ensure_ascii=False)
 ## Case Study: Dropbox Atomic Write
 
 \`\`\`python
+# Hàm ghi file một cách nguyên tử: đảm bảo hoặc ghi toàn bộ hoặc không thay đổi file
 def atomic_write(path, data):
+    # Tạo file tạm trong cùng thư mục với file đích
     fd, tmp = tempfile.mkstemp(dir=os.path.dirname(path) or ".")
+    # Mở file tạm để ghi văn bản với mã hóa UTF-8
     with os.fdopen(fd, "w", encoding="utf-8") as f:
+        # Ghi dữ liệu vào file tạm
         f.write(data)
-    os.replace(tmp, path)        # atomic on POSIX
+    # Thay file đích bằng file tạm để đảm bảo tính nguyên tử
+    os.replace(tmp, path)        # nguyên tử trên POSIX
 \`\`\`
 
 Either old or new file - never half-written.
@@ -1217,10 +1228,14 @@ FROM employees;
 Top 1 mỗi phòng:
 
 \`\`\`sql
+-- CTE: đánh dấu thứ tự theo lương trong mỗi phòng ban
 WITH r AS (
+-- Bên trong CTE: thêm cột rn là số thứ tự theo salary giảm dần trong mỗi dept
   SELECT *, ROW_NUMBER() OVER (PARTITION BY dept ORDER BY salary DESC) AS rn
+-- Chọn từ bảng employees trong CTE
   FROM employees
 )
+-- Chọn các hàng có rn = 1, tức lương cao nhất mỗi phòng ban
 SELECT * FROM r WHERE rn = 1;
 \`\`\`
 
@@ -1563,13 +1578,17 @@ Great for date dimensions, filling time series gaps.
 ## Example #2: Org Chart
 
 \`\`\`sql
+-- CTE đệ quy tạo cây tổ chức từ bảng employees
 WITH RECURSIVE org AS (
+  -- Nhánh gốc: lấy nhân viên không có manager (gốc của cây)
   SELECT id, name, manager_id, 1 AS level, name::text AS path
   FROM employees WHERE manager_id IS NULL
   UNION ALL
+  -- Nhánh đệ quy: nối từng nhân viên với quản lý để tăng cấp và nối đường dẫn
   SELECT e.id, e.name, e.manager_id, o.level + 1, o.path || ' > ' || e.name
   FROM employees e JOIN org o ON e.manager_id = o.id
 )
+-- Lấy kết quả cuối cùng: cấp độ và đường dẫn của mỗi nhân viên trong cây
 SELECT level, path FROM org;
 \`\`\`
 
@@ -1856,32 +1875,32 @@ Uber uses Spark Structured Streaming with Kafka for surge pricing, driver matchi
 ## Next Journey
 
 Master Spark = Data Engineering foundation complete. Next: **Spark Streaming**, **Delta Lake**, **Spark MLlib**, or **Databricks** (managed Spark used by Netflix, Shell, Comcast).`,
-        code: `# PySpark DataFrame example (conceptual)
+        code: `# Ví dụ DataFrame PySpark (khái niệm)
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 
-spark = SparkSession.builder \\
-    .appName("SalesAnalysis") \\
+spark = SparkSession.builder \\\\
+    .appName("SalesAnalysis") \\\\
     .getOrCreate()
 
-# Read data
+# Đọc dữ liệu
 sales = spark.read.csv("sales.csv", header=True, inferSchema=True)
 
-# Transformations (lazy)
-monthly_sales = sales \\
-    .withColumn("month", F.month("date")) \\
-    .groupBy("month", "category") \\
+# Các biến đổi (lazy, chưa thực thi)
+monthly_sales = sales \\\\
+    .withColumn("month", F.month("date")) \\\\
+    .groupBy("month", "category") \\\\
     .agg(
         F.sum("amount").alias("total_sales"),
         F.count("*").alias("num_transactions"),
         F.avg("amount").alias("avg_sale")
-    ) \\
+    ) \\\\
     .orderBy("month")
 
-# Action (triggers execution)
+# Hành động (kích hoạt thực thi)
 monthly_sales.show()
 
-# Write result
+# Ghi kết quả
 monthly_sales.write.parquet("output/monthly_sales")`,
         codeLanguage: "python",
         exercise: "Write PySpark pipeline to read JSON file, filter by condition, group by and write to Parquet",

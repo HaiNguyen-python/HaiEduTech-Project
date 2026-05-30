@@ -767,35 +767,38 @@ This pattern is called **RAG (Retrieval-Augmented Generation)** and is the most 
 
 > 🎯 **Key Concept** - Self-attention replaces recurrence with **all-to-all comparison in parallel**. Stacking dozens of attention blocks and scaling parameters, data, and compute is the entire recipe behind every modern LLM. Everything else - RAG, fine-tuning, multimodality - sits on top of this foundation.`,
         theoryEn: "",
-        code: `# Mini self-attention from scratch - the math behind every LLM, in 30 lines.
+        code: `# Mini self-attention từ đầu - toán học đằng sau mọi LLM, trong 30 dòng.
+# Nhập thư viện cần thiết
 import torch
 import torch.nn.functional as F
 
+# Cố định seed để kết quả có thể lặp lại
 torch.manual_seed(0)
 
-# A toy "sentence": 4 tokens, each represented as a 8-dim embedding
+# Một "câu" mẫu: 4 token, mỗi token biểu diễn bởi embedding 8 chiều
 seq_len, d_model = 4, 8
 x = torch.randn(seq_len, d_model)
 
-# Learnable projection matrices (here just random)
+# Ma trận chiếu có thể học được (ở đây chỉ là ngẫu nhiên)
 W_q = torch.randn(d_model, d_model)
 W_k = torch.randn(d_model, d_model)
 W_v = torch.randn(d_model, d_model)
 
-# 1. Project the input into Queries, Keys, Values
+# 1. Chiếu input thành Query, Key, Value
 Q = x @ W_q   # (seq_len, d_model)
 K = x @ W_k
 V = x @ W_v
 
-# 2. Scaled dot-product attention
+# 2. Attention tích vô hướng đã chuẩn hóa
 scores = Q @ K.T / (d_model ** 0.5)   # (seq_len, seq_len)
-weights = F.softmax(scores, dim=-1)   # each row sums to 1
+weights = F.softmax(scores, dim=-1)   # mỗi hàng có tổng bằng 1
 output = weights @ V                   # (seq_len, d_model)
 
+# In ra ma trận trọng số attention và thông tin về output
 print("Attention weight matrix (rows = queries, cols = keys):")
 print(weights.round(decimals=2))
-print("\\nEach row sums to 1.0:", weights.sum(dim=-1).round(decimals=2).tolist())
-print("\\nOutput shape (one new vector per token):", output.shape)`,
+print("\\\\nEach row sums to 1.0:", weights.sum(dim=-1).round(decimals=2).tolist())
+print("\\\\nOutput shape (one new vector per token):", output.shape)`,
         codeLanguage: "python",
         exercise: "Add **causal masking** so that token i cannot attend to tokens with index > i (the trick that turns this encoder-style attention into a GPT-style decoder). Hint: build an upper-triangular matrix with `torch.triu(torch.ones(seq_len, seq_len), diagonal=1).bool()` and set those positions in `scores` to `-inf` *before* the softmax. Verify that the resulting weight matrix is lower-triangular.",
         exerciseEn: "",
@@ -1130,36 +1133,42 @@ By 2022, **diffusion models** (Stable Diffusion, DALL-E 3) overtook GANs for gen
 
 > 💡 **Key concept** - A GAN learns a distribution **implicitly** by drawing samples from it, rather than estimating its density.`,
         theoryEn: "",
-        code: `# Tiny GAN learns to generate samples from a 1-D bimodal distribution
+        code: `# Tiny GAN học để sinh mẫu từ phân phối 1-D hai đỉnh (bimodal)
+# Nhập các module cần thiết từ PyTorch
 import torch
 import torch.nn as nn
 
+# Dữ liệu thực: sampler trả về các mẫu 1-D từ phân phối hai đỉnh (hai mode)
 REAL_SAMPLER = lambda n: torch.cat([
     torch.randn(n // 2) * 0.5 - 2.0,   # left mode at -2
     torch.randn(n // 2) * 0.5 + 2.0,   # right mode at +2
 ]).unsqueeze(1)
 
+# Định nghĩa kiến trúc mạng cho Generator và Discriminator (mạng nhỏ)
 G = nn.Sequential(nn.Linear(1, 32), nn.ReLU(), nn.Linear(32, 1))
 D = nn.Sequential(nn.Linear(1, 32), nn.ReLU(), nn.Linear(32, 1), nn.Sigmoid())
 
+# Khởi tạo bộ tối ưu cho G và D và định nghĩa hàm mất mát BCE
 opt_G = torch.optim.Adam(G.parameters(), lr=1e-3)
 opt_D = torch.optim.Adam(D.parameters(), lr=1e-3)
 bce = nn.BCELoss()
 
+# Vòng lặp huấn luyện chính
 for step in range(2000):
-    # Train discriminator
+    # Huấn luyện discriminator
     real = REAL_SAMPLER(64)
     z = torch.randn(64, 1)
     fake = G(z).detach()
     loss_D = bce(D(real), torch.ones(64, 1)) + bce(D(fake), torch.zeros(64, 1))
     opt_D.zero_grad(); loss_D.backward(); opt_D.step()
 
-    # Train generator (wants D to call fakes "real")
+    # Huấn luyện generator (muốn D gọi mẫu giả là 'thực')
     z = torch.randn(64, 1)
     fake = G(z)
     loss_G = bce(D(fake), torch.ones(64, 1))
     opt_G.zero_grad(); loss_G.backward(); opt_G.step()
 
+    # In mẫu và loss mỗi 400 bước để theo dõi
     if step % 400 == 0:
         with torch.no_grad():
             samples = G(torch.randn(1000, 1)).squeeze().numpy()
@@ -1360,17 +1369,19 @@ Don't fine-tune for **facts** - that's RAG's job. Fine-tune for:
 
 > 💡 **Key concept** - In 2025, the modern AI engineer's stack: pick a strong open-weight base, wire up RAG for facts, apply LoRA/QLoRA for format & style. No one starts from scratch.`,
         theoryEn: "",
-        code: `# QLoRA fine-tuning of Llama-3-8B in ~30 lines - runs on a single 16 GB GPU
-# pip install transformers peft accelerate bitsandbytes datasets trl
+        code: `# Fine-tuning QLoRA cho Llama-3-8B trong ~30 dòng - chạy trên 1 GPU 16 GB
+# cài đặt: pip install transformers peft accelerate bitsandbytes datasets trl
+# Import các thư viện cần thiết
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
 from datasets import load_dataset
 from trl import SFTTrainer, SFTConfig
 
+# Định danh model gốc
 MODEL = "meta-llama/Meta-Llama-3-8B"
 
-# Load base model in 4-bit precision (QLoRA)
+# Tải model gốc ở độ chính xác 4-bit (QLoRA)
 bnb = BitsAndBytesConfig(
     load_in_4bit=True,
     bnb_4bit_quant_type="nf4",
@@ -1380,7 +1391,7 @@ model = AutoModelForCausalLM.from_pretrained(MODEL, quantization_config=bnb, dev
 tokenizer = AutoTokenizer.from_pretrained(MODEL)
 tokenizer.pad_token = tokenizer.eos_token
 
-# Wrap with LoRA - only ~0.5 % of params will be trained
+# Bọc model bằng LoRA - chỉ ~0.5% tham số sẽ được huấn luyện
 model = prepare_model_for_kbit_training(model)
 lora = LoraConfig(
     r=16, lora_alpha=32, lora_dropout=0.05,
@@ -1388,10 +1399,12 @@ lora = LoraConfig(
     bias="none", task_type="CAUSAL_LM",
 )
 model = get_peft_model(model, lora)
-model.print_trainable_parameters()  # e.g. 41.9M / 8.0B (0.52%)
+model.print_trainable_parameters()  # ví dụ 41.9M / 8.0B (0.52%)
 
+# Tải dataset từ file jsonl
 dataset = load_dataset("json", data_files="my_instructions.jsonl", split="train")
 
+# Khởi tạo trainer cho SFT (supervised fine-tuning)
 trainer = SFTTrainer(
     model=model,
     train_dataset=dataset,
@@ -1405,8 +1418,9 @@ trainer = SFTTrainer(
         logging_steps=10,
     ),
 )
+# Huấn luyện model
 trainer.train()
-trainer.save_model("llama3-lora-vi")  # adapter is ~80 MB vs 16 GB full model`,
+trainer.save_model("llama3-lora-vi")  # adapter ~80 MB so với 16 GB model đầy đủ`,
         codeLanguage: "python",
         exercise: "Plan a fine-tuning project for a Vietnamese customer-support chatbot in 3 bullets: (1) base model + why, (2) one example instruction/response pair, (3) would you also use RAG and what would it retrieve?",
         exerciseEn: "",
@@ -1975,28 +1989,35 @@ Vietnam's smart traffic cameras (Hà Nội, HCM) need to read 100 plates/sec on 
 ## 🛠️ Practice Task
 You must deploy a sentiment classifier (BERT-base, 110M params) on a Raspberry Pi 4 (1 GB RAM). Pick a compression strategy and justify the order of operations.`,
         theoryEn: "",
-        code: `# 4-bit quantize a Llama model with bitsandbytes (single GPU)
+        code: `# Lượng tử hóa 4-bit cho mô hình Llama bằng bitsandbytes (GPU đơn)
+# Import các thư viện cần thiết
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 import torch
 
+# Cấu hình bitsandbytes cho lượng tử hóa 4-bit
 bnb = BitsAndBytesConfig(
     load_in_4bit=True,
-    bnb_4bit_quant_type="nf4",          # NormalFloat-4
+    bnb_4bit_quant_type="nf4",          # Dạng NormalFloat-4
     bnb_4bit_compute_dtype=torch.float16,
-    bnb_4bit_use_double_quant=True,     # quantize the quantization constants
+    bnb_4bit_use_double_quant=True,     # Lượng tử hóa các hằng số lượng tử hóa
 )
 
+# Chỉ định mô hình và tải tokenizer, mô hình với cấu hình lượng tử
 model_id = "meta-llama/Llama-3.1-8B-Instruct"
 tok = AutoTokenizer.from_pretrained(model_id)
 model = AutoModelForCausalLM.from_pretrained(
     model_id, quantization_config=bnb, device_map="auto"
 )
+# In kích thước bộ nhớ mô hình để tham khảo
 print(f"Memory footprint: {model.get_memory_footprint() / 1e9:.2f} GB")
-# Llama-3.1-8B in nf4 ≈ 5.4 GB → fits a single RTX 3060 12 GB
+# Llama-3.1-8B với nf4 ≈ 5.4 GB → phù hợp với RTX 3060 12 GB
 
+# Prompt ví dụ để yêu cầu mô tả ngắn
 prompt = "Explain quantization in one sentence:"
+# Sinh văn bản từ mô hình (không sampling)
 out = model.generate(**tok(prompt, return_tensors="pt").to(model.device),
                      max_new_tokens=60, do_sample=False)
+# Giải mã và in kết quả, loại bỏ token đặc biệt
 print(tok.decode(out[0], skip_special_tokens=True))`,
         codeLanguage: "python",
         exercise: "Compare quantization vs distillation for compressing a 1B-parameter chatbot to run on a phone. Discuss accuracy, training cost, and inference latency.",

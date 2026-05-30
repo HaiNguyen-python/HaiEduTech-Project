@@ -177,26 +177,36 @@ When writing HTML, ask yourself: "If CSS is disabled, is the structure still und
 
 Semantic HTML = give every region a **meaningful name**. Benefits: SEO, accessibility, maintainable code.
 `,
-        code: `<!-- A semantic landing page skeleton - 2026 best practices -->
+        code: `# Bắt đầu tài liệu HTML: khung landing page
+<!-- A semantic landing page skeleton - 2026 best practices -->
+# Khai báo loại tài liệu HTML
 <!DOCTYPE html>
+# Thẻ html: ngôn ngữ tài liệu
 <html lang="en">
+  # Phần head: meta và title cho SEO và hiển thị
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>HaiEduTech - Learn Smarter</title>
     <meta name="description" content="Modern learning platform for Vietnamese students." />
   </head>
+  # Phần body: nội dung hiển thị chính
   <body>
+    # Header trang: logo/tiêu đề và điều hướng
     <header role="banner">
       <h1>HaiEduTech</h1>
+      # Nav chính: các liên kết dẫn đến trang quan trọng
       <nav aria-label="Primary">
         <a href="/courses">Courses</a>
         <a href="/about">About</a>
       </nav>
     </header>
 
+    # Main: vùng chứa nội dung chính của trang
     <main id="main-content">
+      # Article: bài viết hoặc nội dung chính trong main
       <article>
+        # Header của bài viết: tiêu đề và thời gian
         <header>
           <h2>Master IELTS in 90 Days</h2>
           <time datetime="2026-01-20">January 20, 2026</time>
@@ -204,12 +214,14 @@ Semantic HTML = give every region a **meaningful name**. Benefits: SEO, accessib
         <p>Practical tactics from a 15-year tutor.</p>
       </article>
 
+      # Aside: nội dung liên quan, bài viết gợi ý
       <aside aria-label="Related posts">
         <h3>Related</h3>
         <ul><li><a href="/post/2">SAT essay tips</a></li></ul>
       </aside>
     </main>
 
+    # Footer: thông tin bản quyền và liên kết phụ
     <footer>
       <small>© 2026 HaiEduTech</small>
     </footer>
@@ -1094,16 +1106,21 @@ expense-tracker/
 Yêu cầu: thêm chi tiêu, xem tổng tháng, xóa item, lưu offline.
 
 \`\`\`js
+// import các hàm lưu trữ và hiển thị từ các module
 // scripts/main.js
 import { getAll, add, remove } from "./storage.js";
 import { renderList, renderTotal } from "./ui.js";
 
+
+// Hàm làm mới danh sách và tổng
 function refresh() {
   const items = getAll();
   renderList(items);
   renderTotal(items.reduce((s, i) => s + i.amount, 0));
 }
 
+
+// Bắt sự kiện submit form thêm mục mới
 document.querySelector("#add-form").addEventListener("submit", (e) => {
   e.preventDefault();
   const fd = new FormData(e.target);
@@ -1112,11 +1129,16 @@ document.querySelector("#add-form").addEventListener("submit", (e) => {
   refresh();
 });
 
+
+// Bắt sự kiện click trên danh sách để xử lý xóa
 document.querySelector("#list").addEventListener("click", (e) => {
   const id = e.target.closest("li")?.dataset.id;
+  // Chỉ xóa khi nhấn nút xóa trong một mục hợp lệ
   if (id && e.target.matches(".del")) { remove(id); refresh(); }
 });
 
+
+// Khởi tạo hiển thị lần đầu khi tải trang
 refresh();
 \`\`\`
 
@@ -1181,16 +1203,19 @@ expense-tracker/
 Requirements: add expense, view monthly total, delete items, work offline.
 
 \`\`\`js
-// scripts/main.js
+// scripts/main.js - tệp chính
+// import các hàm làm việc với storage và UI
 import { getAll, add, remove } from "./storage.js";
 import { renderList, renderTotal } from "./ui.js";
 
+// cập nhật danh sách và tổng tiền hiển thị
 function refresh() {
   const items = getAll();
   renderList(items);
   renderTotal(items.reduce((s, i) => s + i.amount, 0));
 }
 
+// xử lý sự kiện submit của form thêm mục
 document.querySelector("#add-form").addEventListener("submit", (e) => {
   e.preventDefault();
   const fd = new FormData(e.target);
@@ -1199,11 +1224,13 @@ document.querySelector("#add-form").addEventListener("submit", (e) => {
   refresh();
 });
 
+// xử lý sự kiện click trên danh sách (xóa mục)
 document.querySelector("#list").addEventListener("click", (e) => {
   const id = e.target.closest("li")?.dataset.id;
   if (id && e.target.matches(".del")) { remove(id); refresh(); }
 });
 
+// gọi lần đầu để hiển thị dữ liệu khi tải trang
 refresh();
 \`\`\`
 
@@ -1378,11 +1405,17 @@ export function UserProfile({ userId }: { userId: string }) {
 Khi 2 component cần dùng chung state → đẩy state lên cha gần nhất.
 
 \`\`\`tsx
+// Hàm component cha chứa state và truyền props xuống component con
 function Parent() {
+  // State 'query' lưu chuỗi tìm kiếm, 'setQuery' để cập nhật
   const [query, setQuery] = useState("");
+  // Trả về giao diện với ô tìm kiếm và danh sách kết quả
   return (
+    // Fragment nhóm các phần tử JSX mà không tạo thẻ thừa trong DOM
     <>
+      // Ô tìm kiếm: nhận value và callback onChange
       <SearchBox value={query} onChange={setQuery} />
+      // Danh sách kết quả: nhận query để lọc/hiển thị
       <ResultList query={query} />
     </>
   );
@@ -1426,9 +1459,13 @@ Never mutate state directly - always use the setter.
 
 ## 5. 🔄 Side Effects
 \`\`\`tsx
+// Hook effect chạy khi url thay đổi
 useEffect(() => {
+  // Tạo AbortController để có thể hủy request
   const ctrl = new AbortController();
+  // Thực hiện fetch kèm signal để có thể abort
   fetch(url, { signal: ctrl.signal }).then(/*...*/);
+  // Cleanup: hủy request khi unmount hoặc trước lần effect tiếp theo
   return () => ctrl.abort();
 }, [url]);
 \`\`\`
