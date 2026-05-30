@@ -534,9 +534,11 @@ interface QBlockProps {
   onChange: (v: string) => void;
   submitted: boolean;
   onFocus: () => void;
+  flagged?: boolean;
+  onToggleFlag?: () => void;
 }
 
-const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, submitted, onFocus }) => {
+const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, submitted, onFocus, flagged, onToggleFlag }) => {
   const correct = submitted && value.trim().toLowerCase() === q.answer.toLowerCase();
   const wrong = submitted && value && !correct;
 
@@ -547,12 +549,27 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
       onClick={onFocus}
       className={cn(
         "rounded-xl border bg-card p-4 transition-all",
+        flagged && !submitted && "ring-2 ring-amber-400/60",
         submitted && (correct ? "border-emerald-500 bg-emerald-500/5" : wrong ? "border-destructive bg-destructive/5" : "")
       )}
     >
       <div className="flex items-start gap-3 mb-3">
         <Badge variant="outline" className="font-bold text-sm shrink-0">{q.number}</Badge>
-        <p className="text-sm font-medium text-foreground leading-relaxed">{q.prompt}</p>
+        <p className="text-sm font-medium text-foreground leading-relaxed flex-1">{q.prompt}</p>
+        {!submitted && onToggleFlag && (
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); onToggleFlag(); }}
+            className={cn(
+              "shrink-0 p-1 rounded transition-colors",
+              flagged ? "text-amber-500 hover:text-amber-600" : "text-muted-foreground hover:text-amber-500"
+            )}
+            title={flagged ? "Unflag" : "Mark for review"}
+            aria-label="Mark for review"
+          >
+            <Flag className={cn("w-4 h-4", flagged && "fill-amber-400")} />
+          </button>
+        )}
         {submitted && (correct
           ? <CheckCircle2 className="w-5 h-5 text-emerald-500 ml-auto shrink-0" />
           : wrong ? <XCircle className="w-5 h-5 text-destructive ml-auto shrink-0" /> : null
