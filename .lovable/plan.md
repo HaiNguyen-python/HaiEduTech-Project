@@ -1,71 +1,56 @@
-# IELTS Reading Practice — Fix chatbot & nâng cấp công cụ học
 
-## 1. Vì sao chatbot bị "mất"
+# Rà soát IELTS Listening Practice
 
-`ChatBot` được mount global ở `App.tsx` (luôn hiển thị mọi trang). Nhưng `IeltsReadingPractice.tsx` khi vào chế độ làm bài render một overlay:
+## Hiện trạng (đã có)
+- 4 Sections, ~25+ bộ đề, đủ các dạng: Form/Note Completion, MCQ, Matching, Map Labelling, Sentence Completion.
+- Player TTS có pause/stop, skip ±1 câu, seek bar, 4 mức tốc độ, ẩn/hiện transcript, đếm điểm tức thì, hỗ trợ `mapSvg` + `matchingOptions`.
+- Trang `/ielts-listening-practice` filter theo section.
 
-```tsx
-<div className="fixed inset-0 z-[60] bg-background ...">
-```
+## Điểm yếu phát hiện
+1. **Không có chế độ phòng thi thật**: nghe 1 lần, không xem transcript, có timer 30s/câu cuối → khác xa Cambridge format.
+2. **Không có Full Test (40 câu, 30 phút)** — chỉ có set rời.
+3. **TTS chỉ 1 giọng en-GB** — Cambridge thật có nhiều giọng (AU, US, IND); thí sinh quen 1 giọng sẽ "sốc" khi thi.
+4. **Không lưu tiến độ / lịch sử điểm** — làm xong refresh là mất.
+5. **Không có band-score estimator** (40 câu → Band 0-9 chuẩn IELTS).
+6. **Không highlight keywords trong transcript** sau khi nộp — khó tự rà soát chỗ nghe sót.
+7. **Không có "AI giải thích câu sai"** (đã làm cho Reading nhưng Listening chưa).
+8. **Không có chatbot trên overlay** (nếu thêm exam mode sẽ lặp lại lỗi z-index như Reading).
+9. **Không có dictation mode** (nghe → gõ lại từng câu) — kỹ thuật luyện tai vàng cho band 6.5+.
+10. **Chatbot floating notebook chưa được nhắc trên trang Listening Practice** — học viên không biết để save vocab nghe được.
+11. **Không có "shadowing"** — nghe và lặp lại để luyện pronunciation/intonation.
+12. **Không có thống kê dạng câu yếu** (vd: bạn sai 70% câu Matching → ưu tiên luyện).
 
-Overlay này phủ toàn màn hình với `z-[60]`, cao hơn z-index hiện tại của ChatBot → nút chat bị che. Ở màn hub (chưa bấm "Start") thì chatbot vẫn còn.
+## Đề xuất nâng cấp — 3 đợt
 
-### Hướng xử lý (sẽ hỏi chọn 1)
-- **A. Luôn hiện** — nâng z-index ChatBot lên `z-[70]` để nổi trên overlay test.
-- **B. Ẩn khi đang làm bài timed, hiện lại ở hub/result** — tránh phân tâm khi đếm giờ, vẫn có nút "Hỏi Mr. Hai" nhỏ ở thanh header của overlay.
-- **C. Kết hợp**: ẩn khi timer đang chạy, hiện khi pause hoặc nộp bài.
+### Đợt A — Trải nghiệm thi & lưu trữ (ưu tiên cao)
+1. **Exam Mode (mô phỏng đề thật)**: 1 lần phát, ẩn transcript & seek bar, hiện timer + 10 phút "transfer answers".
+2. **Full Test 40 câu**: gom 4 sets thành 1 bài hoàn chỉnh, tính Band Score chuẩn IELTS (bảng quy đổi 16→5.0, 23→6.0, 30→7.0, 35→7.5, 39→9.0).
+3. **Auto-save tiến độ** (localStorage `ielts-listening-progress::{setId}`) — debounce 400ms, restore khi mở lại.
+4. **Lịch sử & thống kê**: lưu lịch sử điểm + dạng câu yếu vào Supabase (bảng `ielts_listening_attempts`).
 
-(Đề xuất B vì giống phòng thi thật, nhưng có nút mở chat trên header khi cần giải thích.)
+### Đợt B — Luyện sâu (AI + kỹ thuật học)
+5. **AI Explain câu sai (Perplexity sonar)** — bấm vào câu sai → AI chỉ ra câu/từ trong transcript chứa đáp án + bẫy distractor.
+6. **Dictation Mode**: nghe từng câu → gõ lại → chấm word-level diff (đã có cho Vietnamese, port sang đây).
+7. **Shadowing Mode**: nghe 1 câu → mic ghi âm → so sánh sample.
+8. **Keyword highlight trong transcript** sau khi nộp: tô vàng câu chứa đáp án, tô đỏ distractor.
+9. **Save vocab to Notebook**: tap từ trong transcript → lưu vào FloatingNotebook (đã có).
 
-## 2. Tính năng đề xuất cho Reading Practice
+### Đợt C — Đa giọng & gamification
+10. **Đa giọng Anh**: cho chọn voice (UK/US/AU) + "Random accent" mode.
+11. **Band Score Tracker**: biểu đồ tiến bộ Band theo thời gian (Recharts).
+12. **Daily Listening Streak**: 1 bài/ngày → tích sao, tích hợp leaderboard có sẵn.
+13. **Floating ChatBot z-[80]** + FloatingNotebook hiện sẵn trên trang Practice (giống Reading fix vừa rồi).
 
-Tất cả là tính năng frontend, tích hợp vào overlay đọc bài (cột trái = passage).
+## Kỹ thuật chính
+- `IeltsListeningExamRoom.tsx` mới (overlay z-[60], chatbot z-[80]).
+- `src/lib/ieltsListeningBand.ts` — band conversion table.
+- Edge function `explain-ielts-listening` (Perplexity sonar-pro), reuse pattern của `explain-ielts-reading`.
+- Migration: `ielts_listening_attempts (user_id, set_id, score, total, band, weak_types jsonb, created_at)` + RLS auth.uid().
+- Voice picker: filter `speechSynthesis.getVoices()` theo `en-GB|en-US|en-AU`, lưu chọn vào localStorage.
+- Reuse `FloatingNotebook` + `ChatBot` global mount; chỉ cần thêm `/ielts-listening-practice` vào `GlobalSuperDictionary` ALLOWED_PREFIXES.
 
-### Bộ công cụ học (Reader Toolkit)
-1. **Highlight đa màu** — bôi vàng / xanh / hồng đoạn vừa chọn (selection), xoá bằng click lại. Lưu localStorage theo `passageId`.
-2. **Sticky note** — chọn đoạn → thêm ghi chú nhỏ, hiện icon 📝 cạnh dòng, hover xem nội dung.
-3. **Tap-to-define dictionary** — double-click 1 từ → popup nghĩa Việt + phát âm (dùng `GlobalSuperDictionary` đã có) + nút "Lưu vào IELTS Vocab Bank".
-4. **Line focus ruler** — toggle thanh ngang highlight dòng đang đọc (theo chuột) — hỗ trợ chứng khó tập trung.
-5. **Mark for review** — đánh dấu câu hỏi để quay lại (đã có "Submit" — thêm cờ 🚩 trên từng câu).
-6. **Strike-through đáp án** — gạch bỏ đáp án loại trừ (right-click hoặc nút nhỏ).
-
-### Hỗ trợ AI (Perplexity sonar — dùng edge function có sẵn)
-7. **"Giải thích vì sao"** sau khi nộp — bấm vào câu sai để Mr. Hai phân tích keyword định vị trong passage.
-8. **Paraphrase helper** — chọn 1 cụm từ trong passage → AI gợi 2-3 cách diễn đạt khác (luyện synonym).
-
-### Trải nghiệm & gamification
-9. **Reading speed tracker** — hiển thị wpm thực tế khi nộp bài, so với mục tiêu Band (250 wpm cho 7.0).
-10. **Auto-save progress** — đang làm dở, refresh vẫn còn (đáp án + highlight + thời gian).
-11. **Font size & line-height slider** + chế độ Dyslexia-friendly font (đã có paper themes, mở rộng).
-
-## 3. Phạm vi đợt này (sẽ làm sau khi user chốt)
-
-**Bắt buộc:**
-- Sửa z-index/visibility ChatBot trên trang Reading Practice (theo phương án chọn).
-
-**Đề xuất gói "Reader Toolkit v1"** (gọn, ~1 turn):
-- Highlight đa màu + xoá
-- Tap-to-define dictionary
-- Mark for review 🚩
-- Strike-through đáp án
-- Auto-save (đáp án + highlight)
-
-**Gói "AI v2"** (turn sau):
-- Giải thích câu sai (Perplexity)
-- Paraphrase helper
-- Reading speed tracker
-
-## 4. Câu hỏi cho bạn trước khi build
-
-1. Chatbot: chọn **A (luôn hiện)**, **B (ẩn lúc timed, có nút trên header)**, hay **C (ẩn khi timer chạy)**?
-2. Build gói **Toolkit v1** trước, hay làm full luôn cả AI v2 trong turn này?
-3. Có muốn highlight/note đồng bộ Supabase (theo user) hay chỉ localStorage là đủ?
-
-## Chi tiết kỹ thuật
-
-- File chính: `src/pages/IeltsReadingPractice.tsx` (1095 dòng, có 2 overlay `z-[60]` ở dòng 370 & 736 cho 2 chế độ Timed/Free).
-- ChatBot: nâng class lên `z-[70]` hoặc dùng `useLocation()` + state để ẩn theo route + ref.
-- Highlight: dùng `window.getSelection()` + `Range` → wrap span class `bg-yellow-200/60`. Lưu range bằng XPath/offset, key theo `passageId`.
-- Dictionary: tái dùng `GlobalSuperDictionary` (đã global mount), trigger qua custom event `window.dispatchEvent(new CustomEvent('open-dict', { detail: { word }}))`.
-- Auto-save: `localStorage` key `ielts-reading-progress::{passageId}`, debounce 800ms.
-- AI explain: gọi edge function Perplexity `sonar-pro` mới `explain-ielts-reading` (turn sau).
+## Câu hỏi cho bạn
+1. Làm **đợt nào trước**? Khuyến nghị Đợt A (giá trị cao nhất, ít rủi ro).
+2. Full Test 40 câu: tạo **bộ mới** (curated) hay **tự ghép ngẫu nhiên** từ pool sẵn có?
+3. Đa giọng Anh: dùng **Web Speech API** miễn phí (giọng phụ thuộc browser) hay tích hợp **ElevenLabs/Google Cloud TTS** (chất lượng cao, tốn $)?
+4. Có muốn **đồng bộ tiến độ qua Supabase** (yêu cầu login) hay **chỉ localStorage** là đủ?
