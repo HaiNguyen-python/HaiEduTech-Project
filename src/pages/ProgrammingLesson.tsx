@@ -722,8 +722,8 @@ const ProgrammingLessonPage = () => {
                                   duration: 6000,
                                 });
                               }
-                            } catch (e) {
-                              console.error("Badge award failed", e);
+                            } catch {
+                              // Non-blocking: badge award failure shouldn't break quiz flow
                             }
                           }
                         }
