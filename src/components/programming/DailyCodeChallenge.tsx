@@ -139,7 +139,7 @@ const DailyCodeChallenge = () => {
             </button>
           )}
           <Link
-            to={`/python-challenge/${challenge.id}`}
+            to={`/python-challenges/${challenge.id}`}
             onClick={handleStart}
             className="px-4 py-2 rounded-lg text-sm font-bold bg-gradient-to-r from-orange-500 to-red-600 text-white hover:brightness-110 active:scale-95 transition-all shadow-md inline-flex items-center gap-1.5"
             aria-label={t("Bắt đầu thử thách hôm nay", "Start today's challenge")}
