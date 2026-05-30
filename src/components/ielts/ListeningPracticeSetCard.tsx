@@ -787,12 +787,30 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
             </Button>
           ) : (
             <>
-              <div className="flex items-center gap-3 flex-1 min-w-[200px]">
+              <div className="flex items-center gap-3 flex-1 min-w-[200px] flex-wrap">
                 <span className="text-sm font-semibold whitespace-nowrap">
                   {t("Điểm", "Score")}: {score}/{s.questions.length}
                 </span>
-                <Progress value={percent} className="h-2 flex-1 max-w-xs" />
+                <Progress value={percent} className="h-2 flex-1 max-w-xs min-w-[120px]" />
                 <span className="text-sm font-bold text-primary">{percent}%</span>
+                {s.questions.length >= 5 && (
+                  <span
+                    className={cn(
+                      "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-bold border",
+                      bandColor(band),
+                      "border-current bg-current/5"
+                    )}
+                    title={t(
+                      "Quy đổi theo bảng IELTS chính thức (chuẩn hoá về thang 40 câu)",
+                      "Estimated from official IELTS band chart (normalized to 40 questions)"
+                    )}
+                  >
+                    📊 {t("Band ước tính", "Est. Band")}: {band.toFixed(1)}
+                  </span>
+                )}
+                <span className="inline-flex items-center gap-1 text-[10px] text-muted-foreground">
+                  <Save className="w-3 h-3" /> {t("Đã tự lưu", "Auto-saved")}
+                </span>
               </div>
               <Button onClick={handleReset} variant="outline" className="gap-2">
                 <RotateCcw className="w-4 h-4" /> {t("Làm lại", "Try again")}
