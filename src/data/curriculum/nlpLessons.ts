@@ -106,7 +106,22 @@ That entire flow is NLP. We will build simplified versions of every step in this
 
 ## 7. Key Concept
 
-> 🎯 **Key Concept** - NLP turns **unstructured text** (human messy language) into **structured signals** (numbers, labels, vectors) that downstream code can act on. Every NLP system is some variant of *text → tokens → vectors → model → answer*.`,
+> 🎯 **Key Concept** - NLP turns **unstructured text** (human messy language) into **structured signals** (numbers, labels, vectors) that downstream code can act on. Every NLP system is some variant of *text → tokens → vectors → model → answer*.
+
+## 8. Common pitfalls & pro tips
+
+| Pitfall | Why it hurts | Pro tip |
+|---------|--------------|---------|
+| Testing only on English | System silently fails on Vietnamese / Chinese / Finnish users | Always include 1 non-Latin language in your test set |
+| Ignoring Unicode normalisation | "café" vs "café" (NFC vs NFD) become different tokens | Run \`unicodedata.normalize("NFC", text)\` as step zero |
+| Throwing away punctuation too early | "Let's eat, Grandma" vs "Let's eat Grandma" - the comma is the model | Keep punctuation until you know it does not help the task |
+| Lowercasing blindly | "US" (country) becomes "us" (pronoun) | Case-sensitive NER; lowercase only for topic models |
+| Confusing *accuracy* with *usefulness* | 95% accuracy can still ship 50 wrong answers per 1000 users | Track precision / recall **per class**, not just overall accuracy |
+| Building rules forever | Rules grow into an unmaintainable jungle by month 3 | Switch to ML once you have > 500 labelled examples |
+
+## 9. Career signals
+
+Recruiters scanning your CV for NLP roles look for *four* signals: (1) you can clean dirty multilingual text, (2) you understand both classical (TF-IDF, SVM) **and** modern (Transformer, RAG) stacks, (3) you can evaluate models with the right metric for the task, and (4) you have shipped at least one end-to-end project where text became a useful action (a label, a translation, an answer). This module is designed so that by Lesson 6 you can claim all four.`,
         theoryEn: "",
         code: `# A 60-second taste of NLP using only the Python standard library.
 # We classify a movie review as positive / negative using a hand-crafted lexicon.
@@ -264,7 +279,35 @@ Both reduce *running, ran, runs* to the root *run*. The difference matters:
 
 ## 7. Key Concept
 
-> 🎯 **Key Concept** - Preprocessing is **task-dependent and language-dependent**. The right pipeline for **English topic classification** is the wrong pipeline for **Finnish translation** or **Chinese sentiment**. Modern subword tokenizers (used by every LLM) sidestep most of these problems by working below the word level.`,
+> 🎯 **Key Concept** - Preprocessing is **task-dependent and language-dependent**. The right pipeline for **English topic classification** is the wrong pipeline for **Finnish translation** or **Chinese sentiment**. Modern subword tokenizers (used by every LLM) sidestep most of these problems by working below the word level.
+
+## 8. Deep dive - Subword tokenization (the trick LLMs use)
+
+Every modern LLM (GPT, Gemini, Claude, BERT) sidesteps "what is a word?" by splitting text into **subwords** with one of three algorithms:
+
+| Algorithm | Used by | Idea in one line |
+|-----------|---------|------------------|
+| **BPE** (Byte-Pair Encoding) | GPT-2/3/4, RoBERTa | Start from characters, greedily merge the most frequent adjacent pair until vocab is full |
+| **WordPiece** | BERT | Like BPE but merges by likelihood gain, not raw frequency |
+| **SentencePiece / Unigram** | T5, mBART, Gemini | Train a probabilistic model that picks the most likely segmentation per sentence |
+
+Concrete example for Finnish *"taloissanikin"* (= "in my houses too"):
+- Naive whitespace tokenizer → 1 token, model has never seen it → unknown.
+- BPE (30k vocab) → \`["talo", "issa", "ni", "kin"]\` → 4 known subwords → model generalises.
+- This is **the** reason a single multilingual model can handle Finnish, Chinese, and Vietnamese without language-specific code.
+
+## 9. Common pitfalls & pro tips
+
+| Pitfall | Why it hurts | Pro tip |
+|---------|--------------|---------|
+| Lowercasing then doing NER | "Apple" (company) vs "apple" (fruit) collapse | Lowercase only for topic / sentiment, never for NER |
+| Removing stopwords for sentiment | "not good" → "good" - opposite meaning! | Keep negations and intensifiers; drop stopwords only for topic models |
+| Stemming Vietnamese / Chinese | These languages have no inflection - stemming destroys meaning | Only stem morphologically rich languages (EN, FI, ES, DE) |
+| Tokenizing Chinese with spaces | Chinese has no spaces - whitespace split gives 1 huge token | Use **jieba** (or BPE) for CJK languages |
+| Treating emoji as garbage | 😍 is the strongest sentiment signal in social media | Map emoji → text label *before* the cleaner strips them |
+| Not normalising Unicode | "ñ" can be 1 or 2 code points - silently breaks lookups | \`unicodedata.normalize("NFC", text)\` as step one |
+
+> 💼 **Production tip** - Save the **exact** preprocessing function with the model (pickle + version tag). Inference-time skew between training and serving is the #1 silent killer of NLP systems.`,
         theoryEn: "",
         code: `# A multilingual preprocessing pipeline using NLTK + a tiny demo of jieba (Chinese).
 # Install (run once in a notebook):  pip install nltk jieba
@@ -442,7 +485,49 @@ The Global Search bar (Cmd/Ctrl+K) on this very site uses TF-IDF + cosine simila
 
 ## 7. Key Concept
 
-> 🎯 **Key Concept** - Going from **BoW → TF-IDF → embeddings** is a journey from *counting words* to *measuring meaning*. Modern systems still use all three: TF-IDF for fast filtering, embeddings for ranking, LLMs for generation.`,
+> 🎯 **Key Concept** - Going from **BoW → TF-IDF → embeddings** is a journey from *counting words* to *measuring meaning*. Modern systems still use all three: TF-IDF for fast filtering, embeddings for ranking, LLMs for generation.
+
+## 8. Deep dive - How embeddings actually learn meaning
+
+Word2Vec's training trick is brutally simple but mathematically deep. Two flavours:
+
+| Variant | Input → Output | Intuition |
+|---------|----------------|-----------|
+| **CBOW** (Continuous Bag of Words) | Context words → centre word | "Predict the missing word from its neighbours" |
+| **Skip-gram** | Centre word → context words | "Predict the neighbours from the centre word" - works better on small data |
+
+Both push vectors of words that share contexts **closer together** in the latent space. After training on billions of sentences, geometric relations emerge for free:
+
+\`\`\`
+vec("king") - vec("man") + vec("woman") ≈ vec("queen")
+vec("Paris") - vec("France") + vec("Vietnam") ≈ vec("Hanoi")
+vec("walked") - vec("walking") + vec("swimming") ≈ vec("swam")
+\`\`\`
+
+Modern *contextual* embeddings (BERT, sentence-transformers) go one step further: the same word gets a *different* vector depending on its sentence. "bank" in *"river bank"* and *"bank account"* are now far apart - a critical fix for disambiguation.
+
+## 9. Vector search at scale - the 2026 stack
+
+Once you have embeddings, you need to search millions of vectors in milliseconds:
+
+| Tool | Best for | Notes |
+|------|----------|-------|
+| **FAISS** (Facebook) | In-process, single-machine, billions of vectors | Free, fastest, no server |
+| **pgvector** (Postgres) | You already have Postgres + < 10M vectors | Used by HaiEduTech for lesson search |
+| **Pinecone / Weaviate / Qdrant** | Managed, multi-tenant, hybrid search | Pay-per-use, batteries included |
+| **Chroma / LanceDB** | Local prototyping, RAG demos | Single-file, embedded |
+
+All of them use **ANN (Approximate Nearest Neighbour)** indexes - HNSW, IVF, or PQ - that trade < 1% accuracy for 1000× speedup vs brute force.
+
+## 10. Common pitfalls & pro tips
+
+| Pitfall | Why it hurts | Pro tip |
+|---------|--------------|---------|
+| Comparing embeddings from different models | Vectors live in different spaces - cosine is meaningless | Pick **one** embedding model per index, version it |
+| Forgetting to L2-normalise | Cosine vs dot product give different rankings | Normalise once at insert time, then dot product = cosine |
+| Embedding very long documents whole | One vector for 10k words averages meaning to mush | Chunk by paragraph (200-500 tokens) before embedding |
+| Storing embeddings as float64 | 4× the RAM for no quality gain | Use float32 or even int8 quantisation |
+| Re-training Word2Vec from scratch | Wastes weeks; pre-trained vectors are nearly always better | Start from GloVe / fastText / OpenAI / Cohere embeddings |`,
         theoryEn: "",
         code: `# Compare BoW, TF-IDF, and a small Word2Vec embedding on 4 mini-documents.
 # pip install scikit-learn gensim
@@ -603,7 +688,45 @@ Teacher Hai then knows *exactly* which lesson to revise - closing the human-in-t
 
 ## 7. Key Concept
 
-> 🎯 **Key Concept** - Sentiment analysis is **supervised classification** on text. The pipeline is always *clean → vectorise → train → evaluate*. The huge leaps (lexicon → ML → BERT → LLM) are about *which vector you use* and *which model consumes it*. The framework stays the same.`,
+> 🎯 **Key Concept** - Sentiment analysis is **supervised classification** on text. The pipeline is always *clean → vectorise → train → evaluate*. The huge leaps (lexicon → ML → BERT → LLM) are about *which vector you use* and *which model consumes it*. The framework stays the same.
+
+## 8. Beyond binary - real-world sentiment tasks
+
+| Task | Output | Example |
+|------|--------|---------|
+| **Binary** | pos / neg | Movie review thumbs up |
+| **Fine-grained** | 1-5 stars | Amazon product rating |
+| **Aspect-based (ABSA)** | (aspect, sentiment) pairs | "Battery is great but screen is dim" → {battery: +, screen: -} |
+| **Emotion** | joy / anger / fear / sadness / surprise | Customer support triage |
+| **Stance** | for / against / neutral on a target | Political tweets about a policy |
+| **Sarcasm / irony** | sarcastic? yes / no | "Great, another Monday." |
+
+Most production systems combine **two or three** of these (e.g. fine-grained + aspect) to actually help product teams.
+
+## 9. Evaluation done right
+
+Accuracy alone lies. For a 95% positive / 5% negative dataset, a model that always predicts "positive" gets 95% accuracy and is useless.
+
+| Metric | What it measures | When it matters |
+|--------|------------------|-----------------|
+| **Precision** | Of predicted negatives, how many are truly negative | Spam filter (false positives annoy users) |
+| **Recall** | Of true negatives, how many we caught | Fraud / toxicity (missing one is expensive) |
+| **F1** | Harmonic mean of P & R | Default when classes are imbalanced |
+| **Macro-F1** | F1 averaged across classes (no weighting) | Forces the model to do well on the rare class |
+| **Confusion matrix** | Per-class breakdown | Always inspect before shipping |
+
+> 💡 **Rule of thumb** - If your classes are imbalanced > 70/30, report **macro-F1** and **per-class recall**, not accuracy.
+
+## 10. Common pitfalls & pro tips
+
+| Pitfall | Why it hurts | Pro tip |
+|---------|--------------|---------|
+| Removing "not" as a stopword | Flips sentiment silently | Keep negations or use n-grams (bigrams capture "not good") |
+| Training & test from same source | Inflated accuracy that collapses in production | Hold out a *different* domain (e.g. train on Amazon, test on Twitter) |
+| One model for every language | Sentiment lexicons do not translate | Use multilingual models (XLM-R) or one model per language |
+| Ignoring class imbalance | Model collapses to majority class | Class weights, oversampling (SMOTE), or focal loss |
+| Treating 1-star ≈ 2-star | They are very different - 1-star usually = anger, 2-star = disappointment | Use ordinal regression or rank loss |
+| Skipping human spot-check | Metrics hide systematic errors | Read 50 random model predictions weekly |`,
         theoryEn: "",
         code: `# Train a real sentiment classifier on a tiny dataset of HaiEduTech-style reviews.
 # pip install scikit-learn pandas
@@ -781,7 +904,53 @@ When you start typing "good mor…", your phone suggests "morning". That suggest
 
 ## 7. Key Concept
 
-> 🎯 **Key Concept** - RNNs and LSTMs were the workhorse of NLP from 2014-2017. They process tokens **sequentially**, carrying a hidden state forward. **LSTMs add gates** to fight vanishing gradients and remember longer context. They are still excellent for small, low-latency on-device tasks, but Transformers (Lesson 6) won the cloud.`,
+> 🎯 **Key Concept** - RNNs and LSTMs were the workhorse of NLP from 2014-2017. They process tokens **sequentially**, carrying a hidden state forward. **LSTMs add gates** to fight vanishing gradients and remember longer context. They are still excellent for small, low-latency on-device tasks, but Transformers (Lesson 6) won the cloud.
+
+## 8. Inside the LSTM cell - the 3 gates demystified
+
+Each LSTM step receives the previous hidden state \`h\`, previous cell memory \`C\`, and the new token \`x\`. Three sigmoid-controlled gates decide what to do:
+
+| Gate | Question it answers | Output if = 0 | Output if = 1 |
+|------|----------------------|---------------|----------------|
+| **Forget** \`f\` | What should I erase from memory? | Wipe everything | Keep all of it |
+| **Input** \`i\` | What new info should I store? | Ignore the new token | Fully absorb it |
+| **Output** \`o\` | What should I expose as hidden state? | Hide everything | Reveal the full cell |
+
+\`\`\`text
+new_cell    = f * old_cell  +  i * candidate
+new_hidden  = o * tanh(new_cell)
+\`\`\`
+
+The **cell state** \`C\` is a "conveyor belt" that runs the length of the sequence with only mild linear changes - that is the trick that defeats vanishing gradients.
+
+## 9. RNN family - which one when?
+
+| Model | Year | Wins | Loses |
+|-------|------|------|-------|
+| **Vanilla RNN** | 1986 | Tiny, fast | Vanishing gradients past ~10 tokens |
+| **LSTM** | 1997 | Long memory, stable | 4× params per cell, sequential = slow |
+| **GRU** | 2014 | 75% LSTM quality at 2 gates | Slightly less expressive on long context |
+| **Bi-LSTM** | 2005+ | Reads left→right *and* right→left | 2× compute, not causal (no streaming) |
+| **Attention + LSTM (seq2seq)** | 2015 | Bridge to Transformers | Still O(n²) on the attention bit |
+| **Transformer** | 2017 | Fully parallel, infinite context (almost) | Quadratic attention cost, needs lots of data |
+
+## 10. When to still pick LSTM in 2026
+
+Transformers win the benchmark race, but LSTMs survive in three niches:
+
+- **On-device / edge** - your model has to fit in 5 MB on a phone keyboard.
+- **Streaming / very long sequences** - real-time speech, log anomaly detection.
+- **Low-data regimes** - fewer than ~5k labelled examples; LSTMs over-fit less than a from-scratch Transformer.
+
+## 11. Common pitfalls & pro tips
+
+| Pitfall | Why it hurts | Pro tip |
+|---------|--------------|---------|
+| Forgetting to pad + mask | Padding tokens leak into the loss | Use \`pack_padded_sequence\` (PyTorch) or attention masks |
+| Mixing batch-first and seq-first | Silent shape bugs that look like bad accuracy | Pick one convention per repo and stick to it |
+| No gradient clipping | Loss explodes after a few hundred steps | \`torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)\` |
+| Sampling with temperature = 1 forever | Output gets repetitive or chaotic | Use temperature 0.7-0.9 + top-k or nucleus sampling |
+| Training on raw text every epoch | Tokeniser dominates wall time | Pre-tokenise once and cache to disk |`,
         theoryEn: "",
         code: `# A character-level LSTM that learns to continue a sentence.
 # We train on a tiny corpus and let the model 'dream' the next 100 characters.
@@ -984,7 +1153,63 @@ Earn the **🎓 Linguistics Architect** badge by completing this capstone.
 
 ## 8. Key Concept
 
-> 🎯 **Key Concept** - The Transformer's superpower is **parallel self-attention**: every token attends to every other token in one shot. Pre-train once on the internet, fine-tune on your tiny dataset, or just **prompt** the model. This pattern (BERT → GPT → ChatGPT → Gemini → Claude) is the entire roadmap of NLP from 2018 to 2026.`,
+> 🎯 **Key Concept** - The Transformer's superpower is **parallel self-attention**: every token attends to every other token in one shot. Pre-train once on the internet, fine-tune on your tiny dataset, or just **prompt** the model. This pattern (BERT → GPT → ChatGPT → Gemini → Claude) is the entire roadmap of NLP from 2018 to 2026.
+
+## 8. Self-attention in one paragraph
+
+For every token, the model builds three vectors: **Query (Q)**, **Key (K)**, **Value (V)**. The new representation of a token is a weighted sum of every other token's V, where the weight is \`softmax(Q · K^T / √d)\`. That single formula replaces recurrence: every position sees every other position **in one matrix multiply**, perfectly parallel on a GPU.
+
+\`\`\`text
+Attention(Q, K, V) = softmax( Q · K^T / sqrt(d_k) ) · V
+\`\`\`
+
+Stack multiple "heads" of this in parallel (each learning a different relation - syntax, coreference, topic) and you have **multi-head attention**, the core of every Transformer block.
+
+## 9. Three families of Transformers - pick the right tool
+
+| Family | Examples | Strength | Use case |
+|--------|----------|----------|----------|
+| **Encoder-only** | BERT, RoBERTa, DeBERTa | Reads bidirectionally, great representations | Classification, NER, sentence embeddings, search |
+| **Decoder-only** | GPT-4, Gemini, Claude, Llama | Autoregressive generation | Chatbots, code, content writing |
+| **Encoder-decoder** | T5, mBART, BART | Conditioned generation | Translation, summarisation, query → SQL |
+
+## 10. The 2026 adaptation toolkit
+
+You almost never train a Transformer from scratch. Instead pick the cheapest method that solves the problem:
+
+| Technique | Cost | When to use |
+|-----------|------|-------------|
+| **Zero-shot prompting** | $ | Quick MVP, no labels |
+| **Few-shot prompting** | $ | 5-20 examples fit in the prompt |
+| **RAG (Retrieval Augmented Generation)** | $$ | You have a knowledge base that changes weekly |
+| **LoRA / QLoRA fine-tuning** | $$$ | 500-50k labelled examples, need consistent style |
+| **Full fine-tuning** | $$$$ | > 100k examples, domain very different from internet text |
+| **Train from scratch** | $$$$$ | You are a foundation model lab, not us |
+
+> 🚀 **HaiEduTech reality check** - 90% of the AI features on this site are *prompting + RAG* over Gemini / Perplexity. We fine-tune only when prompting plateaus.
+
+## 11. Common pitfalls & pro tips
+
+| Pitfall | Why it hurts | Pro tip |
+|---------|--------------|---------|
+| Fine-tuning when a prompt would do | 100× the cost for no quality gain | Always try zero-shot + few-shot first |
+| Ignoring context window | Silent truncation = the answer the model "missed" was clipped | Log token counts; chunk + summarise long inputs |
+| No system prompt | Model drifts in tone & format across turns | Pin role, constraints, and output schema in a versioned system prompt |
+| Treating LLM output as a function call | Models hallucinate JSON keys | Validate with Zod / Pydantic and retry with the error message |
+| Building one giant prompt | Hard to debug, hard to A/B test | Break into composable stages (router → retriever → answerer → verifier) |
+| Forgetting eval | "It feels better" is not progress | Maintain a golden set of 50-200 prompts and re-run every change |
+
+## 12. Capstone challenge - put it all together
+
+Build a *Finnish-to-English lesson-review sentiment analyser*:
+
+1. **Preprocess** (Lesson 2) - normalise Unicode, segment with sentencepiece.
+2. **Embed** (Lesson 3) - use a multilingual sentence-transformer.
+3. **Classify** (Lesson 4) - logistic regression on embeddings as a strong baseline.
+4. **Sequence model** (Lesson 5) - swap in a BiLSTM and compare.
+5. **Transformer** (this lesson) - prompt Gemini with 3 few-shot examples and grade with macro-F1.
+
+Ship the winner behind a Supabase edge function and you have shipped a real NLP product end-to-end.`,
         theoryEn: "",
         code: `# Three lines of modern NLP - fine-tune-free, multilingual, 2026-style.
 # pip install transformers torch

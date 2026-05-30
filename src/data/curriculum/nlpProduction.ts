@@ -1,7 +1,7 @@
 import type { ExtendedProgrammingModule } from "./types";
 
 /**
- * NLP Production & Modern LLMs (2026) — extra lessons that complement
+ * NLP Production & Modern LLMs (2026) - extra lessons that complement
  * nlpLessons.ts and nlpExpansion.ts. Heavy on ASCII diagrams, tables, and
  * visual analogies so the concepts are easy to grasp without external images.
  */
@@ -20,8 +20,8 @@ export const nlpProductionModules: ExtendedProgrammingModule[] = [
     lessons: [
       {
         id: "nlp-13",
-        title: "RAG — Retrieval-Augmented Generation từ A→Z",
-        titleEn: "RAG — Retrieval-Augmented Generation End-to-End",
+        title: "RAG - Retrieval-Augmented Generation từ A→Z",
+        titleEn: "RAG - Retrieval-Augmented Generation End-to-End",
         level: 4,
         difficulty: "advanced",
         theory: `## 1. 🧠 Vì sao cần RAG?
@@ -62,7 +62,7 @@ LLM (GPT, Gemini, Llama) bị **2 căn bệnh kinh điển**:
                           ✅ Câu trả lời
 \`\`\`
 
-## 3. ✂️ Chunking — chia tài liệu thành miếng
+## 3. ✂️ Chunking - chia tài liệu thành miếng
 
 | Chiến lược | Cách làm | Khi dùng |
 |------------|----------|----------|
@@ -73,7 +73,7 @@ LLM (GPT, Gemini, Llama) bị **2 căn bệnh kinh điển**:
 
 **Overlap 10–20%** giữa các chunk để không cắt mất ngữ cảnh.
 
-## 4. 📐 Vector similarity — tại sao dùng cosine?
+## 4. 📐 Vector similarity - tại sao dùng cosine?
 
 \`\`\`
    query  ●─────────►
@@ -105,7 +105,7 @@ docs = [
 ]
 
 def fake_embed(text: str) -> np.ndarray:
-    # demo: vector từ tần suất chữ cái — thật thì dùng OpenAI / Gemini embedding
+    # demo: vector từ tần suất chữ cái - thật thì dùng OpenAI / Gemini embedding
     v = np.zeros(26)
     for c in text.lower():
         if "a" <= c <= "z":
@@ -159,7 +159,7 @@ print(rag("YKI cần thi mấy kỹ năng?"))`,
 
 ## 2. 🪶 LoRA là gì? (Low-Rank Adaptation)
 
-LLM có **70B tham số** — fine-tune full = đốt tiền. **LoRA** chỉ huấn luyện **2 ma trận nhỏ A, B** chèn cạnh layer gốc:
+LLM có **70B tham số** - fine-tune full = đốt tiền. **LoRA** chỉ huấn luyện **2 ma trận nhỏ A, B** chèn cạnh layer gốc:
 
 \`\`\`
             ┌─────────────┐
@@ -188,7 +188,7 @@ LLM có **70B tham số** — fine-tune full = đốt tiền. **LoRA** chỉ hu�
 
 - **Held-out eval**: 10% dataset không cho thấy lúc train.
 - **Win-rate vs base**: con người (hoặc GPT-judge) chọn câu trả lời nào hay hơn.
-- **Regression check**: bài test cũ vẫn pass — tránh "catastrophic forgetting".
+- **Regression check**: bài test cũ vẫn pass - tránh "catastrophic forgetting".
 
 ## 5. ⚠️ Bẫy
 
@@ -198,9 +198,9 @@ LLM có **70B tham số** — fine-tune full = đốt tiền. **LoRA** chỉ hu�
 `,
         theoryEn: `Decide RAG vs fine-tuning by need: new facts → RAG; new style/format/skill → fine-tune.
 
-LoRA freezes the base model and trains tiny rank-r matrices (A,B) inserted beside each linear layer — only ~0.1% of params, 100–1000× cheaper. Pipeline (PEFT): curate ≥500 instruction/output samples → load base → LoraConfig(r=8) → Trainer → save 50MB adapter. Evaluate with held-out set, win-rate vs base, and regression checks to avoid catastrophic forgetting.`,
+LoRA freezes the base model and trains tiny rank-r matrices (A,B) inserted beside each linear layer - only ~0.1% of params, 100–1000× cheaper. Pipeline (PEFT): curate ≥500 instruction/output samples → load base → LoraConfig(r=8) → Trainer → save 50MB adapter. Evaluate with held-out set, win-rate vs base, and regression checks to avoid catastrophic forgetting.`,
         code: `# Skeleton fine-tune LoRA với HuggingFace PEFT
-# (chỉ minh hoạ — chạy thật cần GPU)
+# (chỉ minh hoạ - chạy thật cần GPU)
 from typing import List, Dict
 
 def build_dataset() -> List[Dict]:
@@ -235,7 +235,7 @@ print(f"~Chi phí 5,000 samples x 3 epoch = {estimate_cost(5000)} USD")`,
         quiz: [
           { question: "LoRA huấn luyện phần nào của model?", options: ["Toàn bộ weight", "Chỉ 2 ma trận A, B rank thấp chèn vào", "Chỉ embedding", "Chỉ output layer"], answer: 1, explanation: "Freeze W, train A (d×r) và B (r×d) với r nhỏ → tiết kiệm cực lớn." },
           { question: "Khi nào chọn RAG thay vì fine-tune?", options: ["Cần thêm kiến thức mới, cập nhật thường xuyên", "Cần đổi giọng văn", "Cần format JSON tuyệt đối", "Cả 3"], answer: 0, explanation: "Kiến thức mới/đổi nhanh → RAG. Style/format ổn định → fine-tune." },
-          { question: "Catastrophic forgetting là gì?", options: ["Server quên dữ liệu", "Model mất kỹ năng cũ sau khi học kỹ năng mới", "Tokenizer hỏng", "GPU hết RAM"], answer: 1, explanation: "Fine-tune quá đà làm trôi kiến thức tiền-training — nên giữ regression test." },
+          { question: "Catastrophic forgetting là gì?", options: ["Server quên dữ liệu", "Model mất kỹ năng cũ sau khi học kỹ năng mới", "Tokenizer hỏng", "GPU hết RAM"], answer: 1, explanation: "Fine-tune quá đà làm trôi kiến thức tiền-training - nên giữ regression test." },
           { question: "Vì sao LoRA tiết kiệm GPU?", options: ["Tắt forward pass", "Chỉ ~0.1% param cần gradient nên optimizer state nhỏ", "Dùng CPU", "Không cần dataset"], answer: 1, explanation: "Memory cho optimizer (Adam) ~ số param trainable → giảm 100×–1000×." },
           { question: "Win-rate vs base nghĩa là?", options: ["Tỉ lệ trận thắng game", "% lần con người/GPT-judge chọn output của model mới hay hơn base", "Tốc độ inference", "Số token sinh ra"], answer: 1, explanation: "So sánh trực tiếp output để đo cải thiện thực." },
         ],
@@ -273,7 +273,7 @@ LLM không có \`accuracy\` duy nhất như classifier. Phải đo **nhiều chi
 
 **Mẹo**: đảo vị trí A/B để khử position bias; cho rubric rõ ràng.
 
-## 3. 🛡️ Guardrails — 4 lớp bảo vệ
+## 3. 🛡️ Guardrails - 4 lớp bảo vệ
 
 \`\`\`
    User ▶ ┌──────────────┐ ▶ ┌─────────┐ ▶ ┌──────────────┐ ▶ User
@@ -307,7 +307,7 @@ LLM không có \`accuracy\` duy nhất như classifier. Phải đo **nhiều chi
 `,
         theoryEn: `LLMs need multi-axis evaluation: accuracy (exact/F1), quality (LLM-as-judge), truthfulness (TruthfulQA), safety (toxicity), and speed/cost.
 
-LLM-as-judge: a stronger LLM ranks A vs B with a rubric — swap positions to kill position bias. Guardrails = 4 layers: input filter (PII, jailbreak) → system prompt → output filter → logs/monitor.
+LLM-as-judge: a stronger LLM ranks A vs B with a rubric - swap positions to kill position bias. Guardrails = 4 layers: input filter (PII, jailbreak) → system prompt → output filter → logs/monitor.
 
 Release checklist: golden set 100–500 prompts, A/B win-rate vs old, regression ≥95%, 0 safety leaks. Watch out for Goodhart's law, judge bias toward long answers, and train-test leakage.`,
         code: `# LLM-as-judge tối giản
@@ -346,11 +346,11 @@ for q in questions:
 print(results)`,
         codeLanguage: "python",
         exercise:
-          "Thêm guardrail chặn input chứa số 16 chữ số (thẻ tín dụng) — trả lời 'Tôi không xử lý dữ liệu nhạy cảm.'",
+          "Thêm guardrail chặn input chứa số 16 chữ số (thẻ tín dụng) - trả lời 'Tôi không xử lý dữ liệu nhạy cảm.'",
         exerciseEn:
-          "Add a guardrail blocking inputs that contain a 16-digit number (credit card) — reply 'I cannot process sensitive data.'",
+          "Add a guardrail blocking inputs that contain a 16-digit number (credit card) - reply 'I cannot process sensitive data.'",
         quiz: [
-          { question: "Vì sao phải đảo vị trí A/B khi dùng LLM-as-judge?", options: ["Cho vui", "Khử position bias", "Tiết kiệm token", "Tăng tốc"], answer: 1, explanation: "Judge có thể thiên vị vị trí đầu/cuối — đảo và lấy trung bình." },
+          { question: "Vì sao phải đảo vị trí A/B khi dùng LLM-as-judge?", options: ["Cho vui", "Khử position bias", "Tiết kiệm token", "Tăng tốc"], answer: 1, explanation: "Judge có thể thiên vị vị trí đầu/cuối - đảo và lấy trung bình." },
           { question: "Guardrail lớp 1 (input filter) chủ yếu để?", options: ["Tăng tốc LLM", "Chặn PII và jailbreak nổi tiếng trước khi vào model", "Đẹp UI", "Giảm $"], answer: 1, explanation: "Lớp đầu chặn dữ liệu nhạy cảm và prompt nguy hiểm." },
           { question: "Goodhart's Law cảnh báo điều gì?", options: ["Code chậm dần", "Khi metric trở thành mục tiêu, nó không còn là metric tốt", "GPU nóng", "LLM hết token"], answer: 1, explanation: "Tối ưu thẳng vào metric dễ làm hỏng chất lượng thật → cần human spot-check." },
           { question: "Regression check trong release LLM nghĩa là?", options: ["Test ML regression", "Bài test cũ vẫn pass sau khi ra version mới", "Hồi quy tuyến tính", "Test thoái lui người dùng"], answer: 1, explanation: "Đảm bảo version mới không phá kỹ năng cũ." },

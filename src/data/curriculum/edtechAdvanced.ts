@@ -1,7 +1,7 @@
 import type { ExtendedProgrammingModule } from "./types";
 
 /**
- * EdTech Advanced — practitioner-grade reinforcement module covering the
+ * EdTech Advanced - practitioner-grade reinforcement module covering the
  * algorithms and product systems that power modern learning platforms
  * (including HaiEduTech itself): Spaced Repetition (SM-2/FSRS),
  * adaptive difficulty (IRT + bandits), AI Tutors (RAG over curriculum),
@@ -13,20 +13,20 @@ import type { ExtendedProgrammingModule } from "./types";
 export const edtechAdvancedModules: ExtendedProgrammingModule[] = [
   {
     id: "edtech-advanced-2026",
-    title: "EdTech Nâng cao (2026) — Thuật toán đứng sau nền tảng học",
-    titleEn: "Advanced EdTech (2026) — The Algorithms Behind Learning Platforms",
+    title: "EdTech Nâng cao (2026) - Thuật toán đứng sau nền tảng học",
+    titleEn: "Advanced EdTech (2026) - The Algorithms Behind Learning Platforms",
     icon: "🎓",
     color: "from-pink-500 to-rose-600",
     description:
       "4 bài chuyên sâu: Spaced Repetition (SM-2/FSRS), adaptive difficulty (IRT + bandits), AI Tutor RAG, và auto-grading đáng tin cậy. Đây chính là stack HaiEduTech.",
     descriptionEn:
-      "4 deep lessons: Spaced Repetition (SM-2/FSRS), adaptive difficulty (IRT + bandits), AI Tutor RAG, and trustworthy auto-grading — the very stack powering HaiEduTech.",
+      "4 deep lessons: Spaced Repetition (SM-2/FSRS), adaptive difficulty (IRT + bandits), AI Tutor RAG, and trustworthy auto-grading - the very stack powering HaiEduTech.",
     course: "edtech",
     lessons: [
       {
         id: "edtech-adv-1",
-        title: "Spaced Repetition — SM-2 và FSRS giải mã",
-        titleEn: "Spaced Repetition — SM-2 and FSRS Decoded",
+        title: "Spaced Repetition - SM-2 và FSRS giải mã",
+        titleEn: "Spaced Repetition - SM-2 and FSRS Decoded",
         level: 3,
         difficulty: "intermediate",
         theory: `![Ebbinghaus forgetting curve and spaced repetition](/lesson-illustrations/edtech-spaced-repetition.jpg)
@@ -107,12 +107,12 @@ Quy tắc:
 - Để target retention 99% → review quá nhiều, user bỏ. 85–90% là điểm cân bằng.
 - Trộn thẻ "mới" và "tới hạn" sai tỷ lệ → user choáng. Quy tắc: ≤ 20 thẻ mới/ngày cho người mới.
 
-## ✨ Nâng cấp 2026 — SRS hiện đại
+## ✨ Nâng cấp 2026 - SRS hiện đại
 
 - **FSRS-5** (open-source, dùng trong Anki từ 2024) đã đánh bại SM-2 và Anki cổ điển: giảm 20-30% số lượt ôn cho cùng tỉ lệ nhớ.
 - **Half-life regression** (Duolingo) ước tính trực tiếp "khi nào người học quên" → phù hợp với app có nhiều data hơn cá nhân.
-- **Adaptive interval theo từng item**: từ "cake" dễ hơn "ubiquitous" — đừng để chung curve. FSRS chấm "difficulty 1-10" cho từng item dựa lịch sử nhớ.
-- **Tip thực hành cho HaiEduTech**: kết hợp SRS với **interleaving** (xen chủ đề) — tăng long-term retention thêm 15-25% so với block practice.
+- **Adaptive interval theo từng item**: từ "cake" dễ hơn "ubiquitous" - đừng để chung curve. FSRS chấm "difficulty 1-10" cho từng item dựa lịch sử nhớ.
+- **Tip thực hành cho HaiEduTech**: kết hợp SRS với **interleaving** (xen chủ đề) - tăng long-term retention thêm 15-25% so với block practice.
 
 `,
         theoryEn: `Memory decays exponentially (Ebbinghaus). SM-2 (1987) is a heuristic with no per-user parameters that still works. FSRS (2023+) models each card with Difficulty/Stability/Retrievability, schedules from a target retention (typically 85–90%), and beats SM-2 by 20–30% on Anki benchmarks. Always store immutable review logs with the raw rating so you can re-fit your scheduler later.`,
@@ -135,7 +135,7 @@ def sm2(card: Card, q: int) -> Card:
     ef = max(1.3, card.ef + 0.1 - (5 - q) * (0.08 + (5 - q) * 0.02))
     return Card(repetitions=reps, interval=interval, ef=ef)
 
-# Mô phỏng 6 phiên — user nhớ tốt dần
+# Mô phỏng 6 phiên - user nhớ tốt dần
 c = Card()
 for q in [3, 4, 5, 5, 4, 5]:
     c = sm2(c, q)
@@ -146,7 +146,7 @@ for q in [3, 4, 5, 5, 4, 5]:
         exerciseEn:
           "Write fsrs_next_interval(stability, target_retention=0.9) returning the days until next review from R = exp(-t/S).",
         quiz: [
-          { question: "Tại sao R≈0.85 thường là 'sweet spot' để ôn?", options: ["Vì đẹp", "Đủ khó để củng cố trí nhớ nhưng chưa quên hẳn", "Yêu cầu RLS", "Để spam noti"], answer: 1, explanation: "Ôn quá dễ phí; quá khó cần học lại từ đầu — 0.85 cân bằng." },
+          { question: "Tại sao R≈0.85 thường là 'sweet spot' để ôn?", options: ["Vì đẹp", "Đủ khó để củng cố trí nhớ nhưng chưa quên hẳn", "Yêu cầu RLS", "Để spam noti"], answer: 1, explanation: "Ôn quá dễ phí; quá khó cần học lại từ đầu - 0.85 cân bằng." },
           { question: "FSRS hơn SM-2 ở điểm nào?", options: ["Code ngắn hơn", "Học tham số từ dữ liệu thật, lịch tốt hơn 20–30%", "Không cần review", "Miễn phí hơn"], answer: 1, explanation: "FSRS fit model với log thật → cá nhân hoá hơn heuristic cố định." },
           { question: "Vì sao review log phải immutable?", options: ["Để re-fit thuật toán và audit khi đổi scheduler", "Tiết kiệm RAM", "Bắt buộc bởi GDPR", "Không có lý do"], answer: 0, explanation: "Sửa log = mất nguồn sự thật, không thể re-train hay so sánh model." },
           { question: "Đặt target retention 99% có vấn đề gì?", options: ["Không có", "User phải review quá nhiều → bỏ", "Lưu nhiều dữ liệu hơn", "Latency cao"], answer: 1, explanation: "Hiệu suất học cận biên giảm mạnh; user kiệt sức." },
@@ -155,8 +155,8 @@ for q in [3, 4, 5, 5, 4, 5]:
       },
       {
         id: "edtech-adv-2",
-        title: "Adaptive Difficulty — IRT, mastery và Multi-Armed Bandits",
-        titleEn: "Adaptive Difficulty — IRT, Mastery, and Multi-Armed Bandits",
+        title: "Adaptive Difficulty - IRT, mastery và Multi-Armed Bandits",
+        titleEn: "Adaptive Difficulty - IRT, Mastery, and Multi-Armed Bandits",
         level: 4,
         difficulty: "advanced",
         theory: `![Adaptive learning system overview](/lesson-illustrations/edtech-adaptive-learning.jpg)
@@ -173,7 +173,7 @@ for q in [3, 4, 5, 5, 4, 5]:
        câu cho A: vừa sức A         câu cho B: vừa sức B
 \`\`\`
 
-## 2. 📐 IRT 2PL — Item Response Theory 2 tham số
+## 2. 📐 IRT 2PL - Item Response Theory 2 tham số
 
 Xác suất học sinh trình độ \`θ\` trả lời đúng câu có độ khó \`b\`, độ phân biệt \`a\`:
 
@@ -212,7 +212,7 @@ Một skill được coi là **mastered** khi \`P(correct) ≥ 0.85\` trên N c�
 
 Học sinh chỉ unlock node con khi tất cả node cha đạt mastery.
 
-## 4. 🎰 Multi-Armed Bandits — chọn bài tiếp theo
+## 4. 🎰 Multi-Armed Bandits - chọn bài tiếp theo
 
 Khi có nhiều bài cùng phù hợp, dùng bandit để cân bằng **explore** (thử bài mới có thể hữu ích) vs **exploit** (lặp bài đã biết hiệu quả).
 
@@ -252,7 +252,7 @@ Phần thưởng = Δ mastery sau bài, hoặc engagement (hoàn thành / không
 - Mastery không có thời gian phai → đánh giá sai 1 tháng sau. Kết hợp với spaced repetition (bài trước).
 - Bandit không có \`min_pulls\` → bài mới chưa bao giờ thắng, vĩnh viễn ngủ yên.
 
-## ✨ Nâng cấp 2026 — Adaptive thông minh hơn
+## ✨ Nâng cấp 2026 - Adaptive thông minh hơn
 
 - **2-Parameter IRT** (difficulty + discrimination) vẫn là backbone cho CAT (Computerized Adaptive Testing). Duolingo English Test, GMAT Focus dùng nó.
 - **Multi-Armed Bandits** vs **A/B test**: bandit thắng khi bạn có ≥ 5 variant và muốn tối ưu liên tục. EXP3 cho non-stationary (học sinh thay đổi theo tuần).
@@ -292,14 +292,14 @@ for i, (a, b) in enumerate(items, 1):
           { question: "Vì sao Fisher information cực đại tại b ≈ θ?", options: ["Vì hàm đẹp", "Câu sát trình độ user mang nhiều thông tin nhất để tinh chỉnh θ", "Vì RNG", "Không thật"], answer: 1, explanation: "Đường cong dốc nhất tại b=θ → mỗi đúng/sai cập nhật θ mạnh nhất." },
           { question: "Mastery 0.85 trên N câu liên tiếp giúp?", options: ["Tránh mở khóa nhầm khi user gặp may", "Tăng tốc API", "Bảo mật", "Không có ý nghĩa"], answer: 0, explanation: "Cần bằng chứng đủ lớn, không chỉ 1 câu đúng do may." },
           { question: "Bandit thiếu min_pulls dẫn đến?", options: ["Crash", "Bài mới không có cơ hội cạnh tranh fair → ngủ vĩnh viễn", "Tăng latency", "Không ảnh hưởng"], answer: 1, explanation: "Cold-start problem: cần explore tối thiểu trước khi tin exploit." },
-          { question: "Thompson Sampling thuộc nhóm nào?", options: ["Greedy thuần", "Bayesian — sample từ posterior rồi chọn", "Heuristic", "Brute force"], answer: 1, explanation: "Sample θ từ posterior mỗi vòng → cân bằng explore/exploit tự nhiên." },
-          { question: "Vì sao cần kết hợp adaptive + spaced repetition?", options: ["Để slogan đẹp", "Adaptive đo trình độ; spaced repetition giữ kiến thức khỏi phai", "Vì hardware", "Không cần"], answer: 1, explanation: "Mastery hôm nay ≠ mastery tháng sau — cần củng cố theo lịch." },
+          { question: "Thompson Sampling thuộc nhóm nào?", options: ["Greedy thuần", "Bayesian - sample từ posterior rồi chọn", "Heuristic", "Brute force"], answer: 1, explanation: "Sample θ từ posterior mỗi vòng → cân bằng explore/exploit tự nhiên." },
+          { question: "Vì sao cần kết hợp adaptive + spaced repetition?", options: ["Để slogan đẹp", "Adaptive đo trình độ; spaced repetition giữ kiến thức khỏi phai", "Vì hardware", "Không cần"], answer: 1, explanation: "Mastery hôm nay ≠ mastery tháng sau - cần củng cố theo lịch." },
         ],
       },
       {
         id: "edtech-adv-3",
-        title: "AI Tutor — RAG trên curriculum + an toàn cho trẻ em",
-        titleEn: "AI Tutor — RAG Over Curriculum + Child-Safety",
+        title: "AI Tutor - RAG trên curriculum + an toàn cho trẻ em",
+        titleEn: "AI Tutor - RAG Over Curriculum + Child-Safety",
         level: 4,
         difficulty: "advanced",
         theory: `![AI tutor with RAG on curriculum and safety guardrails](/lesson-illustrations/edtech-ai-tutor-rag.jpg)
@@ -370,7 +370,7 @@ Default **Socratic**: hỏi ngược → user tự tìm → tutor confirm. Chuy�
 - **Academic integrity**: nếu user paste đề thi đang diễn ra → từ chối lịch sự.
 - **Bias audit**: chạy eval set 200 câu chứa nhạy cảm chủng tộc/giới mỗi release.
 
-## 6. 📏 Đo lường — không chỉ thumbs up/down
+## 6. 📏 Đo lường - không chỉ thumbs up/down
 
 | Metric | Cách đo |
 |--------|---------|
@@ -385,16 +385,16 @@ Default **Socratic**: hỏi ngược → user tự tìm → tutor confirm. Chuy�
 - Memory dài vô hạn → user cũ chi phối câu trả lời, tốn token. Rolling 5–10 lượt là đủ.
 - Bỏ qua latency: tutor > 3s feel-time → trẻ em mất tập trung. Stream token + dùng small-LLM cho intent classify.
 
-## ✨ Nâng cấp 2026 — Tutor an toàn cho trẻ em
+## ✨ Nâng cấp 2026 - Tutor an toàn cho trẻ em
 
 - **Guardrails 3 lớp**: (1) system prompt cứng + spotlighting, (2) Llama-Guard / ShieldGemma trên cả input + output, (3) **toxicity classifier** chuyên biệt cho tiếng Việt (PhoBERT-toxic).
 - **COPPA/GDPR-K**: dữ liệu của trẻ <13 tuổi cần phụ huynh đồng ý + xoá khi yêu cầu. Đừng để chat log có PII vào training data.
-- **Socratic tutoring**: thay vì cho đáp án, hỏi 2-3 câu dẫn dắt. Eval bằng "% lượt LLM trả lời mà không tiết lộ key answer" — target ≥ 80%.
+- **Socratic tutoring**: thay vì cho đáp án, hỏi 2-3 câu dẫn dắt. Eval bằng "% lượt LLM trả lời mà không tiết lộ key answer" - target ≥ 80%.
 - **Fallback to human**: phát hiện "distress signal" (buồn, tự ti, bạo lực) → ngắt tutor, chuyển teacher_contact_requests. Đã triển khai ở Counseling Hub.
 
 `,
-        theoryEn: `A real AI tutor ≠ plain ChatGPT. It's an LLM grounded on YOUR curriculum (RAG), aware of the learner's state (current lesson, mastery, age), and wrapped in a safety pre/post filter. Default to Socratic prompting and switch to solution-first only after repeated failure or explicit request. Tune persona to age band. Evaluate beyond thumbs up/down — track groundedness, pedagogy score, age-appropriateness (Flesch), and resolution rate. Watch for hallucination from internet access, runaway memory, and >3s latency that loses young learners.`,
-        code: `# Minimal child-safe tutor skeleton — pseudocode-ish but runnable
+        theoryEn: `A real AI tutor ≠ plain ChatGPT. It's an LLM grounded on YOUR curriculum (RAG), aware of the learner's state (current lesson, mastery, age), and wrapped in a safety pre/post filter. Default to Socratic prompting and switch to solution-first only after repeated failure or explicit request. Tune persona to age band. Evaluate beyond thumbs up/down - track groundedness, pedagogy score, age-appropriateness (Flesch), and resolution rate. Watch for hallucination from internet access, runaway memory, and >3s latency that loses young learners.`,
+        code: `# Minimal child-safe tutor skeleton - pseudocode-ish but runnable
 import re, json
 
 BANNED = re.compile(r"\\b(kill|suicide|porn|drug deal)\\b", re.I)
@@ -431,17 +431,17 @@ print(build_prompt({"band":"kid","lesson":"add-2digit","mastery":0.42},
         exerciseEn:
           "Add safety_post(reply, retrieved_chunks) returning False when reply cites numbers that don't appear in any retrieved chunk (anti-fabrication).",
         quiz: [
-          { question: "Vì sao tutor mặc định nên Socratic?", options: ["Đẹp", "Buộc học sinh chủ động tư duy → học sâu hơn cho-đáp-án-luôn", "Vì tốn ít token", "Bắt buộc bởi RLS"], answer: 1, explanation: "Hỏi ngược kích hoạt retrieval trong não user — bằng chứng giáo dục mạnh." },
+          { question: "Vì sao tutor mặc định nên Socratic?", options: ["Đẹp", "Buộc học sinh chủ động tư duy → học sâu hơn cho-đáp-án-luôn", "Vì tốn ít token", "Bắt buộc bởi RLS"], answer: 1, explanation: "Hỏi ngược kích hoạt retrieval trong não user - bằng chứng giáo dục mạnh." },
           { question: "Khi nào chuyển sang solution-first?", options: ["Sau câu hỏi đầu tiên", "Khi user sai nhiều lần cùng concept hoặc xin xem lời giải", "Không bao giờ", "Khi vui"], answer: 1, explanation: "Tránh tutor 'gây ức chế'. Quy tắc rõ ràng để biết khi nào dừng Socratic." },
           { question: "Groundedness đo gì?", options: ["Tốc độ", "% câu trả lời có trích xuất hợp lệ từ context retrieved", "Độ dài", "Cost"], answer: 1, explanation: "Đảm bảo LLM không bịa ngoài curriculum." },
-          { question: "Memory rolling 5–10 lượt thay vì vô hạn vì?", options: ["Cost & focus — log dài làm LLM lệch và tốn token", "Vì RLS", "Vì RAM", "Không có lý do"], answer: 0, explanation: "Memory dài tăng cost, giảm chất lượng do nhiễu lịch sử." },
-          { question: "Self-harm signal nên dẫn tới?", options: ["Tutor tự giải quyết", "Hiển thị hotline + escalate đến giáo viên / phụ huynh", "Bỏ qua", "Log thầm"], answer: 1, explanation: "Tutor không phải bác sĩ — phải escalate đúng kênh." },
+          { question: "Memory rolling 5–10 lượt thay vì vô hạn vì?", options: ["Cost & focus - log dài làm LLM lệch và tốn token", "Vì RLS", "Vì RAM", "Không có lý do"], answer: 0, explanation: "Memory dài tăng cost, giảm chất lượng do nhiễu lịch sử." },
+          { question: "Self-harm signal nên dẫn tới?", options: ["Tutor tự giải quyết", "Hiển thị hotline + escalate đến giáo viên / phụ huynh", "Bỏ qua", "Log thầm"], answer: 1, explanation: "Tutor không phải bác sĩ - phải escalate đúng kênh." },
         ],
       },
       {
         id: "edtech-adv-4",
-        title: "Auto-Grading bằng AI — chấm essay/speaking đáng tin và công bằng",
-        titleEn: "AI Auto-Grading — Trustworthy and Fair Essay/Speaking Assessment",
+        title: "Auto-Grading bằng AI - chấm essay/speaking đáng tin và công bằng",
+        titleEn: "AI Auto-Grading - Trustworthy and Fair Essay/Speaking Assessment",
         level: 5,
         difficulty: "advanced",
         theory: `![AI auto-grading essay and speaking with rubric](/lesson-illustrations/edtech-auto-grading.jpg)
@@ -496,7 +496,7 @@ LLM chấm **từng tiêu chí riêng** với anchor cụ thể (vd "9 = lập l
    └───────────────────────────────────────────────────────────┘
 \`\`\`
 
-## 4. 🎙️ Speaking — khác essay ở đâu?
+## 4. 🎙️ Speaking - khác essay ở đâu?
 
 | Vấn đề | Cách xử lý |
 |--------|------------|
@@ -506,7 +506,7 @@ LLM chấm **từng tiêu chí riêng** với anchor cụ thể (vd "9 = lập l
 | Pronunciation | Phoneme-level scoring (vd Azure Pronunciation Assessment) |
 | Coherence | LLM chấm transcript theo rubric tương tự essay |
 
-## 5. 🧪 Calibration — kiểm chứng độ tin cậy
+## 5. 🧪 Calibration - kiểm chứng độ tin cậy
 
 | Bước | Mô tả |
 |------|-------|
@@ -517,10 +517,10 @@ LLM chấm **từng tiêu chí riêng** với anchor cụ thể (vd "9 = lập l
 
 ## 6. 🛡️ Chống gian lận & bias
 
-- **AI-generated detector** là tín hiệu, không phải bằng chứng — không trừ điểm tự động.
+- **AI-generated detector** là tín hiệu, không phải bằng chứng - không trừ điểm tự động.
 - **Off-topic detector** (cosine giữa prompt và essay) chặn essay học thuộc.
 - **Demographic blind**: không gửi tên/quốc tịch vào LLM.
-- **Disparate impact audit**: so điểm trung bình theo lớp/quốc tịch — nếu khác biệt > σ, điều tra.
+- **Disparate impact audit**: so điểm trung bình theo lớp/quốc tịch - nếu khác biệt > σ, điều tra.
 
 ## 7. ⚠️ Bẫy
 
@@ -528,13 +528,13 @@ LLM chấm **từng tiêu chí riêng** với anchor cụ thể (vd "9 = lập l
 - LLM "rộng tay" theo thời gian (drift) → cần gold set định kỳ.
 - Trả điểm mà không trả **feedback hành động được** ("cải thiện cohesive devices") → vô dụng.
 
-## ✨ Nâng cấp 2026 — Chấm công bằng
+## ✨ Nâng cấp 2026 - Chấm công bằng
 
 - **Per-criterion rubric** (task achievement, coherence, lexical, grammar) > 1 điểm tổng. Variance thấp hơn 3-4×, phụ huynh dễ chấp nhận.
 - **Calibration với human**: lấy 200 bài đã chấm tay → tính Quadratic Weighted Kappa (QWK). Target QWK ≥ 0.7 mới dám dùng production.
 - **Bias audit**: chia bài theo giới tính/vùng miền → kiểm score gap. IELTS auto-grader 2025 đã bị kiện vì gap 0.3 band giữa speakers ESL Á và Âu.
 - **Show your work**: trả về **feedback có trích dẫn câu cụ thể** ("Câu 3 dùng 'although' đứng đầu vế độc lập"). Tăng trust và teachable moment.
-- **Speaking grading**: WER không đủ — cần đánh giá fluency (WPM, filled pauses), pronunciation (GOP score) và content riêng.
+- **Speaking grading**: WER không đủ - cần đánh giá fluency (WPM, filled pauses), pronunciation (GOP score) và content riêng.
 
 `,
         theoryEn: `Trustworthy auto-grading is rubric-first, not LLM-first: score each criterion independently with concrete anchors, weight and round to the band. Run pre-checks (word count, off-topic, copy-paste). For speaking, use word-confidence ASR, fluency (WPM, fillers), phoneme-level pronunciation, and grade transcript coherence like an essay. Calibrate against a gold set of human-graded items, target QWK ≥ 0.75, watch drift on every model/prompt change, and route low-confidence cases to humans. Audit for demographic bias and always return actionable feedback, not just a number.`,
@@ -549,7 +549,7 @@ RUBRIC = {
 }
 
 def fake_llm_judge(essay: str, criterion: str) -> dict:
-    """Stub — replace with structured-output LLM call."""
+    """Stub - replace with structured-output LLM call."""
     base = 6 + (len(essay) % 3)        # toy variation
     return {"score": min(9, base), "evidence": [essay[:40]],
             "feedback": f"Improve {criterion} by adding specific examples."}
@@ -573,17 +573,17 @@ print(json.dumps(result, ensure_ascii=False, indent=2))`,
         exerciseEn:
           "Write qwk(human_scores, ai_scores) computing Quadratic Weighted Kappa between two lists of scores (0..9). Warn when qwk < 0.75.",
         quiz: [
-          { question: "Vì sao phải chấm per-criterion thay vì 1 điểm tổng?", options: ["Tốn token hơn", "Để giải thích và sửa được — học sinh biết cần cải thiện gì", "Để giấu bug", "Không khác biệt"], answer: 1, explanation: "Điểm tổng không actionable; per-criterion + feedback mới giúp tiến bộ." },
+          { question: "Vì sao phải chấm per-criterion thay vì 1 điểm tổng?", options: ["Tốn token hơn", "Để giải thích và sửa được - học sinh biết cần cải thiện gì", "Để giấu bug", "Không khác biệt"], answer: 1, explanation: "Điểm tổng không actionable; per-criterion + feedback mới giúp tiến bộ." },
           { question: "QWK đo gì?", options: ["Tốc độ chấm", "Agreement giữa 2 grader có ordinal scale, phạt mạnh lệch xa hơn lệch gần", "Cost", "RAM"], answer: 1, explanation: "QWK chuẩn vàng cho essay scoring (Hewlett ASAP)." },
-          { question: "Vì sao không tự động trừ điểm khi 'AI-generated detector' báo dương?", options: ["Phát hiện AI hiện rất nhiễu — chỉ là tín hiệu, không phải bằng chứng", "Bằng chứng tuyệt đối", "Vì RLS", "Vì latency"], answer: 0, explanation: "Detector hiện vẫn FP cao — phạt tự động gây bất công." },
+          { question: "Vì sao không tự động trừ điểm khi 'AI-generated detector' báo dương?", options: ["Phát hiện AI hiện rất nhiễu - chỉ là tín hiệu, không phải bằng chứng", "Bằng chứng tuyệt đối", "Vì RLS", "Vì latency"], answer: 0, explanation: "Detector hiện vẫn FP cao - phạt tự động gây bất công." },
           { question: "Speaking: vì sao dùng word confidence từ ASR?", options: ["Để tránh trừ điểm khi ASR sai từ chứ không phải user", "Tăng tốc", "Bảo mật", "Không cần"], answer: 0, explanation: "Phải tách lỗi ASR khỏi lỗi học sinh để công bằng." },
           { question: "Khi nào route bài cho giáo viên review?", options: ["Tất cả", "Khi confidence thấp hoặc điểm gần ngưỡng band quan trọng + 10–20% sample định kỳ", "Không bao giờ", "Mỗi 1000 bài"], answer: 1, explanation: "Human-in-loop có chọn lọc giữ chất lượng mà không quá tải giáo viên." },
         ],
       },
       {
         id: "edtech-adv-5",
-        title: "Knowledge Tracing & Mastery — đo 'học sinh thực sự biết gì'",
-        titleEn: "Knowledge Tracing & Mastery — Measuring What a Student Really Knows",
+        title: "Knowledge Tracing & Mastery - đo 'học sinh thực sự biết gì'",
+        titleEn: "Knowledge Tracing & Mastery - Measuring What a Student Really Knows",
         level: 4,
         difficulty: "advanced",
         theory: `![Knowledge tracing: mastery curve and Bayesian network](/lesson-illustrations/edtech-knowledge-tracing.jpg)
@@ -599,7 +599,7 @@ Một học sinh có thể đoán đúng, copy đáp án, hoặc thuộc lòng m
                   P(mastery articles)   = 0.41
 \`\`\`
 
-## 2. 🧮 BKT (Bayesian Knowledge Tracing) — kinh điển 1995
+## 2. 🧮 BKT (Bayesian Knowledge Tracing) - kinh điển 1995
 
 4 tham số / kỹ năng:
 
@@ -620,7 +620,7 @@ Cập nhật Bayes sau mỗi câu:
    Sau đó học:  p_known  = p_known' + (1 - p_known') * p_learn
 \`\`\`
 
-## 3. 🧠 DKT (Deep Knowledge Tracing, 2015) — RNN/Transformer
+## 3. 🧠 DKT (Deep Knowledge Tracing, 2015) - RNN/Transformer
 
 BKT giả định độc lập giữa kỹ năng → kém khi kỹ năng liên quan (past simple ↔ past perfect). DKT dùng **RNN/Transformer** học embedding kỹ năng tự động → bắt được phụ thuộc.
 
@@ -631,7 +631,7 @@ BKT giả định độc lập giữa kỹ năng → kém khi kỹ năng liên q
         x_t = (skill_id, correct?)
 \`\`\`
 
-## 4. 🪜 Mastery threshold — khi nào coi là "đã master"?
+## 4. 🪜 Mastery threshold - khi nào coi là "đã master"?
 
 | Ngưỡng | Hệ quả |
 |--------|--------|
@@ -641,7 +641,7 @@ BKT giả định độc lập giữa kỹ năng → kém khi kỹ năng liên q
 
 Kết hợp với **Spaced Repetition**: đạt 0.85 → đưa vào lịch ôn dài hạn (không phải xong-là-quên).
 
-## 5. 🔗 Skill Graph — bản đồ phụ thuộc
+## 5. 🔗 Skill Graph - bản đồ phụ thuộc
 
 \`\`\`
               [present simple]
@@ -660,12 +660,12 @@ Khi học sinh kẹt ở \`past perfect\`, hệ thống tự **gợi ý ôn lạ
 - **Skill tagging bẩn**: 1 câu bị tag 5 skill → KT loãng. Mỗi câu ≤ 2 skill chính.
 - **Time decay**: bỏ qua quên theo thời gian → kết hợp KT + SRS bắt buộc.
 
-## ✨ Nâng cấp 2026 — Đo "thực sự biết"
+## ✨ Nâng cấp 2026 - Đo "thực sự biết"
 
 - **BKT vs DKT vs SAKT**: BKT dễ hiểu, DKT mạnh hơn nhưng cần ≥10K học sinh, SAKT (transformer-based) hiện SOTA trên ASSISTments 2024.
 - **Hierarchical mastery**: 1 skill = nhiều subskill (subtract → borrow → multi-digit). Chỉ unlock skill khi 80% subskill ≥ 0.85 mastery.
-- **Forgetting in KT**: mastery không tăng đơn điệu — phải decay theo thời gian. Mô hình DKT-Forget hoặc KTM giải quyết.
-- **Explainability**: parents/teachers cần biết "vì sao con tôi chưa đạt". Visualize mastery dưới dạng radar chart per skill — đã làm ở Student Dashboard.
+- **Forgetting in KT**: mastery không tăng đơn điệu - phải decay theo thời gian. Mô hình DKT-Forget hoặc KTM giải quyết.
+- **Explainability**: parents/teachers cần biết "vì sao con tôi chưa đạt". Visualize mastery dưới dạng radar chart per skill - đã làm ở Student Dashboard.
 
 `,
         theoryEn: `Knowledge Tracing estimates the probability a learner has mastered a skill from their answer history. BKT (1995) uses 4 params per skill (p_init, p_learn, p_slip, p_guess) with Bayesian updates. DKT (2015) uses RNN/Transformer to capture skill dependencies missed by BKT. Use a 0.85 mastery threshold (industry standard) and pair KT with spaced repetition to fight forgetting. Maintain a prerequisite skill graph so the system reroutes to fundamentals when a learner stalls. Watch for cold start, dirty skill tags, and ignoring time decay.`,
@@ -697,20 +697,20 @@ for i, c in enumerate(history, 1):
         quiz: [
           { question: "Vì sao 'trả lời đúng' không đồng nghĩa 'đã hiểu' trong KT?", options: ["Có thể đoán hoặc nhớ tạm", "Lỗi UI", "Sai đáp án gold", "Không có vấn đề"], answer: 0, explanation: "BKT mô hình hoá p_guess và p_slip vì lý do này." },
           { question: "p_slip trong BKT nghĩa là?", options: ["P(không biết nhưng đúng)", "P(biết nhưng trả lời sai do bất cẩn)", "Tỉ lệ skip bài", "Cost"], answer: 1, explanation: "Slip = biết mà lỡ; Guess = không biết mà trúng." },
-          { question: "DKT khắc phục điểm yếu nào của BKT?", options: ["Quá nhanh", "Giả định kỹ năng độc lập — DKT bắt phụ thuộc qua RNN", "Quá rẻ", "Không có khác biệt"], answer: 1, explanation: "RNN/Transformer học embedding kỹ năng → bắt liên kết." },
+          { question: "DKT khắc phục điểm yếu nào của BKT?", options: ["Quá nhanh", "Giả định kỹ năng độc lập - DKT bắt phụ thuộc qua RNN", "Quá rẻ", "Không có khác biệt"], answer: 1, explanation: "RNN/Transformer học embedding kỹ năng → bắt liên kết." },
           { question: "Ngưỡng mastery 0.85 phổ biến vì?", options: ["Số đẹp", "Cân bằng tiến độ và retention; chuẩn ngành (Khan, Duolingo)", "Tốc độ", "Không lý do"], answer: 1, explanation: "0.70 quên nhanh; 0.95 quá chậm; 0.85 là sweet spot." },
           { question: "Khi học sinh kẹt ở 'past perfect', hệ thống nên?", options: ["Cho bài khó hơn", "Ôn lại prerequisite 'past simple' trong skill graph", "Bỏ qua", "Hiển thị quảng cáo"], answer: 1, explanation: "Skill graph cho phép route về gốc khi học sinh chưa vững cơ sở." },
         ],
       },
       {
         id: "edtech-adv-6",
-        title: "Onboarding & Behavioral Activation — kéo học sinh qua 'aha moment'",
-        titleEn: "Onboarding & Behavioral Activation — Getting Learners to the 'Aha Moment'",
+        title: "Onboarding & Behavioral Activation - kéo học sinh qua 'aha moment'",
+        titleEn: "Onboarding & Behavioral Activation - Getting Learners to the 'Aha Moment'",
         level: 3,
         difficulty: "intermediate",
         theory: `![Onboarding funnel: signup → first lesson → aha moment → habit loop](/lesson-illustrations/edtech-onboarding-funnel.jpg)
 
-## 1. 🎯 "Aha moment" — khoảnh khắc quyết định ở lại
+## 1. 🎯 "Aha moment" - khoảnh khắc quyết định ở lại
 
 Trong EdTech, **aha moment** không phải khi user đăng ký, mà khi họ **lần đầu cảm nhận tiến bộ rõ rệt** (hoàn thành bài đầu tiên + thấy mastery bar nhảy).
 
@@ -724,7 +724,7 @@ Trong EdTech, **aha moment** không phải khi user đăng ký, mà khi họ **l
 
 Mục tiêu onboarding: **đưa càng nhiều user qua cụm aha càng nhanh**.
 
-## 2. 🚪 Friction audit — đếm clicks tới giá trị
+## 2. 🚪 Friction audit - đếm clicks tới giá trị
 
 | Bước | Click | Thời gian | Drop |
 |------|-------|-----------|------|
@@ -733,7 +733,7 @@ Mục tiêu onboarding: **đưa càng nhiều user qua cụm aha càng nhanh**.
 | Verify → First lesson | 3 | 90s | 18% |
 | First lesson → Quiz pass | quiz | 4 min | 28% |
 
-Quy tắc: **mỗi 1 click thừa = ~10% drop**. Verify-by-email là kẻ giết người im lặng — cân nhắc magic-link hoặc OAuth.
+Quy tắc: **mỗi 1 click thừa = ~10% drop**. Verify-by-email là kẻ giết người im lặng - cân nhắc magic-link hoặc OAuth.
 
 ## 3. 🧪 Empty state ≠ trang trắng
 
@@ -743,7 +743,7 @@ Empty state là **cơ hội dạy**, không phải lỗi UI. Mẫu tốt:
    ┌──────────────────────────────────────────────┐
    │  👋 Chào bạn! Hãy thử bài đầu tiên:           │
    │                                              │
-   │  [ ▶ Bắt đầu với "Hello, World!" — 3 phút ]  │
+   │  [ ▶ Bắt đầu với "Hello, World!" - 3 phút ]  │
    │                                              │
    │  💡 Sau bài này, bạn sẽ nhận badge "First    │
    │     Step" và mở khoá Coding Lab.             │
@@ -752,7 +752,7 @@ Empty state là **cơ hội dạy**, không phải lỗi UI. Mẫu tốt:
 
 Yếu tố bắt buộc: **CTA duy nhất**, **thời gian dự kiến**, **phần thưởng cụ thể**.
 
-## 4. 📣 Behavioral triggers — push đúng người, đúng lúc
+## 4. 📣 Behavioral triggers - push đúng người, đúng lúc
 
 | Trigger | Khi nào fire | Channel | Goal |
 |---------|--------------|---------|------|
@@ -776,11 +776,11 @@ Output: học sinh thấy bài đầu **đúng trình độ, đúng mục tiêu,
 
 ## 6. ⚠️ Bẫy phổ biến
 
-- **Onboarding 12 màn hình "show-and-tell"** — user bỏ ngay. Nguyên tắc: dạy bằng **làm**, không bằng **kể**.
-- **Streak shaming trong tuần đầu** — đuổi user yếu trước khi họ kịp gắn bó.
-- **Không đo cohort theo onboarding version** — không biết thay đổi nào giúp/hại.
+- **Onboarding 12 màn hình "show-and-tell"** - user bỏ ngay. Nguyên tắc: dạy bằng **làm**, không bằng **kể**.
+- **Streak shaming trong tuần đầu** - đuổi user yếu trước khi họ kịp gắn bó.
+- **Không đo cohort theo onboarding version** - không biết thay đổi nào giúp/hại.
 
-## ✨ Nâng cấp 2026 — Activation thực chiến
+## ✨ Nâng cấp 2026 - Activation thực chiến
 
 - **Aha moment định lượng**: dùng phân tích cohort, tìm hành động mà người dùng D7-retained làm trong 24h đầu. Duolingo: "hoàn thành 2 lesson + đặt notification" → retention ×3.
 - **Empty-state design**: state đầu tiên phải có CTA rõ + ví dụ mẫu. Đừng để học sinh thấy danh sách trống → 60% bỏ ngay.
@@ -789,7 +789,7 @@ Output: học sinh thấy bài đầu **đúng trình độ, đúng mục tiêu,
 - **Cohort + funnel** là 2 dashboard bắt buộc. Mọi feature mới phải báo cáo "delta D1/D7/D30" sau A/B test 2 tuần.
 
 `,
-        theoryEn: `The aha moment in EdTech isn't sign-up — it's the first felt sense of progress (first quiz pass + mastery bar moving). Optimize onboarding to push more users into that cluster fast. Audit friction click-by-click (every extra click ≈ 10% drop). Replace empty states with single-CTA teaching moments. Wire behavioral triggers with strict frequency caps (≤1/day, 8 AM – 9 PM local) and deep links. Replace marketing tours with a 3-question intake (goal, level, time/day) that personalizes the first lesson so aha lands in under 10 minutes.`,
+        theoryEn: `The aha moment in EdTech isn't sign-up - it's the first felt sense of progress (first quiz pass + mastery bar moving). Optimize onboarding to push more users into that cluster fast. Audit friction click-by-click (every extra click ≈ 10% drop). Replace empty states with single-CTA teaching moments. Wire behavioral triggers with strict frequency caps (≤1/day, 8 AM – 9 PM local) and deep links. Replace marketing tours with a 3-question intake (goal, level, time/day) that personalizes the first lesson so aha lands in under 10 minutes.`,
         code: `from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import Optional
@@ -830,16 +830,16 @@ print(pick_trigger(l, now))`,
           "Add a frequency cap: if the user already received ≥1 push in the last 24h, return None regardless of trigger.",
         quiz: [
           { question: "Aha moment trong EdTech là?", options: ["Lúc đăng ký", "Lần đầu cảm nhận tiến bộ rõ rệt (vd quiz pass + mastery nhảy)", "Khi mở app", "Khi xoá tài khoản"], answer: 1, explanation: "User vượt qua aha cluster có khả năng retain cao hơn nhiều lần." },
-          { question: "Vì sao verify-by-email hại onboarding?", options: ["Bảo mật yếu", "Tạo break ~2 phút và 22% drop — phá đà tiến tới aha", "Tốn DB", "Không hại"], answer: 1, explanation: "Magic-link / OAuth giảm drop đáng kể." },
+          { question: "Vì sao verify-by-email hại onboarding?", options: ["Bảo mật yếu", "Tạo break ~2 phút và 22% drop - phá đà tiến tới aha", "Tốn DB", "Không hại"], answer: 1, explanation: "Magic-link / OAuth giảm drop đáng kể." },
           { question: "Empty state nên có gì?", options: ["Logo to", "Một CTA duy nhất + thời gian dự kiến + phần thưởng cụ thể", "3 banner ads", "Không quan trọng"], answer: 1, explanation: "Empty state là cơ hội dạy bằng hành động, không phải lỗi UI." },
           { question: "Quy tắc tần suất push hợp lý?", options: ["Càng nhiều càng tốt", "≤1/ngày, tránh 21:00–08:00 địa phương", "Mỗi giờ", "Không có quy tắc"], answer: 1, explanation: "Vượt cap → unsubscribe và đánh giá thấp app store." },
-          { question: "Onboarding 12 màn show-and-tell vấn đề gì?", options: ["Quá đắt", "Dạy bằng kể thay vì làm — user bỏ trước khi chạm aha", "Quá nhanh", "Không vấn đề"], answer: 1, explanation: "Onboarding tốt dạy bằng hành động + phản hồi tức thì." },
+          { question: "Onboarding 12 màn show-and-tell vấn đề gì?", options: ["Quá đắt", "Dạy bằng kể thay vì làm - user bỏ trước khi chạm aha", "Quá nhanh", "Không vấn đề"], answer: 1, explanation: "Onboarding tốt dạy bằng hành động + phản hồi tức thì." },
         ],
       },
       {
         id: "edtech-adv-7",
-        title: "Recommendation cho lộ trình học — gợi bài tiếp theo đúng người đúng lúc",
-        titleEn: "Learning-path Recommendation — The Right Next Lesson",
+        title: "Recommendation cho lộ trình học - gợi bài tiếp theo đúng người đúng lúc",
+        titleEn: "Learning-path Recommendation - The Right Next Lesson",
         level: 4,
         difficulty: "advanced",
         theory: `## 1. 🧭 Khác biệt với recommender thương mại
@@ -868,7 +868,7 @@ Mục tiêu: chọn bài có **xác suất pass ≈ 0.6–0.8** dựa trên mast
 | **Collaborative filtering** | "Học sinh giống bạn đã học X tiếp theo" | Khám phá rộng / cần dữ liệu |
 | **Knowledge-graph + mastery** | DAG prerequisite + mastery score | Sư phạm chuẩn / khó dựng |
 
-Production: **lai cả ba** — KG để hợp lệ, CF để đa dạng, content để cold-start.
+Production: **lai cả ba** - KG để hợp lệ, CF để đa dạng, content để cold-start.
 
 ## 4. 🪜 Pipeline gợi ý
 
@@ -904,7 +904,7 @@ Production: **lai cả ba** — KG để hợp lệ, CF để đa dạng, conten
 - **Popularity bias**: bài hot luôn được gợi → bài tốt nhưng mới chết yểu. Inject randomness ε=0.05.
 - **Reward hack**: tối ưu CTR → gợi bài siêu dễ. Tối ưu **mastery growth/tuần**, không phải click.
 `,
-        theoryEn: `Educational recommenders optimize mastery growth, not clicks. Aim for the ZPD (~60–80% pass probability). Combine content-based, collaborative filtering, and knowledge-graph approaches. Pipeline: candidate generation → ranking → MMR diversity → constraints. Solve cold-start with surveys + adaptive placement quiz. Beware filter bubbles, popularity bias, and reward hacking — explicitly inject weak-skill practice and randomness.`,
+        theoryEn: `Educational recommenders optimize mastery growth, not clicks. Aim for the ZPD (~60–80% pass probability). Combine content-based, collaborative filtering, and knowledge-graph approaches. Pipeline: candidate generation → ranking → MMR diversity → constraints. Solve cold-start with surveys + adaptive placement quiz. Beware filter bubbles, popularity bias, and reward hacking - explicitly inject weak-skill practice and randomness.`,
         code: `import math, random
 from dataclasses import dataclass
 
@@ -954,7 +954,7 @@ for l in recommend(cat, me): print(l.id, l.skill, round(l.difficulty,2), round(s
         exerciseEn:
           "Add MMR re-rank on the top-5 candidates so no two consecutive items share the same skill.",
         quiz: [
-          { question: "Mục tiêu recommender EdTech khác Netflix ở chỗ?", options: ["Không khác", "Tối đa mastery growth + động lực, không phải click/watch time", "Đa dạng hơn", "Rẻ hơn"], answer: 1, explanation: "Mục tiêu giáo dục ≠ thương mại — tối ưu CTR sẽ gợi bài siêu dễ." },
+          { question: "Mục tiêu recommender EdTech khác Netflix ở chỗ?", options: ["Không khác", "Tối đa mastery growth + động lực, không phải click/watch time", "Đa dạng hơn", "Rẻ hơn"], answer: 1, explanation: "Mục tiêu giáo dục ≠ thương mại - tối ưu CTR sẽ gợi bài siêu dễ." },
           { question: "ZPD nói rằng bài nên có pass_prob ≈?", options: ["0.1", "0.6–0.8", "0.95", "0.5 chính xác"], answer: 1, explanation: "Vừa sức = sweet spot 60–80%." },
           { question: "Filter bubble sư phạm là?", options: ["Bug UI", "Chỉ gợi điểm mạnh → user không phát triển kỹ năng yếu", "Bài giảng quá dài", "Caching"], answer: 1, explanation: "Cần inject ~20% bài kỹ năng yếu." },
           { question: "Cold-start tốt cho EdTech là?", options: ["Đoán random", "Survey + adaptive placement quiz IRT để ước lượng θ", "Đợi 1 tháng", "Hỏi giáo viên"], answer: 1, explanation: "Vài câu IRT tốt hơn nhiều survey thuần." },
@@ -963,13 +963,13 @@ for l in recommend(cat, me): print(l.id, l.skill, round(l.difficulty,2), round(s
       },
       {
         id: "edtech-adv-8",
-        title: "Quyền riêng tư trẻ em — COPPA, GDPR-K, FERPA cho EdTech",
-        titleEn: "Children's Privacy — COPPA, GDPR-K, FERPA for EdTech",
+        title: "Quyền riêng tư trẻ em - COPPA, GDPR-K, FERPA cho EdTech",
+        titleEn: "Children's Privacy - COPPA, GDPR-K, FERPA for EdTech",
         level: 4,
         difficulty: "advanced",
         theory: `## 1. ⚖️ Vì sao EdTech bị soi đặc biệt?
 
-Người học EdTech có thể là **trẻ em < 13** (Mỹ) hoặc **< 16** (EU). Luật bảo vệ dữ liệu trẻ em **nghiêm hơn nhiều** lần luật người lớn — vi phạm = phạt triệu USD và mất app store.
+Người học EdTech có thể là **trẻ em < 13** (Mỹ) hoặc **< 16** (EU). Luật bảo vệ dữ liệu trẻ em **nghiêm hơn nhiều** lần luật người lớn - vi phạm = phạt triệu USD và mất app store.
 
 ## 2. 🗺️ Bản đồ luật
 
@@ -1018,7 +1018,7 @@ Retention rule mẫu: log hoạt động 90 ngày, kết quả học 2 năm, aud
 
 ## 6. ⚠️ Bẫy thường gặp
 
-- "Chúng tôi không gửi cho ai cả" — nhưng SDK ads/analytics gửi giùm bạn. **Audit mọi SDK**.
+- "Chúng tôi không gửi cho ai cả" - nhưng SDK ads/analytics gửi giùm bạn. **Audit mọi SDK**.
 - Lưu IP + user-agent vĩnh viễn → vẫn là PII gián tiếp.
 - "Anonymous" mà có 3 thuộc tính (zip + tuổi + giới tính) = re-identify được 87% người.
 - Cho phép giáo viên export full class data về máy → mất kiểm soát, vẫn là bạn chịu trách nhiệm.

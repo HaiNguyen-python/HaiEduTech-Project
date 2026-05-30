@@ -1,7 +1,7 @@
 import type { ExtendedProgrammingModule } from "./types";
 
 /**
- * EdTech Expansion — advanced production lessons that complement edtechLessons.ts.
+ * EdTech Expansion - advanced production lessons that complement edtechLessons.ts.
  * Heavy use of ASCII diagrams, comparison tables, and analogies to act as
  * "illustrations" inside the markdown theory renderer.
  */
@@ -20,8 +20,8 @@ export const edtechExpansionModules: ExtendedProgrammingModule[] = [
     lessons: [
       {
         id: "edtech-7",
-        title: "Learning Analytics — đo điều thực sự quan trọng",
-        titleEn: "Learning Analytics — Measure What Actually Matters",
+        title: "Learning Analytics - đo điều thực sự quan trọng",
+        titleEn: "Learning Analytics - Measure What Actually Matters",
         level: 3,
         difficulty: "intermediate",
         theory: `## 1. 🎯 Vanity vs. Actionable metric
@@ -121,7 +121,7 @@ print(f"D7 retention = {d7_retention(events):.0%}")`,
           { question: "Cohort analysis giúp phát hiện?", options: ["Bug front-end", "Regression theo từng tuần ra mắt, ẩn trong số trung bình", "Tốc độ API", "Số DB index"], answer: 1, explanation: "Cohort tách user theo tuần đăng ký để so phiên bản app." },
           { question: "Vì sao event nên immutable?", options: ["Để dễ sửa", "Để audit, replay, A/B chính xác về sau", "Tiết kiệm dung lượng", "Không cần thiết"], answer: 1, explanation: "Sửa event = mất sự thật lịch sử → mọi metric sai." },
           { question: "Healthy D7 retention với EdTech tốt là?", options: [">5%", ">25%", ">75%", ">95%"], answer: 1, explanation: ">25% D7 là benchmark mạnh cho EdTech tự học." },
-          { question: "Bẫy 'chỉ nhìn trung bình' nghĩa là?", options: ["Bỏ qua đuôi phân phối — người yếu nhất cần giúp nhất", "Median tốt hơn mean", "Không có ý nghĩa", "Chỉ nên dùng mode"], answer: 0, explanation: "Trung bình che giấu nhóm cần hỗ trợ; nên xem phân vị 10/50/90." },
+          { question: "Bẫy 'chỉ nhìn trung bình' nghĩa là?", options: ["Bỏ qua đuôi phân phối - người yếu nhất cần giúp nhất", "Median tốt hơn mean", "Không có ý nghĩa", "Chỉ nên dùng mode"], answer: 0, explanation: "Trung bình che giấu nhóm cần hỗ trợ; nên xem phân vị 10/50/90." },
         ],
       },
       {
@@ -146,7 +146,7 @@ Học là việc khó & kéo dài → não cần **phần thưởng ngắn hạn
                                                 hồ sơ)
 \`\`\`
 
-(Nir Eyal — "Hooked"). Khoá quan trọng: **variable reward** (đôi khi 10 XP, đôi khi 50 XP + huy hiệu) > reward cố định.
+(Nir Eyal - "Hooked"). Khoá quan trọng: **variable reward** (đôi khi 10 XP, đôi khi 50 XP + huy hiệu) > reward cố định.
 
 ## 3. 🪜 4 trụ cột nên dùng
 
@@ -157,7 +157,7 @@ Học là việc khó & kéo dài → não cần **phần thưởng ngắn hạn
 | **Identity** | Avatar, badge, tiêu đề | Scholar, Linguistics Architect |
 | **Surprise** | Drop ngẫu nhiên, mini-game | Flying stars, confetti |
 
-## 4. ⚠️ Mặt tối — Dark Patterns cần TRÁNH
+## 4. ⚠️ Mặt tối - Dark Patterns cần TRÁNH
 
 - **Streak shaming** ("Bạn vừa mất 47 ngày streak!") → lo âu.
 - **Pay-to-skip-learning** → giết mục đích giáo dục.
@@ -174,7 +174,7 @@ Nguyên tắc HaiEduTech: gamification **phục vụ học**, không thay thế 
 
 Mẹo: **giảm dần XP** khi học sinh lặp đúng bài quá dễ → tránh "XP farming".
 `,
-        theoryEn: `Use the Hook loop (trigger → action → variable reward → investment) — variable reward beats fixed reward. Lean on four pillars: progression, social, identity, surprise. Avoid dark patterns (streak shaming, pay-to-skip, endless leaderboards). Decay XP for trivial repeats to prevent XP farming.`,
+        theoryEn: `Use the Hook loop (trigger → action → variable reward → investment) - variable reward beats fixed reward. Lean on four pillars: progression, social, identity, surprise. Avoid dark patterns (streak shaming, pay-to-skip, endless leaderboards). Decay XP for trivial repeats to prevent XP farming.`,
         code: `import random
 
 def xp(base: int, difficulty: float, streak_days: int, attempts: int) -> int:
@@ -200,8 +200,8 @@ for day, atts in [(1,1), (7,1), (30,1), (30,5)]:
       },
       {
         id: "edtech-9",
-        title: "A/B Testing sư phạm — đo cải tiến thực sự",
-        titleEn: "Pedagogical A/B Testing — Measure Real Improvement",
+        title: "A/B Testing sư phạm - đo cải tiến thực sự",
+        titleEn: "Pedagogical A/B Testing - Measure Real Improvement",
         level: 4,
         difficulty: "advanced",
         theory: `## 1. 🧪 Vì sao cần A/B test?
@@ -226,7 +226,7 @@ for day, atts in [(1,1), (7,1), (30,1), (30,5)]:
              t-test / Mann-Whitney → p-value
 \`\`\`
 
-## 3. 🔢 Sample size — đủ bao nhiêu là vừa?
+## 3. 🔢 Sample size - đủ bao nhiêu là vừa?
 
 Quy tắc thô: phát hiện effect 5% (mastery growth từ 0.30 → 0.315) cần **~3,000 user/nhánh** với α=0.05, β=0.2.
 
@@ -237,12 +237,12 @@ Quy tắc thô: phát hiện effect 5% (mastery growth từ 0.30 → 0.315) cầ
 | 5%  | ~3,000 |
 | 1%  | ~70,000 |
 
-**Đừng "peek" mỗi ngày** — \`peeking\` tăng false-positive khủng khiếp. Quy ước thời gian trước.
+**Đừng "peek" mỗi ngày** - \`peeking\` tăng false-positive khủng khiếp. Quy ước thời gian trước.
 
 ## 4. 🧮 Đọc p-value đúng cách
 
 - p < 0.05 → có bằng chứng B khác A.
-- KHÔNG đồng nghĩa "B chắc chắn tốt hơn" — luôn nhìn **kích cỡ effect** và **khoảng tin cậy**.
+- KHÔNG đồng nghĩa "B chắc chắn tốt hơn" - luôn nhìn **kích cỡ effect** và **khoảng tin cậy**.
 - Nếu chạy 20 metric mà 1 cái p<0.05 → có thể chỉ là nhiễu (multiple comparison).
 
 ## 5. 🛑 Khi nào DỪNG sớm?
@@ -256,7 +256,7 @@ Quy tắc thô: phát hiện effect 5% (mastery growth từ 0.30 → 0.315) cầ
 - **Novelty effect**: phiên bản mới đẹp → user thử nhiều, 2 tuần sau hết hứng.
 - **Network effect**: leaderboard A và B chung → 2 nhánh ảnh hưởng nhau.
 `,
-        theoryEn: `Random-assign users by hash(user_id)%2, measure mastery growth after 14 days, then t-test for p-value. Pre-register effect size and sample (≈3,000/arm for 5% lift). Don't peek — it inflates false positives. Watch for SRM, novelty effect, and network effects between arms. Stop early only on harm threshold or formal Bayesian framework.`,
+        theoryEn: `Random-assign users by hash(user_id)%2, measure mastery growth after 14 days, then t-test for p-value. Pre-register effect size and sample (≈3,000/arm for 5% lift). Don't peek - it inflates false positives. Watch for SRM, novelty effect, and network effects between arms. Stop early only on harm threshold or formal Bayesian framework.`,
         code: `import hashlib, random
 from statistics import mean, pstdev
 from math import sqrt
@@ -285,15 +285,15 @@ t, diff = welch_t(data["A"], data["B"])
 print(f"Δ mastery = {diff:+.3f}, t ≈ {t:.2f}  →  {'có ý nghĩa' if abs(t) > 1.96 else 'không đủ'}")`,
         codeLanguage: "python",
         exercise:
-          "Thêm hàm srm_check(n_a, n_b) cảnh báo nếu tỉ lệ phân nhánh lệch >55/45 — dấu hiệu bias.",
+          "Thêm hàm srm_check(n_a, n_b) cảnh báo nếu tỉ lệ phân nhánh lệch >55/45 - dấu hiệu bias.",
         exerciseEn:
-          "Write srm_check(n_a, n_b) warning if the split is more skewed than 55/45 — a sign of bias.",
+          "Write srm_check(n_a, n_b) warning if the split is more skewed than 55/45 - a sign of bias.",
         quiz: [
           { question: "Vì sao không nên peek p-value mỗi ngày?", options: ["Tốn server", "Tăng false-positive nghiêm trọng (multiple testing)", "Vi phạm RLS", "Không có vấn đề"], answer: 1, explanation: "Peeking biến α=5% thành 30%+ thực tế." },
-          { question: "Sample Ratio Mismatch nghĩa là?", options: ["Sample quá nhỏ", "Tỉ lệ phân nhánh lệch khỏi thiết kế (vd 60/40)", "Quá nhiều nhánh", "Hết RAM"], answer: 1, explanation: "SRM cho thấy assignment hỏng — kết quả không đáng tin." },
+          { question: "Sample Ratio Mismatch nghĩa là?", options: ["Sample quá nhỏ", "Tỉ lệ phân nhánh lệch khỏi thiết kế (vd 60/40)", "Quá nhiều nhánh", "Hết RAM"], answer: 1, explanation: "SRM cho thấy assignment hỏng - kết quả không đáng tin." },
           { question: "Novelty effect là?", options: ["Bug mới", "User hứng thú tạm thời với phiên bản mới, hết sau 1–2 tuần", "Tốc độ tăng", "Token mới"], answer: 1, explanation: "Phải chạy đủ dài để vượt qua giai đoạn novelty." },
-          { question: "p < 0.05 nghĩa là?", options: ["B chắc chắn tốt hơn", "Có bằng chứng B khác A — vẫn cần nhìn effect size và CI", "B tốt 95%", "Không có ý nghĩa"], answer: 1, explanation: "Phải kết hợp effect size và khoảng tin cậy để diễn giải." },
-          { question: "Khi nào dừng experiment sớm?", options: ["Khi cảm thấy đủ", "Khi nhánh B gây hại rõ (harm threshold) hoặc dùng khung Bayesian", "Khi sếp yêu cầu", "Bất cứ lúc nào"], answer: 1, explanation: "Dừng sớm tuỳ tiện làm hỏng tính thống kê — chỉ dừng vì harm hoặc Bayesian." },
+          { question: "p < 0.05 nghĩa là?", options: ["B chắc chắn tốt hơn", "Có bằng chứng B khác A - vẫn cần nhìn effect size và CI", "B tốt 95%", "Không có ý nghĩa"], answer: 1, explanation: "Phải kết hợp effect size và khoảng tin cậy để diễn giải." },
+          { question: "Khi nào dừng experiment sớm?", options: ["Khi cảm thấy đủ", "Khi nhánh B gây hại rõ (harm threshold) hoặc dùng khung Bayesian", "Khi sếp yêu cầu", "Bất cứ lúc nào"], answer: 1, explanation: "Dừng sớm tuỳ tiện làm hỏng tính thống kê - chỉ dừng vì harm hoặc Bayesian." },
         ],
       },
     ],
