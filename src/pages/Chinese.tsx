@@ -250,6 +250,12 @@ const Chinese = () => {
                 <Link to="/chinese/hsk/test" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-rose-600 to-orange-600 text-white font-semibold hover:brightness-110 transition-all shadow-lg ring-2 ring-amber-300/60">
                   📝 {t("HSK Test · Đề thi thử", "HSK Test · Mock Exams")} <ArrowRight className="w-4 h-4" />
                 </Link>
+                <Link to="/chinese/hskk" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 via-red-500 to-rose-600 text-white font-semibold hover:brightness-110 transition-all shadow-lg ring-2 ring-amber-300/60">
+                  🎙️ {t("HSKK Speaking Room", "HSKK Speaking Room")} <span className="text-[10px] px-1.5 py-0.5 rounded bg-white/20">Beta</span>
+                </Link>
+                <Link to="/chinese/hsk/vocabulary?mode=srs" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white font-semibold hover:brightness-110 transition-all shadow-lg">
+                  🧠 {t("Ôn SRS thông minh", "Smart SRS Review")}
+                </Link>
                 <Link to="/chinese/hsk/vocabulary" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-red-500 text-white font-semibold hover:brightness-110 transition-all">
                   {t("Vào học ngay", "Start Learning")} <ArrowRight className="w-4 h-4" />
                 </Link>
