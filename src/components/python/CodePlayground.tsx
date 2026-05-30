@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from "react-markdown";
+import AICodeReviewer from "./AICodeReviewer";
 
 interface Props {
   initialCode: string;
@@ -189,6 +190,11 @@ const CodePlayground = ({ initialCode, needsScientific, lessonContext, storageKe
           </div>
         </div>
       )}
+
+      {/* AI Code Reviewer */}
+      <div className="p-3 bg-[#1e1f29] border-t border-[#44475a]">
+        <AICodeReviewer code={code} lessonContext={lessonContext} onApplyRefactor={(newCode) => setCode(newCode)} />
+      </div>
     </div>
   );
 };

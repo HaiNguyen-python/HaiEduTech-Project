@@ -253,6 +253,9 @@ const Chinese = () => {
                 <Link to="/chinese/hskk" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 via-red-500 to-rose-600 text-white font-semibold hover:brightness-110 transition-all shadow-lg ring-2 ring-amber-300/60">
                   🎙️ {t("HSKK Speaking Room", "HSKK Speaking Room")} <span className="text-[10px] px-1.5 py-0.5 rounded bg-white/20">Beta</span>
                 </Link>
+                <Link to="/chinese/tone-drill" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-yellow-500 via-amber-500 to-orange-500 text-white font-semibold hover:brightness-110 transition-all shadow-lg ring-2 ring-yellow-300/60">
+                  🎯 {t("Tone Drill 四声训练", "Tone Drill 四声训练")} <span className="text-[10px] px-1.5 py-0.5 rounded bg-white/20">New</span>
+                </Link>
                 <Link to="/chinese/hsk/vocabulary?mode=srs" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white font-semibold hover:brightness-110 transition-all shadow-lg">
                   🧠 {t("Ôn SRS thông minh", "Smart SRS Review")}
                 </Link>
