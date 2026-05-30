@@ -426,6 +426,30 @@ export type Database = {
         }
         Relationships: []
       }
+      deadline_reminders_sent: {
+        Row: {
+          days_before: number
+          deadline_id: string
+          id: string
+          sent_at: string
+          user_id: string
+        }
+        Insert: {
+          days_before: number
+          deadline_id: string
+          id?: string
+          sent_at?: string
+          user_id: string
+        }
+        Update: {
+          days_before?: number
+          deadline_id?: string
+          id?: string
+          sent_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       email_send_log: {
         Row: {
           created_at: string
@@ -1919,6 +1943,39 @@ export type Database = {
         }
         Relationships: []
       }
+      study_journey_milestones: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          id: string
+          milestone_key: string
+          notes: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          milestone_key: string
+          notes?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          milestone_key?: string
+          notes?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       suppressed_emails: {
         Row: {
           created_at: string
@@ -2096,6 +2153,60 @@ export type Database = {
           payment_year?: number
           student_name?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      university_shortlist: {
+        Row: {
+          ai_rationale: string | null
+          category: string
+          country: string | null
+          created_at: string
+          deadline_date: string | null
+          fit_score: number | null
+          id: string
+          notes: string | null
+          program: string | null
+          scholarship_available: boolean | null
+          tuition_usd: number | null
+          university_name: string
+          updated_at: string
+          url: string | null
+          user_id: string
+        }
+        Insert: {
+          ai_rationale?: string | null
+          category?: string
+          country?: string | null
+          created_at?: string
+          deadline_date?: string | null
+          fit_score?: number | null
+          id?: string
+          notes?: string | null
+          program?: string | null
+          scholarship_available?: boolean | null
+          tuition_usd?: number | null
+          university_name: string
+          updated_at?: string
+          url?: string | null
+          user_id: string
+        }
+        Update: {
+          ai_rationale?: string | null
+          category?: string
+          country?: string | null
+          created_at?: string
+          deadline_date?: string | null
+          fit_score?: number | null
+          id?: string
+          notes?: string | null
+          program?: string | null
+          scholarship_available?: boolean | null
+          tuition_usd?: number | null
+          university_name?: string
+          updated_at?: string
+          url?: string | null
+          user_id?: string
         }
         Relationships: []
       }
