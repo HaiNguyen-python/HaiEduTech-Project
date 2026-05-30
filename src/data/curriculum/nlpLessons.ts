@@ -33,11 +33,14 @@ export const nlpModules: ExtendedProgrammingModule[] = [
 Formally, NLP sits at the intersection of three fields:
 
 \`\`\`mermaid
-graph LR
-    L[Linguistics<br/>How language works] --> N
-    C[Computer Science<br/>Algorithms & data] --> N
-    M[Machine Learning<br/>Patterns from data] --> N
-    N((NLP))
+flowchart LR
+    L["Linguistics<br/>How language works"]
+    C["Computer Science<br/>Algorithms & data"]
+    M["Machine Learning<br/>Patterns from data"]
+    N(("NLP"))
+    L --> N
+    C --> N
+    M --> N
 \`\`\`
 
 ## 2. Why is human language hard for computers?
@@ -123,44 +126,58 @@ That entire flow is NLP. We will build simplified versions of every step in this
 
 Recruiters scanning your CV for NLP roles look for *four* signals: (1) you can clean dirty multilingual text, (2) you understand both classical (TF-IDF, SVM) **and** modern (Transformer, RAG) stacks, (3) you can evaluate models with the right metric for the task, and (4) you have shipped at least one end-to-end project where text became a useful action (a label, a translation, an answer). This module is designed so that by Lesson 6 you can claim all four.`,
         theoryEn: "",
-        code: `# A 60-second taste of NLP using only the Python standard library.
-# We classify a movie review as positive / negative using a hand-crafted lexicon.
-# This is exactly how the FIRST generation of sentiment systems worked in the 1990s.
-import re
-from collections import Counter
+        code: `# ============================================================
+# DEMO 60 GIÂY: Phân loại cảm xúc (sentiment) review phim
+# bằng "lexicon thủ công" - đúng cách NLP hoạt động ở thập niên 1990.
+# Chỉ dùng Python chuẩn, không cần cài thư viện.
+# ============================================================
+import re                       # Regex: dùng để tách chữ ra khỏi dấu câu / emoji
+from collections import Counter # Đếm số lần xuất hiện của mỗi token
 
+# --- 1. Hai "từ điển" cảm xúc tự định nghĩa ---
+# Mỗi set chứa các từ tiếng Anh mang tín hiệu tích cực / tiêu cực rõ rệt.
 POSITIVE_LEXICON = {"great", "love", "amazing", "excellent", "awesome", "good", "fantastic"}
 NEGATIVE_LEXICON = {"bad", "boring", "awful", "terrible", "hate", "worst", "poor"}
 
+# --- 2. Hàm tokenize: cắt câu thành danh sách "token" (từ nhỏ nhất) ---
 def tokenize(text: str) -> list[str]:
-    """Lowercase + extract word characters only. Strips punctuation and emojis."""
+    """Đưa về chữ thường + chỉ giữ ký tự chữ cái (kể cả tiếng Việt có dấu).
+    Mọi dấu câu, số, emoji sẽ bị bỏ qua."""
+    # [a-z\\u00C0-\\u1EF9]+ = chữ thường Latin + dải ký tự có dấu của tiếng Việt
     return re.findall(r"[a-z\\u00C0-\\u1EF9]+", text.lower())
 
+# --- 3. Hàm chấm điểm cảm xúc dựa trên đếm từ ---
 def naive_sentiment(text: str) -> str:
-    tokens = tokenize(text)
-    counts = Counter(tokens)
+    tokens = tokenize(text)         # B1: tách câu thành các token
+    counts = Counter(tokens)        # B2: đếm tần suất từng token
+    # B3: cộng số lần xuất hiện của các từ tích cực / tiêu cực
     pos_hits = sum(counts[w] for w in POSITIVE_LEXICON if w in counts)
     neg_hits = sum(counts[w] for w in NEGATIVE_LEXICON if w in counts)
+    # B4: bên nào "thắng" thì trả về nhãn tương ứng
     if pos_hits > neg_hits:
         return "positive"
     if neg_hits > pos_hits:
         return "negative"
-    return "neutral"
+    return "neutral"               # Không có tín hiệu nào nổi bật
 
-# Try it on three reviews
+# --- 4. Thử mô hình "ngây thơ" trên 3 review mẫu ---
 reviews = [
     "Teacher Hai's lesson was AMAZING - I love how clearly he explains tokenization.",
     "The chatbot was boring and the answers were terrible.",
     "It exists. I have no opinion.",
 ]
 for r in reviews:
+    # f"{value:>8}" = canh phải, độ rộng 8 ký tự cho dễ đọc
     print(f"{naive_sentiment(r):>8} | {r}")
 
-# Why this is naive:
-#   - "not bad" → counts as negative because of "bad"
-#   - "It is not great" → still counts as positive
-#   - Cannot generalise to a word it has never seen ("phenomenal", "lit")
-# Lessons 2-6 fix every one of these problems with real NLP techniques.`,
+# ============================================================
+# TẠI SAO CÁCH NÀY "NGÂY THƠ" (naive)?
+#   - "not bad"          → bị tính là tiêu cực vì có "bad"
+#   - "It is not great"  → vẫn bị tính là tích cực vì có "great"
+#   - Không khái quát hoá được với từ chưa thấy ("phenomenal", "lit", "đỉnh")
+# → Các bài Lesson 2-6 sẽ lần lượt khắc phục từng vấn đề trên
+#    bằng kỹ thuật NLP thật sự (tokenizer thông minh, embeddings, Transformer).
+# ============================================================`,
         codeLanguage: "python",
         exercise: "Run the snippet on the 3 sample reviews. Then add the sentence *\"This is not bad at all.\"* - explain why the naive lexicon fails on negation, and propose **two** rules you could add to fix it (without using machine learning yet).",
         exerciseEn: "",
