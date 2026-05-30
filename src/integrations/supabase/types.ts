@@ -692,6 +692,87 @@ export type Database = {
         }
         Relationships: []
       }
+      hsk_writing_attempts: {
+        Row: {
+          content: string
+          created_at: string
+          grade: Json
+          id: string
+          level: string
+          prompt_id: string | null
+          prompt_text: string | null
+          task_type: string
+          user_id: string
+          word_count: number | null
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          grade?: Json
+          id?: string
+          level: string
+          prompt_id?: string | null
+          prompt_text?: string | null
+          task_type: string
+          user_id: string
+          word_count?: number | null
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          grade?: Json
+          id?: string
+          level?: string
+          prompt_id?: string | null
+          prompt_text?: string | null
+          task_type?: string
+          user_id?: string
+          word_count?: number | null
+        }
+        Relationships: []
+      }
+      hskk_attempts: {
+        Row: {
+          created_at: string
+          duration_seconds: number | null
+          feedback: Json
+          id: string
+          level: string
+          part: number
+          prompt_id: string
+          prompt_text: string | null
+          scores: Json
+          transcript: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          duration_seconds?: number | null
+          feedback?: Json
+          id?: string
+          level: string
+          part: number
+          prompt_id: string
+          prompt_text?: string | null
+          scores?: Json
+          transcript?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          duration_seconds?: number | null
+          feedback?: Json
+          id?: string
+          level?: string
+          part?: number
+          prompt_id?: string
+          prompt_text?: string | null
+          scores?: Json
+          transcript?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       ielts_lecture_progress: {
         Row: {
           completed_at: string | null
@@ -2015,6 +2096,66 @@ export type Database = {
           subject?: string
           user_id?: string
           word?: string
+        }
+        Relationships: []
+      }
+      vocab_srs_state: {
+        Row: {
+          created_at: string
+          difficulty: number
+          due_date: string
+          id: string
+          lapses: number
+          last_review: string | null
+          level: string | null
+          meaning: string | null
+          pinyin: string | null
+          reps: number
+          stability: number
+          state: string
+          subject: string
+          updated_at: string
+          user_id: string
+          word_display: string | null
+          word_key: string
+        }
+        Insert: {
+          created_at?: string
+          difficulty?: number
+          due_date?: string
+          id?: string
+          lapses?: number
+          last_review?: string | null
+          level?: string | null
+          meaning?: string | null
+          pinyin?: string | null
+          reps?: number
+          stability?: number
+          state?: string
+          subject?: string
+          updated_at?: string
+          user_id: string
+          word_display?: string | null
+          word_key: string
+        }
+        Update: {
+          created_at?: string
+          difficulty?: number
+          due_date?: string
+          id?: string
+          lapses?: number
+          last_review?: string | null
+          level?: string | null
+          meaning?: string | null
+          pinyin?: string | null
+          reps?: number
+          stability?: number
+          state?: string
+          subject?: string
+          updated_at?: string
+          user_id?: string
+          word_display?: string | null
+          word_key?: string
         }
         Relationships: []
       }
