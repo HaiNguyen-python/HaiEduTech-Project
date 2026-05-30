@@ -359,6 +359,7 @@ const FloatingNotebook = () => {
     : 0;
 
   if (!user) return null;
+  if (chatbotOpen && !open) return null;
 
   return (
     <>
