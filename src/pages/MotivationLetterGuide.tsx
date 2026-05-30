@@ -22,6 +22,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 // MotivationLetterDrafts is rendered in StudentDocuments (single source of truth)
+import LorToolkit from "@/components/study-profile/LorToolkit";
 import MotivationLetterSanityCheck from "@/components/study-abroad/MotivationLetterSanityCheck";
 import { SAMPLE_LETTERS, type SampleLetter } from "@/data/motivationLetterSamples";
 
@@ -336,6 +337,10 @@ const MotivationLetterGuide = () => {
               </CardContent>
             </Card>
           )}
+
+          <div className="mt-10">
+            <LorToolkit />
+          </div>
         </div>
       </main>
 

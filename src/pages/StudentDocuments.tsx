@@ -29,6 +29,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import GlobalScholarBadge from "@/components/GlobalScholarBadge";
 import MotivationLetterDrafts from "@/components/study-profile/MotivationLetterDrafts";
 import ProfileStrengthAssessment from "@/components/study-profile/ProfileStrengthAssessment";
+import ApplicationDeadlines from "@/components/study-profile/ApplicationDeadlines";
 
 const MAX_FILE_BYTES = 10 * 1024 * 1024; // 10 MB
 const MAX_FILES_PER_USER = 50;
@@ -295,11 +296,16 @@ const StudentDocuments = () => {
           </motion.div>
 
           <Tabs defaultValue="documents" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 mb-4">
+            <TabsList className="grid w-full grid-cols-4 mb-4">
               <TabsTrigger value="documents">📁 {t("Tài liệu", "Documents")}</TabsTrigger>
+              <TabsTrigger value="deadlines">⏰ {t("Deadlines", "Deadlines")}</TabsTrigger>
               <TabsTrigger value="motivation">✍️ {t("Motivation Letter", "Motivation Letter")}</TabsTrigger>
               <TabsTrigger value="strength">✨ {t("Đánh giá AI", "AI Assessment")}</TabsTrigger>
             </TabsList>
+
+            <TabsContent value="deadlines" className="mt-0">
+              <ApplicationDeadlines userId={userId} />
+            </TabsContent>
 
             <TabsContent value="motivation" className="mt-0">
               <MotivationLetterDrafts userId={userId} />

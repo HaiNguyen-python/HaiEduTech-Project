@@ -30,6 +30,13 @@ const StudyAbroadHub = () => {
       desc: t("Công thức 5 đoạn vàng + AI viết bản nháp đầu tiên + template Word.", "The 5-paragraph golden formula + AI first draft + Word template."),
     },
     {
+      to: "/study-abroad/cv",
+      icon: FileText,
+      gradient: "from-emerald-500 to-green-600",
+      title: t("CV Builder", "CV Builder"),
+      desc: t("3 mẫu Europass, Modern (US), Classic (UK). Lưu nháp tự động · xuất PDF.", "3 templates Europass, Modern (US), Classic (UK). Auto-save · export PDF."),
+    },
+    {
       to: "/study-abroad/sat",
       icon: BookOpen,
       gradient: "from-amber-500 to-orange-600",

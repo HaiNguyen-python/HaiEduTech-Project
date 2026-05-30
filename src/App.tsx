@@ -181,6 +181,7 @@ const PythonLessonView = lazy(() => import("./pages/PythonLessonView.tsx"));
 const StudyAbroadHub = lazy(() => import("./pages/StudyAbroadHub.tsx"));
 const StudentDocuments = lazy(() => import("./pages/StudentDocuments.tsx"));
 const MotivationLetterGuide = lazy(() => import("./pages/MotivationLetterGuide.tsx"));
+const CVBuilder = lazy(() => import("./pages/CVBuilder.tsx"));
 const SatRoadmap = lazy(() => import("./pages/SatRoadmap.tsx"));
 const PhdGlobalPathway = lazy(() => import("./pages/PhdGlobalPathway.tsx"));
 const MentorHub = lazy(() => import("./pages/MentorHub.tsx"));
@@ -367,6 +368,7 @@ const App = () => (
             <Route path="/study-abroad" element={<LazyRoute><StudyAbroadHub /></LazyRoute>} />
             <Route path="/study-abroad/documents" element={<LazyRoute><StudentDocuments /></LazyRoute>} />
             <Route path="/study-abroad/motivation-letter" element={<LazyRoute><MotivationLetterGuide /></LazyRoute>} />
+            <Route path="/study-abroad/cv" element={<LazyRoute><CVBuilder /></LazyRoute>} />
             <Route path="/study-abroad/sat" element={<LazyRoute><SatRoadmap /></LazyRoute>} />
             <Route path="/study-abroad/phd" element={<LazyRoute><PhdGlobalPathway /></LazyRoute>} />
             <Route path="/study-abroad/mentor-hub" element={<LazyRoute><MentorHub /></LazyRoute>} />
