@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle, Dumbbell } from "lucide-react";
+import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle, Dumbbell, Brain } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { hskVocabData, HSK_LEVELS, HSK_CATEGORIES, type HskWord } from "@/data/hskVocab";
 import HanziStrokeOrder from "@/components/HanziStrokeOrder";
@@ -21,6 +21,7 @@ import KangxiRadicalsBrowser from "@/components/KangxiRadicalsBrowser";
 import HskExamplePractice from "@/components/HskExamplePractice";
 import HskMnemonic from "@/components/HskMnemonic";
 import HskExampleTranslation from "@/components/HskExampleTranslation";
+import HskSrsReview from "@/components/chinese/HskSrsReview";
 import { supabase } from "@/integrations/supabase/client";
 import { useSearchParams } from "react-router-dom";
 
@@ -493,7 +494,11 @@ const HskVocabulary = () => {
   const [levelFilter, setLevelFilter] = useState<string>("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [page, setPage] = useState(1);
-  const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise">("list");
+  const initialMode = (() => {
+    const m = searchParams.get("mode");
+    return m === "flashcard" || m === "exercise" || m === "srs" ? m : "list";
+  })();
+  const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise" | "srs">(initialMode);
   const { mastered, toggle: toggleMasteredHook } = useMasteredVocab("hsk");
   const [showMasteredOnly, setShowMasteredOnly] = useState(false);
 
@@ -634,11 +639,12 @@ const HskVocabulary = () => {
                 <option value="all">{t("Tất cả chủ đề", "All Topics")}</option>
                 {HSK_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
-              <Tabs value={viewMode} onValueChange={v => setViewMode(v as "list" | "flashcard" | "exercise")}>
+              <Tabs value={viewMode} onValueChange={v => setViewMode(v as "list" | "flashcard" | "exercise" | "srs")}>
                 <TabsList>
                   <TabsTrigger value="list" className="gap-1.5 px-4"><List className="w-4 h-4" /> {t("Từ vựng", "Vocabulary")}</TabsTrigger>
                   <TabsTrigger value="flashcard" className="gap-1.5 px-4"><Layers className="w-4 h-4" /> Flashcard</TabsTrigger>
                   <TabsTrigger value="exercise" className="gap-1.5 px-4"><Dumbbell className="w-4 h-4" /> {t("Luyện tập", "Practice")}</TabsTrigger>
+                  <TabsTrigger value="srs" className="gap-1.5 px-4"><Brain className="w-4 h-4" /> SRS</TabsTrigger>
                 </TabsList>
               </Tabs>
             </div>
@@ -646,7 +652,9 @@ const HskVocabulary = () => {
             <p className="text-xs text-muted-foreground mb-4">{filtered.length} {t("kết quả", "results")}</p>
 
             {/* Content based on mode */}
-            {viewMode === "exercise" ? (
+            {viewMode === "srs" ? (
+              <HskSrsReview allWords={hskVocabData} />
+            ) : viewMode === "exercise" ? (
               <HskExercise masteredWords={hskVocabData.filter(w => mastered.has(w.character))} t={t} />
             ) : (() => {
               const groups = paginated.reduce<Record<string, HskWord[]>>((acc, w) => {
@@ -719,7 +727,7 @@ const HskVocabulary = () => {
             })()}
 
             {/* Pagination (hide in exercise mode) */}
-            {viewMode !== "exercise" && totalPages > 1 && (
+            {viewMode !== "exercise" && viewMode !== "srs" && totalPages > 1 && (
               <div className="flex items-center justify-center gap-2 mt-8">
                 <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>
                   <ChevronLeft className="w-4 h-4" />
