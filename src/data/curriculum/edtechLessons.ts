@@ -749,30 +749,125 @@ print(json.dumps(fake_llm_grade(ESSAY), indent=2, ensure_ascii=False))`,
         titleEn: "Recommendation: Next-Best Lesson",
         level: 3,
         difficulty: "intermediate",
-        theory: `## 1. 🎯 Vì sao cần?
+        theory: `## 1. 🎯 Vì sao Recommendation quan trọng trong EdTech?
 
-Một nền tảng có 500 bài → học sinh dễ lạc. Gợi ý bài kế tiếp giữ chân và tăng tốc tiến bộ.
+Một nền tảng EdTech trưởng thành có **500–5000 bài học**. Học sinh đăng nhập và đối mặt câu hỏi "Học gì tiếp theo?" → đa số chọn bừa hoặc thoát app. Theo nghiên cứu Coursera (2019): **gợi ý cá nhân hoá tăng tỉ lệ hoàn thành khóa 38%** so với danh sách phẳng.
 
-## 2. 🧰 3 chiến thuật phổ biến
+> 🎯 **Mục tiêu kép:** (a) tăng retention (giữ chân) và (b) tăng learning velocity (tiến bộ nhanh) — KHÔNG chỉ là click-through rate như recommendation thương mại điện tử.
 
-- **Rule-based**: hoàn thành A → đề xuất B (graph prerequisites).
-- **Content-based**: tìm bài có topic giống bài học sinh thích.
-- **Collaborative filtering**: "học sinh giống bạn cũng học bài X".
+## 2. 🧰 Ba chiến thuật phổ biến — phân tích sâu
 
-## 3. 📐 Công thức gợi ý lai
+### a) Rule-based (Knowledge Graph)
+Bài học có quan hệ **prerequisite** (A phải xong trước B). Biểu diễn dưới dạng đồ thị có hướng:
+\`\`\`
+"Hiện tại đơn" ──▶ "Hiện tại tiếp diễn" ──▶ "Hiện tại hoàn thành"
+        │                                          │
+        ▼                                          ▼
+"Câu hỏi Yes/No"                          "Câu bị động hoàn thành"
+\`\`\`
 
-\`score = 0.5 * mastery_gap + 0.3 * topic_similarity + 0.2 * popularity\`
+- ✅ **Ưu:** dễ giải thích cho giáo viên; không cần dữ liệu lớn.
+- ❌ **Nhược:** cứng, không thấy được sở thích cá nhân.
 
-- **mastery_gap**: ưu tiên kỹ năng yếu.
-- **topic_similarity**: TF-IDF / embedding.
-- **popularity**: tránh "cold start".
+### b) Content-based Filtering
+Mỗi bài học có **vector đặc trưng** (topic, độ khó, kỹ năng, độ dài). Tìm bài có vector gần với bài học sinh đã thích/hoàn thành tốt.
 
-## 4. ⚠️ Bẫy
+| Đặc trưng | Cách tính |
+|-----------|-----------|
+| **Topic** | TF-IDF trên transcript, hoặc embedding (text-embedding-3-small) |
+| **Difficulty** | Tham số b từ IRT, hoặc level 1-5 |
+| **Skill mix** | One-hot: [listening, reading, vocab, grammar, speaking] |
+| **Duration** | Phút dự kiến |
 
-- Chỉ đề xuất bài dễ → học sinh không tiến.
-- Bỏ qua đa dạng → chán.
+Similarity = cosine của 2 vector → > 0.7 coi là "tương tự".
+
+- ✅ **Ưu:** xử lý được học sinh mới (chỉ cần biết họ thích gì).
+- ❌ **Nhược:** "filter bubble" — chỉ gợi bài giống nhau, không khám phá topic mới.
+
+### c) Collaborative Filtering
+"Học sinh giống bạn cũng học bài X." Ma trận user × lesson với rating (mastery đạt được). Dùng SVD / ALS / Matrix Factorization để tìm latent factors.
+
+- ✅ **Ưu:** phát hiện pattern bất ngờ ("HS học HSK 2 thường thích podcast văn hoá").
+- ❌ **Nhược:** **Cold start** — học sinh mới hoặc bài mới không có data.
+
+## 3. 📐 Hybrid Scoring — công thức thực dụng
+
+Không cần chọn một — kết hợp 3:
+
+\`\`\`
+score(lesson) = w1 · mastery_gap(skill)
+              + w2 · topic_similarity(history)
+              + w3 · popularity(global)
+              + w4 · prereq_ready(graph)
+              − w5 · freshness_penalty(last_24h)
+\`\`\`
+
+| Trọng số | Khuyến nghị ban đầu | Tinh chỉnh bằng |
+|----------|---------------------|-----------------|
+| w1 (mastery_gap) | 0.5 | Cao hơn → ưu tiên kỹ năng yếu |
+| w2 (similarity) | 0.3 | Cao hơn → cá nhân hoá mạnh |
+| w3 (popularity) | 0.2 | Tránh cold start |
+| w4 (prereq) | 1.0 (hard gate) | Không gợi nếu chưa đủ prereq |
+| w5 (freshness) | 0.1 | Tránh lặp bài vừa làm |
+
+> 🔧 **Tune trọng số bằng A/B test** trên 4 chỉ số: completion rate, mastery growth, time-to-mastery, D7 retention.
+
+## 4. 🧊 Cold Start — vấn đề luôn phải giải
+
+| Tình huống | Giải pháp |
+|-----------|-----------|
+| **Học sinh mới** | Hỏi 3 câu onboarding (goal, level, sở thích) → khởi tạo profile |
+| **Bài học mới** | Dựa vào metadata (topic, difficulty) — fallback sang content-based |
+| **Cả hai mới** | Hiển thị "top phổ biến trong cohort tương tự" (theo độ tuổi/mục tiêu) |
+
+## 5. 🌈 Diversity & Serendipity
+
+Recommendation chỉ tối ưu **relevance** sẽ làm người học chán. Thêm:
+- **MMR (Maximal Marginal Relevance):** giảm điểm cho bài quá giống bài đã gợi.
+- **ε-greedy exploration:** 10% lần gợi ý **random** trong top 50 → khám phá topic mới.
+- **Skill balance:** đảm bảo gợi ý đủ 4 kỹ năng trong tuần (không spam listening).
+
+## 6. 📊 Evaluation Metrics
+
+| Metric | Đo gì | Lưu ý |
+|--------|------|-------|
+| **Precision@k** | Trong top-k gợi ý, bao nhiêu được click | Dễ đo, nhưng thiên về relevance ngắn hạn |
+| **NDCG@k** | Có tính vị trí trong list | Tốt hơn cho ranking |
+| **Mastery lift** | Δ mastery sau khi follow gợi ý | **Đo đúng cái EdTech cần** |
+| **Coverage** | % bài học từng được gợi ý | Tránh "Matthew effect" (giàu càng giàu) |
+
+## 7. ⚠️ Bẫy thường gặp
+
+1. **Chỉ đề xuất bài dễ** → tăng engagement ảo, không tiến bộ.
+2. **Bỏ qua đa dạng** → học sinh chán, drop-off cao.
+3. **Không có hard gate prereq** → gợi bài quá khó → frustration.
+4. **Optimize chỉ click-through** → giống TikTok, mất tính giáo dục.
+5. **Không refresh model định kỳ** → recommendation lệch theo cohort cũ.
+6. **Quên giải thích "vì sao gợi bài này"** → giảm trust. Thêm dòng "Vì bạn vừa hoàn thành X."
 `,
-        theoryEn: `Hybrid recommendations combine rule-based prerequisites, content similarity, and collaborative signals, weighted to balance mastery gap, relevance, and popularity.`,
+        theoryEn: `## 1. 🎯 Why EdTech recommendation matters
+A mature platform has 500–5000 lessons; personalized recommendations boost course completion ~38% (Coursera 2019). Goal is **retention + learning velocity**, not just CTR.
+
+## 2. 🧰 Three strategies
+- **Rule-based / knowledge graph:** prerequisite DAG. Simple, explainable, no personalization.
+- **Content-based:** embed lesson features (topic vector via embeddings, difficulty, skill mix, duration); cosine similarity. Handles new users; risks filter bubble.
+- **Collaborative filtering:** user × lesson matrix, ALS/SVD. Surfaces surprising patterns but suffers cold start.
+
+## 3. 📐 Hybrid formula
+\`score = w1·mastery_gap + w2·similarity + w3·popularity + w4·prereq_ready − w5·freshness_penalty\`. Tune weights via A/B on completion, mastery growth, time-to-mastery, D7.
+
+## 4. 🧊 Cold start
+New users → 3-question onboarding. New lessons → metadata-only ranking. Both new → cohort popularity.
+
+## 5. 🌈 Diversity
+Add **MMR** to penalize near-duplicates, **ε-greedy** for 10% exploration, and weekly skill-balance constraints.
+
+## 6. 📊 Metrics
+Precision@k, NDCG@k, mastery lift (the metric EdTech actually needs), coverage (avoid Matthew effect).
+
+## 7. ⚠️ Pitfalls
+Recommending only easy lessons; no diversity; missing prereq hard-gate; optimizing CTR like TikTok; never retraining; no "why this lesson" explanation → low trust.
+`,
         code: `lessons = [
     {"id": "g1", "topic": "grammar", "popularity": 0.8},
     {"id": "v3", "topic": "vocab",   "popularity": 0.6},
