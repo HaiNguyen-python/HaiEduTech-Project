@@ -101,6 +101,14 @@ const MotivationLetterGuide = () => {
   ];
 
   const handleDraft = async () => {
+    if (!userId) {
+      toast({
+        title: t("Cần đăng nhập", "Sign in required"),
+        description: t("Vui lòng đăng nhập để dùng AI viết bản nháp.", "Please sign in to use the AI drafter."),
+        variant: "destructive",
+      });
+      return;
+    }
     if (!input.programName || !input.university || !input.fieldOfStudy) {
       toast({
         title: t("Thiếu thông tin", "Missing info"),
