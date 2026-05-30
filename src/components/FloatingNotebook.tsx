@@ -69,6 +69,17 @@ const getDefaultPosition = (width: number, height: number) => ({
 const FloatingNotebook = () => {
   const [user, setUser] = useState<any>(null);
   const [open, setOpen] = useState(false);
+  const [chatbotOpen, setChatbotOpen] = useState(false);
+
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      setChatbotOpen(!!detail?.open);
+      if (detail?.open) setOpen(false);
+    };
+    window.addEventListener("chatbot:toggle", handler);
+    return () => window.removeEventListener("chatbot:toggle", handler);
+  }, []);
   const [notebooks, setNotebooks] = useState<Notebook[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [title, setTitle] = useState("");
