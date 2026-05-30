@@ -485,7 +485,49 @@ The Global Search bar (Cmd/Ctrl+K) on this very site uses TF-IDF + cosine simila
 
 ## 7. Key Concept
 
-> 🎯 **Key Concept** - Going from **BoW → TF-IDF → embeddings** is a journey from *counting words* to *measuring meaning*. Modern systems still use all three: TF-IDF for fast filtering, embeddings for ranking, LLMs for generation.`,
+> 🎯 **Key Concept** - Going from **BoW → TF-IDF → embeddings** is a journey from *counting words* to *measuring meaning*. Modern systems still use all three: TF-IDF for fast filtering, embeddings for ranking, LLMs for generation.
+
+## 8. Deep dive - How embeddings actually learn meaning
+
+Word2Vec's training trick is brutally simple but mathematically deep. Two flavours:
+
+| Variant | Input → Output | Intuition |
+|---------|----------------|-----------|
+| **CBOW** (Continuous Bag of Words) | Context words → centre word | "Predict the missing word from its neighbours" |
+| **Skip-gram** | Centre word → context words | "Predict the neighbours from the centre word" - works better on small data |
+
+Both push vectors of words that share contexts **closer together** in the latent space. After training on billions of sentences, geometric relations emerge for free:
+
+\`\`\`
+vec("king") - vec("man") + vec("woman") ≈ vec("queen")
+vec("Paris") - vec("France") + vec("Vietnam") ≈ vec("Hanoi")
+vec("walked") - vec("walking") + vec("swimming") ≈ vec("swam")
+\`\`\`
+
+Modern *contextual* embeddings (BERT, sentence-transformers) go one step further: the same word gets a *different* vector depending on its sentence. "bank" in *"river bank"* and *"bank account"* are now far apart - a critical fix for disambiguation.
+
+## 9. Vector search at scale - the 2026 stack
+
+Once you have embeddings, you need to search millions of vectors in milliseconds:
+
+| Tool | Best for | Notes |
+|------|----------|-------|
+| **FAISS** (Facebook) | In-process, single-machine, billions of vectors | Free, fastest, no server |
+| **pgvector** (Postgres) | You already have Postgres + < 10M vectors | Used by HaiEduTech for lesson search |
+| **Pinecone / Weaviate / Qdrant** | Managed, multi-tenant, hybrid search | Pay-per-use, batteries included |
+| **Chroma / LanceDB** | Local prototyping, RAG demos | Single-file, embedded |
+
+All of them use **ANN (Approximate Nearest Neighbour)** indexes - HNSW, IVF, or PQ - that trade < 1% accuracy for 1000× speedup vs brute force.
+
+## 10. Common pitfalls & pro tips
+
+| Pitfall | Why it hurts | Pro tip |
+|---------|--------------|---------|
+| Comparing embeddings from different models | Vectors live in different spaces - cosine is meaningless | Pick **one** embedding model per index, version it |
+| Forgetting to L2-normalise | Cosine vs dot product give different rankings | Normalise once at insert time, then dot product = cosine |
+| Embedding very long documents whole | One vector for 10k words averages meaning to mush | Chunk by paragraph (200-500 tokens) before embedding |
+| Storing embeddings as float64 | 4× the RAM for no quality gain | Use float32 or even int8 quantisation |
+| Re-training Word2Vec from scratch | Wastes weeks; pre-trained vectors are nearly always better | Start from GloVe / fastText / OpenAI / Cohere embeddings |`,
         theoryEn: "",
         code: `# Compare BoW, TF-IDF, and a small Word2Vec embedding on 4 mini-documents.
 # pip install scikit-learn gensim
