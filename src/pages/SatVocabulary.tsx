@@ -132,8 +132,8 @@ const Flashcard = ({ word, isMastered, onStar }: { word: SatWord; isMastered: bo
           key="back"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="rounded-xl bg-white dark:bg-card flex flex-col justify-center gap-2"
-          style={{ padding: "2rem", border: "2px solid #f1f5f9", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)", minHeight: "14rem" }}
+          className="rounded-xl bg-gradient-to-br from-emerald-50 to-blue-50 dark:from-slate-800 dark:to-slate-900 flex flex-col justify-center gap-2"
+          style={{ padding: "2rem", border: "3px solid hsl(var(--primary))", boxShadow: "0 8px 22px -6px hsl(var(--primary) / 0.5)", minHeight: "14rem" }}
         >
           <p className="font-bold break-words" style={{ fontSize: "1.1875rem", color: "#1d4ed8", lineHeight: 1.6 }}>{word.definition.vi}</p>
           {word.example && (
