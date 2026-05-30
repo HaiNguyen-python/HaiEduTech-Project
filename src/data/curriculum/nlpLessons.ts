@@ -904,7 +904,53 @@ When you start typing "good mor…", your phone suggests "morning". That suggest
 
 ## 7. Key Concept
 
-> 🎯 **Key Concept** - RNNs and LSTMs were the workhorse of NLP from 2014-2017. They process tokens **sequentially**, carrying a hidden state forward. **LSTMs add gates** to fight vanishing gradients and remember longer context. They are still excellent for small, low-latency on-device tasks, but Transformers (Lesson 6) won the cloud.`,
+> 🎯 **Key Concept** - RNNs and LSTMs were the workhorse of NLP from 2014-2017. They process tokens **sequentially**, carrying a hidden state forward. **LSTMs add gates** to fight vanishing gradients and remember longer context. They are still excellent for small, low-latency on-device tasks, but Transformers (Lesson 6) won the cloud.
+
+## 8. Inside the LSTM cell - the 3 gates demystified
+
+Each LSTM step receives the previous hidden state \`h\`, previous cell memory \`C\`, and the new token \`x\`. Three sigmoid-controlled gates decide what to do:
+
+| Gate | Question it answers | Output if = 0 | Output if = 1 |
+|------|----------------------|---------------|----------------|
+| **Forget** \`f\` | What should I erase from memory? | Wipe everything | Keep all of it |
+| **Input** \`i\` | What new info should I store? | Ignore the new token | Fully absorb it |
+| **Output** \`o\` | What should I expose as hidden state? | Hide everything | Reveal the full cell |
+
+\`\`\`text
+new_cell    = f * old_cell  +  i * candidate
+new_hidden  = o * tanh(new_cell)
+\`\`\`
+
+The **cell state** \`C\` is a "conveyor belt" that runs the length of the sequence with only mild linear changes - that is the trick that defeats vanishing gradients.
+
+## 9. RNN family - which one when?
+
+| Model | Year | Wins | Loses |
+|-------|------|------|-------|
+| **Vanilla RNN** | 1986 | Tiny, fast | Vanishing gradients past ~10 tokens |
+| **LSTM** | 1997 | Long memory, stable | 4× params per cell, sequential = slow |
+| **GRU** | 2014 | 75% LSTM quality at 2 gates | Slightly less expressive on long context |
+| **Bi-LSTM** | 2005+ | Reads left→right *and* right→left | 2× compute, not causal (no streaming) |
+| **Attention + LSTM (seq2seq)** | 2015 | Bridge to Transformers | Still O(n²) on the attention bit |
+| **Transformer** | 2017 | Fully parallel, infinite context (almost) | Quadratic attention cost, needs lots of data |
+
+## 10. When to still pick LSTM in 2026
+
+Transformers win the benchmark race, but LSTMs survive in three niches:
+
+- **On-device / edge** - your model has to fit in 5 MB on a phone keyboard.
+- **Streaming / very long sequences** - real-time speech, log anomaly detection.
+- **Low-data regimes** - fewer than ~5k labelled examples; LSTMs over-fit less than a from-scratch Transformer.
+
+## 11. Common pitfalls & pro tips
+
+| Pitfall | Why it hurts | Pro tip |
+|---------|--------------|---------|
+| Forgetting to pad + mask | Padding tokens leak into the loss | Use \`pack_padded_sequence\` (PyTorch) or attention masks |
+| Mixing batch-first and seq-first | Silent shape bugs that look like bad accuracy | Pick one convention per repo and stick to it |
+| No gradient clipping | Loss explodes after a few hundred steps | \`torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)\` |
+| Sampling with temperature = 1 forever | Output gets repetitive or chaotic | Use temperature 0.7-0.9 + top-k or nucleus sampling |
+| Training on raw text every epoch | Tokeniser dominates wall time | Pre-tokenise once and cache to disk |`,
         theoryEn: "",
         code: `# A character-level LSTM that learns to continue a sentence.
 # We train on a tiny corpus and let the model 'dream' the next 100 characters.
