@@ -692,6 +692,48 @@ export type Database = {
         }
         Relationships: []
       }
+      hsk_srs_progress: {
+        Row: {
+          created_at: string
+          easiness: number
+          hsk_level: number | null
+          id: string
+          interval_days: number
+          last_reviewed: string | null
+          next_review: string
+          repetitions: number
+          updated_at: string
+          user_id: string
+          word_id: string
+        }
+        Insert: {
+          created_at?: string
+          easiness?: number
+          hsk_level?: number | null
+          id?: string
+          interval_days?: number
+          last_reviewed?: string | null
+          next_review?: string
+          repetitions?: number
+          updated_at?: string
+          user_id: string
+          word_id: string
+        }
+        Update: {
+          created_at?: string
+          easiness?: number
+          hsk_level?: number | null
+          id?: string
+          interval_days?: number
+          last_reviewed?: string | null
+          next_review?: string
+          repetitions?: number
+          updated_at?: string
+          user_id?: string
+          word_id?: string
+        }
+        Relationships: []
+      }
       hsk_writing_attempts: {
         Row: {
           content: string
