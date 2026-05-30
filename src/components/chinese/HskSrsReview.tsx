@@ -41,8 +41,7 @@ const RATINGS: Array<{ value: SrsRating; label: { vi: string; en: string }; colo
 ];
 
 export default function HskSrsReview({ allWords, maxNewPerSession = 8, sessionSize = 20 }: Props) {
-  const { language } = useLanguage();
-  const t = (vi: string, en: string) => (language === "vi" ? vi : en);
+  const { t } = useLanguage();
   const { cards, loading, review, dueCount, masteredCount, totalSeen, userId } = useHskSRS();
 
   const [queue, setQueue] = useState<HskWord[]>([]);
