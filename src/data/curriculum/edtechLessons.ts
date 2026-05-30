@@ -148,40 +148,114 @@ for w, st in stats.items():
         titleEn: "Spaced Repetition Algorithm (SM-2)",
         level: 2,
         difficulty: "intermediate",
-        theory: `## 1. 🧠 Đường cong quên Ebbinghaus
+        theory: `## 1. 🧠 Đường cong quên Ebbinghaus — gốc rễ của Spaced Repetition
 
-Sau 1 ngày bạn quên ~50% kiến thức. Spaced Repetition lên lịch ôn đúng lúc đường cong rơi xuống ~80% — tốn ít công, nhớ rất lâu.
-
-## 2. 📐 Thuật toán SM-2 (Anki)
-
-Mỗi flashcard có:
-- **EF** (easiness factor, mặc định 2.5)
-- **interval** (số ngày tới lần ôn kế)
-- **repetitions** (số lần trả lời đúng liên tiếp)
-
-Sau mỗi lần đánh giá \`q\` (0–5):
+Năm 1885, Hermann Ebbinghaus tự thí nghiệm trên bản thân và phát hiện: sau khi học một thông tin mới, tốc độ quên gần như **lũy thừa âm**:
+- Sau **20 phút** quên ~40%
+- Sau **1 ngày** quên ~50–70%
+- Sau **6 ngày** quên ~75%
+- Sau **31 ngày** quên ~80% (nếu không ôn lại)
 
 \`\`\`
-if q < 3: repetitions = 0; interval = 1
-else:
+  Retention %
+   100│●
+      │ \\
+    80│  ●_
+      │    \\__       (không ôn)
+    60│       \\___
+      │           \\____
+    40│                \\_____
+      │                      \\____
+    20│                           \\____
+      │                                 \\____
+     0└────────────────────────────────────────▶ Time
+       0   20m  1h   1d   6d   31d
+\`\`\`
+
+**Spaced Repetition** đặt mỗi lần ôn **đúng lúc đường cong vừa rơi xuống ~80%** — ngay trước khi quên hẳn. Mỗi lần ôn đúng, đường cong "reset" và **dốc xuống chậm hơn** — đó là lý do interval tăng theo cấp số nhân.
+
+## 2. 📐 Thuật toán SM-2 (lõi của Anki, SuperMemo, Mochi)
+
+SM-2 (Piotr Wozniak, 1987) là thuật toán đầu tiên được công bố công khai. Mỗi flashcard lưu 3 biến:
+
+| Biến | Ý nghĩa | Giá trị khởi tạo |
+|------|---------|------------------|
+| **EF** (easiness factor) | Độ "dễ" của card với người học này | 2.5 |
+| **interval** | Số ngày tới lần ôn kế | 0 |
+| **repetitions** | Số lần trả lời đúng liên tiếp | 0 |
+
+Sau mỗi lần đánh giá \`q ∈ [0..5]\` (0 = quên sạch, 5 = nhớ hoàn hảo):
+
+\`\`\`
+if q < 3:                          # Trả lời sai → coi như học lại từ đầu
+    repetitions = 0
+    interval    = 1
+else:                              # Trả lời đúng
     if repetitions == 0: interval = 1
     elif repetitions == 1: interval = 6
-    else: interval = round(interval * EF)
+    else:                interval = round(interval * EF)
     repetitions += 1
+
+# Cập nhật EF cho mọi q (kể cả q<3, để card "khó" dần)
 EF = max(1.3, EF + 0.1 - (5-q)*(0.08 + (5-q)*0.02))
 \`\`\`
 
-## 3. 🎯 Vì sao nó hiệu quả?
+### Ví dụ ngày-theo-ngày của 1 card
+| Ngày | q | repetitions | interval | EF | Ghi chú |
+|------|---|-------------|----------|------|---------|
+| 0 | – | 0 | 0 | 2.50 | Học mới |
+| 1 | 5 | 1 | 1 | 2.60 | Đúng dễ |
+| 2 | 4 | 2 | 6 | 2.60 | Vẫn đúng |
+| 8 | 5 | 3 | 16 | 2.70 | Đúng dễ → giãn lịch |
+| 24 | 2 | 0 | 1 | 2.46 | **Quên!** reset |
 
-- Card khó → interval ngắn, EF giảm → gặp lại sớm.
-- Card dễ → interval nhân lên (vài tuần → vài tháng).
+> 🔑 **Insight:** EF chỉ thay đổi từ từ (±0.15/lần), nên card cần **vài chục lần ôn** để hệ thống "hiểu" độ khó thực sự với người học.
 
-## 4. ⚠️ Bẫy
+## 3. 🎯 Vì sao SM-2 hiệu quả?
 
-- Quên giới hạn EF ≥ 1.3 → card có thể "biến mất".
-- Không reset repetitions khi q<3 → người học quên mãi mà vẫn bị giãn lịch.
+- **Card khó** → interval ngắn, EF giảm → người học gặp lại sớm để củng cố.
+- **Card dễ** → interval nhân lên theo EF (vài tuần → vài tháng → vài năm).
+- **Tự cân bằng workload**: lượng card "due" mỗi ngày ổn định ~5–10% kho.
+- **Cá nhân hoá**: cùng một card, EF khác nhau cho mỗi người học.
+
+## 4. 🆚 SM-2 vs các thế hệ kế tiếp
+
+| Thuật toán | Năm | Khác biệt chính |
+|------------|-----|-----------------|
+| **SM-2** | 1987 | Đơn giản, 3 biến — đủ tốt cho 95% use case |
+| **SM-17** | 2016 | Mô hình quên 2 chiều, dùng ML — phức tạp hơn nhiều |
+| **FSRS** | 2022+ | Free Spaced Repetition Scheduler, hiện đã thay SM-2 trong Anki 23+, dựa trên DSR model (Difficulty/Stability/Retrievability) |
+
+Khi mới làm sản phẩm EdTech, **bắt đầu bằng SM-2** rồi nâng cấp FSRS khi có > 10k phiên ôn để huấn luyện.
+
+## 5. ⚠️ Các bẫy triển khai
+
+1. **Quên giới hạn EF ≥ 1.3** → card có EF tiến về 0 → interval bằng 0 → "biến mất" hoặc loop vô tận.
+2. **Không reset repetitions khi q<3** → người học quên mãi mà card vẫn bị giãn lịch → frustration.
+3. **Không giới hạn số card mới/ngày** → tuần sau đột nhiên 500 card "due" → bỏ cuộc.
+4. **Bỏ qua "leech" cards** (sai > 8 lần) → cần đánh dấu để giáo viên xem lại nội dung.
+5. **Đo q sai** — nếu UI chỉ có nút "Đúng/Sai" thì mất thông tin granular của thang 0–5.
 `,
-        theoryEn: `SM-2 schedules each flashcard by tracking easiness factor (EF), interval, and repetitions. After each rating q (0-5), the algorithm updates EF and decides when to show the card again — short for hard cards, exponential for easy ones.`,
+        theoryEn: `## 1. 🧠 Ebbinghaus forgetting curve
+
+Without review, retention drops to ~50% after 1 day and ~20% after a month. Spaced Repetition schedules each review **right before the curve crashes** — minimal effort, maximum retention.
+
+## 2. 📐 SM-2 algorithm (core of Anki / SuperMemo)
+
+Each card stores **EF** (easiness factor, default 2.5), **interval** (days to next review), and **repetitions** (consecutive correct streak). After rating \`q ∈ [0..5]\`:
+- If \`q < 3\` → reset repetitions to 0 and interval to 1.
+- Else: first correct → 1 day, second → 6 days, then \`interval × EF\`.
+- Always update \`EF = max(1.3, EF + 0.1 - (5-q)*(0.08 + (5-q)*0.02))\`.
+
+## 3. 🎯 Why it works
+Hard cards shrink in interval and EF; easy cards exponentially grow (weeks → months → years). Daily due-load self-balances around 5–10% of the deck.
+
+## 4. 🆚 SM-2 vs newer
+**SM-2** (1987) is simple and good enough for 95% of cases. **FSRS** (2022+) replaced SM-2 in Anki 23+ using a Difficulty/Stability/Retrievability model — adopt it once you have > 10k reviews to fit.
+
+## 5. ⚠️ Pitfalls
+EF floor 1.3 missing → cards "vanish"; not resetting repetitions on q<3; no daily new-card cap; ignoring leech cards (failed > 8×); collapsing q into binary correct/wrong loses granularity.
+`,
         code: `def sm2(card, q):
     """Update card after a review. q in [0..5]."""
     if q < 3:
