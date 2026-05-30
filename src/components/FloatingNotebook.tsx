@@ -366,7 +366,7 @@ const FloatingNotebook = () => {
       {/* Floating button */}
       <motion.button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] right-32 z-50 w-12 h-12 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:scale-110 transition-transform sm:bottom-6 sm:right-40 sm:w-14 sm:h-14"
+        className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] right-32 z-[80] w-12 h-12 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:scale-110 transition-transform sm:bottom-6 sm:right-40 sm:w-14 sm:h-14"
         whileTap={{ scale: 0.9 }}
         aria-label="Open notebook"
       >
@@ -383,7 +383,7 @@ const FloatingNotebook = () => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed z-50 rounded-xl shadow-2xl flex flex-col overflow-hidden"
+            className="fixed z-[80] rounded-xl shadow-2xl flex flex-col overflow-hidden"
             style={{ left: `${position.x}px`, top: `${position.y}px`, width: `${size.width}px`, height: `${size.height}px`, backgroundColor: theme.bg, borderColor: theme.border, border: `1px solid ${theme.border}`, color: theme.text }}
           >
             {/* Header with drag handle */}

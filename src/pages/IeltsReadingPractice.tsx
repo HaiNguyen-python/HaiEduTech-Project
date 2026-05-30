@@ -186,19 +186,24 @@ const PostSubmitReview: React.FC<PostSubmitReviewProps> = ({ exam, questions, an
         setSaving(false);
         return;
       }
-      const { error } = await supabase.from("student_notebooks").insert({
+      const { data, error } = await supabase.from("student_notebooks").insert({
         user_id: user.id,
         title: `IELTS Reading Vocabulary — ${exam.passageTitle}`,
         subject: "ielts",
         content: buildNotebookHtml(),
         is_public: false,
-      });
-      if (error) throw error;
+      }).select().single();
+      if (error) {
+        console.error("[Notebook save error]", error);
+        throw error;
+      }
+      console.log("[Notebook saved]", data?.id);
       setSaved(true);
       window.dispatchEvent(new Event("notebook:updated"));
       toast({ title: t("Đã lưu vào Notebook", "Saved to Notebook"), description: t("Mở /notebook để xem.", "Open /notebook to review.") });
     } catch (e: any) {
-      toast({ title: t("Lưu thất bại", "Save failed"), description: e?.message || "Unknown error", variant: "destructive" });
+      console.error("[Notebook save failed]", e);
+      toast({ title: t("Lưu thất bại", "Save failed"), description: e?.message || e?.error_description || "Unknown error", variant: "destructive" });
     } finally {
       setSaving(false);
     }
