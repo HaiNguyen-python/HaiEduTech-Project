@@ -12,6 +12,8 @@ import CertCarousel from "@/components/CertCarousel";
 import ITJobMarketDashboard from "@/components/ITJobMarketDashboard";
 import PythonReview from "@/components/PythonReview";
 import PythonPathwayHub from "@/components/python/PythonPathwayHub";
+import ProgrammingDashboard from "@/components/programming/ProgrammingDashboard";
+import DailyCodeChallenge from "@/components/programming/DailyCodeChallenge";
 import { programmingModules, allProgrammingModules } from "@/data/programmingLessonData";
 import { pythonChallenges } from "@/data/pythonChallenges";
 import { Progress } from "@/components/ui/progress";
@@ -396,7 +398,11 @@ const Programming = () => {
             </div>
           </Link>
 
+          {/* Daily Code Challenge — daily seeded Python challenge that grants +100 XP */}
+          <DailyCodeChallenge />
 
+          {/* Programming Dashboard — XP, streak, badges, per-pillar progress */}
+          <ProgrammingDashboard />
 
           {/* Active Pillar Content */}
           <div ref={pillarContentRef} className="max-w-5xl mx-auto scroll-mt-24">
