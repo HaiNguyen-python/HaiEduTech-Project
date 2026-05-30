@@ -191,7 +191,7 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
       ? raw.replace(/-/g, ", ").replace(/\b([A-Z])\b/g, "$1,")
       : raw;
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = "en-GB";
+    u.lang = accent;
     u.rate = isSpelling ? Math.min(rate, 0.55) : rate;
     u.pitch = 1;
     const v = pickVoice();
