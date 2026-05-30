@@ -108,10 +108,12 @@ You have a \`students\` table with 1000 rows. The boss asks: "Show me the top 10
 ## 2. Minimal syntax
 
 \`\`\`sql
-SELECT name, score    -- which columns?
-FROM   students       -- from which table?
-ORDER BY score DESC   -- sort how?
-LIMIT 10;             -- how many rows?
+-- Chọn các cột 'name' và 'score' từ bảng
+SELECT name, score    -- chọn cột nào?
+FROM   students       -- từ bảng nào?
+ORDER BY score DESC   -- sắp xếp theo cách nào? (sắp xếp điểm giảm dần)
+LIMIT 10;             -- giới hạn bao nhiêu dòng? (chỉ lấy 10 dòng đầu tiên)
+-- Kết quả: Trả về tên và điểm của 10 học sinh có điểm cao nhất.
 \`\`\`
 
 ## 3. \`*\` vs explicit columns
@@ -195,20 +197,28 @@ Bảng \`students\` có 50 cột nhưng bạn chỉ cần \`name\` và \`score\`
 ## 3. 🧰 Cú pháp
 
 \`\`\`sql
+-- Lấy tên và điểm của sinh viên
+-- Đổi tên cột 'name' thành 'student_name' để dễ hiểu hơn
+-- Từ bảng 'students'
+-- Giới hạn kết quả trả về chỉ 10 dòng đầu tiên
 SELECT name AS student_name, score
 FROM students
 LIMIT 10;
 
+-- Lấy danh sách các lớp học duy nhất (không trùng lặp)
+-- Từ bảng 'students'
 SELECT DISTINCT class FROM students;
 \`\`\`
 
 ## 4. 🎯 Ví dụ chạy được ngay
 
 \`\`\`sql
+-- Chọn các cột 'name' (tên) và 'score' (điểm) từ bảng.
 SELECT name, score
-FROM students
-WHERE score >= 8
-LIMIT 5;
+FROM students -- Từ bảng có tên là 'students'.
+WHERE score >= 8 -- Lọc ra chỉ những sinh viên có điểm từ 8 trở lên.
+LIMIT 5; -- Giới hạn kết quả trả về chỉ 5 dòng đầu tiên.
+-- Kết quả mong đợi: 5 dòng dữ liệu, mỗi dòng chứa tên và điểm của sinh viên có điểm từ 8 trở lên.
 \`\`\`
 
 ## 5. ⚠️ Bẫy thường gặp
@@ -337,10 +347,13 @@ Bạn vào kho 10.000 sản phẩm, sếp hỏi "lọc cho tôi mấy món Samsu
 ## 3. 🧰 Ví dụ tổ hợp
 
 \`\`\`sql
+-- Lấy tất cả các cột từ bảng 'products'
 SELECT * FROM products
-WHERE brand = 'Samsung'
-  AND price < 5000000
-  AND stock > 0;
+-- Lọc các sản phẩm theo các điều kiện sau:
+WHERE brand = 'Samsung' -- Chỉ lấy sản phẩm có thương hiệu là 'Samsung'
+  AND price < 5000000 -- Chỉ lấy sản phẩm có giá dưới 5.000.000
+  AND stock > 0; -- Chỉ lấy sản phẩm còn hàng (số lượng tồn kho lớn hơn 0)
+-- Kết quả trả về là danh sách các sản phẩm của Samsung, giá dưới 5 triệu và còn hàng.
 \`\`\`
 
 ## 4. 🎯 Ví dụ chạy được ngay
@@ -482,20 +495,29 @@ Sếp hỏi: "Doanh thu từng tháng năm nay?". Bạn không thể nhìn 100.0
 ## 3. 🧰 Cú pháp
 
 \`\`\`sql
+-- Truy vấn: lấy doanh thu (tổng amount) theo tháng cho năm 2025
 SELECT month, SUM(amount) AS revenue
+-- Bảng nguồn dữ liệu là orders
 FROM orders
+-- Chỉ lấy đơn hàng của năm 2025
 WHERE year = 2025
+-- Nhóm kết quả theo tháng để tính tổng từng tháng
 GROUP BY month
+-- Chỉ giữ các tháng có tổng > 100000000
 HAVING SUM(amount) > 100000000
+-- Sắp xếp theo doanh thu giảm dần
 ORDER BY revenue DESC;
 \`\`\`
 
 ## 4. 🎯 Ví dụ chạy được ngay
 
 \`\`\`sql
+-- Lấy lớp, điểm trung bình và số học sinh cho mỗi lớp
 SELECT class, AVG(score) AS avg_score, COUNT(*) AS n_students
 FROM students
+-- Gom nhóm theo lớp để tính trung bình và đếm số học sinh
 GROUP BY class
+-- Sắp xếp kết quả theo điểm trung bình giảm dần
 ORDER BY avg_score DESC;
 \`\`\`
 
@@ -858,11 +880,18 @@ WHERE id IN (SELECT student_id FROM orders);      -- Danh sách id đã đặt h
 **(c) Trả về cả bảng** (nhiều cột, nhiều dòng) - đặt trong FROM:
 
 \`\`\`sql
+-- Chọn thành phố và số học viên từ bảng tạm
 SELECT t.city, t.so_hoc_vien
 FROM (
+  -- Đếm số học viên cho mỗi thành phố
+  -- Đầu vào: Bảng students
+  -- Đầu ra: Bảng tạm với cột city và so_hoc_vien
   SELECT city, COUNT(*) AS so_hoc_vien
   FROM students GROUP BY city
 ) AS t
+-- Lọc ra những thành phố có số học viên lớn hơn 10
+-- Đầu vào: Bảng tạm 't'
+-- Đầu ra: Các hàng mà cột so_hoc_vien lớn hơn 10
 WHERE t.so_hoc_vien > 10;
 \`\`\`
 
@@ -908,8 +937,13 @@ Hôm trước chạy ra **500 học viên** - đúng. Hôm nay sau khi cập nh�
 ✅ **Quy tắc vàng:** Nếu cột trong subquery có thể chứa NULL → **dùng \`NOT EXISTS\`** thay vì \`NOT IN\`:
 
 \`\`\`sql
+-- Chọn tên của các sinh viên
 SELECT name FROM students s
+-- Lọc ra những sinh viên mà không tồn tại trong danh sách churn (nghĩa là sinh viên đó chưa rời đi)
 WHERE NOT EXISTS (
+  -- Kiểm tra xem có bất kỳ bản ghi nào trong bảng churn_list (danh sách sinh viên đã rời đi)
+  -- mà student_id của bản ghi đó trùng với id của sinh viên hiện tại đang xét hay không.
+  -- Nếu không tìm thấy (NOT EXISTS), tức là sinh viên đó chưa rời đi.
   SELECT 1 FROM churn_list c WHERE c.student_id = s.id
 );
 \`\`\`
@@ -1070,26 +1104,38 @@ Giả sử bạn cần báo cáo: *"Tên học viên + tổng tiền đơn hàng
 Nếu **không có CTE**, bạn phải viết subquery lồng nhau, đọc rất rối:
 
 \`\`\`sql
+-- Chọn tên sinh viên và tổng số tiền họ đã chi tiêu.
 SELECT s.name, t.total
 FROM students s
+-- Kết nối bảng sinh viên với một bảng tạm chứa tổng số tiền mỗi sinh viên đã chi.
 JOIN (
+  -- Tính tổng số tiền (amount) cho mỗi sinh viên từ bảng orders.
   SELECT student_id, SUM(amount) AS total
   FROM orders GROUP BY student_id
 ) t ON t.student_id = s.id
+-- Sắp xếp kết quả theo tổng số tiền giảm dần (người chi nhiều nhất lên đầu).
 ORDER BY t.total DESC;
 \`\`\`
 
 Cùng câu đó viết bằng **CTE** - đặt tên cho bảng tạm là \`student_totals\`:
 
 \`\`\`sql
+-- Định nghĩa một Common Table Expression (CTE) có tên là student_totals.
+-- CTE này sẽ tính tổng số tiền mà mỗi sinh viên đã chi tiêu.
 WITH student_totals AS (
+  -- Chọn student_id và tính tổng cột amount, đặt tên là total.
   SELECT student_id, SUM(amount) AS total
   FROM orders
+  -- Nhóm các hàng theo student_id để tính tổng cho từng sinh viên.
   GROUP BY student_id
 )
+-- Chọn tên của sinh viên và tổng số tiền họ đã chi tiêu.
 SELECT s.name, st.total
 FROM students s
+-- Kết nối bảng students với CTE student_totals dựa trên student_id.
 JOIN student_totals st ON st.student_id = s.id
+-- Sắp xếp kết quả theo tổng số tiền giảm dần.
+-- Kết quả mong đợi: Danh sách tên sinh viên và tổng số tiền họ đã chi tiêu, sắp xếp từ người chi nhiều nhất đến ít nhất.
 ORDER BY st.total DESC;
 \`\`\`
 
@@ -1329,10 +1375,13 @@ FROM employees;
 Top 1 mỗi phòng:
 
 \`\`\`sql
+-- Tạo CTE 'r' để chứa kết quả tạm, tính thứ tự theo mỗi dept
 WITH r AS (
+  -- Chọn tất cả cột và thêm cột rn là số thứ tự của salary trong từng dept
   SELECT *, ROW_NUMBER() OVER (PARTITION BY dept ORDER BY salary DESC) AS rn
   FROM employees
 )
+-- Lấy bản ghi có rn = 1 (lương cao nhất mỗi dept)
 SELECT * FROM r WHERE rn = 1;
 \`\`\`
 
@@ -1475,9 +1524,22 @@ Bảng \`orders\` có 1 triệu dòng. Mỗi lần tìm đơn hàng theo \`custo
 ## 3. 🧰 Cú pháp
 
 \`\`\`sql
+-- Tạo một chỉ mục (index) trên cột customer_id của bảng orders.
+-- Mục đích: Giúp các truy vấn tìm kiếm theo customer_id nhanh hơn.
 CREATE INDEX idx_customer ON orders(customer_id);
+
+-- Tạo một chỉ mục kết hợp trên hai cột order_date và status của bảng orders.
+-- Mục đích: Giúp các truy vấn lọc theo cả ngày đặt hàng và trạng thái nhanh hơn.
 CREATE INDEX idx_date_status ON orders(order_date, status);
+
+-- Xóa chỉ mục có tên idx_customer khỏi bảng.
+-- Mục đích: Khi chỉ mục không còn cần thiết hoặc để tạo lại chỉ mục khác.
 DROP INDEX idx_customer;
+
+-- Giải thích kế hoạch thực thi của câu lệnh SELECT.
+-- Đầu vào: Một câu lệnh SELECT.
+-- Đầu ra: Thông tin chi tiết về cách cơ sở dữ liệu sẽ thực hiện truy vấn (ví dụ: có sử dụng chỉ mục không, quét toàn bộ bảng hay không).
+-- Mục đích: Giúp tối ưu hóa hiệu suất truy vấn.
 EXPLAIN SELECT * FROM orders WHERE customer_id = 123;
 \`\`\`
 
@@ -1621,15 +1683,25 @@ Khởi nghiệp bán đồ ăn online. Chỉ với 1 bảng \`everything(name, a
 ## 3. 🧰 Schema mẫu
 
 \`\`\`sql
+-- Tạo bảng 'users' để lưu thông tin người dùng.
 CREATE TABLE users (
+  -- Cột 'id' là khóa chính, định danh duy nhất cho mỗi người dùng.
   id INT PRIMARY KEY,
+  -- Cột 'email' lưu địa chỉ email, phải là duy nhất và không được để trống.
   email VARCHAR(100) UNIQUE NOT NULL,
+  -- Cột 'name' lưu tên của người dùng.
   name VARCHAR(100)
 );
+
+-- Tạo bảng 'orders' để lưu thông tin các đơn hàng.
 CREATE TABLE orders (
+  -- Cột 'id' là khóa chính, định danh duy nhất cho mỗi đơn hàng.
   id INT PRIMARY KEY,
+  -- Cột 'user_id' là khóa ngoại, liên kết với cột 'id' trong bảng 'users', cho biết đơn hàng này thuộc về người dùng nào.
   user_id INT REFERENCES users(id),
+  -- Cột 'total' lưu tổng giá trị của đơn hàng, có thể có 10 chữ số với 2 chữ số sau dấu thập phân.
   total DECIMAL(10,2),
+  -- Cột 'created_at' lưu thời điểm tạo đơn hàng, mặc định là thời gian hiện tại.
   created_at TIMESTAMP DEFAULT NOW()
 );
 \`\`\`
@@ -1805,25 +1877,46 @@ Nhân viên kế toán hằng ngày phải chạy lại đúng 5 câu SQL: tính
 ## 3. 🧰 Cú pháp PostgreSQL
 
 \`\`\`sql
+-- Tạo hoặc thay thế một thủ tục (procedure) có tên là add_bonus.
+-- Thủ tục này dùng để thêm tiền thưởng vào lương của nhân viên và ghi lại giao dịch.
 CREATE OR REPLACE PROCEDURE add_bonus(emp_id INT, amount DECIMAL)
-LANGUAGE plpgsql AS $$
+LANGUAGE plpgsql AS \$\$
 BEGIN
+  -- Cập nhật lương của nhân viên.
+  -- Tăng cột 'salary' (lương) lên một giá trị 'amount' (số tiền thưởng)
+  -- cho nhân viên có 'id' (mã nhân viên) trùng với 'emp_id' được truyền vào.
   UPDATE employees SET salary = salary + amount WHERE id = emp_id;
+  -- Ghi lại thông tin tiền thưởng vào bảng 'bonus_log'.
+  -- Chèn 'emp_id' (mã nhân viên), 'amount' (số tiền thưởng),
+  -- và thời gian hiện tại ('NOW()') vào bảng 'bonus_log'.
   INSERT INTO bonus_log(emp_id, amount, at) VALUES (emp_id, amount, NOW());
 END;
-$$;
+\$\$;
 
+-- Gọi thủ tục 'add_bonus' để thực thi.
+-- Truyền vào 'emp_id' là 101 và 'amount' là 500000.
+-- Kết quả mong đợi: Lương của nhân viên có ID 101 sẽ tăng thêm 500000,
+-- và một bản ghi về khoản thưởng này sẽ được thêm vào bảng bonus_log.
 CALL add_bonus(101, 500000);
 \`\`\`
 
 ## 4. 🎯 Ví dụ chạy được ngay
 
 \`\`\`sql
+-- Tạo một hàm mới có tên 'total_orders'
+-- Hàm này nhận vào một tham số là 'uid' (ID của người dùng) có kiểu số nguyên (INT)
+-- Và sẽ trả về một giá trị kiểu số nguyên (INT)
 CREATE FUNCTION total_orders(uid INT) RETURNS INT
-LANGUAGE sql AS $$
+LANGUAGE sql AS \$\$
+  -- Trong hàm, chúng ta chọn (SELECT) số lượng (COUNT(*)) các đơn hàng
+  -- Từ bảng 'orders'
+  -- Với điều kiện (WHERE) là 'user_id' của đơn hàng phải bằng với 'uid' được truyền vào
   SELECT COUNT(*) FROM orders WHERE user_id = uid;
-$$;
+\$\$;
 
+-- Chọn (SELECT) cột 'name' từ bảng 'users'
+-- Và gọi hàm 'total_orders' cho mỗi 'id' của người dùng để lấy tổng số đơn hàng của họ
+-- Kết quả sẽ là tên người dùng và tổng số đơn hàng của mỗi người
 SELECT name, total_orders(id) FROM users;
 \`\`\`
 
@@ -1893,27 +1986,43 @@ Triggers for invariants; procedures small (<200 lines); version control DDL; pgT
 ## Anti-patterns & next
 
 Avoid trigger cascades, untested 1,000-line procedures, long transactions, network calls in triggers. Next: **Query optimization**.`,
-        code: `-- Create a function
+        code: `-- Tạo một hàm mới hoặc thay thế hàm cũ nếu đã tồn tại.
+-- Hàm này sẽ nhận điểm số của học sinh và trả về xếp loại tương ứng.
+-- Đầu vào: score (kiểu số nguyên - INT)
+-- Đầu ra: Xếp loại (kiểu chuỗi - VARCHAR)
 CREATE OR REPLACE FUNCTION get_student_grade(score INT)
-RETURNS VARCHAR AS $$
+RETURNS VARCHAR AS \$\$
 BEGIN
+  -- Kiểm tra điểm số để xác định xếp loại.
+  -- Nếu điểm từ 90 trở lên thì trả về 'A'.
   IF score >= 90 THEN RETURN 'A';
+  -- Nếu điểm từ 80 đến 89 thì trả về 'B'.
   ELSIF score >= 80 THEN RETURN 'B';
+  -- Nếu điểm từ 70 đến 79 thì trả về 'C'.
   ELSIF score >= 70 THEN RETURN 'C';
+  -- Nếu điểm từ 60 đến 69 thì trả về 'D'.
   ELSIF score >= 60 THEN RETURN 'D';
+  -- Nếu điểm dưới 60 thì trả về 'F'.
   ELSE RETURN 'F';
   END IF;
 END;
-$$ LANGUAGE plpgsql;
+\$\$ LANGUAGE plpgsql;
 
--- Use the function
+-- Sử dụng hàm vừa định nghĩa để lấy xếp loại cho học sinh.
+-- Truy vấn này sẽ chọn tên học sinh và xếp loại của họ.
+-- Đầu vào: Hàm get_student_grade sẽ nhận điểm số cố định là 85.
+-- Đầu ra: Một bảng với hai cột: 'name' (tên học sinh) và 'grade' (xếp loại 'B' cho điểm 85).
 SELECT name, get_student_grade(85) AS grade
 FROM students;
 
--- Transaction example
+-- Ví dụ về giao dịch (transaction).
+-- Giao dịch đảm bảo rằng tất cả các thao tác bên trong nó hoặc thành công hoàn toàn, hoặc thất bại hoàn toàn.
 BEGIN;
+  -- Cập nhật số dư tài khoản có ID là 1, giảm đi 100 đơn vị.
   UPDATE accounts SET balance = balance - 100 WHERE id = 1;
+  -- Cập nhật số dư tài khoản có ID là 2, tăng thêm 100 đơn vị.
   UPDATE accounts SET balance = balance + 100 WHERE id = 2;
+-- Xác nhận và lưu tất cả các thay đổi đã thực hiện trong giao dịch vào cơ sở dữ liệu.
 COMMIT;`,
         codeLanguage: "sql",
         exercise: "Write a function to calculate total orders for a student_id. Use it in a SELECT query.",
@@ -1961,6 +2070,7 @@ Query \`SELECT * FROM orders JOIN products JOIN users WHERE …\` chạy 45 giâ
 ## 3. 🧰 Lệnh đọc kế hoạch
 
 \`\`\`sql
+-- Hiển thị kế hoạch thực thi và thống kê thời gian cho truy vấn: lấy tên người dùng và tổng giá trị đơn hàng sau 2025-01-01, nhóm theo tên
 EXPLAIN ANALYZE
 SELECT u.name, SUM(o.total)
 FROM users u JOIN orders o ON u.id = o.user_id
@@ -2133,12 +2243,21 @@ Sếp hỏi 3 thứ cùng lúc: "top 3 sản phẩm mỗi danh mục, tỉ lệ 
 ## 3. 🧰 Top-3 sản phẩm theo danh mục
 
 \`\`\`sql
+-- Định nghĩa một Common Table Expression (CTE) có tên là 'ranked'
+-- CTE này sẽ giúp chúng ta đánh số thứ tự các sản phẩm trong mỗi danh mục
 WITH ranked AS (
+  -- Chọn các cột category (danh mục), name (tên sản phẩm), sales (doanh số)
   SELECT category, name, sales,
+    -- Sử dụng hàm cửa sổ ROW_NUMBER() để đánh số thứ tự
+    -- PARTITION BY category: Đánh số thứ tự riêng biệt cho từng danh mục
+    -- ORDER BY sales DESC: Sắp xếp sản phẩm theo doanh số giảm dần trong mỗi danh mục
+    -- AS rn: Đặt tên cho cột số thứ tự là 'rn'
     ROW_NUMBER() OVER (PARTITION BY category ORDER BY sales DESC) AS rn
-  FROM products
+  FROM products -- Lấy dữ liệu từ bảng 'products'
 )
-SELECT * FROM ranked WHERE rn <= 3;
+-- Chọn tất cả các cột từ CTE 'ranked'
+SELECT * FROM ranked WHERE rn <= 3; -- Lọc ra những hàng có số thứ tự 'rn' nhỏ hơn hoặc bằng 3
+-- Kết quả là 3 sản phẩm có doanh số cao nhất trong mỗi danh mục.
 \`\`\`
 
 ## 4. 🎯 Ví dụ chạy được ngay
@@ -2223,35 +2342,61 @@ Cap recursion; JSONB over JSON; GIN on filtered JSONB; extract hot fields into c
 ## Anti-patterns & where next
 
 Avoid uncapped recursion, JSON for structured-forever fields, native PIVOT in cross-engine code, unindexed JSON queries. Next: **dbt** + query engines (Trino/DuckDB) - they all speak the SQL you've learned here.`,
-        code: `-- Recursive CTE: Employee hierarchy
+        code: `-- CTE đệ quy: Cây phân cấp nhân viên
+-- Định nghĩa một CTE (Common Table Expression) đệ quy tên là org_chart.
+-- CTE này sẽ giúp chúng ta duyệt qua cấu trúc quản lý của các nhân viên.
 WITH RECURSIVE org_chart AS (
+  -- Phần neo (Anchor Member): Chọn tất cả các nhân viên không có người quản lý (là cấp cao nhất).
+  -- Đầu vào: Bảng employees.
+  -- Đầu ra: id, tên, manager_id, độ sâu (bắt đầu từ 1), và đường dẫn (chính là tên của nhân viên đó).
   SELECT id, name, manager_id, 1 AS depth,
          name AS path
   FROM employees WHERE manager_id IS NULL
 
   UNION ALL
 
+  -- Phần đệ quy (Recursive Member): Tìm tất cả nhân viên mà người quản lý của họ đã có trong org_chart.
+  -- Đầu vào: Bảng employees (e) và kết quả hiện tại của org_chart (oc).
+  -- Đầu ra: id, tên, manager_id, độ sâu tăng thêm 1, và đường dẫn được nối thêm tên nhân viên hiện tại.
   SELECT e.id, e.name, e.manager_id, oc.depth + 1,
          oc.path || ' > ' || e.name
   FROM employees e
   JOIN org_chart oc ON e.manager_id = oc.id
 )
+-- Chọn độ sâu và đường dẫn từ CTE org_chart.
+-- Sắp xếp kết quả theo đường dẫn để dễ nhìn.
+-- Kết quả mong đợi: Một danh sách các nhân viên với độ sâu trong cây phân cấp và đường dẫn quản lý của họ.
 SELECT depth, path FROM org_chart
 ORDER BY path;
 
--- Generate a number series
+-- Tạo một chuỗi số
+-- Định nghĩa một CTE đệ quy tên là numbers.
+-- CTE này sẽ tạo ra một chuỗi các số nguyên liên tiếp.
 WITH RECURSIVE numbers AS (
+  -- Phần neo: Bắt đầu với số 1.
+  -- Đầu vào: Không có.
+  -- Đầu ra: Một cột 'n' với giá trị 1.
   SELECT 1 AS n
   UNION ALL
+  -- Phần đệ quy: Cộng 1 vào số hiện tại cho đến khi số đó nhỏ hơn 10.
+  -- Đầu vào: Kết quả hiện tại của numbers.
+  -- Đầu ra: Số tiếp theo (n + 1).
   SELECT n + 1 FROM numbers WHERE n < 10
 )
+-- Chọn số và bình phương của số đó từ CTE numbers.
+-- Kết quả mong đợi: Một danh sách các số từ 1 đến 10 và bình phương tương ứng của chúng.
 SELECT n, n * n AS square FROM numbers;
 
--- Pivot with CASE
+-- Chuyển đổi hàng thành cột (Pivot) sử dụng CASE
+-- Chọn student_id và tính tổng điểm cho từng môn học.
+-- Đầu vào: Bảng grades chứa điểm của học sinh theo môn học.
+-- Đầu ra: student_id, cột 'math' (tổng điểm môn Toán), cột 'english' (tổng điểm môn Tiếng Anh).
 SELECT student_id,
+  -- Sử dụng CASE để kiểm tra nếu môn học là 'Math' thì lấy điểm, nếu không thì là NULL (không tính vào tổng).
   SUM(CASE WHEN subject='Math' THEN score END) AS math,
+  -- Tương tự cho môn 'English'.
   SUM(CASE WHEN subject='English' THEN score END) AS english
-FROM grades GROUP BY student_id;`,
+FROM grades GROUP BY student_id; -- Nhóm kết quả theo student_id để tính tổng điểm cho từng học sinh.`,
         codeLanguage: "sql",
         exercise: "Write a Recursive CTE to generate Fibonacci sequence (1, 1, 2, 3, 5, 8, 13...) up to the 15th number.",
         exerciseEn: "Write a Recursive CTE to generate Fibonacci sequence (1, 1, 2, 3, 5, 8, 13...) up to the 15th number.",

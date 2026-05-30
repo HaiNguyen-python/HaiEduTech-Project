@@ -146,25 +146,45 @@ When starting a project, ask:
 SDLC is the **recipe** that prevents a stillborn project. Agile/Scrum is the 2026 default for most products. Waterfall still rules safety-critical systems.
 `,
         code: `# SDLC Phase Tracker - minimal Scrum board in Python
+# Đây là một công cụ theo dõi tiến độ phát triển phần mềm đơn giản, mô phỏng bảng Scrum.
+
+# Định nghĩa thông tin về một sprint (giai đoạn phát triển).
+# sprint là một dictionary chứa các thông tin như tên, thời lượng và danh sách các câu chuyện (stories).
 sprint = {
-    "name": "Sprint 3 - Payment",
-    "duration_days": 14,
-    "stories": [
-        {"id": "PAY-1", "title": "Stripe integration", "status": "done"},
-        {"id": "PAY-2", "title": "Refund flow",        "status": "in_progress"},
-        {"id": "PAY-3", "title": "Email receipt",      "status": "todo"},
+    "name": "Sprint 3 - Payment", # Tên của sprint.
+    "duration_days": 14, # Thời lượng của sprint tính bằng ngày.
+    "stories": [ # Danh sách các câu chuyện (tasks) trong sprint. Mỗi câu chuyện là một dictionary.
+        {"id": "PAY-1", "title": "Stripe integration", "status": "done"}, # Câu chuyện 1: tích hợp Stripe, trạng thái đã hoàn thành.
+        {"id": "PAY-2", "title": "Refund flow",        "status": "in_progress"}, # Câu chuyện 2: luồng hoàn tiền, trạng thái đang thực hiện.
+        {"id": "PAY-3", "title": "Email receipt",      "status": "todo"}, # Câu chuyện 3: biên lai email, trạng thái cần làm.
     ],
 }
 
+# Định nghĩa hàm tính toán "velocity" (tốc độ hoàn thành công việc) của sprint.
+# Đầu vào: một dictionary 'sprint' chứa thông tin về sprint.
+# Đầu ra: một chuỗi định dạng "số_câu_chuyện_hoàn_thành/tổng_số_câu_chuyện_đã_làm".
 def velocity(sprint):
+    # Đếm số lượng câu chuyện có trạng thái là "done" (đã hoàn thành).
+    # sum(1 for item in list if condition) là cách ngắn gọn để đếm số phần tử thỏa mãn điều kiện.
     done = sum(1 for s in sprint["stories"] if s["status"] == "done")
+    # Trả về chuỗi hiển thị số câu chuyện đã hoàn thành trên tổng số câu chuyện.
     return f"{done}/{len(sprint['stories'])} stories done"
 
+# In ra tên của sprint.
+# Kết quả mong đợi: 📋 Sprint 3 - Payment
 print(f"📋 {sprint['name']}")
+# Lặp qua từng câu chuyện trong danh sách 'stories' của sprint.
 for s in sprint["stories"]:
+    # Chọn biểu tượng (icon) tương ứng với trạng thái của câu chuyện.
+    # Đây là một dictionary dùng để ánh xạ trạng thái sang biểu tượng.
     icon = {"done": "✅", "in_progress": "🔧", "todo": "⏳"}[s["status"]]
+    # In thông tin chi tiết của từng câu chuyện: biểu tượng, ID và tiêu đề.
+    # Kết quả mong đợi cho mỗi câu chuyện:   ✅ [PAY-1] Stripe integration
     print(f"  {icon} [{s['id']}] {s['title']}")
-print(f"\\n🏁 Velocity: {velocity(sprint)}")`,
+# In ra "velocity" (tốc độ hoàn thành) của sprint.
+# Gọi hàm velocity() để lấy chuỗi kết quả.
+# Kết quả mong đợi: \\n🏁 Velocity: 1/3 stories done (hoặc tương tự tùy thuộc vào dữ liệu)
+print(f"\\\\n🏁 Velocity: {velocity(sprint)}")`,
         exercise: "Mô tả lại 1 dự án bạn từng làm theo 6 giai đoạn SDLC. Giai đoạn nào bị bỏ qua? Hậu quả?",
         exerciseEn: "Describe a past project you worked on through the 6 SDLC phases. Which phase was skipped? What was the consequence?",
         quiz: [
@@ -310,20 +330,44 @@ Before drawing an architecture, answer:
 Monolith = simple, easy. Microservices = scalable, but require mature DevOps. UML is the **shared language** that lets a team agree before writing line one of code.
 `,
         code: `# Decision helper: monolith or microservices?
+# Hàm này giúp đưa ra khuyến nghị nên chọn kiến trúc Monolith hay Microservices
+# dựa trên một số tiêu chí của dự án.
+# Đầu vào:
+#   - team_size (int): Kích thước đội ngũ phát triển.
+#   - expected_users (int): Số lượng người dùng dự kiến.
+#   - has_devops (bool): Đội ngũ có kinh nghiệm DevOps hay không.
+# Đầu ra:
+#   - str: "Microservices" nếu điểm số lớn hơn hoặc bằng 4, ngược lại là "Modular Monolith".
 def recommend(team_size: int, expected_users: int, has_devops: bool) -> str:
+    # Khởi tạo điểm số ban đầu là 0.
     score = 0
+    # Nếu kích thước đội ngũ lớn hơn 20 người, cộng thêm 2 điểm.
     if team_size > 20:        score += 2
+    # Nếu số lượng người dùng dự kiến lớn hơn 100,000, cộng thêm 2 điểm.
     if expected_users > 100_000: score += 2
+    # Nếu đội ngũ có kinh nghiệm DevOps, cộng thêm 1 điểm.
     if has_devops:            score += 1
+    # Trả về "Microservices" nếu tổng điểm lớn hơn hoặc bằng 4,
+    # ngược lại trả về "Modular Monolith".
     return "Microservices" if score >= 4 else "Modular Monolith"
 
+# Định nghĩa các trường hợp thử nghiệm.
+# Mỗi trường hợp là một dictionary chứa các thông tin đầu vào cho hàm recommend.
 cases = [
     {"team_size": 5,  "expected_users": 5_000,    "has_devops": False},
     {"team_size": 50, "expected_users": 5_000_000, "has_devops": True},
     {"team_size": 12, "expected_users": 80_000,   "has_devops": True},
 ]
+# Lặp qua từng trường hợp trong danh sách 'cases'.
 for c in cases:
-    print(f"{c}  →  {recommend(**c)}")`,
+    # In ra thông tin của trường hợp và kết quả khuyến nghị tương ứng.
+    # recommend(**c) dùng toán tử giải nén dictionary để truyền các giá trị
+    # trong dictionary 'c' làm đối số cho hàm recommend.
+    print(f"{c}  →  {recommend(**c)}")
+# Kết quả mong đợi:
+# {'team_size': 5, 'expected_users': 5000, 'has_devops': False}  →  Modular Monolith
+# {'team_size': 50, 'expected_users': 5000000, 'has_devops': True}  →  Microservices
+# {'team_size': 12, 'expected_users': 80000, 'has_devops': True}  →  Modular Monolith`,
         exercise: "Vẽ kiến trúc cho 1 app chat 100k user/ngày. Tách ra: Auth, Message, Notification, Storage. Service nào cần message queue?",
         exerciseEn: "Draft an architecture for a chat app with 100k DAU. Separate: Auth, Message, Notification, Storage. Which services need a message queue?",
         quiz: [
@@ -559,9 +603,22 @@ Sau 6 tháng, bạn quay lại đọc code cũ của chính mình → **không h
 ❌ **Vi phạm SRP** - 1 class làm 3 việc:
 
 \`\`\`typescript
+// Định nghĩa một lớp (class) có tên là 'User'.
+// Lớp này có thể đại diện cho một người dùng trong hệ thống của chúng ta.
 class User {
+  // Phương thức này dùng để lưu thông tin người dùng vào cơ sở dữ liệu.
+  // Đầu vào: Thông tin người dùng hiện tại của đối tượng User.
+  // Đầu ra: Lưu dữ liệu vào DB, có thể trả về trạng thái thành công/thất bại.
   saveToDB() { /* ... */ }
+
+  // Phương thức này dùng để gửi email cho người dùng.
+  // Đầu vào: Thông tin người dùng để xác định người nhận và nội dung email.
+  // Đầu ra: Gửi email, có thể trả về trạng thái gửi thành công/thất bại.
   sendEmail() { /* ... */ }
+
+  // Phương thức này dùng để tạo báo cáo liên quan đến người dùng.
+  // Đầu vào: Thông tin người dùng để tạo báo cáo.
+  // Đầu ra: Một báo cáo (ví dụ: chuỗi, đối tượng báo cáo, hoặc file).
   generateReport() { /* ... */ }
 }
 \`\`\`
@@ -631,9 +688,22 @@ Six months later you reopen your own code and **don't understand it**. That's a 
 ❌ **SRP violation** - one class doing three jobs:
 
 \`\`\`typescript
+// Định nghĩa một lớp (class) có tên là User.
+// Lớp này đại diện cho một người dùng trong hệ thống.
 class User {
+  // Phương thức này dùng để lưu thông tin người dùng vào cơ sở dữ liệu.
+  // Đầu vào: Không có tham số trực tiếp, sử dụng dữ liệu của đối tượng User hiện tại.
+  // Đầu ra: Thường là void (không trả về gì) hoặc một Promise nếu là thao tác bất đồng bộ.
   saveToDB() { /* ... */ }
+
+  // Phương thức này dùng để gửi email cho người dùng.
+  // Đầu vào: Không có tham số trực tiếp, sử dụng thông tin email của đối tượng User hiện tại.
+  // Đầu ra: Thường là void hoặc một Promise.
   sendEmail() { /* ... */ }
+
+  // Phương thức này dùng để tạo báo cáo liên quan đến người dùng.
+  // Đầu vào: Không có tham số trực tiếp, sử dụng dữ liệu của đối tượng User hiện tại.
+  // Đầu ra: Thường là một chuỗi (string) hoặc một đối tượng báo cáo.
   generateReport() { /* ... */ }
 }
 \`\`\`
@@ -641,9 +711,13 @@ class User {
 ✅ **Refactored:**
 
 \`\`\`typescript
+// Lớp đại diện cho dữ liệu người dùng
 class User { /* user data */ }
+// Lớp chứa phương thức lưu người dùng vào kho dữ liệu
 class UserRepository { save(u: User) { /* ... */ } }
+// Lớp gửi email liên quan tới người dùng
 class EmailService { send(u: User) { /* ... */ } }
+// Lớp tạo báo cáo cho người dùng
 class ReportService { generate(u: User) { /* ... */ } }
 \`\`\`
 
@@ -847,27 +921,43 @@ You fix bug A → feature B breaks. Fix B → C breaks. That cycle is **regressi
 ## 4. 🎯 TDD with Vitest
 
 \`\`\`typescript
-// 1. RED - write the test first
+// 1. RED - viết kiểm thử trước (Test-Driven Development - TDD)
+// Nhập các hàm cần thiết từ thư viện vitest để viết và chạy kiểm thử.
 import { describe, it, expect } from "vitest";
+// Nhập hàm 'add' từ file 'calc' để kiểm thử.
 import { add } from "./calc";
 
+// Mô tả một bộ kiểm thử cho hàm 'add'.
 describe("add", () => {
+  // Kiểm thử trường hợp cộng hai số dương.
   it("adds two positives", () => {
+    // Mong đợi kết quả của add(2, 3) phải là 5.
     expect(add(2, 3)).toBe(5);
   });
+  // Kiểm thử trường hợp xử lý số âm.
   it("handles negatives", () => {
+    // Mong đợi kết quả của add(-1, -4) phải là -5.
     expect(add(-1, -4)).toBe(-5);
   });
 });
 
-// 2. GREEN - minimal code
+// 2. GREEN - viết mã tối thiểu để các kiểm thử vượt qua
+// Định nghĩa hàm 'add' nhận hai số 'a' và 'b', trả về tổng của chúng.
+// Đây là phiên bản đơn giản nhất để các test ở trên chạy đúng.
 export const add = (a: number, b: number) => a + b;
 
-// 3. REFACTOR - add validation, tests still pass
+// 3. REFACTOR - tái cấu trúc mã, thêm kiểm tra hợp lệ, các kiểm thử vẫn phải vượt qua
+// Định nghĩa lại hàm 'add' với kiểu dữ liệu rõ ràng cho tham số và giá trị trả về.
+// Đầu vào: a (số), b (số).
+// Đầu ra: tổng của a và b (số) hoặc ném lỗi nếu đầu vào không hợp lệ.
 export const add = (a: number, b: number): number => {
+  // Kiểm tra xem 'a' và 'b' có phải là số hữu hạn hợp lệ hay không.
+  // Nếu không, ném ra một lỗi TypeError.
+  // Mục đích: Đảm bảo hàm chỉ hoạt động với các số hợp lệ, tránh các trường hợp như NaN, Infinity.
   if (!Number.isFinite(a) || !Number.isFinite(b)) {
     throw new TypeError("Need valid numbers");
   }
+  // Trả về tổng của 'a' và 'b'.
   return a + b;
 };
 \`\`\`
@@ -1101,50 +1191,109 @@ Before designing a pipeline, list:
 CI/CD is the 24/7 robot that tests + ships your code. The classic 5-stage pipeline: checkout → install → lint+test → build → deploy. GitHub Actions / GitLab CI / Jenkins are the three top picks.
 `,
         code: `# .github/workflows/ci-cd.yml - production-grade pipeline
+# Tên của quy trình CI/CD này.
 name: CI/CD
 
+# Định nghĩa các sự kiện sẽ kích hoạt quy trình này.
 on:
+  # Khi có sự kiện push code lên repository.
   push:
+    # Quy trình sẽ chạy khi push lên các nhánh 'main' hoặc 'develop'.
     branches: [main, develop]
+  # Khi có yêu cầu kéo (pull request) được mở.
   pull_request:
+    # Quy trình sẽ chạy khi pull request nhắm vào nhánh 'main'.
     branches: [main]
 
+# Định nghĩa các công việc (jobs) sẽ chạy trong quy trình.
 jobs:
+  # Công việc kiểm tra chất lượng mã nguồn.
   quality:
+    # Chỉ định hệ điều hành mà công việc này sẽ chạy trên đó.
     runs-on: ubuntu-latest
+    # Các bước thực hiện trong công việc 'quality'.
     steps:
+      # Bước 1: Checkout mã nguồn từ repository.
+      # Đầu vào: Không có.
+      # Đầu ra: Mã nguồn được đưa vào môi trường chạy.
       - uses: actions/checkout@v4
+      # Bước 2: Thiết lập môi trường Node.js.
+      # Đầu vào: Phiên bản Node.js (20), cache npm.
+      # Đầu ra: Môi trường Node.js sẵn sàng.
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
+      # Bước 3: Cài đặt các dependency của dự án bằng npm ci (cài đặt sạch).
+      # Đầu vào: file package-lock.json.
+      # Đầu ra: Các gói thư viện được cài đặt.
       - run: npm ci
+      # Bước 4: Chạy công cụ kiểm tra cú pháp và phong cách mã nguồn (lint).
+      # Đầu vào: Mã nguồn dự án.
+      # Đầu ra: Báo cáo lỗi lint (nếu có).
       - run: npm run lint
+      # Bước 5: Chạy các bài kiểm thử và tạo báo cáo độ bao phủ mã (coverage).
+      # Đầu vào: Mã nguồn và các bài kiểm thử.
+      # Đầu ra: Kết quả kiểm thử và báo cáo độ bao phủ.
       - run: npm test -- --coverage
+      # Bước 6: Tải báo cáo độ bao phủ mã lên Codecov.
+      # Đầu vào: Báo cáo độ bao phủ mã.
+      # Đầu ra: Báo cáo độ bao phủ được hiển thị trên Codecov.
       - uses: codecov/codecov-action@v4
 
+  # Công việc kiểm tra bảo mật.
   security:
+    # Chỉ định hệ điều hành mà công việc này sẽ chạy trên đó.
     runs-on: ubuntu-latest
+    # Công việc này phụ thuộc vào công việc 'quality', chỉ chạy khi 'quality' thành công.
     needs: quality
+    # Các bước thực hiện trong công việc 'security'.
     steps:
+      # Bước 1: Checkout mã nguồn từ repository.
+      # Đầu vào: Không có.
+      # Đầu ra: Mã nguồn được đưa vào môi trường chạy.
       - uses: actions/checkout@v4
+      # Bước 2: Chạy kiểm tra lỗ hổng bảo mật npm với mức độ cao.
+      # Đầu vào: Các gói dependency của dự án.
+      # Đầu ra: Báo cáo các lỗ hổng bảo mật (nếu có).
       - run: npm audit --audit-level=high
+      # Bước 3: Sử dụng Trivy để quét lỗ hổng bảo mật trên hệ thống file.
+      # Đầu vào: Hệ thống file của dự án.
+      # Đầu ra: Báo cáo các lỗ hổng bảo mật nghiêm trọng và cao.
       - uses: aquasecurity/trivy-action@master
         with:
           scan-type: fs
           severity: CRITICAL,HIGH
 
+  # Công việc triển khai ứng dụng.
   deploy:
+    # Chỉ định hệ điều hành mà công việc này sẽ chạy trên đó.
     runs-on: ubuntu-latest
+    # Công việc này phụ thuộc vào cả 'quality' và 'security', chỉ chạy khi cả hai thành công.
     needs: [quality, security]
+    # Điều kiện để công việc này chạy: chỉ khi push lên nhánh 'main'.
+    # Đầu vào: Tên nhánh hiện tại.
+    # Đầu ra: True nếu là nhánh 'main', False nếu không.
     if: github.ref == 'refs/heads/main'
+    # Chỉ định môi trường triển khai là 'production'.
     environment: production
+    # Các bước thực hiện trong công việc 'deploy'.
     steps:
+      # Bước 1: Checkout mã nguồn từ repository.
+      # Đầu vào: Không có.
+      # Đầu ra: Mã nguồn được đưa vào môi trường chạy.
       - uses: actions/checkout@v4
+      # Bước 2: Cài đặt các dependency và xây dựng ứng dụng.
+      # Đầu vào: Mã nguồn dự án.
+      # Đầu ra: Các gói thư viện được cài đặt và mã nguồn đã được biên dịch/đóng gói.
       - run: npm ci && npm run build
+      # Bước 3: Triển khai ứng dụng bằng script tùy chỉnh.
+      # Đầu vào: Mã nguồn đã được xây dựng, biến môi trường DEPLOY_TOKEN.
+      # Đầu ra: Ứng dụng được triển khai thành công.
       - name: Deploy
         run: ./scripts/deploy.sh
         env:
+          # Sử dụng secret DEPLOY_TOKEN để xác thực khi triển khai.
           DEPLOY_TOKEN: \${{ secrets.DEPLOY_TOKEN }}`,
         exercise: "Thiết kế pipeline cho 1 React app: trigger trên PR, chạy ESLint + Vitest + build, deploy preview lên Vercel.",
         exerciseEn: "Design a pipeline for a React app: trigger on PR, run ESLint + Vitest + build, deploy a preview to Vercel.",

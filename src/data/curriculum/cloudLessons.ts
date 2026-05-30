@@ -605,10 +605,25 @@ Cần lưu hình ảnh app, video user upload, file backup - không thể nhồi
 ## 3. 🧰 Cú pháp Python (boto3)
 
 \`\`\`python
+# Nhập thư viện boto3 để tương tác với các dịch vụ của AWS (Amazon Web Services).
 import boto3
+
+# Tạo một đối tượng client cho dịch vụ S3.
+# Đối tượng này sẽ được dùng để gọi các hàm S3 như upload, download.
 s3 = boto3.client("s3")
+
+# Tải lên một tệp tin từ máy cục bộ lên S3.
+# Tham số 1: Đường dẫn tệp tin cục bộ cần tải lên.
+# Tham số 2: Tên của bucket S3 đích.
+# Tham số 3: Đường dẫn (key) của tệp tin trên S3 sau khi tải lên.
 s3.upload_file("local.jpg", "my-bucket", "uploads/local.jpg")
+
+# Tải xuống một tệp tin từ S3 về máy cục bộ.
+# Tham số 1: Tên của bucket S3 chứa tệp tin.
+# Tham số 2: Đường dẫn (key) của tệp tin trên S3 cần tải xuống.
+# Tham số 3: Đường dẫn tệp tin cục bộ sẽ lưu trữ dữ liệu tải về.
 s3.download_file("my-bucket", "uploads/local.jpg", "out.jpg")
+# Sau khi chạy, tệp tin "uploads/local.jpg" từ bucket "my-bucket" sẽ được lưu vào "out.jpg" trên máy cục bộ.
 \`\`\`
 
 ## 4. 🎯 Ví dụ chạy được ngay
@@ -785,11 +800,17 @@ App của bạn chạy local ngon - đem deploy mỗi máy 1 phiên bản Python
 ## 3. 🧰 Dockerfile mẫu
 
 \`\`\`dockerfile
+# Thiết lập image nền Python 3.11 slim
 FROM python:3.11-slim
+# Thiết lập thư mục làm việc bên trong container
 WORKDIR /app
+# Sao chép file requirements để cài dependency
 COPY requirements.txt .
+# Cài đặt các thư viện từ requirements.txt
 RUN pip install -r requirements.txt
+# Sao chép toàn bộ mã nguồn vào container
 COPY . .
+# Lệnh chạy khi container khởi động
 CMD ["python", "app.py"]
 \`\`\`
 
@@ -2385,7 +2406,8 @@ A US hospital ran its EHR on AWS Multi-AZ but no Multi-Region, no tested backups
 ## Bridge to next lesson
 
 Among the 6 pillars, **Cost Optimization** is the one CFOs care about most. Next: **Cost Optimization & FinOps** dives into 10+ concrete strategies, tools, and the FinOps culture - turning cost from a "monthly bill surprise" into a **daily business metric**.`,
-        code: `# Well-Architected self-assessment checklist
+        code: `# Danh sách kiểm tra tự đánh giá Well-Architected
+# Định nghĩa checklist cho các pillar của Well-Architected
 checklist = {
     "operational_excellence": [
         "IaC (Terraform/CFN) cho 100% infra?",
@@ -2421,11 +2443,14 @@ checklist = {
         "Turn off unused resources?",
     ],
 }
-
+# Tính tổng số câu hỏi trong tất cả các pillar
 total = sum(len(v) for v in checklist.values())
+# In ra tổng số câu hỏi
 print(f"Total assessment questions: {total}")
+# Lặp qua từng pillar và in tiêu đề với số mục
 for pillar, items in checklist.items():
-    print(f"\\n[{pillar.upper()}] - {len(items)} items")
+    print(f"\\\\n[{pillar.upper()}] - {len(items)} items")
+    # Lặp qua từng câu hỏi và in mỗi câu
     for q in items: print(f"  □ {q}")`,
         codeLanguage: "python",
         exercise: "Applying Well-Architected to the architecture of an e-commerce web app. List 2 specific improvements for each of the 6 pillars.",

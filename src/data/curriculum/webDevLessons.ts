@@ -177,26 +177,36 @@ When writing HTML, ask yourself: "If CSS is disabled, is the structure still und
 
 Semantic HTML = give every region a **meaningful name**. Benefits: SEO, accessibility, maintainable code.
 `,
-        code: `<!-- A semantic landing page skeleton - 2026 best practices -->
+        code: `# Bắt đầu tài liệu HTML: khung landing page
+<!-- A semantic landing page skeleton - 2026 best practices -->
+# Khai báo loại tài liệu HTML
 <!DOCTYPE html>
+# Thẻ html: ngôn ngữ tài liệu
 <html lang="en">
+  # Phần head: meta và title cho SEO và hiển thị
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>HaiEduTech - Learn Smarter</title>
     <meta name="description" content="Modern learning platform for Vietnamese students." />
   </head>
+  # Phần body: nội dung hiển thị chính
   <body>
+    # Header trang: logo/tiêu đề và điều hướng
     <header role="banner">
       <h1>HaiEduTech</h1>
+      # Nav chính: các liên kết dẫn đến trang quan trọng
       <nav aria-label="Primary">
         <a href="/courses">Courses</a>
         <a href="/about">About</a>
       </nav>
     </header>
 
+    # Main: vùng chứa nội dung chính của trang
     <main id="main-content">
+      # Article: bài viết hoặc nội dung chính trong main
       <article>
+        # Header của bài viết: tiêu đề và thời gian
         <header>
           <h2>Master IELTS in 90 Days</h2>
           <time datetime="2026-01-20">January 20, 2026</time>
@@ -204,12 +214,14 @@ Semantic HTML = give every region a **meaningful name**. Benefits: SEO, accessib
         <p>Practical tactics from a 15-year tutor.</p>
       </article>
 
+      # Aside: nội dung liên quan, bài viết gợi ý
       <aside aria-label="Related posts">
         <h3>Related</h3>
         <ul><li><a href="/post/2">SAT essay tips</a></li></ul>
       </aside>
     </main>
 
+    # Footer: thông tin bản quyền và liên kết phụ
     <footer>
       <small>© 2026 HaiEduTech</small>
     </footer>
@@ -731,20 +743,44 @@ const double = n => n * 2;
 ## 4. 🎯 Real Example - Fetch API with async/await
 
 \`\`\`js
+// Định nghĩa một hàm bất đồng bộ (async function) để tải thông tin người dùng.
+// Hàm này sẽ trả về một Promise.
+// Đầu vào: id (số) - ID của người dùng cần tải.
+// Đầu ra: Dữ liệu người dùng (object) nếu thành công, hoặc null nếu có lỗi.
 async function loadUser(id) {
+  // Bắt đầu một khối try...catch để xử lý các lỗi có thể xảy ra trong quá trình tải dữ liệu.
   try {
+    // Gửi yêu cầu HTTP GET đến API để lấy thông tin người dùng.
+    // \`await\` sẽ đợi cho đến khi yêu cầu fetch hoàn tất và trả về đối tượng Response.
     const res = await fetch(\`/api/users/\${id}\`);
+    // Kiểm tra xem phản hồi từ server có thành công không (mã trạng thái 2xx).
+    // Nếu không thành công (ví dụ: 404 Not Found, 500 Internal Server Error), ném ra một lỗi.
     if (!res.ok) throw new Error(\`HTTP \${res.status}\`);
+    // Chuyển đổi phản hồi từ server sang định dạng JSON.
+    // \`await\` sẽ đợi cho đến khi quá trình chuyển đổi hoàn tất.
     const data = await res.json();
+    // Trả về dữ liệu người dùng đã được phân tích cú pháp từ JSON.
     return data;
   } catch (err) {
+    // Nếu có bất kỳ lỗi nào xảy ra trong khối try (ví dụ: lỗi mạng, lỗi HTTP),
+    // lỗi đó sẽ được bắt ở đây.
+    // In lỗi ra console để gỡ lỗi.
     console.error("Failed:", err);
+    // Trả về null để chỉ ra rằng việc tải người dùng đã thất bại.
     return null;
   }
 }
 
-// Usage
+// Cách sử dụng hàm loadUser.
+// \`await\` ở đây chỉ có thể được sử dụng trong một hàm async khác hoặc ở cấp độ module (top-level await).
+// Gọi hàm loadUser với ID là 42 và đợi kết quả.
+// Đầu vào: 42 (ID người dùng).
+// Đầu ra: Đối tượng người dùng hoặc null.
 const user = await loadUser(42);
+// In ra tên người dùng nếu có, hoặc "Not found" nếu không tìm thấy người dùng hoặc người dùng không có tên.
+// \`user?.name\` là Optional Chaining: nếu \`user\` là null hoặc undefined, nó sẽ trả về undefined thay vì gây lỗi.
+// \`?? "Not found"\` là Nullish Coalescing: nếu kết quả của \`user?.name\` là null hoặc undefined, nó sẽ sử dụng giá trị "Not found".
+// Kết quả mong đợi: Tên của người dùng có ID 42, hoặc "Not found".
 console.log(user?.name ?? "Not found");
 \`\`\`
 
@@ -923,14 +959,23 @@ Key APIs:
 ## 4. 🎯 Real Example - Event delegation
 
 \`\`\`js
-// ❌ Bad: one listener per button (100 buttons = 100 listeners)
+// ❌ Cách không tối ưu: mỗi nút một trình nghe sự kiện (nếu có 100 nút sẽ có 100 trình nghe)
+// Lặp qua tất cả các nút có class "delete-btn".
 document.querySelectorAll(".delete-btn").forEach(btn => {
+  // Gắn một trình nghe sự kiện 'click' cho mỗi nút.
+  // Khi nút được click, hàm handleDelete sẽ được gọi.
   btn.addEventListener("click", handleDelete);
 });
 
-// ✅ Good: one listener on the parent
+// ✅ Cách tốt: chỉ một trình nghe sự kiện trên phần tử cha
+// Chọn phần tử có class "todo-list" (thường là danh sách chứa các nút).
 document.querySelector(".todo-list").addEventListener("click", (e) => {
+  // Kiểm tra xem phần tử mà sự kiện click xảy ra (e.target) có khớp với selector ".delete-btn" hay không.
+  // Điều này có nghĩa là chỉ khi người dùng click vào một nút xóa bên trong danh sách, điều kiện này mới đúng.
   if (e.target.matches(".delete-btn")) {
+    // Nếu đúng, gọi hàm handleDelete.
+    // Đầu vào: đối tượng sự kiện (e) chứa thông tin về sự kiện click.
+    // Đầu ra: thực hiện hành động xóa tương ứng.
     handleDelete(e);
   }
 });
@@ -1061,16 +1106,21 @@ expense-tracker/
 Yêu cầu: thêm chi tiêu, xem tổng tháng, xóa item, lưu offline.
 
 \`\`\`js
+// import các hàm lưu trữ và hiển thị từ các module
 // scripts/main.js
 import { getAll, add, remove } from "./storage.js";
 import { renderList, renderTotal } from "./ui.js";
 
+
+// Hàm làm mới danh sách và tổng
 function refresh() {
   const items = getAll();
   renderList(items);
   renderTotal(items.reduce((s, i) => s + i.amount, 0));
 }
 
+
+// Bắt sự kiện submit form thêm mục mới
 document.querySelector("#add-form").addEventListener("submit", (e) => {
   e.preventDefault();
   const fd = new FormData(e.target);
@@ -1079,11 +1129,16 @@ document.querySelector("#add-form").addEventListener("submit", (e) => {
   refresh();
 });
 
+
+// Bắt sự kiện click trên danh sách để xử lý xóa
 document.querySelector("#list").addEventListener("click", (e) => {
   const id = e.target.closest("li")?.dataset.id;
+  // Chỉ xóa khi nhấn nút xóa trong một mục hợp lệ
   if (id && e.target.matches(".del")) { remove(id); refresh(); }
 });
 
+
+// Khởi tạo hiển thị lần đầu khi tải trang
 refresh();
 \`\`\`
 
@@ -1148,16 +1203,19 @@ expense-tracker/
 Requirements: add expense, view monthly total, delete items, work offline.
 
 \`\`\`js
-// scripts/main.js
+// scripts/main.js - tệp chính
+// import các hàm làm việc với storage và UI
 import { getAll, add, remove } from "./storage.js";
 import { renderList, renderTotal } from "./ui.js";
 
+// cập nhật danh sách và tổng tiền hiển thị
 function refresh() {
   const items = getAll();
   renderList(items);
   renderTotal(items.reduce((s, i) => s + i.amount, 0));
 }
 
+// xử lý sự kiện submit của form thêm mục
 document.querySelector("#add-form").addEventListener("submit", (e) => {
   e.preventDefault();
   const fd = new FormData(e.target);
@@ -1166,11 +1224,13 @@ document.querySelector("#add-form").addEventListener("submit", (e) => {
   refresh();
 });
 
+// xử lý sự kiện click trên danh sách (xóa mục)
 document.querySelector("#list").addEventListener("click", (e) => {
   const id = e.target.closest("li")?.dataset.id;
   if (id && e.target.matches(".del")) { remove(id); refresh(); }
 });
 
+// gọi lần đầu để hiển thị dữ liệu khi tải trang
 refresh();
 \`\`\`
 
@@ -1345,11 +1405,17 @@ export function UserProfile({ userId }: { userId: string }) {
 Khi 2 component cần dùng chung state → đẩy state lên cha gần nhất.
 
 \`\`\`tsx
+// Hàm component cha chứa state và truyền props xuống component con
 function Parent() {
+  // State 'query' lưu chuỗi tìm kiếm, 'setQuery' để cập nhật
   const [query, setQuery] = useState("");
+  // Trả về giao diện với ô tìm kiếm và danh sách kết quả
   return (
+    // Fragment nhóm các phần tử JSX mà không tạo thẻ thừa trong DOM
     <>
+      // Ô tìm kiếm: nhận value và callback onChange
       <SearchBox value={query} onChange={setQuery} />
+      // Danh sách kết quả: nhận query để lọc/hiển thị
       <ResultList query={query} />
     </>
   );
@@ -1393,9 +1459,13 @@ Never mutate state directly - always use the setter.
 
 ## 5. 🔄 Side Effects
 \`\`\`tsx
+// Hook effect chạy khi url thay đổi
 useEffect(() => {
+  // Tạo AbortController để có thể hủy request
   const ctrl = new AbortController();
+  // Thực hiện fetch kèm signal để có thể abort
   fetch(url, { signal: ctrl.signal }).then(/*...*/);
+  // Cleanup: hủy request khi unmount hoặc trước lần effect tiếp theo
   return () => ctrl.abort();
 }, [url]);
 \`\`\`
