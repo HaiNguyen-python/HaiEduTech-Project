@@ -219,7 +219,6 @@ const ProgrammingLessonPage = () => {
       }
     } catch (e) {
       toast.error("Could not enhance theory. Please try again later.");
-      console.error(e);
     }
     setEnhanceLoading(false);
   };
@@ -259,7 +258,7 @@ const ProgrammingLessonPage = () => {
         if (error) throw error;
         if (data) successCount++;
       } catch (e) {
-        console.error("Batch failed for", m.id, l.id, e);
+        // Silently track failures in batch run; surfaced via toast at end
         failCount++;
       }
       setBatchProgress({ done: i + 1, total: allLessons.length });
@@ -379,7 +378,7 @@ const ProgrammingLessonPage = () => {
       if (error) throw error;
       setAiChallenge(data);
     } catch (e) {
-      console.error(e);
+      toast.error("Could not generate challenge. Please try again.");
     }
     setAiLoading(false);
   };
