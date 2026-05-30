@@ -328,6 +328,23 @@ const SuperDictionary = () => {
     return () => window.removeEventListener("keydown", handler);
   }, []);
 
+  // External trigger: any component can do
+  //   window.dispatchEvent(new CustomEvent("super-dict:lookup", { detail: { word } }))
+  // to open the dictionary and auto-look up the given word.
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent<{ word?: string }>).detail;
+      const word = (detail?.word || "").trim();
+      if (!word) return;
+      setIsOpen(true);
+      setActiveTab("dictionary");
+      setDictSearchWord(word);
+      handleDictLookup(word);
+    };
+    window.addEventListener("super-dict:lookup", handler as EventListener);
+    return () => window.removeEventListener("super-dict:lookup", handler as EventListener);
+  }, [handleDictLookup]);
+
   // Autofocus dictionary input on open
   useEffect(() => {
     if (isOpen && activeTab === "dictionary") {

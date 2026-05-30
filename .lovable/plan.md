@@ -1,94 +1,71 @@
-# Kế hoạch: Tiếp tục Learn Chinese + Learn Programming
+# IELTS Reading Practice — Fix chatbot & nâng cấp công cụ học
 
-## PHẦN A — Learn Chinese (HSKK + SRS + Tone Drill)
+## 1. Vì sao chatbot bị "mất"
 
-### A1. Wire HSKK vào navigation
-- Thêm route `/chinese/hskk` trong `src/App.tsx` trỏ vào `HskkSpeakingRoom`
-- Thêm card "HSKK Speaking Room" vào hub Chinese (`InteractiveChineseCurriculum` hoặc `ConversationalChinese` hub) — gradient đỏ-vàng, icon Mic, badge "Beta"
-- Thêm sub-item vào Navbar group Chinese: "HSKK Speaking" → `/chinese/hskk`
-- Breadcrumb back về `/chinese`
+`ChatBot` được mount global ở `App.tsx` (luôn hiển thị mọi trang). Nhưng `IeltsReadingPractice.tsx` khi vào chế độ làm bài render một overlay:
 
-### A2. SRS (Spaced Repetition) cho HSK vocab
-- Tạo hook `src/hooks/useHskSRS.ts` với thuật toán SM-2 đơn giản:
-  - Mỗi từ có `easiness` (2.5 default), `interval` (ngày), `next_review` (timestamp)
-  - User đánh giá: Again (1) / Hard (2) / Good (3) / Easy (4)
-  - Lưu vào Supabase table `hsk_srs_progress` (user_id, word_id, easiness, interval, next_review, reps)
-  - Guest mode: localStorage fallback
-- Component `src/components/chinese/HskSrsReview.tsx`:
-  - Auto-expanding card (không 3D flip — theo memory)
-  - Hiển thị Hanzi → click reveal Pinyin + VI + audio
-  - 4 nút rating, swipe gesture trên mobile
-  - Counter "Due today: N / Mastered: N / Total: N"
-- Tab "SRS Review" trong `HskVocabularyBank` (1100+ words sẵn có)
-- Migration: tạo bảng `hsk_srs_progress` với RLS + GRANTs
+```tsx
+<div className="fixed inset-0 z-[60] bg-background ...">
+```
 
-### A3. Tone Drill (4 thanh điệu)
-- Trang `src/pages/ToneDrillRoom.tsx` (route `/chinese/tone-drill`)
-- Dùng `src/data/toneDrillBank.ts` đã có
-- 3 game modes:
-  1. **Listen & Identify**: nghe audio, chọn thanh (1/2/3/4)
-  2. **Minimal Pairs**: mā/má/mǎ/mà — phân biệt
-  3. **Speak & Match**: dùng Web Speech API, chấm điểm tone qua pitch contour (fallback: so khớp pinyin)
-- Visual: contour line cho mỗi thanh (SVG ↗ → ↘ ↘↗ ↘), confetti khi 5 đúng liên tiếp
-- Tích hợp XP system (`useProgrammingXP` pattern → tạo `useChineseXP` mới hoặc dùng player_badges)
-- Badge mới: `tone-master` (đạt 90%+ trong 20 câu)
+Overlay này phủ toàn màn hình với `z-[60]`, cao hơn z-index hiện tại của ChatBot → nút chat bị che. Ở màn hub (chưa bấm "Start") thì chatbot vẫn còn.
 
-### A4. Card vào hub
-- Thêm card "Tone Drill 四声训练" vào hub Chinese
+### Hướng xử lý (sẽ hỏi chọn 1)
+- **A. Luôn hiện** — nâng z-index ChatBot lên `z-[70]` để nổi trên overlay test.
+- **B. Ẩn khi đang làm bài timed, hiện lại ở hub/result** — tránh phân tâm khi đếm giờ, vẫn có nút "Hỏi Mr. Hai" nhỏ ở thanh header của overlay.
+- **C. Kết hợp**: ẩn khi timer đang chạy, hiện khi pause hoặc nộp bài.
 
----
+(Đề xuất B vì giống phòng thi thật, nhưng có nút mở chat trên header khi cần giải thích.)
 
-## PHẦN B — Learn Programming (defer items)
+## 2. Tính năng đề xuất cho Reading Practice
 
-### B1. Responsive mobile tabs cho PythonLessonView
-- Convert tabs sang horizontal scroll trên mobile (`overflow-x-auto`, snap)
-- Sticky tab bar khi scroll
-- Thêm dropdown menu cho pillar nav khi width < 768px
+Tất cả là tính năng frontend, tích hợp vào overlay đọc bài (cột trái = passage).
 
-### B2. Scroll indicators cho pillar navigation
-- Fade gradient trái/phải khi có nội dung overflow
-- Arrow buttons để scroll
-- Active pillar indicator (underline animated)
+### Bộ công cụ học (Reader Toolkit)
+1. **Highlight đa màu** — bôi vàng / xanh / hồng đoạn vừa chọn (selection), xoá bằng click lại. Lưu localStorage theo `passageId`.
+2. **Sticky note** — chọn đoạn → thêm ghi chú nhỏ, hiện icon 📝 cạnh dòng, hover xem nội dung.
+3. **Tap-to-define dictionary** — double-click 1 từ → popup nghĩa Việt + phát âm (dùng `GlobalSuperDictionary` đã có) + nút "Lưu vào IELTS Vocab Bank".
+4. **Line focus ruler** — toggle thanh ngang highlight dòng đang đọc (theo chuột) — hỗ trợ chứng khó tập trung.
+5. **Mark for review** — đánh dấu câu hỏi để quay lại (đã có "Submit" — thêm cờ 🚩 trên từng câu).
+6. **Strike-through đáp án** — gạch bỏ đáp án loại trừ (right-click hoặc nút nhỏ).
 
-### B3. AI Code Reviewer (edge function mới)
-- Tạo `supabase/functions/review-python-code/index.ts`
-  - Input: code, lesson context, expected output
-  - Dùng Lovable AI Gateway `google/gemini-2.5-flash` (rẻ)
-  - Output: { score, issues[], suggestions[], improvedCode }
-  - Rate limit: auth required, 20 req/giờ/user
-- Component `src/components/programming/AICodeReviewer.tsx`:
-  - Button "🤖 AI Review" trong Python playground
-  - Hiển thị review trong dialog: điểm 0-100, issues highlight dòng, gợi ý cải tiến
-  - Badge `code-reviewer` sau 5 lần review
+### Hỗ trợ AI (Perplexity sonar — dùng edge function có sẵn)
+7. **"Giải thích vì sao"** sau khi nộp — bấm vào câu sai để Mr. Hai phân tích keyword định vị trong passage.
+8. **Paraphrase helper** — chọn 1 cụm từ trong passage → AI gợi 2-3 cách diễn đạt khác (luyện synonym).
 
-### B4. Vietnamese localization
-- Translate pillar descriptions, lesson summaries, button labels sang VI trong `pythonPathwayData.ts`
-- Toggle EN/VI ở header (lưu localStorage `programming-lang`)
+### Trải nghiệm & gamification
+9. **Reading speed tracker** — hiển thị wpm thực tế khi nộp bài, so với mục tiêu Band (250 wpm cho 7.0).
+10. **Auto-save progress** — đang làm dở, refresh vẫn còn (đáp án + highlight + thời gian).
+11. **Font size & line-height slider** + chế độ Dyslexia-friendly font (đã có paper themes, mở rộng).
 
----
+## 3. Phạm vi đợt này (sẽ làm sau khi user chốt)
 
-## Thứ tự thực hiện (3 turns)
+**Bắt buộc:**
+- Sửa z-index/visibility ChatBot trên trang Reading Practice (theo phương án chọn).
 
-**Turn 1**: A1 + A2 (HSKK nav + SRS với migration)
-**Turn 2**: A3 + A4 (Tone Drill + hub card)
-**Turn 3**: B1 + B2 + B3 + B4 (Programming defer)
+**Đề xuất gói "Reader Toolkit v1"** (gọn, ~1 turn):
+- Highlight đa màu + xoá
+- Tap-to-define dictionary
+- Mark for review 🚩
+- Strike-through đáp án
+- Auto-save (đáp án + highlight)
 
-## Files mới (dự kiến)
-- `src/hooks/useHskSRS.ts`, `src/hooks/useChineseXP.ts`
-- `src/components/chinese/HskSrsReview.tsx`
-- `src/pages/ToneDrillRoom.tsx`
-- `src/components/programming/AICodeReviewer.tsx`
-- `supabase/functions/review-python-code/index.ts`
-- Migration `hsk_srs_progress` table
+**Gói "AI v2"** (turn sau):
+- Giải thích câu sai (Perplexity)
+- Paraphrase helper
+- Reading speed tracker
 
-## Files edit
-- `src/App.tsx`, `src/components/Navbar.tsx`
-- Hub Chinese, `HskVocabularyBank.tsx`
-- `PythonLessonView.tsx`, `pythonPathwayData.ts`
+## 4. Câu hỏi cho bạn trước khi build
 
-## Defer (sau)
-- SRS cho tone drill (round 2)
-- Voice pitch analysis chính xác (cần Pitch Detection lib như `pitchy`)
-- Leaderboard riêng cho HSKK & Tone Drill
+1. Chatbot: chọn **A (luôn hiện)**, **B (ẩn lúc timed, có nút trên header)**, hay **C (ẩn khi timer chạy)**?
+2. Build gói **Toolkit v1** trước, hay làm full luôn cả AI v2 trong turn này?
+3. Có muốn highlight/note đồng bộ Supabase (theo user) hay chỉ localStorage là đủ?
 
-Bạn muốn chạy theo thứ tự này, hay đảo (làm Programming defer trước)?
+## Chi tiết kỹ thuật
+
+- File chính: `src/pages/IeltsReadingPractice.tsx` (1095 dòng, có 2 overlay `z-[60]` ở dòng 370 & 736 cho 2 chế độ Timed/Free).
+- ChatBot: nâng class lên `z-[70]` hoặc dùng `useLocation()` + state để ẩn theo route + ref.
+- Highlight: dùng `window.getSelection()` + `Range` → wrap span class `bg-yellow-200/60`. Lưu range bằng XPath/offset, key theo `passageId`.
+- Dictionary: tái dùng `GlobalSuperDictionary` (đã global mount), trigger qua custom event `window.dispatchEvent(new CustomEvent('open-dict', { detail: { word }}))`.
+- Auto-save: `localStorage` key `ielts-reading-progress::{passageId}`, debounce 800ms.
+- AI explain: gọi edge function Perplexity `sonar-pro` mới `explain-ielts-reading` (turn sau).

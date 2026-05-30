@@ -18,8 +18,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   ArrowLeft, BookOpen, Trophy, Clock, Timer, X, CheckCircle2,
-  XCircle, ChevronLeft, ChevronRight, Plus, Minus, Sun, Moon, GripVertical, NotebookPen,
+  XCircle, ChevronLeft, ChevronRight, Plus, Minus, Sun, Moon, GripVertical, NotebookPen, Flag,
 } from "lucide-react";
+import ReaderPassage from "@/components/ielts/ReaderPassage";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -305,13 +306,55 @@ interface ExamEngineProps {
 
 const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
   const { t } = useLanguage();
-  const [answers, setAnswers] = useState<Record<number, string>>({});
+  const progressKey = `ielts-reading-progress::${exam.id}`;
+  const [answers, setAnswers] = useState<Record<number, string>>(() => {
+    try {
+      const raw = localStorage.getItem(progressKey);
+      if (raw) {
+        const p = JSON.parse(raw);
+        return p?.answers || {};
+      }
+    } catch { /* noop */ }
+    return {};
+  });
+  const [flagged, setFlagged] = useState<Set<number>>(() => {
+    try {
+      const raw = localStorage.getItem(progressKey);
+      if (raw) {
+        const p = JSON.parse(raw);
+        return new Set(Array.isArray(p?.flagged) ? p.flagged : []);
+      }
+    } catch { /* noop */ }
+    return new Set();
+  });
   const [submitted, setSubmitted] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(exam.durationMinutes * 60);
   const [activeQ, setActiveQ] = useState<number>(exam.questions[0].number);
   const [fontIdx, setFontIdx] = useState(2);
   const [paperTheme, setPaperTheme] = useState<"light" | "dark">("light");
   const { leftPct, containerRef, onMouseDown } = useSplit();
+
+  // Auto-save answers + flagged to localStorage
+  useEffect(() => {
+    if (submitted) return;
+    const handle = setTimeout(() => {
+      try {
+        localStorage.setItem(progressKey, JSON.stringify({
+          answers,
+          flagged: Array.from(flagged),
+          updatedAt: Date.now(),
+        }));
+      } catch { /* quota */ }
+    }, 400);
+    return () => clearTimeout(handle);
+  }, [answers, flagged, submitted, progressKey]);
+
+  // Clear saved progress on submit
+  useEffect(() => {
+    if (submitted) {
+      try { localStorage.removeItem(progressKey); } catch { /* noop */ }
+    }
+  }, [submitted, progressKey]);
 
   // Countdown timer
   useEffect(() => {
@@ -346,6 +389,14 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
     if (submitted) return;
     setAnswers((prev) => ({ ...prev, [qNum]: value }));
   }, [submitted]);
+
+  const toggleFlag = useCallback((qNum: number) => {
+    setFlagged(prev => {
+      const next = new Set(prev);
+      if (next.has(qNum)) next.delete(qNum); else next.add(qNum);
+      return next;
+    });
+  }, []);
 
   const handleSubmit = () => setSubmitted(true);
 
@@ -395,13 +446,14 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
               const answered = !!answers[q.number];
               const correct = submitted && (answers[q.number] || "").trim().toLowerCase() === q.answer.toLowerCase();
               const wrong = submitted && !correct;
+              const isFlagged = flagged.has(q.number);
               return (
                 <button
                   key={q.number}
                   onClick={() => setActiveQ(q.number)}
-                  aria-label={`Question ${q.number}`}
+                  aria-label={`Question ${q.number}${isFlagged ? " (flagged)" : ""}`}
                   className={cn(
-                    "w-7 h-7 rounded text-xs font-semibold border transition-all",
+                    "relative w-7 h-7 rounded text-xs font-semibold border transition-all",
                     activeQ === q.number && "ring-2 ring-primary ring-offset-1",
                     submitted
                       ? correct
@@ -415,6 +467,9 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
                   )}
                 >
                   {q.number}
+                  {isFlagged && !submitted && (
+                    <Flag className="absolute -top-1.5 -right-1.5 w-3 h-3 text-amber-500 fill-amber-400" />
+                  )}
                 </button>
               );
             })}
@@ -450,14 +505,12 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
             <p className={cn("text-xs uppercase tracking-wide mb-5", paperTheme === "light" ? "text-slate-500" : "text-slate-400")}>
               {t("Đoạn văn", "Reading Passage")}
             </p>
-            <article
-              className="max-w-none font-['Georgia',_'Merriweather',_serif] leading-[1.85]"
-              style={{ fontSize: `${FONT_SIZES[fontIdx]}px` }}
-            >
-              {exam.passage.split("\n\n").map((para, i) => (
-                <p key={i} className="mb-4 break-inside-avoid">{para}</p>
-              ))}
-            </article>
+            <ReaderPassage
+              passageId={exam.id}
+              passage={exam.passage}
+              fontSize={FONT_SIZES[fontIdx]}
+              paperTheme={paperTheme}
+            />
           </div>
         </section>
 
@@ -486,6 +539,8 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
                 onChange={(v) => handleAnswer(q.number, v)}
                 submitted={submitted}
                 onFocus={() => setActiveQ(q.number)}
+                flagged={flagged.has(q.number)}
+                onToggleFlag={() => toggleFlag(q.number)}
               />
             ))}
             {submitted && (
@@ -533,9 +588,11 @@ interface QBlockProps {
   onChange: (v: string) => void;
   submitted: boolean;
   onFocus: () => void;
+  flagged?: boolean;
+  onToggleFlag?: () => void;
 }
 
-const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, submitted, onFocus }) => {
+const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, submitted, onFocus, flagged, onToggleFlag }) => {
   const correct = submitted && value.trim().toLowerCase() === q.answer.toLowerCase();
   const wrong = submitted && value && !correct;
 
@@ -546,12 +603,27 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
       onClick={onFocus}
       className={cn(
         "rounded-xl border bg-card p-4 transition-all",
+        flagged && !submitted && "ring-2 ring-amber-400/60",
         submitted && (correct ? "border-emerald-500 bg-emerald-500/5" : wrong ? "border-destructive bg-destructive/5" : "")
       )}
     >
       <div className="flex items-start gap-3 mb-3">
         <Badge variant="outline" className="font-bold text-sm shrink-0">{q.number}</Badge>
-        <p className="text-sm font-medium text-foreground leading-relaxed">{q.prompt}</p>
+        <p className="text-sm font-medium text-foreground leading-relaxed flex-1">{q.prompt}</p>
+        {!submitted && onToggleFlag && (
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); onToggleFlag(); }}
+            className={cn(
+              "shrink-0 p-1 rounded transition-colors",
+              flagged ? "text-amber-500 hover:text-amber-600" : "text-muted-foreground hover:text-amber-500"
+            )}
+            title={flagged ? "Unflag" : "Mark for review"}
+            aria-label="Mark for review"
+          >
+            <Flag className={cn("w-4 h-4", flagged && "fill-amber-400")} />
+          </button>
+        )}
         {submitted && (correct
           ? <CheckCircle2 className="w-5 h-5 text-emerald-500 ml-auto shrink-0" />
           : wrong ? <XCircle className="w-5 h-5 text-destructive ml-auto shrink-0" /> : null
@@ -816,14 +888,12 @@ const FullTestEngine: React.FC<FullTestEngineProps> = ({ test, onClose }) => {
             <p className={cn("text-xs uppercase tracking-wide mb-5", paperTheme === "light" ? "text-slate-500" : "text-slate-400")}>
               {t("Đoạn văn", "Reading Passage")}
             </p>
-            <article
-              className="max-w-none font-['Georgia',_'Merriweather',_serif] leading-[1.85]"
-              style={{ fontSize: `${FONT_SIZES[fontIdx]}px` }}
-            >
-              {currentPassage.passage.split("\n\n").map((para, i) => (
-                <p key={i} className="mb-4">{para}</p>
-              ))}
-            </article>
+            <ReaderPassage
+              passageId={currentPassage.id}
+              passage={currentPassage.passage}
+              fontSize={FONT_SIZES[fontIdx]}
+              paperTheme={paperTheme}
+            />
           </div>
         </section>
 
