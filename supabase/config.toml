@@ -27,6 +27,15 @@ verify_jwt = false
 [functions.upgrade-speaking]
 verify_jwt = false
 
+[functions.shortlist-universities]
+verify_jwt = false
+
+[functions.interview-prep-ai]
+verify_jwt = false
+
+[functions.study-abroad-deadline-reminder]
+verify_jwt = false
+
 
 [functions.process-email-queue]
 verify_jwt = true

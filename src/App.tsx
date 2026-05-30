@@ -187,6 +187,10 @@ const SatRoadmap = lazy(() => import("./pages/SatRoadmap.tsx"));
 const PhdGlobalPathway = lazy(() => import("./pages/PhdGlobalPathway.tsx"));
 const MentorHub = lazy(() => import("./pages/MentorHub.tsx"));
 const PreDepartureChecklist = lazy(() => import("./pages/PreDepartureChecklist.tsx"));
+const UniversityShortlister = lazy(() => import("./pages/UniversityShortlister.tsx"));
+const InterviewPrep = lazy(() => import("./pages/InterviewPrep.tsx"));
+const CostCalculator = lazy(() => import("./pages/CostCalculator.tsx"));
+const JourneyDashboard = lazy(() => import("./pages/JourneyDashboard.tsx"));
 const SoftwareEngInterview = lazy(() => import("./pages/SoftwareEngInterview.tsx"));
 const SongsLibraryPage = lazy(() => import("./pages/SongsLibraryPage.tsx"));
 const SpecializedLanguage = lazy(() => import("./pages/SpecializedLanguage.tsx"));
@@ -375,6 +379,10 @@ const App = () => (
             <Route path="/study-abroad/phd" element={<LazyRoute><PhdGlobalPathway /></LazyRoute>} />
             <Route path="/study-abroad/mentor-hub" element={<LazyRoute><MentorHub /></LazyRoute>} />
             <Route path="/study-abroad/checklist" element={<LazyRoute><PreDepartureChecklist /></LazyRoute>} />
+            <Route path="/study-abroad/shortlister" element={<LazyRoute><UniversityShortlister /></LazyRoute>} />
+            <Route path="/study-abroad/interview-prep" element={<LazyRoute><InterviewPrep /></LazyRoute>} />
+            <Route path="/study-abroad/cost-calculator" element={<LazyRoute><CostCalculator /></LazyRoute>} />
+            <Route path="/study-abroad/journey" element={<LazyRoute><JourneyDashboard /></LazyRoute>} />
             <Route path="/songs/:lang" element={<LazyRoute><SongsLibraryPage /></LazyRoute>} />
             <Route path="/specialized-language" element={<LazyRoute><SpecializedLanguage /></LazyRoute>} />
             <Route path="/unsubscribe" element={<LazyRoute><Unsubscribe /></LazyRoute>} />

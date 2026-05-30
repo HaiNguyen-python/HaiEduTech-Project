@@ -1,18 +1,16 @@
-// Edge function: drafts a Motivation Letter OR Letter of Recommendation via
-// Lovable AI Gateway (Gemini Flash). Use docType: "motivation" (default) or "lor".
-import "https://deno.land/x/xhr@0.1.0/mod.ts";
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-
+/**
+ * Drafts a Motivation Letter or Letter of Recommendation via Perplexity (sonar-pro).
+ * docType: "motivation" (default) | "lor"
+ */
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-serve(async (req) => {
+Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    // Require an authenticated user — prevents anonymous spam of the AI gateway.
     const authHeader = req.headers.get("Authorization") || "";
     if (!authHeader.startsWith("Bearer ")) {
       return new Response(JSON.stringify({ error: "unauthorized" }), {
@@ -25,8 +23,8 @@ serve(async (req) => {
       gpa, background, careerGoal, language,
     } = await req.json();
 
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY missing");
+    const PERPLEXITY_API_KEY = Deno.env.get("PERPLEXITY_API_KEY");
+    if (!PERPLEXITY_API_KEY) throw new Error("PERPLEXITY_API_KEY missing");
 
     const lang = language === "vi" ? "Vietnamese" : "English";
     const isLor = docType === "lor";
@@ -51,8 +49,8 @@ Structure (no headings, flow as a real letter):
 4. Why this program is a strong fit for the student
 5. Strong closing with explicit recommendation and contact info placeholder
 
-Avoid: vague praise ("hardworking", "team player") without proof. Be specific.`
-      : `Write a complete, polished, 5-paragraph Master's Motivation Letter in ${lang} for the following student. Each paragraph clearly labeled. Word count target ~500.
+Avoid: vague praise without proof. Be specific. Output ONLY the letter text — no preamble.`
+      : `Write a complete, polished, 5-paragraph Master's Motivation Letter in ${lang} for the following student. Each paragraph clearly labeled with bold headings. Word count target ~500. Use real, current info about the university/program when relevant.
 
 Student profile:
 - Name: ${fullName || "[Name]"}
@@ -67,21 +65,23 @@ Student profile:
 Structure (use these exact bold headings):
 1. Introduction & Hook
 2. Academic Background
-3. Why This Program & University (name 2-3 specific courses, professors, or labs if you know them)
+3. Why This Program & University (name 2-3 specific courses, professors, or labs)
 4. Career Goals
 5. Conclusion
 
-Be specific, professional, never generic. Avoid clichés. Do not repeat the CV.`;
+Be specific, professional, never generic. Output ONLY the letter — no preamble, no citations list.`;
 
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const response = await fetch("https://api.perplexity.ai/chat/completions", {
       method: "POST",
-      headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
+      headers: { Authorization: `Bearer ${PERPLEXITY_API_KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model: "sonar-pro",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: userPrompt },
         ],
+        temperature: 0.4,
+        max_tokens: 1500,
       }),
     });
 
@@ -90,14 +90,9 @@ Be specific, professional, never generic. Avoid clichés. Do not repeat the CV.`
         status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    if (response.status === 402) {
-      return new Response(JSON.stringify({ error: "payment_required" }), {
-        status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
     if (!response.ok) {
       const t = await response.text();
-      console.error("Lovable AI error:", response.status, t);
+      console.error("Perplexity error:", response.status, t);
       throw new Error(`AI error ${response.status}`);
     }
     const data = await response.json();
