@@ -121,7 +121,9 @@ const FloatingNotebook = () => {
   useEffect(() => {
     const handler = (e: Event) => {
       const detail = (e as CustomEvent).detail;
-      setChatbotOpen(!!detail?.open);
+      const isOpen = !!detail?.open;
+      setChatbotOpen(isOpen);
+      if (isOpen) setOpen(false);
     };
     window.addEventListener("chatbot:toggle", handler as EventListener);
     return () => window.removeEventListener("chatbot:toggle", handler as EventListener);
