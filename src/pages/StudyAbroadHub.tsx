@@ -16,6 +16,34 @@ const StudyAbroadHub = () => {
 
   const sections = [
     {
+      to: "/study-abroad/journey",
+      icon: Compass,
+      gradient: "from-cyan-500 to-blue-600",
+      title: t("Journey Dashboard", "Journey Dashboard"),
+      desc: t("Tổng quan 7 mốc hành trình, deadline gần nhất, shortlist & hồ sơ — cập nhật realtime.", "7 milestones, next deadline, shortlist & docs — real-time overview."),
+    },
+    {
+      to: "/study-abroad/shortlister",
+      icon: GraduationCap,
+      gradient: "from-indigo-500 to-purple-600",
+      title: t("University Shortlister AI", "University Shortlister AI"),
+      desc: t("AI Perplexity gợi ý 9 trường (reach/target/safety) khớp hồ sơ — dữ liệu 2026.", "AI suggests 9 universities (reach/target/safety) — Perplexity 2026 data."),
+    },
+    {
+      to: "/study-abroad/interview-prep",
+      icon: MessageSquare,
+      gradient: "from-fuchsia-500 to-pink-600",
+      title: t("Interview Prep AI", "Interview Prep AI"),
+      desc: t("10 câu phỏng vấn riêng cho trường/ngành + AI chấm điểm câu trả lời.", "10 program-specific interview questions + AI scoring."),
+    },
+    {
+      to: "/study-abroad/cost-calculator",
+      icon: Calculator,
+      gradient: "from-amber-500 to-orange-600",
+      title: t("Cost Calculator", "Cost Calculator"),
+      desc: t("Tính tổng chi phí du học Phần Lan, Mỹ, Anh, Trung — học phí, nhà ở, sinh hoạt, visa.", "Total cost estimator for Finland, USA, UK, China."),
+    },
+    {
       to: "/study-abroad/documents",
       icon: FolderLock,
       gradient: "from-emerald-500 to-teal-600",
