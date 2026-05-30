@@ -481,86 +481,119 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
                 </Button>
               </>
             )}
-            <Button
-              onClick={() => skipChunks(-1)}
-              size="sm"
-              variant="outline"
-              className="gap-1 px-2"
-              title={t("Lùi 1 câu", "Previous sentence")}
-              disabled={currentIdx <= 0 && elapsedInChunk < 0.5}
-            >
-              <SkipBack className="w-4 h-4" />
-            </Button>
-            <Button
-              onClick={() => skipChunks(1)}
-              size="sm"
-              variant="outline"
-              className="gap-1 px-2"
-              title={t("Tới 1 câu", "Next sentence")}
-              disabled={currentIdx >= chunks.length - 1}
-            >
-              <SkipForward className="w-4 h-4" />
-            </Button>
-            <div className="flex items-center gap-2 ml-auto">
-              <Gauge className="w-4 h-4 text-muted-foreground" />
+            {!examMode && (
+              <>
+                <Button
+                  onClick={() => skipChunks(-1)}
+                  size="sm"
+                  variant="outline"
+                  className="gap-1 px-2"
+                  title={t("Lùi 1 câu", "Previous sentence")}
+                  disabled={currentIdx <= 0 && elapsedInChunk < 0.5}
+                >
+                  <SkipBack className="w-4 h-4" />
+                </Button>
+                <Button
+                  onClick={() => skipChunks(1)}
+                  size="sm"
+                  variant="outline"
+                  className="gap-1 px-2"
+                  title={t("Tới 1 câu", "Next sentence")}
+                  disabled={currentIdx >= chunks.length - 1}
+                >
+                  <SkipForward className="w-4 h-4" />
+                </Button>
+              </>
+            )}
+            <div className="flex items-center gap-2 ml-auto flex-wrap">
+              <Mic2 className="w-4 h-4 text-muted-foreground" />
               <select
-                value={rate}
-                onChange={(e) => setRate(Number(e.target.value))}
+                value={accent}
+                onChange={(e) => setAccent(e.target.value as AccentKey)}
                 className="text-xs bg-background border border-border rounded px-2 py-1"
-                title={t("Tốc độ phát", "Playback speed")}
+                title={t("Giọng đọc", "Accent")}
               >
-                <option value={0.7}>0.7x — {t("rất chậm", "very slow")}</option>
-                <option value={0.85}>0.85x — {t("tự nhiên", "natural")}</option>
-                <option value={0.95}>0.95x — {t("đề thi thật", "exam pace")}</option>
-                <option value={1.1}>1.1x — {t("nhanh", "fast")}</option>
+                {(Object.keys(ACCENT_LABELS) as AccentKey[]).map(a => (
+                  <option key={a} value={a}>{ACCENT_LABELS[a]}</option>
+                ))}
               </select>
+              {!examMode && (
+                <>
+                  <Gauge className="w-4 h-4 text-muted-foreground" />
+                  <select
+                    value={rate}
+                    onChange={(e) => setRate(Number(e.target.value))}
+                    className="text-xs bg-background border border-border rounded px-2 py-1"
+                    title={t("Tốc độ phát", "Playback speed")}
+                  >
+                    <option value={0.7}>0.7x — {t("rất chậm", "very slow")}</option>
+                    <option value={0.85}>0.85x — {t("tự nhiên", "natural")}</option>
+                    <option value={0.95}>0.95x — {t("đề thi thật", "exam pace")}</option>
+                    <option value={1.1}>1.1x — {t("nhanh", "fast")}</option>
+                  </select>
 
-              <Button onClick={() => setShowTranscript(v => !v)} size="sm" variant="ghost" className="gap-2">
-                {showTranscript ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                {showTranscript ? t("Ẩn script", "Hide script") : t("Hiện script", "Show script")}
-              </Button>
+                  <Button onClick={() => setShowTranscript(v => !v)} size="sm" variant="ghost" className="gap-2">
+                    {showTranscript ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    {showTranscript ? t("Ẩn script", "Hide script") : t("Hiện script", "Show script")}
+                  </Button>
+                </>
+              )}
             </div>
           </div>
 
-          {/* Seekable progress bar */}
-          <div className="flex items-center gap-3 pt-1">
-            <span className="text-xs font-mono text-muted-foreground tabular-nums w-10 text-right">
-              {formatTime(currentTime)}
-            </span>
-            <Slider
-              value={[Math.min(currentTime, totalDuration)]}
-              min={0}
-              max={Math.max(1, totalDuration)}
-              step={0.5}
-              onValueChange={(v) => {
-                const t0 = v[0] ?? 0;
-                // Update display immediately for responsive scrubbing
-                let idx = 0;
-                for (let i = 0; i < cumulative.length; i++) {
-                  if (cumulative[i] <= t0) idx = i; else break;
-                }
-                setCurrentIdx(idx);
-                setElapsedInChunk(Math.max(0, t0 - (cumulative[idx] ?? 0)));
-              }}
-              onValueCommit={(v) => seekToTime(v[0] ?? 0)}
-              className="flex-1"
-              aria-label={t("Thanh tua bài nghe", "Audio seek bar")}
-            />
-            <span className="text-xs font-mono text-muted-foreground tabular-nums w-10">
-              {formatTime(totalDuration)}
-            </span>
-          </div>
+          {/* Seekable progress bar — hidden during exam mode to mimic real test */}
+          {!examMode && (
+            <div className="flex items-center gap-3 pt-1">
+              <span className="text-xs font-mono text-muted-foreground tabular-nums w-10 text-right">
+                {formatTime(currentTime)}
+              </span>
+              <Slider
+                value={[Math.min(currentTime, totalDuration)]}
+                min={0}
+                max={Math.max(1, totalDuration)}
+                step={0.5}
+                onValueChange={(v) => {
+                  const t0 = v[0] ?? 0;
+                  let idx = 0;
+                  for (let i = 0; i < cumulative.length; i++) {
+                    if (cumulative[i] <= t0) idx = i; else break;
+                  }
+                  setCurrentIdx(idx);
+                  setElapsedInChunk(Math.max(0, t0 - (cumulative[idx] ?? 0)));
+                }}
+                onValueCommit={(v) => seekToTime(v[0] ?? 0)}
+                className="flex-1"
+                aria-label={t("Thanh tua bài nghe", "Audio seek bar")}
+              />
+              <span className="text-xs font-mono text-muted-foreground tabular-nums w-10">
+                {formatTime(totalDuration)}
+              </span>
+            </div>
+          )}
+
+          {/* In exam mode show only elapsed time */}
+          {examMode && playing && (
+            <div className="text-xs font-mono text-muted-foreground tabular-nums">
+              ⏱ {formatTime(currentTime)} / {formatTime(totalDuration)}
+            </div>
+          )}
 
           {showTranscript && (
             <div className="mt-2 rounded-lg bg-background border border-border overflow-hidden">
               <div className="px-3 py-1.5 bg-muted/60 text-xs font-semibold text-foreground border-b border-border">
                 {submitted
-                  ? t("📝 Script bài nghe — đối chiếu lại từng câu", "📝 Listening transcript — review every line")
+                  ? t("📝 Script — đáp án được tô vàng", "📝 Transcript — answers highlighted")
                   : t("📝 Script bài nghe", "📝 Listening transcript")}
               </div>
-              <div className="p-3 text-sm whitespace-pre-line leading-relaxed text-foreground/90 max-h-80 overflow-y-auto">
-                {s.transcript}
-              </div>
+              <div
+                className="p-3 text-sm whitespace-pre-line leading-relaxed text-foreground/90 max-h-80 overflow-y-auto"
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(highlightedTranscript, {
+                    ALLOWED_TAGS: ["mark", "br", "strong", "em"],
+                    ALLOWED_ATTR: ["class"],
+                  }),
+                }}
+              />
             </div>
           )}
 
