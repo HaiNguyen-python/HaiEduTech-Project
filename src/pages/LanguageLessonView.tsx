@@ -685,6 +685,7 @@ const LanguageLessonView = () => {
           </div>
         </div>
       </div>
+      {isSatLesson && <SatMathToolkit />}
       <Footer />
     </div>
   );
