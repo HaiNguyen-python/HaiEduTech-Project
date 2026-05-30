@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import { satTeachingSequence, satSequenceUrl } from "@/lib/satTeachingSequence";
 import Footer from "@/components/Footer";
+import SatMathToolkit from "@/components/sat/SatMathToolkit";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { allEnglishModules } from "@/data/languageCurriculum";
 
@@ -176,6 +177,7 @@ const SatCurriculum = () => {
         )}
       </main>
 
+      <SatMathToolkit />
       <Footer />
     </div>
   );

@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { useParams, Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { BookOpen, CheckCircle, ArrowLeft, Phone, MessageCircle, ArrowRight, Star, Users, Clock, Award, Layers, Sparkles, ChevronDown } from "lucide-react";
+import { BookOpen, CheckCircle, ArrowLeft, Phone, MessageCircle, ArrowRight, Star, Users, Clock, Award, Layers, Sparkles, ChevronDown, AlertCircle, Flame, Timer, ClipboardCheck } from "lucide-react";
 import { allEnglishModules } from "@/data/languageCurriculum";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -366,6 +366,54 @@ const EnglishCourse = () => {
                           title: t("Đề thi SAT", "SAT Exams"),
                           sub: t("10 mock test full", "10 full mock tests"),
                           iconBg: "from-fuchsia-500 to-rose-500",
+                        },
+                      ].map((card) => (
+                        <button
+                          key={card.to}
+                          onClick={() => navigate(card.to)}
+                          className="group text-left p-4 rounded-2xl border-[3px] border-emerald-500 dark:border-emerald-400 bg-background hover:border-primary hover:shadow-xl hover:-translate-y-0.5 transition-all"
+                        >
+                          <div className={`w-10 h-10 mb-3 rounded-xl bg-gradient-to-br ${card.iconBg} flex items-center justify-center shadow-md`}>
+                            <card.icon className="w-5 h-5 text-white" />
+                          </div>
+                          <p className="text-sm font-display font-bold text-foreground group-hover:text-primary transition-colors leading-snug">
+                            {card.title}
+                          </p>
+                          <p className="text-xs text-muted-foreground mt-1.5 leading-snug">
+                            {card.sub}
+                          </p>
+                        </button>
+                      ))}
+                    </div>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
+                      {[
+                        {
+                          to: "/sat/daily-warmup",
+                          icon: Flame,
+                          title: t("Khởi động hằng ngày", "Daily Warm-up"),
+                          sub: t("5 câu/ngày · giữ streak", "5 Qs/day · keep streak"),
+                          iconBg: "from-orange-500 to-red-500",
+                        },
+                        {
+                          to: "/sat/error-log",
+                          icon: AlertCircle,
+                          title: t("Sổ tay lỗi sai", "Error Log"),
+                          sub: t("Ôn lại đến khi thuộc", "Re-do until mastered"),
+                          iconBg: "from-rose-500 to-pink-500",
+                        },
+                        {
+                          to: "/sat/reading-pace",
+                          icon: Timer,
+                          title: t("Luyện tốc độ đọc", "Reading Pace"),
+                          sub: t("Đo WPM · 30 đoạn", "Track WPM · 30 passages"),
+                          iconBg: "from-cyan-500 to-blue-500",
+                        },
+                        {
+                          to: "/sat/test-day",
+                          icon: ClipboardCheck,
+                          title: t("Ngày thi & Bluebook", "Test Day & Bluebook"),
+                          sub: t("Checklist · cài đặt app", "Checklist · app setup"),
+                          iconBg: "from-slate-600 to-zinc-700",
                         },
                       ].map((card) => (
                         <button

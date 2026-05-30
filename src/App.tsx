@@ -95,6 +95,10 @@ const SatExercises = lazy(() => import("./pages/SatExercises.tsx"));
 const SatExams = lazy(() => import("./pages/SatExams.tsx"));
 const SatCurriculum = lazy(() => import("./pages/SatCurriculum.tsx"));
 const SatMockExam = lazy(() => import("./pages/SatMockExam.tsx"));
+const SatErrorLog = lazy(() => import("./pages/SatErrorLog.tsx"));
+const SatDailyWarmup = lazy(() => import("./pages/SatDailyWarmup.tsx"));
+const SatReadingPace = lazy(() => import("./pages/SatReadingPace.tsx"));
+const SatTestDay = lazy(() => import("./pages/SatTestDay.tsx"));
 const VocabArena = lazy(() => import("./pages/VocabArena.tsx"));
 const NationalExamPrep = lazy(() => import("./pages/NationalExamPrep.tsx"));
 const NationalExamRoom = lazy(() => import("./pages/NationalExamRoom.tsx"));
@@ -269,6 +273,10 @@ const App = () => (
             <Route path="/sat-exams" element={<LazyRoute><SatExams /></LazyRoute>} />
             <Route path="/sat-curriculum" element={<LazyRoute><SatCurriculum /></LazyRoute>} />
             <Route path="/sat-exams/:examId" element={<LazyRoute><SatMockExam /></LazyRoute>} />
+            <Route path="/sat/error-log" element={<LazyRoute><SatErrorLog /></LazyRoute>} />
+            <Route path="/sat/daily-warmup" element={<LazyRoute><SatDailyWarmup /></LazyRoute>} />
+            <Route path="/sat/reading-pace" element={<LazyRoute><SatReadingPace /></LazyRoute>} />
+            <Route path="/sat/test-day" element={<LazyRoute><SatTestDay /></LazyRoute>} />
             <Route path="/ielts-lectures" element={<LazyRoute><IeltsLectures /></LazyRoute>} />
             <Route path="/ielts-lectures/master-quiz" element={<LazyRoute><IeltsMasterQuiz /></LazyRoute>} />
             <Route path="/ielts-lectures/category/:category" element={<LazyRoute><IeltsLectureCategory /></LazyRoute>} />

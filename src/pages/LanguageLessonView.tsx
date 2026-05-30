@@ -21,6 +21,7 @@ import { FillInBlankExercise, SentenceReorderExercise, DictationExercise, QuizEx
 import { cn } from "@/lib/utils";
 import { getEnhancedGrammarTheory } from "@/lib/grammarTheoryEnhancer";
 import SatStarToggle from "@/components/sat/SatStarToggle";
+import SatMathToolkit from "@/components/sat/SatMathToolkit";
 import { useSatStar } from "@/hooks/useSatStars";
 import ListeningPracticeSetCard from "@/components/ielts/ListeningPracticeSetCard";
 import { getListeningPracticeForLesson } from "@/data/ieltsListeningLessonMap";
@@ -684,6 +685,7 @@ const LanguageLessonView = () => {
           </div>
         </div>
       </div>
+      {isSatLesson && <SatMathToolkit />}
       <Footer />
     </div>
   );
