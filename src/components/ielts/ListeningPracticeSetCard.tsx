@@ -691,26 +691,85 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
                       />
                     )}
                     {submitted && (
-                      <div className="flex items-start gap-2 text-sm pt-1">
-                        {correct ? (
-                          <>
-                            <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
-                            <span className="text-emerald-700 dark:text-emerald-300">
-                              {t("Đúng!", "Correct!")}
-                            </span>
-                          </>
-                        ) : (
-                          <>
-                            <XCircle className="w-4 h-4 text-rose-600 mt-0.5 shrink-0" />
-                            <span className="text-rose-700 dark:text-rose-300">
-                              {t("Đáp án đúng:", "Correct answer:")}{" "}
-                              <strong>
-                                {q.type === "mcq"
-                                  ? `${String.fromCharCode(65 + q.answer)}. ${q.options[q.answer]}`
-                                  : q.answer}
-                              </strong>
-                            </span>
-                          </>
+                      <div className="space-y-2 pt-1">
+                        <div className="flex items-start gap-2 text-sm">
+                          {correct ? (
+                            <>
+                              <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                              <span className="text-emerald-700 dark:text-emerald-300">
+                                {t("Đúng!", "Correct!")}
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              <XCircle className="w-4 h-4 text-rose-600 mt-0.5 shrink-0" />
+                              <span className="text-rose-700 dark:text-rose-300">
+                                {t("Đáp án đúng:", "Correct answer:")}{" "}
+                                <strong>
+                                  {q.type === "mcq"
+                                    ? `${String.fromCharCode(65 + q.answer)}. ${q.options[q.answer]}`
+                                    : q.answer}
+                                </strong>
+                              </span>
+                            </>
+                          )}
+                        </div>
+
+                        {!correct && (
+                          <div>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => requestExplain(i)}
+                              disabled={explainLoading[i]}
+                              className="gap-2 h-8 text-xs border-primary/40 text-primary hover:bg-primary/5"
+                            >
+                              <Sparkles className="w-3.5 h-3.5" />
+                              {explainLoading[i]
+                                ? t("Đang phân tích...", "Analyzing...")
+                                : explainOpen[i]
+                                  ? t("Xem lại lời giải AI", "Review AI explanation")
+                                  : t("Mr. Hai giải thích vì sao", "Why? Ask Mr. Hai")}
+                            </Button>
+
+                            {explainOpen[i] && explainData[i] && !explainData[i].error && (
+                              <div className="mt-2 rounded-lg border border-primary/30 bg-primary/5 p-3 space-y-2 text-sm">
+                                {explainData[i].quote && (
+                                  <div>
+                                    <div className="text-[10px] font-semibold uppercase text-primary mb-0.5">
+                                      {t("Câu chứa đáp án trong script", "Sentence in transcript")}
+                                    </div>
+                                    <div className="italic text-foreground/90 border-l-2 border-primary/60 pl-2">
+                                      "{explainData[i].quote}"
+                                      {explainData[i].keyword && (
+                                        <span className="ml-2 inline-block rounded bg-yellow-300/70 dark:bg-yellow-500/40 px-1.5 font-semibold not-italic text-xs">
+                                          🔑 {explainData[i].keyword}
+                                        </span>
+                                      )}
+                                    </div>
+                                  </div>
+                                )}
+                                {explainData[i].why && (
+                                  <div>
+                                    <span className="text-[10px] font-semibold uppercase text-primary">{t("Vì sao", "Why")}: </span>
+                                    <span className="text-foreground/90">{explainData[i].why}</span>
+                                  </div>
+                                )}
+                                {explainData[i].trap && (
+                                  <div>
+                                    <span className="text-[10px] font-semibold uppercase text-rose-600">{t("Bẫy", "Trap")}: </span>
+                                    <span className="text-foreground/90">{explainData[i].trap}</span>
+                                  </div>
+                                )}
+                                {explainData[i].tip && (
+                                  <div>
+                                    <span className="text-[10px] font-semibold uppercase text-emerald-600">{t("Mẹo", "Tip")}: </span>
+                                    <span className="text-foreground/90">{explainData[i].tip}</span>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </div>
                         )}
                       </div>
                     )}
