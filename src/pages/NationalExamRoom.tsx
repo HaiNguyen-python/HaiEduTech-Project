@@ -15,7 +15,23 @@ import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { arrangementSentences } from "@/data/arrangementSentences";
 
 
+// Renders passage text: __sentence__ → underlined; [I]/[II]/[III]/[IV] → colored chip.
+const renderPassageText = (text: string) => {
+  // Split into tokens by markers
+  const tokens = text.split(/(__[^_]+__|\[(?:I{1,3}|IV)\])/g);
+  return tokens.map((tok, i) => {
+    if (!tok) return null;
+    const m = tok.match(/^__([^_]+)__$/);
+    if (m) return <u key={i} className="decoration-primary decoration-2 underline-offset-4 font-semibold text-foreground">{m[1]}</u>;
+    if (/^\[(I{1,3}|IV)\]$/.test(tok)) {
+      return <span key={i} className="inline-flex items-center justify-center min-w-[28px] h-6 px-1.5 mx-0.5 rounded bg-primary/15 text-primary font-bold text-xs align-middle">{tok}</span>;
+    }
+    return <span key={i}>{tok}</span>;
+  });
+};
+
 type ExamPhase = "loading" | "taking" | "result" | "review";
+
 
 const NationalExamRoom = () => {
   const { examId } = useParams();
@@ -247,7 +263,7 @@ const NationalExamRoom = () => {
               {exam.passages.map((passage) => (
                 <div key={passage.id} className="glass-card rounded-xl p-5 mb-4">
                   <h3 className="font-bold text-foreground mb-2">{passage.title}</h3>
-                  <p className="text-sm text-muted-foreground whitespace-pre-line leading-relaxed">{passage.text}</p>
+                  <p className="text-sm text-muted-foreground whitespace-pre-line leading-relaxed">{renderPassageText(passage.text)}</p>
                 </div>
               ))}
 
@@ -372,7 +388,7 @@ const NationalExamRoom = () => {
                       <p className="text-sm text-yellow-800 dark:text-yellow-300 font-medium">{t("Nội dung đang được cập nhật. Vui lòng quay lại sau.", "Content under maintenance. Please check back later.")}</p>
                     </div>
                   ) : (
-                    <p className="text-lg md:text-xl font-medium text-foreground/80 whitespace-pre-line leading-loose">{relatedPassage.text}</p>
+                    <p className="text-lg md:text-xl font-medium text-foreground/80 whitespace-pre-line leading-loose">{renderPassageText(relatedPassage.text)}</p>
                   )}
                 </div>
               )}
