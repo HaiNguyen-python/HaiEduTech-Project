@@ -160,6 +160,60 @@ export type Database = {
           },
         ]
       }
+      assignments: {
+        Row: {
+          assigned_at: string
+          assignment_type: string
+          created_at: string
+          deadline: string | null
+          id: string
+          level: string | null
+          payload: Json
+          source_ref: string | null
+          subject: string
+          target_class: string | null
+          target_student_ids: string[]
+          teacher_id: string
+          teacher_name: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_at?: string
+          assignment_type: string
+          created_at?: string
+          deadline?: string | null
+          id?: string
+          level?: string | null
+          payload?: Json
+          source_ref?: string | null
+          subject: string
+          target_class?: string | null
+          target_student_ids?: string[]
+          teacher_id: string
+          teacher_name?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_at?: string
+          assignment_type?: string
+          created_at?: string
+          deadline?: string | null
+          id?: string
+          level?: string | null
+          payload?: Json
+          source_ref?: string | null
+          subject?: string
+          target_class?: string | null
+          target_student_ids?: string[]
+          teacher_id?: string
+          teacher_name?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       career_assessments: {
         Row: {
           ai_insights: string | null
@@ -1942,6 +1996,56 @@ export type Database = {
           work_experience_years?: number | null
         }
         Relationships: []
+      }
+      student_submissions: {
+        Row: {
+          accuracy: number | null
+          answers: Json
+          assignment_id: string
+          created_at: string
+          id: string
+          score: number | null
+          status: string
+          student_id: string
+          submitted_at: string | null
+          time_spent_seconds: number
+          updated_at: string
+        }
+        Insert: {
+          accuracy?: number | null
+          answers?: Json
+          assignment_id: string
+          created_at?: string
+          id?: string
+          score?: number | null
+          status?: string
+          student_id: string
+          submitted_at?: string | null
+          time_spent_seconds?: number
+          updated_at?: string
+        }
+        Update: {
+          accuracy?: number | null
+          answers?: Json
+          assignment_id?: string
+          created_at?: string
+          id?: string
+          score?: number | null
+          status?: string
+          student_id?: string
+          submitted_at?: string | null
+          time_spent_seconds?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_submissions_assignment_id_fkey"
+            columns: ["assignment_id"]
+            isOneToOne: false
+            referencedRelation: "assignments"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       study_journey_milestones: {
         Row: {
