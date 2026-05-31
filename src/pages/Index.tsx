@@ -95,11 +95,11 @@ const Index = () => {
       <ClassroomGallery />
     </section>
     <SectionDivider flip />
+    <LazySection><MonthlyTopStudents /></LazySection>
+    <SectionDivider />
     <CoursesOverview />
     <SectionDivider flip />
     <LazySection><LearningRoadmaps /></LazySection>
-    <SectionDivider flip />
-    <LazySection><MonthlyTopStudents /></LazySection>
     <SectionDivider />
     <LazySection><ModernTechTools /></LazySection>
     <SectionDivider flip />
