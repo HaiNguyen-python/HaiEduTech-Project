@@ -70,6 +70,7 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
   const [rate, setRate] = useState(s.rate ?? 0.85);
   const chunkTimerRef = useRef<number | null>(null);
   const cancelledRef = useRef(false);
+  const generationRef = useRef(0);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [elapsedInChunk, setElapsedInChunk] = useState(0);
   const chunkStartedAtRef = useRef<number>(0);
