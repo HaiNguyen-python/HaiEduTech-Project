@@ -219,18 +219,25 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
   };
 
   const togglePause = () => {
-    if (!window.speechSynthesis) return;
+    if (typeof window === "undefined" || !window.speechSynthesis) return;
     if (paused) {
-      window.speechSynthesis.resume();
-      if (pausedAtRef.current != null) {
-        pausedAccumRef.current += performance.now() - pausedAtRef.current;
-        pausedAtRef.current = null;
-      }
+      // Resume: restart from current chunk (more reliable across browsers than resume()).
+      cancelledRef.current = false;
       setPaused(false);
+      setPlaying(true);
+      startTick();
+      speakChunks(currentIdx);
     } else {
-      window.speechSynthesis.pause();
-      pausedAtRef.current = performance.now();
+      // Pause: fully cancel current utterance + any scheduled next-chunk timer.
+      cancelledRef.current = true;
+      if (chunkTimerRef.current) {
+        window.clearTimeout(chunkTimerRef.current);
+        chunkTimerRef.current = null;
+      }
+      try { window.speechSynthesis.cancel(); } catch { /* noop */ }
+      stopTick();
       setPaused(true);
+      setPlaying(false);
     }
   };
 
