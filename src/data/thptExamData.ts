@@ -56,7 +56,7 @@ export const thptExams = [
       {
         "id": "p1-1",
         "title": "The Phenomenon of Social Media Addiction",
-        "text": "Contemporary research has revealed disturbing patterns regarding digital dependency. The (1) __________ concerning nature of social media addiction has prompted psychologists to investigate its mechanisms. Social media platforms trigger dopamine releases, (2) __________ creating powerful psychological dependencies.\n\nThis biological response compels individuals (3) __________ compulsive checking behaviors. Therapists recommend individuals should (4) __________ decisive action. They advocate for applications (5) __________ screen time. Creating environments using natural (6) __________ can enhance recovery.",
+        "text": "Contemporary research has revealed disturbing patterns regarding digital dependency. The (1) ________ concerning nature of social media addiction has prompted psychologists to investigate its mechanisms. Social media platforms trigger dopamine releases, (2) ______ creating powerful psychological dependencies.\n\nThis biological response compels individuals (3) ______ compulsive checking behaviors. Therapists recommend individuals should (4) ______ decisive action. They advocate for applications (5) ______ screen time. Creating environments using natural (6) ______ can enhance recovery.",
         "questionRange": [
           1,
           6
@@ -65,7 +65,7 @@ export const thptExams = [
       {
         "id": "p1-2",
         "title": "The Renaissance of Artisanal Craftsmanship",
-        "text": "Consumers are beginning to (7) __________ the intrinsic value of handcrafted goods. Craftspeople invest a tremendous (8) __________ of time mastering techniques. When they are (9) __________ these methods, artisans discover profound connections. Different artisans specialize in (10) __________ techniques. They can (11) __________ knowledge immediately. (12) __________ individuals seek mass-produced alternatives.",
+        "text": "Consumers are beginning to (7) ______ the intrinsic value of handcrafted goods. Craftspeople invest a tremendous (8) ______ of time mastering techniques. When they are (9) ______ these methods, artisans discover profound connections. Different artisans specialize in (10) ______ techniques. They can (11) ______ knowledge immediately. (12) ______ individuals seek mass-produced alternatives.",
         "questionRange": [
           7,
           12
@@ -74,7 +74,7 @@ export const thptExams = [
       {
         "id": "p1-3",
         "title": "Cryptocurrency & Financial Systems",
-        "text": "Cryptocurrency challenges traditional institutions. (18) ___. Bitcoin demonstrated blockchain's potential. (19) ___. (20) ___, governments develop regulatory frameworks. Environmental concerns exist because (21) ___. Despite challenges, adoption expands. (22) ___.",
+        "text": "Cryptocurrency challenges traditional institutions. (18) _. Bitcoin demonstrated blockchain's potential. (19) _. (20) _, governments develop regulatory frameworks. Environmental concerns exist because (21) _. Despite challenges, adoption expands. (22) _.",
         "questionRange": [
           18,
           22
@@ -83,7 +83,7 @@ export const thptExams = [
       {
         "id": "p1-4",
         "title": "Remote Work Revolution",
-        "text": "The COVID-19 pandemic transformed workplace dynamics. __What initially began as an emergency measure has evolved into a permanent shift in employment practices.__\n\nRemote work offers numerous advantages. Workers enjoy increased flexibility, eliminated commuting time, and improved work-life balance. Companies benefit from reduced overhead costs.\n\nCommunication barriers represent the most significant obstacle. Face-to-face interactions facilitate natural collaboration that virtual meetings struggle to replicate.\n\nTechnology plays a crucial role. Nevertheless, not all roles are suitable, particularly those requiring physical presence.",
+        "text": "The COVID-19 pandemic transformed workplace dynamics. What initially began as an emergency measure has evolved into a permanent shift in employment practices.\n\nRemote work offers numerous advantages. Workers enjoy increased flexibility, eliminated commuting time, and improved work-life balance. Companies benefit from reduced overhead costs.\n\nCommunication barriers represent the most significant obstacle. Face-to-face interactions facilitate natural collaboration that virtual meetings struggle to replicate.\n\nTechnology plays a crucial role. Nevertheless, not all roles are suitable, particularly those requiring physical presence.",
         "questionRange": [
           23,
           30
@@ -102,7 +102,7 @@ export const thptExams = [
     "questions": [
       {
         "id": 1,
-        "text": "Question 1",
+        "text": "",
         "options": [
           "increasingly",
           "increase",
@@ -115,7 +115,7 @@ export const thptExams = [
       },
       {
         "id": 2,
-        "text": "Question 2",
+        "text": "",
         "options": [
           "in contrast to",
           "thereby",
@@ -128,7 +128,7 @@ export const thptExams = [
       },
       {
         "id": 3,
-        "text": "Question 3",
+        "text": "",
         "options": [
           "with",
           "for",
@@ -141,7 +141,7 @@ export const thptExams = [
       },
       {
         "id": 4,
-        "text": "Question 4",
+        "text": "",
         "options": [
           "make",
           "take",
@@ -154,7 +154,7 @@ export const thptExams = [
       },
       {
         "id": 5,
-        "text": "Question 5",
+        "text": "",
         "options": [
           "monitor",
           "monitoring",
@@ -167,7 +167,7 @@ export const thptExams = [
       },
       {
         "id": 6,
-        "text": "Question 6",
+        "text": "",
         "options": [
           "stimuli",
           "responses",
@@ -180,7 +180,7 @@ export const thptExams = [
       },
       {
         "id": 7,
-        "text": "Question 7",
+        "text": "",
         "options": [
           "comprehend",
           "perceive",
@@ -193,7 +193,7 @@ export const thptExams = [
       },
       {
         "id": 8,
-        "text": "Question 8",
+        "text": "",
         "options": [
           "amount",
           "number",
@@ -206,7 +206,7 @@ export const thptExams = [
       },
       {
         "id": 9,
-        "text": "Question 9",
+        "text": "",
         "options": [
           "to master",
           "mastering",
@@ -219,7 +219,7 @@ export const thptExams = [
       },
       {
         "id": 10,
-        "text": "Question 10",
+        "text": "",
         "options": [
           "traditional different ancient",
           "different ancient traditional",
@@ -232,7 +232,7 @@ export const thptExams = [
       },
       {
         "id": 11,
-        "text": "Question 11",
+        "text": "",
         "options": [
           "pick up",
           "take over",
@@ -245,7 +245,7 @@ export const thptExams = [
       },
       {
         "id": 12,
-        "text": "Question 12",
+        "text": "",
         "options": [
           "Few",
           "A few",
@@ -258,7 +258,7 @@ export const thptExams = [
       },
       {
         "id": 13,
-        "text": "Q13: Arrange email to Professor Williams.",
+        "text": "Arrange email to Professor Williams.",
         "options": [
           "a–b–c–d–e",
           "b–a–d–c–e",
@@ -271,7 +271,7 @@ export const thptExams = [
       },
       {
         "id": 14,
-        "text": "Q14: Arrange urban planning paragraph.",
+        "text": "Arrange urban planning paragraph.",
         "options": [
           "a–b–c–d–e",
           "b–d–a–c–e",
@@ -284,7 +284,7 @@ export const thptExams = [
       },
       {
         "id": 15,
-        "text": "Q15: Arrange AI healthcare dialogue.",
+        "text": "Arrange AI healthcare dialogue.",
         "options": [
           "a–b–c",
           "b–a–c",
@@ -297,7 +297,7 @@ export const thptExams = [
       },
       {
         "id": 16,
-        "text": "Q16: Arrange personalized medicine passage.",
+        "text": "Arrange personalized medicine passage.",
         "options": [
           "a–b–c–d–e",
           "c–a–b–e–d",
@@ -310,7 +310,7 @@ export const thptExams = [
       },
       {
         "id": 17,
-        "text": "Q17: Arrange climate change dialogue.",
+        "text": "Arrange climate change dialogue.",
         "options": [
           "a–b–c–d–e",
           "a–d–e–b–c",
@@ -323,7 +323,7 @@ export const thptExams = [
       },
       {
         "id": 18,
-        "text": "Q18: Blockchain technology sentence.",
+        "text": "Blockchain technology sentence.",
         "options": [
           "Creating through algorithms, blockchain ensures security",
           "Blockchain, which is created through algorithms, ensures security",
@@ -336,7 +336,7 @@ export const thptExams = [
       },
       {
         "id": 19,
-        "text": "Q19: Bitcoin profits sentence.",
+        "text": "Bitcoin profits sentence.",
         "options": [
           "Early investors who purchase have realized profits",
           "Bitcoin has generated profits for investors who purchased it",
@@ -349,7 +349,7 @@ export const thptExams = [
       },
       {
         "id": 20,
-        "text": "Q20: Transition phrase.",
+        "text": "Transition phrase.",
         "options": [
           "Recognized these concerns",
           "In response to these concerns",
@@ -362,7 +362,7 @@ export const thptExams = [
       },
       {
         "id": 21,
-        "text": "Q21: Noun clause after 'that'.",
+        "text": "Noun clause after 'that'.",
         "options": [
           "the consumption of enormous electricity during mining",
           "it was consumed enormous electricity during mining",
@@ -375,7 +375,7 @@ export const thptExams = [
       },
       {
         "id": 22,
-        "text": "Q22: Concluding sentence.",
+        "text": "Concluding sentence.",
         "options": [
           "The future of finance will likely be shaped by cryptocurrency evolution",
           "Cryptocurrency evolution will hardly shape finance",
@@ -633,7 +633,7 @@ export const thptExams = [
       {
         "id": "thpt-02-p1",
         "title": "Quantum Computing",
-        "text": "Quantum computing represents a (1) __________ paradigmatic breakthrough in computational science, fundamentally challenging conventional information processing methodologies. Leading physicists worldwide recognize quantum mechanics' extraordinary potential for solving previously intractable computational problems, (2) __________ revolutionizing fields from cryptography to pharmaceutical research through unprecedented processing capabilities.\n\nThe underlying quantum mechanical principles operate through superposition and entanglement phenomena. Quantum bits, or qubits, can exist in multiple states simultaneously, enabling exponential computational advantages. This quantum behavior enables scientists to (3) __________ complex molecular simulations and optimization problems that would require classical computers millennia to solve. Quantum researchers emphasize that breakthrough applications are imminent across numerous scientific disciplines.\n\nImplementation requires extraordinary technological precision. Engineers recommend that research institutions should (4) __________ immediate investments in cryogenic infrastructure and specialized quantum hardware development. Moreover, they propose developing sophisticated algorithms (5) __________ quantum decoherence while maximizing computational efficiency. Ultimately, establishing quantum-ready educational (6) __________ rather than traditional programming frameworks will accelerate widespread technological adoption.",
+        "text": "Quantum computing represents a (1) ________ paradigmatic breakthrough in computational science, fundamentally challenging conventional information processing methodologies. Leading physicists worldwide recognize quantum mechanics' extraordinary potential for solving previously intractable computational problems, (2) ______ revolutionizing fields from cryptography to pharmaceutical research through unprecedented processing capabilities.\n\nThe underlying quantum mechanical principles operate through superposition and entanglement phenomena. Quantum bits, or qubits, can exist in multiple states simultaneously, enabling exponential computational advantages. This quantum behavior enables scientists to (3) ______ complex molecular simulations and optimization problems that would require classical computers millennia to solve. Quantum researchers emphasize that breakthrough applications are imminent across numerous scientific disciplines.\n\nImplementation requires extraordinary technological precision. Engineers recommend that research institutions should (4) ______ immediate investments in cryogenic infrastructure and specialized quantum hardware development. Moreover, they propose developing sophisticated algorithms (5) ______ quantum decoherence while maximizing computational efficiency. Ultimately, establishing quantum-ready educational (6) ______ rather than traditional programming frameworks will accelerate widespread technological adoption.",
         "questionRange": [
           1,
           6
@@ -642,7 +642,7 @@ export const thptExams = [
       {
         "id": "thpt-02-p2",
         "title": "Deep Space Exploration",
-        "text": "In our technologically advancing era, space agencies are beginning to (7) __________ the extraordinary potential of interplanetary missions for scientific discovery and human expansion. This astronomical renaissance represents a fundamental departure from Earth-centered research paradigms toward comprehensive cosmic exploration initiatives. Mission commanders report experiencing unprecedented international collaboration for ambitious deep space endeavors.\n\nContemporary space missions require an enormous (8) __________ of financial investment to develop sophisticated propulsion systems that have been perfected through decades of aerospace engineering. When astronauts are (9) __________ these revolutionary spacecraft technologies, they frequently encounter remarkable opportunities for conducting groundbreaking scientific experiments in zero-gravity environments. This endeavor demands exceptional psychological resilience and technical expertise.\n\nDifferent space programs specialize in (10) __________ missions and exploration objectives. For example, one agency might focus on Mars colonization while another prioritizes asteroid mining operations. Meanwhile, researchers can (11) __________ crucial scientific data instantaneously when monitoring deep space communications. The discovery process varies dramatically across different cosmic exploration initiatives.\n\nInternational stakeholders increasingly recognize the significance that space exploration represents for humanity's future. (12) __________ nations still prioritize terrestrial concerns exclusively, but most governments now emphasize cosmic research, technological innovation, and the unprecedented opportunities embedded within interplanetary exploration programs.",
+        "text": "In our technologically advancing era, space agencies are beginning to (7) ______ the extraordinary potential of interplanetary missions for scientific discovery and human expansion. This astronomical renaissance represents a fundamental departure from Earth-centered research paradigms toward comprehensive cosmic exploration initiatives. Mission commanders report experiencing unprecedented international collaboration for ambitious deep space endeavors.\n\nContemporary space missions require an enormous (8) ______ of financial investment to develop sophisticated propulsion systems that have been perfected through decades of aerospace engineering. When astronauts are (9) ______ these revolutionary spacecraft technologies, they frequently encounter remarkable opportunities for conducting groundbreaking scientific experiments in zero-gravity environments. This endeavor demands exceptional psychological resilience and technical expertise.\n\nDifferent space programs specialize in (10) ______ missions and exploration objectives. For example, one agency might focus on Mars colonization while another prioritizes asteroid mining operations. Meanwhile, researchers can (11) ______ crucial scientific data instantaneously when monitoring deep space communications. The discovery process varies dramatically across different cosmic exploration initiatives.\n\nInternational stakeholders increasingly recognize the significance that space exploration represents for humanity's future. (12) ______ nations still prioritize terrestrial concerns exclusively, but most governments now emphasize cosmic research, technological innovation, and the unprecedented opportunities embedded within interplanetary exploration programs.",
         "questionRange": [
           7,
           12
@@ -651,7 +651,7 @@ export const thptExams = [
       {
         "id": "thpt-02-p3",
         "title": "Neural Interface Technology",
-        "text": "Neural interface technology represents a groundbreaking advancement in human-computer interaction, fundamentally altering how humans process and exchange information with digital systems. (18) ___________. Neuroscientists debate whether brain-computer interfaces will eventually enhance human cognitive capabilities or create unprecedented dependencies on technological augmentation.\n\nImplantable neural chips, the most sophisticated interface components, demonstrate extraordinary potential for treating neurological disorders and cognitive impairments. (19) ___________. However, surgical complications and long-term biocompatibility concerns continue discouraging widespread clinical adoption among conservative medical practitioners and regulatory authorities.\n\n(20) ___________, international medical organizations are establishing comprehensive neural interface guidelines to address ethical and safety considerations. These protocols aim to prevent exploitation while encouraging therapeutic innovation. Some medical institutions embrace neural augmentation enthusiastically, while others maintain traditional treatment preferences.\n\nPhilosophical questions surrounding neural interface implementation have generated intense academic discourse because (21) ___________. Identity preservation theories are being examined to address these consciousness-related implications.\n\nDespite philosophical challenges, neural interface development continues progressing rapidly. Major medical centers now conduct experimental procedures, and technology corporations are investing substantially in brain-computer interface research. (22) ___________.",
+        "text": "Neural interface technology represents a groundbreaking advancement in human-computer interaction, fundamentally altering how humans process and exchange information with digital systems. (18) _______. Neuroscientists debate whether brain-computer interfaces will eventually enhance human cognitive capabilities or create unprecedented dependencies on technological augmentation.\n\nImplantable neural chips, the most sophisticated interface components, demonstrate extraordinary potential for treating neurological disorders and cognitive impairments. (19) _______. However, surgical complications and long-term biocompatibility concerns continue discouraging widespread clinical adoption among conservative medical practitioners and regulatory authorities.\n\n(20) _______, international medical organizations are establishing comprehensive neural interface guidelines to address ethical and safety considerations. These protocols aim to prevent exploitation while encouraging therapeutic innovation. Some medical institutions embrace neural augmentation enthusiastically, while others maintain traditional treatment preferences.\n\nPhilosophical questions surrounding neural interface implementation have generated intense academic discourse because (21) _______. Identity preservation theories are being examined to address these consciousness-related implications.\n\nDespite philosophical challenges, neural interface development continues progressing rapidly. Major medical centers now conduct experimental procedures, and technology corporations are investing substantially in brain-computer interface research. (22) _______.",
         "questionRange": [
           18,
           22
@@ -660,7 +660,7 @@ export const thptExams = [
       {
         "id": "thpt-02-p4",
         "title": "Vertical Farming Systems",
-        "text": "The agricultural revolution has entered a new phase with the emergence of vertical farming systems, transforming traditional crop cultivation methods across urban environments globally. __What originally developed as experimental greenhouse projects has evolved into comprehensive indoor agriculture solutions, with farming enterprises discovering remarkable opportunities for sustainable food production in metropolitan areas.__\n\nVertical farming provides substantial benefits for both agricultural producers and urban communities. Farmers achieve year-round crop production, eliminated weather dependency, and significantly increased yield per square meter. Cities benefit from reduced food transportation costs, access to fresh produce regardless of climate, and often decreased environmental impact from agricultural activities. However, these agricultural innovations present considerable obstacles requiring advanced technological infrastructure and substantial energy investments.\n\nEnergy consumption represents the most significant challenge in vertical farming operations. LED lighting systems enable controlled photosynthesis, precise nutrient delivery, and optimized growing conditions that soil-based agriculture cannot achieve consistently. Additionally, maintaining sterile growing environments becomes increasingly complex when scaling production to commercial levels. Many vertical farms report struggling with profitability while competing against traditional outdoor agriculture without adequate economic incentives.\n\nAutomation plays a fundamental role in vertical farming viability. Robotic harvesting systems, AI-controlled environmental monitoring, and automated nutrient distribution networks are transforming how indoor agricultural operations function efficiently. Facilities investing in comprehensive automation infrastructure often achieve superior crop quality and operational sustainability. Nevertheless, not all crops are economically viable for vertical cultivation, particularly those requiring extensive growing space or producing relatively low market values.",
+        "text": "The agricultural revolution has entered a new phase with the emergence of vertical farming systems, transforming traditional crop cultivation methods across urban environments globally. What originally developed as experimental greenhouse projects has evolved into comprehensive indoor agriculture solutions, with farming enterprises discovering remarkable opportunities for sustainable food production in metropolitan areas.\n\nVertical farming provides substantial benefits for both agricultural producers and urban communities. Farmers achieve year-round crop production, eliminated weather dependency, and significantly increased yield per square meter. Cities benefit from reduced food transportation costs, access to fresh produce regardless of climate, and often decreased environmental impact from agricultural activities. However, these agricultural innovations present considerable obstacles requiring advanced technological infrastructure and substantial energy investments.\n\nEnergy consumption represents the most significant challenge in vertical farming operations. LED lighting systems enable controlled photosynthesis, precise nutrient delivery, and optimized growing conditions that soil-based agriculture cannot achieve consistently. Additionally, maintaining sterile growing environments becomes increasingly complex when scaling production to commercial levels. Many vertical farms report struggling with profitability while competing against traditional outdoor agriculture without adequate economic incentives.\n\nAutomation plays a fundamental role in vertical farming viability. Robotic harvesting systems, AI-controlled environmental monitoring, and automated nutrient distribution networks are transforming how indoor agricultural operations function efficiently. Facilities investing in comprehensive automation infrastructure often achieve superior crop quality and operational sustainability. Nevertheless, not all crops are economically viable for vertical cultivation, particularly those requiring extensive growing space or producing relatively low market values.",
         "questionRange": [
           23,
           30
@@ -679,7 +679,7 @@ export const thptExams = [
     "questions": [
       {
         "id": 1,
-        "text": "Question 1",
+        "text": "",
         "options": [
           "profoundity",
           "profound",
@@ -692,7 +692,7 @@ export const thptExams = [
       },
       {
         "id": 2,
-        "text": "Question 2",
+        "text": "",
         "options": [
           "in addition to",
           "consequently",
@@ -705,7 +705,7 @@ export const thptExams = [
       },
       {
         "id": 3,
-        "text": "Question 3",
+        "text": "",
         "options": [
           "toward",
           "to",
@@ -718,7 +718,7 @@ export const thptExams = [
       },
       {
         "id": 4,
-        "text": "Question 4",
+        "text": "",
         "options": [
           "make",
           "take",
@@ -731,7 +731,7 @@ export const thptExams = [
       },
       {
         "id": 5,
-        "text": "Question 5",
+        "text": "",
         "options": [
           "monitor",
           "monitoring",
@@ -744,7 +744,7 @@ export const thptExams = [
       },
       {
         "id": 6,
-        "text": "Question 6",
+        "text": "",
         "options": [
           "approaches",
           "methodologies",
@@ -757,7 +757,7 @@ export const thptExams = [
       },
       {
         "id": 7,
-        "text": "Question 7",
+        "text": "",
         "options": [
           "appreciate",
           "acknowledge",
@@ -770,7 +770,7 @@ export const thptExams = [
       },
       {
         "id": 8,
-        "text": "Question 8",
+        "text": "",
         "options": [
           "amount",
           "number",
@@ -783,7 +783,7 @@ export const thptExams = [
       },
       {
         "id": 9,
-        "text": "Question 9",
+        "text": "",
         "options": [
           "to operate",
           "operating",
@@ -796,7 +796,7 @@ export const thptExams = [
       },
       {
         "id": 10,
-        "text": "Question 10",
+        "text": "",
         "options": [
           "cutting-edge specialized ambitious",
           "specialized ambitious cutting-edge",
@@ -809,7 +809,7 @@ export const thptExams = [
       },
       {
         "id": 11,
-        "text": "Question 11",
+        "text": "",
         "options": [
           "pick up",
           "take over",
@@ -822,7 +822,7 @@ export const thptExams = [
       },
       {
         "id": 12,
-        "text": "Question 12",
+        "text": "",
         "options": [
           "Few",
           "A few",
@@ -835,7 +835,7 @@ export const thptExams = [
       },
       {
         "id": 13,
-        "text": "Q13: Arrange the formal letter.",
+        "text": "Arrange the formal letter.",
         "options": [
           "a–b–c–d–e",
           "b–a–d–c–e",
@@ -848,7 +848,7 @@ export const thptExams = [
       },
       {
         "id": 14,
-        "text": "Q14: Arrange the academic paragraph.",
+        "text": "Arrange the academic paragraph.",
         "options": [
           "a–b–c–d–e",
           "b–d–a–c–e",
@@ -861,7 +861,7 @@ export const thptExams = [
       },
       {
         "id": 15,
-        "text": "Q15: Arrange the dialogue.",
+        "text": "Arrange the dialogue.",
         "options": [
           "a–b–c",
           "b–a–c",
@@ -874,7 +874,7 @@ export const thptExams = [
       },
       {
         "id": 16,
-        "text": "Q16: Arrange the passage.",
+        "text": "Arrange the passage.",
         "options": [
           "a–b–c–d–e",
           "c–a–b–e–d",
@@ -887,7 +887,7 @@ export const thptExams = [
       },
       {
         "id": 17,
-        "text": "Q17: Arrange the debate.",
+        "text": "Arrange the debate.",
         "options": [
           "a–b–c–d–e",
           "a–d–e–b–c",
@@ -900,7 +900,7 @@ export const thptExams = [
       },
       {
         "id": 18,
-        "text": "Q18: Choose correct grammar.",
+        "text": "Choose correct grammar.",
         "options": [
           "Developed through research, this framework provides solutions",
           "This framework, which developing, provides solutions",
@@ -913,7 +913,7 @@ export const thptExams = [
       },
       {
         "id": 19,
-        "text": "Q19: Choose correct sentence.",
+        "text": "Choose correct sentence.",
         "options": [
           "Researchers who conducted experiments have published findings",
           "Experiments having conducted by researchers published findings",
@@ -926,7 +926,7 @@ export const thptExams = [
       },
       {
         "id": 20,
-        "text": "Q20: Choose correct transition.",
+        "text": "Choose correct transition.",
         "options": [
           "In response to these concerns",
           "Responded to these concerns",
@@ -939,7 +939,7 @@ export const thptExams = [
       },
       {
         "id": 21,
-        "text": "Q21: Choose correct clause.",
+        "text": "Choose correct clause.",
         "options": [
           "the rapid advancement creates new challenges",
           "technology rapidly advancing creates challenges",
@@ -952,7 +952,7 @@ export const thptExams = [
       },
       {
         "id": 22,
-        "text": "Q22: Choose best conclusion.",
+        "text": "Choose best conclusion.",
         "options": [
           "Future developments will undoubtedly reshape our understanding",
           "Our understanding will hardly be reshaped",
@@ -1210,7 +1210,7 @@ export const thptExams = [
       {
         "id": "thpt-03-p1",
         "title": "Neuroplasticity",
-        "text": "Recent breakthroughs in neuroscience have illuminated the brain's extraordinary adaptability, fundamentally altering therapeutic approaches to cognitive impairment. The (1) __________ understanding of neuroplasticity demonstrates that neural networks can reorganize following injury or disease. This capability, (2) __________, offers unprecedented hope for recovery in patients with traumatic brain injuries.\n\nAdvanced rehabilitation techniques leverage this adaptability by engaging patients in targeted exercises. Therapists encourage consistent practice (3) __________ neural pathways to strengthen. Consequently, individuals who once faced permanent disability now achieve remarkable functional improvements.\n\nHowever, harnessing neuroplasticity requires precision. Interventions must (4) __________ the delicate balance between stimulation and overexertion. Cutting-edge technology, such as AI-driven diagnostics, assists clinicians in designing (5) __________ protocols. Success ultimately depends on the brain's inherent capacity to rewire itself, a phenomenon (6) __________ as \"cortical remapping.\"",
+        "text": "Recent breakthroughs in neuroscience have illuminated the brain's extraordinary adaptability, fundamentally altering therapeutic approaches to cognitive impairment. The (1) ______ understanding of neuroplasticity demonstrates that neural networks can reorganize following injury or disease. This capability, (2) ______, offers unprecedented hope for recovery in patients with traumatic brain injuries.\n\nAdvanced rehabilitation techniques leverage this adaptability by engaging patients in targeted exercises. Therapists encourage consistent practice (3) ______ neural pathways to strengthen. Consequently, individuals who once faced permanent disability now achieve remarkable functional improvements.\n\nHowever, harnessing neuroplasticity requires precision. Interventions must (4) ______ the delicate balance between stimulation and overexertion. Cutting-edge technology, such as AI-driven diagnostics, assists clinicians in designing (5) ______ protocols. Success ultimately depends on the brain's inherent capacity to rewire itself, a phenomenon (6) ______ as \"cortical remapping.\"",
         "questionRange": [
           1,
           6
@@ -1219,7 +1219,7 @@ export const thptExams = [
       {
         "id": "thpt-03-p2",
         "title": "Sustainable Architecture",
-        "text": "Innovative architects are redefining urban landscapes by integrating ancient wisdom with modern technology to combat desertification. These pioneers (7) __________ passive cooling techniques, drastically reducing energy consumption in scorching environments. A (8) __________ of research confirms that such designs can lower indoor temperatures by 10–15°C.\n\nWhen (9) __________ vernacular materials like adobe and rammed earth, architects prioritize thermal mass and evaporative cooling. These (10) __________ resilient sustainable solutions outperform conventional alternatives. Moreover, designers can (11) __________ local cultural heritage while implementing these innovations.\n\n(12) __________ remain skeptical, but empirical data validates the efficacy of bioclimatic architecture. As climate change intensifies, these strategies will become indispensable.",
+        "text": "Innovative architects are redefining urban landscapes by integrating ancient wisdom with modern technology to combat desertification. These pioneers (7) ______ passive cooling techniques, drastically reducing energy consumption in scorching environments. A (8) ______ of research confirms that such designs can lower indoor temperatures by 10–15°C.\n\nWhen (9) ______ vernacular materials like adobe and rammed earth, architects prioritize thermal mass and evaporative cooling. These (10) ______ resilient sustainable solutions outperform conventional alternatives. Moreover, designers can (11) ______ local cultural heritage while implementing these innovations.\n\n(12) ______ remain skeptical, but empirical data validates the efficacy of bioclimatic architecture. As climate change intensifies, these strategies will become indispensable.",
         "questionRange": [
           7,
           12
@@ -1228,7 +1228,7 @@ export const thptExams = [
       {
         "id": "thpt-03-p3",
         "title": "Quantum Computing Principles",
-        "text": "Quantum computing harnesses quantum-mechanical phenomena to process information exponentially faster than classical systems. (18) __________, traditional binary bits are superseded by quantum bits (qubits), which exist in superposition states. This paradigm shift enables parallel computation of vast solution spaces.\n\n(19) __________, maintaining qubit coherence remains the foremost engineering challenge. Environmental decoherence disrupts quantum states within microseconds. Consequently, quantum computers operate near absolute zero temperatures. (20) __________, error rates would render calculations meaningless.\n\nTheoretical breakthroughs suggest topological qubits could circumvent this limitation. (21) __________, quantum systems achieve fault tolerance through braided anyons in two-dimensional fields. (22) __________, scalable quantum computers might solve currently intractable problems in cryptography and drug discovery.",
+        "text": "Quantum computing harnesses quantum-mechanical phenomena to process information exponentially faster than classical systems. (18) ______, traditional binary bits are superseded by quantum bits (qubits), which exist in superposition states. This paradigm shift enables parallel computation of vast solution spaces.\n\n(19) ______, maintaining qubit coherence remains the foremost engineering challenge. Environmental decoherence disrupts quantum states within microseconds. Consequently, quantum computers operate near absolute zero temperatures. (20) ______, error rates would render calculations meaningless.\n\nTheoretical breakthroughs suggest topological qubits could circumvent this limitation. (21) ______, quantum systems achieve fault tolerance through braided anyons in two-dimensional fields. (22) ______, scalable quantum computers might solve currently intractable problems in cryptography and drug discovery.",
         "questionRange": [
           18,
           22
@@ -1237,7 +1237,7 @@ export const thptExams = [
       {
         "id": "thpt-03-p4",
         "title": "Epigenetics Research",
-        "text": "Epigenetics – the study of heritable phenotype changes not involving DNA sequence alterations – has overturned deterministic views of genetic inheritance. __Environmental factors like diet, stress, and toxins can activate methyl groups or histone modifications, silencing or expressing genes across generations.__ Famine survivors' descendants exhibiting metabolic disorders exemplify transgenerational epigenetic inheritance.\n\nClinical applications are revolutionary. Epigenetic biomarkers enable early cancer detection when tumors are undetectable by conventional imaging. Demethylating agents reactivate tumor-suppressor genes in leukemia, achieving remission where chemotherapy fails. Paradoxically, these therapies risk destabilizing the genome by indiscriminately reversing epigenetic silencing.\n\nMethodological challenges persist. Current sequencing techniques cannot simultaneously map all epigenetic modifications in single cells. Moreover, distinguishing causal epigenetic changes from correlative ones requires longitudinal studies spanning decades. Machine learning algorithms now predict modification patterns by analyzing chromatin accessibility data, accelerating discovery.\n\nEthical quandaries emerge. Epigenetic editing tools like CRISPR-Cas9 could potentially \"reset\" harmful environmental legacies but might inadvertently erase adaptive responses. Legal frameworks struggle to classify non-sequence-based inheritance, challenging patent laws and bioethics guidelines. As epigenetic therapies near commercialization, equitable access debates intensify.",
+        "text": "Epigenetics – the study of heritable phenotype changes not involving DNA sequence alterations – has overturned deterministic views of genetic inheritance. Environmental factors like diet, stress, and toxins can activate methyl groups or histone modifications, silencing or expressing genes across generations. Famine survivors' descendants exhibiting metabolic disorders exemplify transgenerational epigenetic inheritance.\n\nClinical applications are revolutionary. Epigenetic biomarkers enable early cancer detection when tumors are undetectable by conventional imaging. Demethylating agents reactivate tumor-suppressor genes in leukemia, achieving remission where chemotherapy fails. Paradoxically, these therapies risk destabilizing the genome by indiscriminately reversing epigenetic silencing.\n\nMethodological challenges persist. Current sequencing techniques cannot simultaneously map all epigenetic modifications in single cells. Moreover, distinguishing causal epigenetic changes from correlative ones requires longitudinal studies spanning decades. Machine learning algorithms now predict modification patterns by analyzing chromatin accessibility data, accelerating discovery.\n\nEthical quandaries emerge. Epigenetic editing tools like CRISPR-Cas9 could potentially \"reset\" harmful environmental legacies but might inadvertently erase adaptive responses. Legal frameworks struggle to classify non-sequence-based inheritance, challenging patent laws and bioethics guidelines. As epigenetic therapies near commercialization, equitable access debates intensify.",
         "questionRange": [
           23,
           30
@@ -1256,7 +1256,7 @@ export const thptExams = [
     "questions": [
       {
         "id": 1,
-        "text": "Question 1",
+        "text": "",
         "options": [
           "transformative",
           "transformation",
@@ -1269,7 +1269,7 @@ export const thptExams = [
       },
       {
         "id": 2,
-        "text": "Question 2",
+        "text": "",
         "options": [
           "however",
           "therefore",
@@ -1282,7 +1282,7 @@ export const thptExams = [
       },
       {
         "id": 3,
-        "text": "Question 3",
+        "text": "",
         "options": [
           "toward",
           "to",
@@ -1295,7 +1295,7 @@ export const thptExams = [
       },
       {
         "id": 4,
-        "text": "Question 4",
+        "text": "",
         "options": [
           "make",
           "take",
@@ -1308,7 +1308,7 @@ export const thptExams = [
       },
       {
         "id": 5,
-        "text": "Question 5",
+        "text": "",
         "options": [
           "monitor",
           "monitoring",
@@ -1321,7 +1321,7 @@ export const thptExams = [
       },
       {
         "id": 6,
-        "text": "Question 6",
+        "text": "",
         "options": [
           "approaches",
           "methodologies",
@@ -1334,7 +1334,7 @@ export const thptExams = [
       },
       {
         "id": 7,
-        "text": "Question 7",
+        "text": "",
         "options": [
           "appreciate",
           "acknowledge",
@@ -1347,7 +1347,7 @@ export const thptExams = [
       },
       {
         "id": 8,
-        "text": "Question 8",
+        "text": "",
         "options": [
           "amount",
           "number",
@@ -1360,7 +1360,7 @@ export const thptExams = [
       },
       {
         "id": 9,
-        "text": "Question 9",
+        "text": "",
         "options": [
           "to operate",
           "operating",
@@ -1373,7 +1373,7 @@ export const thptExams = [
       },
       {
         "id": 10,
-        "text": "Question 10",
+        "text": "",
         "options": [
           "cutting-edge specialized ambitious",
           "specialized ambitious cutting-edge",
@@ -1386,7 +1386,7 @@ export const thptExams = [
       },
       {
         "id": 11,
-        "text": "Question 11",
+        "text": "",
         "options": [
           "pick up",
           "take over",
@@ -1399,7 +1399,7 @@ export const thptExams = [
       },
       {
         "id": 12,
-        "text": "Question 12",
+        "text": "",
         "options": [
           "Few",
           "A few",
@@ -1412,7 +1412,7 @@ export const thptExams = [
       },
       {
         "id": 13,
-        "text": "Q13: Arrange the formal letter.",
+        "text": "Arrange the formal letter.",
         "options": [
           "a–b–c–d–e",
           "b–a–d–c–e",
@@ -1425,7 +1425,7 @@ export const thptExams = [
       },
       {
         "id": 14,
-        "text": "Q14: Arrange the academic paragraph.",
+        "text": "Arrange the academic paragraph.",
         "options": [
           "a–b–c–d–e",
           "b–d–a–c–e",
@@ -1438,7 +1438,7 @@ export const thptExams = [
       },
       {
         "id": 15,
-        "text": "Q15: Arrange the dialogue.",
+        "text": "Arrange the dialogue.",
         "options": [
           "a–b–c",
           "b–a–c",
@@ -1451,7 +1451,7 @@ export const thptExams = [
       },
       {
         "id": 16,
-        "text": "Q16: Arrange the passage.",
+        "text": "Arrange the passage.",
         "options": [
           "a–b–c–d–e",
           "c–a–b–e–d",
@@ -1464,7 +1464,7 @@ export const thptExams = [
       },
       {
         "id": 17,
-        "text": "Q17: Arrange the debate.",
+        "text": "Arrange the debate.",
         "options": [
           "a–b–c–d–e",
           "a–d–e–b–c",
@@ -1477,7 +1477,7 @@ export const thptExams = [
       },
       {
         "id": 18,
-        "text": "Q18: Choose correct grammar.",
+        "text": "Choose correct grammar.",
         "options": [
           "Developed through research, this framework provides solutions",
           "This framework, which developing, provides solutions",
@@ -1490,7 +1490,7 @@ export const thptExams = [
       },
       {
         "id": 19,
-        "text": "Q19: Choose correct sentence.",
+        "text": "Choose correct sentence.",
         "options": [
           "Researchers who conducted experiments have published findings",
           "Experiments having conducted by researchers published findings",
@@ -1503,7 +1503,7 @@ export const thptExams = [
       },
       {
         "id": 20,
-        "text": "Q20: Choose correct transition.",
+        "text": "Choose correct transition.",
         "options": [
           "In response to these concerns",
           "Responded to these concerns",
@@ -1516,7 +1516,7 @@ export const thptExams = [
       },
       {
         "id": 21,
-        "text": "Q21: Choose correct clause.",
+        "text": "Choose correct clause.",
         "options": [
           "the rapid advancement creates new challenges",
           "technology rapidly advancing creates challenges",
@@ -1529,7 +1529,7 @@ export const thptExams = [
       },
       {
         "id": 22,
-        "text": "Q22: Choose best conclusion.",
+        "text": "Choose best conclusion.",
         "options": [
           "Future developments will undoubtedly reshape our understanding",
           "Our understanding will hardly be reshaped",
@@ -1787,7 +1787,7 @@ export const thptExams = [
       {
         "id": "thpt-04-p1",
         "title": "Island Tourism",
-        "text": "Contemporary travel trends demonstrate an (1) __________ surge in interest toward archipelagic destinations, particularly among affluent millennials seeking authentic experiences. Island tourism represents more than mere escapism; it embodies humanity's primordial connection to pristine natural environments. (2) __________, these destinations offer unparalleled opportunities for cultural immersion and ecological discovery.\n\nThe socioeconomic implications of island tourism extend far beyond individual satisfaction. Local communities benefit substantially from tourism revenue, which enables them to preserve indigenous traditions while modernizing essential infrastructure. This economic symbiosis compels governments (3) __________ sustainable development policies that balance environmental conservation with commercial viability. Tourism boards emphasize the critical importance of responsible travel practices.\n\nSustainable island tourism requires comprehensive planning strategies. Travel agencies recommend that visitors should (4) __________ proactive measures by researching local customs and supporting community-based enterprises. Furthermore, they advocate for the utilization of eco-friendly accommodations (5) __________ carbon footprints while promoting environmental awareness. Ultimately, creating harmonious relationships between tourists and local (6) __________ ensures long-term destination viability.",
+        "text": "Contemporary travel trends demonstrate an (1) ______ surge in interest toward archipelagic destinations, particularly among affluent millennials seeking authentic experiences. Island tourism represents more than mere escapism; it embodies humanity's primordial connection to pristine natural environments. (2) ______, these destinations offer unparalleled opportunities for cultural immersion and ecological discovery.\n\nThe socioeconomic implications of island tourism extend far beyond individual satisfaction. Local communities benefit substantially from tourism revenue, which enables them to preserve indigenous traditions while modernizing essential infrastructure. This economic symbiosis compels governments (3) ______ sustainable development policies that balance environmental conservation with commercial viability. Tourism boards emphasize the critical importance of responsible travel practices.\n\nSustainable island tourism requires comprehensive planning strategies. Travel agencies recommend that visitors should (4) ______ proactive measures by researching local customs and supporting community-based enterprises. Furthermore, they advocate for the utilization of eco-friendly accommodations (5) ______ carbon footprints while promoting environmental awareness. Ultimately, creating harmonious relationships between tourists and local (6) ______ ensures long-term destination viability.",
         "questionRange": [
           1,
           6
@@ -1796,7 +1796,7 @@ export const thptExams = [
       {
         "id": "thpt-04-p2",
         "title": "Plastic Recycling",
-        "text": "Environmental consciousness has prompted consumers to (7) __________ the paramount significance of plastic waste recycling in combating ecological degradation. This paradigmatic transformation represents a fundamental rejection of linear consumption models in favor of circular economy principles. Recycling facilities report experiencing unprecedented increases in plastic waste processing demands.\n\nModern-day recycling operations require a substantial (8) __________ of sophisticated equipment to efficiently process diverse polymer materials. When technicians are (9) __________ advanced sorting technologies, they often achieve remarkable improvements in material recovery rates. This technological integration demands considerable financial investment and specialized expertise.\n\nDifferent recycling facilities specialize in various (10) __________ plastic polymer types. For instance, one facility might excel at processing polyethylene while struggling with polystyrene materials. Meanwhile, operators can (11) __________ new processing techniques immediately when observing innovative methodologies at industry conferences.\n\nEnvironmental advocates increasingly emphasize recycling's transformative potential for ecosystem restoration. (12) __________ individuals dismiss recycling initiatives as ineffective, but the overwhelming majority now recognize their crucial role in environmental preservation.",
+        "text": "Environmental consciousness has prompted consumers to (7) ______ the paramount significance of plastic waste recycling in combating ecological degradation. This paradigmatic transformation represents a fundamental rejection of linear consumption models in favor of circular economy principles. Recycling facilities report experiencing unprecedented increases in plastic waste processing demands.\n\nModern-day recycling operations require a substantial (8) ______ of sophisticated equipment to efficiently process diverse polymer materials. When technicians are (9) ______ advanced sorting technologies, they often achieve remarkable improvements in material recovery rates. This technological integration demands considerable financial investment and specialized expertise.\n\nDifferent recycling facilities specialize in various (10) ______ plastic polymer types. For instance, one facility might excel at processing polyethylene while struggling with polystyrene materials. Meanwhile, operators can (11) ______ new processing techniques immediately when observing innovative methodologies at industry conferences.\n\nEnvironmental advocates increasingly emphasize recycling's transformative potential for ecosystem restoration. (12) ______ individuals dismiss recycling initiatives as ineffective, but the overwhelming majority now recognize their crucial role in environmental preservation.",
         "questionRange": [
           7,
           12
@@ -1805,7 +1805,7 @@ export const thptExams = [
       {
         "id": "thpt-04-p3",
         "title": "Environmental Policy",
-        "text": "Biodiversity constitutes Earth's most invaluable evolutionary patrimony, yet myriad taxonomic entities confront unprecedented extirpation perils attributable to anthropocentric interventions. (18) ___________. Conservation biologists underscore that instantaneous remediation remains imperative to forestall irreversible ecological disintegration and safeguard phylogenetic heterogeneity for posterity.\n\nThe critically endangered Pongo abelii epitomizes the catastrophic ramifications of habitat fragmentation and anthropogenic territorial incursions. (19) ___________. Nevertheless, systematic deforestation for monocultural palm oil cultivation persists in decimating their indigenous biotopes despite multilateral conservation protocols and regenerative agricultural paradigms.\n\n(20) ___________, sovereign administrations globally are instituting protected wildlife corridors and promulgating more stringent anti-poaching jurisprudence. These preservationist stratagems endeavor to fortify pivotal ecosystemic refugia whilst simultaneously fostering ecologically sustainable economic proliferation. Certain nation-states wholeheartedly embrace comprehensive biodiversity stewardship programs, whilst others accord precedence to ephemeral fiscal imperatives.\n\nPelagic ecosystems encounter particularly acute vulnerabilities owing to (21) ___________. Climatic perturbations, oceanic acidification, and polymeric contamination exacerbate these predicaments exponentially.\n\nNotwithstanding conservational impediments, faunal protection endeavors perpetually expand internationally. Supranational organizations now orchestrate transfrontier conservation collaborations, whilst corporate benefactors subsidize pioneering investigational undertakings. (22) ___________.",
+        "text": "Biodiversity constitutes Earth's most invaluable evolutionary patrimony, yet myriad taxonomic entities confront unprecedented extirpation perils attributable to anthropocentric interventions. (18) _______. Conservation biologists underscore that instantaneous remediation remains imperative to forestall irreversible ecological disintegration and safeguard phylogenetic heterogeneity for posterity.\n\nThe critically endangered Pongo abelii epitomizes the catastrophic ramifications of habitat fragmentation and anthropogenic territorial incursions. (19) _______. Nevertheless, systematic deforestation for monocultural palm oil cultivation persists in decimating their indigenous biotopes despite multilateral conservation protocols and regenerative agricultural paradigms.\n\n(20) _______, sovereign administrations globally are instituting protected wildlife corridors and promulgating more stringent anti-poaching jurisprudence. These preservationist stratagems endeavor to fortify pivotal ecosystemic refugia whilst simultaneously fostering ecologically sustainable economic proliferation. Certain nation-states wholeheartedly embrace comprehensive biodiversity stewardship programs, whilst others accord precedence to ephemeral fiscal imperatives.\n\nPelagic ecosystems encounter particularly acute vulnerabilities owing to (21) _______. Climatic perturbations, oceanic acidification, and polymeric contamination exacerbate these predicaments exponentially.\n\nNotwithstanding conservational impediments, faunal protection endeavors perpetually expand internationally. Supranational organizations now orchestrate transfrontier conservation collaborations, whilst corporate benefactors subsidize pioneering investigational undertakings. (22) _______.",
         "questionRange": [
           18,
           22
@@ -1814,7 +1814,7 @@ export const thptExams = [
       {
         "id": "thpt-04-p4",
         "title": "Ocean Conservation",
-        "text": "The proliferation of ephemeral digital phenomena has fundamentally metamorphosed contemporary cyberculture, engendering unprecedented prospects for transnational interconnectivity whilst concomitantly exposing participants to profound psychological and corporeal jeopardies. __What initially manifested as innocuous recreational diversions has transmuted into an intricate sociological paradigm with comprehensive ramifications for adolescent maturation and communal behavioral modalities.__\n\nViral phenomena proffer ostensible advantageous attributes for digital participation and innovative articulation. Participants encounter ephemeral notoriety, amplified social corroboration, and affiliation with cosmopolitan communities harboring analogous proclivities. Content architects derive exponential follower proliferation, latent monetization prospects, and enhanced personal brandification. Nonetheless, these perceived merits frequently obfuscate underlying psychological dependencies and perilous behavioral configurations necessitating judicious contemplation.\n\nPeer coercion epitomizes the most pernicious facet of viral phenomenon participation. Social media algorithms magnify trending content, fabricating spurious urgency and trepidation regarding exclusion among susceptible users. Numerous adolescents articulate experiencing compulsion to participate in hazardous phenomena to sustain social pertinence, notwithstanding acknowledging prospective repercussions. The psychological manipulation inherent within these platforms exploits fundamental anthropological necessities for acceptance and communal integration.\n\nPsychological wellness implications of viral phenomenon culture manifest increasingly disconcerting. Empirical investigations indicate that excessive social media engagement correlates with heightened anxiety manifestations, depressive symptomatology, and somatic perception distortions. Juveniles juxtaposing themselves against curated digital personas frequently cultivate unrealistic expectations and attenuated self-valorization. Additionally, the habituating nature of social validation through approbation metrics engenders pathological dependencies on extrinsic endorsement for ego-reinforcement.",
+        "text": "The proliferation of ephemeral digital phenomena has fundamentally metamorphosed contemporary cyberculture, engendering unprecedented prospects for transnational interconnectivity whilst concomitantly exposing participants to profound psychological and corporeal jeopardies. What initially manifested as innocuous recreational diversions has transmuted into an intricate sociological paradigm with comprehensive ramifications for adolescent maturation and communal behavioral modalities.\n\nViral phenomena proffer ostensible advantageous attributes for digital participation and innovative articulation. Participants encounter ephemeral notoriety, amplified social corroboration, and affiliation with cosmopolitan communities harboring analogous proclivities. Content architects derive exponential follower proliferation, latent monetization prospects, and enhanced personal brandification. Nonetheless, these perceived merits frequently obfuscate underlying psychological dependencies and perilous behavioral configurations necessitating judicious contemplation.\n\nPeer coercion epitomizes the most pernicious facet of viral phenomenon participation. Social media algorithms magnify trending content, fabricating spurious urgency and trepidation regarding exclusion among susceptible users. Numerous adolescents articulate experiencing compulsion to participate in hazardous phenomena to sustain social pertinence, notwithstanding acknowledging prospective repercussions. The psychological manipulation inherent within these platforms exploits fundamental anthropological necessities for acceptance and communal integration.\n\nPsychological wellness implications of viral phenomenon culture manifest increasingly disconcerting. Empirical investigations indicate that excessive social media engagement correlates with heightened anxiety manifestations, depressive symptomatology, and somatic perception distortions. Juveniles juxtaposing themselves against curated digital personas frequently cultivate unrealistic expectations and attenuated self-valorization. Additionally, the habituating nature of social validation through approbation metrics engenders pathological dependencies on extrinsic endorsement for ego-reinforcement.",
         "questionRange": [
           23,
           30
@@ -1833,7 +1833,7 @@ export const thptExams = [
     "questions": [
       {
         "id": 1,
-        "text": "Question 1",
+        "text": "",
         "options": [
           "remarkably",
           "remarkable",
@@ -1846,7 +1846,7 @@ export const thptExams = [
       },
       {
         "id": 2,
-        "text": "Question 2",
+        "text": "",
         "options": [
           "In addition to this",
           "Furthermore",
@@ -1859,7 +1859,7 @@ export const thptExams = [
       },
       {
         "id": 3,
-        "text": "Question 3",
+        "text": "",
         "options": [
           "toward",
           "to",
@@ -1872,7 +1872,7 @@ export const thptExams = [
       },
       {
         "id": 4,
-        "text": "Question 4",
+        "text": "",
         "options": [
           "make",
           "take",
@@ -1885,7 +1885,7 @@ export const thptExams = [
       },
       {
         "id": 5,
-        "text": "Question 5",
+        "text": "",
         "options": [
           "monitor",
           "monitoring",
@@ -1898,7 +1898,7 @@ export const thptExams = [
       },
       {
         "id": 6,
-        "text": "Question 6",
+        "text": "",
         "options": [
           "approaches",
           "methodologies",
@@ -1911,7 +1911,7 @@ export const thptExams = [
       },
       {
         "id": 7,
-        "text": "Question 7",
+        "text": "",
         "options": [
           "appreciate",
           "acknowledge",
@@ -1924,7 +1924,7 @@ export const thptExams = [
       },
       {
         "id": 8,
-        "text": "Question 8",
+        "text": "",
         "options": [
           "amount",
           "number",
@@ -1937,7 +1937,7 @@ export const thptExams = [
       },
       {
         "id": 9,
-        "text": "Question 9",
+        "text": "",
         "options": [
           "to operate",
           "operating",
@@ -1950,7 +1950,7 @@ export const thptExams = [
       },
       {
         "id": 10,
-        "text": "Question 10",
+        "text": "",
         "options": [
           "cutting-edge specialized ambitious",
           "specialized ambitious cutting-edge",
@@ -1963,7 +1963,7 @@ export const thptExams = [
       },
       {
         "id": 11,
-        "text": "Question 11",
+        "text": "",
         "options": [
           "pick up",
           "take over",
@@ -1976,7 +1976,7 @@ export const thptExams = [
       },
       {
         "id": 12,
-        "text": "Question 12",
+        "text": "",
         "options": [
           "Few",
           "A few",
@@ -1989,7 +1989,7 @@ export const thptExams = [
       },
       {
         "id": 13,
-        "text": "Q13: Arrange the formal letter.",
+        "text": "Arrange the formal letter.",
         "options": [
           "a–b–c–d–e",
           "b–a–d–c–e",
@@ -2002,7 +2002,7 @@ export const thptExams = [
       },
       {
         "id": 14,
-        "text": "Q14: Arrange the academic paragraph.",
+        "text": "Arrange the academic paragraph.",
         "options": [
           "a–b–c–d–e",
           "b–d–a–c–e",
@@ -2015,7 +2015,7 @@ export const thptExams = [
       },
       {
         "id": 15,
-        "text": "Q15: Arrange the dialogue.",
+        "text": "Arrange the dialogue.",
         "options": [
           "a–b–c",
           "b–a–c",
@@ -2028,7 +2028,7 @@ export const thptExams = [
       },
       {
         "id": 16,
-        "text": "Q16: Arrange the passage.",
+        "text": "Arrange the passage.",
         "options": [
           "a–b–c–d–e",
           "c–a–b–e–d",
@@ -2041,7 +2041,7 @@ export const thptExams = [
       },
       {
         "id": 17,
-        "text": "Q17: Arrange the debate.",
+        "text": "Arrange the debate.",
         "options": [
           "a–b–c–d–e",
           "a–d–e–b–c",
@@ -2054,7 +2054,7 @@ export const thptExams = [
       },
       {
         "id": 18,
-        "text": "Q18: Choose correct grammar.",
+        "text": "Choose correct grammar.",
         "options": [
           "Developed through research, this framework provides solutions",
           "This framework, which developing, provides solutions",
@@ -2067,7 +2067,7 @@ export const thptExams = [
       },
       {
         "id": 19,
-        "text": "Q19: Choose correct sentence.",
+        "text": "Choose correct sentence.",
         "options": [
           "Researchers who conducted experiments have published findings",
           "Experiments having conducted by researchers published findings",
@@ -2080,7 +2080,7 @@ export const thptExams = [
       },
       {
         "id": 20,
-        "text": "Q20: Choose correct transition.",
+        "text": "Choose correct transition.",
         "options": [
           "In response to these concerns",
           "Responded to these concerns",
@@ -2093,7 +2093,7 @@ export const thptExams = [
       },
       {
         "id": 21,
-        "text": "Q21: Choose correct clause.",
+        "text": "Choose correct clause.",
         "options": [
           "the rapid advancement creates new challenges",
           "technology rapidly advancing creates challenges",
@@ -2106,7 +2106,7 @@ export const thptExams = [
       },
       {
         "id": 22,
-        "text": "Q22: Choose best conclusion.",
+        "text": "Choose best conclusion.",
         "options": [
           "Future developments will undoubtedly reshape our understanding",
           "Our understanding will hardly be reshaped",
@@ -2364,7 +2364,7 @@ export const thptExams = [
       {
         "id": "thpt-05-p1",
         "title": "Rural Revitalization",
-        "text": "The ongoing metamorphosis of agri-food production frameworks has precipitated a profound resurgence across pastoral communities, redefining long-held narratives of rural existence. The (1) __________ body of research indicates that synergizing advanced agrotechnology with eco-centric cultivation methods is rejuvenating once-declining agricultural heartlands. The proliferation of telecommuting has facilitated the permanent relocation of urban professionals to idyllic countryside locales without sacrificing their cosmopolitan career pathways.\n\nRural innovation now thrives through diversified agribusiness initiatives and heritage craft industries. Emerging generations of farmers exhibit notable expertise in deploying climate-smart cultivation systems, (2) __________ enhancing productivity while curbing ecological degradation. While these approaches necessitate considerable upfront capital, they yield substantial socio-economic dividends over extended periods.\n\nProgressive land management schemes encourage cultivators (3) __________ embrace regenerative techniques that replenish ecosystems and bolster biodiversity. Fiscal incentives are directed toward projects that demonstrate quantifiable environmental restoration. Agroecologists assert that local authorities must (4) __________ resolute actions to mitigate climate-induced disruptions affecting crop viability and livestock welfare.\n\nIn addition, digital platforms (5) __________ microclimatic trends and geospatial soil analytics have transformed operational precision in agriculture. These cutting-edge tools deliver instantaneous insights, enabling farmers to fine-tune water usage and nutrient distribution. Ultimately, fostering resilient rural economies hinges upon establishing enduring (6) __________ among growers, market stakeholders, and cross-regional supply chains.",
+        "text": "The ongoing metamorphosis of agri-food production frameworks has precipitated a profound resurgence across pastoral communities, redefining long-held narratives of rural existence. The (1) ______ body of research indicates that synergizing advanced agrotechnology with eco-centric cultivation methods is rejuvenating once-declining agricultural heartlands. The proliferation of telecommuting has facilitated the permanent relocation of urban professionals to idyllic countryside locales without sacrificing their cosmopolitan career pathways.\n\nRural innovation now thrives through diversified agribusiness initiatives and heritage craft industries. Emerging generations of farmers exhibit notable expertise in deploying climate-smart cultivation systems, (2) ______ enhancing productivity while curbing ecological degradation. While these approaches necessitate considerable upfront capital, they yield substantial socio-economic dividends over extended periods.\n\nProgressive land management schemes encourage cultivators (3) ______ embrace regenerative techniques that replenish ecosystems and bolster biodiversity. Fiscal incentives are directed toward projects that demonstrate quantifiable environmental restoration. Agroecologists assert that local authorities must (4) ______ resolute actions to mitigate climate-induced disruptions affecting crop viability and livestock welfare.\n\nIn addition, digital platforms (5) ______ microclimatic trends and geospatial soil analytics have transformed operational precision in agriculture. These cutting-edge tools deliver instantaneous insights, enabling farmers to fine-tune water usage and nutrient distribution. Ultimately, fostering resilient rural economies hinges upon establishing enduring (6) ______ among growers, market stakeholders, and cross-regional supply chains.",
         "questionRange": [
           1,
           6
@@ -2373,7 +2373,7 @@ export const thptExams = [
       {
         "id": "thpt-05-p2",
         "title": "Lifelong Learning",
-        "text": "The architecture of corporate knowledge ecosystems has been fundamentally reimagined as organizations actively (7) __________ the necessity of cultivating adaptive expertise to navigate volatile market landscapes. This strategic realignment diverges sharply from antiquated paradigms in which professional growth was perceived as episodic rather than continuous. Global think tanks note a dramatic escalation in demand for executive education programs and specialized industry certifications.\n\nForward-looking employees now allocate a substantial (8) __________ of their annual budgets to acquiring advanced analytical proficiencies and sector-specific innovations. When individuals are (9) __________ transformative skill sets, they often uncover synergies between technological fluency and creative problem-solving, amplifying their strategic value. This synthesis of disciplines demands sustained mental dexterity and resilience under pressure.\n\nA spectrum of instructional formats caters to heterogeneous learner profiles. While some professionals thrive in collaborative workshops, others prefer asynchronous self-directed study. Digital immersion tools enable participants to (10) __________ constructs at an accelerated pace, especially through gamified simulations and augmented reality environments. The didactic methodologies, however, differ considerably across delivery channels.\n\nRecruiters now place exceptional emphasis on applicants who manifest a demonstrable trajectory of skill evolution. (11) __________ practitioners remain skeptical of perpetual learning models, the prevailing consensus within competitive industries is that adaptability constitutes a non-negotiable criterion for advancement. Enterprises embedding lifelong learning into their operational ethos consistently secure leadership positions in innovation indices and global market share rankings, leaving (12) __________ room for complacency in a rapidly evolving economy.",
+        "text": "The architecture of corporate knowledge ecosystems has been fundamentally reimagined as organizations actively (7) ______ the necessity of cultivating adaptive expertise to navigate volatile market landscapes. This strategic realignment diverges sharply from antiquated paradigms in which professional growth was perceived as episodic rather than continuous. Global think tanks note a dramatic escalation in demand for executive education programs and specialized industry certifications.\n\nForward-looking employees now allocate a substantial (8) ______ of their annual budgets to acquiring advanced analytical proficiencies and sector-specific innovations. When individuals are (9) ______ transformative skill sets, they often uncover synergies between technological fluency and creative problem-solving, amplifying their strategic value. This synthesis of disciplines demands sustained mental dexterity and resilience under pressure.\n\nA spectrum of instructional formats caters to heterogeneous learner profiles. While some professionals thrive in collaborative workshops, others prefer asynchronous self-directed study. Digital immersion tools enable participants to (10) ______ constructs at an accelerated pace, especially through gamified simulations and augmented reality environments. The didactic methodologies, however, differ considerably across delivery channels.\n\nRecruiters now place exceptional emphasis on applicants who manifest a demonstrable trajectory of skill evolution. (11) ______ practitioners remain skeptical of perpetual learning models, the prevailing consensus within competitive industries is that adaptability constitutes a non-negotiable criterion for advancement. Enterprises embedding lifelong learning into their operational ethos consistently secure leadership positions in innovation indices and global market share rankings, leaving (12) ______ room for complacency in a rapidly evolving economy.",
         "questionRange": [
           7,
           12
@@ -2382,7 +2382,7 @@ export const thptExams = [
       {
         "id": "thpt-05-p3",
         "title": "Endangered Species Conservation",
-        "text": "Imperiled fauna confront unprecedented existential exigencies precipitated by inexorable habitat obliteration, climatological vicissitudes, and multifarious anthropogenic perturbations globally. (18) ___________. Conservation biologists postulate that contemporary extirpation rates exponentially supersede primordial background rates, portending an imminent sixth mass extinction cataclysm.\\n\\nThe Sumatran orangutan epitomizes the precarious predicament besetting myriad endangered hominoids across biogeographical realms. (19) ___________. Nevertheless, surreptitious timber harvesting operations, oleaginous palm plantation proliferation, and demographic encroachment perpetuate survival jeopardy despite supranational conservation endeavors.\\n\\n(20) ___________, governmental entities globally are promulgating comprehensive species preservation statutes and instituting transnational conservation confederations. These stratagems endeavor to safeguard quintessential biotopes whilst fostering ecologically sustainable developmental paradigms.\\n\\nEx-situ breeding initiatives constitute contentious yet potentially indispensable methodologies for forestalling species obliteration, considering that (21) ___________. These programs necessitate prodigious monetary allocations and specialized veterinary acumen to perpetuate genetic heterogeneity within artificially regulated populations.\\n\\nDespite escalating adversities, conservation triumph narratives furnish sanguinity for endangered species recuperation. Numerous taxa have resurged from near-extirpation through assiduous conservation exertions and habitat reconstitution enterprises. (22) ___________.",
+        "text": "Imperiled fauna confront unprecedented existential exigencies precipitated by inexorable habitat obliteration, climatological vicissitudes, and multifarious anthropogenic perturbations globally. (18) _______. Conservation biologists postulate that contemporary extirpation rates exponentially supersede primordial background rates, portending an imminent sixth mass extinction cataclysm.\\n\\nThe Sumatran orangutan epitomizes the precarious predicament besetting myriad endangered hominoids across biogeographical realms. (19) _______. Nevertheless, surreptitious timber harvesting operations, oleaginous palm plantation proliferation, and demographic encroachment perpetuate survival jeopardy despite supranational conservation endeavors.\\n\\n(20) _______, governmental entities globally are promulgating comprehensive species preservation statutes and instituting transnational conservation confederations. These stratagems endeavor to safeguard quintessential biotopes whilst fostering ecologically sustainable developmental paradigms.\\n\\nEx-situ breeding initiatives constitute contentious yet potentially indispensable methodologies for forestalling species obliteration, considering that (21) _______. These programs necessitate prodigious monetary allocations and specialized veterinary acumen to perpetuate genetic heterogeneity within artificially regulated populations.\\n\\nDespite escalating adversities, conservation triumph narratives furnish sanguinity for endangered species recuperation. Numerous taxa have resurged from near-extirpation through assiduous conservation exertions and habitat reconstitution enterprises. (22) _______.",
         "questionRange": [
           18,
           22
@@ -2391,7 +2391,7 @@ export const thptExams = [
       {
         "id": "thpt-05-p4",
         "title": "Multiculturalism Paradigms",
-        "text": "Multiculturalism paradigms have fundamentally metamorphosed contemporary societal architectures, necessitating unprecedented acclimatizations in governance methodologies, pedagogical frameworks, and social cohesion mechanisms. __What initially manifested as demographic heterogeneity has transmogrified into labyrinthine cultural amalgamations requiring sophisticated integration stratagems and nuanced comprehension of intercultural dynamics.__\\n\\nPluralistic societies proffer profound advantageous ramifications for both autochthonous populations and expatriate communities. Indigenous inhabitants derive enhanced cultural edification, amplified economic opportunities, and innovative problem-resolution approaches emanating from heterogeneous perspectives. Newcomers procure ameliorated socioeconomic ascendancy, scholastic advancement, and democratic participation whilst contributing specialized competencies and entrepreneurial dynamism. Nevertheless, these beneficiations necessitate deliberate cultivation and comprehensive policy frameworks addressing inherent integration conundrums.\\n\\nCultural fragmentation constitutes the most formidable impediment within multicultural milieus. Authentic intercultural communication mandates sophisticated linguistic competencies, cultural literacy, and empathetic perspicacity that superficial diversity initiatives fail to cultivate adequately. Additionally, perpetuating social cohesion becomes increasingly labyrinthine when communities maintain distinctive cultural identities whilst participating in communal civic institutions. Numerous immigrant populations experience marginalization and ostracism despite ostensible inclusion policies.\\n\\nTechnological innovation expedites multicultural integration through digital platforms, translation applications, and virtual cultural exchange programs that transcend geographical and linguistic barriers. Organizations implementing comprehensive multicultural competency training and inclusive communication protocols demonstrate superior adaptation to demographic diversity. Nonetheless, certain cultural practices remain incongruous with predominant societal values, particularly regarding gender parity, religious liberties, and secular governance principles.",
+        "text": "Multiculturalism paradigms have fundamentally metamorphosed contemporary societal architectures, necessitating unprecedented acclimatizations in governance methodologies, pedagogical frameworks, and social cohesion mechanisms. What initially manifested as demographic heterogeneity has transmogrified into labyrinthine cultural amalgamations requiring sophisticated integration stratagems and nuanced comprehension of intercultural dynamics.\\n\\nPluralistic societies proffer profound advantageous ramifications for both autochthonous populations and expatriate communities. Indigenous inhabitants derive enhanced cultural edification, amplified economic opportunities, and innovative problem-resolution approaches emanating from heterogeneous perspectives. Newcomers procure ameliorated socioeconomic ascendancy, scholastic advancement, and democratic participation whilst contributing specialized competencies and entrepreneurial dynamism. Nevertheless, these beneficiations necessitate deliberate cultivation and comprehensive policy frameworks addressing inherent integration conundrums.\\n\\nCultural fragmentation constitutes the most formidable impediment within multicultural milieus. Authentic intercultural communication mandates sophisticated linguistic competencies, cultural literacy, and empathetic perspicacity that superficial diversity initiatives fail to cultivate adequately. Additionally, perpetuating social cohesion becomes increasingly labyrinthine when communities maintain distinctive cultural identities whilst participating in communal civic institutions. Numerous immigrant populations experience marginalization and ostracism despite ostensible inclusion policies.\\n\\nTechnological innovation expedites multicultural integration through digital platforms, translation applications, and virtual cultural exchange programs that transcend geographical and linguistic barriers. Organizations implementing comprehensive multicultural competency training and inclusive communication protocols demonstrate superior adaptation to demographic diversity. Nonetheless, certain cultural practices remain incongruous with predominant societal values, particularly regarding gender parity, religious liberties, and secular governance principles.",
         "questionRange": [
           23,
           30
@@ -2410,7 +2410,7 @@ export const thptExams = [
     "questions": [
       {
         "id": 1,
-        "text": "Question 1",
+        "text": "",
         "options": [
           "credible",
           "credibility",
@@ -2423,7 +2423,7 @@ export const thptExams = [
       },
       {
         "id": 2,
-        "text": "Question 2",
+        "text": "",
         "options": [
           "thereby",
           "despite",
@@ -2436,7 +2436,7 @@ export const thptExams = [
       },
       {
         "id": 3,
-        "text": "Question 3",
+        "text": "",
         "options": [
           "toward",
           "to",
@@ -2449,7 +2449,7 @@ export const thptExams = [
       },
       {
         "id": 4,
-        "text": "Question 4",
+        "text": "",
         "options": [
           "make",
           "take",
@@ -2462,7 +2462,7 @@ export const thptExams = [
       },
       {
         "id": 5,
-        "text": "Question 5",
+        "text": "",
         "options": [
           "monitor",
           "monitoring",
@@ -2475,7 +2475,7 @@ export const thptExams = [
       },
       {
         "id": 6,
-        "text": "Question 6",
+        "text": "",
         "options": [
           "approaches",
           "methodologies",
@@ -2488,7 +2488,7 @@ export const thptExams = [
       },
       {
         "id": 7,
-        "text": "Question 7",
+        "text": "",
         "options": [
           "appreciate",
           "acknowledge",
@@ -2501,7 +2501,7 @@ export const thptExams = [
       },
       {
         "id": 8,
-        "text": "Question 8",
+        "text": "",
         "options": [
           "amount",
           "number",
@@ -2514,7 +2514,7 @@ export const thptExams = [
       },
       {
         "id": 9,
-        "text": "Question 9",
+        "text": "",
         "options": [
           "to operate",
           "operating",
@@ -2527,7 +2527,7 @@ export const thptExams = [
       },
       {
         "id": 10,
-        "text": "Question 10",
+        "text": "",
         "options": [
           "cutting-edge specialized ambitious",
           "specialized ambitious cutting-edge",
@@ -2540,7 +2540,7 @@ export const thptExams = [
       },
       {
         "id": 11,
-        "text": "Question 11",
+        "text": "",
         "options": [
           "pick up",
           "take over",
@@ -2553,7 +2553,7 @@ export const thptExams = [
       },
       {
         "id": 12,
-        "text": "Question 12",
+        "text": "",
         "options": [
           "Few",
           "A few",
@@ -2566,7 +2566,7 @@ export const thptExams = [
       },
       {
         "id": 13,
-        "text": "Q13: Arrange the formal letter.",
+        "text": "Arrange the formal letter.",
         "options": [
           "a–b–c–d–e",
           "b–a–d–c–e",
@@ -2579,7 +2579,7 @@ export const thptExams = [
       },
       {
         "id": 14,
-        "text": "Q14: Arrange the academic paragraph.",
+        "text": "Arrange the academic paragraph.",
         "options": [
           "a–b–c–d–e",
           "b–d–a–c–e",
@@ -2592,7 +2592,7 @@ export const thptExams = [
       },
       {
         "id": 15,
-        "text": "Q15: Arrange the dialogue.",
+        "text": "Arrange the dialogue.",
         "options": [
           "a–b–c",
           "b–a–c",
@@ -2605,7 +2605,7 @@ export const thptExams = [
       },
       {
         "id": 16,
-        "text": "Q16: Arrange the passage.",
+        "text": "Arrange the passage.",
         "options": [
           "a–b–c–d–e",
           "c–a–b–e–d",
@@ -2618,7 +2618,7 @@ export const thptExams = [
       },
       {
         "id": 17,
-        "text": "Q17: Arrange the debate.",
+        "text": "Arrange the debate.",
         "options": [
           "a–b–c–d–e",
           "a–d–e–b–c",
@@ -2631,7 +2631,7 @@ export const thptExams = [
       },
       {
         "id": 18,
-        "text": "Q18: Choose correct grammar.",
+        "text": "Choose correct grammar.",
         "options": [
           "Developed through research, this framework provides solutions",
           "This framework, which developing, provides solutions",
@@ -2644,7 +2644,7 @@ export const thptExams = [
       },
       {
         "id": 19,
-        "text": "Q19: Choose correct sentence.",
+        "text": "Choose correct sentence.",
         "options": [
           "Researchers who conducted experiments have published findings",
           "Experiments having conducted by researchers published findings",
@@ -2657,7 +2657,7 @@ export const thptExams = [
       },
       {
         "id": 20,
-        "text": "Q20: Choose correct transition.",
+        "text": "Choose correct transition.",
         "options": [
           "In response to these concerns",
           "Responded to these concerns",
@@ -2670,7 +2670,7 @@ export const thptExams = [
       },
       {
         "id": 21,
-        "text": "Q21: Choose correct clause.",
+        "text": "Choose correct clause.",
         "options": [
           "the rapid advancement creates new challenges",
           "technology rapidly advancing creates challenges",
@@ -2683,7 +2683,7 @@ export const thptExams = [
       },
       {
         "id": 22,
-        "text": "Q22: Choose best conclusion.",
+        "text": "Choose best conclusion.",
         "options": [
           "Future developments will undoubtedly reshape our understanding",
           "Our understanding will hardly be reshaped",
@@ -2941,7 +2941,7 @@ export const thptExams = [
       {
         "id": "thpt-06-p1",
         "title": "Genome Editing Ethics",
-        "text": "The ethical implications of genome editing have become (1) __________ controversial in scientific circles. CRISPR technology enables precise genetic modifications; (2) __________, regulatory frameworks struggle to keep pace with innovation.\n\nBioethicists have committed themselves (3) __________ establishing guidelines for responsible gene therapy. Research institutions must (4) __________ decisive action to prevent misuse. Committees are now (5) __________ clinical trial protocols worldwide. Established ethical (6) __________ guide responsible scientific advancement.",
+        "text": "The ethical implications of genome editing have become (1) ______ controversial in scientific circles. CRISPR technology enables precise genetic modifications; (2) ______, regulatory frameworks struggle to keep pace with innovation.\n\nBioethicists have committed themselves (3) ______ establishing guidelines for responsible gene therapy. Research institutions must (4) ______ decisive action to prevent misuse. Committees are now (5) ______ clinical trial protocols worldwide. Established ethical (6) ______ guide responsible scientific advancement.",
         "questionRange": [
           1,
           6
@@ -2950,7 +2950,7 @@ export const thptExams = [
       {
         "id": "thpt-06-p2",
         "title": "Free Will & Neuroscience",
-        "text": "Philosophers are starting to (7) __________ how neuroscience challenges traditional concepts of free will. A remarkable (8) __________ of evidence suggests that unconscious brain processes precede conscious decisions. Researchers are currently (9) __________ brain activity patterns during decision-making experiments.\n\nLaboratories employ (10) __________ techniques to study neural determinism. Students can rapidly (11) __________ philosophical arguments through structured debates. (12) __________ scholars accept a purely deterministic view of human behavior.",
+        "text": "Philosophers are starting to (7) ______ how neuroscience challenges traditional concepts of free will. A remarkable (8) ______ of evidence suggests that unconscious brain processes precede conscious decisions. Researchers are currently (9) ______ brain activity patterns during decision-making experiments.\n\nLaboratories employ (10) ______ techniques to study neural determinism. Students can rapidly (11) ______ philosophical arguments through structured debates. (12) ______ scholars accept a purely deterministic view of human behavior.",
         "questionRange": [
           7,
           12
@@ -2959,7 +2959,7 @@ export const thptExams = [
       {
         "id": "thpt-06-p3",
         "title": "Human Reproductive Cloning Ethics",
-        "text": "Human reproductive cloning represents one of biotechnology's most contentious frontiers, challenging fundamental conceptions of human identity and procreation. (18) ___________. Bioethicists worldwide grapple with unprecedented moral dilemmas surrounding genetic replication and its implications for human dignity.\\n\\nSomatic cell nuclear transfer, the primary cloning methodology, involves transferring genetic material from donor cells into enucleated oocytes. (19) ___________. However, technical limitations and extraordinarily high failure rates continue hampering successful human reproductive cloning attempts among scientific communities.\\n\\n(20) ___________, religious organizations and humanitarian groups have mobilized extensive opposition campaigns. These advocacy movements emphasize concerns about commodifying human life and exploiting vulnerable populations for genetic material harvesting. Some nations embrace therapeutic cloning research enthusiastically, while others impose absolute prohibitions.\\n\\nEmbryonic development complications arising from cloning procedures have generated significant apprehension regarding (21) ___________. Epigenetic abnormalities and premature aging phenomena observed in cloned animals raise serious questions about human applications. Despite technological obstacles, cloning research continues advancing inexorably. Pharmaceutical corporations invest substantial resources in therapeutic applications, while reproductive medicine clinics explore fertility treatment possibilities. (22) ___________.",
+        "text": "Human reproductive cloning represents one of biotechnology's most contentious frontiers, challenging fundamental conceptions of human identity and procreation. (18) _______. Bioethicists worldwide grapple with unprecedented moral dilemmas surrounding genetic replication and its implications for human dignity.\\n\\nSomatic cell nuclear transfer, the primary cloning methodology, involves transferring genetic material from donor cells into enucleated oocytes. (19) _______. However, technical limitations and extraordinarily high failure rates continue hampering successful human reproductive cloning attempts among scientific communities.\\n\\n(20) _______, religious organizations and humanitarian groups have mobilized extensive opposition campaigns. These advocacy movements emphasize concerns about commodifying human life and exploiting vulnerable populations for genetic material harvesting. Some nations embrace therapeutic cloning research enthusiastically, while others impose absolute prohibitions.\\n\\nEmbryonic development complications arising from cloning procedures have generated significant apprehension regarding (21) _______. Epigenetic abnormalities and premature aging phenomena observed in cloned animals raise serious questions about human applications. Despite technological obstacles, cloning research continues advancing inexorably. Pharmaceutical corporations invest substantial resources in therapeutic applications, while reproductive medicine clinics explore fertility treatment possibilities. (22) _______.",
         "questionRange": [
           18,
           22
@@ -2968,7 +2968,7 @@ export const thptExams = [
       {
         "id": "thpt-06-p4",
         "title": "AI in Healthcare",
-        "text": "The integration of artificial intelligence into healthcare systems has precipitated unprecedented transformations in diagnostic precision, therapeutic interventions, and patient outcomes. __What initially emerged as experimental computational tools has evolved into indispensable medical infrastructure, with algorithmic decision-making systems now influencing critical treatment protocols across diverse clinical specialties.__\\n\\nAI-powered diagnostic platforms demonstrate remarkable capabilities in pattern recognition, anomaly detection, and prognostic modeling. Machine learning algorithms analyze vast datasets encompassing radiological images, laboratory results, and electronic health records with superhuman accuracy. Healthcare providers benefit from enhanced diagnostic confidence, personalized treatment recommendations, and optimized resource allocation strategies. However, these innovations generate considerable controversy regarding long-term ecological consequences and food safety implications.\\n\\nAlgorithmic opacity represents the most formidable obstacle in AI healthcare implementation. Deep learning networks operate through incomprehensible mathematical processes, making clinical decision-making rationales virtually indecipherable to human practitioners. Additionally, maintaining patient trust becomes increasingly precarious when treatment decisions originate from inscrutable computational systems. Many physicians express apprehension about relinquishing diagnostic authority to artificial entities while patients question the reliability of algorithmically-generated medical recommendations.\\n\\nCybersecurity vulnerabilities constitute another critical concern in AI healthcare deployment. Sophisticated neural networks require extensive patient data access, creating attractive targets for malicious cyberattacks and data breaches. Healthcare institutions investing in robust cybersecurity infrastructure often experience more secure AI implementation processes. Nevertheless, certain medical specialties remain inherently unsuitable for comprehensive AI integration, particularly those demanding empathetic human interaction and complex ethical decision-making capabilities.",
+        "text": "The integration of artificial intelligence into healthcare systems has precipitated unprecedented transformations in diagnostic precision, therapeutic interventions, and patient outcomes. What initially emerged as experimental computational tools has evolved into indispensable medical infrastructure, with algorithmic decision-making systems now influencing critical treatment protocols across diverse clinical specialties.\\n\\nAI-powered diagnostic platforms demonstrate remarkable capabilities in pattern recognition, anomaly detection, and prognostic modeling. Machine learning algorithms analyze vast datasets encompassing radiological images, laboratory results, and electronic health records with superhuman accuracy. Healthcare providers benefit from enhanced diagnostic confidence, personalized treatment recommendations, and optimized resource allocation strategies. However, these innovations generate considerable controversy regarding long-term ecological consequences and food safety implications.\\n\\nAlgorithmic opacity represents the most formidable obstacle in AI healthcare implementation. Deep learning networks operate through incomprehensible mathematical processes, making clinical decision-making rationales virtually indecipherable to human practitioners. Additionally, maintaining patient trust becomes increasingly precarious when treatment decisions originate from inscrutable computational systems. Many physicians express apprehension about relinquishing diagnostic authority to artificial entities while patients question the reliability of algorithmically-generated medical recommendations.\\n\\nCybersecurity vulnerabilities constitute another critical concern in AI healthcare deployment. Sophisticated neural networks require extensive patient data access, creating attractive targets for malicious cyberattacks and data breaches. Healthcare institutions investing in robust cybersecurity infrastructure often experience more secure AI implementation processes. Nevertheless, certain medical specialties remain inherently unsuitable for comprehensive AI integration, particularly those demanding empathetic human interaction and complex ethical decision-making capabilities.",
         "questionRange": [
           23,
           30
@@ -2987,7 +2987,7 @@ export const thptExams = [
     "questions": [
       {
         "id": 1,
-        "text": "Question 1",
+        "text": "",
         "options": [
           "profoundly",
           "profound",
@@ -3000,7 +3000,7 @@ export const thptExams = [
       },
       {
         "id": 2,
-        "text": "Question 2",
+        "text": "",
         "options": [
           "consequently",
           "nevertheless",
@@ -3013,7 +3013,7 @@ export const thptExams = [
       },
       {
         "id": 3,
-        "text": "Question 3",
+        "text": "",
         "options": [
           "toward",
           "to",
@@ -3026,7 +3026,7 @@ export const thptExams = [
       },
       {
         "id": 4,
-        "text": "Question 4",
+        "text": "",
         "options": [
           "make",
           "take",
@@ -3039,7 +3039,7 @@ export const thptExams = [
       },
       {
         "id": 5,
-        "text": "Question 5",
+        "text": "",
         "options": [
           "monitor",
           "monitoring",
@@ -3052,7 +3052,7 @@ export const thptExams = [
       },
       {
         "id": 6,
-        "text": "Question 6",
+        "text": "",
         "options": [
           "approaches",
           "methodologies",
@@ -3065,7 +3065,7 @@ export const thptExams = [
       },
       {
         "id": 7,
-        "text": "Question 7",
+        "text": "",
         "options": [
           "appreciate",
           "acknowledge",
@@ -3078,7 +3078,7 @@ export const thptExams = [
       },
       {
         "id": 8,
-        "text": "Question 8",
+        "text": "",
         "options": [
           "amount",
           "number",
@@ -3091,7 +3091,7 @@ export const thptExams = [
       },
       {
         "id": 9,
-        "text": "Question 9",
+        "text": "",
         "options": [
           "to operate",
           "operating",
@@ -3104,7 +3104,7 @@ export const thptExams = [
       },
       {
         "id": 10,
-        "text": "Question 10",
+        "text": "",
         "options": [
           "cutting-edge specialized ambitious",
           "specialized ambitious cutting-edge",
@@ -3117,7 +3117,7 @@ export const thptExams = [
       },
       {
         "id": 11,
-        "text": "Question 11",
+        "text": "",
         "options": [
           "pick up",
           "take over",
@@ -3130,7 +3130,7 @@ export const thptExams = [
       },
       {
         "id": 12,
-        "text": "Question 12",
+        "text": "",
         "options": [
           "Few",
           "A few",
@@ -3143,7 +3143,7 @@ export const thptExams = [
       },
       {
         "id": 13,
-        "text": "Q13: Arrange the formal letter.",
+        "text": "Arrange the formal letter.",
         "options": [
           "a–b–c–d–e",
           "b–a–d–c–e",
@@ -3156,7 +3156,7 @@ export const thptExams = [
       },
       {
         "id": 14,
-        "text": "Q14: Arrange the academic paragraph.",
+        "text": "Arrange the academic paragraph.",
         "options": [
           "a–b–c–d–e",
           "b–d–a–c–e",
@@ -3169,7 +3169,7 @@ export const thptExams = [
       },
       {
         "id": 15,
-        "text": "Q15: Arrange the dialogue.",
+        "text": "Arrange the dialogue.",
         "options": [
           "a–b–c",
           "b–a–c",
@@ -3182,7 +3182,7 @@ export const thptExams = [
       },
       {
         "id": 16,
-        "text": "Q16: Arrange the passage.",
+        "text": "Arrange the passage.",
         "options": [
           "a–b–c–d–e",
           "c–a–b–e–d",
@@ -3195,7 +3195,7 @@ export const thptExams = [
       },
       {
         "id": 17,
-        "text": "Q17: Arrange the debate.",
+        "text": "Arrange the debate.",
         "options": [
           "a–b–c–d–e",
           "a–d–e–b–c",
@@ -3208,7 +3208,7 @@ export const thptExams = [
       },
       {
         "id": 18,
-        "text": "Q18: Choose correct grammar.",
+        "text": "Choose correct grammar.",
         "options": [
           "Developed through research, this framework provides solutions",
           "This framework, which developing, provides solutions",
@@ -3221,7 +3221,7 @@ export const thptExams = [
       },
       {
         "id": 19,
-        "text": "Q19: Choose correct sentence.",
+        "text": "Choose correct sentence.",
         "options": [
           "Researchers who conducted experiments have published findings",
           "Experiments having conducted by researchers published findings",
@@ -3234,7 +3234,7 @@ export const thptExams = [
       },
       {
         "id": 20,
-        "text": "Q20: Choose correct transition.",
+        "text": "Choose correct transition.",
         "options": [
           "In response to these concerns",
           "Responded to these concerns",
@@ -3247,7 +3247,7 @@ export const thptExams = [
       },
       {
         "id": 21,
-        "text": "Q21: Choose correct clause.",
+        "text": "Choose correct clause.",
         "options": [
           "the rapid advancement creates new challenges",
           "technology rapidly advancing creates challenges",
@@ -3260,7 +3260,7 @@ export const thptExams = [
       },
       {
         "id": 22,
-        "text": "Q22: Choose best conclusion.",
+        "text": "Choose best conclusion.",
         "options": [
           "Future developments will undoubtedly reshape our understanding",
           "Our understanding will hardly be reshaped",
@@ -3518,7 +3518,7 @@ export const thptExams = [
       {
         "id": "thpt-07-p1",
         "title": "Cultural Authenticity",
-        "text": "The preservation of cultural authenticity has become (1) __________ challenging in an era of rapid globalization. Traditional practices face erosion; (2) __________, communities are developing innovative preservation strategies.\n\nAnthropologists have dedicated themselves (3) __________ documenting endangered cultural traditions. Cultural institutions must (4) __________ decisive action to safeguard intangible heritage. Museums are now (5) __________ visitor engagement with indigenous artifacts. Traditional preservation (6) __________ combine technology with community participation.",
+        "text": "The preservation of cultural authenticity has become (1) ______ challenging in an era of rapid globalization. Traditional practices face erosion; (2) ______, communities are developing innovative preservation strategies.\n\nAnthropologists have dedicated themselves (3) ______ documenting endangered cultural traditions. Cultural institutions must (4) ______ decisive action to safeguard intangible heritage. Museums are now (5) ______ visitor engagement with indigenous artifacts. Traditional preservation (6) ______ combine technology with community participation.",
         "questionRange": [
           1,
           6
@@ -3527,7 +3527,7 @@ export const thptExams = [
       {
         "id": "thpt-07-p2",
         "title": "Nuclear Family Structures",
-        "text": "Sociologists are beginning to (7) __________ how family structures have transformed across generations. A significant (8) __________ of research focuses on single-parent households and blended families. Researchers are currently (9) __________ demographic shifts in family composition across cultures.\n\nUniversities conduct (10) __________ studies on modern family dynamics. Students can effectively (11) __________ sociological theories through case-study analysis. (12) __________ families conform to the traditional nuclear model in contemporary society.",
+        "text": "Sociologists are beginning to (7) ______ how family structures have transformed across generations. A significant (8) ______ of research focuses on single-parent households and blended families. Researchers are currently (9) ______ demographic shifts in family composition across cultures.\n\nUniversities conduct (10) ______ studies on modern family dynamics. Students can effectively (11) ______ sociological theories through case-study analysis. (12) ______ families conform to the traditional nuclear model in contemporary society.",
         "questionRange": [
           7,
           12
@@ -3536,7 +3536,7 @@ export const thptExams = [
       {
         "id": "thpt-07-p3",
         "title": "Cybersecurity and National Sovereignty",
-        "text": "Digital warfare constitutes a paradigm-shifting menace to national sovereignty, eroding conventional notions of territorial inviolability and undermining strategic defense doctrines that once appeared immutable. (18) ___________. Intelligence services across continents grapple with the epistemological difficulty of attributing cyber intrusions while simultaneously attempting to engineer multidimensional deterrence strategies against adversaries whose technological sophistication continues to evolve at an exponential pace.\\n\\nState-sponsored hacking operations have repeatedly demonstrated the susceptibility of critical infrastructure systems-ranging from electrical grids to financial networks-to covert manipulation and systemic sabotage. (19) ___________. Yet codifying universally accepted norms and legally binding conventions for cyber warfare proves immensely elusive, largely because jurisdictional ambiguity and attributional opacity render accountability almost unattainable in practice.\\n\\n(20) ___________, sovereign states are allocating unprecedented fiscal and intellectual capital toward the construction of cyber fortifications, national firewalls, and resilient digital ecosystems. These initiatives are intended not merely to shield sensitive data but also to safeguard economic vitality and maintain competitive parity in the global digital hierarchy.\\n\\nEnvironmental ramifications of cyber conflict transcend immediate geopolitical concerns, insofar as (21) ___________. Massive data-processing requirements, continuous surveillance infrastructures, and ever-expanding server farms collectively intensify the carbon footprint of the digital age, thereby interlinking cybersecurity with planetary sustainability debates.\\n\\nDespite the labyrinthine challenges, collaborative frameworks in cybersecurity are undergoing rapid institutionalization. Prominent geopolitical actors increasingly negotiate bilateral accords concerning digital sovereignty, while multilateral entities labor to draft enforceable conventions that regulate hostile cyber operations. (22) ___________.",
+        "text": "Digital warfare constitutes a paradigm-shifting menace to national sovereignty, eroding conventional notions of territorial inviolability and undermining strategic defense doctrines that once appeared immutable. (18) _______. Intelligence services across continents grapple with the epistemological difficulty of attributing cyber intrusions while simultaneously attempting to engineer multidimensional deterrence strategies against adversaries whose technological sophistication continues to evolve at an exponential pace.\\n\\nState-sponsored hacking operations have repeatedly demonstrated the susceptibility of critical infrastructure systems-ranging from electrical grids to financial networks-to covert manipulation and systemic sabotage. (19) _______. Yet codifying universally accepted norms and legally binding conventions for cyber warfare proves immensely elusive, largely because jurisdictional ambiguity and attributional opacity render accountability almost unattainable in practice.\\n\\n(20) _______, sovereign states are allocating unprecedented fiscal and intellectual capital toward the construction of cyber fortifications, national firewalls, and resilient digital ecosystems. These initiatives are intended not merely to shield sensitive data but also to safeguard economic vitality and maintain competitive parity in the global digital hierarchy.\\n\\nEnvironmental ramifications of cyber conflict transcend immediate geopolitical concerns, insofar as (21) _______. Massive data-processing requirements, continuous surveillance infrastructures, and ever-expanding server farms collectively intensify the carbon footprint of the digital age, thereby interlinking cybersecurity with planetary sustainability debates.\\n\\nDespite the labyrinthine challenges, collaborative frameworks in cybersecurity are undergoing rapid institutionalization. Prominent geopolitical actors increasingly negotiate bilateral accords concerning digital sovereignty, while multilateral entities labor to draft enforceable conventions that regulate hostile cyber operations. (22) _______.",
         "questionRange": [
           18,
           22
@@ -3545,7 +3545,7 @@ export const thptExams = [
       {
         "id": "thpt-07-p4",
         "title": "Deforestation and Biodiversity Loss",
-        "text": "Anthropogenic deforestation has precipitated an ecological catastrophe of unprecedented magnitude, threatening the planet's biodiversity equilibrium and climate stability. __What commenced as localized resource extraction has metastasized into systematic habitat destruction that imperils countless species and disrupts intricate ecosystem interdependencies.__\\n\\nCommercial logging operations and agricultural expansion provide substantial economic incentives for continued forest clearance. Corporations benefit from timber harvests, agricultural land conversion, and mineral extraction opportunities. Meanwhile, local communities often depend on these activities for subsistence and employment. However, these short-term economic gains frequently obscure the profound long-term environmental consequences that threaten global sustainability.\\n\\nBiodiversity loss represents the most catastrophic ramification of widespread deforestation. Complex forest ecosystems harbor extraordinary species richness that has evolved over millennia. When pristine habitats undergo fragmentation or complete destruction, endemic species face immediate extinction threats. Additionally, disrupted ecological networks compromise pollination cycles, seed dispersal mechanisms, and predator-prey relationships that maintain natural equilibrium.\\n\\nScientific research demonstrates that intact forests provide crucial ecosystem services including carbon sequestration, water cycle regulation, and soil preservation. Advanced satellite monitoring systems and ground-based research stations now enable scientists to quantify deforestation rates with unprecedented accuracy. Nevertheless, translating scientific knowledge into effective conservation policies requires overcoming significant political and economic obstacles that prioritize immediate profits over environmental sustainability.",
+        "text": "Anthropogenic deforestation has precipitated an ecological catastrophe of unprecedented magnitude, threatening the planet's biodiversity equilibrium and climate stability. What commenced as localized resource extraction has metastasized into systematic habitat destruction that imperils countless species and disrupts intricate ecosystem interdependencies.\\n\\nCommercial logging operations and agricultural expansion provide substantial economic incentives for continued forest clearance. Corporations benefit from timber harvests, agricultural land conversion, and mineral extraction opportunities. Meanwhile, local communities often depend on these activities for subsistence and employment. However, these short-term economic gains frequently obscure the profound long-term environmental consequences that threaten global sustainability.\\n\\nBiodiversity loss represents the most catastrophic ramification of widespread deforestation. Complex forest ecosystems harbor extraordinary species richness that has evolved over millennia. When pristine habitats undergo fragmentation or complete destruction, endemic species face immediate extinction threats. Additionally, disrupted ecological networks compromise pollination cycles, seed dispersal mechanisms, and predator-prey relationships that maintain natural equilibrium.\\n\\nScientific research demonstrates that intact forests provide crucial ecosystem services including carbon sequestration, water cycle regulation, and soil preservation. Advanced satellite monitoring systems and ground-based research stations now enable scientists to quantify deforestation rates with unprecedented accuracy. Nevertheless, translating scientific knowledge into effective conservation policies requires overcoming significant political and economic obstacles that prioritize immediate profits over environmental sustainability.",
         "questionRange": [
           23,
           30
@@ -3564,7 +3564,7 @@ export const thptExams = [
     "questions": [
       {
         "id": 1,
-        "text": "Question 1",
+        "text": "",
         "options": [
           "pervasive",
           "pervade",
@@ -3577,7 +3577,7 @@ export const thptExams = [
       },
       {
         "id": 2,
-        "text": "Question 2",
+        "text": "",
         "options": [
           "consequently",
           "however",
@@ -3590,7 +3590,7 @@ export const thptExams = [
       },
       {
         "id": 3,
-        "text": "Question 3",
+        "text": "",
         "options": [
           "toward",
           "to",
@@ -3603,7 +3603,7 @@ export const thptExams = [
       },
       {
         "id": 4,
-        "text": "Question 4",
+        "text": "",
         "options": [
           "make",
           "take",
@@ -3616,7 +3616,7 @@ export const thptExams = [
       },
       {
         "id": 5,
-        "text": "Question 5",
+        "text": "",
         "options": [
           "monitor",
           "monitoring",
@@ -3629,7 +3629,7 @@ export const thptExams = [
       },
       {
         "id": 6,
-        "text": "Question 6",
+        "text": "",
         "options": [
           "approaches",
           "methodologies",
@@ -3642,7 +3642,7 @@ export const thptExams = [
       },
       {
         "id": 7,
-        "text": "Question 7",
+        "text": "",
         "options": [
           "appreciate",
           "acknowledge",
@@ -3655,7 +3655,7 @@ export const thptExams = [
       },
       {
         "id": 8,
-        "text": "Question 8",
+        "text": "",
         "options": [
           "amount",
           "number",
@@ -3668,7 +3668,7 @@ export const thptExams = [
       },
       {
         "id": 9,
-        "text": "Question 9",
+        "text": "",
         "options": [
           "to operate",
           "operating",
@@ -3681,7 +3681,7 @@ export const thptExams = [
       },
       {
         "id": 10,
-        "text": "Question 10",
+        "text": "",
         "options": [
           "cutting-edge specialized ambitious",
           "specialized ambitious cutting-edge",
@@ -3694,7 +3694,7 @@ export const thptExams = [
       },
       {
         "id": 11,
-        "text": "Question 11",
+        "text": "",
         "options": [
           "pick up",
           "take over",
@@ -3707,7 +3707,7 @@ export const thptExams = [
       },
       {
         "id": 12,
-        "text": "Question 12",
+        "text": "",
         "options": [
           "Few",
           "A few",
@@ -3720,7 +3720,7 @@ export const thptExams = [
       },
       {
         "id": 13,
-        "text": "Q13: Arrange the formal letter.",
+        "text": "Arrange the formal letter.",
         "options": [
           "a–b–c–d–e",
           "b–a–d–c–e",
@@ -3733,7 +3733,7 @@ export const thptExams = [
       },
       {
         "id": 14,
-        "text": "Q14: Arrange the academic paragraph.",
+        "text": "Arrange the academic paragraph.",
         "options": [
           "a–b–c–d–e",
           "b–d–a–c–e",
@@ -3746,7 +3746,7 @@ export const thptExams = [
       },
       {
         "id": 15,
-        "text": "Q15: Arrange the dialogue.",
+        "text": "Arrange the dialogue.",
         "options": [
           "a–b–c",
           "b–a–c",
@@ -3759,7 +3759,7 @@ export const thptExams = [
       },
       {
         "id": 16,
-        "text": "Q16: Arrange the passage.",
+        "text": "Arrange the passage.",
         "options": [
           "a–b–c–d–e",
           "c–a–b–e–d",
@@ -3772,7 +3772,7 @@ export const thptExams = [
       },
       {
         "id": 17,
-        "text": "Q17: Arrange the debate.",
+        "text": "Arrange the debate.",
         "options": [
           "a–b–c–d–e",
           "a–d–e–b–c",
@@ -3785,7 +3785,7 @@ export const thptExams = [
       },
       {
         "id": 18,
-        "text": "Q18: Choose correct grammar.",
+        "text": "Choose correct grammar.",
         "options": [
           "Developed through research, this framework provides solutions",
           "This framework, which developing, provides solutions",
@@ -3798,7 +3798,7 @@ export const thptExams = [
       },
       {
         "id": 19,
-        "text": "Q19: Choose correct sentence.",
+        "text": "Choose correct sentence.",
         "options": [
           "Researchers who conducted experiments have published findings",
           "Experiments having conducted by researchers published findings",
@@ -3811,7 +3811,7 @@ export const thptExams = [
       },
       {
         "id": 20,
-        "text": "Q20: Choose correct transition.",
+        "text": "Choose correct transition.",
         "options": [
           "In response to these concerns",
           "Responded to these concerns",
@@ -3824,7 +3824,7 @@ export const thptExams = [
       },
       {
         "id": 21,
-        "text": "Q21: Choose correct clause.",
+        "text": "Choose correct clause.",
         "options": [
           "the rapid advancement creates new challenges",
           "technology rapidly advancing creates challenges",
@@ -3837,7 +3837,7 @@ export const thptExams = [
       },
       {
         "id": 22,
-        "text": "Q22: Choose best conclusion.",
+        "text": "Choose best conclusion.",
         "options": [
           "Future developments will undoubtedly reshape our understanding",
           "Our understanding will hardly be reshaped",
@@ -4095,7 +4095,7 @@ export const thptExams = [
       {
         "id": "thpt-08-p1",
         "title": "Cultural Appropriation",
-        "text": "Debates surrounding cultural appropriation have become (1) __________ heated in contemporary discourse. Fashion industries borrow from indigenous traditions; (2) __________, marginalized communities rarely receive acknowledgment or compensation.\n\nActivists have committed themselves (3) __________ raising awareness about exploitative practices. Cultural organizations must (4) __________ decisive action to establish fair attribution. Advocates are now (5) __________ corporate behavior regarding cultural borrowing. Established attribution (6) __________ promote respectful cross-cultural exchange.",
+        "text": "Debates surrounding cultural appropriation have become (1) ______ heated in contemporary discourse. Fashion industries borrow from indigenous traditions; (2) ______, marginalized communities rarely receive acknowledgment or compensation.\n\nActivists have committed themselves (3) ______ raising awareness about exploitative practices. Cultural organizations must (4) ______ decisive action to establish fair attribution. Advocates are now (5) ______ corporate behavior regarding cultural borrowing. Established attribution (6) ______ promote respectful cross-cultural exchange.",
         "questionRange": [
           1,
           6
@@ -4104,7 +4104,7 @@ export const thptExams = [
       {
         "id": "thpt-08-p2",
         "title": "Multicultural Identity",
-        "text": "Young people are learning to (7) __________ the complexity of navigating multiple cultural identities. A growing (8) __________ of research explores bicultural and multicultural self-concepts. Psychologists are currently (9) __________ identity formation in children of immigrant families.\n\nResearch centers employ (10) __________ methods to study cultural identity. Individuals can successfully (11) __________ coping strategies from community support networks. (12) __________ people experience identity conflict when balancing multiple cultural affiliations.",
+        "text": "Young people are learning to (7) ______ the complexity of navigating multiple cultural identities. A growing (8) ______ of research explores bicultural and multicultural self-concepts. Psychologists are currently (9) ______ identity formation in children of immigrant families.\n\nResearch centers employ (10) ______ methods to study cultural identity. Individuals can successfully (11) ______ coping strategies from community support networks. (12) ______ people experience identity conflict when balancing multiple cultural affiliations.",
         "questionRange": [
           7,
           12
@@ -4113,7 +4113,7 @@ export const thptExams = [
       {
         "id": "thpt-08-p3",
         "title": "Surveillance Technology and Privacy",
-        "text": "Digital surveillance systems have fundamentally transformed contemporary society's relationship with privacy, creating unprecedented opportunities for governmental oversight and corporate data harvesting. (18) ___________. Privacy advocates argue that ubiquitous monitoring threatens democratic foundations while security proponents emphasize public safety benefits.\\n\\nFacial recognition algorithms, deployed extensively in urban environments, demonstrate remarkable accuracy in identifying individuals within crowded spaces. (19) ___________. However, civil liberties organizations raise concerns about potential misuse and discriminatory enforcement targeting marginalized populations.\\n\\n(20) ___________, legislative bodies worldwide are drafting comprehensive privacy protection statutes. These regulations attempt to balance technological innovation with fundamental human rights preservation. Some democracies embrace strict data protection measures, while authoritarian regimes exploit surveillance capabilities.\\n\\nEnvironmental activists express particular concern regarding the fact that (21) ___________. Sustainable technology solutions are being developed to address these ecological implications.\\n\\nDespite mounting opposition, surveillance technology adoption continues accelerating globally. Law enforcement agencies increasingly rely on predictive policing algorithms, and corporations utilize behavioral analytics for targeted marketing. (22) ___________.",
+        "text": "Digital surveillance systems have fundamentally transformed contemporary society's relationship with privacy, creating unprecedented opportunities for governmental oversight and corporate data harvesting. (18) _______. Privacy advocates argue that ubiquitous monitoring threatens democratic foundations while security proponents emphasize public safety benefits.\\n\\nFacial recognition algorithms, deployed extensively in urban environments, demonstrate remarkable accuracy in identifying individuals within crowded spaces. (19) _______. However, civil liberties organizations raise concerns about potential misuse and discriminatory enforcement targeting marginalized populations.\\n\\n(20) _______, legislative bodies worldwide are drafting comprehensive privacy protection statutes. These regulations attempt to balance technological innovation with fundamental human rights preservation. Some democracies embrace strict data protection measures, while authoritarian regimes exploit surveillance capabilities.\\n\\nEnvironmental activists express particular concern regarding the fact that (21) _______. Sustainable technology solutions are being developed to address these ecological implications.\\n\\nDespite mounting opposition, surveillance technology adoption continues accelerating globally. Law enforcement agencies increasingly rely on predictive policing algorithms, and corporations utilize behavioral analytics for targeted marketing. (22) _______.",
         "questionRange": [
           18,
           22
@@ -4122,7 +4122,7 @@ export const thptExams = [
       {
         "id": "thpt-08-p4",
         "title": "Biotechnology in Agriculture",
-        "text": "Agricultural biotechnology represents a paradigmatic shift in humanity's approach to food production, introducing genetically modified organisms that challenge traditional farming methodologies while promising solutions to global hunger crises. __Revolutionary CRISPR gene-editing technologies enable precise modifications to crop genomes, enhancing nutritional content, drought resistance, and pest immunity.__\\n\\nGenetically modified crops offer substantial advantages for farmers and consumers alike. Producers benefit from increased yields, reduced pesticide dependency, and enhanced climate resilience. Consumers potentially access more nutritious foods with extended shelf life and reduced environmental footprint. However, these innovations generate considerable controversy regarding long-term ecological consequences and food safety implications.\\n\\nOpponents raise legitimate concerns about genetic modification's unforeseen ramifications on biodiversity and ecosystem stability. Cross-pollination between modified and wild plant species could potentially create invasive hybrid organisms with unpredictable characteristics. Furthermore, corporate monopolization of seed patents threatens traditional farming communities' autonomy and food sovereignty principles.\\n\\nRegulatory oversight varies dramatically across global jurisdictions. The European Union implements stringent approval processes requiring extensive safety testing, while developing nations often lack adequate regulatory infrastructure. International coordination becomes increasingly crucial as agricultural biotechnology continues expanding, demanding comprehensive scientific assessment protocols and transparent public discourse regarding acceptable risk thresholds.",
+        "text": "Agricultural biotechnology represents a paradigmatic shift in humanity's approach to food production, introducing genetically modified organisms that challenge traditional farming methodologies while promising solutions to global hunger crises. Revolutionary CRISPR gene-editing technologies enable precise modifications to crop genomes, enhancing nutritional content, drought resistance, and pest immunity.\\n\\nGenetically modified crops offer substantial advantages for farmers and consumers alike. Producers benefit from increased yields, reduced pesticide dependency, and enhanced climate resilience. Consumers potentially access more nutritious foods with extended shelf life and reduced environmental footprint. However, these innovations generate considerable controversy regarding long-term ecological consequences and food safety implications.\\n\\nOpponents raise legitimate concerns about genetic modification's unforeseen ramifications on biodiversity and ecosystem stability. Cross-pollination between modified and wild plant species could potentially create invasive hybrid organisms with unpredictable characteristics. Furthermore, corporate monopolization of seed patents threatens traditional farming communities' autonomy and food sovereignty principles.\\n\\nRegulatory oversight varies dramatically across global jurisdictions. The European Union implements stringent approval processes requiring extensive safety testing, while developing nations often lack adequate regulatory infrastructure. International coordination becomes increasingly crucial as agricultural biotechnology continues expanding, demanding comprehensive scientific assessment protocols and transparent public discourse regarding acceptable risk thresholds.",
         "questionRange": [
           23,
           30
@@ -4141,7 +4141,7 @@ export const thptExams = [
     "questions": [
       {
         "id": 1,
-        "text": "Question 1",
+        "text": "",
         "options": [
           "contentious",
           "contention",
@@ -4154,7 +4154,7 @@ export const thptExams = [
       },
       {
         "id": 2,
-        "text": "Question 2",
+        "text": "",
         "options": [
           "consequently",
           "notwithstanding",
@@ -4167,7 +4167,7 @@ export const thptExams = [
       },
       {
         "id": 3,
-        "text": "Question 3",
+        "text": "",
         "options": [
           "toward",
           "to",
@@ -4180,7 +4180,7 @@ export const thptExams = [
       },
       {
         "id": 4,
-        "text": "Question 4",
+        "text": "",
         "options": [
           "make",
           "take",
@@ -4193,7 +4193,7 @@ export const thptExams = [
       },
       {
         "id": 5,
-        "text": "Question 5",
+        "text": "",
         "options": [
           "monitor",
           "monitoring",
@@ -4206,7 +4206,7 @@ export const thptExams = [
       },
       {
         "id": 6,
-        "text": "Question 6",
+        "text": "",
         "options": [
           "approaches",
           "methodologies",
@@ -4219,7 +4219,7 @@ export const thptExams = [
       },
       {
         "id": 7,
-        "text": "Question 7",
+        "text": "",
         "options": [
           "appreciate",
           "acknowledge",
@@ -4232,7 +4232,7 @@ export const thptExams = [
       },
       {
         "id": 8,
-        "text": "Question 8",
+        "text": "",
         "options": [
           "amount",
           "number",
@@ -4245,7 +4245,7 @@ export const thptExams = [
       },
       {
         "id": 9,
-        "text": "Question 9",
+        "text": "",
         "options": [
           "to operate",
           "operating",
@@ -4258,7 +4258,7 @@ export const thptExams = [
       },
       {
         "id": 10,
-        "text": "Question 10",
+        "text": "",
         "options": [
           "cutting-edge specialized ambitious",
           "specialized ambitious cutting-edge",
@@ -4271,7 +4271,7 @@ export const thptExams = [
       },
       {
         "id": 11,
-        "text": "Question 11",
+        "text": "",
         "options": [
           "pick up",
           "take over",
@@ -4284,7 +4284,7 @@ export const thptExams = [
       },
       {
         "id": 12,
-        "text": "Question 12",
+        "text": "",
         "options": [
           "Few",
           "A few",
@@ -4297,7 +4297,7 @@ export const thptExams = [
       },
       {
         "id": 13,
-        "text": "Q13: Arrange the formal letter.",
+        "text": "Arrange the formal letter.",
         "options": [
           "a–b–c–d–e",
           "b–a–d–c–e",
@@ -4310,7 +4310,7 @@ export const thptExams = [
       },
       {
         "id": 14,
-        "text": "Q14: Arrange the academic paragraph.",
+        "text": "Arrange the academic paragraph.",
         "options": [
           "a–b–c–d–e",
           "b–d–a–c–e",
@@ -4323,7 +4323,7 @@ export const thptExams = [
       },
       {
         "id": 15,
-        "text": "Q15: Arrange the dialogue.",
+        "text": "Arrange the dialogue.",
         "options": [
           "a–b–c",
           "b–a–c",
@@ -4336,7 +4336,7 @@ export const thptExams = [
       },
       {
         "id": 16,
-        "text": "Q16: Arrange the passage.",
+        "text": "Arrange the passage.",
         "options": [
           "a–b–c–d–e",
           "c–a–b–e–d",
@@ -4349,7 +4349,7 @@ export const thptExams = [
       },
       {
         "id": 17,
-        "text": "Q17: Arrange the debate.",
+        "text": "Arrange the debate.",
         "options": [
           "a–b–c–d–e",
           "a–d–e–b–c",
@@ -4362,7 +4362,7 @@ export const thptExams = [
       },
       {
         "id": 18,
-        "text": "Q18: Choose correct grammar.",
+        "text": "Choose correct grammar.",
         "options": [
           "Developed through research, this framework provides solutions",
           "This framework, which developing, provides solutions",
@@ -4375,7 +4375,7 @@ export const thptExams = [
       },
       {
         "id": 19,
-        "text": "Q19: Choose correct sentence.",
+        "text": "Choose correct sentence.",
         "options": [
           "Researchers who conducted experiments have published findings",
           "Experiments having conducted by researchers published findings",
@@ -4388,7 +4388,7 @@ export const thptExams = [
       },
       {
         "id": 20,
-        "text": "Q20: Choose correct transition.",
+        "text": "Choose correct transition.",
         "options": [
           "In response to these concerns",
           "Responded to these concerns",
@@ -4401,7 +4401,7 @@ export const thptExams = [
       },
       {
         "id": 21,
-        "text": "Q21: Choose correct clause.",
+        "text": "Choose correct clause.",
         "options": [
           "the rapid advancement creates new challenges",
           "technology rapidly advancing creates challenges",
@@ -4414,7 +4414,7 @@ export const thptExams = [
       },
       {
         "id": 22,
-        "text": "Q22: Choose best conclusion.",
+        "text": "Choose best conclusion.",
         "options": [
           "Future developments will undoubtedly reshape our understanding",
           "Our understanding will hardly be reshaped",
@@ -4672,7 +4672,7 @@ export const thptExams = [
       {
         "id": "thpt-09-p1",
         "title": "Postmodern Identity",
-        "text": "Postmodern conceptions of identity have become (1) __________ influential in contemporary social sciences. Traditional categories are deconstructed; (2) __________, new theoretical frameworks emerge to explain fluid self-concepts.\n\nScholar have dedicated themselves (3) __________ exploring how identity is performed rather than fixed. Cultural theorists must (4) __________ decisive action to bridge academic theory with lived experience. Researchers are now (5) __________ narrative identity construction across digital platforms. Interdisciplinary (6) __________ enrich understanding of selfhood in late modernity.",
+        "text": "Postmodern conceptions of identity have become (1) ______ influential in contemporary social sciences. Traditional categories are deconstructed; (2) ______, new theoretical frameworks emerge to explain fluid self-concepts.\n\nScholar have dedicated themselves (3) ______ exploring how identity is performed rather than fixed. Cultural theorists must (4) ______ decisive action to bridge academic theory with lived experience. Researchers are now (5) ______ narrative identity construction across digital platforms. Interdisciplinary (6) ______ enrich understanding of selfhood in late modernity.",
         "questionRange": [
           1,
           6
@@ -4681,7 +4681,7 @@ export const thptExams = [
       {
         "id": "thpt-09-p2",
         "title": "Intergenerational Dynamics",
-        "text": "Social scientists are starting to (7) __________ the profound impact of generational differences on workplace culture. A substantial (8) __________ of tension arises from divergent communication styles between Baby Boomers and Generation Z. Organizations are currently (9) __________ mentorship programs that bridge generational gaps.\n\nCompanies design (10) __________ initiatives to foster intergenerational collaboration. Younger employees can rapidly (11) __________ institutional knowledge from senior colleagues. (12) __________ organizations successfully integrate five distinct generations in the workplace.",
+        "text": "Social scientists are starting to (7) ______ the profound impact of generational differences on workplace culture. A substantial (8) ______ of tension arises from divergent communication styles between Baby Boomers and Generation Z. Organizations are currently (9) ______ mentorship programs that bridge generational gaps.\n\nCompanies design (10) ______ initiatives to foster intergenerational collaboration. Younger employees can rapidly (11) ______ institutional knowledge from senior colleagues. (12) ______ organizations successfully integrate five distinct generations in the workplace.",
         "questionRange": [
           7,
           12
@@ -4690,7 +4690,7 @@ export const thptExams = [
       {
         "id": "thpt-09-p3",
         "title": "Climate Change Politics",
-        "text": "The politics of climate change has evolved into an inexorable fulcrum of global deliberation, simultaneously reframing diplomatic alliances and reshaping the contours of domestic governance.\\n\\n(18) ______. Confronted with escalating ecological crises, governments must negotiate a precarious balance between environmental imperatives and entrenched economic dependencies – a balancing act that frequently produces ideological fragmentation and populist resistance.\\n\\nConventional governance paradigms, long dominated by the primacy of industrial expansion over ecological prudence, increasingly reveal their inadequacy when societies face the compounded effects of climate-induced catastrophes.\\n\\n(19) ______. Nevertheless, despite emphatic declarations of intent, entrenched lobbying networks financed by carbon-intensive conglomerates routinely derail ambitious legislation, thereby eroding confidence in both democratic credibility and institutional accountability.\\n\\n(20) ______, legislators in reform-oriented states are formulating comprehensive climate statutes that combine market-based instruments such as carbon pricing with interventionist measures including renewable-energy incentives and legally binding emissions ceilings. Yet the divergence in progress remains stark: while certain nations accelerate transformative reforms, others remain immobilized by geopolitical antagonisms, structural inequities, and technological asymmetries that fragment the architecture of global climate governance. Fiscal controversies surrounding adaptation and mitigation proliferate to the extent that (21) ______. This unresolved dilemma perpetuates contentious disputes over distributive justice, as affluent economies and historically high-emission states are confronted with increasingly urgent demands from climate-vulnerable nations for restitution and reparative funding.\\n\\nDespite these persistent impediments, the momentum toward systemic transformation has not dissipated. Grassroots coalitions, intergenerational movements, and transnational advocacy networks continue to exert escalating pressure on policymakers to embrace radical interventions.\\n\\n(22) ______.",
+        "text": "The politics of climate change has evolved into an inexorable fulcrum of global deliberation, simultaneously reframing diplomatic alliances and reshaping the contours of domestic governance.\\n\\n(18) __. Confronted with escalating ecological crises, governments must negotiate a precarious balance between environmental imperatives and entrenched economic dependencies – a balancing act that frequently produces ideological fragmentation and populist resistance.\\n\\nConventional governance paradigms, long dominated by the primacy of industrial expansion over ecological prudence, increasingly reveal their inadequacy when societies face the compounded effects of climate-induced catastrophes.\\n\\n(19) __. Nevertheless, despite emphatic declarations of intent, entrenched lobbying networks financed by carbon-intensive conglomerates routinely derail ambitious legislation, thereby eroding confidence in both democratic credibility and institutional accountability.\\n\\n(20) __, legislators in reform-oriented states are formulating comprehensive climate statutes that combine market-based instruments such as carbon pricing with interventionist measures including renewable-energy incentives and legally binding emissions ceilings. Yet the divergence in progress remains stark: while certain nations accelerate transformative reforms, others remain immobilized by geopolitical antagonisms, structural inequities, and technological asymmetries that fragment the architecture of global climate governance. Fiscal controversies surrounding adaptation and mitigation proliferate to the extent that (21) __. This unresolved dilemma perpetuates contentious disputes over distributive justice, as affluent economies and historically high-emission states are confronted with increasingly urgent demands from climate-vulnerable nations for restitution and reparative funding.\\n\\nDespite these persistent impediments, the momentum toward systemic transformation has not dissipated. Grassroots coalitions, intergenerational movements, and transnational advocacy networks continue to exert escalating pressure on policymakers to embrace radical interventions.\\n\\n(22) __.",
         "questionRange": [
           18,
           22
@@ -4699,7 +4699,7 @@ export const thptExams = [
       {
         "id": "thpt-09-p4",
         "title": "Ocean Pollution and Marine Conservation",
-        "text": "Ocean pollution and marine conservation have evolved into some of the most urgent and divisive issues within modern global governance. __What initially appeared as a scientific consensus about the devastating impact of plastic debris and chemical effluents has now expanded into a multifaceted arena where ecological preservation collides with industrial priorities, geopolitical rivalries, and competing moral frameworks that stretch far beyond conventional environmental policy debates.__\\n\\nCrafting effective marine protection policies presents formidable challenges for governments struggling to reconcile ecological imperatives with commercial imperatives such as shipping, fisheries, and tourism. Policymakers must navigate antagonistic demands from petrochemical corporations, maritime trade associations, and activist networks advocating for ecological justice. The temporal disjunction between immediate economic sacrifices and delayed environmental recovery creates profound political friction that steadily erodes sustained commitment to ambitious conservation agendas.\\n\\nEmpirical research overwhelmingly confirms the urgency of reducing pollutants across all maritime sectors. However, translating such imperatives into enforceable regulatory frameworks remains notoriously elusive. Powerful lobbies routinely sabotage comprehensive marine legislation by orchestrating misinformation campaigns, litigating procedural loopholes, and manipulating international arbitration systems that were originally designed to ensure maritime cooperation but now frequently serve corporate interests.\\n\\nInternational negotiations over ocean governance illustrate these obstacles on a planetary scale. Despite decades of global summits and treaties, levels of marine contamination continue to escalate as nations prioritize export competitiveness and strategic naval presence over collective ecological stewardship. Landmark agreements, such as the United Nations Convention on the Law of the Sea, signify progress in articulating governance frameworks, yet enforcement remains fragmented due to limited monitoring capacity and persistent free-rider behavior among member states.",
+        "text": "Ocean pollution and marine conservation have evolved into some of the most urgent and divisive issues within modern global governance. What initially appeared as a scientific consensus about the devastating impact of plastic debris and chemical effluents has now expanded into a multifaceted arena where ecological preservation collides with industrial priorities, geopolitical rivalries, and competing moral frameworks that stretch far beyond conventional environmental policy debates.\\n\\nCrafting effective marine protection policies presents formidable challenges for governments struggling to reconcile ecological imperatives with commercial imperatives such as shipping, fisheries, and tourism. Policymakers must navigate antagonistic demands from petrochemical corporations, maritime trade associations, and activist networks advocating for ecological justice. The temporal disjunction between immediate economic sacrifices and delayed environmental recovery creates profound political friction that steadily erodes sustained commitment to ambitious conservation agendas.\\n\\nEmpirical research overwhelmingly confirms the urgency of reducing pollutants across all maritime sectors. However, translating such imperatives into enforceable regulatory frameworks remains notoriously elusive. Powerful lobbies routinely sabotage comprehensive marine legislation by orchestrating misinformation campaigns, litigating procedural loopholes, and manipulating international arbitration systems that were originally designed to ensure maritime cooperation but now frequently serve corporate interests.\\n\\nInternational negotiations over ocean governance illustrate these obstacles on a planetary scale. Despite decades of global summits and treaties, levels of marine contamination continue to escalate as nations prioritize export competitiveness and strategic naval presence over collective ecological stewardship. Landmark agreements, such as the United Nations Convention on the Law of the Sea, signify progress in articulating governance frameworks, yet enforcement remains fragmented due to limited monitoring capacity and persistent free-rider behavior among member states.",
         "questionRange": [
           23,
           30
@@ -4718,7 +4718,7 @@ export const thptExams = [
     "questions": [
       {
         "id": 1,
-        "text": "Question 1",
+        "text": "",
         "options": [
           "markedly",
           "severe",
@@ -4731,7 +4731,7 @@ export const thptExams = [
       },
       {
         "id": 2,
-        "text": "Question 2",
+        "text": "",
         "options": [
           "thereby",
           "accordingly",
@@ -4744,7 +4744,7 @@ export const thptExams = [
       },
       {
         "id": 3,
-        "text": "Question 3",
+        "text": "",
         "options": [
           "toward",
           "to",
@@ -4757,7 +4757,7 @@ export const thptExams = [
       },
       {
         "id": 4,
-        "text": "Question 4",
+        "text": "",
         "options": [
           "make",
           "take",
@@ -4770,7 +4770,7 @@ export const thptExams = [
       },
       {
         "id": 5,
-        "text": "Question 5",
+        "text": "",
         "options": [
           "monitor",
           "monitoring",
@@ -4783,7 +4783,7 @@ export const thptExams = [
       },
       {
         "id": 6,
-        "text": "Question 6",
+        "text": "",
         "options": [
           "approaches",
           "methodologies",
@@ -4796,7 +4796,7 @@ export const thptExams = [
       },
       {
         "id": 7,
-        "text": "Question 7",
+        "text": "",
         "options": [
           "appreciate",
           "acknowledge",
@@ -4809,7 +4809,7 @@ export const thptExams = [
       },
       {
         "id": 8,
-        "text": "Question 8",
+        "text": "",
         "options": [
           "amount",
           "number",
@@ -4822,7 +4822,7 @@ export const thptExams = [
       },
       {
         "id": 9,
-        "text": "Question 9",
+        "text": "",
         "options": [
           "to operate",
           "operating",
@@ -4835,7 +4835,7 @@ export const thptExams = [
       },
       {
         "id": 10,
-        "text": "Question 10",
+        "text": "",
         "options": [
           "cutting-edge specialized ambitious",
           "specialized ambitious cutting-edge",
@@ -4848,7 +4848,7 @@ export const thptExams = [
       },
       {
         "id": 11,
-        "text": "Question 11",
+        "text": "",
         "options": [
           "pick up",
           "take over",
@@ -4861,7 +4861,7 @@ export const thptExams = [
       },
       {
         "id": 12,
-        "text": "Question 12",
+        "text": "",
         "options": [
           "Few",
           "A few",
@@ -4874,7 +4874,7 @@ export const thptExams = [
       },
       {
         "id": 13,
-        "text": "Q13: Arrange the formal letter.",
+        "text": "Arrange the formal letter.",
         "options": [
           "a–b–c–d–e",
           "b–a–d–c–e",
@@ -4887,7 +4887,7 @@ export const thptExams = [
       },
       {
         "id": 14,
-        "text": "Q14: Arrange the academic paragraph.",
+        "text": "Arrange the academic paragraph.",
         "options": [
           "a–b–c–d–e",
           "b–d–a–c–e",
@@ -4900,7 +4900,7 @@ export const thptExams = [
       },
       {
         "id": 15,
-        "text": "Q15: Arrange the dialogue.",
+        "text": "Arrange the dialogue.",
         "options": [
           "a–b–c",
           "b–a–c",
@@ -4913,7 +4913,7 @@ export const thptExams = [
       },
       {
         "id": 16,
-        "text": "Q16: Arrange the passage.",
+        "text": "Arrange the passage.",
         "options": [
           "a–b–c–d–e",
           "c–a–b–e–d",
@@ -4926,7 +4926,7 @@ export const thptExams = [
       },
       {
         "id": 17,
-        "text": "Q17: Arrange the debate.",
+        "text": "Arrange the debate.",
         "options": [
           "a–b–c–d–e",
           "a–d–e–b–c",
@@ -4939,7 +4939,7 @@ export const thptExams = [
       },
       {
         "id": 18,
-        "text": "Q18: Choose correct grammar.",
+        "text": "Choose correct grammar.",
         "options": [
           "Developed through research, this framework provides solutions",
           "This framework, which developing, provides solutions",
@@ -4952,7 +4952,7 @@ export const thptExams = [
       },
       {
         "id": 19,
-        "text": "Q19: Choose correct sentence.",
+        "text": "Choose correct sentence.",
         "options": [
           "Researchers who conducted experiments have published findings",
           "Experiments having conducted by researchers published findings",
@@ -4965,7 +4965,7 @@ export const thptExams = [
       },
       {
         "id": 20,
-        "text": "Q20: Choose correct transition.",
+        "text": "Choose correct transition.",
         "options": [
           "In response to these concerns",
           "Responded to these concerns",
@@ -4978,7 +4978,7 @@ export const thptExams = [
       },
       {
         "id": 21,
-        "text": "Q21: Choose correct clause.",
+        "text": "Choose correct clause.",
         "options": [
           "the rapid advancement creates new challenges",
           "technology rapidly advancing creates challenges",
@@ -4991,7 +4991,7 @@ export const thptExams = [
       },
       {
         "id": 22,
-        "text": "Q22: Choose best conclusion.",
+        "text": "Choose best conclusion.",
         "options": [
           "Future developments will undoubtedly reshape our understanding",
           "Our understanding will hardly be reshaped",
@@ -5249,7 +5249,7 @@ export const thptExams = [
       {
         "id": "thpt-10-p1",
         "title": "Individualistic Consciousness",
-        "text": "The evolution of individualistic consciousness has become (1) __________ significant in understanding modern social behavior. Western societies emphasize personal autonomy; (2) __________, collective responsibility remains paramount in many Eastern cultures.\n\nPsychologists have dedicated themselves (3) __________ investigating how cultural values shape individual decision-making. Public health campaigns must (4) __________ decisive action to address the loneliness epidemic. Researchers are now (5) __________ self-reliance patterns across demographic groups. Holistic well-being (6) __________ integrate individual fulfillment with communal engagement.",
+        "text": "The evolution of individualistic consciousness has become (1) ______ significant in understanding modern social behavior. Western societies emphasize personal autonomy; (2) ______, collective responsibility remains paramount in many Eastern cultures.\n\nPsychologists have dedicated themselves (3) ______ investigating how cultural values shape individual decision-making. Public health campaigns must (4) ______ decisive action to address the loneliness epidemic. Researchers are now (5) ______ self-reliance patterns across demographic groups. Holistic well-being (6) ______ integrate individual fulfillment with communal engagement.",
         "questionRange": [
           1,
           6
@@ -5258,7 +5258,7 @@ export const thptExams = [
       {
         "id": "thpt-10-p2",
         "title": "Democratic Governance",
-        "text": "Citizens are beginning to (7) __________ the fragility of democratic institutions in an era of populism. A growing (8) __________ of evidence suggests that voter disengagement threatens representative government. Political scientists are currently (9) __________ the effectiveness of civic education programs in strengthening democratic participation.\n\nResearch institutes employ (10) __________ analytical frameworks to study democratic resilience. Voters can effectively (11) __________ media literacy skills through structured civic programs. (12) __________ democracies maintain high voter turnout without compulsory voting laws.",
+        "text": "Citizens are beginning to (7) ______ the fragility of democratic institutions in an era of populism. A growing (8) ______ of evidence suggests that voter disengagement threatens representative government. Political scientists are currently (9) ______ the effectiveness of civic education programs in strengthening democratic participation.\n\nResearch institutes employ (10) ______ analytical frameworks to study democratic resilience. Voters can effectively (11) ______ media literacy skills through structured civic programs. (12) ______ democracies maintain high voter turnout without compulsory voting laws.",
         "questionRange": [
           7,
           12
@@ -5267,7 +5267,7 @@ export const thptExams = [
       {
         "id": "thpt-10-p3",
         "title": "Mass Media and Public Opinion",
-        "text": "The proliferation of mass media platforms has fundamentally reconstituted the mechanisms through which public opinion crystallizes, simultaneously expanding democratic participation while introducing unprecedented vulnerabilities to manipulation and disinformation. (18) ______. Confronted with exponentially expanding information flows, citizens must navigate complex mediascapes where authentic journalism intersects with propaganda, entertainment, and commercial messaging – a navigation process that frequently produces cognitive overload and epistemic fragmentation.\\n\\nTraditional gatekeeping functions, historically exercised by professional journalists and editorial institutions, increasingly prove inadequate when societies confront the democratized yet chaotic information environments characteristic of digital media ecosystems. (19) ______. However, despite widespread acknowledgment of media literacy's importance, entrenched commercial interests and algorithmic optimization systems routinely prioritize engagement over accuracy, thereby undermining public discourse quality and institutional credibility.\\n\\n(20) ______, progressive media organizations are developing innovative journalistic practices that integrate fact-checking protocols with participatory reporting methodologies and transparent editorial processes. Yet the disparity in implementation remains pronounced: while certain media outlets embrace transformative accountability standards, others remain constrained by commercial pressures, ideological polarization, and technological limitations that fragment the architecture of public information systems. Regulatory debates surrounding platform responsibility proliferate to the extent that (21) ______. This unresolved tension perpetuates contentious disputes over free speech boundaries, as democratic societies grapple with balancing information freedom against the protection of democratic discourse from systematic manipulation.\\n\\nDespite these persistent obstacles, the momentum toward media reform has not diminished. Citizen journalism initiatives, media literacy movements, and regulatory advocacy networks continue to exert increasing pressure on policymakers and platform corporations to embrace accountability mechanisms. (22) ______.",
+        "text": "The proliferation of mass media platforms has fundamentally reconstituted the mechanisms through which public opinion crystallizes, simultaneously expanding democratic participation while introducing unprecedented vulnerabilities to manipulation and disinformation. (18) __. Confronted with exponentially expanding information flows, citizens must navigate complex mediascapes where authentic journalism intersects with propaganda, entertainment, and commercial messaging – a navigation process that frequently produces cognitive overload and epistemic fragmentation.\\n\\nTraditional gatekeeping functions, historically exercised by professional journalists and editorial institutions, increasingly prove inadequate when societies confront the democratized yet chaotic information environments characteristic of digital media ecosystems. (19) __. However, despite widespread acknowledgment of media literacy's importance, entrenched commercial interests and algorithmic optimization systems routinely prioritize engagement over accuracy, thereby undermining public discourse quality and institutional credibility.\\n\\n(20) __, progressive media organizations are developing innovative journalistic practices that integrate fact-checking protocols with participatory reporting methodologies and transparent editorial processes. Yet the disparity in implementation remains pronounced: while certain media outlets embrace transformative accountability standards, others remain constrained by commercial pressures, ideological polarization, and technological limitations that fragment the architecture of public information systems. Regulatory debates surrounding platform responsibility proliferate to the extent that (21) __. This unresolved tension perpetuates contentious disputes over free speech boundaries, as democratic societies grapple with balancing information freedom against the protection of democratic discourse from systematic manipulation.\\n\\nDespite these persistent obstacles, the momentum toward media reform has not diminished. Citizen journalism initiatives, media literacy movements, and regulatory advocacy networks continue to exert increasing pressure on policymakers and platform corporations to embrace accountability mechanisms. (22) __.",
         "questionRange": [
           18,
           22
@@ -5276,7 +5276,7 @@ export const thptExams = [
       {
         "id": "thpt-10-p4",
         "title": "Climate Change and Global Migration",
-        "text": "Climate change and global migration have converged into one of the most complex and contentious challenges within contemporary international relations. __What initially emerged as distinct environmental and demographic phenomena has evolved into an interconnected crisis where ecological displacement intersects with geopolitical tensions, economic inequalities, and competing humanitarian frameworks that extend far beyond traditional refugee protection paradigms.__\\n\\nFormulating comprehensive climate migration policies presents extraordinary challenges for governments attempting to balance humanitarian obligations with national security concerns, economic capacity, and domestic political pressures. Policymakers must reconcile conflicting demands from international humanitarian organizations, national security agencies, and anti-immigration constituencies advocating for restrictive border policies. The temporal disconnect between immediate humanitarian needs and long-term adaptation strategies creates sustained political tension that progressively weakens commitment to expansive climate migration assistance programs.\\n\\nEmpirical evidence unambiguously validates the necessity of establishing proactive climate displacement frameworks across all governmental levels. Nevertheless, operationalizing such comprehensive approaches remains extraordinarily challenging: powerful national sovereignty advocates systematically undermine multilateral climate migration agreements by mobilizing nationalist rhetoric, exploiting legal technicalities, and manipulating international arbitration mechanisms that were originally conceived to facilitate humanitarian cooperation but now frequently serve exclusionary political agendas.\\n\\nInternational negotiations concerning climate-induced displacement exemplify these contradictions on a global scale. Despite extensive multilateral declarations and humanitarian commitments, climate migration continues to escalate as nations prioritize border security and economic competitiveness over collective humanitarian responsibility. Landmark frameworks, such as the Global Compact for Migration, represent progress in articulating governance principles, yet implementation remains fragmented due to insufficient funding mechanisms and persistent reluctance among developed nations to accept proportional responsibility.",
+        "text": "Climate change and global migration have converged into one of the most complex and contentious challenges within contemporary international relations. What initially emerged as distinct environmental and demographic phenomena has evolved into an interconnected crisis where ecological displacement intersects with geopolitical tensions, economic inequalities, and competing humanitarian frameworks that extend far beyond traditional refugee protection paradigms.__\\n\\nFormulating comprehensive climate migration policies presents extraordinary challenges for governments attempting to balance humanitarian obligations with national security concerns, economic capacity, and domestic political pressures. Policymakers must reconcile conflicting demands from international humanitarian organizations, national security agencies, and anti-immigration constituencies advocating for restrictive border policies. The temporal disconnect between immediate humanitarian needs and long-term adaptation strategies creates sustained political tension that progressively weakens commitment to expansive climate migration assistance programs.\\n\\nEmpirical evidence unambiguously validates the necessity of establishing proactive climate displacement frameworks across all governmental levels. Nevertheless, operationalizing such comprehensive approaches remains extraordinarily challenging: powerful national sovereignty advocates systematically undermine multilateral climate migration agreements by mobilizing nationalist rhetoric, exploiting legal technicalities, and manipulating international arbitration mechanisms that were originally conceived to facilitate humanitarian cooperation but now frequently serve exclusionary political agendas.\\n\\nInternational negotiations concerning climate-induced displacement exemplify these contradictions on a global scale. Despite extensive multilateral declarations and humanitarian commitments, climate migration continues to escalate as nations prioritize border security and economic competitiveness over collective humanitarian responsibility. Landmark frameworks, such as the Global Compact for Migration, represent progress in articulating governance principles, yet implementation remains fragmented due to insufficient funding mechanisms and persistent reluctance among developed nations to accept proportional responsibility.",
         "questionRange": [
           23,
           30
@@ -5295,7 +5295,7 @@ export const thptExams = [
     "questions": [
       {
         "id": 1,
-        "text": "Question 1",
+        "text": "",
         "options": [
           "exponential",
           "magnitude",
@@ -5308,7 +5308,7 @@ export const thptExams = [
       },
       {
         "id": 2,
-        "text": "Question 2",
+        "text": "",
         "options": [
           "subsequently",
           "nevertheless",
@@ -5321,7 +5321,7 @@ export const thptExams = [
       },
       {
         "id": 3,
-        "text": "Question 3",
+        "text": "",
         "options": [
           "toward",
           "to",
@@ -5334,7 +5334,7 @@ export const thptExams = [
       },
       {
         "id": 4,
-        "text": "Question 4",
+        "text": "",
         "options": [
           "make",
           "take",
@@ -5347,7 +5347,7 @@ export const thptExams = [
       },
       {
         "id": 5,
-        "text": "Question 5",
+        "text": "",
         "options": [
           "monitor",
           "monitoring",
@@ -5360,7 +5360,7 @@ export const thptExams = [
       },
       {
         "id": 6,
-        "text": "Question 6",
+        "text": "",
         "options": [
           "approaches",
           "methodologies",
@@ -5373,7 +5373,7 @@ export const thptExams = [
       },
       {
         "id": 7,
-        "text": "Question 7",
+        "text": "",
         "options": [
           "appreciate",
           "acknowledge",
@@ -5386,7 +5386,7 @@ export const thptExams = [
       },
       {
         "id": 8,
-        "text": "Question 8",
+        "text": "",
         "options": [
           "amount",
           "number",
@@ -5399,7 +5399,7 @@ export const thptExams = [
       },
       {
         "id": 9,
-        "text": "Question 9",
+        "text": "",
         "options": [
           "to operate",
           "operating",
@@ -5412,7 +5412,7 @@ export const thptExams = [
       },
       {
         "id": 10,
-        "text": "Question 10",
+        "text": "",
         "options": [
           "cutting-edge specialized ambitious",
           "specialized ambitious cutting-edge",
@@ -5425,7 +5425,7 @@ export const thptExams = [
       },
       {
         "id": 11,
-        "text": "Question 11",
+        "text": "",
         "options": [
           "pick up",
           "take over",
@@ -5438,7 +5438,7 @@ export const thptExams = [
       },
       {
         "id": 12,
-        "text": "Question 12",
+        "text": "",
         "options": [
           "Few",
           "A few",
@@ -5451,7 +5451,7 @@ export const thptExams = [
       },
       {
         "id": 13,
-        "text": "Q13: Arrange the formal letter.",
+        "text": "Arrange the formal letter.",
         "options": [
           "a–b–c–d–e",
           "b–a–d–c–e",
@@ -5464,7 +5464,7 @@ export const thptExams = [
       },
       {
         "id": 14,
-        "text": "Q14: Arrange the academic paragraph.",
+        "text": "Arrange the academic paragraph.",
         "options": [
           "a–b–c–d–e",
           "b–d–a–c–e",
@@ -5477,7 +5477,7 @@ export const thptExams = [
       },
       {
         "id": 15,
-        "text": "Q15: Arrange the dialogue.",
+        "text": "Arrange the dialogue.",
         "options": [
           "a–b–c",
           "b–a–c",
@@ -5490,7 +5490,7 @@ export const thptExams = [
       },
       {
         "id": 16,
-        "text": "Q16: Arrange the passage.",
+        "text": "Arrange the passage.",
         "options": [
           "a–b–c–d–e",
           "c–a–b–e–d",
@@ -5503,7 +5503,7 @@ export const thptExams = [
       },
       {
         "id": 17,
-        "text": "Q17: Arrange the debate.",
+        "text": "Arrange the debate.",
         "options": [
           "a–b–c–d–e",
           "a–d–e–b–c",
@@ -5516,7 +5516,7 @@ export const thptExams = [
       },
       {
         "id": 18,
-        "text": "Q18: Choose correct grammar.",
+        "text": "Choose correct grammar.",
         "options": [
           "Developed through research, this framework provides solutions",
           "This framework, which developing, provides solutions",
@@ -5529,7 +5529,7 @@ export const thptExams = [
       },
       {
         "id": 19,
-        "text": "Q19: Choose correct sentence.",
+        "text": "Choose correct sentence.",
         "options": [
           "Researchers who conducted experiments have published findings",
           "Experiments having conducted by researchers published findings",
@@ -5542,7 +5542,7 @@ export const thptExams = [
       },
       {
         "id": 20,
-        "text": "Q20: Choose correct transition.",
+        "text": "Choose correct transition.",
         "options": [
           "In response to these concerns",
           "Responded to these concerns",
@@ -5555,7 +5555,7 @@ export const thptExams = [
       },
       {
         "id": 21,
-        "text": "Q21: Choose correct clause.",
+        "text": "Choose correct clause.",
         "options": [
           "the rapid advancement creates new challenges",
           "technology rapidly advancing creates challenges",
@@ -5568,7 +5568,7 @@ export const thptExams = [
       },
       {
         "id": 22,
-        "text": "Q22: Choose best conclusion.",
+        "text": "Choose best conclusion.",
         "options": [
           "Future developments will undoubtedly reshape our understanding",
           "Our understanding will hardly be reshaped",
