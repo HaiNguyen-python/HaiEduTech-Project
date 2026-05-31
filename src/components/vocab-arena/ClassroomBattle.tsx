@@ -167,7 +167,7 @@ const ClassroomBattle = ({ onBack }: ClassroomBattleProps) => {
     setPhase("results");
 
     if (participantId) {
-      await supabase
+      const { error } = await supabase
         .from("game_participants")
         .update({
           score: gameResult.score,
@@ -178,6 +178,10 @@ const ClassroomBattle = ({ onBack }: ClassroomBattleProps) => {
           finished_at: new Date().toISOString(),
         })
         .eq("id", participantId);
+      if (error) {
+        // Surface so teachers can see why their leaderboard might be stale.
+        console.error("[ClassroomBattle] final score write failed", error);
+      }
     }
   };
 
