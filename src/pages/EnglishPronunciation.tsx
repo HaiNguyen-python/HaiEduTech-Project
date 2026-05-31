@@ -48,7 +48,7 @@ import { toast } from "sonner";
 
 type Accent = "en-GB" | "en-US";
 
-const speak = (text: string, accent: Accent = "en-US", rate = 0.9) => {
+const speak = (text: string, accent: Accent = "en-US", rate = 0.75) => {
   if (typeof window === "undefined" || !("speechSynthesis" in window)) {
     toast.error("Trình duyệt không hỗ trợ phát âm tự động");
     return;
@@ -58,13 +58,33 @@ const speak = (text: string, accent: Accent = "en-US", rate = 0.9) => {
   utter.lang = accent;
   utter.rate = rate;
   utter.pitch = 1;
-  // Try to pick a matching accent voice if available
+  utter.volume = 1;
   const voices = window.speechSynthesis.getVoices();
+  // Prefer high-quality natural voices when the browser exposes them
+  const preferred = voices.find(
+    (v) => v.lang === accent && /natural|neural|google|samantha|daniel|aria|jenny/i.test(v.name),
+  );
   const match =
+    preferred ||
     voices.find((v) => v.lang === accent) ||
     voices.find((v) => v.lang.startsWith(accent.slice(0, 2)));
   if (match) utter.voice = match;
   window.speechSynthesis.speak(utter);
+};
+
+/**
+ * Speak a comma-separated list of example words with natural pauses between
+ * them so ALL the example words are heard clearly (no clipped, jumpy delivery).
+ * Uses " ... " between words which SpeechSynthesis renders as a soft pause.
+ */
+const speakExamples = (csv: string, accent: Accent = "en-US") => {
+  const words = csv
+    .split(",")
+    .map((w) => w.replace(/\(.+?\)/g, "").trim())
+    .filter(Boolean);
+  if (words.length === 0) return;
+  const phrase = words.join(" ... ");
+  speak(phrase, accent, 0.7);
 };
 
 /* -------------------------------------------------------------------------- */
@@ -80,49 +100,59 @@ interface PhonemeRow {
 }
 
 const VOWELS: PhonemeRow[] = [
-  { ipa: "/iː/", example: "see, tree, beach", vi: "Âm i dài, kéo căng môi", tip: "Mỉm cười, kéo dài âm i", tipEn: "Smile and stretch the i sound" },
-  { ipa: "/ɪ/", example: "sit, ship, bit", vi: "i ngắn, môi thả lỏng", tip: "Ngắn và lỏng, đừng kéo dài", tipEn: "Short and lax, don't stretch" },
-  { ipa: "/e/", example: "bed, head, said", vi: "e ngắn rõ ràng", tip: "Mở miệng vừa, lưỡi giữa", tipEn: "Mid-open mouth, mid tongue" },
-  { ipa: "/æ/", example: "cat, hat, bad", vi: "a bẹt, đặc trưng Mỹ", tip: "Hạ hàm, kéo dài hơn /e/", tipEn: "Drop jaw, longer than /e/" },
-  { ipa: "/ʌ/", example: "cup, love, sun", vi: "â trầm, ngắn", tip: "Như tiếng 'ơ' bật nhẹ", tipEn: "Like a soft 'uh'" },
-  { ipa: "/ɑː/", example: "car, father, palm", vi: "a dài, mở miệng to", tip: "Hạ lưỡi, mở rộng miệng", tipEn: "Lower tongue, open wide" },
-  { ipa: "/ɒ/", example: "hot, dog, lot (UK)", vi: "o tròn ngắn (Anh-Anh)", tip: "Tròn môi, ngắn", tipEn: "Round lips, keep it short" },
-  { ipa: "/ɔː/", example: "law, bought, four", vi: "o dài tròn môi", tip: "Tròn môi, kéo dài", tipEn: "Rounded lips, hold the sound" },
-  { ipa: "/ʊ/", example: "book, put, good", vi: "u ngắn, môi tròn nhẹ", tip: "Ngắn và lỏng môi", tipEn: "Short with relaxed lips" },
-  { ipa: "/uː/", example: "food, blue, moon", vi: "u dài, môi chu", tip: "Đẩy môi thật xa", tipEn: "Push lips far forward" },
-  { ipa: "/ə/", example: "about, sofa, banana", vi: "Schwa - âm yếu phổ biến nhất", tip: "Cực ngắn, gần như nuốt", tipEn: "Very short, nearly swallowed" },
-  { ipa: "/ɜː/", example: "bird, work, learn", vi: "ơ dài, lưỡi giữa", tip: "Giữ lưỡi giữa, kéo dài", tipEn: "Keep tongue mid, sustain" },
+  { ipa: "/iː/", example: "see, tree, beach", vi: "Âm 'i' kéo dài, miệng mỉm cười, lưỡi đẩy cao về phía trước. Giống chữ 'i' trong 'in' nhưng giữ lâu gấp đôi.", tip: "Mỉm cười rộng, kéo dài âm 'i' khoảng 2 nhịp", tipEn: "Smile wide and hold the 'ee' for 2 beats" },
+  { ipa: "/ɪ/", example: "sit, ship, bit", vi: "Âm 'i' ngắn, môi và lưỡi thả lỏng hoàn toàn. KHÔNG kéo dài, KHÔNG mỉm cười rộng như /iː/.", tip: "Bật nhanh, lỏng môi, ngắn gọn như 'ích'", tipEn: "Quick, relaxed, short - don't stretch" },
+  { ipa: "/e/", example: "bed, head, said", vi: "Âm 'e' rõ ràng giống 'e' trong 'em', mở miệng vừa phải, lưỡi ở vị trí giữa.", tip: "Mở miệng vừa, đầu lưỡi chạm răng dưới", tipEn: "Mid-open mouth, tongue tip touching lower teeth" },
+  { ipa: "/æ/", example: "cat, hat, bad", vi: "Âm trung gian giữa 'a' và 'e' - hạ hàm thấp xuống, kéo miệng ngang sang hai bên như đang cười nhẹ. Đặc trưng giọng Mỹ.", tip: "Hạ hàm và kéo miệng ngang - phát âm hơi 'bẹt'", tipEn: "Drop jaw, stretch lips sideways - sounds 'flat'" },
+  { ipa: "/ʌ/", example: "cup, love, sun", vi: "Âm 'ă' ngắn trầm, giống 'â' trong 'ấm' nhưng ngắn hơn. Miệng mở vừa, lưỡi nằm giữa, thả lỏng.", tip: "Bật ngắn như tiếng 'ă' nhẹ, không kéo dài", tipEn: "Short, soft 'uh' - keep it brief" },
+  { ipa: "/ɑː/", example: "car, father, palm", vi: "Âm 'a' kéo dài, mở miệng to hết cỡ như khi bác sĩ khám họng. Lưỡi hạ thấp về phía sau.", tip: "Mở miệng to, hạ lưỡi thấp, giữ âm 2 nhịp", tipEn: "Open mouth wide, lower the tongue, hold 2 beats" },
+  { ipa: "/ɒ/", example: "hot, dog, lot (UK)", vi: "Âm 'o' ngắn tròn môi - chỉ dùng trong giọng Anh-Anh. Giọng Mỹ thay bằng /ɑː/.", tip: "Tròn môi nhẹ, bật ngắn", tipEn: "Slightly rounded lips, short release" },
+  { ipa: "/ɔː/", example: "law, bought, four", vi: "Âm 'o' kéo dài và tròn môi, giống chữ 'o' trong 'no' của tiếng Việt nhưng giữ lâu hơn nhiều.", tip: "Tròn môi đều, kéo dài âm 'o' 2 nhịp", tipEn: "Round lips firmly, hold the 'aw' for 2 beats" },
+  { ipa: "/ʊ/", example: "book, put, good", vi: "Âm 'u' ngắn, môi tròn nhẹ và thả lỏng. Ngắn và mềm, không chu môi mạnh.", tip: "Tròn môi nhẹ, bật nhanh như 'ục'", tipEn: "Light round, quick - like 'oo' in 'book'" },
+  { ipa: "/uː/", example: "food, blue, moon", vi: "Âm 'u' kéo dài, chu môi nhọn ra phía trước thật xa. Giữ âm đều và lâu.", tip: "Chu môi nhọn về phía trước, kéo dài 2 nhịp", tipEn: "Push lips far forward in a tight 'O', hold 2 beats" },
+  { ipa: "/ə/", example: "about, sofa, banana", vi: "Schwa - âm 'ơ' rất ngắn và yếu, gần như nuốt vào. Đây là âm phổ biến nhất trong tiếng Anh, xuất hiện ở những âm tiết KHÔNG có trọng âm.", tip: "Bật cực nhanh, gần như nuốt - đừng phát âm rõ", tipEn: "Super quick 'uh', almost swallowed - never stressed" },
+  { ipa: "/ɜː/", example: "bird, work, learn", vi: "Âm 'ơ' kéo dài, lưỡi giữ ở giữa khoang miệng, môi không tròn. Giống 'ơ' trong 'mơ' nhưng giữ lâu gấp đôi.", tip: "Giữ lưỡi giữa miệng, kéo dài âm 'ơ' đều", tipEn: "Keep tongue centered, hold the 'er' sound steady" },
 ];
 
 const CONSONANTS: PhonemeRow[] = [
-  { ipa: "/θ/", example: "think, thank, three", vi: "Lưỡi giữa hai răng, hơi xì", tip: "Đặt đầu lưỡi giữa hai hàm răng", tipEn: "Tongue tip between teeth" },
-  { ipa: "/ð/", example: "this, that, mother", vi: "Như /θ/ nhưng có rung", tip: "Như /θ/, nhưng rung dây thanh", tipEn: "Voiced /θ/ - feel vibration" },
-  { ipa: "/ʃ/", example: "she, ship, fashion", vi: "Sh - môi tròn nhẹ", tip: "Tròn môi, hơi đẩy phía trước", tipEn: "Round lips, push air forward" },
-  { ipa: "/ʒ/", example: "vision, measure", vi: "Như /ʃ/ nhưng rung", tip: "Voiced /ʃ/", tipEn: "Voiced version of /ʃ/" },
-  { ipa: "/tʃ/", example: "church, cheese, watch", vi: "Ch - bật + xì", tip: "Bật khí mạnh + đuôi /ʃ/", tipEn: "Stop + release into /ʃ/" },
-  { ipa: "/dʒ/", example: "judge, gem, age", vi: "J - như /tʃ/ có rung", tip: "Voiced /tʃ/", tipEn: "Voiced version of /tʃ/" },
-  { ipa: "/ŋ/", example: "sing, ring, long", vi: "Ng cuối từ, không bật /g/", tip: "Đừng phát âm chữ g cuối", tipEn: "Don't pop the final g" },
-  { ipa: "/r/", example: "red, very, around", vi: "R cuộn lưỡi nhẹ", tip: "Lưỡi cong lên, không chạm vòm", tipEn: "Curl tongue but don't touch roof" },
-  { ipa: "/l/", example: "light vs feel", vi: "L sáng đầu / L tối cuối", tip: "Đầu từ: nhẹ. Cuối từ: 'tối' hơn", tipEn: "Light L initial, dark L final" },
-  { ipa: "/v/", example: "very, voice, love", vi: "Răng trên cắn nhẹ môi dưới", tip: "Khác với /w/ - có rung", tipEn: "Lip-teeth contact, voiced" },
-  { ipa: "/w/", example: "we, wait, away", vi: "Tròn môi, không cắn", tip: "Khác /v/: tròn môi, không răng", tipEn: "Rounded lips, no teeth" },
+  // Tricky / signature English consonants (the ones Vietnamese learners struggle with most)
+  { ipa: "/θ/", example: "think, thank, three", vi: "Đặt đầu lưỡi giữa hai hàm răng rồi đẩy hơi ra - KHÔNG rung dây thanh. Người Việt thường nhầm thành /t/ hoặc /s/.", tip: "Cắn nhẹ đầu lưỡi, thổi hơi nhẹ ra", tipEn: "Tongue tip lightly between teeth, push air out (no voice)" },
+  { ipa: "/ð/", example: "this, that, mother", vi: "Giống /θ/ - đầu lưỡi giữa hai răng - NHƯNG có rung dây thanh. Đặt tay lên cổ sẽ thấy rung.", tip: "Như /θ/ nhưng RUNG cổ họng - đặt tay lên cổ để kiểm tra", tipEn: "Same as /θ/ but VOICED - feel vibration in your throat" },
+  { ipa: "/ʃ/", example: "she, ship, fashion", vi: "Âm 'sh' - chu môi nhẹ về phía trước, đẩy hơi qua khe giữa lưỡi và vòm miệng. KHÔNG rung.", tip: "Chu môi nhẹ, thổi hơi dài 'sh-sh-sh'", tipEn: "Slightly rounded lips, sustained 'sh' airflow" },
+  { ipa: "/ʒ/", example: "vision, measure, garage", vi: "Giống /ʃ/ nhưng có rung dây thanh. Khá hiếm, thường xuất hiện ở giữa từ.", tip: "Như /ʃ/ nhưng có rung cổ họng", tipEn: "Voiced /ʃ/ - add throat vibration" },
+  { ipa: "/tʃ/", example: "church, cheese, watch", vi: "Âm 'ch' - bật mạnh đầu lưỡi vào vòm miệng rồi thả thành /ʃ/. Giống 'ch' trong tiếng Việt nhưng mạnh hơn.", tip: "Bật /t/ rồi nối liền sang /ʃ/", tipEn: "Stop with /t/, then release into /ʃ/" },
+  { ipa: "/dʒ/", example: "judge, gem, age", vi: "Giống /tʃ/ nhưng có rung dây thanh. Là âm 'j' trong tiếng Anh.", tip: "Như /tʃ/ nhưng RUNG cổ họng", tipEn: "Voiced /tʃ/ - same gesture, add voice" },
+  { ipa: "/ŋ/", example: "sing, ring, long", vi: "Âm 'ng' ở CUỐI từ - KHÔNG được bật chữ 'g' phía sau. Người Việt hay phát âm thành 'sing-gờ'.", tip: "Đừng bật 'g' cuối - chỉ giữ âm 'ng' trong mũi", tipEn: "Stop at the nasal 'ng' - never release a 'g' after" },
+  { ipa: "/r/", example: "red, very, around", vi: "Cong đầu lưỡi lên nhưng KHÔNG chạm vòm miệng, môi hơi tròn. KHÁC với /r/ rung của tiếng Việt.", tip: "Cong lưỡi lên không chạm vòm, môi hơi tròn", tipEn: "Curl tongue up without touching roof, lips slightly rounded" },
+  { ipa: "/l/", example: "light, feel, full", vi: "L 'sáng' ở đầu từ (đặt đầu lưỡi sau răng trên), L 'tối' ở cuối từ (lưỡi kéo về sau, âm trầm hơn).", tip: "Đầu từ: đầu lưỡi sau răng trên. Cuối từ: lưỡi kéo về sau", tipEn: "Initial: tongue tip behind upper teeth. Final: tongue pulls back" },
+  { ipa: "/v/", example: "very, voice, love", vi: "Răng trên cắn nhẹ lên môi dưới, đẩy hơi ra và RUNG dây thanh. KHÁC /w/ - phải có răng chạm môi.", tip: "Răng trên chạm môi dưới + rung cổ họng", tipEn: "Upper teeth on lower lip + voiced" },
+  { ipa: "/w/", example: "we, wait, away", vi: "Chu môi tròn nhọn như khi huýt sáo, KHÔNG cho răng chạm môi. Người Việt hay nhầm /w/ với /v/.", tip: "Chu môi tròn, KHÔNG có răng chạm môi", tipEn: "Round lips like whistling, NO teeth contact" },
+  // Common voiceless / voiced stops & fricatives (added for a complete chart)
+  { ipa: "/p/", example: "pen, top, happy", vi: "Bật hai môi mạnh, KHÔNG rung. Khi ở đầu từ phải có hơi bật mạnh (cầm tờ giấy trước miệng sẽ rung).", tip: "Mím môi rồi bật mạnh - có hơi bật ra", tipEn: "Press lips, release with a puff of air" },
+  { ipa: "/b/", example: "book, big, job", vi: "Bật hai môi giống /p/ nhưng có RUNG dây thanh, không có hơi bật mạnh.", tip: "Như /p/ nhưng có rung cổ họng, ít hơi", tipEn: "Like /p/ but voiced - little to no air puff" },
+  { ipa: "/t/", example: "ten, time, cat", vi: "Đầu lưỡi chạm sau răng trên rồi bật ra mạnh. Ở đầu từ phải có hơi bật (aspirated).", tip: "Đầu lưỡi sau răng trên - bật mạnh có hơi", tipEn: "Tongue tip behind upper teeth, sharp release" },
+  { ipa: "/d/", example: "dog, dark, bad", vi: "Giống /t/ nhưng có RUNG dây thanh. Cuối từ phải phát âm rõ - người Việt hay nuốt mất.", tip: "Như /t/ nhưng có rung - đừng bỏ /d/ cuối từ", tipEn: "Voiced /t/ - never drop the final /d/" },
+  { ipa: "/k/", example: "key, car, back", vi: "Phần SAU của lưỡi nâng lên chạm vòm mềm rồi bật ra. Ở đầu từ có hơi bật mạnh.", tip: "Cuống lưỡi chạm vòm mềm rồi bật ra", tipEn: "Back of tongue against soft palate, release with air" },
+  { ipa: "/g/", example: "go, big, again", vi: "Giống /k/ nhưng có RUNG dây thanh, ít hơi bật hơn.", tip: "Như /k/ nhưng có rung cổ họng", tipEn: "Voiced /k/ - same gesture with voice" },
+  { ipa: "/f/", example: "fish, four, off", vi: "Răng trên cắn nhẹ môi dưới, thổi hơi ra - KHÔNG rung. Đây là /v/ phiên bản không rung.", tip: "Răng trên chạm môi dưới, thổi hơi (không rung)", tipEn: "Upper teeth on lower lip, voiceless airflow" },
+  { ipa: "/s/", example: "sun, see, kiss", vi: "Đầu lưỡi gần (không chạm) sau răng trên, đẩy hơi qua khe để tạo tiếng 'xì'. KHÔNG rung.", tip: "Đầu lưỡi gần răng trên - thổi hơi 'xì'", tipEn: "Tongue tip near upper teeth, hiss the air out" },
+  { ipa: "/z/", example: "zoo, busy, dogs", vi: "Giống /s/ nhưng có RUNG dây thanh. Cuối từ số nhiều sau nguyên âm thường là /z/.", tip: "Như /s/ nhưng có rung cổ họng", tipEn: "Voiced /s/ - same hiss with throat vibration" },
+  { ipa: "/h/", example: "hat, hello, who", vi: "Chỉ đơn giản thổi hơi ra từ cổ họng - như khi thở dài. KHÔNG dùng dây thanh.", tip: "Thổi hơi nhẹ ra từ cổ, không tạo tiếng", tipEn: "Just exhale a soft puff of air from the throat" },
+  { ipa: "/m/", example: "man, swim, time", vi: "Mím hai môi và rung dây thanh - âm thoát qua mũi. Giống 'm' trong tiếng Việt.", tip: "Mím môi, để âm thoát qua mũi", tipEn: "Close lips, let voiced sound resonate through nose" },
+  { ipa: "/n/", example: "no, run, sun", vi: "Đầu lưỡi chạm sau răng trên và rung dây thanh - âm thoát qua mũi. Giống 'n' trong tiếng Việt.", tip: "Đầu lưỡi sau răng trên, âm qua mũi", tipEn: "Tongue tip behind upper teeth, nasal voiced sound" },
+  { ipa: "/j/", example: "yes, you, yellow", vi: "Âm 'y' đầu từ - lưỡi nâng cao gần vòm miệng rồi trượt nhanh sang nguyên âm tiếp theo. KHÔNG phải /j/ trong tiếng Pháp.", tip: "Lưỡi cao gần vòm rồi trượt nhanh - như 'y' trong 'yêu'", tipEn: "Quick glide from high tongue position into the next vowel" },
 ];
 
-// 8 diphthongs (nguyên âm đôi) + 5 triphthongs (nguyên âm ba) commonly tested
+// 8 nguyên âm đôi (diphthongs) chuẩn của tiếng Anh
 const DIPHTHONGS: PhonemeRow[] = [
-  { ipa: "/eɪ/", example: "day, face, make, rain", vi: "ê-i: bắt đầu /e/ trượt sang /ɪ/", tip: "Bắt đầu rộng miệng, kết thúc khép môi như 'i'", tipEn: "Start open, glide to a closed 'i'" },
-  { ipa: "/aɪ/", example: "my, time, light, eye", vi: "a-i: bắt đầu /a/ trượt sang /ɪ/", tip: "Mở miệng to ở 'a', khép nhanh sang 'i'", tipEn: "Wide 'a' then quick glide to 'i'" },
-  { ipa: "/ɔɪ/", example: "boy, coin, voice, enjoy", vi: "ô-i: bắt đầu /ɔː/ tròn môi trượt sang /ɪ/", tip: "Tròn môi ở 'o', kéo căng môi sang 'i'", tipEn: "Round 'o' then stretch lips to 'i'" },
-  { ipa: "/aʊ/", example: "now, how, house, town", vi: "a-u: bắt đầu /a/ trượt sang /ʊ/", tip: "Mở miệng to rồi chu môi tròn lại", tipEn: "Wide 'a' then round lips to 'oo'" },
-  { ipa: "/əʊ/ (UK) /oʊ/ (US)", example: "go, home, no, slow", vi: "ơ-u (UK) / ô-u (US)", tip: "UK bắt đầu /ə/, US bắt đầu /o/ tròn môi nhẹ", tipEn: "UK starts /ə/, US starts rounded /o/" },
-  { ipa: "/ɪə/", example: "here, near, ear, beer (UK)", vi: "i-ơ (Anh-Anh, không phát âm /r/)", tip: "Anh-Mỹ thường thay bằng /ɪr/", tipEn: "American replaces with /ɪr/" },
-  { ipa: "/eə/", example: "hair, care, bear, where (UK)", vi: "e-ơ (Anh-Anh)", tip: "Anh-Mỹ thường thay bằng /er/", tipEn: "American replaces with /er/" },
-  { ipa: "/ʊə/", example: "tour, sure, poor (UK)", vi: "u-ơ (Anh-Anh, đang biến mất)", tip: "Đa số người nói trẻ dùng /ɔː/", tipEn: "Most younger speakers use /ɔː/" },
-  { ipa: "/aɪə/", example: "fire, hire, tired, liar", vi: "Triphthong: a-i-ơ", tip: "Trượt mượt qua 3 âm, đừng tách rời", tipEn: "Glide smoothly through 3 sounds" },
-  { ipa: "/aʊə/", example: "hour, our, flower, power", vi: "Triphthong: a-u-ơ", tip: "Anh-Mỹ thường nuốt thành /aʊr/", tipEn: "American often collapses to /aʊr/" },
-  { ipa: "/eɪə/", example: "player, layer", vi: "Triphthong: ê-i-ơ", tip: "Trượt liền mạch, không tách thành 2 âm tiết", tipEn: "Glide as one - don't split into 2 syllables" },
-  { ipa: "/ɔɪə/", example: "loyal, royal, employer", vi: "Triphthong: ô-i-ơ", tip: "Bắt đầu tròn môi, kết thúc lưỡi giữa", tipEn: "Round start, mid-tongue end" },
-  { ipa: "/əʊə/", example: "lower, mower, slower", vi: "Triphthong: ơ-u-ơ (UK)", tip: "Khó với người Việt - luyện chậm rồi tăng tốc", tipEn: "Tough for Vietnamese - drill slowly, then speed up" },
+  { ipa: "/eɪ/", example: "day, face, make", vi: "Trượt từ /e/ sang /ɪ/ - bắt đầu mở miệng vừa, kết thúc khép môi như chữ 'i'. Giống 'ây' trong 'mây' nhưng dài và mềm hơn.", tip: "Bắt đầu 'e', trượt mượt sang 'i' trong cùng một hơi", tipEn: "Start with 'e', glide smoothly to 'i' in one breath" },
+  { ipa: "/aɪ/", example: "my, time, eye", vi: "Trượt từ /a/ sang /ɪ/ - mở miệng to ở 'a' rồi khép nhanh sang 'i'. Giống 'ai' trong 'tai' của tiếng Việt.", tip: "Mở miệng to ở 'a', khép nhanh sang 'i'", tipEn: "Open wide on 'a', then quickly close to 'i'" },
+  { ipa: "/ɔɪ/", example: "boy, coin, voice", vi: "Trượt từ /ɔː/ sang /ɪ/ - bắt đầu tròn môi ở 'o', kéo căng môi sang 'i'. Giống 'oi' trong 'tôi'.", tip: "Tròn môi ở 'o', kéo căng môi sang 'i'", tipEn: "Round lips on 'o', stretch to 'i'" },
+  { ipa: "/aʊ/", example: "now, how, house", vi: "Trượt từ /a/ sang /ʊ/ - mở miệng to ở 'a' rồi chu môi tròn sang 'u'. Giống 'ao' trong 'cao' của tiếng Việt.", tip: "Mở to ở 'a', chu môi tròn sang 'u'", tipEn: "Wide 'a', then round lips into 'u'" },
+  { ipa: "/əʊ/ (UK) · /oʊ/ (US)", example: "go, home, slow", vi: "Trượt từ /ə/ (UK) hoặc /o/ (US) sang /ʊ/. Anh-Mỹ tròn môi mạnh hơn, Anh-Anh bắt đầu trung tính hơn. Giống 'âu' trong 'sâu'.", tip: "Anh-Mỹ tròn môi mạnh hơn, Anh-Anh nhẹ hơn", tipEn: "American rounds the lips more; British starts more neutral" },
+  { ipa: "/ɪə/", example: "here, near, ear", vi: "Trượt từ /ɪ/ sang /ə/ - chỉ dùng trong giọng Anh-Anh (không phát âm chữ 'r'). Giọng Mỹ thay bằng /ɪr/.", tip: "UK: trượt 'i-ơ' không có 'r'. US: phát âm /ɪr/", tipEn: "UK: glide 'i-uh' (no /r/). US: pronounce /ɪr/ instead" },
+  { ipa: "/eə/", example: "hair, care, where", vi: "Trượt từ /e/ sang /ə/ - chỉ dùng trong giọng Anh-Anh. Giọng Mỹ thay bằng /er/.", tip: "UK: trượt 'e-ơ'. US: phát âm /er/", tipEn: "UK: glide 'e-uh'. US: pronounce /er/ instead" },
+  { ipa: "/ʊə/", example: "tour, sure, poor", vi: "Trượt từ /ʊ/ sang /ə/ - chỉ trong giọng Anh-Anh cổ điển, đang biến mất. Đa số người nói trẻ thay bằng /ɔː/.", tip: "Hiếm gặp - đa số người nói trẻ dùng /ɔː/ thay thế", tipEn: "Rare nowadays - most young speakers use /ɔː/" },
 ];
 
 interface VnMistake {
@@ -1193,35 +1223,51 @@ const EnglishPronunciation = () => {
               icon={Layers3}
               title={t("Bảng phiên âm IPA", "IPA Phoneme Chart")}
               subtitle={t(
-                "44 âm vị tiếng Anh chuẩn (gồm 12 nguyên âm đơn, 8 nguyên âm đôi + 5 nguyên âm ba, và phụ âm khó) - bấm 🔊 để nghe, bấm 🎤 Speak để máy chấm phát âm của bạn.",
-                "44 standard English phonemes (12 monophthongs, 8 diphthongs + 5 triphthongs, plus tricky consonants) - tap 🔊 to listen, tap 🎤 Speak for instant scoring.",
+                "44 âm vị tiếng Anh: 12 nguyên âm đơn, 8 nguyên âm đôi và 24 phụ âm. Bấm 🔊 để nghe đọc cả 3 từ ví dụ mượt mà; bấm 🎤 Speak để máy chấm phát âm của bạn.",
+                "44 English phonemes: 12 monophthongs, 8 diphthongs, and 24 consonants. Tap 🔊 to hear all 3 example words smoothly; tap 🎤 Speak for instant pronunciation scoring.",
               )}
             />
             <div className="grid lg:grid-cols-3 gap-6">
               {[
-                { title: t("Nguyên âm đơn (Monophthongs)", "Monophthongs"), rows: VOWELS, color: "from-amber-500/15 to-amber-500/5", border: "border-amber-500/30" },
-                { title: t("Nguyên âm đôi & ba (Diphthongs & Triphthongs)", "Diphthongs & Triphthongs"), rows: DIPHTHONGS, color: "from-fuchsia-500/15 to-fuchsia-500/5", border: "border-fuchsia-500/30" },
-                { title: t("Phụ âm khó (Consonants)", "Tricky Consonants"), rows: CONSONANTS, color: "from-sky-500/15 to-sky-500/5", border: "border-sky-500/30" },
+                { title: t("Nguyên âm đơn (Monophthongs)", "Monophthongs"), rows: VOWELS, color: "from-amber-500/15 to-amber-500/5", border: "border-amber-500/30", count: VOWELS.length },
+                { title: t("Nguyên âm đôi (Diphthongs)", "Diphthongs"), rows: DIPHTHONGS, color: "from-fuchsia-500/15 to-fuchsia-500/5", border: "border-fuchsia-500/30", count: DIPHTHONGS.length },
+                { title: t("Phụ âm (Consonants)", "Consonants"), rows: CONSONANTS, color: "from-sky-500/15 to-sky-500/5", border: "border-sky-500/30", count: CONSONANTS.length },
               ].map((group) => (
-                <div key={group.title} className={`rounded-2xl border ${group.border} bg-gradient-to-br ${group.color} p-5`}>
-                  <h3 className="font-display font-bold text-lg mb-4 text-foreground">{group.title}</h3>
-                  <div className="space-y-2">
+                <div key={group.title} className={`rounded-2xl border-2 ${group.border} bg-gradient-to-br ${group.color} p-5 shadow-sm`}>
+                  <div className="flex items-baseline justify-between mb-4">
+                    <h3 className="font-display font-bold text-lg text-foreground">{group.title}</h3>
+                    <span className="text-xs font-bold text-muted-foreground bg-card/80 px-2 py-0.5 rounded-full border border-border/60">
+                      {group.count} {t("âm", "sounds")}
+                    </span>
+                  </div>
+                  <div className="space-y-2.5">
                     {group.rows.map((row) => {
-                      const firstWord = row.example.split(",")[0].trim();
+                      const firstWord = row.example.split(",")[0].replace(/\(.+?\)/g, "").trim();
                       return (
-                        <div key={row.ipa} className="bg-card/80 backdrop-blur-sm rounded-lg p-3 border border-border/60">
-                          <div className="flex items-center justify-between mb-1.5 gap-2 flex-wrap">
-                            <div className="flex items-center gap-3">
-                              <span className="font-mono font-bold text-primary text-lg">{row.ipa}</span>
-                              <span className="text-sm text-foreground">{row.example}</span>
+                        <div key={row.ipa} className="bg-card/90 backdrop-blur-sm rounded-xl p-3.5 border border-border/60 shadow-sm hover:shadow-md transition-shadow">
+                          <div className="flex items-center justify-between mb-2 gap-2 flex-wrap">
+                            <div className="flex items-center gap-3 flex-wrap min-w-0">
+                              <span className="font-mono font-bold text-primary text-xl leading-none">{row.ipa}</span>
+                              <span className="text-sm text-foreground font-medium">{row.example}</span>
                             </div>
-                            <div className="flex items-center gap-1.5">
-                              <PlayBtn text={firstWord} small />
+                            <div className="flex items-center gap-1.5 shrink-0">
+                              <button
+                                onClick={() => speakExamples(row.example, "en-US")}
+                                className="inline-flex items-center gap-1.5 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors font-medium px-2.5 py-1 text-xs"
+                                aria-label={`Play all examples: ${row.example}`}
+                                title={t("Nghe cả 3 từ ví dụ", "Play all 3 examples")}
+                              >
+                                <Volume2 className="w-3.5 h-3.5" />
+                                🇺🇸
+                              </button>
                               <SpeakCheck target={firstWord} small />
                             </div>
                           </div>
-                          <p className="text-xs text-muted-foreground">
-                            💡 {t(row.tip, row.tipEn)} · <span className="italic">{row.vi}</span>
+                          <p className="text-[13px] leading-relaxed text-foreground/80">
+                            <span className="font-semibold text-foreground">💡 {t(row.tip, row.tipEn)}</span>
+                          </p>
+                          <p className="text-xs leading-relaxed text-muted-foreground mt-1.5">
+                            {t(row.vi, row.tipEn)}
                           </p>
                         </div>
                       );
@@ -1231,6 +1277,7 @@ const EnglishPronunciation = () => {
               ))}
             </div>
           </TabsContent>
+
 
           {/* ============== Minimal pairs ============== */}
           <TabsContent value="minpairs" className="space-y-6">
