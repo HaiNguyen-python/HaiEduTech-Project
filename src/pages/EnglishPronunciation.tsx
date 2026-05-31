@@ -10,7 +10,7 @@
  * either an en-GB or en-US voice (no backend required, no API keys). All copy
  * is bilingual via useLanguage().
  */
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -30,6 +30,9 @@ import {
   Layers3,
   AudioLines,
   Trophy,
+  Mic,
+  AlertTriangle,
+  Loader2,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
