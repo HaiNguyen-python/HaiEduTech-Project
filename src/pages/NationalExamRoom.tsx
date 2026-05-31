@@ -15,16 +15,30 @@ import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { arrangementSentences } from "@/data/arrangementSentences";
 
 
-// Renders passage text: __sentence__ → underlined; [I]/[II]/[III]/[IV] → colored chip.
+// Renders passage text:
+//   __sentence__       → underlined highlight
+//   [I]/[II]/[III]/[IV] → colored insertion chip
+//   (N) ___            → numbered blank pill (easier on the eye)
 const renderPassageText = (text: string) => {
-  // Split into tokens by markers
-  const tokens = text.split(/(__[^_]+__|\[(?:I{1,3}|IV)\])/g);
+  const tokens = text.split(/(__[^_]+__|\[(?:I{1,3}|IV)\]|\(\d{1,2}\)\s*_{2,}|_{3,})/g);
   return tokens.map((tok, i) => {
     if (!tok) return null;
-    const m = tok.match(/^__([^_]+)__$/);
-    if (m) return <u key={i} className="decoration-primary decoration-2 underline-offset-4 font-semibold text-foreground">{m[1]}</u>;
+    const u = tok.match(/^__([^_]+)__$/);
+    if (u) return <u key={i} className="decoration-primary decoration-2 underline-offset-4 font-semibold text-foreground">{u[1]}</u>;
     if (/^\[(I{1,3}|IV)\]$/.test(tok)) {
       return <span key={i} className="inline-flex items-center justify-center min-w-[28px] h-6 px-1.5 mx-0.5 rounded bg-primary/15 text-primary font-bold text-xs align-middle">{tok}</span>;
+    }
+    const nb = tok.match(/^\((\d{1,2})\)\s*_{2,}$/);
+    if (nb) {
+      return (
+        <span key={i} className="inline-flex items-center gap-1.5 mx-1 align-middle">
+          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primary/15 text-primary font-bold text-xs">{nb[1]}</span>
+          <span className="inline-block min-w-[80px] border-b-2 border-dashed border-primary/60 h-[1.1em]" />
+        </span>
+      );
+    }
+    if (/^_{3,}$/.test(tok)) {
+      return <span key={i} className="inline-block min-w-[80px] mx-1 border-b-2 border-dashed border-primary/60 h-[1.1em] align-middle" />;
     }
     return <span key={i}>{tok}</span>;
   });
