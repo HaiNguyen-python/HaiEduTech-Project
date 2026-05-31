@@ -104,6 +104,7 @@ const NationalExamPrep = lazy(() => import("./pages/NationalExamPrep.tsx"));
 const NationalExamRoom = lazy(() => import("./pages/NationalExamRoom.tsx"));
 const ThptEssentialReview = lazy(() => import("./pages/ThptEssentialReview.tsx"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard.tsx"));
+const AdminAssignments = lazy(() => import("./pages/AdminAssignments.tsx"));
 const LanguageLessonView = lazy(() => import("./pages/LanguageLessonView.tsx"));
 const ConversationalDashboard = lazy(() => import("./pages/ConversationalDashboard.tsx"));
 const ConversationalLessonView = lazy(() => import("./pages/ConversationalLessonView.tsx"));
@@ -357,6 +358,7 @@ const App = () => (
             <Route path="/teacher-admin" element={<LazyRoute><TeacherAdmin /></LazyRoute>} />
             <Route path="/teacher-dashboard" element={<LazyRoute><TeacherDashboard /></LazyRoute>} />
             <Route path="/admin-dashboard" element={<LazyRoute><AdminDashboard /></LazyRoute>} />
+            <Route path="/admin/assignments" element={<LazyRoute><AdminAssignments /></LazyRoute>} />
             <Route path="/lesson-library/:lessonId" element={<LazyRoute><GeneratedLessonView /></LazyRoute>} />
             <Route path="/python-challenges" element={<LazyRoute><PythonChallengeList /></LazyRoute>} />
             <Route path="/python-challenges/:challengeId" element={<LazyRoute><PythonChallengePage /></LazyRoute>} />
