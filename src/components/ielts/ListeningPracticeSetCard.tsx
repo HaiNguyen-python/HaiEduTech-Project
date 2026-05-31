@@ -70,6 +70,7 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
   const [rate, setRate] = useState(s.rate ?? 0.85);
   const chunkTimerRef = useRef<number | null>(null);
   const cancelledRef = useRef(false);
+  const generationRef = useRef(0);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [elapsedInChunk, setElapsedInChunk] = useState(0);
   const chunkStartedAtRef = useRef<number>(0);
@@ -169,8 +170,8 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
     );
   };
 
-  const speakChunks = useCallback((startIdx: number) => {
-    if (cancelledRef.current) return;
+  const speakChunks = useCallback((startIdx: number, gen: number) => {
+    if (cancelledRef.current || gen !== generationRef.current) return;
     if (startIdx >= chunks.length) {
       setPlaying(false);
       setPaused(false);
@@ -200,35 +201,41 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
       startIdx > 0 && /^[A-Z][a-z]+:/.test(chunks[startIdx]) && !/^[A-Z][a-z]+:/.test(chunks[startIdx - 1]);
     const gapMs = isSpelling ? 900 : isDialogueChange ? 700 : /[?!]$/.test(chunks[startIdx - 1] ?? "") ? 550 : 420;
     u.onend = () => {
-      if (cancelledRef.current) return;
-      chunkTimerRef.current = window.setTimeout(() => speakChunks(startIdx + 1), gapMs);
+      // Guard: ignore onend from a stale (cancelled / superseded) utterance.
+      if (cancelledRef.current || gen !== generationRef.current) return;
+      chunkTimerRef.current = window.setTimeout(() => speakChunks(startIdx + 1, gen), gapMs);
     };
     u.onerror = () => { setPlaying(false); setPaused(false); stopTick(); };
     window.speechSynthesis.speak(u);
-  }, [chunks, rate]);
+  }, [chunks, rate, accent]);
 
   const speak = (fromIdx = 0) => {
     if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
     if (chunkTimerRef.current) window.clearTimeout(chunkTimerRef.current);
+    const gen = ++generationRef.current;
     window.speechSynthesis.cancel();
     cancelledRef.current = false;
     setPlaying(true);
     setPaused(false);
     startTick();
-    speakChunks(fromIdx);
+    // Small delay helps Safari accept speak() right after cancel().
+    window.setTimeout(() => speakChunks(fromIdx, gen), 60);
   };
 
   const togglePause = () => {
     if (typeof window === "undefined" || !window.speechSynthesis) return;
     if (paused) {
-      // Resume: restart from current chunk (more reliable across browsers than resume()).
+      // Resume: bump generation, cancel any lingering utterance, restart current chunk.
+      const gen = ++generationRef.current;
       cancelledRef.current = false;
+      try { window.speechSynthesis.cancel(); } catch { /* noop */ }
       setPaused(false);
       setPlaying(true);
       startTick();
-      speakChunks(currentIdx);
+      window.setTimeout(() => speakChunks(currentIdx, gen), 80);
     } else {
-      // Pause: fully cancel current utterance + any scheduled next-chunk timer.
+      // Pause: invalidate generation, kill timers + current utterance.
+      generationRef.current++;
       cancelledRef.current = true;
       if (chunkTimerRef.current) {
         window.clearTimeout(chunkTimerRef.current);
@@ -240,6 +247,7 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
       setPlaying(false);
     }
   };
+
 
   const stop = () => {
     cancelledRef.current = true;
