@@ -388,7 +388,7 @@ const NationalExamRoom = () => {
                       <p className="text-sm text-yellow-800 dark:text-yellow-300 font-medium">{t("Nội dung đang được cập nhật. Vui lòng quay lại sau.", "Content under maintenance. Please check back later.")}</p>
                     </div>
                   ) : (
-                    <p className="text-lg md:text-xl font-medium text-foreground/80 whitespace-pre-line leading-loose">{relatedPassage.text}</p>
+                    <p className="text-lg md:text-xl font-medium text-foreground/80 whitespace-pre-line leading-loose">{renderPassageText(relatedPassage.text)}</p>
                   )}
                 </div>
               )}
