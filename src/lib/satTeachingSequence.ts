@@ -8,7 +8,7 @@
  * The order matches the visual order on /sat-curriculum: modules in the
  * order they appear in `allEnglishModules`, and inside each module lessons
  * are sorted by difficulty (beginner → intermediate → advanced) then by
- * their original index — exactly the same sort SatCurriculum applies.
+ * their original index - exactly the same sort SatCurriculum applies.
  */
 import { allEnglishModules } from "@/data/languageCurriculum";
 

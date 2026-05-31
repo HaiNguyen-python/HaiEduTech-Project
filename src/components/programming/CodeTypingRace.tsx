@@ -1,5 +1,5 @@
 /**
- * CodeTypingRace — a fun mini-game replacing the redundant "1-Minute Challenge"
+ * CodeTypingRace - a fun mini-game replacing the redundant "1-Minute Challenge"
  * quiz. Players retype a short snippet from the lesson as fast & accurately as
  * possible. Tracks WPM and accuracy in real time.
  */

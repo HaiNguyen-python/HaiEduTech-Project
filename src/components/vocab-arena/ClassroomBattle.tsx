@@ -270,7 +270,7 @@ const ClassroomBattle = ({ onBack }: ClassroomBattleProps) => {
                 .eq("id", participantId)
                 .then(({ error }) => {
                   if (error) {
-                    // Don't toast every question — just log. A persistent
+                    // Don't toast every question - just log. A persistent
                     // failure here is why teacher leaderboards used to show 0.
                     console.warn("[ClassroomBattle] progress write failed", error);
                   }

@@ -1,5 +1,5 @@
 /**
- * ComputerVisionSandbox — "Siêu thám tử AI".
+ * ComputerVisionSandbox - "Siêu thám tử AI".
  * Student dresses an avatar with accessories (kính râm / râu giả / mũ / khẩu trang),
  * then a scanline radar effect sweeps the face and outputs a recognition
  * confidence. Each successful scan triggers a star-worthy bounce + chime.
@@ -103,7 +103,7 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
           <Camera className="w-3 h-3" /> LIVE • FACE ID SCANNER
         </div>
 
-        {/* Avatar in centre — cute cartoon portrait of "Lan", a Vietnamese girl. */}
+        {/* Avatar in centre - cute cartoon portrait of "Lan", a Vietnamese girl. */}
         <div className="absolute inset-0 flex items-center justify-center">
           <motion.div
             animate={result && result.conf >= 75 ? bounceVariant : undefined}
@@ -111,14 +111,14 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
           >
             <img
               src={lanFace}
-              alt="Bé Lan — học sinh trong ví dụ nhận diện khuôn mặt"
+              alt="Bé Lan - học sinh trong ví dụ nhận diện khuôn mặt"
               width={512}
               height={512}
               loading="lazy"
               className="absolute inset-0 w-full h-full object-contain drop-shadow-[0_8px_18px_rgba(34,211,238,0.35)]"
             />
 
-            {/* Accessory overlays — outer wrapper handles centering, inner motion handles animation */}
+            {/* Accessory overlays - outer wrapper handles centering, inner motion handles animation */}
             <AnimatePresence>
               {worn.hat && (
                 <div
@@ -260,7 +260,7 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
         )}
       </motion.div>
 
-      {/* Result chip — placed OUTSIDE the overflow-hidden stage so it never clips */}
+      {/* Result chip - placed OUTSIDE the overflow-hidden stage so it never clips */}
       <AnimatePresence>
         {result && !scanning && (
           <motion.div
@@ -279,7 +279,7 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
         )}
       </AnimatePresence>
 
-      {/* Accessory toggles — large touch targets for mobile */}
+      {/* Accessory toggles - large touch targets for mobile */}
       <div className="flex flex-wrap items-center gap-2">
         {ACCESSORIES.map((a) => {
           const active = worn[a.id];
@@ -315,7 +315,7 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
 
       <p className="text-xs text-muted-foreground">
         💡 Mỗi phụ kiện che một số <b>điểm mốc khuôn mặt</b> (mắt, mũi, miệng).
-        Càng che nhiều, độ tự tin của AI càng giảm — y hệt FaceID đời thực.
+        Càng che nhiều, độ tự tin của AI càng giảm - y hệt FaceID đời thực.
       </p>
 
       {/* Bonus mini-games to fill remaining space below the main scanner */}

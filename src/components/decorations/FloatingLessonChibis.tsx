@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 
-// Chibi character images (studious mascots) — imported so Vite bundles them
+// Chibi character images (studious mascots) - imported so Vite bundles them
 import chibiTeacher from "@/assets/chibi-teacher.png";
 import chibiTeacherIelts from "@/assets/chibi-teacher-ielts.png";
 import chibiReading from "@/assets/chibi-reading.png";

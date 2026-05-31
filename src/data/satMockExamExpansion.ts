@@ -1,11 +1,11 @@
 /**
- * SAT Mock Exam Expansion — additional R&W and Math practice modules
+ * SAT Mock Exam Expansion - additional R&W and Math practice modules
  * Same Digital SAT timing as the originals.
  */
 import type { SatMockQuestion, SatMockExam } from "./satMockExamData";
 
 // ─────────────────────────────────────────────────────────────
-// Reading & Writing Practice 3 — 27 questions / 32 min
+// Reading & Writing Practice 3 - 27 questions / 32 min
 // ─────────────────────────────────────────────────────────────
 const rw3Questions: SatMockQuestion[] = [
   // Words in Context
@@ -17,24 +17,24 @@ const rw3Questions: SatMockQuestion[] = [
   { id: 6, section: "Reading & Writing", question: "The architect's later buildings show a striking ___ from her early minimalist style toward warmer, more ornamental forms.", options: ["adherence", "departure", "indifference", "regression"], correctAnswer: 1, explanation: "Moving away from a style = departure." },
 
   // Central Ideas / Details
-  { id: 7, section: "Reading & Writing", passage: "Octopuses, despite having no central skeleton, can squeeze through any opening larger than their beak — the only hard part of their body. Marine biologists studying captive octopuses have repeatedly recorded individuals escaping enclosures by exploiting unsealed pipe joints just centimeters wide.", question: "Which choice best states the main idea of the text?", options: ["Octopuses have unusually large beaks.", "Octopuses' soft bodies and a single hard part allow them to escape through very small openings.", "Captive octopuses are easy to keep contained.", "Marine biologists rarely study octopuses."], correctAnswer: 1, explanation: "The text emphasizes the link between soft body, beak as only hard part, and escape ability." },
+  { id: 7, section: "Reading & Writing", passage: "Octopuses, despite having no central skeleton, can squeeze through any opening larger than their beak - the only hard part of their body. Marine biologists studying captive octopuses have repeatedly recorded individuals escaping enclosures by exploiting unsealed pipe joints just centimeters wide.", question: "Which choice best states the main idea of the text?", options: ["Octopuses have unusually large beaks.", "Octopuses' soft bodies and a single hard part allow them to escape through very small openings.", "Captive octopuses are easy to keep contained.", "Marine biologists rarely study octopuses."], correctAnswer: 1, explanation: "The text emphasizes the link between soft body, beak as only hard part, and escape ability." },
   { id: 8, section: "Reading & Writing", passage: "When the Apollo 11 astronauts returned in 1969, they were placed in quarantine for 21 days. NASA scientists were uncertain whether lunar samples might harbor microorganisms that could be harmful to terrestrial life. No such organisms were ever found.", question: "Which choice best summarizes the text?", options: ["Apollo 11 astronauts caught a disease on the Moon.", "NASA quarantined the Apollo 11 crew as a precaution against possible lunar microorganisms.", "NASA had no plan for handling Apollo 11 samples.", "Apollo 11 was the first manned Moon mission."], correctAnswer: 1, explanation: "The quarantine was a precaution; no organisms were found." },
-  { id: 9, section: "Reading & Writing", passage: "The composer Florence Price became, in 1933, the first African American woman to have a symphony performed by a major American orchestra. Yet for decades after her death, her manuscripts sat in an abandoned house and were nearly lost — recovered only in 2009 by chance.", question: "Which choice best states the main idea?", options: ["Florence Price was the first woman to write a symphony.", "Price's pioneering achievements were nearly forgotten until her manuscripts were rediscovered by chance.", "American orchestras refused to perform Price's work.", "The 2009 discovery proves Price was overrated."], correctAnswer: 1, explanation: "Pioneering + nearly lost + rediscovered = main idea." },
+  { id: 9, section: "Reading & Writing", passage: "The composer Florence Price became, in 1933, the first African American woman to have a symphony performed by a major American orchestra. Yet for decades after her death, her manuscripts sat in an abandoned house and were nearly lost - recovered only in 2009 by chance.", question: "Which choice best states the main idea?", options: ["Florence Price was the first woman to write a symphony.", "Price's pioneering achievements were nearly forgotten until her manuscripts were rediscovered by chance.", "American orchestras refused to perform Price's work.", "The 2009 discovery proves Price was overrated."], correctAnswer: 1, explanation: "Pioneering + nearly lost + rediscovered = main idea." },
   { id: 10, section: "Reading & Writing", passage: "Mycorrhizal fungi form symbiotic networks with the roots of most land plants, exchanging mineral nutrients for sugars. Recent experiments using radioactive tracers show that carbon can travel between trees of different species through these networks.", question: "According to the text, what do mycorrhizal fungi exchange with plants?", options: ["Sugars for water.", "Mineral nutrients for sugars.", "Carbon for oxygen.", "Sunlight for nitrogen."], correctAnswer: 1, explanation: "The text states the exchange directly." },
 
   // Command of Evidence
   { id: 11, section: "Reading & Writing", passage: "A team hypothesizes that students who handwrite lecture notes recall content better than those who type notes on a laptop.", question: "Which finding would most directly support the hypothesis?", options: ["Students who handwrote notes spent more time reviewing them later.", "On a recall test one week later, handwriters scored 22% higher on average than typists.", "Most students prefer typing to handwriting.", "Laptops are more common in classrooms now than ten years ago."], correctAnswer: 1, explanation: "B is the only choice with a direct comparative recall result." },
-  { id: 12, section: "Reading & Writing", passage: "A graph titled 'Average ocean surface temperature, 1980–2020' shows a steady increase from 16.0°C in 1980 to 17.1°C in 2020.\n\nA student concludes: ___", question: "Which choice most accurately completes the conclusion using data from the graph?", options: ["Ocean temperatures fluctuated wildly during this period.", "Average ocean surface temperature rose by about 1.1°C between 1980 and 2020.", "Ocean temperatures will reach 20°C by 2050.", "The graph shows ocean salinity is changing."], correctAnswer: 1, explanation: "17.1 − 16.0 = 1.1°C — the only conclusion the graph supports." },
+  { id: 12, section: "Reading & Writing", passage: "A graph titled 'Average ocean surface temperature, 1980–2020' shows a steady increase from 16.0°C in 1980 to 17.1°C in 2020.\n\nA student concludes: ___", question: "Which choice most accurately completes the conclusion using data from the graph?", options: ["Ocean temperatures fluctuated wildly during this period.", "Average ocean surface temperature rose by about 1.1°C between 1980 and 2020.", "Ocean temperatures will reach 20°C by 2050.", "The graph shows ocean salinity is changing."], correctAnswer: 1, explanation: "17.1 − 16.0 = 1.1°C - the only conclusion the graph supports." },
   { id: 13, section: "Reading & Writing", passage: "Hypothesis: Daily 30-minute walks reduce reported anxiety levels in college students.", question: "Which result would most strongly support the hypothesis?", options: ["Walkers reported sleeping more hours per night.", "Students who walked 30 minutes daily reported anxiety scores 25% lower than a comparable non-walking group.", "Walking is a popular activity on college campuses.", "Many students cannot find time to walk."], correctAnswer: 1, explanation: "B is the only choice that compares anxiety scores with a control group." },
 
   // Inferences
-  { id: 14, section: "Reading & Writing", passage: "Bowhead whales can live more than 200 years — longer than any other mammal. Their cells contain unusually efficient DNA-repair enzymes that may slow age-related damage. Researchers studying these enzymes hope to ___", question: "Which choice most logically completes the text?", options: ["develop ways to extend whale lifespans further.", "apply lessons from bowhead biology to human anti-aging research.", "outlaw whaling worldwide.", "prove that whales are smarter than humans."], correctAnswer: 1, explanation: "Studying repair enzymes for anti-aging → apply to humans." },
+  { id: 14, section: "Reading & Writing", passage: "Bowhead whales can live more than 200 years - longer than any other mammal. Their cells contain unusually efficient DNA-repair enzymes that may slow age-related damage. Researchers studying these enzymes hope to ___", question: "Which choice most logically completes the text?", options: ["develop ways to extend whale lifespans further.", "apply lessons from bowhead biology to human anti-aging research.", "outlaw whaling worldwide.", "prove that whales are smarter than humans."], correctAnswer: 1, explanation: "Studying repair enzymes for anti-aging → apply to humans." },
   { id: 15, section: "Reading & Writing", passage: "Although the museum has acquired hundreds of new works in the past decade, gallery space has remained the same. Curators must therefore ___", question: "Which choice most logically completes the text?", options: ["display every new acquisition simultaneously.", "rotate works in and out of storage rather than display them all at once.", "stop acquiring new works.", "destroy older works to make room."], correctAnswer: 1, explanation: "More works + fixed space → rotation is the obvious solution." },
   { id: 16, section: "Reading & Writing", passage: "Several languages, including Hawaiian and Māori, use far fewer consonants than English. Linguists note that languages with fewer consonants tend to use longer words to maintain distinguishable vocabulary. From this we can infer that ___", question: "Which choice most logically completes the text?", options: ["Hawaiian speakers struggle to communicate.", "Hawaiian words tend, on average, to be longer than English words with comparable meaning.", "English will eventually lose consonants too.", "Languages with fewer consonants have smaller vocabularies."], correctAnswer: 1, explanation: "Fewer consonants → longer words to stay distinguishable." },
 
   // Grammar / punctuation / transitions / synthesis
   { id: 17, section: "Reading & Writing", question: "By the time the rescue team arrived, the climbers ___ for shelter under a rocky overhang.", options: ["already taken", "have already taken", "had already taken", "are already taking"], correctAnswer: 2, explanation: "Past perfect ('had taken') for action completed before another past action." },
-  { id: 18, section: "Reading & Writing", question: "The festival's headlining performers ___ Angélique Kidjo, Rosalía, and Burna Boy.", options: [": ", ", ", "; ", " — "], correctAnswer: 0, explanation: "Colon introduces a list after an independent clause." },
+  { id: 18, section: "Reading & Writing", question: "The festival's headlining performers ___ Angélique Kidjo, Rosalía, and Burna Boy.", options: [": ", ", ", "; ", " - "], correctAnswer: 0, explanation: "Colon introduces a list after an independent clause." },
   { id: 19, section: "Reading & Writing", question: "Neither the director nor the producers ___ willing to comment on the leaked script.", options: ["was", "were", "is", "has been"], correctAnswer: 1, explanation: "With 'neither/nor', verb agrees with the nearer subject ('producers' = plural → 'were')." },
   { id: 20, section: "Reading & Writing", question: "The artifact, along with several other Bronze Age tools, ___ on display next month.", options: ["go", "are going", "goes", "have gone"], correctAnswer: 2, explanation: "'Along with' phrase doesn't change the singular subject ('artifact' → 'goes')." },
   { id: 21, section: "Reading & Writing", question: "She trained for months ___ she could finish the marathon in under three hours.", options: ["because", "so that", "although", "unless"], correctAnswer: 1, explanation: "'So that' expresses purpose." },
@@ -47,7 +47,7 @@ const rw3Questions: SatMockQuestion[] = [
 ];
 
 // ─────────────────────────────────────────────────────────────
-// Reading & Writing Practice 4 — 27 questions / 32 min
+// Reading & Writing Practice 4 - 27 questions / 32 min
 // ─────────────────────────────────────────────────────────────
 const rw4Questions: SatMockQuestion[] = [
   { id: 1, section: "Reading & Writing", question: "The reviewer described the chef's menu as ___: it borrowed freely from cuisines across three continents while remaining unmistakably her own.", options: ["eclectic", "monotonous", "derivative", "predictable"], correctAnswer: 0, explanation: "Borrowing from many sources = eclectic." },
@@ -59,8 +59,8 @@ const rw4Questions: SatMockQuestion[] = [
 
   { id: 7, section: "Reading & Writing", passage: "Honeybees communicate the location of food through a 'waggle dance' performed inside the hive. The angle of the dance relative to vertical encodes the direction of the food relative to the sun, while the duration of the waggle indicates distance.", question: "Which choice best states the main idea?", options: ["Honeybees use sunlight to find food.", "The honeybee waggle dance encodes both direction and distance to a food source.", "Bees communicate primarily through sound.", "Only worker bees can perform the waggle dance."], correctAnswer: 1, explanation: "Both direction (angle) and distance (duration) are stated." },
   { id: 8, section: "Reading & Writing", passage: "In 2019, astronomers obtained the first direct image of a black hole, located at the center of the galaxy M87. The image was reconstructed from data gathered by a network of eight radio telescopes spread across the globe, effectively creating a virtual telescope the size of Earth.", question: "According to the text, how was the 2019 image of the M87 black hole produced?", options: ["By a single very large optical telescope.", "By combining data from a globe-spanning network of radio telescopes.", "By computer simulation only.", "By the Hubble Space Telescope."], correctAnswer: 1, explanation: "The text describes the linked-network technique." },
-  { id: 9, section: "Reading & Writing", passage: "The Indian mathematician Srinivasa Ramanujan, largely self-taught, sent letters from Madras in 1913 containing dozens of unfamiliar formulas. The Cambridge mathematician G. H. Hardy initially suspected the letters were a hoax — the formulas were so original he could not see how anyone could have invented them.", question: "Which choice best describes Hardy's first reaction?", options: ["Immediate enthusiasm.", "Disbelief, because the formulas seemed too original to be genuine.", "Indifference, because he was busy.", "Anger that an unknown had written to him."], correctAnswer: 1, explanation: "The text says he 'suspected... a hoax' due to originality." },
-  { id: 10, section: "Reading & Writing", passage: "Permafrost — soil that has been frozen for at least two consecutive years — covers roughly 15% of the Northern Hemisphere's land surface. As global temperatures rise, permafrost is thawing, releasing methane and carbon dioxide previously trapped in the soil.", question: "Which choice best states the main idea?", options: ["Permafrost is found only in Russia.", "Thawing permafrost releases greenhouse gases that had been trapped in frozen soil.", "Permafrost has expanded in recent years.", "Methane is the main gas in Earth's atmosphere."], correctAnswer: 1, explanation: "The text emphasizes the release of trapped gases as permafrost thaws." },
+  { id: 9, section: "Reading & Writing", passage: "The Indian mathematician Srinivasa Ramanujan, largely self-taught, sent letters from Madras in 1913 containing dozens of unfamiliar formulas. The Cambridge mathematician G. H. Hardy initially suspected the letters were a hoax - the formulas were so original he could not see how anyone could have invented them.", question: "Which choice best describes Hardy's first reaction?", options: ["Immediate enthusiasm.", "Disbelief, because the formulas seemed too original to be genuine.", "Indifference, because he was busy.", "Anger that an unknown had written to him."], correctAnswer: 1, explanation: "The text says he 'suspected... a hoax' due to originality." },
+  { id: 10, section: "Reading & Writing", passage: "Permafrost - soil that has been frozen for at least two consecutive years - covers roughly 15% of the Northern Hemisphere's land surface. As global temperatures rise, permafrost is thawing, releasing methane and carbon dioxide previously trapped in the soil.", question: "Which choice best states the main idea?", options: ["Permafrost is found only in Russia.", "Thawing permafrost releases greenhouse gases that had been trapped in frozen soil.", "Permafrost has expanded in recent years.", "Methane is the main gas in Earth's atmosphere."], correctAnswer: 1, explanation: "The text emphasizes the release of trapped gases as permafrost thaws." },
 
   { id: 11, section: "Reading & Writing", passage: "Hypothesis: Cities that add protected bicycle lanes see fewer cyclist injuries.", question: "Which finding would most directly support the hypothesis?", options: ["Cyclists prefer protected lanes.", "Cities that added protected lanes saw a 35% drop in cyclist injuries within two years, compared with no change in cities that did not.", "Most cyclists wear helmets.", "Bicycle sales are rising globally."], correctAnswer: 1, explanation: "B is the only choice with a comparative reduction in injuries." },
   { id: 12, section: "Reading & Writing", passage: "A bar chart titled 'Annual rainfall in Region X (mm), 2015–2024' shows totals ranging from a low of 410 mm in 2015 to a high of 1,020 mm in 2024.\n\nA student concludes: ___", question: "Which choice most accurately completes the conclusion using data from the chart?", options: ["Rainfall in Region X has decreased over the period.", "Annual rainfall in Region X more than doubled between 2015 and 2024.", "Region X had no rainfall in some years.", "Rainfall is now constant year to year."], correctAnswer: 1, explanation: "1,020 vs. 410 = more than doubled." },
@@ -71,7 +71,7 @@ const rw4Questions: SatMockQuestion[] = [
   { id: 16, section: "Reading & Writing", passage: "A regional dialect once spoken by tens of thousands of people is now used fluently by fewer than 200 elderly speakers. Without intervention, ___", question: "Which choice most logically completes the text?", options: ["the dialect will likely become extinct within a generation.", "the dialect will spread to new regions.", "the dialect will be taught in major universities.", "the dialect will return to its earlier number of speakers."], correctAnswer: 0, explanation: "200 elderly speakers + no intervention → likely extinction." },
 
   { id: 17, section: "Reading & Writing", question: "When the package finally arrived, it ___ already been opened and resealed twice.", options: ["have", "had", "has", "having"], correctAnswer: 1, explanation: "Past perfect 'had been opened' for action before another past event." },
-  { id: 18, section: "Reading & Writing", question: "The committee considered three candidates for the role ___ Aisha Patel, Diego Morales, and Yuki Tanaka.", options: [": ", ", ", "; ", " — "], correctAnswer: 0, explanation: "Colon introduces a list after an independent clause." },
+  { id: 18, section: "Reading & Writing", question: "The committee considered three candidates for the role ___ Aisha Patel, Diego Morales, and Yuki Tanaka.", options: [": ", ", ", "; ", " - "], correctAnswer: 0, explanation: "Colon introduces a list after an independent clause." },
   { id: 19, section: "Reading & Writing", question: "The collection of rare manuscripts ___ housed in a climate-controlled vault.", options: ["are", "is", "have been", "were"], correctAnswer: 1, explanation: "'Collection' is singular → 'is housed'." },
   { id: 20, section: "Reading & Writing", question: "Either the supervisor or the engineers ___ responsible for signing off on the design.", options: ["is", "are", "was", "has been"], correctAnswer: 1, explanation: "With 'either/or', verb agrees with the nearer subject ('engineers' → 'are')." },
   { id: 21, section: "Reading & Writing", question: "The trail was closed for repairs ___ hikers could no longer use it after September.", options: ["because of", "so that", "even though", "as a result"], correctAnswer: 3, explanation: "'As a result' connects the closure (cause) to hikers' loss of access (effect)." },
@@ -84,7 +84,7 @@ const rw4Questions: SatMockQuestion[] = [
 ];
 
 // ─────────────────────────────────────────────────────────────
-// Math Practice 3 — 22 questions / 35 min
+// Math Practice 3 - 22 questions / 35 min
 // ─────────────────────────────────────────────────────────────
 const math3Questions: SatMockQuestion[] = [
   { id: 1, section: "Math", question: "If 4x − 7 = 21, what is the value of x?", options: ["3", "5", "7", "8"], correctAnswer: 2, explanation: "4x = 28, so x = 7." },
@@ -112,7 +112,7 @@ const math3Questions: SatMockQuestion[] = [
 ];
 
 // ─────────────────────────────────────────────────────────────
-// Math Practice 4 — 22 questions / 35 min
+// Math Practice 4 - 22 questions / 35 min
 // ─────────────────────────────────────────────────────────────
 const math4Questions: SatMockQuestion[] = [
   { id: 1, section: "Math", question: "If 5x + 2 = 3x + 14, what is x?", options: ["4", "5", "6", "8"], correctAnswer: 2, explanation: "2x = 12, x = 6." },
@@ -123,7 +123,7 @@ const math4Questions: SatMockQuestion[] = [
   { id: 6, section: "Math", question: "Which inequality represents 'half of x decreased by 4 is greater than 6'?", options: ["x/2 − 4 > 6", "x/2 + 4 > 6", "x/2 − 4 < 6", "2x − 4 > 6"], correctAnswer: 0, explanation: "Half of x = x/2; decreased by 4 = − 4; > 6." },
   { id: 7, section: "Math", question: "If 25% of x is 30, what is x?", options: ["100", "120", "125", "150"], correctAnswer: 1, explanation: "0.25x = 30 → x = 120." },
   { id: 8, section: "Math", question: "The price of a shirt was $40 and is now $32. What is the percent decrease?", options: ["10%", "15%", "20%", "25%"], correctAnswer: 2, explanation: "(8/40) × 100 = 20%." },
-  { id: 9, section: "Math", question: "If f(x) = 3x − 4, what is f(2) + f(3)?", options: ["7", "9", "11", "13"], correctAnswer: 2, explanation: "f(2) = 2; f(3) = 5; sum = 7. Wait — recompute: f(2) = 3(2) − 4 = 2; f(3) = 3(3) − 4 = 5. 2 + 5 = 7. Correct answer is 7 → option index 0." },
+  { id: 9, section: "Math", question: "If f(x) = 3x − 4, what is f(2) + f(3)?", options: ["7", "9", "11", "13"], correctAnswer: 2, explanation: "f(2) = 2; f(3) = 5; sum = 7. Wait - recompute: f(2) = 3(2) − 4 = 2; f(3) = 3(3) − 4 = 5. 2 + 5 = 7. Correct answer is 7 → option index 0." },
   { id: 10, section: "Math", question: "What are the solutions to x² + 3x − 10 = 0?", options: ["x = 2 and −5", "x = −2 and 5", "x = 2 and 5", "x = −2 and −5"], correctAnswer: 0, explanation: "(x − 2)(x + 5) = 0." },
   { id: 11, section: "Math", question: "The median of {3, 7, 9, 12, 15, 21} is:", options: ["9", "10.5", "12", "13.5"], correctAnswer: 1, explanation: "Average of middle two: (9 + 12)/2 = 10.5." },
   { id: 12, section: "Math", question: "A right triangle has hypotenuse 13 and one leg 5. What is the other leg?", options: ["8", "10", "12", "14"], correctAnswer: 2, explanation: "√(169 − 25) = √144 = 12." },
@@ -148,8 +148,8 @@ const reIndex = (qs: SatMockQuestion[], offset: number): SatMockQuestion[] =>
 export const satMockExamExpansion: SatMockExam[] = [
   {
     id: "sat-rw-practice-3",
-    title: "SAT Reading & Writing — Module Practice 3",
-    titleVi: "SAT Reading & Writing — Đề luyện 3",
+    title: "SAT Reading & Writing - Module Practice 3",
+    titleVi: "SAT Reading & Writing - Đề luyện 3",
     type: "rw",
     duration: 32,
     totalQuestions: 27,
@@ -159,8 +159,8 @@ export const satMockExamExpansion: SatMockExam[] = [
   },
   {
     id: "sat-rw-practice-4",
-    title: "SAT Reading & Writing — Module Practice 4",
-    titleVi: "SAT Reading & Writing — Đề luyện 4",
+    title: "SAT Reading & Writing - Module Practice 4",
+    titleVi: "SAT Reading & Writing - Đề luyện 4",
     type: "rw",
     duration: 32,
     totalQuestions: 27,
@@ -170,8 +170,8 @@ export const satMockExamExpansion: SatMockExam[] = [
   },
   {
     id: "sat-math-practice-3",
-    title: "SAT Math — Module Practice 3",
-    titleVi: "SAT Math — Đề luyện 3",
+    title: "SAT Math - Module Practice 3",
+    titleVi: "SAT Math - Đề luyện 3",
     type: "math",
     duration: 35,
     totalQuestions: 22,
@@ -181,8 +181,8 @@ export const satMockExamExpansion: SatMockExam[] = [
   },
   {
     id: "sat-math-practice-4",
-    title: "SAT Math — Module Practice 4",
-    titleVi: "SAT Math — Đề luyện 4",
+    title: "SAT Math - Module Practice 4",
+    titleVi: "SAT Math - Đề luyện 4",
     type: "math",
     duration: 35,
     totalQuestions: 22,

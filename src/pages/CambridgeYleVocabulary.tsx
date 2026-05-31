@@ -1,6 +1,6 @@
 /**
  * @file CambridgeYleVocabulary.tsx
- * @description Cambridge YLE Vocabulary practice — Starters → PET. Colourful,
+ * @description Cambridge YLE Vocabulary practice - Starters → PET. Colourful,
  * playful UI for kids with a Mountain Climber gamification: each "mastered"
  * word lifts the climber up the mountain for the active level.
  */
@@ -254,8 +254,8 @@ const CambridgeYleVocabulary = () => {
                 {t("Từ vựng Cambridge YLE 🎈", "Cambridge YLE Vocabulary 🎈")}
               </h1>
               <p className="text-slate-700 font-medium text-base">
-                {t("Học từ vựng vui nhộn từ Starters đến PET — đánh dấu \"đã thuộc\" để leo núi!",
-                  "Learn fun vocabulary from Starters to PET — mark \"mastered\" to climb the mountain!")}
+                {t("Học từ vựng vui nhộn từ Starters đến PET - đánh dấu \"đã thuộc\" để leo núi!",
+                  "Learn fun vocabulary from Starters to PET - mark \"mastered\" to climb the mountain!")}
               </p>
             </div>
           </div>
@@ -297,7 +297,7 @@ const CambridgeYleVocabulary = () => {
         <section className="container mx-auto px-4 grid lg:grid-cols-[1fr_280px] gap-6 items-start max-w-[1500px]">
           {/* Level tabs */}
           <div>
-            {/* Unified filter bar — matches HSK / SAT / TOEIC Vocabulary Word Bank */}
+            {/* Unified filter bar - matches HSK / SAT / TOEIC Vocabulary Word Bank */}
             <div className="flex flex-wrap items-center gap-3 mb-4">
               {/* Search */}
               <div className="relative flex-1 min-w-[200px] max-w-sm">
@@ -387,7 +387,7 @@ const CambridgeYleVocabulary = () => {
 
 
 
-            {/* Grouped by thematic categories — collapsible */}
+            {/* Grouped by thematic categories - collapsible */}
             <div className="space-y-4">
               {grouped.map(({ category, words }) => {
                 const meta = CATEGORY_META[category];

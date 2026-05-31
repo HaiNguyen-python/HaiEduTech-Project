@@ -1,5 +1,5 @@
 /**
- * FloatingAIIcons — full-page ambient layer of drifting AI/robot icons
+ * FloatingAIIcons - full-page ambient layer of drifting AI/robot icons
  * for the AI Academy hub. Pointer-events disabled, sits behind content.
  */
 import { motion } from "framer-motion";

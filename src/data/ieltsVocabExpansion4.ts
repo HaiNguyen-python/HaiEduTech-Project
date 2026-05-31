@@ -1,6 +1,6 @@
 /**
  * @file ieltsVocabExpansion4.ts
- * @description IELTS Vocabulary Expansion #4 — Band 7.5+ academic lexis
+ * @description IELTS Vocabulary Expansion #4 - Band 7.5+ academic lexis
  * for sustainability, demographics, public health, digital society and
  * critical thinking.
  */

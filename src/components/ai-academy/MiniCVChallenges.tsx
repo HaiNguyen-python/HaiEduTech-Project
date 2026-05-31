@@ -1,7 +1,7 @@
 /**
- * MiniCVChallenges — two bite-sized Computer Vision mini-games:
- *  1) "Pixel Reveal" — guess the image while it's still pixelated/blurred.
- *  2) "Đoán độ tự tin" — slider where the student predicts AI confidence
+ * MiniCVChallenges - two bite-sized Computer Vision mini-games:
+ *  1) "Pixel Reveal" - guess the image while it's still pixelated/blurred.
+ *  2) "Đoán độ tự tin" - slider where the student predicts AI confidence
  *     for a given scene, then we reveal the true number.
  * Both reward sound + bounce and live entirely on the client.
  */
@@ -12,7 +12,7 @@ import { Eye, Sparkles, RefreshCcw, Target, ZoomIn } from "lucide-react";
 import { playSuccessSound, playFailureSound, bounceVariant } from "@/lib/aiAcademyFx";
 
 // ============================================================
-// Mini-game 1 — Pixel Reveal (image clarity vs AI vision)
+// Mini-game 1 - Pixel Reveal (image clarity vs AI vision)
 // ============================================================
 type Puzzle = { emoji: string; label: string; options: string[] };
 
@@ -77,7 +77,7 @@ const PixelReveal = () => {
         </h4>
       </div>
       <p className="text-[13px] text-foreground/85">
-        Đoán đúng vật thể khi ảnh còn <b>mờ</b> để được nhiều điểm. Càng phải bấm “Rõ hơn” nhiều lần, điểm càng ít —
+        Đoán đúng vật thể khi ảnh còn <b>mờ</b> để được nhiều điểm. Càng phải bấm “Rõ hơn” nhiều lần, điểm càng ít -
         đây chính là cách AI thị giác cần đủ <b>pixel</b> để nhận diện chính xác.
       </p>
 
@@ -155,8 +155,8 @@ const PixelReveal = () => {
               }`}
             >
               {score && score > 0
-                ? `🎉 +${score} điểm — Đáp án: ${puzzle.label}`
-                : `😅 Sai rồi — Đáp án: ${puzzle.label}`}
+                ? `🎉 +${score} điểm - Đáp án: ${puzzle.label}`
+                : `😅 Sai rồi - Đáp án: ${puzzle.label}`}
             </motion.span>
           )}
         </AnimatePresence>
@@ -166,7 +166,7 @@ const PixelReveal = () => {
 };
 
 // ============================================================
-// Mini-game 2 — Confidence predictor
+// Mini-game 2 - Confidence predictor
 // ============================================================
 const SCENES = [
   { emoji: "🐱", desc: "Ảnh con mèo rõ nét, đủ sáng", actual: 97 },
@@ -241,7 +241,7 @@ const ConfidencePredictor = () => {
             AI thật trả lời: <span className="text-fuchsia-600">{scene.actual}%</span>
           </div>
           <div className="text-foreground/85 mt-0.5">
-            Lệch <b>{diff}%</b> — {verdict}
+            Lệch <b>{diff}%</b> - {verdict}
           </div>
         </motion.div>
       )}

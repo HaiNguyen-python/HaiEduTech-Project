@@ -88,7 +88,7 @@ interface LanguageDataset {
   sources: string;
 }
 
-// Curated dataset — figures aggregated from public 2016-2025 reports, refreshed Q4 2025.
+// Curated dataset - figures aggregated from public 2016-2025 reports, refreshed Q4 2025.
 const DATA: Record<DashboardLanguage, LanguageDataset> = {
   english: {
     flag: "🇬🇧",
@@ -281,7 +281,7 @@ const DATA: Record<DashboardLanguage, LanguageDataset> = {
   },
   vietnamese: {
     flag: "🇻🇳",
-    exam: "VSL (Vietnamese as a Second Language) — 6 CEFR levels",
+    exam: "VSL (Vietnamese as a Second Language) - 6 CEFR levels",
     speakers: { native: 86, total: 97 },
     successLabel: "VSL B1+",
     successPercent: 34,

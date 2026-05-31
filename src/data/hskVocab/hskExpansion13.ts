@@ -1,6 +1,6 @@
 /**
  * @file hskExpansion13.ts
- * @description HSK Vocabulary Expansion #13 — large curated push toward 3000-word target.
+ * @description HSK Vocabulary Expansion #13 - large curated push toward 3000-word target.
  */
 import type { HskWord } from "./types";
 

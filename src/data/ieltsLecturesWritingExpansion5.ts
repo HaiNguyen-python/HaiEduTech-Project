@@ -34,8 +34,8 @@ const mk = (
       step: 1,
       title: "Decode the question type in 60 seconds",
       titleVi: "Giải mã dạng đề trong 60 giây",
-      description: "Identify exactly which sub-type you are facing before choosing a template — wrong template = capped at Band 6.",
-      descriptionVi: "Xác định chính xác dạng phụ trước khi chọn template — sai template = trần Band 6.",
+      description: "Identify exactly which sub-type you are facing before choosing a template - wrong template = capped at Band 6.",
+      descriptionVi: "Xác định chính xác dạng phụ trước khi chọn template - sai template = trần Band 6.",
     },
     {
       step: 2,
@@ -77,8 +77,8 @@ const mk = (
     {
       mistake: "Missing the overview or thesis",
       mistakeVi: "Thiếu overview hoặc thesis",
-      why: "Examiners look specifically for these — missing them is an instant Band 5 ceiling for Task Achievement.",
-      whyVi: "Giám khảo tìm cụ thể hai phần này — thiếu là trần Band 5 cho Task Achievement.",
+      why: "Examiners look specifically for these - missing them is an instant Band 5 ceiling for Task Achievement.",
+      whyVi: "Giám khảo tìm cụ thể hai phần này - thiếu là trần Band 5 cho Task Achievement.",
     },
   ],
   goldenSecret: golden,
@@ -101,7 +101,7 @@ const mk = (
   cheatSheetPoints: cheatSheet,
 });
 
-// ============ WRITING TASK 1 — ACADEMIC ============
+// ============ WRITING TASK 1 - ACADEMIC ============
 const task1Academic: IeltsLecture[] = [
   mk(
     "writing-task1-bar-chart",
@@ -110,10 +110,10 @@ const task1Academic: IeltsLecture[] = [
     "Task 1: Chinh phục Bar Chart",
     "20 min",
     "foundation",
-    "Single, grouped and stacked bar charts — how to group categories, compare and highlight extremes.",
-    "Cột đơn, cột nhóm và cột chồng — cách nhóm danh mục, so sánh và làm nổi bật cực trị.",
-    "Compare bars by CATEGORY not by year — examiners reward grouping over listing.",
-    "So sánh theo DANH MỤC, không theo năm — giám khảo thưởng cho việc nhóm hơn là liệt kê.",
+    "Single, grouped and stacked bar charts - how to group categories, compare and highlight extremes.",
+    "Cột đơn, cột nhóm và cột chồng - cách nhóm danh mục, so sánh và làm nổi bật cực trị.",
+    "Compare bars by CATEGORY not by year - examiners reward grouping over listing.",
+    "So sánh theo DANH MỤC, không theo năm - giám khảo thưởng cho việc nhóm hơn là liệt kê.",
     [
       "Intro: paraphrase prompt with units + time frame",
       "Overview: highest/lowest category, NO numbers",
@@ -129,10 +129,10 @@ const task1Academic: IeltsLecture[] = [
     "Task 1: Chinh phục Pie Chart",
     "18 min",
     "foundation",
-    "Single, two-pie comparison and multi-pie evolution — proportion language and percentage paraphrasing.",
-    "Tròn đơn, hai tròn so sánh, nhiều tròn theo thời gian — ngôn ngữ tỷ lệ và paraphrase phần trăm.",
-    "Never describe slices in order — always start with the LARGEST and finish with the SMALLEST.",
-    "Đừng mô tả từng phần theo thứ tự — luôn bắt đầu từ MIẾNG LỚN NHẤT và kết thúc ở MIẾNG NHỎ NHẤT.",
+    "Single, two-pie comparison and multi-pie evolution - proportion language and percentage paraphrasing.",
+    "Tròn đơn, hai tròn so sánh, nhiều tròn theo thời gian - ngôn ngữ tỷ lệ và paraphrase phần trăm.",
+    "Never describe slices in order - always start with the LARGEST and finish with the SMALLEST.",
+    "Đừng mô tả từng phần theo thứ tự - luôn bắt đầu từ MIẾNG LỚN NHẤT và kết thúc ở MIẾNG NHỎ NHẤT.",
     [
       "'accounted for / made up / constituted X%' (verb variety)",
       "'a quarter / a third / nearly half / the lion's share'",
@@ -144,14 +144,14 @@ const task1Academic: IeltsLecture[] = [
   mk(
     "writing-task1-table",
     "📋",
-    "Task 1: Tables — Filter, Don't List",
-    "Task 1: Table — Lọc số liệu, không liệt kê",
+    "Task 1: Tables - Filter, Don't List",
+    "Task 1: Table - Lọc số liệu, không liệt kê",
     "20 min",
     "intermediate",
     "Tables overwhelm because they have too many numbers. Learn to filter the 4-6 key figures that actually matter.",
     "Bảng nhiều số quá tải. Học cách lọc 4-6 con số then chốt thật sự quan trọng.",
-    "Pick ONE row and ONE column as your 'spine' — describe extremes along that spine instead of every cell.",
-    "Chọn MỘT hàng và MỘT cột làm 'xương sống' — mô tả cực trị dọc xương sống thay vì từng ô.",
+    "Pick ONE row and ONE column as your 'spine' - describe extremes along that spine instead of every cell.",
+    "Chọn MỘT hàng và MỘT cột làm 'xương sống' - mô tả cực trị dọc xương sống thay vì từng ô.",
     [
       "Identify highest, lowest, biggest change, smallest change",
       "Group rows/columns with similar behaviour",
@@ -169,8 +169,8 @@ const task1Academic: IeltsLecture[] = [
     "intermediate",
     "The overview alone can lift you from Band 5 to Band 7. Learn the 2-sentence formula and what NOT to include.",
     "Riêng overview có thể nâng từ Band 5 lên Band 7. Học công thức 2 câu và điều CẦN TRÁNH.",
-    "Write the overview SECOND (after intro) — examiners scan for it. NO numbers, only big-picture patterns.",
-    "Viết overview NGAY SAU mở bài — giám khảo tìm nó đầu tiên. KHÔNG số liệu, chỉ xu hướng lớn.",
+    "Write the overview SECOND (after intro) - examiners scan for it. NO numbers, only big-picture patterns.",
+    "Viết overview NGAY SAU mở bài - giám khảo tìm nó đầu tiên. KHÔNG số liệu, chỉ xu hướng lớn.",
     [
       "Start with 'Overall,' or 'It is clear that'",
       "Sentence 1: biggest trend / dominant feature",
@@ -186,10 +186,10 @@ const task1Academic: IeltsLecture[] = [
     "Task 1: Sơ đồ quy trình (tự nhiên & sản xuất)",
     "22 min",
     "advanced",
-    "Step-by-step processes — sequencing language, passive voice and 'how many stages' overview.",
-    "Quy trình từng bước — ngôn ngữ trình tự, câu bị động và overview 'có bao nhiêu giai đoạn'.",
-    "Use the PASSIVE VOICE consistently for manufactured processes — it is the marker examiners expect.",
-    "Dùng BỊ ĐỘNG xuyên suốt cho quy trình sản xuất — đây là dấu hiệu giám khảo mong đợi.",
+    "Step-by-step processes - sequencing language, passive voice and 'how many stages' overview.",
+    "Quy trình từng bước - ngôn ngữ trình tự, câu bị động và overview 'có bao nhiêu giai đoạn'.",
+    "Use the PASSIVE VOICE consistently for manufactured processes - it is the marker examiners expect.",
+    "Dùng BỊ ĐỘNG xuyên suốt cho quy trình sản xuất - đây là dấu hiệu giám khảo mong đợi.",
     [
       "Overview = number of stages + start point + end point",
       "Sequencers: 'firstly', 'subsequently', 'following this', 'at the final stage'",
@@ -205,8 +205,8 @@ const task1Academic: IeltsLecture[] = [
     "Task 1: Bản đồ (quá khứ vs hiện tại, dự án)",
     "22 min",
     "advanced",
-    "Map descriptions — tense selection, location vocabulary and the 'what stayed / what changed' frame.",
-    "Mô tả bản đồ — chọn thì, từ vựng vị trí và khung 'giữ nguyên / thay đổi'.",
+    "Map descriptions - tense selection, location vocabulary and the 'what stayed / what changed' frame.",
+    "Mô tả bản đồ - chọn thì, từ vựng vị trí và khung 'giữ nguyên / thay đổi'.",
     "Decide TENSE first by reading the labels: past dates → past simple, future dates → future / will, no dates → present simple.",
     "Quyết định THÌ trước bằng cách đọc nhãn: ngày quá khứ → quá khứ đơn, ngày tương lai → will, không ngày → hiện tại đơn.",
     [
@@ -219,7 +219,7 @@ const task1Academic: IeltsLecture[] = [
   ),
 ];
 
-// ============ WRITING TASK 1 — GENERAL TRAINING LETTERS ============
+// ============ WRITING TASK 1 - GENERAL TRAINING LETTERS ============
 const task1GT: IeltsLecture[] = [
   mk(
     "writing-task1-formal-letter-complaint",
@@ -228,10 +228,10 @@ const task1GT: IeltsLecture[] = [
     "Task 1 GT: Thư khiếu nại trang trọng",
     "18 min",
     "intermediate",
-    "Complaint letters to companies / authorities — assertive but polite tone, clear demand for action.",
-    "Thư khiếu nại tới công ty / cơ quan — quyết liệt nhưng lịch sự, yêu cầu hành động rõ ràng.",
-    "Be firm but never angry — examiners reward CONTROLLED dissatisfaction, not emotional outbursts.",
-    "Cương quyết nhưng đừng tức giận — giám khảo thưởng cho bất mãn CÓ KIỂM SOÁT, không phải cảm xúc bùng nổ.",
+    "Complaint letters to companies / authorities - assertive but polite tone, clear demand for action.",
+    "Thư khiếu nại tới công ty / cơ quan - quyết liệt nhưng lịch sự, yêu cầu hành động rõ ràng.",
+    "Be firm but never angry - examiners reward CONTROLLED dissatisfaction, not emotional outbursts.",
+    "Cương quyết nhưng đừng tức giận - giám khảo thưởng cho bất mãn CÓ KIỂM SOÁT, không phải cảm xúc bùng nổ.",
     [
       "Open: 'I am writing to express my dissatisfaction with…'",
       "Bullet 1: state the problem clearly with facts/dates",
@@ -247,10 +247,10 @@ const task1GT: IeltsLecture[] = [
     "Task 1 GT: Thư yêu cầu bán trang trọng",
     "16 min",
     "foundation",
-    "Letters to landlords, managers, colleagues — polite request structure with reason and gratitude.",
-    "Thư gửi chủ nhà, quản lý, đồng nghiệp — cấu trúc yêu cầu lịch sự với lý do và lời cảm ơn.",
-    "Use 'I would be grateful if you could…' instead of 'Can you…' — softer = higher marks.",
-    "Dùng 'I would be grateful if you could…' thay vì 'Can you…' — mềm hơn = điểm cao hơn.",
+    "Letters to landlords, managers, colleagues - polite request structure with reason and gratitude.",
+    "Thư gửi chủ nhà, quản lý, đồng nghiệp - cấu trúc yêu cầu lịch sự với lý do và lời cảm ơn.",
+    "Use 'I would be grateful if you could…' instead of 'Can you…' - softer = higher marks.",
+    "Dùng 'I would be grateful if you could…' thay vì 'Can you…' - mềm hơn = điểm cao hơn.",
     [
       "Open: 'Dear Mr/Ms [Surname], I hope this message finds you well.'",
       "Bullet 1: introduce yourself / context",
@@ -266,10 +266,10 @@ const task1GT: IeltsLecture[] = [
     "Task 1 GT: Thư cảm ơn / mời thân mật",
     "16 min",
     "foundation",
-    "Friendly letters to friends and family — contractions, warm tone and personal anecdotes.",
-    "Thư thân mật cho bạn bè và gia đình — viết tắt, tông ấm áp và chuyện cá nhân.",
-    "Informal does NOT mean sloppy — examiners still check grammar accuracy. Use natural phrasal verbs and contractions.",
-    "Thân mật KHÔNG có nghĩa cẩu thả — giám khảo vẫn chấm ngữ pháp. Dùng phrasal verb tự nhiên và viết tắt.",
+    "Friendly letters to friends and family - contractions, warm tone and personal anecdotes.",
+    "Thư thân mật cho bạn bè và gia đình - viết tắt, tông ấm áp và chuyện cá nhân.",
+    "Informal does NOT mean sloppy - examiners still check grammar accuracy. Use natural phrasal verbs and contractions.",
+    "Thân mật KHÔNG có nghĩa cẩu thả - giám khảo vẫn chấm ngữ pháp. Dùng phrasal verb tự nhiên và viết tắt.",
     [
       "Open: 'Dear Anna,' / 'Hi Tom,' / 'Hey Maria!'",
       "Use contractions: 'I'm', 'you're', 'can't', 'won't'",
@@ -285,10 +285,10 @@ const task1GT: IeltsLecture[] = [
     "Task 1 GT: Thư xin việc",
     "18 min",
     "intermediate",
-    "Cover-letter style — showcase skills, experience and fit in a confident, professional tone.",
-    "Phong cách cover letter — thể hiện kỹ năng, kinh nghiệm và sự phù hợp với giọng tự tin, chuyên nghiệp.",
-    "Quantify achievements ('managed a team of 8', 'increased sales by 20%') — concrete numbers beat vague claims.",
-    "Định lượng thành tích ('quản lý đội 8 người', 'tăng doanh thu 20%') — số liệu cụ thể hơn lời nói chung chung.",
+    "Cover-letter style - showcase skills, experience and fit in a confident, professional tone.",
+    "Phong cách cover letter - thể hiện kỹ năng, kinh nghiệm và sự phù hợp với giọng tự tin, chuyên nghiệp.",
+    "Quantify achievements ('managed a team of 8', 'increased sales by 20%') - concrete numbers beat vague claims.",
+    "Định lượng thành tích ('quản lý đội 8 người', 'tăng doanh thu 20%') - số liệu cụ thể hơn lời nói chung chung.",
     [
       "Open: 'I am writing to apply for the position of…'",
       "Bullet 1: relevant qualifications and experience",
@@ -299,7 +299,7 @@ const task1GT: IeltsLecture[] = [
   ),
 ];
 
-// ============ WRITING TASK 2 — ESSAY TYPES ============
+// ============ WRITING TASK 2 - ESSAY TYPES ============
 const task2: IeltsLecture[] = [
   mk(
     "writing-task2-opinion-essay",
@@ -308,10 +308,10 @@ const task2: IeltsLecture[] = [
     "Task 2: Bài Opinion (Đồng ý/Không đồng ý)",
     "22 min",
     "intermediate",
-    "Strong one-sided opinion essays — clear thesis, 2 supporting body paragraphs and confident conclusion.",
-    "Bài opinion một chiều mạnh mẽ — thesis rõ, 2 đoạn thân bài ủng hộ và kết bài tự tin.",
-    "Choose the EASIER side, not the side you actually believe — examiners reward depth of argument, not personal honesty.",
-    "Chọn phía DỄ LẬP LUẬN, không phải phía bạn thực sự tin — giám khảo thưởng độ sâu lý luận, không phải sự thật cá nhân.",
+    "Strong one-sided opinion essays - clear thesis, 2 supporting body paragraphs and confident conclusion.",
+    "Bài opinion một chiều mạnh mẽ - thesis rõ, 2 đoạn thân bài ủng hộ và kết bài tự tin.",
+    "Choose the EASIER side, not the side you actually believe - examiners reward depth of argument, not personal honesty.",
+    "Chọn phía DỄ LẬP LUẬN, không phải phía bạn thực sự tin - giám khảo thưởng độ sâu lý luận, không phải sự thật cá nhân.",
     [
       "Intro: paraphrase + thesis ('I strongly agree because…')",
       "Body 1: strongest reason + example",
@@ -327,10 +327,10 @@ const task2: IeltsLecture[] = [
     "Task 2: Bài Discussion (Cả hai góc nhìn)",
     "24 min",
     "intermediate",
-    "'Discuss both views and give your own opinion' — the trickiest balance act in IELTS Writing.",
-    "'Thảo luận cả hai góc nhìn và cho ý kiến' — bài cân bằng khó nhất trong IELTS Writing.",
-    "Discuss BOTH sides objectively first (no 'I'), THEN inject your opinion in the conclusion — never mix the two.",
-    "Thảo luận CẢ HAI phía khách quan trước (không 'I'), RỒI mới đưa quan điểm ở kết bài — đừng trộn lẫn.",
+    "'Discuss both views and give your own opinion' - the trickiest balance act in IELTS Writing.",
+    "'Thảo luận cả hai góc nhìn và cho ý kiến' - bài cân bằng khó nhất trong IELTS Writing.",
+    "Discuss BOTH sides objectively first (no 'I'), THEN inject your opinion in the conclusion - never mix the two.",
+    "Thảo luận CẢ HAI phía khách quan trước (không 'I'), RỒI mới đưa quan điểm ở kết bài - đừng trộn lẫn.",
     [
       "Intro: paraphrase + state both views + your stance",
       "Body 1: 'On the one hand, some argue that…'",
@@ -346,8 +346,8 @@ const task2: IeltsLecture[] = [
     "Task 2: Bài Lợi & Hại",
     "22 min",
     "intermediate",
-    "Two variants: 'discuss advantages/disadvantages' vs 'do advantages outweigh disadvantages' — DIFFERENT structures.",
-    "Hai biến thể: 'discuss advantages/disadvantages' vs 'do advantages outweigh disadvantages' — CẤU TRÚC KHÁC NHAU.",
+    "Two variants: 'discuss advantages/disadvantages' vs 'do advantages outweigh disadvantages' - DIFFERENT structures.",
+    "Hai biến thể: 'discuss advantages/disadvantages' vs 'do advantages outweigh disadvantages' - CẤU TRÚC KHÁC NHAU.",
     "If asked 'do advantages outweigh…' you MUST take a side. If just 'discuss', stay neutral throughout.",
     "Nếu hỏi 'do advantages outweigh…' bạn PHẢI chọn phe. Nếu chỉ 'discuss', giữ trung lập xuyên suốt.",
     [
@@ -355,7 +355,7 @@ const task2: IeltsLecture[] = [
       "'Outweigh' = thesis + heavier weight on winning side",
       "Body 1: 2-3 main advantages with examples",
       "Body 2: 2-3 main disadvantages with examples",
-      "Avoid 'good/bad' — use 'beneficial/detrimental', 'merit/drawback'",
+      "Avoid 'good/bad' - use 'beneficial/detrimental', 'merit/drawback'",
     ],
   ),
   mk(
@@ -365,10 +365,10 @@ const task2: IeltsLecture[] = [
     "Task 2: Bài Vấn đề & Giải pháp",
     "22 min",
     "intermediate",
-    "Cause/problem essays with concrete, realistic solutions — government, individual and societal levels.",
-    "Bài nguyên nhân/vấn đề với giải pháp cụ thể, khả thi — cấp chính phủ, cá nhân và xã hội.",
-    "Each solution must DIRECTLY address a problem you mentioned — random solutions kill Task Response.",
-    "Mỗi giải pháp phải GIẢI QUYẾT TRỰC TIẾP vấn đề đã nêu — giải pháp ngẫu nhiên giết Task Response.",
+    "Cause/problem essays with concrete, realistic solutions - government, individual and societal levels.",
+    "Bài nguyên nhân/vấn đề với giải pháp cụ thể, khả thi - cấp chính phủ, cá nhân và xã hội.",
+    "Each solution must DIRECTLY address a problem you mentioned - random solutions kill Task Response.",
+    "Mỗi giải pháp phải GIẢI QUYẾT TRỰC TIẾP vấn đề đã nêu - giải pháp ngẫu nhiên giết Task Response.",
     [
       "Body 1: 1-2 main problems with consequences",
       "Body 2: matching solutions (gov / individual)",
@@ -384,10 +384,10 @@ const task2: IeltsLecture[] = [
     "Task 2: Bài Nguyên nhân & Hệ quả",
     "20 min",
     "intermediate",
-    "Identify root causes of a phenomenon and trace their effects — chain-of-reasoning structures.",
-    "Xác định nguyên nhân gốc của hiện tượng và truy ngược hệ quả — cấu trúc chuỗi lập luận.",
-    "Distinguish causes (WHY it happens) from effects (WHAT happens next) — mixing them is the #1 Band 6 trap.",
-    "Phân biệt nguyên nhân (TẠI SAO xảy ra) với hệ quả (xảy ra GÌ tiếp theo) — trộn lẫn là bẫy Band 6 số 1.",
+    "Identify root causes of a phenomenon and trace their effects - chain-of-reasoning structures.",
+    "Xác định nguyên nhân gốc của hiện tượng và truy ngược hệ quả - cấu trúc chuỗi lập luận.",
+    "Distinguish causes (WHY it happens) from effects (WHAT happens next) - mixing them is the #1 Band 6 trap.",
+    "Phân biệt nguyên nhân (TẠI SAO xảy ra) với hệ quả (xảy ra GÌ tiếp theo) - trộn lẫn là bẫy Band 6 số 1.",
     [
       "Body 1: 2 main causes with mechanism explained",
       "Body 2: 2 main effects (short-term + long-term)",
@@ -403,10 +403,10 @@ const task2: IeltsLecture[] = [
     "Task 2: Bài Hai câu hỏi (Two-Part)",
     "22 min",
     "advanced",
-    "Direct questions essays — answer BOTH questions equally, never skip one. The most under-prepared question type.",
-    "Bài hỏi trực tiếp — trả lời CẢ HAI câu hỏi cân bằng, đừng bỏ sót. Dạng ít người chuẩn bị nhất.",
-    "Dedicate exactly ONE body paragraph to EACH question — equal length, equal depth. Skipping one = Band 5 ceiling.",
-    "Dành đúng MỘT đoạn thân cho MỖI câu hỏi — đều dài, đều sâu. Bỏ một = trần Band 5.",
+    "Direct questions essays - answer BOTH questions equally, never skip one. The most under-prepared question type.",
+    "Bài hỏi trực tiếp - trả lời CẢ HAI câu hỏi cân bằng, đừng bỏ sót. Dạng ít người chuẩn bị nhất.",
+    "Dedicate exactly ONE body paragraph to EACH question - equal length, equal depth. Skipping one = Band 5 ceiling.",
+    "Dành đúng MỘT đoạn thân cho MỖI câu hỏi - đều dài, đều sâu. Bỏ một = trần Band 5.",
     [
       "Intro: paraphrase BOTH questions + brief preview",
       "Body 1: answer to first question with reasons",
@@ -422,10 +422,10 @@ const task2: IeltsLecture[] = [
     "Task 2: Bài 'Tích cực hay Tiêu cực'",
     "20 min",
     "intermediate",
-    "Evaluation essays — judge whether a trend is good or bad for society with strong justifications.",
-    "Bài đánh giá — phán xét xu hướng tốt hay xấu cho xã hội với lý do mạnh.",
-    "Use phrases like 'overwhelmingly positive', 'predominantly negative' — show degree, not just direction.",
-    "Dùng cụm 'overwhelmingly positive', 'predominantly negative' — thể hiện mức độ, không chỉ hướng.",
+    "Evaluation essays - judge whether a trend is good or bad for society with strong justifications.",
+    "Bài đánh giá - phán xét xu hướng tốt hay xấu cho xã hội với lý do mạnh.",
+    "Use phrases like 'overwhelmingly positive', 'predominantly negative' - show degree, not just direction.",
+    "Dùng cụm 'overwhelmingly positive', 'predominantly negative' - thể hiện mức độ, không chỉ hướng.",
     [
       "Intro: paraphrase + clear judgement (positive/negative/mixed)",
       "Body 1: strongest argument for your stance",
@@ -441,8 +441,8 @@ const task2: IeltsLecture[] = [
     "Task 2: Giải mã MỌI dạng đề",
     "18 min",
     "foundation",
-    "A flowchart-style decision tree to identify the question type in under 60 seconds — never use the wrong template again.",
-    "Cây quyết định dạng flowchart để nhận dạng đề trong dưới 60 giây — không bao giờ dùng sai template nữa.",
+    "A flowchart-style decision tree to identify the question type in under 60 seconds - never use the wrong template again.",
+    "Cây quyết định dạng flowchart để nhận dạng đề trong dưới 60 giây - không bao giờ dùng sai template nữa.",
     "Look for KEY VERBS: 'agree/disagree' = opinion, 'discuss both' = discussion, 'outweigh' = adv/disadv with stance, 'what / why / how' = two-part.",
     "Tìm ĐỘNG TỪ KHÓA: 'agree/disagree' = opinion, 'discuss both' = discussion, 'outweigh' = adv/disadv có quan điểm, 'what / why / how' = two-part.",
     [
@@ -460,10 +460,10 @@ const task2: IeltsLecture[] = [
     "Task 2: Paraphrase đề bài (không đạo văn)",
     "18 min",
     "intermediate",
-    "How to rephrase the prompt with synonyms, voice change and structure flip — without losing the original meaning.",
-    "Cách diễn đạt lại đề bài bằng từ đồng nghĩa, đổi voice và đảo cấu trúc — mà không mất nghĩa gốc.",
-    "Change at least 60% of the words AND restructure the sentence — examiners use software to flag heavy copying.",
-    "Đổi ít nhất 60% từ VÀ tái cấu trúc câu — giám khảo dùng phần mềm phát hiện sao chép.",
+    "How to rephrase the prompt with synonyms, voice change and structure flip - without losing the original meaning.",
+    "Cách diễn đạt lại đề bài bằng từ đồng nghĩa, đổi voice và đảo cấu trúc - mà không mất nghĩa gốc.",
+    "Change at least 60% of the words AND restructure the sentence - examiners use software to flag heavy copying.",
+    "Đổi ít nhất 60% từ VÀ tái cấu trúc câu - giám khảo dùng phần mềm phát hiện sao chép.",
     [
       "Synonyms: 'children' → 'youngsters', 'important' → 'crucial'",
       "Voice flip: active ↔ passive",
@@ -479,8 +479,8 @@ const task2: IeltsLecture[] = [
     "Task 2: Tạo ví dụ minh họa thuyết phục",
     "16 min",
     "intermediate",
-    "Where to get strong examples under time pressure — countries, studies, history, personal experience, hypotheticals.",
-    "Lấy ví dụ mạnh dưới áp lực thời gian — quốc gia, nghiên cứu, lịch sử, kinh nghiệm cá nhân, giả định.",
+    "Where to get strong examples under time pressure - countries, studies, history, personal experience, hypotheticals.",
+    "Lấy ví dụ mạnh dưới áp lực thời gian - quốc gia, nghiên cứu, lịch sử, kinh nghiệm cá nhân, giả định.",
     "Vague examples ('many studies show…') drag you to Band 6. SPECIFIC examples ('a 2019 Stanford study…') push you to Band 7+.",
     "Ví dụ mơ hồ ('many studies show…') kéo xuống Band 6. Ví dụ CỤ THỂ ('nghiên cứu Stanford 2019…') đẩy lên Band 7+.",
     [
@@ -488,10 +488,10 @@ const task2: IeltsLecture[] = [
       "Hypothetical: 'For instance, if a city banned cars…'",
       "Personal but generalised: 'In my country, Vietnam,…'",
       "Historical: 'The Industrial Revolution demonstrated…'",
-      "Made-up studies are OK if plausible — examiners don't fact-check",
+      "Made-up studies are OK if plausible - examiners don't fact-check",
     ],
   ),
 ];
 
-// NOTE: task1GT (General Training letters) intentionally excluded — Writing focus is Academic only.
+// NOTE: task1GT (General Training letters) intentionally excluded - Writing focus is Academic only.
 export const writingExpansion5: IeltsLecture[] = [...task1Academic, ...task2];

@@ -54,8 +54,8 @@ const ModernTechTools = () => {
       icon: Bot,
       title: t("Mr. Hai Chatbot", "Mr. Hai Chatbot"),
       desc: t(
-        "Trợ lý AI 24/7, đa ngôn ngữ — giải đáp mọi câu hỏi học tập.",
-        "24/7 multilingual AI tutor — answers any learning question."
+        "Trợ lý AI 24/7, đa ngôn ngữ - giải đáp mọi câu hỏi học tập.",
+        "24/7 multilingual AI tutor - answers any learning question."
       ),
       action: "open-chatbot",
       gradient: "from-indigo-500/25 to-primary/10",
@@ -126,8 +126,8 @@ const ModernTechTools = () => {
           </h2>
           <p className="mx-auto max-w-2xl px-2 text-sm leading-7 text-muted-foreground sm:px-0 sm:text-base">
             {t(
-              "6 công cụ thực hành trực tiếp trên web — không cần cài đặt, không cần đăng ký phức tạp.",
-              "6 hands-on tools right on the web — no install, no friction."
+              "6 công cụ thực hành trực tiếp trên web - không cần cài đặt, không cần đăng ký phức tạp.",
+              "6 hands-on tools right on the web - no install, no friction."
             )}
           </p>
         </motion.div>

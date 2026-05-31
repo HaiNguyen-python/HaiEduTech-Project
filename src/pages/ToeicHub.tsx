@@ -57,8 +57,8 @@ const ToeicHub = () => {
       icon: GraduationCap,
       title: t("Phòng thi TOEIC 4 kỹ năng", "TOEIC 4-Skills Exam Hub"),
       desc: t(
-        "Listening, Reading, Speaking & Writing — timer, audio speed, ghi âm, quy đổi điểm 990.",
-        "Listening, Reading, Speaking & Writing — timer, audio speed, voice recorder, 990-scale conversion."
+        "Listening, Reading, Speaking & Writing - timer, audio speed, ghi âm, quy đổi điểm 990.",
+        "Listening, Reading, Speaking & Writing - timer, audio speed, voice recorder, 990-scale conversion."
       ),
       badges: [
         { icon: Headphones, label: t("LR Test", "LR Test") },
@@ -140,7 +140,7 @@ const ToeicHub = () => {
         </div>
       </main>
 
-      {/* Side chibis — fixed to viewport edges so they never extend page height */}
+      {/* Side chibis - fixed to viewport edges so they never extend page height */}
       <div
         aria-hidden
         className="pointer-events-none fixed inset-0 z-0 hidden select-none lg:block"

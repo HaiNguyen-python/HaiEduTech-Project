@@ -1,5 +1,5 @@
 /**
- * @file hsk8.ts — HSK 8 Mock Test (HSK 3.0 advanced level)
+ * @file hsk8.ts - HSK 8 Mock Test (HSK 3.0 advanced level)
  * Đề thi thử HSK 8 với chủ đề học thuật, văn hóa và xã hội đương đại.
  * Listening 15 + Reading 18 + Writing 1 = 34 Q, 105 phút (rút gọn).
  * @author Teacher Hai (HaiEduTech)
@@ -86,7 +86,7 @@ export const hsk8Test: HskTest = {
   level: 8 as 1 | 2 | 3 | 4 | 5 | 6,
   code: "HSK8-MOCK-01",
   title: "HSK 8 Mock Test 01",
-  titleVi: "Đề thi thử HSK 8 — Số 01",
+  titleVi: "Đề thi thử HSK 8 - Số 01",
   durationMin: 105,
   passScore: 60,
   showPinyin: false,

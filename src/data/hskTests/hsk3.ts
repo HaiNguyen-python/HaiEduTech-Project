@@ -1,5 +1,5 @@
 /**
- * @file hsk3.ts — HSK 3 Mock Test (authentic Hanban format)
+ * @file hsk3.ts - HSK 3 Mock Test (authentic Hanban format)
  * Listening 40 + Reading 30 + Writing 10 = 80 Q, 85 minutes.
  * No pinyin shown during the test (reveal after submit).
  */

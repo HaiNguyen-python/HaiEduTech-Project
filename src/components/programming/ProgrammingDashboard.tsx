@@ -1,6 +1,6 @@
 /**
  * @file ProgrammingDashboard.tsx
- * @description Hành trình của tôi — XP/Level/Streak/Badges/Pillar progress.
+ * @description Hành trình của tôi - XP/Level/Streak/Badges/Pillar progress.
  * Mounted on the `/programming` page so students see their progress immediately.
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
@@ -160,13 +160,13 @@ const ProgrammingDashboard = () => {
             return (
               <li
                 key={id}
-                title={`${language === "vi" ? def.nameVi : def.name} — ${language === "vi" ? def.descriptionVi : def.description}`}
+                title={`${language === "vi" ? def.nameVi : def.name} - ${language === "vi" ? def.descriptionVi : def.description}`}
                 className={`aspect-square rounded-lg flex flex-col items-center justify-center text-center p-1.5 border transition-all ${
                   earned
                     ? "bg-gradient-to-br from-amber-500/10 to-orange-500/10 border-amber-500/40 shadow-sm"
                     : "bg-muted/30 border-border opacity-40 grayscale"
                 }`}
-                aria-label={`${language === "vi" ? def.nameVi : def.name} — ${earned ? t("đã đạt", "earned") : t("chưa đạt", "locked")}`}
+                aria-label={`${language === "vi" ? def.nameVi : def.name} - ${earned ? t("đã đạt", "earned") : t("chưa đạt", "locked")}`}
               >
                 <span className="text-xl sm:text-2xl" aria-hidden>
                   {def.emoji}

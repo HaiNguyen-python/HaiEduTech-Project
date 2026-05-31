@@ -13,7 +13,7 @@ export const ieltsReadingExpansion4Lessons: LanguageLesson[] = [
     titleEn: "Reading Practice - The History of Coffee",
     level: 3,
     difficulty: "intermediate",
-    theory: `**Practice Passage 1 — The History of Coffee (≈320 words)**
+    theory: `**Practice Passage 1 - The History of Coffee (≈320 words)**
 
 Bài đọc dài chuẩn IELTS Academic Reading. Hãy đọc kỹ đoạn văn, sau đó trả lời các dạng câu hỏi: Fill in the blanks, True/False/Not Given và Multiple Choice.
 
@@ -22,7 +22,7 @@ Bài đọc dài chuẩn IELTS Academic Reading. Hãy đọc kỹ đoạn văn, 
 2. Đọc câu hỏi, gạch chân keywords.
 3. Scan đoạn văn để tìm paraphrase của keyword.
 4. Trả lời theo đúng word limit.`,
-    theoryEn: `**Practice Passage 1 — The History of Coffee (~320 words)**
+    theoryEn: `**Practice Passage 1 - The History of Coffee (~320 words)**
 
 A full-length IELTS Academic Reading passage. Read the passage carefully, then answer fill-in-the-blank, True/False/Not Given and Multiple Choice questions.
 
@@ -49,11 +49,11 @@ A full-length IELTS Academic Reading passage. Read the passage carefully, then a
 
 Passage: Coffee, today one of the world's most widely traded commodities, has a remarkably contested origin. Most historians agree that coffee cultivation began in the highlands of Ethiopia, where, according to legend, a goat herder named Kaldi noticed his animals becoming unusually energetic after eating the red cherries of a certain wild shrub. By the 15th century, the beans were being roasted and brewed in the Sufi monasteries of Yemen, where the resulting drink helped monks stay awake during long evening prayers.
 
-From Yemen, coffee travelled along trade routes to Mecca, Cairo and Istanbul, where the first true coffeehouses, known as "qahveh khaneh", opened in the early 1500s. These establishments quickly became hubs of intellectual exchange — patrons gathered to discuss politics, music and literature, earning the cafés the nickname "Schools of the Wise". European travellers carried the beverage westward in the 17th century, and by 1700 London alone had more than two thousand coffeehouses, each catering to merchants, scientists or artists.
+From Yemen, coffee travelled along trade routes to Mecca, Cairo and Istanbul, where the first true coffeehouses, known as "qahveh khaneh", opened in the early 1500s. These establishments quickly became hubs of intellectual exchange - patrons gathered to discuss politics, music and literature, earning the cafés the nickname "Schools of the Wise". European travellers carried the beverage westward in the 17th century, and by 1700 London alone had more than two thousand coffeehouses, each catering to merchants, scientists or artists.
 
 Colonial expansion transformed coffee from a luxury into a global crop. The Dutch established plantations in Java, the French in the Caribbean and the Portuguese in Brazil, which by 1850 was producing nearly half of the world's supply. This dramatic expansion, however, came at considerable human cost: vast plantations relied heavily on enslaved labour, a legacy that continues to shape coffee-producing regions today.
 
-In the 20th century, technological breakthroughs — instant coffee, vacuum packaging and, later, the espresso machine — turned coffee into a daily ritual for hundreds of millions of consumers. The recent rise of "third-wave" coffee culture has placed renewed emphasis on origin, sustainability and the craft of brewing, returning attention to the small farmers whose work first made this beverage possible.`,
+In the 20th century, technological breakthroughs - instant coffee, vacuum packaging and, later, the espresso machine - turned coffee into a daily ritual for hundreds of millions of consumers. The recent rise of "third-wave" coffee culture has placed renewed emphasis on origin, sustainability and the craft of brewing, returning attention to the small farmers whose work first made this beverage possible.`,
         sentences: [
           { text: "Coffee cultivation is widely believed to have begun in the highlands of ___.", textEn: "Coffee cultivation is widely believed to have begun in the highlands of ___.", answer: "Ethiopia", hint: "country in East Africa" },
           { text: "In Yemen, coffee was first brewed by ___ monks for evening prayers.", textEn: "In Yemen, coffee was first brewed by ___ monks for evening prayers.", answer: "Sufi", hint: "Islamic mystical tradition" },
@@ -69,9 +69,9 @@ In the 20th century, technological breakthroughs — instant coffee, vacuum pack
       { question: "According to the passage, who legendarily discovered coffee?", options: ["A Yemeni monk", "A Dutch trader", "A goat herder named Kaldi", "An Ethiopian king"], answer: 2, explanation: "The legend credits a goat herder named Kaldi who noticed his goats' energy after eating the cherries." },
       { question: "Why did Sufi monks drink coffee?", options: ["To celebrate festivals", "To stay awake during long evening prayers", "To trade with merchants", "To treat illnesses"], answer: 1, explanation: "The passage states monks used coffee to stay awake during evening prayers." },
       { question: "TRUE / FALSE / NOT GIVEN: London had over 3,000 coffeehouses by 1700.", options: ["TRUE", "FALSE", "NOT GIVEN"], answer: 1, explanation: "The passage says 'more than two thousand', so 3,000 is FALSE based on the figure given." },
-      { question: "TRUE / FALSE / NOT GIVEN: Coffee was first introduced to Europe by Dutch traders.", options: ["TRUE", "FALSE", "NOT GIVEN"], answer: 2, explanation: "The passage doesn't specify who first brought coffee to Europe — only that 'European travellers' carried it westward. NOT GIVEN." },
+      { question: "TRUE / FALSE / NOT GIVEN: Coffee was first introduced to Europe by Dutch traders.", options: ["TRUE", "FALSE", "NOT GIVEN"], answer: 2, explanation: "The passage doesn't specify who first brought coffee to Europe - only that 'European travellers' carried it westward. NOT GIVEN." },
       { question: "What does the passage suggest about colonial coffee expansion?", options: ["It improved working conditions", "It had serious human costs related to slavery", "It was peaceful and beneficial", "It was led by Brazilian farmers"], answer: 1, explanation: "The passage explicitly mentions reliance on enslaved labour and its lasting legacy." },
-      { question: "Which technological development is NOT mentioned in the passage?", options: ["Instant coffee", "Vacuum packaging", "Espresso machines", "Cold brew systems"], answer: 3, explanation: "Cold brew systems are not mentioned — the others all are." },
+      { question: "Which technological development is NOT mentioned in the passage?", options: ["Instant coffee", "Vacuum packaging", "Espresso machines", "Cold brew systems"], answer: 3, explanation: "Cold brew systems are not mentioned - the others all are." },
     ],
   },
   {
@@ -80,10 +80,10 @@ In the 20th century, technological breakthroughs — instant coffee, vacuum pack
     titleEn: "Reading Practice - Urban Beekeeping",
     level: 3,
     difficulty: "intermediate",
-    theory: `**Practice Passage 2 — The Rise of Urban Beekeeping (≈300 words)**
+    theory: `**Practice Passage 2 - The Rise of Urban Beekeeping (≈300 words)**
 
 Bài đọc khoa học/môi trường chuẩn IELTS. Tập trung phân biệt fact và opinion, cũng như nhận diện paraphrase.`,
-    theoryEn: `**Practice Passage 2 — The Rise of Urban Beekeeping (~300 words)**
+    theoryEn: `**Practice Passage 2 - The Rise of Urban Beekeeping (~300 words)**
 
 A science/environment passage in IELTS style. Focus on distinguishing fact from opinion and spotting paraphrases.`,
     proTips: [
@@ -102,7 +102,7 @@ A science/environment passage in IELTS style. Focus on distinguishing fact from 
 
 Passage: Over the past two decades, beekeeping has quietly transformed from a rural occupation into an unlikely urban hobby. Cities from Paris to New York now host thousands of registered hives, perched on rooftops, balconies and even the tops of luxury hotels. The phenomenon is partly driven by alarm over the global decline of honeybee populations, which has been linked to pesticide use, habitat loss and the spread of parasitic mites.
 
-Surprisingly, urban environments often suit bees better than the surrounding countryside. Cities offer a remarkable diversity of flowering plants — from park trees to garden flowers and even weeds growing through pavement cracks — providing nectar from early spring until late autumn. Crucially, urban areas typically lack the broad-spectrum agricultural pesticides that devastate rural colonies. Studies in London and Berlin have shown that city honey can contain pollen from more than two hundred different plant species, far more than honey produced on agricultural land.
+Surprisingly, urban environments often suit bees better than the surrounding countryside. Cities offer a remarkable diversity of flowering plants - from park trees to garden flowers and even weeds growing through pavement cracks - providing nectar from early spring until late autumn. Crucially, urban areas typically lack the broad-spectrum agricultural pesticides that devastate rural colonies. Studies in London and Berlin have shown that city honey can contain pollen from more than two hundred different plant species, far more than honey produced on agricultural land.
 
 The benefits of urban beekeeping extend beyond honey production. Bees pollinate fruit trees and vegetable gardens, supporting community food projects and improving local biodiversity. Several cities, including Toronto and Melbourne, now run educational programmes that teach schoolchildren about pollinators, hoping to nurture a new generation of conservation-minded citizens.
 
@@ -119,7 +119,7 @@ Critics, however, warn against unregulated growth. When too many hives are place
     ],
     quiz: [
       { question: "According to the passage, why are cities often good for bees?", options: ["They are warmer", "They have diverse flowering plants and few pesticides", "They are quieter than countryside", "They have fewer predators"], answer: 1, explanation: "The passage cites plant diversity and absence of broad-spectrum agricultural pesticides." },
-      { question: "TRUE / FALSE / NOT GIVEN: Urban honey usually contains pollen from fewer plants than rural honey.", options: ["TRUE", "FALSE", "NOT GIVEN"], answer: 1, explanation: "The passage states city honey contains pollen from far MORE species — so FALSE." },
+      { question: "TRUE / FALSE / NOT GIVEN: Urban honey usually contains pollen from fewer plants than rural honey.", options: ["TRUE", "FALSE", "NOT GIVEN"], answer: 1, explanation: "The passage states city honey contains pollen from far MORE species - so FALSE." },
       { question: "Which city is mentioned as running educational programmes for children?", options: ["Paris", "London", "Toronto", "Berlin"], answer: 2, explanation: "Toronto and Melbourne are mentioned as cities with educational programmes." },
       { question: "TRUE / FALSE / NOT GIVEN: Urban beekeeping increases honey export profits.", options: ["TRUE", "FALSE", "NOT GIVEN"], answer: 2, explanation: "Export profits are not discussed in the passage." },
       { question: "What is the main concern of critics?", options: ["Honey quality", "Cost of beekeeping equipment", "Competition between managed and wild bees", "Risk of stings in cities"], answer: 2, explanation: "Critics worry that managed honeybees outcompete wild pollinators." },
@@ -131,10 +131,10 @@ Critics, however, warn against unregulated growth. When too many hives are place
     titleEn: "Reading Practice - The Science of Sleep",
     level: 4,
     difficulty: "advanced",
-    theory: `**Practice Passage 3 — The Science of Sleep (≈340 words)**
+    theory: `**Practice Passage 3 - The Science of Sleep (≈340 words)**
 
 Bài đọc academic chuyên sâu về thần kinh học. Luyện kỹ năng đọc câu phức và xác định ý chính của từng đoạn.`,
-    theoryEn: `**Practice Passage 3 — The Science of Sleep (~340 words)**
+    theoryEn: `**Practice Passage 3 - The Science of Sleep (~340 words)**
 
 A dense academic passage on neuroscience. Practise parsing complex sentences and identifying paragraph main ideas.`,
     proTips: [
@@ -151,13 +151,13 @@ A dense academic passage on neuroscience. Practise parsing complex sentences and
         instruction: "Đọc đoạn văn rồi hoàn thành câu tóm tắt.",
         instructionEn: `Read the passage and complete the summary sentences with words from the text.
 
-Passage: For most of human history, sleep was treated as a passive state — simply the absence of waking activity. Modern neuroscience has overturned that view entirely. Far from shutting down, the brain at night is engaged in a complex sequence of operations that are essential to memory, immunity and emotional regulation.
+Passage: For most of human history, sleep was treated as a passive state - simply the absence of waking activity. Modern neuroscience has overturned that view entirely. Far from shutting down, the brain at night is engaged in a complex sequence of operations that are essential to memory, immunity and emotional regulation.
 
 A typical adult cycles through four to six sleep stages each night. The first three stages, collectively known as non-REM sleep, are characterised by progressively slower brain waves and a steep drop in body temperature and heart rate. During the deepest stage, sometimes called slow-wave sleep, the glymphatic system becomes highly active, flushing out metabolic waste products that accumulate during the day. Researchers believe this nightly cleansing may help protect the brain against neurodegenerative diseases such as Alzheimer's.
 
-The fourth stage, REM (rapid eye movement) sleep, is dramatically different. Brain activity surges to near-waking levels, the eyes dart beneath closed lids, and most vivid dreams occur. Crucially, the body becomes temporarily paralysed, preventing sleepers from acting out their dreams. REM sleep appears to play a central role in consolidating emotional memories and creative problem-solving — a phenomenon often summarised by the advice to "sleep on it" before making a difficult decision.
+The fourth stage, REM (rapid eye movement) sleep, is dramatically different. Brain activity surges to near-waking levels, the eyes dart beneath closed lids, and most vivid dreams occur. Crucially, the body becomes temporarily paralysed, preventing sleepers from acting out their dreams. REM sleep appears to play a central role in consolidating emotional memories and creative problem-solving - a phenomenon often summarised by the advice to "sleep on it" before making a difficult decision.
 
-Despite this growing understanding, modern lifestyles undermine sleep on a vast scale. Artificial lighting, late-night screen use and inconsistent schedules disrupt the circadian rhythm, the internal 24-hour clock that governs hormone release. Chronic sleep deprivation — defined as fewer than six hours per night over an extended period — has been associated with weakened immunity, weight gain and a substantially elevated risk of cardiovascular disease.
+Despite this growing understanding, modern lifestyles undermine sleep on a vast scale. Artificial lighting, late-night screen use and inconsistent schedules disrupt the circadian rhythm, the internal 24-hour clock that governs hormone release. Chronic sleep deprivation - defined as fewer than six hours per night over an extended period - has been associated with weakened immunity, weight gain and a substantially elevated risk of cardiovascular disease.
 
 Public health experts increasingly argue that sleep deserves the same attention as diet and exercise, and several countries are now considering official sleep guidelines alongside long-standing nutritional recommendations.`,
         sentences: [
@@ -174,7 +174,7 @@ Public health experts increasingly argue that sleep deserves the same attention 
       { question: "How was sleep traditionally viewed?", options: ["As an active state of repair", "As a passive absence of waking activity", "As a spiritual journey", "As a luxury for the rich"], answer: 1, explanation: "The opening line says sleep was treated as a passive state." },
       { question: "What does the glymphatic system do during sleep?", options: ["Generates dreams", "Stores memories", "Flushes out metabolic waste", "Regulates body temperature"], answer: 2, explanation: "The passage states the glymphatic system flushes metabolic waste from the brain." },
       { question: "TRUE / FALSE / NOT GIVEN: REM sleep is associated with creative problem-solving.", options: ["TRUE", "FALSE", "NOT GIVEN"], answer: 0, explanation: "The passage explicitly links REM to consolidating memory and creative problem-solving." },
-      { question: "TRUE / FALSE / NOT GIVEN: All countries now have official sleep guidelines.", options: ["TRUE", "FALSE", "NOT GIVEN"], answer: 1, explanation: "The passage says 'several countries are now CONSIDERING' guidelines — not that all have them. FALSE." },
+      { question: "TRUE / FALSE / NOT GIVEN: All countries now have official sleep guidelines.", options: ["TRUE", "FALSE", "NOT GIVEN"], answer: 1, explanation: "The passage says 'several countries are now CONSIDERING' guidelines - not that all have them. FALSE." },
       { question: "What is chronic sleep deprivation defined as?", options: ["Fewer than 8 hours per night", "Fewer than 6 hours per night over an extended period", "One sleepless night", "Sleeping irregularly"], answer: 1, explanation: "The passage gives the specific definition: fewer than six hours per night for an extended period." },
       { question: "What is the author's overall purpose?", options: ["To entertain readers with sleep stories", "To inform readers about modern understanding of sleep and its importance", "To sell sleep products", "To criticise scientists"], answer: 1, explanation: "The passage informs and gently advocates that sleep deserves attention like diet and exercise." },
     ],
@@ -185,10 +185,10 @@ Public health experts increasingly argue that sleep deserves the same attention 
     titleEn: "Reading Practice - The Future of Solar Power",
     level: 4,
     difficulty: "advanced",
-    theory: `**Practice Passage 4 — The Future of Solar Power (≈330 words)**
+    theory: `**Practice Passage 4 - The Future of Solar Power (≈330 words)**
 
 Bài đọc về công nghệ và năng lượng tái tạo. Tập trung kỹ năng matching information và xử lý số liệu.`,
-    theoryEn: `**Practice Passage 4 — The Future of Solar Power (~330 words)**
+    theoryEn: `**Practice Passage 4 - The Future of Solar Power (~330 words)**
 
 A passage on technology and renewable energy. Practise matching-information skills and handling numerical data.`,
     proTips: [
@@ -197,7 +197,7 @@ A passage on technology and renewable energy. Practise matching-information skil
     ],
     proTipsEn: [
       "Numbers and dates are often pivotal - read them twice",
-      "With percentages, check the base — % of what?",
+      "With percentages, check the base - % of what?",
     ],
     exercises: [
       {
@@ -209,9 +209,9 @@ Passage: A decade ago, solar power was often dismissed as too expensive to compe
 
 The technology itself has also evolved rapidly. Conventional silicon panels still dominate the market, but a new generation of perovskite cells promises higher efficiency at lower production cost. In laboratory tests, tandem perovskite-silicon cells have already exceeded 33 per cent efficiency, well above the practical limit of around 26 per cent for pure silicon. Commercial deployment is expected before 2030, although researchers must first solve persistent problems with long-term durability.
 
-Solar is also moving beyond the rooftop. Large-scale "solar farms" now cover thousands of hectares in deserts from Morocco to Australia, while floating arrays — installed on reservoirs and irrigation canals — reduce evaporation and free up valuable land. Perhaps the most innovative deployment is agrivoltaics: the practice of growing shade-tolerant crops directly beneath elevated solar panels. Trials in France and Japan have shown that certain crops, including lettuce, berries and even some grape varieties, can thrive under partial shade while the panels generate clean electricity above.
+Solar is also moving beyond the rooftop. Large-scale "solar farms" now cover thousands of hectares in deserts from Morocco to Australia, while floating arrays - installed on reservoirs and irrigation canals - reduce evaporation and free up valuable land. Perhaps the most innovative deployment is agrivoltaics: the practice of growing shade-tolerant crops directly beneath elevated solar panels. Trials in France and Japan have shown that certain crops, including lettuce, berries and even some grape varieties, can thrive under partial shade while the panels generate clean electricity above.
 
-Despite these advances, significant challenges remain. Solar generation is intermittent, requiring substantial investment in battery storage and grid upgrades. Mining the materials for panels — particularly silver and rare metals — raises environmental and ethical concerns. Recycling end-of-life panels, which can contain hazardous substances, is still in its infancy. Nevertheless, most analysts agree that solar will supply at least 30 per cent of global electricity by 2050, fundamentally reshaping the energy landscape.`,
+Despite these advances, significant challenges remain. Solar generation is intermittent, requiring substantial investment in battery storage and grid upgrades. Mining the materials for panels - particularly silver and rare metals - raises environmental and ethical concerns. Recycling end-of-life panels, which can contain hazardous substances, is still in its infancy. Nevertheless, most analysts agree that solar will supply at least 30 per cent of global electricity by 2050, fundamentally reshaping the energy landscape.`,
         sentences: [
           { text: "Between 2010 and 2023, solar PV module costs fell by about ___ per cent.", textEn: "Between 2010 and 2023, solar PV module costs fell by about ___ per cent.", answer: "90", hint: "huge reduction" },
           { text: "Tandem perovskite-silicon cells have exceeded ___ per cent efficiency in labs.", textEn: "Tandem perovskite-silicon cells have exceeded ___ per cent efficiency in labs.", answer: "33", hint: "lab record" },
@@ -228,7 +228,7 @@ Despite these advances, significant challenges remain. Solar generation is inter
       { question: "What is one advantage of agrivoltaics?", options: ["Reduces panel cost", "Allows crops and electricity generation on the same land", "Eliminates the need for water", "Removes need for batteries"], answer: 1, explanation: "Agrivoltaics combines crop growing with solar generation on the same land." },
       { question: "TRUE / FALSE / NOT GIVEN: Australia has built solar farms covering thousands of hectares.", options: ["TRUE", "FALSE", "NOT GIVEN"], answer: 0, explanation: "The passage mentions large solar farms in deserts 'from Morocco to Australia'. TRUE." },
       { question: "Which is NOT mentioned as a challenge for solar?", options: ["Intermittency", "Mining concerns", "Recycling of panels", "Lack of sunlight"], answer: 3, explanation: "Lack of sunlight is not listed; the passage cites intermittency, mining and recycling." },
-      { question: "TRUE / FALSE / NOT GIVEN: Solar panel recycling is a fully solved problem.", options: ["TRUE", "FALSE", "NOT GIVEN"], answer: 1, explanation: "The passage says recycling 'is still in its infancy' — not solved. FALSE." },
+      { question: "TRUE / FALSE / NOT GIVEN: Solar panel recycling is a fully solved problem.", options: ["TRUE", "FALSE", "NOT GIVEN"], answer: 1, explanation: "The passage says recycling 'is still in its infancy' - not solved. FALSE." },
     ],
   },
   {
@@ -237,10 +237,10 @@ Despite these advances, significant challenges remain. Solar generation is inter
     titleEn: "Reading Practice - The Mystery of Stonehenge",
     level: 3,
     difficulty: "intermediate",
-    theory: `**Practice Passage 5 — The Mystery of Stonehenge (≈310 words)**
+    theory: `**Practice Passage 5 - The Mystery of Stonehenge (≈310 words)**
 
 Bài đọc lịch sử/khảo cổ. Luyện dạng câu hỏi Yes/No/Not Given để phân biệt với T/F/NG.`,
-    theoryEn: `**Practice Passage 5 — The Mystery of Stonehenge (~310 words)**
+    theoryEn: `**Practice Passage 5 - The Mystery of Stonehenge (~310 words)**
 
 A history/archaeology passage. Practise Yes/No/Not Given to contrast with True/False/Not Given.`,
     proTips: [
@@ -259,7 +259,7 @@ A history/archaeology passage. Practise Yes/No/Not Given to contrast with True/F
 
 Passage: For more than four thousand years, the circle of giant stones on Salisbury Plain in southern England has stood as one of the world's most enduring puzzles. Stonehenge was built in several phases between roughly 3000 BC and 1500 BC, long before written records existed in Britain. As a result, every theory about its purpose must be reconstructed from physical evidence alone.
 
-The most striking feature of the monument is its alignment. On the morning of the summer solstice, the sun rises directly over the so-called Heel Stone, sending a beam of light through the central archway. A similar but reversed alignment occurs at the winter solstice. This precision has convinced most archaeologists that Stonehenge served, at least in part, as a vast astronomical calendar — a place where Neolithic communities could mark the changing seasons and time their agricultural activities.
+The most striking feature of the monument is its alignment. On the morning of the summer solstice, the sun rises directly over the so-called Heel Stone, sending a beam of light through the central archway. A similar but reversed alignment occurs at the winter solstice. This precision has convinced most archaeologists that Stonehenge served, at least in part, as a vast astronomical calendar - a place where Neolithic communities could mark the changing seasons and time their agricultural activities.
 
 Other theories propose more spiritual roles. The discovery of nearly sixty cremation burials within and around the monument suggests that it functioned as a major burial ground, possibly for elite families. Some scholars argue that it was also a centre for healing: chemical analysis of skeletal remains shows that many of the people buried at Stonehenge had travelled hundreds of kilometres, perhaps in search of a cure.
 
@@ -295,12 +295,12 @@ export const ieltsListeningExpansion4Lessons: LanguageLesson[] = [
     titleEn: "Listening Practice - Section 1 Booking Conversation",
     level: 2,
     difficulty: "beginner",
-    theory: `**Listening Practice — Section 1 (Booking a Tour)**
+    theory: `**Listening Practice - Section 1 (Booking a Tour)**
 
 Mô phỏng đoạn hội thoại Section 1 IELTS: một khách hàng gọi đến trung tâm du lịch để đặt tour. Bạn sẽ luyện chính tả các thông tin chuẩn IELTS: tên, địa chỉ, số điện thoại, ngày, giờ và giá tiền.
 
 Sử dụng nút 🐢 để nghe chậm khi mới bắt đầu, sau đó tăng dần lên tốc độ thường.`,
-    theoryEn: `**Listening Practice — Section 1 (Booking a Tour)**
+    theoryEn: `**Listening Practice - Section 1 (Booking a Tour)**
 
 Simulates an IELTS Section 1 conversation: a customer calling a tour centre. You will practise transcribing typical IELTS information: names, addresses, phone numbers, dates, times and prices.
 
@@ -313,7 +313,7 @@ Use 🐢 for slow audio first, then move to normal speed.`,
     proTipsEn: [
       "The digit 0 in British English is often pronounced 'oh'",
       "Addresses follow the order: house number → street → postcode",
-      "Prices always have a currency unit — listen for pounds, dollars, euros",
+      "Prices always have a currency unit - listen for pounds, dollars, euros",
     ],
     exercises: [
       {
@@ -343,19 +343,19 @@ Use 🐢 for slow audio first, then move to normal speed.`,
     titleEn: "Listening Practice - Section 2 Tour Guide Monologue",
     level: 3,
     difficulty: "intermediate",
-    theory: `**Listening Practice — Section 2 (Welcome Speech at a Museum)**
+    theory: `**Listening Practice - Section 2 (Welcome Speech at a Museum)**
 
-Section 2 thường là monologue về một địa điểm hoặc sự kiện. Bài tập này luyện chính tả các câu giới thiệu chuẩn của một hướng dẫn viên bảo tàng — bao gồm thông tin về tầng, lối thoát hiểm, lịch trình và các quy định.`,
-    theoryEn: `**Listening Practice — Section 2 (Museum Welcome Speech)**
+Section 2 thường là monologue về một địa điểm hoặc sự kiện. Bài tập này luyện chính tả các câu giới thiệu chuẩn của một hướng dẫn viên bảo tàng - bao gồm thông tin về tầng, lối thoát hiểm, lịch trình và các quy định.`,
+    theoryEn: `**Listening Practice - Section 2 (Museum Welcome Speech)**
 
-Section 2 is usually a monologue about a place or event. This exercise transcribes the welcome speech of a museum tour guide — covering floors, emergency exits, timing and rules.`,
+Section 2 is usually a monologue about a place or event. This exercise transcribes the welcome speech of a museum tour guide - covering floors, emergency exits, timing and rules.`,
     proTips: [
       "Section 2 đoạn nào cũng có 'signposting words' (firstly, next, finally)",
       "Thường có map/plan đi kèm - chú ý từ chỉ phương hướng",
     ],
     proTipsEn: [
       "Section 2 always uses signposting words (firstly, next, finally)",
-      "Maps often accompany this section — watch directional vocabulary",
+      "Maps often accompany this section - watch directional vocabulary",
     ],
     exercises: [
       {
@@ -385,10 +385,10 @@ Section 2 is usually a monologue about a place or event. This exercise transcrib
     titleEn: "Listening Practice - Section 3 Academic Discussion",
     level: 4,
     difficulty: "advanced",
-    theory: `**Listening Practice — Section 3 (Tutor and Student Discussion)**
+    theory: `**Listening Practice - Section 3 (Tutor and Student Discussion)**
 
 Section 3 là cuộc thảo luận học thuật giữa 2-4 người, thường là tutor và sinh viên về bài tập, dự án hoặc nghiên cứu. Đây là phần khó vì nhiều giọng nói và đổi ý liên tục.`,
-    theoryEn: `**Listening Practice — Section 3 (Tutor and Student Discussion)**
+    theoryEn: `**Listening Practice - Section 3 (Tutor and Student Discussion)**
 
 Section 3 is an academic discussion between 2-4 people, often a tutor and students about an assignment, project or research. It is difficult because of multiple voices and frequent changes of opinion.`,
     proTips: [
@@ -427,10 +427,10 @@ Section 3 is an academic discussion between 2-4 people, often a tutor and studen
     titleEn: "Listening Practice - Section 4 University Lecture",
     level: 4,
     difficulty: "advanced",
-    theory: `**Listening Practice — Section 4 (Lecture on Renewable Energy)**
+    theory: `**Listening Practice - Section 4 (Lecture on Renewable Energy)**
 
 Section 4 là một bài giảng đại học dài 5-7 phút không có ngắt quãng. Bạn cần luyện kỹ năng note-taking, theo dõi cấu trúc bài giảng và bắt được các cụm chuyên ngành.`,
-    theoryEn: `**Listening Practice — Section 4 (Lecture on Renewable Energy)**
+    theoryEn: `**Listening Practice - Section 4 (Lecture on Renewable Energy)**
 
 Section 4 is a 5-7 minute uninterrupted university lecture. Practise note-taking, following lecture structure and catching subject-specific phrases.`,
     proTips: [
@@ -438,7 +438,7 @@ Section 4 is a 5-7 minute uninterrupted university lecture. Practise note-taking
       "Lecture thường có structure: introduction → 2-3 main points → conclusion",
     ],
     proTipsEn: [
-      "Section 4 has no mid-section pause — read all questions in advance",
+      "Section 4 has no mid-section pause - read all questions in advance",
       "Lectures usually follow: introduction → 2-3 main points → conclusion",
     ],
     exercises: [

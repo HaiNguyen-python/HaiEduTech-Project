@@ -1,6 +1,6 @@
 /**
  * @file cambridgeKidsVocabMaster8.ts
- * @description Batch 8 — additional Cambridge YLE vocabulary (Starters → PET).
+ * @description Batch 8 - additional Cambridge YLE vocabulary (Starters → PET).
  */
 import type { CambridgeKidsLevel, CambridgeKidsWord } from "./cambridgeKidsVocab";
 

@@ -144,7 +144,7 @@ const IeltsLectureView = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <SEO
-        title={`${lecture.title} — IELTS Lecture`}
+        title={`${lecture.title} - IELTS Lecture`}
         description={(lecture.description || lecture.title).slice(0, 158)}
         path={`/ielts-lectures/${lecture.id}`}
         type="article"

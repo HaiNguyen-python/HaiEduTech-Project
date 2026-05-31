@@ -1,5 +1,5 @@
 /**
- * DeepfakeSandbox — side-by-side portrait reveal. Hover/touch a "magnifier"
+ * DeepfakeSandbox - side-by-side portrait reveal. Hover/touch a "magnifier"
  * over each photo to expose hidden noise/blur artifacts on the spoofed one.
  */
 import { useRef, useState } from "react";
@@ -9,7 +9,7 @@ import { BestMatchPick } from "./SandboxMiniActivity";
 
 const DF_TF = [
   { q: "Deepfake là video / ảnh do AI tạo trông như người thật.", a: true },
-  { q: "Deepfake luôn dễ phát hiện bằng mắt thường.", a: false, why: "Nhiều deepfake rất tinh vi — cần soi artifact (mép, bóng, răng…)." },
+  { q: "Deepfake luôn dễ phát hiện bằng mắt thường.", a: false, why: "Nhiều deepfake rất tinh vi - cần soi artifact (mép, bóng, răng…)." },
   { q: "Nên kiểm chứng nguồn trước khi chia sẻ video lạ.", a: true },
   { q: "Tai và bóng đổ thường là điểm AI deepfake hay lỗi.", a: true },
   { q: "Deepfake không bị xem là vi phạm pháp luật.", a: false, why: "Nhiều nước (VN, EU, Mỹ) đã có luật xử phạt deepfake lừa đảo." },
@@ -158,7 +158,7 @@ const DeepfakeSandbox = () => {
         >
           {verdict === "fake"
             ? "✅ Chính xác! Ảnh phải có 3 lỗi: mép tai mờ, bóng sai, răng méo."
-            : "❌ Sai rồi — soi kỹ ảnh phải sẽ thấy artifact của deepfake."}
+            : "❌ Sai rồi - soi kỹ ảnh phải sẽ thấy artifact của deepfake."}
         </div>
       )}
 

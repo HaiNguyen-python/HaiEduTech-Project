@@ -1,5 +1,5 @@
 /**
- * AIoTSandbox — "Smart traffic light controller"
+ * AIoTSandbox - "Smart traffic light controller"
  * A 4-way crossroad with 4 lanes. Cars spawn at random; the student tunes
  * congestion thresholds and the green-phase budget. A simple If-Else policy
  * keeps the busier lane green longer. Average waiting time and total throughput

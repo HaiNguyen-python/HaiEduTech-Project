@@ -17,18 +17,18 @@ const ITEMS_BEFORE: { id: string; vi: string; en: string }[] = [
   { id: "admission", vi: "In Admission Ticket từ College Board, kiểm tra tên đúng chính tả", en: "Print Admission Ticket from College Board, double-check spelling" },
   { id: "bluebook", vi: "Cài Bluebook ≥ 5 ngày trước thi, làm Exam Setup trên app", en: "Install Bluebook ≥5 days early, complete in-app Exam Setup" },
   { id: "laptop", vi: "Laptop/tablet sạc đầy + sạc dự phòng + cáp nguồn", en: "Fully-charged laptop/tablet + charger + power cable" },
-  { id: "calc", vi: "Máy tính được phép (TI-84 / Casio fx-CG50) — không bắt buộc vì có Desmos", en: "Approved calculator (TI-84 / Casio fx-CG50) — optional since Desmos is built-in" },
+  { id: "calc", vi: "Máy tính được phép (TI-84 / Casio fx-CG50) - không bắt buộc vì có Desmos", en: "Approved calculator (TI-84 / Casio fx-CG50) - optional since Desmos is built-in" },
   { id: "snack", vi: "Đồ ăn nhẹ + chai nước (uống ngoài phòng thi)", en: "Snacks + water bottle (consume outside testing room)" },
-  { id: "watch", vi: "Đồng hồ analog không có sóng (không bắt buộc, Bluebook có timer)", en: "Analog watch — not required, Bluebook has a timer" },
-  { id: "outfit", vi: "Mặc áo có lớp dễ cởi — phòng thi điều hòa có thể lạnh", en: "Wear layers — testing rooms can be cold" },
-  { id: "sleep", vi: "Ngủ đủ 7-8 tiếng đêm trước, tránh học bài mới", en: "Sleep 7-8 hours the night before — no cramming" },
+  { id: "watch", vi: "Đồng hồ analog không có sóng (không bắt buộc, Bluebook có timer)", en: "Analog watch - not required, Bluebook has a timer" },
+  { id: "outfit", vi: "Mặc áo có lớp dễ cởi - phòng thi điều hòa có thể lạnh", en: "Wear layers - testing rooms can be cold" },
+  { id: "sleep", vi: "Ngủ đủ 7-8 tiếng đêm trước, tránh học bài mới", en: "Sleep 7-8 hours the night before - no cramming" },
   { id: "early", vi: "Đến địa điểm thi sớm ít nhất 30 phút", en: "Arrive at the test center at least 30 minutes early" },
 ];
 
 const BLUEBOOK_STEPS = [
   { vi: "Tải Bluebook từ bluebook.app.collegeboard.org cho Windows / macOS / iPad / school-managed Chromebook.", en: "Download Bluebook from bluebook.app.collegeboard.org for Windows / macOS / iPad / school-managed Chromebook." },
   { vi: "Đăng nhập tài khoản College Board (cùng tài khoản đã đăng ký SAT).", en: "Sign in with your College Board account (same one used to register)." },
-  { vi: "Vào 'Test Preview' và 'Practice Tests' — làm ÍT NHẤT 1 full-length trên Bluebook.", en: "Open 'Test Preview' and 'Practice Tests' — finish AT LEAST one full-length on Bluebook." },
+  { vi: "Vào 'Test Preview' và 'Practice Tests' - làm ÍT NHẤT 1 full-length trên Bluebook.", en: "Open 'Test Preview' and 'Practice Tests' - finish AT LEAST one full-length on Bluebook." },
   { vi: "Trong vòng 5 ngày trước thi: hoàn thành 'Exam Setup' từ Bluebook để lấy Admission Ticket.", en: "Within 5 days of test day: complete 'Exam Setup' in Bluebook to receive your Admission Ticket." },
   { vi: "Test internet ở địa điểm dự định (Bluebook có thể chạy offline khi cúp mạng giữa bài).", en: "Test the internet at your planned location (Bluebook can run offline if Wi-Fi drops mid-test)." },
 ];
@@ -41,10 +41,10 @@ const DOS_DONTS = {
     { vi: "Kiểm tra pin & tắt Wi-Fi tự động ngủ trước khi bắt đầu.", en: "Check battery & disable Wi-Fi auto-sleep before starting." },
   ],
   dont: [
-    { vi: "ĐỪNG mở app khác trong giờ thi — Bluebook sẽ flag.", en: "DON'T open other apps during the test — Bluebook will flag you." },
+    { vi: "ĐỪNG mở app khác trong giờ thi - Bluebook sẽ flag.", en: "DON'T open other apps during the test - Bluebook will flag you." },
     { vi: "ĐỪNG mang điện thoại vào phòng (College Board cấm).", en: "DON'T bring a phone into the room (College Board prohibits it)." },
-    { vi: "ĐỪNG đoán hoảng — Digital SAT KHÔNG trừ điểm sai, nhưng đoán không suy nghĩ phí time.", en: "DON'T panic-guess — Digital SAT has no penalty, but blind guessing wastes time." },
-    { vi: "ĐỪNG huỷ điểm vội trừ khi bị bệnh — bạn có 'Score Cancel' đến hôm sau.", en: "DON'T cancel scores immediately unless ill — you have until the next day." },
+    { vi: "ĐỪNG đoán hoảng - Digital SAT KHÔNG trừ điểm sai, nhưng đoán không suy nghĩ phí time.", en: "DON'T panic-guess - Digital SAT has no penalty, but blind guessing wastes time." },
+    { vi: "ĐỪNG huỷ điểm vội trừ khi bị bệnh - bạn có 'Score Cancel' đến hôm sau.", en: "DON'T cancel scores immediately unless ill - you have until the next day." },
   ],
 };
 
@@ -60,7 +60,7 @@ const SatTestDay = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-secondary/10">
       <Helmet>
-        <title>{t("Test Day SAT — HaiEduTech", "SAT Test Day — HaiEduTech")}</title>
+        <title>{t("Test Day SAT - HaiEduTech", "SAT Test Day - HaiEduTech")}</title>
       </Helmet>
       <Navbar />
       <main className="container mx-auto px-4 py-8 max-w-4xl">

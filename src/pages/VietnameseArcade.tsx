@@ -1,8 +1,8 @@
 /**
  * @file VietnameseArcade.tsx
- * @description Vietnamese Vocabulary Arcade Hub — 2 mini-games using daily
+ * @description Vietnamese Vocabulary Arcade Hub - 2 mini-games using daily
  * Vietnamese vocabulary (60+ entries). Lotus/bamboo aesthetic, fully responsive.
- * Games: (1) Phở Match — quickly match VI ↔ EN cards; (2) Bóng Nước Pop —
+ * Games: (1) Phở Match - quickly match VI ↔ EN cards; (2) Bóng Nước Pop -
  * Vietnamese bubbles float up; tap the bubble whose English meaning matches
  * the prompt before time runs out.
  * @author Teacher Hai (HaiEduTech)
@@ -21,7 +21,7 @@ import WordMeteor from "@/components/games/WordMeteor";
 import { dailyMicroLessonsExpansion } from "@/data/vietnamese/dailyVietnameseExpansion";
 
 // ============================================================
-// Vocab pool — uses ALL daily Vietnamese lessons (~60 entries)
+// Vocab pool - uses ALL daily Vietnamese lessons (~60 entries)
 // ============================================================
 type Pair = { vi: string; en: string };
 
@@ -67,7 +67,7 @@ const HUD = ({ score, lives, combo }: { score: number; lives: number; combo: num
 );
 
 // ============================================================
-// GAME 1: Phở Match — pair VI ↔ EN cards
+// GAME 1: Phở Match - pair VI ↔ EN cards
 // ============================================================
 const PhoMatch = ({ onExit }: { onExit: () => void }) => {
   const { t } = useLanguage();
@@ -178,7 +178,7 @@ const PhoMatch = ({ onExit }: { onExit: () => void }) => {
 };
 
 // ============================================================
-// GAME 2: Bóng Nước Pop — bubble shooter
+// GAME 2: Bóng Nước Pop - bubble shooter
 // ============================================================
 type Bubble = { id: number; pair: Pair; x: number; y: number };
 
@@ -329,7 +329,7 @@ const VietnameseArcade = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50/50 via-background to-rose-50/40 dark:from-amber-950/20 dark:via-background dark:to-rose-950/20">
       <SEO
-        title="Vietnamese Arcade — Trò chơi học Tiếng Việt | HaiEduTech"
+        title="Vietnamese Arcade - Trò chơi học Tiếng Việt | HaiEduTech"
         description="Mini-games học từ vựng Tiếng Việt theo phong cách lotus arcade: Phở Match và Bóng Nước Pop, hỗ trợ phát âm vi-VN, hoàn toàn responsive."
         path="/learn-vietnamese/arcade"
       />

@@ -1,6 +1,6 @@
 /**
  * @file ieltsListeningPracticeExpansion4.ts
- * @description Fifth batch of IELTS Listening practice sets — brings every
+ * @description Fifth batch of IELTS Listening practice sets - brings every
  * section to 10 sets total. Each set has 10 Cambridge-style questions, a
  * realistic transcript, and TTS-friendly pacing (short sentences, clear
  * speaker tags, deliberate spelling lines).
@@ -11,7 +11,7 @@ import type { ListeningPracticeSet } from "./ieltsListeningPractice";
 
 export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
   // ============================================================
-  // SECTION 1 — six everyday transactional dialogues
+  // SECTION 1 - six everyday transactional dialogues
   // ============================================================
   {
     id: "form-gym-membership",
@@ -26,10 +26,10 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
       "Receptionist: Good afternoon, Riverside Fitness, how can I help?\n" +
       "Customer: Hi, I'd like to join the gym, please.\n" +
       "Receptionist: Of course. Can I take your full name?\n" +
-      "Customer: Yes — Megan Carter. C-A-R-T-E-R.\n" +
+      "Customer: Yes - Megan Carter. C-A-R-T-E-R.\n" +
       "Receptionist: Thank you. And your date of birth?\n" +
       "Customer: The fifth of March, nineteen ninety-eight.\n" +
-      "Receptionist: We have three plans — Basic, Standard and Premium. Which would you prefer?\n" +
+      "Receptionist: We have three plans - Basic, Standard and Premium. Which would you prefer?\n" +
       "Customer: I'll go with the Standard one.\n" +
       "Receptionist: That's thirty-five pounds per month, paid by direct debit.\n" +
       "Customer: That's fine.\n" +
@@ -116,7 +116,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
       "Staff: Good morning, Brightside Languages, how may I help?\n" +
       "Student: Hi, I'd like to sign up for the evening Spanish course.\n" +
       "Staff: Lovely. Can I take your name?\n" +
-      "Student: Aisha Khan — K-H-A-N.\n" +
+      "Student: Aisha Khan - K-H-A-N.\n" +
       "Staff: Thank you. Have you studied Spanish before?\n" +
       "Student: Yes, I did about a year of beginner lessons at university.\n" +
       "Staff: Then I'd recommend our pre-intermediate group.\n" +
@@ -132,7 +132,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
       "Staff: And a postal address?\n" +
       "Student: Forty-two Oak Avenue, Manchester.\n" +
       "Staff: And what's your reason for studying with us?\n" +
-      "Student: It's mainly for travel — I'm planning a trip to Argentina.\n" +
+      "Student: It's mainly for travel - I'm planning a trip to Argentina.\n" +
       "Staff: Wonderful. Your student number will be B-L-seven-two-nine-four.",
     rate: 0.78,
     questions: [
@@ -161,17 +161,17 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
       "Agent: Brookline Lettings, Sarah speaking.\n" +
       "Tenant: Hello, I'm calling about the flat on Elm Road.\n" +
       "Agent: Yes, the two-bedroom on the second floor. Can I take your name?\n" +
-      "Tenant: Yes, Robert Singh — S-I-N-G-H.\n" +
+      "Tenant: Yes, Robert Singh - S-I-N-G-H.\n" +
       "Agent: Thank you. What's your occupation, Robert?\n" +
       "Tenant: I'm a teacher.\n" +
       "Agent: And when would you like to move in?\n" +
-      "Tenant: As soon as possible — ideally the first of next month.\n" +
+      "Tenant: As soon as possible - ideally the first of next month.\n" +
       "Agent: That's fine. The rent is nine hundred and fifty pounds per month, plus bills.\n" +
       "Tenant: Is there a deposit?\n" +
       "Agent: Yes, the deposit is six weeks' rent.\n" +
       "Tenant: Are pets allowed?\n" +
       "Agent: Cats are allowed, but no dogs.\n" +
-      "Tenant: Good — I have one cat.\n" +
+      "Tenant: Good - I have one cat.\n" +
       "Agent: Is there off-street parking?\n" +
       "Tenant: That's what I wanted to ask.\n" +
       "Agent: Yes, one allocated space at the rear.\n" +
@@ -222,9 +222,9 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
       "Agent: Do you have any pre-existing medical conditions?\n" +
       "Customer: I have asthma, but it's well controlled.\n" +
       "Agent: I'll note that. Are you taking any electronic equipment?\n" +
-      "Customer: Yes — a laptop worth about nine hundred pounds.\n" +
+      "Customer: Yes - a laptop worth about nine hundred pounds.\n" +
       "Agent: I'll list that too. And the emergency contact?\n" +
-      "Customer: My sister — her number is oh seven nine, two one three, four eight oh six.\n" +
+      "Customer: My sister - her number is oh seven nine, two one three, four eight oh six.\n" +
       "Agent: Perfect. Your policy number is S-G-eight-four-five-two.",
     rate: 0.78,
     questions: [
@@ -253,7 +253,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
       "Organiser: Pinewood Summer Camp, Daniel speaking.\n" +
       "Parent: Hi, I'd like to register my daughter, please.\n" +
       "Organiser: Of course. What's her name?\n" +
-      "Parent: Lily Brooks — B-R-O-O-K-S.\n" +
+      "Parent: Lily Brooks - B-R-O-O-K-S.\n" +
       "Organiser: And how old is she?\n" +
       "Parent: She's just turned ten.\n" +
       "Organiser: Lovely. Which week would you like?\n" +
@@ -269,7 +269,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
       "Organiser: I'll flag that. Anything else?\n" +
       "Parent: She can't swim very well yet.\n" +
       "Organiser: We'll put her in the beginners' group for the pool. Emergency contact?\n" +
-      "Parent: My number — oh seven seven, three three nine, five one six four.\n" +
+      "Parent: My number - oh seven seven, three three nine, five one six four.\n" +
       "Organiser: Perfect. Her camper ID is P-W-two-six-one-eight.",
     rate: 0.78,
     questions: [
@@ -287,7 +287,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
   },
 
   // ============================================================
-  // SECTION 2 — five monologues / semi-formal talks
+  // SECTION 2 - five monologues / semi-formal talks
   // ============================================================
   {
     id: "monologue-community-radio",
@@ -309,7 +309,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
       "If cycling isn't your thing, the open-air cinema is showing a classic comedy in Heritage Gardens.\n" +
       "Gates open at seven, film starts at eight, and please bring your own blanket.\n" +
       "Looking further ahead, our town library has just opened a brand-new study space on the first floor with sixty additional seats.\n" +
-      "And finally, a quick reminder — the Saturday morning bus from Westbury to Greenport now leaves twenty minutes earlier, at seven forty.\n" +
+      "And finally, a quick reminder - the Saturday morning bus from Westbury to Greenport now leaves twenty minutes earlier, at seven forty.\n" +
       "Stay tuned, the weather is up next.",
     rate: 0.78,
     questions: [
@@ -340,16 +340,16 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
       "The park covers around two hundred and fifty hectares of woodland and wetland.\n" +
       "It was established in two thousand and four.\n" +
       "Right next to the entrance is the visitor centre, where you can pick up free trail maps.\n" +
-      "Just behind the visitor centre is the café — it serves drinks until five.\n" +
+      "Just behind the visitor centre is the café - it serves drinks until five.\n" +
       "If you turn left from the entrance, you'll reach the bird hide after a five-minute walk.\n" +
       "The hide is the best place to see kingfishers, especially in early morning.\n" +
-      "Straight ahead from the entrance is the main woodland trail — it's two and a half kilometres long.\n" +
-      "Look out for the old oak tree at the halfway point — it's over three hundred years old.\n" +
+      "Straight ahead from the entrance is the main woodland trail - it's two and a half kilometres long.\n" +
+      "Look out for the old oak tree at the halfway point - it's over three hundred years old.\n" +
       "If you take the right-hand path instead, you'll come to the wetland boardwalk.\n" +
       "Please stay on the boardwalk, as the marsh is very fragile.\n" +
       "Dogs are welcome but must be kept on a lead at all times.\n" +
       "Cycling is allowed only on the gravel path, never on the boardwalk.\n" +
-      "Finally — the last guided walk leaves at three thirty, lasts ninety minutes, and costs four pounds.",
+      "Finally - the last guided walk leaves at three thirty, lasts ninety minutes, and costs four pounds.",
     rate: 0.78,
     questions: [
       { type: "fill-in", prompt: "Park size: ___ hectares", answer: "250" },
@@ -379,15 +379,15 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
       "We've been running this kitchen for eight years and serve about two hundred meals every weekday.\n" +
       "Most volunteers do one shift a week, which is four hours long.\n" +
       "Shifts run from ten in the morning until two in the afternoon.\n" +
-      "Please always come in through the side door — never the main entrance, which is for guests only.\n" +
+      "Please always come in through the side door - never the main entrance, which is for guests only.\n" +
       "Aprons are provided, but you should wear closed-toe shoes for safety.\n" +
       "Long hair must be tied back, and please remove rings before food handling.\n" +
-      "There are three main roles — chopping vegetables, serving food, and washing up.\n" +
+      "There are three main roles - chopping vegetables, serving food, and washing up.\n" +
       "Most newcomers start in the wash-up area, where mistakes are easy to fix.\n" +
       "Once you've done five shifts, you can train as a kitchen lead.\n" +
       "If you can't make a shift, please let us know at least twenty-four hours in advance.\n" +
       "There's a small kitchen for volunteers upstairs where tea and coffee are free.\n" +
-      "And every Friday after the lunch service we hold a short team meeting — attendance is optional but encouraged.",
+      "And every Friday after the lunch service we hold a short team meeting - attendance is optional but encouraged.",
     rate: 0.78,
     questions: [
       { type: "fill-in", prompt: "Years the kitchen has been running: ___", answer: "8" },
@@ -423,7 +423,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
       "Entry to the permanent collection is always free, but the top-floor exhibition costs twelve pounds, or eight with a student card.\n" +
       "Children under eighteen go free everywhere.\n" +
       "Photography without flash is permitted, except in the photography gallery itself.\n" +
-      "Please don't touch the sculptures — even clean hands leave oils that damage the surface.\n" +
+      "Please don't touch the sculptures - even clean hands leave oils that damage the surface.\n" +
       "Our shop and café are on the ground floor and both close at six.\n" +
       "Enjoy your visit.",
     rate: 0.78,
@@ -452,16 +452,16 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
     transcript:
       "Hello everyone and welcome to the Riverstone Music Festival.\n" +
       "This is our seventh year, and we're expecting around twenty-five thousand visitors over the three days.\n" +
-      "There are four stages in total — the Main Stage, the Acoustic Tent, the Dance Arena and our new Jazz Stage.\n" +
+      "There are four stages in total - the Main Stage, the Acoustic Tent, the Dance Arena and our new Jazz Stage.\n" +
       "The Jazz Stage is the smallest, with a capacity of just five hundred, so please arrive early.\n" +
       "Headliners on Friday and Saturday play at ten p.m. on the Main Stage.\n" +
       "Sunday's main act starts a little earlier, at nine, because there is a public-transport curfew.\n" +
-      "Food stalls accept card payments only — there are no cash machines on site.\n" +
+      "Food stalls accept card payments only - there are no cash machines on site.\n" +
       "Free drinking water is available at six refill stations marked in blue on your map.\n" +
       "The lost-property tent is next to the medical tent, near the south entrance.\n" +
       "If you lose your wristband you'll need to pay a replacement fee of fifteen pounds.\n" +
       "Camping is included in your ticket, but car parking costs an extra ten pounds per day.\n" +
-      "And finally, please — no glass bottles, no fireworks and no professional cameras inside the arena.\n" +
+      "And finally, please - no glass bottles, no fireworks and no professional cameras inside the arena.\n" +
       "Enjoy the festival.",
     rate: 0.78,
     questions: [
@@ -479,7 +479,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
   },
 
   // ============================================================
-  // SECTION 3 — six academic discussions (2-3 speakers)
+  // SECTION 3 - six academic discussions (2-3 speakers)
   // ============================================================
   {
     id: "discussion-presentation-feedback",
@@ -494,8 +494,8 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
       "Tutor: Right, let's talk about yesterday's presentation. Overall, very good.\n" +
       "Olivia: Thanks. We were quite nervous, actually.\n" +
       "Tutor: That didn't come across. The structure was clear and the visuals were strong.\n" +
-      "Ben: That was Olivia — she made all the slides.\n" +
-      "Tutor: The introduction in particular was excellent — short and engaging.\n" +
+      "Ben: That was Olivia - she made all the slides.\n" +
+      "Tutor: The introduction in particular was excellent - short and engaging.\n" +
       "Olivia: We rehearsed it about ten times.\n" +
       "Tutor: It showed. However, the section on methodology felt a bit rushed.\n" +
       "Ben: Yes, we ran short on time.\n" +
@@ -505,7 +505,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
       "Ben: Eighty-seven in total.\n" +
       "Tutor: Respectable. Just remember to round percentages to one decimal place.\n" +
       "Olivia: Noted.\n" +
-      "Tutor: The Q and A was handled well, although you both relied too much on one source — that book by Hartley.\n" +
+      "Tutor: The Q and A was handled well, although you both relied too much on one source - that book by Hartley.\n" +
       "Ben: I'll bring in a wider range of references next time.\n" +
       "Tutor: For the final report, please add a glossary of technical terms.\n" +
       "Olivia: Will do. When is the report due?\n" +
@@ -549,7 +549,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
       "Mia: We'll need GPS units, sample bags and a couple of cameras.\n" +
       "Tutor: I can lend you the GPS units, but you'll have to borrow the cameras from the media department.\n" +
       "Carlos: We've already emailed them.\n" +
-      "Tutor: Risk assessment — please remember it's due Friday.\n" +
+      "Tutor: Risk assessment - please remember it's due Friday.\n" +
       "Mia: We've drafted it. Carlos is checking the tide times.\n" +
       "Tutor: Crucial. Never sample on a rising tide.\n" +
       "Carlos: Understood.\n" +
@@ -581,11 +581,11 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
     contextVi: "Bạn sẽ nghe sinh viên Hannah trao đổi đề tài luận văn với giáo viên hướng dẫn.",
     transcript:
       "Supervisor: So Hannah, you said you wanted to talk about your dissertation.\n" +
-      "Hannah: Yes — I'm torn between two topics.\n" +
+      "Hannah: Yes - I'm torn between two topics.\n" +
       "Supervisor: Tell me about them.\n" +
       "Hannah: The first is renewable energy use in rural villages. The second is consumer attitudes to electric cars in cities.\n" +
       "Supervisor: Both are timely. Which interests you more?\n" +
-      "Hannah: Honestly, the second one — but I'm worried it's been done a lot.\n" +
+      "Hannah: Honestly, the second one - but I'm worried it's been done a lot.\n" +
       "Supervisor: There's plenty of literature, yes, but most of it is from Europe. What if you compared two cities in Asia?\n" +
       "Hannah: That could work. Maybe Singapore and Bangkok.\n" +
       "Supervisor: Excellent contrast. One is wealthy with strong infrastructure; the other is still developing networks.\n" +
@@ -594,7 +594,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
       "Hannah: I was thinking online surveys for both cities, plus a few interviews.\n" +
       "Supervisor: Aim for around three hundred survey responses per city.\n" +
       "Hannah: That's a lot.\n" +
-      "Supervisor: Use the alumni networks — both universities have active groups.\n" +
+      "Supervisor: Use the alumni networks - both universities have active groups.\n" +
       "Hannah: Good idea.\n" +
       "Supervisor: For interviews, ten per city is plenty.\n" +
       "Hannah: And what about the literature review?\n" +
@@ -636,7 +636,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
       "Marcus: Phenolphthalein.\n" +
       "Demonstrator: Fine for a strong-acid, strong-base titration. Did the colour change cleanly?\n" +
       "Priya: Yes, very sharp from colourless to pink.\n" +
-      "Demonstrator: Good. Now for safety — Marcus, your goggles were on top of your head, not over your eyes.\n" +
+      "Demonstrator: Good. Now for safety - Marcus, your goggles were on top of your head, not over your eyes.\n" +
       "Marcus: Sorry about that.\n" +
       "Demonstrator: It's a recurring issue. Lab safety is non-negotiable.\n" +
       "Marcus: Understood.\n" +
@@ -671,23 +671,23 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
     context: "You will hear two students, Lara and Sam, discussing internship offers with their careers advisor.",
     contextVi: "Bạn sẽ nghe hai sinh viên trao đổi cơ hội thực tập với cố vấn nghề nghiệp.",
     transcript:
-      "Advisor: So you've both had offers — congratulations. Let's compare them.\n" +
+      "Advisor: So you've both had offers - congratulations. Let's compare them.\n" +
       "Lara: My first is with a tech start-up. Twelve weeks, paid at eleven pounds an hour.\n" +
       "Sam: Mine is with a large bank. Eight weeks, paid at fifteen pounds an hour.\n" +
       "Advisor: Both reasonable. What appeals to each of you?\n" +
       "Lara: At the start-up I'd get a lot of responsibility quickly.\n" +
       "Sam: At the bank I'd see structured training programmes.\n" +
       "Advisor: That's a classic trade-off.\n" +
-      "Lara: I'm also worried — the start-up only has fifteen staff.\n" +
+      "Lara: I'm also worried - the start-up only has fifteen staff.\n" +
       "Advisor: Small teams move fast, but mentorship can be thinner. Ask about their internship history.\n" +
-      "Sam: My only concern is the dress code at the bank — very formal.\n" +
+      "Sam: My only concern is the dress code at the bank - very formal.\n" +
       "Advisor: That's the easy part. Stick to a dark suit and you'll be fine.\n" +
       "Lara: What about the projects on offer?\n" +
       "Advisor: The start-up will let you ship real code. The bank will likely give you research tasks.\n" +
       "Sam: I prefer hands-on work, actually.\n" +
       "Advisor: Then ask the bank if a rotation through their digital team is possible.\n" +
       "Sam: I will.\n" +
-      "Advisor: One last thing — both offers expect a decision by the end of the month.\n" +
+      "Advisor: One last thing - both offers expect a decision by the end of the month.\n" +
       "Lara: We'll send our acceptances by the twenty-eighth.",
     rate: 0.78,
     questions: [
@@ -715,23 +715,23 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
     transcript:
       "Supervisor: Karim, your draft is improving but there are still several things to fix.\n" +
       "Karim: Of course. Where shall we start?\n" +
-      "Supervisor: Chapter one is too long — bring it down by about a thousand words.\n" +
+      "Supervisor: Chapter one is too long - bring it down by about a thousand words.\n" +
       "Karim: I'll cut the historical background.\n" +
       "Supervisor: Good. Chapter two is fine, but you need clearer signposting between sections.\n" +
       "Karim: Right.\n" +
       "Supervisor: In chapter three the figures are too small. Use a minimum font size of ten in axis labels.\n" +
       "Karim: I'll redo them.\n" +
-      "Supervisor: Chapter four is your strongest — well argued. Just add one more case study from outside Europe.\n" +
+      "Supervisor: Chapter four is your strongest - well argued. Just add one more case study from outside Europe.\n" +
       "Karim: I was thinking of using Brazil.\n" +
-      "Supervisor: Perfect choice. Chapter five — the discussion — needs more critical voice. Don't just describe, evaluate.\n" +
+      "Supervisor: Perfect choice. Chapter five - the discussion - needs more critical voice. Don't just describe, evaluate.\n" +
       "Karim: Understood.\n" +
       "Supervisor: For the reference list, switch to Harvard style throughout. You've mixed APA and Harvard.\n" +
       "Karim: I'll standardise that.\n" +
-      "Supervisor: Finally, the abstract — keep it under three hundred words and put the research question right at the start.\n" +
+      "Supervisor: Finally, the abstract - keep it under three hundred words and put the research question right at the start.\n" +
       "Karim: When do you need the next draft?\n" +
       "Supervisor: Two weeks from today.\n" +
       "Karim: That's tight but doable. Thank you.\n" +
-      "Supervisor: And book a slot with the library for help with formatting — they run sessions on Tuesdays.",
+      "Supervisor: And book a slot with the library for help with formatting - they run sessions on Tuesdays.",
     rate: 0.78,
     questions: [
       { type: "fill-in", prompt: "Words to cut from chapter one: about ___", answer: "1000" },
@@ -748,7 +748,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
   },
 
   // ============================================================
-  // SECTION 4 — five academic lectures (single speaker)
+  // SECTION 4 - five academic lectures (single speaker)
   // ============================================================
   {
     id: "lecture-sleep-science",
@@ -766,7 +766,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
       "The deep stage is when the body releases the most growth hormone, supporting tissue repair.\n" +
       "Later in the cycle comes REM sleep, when most vivid dreaming occurs.\n" +
       "REM is essential for memory consolidation, particularly for emotional memories.\n" +
-      "Chronic lack of sleep — less than six hours a night — has been linked to a thirty percent higher risk of heart disease.\n" +
+      "Chronic lack of sleep - less than six hours a night - has been linked to a thirty percent higher risk of heart disease.\n" +
       "It also impairs the immune system; people who sleep poorly are around three times more likely to catch a cold.\n" +
       "Now, a few practical points. Caffeine has a half-life of around five hours, so an afternoon coffee can disrupt sleep at night.\n" +
       "Blue light from screens suppresses the hormone melatonin, delaying sleep onset.\n" +
@@ -774,7 +774,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
       "Surprisingly, regular bedtime routines help adults as much as children.\n" +
       "A short nap of around twenty minutes can boost alertness without causing sleep inertia.\n" +
       "Naps longer than thirty minutes risk leaving you groggy.\n" +
-      "Finally, exercise improves sleep quality — but vigorous training within two hours of bedtime can have the opposite effect.",
+      "Finally, exercise improves sleep quality - but vigorous training within two hours of bedtime can have the opposite effect.",
     rate: 0.78,
     questions: [
       { type: "fill-in", prompt: "Recommended sleep for adults: ___ to 9 hours", answer: "7" },
@@ -802,23 +802,23 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
       "Good afternoon. Today's lecture is about honeybees and the multiple pressures they face.\n" +
       "Honeybees pollinate roughly one third of the food crops humans eat.\n" +
       "Globally, beekeepers have reported colony losses of around forty percent in some recent winters.\n" +
-      "Researchers identify four main causes — sometimes called the four P's.\n" +
+      "Researchers identify four main causes - sometimes called the four P's.\n" +
       "The first is pests, particularly the varroa mite, which weakens adult bees and spreads viruses.\n" +
-      "The second is pathogens — fungal and bacterial diseases such as nosema.\n" +
+      "The second is pathogens - fungal and bacterial diseases such as nosema.\n" +
       "The third is pesticides, especially a class called neonicotinoids, which damage bees' navigation.\n" +
       "The fourth is poor nutrition, caused by large monoculture farms providing only one type of pollen.\n" +
       "On the positive side, several countries now restrict the most harmful pesticides.\n" +
       "The European Union banned outdoor use of three neonicotinoids in twenty eighteen.\n" +
-      "Urban beekeeping is also growing — cities can actually offer more diverse flowering plants than the countryside.\n" +
+      "Urban beekeeping is also growing - cities can actually offer more diverse flowering plants than the countryside.\n" +
       "Researchers at the University of Reading have shown that planting wildflower strips along field edges can increase wild bee numbers by up to thirty percent.\n" +
-      "Citizen science is helping too — over fifty thousand volunteers in the UK now record bee sightings each year.\n" +
+      "Citizen science is helping too - over fifty thousand volunteers in the UK now record bee sightings each year.\n" +
       "To conclude, saving bees requires combined action: better farming, fewer chemicals, and protected habitat.",
     rate: 0.78,
     questions: [
       { type: "fill-in", prompt: "Bees pollinate about ___ of human food crops.", answer: "one third" },
       { type: "fill-in", prompt: "Recent winter colony losses: about ___ %", answer: "40" },
       { type: "fill-in", prompt: "Number of main causes: ___", answer: "4" },
-      { type: "fill-in", prompt: "First cause — main pest: the ___ mite", answer: "varroa" },
+      { type: "fill-in", prompt: "First cause - main pest: the ___ mite", answer: "varroa" },
       { type: "fill-in", prompt: "Example pathogen mentioned: ___", answer: "nosema" },
       { type: "fill-in", prompt: "Harmful pesticide class: ___", answer: "neonicotinoids" },
       { type: "fill-in", prompt: "Fourth cause: poor ___", answer: "nutrition" },
@@ -839,14 +839,14 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
     transcript:
       "Welcome to today's lecture on volcanoes.\n" +
       "There are roughly fifteen hundred active volcanoes on Earth, most of them along the Pacific Ring of Fire.\n" +
-      "Volcanoes form where tectonic plates meet — either pulling apart, pushing together, or sliding past each other.\n" +
+      "Volcanoes form where tectonic plates meet - either pulling apart, pushing together, or sliding past each other.\n" +
       "There are three main shapes: shield, composite and cinder cone.\n" +
-      "Shield volcanoes have gentle slopes and produce runny lava — Hawaii is the classic example.\n" +
+      "Shield volcanoes have gentle slopes and produce runny lava - Hawaii is the classic example.\n" +
       "Composite volcanoes are tall and steep, formed by alternating layers of lava and ash.\n" +
       "Cinder cones are the smallest and shortest-lived.\n" +
       "Eruptions are ranked on the Volcanic Explosivity Index, or VEI, from zero to eight.\n" +
       "An eruption of VEI four can send ash ten kilometres into the air.\n" +
-      "The Tambora eruption of eighteen fifteen — a VEI seven — caused the year without a summer in eighteen sixteen.\n" +
+      "The Tambora eruption of eighteen fifteen - a VEI seven - caused the year without a summer in eighteen sixteen.\n" +
       "Predicting eruptions is improving. Scientists watch for three main warning signs: ground swelling, increased gas emissions and small earthquakes.\n" +
       "Modern satellites can detect ground deformation of less than one centimetre.\n" +
       "Despite the dangers, volcanic soil is exceptionally fertile, which is why so many people live near volcanoes.\n" +
@@ -878,7 +878,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
     transcript:
       "Good morning. Today we look at one of history's great turning points: Gutenberg's printing press.\n" +
       "Johannes Gutenberg, a German goldsmith, completed his press in the German city of Mainz around fourteen fifty.\n" +
-      "His key innovation was movable metal type — letters that could be rearranged and reused.\n" +
+      "His key innovation was movable metal type - letters that could be rearranged and reused.\n" +
       "Before this, books were copied by hand, taking months and costing the equivalent of a small house.\n" +
       "Within fifty years of Gutenberg's press, an estimated twenty million books had been printed in Europe.\n" +
       "Literacy rates began to climb, especially in northern Europe.\n" +
@@ -886,7 +886,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
       "Science benefitted enormously too. Scientists could now share results quickly and accurately.\n" +
       "One famous example is the work of Copernicus, whose model of the solar system was published in fifteen forty-three.\n" +
       "Newspapers emerged in the seventeenth century, with the first daily paper appearing in Leipzig in sixteen fifty.\n" +
-      "Beyond Europe, similar techniques existed in East Asia for centuries — but printing in Chinese was harder because of the thousands of characters needed.\n" +
+      "Beyond Europe, similar techniques existed in East Asia for centuries - but printing in Chinese was harder because of the thousands of characters needed.\n" +
       "Gutenberg himself died in relative poverty, having lost his workshop to a creditor in fourteen fifty-five.\n" +
       "Yet his invention is widely credited as the foundation for the modern information age.",
     rate: 0.78,
@@ -913,18 +913,18 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
     context: "You will hear a lecture on plastic pollution in the ocean. Complete the notes. Write NO MORE THAN TWO WORDS for each answer.",
     contextVi: "Bạn sẽ nghe bài giảng về ô nhiễm nhựa biển. Điền vào ghi chú.",
     transcript:
-      "Good afternoon. Today's lecture is on plastics in our oceans — both the scale of the problem and possible responses.\n" +
+      "Good afternoon. Today's lecture is on plastics in our oceans - both the scale of the problem and possible responses.\n" +
       "Each year, around eight million tonnes of plastic enter the sea.\n" +
-      "About eighty percent of this comes from land-based sources — primarily rivers and coastal cities.\n" +
+      "About eighty percent of this comes from land-based sources - primarily rivers and coastal cities.\n" +
       "Once in the water, sunlight and waves break large plastics into tiny fragments called microplastics, smaller than five millimetres across.\n" +
       "Microplastics have been found in the deepest ocean trench, the Mariana Trench, more than ten thousand metres deep.\n" +
       "They have also been detected in the stomachs of over one hundred and seventy marine species.\n" +
-      "The economic cost is large too — global damage to fishing and tourism is estimated at thirteen billion dollars a year.\n" +
+      "The economic cost is large too - global damage to fishing and tourism is estimated at thirteen billion dollars a year.\n" +
       "On the positive side, several solutions are emerging.\n" +
       "Deposit-return schemes for plastic bottles can lift recycling rates above ninety percent, as seen in Germany.\n" +
       "Better river-mouth interceptors can capture plastic before it ever reaches the open sea.\n" +
       "Engineers have developed barge-based devices that filter floating debris in slow-moving rivers.\n" +
-      "Behaviour change matters too — single-use plastic bags have been banned or taxed in over one hundred countries.\n" +
+      "Behaviour change matters too - single-use plastic bags have been banned or taxed in over one hundred countries.\n" +
       "And finally, biodegradable alternatives are improving, though they still represent less than two percent of the global plastics market.\n" +
       "The take-home message: solving ocean plastic requires action on land, on rivers and in policy, not just at sea.",
     rate: 0.78,

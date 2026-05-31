@@ -5,12 +5,12 @@ export interface ChineseVocabEntry {
   hanzi: string;
   pinyin: string;
   meaning: string; // Vietnamese (legacy / fallback)
-  meaningEn: string; // English — primary display
+  meaningEn: string; // English - primary display
   type: "phrase" | "idiom" | "slang" | "grammar" | "expression";
   example: string; // Chinese sentence
   examplePinyin: string;
   exampleVi: string; // Vietnamese (legacy)
-  exampleEn?: string; // English — primary display
+  exampleEn?: string; // English - primary display
 }
 
 export interface ChineseKeySituation {

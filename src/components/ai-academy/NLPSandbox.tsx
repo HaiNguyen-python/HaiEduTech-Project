@@ -1,10 +1,10 @@
 /**
- * NLPSandbox — "Train your Chatbot" + extra hands-on NLP toys.
+ * NLPSandbox - "Train your Chatbot" + extra hands-on NLP toys.
  *
- *  1. Intent trainer (keyword → reply) — student dạy chatbot rồi thử chat.
- *  2. Sentiment Meter — phân tích cảm xúc câu tiếng Việt bằng từ điển mini.
- *  3. Tokenizer Live — gõ câu, xem cách AI cắt thành tokens + ID số.
- *  4. Teen-code Normalizer — chuẩn hoá teen-code về tiếng Việt chuẩn.
+ *  1. Intent trainer (keyword → reply) - student dạy chatbot rồi thử chat.
+ *  2. Sentiment Meter - phân tích cảm xúc câu tiếng Việt bằng từ điển mini.
+ *  3. Tokenizer Live - gõ câu, xem cách AI cắt thành tokens + ID số.
+ *  4. Teen-code Normalizer - chuẩn hoá teen-code về tiếng Việt chuẩn.
  *  5. + 2 bonus games (True/False, Match Pairs).
  */
 import { useMemo, useState } from "react";
@@ -61,7 +61,7 @@ const IntentTrainer = () => {
       return;
     }
     if (intents.some((i) => i.keyword === k)) {
-      toast({ title: "Trùng từ khoá", description: `'${k}' đã có sẵn — sửa câu trả lời ở danh sách trên.`, variant: "destructive" });
+      toast({ title: "Trùng từ khoá", description: `'${k}' đã có sẵn - sửa câu trả lời ở danh sách trên.`, variant: "destructive" });
       return;
     }
     setIntents((p) => [...p, { id: Date.now().toString(), keyword: k, reply: r }]);
@@ -77,7 +77,7 @@ const IntentTrainer = () => {
     if (!msg) return;
     const lower = msg.toLowerCase();
     const hit = intents.find((i) => lower.includes(i.keyword));
-    const r = hit ? hit.reply : "Mình chưa được dạy câu này 🤖 — hãy thêm intent mới ở bên trái!";
+    const r = hit ? hit.reply : "Mình chưa được dạy câu này 🤖 - hãy thêm intent mới ở bên trái!";
     setChat((p) => [...p, { who: "user", text: msg }, { who: "bot", text: r }]);
     setInput("");
   };
@@ -216,7 +216,7 @@ const SentimentMeter = () => {
       <div className="flex items-center gap-2">
         <Smile className="w-4 h-4 text-emerald-600" />
         <h4 className="font-bold text-sm uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
-          💖 Sentiment Meter — AI đoán cảm xúc câu
+          💖 Sentiment Meter - AI đoán cảm xúc câu
         </h4>
       </div>
       <p className="text-[12px] text-muted-foreground">
@@ -313,7 +313,7 @@ const TokenizerLive = () => {
       <div className="flex items-center gap-2">
         <Hash className="w-4 h-4 text-cyan-600" />
         <h4 className="font-bold text-sm uppercase tracking-wide text-cyan-700 dark:text-cyan-300">
-          # Tokenizer Live — AI nhìn câu bạn như thế nào?
+          # Tokenizer Live - AI nhìn câu bạn như thế nào?
         </h4>
       </div>
       <p className="text-[12px] text-muted-foreground">
@@ -329,7 +329,7 @@ const TokenizerLive = () => {
 
       <div className="flex flex-wrap gap-1.5 min-h-[44px]">
         {tokens.length === 0 ? (
-          <span className="text-xs text-muted-foreground">— Chưa có token —</span>
+          <span className="text-xs text-muted-foreground">- Chưa có token -</span>
         ) : (
           tokens.map((t, i) => (
             <motion.span
@@ -461,7 +461,7 @@ const NLP_TF = [
   { q: "Intent là 'ý định' của người dùng (vd: hỏi giá).", a: true, why: "Chatbot phân loại câu vào các intent." },
   { q: "Phân tích cảm xúc gọi là Sentiment Analysis.", a: true },
   { q: "Teen-code 'k bít' chuẩn hoá thành 'không biết'.", a: true },
-  { q: "ChatGPT đếm chữ cái để tính tiền.", a: false, why: "Nó đếm theo TOKEN — gần giống số 'từ con'." },
+  { q: "ChatGPT đếm chữ cái để tính tiền.", a: false, why: "Nó đếm theo TOKEN - gần giống số 'từ con'." },
 ];
 
 const NLP_PAIRS = [
@@ -480,7 +480,7 @@ const NLPSandbox = () => (
     <TokenizerLive />
     <TeenCodeNormalizer />
     <BestMatchPick
-      title="🗣️ Ứng dụng NLP — nhận diện tác vụ"
+      title="🗣️ Ứng dụng NLP - nhận diện tác vụ"
       hint="Mỗi tính năng quen thuộc thuộc loại tác vụ NLP nào?"
       accent="from-fuchsia-500 to-purple-600"
       border="border-fuchsia-400/40"

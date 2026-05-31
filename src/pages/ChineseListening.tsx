@@ -1,6 +1,6 @@
 /**
  * @file ChineseListening.tsx
- * @description Listening practice page — embedded YouTube videos graded HSK 1 → HSK 5.
+ * @description Listening practice page - embedded YouTube videos graded HSK 1 → HSK 5.
  */
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -23,7 +23,7 @@ const VideoCard = ({ video }: { video: ChineseListeningVideo }) => {
   return (
     <Card className="overflow-hidden border-2">
       <CardContent className="p-0">
-        {/* Embedded YouTube — responsive 16:9 */}
+        {/* Embedded YouTube - responsive 16:9 */}
         <div className="relative w-full bg-black" style={{ aspectRatio: "16 / 9" }}>
           <iframe
             src={`https://www.youtube-nocookie.com/embed/${video.id}?rel=0&modestbranding=1`}
@@ -176,8 +176,8 @@ const ChineseListening = () => {
           </div>
           <p className="text-muted-foreground max-w-3xl">
             {t(
-              "25 video YouTube tuyển chọn từ HSK 1 đến HSK 5 — chủ đề thú vị: ẩm thực đường phố, du lịch, gia đình, thời tiết, thành ngữ, vlog bản xứ. Phát trực tiếp ngay trên trang, có mẹo nghe cho mỗi video.",
-              "25 hand-picked YouTube videos from HSK 1 to HSK 5 — engaging topics: street food, travel, family, weather, idioms, native vlogs. Plays right on this page with listening tips per video."
+              "25 video YouTube tuyển chọn từ HSK 1 đến HSK 5 - chủ đề thú vị: ẩm thực đường phố, du lịch, gia đình, thời tiết, thành ngữ, vlog bản xứ. Phát trực tiếp ngay trên trang, có mẹo nghe cho mỗi video.",
+              "25 hand-picked YouTube videos from HSK 1 to HSK 5 - engaging topics: street food, travel, family, weather, idioms, native vlogs. Plays right on this page with listening tips per video."
             )}
           </p>
         </motion.div>

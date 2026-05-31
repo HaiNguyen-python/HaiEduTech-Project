@@ -37,9 +37,9 @@ export interface SandhiItem {
   meaning: string;
 }
 
-// =============== SINGLE TONE — 60 từ (15 mỗi thanh + vài thanh nhẹ) ===============
+// =============== SINGLE TONE - 60 từ (15 mỗi thanh + vài thanh nhẹ) ===============
 export const SINGLE_TONE_BANK: SingleToneItem[] = [
-  // Thanh 1 (cao bằng) — 1
+  // Thanh 1 (cao bằng) - 1
   { hanzi: "妈", pinyin: "mā", pinyinPlain: "ma", tone: 1, meaning: "mẹ" },
   { hanzi: "高", pinyin: "gāo", pinyinPlain: "gao", tone: 1, meaning: "cao" },
   { hanzi: "书", pinyin: "shū", pinyinPlain: "shu", tone: 1, meaning: "sách" },
@@ -50,7 +50,7 @@ export const SINGLE_TONE_BANK: SingleToneItem[] = [
   { hanzi: "猫", pinyin: "māo", pinyinPlain: "mao", tone: 1, meaning: "mèo" },
   { hanzi: "杯", pinyin: "bēi", pinyinPlain: "bei", tone: 1, meaning: "cốc" },
   { hanzi: "鸡", pinyin: "jī", pinyinPlain: "ji", tone: 1, meaning: "gà" },
-  // Thanh 2 (đi lên) — 2
+  // Thanh 2 (đi lên) - 2
   { hanzi: "麻", pinyin: "má", pinyinPlain: "ma", tone: 2, meaning: "gai/cây gai" },
   { hanzi: "国", pinyin: "guó", pinyinPlain: "guo", tone: 2, meaning: "nước/quốc" },
   { hanzi: "学", pinyin: "xué", pinyinPlain: "xue", tone: 2, meaning: "học" },
@@ -61,7 +61,7 @@ export const SINGLE_TONE_BANK: SingleToneItem[] = [
   { hanzi: "毛", pinyin: "máo", pinyinPlain: "mao", tone: 2, meaning: "lông" },
   { hanzi: "红", pinyin: "hóng", pinyinPlain: "hong", tone: 2, meaning: "đỏ" },
   { hanzi: "鱼", pinyin: "yú", pinyinPlain: "yu", tone: 2, meaning: "cá" },
-  // Thanh 3 (xuống rồi lên) — 3
+  // Thanh 3 (xuống rồi lên) - 3
   { hanzi: "马", pinyin: "mǎ", pinyinPlain: "ma", tone: 3, meaning: "ngựa" },
   { hanzi: "我", pinyin: "wǒ", pinyinPlain: "wo", tone: 3, meaning: "tôi" },
   { hanzi: "买", pinyin: "mǎi", pinyinPlain: "mai", tone: 3, meaning: "mua" },
@@ -72,7 +72,7 @@ export const SINGLE_TONE_BANK: SingleToneItem[] = [
   { hanzi: "走", pinyin: "zǒu", pinyinPlain: "zou", tone: 3, meaning: "đi" },
   { hanzi: "想", pinyin: "xiǎng", pinyinPlain: "xiang", tone: 3, meaning: "nghĩ/muốn" },
   { hanzi: "请", pinyin: "qǐng", pinyinPlain: "qing", tone: 3, meaning: "xin/mời" },
-  // Thanh 4 (đi xuống) — 4
+  // Thanh 4 (đi xuống) - 4
   { hanzi: "骂", pinyin: "mà", pinyinPlain: "ma", tone: 4, meaning: "mắng" },
   { hanzi: "卖", pinyin: "mài", pinyinPlain: "mai", tone: 4, meaning: "bán" },
   { hanzi: "是", pinyin: "shì", pinyinPlain: "shi", tone: 4, meaning: "là" },
@@ -83,7 +83,7 @@ export const SINGLE_TONE_BANK: SingleToneItem[] = [
   { hanzi: "饭", pinyin: "fàn", pinyinPlain: "fan", tone: 4, meaning: "cơm" },
   { hanzi: "在", pinyin: "zài", pinyinPlain: "zai", tone: 4, meaning: "ở/đang" },
   { hanzi: "对", pinyin: "duì", pinyinPlain: "dui", tone: 4, meaning: "đúng/cặp" },
-  // Thanh nhẹ — 0
+  // Thanh nhẹ - 0
   { hanzi: "吗", pinyin: "ma", pinyinPlain: "ma", tone: 0, meaning: "(trợ từ hỏi)" },
   { hanzi: "呢", pinyin: "ne", pinyinPlain: "ne", tone: 0, meaning: "(trợ từ hỏi)" },
   { hanzi: "了", pinyin: "le", pinyinPlain: "le", tone: 0, meaning: "(trợ từ hoàn thành)" },
@@ -91,7 +91,7 @@ export const SINGLE_TONE_BANK: SingleToneItem[] = [
   { hanzi: "吧", pinyin: "ba", pinyinPlain: "ba", tone: 0, meaning: "(trợ từ đề nghị)" },
 ];
 
-// =============== TONE PAIR — 20 cặp phổ biến HSK 1-3 ===============
+// =============== TONE PAIR - 20 cặp phổ biến HSK 1-3 ===============
 export const TONE_PAIR_BANK: TonePairItem[] = [
   { hanzi: "中国", pinyin: "Zhōngguó", tones: [1, 2], meaning: "Trung Quốc" },
   { hanzi: "妈妈", pinyin: "māma", tones: [1, 0], meaning: "mẹ" },
@@ -115,7 +115,7 @@ export const TONE_PAIR_BANK: TonePairItem[] = [
   { hanzi: "喜欢", pinyin: "xǐhuan", tones: [3, 0], meaning: "thích" },
 ];
 
-// =============== MINIMAL PAIR — 20 cặp dễ nhầm ===============
+// =============== MINIMAL PAIR - 20 cặp dễ nhầm ===============
 export const MINIMAL_PAIR_BANK: MinimalPairItem[] = [
   { a: { hanzi: "买", pinyin: "mǎi", tone: 3, meaning: "mua" }, b: { hanzi: "卖", pinyin: "mài", tone: 4, meaning: "bán" } },
   { a: { hanzi: "妈", pinyin: "mā", tone: 1, meaning: "mẹ" }, b: { hanzi: "马", pinyin: "mǎ", tone: 3, meaning: "ngựa" } },
@@ -139,7 +139,7 @@ export const MINIMAL_PAIR_BANK: MinimalPairItem[] = [
   { a: { hanzi: "白", pinyin: "bái", tone: 2, meaning: "trắng" }, b: { hanzi: "百", pinyin: "bǎi", tone: 3, meaning: "trăm" } },
 ];
 
-// =============== SANDHI — biến điệu ===============
+// =============== SANDHI - biến điệu ===============
 export const SANDHI_BANK: SandhiItem[] = [
   { hanzi: "你好", pinyinWritten: "nǐ hǎo", pinyinSpoken: "ní hǎo", rule: "3-3", ruleNote: "Thanh 3 + thanh 3 → thanh 2 + thanh 3", meaning: "xin chào" },
   { hanzi: "很好", pinyinWritten: "hěn hǎo", pinyinSpoken: "hén hǎo", rule: "3-3", ruleNote: "Thanh 3 + thanh 3 → thanh 2 + thanh 3", meaning: "rất tốt" },

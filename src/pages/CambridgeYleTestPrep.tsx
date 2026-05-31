@@ -38,8 +38,8 @@ const CambridgeYleTestPrep = () => {
               </h1>
               <p className="text-slate-700 font-medium" style={{ fontSize: "18px", lineHeight: "1.6" }}>
                 {t(
-                  "🎈 Bộ đề thi thử Cambridge Young Learners English (Starters, Movers, Flyers) cùng KET & PET — luyện thi vui nhộn, có chế độ Bấm giờ và Tự do!",
-                  "🎈 Cambridge Young Learners English mock exams (Starters, Movers, Flyers) plus KET & PET — fun practice with Timed and Free modes!"
+                  "🎈 Bộ đề thi thử Cambridge Young Learners English (Starters, Movers, Flyers) cùng KET & PET - luyện thi vui nhộn, có chế độ Bấm giờ và Tự do!",
+                  "🎈 Cambridge Young Learners English mock exams (Starters, Movers, Flyers) plus KET & PET - fun practice with Timed and Free modes!"
                 )}
               </p>
             </motion.div>

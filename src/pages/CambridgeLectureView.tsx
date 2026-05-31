@@ -133,7 +133,7 @@ const CambridgeLectureView = () => {
               {t(lecture.descriptionVi, lecture.description)}
             </p>
 
-            {/* Lesson context bar — short & visual */}
+            {/* Lesson context bar - short & visual */}
             <div className="mt-5 flex items-center gap-3 p-4 rounded-2xl bg-white/80 border-2 border-amber-200 shadow-sm">
               <span className="text-3xl">🎈</span>
               <p className="text-slate-700 text-sm font-semibold leading-snug">

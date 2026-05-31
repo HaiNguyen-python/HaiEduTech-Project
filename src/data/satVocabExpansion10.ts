@@ -1,4 +1,4 @@
-// SAT Vocabulary expansion #10 — adds 80 high-frequency advanced words
+// SAT Vocabulary expansion #10 - adds 80 high-frequency advanced words
 // to bring the bank to ~999. All entries are deduped by word at merge time.
 import type { SatWord } from './satVocabData';
 

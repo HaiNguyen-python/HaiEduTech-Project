@@ -1,6 +1,6 @@
 /**
  * @file toeicVocabExpansion8.ts
- * @description TOEIC Vocabulary Expansion #8 — final batch of 80 words
+ * @description TOEIC Vocabulary Expansion #8 - final batch of 80 words
  * to bring the TOEIC vocabulary bank to a clean 800-word total.
  */
 import type { ToeicWord } from "./toeicVocabTypes";

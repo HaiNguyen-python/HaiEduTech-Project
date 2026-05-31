@@ -84,8 +84,8 @@ const ROLES: RoleData[] = [
     topCompanies: ["OpenAI", "Anthropic", "Microsoft", "Silo AI", "Aiven", "Hugging Face"],
     certNote: "Finish AI Foundation + ML modules → eligible for Junior AI Engineer.",
     certNoteVi: "Học xong AI Foundation + ML → đủ điều kiện ứng tuyển Junior AI Engineer.",
-    whyHot: "Generative AI roles up +74% in 2025 — the #1 LinkedIn 'Jobs on the Rise'.",
-    whyHotVi: "Vị trí về Generative AI tăng +74% năm 2025 — đứng #1 trong LinkedIn Jobs on the Rise.",
+    whyHot: "Generative AI roles up +74% in 2025 - the #1 LinkedIn 'Jobs on the Rise'.",
+    whyHotVi: "Vị trí về Generative AI tăng +74% năm 2025 - đứng #1 trong LinkedIn Jobs on the Rise.",
   },
   {
     pillarId: "ml",
@@ -132,8 +132,8 @@ const ROLES: RoleData[] = [
     topCompanies: ["Wolt", "Reaktor", "Futurice", "Smartly", "Supercell", "Vercel"],
     certNote: "Finish Software Eng + SQL modules → eligible for Junior Full-stack Developer.",
     certNoteVi: "Học xong Software Eng + SQL → đủ điều kiện ứng tuyển Junior Full-stack Developer.",
-    whyHot: "Most universal IT role — every startup hires full-stack first.",
-    whyHotVi: "Vị trí phổ biến nhất — mọi startup đều tuyển full-stack đầu tiên.",
+    whyHot: "Most universal IT role - every startup hires full-stack first.",
+    whyHotVi: "Vị trí phổ biến nhất - mọi startup đều tuyển full-stack đầu tiên.",
   },
   {
     pillarId: "python",
@@ -279,8 +279,8 @@ const ITJobMarketDashboard = ({ activePillarId }: Props) => {
             </h2>
             <p className="text-xs text-muted-foreground">
               {t(
-                "Dữ liệu lương · nhu cầu · kỹ năng — cập nhật 2025/2026",
-                "Salary · demand · skills — updated for 2025/2026",
+                "Dữ liệu lương · nhu cầu · kỹ năng - cập nhật 2025/2026",
+                "Salary · demand · skills - updated for 2025/2026",
               )}
             </p>
           </div>
@@ -508,7 +508,7 @@ const ITJobMarketDashboard = ({ activePillarId }: Props) => {
             <span className="text-primary font-semibold">
               {recommendation.emoji} {t(recommendation.roleVi, recommendation.role)}
             </span>{" "}
-            — {t(recommendation.certNoteVi, recommendation.certNote)}
+            - {t(recommendation.certNoteVi, recommendation.certNote)}
           </p>
         </div>
       </div>
@@ -518,7 +518,7 @@ const ITJobMarketDashboard = ({ activePillarId }: Props) => {
         <div className="flex items-center gap-2 mb-3">
           <MapPin className="w-4 h-4 text-primary" />
           <h3 className="font-display font-bold text-sm text-foreground">
-            {t("Live Job Feed — Finland", "Live Job Feed — Finland")}
+            {t("Live Job Feed - Finland", "Live Job Feed - Finland")}
           </h3>
         </div>
         {liveLoading && (
@@ -560,7 +560,7 @@ const ITJobMarketDashboard = ({ activePillarId }: Props) => {
                     <Briefcase className="w-3 h-3 mt-0.5 text-primary shrink-0" />
                     <span>
                       <span className="font-semibold">{j.title}</span>
-                      <span className="text-muted-foreground"> — {j.company}, {j.city}</span>
+                      <span className="text-muted-foreground"> - {j.company}, {j.city}</span>
                     </span>
                   </li>
                 ))}

@@ -3,12 +3,12 @@ import { ArrowRight, ArrowDown, RefreshCw } from "lucide-react";
 
 /**
  * Visual renderer for IELTS Task 1 Map (before/after) and Process diagrams.
- * - Map: top-down SVG layouts (roads, river, buildings) — IELTS-style, large readable canvas
+ * - Map: top-down SVG layouts (roads, river, buildings) - IELTS-style, large readable canvas
  * - Process: large iconic step cards in a responsive grid with directional arrows
  */
 
 /* ============================================================
- * Map Diagram — proper IELTS-style top-down SVG layout
+ * Map Diagram - proper IELTS-style top-down SVG layout
  * ============================================================ */
 
 export type MapElementType =
@@ -219,7 +219,7 @@ export const MapDiagram: React.FC<{ data: MapDiagramData }> = ({ data }) => (
 );
 
 /* ============================================================
- * Process Diagram — larger cards with grid layout + arrows
+ * Process Diagram - larger cards with grid layout + arrows
  * ============================================================ */
 
 export interface ProcessStep {

@@ -107,7 +107,7 @@ const ToeicLectures = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-sky-50 relative overflow-hidden">
-      {/* Ambient corporate background — soft floating orbs + blueprint grid */}
+      {/* Ambient corporate background - soft floating orbs + blueprint grid */}
       <div className="pointer-events-none fixed inset-0 -z-0">
         <div className="absolute -top-32 -left-32 w-[480px] h-[480px] rounded-full bg-sky-200/40 blur-3xl animate-pulse" style={{ animationDuration: "8s" }} />
         <div className="absolute top-1/3 -right-32 w-[520px] h-[520px] rounded-full bg-blue-200/40 blur-3xl animate-pulse" style={{ animationDuration: "10s", animationDelay: "2s" }} />
@@ -124,7 +124,7 @@ const ToeicLectures = () => {
             {t("Quay lại TOEIC", "Back to TOEIC")}
           </Link>
         </div>
-        {/* Hero Section — Bright Corporate Glass */}
+        {/* Hero Section - Bright Corporate Glass */}
         <section className="relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-sky-100/80 via-white/60 to-blue-100/80 rounded-3xl mx-4 border-2 border-white/80 shadow-xl shadow-sky-200/50" />
           {/* Shimmer overlay */}

@@ -1,4 +1,4 @@
-// Attendance Analytics Tab — visualizes daily Present/Absent check-ins per student.
+// Attendance Analytics Tab - visualizes daily Present/Absent check-ins per student.
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -169,7 +169,7 @@ const AttendanceAnalyticsTab = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-base">
             <TrendingUp className="w-4 h-4" />
-            {t("Điểm danh 14 ngày gần nhất", "Attendance — last 14 days")}
+            {t("Điểm danh 14 ngày gần nhất", "Attendance - last 14 days")}
           </CardTitle>
         </CardHeader>
         <CardContent>

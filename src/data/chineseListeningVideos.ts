@@ -37,7 +37,7 @@ export interface ChineseListeningLevel {
 }
 
 // =================================================================
-// HSK 1 — Tone, greetings, very short dialogues
+// HSK 1 - Tone, greetings, very short dialogues
 // =================================================================
 const hsk1: ChineseListeningVideo[] = [
   {
@@ -51,8 +51,8 @@ const hsk1: ChineseListeningVideo[] = [
     durationMin: 72,
     description: "Slow native conversations using 100 core sentence patterns. Pinyin + Hanzi captions on screen.",
     descriptionVi: "Đối thoại bản xứ tốc độ chậm với 100 mẫu câu lõi. Phụ đề Pinyin + chữ Hán trên màn hình.",
-    tips: ["Pause after each phrase and repeat aloud", "Focus on tones — exaggerate them at first"],
-    tipsVi: ["Tạm dừng sau mỗi câu và nhắc lại to", "Tập trung vào thanh điệu — phóng đại lúc mới học"],
+    tips: ["Pause after each phrase and repeat aloud", "Focus on tones - exaggerate them at first"],
+    tipsVi: ["Tạm dừng sau mỗi câu và nhắc lại to", "Tập trung vào thanh điệu - phóng đại lúc mới học"],
   },
   {
     id: "Sp_V0mjt1Uw",
@@ -91,8 +91,8 @@ const hsk1: ChineseListeningVideo[] = [
     topicVi: "Thời tiết · Chuyện phiếm",
     emoji: "🌦️",
     durationMin: 20,
-    description: "Friendly mini-dialogues about weather — a perfect small-talk topic to start every Mandarin conversation.",
-    descriptionVi: "Các mẩu hội thoại thân thiện về thời tiết — chủ đề chuyện phiếm hoàn hảo để bắt chuyện bằng tiếng Trung.",
+    description: "Friendly mini-dialogues about weather - a perfect small-talk topic to start every Mandarin conversation.",
+    descriptionVi: "Các mẩu hội thoại thân thiện về thời tiết - chủ đề chuyện phiếm hoàn hảo để bắt chuyện bằng tiếng Trung.",
     tips: ["Học các cặp 冷/热, 晴/阴/雨/雪", "Bắt chước intonation câu hỏi 怎么样?"],
     tipsVi: ["Học các cặp 冷/热, 晴/阴/雨/雪", "Bắt chước intonation câu hỏi 怎么样?"],
   },
@@ -105,15 +105,15 @@ const hsk1: ChineseListeningVideo[] = [
     topicVi: "Kể chuyện · TPRS",
     emoji: "📖",
     durationMin: 7,
-    description: "Comprehensible-input storytelling with visuals and repetition — designed so true beginners understand almost everything.",
-    descriptionVi: "Kể chuyện theo phương pháp Comprehensible Input có hình ảnh và lặp lại — thiết kế để người mới hoàn toàn vẫn hiểu gần hết.",
-    tips: ["Don't translate — let images carry meaning", "Watch entire 100-video series in order"],
-    tipsVi: ["Đừng dịch — để hình ảnh dẫn nghĩa", "Xem toàn bộ series 100 video theo thứ tự"],
+    description: "Comprehensible-input storytelling with visuals and repetition - designed so true beginners understand almost everything.",
+    descriptionVi: "Kể chuyện theo phương pháp Comprehensible Input có hình ảnh và lặp lại - thiết kế để người mới hoàn toàn vẫn hiểu gần hết.",
+    tips: ["Don't translate - let images carry meaning", "Watch entire 100-video series in order"],
+    tipsVi: ["Đừng dịch - để hình ảnh dẫn nghĩa", "Xem toàn bộ series 100 video theo thứ tự"],
   },
 ];
 
 // =================================================================
-// HSK 2 — Familiar topics, short sentences
+// HSK 2 - Familiar topics, short sentences
 // =================================================================
 const hsk2: ChineseListeningVideo[] = [
   {
@@ -125,8 +125,8 @@ const hsk2: ChineseListeningVideo[] = [
     topicVi: "Thói quen hằng ngày",
     emoji: "🌅",
     durationMin: 18,
-    description: "Pinyin-subtitled dialogue about wake-up, work, meals and bedtime — vocabulary you use every day.",
-    descriptionVi: "Đối thoại có phụ đề Pinyin về dậy sớm, đi làm, ăn uống, đi ngủ — từ vựng dùng mỗi ngày.",
+    description: "Pinyin-subtitled dialogue about wake-up, work, meals and bedtime - vocabulary you use every day.",
+    descriptionVi: "Đối thoại có phụ đề Pinyin về dậy sớm, đi làm, ăn uống, đi ngủ - từ vựng dùng mỗi ngày.",
     tips: ["Pause and repeat every 时间词 (time word)", "Memorise common patterns like 'X 的时候我…'"],
     tipsVi: ["Tạm dừng và nhắc lại từng 'thời gian từ'", "Học mẫu câu 'X 的时候我…'"],
   },
@@ -139,8 +139,8 @@ const hsk2: ChineseListeningVideo[] = [
     topicVi: "Văn hóa ẩm thực",
     emoji: "🍱",
     durationMin: 15,
-    description: "Casual podcast on modern eating habits — slow, clear, with Pinyin subtitles.",
-    descriptionVi: "Podcast giản dị về thói quen ăn uống hiện đại — chậm, rõ, có phụ đề Pinyin.",
+    description: "Casual podcast on modern eating habits - slow, clear, with Pinyin subtitles.",
+    descriptionVi: "Podcast giản dị về thói quen ăn uống hiện đại - chậm, rõ, có phụ đề Pinyin.",
     tips: ["Try to predict the speaker's next word", "Re-listen at 0.75x if too fast"],
     tipsVi: ["Đoán từ tiếp theo của người nói", "Nghe lại 0.75x nếu thấy quá nhanh"],
   },
@@ -160,8 +160,8 @@ const hsk2: ChineseListeningVideo[] = [
   },
   {
     id: "yelfxueMlvc",
-    title: "A Table for Two — Restaurant Story",
-    titleVi: "Bàn cho hai — câu chuyện ở nhà hàng",
+    title: "A Table for Two - Restaurant Story",
+    titleVi: "Bàn cho hai - câu chuyện ở nhà hàng",
     channel: "FluentU Chinese",
     topic: "Restaurant story",
     topicVi: "Câu chuyện nhà hàng",
@@ -169,13 +169,13 @@ const hsk2: ChineseListeningVideo[] = [
     durationMin: 4,
     description: "Short animated story following Wang Ming to dinner. Bite-sized practice with classic restaurant phrases.",
     descriptionVi: "Câu chuyện hoạt hình ngắn theo chân Wang Ming đi ăn tối. Bài luyện ngắn gọn với các câu kinh điển ở nhà hàng.",
-    tips: ["Watch twice — first for fun, then for vocab", "List all menu/order phrases you hear"],
-    tipsVi: ["Xem hai lần — lần đầu để giải trí, lần sau ghi từ", "Liệt kê tất cả câu gọi món bạn nghe được"],
+    tips: ["Watch twice - first for fun, then for vocab", "List all menu/order phrases you hear"],
+    tipsVi: ["Xem hai lần - lần đầu để giải trí, lần sau ghi từ", "Liệt kê tất cả câu gọi món bạn nghe được"],
   },
   {
     id: "0aM19sfor70",
-    title: "15 Weather Talks — Long Practice",
-    titleVi: "15 mẩu chuyện về thời tiết — luyện tập dài",
+    title: "15 Weather Talks - Long Practice",
+    titleVi: "15 mẩu chuyện về thời tiết - luyện tập dài",
     channel: "Say Mandarin",
     topic: "Weather · Dialogue",
     topicVi: "Thời tiết · Đối thoại",
@@ -189,7 +189,7 @@ const hsk2: ChineseListeningVideo[] = [
 ];
 
 // =================================================================
-// HSK 3 — Intermediate dialogues, podcasts
+// HSK 3 - Intermediate dialogues, podcasts
 // =================================================================
 const hsk3: ChineseListeningVideo[] = [
   {
@@ -229,8 +229,8 @@ const hsk3: ChineseListeningVideo[] = [
     topicVi: "Du lịch · Thành phố",
     emoji: "🏙️",
     durationMin: 48,
-    description: "Authentic walking-tour Mandarin. Real outdoor noise, real pace — perfect bridge to HSK 4.",
-    descriptionVi: "Tiếng Trung thực sự kiểu vlog dạo phố. Âm thanh ngoài trời thật, tốc độ thật — cầu nối hoàn hảo lên HSK 4.",
+    description: "Authentic walking-tour Mandarin. Real outdoor noise, real pace - perfect bridge to HSK 4.",
+    descriptionVi: "Tiếng Trung thực sự kiểu vlog dạo phố. Âm thanh ngoài trời thật, tốc độ thật - cầu nối hoàn hảo lên HSK 4.",
     tips: ["Focus on direction words (左/右/前面)", "List 10 place-related nouns you learn"],
     tipsVi: ["Tập trung vào từ chỉ hướng (左/右/前面)", "Liệt kê 10 danh từ về địa điểm bạn học được"],
   },
@@ -265,7 +265,7 @@ const hsk3: ChineseListeningVideo[] = [
 ];
 
 // =================================================================
-// HSK 4 — Native vlogs, street interviews
+// HSK 4 - Native vlogs, street interviews
 // =================================================================
 const hsk4: ChineseListeningVideo[] = [
   {
@@ -277,8 +277,8 @@ const hsk4: ChineseListeningVideo[] = [
     topicVi: "Vlog đường phố",
     emoji: "🚶",
     durationMin: 48,
-    description: "Same beloved video — now treated as listening at full speed. Push your ears to native pace.",
-    descriptionVi: "Vẫn video quen thuộc — nhưng nay nghe ở tốc độ thật. Rèn tai nghe với tốc độ bản xứ.",
+    description: "Same beloved video - now treated as listening at full speed. Push your ears to native pace.",
+    descriptionVi: "Vẫn video quen thuộc - nhưng nay nghe ở tốc độ thật. Rèn tai nghe với tốc độ bản xứ.",
     tips: ["Listen first without subtitles for 5 min", "Then watch with Hanzi only (no Pinyin)"],
     tipsVi: ["Nghe 5 phút đầu không phụ đề", "Sau đó xem chỉ với chữ Hán (tắt Pinyin)"],
   },
@@ -293,8 +293,8 @@ const hsk4: ChineseListeningVideo[] = [
     durationMin: 41,
     description: "Native speakers explain common 4-character idioms (chengyu). Real intonation, regional accents included.",
     descriptionVi: "Người bản xứ giải thích các thành ngữ 4 chữ thông dụng. Ngữ điệu thật, có cả giọng vùng miền.",
-    tips: ["Keep a chengyu notebook — write the literal + figurative meaning", "Try to use one chengyu in a sentence each day"],
-    tipsVi: ["Sổ chép thành ngữ — ghi nghĩa đen + nghĩa bóng", "Cố dùng một thành ngữ trong câu mỗi ngày"],
+    tips: ["Keep a chengyu notebook - write the literal + figurative meaning", "Try to use one chengyu in a sentence each day"],
+    tipsVi: ["Sổ chép thành ngữ - ghi nghĩa đen + nghĩa bóng", "Cố dùng một thành ngữ trong câu mỗi ngày"],
   },
   {
     id: "Vo7GkLQ90UU",
@@ -341,13 +341,13 @@ const hsk4: ChineseListeningVideo[] = [
 ];
 
 // =================================================================
-// HSK 5 — Advanced native content
+// HSK 5 - Advanced native content
 // =================================================================
 const hsk5: ChineseListeningVideo[] = [
   {
     id: "hHPCtKsNIes",
-    title: "50 Chengyu — Native Conversation",
-    titleVi: "50 thành ngữ — đối thoại bản xứ",
+    title: "50 Chengyu - Native Conversation",
+    titleVi: "50 thành ngữ - đối thoại bản xứ",
     channel: "Mandarin Corner",
     topic: "Advanced idioms",
     topicVi: "Thành ngữ nâng cao",
@@ -355,8 +355,8 @@ const hsk5: ChineseListeningVideo[] = [
     durationMin: 41,
     description: "Push for full comprehension without subtitles. Pause only when you truly cannot follow.",
     descriptionVi: "Cố gắng hiểu trọn vẹn không phụ đề. Chỉ tạm dừng khi thật sự không theo kịp.",
-    tips: ["Shadow speakers — repeat 1 second behind them", "Translate the last 30s into English from memory"],
-    tipsVi: ["Shadowing — nhắc lại sau người nói 1 giây", "Dịch 30 giây cuối ra tiếng Anh bằng trí nhớ"],
+    tips: ["Shadow speakers - repeat 1 second behind them", "Translate the last 30s into English from memory"],
+    tipsVi: ["Shadowing - nhắc lại sau người nói 1 giây", "Dịch 30 giây cuối ra tiếng Anh bằng trí nhớ"],
   },
   {
     id: "VKi7OexPYLU",
@@ -374,8 +374,8 @@ const hsk5: ChineseListeningVideo[] = [
   },
   {
     id: "b_d-Yf-Gzyw",
-    title: "Hong Kong Walk — Full Comprehension",
-    titleVi: "Dạo Hong Kong — hiểu trọn vẹn",
+    title: "Hong Kong Walk - Full Comprehension",
+    titleVi: "Dạo Hong Kong - hiểu trọn vẹn",
     channel: "Mandarin Corner",
     topic: "Travel vlog",
     topicVi: "Vlog du lịch",
@@ -388,22 +388,22 @@ const hsk5: ChineseListeningVideo[] = [
   },
   {
     id: "k8jg8l2oTkc",
-    title: "Daily Expression «烧高香» — Speak Chinese With Da Peng",
-    titleVi: "Thành ngữ thường ngày «烧高香» — học cùng Da Peng",
+    title: "Daily Expression «烧高香» - Speak Chinese With Da Peng",
+    titleVi: "Thành ngữ thường ngày «烧高香» - học cùng Da Peng",
     channel: "Speak Chinese With Da Peng",
     topic: "Idioms · Slang",
     topicVi: "Thành ngữ · Tiếng lóng",
     emoji: "🏮",
     durationMin: 18,
-    description: "Native teacher Da Peng dives deep into the slangy expression 烧高香 — perfect for sounding like a local.",
-    descriptionVi: "Thầy Da Peng (bản xứ) phân tích sâu thành ngữ 烧高香 — hoàn hảo để nói chuyện như người bản địa.",
+    description: "Native teacher Da Peng dives deep into the slangy expression 烧高香 - perfect for sounding like a local.",
+    descriptionVi: "Thầy Da Peng (bản xứ) phân tích sâu thành ngữ 烧高香 - hoàn hảo để nói chuyện như người bản địa.",
     tips: ["Học nghĩa đen + nghĩa bóng + ví dụ", "Tự đặt 2 câu mới với thành ngữ này"],
     tipsVi: ["Học nghĩa đen + nghĩa bóng + ví dụ", "Tự đặt 2 câu mới với thành ngữ này"],
   },
   {
     id: "WA9CCC1Apys",
-    title: "Pig Butchering Scam — Advanced Re-listen",
-    titleVi: "Lừa đảo 'mổ heo' — nghe lại nâng cao",
+    title: "Pig Butchering Scam - Advanced Re-listen",
+    titleVi: "Lừa đảo 'mổ heo' - nghe lại nâng cao",
     channel: "Mandarin Corner",
     topic: "Society · Crime",
     topicVi: "Xã hội · Lừa đảo",
@@ -432,8 +432,8 @@ export const chineseListeningLevels: ChineseListeningLevel[] = [
     level: 2,
     label: "HSK 2 · Daily life dialogues",
     labelVi: "HSK 2 · Đối thoại đời sống",
-    blurb: "Family, food, routine — recognise common patterns.",
-    blurbVi: "Gia đình, ăn uống, sinh hoạt — nhận diện mẫu câu phổ biến.",
+    blurb: "Family, food, routine - recognise common patterns.",
+    blurbVi: "Gia đình, ăn uống, sinh hoạt - nhận diện mẫu câu phổ biến.",
     colorFrom: "from-sky-500",
     colorTo: "to-cyan-500",
     chibi: chibiHsk2,
@@ -465,8 +465,8 @@ export const chineseListeningLevels: ChineseListeningLevel[] = [
     level: 5,
     label: "HSK 5 · Advanced immersion",
     labelVi: "HSK 5 · Nhập vai nâng cao",
-    blurb: "Chengyu, nuance, full immersion — listen like a native.",
-    blurbVi: "Thành ngữ, sắc thái, nhập vai trọn vẹn — nghe như người bản xứ.",
+    blurb: "Chengyu, nuance, full immersion - listen like a native.",
+    blurbVi: "Thành ngữ, sắc thái, nhập vai trọn vẹn - nghe như người bản xứ.",
     colorFrom: "from-rose-500",
     colorTo: "to-red-600",
     chibi: chibiHsk5,

@@ -1,5 +1,5 @@
 /**
- * FactCheckSandbox — Spot AI hallucinations.
+ * FactCheckSandbox - Spot AI hallucinations.
  * 5 sample ChatGPT answers; student marks each as TRUE or HALLUCINATION,
  * sandbox reveals red flags and explanation.
  */
@@ -15,7 +15,7 @@ const CLAIMS: Claim[] = [
   {
     text: "Thủ đô của Việt Nam là Hà Nội, có dân số khoảng 8 triệu người.",
     isTrue: true,
-    explain: "Đúng — Hà Nội ~ 8.4 triệu dân (2024). Số liệu hợp lý, dễ kiểm chứng.",
+    explain: "Đúng - Hà Nội ~ 8.4 triệu dân (2024). Số liệu hợp lý, dễ kiểm chứng.",
   },
   {
     text: "Chủ tịch Hồ Chí Minh từng giành giải Nobel Hòa bình năm 1954.",
@@ -25,7 +25,7 @@ const CLAIMS: Claim[] = [
   {
     text: "Công thức tính diện tích hình tròn là π × r².",
     isTrue: true,
-    explain: "Đúng — công thức kinh điển, kiểm tra dễ bằng SGK Toán 8.",
+    explain: "Đúng - công thức kinh điển, kiểm tra dễ bằng SGK Toán 8.",
   },
   {
     text: "Albert Einstein đã viết cuốn sách 'Thuyết tương đối cho trẻ em' năm 1923 bán được 2 triệu bản.",
@@ -35,14 +35,14 @@ const CLAIMS: Claim[] = [
   {
     text: "Tổng thống Mỹ Donald Trump đã ký Hiệp định Paris về khí hậu năm 2017.",
     isTrue: false,
-    explain: "Hallucination! Trump RÚT khỏi Paris năm 2017 (ngược lại). AI nhầm chiều của sự kiện — lỗi rất phổ biến.",
+    explain: "Hallucination! Trump RÚT khỏi Paris năm 2017 (ngược lại). AI nhầm chiều của sự kiện - lỗi rất phổ biến.",
   },
 ];
 
 const TF = [
   { q: "AI thỉnh thoảng 'bịa' thông tin nghe rất hợp lý.", a: true },
   { q: "Càng cụ thể (con số, tên người), càng phải nghi ngờ AI bịa.", a: true },
-  { q: "ChatGPT luôn chính xác 100% với câu hỏi lịch sử.", a: false, why: "ChatGPT có hallucination — đặc biệt với chi tiết lịch sử." },
+  { q: "ChatGPT luôn chính xác 100% với câu hỏi lịch sử.", a: false, why: "ChatGPT có hallucination - đặc biệt với chi tiết lịch sử." },
   { q: "Phải kiểm chứng AI bằng nguồn thứ 2 (Wikipedia, sách, thầy cô).", a: true },
 ];
 const PAIRS = [
@@ -124,7 +124,7 @@ const FactCheckSandbox = () => {
       </div>
       {revealed && (
         <p className="text-center font-bold text-lg">
-          Bạn đúng <span className="text-emerald-500">{correct}/{CLAIMS.length}</span> câu — kỹ năng fact-check
+          Bạn đúng <span className="text-emerald-500">{correct}/{CLAIMS.length}</span> câu - kỹ năng fact-check
           {correct >= 4 ? " 🌟 xuất sắc!" : correct >= 3 ? " 👍 khá tốt." : " cần luyện thêm."}
         </p>
       )}

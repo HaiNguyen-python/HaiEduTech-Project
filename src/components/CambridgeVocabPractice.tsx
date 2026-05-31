@@ -549,7 +549,7 @@ const CambridgeVocabPractice = ({ lang }: Props) => {
         </motion.div>
       </AnimatePresence>
 
-      {/* Body — choices OR scramble board */}
+      {/* Body - choices OR scramble board */}
       {q.mode === "scramble" ? (
         <ScrambleBoard
           word={q.prompt.word}

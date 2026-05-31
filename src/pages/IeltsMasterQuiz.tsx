@@ -148,8 +148,8 @@ const IeltsMasterQuiz = () => {
       <SEO
         title={t("Quiz Tổng Hợp IELTS | HaiEduTech", "IELTS Master Quiz | HaiEduTech")}
         description={t(
-          "Quiz hỏi đáp tổng hợp kiến thức IELTS — chọn 5, 10, 20, 30 hoặc 50 câu, mọi kỹ năng.",
-          "IELTS comprehensive Q&A quiz — choose 5, 10, 20, 30 or 50 questions across all skills."
+          "Quiz hỏi đáp tổng hợp kiến thức IELTS - chọn 5, 10, 20, 30 hoặc 50 câu, mọi kỹ năng.",
+          "IELTS comprehensive Q&A quiz - choose 5, 10, 20, 30 or 50 questions across all skills."
         )}
         path="/ielts-lectures/master-quiz"
       />

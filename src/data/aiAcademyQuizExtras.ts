@@ -1,5 +1,5 @@
 /**
- * AI Academy — extra quiz banks per track.
+ * AI Academy - extra quiz banks per track.
  * Adds MultipleChoice + Scenario questions to complement the drag-drop quiz.
  * Keyed by TrackId. Used as "Luyện thêm" practice (no double star rewards).
  */
@@ -12,7 +12,7 @@ export type QuizExtra = {
 };
 
 export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
-  // ============== Bài 1 — Vision ==============
+  // ============== Bài 1 - Vision ==============
   vision: {
     mc: [
       {
@@ -35,7 +35,7 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
           "Để tải bản đồ Google",
         ],
         answer: 1,
-        explanation: "Model Vision chỉ giỏi khi training data đa dạng — kể cả những tình huống xấu và hiếm gặp.",
+        explanation: "Model Vision chỉ giỏi khi training data đa dạng - kể cả những tình huống xấu và hiếm gặp.",
       },
     ],
     scenario: [
@@ -43,15 +43,15 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
         situation: "Trường bạn lắp camera FaceID điểm danh. Một bạn đeo khẩu trang đen kín, AI báo 'không nhận ra'.",
         prompt: "Bạn nên làm gì?",
         choices: [
-          { label: "Yêu cầu bạn ấy bỏ khẩu trang giữa mùa cúm", verdict: "wrong", feedback: "Vi phạm sức khoẻ — không phải lỗi của học sinh." },
+          { label: "Yêu cầu bạn ấy bỏ khẩu trang giữa mùa cúm", verdict: "wrong", feedback: "Vi phạm sức khoẻ - không phải lỗi của học sinh." },
           { label: "Báo giáo viên ghi nhận thủ công, đề xuất thu thêm ảnh khẩu trang để train lại model", verdict: "good", feedback: "Đúng quy trình: con người là backup, dữ liệu mới giúp AI tốt hơn." },
-          { label: "Coi như bạn ấy nghỉ học", verdict: "wrong", feedback: "Bất công và sai phạm — AI sai thì người chịu thiệt là học sinh." },
+          { label: "Coi như bạn ấy nghỉ học", verdict: "wrong", feedback: "Bất công và sai phạm - AI sai thì người chịu thiệt là học sinh." },
         ],
       },
     ],
   },
 
-  // ============== Bài 2 — NLP ==============
+  // ============== Bài 2 - NLP ==============
   nlp: {
     mc: [
       {
@@ -63,7 +63,7 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
           "Nén file văn bản",
         ],
         answer: 1,
-        explanation: "AI không hiểu chữ — phải biến chữ thành dãy số (token IDs) trước khi tính toán.",
+        explanation: "AI không hiểu chữ - phải biến chữ thành dãy số (token IDs) trước khi tính toán.",
       },
       {
         prompt: "Câu 'iu qá đi mà 🥺' khi đưa vào chatbot tiếng Việt nên xử lý thế nào?",
@@ -82,15 +82,15 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
         situation: "Bạn xây chatbot cho shop quần áo. Khách nhắn: 'sale chưa shop ơi gửi link đi'.",
         prompt: "Chatbot nên phân loại intent này là gì?",
         choices: [
-          { label: "Intent 'Chào hỏi'", verdict: "wrong", feedback: "Không có lời chào — đây là yêu cầu thông tin." },
-          { label: "Intent 'Hỏi khuyến mãi' → trả về link landing page sale", verdict: "good", feedback: "Đúng — keyword 'sale' + 'link' rất rõ ý định." },
+          { label: "Intent 'Chào hỏi'", verdict: "wrong", feedback: "Không có lời chào - đây là yêu cầu thông tin." },
+          { label: "Intent 'Hỏi khuyến mãi' → trả về link landing page sale", verdict: "good", feedback: "Đúng - keyword 'sale' + 'link' rất rõ ý định." },
           { label: "Intent 'Phàn nàn'", verdict: "wrong", feedback: "Không có dấu hiệu tiêu cực." },
         ],
       },
     ],
   },
 
-  // ============== Bài Data — Thám tử dữ liệu ==============
+  // ============== Bài Data - Thám tử dữ liệu ==============
   datadet: {
     mc: [
       {
@@ -102,7 +102,7 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
           "Cần thùng rác để chứa dữ liệu",
         ],
         answer: 1,
-        explanation: "Đây là quy luật nền tảng nhất của ML — chất lượng output phụ thuộc trực tiếp vào chất lượng input.",
+        explanation: "Đây là quy luật nền tảng nhất của ML - chất lượng output phụ thuộc trực tiếp vào chất lượng input.",
       },
       {
         prompt: "Trong 4 thứ sau, đâu là 'outlier' (giá trị ngoại lai)?",
@@ -113,7 +113,7 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
           "Điểm Toán = 8.5",
         ],
         answer: 2,
-        explanation: "500 kg là bất thường — chắc chắn lỗi nhập liệu. Outlier kéo trung bình lệch và làm AI học sai.",
+        explanation: "500 kg là bất thường - chắc chắn lỗi nhập liệu. Outlier kéo trung bình lệch và làm AI học sai.",
       },
     ],
     scenario: [
@@ -121,19 +121,19 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
         situation: "Bạn xây AI dự đoán điểm thi từ giờ học. Bạn có 100 dòng dữ liệu, nhưng 20 dòng để trống cột 'giờ học'.",
         prompt: "Bạn nên làm gì?",
         choices: [
-          { label: "Cứ train luôn, AI sẽ tự hiểu", verdict: "wrong", feedback: "AI không tự đoán — sẽ học sai và dự đoán bậy." },
-          { label: "Xoá 20 dòng hoặc điền trung bình, rồi mới train", verdict: "good", feedback: "Đúng — đó là 2 cách xử lý missing data phổ biến nhất." },
-          { label: "Gán hết bằng 0", verdict: "wrong", feedback: "Sai — gán 0 sẽ tạo bias vì 0 giờ học không phản ánh thực tế." },
+          { label: "Cứ train luôn, AI sẽ tự hiểu", verdict: "wrong", feedback: "AI không tự đoán - sẽ học sai và dự đoán bậy." },
+          { label: "Xoá 20 dòng hoặc điền trung bình, rồi mới train", verdict: "good", feedback: "Đúng - đó là 2 cách xử lý missing data phổ biến nhất." },
+          { label: "Gán hết bằng 0", verdict: "wrong", feedback: "Sai - gán 0 sẽ tạo bias vì 0 giờ học không phản ánh thực tế." },
         ],
       },
     ],
   },
 
-  // ============== Bài ML — Học máy siêu đơn giản ==============
+  // ============== Bài ML - Học máy siêu đơn giản ==============
   mlmagic: {
     mc: [
       {
-        prompt: "Khi AI gom khách hàng Shopee thành các nhóm mà không cần ai dán nhãn — đó là loại học gì?",
+        prompt: "Khi AI gom khách hàng Shopee thành các nhóm mà không cần ai dán nhãn - đó là loại học gì?",
         options: [
           "Supervised Learning",
           "Unsupervised Learning",
@@ -147,12 +147,12 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
         prompt: "Ưu điểm lớn nhất của Decision Tree so với Neural Network là gì?",
         options: [
           "Chạy nhanh hơn 1000 lần",
-          "Dễ giải thích — ta nhìn thấy từng câu hỏi AI đang hỏi",
+          "Dễ giải thích - ta nhìn thấy từng câu hỏi AI đang hỏi",
           "Không cần dữ liệu",
           "Luôn cho kết quả 100% đúng",
         ],
         answer: 1,
-        explanation: "Decision Tree là 'white-box' — ta xem được logic. Neural Network là 'black-box' khó giải thích.",
+        explanation: "Decision Tree là 'white-box' - ta xem được logic. Neural Network là 'black-box' khó giải thích.",
       },
     ],
     scenario: [
@@ -160,15 +160,15 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
         situation: "Trường bạn muốn AI gợi ý CLB phù hợp cho học sinh. Có 2 cách: (A) Hỏi 100 bạn đã chọn CLB nào để làm nhãn, (B) Không hỏi, để AI tự gom theo sở thích.",
         prompt: "Cách nào dùng Supervised, cách nào Unsupervised?",
         choices: [
-          { label: "Cả hai đều Supervised", verdict: "wrong", feedback: "Sai — chỉ (A) có nhãn." },
+          { label: "Cả hai đều Supervised", verdict: "wrong", feedback: "Sai - chỉ (A) có nhãn." },
           { label: "(A) Supervised, (B) Unsupervised", verdict: "good", feedback: "Chính xác! (A) có nhãn 'CLB đã chọn' để học, (B) không có nhãn nên AI phải tự gom nhóm." },
-          { label: "(A) Unsupervised, (B) Supervised", verdict: "wrong", feedback: "Ngược rồi — có nhãn mới là Supervised." },
+          { label: "(A) Unsupervised, (B) Supervised", verdict: "wrong", feedback: "Ngược rồi - có nhãn mới là Supervised." },
         ],
       },
     ],
   },
 
-  // ============== Bài 3 — Neural Network ==============
+  // ============== Bài 3 - Neural Network ==============
   nn: {
     mc: [
       {
@@ -191,7 +191,7 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
           "Chờ người dạy gõ tay",
         ],
         answer: 1,
-        explanation: "Mỗi lần dự đoán sai, model điều chỉnh weight một chút — lặp hàng triệu lần.",
+        explanation: "Mỗi lần dự đoán sai, model điều chỉnh weight một chút - lặp hàng triệu lần.",
       },
     ],
     scenario: [
@@ -199,15 +199,15 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
         situation: "Bạn train mô hình dự đoán giá nhà. Sau 100 epoch, accuracy 99% trên training set nhưng 60% trên dữ liệu mới.",
         prompt: "Hiện tượng này gọi là gì và làm sao?",
         choices: [
-          { label: "Overfitting — cần thêm dữ liệu hoặc dùng regularization/dropout", verdict: "good", feedback: "Chính xác! Model học thuộc lòng training set thay vì hiểu quy luật." },
-          { label: "Underfitting — train thêm 1000 epoch nữa", verdict: "wrong", feedback: "Ngược lại — train thêm chỉ khiến overfit nặng hơn." },
-          { label: "Bình thường, deploy thôi", verdict: "wrong", feedback: "Gap 39% là dấu hiệu nguy hiểm — model sẽ thất bại ngoài đời thật." },
+          { label: "Overfitting - cần thêm dữ liệu hoặc dùng regularization/dropout", verdict: "good", feedback: "Chính xác! Model học thuộc lòng training set thay vì hiểu quy luật." },
+          { label: "Underfitting - train thêm 1000 epoch nữa", verdict: "wrong", feedback: "Ngược lại - train thêm chỉ khiến overfit nặng hơn." },
+          { label: "Bình thường, deploy thôi", verdict: "wrong", feedback: "Gap 39% là dấu hiệu nguy hiểm - model sẽ thất bại ngoài đời thật." },
         ],
       },
     ],
   },
 
-  // ============== Bài 4 — Generative AI ==============
+  // ============== Bài 4 - Generative AI ==============
   genai: {
     mc: [
       {
@@ -219,7 +219,7 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
           "Vì tiếng Việt khó",
         ],
         answer: 1,
-        explanation: "Đây gọi là 'hallucination' — model sinh chữ trôi chảy nhưng không có cơ chế kiểm chứng sự thật.",
+        explanation: "Đây gọi là 'hallucination' - model sinh chữ trôi chảy nhưng không có cơ chế kiểm chứng sự thật.",
       },
       {
         prompt: "Prompt engineering là gì?",
@@ -235,18 +235,18 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
     ],
     scenario: [
       {
-        situation: "Bạn nhờ ChatGPT viết bài văn về Nguyễn Du. Nó nói Nguyễn Du sinh năm 1820 (sai — thực ra 1765).",
+        situation: "Bạn nhờ ChatGPT viết bài văn về Nguyễn Du. Nó nói Nguyễn Du sinh năm 1820 (sai - thực ra 1765).",
         prompt: "Bạn nên làm gì?",
         choices: [
-          { label: "Tin và nộp bài", verdict: "wrong", feedback: "Sẽ bị điểm kém — LLM có thể bịa năm sinh." },
-          { label: "Đối chiếu với SGK / Wikipedia trước khi dùng", verdict: "good", feedback: "Đúng — luôn fact-check, đặc biệt với số liệu lịch sử." },
-          { label: "Hỏi lại 5 lần đến khi nó nói cùng đáp án", verdict: "risky", feedback: "Model có thể 'tự tin' lặp lại cái sai — phải tra nguồn ngoài." },
+          { label: "Tin và nộp bài", verdict: "wrong", feedback: "Sẽ bị điểm kém - LLM có thể bịa năm sinh." },
+          { label: "Đối chiếu với SGK / Wikipedia trước khi dùng", verdict: "good", feedback: "Đúng - luôn fact-check, đặc biệt với số liệu lịch sử." },
+          { label: "Hỏi lại 5 lần đến khi nó nói cùng đáp án", verdict: "risky", feedback: "Model có thể 'tự tin' lặp lại cái sai - phải tra nguồn ngoài." },
         ],
       },
     ],
   },
 
-  // ============== Bài 5 — Reinforcement Learning ==============
+  // ============== Bài 5 - Reinforcement Learning ==============
   rl: {
     mc: [
       {
@@ -258,7 +258,7 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
           "Bảng câu hỏi",
         ],
         answer: 1,
-        explanation: "Agent thử-sai, mỗi hành động tốt được +điểm, hành động xấu bị -điểm — học từ trải nghiệm.",
+        explanation: "Agent thử-sai, mỗi hành động tốt được +điểm, hành động xấu bị -điểm - học từ trải nghiệm.",
       },
       {
         prompt: "AlphaGo (Google DeepMind) đánh bại nhà vô địch cờ Vây thế giới năm 2016 bằng kỹ thuật chính nào?",
@@ -277,15 +277,15 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
         situation: "Bạn train AI chơi Mario. Bạn cho +1 điểm mỗi giây sống sót. Sau 1 tuần, AI chỉ đứng yên một chỗ.",
         prompt: "Vì sao và sửa thế nào?",
         choices: [
-          { label: "Reward design sai — phải thêm +10 khi đi sang phải, +100 khi qua màn", verdict: "good", feedback: "Đúng! Đứng yên = sống sót lâu nhất theo cách bạn đặt reward. Phải thưởng đúng mục tiêu thật." },
-          { label: "AI bị hỏng, cài lại", verdict: "wrong", feedback: "AI làm đúng theo reward bạn đặt — lỗi là ở thiết kế reward." },
-          { label: "Tăng tốc độ máy tính", verdict: "wrong", feedback: "Không liên quan — vấn đề là logic, không phải hiệu năng." },
+          { label: "Reward design sai - phải thêm +10 khi đi sang phải, +100 khi qua màn", verdict: "good", feedback: "Đúng! Đứng yên = sống sót lâu nhất theo cách bạn đặt reward. Phải thưởng đúng mục tiêu thật." },
+          { label: "AI bị hỏng, cài lại", verdict: "wrong", feedback: "AI làm đúng theo reward bạn đặt - lỗi là ở thiết kế reward." },
+          { label: "Tăng tốc độ máy tính", verdict: "wrong", feedback: "Không liên quan - vấn đề là logic, không phải hiệu năng." },
         ],
       },
     ],
   },
 
-  // ============== Bài 6 — Ethics ==============
+  // ============== Bài 6 - Ethics ==============
   ethics: {
     mc: [
       {
@@ -297,7 +297,7 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
           "Lỗi internet",
         ],
         answer: 1,
-        explanation: "Garbage in, garbage out — model phản ánh chính xác sự thiên lệch của dữ liệu.",
+        explanation: "Garbage in, garbage out - model phản ánh chính xác sự thiên lệch của dữ liệu.",
       },
       {
         prompt: "GDPR (luật bảo vệ dữ liệu EU) cho phép người dùng làm gì?",
@@ -316,15 +316,15 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
         situation: "Bạn phát hiện một ứng dụng AI 'soi tướng' chấm điểm IQ học sinh qua khuôn mặt rồi gửi kết quả cho phụ huynh.",
         prompt: "Đây có phải vấn đề đạo đức không?",
         choices: [
-          { label: "Có — đây là pseudoscience, gây tổn thương tâm lý trẻ và phân biệt đối xử", verdict: "good", feedback: "Đúng! Không có cơ sở khoa học nào liên kết khuôn mặt với IQ. Cần báo cáo." },
-          { label: "Không — AI nói đúng thì sao", verdict: "wrong", feedback: "AI 'nói gì' không quan trọng nếu không có nền tảng khoa học." },
-          { label: "Tuỳ — nếu app trả phí thì OK", verdict: "wrong", feedback: "Trả phí không hợp pháp hoá lừa đảo khoa học." },
+          { label: "Có - đây là pseudoscience, gây tổn thương tâm lý trẻ và phân biệt đối xử", verdict: "good", feedback: "Đúng! Không có cơ sở khoa học nào liên kết khuôn mặt với IQ. Cần báo cáo." },
+          { label: "Không - AI nói đúng thì sao", verdict: "wrong", feedback: "AI 'nói gì' không quan trọng nếu không có nền tảng khoa học." },
+          { label: "Tuỳ - nếu app trả phí thì OK", verdict: "wrong", feedback: "Trả phí không hợp pháp hoá lừa đảo khoa học." },
         ],
       },
     ],
   },
 
-  // ============== Bài 7 — Recommender System ==============
+  // ============== Bài 7 - Recommender System ==============
   recsys: {
     mc: [
       {
@@ -336,7 +336,7 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
           "Vì màn hình dọc",
         ],
         answer: 1,
-        explanation: "TikTok tối ưu thời gian giữ chân (dwell time) — đó là feedback signal mạnh nhất trong recsys.",
+        explanation: "TikTok tối ưu thời gian giữ chân (dwell time) - đó là feedback signal mạnh nhất trong recsys.",
       },
       {
         prompt: "'Filter bubble' nghĩa là gì?",
@@ -347,7 +347,7 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
           "Tính năng chặn quảng cáo",
         ],
         answer: 1,
-        explanation: "Recsys càng cá nhân hoá càng dễ tạo 'bong bóng' — vấn đề lớn của mạng xã hội hiện đại.",
+        explanation: "Recsys càng cá nhân hoá càng dễ tạo 'bong bóng' - vấn đề lớn của mạng xã hội hiện đại.",
       },
     ],
     scenario: [
@@ -355,27 +355,27 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
         situation: "YouTube cứ đề xuất video âm mưu giả khoa học cho em trai bạn (lớp 7) suốt 1 tuần.",
         prompt: "Bạn nên làm gì?",
         choices: [
-          { label: "Vào lịch sử xem, xoá các video đó và nhấn 'Not interested' + 'Don't recommend channel'", verdict: "good", feedback: "Đúng — đây là cách 'dạy lại' thuật toán hiệu quả nhất." },
+          { label: "Vào lịch sử xem, xoá các video đó và nhấn 'Not interested' + 'Don't recommend channel'", verdict: "good", feedback: "Đúng - đây là cách 'dạy lại' thuật toán hiệu quả nhất." },
           { label: "Để vậy, em sẽ tự chán", verdict: "risky", feedback: "Recsys càng đề xuất, em càng xem → vòng lặp xấu." },
-          { label: "Cấm em xem YouTube luôn", verdict: "risky", feedback: "Cực đoan — nên hướng dẫn em cách dùng tỉnh táo." },
+          { label: "Cấm em xem YouTube luôn", verdict: "risky", feedback: "Cực đoan - nên hướng dẫn em cách dùng tỉnh táo." },
         ],
       },
     ],
   },
 
-  // ============== Bài 8 — AIoT ==============
+  // ============== Bài 8 - AIoT ==============
   aiot: {
     mc: [
       {
         prompt: "AIoT là viết tắt của gì?",
         options: [
           "AI on Tablet",
-          "Artificial Intelligence of Things — AI chạy trên thiết bị IoT",
+          "Artificial Intelligence of Things - AI chạy trên thiết bị IoT",
           "All-In-One Toolkit",
           "Auto Internet of Things",
         ],
         answer: 1,
-        explanation: "AIoT = AI + IoT — đặt model AI lên thiết bị nhỏ (camera, đồng hồ, cảm biến) để xử lý ngay tại chỗ.",
+        explanation: "AIoT = AI + IoT - đặt model AI lên thiết bị nhỏ (camera, đồng hồ, cảm biến) để xử lý ngay tại chỗ.",
       },
       {
         prompt: "Edge computing có ưu điểm gì so với gửi mọi thứ lên cloud?",
@@ -386,7 +386,7 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
           "Cần internet 5G",
         ],
         answer: 1,
-        explanation: "Edge xử lý ngay tại thiết bị — không phải đợi server, không lộ dữ liệu, không phụ thuộc mạng.",
+        explanation: "Edge xử lý ngay tại thiết bị - không phải đợi server, không lộ dữ liệu, không phụ thuộc mạng.",
       },
     ],
     scenario: [
@@ -394,15 +394,15 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
         situation: "Trường lắp camera AI đếm số học sinh ở căng-tin để cảnh báo quá tải. Camera gửi video gốc lên cloud xử lý.",
         prompt: "Cách làm này có vấn đề gì?",
         choices: [
-          { label: "Lộ quyền riêng tư + tốn băng thông — nên chạy AI ngay trên camera (edge), chỉ gửi con số đếm", verdict: "good", feedback: "Chuẩn! AIoT đúng nghĩa là xử lý tại edge, không stream video gốc." },
-          { label: "Không sao, cloud an toàn mà", verdict: "risky", feedback: "Cloud có thể bị hack — và stream 24/7 mặt học sinh là rủi ro lớn." },
+          { label: "Lộ quyền riêng tư + tốn băng thông - nên chạy AI ngay trên camera (edge), chỉ gửi con số đếm", verdict: "good", feedback: "Chuẩn! AIoT đúng nghĩa là xử lý tại edge, không stream video gốc." },
+          { label: "Không sao, cloud an toàn mà", verdict: "risky", feedback: "Cloud có thể bị hack - và stream 24/7 mặt học sinh là rủi ro lớn." },
           { label: "Camera tốt thì OK", verdict: "wrong", feedback: "Vấn đề là kiến trúc, không phải chất lượng camera." },
         ],
       },
     ],
   },
 
-  // ============== Bài 9 — Capstone ==============
+  // ============== Bài 9 - Capstone ==============
   capstone: {
     mc: [
       {
@@ -414,7 +414,7 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
           "Thư viện Python",
         ],
         answer: 1,
-        explanation: "MLOps = DevOps cho ML — không có MLOps, model 'chết' ngay sau khi launch vì data drift.",
+        explanation: "MLOps = DevOps cho ML - không có MLOps, model 'chết' ngay sau khi launch vì data drift.",
       },
       {
         prompt: "Sau khi deploy, vì sao phải monitor model liên tục?",
@@ -433,7 +433,7 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
         situation: "Nhóm bạn xây xong chatbot tư vấn tuyển sinh. Demo 100% chính xác. Sau 3 tháng, học sinh than 'chatbot trả lời sai chương trình mới'.",
         prompt: "Nguyên nhân chính là gì?",
         choices: [
-          { label: "Chương trình tuyển sinh đã thay đổi — cần cập nhật knowledge base và retrain", verdict: "good", feedback: "Đúng — đây chính là data drift điển hình." },
+          { label: "Chương trình tuyển sinh đã thay đổi - cần cập nhật knowledge base và retrain", verdict: "good", feedback: "Đúng - đây chính là data drift điển hình." },
           { label: "Chatbot bị virus", verdict: "wrong", feedback: "Không liên quan." },
           { label: "Học sinh hỏi kiểu lạ", verdict: "risky", feedback: "Có thể có, nhưng nguyên nhân chính vẫn là nội dung đã cũ." },
         ],
@@ -441,7 +441,7 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
     ],
   },
 
-  // ============== Bài 10 — Deepfake ==============
+  // ============== Bài 10 - Deepfake ==============
   deepfake: {
     mc: [
       {
@@ -453,7 +453,7 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
           "Filter Instagram",
         ],
         answer: 1,
-        explanation: "GAN gồm 2 model: 1 sinh giả, 1 chấm giả — đấu nhau đến khi giả như thật.",
+        explanation: "GAN gồm 2 model: 1 sinh giả, 1 chấm giả - đấu nhau đến khi giả như thật.",
       },
       {
         prompt: "Cách nhận biết deepfake video phổ biến nhất?",
@@ -473,14 +473,14 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
         prompt: "Bạn nên làm gì?",
         choices: [
           { label: "Cúp máy, gọi lại số mẹ ĐÃ LƯU + hỏi 1 câu mà chỉ mẹ con biết (kỷ niệm riêng)", verdict: "good", feedback: "Đúng! Đây là chiến thuật chống deepfake hiệu quả nhất hiện nay." },
-          { label: "Chuyển ngay vì sợ mẹ chết", verdict: "wrong", feedback: "Đây chính xác là bẫy lừa đảo deepfake — đã có nạn nhân mất tiền tỉ tại VN năm 2023." },
-          { label: "Đăng Facebook hỏi mọi người", verdict: "risky", feedback: "Mất thời gian — phải xác minh trực tiếp với người thân ngay." },
+          { label: "Chuyển ngay vì sợ mẹ chết", verdict: "wrong", feedback: "Đây chính xác là bẫy lừa đảo deepfake - đã có nạn nhân mất tiền tỉ tại VN năm 2023." },
+          { label: "Đăng Facebook hỏi mọi người", verdict: "risky", feedback: "Mất thời gian - phải xác minh trực tiếp với người thân ngay." },
         ],
       },
     ],
   },
 
-  // ============== Bài 11 — Agent / Workflow ==============
+  // ============== Bài 11 - Agent / Workflow ==============
   agent: {
     mc: [
       {
@@ -492,7 +492,7 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
           "Miễn phí",
         ],
         answer: 1,
-        explanation: "Agent = LLM + planning + tools (web search, code, email…) — có thể tự hoàn thành task phức tạp.",
+        explanation: "Agent = LLM + planning + tools (web search, code, email…) - có thể tự hoàn thành task phức tạp.",
       },
       {
         prompt: "Trong workflow agent, 'tool calling' nghĩa là gì?",
@@ -511,7 +511,7 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
         situation: "Bạn xây agent đặt vé máy bay tự động. Khách bảo 'đặt vé Hà Nội-Sài Gòn tuần sau giá rẻ nhất'. Agent đặt luôn không hỏi lại.",
         prompt: "Vấn đề ở đây là gì?",
         choices: [
-          { label: "Thiếu bước xác nhận con người (human-in-the-loop) trước khi thực hiện hành động không thể hoàn tác", verdict: "good", feedback: "Chuẩn — agent làm việc lớn phải có 'confirm' trước hành động không reversible." },
+          { label: "Thiếu bước xác nhận con người (human-in-the-loop) trước khi thực hiện hành động không thể hoàn tác", verdict: "good", feedback: "Chuẩn - agent làm việc lớn phải có 'confirm' trước hành động không reversible." },
           { label: "Agent chạy chậm", verdict: "wrong", feedback: "Không phải vấn đề chính." },
           { label: "Khách phải tự đặt", verdict: "risky", feedback: "Mục tiêu là tự động, nhưng vẫn phải có checkpoint." },
         ],
@@ -519,7 +519,7 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
     ],
   },
 
-  // ============== Bài 12 — Graduation ==============
+  // ============== Bài 12 - Graduation ==============
   graduation: {
     mc: [
       {
@@ -551,8 +551,8 @@ export const QUIZ_EXTRAS: Record<string, QuizExtra> = {
         prompt: "Bạn nên trả lời thế nào?",
         choices: [
           { label: "Trình bày cơ chế human-in-the-loop: AI chấm sơ bộ, giáo viên duyệt lại các case điểm thấp/biên", verdict: "good", feedback: "Tuyệt! Cho thấy bạn hiểu rủi ro và đã thiết kế quy trình giảm thiểu." },
-          { label: "AI hiện đại không bao giờ sai", verdict: "wrong", feedback: "Mất uy tín ngay — mọi AI đều có thể sai." },
-          { label: "Đó là vấn đề của trường", verdict: "wrong", feedback: "Né trách nhiệm — pitch fail." },
+          { label: "AI hiện đại không bao giờ sai", verdict: "wrong", feedback: "Mất uy tín ngay - mọi AI đều có thể sai." },
+          { label: "Đó là vấn đề của trường", verdict: "wrong", feedback: "Né trách nhiệm - pitch fail." },
         ],
       },
     ],

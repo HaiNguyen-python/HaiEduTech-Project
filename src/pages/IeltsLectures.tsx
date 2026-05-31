@@ -270,8 +270,8 @@ const IeltsLectures = () => {
                   </div>
                   <p className="text-sm text-muted-foreground">
                     {t(
-                      "Hỏi đáp tổng hợp 4 kỹ năng — chọn 5, 10, 20, 30 hoặc 50 câu hỏi rút ngẫu nhiên từ toàn bộ bài giảng.",
-                      "Mixed Q&A across all 4 skills — choose 5, 10, 20, 30 or 50 questions drawn from every lecture."
+                      "Hỏi đáp tổng hợp 4 kỹ năng - chọn 5, 10, 20, 30 hoặc 50 câu hỏi rút ngẫu nhiên từ toàn bộ bài giảng.",
+                      "Mixed Q&A across all 4 skills - choose 5, 10, 20, 30 or 50 questions drawn from every lecture."
                     )}
                   </p>
                 </div>
@@ -438,11 +438,11 @@ const IeltsLectures = () => {
           })()}
         </section>
 
-        {/* Filter + Grid — only shown when actively browsing */}
+        {/* Filter + Grid - only shown when actively browsing */}
         {(focusKey || searchQuery.trim() !== "" || showBookmarksOnly || levelFilter !== "all" || showAllBrowse) ? (<>
         <section className="container mx-auto px-4 sm:px-6 py-5">
           {/* Skill Filter Bar (hidden in focus mode) */}
-          {/* Skill chip filter removed — categories now live as CTA cards above */}
+          {/* Skill chip filter removed - categories now live as CTA cards above */}
 
           {/* Search, Sort, Level Filter Row */}
           <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">

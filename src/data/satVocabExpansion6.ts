@@ -1,6 +1,6 @@
 /**
  * @file satVocabExpansion6.ts
- * @description SAT Vocabulary Expansion #6 — Reading & Writing rhetoric
+ * @description SAT Vocabulary Expansion #6 - Reading & Writing rhetoric
  * vocabulary plus advanced Math terminology.
  */
 import type { SatWord } from "./satVocabData";

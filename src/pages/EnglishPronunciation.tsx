@@ -1,6 +1,6 @@
 /**
  * @file EnglishPronunciation.tsx
- * @description "Pronunciation & Intonation" — A self-contained interactive
+ * @description "Pronunciation & Intonation" - A self-contained interactive
  * page under the English Foundation pillar. It teaches IPA basics, intonation
  * patterns, connected speech (linking, elision, assimilation), reduced forms
  * (schwa & weak forms), word/sentence stress, and contrasts British vs
@@ -93,15 +93,15 @@ const VOWELS: PhonemeRow[] = [
 
 const CONSONANTS: PhonemeRow[] = [
   { ipa: "/θ/", example: "think, thank, three", vi: "Lưỡi giữa hai răng, hơi xì", tip: "Đặt đầu lưỡi giữa hai hàm răng", tipEn: "Tongue tip between teeth" },
-  { ipa: "/ð/", example: "this, that, mother", vi: "Như /θ/ nhưng có rung", tip: "Như /θ/, nhưng rung dây thanh", tipEn: "Voiced /θ/ — feel vibration" },
-  { ipa: "/ʃ/", example: "she, ship, fashion", vi: "Sh — môi tròn nhẹ", tip: "Tròn môi, hơi đẩy phía trước", tipEn: "Round lips, push air forward" },
+  { ipa: "/ð/", example: "this, that, mother", vi: "Như /θ/ nhưng có rung", tip: "Như /θ/, nhưng rung dây thanh", tipEn: "Voiced /θ/ - feel vibration" },
+  { ipa: "/ʃ/", example: "she, ship, fashion", vi: "Sh - môi tròn nhẹ", tip: "Tròn môi, hơi đẩy phía trước", tipEn: "Round lips, push air forward" },
   { ipa: "/ʒ/", example: "vision, measure", vi: "Như /ʃ/ nhưng rung", tip: "Voiced /ʃ/", tipEn: "Voiced version of /ʃ/" },
-  { ipa: "/tʃ/", example: "church, cheese, watch", vi: "Ch — bật + xì", tip: "Bật khí mạnh + đuôi /ʃ/", tipEn: "Stop + release into /ʃ/" },
-  { ipa: "/dʒ/", example: "judge, gem, age", vi: "J — như /tʃ/ có rung", tip: "Voiced /tʃ/", tipEn: "Voiced version of /tʃ/" },
+  { ipa: "/tʃ/", example: "church, cheese, watch", vi: "Ch - bật + xì", tip: "Bật khí mạnh + đuôi /ʃ/", tipEn: "Stop + release into /ʃ/" },
+  { ipa: "/dʒ/", example: "judge, gem, age", vi: "J - như /tʃ/ có rung", tip: "Voiced /tʃ/", tipEn: "Voiced version of /tʃ/" },
   { ipa: "/ŋ/", example: "sing, ring, long", vi: "Ng cuối từ, không bật /g/", tip: "Đừng phát âm chữ g cuối", tipEn: "Don't pop the final g" },
   { ipa: "/r/", example: "red, very, around", vi: "R cuộn lưỡi nhẹ", tip: "Lưỡi cong lên, không chạm vòm", tipEn: "Curl tongue but don't touch roof" },
   { ipa: "/l/", example: "light vs feel", vi: "L sáng đầu / L tối cuối", tip: "Đầu từ: nhẹ. Cuối từ: 'tối' hơn", tipEn: "Light L initial, dark L final" },
-  { ipa: "/v/", example: "very, voice, love", vi: "Răng trên cắn nhẹ môi dưới", tip: "Khác với /w/ — có rung", tipEn: "Lip-teeth contact, voiced" },
+  { ipa: "/v/", example: "very, voice, love", vi: "Răng trên cắn nhẹ môi dưới", tip: "Khác với /w/ - có rung", tipEn: "Lip-teeth contact, voiced" },
   { ipa: "/w/", example: "we, wait, away", vi: "Tròn môi, không cắn", tip: "Khác /v/: tròn môi, không răng", tipEn: "Rounded lips, no teeth" },
 ];
 
@@ -153,8 +153,8 @@ const INTONATION: IntonationItem[] = [
       "What time does the meeting start?",
       "Why did you choose this course?",
     ],
-    note: "Wh-questions kết thúc bằng giọng giảm — nghe tự tin, lịch sự.",
-    noteEn: "Wh-questions end with a falling tone — sounds confident and polite.",
+    note: "Wh-questions kết thúc bằng giọng giảm - nghe tự tin, lịch sự.",
+    noteEn: "Wh-questions end with a falling tone - sounds confident and polite.",
   },
   {
     group: "falling",
@@ -191,8 +191,8 @@ const INTONATION: IntonationItem[] = [
       "Are you coming to the party?",
       "Have you ever been to Japan?",
     ],
-    note: "Lên giọng ở từ cuối — báo hiệu chờ câu trả lời yes/no.",
-    noteEn: "Rise on the final word — signals you expect a yes/no answer.",
+    note: "Lên giọng ở từ cuối - báo hiệu chờ câu trả lời yes/no.",
+    noteEn: "Rise on the final word - signals you expect a yes/no answer.",
   },
   {
     group: "rising",
@@ -340,7 +340,7 @@ const INTONATION_LESSONS: IntonationLesson[] = [
     body: "Người bản xứ thường lên xuống cao độ khoảng 1.5-2 quãng tám trong cuộc trò chuyện bình thường. Tiếng Việt vốn có 6 thanh điệu nên người học hay sợ 'thay đổi cao độ' vì sợ đổi nghĩa - nhưng tiếng Anh là 'stress-timed' chứ không 'tone-timed', nên hãy MẠNH DẠN nhấn cao - thấp.",
     bodyEn: "Native speakers swing 1.5-2 octaves in normal conversation. Because Vietnamese has 6 tones, learners fear pitch changes (they alter meaning in Vietnamese) - but English is stress-timed, not tone-timed, so go BOLD with high-low contrasts.",
     examples: [
-      { text: "I LOVE this song!", note: "Vọt cao 'LOVE' rồi giảm — không sợ 'lố'.", noteEn: "Spike high on 'LOVE' then drop — don't be shy." },
+      { text: "I LOVE this song!", note: "Vọt cao 'LOVE' rồi giảm - không sợ 'lố'.", noteEn: "Spike high on 'LOVE' then drop - don't be shy." },
       { text: "Really? You did THAT?", note: "Cao trên 'THAT' để thể hiện ngạc nhiên thật.", noteEn: "Go high on 'THAT' to show genuine surprise." },
     ],
   },
@@ -364,7 +364,7 @@ const INTONATION_LESSONS: IntonationLesson[] = [
     summary: "Cùng một câu 'I'm fine' có thể nghĩa là vui, mệt, giận, mỉa mai - tuỳ ngữ điệu.",
     summaryEn: "The same 'I'm fine' can mean happy, tired, angry, or sarcastic - depending on intonation.",
     body: "Vui: cao độ cao + lên cuối nhẹ. Mệt: cao độ thấp + kéo dài 'fine'. Giận: ngắn, gọn, hạ giọng mạnh. Mỉa mai: phẳng + kéo dài. Khi xem phim, hãy chú ý cao độ chứ không chỉ từ ngữ.",
-    bodyEn: "Happy: high pitch + slight rise. Tired: low pitch + stretched 'fine'. Angry: short, sharp fall. Sarcastic: flat + drawn-out. When watching movies, focus on pitch — not just words.",
+    bodyEn: "Happy: high pitch + slight rise. Tired: low pitch + stretched 'fine'. Angry: short, sharp fall. Sarcastic: flat + drawn-out. When watching movies, focus on pitch - not just words.",
     examples: [
       { text: "I'm FINE.", note: "Vui: 'FINE' nhẹ, hơi lên.", noteEn: "Happy: light, slightly rising 'FINE'." },
       { text: "I'm fiiiine…", note: "Mệt/buồn: kéo dài, hạ giọng.", noteEn: "Tired/sad: stretched, falling." },
@@ -653,22 +653,22 @@ const ACCENT_TABLE: AccentRow[] = [
   {
     feature: "Âm /æ/ vs /ɑː/",
     featureEn: "/æ/ vs /ɑː/",
-    uk: "/ɑː/ — dài, mở (UK)",
-    us: "/æ/ — bẹt, ngắn (US)",
+    uk: "/ɑː/ - dài, mở (UK)",
+    us: "/æ/ - bẹt, ngắn (US)",
     example: "dance, can't, after",
   },
   {
     feature: "Âm /t/ giữa từ",
     featureEn: "Intervocalic /t/",
-    uk: "/t/ rõ — 'water'",
-    us: "/d/ flap — 'wader'",
+    uk: "/t/ rõ - 'water'",
+    us: "/d/ flap - 'wader'",
     example: "water, butter, better, city",
   },
   {
     feature: "Âm /ɒ/ vs /ɑː/",
     featureEn: "Hot vowel",
-    uk: "/ɒ/ — tròn ngắn",
-    us: "/ɑː/ — dài mở",
+    uk: "/ɒ/ - tròn ngắn",
+    us: "/ɑː/ - dài mở",
     example: "hot, lot, dog, bottle",
   },
   {
@@ -776,11 +776,11 @@ const QUIZ: QuizQ[] = [
     audio: { text: "think", accent: "en-US" },
     options: ["sink", "think", "thing"],
     answer: 1,
-    explain: "/θ/ — đặt lưỡi giữa hai răng, không phải /s/.",
-    explainEn: "/θ/ — tongue between teeth, not /s/.",
+    explain: "/θ/ - đặt lưỡi giữa hai răng, không phải /s/.",
+    explainEn: "/θ/ - tongue between teeth, not /s/.",
   },
   {
-    question: "'I want to go' — từ 'to' đọc như thế nào?",
+    question: "'I want to go' - từ 'to' đọc như thế nào?",
     questionEn: "How is 'to' pronounced in connected speech?",
     audio: { text: "I want to go", accent: "en-US" },
     options: ["/tuː/ (strong)", "/tə/ (weak)"],
@@ -887,7 +887,7 @@ const EnglishPronunciation = () => {
     () => [
       {
         text: "Could you tell me the way to the station?",
-        focus: t("Câu hỏi lịch sự — giọng lên cuối", "Polite question — rising end"),
+        focus: t("Câu hỏi lịch sự - giọng lên cuối", "Polite question - rising end"),
       },
       {
         text: "I'd like a cup of coffee, please.",
@@ -903,7 +903,7 @@ const EnglishPronunciation = () => {
       },
       {
         text: "Three thirsty thieves thanked the king.",
-        focus: t("Luyện /θ/ — lưỡi giữa hai răng", "/θ/ practice — tongue between teeth"),
+        focus: t("Luyện /θ/ - lưỡi giữa hai răng", "/θ/ practice - tongue between teeth"),
       },
       {
         text: "How much wood would a woodchuck chuck?",
@@ -917,8 +917,8 @@ const EnglishPronunciation = () => {
     <div className="min-h-screen bg-background">
       <SEO
         title={t(
-          "Pronunciation & Intonation — Phát âm chuẩn tiếng Anh | HaiEduTech",
-          "Pronunciation & Intonation — Master Standard English | HaiEduTech",
+          "Pronunciation & Intonation - Phát âm chuẩn tiếng Anh | HaiEduTech",
+          "Pronunciation & Intonation - Master Standard English | HaiEduTech",
         )}
         description={t(
           "Học bảng IPA, intonation, nối âm, weak forms, và phân biệt giọng Anh-Anh vs Anh-Mỹ với bài tập tương tác có audio.",
@@ -989,8 +989,8 @@ const EnglishPronunciation = () => {
               icon={Layers3}
               title={t("Bảng phiên âm IPA", "IPA Phoneme Chart")}
               subtitle={t(
-                "44 âm vị tiếng Anh chuẩn — bấm 🔊 để nghe ví dụ.",
-                "The 44 standard English phonemes — tap 🔊 for examples.",
+                "44 âm vị tiếng Anh chuẩn - bấm 🔊 để nghe ví dụ.",
+                "The 44 standard English phonemes - tap 🔊 for examples.",
               )}
             />
             <div className="grid lg:grid-cols-2 gap-6">
@@ -1027,8 +1027,8 @@ const EnglishPronunciation = () => {
               icon={Headphones}
               title={t("Cặp âm tối thiểu (Minimal Pairs)", "Minimal Pairs")}
               subtitle={t(
-                "Hai từ chỉ khác nhau 1 âm — luyện phân biệt là chìa khóa nói chuẩn.",
-                "Two words differing by one sound — discriminating them is key.",
+                "Hai từ chỉ khác nhau 1 âm - luyện phân biệt là chìa khóa nói chuẩn.",
+                "Two words differing by one sound - discriminating them is key.",
               )}
             />
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -1058,8 +1058,8 @@ const EnglishPronunciation = () => {
               icon={Music2}
               title={t("Ngữ điệu (Intonation Patterns)", "Intonation Patterns")}
               subtitle={t(
-                "Cao độ thay đổi theo loại câu — đúng intonation là đúng nghĩa.",
-                "Pitch changes based on sentence type — right intonation, right meaning.",
+                "Cao độ thay đổi theo loại câu - đúng intonation là đúng nghĩa.",
+                "Pitch changes based on sentence type - right intonation, right meaning.",
               )}
             />
             <div className="space-y-8">
@@ -1104,8 +1104,8 @@ const EnglishPronunciation = () => {
             {/* Mẹo của thầy Hải */}
             <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-foreground">
               💡 <strong>{t("Mẹo của thầy Hải:", "Mr. Hai's Tip:")}</strong> {t(
-                "Tiếng Việt có 6 thanh điệu nên người Việt thường giữ cao độ rất phẳng khi nói tiếng Anh để 'không sai nghĩa'. Nhưng tiếng Anh KHÔNG dùng cao độ phân biệt từ — hãy mạnh dạn lên - xuống! Cao độ phẳng = nghe robot, không cảm xúc.",
-                "Vietnamese has 6 tones, so Vietnamese speakers keep an unusually flat pitch in English to 'avoid changing meaning'. But English does NOT use pitch to distinguish words — go BOLD with rises and falls! Flat pitch = robotic, emotionless.",
+                "Tiếng Việt có 6 thanh điệu nên người Việt thường giữ cao độ rất phẳng khi nói tiếng Anh để 'không sai nghĩa'. Nhưng tiếng Anh KHÔNG dùng cao độ phân biệt từ - hãy mạnh dạn lên - xuống! Cao độ phẳng = nghe robot, không cảm xúc.",
+                "Vietnamese has 6 tones, so Vietnamese speakers keep an unusually flat pitch in English to 'avoid changing meaning'. But English does NOT use pitch to distinguish words - go BOLD with rises and falls! Flat pitch = robotic, emotionless.",
               )}
             </div>
 
@@ -1115,8 +1115,8 @@ const EnglishPronunciation = () => {
                 icon={Music2}
                 title={t("8 Bài học Chuyên sâu về Ngữ điệu", "8 Deep-Dive Intonation Lessons")}
                 subtitle={t(
-                  "Từ cao độ, đơn vị ngữ điệu, đến mỉa mai và kể chuyện — bí quyết nói tiếng Anh có cảm xúc.",
-                  "From pitch range and tone units to sarcasm and storytelling — the secrets to emotional, native-like English.",
+                  "Từ cao độ, đơn vị ngữ điệu, đến mỉa mai và kể chuyện - bí quyết nói tiếng Anh có cảm xúc.",
+                  "From pitch range and tone units to sarcasm and storytelling - the secrets to emotional, native-like English.",
                 )}
               />
               <Accordion type="single" collapsible className="w-full space-y-3">
@@ -1168,8 +1168,8 @@ const EnglishPronunciation = () => {
               icon={Waves}
               title={t("Nối âm & Luyến láy (Connected Speech)", "Linking & Connected Speech")}
               subtitle={t(
-                "Người bản xứ nối các từ liền lạc — không nói rời rạc từng chữ.",
-                "Native speakers connect words fluidly — they don't say each word separately.",
+                "Người bản xứ nối các từ liền lạc - không nói rời rạc từng chữ.",
+                "Native speakers connect words fluidly - they don't say each word separately.",
               )}
             />
             <div className="grid md:grid-cols-2 gap-4">
@@ -1225,8 +1225,8 @@ const EnglishPronunciation = () => {
             </div>
             <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-foreground">
               💡 <strong>{t("Mẹo của thầy Hải:", "Mr. Hai's Tip:")}</strong> {t(
-                "Người Việt học tiếng Anh hay phát âm rõ từng chữ → nghe 'cứng'. Hãy luyện giảm các từ chức năng (and, of, to, for, are…) thành /ə/ — bạn sẽ tự nhiên hơn ngay lập tức.",
-                "Vietnamese learners often pronounce every word clearly → sounds 'stiff'. Practice reducing function words to /ə/ — you'll sound natural immediately.",
+                "Người Việt học tiếng Anh hay phát âm rõ từng chữ → nghe 'cứng'. Hãy luyện giảm các từ chức năng (and, of, to, for, are…) thành /ə/ - bạn sẽ tự nhiên hơn ngay lập tức.",
+                "Vietnamese learners often pronounce every word clearly → sounds 'stiff'. Practice reducing function words to /ə/ - you'll sound natural immediately.",
               )}
             </div>
           </TabsContent>
@@ -1237,8 +1237,8 @@ const EnglishPronunciation = () => {
               icon={Flag}
               title={t("Anh-Anh (British) vs Anh-Mỹ (American)", "British vs American English")}
               subtitle={t(
-                "Hai biến thể chính — bấm 🇬🇧 và 🇺🇸 để nghe sự khác biệt.",
-                "Two major varieties — tap 🇬🇧 and 🇺🇸 to hear the difference.",
+                "Hai biến thể chính - bấm 🇬🇧 và 🇺🇸 để nghe sự khác biệt.",
+                "Two major varieties - tap 🇬🇧 and 🇺🇸 to hear the difference.",
               )}
             />
             <div className="grid sm:grid-cols-2 gap-4">
@@ -1248,7 +1248,7 @@ const EnglishPronunciation = () => {
                   <h3 className="font-display font-bold text-lg">🇬🇧 British (RP)</h3>
                 </div>
                 <ul className="text-sm text-foreground space-y-1.5 list-disc list-inside">
-                  <li>{t("Non-rhotic — không phát âm /r/ cuối", "Non-rhotic — drops final /r/")}</li>
+                  <li>{t("Non-rhotic - không phát âm /r/ cuối", "Non-rhotic - drops final /r/")}</li>
                   <li>{t("/t/ rõ ở giữa từ (water → 'wo-tah')", "Crisp /t/ between vowels")}</li>
                   <li>{t("/ɑː/ dài (dance, can't)", "Long /ɑː/ (dance, can't)")}</li>
                   <li>{t("/ɒ/ tròn ngắn (hot, lot)", "Rounded short /ɒ/ (hot, lot)")}</li>
@@ -1261,7 +1261,7 @@ const EnglishPronunciation = () => {
                   <h3 className="font-display font-bold text-lg">🇺🇸 American (GA)</h3>
                 </div>
                 <ul className="text-sm text-foreground space-y-1.5 list-disc list-inside">
-                  <li>{t("Rhotic — luôn phát âm /r/ cuối", "Rhotic — always pronounces final /r/")}</li>
+                  <li>{t("Rhotic - luôn phát âm /r/ cuối", "Rhotic - always pronounces final /r/")}</li>
                   <li>{t("/t/ flap thành /d/ (water → 'wader')", "/t/ flapping → 'wader'")}</li>
                   <li>{t("/æ/ bẹt (dance, can't)", "Flat /æ/ (dance, can't)")}</li>
                   <li>{t("/ɑː/ mở (hot, lot, bottle)", "Open /ɑː/ (hot, lot, bottle)")}</li>
@@ -1313,8 +1313,8 @@ const EnglishPronunciation = () => {
               icon={GraduationCap}
               title={t("Luyện đọc câu (Shadowing)", "Sentence Shadowing Drill")}
               subtitle={t(
-                "Bấm phát, lặp lại theo audio, ghi âm và so sánh — luyện shadowing 5-10 phút mỗi ngày.",
-                "Listen, shadow, record and compare — 5-10 minutes a day.",
+                "Bấm phát, lặp lại theo audio, ghi âm và so sánh - luyện shadowing 5-10 phút mỗi ngày.",
+                "Listen, shadow, record and compare - 5-10 minutes a day.",
               )}
             />
             <div className="grid md:grid-cols-2 gap-4">
@@ -1468,8 +1468,8 @@ const EnglishPronunciation = () => {
                   {score >= QUIZ.length * 0.8
                     ? t("Xuất sắc! Tai nghe của bạn rất nhạy.", "Excellent! Sharp ears.")
                     : score >= QUIZ.length * 0.5
-                    ? t("Tốt — luyện thêm minimal pairs.", "Good — keep drilling minimal pairs.")
-                    : t("Đừng nản — quay lại học bảng IPA và intonation.", "Don't worry — revisit IPA & intonation.")}
+                    ? t("Tốt - luyện thêm minimal pairs.", "Good - keep drilling minimal pairs.")
+                    : t("Đừng nản - quay lại học bảng IPA và intonation.", "Don't worry - revisit IPA & intonation.")}
                 </p>
                 <div className="flex flex-wrap justify-center gap-3">
                   <button

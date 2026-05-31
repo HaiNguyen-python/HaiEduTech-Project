@@ -1,4 +1,4 @@
-// Floating balloons background — kid-friendly ambient animation.
+// Floating balloons background - kid-friendly ambient animation.
 import { motion } from "framer-motion";
 import { useMemo } from "react";
 

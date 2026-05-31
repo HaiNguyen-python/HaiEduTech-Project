@@ -42,13 +42,13 @@ const blip = (freq: number, duration = 0.18, type: OscillatorType = "sine") => {
   }
 };
 
-/** Cheerful 2-note rising chime — call on every successful evaluation. */
+/** Cheerful 2-note rising chime - call on every successful evaluation. */
 export const playSuccessSound = () => {
   blip(660, 0.12, "triangle");
   setTimeout(() => blip(990, 0.18, "triangle"), 90);
 };
 
-/** Soft "thud" — call on incorrect / failed evaluation. */
+/** Soft "thud" - call on incorrect / failed evaluation. */
 export const playFailureSound = () => {
   blip(180, 0.22, "sawtooth");
 };

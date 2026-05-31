@@ -1,4 +1,4 @@
-// SAT Vocabulary Expansion — large curated set across all SAT R&W and Math categories
+// SAT Vocabulary Expansion - large curated set across all SAT R&W and Math categories
 import type { SatWord } from './satVocabData';
 
 export const satVocabExpansion: SatWord[] = [

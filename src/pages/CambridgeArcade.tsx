@@ -1,14 +1,14 @@
 /**
  * @file CambridgeArcade.tsx
- * @description Cambridge Kids Arcade — colourful mini-games for kids studying
+ * @description Cambridge Kids Arcade - colourful mini-games for kids studying
  * Cambridge YLE (Starters/Movers/Flyers) and Cambridge English (KET/PET).
  *
  * Games:
- *   1) 🎈 Balloon Pop — balloons drift DOWN; tap the right one before it lands.
+ *   1) 🎈 Balloon Pop - balloons drift DOWN; tap the right one before it lands.
  *      (no repeated words within a round)
- *   2) 🔤 Spelling Bee — 15s countdown per word.
- *   3) 🃏 Memory Match — numbered cards, 3 difficulty grids (Easy/Med/Hard).
- *   4) ☄️ Word Meteor — Cambridge-level filtered bank, progressive speed.
+ *   2) 🔤 Spelling Bee - 15s countdown per word.
+ *   3) 🃏 Memory Match - numbered cards, 3 difficulty grids (Easy/Med/Hard).
+ *   4) ☄️ Word Meteor - Cambridge-level filtered bank, progressive speed.
  *
  * Each game submits scores to `game_scores` and shows a live leaderboard.
  *
@@ -89,7 +89,7 @@ function useShuffleBag<T>(pool: T[], keyOf: (t: T) => string) {
 }
 
 // ─────────────────────────────────────────────────────────────
-// GAME 1 — Balloon Pop (now with falling balloons + no repeats)
+// GAME 1 - Balloon Pop (now with falling balloons + no repeats)
 // ─────────────────────────────────────────────────────────────
 interface FallingBalloon { id: number; word: CambridgeKidsWord; x: number; y: number; isTarget: boolean; }
 
@@ -295,7 +295,7 @@ function BalloonPop({ level, onExit }: { level: CambridgeKidsLevel; onExit: () =
 }
 
 // ─────────────────────────────────────────────────────────────
-// GAME 2 — Spelling Bee (with 15s countdown)
+// GAME 2 - Spelling Bee (with 15s countdown)
 // ─────────────────────────────────────────────────────────────
 function SpellingBee({ level, onExit }: { level: CambridgeKidsLevel; onExit: () => void }) {
   const pool = useMemo(
@@ -345,7 +345,7 @@ function SpellingBee({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
     return () => { if (timerRef.current) clearTimeout(timerRef.current); };
   }, [timeLeft, feedback, lives]);
 
-  // Physical keyboard input — type letters to spell
+  // Physical keyboard input - type letters to spell
   useEffect(() => {
     if (feedback || lives <= 0 || !current) return;
     const onKey = (e: KeyboardEvent) => {
@@ -514,7 +514,7 @@ function SpellingBee({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
 }
 
 // ─────────────────────────────────────────────────────────────
-// GAME 3 — Memory Match (difficulty + numbered cards)
+// GAME 3 - Memory Match (difficulty + numbered cards)
 // ─────────────────────────────────────────────────────────────
 type Card = { id: number; key: string; face: "word" | "emoji"; word: CambridgeKidsWord; matched: boolean };
 type MemoryDifficulty = "easy" | "medium" | "hard";
@@ -703,7 +703,7 @@ function MemoryMatch({ level, onExit }: { level: CambridgeKidsLevel; onExit: () 
 }
 
 // ─────────────────────────────────────────────────────────────
-// GAME 5 — Synonym Sprint (pick the matching synonym)
+// GAME 5 - Synonym Sprint (pick the matching synonym)
 // ─────────────────────────────────────────────────────────────
 interface SynonymItem { word: string; vi: string; synonym: string; emoji: string; level: "A1" | "A2" | "B1" | "B2"; }
 const SYNONYM_BANK: SynonymItem[] = [
@@ -924,8 +924,8 @@ export const CambridgeArcadeInner = ({ embedded = false }: { embedded?: boolean 
         </motion.h1>
         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
           {t(
-            "Học từ vựng Cambridge YLE & KET/PET qua các trò chơi đầy màu sắc — có bảng xếp hạng thi đấu!",
-            "Learn Cambridge YLE & KET/PET vocabulary through colourful mini-games — with competitive leaderboards!"
+            "Học từ vựng Cambridge YLE & KET/PET qua các trò chơi đầy màu sắc - có bảng xếp hạng thi đấu!",
+            "Learn Cambridge YLE & KET/PET vocabulary through colourful mini-games - with competitive leaderboards!"
           )}
         </p>
       </header>
@@ -969,9 +969,9 @@ export const CambridgeArcadeInner = ({ embedded = false }: { embedded?: boolean 
       {!active && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
           {[
-            { key: "balloon" as const, emoji: "🎈", chibi: "🧒", title: "Balloon Pop", desc: t("Bóng rớt xuống — chọn nhanh!", "Balloons drift down — pop the right one!"), color: "from-sky-400 to-cyan-500" },
-            { key: "spelling" as const, emoji: "🔤", chibi: "🐻", title: "Spelling Bee", desc: t("Đánh vần trong 20 giây — gõ phím luôn!", "Spell in 20s — type on your keyboard!"), color: "from-orange-400 to-amber-500" },
-            { key: "memory" as const, emoji: "🃏", chibi: "🦄", title: "Memory Match", desc: t("Có đồng hồ — về đích nhanh nhất!", "With stopwatch — finish as fast as you can!"), color: "from-fuchsia-500 to-purple-600" },
+            { key: "balloon" as const, emoji: "🎈", chibi: "🧒", title: "Balloon Pop", desc: t("Bóng rớt xuống - chọn nhanh!", "Balloons drift down - pop the right one!"), color: "from-sky-400 to-cyan-500" },
+            { key: "spelling" as const, emoji: "🔤", chibi: "🐻", title: "Spelling Bee", desc: t("Đánh vần trong 20 giây - gõ phím luôn!", "Spell in 20s - type on your keyboard!"), color: "from-orange-400 to-amber-500" },
+            { key: "memory" as const, emoji: "🃏", chibi: "🦄", title: "Memory Match", desc: t("Có đồng hồ - về đích nhanh nhất!", "With stopwatch - finish as fast as you can!"), color: "from-fuchsia-500 to-purple-600" },
             { key: "meteor" as const, emoji: "☄️", chibi: "🚀", title: "Word Meteor", desc: t("Từ vựng theo level Cambridge", "Cambridge-level vocabulary meteors"), color: "from-red-500 to-orange-600" },
             { key: "synonym" as const, emoji: "🧠", chibi: "🧚", title: "Synonym Sprint", desc: t("Chọn từ đồng nghĩa trước khi hết giờ", "Pick the synonym before time runs out"), color: "from-violet-500 to-fuchsia-500" },
           ].map((g, idx) => (
@@ -1011,7 +1011,7 @@ const CambridgeArcade = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-cyan-50 via-pink-50 to-amber-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
       <SEO
-        title="Cambridge Kids Arcade — Starters/Movers/Flyers/KET/PET"
+        title="Cambridge Kids Arcade - Starters/Movers/Flyers/KET/PET"
         description="Fun mini-games for Cambridge English kids: Balloon Pop, Spelling Bee, Memory Match, Word Meteor across Starters, Movers, Flyers, KET and PET levels."
         path="/cambridge/arcade"
       />

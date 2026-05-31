@@ -196,7 +196,7 @@
   border-radius: 4px;
 }
 
-/* ── Brand wordmark shimmer effect — quick, narrow sweep ── */
+/* ── Brand wordmark shimmer effect - quick, narrow sweep ── */
 @keyframes brand-shimmer {
   0%   { background-position: 150% center; }
   35%  { background-position: -50% center; }
@@ -246,7 +246,7 @@
   box-shadow: 0 0 20px hsl(var(--primary) / 0.5), 0 0 60px hsl(var(--primary) / 0.2);
 }
 
-/* Notebook editor — ensure list styles work */
+/* Notebook editor - ensure list styles work */
 .notebook-editor ol {
   list-style: decimal;
   padding-left: 1.5em;
@@ -260,7 +260,7 @@
   padding: 0 2px;
 }
 
-/* =================== LEARN PROGRAMMING — THEORY TYPOGRAPHY ===================
+/* =================== LEARN PROGRAMMING - THEORY TYPOGRAPHY ===================
    Self-contained, optimized for long-form reading. Isolated from global
    heading scale so headings never overpower body text. */
 .theory-content {
@@ -280,7 +280,7 @@
   .theory-content { font-size: 15px; line-height: 1.7; }
 }
 
-/* Section card-ification — visually separate H2 blocks */
+/* Section card-ification - visually separate H2 blocks */
 .theory-section {
   position: relative;
   padding: 0.4rem 0 0.75rem;
@@ -305,7 +305,7 @@
 }
 
 .theory-content h1 {
-  font-size: 1.35rem;          /* ~22px — section banner inside theory */
+  font-size: 1.35rem;          /* ~22px - section banner inside theory */
   margin: 2rem 0 0.875rem;
   padding-bottom: 0.4rem;
   border-bottom: 2px solid hsl(var(--primary) / 0.25);
@@ -432,7 +432,7 @@
   border-top: 1px dashed hsl(var(--border));
 }
 
-/* Tables — clean, scannable, mobile-scrollable */
+/* Tables - clean, scannable, mobile-scrollable */
 .theory-content .theory-table-wrap {
   margin: 1.5rem 0;
   overflow-x: auto;
@@ -581,7 +581,7 @@
   animation: electricPulse 3.6s ease-in-out infinite;
 }
 
-/* Lớp viền "dây dẫn" tĩnh — gradient mờ 2 màu thương hiệu */
+/* Lớp viền "dây dẫn" tĩnh - gradient mờ 2 màu thương hiệu */
 .electric-border::before {
   content: "";
   position: absolute;
@@ -597,7 +597,7 @@
   mask-composite: exclude;
 }
 
-/* Lớp tia sáng chạy dọc viền — đốm radial nhỏ animate background-position
+/* Lớp tia sáng chạy dọc viền - đốm radial nhỏ animate background-position
    đi 4 góc theo chiều kim đồng hồ → cảm giác dòng điện chạy quanh viền. */
 .electric-border::after {
   content: "";

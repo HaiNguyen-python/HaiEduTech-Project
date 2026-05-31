@@ -7,7 +7,7 @@
 import type { LanguageModule } from "./types";
 
 export const satExpansionModules11: LanguageModule[] = [
-  // ════════════════ 1. READING & WRITING — Inference / Evidence / Words in Context
+  // ════════════════ 1. READING & WRITING - Inference / Evidence / Words in Context
   {
     id: "sat-rw-inference-evidence-pack",
     title: "SAT R&W · Inference · Evidence · Words-in-Context",
@@ -25,8 +25,8 @@ export const satExpansionModules11: LanguageModule[] = [
         titleEn: "Lesson 1 · Words in Context – Warm-up",
         level: 2,
         difficulty: "beginner",
-        theory: "Khi gặp từ in đậm trong đoạn, đừng dịch ngay — hãy thay đáp án vào chỗ trống rồi đọc lại cả câu. Đáp án đúng phải hợp với 'thái độ' của tác giả (khen / chê / trung lập).",
-        theoryEn: "When the prompt highlights a word, never translate first — plug each option back in and re-read the full sentence. The right answer must match the author's tone (positive / negative / neutral).",
+        theory: "Khi gặp từ in đậm trong đoạn, đừng dịch ngay - hãy thay đáp án vào chỗ trống rồi đọc lại cả câu. Đáp án đúng phải hợp với 'thái độ' của tác giả (khen / chê / trung lập).",
+        theoryEn: "When the prompt highlights a word, never translate first - plug each option back in and re-read the full sentence. The right answer must match the author's tone (positive / negative / neutral).",
         proTips: [
           "Đọc câu trước và câu sau để bắt 'tone' của đoạn.",
           "Nếu lưỡng lự, loại 2 đáp án trái cực (opposite) trước.",
@@ -43,14 +43,14 @@ export const satExpansionModules11: LanguageModule[] = [
             sentences: [
               { text: "The professor's tone was unexpectedly ___; she praised every answer.", textEn: "The professor's tone was unexpectedly ___; she praised every answer.", answer: "warm" },
               { text: "Despite the criticism, the artist remained ___ about her vision.", textEn: "Despite the criticism, the artist remained ___ about her vision.", answer: "confident" },
-              { text: "The results were ___ — not great, not bad, just average.", textEn: "The results were ___ — not great, not bad, just average.", answer: "mediocre" },
+              { text: "The results were ___ - not great, not bad, just average.", textEn: "The results were ___ - not great, not bad, just average.", answer: "mediocre" },
               { text: "His ___ apology made it clear he was not truly sorry.", textEn: "His ___ apology made it clear he was not truly sorry.", answer: "halfhearted" },
             ],
           },
         ],
         quiz: [
           { question: "In the passage, 'novel' most nearly means…", options: ["fictional", "new", "famous", "lengthy"], answer: 1, explanation: "'Novel' in SAT context usually means 'new / original', not the book." },
-          { question: "Which word would BEST replace 'meticulous' in a positive review?", options: ["lazy", "careless", "precise", "rushed"], answer: 2, explanation: "'Meticulous' = very careful / precise — positive tone." },
+          { question: "Which word would BEST replace 'meticulous' in a positive review?", options: ["lazy", "careless", "precise", "rushed"], answer: 2, explanation: "'Meticulous' = very careful / precise - positive tone." },
           { question: "If the author is criticizing a study, 'flawed' most nearly means…", options: ["perfect", "imperfect", "popular", "expensive"], answer: 1, explanation: "'Flawed' = having weaknesses → matches the critical tone." },
           { question: "Which word completes: 'Her ___ smile reassured the nervous students.'", options: ["smug", "gentle", "mocking", "absent"], answer: 1, explanation: "Only 'gentle' fits a reassuring action." },
         ],
@@ -62,14 +62,14 @@ export const satExpansionModules11: LanguageModule[] = [
         level: 2,
         difficulty: "beginner",
         theory: "Dạng Evidence yêu cầu chọn câu / dữ liệu HỖ TRỢ TRỰC TIẾP một kết luận. Quy tắc vàng: đáp án đúng phải 'chạm' đúng từ khóa của kết luận, không thêm không bớt.",
-        theoryEn: "Evidence questions ask you to pick the sentence (or data point) that DIRECTLY supports a claim. Rule of thumb: the correct option must touch the exact key terms of the claim — no more, no less.",
+        theoryEn: "Evidence questions ask you to pick the sentence (or data point) that DIRECTLY supports a claim. Rule of thumb: the correct option must touch the exact key terms of the claim - no more, no less.",
         proTips: [
           "Gạch chân kết luận trước, sau đó so sánh từng đáp án.",
-          "Loại đáp án 'đúng nhưng lệch chủ đề' — đó là bẫy phổ biến nhất.",
+          "Loại đáp án 'đúng nhưng lệch chủ đề' - đó là bẫy phổ biến nhất.",
         ],
         proTipsEn: [
           "Underline the claim first, then test each option against it.",
-          "Eliminate options that are true but off-topic — the classic trap.",
+          "Eliminate options that are true but off-topic - the classic trap.",
         ],
         exercises: [
           {
@@ -85,7 +85,7 @@ export const satExpansionModules11: LanguageModule[] = [
         ],
         quiz: [
           { question: "Claim: 'Reading aloud helps language learners.' Which best supports it?", options: ["Most learners own books.", "Learners who read aloud daily scored 22% higher on pronunciation tests.", "Reading aloud is a tradition in many schools.", "Most languages have an alphabet."], answer: 1, explanation: "Only option B ties an outcome (higher score) to the action (reading aloud)." },
-          { question: "Which choice would weaken — NOT support — a claim that 'exercise reduces stress'?", options: ["A study showed lower cortisol after workouts.", "Athletes report higher anxiety than non-athletes.", "Walking 20 minutes lowers heart rate.", "Yoga is widely used in therapy."], answer: 1, explanation: "Higher anxiety in athletes contradicts the claim." },
+          { question: "Which choice would weaken - NOT support - a claim that 'exercise reduces stress'?", options: ["A study showed lower cortisol after workouts.", "Athletes report higher anxiety than non-athletes.", "Walking 20 minutes lowers heart rate.", "Yoga is widely used in therapy."], answer: 1, explanation: "Higher anxiety in athletes contradicts the claim." },
           { question: "Best evidence for 'Sleep improves test scores'?", options: ["Most students like sleep.", "Schools start early.", "Students who slept 8+ hrs scored 12% higher on exams.", "Sleep is studied by scientists."], answer: 2, explanation: "Option C links sleep amount to a measurable score gain." },
         ],
       },
@@ -95,8 +95,8 @@ export const satExpansionModules11: LanguageModule[] = [
         titleEn: "Lesson 3 · Inference – Controlled Reasoning",
         level: 3,
         difficulty: "intermediate",
-        theory: "Inference KHÔNG phải đoán. Đáp án đúng luôn được suy ra TRỰC TIẾP từ thông tin có sẵn — không cần thêm giả định bên ngoài. Hãy hỏi: 'Câu này có chắc đúng dựa trên đoạn không?'",
-        theoryEn: "Inference is NOT guessing. The right answer is one step away from explicit text — no outside assumptions. Ask: 'Is this guaranteed by the passage?'",
+        theory: "Inference KHÔNG phải đoán. Đáp án đúng luôn được suy ra TRỰC TIẾP từ thông tin có sẵn - không cần thêm giả định bên ngoài. Hãy hỏi: 'Câu này có chắc đúng dựa trên đoạn không?'",
+        theoryEn: "Inference is NOT guessing. The right answer is one step away from explicit text - no outside assumptions. Ask: 'Is this guaranteed by the passage?'",
         proTips: [
           "Loại đáp án có từ tuyệt đối (always, never, all, only) nếu đoạn không nói tuyệt đối.",
           "Đáp án đúng thường dùng từ 'soft': may, suggests, likely.",
@@ -163,8 +163,8 @@ export const satExpansionModules11: LanguageModule[] = [
         titleEn: "Lesson 5 · Advanced Evidence – Near-Miss Traps",
         level: 4,
         difficulty: "advanced",
-        theory: "Ở độ khó cao, hai đáp án thường gần như đúng. Cách tách: đáp án đúng phải vừa ĐÚNG SỰ THẬT trong đoạn, vừa LIÊN QUAN ĐẾN ĐÚNG kết luận. Một đáp án có thể đúng nhưng không hỗ trợ chính xác câu hỏi — đó là 'true but irrelevant'.",
-        theoryEn: "At high difficulty, two options are nearly correct. The right answer must be BOTH factually true AND directly relevant to the specific claim. A statement can be true but irrelevant — the classic 'true but off-topic' trap.",
+        theory: "Ở độ khó cao, hai đáp án thường gần như đúng. Cách tách: đáp án đúng phải vừa ĐÚNG SỰ THẬT trong đoạn, vừa LIÊN QUAN ĐẾN ĐÚNG kết luận. Một đáp án có thể đúng nhưng không hỗ trợ chính xác câu hỏi - đó là 'true but irrelevant'.",
+        theoryEn: "At high difficulty, two options are nearly correct. The right answer must be BOTH factually true AND directly relevant to the specific claim. A statement can be true but irrelevant - the classic 'true but off-topic' trap.",
         proTips: [
           "Viết kết luận bằng 1 câu của bạn rồi so từng đáp án.",
           "Cảnh giác đáp án 'big-picture' khi câu hỏi chỉ về 1 chi tiết.",
@@ -201,11 +201,11 @@ export const satExpansionModules11: LanguageModule[] = [
         theoryEn: "A mixed-format set. Identify the type quickly: 'most likely to agree' → inference; 'best supports' → evidence; 'most nearly means' → words-in-context. Read the stem first, then return to the passage.",
         proTips: [
           "Đánh dấu loại câu hỏi ngay bên cạnh số đề.",
-          "Đừng đọc kỹ đoạn trước — đọc câu hỏi trước tiết kiệm 15s/câu.",
+          "Đừng đọc kỹ đoạn trước - đọc câu hỏi trước tiết kiệm 15s/câu.",
         ],
         proTipsEn: [
           "Tag each question with its type next to the number.",
-          "Don't deep-read the passage first — reading the stem first saves ~15s/question.",
+          "Don't deep-read the passage first - reading the stem first saves ~15s/question.",
         ],
         exercises: [
           {
@@ -229,7 +229,7 @@ export const satExpansionModules11: LanguageModule[] = [
     ],
   },
 
-  // ════════════════ 2. WRITING & LANGUAGE — Rhetorical Synthesis / Transitions / Punctuation
+  // ════════════════ 2. WRITING & LANGUAGE - Rhetorical Synthesis / Transitions / Punctuation
   {
     id: "sat-wl-synthesis-transitions-pack",
     title: "SAT W&L · Synthesis · Transitions · Punctuation",
@@ -248,7 +248,7 @@ export const satExpansionModules11: LanguageModule[] = [
         level: 2,
         difficulty: "beginner",
         theory: "Synthesis cho bullet notes + một câu hỏi nêu MỤC TIÊU ('to introduce…', 'to emphasize…'). Đáp án đúng phải làm đúng việc đó, không phải câu hay nhất.",
-        theoryEn: "Synthesis gives you bullet notes + a stem stating a GOAL ('to introduce…', 'to emphasize…'). The right answer fulfills that goal — not the prettiest sentence.",
+        theoryEn: "Synthesis gives you bullet notes + a stem stating a GOAL ('to introduce…', 'to emphasize…'). The right answer fulfills that goal - not the prettiest sentence.",
         proTips: [
           "Gạch chân động từ trong goal (introduce, compare, emphasize).",
           "Loại đáp án 'true nhưng không đúng goal'.",
@@ -270,7 +270,7 @@ export const satExpansionModules11: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "Goal: 'introduce the artist to readers unfamiliar with her work.' Best opener?", options: ["Her 2019 retrospective won three awards.", "Maya Lin is an American sculptor known for site-specific works.", "Lin's process involves community interviews.", "Lin grew up in Ohio."], answer: 1, explanation: "Option B names + identifies her — perfect intro." },
+          { question: "Goal: 'introduce the artist to readers unfamiliar with her work.' Best opener?", options: ["Her 2019 retrospective won three awards.", "Maya Lin is an American sculptor known for site-specific works.", "Lin's process involves community interviews.", "Lin grew up in Ohio."], answer: 1, explanation: "Option B names + identifies her - perfect intro." },
           { question: "Goal: 'emphasize the speed of the change'. Best?", options: ["Sales doubled within six months.", "Sales were strong.", "Sales involved many products.", "Sales were tracked weekly."], answer: 0, explanation: "Concrete time + magnitude = emphasis." },
           { question: "What kills a Synthesis answer most often?", options: ["Wrong fact", "Wrong goal", "Wrong tone", "Too short"], answer: 1, explanation: "Goal mismatch is the #1 trap." },
         ],
@@ -284,11 +284,11 @@ export const satExpansionModules11: LanguageModule[] = [
         theory: "Học transitions theo 5 nhóm: ADD (also, furthermore), CONTRAST (however, yet), CAUSE (therefore, thus), EXAMPLE (for instance), TIME (meanwhile, subsequently). Đầu tiên xác định QUAN HỆ giữa 2 câu trước/sau, rồi chọn từ.",
         theoryEn: "Learn transitions in 5 buckets: ADD, CONTRAST, CAUSE, EXAMPLE, TIME. First name the RELATION between the two sentences, then pick the word.",
         proTips: [
-          "Đừng chọn từ 'kêu' — chọn từ đúng quan hệ.",
+          "Đừng chọn từ 'kêu' - chọn từ đúng quan hệ.",
           "'However' ≠ 'therefore'. Đổi sai một từ = mất điểm.",
         ],
         proTipsEn: [
-          "Don't pick the fanciest word — pick the right relation.",
+          "Don't pick the fanciest word - pick the right relation.",
           "'However' ≠ 'therefore'. One swap = one lost point.",
         ],
         exercises: [
@@ -299,7 +299,7 @@ export const satExpansionModules11: LanguageModule[] = [
             sentences: [
               { text: "She studied hard; ___, she passed.", textEn: "She studied hard; ___, she passed.", answer: "therefore" },
               { text: "The plan was cheap; ___, it was risky.", textEn: "The plan was cheap; ___, it was risky.", answer: "however" },
-              { text: "Many fruits are sweet — ___, mangoes and grapes.", textEn: "Many fruits are sweet — ___, mangoes and grapes.", answer: "for example" },
+              { text: "Many fruits are sweet - ___, mangoes and grapes.", textEn: "Many fruits are sweet - ___, mangoes and grapes.", answer: "for example" },
               { text: "First, mix the batter; ___, bake for 30 minutes.", textEn: "First, mix the batter; ___, bake for 30 minutes.", answer: "next" },
             ],
           },
@@ -355,28 +355,28 @@ export const satExpansionModules11: LanguageModule[] = [
         theoryEn: "SAT only tests 4 marks: comma, semicolon, colon, dash. Quick rules: SEMICOLON joins two independent clauses; COLON introduces a list/explanation after an independent clause; DASHES work like commas (in pairs); COMMAS set off non-essential info.",
         proTips: [
           "Sau dấu hai chấm (:), phần trước phải là CÂU HOÀN CHỈNH.",
-          "Khi không chắc dùng comma, hãy bỏ phần giữa hai dấu — câu còn nghĩa = comma đúng.",
+          "Khi không chắc dùng comma, hãy bỏ phần giữa hai dấu - câu còn nghĩa = comma đúng.",
         ],
         proTipsEn: [
           "What precedes a colon (:) must be a complete sentence.",
-          "If unsure about commas, delete the middle phrase — sentence still works = commas are correct.",
+          "If unsure about commas, delete the middle phrase - sentence still works = commas are correct.",
         ],
         exercises: [
           {
             type: "fill-in-blank",
-            instruction: "Điền dấu thích hợp (, ; : —):",
-            instructionEn: "Insert the proper punctuation (, ; : —):",
+            instruction: "Điền dấu thích hợp (, ; : -):",
+            instructionEn: "Insert the proper punctuation (, ; : -):",
             sentences: [
               { text: "She loves three sports ___ tennis, soccer, and chess.", textEn: "She loves three sports ___ tennis, soccer, and chess.", answer: ":" },
               { text: "He ran fast ___ he still missed the bus.", textEn: "He ran fast ___ he still missed the bus.", answer: ";" },
               { text: "The teacher, Ms. Lan ___ greeted the students warmly.", textEn: "The teacher, Ms. Lan ___ greeted the students warmly.", answer: "," },
-              { text: "The result ___ a stunning, last-minute goal ___ shocked the crowd.", textEn: "The result ___ a stunning, last-minute goal ___ shocked the crowd.", answer: "—" },
+              { text: "The result ___ a stunning, last-minute goal ___ shocked the crowd.", textEn: "The result ___ a stunning, last-minute goal ___ shocked the crowd.", answer: "-" },
             ],
           },
         ],
         quiz: [
-          { question: "Which is CORRECT?", options: ["She left early; because she felt tired.", "She left early because she felt tired.", "She left early, because; she felt tired.", "She left early — because, she felt tired."], answer: 1, explanation: "No punctuation needed before subordinator 'because'." },
-          { question: "Best version: 'The recipe needs three things ___ flour, sugar, eggs.'", options: [",", ";", ":", "—"], answer: 2, explanation: "Colon introduces a list after a complete clause." },
+          { question: "Which is CORRECT?", options: ["She left early; because she felt tired.", "She left early because she felt tired.", "She left early, because; she felt tired.", "She left early - because, she felt tired."], answer: 1, explanation: "No punctuation needed before subordinator 'because'." },
+          { question: "Best version: 'The recipe needs three things ___ flour, sugar, eggs.'", options: [",", ";", ":", "-"], answer: 2, explanation: "Colon introduces a list after a complete clause." },
           { question: "Pair-of-dashes work like…", options: ["semicolons", "pair of commas", "colons", "periods"], answer: 1, explanation: "Dashes can replace pair-commas around a non-essential phrase." },
         ],
       },
@@ -387,14 +387,14 @@ export const satExpansionModules11: LanguageModule[] = [
         level: 4,
         difficulty: "advanced",
         theory: "Câu chốt cuối phải LIÊN KẾT bullet đầu tiên với bullet cuối cùng. Đáp án đúng thường gói lại 2 ý chính (cause + effect, problem + solution) trong 1 câu gọn.",
-        theoryEn: "End-note conclusions must LINK the first and last bullets — usually packaging two key ideas (cause + effect or problem + solution) into one tight sentence.",
+        theoryEn: "End-note conclusions must LINK the first and last bullets - usually packaging two key ideas (cause + effect or problem + solution) into one tight sentence.",
         proTips: [
-          "Tránh câu dài, hoa mỹ — SAT thưởng câu trực diện.",
-          "Loại đáp án chỉ lặp lại 1 bullet — đó không phải synthesis.",
+          "Tránh câu dài, hoa mỹ - SAT thưởng câu trực diện.",
+          "Loại đáp án chỉ lặp lại 1 bullet - đó không phải synthesis.",
         ],
         proTipsEn: [
-          "Avoid flowery sentences — SAT rewards directness.",
-          "Eliminate options that only echo one bullet — that isn't synthesis.",
+          "Avoid flowery sentences - SAT rewards directness.",
+          "Eliminate options that only echo one bullet - that isn't synthesis.",
         ],
         exercises: [
           {
@@ -410,7 +410,7 @@ export const satExpansionModules11: LanguageModule[] = [
         ],
         quiz: [
           { question: "Bullets: (1) program is free, (2) attendance is rising. Best synthesis?", options: ["The program is free.", "Attendance is rising.", "The free program has driven rising attendance.", "Programs vary in cost."], answer: 2, explanation: "Links cost (free) with effect (attendance)." },
-          { question: "Synthesis sentences usually contain how many key ideas?", options: ["0", "1", "2", "5+"], answer: 2, explanation: "Two — that is the essence of synthesis." },
+          { question: "Synthesis sentences usually contain how many key ideas?", options: ["0", "1", "2", "5+"], answer: 2, explanation: "Two - that is the essence of synthesis." },
           { question: "Worst synthesis sign?", options: ["Short and clear", "Names a result", "Only repeats one bullet", "Uses 'because'"], answer: 2, explanation: "Repeating one bullet = NOT synthesis." },
         ],
       },
@@ -452,15 +452,15 @@ export const satExpansionModules11: LanguageModule[] = [
     ],
   },
 
-  // ════════════════ 3. MATH — Algebra / Quadratics / Geometry / Stats
+  // ════════════════ 3. MATH - Algebra / Quadratics / Geometry / Stats
   {
     id: "sat-math-foundations-stretch-pack",
     title: "SAT Math · Foundations → Stretch",
     titleEn: "SAT Math · Foundations → Stretch",
     icon: "📐",
     color: "from-sky-500 to-indigo-600",
-    description: "6 bài Math gói gọn 4 mảng: Algebra, Quadratics, Geometry, Statistics — từ căn bản đến nâng band 1500+.",
-    descriptionEn: "Six lessons across Algebra, Quadratics, Geometry, and Statistics — from foundations to 1500+ stretch.",
+    description: "6 bài Math gói gọn 4 mảng: Algebra, Quadratics, Geometry, Statistics - từ căn bản đến nâng band 1500+.",
+    descriptionEn: "Six lessons across Algebra, Quadratics, Geometry, and Statistics - from foundations to 1500+ stretch.",
     category: "sat",
     language: "english",
     lessons: [
@@ -555,8 +555,8 @@ export const satExpansionModules11: LanguageModule[] = [
         titleEn: "Lesson 4 · Statistics – Mean, Median, Spread",
         level: 3,
         difficulty: "intermediate",
-        theory: "Mean nhạy với outlier, median ổn định hơn. Range = max − min. Standard deviation đo độ phân tán — dữ liệu càng tập trung, SD càng nhỏ. Khi outlier xuất hiện, mean dịch theo outlier, median ít đổi.",
-        theoryEn: "Mean is sensitive to outliers; median is more stable. Range = max − min. Standard deviation measures spread — tighter data → smaller SD. With an outlier, mean shifts; median barely moves.",
+        theory: "Mean nhạy với outlier, median ổn định hơn. Range = max − min. Standard deviation đo độ phân tán - dữ liệu càng tập trung, SD càng nhỏ. Khi outlier xuất hiện, mean dịch theo outlier, median ít đổi.",
+        theoryEn: "Mean is sensitive to outliers; median is more stable. Range = max − min. Standard deviation measures spread - tighter data → smaller SD. With an outlier, mean shifts; median barely moves.",
         proTips: ["Sắp xếp dữ liệu trước khi tìm median.", "SD giảm = dữ liệu nén lại gần mean."],
         proTipsEn: ["Sort data before finding the median.", "Smaller SD means data is tighter around the mean."],
         exercises: [
@@ -648,7 +648,7 @@ export const satExpansionModules11: LanguageModule[] = [
     ],
   },
 
-  // ════════════════ 4. ADVANCED READING — Science / Social / Literary / Dual-passage
+  // ════════════════ 4. ADVANCED READING - Science / Social / Literary / Dual-passage
   {
     id: "sat-adv-reading-pack-2",
     title: "SAT Advanced Reading · Genre Pack",
@@ -695,9 +695,9 @@ export const satExpansionModules11: LanguageModule[] = [
         level: 2,
         difficulty: "beginner",
         theory: "Đoạn xã hội học/lịch sử SAT thường có 1 claim + 2-3 evidence. Đọc claim trước → khoanh evidence. Câu hỏi 'main purpose' luôn liên quan tới claim, không phải example.",
-        theoryEn: "SAT social/history passages have one claim + 2–3 evidence. Read claim first → bracket evidence. 'Main purpose' questions tie to the claim — not the example.",
-        proTips: ["Đề thường chọn passage từ Founding Documents — ngôn ngữ trang trọng.", "Cảnh giác từ cổ: thence, hither, whence."],
-        proTipsEn: ["Many passages come from Founding Documents — formal language.", "Watch archaic words: thence, hither, whence."],
+        theoryEn: "SAT social/history passages have one claim + 2–3 evidence. Read claim first → bracket evidence. 'Main purpose' questions tie to the claim - not the example.",
+        proTips: ["Đề thường chọn passage từ Founding Documents - ngôn ngữ trang trọng.", "Cảnh giác từ cổ: thence, hither, whence."],
+        proTipsEn: ["Many passages come from Founding Documents - formal language.", "Watch archaic words: thence, hither, whence."],
         exercises: [
           {
             type: "fill-in-blank",
@@ -722,8 +722,8 @@ export const satExpansionModules11: LanguageModule[] = [
         titleEn: "Lesson 3 · Literary Fiction – Character & Mood",
         level: 3,
         difficulty: "intermediate",
-        theory: "Đọc văn học cần bám động từ + tính từ mô tả tâm trạng (sigh, hesitate, beam, scowl). Nhân vật 'reluctant', 'wistful', 'resigned' đều có sắc thái khác — phân biệt qua hành động đi kèm.",
-        theoryEn: "For fiction, follow verbs + adjectives that signal mood (sigh, hesitate, beam, scowl). Words like 'reluctant', 'wistful', 'resigned' differ in tone — disambiguate via accompanying actions.",
+        theory: "Đọc văn học cần bám động từ + tính từ mô tả tâm trạng (sigh, hesitate, beam, scowl). Nhân vật 'reluctant', 'wistful', 'resigned' đều có sắc thái khác - phân biệt qua hành động đi kèm.",
+        theoryEn: "For fiction, follow verbs + adjectives that signal mood (sigh, hesitate, beam, scowl). Words like 'reluctant', 'wistful', 'resigned' differ in tone - disambiguate via accompanying actions.",
         proTips: ["Tự tóm tắt cảnh trong 1 câu.", "Tránh áp suy nghĩ cá nhân vào nhân vật."],
         proTipsEn: ["Summarize the scene in one sentence.", "Don't project your own feelings onto the character."],
         exercises: [
@@ -783,11 +783,11 @@ export const satExpansionModules11: LanguageModule[] = [
         theoryEn: "Dual passages give two short pieces on the same topic. Typical stems: (1) which author would agree/disagree with X, (2) where they differ. Summarize each passage in one sentence before tackling questions.",
         proTips: [
           "Viết 'A=…, B=…' bên lề.",
-          "Đáp án đúng thường nhẹ nhàng — tránh 'completely opposite'.",
+          "Đáp án đúng thường nhẹ nhàng - tránh 'completely opposite'.",
         ],
         proTipsEn: [
           "Note 'A=…, B=…' in the margin.",
-          "Right answers are usually nuanced — avoid 'completely opposite' options.",
+          "Right answers are usually nuanced - avoid 'completely opposite' options.",
         ],
         exercises: [
           {
@@ -817,7 +817,7 @@ export const satExpansionModules11: LanguageModule[] = [
         theoryEn: "At 1500+, target <60 seconds per R&W item. Read once, don't backtrack, and predict the answer before reading the four options. Eliminate via 'extreme language' and 'off-topic' rules.",
         proTips: [
           "Nếu kẹt > 75s, đánh dấu và quay lại cuối.",
-          "Câu paired evidence — luôn xác định câu chủ trước rồi tìm evidence.",
+          "Câu paired evidence - luôn xác định câu chủ trước rồi tìm evidence.",
         ],
         proTipsEn: [
           "If you stall >75s, flag and return at the end.",

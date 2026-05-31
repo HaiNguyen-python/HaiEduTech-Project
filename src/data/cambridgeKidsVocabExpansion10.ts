@@ -54,7 +54,7 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION_10: W[] = [
   mk("polite", "lịch sự", "🙇", "Movers", "Please be polite to everyone.", "Hãy lịch sự với mọi người."),
   mk("careful", "cẩn thận", "⚠️", "Movers", "Be careful on the road.", "Hãy cẩn thận khi đi đường."),
   mk("friendly", "thân thiện", "😊", "Movers", "She is friendly to new students.", "Bạn ấy thân thiện với học sinh mới."),
-  mk("lazy", "lười biếng", "😴", "Movers", "Don't be lazy — do your homework.", "Đừng lười — hãy làm bài tập."),
+  mk("lazy", "lười biếng", "😴", "Movers", "Don't be lazy - do your homework.", "Đừng lười - hãy làm bài tập."),
   mk("strong", "khỏe mạnh", "💪", "Movers", "My dad is very strong.", "Bố em rất khỏe."),
   mk("weak", "yếu ớt", "🥀", "Movers", "I feel weak when I'm sick.", "Em thấy yếu khi bị ốm."),
   mk("rich", "giàu có", "💰", "Movers", "The king is very rich.", "Nhà vua rất giàu."),

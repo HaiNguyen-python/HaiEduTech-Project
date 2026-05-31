@@ -17,19 +17,19 @@ export interface FullTest {
 export const IELTS_FULL_TESTS: FullTest[] = [
   {
     id: "ft-1",
-    title: "Full Test 1 — Academic (60 minutes)",
+    title: "Full Test 1 - Academic (60 minutes)",
     durationMinutes: 60,
     passageIds: ["rx-1", "rx-2", "rx-3"],
   },
   {
     id: "ft-2",
-    title: "Full Test 2 — Academic (60 minutes)",
+    title: "Full Test 2 - Academic (60 minutes)",
     durationMinutes: 60,
     passageIds: ["rx-4", "rx-5", "rx-cam-1"],
   },
   {
     id: "ft-3",
-    title: "Full Test 3 — Academic (60 minutes)",
+    title: "Full Test 3 - Academic (60 minutes)",
     durationMinutes: 60,
     passageIds: ["rx-cam-2", "rx-1", "rx-3"],
   },

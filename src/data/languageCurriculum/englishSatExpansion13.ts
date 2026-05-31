@@ -1,4 +1,4 @@
-// SAT Expansion 13 — adds 4 thematic modules × 5 lessons each (20 new lessons).
+// SAT Expansion 13 - adds 4 thematic modules × 5 lessons each (20 new lessons).
 // Every lesson contains worked EXAMPLES inside the theory and at least one
 // interactive exercise (fill-in-blank or sentence-reorder) plus a 4-Q quiz.
 //   1) R&W · Rhetorical Synthesis (notes → one sentence)
@@ -15,8 +15,8 @@ export const satExpansionModules13: LanguageModule[] = [
     titleEn: "SAT R&W · Rhetorical Synthesis (Notes → 1 sentence)",
     icon: "📝",
     color: "from-sky-500 to-cyan-600",
-    description: "Gói 5 bài dạy tổng hợp ghi chú thành 1 câu duy nhất phục vụ mục tiêu cụ thể — dạng cuối của module R&W.",
-    descriptionEn: "Five lessons on collapsing bullet notes into a single sentence that fits a stated purpose — the last set in every R&W module.",
+    description: "Gói 5 bài dạy tổng hợp ghi chú thành 1 câu duy nhất phục vụ mục tiêu cụ thể - dạng cuối của module R&W.",
+    descriptionEn: "Five lessons on collapsing bullet notes into a single sentence that fits a stated purpose - the last set in every R&W module.",
     category: "sat",
     language: "english",
     lessons: [
@@ -27,16 +27,16 @@ export const satExpansionModules13: LanguageModule[] = [
         level: 2,
         difficulty: "beginner",
         theory:
-          "Đề cho 4–6 dòng ghi chú và một MỤC TIÊU (purpose), ví dụ: 'The student wants to emphasise a similarity between two artists.' Bạn chọn câu duy nhất KHỚP MỤC TIÊU, dùng dữ liệu trong ghi chú.\n\nVí dụ ghi chú:\n• Monet (1840–1926) — French Impressionist.\n• Renoir (1841–1919) — French Impressionist.\n• Both painted outdoor light effects.\n\nMục tiêu: nhấn mạnh điểm GIỐNG nhau.\nĐáp án đúng: 'Like Renoir, Monet was a French Impressionist who painted outdoor light effects.' — bám đúng mục tiêu 'similarity'.",
+          "Đề cho 4–6 dòng ghi chú và một MỤC TIÊU (purpose), ví dụ: 'The student wants to emphasise a similarity between two artists.' Bạn chọn câu duy nhất KHỚP MỤC TIÊU, dùng dữ liệu trong ghi chú.\n\nVí dụ ghi chú:\n• Monet (1840–1926) - French Impressionist.\n• Renoir (1841–1919) - French Impressionist.\n• Both painted outdoor light effects.\n\nMục tiêu: nhấn mạnh điểm GIỐNG nhau.\nĐáp án đúng: 'Like Renoir, Monet was a French Impressionist who painted outdoor light effects.' - bám đúng mục tiêu 'similarity'.",
         theoryEn:
-          "The prompt gives 4–6 bullet notes plus a PURPOSE, e.g. 'The student wants to emphasise a similarity between two artists.' Pick the single sentence that MATCHES the purpose using only the notes.\n\nExample notes:\n• Monet (1840–1926) — French Impressionist.\n• Renoir (1841–1919) — French Impressionist.\n• Both painted outdoor light effects.\n\nPurpose: emphasise SIMILARITY.\nCorrect: 'Like Renoir, Monet was a French Impressionist who painted outdoor light effects.' — hits the 'similarity' goal.",
+          "The prompt gives 4–6 bullet notes plus a PURPOSE, e.g. 'The student wants to emphasise a similarity between two artists.' Pick the single sentence that MATCHES the purpose using only the notes.\n\nExample notes:\n• Monet (1840–1926) - French Impressionist.\n• Renoir (1841–1919) - French Impressionist.\n• Both painted outdoor light effects.\n\nPurpose: emphasise SIMILARITY.\nCorrect: 'Like Renoir, Monet was a French Impressionist who painted outdoor light effects.' - hits the 'similarity' goal.",
         proTips: [
           "Gạch chân động từ MỤC TIÊU: emphasise, contrast, introduce, explain.",
-          "Loại đáp án 'đúng dữ liệu nhưng SAI mục tiêu' — bẫy phổ biến nhất.",
+          "Loại đáp án 'đúng dữ liệu nhưng SAI mục tiêu' - bẫy phổ biến nhất.",
         ],
         proTipsEn: [
           "Underline the purpose verb: emphasise, contrast, introduce, explain.",
-          "Eliminate options that are factually true but miss the purpose — the #1 trap.",
+          "Eliminate options that are factually true but miss the purpose - the #1 trap.",
         ],
         exercises: [
           {
@@ -54,7 +54,7 @@ export const satExpansionModules13: LanguageModule[] = [
           { question: "First step on a Rhetorical Synthesis item?", options: ["Read all 4 options", "Underline the purpose verb", "Translate notes", "Skip notes"], answer: 1, explanation: "Purpose verb drives the correct answer." },
           { question: "'Emphasise a similarity' suggests a sentence starting with…", options: ["'Although'", "'Like' / 'Both'", "'In contrast'", "'However'"], answer: 1, explanation: "Similarity signals: like / both / similarly." },
           { question: "Classic trap on Synthesis?", options: ["non-English option", "true facts that miss the purpose", "ungrammatical option", "very long option"], answer: 1, explanation: "Facts can be true yet ignore the purpose." },
-          { question: "May the answer use information NOT in the notes?", options: ["yes, freely", "no — only the notes", "only if footnoted", "only numerical"], answer: 1, explanation: "Stick strictly to the bullets." },
+          { question: "May the answer use information NOT in the notes?", options: ["yes, freely", "no - only the notes", "only if footnoted", "only numerical"], answer: 1, explanation: "Stick strictly to the bullets." },
         ],
       },
       {
@@ -64,9 +64,9 @@ export const satExpansionModules13: LanguageModule[] = [
         level: 3,
         difficulty: "intermediate",
         theory:
-          "Khi mục tiêu là CONTRAST, đáp án thường có 'whereas', 'while', 'unlike', 'in contrast'. Kiểm tra: hai vế của câu PHẢI nêu hai sự khác biệt cụ thể.\n\nVí dụ ghi chú:\n• Solar panels: zero fuel cost, expensive install.\n• Diesel generators: cheap install, ongoing fuel cost.\n\nMục tiêu: distinguish hai công nghệ về CHI PHÍ.\nĐáp án đúng: 'Whereas solar panels are expensive to install but free to run, diesel generators are cheap to install but costly to fuel.' — nêu rõ TƯƠNG PHẢN ở cả install và fuel.",
+          "Khi mục tiêu là CONTRAST, đáp án thường có 'whereas', 'while', 'unlike', 'in contrast'. Kiểm tra: hai vế của câu PHẢI nêu hai sự khác biệt cụ thể.\n\nVí dụ ghi chú:\n• Solar panels: zero fuel cost, expensive install.\n• Diesel generators: cheap install, ongoing fuel cost.\n\nMục tiêu: distinguish hai công nghệ về CHI PHÍ.\nĐáp án đúng: 'Whereas solar panels are expensive to install but free to run, diesel generators are cheap to install but costly to fuel.' - nêu rõ TƯƠNG PHẢN ở cả install và fuel.",
         theoryEn:
-          "When the goal is CONTRAST, correct answers tend to use 'whereas', 'while', 'unlike', 'in contrast'. Check: BOTH halves of the sentence must state a distinct difference.\n\nExample notes:\n• Solar panels: zero fuel cost, expensive install.\n• Diesel generators: cheap install, ongoing fuel cost.\n\nPurpose: distinguish the two technologies on COST.\nCorrect: 'Whereas solar panels are expensive to install but free to run, diesel generators are cheap to install but costly to fuel.' — explicit contrast on both install and fuel.",
+          "When the goal is CONTRAST, correct answers tend to use 'whereas', 'while', 'unlike', 'in contrast'. Check: BOTH halves of the sentence must state a distinct difference.\n\nExample notes:\n• Solar panels: zero fuel cost, expensive install.\n• Diesel generators: cheap install, ongoing fuel cost.\n\nPurpose: distinguish the two technologies on COST.\nCorrect: 'Whereas solar panels are expensive to install but free to run, diesel generators are cheap to install but costly to fuel.' - explicit contrast on both install and fuel.",
         proTips: ["Đáp án có 'whereas/while' nhưng chỉ nêu 1 vế khác biệt → vẫn SAI."],
         proTipsEn: ["An option with 'whereas/while' but only one contrasted half is still wrong."],
         exercises: [
@@ -93,9 +93,9 @@ export const satExpansionModules13: LanguageModule[] = [
         level: 3,
         difficulty: "intermediate",
         theory:
-          "Khi mục tiêu là 'emphasise a result' hoặc 'highlight a finding', đáp án đúng PHẢI bao gồm con số / kết quả nổi bật từ ghi chú và đặt nó ở vị trí ngữ pháp QUAN TRỌNG (vị trí chủ ngữ hoặc bổ ngữ chính).\n\nVí dụ ghi chú:\n• Trial enrolled 1,200 participants.\n• Drug X cut symptoms by 47%.\n• Side effects rare (<2%).\n\nMục tiêu: nhấn mạnh kết quả lâm sàng chính.\nĐáp án đúng: 'In a 1,200-person trial, Drug X reduced symptoms by 47%.' — đặt con số 47% làm điểm rơi của câu.",
+          "Khi mục tiêu là 'emphasise a result' hoặc 'highlight a finding', đáp án đúng PHẢI bao gồm con số / kết quả nổi bật từ ghi chú và đặt nó ở vị trí ngữ pháp QUAN TRỌNG (vị trí chủ ngữ hoặc bổ ngữ chính).\n\nVí dụ ghi chú:\n• Trial enrolled 1,200 participants.\n• Drug X cut symptoms by 47%.\n• Side effects rare (<2%).\n\nMục tiêu: nhấn mạnh kết quả lâm sàng chính.\nĐáp án đúng: 'In a 1,200-person trial, Drug X reduced symptoms by 47%.' - đặt con số 47% làm điểm rơi của câu.",
         theoryEn:
-          "When the goal is 'emphasise a result' or 'highlight a finding', the right answer MUST include the headline number from the notes AND place it in a grammatically prominent slot (subject or main complement).\n\nExample notes:\n• Trial enrolled 1,200 participants.\n• Drug X cut symptoms by 47%.\n• Side effects rare (<2%).\n\nPurpose: emphasise the main clinical result.\nCorrect: 'In a 1,200-person trial, Drug X reduced symptoms by 47%.' — places the 47% as the punch.",
+          "When the goal is 'emphasise a result' or 'highlight a finding', the right answer MUST include the headline number from the notes AND place it in a grammatically prominent slot (subject or main complement).\n\nExample notes:\n• Trial enrolled 1,200 participants.\n• Drug X cut symptoms by 47%.\n• Side effects rare (<2%).\n\nPurpose: emphasise the main clinical result.\nCorrect: 'In a 1,200-person trial, Drug X reduced symptoms by 47%.' - places the 47% as the punch.",
         proTips: ["Đáp án ĐÚNG luôn chứa CON SỐ chính; đáp án thiếu số → loại."],
         proTipsEn: ["The correct answer always contains the headline NUMBER; numberless options → eliminate."],
         exercises: [
@@ -118,14 +118,14 @@ export const satExpansionModules13: LanguageModule[] = [
       },
       {
         id: "sat-rs-4-intro-readers",
-        title: "Bài 4 · 'Introduce X to readers' — câu định nghĩa",
-        titleEn: "Lesson 4 · 'Introduce X to a reader' — Definition Sentences",
+        title: "Bài 4 · 'Introduce X to readers' - câu định nghĩa",
+        titleEn: "Lesson 4 · 'Introduce X to a reader' - Definition Sentences",
         level: 4,
         difficulty: "advanced",
         theory:
-          "Mục tiêu 'introduce X to an unfamiliar reader' đòi câu cung cấp ĐỊNH NGHĨA cốt lõi: tên + loại / chức năng + 1 đặc điểm phân biệt. Đừng chọn câu chứa CHI TIẾT NÂNG CAO mà người mới chưa biết.\n\nVí dụ ghi chú:\n• Octopus — cephalopod mollusc.\n• Has 8 arms, blue blood.\n• Solves puzzles in labs.\n\nMục tiêu: giới thiệu octopus cho người chưa biết.\nĐáp án đúng: 'The octopus is an eight-armed mollusc known for its puzzle-solving intelligence.' — định nghĩa rõ, dùng chi tiết phân biệt.",
+          "Mục tiêu 'introduce X to an unfamiliar reader' đòi câu cung cấp ĐỊNH NGHĨA cốt lõi: tên + loại / chức năng + 1 đặc điểm phân biệt. Đừng chọn câu chứa CHI TIẾT NÂNG CAO mà người mới chưa biết.\n\nVí dụ ghi chú:\n• Octopus - cephalopod mollusc.\n• Has 8 arms, blue blood.\n• Solves puzzles in labs.\n\nMục tiêu: giới thiệu octopus cho người chưa biết.\nĐáp án đúng: 'The octopus is an eight-armed mollusc known for its puzzle-solving intelligence.' - định nghĩa rõ, dùng chi tiết phân biệt.",
         theoryEn:
-          "Purpose 'introduce X to an unfamiliar reader' wants a DEFINITION: name + category/function + one distinguishing trait. Reject options that drop advanced specifics a newcomer cannot anchor.\n\nExample notes:\n• Octopus — cephalopod mollusc.\n• Has 8 arms, blue blood.\n• Solves puzzles in labs.\n\nPurpose: introduce the octopus to a new reader.\nCorrect: 'The octopus is an eight-armed mollusc known for its puzzle-solving intelligence.' — clean definition with a distinguishing trait.",
+          "Purpose 'introduce X to an unfamiliar reader' wants a DEFINITION: name + category/function + one distinguishing trait. Reject options that drop advanced specifics a newcomer cannot anchor.\n\nExample notes:\n• Octopus - cephalopod mollusc.\n• Has 8 arms, blue blood.\n• Solves puzzles in labs.\n\nPurpose: introduce the octopus to a new reader.\nCorrect: 'The octopus is an eight-armed mollusc known for its puzzle-solving intelligence.' - clean definition with a distinguishing trait.",
         proTips: ["Định nghĩa SAT theo công thức: 'X is a [type] that [distinguishing trait].'"],
         proTipsEn: ["SAT definition template: 'X is a [type] that [distinguishing trait].'"],
         exercises: [
@@ -148,14 +148,14 @@ export const satExpansionModules13: LanguageModule[] = [
       },
       {
         id: "sat-rs-5-timed",
-        title: "Bài 5 · Rhetorical Synthesis — bộ luyện bấm giờ 75s",
-        titleEn: "Lesson 5 · Rhetorical Synthesis — 75s Timed Drill",
+        title: "Bài 5 · Rhetorical Synthesis - bộ luyện bấm giờ 75s",
+        titleEn: "Lesson 5 · Rhetorical Synthesis - 75s Timed Drill",
         level: 5,
         difficulty: "advanced",
         theory:
-          "Mục tiêu: 75 giây / câu Synthesis. Phân bổ: 15s đọc purpose, 30s quét ghi chú, 30s ghép từng đáp án vào purpose. Câu nào còn lưỡng lự giữa 2 đáp án → so PURPOSE TYPE (similarity / contrast / emphasise / introduce) trước.\n\nVí dụ rút gọn:\nNotes: A — fast, expensive. B — slow, cheap. Purpose: contrast.\nCandidate 1: 'A is faster than B.' → SAI (chỉ 1 vế).\nCandidate 2: 'Whereas A is fast and expensive, B is slow and cheap.' → ĐÚNG (đủ 2 vế).",
+          "Mục tiêu: 75 giây / câu Synthesis. Phân bổ: 15s đọc purpose, 30s quét ghi chú, 30s ghép từng đáp án vào purpose. Câu nào còn lưỡng lự giữa 2 đáp án → so PURPOSE TYPE (similarity / contrast / emphasise / introduce) trước.\n\nVí dụ rút gọn:\nNotes: A - fast, expensive. B - slow, cheap. Purpose: contrast.\nCandidate 1: 'A is faster than B.' → SAI (chỉ 1 vế).\nCandidate 2: 'Whereas A is fast and expensive, B is slow and cheap.' → ĐÚNG (đủ 2 vế).",
         theoryEn:
-          "Target: 75s per Synthesis item. Budget: 15s purpose, 30s scan notes, 30s plug each option into the purpose. When torn between two, test the PURPOSE TYPE first (similarity / contrast / emphasise / introduce).\n\nMini example:\nNotes: A — fast, expensive. B — slow, cheap. Purpose: contrast.\nCandidate 1: 'A is faster than B.' → WRONG (only one half).\nCandidate 2: 'Whereas A is fast and expensive, B is slow and cheap.' → RIGHT (both halves).",
+          "Target: 75s per Synthesis item. Budget: 15s purpose, 30s scan notes, 30s plug each option into the purpose. When torn between two, test the PURPOSE TYPE first (similarity / contrast / emphasise / introduce).\n\nMini example:\nNotes: A - fast, expensive. B - slow, cheap. Purpose: contrast.\nCandidate 1: 'A is faster than B.' → WRONG (only one half).\nCandidate 2: 'Whereas A is fast and expensive, B is slow and cheap.' → RIGHT (both halves).",
         proTips: ["Quá 75s → mark + chọn đáp án có nhiều DỮ LIỆU từ ghi chú nhất."],
         proTipsEn: ["Over 75s → mark + pick the option pulling the most DATA from the notes."],
         exercises: [
@@ -186,8 +186,8 @@ export const satExpansionModules13: LanguageModule[] = [
     titleEn: "SAT R&W · Transitions & Logical Flow",
     icon: "🔁",
     color: "from-fuchsia-500 to-purple-600",
-    description: "5 bài luyện chọn transition đúng (however, therefore, for example…) — dạng câu hỏi tần suất cao của R&W.",
-    descriptionEn: "Five lessons on picking the right transition word (however, therefore, for example…) — a high-frequency R&W item.",
+    description: "5 bài luyện chọn transition đúng (however, therefore, for example…) - dạng câu hỏi tần suất cao của R&W.",
+    descriptionEn: "Five lessons on picking the right transition word (however, therefore, for example…) - a high-frequency R&W item.",
     category: "sat",
     language: "english",
     lessons: [
@@ -201,8 +201,8 @@ export const satExpansionModules13: LanguageModule[] = [
           "4 họ transition cần thuộc:\n• CONTRAST: however, yet, nevertheless, in contrast, on the other hand.\n• CAUSE/EFFECT: therefore, thus, as a result, consequently.\n• EXAMPLE: for example, for instance, specifically, in particular.\n• ADDITION: moreover, furthermore, additionally, in addition.\n\nVí dụ:\n'Sales fell 12%. ___ , the company cut bonuses.' → CAUSE/EFFECT → 'Therefore' / 'As a result'.\n'Sales fell 12%. ___ , marketing reached a record high.' → CONTRAST → 'However'.",
         theoryEn:
           "Four families to memorise:\n• CONTRAST: however, yet, nevertheless, in contrast, on the other hand.\n• CAUSE/EFFECT: therefore, thus, as a result, consequently.\n• EXAMPLE: for example, for instance, specifically, in particular.\n• ADDITION: moreover, furthermore, additionally, in addition.\n\nExample:\n'Sales fell 12%. ___ , the company cut bonuses.' → CAUSE/EFFECT → 'Therefore' / 'As a result'.\n'Sales fell 12%. ___ , marketing reached a record high.' → CONTRAST → 'However'.",
-        proTips: ["Đọc 2 câu kề trước khi chọn — đừng đoán theo cảm giác."],
-        proTipsEn: ["Read both adjacent sentences before choosing — never gut-pick."],
+        proTips: ["Đọc 2 câu kề trước khi chọn - đừng đoán theo cảm giác."],
+        proTipsEn: ["Read both adjacent sentences before choosing - never gut-pick."],
         exercises: [
           {
             type: "fill-in-blank",
@@ -287,8 +287,8 @@ export const satExpansionModules13: LanguageModule[] = [
       },
       {
         id: "sat-tr-4-example-addition",
-        title: "Bài 4 · Example vs Addition — đừng nhầm",
-        titleEn: "Lesson 4 · Example vs Addition — Don't Confuse",
+        title: "Bài 4 · Example vs Addition - đừng nhầm",
+        titleEn: "Lesson 4 · Example vs Addition - Don't Confuse",
         level: 4,
         difficulty: "advanced",
         theory:
@@ -355,8 +355,8 @@ export const satExpansionModules13: LanguageModule[] = [
     titleEn: "SAT Math · Linear Equations, Systems & Inequalities",
     icon: "📐",
     color: "from-emerald-500 to-green-600",
-    description: "5 bài luyện trục linear — chiếm ~35% module Math. Có ví dụ và bài tập từng bước.",
-    descriptionEn: "Five lessons on the linear pillar — ~35% of every Math module. Worked examples + step-by-step practice.",
+    description: "5 bài luyện trục linear - chiếm ~35% module Math. Có ví dụ và bài tập từng bước.",
+    descriptionEn: "Five lessons on the linear pillar - ~35% of every Math module. Worked examples + step-by-step practice.",
     category: "sat",
     language: "english",
     lessons: [
@@ -398,9 +398,9 @@ export const satExpansionModules13: LanguageModule[] = [
         level: 3,
         difficulty: "intermediate",
         theory:
-          "3 phương pháp: substitution, elimination, graphing (Desmos).\n\nVí dụ — elimination:\n2x + 3y = 12\n4x − 3y = 6\nCộng 2 PT: 6x = 18 ⇒ x = 3. Thay vào PT1: 2·3 + 3y = 12 ⇒ y = 2.\nNghiệm: (3, 2).\n\nVí dụ — nhận biết số nghiệm:\n• Hai đường cắt nhau → 1 nghiệm.\n• Song song (cùng slope, khác intercept) → 0 nghiệm.\n• Trùng nhau (cùng slope + intercept) → vô số nghiệm.",
+          "3 phương pháp: substitution, elimination, graphing (Desmos).\n\nVí dụ - elimination:\n2x + 3y = 12\n4x − 3y = 6\nCộng 2 PT: 6x = 18 ⇒ x = 3. Thay vào PT1: 2·3 + 3y = 12 ⇒ y = 2.\nNghiệm: (3, 2).\n\nVí dụ - nhận biết số nghiệm:\n• Hai đường cắt nhau → 1 nghiệm.\n• Song song (cùng slope, khác intercept) → 0 nghiệm.\n• Trùng nhau (cùng slope + intercept) → vô số nghiệm.",
         theoryEn:
-          "Three methods: substitution, elimination, graphing (Desmos).\n\nWorked example — elimination:\n2x + 3y = 12\n4x − 3y = 6\nAdd: 6x = 18 ⇒ x = 3. Sub into Eq1: 2·3 + 3y = 12 ⇒ y = 2.\nSolution: (3, 2).\n\nNumber-of-solutions rule:\n• Intersect → 1 solution.\n• Parallel (same slope, diff intercept) → 0.\n• Coincide (same slope + intercept) → infinite.",
+          "Three methods: substitution, elimination, graphing (Desmos).\n\nWorked example - elimination:\n2x + 3y = 12\n4x − 3y = 6\nAdd: 6x = 18 ⇒ x = 3. Sub into Eq1: 2·3 + 3y = 12 ⇒ y = 2.\nSolution: (3, 2).\n\nNumber-of-solutions rule:\n• Intersect → 1 solution.\n• Parallel (same slope, diff intercept) → 0.\n• Coincide (same slope + intercept) → infinite.",
         proTips: ["SAT thích đếm nghiệm: nhớ so SLOPE trước, INTERCEPT sau."],
         proTipsEn: ["SAT loves 'how many solutions?': compare SLOPES first, intercepts second."],
         exercises: [
@@ -523,8 +523,8 @@ export const satExpansionModules13: LanguageModule[] = [
     titleEn: "SAT Math · Geometry, Trigonometry & Circles",
     icon: "🟢",
     color: "from-cyan-500 to-blue-600",
-    description: "5 bài luyện trục hình học — Pythagoras, similar triangles, SOHCAHTOA, đường tròn & cung.",
-    descriptionEn: "Five lessons on the geometry pillar — Pythagoras, similar triangles, SOHCAHTOA, circles & arcs.",
+    description: "5 bài luyện trục hình học - Pythagoras, similar triangles, SOHCAHTOA, đường tròn & cung.",
+    descriptionEn: "Five lessons on the geometry pillar - Pythagoras, similar triangles, SOHCAHTOA, circles & arcs.",
     category: "sat",
     language: "english",
     lessons: [
@@ -538,8 +538,8 @@ export const satExpansionModules13: LanguageModule[] = [
           "Định lý: a² + b² = c² (c = cạnh huyền).\nBộ ba thường gặp: 3-4-5, 5-12-13, 8-15-17, 7-24-25.\n\nVí dụ: cạnh 9 và 12 → tìm cạnh huyền.\n9² + 12² = 81 + 144 = 225 = 15². Cạnh huyền = 15 (bộ 9-12-15 = 3×{3-4-5}).",
         theoryEn:
           "Theorem: a² + b² = c² (c = hypotenuse).\nCommon Pythagorean triples: 3-4-5, 5-12-13, 8-15-17, 7-24-25.\n\nExample: legs 9 and 12 → find hypotenuse.\n9² + 12² = 81 + 144 = 225 = 15². Hypotenuse = 15 (9-12-15 = 3×{3-4-5}).",
-        proTips: ["Thuộc 4 bộ trên — tiết kiệm 30 giây/câu hình học."],
-        proTipsEn: ["Memorise the four triples — saves ~30s per geometry item."],
+        proTips: ["Thuộc 4 bộ trên - tiết kiệm 30 giây/câu hình học."],
+        proTipsEn: ["Memorise the four triples - saves ~30s per geometry item."],
         exercises: [
           {
             type: "fill-in-blank",
@@ -561,15 +561,15 @@ export const satExpansionModules13: LanguageModule[] = [
       },
       {
         id: "sat-geo-2-similar",
-        title: "Bài 2 · Tam giác đồng dạng — tỉ số cạnh",
-        titleEn: "Lesson 2 · Similar Triangles — Side Ratios",
+        title: "Bài 2 · Tam giác đồng dạng - tỉ số cạnh",
+        titleEn: "Lesson 2 · Similar Triangles - Side Ratios",
         level: 3,
         difficulty: "intermediate",
         theory:
           "Hai tam giác đồng dạng (AA): các góc bằng nhau từng cặp → các cạnh tương ứng có CÙNG tỉ số k.\n\nVí dụ:\n△ABC ~ △DEF với AB = 4, DE = 6 → k = 6/4 = 1.5.\nBC = 5 → EF = 5 × 1.5 = 7.5.\n\nDấu hiệu phổ biến trên đề: hai tam giác chia nhau bởi một đường song song một cạnh → tự động đồng dạng.",
         theoryEn:
           "Two triangles are similar (AA) when angles match pairwise → corresponding sides share the SAME ratio k.\n\nExample:\n△ABC ~ △DEF with AB = 4, DE = 6 → k = 6/4 = 1.5.\nBC = 5 → EF = 5 × 1.5 = 7.5.\n\nClassic SAT cue: a line parallel to one side splits a triangle into two similar triangles.",
-        proTips: ["Ghép TƯƠNG ỨNG theo thứ tự góc — AB↔DE, BC↔EF, CA↔FD."],
+        proTips: ["Ghép TƯƠNG ỨNG theo thứ tự góc - AB↔DE, BC↔EF, CA↔FD."],
         proTipsEn: ["Match by vertex order: AB↔DE, BC↔EF, CA↔FD."],
         exercises: [
           {
@@ -600,8 +600,8 @@ export const satExpansionModules13: LanguageModule[] = [
           "SOHCAHTOA:\nsin θ = opposite / hypotenuse\ncos θ = adjacent / hypotenuse\ntan θ = opposite / adjacent\n\nSpecial triangles:\n• 30°-60°-90° : 1 : √3 : 2\n• 45°-45°-90° : 1 : 1 : √2\n\nVí dụ: trong tam giác vuông, góc 30°, cạnh huyền 10.\nCạnh đối diện 30° = 10 × sin 30° = 10 × 1/2 = 5.",
         theoryEn:
           "SOHCAHTOA:\nsin θ = opposite / hypotenuse\ncos θ = adjacent / hypotenuse\ntan θ = opposite / adjacent\n\nSpecial right triangles:\n• 30°-60°-90° : 1 : √3 : 2\n• 45°-45°-90° : 1 : 1 : √2\n\nExample: right triangle, 30°, hypotenuse 10.\nSide opposite 30° = 10 × sin 30° = 10 × 1/2 = 5.",
-        proTips: ["sin (90° − θ) = cos θ — mẹo SAT thường ra dạng đổi đồng phụ."],
-        proTipsEn: ["sin (90° − θ) = cos θ — a SAT favourite (complementary angles)."],
+        proTips: ["sin (90° − θ) = cos θ - mẹo SAT thường ra dạng đổi đồng phụ."],
+        proTipsEn: ["sin (90° − θ) = cos θ - a SAT favourite (complementary angles)."],
         exercises: [
           {
             type: "fill-in-blank",
@@ -623,16 +623,16 @@ export const satExpansionModules13: LanguageModule[] = [
       },
       {
         id: "sat-geo-4-circles",
-        title: "Bài 4 · Đường tròn — chu vi, diện tích & cung",
-        titleEn: "Lesson 4 · Circles — Circumference, Area & Arcs",
+        title: "Bài 4 · Đường tròn - chu vi, diện tích & cung",
+        titleEn: "Lesson 4 · Circles - Circumference, Area & Arcs",
         level: 4,
         difficulty: "advanced",
         theory:
           "Công thức:\n• Chu vi: C = 2πr.\n• Diện tích: A = πr².\n• Độ dài cung: s = r·θ (θ tính bằng radian).\n• Diện tích quạt: A = (1/2)·r²·θ (radian).\n\nĐổi: 180° = π radian → 1° = π/180.\n\nVí dụ: đường tròn r = 6, góc ở tâm 60°.\n60° = π/3.\nĐộ dài cung = 6 × π/3 = 2π.\nDiện tích quạt = (1/2)·6²·π/3 = 6π.",
         theoryEn:
           "Formulas:\n• Circumference: C = 2πr.\n• Area: A = πr².\n• Arc length: s = r·θ (θ in radians).\n• Sector area: A = (1/2)·r²·θ (radians).\n\nConversion: 180° = π rad → 1° = π/180.\n\nExample: circle r = 6, central angle 60°.\n60° = π/3.\nArc length = 6 × π/3 = 2π.\nSector area = (1/2)·6²·π/3 = 6π.",
-        proTips: ["Đổi sang radian TRƯỚC khi dùng s = rθ và A = ½r²θ — đây là bẫy phổ biến."],
-        proTipsEn: ["Always convert to RADIANS before using s = rθ and A = ½r²θ — common trap."],
+        proTips: ["Đổi sang radian TRƯỚC khi dùng s = rθ và A = ½r²θ - đây là bẫy phổ biến."],
+        proTipsEn: ["Always convert to RADIANS before using s = rθ and A = ½r²θ - common trap."],
         exercises: [
           {
             type: "fill-in-blank",
@@ -662,8 +662,8 @@ export const satExpansionModules13: LanguageModule[] = [
           "Triage hình học:\n• Tam giác vuông + 2 cạnh → Pythagoras hoặc nhận diện triple.\n• Có góc 30/45/60 → special triangle.\n• Có hình chia bởi đường song song → similar triangles.\n• Có đường tròn + góc → công thức cung / quạt.\n\nVí dụ: cạnh 8 và 15 → nhận diện 8-15-17 → cạnh huyền 17 (không cần bấm máy).",
         theoryEn:
           "Geometry triage:\n• Right triangle + 2 sides → Pythagoras or spot a triple.\n• 30/45/60 angles → special triangle ratios.\n• Figure split by parallel line → similar triangles.\n• Circle + angle → arc / sector formula.\n\nExample: sides 8 and 15 → recognise 8-15-17 → hypotenuse 17 (no calculator).",
-        proTips: ["Vẽ lại hình lên scratch paper — đề Bluebook hiển thị nhỏ."],
-        proTipsEn: ["Redraw the figure on scratch paper — Bluebook displays them small."],
+        proTips: ["Vẽ lại hình lên scratch paper - đề Bluebook hiển thị nhỏ."],
+        proTipsEn: ["Redraw the figure on scratch paper - Bluebook displays them small."],
         exercises: [
           {
             type: "sentence-reorder",

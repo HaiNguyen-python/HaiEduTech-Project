@@ -34,7 +34,7 @@ const MotivationLetterSanityCheck = () => {
         <p className="text-sm text-muted-foreground mb-4">
           {t(
             "6 đoạn hook mẫu cho 6 lĩnh vực - kèm phân tích vì sao chúng hiệu quả.",
-            "6 sample opener hooks across 6 fields — each with a why-it-works deconstruction.",
+            "6 sample opener hooks across 6 fields - each with a why-it-works deconstruction.",
           )}
         </p>
         <div className="grid sm:grid-cols-2 gap-3">
@@ -74,7 +74,7 @@ const MotivationLetterSanityCheck = () => {
             <div>
               <h3 className="font-bold text-base">{t("Sanity Check tức thì", "Instant Sanity Check")}</h3>
               <p className="text-xs text-muted-foreground">
-                {t("Dán letter của bạn - kiểm tra cliché, độ dài, số liệu ngay tại trình duyệt.", "Paste your letter — check clichés, length, and numeric evidence locally in your browser.")}
+                {t("Dán letter của bạn - kiểm tra cliché, độ dài, số liệu ngay tại trình duyệt.", "Paste your letter - check clichés, length, and numeric evidence locally in your browser.")}
               </p>
             </div>
           </div>

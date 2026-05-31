@@ -63,7 +63,7 @@ const IeltsListeningPractice = () => {
                 {t("Mô phỏng đề thi thật", "Real exam simulation")}
               </Badge>
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-2">
-                {t("Luyện Nghe IELTS — Theo dạng câu hỏi", "IELTS Listening Practice — By Question Type")}
+                {t("Luyện Nghe IELTS - Theo dạng câu hỏi", "IELTS Listening Practice - By Question Type")}
               </h1>
               <p className="text-muted-foreground text-sm sm:text-base max-w-3xl">
                 {t(

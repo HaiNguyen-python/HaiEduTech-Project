@@ -11,7 +11,7 @@
 import type { CambridgeLecture } from "./cambridgeLecturesData";
 
 // ============================================================
-// STARTERS — 2 lessons
+// STARTERS - 2 lessons
 // ============================================================
 const startersAnimalsPets: CambridgeLecture = {
   id: "cam-starters-animals-pets",
@@ -97,7 +97,7 @@ const startersWeatherClothes: CambridgeLecture = {
   illustratedRules: [
     { icon: "☀️", rule: "Weather is described with 'It's + adjective'.", ruleVi: "Thời tiết dùng 'It's + tính từ'.", example: "It's hot today." },
     { icon: "🧥", rule: "Clothes use 'wear' / 'wearing' (present continuous).", ruleVi: "Trang phục dùng 'wear' / 'wearing' (hiện tại tiếp diễn).", example: "She is wearing a blue coat." },
-    { icon: "👢", rule: "Plural-only clothes: trousers, shorts, boots — use 'a pair of'.", ruleVi: "Trang phục luôn số nhiều: quần dài, quần đùi, bốt — dùng 'a pair of'.", example: "I have a pair of boots." },
+    { icon: "👢", rule: "Plural-only clothes: trousers, shorts, boots - use 'a pair of'.", ruleVi: "Trang phục luôn số nhiều: quần dài, quần đùi, bốt - dùng 'a pair of'.", example: "I have a pair of boots." },
   ],
   watchOut: [
     { mistake: "Saying 'It's rain today'", mistakeVi: "Nói 'It's rain today'", tip: "Use the adjective: 'It's rainy' or 'It's raining'.", tipVi: "Dùng tính từ: 'It's rainy' hoặc 'It's raining'." },
@@ -109,8 +109,8 @@ const startersWeatherClothes: CambridgeLecture = {
   ],
   vocabulary: [
     { word: "sunny", meaning: "with bright sun", meaningVi: "nắng", example: "It's sunny today." },
-    { word: "rainy", meaning: "with rain", meaningVi: "mưa", example: "Take a coat — it's rainy." },
-    { word: "windy", meaning: "with strong wind", meaningVi: "có gió", example: "Hold your hat — it's windy." },
+    { word: "rainy", meaning: "with rain", meaningVi: "mưa", example: "Take a coat - it's rainy." },
+    { word: "windy", meaning: "with strong wind", meaningVi: "có gió", example: "Hold your hat - it's windy." },
     { word: "coat", meaning: "warm clothing for cold weather", meaningVi: "áo khoác", example: "My coat is blue." },
     { word: "boots", meaning: "shoes covering the ankle", meaningVi: "bốt", example: "Wear boots in the snow." },
     { word: "scarf", meaning: "long cloth around the neck", meaningVi: "khăn quàng", example: "My scarf is red." },
@@ -128,7 +128,7 @@ const startersWeatherClothes: CambridgeLecture = {
 };
 
 // ============================================================
-// MOVERS — 2 lessons
+// MOVERS - 2 lessons
 // ============================================================
 const moversTransportPlaces: CambridgeLecture = {
   id: "cam-movers-transport-places",
@@ -144,8 +144,8 @@ const moversTransportPlaces: CambridgeLecture = {
   learningObjectiveVi: "Học sinh mô tả vị trí toà nhà và cách đến nơi 'by + phương tiện'.",
   examPattern: "Movers R&W Part 3: read a story about a town and fill 5 single-word gaps.",
   examPatternVi: "Movers R&W Phần 3: đọc truyện về thị trấn và điền 5 chỗ trống một từ.",
-  secretTip: "🔑 'By' is fixed for transport: by bus, by car, by train. BUT 'on foot' — never 'by foot'.",
-  secretTipVi: "🔑 'By' đi với phương tiện: by bus, by car, by train. NHƯNG 'on foot' — không bao giờ 'by foot'.",
+  secretTip: "🔑 'By' is fixed for transport: by bus, by car, by train. BUT 'on foot' - never 'by foot'.",
+  secretTipVi: "🔑 'By' đi với phương tiện: by bus, by car, by train. NHƯNG 'on foot' - không bao giờ 'by foot'.",
   welcomeMessage: "All aboard! 🚌 Let's explore the town!",
   welcomeMessageVi: "Lên xe nào! 🚌 Cùng khám phá thị trấn!",
   stepByStep: [
@@ -181,8 +181,8 @@ const moversTransportPlaces: CambridgeLecture = {
     { question: "Choose: 'We travel ___ train.'", options: ["on", "by", "with", "at"], answer: 1, explanation: "Transport → by." },
     { question: "Best: 'Hospital is ___ supermarket.' (right next to it)", options: ["between", "behind", "next to", "opposite"], answer: 2, explanation: "Right beside → next to." },
   ],
-  parentInfo: "Town maps and prepositions are core Movers content and reappear in Flyers Listening Part 2 (map labelling) — a powerful long-term skill.",
-  parentInfoVi: "Bản đồ thị trấn và giới từ là nội dung cốt lõi Movers và tái xuất ở Flyers Nghe Phần 2 (gắn nhãn bản đồ) — kỹ năng dài hạn quan trọng.",
+  parentInfo: "Town maps and prepositions are core Movers content and reappear in Flyers Listening Part 2 (map labelling) - a powerful long-term skill.",
+  parentInfoVi: "Bản đồ thị trấn và giới từ là nội dung cốt lõi Movers và tái xuất ở Flyers Nghe Phần 2 (gắn nhãn bản đồ) - kỹ năng dài hạn quan trọng.",
   illustrationKey: "movers",
   isNew: true,
 };
@@ -203,8 +203,8 @@ const moversSchoolSubjects: CambridgeLecture = {
   examPatternVi: "Movers Nói Phần 4: 5 câu hỏi cá nhân. Môn học, trường, sở thích hay gặp.",
   secretTip: "🔑 Give a reason: 'My favourite subject is Art BECAUSE I like drawing.' One reason = bonus marks.",
   secretTipVi: "🔑 Nêu lý do: 'Môn em thích nhất là Art VÌ em thích vẽ.' Một lý do = thêm điểm.",
-  welcomeMessage: "Ring ring! 🔔 Class is starting — let's talk school!",
-  welcomeMessageVi: "Ting ting! 🔔 Vào lớp rồi — cùng nói về trường nào!",
+  welcomeMessage: "Ring ring! 🔔 Class is starting - let's talk school!",
+  welcomeMessageVi: "Ting ting! 🔔 Vào lớp rồi - cùng nói về trường nào!",
   stepByStep: [
     { step: 1, title: "Learn 8 subjects", titleVi: "Học 8 môn", detail: "Maths, English, Science, Art, Music, PE, History, Geography.", detailVi: "Maths, English, Science, Art, Music, PE, History, Geography." },
     { step: 2, title: "Use 'on + day' / 'at + time'", titleVi: "Dùng 'on + ngày' / 'at + giờ'", detail: "on Monday, at 9 o'clock.", detailVi: "on Monday, at 9 o'clock." },
@@ -245,7 +245,7 @@ const moversSchoolSubjects: CambridgeLecture = {
 };
 
 // ============================================================
-// FLYERS — 2 lessons
+// FLYERS - 2 lessons
 // ============================================================
 const flyersFamilyDescriptions: CambridgeLecture = {
   id: "cam-flyers-family-descriptions",
@@ -261,8 +261,8 @@ const flyersFamilyDescriptions: CambridgeLecture = {
   learningObjectiveVi: "Học sinh viết câu trả lời 1-3 từ về truyện tranh mô tả người.",
   examPattern: "Flyers R&W Part 5: read a 6-picture story and answer 7 questions with up to 3 words.",
   examPatternVi: "Flyers R&W Phần 5: đọc truyện 6 tranh và trả lời 7 câu, tối đa 3 từ mỗi câu.",
-  secretTip: "🔑 Copy words STRAIGHT from the story — do NOT change tense or invent new words.",
-  secretTipVi: "🔑 Sao chép từ thẳng từ truyện — KHÔNG đổi thì hay tự bịa từ.",
+  secretTip: "🔑 Copy words STRAIGHT from the story - do NOT change tense or invent new words.",
+  secretTipVi: "🔑 Sao chép từ thẳng từ truyện - KHÔNG đổi thì hay tự bịa từ.",
   welcomeMessage: "Family picture day! 📸 Let's describe everyone!",
   welcomeMessageVi: "Ngày chụp ảnh gia đình! 📸 Cùng mô tả mọi người!",
   stepByStep: [
@@ -278,7 +278,7 @@ const flyersFamilyDescriptions: CambridgeLecture = {
   ],
   watchOut: [
     { mistake: "Writing 4+ word answers", mistakeVi: "Viết câu trả lời quá 3 từ", tip: "Cut to the noun phrase only.", tipVi: "Rút gọn về cụm danh từ." },
-    { mistake: "Changing tense from the story", mistakeVi: "Đổi thì so với truyện", tip: "Keep the same tense — copy words exactly.", tipVi: "Giữ nguyên thì — chép đúng từ." },
+    { mistake: "Changing tense from the story", mistakeVi: "Đổi thì so với truyện", tip: "Keep the same tense - copy words exactly.", tipVi: "Giữ nguyên thì - chép đúng từ." },
   ],
   practiceSet: [
     { instruction: "Story: 'Grandma had short white hair and a kind smile.'", instructionVi: "Truyện: 'Grandma had short white hair and a kind smile.'", question: "Q: What hair did Grandma have?", options: ["white hair", "short white hair", "blonde hair", "long hair"], answer: 1, explanation: "Copy 'short white hair' (3 words, max allowed).", explanationVi: "Chép 'short white hair' (3 từ, đúng giới hạn)." },
@@ -298,8 +298,8 @@ const flyersFamilyDescriptions: CambridgeLecture = {
     { question: "Which is personality?", options: ["tall", "blonde", "shy", "old"], answer: 2, explanation: "Shy = personality; others = looks." },
     { question: "If story says 'had', your answer should:", options: ["use 'has'", "use 'had'", "use 'have'", "skip the verb"], answer: 1, explanation: "Keep the same tense." },
   ],
-  parentInfo: "Picture-story comprehension trains scanning and exact-word writing — both essential for KET reading next.",
-  parentInfoVi: "Đọc hiểu truyện tranh rèn quét văn bản và viết đúng từ — đều thiết yếu cho KET Reading sắp tới.",
+  parentInfo: "Picture-story comprehension trains scanning and exact-word writing - both essential for KET reading next.",
+  parentInfoVi: "Đọc hiểu truyện tranh rèn quét văn bản và viết đúng từ - đều thiết yếu cho KET Reading sắp tới.",
   illustrationKey: "flyers",
   isNew: true,
 };
@@ -362,7 +362,7 @@ const flyersFutureGoingTo: CambridgeLecture = {
 };
 
 // ============================================================
-// KET (A2) — 2 lessons
+// KET (A2) - 2 lessons
 // ============================================================
 const ketHealthBody: CambridgeLecture = {
   id: "cam-ket-health-body",
@@ -372,8 +372,8 @@ const ketHealthBody: CambridgeLecture = {
   skill: "reading-writing",
   icon: "🩺",
   duration: "22 min",
-  description: "KET vocabulary for body parts, symptoms and a doctor's visit — frequent Reading topic.",
-  descriptionVi: "Từ vựng KET về bộ phận cơ thể, triệu chứng và đi khám — chủ đề Reading hay gặp.",
+  description: "KET vocabulary for body parts, symptoms and a doctor's visit - frequent Reading topic.",
+  descriptionVi: "Từ vựng KET về bộ phận cơ thể, triệu chứng và đi khám - chủ đề Reading hay gặp.",
   learningObjective: "Students can read short health texts and complete a note with 1-word answers.",
   learningObjectiveVi: "Học sinh đọc văn bản sức khoẻ ngắn và hoàn thành ghi chú với từ 1 chữ.",
   examPattern: "KET Reading Part 5 / Listening Part 5: complete a note. Health-themed prompts common.",
@@ -429,8 +429,8 @@ const ketFriendshipMessages: CambridgeLecture = {
   skill: "reading-writing",
   icon: "💌",
   duration: "22 min",
-  description: "Write a 25-word note to a friend including 3 content points — KET Writing Part 6.",
-  descriptionVi: "Viết tin nhắn 25 từ cho bạn gồm 3 ý — KET Writing Phần 6.",
+  description: "Write a 25-word note to a friend including 3 content points - KET Writing Part 6.",
+  descriptionVi: "Viết tin nhắn 25 từ cho bạn gồm 3 ý - KET Writing Phần 6.",
   learningObjective: "Students can produce a complete note with greeting, three points and sign-off.",
   learningObjectiveVi: "Học sinh viết được tin nhắn đủ: chào, 3 ý, ký tên.",
   examPattern: "KET Writing Part 6: 25+ words. Three bullet points (e.g., why, when, what to bring).",
@@ -446,13 +446,13 @@ const ketFriendshipMessages: CambridgeLecture = {
     { step: 4, title: "Count words (25-35)", titleVi: "Đếm từ (25-35)", detail: "Below 25 = penalty; far above 35 wastes time.", detailVi: "Dưới 25 = trừ điểm; trên 35 phí thời gian." },
   ],
   illustratedRules: [
-    { icon: "✍️", rule: "Informal register — contractions are OK (I'm, can't).", ruleVi: "Văn phong thân mật — rút gọn được (I'm, can't).", example: "I'm going to the cinema." },
-    { icon: "🔗", rule: "Use 3 linkers — one per bullet.", ruleVi: "Dùng 3 từ nối — mỗi ý một từ.", example: "First… Also… Finally…" },
+    { icon: "✍️", rule: "Informal register - contractions are OK (I'm, can't).", ruleVi: "Văn phong thân mật - rút gọn được (I'm, can't).", example: "I'm going to the cinema." },
+    { icon: "🔗", rule: "Use 3 linkers - one per bullet.", ruleVi: "Dùng 3 từ nối - mỗi ý một từ.", example: "First… Also… Finally…" },
     { icon: "❓", rule: "End with a question to keep the chat going.", ruleVi: "Kết bằng câu hỏi để mời bạn trả lời.", example: "Can you come? Let me know!" },
   ],
   watchOut: [
     { mistake: "Forgetting a bullet", mistakeVi: "Quên một ý", tip: "Tick each bullet as you write it.", tipVi: "Tick từng ý khi viết." },
-    { mistake: "Formal phrases ('Dear Sir')", mistakeVi: "Cụm trang trọng ('Dear Sir')", tip: "Use 'Hi [name],' — note is to a friend.", tipVi: "Dùng 'Hi [tên],' — tin nhắn cho bạn." },
+    { mistake: "Formal phrases ('Dear Sir')", mistakeVi: "Cụm trang trọng ('Dear Sir')", tip: "Use 'Hi [name],' - note is to a friend.", tipVi: "Dùng 'Hi [tên],' - tin nhắn cho bạn." },
   ],
   practiceSet: [
     { instruction: "Prompt: 'Write a note to Tom inviting him to your birthday. Say WHEN, WHERE and WHAT to bring.'", instructionVi: "Đề: 'Viết tin cho Tom mời sinh nhật. Nói KHI NÀO, Ở ĐÂU, MANG GÌ.'", question: "Best opening line:", options: ["Dear Sir,", "Hi Tom,", "Hello dear cousin Tom of mine,", "Tom!"], answer: 1, explanation: "Friendly + correct comma.", explanationVi: "Thân thiện + dấu phẩy đúng." },
@@ -479,7 +479,7 @@ const ketFriendshipMessages: CambridgeLecture = {
 };
 
 // ============================================================
-// PET (B1) — 2 lessons
+// PET (B1) - 2 lessons
 // ============================================================
 const petNewsMedia: CambridgeLecture = {
   id: "cam-pet-news-media",
@@ -495,14 +495,14 @@ const petNewsMedia: CambridgeLecture = {
   learningObjectiveVi: "Học sinh chọn đúng từ ở 6 chỗ trống trắc nghiệm trong văn bản tin tức 150 từ.",
   examPattern: "PET Reading Part 5: 6 gaps × 4 options. Tests vocabulary, collocation and linking words.",
   examPatternVi: "PET Reading Phần 5: 6 chỗ trống × 4 đáp án. Kiểm tra từ vựng, collocation và từ nối.",
-  secretTip: "🔑 Read the WHOLE paragraph before each gap — the answer often depends on the NEXT sentence.",
-  secretTipVi: "🔑 Đọc CẢ đoạn trước mỗi chỗ trống — đáp án thường phụ thuộc câu KẾ TIẾP.",
+  secretTip: "🔑 Read the WHOLE paragraph before each gap - the answer often depends on the NEXT sentence.",
+  secretTipVi: "🔑 Đọc CẢ đoạn trước mỗi chỗ trống - đáp án thường phụ thuộc câu KẾ TIẾP.",
   welcomeMessage: "Headline news! 📰 Become a smart reader today.",
   welcomeMessageVi: "Tin nóng đây! 📰 Hôm nay trở thành độc giả thông minh.",
   stepByStep: [
     { step: 1, title: "Skim the headline + first sentence", titleVi: "Lướt tiêu đề + câu đầu", detail: "Get topic and tone in 20 seconds.", detailVi: "Nắm chủ đề và giọng văn trong 20 giây." },
     { step: 2, title: "Look at all 4 options", titleVi: "Xem cả 4 đáp án", detail: "Identify part of speech and meaning differences.", detailVi: "Xác định từ loại và khác biệt nghĩa." },
-    { step: 3, title: "Test collocations", titleVi: "Thử collocation", detail: "Try each option — only one will sound natural.", detailVi: "Thử từng đáp án — chỉ một sẽ tự nhiên." },
+    { step: 3, title: "Test collocations", titleVi: "Thử collocation", detail: "Try each option - only one will sound natural.", detailVi: "Thử từng đáp án - chỉ một sẽ tự nhiên." },
     { step: 4, title: "Re-read for sense", titleVi: "Đọc lại để kiểm tra ý", detail: "After choosing, read the whole sentence again.", detailVi: "Sau khi chọn, đọc lại cả câu." },
   ],
   illustratedRules: [
@@ -511,7 +511,7 @@ const petNewsMedia: CambridgeLecture = {
     { icon: "📝", rule: "Prepositions matter: interested IN, good AT, depend ON.", ruleVi: "Giới từ quan trọng: interested IN, good AT, depend ON.", example: "She is interested in journalism." },
   ],
   watchOut: [
-    { mistake: "Choosing the first 'familiar' word", mistakeVi: "Chọn từ quen nhất ngay", tip: "Read all 4 then eliminate — distractors look familiar on purpose.", tipVi: "Đọc cả 4 rồi loại — đáp án nhiễu cố tình quen mắt." },
+    { mistake: "Choosing the first 'familiar' word", mistakeVi: "Chọn từ quen nhất ngay", tip: "Read all 4 then eliminate - distractors look familiar on purpose.", tipVi: "Đọc cả 4 rồi loại - đáp án nhiễu cố tình quen mắt." },
     { mistake: "Ignoring grammar after the gap", mistakeVi: "Bỏ qua ngữ pháp sau chỗ trống", tip: "If next word is '-ing', preceding verb may need 'enjoy/avoid/finish'.", tipVi: "Nếu từ sau là '-ing', động từ trước có thể là 'enjoy/avoid/finish'." },
   ],
   practiceSet: [
@@ -553,8 +553,8 @@ const petOpinionEssay: CambridgeLecture = {
   learningObjectiveVi: "Học sinh lập dàn ý và viết bài luận ý kiến trong 25 phút với từ nối rõ ràng.",
   examPattern: "PET Writing Part 2 (option B): write an article/essay of about 100 words.",
   examPatternVi: "PET Writing Phần 2 (option B): viết bài luận/bài báo ~100 từ.",
-  secretTip: "🔑 State your opinion in BOTH the intro AND the conclusion — examiners look for consistency.",
-  secretTipVi: "🔑 Nêu ý kiến ở CẢ mở bài VÀ kết bài — giám khảo tìm sự nhất quán.",
+  secretTip: "🔑 State your opinion in BOTH the intro AND the conclusion - examiners look for consistency.",
+  secretTipVi: "🔑 Nêu ý kiến ở CẢ mở bài VÀ kết bài - giám khảo tìm sự nhất quán.",
   welcomeMessage: "Pen in hand! 🖊️ Share your opinion clearly today.",
   welcomeMessageVi: "Cầm bút lên! 🖊️ Hôm nay nêu ý kiến rõ ràng nhé.",
   stepByStep: [
@@ -592,8 +592,8 @@ const petOpinionEssay: CambridgeLecture = {
     { question: "Conclusion should:", options: ["bring new ideas", "restate the opinion", "ask a question", "be one word"], answer: 1, explanation: "Restate opinion succinctly." },
     { question: "Best example phrase:", options: ["For example,", "Maybe sometimes", "Hello,", "End."], answer: 0, explanation: "Use 'For example,' to introduce evidence." },
   ],
-  parentInfo: "Opinion essays are the highest-scoring PET Writing option for organised students. The 4-paragraph routine here mirrors IELTS Task 2 — a clear long-term win.",
-  parentInfoVi: "Luận nêu ý kiến là lựa chọn ăn điểm cao nhất ở PET Writing với học sinh viết có cấu trúc. Mẫu 4 đoạn ở đây giống IELTS Task 2 — lợi ích dài hạn rõ rệt.",
+  parentInfo: "Opinion essays are the highest-scoring PET Writing option for organised students. The 4-paragraph routine here mirrors IELTS Task 2 - a clear long-term win.",
+  parentInfoVi: "Luận nêu ý kiến là lựa chọn ăn điểm cao nhất ở PET Writing với học sinh viết có cấu trúc. Mẫu 4 đoạn ở đây giống IELTS Task 2 - lợi ích dài hạn rõ rệt.",
   illustrationKey: "pet",
   isNew: true,
 };

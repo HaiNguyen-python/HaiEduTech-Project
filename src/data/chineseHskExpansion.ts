@@ -83,7 +83,7 @@ const lesson = (
 });
 
 // ═══════════════════════════════════════════
-// HSK 1 — 10 lessons (foundational survival Chinese)
+// HSK 1 - 10 lessons (foundational survival Chinese)
 // ═══════════════════════════════════════════
 export const hsk1Expansion: ChineseConvLesson[] = [
   lesson(
@@ -539,7 +539,7 @@ export const hsk1Expansion: ChineseConvLesson[] = [
 ];
 
 // ═══════════════════════════════════════════
-// HSK 2 — 10 lessons (extending daily survival)
+// HSK 2 - 10 lessons (extending daily survival)
 // ═══════════════════════════════════════════
 export const hsk2Expansion: ChineseConvLesson[] = [
   lesson(

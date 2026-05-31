@@ -9,7 +9,7 @@ import type { ToeicLRExam, ToeicSWExam } from "./toeicExams";
 // ---- LR Practice Test 07: Technology & IT ----
 const LR_07: ToeicLRExam = {
   id: "lr-07",
-  title: "TOEIC LR Practice Test 07 — Technology & IT",
+  title: "TOEIC LR Practice Test 07 - Technology & IT",
   series: "HaiEdu Series 2025",
   durationSec: 7200,
   questions: [
@@ -55,7 +55,7 @@ const LR_07: ToeicLRExam = {
       prompt: "Choose the best response.",
       options: ["Try restarting your laptop.", "She's the new intern.", "It's on the second floor."],
       answer: 0,
-      transcript: "Q: My computer keeps freezing — what should I do?\nA: Try restarting your laptop.",
+      transcript: "Q: My computer keeps freezing - what should I do?\nA: Try restarting your laptop.",
     },
     {
       id: "lr7-p2-3",
@@ -184,7 +184,7 @@ const LR_07: ToeicLRExam = {
       part: 6,
       passage:
         "Dear users,\n\nWe are writing to inform you that our online platform will undergo a major update on Saturday, May 18. The system will be [BLANK1] from 10 PM to 2 AM. During this time, you will not be able to access your account. We apologize for the inconvenience and appreciate your [BLANK2].\n\nBest regards,\nTechSupport Team",
-      prompt: "BLANK1 — choose the best option:",
+      prompt: "BLANK1 - choose the best option:",
       options: ["unavailable", "unavailability", "unavailably", "available"],
       answer: 0,
       explanation: "Hệ thống sẽ KHÔNG truy cập được → unavailable.",
@@ -193,7 +193,7 @@ const LR_07: ToeicLRExam = {
     {
       id: "lr7-p6-2",
       part: 6,
-      prompt: "BLANK2 — choose the best option:",
+      prompt: "BLANK2 - choose the best option:",
       options: ["patient", "patiently", "patience", "patients"],
       answer: 2,
       explanation: "'appreciate your + N' → patience (sự kiên nhẫn).",
@@ -218,7 +218,7 @@ const LR_07: ToeicLRExam = {
       id: "lr7-p7-1",
       part: 7,
       passage:
-        "Job Posting — Cloud Engineer at Helsinki Cloud Oy.\nLocation: Helsinki, Finland (hybrid).\nResponsibilities: Design and maintain AWS infrastructure, automate deployments with Terraform, monitor system performance.\nRequirements: 3+ years of cloud experience, AWS Solutions Architect certification, fluent English. Finnish is a plus.\nBenefits: 30 vacation days, occupational health care, EU Blue Card sponsorship for non-EU candidates.\nDeadline: June 15. Apply at careers@hcloud.fi.",
+        "Job Posting - Cloud Engineer at Helsinki Cloud Oy.\nLocation: Helsinki, Finland (hybrid).\nResponsibilities: Design and maintain AWS infrastructure, automate deployments with Terraform, monitor system performance.\nRequirements: 3+ years of cloud experience, AWS Solutions Architect certification, fluent English. Finnish is a plus.\nBenefits: 30 vacation days, occupational health care, EU Blue Card sponsorship for non-EU candidates.\nDeadline: June 15. Apply at careers@hcloud.fi.",
       prompt: "Where is the position located?",
       options: ["Stockholm", "Helsinki", "Tallinn", "Copenhagen"],
       answer: 1,
@@ -254,7 +254,7 @@ const LR_07: ToeicLRExam = {
       id: "lr7-p7-4",
       part: 7,
       passage:
-        "PRODUCT REVIEW — NimbusBook 14\n★★★★☆ Posted by Daniel K. on April 22\nAfter using the NimbusBook 14 for three months, I'm impressed by its lightweight design and 12-hour battery life. The keyboard is comfortable for long typing sessions. My only complaint is the limited number of USB ports — only two — which can be inconvenient when working with external devices. Overall, a solid choice for remote workers.",
+        "PRODUCT REVIEW - NimbusBook 14\n★★★★☆ Posted by Daniel K. on April 22\nAfter using the NimbusBook 14 for three months, I'm impressed by its lightweight design and 12-hour battery life. The keyboard is comfortable for long typing sessions. My only complaint is the limited number of USB ports - only two - which can be inconvenient when working with external devices. Overall, a solid choice for remote workers.",
       prompt: "What did the reviewer like most?",
       options: [
         "The screen resolution",
@@ -287,7 +287,7 @@ const LR_07: ToeicLRExam = {
 // ---- LR Practice Test 08: Logistics & Manufacturing ----
 const LR_08: ToeicLRExam = {
   id: "lr-08",
-  title: "TOEIC LR Practice Test 08 — Logistics & Manufacturing",
+  title: "TOEIC LR Practice Test 08 - Logistics & Manufacturing",
   series: "HaiEdu Series 2025",
   durationSec: 7200,
   questions: [
@@ -426,7 +426,7 @@ const LR_08: ToeicLRExam = {
       part: 6,
       passage:
         "Dear customer,\n\nThank you for your recent order. Your shipment of 50 units has been [BLANK1] and is on its way. The estimated delivery date is March 12. If you have any questions about the shipment, please [BLANK2] our customer service team at support@globaltrade.com.\n\nKind regards,\nGlobalTrade Logistics",
-      prompt: "BLANK1 — choose the best option:",
+      prompt: "BLANK1 - choose the best option:",
       options: ["dispatch", "dispatched", "dispatching", "dispatcher"],
       answer: 1,
       explanation: "Bị động hoàn thành: 'has been + V3' → dispatched.",
@@ -435,7 +435,7 @@ const LR_08: ToeicLRExam = {
     {
       id: "lr8-p6-2",
       part: 6,
-      prompt: "BLANK2 — choose the best option:",
+      prompt: "BLANK2 - choose the best option:",
       options: ["contact", "contacted", "contacting", "to contact"],
       answer: 0,
       explanation: "'Please + V nguyên mẫu' → contact.",
@@ -445,7 +445,7 @@ const LR_08: ToeicLRExam = {
       id: "lr8-p7-1",
       part: 7,
       passage:
-        "SHIPPING POLICY — FastDeliver Co.\nStandard shipping: 5–7 business days, free for orders over $75.\nExpress shipping: 2–3 business days, flat fee of $15.\nSame-day delivery: available only in metropolitan Helsinki, $25 fee, order must be placed before 11 AM.\nReturns are accepted within 30 days with the original receipt. Refunds are processed within 7 business days.",
+        "SHIPPING POLICY - FastDeliver Co.\nStandard shipping: 5–7 business days, free for orders over $75.\nExpress shipping: 2–3 business days, flat fee of $15.\nSame-day delivery: available only in metropolitan Helsinki, $25 fee, order must be placed before 11 AM.\nReturns are accepted within 30 days with the original receipt. Refunds are processed within 7 business days.",
       prompt: "When is free shipping offered?",
       options: [
         "On all orders",
@@ -481,7 +481,7 @@ const LR_08: ToeicLRExam = {
       id: "lr8-p7-4",
       part: 7,
       passage:
-        "MEMO — Production Schedule Change\nTo: Plant supervisors\nFrom: Operations Director\nDate: Sept 2\n\nDue to the upcoming maintenance of Line B, the night shift will be suspended from September 9 to September 13. All output targets for that week have been reassigned to Lines A and C, which will operate at 110% capacity. Overtime pay will be available for volunteers — please submit names by September 5.",
+        "MEMO - Production Schedule Change\nTo: Plant supervisors\nFrom: Operations Director\nDate: Sept 2\n\nDue to the upcoming maintenance of Line B, the night shift will be suspended from September 9 to September 13. All output targets for that week have been reassigned to Lines A and C, which will operate at 110% capacity. Overtime pay will be available for volunteers - please submit names by September 5.",
       prompt: "Why is the night shift being suspended?",
       options: [
         "A holiday closure",

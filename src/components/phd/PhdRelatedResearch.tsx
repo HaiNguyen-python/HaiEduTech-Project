@@ -91,7 +91,7 @@ const PhdRelatedResearch = () => {
     const item: ReadingItem = {
       id: Date.now().toString(36),
       title: newTitle.trim(),
-      source: newSource.trim() || "—",
+      source: newSource.trim() || "-",
       url: newUrl.trim() || undefined,
       note: newNote.trim() || undefined,
       addedAt: Date.now(),

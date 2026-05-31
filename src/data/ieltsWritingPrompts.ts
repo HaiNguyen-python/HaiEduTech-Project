@@ -431,7 +431,7 @@ export const writingPrompts: WritingPrompt[] = [
       after: {
         title: 'After (2020)',
         elements: [
-          // Roads — main horizontal + new vertical
+          // Roads - main horizontal + new vertical
           { type: 'road', x: 0, y: 45, w: 100, h: 8, orientation: 'h', label: 'Main Road' },
           { type: 'road', x: 60, y: 0, w: 6, h: 45, orientation: 'v' },
           { type: 'road', x: 60, y: 53, w: 6, h: 30, orientation: 'v' },
@@ -439,7 +439,7 @@ export const writingPrompts: WritingPrompt[] = [
           { type: 'roundabout', x: 57, y: 42, w: 12, h: 14, label: 'Roundabout' },
           // River (unchanged)
           { type: 'water', x: 0, y: 82, w: 100, h: 14, label: 'River' },
-          // Expanded residential (north — more houses)
+          // Expanded residential (north - more houses)
           { type: 'building', x: 4, y: 6, w: 12, h: 10, variant: 'house', label: 'House' },
           { type: 'building', x: 18, y: 6, w: 12, h: 10, variant: 'house', label: 'House' },
           { type: 'building', x: 32, y: 6, w: 12, h: 10, variant: 'house', label: 'House' },

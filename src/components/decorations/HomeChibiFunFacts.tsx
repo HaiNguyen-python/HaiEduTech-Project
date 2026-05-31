@@ -1,7 +1,7 @@
 /**
  * @file HomeChibiFunFacts.tsx
  * @description Decorative chibis on the home page. Fun-fact bubbles were moved
- *              to the floating AI chatbot — chibis here are purely visual.
+ *              to the floating AI chatbot - chibis here are purely visual.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useEffect, useMemo, useState } from "react";

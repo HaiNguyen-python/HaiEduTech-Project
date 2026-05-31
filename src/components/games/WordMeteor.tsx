@@ -1,5 +1,5 @@
 /**
- * WordMeteor — reusable falling-words mini-game.
+ * WordMeteor - reusable falling-words mini-game.
  *
  * Improvements (May 2026):
  *  - Accepts an optional `customBank` (e.g. Cambridge YLE level pool) so each
@@ -149,7 +149,7 @@ export default function WordMeteor({
         id: ++idRef.current,
         word: item.word,
         meaning: item.meaning,
-        x: Math.random() * 50 + 25, // 25%-75% — keeps wide answer panel inside container
+        x: Math.random() * 50 + 25, // 25%-75% - keeps wide answer panel inside container
         y: 0,
         speed: base + jitter,
         options,
@@ -162,7 +162,7 @@ export default function WordMeteor({
     setScoreSubmitted(false);
     const scheduleSpawn = () => {
       const s = scoreRef.current;
-      const interval = Math.max(2200, 4200 - s * 6); // 4.2s → 2.2s — bigger gaps
+      const interval = Math.max(2200, 4200 - s * 6); // 4.2s → 2.2s - bigger gaps
       spawnTimerRef.current = window.setTimeout(() => {
         spawn();
         scheduleSpawn();
@@ -305,7 +305,7 @@ export default function WordMeteor({
                 style={{ left: `${m.x}%`, top: `${m.y}%`, width: "min(92vw, 520px)" }}
               >
                 <div className="relative">
-                  {/* Meteor body — asteroid-shaped pill with fiery trail */}
+                  {/* Meteor body - asteroid-shaped pill with fiery trail */}
                   <motion.div
                     animate={{ rotate: [-2, 2, -2] }}
                     transition={{ duration: 1.2, repeat: Infinity }}
@@ -363,7 +363,7 @@ export default function WordMeteor({
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/70 text-center text-white p-4 z-20">
               <Sparkles className="h-10 w-10 text-amber-300" />
               <h3 className="text-2xl font-bold">
-                {lives <= 0 ? `Game Over — ${score} pts` : `${theme.emoji} Word Meteor — ${theme.label}`}
+                {lives <= 0 ? `Game Over - ${score} pts` : `${theme.emoji} Word Meteor - ${theme.label}`}
               </h3>
               <p className="max-w-sm text-sm text-white/80">
                 Pick the correct meaning before the meteor lands. Use ← → (or A/D) to fly the rocket. Chain answers for bonus points!

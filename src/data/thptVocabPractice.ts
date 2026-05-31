@@ -93,11 +93,11 @@ export const thptVocabPracticeByTheme: Record<string, VocabThemePractice> = {
     ],
     quiz: [
       { q: "___ intelligence is changing healthcare and education.", options: ["Artificial", "Articulate", "Artistic", "Artificially"], answer: 0, explanation: "Fixed compound: Artificial Intelligence (AI)." },
-      { q: "The new app is very ___ — even children can use it.", options: ["user-friend", "user-friendly", "use-friendly", "users-friend"], answer: 1, explanation: "Compound adjective: user-friendly." },
+      { q: "The new app is very ___ - even children can use it.", options: ["user-friend", "user-friendly", "use-friendly", "users-friend"], answer: 1, explanation: "Compound adjective: user-friendly." },
       { q: "Many companies now hold ___ meetings instead of in-person ones.", options: ["virtual", "real", "manual", "social"], answer: 0, explanation: "virtual meeting = họp trực tuyến / ảo." },
       { q: "Spending too much time on ___ media can affect mental health.", options: ["social", "society", "sociable", "socially"], answer: 0, explanation: "Fixed compound: social media." },
       { q: "Please ___ your password every three months for safety.", options: ["change", "make", "do", "take"], answer: 0, explanation: "Collocation: change a password." },
-      { q: "Short videos can be very ___ — limit your screen time.", options: ["addict", "addiction", "addictive", "addicted"], answer: 2, explanation: "Adjective describing the videos → addictive." },
+      { q: "Short videos can be very ___ - limit your screen time.", options: ["addict", "addiction", "addictive", "addicted"], answer: 2, explanation: "Adjective describing the videos → addictive." },
       { q: "Always ___ out of public computers when you finish.", options: ["log", "sign", "key", "click"], answer: 0, explanation: "Phrasal verb: log out." },
     ],
   },
@@ -240,7 +240,7 @@ export const thptVocabPracticeByTheme: Record<string, VocabThemePractice> = {
   // ───────── 10. Collocations: Money & Time ─────────
   "collocations-money-time": {
     extraWords: [
-      { en: "borrow / lend", pos: "v", vi: "mượn / cho mượn", example: "Can I borrow your dictionary? — Yes, I'll lend it to you." },
+      { en: "borrow / lend", pos: "v", vi: "mượn / cho mượn", example: "Can I borrow your dictionary? - Yes, I'll lend it to you." },
       { en: "be in debt", pos: "phr", vi: "mắc nợ", example: "He is in debt after buying a new car." },
       { en: "be worth + N/Ving", pos: "phr", vi: "đáng giá / xứng đáng", example: "This book is worth reading twice." },
       { en: "go bankrupt", pos: "v", vi: "phá sản", example: "Many shops went bankrupt during the pandemic." },
@@ -270,7 +270,7 @@ export const thptVocabPracticeByTheme: Record<string, VocabThemePractice> = {
       { en: "multiple-choice question", pos: "n", vi: "câu hỏi trắc nghiệm", example: "The THPT English test has 40 multiple-choice questions." },
       { en: "essay question", pos: "n", vi: "câu hỏi tự luận", example: "The literature exam has two essay questions." },
       { en: "scholarly", pos: "adj", vi: "có tính học thuật", example: "She wrote a scholarly article on Vietnamese poetry." },
-      { en: "memorize", pos: "v", vi: "học thuộc lòng", example: "Don't just memorize — try to understand the rules." },
+      { en: "memorize", pos: "v", vi: "học thuộc lòng", example: "Don't just memorize - try to understand the rules." },
     ],
     quiz: [
       { q: "She passed her exams ___ flying colors.", options: ["in", "with", "on", "by"], answer: 1, explanation: "Idiom: pass (an exam) with flying colors = đậu xuất sắc." },
@@ -278,7 +278,7 @@ export const thptVocabPracticeByTheme: Record<string, VocabThemePractice> = {
       { q: "Students who fail must ___ the exam next month.", options: ["take back", "retake", "remake", "redo"], answer: 1, explanation: "retake an exam = thi lại." },
       { q: "Take many ___ tests before the real THPT exam to build confidence.", options: ["mock", "mocked", "mocking", "mocks"], answer: 0, explanation: "Compound noun: mock test = đề thi thử." },
       { q: "The English paper has 40 ___-choice questions.", options: ["many", "multiple", "much", "multi"], answer: 1, explanation: "Compound adjective: multiple-choice." },
-      { q: "Don't just ___ the rules — try to understand them.", options: ["memorial", "memory", "memorise", "remember"], answer: 2, explanation: "Verb: memorise = học thuộc lòng." },
+      { q: "Don't just ___ the rules - try to understand them.", options: ["memorial", "memory", "memorise", "remember"], answer: 2, explanation: "Verb: memorise = học thuộc lòng." },
     ],
   },
 

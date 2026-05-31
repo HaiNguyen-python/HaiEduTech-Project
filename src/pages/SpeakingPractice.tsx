@@ -435,7 +435,7 @@ const SpeakingPractice = () => {
       if (!upgraded) throw new Error((data as any)?.error || "Empty upgrade");
       setResult((prev) => {
         if (prev) return { ...prev, upgradedAnswer: upgraded };
-        // No grading yet — create a minimal result so the upgrade panel renders
+        // No grading yet - create a minimal result so the upgrade panel renders
         return {
           overall: 0,
           criteria: [],

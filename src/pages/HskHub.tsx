@@ -76,7 +76,7 @@ const HskHub = () => {
           </ul>
         </motion.div>
 
-        {/* HSK Test CTA Banner — prominent entry to mock exams */}
+        {/* HSK Test CTA Banner - prominent entry to mock exams */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -92,7 +92,7 @@ const HskHub = () => {
                     {t("HSK Test · Đề thi thử HSK 1-6", "HSK Test · Mock Exams HSK 1-6")}
                   </h2>
                   <p className="text-sm text-muted-foreground mt-1">
-                    {t("Bài thi mô phỏng đề thật cho cả 6 cấp độ — Listening, Reading, Writing, có hẹn giờ và chấm điểm tự động.", "Realistic mock exams for all 6 levels — Listening, Reading, Writing with auto-timing and scoring.")}
+                    {t("Bài thi mô phỏng đề thật cho cả 6 cấp độ - Listening, Reading, Writing, có hẹn giờ và chấm điểm tự động.", "Realistic mock exams for all 6 levels - Listening, Reading, Writing with auto-timing and scoring.")}
                   </p>
                 </div>
                 <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-rose-500 to-orange-500 text-white font-semibold shadow-md group-hover:brightness-110 transition-all">

@@ -88,7 +88,7 @@ const StudentDocuments = () => {
   ];
 
   // Auth + initial load.
-  // IMPORTANT: never auto-redirect to /login on missing session — Supabase may
+  // IMPORTANT: never auto-redirect to /login on missing session - Supabase may
   // briefly report a null session while the stored session hydrates after
   // navigation or OAuth redirect. The previous setTimeout+redirect pattern
   // caused signed-in users to feel "logged out" when navigating between pages.

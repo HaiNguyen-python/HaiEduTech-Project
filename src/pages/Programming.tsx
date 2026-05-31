@@ -163,7 +163,7 @@ const Programming = () => {
     if (!didInitialScroll.current) {
       didInitialScroll.current = true;
       if (requestedPillar && pillarContentRef.current) {
-        // Wait one frame so layout is ready, then jump (no smooth) — feels like
+        // Wait one frame so layout is ready, then jump (no smooth) - feels like
         // a dedicated route for the pillar.
         requestAnimationFrame(() => {
           pillarContentRef.current?.scrollIntoView({ behavior: "auto", block: "start" });
@@ -257,7 +257,7 @@ const Programming = () => {
     edtech: {
       title: "EdTech", titleEn: "EdTech",
       desc: "Học cách xây dựng sản phẩm giáo dục số: khoa học học tập, Spaced Repetition (SM-2), adaptive difficulty & mastery, AI Tutor, auto-grading (essay/speaking) và gợi ý bài học cá nhân hóa. Đây chính là những kỹ thuật đứng sau HaiEduTech.",
-      descEn: "Build digital education products: learning science, Spaced Repetition (SM-2), adaptive difficulty & mastery, AI tutors, auto-grading (essay/speaking) and personalized recommendations — the very stack powering HaiEduTech.",
+      descEn: "Build digital education products: learning science, Spaced Repetition (SM-2), adaptive difficulty & mastery, AI tutors, auto-grading (essay/speaking) and personalized recommendations - the very stack powering HaiEduTech.",
       modules: allProgrammingModules.filter(m => m.course === "edtech"),
     },
   };
@@ -350,7 +350,7 @@ const Programming = () => {
             })}
           </div>
 
-          {/* AI Academy banner — for middle & high school students */}
+          {/* AI Academy banner - for middle & high school students */}
           <Link
             to="/programming/ai-academy"
             className="group relative block max-w-6xl mx-auto mb-10 rounded-2xl overflow-hidden border-2 border-fuchsia-400/40 bg-gradient-to-r from-purple-600 via-fuchsia-500 to-cyan-500 text-white p-5 sm:p-6 shadow-lg hover:shadow-2xl transition-all active:scale-[0.99]"
@@ -367,14 +367,14 @@ const Programming = () => {
                 </div>
                 <h3 className="font-display font-black text-xl sm:text-2xl leading-tight">AI Academy 🚀</h3>
                 <p className="text-white/90 text-xs sm:text-sm mt-1">
-                  Computer Vision · NLP Chatbot · Mạng thần kinh — sandbox tương tác, quiz kéo thả, huy hiệu thưởng.
+                  Computer Vision · NLP Chatbot · Mạng thần kinh - sandbox tương tác, quiz kéo thả, huy hiệu thưởng.
                 </p>
               </div>
               <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition" />
             </div>
           </Link>
 
-          {/* Scratch Coding Adventure banner — for middle school students */}
+          {/* Scratch Coding Adventure banner - for middle school students */}
           <Link
             to="/programming/scratch-adventure"
             className="group relative block max-w-6xl mx-auto mb-10 rounded-2xl overflow-hidden border-2 border-[#FF8C1A]/50 bg-gradient-to-r from-[#FF8C1A] via-[#FFD400] to-[#1E90FF] text-white p-5 sm:p-6 shadow-lg hover:shadow-2xl transition-all active:scale-[0.99]"
@@ -398,10 +398,10 @@ const Programming = () => {
             </div>
           </Link>
 
-          {/* Daily Code Challenge — daily seeded Python challenge that grants +100 XP */}
+          {/* Daily Code Challenge - daily seeded Python challenge that grants +100 XP */}
           <DailyCodeChallenge />
 
-          {/* Programming Dashboard — XP, streak, badges, per-pillar progress */}
+          {/* Programming Dashboard - XP, streak, badges, per-pillar progress */}
           <ProgrammingDashboard />
 
           {/* Active Pillar Content */}

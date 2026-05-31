@@ -1,6 +1,6 @@
 /**
  * @file cambridgeKidsVocabMaster6.ts
- * @description Batch 6 — additional Cambridge YLE vocabulary (Starters → PET).
+ * @description Batch 6 - additional Cambridge YLE vocabulary (Starters → PET).
  * Each entry includes a kid-friendly bilingual example sentence.
  */
 import type { CambridgeKidsLevel, CambridgeKidsWord } from "./cambridgeKidsVocab";

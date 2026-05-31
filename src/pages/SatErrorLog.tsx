@@ -1,6 +1,6 @@
 /**
  * @file SatErrorLog.tsx
- * @description "Mistake notebook" — every wrong SAT answer the student
+ * @description "Mistake notebook" - every wrong SAT answer the student
  * submitted is grouped by section/type. Each card lets them re-attempt;
  * 2 correct streaks in a row marks it Mastered.
  */
@@ -131,7 +131,7 @@ const SatErrorLog = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-secondary/10">
       <Helmet>
-        <title>{t("Sổ ghi lỗi SAT — HaiEduTech", "SAT Error Log — HaiEduTech")}</title>
+        <title>{t("Sổ ghi lỗi SAT - HaiEduTech", "SAT Error Log - HaiEduTech")}</title>
         <meta name="description" content={t("Sổ tay ôn lại mọi câu SAT bạn từng làm sai.", "Notebook to review every SAT question you got wrong.")} />
       </Helmet>
       <Navbar />

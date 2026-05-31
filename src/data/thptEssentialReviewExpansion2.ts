@@ -1,4 +1,4 @@
-// THPT Essential Review — Expansion #2
+// THPT Essential Review - Expansion #2
 // Additional practice exercise sets focused on Collocations and Vocabulary themes
 // to give learners more THPT-style MCQ drills before the National Exam.
 import type { ThptExerciseSet } from "./thptEssentialReviewExpansion";
@@ -67,7 +67,7 @@ export const thptVocabThemesExpansion2: VocabTheme[] = [
 ];
 
 // ─────────────────────────────────────────────────────────────
-// EXTRA EXERCISE SETS — ~120 additional MCQs
+// EXTRA EXERCISE SETS - ~120 additional MCQs
 // ─────────────────────────────────────────────────────────────
 export const thptExerciseSetsExpansion2: ThptExerciseSet[] = [
   {
@@ -76,7 +76,7 @@ export const thptExerciseSetsExpansion2: ThptExerciseSet[] = [
     titleVi: "Collocations: Động từ + Giới từ",
     titleEn: "Collocations: Verb + Preposition",
     focusVi: "Chọn giới từ đúng đi với động từ - dạng câu xuất hiện đều trong đề THPT.",
-    focusEn: "Pick the correct preposition that pairs with each verb — a steady THPT pattern.",
+    focusEn: "Pick the correct preposition that pairs with each verb - a steady THPT pattern.",
     exercises: [
       { q: "I'm looking forward ___ you again next week.", options: ["seeing", "to see", "to seeing", "for seeing"], answer: 2, explanation: "look forward to + Ving (to is a preposition here, NOT to-infinitive)." },
       { q: "Our success depends largely ___ teamwork.", options: ["of", "on", "to", "from"], answer: 1, explanation: "Fixed: depend on something/somebody." },
@@ -98,7 +98,7 @@ export const thptExerciseSetsExpansion2: ThptExerciseSet[] = [
     titleVi: "Collocations: Danh từ + Giới từ / Tính từ + Giới từ",
     titleEn: "Collocations: Noun/Adj + Preposition",
     focusVi: "Chọn giới từ đúng đi với danh từ hoặc tính từ - tránh dịch trực tiếp tiếng Việt.",
-    focusEn: "Pick the right preposition for each noun or adjective — don't translate from Vietnamese.",
+    focusEn: "Pick the right preposition for each noun or adjective - don't translate from Vietnamese.",
     exercises: [
       { q: "There has been a sharp increase ___ online learning since 2020.", options: ["of", "for", "in", "to"], answer: 2, explanation: "Fixed: an increase / decrease in." },
       { q: "She has a good knowledge ___ traditional music.", options: ["about", "of", "for", "on"], answer: 1, explanation: "Fixed: knowledge of." },
@@ -118,9 +118,9 @@ export const thptExerciseSetsExpansion2: ThptExerciseSet[] = [
     titleVi: "Collocations: Tiền bạc & Thời gian",
     titleEn: "Collocations: Money & Time",
     focusVi: "Cụm từ về chi tiêu, kiếm tiền, quản lý thời gian - rất phổ biến ở phần đọc hiểu.",
-    focusEn: "Money/time chunks — common in reading comprehension texts.",
+    focusEn: "Money/time chunks - common in reading comprehension texts.",
     exercises: [
-      { q: "Don't ___ time arguing — let's work on the project.", options: ["spend", "make", "waste", "do"], answer: 2, explanation: "Collocation: waste time." },
+      { q: "Don't ___ time arguing - let's work on the project.", options: ["spend", "make", "waste", "do"], answer: 2, explanation: "Collocation: waste time." },
       { q: "He ___ a living as a freelance designer.", options: ["does", "makes", "earns", "takes"], answer: 2, explanation: "Collocation: earn / make a living (both possible; 'earn' is the most natural here)." },
       { q: "We ___ out of time before finishing the test.", options: ["got", "made", "ran", "took"], answer: 2, explanation: "Collocation: run out of (time / money)." },
       { q: "I can't ___ to buy that smartphone right now.", options: ["pay", "spend", "afford", "cost"], answer: 2, explanation: "Collocation: afford to + V." },
@@ -178,11 +178,11 @@ export const thptExerciseSetsExpansion2: ThptExerciseSet[] = [
     titleVi: "Từ vựng: Công nghệ & Đời sống số",
     titleEn: "Vocabulary: Technology & Digital Life",
     focusVi: "Từ vựng công nghệ - chủ đề mới và rất phổ biến trong đề thi gần đây.",
-    focusEn: "Technology vocabulary — a modern, frequent topic in recent exams.",
+    focusEn: "Technology vocabulary - a modern, frequent topic in recent exams.",
     exercises: [
       { q: "___ intelligence is transforming healthcare and finance.", options: ["Artificial", "Artistic", "Articulate", "Artificially"], answer: 0, explanation: "Fixed: Artificial Intelligence (AI)." },
       { q: "___ is a serious online problem affecting many teenagers.", options: ["Cyberbullying", "Cyberbully", "Cyberbullies", "Cyberbullied"], answer: 0, explanation: "Noun form: cyberbullying." },
-      { q: "The new app is very ___ — even my grandparents can use it.", options: ["user-friendly", "user-friend", "use-friendly", "users-friend"], answer: 0, explanation: "Compound adjective: user-friendly." },
+      { q: "The new app is very ___ - even my grandparents can use it.", options: ["user-friendly", "user-friend", "use-friendly", "users-friend"], answer: 0, explanation: "Compound adjective: user-friendly." },
       { q: "___ may replace many jobs in the next decade.", options: ["Innovate", "Innovation", "Automation", "Innovating"], answer: 2, explanation: "Automation = tự động hóa (replaces jobs)." },
       { q: "Many companies now hold ___ meetings instead of face-to-face ones.", options: ["virtual", "real", "manual", "social"], answer: 0, explanation: "virtual meeting = họp trực tuyến / ảo." },
       { q: "Mobile ___ are everywhere in modern life.", options: ["device", "devices", "devised", "devising"], answer: 1, explanation: "Plural noun: devices." },
@@ -238,7 +238,7 @@ export const thptExerciseSetsExpansion2: ThptExerciseSet[] = [
     titleVi: "Từ vựng: Xã hội, Du lịch & Thanh niên",
     titleEn: "Vocabulary: Society, Travel & Youth",
     focusVi: "Bộ từ tổng hợp 3 chủ đề thường gặp - hữu ích cho phần đoạn văn ngắn.",
-    focusEn: "A combined set on three frequent topics — useful for short passages.",
+    focusEn: "A combined set on three frequent topics - useful for short passages.",
     exercises: [
       { q: "Tet is the most important ___ in Vietnamese culture.", options: ["traditional", "tradition", "traditionally", "traditionalism"], answer: 1, explanation: "Noun after 'important' → tradition." },
       { q: "Cultural ___ enriches our community life.", options: ["divers", "diverse", "diversity", "diversely"], answer: 2, explanation: "Noun: diversity = sự đa dạng." },
@@ -260,7 +260,7 @@ export const thptExerciseSetsExpansion2: ThptExerciseSet[] = [
     titleVi: "Bài tập: Hình thành từ (Word Formation)",
     titleEn: "Practice: Word Formation",
     focusVi: "Phần luôn xuất hiện trong đề - chọn đúng dạng N/V/Adj/Adv.",
-    focusEn: "An ever-present THPT section — choose the right N/V/Adj/Adv form.",
+    focusEn: "An ever-present THPT section - choose the right N/V/Adj/Adv form.",
     exercises: [
       { q: "Mr. Hai is widely known for his ___ teaching style.", options: ["create", "created", "creative", "creatively"], answer: 2, explanation: "Adjective before noun 'teaching style' → creative." },
       { q: "Public transport in Hanoi has improved ___ in recent years.", options: ["significant", "significance", "significantly", "signify"], answer: 2, explanation: "Modifies 'has improved' → adverb 'significantly'." },

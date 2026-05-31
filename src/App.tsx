@@ -24,7 +24,7 @@ const RootEntry = () => {
   return welcomed ? <Index /> : <Welcome />;
 };
 
-// Global floating widgets — lazy + deferred so they never block FCP
+// Global floating widgets - lazy + deferred so they never block FCP
 const ChatBot = lazy(() => import("./components/ChatBot.tsx"));
 const FloatingNotebook = lazy(() => import("./components/FloatingNotebook.tsx"));
 const LastSessionRecap = lazy(() => import("./components/LastSessionRecap.tsx"));

@@ -1,5 +1,5 @@
 /**
- * Word Meteor banks — distinct, language-native vocabulary for each language.
+ * Word Meteor banks - distinct, language-native vocabulary for each language.
  * Each language has its own theme: EN abstract adjectives, ZH HSK keywords,
  * VI everyday & cultural words, FI nature/sisu themed.
  */

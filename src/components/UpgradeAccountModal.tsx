@@ -197,8 +197,8 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                   <div className="mb-2 px-3 py-1.5 rounded-lg bg-amber-100/70 dark:bg-amber-900/30 border border-amber-300/60 dark:border-amber-700/40 text-xs font-semibold text-amber-900 dark:text-amber-100 flex items-center gap-2">
                     <Crown className="w-3.5 h-3.5 text-amber-600 dark:text-amber-300 shrink-0" />
                     {t(
-                      "Đây là phí dành cho tài khoản Premium VĨNH VIỄN — đóng 1 lần, dùng trọn đời.",
-                      "This is a fee for a LIFETIME Premium account — pay once, use forever.",
+                      "Đây là phí dành cho tài khoản Premium VĨNH VIỄN - đóng 1 lần, dùng trọn đời.",
+                      "This is a fee for a LIFETIME Premium account - pay once, use forever.",
                     )}
                   </div>
 

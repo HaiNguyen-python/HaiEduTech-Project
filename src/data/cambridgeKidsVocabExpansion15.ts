@@ -1,6 +1,6 @@
 /**
  * @file cambridgeKidsVocabExpansion15.ts
- * @description Expansion #15 — ~145 fresh, audited entries.
+ * @description Expansion #15 - ~145 fresh, audited entries.
  *              Cross-checked against existing data to guarantee NO duplicates within the same level.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */

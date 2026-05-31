@@ -1,6 +1,6 @@
 /**
  * @file cambridgeKidsVocabExpansion13.ts
- * @description Expansion #13 — ~130 fresh, audited entries.
+ * @description Expansion #13 - ~130 fresh, audited entries.
  *              Cross-checked against existing data to guarantee NO duplicates within the same level.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
@@ -75,7 +75,7 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION_13: W[] = [
   mk("honest", "thật thà", "🤝", "Flyers", "Always be honest with friends.", "Luôn thật thà với bạn bè."),
   mk("polite", "lễ phép", "🙇", "Flyers", "Say 'please' to be polite.", "Nói 'làm ơn' để lễ phép."),
   mk("rude", "bất lịch sự", "😤", "Flyers", "It is rude to interrupt.", "Ngắt lời là bất lịch sự."),
-  mk("patient", "kiên nhẫn", "🧘", "Flyers", "Be patient — the bus is coming.", "Hãy kiên nhẫn — xe buýt đang đến."),
+  mk("patient", "kiên nhẫn", "🧘", "Flyers", "Be patient - the bus is coming.", "Hãy kiên nhẫn - xe buýt đang đến."),
   mk("impatient", "thiếu kiên nhẫn", "😠", "Flyers", "Don't be impatient in line.", "Đừng thiếu kiên nhẫn khi xếp hàng."),
   mk("generous", "hào phóng", "🎁", "Flyers", "She is generous with her toys.", "Cô ấy hào phóng với đồ chơi."),
   mk("selfish", "ích kỷ", "😒", "Flyers", "It is selfish not to share.", "Không chia sẻ là ích kỷ."),

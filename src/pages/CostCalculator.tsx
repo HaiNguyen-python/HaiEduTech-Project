@@ -73,7 +73,7 @@ const CostCalculator = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <SEO title="Cost Calculator du học - HaiEduTech" description="Ước tính tổng chi phí du học Phần Lan, Mỹ, Anh, Trung Quốc — bao gồm học phí, nhà ở, sinh hoạt, visa, vé máy bay." path="/study-abroad/cost-calculator" />
+      <SEO title="Cost Calculator du học - HaiEduTech" description="Ước tính tổng chi phí du học Phần Lan, Mỹ, Anh, Trung Quốc - bao gồm học phí, nhà ở, sinh hoạt, visa, vé máy bay." path="/study-abroad/cost-calculator" />
       <Navbar />
       <main className="container mx-auto px-4 sm:px-6 pt-28 lg:pt-32 pb-16">
         <Link to="/study-abroad" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary mb-4">
@@ -88,7 +88,7 @@ const CostCalculator = () => {
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold">{t("Cost Calculator du học", "Study Abroad Cost Calculator")}</h1>
               <p className="text-sm text-muted-foreground">
-                {t("Ước tính tổng chi phí 4 năm/2 năm — học phí, nhà ở, sinh hoạt, visa, vé máy bay.", "Estimate full cost — tuition, housing, living, visa, flights.")}
+                {t("Ước tính tổng chi phí 4 năm/2 năm - học phí, nhà ở, sinh hoạt, visa, vé máy bay.", "Estimate full cost - tuition, housing, living, visa, flights.")}
               </p>
             </div>
           </div>

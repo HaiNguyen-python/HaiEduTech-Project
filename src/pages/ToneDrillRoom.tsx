@@ -1,6 +1,6 @@
 /**
  * @file ToneDrillRoom.tsx
- * @description Chinese tone training — 3 modes: Single Tone ID, Minimal Pair, Sandhi explainer.
+ * @description Chinese tone training - 3 modes: Single Tone ID, Minimal Pair, Sandhi explainer.
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */

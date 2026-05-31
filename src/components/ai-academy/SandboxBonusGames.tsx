@@ -1,9 +1,9 @@
 /**
- * SandboxBonusGames — two compact, reusable mini-games used across every
+ * SandboxBonusGames - two compact, reusable mini-games used across every
  * AI Academy sandbox so each lesson always has ≥3 hands-on activities.
  *
- *  • TrueFalseRapid — 5-question lightning round. +10 mỗi câu đúng.
- *  • MatchPairs     — flip-cards memory game ghép cặp khái niệm ↔ ví dụ.
+ *  • TrueFalseRapid - 5-question lightning round. +10 mỗi câu đúng.
+ *  • MatchPairs     - flip-cards memory game ghép cặp khái niệm ↔ ví dụ.
  *
  * Both are data-driven (pass topic-specific content in via props) and live
  * 100% on the client.
@@ -102,7 +102,7 @@ export const TrueFalseRapid = ({
                   : "bg-rose-500/10 text-rose-700 dark:text-rose-300 border border-rose-400/40"
               }`}
             >
-              {picked === cur.a ? "✅ Chính xác — " : "❌ Chưa đúng — "}
+              {picked === cur.a ? "✅ Chính xác - " : "❌ Chưa đúng - "}
               {cur.why}
             </motion.div>
           )}
@@ -150,7 +150,7 @@ export const TrueFalseRapid = ({
             {score === items.length * 10
               ? "🌟 Tuyệt đối! Bạn là cao thủ rồi!"
               : score >= items.length * 6
-              ? "👏 Khá lắm — chơi lại để full điểm nhé!"
+              ? "👏 Khá lắm - chơi lại để full điểm nhé!"
               : "💪 Đọc lại lý thuyết rồi thử lại nha."}
           </p>
           <Button onClick={reset} className={`bg-gradient-to-r ${accent} text-white`}>

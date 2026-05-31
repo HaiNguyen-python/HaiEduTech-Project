@@ -122,7 +122,7 @@ const SatExams = () => {
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-500/10 text-purple-700 dark:text-purple-300 text-xs font-semibold mb-3">
               <Sparkles className="w-3.5 h-3.5" />
-              {t("Đề thi SAT — đúng thời gian thi thật", "SAT Mock Exams — Real exam timing")}
+              {t("Đề thi SAT - đúng thời gian thi thật", "SAT Mock Exams - Real exam timing")}
               <span className="text-base">🎓✨</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-purple-500 via-indigo-500 to-emerald-500 bg-clip-text text-transparent">
@@ -194,7 +194,7 @@ const SatExams = () => {
             <TabsContent value="all" className="space-y-10 mt-0">
               <section>
                 <SectionHeader icon={BookOpen} color={SAT_TYPE_LABELS.rw.color}
-                  title={t("Reading & Writing — Module Practice", "Reading & Writing — Module Practice")}
+                  title={t("Reading & Writing - Module Practice", "Reading & Writing - Module Practice")}
                   subtitle={t("32 phút · 27 câu mỗi module", "32 min · 27 Q per module")}
                   count={grouped.rw.length} />
                 <div className="grid md:grid-cols-2 gap-5">
@@ -203,7 +203,7 @@ const SatExams = () => {
               </section>
               <section>
                 <SectionHeader icon={Calculator} color={SAT_TYPE_LABELS.math.color}
-                  title={t("Math — Module Practice", "Math — Module Practice")}
+                  title={t("Math - Module Practice", "Math - Module Practice")}
                   subtitle={t("35 phút · 22 câu mỗi module · được dùng máy tính", "35 min · 22 Q per module · calculator allowed")}
                   count={grouped.math.length} />
                 <div className="grid md:grid-cols-2 gap-5">
@@ -223,7 +223,7 @@ const SatExams = () => {
 
             <TabsContent value="rw" className="mt-0">
               <SectionHeader icon={BookOpen} color={SAT_TYPE_LABELS.rw.color}
-                title={t("Reading & Writing — Module Practice", "Reading & Writing — Module Practice")}
+                title={t("Reading & Writing - Module Practice", "Reading & Writing - Module Practice")}
                 subtitle={t("32 phút · 27 câu mỗi module", "32 min · 27 Q per module")}
                 count={grouped.rw.length} />
               <div className="grid md:grid-cols-2 gap-5">
@@ -233,7 +233,7 @@ const SatExams = () => {
 
             <TabsContent value="math" className="mt-0">
               <SectionHeader icon={Calculator} color={SAT_TYPE_LABELS.math.color}
-                title={t("Math — Module Practice", "Math — Module Practice")}
+                title={t("Math - Module Practice", "Math - Module Practice")}
                 subtitle={t("35 phút · 22 câu mỗi module · được dùng máy tính", "35 min · 22 Q per module · calculator allowed")}
                 count={grouped.math.length} />
               <div className="grid md:grid-cols-2 gap-5">

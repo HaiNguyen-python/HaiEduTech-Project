@@ -1,5 +1,5 @@
 // ============================================================
-// HSK Vocabulary Index — aggregates legacy data + HSK 3.0 official
+// HSK Vocabulary Index - aggregates legacy data + HSK 3.0 official
 // Applies official re-leveling and caps total at exactly 6000 words.
 // ============================================================
 export type { HskWord } from "./types";
@@ -99,7 +99,7 @@ const LEVEL_CAPS: Record<string, number> = {
 
 // Officially-mapped words go to their canonical level (respecting caps).
 // Unmapped words are "floating" and get promoted up the pyramid if their
-// requested level is already full — this preserves the strict ascending shape.
+// requested level is already full - this preserves the strict ascending shape.
 const _buckets: Record<string, HskWord[]> = {};
 for (const lvl of LEVEL_ORDER) _buckets[lvl] = [];
 const _floating: HskWord[] = [];

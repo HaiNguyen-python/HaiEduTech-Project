@@ -9,7 +9,7 @@ const mk = (word: string, vi: string, emoji: string, level: CambridgeKidsLevel, 
   ({ word, vi, emoji, level, example, exampleVi });
 
 export const CAMBRIDGE_KIDS_WORDS_KET_PET_EXPANSION_3: W[] = [
-  // ============== KET (A2) — Society, daily life, communication, health ==============
+  // ============== KET (A2) - Society, daily life, communication, health ==============
   mk("alarm", "báo thức", "⏰", "KET", "I set my alarm for seven.", "Em đặt báo thức lúc 7 giờ."),
   mk("appointment", "cuộc hẹn", "📅", "KET", "I have a dentist appointment.", "Em có cuộc hẹn với nha sĩ."),
   mk("available", "có sẵn", "✅", "KET", "Is this room available?", "Phòng này còn trống không?"),
@@ -74,7 +74,7 @@ export const CAMBRIDGE_KIDS_WORDS_KET_PET_EXPANSION_3: W[] = [
   mk("introduce", "giới thiệu", "🤝", "KET", "Let me introduce my friend.", "Để em giới thiệu bạn em."),
   mk("invent", "phát minh", "💡", "KET", "Who invented the telephone?", "Ai đã phát minh ra điện thoại?"),
   mk("island", "đảo", "🏝️", "KET", "We visited a beautiful island.", "Chúng em đã thăm một hòn đảo đẹp."),
-  mk("jacket", "áo khoác", "🧥", "KET", "Wear a jacket — it is cold.", "Mặc áo khoác vào — trời lạnh."),
+  mk("jacket", "áo khoác", "🧥", "KET", "Wear a jacket - it is cold.", "Mặc áo khoác vào - trời lạnh."),
   mk("join", "tham gia", "🤝", "KET", "Would you like to join us?", "Bạn có muốn tham gia với chúng em không?"),
   mk("journalist", "nhà báo", "📰", "KET", "My uncle is a journalist.", "Chú em là nhà báo."),
   mk("journey", "hành trình", "🚂", "KET", "The journey took three hours.", "Hành trình mất ba tiếng."),

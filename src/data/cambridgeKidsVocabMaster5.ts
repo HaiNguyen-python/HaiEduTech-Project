@@ -1,6 +1,6 @@
 /**
  * @file cambridgeKidsVocabMaster5.ts
- * @description Round 5 expansion — more YLE/KET/PET vocabulary across all levels.
+ * @description Round 5 expansion - more YLE/KET/PET vocabulary across all levels.
  * Duplicates with earlier batches are filtered automatically by the dedupe map.
  */
 import type { CambridgeKidsLevel, CambridgeKidsWord } from "./cambridgeKidsVocab";

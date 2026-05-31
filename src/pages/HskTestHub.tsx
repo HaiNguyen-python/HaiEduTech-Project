@@ -46,7 +46,7 @@ const HskTestHub = () => {
           <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
             {t(
               "Đề thi mô phỏng chuẩn Hanban (HSK 3.0 - 9 cấp độ): đầy đủ phần Nghe (đọc bằng TTS tiếng Trung), Đọc và Viết. Tự chấm điểm, hiển thị giải thích chi tiết sau mỗi câu.",
-              "Hanban-style mock exams (HSK 3.0 — 9 levels): full Listening (Chinese TTS), Reading, and Writing sections. Auto-graded with detailed explanations."
+              "Hanban-style mock exams (HSK 3.0 - 9 levels): full Listening (Chinese TTS), Reading, and Writing sections. Auto-graded with detailed explanations."
             )}
           </p>
         </motion.div>
@@ -110,7 +110,7 @@ const HskTestHub = () => {
           💡 <strong>{t("Mẹo của thầy Hải:", "Teacher Hai's tip:")}</strong>{" "}
           {t(
             "Hãy thi thử ít nhất 2 lần - lần đầu để làm quen format, lần hai để bấm giờ nghiêm túc như phòng thi thật. Phần Nghe sẽ được TTS đọc bằng tiếng Trung Phổ thông.",
-            "Take each mock at least twice — first to learn the format, second to time yourself like the real test. Listening prompts are read aloud in Mandarin via TTS."
+            "Take each mock at least twice - first to learn the format, second to time yourself like the real test. Listening prompts are read aloud in Mandarin via TTS."
           )}
         </div>
       </main>

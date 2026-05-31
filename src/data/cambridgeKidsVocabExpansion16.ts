@@ -1,6 +1,6 @@
 /**
  * @file cambridgeKidsVocabExpansion16.ts
- * @description Expansion 16 — fills thin thematic categories per level so
+ * @description Expansion 16 - fills thin thematic categories per level so
  * Vocabulary Practice has enough variety. All entries audited unique vs the
  * existing deduped master set.
  */
@@ -13,7 +13,7 @@ const mk = (
 ): W => ({ word, vi, emoji, level, example, exampleVi });
 
 export const CAMBRIDGE_KIDS_WORDS_EXPANSION_16: W[] = [
-  // ===== STARTERS — Technology =====
+  // ===== STARTERS - Technology =====
   mk("laptop", "máy tính xách tay", "💻", "Starters", "My dad works on a laptop.", "Bố em làm việc trên máy tính xách tay."),
   mk("desktop", "máy tính để bàn", "🖥️", "Starters", "The desktop is on the table.", "Máy tính để bàn ở trên bàn."),
   mk("charger", "cục sạc", "🔌", "Starters", "I need a charger for my phone.", "Em cần cục sạc cho điện thoại."),
@@ -22,7 +22,7 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION_16: W[] = [
   mk("app", "ứng dụng", "📱", "Starters", "I like this game app.", "Em thích ứng dụng trò chơi này."),
   mk("remote", "điều khiển từ xa", "📺", "Starters", "Pass me the remote, please.", "Đưa em cái điều khiển nhé."),
 
-  // ===== MOVERS — Time, Numbers, Colors & Shapes =====
+  // ===== MOVERS - Time, Numbers, Colors & Shapes =====
   mk("minute", "phút", "⏱️", "Movers", "Wait one minute, please.", "Đợi một phút nhé."),
   mk("hour", "giờ", "⏰", "Movers", "We study for one hour.", "Chúng em học một tiếng."),
   mk("second", "giây", "⏳", "Movers", "I can run fast for ten seconds.", "Em có thể chạy nhanh trong mười giây."),
@@ -38,7 +38,7 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION_16: W[] = [
   mk("silver", "màu bạc", "🥈", "Movers", "My ring is silver.", "Nhẫn của em màu bạc."),
   mk("dozen", "tá (12 cái)", "🥚", "Movers", "Mum buys a dozen eggs.", "Mẹ mua một tá trứng."),
 
-  // ===== MOVERS — Technology =====
+  // ===== MOVERS - Technology =====
   mk("selfie", "ảnh tự chụp", "🤳", "Movers", "Let's take a selfie together.", "Cùng chụp một tấm selfie nào."),
   mk("podcast", "podcast", "🎙️", "Movers", "I listen to a kids podcast.", "Em nghe podcast cho thiếu nhi."),
   mk("download", "tải xuống", "⬇️", "Movers", "I download a new song.", "Em tải xuống một bài hát mới."),
@@ -47,7 +47,7 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION_16: W[] = [
   mk("wifi", "wifi", "📶", "Movers", "The wifi is fast at home.", "Wifi ở nhà rất nhanh."),
   mk("bluetooth", "bluetooth", "🔵", "Movers", "Connect the speaker by bluetooth.", "Kết nối loa qua bluetooth."),
 
-  // ===== MOVERS — Actions =====
+  // ===== MOVERS - Actions =====
   mk("climb", "leo trèo", "🧗", "Movers", "Monkeys can climb tall trees.", "Khỉ có thể leo cây cao."),
   mk("throw", "ném", "🤾", "Movers", "Throw the ball to me!", "Ném bóng cho mình nào!"),
   mk("catch", "bắt", "🥎", "Movers", "Can you catch this ball?", "Bạn có bắt được quả bóng này không?"),
@@ -57,7 +57,7 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION_16: W[] = [
   mk("break", "làm vỡ", "💔", "Movers", "Don't break the glass!", "Đừng làm vỡ cốc nhé!"),
   mk("carry", "mang vác", "🧳", "Movers", "I carry my bag to school.", "Em mang cặp đến trường."),
 
-  // ===== FLYERS — Home & Clothes =====
+  // ===== FLYERS - Home & Clothes =====
   mk("hoodie", "áo hoodie", "🧥", "Flyers", "My hoodie keeps me warm.", "Áo hoodie giữ ấm cho em."),
   mk("slipper", "dép đi trong nhà", "🥿", "Flyers", "I wear slippers at home.", "Em đi dép trong nhà."),
   mk("raincoat", "áo mưa", "🧥", "Flyers", "Wear a raincoat when it rains.", "Mặc áo mưa khi trời mưa."),
@@ -67,7 +67,7 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION_16: W[] = [
   mk("helmet", "mũ bảo hiểm", "⛑️", "Flyers", "Wear a helmet on your bike.", "Đội mũ bảo hiểm khi đi xe đạp."),
   mk("beanie", "mũ len", "🧢", "Flyers", "My beanie is warm in winter.", "Mũ len ấm vào mùa đông."),
 
-  // ===== FLYERS — School & Stationery =====
+  // ===== FLYERS - School & Stationery =====
   mk("marker", "bút dạ", "🖊️", "Flyers", "Use a marker on the board.", "Dùng bút dạ trên bảng."),
   mk("folder", "bìa hồ sơ", "📁", "Flyers", "Put your papers in the folder.", "Cất giấy vào bìa hồ sơ."),
   mk("textbook", "sách giáo khoa", "📕", "Flyers", "Open your English textbook.", "Mở sách giáo khoa Tiếng Anh."),
@@ -75,7 +75,7 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION_16: W[] = [
   mk("stapler", "cái dập ghim", "📎", "Flyers", "Use the stapler on the papers.", "Dùng cái dập ghim cho giấy."),
   mk("highlighter", "bút dạ quang", "🖍️", "Flyers", "I use a yellow highlighter.", "Em dùng bút dạ quang vàng."),
 
-  // ===== FLYERS — Animals =====
+  // ===== FLYERS - Animals =====
   mk("hippopotamus", "hà mã", "🦛", "Flyers", "A hippopotamus loves water.", "Hà mã rất thích nước."),
   mk("platypus", "thú mỏ vịt", "🦦", "Flyers", "The platypus has a duck bill.", "Thú mỏ vịt có cái mỏ giống vịt."),
   mk("peacock", "công", "🦚", "Flyers", "The peacock has beautiful feathers.", "Công có bộ lông tuyệt đẹp."),
@@ -86,7 +86,7 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION_16: W[] = [
   mk("pelican", "bồ nông", "🪶", "Flyers", "The pelican catches fish in its beak.", "Bồ nông bắt cá bằng mỏ."),
   mk("sloth", "con lười", "🦥", "Flyers", "The sloth moves very slowly.", "Con lười di chuyển rất chậm."),
 
-  // ===== FLYERS — Time, Numbers, Colors & Shapes =====
+  // ===== FLYERS - Time, Numbers, Colors & Shapes =====
   mk("hexagon", "hình lục giác", "⬡", "Flyers", "A honeycomb has hexagons.", "Tổ ong có hình lục giác."),
   mk("pentagon", "hình ngũ giác", "⬠", "Flyers", "A pentagon has five sides.", "Hình ngũ giác có năm cạnh."),
   mk("twilight", "hoàng hôn", "🌆", "Flyers", "The sky is pink at twilight.", "Bầu trời màu hồng lúc hoàng hôn."),
@@ -94,7 +94,7 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION_16: W[] = [
   mk("turquoise", "màu xanh ngọc", "🟦", "Flyers", "The sea looks turquoise today.", "Hôm nay biển có màu xanh ngọc."),
   mk("magenta", "màu hồng cánh sen", "🟪", "Flyers", "Her dress is magenta.", "Váy cô ấy màu hồng cánh sen."),
 
-  // ===== FLYERS — Food & Drink =====
+  // ===== FLYERS - Food & Drink =====
   mk("croissant", "bánh sừng bò", "🥐", "Flyers", "I eat a croissant for breakfast.", "Em ăn bánh sừng bò vào bữa sáng."),
   mk("syrup", "siro", "🍯", "Flyers", "Pancakes taste great with syrup.", "Bánh pancake ngon với siro."),
   mk("smoothie", "sinh tố", "🥤", "Flyers", "I love a strawberry smoothie.", "Em thích sinh tố dâu."),
@@ -104,7 +104,7 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION_16: W[] = [
   mk("oatmeal", "yến mạch", "🥣", "Flyers", "I have oatmeal in the morning.", "Em ăn yến mạch vào buổi sáng."),
   mk("marshmallow", "kẹo dẻo", "🍡", "Flyers", "We roast marshmallows by the fire.", "Chúng em nướng kẹo dẻo bên lửa."),
 
-  // ===== FLYERS — Sports, Hobbies & Music =====
+  // ===== FLYERS - Sports, Hobbies & Music =====
   mk("drums", "trống", "🥁", "Flyers", "He plays the drums in the band.", "Anh ấy chơi trống trong ban nhạc."),
   mk("trumpet", "kèn trumpet", "🎺", "Flyers", "The trumpet sounds loud and bright.", "Tiếng kèn trumpet to và sáng."),
   mk("surfing", "lướt sóng", "🏄", "Flyers", "Surfing is fun in summer.", "Lướt sóng vui vào mùa hè."),
@@ -115,7 +115,7 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION_16: W[] = [
   mk("badminton", "cầu lông", "🏸", "Flyers", "We play badminton in the park.", "Chúng em chơi cầu lông trong công viên."),
   mk("rugby", "bóng bầu dục", "🏉", "Flyers", "Rugby is a tough sport.", "Bóng bầu dục là môn thể thao mạnh."),
 
-  // ===== KET — Food & Drink =====
+  // ===== KET - Food & Drink =====
   mk("appetizer", "món khai vị", "🥗", "KET", "We share an appetizer before dinner.", "Chúng tôi chia sẻ món khai vị trước bữa tối."),
   mk("beverage", "đồ uống", "🥤", "KET", "Choose a hot beverage on the menu.", "Chọn một đồ uống nóng trên thực đơn."),
   mk("seasoning", "gia vị", "🧂", "KET", "Add a little seasoning to the soup.", "Thêm một chút gia vị vào canh."),
@@ -125,7 +125,7 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION_16: W[] = [
   mk("leftovers", "thức ăn thừa", "🍱", "KET", "We save the leftovers for lunch.", "Chúng tôi giữ thức ăn thừa cho bữa trưa."),
   mk("takeaway", "đồ ăn mang đi", "🥡", "KET", "Let's order takeaway tonight.", "Tối nay gọi đồ ăn mang đi nhé."),
 
-  // ===== KET — Sports, Hobbies & Music =====
+  // ===== KET - Sports, Hobbies & Music =====
   mk("championship", "giải vô địch", "🏆", "KET", "She won the swimming championship.", "Cô ấy thắng giải vô địch bơi."),
   mk("opponent", "đối thủ", "🤺", "KET", "He shook hands with his opponent.", "Anh ấy bắt tay với đối thủ."),
   mk("marathon", "marathon", "🏃", "KET", "He runs a marathon every year.", "Anh ấy chạy marathon mỗi năm."),
@@ -134,14 +134,14 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION_16: W[] = [
   mk("rivalry", "sự đối đầu", "⚔️", "KET", "There is a friendly rivalry between the teams.", "Có sự đối đầu thân thiện giữa hai đội."),
   mk("spectator", "khán giả", "👀", "KET", "Spectators cheer for their team.", "Khán giả cổ vũ cho đội nhà."),
 
-  // ===== KET — Nature & Weather =====
+  // ===== KET - Nature & Weather =====
   mk("humidity", "độ ẩm", "💦", "KET", "The humidity is high in summer.", "Độ ẩm cao vào mùa hè."),
   mk("hailstorm", "bão mưa đá", "🌨️", "KET", "A hailstorm broke many windows.", "Một trận bão mưa đá làm vỡ nhiều cửa sổ."),
   mk("dew", "sương", "💧", "KET", "Dew sparkles on the grass.", "Sương lấp lánh trên cỏ."),
   mk("mist", "sương mù mỏng", "🌫️", "KET", "The valley is full of mist.", "Thung lũng phủ đầy sương mù."),
   mk("drizzle", "mưa phùn", "🌦️", "KET", "It is just a light drizzle.", "Chỉ là một cơn mưa phùn nhẹ."),
 
-  // ===== KET — School & Stationery =====
+  // ===== KET - School & Stationery =====
   mk("semester", "học kỳ", "🎓", "KET", "Final exams are at the end of the semester.", "Thi cuối kỳ là vào cuối học kỳ."),
   mk("syllabus", "đề cương", "📋", "KET", "The teacher gave us the syllabus.", "Giáo viên đưa cho chúng tôi đề cương."),
   mk("faculty", "khoa", "🏫", "KET", "She joined the science faculty.", "Cô ấy vào khoa khoa học."),
@@ -149,7 +149,7 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION_16: W[] = [
   mk("tuition", "học phí", "💵", "KET", "Tuition fees are due next month.", "Học phí phải nộp vào tháng sau."),
   mk("lecture", "bài giảng", "🎤", "KET", "The lecture lasts one hour.", "Bài giảng kéo dài một giờ."),
 
-  // ===== KET — Home & Clothes =====
+  // ===== KET - Home & Clothes =====
   mk("attic", "gác mái", "🏠", "KET", "Old toys are kept in the attic.", "Đồ chơi cũ được cất trên gác mái."),
   mk("hallway", "hành lang", "🚪", "KET", "Hang your coat in the hallway.", "Treo áo khoác ở hành lang."),
   mk("fireplace", "lò sưởi", "🔥", "KET", "We sit by the fireplace in winter.", "Chúng tôi ngồi bên lò sưởi vào mùa đông."),
@@ -158,7 +158,7 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION_16: W[] = [
   mk("tuxedo", "áo tuxedo", "🤵", "KET", "He looked smart in his tuxedo.", "Anh ấy lịch lãm trong bộ tuxedo."),
   mk("doormat", "tấm thảm chùi chân", "🚪", "KET", "Wipe your shoes on the doormat.", "Lau giày trên thảm chùi chân."),
 
-  // ===== KET — Places, Transport & Travel =====
+  // ===== KET - Places, Transport & Travel =====
   mk("terminal", "nhà ga (sân bay)", "🛫", "KET", "Our flight leaves from terminal 2.", "Chuyến bay của chúng tôi rời nhà ga 2."),
   mk("runway", "đường băng", "🛬", "KET", "The plane lands on the runway.", "Máy bay hạ cánh trên đường băng."),
   mk("lodge", "nhà nghỉ", "🏕️", "KET", "We stayed in a mountain lodge.", "Chúng tôi ở trong nhà nghỉ trên núi."),
@@ -167,7 +167,7 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION_16: W[] = [
   mk("embassy", "đại sứ quán", "🏛️", "KET", "Apply for a visa at the embassy.", "Xin thị thực tại đại sứ quán."),
   mk("plaza", "quảng trường", "🏙️", "KET", "We met at the central plaza.", "Chúng tôi gặp ở quảng trường trung tâm."),
 
-  // ===== KET — Time, Numbers, Colors & Shapes =====
+  // ===== KET - Time, Numbers, Colors & Shapes =====
   mk("era", "kỷ nguyên", "🕰️", "KET", "We live in a digital era.", "Chúng ta sống trong kỷ nguyên số."),
   mk("eternity", "vĩnh hằng", "♾️", "KET", "Waiting felt like an eternity.", "Đợi chờ tưởng chừng như vĩnh hằng."),
   mk("duration", "thời lượng", "⏱️", "KET", "The film duration is two hours.", "Thời lượng phim là hai tiếng."),
@@ -177,7 +177,7 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION_16: W[] = [
   mk("fraction", "phân số", "½", "KET", "Half is a simple fraction.", "Một nửa là một phân số đơn giản."),
   mk("quarter", "một phần tư", "¼", "KET", "Cut the pizza into quarters.", "Cắt pizza thành bốn phần."),
 
-  // ===== PET — Time, Numbers, Colors & Shapes =====
+  // ===== PET - Time, Numbers, Colors & Shapes =====
   mk("milestone", "cột mốc", "🎯", "PET", "Graduation is a major milestone.", "Tốt nghiệp là cột mốc quan trọng."),
   mk("sequence", "chuỗi", "🔢", "PET", "Follow the sequence of steps.", "Làm theo chuỗi các bước."),
   mk("chronological", "theo trình tự thời gian", "📜", "PET", "List the events in chronological order.", "Liệt kê sự kiện theo trình tự thời gian."),
@@ -186,7 +186,7 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION_16: W[] = [
   mk("simultaneous", "đồng thời", "⚡", "PET", "We had simultaneous meetings online.", "Chúng tôi có nhiều cuộc họp đồng thời trên mạng."),
   mk("periodic", "theo chu kỳ", "🔄", "PET", "She makes periodic visits to her family.", "Cô ấy về thăm gia đình theo chu kỳ."),
 
-  // ===== PET — Body, Health & Feelings =====
+  // ===== PET - Body, Health & Feelings =====
   mk("depression", "trầm cảm", "😞", "PET", "He sought help for his depression.", "Anh ấy tìm sự giúp đỡ cho chứng trầm cảm."),
   mk("wellbeing", "sự an lành", "🌿", "PET", "Sleep is vital for wellbeing.", "Giấc ngủ rất quan trọng cho sự an lành."),
   mk("resilience", "sự kiên cường", "💪", "PET", "Resilience helps us face hard times.", "Sự kiên cường giúp ta đối mặt khó khăn."),

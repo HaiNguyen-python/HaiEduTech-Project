@@ -5,7 +5,7 @@
  * Features:
  *  - Multi-color highlighting (yellow / green / pink). Select text → floating
  *    toolbar appears near the selection. Click an existing highlight to remove.
- *  - "📖 Dict" button — opens the global Super Dictionary via the custom event
+ *  - "📖 Dict" button - opens the global Super Dictionary via the custom event
  *    `super-dict:lookup` (handled in src/components/SuperDictionary.tsx).
  *  - Highlights persist in localStorage per `passageId`.
  *

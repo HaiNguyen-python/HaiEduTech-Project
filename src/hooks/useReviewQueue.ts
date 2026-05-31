@@ -1,5 +1,5 @@
 /**
- * useReviewQueue — Spaced repetition queue for vocabulary modules.
+ * useReviewQueue - Spaced repetition queue for vocabulary modules.
  *
  * Reads `user_vocab_mastered` for the current user + subject and returns
  * the words whose `reviewed_at` is older than `staleDays` (default: 14 days),

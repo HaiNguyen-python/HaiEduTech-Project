@@ -27,11 +27,11 @@ const TEMPLATES = [
 
 I am writing to recommend [STUDENT NAME] for admission to [PROGRAM] at [UNIVERSITY]. I have known [him/her/them] for [N] years as [his/her/their] professor in [SUBJECT].
 
-In my [COURSE NAME] class, [STUDENT] ranked in the top [%] of [N] students. [He/She/They] consistently demonstrated [SPECIFIC SKILL — e.g. analytical rigor, intellectual curiosity, mathematical maturity]. A specific example: [CONCRETE PROJECT/MOMENT].
+In my [COURSE NAME] class, [STUDENT] ranked in the top [%] of [N] students. [He/She/They] consistently demonstrated [SPECIFIC SKILL - e.g. analytical rigor, intellectual curiosity, mathematical maturity]. A specific example: [CONCRETE PROJECT/MOMENT].
 
 Beyond grades, [STUDENT] [LEADERSHIP / RESEARCH / COLLABORATION quality]. [He/She/They] [STORY THAT PROVES IT].
 
-I believe [STUDENT] will thrive at [UNIVERSITY] because [SPECIFIC FIT — research lab, professor, course]. I give [him/her/them] my highest recommendation.
+I believe [STUDENT] will thrive at [UNIVERSITY] because [SPECIFIC FIT - research lab, professor, course]. I give [him/her/them] my highest recommendation.
 
 Sincerely,
 [NAME], [TITLE]
@@ -45,9 +45,9 @@ Sincerely,
 
 It is my pleasure to recommend [STUDENT NAME], who worked under my direct supervision as [ROLE] at [COMPANY] from [DATE] to [DATE].
 
-[STUDENT] was hired to [RESPONSIBILITY]. Within [TIME], [he/she/they] [QUANTIFIED ACHIEVEMENT — e.g. reduced X by 30%, shipped Y features, led team of Z].
+[STUDENT] was hired to [RESPONSIBILITY]. Within [TIME], [he/she/they] [QUANTIFIED ACHIEVEMENT - e.g. reduced X by 30%, shipped Y features, led team of Z].
 
-What sets [STUDENT] apart is [SOFT SKILL — ownership, communication, learning velocity]. For instance, when [SITUATION], [he/she/they] [ACTION] which resulted in [RESULT].
+What sets [STUDENT] apart is [SOFT SKILL - ownership, communication, learning velocity]. For instance, when [SITUATION], [he/she/they] [ACTION] which resulted in [RESULT].
 
 Pursuing [PROGRAM] at [UNIVERSITY] is the logical next step for [STUDENT]'s career. [He/She/They] have my strongest endorsement.
 
@@ -61,11 +61,11 @@ Best regards,
     title: { vi: "Mentor / Hoạt động ngoại khóa", en: "Mentor / Extracurricular" },
     template: `Dear Admissions Committee,
 
-I have had the privilege of mentoring [STUDENT NAME] in [CONTEXT — research group, volunteer organization, club] for the past [N] [months/years].
+I have had the privilege of mentoring [STUDENT NAME] in [CONTEXT - research group, volunteer organization, club] for the past [N] [months/years].
 
 When [STUDENT] joined, [INITIAL STATE]. Over time, [he/she/they] grew into [CURRENT STATE], evidenced by [CONCRETE MILESTONE].
 
-What makes [STUDENT] exceptional is [character trait]. I vividly remember the moment when [STORY] — it showed me [INSIGHT ABOUT THE STUDENT].
+What makes [STUDENT] exceptional is [character trait]. I vividly remember the moment when [STORY] - it showed me [INSIGHT ABOUT THE STUDENT].
 
 [STUDENT] will be a tremendous asset to [UNIVERSITY] and the wider community. I recommend [him/her/them] without reservation.
 

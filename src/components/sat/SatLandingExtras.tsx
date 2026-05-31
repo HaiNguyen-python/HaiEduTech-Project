@@ -66,7 +66,7 @@ const SatLandingExtras = () => {
     {
       icon: AlertTriangle,
       title: t("Áp lực thời gian 1 phút/câu", "1-minute-per-question pressure"),
-      pain: t("R&W chỉ 71 giây/câu — nhiều em làm hết Module 1 không kịp soát lại.", "R&W gives only 71s/question — many never finish Module 1 with time to review."),
+      pain: t("R&W chỉ 71 giây/câu - nhiều em làm hết Module 1 không kịp soát lại.", "R&W gives only 71s/question - many never finish Module 1 with time to review."),
       solution: t("Luyện skip-strategy + flag system trên Bluebook giả lập, tăng tốc 30%.", "Train skip-strategy + flag system on Bluebook simulator, +30% speed."),
     },
   ];
@@ -78,7 +78,7 @@ const SatLandingExtras = () => {
     { q: t("Học bao lâu thì đạt 1400+?", "How long to reach 1400+?"), a: t("Trung bình 4–6 tháng nếu bắt đầu từ 1100, với 8–10h học/tuần. Học sinh chăm có thể rút xuống 3 tháng.", "Typically 4–6 months from 1100, with 8–10 hrs/week. Dedicated students can do it in 3 months.") },
     { q: t("Có cần điểm SAT để du học Mỹ không?", "Is SAT required for US study?"), a: t("Phần lớn trường top vẫn yêu cầu hoặc khuyến khích nộp SAT 2025–2026 (MIT, Harvard, Yale, Brown đã quay lại bắt buộc). 1400+ giúp hồ sơ cạnh tranh ở top 50.", "Most top schools still require or recommend SAT 2025–2026 (MIT, Harvard, Yale, Brown have reinstated mandatory). 1400+ makes you competitive at top 50.") },
     { q: t("Trường nào nhận học bổng với SAT 1300?", "Which schools offer scholarships at SAT 1300?"), a: t("SAT 1300 đủ điều kiện học bổng merit ở nhiều public universities (Arizona, Alabama, Iowa) và liberal arts colleges hạng trung. Kết hợp GPA tốt có thể nhận 30–60% học phí.", "SAT 1300 qualifies for merit aid at many public universities (Arizona, Alabama, Iowa) and mid-tier liberal arts colleges. Combined with strong GPA: 30–60% tuition.") },
-    { q: t("Có được dùng máy tính riêng không?", "Can I bring my own calculator?"), a: t("Có — bạn được mang máy tính được phép (TI-84, Casio fx-CG50…), nhưng Desmos tích hợp sẵn trên Bluebook thường nhanh và mạnh hơn nhiều cho graphing & solver.", "Yes — you may bring an approved calculator (TI-84, Casio fx-CG50…), but built-in Desmos on Bluebook is usually faster and more powerful for graphing & solver.") },
+    { q: t("Có được dùng máy tính riêng không?", "Can I bring my own calculator?"), a: t("Có - bạn được mang máy tính được phép (TI-84, Casio fx-CG50…), nhưng Desmos tích hợp sẵn trên Bluebook thường nhanh và mạnh hơn nhiều cho graphing & solver.", "Yes - you may bring an approved calculator (TI-84, Casio fx-CG50…), but built-in Desmos on Bluebook is usually faster and more powerful for graphing & solver.") },
     { q: t("Học phí lộ trình SAT bao nhiêu?", "How much is the SAT track tuition?"), a: t("Vui lòng inbox thầy Hải qua mục Liên hệ để được tư vấn lộ trình cá nhân hóa và bảng giá theo từng mục tiêu điểm.", "Please message Mr. Hai via Contact for a personalized track and tuition aligned with your target score.") },
     { q: t("Bao lâu nên thi lại lần 2?", "How long before retaking?"), a: t("Tối thiểu 6–8 tuần giữa 2 lần thi để kịp xử lý error log và nâng band. Trong 1 năm nên thi tối đa 3 lần để giữ chất lượng từng lần.", "Min 6–8 weeks between attempts to process the error log and lift the band. Max 3 attempts per year keeps each one quality.") },
   ];
@@ -104,7 +104,7 @@ const SatLandingExtras = () => {
             </h2>
           </div>
           <p className="text-sm text-muted-foreground mb-6">
-            {t("Định dạng mới: 2 phần, mỗi phần 2 module, tổng 2h14 phút. Bài thi adaptive — Module 2 thay đổi theo điểm Module 1.", "New format: 2 sections, 2 modules each, total 2h14. Adaptive — Module 2 adjusts to your Module 1 score.")}
+            {t("Định dạng mới: 2 phần, mỗi phần 2 module, tổng 2h14 phút. Bài thi adaptive - Module 2 thay đổi theo điểm Module 1.", "New format: 2 sections, 2 modules each, total 2h14. Adaptive - Module 2 adjusts to your Module 1 score.")}
           </p>
           <div className="grid md:grid-cols-2 gap-5">
             {formatCards.map((f, i) => (
@@ -202,7 +202,7 @@ const SatLandingExtras = () => {
               <BookOpen className="w-4 h-4 text-white" />
             </div>
             <h2 className="text-lg md:text-xl font-display font-semibold text-foreground tracking-tight">
-              {t("Câu hỏi thường gặp về SAT", "SAT — Frequently asked questions")}
+              {t("Câu hỏi thường gặp về SAT", "SAT - Frequently asked questions")}
             </h2>
           </div>
           <Accordion type="single" collapsible className="space-y-2.5">

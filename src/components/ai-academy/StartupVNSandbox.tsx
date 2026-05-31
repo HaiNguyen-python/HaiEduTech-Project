@@ -1,5 +1,5 @@
 /**
- * StartupVNSandbox — From idea to MVP for Vietnamese teen founders.
+ * StartupVNSandbox - From idea to MVP for Vietnamese teen founders.
  * Students assemble a startup canvas (problem + solution + model + GTM)
  * and try to maximize an investor score.
  */
@@ -11,7 +11,7 @@ import { BonusGames } from "./SandboxBonusGames";
 import { ChipFilter, BestMatchPick } from "./SandboxMiniActivity";
 
 const SU_TF = [
-  { q: "MVP = Minimum Viable Product — phiên bản nhỏ nhất giải quyết được vấn đề.", a: true },
+  { q: "MVP = Minimum Viable Product - phiên bản nhỏ nhất giải quyết được vấn đề.", a: true },
   { q: "VinAI, Got It, Misa, ELSA Speak là các startup AI gốc Việt thành công.", a: true },
   { q: "Khởi nghiệp nhất định phải có $1 triệu USD vốn ban đầu.", a: false, why: "Nhiều startup VN bắt đầu từ <100 triệu VND." },
   { q: "Lean Startup khuyên: Build → Measure → Learn liên tục.", a: true },
@@ -19,7 +19,7 @@ const SU_TF = [
 ];
 const SU_PAIRS = [
   { a: "MVP", b: "Phiên bản nhỏ nhất khả dụng" },
-  { a: "PMF", b: "Product-Market Fit — sản phẩm khớp thị trường" },
+  { a: "PMF", b: "Product-Market Fit - sản phẩm khớp thị trường" },
   { a: "Pivot", b: "Đổi hướng khi mô hình cũ không chạy" },
   { a: "Burn rate", b: "Tốc độ đốt tiền mỗi tháng" },
   { a: "Runway", b: "Số tháng còn sống với tiền hiện có" },
@@ -63,8 +63,8 @@ const StartupVNSandbox = () => {
 
   const verdict =
     score >= 80 ? { t: "🏆 Investor sẽ rót vốn seed!", c: "from-emerald-500 to-teal-600", k: "text-emerald-600" } :
-    score >= 55 ? { t: "🤝 Có tiềm năng — cần thêm dữ liệu", c: "from-amber-500 to-orange-500", k: "text-amber-600" } :
-                  { t: "⚠️ Chưa đủ thuyết phục — sửa lại MVP", c: "from-rose-500 to-pink-500", k: "text-rose-600" };
+    score >= 55 ? { t: "🤝 Có tiềm năng - cần thêm dữ liệu", c: "from-amber-500 to-orange-500", k: "text-amber-600" } :
+                  { t: "⚠️ Chưa đủ thuyết phục - sửa lại MVP", c: "from-rose-500 to-pink-500", k: "text-rose-600" };
 
   const Row = ({ title, list, picked, setter }: { title: string; list: Component[]; picked: Set<string>; setter: (n: Set<string>) => void }) => (
     <div className="rounded-xl border border-border bg-card p-3">
@@ -94,7 +94,7 @@ const StartupVNSandbox = () => {
     <div className="space-y-3 sm:space-y-4 [&>*+*]:pt-3 sm:[&>*+*]:pt-4 [&>*+*]:border-t [&>*+*]:border-border/40">
       <div className="rounded-2xl border-2 border-orange-400/40 bg-gradient-to-br from-orange-500/10 to-rose-500/10 p-3">
         <h4 className="text-sm font-bold text-orange-700 dark:text-orange-300 mb-1 flex items-center gap-1">
-          <Rocket className="w-4 h-4" /> Lean Canvas mini — tự xây startup AI Việt
+          <Rocket className="w-4 h-4" /> Lean Canvas mini - tự xây startup AI Việt
         </h4>
         <p className="text-xs text-muted-foreground">Chọn các viên gạch xây ý tưởng. Investor sẽ chấm điểm cuối cùng.</p>
       </div>
@@ -135,7 +135,7 @@ const StartupVNSandbox = () => {
         border="border-orange-400/40"
         options={[
           { id: "1", label: "✅ ELSA Speak: AI luyện phát âm tiếng Anh cho người Việt", weight: 18 },
-          { id: "2", label: "✅ Misa AVA: AI cho kế toán SME — đúng pain point", weight: 16 },
+          { id: "2", label: "✅ Misa AVA: AI cho kế toán SME - đúng pain point", weight: 16 },
           { id: "3", label: "✅ VinAI ViT5: model NLP riêng cho tiếng Việt", weight: 16 },
           { id: "4", label: "✅ Got It: nền tảng AI tutor xuất khẩu sang Mỹ", weight: 14 },
           { id: "5", label: "❌ Sao chép y nguyên ChatGPT rồi bán cao hơn", weight: -20 },
@@ -155,7 +155,7 @@ const StartupVNSandbox = () => {
           { id: "got", label: "Got It" },
         ]}
         items={[
-          { prompt: "Người Việt nói tiếng Anh khó được hiểu — cần luyện phát âm", correctId: "elsa" },
+          { prompt: "Người Việt nói tiếng Anh khó được hiểu - cần luyện phát âm", correctId: "elsa" },
           { prompt: "Kế toán SME tốn 5 tiếng/ngày nhập hoá đơn thủ công", correctId: "misa" },
           { prompt: "Lái xe ô tô VN không rảnh tay để bấm điện thoại", correctId: "kiki" },
           { prompt: "Học sinh Mỹ cần gia sư AI on-demand 24/7", correctId: "got" },
@@ -164,7 +164,7 @@ const StartupVNSandbox = () => {
 
       <p className="text-xs text-muted-foreground flex items-start gap-2">
         <TrendingUp className="w-3.5 h-3.5 mt-0.5 text-orange-500 shrink-0" />
-        Bí mật của thầy Hải: Tất cả startup AI Việt thành công đều giải quyết một <b>vấn đề rất Việt Nam</b> (tiếng Việt, văn hoá, quy trình SME). Đừng cố làm "ChatGPT phiên bản VN" — hãy tìm vấn đề ChatGPT KHÔNG giải được.
+        Bí mật của thầy Hải: Tất cả startup AI Việt thành công đều giải quyết một <b>vấn đề rất Việt Nam</b> (tiếng Việt, văn hoá, quy trình SME). Đừng cố làm "ChatGPT phiên bản VN" - hãy tìm vấn đề ChatGPT KHÔNG giải được.
       </p>
 
       <BonusGames tfItems={SU_TF} matchPairs={SU_PAIRS} accent="from-orange-500 to-rose-600" border="border-orange-400/40" />

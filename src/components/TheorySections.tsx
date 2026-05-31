@@ -231,7 +231,7 @@ function normalizeMath(input: string): string {
       // parentheses without `$...$`, e.g. `(\lambda \|\beta\|^2)` or
       // `((\lambda \|\beta\|^2))`. Detect a paren group containing a `\cmd`
       // and wrap its inside in inline math, keeping the parens textual.
-      // CRITICAL: only touch text OUTSIDE existing $$...$$ / $...$ math spans —
+      // CRITICAL: only touch text OUTSIDE existing $$...$$ / $...$ math spans -
       // otherwise we double-wrap inner parens like `(y - \hat{y})` that already
       // sit inside a math span and produce broken `$...($y-\hat{y}$)...$`.
       const PROTECT_RE = /(\$\$[\s\S]+?\$\$|\$[^$\n]+\$|`[^`\n]+`|```[\s\S]*?```)/g;

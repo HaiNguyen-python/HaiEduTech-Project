@@ -184,7 +184,7 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
     return () => clearInterval(id);
   }, [gameOver]);
 
-  // Ship movement loop — smooth glide while arrow keys held
+  // Ship movement loop - smooth glide while arrow keys held
   useEffect(() => {
     if (gameOver) return;
     const id = setInterval(() => {
@@ -317,7 +317,7 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
           ))}
         </AnimatePresence>
 
-        {/* Laser beam — fires from ship's current x */}
+        {/* Laser beam - fires from ship's current x */}
         {laser && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -389,7 +389,7 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
         </Button>
       </div>
 
-      {/* Input — students type WITHOUT tone marks */}
+      {/* Input - students type WITHOUT tone marks */}
       <input
         ref={inputRef}
         value={input}
@@ -804,7 +804,7 @@ const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
   if (gameOver) return <GameOverScreen score={score} onRetry={() => window.location.reload()} onExit={onExit} />;
   if (!currentWord) return <p className="text-center p-8">Loading...</p>;
 
-  // Strip tone diacritics but keep the letters — students see the syllable and only pick the tone.
+  // Strip tone diacritics but keep the letters - students see the syllable and only pick the tone.
   const TONE_MAP: Record<string, string> = {
     "ā":"a","á":"a","ǎ":"a","à":"a",
     "ē":"e","é":"e","ě":"e","è":"e",
@@ -904,7 +904,7 @@ const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
 
         <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 shadow-[0_0_15px_rgba(236,72,153,0.6)]" />
 
-        {/* Reveal panel — appears when student picks the wrong tone */}
+        {/* Reveal panel - appears when student picks the wrong tone */}
         <AnimatePresence>
           {reveal && (
             <motion.div
@@ -1295,7 +1295,7 @@ const ChineseArcade = () => {
       icon: <Sparkles className="w-7 h-7" />,
       chibi: "🐯",
       title: t("Sentence Builder · 句子大师", "Sentence Builder · 句子大师"),
-      desc: t("Sắp xếp các thẻ Hán tự để tạo câu hoàn chỉnh — luyện ngữ pháp & viết câu!", "Arrange Hanzi tiles to build a complete sentence — practice grammar & sentence writing!"),
+      desc: t("Sắp xếp các thẻ Hán tự để tạo câu hoàn chỉnh - luyện ngữ pháp & viết câu!", "Arrange Hanzi tiles to build a complete sentence - practice grammar & sentence writing!"),
       color: "from-emerald-500 to-teal-600",
       glow: "shadow-[0_0_30px_rgba(16,185,129,0.4)]",
     },
@@ -1312,7 +1312,7 @@ const ChineseArcade = () => {
         path="/chinese/arcade"
       />
       <Navbar />
-      {/* Floating hanzi + lanterns background — Chinese cultural theme */}
+      {/* Floating hanzi + lanterns background - Chinese cultural theme */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden z-0" aria-hidden>
         {floatHanzi.map((ch, i) => (
           <motion.span

@@ -1,6 +1,6 @@
 /**
  * @file cambridgeKidsVocabMaster4.ts
- * @description Fourth expansion — broader thematic coverage so every category
+ * @description Fourth expansion - broader thematic coverage so every category
  * has enough words per level. Merged via dedup in cambridgeKidsVocabMaster.ts.
  */
 import type { CambridgeKidsLevel, CambridgeKidsWord } from "./cambridgeKidsVocab";
@@ -10,7 +10,7 @@ const mk = (word: string, vi: string, emoji: string, level: CambridgeKidsLevel, 
   ({ word, vi, emoji, level, example, exampleVi });
 
 export const CAMBRIDGE_KIDS_WORDS_MASTER_4: W[] = [
-  // ============ STARTERS — fill thin categories ============
+  // ============ STARTERS - fill thin categories ============
   mk("brother", "anh / em trai", "👦", "Starters", "My brother is six.", "Anh trai em sáu tuổi."),
   mk("sister", "chị / em gái", "👧", "Starters", "My sister loves dolls.", "Chị em thích búp bê."),
   mk("father", "bố", "👨", "Starters", "My father works in a bank.", "Bố em làm việc ở ngân hàng."),
@@ -34,7 +34,7 @@ export const CAMBRIDGE_KIDS_WORDS_MASTER_4: W[] = [
   mk("triangle", "hình tam giác", "🔺", "Starters", "A pizza slice is a triangle.", "Một miếng pizza là hình tam giác."),
   mk("square", "hình vuông", "🟥", "Starters", "A window can be a square.", "Cửa sổ có thể là hình vuông."),
 
-  // ============ MOVERS — broader categories ============
+  // ============ MOVERS - broader categories ============
   mk("postman", "người đưa thư", "📮", "Movers", "The postman brings letters.", "Người đưa thư mang thư đến."),
   mk("farmer", "nông dân", "👨‍🌾", "Movers", "The farmer grows rice.", "Bác nông dân trồng lúa."),
   mk("nurse", "y tá", "👩‍⚕️", "Movers", "The nurse helps the doctor.", "Y tá giúp bác sĩ."),
@@ -50,7 +50,7 @@ export const CAMBRIDGE_KIDS_WORDS_MASTER_4: W[] = [
   mk("eraser", "cục tẩy", "🧼", "Movers", "An eraser removes pencil marks.", "Cục tẩy xoá vết bút chì."),
   mk("shorts", "quần đùi", "🩳", "Movers", "He wears blue shorts.", "Anh ấy mặc quần đùi xanh."),
   mk("skirt", "váy", "👗", "Movers", "Her skirt is pink.", "Váy của cô ấy màu hồng."),
-  mk("sweater", "áo len", "🧶", "Movers", "Put on a sweater — it's cold.", "Mặc áo len vào, trời lạnh."),
+  mk("sweater", "áo len", "🧶", "Movers", "Put on a sweater - it's cold.", "Mặc áo len vào, trời lạnh."),
   mk("boots", "đôi ủng", "🥾", "Movers", "Wear boots in the rain.", "Hãy đi ủng khi trời mưa."),
   mk("noodles", "mì", "🍜", "Movers", "I love hot noodles.", "Em thích mì nóng."),
   mk("soup", "canh / súp", "🥣", "Movers", "Mum makes chicken soup.", "Mẹ nấu súp gà."),
@@ -59,7 +59,7 @@ export const CAMBRIDGE_KIDS_WORDS_MASTER_4: W[] = [
   mk("rainbow", "cầu vồng", "🌈", "Movers", "A rainbow has seven colours.", "Cầu vồng có bảy màu."),
   mk("sunshine", "ánh nắng", "🌞", "Movers", "I love the morning sunshine.", "Em thích ánh nắng buổi sáng."),
 
-  // ============ FLYERS — broader categories ============
+  // ============ FLYERS - broader categories ============
   mk("journalist", "nhà báo", "📰", "Flyers", "The journalist writes news.", "Nhà báo viết tin tức."),
   mk("designer", "nhà thiết kế", "🎨", "Flyers", "A designer makes clothes.", "Nhà thiết kế tạo ra quần áo."),
   mk("mechanic", "thợ máy", "🔧", "Flyers", "The mechanic fixes my bike.", "Thợ máy sửa xe đạp của em."),

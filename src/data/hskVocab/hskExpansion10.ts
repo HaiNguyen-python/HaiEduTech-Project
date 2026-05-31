@@ -1,6 +1,6 @@
 /**
  * @file hskExpansion10.ts
- * @description HSK Vocabulary Expansion #10 — extra coverage of media,
+ * @description HSK Vocabulary Expansion #10 - extra coverage of media,
  * business, science, law, daily life and idiomatic expressions for HSK 4–6.
  */
 import type { HskWord } from "./types";

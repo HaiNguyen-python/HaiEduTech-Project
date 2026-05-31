@@ -301,7 +301,7 @@ const LanguageLessonView = () => {
                     </div>
                   </div>
 
-                  {/* Sequential Teaching Mode (SAT series) — prev/next across modules */}
+                  {/* Sequential Teaching Mode (SAT series) - prev/next across modules */}
                   {isTeachSeq && isSatLesson && (() => {
                     const seqIdx = findSatSequenceIndex(mod.id, lesson.id);
                     if (seqIdx < 0) return null;
@@ -417,7 +417,7 @@ const LanguageLessonView = () => {
                               (block) => block.replace(/^[ \t]+/gm, "")
                             );
                             // For SAT + IELTS lessons: structure plain theory into bullets for readability.
-                            // Keep icons minimal — only on numbered "rules/steps" lists.
+                            // Keep icons minimal - only on numbered "rules/steps" lists.
                             if (mod.category === "sat" || mod.category === "ielts") {
                               const NUM_ICONS = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣"];
                               // 1) Numbered "1) ..." / "1. ..." → bullet with number-emoji icon

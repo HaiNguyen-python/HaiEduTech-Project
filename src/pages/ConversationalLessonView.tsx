@@ -225,7 +225,7 @@ const ConversationalLessonView = () => {
                       <p className="text-sm text-muted-foreground">{t(situation.descriptionVi, situation.description)}</p>
                     </CardHeader>
                     <CardContent>
-                      {/* Sample dialogue — alternating chat bubbles */}
+                      {/* Sample dialogue - alternating chat bubbles */}
                       <div className="space-y-5">
                         {situation.sampleDialogue.map((line, i) => {
                           const s = styleFor(line.speaker);

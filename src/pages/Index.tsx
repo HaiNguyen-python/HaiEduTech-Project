@@ -58,7 +58,7 @@ const Index = () => {
   <div className="min-h-screen bg-background relative">
     <SEO
       title="HaiEduTech | AI-Powered Learning for IELTS, HSK, AI Academy & Coding"
-      description="AI-powered personalized learning for IELTS, TOEIC, HSK, Finnish YKI, Python, and AI Academy for grades 6–12 — by HaiEduTech."
+      description="AI-powered personalized learning for IELTS, TOEIC, HSK, Finnish YKI, Python, and AI Academy for grades 6–12 - by HaiEduTech."
       path="/"
       locale="en_US"
       jsonLd={{

@@ -1,5 +1,5 @@
 /**
- * AgentWorkflowSandbox — drag-to-build a 3-node AI agent pipeline, then
+ * AgentWorkflowSandbox - drag-to-build a 3-node AI agent pipeline, then
  * "Run" to send a glowing light particle through each connected node.
  */
 import { useState } from "react";

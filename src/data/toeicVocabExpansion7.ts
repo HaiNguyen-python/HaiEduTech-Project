@@ -1,6 +1,6 @@
 /**
  * @file toeicVocabExpansion7.ts
- * @description TOEIC Vocabulary Expansion #7 — extra 80 high-frequency
+ * @description TOEIC Vocabulary Expansion #7 - extra 80 high-frequency
  * business words across all 10 TOEIC categories. Designed for typing-practice drills.
  */
 import type { ToeicWord } from "./toeicVocabTypes";

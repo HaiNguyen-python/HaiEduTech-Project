@@ -388,8 +388,8 @@ const flyersCultures = mk({
 // ====================== KET ======================
 const ketSignsNotices = mk({
   id: "cam-ket-signs-notices",
-  title: "KET Reading — Signs & Notices",
-  titleVi: "KET Đọc — Biển báo & Thông báo",
+  title: "KET Reading - Signs & Notices",
+  titleVi: "KET Đọc - Biển báo & Thông báo",
   level: "ket",
   skill: "reading-writing",
   icon: "🚦",
@@ -406,7 +406,7 @@ const ketSignsNotices = mk({
     { icon: "🅿️", rule: "'Only' restricts who/what.", ruleVi: "'Only' giới hạn ai/cái gì.", example: "Staff only." },
   ],
   watchOut: [
-    { mistake: "Choose the option with the same words.", mistakeVi: "Chọn đáp án có từ giống biển báo.", tip: "Paraphrase wins — match meaning, not words.", tipVi: "Diễn đạt lại mới đúng — khớp nghĩa, không khớp từ." },
+    { mistake: "Choose the option with the same words.", mistakeVi: "Chọn đáp án có từ giống biển báo.", tip: "Paraphrase wins - match meaning, not words.", tipVi: "Diễn đạt lại mới đúng - khớp nghĩa, không khớp từ." },
   ],
   vocabulary: [
     { word: "notice", meaning: "public message", meaningVi: "thông báo", example: "Read this notice." },
@@ -426,8 +426,8 @@ const ketSignsNotices = mk({
 
 const ketShortMessage = mk({
   id: "cam-ket-short-message",
-  title: "KET — Reading Short Messages",
-  titleVi: "KET — Đọc tin nhắn ngắn",
+  title: "KET - Reading Short Messages",
+  titleVi: "KET - Đọc tin nhắn ngắn",
   level: "ket",
   skill: "reading-writing",
   icon: "💬",
@@ -464,8 +464,8 @@ const ketShortMessage = mk({
 
 const ketListeningMultiMatch = mk({
   id: "cam-ket-listening-multi-match",
-  title: "KET Listening — Multi-match",
-  titleVi: "KET Nghe — Nối thông tin",
+  title: "KET Listening - Multi-match",
+  titleVi: "KET Nghe - Nối thông tin",
   level: "ket",
   skill: "listening",
   icon: "🎧",
@@ -503,8 +503,8 @@ const ketListeningMultiMatch = mk({
 // ====================== PET ======================
 const petReadingGapped = mk({
   id: "cam-pet-reading-gapped-text",
-  title: "PET Reading — Gapped Text",
-  titleVi: "PET Đọc — Điền đoạn vào chỗ trống",
+  title: "PET Reading - Gapped Text",
+  titleVi: "PET Đọc - Điền đoạn vào chỗ trống",
   level: "pet",
   skill: "reading-writing",
   icon: "🧩",
@@ -541,8 +541,8 @@ const petReadingGapped = mk({
 
 const petWritingStory = mk({
   id: "cam-pet-writing-story",
-  title: "PET Writing — Short Story",
-  titleVi: "PET Viết — Truyện ngắn",
+  title: "PET Writing - Short Story",
+  titleVi: "PET Viết - Truyện ngắn",
   level: "pet",
   skill: "reading-writing",
   icon: "📖",
@@ -579,8 +579,8 @@ const petWritingStory = mk({
 
 const petListeningPart1 = mk({
   id: "cam-pet-listening-part1-short",
-  title: "PET Listening Part 1 — Pictures",
-  titleVi: "PET Nghe Phần 1 — Hình ảnh",
+  title: "PET Listening Part 1 - Pictures",
+  titleVi: "PET Nghe Phần 1 - Hình ảnh",
   level: "pet",
   skill: "listening",
   icon: "🖼️",

@@ -41,7 +41,7 @@ const EssayOutline = ({ essay }: Props) => {
     const total = paras.length;
     const isTask1 = essay.taskType === 1;
 
-    // === TASK 1 — keep the existing generic outline ===
+    // === TASK 1 - keep the existing generic outline ===
     if (isTask1) {
       return paras.map((_, i) => {
         let label = "";
@@ -70,7 +70,7 @@ const EssayOutline = ({ essay }: Props) => {
       });
     }
 
-    // === TASK 2 — I. Intro → II. Body (SP1, SP2[, SP3]) → III. Conclusion ===
+    // === TASK 2 - I. Intro → II. Body (SP1, SP2[, SP3]) → III. Conclusion ===
     // Each bullet pulls a real sentence from THIS essay so the outline is
     // specific to the prompt instead of being generic boilerplate.
     const result: { label: string; bullets: string[] }[] = [];
@@ -93,7 +93,7 @@ const EssayOutline = ({ essay }: Props) => {
       ],
     });
 
-    // II. Body — SP1 / SP2 / SP3
+    // II. Body - SP1 / SP2 / SP3
     bodyParas.forEach((bp, idx) => {
       const n = idx + 1;
       const letter = "ABCD"[idx] || "?";

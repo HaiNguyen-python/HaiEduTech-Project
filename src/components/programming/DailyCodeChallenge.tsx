@@ -1,6 +1,6 @@
 /**
  * @file DailyCodeChallenge.tsx
- * @description Daily seeded Python challenge widget — encourages return visits.
+ * @description Daily seeded Python challenge widget - encourages return visits.
  * Picks one challenge per day (seeded by date so it's stable per user/day),
  * tracks completion + timing, awards +100 XP and badges on success.
  * @author Teacher Hai (HaiEduTech)
@@ -52,7 +52,7 @@ const DailyCodeChallenge = () => {
     startDailyChallenge(challenge.id);
   };
 
-  // Called by the challenge page when student passes — exposed for future hook.
+  // Called by the challenge page when student passes - exposed for future hook.
   // (Currently students can self-confirm with this button after solving inside
   // the challenge page; future enhancement: deep-link callback.)
   const handleConfirm = () => {
@@ -116,7 +116,7 @@ const DailyCodeChallenge = () => {
         {alreadyPassedToday ? (
           <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-semibold text-sm">
             <CheckCircle2 className="w-5 h-5" />
-            {t("Đã hoàn thành hôm nay — quay lại ngày mai!", "Done for today — come back tomorrow!")}
+            {t("Đã hoàn thành hôm nay - quay lại ngày mai!", "Done for today - come back tomorrow!")}
           </div>
         ) : (
           <div className="text-xs text-muted-foreground">

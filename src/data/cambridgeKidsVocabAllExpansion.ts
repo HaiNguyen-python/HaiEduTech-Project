@@ -127,7 +127,7 @@ export const CAMBRIDGE_KIDS_WORDS_ALL_EXPANSION: W[] = [
   mk("recycle", "tái chế", "♻️", "Flyers", "We recycle paper.", "Chúng em tái chế giấy."),
   mk("pollution", "ô nhiễm", "🏭", "Flyers", "Pollution harms nature.", "Ô nhiễm gây hại cho thiên nhiên."),
 
-  // ============== KET (A2) — extra words beyond the prior KET expansion ==============
+  // ============== KET (A2) - extra words beyond the prior KET expansion ==============
   mk("advice", "lời khuyên", "💡", "KET", "Thank you for the advice.", "Cảm ơn vì lời khuyên."),
   mk("agreement", "thỏa thuận", "🤝", "KET", "We have an agreement.", "Chúng tôi có một thỏa thuận."),
   mk("attitude", "thái độ", "😊", "KET", "She has a positive attitude.", "Cô ấy có thái độ tích cực."),

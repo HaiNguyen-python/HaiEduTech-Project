@@ -102,8 +102,8 @@ const EXERCISE_CATEGORIES: Record<
     icon: "🔗",
     titleVi: "1. Collocations cốt lõi",
     titleEn: "1. Core Collocations",
-    descVi: "MAKE / DO / TAKE / HAVE / GET, Adj+N, Adv+Adj, Verb+Prep — dạng phổ biến nhất trong cloze test.",
-    descEn: "MAKE / DO / TAKE / HAVE / GET, Adj+N, Adv+Adj, Verb+Prep — most common cloze patterns.",
+    descVi: "MAKE / DO / TAKE / HAVE / GET, Adj+N, Adv+Adj, Verb+Prep - dạng phổ biến nhất trong cloze test.",
+    descEn: "MAKE / DO / TAKE / HAVE / GET, Adj+N, Adv+Adj, Verb+Prep - most common cloze patterns.",
   },
   "phrasal-idioms": {
     icon: "💡",
@@ -123,21 +123,21 @@ const EXERCISE_CATEGORIES: Record<
     icon: "📚",
     titleVi: "4. Từ vựng theo chủ đề",
     titleEn: "4. Vocabulary by Theme",
-    descVi: "Giáo dục, môi trường, công nghệ, sức khỏe, việc làm, xã hội — bám sát đề THPT.",
-    descEn: "Education, environment, technology, health, work, society — aligned with THPT topics.",
+    descVi: "Giáo dục, môi trường, công nghệ, sức khỏe, việc làm, xã hội - bám sát đề THPT.",
+    descEn: "Education, environment, technology, health, work, society - aligned with THPT topics.",
   },
   "word-formation": {
     icon: "🧱",
     titleVi: "5. Word Formation",
     titleEn: "5. Word Formation",
-    descVi: "Suffix / prefix biến đổi từ loại — dạng câu rất hay xuất hiện ở phần cuối đề.",
-    descEn: "Suffix / prefix word-class changes — frequently tested near the end of the exam.",
+    descVi: "Suffix / prefix biến đổi từ loại - dạng câu rất hay xuất hiện ở phần cuối đề.",
+    descEn: "Suffix / prefix word-class changes - frequently tested near the end of the exam.",
   },
   "mixed-review": {
     icon: "🏆",
     titleVi: "6. Tổng ôn hỗn hợp",
     titleEn: "6. Mixed Final Review",
-    descVi: "Bài tổng ôn pha trộn nhiều dạng — mô phỏng đề thật.",
+    descVi: "Bài tổng ôn pha trộn nhiều dạng - mô phỏng đề thật.",
     descEn: "Mixed sweep simulating the real exam.",
   },
 };
@@ -305,7 +305,7 @@ const ThptEssentialReview = () => {
           <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
             {t(
               `${allGrammarTopics.length} chuyên đề ngữ pháp, ${allVocabThemes.length} chủ đề từ vựng và ${totalExercises}+ bài tập - bám sát cấu trúc đề thi THPT Quốc gia, đặc biệt mạnh mảng Collocations.`,
-              `${allGrammarTopics.length} grammar topics, ${allVocabThemes.length} vocabulary themes and ${totalExercises}+ practice items — aligned with the THPT National Exam, with a strong Collocations focus.`
+              `${allGrammarTopics.length} grammar topics, ${allVocabThemes.length} vocabulary themes and ${totalExercises}+ practice items - aligned with the THPT National Exam, with a strong Collocations focus.`
             )}
           </p>
         </motion.div>
@@ -527,7 +527,7 @@ const ThptEssentialReview = () => {
                 <p className="text-xs md:text-sm text-muted-foreground mt-0.5">
                   {t(
                     "Mỗi ngày học chắc 5 từ + làm bài tập ngay sau đó, kỳ thi THPT sẽ trong tầm tay! ✨",
-                    "Master 5 words a day and do the practice right after — THPT success is within reach! ✨"
+                    "Master 5 words a day and do the practice right after - THPT success is within reach! ✨"
                   )}
                 </p>
               </div>
@@ -661,7 +661,7 @@ const ThptEssentialReview = () => {
               </strong>{" "}
               {t(
                 "Hãy ưu tiên 3 bộ Collocations đầu - đây là dạng câu hỏi xuất hiện DÀY ĐẶC trong cloze test và viết lại câu của đề THPT.",
-                "Prioritise the first 3 Collocation sets — these patterns appear MASSIVELY in the cloze and rewriting parts of the THPT exam."
+                "Prioritise the first 3 Collocation sets - these patterns appear MASSIVELY in the cloze and rewriting parts of the THPT exam."
               )}
             </div>
             <div className="space-y-8">

@@ -1,5 +1,5 @@
 /**
- * Shadowing Library Expansion — IELTS Speaking Part 1 / 2 / 3 ready sentences.
+ * Shadowing Library Expansion - IELTS Speaking Part 1 / 2 / 3 ready sentences.
  * Each sentence is a model utterance a candidate could realistically deliver in the
  * IELTS speaking test. Grammar / lexis target Band 7.0-9.0.
  */
@@ -24,7 +24,7 @@ export const SHADOWING_EXPANSION: ShadowingSentence[] = [
   },
   {
     id: "p1-2",
-    sentence: "To be honest, I'm not really into team sports — I much prefer something individual like swimming.",
+    sentence: "To be honest, I'm not really into team sports - I much prefer something individual like swimming.",
     grammarSpan: "I much prefer something individual like swimming",
     grammarPoint: "Discourse marker + preference (Part 1)",
     grammarExplanation: "'To be honest' signposts a candid view; 'I much prefer X to Y' uses an emphatic comparative.",
@@ -34,7 +34,7 @@ export const SHADOWING_EXPANSION: ShadowingSentence[] = [
       { word: "be into something", definition: "to enjoy or be interested in something", synonyms: ["be keen on", "be a fan of"] },
     ],
     collocations: ["to be honest", "be into something", "team sports", "much prefer"],
-    vietnamese: "Thành thật mà nói, tôi không thích các môn thể thao đồng đội — tôi thích các môn cá nhân như bơi lội hơn nhiều.",
+    vietnamese: "Thành thật mà nói, tôi không thích các môn thể thao đồng đội - tôi thích các môn cá nhân như bơi lội hơn nhiều.",
     level: "B2",
   },
   {
@@ -70,7 +70,7 @@ export const SHADOWING_EXPANSION: ShadowingSentence[] = [
   },
   {
     id: "p1-5",
-    sentence: "I tend to be a morning person — I get most of my work done before noon.",
+    sentence: "I tend to be a morning person - I get most of my work done before noon.",
     grammarSpan: "I tend to be a morning person",
     grammarPoint: "'Tend to' for habitual tendency (Part 1)",
     grammarExplanation: "'Tend to + V' softens a habit and sounds more sophisticated than plain present simple.",
@@ -80,7 +80,7 @@ export const SHADOWING_EXPANSION: ShadowingSentence[] = [
       { word: "a morning person", definition: "someone who feels energetic in the morning" },
     ],
     collocations: ["tend to", "get work done", "before noon"],
-    vietnamese: "Tôi có xu hướng là người dậy sớm — tôi hoàn thành phần lớn công việc trước trưa.",
+    vietnamese: "Tôi có xu hướng là người dậy sớm - tôi hoàn thành phần lớn công việc trước trưa.",
     level: "B2",
   },
 
@@ -105,7 +105,7 @@ export const SHADOWING_EXPANSION: ShadowingSentence[] = [
     sentence: "What made it so memorable was the breathtaking scenery and the warm hospitality of the locals.",
     grammarSpan: "What made it so memorable was",
     grammarPoint: "Cleft sentence ('What ... was')",
-    grammarExplanation: "Use 'What made X Y was Z' to spotlight reasons — perfect for explaining feelings in Part 2.",
+    grammarExplanation: "Use 'What made X Y was Z' to spotlight reasons - perfect for explaining feelings in Part 2.",
     stressWords: ["made", "memorable", "breathtaking", "scenery", "warm", "hospitality", "locals"],
     intonation: [{ word: "scenery", direction: "up" }, { word: "locals", direction: "down" }],
     vocabulary: [
@@ -121,7 +121,7 @@ export const SHADOWING_EXPANSION: ShadowingSentence[] = [
     sentence: "I'd been planning the trip for weeks, so when the day finally came, I was over the moon.",
     grammarSpan: "I'd been planning the trip for weeks",
     grammarPoint: "Past perfect continuous (Part 2 narration)",
-    grammarExplanation: "'Had been + -ing' shows an action ongoing up to a past point — adds Band 7+ tense range to storytelling.",
+    grammarExplanation: "'Had been + -ing' shows an action ongoing up to a past point - adds Band 7+ tense range to storytelling.",
     stressWords: ["planning", "weeks", "day", "finally", "over", "moon"],
     intonation: [{ word: "came", direction: "up" }, { word: "moon", direction: "down" }],
     vocabulary: [
@@ -200,7 +200,7 @@ export const SHADOWING_EXPANSION: ShadowingSentence[] = [
     sentence: "On the one hand, social media keeps us connected; on the other, it can be incredibly isolating.",
     grammarSpan: "On the one hand ... on the other",
     grammarPoint: "Balanced argument connector (Part 3)",
-    grammarExplanation: "Classic Band 7 pair for showing two sides — essential for discussion-type Part 3 questions.",
+    grammarExplanation: "Classic Band 7 pair for showing two sides - essential for discussion-type Part 3 questions.",
     stressWords: ["one", "hand", "connected", "other", "incredibly", "isolating"],
     intonation: [{ word: "connected", direction: "up" }, { word: "isolating", direction: "down" }],
     vocabulary: [
@@ -231,7 +231,7 @@ export const SHADOWING_EXPANSION: ShadowingSentence[] = [
     sentence: "Such is the pace of change that many traditional jobs may disappear within a decade.",
     grammarSpan: "Such is the pace of change that",
     grammarPoint: "'Such ... that' inversion (Part 3 emphasis)",
-    grammarExplanation: "'Such + be + noun + that' dramatises an extreme degree — ideal for Band 8 discussion answers.",
+    grammarExplanation: "'Such + be + noun + that' dramatises an extreme degree - ideal for Band 8 discussion answers.",
     stressWords: ["Such", "pace", "change", "traditional", "jobs", "disappear", "decade"],
     intonation: [{ word: "change", direction: "up" }, { word: "decade", direction: "down" }],
     vocabulary: [

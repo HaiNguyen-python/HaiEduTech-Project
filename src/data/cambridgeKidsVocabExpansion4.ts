@@ -1,6 +1,6 @@
 /**
  * @file cambridgeKidsVocabExpansion4.ts
- * @description Cambridge YLE vocab expansion #4 — ~280 fresh words
+ * @description Cambridge YLE vocab expansion #4 - ~280 fresh words
  * spanning Starters → PET. Merged via the master deduper.
  */
 import type { CambridgeKidsLevel, CambridgeKidsWord } from "./cambridgeKidsVocab";

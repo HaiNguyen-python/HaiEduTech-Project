@@ -76,8 +76,8 @@ const scoreEmail = (email: string, targetWords: number, paperRef: string): Healt
       vi: `Độ dài hợp lý (mục tiêu ~${targetWords} từ)`,
       en: `Reasonable length (target ~${targetWords} words)`,
       passed: lengthOk,
-      tipVi: `Hiện ${wordCount} từ — chỉnh về gần ${targetWords}.`,
-      tipEn: `Now ${wordCount} words — adjust toward ${targetWords}.`,
+      tipVi: `Hiện ${wordCount} từ - chỉnh về gần ${targetWords}.`,
+      tipEn: `Now ${wordCount} words - adjust toward ${targetWords}.`,
     },
   ];
 };

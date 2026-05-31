@@ -1,6 +1,6 @@
 /**
  * @file cambridgeKidsVocabKetPetExpansion2.ts
- * @description Second large expansion — focused on KET (A2) and PET (B1).
+ * @description Second large expansion - focused on KET (A2) and PET (B1).
  */
 import type { CambridgeKidsLevel, CambridgeKidsWord } from "./cambridgeKidsVocab";
 
@@ -9,7 +9,7 @@ const mk = (word: string, vi: string, emoji: string, level: CambridgeKidsLevel, 
   ({ word, vi, emoji, level, example, exampleVi });
 
 export const CAMBRIDGE_KIDS_WORDS_KET_PET_EXPANSION_2: W[] = [
-  // ============== KET (A2) — ~110 new words ==============
+  // ============== KET (A2) - ~110 new words ==============
   // Travel & places
   mk("abroad", "ở nước ngoài", "🌍", "KET", "She studies abroad.", "Cô ấy học ở nước ngoài."),
   mk("accommodation", "chỗ ở", "🏨", "KET", "Find cheap accommodation.", "Tìm chỗ ở rẻ."),
@@ -126,7 +126,7 @@ export const CAMBRIDGE_KIDS_WORDS_KET_PET_EXPANSION_2: W[] = [
   mk("score", "ghi điểm", "🥅", "KET", "He scored a goal!", "Anh ấy ghi bàn!"),
   mk("team", "đội", "👥", "KET", "Our team is strong.", "Đội chúng tôi mạnh."),
 
-  // ============== PET (B1) — ~110 new words ==============
+  // ============== PET (B1) - ~110 new words ==============
   // Society, politics, work
   mk("achieve", "đạt được", "🏆", "PET", "She achieved her dream.", "Cô ấy đạt được giấc mơ."),
   mk("advance", "tiến bộ", "🚀", "PET", "Technology advances fast.", "Công nghệ tiến bộ nhanh."),

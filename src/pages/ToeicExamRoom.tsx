@@ -1,4 +1,4 @@
-// TOEIC Exam Room — interactive testing engine.
+// TOEIC Exam Room - interactive testing engine.
 // Supports:
 //  - LR Full test or Practice-by-Part mode
 //  - Countdown timer
@@ -287,7 +287,7 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
       return;
     }
 
-    // Parts 3 & 4: conversation/talk — split by speaker tags or sentences
+    // Parts 3 & 4: conversation/talk - split by speaker tags or sentences
     const turns = body
       .split(/\n+/)
       .map((t) => t.trim())
@@ -404,10 +404,10 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
                     <Volume2 className="w-4 h-4 text-cyan-300" />
                     <span className="text-xs text-slate-300">
                       {current.part === 1
-                        ? t("Audio TOEIC — Nhìn ảnh & nghe 4 câu mô tả (A-D)", "TOEIC Audio — Look at the photo & listen to 4 statements (A-D)")
+                        ? t("Audio TOEIC - Nhìn ảnh & nghe 4 câu mô tả (A-D)", "TOEIC Audio - Look at the photo & listen to 4 statements (A-D)")
                         : current.part === 2
-                        ? t("Audio TOEIC — Nghe câu hỏi và 3 đáp án (A-C)", "TOEIC Audio — Listen to the question and 3 responses (A-C)")
-                        : t("Audio TOEIC — Nghe đoạn hội thoại / bài nói", "TOEIC Audio — Listen to the conversation / talk")}
+                        ? t("Audio TOEIC - Nghe câu hỏi và 3 đáp án (A-C)", "TOEIC Audio - Listen to the question and 3 responses (A-C)")
+                        : t("Audio TOEIC - Nghe đoạn hội thoại / bài nói", "TOEIC Audio - Listen to the conversation / talk")}
                     </span>
                     <div className="flex gap-1">
                       {[0.8, 1.0, 1.2].map((s) => (
@@ -589,7 +589,7 @@ const LRReview = ({ exam, questions, answers }: LRReviewProps) => {
       </Link>
 
       <Card className="mt-3 mb-6 bg-gradient-to-r from-cyan-600/20 to-blue-600/20 border-cyan-500/40 p-6">
-        <h1 className="text-2xl font-bold text-white">{exam.title} — {t("Kết quả", "Results")}</h1>
+        <h1 className="text-2xl font-bold text-white">{exam.title} - {t("Kết quả", "Results")}</h1>
         <div className="grid sm:grid-cols-3 gap-4 mt-4">
           <div className="p-4 rounded-lg bg-slate-900/60 border border-slate-700">
             <p className="text-xs text-slate-400">Listening (5–495)</p>

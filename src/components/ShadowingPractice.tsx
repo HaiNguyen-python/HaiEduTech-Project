@@ -26,7 +26,7 @@ import {
 } from "@/data/shadowingSentences";
 import { SHADOWING_EXPANSION } from "@/data/shadowingSentencesExpansion";
 
-// Combined library — base C1/C2 grammar drills + IELTS Part 1/2/3 expansion
+// Combined library - base C1/C2 grammar drills + IELTS Part 1/2/3 expansion
 const SHADOWING_SENTENCES: ShadowingSentence[] = [...BASE_SENTENCES, ...SHADOWING_EXPANSION];
 
 // Web Speech API types (minimal)
@@ -97,9 +97,9 @@ function pickBestVoice(): SpeechSynthesisVoice | undefined {
 /** Split a sentence into prosodic chunks at commas / semicolons / dashes. */
 function splitProsodicChunks(sentence: string): string[] {
   return sentence
-    .split(/([,;:—–])/)
+    .split(/([,;:-–])/)
     .reduce<string[]>((acc, part) => {
-      if (/^[,;:—–]$/.test(part)) {
+      if (/^[,;:-–]$/.test(part)) {
         if (acc.length) acc[acc.length - 1] += part;
       } else if (part.trim()) {
         acc.push(part.trim());
@@ -134,7 +134,7 @@ function speak(
     if (voice) u.voice = voice;
     u.rate = rate;
     const lastWord = chunk
-      .replace(/[.,!?;:"'()—–-]+$/g, "")
+      .replace(/[.,!?;:"'()-–-]+$/g, "")
       .split(/\s+/)
       .pop()
       ?.toLowerCase()
@@ -257,7 +257,7 @@ const ShadowingPractice: React.FC<Props> = () => {
       }
     };
     r.onend = () => {
-      // user-controlled stop only — see stopRecording
+      // user-controlled stop only - see stopRecording
     };
     try {
       r.start();
@@ -312,7 +312,7 @@ const ShadowingPractice: React.FC<Props> = () => {
       const { data: u } = await supabase.auth.getUser();
       if (!u?.user || !current) return;
       const block =
-        `<p><strong>🎤 Shadowing — ${current.grammarPoint}</strong> <em>(${new Date().toLocaleString()})</em></p>` +
+        `<p><strong>🎤 Shadowing - ${current.grammarPoint}</strong> <em>(${new Date().toLocaleString()})</em></p>` +
         `<p><strong>Target:</strong> ${current.sentence}</p>` +
         `<p><strong>You said:</strong> ${finalTranscript}</p>` +
         `<p><strong>Score:</strong> Overall ${sc.overall}/100 · Accuracy ${sc.accuracy}% · WPM ${sc.wpm} · Intonation ${sc.intonation}%</p>`;
@@ -555,7 +555,7 @@ const ShadowingPractice: React.FC<Props> = () => {
               )}
             </div>
 
-            {/* TTS controls — visible in all steps */}
+            {/* TTS controls - visible in all steps */}
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-xs font-medium text-muted-foreground">{t("Tốc độ:", "Speed:")}</span>
               {([0.8, 0.95, 1.1] as const).map((r) => (
@@ -600,7 +600,7 @@ const ShadowingPractice: React.FC<Props> = () => {
                         {current.vocabulary.map((v) => (
                           <li key={v.word} className="text-sm">
                             <span className="font-semibold text-emerald-700 dark:text-emerald-300">{v.word}</span>
-                            <span className="text-foreground/80"> — {v.definition}</span>
+                            <span className="text-foreground/80"> - {v.definition}</span>
                             {v.synonyms && (
                               <span className="text-xs text-muted-foreground"> ({v.synonyms.join(", ")})</span>
                             )}

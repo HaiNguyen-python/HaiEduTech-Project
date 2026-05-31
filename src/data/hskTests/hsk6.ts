@@ -1,5 +1,5 @@
 /**
- * @file hsk6.ts — HSK 6 Mock Test (authentic Hanban format)
+ * @file hsk6.ts - HSK 6 Mock Test (authentic Hanban format)
  * Listening 50 + Reading 50 + Writing 1 essay = 101 Q, 135 minutes.
  * Prompts in Chinese only; Vietnamese moved to explanation
  * so the paper mirrors the real Hanban HSK 6 exam.
@@ -13,7 +13,7 @@ import type { HskTest, HskQuestion } from "./index";
  * Part 3 (Q31-50): Lecture / news report → MCQ
  * ========================================================== */
 const listeningRows: { a: string; q: string; o: string[]; c: number; exp?: string }[] = [
-  // Part 1 — 15 short single-passage items
+  // Part 1 - 15 short single-passage items
   { a: "随着人工智能的迅速发展，许多传统行业正在面临巨大的变革。专家认为，未来五到十年，将有大量的工作被机器取代。", q: "专家预测什么？",
     o: ["未来 5–10 年大量工作会被机器取代", "AI 即将消失", "完全不会改变"], c: 0 },
   { a: "他在演讲中强调，教育的目的不仅是传授知识，更重要的是培养独立思考的能力。", q: "演讲者强调教育的核心是？",
@@ -45,7 +45,7 @@ const listeningRows: { a: string; q: string; o: string[]; c: number; exp?: strin
   { a: "在快节奏的现代生活中，越来越多的人开始关注\"慢生活\"的理念。", q: "本段主要谈？",
     o: ["快节奏的好处", "\"慢生活\"理念兴起", "工作压力"], c: 1 },
 
-  // Part 2 — 15 long-dialog/interview items
+  // Part 2 - 15 long-dialog/interview items
   { a: "记者：您从事这个行业三十多年，最大的体会是什么？嘉宾：踏踏实实地做事，把每一件小事做到极致。", q: "嘉宾的体会是什么？",
     o: ["把小事做到极致", "尽快赚大钱", "经常跳槽"], c: 0 },
   { a: "记者：年轻人创业最重要的是什么？嘉宾：心态。不要急于求成，也不要害怕失败。", q: "嘉宾认为创业最重要的是？",
@@ -77,7 +77,7 @@ const listeningRows: { a: string; q: string; o: string[]; c: number; exp?: strin
   { a: "记者：作为导演，您怎么看观众的口味？嘉宾：观众的眼光在不断提高，敷衍的作品越来越没有市场。", q: "嘉宾对观众的看法？",
     o: ["容易被骗", "眼光在提高", "都不专业"], c: 1 },
 
-  // Part 3 — 20 lecture / news report items
+  // Part 3 - 20 lecture / news report items
   { a: "据报道，今年我国新能源汽车销量首次突破一千万辆，市场占有率超过百分之四十。", q: "新能源汽车的销量怎么样？",
     o: ["首次突破 1000 万辆", "下降明显", "保持去年水平"], c: 0 },
   { a: "考古学家在西北地区发现了一处距今约四千年的古代遗址，出土了大量精美的陶器和玉器。", q: "本则新闻报道什么？",
@@ -123,7 +123,7 @@ const listeningRows: { a: string; q: string; o: string[]; c: number; exp?: strin
 /* ============================================================
  * READING (50)
  * Part 1 (Q51-60): Identify the sentence with a grammar error
- * Part 2 (Q61-70): Cloze passage — fill three blanks with best words
+ * Part 2 (Q61-70): Cloze passage - fill three blanks with best words
  * Part 3 (Q71-80): Match the missing sentence to the gap in a paragraph
  * Part 4 (Q81-100): Long passage with multiple comprehension MCQs
  * ========================================================== */
@@ -131,9 +131,9 @@ const findError: { o: string[]; c: number; exp: string }[] = [
   { o: ["他不仅聪明，而且非常勤奋。","通过这次活动，使我学到了很多。","我已经学了三年汉语了。"], c: 1,
     exp: "Lỗi: \"通过…使\" khiến câu thiếu chủ ngữ. Bỏ \"通过\" hoặc bỏ \"使\"." },
   { o: ["他的成功是经过多年努力的结果。","我们应该认真对待每一个机会。","为了提高汉语水平，他报名参加了的辅导班。"], c: 2,
-    exp: "Lỗi: \"参加了的辅导班\" — thừa \"的\"; đúng là \"参加了辅导班\"." },
+    exp: "Lỗi: \"参加了的辅导班\" - thừa \"的\"; đúng là \"参加了辅导班\"." },
   { o: ["他用了大约两个小时才完成。","这本书的内容大约二百页左右。","她对中国文化非常感兴趣。"], c: 1,
-    exp: "Lỗi: \"大约\" và \"左右\" đồng nghĩa — chỉ dùng một trong hai." },
+    exp: "Lỗi: \"大约\" và \"左右\" đồng nghĩa - chỉ dùng một trong hai." },
   { o: ["他无论刮风下雨，都坚持锻炼。","这件事的责任在于我们大家都有。","只要努力，就能成功。"], c: 1,
     exp: "Lỗi: \"在于\" + \"都有\" cấu trúc thừa; đúng là \"责任在于我们\"." },
   { o: ["这个问题非常重要，必须马上解决。","我们要避免不再犯同样的错误。","他是我最好的朋友之一。"], c: 1,
@@ -300,7 +300,7 @@ export const hsk6Test: HskTest = {
   level: 6,
   code: "HSK6-MOCK-01",
   title: "HSK 6 Mock Test 01",
-  titleVi: "Đề thi thử HSK 6 — Số 01",
+  titleVi: "Đề thi thử HSK 6 - Số 01",
   durationMin: 135,
   passScore: 60,
   showPinyin: false,

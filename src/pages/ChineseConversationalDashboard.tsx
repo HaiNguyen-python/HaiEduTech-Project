@@ -183,7 +183,7 @@ const PillarContent = ({ pillar, completed }: { pillar: ChineseConvPillar; compl
   );
 };
 
-// Lesson preview inside accordion — English-only for international learners
+// Lesson preview inside accordion - English-only for international learners
 const LessonPreview = ({ lesson }: { lesson: ChineseConvLesson }) => {
   return (
     <div className="pb-4 space-y-4">

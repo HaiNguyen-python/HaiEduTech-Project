@@ -1,5 +1,5 @@
 /**
- * MathAISandbox — Visual intuition for the math behind AI.
+ * MathAISandbox - Visual intuition for the math behind AI.
  * Students play with a Gradient Descent ball rolling down a U-shaped loss curve,
  * then practice probability & linear-regression intuition.
  */
@@ -14,7 +14,7 @@ import { ChipFilter, BestMatchPick } from "./SandboxMiniActivity";
 const MATH_TF = [
   { q: "Gradient Descent là cách AI 'lăn xuống thung lũng' để tìm điểm thấp nhất.", a: true },
   { q: "Learning rate quá lớn có thể khiến AI nhảy vượt qua đáy.", a: true },
-  { q: "Xác suất 0% nghĩa là điều đó CHẮC CHẮN xảy ra.", a: false, why: "Ngược lại — 0% là không bao giờ. 100% mới là chắc chắn." },
+  { q: "Xác suất 0% nghĩa là điều đó CHẮC CHẮN xảy ra.", a: false, why: "Ngược lại - 0% là không bao giờ. 100% mới là chắc chắn." },
   { q: "Hồi quy tuyến tính = vẽ 1 đường thẳng khớp nhất với các điểm dữ liệu.", a: true },
   { q: "AI cần Đại số tuyến tính và Xác suất hơn là Hình học.", a: true },
 ];
@@ -127,7 +127,7 @@ const MathAISandbox = () => {
           </div>
           <Slider value={[lr]} min={0.02} max={1.05} step={0.02} onValueChange={(v) => setLr(v[0])} />
           {lr > 0.9 && (
-            <p className="text-[11px] text-rose-500 mt-1 font-semibold">⚠️ Quá lớn — bóng có thể nhảy vượt đáy!</p>
+            <p className="text-[11px] text-rose-500 mt-1 font-semibold">⚠️ Quá lớn - bóng có thể nhảy vượt đáy!</p>
           )}
         </div>
       </div>
@@ -153,7 +153,7 @@ const MathAISandbox = () => {
         positive
         goal={75}
         goodLabel="Bạn đã nắm Xác suất căn bản ✅"
-        badLabel="Còn vài câu chưa đúng — đọc lại nhé"
+        badLabel="Còn vài câu chưa đúng - đọc lại nhé"
         metricLabel="Điểm Xác suất"
         accent="from-cyan-500 to-blue-600"
         border="border-cyan-400/40"
@@ -167,7 +167,7 @@ const MathAISandbox = () => {
       />
 
       <BestMatchPick
-        title="📈 Hồi quy tuyến tính — chọn đường khớp nhất"
+        title="📈 Hồi quy tuyến tính - chọn đường khớp nhất"
         hint="Với mỗi bộ dữ liệu, đường y = ax + b nào hợp lý nhất?"
         accent="from-cyan-500 to-blue-600"
         border="border-cyan-400/40"

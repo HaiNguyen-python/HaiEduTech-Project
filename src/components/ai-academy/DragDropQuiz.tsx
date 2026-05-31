@@ -1,5 +1,5 @@
 /**
- * DragDropQuiz — drag a label into the correct bucket.
+ * DragDropQuiz - drag a label into the correct bucket.
  * Mobile-friendly: also supports tap-to-select then tap-bucket.
  */
 import { useState } from "react";

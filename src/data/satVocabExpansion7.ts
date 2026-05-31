@@ -1,6 +1,6 @@
 /**
  * @file satVocabExpansion7.ts
- * @description SAT Vocabulary Expansion #7 — additional high-frequency
+ * @description SAT Vocabulary Expansion #7 - additional high-frequency
  * Reading & Writing vocabulary plus precise Math terminology.
  */
 import type { SatWord } from "./satVocabData";

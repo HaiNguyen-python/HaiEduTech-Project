@@ -1,6 +1,6 @@
 /**
  * @file PhdGlobalPathway.tsx
- * @description PhD Strategy Hub — country guides (8), funding database (28+),
+ * @description PhD Strategy Hub - country guides (8), funding database (28+),
  *              12-month timeline, AI Cold Email generator, downloadable templates.
  */
 import { useMemo, useState } from "react";

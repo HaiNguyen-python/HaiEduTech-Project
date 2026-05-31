@@ -1,4 +1,4 @@
-// TOEIC Exams Library — grid of available LR + SW practice tests.
+// TOEIC Exams Library - grid of available LR + SW practice tests.
 // Score history chart pulls from localStorage (key: "toeic-score-history").
 import { Link } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
@@ -90,13 +90,13 @@ const ToeicExams = () => {
           </h1>
           <p className="mt-3 text-slate-300 max-w-2xl mx-auto">
             {t(
-              "Listening, Reading, Speaking & Writing — định dạng chuẩn ETS, có timer, audio speed, ghi âm và quy đổi điểm 990.",
-              "Listening, Reading, Speaking & Writing — official ETS format with timer, audio speed control, voice recorder and 990-scale score conversion."
+              "Listening, Reading, Speaking & Writing - định dạng chuẩn ETS, có timer, audio speed, ghi âm và quy đổi điểm 990.",
+              "Listening, Reading, Speaking & Writing - official ETS format with timer, audio speed control, voice recorder and 990-scale score conversion."
             )}
           </p>
         </motion.header>
 
-        {/* Section A — Listening & Reading */}
+        {/* Section A - Listening & Reading */}
         <section className="mb-12">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
@@ -152,7 +152,7 @@ const ToeicExams = () => {
           </div>
         </section>
 
-        {/* Section B — Speaking & Writing */}
+        {/* Section B - Speaking & Writing */}
         <section className="mb-12">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-teal-500 to-emerald-500 flex items-center justify-center">

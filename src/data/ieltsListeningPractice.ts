@@ -70,7 +70,7 @@ export const ieltsListeningPracticeSets: ListeningPracticeSet[] = [
       "Of course. The annual fee for that is twenty-eight pounds.\n" +
       "That's fine. When can I collect the card?\n" +
       "It will be ready on Tuesday after two p.m. Please bring a passport for ID.\n" +
-      "And finally — would you like to subscribe to our weekly newsletter?\n" +
+      "And finally - would you like to subscribe to our weekly newsletter?\n" +
       "Yes please, send it to my email: sarah dot mitchell at quickmail dot net.\n" +
       "Wonderful, thank you very much.",
     questions: [
@@ -106,8 +106,8 @@ export const ieltsListeningPracticeSets: ListeningPracticeSet[] = [
       "At the end of the tour you'll receive a small souvenir map. There's no extra charge - it's already included in your ticket.\n" +
       "The tour itself costs fifteen pounds per adult, but children under twelve come along for free with a paying adult.\n" +
       "Our short break will last about fifteen minutes, so please use the toilets at the visitor centre next to the cathedral.\n" +
-      "Drinking water is fine, but please no hot drinks inside the historic buildings — spillages have damaged the stone floors in the past.\n" +
-      "And one quick warning — the cobbled lane to the castle is uneven, so please wear sensible shoes.\n" +
+      "Drinking water is fine, but please no hot drinks inside the historic buildings - spillages have damaged the stone floors in the past.\n" +
+      "And one quick warning - the cobbled lane to the castle is uneven, so please wear sensible shoes.\n" +
       "Finally, the most important rule: please stay together when we cross the busy roads near the market.",
     questions: [
       { type: "mcq", prompt: "How long is the tour?", options: ["1.5 hours", "2 hours", "2.5 hours"], answer: 2 },
@@ -169,19 +169,19 @@ export const ieltsListeningPracticeSets: ListeningPracticeSet[] = [
       '<rect x="232" y="350" width="56" height="20" fill="#2c3e50"/>' +
       '<text x="260" y="364" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">ENTRANCE</text>' +
       // Letter markers A-G
-      // A — halfway up main path, on the left (CORRECT for café)
+      // A - halfway up main path, on the left (CORRECT for café)
       '<g><circle cx="232" cy="290" r="16" fill="#fff" stroke="#1e6f3a" stroke-width="2"/><text x="232" y="295" text-anchor="middle" font-size="14" font-weight="800" fill="#1e6f3a">A</text></g>' +
-      // E — just inside entrance, right (CORRECT for info centre)
+      // E - just inside entrance, right (CORRECT for info centre)
       '<g><circle cx="296" cy="332" r="16" fill="#fff" stroke="#1e6f3a" stroke-width="2"/><text x="296" y="337" text-anchor="middle" font-size="14" font-weight="800" fill="#1e6f3a">E</text></g>' +
-      // C — south-west corner (Toilets, distractor)
+      // C - south-west corner (Toilets, distractor)
       '<g><circle cx="90" cy="335" r="16" fill="#fff" stroke="#1e6f3a" stroke-width="2"/><text x="90" y="340" text-anchor="middle" font-size="14" font-weight="800" fill="#1e6f3a">C</text></g>' +
-      // B — west end of west path (CORRECT for playground)
+      // B - west end of west path (CORRECT for playground)
       '<g><circle cx="78" cy="210" r="16" fill="#fff" stroke="#1e6f3a" stroke-width="2"/><text x="78" y="215" text-anchor="middle" font-size="14" font-weight="800" fill="#1e6f3a">B</text></g>' +
-      // F — east path, first on the right (CORRECT for picnic area)
+      // F - east path, first on the right (CORRECT for picnic area)
       '<g><circle cx="330" cy="182" r="16" fill="#fff" stroke="#1e6f3a" stroke-width="2"/><text x="330" y="187" text-anchor="middle" font-size="14" font-weight="800" fill="#1e6f3a">F</text></g>' +
-      // G — north-east area (Statue, distractor)
+      // G - north-east area (Statue, distractor)
       '<g><circle cx="438" cy="110" r="16" fill="#fff" stroke="#1e6f3a" stroke-width="2"/><text x="438" y="115" text-anchor="middle" font-size="14" font-weight="800" fill="#1e6f3a">G</text></g>' +
-      // D — north end by the river (CORRECT for boat hire)
+      // D - north end by the river (CORRECT for boat hire)
       '<g><circle cx="260" cy="70" r="16" fill="#fff" stroke="#1e6f3a" stroke-width="2"/><text x="260" y="75" text-anchor="middle" font-size="14" font-weight="800" fill="#1e6f3a">D</text></g>' +
       // Direction hints
       '<text x="55" y="200" font-size="10" fill="#5a4012">west path</text>' +

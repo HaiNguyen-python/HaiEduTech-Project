@@ -54,7 +54,7 @@ export const usePageViewTracker = () => {
         await updatePrevious();
 
         // Use getSession (local, no network) instead of getUser (network call that
-        // can stall and hold the auth lock — was blocking OAuth login completion).
+        // can stall and hold the auth lock - was blocking OAuth login completion).
         const { data: { session } } = await supabase.auth.getSession();
         const user = session?.user ?? null;
         accessTokenRef.current = session?.access_token ?? null;
@@ -83,7 +83,7 @@ export const usePageViewTracker = () => {
           enterTimeRef.current = Date.now();
         }
       } catch (e) {
-        // Silent fail — tracking should never break the app
+        // Silent fail - tracking should never break the app
       }
     };
 

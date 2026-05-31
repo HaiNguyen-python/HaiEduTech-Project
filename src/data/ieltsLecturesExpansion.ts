@@ -1,9 +1,9 @@
-// IELTS Lectures Expansion — additional lectures for Grammar, Vocabulary, Exam Tips pillars.
+// IELTS Lectures Expansion - additional lectures for Grammar, Vocabulary, Exam Tips pillars.
 // Keeps the main ieltsLecturesData.ts file lean and focused.
 import type { IeltsLecture } from "./ieltsLecturesData";
 
 // =====================================================================
-// APPLIED GRAMMAR — 6 new lectures
+// APPLIED GRAMMAR - 6 new lectures
 // =====================================================================
 export const grammarExpansion: IeltsLecture[] = [
   {
@@ -14,7 +14,7 @@ export const grammarExpansion: IeltsLecture[] = [
     icon: "🧱",
     duration: "18 min",
     level: "advanced",
-    description: "Replace simple subjects with rich noun phrases — the fastest way to upgrade your Lexical Resource and Grammatical Range.",
+    description: "Replace simple subjects with rich noun phrases - the fastest way to upgrade your Lexical Resource and Grammatical Range.",
     descriptionVi: "Thay chủ ngữ đơn giản bằng cụm danh từ phong phú - cách nhanh nhất nâng cấp Từ vựng và Ngữ pháp.",
     strategySteps: [
       { step: 1, title: "Identify weak subjects", titleVi: "Nhận diện chủ ngữ yếu", description: "Spot generic subjects like 'people', 'things', 'students'. These signal Band 5-6 writing.", descriptionVi: "Nhận ra các chủ ngữ chung chung như 'people', 'things', 'students'. Đây là dấu hiệu Band 5-6.", example: "❌ 'People who use phones a lot...' → ✅ 'Heavy smartphone users...'" },
@@ -55,7 +55,7 @@ export const grammarExpansion: IeltsLecture[] = [
     icon: "✂️",
     duration: "16 min",
     level: "advanced",
-    description: "Use 'It is... that...' and 'What... is...' structures to emphasize key ideas — a Band 7.5+ Speaking & Writing technique.",
+    description: "Use 'It is... that...' and 'What... is...' structures to emphasize key ideas - a Band 7.5+ Speaking & Writing technique.",
     descriptionVi: "Dùng cấu trúc 'It is... that...' và 'What... is...' để nhấn mạnh ý chính - kỹ thuật Band 7.5+ cho Speaking & Writing.",
     strategySteps: [
       { step: 1, title: "Learn the 'It-cleft' structure", titleVi: "Học cấu trúc 'It-cleft'", description: "It + be + emphasized element + that/who + rest of sentence.", descriptionVi: "It + be + thành phần nhấn mạnh + that/who + phần còn lại.", example: "'It is education that truly transforms society.'" },
@@ -63,8 +63,8 @@ export const grammarExpansion: IeltsLecture[] = [
       { step: 3, title: "Use sparingly for impact", titleVi: "Dùng vừa phải để tạo tác động", description: "1 cleft per essay/speaking turn = elegant. Multiple = forced.", descriptionVi: "1 câu chẻ mỗi bài/lượt nói = thanh lịch. Nhiều = gượng ép." },
     ],
     practicalExamples: [
-      { context: "Speaking Part 3 — opinion question", contextVi: "Speaking Part 3 - câu hỏi quan điểm", example: "Q: 'What is the most important factor in success?'\n✅ 'What I believe is most important is perseverance, not raw talent.'", explanation: "What-cleft elegantly emphasizes 'perseverance'." },
-      { context: "Writing Task 2 — thesis statement", contextVi: "Writing Task 2 - câu luận điểm", example: "'It is the lack of public investment, rather than private greed, that lies at the heart of this problem.'", explanation: "It-cleft contrasts two ideas while emphasizing the real cause." },
+      { context: "Speaking Part 3 - opinion question", contextVi: "Speaking Part 3 - câu hỏi quan điểm", example: "Q: 'What is the most important factor in success?'\n✅ 'What I believe is most important is perseverance, not raw talent.'", explanation: "What-cleft elegantly emphasizes 'perseverance'." },
+      { context: "Writing Task 2 - thesis statement", contextVi: "Writing Task 2 - câu luận điểm", example: "'It is the lack of public investment, rather than private greed, that lies at the heart of this problem.'", explanation: "It-cleft contrasts two ideas while emphasizing the real cause." },
     ],
     mistakesToAvoid: [
       { mistake: "Using cleft sentences in every paragraph", mistakeVi: "Dùng câu chẻ trong mọi đoạn văn", why: "Overuse signals memorized templates and can lower your score.", whyVi: "Lạm dụng cho thấy bạn học thuộc mẫu và có thể bị trừ điểm." },
@@ -119,7 +119,7 @@ export const grammarExpansion: IeltsLecture[] = [
       { word: "introduced", definition: "Brought into use (passive)", definitionVi: "Được đưa vào sử dụng", example: "Reforms introduced last year reduced crime.", band: "6.5+" },
     ],
     quiz: [
-      { question: "Which is correct?", options: ["Walking home, the rain started.", "Walking home, I got caught in the rain.", "Walked home, I got caught.", "Walk home, the rain started."], answer: 1, explanation: "'I' is the subject doing the walking — no dangling participle." },
+      { question: "Which is correct?", options: ["Walking home, the rain started.", "Walking home, I got caught in the rain.", "Walked home, I got caught.", "Walk home, the rain started."], answer: 1, explanation: "'I' is the subject doing the walking - no dangling participle." },
       { question: "Replace 'students who live abroad'.", options: ["students lived abroad", "students living abroad", "students live abroad", "students to live abroad"], answer: 1, explanation: "Active meaning → -ing participle." },
       { question: "Replace 'policies that were introduced'.", options: ["policies introducing", "policies introduced", "policies introduce", "policies to introduce"], answer: 1, explanation: "Passive meaning → past participle." },
     ],
@@ -139,19 +139,19 @@ export const grammarExpansion: IeltsLecture[] = [
     icon: "🕰️",
     duration: "15 min",
     level: "intermediate",
-    description: "Express past speculation, regret, and missed opportunities — essential for Speaking Part 2/3 and Writing Task 2.",
+    description: "Express past speculation, regret, and missed opportunities - essential for Speaking Part 2/3 and Writing Task 2.",
     descriptionVi: "Diễn đạt suy đoán, hối tiếc, cơ hội bỏ lỡ trong quá khứ - cần thiết cho Speaking Part 2/3 và Writing Task 2.",
     strategySteps: [
-      { step: 1, title: "must have + PP = strong past deduction", titleVi: "must have + PP = suy đoán mạnh trong quá khứ", description: "'The streets are wet — it must have rained.' Use for confident past conclusions.", descriptionVi: "'The streets are wet - it must have rained.' Dùng cho kết luận quá khứ chắc chắn." },
+      { step: 1, title: "must have + PP = strong past deduction", titleVi: "must have + PP = suy đoán mạnh trong quá khứ", description: "'The streets are wet - it must have rained.' Use for confident past conclusions.", descriptionVi: "'The streets are wet - it must have rained.' Dùng cho kết luận quá khứ chắc chắn." },
       { step: 2, title: "should/shouldn't have + PP = past regret/criticism", titleVi: "should/shouldn't have + PP = hối tiếc/phê bình", description: "'Governments should have invested earlier.' Powerful in essays.", descriptionVi: "'Governments should have invested earlier.' Mạnh trong bài luận." },
       { step: 3, title: "could/might have + PP = past possibility", titleVi: "could/might have + PP = khả năng quá khứ", description: "'The crisis could have been prevented.' Soft, hypothetical tone.", descriptionVi: "'The crisis could have been prevented.' Giọng nhẹ nhàng, giả định." },
     ],
     practicalExamples: [
-      { context: "Writing Task 2 — past policy critique", contextVi: "Writing Task 2 - phê phán chính sách quá khứ", example: "✅ 'Authorities should have anticipated the housing crisis years ago, and the catastrophic shortage that we now face could have been largely avoided.'", explanation: "Combines 'should have' (criticism) + 'could have been' (passive possibility)." },
-      { context: "Speaking Part 2 — describing a memorable event", contextVi: "Speaking Part 2 - mô tả sự kiện đáng nhớ", example: "✅ 'I must have walked past that bookshop a hundred times before noticing it.'", explanation: "'must have walked' = strong past deduction in narration." },
+      { context: "Writing Task 2 - past policy critique", contextVi: "Writing Task 2 - phê phán chính sách quá khứ", example: "✅ 'Authorities should have anticipated the housing crisis years ago, and the catastrophic shortage that we now face could have been largely avoided.'", explanation: "Combines 'should have' (criticism) + 'could have been' (passive possibility)." },
+      { context: "Speaking Part 2 - describing a memorable event", contextVi: "Speaking Part 2 - mô tả sự kiện đáng nhớ", example: "✅ 'I must have walked past that bookshop a hundred times before noticing it.'", explanation: "'must have walked' = strong past deduction in narration." },
     ],
     mistakesToAvoid: [
-      { mistake: "Using 'must has' or 'should has'", mistakeVi: "Dùng 'must has' hay 'should has'", why: "Modal verbs are NEVER followed by 'has/have' inflection — always 'have + PP'.", whyVi: "Modal KHÔNG BAO GIỜ đi với 'has/have' biến thể - luôn là 'have + PP'." },
+      { mistake: "Using 'must has' or 'should has'", mistakeVi: "Dùng 'must has' hay 'should has'", why: "Modal verbs are NEVER followed by 'has/have' inflection - always 'have + PP'.", whyVi: "Modal KHÔNG BAO GIỜ đi với 'has/have' biến thể - luôn là 'have + PP'." },
       { mistake: "Confusing 'must have done' with 'had to do'", mistakeVi: "Nhầm 'must have done' với 'had to do'", why: "'must have done' = deduction. 'had to do' = past obligation.", whyVi: "'must have done' = suy đoán. 'had to do' = nghĩa vụ quá khứ." },
     ],
     goldenSecret: "In any 'past mistake / lesson learned' Writing Task 2, drop one 'should have + PP' sentence in the body paragraph. It demonstrates emotional depth and grammar control simultaneously.",
@@ -193,7 +193,7 @@ export const grammarExpansion: IeltsLecture[] = [
     ],
     mistakesToAvoid: [
       { mistake: "Adding 'the' before every noun", mistakeVi: "Thêm 'the' trước mọi danh từ", why: "Vietnamese has no articles, so learners over-use 'the'. Many academic terms need NO article.", whyVi: "Tiếng Việt không có mạo từ nên học viên lạm dụng 'the'. Nhiều từ học thuật KHÔNG cần mạo từ." },
-      { mistake: "Forgetting 'the' before unique entities", mistakeVi: "Quên 'the' trước thực thể duy nhất", why: "'The government', 'the environment', 'the internet' — these are unique → always 'the'.", whyVi: "'The government', 'the environment', 'the internet' - duy nhất → luôn 'the'." },
+      { mistake: "Forgetting 'the' before unique entities", mistakeVi: "Quên 'the' trước thực thể duy nhất", why: "'The government', 'the environment', 'the internet' - these are unique → always 'the'.", whyVi: "'The government', 'the environment', 'the internet' - duy nhất → luôn 'the'." },
     ],
     goldenSecret: "Quick rule: if you can replace the noun with 'in general' and the sentence still makes sense, use NO article. 'Education (in general) improves society (in general)' → no 'the'.",
     goldenSecretVi: "Quy tắc nhanh: nếu thay danh từ bằng 'nói chung' mà câu vẫn hợp lý, KHÔNG dùng mạo từ. 'Education (nói chung) improves society (nói chung)' → không 'the'.",
@@ -203,7 +203,7 @@ export const grammarExpansion: IeltsLecture[] = [
     ],
     quiz: [
       { question: "Choose the correct sentence.", options: ["The education is important.", "Education is important.", "An education is important.", "Education are important."], answer: 1, explanation: "Abstract general → no article." },
-      { question: "Choose: '___ government must protect ___ environment.'", options: ["A / an", "The / the", "— / the", "The / —"], answer: 1, explanation: "Both 'government' (specific national) and 'environment' (unique) take 'the'." },
+      { question: "Choose: '___ government must protect ___ environment.'", options: ["A / an", "The / the", "- / the", "The / -"], answer: 1, explanation: "Both 'government' (specific national) and 'environment' (unique) take 'the'." },
       { question: "Which is correct?", options: ["Children needs the education.", "Children need education.", "The children need an education.", "A children need education."], answer: 1, explanation: "'Children' (general plural) and 'education' (abstract general) → no article." },
     ],
     cheatSheetPoints: [
@@ -211,7 +211,7 @@ export const grammarExpansion: IeltsLecture[] = [
       "the = second mention, specific, or unique",
       "no article = abstract general (love, education) or plural general (children)",
       "Always 'the' with: government, environment, internet, world, sun, moon",
-      "Test: replace noun with 'in general' — if it works, no article",
+      "Test: replace noun with 'in general' - if it works, no article",
     ],
   },
   {
@@ -222,7 +222,7 @@ export const grammarExpansion: IeltsLecture[] = [
     icon: "🔁",
     duration: "18 min",
     level: "intermediate",
-    description: "Learn when and how to use passive voice effectively — essential for both Writing Task 1 and Task 2.",
+    description: "Learn when and how to use passive voice effectively - essential for both Writing Task 1 and Task 2.",
     descriptionVi: "Học khi nào và cách dùng bị động hiệu quả - cần thiết cho cả Writing Task 1 và Task 2.",
     strategySteps: [
       { step: 1, title: "Use passive when the doer is unknown / unimportant", titleVi: "Dùng bị động khi không biết / không quan trọng người thực hiện", description: "'New regulations were introduced last year.' (who? doesn't matter)", descriptionVi: "'New regulations were introduced last year.' (ai? không quan trọng)" },
@@ -230,8 +230,8 @@ export const grammarExpansion: IeltsLecture[] = [
       { step: 3, title: "Don't overuse in Task 2", titleVi: "Đừng lạm dụng trong Task 2", description: "Mix active and passive. 100% passive sounds robotic and lowers your score.", descriptionVi: "Trộn chủ động và bị động. 100% bị động nghe máy móc và giảm điểm." },
     ],
     practicalExamples: [
-      { context: "Writing Task 1 — process diagram", contextVi: "Writing Task 1 - sơ đồ quy trình", example: "✅ 'First, the raw cocoa beans are harvested. They are then transported to a factory, where they are roasted at high temperatures.'", explanation: "Process = passive throughout (focus on action, not actor)." },
-      { context: "Writing Task 2 — academic claim", contextVi: "Writing Task 2 - luận điểm học thuật", example: "✅ 'It is widely believed that climate change is being driven by human activity.'", explanation: "'It is believed' avoids 'I think' and sounds objective." },
+      { context: "Writing Task 1 - process diagram", contextVi: "Writing Task 1 - sơ đồ quy trình", example: "✅ 'First, the raw cocoa beans are harvested. They are then transported to a factory, where they are roasted at high temperatures.'", explanation: "Process = passive throughout (focus on action, not actor)." },
+      { context: "Writing Task 2 - academic claim", contextVi: "Writing Task 2 - luận điểm học thuật", example: "✅ 'It is widely believed that climate change is being driven by human activity.'", explanation: "'It is believed' avoids 'I think' and sounds objective." },
     ],
     mistakesToAvoid: [
       { mistake: "Forgetting the past participle", mistakeVi: "Quên dạng phân từ quá khứ", why: "❌ 'It was build by...' → ✅ 'It was built by...' Always use 3rd form.", whyVi: "❌ 'It was build by...' → ✅ 'It was built by...' Luôn dạng 3." },
@@ -259,7 +259,7 @@ export const grammarExpansion: IeltsLecture[] = [
 ];
 
 // =====================================================================
-// THEMATIC VOCABULARY — 6 new lectures
+// THEMATIC VOCABULARY - 6 new lectures
 // =====================================================================
 export const vocabExpansion: IeltsLecture[] = [
   {
@@ -273,12 +273,12 @@ export const vocabExpansion: IeltsLecture[] = [
     description: "Master 30+ high-band collocations for the most common IELTS topic: technology and its impact on society.",
     descriptionVi: "Nắm 30+ collocation Band cao cho chủ đề IELTS phổ biến nhất: công nghệ và tác động xã hội.",
     strategySteps: [
-      { step: 1, title: "Group vocabulary by sub-topic", titleVi: "Nhóm từ vựng theo tiểu chủ đề", description: "AI, social media, e-commerce, cybersecurity, remote work — each has its own collocations.", descriptionVi: "AI, mạng xã hội, thương mại điện tử, an ninh mạng, làm việc từ xa - mỗi nhóm có collocation riêng." },
+      { step: 1, title: "Group vocabulary by sub-topic", titleVi: "Nhóm từ vựng theo tiểu chủ đề", description: "AI, social media, e-commerce, cybersecurity, remote work - each has its own collocations.", descriptionVi: "AI, mạng xã hội, thương mại điện tử, an ninh mạng, làm việc từ xa - mỗi nhóm có collocation riêng." },
       { step: 2, title: "Learn 3-word collocations", titleVi: "Học collocation 3 từ", description: "'Cutting-edge technology', 'digital divide', 'screen-time addiction'.", descriptionVi: "'Cutting-edge technology', 'digital divide', 'screen-time addiction'." },
       { step: 3, title: "Pair with verbs", titleVi: "Ghép với động từ", description: "'embrace technology', 'bridge the digital divide', 'mitigate cyber threats'.", descriptionVi: "'embrace technology', 'bridge the digital divide', 'mitigate cyber threats'." },
     ],
     practicalExamples: [
-      { context: "Speaking Part 3 — technology question", contextVi: "Speaking Part 3 - câu hỏi công nghệ", example: "Q: 'How has technology changed the workplace?'\n✅ 'The proliferation of remote-working tools has fundamentally transformed traditional office culture, while also blurring the boundaries between personal and professional life.'", explanation: "'proliferation', 'fundamentally transformed', 'blurring boundaries' = Band 7.5+ collocations." },
+      { context: "Speaking Part 3 - technology question", contextVi: "Speaking Part 3 - câu hỏi công nghệ", example: "Q: 'How has technology changed the workplace?'\n✅ 'The proliferation of remote-working tools has fundamentally transformed traditional office culture, while also blurring the boundaries between personal and professional life.'", explanation: "'proliferation', 'fundamentally transformed', 'blurring boundaries' = Band 7.5+ collocations." },
     ],
     mistakesToAvoid: [
       { mistake: "Using 'modern technology' in every sentence", mistakeVi: "Dùng 'modern technology' trong mọi câu", why: "It's a Band 5 phrase. Use 'digital innovations', 'state-of-the-art technology', 'emerging technologies' instead.", whyVi: "Đây là cụm Band 5. Dùng 'digital innovations', 'state-of-the-art technology', 'emerging technologies'." },
@@ -295,7 +295,7 @@ export const vocabExpansion: IeltsLecture[] = [
     ],
     quiz: [
       { question: "Best Band 7+ replacement for 'modern technology'?", options: ["new tech", "cutting-edge technology", "good technology", "today's tech"], answer: 1, explanation: "'cutting-edge' = Band 7+ collocation." },
-      { question: "Complete: 'Social media is a ___ — connecting people but also fueling anxiety.'", options: ["good thing", "double-edged sword", "big problem", "useful tool"], answer: 1, explanation: "Idiomatic Band 7+ collocation for benefits/drawbacks." },
+      { question: "Complete: 'Social media is a ___ - connecting people but also fueling anxiety.'", options: ["good thing", "double-edged sword", "big problem", "useful tool"], answer: 1, explanation: "Idiomatic Band 7+ collocation for benefits/drawbacks." },
       { question: "What does 'the digital divide' mean?", options: ["Two computer screens", "Gap in tech access between groups", "Splitting files digitally", "Online disagreements"], answer: 1, explanation: "Inequality between those with and without tech." },
     ],
     cheatSheetPoints: [
@@ -323,7 +323,7 @@ export const vocabExpansion: IeltsLecture[] = [
       { step: 3, title: "Master solution vocabulary", titleVi: "Nắm từ vựng giải pháp", description: "'transition to renewable energy', 'sustainable practices', 'carbon footprint reduction'.", descriptionVi: "'transition to renewable energy', 'sustainable practices', 'carbon footprint reduction'." },
     ],
     practicalExamples: [
-      { context: "Writing Task 2 — solution paragraph", contextVi: "Writing Task 2 - đoạn giải pháp", example: "✅ 'Governments must accelerate the transition to renewable energy sources, while simultaneously imposing stricter regulations on industries that contribute disproportionately to greenhouse gas emissions.'", explanation: "5 Band 7.5+ collocations in one sentence." },
+      { context: "Writing Task 2 - solution paragraph", contextVi: "Writing Task 2 - đoạn giải pháp", example: "✅ 'Governments must accelerate the transition to renewable energy sources, while simultaneously imposing stricter regulations on industries that contribute disproportionately to greenhouse gas emissions.'", explanation: "5 Band 7.5+ collocations in one sentence." },
     ],
     mistakesToAvoid: [
       { mistake: "Repeating 'pollution' and 'environment'", mistakeVi: "Lặp 'pollution' và 'environment'", why: "Use synonyms: emissions, contamination, ecosystem, biosphere, natural habitat.", whyVi: "Dùng từ đồng nghĩa: emissions, contamination, ecosystem, biosphere, natural habitat." },
@@ -360,7 +360,7 @@ export const vocabExpansion: IeltsLecture[] = [
     icon: "🎓",
     duration: "18 min",
     level: "intermediate",
-    description: "Essential collocations and idioms for the education topic — frequent in both Speaking and Writing.",
+    description: "Essential collocations and idioms for the education topic - frequent in both Speaking and Writing.",
     descriptionVi: "Collocation và thành ngữ thiết yếu cho chủ đề giáo dục - thường xuất hiện trong Speaking và Writing.",
     strategySteps: [
       { step: 1, title: "Replace 'study' with academic verbs", titleVi: "Thay 'study' bằng động từ học thuật", description: "'pursue a degree', 'enroll in', 'undertake research', 'specialize in'.", descriptionVi: "'pursue a degree', 'enroll in', 'undertake research', 'specialize in'." },
@@ -368,7 +368,7 @@ export const vocabExpansion: IeltsLecture[] = [
       { step: 3, title: "Discuss systems and outcomes", titleVi: "Bàn về hệ thống và kết quả", description: "'rote learning', 'critical thinking skills', 'employability', 'skills gap'.", descriptionVi: "'rote learning', 'critical thinking skills', 'employability', 'skills gap'." },
     ],
     practicalExamples: [
-      { context: "Speaking Part 2 — describe a course", contextVi: "Speaking Part 2 - mô tả khóa học", example: "✅ 'I enrolled in an intensive data-science programme that not only broadened my horizons but also equipped me with highly marketable skills.'", explanation: "'enrolled in', 'broadened my horizons', 'marketable skills' = Band 7.5+." },
+      { context: "Speaking Part 2 - describe a course", contextVi: "Speaking Part 2 - mô tả khóa học", example: "✅ 'I enrolled in an intensive data-science programme that not only broadened my horizons but also equipped me with highly marketable skills.'", explanation: "'enrolled in', 'broadened my horizons', 'marketable skills' = Band 7.5+." },
     ],
     mistakesToAvoid: [
       { mistake: "Saying 'I study at university' repeatedly", mistakeVi: "Lặp 'I study at university'", why: "Vary: 'I'm pursuing my degree at...', 'I'm currently enrolled at...'.", whyVi: "Đổi: 'I'm pursuing my degree at...', 'I'm currently enrolled at...'." },
@@ -413,7 +413,7 @@ export const vocabExpansion: IeltsLecture[] = [
       { step: 3, title: "Discuss prevention vs cure", titleVi: "Bàn về phòng ngừa vs chữa trị", description: "'mitigate health risks', 'promote healthy habits', 'curb obesity rates'.", descriptionVi: "'mitigate health risks', 'promote healthy habits', 'curb obesity rates'." },
     ],
     practicalExamples: [
-      { context: "Writing Task 2 — health policy essay", contextVi: "Writing Task 2 - bài chính sách y tế", example: "✅ 'Governments should invest more heavily in preventive medicine to alleviate the strain on overburdened public healthcare systems.'", explanation: "'preventive medicine', 'alleviate the strain', 'overburdened' = Band 7.5+." },
+      { context: "Writing Task 2 - health policy essay", contextVi: "Writing Task 2 - bài chính sách y tế", example: "✅ 'Governments should invest more heavily in preventive medicine to alleviate the strain on overburdened public healthcare systems.'", explanation: "'preventive medicine', 'alleviate the strain', 'overburdened' = Band 7.5+." },
     ],
     mistakesToAvoid: [
       { mistake: "Using 'sick' and 'healthy' repeatedly", mistakeVi: "Lặp 'sick' và 'healthy'", why: "Use 'ill', 'unwell', 'in good shape', 'fit', 'thriving' for variety.", whyVi: "Dùng 'ill', 'unwell', 'in good shape', 'fit', 'thriving' để đa dạng." },
@@ -458,7 +458,7 @@ export const vocabExpansion: IeltsLecture[] = [
       { step: 3, title: "Future-of-work collocations", titleVi: "Collocation tương lai việc làm", description: "'remote working', 'gig economy', 'automation', 'job displacement'.", descriptionVi: "'remote working', 'gig economy', 'automation', 'job displacement'." },
     ],
     practicalExamples: [
-      { context: "Speaking Part 2 — describe ideal job", contextVi: "Speaking Part 2 - mô tả công việc lý tưởng", example: "✅ 'My ideal career would offer not only a competitive salary but also flexible working arrangements that promote a healthy work-life balance.'", explanation: "'competitive salary', 'flexible working arrangements', 'work-life balance' = Band 7+." },
+      { context: "Speaking Part 2 - describe ideal job", contextVi: "Speaking Part 2 - mô tả công việc lý tưởng", example: "✅ 'My ideal career would offer not only a competitive salary but also flexible working arrangements that promote a healthy work-life balance.'", explanation: "'competitive salary', 'flexible working arrangements', 'work-life balance' = Band 7+." },
     ],
     mistakesToAvoid: [
       { mistake: "Saying 'good job' or 'big company'", mistakeVi: "Nói 'good job' hay 'big company'", why: "Use 'rewarding career', 'multinational corporation', 'reputable firm'.", whyVi: "Dùng 'rewarding career', 'multinational corporation', 'reputable firm'." },
@@ -503,7 +503,7 @@ export const vocabExpansion: IeltsLecture[] = [
       { step: 3, title: "Balance pros and cons", titleVi: "Cân bằng lợi ích và hạn chế", description: "'foster cross-cultural understanding' vs 'erode local traditions'.", descriptionVi: "'foster cross-cultural understanding' vs 'erode local traditions'." },
     ],
     practicalExamples: [
-      { context: "Writing Task 2 — globalization essay", contextVi: "Writing Task 2 - bài luận toàn cầu hóa", example: "✅ 'While globalization has fostered unprecedented economic prosperity, it has simultaneously eroded many indigenous cultures, leading to a worrying degree of cultural homogenization.'", explanation: "'fostered', 'unprecedented', 'eroded', 'indigenous', 'homogenization' = Band 8.0." },
+      { context: "Writing Task 2 - globalization essay", contextVi: "Writing Task 2 - bài luận toàn cầu hóa", example: "✅ 'While globalization has fostered unprecedented economic prosperity, it has simultaneously eroded many indigenous cultures, leading to a worrying degree of cultural homogenization.'", explanation: "'fostered', 'unprecedented', 'eroded', 'indigenous', 'homogenization' = Band 8.0." },
     ],
     mistakesToAvoid: [
       { mistake: "Using 'people from different countries'", mistakeVi: "Dùng 'people from different countries'", why: "Replace with 'individuals from diverse cultural backgrounds' or 'a multicultural population'.", whyVi: "Thay bằng 'individuals from diverse cultural backgrounds' hoặc 'a multicultural population'." },
@@ -535,7 +535,7 @@ export const vocabExpansion: IeltsLecture[] = [
 ];
 
 // =====================================================================
-// TIPS & HACKS — 6 new lectures
+// TIPS & HACKS - 6 new lectures
 // =====================================================================
 export const tipsExpansion: IeltsLecture[] = [
   {
@@ -573,7 +573,7 @@ export const tipsExpansion: IeltsLecture[] = [
       { question: "Speaking Part 2 talk length?", options: ["30 seconds", "1.5–2 minutes", "5 minutes", "10 seconds"], answer: 1, explanation: "Aim for the full 2 minutes; minimum 1.5." },
     ],
     cheatSheetPoints: [
-      "Reading: 20 min × 3 passages — strict",
+      "Reading: 20 min × 3 passages - strict",
       "Writing T1: 20 min (5+13+2). T2: 40 min (8+28+4)",
       "Listening: read ahead during pauses",
       "Speaking: 20–30s P1, 2 min P2, 30–45s P3",
@@ -588,7 +588,7 @@ export const tipsExpansion: IeltsLecture[] = [
     icon: "🔄",
     duration: "16 min",
     level: "intermediate",
-    description: "Learn the 4 paraphrasing patterns IELTS examiners use to disguise answers — and how to spot them instantly.",
+    description: "Learn the 4 paraphrasing patterns IELTS examiners use to disguise answers - and how to spot them instantly.",
     descriptionVi: "Học 4 mẫu paraphrase mà IELTS dùng để ngụy trang đáp án - và cách nhận ra ngay lập tức.",
     strategySteps: [
       { step: 1, title: "Synonym swap", titleVi: "Đổi từ đồng nghĩa", description: "'children' → 'youngsters/minors'; 'big' → 'substantial/sizeable'.", descriptionVi: "'children' → 'youngsters/minors'; 'big' → 'substantial/sizeable'." },
@@ -629,12 +629,12 @@ export const tipsExpansion: IeltsLecture[] = [
     icon: "🎯",
     duration: "12 min",
     level: "foundation",
-    description: "The 3-step method to extract the most important keywords from any IELTS question — fast.",
+    description: "The 3-step method to extract the most important keywords from any IELTS question - fast.",
     descriptionVi: "Phương pháp 3 bước rút từ khóa quan trọng nhất từ mọi câu hỏi IELTS - cực nhanh.",
     strategySteps: [
-      { step: 1, title: "Find the unchangeable keywords", titleVi: "Tìm từ khóa không thể thay đổi", description: "Names, numbers, dates, capitalized words — these CAN'T be paraphrased. Underline them first.", descriptionVi: "Tên riêng, số, ngày tháng, từ viết hoa - KHÔNG paraphrase được. Gạch chân trước." },
+      { step: 1, title: "Find the unchangeable keywords", titleVi: "Tìm từ khóa không thể thay đổi", description: "Names, numbers, dates, capitalized words - these CAN'T be paraphrased. Underline them first.", descriptionVi: "Tên riêng, số, ngày tháng, từ viết hoa - KHÔNG paraphrase được. Gạch chân trước." },
       { step: 2, title: "Find the topic keyword", titleVi: "Tìm từ khóa chủ đề", description: "What is the question really about? Usually a noun phrase. Box this word.", descriptionVi: "Câu hỏi thực sự về điều gì? Thường là cụm danh từ. Khoanh ô từ này." },
-      { step: 3, title: "Find the qualifier", titleVi: "Tìm từ giới hạn", description: "Words like 'main', 'most important', 'NOT', 'except', 'only' — circle these. They change the answer.", descriptionVi: "Từ như 'main', 'most important', 'NOT', 'except', 'only' - khoanh tròn. Chúng thay đổi đáp án." },
+      { step: 3, title: "Find the qualifier", titleVi: "Tìm từ giới hạn", description: "Words like 'main', 'most important', 'NOT', 'except', 'only' - circle these. They change the answer.", descriptionVi: "Từ như 'main', 'most important', 'NOT', 'except', 'only' - khoanh tròn. Chúng thay đổi đáp án." },
     ],
     practicalExamples: [
       { context: "Reading question example", contextVi: "Ví dụ câu hỏi Reading", example: "'Which is NOT mentioned as a benefit of solar power in the year 2010?'\n→ Unchangeable: 2010\n→ Topic: solar power\n→ Qualifier: NOT, benefit", explanation: "Three categories = lock-on focus while reading." },
@@ -699,7 +699,7 @@ export const tipsExpansion: IeltsLecture[] = [
       "Eliminate partial truths (1 wrong detail = whole option wrong)",
       "Eliminate extreme language (always, never, all, none)",
       "If 50/50, pick the more paraphrased option",
-      "NEVER leave blank — guess after elimination",
+      "NEVER leave blank - guess after elimination",
     ],
   },
   {
@@ -719,13 +719,13 @@ export const tipsExpansion: IeltsLecture[] = [
       { step: 4, title: "Skip and return strategy", titleVi: "Chiến lược bỏ qua và quay lại", description: "If you're stuck on a question, mark it, MOVE ON, and return at the end. Stuck = wasted minutes.", descriptionVi: "Nếu kẹt câu, đánh dấu, BỎ QUA, quay lại cuối. Kẹt = mất phút." },
     ],
     practicalExamples: [
-      { context: "Speaking pre-test ritual", contextVi: "Nghi thức trước Speaking", example: "Before entering the room: 3 box breaths + power posture for 30s + smile. Confidence is contagious — the examiner picks up on it.", explanation: "Body language affects performance and examiner perception." },
+      { context: "Speaking pre-test ritual", contextVi: "Nghi thức trước Speaking", example: "Before entering the room: 3 box breaths + power posture for 30s + smile. Confidence is contagious - the examiner picks up on it.", explanation: "Body language affects performance and examiner perception." },
     ],
     mistakesToAvoid: [
       { mistake: "Cramming the night before", mistakeVi: "Học nhồi đêm trước", why: "Sleep beats cramming every time. Aim for 7–8 hours. Tired brain = lower band.", whyVi: "Ngủ thắng nhồi mọi lúc. Ngủ 7-8 giờ. Não mệt = band thấp." },
       { mistake: "Drinking too much coffee", mistakeVi: "Uống quá nhiều cà phê", why: "Excess caffeine = jittery hands in Writing, racing speech in Speaking. 1 cup max.", whyVi: "Cà phê quá nhiều = run tay khi Writing, nói nhanh khi Speaking. Tối đa 1 ly." },
     ],
-    goldenSecret: "30 seconds before the Speaking exam, do a 'power pose' (stand tall, hands on hips, chest out). Studies show this reduces cortisol by 25% and boosts perceived confidence — examiners react accordingly.",
+    goldenSecret: "30 seconds before the Speaking exam, do a 'power pose' (stand tall, hands on hips, chest out). Studies show this reduces cortisol by 25% and boosts perceived confidence - examiners react accordingly.",
     goldenSecretVi: "30 giây trước thi Speaking, làm 'power pose' (đứng thẳng, tay chống hông, ngực ưỡn). Nghiên cứu cho thấy giảm 25% cortisol và tăng tự tin thấy được - giám khảo phản ứng tích cực.",
     vocabHighlights: [
       { word: "to reframe", definition: "Look at something from a different perspective", definitionVi: "Tái định nghĩa", example: "Reframe stress as a sign you care.", band: "7.5+" },
@@ -753,7 +753,7 @@ export const tipsExpansion: IeltsLecture[] = [
     icon: "✅",
     duration: "12 min",
     level: "intermediate",
-    description: "A proven 7-point checklist to catch and fix the most common Writing errors in just 90 seconds — worth a full half band.",
+    description: "A proven 7-point checklist to catch and fix the most common Writing errors in just 90 seconds - worth a full half band.",
     descriptionVi: "Checklist 7 điểm đã được kiểm chứng để phát hiện và sửa lỗi Writing phổ biến nhất chỉ trong 90 giây - đáng giá nửa band.",
     strategySteps: [
       { step: 1, title: "Articles (a/an/the)", titleVi: "Mạo từ (a/an/the)", description: "Scan every noun. Did you forget 'the' before unique entities (the government, the environment)?", descriptionVi: "Quét mọi danh từ. Có quên 'the' trước thực thể duy nhất không?" },

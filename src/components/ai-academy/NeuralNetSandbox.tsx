@@ -2,7 +2,7 @@
  * NeuralNetSandbox
  * 2-input → 1-output toy "neural network" that predicts a mock exam score
  * from (studying hours, sleeping hours). The connection lines glow brighter
- * as weights — derived from input — grow.
+ * as weights - derived from input - grow.
  */
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
@@ -125,7 +125,7 @@ const NeuralNetSandbox = () => {
 
       <p className="text-xs text-muted-foreground flex items-start gap-2">
         <Brain className="w-3.5 h-3.5 mt-0.5 text-emerald-500 shrink-0" />
-        Đường nối sáng hơn = "trọng số" lớn hơn. Não AI thật học hàng triệu trọng số như vậy để dự đoán mọi thứ — từ điểm thi đến giá nhà.
+        Đường nối sáng hơn = "trọng số" lớn hơn. Não AI thật học hàng triệu trọng số như vậy để dự đoán mọi thứ - từ điểm thi đến giá nhà.
       </p>
 
       <BestMatchPick

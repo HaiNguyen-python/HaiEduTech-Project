@@ -518,7 +518,7 @@ const YkiB1Dashboard = () => {
                         </p>
                       </details>
                       <p className="text-[11px] text-muted-foreground italic">
-                        {t("⚠️ Đây chỉ là một cách tham khảo — hãy viết bằng giọng văn của riêng bạn.", "⚠️ Reference only — write in your own voice.")}
+                        {t("⚠️ Đây chỉ là một cách tham khảo - hãy viết bằng giọng văn của riêng bạn.", "⚠️ Reference only - write in your own voice.")}
                       </p>
                     </div>
                   )}
@@ -630,9 +630,9 @@ const YkiB1Dashboard = () => {
               <div className="mt-4 p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/30">
                 <p className="text-xs font-bold mb-1">💡 {t("Mẹo của Thầy Hải", "Teacher Hai's tips")}</p>
                 <ul className="text-xs space-y-1 list-disc list-inside text-foreground/90">
-                  <li>{t("Đừng im lặng – dùng câu giữ thời gian (Hmm, anna kun mietin…) thay vì 'ehm'.", "Don't go silent — use filler phrases (Hmm, anna kun mietin…) instead of 'ehm'.")}</li>
+                  <li>{t("Đừng im lặng – dùng câu giữ thời gian (Hmm, anna kun mietin…) thay vì 'ehm'.", "Don't go silent - use filler phrases (Hmm, anna kun mietin…) instead of 'ehm'.")}</li>
                   <li>{t("Nói CHẬM và RÕ tốt hơn nói nhanh mà sai. Mục tiêu B1: trôi chảy ở mức cơ bản.", "Slow & clear beats fast & wrong. B1 goal: basic fluency.")}</li>
-                  <li>{t("Luôn cho 1 ví dụ cụ thể (Esimerkiksi…) – tăng điểm Vocabulary.", "Always give one concrete example (Esimerkiksi…) — boosts Vocabulary score.")}</li>
+                  <li>{t("Luôn cho 1 ví dụ cụ thể (Esimerkiksi…) – tăng điểm Vocabulary.", "Always give one concrete example (Esimerkiksi…) - boosts Vocabulary score.")}</li>
                   <li>{t("Dùng cả thì quá khứ (olin, menin) để chứng minh trình độ B1.", "Use past tense (olin, menin) to prove B1 level.")}</li>
                   <li>{t("Ghi âm chính mình → nghe lại → sửa. Lặp lại mỗi tình huống ít nhất 3 lần.", "Record yourself → listen back → fix. Repeat each scenario 3+ times.")}</li>
                 </ul>
@@ -783,7 +783,7 @@ const YkiB1Dashboard = () => {
                   className="mt-3"
                   onClick={() => saveToNotebook(
                     `B1 Vocab · ${mod.titleEn}`,
-                    mod.words.map(w => `${w.fi} (${w.partOfSpeech}) — ${w.meaningEn} / ${w.meaningVi}\n  ${w.exampleFi}`).join("\n\n")
+                    mod.words.map(w => `${w.fi} (${w.partOfSpeech}) - ${w.meaningEn} / ${w.meaningVi}\n  ${w.exampleFi}`).join("\n\n")
                   )}
                 >
                   <NotebookPen className="w-4 h-4 mr-1" /> {t("Lưu cả chủ đề vào Sổ tay", "Save whole theme to Notebook")}
@@ -843,7 +843,7 @@ const YkiB1Dashboard = () => {
                             >
                               <Volume2 className="w-3 h-3" />{ex.fi}
                             </button>
-                            <span className="text-muted-foreground"> — {ex.en}</span>
+                            <span className="text-muted-foreground"> - {ex.en}</span>
                             {lang === "vi" && (
                               <span className="text-xs text-muted-foreground italic"> · {ex.vi}</span>
                             )}

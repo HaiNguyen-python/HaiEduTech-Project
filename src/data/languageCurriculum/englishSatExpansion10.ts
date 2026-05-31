@@ -144,7 +144,7 @@ export const satExpansionModules10: LanguageModule[] = [
         ],
         proTipsEn: [
           "Discriminant > 0: two real roots; = 0: one; < 0: none.",
-          "Sum of roots = −b/a, product = c/a — handy on the SAT.",
+          "Sum of roots = −b/a, product = c/a - handy on the SAT.",
         ],
         exercises: [
           {
@@ -289,11 +289,11 @@ export const satExpansionModules10: LanguageModule[] = [
         theoryEn: "For Words in Context, read the surrounding sentences, predict the word in your head, then match against the four options. Avoid words that are 'close but off' in tone (positive/negative, formal/informal).",
         proTips: [
           "Tự đoán trước khi nhìn đáp án.",
-          "Đánh dấu các từ nối as, however, because — chúng tiết lộ sắc thái.",
+          "Đánh dấu các từ nối as, however, because - chúng tiết lộ sắc thái.",
         ],
         proTipsEn: [
           "Predict before peeking at answer choices.",
-          "Note transitions like 'however', 'because' — they reveal tone.",
+          "Note transitions like 'however', 'because' - they reveal tone.",
         ],
         exercises: [
           {
@@ -352,8 +352,8 @@ export const satExpansionModules10: LanguageModule[] = [
     titleEn: "SAT R&W Drill · Grammar Conventions",
     icon: "✍️",
     color: "from-rose-500 to-pink-600",
-    description: "Bài tập dấu câu, hòa hợp chủ-vị, đại từ, modifier — Standard English Conventions.",
-    descriptionEn: "Punctuation, subject-verb agreement, pronouns and modifiers — Standard English Conventions.",
+    description: "Bài tập dấu câu, hòa hợp chủ-vị, đại từ, modifier - Standard English Conventions.",
+    descriptionEn: "Punctuation, subject-verb agreement, pronouns and modifiers - Standard English Conventions.",
     category: "sat",
     language: "english",
     lessons: [
@@ -421,7 +421,7 @@ export const satExpansionModules10: LanguageModule[] = [
         titleEn: "Drill 12 · Pronouns & Modifier Placement",
         level: 4,
         difficulty: "advanced",
-        theory: "Mỗi đại từ phải có một danh từ rõ ràng đứng trước. Modifier (cụm bổ nghĩa) phải ở càng gần danh từ nó bổ nghĩa càng tốt — sai vị trí sẽ tạo dangling modifier.",
+        theory: "Mỗi đại từ phải có một danh từ rõ ràng đứng trước. Modifier (cụm bổ nghĩa) phải ở càng gần danh từ nó bổ nghĩa càng tốt - sai vị trí sẽ tạo dangling modifier.",
         theoryEn: "Every pronoun needs one clear antecedent. Modifiers must sit next to the noun they describe; misplacement creates dangling modifiers.",
         proTips: ["Khi gặp 'it/they/this', tìm xem nó thay cho danh từ nào.", "Cụm phân từ mở đầu câu phải bổ nghĩa cho chủ ngữ ngay sau dấu phẩy."],
         proTipsEn: ["With 'it/they/this', find the antecedent.", "An opening participial phrase must modify the subject right after the comma."],
@@ -465,8 +465,8 @@ export const satExpansionModules10: LanguageModule[] = [
     titleEn: "SAT R&W Drill · Evidence & Synthesis",
     icon: "🧠",
     color: "from-amber-500 to-orange-600",
-    description: "Command of Evidence, Rhetorical Synthesis, transitions — đọc hiểu và viết tổng hợp.",
-    descriptionEn: "Command of Evidence, Rhetorical Synthesis, transitions — comprehension and synthesis.",
+    description: "Command of Evidence, Rhetorical Synthesis, transitions - đọc hiểu và viết tổng hợp.",
+    descriptionEn: "Command of Evidence, Rhetorical Synthesis, transitions - comprehension and synthesis.",
     category: "sat",
     language: "english",
     lessons: [
@@ -555,7 +555,7 @@ export const satExpansionModules10: LanguageModule[] = [
           "Cẩn thận với đáp án nghe học thuật nhưng lệch mục đích.",
         ],
         proTipsEn: [
-          "Correct answers use the fewest necessary bullets — no padding.",
+          "Correct answers use the fewest necessary bullets - no padding.",
           "Beware academic-sounding answers that miss the stated goal.",
         ],
         exercises: [

@@ -84,7 +84,7 @@ export default function CVBuilder() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <SEO title="CV Builder — Tạo CV Du Học Miễn Phí | HaiEduTech" description="Trình tạo CV / Resume cho du học sinh: 3 mẫu Europass, Modern (US), Classic (UK). Lưu nháp tự động, xuất PDF qua trình duyệt." path="/study-abroad/cv" />
+      <SEO title="CV Builder - Tạo CV Du Học Miễn Phí | HaiEduTech" description="Trình tạo CV / Resume cho du học sinh: 3 mẫu Europass, Modern (US), Classic (UK). Lưu nháp tự động, xuất PDF qua trình duyệt." path="/study-abroad/cv" />
       <Navbar />
       <main className="flex-1 pt-28 lg:pt-32 pb-16">
         <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
@@ -203,7 +203,7 @@ function CVEditor({ data, update, t }: { data: CVData; update: (p: Partial<CVDat
             <Input placeholder={t("Bằng cấp (vd: BSc Computer Science)", "Degree (e.g. BSc CS)")} value={ed.degree} onChange={e => patchEdu(ed.id, { degree: e.target.value })} />
             <div className="grid grid-cols-2 gap-2">
               <Input placeholder={t("Trường", "School")} value={ed.school} onChange={e => patchEdu(ed.id, { school: e.target.value })} />
-              <Input placeholder={t("2022 — 2026", "2022 — 2026")} value={ed.period} onChange={e => patchEdu(ed.id, { period: e.target.value })} />
+              <Input placeholder={t("2022 - 2026", "2022 - 2026")} value={ed.period} onChange={e => patchEdu(ed.id, { period: e.target.value })} />
             </div>
             <Textarea rows={2} placeholder={t("GPA, môn nổi bật, đồ án…", "GPA, notable courses, projects…")} value={ed.details} onChange={e => patchEdu(ed.id, { details: e.target.value })} />
             <Button size="icon" variant="ghost" onClick={() => removeEdu(ed.id)} className="absolute -right-1 -top-1 h-7 w-7 text-rose-500"><Trash2 className="w-3.5 h-3.5" /></Button>
@@ -221,7 +221,7 @@ function CVEditor({ data, update, t }: { data: CVData; update: (p: Partial<CVDat
             <Input placeholder={t("Vai trò (vd: Software Intern)", "Role (e.g. Software Intern)")} value={x.role} onChange={e => patchExp(x.id, { role: e.target.value })} />
             <div className="grid grid-cols-2 gap-2">
               <Input placeholder={t("Công ty / Tổ chức", "Company / Org")} value={x.org} onChange={e => patchExp(x.id, { org: e.target.value })} />
-              <Input placeholder="2024 — Present" value={x.period} onChange={e => patchExp(x.id, { period: e.target.value })} />
+              <Input placeholder="2024 - Present" value={x.period} onChange={e => patchExp(x.id, { period: e.target.value })} />
             </div>
             <Textarea rows={3} placeholder={t("Mỗi dòng = 1 gạch đầu dòng. Bắt đầu bằng động từ + con số.", "One line per bullet. Start with action verb + number.")} value={x.bullets} onChange={e => patchExp(x.id, { bullets: e.target.value })} />
             <Button size="icon" variant="ghost" onClick={() => removeExp(x.id)} className="absolute -right-1 -top-1 h-7 w-7 text-rose-500"><Trash2 className="w-3.5 h-3.5" /></Button>
@@ -296,7 +296,7 @@ function EuropassTemplate({ data }: { data: CVData }) {
       {data.summary && <p className="text-sm mb-4">{data.summary}</p>}
 
       <SectionHeading color="bg-blue-700">PERSONAL STATEMENT</SectionHeading>
-      <p className="text-sm mb-4">{data.summary || "—"}</p>
+      <p className="text-sm mb-4">{data.summary || "-"}</p>
 
       <SectionHeading color="bg-blue-700">WORK EXPERIENCE</SectionHeading>
       {data.experience.map(x => (
@@ -399,7 +399,7 @@ function ClassicTemplate({ data }: { data: CVData }) {
       <ClassicHeading>Education</ClassicHeading>
       {data.education.map(e => (
         <div key={e.id} className="mb-2 text-sm">
-          <div><b>{e.school}</b> — <i>{e.degree}</i> <span className="float-right text-xs">{e.period}</span></div>
+          <div><b>{e.school}</b> - <i>{e.degree}</i> <span className="float-right text-xs">{e.period}</span></div>
           {e.details && <p>{e.details}</p>}
         </div>
       ))}

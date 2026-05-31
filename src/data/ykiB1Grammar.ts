@@ -109,8 +109,8 @@ const tenses: B1GrammarPoint[] = [
       { fi: "Hän osti uuden auton.", en: "He bought a new car.", vi: "Anh ấy mua xe mới." },
       { fi: "Me asuimme Helsingissä.", en: "We lived in Helsinki.", vi: "Chúng tôi sống ở Helsinki." },
     ],
-    teacherTipEn: "B1 examiners look for past tense — use it in writing & speaking to prove level.",
-    teacherTipVi: "Giám khảo B1 luôn tìm thì quá khứ — phải dùng để chứng minh trình độ.",
+    teacherTipEn: "B1 examiners look for past tense - use it in writing & speaking to prove level.",
+    teacherTipVi: "Giám khảo B1 luôn tìm thì quá khứ - phải dùng để chứng minh trình độ.",
   },
   {
     id: "g-perfect",
@@ -145,8 +145,8 @@ const tenses: B1GrammarPoint[] = [
       { fi: "Jos olisi aikaa, matkustaisin.", en: "If I had time, I would travel.", vi: "Nếu có thời gian, tôi sẽ đi du lịch." },
       { fi: "Voisitko auttaa minua?", en: "Could you help me?", vi: "Bạn có thể giúp tôi không?" },
     ],
-    teacherTipEn: "Always start polite requests with 'Voisitko…?' or 'Haluaisin…' — examiners reward politeness.",
-    teacherTipVi: "Yêu cầu lịch sự luôn bắt đầu bằng 'Voisitko…?' hoặc 'Haluaisin…' — giám khảo thưởng điểm lịch sự.",
+    teacherTipEn: "Always start polite requests with 'Voisitko…?' or 'Haluaisin…' - examiners reward politeness.",
+    teacherTipVi: "Yêu cầu lịch sự luôn bắt đầu bằng 'Voisitko…?' hoặc 'Haluaisin…' - giám khảo thưởng điểm lịch sự.",
   },
 ];
 
@@ -184,8 +184,8 @@ const sentence: B1GrammarPoint[] = [
       { fi: "Mennäänkö elokuviin?", en: "Shall we go to the movies?", vi: "Mình đi xem phim nhé?" },
       { fi: "Tätä kirjaa luetaan kouluissa.", en: "This book is read in schools.", vi: "Cuốn sách này được đọc trong trường." },
     ],
-    teacherTipEn: "'Mennäänkö?' = the most natural way to suggest something — use it in Speaking.",
-    teacherTipVi: "'Mennäänkö?' = cách rủ rê tự nhiên nhất — dùng trong Speaking.",
+    teacherTipEn: "'Mennäänkö?' = the most natural way to suggest something - use it in Speaking.",
+    teacherTipVi: "'Mennäänkö?' = cách rủ rê tự nhiên nhất - dùng trong Speaking.",
   },
   {
     id: "g-comparative",
