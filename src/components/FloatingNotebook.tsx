@@ -225,6 +225,12 @@ const FloatingNotebook = () => {
   const handleSave = useCallback(async () => {
     if (!user || !title.trim()) return;
     const content = getContent();
+    // Safety: never let an empty/near-empty editor overwrite an existing saved note.
+    // This protects against accidental wipes (e.g. editor re-mount, focus glitch).
+    const stripped = content.replace(/<[^>]*>/g, "").trim();
+    if (selectedId && stripped.length < 2) {
+      return;
+    }
     setSaving(true);
     try {
       if (selectedId) {
