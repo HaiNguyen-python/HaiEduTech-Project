@@ -252,6 +252,17 @@ const PreDepartureChecklist = () => {
             <div className="flex items-center justify-center py-16">
               <Loader2 className="w-6 h-6 animate-spin text-primary" />
             </div>
+          ) : !userId ? (
+            <Card>
+              <CardContent className="p-8 text-center">
+                <p className="text-sm text-muted-foreground mb-4">
+                  {t("Đăng nhập để lưu tiến độ checklist của bạn.", "Sign in to save your checklist progress.")}
+                </p>
+                <Button onClick={() => navigate("/login?redirect=/study-abroad/checklist")}>
+                  {t("Đăng nhập", "Sign in")}
+                </Button>
+              </CardContent>
+            </Card>
           ) : (
             <div className="space-y-4">
               {groups.map(([cat, tasks]) => {
