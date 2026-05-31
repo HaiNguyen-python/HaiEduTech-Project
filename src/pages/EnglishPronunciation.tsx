@@ -1551,6 +1551,7 @@ const EnglishPronunciation = () => {
                     >
                       🐢 {t("Chậm", "Slow")}
                     </button>
+                    <SpeakCheck target={s.text} />
                   </div>
                   <p className="text-xs text-muted-foreground">🎯 {s.focus}</p>
                 </motion.div>
