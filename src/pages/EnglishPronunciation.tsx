@@ -1519,6 +1519,69 @@ const EnglishPronunciation = () => {
             </div>
           </TabsContent>
 
+          {/* ============== Vietnamese Mistakes ============== */}
+          <TabsContent value="vnmistakes" className="space-y-6">
+            <SectionHeader
+              icon={AlertTriangle}
+              title={t("Các từ người Việt hay phát âm sai", "Words Vietnamese Learners Mispronounce")}
+              subtitle={t(
+                "Tổng hợp lỗi phát âm phổ biến nhất của người học Việt. Bấm 🔊 nghe mẫu, bấm 🎤 Speak để máy chấm.",
+                "Most common Vietnamese learner mistakes. Tap 🔊 to hear, tap 🎤 Speak for instant scoring.",
+              )}
+            />
+            <div className="space-y-6">
+              {VN_MISTAKE_GROUPS.map((g) => {
+                const items = VN_MISTAKES.filter((m) => m.category === g.key);
+                if (items.length === 0) return null;
+                return (
+                  <div key={g.key} className={`rounded-2xl border bg-gradient-to-br ${g.color} p-5`}>
+                    <div className="flex items-center gap-3 mb-4">
+                      <span className="text-2xl">{g.emoji}</span>
+                      <h3 className="text-lg font-bold text-foreground">{t(g.vi, g.en)}</h3>
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-background/60 text-muted-foreground border border-border">
+                        {items.length} {t("từ", "words")}
+                      </span>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-3">
+                      {items.map((m) => {
+                        const target = m.word.split("/")[0].trim();
+                        return (
+                          <div key={m.word + m.wrongIpa} className="rounded-xl border border-border bg-card p-4">
+                            <div className="flex items-start justify-between gap-2 mb-2 flex-wrap">
+                              <div>
+                                <div className="font-display font-bold text-foreground text-lg">{m.word}</div>
+                                <div className="font-mono text-xs text-emerald-600 dark:text-emerald-400 mt-0.5">✓ {m.correctIpa}</div>
+                              </div>
+                              <div className="flex items-center gap-1.5 flex-wrap justify-end">
+                                <PlayBtn text={target} accent="en-US" small />
+                                <PlayBtn text={target} accent="en-GB" small />
+                                <SpeakCheck target={target} small />
+                              </div>
+                            </div>
+                            <div className="rounded-lg bg-rose-500/10 border border-rose-500/30 p-2 mb-2">
+                              <p className="text-xs text-rose-700 dark:text-rose-300">
+                                <span className="font-semibold">✗ {t("Hay đọc sai:", "Common mistake:")}</span>{" "}
+                                {m.wrong} <span className="font-mono">{m.wrongIpa}</span>
+                              </p>
+                            </div>
+                            <p className="text-xs text-muted-foreground">💡 {t(m.vi, m.en)}</p>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-foreground">
+              💡 <strong>{t("Mẹo của thầy Hải:", "Mr. Hai's Tip:")}</strong>{" "}
+              {t(
+                "Hãy chọn mỗi ngày 3 từ trong bảng này, luyện 'shadowing' 10 lần, rồi bấm Speak để máy chấm. Sau 30 ngày bạn sẽ hết 80% lỗi phát âm phổ biến.",
+                "Pick 3 words a day, shadow each 10 times, then tap Speak for instant scoring. In 30 days you'll eliminate 80% of common mistakes.",
+              )}
+            </div>
+          </TabsContent>
+
           {/* ============== Sentence Practice ============== */}
           <TabsContent value="practice" className="space-y-6">
             <SectionHeader
