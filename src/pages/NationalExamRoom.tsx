@@ -293,7 +293,7 @@ const NationalExamRoom = () => {
                     <div className="flex items-start gap-3 mb-3">
                       <span className="flex-shrink-0 w-8 h-8 rounded-full bg-muted flex items-center justify-center text-sm font-bold">{q.id}</span>
                       <div className="flex-1">
-                        <p className="text-foreground font-medium">{q.text}</p>
+                        {q.text && q.text.trim() && <p className="text-foreground font-medium">{q.text}</p>}
                         <span className="text-xs bg-muted px-2 py-0.5 rounded mt-1 inline-block">{cat}</span>
                       </div>
                       {isCorrect ? <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0" /> : <XCircle className="w-5 h-5 text-destructive flex-shrink-0" />}
