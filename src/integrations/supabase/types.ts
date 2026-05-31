@@ -2480,6 +2480,20 @@ export type Database = {
           user_id: string
         }[]
       }
+      get_monthly_top_students: {
+        Args: { _limit?: number }
+        Returns: {
+          activities: number
+          avatar_url: string
+          display_name: string
+          login_days: number
+          mastered_words: number
+          online_minutes: number
+          rank: number
+          total_score: number
+          user_id: string
+        }[]
+      }
       get_overall_vocab_leaderboard: {
         Args: never
         Returns: {
@@ -2504,6 +2518,10 @@ export type Database = {
           streak_days: number
           user_id: string
         }[]
+      }
+      get_student_summary: {
+        Args: { _period?: string; _user_id: string }
+        Returns: Json
       }
       has_role: {
         Args: {
