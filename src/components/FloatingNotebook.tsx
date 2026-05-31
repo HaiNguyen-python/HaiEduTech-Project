@@ -160,6 +160,15 @@ const FloatingNotebook = () => {
     }
   }, [user, open, fetchNotebooks]);
 
+  // Auto-open the most recently updated note when the panel opens with nothing selected.
+  // Prevents the "my notes are gone!" experience - students used to see a blank "Ghi chú mới"
+  // by default even though their saved notes were still safe in the dropdown.
+  useEffect(() => {
+    if (!open || !editor || selectedId || notebooks.length === 0) return;
+    handleSelect(notebooks[0]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, editor, notebooks, selectedId]);
+
   const getContent = useCallback(() => {
     return editor?.getHTML() || "";
   }, [editor]);
@@ -216,6 +225,12 @@ const FloatingNotebook = () => {
   const handleSave = useCallback(async () => {
     if (!user || !title.trim()) return;
     const content = getContent();
+    // Safety: never let an empty/near-empty editor overwrite an existing saved note.
+    // This protects against accidental wipes (e.g. editor re-mount, focus glitch).
+    const stripped = content.replace(/<[^>]*>/g, "").trim();
+    if (selectedId && stripped.length < 2) {
+      return;
+    }
     setSaving(true);
     try {
       if (selectedId) {
