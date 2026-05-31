@@ -1037,7 +1037,9 @@ const SpeakCheck = ({
   );
 };
 
+const EnglishPronunciation = () => {
   const { t } = useLanguage();
+
 
   // Quiz state
   const [quizIdx, setQuizIdx] = useState(0);
