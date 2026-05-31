@@ -53,8 +53,7 @@ interface Props {
 }
 
 const MonthlySummaryCard = ({ userId }: Props) => {
-  const { t, language } = useLanguage();
-  const lang: "vi" | "en" = language === "vi" ? "vi" : "en";
+  const { t, lang } = useLanguage();
   const [period, setPeriod] = useState<Period>("month");
   const [data, setData] = useState<Summary | null>(null);
   const [loading, setLoading] = useState(true);
