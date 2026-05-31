@@ -491,6 +491,7 @@ const StudentDocuments = () => {
           )}
             </TabsContent>
           </Tabs>
+          )}
         </div>
       </main>
 
