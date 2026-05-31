@@ -413,16 +413,33 @@ const NationalExamRoom = () => {
               {currentQuestion && (() => {
                 const arrKey = `${examId}-${currentQuestion.id}`;
                 const arrData = arrangementSentences[arrKey];
-                const qText = (currentQuestion.text || "").trim();
+                const qTextRaw = (currentQuestion.text || "").trim();
+                // Detect cryptic short labels (e.g. "Transition phrase.", "Bitcoin profits sentence.") and
+                // promote them to a clear instruction + topic hint.
+                const isLabel = !!qTextRaw &&
+                  qTextRaw.length < 60 &&
+                  !/[?:]\s*$/.test(qTextRaw) &&
+                  !/^(which|what|the word|the phrase|the underlined|in paragraph|according to|choose|select|fill|arrange|rearrange)/i.test(qTextRaw);
+                const instruction = t(
+                  `Chọn đáp án đúng cho chỗ trống (${currentQuestion.id}).`,
+                  `Choose the best option to fill blank (${currentQuestion.id}).`
+                );
                 return (
                 <div className="glass-card rounded-xl p-6">
                   <div className="flex items-start gap-3 mb-5">
                     <span className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold">{currentQuestion.id}</span>
-                    {qText ? (
-                      <p className="text-foreground text-lg md:text-xl font-medium pt-1.5">{qText}</p>
-                    ) : (
-                      <p className="text-foreground text-lg md:text-xl font-medium pt-1.5">{t("Chọn đáp án đúng để điền vào chỗ trống.", "Choose the correct option to fill the blank.")}</p>
-                    )}
+                    <div className="flex-1 pt-1.5">
+                      {qTextRaw && !isLabel ? (
+                        <p className="text-foreground text-lg md:text-xl font-medium">{qTextRaw}</p>
+                      ) : (
+                        <>
+                          <p className="text-foreground text-lg md:text-xl font-medium">{instruction}</p>
+                          {isLabel && (
+                            <p className="text-sm text-muted-foreground mt-1">{t("Chủ đề:", "Focus:")} <span className="italic">{qTextRaw.replace(/\.$/, "")}</span></p>
+                          )}
+                        </>
+                      )}
+                    </div>
                   </div>
 
                   {/* Arrangement question sentences */}
