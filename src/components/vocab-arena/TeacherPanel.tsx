@@ -84,16 +84,26 @@ const TeacherPanel = ({ onBack }: TeacherPanelProps) => {
     setRoomStatus("ended");
   };
 
-  // Subscribe to participants
+  // Subscribe to participants + polling fallback.
+  // We can't rely solely on realtime postgres_changes: occasionally the
+  // websocket drops or buffers updates, and the teacher ends up seeing the
+  // initial snapshot (everyone at score 0). Polling every 3s while the room
+  // is active (waiting/playing) is cheap and guarantees the leaderboard
+  // catches up. We also refetch immediately whenever roomStatus changes
+  // (e.g. when teacher clicks "End Game") so the final scores are correct.
   useEffect(() => {
     if (!roomId) return;
 
     const fetchParticipants = async () => {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from("game_participants")
         .select("id, display_name, score, answers_correct, answers_total, word_results, finished_at, current_question, current_word")
         .eq("room_id", roomId)
         .order("score", { ascending: false });
+      if (error) {
+        console.warn("[TeacherPanel] fetchParticipants error", error);
+        return;
+      }
       if (data) setParticipants(data as typeof participants);
     };
 
@@ -108,10 +118,16 @@ const TeacherPanel = ({ onBack }: TeacherPanelProps) => {
       )
       .subscribe();
 
+    // Polling fallback — runs only while game is active. Stops when room ends.
+    const interval = roomStatus === "ended"
+      ? null
+      : setInterval(fetchParticipants, 3000);
+
     return () => {
       supabase.removeChannel(channel);
+      if (interval) clearInterval(interval);
     };
-  }, [roomId]);
+  }, [roomId, roomStatus]);
 
   // Compute class analytics
   const getWordAnalytics = () => {

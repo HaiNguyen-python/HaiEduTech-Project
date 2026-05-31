@@ -167,7 +167,7 @@ const ClassroomBattle = ({ onBack }: ClassroomBattleProps) => {
     setPhase("results");
 
     if (participantId) {
-      await supabase
+      const { error } = await supabase
         .from("game_participants")
         .update({
           score: gameResult.score,
@@ -178,6 +178,10 @@ const ClassroomBattle = ({ onBack }: ClassroomBattleProps) => {
           finished_at: new Date().toISOString(),
         })
         .eq("id", participantId);
+      if (error) {
+        // Surface so teachers can see why their leaderboard might be stale.
+        console.error("[ClassroomBattle] final score write failed", error);
+      }
     }
   };
 
@@ -264,7 +268,13 @@ const ClassroomBattle = ({ onBack }: ClassroomBattleProps) => {
                   streak: update.streak,
                 })
                 .eq("id", participantId)
-                .then(() => {});
+                .then(({ error }) => {
+                  if (error) {
+                    // Don't toast every question — just log. A persistent
+                    // failure here is why teacher leaderboards used to show 0.
+                    console.warn("[ClassroomBattle] progress write failed", error);
+                  }
+                });
             }
           }}
         />
