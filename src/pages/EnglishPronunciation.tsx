@@ -1251,9 +1251,10 @@ const EnglishPronunciation = () => {
                       <div key={w} className="text-center bg-secondary/50 rounded-lg p-3 border border-border/60">
                         <div className="font-bold text-foreground text-lg">{w}</div>
                         <div className="font-mono text-xs text-primary mt-0.5">{mp.ipa[i]}</div>
-                        <div className="flex justify-center gap-1 mt-2">
+                        <div className="flex justify-center gap-1 mt-2 flex-wrap">
                           <PlayBtn text={w} accent="en-US" small />
                           <PlayBtn text={w} accent="en-GB" small />
+                          <SpeakCheck target={w} small />
                         </div>
                       </div>
                     ))}
