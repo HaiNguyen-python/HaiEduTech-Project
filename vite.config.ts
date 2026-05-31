@@ -63,7 +63,6 @@ export default defineConfig(({ mode }) => ({
           ],
           "vendor-tiptap": [
             "@tiptap/react",
-            "@tiptap/pm",
             "@tiptap/starter-kit",
             "@tiptap/extension-color",
             "@tiptap/extension-highlight",
