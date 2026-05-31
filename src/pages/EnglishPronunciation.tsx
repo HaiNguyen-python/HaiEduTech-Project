@@ -1220,7 +1220,7 @@ const EnglishPronunciation = () => {
           </TabsList>
 
           {/* ============== IPA chart ============== */}
-          <TabsContent value="ipa" className="space-y-8">
+          <TabsContent value="ipa" className="space-y-6">
             <SectionHeader
               icon={Layers3}
               title={t("Bảng phiên âm IPA", "IPA Phoneme Chart")}
@@ -1229,33 +1229,61 @@ const EnglishPronunciation = () => {
                 "44 English phonemes: 12 monophthongs, 8 diphthongs, and 24 consonants. Tap 🔊 to hear all 3 example words smoothly; tap 🎤 Speak for instant pronunciation scoring.",
               )}
             />
-            <div className="grid lg:grid-cols-3 gap-6">
+            {/* Horizontal category selector */}
+            <div className="flex flex-wrap gap-2">
               {[
-                { title: t("Nguyên âm đơn (Monophthongs)", "Monophthongs"), rows: VOWELS, color: "from-amber-500/15 to-amber-500/5", border: "border-amber-500/30", count: VOWELS.length },
-                { title: t("Nguyên âm đôi (Diphthongs)", "Diphthongs"), rows: DIPHTHONGS, color: "from-fuchsia-500/15 to-fuchsia-500/5", border: "border-fuchsia-500/30", count: DIPHTHONGS.length },
-                { title: t("Phụ âm (Consonants)", "Consonants"), rows: CONSONANTS, color: "from-sky-500/15 to-sky-500/5", border: "border-sky-500/30", count: CONSONANTS.length },
-              ].map((group) => (
-                <div key={group.title} className={`rounded-2xl border-2 ${group.border} bg-gradient-to-br ${group.color} p-5 shadow-sm`}>
-                  <div className="flex items-baseline justify-between mb-4">
-                    <h3 className="font-display font-bold text-lg text-foreground">{group.title}</h3>
-                    <span className="text-xs font-bold text-muted-foreground bg-card/80 px-2 py-0.5 rounded-full border border-border/60">
-                      {group.count} {t("âm", "sounds")}
+                { key: "vowels" as const, label: t("Nguyên âm đơn", "Monophthongs"), count: VOWELS.length, color: "amber" },
+                { key: "diphthongs" as const, label: t("Nguyên âm đôi", "Diphthongs"), count: DIPHTHONGS.length, color: "fuchsia" },
+                { key: "consonants" as const, label: t("Phụ âm", "Consonants"), count: CONSONANTS.length, color: "sky" },
+              ].map((g) => {
+                const active = ipaGroup === g.key;
+                const colorMap: Record<string, { bg: string; border: string; text: string; ring: string }> = {
+                  amber: { bg: "bg-amber-500/10", border: "border-amber-500/40", text: "text-amber-700 dark:text-amber-300", ring: "ring-amber-500/30" },
+                  fuchsia: { bg: "bg-fuchsia-500/10", border: "border-fuchsia-500/40", text: "text-fuchsia-700 dark:text-fuchsia-300", ring: "ring-fuchsia-500/30" },
+                  sky: { bg: "bg-sky-500/10", border: "border-sky-500/40", text: "text-sky-700 dark:text-sky-300", ring: "ring-sky-500/30" },
+                };
+                const c = colorMap[g.color];
+                return (
+                  <button
+                    key={g.key}
+                    onClick={() => setIpaGroup(g.key)}
+                    className={`inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 font-semibold text-sm transition-all ${
+                      active ? `${c.bg} ${c.border} ${c.text} ring-2 ${c.ring} shadow-sm` : "bg-card border-border text-muted-foreground hover:text-foreground hover:border-primary/30"
+                    }`}
+                  >
+                    {g.label}
+                    <span className={`text-[11px] font-bold px-1.5 py-0.5 rounded-full ${active ? "bg-background/70" : "bg-secondary"}`}>
+                      {g.count}
                     </span>
-                  </div>
-                  <div className="space-y-2.5">
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Active category phonemes in compact grid */}
+            {(() => {
+              const group =
+                ipaGroup === "vowels"
+                  ? { rows: VOWELS, color: "from-amber-500/10 to-amber-500/5", border: "border-amber-500/25" }
+                  : ipaGroup === "diphthongs"
+                    ? { rows: DIPHTHONGS, color: "from-fuchsia-500/10 to-fuchsia-500/5", border: "border-fuchsia-500/25" }
+                    : { rows: CONSONANTS, color: "from-sky-500/10 to-sky-500/5", border: "border-sky-500/25" };
+              return (
+                <div className={`rounded-2xl border-2 ${group.border} bg-gradient-to-br ${group.color} p-4 shadow-sm`}>
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
                     {group.rows.map((row) => {
                       const firstWord = row.example.split(",")[0].replace(/\(.+?\)/g, "").trim();
                       return (
-                        <div key={row.ipa} className="bg-card/90 backdrop-blur-sm rounded-xl p-3.5 border border-border/60 shadow-sm hover:shadow-md transition-shadow">
+                        <div key={row.ipa} className="bg-card/90 backdrop-blur-sm rounded-xl p-3 border border-border/60 shadow-sm hover:shadow-md transition-shadow">
                           <div className="flex items-center justify-between mb-2 gap-2 flex-wrap">
-                            <div className="flex items-center gap-3 flex-wrap min-w-0">
-                              <span className="font-mono font-bold text-primary text-xl leading-none">{row.ipa}</span>
+                            <div className="flex items-center gap-2 flex-wrap min-w-0">
+                              <span className="font-mono font-bold text-primary text-lg leading-none">{row.ipa}</span>
                               <span className="text-sm text-foreground font-medium">{row.example}</span>
                             </div>
                             <div className="flex items-center gap-1.5 shrink-0">
                               <button
                                 onClick={() => speakExamples(row.example, "en-US")}
-                                className="inline-flex items-center gap-1.5 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors font-medium px-2.5 py-1 text-xs"
+                                className="inline-flex items-center gap-1 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors font-medium px-2 py-1 text-xs"
                                 aria-label={`Play all examples: ${row.example}`}
                                 title={t("Nghe cả 3 từ ví dụ", "Play all 3 examples")}
                               >
@@ -1268,7 +1296,7 @@ const EnglishPronunciation = () => {
                           <p className="text-[13px] leading-relaxed text-foreground/80">
                             <span className="font-semibold text-foreground">💡 {t(row.tip, row.tipEn)}</span>
                           </p>
-                          <p className="text-xs leading-relaxed text-muted-foreground mt-1.5">
+                          <p className="text-xs leading-relaxed text-muted-foreground mt-1">
                             {t(row.vi, row.tipEn)}
                           </p>
                         </div>
@@ -1276,8 +1304,8 @@ const EnglishPronunciation = () => {
                     })}
                   </div>
                 </div>
-              ))}
-            </div>
+              );
+            })()}
           </TabsContent>
 
 
