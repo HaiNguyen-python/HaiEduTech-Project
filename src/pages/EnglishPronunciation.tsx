@@ -1182,6 +1182,7 @@ const EnglishPronunciation = () => {
             <TabsTrigger value="linking" className="gap-2"><Waves className="w-4 h-4" />{t("Nối âm & Luyến láy", "Linking & Connected")}</TabsTrigger>
             <TabsTrigger value="weak" className="gap-2"><AudioLines className="w-4 h-4" />{t("Weak Forms", "Weak Forms")}</TabsTrigger>
             <TabsTrigger value="ukus" className="gap-2"><Flag className="w-4 h-4" />{t("Anh-Anh vs Anh-Mỹ", "British vs American")}</TabsTrigger>
+            <TabsTrigger value="vnmistakes" className="gap-2"><AlertTriangle className="w-4 h-4" />{t("Lỗi VN hay sai", "Common VN Mistakes")}</TabsTrigger>
             <TabsTrigger value="practice" className="gap-2"><GraduationCap className="w-4 h-4" />{t("Luyện câu", "Sentence Drill")}</TabsTrigger>
             <TabsTrigger value="quiz" className="gap-2"><Trophy className="w-4 h-4" />{t("Quiz nghe", "Listening Quiz")}</TabsTrigger>
           </TabsList>
