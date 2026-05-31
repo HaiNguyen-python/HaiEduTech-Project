@@ -277,7 +277,7 @@ const NationalExamRoom = () => {
               {exam.passages.map((passage) => (
                 <div key={passage.id} className="glass-card rounded-xl p-5 mb-4">
                   <h3 className="font-bold text-foreground mb-2">{passage.title}</h3>
-                  <p className="text-sm text-muted-foreground whitespace-pre-line leading-relaxed">{renderPassageText(passage.text)}</p>
+                  <div className="text-base text-foreground/90 leading-[1.95] font-serif max-w-[72ch] whitespace-pre-wrap">{renderPassageText(passage.text)}</div>
                 </div>
               ))}
 
