@@ -1070,6 +1070,8 @@ const SpeakCheck = ({
 const EnglishPronunciation = () => {
   const { t } = useLanguage();
 
+  // IPA chart active category
+  const [ipaGroup, setIpaGroup] = useState<"vowels" | "diphthongs" | "consonants">("vowels");
 
   // Quiz state
   const [quizIdx, setQuizIdx] = useState(0);
