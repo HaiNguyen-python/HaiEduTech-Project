@@ -919,7 +919,124 @@ const PlayBtn = ({
   </button>
 );
 
-const EnglishPronunciation = () => {
+/**
+ * SpeakCheck - live mic-recognition button that grades pronunciation.
+ * Uses Web Speech API (free, no key). Strips punctuation + lowercases on both
+ * sides, then computes word-level overlap percentage as a simple accuracy score.
+ */
+const normalize = (s: string) =>
+  s.toLowerCase().replace(/[^a-z0-9'\s]/g, "").replace(/\s+/g, " ").trim();
+
+const scorePronunciation = (target: string, heard: string): number => {
+  const t = normalize(target).split(" ").filter(Boolean);
+  const h = normalize(heard).split(" ").filter(Boolean);
+  if (t.length === 0) return 0;
+  const heardSet = new Map<string, number>();
+  h.forEach((w) => heardSet.set(w, (heardSet.get(w) ?? 0) + 1));
+  let matched = 0;
+  for (const w of t) {
+    const n = heardSet.get(w) ?? 0;
+    if (n > 0) {
+      matched++;
+      heardSet.set(w, n - 1);
+    }
+  }
+  return Math.round((matched / t.length) * 100);
+};
+
+const SpeakCheck = ({
+  target,
+  small,
+  accent = "en-US",
+}: {
+  target: string;
+  small?: boolean;
+  accent?: Accent;
+}) => {
+  const [listening, setListening] = useState(false);
+  const [score, setScore] = useState<number | null>(null);
+  const [heard, setHeard] = useState<string>("");
+  const recRef = useRef<any>(null);
+
+  const start = useCallback(() => {
+    const W = window as any;
+    const SR = W.SpeechRecognition || W.webkitSpeechRecognition;
+    if (!SR) {
+      toast.error("Trình duyệt không hỗ trợ nhận diện giọng nói. Hãy dùng Chrome/Edge.");
+      return;
+    }
+    try {
+      const rec = new SR();
+      rec.lang = accent;
+      rec.interimResults = false;
+      rec.maxAlternatives = 3;
+      rec.continuous = false;
+      recRef.current = rec;
+      setScore(null);
+      setHeard("");
+      setListening(true);
+      rec.onresult = (e: any) => {
+        let best = "";
+        let bestScore = -1;
+        for (let i = 0; i < e.results[0].length; i++) {
+          const alt = e.results[0][i].transcript as string;
+          const s = scorePronunciation(target, alt);
+          if (s > bestScore) {
+            bestScore = s;
+            best = alt;
+          }
+        }
+        setHeard(best);
+        setScore(bestScore);
+        if (bestScore >= 85) toast.success(`Xuất sắc! ${bestScore}/100`);
+        else if (bestScore >= 60) toast.message(`Khá tốt - ${bestScore}/100`);
+        else toast.error(`Cần luyện thêm - ${bestScore}/100`);
+      };
+      rec.onerror = (e: any) => {
+        setListening(false);
+        if (e.error === "not-allowed") toast.error("Hãy cấp quyền micro");
+        else if (e.error !== "no-speech") toast.error("Lỗi: " + e.error);
+      };
+      rec.onend = () => setListening(false);
+      rec.start();
+    } catch (err) {
+      setListening(false);
+      toast.error("Không khởi động được mic");
+    }
+  }, [target, accent]);
+
+  const stop = useCallback(() => {
+    try { recRef.current?.stop(); } catch {}
+    setListening(false);
+  }, []);
+
+  const color =
+    score === null ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-500/20"
+      : score >= 85 ? "bg-emerald-500/20 text-emerald-700 dark:text-emerald-300"
+      : score >= 60 ? "bg-amber-500/20 text-amber-700 dark:text-amber-300"
+      : "bg-rose-500/20 text-rose-700 dark:text-rose-300";
+
+  return (
+    <div className="inline-flex flex-col items-start gap-1">
+      <button
+        onClick={listening ? stop : start}
+        className={`inline-flex items-center gap-1.5 rounded-lg transition-colors font-medium border border-current/20 ${color} ${
+          small ? "px-2 py-1 text-xs" : "px-3 py-1.5 text-sm"
+        }`}
+        aria-label="Speak and check pronunciation"
+      >
+        {listening ? <Loader2 className={`${small ? "w-3 h-3" : "w-4 h-4"} animate-spin`} /> : <Mic className={small ? "w-3 h-3" : "w-4 h-4"} />}
+        {listening ? "Đang nghe..." : score !== null ? `${score}/100` : "Speak"}
+      </button>
+      {heard && score !== null && (
+        <span className="text-[10px] text-muted-foreground italic max-w-[220px] truncate" title={heard}>
+          "{heard}"
+        </span>
+      )}
+    </div>
+  );
+};
+
   const { t } = useLanguage();
 
   // Quiz state
