@@ -95,7 +95,7 @@ export const ieltsListeningPracticeSetsExpansion: ListeningPracticeSet[] = [
       "Surveys are best when you need numerical patterns from a very large sample, but they rarely capture motivations behind a choice.\n" +
       "Interviews give you deep, personal accounts and are ideal for sensitive topics, although they are time-consuming to transcribe.\n" +
       "Focus groups are powerful when ideas emerge from the interaction itself, but a dominant participant can easily skew the discussion.\n" +
-      "Observation removes the bias that comes from people describing what they think they do, which often differs from what they actually do — but ethics approval is essential.",
+      "Observation removes the bias that comes from people describing what they think they do, which often differs from what they actually do - but ethics approval is essential.",
     questions: [
       { type: "matching", prompt: "Best for large numerical samples but weak on motivation.", answer: "A" },
       { type: "matching", prompt: "Ideal for sensitive topics but slow to transcribe.", answer: "B" },
@@ -119,11 +119,11 @@ export const ieltsListeningPracticeSetsExpansion: ListeningPracticeSet[] = [
     context: "Listen to part of a geology lecture and complete the notes with NO MORE THAN TWO WORDS or a number.",
     contextVi: "Nghe bài giảng và điền KHÔNG QUÁ HAI TỪ hoặc một số.",
     transcript:
-      "Modern volcano monitoring combines four main techniques. The first is seismology — small earthquakes beneath a volcano often signal that magma is moving upwards. Networks of seismometers can detect tremors as weak as magnitude one.\n" +
+      "Modern volcano monitoring combines four main techniques. The first is seismology - small earthquakes beneath a volcano often signal that magma is moving upwards. Networks of seismometers can detect tremors as weak as magnitude one.\n" +
       "The second is ground deformation, measured by GPS receivers and satellite radar. As magma fills a chamber, the surface above can bulge by several centimetres long before any eruption.\n" +
       "The third is gas monitoring. The ratio of sulphur dioxide to carbon dioxide in the plume rises sharply as magma approaches the surface.\n" +
       "The fourth and increasingly important method is thermal imaging from satellites, which can detect new hot spots even through cloud cover.\n" +
-      "Combining these four streams now allows warnings to be issued, on average, around three days before a major eruption — a dramatic improvement on the situation just twenty years ago, when warnings were rarely possible.",
+      "Combining these four streams now allows warnings to be issued, on average, around three days before a major eruption - a dramatic improvement on the situation just twenty years ago, when warnings were rarely possible.",
     questions: [
       { type: "fill-in", prompt: "Number of main monitoring techniques: ___", answer: "4" },
       { type: "fill-in", prompt: "Seismometers can detect tremors as weak as magnitude ___.", answer: "1" },

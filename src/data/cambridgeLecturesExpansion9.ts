@@ -111,7 +111,7 @@ const startersBodyFeelings = mk({
   ],
   quiz: [
     { question: "We see with our ___.", options: ["nose", "ears", "eyes", "hands"], answer: 2, explanation: "Eyes to see." },
-    { question: "I'm ___ — I want to sleep.", options: ["happy", "tired", "tall", "fast"], answer: 1, explanation: "Sleep → tired." },
+    { question: "I'm ___ - I want to sleep.", options: ["happy", "tired", "tall", "fast"], answer: 1, explanation: "Sleep → tired." },
     { question: "Correct: ___ happy.", options: ["I", "I am", "Am I", "Me is"], answer: 1, explanation: "Use 'I am'." },
     { question: "Pick a body part.", options: ["red", "leg", "happy", "fast"], answer: 1, explanation: "Leg is a body part." },
   ],
@@ -383,8 +383,8 @@ const flyersSchoolTrip = mk({
 // ====================== KET (A2) ======================
 const ketEmailReply = mk({
   id: "cam-ket-email-reply",
-  title: "KET Writing Part 6 — Reply Email",
-  titleVi: "KET Viết Phần 6 — Trả lời Email",
+  title: "KET Writing Part 6 - Reply Email",
+  titleVi: "KET Viết Phần 6 - Trả lời Email",
   level: "ket",
   skill: "reading-writing",
   icon: "✉️",
@@ -422,8 +422,8 @@ const ketEmailReply = mk({
 
 const ketShoppingRolePlay = mk({
   id: "cam-ket-shopping-roleplay",
-  title: "KET Speaking — Shopping Role Play",
-  titleVi: "KET Nói — Đóng vai mua sắm",
+  title: "KET Speaking - Shopping Role Play",
+  titleVi: "KET Nói - Đóng vai mua sắm",
   level: "ket",
   skill: "speaking",
   icon: "🛍️",
@@ -502,8 +502,8 @@ const ketStoryLinkers = mk({
 // ====================== PET (B1) ======================
 const petEssayOpinion = mk({
   id: "cam-pet-essay-opinion",
-  title: "PET Writing Part 2 — Opinion Essay",
-  titleVi: "PET Viết Phần 2 — Bài luận quan điểm",
+  title: "PET Writing Part 2 - Opinion Essay",
+  titleVi: "PET Viết Phần 2 - Bài luận quan điểm",
   level: "pet",
   skill: "reading-writing",
   icon: "🖊️",
@@ -542,8 +542,8 @@ const petEssayOpinion = mk({
 
 const petListeningMonologue = mk({
   id: "cam-pet-listening-monologue",
-  title: "PET Listening Part 3 — Monologue Notes",
-  titleVi: "PET Nghe Phần 3 — Ghi chú đoạn độc thoại",
+  title: "PET Listening Part 3 - Monologue Notes",
+  titleVi: "PET Nghe Phần 3 - Ghi chú đoạn độc thoại",
   level: "pet",
   skill: "listening",
   icon: "🎧",
@@ -581,8 +581,8 @@ const petListeningMonologue = mk({
 
 const petSpeakingPart4 = mk({
   id: "cam-pet-speaking-part4",
-  title: "PET Speaking Part 4 — Discussion",
-  titleVi: "PET Nói Phần 4 — Thảo luận",
+  title: "PET Speaking Part 4 - Discussion",
+  titleVi: "PET Nói Phần 4 - Thảo luận",
   level: "pet",
   skill: "speaking",
   icon: "🗣️",

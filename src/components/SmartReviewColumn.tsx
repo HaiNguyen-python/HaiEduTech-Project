@@ -1,5 +1,5 @@
 /**
- * SmartReviewColumn — "Góc Ôn Tập Thông Minh"
+ * SmartReviewColumn - "Góc Ôn Tập Thông Minh"
  *
  * Persistent right-hand sidebar (desktop) / floating drawer (mobile) that
  * surfaces vocabulary words a student last reviewed >= 14 days ago and
@@ -139,7 +139,7 @@ const FlashCard = ({
             flipped ? "blur-0 opacity-100" : "blur-sm opacity-60 select-none"
           )}
         >
-          {details?.definitionVi || "—"}
+          {details?.definitionVi || "-"}
         </div>
         {!flipped && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -318,7 +318,7 @@ const ReviewBody = ({
           )}
         </div>
         <p className="text-[11px] text-muted-foreground leading-snug">
-          Các từ bạn đã học hơn 2 tuần — ôn lại ngay để khắc sâu trí nhớ!
+          Các từ bạn đã học hơn 2 tuần - ôn lại ngay để khắc sâu trí nhớ!
         </p>
       </div>
 

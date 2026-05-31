@@ -20,14 +20,14 @@ const StudyAbroadHub = () => {
       icon: Compass,
       gradient: "from-cyan-500 to-blue-600",
       title: t("Journey Dashboard", "Journey Dashboard"),
-      desc: t("Tổng quan 7 mốc hành trình, deadline gần nhất, shortlist & hồ sơ — cập nhật realtime.", "7 milestones, next deadline, shortlist & docs — real-time overview."),
+      desc: t("Tổng quan 7 mốc hành trình, deadline gần nhất, shortlist & hồ sơ - cập nhật realtime.", "7 milestones, next deadline, shortlist & docs - real-time overview."),
     },
     {
       to: "/study-abroad/shortlister",
       icon: GraduationCap,
       gradient: "from-indigo-500 to-purple-600",
       title: t("University Shortlister AI", "University Shortlister AI"),
-      desc: t("AI Perplexity gợi ý 9 trường (reach/target/safety) khớp hồ sơ — dữ liệu 2026.", "AI suggests 9 universities (reach/target/safety) — Perplexity 2026 data."),
+      desc: t("AI Perplexity gợi ý 9 trường (reach/target/safety) khớp hồ sơ - dữ liệu 2026.", "AI suggests 9 universities (reach/target/safety) - Perplexity 2026 data."),
     },
     {
       to: "/study-abroad/interview-prep",
@@ -41,7 +41,7 @@ const StudyAbroadHub = () => {
       icon: Calculator,
       gradient: "from-amber-500 to-orange-600",
       title: t("Cost Calculator", "Cost Calculator"),
-      desc: t("Tính tổng chi phí du học Phần Lan, Mỹ, Anh, Trung — học phí, nhà ở, sinh hoạt, visa.", "Total cost estimator for Finland, USA, UK, China."),
+      desc: t("Tính tổng chi phí du học Phần Lan, Mỹ, Anh, Trung - học phí, nhà ở, sinh hoạt, visa.", "Total cost estimator for Finland, USA, UK, China."),
     },
     {
       to: "/study-abroad/documents",

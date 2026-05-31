@@ -90,7 +90,7 @@ const InterviewQuestions = () => {
     <div className="min-h-screen bg-background">
       <SEO
         title="AI & Data Engineer Interview Questions"
-        description="Curated AI Engineer and Data Engineer interview questions with answers, key points, and code examples — Junior to Senior level."
+        description="Curated AI Engineer and Data Engineer interview questions with answers, key points, and code examples - Junior to Senior level."
         path="/programming/interview-questions"
         jsonLd={{
           "@context": "https://schema.org",

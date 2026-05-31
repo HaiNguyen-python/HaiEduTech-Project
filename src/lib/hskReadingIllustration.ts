@@ -8,7 +8,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 
-// Ordered list — first matching keyword wins.
+// Ordered list - first matching keyword wins.
 const HSK_EMOJI_MAP: [RegExp, string][] = [
   // Family & people
   [/妈妈|母亲/, "👩"], [/爸爸|父亲/, "👨"], [/爷爷/, "👴"], [/奶奶/, "👵"],

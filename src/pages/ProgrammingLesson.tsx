@@ -155,9 +155,9 @@ const ProgrammingLessonPage = () => {
   const { isTeacher } = useUserRole();
   const [batchRunning, setBatchRunning] = useState(false);
   const [batchProgress, setBatchProgress] = useState({ done: 0, total: 0 });
-  // Track if learner has had a wrong attempt — used to award Bug Slayer badge
+  // Track if learner has had a wrong attempt - used to award Bug Slayer badge
   const [hadWrongAttempt, setHadWrongAttempt] = useState(false);
-  // Unified Programming gamification — XP, streak, badges across all pillars
+  // Unified Programming gamification - XP, streak, badges across all pillars
   const { awardXP, markPillarLesson, awardBadge, touchStreak } = useProgrammingXP();
 
   const isSQL = mod?.id === "prog-sql" || mod?.course === "sql";
@@ -697,7 +697,7 @@ const ProgrammingLessonPage = () => {
                                   onClick={() => handleAnswer(qi, oi)}
                                   role="radio"
                                   aria-checked={selected}
-                                  aria-label={`${t("Đáp án", "Option")} ${String.fromCharCode(65 + oi)}: ${opt}${showResults ? (isCorrect ? ` — ${t("đúng", "correct")}` : selected ? ` — ${t("sai", "wrong")}` : "") : ""}`}
+                                  aria-label={`${t("Đáp án", "Option")} ${String.fromCharCode(65 + oi)}: ${opt}${showResults ? (isCorrect ? ` - ${t("đúng", "correct")}` : selected ? ` - ${t("sai", "wrong")}` : "") : ""}`}
                                   disabled={showResults}
                                   className={cls}
                                 >
@@ -722,7 +722,7 @@ const ProgrammingLessonPage = () => {
                           updateSkillScore(mod.id, quizScore, lesson.quiz.length);
                           const passed = quizScore / lesson.quiz.length >= 0.6;
 
-                          // Unified Programming XP — award when learner passes (>=60%)
+                          // Unified Programming XP - award when learner passes (>=60%)
                           if (passed) {
                             const pillarId = pillar || mod.course || mod.id;
                             awardXP(50);
@@ -765,7 +765,7 @@ const ProgrammingLessonPage = () => {
                         Submit
                       </button>
                     )}
-                    {/* Next Lesson CTA — shows after quiz is submitted so learners don't think the lesson is over */}
+                    {/* Next Lesson CTA - shows after quiz is submitted so learners don't think the lesson is over */}
                     {showResults && mod && (() => {
                       const currentIdx = mod.lessons.findIndex(l => l.id === lesson.id);
                       const nextLesson = currentIdx >= 0 ? mod.lessons[currentIdx + 1] : null;
@@ -791,7 +791,7 @@ const ProgrammingLessonPage = () => {
                     })()}
                   </div>
 
-                  {/* Code Typing Race — fun game replacing the redundant 1-minute quiz */}
+                  {/* Code Typing Race - fun game replacing the redundant 1-minute quiz */}
                   <CodeTypingRace source={lesson.code || lesson.titleEn} language={lesson.codeLanguage} />
 
                   {/* AI Code Challenge */}

@@ -1,5 +1,5 @@
 /**
- * @file hsk2.ts — HSK 2 Mock Test (authentic Hanban format)
+ * @file hsk2.ts - HSK 2 Mock Test (authentic Hanban format)
  * Listening 35 + Reading 25 = 60 Q, 50 minutes. Pinyin always shown.
  * Chinese-only prompts; Vietnamese gloss reveal after submit.
  */

@@ -1,4 +1,4 @@
-// SAT Expansion 12 — adds 3 thematic modules × 5 lessons each (15 new lessons).
+// SAT Expansion 12 - adds 3 thematic modules × 5 lessons each (15 new lessons).
 // Focus: high-yield Digital SAT topics that prior expansions did not cover deeply.
 //   1) R&W · Cross-text Connections & Dual-Passage strategy
 //   2) Math · Word Problems & Data Interpretation
@@ -13,7 +13,7 @@ export const satExpansionModules12: LanguageModule[] = [
     titleEn: "SAT R&W · Cross-text Connections & Dual-Passage",
     icon: "🔗",
     color: "from-indigo-500 to-purple-600",
-    description: "Gói 5 bài luyện so sánh hai đoạn văn — dạng câu hỏi 'điểm chung / khác biệt' xuất hiện thường xuyên trong Digital SAT.",
+    description: "Gói 5 bài luyện so sánh hai đoạn văn - dạng câu hỏi 'điểm chung / khác biệt' xuất hiện thường xuyên trong Digital SAT.",
     descriptionEn: "Five lessons drilling the dual-passage / cross-text comparison questions that appear in every Digital SAT module.",
     category: "sat",
     language: "english",
@@ -24,15 +24,15 @@ export const satExpansionModules12: LanguageModule[] = [
         titleEn: "Lesson 1 · Meet the Cross-text Question",
         level: 2,
         difficulty: "beginner",
-        theory: "Câu hỏi cross-text cho HAI đoạn ngắn (Text 1 & Text 2) và hỏi tác giả Text 2 sẽ phản ứng thế nào với Text 1. Bước 1: tóm tắt mỗi đoạn bằng 1 câu. Bước 2: xác định MỐI QUAN HỆ — đồng tình, phản bác, bổ sung, hay trung lập.",
-        theoryEn: "Cross-text items give TWO short passages and ask how the author of Text 2 would respond to Text 1. Step 1: one-sentence summary of each. Step 2: name the RELATIONSHIP — agree, rebut, extend, or neutral.",
+        theory: "Câu hỏi cross-text cho HAI đoạn ngắn (Text 1 & Text 2) và hỏi tác giả Text 2 sẽ phản ứng thế nào với Text 1. Bước 1: tóm tắt mỗi đoạn bằng 1 câu. Bước 2: xác định MỐI QUAN HỆ - đồng tình, phản bác, bổ sung, hay trung lập.",
+        theoryEn: "Cross-text items give TWO short passages and ask how the author of Text 2 would respond to Text 1. Step 1: one-sentence summary of each. Step 2: name the RELATIONSHIP - agree, rebut, extend, or neutral.",
         proTips: [
-          "Luôn đọc Text 2 trước câu hỏi — ý kiến của tác giả 2 là chìa khóa.",
-          "Đáp án đúng thường KHÔNG nói 'hoàn toàn đồng ý' hoặc 'phản bác hoàn toàn' — sắc thái mới đúng SAT.",
+          "Luôn đọc Text 2 trước câu hỏi - ý kiến của tác giả 2 là chìa khóa.",
+          "Đáp án đúng thường KHÔNG nói 'hoàn toàn đồng ý' hoặc 'phản bác hoàn toàn' - sắc thái mới đúng SAT.",
         ],
         proTipsEn: [
-          "Read Text 2 with the question in mind — its author's stance is the key.",
-          "Correct answers are rarely 'totally agree' or 'totally reject' — nuanced is SAT-correct.",
+          "Read Text 2 with the question in mind - its author's stance is the key.",
+          "Correct answers are rarely 'totally agree' or 'totally reject' - nuanced is SAT-correct.",
         ],
         exercises: [
           {
@@ -50,19 +50,19 @@ export const satExpansionModules12: LanguageModule[] = [
           { question: "Step 1 of a cross-text question is to…", options: ["Pick the longest option", "Summarise each text in one sentence", "Re-read Text 1 only", "Skip Text 2"], answer: 1, explanation: "Always begin with a one-sentence summary of BOTH texts." },
           { question: "Nuanced SAT answers usually…", options: ["use 'always' and 'never'", "qualify with 'partly' or 'while accepting…, would object…'", "ignore Text 2", "copy Text 1 verbatim"], answer: 1, explanation: "SAT prefers qualified, nuanced phrasings." },
           { question: "If Text 2 adds new evidence supporting Text 1, the relationship is…", options: ["rebut", "extend", "neutral", "contradict"], answer: 1, explanation: "Adding supporting evidence = extend." },
-          { question: "Author of Text 2 'would most likely respond by…' — what to look for?", options: ["Their tone and key claim", "Their vocabulary", "How long Text 2 is", "Their job title"], answer: 0, explanation: "Tone + central claim drive the predicted reaction." },
+          { question: "Author of Text 2 'would most likely respond by…' - what to look for?", options: ["Their tone and key claim", "Their vocabulary", "How long Text 2 is", "Their job title"], answer: 0, explanation: "Tone + central claim drive the predicted reaction." },
         ],
       },
       {
         id: "sat-ct-2-agree-disagree",
-        title: "Bài 2 · Đồng tình hay phản bác? — Phân biệt nhanh",
-        titleEn: "Lesson 2 · Agree vs Disagree — Quick Telltales",
+        title: "Bài 2 · Đồng tình hay phản bác? - Phân biệt nhanh",
+        titleEn: "Lesson 2 · Agree vs Disagree - Quick Telltales",
         level: 3,
         difficulty: "intermediate",
         theory: "Tín hiệu PHẢN BÁC: 'however', 'in contrast', 'overlooks', 'fails to account for'. Tín hiệu ĐỒNG TÌNH: 'similarly', 'echoes', 'reinforces'. Hãy gạch chân tín hiệu đầu tiên xuất hiện trong Text 2.",
         theoryEn: "Disagreement signals: 'however', 'in contrast', 'overlooks', 'fails to account for'. Agreement signals: 'similarly', 'echoes', 'reinforces'. Underline the FIRST such signal in Text 2.",
-        proTips: ["Tín hiệu 'yet', 'still', 'nevertheless' thường báo phản bác nhẹ — chọn đáp án có 'qualified disagreement'."],
-        proTipsEn: ["'yet', 'still', 'nevertheless' usually flag a mild rebuttal — pick a 'qualified disagreement' answer."],
+        proTips: ["Tín hiệu 'yet', 'still', 'nevertheless' thường báo phản bác nhẹ - chọn đáp án có 'qualified disagreement'."],
+        proTipsEn: ["'yet', 'still', 'nevertheless' usually flag a mild rebuttal - pick a 'qualified disagreement' answer."],
         exercises: [
           {
             type: "fill-in-blank",
@@ -85,14 +85,14 @@ export const satExpansionModules12: LanguageModule[] = [
       },
       {
         id: "sat-ct-3-evidence-pairs",
-        title: "Bài 3 · Cặp bằng chứng — đoạn nào hỗ trợ đoạn nào?",
-        titleEn: "Lesson 3 · Evidence Pairs — Which Text Supports Which?",
+        title: "Bài 3 · Cặp bằng chứng - đoạn nào hỗ trợ đoạn nào?",
+        titleEn: "Lesson 3 · Evidence Pairs - Which Text Supports Which?",
         level: 3,
         difficulty: "intermediate",
         theory: "Một số câu hỏi đưa MỘT TUYÊN BỐ và bốn câu trích từ hai đoạn. Bạn phải chọn câu nào HỖ TRỢ TRỰC TIẾP tuyên bố. Quy tắc: đáp án đúng phải dùng đúng KEYWORDS của tuyên bố, không suy diễn.",
-        theoryEn: "Some items give ONE claim and four quotes drawn from two texts. Pick the quote that DIRECTLY supports the claim. Rule: the correct quote must hit the EXACT keywords of the claim — no inference.",
-        proTips: ["Loại ngay đáp án 'đúng nhưng lệch chủ đề' — bẫy phổ biến nhất trong SAT."],
-        proTipsEn: ["Eliminate options that are 'true but off-topic' — the SAT's favourite trap."],
+        theoryEn: "Some items give ONE claim and four quotes drawn from two texts. Pick the quote that DIRECTLY supports the claim. Rule: the correct quote must hit the EXACT keywords of the claim - no inference.",
+        proTips: ["Loại ngay đáp án 'đúng nhưng lệch chủ đề' - bẫy phổ biến nhất trong SAT."],
+        proTipsEn: ["Eliminate options that are 'true but off-topic' - the SAT's favourite trap."],
         exercises: [
           {
             type: "fill-in-blank",
@@ -113,14 +113,14 @@ export const satExpansionModules12: LanguageModule[] = [
       },
       {
         id: "sat-ct-4-perspective-shift",
-        title: "Bài 4 · Quan điểm dịch chuyển — 'most likely respond'",
-        titleEn: "Lesson 4 · Perspective Shift — 'Most Likely Respond'",
+        title: "Bài 4 · Quan điểm dịch chuyển - 'most likely respond'",
+        titleEn: "Lesson 4 · Perspective Shift - 'Most Likely Respond'",
         level: 4,
         difficulty: "advanced",
         theory: "Câu hỏi 'most likely respond' đòi bạn DỰ ĐOÁN phản ứng của tác giả Text 2 với tuyên bố trong Text 1. Phương pháp 3 bước: (1) đọc lập trường Text 2, (2) ánh xạ lập trường đó vào tuyên bố Text 1, (3) chọn đáp án có sắc thái khớp nhất.",
         theoryEn: "'Most likely respond' items ask you to PREDICT how Text 2's author would react to a claim in Text 1. Three steps: (1) read Text 2's stance, (2) map that stance onto the Text 1 claim, (3) pick the option with the matching nuance.",
-        proTips: ["Đáp án đúng thường bắt đầu bằng 'argue that', 'suggest that' + nội dung Text 2 — không lặp lại Text 1."],
-        proTipsEn: ["Correct answers usually start with 'argue that' / 'suggest that' + Text 2's content — never just paraphrase Text 1."],
+        proTips: ["Đáp án đúng thường bắt đầu bằng 'argue that', 'suggest that' + nội dung Text 2 - không lặp lại Text 1."],
+        proTipsEn: ["Correct answers usually start with 'argue that' / 'suggest that' + Text 2's content - never just paraphrase Text 1."],
         exercises: [
           {
             type: "sentence-reorder",
@@ -134,18 +134,18 @@ export const satExpansionModules12: LanguageModule[] = [
         quiz: [
           { question: "First thing to read on a 'most likely respond' item?", options: ["Text 1 only", "Text 2's stance", "All four options", "The question stem only"], answer: 1, explanation: "Text 2's stance drives the predicted response." },
           { question: "The correct answer usually paraphrases…", options: ["Text 1", "Text 2", "neither", "the question stem"], answer: 1, explanation: "Predicted response = author of Text 2 → paraphrase Text 2." },
-          { question: "Trap option for this dataset?", options: ["A view neither text supports", "An exact echo of Text 1", "A nuanced disagreement", "A qualified agreement"], answer: 1, explanation: "Echoing Text 1 ignores Text 2's perspective — classic trap." },
+          { question: "Trap option for this dataset?", options: ["A view neither text supports", "An exact echo of Text 1", "A nuanced disagreement", "A qualified agreement"], answer: 1, explanation: "Echoing Text 1 ignores Text 2's perspective - classic trap." },
           { question: "Nuanced answers usually contain…", options: ["'always' / 'never'", "'while', 'although', 'partly'", "no qualifiers", "rhetorical questions"], answer: 1, explanation: "Qualifiers = SAT's preferred nuance." },
         ],
       },
       {
         id: "sat-ct-5-timed-set",
-        title: "Bài 5 · Cross-text — Bộ luyện bấm giờ 60 giây/câu",
-        titleEn: "Lesson 5 · Cross-text — 60-Second Timed Drill",
+        title: "Bài 5 · Cross-text - Bộ luyện bấm giờ 60 giây/câu",
+        titleEn: "Lesson 5 · Cross-text - 60-Second Timed Drill",
         level: 5,
         difficulty: "advanced",
-        theory: "Mục tiêu: 60 giây/câu cross-text. Phân bổ: 20s đọc Text 1, 20s đọc Text 2, 20s chọn đáp án. Nếu chưa chắc sau 50s, loại 2 đáp án yếu nhất rồi chọn — đừng bỏ trống (Digital SAT không trừ điểm sai).",
-        theoryEn: "Target: 60s per cross-text item. Budget: 20s on Text 1, 20s on Text 2, 20s on options. Unsure at 50s? Eliminate the two weakest options and pick — never leave blank (Digital SAT has no wrong-answer penalty).",
+        theory: "Mục tiêu: 60 giây/câu cross-text. Phân bổ: 20s đọc Text 1, 20s đọc Text 2, 20s chọn đáp án. Nếu chưa chắc sau 50s, loại 2 đáp án yếu nhất rồi chọn - đừng bỏ trống (Digital SAT không trừ điểm sai).",
+        theoryEn: "Target: 60s per cross-text item. Budget: 20s on Text 1, 20s on Text 2, 20s on options. Unsure at 50s? Eliminate the two weakest options and pick - never leave blank (Digital SAT has no wrong-answer penalty).",
         proTips: ["Đánh dấu (mark for review) và quay lại sau nếu còn thời gian."],
         proTipsEn: ["Use 'Mark for Review' and return later if time allows."],
         exercises: [
@@ -161,8 +161,8 @@ export const satExpansionModules12: LanguageModule[] = [
         ],
         quiz: [
           { question: "Best time budget for cross-text?", options: ["30s", "60s", "120s", "180s"], answer: 1, explanation: "60s keeps pace for the R&W module." },
-          { question: "If you're unsure at 50s, you should…", options: ["leave blank", "guess randomly", "eliminate weakest + pick", "skip whole section"], answer: 2, explanation: "Eliminate then guess — Digital SAT has no penalty." },
-          { question: "On Digital SAT, blank answers earn…", options: ["+1", "0 (and lose chance)", "−0.25", "+0.5"], answer: 1, explanation: "Always answer — no penalty for wrong, but blanks earn nothing." },
+          { question: "If you're unsure at 50s, you should…", options: ["leave blank", "guess randomly", "eliminate weakest + pick", "skip whole section"], answer: 2, explanation: "Eliminate then guess - Digital SAT has no penalty." },
+          { question: "On Digital SAT, blank answers earn…", options: ["+1", "0 (and lose chance)", "−0.25", "+0.5"], answer: 1, explanation: "Always answer - no penalty for wrong, but blanks earn nothing." },
           { question: "'Mark for Review' lets you…", options: ["skip permanently", "return later in the module", "remove the question", "auto-answer"], answer: 1, explanation: "Mark + return is a built-in pacing tool." },
         ],
       },
@@ -176,8 +176,8 @@ export const satExpansionModules12: LanguageModule[] = [
     titleEn: "SAT Math · Word Problems & Data Interpretation",
     icon: "🧮",
     color: "from-amber-500 to-orange-600",
-    description: "5 bài luyện chuyển bài toán đố sang phương trình và đọc bảng / biểu đồ — dạng chiếm ~30% Math.",
-    descriptionEn: "Five lessons converting word problems into equations and decoding tables / charts — ~30% of the Math section.",
+    description: "5 bài luyện chuyển bài toán đố sang phương trình và đọc bảng / biểu đồ - dạng chiếm ~30% Math.",
+    descriptionEn: "Five lessons converting word problems into equations and decoding tables / charts - ~30% of the Math section.",
     category: "sat",
     language: "english",
     lessons: [
@@ -235,7 +235,7 @@ export const satExpansionModules12: LanguageModule[] = [
         quiz: [
           { question: "If r = 30 mph and t = 2.5 h, d = ?", options: ["12", "32.5", "75", "60"], answer: 2, explanation: "30 × 2.5 = 75 mi." },
           { question: "54 km/h in m/s?", options: ["10", "15", "20", "5"], answer: 1, explanation: "54 × 1000 / 3600 = 15." },
-          { question: "Asked 'minutes' but rate is per hour — first step?", options: ["Solve in hours, ignore unit", "Convert hours to minutes (×60)", "Convert km to miles", "Use rate × rate"], answer: 1, explanation: "Match the answer's unit." },
+          { question: "Asked 'minutes' but rate is per hour - first step?", options: ["Solve in hours, ignore unit", "Convert hours to minutes (×60)", "Convert km to miles", "Use rate × rate"], answer: 1, explanation: "Match the answer's unit." },
           { question: "If a printer prints 5 pages/min, 200 pages takes…", options: ["20 min", "40 min", "100 min", "1000 min"], answer: 1, explanation: "200 ÷ 5 = 40 min." },
         ],
       },
@@ -270,14 +270,14 @@ export const satExpansionModules12: LanguageModule[] = [
       },
       {
         id: "sat-mwp-4-tables",
-        title: "Bài 4 · Đọc bảng & biểu đồ — quy trình 4 bước",
-        titleEn: "Lesson 4 · Reading Tables & Charts — 4-Step Routine",
+        title: "Bài 4 · Đọc bảng & biểu đồ - quy trình 4 bước",
+        titleEn: "Lesson 4 · Reading Tables & Charts - 4-Step Routine",
         level: 4,
         difficulty: "advanced",
         theory: "Quy trình: (1) Đọc TIÊU ĐỀ bảng / trục, (2) Xác định ĐƠN VỊ, (3) Khoanh hàng / cột câu hỏi nhắc đến, (4) Chỉ tính sau khi cô lập số liệu. Sai số phổ biến: nhầm 'thousands' với đơn vị, hoặc đọc nhầm cột.",
         theoryEn: "Routine: (1) Read TITLE & axis labels, (2) Check the UNITS, (3) Circle the row/column the question mentions, (4) Only compute after isolating the figure. Common errors: missing 'in thousands' suffix, mis-reading the column.",
-        proTips: ["Câu hỏi 'best supports' về dữ liệu — chọn ô có giá trị EXTREME (cao/thấp nhất) khớp tuyên bố."],
-        proTipsEn: ["For 'best supports' data questions — pick the EXTREME value cell that matches the claim."],
+        proTips: ["Câu hỏi 'best supports' về dữ liệu - chọn ô có giá trị EXTREME (cao/thấp nhất) khớp tuyên bố."],
+        proTipsEn: ["For 'best supports' data questions - pick the EXTREME value cell that matches the claim."],
         exercises: [
           {
             type: "sentence-reorder",
@@ -291,7 +291,7 @@ export const satExpansionModules12: LanguageModule[] = [
         quiz: [
           { question: "First step on any table / chart question:", options: ["Compute", "Read title & axis labels", "Skip to options", "Estimate"], answer: 1, explanation: "Title + axes anchor the data." },
           { question: "'Values in thousands' means the number 4 represents…", options: ["4", "40", "400", "4,000"], answer: 3, explanation: "Always multiply by the suffix." },
-          { question: "'Best supports claim X' — pick the cell that…", options: ["matches X's keywords + extreme value", "is closest to the average", "is the smallest", "is in the first row"], answer: 0, explanation: "Match keywords + magnitude." },
+          { question: "'Best supports claim X' - pick the cell that…", options: ["matches X's keywords + extreme value", "is closest to the average", "is the smallest", "is in the first row"], answer: 0, explanation: "Match keywords + magnitude." },
           { question: "Step 3 of the routine is to…", options: ["Compute", "Read title", "Circle the row/column", "Check units"], answer: 2, explanation: "Circle isolates the right data point." },
         ],
       },
@@ -304,7 +304,7 @@ export const satExpansionModules12: LanguageModule[] = [
         theory: "Mục tiêu: 90 giây / câu Math word problem. Chiến thuật: 30s đọc + đặt biến, 30s lập phương trình, 30s giải. Quá 90s mà chưa xong: 'Mark for Review' + đoán có loại trừ.",
         theoryEn: "Target: 90s per Math word problem. Plan: 30s read + define variable, 30s set up, 30s solve. Over 90s? Mark for Review + eliminate-then-guess.",
         proTips: ["Câu khó dài quá → thử PLUG IN answer choices, nhanh hơn lập phương trình."],
-        proTipsEn: ["Stuck on a long item? Try PLUGGING IN answer choices — often faster than algebra."],
+        proTipsEn: ["Stuck on a long item? Try PLUGGING IN answer choices - often faster than algebra."],
         exercises: [
           {
             type: "fill-in-blank",
@@ -319,7 +319,7 @@ export const satExpansionModules12: LanguageModule[] = [
         quiz: [
           { question: "Best time budget per word problem?", options: ["30s", "60s", "90s", "180s"], answer: 2, explanation: "90s averages well across the 22-question module." },
           { question: "Plugging in answer choices is fastest when…", options: ["the question is short", "the equation is hard to set up", "no variables given", "options are very large"], answer: 1, explanation: "Plug-in skips the algebra entirely." },
-          { question: "If 90s pass with no progress, you should…", options: ["keep grinding", "Mark + eliminate + guess", "leave blank", "redo every step"], answer: 1, explanation: "Never blank — eliminate then guess." },
+          { question: "If 90s pass with no progress, you should…", options: ["keep grinding", "Mark + eliminate + guess", "leave blank", "redo every step"], answer: 1, explanation: "Never blank - eliminate then guess." },
           { question: "30 / 30 / 30 stands for…", options: ["read / set up / solve", "guess / skip / check", "read / read / read", "always 30 seconds total"], answer: 0, explanation: "Read + setup + solve = 30 each." },
         ],
       },
@@ -341,7 +341,7 @@ export const satExpansionModules12: LanguageModule[] = [
       {
         id: "sat-td-1-format",
         title: "Bài 1 · Tổng quan Digital SAT 2026",
-        titleEn: "Lesson 1 · Digital SAT 2026 — The Format",
+        titleEn: "Lesson 1 · Digital SAT 2026 - The Format",
         level: 1,
         difficulty: "beginner",
         theory: "Digital SAT có 2 phần (R&W và Math), mỗi phần 2 module ADAPTIVE. Module 1 quyết định độ khó Module 2. Tổng: 98 câu / 2h14min. R&W: 64 phút (32 câu × 2). Math: 70 phút (22 câu × 2). KHÔNG trừ điểm sai.",
@@ -402,8 +402,8 @@ export const satExpansionModules12: LanguageModule[] = [
         titleEn: "Lesson 3 · Mastering the Bluebook (Desmos) Calculator",
         level: 3,
         difficulty: "intermediate",
-        theory: "Desmos đồ thị: gõ y = ... để vẽ; gõ phương trình hệ để tìm GIAO ĐIỂM (chấm xanh). Mẹo: chuyển bài toán đại số thành GIAO ĐIỂM hai đồ thị — nhanh và ít sai. Bảng giá trị: thêm 'Table' để duyệt đáp án.",
-        theoryEn: "Desmos graphing: type y = … to plot; enter a system to find INTERSECTIONS (blue dots). Tip: convert algebra problems into intersections of two graphs — faster and less error-prone. Use 'Table' to brute-force answer choices.",
+        theory: "Desmos đồ thị: gõ y = ... để vẽ; gõ phương trình hệ để tìm GIAO ĐIỂM (chấm xanh). Mẹo: chuyển bài toán đại số thành GIAO ĐIỂM hai đồ thị - nhanh và ít sai. Bảng giá trị: thêm 'Table' để duyệt đáp án.",
+        theoryEn: "Desmos graphing: type y = … to plot; enter a system to find INTERSECTIONS (blue dots). Tip: convert algebra problems into intersections of two graphs - faster and less error-prone. Use 'Table' to brute-force answer choices.",
         proTips: ["Ẩn / tắt từng phương trình bằng vòng tròn màu để so sánh nhanh."],
         proTipsEn: ["Toggle each equation off via the coloured circle to compare quickly."],
         exercises: [
@@ -446,7 +446,7 @@ export const satExpansionModules12: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "Blank answer earns…", options: ["−1", "0", "+1", "+0.5"], answer: 1, explanation: "0 — and you waste the free guess." },
+          { question: "Blank answer earns…", options: ["−1", "0", "+1", "+0.5"], answer: 1, explanation: "0 - and you waste the free guess." },
           { question: "Eliminating 2 of 4 options raises guess accuracy to…", options: ["25%", "33%", "50%", "100%"], answer: 2, explanation: "1 of remaining 2 = 50%." },
           { question: "Blind-guess strategy?", options: ["random letter each time", "always the same letter", "skip the question", "ask the proctor"], answer: 1, explanation: "Same letter avoids accidental over-distribution." },
           { question: "'Mark for Review' on a hard item lets you…", options: ["delete the question", "return when easier ones are done", "auto-answer", "report it"], answer: 1, explanation: "Triage tool to protect pace." },

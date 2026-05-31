@@ -27,7 +27,7 @@ const levelColors: Record<string, string> = {
   C1: "bg-purple-500/20 text-purple-400",
 };
 
-// Friendly emoji for each lesson category — adds visual variety to the cards
+// Friendly emoji for each lesson category - adds visual variety to the cards
 const categoryIcons: Record<string, string> = {
   "Evidence-Based Reading": "🔍",
   "Command of Evidence": "📊",
@@ -439,7 +439,7 @@ const VocabExercise = ({ words, allWords, t, quizSize, setQuizSize }: { words: S
             <p className="text-sm text-muted-foreground italic">
               <strong className="text-foreground not-italic">{q.word.word}</strong>
               {q.word.partOfSpeech && <span className="text-xs ml-1">({q.word.partOfSpeech})</span>}
-              {" — "}{q.word.definition.vi}
+              {" - "}{q.word.definition.vi}
             </p>
             <Button onClick={handleNext}>
               {current + 1 >= questions.length ? t("Xem kết quả", "See Results") : t("Câu tiếp", "Next")}
@@ -502,7 +502,7 @@ const InlineTypeExample = ({ word, t }: { word: SatWord; t: (vi: string, en: str
                 {isCorrect ? (
                   <><CheckCircle className="w-4 h-4 text-green-600" /><span className="text-green-700 dark:text-green-400">{t("Chính xác!", "Perfect!")}</span></>
                 ) : (
-                  <><XCircle className="w-4 h-4 text-orange-600" /><span className="text-orange-700 dark:text-orange-400">{t("Gần đúng — đối chiếu lại nhé.", "Close — compare with the original.")}</span></>
+                  <><XCircle className="w-4 h-4 text-orange-600" /><span className="text-orange-700 dark:text-orange-400">{t("Gần đúng - đối chiếu lại nhé.", "Close - compare with the original.")}</span></>
                 )}
               </div>
               <p><strong>{t("Câu gốc:", "Original:")}</strong> <span className="italic">{target}</span></p>

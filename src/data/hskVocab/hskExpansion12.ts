@@ -1,6 +1,6 @@
 /**
  * @file hskExpansion12.ts
- * @description HSK Vocabulary Expansion #12 — additional high-frequency vocabulary
+ * @description HSK Vocabulary Expansion #12 - additional high-frequency vocabulary
  * covering education, environment, business, technology and social topics across HSK 2-6.
  */
 import type { HskWord } from "./types";

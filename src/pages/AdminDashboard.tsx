@@ -245,7 +245,7 @@ const AdminDashboard = () => {
 
   useEffect(() => { fetchAll(); }, [fetchAll]);
 
-  // Realtime subscription for live updates — ignore high-frequency system events
+  // Realtime subscription for live updates - ignore high-frequency system events
   // (heartbeat/daily_login) and debounce to prevent refetch storms.
   const refetchTimerRef = useRef<number | null>(null);
   useEffect(() => {
@@ -276,7 +276,7 @@ const AdminDashboard = () => {
     setRecommendations(generateRecommendations(state));
   };
 
-  // Build heatmap data from all student states (memoized — heavy iteration)
+  // Build heatmap data from all student states (memoized - heavy iteration)
   const heatmapData = useMemo(() => {
     const skillTotals: Record<string, { total: number; count: number }> = {};
     for (const state of studentStates) {
@@ -746,8 +746,8 @@ const AdminDashboard = () => {
                                       <TableCell className="text-center tabular-nums">{state.totalActivities}</TableCell>
                                        <TableCell className="text-center tabular-nums">{sumActivityTypeCounts(state.skillBreakdown, SPEAKING_ACTIVITY_TYPES)}</TableCell>
                                        <TableCell className="text-center tabular-nums">{sumActivityTypeCounts(state.skillBreakdown, WRITING_ACTIVITY_TYPES)}</TableCell>
-                                       <TableCell className={`text-center tabular-nums ${speakClass}`}>{daysSpeak === null ? "—" : daysSpeak === 0 ? t("Hôm nay", "today") : `${daysSpeak}d`}</TableCell>
-                                       <TableCell className={`text-center tabular-nums ${writeClass}`}>{daysWrite === null ? "—" : daysWrite === 0 ? t("Hôm nay", "today") : `${daysWrite}d`}</TableCell>
+                                       <TableCell className={`text-center tabular-nums ${speakClass}`}>{daysSpeak === null ? "-" : daysSpeak === 0 ? t("Hôm nay", "today") : `${daysSpeak}d`}</TableCell>
+                                       <TableCell className={`text-center tabular-nums ${writeClass}`}>{daysWrite === null ? "-" : daysWrite === 0 ? t("Hôm nay", "today") : `${daysWrite}d`}</TableCell>
                                       <TableCell className="text-center">
                                         <span className={`font-bold tabular-nums ${state.avgScore >= 7 ? "text-green-600" : state.avgScore >= 5 ? "text-yellow-600" : "text-red-600"}`}>
                                           {state.avgScore > 0 ? state.avgScore : "-"}

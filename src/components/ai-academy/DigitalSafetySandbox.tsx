@@ -1,5 +1,5 @@
 /**
- * DigitalSafetySandbox — Real-life scam scenarios with deepfake voice / AI
+ * DigitalSafetySandbox - Real-life scam scenarios with deepfake voice / AI
  * chatbots targeting Vietnamese teens. Student picks the safe response.
  */
 import { useState } from "react";
@@ -37,7 +37,7 @@ const SCENARIOS: Scenario[] = [
     title: "🤖 Chatbot AI rủ rê trên Messenger",
     body: "Một tài khoản lạ chat: 'Anh là AI Tutor, gửi anh số điện thoại + ảnh chứng minh để anh giúp em học miễn phí.'",
     options: [
-      { text: "Gửi vì học miễn phí thì quá tốt", safe: false, why: "Sai! Không bao giờ gửi CMND/ảnh thẻ cho người lạ — dù là 'AI tutor' xịn cũng không cần." },
+      { text: "Gửi vì học miễn phí thì quá tốt", safe: false, why: "Sai! Không bao giờ gửi CMND/ảnh thẻ cho người lạ - dù là 'AI tutor' xịn cũng không cần." },
       { text: "Chặn, báo cáo tài khoản, không trả lời", safe: true, why: "Đúng! Yêu cầu giấy tờ cá nhân = dấu hiệu lừa đảo / dụ dỗ trẻ em." },
       { text: "Hỏi thêm thông tin trước khi quyết định", safe: false, why: "Càng nói chuyện càng dễ bị thao túng. Cắt liên lạc ngay." },
     ],

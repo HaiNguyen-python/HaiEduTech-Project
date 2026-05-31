@@ -12,7 +12,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { CURRENCY_RATES, CURRENCY_RATES_UPDATED } from "@/data/currencyRates";
 
 const formatNumber = (n: number) => {
-  if (!isFinite(n)) return "—";
+  if (!isFinite(n)) return "-";
   if (n >= 100000) return n.toLocaleString("en-US", { maximumFractionDigits: 0 });
   if (n >= 100) return n.toLocaleString("en-US", { maximumFractionDigits: 1 });
   return n.toLocaleString("en-US", { maximumFractionDigits: 2 });
@@ -51,7 +51,7 @@ const CurrencyConverter = () => {
                 <RefreshCw className="w-2.5 h-2.5" />
                 {t("Cập nhật thủ công", "Manually updated")}: {CURRENCY_RATES_UPDATED} ·
                 {" "}
-                {t("Chỉ tham khảo, không dùng cho giao dịch thật.", "Reference only — not for real transactions.")}
+                {t("Chỉ tham khảo, không dùng cho giao dịch thật.", "Reference only - not for real transactions.")}
               </div>
             </div>
           </div>

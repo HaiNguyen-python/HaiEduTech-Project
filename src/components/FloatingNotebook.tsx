@@ -430,7 +430,7 @@ const FloatingNotebook = () => {
               </div>
             </div>
 
-            {/* Saved notes selector — compact dropdown */}
+            {/* Saved notes selector - compact dropdown */}
             <div className="px-3 pt-2 flex items-center gap-2">
               <select
                 value={selectedId || ""}
@@ -444,7 +444,7 @@ const FloatingNotebook = () => {
                 <option value="">📝 Ghi chú mới ({notebooks.length} đã lưu)</option>
                 {notebooks.map(nb => (
                   <option key={nb.id} value={nb.id}>
-                    {nb.title || "(Chưa có tiêu đề)"} — {new Date(nb.updated_at).toLocaleDateString("vi-VN")}
+                    {nb.title || "(Chưa có tiêu đề)"} - {new Date(nb.updated_at).toLocaleDateString("vi-VN")}
                   </option>
                 ))}
               </select>

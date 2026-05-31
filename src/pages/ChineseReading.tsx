@@ -262,13 +262,13 @@ const ChineseReading = () => {
           </div>
           <p className="text-muted-foreground">
             {t(
-              "25 bài đọc theo cấp độ từ HSK 1 đến HSK 5 — kèm Pinyin, dịch tiếng Việt, từ mới, câu hỏi trắc nghiệm và chibi minh hoạ vui.",
-              "25 graded passages from HSK 1 to HSK 5 — with Pinyin, Vietnamese translation, vocabulary, quiz questions and cute chibi illustrations."
+              "25 bài đọc theo cấp độ từ HSK 1 đến HSK 5 - kèm Pinyin, dịch tiếng Việt, từ mới, câu hỏi trắc nghiệm và chibi minh hoạ vui.",
+              "25 graded passages from HSK 1 to HSK 5 - with Pinyin, Vietnamese translation, vocabulary, quiz questions and cute chibi illustrations."
             )}
           </p>
           <div className="mt-4 inline-flex items-center gap-2 text-xs text-muted-foreground bg-muted/50 px-3 py-1.5 rounded-full">
             <CheckCircle className="w-3.5 h-3.5 text-green-500" />
-            {t("Mở/đóng từng cấp độ — bật Pinyin/dịch tuỳ ý", "Toggle Pinyin & translation freely")}
+            {t("Mở/đóng từng cấp độ - bật Pinyin/dịch tuỳ ý", "Toggle Pinyin & translation freely")}
           </div>
         </motion.div>
 

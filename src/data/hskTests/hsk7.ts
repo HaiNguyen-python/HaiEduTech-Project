@@ -1,7 +1,7 @@
 /**
- * @file hsk7.ts — HSK 7 Mock Test (HSK 3.0 advanced level)
+ * @file hsk7.ts - HSK 7 Mock Test (HSK 3.0 advanced level)
  * Listening 15 + Reading 15 + Writing 1 = 31 Q, 90 minutes (rút gọn).
- * Đề thi thử mô phỏng cấp HSK 7 chuẩn HSK 3.0 — văn nói học thuật,
+ * Đề thi thử mô phỏng cấp HSK 7 chuẩn HSK 3.0 - văn nói học thuật,
  * bài đọc chuyên sâu và viết tóm tắt / luận ngắn.
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
@@ -27,11 +27,11 @@ const listeningRows: { a: string; q: string; o: string[]; c: number; exp?: strin
 ];
 
 const reading: { p: string; q?: string; o: string[]; c: number; exp?: string }[] = [
-  { p: "随着城市化进程加快，越来越多人涌入大城市寻找机会。然而，高昂的生活成本与激烈的竞争也让不少年轻人开始重新思考——真正的幸福是否一定要在大城市才能找到？", q: "本段主要观点是？",
+  { p: "随着城市化进程加快，越来越多人涌入大城市寻找机会。然而，高昂的生活成本与激烈的竞争也让不少年轻人开始重新思考--真正的幸福是否一定要在大城市才能找到？", q: "本段主要观点是？",
     o: ["大城市一定幸福", "年轻人开始反思幸福定义", "应当回到农村"], c: 1 },
   { p: "古人云：\"知行合一\"。强调的是知识只有通过实践才能真正变成自己的能力。一个人若只读书而不实践，便如同纸上谈兵。", q: "\"知行合一\"强调？",
     o: ["只读书即可", "知识需通过实践", "无需思考"], c: 1, exp: "知 = 认知；行 = 实践。" },
-  { p: "在快节奏的现代生活中，越来越多人开始追求\"极简主义\"——通过减少不必要的物质拥有，让生活回归本真。", q: "极简主义的核心是？",
+  { p: "在快节奏的现代生活中，越来越多人开始追求\"极简主义\"--通过减少不必要的物质拥有，让生活回归本真。", q: "极简主义的核心是？",
     o: ["不断购物", "减少不必要拥有", "完全不工作"], c: 1 },
   { p: "中国传统医学讲究\"治未病\"，即通过调养身心，预防疾病的发生，这与现代健康管理理念不谋而合。", q: "\"治未病\"的含义是？",
     o: ["治疗绝症", "防患于未然", "完全依赖药物"], c: 1 },
@@ -82,7 +82,7 @@ export const hsk7Test: HskTest = {
   level: 7 as 1 | 2 | 3 | 4 | 5 | 6,
   code: "HSK7-MOCK-01",
   title: "HSK 7 Mock Test 01",
-  titleVi: "Đề thi thử HSK 7 — Số 01",
+  titleVi: "Đề thi thử HSK 7 - Số 01",
   durationMin: 90,
   passScore: 60,
   showPinyin: false,

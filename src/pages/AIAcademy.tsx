@@ -1,5 +1,5 @@
 /**
- * AI Academy — gamified AI hub for Vietnamese middle & high school students.
+ * AI Academy - gamified AI hub for Vietnamese middle & high school students.
  * 3 visual tracks: Computer Vision, NLP, Neural Networks. Each has a
  * story-driven concept panel + interactive sandbox + drag-drop quiz.
  * Progress + reward badges persist in localStorage; track completions also
@@ -105,7 +105,7 @@ import heroBg from "@/assets/ai-academy-hero-bg.jpg";
 import chibiRobot from "@/assets/ai-chibi-robot.png";
 
 /**
- * SmartText — renders long Vietnamese paragraphs as bullet points
+ * SmartText - renders long Vietnamese paragraphs as bullet points
  * when 3+ sentences are detected, otherwise as a single paragraph.
  * Strips inline HTML to keep things safe (only used for plain text fields).
  */
@@ -118,8 +118,8 @@ const SmartText = ({ text, className = "", html = false }: { text: string; class
   // Also protect numbered list markers like "1.", "2.", "10." so they don't trigger a split.
   safe = safe.replace(/(\b\d{1,2})\.(?=\s)/g, `$1${PLACEHOLDER}`);
 
-  // Only split on real sentence boundaries (. ! ?). Em-dash " — " is parenthetical
-  // and must NOT split — keeping it intact preserves the original meaning.
+  // Only split on real sentence boundaries (. ! ?). Em-dash " - " is parenthetical
+  // and must NOT split - keeping it intact preserves the original meaning.
   const rough = safe
     .split(/(?<=[.!?])\s+/)
     .map((s) => s.replace(new RegExp(PLACEHOLDER, "g"), ".").trim())
@@ -175,14 +175,14 @@ const TRACKS: Track[] = [
     Icon: Eye,
     title: "Thị giác máy tính",
     tag: "Siêu thám tử AI",
-    desc: "Học cách AI nhận diện khuôn mặt, đồ vật, biểu cảm — như FaceID điểm danh học sinh.",
+    desc: "Học cách AI nhận diện khuôn mặt, đồ vật, biểu cảm - như FaceID điểm danh học sinh.",
     gradient: "from-cyan-400 via-sky-500 to-blue-600",
     ring: "ring-cyan-400/50",
     badge: { name: "AI Explorer", emoji: "🔍" },
     story: [
       {
         heading: "📸 AI nhìn bằng cách nào?",
-        body: "Ảnh trong máy tính là một bảng số khổng lồ — mỗi điểm ảnh có 3 con số (đỏ, xanh lá, xanh dương). AI học cách 'đọc' bảng số đó để biết đâu là khuôn mặt, đâu là quả bóng.",
+        body: "Ảnh trong máy tính là một bảng số khổng lồ - mỗi điểm ảnh có 3 con số (đỏ, xanh lá, xanh dương). AI học cách 'đọc' bảng số đó để biết đâu là khuôn mặt, đâu là quả bóng.",
       },
       {
         heading: "🧪 Bounding Box là gì?",
@@ -190,7 +190,7 @@ const TRACKS: Track[] = [
       },
       {
         heading: "🎯 Ứng dụng đời thực",
-        body: "FaceID iPhone, camera giao thông đọc biển số, ứng dụng lọc ảnh TikTok, xe tự lái Tesla — tất cả đều dùng Computer Vision.",
+        body: "FaceID iPhone, camera giao thông đọc biển số, ứng dụng lọc ảnh TikTok, xe tự lái Tesla - tất cả đều dùng Computer Vision.",
       },
     ],
     Sandbox: CVSandbox,
@@ -247,12 +247,12 @@ const TRACKS: Track[] = [
     badge: { name: "Data Wizard", emoji: "🪄" },
     story: [
       {
-        heading: "🔤 Máy không hiểu chữ — nó hiểu số",
+        heading: "🔤 Máy không hiểu chữ - nó hiểu số",
         body: "Khi bạn gõ 'xin chào', AI biến nó thành dãy số (tokens). Mỗi từ có một mã ID riêng. Đây gọi là tokenization.",
       },
       {
         heading: "🎯 Intent Classification",
-        body: "Chatbot Messenger của shop không 'đọc hiểu' như con người — nó đoán <b>ý định</b> của bạn: bạn đang hỏi giá? hỏi giờ mở cửa? hay phàn nàn? Mỗi ý định = 1 intent.",
+        body: "Chatbot Messenger của shop không 'đọc hiểu' như con người - nó đoán <b>ý định</b> của bạn: bạn đang hỏi giá? hỏi giờ mở cửa? hay phàn nàn? Mỗi ý định = 1 intent.",
       },
       {
         heading: "🇻🇳 Bài toán teen-code",
@@ -308,13 +308,13 @@ const TRACKS: Track[] = [
     Icon: Brain,
     title: "Mạng thần kinh nhân tạo",
     tag: "Não bộ của AI",
-    desc: "Sân chơi trực quan: chỉnh giờ học, giờ ngủ — xem AI dự đoán điểm thi của bạn.",
+    desc: "Sân chơi trực quan: chỉnh giờ học, giờ ngủ - xem AI dự đoán điểm thi của bạn.",
     gradient: "from-emerald-400 via-teal-500 to-cyan-600",
     ring: "ring-emerald-400/50",
     badge: { name: "Neural Architect", emoji: "🧬" },
     story: [
       {
-        heading: "🔌 Neuron — viên gạch của AI",
+        heading: "🔌 Neuron - viên gạch của AI",
         body: "Não người có ~86 tỷ neuron. AI mô phỏng từng neuron là <b>một bộ lọc quyết định</b>: nhận tín hiệu vào → nhân với trọng số → đưa ra tín hiệu mới.",
       },
       {
@@ -323,7 +323,7 @@ const TRACKS: Track[] = [
       },
       {
         heading: "🎨 Generative AI",
-        body: "ChatGPT, Midjourney cũng là mạng neuron — nhưng cực lớn (hàng trăm tỷ trọng số). Chúng học từ Internet rồi <b>tạo ra</b> chữ và ảnh mới chưa từng tồn tại.",
+        body: "ChatGPT, Midjourney cũng là mạng neuron - nhưng cực lớn (hàng trăm tỷ trọng số). Chúng học từ Internet rồi <b>tạo ra</b> chữ và ảnh mới chưa từng tồn tại.",
       },
     ],
     Sandbox: NeuralNetSandbox,
@@ -382,14 +382,14 @@ const TRACKS: Track[] = [
     story: [
       {
         heading: "🍳 AI là đầu bếp, dữ liệu là nguyên liệu",
-        body: "Cho AI ăn dữ liệu <b>bẩn</b> (sai, thiếu, lệch) → nó nấu ra món <b>dở</b>. Đó là quy luật <i>Garbage In, Garbage Out</i> — rác vào thì rác ra.",
+        body: "Cho AI ăn dữ liệu <b>bẩn</b> (sai, thiếu, lệch) → nó nấu ra món <b>dở</b>. Đó là quy luật <i>Garbage In, Garbage Out</i> - rác vào thì rác ra.",
       },
       {
         heading: "📊 Có cấu trúc vs phi cấu trúc",
-        body: "<b>Có cấu trúc</b>: bảng Excel, danh bạ — gọn gàng theo hàng cột. <b>Phi cấu trúc</b>: ảnh selfie, video TikTok, tin nhắn Zalo — 80% dữ liệu thế giới thuộc loại này.",
+        body: "<b>Có cấu trúc</b>: bảng Excel, danh bạ - gọn gàng theo hàng cột. <b>Phi cấu trúc</b>: ảnh selfie, video TikTok, tin nhắn Zalo - 80% dữ liệu thế giới thuộc loại này.",
       },
       {
-        heading: "⚖️ Bias — AI cũng có định kiến",
+        heading: "⚖️ Bias - AI cũng có định kiến",
         body: "FaceID Apple lúc mới ra <b>nhận diện kém học sinh châu Á</b> vì train chủ yếu trên ảnh người da trắng. Dữ liệu lệch → AI lệch. Đó là vì sao VinAI phải thu 1 triệu ảnh người Việt.",
       },
     ],
@@ -452,7 +452,7 @@ const TRACKS: Track[] = [
     story: [
       {
         heading: "🌳 Cây quyết định = trò '20 câu hỏi'",
-        body: "AI chơi 20 câu hỏi Yes/No: 'Có lông không?' → 'Biết bay không?' → <b>Chim!</b>. Đó là <b>Decision Tree</b> — dễ hiểu, dễ giải thích, và rất chính xác cho nhiều bài toán.",
+        body: "AI chơi 20 câu hỏi Yes/No: 'Có lông không?' → 'Biết bay không?' → <b>Chim!</b>. Đó là <b>Decision Tree</b> - dễ hiểu, dễ giải thích, và rất chính xác cho nhiều bài toán.",
       },
       {
         heading: "🎨 K-Means = AI tự gom nhóm",
@@ -522,14 +522,14 @@ const TRACKS: Track[] = [
     story: [
       {
         heading: "🎨 Generative AI là gì?",
-        body: "Khác với AI 'phân loại' (đoán mèo/chó), AI <b>tạo sinh</b> sản xuất ra nội dung MỚI: hình ảnh, văn bản, nhạc, video — chưa từng tồn tại trên Internet.",
+        body: "Khác với AI 'phân loại' (đoán mèo/chó), AI <b>tạo sinh</b> sản xuất ra nội dung MỚI: hình ảnh, văn bản, nhạc, video - chưa từng tồn tại trên Internet.",
       },
       {
-        heading: "📝 Prompt — câu thần chú",
+        heading: "📝 Prompt - câu thần chú",
         body: "Bạn ra lệnh cho AI bằng <b>prompt</b>. Prompt càng cụ thể (chủ thể + phong cách + ánh sáng + cảm xúc) → kết quả càng đẹp. Đó là vì sao công ty trả lương $200k cho 'Prompt Engineer'.",
       },
       {
-        heading: "⚖️ Hallucination — AI bịa",
+        heading: "⚖️ Hallucination - AI bịa",
         body: "Generative AI đôi khi bịa thông tin trông rất 'thật' (gọi là hallucination). Vì vậy hãy luôn <b>kiểm chứng</b> trước khi tin ChatGPT trả lời bài tập!",
       },
     ],
@@ -563,7 +563,7 @@ const TRACKS: Track[] = [
         ],
       },
       {
-        prompt: "ChatGPT trả lời sai một cách tự tin — đó là gì?",
+        prompt: "ChatGPT trả lời sai một cách tự tin - đó là gì?",
         items: [
           { id: "a", label: "Hallucination 🤖", bucket: "yes" },
           { id: "b", label: "AI bịa thông tin", bucket: "yes" },
@@ -598,7 +598,7 @@ const TRACKS: Track[] = [
       },
       {
         heading: "♟️ AlphaGo & DeepMind",
-        body: "Google DeepMind dùng RL để dạy AI chơi cờ vây — và đánh bại nhà vô địch thế giới Lee Sedol năm 2016. AI không học từ sách, nó <b>tự chơi với chính nó</b> hàng triệu ván.",
+        body: "Google DeepMind dùng RL để dạy AI chơi cờ vây - và đánh bại nhà vô địch thế giới Lee Sedol năm 2016. AI không học từ sách, nó <b>tự chơi với chính nó</b> hàng triệu ván.",
       },
     ],
     Sandbox: RLSandbox,
@@ -631,7 +631,7 @@ const TRACKS: Track[] = [
         ],
       },
       {
-        prompt: "Nếu phạt va chạm CAO hơn thưởng đi nhanh — agent sẽ làm gì?",
+        prompt: "Nếu phạt va chạm CAO hơn thưởng đi nhanh - agent sẽ làm gì?",
         items: [
           { id: "a", label: "Đi chậm, né chướng ngại", bucket: "ok" },
           { id: "b", label: "Ưu tiên an toàn", bucket: "ok" },
@@ -658,7 +658,7 @@ const TRACKS: Track[] = [
     story: [
       {
         heading: "🔬 AI học từ dữ liệu",
-        body: "AI <b>không có ý thức</b>. Nó chỉ tìm quy luật trong dữ liệu. Nếu dữ liệu lệch, AI sẽ lệch theo — đó gọi là <b>Bias</b> (thiên vị).",
+        body: "AI <b>không có ý thức</b>. Nó chỉ tìm quy luật trong dữ liệu. Nếu dữ liệu lệch, AI sẽ lệch theo - đó gọi là <b>Bias</b> (thiên vị).",
       },
       {
         heading: "📰 Bài học Amazon 2018",
@@ -803,7 +803,7 @@ const TRACKS: Track[] = [
       },
       {
         heading: "🏙️ Smart City",
-        body: "Đèn đường tự bật khi có người, thùng rác báo đầy, bãi xe chỉ chỗ trống, trạm bus dự đoán giờ đến — tất cả nhờ AIoT phối hợp hàng triệu thiết bị.",
+        body: "Đèn đường tự bật khi có người, thùng rác báo đầy, bãi xe chỉ chỗ trống, trạm bus dự đoán giờ đến - tất cả nhờ AIoT phối hợp hàng triệu thiết bị.",
       },
     ],
     Sandbox: AIoTSandbox,
@@ -933,7 +933,7 @@ const TRACKS: Track[] = [
     story: [
       {
         heading: "🎭 Deepfake là gì?",
-        body: "Deepfake dùng <b>Generative AI</b> để ghép mặt người này lên video người khác — gần như không phân biệt bằng mắt thường. Đã xuất hiện video giả CEO, chính trị gia, thậm chí bạn bè vay tiền qua Zalo.",
+        body: "Deepfake dùng <b>Generative AI</b> để ghép mặt người này lên video người khác - gần như không phân biệt bằng mắt thường. Đã xuất hiện video giả CEO, chính trị gia, thậm chí bạn bè vay tiền qua Zalo.",
       },
       {
         heading: "🔬 Dấu vết AI để lại",
@@ -1061,13 +1061,13 @@ const TRACKS: Track[] = [
   {
     id: "study", emoji: "🎓", Icon: BookOpen,
     title: "AI & Học tập thông minh", tag: "Học bá thời AI",
-    desc: "Dùng ChatGPT, NotebookLM, Gemini đúng cách để học bài, ôn thi — không để AI làm thay.",
+    desc: "Dùng ChatGPT, NotebookLM, Gemini đúng cách để học bài, ôn thi - không để AI làm thay.",
     gradient: "from-blue-400 via-sky-500 to-cyan-600", ring: "ring-blue-400/50",
     badge: { name: "Smart Learner", emoji: "📚" },
     story: [
-      { heading: "🧠 AI là gia sư, không phải đáp án", body: "AI giỏi giải thích từng bước, gợi ý ví dụ, kiểm tra lập luận. Nếu bạn copy đề bài và bảo 'làm hộ' — bạn mất cơ hội tự suy nghĩ. Hãy hỏi <b>'giải thích cách'</b> thay vì <b>'làm hộ'</b>." },
-      { heading: "📚 NotebookLM — gia sư đọc PDF", body: "Upload PDF bài giảng/SGK → AI tạo tóm tắt, flashcard, podcast nghe lúc đi đường. Công cụ mạnh nhất cho ôn THPT QG / IELTS / TOEIC 2025." },
-      { heading: "🎯 Quy tắc 3 bước của thầy Hải", body: "<b>1. Tự làm trước</b> — bí mới hỏi AI.  <b>2. Yêu cầu giải thích từng bước</b> — không phải đáp án.  <b>3. Kiểm chứng</b> bằng SGK hoặc hỏi thầy cô." },
+      { heading: "🧠 AI là gia sư, không phải đáp án", body: "AI giỏi giải thích từng bước, gợi ý ví dụ, kiểm tra lập luận. Nếu bạn copy đề bài và bảo 'làm hộ' - bạn mất cơ hội tự suy nghĩ. Hãy hỏi <b>'giải thích cách'</b> thay vì <b>'làm hộ'</b>." },
+      { heading: "📚 NotebookLM - gia sư đọc PDF", body: "Upload PDF bài giảng/SGK → AI tạo tóm tắt, flashcard, podcast nghe lúc đi đường. Công cụ mạnh nhất cho ôn THPT QG / IELTS / TOEIC 2025." },
+      { heading: "🎯 Quy tắc 3 bước của thầy Hải", body: "<b>1. Tự làm trước</b> - bí mới hỏi AI.  <b>2. Yêu cầu giải thích từng bước</b> - không phải đáp án.  <b>3. Kiểm chứng</b> bằng SGK hoặc hỏi thầy cô." },
     ],
     Sandbox: StudySmartSandbox,
     quiz: [
@@ -1084,12 +1084,12 @@ const TRACKS: Track[] = [
   {
     id: "careers", emoji: "💼", Icon: Briefcase,
     title: "Bản đồ nghề AI tại Việt Nam", tag: "La bàn nghề nghiệp",
-    desc: "Khám phá 8 nghề AI hot tại VinAI, FPT.AI, Zalo, Sky Mavis — và lộ trình từ lớp 10 đến job mơ ước.",
+    desc: "Khám phá 8 nghề AI hot tại VinAI, FPT.AI, Zalo, Sky Mavis - và lộ trình từ lớp 10 đến job mơ ước.",
     gradient: "from-violet-400 via-purple-500 to-fuchsia-600", ring: "ring-violet-400/50",
     badge: { name: "Career Explorer", emoji: "🗺️" },
     story: [
       { heading: "🚀 Việt Nam đang khát nhân lực AI", body: "VinAI, FPT.AI, Zalo AI Lab, VinBigdata tuyển 2000+ kỹ sư AI mỗi năm. Lương từ 25 triệu (junior) đến 100 triệu+ (senior). Cơ hội cho thế hệ Gen Z chưa bao giờ tốt như bây giờ." },
-      { heading: "🎨 Không cần code vẫn có nghề AI", body: "Prompt Engineer, AI Product Manager, AI UX Designer, AI Linguist — bốn nghề HOT không đòi hỏi code thành thạo. Phù hợp HS giỏi ngôn ngữ, vẽ, giao tiếp." },
+      { heading: "🎨 Không cần code vẫn có nghề AI", body: "Prompt Engineer, AI Product Manager, AI UX Designer, AI Linguist - bốn nghề HOT không đòi hỏi code thành thạo. Phù hợp HS giỏi ngôn ngữ, vẽ, giao tiếp." },
       { heading: "📍 Lộ trình từ lớp 10 → Job", body: "<b>Lớp 10–11:</b> học Toán/Lập trình cơ bản, chơi Teachable Machine.  <b>Lớp 12:</b> ôn IELTS 6.5+, học Python.  <b>ĐH:</b> thi vào FPT/BK/UIT ngành AI, làm dự án mở GitHub.  <b>Năm 3 ĐH:</b> intern VinAI / Zalo." },
     ],
     Sandbox: CareersMapSandbox,
@@ -1107,11 +1107,11 @@ const TRACKS: Track[] = [
   {
     id: "factcheck", emoji: "🧠", Icon: AlertTriangle,
     title: "Tư duy phản biện với AI", tag: "Thám tử sự thật",
-    desc: "Học cách phát hiện khi ChatGPT bịa (hallucination) — kỹ năng sống còn của Gen Z 2025.",
+    desc: "Học cách phát hiện khi ChatGPT bịa (hallucination) - kỹ năng sống còn của Gen Z 2025.",
     gradient: "from-amber-400 via-orange-500 to-rose-600", ring: "ring-amber-400/50",
     badge: { name: "Fact Checker", emoji: "🔍" },
     story: [
-      { heading: "🤖 Vì sao AI nói xạo?", body: "LLM dự đoán từ tiếp theo dựa trên xác suất — không kiểm tra sự thật. Khi không biết, nó bịa ra câu nghe hợp lý. Hiện tượng này gọi là <b>hallucination</b>." },
+      { heading: "🤖 Vì sao AI nói xạo?", body: "LLM dự đoán từ tiếp theo dựa trên xác suất - không kiểm tra sự thật. Khi không biết, nó bịa ra câu nghe hợp lý. Hiện tượng này gọi là <b>hallucination</b>." },
       { heading: "🚩 4 dấu hiệu đáng nghi", body: "1) Con số cực cụ thể (2.347.891 người).  2) Sự kiện lịch sử chi tiết.  3) Trích dẫn 'sách/báo' không tồn tại.  4) Tên người + ngày tháng + thành tựu nghe quá đẹp." },
       { heading: "✅ Quy tắc Cross-Check", body: "Luôn kiểm chứng AI bằng <b>nguồn thứ 2</b>: Wikipedia, SGK, Google Scholar, báo chính thống. Nếu không tìm thấy nguồn → 90% là AI bịa." },
     ],
@@ -1130,13 +1130,13 @@ const TRACKS: Track[] = [
   {
     id: "safety", emoji: "🔐", Icon: ShieldAlert,
     title: "An toàn số trong kỷ nguyên AI", tag: "Vệ sĩ kỹ thuật số",
-    desc: "Lừa đảo giả giọng, deepfake bạn cùng lớp, bot dụ dỗ trên MXH — cách tự bảo vệ trên Zalo, TikTok.",
+    desc: "Lừa đảo giả giọng, deepfake bạn cùng lớp, bot dụ dỗ trên MXH - cách tự bảo vệ trên Zalo, TikTok.",
     gradient: "from-rose-500 via-red-500 to-orange-600", ring: "ring-rose-400/50",
     badge: { name: "Digital Guardian", emoji: "🛡️" },
     story: [
-      { heading: "📞 Deepfake voice — nỗi sợ 2025", body: "AI có thể nhái giọng bố/mẹ chỉ từ 3 giây ghi âm trên TikTok. Đã có hàng trăm vụ lừa chuyển tiền ở VN với chiêu 'mẹ bị tai nạn cần gấp'. <b>Quy tắc:</b> luôn xác minh qua kênh thứ 2 trước khi chuyển tiền." },
-      { heading: "📸 Deepfake ảnh & video bạn học", body: "App AI cho phép ghép mặt bạn lên video xấu hổ trong 30 giây. Đây là tội hình sự theo Nghị định 53/2022. Báo thầy cô + report nền tảng — không bao giờ chia sẻ lại." },
-      { heading: "🤖 Bot AI dụ dỗ qua Messenger/Zalo", body: "Tài khoản lạ tự xưng 'AI tutor / tuyển dụng' xin CMND, ảnh thẻ, mã OTP. <b>100% là lừa đảo</b>. Không bao giờ gửi giấy tờ cá nhân qua chat — kể cả bạn bè (account có thể bị hack)." },
+      { heading: "📞 Deepfake voice - nỗi sợ 2025", body: "AI có thể nhái giọng bố/mẹ chỉ từ 3 giây ghi âm trên TikTok. Đã có hàng trăm vụ lừa chuyển tiền ở VN với chiêu 'mẹ bị tai nạn cần gấp'. <b>Quy tắc:</b> luôn xác minh qua kênh thứ 2 trước khi chuyển tiền." },
+      { heading: "📸 Deepfake ảnh & video bạn học", body: "App AI cho phép ghép mặt bạn lên video xấu hổ trong 30 giây. Đây là tội hình sự theo Nghị định 53/2022. Báo thầy cô + report nền tảng - không bao giờ chia sẻ lại." },
+      { heading: "🤖 Bot AI dụ dỗ qua Messenger/Zalo", body: "Tài khoản lạ tự xưng 'AI tutor / tuyển dụng' xin CMND, ảnh thẻ, mã OTP. <b>100% là lừa đảo</b>. Không bao giờ gửi giấy tờ cá nhân qua chat - kể cả bạn bè (account có thể bị hack)." },
     ],
     Sandbox: DigitalSafetySandbox,
     quiz: [
@@ -1171,7 +1171,7 @@ const TRACKS: Track[] = [
       },
       {
         heading: "🌟 Nghề AI hot 2025–2030",
-        body: "AI Engineer ($120k+), Prompt Engineer, AI Product Manager, MLOps, AI Ethics Officer, Data Scientist, AI UX Designer. Việt Nam khát nhân lực — đây là cơ hội vàng cho thế hệ Gen Z.",
+        body: "AI Engineer ($120k+), Prompt Engineer, AI Product Manager, MLOps, AI Ethics Officer, Data Scientist, AI UX Designer. Việt Nam khát nhân lực - đây là cơ hội vàng cho thế hệ Gen Z.",
       },
     ],
     Sandbox: GraduationSandbox,
@@ -1179,9 +1179,9 @@ const TRACKS: Track[] = [
       {
         prompt: "Công cụ AI hỗ trợ thuyết trình?",
         items: [
-          { id: "a", label: "Gamma — sinh slide tự động", bucket: "yes" },
-          { id: "b", label: "Canva Magic Design — poster", bucket: "yes" },
-          { id: "c", label: "Adobe Express — video demo", bucket: "yes" },
+          { id: "a", label: "Gamma - sinh slide tự động", bucket: "yes" },
+          { id: "b", label: "Canva Magic Design - poster", bucket: "yes" },
+          { id: "c", label: "Adobe Express - video demo", bucket: "yes" },
           { id: "d", label: "Notepad thuần chữ", bucket: "no" },
           { id: "e", label: "Máy tính bỏ túi", bucket: "no" },
         ],
@@ -1256,7 +1256,7 @@ const AIAcademy = () => {
   // Touch streak once on mount (visiting AI Academy counts as activity)
   useEffect(() => { touchStreak(); }, [touchStreak]);
 
-  // Certificate state — unlocks only when totalStars === maxStars
+  // Certificate state - unlocks only when totalStars === maxStars
   const [certOpen, setCertOpen] = useState(false);
   const [studentName, setStudentName] = useState<string>("");
   const [studentSeed, setStudentSeed] = useState<string>("");
@@ -1332,7 +1332,7 @@ const AIAcademy = () => {
     } else {
       toast({
         title: "Gần được rồi! 💪",
-        description: `Điểm: ${score}/${track.quiz.length} — thử lại để mở khóa huy hiệu nhé.`,
+        description: `Điểm: ${score}/${track.quiz.length} - thử lại để mở khóa huy hiệu nhé.`,
       });
     }
   };
@@ -1348,7 +1348,7 @@ const AIAcademy = () => {
         path="/programming/ai-academy"
       />
       <FloatingAIIcons />
-      {/* Side floating chibis (desktop only) — like homepage */}
+      {/* Side floating chibis (desktop only) - like homepage */}
       <div aria-hidden className="pointer-events-none fixed inset-0 z-[5] hidden xl:block">
         <FloatingChibi src={chibiRobotHero} alt="" size={110} delay={0} className="absolute left-[1.5%] top-[18%]" />
         <FloatingChibi src={chibiCoder} alt="" size={100} delay={0.8} className="absolute left-[2%] top-[58%]" />
@@ -1377,13 +1377,13 @@ const AIAcademy = () => {
             aria-hidden
             className="absolute inset-0 w-full h-full object-cover"
           />
-          {/* Color overlay for contrast — darker on the left to keep text readable */}
+          {/* Color overlay for contrast - darker on the left to keep text readable */}
           <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-900/75 to-slate-900/40" />
           <div className="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-transparent to-slate-950/60" />
           <div className="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-cyan-400/10 blur-3xl" />
           <div className="absolute -bottom-24 -left-10 w-72 h-72 rounded-full bg-primary/15 blur-3xl" />
 
-          {/* Animated chibi robot — top/right corner */}
+          {/* Animated chibi robot - top/right corner */}
           <motion.img
             src={chibiRobot}
             alt="Robot trợ lý AI Academy"
@@ -1400,7 +1400,7 @@ const AIAcademy = () => {
               Học AI siêu vui 🚀
             </h1>
             <p className="text-white/95 max-w-2xl text-sm sm:text-base pr-24 sm:pr-36 lg:pr-48 drop-shadow">
-              {TRACKS.length - 1} chặng phiêu lưu trực quan — chạm, kéo, thả, dạy bot, vẽ neuron. Hoàn thành để mở khoá huy hiệu, sao thưởng và Chứng chỉ tốt nghiệp!
+              {TRACKS.length - 1} chặng phiêu lưu trực quan - chạm, kéo, thả, dạy bot, vẽ neuron. Hoàn thành để mở khoá huy hiệu, sao thưởng và Chứng chỉ tốt nghiệp!
             </p>
 
             {/* Progress strip */}
@@ -1454,7 +1454,7 @@ const AIAcademy = () => {
                 }`}
               >
                 <div className={`absolute -top-16 -right-16 w-48 h-48 rounded-full bg-gradient-to-br ${t.gradient} opacity-20 blur-2xl group-hover:opacity-40 transition`} />
-                {/* Lesson number badge — sequence in the easy→hard path */}
+                {/* Lesson number badge - sequence in the easy→hard path */}
                 <div className={`absolute top-3 right-3 z-10 flex items-center gap-1 px-2.5 py-1 rounded-full bg-gradient-to-r ${t.gradient} text-white text-[11px] font-black shadow-md`}>
                   <span className="opacity-90">Bài</span>
                   <span className="text-sm leading-none">{String(lessonNo).padStart(2, "0")}</span>
@@ -1780,7 +1780,7 @@ const AIAcademy = () => {
                   <div className="flex items-center gap-2 mb-3">
                     <Trophy className="w-4 h-4 text-amber-600" />
                     <h3 className="font-bold text-sm uppercase tracking-wider text-amber-700 dark:text-amber-400">
-                      🧩 Mini Quiz — Kéo & Thả
+                      🧩 Mini Quiz - Kéo & Thả
                     </h3>
                   </div>
                   <DragDropQuiz
@@ -1790,14 +1790,14 @@ const AIAcademy = () => {
                   />
                 </div>
 
-                {/* Bonus practice — Multiple Choice + Scenario (no extra stars) */}
+                {/* Bonus practice - Multiple Choice + Scenario (no extra stars) */}
                 {QUIZ_EXTRAS[activeTrack.id] && (
                   <div className="grid lg:grid-cols-2 gap-5">
                     <div className="rounded-3xl border-2 border-indigo-400/40 bg-gradient-to-br from-indigo-500/5 to-pink-500/5 p-5">
                       <div className="flex items-center gap-2 mb-3">
                         <Sparkles className="w-4 h-4 text-indigo-600" />
                         <h3 className="font-bold text-sm uppercase tracking-wider text-indigo-700 dark:text-indigo-400">
-                          🎯 Luyện thêm — Trắc nghiệm
+                          🎯 Luyện thêm - Trắc nghiệm
                         </h3>
                       </div>
                       <MultipleChoiceQuiz

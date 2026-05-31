@@ -1,5 +1,5 @@
 /**
- * @file hsk9.ts — HSK 9 Mock Test (HSK 3.0 highest level — gần native)
+ * @file hsk9.ts - HSK 9 Mock Test (HSK 3.0 highest level - gần native)
  * Listening 18 + Reading 20 + Writing 1 = 39 Q, 120 phút (rút gọn).
  * Chủ đề triết học, học thuật chuyên sâu, văn chương cổ điển.
  * @author Teacher Hai (HaiEduTech)
@@ -35,7 +35,7 @@ const reading: { p: string; q?: string; o: string[]; c: number; exp?: string }[]
     o: ["全身投入忙碌", "保留沉思的空间", "拒绝现代生活"], c: 1 },
   { p: "全球化与本土化并非对立，而是相互成就。一个真正具有国际视野的民族，必然是深深扎根于自身文化土壤的民族。", q: "本段的核心？",
     o: ["全球化压倒本土", "全球化与本土相互成就", "应拒绝全球化"], c: 1 },
-  { p: "在文学批评中，作者已死的观念意味着读者拥有解读作品的自由。但这并不意味着任何解读都同样有效——文本本身仍构成解释的边界。", q: "作者强调？",
+  { p: "在文学批评中，作者已死的观念意味着读者拥有解读作品的自由。但这并不意味着任何解读都同样有效--文本本身仍构成解释的边界。", q: "作者强调？",
     o: ["读者完全无权解读", "读者自由但受文本约束", "作者意图唯一正确"], c: 1, exp: "兼顾读者自由与文本约束。" },
   { p: "现代经济学日益认识到，仅以 GDP 衡量发展是片面的，幸福指数、生态成本、社会公平同样应被纳入评价体系。", q: "现代发展观要求？",
     o: ["只看 GDP", "多维评价", "忽略环境"], c: 1 },
@@ -92,7 +92,7 @@ export const hsk9Test: HskTest = {
   level: 9 as 1 | 2 | 3 | 4 | 5 | 6,
   code: "HSK9-MOCK-01",
   title: "HSK 9 Mock Test 01",
-  titleVi: "Đề thi thử HSK 9 — Số 01",
+  titleVi: "Đề thi thử HSK 9 - Số 01",
   durationMin: 120,
   passScore: 60,
   showPinyin: false,

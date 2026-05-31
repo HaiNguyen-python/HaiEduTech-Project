@@ -1,4 +1,4 @@
-// SAT Vocabulary Expansion 2 — additional curated words across all SAT categories.
+// SAT Vocabulary Expansion 2 - additional curated words across all SAT categories.
 import type { SatWord } from "./satVocabData";
 
 const w = (
@@ -114,7 +114,7 @@ export const satVocabExpansion2: SatWord[] = [
   w("verbose", "/vərˈboʊs/", "C1", "dài dòng", "Trim verbose sentences before submitting.", "High-Frequency SAT Words – Set 2", "adjective"),
   w("zealous", "/ˈzɛləs/", "C1", "nhiệt thành", "Zealous volunteers ran the entire festival.", "High-Frequency SAT Words – Set 2", "adjective"),
 
-  // Math — Heart of Algebra
+  // Math - Heart of Algebra
   w("variable", "/ˈvɛəriəbəl/", "B2", "biến số", "Solve the equation for the variable x.", "Heart of Algebra", "noun", "Math"),
   w("coefficient", "/ˌkoʊɪˈfɪʃənt/", "B2", "hệ số", "The coefficient of x is 3 in 3x + 5.", "Heart of Algebra", "noun", "Math"),
   w("constant", "/ˈkɒnstənt/", "B2", "hằng số", "The constant term in 2x + 7 is 7.", "Heart of Algebra", "noun", "Math"),
@@ -123,7 +123,7 @@ export const satVocabExpansion2: SatWord[] = [
   w("intercept", "/ˈɪntərˌsɛpt/", "B2", "giao điểm với trục", "The y-intercept of the line is 4.", "Heart of Algebra", "noun", "Math"),
   w("slope", "/sloʊp/", "B2", "độ dốc", "The slope of the line is negative.", "Heart of Algebra", "noun", "Math"),
 
-  // Math — Problem Solving & Data Analysis
+  // Math - Problem Solving & Data Analysis
   w("ratio", "/ˈreɪʃioʊ/", "B2", "tỉ số", "The ratio of boys to girls is 3 to 2.", "Problem Solving & Data Analysis", "noun", "Math"),
   w("proportion", "/prəˈpɔːrʃən/", "B2", "tỉ lệ", "Solve the proportion 4/x = 8/10.", "Problem Solving & Data Analysis", "noun", "Math"),
   w("percentile", "/pərˈsɛntaɪl/", "B2", "phần trăm vị", "Her score is in the 90th percentile.", "Problem Solving & Data Analysis", "noun", "Math"),
@@ -131,7 +131,7 @@ export const satVocabExpansion2: SatWord[] = [
   w("histogram", "/ˈhɪstəˌɡræm/", "B2", "biểu đồ tần suất", "The histogram shows test-score distribution.", "Problem Solving & Data Analysis", "noun", "Math"),
   w("standard deviation", "/ˈstændərd ˌdiːviˈeɪʃən/", "C1", "độ lệch chuẩn", "A small standard deviation means tight clustering.", "Problem Solving & Data Analysis", "noun", "Math"),
 
-  // Math — Passport to Advanced Math
+  // Math - Passport to Advanced Math
   w("quadratic", "/kwɒˈdrætɪk/", "B2", "bậc hai", "Solve the quadratic equation by factoring.", "Passport to Advanced Math", "adjective", "Math"),
   w("polynomial", "/ˌpɒliˈnoʊmiəl/", "C1", "đa thức", "Add the two polynomial expressions.", "Passport to Advanced Math", "noun", "Math"),
   w("exponent", "/ɪkˈspoʊnənt/", "B2", "số mũ", "Apply the exponent rule to simplify.", "Passport to Advanced Math", "noun", "Math"),
@@ -139,7 +139,7 @@ export const satVocabExpansion2: SatWord[] = [
   w("function", "/ˈfʌŋkʃən/", "B2", "hàm số", "Evaluate the function at x = 3.", "Passport to Advanced Math", "noun", "Math"),
   w("vertex", "/ˈvɜːrtɛks/", "B2", "đỉnh", "Find the vertex of the parabola.", "Passport to Advanced Math", "noun", "Math"),
 
-  // Math — Geometry & Trigonometry
+  // Math - Geometry & Trigonometry
   w("hypotenuse", "/haɪˈpɒtəˌnuːs/", "B2", "cạnh huyền", "The hypotenuse is opposite the right angle.", "Geometry & Trigonometry", "noun", "Math"),
   w("congruent", "/kənˈɡruːənt/", "B2", "bằng nhau (hình)", "The two triangles are congruent by SAS.", "Geometry & Trigonometry", "adjective", "Math"),
   w("similar", "/ˈsɪmələr/", "B2", "đồng dạng", "Similar triangles share the same angles.", "Geometry & Trigonometry", "adjective", "Math"),

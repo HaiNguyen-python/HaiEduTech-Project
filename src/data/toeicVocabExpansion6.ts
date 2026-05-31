@@ -1,6 +1,6 @@
 /**
  * @file toeicVocabExpansion6.ts
- * @description TOEIC Vocabulary Expansion #6 — extra 60+ high-frequency
+ * @description TOEIC Vocabulary Expansion #6 - extra 60+ high-frequency
  * business words across all 10 TOEIC categories. Each entry includes a
  * realistic example sentence designed for typing-practice drills.
  */

@@ -1,5 +1,5 @@
 /**
- * EthicsSandbox — "AI có công bằng không?"
+ * EthicsSandbox - "AI có công bằng không?"
  * Students adjust a biased training dataset (gender ratio) for a fake hiring
  * model and watch the predicted hire-rate gap shrink. Teaches dataset bias
  * and why diverse training data matters.
@@ -12,11 +12,11 @@ import { BonusGames } from "./SandboxBonusGames";
 import { ChipFilter, BestMatchPick } from "./SandboxMiniActivity";
 
 const ETH_TF = [
-  { q: "AI có ý thức và có thể tự quyết định đạo đức.", a: false, why: "AI chỉ học theo dữ liệu — không có 'lương tâm'." },
+  { q: "AI có ý thức và có thể tự quyết định đạo đức.", a: false, why: "AI chỉ học theo dữ liệu - không có 'lương tâm'." },
   { q: "Dữ liệu thiên vị → AI thiên vị.", a: true },
   { q: "Amazon từng phải bỏ AI tuyển dụng vì phân biệt giới.", a: true, why: "Năm 2018, vì dữ liệu lịch sử lệch về nam giới." },
   { q: "Cân bằng dữ liệu giúp AI công bằng hơn.", a: true },
-  { q: "AI Ethics chỉ quan trọng cho công ty lớn.", a: false, why: "Mọi sản phẩm AI dùng cho con người đều cần — kể cả app nhỏ." },
+  { q: "AI Ethics chỉ quan trọng cho công ty lớn.", a: false, why: "Mọi sản phẩm AI dùng cho con người đều cần - kể cả app nhỏ." },
 ];
 const ETH_PAIRS = [
   { a: "Bias", b: "Thiên vị trong dữ liệu / mô hình" },
@@ -98,7 +98,7 @@ const EthicsSandbox = () => {
       </motion.div>
 
       <p className="text-xs text-muted-foreground">
-        💡 AI <b>không có ý thức</b> — nó chỉ học từ dữ liệu. Nếu dữ liệu thiên vị, AI sẽ thiên vị. Đó là lý do <b>AI Ethics</b> là môn quan trọng nhất ở MIT, Stanford.
+        💡 AI <b>không có ý thức</b> - nó chỉ học từ dữ liệu. Nếu dữ liệu thiên vị, AI sẽ thiên vị. Đó là lý do <b>AI Ethics</b> là môn quan trọng nhất ở MIT, Stanford.
       </p>
 
       <ChipFilter
@@ -108,7 +108,7 @@ const EthicsSandbox = () => {
         positive
         goal={75}
         goodLabel="Mô tả đã đủ trung lập ✅"
-        badLabel="Vẫn còn từ ngữ gây bias — bỏ thêm vài chip nữa nhé!"
+        badLabel="Vẫn còn từ ngữ gây bias - bỏ thêm vài chip nữa nhé!"
         metricLabel="Điểm Fairness"
         accent="from-amber-500 to-rose-500"
         border="border-amber-400/40"
@@ -122,7 +122,7 @@ const EthicsSandbox = () => {
       />
 
       <BestMatchPick
-        title="⚖️ Tình huống đạo đức AI — chọn nguyên tắc đúng"
+        title="⚖️ Tình huống đạo đức AI - chọn nguyên tắc đúng"
         hint="Mỗi vấn đề thuộc nguyên tắc đạo đức AI nào?"
         accent="from-amber-500 to-rose-500"
         border="border-amber-400/40"
@@ -136,7 +136,7 @@ const EthicsSandbox = () => {
           { prompt: "AI từ chối CV nữ vì dữ liệu huấn luyện toàn nam", correctId: "fair" },
           { prompt: "Người dùng không biết AI đang chấm điểm hồ sơ mình", correctId: "trans" },
           { prompt: "App ghi âm giọng nói trẻ em mà không xin phép bố mẹ", correctId: "priv" },
-          { prompt: "Xe tự lái gây tai nạn — không rõ ai chịu trách nhiệm", correctId: "acc" },
+          { prompt: "Xe tự lái gây tai nạn - không rõ ai chịu trách nhiệm", correctId: "acc" },
           { prompt: "AI bệnh viện giấu lý do từ chối bảo hiểm", correctId: "trans" },
         ]}
       />

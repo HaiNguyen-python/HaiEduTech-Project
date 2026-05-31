@@ -64,8 +64,8 @@ const PhdProgressTracker = () => {
               🎯 {t("Hành trình PhD của em", "Your PhD Journey")}
             </h2>
             <p className="text-xs text-muted-foreground mt-0.5">
-              {t("Tick mốc khi em hoàn thành — tự động lưu trong trình duyệt.",
-                "Tick each milestone you finish — auto-saved in your browser.")}
+              {t("Tick mốc khi em hoàn thành - tự động lưu trong trình duyệt.",
+                "Tick each milestone you finish - auto-saved in your browser.")}
             </p>
           </div>
           <Badge className="bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white border-0">

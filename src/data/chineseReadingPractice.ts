@@ -40,7 +40,7 @@ export interface ChineseReadingLevel {
 
 
 // =================================================================
-// HSK 1 — VERY BEGINNER (3-5 sentences, only most common words)
+// HSK 1 - VERY BEGINNER (3-5 sentences, only most common words)
 // =================================================================
 const hsk1: ChineseReadingPassage[] = [
   {
@@ -61,7 +61,7 @@ const hsk1: ChineseReadingPassage[] = [
     questions: [
       { q: "How many people are in Xiaoming's family?", qVi: "Gia đình Tiểu Minh có bao nhiêu người?", options: ["3", "4", "5", "6"], optionsVi: ["3", "4", "5", "6"], answer: 1, explanation: "我家有四个人 = 4 people.", explanationVi: "我家有四个人 = 4 người." },
       { q: "What does the father do?", qVi: "Bố làm nghề gì?", options: ["Teacher", "Doctor", "Student", "Driver"], optionsVi: ["Giáo viên", "Bác sĩ", "Học sinh", "Tài xế"], answer: 1, explanation: "爸爸是医生 = Dad is a doctor.", explanationVi: "爸爸是医生 = Bố là bác sĩ." },
-      { q: "Who is also a student?", qVi: "Ai cũng là học sinh?", options: ["Mother", "Father", "Older sister", "Nobody"], optionsVi: ["Mẹ", "Bố", "Chị gái", "Không ai cả"], answer: 2, explanation: "姐姐是学生，我也是学生.", explanationVi: "姐姐是学生 — chị gái cũng là học sinh." },
+      { q: "Who is also a student?", qVi: "Ai cũng là học sinh?", options: ["Mother", "Father", "Older sister", "Nobody"], optionsVi: ["Mẹ", "Bố", "Chị gái", "Không ai cả"], answer: 2, explanation: "姐姐是学生，我也是学生.", explanationVi: "姐姐是学生 - chị gái cũng là học sinh." },
     ],
   },
   {
@@ -109,7 +109,7 @@ const hsk1: ChineseReadingPassage[] = [
 ];
 
 // =================================================================
-// HSK 2 — ELEMENTARY (slightly longer sentences, ~80-120 chars total)
+// HSK 2 - ELEMENTARY (slightly longer sentences, ~80-120 chars total)
 // =================================================================
 const hsk2: ChineseReadingPassage[] = [
   {
@@ -181,7 +181,7 @@ const hsk2: ChineseReadingPassage[] = [
 ];
 
 // =================================================================
-// HSK 3 — INTERMEDIATE (200-280 chars, paragraph-style)
+// HSK 3 - INTERMEDIATE (200-280 chars, paragraph-style)
 // =================================================================
 const hsk3: ChineseReadingPassage[] = [
   {
@@ -254,7 +254,7 @@ const hsk3: ChineseReadingPassage[] = [
 ];
 
 // =================================================================
-// HSK 4 — UPPER-INTERMEDIATE (more complex grammar, ~300-380 chars)
+// HSK 4 - UPPER-INTERMEDIATE (more complex grammar, ~300-380 chars)
 // =================================================================
 const hsk4: ChineseReadingPassage[] = [
   {
@@ -286,9 +286,9 @@ const hsk4: ChineseReadingPassage[] = [
     emoji: "💌",
     title: "Friendship and Distance",
     titleVi: "Tình bạn và khoảng cách",
-    hanzi: "大学毕业以后，我和最好的朋友小李分开了。\n她去了上海工作，我留在了老家。\n刚开始那段时间，我们几乎每天都通过微信聊天，分享彼此生活中的小事。\n但是随着时间的过去，我们都变得越来越忙，联系也慢慢变少了。\n有一天，我突然收到她寄来的一封手写信。\n她在信里写：「虽然我们不能常常见面，但你一直是我心里最重要的朋友。」\n那一刻，我才明白——真正的友谊不在于距离，而在于心。",
-    pinyin: "Dàxué bìyè yǐhòu, wǒ hé zuì hǎo de péngyǒu Xiǎo Lǐ fēnkāi le.\nTā qù le Shànghǎi gōngzuò, wǒ liú zài le lǎojiā.\nGāng kāishǐ nà duàn shíjiān, wǒmen jīhū měitiān dōu tōngguò Wēixìn liáotiān, fēnxiǎng bǐcǐ shēnghuó zhōng de xiǎoshì.\nDànshì suízhe shíjiān de guòqù, wǒmen dōu biàn de yuè lái yuè máng, liánxì yě mànmàn biàn shǎo le.\nYǒu yì tiān, wǒ tūrán shōudào tā jì lái de yì fēng shǒuxiě xìn.\nTā zài xìn lǐ xiě: 「Suīrán wǒmen bù néng chángcháng jiànmiàn, dàn nǐ yìzhí shì wǒ xīnlǐ zuì zhòngyào de péngyǒu.」\nNà yí kè, wǒ cái míngbái — zhēnzhèng de yǒuyì bù zàiyú jùlí, érzài yú xīn.",
-    vi: "Sau khi tốt nghiệp đại học, tôi và người bạn thân nhất Tiểu Lý phải chia tay.\nCô ấy đến Thượng Hải làm việc, tôi ở lại quê nhà.\nThời gian đầu, gần như ngày nào chúng tôi cũng nhắn WeChat, chia sẻ chuyện nhỏ trong cuộc sống.\nNhưng theo thời gian, cả hai đều bận hơn, liên lạc cũng dần ít đi.\nMột hôm, tôi bất ngờ nhận được một bức thư viết tay cô ấy gửi.\nTrong thư cô viết: «Dù chúng ta không thường xuyên gặp nhau, nhưng cậu vẫn luôn là người bạn quan trọng nhất trong tim mình.»\nKhoảnh khắc đó, tôi mới hiểu — tình bạn thật sự không nằm ở khoảng cách, mà nằm ở trái tim.",
+    hanzi: "大学毕业以后，我和最好的朋友小李分开了。\n她去了上海工作，我留在了老家。\n刚开始那段时间，我们几乎每天都通过微信聊天，分享彼此生活中的小事。\n但是随着时间的过去，我们都变得越来越忙，联系也慢慢变少了。\n有一天，我突然收到她寄来的一封手写信。\n她在信里写：「虽然我们不能常常见面，但你一直是我心里最重要的朋友。」\n那一刻，我才明白--真正的友谊不在于距离，而在于心。",
+    pinyin: "Dàxué bìyè yǐhòu, wǒ hé zuì hǎo de péngyǒu Xiǎo Lǐ fēnkāi le.\nTā qù le Shànghǎi gōngzuò, wǒ liú zài le lǎojiā.\nGāng kāishǐ nà duàn shíjiān, wǒmen jīhū měitiān dōu tōngguò Wēixìn liáotiān, fēnxiǎng bǐcǐ shēnghuó zhōng de xiǎoshì.\nDànshì suízhe shíjiān de guòqù, wǒmen dōu biàn de yuè lái yuè máng, liánxì yě mànmàn biàn shǎo le.\nYǒu yì tiān, wǒ tūrán shōudào tā jì lái de yì fēng shǒuxiě xìn.\nTā zài xìn lǐ xiě: 「Suīrán wǒmen bù néng chángcháng jiànmiàn, dàn nǐ yìzhí shì wǒ xīnlǐ zuì zhòngyào de péngyǒu.」\nNà yí kè, wǒ cái míngbái - zhēnzhèng de yǒuyì bù zàiyú jùlí, érzài yú xīn.",
+    vi: "Sau khi tốt nghiệp đại học, tôi và người bạn thân nhất Tiểu Lý phải chia tay.\nCô ấy đến Thượng Hải làm việc, tôi ở lại quê nhà.\nThời gian đầu, gần như ngày nào chúng tôi cũng nhắn WeChat, chia sẻ chuyện nhỏ trong cuộc sống.\nNhưng theo thời gian, cả hai đều bận hơn, liên lạc cũng dần ít đi.\nMột hôm, tôi bất ngờ nhận được một bức thư viết tay cô ấy gửi.\nTrong thư cô viết: «Dù chúng ta không thường xuyên gặp nhau, nhưng cậu vẫn luôn là người bạn quan trọng nhất trong tim mình.»\nKhoảnh khắc đó, tôi mới hiểu - tình bạn thật sự không nằm ở khoảng cách, mà nằm ở trái tim.",
     newWords: [
       { hanzi: "毕业", pinyin: "bìyè", vi: "tốt nghiệp" },
       { hanzi: "分开", pinyin: "fēnkāi", vi: "chia tách" },
@@ -332,7 +332,7 @@ const hsk4: ChineseReadingPassage[] = [
 ];
 
 // =================================================================
-// HSK 5 — ADVANCED (richer vocabulary, idiomatic, ~380-450 chars)
+// HSK 5 - ADVANCED (richer vocabulary, idiomatic, ~380-450 chars)
 // =================================================================
 const hsk5: ChineseReadingPassage[] = [
   {
@@ -368,7 +368,7 @@ const hsk5: ChineseReadingPassage[] = [
     titleVi: "AI và tương lai của chúng ta",
     hanzi: "近几年，人工智能技术飞速发展，已经悄悄走进了我们的生活。\n从手机里的智能助手，到自动驾驶汽车，再到能写文章、画图的AI模型，人工智能正在改变各行各业。\n它带来的便利不可否认：医生可以借助AI更准确地诊断疾病，老师可以根据每个学生的水平设计学习方案，企业也能在大量数据中发现新的机会。\n然而，人们的担忧也在增加。\n有人担心AI将取代大量传统工作，使许多人失业；也有人警告，如果人类过度依赖机器，可能会失去思考和创造的能力。\n面对这场新的技术浪潮，最关键的不是恐惧或抗拒，而是学会与AI合作。\n只有不断学习新技能、保持独立思考，我们才能在未来的世界里找到属于自己的位置。",
     pinyin: "Jìn jǐ nián, réngōng zhìnéng jìshù fēisù fāzhǎn, yǐjīng qiāoqiāo zǒu jìn le wǒmen de shēnghuó.\nCóng shǒujī lǐ de zhìnéng zhùshǒu, dào zìdòng jiàshǐ qìchē, zài dào néng xiě wénzhāng, huàtú de AI móxíng, réngōng zhìnéng zhèngzài gǎibiàn gè háng gè yè.\nTā dài lái de biànlì bùkě fǒurèn: yīshēng kěyǐ jièzhù AI gèng zhǔnquè de zhěnduàn jíbìng, lǎoshī kěyǐ gēnjù měi gè xuéshēng de shuǐpíng shèjì xuéxí fāng'àn, qǐyè yě néng zài dàliàng shùjù zhōng fāxiàn xīn de jīhuì.\nRán'ér, rénmen de dānyōu yě zài zēngjiā.\nYǒu rén dānxīn AI jiāng qǔdài dàliàng chuántǒng gōngzuò, shǐ xǔduō rén shīyè; yě yǒu rén jǐnggào, rúguǒ rénlèi guòdù yīlài jīqì, kěnéng huì shīqù sīkǎo hé chuàngzào de nénglì.\nMiànduì zhè chǎng xīn de jìshù làngcháo, zuì guānjiàn de bú shì kǒngjù huò kàngjù, érshì xuéhuì yǔ AI hézuò.\nZhǐyǒu búduàn xuéxí xīn jìnéng, bǎochí dúlì sīkǎo, wǒmen cái néng zài wèilái de shìjiè lǐ zhǎodào shǔyú zìjǐ de wèizhì.",
-    vi: "Vài năm gần đây, công nghệ trí tuệ nhân tạo phát triển vũ bão, đã âm thầm bước vào cuộc sống của chúng ta.\nTừ trợ lý thông minh trong điện thoại, xe tự lái, đến những mô hình AI có thể viết bài, vẽ tranh — AI đang thay đổi mọi ngành nghề.\nLợi ích nó mang lại không thể phủ nhận: bác sĩ có thể nhờ AI chẩn đoán bệnh chính xác hơn, giáo viên có thể thiết kế lộ trình học theo trình độ từng học sinh, doanh nghiệp có thể tìm ra cơ hội mới từ khối dữ liệu khổng lồ.\nTuy nhiên, lo lắng cũng đang tăng lên.\nMột số người sợ AI sẽ thay thế nhiều công việc truyền thống, khiến nhiều người thất nghiệp; số khác cảnh báo, nếu con người quá phụ thuộc vào máy móc, có thể sẽ mất khả năng tư duy và sáng tạo.\nTrước làn sóng công nghệ mới này, điều quan trọng nhất không phải là sợ hãi hay chống đối, mà là học cách hợp tác với AI.\nChỉ khi không ngừng học kỹ năng mới và giữ tư duy độc lập, chúng ta mới có thể tìm được chỗ đứng của mình trong thế giới tương lai.",
+    vi: "Vài năm gần đây, công nghệ trí tuệ nhân tạo phát triển vũ bão, đã âm thầm bước vào cuộc sống của chúng ta.\nTừ trợ lý thông minh trong điện thoại, xe tự lái, đến những mô hình AI có thể viết bài, vẽ tranh - AI đang thay đổi mọi ngành nghề.\nLợi ích nó mang lại không thể phủ nhận: bác sĩ có thể nhờ AI chẩn đoán bệnh chính xác hơn, giáo viên có thể thiết kế lộ trình học theo trình độ từng học sinh, doanh nghiệp có thể tìm ra cơ hội mới từ khối dữ liệu khổng lồ.\nTuy nhiên, lo lắng cũng đang tăng lên.\nMột số người sợ AI sẽ thay thế nhiều công việc truyền thống, khiến nhiều người thất nghiệp; số khác cảnh báo, nếu con người quá phụ thuộc vào máy móc, có thể sẽ mất khả năng tư duy và sáng tạo.\nTrước làn sóng công nghệ mới này, điều quan trọng nhất không phải là sợ hãi hay chống đối, mà là học cách hợp tác với AI.\nChỉ khi không ngừng học kỹ năng mới và giữ tư duy độc lập, chúng ta mới có thể tìm được chỗ đứng của mình trong thế giới tương lai.",
     newWords: [
       { hanzi: "人工智能", pinyin: "réngōng zhìnéng", vi: "trí tuệ nhân tạo" },
       { hanzi: "悄悄", pinyin: "qiāoqiāo", vi: "lặng lẽ" },
@@ -438,8 +438,8 @@ export const chineseReadingLevels: ChineseReadingLevel[] = [
     level: 2,
     label: "HSK 2 · Elementary",
     labelVi: "HSK 2 · Cơ bản",
-    description: "Short paragraphs about daily life — family, weekend, food, friends.",
-    descriptionVi: "Đoạn ngắn về đời sống hằng ngày — gia đình, cuối tuần, ăn uống, bạn bè.",
+    description: "Short paragraphs about daily life - family, weekend, food, friends.",
+    descriptionVi: "Đoạn ngắn về đời sống hằng ngày - gia đình, cuối tuần, ăn uống, bạn bè.",
     colorFrom: "from-sky-500",
     colorTo: "to-cyan-500",
     chibi: chibiHsk2,

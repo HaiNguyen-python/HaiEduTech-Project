@@ -74,7 +74,7 @@ function toIcs(items: Deadline[]): string {
       "BEGIN:VEVENT",
       `UID:${it.id}@haiedutech`,
       `DTSTART;VALUE=DATE:${fmt(it.deadline_date)}`,
-      `SUMMARY:${(it.application_type || "Application")} — ${it.university}`,
+      `SUMMARY:${(it.application_type || "Application")} - ${it.university}`,
       `DESCRIPTION:${(it.program || "")}${it.link ? `\\n${it.link}` : ""}`,
       "END:VEVENT",
     ]),

@@ -31,9 +31,9 @@ const FUN_EMOJIS = ["😄", "😆", "🤩", "😎", "🥳", "😋", "🤓", "�
 // Curated facts, each with a unique chibi speaker (limited to 4 for a calmer home page)
 const FACTS: Fact[] = [
   { chibi: chibiPanda,        side: "left",  vi: "Tiếng Trung không có thì! 了, 过, 将 sẽ thay bạn chia động từ đó.", en: "Mandarin has no tenses! 了, 过, 将 do the time-marking for you.", to: "/chinese", ctaVi: "Học HSK ngay", ctaEn: "Start HSK" },
-  { chibi: chibiTeacherIelts, side: "right", vi: "Hơn 60% từ vựng IELTS có gốc Pháp & Latin — học gốc từ là cheat code!", en: "60%+ of IELTS vocab is French & Latin — learning roots is a cheat code!", to: "/ielts-vocabulary", ctaVi: "Vào IELTS Vocab", ctaEn: "Open IELTS Vocab" },
-  { chibi: chibiCoder,        side: "left",  vi: "Python đặt tên theo nhóm hài Monty Python, không phải con rắn nhé!", en: "Python is named after Monty Python — not the snake!", to: "/programming", ctaVi: "Học Python", ctaEn: "Learn Python" },
-  { chibi: chibiSpeaking,     side: "right", vi: "Người Anh uống ~100 triệu tách trà mỗi ngày — trà là 'small talk' đó!", en: "Brits drink ~100M cups of tea a day — tea IS British small talk!", to: "/english/conversational/curriculum", ctaVi: "Luyện hội thoại EN", ctaEn: "Practice EN Speaking" },
+  { chibi: chibiTeacherIelts, side: "right", vi: "Hơn 60% từ vựng IELTS có gốc Pháp & Latin - học gốc từ là cheat code!", en: "60%+ of IELTS vocab is French & Latin - learning roots is a cheat code!", to: "/ielts-vocabulary", ctaVi: "Vào IELTS Vocab", ctaEn: "Open IELTS Vocab" },
+  { chibi: chibiCoder,        side: "left",  vi: "Python đặt tên theo nhóm hài Monty Python, không phải con rắn nhé!", en: "Python is named after Monty Python - not the snake!", to: "/programming", ctaVi: "Học Python", ctaEn: "Learn Python" },
+  { chibi: chibiSpeaking,     side: "right", vi: "Người Anh uống ~100 triệu tách trà mỗi ngày - trà là 'small talk' đó!", en: "Brits drink ~100M cups of tea a day - tea IS British small talk!", to: "/english/conversational/curriculum", ctaVi: "Luyện hội thoại EN", ctaEn: "Practice EN Speaking" },
 ];
 
 const ChibiFactSpeakers = () => {

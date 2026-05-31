@@ -1,6 +1,6 @@
 /**
  * @file SatCurriculum.tsx
- * @description Dedicated SAT Curriculum page — pulls the 30-week roadmap
+ * @description Dedicated SAT Curriculum page - pulls the 30-week roadmap
  *   (SatExamFormat) and the interactive SAT lessons grid out of /english/sat
  *   into their own route so the main SAT landing stays short and clean.
  * @author Teacher Hai (HaiEduTech)
@@ -40,7 +40,7 @@ const SatCurriculum = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-secondary/10">
       <Helmet>
-        <title>{t("Chương trình SAT chi tiết — HaiEduTech", "SAT Curriculum — HaiEduTech")}</title>
+        <title>{t("Chương trình SAT chi tiết - HaiEduTech", "SAT Curriculum - HaiEduTech")}</title>
         <meta
           name="description"
           content={t(
@@ -74,7 +74,7 @@ const SatCurriculum = () => {
           </p>
         </header>
 
-        {/* Teaching Mode CTA — start the full SAT series in order */}
+        {/* Teaching Mode CTA - start the full SAT series in order */}
         {satTeachingSequence.length > 0 && (
           <section className="mb-10 rounded-2xl border border-primary/30 bg-gradient-to-r from-primary/10 via-emerald-500/10 to-primary/5 p-5 md:p-6">
             <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
@@ -87,8 +87,8 @@ const SatCurriculum = () => {
                 </div>
                 <p className="text-sm text-muted-foreground">
                   {t(
-                    `Dạy ${satTeachingSequence.length} bài SAT nối tiếp theo thứ tự sắp sẵn — không cần chọn từng module, mỗi bài có nút Tiếp / Trước.`,
-                    `Teach all ${satTeachingSequence.length} SAT lessons back-to-back in a fixed order — no need to pick a module, each lesson has Prev / Next.`
+                    `Dạy ${satTeachingSequence.length} bài SAT nối tiếp theo thứ tự sắp sẵn - không cần chọn từng module, mỗi bài có nút Tiếp / Trước.`,
+                    `Teach all ${satTeachingSequence.length} SAT lessons back-to-back in a fixed order - no need to pick a module, each lesson has Prev / Next.`
                   )}
                 </p>
               </div>

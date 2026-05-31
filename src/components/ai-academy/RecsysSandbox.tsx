@@ -1,5 +1,5 @@
 /**
- * RecsysSandbox — "Smart feed builder"
+ * RecsysSandbox - "Smart feed builder"
  * A list of user personas with interest vectors and a content library with
  * topic vectors. A similarity-threshold slider gates which items are
  * recommended (cosine similarity). Live hit-rate updates teach how feed
@@ -15,7 +15,7 @@ import { ChipFilter, BestMatchPick } from "./SandboxMiniActivity";
 const REC_TF = [
   { q: "TikTok & YouTube dùng hệ gợi ý để chọn video cho bạn.", a: true },
   { q: "Hệ gợi ý đo độ giống nhau bằng cosine similarity.", a: true },
-  { q: "Ngưỡng quá cao sẽ tạo ra 'filter bubble'.", a: true, why: "Bạn chỉ thấy nội dung lặp lại sở thích — thiếu đa dạng." },
+  { q: "Ngưỡng quá cao sẽ tạo ra 'filter bubble'.", a: true, why: "Bạn chỉ thấy nội dung lặp lại sở thích - thiếu đa dạng." },
   { q: "Vector sở thích chỉ có 1 con số duy nhất.", a: false, why: "Vector có nhiều chiều (thể thao, nhạc, khoa học…)." },
   { q: "Spotify gợi ý nhạc cũng dùng nguyên lý tương tự.", a: true },
 ];
@@ -145,7 +145,7 @@ const RecsysSandbox = () => {
       </div>
 
       <p className="text-xs text-muted-foreground">
-        💡 YouTube & TikTok tính cosine similarity giữa <b>vector sở thích</b> của bạn và hàng tỷ video — chỉ những video vượt ngưỡng mới xuất hiện trên feed.
+        💡 YouTube & TikTok tính cosine similarity giữa <b>vector sở thích</b> của bạn và hàng tỷ video - chỉ những video vượt ngưỡng mới xuất hiện trên feed.
       </p>
 
       <ChipFilter
@@ -154,8 +154,8 @@ const RecsysSandbox = () => {
         baseline={20}
         positive
         goal={70}
-        goodLabel="Vector sở thích rõ ràng — AI gợi ý chính xác!"
-        badLabel="AI chưa hiểu bạn — hãy bật thêm vài chủ đề bạn thực sự thích."
+        goodLabel="Vector sở thích rõ ràng - AI gợi ý chính xác!"
+        badLabel="AI chưa hiểu bạn - hãy bật thêm vài chủ đề bạn thực sự thích."
         metricLabel="Độ chính xác gợi ý"
         accent="from-orange-500 to-rose-500"
         border="border-orange-400/40"
@@ -181,10 +181,10 @@ const RecsysSandbox = () => {
           { id: "pop", label: "🔥 Popularity-based" },
         ]}
         items={[
-          { prompt: "TikTok For You — học từ video bạn xem & like", correctId: "collab" },
+          { prompt: "TikTok For You - học từ video bạn xem & like", correctId: "collab" },
           { prompt: "Spotify 'Có thể bạn cũng thích' theo thể loại bài đang nghe", correctId: "content" },
           { prompt: "Top trending YouTube hôm nay", correctId: "pop" },
-          { prompt: "Netflix — kết hợp sở thích bạn + người dùng giống bạn", correctId: "hybrid" },
+          { prompt: "Netflix - kết hợp sở thích bạn + người dùng giống bạn", correctId: "hybrid" },
           { prompt: "Shopee 'Sản phẩm tương tự' theo mô tả/ảnh", correctId: "content" },
         ]}
       />

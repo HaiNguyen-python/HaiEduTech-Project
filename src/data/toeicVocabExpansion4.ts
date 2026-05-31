@@ -1,6 +1,6 @@
 /**
  * @file toeicVocabExpansion4.ts
- * @description TOEIC Vocabulary Expansion #4 — meetings, travel, marketing,
+ * @description TOEIC Vocabulary Expansion #4 - meetings, travel, marketing,
  *              negotiation, HR, IT, customer service.
  */
 import type { ToeicWord } from "./toeicVocabTypes";

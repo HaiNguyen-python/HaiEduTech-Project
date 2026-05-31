@@ -1,4 +1,4 @@
-// Shared hook for "Study Motivation" system — shows motivational toast + confetti on mastering a word
+// Shared hook for "Study Motivation" system - shows motivational toast + confetti on mastering a word
 import { useCallback } from "react";
 import { toast } from "sonner";
 import confetti from "canvas-confetti";

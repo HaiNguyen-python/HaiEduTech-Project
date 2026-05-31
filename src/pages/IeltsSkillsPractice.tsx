@@ -1,4 +1,4 @@
-// IELTS Skills Practice Hub — landing page that groups Writing/Speaking/Reading/Listening practice
+// IELTS Skills Practice Hub - landing page that groups Writing/Speaking/Reading/Listening practice
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { PenTool, MessageSquare, BookOpen, Mic2, ArrowRight } from "lucide-react";
@@ -61,7 +61,7 @@ const IeltsSkillsPractice = () => {
     <div className="min-h-screen bg-background">
       <SEO
         title="IELTS Skills Practice | HaiEduTech"
-        description="Practice all 4 IELTS skills — Writing, Speaking, Reading, Listening — with Cambridge-standard materials and AI grading."
+        description="Practice all 4 IELTS skills - Writing, Speaking, Reading, Listening - with Cambridge-standard materials and AI grading."
       />
       <Navbar />
       <main className="container mx-auto px-4 py-10 md:py-14">

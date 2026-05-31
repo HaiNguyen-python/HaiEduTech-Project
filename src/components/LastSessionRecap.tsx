@@ -171,7 +171,7 @@ export default function LastSessionRecap() {
 
           setLoading(false);
 
-          // Always open the recap dialog on first login of the session, even if there's no data yet —
+          // Always open the recap dialog on first login of the session, even if there's no data yet -
           // an empty-state message is friendlier than the popup silently failing to appear.
           setOpen(true);
         }

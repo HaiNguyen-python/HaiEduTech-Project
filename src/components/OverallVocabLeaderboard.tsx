@@ -1,4 +1,4 @@
-// Overall Vocabulary Leaderboard — aggregates all subjects (IELTS, HSK, SAT, TOEIC)
+// Overall Vocabulary Leaderboard - aggregates all subjects (IELTS, HSK, SAT, TOEIC)
 import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Trophy, Crown, Medal, Star } from "lucide-react";

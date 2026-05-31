@@ -1,5 +1,5 @@
 /**
- * @file hsk5.ts — HSK 5 Mock Test (authentic Hanban format)
+ * @file hsk5.ts - HSK 5 Mock Test (authentic Hanban format)
  * Listening 45 + Reading 45 + Writing 10 = 100 Q, 120 minutes.
  * Prompts in Chinese only; Vietnamese moved to promptVi / explanation
  * so the paper mirrors the real Hanban HSK 5 exam.
@@ -110,7 +110,7 @@ const listeningPart2: LRow[] = [
 
 /* ============================================================
  * READING (45)
- * Part 1 (Q46-60): Cloze — fill one blank with the best word
+ * Part 1 (Q46-60): Cloze - fill one blank with the best word
  * Part 2 (Q61-70): Short paragraph → choose best summary
  * Part 3 (Q71-90): Longer passage → MCQ comprehension
  * ========================================================== */
@@ -298,7 +298,7 @@ export const hsk5Test: HskTest = {
   level: 5,
   code: "HSK5-MOCK-01",
   title: "HSK 5 Mock Test 01",
-  titleVi: "Đề thi thử HSK 5 — Số 01",
+  titleVi: "Đề thi thử HSK 5 - Số 01",
   durationMin: 120,
   passScore: 60,
   showPinyin: false,

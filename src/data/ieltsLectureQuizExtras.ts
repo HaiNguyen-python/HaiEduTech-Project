@@ -36,7 +36,7 @@ export const lectureQuizExtras: Record<string, LectureQuizQuestion[]> = {
   "writing-task1-multiple-charts": [
     { question: "Best approach when given two charts?", options: ["Describe each chart in a separate paragraph and link them in the overview.", "Mix all data together.", "Only describe the bigger chart.", "Skip the smaller chart."], answer: 0, explanation: "One body paragraph per chart, then connect both in the overview." },
     { question: "What to do if two charts show related data?", options: ["Ignore the link", "Make a comparison or cause-effect connection in the overview", "Describe sequentially without linking", "Only mention numbers"], answer: 1, explanation: "Examiners reward seeing relationships between two visuals." },
-    { question: "How long should the overview be for two charts?", options: ["1 sentence", "2-3 sentences covering main features of BOTH", "Half a page", "0 — only body needed"], answer: 1, explanation: "Cover the main feature of each visual, totaling 2-3 sentences." },
+    { question: "How long should the overview be for two charts?", options: ["1 sentence", "2-3 sentences covering main features of BOTH", "Half a page", "0 - only body needed"], answer: 1, explanation: "Cover the main feature of each visual, totaling 2-3 sentences." },
   ],
   "writing-task1-mixed-trends-language": [
     { question: "Which sentence shows BEST variation?", options: ["The number went up. The number went up again.", "The number rose sharply, before plateauing and eventually dipping.", "Up, up, down.", "It increased and increased."], answer: 1, explanation: "Combine multiple movement verbs for lexical resource Band 7+." },
@@ -137,7 +137,7 @@ export const lectureQuizExtras: Record<string, LectureQuizQuestion[]> = {
     { question: "Worst conclusion mistake?", options: ["Introducing a brand-new argument", "Paraphrasing the thesis", "Summarizing", "Final thought"], answer: 0, explanation: "New arguments undermine cohesion." },
   ],
   "writing-task2-grammar-range": [
-    { question: "Band 7+ requires what mix of structures?", options: ["Only simple sentences", "Simple + compound + complex sentences with varied tenses", "Only complex sentences", "No grammar"], answer: 1, explanation: "Variety is the key — mix sentence types and tenses naturally." },
+    { question: "Band 7+ requires what mix of structures?", options: ["Only simple sentences", "Simple + compound + complex sentences with varied tenses", "Only complex sentences", "No grammar"], answer: 1, explanation: "Variety is the key - mix sentence types and tenses naturally." },
     { question: "Best advanced structure for hypotheticals?", options: ["If clauses (Type 2 & 3): If governments invested more, pollution would decrease.", "Will + bare infinitive only", "Past simple", "Imperative"], answer: 0, explanation: "Conditionals showcase advanced grammar range." },
     { question: "Which is a Band 7+ structure?", options: ["Cleft sentence: 'It is education that drives progress.'", "Simple subject-verb only", "Sentence fragments", "Run-on sentences"], answer: 0, explanation: "Cleft sentences for emphasis demonstrate range." },
   ],
@@ -172,14 +172,14 @@ export const lectureQuizExtras: Record<string, LectureQuizQuestion[]> = {
     { question: "Best phrase to introduce a counter-argument?", options: ["Admittedly, / While it is true that… / Critics may argue that…", "However also", "Plus", "And"], answer: 0, explanation: "Concession phrases handle counter-arguments gracefully." },
   ],
   "writing-task2-mixed-question-types": [
-    { question: "First step when you see the prompt?", options: ["Identify the question type (opinion / problem-solution / discuss / 2-question)", "Start writing immediately", "Skip planning", "Memorize templates"], answer: 0, explanation: "Question type dictates structure — identify it first." },
+    { question: "First step when you see the prompt?", options: ["Identify the question type (opinion / problem-solution / discuss / 2-question)", "Start writing immediately", "Skip planning", "Memorize templates"], answer: 0, explanation: "Question type dictates structure - identify it first." },
     { question: "If the prompt has TWO tasks (e.g., causes + solutions)…", options: ["Address BOTH in separate body paragraphs", "Choose one", "Skip the harder one", "Mix randomly"], answer: 0, explanation: "All parts of the prompt must be addressed." },
     { question: "Best planning time before writing?", options: ["3-5 minutes for ideas, outline, thesis", "0 minutes", "20 minutes", "Just dive in"], answer: 0, explanation: "Quick planning saves time and improves coherence." },
   ],
   "writing-task2-paraphrasing-mastery": [
     { question: "Best paraphrasing techniques?", options: ["Synonyms + change word form + change sentence structure (active↔passive)", "Just copy the prompt", "Change one word", "Use a thesaurus blindly"], answer: 0, explanation: "Combine multiple techniques for natural paraphrasing." },
     { question: "Which is poor paraphrasing?", options: ["Replacing every word with a random synonym (sounds unnatural)", "Reordering ideas naturally", "Changing word forms", "Using passive voice"], answer: 0, explanation: "Forced synonyms ('utilise' for every 'use') sound unnatural." },
-    { question: "Words you should NOT paraphrase?", options: ["Topic-specific nouns like 'climate change', 'internet', 'education'", "All words", "Verbs", "Adjectives"], answer: 0, explanation: "Some technical terms have no good synonyms — keep them." },
+    { question: "Words you should NOT paraphrase?", options: ["Topic-specific nouns like 'climate change', 'internet', 'education'", "All words", "Verbs", "Adjectives"], answer: 0, explanation: "Some technical terms have no good synonyms - keep them." },
   ],
   "writing-task2-supporting-examples": [
     { question: "Best types of supporting evidence?", options: ["Real-world examples / statistics / hypothetical scenarios / personal experience (sparingly)", "Only personal experience", "No examples needed", "Only quotes"], answer: 0, explanation: "A mix of evidence types adds credibility." },
@@ -191,7 +191,7 @@ export const lectureQuizExtras: Record<string, LectureQuizQuestion[]> = {
     { question: "Band 8 intros have…", options: ["sophisticated paraphrasing + clear thesis + (optional) brief outline", "5+ sentences", "no thesis", "a question"], answer: 0, explanation: "Concise but high-quality language defines Band 8." },
   ],
   "tips-peel-method": [
-    { question: "What does PEEL stand for?", options: ["Point, Evidence, Explanation, Link", "Practice, Effort, English, Language", "Plan, Edit, Examine, List", "Past, Effect, Example, Link"], answer: 0, explanation: "PEEL is Point-Evidence-Explanation-Link — the body paragraph backbone." },
+    { question: "What does PEEL stand for?", options: ["Point, Evidence, Explanation, Link", "Practice, Effort, English, Language", "Plan, Edit, Examine, List", "Past, Effect, Example, Link"], answer: 0, explanation: "PEEL is Point-Evidence-Explanation-Link - the body paragraph backbone." },
     { question: "Best 'Link' sentence?", options: ["Connects back to the thesis or transitions to the next paragraph.", "Asks a question.", "Repeats the topic sentence.", "Lists vocabulary."], answer: 0, explanation: "The Link cements relevance and transitions cleanly." },
     { question: "Why is PEEL useful?", options: ["It ensures every paragraph is fully developed and coherent.", "It saves time.", "It avoids ideas.", "It hides the thesis."], answer: 0, explanation: "PEEL guarantees structure → Task Response & Coherence scores." },
   ],
@@ -279,7 +279,7 @@ export const lectureQuizExtras: Record<string, LectureQuizQuestion[]> = {
   "speaking-part2-time-management": [
     { question: "Best signpost to manage 2 minutes?", options: ["So… (start) / Moving on to… (mid) / All things considered… (end)", "No signposts", "Same phrase always", "Stop talking"], answer: 0, explanation: "Signposts structure your talk and signal fluency." },
     { question: "If you finish early, what do you do?", options: ["Add reflection: 'In hindsight, …' or compare to a similar experience", "Stop and apologize", "Repeat the bullet points", "Stay silent"], answer: 0, explanation: "Adding reflection naturally extends your talk." },
-    { question: "If you run over time, what happens?", options: ["The examiner will stop you politely — no penalty, but plan to hit 1:30-2:00", "You fail", "You get extra marks", "Speak louder"], answer: 0, explanation: "Aim for 1:30-2:00; the examiner manages the cutoff." },
+    { question: "If you run over time, what happens?", options: ["The examiner will stop you politely - no penalty, but plan to hit 1:30-2:00", "You fail", "You get extra marks", "Speak louder"], answer: 0, explanation: "Aim for 1:30-2:00; the examiner manages the cutoff." },
   ],
   "speaking-part3-comparing-contrasting": [
     { question: "Useful comparing/contrasting phrases?", options: ["whereas / on the other hand / by contrast / similarly / in much the same way", "and / but", "also / too", "yes / no"], answer: 0, explanation: "Range of contrast linkers is essential for Part 3 analysis." },
@@ -313,7 +313,7 @@ export const lectureQuizExtras: Record<string, LectureQuizQuestion[]> = {
   ],
   "natural-fillers-speaking": [
     { question: "Best 'thinking' fillers?", options: ["Well, / Actually, / You know, / To be honest,", "Um um um", "Like like like", "Silence"], answer: 0, explanation: "Natural fillers buy time and sound native." },
-    { question: "How often to use fillers?", options: ["Sparingly — once or twice per Part 1 answer", "In every sentence", "Never", "Only at the start"], answer: 0, explanation: "Over-use becomes a hesitation marker; under-use sounds robotic." },
+    { question: "How often to use fillers?", options: ["Sparingly - once or twice per Part 1 answer", "In every sentence", "Never", "Only at the start"], answer: 0, explanation: "Over-use becomes a hesitation marker; under-use sounds robotic." },
   ],
   "tips-speaking-general-specific": [
     { question: "Best speaking structure?", options: ["Start with a general statement, then narrow to a specific example.", "Start with vocabulary list", "Skip the general statement", "Only specifics"], answer: 0, explanation: "General → specific = natural English thinking pattern." },

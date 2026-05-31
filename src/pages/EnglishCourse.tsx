@@ -334,7 +334,7 @@ const EnglishCourse = () => {
                     <AccessDeniedModal open={showAccessModal} onOpenChange={setShowAccessModal} />
                   </div>
                 )}
-                {/* SAT — 4 entry-points as unified cards */}
+                {/* SAT - 4 entry-points as unified cards */}
                 {courseId === "sat" && (
                   <div className="mt-5 pt-5 border-t">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -438,14 +438,14 @@ const EnglishCourse = () => {
               </div>
             </div>
 
-            {/* IELTS Exam Breakdown — 4 skills + Roadmap by Band */}
+            {/* IELTS Exam Breakdown - 4 skills + Roadmap by Band */}
             {courseId === "ielts" && <IeltsExamBreakdown />}
 
-            {/* SAT — professional landing sections always visible */}
+            {/* SAT - professional landing sections always visible */}
             {courseId === "sat" && <SatLandingExtras />}
 
 
-            {/* Stats — hidden for IELTS & Conversational */}
+            {/* Stats - hidden for IELTS & Conversational */}
             {course.stats && courseId !== "ielts" && courseId !== "conversational" && (
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                 {course.stats.map((s, i) => (
@@ -458,7 +458,7 @@ const EnglishCourse = () => {
               </div>
             )}
 
-            {/* Features — hidden for IELTS & SAT */}
+            {/* Features - hidden for IELTS & SAT */}
             {courseId !== "ielts" && courseId !== "sat" && courseId !== "conversational" && (
               <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
                 <h2 className="text-xl font-display font-bold text-foreground mb-4 flex items-center gap-2">
@@ -475,7 +475,7 @@ const EnglishCourse = () => {
               </div>
             )}
 
-            {/* Curriculum — hidden for IELTS (replaced by IeltsExamBreakdown above) */}
+            {/* Curriculum - hidden for IELTS (replaced by IeltsExamBreakdown above) */}
             {courseId !== "ielts" && courseId !== "sat" && courseId !== "conversational" && (
               <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
                 <h2 className="text-xl font-display font-bold text-foreground mb-4 flex items-center gap-2">
@@ -497,7 +497,7 @@ const EnglishCourse = () => {
               </div>
             )}
 
-            {/* Audience — hidden for IELTS */}
+            {/* Audience - hidden for IELTS */}
             {courseId !== "ielts" && courseId !== "sat" && courseId !== "conversational" && (
               <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
                 <h2 className="text-xl font-display font-bold text-foreground mb-4 flex items-center gap-2">
@@ -514,7 +514,7 @@ const EnglishCourse = () => {
               </div>
             )}
 
-            {/* Testimonials — hidden for IELTS */}
+            {/* Testimonials - hidden for IELTS */}
             {courseId !== "ielts" && courseId !== "sat" && courseId !== "conversational" && course.testimonials && course.testimonials.length > 0 && (
               <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
                 <div className="flex items-center gap-2 mb-5">
@@ -533,7 +533,7 @@ const EnglishCourse = () => {
             )}
 
 
-            {/* Contact / Register — hidden for IELTS and SAT */}
+            {/* Contact / Register - hidden for IELTS and SAT */}
             {courseId !== "ielts" && courseId !== "sat" && courseId !== "conversational" && (
               <div className="glass-card rounded-2xl p-6 md:p-8 border-2 border-primary/20">
                 <h2 className="text-xl font-display font-bold text-foreground mb-2 flex items-center gap-2">

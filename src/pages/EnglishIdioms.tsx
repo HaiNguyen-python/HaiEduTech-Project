@@ -324,7 +324,7 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
           );
         };
 
-        // Group by THEME_GROUPS when no specific group filter is applied — collapsible accordion with a quiz per group.
+        // Group by THEME_GROUPS when no specific group filter is applied - collapsible accordion with a quiz per group.
         const activeGroups = filterTheme === "all"
           ? THEME_GROUPS
           : THEME_GROUPS.filter((g) => g.key === filterTheme);

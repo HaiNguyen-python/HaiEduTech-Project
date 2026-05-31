@@ -315,7 +315,7 @@ function pickPool<T>(pool: T[], count: number, examIndex: number): T[] {
   return out;
 }
 
-// Per-exam content variation — swaps common tokens so even shared stems
+// Per-exam content variation - swaps common tokens so even shared stems
 // look different across the 8 exams. Each replacement uses an 8-element
 // rotation keyed by examIndex.
 const VARY_DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday", "Wednesday", "Friday", "Tuesday"];
@@ -474,7 +474,7 @@ function generatePart2(theme: Theme, examId: string, seed: number, examIndex: nu
     ["Where can I find the staff handbook?", "On the shared drive under HR documents.", ["I found it last week.", "Staff are very helpful."]],
     ["Why isn't the printer working?", "It looks like it's out of toner.", ["The printer was on sale.", "Because she said so."]],
     ["When does the new branch open?", "Sometime in early September.", ["The branch is downtown.", "Open the door, please."]],
-    ["Should I email or fax the contract?", "Email is fine — it's faster.", ["The fax machine is broken.", "It's a long contract."]],
+    ["Should I email or fax the contract?", "Email is fine - it's faster.", ["The fax machine is broken.", "It's a long contract."]],
     ["Aren't you supposed to be at the conference?", "It was rescheduled to next week.", ["The conference room is reserved.", "I'm supposed to be on time."]],
     ["What did the manager say about the budget?", "She wants us to reduce travel costs.", ["He's the new manager.", "Budgets are due Friday."]],
     ["How long will the renovation take?", "About six weeks, according to the contractor.", ["It's a large building.", "We renovated last year."]],
@@ -779,7 +779,7 @@ function generatePart6(theme: Theme, examId: string, seed: number, examIndex: nu
     const groupId = `${examId}-p6-text-${pIdx + 1}`;
     return passage.blanks.map((entry, qIdx) => {
       const [correctOrPrompt, distractorsOrOptions, explanation, isComprehension] = entry as [string, string[], string, boolean?];
-      const prompt = isComprehension ? correctOrPrompt : `BLANK${qIdx + 1} — choose the best option:`;
+      const prompt = isComprehension ? correctOrPrompt : `BLANK${qIdx + 1} - choose the best option:`;
       const options = isComprehension ? distractorsOrOptions : optionSet(correctOrPrompt, distractorsOrOptions);
       return makeQuestion({
         id: `${examId}-p6-${pIdx * 4 + qIdx + 1}`,
@@ -982,7 +982,7 @@ export function createFullToeicSWExam(base: ToeicSWExam, index: number): ToeicSW
       "A participant can only attend after lunch. Which two sessions should you recommend, and why?",
     ].map((prompt, i) => speakingTask({
       id: `${base.id}-s${8 + i}`, type: "respond-questions", part: 8 + i,
-      context: `${theme.company} — Annual ${theme.event} Schedule\n\n09:00  Opening remarks — Ms. Daniels (CEO)\n10:00  Customer Communication Workshop — Ms. Allen\n11:30  Coffee Break\n13:30  Digital Tools for ${theme.department} — Mr. Park\n15:00  Networking Session — Main Hall\n16:30  Closing keynote — Dr. Tran`,
+      context: `${theme.company} - Annual ${theme.event} Schedule\n\n09:00  Opening remarks - Ms. Daniels (CEO)\n10:00  Customer Communication Workshop - Ms. Allen\n11:30  Coffee Break\n13:30  Digital Tools for ${theme.department} - Mr. Park\n15:00  Networking Session - Main Hall\n16:30  Closing keynote - Dr. Tran`,
       prompt: `Question ${i + 1} of 3: ${prompt}`,
       prepSeconds: 45, responseSeconds: i < 2 ? 15 : 30,
     })),

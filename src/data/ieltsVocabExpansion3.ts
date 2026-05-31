@@ -1,6 +1,6 @@
 /**
  * @file ieltsVocabExpansion3.ts
- * @description IELTS Vocabulary Expansion #3 — additional Band 7.0+ academic
+ * @description IELTS Vocabulary Expansion #3 - additional Band 7.0+ academic
  * lexis covering globalisation, energy, gender, AI, urban planning and
  * cultural heritage.
  */

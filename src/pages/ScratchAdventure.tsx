@@ -1,6 +1,6 @@
 /**
  * @file ScratchAdventure.tsx
- * @description Scratch Coding Adventure — 12 progressive game-building missions for middle-school
+ * @description Scratch Coding Adventure - 12 progressive game-building missions for middle-school
  * students. All missions are fully unlocked. Each card opens a detail modal with learning goals,
  * step-by-step block instructions, an "Open in Scratch" launcher, and a star-earning button.
  * @author Teacher Hai (HaiEduTech)
@@ -433,7 +433,7 @@ const ScratchAdventure = () => {
                   <Rocket className="inline-block w-7 h-7 sm:w-9 sm:h-9 -mt-1" />
                 </h1>
                 <p className="text-white/95 text-xs sm:text-sm max-w-xl">
-                  {MISSIONS.length} nhiệm vụ chế tạo game thật — tất cả đã mở khóa hoàn toàn! Bấm vào bất kỳ thẻ nào để bắt đầu.
+                  {MISSIONS.length} nhiệm vụ chế tạo game thật - tất cả đã mở khóa hoàn toàn! Bấm vào bất kỳ thẻ nào để bắt đầu.
                 </p>
 
                 <div className="mt-4 flex flex-wrap gap-2 sm:gap-3">

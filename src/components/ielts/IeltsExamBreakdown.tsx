@@ -14,7 +14,7 @@ import chibiTeacher from "@/assets/chibi-teacher-ielts.png";
 import chibiTrophy from "@/assets/chibi-quiz-trophy.png";
 
 /* ========================================================================
-   IELTS Exam Breakdown — English-only deep lecture + Interactive quiz
+   IELTS Exam Breakdown - English-only deep lecture + Interactive quiz
    Chibi illustrations included for friendlier reading experience
    ======================================================================== */
 
@@ -56,21 +56,21 @@ const skills: SkillData[] = [
     bgColor: "bg-sky-500/10",
     borderColor: "border-sky-500/30",
     badgeColor: "bg-sky-500/15 text-sky-700 dark:text-sky-300 border-sky-500/30",
-    title: "Listening — Comprehension",
+    title: "Listening - Comprehension",
     duration: "30 min test + 10 min answer transfer",
     questions: "40 questions · 4 sections · audio plays once",
     format: "Same paper for Academic and General Training. Multi-accent: British, American, Australian, New Zealand, Canadian.",
     sections: [
       { title: "Section 1 (10 Qs)", desc: "Two-person everyday conversation (hotel booking, course sign-up, directions, renting). Mostly form-filling: names, dates, prices, phone numbers.", meta: "Easy · ~5 min · Form completion" },
-      { title: "Section 2 (10 Qs)", desc: "Everyday monologue — a guide introducing places, events or public services. Map labelling and MCQs start to appear.", meta: "Easy–Med · ~5 min · Map + MCQ" },
+      { title: "Section 2 (10 Qs)", desc: "Everyday monologue - a guide introducing places, events or public services. Map labelling and MCQs start to appear.", meta: "Easy–Med · ~5 min · Map + MCQ" },
       { title: "Section 3 (10 Qs)", desc: "Academic conversation between 2–4 speakers (students + tutor discussing a project, dissertation or group assignment). Fast speaker switches.", meta: "Hard · ~7–8 min · Matching + MCQ" },
-      { title: "Section 4 (10 Qs)", desc: "University academic lecture (monologue) on science, history or environment. NO mid-pause — you must listen continuously for 5 minutes.", meta: "Hardest · ~7–8 min · Note completion" },
+      { title: "Section 4 (10 Qs)", desc: "University academic lecture (monologue) on science, history or environment. NO mid-pause - you must listen continuously for 5 minutes.", meta: "Hardest · ~7–8 min · Note completion" },
     ],
     questionTypes: [
       "Form / Note / Table / Flow-chart / Summary completion",
-      "Multiple choice (MCQ) — single or multiple answers",
-      "Matching — match info or opinions to speakers",
-      "Plan / Map / Diagram labelling — label positions",
+      "Multiple choice (MCQ) - single or multiple answers",
+      "Matching - match info or opinions to speakers",
+      "Plan / Map / Diagram labelling - label positions",
       "Sentence completion (≤3 words or a number)",
       "Short-answer questions",
     ],
@@ -88,20 +88,20 @@ const skills: SkillData[] = [
     timeStrategy: [
       { phase: "Before each section", time: "30s skim questions & underline keywords" },
       { phase: "While listening", time: "Use abbreviations directly on the question paper" },
-      { phase: "End of each section", time: "30s to double-check — never return later" },
+      { phase: "End of each section", time: "30s to double-check - never return later" },
       { phase: "10-min transfer window", time: "Copy answers to the answer sheet, spell-check twice" },
     ],
     tips: [
       "Read questions in the first 30 seconds of each section to predict keywords and word forms (noun/verb/number).",
-      "Beware of distractors — the first answer is often a trap; the speaker self-corrects later.",
+      "Beware of distractors - the first answer is often a trap; the speaker self-corrects later.",
       "Use abbreviations during Section 4 since there are no pauses (e.g. gov't, w/, b/c).",
-      "Check plural/singular and spelling when transferring — one wrong letter = 1 mark lost.",
-      "Respect 'Write NO MORE THAN TWO WORDS' — exceeding the limit makes the answer wrong.",
+      "Check plural/singular and spelling when transferring - one wrong letter = 1 mark lost.",
+      "Respect 'Write NO MORE THAN TWO WORDS' - exceeding the limit makes the answer wrong.",
       "Shadow BBC 6 Minute English for 10 min/day to get used to different accents.",
     ],
     traps: [
-      "Numbers: 'fifteen' (15) vs 'fifty' (50) — listen for stress.",
-      "Proper-noun spelling: speakers always spell out (e.g. 'My name is Smith — S-M-I-T-H').",
+      "Numbers: 'fifteen' (15) vs 'fifty' (50) - listen for stress.",
+      "Proper-noun spelling: speakers always spell out (e.g. 'My name is Smith - S-M-I-T-H').",
       "Paraphrasing: 'expensive' → 'pricey/costly'; 'a lot of' → 'numerous/plenty of'.",
       "Mid-sentence correction: 'Actually, on second thought, let's say Tuesday' → answer is Tuesday.",
     ],
@@ -114,12 +114,12 @@ const skills: SkillData[] = [
     bgColor: "bg-emerald-500/10",
     borderColor: "border-emerald-500/30",
     badgeColor: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30",
-    title: "Reading — Comprehension",
+    title: "Reading - Comprehension",
     duration: "60 min (NO separate transfer time)",
     questions: "40 questions · 3 passages (~2,750 words) · ~13–14 questions per passage",
     format: "Academic: 3 academic texts from journals or papers. General Training: 5 practical texts (ads, instructions, articles).",
     sections: [
-      { title: "Passage 1 (~13 Qs)", desc: "General topic: history, lifestyle, culture. Straightforward questions — info follows paragraph order.", meta: "Easy · ~700 words · 17 min" },
+      { title: "Passage 1 (~13 Qs)", desc: "General topic: history, lifestyle, culture. Straightforward questions - info follows paragraph order.", meta: "Easy · ~700 words · 17 min" },
       { title: "Passage 2 (~13 Qs)", desc: "Semi-academic: environment, technology, psychology. Matching headings and summary completion start to appear.", meta: "Medium · ~900 words · 20 min" },
       { title: "Passage 3 (~14 Qs)", desc: "Deep academic: science, sociology, economics. Complex syntax, C1 vocabulary, interwoven arguments.", meta: "Hard · ~1,100 words · 23 min" },
     ],
@@ -147,14 +147,14 @@ const skills: SkillData[] = [
       { phase: "Passage 1", time: "17 min (skim 2' + answer 13' + check 2')" },
       { phase: "Passage 2", time: "20 min (skim 2' + answer 16' + check 2')" },
       { phase: "Passage 3", time: "23 min (skim 3' + answer 18' + check 2')" },
-      { phase: "1.5-min rule", time: "No question above 1.5' — mark, skip, return later" },
+      { phase: "1.5-min rule", time: "No question above 1.5' - mark, skip, return later" },
     ],
     tips: [
       "Skim each passage in the first 2 min to grasp the topic and each paragraph's topic sentence (usually sentence 1).",
-      "Tackle Matching Headings FIRST since they need whole-paragraph understanding — avoid re-reading later.",
-      "Distinguish 'False' (direct contradiction) vs 'Not Given' (no info at all) — DO NOT infer.",
+      "Tackle Matching Headings FIRST since they need whole-paragraph understanding - avoid re-reading later.",
+      "Distinguish 'False' (direct contradiction) vs 'Not Given' (no info at all) - DO NOT infer.",
       "Strict time control: a question above 1.5 min → mark and return later.",
-      "Use text structure: headings, italics, bold and numbers — circle them while skimming.",
+      "Use text structure: headings, italics, bold and numbers - circle them while skimming.",
       "For MCQ: read the question first, underline keywords, locate in the passage → eliminate the 2 clearly wrong options.",
     ],
     traps: [
@@ -172,23 +172,23 @@ const skills: SkillData[] = [
     bgColor: "bg-amber-500/10",
     borderColor: "border-amber-500/30",
     badgeColor: "bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/30",
-    title: "Writing — Essay",
+    title: "Writing - Essay",
     duration: "60 min total (Task 1: 20 min · Task 2: 40 min)",
     questions: "2 tasks · Task 1 ≥150 words · Task 2 ≥250 words · Task 2 worth 2/3 of the score",
     format: "Academic Task 1: describe charts, maps or processes. General Task 1: letter writing. Task 2 (both): a 250+ word essay.",
     sections: [
-      { title: "Task 1 — Academic (20')", desc: "Describe one or more visuals: line chart, bar chart, pie chart, table, process diagram, map (now vs past), or a combo of two.", meta: "≥150 words · 1/3 of score" },
-      { title: "Task 1 — General (20')", desc: "Letter writing in 3 styles: formal (to authorities/manager), semi-formal (to a new contact), informal (to a friend). The 3 bullets MUST all be addressed.", meta: "≥150 words · 1/3 of score" },
+      { title: "Task 1 - Academic (20')", desc: "Describe one or more visuals: line chart, bar chart, pie chart, table, process diagram, map (now vs past), or a combo of two.", meta: "≥150 words · 1/3 of score" },
+      { title: "Task 1 - General (20')", desc: "Letter writing in 3 styles: formal (to authorities/manager), semi-formal (to a new contact), informal (to a friend). The 3 bullets MUST all be addressed.", meta: "≥150 words · 1/3 of score" },
       { title: "Task 2 (40')", desc: "Essay in 4 formats: Opinion (Agree/Disagree), Discussion (Both views + opinion), Problem–Solution (Causes & Solutions), Two-part question. Standard 4-paragraph structure: Intro → Body 1 → Body 2 → Conclusion.", meta: "≥250 words · 2/3 of score" },
     ],
     questionTypes: [
-      "Task Achievement (T1) / Task Response (T2) — 25%",
-      "Coherence & Cohesion — sentence/paragraph/connector flow — 25%",
-      "Lexical Resource — vocabulary range, collocations, paraphrasing — 25%",
-      "Grammatical Range & Accuracy — variety of structures + accuracy — 25%",
+      "Task Achievement (T1) / Task Response (T2) - 25%",
+      "Coherence & Cohesion - sentence/paragraph/connector flow - 25%",
+      "Lexical Resource - vocabulary range, collocations, paraphrasing - 25%",
+      "Grammatical Range & Accuracy - variety of structures + accuracy - 25%",
     ],
     scoringTable: [
-      { band: "9.0", raw: "Fully accomplished — natural flow" },
+      { band: "9.0", raw: "Fully accomplished - natural flow" },
       { band: "8.0", raw: "Rare errors · Idiomatic · Complex structures" },
       { band: "7.0", raw: "Good with some minor errors" },
       { band: "6.5", raw: "Clear but limited range" },
@@ -197,28 +197,28 @@ const skills: SkillData[] = [
     ],
     scoringNote: "Writing band = average of the 4 criteria. Going BELOW the word minimum (150/250) heavily penalises Task Achievement. Writing too long earns no bonus.",
     timeStrategy: [
-      { phase: "Task 1 — Analyse", time: "3' read prompt + pick 2–3 standout trends" },
-      { phase: "Task 1 — Write", time: "15' (Intro 2' + Overview 3' + Body 1+2 5' each)" },
-      { phase: "Task 1 — Check", time: "2' word count + grammar fix" },
-      { phase: "Task 2 — Brainstorm", time: "5' outline 4 paragraphs + select 2 main ideas" },
-      { phase: "Task 2 — Write", time: "30' (Intro 3' + Body 1 10' + Body 2 10' + Conclusion 4' + spare 3')" },
-      { phase: "Task 2 — Check", time: "5' word count + fix tense/article/spelling" },
+      { phase: "Task 1 - Analyse", time: "3' read prompt + pick 2–3 standout trends" },
+      { phase: "Task 1 - Write", time: "15' (Intro 2' + Overview 3' + Body 1+2 5' each)" },
+      { phase: "Task 1 - Check", time: "2' word count + grammar fix" },
+      { phase: "Task 2 - Brainstorm", time: "5' outline 4 paragraphs + select 2 main ideas" },
+      { phase: "Task 2 - Write", time: "30' (Intro 3' + Body 1 10' + Body 2 10' + Conclusion 4' + spare 3')" },
+      { phase: "Task 2 - Check", time: "5' word count + fix tense/article/spelling" },
     ],
     tips: [
-      "Task 1: spend 3 min analysing the chart, then write a clear overview — this is MANDATORY.",
+      "Task 1: spend 3 min analysing the chart, then write a clear overview - this is MANDATORY.",
       "Task 1 Academic: follow the 1-2-3-3 rule (1 intro · 2-sentence overview · 3-sentence body 1 · 3-sentence body 2).",
-      "Task 1 General: use the right register — formal (Dear Sir/Madam, I am writing to...) vs informal (Hi John, How's it going?).",
-      "Task 2: spend 5 min brainstorming and outlining before writing — NEVER dive straight in.",
+      "Task 1 General: use the right register - formal (Dear Sir/Madam, I am writing to...) vs informal (Hi John, How's it going?).",
+      "Task 2: spend 5 min brainstorming and outlining before writing - NEVER dive straight in.",
       "Use varied linkers: Furthermore, In contrast, By the same token, Granted that, Notwithstanding.",
       "Each body paragraph: 1 topic sentence + 2 supporting + 1 example + 1 concluding sentence (PEEL).",
       "Save 3–5 min at the end to check grammar (a/an/the, tense, S-V agreement) and word count.",
       "At least 30% complex sentences: use although, while, whereas, despite + noun.",
     ],
     traps: [
-      "Task 1: cramming data WITHOUT COMPARISON — examiners need to see 'compared to / higher than / nearly double'.",
-      "Task 1: wrong tense — past charts need past simple; predictions need will / be expected to.",
+      "Task 1: cramming data WITHOUT COMPARISON - examiners need to see 'compared to / higher than / nearly double'.",
+      "Task 1: wrong tense - past charts need past simple; predictions need will / be expected to.",
       "Task 2: going off-topic on Two-part questions by answering only one → automatic Task Response penalty.",
-      "Task 2: unclear opinion — state your stance from the Intro, don't undermine it mid-essay.",
+      "Task 2: unclear opinion - state your stance from the Intro, don't undermine it mid-essay.",
       "Memorising templates verbatim → examiners spot it and dock Lexical Resource.",
     ],
     vocabFocus: "Trend verbs (surge, plummet, plateau), comparative structures, hedging language (it could be argued, arguably), academic nouns and collocations.",
@@ -230,20 +230,20 @@ const skills: SkillData[] = [
     bgColor: "bg-rose-500/10",
     borderColor: "border-rose-500/30",
     badgeColor: "bg-rose-500/15 text-rose-700 dark:text-rose-300 border-rose-500/30",
-    title: "Speaking — 1-on-1 Interview",
+    title: "Speaking - 1-on-1 Interview",
     duration: "11–14 min with examiner (face-to-face or video)",
     questions: "3 parts · Recorded · Can be on the same day or different day from the other 3 skills",
     format: "Same questions for Academic and General Training. Native examiner. Available as computer-delivered or paper-based.",
     sections: [
       { title: "Part 1 (4–5 min)", desc: "Intro & interview: examiner checks ID then asks 3 familiar topics (work/study, hometown, hobbies, family, food, travel...). 3–4 questions per topic.", meta: "Reply 30–45s · Natural" },
-      { title: "Part 2 — Long turn (3–4 min)", desc: "Cue card: receive prompt + paper + 1 min prep + speak 1.5–2 min continuously. Then examiner asks 1–2 follow-ups.", meta: "Cue card 4 bullets · Speak 2 min" },
-      { title: "Part 3 — Two-way discussion (4–5 min)", desc: "Deep discussion linked to Part 2 — analyse, compare past–present, predict future, evaluate society. Demands well-reasoned answers.", meta: "Analyse · Speculate · Evaluate" },
+      { title: "Part 2 - Long turn (3–4 min)", desc: "Cue card: receive prompt + paper + 1 min prep + speak 1.5–2 min continuously. Then examiner asks 1–2 follow-ups.", meta: "Cue card 4 bullets · Speak 2 min" },
+      { title: "Part 3 - Two-way discussion (4–5 min)", desc: "Deep discussion linked to Part 2 - analyse, compare past–present, predict future, evaluate society. Demands well-reasoned answers.", meta: "Analyse · Speculate · Evaluate" },
     ],
     questionTypes: [
-      "Fluency & Coherence — smooth flow, no long pauses, coherent ideas — 25%",
-      "Lexical Resource — vocabulary range, idioms, paraphrasing — 25%",
-      "Grammatical Range & Accuracy — complex sentences + accuracy — 25%",
-      "Pronunciation — clear sounds, sentence stress, intonation, connected speech — 25%",
+      "Fluency & Coherence - smooth flow, no long pauses, coherent ideas - 25%",
+      "Lexical Resource - vocabulary range, idioms, paraphrasing - 25%",
+      "Grammatical Range & Accuracy - complex sentences + accuracy - 25%",
+      "Pronunciation - clear sounds, sentence stress, intonation, connected speech - 25%",
     ],
     scoringTable: [
       { band: "9.0", raw: "Native-like · Fully natural" },
@@ -255,25 +255,25 @@ const skills: SkillData[] = [
     ],
     scoringNote: "Speaking band = average of 4 criteria. Silence above 5 sec lowers Fluency. Constant self-correction lowers Fluency. Repetition lowers Lexical.",
     timeStrategy: [
-      { phase: "Part 1 — per question", time: "30–45 sec · 2–3 sentences + reason/example" },
-      { phase: "Part 2 — prep", time: "60s mind-map following the 4 cue-card bullets" },
-      { phase: "Part 2 — speak", time: "90–120 sec continuously · Cover 4 bullets + closing" },
-      { phase: "Part 3 — per question", time: "45–60 sec · Argue: claim + reason + example" },
+      { phase: "Part 1 - per question", time: "30–45 sec · 2–3 sentences + reason/example" },
+      { phase: "Part 2 - prep", time: "60s mind-map following the 4 cue-card bullets" },
+      { phase: "Part 2 - speak", time: "90–120 sec continuously · Cover 4 bullets + closing" },
+      { phase: "Part 3 - per question", time: "45–60 sec · Argue: claim + reason + example" },
     ],
     tips: [
       "Part 1: answer in 2–3 sentences (not just 'Yes', not as long as Part 3), add a brief reason or example.",
-      "Part 2: use the 1 min prep to mind-map the 4 cue-card bullets — DON'T write full sentences.",
+      "Part 2: use the 1 min prep to mind-map the 4 cue-card bullets - DON'T write full sentences.",
       "Part 2: open with 'I'd like to talk about...' and close with 'Overall, this is something I really...'.",
       "Part 3: use discourse markers ('Well, that's a tricky one...' / 'I'd say...' / 'It really depends on...') to buy time naturally.",
-      "Pronunciation: focus on sentence stress and intonation rather than 100% perfect sounds — examiners prioritise clarity.",
-      "Use natural idioms and collocations (in the long run, by and large, hit the books) — max 3 per test.",
-      "NEVER memorise scripted answers — examiners WILL detect this and dock heavily.",
-      "Self-correct small slips with 'I mean...' instead of 'sorry sorry' — natural and unpenalised.",
+      "Pronunciation: focus on sentence stress and intonation rather than 100% perfect sounds - examiners prioritise clarity.",
+      "Use natural idioms and collocations (in the long run, by and large, hit the books) - max 3 per test.",
+      "NEVER memorise scripted answers - examiners WILL detect this and dock heavily.",
+      "Self-correct small slips with 'I mean...' instead of 'sorry sorry' - natural and unpenalised.",
     ],
     traps: [
       "Using overly bookish vocab ('I am exceedingly fond of...' instead of 'I really love').",
-      "Going silent above 5 sec in Part 2 or Part 3 — examiners immediately mark down Fluency.",
-      "Answering Part 1 with just 'Yes/No' or one short sentence — wasting your language showcase.",
+      "Going silent above 5 sec in Part 2 or Part 3 - examiners immediately mark down Fluency.",
+      "Answering Part 1 with just 'Yes/No' or one short sentence - wasting your language showcase.",
       "Rambling in Part 2 without covering the 4 bullets → lower Coherence.",
       "Using only simple grammar throughout (just present simple) → lower Grammatical Range.",
     ],
@@ -301,7 +301,7 @@ interface RoadmapStage {
 
 const roadmap: RoadmapStage[] = [
   {
-    band: "Band 4.0 — 5.0",
+    band: "Band 4.0 - 5.0",
     level: "Foundation Level",
     duration: "8–12 weeks (~2 months)",
     color: "from-rose-500/15 to-rose-500/5",
@@ -318,7 +318,7 @@ const roadmap: RoadmapStage[] = [
     outcome: "By the end of this level, students confidently understand simple everyday English and can write a 100-word paragraph on familiar topics.",
   },
   {
-    band: "Band 5.5 — 6.0",
+    band: "Band 5.5 - 6.0",
     level: "Pre-Intermediate Level",
     duration: "10–14 weeks (~3 months)",
     color: "from-amber-500/15 to-amber-500/5",
@@ -335,7 +335,7 @@ const roadmap: RoadmapStage[] = [
     outcome: "Students achieve a stable Band 5.5–6.0 in mock tests and can sustain conversation on familiar topics for 2 minutes.",
   },
   {
-    band: "Band 6.5 — 7.0",
+    band: "Band 6.5 - 7.0",
     level: "Intermediate Level (University Entry)",
     duration: "12–16 weeks (~4 months)",
     color: "from-sky-500/15 to-sky-500/5",
@@ -349,10 +349,10 @@ const roadmap: RoadmapStage[] = [
     speaking: "Part 2 fluency 2 min + idioms · Part 3 reasoning + speculation · Pronunciation work (stress + intonation).",
     weeklyHours: "12–15 hrs/week (6 sessions + intensive self-study + mock tests)",
     materials: ["Cambridge IELTS books 15–18", "Mindset for IELTS Level 2", "IELTS Trainer 2", "Cambridge Vocabulary for IELTS Advanced", "The Economist / The Guardian articles"],
-    outcome: "Students reach a stable Band 6.5–7.0 — eligible for most universities in the UK, Australia, Canada and the US.",
+    outcome: "Students reach a stable Band 6.5–7.0 - eligible for most universities in the UK, Australia, Canada and the US.",
   },
   {
-    band: "Band 7.5 — 8.0+",
+    band: "Band 7.5 - 8.0+",
     level: "Advanced Level (Top Universities)",
     duration: "16–20 weeks (~5 months)",
     color: "from-violet-500/15 to-violet-500/5",
@@ -366,7 +366,7 @@ const roadmap: RoadmapStage[] = [
     speaking: "Native-like fluency · Complex argument structures · Idiomatic expressions · Advanced pronunciation.",
     weeklyHours: "15–20 hrs/week (intensive sessions + daily mock tests + 1-on-1 feedback)",
     materials: ["Cambridge IELTS books 17–19", "Official Cambridge Guide to IELTS", "Academic English texts (research papers)", "BBC In Depth / The Atlantic Long Reads", "Daily 1-on-1 Speaking with native instructor"],
-    outcome: "Students secure Band 7.5–8.0+ — qualifying for top universities (Oxbridge, Ivy League, Group of Eight) and skilled migration programs.",
+    outcome: "Students secure Band 7.5–8.0+ - qualifying for top universities (Oxbridge, Ivy League, Group of Eight) and skilled migration programs.",
   },
 ];
 
@@ -393,7 +393,7 @@ const quizQuestions: QuizQuestion[] = [
       "Section 4 (academic lecture)",
     ],
     correct: 3,
-    explanation: "Section 4 is a long academic lecture with no mid-pause — it requires gist listening and abbreviation skills.",
+    explanation: "Section 4 is a long academic lecture with no mid-pause - it requires gist listening and abbreviation skills.",
   },
   {
     question: "How many passages and questions are in Reading?",
@@ -737,7 +737,7 @@ const IeltsExamBreakdown = () => {
                               <li key={idx} className="text-sm flex items-start gap-2.5">
                                 <span className="shrink-0 w-6 h-6 rounded-full bg-primary/15 text-primary font-bold text-[11px] flex items-center justify-center mt-0.5">{idx + 1}</span>
                                 <div className="flex-1">
-                                  <span className="font-bold text-foreground">{s.phase} — </span>
+                                  <span className="font-bold text-foreground">{s.phase} - </span>
                                   <span className="text-muted-foreground">{s.time}</span>
                                 </div>
                               </li>
@@ -807,7 +807,7 @@ const IeltsExamBreakdown = () => {
               </h2>
             </div>
             <p className="text-sm md:text-base text-muted-foreground">
-              A 4-level pathway by target band — click a level to view the full plan.
+              A 4-level pathway by target band - click a level to view the full plan.
             </p>
           </div>
           <div className="flex items-center gap-2 shrink-0">
@@ -977,7 +977,7 @@ const IeltsExamBreakdown = () => {
 
         <div className="mt-6 p-4 rounded-xl border-2 border-primary/25 bg-gradient-to-r from-primary/10 to-emerald-500/10">
           <p className="text-sm md:text-base text-foreground/90 leading-relaxed">
-            <span className="font-bold text-primary">💡 Output Guarantee — </span>
+            <span className="font-bold text-primary">💡 Output Guarantee - </span>
             Each level ends with a Full Mock Test graded by official IELTS criteria. If you don't reach your target, you can repeat the level free of charge.
           </p>
         </div>
@@ -1032,7 +1032,7 @@ const IeltsExamBreakdown = () => {
           </div>
         </div>
 
-        {/* Questions — progressive reveal: next question appears after current is answered */}
+        {/* Questions - progressive reveal: next question appears after current is answered */}
         <div className="relative space-y-5">
           {quizQuestions.map((q, qIdx) => {
             const userAnswer = quizAnswers[qIdx];

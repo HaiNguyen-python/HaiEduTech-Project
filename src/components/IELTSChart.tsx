@@ -211,7 +211,7 @@ const RenderMapLayout = ({ layout }: { layout: NonNullable<ChartConfig["mapLayou
           preserveAspectRatio="xMidYMid meet"
           style={{ overflow: "visible" }}
         >
-          {/* compass — placed in the padded right gutter so it never overlaps roads */}
+          {/* compass - placed in the padded right gutter so it never overlaps roads */}
           <g transform="translate(108,2)" className="opacity-80">
             <circle r="4.5" fill="hsl(var(--background))" stroke="hsl(var(--border))" strokeWidth="0.4" />
             <text textAnchor="middle" y="0.6" fontSize="3" fill="hsl(var(--foreground))" fontWeight="700">N</text>

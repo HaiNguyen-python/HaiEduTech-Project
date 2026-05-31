@@ -1,6 +1,6 @@
 /**
  * @file cambridgeKidsVocab.ts
- * @description Vocabulary bank for the Cambridge Kids Arcade — covers
+ * @description Vocabulary bank for the Cambridge Kids Arcade - covers
  * Starters, Movers, Flyers, KET (A2 Key) and PET (B1 Preliminary) levels.
  * Each entry pairs an English word with a Vietnamese translation and a
  * playful emoji used by the arcade mini-games.

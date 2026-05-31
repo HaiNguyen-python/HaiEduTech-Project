@@ -115,8 +115,8 @@ const PhdOutreachTracker = () => {
             <div>
               <h3 className="text-lg md:text-xl font-bold">{t("Outreach Tracker", "Outreach Tracker")}</h3>
               <p className="text-xs text-muted-foreground">
-                {t("Theo dõi email cold đã gửi, status & next action — lưu cục bộ.",
-                  "Track every cold email you sent, status & next action — saved locally.")}
+                {t("Theo dõi email cold đã gửi, status & next action - lưu cục bộ.",
+                  "Track every cold email you sent, status & next action - saved locally.")}
               </p>
             </div>
           </div>
@@ -167,7 +167,7 @@ const PhdOutreachTracker = () => {
         {/* Table */}
         {rows.length === 0 ? (
           <div className="text-center py-6 text-sm text-muted-foreground border-2 border-dashed rounded-md">
-            {t("Chưa có dòng nào — thêm professor đầu tiên ở trên.", "No rows yet — add your first professor above.")}
+            {t("Chưa có dòng nào - thêm professor đầu tiên ở trên.", "No rows yet - add your first professor above.")}
           </div>
         ) : (
           <div className="overflow-x-auto">
@@ -188,7 +188,7 @@ const PhdOutreachTracker = () => {
                   return (
                     <tr key={r.id} className="border-t hover:bg-muted/30">
                       <td className="p-2 font-medium">{r.professor}</td>
-                      <td className="p-2 text-muted-foreground">{r.university || "—"}</td>
+                      <td className="p-2 text-muted-foreground">{r.university || "-"}</td>
                       <td className="p-2 text-muted-foreground">{r.sentDate}</td>
                       <td className="p-2">
                         <Select value={r.status} onValueChange={(v) => updateRow(r.id, { status: v as Status })}>

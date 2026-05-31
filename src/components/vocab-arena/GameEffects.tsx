@@ -117,7 +117,7 @@ export const HighScorePanel = ({
       <div className="rounded-xl border-2 border-dashed border-border bg-card/50 p-4 text-center">
         <Trophy className="w-6 h-6 text-amber-500 mx-auto mb-2" />
         <p className="text-xs text-muted-foreground">{title}</p>
-        <p className="text-xs text-muted-foreground/70 mt-1">No scores yet — be the first!</p>
+        <p className="text-xs text-muted-foreground/70 mt-1">No scores yet - be the first!</p>
       </div>
     );
   }

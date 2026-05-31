@@ -1,5 +1,5 @@
 /**
- * CodeGalaxy — programming-snippet sorting mini-game.
+ * CodeGalaxy - programming-snippet sorting mini-game.
  * Embedded in the Programming Arcade hub. Three tracks: Foundations,
  * Data Engineering, AI / ML.
  */

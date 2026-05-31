@@ -23,8 +23,8 @@ const verbs: B1GrammarPoint[] = [
       { fi: "T3: tulla → tulen (I come)", en: "Type 3: -lla → -le + ending", vi: "Loại 3: -lla → -le + đuôi." },
       { fi: "T4: haluta → haluan (I want)", en: "Type 4: -ata → -aa + ending", vi: "Loại 4: -ata → -aa." },
     ],
-    teacherTipEn: "Memorise 1 example per type — your brain will recognise patterns automatically.",
-    teacherTipVi: "Học 1 ví dụ cho mỗi loại — não sẽ tự nhận pattern khi gặp từ mới.",
+    teacherTipEn: "Memorise 1 example per type - your brain will recognise patterns automatically.",
+    teacherTipVi: "Học 1 ví dụ cho mỗi loại - não sẽ tự nhận pattern khi gặp từ mới.",
   },
   {
     id: "g-kpt",
@@ -95,8 +95,8 @@ const verbs: B1GrammarPoint[] = [
       { fi: "Rakastuin häneen. (illatiivi)", en: "I fell in love with him.", vi: "Tôi yêu anh ấy." },
       { fi: "Vastaa kysymykseen. (illatiivi)", en: "Answer the question.", vi: "Trả lời câu hỏi." },
     ],
-    teacherTipEn: "Make a 'verb + case' notebook page — review weekly. This is a top YKI scoring area.",
-    teacherTipVi: "Tạo 1 trang 'động từ + case' — ôn hàng tuần. Đây là điểm dễ ăn ở YKI.",
+    teacherTipEn: "Make a 'verb + case' notebook page - review weekly. This is a top YKI scoring area.",
+    teacherTipVi: "Tạo 1 trang 'động từ + case' - ôn hàng tuần. Đây là điểm dễ ăn ở YKI.",
   },
   {
     id: "g-mina-tense",
@@ -152,8 +152,8 @@ const advanced: B1GrammarPoint[] = [
       { fi: "Kirja, jonka luin, oli kiinnostava.", en: "The book that I read was interesting.", vi: "Cuốn sách tôi đọc rất thú vị." },
       { fi: "Talo, jossa asun, on vanha.", en: "The house I live in is old.", vi: "Nhà tôi ở thì cũ." },
     ],
-    teacherTipEn: "Always pilkku before 'joka' in subordinate clauses — don't forget the comma.",
-    teacherTipVi: "Luôn có dấu phẩy trước 'joka' trong mệnh đề phụ — đừng quên dấu phẩy.",
+    teacherTipEn: "Always pilkku before 'joka' in subordinate clauses - don't forget the comma.",
+    teacherTipVi: "Luôn có dấu phẩy trước 'joka' trong mệnh đề phụ - đừng quên dấu phẩy.",
   },
   {
     id: "g-mina-mat",
@@ -184,7 +184,7 @@ const advanced: B1GrammarPoint[] = [
     explanationVi: "Sau số (trừ 1), danh từ luôn ở dạng partitive số ít.",
     formula: "1 + nominative  ·  2..N + singular partitive",
     examples: [
-      { fi: "Yksi kissa — kaksi kissaa — kymmenen kissaa.", en: "One cat — two cats — ten cats.", vi: "Một con — hai con — mười con mèo." },
+      { fi: "Yksi kissa - kaksi kissaa - kymmenen kissaa.", en: "One cat - two cats - ten cats.", vi: "Một con - hai con - mười con mèo." },
       { fi: "Ostin kolme leipää.", en: "I bought three loaves of bread.", vi: "Tôi mua 3 ổ bánh." },
       { fi: "Olen ollut Suomessa viisi vuotta.", en: "I have been in Finland for 5 years.", vi: "Tôi ở Phần Lan 5 năm." },
     ],

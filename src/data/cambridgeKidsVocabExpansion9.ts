@@ -1,6 +1,6 @@
 /**
  * @file cambridgeKidsVocabExpansion9.ts
- * @description Expansion #9 — ~120 fresh entries across Starters → PET to
+ * @description Expansion #9 - ~120 fresh entries across Starters → PET to
  *              widen the Cambridge YLE vocabulary bank. Bilingual kid-friendly examples.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
@@ -21,7 +21,7 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION_9: W[] = [
   mk("bowl", "cái bát", "🥣", "Starters", "The bowl is full of rice.", "Bát đầy cơm."),
   mk("hat", "chiếc nón", "👒", "Starters", "Mum wears a sun hat.", "Mẹ đội nón chống nắng."),
   mk("sock", "chiếc tất", "🧦", "Starters", "Where is my other sock?", "Chiếc tất kia của em đâu?"),
-  mk("glove", "găng tay", "🧤", "Starters", "Put on gloves — it's cold!", "Đeo găng tay vào — trời lạnh!"),
+  mk("glove", "găng tay", "🧤", "Starters", "Put on gloves - it's cold!", "Đeo găng tay vào - trời lạnh!"),
   mk("scarf", "khăn quàng", "🧣", "Starters", "I wear a warm scarf in winter.", "Em quàng khăn ấm vào mùa đông."),
   mk("rain", "mưa", "🌧️", "Starters", "I like the sound of rain.", "Em thích tiếng mưa."),
   mk("snow", "tuyết", "❄️", "Starters", "Snow is white and soft.", "Tuyết trắng và mịn."),
@@ -92,7 +92,7 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION_9: W[] = [
   // ───── KET ─────
   mk("admire", "ngưỡng mộ", "🌟", "KET", "I admire my grandmother very much.", "Em rất ngưỡng mộ bà ngoại."),
   mk("approach", "tiếp cận", "➡️", "KET", "We approach the problem step by step.", "Chúng em tiếp cận vấn đề từng bước."),
-  mk("assume", "cho rằng", "🤔", "KET", "Don't assume — ask first.", "Đừng vội cho rằng — hãy hỏi trước."),
+  mk("assume", "cho rằng", "🤔", "KET", "Don't assume - ask first.", "Đừng vội cho rằng - hãy hỏi trước."),
   mk("attempt", "nỗ lực", "🎯", "KET", "She made a strong attempt to win.", "Cô ấy nỗ lực mạnh mẽ để chiến thắng."),
   mk("attitude", "thái độ", "🙂", "KET", "Keep a kind attitude at school.", "Hãy giữ thái độ tử tế ở trường."),
   mk("brief", "ngắn gọn", "✂️", "KET", "Give me a brief summary.", "Hãy cho em bản tóm tắt ngắn gọn."),

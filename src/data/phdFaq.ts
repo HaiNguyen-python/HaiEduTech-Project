@@ -33,7 +33,7 @@ export const PHD_FAQ: PhdFaqItem[] = [
   {
     id: "phd-vs-master",
     questionVi: "PhD và Master khác nhau ra sao?",
-    questionEn: "PhD vs Master — what is the real difference?",
+    questionEn: "PhD vs Master - what is the real difference?",
     answerVi:
       "Master = học sâu hơn một chủ đề, 1–2 năm, học là chính, có thể có thesis nhỏ. PhD = tạo ra tri thức MỚI, 3–6 năm, nghiên cứu là chính, kết thúc bằng luận án + publications. PhD đào tạo em thành một researcher độc lập, không phải 'học sinh giỏi hơn'.",
     answerEn:
@@ -44,9 +44,9 @@ export const PHD_FAQ: PhdFaqItem[] = [
     questionVi: "Có cần thi GRE không?",
     questionEn: "Do I need to take the GRE?",
     answerVi:
-      "Ngày càng nhiều trường Mỹ bỏ GRE sau COVID, nhất là CS/Engineering. Vẫn cần cho nhiều ngành Sci/SocSci ở top US. EU/UK/Úc/Singapore/Hàn/Nhật phần lớn KHÔNG yêu cầu. Check website từng program — 'GRE optional' nghĩa là nộp điểm cao sẽ có lợi.",
+      "Ngày càng nhiều trường Mỹ bỏ GRE sau COVID, nhất là CS/Engineering. Vẫn cần cho nhiều ngành Sci/SocSci ở top US. EU/UK/Úc/Singapore/Hàn/Nhật phần lớn KHÔNG yêu cầu. Check website từng program - 'GRE optional' nghĩa là nộp điểm cao sẽ có lợi.",
     answerEn:
-      "Many US programs dropped GRE after COVID, especially CS/Engineering. Still required for many Science/SocSci programs at top US schools. Most EU/UK/AU/Singapore/Korea/Japan programs do NOT need it. Check each program — 'GRE optional' means a high score still helps.",
+      "Many US programs dropped GRE after COVID, especially CS/Engineering. Still required for many Science/SocSci programs at top US schools. Most EU/UK/AU/Singapore/Korea/Japan programs do NOT need it. Check each program - 'GRE optional' means a high score still helps.",
   },
   {
     id: "duration",
@@ -59,8 +59,8 @@ export const PHD_FAQ: PhdFaqItem[] = [
   },
   {
     id: "self-funded",
-    questionVi: "Self-funded vs sponsored PhD — chọn cái nào?",
-    questionEn: "Self-funded vs sponsored PhD — which to choose?",
+    questionVi: "Self-funded vs sponsored PhD - chọn cái nào?",
+    questionEn: "Self-funded vs sponsored PhD - which to choose?",
     answerVi:
       "LUÔN ưu tiên sponsored (full scholarship, RA/TA). Tự bỏ tiền PhD ở nước ngoài (~US$30k-60k/năm × 4) thường là quyết định tài chính tệ trừ khi gia đình giàu hoặc đã có thu nhập thụ động. Nếu chưa có funding, hoãn 1 năm để apply lại còn hơn nợ.",
     answerEn:
@@ -89,9 +89,9 @@ export const PHD_FAQ: PhdFaqItem[] = [
     questionVi: "Bao nhiêu tuổi là quá muộn để làm PhD?",
     questionEn: "Am I too old to start a PhD?",
     answerVi:
-      "Không có 'quá muộn'. EU/UK/Úc thường thấy người 30-40 tuổi bắt đầu PhD. Mỹ trẻ hơn (22-28) nhưng vẫn nhận. Tuổi không phải tiêu chí xét tuyển — research fit + funding + động lực rõ ràng quan trọng hơn nhiều.",
+      "Không có 'quá muộn'. EU/UK/Úc thường thấy người 30-40 tuổi bắt đầu PhD. Mỹ trẻ hơn (22-28) nhưng vẫn nhận. Tuổi không phải tiêu chí xét tuyển - research fit + funding + động lực rõ ràng quan trọng hơn nhiều.",
     answerEn:
-      "There is no 'too old'. EU/UK/AU regularly admit PhDs aged 30-40. US programs skew younger (22-28) but still accept. Age is not an admission criterion — research fit + funding + clear motivation matter far more.",
+      "There is no 'too old'. EU/UK/AU regularly admit PhDs aged 30-40. US programs skew younger (22-28) but still accept. Age is not an admission criterion - research fit + funding + clear motivation matter far more.",
   },
   {
     id: "publications",
@@ -107,9 +107,9 @@ export const PHD_FAQ: PhdFaqItem[] = [
     questionVi: "PI và supervisor có giống nhau không?",
     questionEn: "Is a PI the same as a supervisor?",
     answerVi:
-      "Gần như đồng nghĩa ở Mỹ — PI (Principal Investigator) là người chủ trì grant và thường là supervisor của em. Ở EU/UK 'supervisor' là chính thức hơn, PI chỉ có khi em được trả từ project grant của họ. Một PhD có thể có 1 supervisor chính + 1–2 co-supervisor; PI luôn là người ký funding.",
+      "Gần như đồng nghĩa ở Mỹ - PI (Principal Investigator) là người chủ trì grant và thường là supervisor của em. Ở EU/UK 'supervisor' là chính thức hơn, PI chỉ có khi em được trả từ project grant của họ. Một PhD có thể có 1 supervisor chính + 1–2 co-supervisor; PI luôn là người ký funding.",
     answerEn:
-      "Almost the same in the US — the PI (Principal Investigator) holds the grant and usually is your supervisor. In EU/UK 'supervisor' is the official title; PI applies only when you're paid from their project grant. A PhD may have 1 main + 1–2 co-supervisors; the PI is whoever signs your funding.",
+      "Almost the same in the US - the PI (Principal Investigator) holds the grant and usually is your supervisor. In EU/UK 'supervisor' is the official title; PI applies only when you're paid from their project grant. A PhD may have 1 main + 1–2 co-supervisors; the PI is whoever signs your funding.",
   },
   {
     id: "dual-degree",
@@ -127,7 +127,7 @@ export const PHD_FAQ: PhdFaqItem[] = [
     answerVi:
       "Không sao nếu em kể được câu chuyện: đi làm để gom funding, tham gia research lab, học thêm skill (Python, lab technique), hoặc trải nghiệm nước ngoài. Gap kèm output (paper, project, GitHub) thường mạnh hơn ứng viên đi thẳng từ Master.",
     answerEn:
-      "Not at all — if you can frame it: saving for funding, working in a research lab, picking up new skills (Python, lab technique), or living abroad. A gap with output (paper, project, GitHub) often beats a straight-through Master applicant.",
+      "Not at all - if you can frame it: saving for funding, working in a research lab, picking up new skills (Python, lab technique), or living abroad. A gap with output (paper, project, GitHub) often beats a straight-through Master applicant.",
   },
   {
     id: "work-visa",
@@ -152,18 +152,18 @@ export const PHD_FAQ: PhdFaqItem[] = [
     questionVi: "Có dắt vợ/chồng/con đi cùng được không?",
     questionEn: "Can I bring my spouse and kids along?",
     answerVi:
-      "Phần lớn cho phép: J-2/F-2 (Mỹ, vợ/chồng được làm việc nếu J-2), Dependant Visa (UK/Úc/Canada — được làm việc full-time), Family Reunification (EU). Kiểm tra stipend có đủ chứng minh tài chính cho cả gia đình không (thường cần thêm 30–40%).",
+      "Phần lớn cho phép: J-2/F-2 (Mỹ, vợ/chồng được làm việc nếu J-2), Dependant Visa (UK/Úc/Canada - được làm việc full-time), Family Reunification (EU). Kiểm tra stipend có đủ chứng minh tài chính cho cả gia đình không (thường cần thêm 30–40%).",
     answerEn:
-      "Mostly allowed: J-2/F-2 (US, J-2 spouses can work), Dependant Visa (UK/AU/Canada — full-time work permitted), Family Reunification (EU). Check whether your stipend meets the proof-of-funds bar for the whole family (usually adds 30–40%).",
+      "Mostly allowed: J-2/F-2 (US, J-2 spouses can work), Dependant Visa (UK/AU/Canada - full-time work permitted), Family Reunification (EU). Check whether your stipend meets the proof-of-funds bar for the whole family (usually adds 30–40%).",
   },
   {
     id: "mental-health",
     questionVi: "PhD có dễ trầm cảm/burnout không? Làm sao phòng?",
     questionEn: "Is PhD burnout/depression common? How to prevent it?",
     answerVi:
-      "Có — nghiên cứu Nature 2018: 36% PhD students bị triệu chứng trầm cảm trung-bình. Phòng: (1) chọn supervisor có history mentor tốt (hỏi alumni), (2) duy trì 1 hobby/cộng đồng ngoài lab, (3) tận dụng counseling service free của trường, (4) đặt mục tiêu tuần thay vì 'xong PhD', (5) không so sánh với người khác.",
+      "Có - nghiên cứu Nature 2018: 36% PhD students bị triệu chứng trầm cảm trung-bình. Phòng: (1) chọn supervisor có history mentor tốt (hỏi alumni), (2) duy trì 1 hobby/cộng đồng ngoài lab, (3) tận dụng counseling service free của trường, (4) đặt mục tiêu tuần thay vì 'xong PhD', (5) không so sánh với người khác.",
     answerEn:
-      "Yes — Nature 2018: 36% of PhD students show moderate depression symptoms. Prevent it by: (1) pick a supervisor with a strong mentoring track record (ask alumni), (2) keep one hobby/community outside the lab, (3) use the university's free counseling service, (4) set weekly goals not 'finish PhD' goals, (5) don't compare yourself to others.",
+      "Yes - Nature 2018: 36% of PhD students show moderate depression symptoms. Prevent it by: (1) pick a supervisor with a strong mentoring track record (ask alumni), (2) keep one hobby/community outside the lab, (3) use the university's free counseling service, (4) set weekly goals not 'finish PhD' goals, (5) don't compare yourself to others.",
   },
 ];
 

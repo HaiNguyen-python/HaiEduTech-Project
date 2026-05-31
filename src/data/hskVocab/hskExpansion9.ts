@@ -1,6 +1,6 @@
 /**
  * @file hskExpansion9.ts
- * @description HSK Vocabulary Expansion #9 — additional everyday and academic
+ * @description HSK Vocabulary Expansion #9 - additional everyday and academic
  * words covering travel, environment, internet, emotions and study.
  */
 import type { HskWord } from "./types";

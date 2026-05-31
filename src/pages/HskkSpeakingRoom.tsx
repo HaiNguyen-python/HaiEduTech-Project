@@ -1,6 +1,6 @@
 /**
  * @file HskkSpeakingRoom.tsx
- * @description Phòng luyện HSKK Speaking — 3 cấp × 3 phần đúng format thi thật.
+ * @description Phòng luyện HSKK Speaking - 3 cấp × 3 phần đúng format thi thật.
  * Web Speech API ghi giọng zh-CN → Edge function chấm AI → lưu Supabase.
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.

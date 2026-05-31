@@ -1,6 +1,6 @@
 /**
  * @file AICodeReviewer.tsx
- * @description Inline AI review panel — score 0-100, issues, suggestions, refactored code.
+ * @description Inline AI review panel - score 0-100, issues, suggestions, refactored code.
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
@@ -78,7 +78,7 @@ const AICodeReviewer = ({ code, lessonContext, onApplyRefactor }: Props) => {
       return;
     }
     if (!recordUse()) {
-      toast({ title: "Rate limit", description: "Tối đa 20 lượt review/giờ — thử lại sau.", variant: "destructive" });
+      toast({ title: "Rate limit", description: "Tối đa 20 lượt review/giờ - thử lại sau.", variant: "destructive" });
       return;
     }
     setLoading(true);
@@ -99,7 +99,7 @@ const AICodeReviewer = ({ code, lessonContext, onApplyRefactor }: Props) => {
       if (newCount === 5) {
         toast({
           title: "🏆 Huy hiệu: Code Reviewer",
-          description: "Bạn đã review 5 đoạn code — Mr. Hai tự hào!",
+          description: "Bạn đã review 5 đoạn code - Mr. Hai tự hào!",
         });
       }
     } catch (err) {

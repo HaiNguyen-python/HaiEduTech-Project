@@ -1,5 +1,5 @@
 // ============================================================
-// HSK 3.0 Official Wordlist Expansion — HSK 7-9
+// HSK 3.0 Official Wordlist Expansion - HSK 7-9
 // Source: elkmovie/hsk30 + CC-CEDICT (Punpuf parser)
 // Auto-generated: 2522 words
 // ============================================================

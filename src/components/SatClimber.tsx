@@ -15,7 +15,7 @@ interface SatClimberProps {
   containerRef: React.RefObject<HTMLDivElement | null>;
 }
 
-// SAT milestones — score targets mapped to mastered word counts
+// SAT milestones - score targets mapped to mastered word counts
 const MILESTONES = [
   { words: 0,   label: "Base", band: "Start your SAT prep" },
   { words: 30,  label: "Score 1000+", band: "Solid foundation" },
@@ -127,7 +127,7 @@ const SatClimber = ({ mastered, total, flyingStars, onStarLanded }: SatClimberPr
         key={currentMilestone.label} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}
       >
         <Trophy size={14} className="inline mr-1.5 text-primary" />
-        {currentMilestone.label} — {currentMilestone.band}
+        {currentMilestone.label} - {currentMilestone.band}
       </motion.div>
 
       <AnimatePresence>

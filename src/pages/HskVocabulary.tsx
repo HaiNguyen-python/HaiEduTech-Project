@@ -375,7 +375,7 @@ const HskExercise = ({ masteredWords, t }: { masteredWords: HskWord[]; t: (vi: s
             <button onClick={() => speakChinese(q.word.character)} className="p-1.5 rounded-full hover:bg-primary/10">
               <Volume2 className="w-5 h-5 text-primary" />
             </button>
-            <p className="text-base text-muted-foreground">— {q.word.definition.vi}</p>
+            <p className="text-base text-muted-foreground">- {q.word.definition.vi}</p>
           </div>
         )}
 
@@ -454,7 +454,7 @@ const HskExercise = ({ masteredWords, t }: { masteredWords: HskWord[]; t: (vi: s
             <div className="flex items-center gap-2 flex-wrap">
               <span className="text-2xl font-bold text-foreground">{q.word.character}</span>
               <span className="text-sm text-primary font-medium">{q.word.pinyin}</span>
-              <span className="text-sm text-muted-foreground">— {q.word.definition.vi}</span>
+              <span className="text-sm text-muted-foreground">- {q.word.definition.vi}</span>
             </div>
             <p className="text-sm text-foreground mt-1">{q.word.example}</p>
             <p className="text-xs text-muted-foreground italic">{q.word.definition.en}</p>

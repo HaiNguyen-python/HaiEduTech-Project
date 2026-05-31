@@ -1,6 +1,6 @@
 /**
  * @file toeicVocabExpansion3.ts
- * @description Additional TOEIC vocabulary — modern business, finance,
+ * @description Additional TOEIC vocabulary - modern business, finance,
  *              HR, marketing, logistics. Brings the bank past 540 words.
  */
 import type { ToeicWord } from "./toeicVocabTypes";

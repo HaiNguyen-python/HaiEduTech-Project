@@ -22,7 +22,7 @@ export const ieltsListeningPracticeSetsExpansion2: ListeningPracticeSet[] = [
       "Caller: Yes. It's Thomas Reilly. That's R-E-I-L-L-Y.\n" +
       "Receptionist: Thank you. And your date of birth?\n" +
       "Caller: The third of November, nineteen ninety-five.\n" +
-      "Receptionist: Lovely. Which membership would you like — Standard, Plus or Premium?\n" +
+      "Receptionist: Lovely. Which membership would you like - Standard, Plus or Premium?\n" +
       "Caller: I'll go with the Plus one, I think.\n" +
       "Receptionist: Good choice. That gives you the gym, the pool and two classes a week. The monthly fee is forty-five pounds.\n" +
       "Caller: That's fine.\n" +
@@ -57,7 +57,7 @@ export const ieltsListeningPracticeSetsExpansion2: ListeningPracticeSet[] = [
     transcript:
       "Welcome, everyone, to the Eastfield Maritime Museum. My name is Helen and I'll be looking after you for the next ninety minutes.\n" +
       "Before we start, a few quick reminders. Photography is allowed in every room except the new exhibition on lighthouses, where flash damages the original maps.\n" +
-      "The café on the first floor is open until five, but please note it does not serve hot meals after three o'clock — only sandwiches and cakes.\n" +
+      "The café on the first floor is open until five, but please note it does not serve hot meals after three o'clock - only sandwiches and cakes.\n" +
       "Our gift shop is on the ground floor, just past the main entrance, and the toilets are on the lower level.\n" +
       "Today's special talk, at two thirty in the main hall, is about the rescue of a cargo ship in the great storm of 1953. It lasts roughly forty-five minutes and is free with your ticket.\n" +
       "If you'd like a quieter visit, our most peaceful gallery is usually the East Wing, which focuses on small fishing communities.",
@@ -99,7 +99,7 @@ export const ieltsListeningPracticeSetsExpansion2: ListeningPracticeSet[] = [
     id: "discussion-research-project",
     section: 3,
     questionType: "Matching",
-    questionTypeVi: "Ghép câu — chọn chữ cái",
+    questionTypeVi: "Ghép câu - chọn chữ cái",
     title: "Students Plan a Group Research Project",
     titleVi: "Sinh viên lên kế hoạch nghiên cứu",
     context: "Three students decide who will do which part of a group project. Match each task to the right student (A = Mark, B = Priya, C = Daniel).",
@@ -111,15 +111,15 @@ export const ieltsListeningPracticeSetsExpansion2: ListeningPracticeSet[] = [
     ],
     transcript:
       "Tutor: So, you have four weeks. Let's confirm who is doing what.\n" +
-      "Mark: I'm happy to design the survey questions — I did the statistics module last term, so I'm comfortable with that.\n" +
-      "Priya: That works. I can take the interviews — I've already contacted two of the participants.\n" +
+      "Mark: I'm happy to design the survey questions - I did the statistics module last term, so I'm comfortable with that.\n" +
+      "Priya: That works. I can take the interviews - I've already contacted two of the participants.\n" +
       "Daniel: I'll handle the literature review, since I've read most of the recent papers already.\n" +
       "Mark: Great. And who is writing the final report?\n" +
-      "Priya: I think Daniel should — his writing is the clearest of the three of us.\n" +
+      "Priya: I think Daniel should - his writing is the clearest of the three of us.\n" +
       "Daniel: Fine, but only if Mark takes care of the slide deck for the presentation.\n" +
       "Mark: Sure, no problem.\n" +
       "Tutor: Excellent. And the data analysis?\n" +
-      "Priya: I'd like to do that — I want more practice with SPSS.",
+      "Priya: I'd like to do that - I want more practice with SPSS.",
     rate: 0.85,
     questions: [
       { type: "matching", prompt: "Designing the survey questions: ___", answer: "A" },

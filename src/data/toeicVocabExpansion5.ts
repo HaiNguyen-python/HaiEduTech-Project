@@ -1,6 +1,6 @@
 /**
  * @file toeicVocabExpansion5.ts
- * @description TOEIC Vocabulary Expansion #5 — finance, manufacturing,
+ * @description TOEIC Vocabulary Expansion #5 - finance, manufacturing,
  * customer service, IT, contracts and corporate communication.
  */
 import type { ToeicWord } from "./toeicVocabTypes";

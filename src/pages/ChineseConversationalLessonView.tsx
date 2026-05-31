@@ -196,7 +196,7 @@ const ChineseConversationalLessonView = () => {
           Interactive 中文 Curriculum
         </Link>
 
-        {/* Lesson header — English-only for international learners */}
+        {/* Lesson header - English-only for international learners */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center gap-3 mb-2">
             <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${pillar.color} flex items-center justify-center text-white`}>
@@ -229,7 +229,7 @@ const ChineseConversationalLessonView = () => {
             <TabsTrigger value="roleplay" className="flex-1 text-xs sm:text-sm py-2">🎤 Roleplay</TabsTrigger>
           </TabsList>
 
-          {/* SITUATIONS TAB — English-only */}
+          {/* SITUATIONS TAB - English-only */}
           <TabsContent value="situations">
             <div className="space-y-6">
               {lesson.keySituations.map((situation, idx) => (

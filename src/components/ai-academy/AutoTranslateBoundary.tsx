@@ -1,5 +1,5 @@
 /**
- * AutoTranslateBoundary — wraps a subtree and replaces Vietnamese strings
+ * AutoTranslateBoundary - wraps a subtree and replaces Vietnamese strings
  * with English translations fetched from the `translate-vi-en` edge function.
  *
  * AI Academy is **forced to English** regardless of app language, because
@@ -17,7 +17,7 @@ const CJK = /[\u3400-\u9FFF\uF900-\uFAFF\u3040-\u30FF\uAC00-\uD7AF]/;
 // Reject cached translations that leaked the numbered-prompt prefix (e.g. "1. ", "23. ").
 const LEADING_NUM = /^\s*\d{1,3}\.\s+/;
 
-// v3 — bumped from v2 to invalidate cached entries with stray "N." numbering.
+// v3 - bumped from v2 to invalidate cached entries with stray "N." numbering.
 const STORAGE_PREFIX = "aiacad_tr_v3_";
 
 const hash = (s: string): string => {
@@ -60,7 +60,7 @@ const cacheGet = (vi: string): string | undefined => {
 const cachePut = (vi: string, en: string) => {
   if (!isValidEnglish(en)) return; // never store Chinese garbage
   cache.set(vi, en);
-  try { localStorage.setItem(STORAGE_PREFIX + hash(vi), en); } catch { /* quota — silently skip */ }
+  try { localStorage.setItem(STORAGE_PREFIX + hash(vi), en); } catch { /* quota - silently skip */ }
 };
 
 const isVietnamese = (s: string) => {
@@ -137,7 +137,7 @@ const AutoTranslateBoundary: React.FC<Props> = ({ children, enabled = true }) =>
         };
         metaMap.current.set(node, meta);
       }
-      // AI Academy is forced to English — ignore app lang.
+      // AI Academy is forced to English - ignore app lang.
       const en = cacheGet(meta.trimmed);
       if (en) {
         const prevIsElem = node.previousSibling?.nodeType === 1;

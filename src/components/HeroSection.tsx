@@ -23,7 +23,7 @@ const HeroSection = () => {
   const { t } = useLanguage();
   const spotlightRef = useRef<HTMLDivElement | null>(null);
 
-  // Spotlight follow cursor — desktop only, throttled via rAF
+  // Spotlight follow cursor - desktop only, throttled via rAF
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -155,7 +155,7 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Chibi decoration — aligned with Programming Courses button */}
+      {/* Chibi decoration - aligned with Programming Courses button */}
       <FloatingChibi src={chibiReading} alt="" className="absolute right-[3%] bottom-[22%] z-20 opacity-90 hidden lg:block" size={120} delay={0.6} />
     </section>
   );

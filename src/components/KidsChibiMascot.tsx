@@ -1,7 +1,7 @@
 /**
  * @file KidsChibiMascot.tsx
  * @description Two cute animated chibi mascots (boy + girl) fixed at the bottom-right corner.
- * Pure CSS/SVG — arms wave, legs kick, body bobs, eyes blink. Click for jump + speech bubble.
+ * Pure CSS/SVG - arms wave, legs kick, body bobs, eyes blink. Click for jump + speech bubble.
  */
 import { useState, useEffect } from "react";
 
@@ -137,7 +137,7 @@ function ChibiSVG({ who }: { who: Who; jump?: boolean }) {
       <ellipse cx="40" cy="58" rx="6" ry="4" fill={cheek} opacity="0.7" />
       <ellipse cx="80" cy="58" rx="6" ry="4" fill={cheek} opacity="0.7" />
 
-      {/* Eyes — huge sparkly kawaii eyes */}
+      {/* Eyes - huge sparkly kawaii eyes */}
       <g className="chibi-eye-l">
         <ellipse cx="48" cy="52" rx="6" ry="8" fill="#1a1a2e" />
         <ellipse cx="48" cy="55" rx="4" ry="5" fill={isGirl ? "#6B2C5C" : "#1a3a6b"} />
@@ -227,7 +227,7 @@ export default function KidsChibiMascot({ lang = "vi" as "vi" | "en" }) {
       `}</style>
 
       <style>{`
-        /* Chibis are completely static — no idle motion, no hover motion. */
+        /* Chibis are completely static - no idle motion, no hover motion. */
         @keyframes bubble-pop { 0%{opacity:0; transform:translateY(6px) scale(.85)} 100%{opacity:1; transform:translateY(0) scale(1)} }
         .chibi-wrap,
         .chibi-wrap.boy,

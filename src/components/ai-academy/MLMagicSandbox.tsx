@@ -1,8 +1,8 @@
 /**
  * MLMagicSandbox
  * Two tabs:
- *  1) Decision Tree — answer Yes/No to classify a fruit (Supervised).
- *  2) K-Means — slider K=2..4 groups 20 colored dots on canvas (Unsupervised).
+ *  1) Decision Tree - answer Yes/No to classify a fruit (Supervised).
+ *  2) K-Means - slider K=2..4 groups 20 colored dots on canvas (Unsupervised).
  */
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -16,14 +16,14 @@ type Tab = "tree" | "kmeans";
 
 const ML_TF = [
   { q: "Supervised Learning cần dữ liệu đã gắn nhãn để học.", a: true },
-  { q: "K-Means là thuật toán Unsupervised — tự tìm nhóm.", a: true },
-  { q: "Decision Tree luôn cần GPU mạnh mới chạy được.", a: false, why: "Cây quyết định rất nhẹ — chạy được cả trên điện thoại." },
+  { q: "K-Means là thuật toán Unsupervised - tự tìm nhóm.", a: true },
+  { q: "Decision Tree luôn cần GPU mạnh mới chạy được.", a: false, why: "Cây quyết định rất nhẹ - chạy được cả trên điện thoại." },
   { q: "Càng nhiều dữ liệu chất lượng, mô hình ML càng chính xác.", a: true },
-  { q: "Unsupervised Learning có sẵn đáp án đúng cho mỗi mẫu.", a: false, why: "Không — nó tự tìm cấu trúc mà không có nhãn." },
+  { q: "Unsupervised Learning có sẵn đáp án đúng cho mỗi mẫu.", a: false, why: "Không - nó tự tìm cấu trúc mà không có nhãn." },
 ];
 const ML_PAIRS = [
-  { a: "Supervised", b: "Học có nhãn — như giáo viên chỉ bài" },
-  { a: "Unsupervised", b: "Tự gom nhóm — không cần nhãn" },
+  { a: "Supervised", b: "Học có nhãn - như giáo viên chỉ bài" },
+  { a: "Unsupervised", b: "Tự gom nhóm - không cần nhãn" },
   { a: "Decision Tree", b: "Hỏi Yes/No theo nhánh" },
   { a: "K-Means", b: "Tìm K trung tâm nhóm gần nhất" },
 ];
@@ -206,7 +206,7 @@ const KMeansGame = () => {
     <div className="rounded-xl bg-card/60 border border-border p-4 space-y-4">
       <div className="flex items-center gap-2 text-sm text-foreground/70">
         <Wand2 className="w-4 h-4 text-fuchsia-500" />
-        AI tự gom nhóm — không ai dạy nhãn. Đổi K rồi bấm "Học thêm 1 bước".
+        AI tự gom nhóm - không ai dạy nhãn. Đổi K rồi bấm "Học thêm 1 bước".
       </div>
 
       <div className="flex items-center gap-4">
@@ -291,7 +291,7 @@ const MLMagicSandbox = () => {
 
   return (
     <div className="space-y-3 sm:space-y-4 [&>*+*]:pt-3 sm:[&>*+*]:pt-4 [&>*+*]:border-t [&>*+*]:border-border/40">
-      {/* Activity 1 — Interactive playground (tabs) */}
+      {/* Activity 1 - Interactive playground (tabs) */}
       <div>
         <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
           <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-gradient-to-r from-emerald-500/15 to-fuchsia-500/15 border border-emerald-400/40 text-[11px] font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-300">

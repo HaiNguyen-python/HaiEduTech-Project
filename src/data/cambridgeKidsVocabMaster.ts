@@ -2,7 +2,7 @@
  * @file cambridgeKidsVocabMaster.ts
  * @description Canonical, deduplicated Cambridge YLE vocabulary bank
  * (Starters → PET). Every word has a kid-friendly bilingual example.
- * This is the single source of truth — replaces the old fragmented files.
+ * This is the single source of truth - replaces the old fragmented files.
  */
 import type { CambridgeKidsLevel, CambridgeKidsWord } from "./cambridgeKidsVocab";
 
@@ -15,7 +15,7 @@ const mk = (
 
 export const CAMBRIDGE_KIDS_WORDS_MASTER: W[] = [
   // ============================================================
-  // STARTERS (A1) — ~110 words. Very simple sentences for ages 6-8.
+  // STARTERS (A1) - ~110 words. Very simple sentences for ages 6-8.
   // ============================================================
   mk("apple", "quả táo", "🍎", "Starters", "I eat a red apple every day.", "Mỗi ngày em ăn một quả táo đỏ."),
   mk("ball", "quả bóng", "⚽", "Starters", "Let's play with the ball!", "Cùng chơi bóng nào!"),
@@ -30,7 +30,7 @@ export const CAMBRIDGE_KIDS_WORDS_MASTER: W[] = [
   mk("bread", "bánh mì", "🍞", "Starters", "I eat bread for breakfast.", "Em ăn bánh mì vào bữa sáng."),
   mk("brown", "màu nâu", "🟤", "Starters", "My dog is brown.", "Con chó của em màu nâu."),
   mk("bus", "xe buýt", "🚌", "Starters", "We go to school by bus.", "Chúng em đi học bằng xe buýt."),
-  mk("cake", "bánh ngọt", "🍰", "Starters", "Happy birthday — here is your cake!", "Chúc mừng sinh nhật — đây là bánh của bạn!"),
+  mk("cake", "bánh ngọt", "🍰", "Starters", "Happy birthday - here is your cake!", "Chúc mừng sinh nhật - đây là bánh của bạn!"),
   mk("car", "ô tô", "🚗", "Starters", "Dad drives a red car.", "Bố lái một chiếc xe màu đỏ."),
   mk("cat", "con mèo", "🐱", "Starters", "My cat sleeps on the sofa.", "Con mèo của em ngủ trên ghế sofa."),
   mk("chair", "cái ghế", "🪑", "Starters", "Sit on the chair, please.", "Mời bạn ngồi trên ghế."),
@@ -130,7 +130,7 @@ export const CAMBRIDGE_KIDS_WORDS_MASTER: W[] = [
   mk("milkshake", "sữa lắc", "🥤", "Starters", "I love strawberry milkshake.", "Em rất thích sữa lắc dâu."),
 
   // ============================================================
-  // MOVERS (A1+) — ~100 words.
+  // MOVERS (A1+) - ~100 words.
   // ============================================================
   mk("airport", "sân bay", "✈️", "Movers", "We meet at the airport.", "Chúng ta gặp nhau ở sân bay."),
   mk("backpack", "ba lô", "🎒", "Movers", "I carry my backpack to school.", "Em đeo ba lô đến trường."),
@@ -156,7 +156,7 @@ export const CAMBRIDGE_KIDS_WORDS_MASTER: W[] = [
   mk("garden", "khu vườn", "🌷", "Movers", "My garden is full of flowers.", "Khu vườn của em đầy hoa."),
   mk("giraffe", "hươu cao cổ", "🦒", "Movers", "Giraffes have very long necks.", "Hươu cao cổ có cái cổ rất dài."),
   mk("hospital", "bệnh viện", "🏥", "Movers", "Doctors work in the hospital.", "Bác sĩ làm việc trong bệnh viện."),
-  mk("hungry", "đói", "🍽️", "Movers", "I am hungry — let's eat!", "Em đói rồi — cùng ăn nào!"),
+  mk("hungry", "đói", "🍽️", "Movers", "I am hungry - let's eat!", "Em đói rồi - cùng ăn nào!"),
   mk("island", "hòn đảo", "🏝️", "Movers", "We sail to a small island.", "Chúng em đi thuyền đến một hòn đảo nhỏ."),
   mk("jungle", "rừng rậm", "🌴", "Movers", "Tigers live in the jungle.", "Hổ sống trong rừng rậm."),
   mk("kangaroo", "kangaroo", "🦘", "Movers", "Kangaroos jump very high.", "Kangaroo nhảy rất cao."),
@@ -200,7 +200,7 @@ export const CAMBRIDGE_KIDS_WORDS_MASTER: W[] = [
   mk("ticket", "vé", "🎫", "Movers", "I have a ticket for the show.", "Em có một vé xem chương trình."),
   mk("tractor", "máy kéo", "🚜", "Movers", "The farmer drives a tractor.", "Bác nông dân lái máy kéo."),
   mk("treasure", "kho báu", "💰", "Movers", "The pirates find treasure.", "Bọn cướp biển tìm thấy kho báu."),
-  mk("umbrella", "cái ô", "☂️", "Movers", "Take an umbrella — it's raining.", "Cầm theo ô — trời đang mưa."),
+  mk("umbrella", "cái ô", "☂️", "Movers", "Take an umbrella - it's raining.", "Cầm theo ô - trời đang mưa."),
   mk("village", "ngôi làng", "🏘️", "Movers", "My grandma lives in a village.", "Bà em sống ở làng quê."),
   mk("violin", "đàn violin", "🎻", "Movers", "She plays the violin beautifully.", "Cô ấy chơi violin rất hay."),
   mk("volcano", "núi lửa", "🌋", "Movers", "A volcano can shoot hot lava.", "Núi lửa có thể phun nham thạch nóng."),
@@ -236,7 +236,7 @@ export const CAMBRIDGE_KIDS_WORDS_MASTER: W[] = [
   mk("weather", "thời tiết", "🌦️", "Movers", "The weather is sunny today.", "Hôm nay thời tiết nắng đẹp."),
 
   // ============================================================
-  // FLYERS (A2) — ~100 words.
+  // FLYERS (A2) - ~100 words.
   // ============================================================
   mk("adventure", "cuộc phiêu lưu", "🗺️", "Flyers", "Our trip was a real adventure.", "Chuyến đi của chúng em là một cuộc phiêu lưu thực sự."),
   mk("ancient", "cổ đại", "🏺", "Flyers", "Ancient people built pyramids.", "Người cổ đại đã xây kim tự tháp."),
@@ -342,7 +342,7 @@ export const CAMBRIDGE_KIDS_WORDS_MASTER: W[] = [
   mk("healthy", "khoẻ mạnh", "🥗", "Flyers", "Vegetables keep us healthy.", "Rau xanh giúp chúng ta khoẻ mạnh."),
 
   // ============================================================
-  // KET (A2 Key) — ~95 words.
+  // KET (A2 Key) - ~95 words.
   // ============================================================
   mk("accept", "chấp nhận", "✅", "KET", "I accept your invitation.", "Em nhận lời mời của bạn."),
   mk("activity", "hoạt động", "🏃", "KET", "Swimming is a fun activity.", "Bơi lội là một hoạt động vui."),
@@ -377,7 +377,7 @@ export const CAMBRIDGE_KIDS_WORDS_MASTER: W[] = [
   mk("convenient", "tiện lợi", "👍", "KET", "Is six o'clock convenient?", "Sáu giờ có tiện không?"),
   mk("creative", "sáng tạo", "🎨", "KET", "She has creative ideas.", "Cô ấy có nhiều ý tưởng sáng tạo."),
   mk("culture", "văn hoá", "🌐", "KET", "Vietnamese culture is rich.", "Văn hoá Việt Nam phong phú."),
-  mk("danger", "nguy hiểm", "⚠️", "KET", "Cross the road with care — there's danger.", "Qua đường cẩn thận — có nguy hiểm."),
+  mk("danger", "nguy hiểm", "⚠️", "KET", "Cross the road with care - there's danger.", "Qua đường cẩn thận - có nguy hiểm."),
   mk("decision", "quyết định", "🤔", "KET", "Make a smart decision.", "Hãy ra một quyết định thông minh."),
   mk("delicious", "ngon", "🤤", "KET", "The soup is delicious!", "Bát súp ngon tuyệt!"),
   mk("describe", "miêu tả", "🗯️", "KET", "Describe your home town.", "Hãy miêu tả thị trấn của bạn."),
@@ -442,7 +442,7 @@ export const CAMBRIDGE_KIDS_WORDS_MASTER: W[] = [
   mk("volunteer", "tình nguyện viên", "🤲", "KET", "I volunteer at the library.", "Em làm tình nguyện ở thư viện."),
 
   // ============================================================
-  // PET (B1) — ~100 words.
+  // PET (B1) - ~100 words.
   // ============================================================
   mk("achievement", "thành tựu", "🏆", "PET", "Winning was a great achievement.", "Chiến thắng là một thành tựu lớn."),
   mk("advantage", "lợi thế", "✅", "PET", "Speaking English is an advantage.", "Biết tiếng Anh là một lợi thế."),
@@ -544,7 +544,7 @@ export const CAMBRIDGE_KIDS_WORDS_MASTER: W[] = [
   mk("wealth", "sự giàu có", "💰", "PET", "Health is real wealth.", "Sức khoẻ là sự giàu có thực sự."),
 ];
 
-// Dedupe by lowercase word — keep the lowest CEFR occurrence (safety net).
+// Dedupe by lowercase word - keep the lowest CEFR occurrence (safety net).
 const LEVEL_RANK: Record<CambridgeKidsLevel, number> = {
   Starters: 0, Movers: 1, Flyers: 2, KET: 3, PET: 4,
 };

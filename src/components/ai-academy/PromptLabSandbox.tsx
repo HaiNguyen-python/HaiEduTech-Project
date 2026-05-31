@@ -1,5 +1,5 @@
 /**
- * PromptLabSandbox — Hands-on lab for 5 prompt-engineering patterns:
+ * PromptLabSandbox - Hands-on lab for 5 prompt-engineering patterns:
  * Role, Few-shot, Chain-of-Thought, ReAct, Self-Critique.
  * Students pick a pattern, see a template, and assemble a stronger prompt.
  */
@@ -40,7 +40,7 @@ const PATTERNS: Pattern[] = [
     id: "cot",
     emoji: "🧠",
     name: "Chain-of-Thought (CoT)",
-    desc: "Yêu cầu AI 'suy nghĩ từng bước' trước khi trả lời — tăng độ chính xác 30–50%.",
+    desc: "Yêu cầu AI 'suy nghĩ từng bước' trước khi trả lời - tăng độ chính xác 30–50%.",
     template: "{CÂU HỎI}\nHãy suy nghĩ TỪNG BƯỚC trước khi đưa ra đáp án cuối cùng.",
     example: "Mẹ có 7 quả táo, cho con 3 quả, mẹ mua thêm 5 quả. Mẹ có bao nhiêu? Hãy suy nghĩ TỪNG BƯỚC.",
   },
@@ -66,7 +66,7 @@ const PL_TF = [
   { q: "Chain-of-Thought yêu cầu AI suy nghĩ từng bước trước khi trả lời.", a: true },
   { q: "Few-shot là cho AI vài ví dụ mẫu để bắt chước.", a: true },
   { q: "Role Prompting bắt đầu bằng 'Bạn là một chuyên gia X...'.", a: true },
-  { q: "Prompt càng ngắn càng tốt, không cần ngữ cảnh.", a: false, why: "Ngược lại — prompt giàu ngữ cảnh cho kết quả chính xác hơn." },
+  { q: "Prompt càng ngắn càng tốt, không cần ngữ cảnh.", a: false, why: "Ngược lại - prompt giàu ngữ cảnh cho kết quả chính xác hơn." },
   { q: "ReAct = AI suy luận + gọi tool (search, calc) luân phiên.", a: true },
 ];
 const PL_PAIRS = [
@@ -119,7 +119,7 @@ const PromptLabSandbox = () => {
       </div>
 
       <motion.div key={p.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl border-2 border-fuchsia-400/40 bg-fuchsia-500/5 p-3 space-y-2">
-        <p className="text-sm text-foreground"><b>{p.emoji} {p.name}</b> — {p.desc}</p>
+        <p className="text-sm text-foreground"><b>{p.emoji} {p.name}</b> - {p.desc}</p>
         <div className="rounded-lg bg-card border border-border p-2 text-xs font-mono whitespace-pre-wrap text-muted-foreground">
           {p.template}
         </div>
@@ -142,7 +142,7 @@ const PromptLabSandbox = () => {
         positive
         goal={80}
         goodLabel="Prompt của bạn đã đủ chuyên nghiệp ✅"
-        badLabel="Còn thiếu — bật thêm vài yếu tố"
+        badLabel="Còn thiếu - bật thêm vài yếu tố"
         metricLabel="Điểm chuyên môn"
         accent="from-purple-500 to-fuchsia-600"
         border="border-purple-400/40"

@@ -3,7 +3,7 @@
  * @description Full-text IELTS Academic Reading mock exams (Passage + mixed
  *   question formats: multiple choice, matching headings, fill-in-the-blanks).
  *   Each exam is self-contained; durations follow the official IELTS spec
- *   (60 minutes per full Reading paper — here per single passage we use 20m).
+ *   (60 minutes per full Reading paper - here per single passage we use 20m).
  */
 
 export type ReadingQuestionType = "multiple-choice" | "matching-headings" | "fill-blank";
@@ -41,18 +41,18 @@ export interface ReadingExam {
 export const IELTS_FULL_READING_EXAMS: ReadingExam[] = [
   {
     id: "rx-1",
-    title: "Test 1 — The Rise of Renewable Energy",
+    title: "Test 1 - The Rise of Renewable Energy",
     level: "Medium",
     durationMinutes: 20,
     passageTitle: "The Rise of Renewable Energy",
     passage:
 `A. In 2023, renewable energy overtook coal as the world's largest source of electricity for the first time in over a century, marking a profound turning point in the global energy transition. The International Energy Agency reported that solar photovoltaic capacity alone grew by 32% year-on-year, with China responsible for nearly two-thirds of the new installations. Analysts described the shift as both inevitable and faster than many had predicted only a decade earlier.
 
-B. Surveys conducted across thirty nations show that more than 70% of citizens now support a faster move away from fossil fuels, even when it means short-term price increases. Young people in particular consistently rate climate change among their top three concerns, ahead of unemployment in many advanced economies. This shift in public sentiment has emboldened politicians to set tighter emissions targets — although whether those targets are actually met remains a separate question.
+B. Surveys conducted across thirty nations show that more than 70% of citizens now support a faster move away from fossil fuels, even when it means short-term price increases. Young people in particular consistently rate climate change among their top three concerns, ahead of unemployment in many advanced economies. This shift in public sentiment has emboldened politicians to set tighter emissions targets - although whether those targets are actually met remains a separate question.
 
 C. Yet wind and solar power are intermittent: the sun does not always shine and the wind does not always blow. Without affordable, large-scale energy storage, grids still depend on natural-gas plants to fill the gaps when generation drops. Engineers describe storage as the single missing piece of the renewable puzzle. Several emerging technologies, including iron-air batteries and gravity storage, promise dramatic cost reductions but have not yet been deployed at scale.
 
-D. Building such storage is expensive. A recent IEA report estimates the world needs to invest over USD 800 billion in batteries by 2030 to keep pace with renewable growth. Critics warn that the upfront cost will fall disproportionately on lower-income households unless governments redesign electricity tariffs and provide targeted subsidies. Supporters counter that the long-term savings — in lower fuel imports, cleaner air, and reduced climate damage — vastly outweigh the initial outlay.`,
+D. Building such storage is expensive. A recent IEA report estimates the world needs to invest over USD 800 billion in batteries by 2030 to keep pace with renewable growth. Critics warn that the upfront cost will fall disproportionately on lower-income households unless governments redesign electricity tariffs and provide targeted subsidies. Supporters counter that the long-term savings - in lower fuel imports, cleaner air, and reduced climate damage - vastly outweigh the initial outlay.`,
     questions: [
       {
         number: 1,
@@ -65,7 +65,7 @@ D. Building such storage is expensive. A recent IEA report estimates the world n
           { label: "iv", text: "Public attitudes turning positive" },
         ],
         answer: "ii",
-        explanation: "Paragraph A focuses on renewables overtaking coal — a historic shift.",
+        explanation: "Paragraph A focuses on renewables overtaking coal - a historic shift.",
       },
       {
         number: 2,
@@ -160,16 +160,16 @@ D. Building such storage is expensive. A recent IEA report estimates the world n
 
   {
     id: "rx-2",
-    title: "Test 2 — The Science of Sleep",
+    title: "Test 2 - The Science of Sleep",
     level: "Hard",
     durationMinutes: 20,
-    passageTitle: "Why We Sleep — and Why We Sleep Less",
+    passageTitle: "Why We Sleep - and Why We Sleep Less",
     passage:
 `A. For most of human history, sleep was governed by sunlight. People rose with dawn, worked through daylight hours and rested when darkness fell. The invention of artificial lighting in the late nineteenth century severed this ancient connection, and the average adult in industrialised societies now sleeps roughly two hours less per night than their counterparts did in 1900. Sleep scientists describe this trend as one of the most profound, and least debated, behavioural shifts of the modern era.
 
 B. The consequences of chronic sleep deprivation are now well documented. Studies from leading universities have linked sustained sleep loss to weakened immunity, impaired memory consolidation, weight gain, and a heightened risk of cardiovascular disease. Cognitively, even a single night of restricted sleep can reduce attention span by up to 30%, with effects on judgement comparable to mild alcohol intoxication. Such findings have prompted a growing number of employers to revisit workplace policies that have traditionally rewarded long hours over genuine productivity.
 
-C. Yet, despite this evidence, sleep remains stubbornly undervalued. In many cultures, exhaustion is worn as a badge of honour, while sleeping well is dismissed as laziness. Sleep researcher Matthew Walker has argued that the routine sacrifice of sleep is "a slow form of self-euthanasia". Whether such language is helpful or unnecessarily alarmist is debated, but the underlying message — that sleep is biologically non-negotiable — has begun to reach a wider audience.
+C. Yet, despite this evidence, sleep remains stubbornly undervalued. In many cultures, exhaustion is worn as a badge of honour, while sleeping well is dismissed as laziness. Sleep researcher Matthew Walker has argued that the routine sacrifice of sleep is "a slow form of self-euthanasia". Whether such language is helpful or unnecessarily alarmist is debated, but the underlying message - that sleep is biologically non-negotiable - has begun to reach a wider audience.
 
 D. Practical strategies for better sleep are well known: regular bed and wake times, dim lighting in the evening, limited caffeine after midday, and a cool, dark bedroom. The challenge is rarely the advice itself but the willingness to follow it. Until our cultural attitude to rest catches up with the science, the modern epidemic of sleep deprivation is unlikely to recede.`,
     questions: [
@@ -281,14 +281,14 @@ D. Practical strategies for better sleep are well known: regular bed and wake ti
 
   {
     id: "rx-3",
-    title: "Test 3 — The Story of the Bicycle",
+    title: "Test 3 - The Story of the Bicycle",
     level: "Medium",
     durationMinutes: 20,
     passageTitle: "The Story of the Bicycle",
     passage:
 `A. The bicycle, in something close to its modern form, first appeared in Europe in the 1860s. Earlier wooden 'running machines', propelled by the rider pushing both feet against the ground, had circulated since the early nineteenth century but offered limited practical use. The decisive breakthrough came when French blacksmith Pierre Michaux fitted pedals directly to the front wheel of such a machine in 1864, creating what was soon nicknamed the 'boneshaker' for its uncomfortable iron-rimmed ride over cobbled streets.
 
-B. The 1870s ushered in the dramatic 'penny-farthing', whose enormous front wheel — sometimes more than one and a half metres across — allowed riders to cover greater distances with each pedal stroke. Yet the design was notoriously dangerous: a sudden stop could throw the rider head-first over the handlebars, an accident so frequent it acquired its own name, the 'header'. Cycling, in this era, remained the preserve of athletic young men with both money and nerve.
+B. The 1870s ushered in the dramatic 'penny-farthing', whose enormous front wheel - sometimes more than one and a half metres across - allowed riders to cover greater distances with each pedal stroke. Yet the design was notoriously dangerous: a sudden stop could throw the rider head-first over the handlebars, an accident so frequent it acquired its own name, the 'header'. Cycling, in this era, remained the preserve of athletic young men with both money and nerve.
 
 C. Everything changed in 1885, when English inventor John Kemp Starley introduced the Rover 'safety bicycle', featuring two wheels of equal size and a chain-driven rear wheel. Combined with John Boyd Dunlop's pneumatic tyre, patented three years later, the safety bicycle was suddenly comfortable, fast and, crucially, accessible to women. Cycling clubs sprang up across Britain, and within a decade the bicycle had become the most affordable form of personal transport the world had ever seen.
 
@@ -353,16 +353,16 @@ E. Today, more than a century later, the bicycle is enjoying a renaissance. Conc
 
   {
     id: "rx-4",
-    title: "Test 4 — How Coral Reefs Build Themselves",
+    title: "Test 4 - How Coral Reefs Build Themselves",
     level: "Hard",
     durationMinutes: 20,
     passageTitle: "How Coral Reefs Build Themselves",
     passage:
-`A. Coral reefs are among the oldest and most productive ecosystems on Earth. Although they cover less than 1% of the ocean floor, they support an estimated 25% of all marine species. The Great Barrier Reef alone — visible from space — has been growing, dying back and regrowing for at least 20 million years. Despite this antiquity, the underlying biology was only properly understood in the nineteenth century, when Charles Darwin proposed that atolls form as coral grows upward on slowly subsiding volcanic islands.
+`A. Coral reefs are among the oldest and most productive ecosystems on Earth. Although they cover less than 1% of the ocean floor, they support an estimated 25% of all marine species. The Great Barrier Reef alone - visible from space - has been growing, dying back and regrowing for at least 20 million years. Despite this antiquity, the underlying biology was only properly understood in the nineteenth century, when Charles Darwin proposed that atolls form as coral grows upward on slowly subsiding volcanic islands.
 
-B. A coral colony is, strictly speaking, an assembly of thousands of tiny animals called polyps, each only a few millimetres across. Each polyp secretes a hard calcium-carbonate skeleton beneath itself; as polyps reproduce and new generations build on top of older skeletons, the colony grows. Reef-building corals grow remarkably slowly — typically between 0.3 and 2 centimetres a year — which is why even a small reef may be hundreds, or even thousands, of years old.
+B. A coral colony is, strictly speaking, an assembly of thousands of tiny animals called polyps, each only a few millimetres across. Each polyp secretes a hard calcium-carbonate skeleton beneath itself; as polyps reproduce and new generations build on top of older skeletons, the colony grows. Reef-building corals grow remarkably slowly - typically between 0.3 and 2 centimetres a year - which is why even a small reef may be hundreds, or even thousands, of years old.
 
-C. The key to a coral's success is a partnership, or symbiosis, with single-celled algae called zooxanthellae. These algae live inside the coral's tissues, providing up to 90% of the coral's energy through photosynthesis in exchange for a sheltered home and a steady supply of nutrients. It is also the zooxanthellae that give corals their famous colours: when corals are stressed by heat, they expel the algae and turn ghostly white — the process known as bleaching.
+C. The key to a coral's success is a partnership, or symbiosis, with single-celled algae called zooxanthellae. These algae live inside the coral's tissues, providing up to 90% of the coral's energy through photosynthesis in exchange for a sheltered home and a steady supply of nutrients. It is also the zooxanthellae that give corals their famous colours: when corals are stressed by heat, they expel the algae and turn ghostly white - the process known as bleaching.
 
 D. Mass bleaching events were almost unknown before the 1980s but have since become alarmingly common. Marine biologists recorded five global bleaching events between 1998 and 2023, with the Great Barrier Reef alone suffering four. Although corals can recover if conditions improve, repeated bleaching weakens their reproductive capacity and leaves the entire ecosystem more vulnerable to disease and storm damage.
 
@@ -425,20 +425,20 @@ E. Restoration efforts are now under way around the world. Scientists in Austral
 
   {
     id: "rx-5",
-    title: "Test 5 — The Quiet Rise of Remote Work",
+    title: "Test 5 - The Quiet Rise of Remote Work",
     level: "Medium",
     durationMinutes: 20,
     passageTitle: "The Quiet Rise of Remote Work",
     passage:
 `A. The idea of working from home is, in historical terms, very old. For most of human history, the household and the workplace were one and the same: farmers, weavers, blacksmiths and shopkeepers all conducted their trade from where they lived. The clear separation of 'home' and 'work' is largely a product of the Industrial Revolution, when factories drew labourers out of their cottages and into large, centralised workplaces. Surprisingly, then, the modern phenomenon of remote work represents not a leap forward but in some ways a return to a much older pattern of life.
 
-B. The term 'telecommuting' was coined in 1972 by Jack Nilles, an American engineer who argued that if 'one in seven urban commuters did not have to travel to work', the United States could reduce its dependence on imported oil. For three decades, however, the idea remained marginal. Most managers continued to believe — without firm evidence — that productivity required physical supervision, and the technology to support reliable home offices was both slow and expensive.
+B. The term 'telecommuting' was coined in 1972 by Jack Nilles, an American engineer who argued that if 'one in seven urban commuters did not have to travel to work', the United States could reduce its dependence on imported oil. For three decades, however, the idea remained marginal. Most managers continued to believe - without firm evidence - that productivity required physical supervision, and the technology to support reliable home offices was both slow and expensive.
 
-C. The transformation arrived suddenly. Between 2020 and 2022, a global health crisis forced an estimated 60% of office workers in the United States, the United Kingdom and much of Western Europe to work from home for extended periods. Cloud-based collaboration tools, video conferencing and high-speed broadband — all of which had been available for years — were finally adopted on a mass scale. By 2023, hybrid working, in which staff split their time between home and office, had become the default in many large organisations.
+C. The transformation arrived suddenly. Between 2020 and 2022, a global health crisis forced an estimated 60% of office workers in the United States, the United Kingdom and much of Western Europe to work from home for extended periods. Cloud-based collaboration tools, video conferencing and high-speed broadband - all of which had been available for years - were finally adopted on a mass scale. By 2023, hybrid working, in which staff split their time between home and office, had become the default in many large organisations.
 
-D. The benefits, for many workers, have been considerable. A 2023 study published in Nature found that hybrid workers were no less productive than their fully in-office peers, while reporting significantly higher job satisfaction and lower levels of burnout. They saved, on average, 72 minutes a day previously lost to commuting — time many redirected towards exercise, family or sleep.
+D. The benefits, for many workers, have been considerable. A 2023 study published in Nature found that hybrid workers were no less productive than their fully in-office peers, while reporting significantly higher job satisfaction and lower levels of burnout. They saved, on average, 72 minutes a day previously lost to commuting - time many redirected towards exercise, family or sleep.
 
-E. The picture is not uniformly positive. Critics warn that remote work risks weakening the casual interactions that drive creativity and mentorship. Younger employees, in particular, may struggle to build professional networks if they rarely meet colleagues in person. There is also evidence that remote work has widened the gap between knowledge workers, who can perform their jobs anywhere, and service workers, who cannot — raising fresh questions about fairness in the post-pandemic economy.`,
+E. The picture is not uniformly positive. Critics warn that remote work risks weakening the casual interactions that drive creativity and mentorship. Younger employees, in particular, may struggle to build professional networks if they rarely meet colleagues in person. There is also evidence that remote work has widened the gap between knowledge workers, who can perform their jobs anywhere, and service workers, who cannot - raising fresh questions about fairness in the post-pandemic economy.`,
     questions: [
       { number: 1, type: "matching-headings", prompt: "Choose the best heading for Paragraph A.",
         headings: [

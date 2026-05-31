@@ -84,7 +84,7 @@ const lesson = (
 });
 
 // ═══════════════════════════════════════════════════════
-// HSK 1 — Business & Professional (additional 6 lessons)
+// HSK 1 - Business & Professional (additional 6 lessons)
 // ═══════════════════════════════════════════════════════
 export const hsk1BusinessExpansion: ChineseConvLesson[] = [
   lesson(
@@ -360,7 +360,7 @@ export const hsk1BusinessExpansion: ChineseConvLesson[] = [
 ];
 
 // ═══════════════════════════════════════════════════════
-// HSK 2 — Business & Professional (8 new lessons)
+// HSK 2 - Business & Professional (8 new lessons)
 // ═══════════════════════════════════════════════════════
 export const hsk2BusinessExpansion: ChineseConvLesson[] = [
   lesson(

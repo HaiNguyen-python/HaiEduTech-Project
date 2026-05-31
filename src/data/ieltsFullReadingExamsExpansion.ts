@@ -8,14 +8,14 @@ import type { ReadingExam } from "./ieltsFullReadingExams";
 export const IELTS_FULL_READING_EXAMS_EXPANSION: ReadingExam[] = [
   {
     id: "rx-cam-1",
-    title: "Test 6 — The Science of Sleep (Extended)",
+    title: "Test 6 - The Science of Sleep (Extended)",
     level: "Medium",
     durationMinutes: 20,
     passageTitle: "The Science of Sleep",
     passage:
 `A. For most of human history, sleep was considered a passive, almost wasted state. The dominant view well into the twentieth century was that the brain effectively shut down at night, recharging in a way analogous to a battery. Modern neuroscience has overturned this assumption almost entirely. Brain-imaging studies now show that during sleep the brain is remarkably active, cycling through distinct stages that each serve specific biological functions.
 
-B. Sleep architecture is conventionally divided into rapid eye movement (REM) sleep and three stages of non-REM sleep. Slow-wave sleep — the deepest non-REM stage — is when growth hormone is released and when the brain consolidates declarative memories such as facts and events. REM sleep, by contrast, is closely linked to procedural learning and emotional processing. Skills practised in the afternoon are measurably sharper after a night that includes adequate REM.
+B. Sleep architecture is conventionally divided into rapid eye movement (REM) sleep and three stages of non-REM sleep. Slow-wave sleep - the deepest non-REM stage - is when growth hormone is released and when the brain consolidates declarative memories such as facts and events. REM sleep, by contrast, is closely linked to procedural learning and emotional processing. Skills practised in the afternoon are measurably sharper after a night that includes adequate REM.
 
 C. The discovery of the glymphatic system in 2013 added a striking dimension to the picture. Researchers at the University of Rochester demonstrated that the space between brain cells expands by some sixty percent during deep sleep, allowing cerebrospinal fluid to flush out metabolic by-products including beta-amyloid, a protein implicated in Alzheimer's disease. Chronic sleep deprivation, the team suggested, may therefore raise long-term neurodegenerative risk.
 
@@ -63,16 +63,16 @@ E. Public-health responses have begun to catch up. Several school districts in t
   },
   {
     id: "rx-cam-2",
-    title: "Test 7 — The Rise of Vertical Farming",
+    title: "Test 7 - The Rise of Vertical Farming",
     level: "Hard",
     durationMinutes: 20,
     passageTitle: "The Rise of Vertical Farming",
     passage:
-`A. Vertical farming — the cultivation of crops in stacked, climate-controlled indoor environments — was for decades dismissed as economically implausible. Early prototypes were criticised as glorified science experiments, dependent on subsidised electricity and unable to compete with field agriculture at scale. The first decade of the twenty-first century, however, brought three converging changes that altered the calculation: the rapid fall in the price of light-emitting diodes, advances in hydroponic and aeroponic nutrient delivery, and rising consumer demand for pesticide-free, locally grown produce.
+`A. Vertical farming - the cultivation of crops in stacked, climate-controlled indoor environments - was for decades dismissed as economically implausible. Early prototypes were criticised as glorified science experiments, dependent on subsidised electricity and unable to compete with field agriculture at scale. The first decade of the twenty-first century, however, brought three converging changes that altered the calculation: the rapid fall in the price of light-emitting diodes, advances in hydroponic and aeroponic nutrient delivery, and rising consumer demand for pesticide-free, locally grown produce.
 
 B. The economic case rests on yield density. A well-designed vertical farm can produce between 50 and 100 times the output of an open-field operation per square metre of footprint. Because the growing environment is fully sealed, crops are unaffected by drought, pests or seasonal variation, allowing twelve to fifteen harvests of leafy greens each year compared with one or two outdoors. Water consumption is reduced by roughly 95% through closed-loop recirculation, a powerful selling point in water-stressed regions.
 
-C. The technology is not without limitations. Energy intensity remains the principal constraint: lighting and climate control can account for more than half of operating costs, meaning profitability is heavily dependent on electricity prices and on the availability of renewable supply. Crops that demand long, intense growing cycles — staples such as wheat, rice and maize — are still far cheaper to grow conventionally. As a result, commercial vertical farms have so far concentrated on high-value, short-cycle produce: salad greens, herbs, microgreens, strawberries and a handful of speciality vegetables.
+C. The technology is not without limitations. Energy intensity remains the principal constraint: lighting and climate control can account for more than half of operating costs, meaning profitability is heavily dependent on electricity prices and on the availability of renewable supply. Crops that demand long, intense growing cycles - staples such as wheat, rice and maize - are still far cheaper to grow conventionally. As a result, commercial vertical farms have so far concentrated on high-value, short-cycle produce: salad greens, herbs, microgreens, strawberries and a handful of speciality vegetables.
 
 D. Geographically, the industry has clustered in places that combine high land prices, reliable electricity and strong consumer willingness to pay. Singapore, the United Arab Emirates and Japan have moved early, often with explicit government backing tied to food-security strategies. In Europe, the Netherlands has leveraged its world-leading horticultural expertise, while in North America a handful of large operators have built warehouse-scale facilities near major cities to shorten supply chains.
 

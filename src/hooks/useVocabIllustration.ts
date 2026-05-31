@@ -40,6 +40,6 @@ export function useVocabIllustration(word: string, definition: string, category?
     isLoading: false,
     error: null as string | null,
     fallbackEmoji,
-    generate: () => {}, // AI image generation disabled — using emoji fallbacks
+    generate: () => {}, // AI image generation disabled - using emoji fallbacks
   };
 }

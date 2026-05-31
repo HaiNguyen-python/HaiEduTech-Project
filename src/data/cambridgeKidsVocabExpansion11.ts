@@ -1,6 +1,6 @@
 /**
  * @file cambridgeKidsVocabExpansion11.ts
- * @description Expansion #11 — ~135 fresh, audited entries.
+ * @description Expansion #11 - ~135 fresh, audited entries.
  *              Every word here was cross-checked against the deduped master
  *              bank to guarantee NO duplicates within the same level.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.

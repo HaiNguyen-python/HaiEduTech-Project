@@ -199,8 +199,8 @@ export default function HskSrsReview({ allWords, maxNewPerSession = 8, sessionSi
                     ))}
                   </div>
                   <p className="text-[10px] text-center text-muted-foreground">
-                    {t("Tự đánh giá độ nhớ — thuật toán sẽ lên lịch lần ôn tiếp theo.",
-                       "Self-rate your recall — the algorithm schedules the next review.")}
+                    {t("Tự đánh giá độ nhớ - thuật toán sẽ lên lịch lần ôn tiếp theo.",
+                       "Self-rate your recall - the algorithm schedules the next review.")}
                   </p>
                 </motion.div>
               )}

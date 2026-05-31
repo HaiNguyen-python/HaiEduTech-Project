@@ -120,7 +120,7 @@ const SpeakingCoachPage = () => {
             animate={{ opacity: 1, height: "auto" }}
             className="mb-6"
           >
-            {/* English no longer shows MountainClimber per request — stars still fly via handlePerfectScore but no climber UI */}
+            {/* English no longer shows MountainClimber per request - stars still fly via handlePerfectScore but no climber UI */}
             {lang === "finnish" && (
               <FinnishSkier
                 mastered={excellentCount}

@@ -423,7 +423,7 @@ const IeltsLectureCategory = () => {
                   {task1.length > 0 && renderGroup("task1", "Writing Task 1", "Writing Task 1", "📊", task1)}
                   {others.length > 0 && renderGroup("task2", "Writing Task 2", "Writing Task 2", "✍️", others)}
 
-                  {/* Sample Essays 8.0+ — styled to match group headers */}
+                  {/* Sample Essays 8.0+ - styled to match group headers */}
                   <Link
                     to="/ielts-sample-essays"
                     className="group mb-6 flex items-center gap-3 w-full p-3 rounded-xl border-2 border-purple-500/40 bg-gradient-to-r from-purple-500/10 via-violet-500/5 to-pink-500/10 hover:border-purple-500/70 hover:shadow-lg transition-all"

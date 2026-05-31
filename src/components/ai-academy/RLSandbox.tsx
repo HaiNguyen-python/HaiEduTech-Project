@@ -1,5 +1,5 @@
 /**
- * RLSandbox — "Self-driving Maze"
+ * RLSandbox - "Self-driving Maze"
  * A 4x4 grid with coins and obstacles. The student tunes the reward for
  * collecting coins and the penalty for hitting obstacles; a tiny greedy
  * pathfinder replays the trip and the running score updates live.
@@ -16,7 +16,7 @@ import { BestMatchPick } from "./SandboxMiniActivity";
 const RL_TF = [
   { q: "RL học bằng cơ chế Thưởng – Phạt.", a: true },
   { q: "AlphaGo của DeepMind dùng RL để học cờ vây.", a: true },
-  { q: "RL cần ai đó gắn nhãn từng hành động đúng/sai.", a: false, why: "Không cần nhãn — agent thử sai và nhận điểm số." },
+  { q: "RL cần ai đó gắn nhãn từng hành động đúng/sai.", a: false, why: "Không cần nhãn - agent thử sai và nhận điểm số." },
   { q: "Tesla Autopilot huấn luyện qua hàng tỷ km mô phỏng.", a: true },
   { q: "Agent là tên gọi của 'người chơi' trong RL.", a: true },
 ];
@@ -194,7 +194,7 @@ const RLSandbox = () => {
 
       <p className="text-xs text-muted-foreground flex items-start gap-2">
         <Car className="w-3.5 h-3.5 mt-0.5 text-emerald-500 shrink-0" />
-        <span>Khi <b>phạt &gt; thưởng</b>, agent học cách <b>tránh</b> chướng ngại. Xe tự lái của Tesla & Waymo huấn luyện theo cơ chế Thưởng–Phạt y hệt thế này — chỉ là lớn hơn hàng tỷ lần.</span>
+        <span>Khi <b>phạt &gt; thưởng</b>, agent học cách <b>tránh</b> chướng ngại. Xe tự lái của Tesla & Waymo huấn luyện theo cơ chế Thưởng–Phạt y hệt thế này - chỉ là lớn hơn hàng tỷ lần.</span>
       </p>
 
       <BestMatchPick

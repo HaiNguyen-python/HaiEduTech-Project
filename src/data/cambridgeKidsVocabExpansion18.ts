@@ -1,6 +1,6 @@
 /**
  * @file cambridgeKidsVocabExpansion18.ts
- * @description Expansion #18 — ~140 fresh, audited entries across all Cambridge YLE levels.
+ * @description Expansion #18 - ~140 fresh, audited entries across all Cambridge YLE levels.
  *              Cross-checked against existing data to guarantee NO duplicates within the same level.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */

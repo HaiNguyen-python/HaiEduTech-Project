@@ -1,6 +1,6 @@
 /**
  * @file InterviewPrep.tsx
- * @description Admission interview prep with Perplexity AI — generate program-specific
+ * @description Admission interview prep with Perplexity AI - generate program-specific
  * questions and get feedback on candidate answers.
  */
 import { useState } from "react";
@@ -84,7 +84,7 @@ const InterviewPrep = () => {
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold">{t("Interview Prep AI", "Interview Prep AI")}</h1>
               <p className="text-sm text-muted-foreground">
-                {t("AI tạo bộ 10 câu hỏi phỏng vấn riêng cho trường & ngành bạn ứng tuyển — kèm chấm điểm câu trả lời.", "AI generates 10 program-specific questions + scores your answers.")}
+                {t("AI tạo bộ 10 câu hỏi phỏng vấn riêng cho trường & ngành bạn ứng tuyển - kèm chấm điểm câu trả lời.", "AI generates 10 program-specific questions + scores your answers.")}
               </p>
             </div>
           </div>

@@ -1,5 +1,5 @@
 /**
- * StudySmartSandbox — "Prompt Coach for studying"
+ * StudySmartSandbox - "Prompt Coach for studying"
  * Students type a study question, sandbox suggests a better prompt
  * template and shows quality score (Specific / With context / Asks for steps).
  */
@@ -14,7 +14,7 @@ import { BestMatchPick, ChipFilter } from "./SandboxMiniActivity";
 const TF = [
   { q: "Prompt càng cụ thể, AI trả lời càng đúng.", a: true },
   { q: "Bảo AI 'giải thích từng bước' giúp hiểu sâu hơn.", a: true },
-  { q: "Copy nguyên đề bài rồi yêu cầu AI làm hộ là cách học tốt.", a: false, why: "Đó là 'AI làm thay' — bạn không học được gì." },
+  { q: "Copy nguyên đề bài rồi yêu cầu AI làm hộ là cách học tốt.", a: false, why: "Đó là 'AI làm thay' - bạn không học được gì." },
   { q: "NotebookLM có thể đọc PDF bài giảng và hỏi đáp theo nội dung.", a: true },
   { q: "Nên kiểm tra lại đáp án AI bằng SGK hoặc thầy cô.", a: true },
 ];
@@ -41,7 +41,7 @@ const score = (p: string) => {
 const StudySmartSandbox = () => {
   const [text, setText] = useState("Em chưa hiểu cách giải phương trình bậc 2, hãy giúp em.");
   const r = score(text);
-  const better = `Em đang học lớp 10, môn Toán. Hãy giải thích từng bước cách giải phương trình bậc 2 ax² + bx + c = 0, kèm 1 ví dụ cụ thể và cách kiểm tra nghiệm. Đừng làm hộ bài tập của em — chỉ hướng dẫn cách suy nghĩ.`;
+  const better = `Em đang học lớp 10, môn Toán. Hãy giải thích từng bước cách giải phương trình bậc 2 ax² + bx + c = 0, kèm 1 ví dụ cụ thể và cách kiểm tra nghiệm. Đừng làm hộ bài tập của em - chỉ hướng dẫn cách suy nghĩ.`;
 
   return (
     <div className="space-y-3 sm:space-y-4 [&>*+*]:pt-3 sm:[&>*+*]:pt-4 [&>*+*]:border-t [&>*+*]:border-border/40">
@@ -96,7 +96,7 @@ const StudySmartSandbox = () => {
         positive
         goal={75}
         goodLabel="Prompt đã đủ chuẩn 4 lớp ✅"
-        badLabel="Còn thiếu — thêm vài viên gạch nữa"
+        badLabel="Còn thiếu - thêm vài viên gạch nữa"
         metricLabel="Điểm Prompt"
         accent="from-blue-500 to-cyan-600"
         border="border-blue-400/40"
@@ -144,7 +144,7 @@ const StudySmartSandbox = () => {
             candidates: [
               { id: "a", label: "A · Lười", text: "Sửa bài essay này cho tôi: [paste]" },
               { id: "b", label: "B · Hời hợt", text: "Kiểm tra grammar bài essay sau và sửa lỗi giúp tôi: [paste]" },
-              { id: "c", label: "C · Chuẩn", text: "Bạn là IELTS examiner. Đây là bài Writing Task 2 của tôi (mục tiêu band 6.5): [paste]. Hãy: (1) liệt kê từng lỗi grammar theo bảng (câu gốc | loại lỗi | câu sửa | giải thích ngắn), (2) chấm điểm 4 tiêu chí (TR/CC/LR/GRA) kèm lý do, (3) gợi ý 3 câu nâng cấp từ band 5.5 lên 6.5, (4) KHÔNG viết lại cả bài hộ tôi — chỉ hướng dẫn để tôi tự sửa." },
+              { id: "c", label: "C · Chuẩn", text: "Bạn là IELTS examiner. Đây là bài Writing Task 2 của tôi (mục tiêu band 6.5): [paste]. Hãy: (1) liệt kê từng lỗi grammar theo bảng (câu gốc | loại lỗi | câu sửa | giải thích ngắn), (2) chấm điểm 4 tiêu chí (TR/CC/LR/GRA) kèm lý do, (3) gợi ý 3 câu nâng cấp từ band 5.5 lên 6.5, (4) KHÔNG viết lại cả bài hộ tôi - chỉ hướng dẫn để tôi tự sửa." },
             ],
           },
         ]}

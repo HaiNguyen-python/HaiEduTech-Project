@@ -14,10 +14,10 @@ const DD_TF = [
   { q: "Outlier (giá trị bất thường) luôn nên xoá khỏi dữ liệu.", a: false, why: "Đôi khi outlier là phát hiện quan trọng (gian lận, lỗi hệ thống)." },
   { q: "Giá trị bị thiếu (missing) có thể điền bằng trung bình của cột.", a: true },
   { q: "Một bảng dữ liệu sạch là điều kiện cần để huấn luyện AI tốt.", a: true },
-  { q: "Chiều cao 999 cm là dữ liệu hợp lệ cho học sinh cấp 2.", a: false, why: "Không người thật nào cao 999cm — đó là outlier do lỗi nhập." },
+  { q: "Chiều cao 999 cm là dữ liệu hợp lệ cho học sinh cấp 2.", a: false, why: "Không người thật nào cao 999cm - đó là outlier do lỗi nhập." },
 ];
 const DD_PAIRS = [
-  { a: "Missing", b: "Ô trống — chưa có giá trị" },
+  { a: "Missing", b: "Ô trống - chưa có giá trị" },
   { a: "Outlier", b: "Giá trị bất thường, lệch hẳn nhóm" },
   { a: "Duplicate", b: "Bản ghi bị lặp lại" },
   { a: "Imputation", b: "Điền giá trị thiếu bằng ước lượng" },
@@ -106,7 +106,7 @@ const DataDetectiveSandbox = () => {
         }`}
         title={isDirty ? "Click để làm sạch" : ""}
       >
-        {value === "" ? "—" : value}
+        {value === "" ? "-" : value}
         {isDirty && <Trash2 className="inline w-3 h-3 ml-1" />}
       </button>
     );
@@ -151,7 +151,7 @@ const DataDetectiveSandbox = () => {
               exit={{ opacity: 0 }}
               className="mt-3 flex items-center gap-2 text-emerald-500 font-semibold text-sm"
             >
-              <CheckCircle2 className="w-4 h-4" /> Tuyệt vời! Dữ liệu đã sạch — AI sẵn sàng học.
+              <CheckCircle2 className="w-4 h-4" /> Tuyệt vời! Dữ liệu đã sạch - AI sẵn sàng học.
               <Sparkles className="w-4 h-4" />
             </motion.div>
           )}

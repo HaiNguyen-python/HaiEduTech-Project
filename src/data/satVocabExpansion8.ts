@@ -1,6 +1,6 @@
 /**
  * @file satVocabExpansion8.ts
- * @description SAT Vocabulary Expansion #8 — high-frequency Reading & Writing
+ * @description SAT Vocabulary Expansion #8 - high-frequency Reading & Writing
  * lexis (Words in Context, Rhetorical Synthesis) plus extra Math glossary terms.
  */
 import type { SatWord } from "./satVocabData";
@@ -18,7 +18,7 @@ const w = (
 ): SatWord => ({ word, ipa, level, definition: { en: "", vi }, example, category, partOfSpeech, section });
 
 export const satVocabExpansion8: SatWord[] = [
-  // ===== Reading & Writing — Words in Context =====
+  // ===== Reading & Writing - Words in Context =====
   w("abate", "/əˈbeɪt/", "C1", "giảm bớt, suy yếu", "The storm finally began to abate by dawn.", "Words in Context", "verb"),
   w("aberration", "/ˌæbəˈreɪʃən/", "C1", "sự lệch lạc, bất thường", "The poor sales figure was an aberration in an otherwise strong year.", "Words in Context", "noun"),
   w("acquiesce", "/ˌæk.wiˈes/", "C1", "miễn cưỡng đồng ý", "She acquiesced to the committee's decision despite her doubts.", "Words in Context", "verb"),

@@ -66,7 +66,7 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
   const [showTranscript, setShowTranscript] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [paused, setPaused] = useState(false);
-  // Slower, more natural default — matches real exam pacing.
+  // Slower, more natural default - matches real exam pacing.
   const [rate, setRate] = useState(s.rate ?? 0.85);
   const chunkTimerRef = useRef<number | null>(null);
   const cancelledRef = useRef(false);
@@ -541,10 +541,10 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
                     className="text-xs bg-background border border-border rounded px-2 py-1"
                     title={t("Tốc độ phát", "Playback speed")}
                   >
-                    <option value={0.7}>0.7x — {t("rất chậm", "very slow")}</option>
-                    <option value={0.85}>0.85x — {t("tự nhiên", "natural")}</option>
-                    <option value={0.95}>0.95x — {t("đề thi thật", "exam pace")}</option>
-                    <option value={1.1}>1.1x — {t("nhanh", "fast")}</option>
+                    <option value={0.7}>0.7x - {t("rất chậm", "very slow")}</option>
+                    <option value={0.85}>0.85x - {t("tự nhiên", "natural")}</option>
+                    <option value={0.95}>0.95x - {t("đề thi thật", "exam pace")}</option>
+                    <option value={1.1}>1.1x - {t("nhanh", "fast")}</option>
                   </select>
 
                   <Button onClick={() => setShowTranscript(v => !v)} size="sm" variant="ghost" className="gap-2">
@@ -556,7 +556,7 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
             </div>
           </div>
 
-          {/* Seekable progress bar — hidden during exam mode to mimic real test */}
+          {/* Seekable progress bar - hidden during exam mode to mimic real test */}
           {!examMode && (
             <div className="flex items-center gap-3 pt-1">
               <span className="text-xs font-mono text-muted-foreground tabular-nums w-10 text-right">
@@ -597,7 +597,7 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
             <div className="mt-2 rounded-lg bg-background border border-border overflow-hidden">
               <div className="px-3 py-1.5 bg-muted/60 text-xs font-semibold text-foreground border-b border-border">
                 {submitted
-                  ? t("📝 Script — đáp án được tô vàng", "📝 Transcript — answers highlighted")
+                  ? t("📝 Script - đáp án được tô vàng", "📝 Transcript - answers highlighted")
                   : t("📝 Script bài nghe", "📝 Listening transcript")}
               </div>
               <div

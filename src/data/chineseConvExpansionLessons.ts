@@ -41,7 +41,7 @@ export const dailyLifeExpansion: ChineseConvLesson[] = [
         descriptionVi: "Sharing vacation ideas with friends",
         sampleDialogue: [
           { speaker: "Friend A", line: "国庆节你打算去哪儿？", pinyin: "Guóqìngjié nǐ dǎsuàn qù nǎr?", translationEn: "Where are you planning to go for National Day?" },
-          { speaker: "Friend B", line: "我想去云南，听说那里风景很美。", pinyin: "Wǒ xiǎng qù Yúnnán, tīngshuō nàlǐ fēngjǐng hěn měi.", translationEn: "I want to go to Yunnan — I hear the scenery is beautiful." },
+          { speaker: "Friend B", line: "我想去云南，听说那里风景很美。", pinyin: "Wǒ xiǎng qù Yúnnán, tīngshuō nàlǐ fēngjǐng hěn měi.", translationEn: "I want to go to Yunnan - I hear the scenery is beautiful." },
         ],
       },
     ],
@@ -119,7 +119,7 @@ export const dailyLifeExpansion: ChineseConvLesson[] = [
         description: "Using Meituan or Eleme to order food",
         descriptionVi: "Using Meituan or Eleme to order food",
         sampleDialogue: [
-          { speaker: "Customer", line: "我用美团点了外卖，半小时就到。", pinyin: "Wǒ yòng Měituán diǎn le wàimài, bàn xiǎoshí jiù dào.", translationEn: "I ordered delivery on Meituan — it'll arrive in half an hour." },
+          { speaker: "Customer", line: "我用美团点了外卖，半小时就到。", pinyin: "Wǒ yòng Měituán diǎn le wàimài, bàn xiǎoshí jiù dào.", translationEn: "I ordered delivery on Meituan - it'll arrive in half an hour." },
         ],
       },
     ],
@@ -150,7 +150,7 @@ export const dailyLifeExpansion: ChineseConvLesson[] = [
       titleVi: "Splitting the Bill on WeChat",
       transcript: "今天我们一共五个人吃饭，总共两百块。我先付，然后用微信发AA收款，每个人四十块。",
       transcriptPinyin: "Jīntiān wǒmen yígòng wǔ ge rén chīfàn, zǒnggòng liǎngbǎi kuài. Wǒ xiān fù, ránhòu yòng Wēixìn fā AA shōukuǎn, měi ge rén sìshí kuài.",
-      transcriptEn: "Today there are 5 of us eating, the total is 200 yuan. I'll pay first, then use WeChat to send a split bill — 40 yuan per person.",
+      transcriptEn: "Today there are 5 of us eating, the total is 200 yuan. I'll pay first, then use WeChat to send a split bill - 40 yuan per person.",
       questions: [
         { q: "How many people are eating?", qVi: "How many people are eating?", options: ["3", "4", "5", "6"], answer: 2 },
         { q: "How much per person?", qVi: "How much per person?", options: ["30", "40", "50", "60"], answer: 1 },
@@ -182,10 +182,10 @@ export const dailyLifeExpansion: ChineseConvLesson[] = [
         titleVi: "Introducing Your Family",
         description: "Showing family photos to a friend",
         descriptionVi: "Showing family photos to a friend",
-        culturalNote: "In Chinese, family titles are very specific. 哥哥 (older brother) and 弟弟 (younger brother) are different words — age order matters.",
+        culturalNote: "In Chinese, family titles are very specific. 哥哥 (older brother) and 弟弟 (younger brother) are different words - age order matters.",
         culturalNoteVi: "In Chinese, family titles are very specific. Age order matters.",
         sampleDialogue: [
-          { speaker: "A", line: "这是我的家人，我们一共五口人。", pinyin: "Zhè shì wǒ de jiārén, wǒmen yígòng wǔ kǒu rén.", translationEn: "This is my family — there are five of us." },
+          { speaker: "A", line: "这是我的家人，我们一共五口人。", pinyin: "Zhè shì wǒ de jiārén, wǒmen yígòng wǔ kǒu rén.", translationEn: "This is my family - there are five of us." },
           { speaker: "B", line: "你有兄弟姐妹吗？", pinyin: "Nǐ yǒu xiōngdì jiěmèi ma?", translationEn: "Do you have siblings?" },
           { speaker: "A", line: "我有一个哥哥和一个妹妹。", pinyin: "Wǒ yǒu yí ge gēge hé yí ge mèimei.", translationEn: "I have one older brother and one younger sister." },
         ],
@@ -260,7 +260,7 @@ export const dailyLifeExpansion: ChineseConvLesson[] = [
         titleVi: "Talking About Studies",
         description: "Discussing university major and courses",
         descriptionVi: "Discussing university major and courses",
-        culturalNote: "The Gaokao (高考) is the national college entrance exam in China — extremely competitive and a major life event for students.",
+        culturalNote: "The Gaokao (高考) is the national college entrance exam in China - extremely competitive and a major life event for students.",
         culturalNoteVi: "The Gaokao is the national college entrance exam in China.",
         sampleDialogue: [
           { speaker: "A", line: "你在哪所大学读书？", pinyin: "Nǐ zài nǎ suǒ dàxué dúshū?", translationEn: "Which university do you study at?" },
@@ -275,7 +275,7 @@ export const dailyLifeExpansion: ChineseConvLesson[] = [
         description: "Talking about exam stress",
         descriptionVi: "Talking about exam stress",
         sampleDialogue: [
-          { speaker: "A", line: "下周就要考试了，我好紧张。", pinyin: "Xià zhōu jiù yào kǎoshì le, wǒ hǎo jǐnzhāng.", translationEn: "The exam is next week — I'm so nervous." },
+          { speaker: "A", line: "下周就要考试了，我好紧张。", pinyin: "Xià zhōu jiù yào kǎoshì le, wǒ hǎo jǐnzhāng.", translationEn: "The exam is next week - I'm so nervous." },
           { speaker: "B", line: "别担心，加油！", pinyin: "Bié dānxīn, jiāyóu!", translationEn: "Don't worry, you got this!" },
         ],
       },
@@ -417,7 +417,7 @@ export const businessExpansion: ChineseConvLesson[] = [
         titleVi: "Exchanging Business Cards",
         description: "Meeting a new contact at a conference",
         descriptionVi: "Meeting a new contact at a conference",
-        culturalNote: "Always present and receive business cards (名片) with both hands. Look at the card carefully before putting it away — it shows respect.",
+        culturalNote: "Always present and receive business cards (名片) with both hands. Look at the card carefully before putting it away - it shows respect.",
         culturalNoteVi: "Always present and receive business cards with both hands.",
         sampleDialogue: [
           { speaker: "A", line: "您好，这是我的名片，请多关照。", pinyin: "Nín hǎo, zhè shì wǒ de míngpiàn, qǐng duō guānzhào.", translationEn: "Hello, here is my business card. I look forward to working with you." },
@@ -554,7 +554,7 @@ export const businessExpansion: ChineseConvLesson[] = [
         description: "Discussing performance with manager",
         descriptionVi: "Discussing performance with manager",
         sampleDialogue: [
-          { speaker: "Manager", line: "你今年的表现非常出色，超额完成了KPI。", pinyin: "Nǐ jīnnián de biǎoxiàn fēicháng chūsè, chāo'é wánchéng le KPI.", translationEn: "Your performance this year was outstanding — you exceeded your KPIs." },
+          { speaker: "Manager", line: "你今年的表现非常出色，超额完成了KPI。", pinyin: "Nǐ jīnnián de biǎoxiàn fēicháng chūsè, chāo'é wánchéng le KPI.", translationEn: "Your performance this year was outstanding - you exceeded your KPIs." },
           { speaker: "Employee", line: "谢谢您的认可，我会继续努力。", pinyin: "Xièxie nín de rènkě, wǒ huì jìxù nǔlì.", translationEn: "Thank you for the recognition, I'll keep working hard." },
           { speaker: "Manager", line: "公司决定给你加薪百分之十五。", pinyin: "Gōngsī juédìng gěi nǐ jiā xīn bǎi fēn zhī shíwǔ.", translationEn: "The company has decided to give you a 15% raise." },
           { speaker: "Employee", line: "太感谢了！", pinyin: "Tài gǎnxiè le!", translationEn: "Thank you so much!" },
@@ -653,7 +653,7 @@ export const businessExpansion: ChineseConvLesson[] = [
       titleVi: "Customer Service Call",
       transcript: "您好，我上周买的手机有问题，开机后屏幕一直闪。我希望能换一台新的，或者全额退款。",
       transcriptPinyin: "Nín hǎo, wǒ shàng zhōu mǎi de shǒujī yǒu wèntí, kāijī hòu píngmù yìzhí shǎn. Wǒ xīwàng néng huàn yì tái xīn de, huòzhě quán'é tuìkuǎn.",
-      transcriptEn: "Hello, the phone I bought last week has issues — the screen keeps flickering after powering on. I'd like to exchange it for a new one or get a full refund.",
+      transcriptEn: "Hello, the phone I bought last week has issues - the screen keeps flickering after powering on. I'd like to exchange it for a new one or get a full refund.",
       questions: [
         { q: "What's the problem?", qVi: "What's the problem?", options: ["Battery dies", "Screen flickers", "No sound", "Won't turn on"], answer: 1 },
         { q: "What does the customer want?", qVi: "What does the customer want?", options: ["Repair", "Discount", "Exchange or refund", "Apology"], answer: 2 },
@@ -722,7 +722,7 @@ export const businessExpansion: ChineseConvLesson[] = [
       titleVi: "Doing Business in China",
       transcript: "在中国做生意，关系和面子非常重要。建立信任需要时间，吃饭、喝酒、送礼都是建立关系的方式。",
       transcriptPinyin: "Zài Zhōngguó zuò shēngyì, guānxì hé miànzi fēicháng zhòngyào. Jiànlì xìnrèn xūyào shíjiān, chīfàn, hē jiǔ, sòng lǐ dōu shì jiànlì guānxì de fāngshì.",
-      transcriptEn: "Doing business in China, guanxi and face are extremely important. Building trust takes time — eating together, drinking, and gift-giving are all ways to build relationships.",
+      transcriptEn: "Doing business in China, guanxi and face are extremely important. Building trust takes time - eating together, drinking, and gift-giving are all ways to build relationships.",
       questions: [
         { q: "What's most important in Chinese business?", qVi: "What's most important in Chinese business?", options: ["Speed", "Price", "Guanxi & face", "Quality"], answer: 2 },
         { q: "How do you build trust?", qVi: "How do you build trust?", options: ["Quickly", "Through time and shared activities", "By signing contracts", "Through emails"], answer: 1 },
@@ -759,7 +759,7 @@ export const socialExpansion: ChineseConvLesson[] = [
         sampleDialogue: [
           { speaker: "A", line: "你最喜欢什么类型的音乐？", pinyin: "Nǐ zuì xǐhuān shénme lèixíng de yīnyuè?", translationEn: "What kind of music do you like most?" },
           { speaker: "B", line: "我喜欢流行音乐，特别是周杰伦的歌。", pinyin: "Wǒ xǐhuān liúxíng yīnyuè, tèbié shì Zhōu Jiélún de gē.", translationEn: "I like pop music, especially Jay Chou's songs." },
-          { speaker: "A", line: "他的演唱会我也去过，超级精彩！", pinyin: "Tā de yǎnchànghuì wǒ yě qù guò, chāojí jīngcǎi!", translationEn: "I've been to his concert too — super amazing!" },
+          { speaker: "A", line: "他的演唱会我也去过，超级精彩！", pinyin: "Tā de yǎnchànghuì wǒ yě qù guò, chāojí jīngcǎi!", translationEn: "I've been to his concert too - super amazing!" },
         ],
       },
       {
@@ -769,7 +769,7 @@ export const socialExpansion: ChineseConvLesson[] = [
         descriptionVi: "Discussing ticket prices and seats",
         sampleDialogue: [
           { speaker: "A", line: "下个月的演唱会门票卖得很快。", pinyin: "Xià ge yuè de yǎnchànghuì ménpiào mài de hěn kuài.", translationEn: "Next month's concert tickets are selling fast." },
-          { speaker: "B", line: "我抢到了第三排，太幸运了！", pinyin: "Wǒ qiǎng dào le dì sān pái, tài xìngyùn le!", translationEn: "I grabbed third row tickets — so lucky!" },
+          { speaker: "B", line: "我抢到了第三排，太幸运了！", pinyin: "Wǒ qiǎng dào le dì sān pái, tài xìngyùn le!", translationEn: "I grabbed third row tickets - so lucky!" },
         ],
       },
     ],
@@ -799,7 +799,7 @@ export const socialExpansion: ChineseConvLesson[] = [
       titleVi: "A Concert Experience",
       transcript: "上周末我去看了周杰伦的演唱会。门票是我提前一个月抢的，第五排，超级近！现场有三万多个粉丝，气氛特别热烈。",
       transcriptPinyin: "Shàng zhōumò wǒ qù kàn le Zhōu Jiélún de yǎnchànghuì. Ménpiào shì wǒ tíqián yí ge yuè qiǎng de, dì wǔ pái, chāojí jìn! Xiànchǎng yǒu sān wàn duō ge fěnsī, qìfēn tèbié rèliè.",
-      transcriptEn: "Last weekend I went to a Jay Chou concert. I grabbed the tickets a month in advance — 5th row, super close! There were over 30,000 fans, and the atmosphere was extremely lively.",
+      transcriptEn: "Last weekend I went to a Jay Chou concert. I grabbed the tickets a month in advance - 5th row, super close! There were over 30,000 fans, and the atmosphere was extremely lively.",
       questions: [
         { q: "Whose concert?", qVi: "Whose concert?", options: ["Jay Chou", "JJ Lin", "Faye Wong", "Eason Chan"], answer: 0 },
         { q: "How many fans?", qVi: "How many fans?", options: ["10,000+", "20,000+", "30,000+", "50,000+"], answer: 2 },
@@ -833,8 +833,8 @@ export const socialExpansion: ChineseConvLesson[] = [
         descriptionVi: "Sharing a favorite read with a friend",
         sampleDialogue: [
           { speaker: "A", line: "最近有什么好书推荐吗？", pinyin: "Zuìjìn yǒu shénme hǎo shū tuījiàn ma?", translationEn: "Got any good book recommendations recently?" },
-          { speaker: "B", line: "我刚看完《活着》，余华写的，非常震撼。", pinyin: "Wǒ gāng kàn wán 《Huózhe》, Yú Huá xiě de, fēicháng zhènhàn.", translationEn: "I just finished 'To Live' by Yu Hua — really moving." },
-          { speaker: "A", line: "听起来很有意思，借我看看？", pinyin: "Tīng qǐlái hěn yǒu yìsi, jiè wǒ kànkan?", translationEn: "Sounds interesting — can I borrow it?" },
+          { speaker: "B", line: "我刚看完《活着》，余华写的，非常震撼。", pinyin: "Wǒ gāng kàn wán 《Huózhe》, Yú Huá xiě de, fēicháng zhènhàn.", translationEn: "I just finished 'To Live' by Yu Hua - really moving." },
+          { speaker: "A", line: "听起来很有意思，借我看看？", pinyin: "Tīng qǐlái hěn yǒu yìsi, jiè wǒ kànkan?", translationEn: "Sounds interesting - can I borrow it?" },
         ],
       },
     ],
@@ -864,7 +864,7 @@ export const socialExpansion: ChineseConvLesson[] = [
       titleVi: "Reading Habits",
       transcript: "我每天晚上睡觉前会看半小时的书。我最喜欢看历史小说，已经看了一百多本。最近开始尝试用电子书，更方便。",
       transcriptPinyin: "Wǒ měi tiān wǎnshang shuìjiào qián huì kàn bàn xiǎoshí de shū. Wǒ zuì xǐhuān kàn lìshǐ xiǎoshuō, yǐjīng kàn le yìbǎi duō běn. Zuìjìn kāishǐ chángshì yòng diànzǐ shū, gèng fāngbiàn.",
-      transcriptEn: "I read for half an hour every night before sleep. I love historical novels — I've read over 100. Recently I started trying e-books — much more convenient.",
+      transcriptEn: "I read for half an hour every night before sleep. I love historical novels - I've read over 100. Recently I started trying e-books - much more convenient.",
       questions: [
         { q: "How long does she read each night?", qVi: "How long does she read each night?", options: ["15 min", "30 min", "1 hour", "2 hours"], answer: 1 },
         { q: "Favorite genre?", qVi: "Favorite genre?", options: ["Romance", "Sci-fi", "Historical", "Mystery"], answer: 2 },
@@ -896,7 +896,7 @@ export const socialExpansion: ChineseConvLesson[] = [
         titleVi: "Talking About Healthy Lifestyle",
         description: "Sharing wellness tips with a friend",
         descriptionVi: "Sharing wellness tips with a friend",
-        culturalNote: "Traditional Chinese Medicine (中医) emphasizes balance — 阴阳 (yin/yang) and the five elements. Drinking hot water is a common health practice.",
+        culturalNote: "Traditional Chinese Medicine (中医) emphasizes balance - 阴阳 (yin/yang) and the five elements. Drinking hot water is a common health practice.",
         culturalNoteVi: "Traditional Chinese Medicine emphasizes balance.",
         sampleDialogue: [
           { speaker: "A", line: "你怎么保持身材这么好？", pinyin: "Nǐ zěnme bǎochí shēncái zhème hǎo?", translationEn: "How do you stay in such good shape?" },
@@ -919,8 +919,8 @@ export const socialExpansion: ChineseConvLesson[] = [
       {
         pattern: "少 / 多 + Verb",
         patternPinyin: "shǎo / duō + Verb",
-        explanation: "Less / more (do something) — used for advice",
-        explanationVi: "Less / more — for advice",
+        explanation: "Less / more (do something) - used for advice",
+        explanationVi: "Less / more - for advice",
         examples: [
           { zh: "少吃油，多喝水。", pinyin: "Shǎo chī yóu, duō hē shuǐ.", vi: "Eat less oil, drink more water.", en: "Eat less oil, drink more water." },
           { zh: "多运动，少熬夜。", pinyin: "Duō yùndòng, shǎo áoyè.", vi: "Exercise more, stay up less.", en: "Exercise more, stay up less." },
@@ -932,7 +932,7 @@ export const socialExpansion: ChineseConvLesson[] = [
       titleVi: "My Wellness Routine",
       transcript: "为了保持健康，我每周三次健身房，每天做半小时瑜伽。饮食方面少盐少糖，多吃蔬菜水果。睡眠也很重要，晚上十一点前睡觉。",
       transcriptPinyin: "Wèile bǎochí jiànkāng, wǒ měi zhōu sān cì jiànshēnfáng, měi tiān zuò bàn xiǎoshí yújiā. Yǐnshí fāngmiàn shǎo yán shǎo táng, duō chī shūcài shuǐguǒ. Shuìmián yě hěn zhòngyào, wǎnshang shíyī diǎn qián shuìjiào.",
-      transcriptEn: "To stay healthy, I go to the gym 3x per week and do yoga for 30 min daily. For diet, less salt and sugar, more vegetables and fruit. Sleep matters too — I go to bed before 11pm.",
+      transcriptEn: "To stay healthy, I go to the gym 3x per week and do yoga for 30 min daily. For diet, less salt and sugar, more vegetables and fruit. Sleep matters too - I go to bed before 11pm.",
       questions: [
         { q: "How often does she go to the gym?", qVi: "How often does she go to the gym?", options: ["1x/week", "2x/week", "3x/week", "Daily"], answer: 2 },
         { q: "When does she sleep?", qVi: "When does she sleep?", options: ["Before 10", "Before 11", "Before 12", "After 12"], answer: 1 },
@@ -968,7 +968,7 @@ export const socialExpansion: ChineseConvLesson[] = [
           { speaker: "A", line: "你去过哪些地方？", pinyin: "Nǐ qù guò nǎxiē dìfāng?", translationEn: "What places have you been to?" },
           { speaker: "B", line: "我去过日本、泰国、还有欧洲几个国家。", pinyin: "Wǒ qù guò Rìběn, Tàiguó, hái yǒu Ōuzhōu jǐ ge guójiā.", translationEn: "I've been to Japan, Thailand, and several European countries." },
           { speaker: "A", line: "最难忘的是哪次旅行？", pinyin: "Zuì nánwàng de shì nǎ cì lǚxíng?", translationEn: "What was your most memorable trip?" },
-          { speaker: "B", line: "去西藏的那次，风景太壮观了。", pinyin: "Qù Xīzàng de nà cì, fēngjǐng tài zhuàngguān le.", translationEn: "The trip to Tibet — the scenery was magnificent." },
+          { speaker: "B", line: "去西藏的那次，风景太壮观了。", pinyin: "Qù Xīzàng de nà cì, fēngjǐng tài zhuàngguān le.", translationEn: "The trip to Tibet - the scenery was magnificent." },
         ],
       },
     ],
@@ -999,7 +999,7 @@ export const socialExpansion: ChineseConvLesson[] = [
       titleVi: "Backpacking in Tibet",
       transcript: "去年我和两个朋友去西藏背包旅行了三个星期。我们坐火车从北京出发，到拉萨花了四十多个小时。高原反应很厉害，但是风景太美了。",
       transcriptPinyin: "Qùnián wǒ hé liǎng ge péngyǒu qù Xīzàng bēibāo lǚxíng le sān ge xīngqī. Wǒmen zuò huǒchē cóng Běijīng chūfā, dào Lāsà huā le sìshí duō ge xiǎoshí. Gāoyuán fǎnyìng hěn lìhài, dànshì fēngjǐng tài měi le.",
-      transcriptEn: "Last year I went backpacking in Tibet with 2 friends for 3 weeks. We took the train from Beijing — it took over 40 hours to reach Lhasa. Altitude sickness was tough, but the scenery was breathtaking.",
+      transcriptEn: "Last year I went backpacking in Tibet with 2 friends for 3 weeks. We took the train from Beijing - it took over 40 hours to reach Lhasa. Altitude sickness was tough, but the scenery was breathtaking.",
       questions: [
         { q: "How long was the trip?", qVi: "How long was the trip?", options: ["1 week", "2 weeks", "3 weeks", "1 month"], answer: 2 },
         { q: "How long did the train take?", qVi: "How long did the train take?", options: ["20+ hours", "30+ hours", "40+ hours", "50+ hours"], answer: 2 },

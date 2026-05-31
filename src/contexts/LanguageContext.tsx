@@ -16,7 +16,7 @@ interface LanguageContextType {
 }
 
 const detectDefaultLang = (): Lang => {
-  // Check localStorage first — respect user's saved preference
+  // Check localStorage first - respect user's saved preference
   const saved = localStorage.getItem("app-lang");
   if (saved === "vi" || saved === "en") return saved;
 

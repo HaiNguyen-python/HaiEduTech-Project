@@ -24,7 +24,7 @@ const XPStreakHUD = () => {
       confetti({ particleCount: 200, spread: 120, origin: { y: 0.5 } });
       toast({
         title: `🎉 Lên cấp! Bạn vừa thành ${current.emoji} ${current.name}`,
-        description: `Cấp ${current.level} — tiếp tục chinh phục AI nào!`,
+        description: `Cấp ${current.level} - tiếp tục chinh phục AI nào!`,
       });
       setPrevLevel(current.level);
     }

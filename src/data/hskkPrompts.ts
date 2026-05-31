@@ -2,7 +2,7 @@
  * @file hskkPrompts.ts
  * @description HSKK Speaking exam prompts (Sơ cấp / Trung cấp / Cao cấp)
  * Format 3 phần theo đề thật:
- *  - Part 1: 听后重复 (nghe rồi lặp lại) — đọc to câu mẫu
+ *  - Part 1: 听后重复 (nghe rồi lặp lại) - đọc to câu mẫu
  *  - Part 2: 听后回答 / 看图说话 (nghe rồi trả lời / nhìn ảnh nói)
  *  - Part 3: 回答问题 / 复述 (trả lời câu hỏi mở / thuật lại đoạn văn)
  * @author Teacher Hai (HaiEduTech)
@@ -41,7 +41,7 @@ export const HSKK_PART_META: Record<HskkPart, { labelVi: string; labelEn: string
 
 // ============ HSKK SƠ CẤP (HSK 1-2) ============
 const beginnerPrompts: HskkPrompt[] = [
-  // Part 1 — 15 câu lặp lại
+  // Part 1 - 15 câu lặp lại
   { id: "b1-1", level: "beginner", part: 1, hanzi: "我叫王明。", pinyin: "Wǒ jiào Wáng Míng.", vi: "Tôi tên là Vương Minh.", prepSeconds: 0, answerSeconds: 5 },
   { id: "b1-2", level: "beginner", part: 1, hanzi: "今天天气很好。", pinyin: "Jīntiān tiānqì hěn hǎo.", vi: "Hôm nay thời tiết rất đẹp.", prepSeconds: 0, answerSeconds: 5 },
   { id: "b1-3", level: "beginner", part: 1, hanzi: "我喜欢喝中国茶。", pinyin: "Wǒ xǐhuān hē Zhōngguó chá.", vi: "Tôi thích uống trà Trung Quốc.", prepSeconds: 0, answerSeconds: 5 },
@@ -57,7 +57,7 @@ const beginnerPrompts: HskkPrompt[] = [
   { id: "b1-13", level: "beginner", part: 1, hanzi: "我学习汉语两年了。", pinyin: "Wǒ xuéxí Hànyǔ liǎng nián le.", vi: "Tôi học tiếng Hán đã hai năm rồi.", prepSeconds: 0, answerSeconds: 5 },
   { id: "b1-14", level: "beginner", part: 1, hanzi: "周末你想做什么?", pinyin: "Zhōumò nǐ xiǎng zuò shénme?", vi: "Cuối tuần bạn muốn làm gì?", prepSeconds: 0, answerSeconds: 5 },
   { id: "b1-15", level: "beginner", part: 1, hanzi: "祝你生日快乐!", pinyin: "Zhù nǐ shēngrì kuàilè!", vi: "Chúc bạn sinh nhật vui vẻ!", prepSeconds: 0, answerSeconds: 5 },
-  // Part 2 — 10 câu hỏi trả lời ngắn
+  // Part 2 - 10 câu hỏi trả lời ngắn
   { id: "b2-1", level: "beginner", part: 2, hanzi: "你叫什么名字?", pinyin: "Nǐ jiào shénme míngzi?", vi: "Bạn tên là gì?", prepSeconds: 10, answerSeconds: 15, hint: "Trả lời: 我叫... / Tôi tên là..." },
   { id: "b2-2", level: "beginner", part: 2, hanzi: "你今年多大了?", pinyin: "Nǐ jīnnián duō dà le?", vi: "Năm nay bạn bao nhiêu tuổi?", prepSeconds: 10, answerSeconds: 15, hint: "Trả lời: 我今年...岁。" },
   { id: "b2-3", level: "beginner", part: 2, hanzi: "你家在哪儿?", pinyin: "Nǐ jiā zài nǎr?", vi: "Nhà bạn ở đâu?", prepSeconds: 10, answerSeconds: 15 },
@@ -72,7 +72,7 @@ const beginnerPrompts: HskkPrompt[] = [
 
 // ============ HSKK TRUNG CẤP (HSK 3-4) ============
 const intermediatePrompts: HskkPrompt[] = [
-  // Part 1 — 10 câu lặp lại (dài hơn)
+  // Part 1 - 10 câu lặp lại (dài hơn)
   { id: "i1-1", level: "intermediate", part: 1, hanzi: "我打算下个月去上海出差,大概住一个星期。", pinyin: "Wǒ dǎsuàn xià gè yuè qù Shànghǎi chūchāi, dàgài zhù yí gè xīngqī.", vi: "Tháng sau tôi định đi công tác Thượng Hải, ở khoảng một tuần.", prepSeconds: 0, answerSeconds: 10 },
   { id: "i1-2", level: "intermediate", part: 1, hanzi: "随着经济的发展,人们的生活水平越来越高了。", pinyin: "Suízhe jīngjì de fāzhǎn, rénmen de shēnghuó shuǐpíng yuè lái yuè gāo le.", vi: "Cùng với sự phát triển kinh tế, mức sống của người dân ngày càng cao.", prepSeconds: 0, answerSeconds: 10 },
   { id: "i1-3", level: "intermediate", part: 1, hanzi: "虽然这件事很难,但是我相信我们一定能解决。", pinyin: "Suīrán zhè jiàn shì hěn nán, dànshì wǒ xiāngxìn wǒmen yídìng néng jiějué.", vi: "Tuy việc này khó nhưng tôi tin chúng ta nhất định giải quyết được.", prepSeconds: 0, answerSeconds: 10 },
@@ -83,9 +83,9 @@ const intermediatePrompts: HskkPrompt[] = [
   { id: "i1-8", level: "intermediate", part: 1, hanzi: "环境保护是每个人的责任,我们都应该出一份力。", pinyin: "Huánjìng bǎohù shì měi gè rén de zérèn, wǒmen dōu yīnggāi chū yí fèn lì.", vi: "Bảo vệ môi trường là trách nhiệm của mỗi người, ai cũng nên góp sức.", prepSeconds: 0, answerSeconds: 10 },
   { id: "i1-9", level: "intermediate", part: 1, hanzi: "经过多年的努力,他终于实现了自己的梦想。", pinyin: "Jīngguò duō nián de nǔlì, tā zhōngyú shíxiàn le zìjǐ de mèngxiǎng.", vi: "Sau nhiều năm nỗ lực, anh ấy cuối cùng đã thực hiện được ước mơ.", prepSeconds: 0, answerSeconds: 10 },
   { id: "i1-10", level: "intermediate", part: 1, hanzi: "学习一门外语既需要兴趣,也需要长期的坚持。", pinyin: "Xuéxí yì mén wàiyǔ jì xūyào xìngqù, yě xūyào chángqī de jiānchí.", vi: "Học một ngoại ngữ vừa cần hứng thú, vừa cần kiên trì lâu dài.", prepSeconds: 0, answerSeconds: 10 },
-  // Part 2 — 10 câu hỏi suy nghĩ
+  // Part 2 - 10 câu hỏi suy nghĩ
   { id: "i2-1", level: "intermediate", part: 2, hanzi: "请你谈一谈你的家乡。", pinyin: "Qǐng nǐ tán yi tán nǐ de jiāxiāng.", vi: "Hãy nói về quê hương của bạn.", prepSeconds: 10, answerSeconds: 60, hint: "Vị trí, đặc sản, con người, cảnh đẹp." },
-  { id: "i2-2", level: "intermediate", part: 2, hanzi: "你认为学习汉语最难的是什么?", pinyin: "Nǐ rènwéi xuéxí Hànyǔ zuì nán de shì shénme?", vi: "Bạn cho rằng phần khó nhất khi học tiếng Hán là gì?", prepSeconds: 10, answerSeconds: 60, hint: "Phát âm thanh điệu / chữ Hán / ngữ pháp — cho ví dụ." },
+  { id: "i2-2", level: "intermediate", part: 2, hanzi: "你认为学习汉语最难的是什么?", pinyin: "Nǐ rènwéi xuéxí Hànyǔ zuì nán de shì shénme?", vi: "Bạn cho rằng phần khó nhất khi học tiếng Hán là gì?", prepSeconds: 10, answerSeconds: 60, hint: "Phát âm thanh điệu / chữ Hán / ngữ pháp - cho ví dụ." },
   { id: "i2-3", level: "intermediate", part: 2, hanzi: "你最喜欢的一本书是什么?为什么?", pinyin: "Nǐ zuì xǐhuān de yì běn shū shì shénme? Wèishéme?", vi: "Cuốn sách bạn thích nhất là gì? Vì sao?", prepSeconds: 10, answerSeconds: 60 },
   { id: "i2-4", level: "intermediate", part: 2, hanzi: "请介绍一下你的家庭。", pinyin: "Qǐng jièshào yíxià nǐ de jiātíng.", vi: "Hãy giới thiệu về gia đình bạn.", prepSeconds: 10, answerSeconds: 60 },
   { id: "i2-5", level: "intermediate", part: 2, hanzi: "你觉得手机给我们的生活带来了什么变化?", pinyin: "Nǐ juéde shǒujī gěi wǒmen de shēnghuó dài lái le shénme biànhuà?", vi: "Bạn thấy điện thoại đã mang lại thay đổi gì cho cuộc sống chúng ta?", prepSeconds: 10, answerSeconds: 60 },
@@ -98,11 +98,11 @@ const intermediatePrompts: HskkPrompt[] = [
 
 // ============ HSKK CAO CẤP (HSK 5-6) ============
 const advancedPrompts: HskkPrompt[] = [
-  // Part 1 — 3 câu nghe → diễn đạt lại (paraphrase)
+  // Part 1 - 3 câu nghe → diễn đạt lại (paraphrase)
   { id: "a1-1", level: "advanced", part: 1, hanzi: "随着科技的迅速发展,人工智能已经深入到我们生活的方方面面,既带来了便利,也引发了许多关于就业和伦理的讨论。", pinyin: "Suízhe kējì de xùnsù fāzhǎn, réngōng zhìnéng yǐjīng shēnrù dào wǒmen shēnghuó de fāngfāngmiànmiàn, jì dài lái le biànlì, yě yǐnfā le xǔduō guānyú jiùyè hé lúnlǐ de tǎolùn.", vi: "Cùng sự phát triển nhanh chóng của công nghệ, AI đã thấm vào mọi mặt cuộc sống, vừa mang lại tiện lợi vừa làm dấy lên nhiều tranh luận về việc làm và đạo đức.", prepSeconds: 10, answerSeconds: 30, hint: "Tóm tắt 2-3 câu chính + thêm 1 ví dụ." },
   { id: "a1-2", level: "advanced", part: 1, hanzi: "全球气候变化对人类社会构成了严峻挑战,各国必须加强合作,共同寻求可持续发展的解决方案。", pinyin: "Quánqiú qìhòu biànhuà duì rénlèi shèhuì gòuchéng le yánjùn tiǎozhàn, gèguó bìxū jiāqiáng hézuò, gòngtóng xúnqiú kěchíxù fāzhǎn de jiějué fāng'àn.", vi: "Biến đổi khí hậu toàn cầu là thách thức nghiêm trọng cho nhân loại, các nước cần tăng cường hợp tác để cùng tìm giải pháp phát triển bền vững.", prepSeconds: 10, answerSeconds: 30 },
   { id: "a1-3", level: "advanced", part: 1, hanzi: "教育的本质不仅在于传授知识,更在于培养独立思考的能力和终身学习的习惯。", pinyin: "Jiàoyù de běnzhí bùjǐn zàiyú chuánshòu zhīshi, gèng zàiyú péiyǎng dúlì sīkǎo de nénglì hé zhōngshēn xuéxí de xíguàn.", vi: "Bản chất của giáo dục không chỉ là truyền đạt kiến thức mà còn là bồi dưỡng năng lực tư duy độc lập và thói quen học tập suốt đời.", prepSeconds: 10, answerSeconds: 30 },
-  // Part 2 — 2 đề luận điểm (2-3 phút)
+  // Part 2 - 2 đề luận điểm (2-3 phút)
   { id: "a2-1", level: "advanced", part: 2, hanzi: "请就\"年轻人应该选择稳定的工作还是追求自己的梦想\"发表你的看法。", pinyin: "Qǐng jiù \"niánqīng rén yīnggāi xuǎnzé wěndìng de gōngzuò háishì zhuīqiú zìjǐ de mèngxiǎng\" fābiǎo nǐ de kànfǎ.", vi: "Hãy nêu quan điểm về việc \"người trẻ nên chọn công việc ổn định hay theo đuổi ước mơ\".", prepSeconds: 30, answerSeconds: 150, hint: "Luận điểm rõ ràng + 2 lý do + ví dụ + kết luận." },
   { id: "a2-2", level: "advanced", part: 2, hanzi: "请谈谈你对\"读万卷书,行万里路\"这句话的理解。", pinyin: "Qǐng tántan nǐ duì \"dú wàn juàn shū, xíng wàn lǐ lù\" zhè jù huà de lǐjiě.", vi: "Hãy nói cách bạn hiểu câu \"đọc vạn quyển sách, đi vạn dặm đường\".", prepSeconds: 30, answerSeconds: 150 },
   { id: "a2-3", level: "advanced", part: 2, hanzi: "请谈谈你认为成功最重要的因素是什么。", pinyin: "Qǐng tántan nǐ rènwéi chénggōng zuì zhòngyào de yīnsù shì shénme.", vi: "Hãy nói về yếu tố mà bạn cho là quan trọng nhất dẫn đến thành công.", prepSeconds: 30, answerSeconds: 150 },

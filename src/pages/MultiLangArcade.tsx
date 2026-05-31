@@ -1,7 +1,7 @@
 /**
- * MultiLangArcade — extra arcade hub featuring two new graphic-rich mini-games:
- *  1) "Word Meteor" — falling-word reaction game (works for EN / ZH / VI / FI).
- *  2) "Code Galaxy" — programming syntax sorting (Foundations / Data / AI tracks).
+ * MultiLangArcade - extra arcade hub featuring two new graphic-rich mini-games:
+ *  1) "Word Meteor" - falling-word reaction game (works for EN / ZH / VI / FI).
+ *  2) "Code Galaxy" - programming syntax sorting (Foundations / Data / AI tracks).
  * Self-contained: no extra deps beyond what the project already uses (lucide-react,
  * framer-motion, tailwind tokens).
  */
@@ -368,7 +368,7 @@ export default function MultiLangArcade() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
-                  <span>{meta.emoji} Word Meteor — {meta.label}</span>
+                  <span>{meta.emoji} Word Meteor - {meta.label}</span>
                   <div className="flex gap-1">
                     {(Object.keys(LANG_META) as LangKey[]).map((k) => (
                       <Button
@@ -392,7 +392,7 @@ export default function MultiLangArcade() {
           <TabsContent value="galaxy">
             <Card>
               <CardHeader>
-                <CardTitle>🌌 Code Galaxy — Sort Snippets by Category</CardTitle>
+                <CardTitle>🌌 Code Galaxy - Sort Snippets by Category</CardTitle>
               </CardHeader>
               <CardContent>
                 <CodeGalaxyGame />

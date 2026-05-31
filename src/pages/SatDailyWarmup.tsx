@@ -72,7 +72,7 @@ const buildDailyPool = (): Q[] => {
       question: `Which word means "${w.definition.vi}"?`,
       options,
       answer: options.indexOf(w.word),
-      explanation: `${w.word} — ${w.example}`,
+      explanation: `${w.word} - ${w.example}`,
       moduleId: "sat-vocab",
       lessonId: "expansion",
     } as Q;
@@ -157,7 +157,7 @@ const SatDailyWarmup = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-secondary/10">
       <Helmet>
-        <title>{t("Khởi động SAT mỗi ngày — HaiEduTech", "SAT Daily Warm-up — HaiEduTech")}</title>
+        <title>{t("Khởi động SAT mỗi ngày - HaiEduTech", "SAT Daily Warm-up - HaiEduTech")}</title>
       </Helmet>
       <Navbar />
       <main className="container mx-auto px-4 py-8 max-w-3xl">
@@ -174,7 +174,7 @@ const SatDailyWarmup = () => {
             </h1>
           </div>
           <p className="text-sm text-muted-foreground">
-            {t("2 Reading & Writing · 2 Math · 1 Vocab. Đổi mỗi ngày, giữ chuỗi streak.", "2 Reading & Writing · 2 Math · 1 Vocab. Refreshes daily — keep your streak alive.")}
+            {t("2 Reading & Writing · 2 Math · 1 Vocab. Đổi mỗi ngày, giữ chuỗi streak.", "2 Reading & Writing · 2 Math · 1 Vocab. Refreshes daily - keep your streak alive.")}
           </p>
           {savedToday && (
             <p className="mt-2 text-sm font-semibold text-emerald-700 dark:text-emerald-300">

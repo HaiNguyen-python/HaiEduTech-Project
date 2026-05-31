@@ -11,7 +11,7 @@ import type { ToeicLRExam, ToeicSWExam } from "./toeicExams";
 // ---- LR Practice Test 03: Office & Operations ----
 const LR_03: ToeicLRExam = {
   id: "lr-03",
-  title: "TOEIC LR Practice Test 03 — Office & Operations",
+  title: "TOEIC LR Practice Test 03 - Office & Operations",
   series: "HaiEdu Series 2025",
   durationSec: 7200,
   questions: [
@@ -82,7 +82,7 @@ const LR_03: ToeicLRExam = {
       ],
       answer: 0,
       transcript: "Q: Should we drive or take the subway?\nA: I'd rather take the bus.",
-      explanation: "Câu hỏi lựa chọn (or) — 'I'd rather...' đề xuất phương án khác.",
+      explanation: "Câu hỏi lựa chọn (or) - 'I'd rather...' đề xuất phương án khác.",
     },
     {
       id: "lr3-p2-4",
@@ -226,7 +226,7 @@ const LR_03: ToeicLRExam = {
       part: 6,
       passage:
         "Dear Mr. Adams,\n\nWe would like to invite you to speak at our [BLANK1] industry conference on October 14. Your insights into supply chain innovation would be invaluable to our attendees. Please [BLANK2] us know whether you are available by September 1.\n\nWarm regards,\nEvent Committee",
-      prompt: "BLANK1 — choose the best option:",
+      prompt: "BLANK1 - choose the best option:",
       options: ["annual", "annually", "annualize", "annuals"],
       answer: 0,
       explanation: "Tính từ trước danh từ 'industry conference' → annual.",
@@ -236,7 +236,7 @@ const LR_03: ToeicLRExam = {
       id: "lr3-p6-2",
       part: 6,
       passage: "(See email above)",
-      prompt: "BLANK2 — choose the best option:",
+      prompt: "BLANK2 - choose the best option:",
       options: ["let", "letting", "lets", "to let"],
       answer: 0,
       explanation: "'Please + V nguyên mẫu' → let.",
@@ -262,7 +262,7 @@ const LR_03: ToeicLRExam = {
       id: "lr3-p7-1",
       part: 7,
       passage:
-        "ANNOUNCEMENT — Office Move\nGreenline Consulting will relocate to the 12th floor of the Pearl Tower on March 30. The move will take place over the weekend, so all operations will resume normally on Monday, April 1. Please pack personal items by Friday, March 28. IT will handle all computer equipment.",
+        "ANNOUNCEMENT - Office Move\nGreenline Consulting will relocate to the 12th floor of the Pearl Tower on March 30. The move will take place over the weekend, so all operations will resume normally on Monday, April 1. Please pack personal items by Friday, March 28. IT will handle all computer equipment.",
       prompt: "When will normal operations resume?",
       options: ["March 28", "March 30", "April 1", "April 5"],
       answer: 2,
@@ -295,7 +295,7 @@ const LR_03: ToeicLRExam = {
       id: "lr3-p7-4",
       part: 7,
       passage:
-        "Customer Review — Aurora Café\n★★★★☆ Posted by Maria L. on June 3\nI visited Aurora Café for breakfast last weekend and was impressed by the cozy atmosphere and friendly staff. The pancakes were fluffy and the coffee was excellent. The only minor downside was the wait — about 25 minutes for a table on a Sunday morning. I would still highly recommend it for brunch lovers.",
+        "Customer Review - Aurora Café\n★★★★☆ Posted by Maria L. on June 3\nI visited Aurora Café for breakfast last weekend and was impressed by the cozy atmosphere and friendly staff. The pancakes were fluffy and the coffee was excellent. The only minor downside was the wait - about 25 minutes for a table on a Sunday morning. I would still highly recommend it for brunch lovers.",
       prompt: "What did the reviewer like most?",
       options: [
         "The fast service",
@@ -319,7 +319,7 @@ const LR_03: ToeicLRExam = {
       id: "lr3-p7-6",
       part: 7,
       passage:
-        "Sale Notice — Nordic Furniture\nFrom July 1 to July 14, all sofas and armchairs will be 20% off. Members of our loyalty program receive an additional 5% discount. Free delivery applies to purchases over $500. Visit any of our four showrooms or order online at nordicfurniture.com.",
+        "Sale Notice - Nordic Furniture\nFrom July 1 to July 14, all sofas and armchairs will be 20% off. Members of our loyalty program receive an additional 5% discount. Free delivery applies to purchases over $500. Visit any of our four showrooms or order online at nordicfurniture.com.",
       prompt: "How long is the sale?",
       options: ["7 days", "10 days", "14 days", "30 days"],
       answer: 2,
@@ -359,7 +359,7 @@ const LR_03: ToeicLRExam = {
 // ---- LR Practice Test 04: Travel & Hospitality ----
 const LR_04: ToeicLRExam = {
   id: "lr-04",
-  title: "TOEIC LR Practice Test 04 — Travel & Hospitality",
+  title: "TOEIC LR Practice Test 04 - Travel & Hospitality",
   series: "HaiEdu Series 2025",
   durationSec: 7200,
   questions: [
@@ -503,7 +503,7 @@ const LR_04: ToeicLRExam = {
       part: 6,
       passage:
         "Dear valued guest,\n\nThank you for choosing Sunset Resort. Your booking has been [BLANK1]. Check-in begins at 3 PM, and a complimentary welcome drink will be waiting for you at the lobby bar.\n\nPlease [BLANK2] to bring a photo ID for the check-in process.\n\nSincerely,\nReservations Team",
-      prompt: "BLANK1 — choose the best option:",
+      prompt: "BLANK1 - choose the best option:",
       options: ["confirming", "confirmed", "confirmation", "confirms"],
       answer: 1,
       explanation: "Bị động hoàn thành: 'has been + V3' → confirmed.",
@@ -513,7 +513,7 @@ const LR_04: ToeicLRExam = {
       id: "lr4-p6-2",
       part: 6,
       passage: "(See email above)",
-      prompt: "BLANK2 — choose the best option:",
+      prompt: "BLANK2 - choose the best option:",
       options: ["remember", "remembered", "remembering", "to remember"],
       answer: 0,
       explanation: "'Please + V nguyên mẫu' → remember.",
@@ -523,7 +523,7 @@ const LR_04: ToeicLRExam = {
       id: "lr4-p7-1",
       part: 7,
       passage:
-        "TOUR ITINERARY — Kyoto Cultural Day\n08:30 Pickup at hotel lobby\n09:30 Visit Kinkaku-ji (Golden Pavilion)\n11:00 Tea ceremony experience\n12:30 Traditional kaiseki lunch\n14:00 Free time at Nishiki Market\n16:00 Return to hotel\nNote: Comfortable walking shoes are recommended. Lunch is included; drinks are not.",
+        "TOUR ITINERARY - Kyoto Cultural Day\n08:30 Pickup at hotel lobby\n09:30 Visit Kinkaku-ji (Golden Pavilion)\n11:00 Tea ceremony experience\n12:30 Traditional kaiseki lunch\n14:00 Free time at Nishiki Market\n16:00 Return to hotel\nNote: Comfortable walking shoes are recommended. Lunch is included; drinks are not.",
       prompt: "What is included in the tour price?",
       options: ["Drinks", "Lunch", "Souvenirs", "Hotel breakfast"],
       answer: 1,
@@ -558,7 +558,7 @@ const LR_04: ToeicLRExam = {
 // ---- LR Practice Test 05: Finance & Reports ----
 const LR_05: ToeicLRExam = {
   id: "lr-05",
-  title: "TOEIC LR Practice Test 05 — Finance & Reports",
+  title: "TOEIC LR Practice Test 05 - Finance & Reports",
   series: "HaiEdu Series 2025",
   durationSec: 7200,
   questions: [
@@ -694,7 +694,7 @@ const LR_05: ToeicLRExam = {
       part: 6,
       passage:
         "Dear shareholders,\n\nWe are pleased to announce that fiscal year 2024 was the strongest in the company's history. Revenue grew by 18%, and operating margins [BLANK1] at 22%. Looking ahead, we plan to invest [BLANK2] in research and development to maintain our competitive edge.\n\nSincerely,\nThe Board",
-      prompt: "BLANK1 — choose the best option:",
+      prompt: "BLANK1 - choose the best option:",
       options: ["remained", "remaining", "to remain", "remains"],
       answer: 0,
       explanation: "Quá khứ đơn để song song với 'grew' → remained.",
@@ -704,7 +704,7 @@ const LR_05: ToeicLRExam = {
       id: "lr5-p6-2",
       part: 6,
       passage: "(See letter above)",
-      prompt: "BLANK2 — choose the best option:",
+      prompt: "BLANK2 - choose the best option:",
       options: ["heavy", "heaviness", "heavier", "heavily"],
       answer: 3,
       explanation: "Trạng từ bổ nghĩa cho 'invest' → heavily.",
@@ -749,7 +749,7 @@ const LR_05: ToeicLRExam = {
 // ---- LR Practice Test 06: Health & Workplace Wellness ----
 const LR_06: ToeicLRExam = {
   id: "lr-06",
-  title: "TOEIC LR Practice Test 06 — Health & Wellness",
+  title: "TOEIC LR Practice Test 06 - Health & Wellness",
   series: "HaiEdu Series 2025",
   durationSec: 7200,
   questions: [
@@ -872,7 +872,7 @@ const LR_06: ToeicLRExam = {
       part: 6,
       passage:
         "Dear team,\n\nAs part of our wellness initiative, we will be hosting free flu vaccinations on October 8 in the staff lounge. Vaccinations are [BLANK1] for all employees and contractors. Please [BLANK2] using the link below.\n\nThank you,\nHR",
-      prompt: "BLANK1 — choose the best option:",
+      prompt: "BLANK1 - choose the best option:",
       options: ["available", "availability", "availably", "availed"],
       answer: 0,
       explanation: "Tính từ sau 'are' → available.",
@@ -882,7 +882,7 @@ const LR_06: ToeicLRExam = {
       id: "lr6-p6-2",
       part: 6,
       passage: "(See email above)",
-      prompt: "BLANK2 — choose the best option:",
+      prompt: "BLANK2 - choose the best option:",
       options: ["register", "registers", "registered", "registering"],
       answer: 0,
       explanation: "'Please + V nguyên mẫu' → register.",
@@ -892,7 +892,7 @@ const LR_06: ToeicLRExam = {
       id: "lr6-p7-1",
       part: 7,
       passage:
-        "Brookline Wellness Center — Membership Plans\nBasic — $29/month: Access to gym equipment.\nStandard — $45/month: Includes group classes (yoga, spin).\nPremium — $79/month: Includes personal trainer (4 sessions) and nutrition consultation.\nAll plans require a one-month trial commitment. Cancel anytime online with no fees thereafter.",
+        "Brookline Wellness Center - Membership Plans\nBasic - $29/month: Access to gym equipment.\nStandard - $45/month: Includes group classes (yoga, spin).\nPremium - $79/month: Includes personal trainer (4 sessions) and nutrition consultation.\nAll plans require a one-month trial commitment. Cancel anytime online with no fees thereafter.",
       prompt: "Which plan includes a personal trainer?",
       options: ["Basic", "Standard", "Premium", "All plans"],
       answer: 2,

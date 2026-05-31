@@ -1,6 +1,6 @@
 /**
  * @file ykiB1Expansion4.ts
- * @description Mở rộng ngân hàng bài tập YKI B1 — bộ 4: 3 Reading + 3 Listening + 3 Writing + 3 Speaking.
+ * @description Mở rộng ngân hàng bài tập YKI B1 - bộ 4: 3 Reading + 3 Listening + 3 Writing + 3 Speaking.
  *              Phủ đều 4 chủ đề: Cuộc sống ở Phần Lan, Công việc & học tập, Sức khỏe & dịch vụ, Văn hóa & xã hội.
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
@@ -14,7 +14,7 @@ import type {
 } from "./ykiB1Data";
 
 /* ============================================================
- * READING — 3 bài (cuộc sống ở Phần Lan, công việc, văn hóa)
+ * READING - 3 bài (cuộc sống ở Phần Lan, công việc, văn hóa)
  * ============================================================ */
 export const B1_READING_EXP4: B1ReadingPassage[] = [
   {
@@ -41,7 +41,7 @@ export const B1_READING_EXP4: B1ReadingPassage[] = [
     timeMinutes: 5,
     textFi:
       "Hei Minh,\n\nKiitos paljon mielenkiinnostasi yritystämme kohtaan ja hakemuksestasi myyjän paikkaa varten. Olemme nyt lukeneet kaikki hakemukset huolellisesti ja meillä on ilo ilmoittaa, että olet päässyt jatkoon tässä hakuprosessissa. Haluaisimme siksi kutsua sinut saapumaan työhaastatteluun keskiviikkona 22.1. kello 14.00.\n\nHaastattelu pidetään toimistollamme, joka sijaitsee Helsingin keskustassa osoitteessa Aleksanterinkatu 12. Kun saavut rakennukseen, voit ilmoittautua vastaanotossa. On hyvä varata riittävästi aikaa, sillä haastattelu kestää tavallisesti noin 45 minuuttia. Tapaamisen aikana voimme keskustella tarkemmin aiemmasta työkokemuksestasi ja tästä avoinna olevasta myyjän tehtävästä.\n\nMuistathan ottaa mukaan tarvittavat asiakirjat eli henkilöllisyystodistuksen sekä kopion tutkintotodistuksestasi. Haluamme nähdä nämä paperit lyhyesti keskustelun alussa. Pyydämme sinua vahvistamaan osallistumisesi mahdollisimman pian vastaamalla tähän sähköpostiviestiin, kuitenkin viimeistään tämän viikon perjantaina, jotta voimme valmistautua tapaamiseen. Jos sinulla on kysyttävää haastatteluun liittyen, voit kysyä niitä samalla.\n\nToivotamme sinulle onnea haastatteluun ja odotamme tapaamistasi!\n\nYstävällisin terveisin,\nKaisa Lehtonen, HR",
-    hintVi: "Email mời phỏng vấn vị trí nhân viên bán hàng — thời gian, địa điểm, giấy tờ cần mang.",
+    hintVi: "Email mời phỏng vấn vị trí nhân viên bán hàng - thời gian, địa điểm, giấy tờ cần mang.",
     questions: [
       { q: "Milloin haastattelu on?", options: ["Tiistaina 21.1.", "Keskiviikkona 22.1.", "Torstaina 23.1.", "Perjantaina 24.1."], answer: 1, explanationFi: "'keskiviikkona 22.1. klo 14.00'." },
       { q: "Mitä Minhin pitää ottaa mukaan?", options: ["Vain CV", "Henkilöllisyystodistus ja tutkintotodistus", "Pelkkä passi", "Ei mitään"], answer: 1, explanationFi: "'henkilöllisyystodistuksen ja tutkintotodistuksesi kopion'." },
@@ -58,7 +58,7 @@ export const B1_READING_EXP4: B1ReadingPassage[] = [
     timeMinutes: 4,
     textFi:
       "Ilmoitus: Vappujuhla kirjastolla\n\nLämpimästi tervetuloa viettämään iloista ja keltaista vappua kirjastollemme! Juhlapäivä on keskiviikkona 30.4. ja ohjelma alkaa puolelta päivin klo 12 ja jatkuu iltapäivään klo 16 saakka. Olemme suunnitelleet hauskaa ja monipuolista tekemistä kaikenikäisille vieraille.\n\nLapsille on tarjolla jännittävää naamiointia ja ihana ilmapallotaikuri, joka tekee hienoja hahmoja ilmapalloista. Samaan aikaan aikuisille on järjestetty tunnelmallinen runoilta, jossa voi nauttia myös perinteistä simaa. Pukeudu mielellään keväiseen asuun, jotta saamme luotua yhdessä kunnon juhlatunnelman.\n\nOn tärkeää huomata, että koko tapahtuma järjestetään ulkona kirjaston pihalla. Muista siis varautua säänmukaiseen vaatetukseen, jos kevätilma on viileä. Itse tilaisuus on täysin maksuton ja sisäänpääsymaksua ei ole. Kuitenkin nälkäisille ja janoisille vieraille on myynnissä vastapaistettuja munkkeja ja kuumaa kahvia. Kahvia ja munkkeja myydään edulliseen 2 euron hintaan. \n\nTulkaa mukaan nauttimaan keväästä ja vapputunnelmasta hyvällä mielellä! Nähdään kirjastolla!",
-    hintVi: "Thông báo lễ hội Vappu (1/5) ở thư viện — chương trình, giá đồ ăn, lưu ý thời tiết.",
+    hintVi: "Thông báo lễ hội Vappu (1/5) ở thư viện - chương trình, giá đồ ăn, lưu ý thời tiết.",
     questions: [
       { q: "Milloin tapahtuma on?", options: ["29.4. klo 10–14", "30.4. klo 12–16", "1.5. klo 14–18", "2.5. klo 12–16"], answer: 1, explanationFi: "'keskiviikkona 30.4. klo 12–16'." },
       { q: "Mitä lapsille tarjotaan?", options: ["Konsertti", "Naamiointia ja taikuri", "Elokuva", "Tanssia"], answer: 1, explanationFi: "'lapsille naamiointia ja ilmapallotaikuria'." },
@@ -71,7 +71,7 @@ export const B1_READING_EXP4: B1ReadingPassage[] = [
 ];
 
 /* ============================================================
- * LISTENING — 3 bài (sức khỏe, công việc, văn hóa)
+ * LISTENING - 3 bài (sức khỏe, công việc, văn hóa)
  * ============================================================ */
 export const B1_LISTENING_EXP4: B1ListeningClip[] = [
   {
@@ -96,7 +96,7 @@ export const B1_LISTENING_EXP4: B1ListeningClip[] = [
     scenarioFi: "Esimies kertoo tiimille ensi viikon aikatauluista.",
     durationSeconds: 50,
     scriptFi:
-      "Esimies: Hei kaikki. Ensi viikolla on kolme tärkeää asiaa. Maanantaina alkaa uusi koulutus klo kymmenen, kestää kaksi tuntia. Keskiviikkona on asiakaskäynti Tampereella, lähtö asemalta klo seitsemän. Perjantaina on tiimipäivä — ohjelmassa lounas ja saunailta. Muistakaa ilmoittautua sähköpostilla torstaihin mennessä.",
+      "Esimies: Hei kaikki. Ensi viikolla on kolme tärkeää asiaa. Maanantaina alkaa uusi koulutus klo kymmenen, kestää kaksi tuntia. Keskiviikkona on asiakaskäynti Tampereella, lähtö asemalta klo seitsemän. Perjantaina on tiimipäivä - ohjelmassa lounas ja saunailta. Muistakaa ilmoittautua sähköpostilla torstaihin mennessä.",
     questions: [
       { q: "Milloin koulutus alkaa?", options: ["Maanantaina klo 9", "Maanantaina klo 10", "Tiistaina klo 10", "Keskiviikkona klo 8"], answer: 1 },
       { q: "Mihin aikaan juna lähtee Tampereelle?", options: ["Klo 6", "Klo 7", "Klo 8", "Klo 9"], answer: 1 },
@@ -125,7 +125,7 @@ export const B1_LISTENING_EXP4: B1ListeningClip[] = [
 ];
 
 /* ============================================================
- * WRITING — 3 bài mẫu (cuộc sống, công việc, dịch vụ)
+ * WRITING - 3 bài mẫu (cuộc sống, công việc, dịch vụ)
  * ============================================================ */
 export const B1_WRITING_EXP4: B1WritingTemplate[] = [
   {
@@ -143,7 +143,7 @@ export const B1_WRITING_EXP4: B1WritingTemplate[] = [
         step: "Intro",
         stepFi: "Johdanto",
         example:
-          "Suomessa vesi on aina lähellä — joka kesä kuulemme ikäviä uutisia hukkumistapauksista. Minun mielestäni uimataidon pitäisi olla pakollinen kaikille.",
+          "Suomessa vesi on aina lähellä - joka kesä kuulemme ikäviä uutisia hukkumistapauksista. Minun mielestäni uimataidon pitäisi olla pakollinen kaikille.",
       },
       {
         step: "Reason 1",
@@ -173,9 +173,9 @@ export const B1_WRITING_EXP4: B1WritingTemplate[] = [
       { fi: "Yhteenvetona", meaning: "In summary" },
     ],
     teacherTipFi:
-      "YKI-arvioija pitää konkreettisista esimerkeistä. Käytä yhtä omaa kokemusta — se nostaa pisteitä!",
+      "YKI-arvioija pitää konkreettisista esimerkeistä. Käytä yhtä omaa kokemusta - se nostaa pisteitä!",
     teacherTipVi:
-      "Giám khảo YKI thích ví dụ cụ thể. Hãy lồng 1 trải nghiệm riêng — sẽ tăng điểm!",
+      "Giám khảo YKI thích ví dụ cụ thể. Hãy lồng 1 trải nghiệm riêng - sẽ tăng điểm!",
   },
   {
     id: "write-exp4-2",
@@ -222,9 +222,9 @@ export const B1_WRITING_EXP4: B1WritingTemplate[] = [
       { fi: "Kiitos ymmärryksestäsi", meaning: "Thanks for your understanding" },
     ],
     teacherTipFi:
-      "Aloita aina positiivisesti ja päätä rakentavasti — älä syytä, vaan ehdota ratkaisua.",
+      "Aloita aina positiivisesti ja päätä rakentavasti - älä syytä, vaan ehdota ratkaisua.",
     teacherTipVi:
-      "Mở đầu tích cực, kết thúc xây dựng — đừng đổ lỗi, hãy đề xuất giải pháp.",
+      "Mở đầu tích cực, kết thúc xây dựng - đừng đổ lỗi, hãy đề xuất giải pháp.",
   },
   {
     id: "write-exp4-3",
@@ -247,7 +247,7 @@ export const B1_WRITING_EXP4: B1WritingTemplate[] = [
         step: "Reason 1",
         stepFi: "Hyvä puoli",
         example:
-          "Ensinnäkin verkkopalvelu on nopea — voin hoitaa hakemukset kotoa illalla, kun lapset nukkuvat.",
+          "Ensinnäkin verkkopalvelu on nopea - voin hoitaa hakemukset kotoa illalla, kun lapset nukkuvat.",
       },
       {
         step: "Reason 2",
@@ -270,14 +270,14 @@ export const B1_WRITING_EXP4: B1WritingTemplate[] = [
       { fi: "Henkilökohtainen palvelu", meaning: "Personal service" },
     ],
     teacherTipFi:
-      "Mielipidetehtävässä esitä molemmat puolet — se osoittaa B1-tason ajattelukykyä.",
+      "Mielipidetehtävässä esitä molemmat puolet - se osoittaa B1-tason ajattelukykyä.",
     teacherTipVi:
-      "Bài nêu ý kiến hãy trình bày cả 2 mặt — chứng tỏ tư duy ở mức B1.",
+      "Bài nêu ý kiến hãy trình bày cả 2 mặt - chứng tỏ tư duy ở mức B1.",
   },
 ];
 
 /* ============================================================
- * SPEAKING — 3 tình huống (cuộc sống, học tập, văn hóa)
+ * SPEAKING - 3 tình huống (cuộc sống, học tập, văn hóa)
  * ============================================================ */
 export const B1_SPEAKING_EXP4: B1SpeakingSituation[] = [
   {
@@ -292,7 +292,7 @@ export const B1_SPEAKING_EXP4: B1SpeakingSituation[] = [
       "Keittiön hanasta vuotaa vettä eilisestä asti.",
       "Voitteko lähettää korjaajan?",
       "Milloin hän pääsee tulemaan?",
-      "Numeroni on nolla neljä nolla — kaksi kolme neljä — viisi kuusi seitsemän kahdeksan.",
+      "Numeroni on nolla neljä nolla - kaksi kolme neljä - viisi kuusi seitsemän kahdeksan.",
     ],
     speakingCoachLink: "/speaking-coach?lang=finnish&topic=plumbing",
     timeMinutes: 4,
@@ -307,7 +307,7 @@ export const B1_SPEAKING_EXP4: B1SpeakingSituation[] = [
     hintsFi: [
       "Hei, olen toisen vuoden opiskelija, opiskelijanumero 123456.",
       "Olen kirjoittautunut tilastotieteen kurssille, mutta haluaisin vaihtaa data-analytiikkaan.",
-      "Tilastotiede on minulle liian teoreettinen — haluan käytännönläheisempää sisältöä.",
+      "Tilastotiede on minulle liian teoreettinen - haluan käytännönläheisempää sisältöä.",
       "Onko data-analytiikan kurssilla vielä vapaita paikkoja?",
       "Mitä lomakkeita tarvitsen?",
     ],
@@ -322,10 +322,10 @@ export const B1_SPEAKING_EXP4: B1SpeakingSituation[] = [
     taskFi:
       "Kiitä kutsusta, kysy aikataulu ja sijainti, kysy mitä otat mukaan, kerro pieni huoli (esim. uima- tai sauna-asia), sovi kyydistä.",
     hintsFi: [
-      "Voi, kiitos kutsusta — todella kiva!",
+      "Voi, kiitos kutsusta - todella kiva!",
       "Mihin aikaan ja mihin osoitteeseen pitää tulla?",
       "Mitä otan mukaan? Ruokaa, juomaa vai jotain muuta?",
-      "Sauna kuulostaa hyvältä, mutta en ole vielä tottunut suomalaiseen saunalämpöön — onko se kovin kuuma?",
+      "Sauna kuulostaa hyvältä, mutta en ole vielä tottunut suomalaiseen saunalämpöön - onko se kovin kuuma?",
       "Voinko tulla teidän autollanne vai pitääkö varata oma kyyti?",
     ],
     speakingCoachLink: "/speaking-coach?lang=finnish&topic=midsummer",

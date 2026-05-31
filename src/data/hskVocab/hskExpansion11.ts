@@ -1,6 +1,6 @@
 /**
  * @file hskExpansion11.ts
- * @description HSK Vocabulary Expansion #11 — high-utility words across
+ * @description HSK Vocabulary Expansion #11 - high-utility words across
  * travel, technology, environment, emotions and idiomatic expressions.
  */
 import type { HskWord } from "./types";

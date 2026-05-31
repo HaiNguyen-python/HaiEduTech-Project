@@ -1,5 +1,5 @@
 /**
- * MultipleChoiceQuiz — 1 prompt, 4 options, post-answer explanation.
+ * MultipleChoiceQuiz - 1 prompt, 4 options, post-answer explanation.
  * Mobile-friendly buttons (min-h 48px). Plays juicy FX on each pick.
  */
 import { useState } from "react";

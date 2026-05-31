@@ -1,4 +1,4 @@
-// HSK 1 expansion — additional beginner lessons across all 3 pillars
+// HSK 1 expansion - additional beginner lessons across all 3 pillars
 // (Essential Daily Life, Business & Professional, Advanced Socializing).
 // Even though pillars are themed differently, these lessons keep HSK 1 vocabulary
 // (most frequent characters, simple sentence patterns) so beginners can ramp up
@@ -86,7 +86,7 @@ const lesson = (
 });
 
 // ═══════════════════════════════════════════
-// HSK 1 — Daily Life additions (5 new lessons)
+// HSK 1 - Daily Life additions (5 new lessons)
 // ═══════════════════════════════════════════
 export const hsk1DailyLifeExtra: ChineseConvLesson[] = [
   lesson(
@@ -315,7 +315,7 @@ export const hsk1DailyLifeExtra: ChineseConvLesson[] = [
 ];
 
 // ═══════════════════════════════════════════
-// HSK 1 — Business & Professional (basic office)
+// HSK 1 - Business & Professional (basic office)
 // ═══════════════════════════════════════════
 export const hsk1BusinessExtra: ChineseConvLesson[] = [
   lesson(
@@ -542,7 +542,7 @@ export const hsk1BusinessExtra: ChineseConvLesson[] = [
 ];
 
 // ═══════════════════════════════════════════
-// HSK 1 — Advanced Socializing (basic chit-chat)
+// HSK 1 - Advanced Socializing (basic chit-chat)
 // ═══════════════════════════════════════════
 export const hsk1SocialExtra: ChineseConvLesson[] = [
   lesson(

@@ -1,4 +1,4 @@
-// SAT Vocabulary Expansion 4 — additional high-utility SAT words.
+// SAT Vocabulary Expansion 4 - additional high-utility SAT words.
 import type { SatWord } from "./satVocabData";
 
 type Sec = "Reading & Writing" | "Math";

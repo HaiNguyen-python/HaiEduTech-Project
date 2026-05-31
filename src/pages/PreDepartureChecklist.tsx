@@ -57,7 +57,7 @@ const PreDepartureChecklist = () => {
   const current = PRE_DEPARTURE_CHECKLISTS.find((c) => c.code === country)!;
 
   // Auth + load progress per country.
-  // IMPORTANT: never auto-redirect to /login on missing session — Supabase may
+  // IMPORTANT: never auto-redirect to /login on missing session - Supabase may
   // briefly report a null session while the stored session hydrates after
   // navigation or OAuth redirect. That false negative used to bounce signed-in
   // users to /login, which they perceived as being "logged out". Instead we

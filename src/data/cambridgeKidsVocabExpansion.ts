@@ -6,7 +6,7 @@
 import type { CambridgeKidsWord } from "./cambridgeKidsVocab";
 
 export const CAMBRIDGE_KIDS_WORDS_EXPANSION: CambridgeKidsWord[] = [
-  // ============== STARTERS (A1) — extra ==============
+  // ============== STARTERS (A1) - extra ==============
   { word: "ball", vi: "quả bóng", emoji: "⚽", level: "Starters" },
   { word: "bed", vi: "cái giường", emoji: "🛏️", level: "Starters" },
   { word: "bird", vi: "con chim", emoji: "🐦", level: "Starters" },
@@ -43,7 +43,7 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION: CambridgeKidsWord[] = [
   { word: "toy", vi: "đồ chơi", emoji: "🧸", level: "Starters" },
   { word: "water", vi: "nước", emoji: "💧", level: "Starters" },
 
-  // ============== MOVERS (A1+) — extra ==============
+  // ============== MOVERS (A1+) - extra ==============
   { word: "airport", vi: "sân bay", emoji: "✈️", level: "Movers" },
   { word: "balloon", vi: "bóng bay", emoji: "🎈", level: "Movers" },
   { word: "beach", vi: "bãi biển", emoji: "🏖️", level: "Movers" },
@@ -80,7 +80,7 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION: CambridgeKidsWord[] = [
   { word: "whale", vi: "cá voi", emoji: "🐳", level: "Movers" },
   { word: "wizard", vi: "phù thủy", emoji: "🧙", level: "Movers" },
 
-  // ============== FLYERS (A2) — extra ==============
+  // ============== FLYERS (A2) - extra ==============
   { word: "adventure", vi: "cuộc phiêu lưu", emoji: "🧭", level: "Flyers" },
   { word: "ambulance", vi: "xe cứu thương", emoji: "🚑", level: "Flyers" },
   { word: "artist", vi: "nghệ sĩ", emoji: "🎨", level: "Flyers" },
@@ -119,7 +119,7 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION: CambridgeKidsWord[] = [
   { word: "vacation", vi: "kỳ nghỉ", emoji: "🏝️", level: "Flyers" },
   { word: "waterfall", vi: "thác nước", emoji: "💦", level: "Flyers" },
 
-  // ============== KET (A2 Key) — extra ==============
+  // ============== KET (A2 Key) - extra ==============
   { word: "advertisement", vi: "quảng cáo", emoji: "📣", level: "KET" },
   { word: "afford", vi: "có đủ khả năng", emoji: "💵", level: "KET" },
   { word: "argue", vi: "tranh luận", emoji: "💬", level: "KET" },
@@ -158,7 +158,7 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION: CambridgeKidsWord[] = [
   { word: "vegetable", vi: "rau củ", emoji: "🥦", level: "KET" },
   { word: "weather", vi: "thời tiết", emoji: "⛅", level: "KET" },
 
-  // ============== PET (B1 Preliminary) — extra ==============
+  // ============== PET (B1 Preliminary) - extra ==============
   { word: "accommodation", vi: "chỗ ở", emoji: "🏨", level: "PET" },
   { word: "advantage", vi: "lợi thế", emoji: "✅", level: "PET" },
   { word: "advertisement", vi: "mẩu quảng cáo", emoji: "📺", level: "PET" },

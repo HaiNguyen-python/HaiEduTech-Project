@@ -1,6 +1,6 @@
 /**
  * @file cambridgeKidsVocabExpansion6.ts
- * @description Sixth expansion pack — ~300 words across all Cambridge YLE levels.
+ * @description Sixth expansion pack - ~300 words across all Cambridge YLE levels.
  * Heavy focus on KET & PET academic/professional vocabulary.
  */
 import type { CambridgeKidsLevel, CambridgeKidsWord } from "./cambridgeKidsVocab";

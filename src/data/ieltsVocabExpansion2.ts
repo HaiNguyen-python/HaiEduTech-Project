@@ -1,6 +1,6 @@
 /**
  * @file ieltsVocabExpansion2.ts
- * @description IELTS Vocabulary Expansion #2 — Band 7.0+ academic lexis to
+ * @description IELTS Vocabulary Expansion #2 - Band 7.0+ academic lexis to
  * restore the bank to 800+ unique words (dedup in ieltsVocabData removed ~30
  * earlier collisions) and to broaden coverage across society, environment,
  * health, technology, work, and education.

@@ -1,8 +1,8 @@
 /**
- * SandboxMiniActivity — 2 reusable mini-activities for AI Academy sandboxes.
+ * SandboxMiniActivity - 2 reusable mini-activities for AI Academy sandboxes.
  *
- *  • ChipFilter    — toggle chips, watch a metric react in real time
- *  • BestMatchPick — pair every prompt with the correct option (multi-pair quiz)
+ *  • ChipFilter    - toggle chips, watch a metric react in real time
+ *  • BestMatchPick - pair every prompt with the correct option (multi-pair quiz)
  *
  * Both are 100% client-side, data-driven, and animated. Drop into any sandbox
  * to fill empty whitespace and give students one more hands-on activity.

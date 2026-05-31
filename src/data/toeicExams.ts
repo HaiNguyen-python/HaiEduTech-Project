@@ -268,7 +268,7 @@ const LR_01: ToeicLRExam = {
       part: 6,
       passage:
         "Dear Ms. Lopez,\n\nThank you for your interest in our online course. We are pleased to inform you that your registration has been [BLANK1]. The course will begin on March 5 and run for eight weeks. Please [BLANK2] your account dashboard for the schedule.\n\nIf you have any questions, do not hesitate to contact us.\n\nBest regards,\nLearning Team",
-      prompt: "BLANK1 — Choose the best option:",
+      prompt: "BLANK1 - Choose the best option:",
       options: ["confirm", "confirmed", "confirming", "confirmation"],
       answer: 1,
       explanation: "Câu bị động 'has been + V3' → confirmed.",
@@ -278,7 +278,7 @@ const LR_01: ToeicLRExam = {
       id: "p6-2",
       part: 6,
       passage: "(See passage in question above)",
-      prompt: "BLANK2 — Choose the best option:",
+      prompt: "BLANK2 - Choose the best option:",
       options: ["check", "checked", "checking", "to check"],
       answer: 0,
       explanation: "'Please' + V nguyên thể → check.",
@@ -382,7 +382,7 @@ const LR_01: ToeicLRExam = {
       id: "p7-7",
       part: 7,
       passage:
-        "Job Posting — Marketing Coordinator at Lumen Tech.\nResponsibilities: planning campaigns, coordinating with designers, monitoring KPIs.\nRequirements: Bachelor's degree, 2+ years of experience, excellent communication.\nBenefits: hybrid working, performance bonuses, annual training budget.\nEmail your CV to careers@lumentech.com by September 30.",
+        "Job Posting - Marketing Coordinator at Lumen Tech.\nResponsibilities: planning campaigns, coordinating with designers, monitoring KPIs.\nRequirements: Bachelor's degree, 2+ years of experience, excellent communication.\nBenefits: hybrid working, performance bonuses, annual training budget.\nEmail your CV to careers@lumentech.com by September 30.",
       prompt: "Which is a stated benefit of the position?",
       options: [
         "Company car",
@@ -494,7 +494,7 @@ const LR_02: ToeicLRExam = {
       part: 6,
       passage:
         "Dear Customer,\n\nThank you for [BLANK1] our service. We have processed your refund and the amount will appear in your account within 5 business days.",
-      prompt: "BLANK1 — choose the best option:",
+      prompt: "BLANK1 - choose the best option:",
       options: ["choose", "choosing", "chose", "chosen"],
       answer: 1,
       explanation: "'Thank you for + V-ing'.",
@@ -636,11 +636,11 @@ export function convertToScaledScore(numCorrect: number, totalQuestions: number)
 }
 
 export const PART_LABELS: Record<ToeicPart, string> = {
-  1: "Part 1 — Photographs",
-  2: "Part 2 — Question-Response",
-  3: "Part 3 — Conversations",
-  4: "Part 4 — Talks",
-  5: "Part 5 — Incomplete Sentences",
-  6: "Part 6 — Text Completion",
-  7: "Part 7 — Reading Comprehension",
+  1: "Part 1 - Photographs",
+  2: "Part 2 - Question-Response",
+  3: "Part 3 - Conversations",
+  4: "Part 4 - Talks",
+  5: "Part 5 - Incomplete Sentences",
+  6: "Part 6 - Text Completion",
+  7: "Part 7 - Reading Comprehension",
 };

@@ -31,7 +31,7 @@ export const thptGrammarTopics: GrammarTopic[] = [
     titleVi: "12 Thì cơ bản",
     titleEn: "12 Basic Tenses",
     summaryVi: "Nắm vững dấu hiệu nhận biết và cấu trúc của 12 thì - chiếm ~6 điểm trong đề.",
-    summaryEn: "Master signal words and structures for all 12 tenses — ~6 questions per exam.",
+    summaryEn: "Master signal words and structures for all 12 tenses - ~6 questions per exam.",
     detailVi: "Đề THPT thường xoáy vào 5 thì lõi: Hiện tại đơn, Hiện tại tiếp diễn, Hiện tại hoàn thành, Quá khứ đơn và Tương lai đơn. Bí quyết là nhận ra DẤU HIỆU NHẬN BIẾT (since/for, ago, by the time, while…) trước, sau đó mới chia động từ. Khi 2 mệnh đề nối nhau, hãy xác định mệnh đề nào xảy ra TRƯỚC để dùng đúng quá khứ hoàn thành (had + V3) hoặc quá khứ đơn.",
     detailEn: "The THPT exam focuses on 5 core tenses: Present Simple, Present Continuous, Present Perfect, Past Simple and Future Simple. The trick is to spot SIGNAL WORDS (since/for, ago, by the time, while…) FIRST, then conjugate. When two clauses are linked, identify which action happened EARLIER to choose between Past Perfect (had + V3) or Past Simple correctly.",
     formulas: [
@@ -67,9 +67,9 @@ export const thptGrammarTopics: GrammarTopic[] = [
     titleVi: "Câu điều kiện (Loại 1, 2, 3 & hỗn hợp)",
     titleEn: "Conditional Sentences (Type 1, 2, 3 & Mixed)",
     summaryVi: "Phân biệt 4 loại câu điều kiện và đảo ngữ - dạng câu phổ biến trong phần Sentence Combination.",
-    summaryEn: "Distinguish 4 conditional types and inversion — common in Sentence Combination tasks.",
+    summaryEn: "Distinguish 4 conditional types and inversion - common in Sentence Combination tasks.",
     detailVi: "Câu điều kiện diễn tả mối quan hệ NẾU - THÌ. Loại 1 nói về điều có thể xảy ra trong tương lai; Loại 2 giả định trái ngược hiện tại; Loại 3 tiếc nuối quá khứ; Hỗn hợp dùng khi điều kiện xảy ra ở quá khứ nhưng kết quả ở hiện tại. Khi câu bắt đầu bằng 'Were', 'Had' hoặc 'Should' thì đó là dạng ĐẢO NGỮ - bỏ 'If' và đảo trợ động từ lên trước chủ ngữ.",
-    detailEn: "Conditionals express IF–THEN relations. Type 1 = possible future; Type 2 = unreal present; Type 3 = past regret; Mixed = past condition with present result. When a sentence opens with 'Were', 'Had', or 'Should', it is the INVERTED form — drop 'If' and move the auxiliary in front of the subject.",
+    detailEn: "Conditionals express IF–THEN relations. Type 1 = possible future; Type 2 = unreal present; Type 3 = past regret; Mixed = past condition with present result. When a sentence opens with 'Were', 'Had', or 'Should', it is the INVERTED form - drop 'If' and move the auxiliary in front of the subject.",
     formulas: [
       "Type 1: If + S + V(s/es), S + will/can/may + V",
       "Type 2: If + S + V2/were, S + would/could + V",
@@ -211,7 +211,7 @@ export const thptGrammarTopics: GrammarTopic[] = [
     titleVi: "Động từ khuyết thiếu (Modal Verbs)",
     titleEn: "Modal Verbs",
     summaryVi: "Diễn đạt khả năng, sự cho phép, lời khuyên, suy đoán - tần suất xuất hiện cao trong cloze test.",
-    summaryEn: "Express ability, permission, advice, deduction — high frequency in cloze tests.",
+    summaryEn: "Express ability, permission, advice, deduction - high frequency in cloze tests.",
     detailVi: "Modal verbs (can, could, may, might, must, should, ought to, will, would, shall) \u0111\u1ee9ng TR\u01af\u1edaC \u0111\u1ed9ng t\u1eeb nguy\u00ean th\u1ec3 kh\u00f4ng 'to'. Ch\u00fang di\u1ec5n \u0111\u1ea1t th\u00e1i \u0111\u1ed9 c\u1ee7a ng\u01b0\u1eddi n\u00f3i: kh\u1ea3 n\u0103ng, s\u1ef1 cho ph\u00e9p, l\u1eddi khuy\u00ean, ngh\u0129a v\u1ee5 hay suy \u0111o\u00e1n. D\u1ea1ng QU\u00c1 KH\u1ee8 r\u1ea5t quan tr\u1ecdng trong \u0111\u1ec1: 'modal + have + V3' \u0111\u1ec3 n\u00f3i v\u1ec1 \u0111i\u1ec1u \u0111\u00e1ng l\u1ebd/ch\u1eafc ch\u1eafn/c\u00f3 th\u1ec3 \u0111\u00e3 x\u1ea3y ra.",
     detailEn: "Modal verbs (can, could, may, might, must, should, ought to, will, would, shall) come BEFORE a bare infinitive. They express the speaker's attitude: ability, permission, advice, obligation or deduction. The PAST form is heavily tested: 'modal + have + V3' for what should/must/might have happened.",
     formulas: [
@@ -356,7 +356,7 @@ export const thptGrammarTopics: GrammarTopic[] = [
     titleVi: "Cụm động từ (Phrasal Verbs)",
     titleEn: "Phrasal Verbs",
     summaryVi: "Khoảng 50 phrasal verbs xuất hiện thường xuyên - thuộc nghĩa và cách dùng.",
-    summaryEn: "About 50 phrasal verbs appear regularly — memorize meanings and usage.",
+    summaryEn: "About 50 phrasal verbs appear regularly - memorize meanings and usage.",
     detailVi: "Phrasal verb l\u00e0 \u0111\u1ed9ng t\u1eeb + gi\u1edbi t\u1eeb/tr\u1ea1ng t\u1eeb t\u1ea1o ngh\u0129a M\u1edaI kh\u00e1c h\u1eb3n ngh\u0129a g\u1ed1c. V\u00ed d\u1ee5 'look' = nh\u00ecn nh\u01b0ng 'look after' = ch\u0103m s\u00f3c, 'look up' = tra c\u1ee9u, 'look forward to' = mong \u0111\u1ee3i. C\u00f3 2 lo\u1ea1i: T\u00c1CH \u0110\u01af\u1ee2C (give it up \u2713) v\u00e0 KH\u00d4NG T\u00c1CH (look after him \u2713, kh\u00f4ng th\u1ec3 look him after). Khi t\u00e2n ng\u1eef l\u00e0 \u0111\u1ea1i t\u1eeb (it/them/me\u2026) ph\u1ea3i \u0111\u1eb7t GI\u1eeeA \u0111\u1ed9ng t\u1eeb v\u00e0 gi\u1edbi t\u1eeb v\u1edbi nh\u00f3m t\u00e1ch \u0111\u01b0\u1ee3c.",
     detailEn: "A phrasal verb is verb + preposition/adverb that creates a NEW meaning different from the original. E.g. 'look' = see, but 'look after' = take care, 'look up' = search, 'look forward to' = anticipate. Two kinds: SEPARABLE (give it up \u2713) and INSEPARABLE (look after him \u2713, NOT look him after). When the object is a pronoun (it/them/me\u2026), it must go BETWEEN the verb and particle for separable phrasal verbs.",
     formulas: [
@@ -428,7 +428,7 @@ export const thptGrammarTopics: GrammarTopic[] = [
     titleVi: "Đảo ngữ & Câu nhấn mạnh",
     titleEn: "Inversion & Emphatic Structures",
     summaryVi: "Cấu trúc khó - thường xuất hiện trong câu đồng nghĩa hoặc viết lại câu.",
-    summaryEn: "Advanced structures — common in synonym or sentence rewriting tasks.",
+    summaryEn: "Advanced structures - common in synonym or sentence rewriting tasks.",
     detailVi: "\u0110\u1ea3o ng\u1eef l\u00e0 c\u1ea5u tr\u00fac \u0111\u01b0a tr\u1ee3 \u0111\u1ed9ng t\u1eeb L\u00caN TR\u01af\u1edaC ch\u1ee7 ng\u1eef \u0111\u1ec3 nh\u1ea5n m\u1ea1nh, th\u01b0\u1eddng xu\u1ea5t hi\u1ec7n sau c\u00e1c tr\u1ea1ng t\u1eeb ph\u1ee7 \u0111\u1ecbnh/h\u1ea1n \u0111\u1ecbnh \u1edf \u0111\u1ea7u c\u00e2u. C\u00e2u nh\u1ea5n m\u1ea1nh d\u1ea1ng 'It is/was\u2026that\u2026' (cleft) d\u00f9ng \u0111\u1ec3 l\u00e0m n\u1ed5i b\u1eadt m\u1ed9t th\u00e0nh ph\u1ea7n c\u1ee5 th\u1ec3. \u0110\u00e2y l\u00e0 d\u1ea1ng c\u1ea5u tr\u00fac kh\u00f3 - t\u1ea7n su\u1ea5t cao trong c\u00e2u vi\u1ebft l\u1ea1i / c\u00e2u \u0111\u1ed3ng ngh\u0129a.",
     detailEn: "Inversion moves the auxiliary BEFORE the subject for emphasis, usually after a fronted negative/limiting adverb. The 'It is/was\u2026that\u2026' cleft sentence highlights one particular element. These advanced patterns appear frequently in rewriting / synonym questions.",
     formulas: [

@@ -567,7 +567,7 @@ const VocabExercise = ({ words, t }: { words: ToeicWord[]; t: (vi: string, en: s
         <div className="mt-6 rounded-lg border border-blue-200 dark:border-slate-700 bg-blue-50/50 dark:bg-slate-900/40 p-4">
           <div className="flex items-center justify-between gap-3 flex-wrap">
             <p className="text-sm text-slate-700 dark:text-slate-300 italic">
-              <strong className="text-slate-900 dark:text-white not-italic">{q.word.word}</strong> ({q.word.wordClass}) — {q.word.definition.vi}
+              <strong className="text-slate-900 dark:text-white not-italic">{q.word.word}</strong> ({q.word.wordClass}) - {q.word.definition.vi}
             </p>
             <Button onClick={handleNext} className="bg-blue-600 hover:bg-blue-700 text-white">
               {current + 1 >= questions.length ? t("Xem kết quả", "See Results") : t("Câu tiếp", "Next")}
@@ -834,7 +834,7 @@ const ToeicVocabulary = () => {
                   <p className="text-slate-400 text-lg">{t("Không tìm thấy từ vựng nào", "No vocabulary found")}</p>
                 </div>
               ) : (() => {
-                // Group paged words by category — section headers like IELTS/HSK/SAT
+                // Group paged words by category - section headers like IELTS/HSK/SAT
                 const groups = paged.reduce<Record<string, ToeicWord[]>>((acc, w) => {
                   (acc[w.category] ||= []).push(w);
                   return acc;

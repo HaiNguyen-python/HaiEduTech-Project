@@ -209,7 +209,7 @@ const InlineTypeExample = ({ word, t }: { word: IeltsWord; t: (vi: string, en: s
               {isCorrect ? (
                 <><CheckCircle className="w-4 h-4 text-green-600" /><span className="text-green-700 dark:text-green-400">{t("Chính xác!", "Perfect!")}</span></>
               ) : (
-                <><XCircle className="w-4 h-4 text-orange-600" /><span className="text-orange-700 dark:text-orange-400">{t("Gần đúng — đối chiếu lại nhé.", "Close — compare with the original.")}</span></>
+                <><XCircle className="w-4 h-4 text-orange-600" /><span className="text-orange-700 dark:text-orange-400">{t("Gần đúng - đối chiếu lại nhé.", "Close - compare with the original.")}</span></>
               )}
             </div>
             <p><strong>{t("Câu gốc:", "Original:")}</strong> <span className="italic">{target}</span></p>
@@ -553,7 +553,7 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
       {selected !== null && (
         <div className="flex justify-between items-center mt-6 gap-3 flex-wrap">
           <p className="text-sm text-muted-foreground italic">
-            <strong className="text-foreground not-italic">{q.word.word}</strong> — {q.word.definition.vi}
+            <strong className="text-foreground not-italic">{q.word.word}</strong> - {q.word.definition.vi}
           </p>
           <Button onClick={handleNext}>
             {current + 1 >= questions.length ? t("Xem kết quả", "See Results") : t("Câu tiếp", "Next")}

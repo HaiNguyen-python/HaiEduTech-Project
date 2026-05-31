@@ -95,8 +95,8 @@ const MonthlyTopStudents = () => {
           </h2>
           <p className="mx-auto max-w-2xl text-sm sm:text-base text-muted-foreground leading-relaxed">
             {t(
-              "Thầy Hải tự hào tuyên dương 3 học sinh xuất sắc nhất tháng này — vì sự chuyên cần, kiên trì và tiến bộ vượt bậc.",
-              "Mr. Hai proudly honors the top 3 students this month — for their attendance, perseverance, and outstanding progress."
+              "Thầy Hải tự hào tuyên dương 3 học sinh xuất sắc nhất tháng này - vì sự chuyên cần, kiên trì và tiến bộ vượt bậc.",
+              "Mr. Hai proudly honors the top 3 students this month - for their attendance, perseverance, and outstanding progress."
             )}
           </p>
         </div>
@@ -255,8 +255,8 @@ const PodiumCard = ({
           {isFirst
             ? t(`Quán quân tháng! Thầy Hải vô cùng tự hào về em.`, `Champion of the month! Mr. Hai is incredibly proud of you.`)
             : isSecond
-              ? t(`Á quân xuất sắc — tiếp tục bứt phá em nhé!`, `Outstanding runner-up — keep pushing forward!`)
-              : t(`Hạng ba ấn tượng — em đang đi đúng hướng!`, `Impressive third place — you're on the right track!`)}
+              ? t(`Á quân xuất sắc - tiếp tục bứt phá em nhé!`, `Outstanding runner-up - keep pushing forward!`)
+              : t(`Hạng ba ấn tượng - em đang đi đúng hướng!`, `Impressive third place - you're on the right track!`)}
         </p>
 
         {/* Attendance bar */}

@@ -12,7 +12,7 @@ export interface ShadowingVocab {
 export interface ShadowingSentence {
   id: string;
   sentence: string;
-  /** Substring that contains the target grammar — used to highlight */
+  /** Substring that contains the target grammar - used to highlight */
   grammarSpan: string;
   grammarPoint: string;
   grammarExplanation: string;

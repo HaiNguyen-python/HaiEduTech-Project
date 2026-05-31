@@ -1,8 +1,8 @@
 /**
  * @file IeltsReadingPractice.tsx
  * @description IELTS Reading Practice hub with two modes:
- *   1) Quick Exercises — links into the embedded reading drills in lectures
- *   2) Ultimate Full-Text Exam Challenges — immersive split-screen exam engine
+ *   1) Quick Exercises - links into the embedded reading drills in lectures
+ *   2) Ultimate Full-Text Exam Challenges - immersive split-screen exam engine
  *      featuring a countdown timer, question-navigation matrix, multiple
  *      formats (MCQ, matching headings, fill-blank) and a review mode.
  *   The Quick Exercises area is intentionally a re-entry point: choosing an
@@ -188,7 +188,7 @@ const PostSubmitReview: React.FC<PostSubmitReviewProps> = ({ exam, questions, an
       }
       const { data, error } = await supabase.from("student_notebooks").insert({
         user_id: user.id,
-        title: `IELTS Reading Vocabulary — ${exam.passageTitle}`,
+        title: `IELTS Reading Vocabulary - ${exam.passageTitle}`,
         subject: "ielts",
         content: buildNotebookHtml(),
         is_public: false,
@@ -267,7 +267,7 @@ const PostSubmitReview: React.FC<PostSubmitReviewProps> = ({ exam, questions, an
         <div className="rounded-xl border-2 border-primary/30 bg-gradient-to-br from-primary/5 to-emerald-500/5 p-4">
           <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
             <h3 className="font-bold text-base text-foreground">
-              📚 {t("Từ vựng quan trọng — IELTS Reading Vocabulary", "Key Vocabulary — IELTS Reading Vocabulary")}
+              📚 {t("Từ vựng quan trọng - IELTS Reading Vocabulary", "Key Vocabulary - IELTS Reading Vocabulary")}
             </h3>
             <Button
               size="sm"
@@ -497,9 +497,9 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
         <RoomToolbar fontIdx={fontIdx} setFontIdx={setFontIdx} paperTheme={paperTheme} setPaperTheme={setPaperTheme} />
       </div>
 
-      {/* Split-screen dual panes — resizable on lg+ */}
+      {/* Split-screen dual panes - resizable on lg+ */}
       <div ref={containerRef} className="flex-1 flex flex-col lg:flex-row overflow-hidden">
-        {/* LEFT — Passage */}
+        {/* LEFT - Passage */}
         <section
           aria-label="Reading passage"
           className={cn("overflow-y-auto border-b lg:border-b-0 lg:border-r min-h-[40vh] lg:min-h-0", paperClass(paperTheme))}
@@ -519,7 +519,7 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
           </div>
         </section>
 
-        {/* Splitter handle — visible on lg+ only */}
+        {/* Splitter handle - visible on lg+ only */}
         <div
           role="separator"
           aria-orientation="vertical"
@@ -530,7 +530,7 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
           <GripVertical className="w-3 h-3 text-muted-foreground pointer-events-none" />
         </div>
 
-        {/* RIGHT — Questions */}
+        {/* RIGHT - Questions */}
         <section
           aria-label="Questions"
           className="overflow-y-auto bg-background flex-1 min-h-[40vh] lg:min-h-0"
@@ -559,7 +559,7 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
                     {score === exam.questions.length
                       ? t("Xuất sắc!", "Excellent!")
                       : score >= exam.questions.length * 0.7
-                        ? t("Tốt — gần Band 7!", "Strong — around Band 7!")
+                        ? t("Tốt - gần Band 7!", "Strong - around Band 7!")
                         : t("Tiếp tục luyện tập!", "Keep practising!")}
                   </p>
                   <div className="mt-3 flex gap-2 justify-center">
@@ -584,7 +584,7 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
 };
 
 // ============================================================
-// Question renderer — handles all 3 supported formats
+// Question renderer - handles all 3 supported formats
 // ============================================================
 
 interface QBlockProps {
@@ -685,7 +685,7 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
               submitted && (correct ? "border-emerald-500" : wrong ? "border-destructive" : "")
             )}
           >
-            <option value="">— Select a heading —</option>
+            <option value="">- Select a heading -</option>
             {q.headings.map((h) => (
               <option key={h.label} value={h.label}>
                 {h.label}. {h.text}
@@ -728,7 +728,7 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
 };
 
 // ============================================================
-// Full Test Engine — 3 passages, 60-min countdown, sequential
+// Full Test Engine - 3 passages, 60-min countdown, sequential
 // question numbering (Passage 1: Q1–N, Passage 2: continues, ...).
 // ============================================================
 
@@ -937,9 +937,9 @@ const FullTestEngine: React.FC<FullTestEngineProps> = ({ test, onClose }) => {
                   <p className="font-bold text-lg">{t("Kết quả", "Final Score")}: {score}/{totalQs}</p>
                   <p className="text-sm text-muted-foreground mt-1">
                     {score >= totalQs * 0.85
-                      ? t("Xuất sắc — Band 8.0+!", "Excellent — Band 8.0+!")
+                      ? t("Xuất sắc - Band 8.0+!", "Excellent - Band 8.0+!")
                       : score >= totalQs * 0.7
-                        ? t("Tốt — quanh Band 7.0", "Strong — around Band 7.0")
+                        ? t("Tốt - quanh Band 7.0", "Strong - around Band 7.0")
                         : t("Tiếp tục luyện tập!", "Keep practising!")}
                   </p>
                   <div className="mt-3"><Button variant="outline" size="sm" onClick={onClose}>
@@ -975,7 +975,7 @@ const IeltsReadingPractice: React.FC = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="IELTS Reading Practice — Full-Text Mock Exams | HaiEduTech"
+        title="IELTS Reading Practice - Full-Text Mock Exams | HaiEduTech"
         description="Luyện đọc IELTS với bài tập nhanh và bộ đề full-text mô phỏng thi thật: split-screen, timer, ma trận câu hỏi, MCQ, matching headings, fill-in-the-blanks."
         path="/ielts-reading-practice"
       />
@@ -994,7 +994,7 @@ const IeltsReadingPractice: React.FC = () => {
                 {t("Mô phỏng đề thi thật", "Real exam simulation")}
               </Badge>
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-2">
-                {t("Luyện Đọc IELTS — Bài tập nhanh & Đề full-text", "IELTS Reading Practice — Quick drills & Full-text exams")}
+                {t("Luyện Đọc IELTS - Bài tập nhanh & Đề full-text", "IELTS Reading Practice - Quick drills & Full-text exams")}
               </h1>
               <p className="text-muted-foreground text-sm sm:text-base max-w-3xl">
                 {t(
@@ -1024,7 +1024,7 @@ const IeltsReadingPractice: React.FC = () => {
               <div className="mb-4 rounded-xl border-2 border-dashed border-primary/30 bg-gradient-to-r from-primary/5 to-emerald-500/5 p-4">
                 <h2 className="text-base font-bold text-foreground flex items-center gap-2">
                   <Trophy className="w-5 h-5 text-primary" />
-                  {t("🏆 Đề thi đầy đủ — 3 passages, 60 phút", "🏆 Complete tests — 3 passages, 60 minutes")}
+                  {t("🏆 Đề thi đầy đủ - 3 passages, 60 phút", "🏆 Complete tests - 3 passages, 60 minutes")}
                 </h2>
                 <p className="text-sm text-muted-foreground mt-1">
                   {t(

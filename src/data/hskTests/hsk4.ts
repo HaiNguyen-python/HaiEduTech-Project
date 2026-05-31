@@ -1,5 +1,5 @@
 /**
- * @file hsk4.ts — HSK 4 Mock Test (authentic Hanban format)
+ * @file hsk4.ts - HSK 4 Mock Test (authentic Hanban format)
  * Listening 45 + Reading 40 + Writing 15 = 100 Q, 100 minutes.
  */
 import type { HskTest } from "./index";

@@ -1,5 +1,5 @@
 /**
- * CapstoneSandbox — "Build your AI Assistant"
+ * CapstoneSandbox - "Build your AI Assistant"
  * Drag (click-to-add) skill modules from previous tracks into the central
  * Core. When all 4 required modules are installed, the diagnostic boot
  * sequence runs and reveals the finished assistant with confetti.
@@ -20,7 +20,7 @@ const CAP_TF = [
   { q: "AI sẵn sàng đi làm mà không cần đánh giá an toàn.", a: false, why: "Mọi sản phẩm AI phải qua kiểm thử đạo đức + an toàn." },
 ];
 const CAP_PAIRS = [
-  { a: "Vision module", b: "Mắt — nhận diện ảnh / camera" },
+  { a: "Vision module", b: "Mắt - nhận diện ảnh / camera" },
   { a: "NLP module", b: "Hiểu và tạo ngôn ngữ" },
   { a: "Neural core", b: "Bộ não suy luận" },
   { a: "Ethics layer", b: "Lớp bảo vệ đạo đức & an toàn" },
@@ -223,7 +223,7 @@ const CapstoneSandbox = () => {
 
       <BestMatchPick
         title="🧩 Activity 2 · Ghép mô-đun với chức năng"
-        hint="Mỗi mô-đun trong trợ lý AI đảm nhận một vai trò khác nhau — hãy ghép đúng."
+        hint="Mỗi mô-đun trong trợ lý AI đảm nhận một vai trò khác nhau - hãy ghép đúng."
         accent="from-amber-500 to-fuchsia-600"
         border="border-amber-400/40"
         options={[

@@ -145,7 +145,7 @@ const normalize = (text: string): string[] => {
   }
   return cleaned
     .replace(/[.,!?;:"()（）。，！？、""''…·\[\]{}]/g, " ")
-    .replace(/[\-–—]/g, " ")
+    .replace(/[\-–-]/g, " ")
     .split(/\s+/)
     .filter(Boolean);
 };
@@ -167,7 +167,7 @@ const levenshtein = (a: string, b: string): number => {
 
 const matchStatus = (spokenWord: string, expected: string): WordResult["status"] | null => {
   if (spokenWord === expected || isNumberEquivalent(spokenWord, expected)) return "correct";
-  // Substring/prefix tolerance — handles plural, tense, particles, etc.
+  // Substring/prefix tolerance - handles plural, tense, particles, etc.
   if (expected.length >= 4 && (spokenWord.startsWith(expected.slice(0, Math.max(3, expected.length - 2))) || expected.startsWith(spokenWord.slice(0, Math.max(3, spokenWord.length - 2))))) return "close";
   const dist = levenshtein(spokenWord, expected);
   // More forgiving thresholds so learners aren't punished for minor mispronunciations
@@ -206,7 +206,7 @@ const compareWords = (target: string, spoken: string): WordResult[] => {
   });
 };
 
-// Calculate accuracy percentage — gentler: "close" counts as 0.75 (was 0.5)
+// Calculate accuracy percentage - gentler: "close" counts as 0.75 (was 0.5)
 const calcAccuracy = (results: WordResult[]): number => {
   if (results.length === 0) return 0;
   const score = results.reduce((acc, r) => {
@@ -366,7 +366,7 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
   }, [speechSupported, currentSentence, config.speechLang, t]);
 
   // Stop recording and process results.
-  // We DO NOT flip isRecording=false here — we wait for `onend` so the latest
+  // We DO NOT flip isRecording=false here - we wait for `onend` so the latest
   // transcript (final or interim) is committed before the grading useEffect runs.
   // Otherwise the effect can fire with a stale/empty transcript and produce 0%.
   const stopRecognition = useCallback(() => {

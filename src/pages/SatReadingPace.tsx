@@ -68,7 +68,7 @@ const SatReadingPace = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-secondary/10">
       <Helmet>
-        <title>{t("Luyện tốc độ đọc SAT — HaiEduTech", "SAT Reading Pace Trainer — HaiEduTech")}</title>
+        <title>{t("Luyện tốc độ đọc SAT - HaiEduTech", "SAT Reading Pace Trainer - HaiEduTech")}</title>
       </Helmet>
       <Navbar />
       <main className="container mx-auto px-4 py-8 max-w-3xl">
@@ -92,8 +92,8 @@ const SatReadingPace = () => {
 
         <div className="grid md:grid-cols-3 gap-3 mb-5">
           {[
-            { label: t("WPM lần trước", "Last WPM"), value: lastWpm || "—" },
-            { label: t("Trung bình", "Average"), value: avgWpm || "—" },
+            { label: t("WPM lần trước", "Last WPM"), value: lastWpm || "-" },
+            { label: t("Trung bình", "Average"), value: avgWpm || "-" },
             { label: t("Số lần luyện", "Sessions"), value: history.length },
           ].map((s, i) => (
             <div key={i} className="rounded-xl border border-border bg-card p-4 text-center">
@@ -143,7 +143,7 @@ const SatReadingPace = () => {
                 {history[0].wpm >= 250
                   ? t("Tuyệt vời! Đạt mục tiêu SAT.", "Excellent! Hit the SAT target.")
                   : history[0].wpm >= 200
-                    ? t("Khá tốt — cần thêm 50 WPM nữa.", "Solid — push another 50 WPM.")
+                    ? t("Khá tốt - cần thêm 50 WPM nữa.", "Solid - push another 50 WPM.")
                     : t("Cần luyện thêm để theo kịp phòng thi.", "Keep training to handle test-day pace.")}
               </p>
               <div className="flex flex-wrap justify-center gap-2">

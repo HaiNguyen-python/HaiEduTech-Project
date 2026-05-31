@@ -1,5 +1,5 @@
 /**
- * @file hsk1.ts — HSK 1 Mock Test (authentic Hanban format)
+ * @file hsk1.ts - HSK 1 Mock Test (authentic Hanban format)
  * Listening 20 + Reading 20 = 40 Q, 35 minutes. Pinyin always shown.
  * Prompts are Chinese-only (just like the real exam); Vietnamese gloss
  * is stored in `promptVi` / `opt.vi` / `explanation` and revealed only

@@ -69,8 +69,8 @@ export const BADGE_DEFS: Record<BadgeId, BadgeDef> = {
     name: "Bug Slayer",
     nameVi: "Diệt bug",
     emoji: "🪲",
-    description: "Passed a quiz after a wrong attempt — persistence wins.",
-    descriptionVi: "Vượt qua quiz sau khi sai — kiên trì là chìa khoá.",
+    description: "Passed a quiz after a wrong attempt - persistence wins.",
+    descriptionVi: "Vượt qua quiz sau khi sai - kiên trì là chìa khoá.",
   },
   "speed-coder": {
     id: "speed-coder",

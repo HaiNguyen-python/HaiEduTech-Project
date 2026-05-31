@@ -36,7 +36,7 @@ const saveCache = (cache: Record<string, TranslationResult>) => {
       entries.length > MAX_CACHE ? Object.fromEntries(entries.slice(-MAX_CACHE)) : cache;
     localStorage.setItem(CACHE_KEY, JSON.stringify(trimmed));
   } catch {
-    /* quota — ignore */
+    /* quota - ignore */
   }
 };
 
@@ -166,13 +166,13 @@ interface ClickableFinnishTextProps {
 }
 
 const ClickableFinnishText = ({ text, className }: ClickableFinnishTextProps) => {
-  const tokens = text.split(/(\s+|[.,!?;:"'„"()\[\]…—–-])/g).filter((t) => t.length > 0);
+  const tokens = text.split(/(\s+|[.,!?;:"'„"()\[\]…-–-])/g).filter((t) => t.length > 0);
 
   return (
     <div className={`whitespace-pre-wrap leading-relaxed ${className ?? ""}`}>
       {tokens.map((tok, i) => {
         if (/^\s+$/.test(tok)) return <span key={i}>{tok}</span>;
-        if (/^[.,!?;:"'„"()\[\]…—–-]$/.test(tok)) return <span key={i}>{tok}</span>;
+        if (/^[.,!?;:"'„"()\[\]…-–-]$/.test(tok)) return <span key={i}>{tok}</span>;
         return <WordChip key={i} word={tok} />;
       })}
     </div>

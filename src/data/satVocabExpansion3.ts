@@ -1,4 +1,4 @@
-// SAT Vocabulary Expansion 3 — large additional set to reach 800+ total unique SAT words.
+// SAT Vocabulary Expansion 3 - large additional set to reach 800+ total unique SAT words.
 import type { SatWord } from "./satVocabData";
 
 type Sec = "Reading & Writing" | "Math";

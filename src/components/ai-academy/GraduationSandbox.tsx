@@ -1,5 +1,5 @@
 /**
- * GraduationSandbox — pick a presentation topic, then generate a holographic
+ * GraduationSandbox - pick a presentation topic, then generate a holographic
  * graduation certificate modal with the signed-in user's name (printable).
  */
 import { useEffect, useState } from "react";
@@ -13,7 +13,7 @@ const GR_TF = [
   { q: "Trình bày đồ án không cần luyện tập.", a: false, why: "Luyện trước giúp tự tin & rõ ý." },
   { q: "Một đề tài tốt nên có vấn đề thực tế cần giải quyết.", a: true },
   { q: "Bằng AI Academy có thể in ra để khoe ba mẹ.", a: true },
-  { q: "Học AI xong là không cần học thêm gì nữa.", a: false, why: "AI thay đổi hàng tháng — cần học suốt đời." },
+  { q: "Học AI xong là không cần học thêm gì nữa.", a: false, why: "AI thay đổi hàng tháng - cần học suốt đời." },
 ];
 const GR_PAIRS = [
   { a: "Capstone", b: "Đồ án tốt nghiệp tổng kết khoá" },
@@ -139,7 +139,7 @@ const GraduationSandbox = () => {
         positive
         goal={80}
         goodLabel="Pitch của bạn đã đủ thuyết phục ✅"
-        badLabel="Còn thiếu slide quan trọng — bật thêm nhé"
+        badLabel="Còn thiếu slide quan trọng - bật thêm nhé"
         metricLabel="Điểm Pitch"
         accent="from-amber-500 to-fuchsia-600"
         border="border-amber-400/40"
@@ -154,7 +154,7 @@ const GraduationSandbox = () => {
       />
 
       <BestMatchPick
-        title="🧠 Ôn tập toàn khoá — bạn còn nhớ?"
+        title="🧠 Ôn tập toàn khoá - bạn còn nhớ?"
         hint="Mỗi mô tả tương ứng với chặng AI Academy nào?"
         accent="from-amber-500 to-fuchsia-600"
         border="border-amber-400/40"
@@ -175,7 +175,7 @@ const GraduationSandbox = () => {
           { prompt: "ChatGPT viết văn, Midjourney vẽ ảnh từ prompt", correctId: "genai" },
           { prompt: "AI tự lái xe học qua Reward & Punishment", correctId: "rl" },
           { prompt: "Amazon dừng AI tuyển dụng vì thiên vị giới", correctId: "ethics" },
-          { prompt: "Ghép mặt người khác lên video — cần forensic", correctId: "deepfake" },
+          { prompt: "Ghép mặt người khác lên video - cần forensic", correctId: "deepfake" },
           { prompt: "Tự lập kế hoạch nhiều bước, gọi tool đặt vé bay", correctId: "agent" },
         ]}
       />

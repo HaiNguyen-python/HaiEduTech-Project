@@ -1,5 +1,5 @@
 /**
- * GraduationCertificate — premium printable certificate modal for AI Academy.
+ * GraduationCertificate - premium printable certificate modal for AI Academy.
  * Shown when a student collects all 36/36 stars across the 12 lessons.
  *
  * Design goals:
@@ -251,7 +251,7 @@ export default function GraduationCertificate({ open, onClose, studentName, seed
 
                   {/* Signature block */}
                   <div className="text-right flex flex-col items-end">
-                    {/* Signature script — replace with <img src="/signature.png" /> if available */}
+                    {/* Signature script - replace with <img src="/signature.png" /> if available */}
                     <div
                       className="text-[#1a1a2e]"
                       style={{
@@ -318,7 +318,7 @@ export default function GraduationCertificate({ open, onClose, studentName, seed
             </div>
           </motion.div>
 
-          {/* ============= PRINT STYLES — show only the certificate ============= */}
+          {/* ============= PRINT STYLES - show only the certificate ============= */}
           <style>{`
             @media print {
               @page { size: A4 landscape; margin: 0; }

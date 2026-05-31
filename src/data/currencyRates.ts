@@ -1,7 +1,7 @@
 /**
  * @file currencyRates.ts
  * @description Static reference exchange rates for the pre-departure currency
- *   converter. Rounded and updated manually — for real transactions students
+ *   converter. Rounded and updated manually - for real transactions students
  *   must check their bank's live rates.
  */
 export interface CurrencyRate {
@@ -12,7 +12,7 @@ export interface CurrencyRate {
   vndPerUnit: number;
 }
 
-// Manual update date — surfaced in the UI.
+// Manual update date - surfaced in the UI.
 export const CURRENCY_RATES_UPDATED = "2026-05-01";
 
 export const CURRENCY_RATES: CurrencyRate[] = [

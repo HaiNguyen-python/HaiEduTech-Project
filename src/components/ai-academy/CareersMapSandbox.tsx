@@ -1,5 +1,5 @@
 /**
- * CareersMapSandbox — Pick 2-3 interests, highlight matching AI careers in VN
+ * CareersMapSandbox - Pick 2-3 interests, highlight matching AI careers in VN
  * with salary ranges. Helps students see "AI is for me too".
  */
 import { useState } from "react";
@@ -36,10 +36,10 @@ const TF = [
   { q: "Lương kỹ sư AI VN cao hơn nhiều ngành khác.", a: true },
 ];
 const PAIRS = [
-  { a: "VinAI Research", b: "Vingroup — Computer Vision" },
+  { a: "VinAI Research", b: "Vingroup - Computer Vision" },
   { a: "Zalo AI Lab", b: "Chatbot Kiki tiếng Việt" },
   { a: "FPT.AI", b: "Trợ lý ảo doanh nghiệp" },
-  { a: "Sky Mavis", b: "Axie Infinity — Game AI" },
+  { a: "Sky Mavis", b: "Axie Infinity - Game AI" },
 ];
 
 const CareersMapSandbox = () => {
@@ -88,7 +88,7 @@ const CareersMapSandbox = () => {
         {picked.size === 0 ? (
           <p className="text-sm text-muted-foreground italic">Chọn sở thích để xem gợi ý nghề.</p>
         ) : matches.length === 0 ? (
-          <p className="text-sm text-muted-foreground italic">Chưa có kết quả — thử kết hợp sở thích khác.</p>
+          <p className="text-sm text-muted-foreground italic">Chưa có kết quả - thử kết hợp sở thích khác.</p>
         ) : (
           <ul className="space-y-2">
             {matches.map((c, i) => (

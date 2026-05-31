@@ -100,7 +100,7 @@ const JourneyDashboard = () => {
             </div>
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold">{t("Journey Dashboard", "Journey Dashboard")}</h1>
-              <p className="text-sm text-muted-foreground">{t("Tổng quan hành trình du học của bạn — cập nhật realtime.", "Your study abroad journey at a glance.")}</p>
+              <p className="text-sm text-muted-foreground">{t("Tổng quan hành trình du học của bạn - cập nhật realtime.", "Your study abroad journey at a glance.")}</p>
             </div>
           </div>
 
@@ -136,7 +136,7 @@ const JourneyDashboard = () => {
                 <StatCard
                   icon={Clock}
                   label={t("Hạn gần nhất", "Next deadline")}
-                  value={daysToNext != null ? `${daysToNext}d` : "—"}
+                  value={daysToNext != null ? `${daysToNext}d` : "-"}
                   highlight={daysToNext != null && daysToNext <= 7}
                   to="/study-abroad/documents"
                 />

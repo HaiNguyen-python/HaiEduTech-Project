@@ -166,40 +166,40 @@ function containsProfanity(text: string): boolean {
 // ── Fun facts the chatbot pops to learners every 3 minutes ──
 const FUN_FACTS: { vi: string; en: string }[] = [
   { vi: "Bật mí: hơn 60% từ vựng học thuật tiếng Anh có gốc Latin hoặc Pháp.", en: "Fun fact: over 60% of academic English vocabulary comes from Latin or French roots." },
-  { vi: "Bật mí: chữ 好 ghép từ 女 và 子 — một chữ Hán nhỏ chứa cả câu chuyện văn hoá.", en: "Fun fact: the Chinese character 好 combines 女 and 子 — one small symbol with a full cultural story." },
+  { vi: "Bật mí: chữ 好 ghép từ 女 và 子 - một chữ Hán nhỏ chứa cả câu chuyện văn hoá.", en: "Fun fact: the Chinese character 好 combines 女 and 子 - one small symbol with a full cultural story." },
   { vi: "Bật mí: Python được đặt theo nhóm hài Monty Python, không phải theo loài rắn.", en: "Fun fact: Python was named after Monty Python, not the snake." },
   { vi: "Bật mí: luyện nói tiếng Anh 10 phút mỗi ngày hiệu quả hơn học dồn cuối tuần.", en: "Fun fact: 10 minutes of spoken English daily beats one long cramming session on the weekend." },
   { vi: "Bật mí: khoảng 3.000 chữ Hán thông dụng đã đủ đọc phần lớn báo chí cơ bản.", en: "Fun fact: roughly 3,000 common Hanzi are enough to read most basic news content." },
   { vi: "Bật mí: học lập trình sớm giúp não quen với tư duy chia nhỏ vấn đề.", en: "Fun fact: learning to code early trains your brain to break big problems into clear steps." },
-  { vi: "Bật mí: IELTS Speaking chỉ 11–14 phút, phản xạ tự nhiên quan trọng hơn nói dài.", en: "Fun fact: IELTS Speaking lasts only 11–14 minutes — natural response beats speaking too long." },
-  { vi: "Bật mí: 电脑 trong tiếng Trung nghĩa đen là 'máy não điện', tức computer.", en: "Fun fact: 电脑 in Chinese literally means 'electric brain' — it's the word for computer." },
+  { vi: "Bật mí: IELTS Speaking chỉ 11–14 phút, phản xạ tự nhiên quan trọng hơn nói dài.", en: "Fun fact: IELTS Speaking lasts only 11–14 minutes - natural response beats speaking too long." },
+  { vi: "Bật mí: 电脑 trong tiếng Trung nghĩa đen là 'máy não điện', tức computer.", en: "Fun fact: 电脑 in Chinese literally means 'electric brain' - it's the word for computer." },
   { vi: "Bật mí: JavaScript được viết trong khoảng 10 ngày, nhưng nay đứng sau vô số website lớn.", en: "Fun fact: JavaScript was created in about 10 days, yet now powers countless major websites." },
   { vi: "Bật mí: nghe podcast tiếng Anh 15 phút/ngày cải thiện listening rõ rệt sau 1 tháng.", en: "Fun fact: 15 minutes of English podcasts daily noticeably improves listening within a month." },
   { vi: "Bật mí: SQL ra đời từ những năm 1970 và vẫn là ngôn ngữ truy vấn phổ biến nhất.", en: "Fun fact: SQL was born in the 1970s and is still the most widely used query language." },
-  { vi: "Bật mí: viết tay từ vựng giúp nhớ lâu hơn gõ phím — kể cả với Hán tự!", en: "Fun fact: writing vocabulary by hand boosts retention better than typing — even for Hanzi!" },
-  // —— Programming fun facts ——
+  { vi: "Bật mí: viết tay từ vựng giúp nhớ lâu hơn gõ phím - kể cả với Hán tự!", en: "Fun fact: writing vocabulary by hand boosts retention better than typing - even for Hanzi!" },
+  // -- Programming fun facts --
   { vi: "Bật mí: máy tính đầu tiên ENIAC nặng 27 tấn, chiếm cả một phòng lớn năm 1945.", en: "Fun fact: the first ENIAC computer weighed 27 tons and filled an entire room in 1945." },
   { vi: "Bật mí: Grace Hopper tìm ra thuật ngữ 'debugging' sau khi gỡ một con bướm ra khỏi máy tính.", en: "Fun fact: Grace Hopper coined 'debugging' after removing a real moth from a computer." },
-  { vi: "Bật mí: GitHub lưu trữ hơn 200 triệu kho mã nguồn — lớn như một thư viện khổng lồ của nhân loại.", en: "Fun fact: GitHub hosts over 200 million code repositories — a giant library for humanity." },
+  { vi: "Bật mí: GitHub lưu trữ hơn 200 triệu kho mã nguồn - lớn như một thư viện khổng lồ của nhân loại.", en: "Fun fact: GitHub hosts over 200 million code repositories - a giant library for humanity." },
   { vi: "Bật mí: Linux được tạo ra bởi Linus Torvalds năm 1991 và hiện chạy 90% cloud server thế giới.", en: "Fun fact: Linux was created by Linus Torvalds in 1991 and now powers 90% of the world's cloud servers." },
   { vi: "Bật mí: Stack Overflow được lập ra năm 2008, mỗi phút có hơn 10 câu hỏi mới từ lập trình viên.", en: "Fun fact: Stack Overflow launched in 2008 and receives over 10 new developer questions every minute." },
   { vi: "Bật mí: mã nhị phân chỉ dùng 0 và 1, nhưng tất cả video, ảnh, game bạn xem đều là nhị phân.", en: "Fun fact: binary only uses 0 and 1, yet every video, photo, and game you see is stored in binary." },
   { vi: "Bật mí: mọi màu sắc trên màn hình chỉ là tổ hợp của 3 giá trị: Red, Green và Blue (RGB).", en: "Fun fact: every color on your screen is just a mix of three values: Red, Green, and Blue (RGB)." },
-  { vi: "Bật mí: HTML được phát minh bởi Tim Berners-Lee năm 1993 — nền tảng đầu tiên của World Wide Web.", en: "Fun fact: HTML was invented by Tim Berners-Lee in 1993 — the very foundation of the World Wide Web." },
+  { vi: "Bật mí: HTML được phát minh bởi Tim Berners-Lee năm 1993 - nền tảng đầu tiên của World Wide Web.", en: "Fun fact: HTML was invented by Tim Berners-Lee in 1993 - the very foundation of the World Wide Web." },
   { vi: "Bật mí: một ổ cứng SSD hiện đại có thể đọc/ghi nhanh hơn 500 lần so với ổ đĩa cách đây 20 năm.", en: "Fun fact: a modern SSD can read and write data over 500× faster than a hard drive from 20 years ago." },
-  { vi: "Bật mí: AI học được nhờ 'neural network' — mô phỏng cách neuron trong não người kết nối với nhau.", en: "Fun fact: AI learns through neural networks — mimicking how neurons connect in the human brain." },
-  { vi: "Bật mí: thuật toán tìm kiếm Google xử lý hơn 8 tỷ truy vấn mỗi ngày — nhanh hơn nháy mắt.", en: "Fun fact: Google's search algorithm handles over 8 billion queries daily — faster than a blink." },
+  { vi: "Bật mí: AI học được nhờ 'neural network' - mô phỏng cách neuron trong não người kết nối với nhau.", en: "Fun fact: AI learns through neural networks - mimicking how neurons connect in the human brain." },
+  { vi: "Bật mí: thuật toán tìm kiếm Google xử lý hơn 8 tỷ truy vấn mỗi ngày - nhanh hơn nháy mắt.", en: "Fun fact: Google's search algorithm handles over 8 billion queries daily - faster than a blink." },
   { vi: "Bật mí: ngôn ngữ C được tạo ra năm 1972 và vẫn là nền tảng cho hệ điều hành, trình biên dịch, game engine.", en: "Fun fact: C was created in 1972 and remains the foundation for operating systems, compilers, and game engines." },
-  { vi: "Bật mí: CAPTCHA viết tắt từ 'Completely Automated Public Turing test' — dùng AI để đánh giá con người!", en: "Fun fact: CAPTCHA stands for 'Completely Automated Public Turing test' — using AI to judge humans!" },
+  { vi: "Bật mí: CAPTCHA viết tắt từ 'Completely Automated Public Turing test' - dùng AI để đánh giá con người!", en: "Fun fact: CAPTCHA stands for 'Completely Automated Public Turing test' - using AI to judge humans!" },
   { vi: "Bật mí: một lập trình viên trung bình viết khoảng 100 dòng code mỗi ngày làm việc hiệu quả.", en: "Fun fact: an average developer writes about 100 lines of productive code per working day." },
   { vi: "Bật mí: Unicode chứa hơn 149.000 ký tự, bao gồm cả emoji, chữ Hán, cổ ngữ và ký hiệu toán học.", en: "Fun fact: Unicode contains over 149,000 characters, including emojis, Hanzi, ancient scripts, and math symbols." },
-  { vi: "Bật mí: Scratch do MIT phát triển, dạy lập trình bằng cách kéo-thả khối lệnh — bạn nhỏ 8 tuổi cũng làm được game!", en: "Fun fact: Scratch was built at MIT and teaches coding via drag-and-drop blocks — even 8-year-olds can make games!" },
-  { vi: "Bật mí: Pyodide chạy Python ngay trong trình duyệt nhờ WebAssembly, không cần cài đặt.", en: "Fun fact: Pyodide runs full Python inside the browser via WebAssembly — no install needed." },
+  { vi: "Bật mí: Scratch do MIT phát triển, dạy lập trình bằng cách kéo-thả khối lệnh - bạn nhỏ 8 tuổi cũng làm được game!", en: "Fun fact: Scratch was built at MIT and teaches coding via drag-and-drop blocks - even 8-year-olds can make games!" },
+  { vi: "Bật mí: Pyodide chạy Python ngay trong trình duyệt nhờ WebAssembly, không cần cài đặt.", en: "Fun fact: Pyodide runs full Python inside the browser via WebAssembly - no install needed." },
   { vi: "Bật mí: Apache Spark xử lý dữ liệu nhanh hơn Hadoop tới 100 lần nhờ tính toán trong bộ nhớ (in-memory).", en: "Fun fact: Apache Spark can process data up to 100× faster than Hadoop thanks to in-memory computing." },
-  { vi: "Bật mí: một mô hình Machine Learning đơn giản có thể học từ vài trăm dòng dữ liệu — quan trọng là chất lượng, không phải số lượng.", en: "Fun fact: a simple Machine Learning model can learn from just a few hundred rows — quality of data matters more than quantity." },
-  { vi: "Bật mí: SQL JOIN giúp ghép dữ liệu từ nhiều bảng — một kỹ năng vàng cho mọi Data Engineer.", en: "Fun fact: SQL JOINs let you stitch data across tables — a golden skill for every Data Engineer." },
-  { vi: "Bật mí: Git được Linus Torvalds tạo ra trong 2 tuần năm 2005, giờ là chuẩn quản lý mã nguồn toàn cầu.", en: "Fun fact: Git was created by Linus Torvalds in just 2 weeks in 2005 — now the global standard for source control." },
-  { vi: "Bật mí: tư duy thuật toán không cần máy tính — học sắp xếp, tìm kiếm, đệ quy giúp bạn giải mọi vấn đề trong đời sống.", en: "Fun fact: algorithmic thinking doesn't need a computer — sorting, searching, and recursion sharpen real-life problem solving." },
+  { vi: "Bật mí: một mô hình Machine Learning đơn giản có thể học từ vài trăm dòng dữ liệu - quan trọng là chất lượng, không phải số lượng.", en: "Fun fact: a simple Machine Learning model can learn from just a few hundred rows - quality of data matters more than quantity." },
+  { vi: "Bật mí: SQL JOIN giúp ghép dữ liệu từ nhiều bảng - một kỹ năng vàng cho mọi Data Engineer.", en: "Fun fact: SQL JOINs let you stitch data across tables - a golden skill for every Data Engineer." },
+  { vi: "Bật mí: Git được Linus Torvalds tạo ra trong 2 tuần năm 2005, giờ là chuẩn quản lý mã nguồn toàn cầu.", en: "Fun fact: Git was created by Linus Torvalds in just 2 weeks in 2005 - now the global standard for source control." },
+  { vi: "Bật mí: tư duy thuật toán không cần máy tính - học sắp xếp, tìm kiếm, đệ quy giúp bạn giải mọi vấn đề trong đời sống.", en: "Fun fact: algorithmic thinking doesn't need a computer - sorting, searching, and recursion sharpen real-life problem solving." },
 ];
 
 // ── Speech Recognition type shim ──
@@ -383,7 +383,7 @@ const ChatBot = () => {
           const pct = Math.round((Number(a.score) / Number(a.max_score)) * 100);
           return `  ⚠ ${a.activity_type}${a.activity_id ? ` [${a.activity_id}]` : ""} → only ${pct}% (${a.domain || "general"}, ${new Date(a.created_at).toLocaleDateString()})`;
         })
-        .join("\n") || "  (none — keep it up!)";
+        .join("\n") || "  (none - keep it up!)";
 
       const typeCount: Record<string, number> = {};
       activities.forEach((a) => {
@@ -407,7 +407,7 @@ const ChatBot = () => {
       const attendance = (attendanceRes?.data || []) as any[];
       const attendanceBlock = attendance
         .slice(0, 10)
-        .map((a) => `  - ${a.lesson_title || a.lesson_id} (${a.lesson_type || "lesson"}, ${a.subject || "—"}) · ${a.status} · ${a.attendance_date}`)
+        .map((a) => `  - ${a.lesson_title || a.lesson_id} (${a.lesson_type || "lesson"}, ${a.subject || "-"}) · ${a.status} · ${a.attendance_date}`)
         .join("\n") || "  - (no attendance records yet)";
 
       // Current streak
@@ -419,7 +419,7 @@ const ChatBot = () => {
         `Current study streak: ${streakDays} day(s)`,
         `Mastered vocabulary by subject: ${vocabSummary}`,
         ``,
-        `Top review-candidate WORDS (oldest reviewed first — recommend these when student asks "từ nào nên ôn lại"):`,
+        `Top review-candidate WORDS (oldest reviewed first - recommend these when student asks "từ nào nên ôn lại"):`,
         reviewWordsBlock,
         ``,
         `Most-used activities recently: ${topActivities}`,
@@ -769,7 +769,7 @@ const ChatBot = () => {
     let payloadContent: any;
     if (attachment?.kind === "image") {
       payloadContent = [
-        { type: "text", text: rawInput || t("Em vừa gửi một ảnh, thầy xem giúp em nhé.", "I just attached an image — please take a look.") },
+        { type: "text", text: rawInput || t("Em vừa gửi một ảnh, thầy xem giúp em nhé.", "I just attached an image - please take a look.") },
         { type: "image_url", image_url: { url: attachment.dataUrl } },
       ];
     } else if (attachment?.kind === "text") {
@@ -1031,7 +1031,7 @@ const ChatBot = () => {
                 </h3>
                 <p className="text-[11px] text-muted-foreground truncate leading-tight">
                   {studentContext
-                    ? t("Thầy đã có dữ liệu học tập của em — hỏi gì cũng được nhé!", "I have your learning data — ask me anything!")
+                    ? t("Thầy đã có dữ liệu học tập của em - hỏi gì cũng được nhé!", "I have your learning data - ask me anything!")
                     : t("Cùng nâng cấp kỹ năng cùng thầy hôm nay nhé!", "Level up your skills with me today.")}
                 </p>
               </div>

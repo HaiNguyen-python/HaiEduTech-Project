@@ -99,7 +99,7 @@ const UniversityShortlister = () => {
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold">{t("University Shortlister AI", "University Shortlister AI")}</h1>
               <p className="text-sm text-muted-foreground">
-                {t("AI gợi ý 9 trường (3 reach · 3 target · 3 safety) dựa trên hồ sơ của bạn — dữ liệu Perplexity 2026.", "AI suggests 9 universities (reach/target/safety) from your profile — Perplexity 2026 data.")}
+                {t("AI gợi ý 9 trường (3 reach · 3 target · 3 safety) dựa trên hồ sơ của bạn - dữ liệu Perplexity 2026.", "AI suggests 9 universities (reach/target/safety) from your profile - Perplexity 2026 data.")}
               </p>
             </div>
           </div>

@@ -77,7 +77,7 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Scroll listener removed — see comment near `scrolled` state above.
+  // Scroll listener removed - see comment near `scrolled` state above.
 
   // Close mobile menu on route change
   useEffect(() => {
@@ -229,7 +229,7 @@ const Navbar = () => {
       { to: "/programming/se-foundations/se-git", label: t("Git Branching Simulator", "Git Branching Simulator"), icon: Workflow },
       { to: "/programming/software-eng-interview", label: t("Software Engineer Interview", "Software Engineer Interview"), icon: MessagesSquare },
     ] },
-    { to: "/programming/nlp", label: t("NLP — Xử lý Ngôn ngữ", "NLP — Language Processing"), icon: Languages },
+    { to: "/programming/nlp", label: t("NLP - Xử lý Ngôn ngữ", "NLP - Language Processing"), icon: Languages },
     { to: "/programming/edtech", label: t("EdTech", "EdTech"), icon: GraduationCap },
     
     { to: "#prog-career-group", label: t("Sự nghiệp", "Career"), icon: Rocket, groupLabel: "prog-career", children: [
@@ -302,7 +302,7 @@ const Navbar = () => {
       {/* Row 1: Branding - fixed on all devices.
           `translateZ(0)` + `will-change: transform` promotes this fixed bar to
           its own GPU compositor layer so scrolling heavy content (Mermaid SVGs,
-          long lessons) doesn't repaint the navbar on every frame — fixes the
+          long lessons) doesn't repaint the navbar on every frame - fixes the
           flicker reported at the bottom of long pages. */}
       <div
         className="w-full z-[60] bg-card border-b border-border fixed top-0"

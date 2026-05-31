@@ -286,7 +286,7 @@ const FeedbackAnalyticsTab = () => {
           icon={Star}
           tone="teal"
           label={t("Điểm trung bình", "Average Rating")}
-          value={metrics.avg ? `${metrics.avg.toFixed(2)} / 5` : "—"}
+          value={metrics.avg ? `${metrics.avg.toFixed(2)} / 5` : "-"}
           sub={t("Toàn bộ bài học", "Across all lessons")}
         />
         <KPI
@@ -495,14 +495,14 @@ const FeedbackAnalyticsTab = () => {
                             {new Date(r.created_at).toLocaleDateString("vi-VN")}
                           </TableCell>
                           <TableCell className="text-sm">
-                            {r.user_id ? profileMap[r.user_id] || "—" : t("Khách", "Guest")}
+                            {r.user_id ? profileMap[r.user_id] || "-" : t("Khách", "Guest")}
                           </TableCell>
                           <TableCell className="text-sm max-w-[260px] truncate" title={r.lesson_title || r.lesson_id}>
                             {r.lesson_title || r.lesson_id}
                           </TableCell>
                           <TableCell className="text-xs">{hub}</TableCell>
                           <TableCell className="text-right">
-                            <Badge variant={tone as any}>{score === null ? "—" : `${score.toFixed(1)}★`}</Badge>
+                            <Badge variant={tone as any}>{score === null ? "-" : `${score.toFixed(1)}★`}</Badge>
                           </TableCell>
                           <TableCell className="text-sm max-w-[320px]">
                             {r.suggestion?.trim() ? (
@@ -513,7 +513,7 @@ const FeedbackAnalyticsTab = () => {
                                   ? "👍 Helpful"
                                   : r.feedback_type === "dislike"
                                   ? "👎 Needs improvement"
-                                  : "—"}
+                                  : "-"}
                               </span>
                             )}
                           </TableCell>

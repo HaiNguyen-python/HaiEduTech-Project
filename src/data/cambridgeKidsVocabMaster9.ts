@@ -60,7 +60,7 @@ export const CAMBRIDGE_KIDS_WORDS_MASTER_9: W[] = [
   mk("polite", "lịch sự", "🙇", "Movers", "Please be polite to others.", "Hãy lịch sự với mọi người."),
   mk("safe", "an toàn", "🛡️", "Movers", "Keep your money safe.", "Hãy giữ tiền của bạn an toàn."),
   mk("ticket", "vé", "🎫", "Movers", "I have two cinema tickets.", "Em có hai vé xem phim."),
-  mk("umbrella", "cái ô", "☂️", "Movers", "Take your umbrella — it's raining!", "Hãy mang ô — trời đang mưa!"),
+  mk("umbrella", "cái ô", "☂️", "Movers", "Take your umbrella - it's raining!", "Hãy mang ô - trời đang mưa!"),
 
   // ─── FLYERS (A2) ───
   mk("adventure", "cuộc phiêu lưu", "🗺️", "Flyers", "Our trip was a big adventure.", "Chuyến đi là một cuộc phiêu lưu lớn."),

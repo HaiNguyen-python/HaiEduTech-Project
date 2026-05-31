@@ -31,7 +31,7 @@ export const IELTS_GRAMMAR: IELTSGrammarItem[] = [
     id: "g-cond-mixed",
     category: "conditionals",
     structure: "Mixed conditional: If + past perfect, ... would + V (now)",
-    meaning: "Câu điều kiện hỗn hợp — giả thiết quá khứ ảnh hưởng hiện tại.",
+    meaning: "Câu điều kiện hỗn hợp - giả thiết quá khứ ảnh hưởng hiện tại.",
     example: "If governments **had invested** more in renewables in the 1990s, cities **would not be suffering** such severe air pollution today.",
     hint: "Write about a past decision still shaping today's society.",
   },
@@ -46,7 +46,7 @@ export const IELTS_GRAMMAR: IELTSGrammarItem[] = [
     id: "g-cond-unless",
     category: "conditionals",
     structure: "Unless + present, ... will/may + V",
-    meaning: "Trừ khi ... — tương đương 'if not'.",
+    meaning: "Trừ khi ... - tương đương 'if not'.",
     example: "**Unless** stricter laws **are introduced**, plastic waste will continue to choke marine ecosystems.",
   },
   {
@@ -128,8 +128,8 @@ export const IELTS_GRAMMAR: IELTSGrammarItem[] = [
   {
     id: "g-rel-which-summative",
     category: "relative",
-    structure: ", which + clause (summative — refers to whole previous clause)",
-    meaning: "Mệnh đề quan hệ tổng kết — 'which' thay cho cả mệnh đề trước.",
+    structure: ", which + clause (summative - refers to whole previous clause)",
+    meaning: "Mệnh đề quan hệ tổng kết - 'which' thay cho cả mệnh đề trước.",
     example: "Many cities have introduced congestion charges, **which has** dramatically improved air quality.",
   },
   {
@@ -182,7 +182,7 @@ export const IELTS_GRAMMAR: IELTSGrammarItem[] = [
     id: "g-pass-impersonal",
     category: "passive",
     structure: "It is widely believed/argued/claimed that + clause",
-    meaning: "Câu bị động vô nhân xưng — phong cách học thuật.",
+    meaning: "Câu bị động vô nhân xưng - phong cách học thuật.",
     example: "**It is widely argued that** automation will eliminate millions of low-skilled jobs within a decade.",
   },
   {
@@ -228,7 +228,7 @@ export const IELTS_GRAMMAR: IELTSGrammarItem[] = [
     id: "g-comp-whereas",
     category: "comparison",
     structure: "Whereas / While + clause, clause",
-    meaning: "Trong khi ... — đối chiếu hai ý.",
+    meaning: "Trong khi ... - đối chiếu hai ý.",
     example: "**Whereas** older generations prized job security, millennials tend to prioritise meaningful work.",
   },
   {
@@ -244,14 +244,14 @@ export const IELTS_GRAMMAR: IELTSGrammarItem[] = [
     id: "g-mod-may-well",
     category: "modals",
     structure: "S + may/might well + V",
-    meaning: "Rất có thể ... — hedging trang trọng.",
+    meaning: "Rất có thể ... - hedging trang trọng.",
     example: "Artificial intelligence **may well transform** medical diagnostics within the next decade.",
   },
   {
     id: "g-mod-tend-to",
     category: "modals",
     structure: "S + tend(s) to + V",
-    meaning: "Có xu hướng ... — diễn đạt nhẹ nhàng.",
+    meaning: "Có xu hướng ... - diễn đạt nhẹ nhàng.",
     example: "Children raised in bilingual households **tend to demonstrate** stronger cognitive flexibility.",
   },
   {

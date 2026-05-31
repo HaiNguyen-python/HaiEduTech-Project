@@ -1,6 +1,6 @@
 /**
  * @file ieltsVocabExpansion5.ts
- * @description IELTS Vocabulary Expansion #5 — Band 6.5-8.0 lexis covering
+ * @description IELTS Vocabulary Expansion #5 - Band 6.5-8.0 lexis covering
  * education, work & career, health & wellbeing, technology and media.
  */
 import type { IeltsWord } from "./ieltsVocabData";

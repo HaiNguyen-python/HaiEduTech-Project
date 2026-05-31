@@ -1,6 +1,6 @@
 /**
  * @file cambridgeKidsVocabExpansion14.ts
- * @description Expansion #14 — ~135 fresh, audited entries.
+ * @description Expansion #14 - ~135 fresh, audited entries.
  *              Cross-checked against existing data to guarantee NO duplicates within the same level.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
@@ -94,7 +94,7 @@ export const CAMBRIDGE_KIDS_WORDS_EXPANSION_14: W[] = [
   mk("interview", "phỏng vấn", "🎙️", "Flyers", "I have a school interview next week.", "Em có buổi phỏng vấn trường tuần sau."),
   mk("mixture", "hỗn hợp", "🧪", "Flyers", "A cake is a mixture of flour and eggs.", "Bánh là hỗn hợp bột và trứng."),
   mk("moustache", "ria mép", "👨", "Flyers", "My uncle has a thick moustache.", "Chú em có ria mép rậm."),
-  mk("panic", "hoảng loạn", "😰", "Flyers", "Don't panic — stay calm.", "Đừng hoảng loạn — hãy bình tĩnh."),
+  mk("panic", "hoảng loạn", "😰", "Flyers", "Don't panic - stay calm.", "Đừng hoảng loạn - hãy bình tĩnh."),
   mk("rehearsal", "buổi tập dượt", "🎭", "Flyers", "We have a play rehearsal today.", "Hôm nay chúng em tập dượt vở kịch."),
   mk("reptile", "bò sát", "🦎", "Flyers", "Snakes and lizards are reptiles.", "Rắn và thằn lằn là bò sát."),
   mk("sunburn", "cháy nắng", "🌞", "Flyers", "I got sunburn at the beach.", "Em bị cháy nắng ở bãi biển."),

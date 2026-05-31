@@ -1,5 +1,5 @@
 /**
- * ScenarioQuiz — real-life situation; student picks the right action.
+ * ScenarioQuiz - real-life situation; student picks the right action.
  * Each option carries its own feedback (good / risky / wrong) so students
  * learn the *reasoning*, not just the right letter.
  */
