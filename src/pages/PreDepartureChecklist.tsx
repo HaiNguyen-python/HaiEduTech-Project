@@ -56,34 +56,24 @@ const PreDepartureChecklist = () => {
 
   const current = PRE_DEPARTURE_CHECKLISTS.find((c) => c.code === country)!;
 
-  // Auth + load progress per country — use getSession() to read from local storage
-  // and subscribe to onAuthStateChange (avoids race that signed-in users get
-  // bounced to /login while session is still hydrating after OAuth redirect).
+  // Auth + load progress per country.
+  // IMPORTANT: never auto-redirect to /login on missing session — Supabase may
+  // briefly report a null session while the stored session hydrates after
+  // navigation or OAuth redirect. That false negative used to bounce signed-in
+  // users to /login, which they perceived as being "logged out". Instead we
+  // show an inline "Sign in" CTA further down when userId is null.
   useEffect(() => {
     let mounted = true;
-    let redirected = false;
 
-    const handleSession = async (session: any) => {
+    const handleSession = (session: any) => {
       if (!mounted) return;
-      if (!session?.user) {
-        if (redirected) return;
-        setTimeout(async () => {
-          if (!mounted || redirected) return;
-          const { data: { session: s2 } } = await supabase.auth.getSession();
-          if (!s2?.user && !redirected) {
-            redirected = true;
-            navigate("/login?redirect=/study-abroad/checklist");
-          } else if (s2?.user) {
-            setUserId(s2.user.id);
-            await loadProgress(s2.user.id, country);
-            setLoading(false);
-          }
-        }, 600);
-        return;
+      const uid = session?.user?.id ?? null;
+      setUserId(uid);
+      if (uid) {
+        loadProgress(uid, country).finally(() => mounted && setLoading(false));
+      } else {
+        setLoading(false);
       }
-      setUserId(session.user.id);
-      await loadProgress(session.user.id, country);
-      setLoading(false);
     };
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
@@ -96,7 +86,7 @@ const PreDepartureChecklist = () => {
       subscription.unsubscribe();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [navigate]);
+  }, []);
 
   // Reload progress when country changes
   useEffect(() => {
