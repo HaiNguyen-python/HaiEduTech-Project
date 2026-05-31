@@ -1193,32 +1193,39 @@ const EnglishPronunciation = () => {
               icon={Layers3}
               title={t("Bảng phiên âm IPA", "IPA Phoneme Chart")}
               subtitle={t(
-                "44 âm vị tiếng Anh chuẩn - bấm 🔊 để nghe ví dụ.",
-                "The 44 standard English phonemes - tap 🔊 for examples.",
+                "44 âm vị tiếng Anh chuẩn (gồm 12 nguyên âm đơn, 8 nguyên âm đôi + 5 nguyên âm ba, và phụ âm khó) - bấm 🔊 để nghe, bấm 🎤 Speak để máy chấm phát âm của bạn.",
+                "44 standard English phonemes (12 monophthongs, 8 diphthongs + 5 triphthongs, plus tricky consonants) - tap 🔊 to listen, tap 🎤 Speak for instant scoring.",
               )}
             />
-            <div className="grid lg:grid-cols-2 gap-6">
+            <div className="grid lg:grid-cols-3 gap-6">
               {[
-                { title: t("Nguyên âm (Vowels)", "Vowels"), rows: VOWELS, color: "from-amber-500/15 to-amber-500/5", border: "border-amber-500/30" },
+                { title: t("Nguyên âm đơn (Monophthongs)", "Monophthongs"), rows: VOWELS, color: "from-amber-500/15 to-amber-500/5", border: "border-amber-500/30" },
+                { title: t("Nguyên âm đôi & ba (Diphthongs & Triphthongs)", "Diphthongs & Triphthongs"), rows: DIPHTHONGS, color: "from-fuchsia-500/15 to-fuchsia-500/5", border: "border-fuchsia-500/30" },
                 { title: t("Phụ âm khó (Consonants)", "Tricky Consonants"), rows: CONSONANTS, color: "from-sky-500/15 to-sky-500/5", border: "border-sky-500/30" },
               ].map((group) => (
                 <div key={group.title} className={`rounded-2xl border ${group.border} bg-gradient-to-br ${group.color} p-5`}>
                   <h3 className="font-display font-bold text-lg mb-4 text-foreground">{group.title}</h3>
                   <div className="space-y-2">
-                    {group.rows.map((row) => (
-                      <div key={row.ipa} className="bg-card/80 backdrop-blur-sm rounded-lg p-3 border border-border/60">
-                        <div className="flex items-center justify-between mb-1.5 gap-2">
-                          <div className="flex items-center gap-3">
-                            <span className="font-mono font-bold text-primary text-lg">{row.ipa}</span>
-                            <span className="text-sm text-foreground">{row.example}</span>
+                    {group.rows.map((row) => {
+                      const firstWord = row.example.split(",")[0].trim();
+                      return (
+                        <div key={row.ipa} className="bg-card/80 backdrop-blur-sm rounded-lg p-3 border border-border/60">
+                          <div className="flex items-center justify-between mb-1.5 gap-2 flex-wrap">
+                            <div className="flex items-center gap-3">
+                              <span className="font-mono font-bold text-primary text-lg">{row.ipa}</span>
+                              <span className="text-sm text-foreground">{row.example}</span>
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                              <PlayBtn text={firstWord} small />
+                              <SpeakCheck target={firstWord} small />
+                            </div>
                           </div>
-                          <PlayBtn text={row.example.split(",")[0].trim()} />
+                          <p className="text-xs text-muted-foreground">
+                            💡 {t(row.tip, row.tipEn)} · <span className="italic">{row.vi}</span>
+                          </p>
                         </div>
-                        <p className="text-xs text-muted-foreground">
-                          💡 {t(row.tip, row.tipEn)} · <span className="italic">{row.vi}</span>
-                        </p>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               ))}
