@@ -1223,35 +1223,51 @@ const EnglishPronunciation = () => {
               icon={Layers3}
               title={t("Bảng phiên âm IPA", "IPA Phoneme Chart")}
               subtitle={t(
-                "44 âm vị tiếng Anh chuẩn (gồm 12 nguyên âm đơn, 8 nguyên âm đôi + 5 nguyên âm ba, và phụ âm khó) - bấm 🔊 để nghe, bấm 🎤 Speak để máy chấm phát âm của bạn.",
-                "44 standard English phonemes (12 monophthongs, 8 diphthongs + 5 triphthongs, plus tricky consonants) - tap 🔊 to listen, tap 🎤 Speak for instant scoring.",
+                "44 âm vị tiếng Anh: 12 nguyên âm đơn, 8 nguyên âm đôi và 24 phụ âm. Bấm 🔊 để nghe đọc cả 3 từ ví dụ mượt mà; bấm 🎤 Speak để máy chấm phát âm của bạn.",
+                "44 English phonemes: 12 monophthongs, 8 diphthongs, and 24 consonants. Tap 🔊 to hear all 3 example words smoothly; tap 🎤 Speak for instant pronunciation scoring.",
               )}
             />
             <div className="grid lg:grid-cols-3 gap-6">
               {[
-                { title: t("Nguyên âm đơn (Monophthongs)", "Monophthongs"), rows: VOWELS, color: "from-amber-500/15 to-amber-500/5", border: "border-amber-500/30" },
-                { title: t("Nguyên âm đôi & ba (Diphthongs & Triphthongs)", "Diphthongs & Triphthongs"), rows: DIPHTHONGS, color: "from-fuchsia-500/15 to-fuchsia-500/5", border: "border-fuchsia-500/30" },
-                { title: t("Phụ âm khó (Consonants)", "Tricky Consonants"), rows: CONSONANTS, color: "from-sky-500/15 to-sky-500/5", border: "border-sky-500/30" },
+                { title: t("Nguyên âm đơn (Monophthongs)", "Monophthongs"), rows: VOWELS, color: "from-amber-500/15 to-amber-500/5", border: "border-amber-500/30", count: VOWELS.length },
+                { title: t("Nguyên âm đôi (Diphthongs)", "Diphthongs"), rows: DIPHTHONGS, color: "from-fuchsia-500/15 to-fuchsia-500/5", border: "border-fuchsia-500/30", count: DIPHTHONGS.length },
+                { title: t("Phụ âm (Consonants)", "Consonants"), rows: CONSONANTS, color: "from-sky-500/15 to-sky-500/5", border: "border-sky-500/30", count: CONSONANTS.length },
               ].map((group) => (
-                <div key={group.title} className={`rounded-2xl border ${group.border} bg-gradient-to-br ${group.color} p-5`}>
-                  <h3 className="font-display font-bold text-lg mb-4 text-foreground">{group.title}</h3>
-                  <div className="space-y-2">
+                <div key={group.title} className={`rounded-2xl border-2 ${group.border} bg-gradient-to-br ${group.color} p-5 shadow-sm`}>
+                  <div className="flex items-baseline justify-between mb-4">
+                    <h3 className="font-display font-bold text-lg text-foreground">{group.title}</h3>
+                    <span className="text-xs font-bold text-muted-foreground bg-card/80 px-2 py-0.5 rounded-full border border-border/60">
+                      {group.count} {t("âm", "sounds")}
+                    </span>
+                  </div>
+                  <div className="space-y-2.5">
                     {group.rows.map((row) => {
-                      const firstWord = row.example.split(",")[0].trim();
+                      const firstWord = row.example.split(",")[0].replace(/\(.+?\)/g, "").trim();
                       return (
-                        <div key={row.ipa} className="bg-card/80 backdrop-blur-sm rounded-lg p-3 border border-border/60">
-                          <div className="flex items-center justify-between mb-1.5 gap-2 flex-wrap">
-                            <div className="flex items-center gap-3">
-                              <span className="font-mono font-bold text-primary text-lg">{row.ipa}</span>
-                              <span className="text-sm text-foreground">{row.example}</span>
+                        <div key={row.ipa} className="bg-card/90 backdrop-blur-sm rounded-xl p-3.5 border border-border/60 shadow-sm hover:shadow-md transition-shadow">
+                          <div className="flex items-center justify-between mb-2 gap-2 flex-wrap">
+                            <div className="flex items-center gap-3 flex-wrap min-w-0">
+                              <span className="font-mono font-bold text-primary text-xl leading-none">{row.ipa}</span>
+                              <span className="text-sm text-foreground font-medium">{row.example}</span>
                             </div>
-                            <div className="flex items-center gap-1.5">
-                              <PlayBtn text={firstWord} small />
+                            <div className="flex items-center gap-1.5 shrink-0">
+                              <button
+                                onClick={() => speakExamples(row.example, "en-US")}
+                                className="inline-flex items-center gap-1.5 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors font-medium px-2.5 py-1 text-xs"
+                                aria-label={`Play all examples: ${row.example}`}
+                                title={t("Nghe cả 3 từ ví dụ", "Play all 3 examples")}
+                              >
+                                <Volume2 className="w-3.5 h-3.5" />
+                                🇺🇸
+                              </button>
                               <SpeakCheck target={firstWord} small />
                             </div>
                           </div>
-                          <p className="text-xs text-muted-foreground">
-                            💡 {t(row.tip, row.tipEn)} · <span className="italic">{row.vi}</span>
+                          <p className="text-[13px] leading-relaxed text-foreground/80">
+                            <span className="font-semibold text-foreground">💡 {t(row.tip, row.tipEn)}</span>
+                          </p>
+                          <p className="text-xs leading-relaxed text-muted-foreground mt-1.5">
+                            {t(row.vi, row.tipEn)}
                           </p>
                         </div>
                       );
@@ -1261,6 +1277,7 @@ const EnglishPronunciation = () => {
               ))}
             </div>
           </TabsContent>
+
 
           {/* ============== Minimal pairs ============== */}
           <TabsContent value="minpairs" className="space-y-6">
