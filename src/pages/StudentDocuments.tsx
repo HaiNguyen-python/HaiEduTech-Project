@@ -309,6 +309,19 @@ const StudentDocuments = () => {
             </div>
           </motion.div>
 
+          {!loading && !userId ? (
+            <Card>
+              <CardContent className="p-8 text-center">
+                <FolderLock className="w-12 h-12 text-muted-foreground mx-auto mb-3 opacity-60" />
+                <p className="text-sm text-muted-foreground mb-4">
+                  {t("Đăng nhập để quản lý hồ sơ học tập của bạn.", "Sign in to manage your study profile.")}
+                </p>
+                <Button onClick={() => navigate("/login?redirect=/study-abroad/documents")}>
+                  {t("Đăng nhập", "Sign in")}
+                </Button>
+              </CardContent>
+            </Card>
+          ) : (
           <Tabs defaultValue="documents" className="w-full">
             <TabsList className="grid w-full grid-cols-4 mb-4">
               <TabsTrigger value="documents">📁 {t("Tài liệu", "Documents")}</TabsTrigger>
