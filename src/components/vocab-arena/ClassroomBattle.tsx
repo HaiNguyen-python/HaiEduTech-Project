@@ -268,7 +268,13 @@ const ClassroomBattle = ({ onBack }: ClassroomBattleProps) => {
                   streak: update.streak,
                 })
                 .eq("id", participantId)
-                .then(() => {});
+                .then(({ error }) => {
+                  if (error) {
+                    // Don't toast every question — just log. A persistent
+                    // failure here is why teacher leaderboards used to show 0.
+                    console.warn("[ClassroomBattle] progress write failed", error);
+                  }
+                });
             }
           }}
         />
