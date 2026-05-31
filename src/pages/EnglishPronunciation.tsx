@@ -108,6 +108,87 @@ const CONSONANTS: PhonemeRow[] = [
   { ipa: "/w/", example: "we, wait, away", vi: "Tròn môi, không cắn", tip: "Khác /v/: tròn môi, không răng", tipEn: "Rounded lips, no teeth" },
 ];
 
+// 8 diphthongs (nguyên âm đôi) + 5 triphthongs (nguyên âm ba) commonly tested
+const DIPHTHONGS: PhonemeRow[] = [
+  { ipa: "/eɪ/", example: "day, face, make, rain", vi: "ê-i: bắt đầu /e/ trượt sang /ɪ/", tip: "Bắt đầu rộng miệng, kết thúc khép môi như 'i'", tipEn: "Start open, glide to a closed 'i'" },
+  { ipa: "/aɪ/", example: "my, time, light, eye", vi: "a-i: bắt đầu /a/ trượt sang /ɪ/", tip: "Mở miệng to ở 'a', khép nhanh sang 'i'", tipEn: "Wide 'a' then quick glide to 'i'" },
+  { ipa: "/ɔɪ/", example: "boy, coin, voice, enjoy", vi: "ô-i: bắt đầu /ɔː/ tròn môi trượt sang /ɪ/", tip: "Tròn môi ở 'o', kéo căng môi sang 'i'", tipEn: "Round 'o' then stretch lips to 'i'" },
+  { ipa: "/aʊ/", example: "now, how, house, town", vi: "a-u: bắt đầu /a/ trượt sang /ʊ/", tip: "Mở miệng to rồi chu môi tròn lại", tipEn: "Wide 'a' then round lips to 'oo'" },
+  { ipa: "/əʊ/ (UK) /oʊ/ (US)", example: "go, home, no, slow", vi: "ơ-u (UK) / ô-u (US)", tip: "UK bắt đầu /ə/, US bắt đầu /o/ tròn môi nhẹ", tipEn: "UK starts /ə/, US starts rounded /o/" },
+  { ipa: "/ɪə/", example: "here, near, ear, beer (UK)", vi: "i-ơ (Anh-Anh, không phát âm /r/)", tip: "Anh-Mỹ thường thay bằng /ɪr/", tipEn: "American replaces with /ɪr/" },
+  { ipa: "/eə/", example: "hair, care, bear, where (UK)", vi: "e-ơ (Anh-Anh)", tip: "Anh-Mỹ thường thay bằng /er/", tipEn: "American replaces with /er/" },
+  { ipa: "/ʊə/", example: "tour, sure, poor (UK)", vi: "u-ơ (Anh-Anh, đang biến mất)", tip: "Đa số người nói trẻ dùng /ɔː/", tipEn: "Most younger speakers use /ɔː/" },
+  { ipa: "/aɪə/", example: "fire, hire, tired, liar", vi: "Triphthong: a-i-ơ", tip: "Trượt mượt qua 3 âm, đừng tách rời", tipEn: "Glide smoothly through 3 sounds" },
+  { ipa: "/aʊə/", example: "hour, our, flower, power", vi: "Triphthong: a-u-ơ", tip: "Anh-Mỹ thường nuốt thành /aʊr/", tipEn: "American often collapses to /aʊr/" },
+  { ipa: "/eɪə/", example: "player, layer", vi: "Triphthong: ê-i-ơ", tip: "Trượt liền mạch, không tách thành 2 âm tiết", tipEn: "Glide as one - don't split into 2 syllables" },
+  { ipa: "/ɔɪə/", example: "loyal, royal, employer", vi: "Triphthong: ô-i-ơ", tip: "Bắt đầu tròn môi, kết thúc lưỡi giữa", tipEn: "Round start, mid-tongue end" },
+  { ipa: "/əʊə/", example: "lower, mower, slower", vi: "Triphthong: ơ-u-ơ (UK)", tip: "Khó với người Việt - luyện chậm rồi tăng tốc", tipEn: "Tough for Vietnamese - drill slowly, then speed up" },
+];
+
+interface VnMistake {
+  word: string;
+  wrong: string;
+  wrongIpa: string;
+  correctIpa: string;
+  vi: string;
+  en: string;
+  category: "ending" | "vowel" | "th" | "stress" | "silent" | "cluster";
+}
+
+// 30+ common mispronunciations by Vietnamese learners (compiled from teaching experience)
+const VN_MISTAKES: VnMistake[] = [
+  // Ending consonants - dropped or replaced
+  { word: "wished", wrong: "'wish-ết / wish'", wrongIpa: "/wɪʃ/", correctIpa: "/wɪʃt/", category: "ending", vi: "Người Việt hay bỏ /t/ cuối. Nhớ: -ed sau âm vô thanh = /t/.", en: "Vietnamese learners drop final /t/. Remember: -ed after voiceless = /t/." },
+  { word: "asked", wrong: "'át / ask'", wrongIpa: "/æsk/", correctIpa: "/æskt/ hoặc /ɑːskt/", category: "cluster", vi: "Cụm /skt/ cuối từ - rất khó. Đừng bỏ qua /t/.", en: "Final /skt/ cluster is tough - don't skip the /t/." },
+  { word: "clothes", wrong: "'cờ-lo / close'", wrongIpa: "/kloʊz/", correctIpa: "/kloʊðz/", category: "cluster", vi: "Có /ð/ + /z/ cuối, không phải 'close'.", en: "Has /ð/ + /z/ ending, not just 'close'." },
+  { word: "months", wrong: "'mân / mân-s'", wrongIpa: "/mʌns/", correctIpa: "/mʌnθs/", category: "cluster", vi: "Cụm /nθs/ - lưỡi giữa răng rồi xì /s/.", en: "/nθs/ cluster - tongue between teeth then hiss /s/." },
+  { word: "world", wrong: "'gô / wo'", wrongIpa: "/wɔː/", correctIpa: "/wɜːrld/", category: "ending", vi: "Đừng bỏ /ld/ cuối. Phát âm rõ cả /r/, /l/, /d/.", en: "Don't drop /ld/. Pronounce /r/, /l/, /d/ clearly." },
+  { word: "lunch", wrong: "'lăn / lăn-chờ'", wrongIpa: "/lʌn/", correctIpa: "/lʌntʃ/", category: "ending", vi: "Có /tʃ/ cuối, không phải /n/ cụt.", en: "Has /tʃ/ ending, not bare /n/." },
+  // /θ/ and /ð/ - replaced with /t/, /s/, /d/, /z/
+  { word: "three", wrong: "'trê / sờ-ri'", wrongIpa: "/triː/", correctIpa: "/θriː/", category: "th", vi: "/θ/ - đặt đầu lưỡi giữa hai răng rồi xì hơi.", en: "/θ/ - put tongue tip between teeth and blow." },
+  { word: "thank", wrong: "'ten-kiu'", wrongIpa: "/tæŋk/", correctIpa: "/θæŋk/", category: "th", vi: "Không phải /t/ - phải có /θ/ lưỡi giữa răng.", en: "Not /t/ - must be /θ/ with tongue between teeth." },
+  { word: "this", wrong: "'đít / dít'", wrongIpa: "/dɪs/", correctIpa: "/ðɪs/", category: "th", vi: "/ð/ rung, giống /θ/ nhưng có rung dây thanh.", en: "/ð/ is voiced, like /θ/ with vocal cord vibration." },
+  { word: "mother", wrong: "'mô-đờ / mô-dơ'", wrongIpa: "/ˈmʌdər/", correctIpa: "/ˈmʌðər/", category: "th", vi: "Đầu lưỡi giữa răng, có rung. Không phải /d/.", en: "Tongue between teeth, voiced. Not /d/." },
+  { word: "thought", wrong: "'thót / sot'", wrongIpa: "/sɔːt/", correctIpa: "/θɔːt/", category: "th", vi: "/θ/ + /ɔː/ dài + /t/ cuối rõ.", en: "/θ/ + long /ɔː/ + clear final /t/." },
+  // /v/ vs /w/ confusion
+  { word: "very", wrong: "'oeo-ri / we-ri'", wrongIpa: "/ˈweri/", correctIpa: "/ˈveri/", category: "vowel", vi: "/v/ răng trên cắn nhẹ môi dưới, không tròn môi.", en: "/v/ upper teeth on lower lip, don't round lips." },
+  { word: "while", wrong: "'vai-lờ / vail'", wrongIpa: "/vaɪl/", correctIpa: "/waɪl/", category: "vowel", vi: "/w/ tròn môi, không cắn răng.", en: "/w/ round lips, no teeth contact." },
+  // Final /s/ /z/
+  { word: "buses", wrong: "'bát-sì / bát'", wrongIpa: "/bʌs/", correctIpa: "/ˈbʌsɪz/", category: "ending", vi: "Sau /s/ /z/ /ʃ/ /tʃ/ /dʒ/, số nhiều = /ɪz/.", en: "After /s/ /z/ /ʃ/ /tʃ/ /dʒ/, plural = /ɪz/." },
+  { word: "boys", wrong: "'boi-s'", wrongIpa: "/bɔɪs/", correctIpa: "/bɔɪz/", category: "ending", vi: "Sau nguyên âm, -s đọc là /z/ rung.", en: "After a vowel, -s is voiced /z/." },
+  // Silent letters
+  { word: "Wednesday", wrong: "'wét-nét-đê'", wrongIpa: "/ˈwednesdeɪ/", correctIpa: "/ˈwenzdeɪ/", category: "silent", vi: "Chữ 'd' đầu câm. Đọc 'wenz-day'.", en: "First 'd' is silent. Say 'wenz-day'." },
+  { word: "comfortable", wrong: "'com-pho-tê-bồ'", wrongIpa: "/ˈkʌmfɔːrtəbl/", correctIpa: "/ˈkʌmftərbl/ hoặc /ˈkʌmfərtəbl/", category: "silent", vi: "Chỉ 3 âm tiết: KUMF-tuh-bul.", en: "Only 3 syllables: KUMF-tuh-bul." },
+  { word: "vegetable", wrong: "'ve-gờ-tê-bồ'", wrongIpa: "/ˈvedʒətəbl/", correctIpa: "/ˈvedʒtəbl/", category: "silent", vi: "Nuốt 'e' giữa: VEJ-tuh-bul, chỉ 3 âm tiết.", en: "Swallow middle 'e': VEJ-tuh-bul, 3 syllables." },
+  { word: "chocolate", wrong: "'chô-cô-lết'", wrongIpa: "/ˈtʃɒkəleɪt/", correctIpa: "/ˈtʃɒklət/", category: "silent", vi: "2 âm tiết: CHOK-lət, không phải 3.", en: "2 syllables: CHOK-lət, not 3." },
+  { word: "island", wrong: "'ít-lừn / is-land'", wrongIpa: "/ˈɪzlænd/", correctIpa: "/ˈaɪlənd/", category: "silent", vi: "Chữ 's' câm hoàn toàn. Đọc 'EYE-lənd'.", en: "'s' is completely silent. Say 'EYE-lənd'." },
+  { word: "knife", wrong: "'k'naif / knai-fê'", wrongIpa: "/knaɪf/", correctIpa: "/naɪf/", category: "silent", vi: "'k' đầu câm. Đọc 'NIGH-fe'.", en: "Initial 'k' is silent. Say 'NIGH-fe'." },
+  // Word stress
+  { word: "comfortable", wrong: "com-FOR-ta-ble", wrongIpa: "/kəmˈfɔːrtəbl/", correctIpa: "/ˈkʌmftərbl/", category: "stress", vi: "Trọng âm đầu: KUM-, không phải -FOR-.", en: "Stress first syllable: KUM-, not -FOR-." },
+  { word: "photograph", wrong: "pho-to-GRAPH", wrongIpa: "/foʊtəˈɡræf/", correctIpa: "/ˈfoʊtəɡræf/", category: "stress", vi: "Trọng âm đầu: PHO-to-graph.", en: "Stress first: PHO-to-graph." },
+  { word: "photography", wrong: "PHO-to-graphy", wrongIpa: "/ˈfoʊtəɡræfi/", correctIpa: "/fəˈtɒɡrəfi/", category: "stress", vi: "Trọng âm âm 2: pho-TO-gra-phy.", en: "Stress on 2nd: pho-TO-gra-phy." },
+  { word: "develop", wrong: "DE-velop", wrongIpa: "/ˈdiːveləp/", correctIpa: "/dɪˈveləp/", category: "stress", vi: "Trọng âm âm 2: de-VEL-op.", en: "Stress on 2nd: de-VEL-op." },
+  { word: "interesting", wrong: "in-tê-RÉT-ting", wrongIpa: "/ɪntəˈrestɪŋ/", correctIpa: "/ˈɪntrəstɪŋ/", category: "stress", vi: "Trọng âm đầu + chỉ 3 âm tiết: IN-tres-ting.", en: "Stress first + only 3 syllables: IN-tres-ting." },
+  // Vowel confusion
+  { word: "beach / bitch", wrong: "Đọc giống nhau", wrongIpa: "/bɪtʃ/", correctIpa: "beach /biːtʃ/ vs bitch /bɪtʃ/", category: "vowel", vi: "/iː/ dài (beach) vs /ɪ/ ngắn (bitch) - nhầm là tai họa!", en: "Long /iː/ vs short /ɪ/ - mixing them up is disastrous!" },
+  { word: "sheet / shit", wrong: "Đọc giống nhau", wrongIpa: "/ʃɪt/", correctIpa: "sheet /ʃiːt/ vs shit /ʃɪt/", category: "vowel", vi: "/iː/ dài, kéo căng môi, khác hẳn /ɪ/ ngắn.", en: "Long /iː/ stretch lips - very different from short /ɪ/." },
+  { word: "ago", wrong: "'a-gô' nhấn đầu", wrongIpa: "/ˈæɡoʊ/", correctIpa: "/əˈɡoʊ/", category: "stress", vi: "Trọng âm âm 2 + âm đầu là schwa /ə/.", en: "Stress 2nd + first syllable is schwa /ə/." },
+  { word: "focus", wrong: "'phô-cứt'", wrongIpa: "/fəʊˈkʌs/", correctIpa: "/ˈfoʊkəs/", category: "stress", vi: "Trọng âm đầu, âm cuối nhẹ /əs/.", en: "Stress first, light final /əs/." },
+  // Consonant clusters
+  { word: "strength", wrong: "'sờ-treng / treng'", wrongIpa: "/treŋ/", correctIpa: "/streŋθ/", category: "cluster", vi: "Cụm /str/ đầu + /ŋθ/ cuối - một trong những từ khó nhất.", en: "Initial /str/ + final /ŋθ/ - one of the hardest words." },
+  { word: "scripts", wrong: "'sờ-cờ-rip'", wrongIpa: "/skrɪp/", correctIpa: "/skrɪpts/", category: "cluster", vi: "Cụm /pts/ cuối - đừng nuốt mất /ts/.", en: "Final /pts/ cluster - don't swallow the /ts/." },
+  { word: "sixth", wrong: "'síc'", wrongIpa: "/sɪks/", correctIpa: "/sɪksθ/", category: "cluster", vi: "Cụm /ksθ/ - kết thúc bằng /θ/ lưỡi giữa răng.", en: "/ksθ/ cluster - end with /θ/ tongue between teeth." },
+];
+
+const VN_MISTAKE_GROUPS: { key: VnMistake["category"]; vi: string; en: string; emoji: string; color: string }[] = [
+  { key: "th", vi: "Âm /θ/ và /ð/ (lưỡi giữa răng)", en: "/θ/ and /ð/ (tongue between teeth)", emoji: "👅", color: "from-rose-500/15 to-rose-500/5 border-rose-500/30" },
+  { key: "ending", vi: "Bỏ phụ âm cuối", en: "Dropping final consonants", emoji: "✂️", color: "from-amber-500/15 to-amber-500/5 border-amber-500/30" },
+  { key: "cluster", vi: "Cụm phụ âm khó", en: "Difficult consonant clusters", emoji: "🧩", color: "from-purple-500/15 to-purple-500/5 border-purple-500/30" },
+  { key: "vowel", vi: "Nhầm nguyên âm dài/ngắn", en: "Long vs short vowel confusion", emoji: "🎯", color: "from-sky-500/15 to-sky-500/5 border-sky-500/30" },
+  { key: "stress", vi: "Sai trọng âm", en: "Wrong word stress", emoji: "💢", color: "from-orange-500/15 to-orange-500/5 border-orange-500/30" },
+  { key: "silent", vi: "Chữ câm (silent letters)", en: "Silent letters", emoji: "🤫", color: "from-emerald-500/15 to-emerald-500/5 border-emerald-500/30" },
+];
+
 interface MinimalPair {
   vi: string;
   pair: [string, string];
