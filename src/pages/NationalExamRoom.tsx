@@ -394,15 +394,17 @@ const NationalExamRoom = () => {
             <motion.div key={currentQ} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.15 }}>
               {/* Passage if applicable - show maintenance badge if placeholder */}
               {relatedPassage && (
-                <div className="glass-card rounded-xl p-6 mb-4">
-                  <h3 className="font-extrabold text-foreground text-lg md:text-xl mb-3">{relatedPassage.title}</h3>
+                <div className="glass-card rounded-xl p-6 mb-4 border-l-4 border-primary/40">
+                  <h3 className="font-extrabold text-foreground text-lg md:text-xl mb-4 pb-3 border-b border-border">{relatedPassage.title}</h3>
                   {relatedPassage.text.startsWith("Passage about") ? (
                     <div className="flex items-center gap-2 bg-yellow-50 dark:bg-yellow-950/30 border border-yellow-300 dark:border-yellow-700 rounded-lg p-4">
                       <span className="text-yellow-600 text-lg">🔧</span>
                       <p className="text-sm text-yellow-800 dark:text-yellow-300 font-medium">{t("Nội dung đang được cập nhật. Vui lòng quay lại sau.", "Content under maintenance. Please check back later.")}</p>
                     </div>
                   ) : (
-                    <p className="text-lg md:text-xl font-medium text-foreground/80 whitespace-pre-line leading-loose">{renderPassageText(relatedPassage.text)}</p>
+                    <div className="text-base md:text-lg text-foreground/90 leading-[1.95] tracking-[0.005em] font-serif max-w-[72ch] [&>p+p]:mt-4 whitespace-pre-wrap">
+                      {renderPassageText(relatedPassage.text)}
+                    </div>
                   )}
                 </div>
               )}
@@ -411,11 +413,16 @@ const NationalExamRoom = () => {
               {currentQuestion && (() => {
                 const arrKey = `${examId}-${currentQuestion.id}`;
                 const arrData = arrangementSentences[arrKey];
+                const qText = (currentQuestion.text || "").trim();
                 return (
                 <div className="glass-card rounded-xl p-6">
                   <div className="flex items-start gap-3 mb-5">
                     <span className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold">{currentQuestion.id}</span>
-                    <p className="text-foreground text-lg md:text-xl font-medium pt-1.5">{currentQuestion.text}</p>
+                    {qText ? (
+                      <p className="text-foreground text-lg md:text-xl font-medium pt-1.5">{qText}</p>
+                    ) : (
+                      <p className="text-muted-foreground text-base pt-2 italic">{t("Chọn đáp án đúng để điền vào chỗ trống.", "Choose the correct option to fill the blank.")}</p>
+                    )}
                   </div>
 
                   {/* Arrangement question sentences */}
