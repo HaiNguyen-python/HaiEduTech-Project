@@ -421,7 +421,7 @@ const NationalExamRoom = () => {
                     {qText ? (
                       <p className="text-foreground text-lg md:text-xl font-medium pt-1.5">{qText}</p>
                     ) : (
-                      <p className="text-muted-foreground text-base pt-2 italic">{t("Chọn đáp án đúng để điền vào chỗ trống.", "Choose the correct option to fill the blank.")}</p>
+                      <p className="text-foreground text-lg md:text-xl font-medium pt-1.5">{t("Chọn đáp án đúng để điền vào chỗ trống.", "Choose the correct option to fill the blank.")}</p>
                     )}
                   </div>
 
