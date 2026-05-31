@@ -48,7 +48,7 @@ import { toast } from "sonner";
 
 type Accent = "en-GB" | "en-US";
 
-const speak = (text: string, accent: Accent = "en-US", rate = 0.9) => {
+const speak = (text: string, accent: Accent = "en-US", rate = 0.75) => {
   if (typeof window === "undefined" || !("speechSynthesis" in window)) {
     toast.error("Trình duyệt không hỗ trợ phát âm tự động");
     return;
@@ -58,13 +58,33 @@ const speak = (text: string, accent: Accent = "en-US", rate = 0.9) => {
   utter.lang = accent;
   utter.rate = rate;
   utter.pitch = 1;
-  // Try to pick a matching accent voice if available
+  utter.volume = 1;
   const voices = window.speechSynthesis.getVoices();
+  // Prefer high-quality natural voices when the browser exposes them
+  const preferred = voices.find(
+    (v) => v.lang === accent && /natural|neural|google|samantha|daniel|aria|jenny/i.test(v.name),
+  );
   const match =
+    preferred ||
     voices.find((v) => v.lang === accent) ||
     voices.find((v) => v.lang.startsWith(accent.slice(0, 2)));
   if (match) utter.voice = match;
   window.speechSynthesis.speak(utter);
+};
+
+/**
+ * Speak a comma-separated list of example words with natural pauses between
+ * them so ALL the example words are heard clearly (no clipped, jumpy delivery).
+ * Uses " ... " between words which SpeechSynthesis renders as a soft pause.
+ */
+const speakExamples = (csv: string, accent: Accent = "en-US") => {
+  const words = csv
+    .split(",")
+    .map((w) => w.replace(/\(.+?\)/g, "").trim())
+    .filter(Boolean);
+  if (words.length === 0) return;
+  const phrase = words.join(" ... ");
+  speak(phrase, accent, 0.7);
 };
 
 /* -------------------------------------------------------------------------- */
