@@ -15,16 +15,30 @@ import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { arrangementSentences } from "@/data/arrangementSentences";
 
 
-// Renders passage text: __sentence__ → underlined; [I]/[II]/[III]/[IV] → colored chip.
+// Renders passage text:
+//   __sentence__       → underlined highlight
+//   [I]/[II]/[III]/[IV] → colored insertion chip
+//   (N) ___            → numbered blank pill (easier on the eye)
 const renderPassageText = (text: string) => {
-  // Split into tokens by markers
-  const tokens = text.split(/(__[^_]+__|\[(?:I{1,3}|IV)\])/g);
+  const tokens = text.split(/(__[^_]+__|\[(?:I{1,3}|IV)\]|\(\d{1,2}\)\s*_{2,}|_{3,})/g);
   return tokens.map((tok, i) => {
     if (!tok) return null;
-    const m = tok.match(/^__([^_]+)__$/);
-    if (m) return <u key={i} className="decoration-primary decoration-2 underline-offset-4 font-semibold text-foreground">{m[1]}</u>;
+    const u = tok.match(/^__([^_]+)__$/);
+    if (u) return <u key={i} className="decoration-primary decoration-2 underline-offset-4 font-semibold text-foreground">{u[1]}</u>;
     if (/^\[(I{1,3}|IV)\]$/.test(tok)) {
       return <span key={i} className="inline-flex items-center justify-center min-w-[28px] h-6 px-1.5 mx-0.5 rounded bg-primary/15 text-primary font-bold text-xs align-middle">{tok}</span>;
+    }
+    const nb = tok.match(/^\((\d{1,2})\)\s*_{2,}$/);
+    if (nb) {
+      return (
+        <span key={i} className="inline-flex items-center gap-1.5 mx-1 align-middle">
+          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primary/15 text-primary font-bold text-xs">{nb[1]}</span>
+          <span className="inline-block min-w-[80px] border-b-2 border-dashed border-primary/60 h-[1.1em]" />
+        </span>
+      );
+    }
+    if (/^_{3,}$/.test(tok)) {
+      return <span key={i} className="inline-block min-w-[80px] mx-1 border-b-2 border-dashed border-primary/60 h-[1.1em] align-middle" />;
     }
     return <span key={i}>{tok}</span>;
   });
@@ -263,7 +277,7 @@ const NationalExamRoom = () => {
               {exam.passages.map((passage) => (
                 <div key={passage.id} className="glass-card rounded-xl p-5 mb-4">
                   <h3 className="font-bold text-foreground mb-2">{passage.title}</h3>
-                  <p className="text-sm text-muted-foreground whitespace-pre-line leading-relaxed">{renderPassageText(passage.text)}</p>
+                  <div className="text-base text-foreground/90 leading-[1.95] font-serif max-w-[72ch] whitespace-pre-wrap">{renderPassageText(passage.text)}</div>
                 </div>
               ))}
 
@@ -279,7 +293,7 @@ const NationalExamRoom = () => {
                     <div className="flex items-start gap-3 mb-3">
                       <span className="flex-shrink-0 w-8 h-8 rounded-full bg-muted flex items-center justify-center text-sm font-bold">{q.id}</span>
                       <div className="flex-1">
-                        <p className="text-foreground font-medium">{q.text}</p>
+                        {q.text && q.text.trim() && <p className="text-foreground font-medium">{q.text}</p>}
                         <span className="text-xs bg-muted px-2 py-0.5 rounded mt-1 inline-block">{cat}</span>
                       </div>
                       {isCorrect ? <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0" /> : <XCircle className="w-5 h-5 text-destructive flex-shrink-0" />}
@@ -380,15 +394,17 @@ const NationalExamRoom = () => {
             <motion.div key={currentQ} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.15 }}>
               {/* Passage if applicable - show maintenance badge if placeholder */}
               {relatedPassage && (
-                <div className="glass-card rounded-xl p-6 mb-4">
-                  <h3 className="font-extrabold text-foreground text-lg md:text-xl mb-3">{relatedPassage.title}</h3>
+                <div className="glass-card rounded-xl p-6 mb-4 border-l-4 border-primary/40">
+                  <h3 className="font-extrabold text-foreground text-lg md:text-xl mb-4 pb-3 border-b border-border">{relatedPassage.title}</h3>
                   {relatedPassage.text.startsWith("Passage about") ? (
                     <div className="flex items-center gap-2 bg-yellow-50 dark:bg-yellow-950/30 border border-yellow-300 dark:border-yellow-700 rounded-lg p-4">
                       <span className="text-yellow-600 text-lg">🔧</span>
                       <p className="text-sm text-yellow-800 dark:text-yellow-300 font-medium">{t("Nội dung đang được cập nhật. Vui lòng quay lại sau.", "Content under maintenance. Please check back later.")}</p>
                     </div>
                   ) : (
-                    <p className="text-lg md:text-xl font-medium text-foreground/80 whitespace-pre-line leading-loose">{renderPassageText(relatedPassage.text)}</p>
+                    <div className="text-base md:text-lg text-foreground/90 leading-[1.95] tracking-[0.005em] font-serif max-w-[72ch] [&>p+p]:mt-4 whitespace-pre-wrap">
+                      {renderPassageText(relatedPassage.text)}
+                    </div>
                   )}
                 </div>
               )}
@@ -397,11 +413,16 @@ const NationalExamRoom = () => {
               {currentQuestion && (() => {
                 const arrKey = `${examId}-${currentQuestion.id}`;
                 const arrData = arrangementSentences[arrKey];
+                const qText = (currentQuestion.text || "").trim();
                 return (
                 <div className="glass-card rounded-xl p-6">
                   <div className="flex items-start gap-3 mb-5">
                     <span className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold">{currentQuestion.id}</span>
-                    <p className="text-foreground text-lg md:text-xl font-medium pt-1.5">{currentQuestion.text}</p>
+                    {qText ? (
+                      <p className="text-foreground text-lg md:text-xl font-medium pt-1.5">{qText}</p>
+                    ) : (
+                      <p className="text-muted-foreground text-base pt-2 italic">{t("Chọn đáp án đúng để điền vào chỗ trống.", "Choose the correct option to fill the blank.")}</p>
+                    )}
                   </div>
 
                   {/* Arrangement question sentences */}

@@ -14,7 +14,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p11-1",
         "title": "Consumerism and Cultural Values",
-        "text": "Cornel West, a renowned philosopher, argues that American society has surrendered its moral imagination to consumerism. He observes that instead of fostering solidarity, the culture of consumption has become the dominant feature of public life. Today, endless advertising and corporate power encourage an excessive (1) _______ of material desires that overshadow concern for justice and compassion.\n\nWest describes this trend as the rise of \"market morality,\" in which pleasure and profit dictate human conduct. Churches, (2) _______ once defended the poor, often embrace a commercialized spirituality. The result is a cultural climate where even spiritual life (3) _______ by consumer logic.\n\nThis process generates a profound (4) _______ crisis, as citizens prioritize private comfort over communal responsibility. He insists that democratic societies must resist consumerism, which reduces ethical life to personal (5) _______. Unless people (6) _______ new arenas of hope, cultural decay will deepen.",
+        "text": "Cornel West, a renowned philosopher, argues that American society has surrendered its moral imagination to consumerism. He observes that instead of fostering solidarity, the culture of consumption has become the dominant feature of public life. Today, endless advertising and corporate power encourage an excessive (1) _____ of material desires that overshadow concern for justice and compassion.\n\nWest describes this trend as the rise of \"market morality,\" in which pleasure and profit dictate human conduct. Churches, (2) ___ once defended the poor, often embrace a commercialized spirituality. The result is a cultural climate where even spiritual life (3) ___ by consumer logic.\n\nThis process generates a profound (4) ___ crisis, as citizens prioritize private comfort over communal responsibility. He insists that democratic societies must resist consumerism, which reduces ethical life to personal (5) ___. Unless people (6) ___ new arenas of hope, cultural decay will deepen.",
         "questionRange": [
           1,
           6
@@ -23,7 +23,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p11-2",
         "title": "Language Preservation with AI",
-        "text": "Language preservation has become a pressing concern. (7) ________, the survival of rare scripts such as Nüshu illustrates both the fragility and resilience of cultural heritage. Originally devised by Yao women in Hunan province, Nüshu declined after formal education became accessible, leading (8) ________ its gradual disappearance.\n\nResearchers have invested (9) ________ years in designing NüshuRescue, which can generate translations from minimal training data. They began with the most (10) ________ collection of Nüshu scripts. The tool achieved remarkable accuracy with only 35 bilingual sentence pairs.\n\nPreserving such languages demands not only technical innovation but also (11) ________ commitment from communities and governments. The ultimate (12) ________ of their work lies in revitalizing a tradition once silenced.",
+        "text": "Language preservation has become a pressing concern. (7) ____, the survival of rare scripts such as Nüshu illustrates both the fragility and resilience of cultural heritage. Originally devised by Yao women in Hunan province, Nüshu declined after formal education became accessible, leading (8) ____ its gradual disappearance.\n\nResearchers have invested (9) ____ years in designing NüshuRescue, which can generate translations from minimal training data. They began with the most (10) ____ collection of Nüshu scripts. The tool achieved remarkable accuracy with only 35 bilingual sentence pairs.\n\nPreserving such languages demands not only technical innovation but also (11) ____ commitment from communities and governments. The ultimate (12) ____ of their work lies in revitalizing a tradition once silenced.",
         "questionRange": [
           7,
           12
@@ -32,7 +32,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p11-3",
         "title": "Feminist Perspectives on Power in Literature",
-        "text": "In literary debates on feminism, critics frequently return to the problem of \"power.\" When curricula are revised, syllabi are stitched to older canons, (18) _______. (19) _______.\n\nIntersectional readings refuse the monolithic \"woman\" of earlier criticism. Intersectional approaches, (20) _______, resist singular accounts of agency. A repertoire of texts (21) _______.\n\nYet institutions change unevenly. (22) _______.",
+        "text": "In literary debates on feminism, critics frequently return to the problem of \"power.\" When curricula are revised, syllabi are stitched to older canons, (18) ___. (19) ___.\n\nIntersectional readings refuse the monolithic \"woman\" of earlier criticism. Intersectional approaches, (20) ___, resist singular accounts of agency. A repertoire of texts (21) ___.\n\nYet institutions change unevenly. (22) ___.",
         "questionRange": [
           18,
           22
@@ -41,7 +41,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p11-4",
         "title": "Slacktivism and Digital Activism",
-        "text": "Slacktivism is often invoked as a disparaging term for online activism considered lazy or ineffective. Yet many analysts insist that such labeling obscures the constructive role of micro-activism.\n\nHenrik Serup Christensen found no support for the substitution thesis. __His analysis indicates that the Internet invigorates real-world mobilization rather than diminishing it.__ Small gestures function as symbolic openings into citizenship.\n\nOrganizers view micro-gestures as strategically useful. According to Amy Sample Ward, minor actions signal attentiveness. If such behavior is dismissed as meaningless, it may deter recruits.\n\nSocial movements progress through a \"ladder of engagement.\" The Egyptian community \"We Are All Khaled Said\" exemplifies how online outrage can crystallize into organized dissent.",
+        "text": "Slacktivism is often invoked as a disparaging term for online activism considered lazy or ineffective. Yet many analysts insist that such labeling obscures the constructive role of micro-activism.\n\nHenrik Serup Christensen found no support for the substitution thesis. His analysis indicates that the Internet invigorates real-world mobilization rather than diminishing it. Small gestures function as symbolic openings into citizenship.\n\nOrganizers view micro-gestures as strategically useful. According to Amy Sample Ward, minor actions signal attentiveness. If such behavior is dismissed as meaningless, it may deter recruits.\n\nSocial movements progress through a \"ladder of engagement.\" The Egyptian community \"We Are All Khaled Said\" exemplifies how online outrage can crystallize into organized dissent.",
         "questionRange": [
           23,
           30
@@ -50,7 +50,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p11-5",
         "title": "AI Washing: Hype Over Reality",
-        "text": "AI has become a marketing darling. [I] AI washing refers to companies overstating or fabricating the presence of artificial intelligence in their products.\n\nFor consumers and investors, the danger lies in the opacity of these claims. [II] Vague slogans abound, yet hard evidence is rarely forthcoming. Products frequently fail to adapt or improve – hallmarks of authentic machine learning.\n\nThe stakes extend beyond marketing spin. [III] Genuine researchers' work is buried by misleading hype. Regulators such as the FTC have begun to intervene.\n\n[IV] History offers a cautionary script: just as the dot-com bubble punished overzealous startups, so too will AI washing exact its toll. __Leadership is not shouting \"AI!\"__ the loudest but having the courage to admit imperfection while building trust through verifiable progress.",
+        "text": "AI has become a marketing darling. [I] AI washing refers to companies overstating or fabricating the presence of artificial intelligence in their products.\n\nFor consumers and investors, the danger lies in the opacity of these claims. [II] Vague slogans abound, yet hard evidence is rarely forthcoming. Products frequently fail to adapt or improve – hallmarks of authentic machine learning.\n\nThe stakes extend beyond marketing spin. [III] Genuine researchers' work is buried by misleading hype. Regulators such as the FTC have begun to intervene.\n\n[IV] History offers a cautionary script: just as the dot-com bubble punished overzealous startups, so too will AI washing exact its toll. Leadership is not shouting \"AI!\" the loudest but having the courage to admit imperfection while building trust through verifiable progress.",
         "questionRange": [
           31,
           40
@@ -346,7 +346,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 23,
-        "text": "The word 'invigorates' in paragraph 2 is closest in meaning to _____.",
+        "text": "The word 'invigorates' in paragraph 2 is closest in meaning to _.",
         "options": [
           "undermines",
           "strengthens",
@@ -385,7 +385,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 26,
-        "text": "The word 'such' in paragraph 3 refers to _____.",
+        "text": "The word 'such' in paragraph 3 refers to _.",
         "options": [
           "hesitant citizens",
           "minor actions",
@@ -398,7 +398,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 27,
-        "text": "The word 'dissent' in paragraph 4 is OPPOSITE in meaning to _____.",
+        "text": "The word 'dissent' in paragraph 4 is OPPOSITE in meaning to _.",
         "options": [
           "resistance",
           "disagreement",
@@ -450,7 +450,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 31,
-        "text": "According to paragraph 1, exaggerating AI presence in products will _______.",
+        "text": "According to paragraph 1, exaggerating AI presence in products will ___.",
         "options": [
           "enhance reliability of machine learning",
           "create an appealing but misleading impression of innovation",
@@ -463,7 +463,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 32,
-        "text": "The word 'opacity' in paragraph 2 mostly means _______.",
+        "text": "The word 'opacity' in paragraph 2 mostly means ___.",
         "options": [
           "incomprehensibility and lack of transparency",
           "brightness and increased visibility",
@@ -489,7 +489,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 34,
-        "text": "'Hallmarks of authentic machine learning' refers to _______.",
+        "text": "'Hallmarks of authentic machine learning' refers to ___.",
         "options": [
           "marketing strategies",
           "features such as adaptability and improvement over time",
@@ -591,7 +591,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p12-1",
         "title": "Vietnam Today TV Channel",
-        "text": "Vietnam Today, the nation's inaugural international English-language television channel, represents a pivotal moment. The channel's programming encompasses a/an (1) _______ range of content domains. Vietnam Today will feature sophisticated subtitling systems. The initiative's architects have designed content showcasing Vietnam's (2) _______ transformation. Since its inception, the project (3) _______ considerable international attention. The channel prioritizes (4) _______ journalism. Programming segments, (5) _______ explore innovation, will serve diverse constituencies. Vietnam Today endeavors to (6) _______ bridges between Vietnamese perspectives and global discourse.",
+        "text": "Vietnam Today, the nation's inaugural international English-language television channel, represents a pivotal moment. The channel's programming encompasses a/an (1) ___ range of content domains. Vietnam Today will feature sophisticated subtitling systems. The initiative's architects have designed content showcasing Vietnam's (2) ___ transformation. Since its inception, the project (3) ___ considerable international attention. The channel prioritizes (4) ___ journalism. Programming segments, (5) ___ explore innovation, will serve diverse constituencies. Vietnam Today endeavors to (6) ___ bridges between Vietnamese perspectives and global discourse.",
         "questionRange": [
           1,
           6
@@ -600,7 +600,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p12-2",
         "title": "Global Nationalism in Times of COVID-19",
-        "text": "The present-day global landscape witnesses an unprecedented resurgence of nationalist sentiment. (7) _______, this phenomenon represents more than mere political posturing; it constitutes a fundamental recalibration in response (8) _______ perceived existential threats.\n\nThe pandemic's effect has manifested across (9) _______ jurisdiction. Nations have increasingly prioritized domestic constituencies, fostering \"pandemic nationalism.\" Governments implement (10) _______ policies that privilege national sovereignty. Nationalist rhetoric has become increasingly (11) _______. This reflects tensions between global integration and local (12) _______.",
+        "text": "The present-day global landscape witnesses an unprecedented resurgence of nationalist sentiment. (7) ___, this phenomenon represents more than mere political posturing; it constitutes a fundamental recalibration in response (8) ___ perceived existential threats.\n\nThe pandemic's effect has manifested across (9) ___ jurisdiction. Nations have increasingly prioritized domestic constituencies, fostering \"pandemic nationalism.\" Governments implement (10) ___ policies that privilege national sovereignty. Nationalist rhetoric has become increasingly (11) ___. This reflects tensions between global integration and local (12) ___.",
         "questionRange": [
           7,
           12
@@ -609,7 +609,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p12-3",
         "title": "Classical Art Heritage Preservation",
-        "text": "(18) _______, these developments necessitate comprehensive frameworks. Recent conservation practices prioritize non-invasive techniques. (19) _______, enabling unprecedented analytical capabilities.\n\nThe democratization of cultural heritage through digital technologies has transformed public engagement. (20) _______. These mediations raise complex questions.\n\nInstitutional responsibilities have expanded. (21) _______. The future depends on sustainable funding models. (22) _______.",
+        "text": "(18) ___, these developments necessitate comprehensive frameworks. Recent conservation practices prioritize non-invasive techniques. (19) ___, enabling unprecedented analytical capabilities.\n\nThe democratization of cultural heritage through digital technologies has transformed public engagement. (20) ___. These mediations raise complex questions.\n\nInstitutional responsibilities have expanded. (21) ___. The future depends on sustainable funding models. (22) ___.",
         "questionRange": [
           18,
           22
@@ -618,7 +618,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p12-4",
         "title": "Virtue Signaling in Marketing",
-        "text": "Contemporary marketing discourse scrutinizes virtue signaling. Modern consumers demand transparency. This shift has prompted organizations to integrate values-based messaging.\n\nVirtue signaling encompasses the deliberate articulation of moral positions. The distinction between authentic commitment and opportunistic positioning remains precarious.\n\nThe proliferation during the pandemic illustrated both potential and pitfalls. __Generic messaging frequently appeared formulaic.__\n\nSuccessful virtue signaling requires comprehensive integration. Contemporary consumers possess unprecedented access to information.",
+        "text": "Contemporary marketing discourse scrutinizes virtue signaling. Modern consumers demand transparency. This shift has prompted organizations to integrate values-based messaging.\n\nVirtue signaling encompasses the deliberate articulation of moral positions. The distinction between authentic commitment and opportunistic positioning remains precarious.\n\nThe proliferation during the pandemic illustrated both potential and pitfalls. Generic messaging frequently appeared formulaic.\n\nSuccessful virtue signaling requires comprehensive integration. Contemporary consumers possess unprecedented access to information.",
         "questionRange": [
           23,
           30
@@ -627,7 +627,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p12-5",
         "title": "The Greek Debt Crisis and Doom Loops",
-        "text": "The Greek debt crisis of 2009–2010 provides a textbook doom loop illustration. [I] The revelation undermined trust and infected perceptions across the eurozone. The spiral was vicious.\n\nInvestor fear translated into systemic banking crisis. [II] The EU established the ESFS. Yet remedies often intensified social costs.\n\nThe concept extends beyond sovereign debt. The 1929 crash exemplified accelerating downward spirals. [III] U.S. banks in 2022 suffered multi-billion-dollar bond losses.\n\nJim Collins popularized the \"flywheel effect\" as the opposite. __[IV] Understanding triggers is critical to preventing systemic collapse.__",
+        "text": "The Greek debt crisis of 2009–2010 provides a textbook doom loop illustration. [I] The revelation undermined trust and infected perceptions across the eurozone. The spiral was vicious.\n\nInvestor fear translated into systemic banking crisis. [II] The EU established the ESFS. Yet remedies often intensified social costs.\n\nThe concept extends beyond sovereign debt. The 1929 crash exemplified accelerating downward spirals. [III] U.S. banks in 2022 suffered multi-billion-dollar bond losses.\n\nJim Collins popularized the \"flywheel effect\" as the opposite. [IV] Understanding triggers is critical to preventing systemic collapse.",
         "questionRange": [
           31,
           40
@@ -923,7 +923,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 23,
-        "text": "The word 'scrutinizes' is closest in meaning to _______.",
+        "text": "The word 'scrutinizes' is closest in meaning to ___.",
         "options": [
           "examines",
           "criticizes",
@@ -962,7 +962,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 26,
-        "text": "The word 'precarious' is OPPOSITE in meaning to _______.",
+        "text": "The word 'precarious' is OPPOSITE in meaning to ___.",
         "options": [
           "stable",
           "dangerous",
@@ -975,7 +975,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 27,
-        "text": "The word 'This' in paragraph 4 refers to _______.",
+        "text": "The word 'This' in paragraph 4 refers to ___.",
         "options": [
           "comprehensive integration",
           "organizational operations",
@@ -1027,7 +1027,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 31,
-        "text": "Greece's hidden fiscal deficit primarily resulted in _______.",
+        "text": "Greece's hidden fiscal deficit primarily resulted in ___.",
         "options": [
           "a swift recovery",
           "a chain reaction of financial distrust spreading to other eurozone states",
@@ -1040,7 +1040,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 32,
-        "text": "The word 'spiral' mostly means _______.",
+        "text": "The word 'spiral' mostly means ___.",
         "options": [
           "a process of continuous decline reinforced by its own consequences",
           "a short-term fluctuation",
@@ -1092,7 +1092,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 36,
-        "text": "The phrase 'the mechanics' refers to _______.",
+        "text": "The phrase 'the mechanics' refers to ___.",
         "options": [
           "Jim Collins' theory",
           "the interlinked process of rising yields, falling assets, and weakened banks",
@@ -1168,7 +1168,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p13-1",
         "title": "Ho Chi Minh City as Wellness Hub",
-        "text": "Ho Chi Minh City is being reimagined as a locus of convalescence and preventive care. The metropolis offers (1) _______ specialised services. True competitiveness depends on institutional (2) _______. Although the city (3) _______ steadily climbing visitor numbers, capacity remains underutilised. Products must be genuinely (4) _______. Partnerships, (5) _______ hospitals coordinate with tour operators, can address pain points. The broader ambition is to (6) _______ dormant demand.",
+        "text": "Ho Chi Minh City is being reimagined as a locus of convalescence and preventive care. The metropolis offers (1) ___ specialised services. True competitiveness depends on institutional (2) ___. Although the city (3) ___ steadily climbing visitor numbers, capacity remains underutilised. Products must be genuinely (4) ___. Partnerships, (5) ___ hospitals coordinate with tour operators, can address pain points. The broader ambition is to (6) ___ dormant demand.",
         "questionRange": [
           1,
           6
@@ -1177,7 +1177,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p13-2",
         "title": "Vietnam-Laos Parliamentary Cooperation",
-        "text": "Leaders in Hanoi and Vientiane framed legislative cooperation as a strategic scaffold. (7) ________, both sides outlined tools to synchronise oversight. They underlined that institutional learning must be distributed so that (9) ________ committee internalises comparative practice.\n\nFuture work will require a (10) ________ framework. Alongside (11) ________ commitments to protect citizens' rights. Archiving shared experience is intended to reinforce parliamentary (12) ________.",
+        "text": "Leaders in Hanoi and Vientiane framed legislative cooperation as a strategic scaffold. (7) ____, both sides outlined tools to synchronise oversight. They underlined that institutional learning must be distributed so that (9) ____ committee internalises comparative practice.\n\nFuture work will require a (10) ____ framework. Alongside (11) ____ commitments to protect citizens' rights. Archiving shared experience is intended to reinforce parliamentary (12) ____.",
         "questionRange": [
           7,
           12
@@ -1186,7 +1186,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p13-3",
         "title": "High Art vs Popular Culture (Adorno)",
-        "text": "Debates over high art and popular culture rehearse deeper disputes about authority, pleasure, and freedom. (18) _______.\n\n(19) _______, audiences are trained to anticipate set-pieces. Even high culture may hide its exclusions. (20) _______, the social cost of admission means access to aesthetic freedom is rationed. The argument asks whether culture that confers pleasure without emancipating perception has (21) _______.\n\nOnly (22) _______ can we evaluate whether crossovers liberate attention or merely repackage constraint.",
+        "text": "Debates over high art and popular culture rehearse deeper disputes about authority, pleasure, and freedom. (18) ___.\n\n(19) ___, audiences are trained to anticipate set-pieces. Even high culture may hide its exclusions. (20) ___, the social cost of admission means access to aesthetic freedom is rationed. The argument asks whether culture that confers pleasure without emancipating perception has (21) ___.\n\nOnly (22) ___ can we evaluate whether crossovers liberate attention or merely repackage constraint.",
         "questionRange": [
           18,
           22
@@ -1195,7 +1195,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p13-4",
         "title": "Campus Speech Policies",
-        "text": "Campus speech policies have often been justified as safeguards against harm. In some instances, this meant denying microphones to explicit bigotry; in others, the definition expanded.\n\nOver the past decade, campaigns to sanction academics surged. __Conservatives styled themselves defenders of unfettered speech, while progressives curbed expression in the name of inclusion.__ Yet these alignments have proved unstable.\n\nIn recent months, wars abroad and protests at home have inverted familiar talking points. The dispute pivots on who names harm.\n\nThe larger lesson: coalitions recalibrate speech ethics when expressive costs weigh against their own side. The debate is not settled but cyclical.",
+        "text": "Campus speech policies have often been justified as safeguards against harm. In some instances, this meant denying microphones to explicit bigotry; in others, the definition expanded.\n\nOver the past decade, campaigns to sanction academics surged. Conservatives styled themselves defenders of unfettered speech, while progressives curbed expression in the name of inclusion. Yet these alignments have proved unstable.\n\nIn recent months, wars abroad and protests at home have inverted familiar talking points. The dispute pivots on who names harm.\n\nThe larger lesson: coalitions recalibrate speech ethics when expressive costs weigh against their own side. The debate is not settled but cyclical.",
         "questionRange": [
           23,
           30
@@ -1204,7 +1204,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p13-5",
         "title": "Fossil Fuels and Carbon-Neutral Claims",
-        "text": "Some firms market 'carbon-neutral' fuels by pairing combustion with offsets. [I] Investigations have found offset schemes unreliable.\n\nThe supply chain emits criteria pollutants – particulate matter, nitrogen oxides, benzene – linked to heart and lung disease. [II] Roughly 18 million Americans live within a mile of an active oil or gas well.\n\nHarms distribute unevenly. __[III] Between 2011 and 2019, 17% of conflicts worldwide were tied to oil and gas.__ Hispanic residents experienced more flaring than white residents.\n\nBiodiversity is at risk: 327 blocks span ~108 million hectares in the Amazon. [IV] Advocates urge planners to look past 'carbon tunnel vision'.",
+        "text": "Some firms market 'carbon-neutral' fuels by pairing combustion with offsets. [I] Investigations have found offset schemes unreliable.\n\nThe supply chain emits criteria pollutants – particulate matter, nitrogen oxides, benzene – linked to heart and lung disease. [II] Roughly 18 million Americans live within a mile of an active oil or gas well.\n\nHarms distribute unevenly. [III] Between 2011 and 2019, 17% of conflicts worldwide were tied to oil and gas. Hispanic residents experienced more flaring than white residents.\n\nBiodiversity is at risk: 327 blocks span ~108 million hectares in the Amazon. [IV] Advocates urge planners to look past 'carbon tunnel vision'.",
         "questionRange": [
           31,
           40
@@ -1500,7 +1500,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 23,
-        "text": "The word 'prophylactics' is closest in meaning to _______.",
+        "text": "The word 'prophylactics' is closest in meaning to ___.",
         "options": [
           "safeguards",
           "condemnations",
@@ -1539,7 +1539,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 26,
-        "text": "The word 'unfettered' is OPPOSITE in meaning to _______.",
+        "text": "The word 'unfettered' is OPPOSITE in meaning to ___.",
         "options": [
           "constrained",
           "persuasive",
@@ -1552,7 +1552,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 27,
-        "text": "The word 'these' in paragraph 2 refers to _______.",
+        "text": "The word 'these' in paragraph 2 refers to ___.",
         "options": [
           "alignments",
           "incidents",
@@ -1604,7 +1604,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 31,
-        "text": "Branding fossil fuels as 'carbon-neutral' chiefly _______.",
+        "text": "Branding fossil fuels as 'carbon-neutral' chiefly ___.",
         "options": [
           "accelerates deployment of proven removal technologies",
           "reframes the status quo as progress, postponing necessary production declines",
@@ -1617,7 +1617,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 32,
-        "text": "The word 'puncture' mostly means _______.",
+        "text": "The word 'puncture' mostly means ___.",
         "options": [
           "undermine",
           "transport",
@@ -1669,7 +1669,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 36,
-        "text": "The phrase 'this context' refers to _______.",
+        "text": "The phrase 'this context' refers to ___.",
         "options": [
           "epidemiological literature on benzene",
           "conflation of offset marketing with delays amid ongoing health burdens",
@@ -1745,7 +1745,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p14-1",
         "title": "Vietnamese Sport – 80 Years of Perseverance",
-        "text": "From the 1946 \"Healthy for the Country\" campaign to Olympic podia, Vietnamese sport has traced an arduous arc. Across (1) _______ generations of athletes, the ethic has become a civic habit. The call to exercise seeded a culture of movement (2) _______ outlasted scarcity. Mass-participation programmes, (3) _______ were launched under wartime austerity, helped institutionalise training. Elite squads (4) _______ from improbable, (5) _______ beginnings. Today, a strategy seeks to (6) _______ early gains into durable competitiveness.",
+        "text": "From the 1946 \"Healthy for the Country\" campaign to Olympic podia, Vietnamese sport has traced an arduous arc. Across (1) ___ generations of athletes, the ethic has become a civic habit. The call to exercise seeded a culture of movement (2) ___ outlasted scarcity. Mass-participation programmes, (3) ___ were launched under wartime austerity, helped institutionalise training. Elite squads (4) ___ from improbable, (5) ___ beginnings. Today, a strategy seeks to (6) ___ early gains into durable competitiveness.",
         "questionRange": [
           1,
           6
@@ -1754,7 +1754,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p14-2",
         "title": "Hanoi's Low Emission Zone Plan",
-        "text": "Hanoi is fast-tracking a citywide Low Emission Zone scheme. (7) ________, the People's Committee has opened the draft for public comment, aligning the plan (8) ________ Article 28. The phased map runs from inner core outward, after which (9) ________ districts must establish their own LEZs.\n\nThe city will promulgate (10) ________ standards, pair fees with incentives. The accelerated timetable is deliberately (11) ________. Air-quality (12) ________ will be reported transparently.",
+        "text": "Hanoi is fast-tracking a citywide Low Emission Zone scheme. (7) ____, the People's Committee has opened the draft for public comment, aligning the plan (8) ____ Article 28. The phased map runs from inner core outward, after which (9) ____ districts must establish their own LEZs.\n\nThe city will promulgate (10) ____ standards, pair fees with incentives. The accelerated timetable is deliberately (11) ____. Air-quality (12) ____ will be reported transparently.",
         "questionRange": [
           7,
           12
@@ -1763,7 +1763,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p14-3",
         "title": "Festival of Political Songs (East Berlin)",
-        "text": "Founded in East Berlin in 1970, the Festival was never merely a concert series. Archival traces reveal a mosaic of micro-scenes – (18) _______. (19) _______, analysts grasp how authority could be felt as choreography.\n\nThe festival's international invitations formed intersectional publics (20) _______.\n\nAfter 1990, \"eventization\" of culture, alongside funding cuts, (21) _______. Yet officials also doubled as patrons – (22) _______.",
+        "text": "Founded in East Berlin in 1970, the Festival was never merely a concert series. Archival traces reveal a mosaic of micro-scenes – (18) ___. (19) ___, analysts grasp how authority could be felt as choreography.\n\nThe festival's international invitations formed intersectional publics (20) ___.\n\nAfter 1990, \"eventization\" of culture, alongside funding cuts, (21) ___. Yet officials also doubled as patrons – (22) ___.",
         "questionRange": [
           18,
           22
@@ -1772,7 +1772,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p14-4",
         "title": "Woke Capitalism and Corporate Strategy",
-        "text": "Nowadays strategy discourse scrutinizes how corporations instrumentalize moral vocabularies. The wager is double: values talk can recruit talent and inoculate brands.\n\nCritics argue the boundary between conviction and opportunism is precarious. \"Purpose\" copy can launder routine commerce.\n\nCampaigns that cue solidarity can boomerang when audiences detect performance without substance. __Only those embedding redistributive commitments avoid the charge of performativity.__\n\nDigital traceability has collapsed corporate opacity. This compresses the time in which firms can reconcile talk and practice.",
+        "text": "Nowadays strategy discourse scrutinizes how corporations instrumentalize moral vocabularies. The wager is double: values talk can recruit talent and inoculate brands.\n\nCritics argue the boundary between conviction and opportunism is precarious. \"Purpose\" copy can launder routine commerce.\n\nCampaigns that cue solidarity can boomerang when audiences detect performance without substance. Only those embedding redistributive commitments avoid the charge of performativity.\n\nDigital traceability has collapsed corporate opacity. This compresses the time in which firms can reconcile talk and practice.",
         "questionRange": [
           23,
           30
@@ -1781,7 +1781,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p14-5",
         "title": "Plastic Bag Shaming – Vancouver Grocer",
-        "text": "In 2019, a Vancouver grocer trialed an unconventional nudge: embarrassing bag names. [I] The wager was sociological: embarrassment might make externalities suddenly proximate.\n\nThe experiment unfolded against a broader deluge of plastic waste. [II] Plastic shaming foregrounded ritual: the choreography of queues and packaging choices.\n\nSome shoppers treated bags as ironic collectibles. __[III] Platforms amplified both camps.__ Retailers faced a double bind.\n\nThe more durable pathway braided symbolism with infrastructure. [IV] Ritual and rule converge – habits scaffolded by systems.",
+        "text": "In 2019, a Vancouver grocer trialed an unconventional nudge: embarrassing bag names. [I] The wager was sociological: embarrassment might make externalities suddenly proximate.\n\nThe experiment unfolded against a broader deluge of plastic waste. [II] Plastic shaming foregrounded ritual: the choreography of queues and packaging choices.\n\nSome shoppers treated bags as ironic collectibles. [III] Platforms amplified both camps. Retailers faced a double bind.\n\nThe more durable pathway braided symbolism with infrastructure. [IV] Ritual and rule converge – habits scaffolded by systems.",
         "questionRange": [
           31,
           40
@@ -2077,7 +2077,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 23,
-        "text": "The word 'instrumentalize' is closest in meaning to _______.",
+        "text": "The word 'instrumentalize' is closest in meaning to ___.",
         "options": [
           "recount as anecdote",
           "romanticize for appeal",
@@ -2116,7 +2116,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 26,
-        "text": "The word 'boundary' is OPPOSITE in meaning to _______.",
+        "text": "The word 'boundary' is OPPOSITE in meaning to ___.",
         "options": [
           "seamless continuum",
           "demarcating perimeter",
@@ -2129,7 +2129,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 27,
-        "text": "The word 'This' in paragraph 4 refers to _______.",
+        "text": "The word 'This' in paragraph 4 refers to ___.",
         "options": [
           "the collapse of corporate opacity via digital traceability",
           "the rise of third-party verification",
@@ -2181,7 +2181,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 31,
-        "text": "The Vancouver store's strategy primarily sought to ______.",
+        "text": "The Vancouver store's strategy primarily sought to __.",
         "options": [
           "replace municipal recycling programs",
           "use social embarrassment to deter reliance on single-use bags",
@@ -2194,7 +2194,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 32,
-        "text": "The word 'deluge' mostly means ______.",
+        "text": "The word 'deluge' mostly means __.",
         "options": [
           "overwhelming torrent",
           "incremental trickle",
@@ -2246,7 +2246,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 36,
-        "text": "The word 'this' in paragraph 4 refers to ______.",
+        "text": "The word 'this' in paragraph 4 refers to __.",
         "options": [
           "the backlash from customers",
           "the approach coupling cheeky symbolism with structural supports",
@@ -2322,7 +2322,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p15-1",
         "title": "Vietnam's Economic Growth Inspires ASEAN",
-        "text": "Vietnam's rapid economic growth has become a lodestar for ASEAN nations. (1) _______ of the factors contributing to this surge are intertwined with pragmatic diplomacy. In 2024, Vietnam (2) _______ international recognition. Development projects, (3) _______ integrate transportation corridors, have accelerated cooperation. Its (4) _______ transformation exemplifies resilience. Forums have further (5) _______ its diplomatic stature. Vietnam's approach could (6) _______ a model for nations navigating volatility.",
+        "text": "Vietnam's rapid economic growth has become a lodestar for ASEAN nations. (1) ___ of the factors contributing to this surge are intertwined with pragmatic diplomacy. In 2024, Vietnam (2) ___ international recognition. Development projects, (3) ___ integrate transportation corridors, have accelerated cooperation. Its (4) ___ transformation exemplifies resilience. Forums have further (5) ___ its diplomatic stature. Vietnam's approach could (6) ___ a model for nations navigating volatility.",
         "questionRange": [
           1,
           6
@@ -2331,7 +2331,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p15-2",
         "title": "Nuclear Power Race: China vs USA",
-        "text": "The race to dominate nuclear power has intensified. (7) _______, this ambition signals a recalibration of geopolitical influence. Russia's assistance includes building reactors essential (8) _______ sustaining China's plans. (9) _______ province is investing heavily. Such programmes demand (10) _______ regulatory framework. Nuclear energy remains a (11) _______ alternative. The debate touches on (12) _______ such as uranium supply chains.",
+        "text": "The race to dominate nuclear power has intensified. (7) ___, this ambition signals a recalibration of geopolitical influence. Russia's assistance includes building reactors essential (8) ___ sustaining China's plans. (9) ___ province is investing heavily. Such programmes demand (10) ___ regulatory framework. Nuclear energy remains a (11) ___ alternative. The debate touches on (12) ___ such as uranium supply chains.",
         "questionRange": [
           7,
           12
@@ -2340,7 +2340,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p15-3",
         "title": "Global Refugee Crisis",
-        "text": "For more than a decade, governments have spoken of a temporary \"surge\" in displacement. Municipal workers administer registries, (18) _______. (19) _______.\n\nThe poorest states, (20) _______, often host the largest caseloads. Demagogues, (21) _______.\n\nThe architecture of refuge must couple relief with development finance, (22) _______.",
+        "text": "For more than a decade, governments have spoken of a temporary \"surge\" in displacement. Municipal workers administer registries, (18) ___. (19) ___.\n\nThe poorest states, (20) ___, often host the largest caseloads. Demagogues, (21) ___.\n\nThe architecture of refuge must couple relief with development finance, (22) ___.",
         "questionRange": [
           18,
           22
@@ -2349,7 +2349,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p15-4",
         "title": "Digital Colonialism and Data Governance",
-        "text": "Critics of 'digital colonialism' argue that data extraction replicates older patterns of plunder. Platform capitalisms consolidate market power through proprietary standards.\n\nRegional reformers propose aligning African data governance with robust international norms. Harmonisation is constitutive of fairness.\n\nYet critics warn that universal templates can smuggle Northern priorities. __Hence, capacity-building must precede compliance.__\n\nA pragmatic compromise has emerged: coalitions co-design policy sandboxes.",
+        "text": "Critics of 'digital colonialism' argue that data extraction replicates older patterns of plunder. Platform capitalisms consolidate market power through proprietary standards.\n\nRegional reformers propose aligning African data governance with robust international norms. Harmonisation is constitutive of fairness.\n\nYet critics warn that universal templates can smuggle Northern priorities. Hence, capacity-building must precede compliance.\n\nA pragmatic compromise has emerged: coalitions co-design policy sandboxes.",
         "questionRange": [
           23,
           30
@@ -2358,7 +2358,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p15-5",
         "title": "The Workplace Metaverse",
-        "text": "The workplace metaverse promises immersion but inherits liabilities. [I] Early adopters report cognitive load from continuous presence.\n\nEconomic behaviour maps onto offline norms. [II] If every meeting is stagecraft, demands for polish may migrate from wardrobes to SDKs.\n\nResearch on virtual-meeting fatigue implicates constant self-view. [III] Organisations report mixed outcomes.\n\nDesigners test 'low-stakes modes.' __[IV] Because tooling can encode power, ethics of interface defaults is a governance question.__",
+        "text": "The workplace metaverse promises immersion but inherits liabilities. [I] Early adopters report cognitive load from continuous presence.\n\nEconomic behaviour maps onto offline norms. [II] If every meeting is stagecraft, demands for polish may migrate from wardrobes to SDKs.\n\nResearch on virtual-meeting fatigue implicates constant self-view. [III] Organisations report mixed outcomes.\n\nDesigners test 'low-stakes modes.' [IV] Because tooling can encode power, ethics of interface defaults is a governance question.",
         "questionRange": [
           31,
           40
@@ -2654,7 +2654,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 23,
-        "text": "'Consolidate' is closest in meaning to _______.",
+        "text": "'Consolidate' is closest in meaning to ___.",
         "options": [
           "disperse",
           "entrench",
@@ -2680,7 +2680,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 25,
-        "text": "'Constitutive' is OPPOSITE in meaning to _______.",
+        "text": "'Constitutive' is OPPOSITE in meaning to ___.",
         "options": [
           "foundational",
           "incidental",
@@ -2693,7 +2693,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 26,
-        "text": "The word 'this' in paragraph 2 refers to _______.",
+        "text": "The word 'this' in paragraph 2 refers to ___.",
         "options": [
           "interoperable standards",
           "the auditable data lifecycle",
@@ -2758,7 +2758,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 31,
-        "text": "The grocer's 'wager' was based on _______.",
+        "text": "The grocer's 'wager' was based on ___.",
         "options": [
           "appealing to embarrassment could alter behaviour more effectively than abstract warnings",
           "reputational costs would be negligible",
@@ -2771,7 +2771,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 32,
-        "text": "'Stagecraft' mostly means _______.",
+        "text": "'Stagecraft' mostly means ___.",
         "options": [
           "impromptu debate",
           "calculated presentation",
@@ -2823,7 +2823,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 36,
-        "text": "'Who' in paragraph 2 refers to _______.",
+        "text": "'Who' in paragraph 2 refers to ___.",
         "options": [
           "organisations experimenting with sandboxes",
           "people paying for symbols of status",
@@ -2899,7 +2899,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p16-1",
         "title": "Long Thanh Airport Construction",
-        "text": "At Long Thanh, nearly 14,000 engineers work through the four-day recess. Supervisors require that (1) _______ contractor meets deadlines. Equipment has arrived, with subsystems undergoing trial (2) _______. A (3) _______ oversight committee monitors compliance. Projects, (4) _______ integrate modernization, accelerate. Engineers focus on (5) _______ last-minute problems. Quality teams (6) _______ inspectors from regional offices.",
+        "text": "At Long Thanh, nearly 14,000 engineers work through the four-day recess. Supervisors require that (1) ___ contractor meets deadlines. Equipment has arrived, with subsystems undergoing trial (2) ___. A (3) ___ oversight committee monitors compliance. Projects, (4) ___ integrate modernization, accelerate. Engineers focus on (5) ___ last-minute problems. Quality teams (6) ___ inspectors from regional offices.",
         "questionRange": [
           1,
           6
@@ -2908,7 +2908,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p16-2",
         "title": "Mars Colonization History",
-        "text": "The modern Mars imagination did not begin with rockets. In 1877, Schiaparelli sketched 'channels,' an observation that – (7) _______ – was refracted into claims about canals. (8) _______ the hype, even optimistic timelines acknowledge decades of trials. Any blueprint must budget with (9) _______ redundancy and must prioritize (10) _______ pressurized habitats. Matching (11) _______ risks with ethical clarity. Institutions will (12) _______ whether Mars talk remains parable or practice.",
+        "text": "The modern Mars imagination did not begin with rockets. In 1877, Schiaparelli sketched 'channels,' an observation that – (7) ___ – was refracted into claims about canals. (8) ___ the hype, even optimistic timelines acknowledge decades of trials. Any blueprint must budget with (9) ___ redundancy and must prioritize (10) ___ pressurized habitats. Matching (11) ___ risks with ethical clarity. Institutions will (12) ___ whether Mars talk remains parable or practice.",
         "questionRange": [
           7,
           12
@@ -2917,7 +2917,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p16-3",
         "title": "Displacement and Humanitarian Corridors",
-        "text": "When storms sever ferry lines, improvised flotillas ferry families. Camps expand, then congeal into neighborhoods, (18) _______. Donors often disburse funds late, (19) _______.\n\nPolice, teachers, and clinicians – (20) _______ – administer asylum and schooling.\n\nOnly when the legal architecture recognizes protracted displacement, (21) _______. (22) _______.",
+        "text": "When storms sever ferry lines, improvised flotillas ferry families. Camps expand, then congeal into neighborhoods, (18) ___. Donors often disburse funds late, (19) ___.\n\nPolice, teachers, and clinicians – (20) ___ – administer asylum and schooling.\n\nOnly when the legal architecture recognizes protracted displacement, (21) ___. (22) ___.",
         "questionRange": [
           18,
           22
@@ -2926,7 +2926,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p16-4",
         "title": "Monuments and Nonuments",
-        "text": "In cities where statues are draped rather than toppled, remembrance is practiced through hesitation. __Plaques acquire footnotes.__ The politics of caution often signals an ethical refusal.\n\nCurators speak of 'nonuments': sites whose power derives from what no longer stands. Because memory is a choreography, no monument can dictate a single past.\n\nFor critics, the danger is nostalgia masquerading as neutrality. A more demanding civic pedagogy reframes sites rather than sanitizes them.\n\nWhen publics consent to complexity, memorial landscapes can host disagreement. Policy follows: funding cycles reward iterative curation.",
+        "text": "In cities where statues are draped rather than toppled, remembrance is practiced through hesitation. Plaques acquire footnotes. The politics of caution often signals an ethical refusal.\n\nCurators speak of 'nonuments': sites whose power derives from what no longer stands. Because memory is a choreography, no monument can dictate a single past.\n\nFor critics, the danger is nostalgia masquerading as neutrality. A more demanding civic pedagogy reframes sites rather than sanitizes them.\n\nWhen publics consent to complexity, memorial landscapes can host disagreement. Policy follows: funding cycles reward iterative curation.",
         "questionRange": [
           23,
           30
@@ -2935,7 +2935,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p16-5",
         "title": "Blue Carbon Project at Kohfeldt Marsh",
-        "text": "Rice University has initiated a living shoreline project at Kohfeldt Marsh. [I] The initiative merges conservation with carbon credits. [II] This 'blue carbon' approach assigns financial value to marshlands' capacity to sequester CO2.\n\nEach credit representing one metric ton of CO2 may be traded. __Without interventions, marsh drowning would unleash greenhouse gases.__\n\n[III] BCarbon's origin lies in a stakeholder process at Rice's Baker Institute. Yet critics warn that commodifying marshlands risks subordinating ecological value.\n\n[IV] Living shorelines differ from seawalls. Rock sills and reef modules attenuate wave energy. Scenic Galveston's earlier shoreline demonstrated measurable ecological recovery.",
+        "text": "Rice University has initiated a living shoreline project at Kohfeldt Marsh. [I] The initiative merges conservation with carbon credits. [II] This 'blue carbon' approach assigns financial value to marshlands' capacity to sequester CO2.\n\nEach credit representing one metric ton of CO2 may be traded. Without interventions, marsh drowning would unleash greenhouse gases.\n\n[III] BCarbon's origin lies in a stakeholder process at Rice's Baker Institute. Yet critics warn that commodifying marshlands risks subordinating ecological value.\n\n[IV] Living shorelines differ from seawalls. Rock sills and reef modules attenuate wave energy. Scenic Galveston's earlier shoreline demonstrated measurable ecological recovery.",
         "questionRange": [
           31,
           40
@@ -3231,7 +3231,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 23,
-        "text": "'Derided' is closest in meaning to _______.",
+        "text": "'Derided' is closest in meaning to ___.",
         "options": [
           "dismissed",
           "refined",
@@ -3270,7 +3270,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 26,
-        "text": "'Launder' is OPPOSITE in meaning to _______.",
+        "text": "'Launder' is OPPOSITE in meaning to ___.",
         "options": [
           "expose",
           "sanitize",
@@ -3283,7 +3283,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 27,
-        "text": "'This' in paragraph 3 refers to _______.",
+        "text": "'This' in paragraph 3 refers to ___.",
         "options": [
           "nostalgia disguised as neutrality",
           "a pedagogy preserving traces of conflict",
@@ -3335,7 +3335,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 31,
-        "text": "The project integrates ecological preservation with _______.",
+        "text": "The project integrates ecological preservation with ___.",
         "options": [
           "traditional seawall engineering",
           "a financial mechanism that monetises carbon sequestration through tradable credits",
@@ -3348,7 +3348,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 32,
-        "text": "'Fungible' mostly means _______.",
+        "text": "'Fungible' mostly means ___.",
         "options": [
           "interchangeable and tradable with equivalent units",
           "uniquely valuable and irreplaceable",
@@ -3400,7 +3400,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 36,
-        "text": "'Such designs' refers to _______.",
+        "text": "'Such designs' refers to ___.",
         "options": [
           "Scaling up by artificial transplantation",
           "Engineered constructs such as rock sills and reef modules that reduce hydrodynamic force",
@@ -3476,7 +3476,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p17-1",
         "title": "Vietnam's Education Reform",
-        "text": "Vietnam's education is entering a new phase. With (1) _______ schools in remote districts prioritized. Since Đổi Mới, the sector (2) _______ markedly. A system that prizes (3) _______ assessment will better align incentives. Partnerships that are (4) _______ enough to protect equity. Universities, (5) _______ research agendas shape the national skills base, are urged to pursue technology transfer. Leaders are told to (6) _______ reforms that measurably improve teaching.",
+        "text": "Vietnam's education is entering a new phase. With (1) ___ schools in remote districts prioritized. Since Đổi Mới, the sector (2) ___ markedly. A system that prizes (3) ___ assessment will better align incentives. Partnerships that are (4) ___ enough to protect equity. Universities, (5) ___ research agendas shape the national skills base, are urged to pursue technology transfer. Leaders are told to (6) ___ reforms that measurably improve teaching.",
         "questionRange": [
           1,
           6
@@ -3485,7 +3485,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p17-2",
         "title": "Dong Thap Muoi Floodplain Farming",
-        "text": "(7) _______ the devastation, provincial planners have reframed floods as a productive pulse. Investment has enabled precise hydrological control (8) _______ which mixed models can thrive. Conversion has proceeded across (9) _______ commune. Policymakers champion (10) _______ infrastructure. Farmers are advised to adopt (11) _______ husbandry and to (12) _______ revenue streams.",
+        "text": "(7) ___ the devastation, provincial planners have reframed floods as a productive pulse. Investment has enabled precise hydrological control (8) ___ which mixed models can thrive. Conversion has proceeded across (9) ___ commune. Policymakers champion (10) ___ infrastructure. Farmers are advised to adopt (11) ___ husbandry and to (12) ___ revenue streams.",
         "questionRange": [
           7,
           12
@@ -3494,7 +3494,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p17-3",
         "title": "Urban Kitchen Gardening",
-        "text": "During supply shocks, balconies and terraces (18) _______. Containers demand engineered soil, (19) _______.\n\n(20) _______ – the practice of keeping logs prevents mistakes.\n\nSeed swaps and tool libraries are busy because urban cultivation depends on shared infrastructures, (21) _______. Neighbors share cuttings, (22) _______.",
+        "text": "During supply shocks, balconies and terraces (18) ___. Containers demand engineered soil, (19) ___.\n\n(20) ___ – the practice of keeping logs prevents mistakes.\n\nSeed swaps and tool libraries are busy because urban cultivation depends on shared infrastructures, (21) ___. Neighbors share cuttings, (22) ___.",
         "questionRange": [
           18,
           22
@@ -3503,7 +3503,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p17-4",
         "title": "Doomscrolling",
-        "text": "Doomscrolling names a habit both ordinary and corrosive: the compulsion to ingest bad news. __In feeds optimized for engagement, catastrophe is scheduling logic.__\n\nThe amygdala rewards hypervigilance with the illusion of control. Yet the very loops that promise mastery unspool attention until ordinary tasks feel grainy. Platforms monetize this vigilance.\n\nExtended scrolling is yoked to neck strain, reduced sleep efficiency. Countermeasures are blunt but effective: grayscale displays, notification triage.\n\nDoomscrolling thrives in an attention economy where being 'in the know' functions as currency. This paradox is stark: a practice adopted to feel prepared may make one less able to act.",
+        "text": "Doomscrolling names a habit both ordinary and corrosive: the compulsion to ingest bad news. In feeds optimized for engagement, catastrophe is scheduling logic.\n\nThe amygdala rewards hypervigilance with the illusion of control. Yet the very loops that promise mastery unspool attention until ordinary tasks feel grainy. Platforms monetize this vigilance.\n\nExtended scrolling is yoked to neck strain, reduced sleep efficiency. Countermeasures are blunt but effective: grayscale displays, notification triage.\n\nDoomscrolling thrives in an attention economy where being 'in the know' functions as currency. This paradox is stark: a practice adopted to feel prepared may make one less able to act.",
         "questionRange": [
           23,
           30
@@ -3512,7 +3512,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p17-5",
         "title": "Market Virtues and the Virtue Economy",
-        "text": "Markets are often framed as neutral, yet proponents argue they teach habits. [I] Commercial life is a practice with goods internal to it – trust, reciprocity.\n\nPrices compress diverse values. __[II] Critics counter that a market rewarding only compliance risks yielding behavior merely in accordance with virtue.__\n\nPractice requires boundaries. [III] If 'mutual advantage' is the sole telos, price gouging after earthquakes would be commendable. The virtue economy depends on institutional scaffolding.\n\n[IV] Case studies find firms designing for reciprocity can stabilize cooperation. Yet value-washing persists.",
+        "text": "Markets are often framed as neutral, yet proponents argue they teach habits. [I] Commercial life is a practice with goods internal to it – trust, reciprocity.\n\nPrices compress diverse values. [II] Critics counter that a market rewarding only compliance risks yielding behavior merely in accordance with virtue.\n\nPractice requires boundaries. [III] If 'mutual advantage' is the sole telos, price gouging after earthquakes would be commendable. The virtue economy depends on institutional scaffolding.\n\n[IV] Case studies find firms designing for reciprocity can stabilize cooperation. Yet value-washing persists.",
         "questionRange": [
           31,
           40
@@ -3808,7 +3808,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 23,
-        "text": "'Corrosive' is closest in meaning to _______.",
+        "text": "'Corrosive' is closest in meaning to ___.",
         "options": [
           "destructive through gradual impairment",
           "merely unpleasant but harmless",
@@ -3847,7 +3847,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 26,
-        "text": "'Blunt' is OPPOSITE in meaning to _______.",
+        "text": "'Blunt' is OPPOSITE in meaning to ___.",
         "options": [
           "nuanced",
           "dull",
@@ -3860,7 +3860,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 27,
-        "text": "'This' in paragraph 4 refers to _______.",
+        "text": "'This' in paragraph 4 refers to ___.",
         "options": [
           "the mismatch between preparedness-seeking and diminished capacity to act",
           "replacement of headline scanning with community news",
@@ -3912,7 +3912,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 31,
-        "text": "The 'virtue economy' frames markets as _______.",
+        "text": "The 'virtue economy' frames markets as ___.",
         "options": [
           "rhetorical devices for advertising",
           "social practices cultivating habits like trust and reciprocity",
@@ -3925,7 +3925,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 32,
-        "text": "'Goods internal to it' mostly means _______.",
+        "text": "'Goods internal to it' mostly means ___.",
         "options": [
           "external rewards such as prizes",
           "commodities whose value is set by supply-demand",
@@ -3977,7 +3977,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 36,
-        "text": "'It' in paragraph 1 refers to _______.",
+        "text": "'It' in paragraph 1 refers to ___.",
         "options": [
           "exchange",
           "competence",
@@ -4053,7 +4053,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p18-1",
         "title": "Red Rain – Vietnam's War Film",
-        "text": "Vietnam's wartime epic Red Rain has reconfigured expectations. Ticket sales surged past a historic benchmark. Hanoi alone contributed (1) _______ of total receipts. The director (2) _______ technical ambition with narrative restraint. Since its premiere, the film (3) _______ records. The cast, (5) _______ include a conservatory student, are written with clarity. Analysts predict the film could (6) _______ Mai to become the highest-grossing release.",
+        "text": "Vietnam's wartime epic Red Rain has reconfigured expectations. Ticket sales surged past a historic benchmark. Hanoi alone contributed (1) ___ of total receipts. The director (2) ___ technical ambition with narrative restraint. Since its premiere, the film (3) ___ records. The cast, (5) ___ include a conservatory student, are written with clarity. Analysts predict the film could (6) ___ Mai to become the highest-grossing release.",
         "questionRange": [
           1,
           6
@@ -4062,7 +4062,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p18-2",
         "title": "Afghanistan Earthquake",
-        "text": "A quake ripped through Afghanistan. (7) ________, authorities warned casualty figures could climb. The epicentre lay less than 30km from Jalalabad, according (8) ________ seismologists. Reports counted (9) ________ fatalities. Most dwellings are (10) ________ mud-brick structures. Public messaging grew (11) ________. With (12) ________ thinning, local networks scrambled.",
+        "text": "A quake ripped through Afghanistan. (7) ____, authorities warned casualty figures could climb. The epicentre lay less than 30km from Jalalabad, according (8) ____ seismologists. Reports counted (9) ____ fatalities. Most dwellings are (10) ____ mud-brick structures. Public messaging grew (11) ____. With (12) ____ thinning, local networks scrambled.",
         "questionRange": [
           7,
           12
@@ -4071,7 +4071,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p18-3",
         "title": "Space Resource Allocation",
-        "text": "As visions of off-Earth settlement move from speculation to engineering, the legal puzzle returns. (18) _______.\n\nThe governance dilemma intensifies under scarcity. (19) _______. (20) _______.\n\nHistory counsels caution. (21) _______.\n\nUltimately, the allocation question is inseparable from political imagination. (22) _______.",
+        "text": "As visions of off-Earth settlement move from speculation to engineering, the legal puzzle returns. (18) ___.\n\nThe governance dilemma intensifies under scarcity. (19) ___. (20) ___.\n\nHistory counsels caution. (21) ___.\n\nUltimately, the allocation question is inseparable from political imagination. (22) ___.",
         "questionRange": [
           18,
           22
@@ -4080,7 +4080,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p18-4",
         "title": "Gen-Z Performative Activism",
-        "text": "Gen-Z's public profile is saturated with the rhetoric of solidarity, but the practice often looks more like choreography. __Classroom fluency in justice vocabulary has migrated to timelines.__\n\nA common defense is that awareness precedes action; yet the algorithm rewards velocity over stamina. Posts cascade during crises only to evaporate. When signaling substitutes for commitment, the pose of care can displace the labor of care.\n\nNone of this renders digital advocacy worthless. Marginalized voices can route around gatekeepers.\n\nThe challenge is to braid visibility to verifiable contribution.",
+        "text": "Gen-Z's public profile is saturated with the rhetoric of solidarity, but the practice often looks more like choreography. Classroom fluency in justice vocabulary has migrated to timelines.\n\nA common defense is that awareness precedes action; yet the algorithm rewards velocity over stamina. Posts cascade during crises only to evaporate. When signaling substitutes for commitment, the pose of care can displace the labor of care.\n\nNone of this renders digital advocacy worthless. Marginalized voices can route around gatekeepers.\n\nThe challenge is to braid visibility to verifiable contribution.",
         "questionRange": [
           23,
           30
@@ -4089,7 +4089,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p18-5",
         "title": "Counterfeit Goods and Consumer Trust",
-        "text": "Counterfeit goods corrode the tacit contract of brand trust. [I] The harms are cumulative. What makes the threat durable is opacity in production.\n\nEnforcement alone cannot repair confidence. [II] Firms trumpet authenticity labels, yet fraud often follows. Consumers recalibrate expectations.\n\nThe economic toll compounds. __[III] Capital is diverted to litigation.__ Counterfeit operations adapt with entrepreneurial speed.\n\n[IV] The most durable programs braid together verifiable provenance, targeted enforcement, and public education.",
+        "text": "Counterfeit goods corrode the tacit contract of brand trust. [I] The harms are cumulative. What makes the threat durable is opacity in production.\n\nEnforcement alone cannot repair confidence. [II] Firms trumpet authenticity labels, yet fraud often follows. Consumers recalibrate expectations.\n\nThe economic toll compounds. [III] Capital is diverted to litigation. Counterfeit operations adapt with entrepreneurial speed.\n\n[IV] The most durable programs braid together verifiable provenance, targeted enforcement, and public education.",
         "questionRange": [
           31,
           40
@@ -4138,7 +4138,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 4,
-        "text": "The project employed heavy (4) _______.",
+        "text": "The project employed heavy (4) ___.",
         "options": [
           "acoustics",
           "choreography",
@@ -4385,7 +4385,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 23,
-        "text": "'Metabolize' is closest in meaning to _______.",
+        "text": "'Metabolize' is closest in meaning to ___.",
         "options": [
           "glorify",
           "process",
@@ -4424,7 +4424,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 26,
-        "text": "'Palatable' is OPPOSITE in meaning to _______.",
+        "text": "'Palatable' is OPPOSITE in meaning to ___.",
         "options": [
           "divisive",
           "digestible",
@@ -4437,7 +4437,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 27,
-        "text": "'Both' in paragraph 3 refers to _______.",
+        "text": "'Both' in paragraph 3 refers to ___.",
         "options": [
           "canvassing and court-watching",
           "the 'black square' and AI-generated vigil imagery",
@@ -4489,7 +4489,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 31,
-        "text": "The primary danger of counterfeit goods is that they _______.",
+        "text": "The primary danger of counterfeit goods is that they ___.",
         "options": [
           "reduce product prices",
           "undermine the expectation that brands ensure competence and safety",
@@ -4502,7 +4502,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 32,
-        "text": "'Cumulative' mostly means _______.",
+        "text": "'Cumulative' mostly means ___.",
         "options": [
           "fragmented impact",
           "gradual build-up and increasing effect",
@@ -4554,7 +4554,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 36,
-        "text": "'Prove a negative' refers to _______.",
+        "text": "'Prove a negative' refers to ___.",
         "options": [
           "demonstrate that no hidden defect exists",
           "show competitors lack warranties",
@@ -4630,7 +4630,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p19-1",
         "title": "Vietnam Tourism Boom 2025",
-        "text": "Vietnam welcomed nearly 14 million international arrivals. Tourism revenue, (1) _______ a year-on-year rise of 20.3%. Russia, (2) _______ arrivals soared by 164.9%, became a standout. Vietnam's tourism is on track (3) _______ reach 25 million, an (4) _______ target. Events are designed to (5) _______ further growth. Tourism strengthens bilateral ties with nations that (6) _______ deep bonds.",
+        "text": "Vietnam welcomed nearly 14 million international arrivals. Tourism revenue, (1) ___ a year-on-year rise of 20.3%. Russia, (2) ___ arrivals soared by 164.9%, became a standout. Vietnam's tourism is on track (3) ___ reach 25 million, an (4) ___ target. Events are designed to (5) ___ further growth. Tourism strengthens bilateral ties with nations that (6) ___ deep bonds.",
         "questionRange": [
           1,
           6
@@ -4639,7 +4639,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p19-2",
         "title": "Doraemon 50th Anniversary Edition in Vietnam",
-        "text": "Kim Dong Publishing House has released the complete Doraemon special edition. (7) ________, the edition sparked enthusiasm for its aesthetic design. Doraemon has become a (8) _______ symbol across cultures. With (9) _______ reader expressing unique connections. It is also an (10) _______ silver commemorative box. Its release is celebrated as a (11) _______ event. Doraemon's legacy requires (12) _______ to preserve creativity and companionship.",
+        "text": "Kim Dong Publishing House has released the complete Doraemon special edition. (7) ____, the edition sparked enthusiasm for its aesthetic design. Doraemon has become a (8) ___ symbol across cultures. With (9) ___ reader expressing unique connections. It is also an (10) ___ silver commemorative box. Its release is celebrated as a (11) ___ event. Doraemon's legacy requires (12) ___ to preserve creativity and companionship.",
         "questionRange": [
           7,
           12
@@ -4648,7 +4648,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p19-3",
         "title": "Global Food Crises and Inequality",
-        "text": "Food crises are the manifestation of structural inequalities. In sub-Saharan Africa, food insecurity has escalated, a reality (18) _______. (19) _______.\n\nThis contradiction, (20) _______. The projected decline in undernourishment may obscure disparities (21) _______.\n\n(22) _______, any aspiration of eradicating hunger will remain aspirational.",
+        "text": "Food crises are the manifestation of structural inequalities. In sub-Saharan Africa, food insecurity has escalated, a reality (18) ___. (19) ___.\n\nThis contradiction, (20) ___. The projected decline in undernourishment may obscure disparities (21) ___.\n\n(22) ___, any aspiration of eradicating hunger will remain aspirational.",
         "questionRange": [
           18,
           22
@@ -4657,7 +4657,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p19-4",
         "title": "Toxic Positivity",
-        "text": "Toxic positivity refers to the tendency to valorize relentless optimism at the expense of acknowledging distress. __Such messages often operate as mechanisms of invalidation.__\n\nGraham Reynolds notes that this cultural script demands cheerfulness even in moments of loss, stigmatizing vulnerability. Unacknowledged emotions resurface in disguised forms.\n\nExpressions such as 'everything happens for a reason' function less as comfort and more as avoidance of discomfort. Susan David characterizes this difference as emotional suppression vs. validation.\n\nResearch demonstrates that consistent invalidation can corrode mental resilience. Individuals are left isolated, unable to process meaning from hardship.",
+        "text": "Toxic positivity refers to the tendency to valorize relentless optimism at the expense of acknowledging distress. Such messages often operate as mechanisms of invalidation.\n\nGraham Reynolds notes that this cultural script demands cheerfulness even in moments of loss, stigmatizing vulnerability. Unacknowledged emotions resurface in disguised forms.\n\nExpressions such as 'everything happens for a reason' function less as comfort and more as avoidance of discomfort. Susan David characterizes this difference as emotional suppression vs. validation.\n\nResearch demonstrates that consistent invalidation can corrode mental resilience. Individuals are left isolated, unable to process meaning from hardship.",
         "questionRange": [
           23,
           30
@@ -4666,7 +4666,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p19-5",
         "title": "Mass Media and Cultural Homogenization",
-        "text": "Mass media has emerged as both a conduit of cultural exchange and a catalyst of homogenization. __[I] Western pop culture obliterating many indigenous practices illustrates the asymmetry.__\n\nScholars debate whether globalization enriches hybridity or erodes distinctiveness. [II] Tomlinson argues global flows privilege dominant powers.\n\nMedia does not simply transmit culture; it reframes it. [III] Corporations standardize products to reach wider audiences, reducing diversity.\n\nStrategies include promoting local content and supporting minority creators. [IV] France and Canada impose quotas. Grassroots initiatives empower marginalized communities.",
+        "text": "Mass media has emerged as both a conduit of cultural exchange and a catalyst of homogenization. [I] Western pop culture obliterating many indigenous practices illustrates the asymmetry.\n\nScholars debate whether globalization enriches hybridity or erodes distinctiveness. [II] Tomlinson argues global flows privilege dominant powers.\n\nMedia does not simply transmit culture; it reframes it. [III] Corporations standardize products to reach wider audiences, reducing diversity.\n\nStrategies include promoting local content and supporting minority creators. [IV] France and Canada impose quotas. Grassroots initiatives empower marginalized communities.",
         "questionRange": [
           31,
           40
@@ -4962,7 +4962,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 23,
-        "text": "'Benign' is closest in meaning to _______.",
+        "text": "'Benign' is closest in meaning to ___.",
         "options": [
           "dangerous",
           "severe",
@@ -5001,7 +5001,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 26,
-        "text": "'Stigmatizing' is OPPOSITE in meaning to _______.",
+        "text": "'Stigmatizing' is OPPOSITE in meaning to ___.",
         "options": [
           "endorsing",
           "diminishing",
@@ -5014,7 +5014,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 27,
-        "text": "'This' in paragraph 3 refers to _______.",
+        "text": "'This' in paragraph 3 refers to ___.",
         "options": [
           "avoidance of discomfort",
           "authentic connection",
@@ -5066,7 +5066,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 31,
-        "text": "The overarching risk of Western pop culture dissemination is _______.",
+        "text": "The overarching risk of Western pop culture dissemination is ___.",
         "options": [
           "stabilizes traditional practices",
           "obliterates the visibility of local traditions",
@@ -5079,7 +5079,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 32,
-        "text": "'Imperialism' mostly means _______.",
+        "text": "'Imperialism' mostly means ___.",
         "options": [
           "domination by powerful cultures over weaker ones",
           "equitable sharing of resources",
@@ -5131,7 +5131,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 36,
-        "text": "'This' in paragraph 2 refers to _______.",
+        "text": "'This' in paragraph 2 refers to ___.",
         "options": [
           "the privileging of dominant powers",
           "the enrichment of cultural hybridity",
@@ -5207,7 +5207,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p20-1",
         "title": "Vietnam Airlines Lithium Battery Policy",
-        "text": "Airlines revisit their risk calculus regarding portable power sources. The policy responds to (1) _______ incidents worldwide. The carrier has complemented procedures with training drills that (2) _______ crew competence. Since the guidance (3) _______, audit teams have monitored compliance. Safety managers argue that (4) _______ safeguards are indispensable. The framework, (5) _______ provisions align with ICAO advisories, coordinates with airport authorities. The operator intends to (6) _______ high-risk peripherals during peak seasons.",
+        "text": "Airlines revisit their risk calculus regarding portable power sources. The policy responds to (1) ___ incidents worldwide. The carrier has complemented procedures with training drills that (2) ___ crew competence. Since the guidance (3) ___, audit teams have monitored compliance. Safety managers argue that (4) ___ safeguards are indispensable. The framework, (5) ___ provisions align with ICAO advisories, coordinates with airport authorities. The operator intends to (6) ___ high-risk peripherals during peak seasons.",
         "questionRange": [
           1,
           6
@@ -5216,7 +5216,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p20-2",
         "title": "Quảng Ninh's Stone Sea Crab Noodle Soup",
-        "text": "Quảng Ninh's bún cù kỳ has moved from fishermen's fare to a culinary emblem. (7) ________, vendors still prepare the broth the old way. Condiments vary (8) ________ district and season. Tourists take (9) ________ photographs. Cooks pride themselves on a (10) ________ broth. The dish is a (11) ________ marker of place. Stalls fill with (12) ________ from dawn.",
+        "text": "Quảng Ninh's bún cù kỳ has moved from fishermen's fare to a culinary emblem. (7) ____, vendors still prepare the broth the old way. Condiments vary (8) ____ district and season. Tourists take (9) ____ photographs. Cooks pride themselves on a (10) ____ broth. The dish is a (11) ____ marker of place. Stalls fill with (12) ____ from dawn.",
         "questionRange": [
           7,
           12
@@ -5225,7 +5225,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p20-3",
         "title": "Digital Transformation of Publishing",
-        "text": "The familiar sequence of acquisition–editing–distribution has been rethreaded through platforms. Even when new tools are adopted, they are bolted onto older logics, (18) _______. (19) _______.\n\nThe reader is mapped as a moving cluster; personalization systems, (20) _______. Hence a paradox: (21) _______. Yet scarcely (22) _______.",
+        "text": "The familiar sequence of acquisition–editing–distribution has been rethreaded through platforms. Even when new tools are adopted, they are bolted onto older logics, (18) ___. (19) ___.\n\nThe reader is mapped as a moving cluster; personalization systems, (20) ___. Hence a paradox: (21) ___. Yet scarcely (22) ___.",
         "questionRange": [
           18,
           22
@@ -5234,7 +5234,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p20-4",
         "title": "Filter Bubbles and Polarization",
-        "text": "The phrase 'filter bubble' has become a rhetorical catch-all. __Yet careful audits suggest a subtler terrain: many users traverse heterogeneous sources.__\n\nScholars caution against conflating algorithmic curation with ideological indoctrination. While some clusters exhibit self-reinforcing exposure, large-scale studies find limited evidence that personalization alone seals audiences off.\n\nDuring election cycles and crises, these dynamics become more combustible. Counter-measures – labeling, down-ranking – can mitigate harms but raise normative questions.\n\nThe literature urges re-centering institutional responsibility: platforms shape exposure by designing the frictions that enable deliberation.",
+        "text": "The phrase 'filter bubble' has become a rhetorical catch-all. Yet careful audits suggest a subtler terrain: many users traverse heterogeneous sources.\n\nScholars caution against conflating algorithmic curation with ideological indoctrination. While some clusters exhibit self-reinforcing exposure, large-scale studies find limited evidence that personalization alone seals audiences off.\n\nDuring election cycles and crises, these dynamics become more combustible. Counter-measures – labeling, down-ranking – can mitigate harms but raise normative questions.\n\nThe literature urges re-centering institutional responsibility: platforms shape exposure by designing the frictions that enable deliberation.",
         "questionRange": [
           23,
           30
@@ -5243,7 +5243,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p20-5",
         "title": "Fast Fashion's Environmental Impact",
-        "text": "Fast fashion's appeal rests on speed and novelty. [I] Polyester garments leach microfibers; dye effluents overwhelm rivers. Brands tout capsule 'conscious' lines, yet throughput targets remain unaltered.\n\nSupply chains rely on subcontracting lattices that outstrip oversight. __[II] Claims of circularity, absent durable design, are marketing gloss.__\n\nSocial-media cycles fetishize perpetual newness. [III] Policy can counteract these incentives but enforcement gaps dilute impact.\n\n[IV] Without binding caps on production, sustainability talk risks net-greenwashing. The sector's dependency cannot be reconciled with breakneck turnover unless growth is materially decoupled from throughput.",
+        "text": "Fast fashion's appeal rests on speed and novelty. [I] Polyester garments leach microfibers; dye effluents overwhelm rivers. Brands tout capsule 'conscious' lines, yet throughput targets remain unaltered.\n\nSupply chains rely on subcontracting lattices that outstrip oversight. [II] Claims of circularity, absent durable design, are marketing gloss.\n\nSocial-media cycles fetishize perpetual newness. [III] Policy can counteract these incentives but enforcement gaps dilute impact.\n\n[IV] Without binding caps on production, sustainability talk risks net-greenwashing. The sector's dependency cannot be reconciled with breakneck turnover unless growth is materially decoupled from throughput.",
         "questionRange": [
           31,
           40
@@ -5539,7 +5539,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 23,
-        "text": "'Audits' is closest in meaning to _______.",
+        "text": "'Audits' is closest in meaning to ___.",
         "options": [
           "denunciations",
           "censures",
@@ -5578,7 +5578,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 26,
-        "text": "'Combustible' is OPPOSITE in meaning to _______.",
+        "text": "'Combustible' is OPPOSITE in meaning to ___.",
         "options": [
           "inflammable",
           "placid",
@@ -5591,7 +5591,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 27,
-        "text": "'They' in paragraph 3 refers to _______.",
+        "text": "'They' in paragraph 3 refers to ___.",
         "options": [
           "bridges",
           "crises",
@@ -5643,7 +5643,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 31,
-        "text": "Maintaining high output while promoting minor eco-initiatives will _______.",
+        "text": "Maintaining high output while promoting minor eco-initiatives will ___.",
         "options": [
           "guarantee orderly contraction",
           "create a façade of progress overwhelmed by garment quantity",
@@ -5656,7 +5656,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 32,
-        "text": "'Lattices' mostly means _______.",
+        "text": "'Lattices' mostly means ___.",
         "options": [
           "hierarchical blueprints for promotion",
           "interlocking networks distributing tasks across many actors",
@@ -5682,7 +5682,7 @@ export const thptExams2: ThptExam[] = [
       },
       {
         "id": 34,
-        "text": "'Net-greenwashing' most nearly refers to _______.",
+        "text": "'Net-greenwashing' most nearly refers to _____.",
         "options": [
           "absolute emission cuts through verified offsets",
           "credible disclosures differentiating marginal from systemic progress",
