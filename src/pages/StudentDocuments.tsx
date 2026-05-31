@@ -87,51 +87,36 @@ const StudentDocuments = () => {
     { id: "other", label: t("Khác", "Other"), icon: FileWarning, gradient: "from-slate-500 to-zinc-600" },
   ];
 
-  // Auth + initial load — use getSession() (reads from local storage, no network race)
-  // and subscribe to onAuthStateChange so OAuth redirects / token refresh don't
-  // accidentally bounce signed-in users to /login.
+  // Auth + initial load.
+  // IMPORTANT: never auto-redirect to /login on missing session — Supabase may
+  // briefly report a null session while the stored session hydrates after
+  // navigation or OAuth redirect. The previous setTimeout+redirect pattern
+  // caused signed-in users to feel "logged out" when navigating between pages.
+  // Show an inline "Sign in" CTA instead when userId is null.
   useEffect(() => {
     let mounted = true;
-    let redirected = false;
 
-    const handleSession = async (session: any) => {
+    const handleSession = (session: any) => {
       if (!mounted) return;
-      if (!session?.user) {
-        // Wait a tick — Supabase sometimes fires INITIAL_SESSION with null
-        // before the stored session is hydrated. If still no user after 600ms, redirect.
-        if (redirected) return;
-        setTimeout(async () => {
-          if (!mounted || redirected) return;
-          const { data: { session: s2 } } = await supabase.auth.getSession();
-          if (!s2?.user && !redirected) {
-            redirected = true;
-            navigate("/login?redirect=/study-abroad/documents");
-          } else if (s2?.user) {
-            setUserId(s2.user.id);
-            await fetchDocs(s2.user.id);
-            setLoading(false);
-          }
-        }, 600);
-        return;
+      const uid = session?.user?.id ?? null;
+      setUserId(uid);
+      if (uid) {
+        fetchDocs(uid).finally(() => mounted && setLoading(false));
+      } else {
+        setLoading(false);
       }
-      setUserId(session.user.id);
-      await fetchDocs(session.user.id);
-      setLoading(false);
     };
 
-    // 1) Subscribe FIRST (avoid missing events)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       handleSession(session);
     });
-
-    // 2) THEN read existing session from storage
     supabase.auth.getSession().then(({ data: { session } }) => handleSession(session));
 
     return () => {
       mounted = false;
       subscription.unsubscribe();
     };
-  }, [navigate]);
+  }, []);
 
   const fetchDocs = async (uid: string) => {
     const { data, error } = await supabase
