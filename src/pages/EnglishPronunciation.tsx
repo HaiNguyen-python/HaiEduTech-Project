@@ -10,7 +10,7 @@
  * either an en-GB or en-US voice (no backend required, no API keys). All copy
  * is bilingual via useLanguage().
  */
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -30,6 +30,9 @@ import {
   Layers3,
   AudioLines,
   Trophy,
+  Mic,
+  AlertTriangle,
+  Loader2,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -103,6 +106,87 @@ const CONSONANTS: PhonemeRow[] = [
   { ipa: "/l/", example: "light vs feel", vi: "L sáng đầu / L tối cuối", tip: "Đầu từ: nhẹ. Cuối từ: 'tối' hơn", tipEn: "Light L initial, dark L final" },
   { ipa: "/v/", example: "very, voice, love", vi: "Răng trên cắn nhẹ môi dưới", tip: "Khác với /w/ - có rung", tipEn: "Lip-teeth contact, voiced" },
   { ipa: "/w/", example: "we, wait, away", vi: "Tròn môi, không cắn", tip: "Khác /v/: tròn môi, không răng", tipEn: "Rounded lips, no teeth" },
+];
+
+// 8 diphthongs (nguyên âm đôi) + 5 triphthongs (nguyên âm ba) commonly tested
+const DIPHTHONGS: PhonemeRow[] = [
+  { ipa: "/eɪ/", example: "day, face, make, rain", vi: "ê-i: bắt đầu /e/ trượt sang /ɪ/", tip: "Bắt đầu rộng miệng, kết thúc khép môi như 'i'", tipEn: "Start open, glide to a closed 'i'" },
+  { ipa: "/aɪ/", example: "my, time, light, eye", vi: "a-i: bắt đầu /a/ trượt sang /ɪ/", tip: "Mở miệng to ở 'a', khép nhanh sang 'i'", tipEn: "Wide 'a' then quick glide to 'i'" },
+  { ipa: "/ɔɪ/", example: "boy, coin, voice, enjoy", vi: "ô-i: bắt đầu /ɔː/ tròn môi trượt sang /ɪ/", tip: "Tròn môi ở 'o', kéo căng môi sang 'i'", tipEn: "Round 'o' then stretch lips to 'i'" },
+  { ipa: "/aʊ/", example: "now, how, house, town", vi: "a-u: bắt đầu /a/ trượt sang /ʊ/", tip: "Mở miệng to rồi chu môi tròn lại", tipEn: "Wide 'a' then round lips to 'oo'" },
+  { ipa: "/əʊ/ (UK) /oʊ/ (US)", example: "go, home, no, slow", vi: "ơ-u (UK) / ô-u (US)", tip: "UK bắt đầu /ə/, US bắt đầu /o/ tròn môi nhẹ", tipEn: "UK starts /ə/, US starts rounded /o/" },
+  { ipa: "/ɪə/", example: "here, near, ear, beer (UK)", vi: "i-ơ (Anh-Anh, không phát âm /r/)", tip: "Anh-Mỹ thường thay bằng /ɪr/", tipEn: "American replaces with /ɪr/" },
+  { ipa: "/eə/", example: "hair, care, bear, where (UK)", vi: "e-ơ (Anh-Anh)", tip: "Anh-Mỹ thường thay bằng /er/", tipEn: "American replaces with /er/" },
+  { ipa: "/ʊə/", example: "tour, sure, poor (UK)", vi: "u-ơ (Anh-Anh, đang biến mất)", tip: "Đa số người nói trẻ dùng /ɔː/", tipEn: "Most younger speakers use /ɔː/" },
+  { ipa: "/aɪə/", example: "fire, hire, tired, liar", vi: "Triphthong: a-i-ơ", tip: "Trượt mượt qua 3 âm, đừng tách rời", tipEn: "Glide smoothly through 3 sounds" },
+  { ipa: "/aʊə/", example: "hour, our, flower, power", vi: "Triphthong: a-u-ơ", tip: "Anh-Mỹ thường nuốt thành /aʊr/", tipEn: "American often collapses to /aʊr/" },
+  { ipa: "/eɪə/", example: "player, layer", vi: "Triphthong: ê-i-ơ", tip: "Trượt liền mạch, không tách thành 2 âm tiết", tipEn: "Glide as one - don't split into 2 syllables" },
+  { ipa: "/ɔɪə/", example: "loyal, royal, employer", vi: "Triphthong: ô-i-ơ", tip: "Bắt đầu tròn môi, kết thúc lưỡi giữa", tipEn: "Round start, mid-tongue end" },
+  { ipa: "/əʊə/", example: "lower, mower, slower", vi: "Triphthong: ơ-u-ơ (UK)", tip: "Khó với người Việt - luyện chậm rồi tăng tốc", tipEn: "Tough for Vietnamese - drill slowly, then speed up" },
+];
+
+interface VnMistake {
+  word: string;
+  wrong: string;
+  wrongIpa: string;
+  correctIpa: string;
+  vi: string;
+  en: string;
+  category: "ending" | "vowel" | "th" | "stress" | "silent" | "cluster";
+}
+
+// 30+ common mispronunciations by Vietnamese learners (compiled from teaching experience)
+const VN_MISTAKES: VnMistake[] = [
+  // Ending consonants - dropped or replaced
+  { word: "wished", wrong: "'wish-ết / wish'", wrongIpa: "/wɪʃ/", correctIpa: "/wɪʃt/", category: "ending", vi: "Người Việt hay bỏ /t/ cuối. Nhớ: -ed sau âm vô thanh = /t/.", en: "Vietnamese learners drop final /t/. Remember: -ed after voiceless = /t/." },
+  { word: "asked", wrong: "'át / ask'", wrongIpa: "/æsk/", correctIpa: "/æskt/ hoặc /ɑːskt/", category: "cluster", vi: "Cụm /skt/ cuối từ - rất khó. Đừng bỏ qua /t/.", en: "Final /skt/ cluster is tough - don't skip the /t/." },
+  { word: "clothes", wrong: "'cờ-lo / close'", wrongIpa: "/kloʊz/", correctIpa: "/kloʊðz/", category: "cluster", vi: "Có /ð/ + /z/ cuối, không phải 'close'.", en: "Has /ð/ + /z/ ending, not just 'close'." },
+  { word: "months", wrong: "'mân / mân-s'", wrongIpa: "/mʌns/", correctIpa: "/mʌnθs/", category: "cluster", vi: "Cụm /nθs/ - lưỡi giữa răng rồi xì /s/.", en: "/nθs/ cluster - tongue between teeth then hiss /s/." },
+  { word: "world", wrong: "'gô / wo'", wrongIpa: "/wɔː/", correctIpa: "/wɜːrld/", category: "ending", vi: "Đừng bỏ /ld/ cuối. Phát âm rõ cả /r/, /l/, /d/.", en: "Don't drop /ld/. Pronounce /r/, /l/, /d/ clearly." },
+  { word: "lunch", wrong: "'lăn / lăn-chờ'", wrongIpa: "/lʌn/", correctIpa: "/lʌntʃ/", category: "ending", vi: "Có /tʃ/ cuối, không phải /n/ cụt.", en: "Has /tʃ/ ending, not bare /n/." },
+  // /θ/ and /ð/ - replaced with /t/, /s/, /d/, /z/
+  { word: "three", wrong: "'trê / sờ-ri'", wrongIpa: "/triː/", correctIpa: "/θriː/", category: "th", vi: "/θ/ - đặt đầu lưỡi giữa hai răng rồi xì hơi.", en: "/θ/ - put tongue tip between teeth and blow." },
+  { word: "thank", wrong: "'ten-kiu'", wrongIpa: "/tæŋk/", correctIpa: "/θæŋk/", category: "th", vi: "Không phải /t/ - phải có /θ/ lưỡi giữa răng.", en: "Not /t/ - must be /θ/ with tongue between teeth." },
+  { word: "this", wrong: "'đít / dít'", wrongIpa: "/dɪs/", correctIpa: "/ðɪs/", category: "th", vi: "/ð/ rung, giống /θ/ nhưng có rung dây thanh.", en: "/ð/ is voiced, like /θ/ with vocal cord vibration." },
+  { word: "mother", wrong: "'mô-đờ / mô-dơ'", wrongIpa: "/ˈmʌdər/", correctIpa: "/ˈmʌðər/", category: "th", vi: "Đầu lưỡi giữa răng, có rung. Không phải /d/.", en: "Tongue between teeth, voiced. Not /d/." },
+  { word: "thought", wrong: "'thót / sot'", wrongIpa: "/sɔːt/", correctIpa: "/θɔːt/", category: "th", vi: "/θ/ + /ɔː/ dài + /t/ cuối rõ.", en: "/θ/ + long /ɔː/ + clear final /t/." },
+  // /v/ vs /w/ confusion
+  { word: "very", wrong: "'oeo-ri / we-ri'", wrongIpa: "/ˈweri/", correctIpa: "/ˈveri/", category: "vowel", vi: "/v/ răng trên cắn nhẹ môi dưới, không tròn môi.", en: "/v/ upper teeth on lower lip, don't round lips." },
+  { word: "while", wrong: "'vai-lờ / vail'", wrongIpa: "/vaɪl/", correctIpa: "/waɪl/", category: "vowel", vi: "/w/ tròn môi, không cắn răng.", en: "/w/ round lips, no teeth contact." },
+  // Final /s/ /z/
+  { word: "buses", wrong: "'bát-sì / bát'", wrongIpa: "/bʌs/", correctIpa: "/ˈbʌsɪz/", category: "ending", vi: "Sau /s/ /z/ /ʃ/ /tʃ/ /dʒ/, số nhiều = /ɪz/.", en: "After /s/ /z/ /ʃ/ /tʃ/ /dʒ/, plural = /ɪz/." },
+  { word: "boys", wrong: "'boi-s'", wrongIpa: "/bɔɪs/", correctIpa: "/bɔɪz/", category: "ending", vi: "Sau nguyên âm, -s đọc là /z/ rung.", en: "After a vowel, -s is voiced /z/." },
+  // Silent letters
+  { word: "Wednesday", wrong: "'wét-nét-đê'", wrongIpa: "/ˈwednesdeɪ/", correctIpa: "/ˈwenzdeɪ/", category: "silent", vi: "Chữ 'd' đầu câm. Đọc 'wenz-day'.", en: "First 'd' is silent. Say 'wenz-day'." },
+  { word: "comfortable", wrong: "'com-pho-tê-bồ'", wrongIpa: "/ˈkʌmfɔːrtəbl/", correctIpa: "/ˈkʌmftərbl/ hoặc /ˈkʌmfərtəbl/", category: "silent", vi: "Chỉ 3 âm tiết: KUMF-tuh-bul.", en: "Only 3 syllables: KUMF-tuh-bul." },
+  { word: "vegetable", wrong: "'ve-gờ-tê-bồ'", wrongIpa: "/ˈvedʒətəbl/", correctIpa: "/ˈvedʒtəbl/", category: "silent", vi: "Nuốt 'e' giữa: VEJ-tuh-bul, chỉ 3 âm tiết.", en: "Swallow middle 'e': VEJ-tuh-bul, 3 syllables." },
+  { word: "chocolate", wrong: "'chô-cô-lết'", wrongIpa: "/ˈtʃɒkəleɪt/", correctIpa: "/ˈtʃɒklət/", category: "silent", vi: "2 âm tiết: CHOK-lət, không phải 3.", en: "2 syllables: CHOK-lət, not 3." },
+  { word: "island", wrong: "'ít-lừn / is-land'", wrongIpa: "/ˈɪzlænd/", correctIpa: "/ˈaɪlənd/", category: "silent", vi: "Chữ 's' câm hoàn toàn. Đọc 'EYE-lənd'.", en: "'s' is completely silent. Say 'EYE-lənd'." },
+  { word: "knife", wrong: "'k'naif / knai-fê'", wrongIpa: "/knaɪf/", correctIpa: "/naɪf/", category: "silent", vi: "'k' đầu câm. Đọc 'NIGH-fe'.", en: "Initial 'k' is silent. Say 'NIGH-fe'." },
+  // Word stress
+  { word: "comfortable", wrong: "com-FOR-ta-ble", wrongIpa: "/kəmˈfɔːrtəbl/", correctIpa: "/ˈkʌmftərbl/", category: "stress", vi: "Trọng âm đầu: KUM-, không phải -FOR-.", en: "Stress first syllable: KUM-, not -FOR-." },
+  { word: "photograph", wrong: "pho-to-GRAPH", wrongIpa: "/foʊtəˈɡræf/", correctIpa: "/ˈfoʊtəɡræf/", category: "stress", vi: "Trọng âm đầu: PHO-to-graph.", en: "Stress first: PHO-to-graph." },
+  { word: "photography", wrong: "PHO-to-graphy", wrongIpa: "/ˈfoʊtəɡræfi/", correctIpa: "/fəˈtɒɡrəfi/", category: "stress", vi: "Trọng âm âm 2: pho-TO-gra-phy.", en: "Stress on 2nd: pho-TO-gra-phy." },
+  { word: "develop", wrong: "DE-velop", wrongIpa: "/ˈdiːveləp/", correctIpa: "/dɪˈveləp/", category: "stress", vi: "Trọng âm âm 2: de-VEL-op.", en: "Stress on 2nd: de-VEL-op." },
+  { word: "interesting", wrong: "in-tê-RÉT-ting", wrongIpa: "/ɪntəˈrestɪŋ/", correctIpa: "/ˈɪntrəstɪŋ/", category: "stress", vi: "Trọng âm đầu + chỉ 3 âm tiết: IN-tres-ting.", en: "Stress first + only 3 syllables: IN-tres-ting." },
+  // Vowel confusion
+  { word: "beach / bitch", wrong: "Đọc giống nhau", wrongIpa: "/bɪtʃ/", correctIpa: "beach /biːtʃ/ vs bitch /bɪtʃ/", category: "vowel", vi: "/iː/ dài (beach) vs /ɪ/ ngắn (bitch) - nhầm là tai họa!", en: "Long /iː/ vs short /ɪ/ - mixing them up is disastrous!" },
+  { word: "sheet / shit", wrong: "Đọc giống nhau", wrongIpa: "/ʃɪt/", correctIpa: "sheet /ʃiːt/ vs shit /ʃɪt/", category: "vowel", vi: "/iː/ dài, kéo căng môi, khác hẳn /ɪ/ ngắn.", en: "Long /iː/ stretch lips - very different from short /ɪ/." },
+  { word: "ago", wrong: "'a-gô' nhấn đầu", wrongIpa: "/ˈæɡoʊ/", correctIpa: "/əˈɡoʊ/", category: "stress", vi: "Trọng âm âm 2 + âm đầu là schwa /ə/.", en: "Stress 2nd + first syllable is schwa /ə/." },
+  { word: "focus", wrong: "'phô-cứt'", wrongIpa: "/fəʊˈkʌs/", correctIpa: "/ˈfoʊkəs/", category: "stress", vi: "Trọng âm đầu, âm cuối nhẹ /əs/.", en: "Stress first, light final /əs/." },
+  // Consonant clusters
+  { word: "strength", wrong: "'sờ-treng / treng'", wrongIpa: "/treŋ/", correctIpa: "/streŋθ/", category: "cluster", vi: "Cụm /str/ đầu + /ŋθ/ cuối - một trong những từ khó nhất.", en: "Initial /str/ + final /ŋθ/ - one of the hardest words." },
+  { word: "scripts", wrong: "'sờ-cờ-rip'", wrongIpa: "/skrɪp/", correctIpa: "/skrɪpts/", category: "cluster", vi: "Cụm /pts/ cuối - đừng nuốt mất /ts/.", en: "Final /pts/ cluster - don't swallow the /ts/." },
+  { word: "sixth", wrong: "'síc'", wrongIpa: "/sɪks/", correctIpa: "/sɪksθ/", category: "cluster", vi: "Cụm /ksθ/ - kết thúc bằng /θ/ lưỡi giữa răng.", en: "/ksθ/ cluster - end with /θ/ tongue between teeth." },
+];
+
+const VN_MISTAKE_GROUPS: { key: VnMistake["category"]; vi: string; en: string; emoji: string; color: string }[] = [
+  { key: "th", vi: "Âm /θ/ và /ð/ (lưỡi giữa răng)", en: "/θ/ and /ð/ (tongue between teeth)", emoji: "👅", color: "from-rose-500/15 to-rose-500/5 border-rose-500/30" },
+  { key: "ending", vi: "Bỏ phụ âm cuối", en: "Dropping final consonants", emoji: "✂️", color: "from-amber-500/15 to-amber-500/5 border-amber-500/30" },
+  { key: "cluster", vi: "Cụm phụ âm khó", en: "Difficult consonant clusters", emoji: "🧩", color: "from-purple-500/15 to-purple-500/5 border-purple-500/30" },
+  { key: "vowel", vi: "Nhầm nguyên âm dài/ngắn", en: "Long vs short vowel confusion", emoji: "🎯", color: "from-sky-500/15 to-sky-500/5 border-sky-500/30" },
+  { key: "stress", vi: "Sai trọng âm", en: "Wrong word stress", emoji: "💢", color: "from-orange-500/15 to-orange-500/5 border-orange-500/30" },
+  { key: "silent", vi: "Chữ câm (silent letters)", en: "Silent letters", emoji: "🤫", color: "from-emerald-500/15 to-emerald-500/5 border-emerald-500/30" },
 ];
 
 interface MinimalPair {
@@ -835,8 +919,127 @@ const PlayBtn = ({
   </button>
 );
 
+/**
+ * SpeakCheck - live mic-recognition button that grades pronunciation.
+ * Uses Web Speech API (free, no key). Strips punctuation + lowercases on both
+ * sides, then computes word-level overlap percentage as a simple accuracy score.
+ */
+const normalize = (s: string) =>
+  s.toLowerCase().replace(/[^a-z0-9'\s]/g, "").replace(/\s+/g, " ").trim();
+
+const scorePronunciation = (target: string, heard: string): number => {
+  const t = normalize(target).split(" ").filter(Boolean);
+  const h = normalize(heard).split(" ").filter(Boolean);
+  if (t.length === 0) return 0;
+  const heardSet = new Map<string, number>();
+  h.forEach((w) => heardSet.set(w, (heardSet.get(w) ?? 0) + 1));
+  let matched = 0;
+  for (const w of t) {
+    const n = heardSet.get(w) ?? 0;
+    if (n > 0) {
+      matched++;
+      heardSet.set(w, n - 1);
+    }
+  }
+  return Math.round((matched / t.length) * 100);
+};
+
+const SpeakCheck = ({
+  target,
+  small,
+  accent = "en-US",
+}: {
+  target: string;
+  small?: boolean;
+  accent?: Accent;
+}) => {
+  const [listening, setListening] = useState(false);
+  const [score, setScore] = useState<number | null>(null);
+  const [heard, setHeard] = useState<string>("");
+  const recRef = useRef<any>(null);
+
+  const start = useCallback(() => {
+    const W = window as any;
+    const SR = W.SpeechRecognition || W.webkitSpeechRecognition;
+    if (!SR) {
+      toast.error("Trình duyệt không hỗ trợ nhận diện giọng nói. Hãy dùng Chrome/Edge.");
+      return;
+    }
+    try {
+      const rec = new SR();
+      rec.lang = accent;
+      rec.interimResults = false;
+      rec.maxAlternatives = 3;
+      rec.continuous = false;
+      recRef.current = rec;
+      setScore(null);
+      setHeard("");
+      setListening(true);
+      rec.onresult = (e: any) => {
+        let best = "";
+        let bestScore = -1;
+        for (let i = 0; i < e.results[0].length; i++) {
+          const alt = e.results[0][i].transcript as string;
+          const s = scorePronunciation(target, alt);
+          if (s > bestScore) {
+            bestScore = s;
+            best = alt;
+          }
+        }
+        setHeard(best);
+        setScore(bestScore);
+        if (bestScore >= 85) toast.success(`Xuất sắc! ${bestScore}/100`);
+        else if (bestScore >= 60) toast.message(`Khá tốt - ${bestScore}/100`);
+        else toast.error(`Cần luyện thêm - ${bestScore}/100`);
+      };
+      rec.onerror = (e: any) => {
+        setListening(false);
+        if (e.error === "not-allowed") toast.error("Hãy cấp quyền micro");
+        else if (e.error !== "no-speech") toast.error("Lỗi: " + e.error);
+      };
+      rec.onend = () => setListening(false);
+      rec.start();
+    } catch (err) {
+      setListening(false);
+      toast.error("Không khởi động được mic");
+    }
+  }, [target, accent]);
+
+  const stop = useCallback(() => {
+    try { recRef.current?.stop(); } catch {}
+    setListening(false);
+  }, []);
+
+  const color =
+    score === null ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-500/20"
+      : score >= 85 ? "bg-emerald-500/20 text-emerald-700 dark:text-emerald-300"
+      : score >= 60 ? "bg-amber-500/20 text-amber-700 dark:text-amber-300"
+      : "bg-rose-500/20 text-rose-700 dark:text-rose-300";
+
+  return (
+    <div className="inline-flex flex-col items-start gap-1">
+      <button
+        onClick={listening ? stop : start}
+        className={`inline-flex items-center gap-1.5 rounded-lg transition-colors font-medium border border-current/20 ${color} ${
+          small ? "px-2 py-1 text-xs" : "px-3 py-1.5 text-sm"
+        }`}
+        aria-label="Speak and check pronunciation"
+      >
+        {listening ? <Loader2 className={`${small ? "w-3 h-3" : "w-4 h-4"} animate-spin`} /> : <Mic className={small ? "w-3 h-3" : "w-4 h-4"} />}
+        {listening ? "Đang nghe..." : score !== null ? `${score}/100` : "Speak"}
+      </button>
+      {heard && score !== null && (
+        <span className="text-[10px] text-muted-foreground italic max-w-[220px] truncate" title={heard}>
+          "{heard}"
+        </span>
+      )}
+    </div>
+  );
+};
+
 const EnglishPronunciation = () => {
   const { t } = useLanguage();
+
 
   // Quiz state
   const [quizIdx, setQuizIdx] = useState(0);
@@ -979,6 +1182,7 @@ const EnglishPronunciation = () => {
             <TabsTrigger value="linking" className="gap-2"><Waves className="w-4 h-4" />{t("Nối âm & Luyến láy", "Linking & Connected")}</TabsTrigger>
             <TabsTrigger value="weak" className="gap-2"><AudioLines className="w-4 h-4" />{t("Weak Forms", "Weak Forms")}</TabsTrigger>
             <TabsTrigger value="ukus" className="gap-2"><Flag className="w-4 h-4" />{t("Anh-Anh vs Anh-Mỹ", "British vs American")}</TabsTrigger>
+            <TabsTrigger value="vnmistakes" className="gap-2"><AlertTriangle className="w-4 h-4" />{t("Lỗi VN hay sai", "Common VN Mistakes")}</TabsTrigger>
             <TabsTrigger value="practice" className="gap-2"><GraduationCap className="w-4 h-4" />{t("Luyện câu", "Sentence Drill")}</TabsTrigger>
             <TabsTrigger value="quiz" className="gap-2"><Trophy className="w-4 h-4" />{t("Quiz nghe", "Listening Quiz")}</TabsTrigger>
           </TabsList>
@@ -989,32 +1193,39 @@ const EnglishPronunciation = () => {
               icon={Layers3}
               title={t("Bảng phiên âm IPA", "IPA Phoneme Chart")}
               subtitle={t(
-                "44 âm vị tiếng Anh chuẩn - bấm 🔊 để nghe ví dụ.",
-                "The 44 standard English phonemes - tap 🔊 for examples.",
+                "44 âm vị tiếng Anh chuẩn (gồm 12 nguyên âm đơn, 8 nguyên âm đôi + 5 nguyên âm ba, và phụ âm khó) - bấm 🔊 để nghe, bấm 🎤 Speak để máy chấm phát âm của bạn.",
+                "44 standard English phonemes (12 monophthongs, 8 diphthongs + 5 triphthongs, plus tricky consonants) - tap 🔊 to listen, tap 🎤 Speak for instant scoring.",
               )}
             />
-            <div className="grid lg:grid-cols-2 gap-6">
+            <div className="grid lg:grid-cols-3 gap-6">
               {[
-                { title: t("Nguyên âm (Vowels)", "Vowels"), rows: VOWELS, color: "from-amber-500/15 to-amber-500/5", border: "border-amber-500/30" },
+                { title: t("Nguyên âm đơn (Monophthongs)", "Monophthongs"), rows: VOWELS, color: "from-amber-500/15 to-amber-500/5", border: "border-amber-500/30" },
+                { title: t("Nguyên âm đôi & ba (Diphthongs & Triphthongs)", "Diphthongs & Triphthongs"), rows: DIPHTHONGS, color: "from-fuchsia-500/15 to-fuchsia-500/5", border: "border-fuchsia-500/30" },
                 { title: t("Phụ âm khó (Consonants)", "Tricky Consonants"), rows: CONSONANTS, color: "from-sky-500/15 to-sky-500/5", border: "border-sky-500/30" },
               ].map((group) => (
                 <div key={group.title} className={`rounded-2xl border ${group.border} bg-gradient-to-br ${group.color} p-5`}>
                   <h3 className="font-display font-bold text-lg mb-4 text-foreground">{group.title}</h3>
                   <div className="space-y-2">
-                    {group.rows.map((row) => (
-                      <div key={row.ipa} className="bg-card/80 backdrop-blur-sm rounded-lg p-3 border border-border/60">
-                        <div className="flex items-center justify-between mb-1.5 gap-2">
-                          <div className="flex items-center gap-3">
-                            <span className="font-mono font-bold text-primary text-lg">{row.ipa}</span>
-                            <span className="text-sm text-foreground">{row.example}</span>
+                    {group.rows.map((row) => {
+                      const firstWord = row.example.split(",")[0].trim();
+                      return (
+                        <div key={row.ipa} className="bg-card/80 backdrop-blur-sm rounded-lg p-3 border border-border/60">
+                          <div className="flex items-center justify-between mb-1.5 gap-2 flex-wrap">
+                            <div className="flex items-center gap-3">
+                              <span className="font-mono font-bold text-primary text-lg">{row.ipa}</span>
+                              <span className="text-sm text-foreground">{row.example}</span>
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                              <PlayBtn text={firstWord} small />
+                              <SpeakCheck target={firstWord} small />
+                            </div>
                           </div>
-                          <PlayBtn text={row.example.split(",")[0].trim()} />
+                          <p className="text-xs text-muted-foreground">
+                            💡 {t(row.tip, row.tipEn)} · <span className="italic">{row.vi}</span>
+                          </p>
                         </div>
-                        <p className="text-xs text-muted-foreground">
-                          💡 {t(row.tip, row.tipEn)} · <span className="italic">{row.vi}</span>
-                        </p>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               ))}
@@ -1040,9 +1251,10 @@ const EnglishPronunciation = () => {
                       <div key={w} className="text-center bg-secondary/50 rounded-lg p-3 border border-border/60">
                         <div className="font-bold text-foreground text-lg">{w}</div>
                         <div className="font-mono text-xs text-primary mt-0.5">{mp.ipa[i]}</div>
-                        <div className="flex justify-center gap-1 mt-2">
+                        <div className="flex justify-center gap-1 mt-2 flex-wrap">
                           <PlayBtn text={w} accent="en-US" small />
                           <PlayBtn text={w} accent="en-GB" small />
+                          <SpeakCheck target={w} small />
                         </div>
                       </div>
                     ))}
@@ -1307,6 +1519,69 @@ const EnglishPronunciation = () => {
             </div>
           </TabsContent>
 
+          {/* ============== Vietnamese Mistakes ============== */}
+          <TabsContent value="vnmistakes" className="space-y-6">
+            <SectionHeader
+              icon={AlertTriangle}
+              title={t("Các từ người Việt hay phát âm sai", "Words Vietnamese Learners Mispronounce")}
+              subtitle={t(
+                "Tổng hợp lỗi phát âm phổ biến nhất của người học Việt. Bấm 🔊 nghe mẫu, bấm 🎤 Speak để máy chấm.",
+                "Most common Vietnamese learner mistakes. Tap 🔊 to hear, tap 🎤 Speak for instant scoring.",
+              )}
+            />
+            <div className="space-y-6">
+              {VN_MISTAKE_GROUPS.map((g) => {
+                const items = VN_MISTAKES.filter((m) => m.category === g.key);
+                if (items.length === 0) return null;
+                return (
+                  <div key={g.key} className={`rounded-2xl border bg-gradient-to-br ${g.color} p-5`}>
+                    <div className="flex items-center gap-3 mb-4">
+                      <span className="text-2xl">{g.emoji}</span>
+                      <h3 className="text-lg font-bold text-foreground">{t(g.vi, g.en)}</h3>
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-background/60 text-muted-foreground border border-border">
+                        {items.length} {t("từ", "words")}
+                      </span>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-3">
+                      {items.map((m) => {
+                        const target = m.word.split("/")[0].trim();
+                        return (
+                          <div key={m.word + m.wrongIpa} className="rounded-xl border border-border bg-card p-4">
+                            <div className="flex items-start justify-between gap-2 mb-2 flex-wrap">
+                              <div>
+                                <div className="font-display font-bold text-foreground text-lg">{m.word}</div>
+                                <div className="font-mono text-xs text-emerald-600 dark:text-emerald-400 mt-0.5">✓ {m.correctIpa}</div>
+                              </div>
+                              <div className="flex items-center gap-1.5 flex-wrap justify-end">
+                                <PlayBtn text={target} accent="en-US" small />
+                                <PlayBtn text={target} accent="en-GB" small />
+                                <SpeakCheck target={target} small />
+                              </div>
+                            </div>
+                            <div className="rounded-lg bg-rose-500/10 border border-rose-500/30 p-2 mb-2">
+                              <p className="text-xs text-rose-700 dark:text-rose-300">
+                                <span className="font-semibold">✗ {t("Hay đọc sai:", "Common mistake:")}</span>{" "}
+                                {m.wrong} <span className="font-mono">{m.wrongIpa}</span>
+                              </p>
+                            </div>
+                            <p className="text-xs text-muted-foreground">💡 {t(m.vi, m.en)}</p>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-foreground">
+              💡 <strong>{t("Mẹo của thầy Hải:", "Mr. Hai's Tip:")}</strong>{" "}
+              {t(
+                "Hãy chọn mỗi ngày 3 từ trong bảng này, luyện 'shadowing' 10 lần, rồi bấm Speak để máy chấm. Sau 30 ngày bạn sẽ hết 80% lỗi phát âm phổ biến.",
+                "Pick 3 words a day, shadow each 10 times, then tap Speak for instant scoring. In 30 days you'll eliminate 80% of common mistakes.",
+              )}
+            </div>
+          </TabsContent>
+
           {/* ============== Sentence Practice ============== */}
           <TabsContent value="practice" className="space-y-6">
             <SectionHeader
@@ -1339,6 +1614,7 @@ const EnglishPronunciation = () => {
                     >
                       🐢 {t("Chậm", "Slow")}
                     </button>
+                    <SpeakCheck target={s.text} />
                   </div>
                   <p className="text-xs text-muted-foreground">🎯 {s.focus}</p>
                 </motion.div>
