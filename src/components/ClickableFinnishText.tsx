@@ -166,7 +166,7 @@ interface ClickableFinnishTextProps {
 }
 
 const ClickableFinnishText = ({ text, className }: ClickableFinnishTextProps) => {
-  const tokens = text.split(/(\s+|[.,!?;:"'„"()\[\]…-–-])/g).filter((t) => t.length > 0);
+  const tokens = text.split(/(\s+|[.,!?;:"'„"()\[\]…\-–])/g).filter((t) => t.length > 0);
 
   return (
     <div className={`whitespace-pre-wrap leading-relaxed ${className ?? ""}`}>
