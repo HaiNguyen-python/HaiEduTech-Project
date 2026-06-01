@@ -1036,18 +1036,32 @@ const ChatBot = () => {
               title={!isMobile ? t("Kéo để di chuyển • Nhấp đúp để đưa về vị trí gốc", "Drag to move • Double-click to reset position") : undefined}
             >
               {!isMobile && <GripVertical className="h-4 w-4 text-muted-foreground/60 shrink-0" />}
-              <img src={chatbotIcon} alt="Thầy Hải" className="h-9 w-9 rounded-full shrink-0" />
+              <StudyPetAvatar pet={pet} size={36} className="shrink-0" showMoodBadge={false} />
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-bold text-foreground truncate leading-tight">
-                  {studentName
-                    ? t(`👋 Chào ${studentName}!`, `👋 Hi ${studentName}!`)
-                    : "👋 Hello, I'm Mr. Hai!"}
-                </h3>
-                <p className="text-[11px] text-muted-foreground truncate leading-tight">
-                  {studentContext
-                    ? t("Thầy đã có dữ liệu học tập của em - hỏi gì cũng được nhé!", "I have your learning data - ask me anything!")
-                    : t("Cùng nâng cấp kỹ năng cùng thầy hôm nay nhé!", "Level up your skills with me today.")}
-                </p>
+                <div className="flex items-center gap-1.5">
+                  <h3 className="text-sm font-bold text-foreground truncate leading-tight">
+                    {studentName
+                      ? t(`👋 Chào ${studentName}!`, `👋 Hi ${studentName}!`)
+                      : "👋 Hello, I'm Mr. Hai!"}
+                  </h3>
+                  <span className="shrink-0 rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-primary">
+                    LV.{pet.level}
+                  </span>
+                </div>
+                {/* EXP progress bar — mirrors the actual pet_exp value */}
+                <div className="mt-1 flex items-center gap-1.5">
+                  <div className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
+                    <div
+                      className="h-full rounded-full bg-gradient-to-r from-sky-400 via-emerald-400 to-amber-400 transition-all duration-500"
+                      style={{
+                        width: `${Math.min(100, Math.round((pet.expIntoLevel / Math.max(1, pet.expForNextLevel)) * 100))}%`,
+                      }}
+                    />
+                  </div>
+                  <span className="shrink-0 text-[10px] font-medium tabular-nums text-muted-foreground">
+                    EXP {pet.expIntoLevel}/{pet.expForNextLevel}
+                  </span>
+                </div>
               </div>
               <button
                 onClick={openAskTeacher}
