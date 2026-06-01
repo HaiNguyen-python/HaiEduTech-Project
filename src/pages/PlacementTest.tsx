@@ -256,7 +256,7 @@ const PlacementTest = () => {
         speaking_score: speaking,
         total_score: total,
         cefr_band: cefr,
-        answers: answers as never,
+        answers: { __subject: subject, ...answers } as never,
         essays: essays as never,
         audio_urls: audioUrls as never,
         duration_seconds: Math.round((Date.now() - startedAtRef.current) / 1000),
