@@ -298,4 +298,172 @@ print(f"Δ mastery = {diff:+.3f}, t ≈ {t:.2f}  →  {'có ý nghĩa' if abs(t)
       },
     ],
   },
+  {
+    id: "edtech-helsinki-research",
+    title: "Nghiên cứu EdTech - 10 bài đọc kinh điển từ Đại học Helsinki",
+    titleEn: "EdTech Research - 10 Must-Read Papers from University of Helsinki",
+    icon: "🎓",
+    color: "from-sky-500 to-indigo-600",
+    description:
+      "Tủ sách nghiên cứu EdTech do các giáo sư Đại học Helsinki (UH) - cái nôi của giáo dục Bắc Âu - thực hiện. Mỗi bài đều có tóm tắt và link đọc trực tiếp.",
+    descriptionEn:
+      "A curated research shelf authored by University of Helsinki professors - the cradle of Nordic education. Every paper includes a summary and a direct reading link.",
+    course: "edtech",
+    lessons: [
+      {
+        id: "edtech-helsinki-1",
+        title: "10 bài nghiên cứu học thuật EdTech hay nhất từ Đại học Helsinki",
+        titleEn: "Top 10 EdTech Academic Papers from the University of Helsinki",
+        level: 4,
+        difficulty: "advanced",
+        theory: `## 🎓 Vì sao đọc nghiên cứu từ Đại học Helsinki?
+
+Phần Lan luôn nằm trong top thế giới về PISA, và **Đại học Helsinki (UH)** là trung tâm sản xuất tri thức giáo dục lớn nhất Bắc Âu. Các giáo sư của UH (Hannele Niemi, Kirsti Lonka, Kai Hakkarainen, Auli Toom, Sami Paavola, Minna Lakkala, Erika Löfström, Anne Nevgi, Liisa Postareff, Katariina Salmela-Aro…) đã xuất bản hàng nghìn nghiên cứu về:
+
+- AI trong giáo dục (AIED)
+- Học tập hợp tác qua mạng (CSCL - Computer-Supported Collaborative Learning)
+- Sư phạm phát triển bền vững
+- Học tập đa năng (multiliteracy) và digital literacy
+- Sức khoẻ tinh thần & gắn kết học tập (engagement, burnout)
+
+> 📚 Mẹo đọc nhanh của thầy Hải: với mỗi bài, đọc **Abstract → Conclusion → Figures**. Nếu thấy hay mới quay lại đọc Method.
+
+---
+
+## 📖 10 bài đọc tinh tuyển
+
+### 1. AI in Learning: Preparing Grounds for Future Learning
+- **Tác giả chính:** Hannele Niemi (UH, giáo sư danh dự Giáo dục học)
+- **Tóm tắt:** Tổng quan cách AI tái định hình lớp học, từ adaptive learning đến đạo đức dữ liệu. Bài đặt nền cho mọi giáo viên muốn dùng AI nhân văn.
+- 🔗 [Đọc trên Google Scholar](https://scholar.google.com/scholar?q=Hannele+Niemi+AI+in+learning+preparing+grounds)
+
+### 2. Engaging Learning Environments for the Future - Phenomenon-Based Learning
+- **Tác giả chính:** Kirsti Lonka (UH, Professor of Educational Psychology)
+- **Tóm tắt:** Mô hình "phenomenon-based learning" - học theo hiện tượng đa môn - đã trở thành chuẩn của chương trình quốc gia Phần Lan từ 2016.
+- 🔗 [Đọc trên Google Scholar](https://scholar.google.com/scholar?q=Kirsti+Lonka+phenomenon-based+learning)
+
+### 3. The Knowledge Creation Metaphor - A Third Approach to Learning
+- **Tác giả chính:** Sami Paavola & Kai Hakkarainen (UH)
+- **Tóm tắt:** Giới thiệu "ẩn dụ thứ ba" về học tập (bên cạnh acquisition và participation): học là **kiến tạo tri thức mới**. Kim chỉ nam cho mọi nền tảng EdTech hợp tác.
+- 🔗 [Đọc trên Google Scholar](https://scholar.google.com/scholar?q=Paavola+Hakkarainen+knowledge+creation+metaphor)
+
+### 4. Networked Expertise - Professional and Educational Perspectives
+- **Tác giả chính:** Kai Hakkarainen, Sami Paavola, Kirsti Lonka (UH)
+- **Tóm tắt:** Sách/bài cột mốc về "chuyên môn nối mạng" - lý giải vì sao nhóm học tập kết nối lại vượt qua chuyên gia cô lập trong kỷ nguyên số.
+- 🔗 [Đọc trên Google Scholar](https://scholar.google.com/scholar?q=Hakkarainen+networked+expertise)
+
+### 5. Designing Pedagogical Infrastructures for Trialogical Learning
+- **Tác giả chính:** Minna Lakkala, Liisa Ilomäki, Sami Paavola (UH)
+- **Tóm tắt:** Khung "trialogical learning" - thiết kế bài học xoay quanh **đối tượng tri thức được chia sẻ** (shared artifact). Mẫu cho mọi nền tảng dự án.
+- 🔗 [Đọc trên Google Scholar](https://scholar.google.com/scholar?q=Lakkala+Paavola+trialogical+learning+design)
+
+### 6. Teacher Education in Finland - Research-Based Curriculum
+- **Tác giả chính:** Auli Toom & Jukka Husu (UH, Faculty of Educational Sciences)
+- **Tóm tắt:** Phân tích vì sao giáo viên Phần Lan đều có bằng Thạc sĩ và được đào tạo theo mô hình "research-based teacher education".
+- 🔗 [Đọc trên Google Scholar](https://scholar.google.com/scholar?q=Auli+Toom+research-based+teacher+education+Finland)
+
+### 7. Schoolwork Engagement and Burnout Among Finnish Students
+- **Tác giả chính:** Katariina Salmela-Aro (UH, Professor of Educational Psychology)
+- **Tóm tắt:** Bộ thang đo EDA (Engagement) và SBI (Study Burnout) - chuẩn vàng để đo gắn kết và kiệt sức học tập. Áp dụng được vào mọi LMS.
+- 🔗 [Đọc trên Google Scholar](https://scholar.google.com/scholar?q=Salmela-Aro+schoolwork+engagement+burnout)
+
+### 8. Conceptions of Teaching and Approaches to Teaching in Higher Education
+- **Tác giả chính:** Liisa Postareff & Sari Lindblom-Ylänne (UH, Centre for University Teaching and Learning)
+- **Tóm tắt:** Mô tả phổ "teacher-focused → student-focused" - dùng để cải tiến giảng dạy đại học và thiết kế khoá EdTech cho người lớn.
+- 🔗 [Đọc trên Google Scholar](https://scholar.google.com/scholar?q=Postareff+Lindblom-Yl%C3%A4nne+conceptions+of+teaching)
+
+### 9. Ethics in Educational Research and AI-Supported Learning
+- **Tác giả chính:** Erika Löfström (UH, Professor of Education)
+- **Tóm tắt:** Khung đạo đức nghiên cứu giáo dục - đặc biệt quan trọng khi LMS thu thập dữ liệu hành vi của học sinh vị thành niên.
+- 🔗 [Đọc trên Google Scholar](https://scholar.google.com/scholar?q=Erika+L%C3%B6fstr%C3%B6m+ethics+educational+research)
+
+### 10. Approaches to Learning and Study Success in Higher Education
+- **Tác giả chính:** Anne Nevgi & Sari Lindblom-Ylänne (UH)
+- **Tóm tắt:** Liên kết "deep / surface / strategic approach" với thành tích học - cơ sở để adaptive system gợi ý chiến lược học phù hợp.
+- 🔗 [Đọc trên Google Scholar](https://scholar.google.com/scholar?q=Anne+Nevgi+approaches+to+learning+higher+education)
+
+---
+
+## 🧭 Cách dùng tủ sách này
+
+\`\`\`
+   ┌────────────┐    ┌─────────────┐    ┌────────────────┐
+   │ 1. Chọn    │ ─▶ │ 2. Đọc 30'  │ ─▶ │ 3. Ghi 3 ý     │
+   │   1 bài    │    │   (Abstract │    │   ứng dụng     │
+   │   /tuần    │    │   + Concl.) │    │   vào lớp/app  │
+   └────────────┘    └─────────────┘    └────────────────┘
+\`\`\`
+
+> 💡 Mỗi bài nghiên cứu là một "viên gạch sư phạm". Đọc 10 viên - bạn xây được nền móng EdTech vững như Phần Lan.
+
+## 🔗 Cổng nghiên cứu chính thức của UH
+
+- **HELDA** (kho luận văn & bài báo của UH): [helda.helsinki.fi](https://helda.helsinki.fi)
+- **TUHAT** (cổng nghiên cứu của UH): [researchportal.helsinki.fi](https://researchportal.helsinki.fi)
+- **Faculty of Educational Sciences:** [helsinki.fi/en/faculty-educational-sciences](https://www.helsinki.fi/en/faculty-educational-sciences)`,
+        codeExample: `// "Reading log" mini-helper bạn có thể chạy thử trong Node/Browser
+const helsinkiPapers = [
+  { id: 1,  author: "Hannele Niemi",        topic: "AI in Learning" },
+  { id: 2,  author: "Kirsti Lonka",          topic: "Phenomenon-Based Learning" },
+  { id: 3,  author: "Paavola & Hakkarainen", topic: "Knowledge Creation Metaphor" },
+  { id: 4,  author: "Hakkarainen et al.",    topic: "Networked Expertise" },
+  { id: 5,  author: "Lakkala et al.",        topic: "Trialogical Learning Design" },
+  { id: 6,  author: "Toom & Husu",           topic: "Research-based Teacher Education" },
+  { id: 7,  author: "Salmela-Aro",           topic: "Engagement & Burnout (EDA/SBI)" },
+  { id: 8,  author: "Postareff & Lindblom",  topic: "Teaching Conceptions in HE" },
+  { id: 9,  author: "Erika Löfström",        topic: "Ethics in Educational Research" },
+  { id: 10, author: "Nevgi & Lindblom",      topic: "Approaches to Learning" },
 ];
+
+// Lên lịch đọc 1 bài/tuần trong 10 tuần.
+helsinkiPapers.forEach((p, i) => {
+  const week = i + 1;
+  console.log(\`Tuần \${week}: đọc bài #\${p.id} - \${p.topic} (\${p.author})\`);
+});`,
+        codeLanguage: "javascript",
+        exercise:
+          "Chọn 1 bài trong danh sách, viết tóm tắt 5 câu và đề xuất 1 tính năng cho HaiEduTech có thể áp dụng kết quả nghiên cứu đó.",
+        exerciseEn:
+          "Pick one paper, write a 5-sentence summary and propose one HaiEduTech feature that could apply the finding.",
+        quiz: [
+          {
+            question: "Ai là tác giả của mô hình 'Phenomenon-Based Learning' nổi tiếng của Phần Lan?",
+            options: ["Hannele Niemi", "Kirsti Lonka", "Sami Paavola", "Auli Toom"],
+            answer: 1,
+            explanation: "Kirsti Lonka (UH) là một trong những người truyền bá phenomenon-based learning mạnh nhất.",
+          },
+          {
+            question: "Ẩn dụ 'Knowledge Creation' (kiến tạo tri thức) thuộc về cặp tác giả nào?",
+            options: ["Niemi & Toom", "Paavola & Hakkarainen", "Lonka & Salmela-Aro", "Löfström & Nevgi"],
+            answer: 1,
+            explanation: "Sami Paavola và Kai Hakkarainen đề xuất 'third metaphor' bên cạnh acquisition và participation.",
+          },
+          {
+            question: "Thang đo EDA và SBI dùng để đo điều gì trong học tập?",
+            options: ["IQ học sinh", "Engagement và burnout", "Tốc độ đọc", "Khả năng coding"],
+            answer: 1,
+            explanation: "Katariina Salmela-Aro phát triển EDA (Engagement) và SBI (Study Burnout Inventory).",
+          },
+          {
+            question: "Vì sao giáo viên Phần Lan đều phải có bằng Thạc sĩ?",
+            options: [
+              "Vì luật bắt buộc nhưng không có cơ sở khoa học",
+              "Vì mô hình 'research-based teacher education' (Toom, Husu)",
+              "Vì lương cao",
+              "Vì truyền thống tôn giáo",
+            ],
+            answer: 1,
+            explanation: "Mô hình của Toom & Husu yêu cầu giáo viên có năng lực nghiên cứu thực hành.",
+          },
+          {
+            question: "Cổng nào dưới đây là kho công bố chính thức của Đại học Helsinki?",
+            options: ["arxiv.org", "helda.helsinki.fi", "pubmed.gov", "jstor.org"],
+            answer: 1,
+            explanation: "HELDA là kho lưu trữ luận văn và bài báo của UH.",
+          },
+        ],
+      },
+    ],
+  },
+];
+
