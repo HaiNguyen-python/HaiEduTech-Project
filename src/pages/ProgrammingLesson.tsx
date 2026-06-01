@@ -429,9 +429,8 @@ const ProgrammingLessonPage = () => {
                 <ChevronRight className="w-3 h-3" />
                 <span className="text-foreground font-medium">{t(mod.title, mod.titleEn)}</span>
               </div>
-              {!isMobile && (
-              <div className="flex items-center gap-2 flex-wrap">
-                {isTeacher && (
+              {!isMobile && isTeacher && (
+                <div className="flex items-center gap-2 flex-wrap">
                   <button
                     onClick={generateAllIllustrations}
                     disabled={batchRunning}
@@ -447,19 +446,7 @@ const ProgrammingLessonPage = () => {
                       <>🎨 Generate All Illustrations</>
                     )}
                   </button>
-                )}
-                <button
-                  onClick={() => setShowIDE(!showIDE)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all active:scale-[0.97] shadow-sm ${
-                    showIDE
-                      ? "border border-border bg-secondary text-foreground hover:bg-muted"
-                      : "bg-primary text-primary-foreground hover:brightness-110 shadow-primary/20"
-                  }`}
-                >
-                  {showIDE ? <PanelRightClose className="w-4 h-4" /> : <Code2 className="w-4 h-4" />}
-                  {showIDE ? "Hide IDE" : "Open Interactive IDE"}
-                </button>
-              </div>
+                </div>
               )}
             </div>
 
@@ -908,61 +895,6 @@ const ProgrammingLessonPage = () => {
             </div>
               </div>
             </div>
-
-              {/* Right side: IDE Panel - 40% default, sticky for easy reading */}
-              <AnimatePresence>
-                {showIDE && !isMobile && (
-                  <motion.div
-                    initial={{ width: 0, opacity: 0 }}
-                    animate={{ width: "40%", opacity: 1 }}
-                    exit={{ width: 0, opacity: 0 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    className="xl:w-[38%] shrink-0 min-w-0 overflow-hidden"
-                  >
-                    <div className="sticky top-28 rounded-xl overflow-hidden border border-border shadow-md" style={{ height: "calc(100vh - 140px)" }}>
-                      {isSQL ? (
-                        <SqlEditor />
-                      ) : (
-                        <PythonIDEPanel initialCode={lesson.code} />
-                      )}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* Mobile IDE with toggle */}
-              {isMobile && (
-                <div className="w-full mt-6">
-                  <button
-                    onClick={() => setShowIDE(!showIDE)}
-                    className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold transition-all mb-4 ${
-                      showIDE
-                        ? "border border-border bg-secondary text-foreground"
-                        : "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
-                    }`}
-                  >
-                    {showIDE ? <PanelRightClose className="w-4 h-4" /> : <Code2 className="w-4 h-4" />}
-                    {showIDE ? "Hide IDE" : "Open Interactive IDE"}
-                  </button>
-                  <AnimatePresence>
-                    {showIDE && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 540, opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                        className="rounded-xl overflow-hidden border border-border shadow-md"
-                      >
-                        {isSQL ? (
-                          <SqlEditor />
-                        ) : (
-                          <PythonIDEPanel initialCode={lesson.code} />
-                        )}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              )}
             </div>
           </div>
       </div>
