@@ -323,14 +323,25 @@ const PlacementTest = () => {
           <Progress value={pct} className="h-1.5 mt-3" />
         </header>
 
-        {/* Skill / level badge row */}
+        {/* Skill / level badge row.
+         * For the Programming bank we hide CEFR and language-skill pills
+         * and replace them with a single tech-domain tag (Logic / Python
+         * / SQL / Data & AI) in a corporate slate tint. */}
         <div className="flex items-center gap-2 mb-4 text-xs">
-          <span className="px-2 py-1 rounded-md bg-slate-100 text-slate-700 font-medium">
-            {SKILL_LABEL[q.skill]}
-          </span>
-          <span className="px-2 py-1 rounded-md bg-slate-900 text-white font-semibold">
-            {q.cefr}
-          </span>
+          {subject === "programming" ? (
+            <span className="px-2.5 py-1 rounded-md bg-slate-100 text-slate-700 font-semibold border border-slate-200">
+              {DOMAIN_LABEL[q.domain ?? "logic"]}
+            </span>
+          ) : (
+            <>
+              <span className="px-2 py-1 rounded-md bg-slate-100 text-slate-700 font-medium">
+                {SKILL_LABEL[q.skill]}
+              </span>
+              <span className="px-2 py-1 rounded-md bg-slate-900 text-white font-semibold">
+                {q.cefr}
+              </span>
+            </>
+          )}
         </div>
 
         {/* Question frame */}
