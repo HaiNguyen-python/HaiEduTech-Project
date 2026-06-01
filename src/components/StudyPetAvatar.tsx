@@ -17,6 +17,7 @@ interface Props {
   size?: number;        // px, the visual diameter of the pet
   className?: string;
   showMoodBadge?: boolean;
+  skinSrc?: string;     // optional override for the pet skin
 }
 
 const stageRing: Record<PetStage, string> = {
@@ -54,7 +55,7 @@ const MoodBadge = ({ mood }: { mood: StudyPetState["mood"] }) => {
   );
 };
 
-const StudyPetAvatar = ({ pet, size = 56, className, showMoodBadge = true }: Props) => {
+const StudyPetAvatar = ({ pet, size = 56, className, showMoodBadge = true, skinSrc }: Props) => {
   const isMaster = pet.stage === "master";
   const isApprentice = pet.stage === "apprentice";
 
@@ -119,7 +120,7 @@ const StudyPetAvatar = ({ pet, size = 56, className, showMoodBadge = true }: Pro
         style={{ width: size, height: size }}
       >
         <img
-          src={chatbotIcon}
+          src={skinSrc ?? chatbotIcon}
           alt="AI Study Pet"
           className={cn(
             "object-cover",

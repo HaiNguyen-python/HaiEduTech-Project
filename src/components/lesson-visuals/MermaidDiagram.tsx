@@ -63,53 +63,49 @@ function initMermaid() {
     suppressErrorRendering: true,
     // Use stable system fonts to avoid post-render font swaps changing label width.
     fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-    fontSize: 14,
+    fontSize: 18,
     flowchart: {
-      // "linear" = straight arrows (cleaner alignment than curved "basis",
-      // which made multi-source diagrams like NLP-1 look skewed/misaligned).
       curve: "linear",
-      padding: 32,
-      nodeSpacing: 90,
-      rankSpacing: 120,
-      // htmlLabels=true lets each node auto-grow its height to fit wrapped text via foreignObject.
+      padding: 38,
+      nodeSpacing: 100,
+      rankSpacing: 130,
       htmlLabels: true,
       useMaxWidth: false,
-      diagramPadding: 36,
-      // Large enough that short labels (Workload, Public?, Yes, No, Hybrid) never wrap mid-word.
-      wrappingWidth: 320,
+      diagramPadding: 40,
+      wrappingWidth: 360,
     },
     sequence: {
       useMaxWidth: false,
       wrap: true,
-      messageFontSize: 15,
-      noteFontSize: 14,
-      actorFontSize: 15,
-      boxMargin: 14,
-      boxTextMargin: 8,
-      noteMargin: 12,
-      messageMargin: 42,
+      messageFontSize: 17,
+      noteFontSize: 16,
+      actorFontSize: 17,
+      boxMargin: 16,
+      boxTextMargin: 10,
+      noteMargin: 14,
+      messageMargin: 46,
       mirrorActors: true,
     },
     gantt: {
       useMaxWidth: false,
-      fontSize: 14,
-      barHeight: 22,
-      barGap: 6,
-      topPadding: 38,
-      leftPadding: 80,
+      fontSize: 16,
+      barHeight: 26,
+      barGap: 8,
+      topPadding: 42,
+      leftPadding: 90,
     },
     er: {
       useMaxWidth: false,
-      fontSize: 14,
-      diagramPadding: 24,
+      fontSize: 16,
+      diagramPadding: 28,
     },
     themeCSS: `
       /* SVG-side text rendering for crispness */
       .nodeLabel, .edgeLabel, .messageText, .noteText, text, text.actor, text.actor-man, .titleText, .loopText, .labelText {
         font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-        font-size: 14px !important;
+        font-size: 17px !important;
         font-weight: 600 !important;
-        line-height: 1.4 !important;
+        line-height: 1.45 !important;
         text-rendering: geometricPrecision;
         -webkit-font-smoothing: antialiased;
       }
@@ -121,8 +117,9 @@ function initMermaid() {
         overflow-wrap: normal !important;
         text-align: center !important;
         line-height: 1.45 !important;
-        padding: 4px 10px !important;
-        max-width: 320px !important;
+        padding: 6px 12px !important;
+        max-width: 360px !important;
+        font-size: 17px !important;
       }
 
       foreignObject {
@@ -132,15 +129,15 @@ function initMermaid() {
       .node rect, .node polygon, .node circle, .node ellipse, .node path {
         rx: 10;
         ry: 10;
-        stroke-width: 1.6px !important;
+        stroke-width: 1.8px !important;
       }
 
       .edgeLabel {
         background-color: ${isDark ? "hsl(222 47% 11%)" : "hsl(0 0% 100%)"} !important;
         color: ${isDark ? "hsl(210 40% 98%)" : "hsl(222 47% 11%)"} !important;
-        padding: 3px 7px !important;
+        padding: 4px 8px !important;
         border-radius: 4px !important;
-        font-size: 13px !important;
+        font-size: 15px !important;
       }
 
       .edgeLabel rect, .edgeLabel foreignObject div {
@@ -265,8 +262,9 @@ function postProcessSvg(svg: string): string {
       //    don't look like postage stamps next to dense theory text.
       //  - Huge diagrams (>1100px) keep their natural width but become horizontally
       //    scrollable rather than shrinking until labels are unreadable.
-      const MIN_TARGET = 520;
-      const MAX_TARGET = 1100;
+      // Bigger minimum so labels stay legible without zooming.
+      const MIN_TARGET = 760;
+      const MAX_TARGET = 1280;
       const targetW = Math.min(MAX_TARGET, Math.max(MIN_TARGET, naturalW));
       const existingStyle = root.getAttribute("style") || "";
       root.setAttribute(

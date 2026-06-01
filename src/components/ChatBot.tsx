@@ -6,9 +6,10 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import chatbotIcon from "@/assets/chatbot-icon.png";
+// chatbot launcher icon now comes from the user-selectable pet skin (see usePetIdentity)
 import { useStudyPet } from "@/hooks/useStudyPet";
 import StudyPetAvatar from "@/components/StudyPetAvatar";
+import { usePetIdentity, PET_SKINS } from "@/hooks/usePetIdentity";
 
 // Chat-tuned markdown components: lock typography to a uniform ~14px rhythm
 // so headings, code, and lists never blow up inside the narrow chat bubble.
@@ -245,6 +246,8 @@ const ChatBot = () => {
   const [expanded, setExpanded] = useState(false);
   // AI Study Pet — evolves with the student's real learning logs
   const pet = useStudyPet();
+  const petId = usePetIdentity();
+  const [nameDraft, setNameDraft] = useState<string>("");
   const dragControls = useDragControls();
   const dragX = useMotionValue(0);
   const dragY = useMotionValue(0);
@@ -488,8 +491,8 @@ const ChatBot = () => {
         : "Yawn… 💤 I'm low on Vocabulary Energy. Visit the Smart Review corner to rescue me!";
     } else {
       greeting = lang === "vi"
-        ? `Chào! Mình là Pet AI cấp ${pet.level} của bạn. Hỏi gì cũng được nhé? 😊`
-        : `Hi! I'm your Level ${pet.level} AI Pet. Ask me anything? 😊`;
+        ? `Chào! Mình là ${petId.name}, Pet AI cấp ${pet.level} của bạn. Hỏi gì cũng được nhé? 😊`
+        : `Hi! I'm ${petId.name}, your Level ${pet.level} AI Pet. Ask me anything? 😊`;
     }
 
 
@@ -509,13 +512,13 @@ const ChatBot = () => {
       setShowTooltip(true);
       setTimeout(() => setShowTooltip(false), 5000);
     }, 3000);
-    const interval = setInterval(popFact, 3 * 60 * 1000);
+    const interval = setInterval(popFact, 60 * 1000);
 
     return () => {
       clearInterval(interval);
       clearTimeout(initial);
     };
-  }, [open, lang, pet.mood, pet.level]);
+  }, [open, lang, pet.mood, pet.level, petId.name]);
 
   /**
    * Check if the user has 3+ warnings in the last 24 hours → lock chat for 1 hour.
@@ -998,9 +1001,9 @@ const ChatBot = () => {
                 tooltipTimerRef.current = setTimeout(() => setShowTooltip(false), 5000);
               }}
               className="flex h-14 w-14 items-center justify-center overflow-visible rounded-full border-2 border-primary-foreground/20 bg-white shadow-2xl transition-all hover:brightness-110 sm:h-16 sm:w-16"
-              title={`AI Study Pet · LV ${pet.level}`}
+              title={`${petId.name} · LV ${pet.level}`}
             >
-              <StudyPetAvatar pet={pet} size={isMobile ? 52 : 60} />
+              <StudyPetAvatar pet={pet} size={isMobile ? 52 : 60} skinSrc={petId.skin.src} />
             </motion.button>
           </div>
         )}
@@ -1037,18 +1040,17 @@ const ChatBot = () => {
               title={!isMobile ? t("Kéo để di chuyển • Nhấp đúp để đưa về vị trí gốc", "Drag to move • Double-click to reset position") : undefined}
             >
               {!isMobile && <GripVertical className="h-4 w-4 text-muted-foreground/60 shrink-0" />}
-              <StudyPetAvatar pet={pet} size={36} className="shrink-0" showMoodBadge={false} />
+              <StudyPetAvatar pet={pet} size={36} className="shrink-0" showMoodBadge={false} skinSrc={petId.skin.src} />
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-1.5">
-                  <h3 className="text-sm font-bold text-foreground truncate leading-tight">
-                    {studentName
-                      ? t(`👋 Chào ${studentName}!`, `👋 Hi ${studentName}!`)
-                      : t("🐾 Pet AI của bạn", "🐾 Your AI Study Pet")}
-                  </h3>
-                  <span className="shrink-0 rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-primary">
+                {/* Pet name on its own line — never truncated by badges */}
+                <h3 className="text-sm font-bold text-foreground leading-tight truncate" title={petId.name}>
+                  🐾 {petId.name}
+                </h3>
+                <div className="mt-0.5 flex items-center gap-1 flex-wrap">
+                  <span className="rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-primary">
                     LV.{pet.level}
                   </span>
-                  <span className="shrink-0 rounded-md bg-amber-100 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-700">
+                  <span className="rounded-md bg-amber-100 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-700">
                     {pet.stage === "master" ? t("Bậc thầy", "Master") : pet.stage === "apprentice" ? t("Học việc", "Apprentice") : t("Sơ sinh", "Baby")}
                   </span>
                 </div>
@@ -1143,6 +1145,55 @@ const ChatBot = () => {
                   <span className="text-muted-foreground">{t("Cần ôn", "To review")}</span>
                   <span className="font-semibold text-orange-600">{pet.overdueReviews}</span>
                 </div>
+
+                {/* Customize: name + skin */}
+                <div className="mt-3 rounded-lg border border-border bg-white/80 p-2.5">
+                  <div className="mb-1.5 text-[11px] font-semibold text-foreground">
+                    {t("Đặt tên cho Pet", "Name your Pet")}
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <input
+                      type="text"
+                      value={nameDraft || petId.name}
+                      maxLength={18}
+                      onChange={(e) => setNameDraft(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") { petId.setName(nameDraft || petId.name); setNameDraft(""); }
+                      }}
+                      placeholder={petId.name}
+                      className="flex-1 rounded-md border border-border bg-white px-2 py-1 text-xs focus:border-primary focus:outline-none"
+                    />
+                    <button
+                      onClick={() => { petId.setName(nameDraft || petId.name); setNameDraft(""); }}
+                      className="rounded-md bg-primary px-2.5 py-1 text-[11px] font-semibold text-primary-foreground hover:brightness-110"
+                    >
+                      {t("Lưu", "Save")}
+                    </button>
+                  </div>
+                  <div className="mt-3 mb-1.5 text-[11px] font-semibold text-foreground">
+                    {t("Chọn hình Pet", "Choose Pet skin")}
+                  </div>
+                  <div className="grid grid-cols-4 gap-1.5">
+                    {PET_SKINS.map((s) => {
+                      const active = s.id === petId.skinId;
+                      return (
+                        <button
+                          key={s.id}
+                          onClick={() => petId.setSkin(s.id)}
+                          className={`group flex flex-col items-center gap-0.5 rounded-md border p-1 transition ${
+                            active ? "border-primary bg-primary/10 ring-2 ring-primary/40" : "border-border bg-white hover:border-primary/50"
+                          }`}
+                          title={s.label}
+                          aria-label={s.label}
+                          aria-pressed={active}
+                        >
+                          <img src={s.src} alt={s.label} className="h-9 w-9 rounded-full object-cover" />
+                          <span className="block max-w-full truncate text-[9px] text-muted-foreground">{s.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
             )}
 
@@ -1167,9 +1218,9 @@ const ChatBot = () => {
             <div className="flex-1 space-y-4 overflow-y-auto p-4">
               {messages.length === 0 && (
                 <div className="py-8 text-center">
-                  <img src={chatbotIcon} alt="Thầy Hải" className="mx-auto mb-4 h-20 w-20 opacity-50" />
+                  <img src={petId.skin.src} alt={petId.name} className="mx-auto mb-4 h-20 w-20 rounded-full object-cover opacity-90" />
                   <p className="mb-4 text-sm text-muted-foreground">
-                    {"Hi there! 👋\nAsk me about English, Chinese or Programming!"}
+                    {t(`Chào! Mình là ${petId.name} 👋\nHỏi mình về English, Chinese hoặc Programming nhé!`, `Hi there! I'm ${petId.name} 👋\nAsk me about English, Chinese or Programming!`)}
                   </p>
                   <div className="flex flex-wrap justify-center gap-2">
                     {["Explain present perfect tense", "What does 你好 mean?", "What is Python?"].map((suggestion) => (
