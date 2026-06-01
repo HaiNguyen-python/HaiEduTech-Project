@@ -8,8 +8,8 @@
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Volume2, Mic, Square, ArrowLeft, ArrowRight, CheckCircle2,
@@ -22,12 +22,15 @@ import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import {
-  PLACEMENT_TEST, type PlacementQuestion, type Skill,
+  type PlacementQuestion, type Skill,
   SKILL_LABEL, inferCefr,
 } from "@/data/placementTest";
+import {
+  getPlacementBank, parseSubject, SUBJECT_META,
+} from "@/data/placementBanks";
 import Navbar from "@/components/Navbar";
 
-/** Speak text via browser SpeechSynthesis. */
+/** Speak text via browser SpeechSynthesis (locale set per subject). */
 const speak = (text: string, lang = "en-US") => {
   try {
     const u = new SpeechSynthesisUtterance(text);
