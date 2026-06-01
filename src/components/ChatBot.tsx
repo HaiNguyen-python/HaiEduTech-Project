@@ -1145,6 +1145,55 @@ const ChatBot = () => {
                   <span className="text-muted-foreground">{t("Cần ôn", "To review")}</span>
                   <span className="font-semibold text-orange-600">{pet.overdueReviews}</span>
                 </div>
+
+                {/* Customize: name + skin */}
+                <div className="mt-3 rounded-lg border border-border bg-white/80 p-2.5">
+                  <div className="mb-1.5 text-[11px] font-semibold text-foreground">
+                    {t("Đặt tên cho Pet", "Name your Pet")}
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <input
+                      type="text"
+                      value={nameDraft || petId.name}
+                      maxLength={18}
+                      onChange={(e) => setNameDraft(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") { petId.setName(nameDraft || petId.name); setNameDraft(""); }
+                      }}
+                      placeholder={petId.name}
+                      className="flex-1 rounded-md border border-border bg-white px-2 py-1 text-xs focus:border-primary focus:outline-none"
+                    />
+                    <button
+                      onClick={() => { petId.setName(nameDraft || petId.name); setNameDraft(""); }}
+                      className="rounded-md bg-primary px-2.5 py-1 text-[11px] font-semibold text-primary-foreground hover:brightness-110"
+                    >
+                      {t("Lưu", "Save")}
+                    </button>
+                  </div>
+                  <div className="mt-3 mb-1.5 text-[11px] font-semibold text-foreground">
+                    {t("Chọn hình Pet", "Choose Pet skin")}
+                  </div>
+                  <div className="grid grid-cols-4 gap-1.5">
+                    {PET_SKINS.map((s) => {
+                      const active = s.id === petId.skinId;
+                      return (
+                        <button
+                          key={s.id}
+                          onClick={() => petId.setSkin(s.id)}
+                          className={`group flex flex-col items-center gap-0.5 rounded-md border p-1 transition ${
+                            active ? "border-primary bg-primary/10 ring-2 ring-primary/40" : "border-border bg-white hover:border-primary/50"
+                          }`}
+                          title={s.label}
+                          aria-label={s.label}
+                          aria-pressed={active}
+                        >
+                          <img src={s.src} alt={s.label} className="h-9 w-9 rounded-full object-cover" />
+                          <span className="block max-w-full truncate text-[9px] text-muted-foreground">{s.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
             )}
 
