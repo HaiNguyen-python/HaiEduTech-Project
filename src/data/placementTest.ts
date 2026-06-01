@@ -15,11 +15,16 @@
 export type Cefr = "A1" | "A2" | "B1" | "B2" | "C1" | "C2";
 export type Skill = "listening" | "reading" | "writing" | "speaking";
 
+/** Optional sub-domain used by the Programming bank (logic / python / sql / ai). */
+export type TechDomain = "logic" | "python" | "sql" | "ai";
+
 export interface BaseQ {
   id: number;
   skill: Skill;
   cefr: Cefr;
   prompt: string;
+  /** Programming-only sub-metric category. Ignored by other subjects. */
+  domain?: TechDomain;
 }
 
 /* ── Listening ─────────────────────────────────────────────────────── */
