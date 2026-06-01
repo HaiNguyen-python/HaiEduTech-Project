@@ -22,6 +22,7 @@ import teacherLogo from "@/assets/teacher-logo.webp";
 import teacherWave from "@/assets/teacher-wave.webp";
 import robotIconImg from "@/assets/ai-chibi-robot.png";
 import GlobalSearch from "@/components/GlobalSearch";
+import NotificationBell from "@/components/NotificationBell";
 import UpgradeAccountModal from "@/components/UpgradeAccountModal";
 
 // Small robot image wrapper for menu icon
