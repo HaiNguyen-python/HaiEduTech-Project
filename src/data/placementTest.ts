@@ -56,6 +56,12 @@ export interface ReadMcqQ extends BaseQ {
   type: "read-mcq";                   // Q13-Q17
   options: string[];
   correct: number;
+  /** Optional code snippet rendered in a monospace box (programming bank). */
+  code?: string;
+  /** Optional language hint for syntax styling. */
+  language?: string;
+  /** Optional schema/diagram text rendered above the prompt (SQL/AI items). */
+  schema?: string;
 }
 export interface ReadClozeQ extends BaseQ {
   skill: "reading";
