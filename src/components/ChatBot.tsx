@@ -509,7 +509,7 @@ const ChatBot = () => {
       setShowTooltip(true);
       setTimeout(() => setShowTooltip(false), 5000);
     }, 3000);
-    const interval = setInterval(popFact, 3 * 60 * 1000);
+    const interval = setInterval(popFact, 60 * 1000);
 
     return () => {
       clearInterval(interval);
