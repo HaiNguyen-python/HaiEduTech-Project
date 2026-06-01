@@ -475,10 +475,10 @@ const markdownComponents = (defaultLang: string) => ({
     // wraps images inside <p>, and block elements inside <p> trigger DOM nesting
     // warnings + repeated reconciliation that causes scroll jank.
     return (
-      <span className="my-6 mx-auto max-w-[720px] flex flex-col items-center">
+      <span className="my-8 mx-auto max-w-[1100px] flex flex-col items-center">
         <span
-          className="block w-full overflow-hidden rounded-2xl border border-border/60 bg-muted/20 shadow-md"
-          style={{ aspectRatio: "1 / 1", contain: "layout paint" }}
+          className="block w-full overflow-hidden rounded-2xl border border-border/60 bg-muted/20 shadow-lg"
+          style={{ aspectRatio: "16 / 10", contain: "layout paint" }}
         >
           <img
             src={src}
@@ -489,7 +489,7 @@ const markdownComponents = (defaultLang: string) => ({
           />
         </span>
         {caption && (
-          <span className="mt-2 text-sm italic text-muted-foreground text-center">
+          <span className="mt-3 text-base italic text-muted-foreground text-center px-3">
             {caption}
           </span>
         )}
