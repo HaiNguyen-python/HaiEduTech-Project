@@ -139,7 +139,7 @@ const MonthlyTopStudents = () => {
               {ORDER_DESKTOP.map((idx) => {
                 const s = students[idx];
                 if (!s) return <div key={idx} />;
-                return <PodiumCard key={s.user_id} student={s} totalDays={totalDays} t={t} />;
+                return <PodiumCard key={s.user_id} student={s} totalDays={displayedTotalDays} t={t} />;
               })}
             </div>
 
