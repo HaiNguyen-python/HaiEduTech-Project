@@ -143,11 +143,11 @@ const AdminAssignments = () => {
     });
     setStudents(uniqueStudents);
     setLoading(false);
-  };
+  }, []);
 
   useEffect(() => {
     if (isTeacher) fetchAll();
-  }, [isTeacher]);
+  }, [isTeacher, fetchAll]);
 
   const rows = useMemo(
     () => buildAssignmentRows(assignments, submissions),
