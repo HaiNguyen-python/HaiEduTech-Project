@@ -160,6 +160,42 @@ export type Database = {
           },
         ]
       }
+      assignment_notifications: {
+        Row: {
+          assignment_id: string | null
+          body: string
+          created_at: string
+          id: string
+          is_read: boolean
+          read_at: string | null
+          route: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          assignment_id?: string | null
+          body: string
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          read_at?: string | null
+          route?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          assignment_id?: string | null
+          body?: string
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          read_at?: string | null
+          route?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       assignments: {
         Row: {
           assigned_at: string
@@ -247,6 +283,35 @@ export type Database = {
         }
         Relationships: []
       }
+      class_members: {
+        Row: {
+          added_at: string
+          class_id: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          added_at?: string
+          class_id: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          added_at?: string
+          class_id?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "class_members_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       class_reminders: {
         Row: {
           class_id: string
@@ -329,6 +394,33 @@ export type Database = {
           start_time?: string
           status?: string
           subject?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      classes: {
+        Row: {
+          class_name: string
+          created_at: string
+          created_by: string | null
+          id: string
+          subject_category: string
+          updated_at: string
+        }
+        Insert: {
+          class_name: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          subject_category?: string
+          updated_at?: string
+        }
+        Update: {
+          class_name?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          subject_category?: string
           updated_at?: string
         }
         Relationships: []
