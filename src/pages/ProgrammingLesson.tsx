@@ -638,11 +638,6 @@ const ProgrammingLessonPage = () => {
                       Practice Exercise
                     </h2>
                     <p className="text-sm text-secondary-foreground mb-4">{t(lesson.exercise, lesson.exerciseEn || lesson.exercise)}</p>
-                    <button onClick={() => setShowIDE(true)}
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500 text-white text-sm font-medium hover:bg-amber-400 transition-colors active:scale-[0.97]">
-                      <Play className="w-4 h-4" />
-                      Code in IDE
-                    </button>
                   </div>
 
                   {/* Quiz */}
@@ -812,10 +807,6 @@ const ProgrammingLessonPage = () => {
                           <div className="rounded-lg overflow-hidden mb-4 max-w-full">
                             <div className="px-3 py-2 bg-slate-900 flex items-center justify-between">
                               <span className="text-xs font-mono text-green-400">Starter Code</span>
-                              <button onClick={() => setShowIDE(true)}
-                                className="flex items-center gap-1 px-2 py-1 rounded bg-green-600 text-white text-xs hover:bg-green-500">
-                                <Play className="w-3 h-3" /> Open IDE
-                              </button>
                             </div>
                             <pre className="p-3 bg-slate-950 overflow-x-auto max-w-full">
                               <code className="text-xs font-mono text-slate-300 break-words">{aiChallenge.starterCode}</code>
