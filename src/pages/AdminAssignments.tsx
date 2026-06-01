@@ -50,6 +50,17 @@ interface StudentProfile {
   full_name: string | null;
 }
 
+interface ClassOption {
+  id: string;
+  class_name: string;
+  subject_category: string;
+}
+
+interface ClassMember {
+  class_id: string;
+  user_id: string;
+}
+
 const STATUS_BADGE: Record<string, string> = {
   in_progress: "bg-amber-50 text-amber-700 border-amber-200",
   completed: "bg-emerald-50 text-emerald-700 border-emerald-200",
@@ -92,6 +103,8 @@ const AdminAssignments = () => {
   const [assignments, setAssignments] = useState<Assignment[]>([]);
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [students, setStudents] = useState<StudentProfile[]>([]);
+  const [classes, setClasses] = useState<ClassOption[]>([]);
+  const [classMembers, setClassMembers] = useState<ClassMember[]>([]);
 
   const [subjectFilter, setSubjectFilter] = useState<SubjectFilter>("all");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
@@ -102,11 +115,15 @@ const AdminAssignments = () => {
 
   const fetchAll = async () => {
     setLoading(true);
-    const [{ data: aData }, { data: sData }, { data: pData }] = await Promise.all([
+    const [{ data: aData }, { data: sData }, { data: pData }, { data: cData }, { data: cmData }] = await Promise.all([
       supabase.from("assignments").select("*").order("assigned_at", { ascending: false }),
       supabase.from("student_submissions").select("*"),
       supabase.from("profiles").select("id, full_name").order("full_name"),
+      supabase.from("classes").select("id, class_name, subject_category").order("class_name"),
+      supabase.from("class_members").select("class_id, user_id"),
     ]);
+    setClasses((cData as ClassOption[]) ?? []);
+    setClassMembers((cmData as ClassMember[]) ?? []);
     setAssignments((aData as Assignment[]) ?? []);
     setSubmissions((sData as Submission[]) ?? []);
     // Dedupe students by id, then by normalized display name so duplicate
@@ -338,6 +355,8 @@ const AdminAssignments = () => {
         open={createOpen}
         onOpenChange={setCreateOpen}
         students={students}
+        classes={classes}
+        classMembers={classMembers}
         teacherId={user.id}
         onCreated={() => {
           setCreateOpen(false);
@@ -370,11 +389,13 @@ interface CreateProps {
   open: boolean;
   onOpenChange: (v: boolean) => void;
   students: StudentProfile[];
+  classes: ClassOption[];
+  classMembers: ClassMember[];
   teacherId: string;
   onCreated: () => void;
 }
 
-function CreateAssignmentDialog({ open, onOpenChange, students, teacherId, onCreated }: CreateProps) {
+function CreateAssignmentDialog({ open, onOpenChange, students, classes, classMembers, teacherId, onCreated }: CreateProps) {
   const { toast } = useToast();
   const [submitting, setSubmitting] = useState(false);
   const [title, setTitle] = useState("");
@@ -383,7 +404,7 @@ function CreateAssignmentDialog({ open, onOpenChange, students, teacherId, onCre
   const [type, setType] = useState("platform_exercise");
   const [sourceRef, setSourceRef] = useState("");
   const [deadline, setDeadline] = useState("");
-  const [targetClass, setTargetClass] = useState("");
+  const [targetClassId, setTargetClassId] = useState<string>("none");
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [studentQuery, setStudentQuery] = useState("");
 
@@ -392,6 +413,15 @@ function CreateAssignmentDialog({ open, onOpenChange, students, teacherId, onCre
     if (next.has(id)) next.delete(id);
     else next.add(id);
     setSelected(next);
+  };
+
+  // When a class is selected, auto-fill the student picker with its members.
+  // Teacher can still add/remove individual students afterwards.
+  const handleClassChange = (classId: string) => {
+    setTargetClassId(classId);
+    if (classId === "none") return;
+    const memberIds = classMembers.filter((m) => m.class_id === classId).map((m) => m.user_id);
+    setSelected(new Set(memberIds));
   };
 
   const filteredStudents = useMemo(() => {
@@ -407,7 +437,7 @@ function CreateAssignmentDialog({ open, onOpenChange, students, teacherId, onCre
     setType("platform_exercise");
     setSourceRef("");
     setDeadline("");
-    setTargetClass("");
+    setTargetClassId("none");
     setSelected(new Set());
     setStudentQuery("");
   };
@@ -423,6 +453,7 @@ function CreateAssignmentDialog({ open, onOpenChange, students, teacherId, onCre
     }
     setSubmitting(true);
     const target_student_ids = Array.from(selected);
+    const selectedClass = classes.find((c) => c.id === targetClassId);
 
     const { data: created, error } = await supabase
       .from("assignments")
@@ -434,7 +465,7 @@ function CreateAssignmentDialog({ open, onOpenChange, students, teacherId, onCre
         source_ref: sourceRef || null,
         teacher_id: teacherId,
         teacher_name: "Teacher Hai",
-        target_class: targetClass || null,
+        target_class: selectedClass?.class_name ?? null,
         target_student_ids,
         deadline: deadline ? new Date(deadline).toISOString() : null,
       })
@@ -454,6 +485,20 @@ function CreateAssignmentDialog({ open, onOpenChange, students, teacherId, onCre
       status: "assigned" as const,
     }));
     await supabase.from("student_submissions").insert(rows);
+
+    // Emit a real-time notification to each targeted student
+    const deadlineText = deadline
+      ? new Date(deadline).toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" })
+      : "không có";
+    const notifBody = `🔔 Bài tập mới! Teacher Hai Nguyen vừa giao bài: ${title.trim()}. Hạn chót: ${deadlineText}.`;
+    const notifRows = target_student_ids.map((uid) => ({
+      user_id: uid,
+      assignment_id: created.id,
+      title: title.trim(),
+      body: notifBody,
+      route: sourceRef || null,
+    }));
+    await supabase.from("assignment_notifications").insert(notifRows);
 
     setSubmitting(false);
     reset();
@@ -564,7 +609,24 @@ function CreateAssignmentDialog({ open, onOpenChange, students, teacherId, onCre
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <Label>Target class (optional)</Label>
-              <Input value={targetClass} onChange={(e) => setTargetClass(e.target.value)} placeholder="PET Friday 7pm" />
+              <Select value={targetClassId} onValueChange={handleClassChange}>
+                <SelectTrigger><SelectValue placeholder="No class — pick students manually" /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">No class — pick students manually</SelectItem>
+                  {classes.length === 0 ? (
+                    <div className="px-3 py-2 text-xs text-slate-400">
+                      No classes yet. Create one in Class Management.
+                    </div>
+                  ) : classes.map((c) => (
+                    <SelectItem key={c.id} value={c.id}>
+                      {c.class_name} ({SUBJECT_LABELS[c.subject_category] ?? c.subject_category})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <p className="mt-1 text-[11px] text-slate-400">
+                Selecting a class auto-fills its members below.
+              </p>
             </div>
             <div>
               <Label>Deadline</Label>

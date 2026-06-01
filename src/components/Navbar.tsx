@@ -22,6 +22,7 @@ import teacherLogo from "@/assets/teacher-logo.webp";
 import teacherWave from "@/assets/teacher-wave.webp";
 import robotIconImg from "@/assets/ai-chibi-robot.png";
 import GlobalSearch from "@/components/GlobalSearch";
+import NotificationBell from "@/components/NotificationBell";
 import UpgradeAccountModal from "@/components/UpgradeAccountModal";
 
 // Small robot image wrapper for menu icon
@@ -382,6 +383,8 @@ const Navbar = () => {
               {/* Auth + Lang on branding row (desktop only) */}
               <div className="hidden lg:flex items-center gap-1.5 shrink-0">
                 {user ? (
+                  <>
+                  <NotificationBell />
                   <div ref={userMenuRef} className="relative">
                     <button
                       onClick={() => setUserMenuOpen(!userMenuOpen)}
@@ -426,6 +429,7 @@ const Navbar = () => {
                       )}
                     </AnimatePresence>
                   </div>
+                  </>
                 ) : (
                   <>
                     <Link to="/login" className="flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium bg-primary text-primary-foreground hover:brightness-110 transition-all">
