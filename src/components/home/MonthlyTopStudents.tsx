@@ -57,10 +57,18 @@ const MonthlyTopStudents = () => {
   }, []);
 
   const now = new Date();
-  const monthLabel = `${now.getMonth() + 1}/${now.getFullYear()}`;
+  // Display the previous (already completed) month's standings throughout the
+  // current month. Only switch to the current month on its very last day —
+  // mirrors the SQL window in get_monthly_top_students.
   const totalDays = daysInMonth(now);
-  const lastDay = new Date(now.getFullYear(), now.getMonth(), totalDays);
+  const isLastDayOfMonth = now.getDate() === totalDays;
+  const displayedMonthDate = isLastDayOfMonth
+    ? now
+    : new Date(now.getFullYear(), now.getMonth() - 1, 1);
+  const monthLabel = `${displayedMonthDate.getMonth() + 1}/${displayedMonthDate.getFullYear()}`;
+  const displayedTotalDays = daysInMonth(displayedMonthDate);
   const lastDayLabel = `${totalDays}/${now.getMonth() + 1}/${now.getFullYear()}`;
+
 
   return (
     <section className="py-14 sm:py-20 relative overflow-hidden">
