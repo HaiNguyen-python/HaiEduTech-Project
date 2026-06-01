@@ -10,6 +10,7 @@ import remarkGfm from "remark-gfm";
 import { useStudyPet } from "@/hooks/useStudyPet";
 import StudyPetAvatar from "@/components/StudyPetAvatar";
 import { usePetIdentity, PET_SKINS } from "@/hooks/usePetIdentity";
+import { useChatHistory } from "@/hooks/useChatHistory";
 
 // Chat-tuned markdown components: lock typography to a uniform ~14px rhythm
 // so headings, code, and lists never blow up inside the narrow chat bubble.
@@ -247,7 +248,13 @@ const ChatBot = () => {
   // AI Study Pet — evolves with the student's real learning logs
   const pet = useStudyPet();
   const petId = usePetIdentity();
+  // Persist conversation across sessions; teachers/admins can review server-side.
+  const chatHistory = useChatHistory(petId.name, pet.level);
+  const hydratedRef = useRef(false);
   const [nameDraft, setNameDraft] = useState<string>("");
+  // Keep the rename input in sync with the saved pet name whenever the
+  // info panel opens, so users always see (and can edit) the current name.
+  useEffect(() => { setNameDraft(petId.name); }, [petId.name]);
   const dragControls = useDragControls();
   const dragX = useMotionValue(0);
   const dragY = useMotionValue(0);
@@ -292,6 +299,24 @@ const ChatBot = () => {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  // Hydrate the saved chat transcript once it arrives from the server
+  useEffect(() => {
+    if (hydratedRef.current) return;
+    if (chatHistory.initial && chatHistory.initial.length > 0) {
+      setMessages(chatHistory.initial);
+      hydratedRef.current = true;
+    } else if (chatHistory.initial && chatHistory.initial.length === 0) {
+      hydratedRef.current = true;
+    }
+  }, [chatHistory.initial]);
+
+  // Persist transcript whenever it changes (debounced inside the hook)
+  useEffect(() => {
+    if (!hydratedRef.current) return;
+    if (messages.length === 0) return;
+    chatHistory.persist(messages);
+  }, [messages, chatHistory]);
 
   // Check lockout status on mount
   useEffect(() => {

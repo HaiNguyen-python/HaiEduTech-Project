@@ -283,6 +283,45 @@ export type Database = {
         }
         Relationships: []
       }
+      chatbot_conversations: {
+        Row: {
+          created_at: string
+          flag_reason: string | null
+          flagged: boolean
+          id: string
+          message_count: number
+          messages: Json
+          pet_level: number | null
+          pet_name: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          flag_reason?: string | null
+          flagged?: boolean
+          id?: string
+          message_count?: number
+          messages?: Json
+          pet_level?: number | null
+          pet_name?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          flag_reason?: string | null
+          flagged?: boolean
+          id?: string
+          message_count?: number
+          messages?: Json
+          pet_level?: number | null
+          pet_name?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       class_members: {
         Row: {
           added_at: string
