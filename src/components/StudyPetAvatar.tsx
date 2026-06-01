@@ -120,7 +120,7 @@ const StudyPetAvatar = ({ pet, size = 56, className, showMoodBadge = true, skinS
         style={{ width: size, height: size }}
       >
         <img
-          src={chatbotIcon}
+          src={skinSrc ?? chatbotIcon}
           alt="AI Study Pet"
           className={cn(
             "object-cover",
