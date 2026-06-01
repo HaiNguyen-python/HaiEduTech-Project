@@ -1043,10 +1043,13 @@ const ChatBot = () => {
                   <h3 className="text-sm font-bold text-foreground truncate leading-tight">
                     {studentName
                       ? t(`👋 Chào ${studentName}!`, `👋 Hi ${studentName}!`)
-                      : "👋 Hello, I'm Mr. Hai!"}
+                      : t("🐾 Pet AI của bạn", "🐾 Your AI Study Pet")}
                   </h3>
                   <span className="shrink-0 rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-primary">
                     LV.{pet.level}
+                  </span>
+                  <span className="shrink-0 rounded-md bg-amber-100 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-700">
+                    {pet.stage === "master" ? t("Bậc thầy", "Master") : pet.stage === "apprentice" ? t("Học việc", "Apprentice") : t("Sơ sinh", "Baby")}
                   </span>
                 </div>
                 {/* EXP progress bar — mirrors the actual pet_exp value */}
@@ -1064,6 +1067,15 @@ const ChatBot = () => {
                   </span>
                 </div>
               </div>
+              <button
+                onClick={() => setShowPetInfo((v) => !v)}
+                onPointerDown={(e) => e.stopPropagation()}
+                className="rounded-lg p-1.5 transition-colors hover:bg-secondary shrink-0"
+                title={t("Cách lên cấp Pet", "How to level up your Pet")}
+                aria-label="Pet info"
+              >
+                <Info className="h-4 w-4 text-primary" />
+              </button>
               <button
                 onClick={openAskTeacher}
                 onPointerDown={(e) => e.stopPropagation()}
