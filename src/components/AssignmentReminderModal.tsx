@@ -41,7 +41,7 @@ const motivationLines = [
 ];
 
 const AssignmentReminderModal = () => {
-  const { user, role, loading: roleLoading } = useUserRole();
+  const { user, isAdmin, isTeacher, loading: roleLoading } = useUserRole();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [pending, setPending] = useState<NotifRow[]>([]);
