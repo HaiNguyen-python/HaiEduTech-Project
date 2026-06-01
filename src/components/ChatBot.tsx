@@ -1001,9 +1001,9 @@ const ChatBot = () => {
                 tooltipTimerRef.current = setTimeout(() => setShowTooltip(false), 5000);
               }}
               className="flex h-14 w-14 items-center justify-center overflow-visible rounded-full border-2 border-primary-foreground/20 bg-white shadow-2xl transition-all hover:brightness-110 sm:h-16 sm:w-16"
-              title={`AI Study Pet · LV ${pet.level}`}
+              title={`${petId.name} · LV ${pet.level}`}
             >
-              <StudyPetAvatar pet={pet} size={isMobile ? 52 : 60} />
+              <StudyPetAvatar pet={pet} size={isMobile ? 52 : 60} skinSrc={petId.skin.src} />
             </motion.button>
           </div>
         )}
