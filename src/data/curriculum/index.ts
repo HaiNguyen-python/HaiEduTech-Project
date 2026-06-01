@@ -43,4 +43,5 @@ export const expandedModules: ExtendedProgrammingModule[] = [
   ...edtechModules,
   ...edtechExpansionModules,
   ...edtechAdvancedModules,
+  ...edtechGlobalResearchModules,
 ];
