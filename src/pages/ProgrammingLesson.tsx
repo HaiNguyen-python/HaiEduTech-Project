@@ -612,7 +612,7 @@ const ProgrammingLessonPage = () => {
                         loading="lazy"
                         width={1024}
                         height={576}
-                        className="w-full max-h-64 object-contain rounded-xl mb-6 bg-muted/30"
+                        className="w-full max-h-[28rem] object-contain rounded-xl mb-6 bg-muted/30"
                       />
                     )}
                     <TheorySections
