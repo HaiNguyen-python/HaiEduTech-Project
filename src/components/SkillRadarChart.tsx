@@ -84,12 +84,12 @@ const SkillRadarChart = ({ pillarId, className = "" }: Props) => {
         </h3>
         <span className="text-xs font-bold text-primary">{pct}%</span>
       </div>
-      <ResponsiveContainer width="100%" height={220}>
-        <RadarChart data={data} cx="50%" cy="50%" outerRadius="70%">
+      <ResponsiveContainer width="100%" height={320}>
+        <RadarChart data={data} cx="50%" cy="50%" outerRadius="75%">
           <PolarGrid stroke="hsl(var(--border))" />
           <PolarAngleAxis
             dataKey="subject"
-            tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 10 }}
+            tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
           />
           <PolarRadiusAxis
             angle={30}
