@@ -113,6 +113,11 @@ function useRecorder() {
 
 const PlacementTest = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const subject = useMemo(() => parseSubject(searchParams.get("subject")), [searchParams]);
+  const meta = SUBJECT_META[subject];
+  const bank = useMemo(() => getPlacementBank(subject), [subject]);
+
   const [idx, setIdx] = useState(0);
   const [answers, setAnswers] = useState<Record<number, unknown>>({});
   const [audioBlobs, setAudioBlobs] = useState<Record<number, Blob>>({});
@@ -120,11 +125,17 @@ const PlacementTest = () => {
   const [done, setDone] = useState<null | { total: number; cefr: string }>(null);
   const startedAtRef = useRef(Date.now());
 
-  const q = PLACEMENT_TEST[idx];
-  const pct = Math.round(((idx + 1) / PLACEMENT_TEST.length) * 100);
+  // Reset progress whenever the subject query parameter changes.
+  useEffect(() => {
+    setIdx(0); setAnswers({}); setAudioBlobs({}); setDone(null);
+    startedAtRef.current = Date.now();
+  }, [subject]);
+
+  const q = bank[idx];
+  const pct = Math.round(((idx + 1) / bank.length) * 100);
 
   const setA = (val: unknown) => setAnswers((a) => ({ ...a, [q.id]: val }));
-  const goNext = () => setIdx((i) => Math.min(i + 1, PLACEMENT_TEST.length - 1));
+  const goNext = () => setIdx((i) => Math.min(i + 1, bank.length - 1));
   const goPrev = () => setIdx((i) => Math.max(i - 1, 0));
 
   /* ── Submit & score ───────────────────────────────────────────── */
