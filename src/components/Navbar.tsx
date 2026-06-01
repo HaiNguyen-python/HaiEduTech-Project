@@ -200,6 +200,7 @@ const Navbar = () => {
   ];
   const finnishSubs: SubItem[] = [
     { to: "/finnish", label: t("📚 Tổng quan", "📚 Overview") },
+    { to: "/placement-test?subject=finnish", label: t("📝 Bài Test Trình độ Tiếng Phần Lan", "📝 Finnish Placement Test"), icon: ClipboardCheck },
     { to: "#fi-div1", label: "", divider: true },
     { to: "/finnish/beginner", label: t("🌱 Người mới (A1–A2)", "🌱 Beginner (A1–A2)") },
     { to: "/finnish/yki-dashboard", label: t("❄️ YKI A2 Dashboard", "❄️ YKI A2 Dashboard") },
