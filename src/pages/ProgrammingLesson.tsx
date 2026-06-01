@@ -19,6 +19,7 @@ import LearningRecommendation from "@/components/LearningRecommendation";
 import { expandedModules as curriculumExpandedModules } from "@/data/curriculum";
 import { edtechQuizEn } from "@/data/curriculum/edtechQuizI18n";
 import { nlpQuizEn } from "@/data/curriculum/nlpQuizI18n";
+import { programmingQuizExtraEn } from "@/data/curriculum/programmingQuizExtraI18n";
 import { supabase } from "@/integrations/supabase/client";
 import { Progress } from "@/components/ui/progress";
 import SqlEditor from "@/components/SqlEditor";
@@ -672,7 +673,7 @@ const ProgrammingLessonPage = () => {
                     </div>
                     <div className="space-y-5">
                       {lesson.quiz.map((q, qi) => {
-                        const en = lang === "en" ? (edtechQuizEn[q.question] ?? nlpQuizEn[q.question]) : undefined;
+                        const en = lang === "en" ? (edtechQuizEn[q.question] ?? nlpQuizEn[q.question] ?? programmingQuizExtraEn[q.question]) : undefined;
                         const questionText = en?.q ?? q.question;
                         const optionTexts = en?.opts ?? q.options;
                         const explanationText = en?.exp ?? q.explanation;
