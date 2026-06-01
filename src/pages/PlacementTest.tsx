@@ -528,13 +528,36 @@ const ListenDictation = ({ q, answer, setAnswer }: RenderProps) => {
   );
 };
 
-/* Reading Q13-Q17 — basic MCQ */
+/* Reading Q13-Q17 — basic MCQ (with optional code / schema panels for Programming) */
 const ReadMcq = ({ q, answer, setAnswer }: RenderProps) => {
   if (q.type !== "read-mcq") return null;
   const sel = answer as number | undefined;
+  const monoBox =
+    "font-mono text-sm leading-6 bg-slate-900 text-slate-100 rounded-lg p-4 " +
+    "whitespace-pre-wrap break-words overflow-x-auto border border-slate-800";
   return (
     <div>
-      <p className="text-lg text-slate-900 font-medium mb-5">{q.prompt}</p>
+      {q.schema && (
+        <div className="mb-3">
+          <p className="text-[11px] uppercase tracking-wide text-slate-500 mb-1.5 font-semibold">
+            Schema
+          </p>
+          <div className="font-mono text-xs bg-slate-50 border border-slate-200 rounded-lg p-3 text-slate-800 whitespace-pre-wrap">
+            {q.schema}
+          </div>
+        </div>
+      )}
+      <p className="text-lg text-slate-900 font-medium mb-4">{q.prompt}</p>
+      {q.code && (
+        <div className="mb-5">
+          {q.language && (
+            <span className="inline-block mb-1.5 text-[11px] font-mono uppercase tracking-wide text-slate-500">
+              {q.language}
+            </span>
+          )}
+          <pre className={monoBox}>{q.code}</pre>
+        </div>
+      )}
       <div className="grid sm:grid-cols-2 gap-2">
         {q.options.map((o, i) => (
           <button
