@@ -7,6 +7,8 @@ import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import chatbotIcon from "@/assets/chatbot-icon.png";
+import { useStudyPet } from "@/hooks/useStudyPet";
+import StudyPetAvatar from "@/components/StudyPetAvatar";
 
 // Chat-tuned markdown components: lock typography to a uniform ~14px rhythm
 // so headings, code, and lists never blow up inside the narrow chat bubble.
@@ -240,6 +242,8 @@ const ChatBot = () => {
   const [askSending, setAskSending] = useState(false);
   const [askSent, setAskSent] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  // AI Study Pet — evolves with the student's real learning logs
+  const pet = useStudyPet();
   const dragControls = useDragControls();
   const dragX = useMotionValue(0);
   const dragY = useMotionValue(0);
@@ -471,7 +475,22 @@ const ChatBot = () => {
   // Pop a random fun fact every 3 minutes when chat is closed
   useEffect(() => {
     if (open) return;
-    const greeting = lang === "vi" ? "Chào! Mình là thầy Hải. Hỏi mình nhé? 😊" : "Hi! I'm Mr.Hai. Ask me something? 😊";
+    // Mood-driven proactive greeting — reflects the pet's current state
+    let greeting: string;
+    if (pet.mood === "celebrating") {
+      greeting = lang === "vi"
+        ? "Yum! 😋 Cảm ơn bạn đã tặng mình Năng lượng Tri thức từ bài học vừa rồi. Mình vừa được cộng thêm EXP đó!"
+        : "Yum! 😋 Thanks for the Knowledge Energy from your last lesson — I just gained EXP!";
+    } else if (pet.mood === "hungry" || pet.mood === "sleepy") {
+      greeting = lang === "vi"
+        ? "Ngoào... 💤 Mình đang bị thiếu Năng lượng Từ vựng rồi. Bạn vào Góc Ôn Tập giải cứu mình với!"
+        : "Yawn… 💤 I'm low on Vocabulary Energy. Visit the Smart Review corner to rescue me!";
+    } else {
+      greeting = lang === "vi"
+        ? `Chào! Mình là Pet AI cấp ${pet.level} của bạn. Hỏi gì cũng được nhé? 😊`
+        : `Hi! I'm your Level ${pet.level} AI Pet. Ask me anything? 😊`;
+    }
+
 
     const popFact = () => {
       const fact = FUN_FACTS[Math.floor(Math.random() * FUN_FACTS.length)];
@@ -495,7 +514,7 @@ const ChatBot = () => {
       clearInterval(interval);
       clearTimeout(initial);
     };
-  }, [open, lang]);
+  }, [open, lang, pet.mood, pet.level]);
 
   /**
    * Check if the user has 3+ warnings in the last 24 hours → lock chat for 1 hour.
@@ -977,15 +996,10 @@ const ChatBot = () => {
                 if (tooltipTimerRef.current) clearTimeout(tooltipTimerRef.current);
                 tooltipTimerRef.current = setTimeout(() => setShowTooltip(false), 5000);
               }}
-              className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border-2 border-primary-foreground/20 bg-primary shadow-2xl transition-all hover:brightness-110 sm:h-16 sm:w-16"
-              title="Chat with Teacher Hai"
+              className="flex h-14 w-14 items-center justify-center overflow-visible rounded-full border-2 border-primary-foreground/20 bg-white shadow-2xl transition-all hover:brightness-110 sm:h-16 sm:w-16"
+              title={`AI Study Pet · LV ${pet.level}`}
             >
-              <img
-                src={chatbotIcon}
-                alt="Thầy Hải"
-                className="h-12 w-12 object-cover sm:h-14 sm:w-14"
-                style={{ transformOrigin: "50% 75%", animation: "wave-hand 12s ease-in-out infinite" }}
-              />
+              <StudyPetAvatar pet={pet} size={isMobile ? 52 : 60} />
             </motion.button>
           </div>
         )}
@@ -1022,18 +1036,32 @@ const ChatBot = () => {
               title={!isMobile ? t("Kéo để di chuyển • Nhấp đúp để đưa về vị trí gốc", "Drag to move • Double-click to reset position") : undefined}
             >
               {!isMobile && <GripVertical className="h-4 w-4 text-muted-foreground/60 shrink-0" />}
-              <img src={chatbotIcon} alt="Thầy Hải" className="h-9 w-9 rounded-full shrink-0" />
+              <StudyPetAvatar pet={pet} size={36} className="shrink-0" showMoodBadge={false} />
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-bold text-foreground truncate leading-tight">
-                  {studentName
-                    ? t(`👋 Chào ${studentName}!`, `👋 Hi ${studentName}!`)
-                    : "👋 Hello, I'm Mr. Hai!"}
-                </h3>
-                <p className="text-[11px] text-muted-foreground truncate leading-tight">
-                  {studentContext
-                    ? t("Thầy đã có dữ liệu học tập của em - hỏi gì cũng được nhé!", "I have your learning data - ask me anything!")
-                    : t("Cùng nâng cấp kỹ năng cùng thầy hôm nay nhé!", "Level up your skills with me today.")}
-                </p>
+                <div className="flex items-center gap-1.5">
+                  <h3 className="text-sm font-bold text-foreground truncate leading-tight">
+                    {studentName
+                      ? t(`👋 Chào ${studentName}!`, `👋 Hi ${studentName}!`)
+                      : "👋 Hello, I'm Mr. Hai!"}
+                  </h3>
+                  <span className="shrink-0 rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-primary">
+                    LV.{pet.level}
+                  </span>
+                </div>
+                {/* EXP progress bar — mirrors the actual pet_exp value */}
+                <div className="mt-1 flex items-center gap-1.5">
+                  <div className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
+                    <div
+                      className="h-full rounded-full bg-gradient-to-r from-sky-400 via-emerald-400 to-amber-400 transition-all duration-500"
+                      style={{
+                        width: `${Math.min(100, Math.round((pet.expIntoLevel / Math.max(1, pet.expForNextLevel)) * 100))}%`,
+                      }}
+                    />
+                  </div>
+                  <span className="shrink-0 text-[10px] font-medium tabular-nums text-muted-foreground">
+                    EXP {pet.expIntoLevel}/{pet.expForNextLevel}
+                  </span>
+                </div>
               </div>
               <button
                 onClick={openAskTeacher}
