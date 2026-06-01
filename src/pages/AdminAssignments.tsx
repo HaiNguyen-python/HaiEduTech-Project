@@ -609,7 +609,24 @@ function CreateAssignmentDialog({ open, onOpenChange, students, classes, classMe
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <Label>Target class (optional)</Label>
-              <Input value={targetClass} onChange={(e) => setTargetClass(e.target.value)} placeholder="PET Friday 7pm" />
+              <Select value={targetClassId} onValueChange={handleClassChange}>
+                <SelectTrigger><SelectValue placeholder="No class — pick students manually" /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">No class — pick students manually</SelectItem>
+                  {classes.length === 0 ? (
+                    <div className="px-3 py-2 text-xs text-slate-400">
+                      No classes yet. Create one in Class Management.
+                    </div>
+                  ) : classes.map((c) => (
+                    <SelectItem key={c.id} value={c.id}>
+                      {c.class_name} ({SUBJECT_LABELS[c.subject_category] ?? c.subject_category})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <p className="mt-1 text-[11px] text-slate-400">
+                Selecting a class auto-fills its members below.
+              </p>
             </div>
             <div>
               <Label>Deadline</Label>
