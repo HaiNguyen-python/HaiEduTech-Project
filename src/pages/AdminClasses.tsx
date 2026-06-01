@@ -1,8 +1,8 @@
 // Admin Class Management - /admin/classes
 // Create classes and manage student enrollment for group-based assignments.
 import { useEffect, useMemo, useState } from "react";
-import { Navigate } from "react-router-dom";
-import { Plus, Loader2, Users, Pencil, Trash2 } from "lucide-react";
+import { Navigate, useNavigate } from "react-router-dom";
+import { ArrowLeft, Plus, Loader2, Users, Pencil, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useToast } from "@/hooks/use-toast";
