@@ -103,9 +103,9 @@ function initMermaid() {
       /* SVG-side text rendering for crispness */
       .nodeLabel, .edgeLabel, .messageText, .noteText, text, text.actor, text.actor-man, .titleText, .loopText, .labelText {
         font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-        font-size: 14px !important;
+        font-size: 17px !important;
         font-weight: 600 !important;
-        line-height: 1.4 !important;
+        line-height: 1.45 !important;
         text-rendering: geometricPrecision;
         -webkit-font-smoothing: antialiased;
       }
@@ -117,8 +117,9 @@ function initMermaid() {
         overflow-wrap: normal !important;
         text-align: center !important;
         line-height: 1.45 !important;
-        padding: 4px 10px !important;
-        max-width: 320px !important;
+        padding: 6px 12px !important;
+        max-width: 360px !important;
+        font-size: 17px !important;
       }
 
       foreignObject {
@@ -128,15 +129,15 @@ function initMermaid() {
       .node rect, .node polygon, .node circle, .node ellipse, .node path {
         rx: 10;
         ry: 10;
-        stroke-width: 1.6px !important;
+        stroke-width: 1.8px !important;
       }
 
       .edgeLabel {
         background-color: ${isDark ? "hsl(222 47% 11%)" : "hsl(0 0% 100%)"} !important;
         color: ${isDark ? "hsl(210 40% 98%)" : "hsl(222 47% 11%)"} !important;
-        padding: 3px 7px !important;
+        padding: 4px 8px !important;
         border-radius: 4px !important;
-        font-size: 13px !important;
+        font-size: 15px !important;
       }
 
       .edgeLabel rect, .edgeLabel foreignObject div {
