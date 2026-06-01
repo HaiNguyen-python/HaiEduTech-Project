@@ -242,7 +242,7 @@ const AdminAssignments = () => {
               className="bg-slate-900 hover:bg-slate-800 text-white"
             >
               <Plus className="h-4 w-4" />
-              Assign a test
+              Assign an exercise
             </Button>
           </div>
         </div>
@@ -254,7 +254,7 @@ const AdminAssignments = () => {
               <thead>
                 <tr className="text-left text-xs uppercase tracking-wider text-slate-500 border-b border-slate-100">
                   <th className="px-4 py-3 font-medium">No</th>
-                  <th className="px-4 py-3 font-medium">Test name</th>
+                  <th className="px-4 py-3 font-medium">Exercise name</th>
                   <th className="px-4 py-3 font-medium">Subject/Level</th>
                   <th className="px-4 py-3 font-medium">Accuracy</th>
                   <th className="px-4 py-3 font-medium">Teacher</th>
@@ -276,7 +276,7 @@ const AdminAssignments = () => {
                 ) : filteredRows.length === 0 ? (
                   <tr>
                     <td colSpan={11} className="px-4 py-10 text-center text-slate-400">
-                      No assignments match your filters. Click "Assign a test" to create one.
+                      No assignments match your filters. Click "Assign an exercise" to create one.
                     </td>
                   </tr>
                 ) : (
@@ -465,7 +465,7 @@ function CreateAssignmentDialog({ open, onOpenChange, students, teacherId, onCre
     <Dialog open={open} onOpenChange={(v) => { onOpenChange(v); if (!v) reset(); }}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Assign a new test</DialogTitle>
+          <DialogTitle>Assign a new exercise</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
@@ -499,7 +499,7 @@ function CreateAssignmentDialog({ open, onOpenChange, students, teacherId, onCre
 
           {/* Lesson picker — searchable dropdown seeded from the platform catalog */}
           <div>
-            <Label>Test name (chọn từ thư viện bài học)</Label>
+            <Label>Exercise / Lesson name (chọn từ thư viện)</Label>
             <Select
               value={
                 (ASSIGNMENT_LESSON_CATALOG[subject] ?? []).find((l) => l.title === title)?.id ?? ""
