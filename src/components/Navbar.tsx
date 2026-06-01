@@ -429,6 +429,7 @@ const Navbar = () => {
                       )}
                     </AnimatePresence>
                   </div>
+                  </>
                 ) : (
                   <>
                     <Link to="/login" className="flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium bg-primary text-primary-foreground hover:brightness-110 transition-all">
