@@ -285,11 +285,10 @@ const FloatingNotebook = () => {
     toast({ title: "Đã xóa ghi chú" });
   };
 
-  // Auto-save after 5s of inactivity (sync-safe).
-  const editorContent = editor?.getHTML();
+  // Auto-save after 2.5s of inactivity (sync-safe). editorTick ensures the
+  // effect actually re-fires on every keystroke.
   useEffect(() => {
     if (!open || !user || !title.trim()) return;
-    // Skip the auto-save tick that follows a programmatic content sync from server.
     if (skipNextAutoSave.current) {
       skipNextAutoSave.current = false;
       return;
@@ -297,9 +296,18 @@ const FloatingNotebook = () => {
     if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
     autoSaveTimer.current = setTimeout(() => {
       handleSave();
-    }, 5000);
+    }, 2500);
     return () => { if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current); };
-  }, [editorContent, title, subject, open, user, handleSave]);
+  }, [editorTick, title, subject, open, user, handleSave]);
+
+  // Flush-save on panel close so quick edits (< debounce window) survive.
+  const handleClosePanel = useCallback(() => {
+    if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
+    if (user && title.trim()) {
+      handleSave();
+    }
+    setOpen(false);
+  }, [user, title, handleSave]);
 
   // Drag handlers (mouse)
   const onDragStart = useCallback((e: React.MouseEvent) => {
