@@ -516,6 +516,13 @@ const AdminDashboard = () => {
                 >
                   <ClipboardList className="w-4 h-4" /> {t("Quản lý Bài tập", "Assignments")}
                 </button>
+                {/* Direct link to Class Management page */}
+                <button
+                  onClick={() => navigate("/admin/classes")}
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-semibold transition-all text-foreground/70 hover:bg-secondary hover:text-foreground"
+                >
+                  <Users className="w-4 h-4" /> {t("Quản lý Lớp học", "Class Management")}
+                </button>
               </div>
 
               {/* Sub-tabs (filtered by group) */}
