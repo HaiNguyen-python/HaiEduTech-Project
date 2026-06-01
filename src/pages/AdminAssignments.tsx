@@ -50,6 +50,17 @@ interface StudentProfile {
   full_name: string | null;
 }
 
+interface ClassOption {
+  id: string;
+  class_name: string;
+  subject_category: string;
+}
+
+interface ClassMember {
+  class_id: string;
+  user_id: string;
+}
+
 const STATUS_BADGE: Record<string, string> = {
   in_progress: "bg-amber-50 text-amber-700 border-amber-200",
   completed: "bg-emerald-50 text-emerald-700 border-emerald-200",
