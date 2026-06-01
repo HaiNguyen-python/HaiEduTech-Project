@@ -1052,6 +1052,10 @@ const AdminDashboard = () => {
               <TabsContent value="attendance">
                 <AttendanceAnalyticsTab />
               </TabsContent>
+
+              <TabsContent value="chatbot">
+                <ChatbotConversationsReview />
+              </TabsContent>
             </Tabs>
           </motion.div>
         </div>
