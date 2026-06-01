@@ -107,6 +107,8 @@ const ThptEssentialReview = lazy(() => import("./pages/ThptEssentialReview.tsx")
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard.tsx"));
 const AdminAssignments = lazy(() => import("./pages/AdminAssignments.tsx"));
 const AdminClasses = lazy(() => import("./pages/AdminClasses.tsx"));
+const AdminPlacementResults = lazy(() => import("./pages/AdminPlacementResults.tsx"));
+const PlacementTest = lazy(() => import("./pages/PlacementTest.tsx"));
 const LanguageLessonView = lazy(() => import("./pages/LanguageLessonView.tsx"));
 const ConversationalDashboard = lazy(() => import("./pages/ConversationalDashboard.tsx"));
 const ConversationalLessonView = lazy(() => import("./pages/ConversationalLessonView.tsx"));
@@ -362,6 +364,8 @@ const App = () => (
             <Route path="/admin-dashboard" element={<LazyRoute><AdminDashboard /></LazyRoute>} />
             <Route path="/admin/assignments" element={<LazyRoute><AdminAssignments /></LazyRoute>} />
             <Route path="/admin/classes" element={<LazyRoute><AdminClasses /></LazyRoute>} />
+            <Route path="/admin/placement-test-results" element={<LazyRoute><AdminPlacementResults /></LazyRoute>} />
+            <Route path="/placement-test" element={<LazyRoute><PlacementTest /></LazyRoute>} />
             <Route path="/lesson-library/:lessonId" element={<LazyRoute><GeneratedLessonView /></LazyRoute>} />
             <Route path="/python-challenges" element={<LazyRoute><PythonChallengeList /></LazyRoute>} />
             <Route path="/python-challenges/:challengeId" element={<LazyRoute><PythonChallengePage /></LazyRoute>} />
