@@ -491,8 +491,8 @@ const ChatBot = () => {
         : "Yawn… 💤 I'm low on Vocabulary Energy. Visit the Smart Review corner to rescue me!";
     } else {
       greeting = lang === "vi"
-        ? `Chào! Mình là Pet AI cấp ${pet.level} của bạn. Hỏi gì cũng được nhé? 😊`
-        : `Hi! I'm your Level ${pet.level} AI Pet. Ask me anything? 😊`;
+        ? `Chào! Mình là ${petId.name}, Pet AI cấp ${pet.level} của bạn. Hỏi gì cũng được nhé? 😊`
+        : `Hi! I'm ${petId.name}, your Level ${pet.level} AI Pet. Ask me anything? 😊`;
     }
 
 
