@@ -316,6 +316,7 @@ print(f"Δ mastery = {diff:+.3f}, t ≈ {t:.2f}  →  {'có ý nghĩa' if abs(t)
         titleEn: "Top 10 EdTech Academic Papers from the University of Helsinki",
         level: 4,
         difficulty: "advanced",
+        theoryEn: `Why read research from the University of Helsinki (UH)? Finland leads PISA, and UH is the largest producer of educational knowledge in the Nordics. Professors such as Hannele Niemi, Kirsti Lonka, Kai Hakkarainen, Auli Toom, Sami Paavola, Minna Lakkala, Erika Löfström, Anne Nevgi, Liisa Postareff, and Katariina Salmela-Aro publish on AIED, CSCL, sustainable pedagogy, multiliteracy, engagement and study burnout. This lesson curates 10 must-read papers with direct Google Scholar links plus the official UH portals: HELDA (helda.helsinki.fi) and the UH research portal (researchportal.helsinki.fi).`,
         theory: `## 🎓 Vì sao đọc nghiên cứu từ Đại học Helsinki?
 
 Phần Lan luôn nằm trong top thế giới về PISA, và **Đại học Helsinki (UH)** là trung tâm sản xuất tri thức giáo dục lớn nhất Bắc Âu. Các giáo sư của UH (Hannele Niemi, Kirsti Lonka, Kai Hakkarainen, Auli Toom, Sami Paavola, Minna Lakkala, Erika Löfström, Anne Nevgi, Liisa Postareff, Katariina Salmela-Aro…) đã xuất bản hàng nghìn nghiên cứu về:
