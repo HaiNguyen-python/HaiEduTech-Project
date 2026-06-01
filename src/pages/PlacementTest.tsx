@@ -593,16 +593,13 @@ const ReadAnalytical = ({ q, answer, setAnswer }: RenderProps) => {
 const WriteScramble = ({ q, answer, setAnswer }: RenderProps) => {
   if (q.type !== "write-scramble") return null;
   const placed = (answer as string[] | undefined) ?? [];
-  const pool = q.tokens.filter((t, i) =>
-    placed.filter((p) => p === t).length <
-    q.tokens.filter((x) => x === t).length
-      ? true
-      : !placed.includes(t) // fallback uniqueness
-  ).filter((t) => {
-    // simple multiset diff
-    const need = q.tokens.filter((x) => x === t).length;
-    const have = placed.filter((x) => x === t).length;
-    return have < need;
+  // Multiset difference: render every token still available in the pool.
+  const placedCopy = [...placed];
+  const pool = q.tokens.filter((tok) => {
+    const idx = placedCopy.indexOf(tok);
+    if (idx === -1) return true;
+    placedCopy.splice(idx, 1);
+    return false;
   });
 
   return (
