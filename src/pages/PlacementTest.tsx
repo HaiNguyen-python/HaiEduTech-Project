@@ -8,8 +8,8 @@
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Volume2, Mic, Square, ArrowLeft, ArrowRight, CheckCircle2,
@@ -22,16 +22,22 @@ import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import {
-  PLACEMENT_TEST, type PlacementQuestion, type Skill,
+  type PlacementQuestion, type Skill,
   SKILL_LABEL, inferCefr,
 } from "@/data/placementTest";
+import {
+  getPlacementBank, parseSubject, SUBJECT_META,
+} from "@/data/placementBanks";
 import Navbar from "@/components/Navbar";
 
-/** Speak text via browser SpeechSynthesis. */
-const speak = (text: string, lang = "en-US") => {
+/** Module-level current speak locale; set by the main component per subject. */
+let CURRENT_SPEAK_LANG = "en-US";
+
+/** Speak text via browser SpeechSynthesis (uses CURRENT_SPEAK_LANG by default). */
+const speak = (text: string, lang?: string) => {
   try {
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = lang; u.rate = 0.92;
+    u.lang = lang ?? CURRENT_SPEAK_LANG; u.rate = 0.92;
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(u);
   } catch { /* noop */ }
@@ -110,6 +116,11 @@ function useRecorder() {
 
 const PlacementTest = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const subject = useMemo(() => parseSubject(searchParams.get("subject")), [searchParams]);
+  const meta = SUBJECT_META[subject];
+  const bank = useMemo(() => getPlacementBank(subject), [subject]);
+
   const [idx, setIdx] = useState(0);
   const [answers, setAnswers] = useState<Record<number, unknown>>({});
   const [audioBlobs, setAudioBlobs] = useState<Record<number, Blob>>({});
@@ -117,11 +128,18 @@ const PlacementTest = () => {
   const [done, setDone] = useState<null | { total: number; cefr: string }>(null);
   const startedAtRef = useRef(Date.now());
 
-  const q = PLACEMENT_TEST[idx];
-  const pct = Math.round(((idx + 1) / PLACEMENT_TEST.length) * 100);
+  // Reset progress and switch TTS locale whenever the subject changes.
+  useEffect(() => {
+    CURRENT_SPEAK_LANG = meta.speakLang;
+    setIdx(0); setAnswers({}); setAudioBlobs({}); setDone(null);
+    startedAtRef.current = Date.now();
+  }, [subject, meta.speakLang]);
+
+  const q = bank[idx];
+  const pct = Math.round(((idx + 1) / bank.length) * 100);
 
   const setA = (val: unknown) => setAnswers((a) => ({ ...a, [q.id]: val }));
-  const goNext = () => setIdx((i) => Math.min(i + 1, PLACEMENT_TEST.length - 1));
+  const goNext = () => setIdx((i) => Math.min(i + 1, bank.length - 1));
   const goPrev = () => setIdx((i) => Math.max(i - 1, 0));
 
   /* ── Submit & score ───────────────────────────────────────────── */
@@ -144,7 +162,7 @@ const PlacementTest = () => {
       };
       const essays: Record<number, string> = {};
 
-      for (const item of PLACEMENT_TEST) {
+      for (const item of bank) {
         const ans = answers[item.id];
         totals[item.skill].total += 1;
         let correct = false;
@@ -238,7 +256,7 @@ const PlacementTest = () => {
         speaking_score: speaking,
         total_score: total,
         cefr_band: cefr,
-        answers: answers as never,
+        answers: { __subject: subject, ...answers } as never,
         essays: essays as never,
         audio_urls: audioUrls as never,
         duration_seconds: Math.round((Date.now() - startedAtRef.current) / 1000),
@@ -293,14 +311,14 @@ const PlacementTest = () => {
               <ArrowLeft className="w-4 h-4" /> Back
             </button>
             <span className="text-xs font-medium text-slate-500">
-              Question {idx + 1} of {PLACEMENT_TEST.length}
+              Question {idx + 1} of {bank.length}
             </span>
           </div>
           <h1 className="text-xl sm:text-2xl font-bold text-slate-900">
-            CEFR Placement Test
+            {meta.title}
           </h1>
           <p className="text-sm text-slate-500">
-            40 adaptive questions · Listening · Reading · Writing · Speaking
+            {meta.subtitle}
           </p>
           <Progress value={pct} className="h-1.5 mt-3" />
         </header>
@@ -340,7 +358,7 @@ const PlacementTest = () => {
           <Button variant="outline" onClick={goPrev} disabled={idx === 0}>
             <ArrowLeft className="w-4 h-4 mr-1" /> Previous
           </Button>
-          {idx < PLACEMENT_TEST.length - 1 ? (
+          {idx < bank.length - 1 ? (
             <Button onClick={goNext}>
               Next <ArrowRight className="w-4 h-4 ml-1" />
             </Button>
