@@ -246,6 +246,8 @@ const ChatBot = () => {
   const [expanded, setExpanded] = useState(false);
   // AI Study Pet — evolves with the student's real learning logs
   const pet = useStudyPet();
+  const petId = usePetIdentity();
+  const [nameDraft, setNameDraft] = useState<string>("");
   const dragControls = useDragControls();
   const dragX = useMotionValue(0);
   const dragY = useMotionValue(0);
