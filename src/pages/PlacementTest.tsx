@@ -307,14 +307,14 @@ const PlacementTest = () => {
               <ArrowLeft className="w-4 h-4" /> Back
             </button>
             <span className="text-xs font-medium text-slate-500">
-              Question {idx + 1} of {PLACEMENT_TEST.length}
+              Question {idx + 1} of {bank.length}
             </span>
           </div>
           <h1 className="text-xl sm:text-2xl font-bold text-slate-900">
-            CEFR Placement Test
+            {meta.title}
           </h1>
           <p className="text-sm text-slate-500">
-            40 adaptive questions · Listening · Reading · Writing · Speaking
+            {meta.subtitle}
           </p>
           <Progress value={pct} className="h-1.5 mt-3" />
         </header>
