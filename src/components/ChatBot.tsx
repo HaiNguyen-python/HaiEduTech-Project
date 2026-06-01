@@ -248,7 +248,13 @@ const ChatBot = () => {
   // AI Study Pet — evolves with the student's real learning logs
   const pet = useStudyPet();
   const petId = usePetIdentity();
+  // Persist conversation across sessions; teachers/admins can review server-side.
+  const chatHistory = useChatHistory(petId.name, pet.level);
+  const hydratedRef = useRef(false);
   const [nameDraft, setNameDraft] = useState<string>("");
+  // Keep the rename input in sync with the saved pet name whenever the
+  // info panel opens, so users always see (and can edit) the current name.
+  useEffect(() => { setNameDraft(petId.name); }, [petId.name]);
   const dragControls = useDragControls();
   const dragX = useMotionValue(0);
   const dragY = useMotionValue(0);
