@@ -1,8 +1,8 @@
 // Admin Assignment Management Dashboard - /admin/assignments
 // Multi-subject homework tracker for Teacher Hai.
-import { useEffect, useMemo, useState } from "react";
-import { Navigate } from "react-router-dom";
-import { Eye, Trash2, Plus, Loader2 } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
+import { ArrowLeft, Eye, Trash2, Plus, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useToast } from "@/hooks/use-toast";
@@ -98,6 +98,7 @@ function AccuracyRing({ value }: { value: number | null }) {
 const AdminAssignments = () => {
   const { user, isTeacher, loading: roleLoading } = useUserRole();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
   const [assignments, setAssignments] = useState<Assignment[]>([]);
@@ -113,12 +114,13 @@ const AdminAssignments = () => {
   const [createOpen, setCreateOpen] = useState(false);
   const [detailRow, setDetailRow] = useState<AssignmentRow | null>(null);
 
-  const fetchAll = async () => {
+  const fetchAll = useCallback(async () => {
     setLoading(true);
+    // Bounded queries keep the admin dashboard snappy under heavy data.
     const [{ data: aData }, { data: sData }, { data: pData }, { data: cData }, { data: cmData }] = await Promise.all([
-      supabase.from("assignments").select("*").order("assigned_at", { ascending: false }),
-      supabase.from("student_submissions").select("*"),
-      supabase.from("profiles").select("id, full_name").order("full_name"),
+      supabase.from("assignments").select("*").order("assigned_at", { ascending: false }).limit(200),
+      supabase.from("student_submissions").select("*").order("updated_at", { ascending: false }).limit(2000),
+      supabase.from("profiles").select("id, full_name").order("full_name").limit(1000),
       supabase.from("classes").select("id, class_name, subject_category").order("class_name"),
       supabase.from("class_members").select("class_id, user_id"),
     ]);
@@ -141,11 +143,11 @@ const AdminAssignments = () => {
     });
     setStudents(uniqueStudents);
     setLoading(false);
-  };
+  }, []);
 
   useEffect(() => {
     if (isTeacher) fetchAll();
-  }, [isTeacher]);
+  }, [isTeacher, fetchAll]);
 
   const rows = useMemo(
     () => buildAssignmentRows(assignments, submissions),
@@ -195,15 +197,23 @@ const AdminAssignments = () => {
   return (
     <div className="min-h-screen bg-white text-slate-900">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-        <header className="flex items-end justify-between gap-4 flex-wrap">
-          <div>
-            <p className="text-xs uppercase tracking-wider text-slate-500">Admin · LMS</p>
-            <h1 className="text-2xl sm:text-3xl font-semibold mt-1">
-              Assignment Management
-            </h1>
-            <p className="text-sm text-slate-500 mt-1">
-              Multi-subject homework tracker for Teacher Hai
-            </p>
+        <header className="space-y-3">
+          <button
+            onClick={() => navigate(-1)}
+            className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-900 transition-colors"
+          >
+            <ArrowLeft className="h-4 w-4" /> Quay lại
+          </button>
+          <div className="flex items-end justify-between gap-4 flex-wrap">
+            <div>
+              <p className="text-xs uppercase tracking-wider text-slate-500">Admin · LMS</p>
+              <h1 className="text-2xl sm:text-3xl font-semibold mt-1">
+                Assignment Management
+              </h1>
+              <p className="text-sm text-slate-500 mt-1">
+                Multi-subject homework tracker for Teacher Hai
+              </p>
+            </div>
           </div>
         </header>
 

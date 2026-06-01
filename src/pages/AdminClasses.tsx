@@ -1,8 +1,8 @@
 // Admin Class Management - /admin/classes
 // Create classes and manage student enrollment for group-based assignments.
 import { useEffect, useMemo, useState } from "react";
-import { Navigate } from "react-router-dom";
-import { Plus, Loader2, Users, Pencil, Trash2 } from "lucide-react";
+import { Navigate, useNavigate } from "react-router-dom";
+import { ArrowLeft, Plus, Loader2, Users, Pencil, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useToast } from "@/hooks/use-toast";
@@ -23,6 +23,7 @@ interface ProfileRow { id: string; full_name: string | null; }
 
 const AdminClasses = () => {
   const { user, isTeacher, loading: roleLoading } = useUserRole();
+  const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
   const [classes, setClasses] = useState<ClassRow[]>([]);
@@ -59,7 +60,12 @@ const AdminClasses = () => {
 
   useEffect(() => { if (isTeacher) fetchAll(); }, [isTeacher]);
 
-  const countFor = (classId: string) => members.filter((m) => m.class_id === classId).length;
+  const countMap = useMemo(() => {
+    const m = new Map<string, number>();
+    members.forEach((mem) => m.set(mem.class_id, (m.get(mem.class_id) ?? 0) + 1));
+    return m;
+  }, [members]);
+  const countFor = (classId: string) => countMap.get(classId) ?? 0;
 
   const handleCreate = async () => {
     if (!name.trim()) { toast({ title: "Class name required", variant: "destructive" }); return; }
@@ -91,15 +97,23 @@ const AdminClasses = () => {
   return (
     <div className="min-h-screen bg-white text-slate-900">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-        <header className="flex items-end justify-between gap-4 flex-wrap">
-          <div>
-            <p className="text-xs uppercase tracking-wider text-slate-500">Admin · LMS</p>
-            <h1 className="text-2xl sm:text-3xl font-semibold mt-1">Class Management</h1>
-            <p className="text-sm text-slate-500 mt-1">Group your students into classes for batch assignments.</p>
+        <header className="space-y-3">
+          <button
+            onClick={() => navigate(-1)}
+            className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-900 transition-colors"
+          >
+            <ArrowLeft className="h-4 w-4" /> Quay lại
+          </button>
+          <div className="flex items-end justify-between gap-4 flex-wrap">
+            <div>
+              <p className="text-xs uppercase tracking-wider text-slate-500">Admin · LMS</p>
+              <h1 className="text-2xl sm:text-3xl font-semibold mt-1">Class Management</h1>
+              <p className="text-sm text-slate-500 mt-1">Group your students into classes for batch assignments.</p>
+            </div>
+            <Button onClick={() => setCreateOpen(true)} className="bg-slate-900 hover:bg-slate-800 text-white">
+              <Plus className="h-4 w-4" /> Create New Class
+            </Button>
           </div>
-          <Button onClick={() => setCreateOpen(true)} className="bg-slate-900 hover:bg-slate-800 text-white">
-            <Plus className="h-4 w-4" /> Create New Class
-          </Button>
         </header>
 
         <div className="rounded-xl border border-slate-100 bg-white">
