@@ -1218,9 +1218,9 @@ const ChatBot = () => {
             <div className="flex-1 space-y-4 overflow-y-auto p-4">
               {messages.length === 0 && (
                 <div className="py-8 text-center">
-                  <img src={chatbotIcon} alt="Thầy Hải" className="mx-auto mb-4 h-20 w-20 opacity-50" />
+                  <img src={petId.skin.src} alt={petId.name} className="mx-auto mb-4 h-20 w-20 rounded-full object-cover opacity-90" />
                   <p className="mb-4 text-sm text-muted-foreground">
-                    {"Hi there! 👋\nAsk me about English, Chinese or Programming!"}
+                    {t(`Chào! Mình là ${petId.name} 👋\nHỏi mình về English, Chinese hoặc Programming nhé!`, `Hi there! I'm ${petId.name} 👋\nAsk me about English, Chinese or Programming!`)}
                   </p>
                   <div className="flex flex-wrap justify-center gap-2">
                     {["Explain present perfect tense", "What does 你好 mean?", "What is Python?"].map((suggestion) => (
