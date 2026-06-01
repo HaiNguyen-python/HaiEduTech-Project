@@ -401,7 +401,7 @@ Phần Lan luôn nằm trong top thế giới về PISA, và **Đại học Hels
 - **HELDA** (kho luận văn & bài báo của UH): [helda.helsinki.fi](https://helda.helsinki.fi)
 - **TUHAT** (cổng nghiên cứu của UH): [researchportal.helsinki.fi](https://researchportal.helsinki.fi)
 - **Faculty of Educational Sciences:** [helsinki.fi/en/faculty-educational-sciences](https://www.helsinki.fi/en/faculty-educational-sciences)`,
-        codeExample: `// "Reading log" mini-helper bạn có thể chạy thử trong Node/Browser
+        code: `// "Reading log" mini-helper bạn có thể chạy thử trong Node/Browser
 const helsinkiPapers = [
   { id: 1,  author: "Hannele Niemi",        topic: "AI in Learning" },
   { id: 2,  author: "Kirsti Lonka",          topic: "Phenomenon-Based Learning" },
