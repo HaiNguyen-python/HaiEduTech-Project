@@ -1104,6 +1104,50 @@ const ChatBot = () => {
               </button>
             </div>
 
+            {/* Pet Info Panel — explains how the pet evolves */}
+            {showPetInfo && (
+              <div className="border-b border-border bg-gradient-to-br from-sky-50 via-white to-emerald-50 px-4 py-3 text-xs text-foreground">
+                <div className="mb-2 flex items-center gap-1.5 font-semibold text-primary">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  {t("Cách Pet AI lên cấp", "How your AI Pet levels up")}
+                </div>
+                <ul className="space-y-1.5 leading-relaxed">
+                  <li className="flex gap-2">
+                    <Star className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-500" />
+                    <span>{t("Hoàn thành bài học AI Academy & Lập trình để cộng EXP cho Pet.", "Finish AI Academy & Programming lessons to earn EXP for your Pet.")}</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <BookOpenCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" />
+                    <span>{t("Ôn từ vựng định kỳ (Spaced Repetition) để giữ Pet vui và khỏe.", "Review vocabulary regularly (Spaced Repetition) to keep your Pet happy.")}</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <Flame className="mt-0.5 h-3.5 w-3.5 shrink-0 text-orange-500" />
+                    <span>{t("Pet đói nếu bạn bỏ ôn quá 14 ngày — hãy quay lại Góc Ôn Tập!", "Pet gets hungry if you skip reviews for 14+ days — visit the Review Hub!")}</span>
+                  </li>
+                </ul>
+                <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+                  <div className={`rounded-lg border px-2 py-1.5 ${pet.stage === "baby" ? "border-sky-400 bg-sky-100 font-semibold text-sky-800" : "border-border bg-white text-muted-foreground"}`}>
+                    🐣 {t("Sơ sinh", "Baby")}<div className="text-[10px] font-normal">LV 1–5</div>
+                  </div>
+                  <div className={`rounded-lg border px-2 py-1.5 ${pet.stage === "apprentice" ? "border-cyan-400 bg-cyan-100 font-semibold text-cyan-800" : "border-border bg-white text-muted-foreground"}`}>
+                    🤖 {t("Học việc", "Apprentice")}<div className="text-[10px] font-normal">LV 6–15</div>
+                  </div>
+                  <div className={`rounded-lg border px-2 py-1.5 ${pet.stage === "master" ? "border-fuchsia-400 bg-fuchsia-100 font-semibold text-fuchsia-800" : "border-border bg-white text-muted-foreground"}`}>
+                    👑 {t("Bậc thầy", "Master")}<div className="text-[10px] font-normal">LV 16+</div>
+                  </div>
+                </div>
+                <div className="mt-2 flex items-center justify-between rounded-md bg-white/70 px-2 py-1.5 text-[11px]">
+                  <span className="text-muted-foreground">{t("Hạnh phúc", "Happiness")}</span>
+                  <span className="font-semibold text-foreground">{pet.happiness}/100</span>
+                  <span className="text-muted-foreground">·</span>
+                  <span className="text-muted-foreground">{t("Cần ôn", "To review")}</span>
+                  <span className="font-semibold text-orange-600">{pet.overdueReviews}</span>
+                </div>
+              </div>
+            )}
+
+
+
 
 
             {/* Chat Locked Banner */}
