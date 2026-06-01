@@ -197,15 +197,23 @@ const AdminAssignments = () => {
   return (
     <div className="min-h-screen bg-white text-slate-900">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-        <header className="flex items-end justify-between gap-4 flex-wrap">
-          <div>
-            <p className="text-xs uppercase tracking-wider text-slate-500">Admin · LMS</p>
-            <h1 className="text-2xl sm:text-3xl font-semibold mt-1">
-              Assignment Management
-            </h1>
-            <p className="text-sm text-slate-500 mt-1">
-              Multi-subject homework tracker for Teacher Hai
-            </p>
+        <header className="space-y-3">
+          <button
+            onClick={() => navigate(-1)}
+            className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-900 transition-colors"
+          >
+            <ArrowLeft className="h-4 w-4" /> Quay lại
+          </button>
+          <div className="flex items-end justify-between gap-4 flex-wrap">
+            <div>
+              <p className="text-xs uppercase tracking-wider text-slate-500">Admin · LMS</p>
+              <h1 className="text-2xl sm:text-3xl font-semibold mt-1">
+                Assignment Management
+              </h1>
+              <p className="text-sm text-slate-500 mt-1">
+                Multi-subject homework tracker for Teacher Hai
+              </p>
+            </div>
           </div>
         </header>
 
