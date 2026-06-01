@@ -168,11 +168,15 @@ const AdminDashboard = () => {
     }
     setStudents(studentList);
 
-    // Fetch all activity logs
+    // Fetch recent activity logs only (last 120 days) to keep admin load fast.
+    // Older data is still queryable via dedicated reports but the live dashboard
+    // focuses on the current learning trend.
+    const sinceIso = new Date(Date.now() - 120 * 24 * 60 * 60 * 1000).toISOString();
     const activityData = await fetchAllRows<any>((from, to) =>
       supabase
         .from("student_activity_log")
-        .select("*")
+        .select("user_id, activity_type, domain, score, time_spent_seconds, created_at, metadata")
+        .gte("created_at", sinceIso)
         .order("created_at", { ascending: true })
         .range(from, to)
     );

@@ -57,10 +57,18 @@ const MonthlyTopStudents = () => {
   }, []);
 
   const now = new Date();
-  const monthLabel = `${now.getMonth() + 1}/${now.getFullYear()}`;
+  // Display the previous (already completed) month's standings throughout the
+  // current month. Only switch to the current month on its very last day —
+  // mirrors the SQL window in get_monthly_top_students.
   const totalDays = daysInMonth(now);
-  const lastDay = new Date(now.getFullYear(), now.getMonth(), totalDays);
+  const isLastDayOfMonth = now.getDate() === totalDays;
+  const displayedMonthDate = isLastDayOfMonth
+    ? now
+    : new Date(now.getFullYear(), now.getMonth() - 1, 1);
+  const monthLabel = `${displayedMonthDate.getMonth() + 1}/${displayedMonthDate.getFullYear()}`;
+  const displayedTotalDays = daysInMonth(displayedMonthDate);
   const lastDayLabel = `${totalDays}/${now.getMonth() + 1}/${now.getFullYear()}`;
+
 
   return (
     <section className="py-14 sm:py-20 relative overflow-hidden">
@@ -131,14 +139,14 @@ const MonthlyTopStudents = () => {
               {ORDER_DESKTOP.map((idx) => {
                 const s = students[idx];
                 if (!s) return <div key={idx} />;
-                return <PodiumCard key={s.user_id} student={s} totalDays={totalDays} t={t} />;
+                return <PodiumCard key={s.user_id} student={s} totalDays={displayedTotalDays} t={t} />;
               })}
             </div>
 
             {/* Mobile stack */}
             <div className="md:hidden flex flex-col gap-4 max-w-md mx-auto">
               {students.map((s) => (
-                <PodiumCard key={s.user_id} student={s} totalDays={totalDays} t={t} />
+                <PodiumCard key={s.user_id} student={s} totalDays={displayedTotalDays} t={t} />
               ))}
             </div>
 
@@ -147,8 +155,8 @@ const MonthlyTopStudents = () => {
                 <CalendarClock className="w-4 h-4 text-primary" />
                 <span className="text-xs sm:text-sm font-medium text-foreground">
                   {t(
-                    `Bảng xếp hạng được chốt và cập nhật vào ngày cuối tháng (${lastDayLabel}).`,
-                    `Rankings are finalized and updated on the last day of each month (${lastDayLabel}).`
+                    `Đang hiển thị kết quả tháng ${monthLabel}. Bảng xếp hạng mới sẽ được công bố vào ngày cuối tháng hiện tại (${lastDayLabel}).`,
+                    `Showing results for ${monthLabel}. New standings will be revealed on the last day of the current month (${lastDayLabel}).`
                   )}
                 </span>
               </div>
