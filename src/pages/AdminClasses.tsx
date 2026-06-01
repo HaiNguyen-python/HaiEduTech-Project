@@ -60,7 +60,12 @@ const AdminClasses = () => {
 
   useEffect(() => { if (isTeacher) fetchAll(); }, [isTeacher]);
 
-  const countFor = (classId: string) => members.filter((m) => m.class_id === classId).length;
+  const countMap = useMemo(() => {
+    const m = new Map<string, number>();
+    members.forEach((mem) => m.set(mem.class_id, (m.get(mem.class_id) ?? 0) + 1));
+    return m;
+  }, [members]);
+  const countFor = (classId: string) => countMap.get(classId) ?? 0;
 
   const handleCreate = async () => {
     if (!name.trim()) { toast({ title: "Class name required", variant: "destructive" }); return; }
