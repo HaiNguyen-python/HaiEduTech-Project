@@ -103,6 +103,8 @@ const AdminAssignments = () => {
   const [assignments, setAssignments] = useState<Assignment[]>([]);
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [students, setStudents] = useState<StudentProfile[]>([]);
+  const [classes, setClasses] = useState<ClassOption[]>([]);
+  const [classMembers, setClassMembers] = useState<ClassMember[]>([]);
 
   const [subjectFilter, setSubjectFilter] = useState<SubjectFilter>("all");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
@@ -113,11 +115,15 @@ const AdminAssignments = () => {
 
   const fetchAll = async () => {
     setLoading(true);
-    const [{ data: aData }, { data: sData }, { data: pData }] = await Promise.all([
+    const [{ data: aData }, { data: sData }, { data: pData }, { data: cData }, { data: cmData }] = await Promise.all([
       supabase.from("assignments").select("*").order("assigned_at", { ascending: false }),
       supabase.from("student_submissions").select("*"),
       supabase.from("profiles").select("id, full_name").order("full_name"),
+      supabase.from("classes").select("id, class_name, subject_category").order("class_name"),
+      supabase.from("class_members").select("class_id, user_id"),
     ]);
+    setClasses((cData as ClassOption[]) ?? []);
+    setClassMembers((cmData as ClassMember[]) ?? []);
     setAssignments((aData as Assignment[]) ?? []);
     setSubmissions((sData as Submission[]) ?? []);
     // Dedupe students by id, then by normalized display name so duplicate
