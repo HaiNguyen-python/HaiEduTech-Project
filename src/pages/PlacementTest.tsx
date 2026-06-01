@@ -158,7 +158,7 @@ const PlacementTest = () => {
       };
       const essays: Record<number, string> = {};
 
-      for (const item of PLACEMENT_TEST) {
+      for (const item of bank) {
         const ans = answers[item.id];
         totals[item.skill].total += 1;
         let correct = false;
