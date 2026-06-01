@@ -6,7 +6,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import chatbotIcon from "@/assets/chatbot-icon.png";
+// chatbot launcher icon now comes from the user-selectable pet skin (see usePetIdentity)
 import { useStudyPet } from "@/hooks/useStudyPet";
 import StudyPetAvatar from "@/components/StudyPetAvatar";
 import { usePetIdentity, PET_SKINS } from "@/hooks/usePetIdentity";
