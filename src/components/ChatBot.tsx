@@ -514,7 +514,7 @@ const ChatBot = () => {
       clearInterval(interval);
       clearTimeout(initial);
     };
-  }, [open, lang]);
+  }, [open, lang, pet.mood, pet.level]);
 
   /**
    * Check if the user has 3+ warnings in the last 24 hours → lock chat for 1 hour.
