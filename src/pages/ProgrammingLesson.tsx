@@ -673,7 +673,7 @@ const ProgrammingLessonPage = () => {
                     </div>
                     <div className="space-y-5">
                       {lesson.quiz.map((q, qi) => {
-                        const en = lang === "en" ? (edtechQuizEn[q.question] ?? nlpQuizEn[q.question]) : undefined;
+                        const en = lang === "en" ? (edtechQuizEn[q.question] ?? nlpQuizEn[q.question] ?? programmingQuizExtraEn[q.question]) : undefined;
                         const questionText = en?.q ?? q.question;
                         const optionTexts = en?.opts ?? q.options;
                         const explanationText = en?.exp ?? q.explanation;
