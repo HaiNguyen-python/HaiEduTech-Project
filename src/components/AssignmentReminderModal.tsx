@@ -110,7 +110,7 @@ const AssignmentReminderModal = () => {
     };
 
     load();
-  }, [user, role, roleLoading]);
+  }, [user, isAdmin, isTeacher, roleLoading]);
 
   const close = () => setOpen(false);
 
