@@ -46,6 +46,14 @@ const speak = (text: string, lang?: string) => {
 const FRAME =
   "bg-white border border-slate-200 rounded-2xl shadow-[0_1px_2px_rgba(15,23,42,0.04)]";
 
+/** Section pill labels for the Programming bank's 4 technical blocks. */
+const DOMAIN_LABEL: Record<"logic" | "python" | "sql" | "ai", string> = {
+  logic: "Logic",
+  python: "Python",
+  sql: "SQL",
+  ai: "Data & AI",
+};
+
 /** Tiny SVG waveform stand-in for B1-B2 listening audio. */
 const Waveform = ({ playing }: { playing: boolean }) => (
   <div className="flex items-end gap-[3px] h-10">
