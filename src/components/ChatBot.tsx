@@ -996,15 +996,10 @@ const ChatBot = () => {
                 if (tooltipTimerRef.current) clearTimeout(tooltipTimerRef.current);
                 tooltipTimerRef.current = setTimeout(() => setShowTooltip(false), 5000);
               }}
-              className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border-2 border-primary-foreground/20 bg-primary shadow-2xl transition-all hover:brightness-110 sm:h-16 sm:w-16"
-              title="Chat with Teacher Hai"
+              className="flex h-14 w-14 items-center justify-center overflow-visible rounded-full border-2 border-primary-foreground/20 bg-white shadow-2xl transition-all hover:brightness-110 sm:h-16 sm:w-16"
+              title={`AI Study Pet · LV ${pet.level}`}
             >
-              <img
-                src={chatbotIcon}
-                alt="Thầy Hải"
-                className="h-12 w-12 object-cover sm:h-14 sm:w-14"
-                style={{ transformOrigin: "50% 75%", animation: "wave-hand 12s ease-in-out infinite" }}
-              />
+              <StudyPetAvatar pet={pet} size={isMobile ? 52 : 60} />
             </motion.button>
           </div>
         )}
