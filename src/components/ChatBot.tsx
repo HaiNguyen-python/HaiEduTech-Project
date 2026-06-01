@@ -300,6 +300,24 @@ const ChatBot = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // Hydrate the saved chat transcript once it arrives from the server
+  useEffect(() => {
+    if (hydratedRef.current) return;
+    if (chatHistory.initial && chatHistory.initial.length > 0) {
+      setMessages(chatHistory.initial);
+      hydratedRef.current = true;
+    } else if (chatHistory.initial && chatHistory.initial.length === 0) {
+      hydratedRef.current = true;
+    }
+  }, [chatHistory.initial]);
+
+  // Persist transcript whenever it changes (debounced inside the hook)
+  useEffect(() => {
+    if (!hydratedRef.current) return;
+    if (messages.length === 0) return;
+    chatHistory.persist(messages);
+  }, [messages, chatHistory]);
+
   // Check lockout status on mount
   useEffect(() => {
     checkLockout();
