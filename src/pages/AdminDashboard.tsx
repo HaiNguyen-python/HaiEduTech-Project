@@ -523,6 +523,13 @@ const AdminDashboard = () => {
                 >
                   <Users className="w-4 h-4" /> {t("Quản lý Lớp học", "Class Management")}
                 </button>
+                {/* Direct link to Placement Test diagnostic results */}
+                <button
+                  onClick={() => navigate("/admin/placement-test-results")}
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-semibold transition-all text-foreground/70 hover:bg-secondary hover:text-foreground"
+                >
+                  <ClipboardList className="w-4 h-4" /> {t("Kết quả Test đầu vào", "Placement Results")}
+                </button>
               </div>
 
               {/* Sub-tabs (filtered by group) */}
