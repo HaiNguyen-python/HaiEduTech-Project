@@ -17,6 +17,7 @@ interface Props {
   size?: number;        // px, the visual diameter of the pet
   className?: string;
   showMoodBadge?: boolean;
+  skinSrc?: string;     // optional override for the pet skin
 }
 
 const stageRing: Record<PetStage, string> = {
