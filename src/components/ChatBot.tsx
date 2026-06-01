@@ -10,6 +10,7 @@ import remarkGfm from "remark-gfm";
 import { useStudyPet } from "@/hooks/useStudyPet";
 import StudyPetAvatar from "@/components/StudyPetAvatar";
 import { usePetIdentity, PET_SKINS } from "@/hooks/usePetIdentity";
+import { useChatHistory } from "@/hooks/useChatHistory";
 
 // Chat-tuned markdown components: lock typography to a uniform ~14px rhythm
 // so headings, code, and lists never blow up inside the narrow chat bubble.
