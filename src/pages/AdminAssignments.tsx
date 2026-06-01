@@ -355,6 +355,8 @@ const AdminAssignments = () => {
         open={createOpen}
         onOpenChange={setCreateOpen}
         students={students}
+        classes={classes}
+        classMembers={classMembers}
         teacherId={user.id}
         onCreated={() => {
           setCreateOpen(false);
