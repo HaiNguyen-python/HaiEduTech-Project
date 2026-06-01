@@ -58,7 +58,7 @@ const AssignmentReminderModal = () => {
   useEffect(() => {
     if (roleLoading || !user) return;
     // Skip for admin/teacher
-    if (role === "admin" || role === "teacher") return;
+    if (isAdmin || isTeacher) return;
 
     const today = new Date().toISOString().slice(0, 10);
     const seenKey = `assignment_reminder_seen_${user.id}_${today}`;
