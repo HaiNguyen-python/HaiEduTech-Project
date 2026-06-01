@@ -400,6 +400,7 @@ const App = () => (
             <SessionTracker />
             <PageViewTracker />
             <LessonFeedback />
+            <AssignmentReminderModal />
           </DeferredMount>
 
         </BrowserRouter>
