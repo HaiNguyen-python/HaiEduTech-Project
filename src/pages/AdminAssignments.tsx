@@ -98,6 +98,7 @@ function AccuracyRing({ value }: { value: number | null }) {
 const AdminAssignments = () => {
   const { user, isTeacher, loading: roleLoading } = useUserRole();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
   const [assignments, setAssignments] = useState<Assignment[]>([]);
@@ -113,12 +114,13 @@ const AdminAssignments = () => {
   const [createOpen, setCreateOpen] = useState(false);
   const [detailRow, setDetailRow] = useState<AssignmentRow | null>(null);
 
-  const fetchAll = async () => {
+  const fetchAll = useCallback(async () => {
     setLoading(true);
+    // Bounded queries keep the admin dashboard snappy under heavy data.
     const [{ data: aData }, { data: sData }, { data: pData }, { data: cData }, { data: cmData }] = await Promise.all([
-      supabase.from("assignments").select("*").order("assigned_at", { ascending: false }),
-      supabase.from("student_submissions").select("*"),
-      supabase.from("profiles").select("id, full_name").order("full_name"),
+      supabase.from("assignments").select("*").order("assigned_at", { ascending: false }).limit(200),
+      supabase.from("student_submissions").select("*").order("updated_at", { ascending: false }).limit(2000),
+      supabase.from("profiles").select("id, full_name").order("full_name").limit(1000),
       supabase.from("classes").select("id, class_name, subject_category").order("class_name"),
       supabase.from("class_members").select("class_id, user_id"),
     ]);
