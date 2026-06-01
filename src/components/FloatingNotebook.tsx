@@ -452,7 +452,7 @@ const FloatingNotebook = () => {
                 <button onClick={handleNew} className="p-1.5 rounded-md hover:bg-black/10" title="Tạo mới" style={{ color: theme.text }}>
                   <Plus size={16} />
                 </button>
-                <button onClick={() => setOpen(false)} className="p-1.5 rounded-md hover:bg-black/10" style={{ color: theme.text }}>
+                <button onClick={handleClosePanel} className="p-1.5 rounded-md hover:bg-black/10" style={{ color: theme.text }}>
                   <X size={16} />
                 </button>
               </div>
