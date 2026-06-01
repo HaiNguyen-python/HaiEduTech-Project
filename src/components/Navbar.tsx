@@ -146,6 +146,7 @@ const Navbar = () => {
   ];
   const chineseSubs: SubItem[] = [
     { to: "/chinese", label: t("📚 Tổng quan", "📚 Overview") },
+    { to: "/placement-test?subject=chinese", label: t("📝 Bài Test Trình độ Tiếng Trung", "📝 Chinese Placement Test"), icon: ClipboardCheck },
     { to: "#cn-div1", label: "", divider: true },
     { to: "#cn-hsk-group", label: t("🎓 Lộ trình HSK", "🎓 HSK Program"), groupLabel: "cn-hsk", children: [
       { to: "/chinese/hsk-guide", label: t("🎓 HSK Exam Guide", "🎓 HSK Exam Guide") },
