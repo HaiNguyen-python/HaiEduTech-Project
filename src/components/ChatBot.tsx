@@ -7,6 +7,8 @@ import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import chatbotIcon from "@/assets/chatbot-icon.png";
+import { useStudyPet } from "@/hooks/useStudyPet";
+import StudyPetAvatar from "@/components/StudyPetAvatar";
 
 // Chat-tuned markdown components: lock typography to a uniform ~14px rhythm
 // so headings, code, and lists never blow up inside the narrow chat bubble.
