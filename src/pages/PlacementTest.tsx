@@ -128,11 +128,12 @@ const PlacementTest = () => {
   const [done, setDone] = useState<null | { total: number; cefr: string }>(null);
   const startedAtRef = useRef(Date.now());
 
-  // Reset progress whenever the subject query parameter changes.
+  // Reset progress and switch TTS locale whenever the subject changes.
   useEffect(() => {
+    CURRENT_SPEAK_LANG = meta.speakLang;
     setIdx(0); setAnswers({}); setAudioBlobs({}); setDone(null);
     startedAtRef.current = Date.now();
-  }, [subject]);
+  }, [subject, meta.speakLang]);
 
   const q = bank[idx];
   const pct = Math.round(((idx + 1) / bank.length) * 100);
