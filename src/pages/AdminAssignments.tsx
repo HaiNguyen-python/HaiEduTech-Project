@@ -40,6 +40,7 @@ import {
   type Submission,
   type Assignment,
 } from "@/lib/assignmentMetrics";
+import { ASSIGNMENT_LESSON_CATALOG } from "@/lib/assignmentLessonCatalog";
 
 type StatusFilter = "all" | "in_progress" | "completed" | "overdue";
 type SubjectFilter = "all" | keyof typeof SUBJECT_LABELS;
