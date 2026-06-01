@@ -107,6 +107,8 @@ const ThptEssentialReview = lazy(() => import("./pages/ThptEssentialReview.tsx")
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard.tsx"));
 const AdminAssignments = lazy(() => import("./pages/AdminAssignments.tsx"));
 const AdminClasses = lazy(() => import("./pages/AdminClasses.tsx"));
+const AdminPlacementResults = lazy(() => import("./pages/AdminPlacementResults.tsx"));
+const PlacementTest = lazy(() => import("./pages/PlacementTest.tsx"));
 const LanguageLessonView = lazy(() => import("./pages/LanguageLessonView.tsx"));
 const ConversationalDashboard = lazy(() => import("./pages/ConversationalDashboard.tsx"));
 const ConversationalLessonView = lazy(() => import("./pages/ConversationalLessonView.tsx"));
