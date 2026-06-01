@@ -78,7 +78,11 @@ const FloatingNotebook = () => {
   const [showHighlightPicker, setShowHighlightPicker] = useState(false);
   const [showThemePicker, setShowThemePicker] = useState(false);
   const [themeIndex, setThemeIndex] = useState(0);
-  
+  // Reactive tick so the auto-save effect actually runs when the user types.
+  // (editor.getHTML() is NOT a React state — without this bump, the effect
+  // would never re-fire and the note silently never auto-saves.)
+  const [editorTick, setEditorTick] = useState(0);
+
   const theme = NOTEBOOK_THEMES[themeIndex];
   const autoSaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { toast } = useToast();
@@ -95,7 +99,7 @@ const FloatingNotebook = () => {
   // Resizable state
   const resizing = useRef<null | "right" | "bottom" | "corner">(null);
 
-  // Tiptap editor
+  // Tiptap editor — onUpdate triggers a React re-render so auto-save fires.
   const editor = useEditor({
     extensions: [StarterKit, UnderlineExtension, TextStyle, Color, Highlight.configure({ multicolor: true })],
     content: "",
@@ -104,6 +108,7 @@ const FloatingNotebook = () => {
         class: "prose prose-sm max-w-none focus:outline-none min-h-[280px] px-3 py-2 text-sm text-foreground notebook-editor",
       },
     },
+    onUpdate: () => setEditorTick((t) => t + 1),
   });
 
   useEffect(() => {
