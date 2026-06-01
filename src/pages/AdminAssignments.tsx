@@ -40,6 +40,7 @@ import {
   type Submission,
   type Assignment,
 } from "@/lib/assignmentMetrics";
+import { ASSIGNMENT_LESSON_CATALOG } from "@/lib/assignmentLessonCatalog";
 
 type StatusFilter = "all" | "in_progress" | "completed" | "overdue";
 type SubjectFilter = "all" | keyof typeof SUBJECT_LABELS;
@@ -455,19 +456,20 @@ function CreateAssignmentDialog({ open, onOpenChange, students, teacherId, onCre
         </DialogHeader>
 
         <div className="space-y-4">
-          <div>
-            <Label>Test name</Label>
-            <Input
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="e.g., PET - Speaking - Challenge 6"
-            />
-          </div>
-
+          {/* Subject first — drives lesson catalog below */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <Label>Subject</Label>
-              <Select value={subject} onValueChange={setSubject}>
+              <Select
+                value={subject}
+                onValueChange={(v) => {
+                  setSubject(v);
+                  // Reset lesson-dependent fields when subject changes
+                  setTitle("");
+                  setSourceRef("");
+                  setLevel("");
+                }}
+              >
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
                   {Object.entries(SUBJECT_LABELS).map(([v, label]) => (
@@ -480,6 +482,47 @@ function CreateAssignmentDialog({ open, onOpenChange, students, teacherId, onCre
               <Label>Level (optional)</Label>
               <Input value={level} onChange={(e) => setLevel(e.target.value)} placeholder="A2, B1, HSK3..." />
             </div>
+          </div>
+
+          {/* Lesson picker — searchable dropdown seeded from the platform catalog */}
+          <div>
+            <Label>Test name (chọn từ thư viện bài học)</Label>
+            <Select
+              value={
+                (ASSIGNMENT_LESSON_CATALOG[subject] ?? []).find((l) => l.title === title)?.id ?? ""
+              }
+              onValueChange={(lessonId) => {
+                const lesson = (ASSIGNMENT_LESSON_CATALOG[subject] ?? []).find((l) => l.id === lessonId);
+                if (lesson) {
+                  setTitle(lesson.title);
+                  setSourceRef(lesson.route);
+                  if (lesson.level) setLevel(lesson.level);
+                }
+              }}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select an existing lesson..." />
+              </SelectTrigger>
+              <SelectContent className="max-h-72">
+                {(ASSIGNMENT_LESSON_CATALOG[subject] ?? []).length === 0 ? (
+                  <div className="px-3 py-2 text-sm text-slate-400">
+                    No lessons cataloged for this subject.
+                  </div>
+                ) : (
+                  (ASSIGNMENT_LESSON_CATALOG[subject] ?? []).map((lesson) => (
+                    <SelectItem key={lesson.id} value={lesson.id}>
+                      {lesson.title}
+                    </SelectItem>
+                  ))
+                )}
+              </SelectContent>
+            </Select>
+            <Input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Or type a custom test name"
+              className="mt-2"
+            />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -495,10 +538,15 @@ function CreateAssignmentDialog({ open, onOpenChange, students, teacherId, onCre
               </Select>
             </div>
             <div>
-              <Label>Source ref / link (optional)</Label>
-              <Input value={sourceRef} onChange={(e) => setSourceRef(e.target.value)} placeholder="/ielts/speaking/..." />
+              <Label>Source ref / link (auto-filled)</Label>
+              <Input
+                value={sourceRef}
+                onChange={(e) => setSourceRef(e.target.value)}
+                placeholder="/ielts/speaking/..."
+              />
             </div>
           </div>
+
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
