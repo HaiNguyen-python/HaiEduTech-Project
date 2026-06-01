@@ -389,11 +389,13 @@ interface CreateProps {
   open: boolean;
   onOpenChange: (v: boolean) => void;
   students: StudentProfile[];
+  classes: ClassOption[];
+  classMembers: ClassMember[];
   teacherId: string;
   onCreated: () => void;
 }
 
-function CreateAssignmentDialog({ open, onOpenChange, students, teacherId, onCreated }: CreateProps) {
+function CreateAssignmentDialog({ open, onOpenChange, students, classes, classMembers, teacherId, onCreated }: CreateProps) {
   const { toast } = useToast();
   const [submitting, setSubmitting] = useState(false);
   const [title, setTitle] = useState("");
@@ -402,7 +404,7 @@ function CreateAssignmentDialog({ open, onOpenChange, students, teacherId, onCre
   const [type, setType] = useState("platform_exercise");
   const [sourceRef, setSourceRef] = useState("");
   const [deadline, setDeadline] = useState("");
-  const [targetClass, setTargetClass] = useState("");
+  const [targetClassId, setTargetClassId] = useState<string>("none");
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [studentQuery, setStudentQuery] = useState("");
 
@@ -411,6 +413,15 @@ function CreateAssignmentDialog({ open, onOpenChange, students, teacherId, onCre
     if (next.has(id)) next.delete(id);
     else next.add(id);
     setSelected(next);
+  };
+
+  // When a class is selected, auto-fill the student picker with its members.
+  // Teacher can still add/remove individual students afterwards.
+  const handleClassChange = (classId: string) => {
+    setTargetClassId(classId);
+    if (classId === "none") return;
+    const memberIds = classMembers.filter((m) => m.class_id === classId).map((m) => m.user_id);
+    setSelected(new Set(memberIds));
   };
 
   const filteredStudents = useMemo(() => {
@@ -426,7 +437,7 @@ function CreateAssignmentDialog({ open, onOpenChange, students, teacherId, onCre
     setType("platform_exercise");
     setSourceRef("");
     setDeadline("");
-    setTargetClass("");
+    setTargetClassId("none");
     setSelected(new Set());
     setStudentQuery("");
   };
@@ -442,6 +453,7 @@ function CreateAssignmentDialog({ open, onOpenChange, students, teacherId, onCre
     }
     setSubmitting(true);
     const target_student_ids = Array.from(selected);
+    const selectedClass = classes.find((c) => c.id === targetClassId);
 
     const { data: created, error } = await supabase
       .from("assignments")
@@ -453,7 +465,7 @@ function CreateAssignmentDialog({ open, onOpenChange, students, teacherId, onCre
         source_ref: sourceRef || null,
         teacher_id: teacherId,
         teacher_name: "Teacher Hai",
-        target_class: targetClass || null,
+        target_class: selectedClass?.class_name ?? null,
         target_student_ids,
         deadline: deadline ? new Date(deadline).toISOString() : null,
       })
@@ -473,6 +485,20 @@ function CreateAssignmentDialog({ open, onOpenChange, students, teacherId, onCre
       status: "assigned" as const,
     }));
     await supabase.from("student_submissions").insert(rows);
+
+    // Emit a real-time notification to each targeted student
+    const deadlineText = deadline
+      ? new Date(deadline).toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" })
+      : "không có";
+    const notifBody = `🔔 Bài tập mới! Teacher Hai Nguyen vừa giao bài: ${title.trim()}. Hạn chót: ${deadlineText}.`;
+    const notifRows = target_student_ids.map((uid) => ({
+      user_id: uid,
+      assignment_id: created.id,
+      title: title.trim(),
+      body: notifBody,
+      route: sourceRef || null,
+    }));
+    await supabase.from("assignment_notifications").insert(notifRows);
 
     setSubmitting(false);
     reset();
