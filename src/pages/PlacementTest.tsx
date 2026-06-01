@@ -354,7 +354,7 @@ const PlacementTest = () => {
           <Button variant="outline" onClick={goPrev} disabled={idx === 0}>
             <ArrowLeft className="w-4 h-4 mr-1" /> Previous
           </Button>
-          {idx < PLACEMENT_TEST.length - 1 ? (
+          {idx < bank.length - 1 ? (
             <Button onClick={goNext}>
               Next <ArrowRight className="w-4 h-4 ml-1" />
             </Button>
