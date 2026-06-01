@@ -47,6 +47,7 @@ import ClassScheduleManager from "@/components/admin/ClassScheduleManager";
 import BusinessStrategyTab from "@/components/admin/BusinessStrategyTab";
 import UserInsightsTab from "@/components/admin/UserInsightsTab";
 import FeedbackAnalyticsTab from "@/components/admin/FeedbackAnalyticsTab";
+import ChatbotConversationsReview from "@/components/admin/ChatbotConversationsReview";
 import AttendanceAnalyticsTab from "@/components/admin/AttendanceAnalyticsTab";
 
 // Priority colors
