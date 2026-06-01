@@ -262,8 +262,9 @@ function postProcessSvg(svg: string): string {
       //    don't look like postage stamps next to dense theory text.
       //  - Huge diagrams (>1100px) keep their natural width but become horizontally
       //    scrollable rather than shrinking until labels are unreadable.
-      const MIN_TARGET = 520;
-      const MAX_TARGET = 1100;
+      // Bigger minimum so labels stay legible without zooming.
+      const MIN_TARGET = 760;
+      const MAX_TARGET = 1280;
       const targetW = Math.min(MAX_TARGET, Math.max(MIN_TARGET, naturalW));
       const existingStyle = root.getAttribute("style") || "";
       root.setAttribute(
