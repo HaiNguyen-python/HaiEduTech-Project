@@ -46,7 +46,7 @@ const Task1Chart: React.FC<Task1ChartProps> = ({ config }) => {
     switch (chart_type) {
       case "line":
         return (
-          <ResponsiveContainer width="100%" height={280}>
+          <ResponsiveContainer width="100%" height={360}>
             <LineChart data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
               <XAxis dataKey={x_axis} tick={{ fontSize: 11 }} stroke="hsl(var(--muted-foreground))" />
@@ -62,7 +62,7 @@ const Task1Chart: React.FC<Task1ChartProps> = ({ config }) => {
 
       case "bar":
         return (
-          <ResponsiveContainer width="100%" height={280}>
+          <ResponsiveContainer width="100%" height={360}>
             <BarChart data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
               <XAxis dataKey={x_axis} tick={{ fontSize: 11 }} stroke="hsl(var(--muted-foreground))" />
@@ -78,7 +78,7 @@ const Task1Chart: React.FC<Task1ChartProps> = ({ config }) => {
 
       case "pie":
         return (
-          <ResponsiveContainer width="100%" height={280}>
+          <ResponsiveContainer width="100%" height={360}>
             <PieChart>
               <Pie
                 data={data}
@@ -103,7 +103,7 @@ const Task1Chart: React.FC<Task1ChartProps> = ({ config }) => {
 
       case "area":
         return (
-          <ResponsiveContainer width="100%" height={280}>
+          <ResponsiveContainer width="100%" height={360}>
             <AreaChart data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
               <XAxis dataKey={x_axis} tick={{ fontSize: 11 }} stroke="hsl(var(--muted-foreground))" />
