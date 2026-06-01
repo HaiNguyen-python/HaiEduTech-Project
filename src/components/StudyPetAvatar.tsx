@@ -55,7 +55,7 @@ const MoodBadge = ({ mood }: { mood: StudyPetState["mood"] }) => {
   );
 };
 
-const StudyPetAvatar = ({ pet, size = 56, className, showMoodBadge = true }: Props) => {
+const StudyPetAvatar = ({ pet, size = 56, className, showMoodBadge = true, skinSrc }: Props) => {
   const isMaster = pet.stage === "master";
   const isApprentice = pet.stage === "apprentice";
 
