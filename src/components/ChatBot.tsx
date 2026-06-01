@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence, useDragControls, useMotionValue, animate } from "framer-motion";
-import { X, Send, Loader2, Mic, MicOff, AlertTriangle, Paperclip, FileText, Image as ImageIcon, Mail, CheckCircle2, Maximize2, Minimize2, GripVertical } from "lucide-react";
+import { X, Send, Loader2, Mic, MicOff, AlertTriangle, Paperclip, FileText, Image as ImageIcon, Mail, CheckCircle2, Maximize2, Minimize2, GripVertical, Info, Sparkles, BookOpenCheck, Flame, Star } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { supabase } from "@/integrations/supabase/client";
@@ -224,7 +224,8 @@ const ChatBot = () => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
-  const [tooltipText, setTooltipText] = useState<string>("Hi! I'm Mr.Hai. Ask me something? 😊");
+  const [tooltipText, setTooltipText] = useState<string>("Hi! Tap to chat with your AI Pet 🐾");
+  const [showPetInfo, setShowPetInfo] = useState(false);
   const [shake, setShake] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [profanityWarning, setProfanityWarning] = useState(false);
@@ -1042,10 +1043,13 @@ const ChatBot = () => {
                   <h3 className="text-sm font-bold text-foreground truncate leading-tight">
                     {studentName
                       ? t(`👋 Chào ${studentName}!`, `👋 Hi ${studentName}!`)
-                      : "👋 Hello, I'm Mr. Hai!"}
+                      : t("🐾 Pet AI của bạn", "🐾 Your AI Study Pet")}
                   </h3>
                   <span className="shrink-0 rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-primary">
                     LV.{pet.level}
+                  </span>
+                  <span className="shrink-0 rounded-md bg-amber-100 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-700">
+                    {pet.stage === "master" ? t("Bậc thầy", "Master") : pet.stage === "apprentice" ? t("Học việc", "Apprentice") : t("Sơ sinh", "Baby")}
                   </span>
                 </div>
                 {/* EXP progress bar — mirrors the actual pet_exp value */}
@@ -1063,6 +1067,15 @@ const ChatBot = () => {
                   </span>
                 </div>
               </div>
+              <button
+                onClick={() => setShowPetInfo((v) => !v)}
+                onPointerDown={(e) => e.stopPropagation()}
+                className="rounded-lg p-1.5 transition-colors hover:bg-secondary shrink-0"
+                title={t("Cách lên cấp Pet", "How to level up your Pet")}
+                aria-label="Pet info"
+              >
+                <Info className="h-4 w-4 text-primary" />
+              </button>
               <button
                 onClick={openAskTeacher}
                 onPointerDown={(e) => e.stopPropagation()}
@@ -1090,6 +1103,50 @@ const ChatBot = () => {
                 <X className="h-5 w-5 text-muted-foreground" />
               </button>
             </div>
+
+            {/* Pet Info Panel — explains how the pet evolves */}
+            {showPetInfo && (
+              <div className="border-b border-border bg-gradient-to-br from-sky-50 via-white to-emerald-50 px-4 py-3 text-xs text-foreground">
+                <div className="mb-2 flex items-center gap-1.5 font-semibold text-primary">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  {t("Cách Pet AI lên cấp", "How your AI Pet levels up")}
+                </div>
+                <ul className="space-y-1.5 leading-relaxed">
+                  <li className="flex gap-2">
+                    <Star className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-500" />
+                    <span>{t("Hoàn thành bài học AI Academy & Lập trình để cộng EXP cho Pet.", "Finish AI Academy & Programming lessons to earn EXP for your Pet.")}</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <BookOpenCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" />
+                    <span>{t("Ôn từ vựng định kỳ (Spaced Repetition) để giữ Pet vui và khỏe.", "Review vocabulary regularly (Spaced Repetition) to keep your Pet happy.")}</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <Flame className="mt-0.5 h-3.5 w-3.5 shrink-0 text-orange-500" />
+                    <span>{t("Pet đói nếu bạn bỏ ôn quá 14 ngày — hãy quay lại Góc Ôn Tập!", "Pet gets hungry if you skip reviews for 14+ days — visit the Review Hub!")}</span>
+                  </li>
+                </ul>
+                <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+                  <div className={`rounded-lg border px-2 py-1.5 ${pet.stage === "baby" ? "border-sky-400 bg-sky-100 font-semibold text-sky-800" : "border-border bg-white text-muted-foreground"}`}>
+                    🐣 {t("Sơ sinh", "Baby")}<div className="text-[10px] font-normal">LV 1–5</div>
+                  </div>
+                  <div className={`rounded-lg border px-2 py-1.5 ${pet.stage === "apprentice" ? "border-cyan-400 bg-cyan-100 font-semibold text-cyan-800" : "border-border bg-white text-muted-foreground"}`}>
+                    🤖 {t("Học việc", "Apprentice")}<div className="text-[10px] font-normal">LV 6–15</div>
+                  </div>
+                  <div className={`rounded-lg border px-2 py-1.5 ${pet.stage === "master" ? "border-fuchsia-400 bg-fuchsia-100 font-semibold text-fuchsia-800" : "border-border bg-white text-muted-foreground"}`}>
+                    👑 {t("Bậc thầy", "Master")}<div className="text-[10px] font-normal">LV 16+</div>
+                  </div>
+                </div>
+                <div className="mt-2 flex items-center justify-between rounded-md bg-white/70 px-2 py-1.5 text-[11px]">
+                  <span className="text-muted-foreground">{t("Hạnh phúc", "Happiness")}</span>
+                  <span className="font-semibold text-foreground">{pet.happiness}/100</span>
+                  <span className="text-muted-foreground">·</span>
+                  <span className="text-muted-foreground">{t("Cần ôn", "To review")}</span>
+                  <span className="font-semibold text-orange-600">{pet.overdueReviews}</span>
+                </div>
+              </div>
+            )}
+
+
 
 
 
