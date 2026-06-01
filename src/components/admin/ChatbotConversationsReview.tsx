@@ -50,9 +50,9 @@ const ChatbotConversationsReview = () => {
     if (ids.length) {
       const { data: profs } = await supabase
         .from("profiles")
-        .select("id, full_name, email")
+        .select("id, full_name")
         .in("id", ids);
-      profiles = Object.fromEntries((profs || []).map((p: any) => [p.id, p]));
+      profiles = Object.fromEntries((profs || []).map((p: any) => [p.id, { full_name: p.full_name }]));
     }
     setRows(
       conversations.map((c) => ({
