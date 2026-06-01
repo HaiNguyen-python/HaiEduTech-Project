@@ -18,10 +18,11 @@ import { nlpProductionModules } from "./nlpProduction";
 import { nlpAdvancedModules } from "./nlpAdvanced";
 import { edtechAdvancedModules } from "./edtechAdvanced";
 import { edtechGlobalResearchModules } from "./edtechGlobalResearch";
+import { programmingInteractiveLabsModules } from "./programmingInteractiveLabs";
 import type { ExtendedProgrammingModule, ExtendedProgrammingLesson, TestCase } from "./types";
 
 export type { ExtendedProgrammingModule, ExtendedProgrammingLesson, TestCase };
-export { sqlModules, aiFoundationModules, dataEngModules, mlModules, programmingExpansionModules, cloudModules, cloudExpansionModules, dlModules, nlpModules, nlpExpansionModules, nlpProductionModules, nlpAdvancedModules, rlModules, softwareEngModules, webDevModules, edtechModules, edtechExpansionModules, edtechAdvancedModules, edtechGlobalResearchModules };
+export { sqlModules, aiFoundationModules, dataEngModules, mlModules, programmingExpansionModules, cloudModules, cloudExpansionModules, dlModules, nlpModules, nlpExpansionModules, nlpProductionModules, nlpAdvancedModules, rlModules, softwareEngModules, webDevModules, edtechModules, edtechExpansionModules, edtechAdvancedModules, edtechGlobalResearchModules, programmingInteractiveLabsModules };
 
 // Combined expanded modules array
 export const expandedModules: ExtendedProgrammingModule[] = [
@@ -44,4 +45,5 @@ export const expandedModules: ExtendedProgrammingModule[] = [
   ...edtechExpansionModules,
   ...edtechAdvancedModules,
   ...edtechGlobalResearchModules,
+  ...programmingInteractiveLabsModules,
 ];
