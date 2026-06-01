@@ -19,6 +19,7 @@ import LearningRecommendation from "@/components/LearningRecommendation";
 import { expandedModules as curriculumExpandedModules } from "@/data/curriculum";
 import { edtechQuizEn } from "@/data/curriculum/edtechQuizI18n";
 import { nlpQuizEn } from "@/data/curriculum/nlpQuizI18n";
+import { programmingQuizExtraEn } from "@/data/curriculum/programmingQuizExtraI18n";
 import { supabase } from "@/integrations/supabase/client";
 import { Progress } from "@/components/ui/progress";
 import SqlEditor from "@/components/SqlEditor";
