@@ -1516,6 +1516,66 @@ export type Database = {
         }
         Relationships: []
       }
+      placement_test_results: {
+        Row: {
+          answers: Json
+          assigned_class: string | null
+          audio_urls: Json
+          cefr_band: string | null
+          created_at: string
+          duration_seconds: number | null
+          essays: Json
+          id: string
+          listening_score: number
+          reading_score: number
+          speaking_score: number
+          status: string
+          student_name: string | null
+          total_score: number
+          updated_at: string
+          user_id: string
+          writing_score: number
+        }
+        Insert: {
+          answers?: Json
+          assigned_class?: string | null
+          audio_urls?: Json
+          cefr_band?: string | null
+          created_at?: string
+          duration_seconds?: number | null
+          essays?: Json
+          id?: string
+          listening_score?: number
+          reading_score?: number
+          speaking_score?: number
+          status?: string
+          student_name?: string | null
+          total_score?: number
+          updated_at?: string
+          user_id: string
+          writing_score?: number
+        }
+        Update: {
+          answers?: Json
+          assigned_class?: string | null
+          audio_urls?: Json
+          cefr_band?: string | null
+          created_at?: string
+          duration_seconds?: number | null
+          essays?: Json
+          id?: string
+          listening_score?: number
+          reading_score?: number
+          speaking_score?: number
+          status?: string
+          student_name?: string | null
+          total_score?: number
+          updated_at?: string
+          user_id?: string
+          writing_score?: number
+        }
+        Relationships: []
+      }
       player_badges: {
         Row: {
           badge_icon: string
