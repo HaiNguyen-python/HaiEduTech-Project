@@ -109,7 +109,20 @@ const AdminAssignments = () => {
     ]);
     setAssignments((aData as Assignment[]) ?? []);
     setSubmissions((sData as Submission[]) ?? []);
-    setStudents((pData as StudentProfile[]) ?? []);
+    // Dedupe students by id, then by normalized display name so duplicate
+    // profiles (same person registered twice) don't appear in the picker.
+    const rawProfiles = (pData as StudentProfile[]) ?? [];
+    const byId = new Map<string, StudentProfile>();
+    rawProfiles.forEach((p) => { if (!byId.has(p.id)) byId.set(p.id, p); });
+    const seenNames = new Set<string>();
+    const uniqueStudents: StudentProfile[] = [];
+    Array.from(byId.values()).forEach((p) => {
+      const key = (p.full_name ?? "").trim().toLowerCase();
+      if (key && seenNames.has(key)) return; // skip duplicate display name
+      if (key) seenNames.add(key);
+      uniqueStudents.push(p);
+    });
+    setStudents(uniqueStudents);
     setLoading(false);
   };
 
