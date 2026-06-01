@@ -17,6 +17,7 @@ import { edtechExpansionModules } from "./edtechExpansion";
 import { nlpProductionModules } from "./nlpProduction";
 import { nlpAdvancedModules } from "./nlpAdvanced";
 import { edtechAdvancedModules } from "./edtechAdvanced";
+import { edtechGlobalResearchModules } from "./edtechGlobalResearch";
 import type { ExtendedProgrammingModule, ExtendedProgrammingLesson, TestCase } from "./types";
 
 export type { ExtendedProgrammingModule, ExtendedProgrammingLesson, TestCase };
