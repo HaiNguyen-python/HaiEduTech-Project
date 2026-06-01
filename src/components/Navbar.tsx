@@ -120,6 +120,7 @@ const Navbar = () => {
 
   const englishSubs: SubItem[] = [
     { to: "/english", label: t("📚 Tổng quan", "📚 Overview") },
+    { to: "/placement-test?subject=english", label: t("📝 Bài Test Trình độ Tiếng Anh", "📝 English Placement Test"), icon: ClipboardCheck },
     { to: "#en-div1", label: "", divider: true },
     // Foundation (everyday English)
     { to: "#en-foundation-group", label: t("📖 Cambridge Starters -> PET", "📖 Cambridge Starters -> PET"), groupLabel: "en-foundation", children: [
