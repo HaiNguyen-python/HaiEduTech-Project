@@ -214,6 +214,7 @@ const Navbar = () => {
   ];
   const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("Tổng quan", "Overview"), icon: Compass },
+    { to: "/placement-test?subject=programming", label: t("Bài Test Trình độ Lập trình", "Programming Placement Test"), icon: ClipboardCheck },
     { to: "/programming/ai-academy", label: t("AI Academy", "AI Academy"), icon: Bot },
     { to: "#prog-foundation-group", label: t("Lộ trình Cơ bản", "Foundation Track"), icon: Blocks, groupLabel: "prog-foundation", children: [
       { to: "/programming?pillar=python-pathway", label: t("Introduction to Programming", "Introduction to Programming"), icon: Code2 },
