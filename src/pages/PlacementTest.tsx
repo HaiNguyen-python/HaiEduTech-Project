@@ -30,11 +30,14 @@ import {
 } from "@/data/placementBanks";
 import Navbar from "@/components/Navbar";
 
-/** Speak text via browser SpeechSynthesis (locale set per subject). */
-const speak = (text: string, lang = "en-US") => {
+/** Module-level current speak locale; set by the main component per subject. */
+let CURRENT_SPEAK_LANG = "en-US";
+
+/** Speak text via browser SpeechSynthesis (uses CURRENT_SPEAK_LANG by default). */
+const speak = (text: string, lang?: string) => {
   try {
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = lang; u.rate = 0.92;
+    u.lang = lang ?? CURRENT_SPEAK_LANG; u.rate = 0.92;
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(u);
   } catch { /* noop */ }
