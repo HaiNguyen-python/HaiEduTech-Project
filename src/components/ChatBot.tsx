@@ -1040,18 +1040,17 @@ const ChatBot = () => {
               title={!isMobile ? t("Kéo để di chuyển • Nhấp đúp để đưa về vị trí gốc", "Drag to move • Double-click to reset position") : undefined}
             >
               {!isMobile && <GripVertical className="h-4 w-4 text-muted-foreground/60 shrink-0" />}
-              <StudyPetAvatar pet={pet} size={36} className="shrink-0" showMoodBadge={false} />
+              <StudyPetAvatar pet={pet} size={36} className="shrink-0" showMoodBadge={false} skinSrc={petId.skin.src} />
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-1.5">
-                  <h3 className="text-sm font-bold text-foreground truncate leading-tight">
-                    {studentName
-                      ? t(`👋 Chào ${studentName}!`, `👋 Hi ${studentName}!`)
-                      : t("🐾 Pet AI của bạn", "🐾 Your AI Study Pet")}
-                  </h3>
-                  <span className="shrink-0 rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-primary">
+                {/* Pet name on its own line — never truncated by badges */}
+                <h3 className="text-sm font-bold text-foreground leading-tight truncate" title={petId.name}>
+                  🐾 {petId.name}
+                </h3>
+                <div className="mt-0.5 flex items-center gap-1 flex-wrap">
+                  <span className="rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-primary">
                     LV.{pet.level}
                   </span>
-                  <span className="shrink-0 rounded-md bg-amber-100 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-700">
+                  <span className="rounded-md bg-amber-100 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-700">
                     {pet.stage === "master" ? t("Bậc thầy", "Master") : pet.stage === "apprentice" ? t("Học việc", "Apprentice") : t("Sơ sinh", "Baby")}
                   </span>
                 </div>
