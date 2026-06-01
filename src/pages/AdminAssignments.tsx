@@ -1,8 +1,8 @@
 // Admin Assignment Management Dashboard - /admin/assignments
 // Multi-subject homework tracker for Teacher Hai.
-import { useEffect, useMemo, useState } from "react";
-import { Navigate } from "react-router-dom";
-import { Eye, Trash2, Plus, Loader2 } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
+import { ArrowLeft, Eye, Trash2, Plus, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useToast } from "@/hooks/use-toast";
