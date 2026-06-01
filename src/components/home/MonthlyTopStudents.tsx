@@ -146,7 +146,7 @@ const MonthlyTopStudents = () => {
             {/* Mobile stack */}
             <div className="md:hidden flex flex-col gap-4 max-w-md mx-auto">
               {students.map((s) => (
-                <PodiumCard key={s.user_id} student={s} totalDays={totalDays} t={t} />
+                <PodiumCard key={s.user_id} student={s} totalDays={displayedTotalDays} t={t} />
               ))}
             </div>
 
