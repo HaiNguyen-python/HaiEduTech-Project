@@ -383,6 +383,8 @@ const Navbar = () => {
               {/* Auth + Lang on branding row (desktop only) */}
               <div className="hidden lg:flex items-center gap-1.5 shrink-0">
                 {user ? (
+                  <>
+                  <NotificationBell />
                   <div ref={userMenuRef} className="relative">
                     <button
                       onClick={() => setUserMenuOpen(!userMenuOpen)}
