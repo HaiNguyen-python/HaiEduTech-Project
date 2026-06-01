@@ -509,6 +509,13 @@ const AdminDashboard = () => {
                     </button>
                   );
                 })}
+                {/* Direct link to standalone Assignment Management page */}
+                <button
+                  onClick={() => navigate("/admin/assignments")}
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-semibold transition-all text-foreground/70 hover:bg-secondary hover:text-foreground"
+                >
+                  <ClipboardList className="w-4 h-4" /> {t("Quản lý Bài tập", "Assignments")}
+                </button>
               </div>
 
               {/* Sub-tabs (filtered by group) */}
