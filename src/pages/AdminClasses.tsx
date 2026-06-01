@@ -23,6 +23,7 @@ interface ProfileRow { id: string; full_name: string | null; }
 
 const AdminClasses = () => {
   const { user, isTeacher, loading: roleLoading } = useUserRole();
+  const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
   const [classes, setClasses] = useState<ClassRow[]>([]);
