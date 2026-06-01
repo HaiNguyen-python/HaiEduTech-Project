@@ -155,8 +155,8 @@ const MonthlyTopStudents = () => {
                 <CalendarClock className="w-4 h-4 text-primary" />
                 <span className="text-xs sm:text-sm font-medium text-foreground">
                   {t(
-                    `Bảng xếp hạng được chốt và cập nhật vào ngày cuối tháng (${lastDayLabel}).`,
-                    `Rankings are finalized and updated on the last day of each month (${lastDayLabel}).`
+                    `Đang hiển thị kết quả tháng ${monthLabel}. Bảng xếp hạng mới sẽ được công bố vào ngày cuối tháng hiện tại (${lastDayLabel}).`,
+                    `Showing results for ${monthLabel}. New standings will be revealed on the last day of the current month (${lastDayLabel}).`
                   )}
                 </span>
               </div>
