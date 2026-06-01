@@ -170,6 +170,7 @@ const Navbar = () => {
   ];
   const vietnameseSubs: SubItem[] = [
     { to: "/learn-vietnamese", label: t("📚 Tổng quan", "📚 Overview") },
+    { to: "/placement-test?subject=vietnamese", label: t("📝 Bài Test Trình độ Tiếng Việt", "📝 Vietnamese Placement Test"), icon: ClipboardCheck },
     { to: "#vn-div1", label: "", divider: true },
     { to: "#vn-curriculum-group", label: t("📚 Chương trình học", "📚 Curriculum"), groupLabel: "vn-curriculum", children: [
       { to: "/learn-vietnamese?tab=language", label: t("📝 Ngữ pháp & Từ vựng", "📝 Grammar & Vocabulary") },
