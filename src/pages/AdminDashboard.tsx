@@ -547,6 +547,7 @@ const AdminDashboard = () => {
                     <TabsTrigger value="insights" className="gap-1.5"><Search className="w-3.5 h-3.5" /> {t("Quan tâm người dùng", "User Insights")}</TabsTrigger>
                     <TabsTrigger value="attendance" className="gap-1.5"><Users className="w-3.5 h-3.5" /> {t("Điểm danh", "Attendance")}</TabsTrigger>
                     <TabsTrigger value="feedback" className="gap-1.5"><Search className="w-3.5 h-3.5" /> {t("Phản hồi học viên", "Feedback")}</TabsTrigger>
+                    <TabsTrigger value="chatbot" className="gap-1.5"><Search className="w-3.5 h-3.5" /> {t("Chat AI Pet", "AI Pet Chats")}</TabsTrigger>
                   </>
                 )}
                 {tabGroup === "learning" && (
