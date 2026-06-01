@@ -46,6 +46,14 @@ const speak = (text: string, lang?: string) => {
 const FRAME =
   "bg-white border border-slate-200 rounded-2xl shadow-[0_1px_2px_rgba(15,23,42,0.04)]";
 
+/** Section pill labels for the Programming bank's 4 technical blocks. */
+const DOMAIN_LABEL: Record<"logic" | "python" | "sql" | "ai", string> = {
+  logic: "Logic",
+  python: "Python",
+  sql: "SQL",
+  ai: "Data & AI",
+};
+
 /** Tiny SVG waveform stand-in for B1-B2 listening audio. */
 const Waveform = ({ playing }: { playing: boolean }) => (
   <div className="flex items-end gap-[3px] h-10">
@@ -226,10 +234,51 @@ const PlacementTest = () => {
       const reading = skillScore("reading");
       const writing = skillScore("writing");
       const speaking = skillScore("speaking");
-      const total = Math.round(
-        (listening + reading + writing + speaking) / 4
-      );
-      const cefr = inferCefr(total);
+
+      // ── Programming-specific scoring ──────────────────────────────
+      // Aggregate raw correct counts per technical domain and derive a
+      // 0-18 raw score plus a Novice / Intermediate / Advanced band.
+      let total: number;
+      let cefr: string;
+      const techMetrics: {
+        logic_score: number; python_score: number;
+        sql_score: number; ai_score: number;
+        raw_correct: number; category: string;
+      } = { logic_score: 0, python_score: 0, sql_score: 0, ai_score: 0,
+            raw_correct: 0, category: "" };
+
+      if (subject === "programming") {
+        const perDomain: Record<"logic"|"python"|"sql"|"ai", number> =
+          { logic: 0, python: 0, sql: 0, ai: 0 };
+        let rawCorrect = 0;
+        for (const item of bank) {
+          const ans = answers[item.id];
+          let ok = false;
+          if (item.type === "read-mcq" || item.type === "read-analytical") {
+            ok = ans === item.correct;
+          } else if (item.type === "read-cloze") {
+            const a = (ans as number[] | undefined) ?? [];
+            ok = item.correct.every((c, i) => a[i] === c);
+          }
+          if (ok) {
+            rawCorrect += 1;
+            const d = item.domain ?? "logic";
+            perDomain[d] += 1;
+          }
+        }
+        techMetrics.logic_score  = perDomain.logic;
+        techMetrics.python_score = perDomain.python;
+        techMetrics.sql_score    = perDomain.sql;
+        techMetrics.ai_score     = perDomain.ai;
+        techMetrics.raw_correct  = rawCorrect;
+        techMetrics.category = rawCorrect <= 5 ? "Novice"
+          : rawCorrect <= 12 ? "Intermediate" : "Advanced";
+        total = Math.round((rawCorrect / bank.length) * 100);
+        cefr = techMetrics.category;
+      } else {
+        total = Math.round((listening + reading + writing + speaking) / 4);
+        cefr = inferCefr(total);
+      }
 
       // Upload speaking recordings to placement-audio bucket
       const audioUrls: Record<number, string> = {};
@@ -247,6 +296,13 @@ const PlacementTest = () => {
       const { data: prof } = await supabase
         .from("profiles").select("full_name").eq("id", user.id).maybeSingle();
 
+      const answersPayload: Record<string, unknown> = {
+        __subject: subject, ...answers,
+      };
+      if (subject === "programming") {
+        answersPayload.__tech_metrics = techMetrics;
+      }
+
       const { error } = await supabase.from("placement_test_results").insert({
         user_id: user.id,
         student_name: prof?.full_name ?? user.email ?? "Student",
@@ -256,7 +312,7 @@ const PlacementTest = () => {
         speaking_score: speaking,
         total_score: total,
         cefr_band: cefr,
-        answers: { __subject: subject, ...answers } as never,
+        answers: answersPayload as never,
         essays: essays as never,
         audio_urls: audioUrls as never,
         duration_seconds: Math.round((Date.now() - startedAtRef.current) / 1000),
@@ -323,14 +379,25 @@ const PlacementTest = () => {
           <Progress value={pct} className="h-1.5 mt-3" />
         </header>
 
-        {/* Skill / level badge row */}
+        {/* Skill / level badge row.
+         * For the Programming bank we hide CEFR and language-skill pills
+         * and replace them with a single tech-domain tag (Logic / Python
+         * / SQL / Data & AI) in a corporate slate tint. */}
         <div className="flex items-center gap-2 mb-4 text-xs">
-          <span className="px-2 py-1 rounded-md bg-slate-100 text-slate-700 font-medium">
-            {SKILL_LABEL[q.skill]}
-          </span>
-          <span className="px-2 py-1 rounded-md bg-slate-900 text-white font-semibold">
-            {q.cefr}
-          </span>
+          {subject === "programming" ? (
+            <span className="px-2.5 py-1 rounded-md bg-slate-100 text-slate-700 font-semibold border border-slate-200">
+              {DOMAIN_LABEL[q.domain ?? "logic"]}
+            </span>
+          ) : (
+            <>
+              <span className="px-2 py-1 rounded-md bg-slate-100 text-slate-700 font-medium">
+                {SKILL_LABEL[q.skill]}
+              </span>
+              <span className="px-2 py-1 rounded-md bg-slate-900 text-white font-semibold">
+                {q.cefr}
+              </span>
+            </>
+          )}
         </div>
 
         {/* Question frame */}
@@ -509,13 +576,36 @@ const ListenDictation = ({ q, answer, setAnswer }: RenderProps) => {
   );
 };
 
-/* Reading Q13-Q17 — basic MCQ */
+/* Reading Q13-Q17 — basic MCQ (with optional code / schema panels for Programming) */
 const ReadMcq = ({ q, answer, setAnswer }: RenderProps) => {
   if (q.type !== "read-mcq") return null;
   const sel = answer as number | undefined;
+  const monoBox =
+    "font-mono text-sm leading-6 bg-slate-900 text-slate-100 rounded-lg p-4 " +
+    "whitespace-pre-wrap break-words overflow-x-auto border border-slate-800";
   return (
     <div>
-      <p className="text-lg text-slate-900 font-medium mb-5">{q.prompt}</p>
+      {q.schema && (
+        <div className="mb-3">
+          <p className="text-[11px] uppercase tracking-wide text-slate-500 mb-1.5 font-semibold">
+            Schema
+          </p>
+          <div className="font-mono text-xs bg-slate-50 border border-slate-200 rounded-lg p-3 text-slate-800 whitespace-pre-wrap">
+            {q.schema}
+          </div>
+        </div>
+      )}
+      <p className="text-lg text-slate-900 font-medium mb-4">{q.prompt}</p>
+      {q.code && (
+        <div className="mb-5">
+          {q.language && (
+            <span className="inline-block mb-1.5 text-[11px] font-mono uppercase tracking-wide text-slate-500">
+              {q.language}
+            </span>
+          )}
+          <pre className={monoBox}>{q.code}</pre>
+        </div>
+      )}
       <div className="grid sm:grid-cols-2 gap-2">
         {q.options.map((o, i) => (
           <button
