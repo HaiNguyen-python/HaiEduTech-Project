@@ -475,7 +475,22 @@ const ChatBot = () => {
   // Pop a random fun fact every 3 minutes when chat is closed
   useEffect(() => {
     if (open) return;
-    const greeting = lang === "vi" ? "Chào! Mình là thầy Hải. Hỏi mình nhé? 😊" : "Hi! I'm Mr.Hai. Ask me something? 😊";
+    // Mood-driven proactive greeting — reflects the pet's current state
+    let greeting: string;
+    if (pet.mood === "celebrating") {
+      greeting = lang === "vi"
+        ? "Yum! 😋 Cảm ơn bạn đã tặng mình Năng lượng Tri thức từ bài học vừa rồi. Mình vừa được cộng thêm EXP đó!"
+        : "Yum! 😋 Thanks for the Knowledge Energy from your last lesson — I just gained EXP!";
+    } else if (pet.mood === "hungry" || pet.mood === "sleepy") {
+      greeting = lang === "vi"
+        ? "Ngoào... 💤 Mình đang bị thiếu Năng lượng Từ vựng rồi. Bạn vào Góc Ôn Tập giải cứu mình với!"
+        : "Yawn… 💤 I'm low on Vocabulary Energy. Visit the Smart Review corner to rescue me!";
+    } else {
+      greeting = lang === "vi"
+        ? `Chào! Mình là Pet AI cấp ${pet.level} của bạn. Hỏi gì cũng được nhé? 😊`
+        : `Hi! I'm your Level ${pet.level} AI Pet. Ask me anything? 😊`;
+    }
+
 
     const popFact = () => {
       const fact = FUN_FACTS[Math.floor(Math.random() * FUN_FACTS.length)];
