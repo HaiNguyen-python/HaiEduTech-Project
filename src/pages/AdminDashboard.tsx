@@ -194,6 +194,19 @@ const AdminDashboard = () => {
     const learningActivities = allActivities.filter((a) => isLearningActivity(a.activity_type));
     setActivities(learningActivities);
 
+    // Build engagement meta from the FULL activity stream (heartbeats + learning).
+    // - lastLogin: most recent activity timestamp of any kind
+    // - totalSeconds: cumulative time_spent_seconds across every activity
+    const metaMap = new Map<string, { lastLogin: number; totalSeconds: number }>();
+    for (const a of allActivities) {
+      const ts = new Date(a.created_at).getTime();
+      const cur = metaMap.get(a.user_id) || { lastLogin: 0, totalSeconds: 0 };
+      if (ts > cur.lastLogin) cur.lastLogin = ts;
+      cur.totalSeconds += Number(a.time_spent_seconds) || 0;
+      metaMap.set(a.user_id, cur);
+    }
+    setUserMeta(metaMap);
+
     // Compute student states
     const states: StudentState[] = [];
     const studentMap = new Map(studentList.map(s => [s.id, s.full_name || "Unknown"]));
