@@ -330,6 +330,11 @@ const TeacherDashboard = () => {
               <TabsContent value="attendance">
                 <AttendanceAnalyticsTab />
               </TabsContent>
+
+              {/* Assistant Management Tab */}
+              <TabsContent value="assistants">
+                <AssistantManagementTab />
+              </TabsContent>
             </Tabs>
           </motion.div>
         </div>
