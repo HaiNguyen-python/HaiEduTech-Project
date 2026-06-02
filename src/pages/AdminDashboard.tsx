@@ -52,6 +52,7 @@ import FeedbackAnalyticsTab from "@/components/admin/FeedbackAnalyticsTab";
 import ChatbotConversationsReview from "@/components/admin/ChatbotConversationsReview";
 import AttendanceAnalyticsTab from "@/components/admin/AttendanceAnalyticsTab";
 import ReportLogsTab from "@/components/admin/ReportLogsTab";
+import AssistantManagementTab from "@/components/admin/AssistantManagementTab";
 
 // Priority colors
 const PRIORITY_COLORS = {
