@@ -74,7 +74,7 @@ const L: HskQuestion[] = [
   ...lPic.map((r, i) => ({ id: `h1m2-l${i + 1}`, section: "listening" as const, type: "listen-pic" as const,
     audio: r.a, audioPinyin: r.p, options: r.o.map(label => ({ label })), correct: r.c, explanation: r.e })),
   ...lTf.map((r, i) => ({ id: `h1m2-l${i + 6}`, section: "listening" as const, type: "listen-tf" as const,
-    audio: r.a, audioPinyin: r.p, prompt: r.pr, options: r.o.map(label => ({ label })), correct: r.c, explanation: r.e })),
+    audio: r.a, audioPinyin: r.p, prompt: r.pr, options: [{ label: "✓" }, { label: "✗" }], correct: r.c, explanation: r.e })),
   ...lMcq.map((r, i) => ({ id: `h1m2-l${i + 11}`, section: "listening" as const, type: "listen-mcq" as const,
     audio: r.a, audioPinyin: r.p, prompt: r.pr, promptPinyin: r.prP, promptVi: r.prVi,
     options: r.o.map(label => ({ label })), correct: r.c, explanation: r.e })),
