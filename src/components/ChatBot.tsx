@@ -230,6 +230,26 @@ const ChatBot = () => {
   const [showPetInfo, setShowPetInfo] = useState(false);
   const [shake, setShake] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
+  // Persisted voice-recognition language so a Vietnamese student can keep using
+  // Vietnamese voice input even when the UI is in English.
+  const VOICE_LANGS: { code: string; flag: string; label: string }[] = [
+    { code: "vi-VN", flag: "🇻🇳", label: "Tiếng Việt" },
+    { code: "en-US", flag: "🇬🇧", label: "English" },
+    { code: "zh-CN", flag: "🇨🇳", label: "中文" },
+    { code: "fi-FI", flag: "🇫🇮", label: "Suomi" },
+  ];
+  const [voiceLang, setVoiceLang] = useState<string>(() => {
+    if (typeof window === "undefined") return "vi-VN";
+    return localStorage.getItem("chatbot_voice_lang") || "vi-VN";
+  });
+  const cycleVoiceLang = useCallback(() => {
+    setVoiceLang((curr) => {
+      const idx = VOICE_LANGS.findIndex((v) => v.code === curr);
+      const next = VOICE_LANGS[(idx + 1) % VOICE_LANGS.length].code;
+      try { localStorage.setItem("chatbot_voice_lang", next); } catch { /* ignore */ }
+      return next;
+    });
+  }, []);
   const [profanityWarning, setProfanityWarning] = useState(false);
   const [chatLocked, setChatLocked] = useState(false);
   const [studentContext, setStudentContext] = useState<string>("");
