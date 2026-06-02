@@ -1096,7 +1096,11 @@ const ChatBot = () => {
                     LV.{pet.level}
                   </span>
                   <span className="rounded-md bg-amber-100 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-700">
-                    {pet.stage === "master" ? t("Bậc thầy", "Master") : pet.stage === "apprentice" ? t("Học việc", "Apprentice") : t("Sơ sinh", "Baby")}
+                    {pet.stage === "mythic" ? t("Thần thoại", "Mythic")
+                      : pet.stage === "legendary" ? t("Huyền thoại", "Legendary")
+                      : pet.stage === "master" ? t("Bậc thầy", "Master")
+                      : pet.stage === "apprentice" ? t("Học việc", "Apprentice")
+                      : t("Sơ sinh", "Baby")}
                   </span>
                 </div>
                 {/* EXP progress bar — mirrors the actual pet_exp value */}
