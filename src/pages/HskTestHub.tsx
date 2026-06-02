@@ -9,7 +9,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { HSK_TESTS, totalQuestions } from "@/data/hskTests";
+import { HSK_TESTS_BY_LEVEL, totalQuestions } from "@/data/hskTests";
 import { ArrowRight, ClipboardCheck, Clock, GraduationCap, Headphones, BookOpen, PenLine } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
@@ -32,7 +32,7 @@ const HskTestHub = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="HSK Test 1-9: Đề Thi Thử Chuẩn HSK 3.0 Online | HaiEduTech"
+        title="HSK Test 1-9: 18 Đề Thi Thử Chuẩn HSK 3.0 Online | HaiEduTech"
         description="Bộ đề thi thử HSK 1 đến HSK 9 (HSK 3.0) mô phỏng chuẩn Hanban với phần Nghe (TTS tự động), Đọc và Viết. Tự chấm điểm và giải thích chi tiết."
         path="/chinese/hsk/test"
       />
@@ -52,57 +52,67 @@ const HskTestHub = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {levels.map((lv, i) => {
-            const test = HSK_TESTS[lv];
-            const total = totalQuestions(test);
-            const hasWriting = test.sections.some(s => s.id === "writing");
-            return (
-              <motion.div
-                key={lv}
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.06 }}
-              >
-                <Link
-                  to={`/chinese/hsk/test/${lv}`}
-                  className="group block rounded-2xl border-2 border-border bg-card overflow-hidden hover:border-primary/50 hover:shadow-lg transition-all"
+          {levels.flatMap((lv, levelIdx) => {
+            const tests = HSK_TESTS_BY_LEVEL[lv] ?? [];
+            return tests.map((test, variantIdx) => {
+              const total = totalQuestions(test);
+              const hasWriting = test.sections.some(s => s.id === "writing");
+              const isDefault = variantIdx === 0;
+              const href = isDefault
+                ? `/chinese/hsk/test/${lv}`
+                : `/chinese/hsk/test/${lv}/${test.code}`;
+              const variantLabel = test.code.split("-").slice(-2).join(" "); // e.g. "MOCK 01"
+              return (
+                <motion.div
+                  key={test.code}
+                  initial={{ opacity: 0, y: 18 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: (levelIdx * 2 + variantIdx) * 0.04 }}
                 >
-                  <div className={`h-2 bg-gradient-to-r ${LEVEL_COLORS[lv]}`} />
-                  <div className="p-5">
-                    <div className="flex items-center justify-between mb-3">
-                      <h2 className="text-2xl font-bold text-foreground">HSK {lv}</h2>
-                      <GraduationCap className="w-6 h-6 text-muted-foreground group-hover:text-primary transition-colors" />
-                    </div>
-                    <p className="text-sm text-foreground font-medium mb-1">{test.titleVi}</p>
-                    <p className="text-xs text-muted-foreground mb-4">{test.introVi}</p>
+                  <Link
+                    to={href}
+                    className="group block rounded-2xl border-2 border-border bg-card overflow-hidden hover:border-primary/50 hover:shadow-lg transition-all"
+                  >
+                    <div className={`h-2 bg-gradient-to-r ${LEVEL_COLORS[lv]}`} />
+                    <div className="p-5">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <h2 className="text-2xl font-bold text-foreground">HSK {lv}</h2>
+                          <Badge variant="outline" className="text-[10px] font-mono uppercase">{variantLabel}</Badge>
+                        </div>
+                        <GraduationCap className="w-6 h-6 text-muted-foreground group-hover:text-primary transition-colors" />
+                      </div>
+                      <p className="text-sm text-foreground font-medium mb-1">{test.titleVi}</p>
+                      <p className="text-xs text-muted-foreground mb-4 line-clamp-2">{test.introVi}</p>
 
-                    <div className="flex flex-wrap gap-2 mb-4 text-xs">
-                      <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-secondary text-foreground">
-                        <ClipboardCheck className="w-3 h-3" /> {total} {t("câu", "Q")}
-                      </span>
-                      <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-secondary text-foreground">
-                        <Clock className="w-3 h-3" /> {test.durationMin} {t("phút", "min")}
-                      </span>
-                      <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-secondary text-foreground">
-                        <Headphones className="w-3 h-3" /> {t("Nghe", "Listen")}
-                      </span>
-                      <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-secondary text-foreground">
-                        <BookOpen className="w-3 h-3" /> {t("Đọc", "Read")}
-                      </span>
-                      {hasWriting && (
+                      <div className="flex flex-wrap gap-2 mb-4 text-xs">
                         <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-secondary text-foreground">
-                          <PenLine className="w-3 h-3" /> {t("Viết", "Write")}
+                          <ClipboardCheck className="w-3 h-3" /> {total} {t("câu", "Q")}
                         </span>
-                      )}
-                    </div>
+                        <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-secondary text-foreground">
+                          <Clock className="w-3 h-3" /> {test.durationMin} {t("phút", "min")}
+                        </span>
+                        <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-secondary text-foreground">
+                          <Headphones className="w-3 h-3" /> {t("Nghe", "Listen")}
+                        </span>
+                        <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-secondary text-foreground">
+                          <BookOpen className="w-3 h-3" /> {t("Đọc", "Read")}
+                        </span>
+                        {hasWriting && (
+                          <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-secondary text-foreground">
+                            <PenLine className="w-3 h-3" /> {t("Viết", "Write")}
+                          </span>
+                        )}
+                      </div>
 
-                    <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary group-hover:underline">
-                      {t("Bắt đầu thi", "Start exam")} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </span>
-                  </div>
-                </Link>
-              </motion.div>
-            );
+                      <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary group-hover:underline">
+                        {t("Bắt đầu thi", "Start exam")} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </span>
+                    </div>
+                  </Link>
+                </motion.div>
+              );
+            });
           })}
         </div>
 

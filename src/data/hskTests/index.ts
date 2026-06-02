@@ -83,18 +83,43 @@ import { hsk6Test } from "./hsk6";
 import { hsk7Test } from "./hsk7";
 import { hsk8Test } from "./hsk8";
 import { hsk9Test } from "./hsk9";
+import { hsk1Mock2 } from "./hsk1Mock2";
+import { hsk2Mock2 } from "./hsk2Mock2";
+import { hsk3Mock2 } from "./hsk3Mock2";
+import { hsk4Mock2 } from "./hsk4Mock2";
+import { hsk5Mock2 } from "./hsk5Mock2";
+import { hsk6Mock2 } from "./hsk6Mock2";
+import { hsk7Mock2 } from "./hsk7Mock2";
+import { hsk8Mock2 } from "./hsk8Mock2";
+import { hsk9Mock2 } from "./hsk9Mock2";
 
-export const HSK_TESTS: Record<number, HskTest> = {
-  1: hsk1Test,
-  2: hsk2Test,
-  3: hsk3Test,
-  4: hsk4Test,
-  5: hsk5Test,
-  6: hsk6Test,
-  7: hsk7Test,
-  8: hsk8Test,
-  9: hsk9Test,
+/** All mock tests grouped by level. Each level can have multiple variants. */
+export const HSK_TESTS_BY_LEVEL: Record<number, HskTest[]> = {
+  1: [hsk1Test, hsk1Mock2],
+  2: [hsk2Test, hsk2Mock2],
+  3: [hsk3Test, hsk3Mock2],
+  4: [hsk4Test, hsk4Mock2],
+  5: [hsk5Test, hsk5Mock2],
+  6: [hsk6Test, hsk6Mock2],
+  7: [hsk7Test, hsk7Mock2],
+  8: [hsk8Test, hsk8Mock2],
+  9: [hsk9Test, hsk9Mock2],
+};
+
+/** Backward-compatible: default to the first (canonical) mock per level. */
+export const HSK_TESTS: Record<number, HskTest> = Object.fromEntries(
+  Object.entries(HSK_TESTS_BY_LEVEL).map(([lv, list]) => [lv, list[0]]),
+);
+
+/** Lookup a test by its unique code (e.g. "HSK3-MOCK-02"). */
+export const findHskTestByCode = (code: string): HskTest | undefined => {
+  for (const list of Object.values(HSK_TESTS_BY_LEVEL)) {
+    const found = list.find((t) => t.code === code);
+    if (found) return found;
+  }
+  return undefined;
 };
 
 export const totalQuestions = (test: HskTest) =>
   test.sections.reduce((sum, s) => sum + s.questions.length, 0);
+
