@@ -183,6 +183,10 @@ const TeacherDashboard = () => {
                   <BarChart3 className="w-3.5 h-3.5" />
                   {t("Điểm danh", "Attendance")}
                 </TabsTrigger>
+                <TabsTrigger value="assistants" className="gap-1.5">
+                  <UserCog className="w-3.5 h-3.5" />
+                  {t("Cộng tác viên", "Assistants")}
+                </TabsTrigger>
               </TabsList>
 
               {/* Generate Tab - Embed TeacherAdmin */}
