@@ -24,12 +24,16 @@ const stageRing: Record<PetStage, string> = {
   baby:        "ring-1 ring-sky-200",
   apprentice:  "ring-2 ring-cyan-300/70 shadow-[0_0_24px_rgba(34,211,238,0.55)]",
   master:      "ring-2 ring-fuchsia-300 shadow-[0_0_36px_rgba(217,70,239,0.65)]",
+  legendary:   "ring-2 ring-amber-300 shadow-[0_0_44px_rgba(251,191,36,0.75)]",
+  mythic:      "ring-[3px] ring-rose-400 shadow-[0_0_56px_rgba(244,63,94,0.85)]",
 };
 
 const stageBg: Record<PetStage, string> = {
   baby:       "bg-gradient-to-br from-sky-50 to-white",
   apprentice: "bg-gradient-to-br from-cyan-100 via-white to-sky-50",
   master:     "bg-gradient-to-br from-fuchsia-100 via-white to-violet-100",
+  legendary:  "bg-gradient-to-br from-amber-100 via-yellow-50 to-orange-100",
+  mythic:     "bg-[conic-gradient(from_0deg,_#fde68a,_#fca5a5,_#c4b5fd,_#67e8f9,_#fde68a)]",
 };
 
 const MoodBadge = ({ mood }: { mood: StudyPetState["mood"] }) => {
