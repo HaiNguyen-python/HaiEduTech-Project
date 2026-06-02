@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TimeTrackingWidget from "@/components/assistant/TimeTrackingWidget";
 import MyTimeLogs from "@/components/assistant/MyTimeLogs";
 import DailyReportForm from "@/components/assistant/DailyReportForm";
+import MyBonuses from "@/components/assistant/MyBonuses";
 import { toast } from "sonner";
 
 // Assistant-only admin dashboard.
