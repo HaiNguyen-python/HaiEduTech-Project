@@ -858,6 +858,11 @@ const ChatBot = () => {
       { role: "user", content: payloadContent },
     ];
 
+    // Client-side intent detection for course registration — guarantees the CTA pills render
+    // even if the LLM forgets to emit the [[CTA:COURSE_REGISTRATION]] sentinel token.
+    const COURSE_INTENT_RE = /(đăng\s*k[ýy]|ghi\s*danh|h[ọo]c\s*ph[íi]|l[ịi]ch\s*h[ọo]c|khai\s*gi[ảa]ng|mu[ốo]n\s*h[ọo]c|t[ưu]\s*v[ấa]n\s*kh[óo]a|enroll|register|tuition|sign\s*up\s*for|报名|学费|开课|ilmoittautu)/i;
+    const isCourseIntent = COURSE_INTENT_RE.test(rawInput);
+
     let assistantSoFar = "";
 
     try {
@@ -950,6 +955,21 @@ const ChatBot = () => {
         },
       ]);
     }
+
+    // Guarantee CTA pills for course-registration intent, even if the LLM omitted the sentinel.
+    if (isCourseIntent) {
+      setMessages((prev) => {
+        const last = prev[prev.length - 1];
+        if (last?.role !== "assistant") return prev;
+        if (last.content.includes("[[CTA:COURSE_REGISTRATION]]")) return prev;
+        return prev.map((m, i) =>
+          i === prev.length - 1
+            ? { ...m, content: `${m.content.trim()}\n\n[[CTA:COURSE_REGISTRATION]]` }
+            : m,
+        );
+      });
+    }
+
     setIsLoading(false);
   };
 
