@@ -1340,7 +1340,7 @@ const ChatBot = () => {
                         <button
                           type="button"
                           onClick={() => {
-                            setIsOpen(false);
+                            setOpen(false);
                             window.location.assign("/placement-test");
                           }}
                           className="flex-1 rounded-full bg-emerald-500 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-sm transition-all hover:bg-emerald-600 hover:shadow-md active:scale-[0.98]"
