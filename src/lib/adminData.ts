@@ -50,6 +50,23 @@ export function sumActivityTypeCounts(
   return activityTypes.reduce((total, type) => total + (skillBreakdown[type]?.count || 0), 0);
 }
 
+// Compute weighted average score (0-10) across a set of activity types.
+// Returns 0 when there is no data so callers can treat falsy values as "no data".
+export function avgScoreForActivityTypes(
+  skillBreakdown: Record<string, { count: number; score?: number }>,
+  activityTypes: string[],
+) {
+  let total = 0;
+  let count = 0;
+  for (const type of activityTypes) {
+    const entry = skillBreakdown[type];
+    if (!entry || !entry.count) continue;
+    total += (entry.score ?? 0) * entry.count;
+    count += entry.count;
+  }
+  return count > 0 ? Math.round((total / count) * 10) / 10 : 0;
+}
+
 // Strip Vietnamese diacritics for case/diacritic-insensitive search.
 export function normalizeForSearch(input: string): string {
   return (input || "")
