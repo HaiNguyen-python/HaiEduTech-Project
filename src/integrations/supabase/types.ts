@@ -250,6 +250,33 @@ export type Database = {
         }
         Relationships: []
       }
+      assistant_bonuses: {
+        Row: {
+          amount: number
+          created_at: string
+          granted_by: string | null
+          id: string
+          reason: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          granted_by?: string | null
+          id?: string
+          reason: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          granted_by?: string | null
+          id?: string
+          reason?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       career_assessments: {
         Row: {
           ai_insights: string | null

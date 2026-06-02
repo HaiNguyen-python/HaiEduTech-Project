@@ -9,7 +9,7 @@ import {
   Shield, Users, BookOpen, TrendingUp, Loader2, BarChart3,
   Brain, AlertTriangle, ChevronRight, ArrowUpRight, ArrowDownRight, Minus,
   Target, Sparkles, Clock, Zap, ShieldCheck, Download, Search, Globe,
-  Activity, DollarSign, Server, Wifi, WifiOff, RefreshCw, ClipboardList
+  Activity, DollarSign, Server, Wifi, WifiOff, RefreshCw, ClipboardList, UserCog
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -52,6 +52,7 @@ import FeedbackAnalyticsTab from "@/components/admin/FeedbackAnalyticsTab";
 import ChatbotConversationsReview from "@/components/admin/ChatbotConversationsReview";
 import AttendanceAnalyticsTab from "@/components/admin/AttendanceAnalyticsTab";
 import ReportLogsTab from "@/components/admin/ReportLogsTab";
+import AssistantManagementTab from "@/components/admin/AssistantManagementTab";
 
 // Priority colors
 const PRIORITY_COLORS = {
@@ -609,6 +610,7 @@ const AdminDashboard = () => {
                 {tabGroup === "operations" && (
                   <>
                     <TabsTrigger value="income" className="gap-1.5"><DollarSign className="w-3.5 h-3.5" /> {t("Thu nhập", "Income")}</TabsTrigger>
+                    <TabsTrigger value="assistants" className="gap-1.5"><UserCog className="w-3.5 h-3.5" /> {t("Cộng tác viên", "Assistants")}</TabsTrigger>
                     <TabsTrigger value="schedule" className="gap-1.5"><Clock className="w-3.5 h-3.5" /> {t("Lịch học", "Schedule")}</TabsTrigger>
                     <TabsTrigger value="report-logs" className="gap-1.5"><ClipboardList className="w-3.5 h-3.5" /> {t("Báo cáo Email", "Report Logs")}</TabsTrigger>
                   </>
@@ -1151,6 +1153,11 @@ const AdminDashboard = () => {
               {/* ===== INCOME MANAGEMENT TAB ===== */}
               <TabsContent value="income">
                 <IncomeManagement />
+              </TabsContent>
+
+              {/* ===== ASSISTANT MANAGEMENT TAB ===== */}
+              <TabsContent value="assistants">
+                <AssistantManagementTab />
               </TabsContent>
 
               {/* ===== CLASS SCHEDULE TAB ===== */}
