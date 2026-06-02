@@ -107,7 +107,7 @@ function exportData(data: any[], format: "csv" | "json", filename: string) {
 
 const AdminDashboard = () => {
   const { t } = useLanguage();
-  const { user, isTeacher, loading: roleLoading } = useUserRole();
+  const { user, isTeacher, isPureAssistant, loading: roleLoading } = useUserRole();
   const navigate = useNavigate();
 
   const [loadingData, setLoadingData] = useState(true);
