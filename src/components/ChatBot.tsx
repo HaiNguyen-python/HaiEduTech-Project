@@ -1358,19 +1358,29 @@ const ChatBot = () => {
               />
 
               <div className="flex items-center gap-1.5">
-                {/* Microphone button */}
-                <button
-                  onClick={toggleRecording}
-                  disabled={isLoading || chatLocked}
-                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-all ${
-                    isRecording
-                      ? "animate-pulse bg-destructive text-destructive-foreground"
-                      : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-                  } disabled:opacity-50`}
-                  title={isRecording ? t("Dừng ghi âm", "Stop recording") : t("Nhấn để nói", "Click to speak")}
-                >
-                  {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
-                </button>
+                {/* Microphone button + voice language toggle */}
+                <div className="relative shrink-0">
+                  <button
+                    onClick={toggleRecording}
+                    disabled={isLoading || chatLocked}
+                    className={`flex h-10 w-10 items-center justify-center rounded-xl transition-all ${
+                      isRecording
+                        ? "animate-pulse bg-destructive text-destructive-foreground"
+                        : "bg-secondary text-muted-foreground hover:bg-secondary/80"
+                    } disabled:opacity-50`}
+                    title={isRecording ? t("Dừng ghi âm", "Stop recording") : `${t("Nói bằng", "Speak in")} ${VOICE_LANGS.find(v => v.code === voiceLang)?.label}`}
+                  >
+                    {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+                  </button>
+                  <button
+                    onClick={cycleVoiceLang}
+                    disabled={isRecording}
+                    title={t("Đổi ngôn ngữ nhận diện giọng nói", "Change voice recognition language")}
+                    className="absolute -top-1 -right-1 flex h-4 min-w-[1rem] items-center justify-center rounded-full border border-border bg-card px-1 text-[10px] leading-none shadow"
+                  >
+                    {VOICE_LANGS.find(v => v.code === voiceLang)?.flag}
+                  </button>
+                </div>
 
                 {/* Attach file button */}
                 <button
