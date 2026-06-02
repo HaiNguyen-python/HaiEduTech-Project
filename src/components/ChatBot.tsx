@@ -1396,26 +1396,29 @@ const ChatBot = () => {
                       )}
                     </div>
 
-                    {/* Dynamic CTA pills for course registration intent */}
+                    {/* Dynamic CTA pills for course registration intent — refined design */}
                     {hasCourseCta && (
-                      <div className="mt-2 flex w-full max-w-[85%] flex-col gap-2 sm:flex-row sm:flex-wrap">
+                      <div className="mt-3 grid w-full max-w-[92%] grid-cols-2 gap-2">
                         <button
                           type="button"
                           onClick={() => {
                             setOpen(false);
                             window.location.assign(placementHref);
                           }}
-                          className="flex-1 rounded-full bg-emerald-500 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-sm transition-all hover:bg-emerald-600 hover:shadow-md active:scale-[0.98]"
+                          className="group inline-flex items-center justify-center gap-1.5 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 px-3 py-2.5 text-xs font-semibold leading-tight text-white shadow-sm ring-1 ring-emerald-600/20 transition-all hover:shadow-md hover:brightness-110 active:scale-[0.97]"
+                          title={ctaLabel}
                         >
-                          {ctaLabel}
+                          <span className="text-base leading-none">🎯</span>
+                          <span className="line-clamp-2 text-left">{ctaLabel.replace(/^🎯\s*/, "")}</span>
                         </button>
                         <a
                           href="https://zalo.me/0962823800"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex-1 rounded-full border-2 border-emerald-500 bg-white px-4 py-2.5 text-center text-sm font-semibold text-emerald-600 transition-all hover:bg-emerald-50 active:scale-[0.98]"
+                          className="group inline-flex items-center justify-center gap-1.5 rounded-xl border border-emerald-500/40 bg-white px-3 py-2.5 text-xs font-semibold leading-tight text-emerald-700 shadow-sm transition-all hover:border-emerald-500 hover:bg-emerald-50 hover:shadow-md active:scale-[0.97] dark:bg-background dark:text-emerald-400"
                         >
-                          💬 Chat Zalo với Thầy Hải
+                          <span className="text-base leading-none">💬</span>
+                          <span className="line-clamp-2 text-left">{t("Chat Zalo với Thầy Hải", "Chat Zalo with Mr. Hai")}</span>
                         </a>
                       </div>
                     )}
