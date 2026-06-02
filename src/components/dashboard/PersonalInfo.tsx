@@ -94,6 +94,43 @@ const PersonalInfo = ({ userId, email }: PersonalInfoProps) => {
     toast.success(t("Đã cập nhật thông tin!", "Profile updated!"));
   };
 
+  // Upload avatar to storage (marketing-images public bucket, scoped to avatars/<userId>/)
+  const handleAvatarUpload = async (file: File) => {
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      toast.error(t("Vui lòng chọn tệp ảnh", "Please choose an image file"));
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error(t("Ảnh tối đa 5MB", "Max image size is 5MB"));
+      return;
+    }
+    setUploading(true);
+    try {
+      const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
+      const path = `avatars/${userId}/avatar-${Date.now()}.${ext}`;
+      const { error: upErr } = await supabase.storage
+        .from("marketing-images")
+        .upload(path, file, { upsert: true, contentType: file.type, cacheControl: "3600" });
+      if (upErr) throw upErr;
+      const { data: pub } = supabase.storage.from("marketing-images").getPublicUrl(path);
+      const url = pub.publicUrl;
+      // Persist immediately so the new avatar survives without needing Save
+      const { error: dbErr } = await (supabase as any)
+        .from("profiles")
+        .update({ avatar_url: url, updated_at: new Date().toISOString() })
+        .eq("id", userId);
+      if (dbErr) throw dbErr;
+      setForm((f) => ({ ...f, avatar_url: url }));
+      toast.success(t("Đã cập nhật ảnh đại diện!", "Avatar updated!"));
+    } catch (e: any) {
+      toast.error(e?.message || t("Tải ảnh thất bại", "Upload failed"));
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
+
   if (loading) {
     return (
       <div className="text-center py-12 text-muted-foreground">
