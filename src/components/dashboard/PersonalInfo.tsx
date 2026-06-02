@@ -31,6 +31,8 @@ const PersonalInfo = ({ userId, email }: PersonalInfoProps) => {
   const { t } = useLanguage();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [form, setForm] = useState({
     full_name: "",
     phone: "",
