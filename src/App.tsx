@@ -263,6 +263,7 @@ const App = () => (
             <Route path="/chinese/hsk-grammar" element={<LazyRoute><HskGrammar /></LazyRoute>} />
             <Route path="/chinese/hsk/test" element={<LazyRoute><HskTestHub /></LazyRoute>} />
             <Route path="/chinese/hsk/test/:level" element={<LazyRoute><HskTestRoom /></LazyRoute>} />
+            <Route path="/chinese/hsk/test/:level/:code" element={<LazyRoute><HskTestRoom /></LazyRoute>} />
             <Route path="/chinese/hskk" element={<LazyRoute><HskkSpeakingRoom /></LazyRoute>} />
             <Route path="/chinese/tone-drill" element={<LazyRoute><ToneDrillRoom /></LazyRoute>} />
             <Route path="/chinese/learn/:moduleId" element={<LazyRoute><LanguageLessonView /></LazyRoute>} />
