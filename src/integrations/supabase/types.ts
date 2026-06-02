@@ -1450,6 +1450,45 @@ export type Database = {
         }
         Relationships: []
       }
+      monthly_report_logs: {
+        Row: {
+          created_at: string
+          error_message: string | null
+          id: string
+          metrics: Json
+          period_end: string
+          period_start: string
+          recipient_email: string
+          status: string
+          student_name: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          metrics?: Json
+          period_end: string
+          period_start: string
+          recipient_email: string
+          status?: string
+          student_name?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          metrics?: Json
+          period_end?: string
+          period_start?: string
+          recipient_email?: string
+          status?: string
+          student_name?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       mood_checkins: {
         Row: {
           created_at: string

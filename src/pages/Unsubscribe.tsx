@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Loader2, Mail, CheckCircle2, AlertTriangle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import SEO from "@/components/SEO";
-
-type Status = "loading" | "ready" | "already" | "invalid" | "success" | "error";
+import { Loader2, CheckCircle2, AlertCircle, Mail } from "lucide-react";
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
-const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string;
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string;
+
+type Status = "validating" | "ready" | "already" | "invalid" | "submitting" | "done" | "error";
 
 export default function Unsubscribe() {
   const [params] = useSearchParams();
-  const token = params.get("token");
-  const [status, setStatus] = useState<Status>("loading");
-  const [submitting, setSubmitting] = useState(false);
+  const token = params.get("token") || "";
+  const [status, setStatus] = useState<Status>("validating");
+  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     if (!token) {
@@ -25,86 +25,94 @@ export default function Unsubscribe() {
       try {
         const res = await fetch(
           `${SUPABASE_URL}/functions/v1/handle-email-unsubscribe?token=${encodeURIComponent(token)}`,
-          { headers: { apikey: SUPABASE_KEY } },
+          { headers: { apikey: SUPABASE_ANON_KEY } }
         );
         const data = await res.json();
-        if (data?.valid) setStatus("ready");
+        if (data?.valid === true) setStatus("ready");
         else if (data?.reason === "already_unsubscribed") setStatus("already");
         else setStatus("invalid");
       } catch {
-        setStatus("error");
+        setStatus("invalid");
       }
     })();
   }, [token]);
 
   const confirm = async () => {
-    if (!token) return;
-    setSubmitting(true);
+    setStatus("submitting");
     try {
       const { data, error } = await supabase.functions.invoke("handle-email-unsubscribe", {
         body: { token },
       });
       if (error) throw error;
-      if (data?.success) setStatus("success");
-      else if (data?.reason === "already_unsubscribed") setStatus("already");
-      else setStatus("error");
-    } catch {
+      if ((data as any)?.success) setStatus("done");
+      else if ((data as any)?.reason === "already_unsubscribed") setStatus("already");
+      else {
+        setErrorMsg("Không thể xử lý yêu cầu. Vui lòng thử lại.");
+        setStatus("error");
+      }
+    } catch (e) {
+      setErrorMsg(e instanceof Error ? e.message : "Lỗi không xác định");
       setStatus("error");
-    } finally {
-      setSubmitting(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4 py-16">
-      <SEO title="Hủy đăng ký email · HaiEduTech" description="Hủy đăng ký nhận email từ HaiEduTech." path="/unsubscribe" />
-      <div className="w-full max-w-md rounded-2xl border border-border bg-card p-8 shadow-sm text-center">
-        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
-          <Mail className="h-7 w-7 text-primary" />
-        </div>
-        <h1 className="text-2xl font-semibold text-foreground mb-2">Hủy đăng ký email</h1>
-
-        {status === "loading" && (
-          <div className="flex items-center justify-center gap-2 text-muted-foreground py-6">
-            <Loader2 className="h-4 w-4 animate-spin" /> Đang kiểm tra liên kết…
+    <main className="min-h-screen bg-background flex items-center justify-center p-6">
+      <Card className="w-full max-w-md">
+        <CardHeader className="text-center">
+          <div className="mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-2">
+            <Mail className="w-6 h-6 text-primary" />
           </div>
-        )}
-
-        {status === "ready" && (
-          <>
-            <p className="text-muted-foreground mb-6">
-              Bạn có chắc muốn ngừng nhận email từ HaiEduTech? Bạn sẽ không nhận được các thông báo và cập nhật trong tương lai.
-            </p>
-            <Button onClick={confirm} disabled={submitting} className="w-full">
-              {submitting ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
-              Xác nhận hủy đăng ký
-            </Button>
-          </>
-        )}
-
-        {status === "success" && (
-          <div className="text-muted-foreground">
-            <CheckCircle2 className="mx-auto mb-3 h-10 w-10 text-emerald-500" />
-            Bạn đã hủy đăng ký thành công. Cảm ơn bạn đã đồng hành cùng HaiEduTech.
-          </div>
-        )}
-
-        {status === "already" && (
-          <div className="text-muted-foreground">
-            <CheckCircle2 className="mx-auto mb-3 h-10 w-10 text-emerald-500" />
-            Email này đã được hủy đăng ký trước đó.
-          </div>
-        )}
-
-        {(status === "invalid" || status === "error") && (
-          <div className="text-muted-foreground">
-            <AlertTriangle className="mx-auto mb-3 h-10 w-10 text-amber-500" />
-            {status === "invalid"
-              ? "Liên kết không hợp lệ hoặc đã hết hạn."
-              : "Có lỗi xảy ra. Vui lòng thử lại sau."}
-          </div>
-        )}
-      </div>
-    </div>
+          <CardTitle>Hủy đăng ký email · HaiEduTech</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4 text-center">
+          {status === "validating" && (
+            <div className="flex flex-col items-center gap-2 text-muted-foreground">
+              <Loader2 className="w-5 h-5 animate-spin" />
+              <p>Đang kiểm tra liên kết...</p>
+            </div>
+          )}
+          {status === "invalid" && (
+            <div className="flex flex-col items-center gap-2">
+              <AlertCircle className="w-8 h-8 text-destructive" />
+              <p>Liên kết không hợp lệ hoặc đã hết hạn.</p>
+            </div>
+          )}
+          {status === "already" && (
+            <div className="flex flex-col items-center gap-2">
+              <CheckCircle2 className="w-8 h-8 text-emerald-500" />
+              <p>Email của bạn đã được gỡ khỏi danh sách trước đó. Bạn sẽ không nhận thêm email từ chúng tôi.</p>
+            </div>
+          )}
+          {(status === "ready" || status === "submitting") && (
+            <>
+              <p className="text-muted-foreground">
+                Nhấn xác nhận để ngừng nhận tất cả email từ HaiEduTech (bao gồm báo cáo học tập định kỳ).
+              </p>
+              <Button onClick={confirm} disabled={status === "submitting"} className="w-full">
+                {status === "submitting" ? (
+                  <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Đang xử lý...</>
+                ) : (
+                  "Xác nhận hủy đăng ký"
+                )}
+              </Button>
+            </>
+          )}
+          {status === "done" && (
+            <div className="flex flex-col items-center gap-2">
+              <CheckCircle2 className="w-8 h-8 text-emerald-500" />
+              <p>Bạn đã ngừng đăng ký thành công. Cảm ơn bạn đã đồng hành cùng HaiEduTech.</p>
+            </div>
+          )}
+          {status === "error" && (
+            <div className="flex flex-col items-center gap-2">
+              <AlertCircle className="w-8 h-8 text-destructive" />
+              <p>{errorMsg}</p>
+              <Button variant="outline" onClick={() => setStatus("ready")}>Thử lại</Button>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </main>
   );
 }
