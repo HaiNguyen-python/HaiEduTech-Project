@@ -870,13 +870,17 @@ const ChatBot = () => {
     const COURSE_INTENT_RE = /(đăng\s*k[ýy]|ghi\s*danh|h[ọo]c\s*ph[íi]|l[ịi]ch\s*h[ọo]c|khai\s*gi[ảa]ng|mu[ốo]n\s*h[ọo]c|t[ưu]\s*v[ấa]n\s*kh[óo]a|enroll|register|tuition|sign\s*up\s*for|报名|学费|开课|ilmoittautu)/i;
     const isCourseIntent = COURSE_INTENT_RE.test(rawInput);
 
-    let assistantSoFar = "";
-
-    try {
-      const resp = await fetch(CHAT_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+    // Detect which subject the student wants so the placement-test CTA routes to the right bank.
+    const detectSubject = (text: string): "english" | "chinese" | "vietnamese" | "finnish" | "programming" | null => {
+      const s = text.toLowerCase();
+      if (/(ti[ếe]ng\s*trung|trung\s*qu[ốo]c|hsk|chinese|mandarin|中文|汉语|普通话|kinesisk)/i.test(s)) return "chinese";
+      if (/(ti[ếe]ng\s*vi[ệe]t|vietnamese|vietnam\b)/i.test(s)) return "vietnamese";
+      if (/(ti[ếe]ng\s*ph[ầa]n\s*lan|finnish|finland|suomi|yki)/i.test(s)) return "finnish";
+      if (/(l[ậa]p\s*tr[ìi]nh|programming|coding|python|sql|data\s*engineer|machine\s*learning|ml\b|tin\s*h[ọo]c)/i.test(s)) return "programming";
+      if (/(ti[ếe]ng\s*anh|english|ielts|toeic|cambridge|pte|sat\b|anh\s*ng[ữu])/i.test(s)) return "english";
+      return null;
+    };
+    const intentSubject = detectSubject(rawInput);
           Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
         },
         body: JSON.stringify({ messages: payloadMessages, studentContext }),
