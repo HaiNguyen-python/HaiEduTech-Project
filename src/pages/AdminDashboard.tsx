@@ -705,23 +705,23 @@ const AdminDashboard = () => {
                           </TableHeader>
                           <TableBody>
                             {interventionNeeded.map(s => {
-                              const recs = generateRecommendations(s);
-                              const topRec = recs[0];
+                              const recs = generateRecommendations(s).slice(0, 3);
+                              const isVi = t("vi", "en") === "vi";
                               return (
-                                <TableRow key={s.userId} className="cursor-pointer hover:bg-muted/50" onClick={() => handleSelectStudent(s)}>
-                                  <TableCell className="font-medium">{s.fullName}</TableCell>
-                                  <TableCell className="text-center">
+                                <TableRow key={s.userId} className="cursor-pointer hover:bg-muted/50 align-top" onClick={() => handleSelectStudent(s)}>
+                                  <TableCell className="font-medium align-top pt-3">{s.fullName}</TableCell>
+                                  <TableCell className="text-center align-top pt-3">
                                     <span className="font-bold text-destructive">{s.avgScore}</span>
                                   </TableCell>
-                                  <TableCell className="text-center">{TREND_ICONS[s.recentTrend]}</TableCell>
-                                  <TableCell>
+                                  <TableCell className="text-center align-top pt-3">{TREND_ICONS[s.recentTrend]}</TableCell>
+                                  <TableCell className="align-top pt-3">
                                     <div className="flex flex-wrap gap-1">
                                       {s.weakestAreas.slice(0, 2).map(a => (
-                                        <Badge key={a} variant="outline" className="text-xs">{getCategoryLabel(a, t("vi", "en") === "vi")}</Badge>
+                                        <Badge key={a} variant="outline" className="text-xs">{getCategoryLabel(a, isVi)}</Badge>
                                       ))}
                                     </div>
                                   </TableCell>
-                                  <TableCell>
+                                  <TableCell className="align-top pt-3">
                                     <div className="flex gap-1">
                                       {(Object.entries(s.domainBreakdown) as [LearningDomain, { count: number }][])
                                         .filter(([, d]) => d.count > 0)
@@ -730,8 +730,28 @@ const AdminDashboard = () => {
                                         ))}
                                     </div>
                                   </TableCell>
-                                  <TableCell className="text-xs text-muted-foreground min-w-[220px] whitespace-normal break-words leading-snug">
-                                    {topRec ? t(topRec.actionVi, topRec.action) : "-"}
+                                  <TableCell className="min-w-[320px] max-w-[420px] whitespace-normal break-words leading-snug align-top">
+                                    {recs.length === 0 ? (
+                                      <span className="text-muted-foreground text-xs">-</span>
+                                    ) : (
+                                      <ul className="space-y-2">
+                                        {recs.map((r, idx) => (
+                                          <li key={idx} className="flex gap-2 text-xs">
+                                            <span className={`shrink-0 mt-0.5 px-1.5 py-0.5 rounded font-semibold uppercase tracking-wide text-[10px] ${PRIORITY_COLORS[r.priority]}`}>
+                                              {r.priority}
+                                            </span>
+                                            <div className="flex-1 min-w-0">
+                                              <p className="font-semibold text-foreground leading-snug">
+                                                {isVi ? r.actionVi : r.action}
+                                              </p>
+                                              <p className="text-muted-foreground mt-0.5 leading-snug">
+                                                {isVi ? r.detailsVi : r.details}
+                                              </p>
+                                            </div>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    )}
                                   </TableCell>
                                 </TableRow>
                               );
