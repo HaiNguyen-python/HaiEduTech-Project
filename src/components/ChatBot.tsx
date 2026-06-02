@@ -1303,30 +1303,63 @@ const ChatBot = () => {
                 </div>
               )}
 
-              {messages.map((msg, i) => (
-                <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-                  <div
-                    className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm ${
-                      msg.role === "user"
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-secondary text-secondary-foreground"
-                    }`}
-                  >
-                    {msg.role === "assistant" ? (
-                      <div className="text-sm leading-relaxed [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 space-y-2">
-                        <ReactMarkdown
-                          remarkPlugins={[remarkGfm]}
-                          components={chatMarkdownComponents}
+              {messages.map((msg, i) => {
+                // Detect the course-registration CTA sentinel emitted by the chat edge function.
+                // When present, strip it from the visible text and render enrollment action pills below the bubble.
+                const CTA_TOKEN = "[[CTA:COURSE_REGISTRATION]]";
+                const hasCourseCta = msg.role === "assistant" && msg.content.includes(CTA_TOKEN);
+                const displayContent = hasCourseCta
+                  ? msg.content.replace(CTA_TOKEN, "").trim()
+                  : msg.content;
+                return (
+                  <div key={i} className={`flex flex-col ${msg.role === "user" ? "items-end" : "items-start"}`}>
+                    <div
+                      className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm ${
+                        msg.role === "user"
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-secondary text-secondary-foreground"
+                      }`}
+                    >
+                      {msg.role === "assistant" ? (
+                        <div className="text-sm leading-relaxed [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 space-y-2">
+                          <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
+                            components={chatMarkdownComponents}
+                          >
+                            {displayContent}
+                          </ReactMarkdown>
+                        </div>
+                      ) : (
+                        <p className="whitespace-pre-wrap">{msg.content}</p>
+                      )}
+                    </div>
+
+                    {/* Dynamic CTA pills for course registration intent */}
+                    {hasCourseCta && (
+                      <div className="mt-2 flex w-full max-w-[85%] flex-col gap-2 sm:flex-row sm:flex-wrap">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setOpen(false);
+                            window.location.assign("/placement-test");
+                          }}
+                          className="flex-1 rounded-full bg-emerald-500 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-sm transition-all hover:bg-emerald-600 hover:shadow-md active:scale-[0.98]"
                         >
-                          {msg.content}
-                        </ReactMarkdown>
+                          🎯 Làm Test Đầu Vào Ngay
+                        </button>
+                        <a
+                          href="https://zalo.me/0962823800"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-1 rounded-full border-2 border-emerald-500 bg-white px-4 py-2.5 text-center text-sm font-semibold text-emerald-600 transition-all hover:bg-emerald-50 active:scale-[0.98]"
+                        >
+                          💬 Chat Zalo với Thầy Hải
+                        </a>
                       </div>
-                    ) : (
-                      <p className="whitespace-pre-wrap">{msg.content}</p>
                     )}
                   </div>
-                </div>
-              ))}
+                );
+              })}
 
               {isLoading && messages[messages.length - 1]?.role !== "assistant" && (
                 <div className="flex justify-start">
