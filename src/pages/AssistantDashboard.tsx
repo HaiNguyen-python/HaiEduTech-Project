@@ -69,6 +69,7 @@ const AssistantDashboard = () => {
 
               <TabsContent value="work" className="space-y-6">
                 <TimeTrackingWidget userId={user.id} onChange={() => setRefreshKey((k) => k + 1)} />
+                <MyBonuses userId={user.id} />
                 <MyTimeLogs userId={user.id} refreshKey={refreshKey} />
               </TabsContent>
 
