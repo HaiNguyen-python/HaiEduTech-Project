@@ -97,6 +97,10 @@ const AdminDashboard = () => {
   const [studentStates, setStudentStates] = useState<StudentState[]>([]);
   const [selectedStudent, setSelectedStudent] = useState<StudentState | null>(null);
   const [recommendations, setRecommendations] = useState<RLRecommendation[]>([]);
+  // Per-user engagement meta: total study seconds + most recent login timestamp.
+  // Computed from the full activity stream (including system heartbeats / daily_login)
+  // so teachers can see "actual time on platform" not only graded learning attempts.
+  const [userMeta, setUserMeta] = useState<Map<string, { lastLogin: number; totalSeconds: number }>>(new Map());
   const [tabGroup, setTabGroup] = useState<"overview" | "students" | "learning" | "operations">("overview");
   const [activeTab, setActiveTab] = useState<string>("overview");
   const [searchQuery, setSearchQuery] = useState("");
