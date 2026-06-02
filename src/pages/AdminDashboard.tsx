@@ -33,6 +33,7 @@ import {
   SPEAKING_ACTIVITY_TYPES,
   SYSTEM_ACTIVITY_TYPES,
   sumActivityTypeCounts,
+  avgScoreForActivityTypes,
   WRITING_ACTIVITY_TYPES,
   normalizeForSearch,
   csvEscape,
