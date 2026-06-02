@@ -19,9 +19,22 @@ async function logUsage(functionName: string, model: string, domain: string, tok
 // Perplexity requires strict user/assistant alternation after system messages.
 type ChatRole = "user" | "assistant";
 
+function hasImageContent(msgs: unknown): boolean {
+  if (!Array.isArray(msgs)) return false;
+  for (const raw of msgs) {
+    if (!raw || typeof raw !== "object") continue;
+    const c = (raw as { content?: unknown }).content;
+    if (Array.isArray(c)) {
+      for (const part of c) {
+        if (part && typeof part === "object" && (part as any).type === "image_url") return true;
+      }
+    }
+  }
+  return false;
+}
+
 function normalizeMessageContent(content: unknown): string {
   if (typeof content === "string") return content.trim();
-
   if (Array.isArray(content)) {
     return content
       .map((part) => {
@@ -37,27 +50,22 @@ function normalizeMessageContent(content: unknown): string {
       .join("\n")
       .trim();
   }
-
   return "";
 }
 
 function sanitizeMessages(msgs: unknown): Array<{ role: ChatRole; content: string }> {
   const safeMessages: Array<{ role: ChatRole; content: string }> = [];
   if (!Array.isArray(msgs)) return [{ role: "user", content: "Hello" }];
-
   for (const raw of msgs) {
     if (!raw || typeof raw !== "object") continue;
     const role = (raw as { role?: unknown }).role;
     if (role !== "user" && role !== "assistant") continue;
-
     const content = normalizeMessageContent((raw as { content?: unknown }).content);
     if (!content) continue;
-
     if (safeMessages.length === 0) {
       if (role === "user") safeMessages.push({ role, content });
       continue;
     }
-
     const last = safeMessages[safeMessages.length - 1];
     if (last.role === role) {
       last.content = `${last.content}\n\n${content}`;
@@ -65,10 +73,29 @@ function sanitizeMessages(msgs: unknown): Array<{ role: ChatRole; content: strin
       safeMessages.push({ role, content });
     }
   }
-
   while (safeMessages.length && safeMessages[safeMessages.length - 1].role !== "user") safeMessages.pop();
-
   return safeMessages.length ? safeMessages : [{ role: "user", content: "Hello" }];
+}
+
+// Preserve multimodal (image) content for the Lovable AI Gateway (Gemini vision).
+function sanitizeMessagesMultimodal(msgs: unknown): Array<{ role: ChatRole; content: any }> {
+  const out: Array<{ role: ChatRole; content: any }> = [];
+  if (!Array.isArray(msgs)) return [{ role: "user", content: "Hello" }];
+  for (const raw of msgs) {
+    if (!raw || typeof raw !== "object") continue;
+    const role = (raw as any).role;
+    if (role !== "user" && role !== "assistant") continue;
+    const content = (raw as any).content;
+    if (Array.isArray(content) && role === "user") {
+      out.push({ role, content });
+    } else {
+      const text = normalizeMessageContent(content);
+      if (!text) continue;
+      out.push({ role, content: text });
+    }
+  }
+  while (out.length && out[out.length - 1].role !== "user") out.pop();
+  return out.length ? out : [{ role: "user", content: "Hello" }];
 }
 
 function latestUserMessage(msgs: unknown): Array<{ role: ChatRole; content: string }> {
