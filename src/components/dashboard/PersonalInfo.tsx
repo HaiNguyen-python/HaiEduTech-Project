@@ -1,10 +1,10 @@
 // Personal information panel for student dashboard
 // Allows updating display name, phone, school, date of birth, bio, and avatar URL.
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { z } from "zod";
-import { User as UserIcon, Mail, Phone, School, Cake, FileText, Image as ImageIcon, Save, Loader2 } from "lucide-react";
+import { User as UserIcon, Mail, Phone, School, Cake, FileText, Image as ImageIcon, Save, Loader2, Upload, Camera } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
