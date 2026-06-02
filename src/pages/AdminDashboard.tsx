@@ -205,10 +205,15 @@ const AdminDashboard = () => {
         .range(from, to)
     );
     // Remap activity user_id to primary id so merged students share their history
-    const allActivities = (activityData || []).map((a) => ({
-      ...a,
-      user_id: idToPrimary.get(a.user_id) || a.user_id,
-    }));
+    const studentIdSet = new Set(studentList.map((s) => s.id));
+    const allActivities = (activityData || [])
+      .map((a) => ({
+        ...a,
+        user_id: idToPrimary.get(a.user_id) || a.user_id,
+      }))
+      // Drop activities from non-student accounts (teachers/admins or orphaned rows)
+      // so the Student Overview never shows "Unknown" users.
+      .filter((a) => studentIdSet.has(a.user_id));
     const learningActivities = allActivities.filter((a) => isLearningActivity(a.activity_type));
     setActivities(learningActivities);
 
