@@ -16,7 +16,7 @@ import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { HSK_TESTS, totalQuestions, type HskQuestion } from "@/data/hskTests";
+import { HSK_TESTS, HSK_TESTS_BY_LEVEL, findHskTestByCode, totalQuestions, type HskQuestion } from "@/data/hskTests";
 import { inferReadingEmoji } from "@/lib/hskReadingIllustration";
 
 const speakZh = (text: string, rate = 0.85) => {
@@ -34,11 +34,13 @@ const SectionIcon = ({ id }: { id: string }) =>
   <PenLine className="w-4 h-4" />;
 
 const HskTestRoom = () => {
-  const { level } = useParams<{ level: string }>();
+  const { level, code } = useParams<{ level: string; code?: string }>();
   const navigate = useNavigate();
   const { t } = useLanguage();
   const lv = Number(level);
-  const test = HSK_TESTS[lv];
+  // If a specific code is given, look it up; else fall back to the canonical (first) mock for the level
+  const test = code ? findHskTestByCode(code) : HSK_TESTS[lv];
+  const variants = HSK_TESTS_BY_LEVEL[lv] ?? [];
 
   // Flatten with section tagging for linear navigation
   const flat = useMemo(() => {
