@@ -14,7 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -205,10 +205,15 @@ const AdminDashboard = () => {
         .range(from, to)
     );
     // Remap activity user_id to primary id so merged students share their history
-    const allActivities = (activityData || []).map((a) => ({
-      ...a,
-      user_id: idToPrimary.get(a.user_id) || a.user_id,
-    }));
+    const studentIdSet = new Set(studentList.map((s) => s.id));
+    const allActivities = (activityData || [])
+      .map((a) => ({
+        ...a,
+        user_id: idToPrimary.get(a.user_id) || a.user_id,
+      }))
+      // Drop activities from non-student accounts (teachers/admins or orphaned rows)
+      // so the Student Overview never shows "Unknown" users.
+      .filter((a) => studentIdSet.has(a.user_id));
     const learningActivities = allActivities.filter((a) => isLearningActivity(a.activity_type));
     setActivities(learningActivities);
 
@@ -793,7 +798,8 @@ const AdminDashboard = () => {
                         ) : filteredStudents.length === 0 ? (
                           <p className="text-muted-foreground py-4">{t("Chưa có dữ liệu học sinh", "No student data yet")}</p>
                         ) : (
-                          <ScrollArea className="h-[500px]">
+                          <ScrollArea className="h-[500px] w-full">
+                            <div className="min-w-[1180px]">
                             <Table>
                               <TableHeader>
                                 <TableRow>
@@ -867,6 +873,8 @@ const AdminDashboard = () => {
                                 })}
                               </TableBody>
                             </Table>
+                            </div>
+                            <ScrollBar orientation="horizontal" />
                           </ScrollArea>
                         )}
                       </CardContent>
