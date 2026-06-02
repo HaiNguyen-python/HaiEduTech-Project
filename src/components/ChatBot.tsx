@@ -662,7 +662,7 @@ const ChatBot = () => {
 
     recognition.start();
     setIsRecording(true);
-  }, [isRecording, lang, t]);
+  }, [isRecording, voiceLang, t]);
 
   /**
    * Log a profanity warning to moderation_logs table.
