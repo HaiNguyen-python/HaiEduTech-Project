@@ -211,6 +211,55 @@ ${platformFeaturesMap}`
 
     const sanitizedMessages = sanitizeMessages(messages);
 
+    // ── VISION BRANCH: when an image is attached, route to Lovable AI Gateway (Gemini Flash)
+    // because Perplexity 'sonar' is text-only. This is what makes "attach an image and ask" work.
+    if (hasImageContent(messages)) {
+      const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+      if (!LOVABLE_API_KEY) {
+        await logUsage("chat", "gemini-2.5-flash", "vision", 0, "error", "LOVABLE_API_KEY missing");
+        return new Response(JSON.stringify({ error: "Vision unavailable on this server." }), {
+          status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      const visionSystem = `You are "Teacher Hai" of HaiEduTech. The student attached an image. Look at it carefully and answer their question about it concretely. Reply in the student's language (Vietnamese → tiếng Việt tự nhiên, dùng "thầy/em"; English → English; Chinese → 中文; Finnish → suomi). Be specific about what you actually see in the image (text, diagram, code, math, vocabulary, handwriting, etc.). Keep the answer focused on the image and the student's question; do not bring up streaks or stats unless the student asked.`;
+      const multimodalMsgs = sanitizeMessagesMultimodal(messages);
+      const visionResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${LOVABLE_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "google/gemini-2.5-flash",
+          messages: [{ role: "system", content: visionSystem }, ...multimodalMsgs],
+          stream: true,
+        }),
+      });
+      if (!visionResp.ok || !visionResp.body) {
+        const errText = await visionResp.text().catch(() => "");
+        console.error("Vision API error:", visionResp.status, errText);
+        await logUsage("chat", "gemini-2.5-flash", "vision", 0, "error", `HTTP ${visionResp.status}`);
+        if (visionResp.status === 429) {
+          return new Response(JSON.stringify({ error: "Rate limit exceeded. Please try again later." }), {
+            status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
+        if (visionResp.status === 402) {
+          return new Response(JSON.stringify({ error: "AI credits exhausted." }), {
+            status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
+        return new Response(JSON.stringify({ error: "Vision API error" }), {
+          status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      await logUsage("chat", "gemini-2.5-flash", "vision", multimodalMsgs.length * 250, "success");
+      return new Response(visionResp.body, {
+        headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
+      });
+    }
+
+
     const response = await fetch("https://api.perplexity.ai/chat/completions", {
       method: "POST",
       headers: {
