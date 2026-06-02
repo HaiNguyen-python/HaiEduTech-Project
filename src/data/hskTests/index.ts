@@ -92,18 +92,27 @@ import { hsk6Mock2 } from "./hsk6Mock2";
 import { hsk7Mock2 } from "./hsk7Mock2";
 import { hsk8Mock2 } from "./hsk8Mock2";
 import { hsk9Mock2 } from "./hsk9Mock2";
+import { hsk1Mock3 } from "./hsk1Mock3";
+import { hsk2Mock3 } from "./hsk2Mock3";
+import { hsk3Mock3 } from "./hsk3Mock3";
+import { hsk4Mock3 } from "./hsk4Mock3";
+import { hsk5Mock3 } from "./hsk5Mock3";
+import { hsk6Mock3 } from "./hsk6Mock3";
+import { hsk7Mock3 } from "./hsk7Mock3";
+import { hsk8Mock3 } from "./hsk8Mock3";
+import { hsk9Mock3 } from "./hsk9Mock3";
 
 /** All mock tests grouped by level. Each level can have multiple variants. */
 export const HSK_TESTS_BY_LEVEL: Record<number, HskTest[]> = {
-  1: [hsk1Test, hsk1Mock2],
-  2: [hsk2Test, hsk2Mock2],
-  3: [hsk3Test, hsk3Mock2],
-  4: [hsk4Test, hsk4Mock2],
-  5: [hsk5Test, hsk5Mock2],
-  6: [hsk6Test, hsk6Mock2],
-  7: [hsk7Test, hsk7Mock2],
-  8: [hsk8Test, hsk8Mock2],
-  9: [hsk9Test, hsk9Mock2],
+  1: [hsk1Test, hsk1Mock2, hsk1Mock3],
+  2: [hsk2Test, hsk2Mock2, hsk2Mock3],
+  3: [hsk3Test, hsk3Mock2, hsk3Mock3],
+  4: [hsk4Test, hsk4Mock2, hsk4Mock3],
+  5: [hsk5Test, hsk5Mock2, hsk5Mock3],
+  6: [hsk6Test, hsk6Mock2, hsk6Mock3],
+  7: [hsk7Test, hsk7Mock2, hsk7Mock3],
+  8: [hsk8Test, hsk8Mock2, hsk8Mock3],
+  9: [hsk9Test, hsk9Mock2, hsk9Mock3],
 };
 
 /** Backward-compatible: default to the first (canonical) mock per level. */
