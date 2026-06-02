@@ -19,9 +19,22 @@ async function logUsage(functionName: string, model: string, domain: string, tok
 // Perplexity requires strict user/assistant alternation after system messages.
 type ChatRole = "user" | "assistant";
 
+function hasImageContent(msgs: unknown): boolean {
+  if (!Array.isArray(msgs)) return false;
+  for (const raw of msgs) {
+    if (!raw || typeof raw !== "object") continue;
+    const c = (raw as { content?: unknown }).content;
+    if (Array.isArray(c)) {
+      for (const part of c) {
+        if (part && typeof part === "object" && (part as any).type === "image_url") return true;
+      }
+    }
+  }
+  return false;
+}
+
 function normalizeMessageContent(content: unknown): string {
   if (typeof content === "string") return content.trim();
-
   if (Array.isArray(content)) {
     return content
       .map((part) => {
@@ -37,27 +50,22 @@ function normalizeMessageContent(content: unknown): string {
       .join("\n")
       .trim();
   }
-
   return "";
 }
 
 function sanitizeMessages(msgs: unknown): Array<{ role: ChatRole; content: string }> {
   const safeMessages: Array<{ role: ChatRole; content: string }> = [];
   if (!Array.isArray(msgs)) return [{ role: "user", content: "Hello" }];
-
   for (const raw of msgs) {
     if (!raw || typeof raw !== "object") continue;
     const role = (raw as { role?: unknown }).role;
     if (role !== "user" && role !== "assistant") continue;
-
     const content = normalizeMessageContent((raw as { content?: unknown }).content);
     if (!content) continue;
-
     if (safeMessages.length === 0) {
       if (role === "user") safeMessages.push({ role, content });
       continue;
     }
-
     const last = safeMessages[safeMessages.length - 1];
     if (last.role === role) {
       last.content = `${last.content}\n\n${content}`;
@@ -65,10 +73,29 @@ function sanitizeMessages(msgs: unknown): Array<{ role: ChatRole; content: strin
       safeMessages.push({ role, content });
     }
   }
-
   while (safeMessages.length && safeMessages[safeMessages.length - 1].role !== "user") safeMessages.pop();
-
   return safeMessages.length ? safeMessages : [{ role: "user", content: "Hello" }];
+}
+
+// Preserve multimodal (image) content for the Lovable AI Gateway (Gemini vision).
+function sanitizeMessagesMultimodal(msgs: unknown): Array<{ role: ChatRole; content: any }> {
+  const out: Array<{ role: ChatRole; content: any }> = [];
+  if (!Array.isArray(msgs)) return [{ role: "user", content: "Hello" }];
+  for (const raw of msgs) {
+    if (!raw || typeof raw !== "object") continue;
+    const role = (raw as any).role;
+    if (role !== "user" && role !== "assistant") continue;
+    const content = (raw as any).content;
+    if (Array.isArray(content) && role === "user") {
+      out.push({ role, content });
+    } else {
+      const text = normalizeMessageContent(content);
+      if (!text) continue;
+      out.push({ role, content: text });
+    }
+  }
+  while (out.length && out[out.length - 1].role !== "user") out.pop();
+  return out.length ? out : [{ role: "user", content: "Hello" }];
 }
 
 function latestUserMessage(msgs: unknown): Array<{ role: ChatRole; content: string }> {
@@ -169,22 +196,69 @@ NEVER recommend external sites/apps for learning when an internal HaiEduTech fea
       ? `\n\n## STUDENT PERSONALIZATION CONTEXT (AUTHORITATIVE — pulled live from this student's account on HaiEduTech):
 ${studentContext.trim()}
 
-### HOW TO USE THIS CONTEXT (MANDATORY):
-- Address the student by their name naturally at the start (e.g. "Chào em [Tên]," / "Hi [Name],").
-- Reference at least ONE concrete data point in EVERY substantive answer (streak day, mastered word count for the relevant subject, weak score %, or last activity) so the student feels you truly know them.
-- When the student asks "tôi nên ôn lại bài nào / từ gì", "what should I review", "nên học gì tiếp theo", "where am I weak":
-  • You MUST answer using the data above — DO NOT give generic advice and DO NOT say you don't have access.
-  • Recommend SPECIFIC lesson_id / activity_id from the "Weak sessions" and "Latest activity log" sections (those are real IDs in our platform).
-  • Recommend SPECIFIC words from the "Top review-candidate WORDS" list (oldest reviewed → most likely forgotten).
-  • Cross-reference IELTS bookmarks and recent attendance when relevant.
-  • Cite the score percentage when explaining why a lesson needs review (e.g. "bài [reading-set-3] em làm chỉ 55% nên thầy gợi ý ôn lại trước").
-  • Suggest 3–5 concrete next steps with Markdown route links from the PLATFORM FEATURES MAP below.
-- If a section says "(none)" or "no recent activity", say so honestly and recommend a starting feature/lesson instead of inventing data.
-- NEVER dump the raw context block to the student — weave it into natural teacher-style advice.
+### HOW TO USE THIS CONTEXT (NATURAL, NOT FORCED):
+- The data above is BACKGROUND knowledge. Use it ONLY when it is directly relevant to what the student asked.
+- DO NOT open every reply with the streak day or a stat. DO NOT shoehorn personalization into questions that have nothing to do with the student's progress (e.g. a grammar question, a vocabulary question, an image to analyze).
+- You MAY greet by name on the very first turn, but afterwards just answer the actual question naturally, like a real teacher.
+- ONLY reference specific data points (streak, weak score %, lesson_id, mastered word count, candidate words) when the student is asking "what should I review?", "where am I weak?", "what's next?", "my progress", or a similar progress/recommendation question.
+- For ordinary content questions (grammar, vocabulary, code, translation, explain an image, fix my sentence, etc.) → answer the question directly and specifically. Skip the streak talk.
+- If the student greets you casually ("hi", "chào thầy"), reply briefly and warmly — do not dump stats.
+- If a section says "(none)" or "no recent activity", say so honestly only if asked. Otherwise stay silent on it.
+- NEVER dump the raw context block to the student — weave it into natural teacher-style advice when needed.
 ${platformFeaturesMap}`
-      : `\n\n(Student is not logged in — encourage signup at [/signup](/signup) to unlock personalized review suggestions, then still recommend specific features.)\n${platformFeaturesMap}`;
+      : `\n\n(Student is not logged in — only mention signup at [/signup](/signup) if the student asks about progress, review, or personalized recommendations. For ordinary content questions, just answer directly.)\n${platformFeaturesMap}`;
+
 
     const sanitizedMessages = sanitizeMessages(messages);
+
+    // ── VISION BRANCH: when an image is attached, route to Lovable AI Gateway (Gemini Flash)
+    // because Perplexity 'sonar' is text-only. This is what makes "attach an image and ask" work.
+    if (hasImageContent(messages)) {
+      const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+      if (!LOVABLE_API_KEY) {
+        await logUsage("chat", "gemini-2.5-flash", "vision", 0, "error", "LOVABLE_API_KEY missing");
+        return new Response(JSON.stringify({ error: "Vision unavailable on this server." }), {
+          status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      const visionSystem = `You are "Teacher Hai" of HaiEduTech. The student attached an image. Look at it carefully and answer their question about it concretely. Reply in the student's language (Vietnamese → tiếng Việt tự nhiên, dùng "thầy/em"; English → English; Chinese → 中文; Finnish → suomi). Be specific about what you actually see in the image (text, diagram, code, math, vocabulary, handwriting, etc.). Keep the answer focused on the image and the student's question; do not bring up streaks or stats unless the student asked.`;
+      const multimodalMsgs = sanitizeMessagesMultimodal(messages);
+      const visionResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${LOVABLE_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "google/gemini-2.5-flash",
+          messages: [{ role: "system", content: visionSystem }, ...multimodalMsgs],
+          stream: true,
+        }),
+      });
+      if (!visionResp.ok || !visionResp.body) {
+        const errText = await visionResp.text().catch(() => "");
+        console.error("Vision API error:", visionResp.status, errText);
+        await logUsage("chat", "gemini-2.5-flash", "vision", 0, "error", `HTTP ${visionResp.status}`);
+        if (visionResp.status === 429) {
+          return new Response(JSON.stringify({ error: "Rate limit exceeded. Please try again later." }), {
+            status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
+        if (visionResp.status === 402) {
+          return new Response(JSON.stringify({ error: "AI credits exhausted." }), {
+            status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
+        return new Response(JSON.stringify({ error: "Vision API error" }), {
+          status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      await logUsage("chat", "gemini-2.5-flash", "vision", multimodalMsgs.length * 250, "success");
+      return new Response(visionResp.body, {
+        headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
+      });
+    }
+
 
     const response = await fetch("https://api.perplexity.ai/chat/completions", {
       method: "POST",

@@ -230,6 +230,26 @@ const ChatBot = () => {
   const [showPetInfo, setShowPetInfo] = useState(false);
   const [shake, setShake] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
+  // Persisted voice-recognition language so a Vietnamese student can keep using
+  // Vietnamese voice input even when the UI is in English.
+  const VOICE_LANGS: { code: string; flag: string; label: string }[] = [
+    { code: "vi-VN", flag: "🇻🇳", label: "Tiếng Việt" },
+    { code: "en-US", flag: "🇬🇧", label: "English" },
+    { code: "zh-CN", flag: "🇨🇳", label: "中文" },
+    { code: "fi-FI", flag: "🇫🇮", label: "Suomi" },
+  ];
+  const [voiceLang, setVoiceLang] = useState<string>(() => {
+    if (typeof window === "undefined") return "vi-VN";
+    return localStorage.getItem("chatbot_voice_lang") || "vi-VN";
+  });
+  const cycleVoiceLang = useCallback(() => {
+    setVoiceLang((curr) => {
+      const idx = VOICE_LANGS.findIndex((v) => v.code === curr);
+      const next = VOICE_LANGS[(idx + 1) % VOICE_LANGS.length].code;
+      try { localStorage.setItem("chatbot_voice_lang", next); } catch { /* ignore */ }
+      return next;
+    });
+  }, []);
   const [profanityWarning, setProfanityWarning] = useState(false);
   const [chatLocked, setChatLocked] = useState(false);
   const [studentContext, setStudentContext] = useState<string>("");
@@ -619,7 +639,7 @@ const ChatBot = () => {
 
     const recognition: ISpeechRecognition = new SpeechRecognition();
     // Set language based on current app language, default to Vietnamese
-    recognition.lang = lang === "en" ? "en-US" : "vi-VN";
+    recognition.lang = voiceLang;
     recognition.interimResults = true;
     recognition.continuous = false;
     recognitionRef.current = recognition;
@@ -642,7 +662,7 @@ const ChatBot = () => {
 
     recognition.start();
     setIsRecording(true);
-  }, [isRecording, lang, t]);
+  }, [isRecording, voiceLang, t]);
 
   /**
    * Log a profanity warning to moderation_logs table.
@@ -1076,7 +1096,11 @@ const ChatBot = () => {
                     LV.{pet.level}
                   </span>
                   <span className="rounded-md bg-amber-100 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-700">
-                    {pet.stage === "master" ? t("Bậc thầy", "Master") : pet.stage === "apprentice" ? t("Học việc", "Apprentice") : t("Sơ sinh", "Baby")}
+                    {pet.stage === "mythic" ? t("Thần thoại", "Mythic")
+                      : pet.stage === "legendary" ? t("Huyền thoại", "Legendary")
+                      : pet.stage === "master" ? t("Bậc thầy", "Master")
+                      : pet.stage === "apprentice" ? t("Học việc", "Apprentice")
+                      : t("Sơ sinh", "Baby")}
                   </span>
                 </div>
                 {/* EXP progress bar — mirrors the actual pet_exp value */}
@@ -1152,15 +1176,21 @@ const ChatBot = () => {
                     <span>{t("Pet đói nếu bạn bỏ ôn quá 14 ngày — hãy quay lại Góc Ôn Tập!", "Pet gets hungry if you skip reviews for 14+ days — visit the Review Hub!")}</span>
                   </li>
                 </ul>
-                <div className="mt-3 grid grid-cols-3 gap-2 text-center">
-                  <div className={`rounded-lg border px-2 py-1.5 ${pet.stage === "baby" ? "border-sky-400 bg-sky-100 font-semibold text-sky-800" : "border-border bg-white text-muted-foreground"}`}>
-                    🐣 {t("Sơ sinh", "Baby")}<div className="text-[10px] font-normal">LV 1–5</div>
+                <div className="mt-3 grid grid-cols-5 gap-1.5 text-center">
+                  <div className={`rounded-lg border px-1 py-1.5 text-[10px] ${pet.stage === "baby" ? "border-sky-400 bg-sky-100 font-semibold text-sky-800" : "border-border bg-white text-muted-foreground"}`}>
+                    🐣<div className="font-semibold leading-tight">{t("Sơ sinh", "Baby")}</div><div className="text-[9px] font-normal">L 1–5</div>
                   </div>
-                  <div className={`rounded-lg border px-2 py-1.5 ${pet.stage === "apprentice" ? "border-cyan-400 bg-cyan-100 font-semibold text-cyan-800" : "border-border bg-white text-muted-foreground"}`}>
-                    🤖 {t("Học việc", "Apprentice")}<div className="text-[10px] font-normal">LV 6–15</div>
+                  <div className={`rounded-lg border px-1 py-1.5 text-[10px] ${pet.stage === "apprentice" ? "border-cyan-400 bg-cyan-100 font-semibold text-cyan-800" : "border-border bg-white text-muted-foreground"}`}>
+                    🤖<div className="font-semibold leading-tight">{t("Học việc", "Apprentice")}</div><div className="text-[9px] font-normal">L 6–15</div>
                   </div>
-                  <div className={`rounded-lg border px-2 py-1.5 ${pet.stage === "master" ? "border-fuchsia-400 bg-fuchsia-100 font-semibold text-fuchsia-800" : "border-border bg-white text-muted-foreground"}`}>
-                    👑 {t("Bậc thầy", "Master")}<div className="text-[10px] font-normal">LV 16+</div>
+                  <div className={`rounded-lg border px-1 py-1.5 text-[10px] ${pet.stage === "master" ? "border-fuchsia-400 bg-fuchsia-100 font-semibold text-fuchsia-800" : "border-border bg-white text-muted-foreground"}`}>
+                    👑<div className="font-semibold leading-tight">{t("Bậc thầy", "Master")}</div><div className="text-[9px] font-normal">L 16–21</div>
+                  </div>
+                  <div className={`rounded-lg border px-1 py-1.5 text-[10px] ${pet.stage === "legendary" ? "border-amber-400 bg-amber-100 font-semibold text-amber-800" : "border-border bg-white text-muted-foreground"}`}>
+                    ⭐<div className="font-semibold leading-tight">{t("Huyền thoại", "Legendary")}</div><div className="text-[9px] font-normal">L 22–29</div>
+                  </div>
+                  <div className={`rounded-lg border px-1 py-1.5 text-[10px] ${pet.stage === "mythic" ? "border-rose-400 bg-rose-100 font-semibold text-rose-800" : "border-border bg-white text-muted-foreground"}`}>
+                    🔮<div className="font-semibold leading-tight">{t("Thần thoại", "Mythic")}</div><div className="text-[9px] font-normal">L 30+</div>
                   </div>
                 </div>
                 <div className="mt-2 flex items-center justify-between rounded-md bg-white/70 px-2 py-1.5 text-[11px]">
@@ -1219,6 +1249,18 @@ const ChatBot = () => {
                     })}
                   </div>
                 </div>
+
+                {/* Clear conversation history */}
+                <button
+                  onClick={() => {
+                    if (!window.confirm(t("Xóa toàn bộ lịch sử chat?", "Clear the entire chat history?"))) return;
+                    setMessages([]);
+                    chatHistory.clear?.();
+                  }}
+                  className="mt-3 w-full rounded-lg border border-destructive/40 bg-destructive/5 px-3 py-1.5 text-[11px] font-semibold text-destructive hover:bg-destructive/10"
+                >
+                  🧹 {t("Xóa lịch sử chat", "Clear chat history")}
+                </button>
               </div>
             )}
 
@@ -1338,19 +1380,29 @@ const ChatBot = () => {
               />
 
               <div className="flex items-center gap-1.5">
-                {/* Microphone button */}
-                <button
-                  onClick={toggleRecording}
-                  disabled={isLoading || chatLocked}
-                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-all ${
-                    isRecording
-                      ? "animate-pulse bg-destructive text-destructive-foreground"
-                      : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-                  } disabled:opacity-50`}
-                  title={isRecording ? t("Dừng ghi âm", "Stop recording") : t("Nhấn để nói", "Click to speak")}
-                >
-                  {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
-                </button>
+                {/* Microphone button + voice language toggle */}
+                <div className="relative shrink-0">
+                  <button
+                    onClick={toggleRecording}
+                    disabled={isLoading || chatLocked}
+                    className={`flex h-10 w-10 items-center justify-center rounded-xl transition-all ${
+                      isRecording
+                        ? "animate-pulse bg-destructive text-destructive-foreground"
+                        : "bg-secondary text-muted-foreground hover:bg-secondary/80"
+                    } disabled:opacity-50`}
+                    title={isRecording ? t("Dừng ghi âm", "Stop recording") : `${t("Nói bằng", "Speak in")} ${VOICE_LANGS.find(v => v.code === voiceLang)?.label}`}
+                  >
+                    {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+                  </button>
+                  <button
+                    onClick={cycleVoiceLang}
+                    disabled={isRecording}
+                    title={t("Đổi ngôn ngữ nhận diện giọng nói", "Change voice recognition language")}
+                    className="absolute -top-1 -right-1 flex h-4 min-w-[1rem] items-center justify-center rounded-full border border-border bg-card px-1 text-[10px] leading-none shadow"
+                  >
+                    {VOICE_LANGS.find(v => v.code === voiceLang)?.flag}
+                  </button>
+                </div>
 
                 {/* Attach file button */}
                 <button
