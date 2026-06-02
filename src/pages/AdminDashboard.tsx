@@ -798,7 +798,8 @@ const AdminDashboard = () => {
                         ) : filteredStudents.length === 0 ? (
                           <p className="text-muted-foreground py-4">{t("Chưa có dữ liệu học sinh", "No student data yet")}</p>
                         ) : (
-                          <ScrollArea className="h-[500px]">
+                          <ScrollArea className="h-[500px] w-full">
+                            <div className="min-w-[1180px]">
                             <Table>
                               <TableHeader>
                                 <TableRow>
