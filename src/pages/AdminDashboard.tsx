@@ -1155,6 +1155,11 @@ const AdminDashboard = () => {
                 <IncomeManagement />
               </TabsContent>
 
+              {/* ===== ASSISTANT MANAGEMENT TAB ===== */}
+              <TabsContent value="assistants">
+                <AssistantManagementTab />
+              </TabsContent>
+
               {/* ===== CLASS SCHEDULE TAB ===== */}
               <TabsContent value="schedule">
                 <ClassScheduleManager />
