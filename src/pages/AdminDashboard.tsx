@@ -64,6 +64,24 @@ const TREND_ICONS = {
   stable: <Minus className="w-4 h-4 text-muted-foreground" />,
 };
 
+// Format a seconds count as "Xh Ym" / "Ym" / "<1m"
+function formatDuration(sec: number): string {
+  if (!sec || sec < 60) return sec > 0 ? "<1m" : "-";
+  const h = Math.floor(sec / 3600);
+  const m = Math.floor((sec % 3600) / 60);
+  return h > 0 ? `${h}h ${m}m` : `${m}m`;
+}
+
+// Format a ms timestamp as relative "Today / Xd ago / DD/MM"
+function formatLastLogin(ts: number, isVi: boolean): string {
+  if (!ts) return "-";
+  const diffDays = Math.floor((Date.now() - ts) / 86400000);
+  if (diffDays <= 0) return isVi ? "Hôm nay" : "Today";
+  if (diffDays === 1) return isVi ? "Hôm qua" : "1d ago";
+  if (diffDays < 30) return `${diffDays}${isVi ? " ngày" : "d ago"}`;
+  return new Date(ts).toLocaleDateString(isVi ? "vi-VN" : "en-GB");
+}
+
 // Export data as CSV or JSON (RFC-4180 compliant escaping)
 function exportData(data: any[], format: "csv" | "json", filename: string) {
   let blob: Blob;
