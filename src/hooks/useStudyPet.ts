@@ -25,14 +25,19 @@ const STALE_DAYS = 14;
 const STAR_WINDOW_MS = 60_000;
 
 // Pet level thresholds (cumulative pet_exp required to *reach* each level).
+// Five evolution stages: Baby (L1-5) → Apprentice (L6-15) → Master (L16-21)
+// → Legendary (L22-29) → Mythic (L30+). Higher tiers unlock richer visuals.
 const LEVEL_THRESHOLDS = [
   0, 80, 200, 360, 560, 800,        // L1..L6  (Baby → Apprentice jump @ L6)
   1100, 1450, 1850, 2300, 2800,     // L7..L11
   3350, 3950, 4600, 5300, 6050,     // L12..L16 (Master jump @ L16)
   6850, 7700, 8600, 9550, 10550,    // L17..L21
+  11650, 12850, 14150, 15550, 17050,// L22..L26 (Legendary jump @ L22)
+  18650, 20350, 22150, 24050,       // L27..L30 (Mythic jump @ L30)
+  26050, 28150, 30350, 32650, 35050, // L31..L35
 ];
 
-export type PetStage = "baby" | "apprentice" | "master";
+export type PetStage = "baby" | "apprentice" | "master" | "legendary" | "mythic";
 
 export interface StudyPetState {
   exp: number;
@@ -72,7 +77,10 @@ const computeLevel = (exp: number) => {
 };
 
 const stageFor = (level: number): PetStage =>
-  level >= 16 ? "master" : level >= 6 ? "apprentice" : "baby";
+  level >= 30 ? "mythic" :
+  level >= 22 ? "legendary" :
+  level >= 16 ? "master" :
+  level >= 6  ? "apprentice" : "baby";
 
 export function useStudyPet(): StudyPetState & { refresh: () => void } {
   const [exp, setExp] = useState(0);
