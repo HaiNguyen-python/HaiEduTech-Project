@@ -1,81 +1,78 @@
-## Mục tiêu
-Xây dựng trang **Assignment Management Dashboard** cho admin/teacher tại route `/admin/assignments`, theo phong cách "executive office" sáng — nền trắng, viền slate-100, text đậm — để Thầy Hải giao và theo dõi bài tập đa môn (AI Academy, English Hub, Chinese Hub, Scratch Coding).
 
-## 1. Database (Lovable Cloud)
+# Assistant Management & RBAC System
 
-Tạo 2 bảng mới qua migration:
+Build a role-based access control system for onboarding external Assistants (Cộng tác viên), with time-tracking, automatic payroll (50,000 VND/hr), and daily reports with screenshot uploads. Teacher Hai stays super_admin with exclusive access to financial/revenue metrics.
 
-**`assignments`**
-- `title`, `subject` (ai_academy | english | chinese | scratch), `level`, `assignment_type` (platform_exercise | custom_quiz | coding_project), `source_ref` (id bài tập gốc nếu có), `payload` (jsonb — quiz/dynamic content), `teacher_id`, `assigned_at`, `deadline` (nullable), `target_class` (text), `target_student_ids` (uuid[])
+## 1. Database (migration)
 
-**`student_submissions`**
-- `assignment_id`, `student_id`, `status` (assigned | in_progress | completed | overdue), `accuracy` (numeric %), `score`, `submitted_at`, `time_spent_seconds`, `answers` (jsonb)
+Existing project already has `user_roles` table with `app_role` enum (`admin`, `teacher`, `student`). Plan:
 
-RLS: teacher/admin full quyền; student chỉ xem/insert bài của chính mình. Mọi `CREATE TABLE` kèm GRANT đầy đủ.
+- Add `'assistant'` to the `app_role` enum.
+- Treat existing `admin` + `teacher` roles as super_admin (Teacher Hai's account `hainguyen240195@gmail.com` already has teacher role per memory).
+- Create `public.time_logs` (id, user_id, clock_in, clock_out, duration_hours, calculated_salary, status enum 'active'/'completed', created_at).
+- Create `public.daily_reports` (id, user_id, work_summary, feedback, screenshot_urls text[], created_at).
+- Create private storage bucket `report-attachments`.
+- RLS:
+  - `time_logs`: assistant can SELECT/INSERT/UPDATE own rows; super_admin (admin or teacher) can SELECT all.
+  - `daily_reports`: assistant can INSERT/SELECT own; super_admin SELECT all.
+  - Storage RLS on `report-attachments`: user can upload/read own folder (`auth.uid()::text = (storage.foldername(name))[1]`); super_admin can read all.
+- GRANTs on both tables + service_role.
+- Helper function `public.is_super_admin(uuid)` = has_role(admin) OR has_role(teacher).
 
-Index trên `assignment_id`, `student_id`, `deadline`.
+## 2. Super Admin View — new tab in `TeacherDashboard.tsx`
 
-## 2. Route & Bảo vệ
-- Thêm route `/admin/assignments` trong `src/App.tsx`, lazy-load `AdminAssignments.tsx`.
-- Bảo vệ bằng `useUserRole` — chỉ teacher/admin truy cập, người khác redirect.
-- Thêm link điều hướng từ `AdminDashboard` / `TeacherAdmin`.
+New tab **"Quản lý Cộng tác viên / Assistant Management"** containing 3 sub-sections:
 
-## 3. Trang `src/pages/AdminAssignments.tsx`
+- **User table**: list profiles with role `student` or `assistant`. Per row: `[Bổ nhiệm CTV]` (insert assistant role) / `[Thu hồi CTV]` (delete assistant role). Search by name.
+- **Payroll Summary**: aggregated current-month table — Assistant name, total hours, total salary (`hours × 50000` VND, formatted vi-VN), entries count.
+- **Received Reports**: timeline of `daily_reports` (newest first) with author, date, summary, feedback, screenshot thumbnail grid → click opens lightbox (reuse existing `Dialog`).
 
-Layout dọc, `bg-white`, card `border border-slate-100 rounded-xl`:
+## 3. Assistant Admin View — new page `/assistant`
 
-### A. Metric Cards (hàng trên)
-2 card lớn, label uppercase tracking-wide màu slate-500, số lớn font-semibold:
-- **ASSIGNED TESTS** — tổng assignments đang active (status ≠ completed).
-- **CLASS RUNTIME / STUDY HOURS** — tổng `time_spent_seconds` từ submissions đổi sang giờ (1 chữ số thập phân).
+- New route `/assistant` guarded by `useUserRole`: only `assistant` role (and super_admin for preview). Students/anon → redirect home with toast.
+- Login redirect logic: in `Login.tsx`, after sign-in check role → if pure assistant (no admin/teacher), redirect to `/assistant`.
+- Layout: Navbar + clean Tailwind page. NO revenue widgets imported.
+- **Time-Tracking Widget** (top):
+  - Query latest `time_logs` row where status='active' for user.
+  - If none → green `[▶ Bắt Đầu Làm Việc]` button → inserts row with clock_in=now(), status='active'.
+  - If active → red `[⏹ Kết Thúc Công Việc]` + live elapsed timer (updates every second from clock_in). On click: update row with clock_out, duration_hours, calculated_salary = duration_hours × 50000, status='completed'.
+- **My Time Logs (current month)**: table below widget — date, clock_in, clock_out, hours, salary.
+- **Daily Report sub-tab**:
+  - Textarea work_summary, textarea feedback, drag-and-drop image uploader (multiple, ≤5 MB each, image/* only) using `react-dropzone`-style native HTML5 DnD (no new dep needed).
+  - Upload files to `report-attachments/{user_id}/{timestamp}-{name}`, collect public-style signed/public URLs (bucket is private → store path + use `getPublicUrl` after creating a signed URL helper, OR make bucket public-read with RLS). Decision: keep bucket **private**, store object paths in `screenshot_urls`, and use signed URLs on render (1h expiry).
+  - On submit → insert `daily_reports` row, clear form, toast "Gửi báo cáo thành công!".
 
-### B. Filter Bar
-Hàng inline:
-- Select **Subject/Class** (AI Academy, English, Chinese, Scratch, All)
-- Select **Status** (All, In progress, Completed, Overdue)
-- Select **Level/Grade**
-- Nút phải `bg-slate-900 text-white` **"Assign a test"** → mở `Dialog`:
-  - Bước 1: chọn subject
-  - Bước 2: chọn nguồn — platform exercise (list từ existing lessons) / custom quiz (form thêm câu hỏi) / coding project
-  - Bước 3: chọn lớp hoặc multi-select học viên (từ `profiles` có role student)
-  - Bước 4: chọn deadline (calendar) → submit insert `assignments` + tạo `student_submissions` status=assigned
+## 4. Route guard
 
-### C. Data Table
-`overflow-x-auto` trong card, `min-w-[1100px]`, hover `bg-slate-50`:
-| No | Test Name | Subject/Level | Accuracy | Teacher | Progress | Assignees | Assigned time | Deadline | Status | Actions |
+- New `AssistantGuard` component wrapping `/assistant`. 
+- For existing admin-only routes (revenue/income e.g. `AdminDashboard`, income management): add early return if user has `assistant` role but not super_admin → toast "403 - Bạn không có quyền truy cập" and `navigate('/assistant')`.
 
-- **Accuracy**: vòng tròn radial nhỏ (SVG conic) hoặc text %, màu emerald nếu ≥80, amber 50–79, rose <50.
-- **Progress**: % submission completed / total assignees, hiển thị cả số (vd 55.56%).
-- **Status badge**:
-  - In progress → `bg-amber-50 text-amber-700 border-amber-200`
-  - Completed → `bg-emerald-50 text-emerald-700 border-emerald-200`
-  - Overdue → `bg-rose-50 text-rose-700 border-rose-200`
-- **Actions**: icon `Eye` mở drawer xem chi tiết tiến độ từng học viên (list submissions với accuracy, time spent); icon `Trash2` xóa (confirm).
-- **Assigned time**: format `HH:mm - DD/MM/YYYY`.
+## 5. Files to create/edit
 
-### D. Detail Drawer (Eye)
-`Sheet` bên phải hiển thị:
-- Tên bài, subject, deadline
-- Bảng học viên: tên, status, accuracy, time spent, submitted_at
-- Nút "Gửi nhắc nhở" (placeholder toast giai đoạn 1).
+**Created**
+- `supabase/migrations/<ts>_assistant_rbac.sql` — enum value, tables, RLS, grants, storage bucket policies, helper fn.
+- `src/pages/AssistantDashboard.tsx` — main assistant view.
+- `src/components/assistant/TimeTrackingWidget.tsx`
+- `src/components/assistant/MyTimeLogs.tsx`
+- `src/components/assistant/DailyReportForm.tsx`
+- `src/components/admin/AssistantManagementTab.tsx` — wraps the 3 super-admin sections.
+- `src/components/admin/PayrollSummary.tsx`
+- `src/components/admin/ReceivedReportsTimeline.tsx`
+- `src/hooks/useIsAssistant.ts` (small helper)
+- `.lovable/memory/features/admin/assistant-rbac.md` — memory note.
 
-## 4. Logic & Helpers
-- File `src/lib/assignmentMetrics.ts`: tính progress, accuracy trung bình, runtime hours từ array submissions.
-- Auto-cron không bắt buộc; status `overdue` tính derived ở client khi `deadline < now() AND status != completed`.
-- Realtime (tùy chọn phase 2): enable realtime cho `student_submissions`.
+**Edited**
+- `src/hooks/useUserRole.ts` — extend `AppRole` to include `'assistant'`, expose `isAssistant`, `isSuperAdmin`.
+- `src/pages/TeacherDashboard.tsx` — add new tab.
+- `src/pages/Login.tsx` — post-login redirect for pure assistants.
+- `src/App.tsx` — add `/assistant` route.
+- `src/pages/AdminDashboard.tsx` (if exists) — block assistants.
 
-## 5. Phong cách & Responsive
-- Tailwind tokens hiện có; **không** dùng màu hard-code ngoài bảng status (đã liệt kê) — phần còn lại dùng `slate-*`, `bg-white`, `border-slate-100`, `text-slate-900/600/500`.
-- Mobile: cards xếp dọc, table scroll ngang trong card (`overflow-x-auto`), min-width 1100px.
-- Toàn bộ comment trong code bằng tiếng Anh.
+## Technical details
 
-## 6. Phạm vi không nằm trong lần này
-- Auto-grade chi tiết cho mỗi loại bài (sẽ chỉ ghi `accuracy` khi student submit từ flow hiện có / quiz tự tạo).
-- Notification email — chỉ chuẩn bị bảng, chưa nối edge function.
-
-## Bước triển khai
-1. Migration tạo 2 bảng + RLS + GRANT + index.
-2. `src/lib/assignmentMetrics.ts` + types.
-3. `src/pages/AdminAssignments.tsx` (metrics, filter, table, dialog tạo bài, drawer chi tiết).
-4. Thêm route + link từ `AdminDashboard` và `TeacherAdmin`.
-5. Smoke test: tạo 1 assignment giả, kiểm tra hiển thị, filter, xóa.
+- Storage bucket created via `supabase--storage_create_bucket` tool (private).
+- Salary calc done **server-side via DB trigger** on `time_logs` update (when clock_out set) for tamper-proofing: duration_hours = EXTRACT(EPOCH FROM (clock_out - clock_in))/3600, calculated_salary = duration_hours × 50000. Client also sends the values, trigger overrides.
+- Use existing shadcn `Table`, `Card`, `Tabs`, `Dialog`, `Button`, `Textarea`, `toast`.
+- Currency formatting: `new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })`.
+- All comments in English (per spec).
+- Tailwind tokens only (no raw colors).
