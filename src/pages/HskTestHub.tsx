@@ -32,7 +32,7 @@ const HskTestHub = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="HSK Test 1-9: Đề Thi Thử Chuẩn HSK 3.0 Online | HaiEduTech"
+        title="HSK Test 1-9: 18 Đề Thi Thử Chuẩn HSK 3.0 Online | HaiEduTech"
         description="Bộ đề thi thử HSK 1 đến HSK 9 (HSK 3.0) mô phỏng chuẩn Hanban với phần Nghe (TTS tự động), Đọc và Viết. Tự chấm điểm và giải thích chi tiết."
         path="/chinese/hsk/test"
       />
