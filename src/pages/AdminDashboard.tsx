@@ -50,6 +50,7 @@ import UserInsightsTab from "@/components/admin/UserInsightsTab";
 import FeedbackAnalyticsTab from "@/components/admin/FeedbackAnalyticsTab";
 import ChatbotConversationsReview from "@/components/admin/ChatbotConversationsReview";
 import AttendanceAnalyticsTab from "@/components/admin/AttendanceAnalyticsTab";
+import ReportLogsTab from "@/components/admin/ReportLogsTab";
 
 // Priority colors
 const PRIORITY_COLORS = {
@@ -601,6 +602,7 @@ const AdminDashboard = () => {
                   <>
                     <TabsTrigger value="income" className="gap-1.5"><DollarSign className="w-3.5 h-3.5" /> {t("Thu nhập", "Income")}</TabsTrigger>
                     <TabsTrigger value="schedule" className="gap-1.5"><Clock className="w-3.5 h-3.5" /> {t("Lịch học", "Schedule")}</TabsTrigger>
+                    <TabsTrigger value="report-logs" className="gap-1.5"><ClipboardList className="w-3.5 h-3.5" /> {t("Báo cáo Email", "Report Logs")}</TabsTrigger>
                   </>
                 )}
               </TabsList>
@@ -1173,6 +1175,10 @@ const AdminDashboard = () => {
 
               <TabsContent value="chatbot">
                 <ChatbotConversationsReview />
+              </TabsContent>
+
+              <TabsContent value="report-logs">
+                <ReportLogsTab />
               </TabsContent>
             </Tabs>
           </motion.div>
