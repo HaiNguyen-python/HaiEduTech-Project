@@ -320,18 +320,25 @@ const ChatBot = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // Re-hydrate whenever the authenticated user changes (login / logout / switch account).
+  // Without this, a user who opens the app while logged-out then logs in would never see
+  // their saved transcript because hydratedRef would already be sealed for the guest state.
+  useEffect(() => {
+    hydratedRef.current = false;
+  }, [chatHistory.userId]);
+
   // Hydrate the saved chat transcript once it arrives from the server
   useEffect(() => {
     if (hydratedRef.current) return;
-    if (chatHistory.initial && chatHistory.initial.length > 0) {
+    if (chatHistory.initial === null) return; // still loading
+    if (chatHistory.initial.length > 0) {
       setMessages(chatHistory.initial);
-      hydratedRef.current = true;
-    } else if (chatHistory.initial && chatHistory.initial.length === 0) {
-      hydratedRef.current = true;
     }
+    hydratedRef.current = true;
   }, [chatHistory.initial]);
 
-  // Persist transcript whenever it changes (debounced inside the hook)
+  // Persist transcript whenever it changes (debounced inside the hook).
+  // Only persist after hydration so we don't clobber the saved row with an empty array.
   useEffect(() => {
     if (!hydratedRef.current) return;
     if (messages.length === 0) return;
