@@ -694,7 +694,7 @@ const AdminDashboard = () => {
                                         ))}
                                     </div>
                                   </TableCell>
-                                  <TableCell className="text-xs text-muted-foreground max-w-[200px] truncate">
+                                  <TableCell className="text-xs text-muted-foreground min-w-[220px] whitespace-normal break-words leading-snug">
                                     {topRec ? t(topRec.actionVi, topRec.action) : "-"}
                                   </TableCell>
                                 </TableRow>
