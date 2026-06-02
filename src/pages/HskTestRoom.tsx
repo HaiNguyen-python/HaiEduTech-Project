@@ -127,6 +127,27 @@ const HskTestRoom = () => {
           </div>
         </div>
 
+        {/* Variant switcher when multiple mocks exist for this level */}
+        {variants.length > 1 && (
+          <div className="mb-3 flex flex-wrap items-center gap-2 text-xs">
+            <span className="text-muted-foreground font-semibold">{t("Đề khác cùng cấp:", "Other mocks for this level:")}</span>
+            {variants.map(v => {
+              const active = v.code === test.code;
+              return (
+                <button
+                  key={v.code}
+                  onClick={() => { if (!active) navigate(`/chinese/hsk/test/${lv}/${v.code}`); }}
+                  className={`px-3 py-1 rounded-full border-2 font-mono transition-all ${
+                    active ? "bg-primary text-primary-foreground border-primary" : "border-border bg-card hover:border-primary/50"
+                  }`}
+                >
+                  {v.code.split("-").slice(-2).join("-")}
+                </button>
+              );
+            })}
+          </div>
+        )}
+
         {/* Section header */}
         <div className="mb-4 p-4 rounded-xl bg-card border border-border">
           <div className="flex items-center gap-2 text-sm font-bold text-primary mb-1">
