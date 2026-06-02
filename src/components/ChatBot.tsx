@@ -1348,12 +1348,30 @@ const ChatBot = () => {
               )}
 
               {messages.map((msg, i) => {
-                // Detect the course-registration CTA sentinel emitted by the chat edge function.
-                // When present, strip it from the visible text and render enrollment action pills below the bubble.
-                const CTA_TOKEN = "[[CTA:COURSE_REGISTRATION]]";
-                const hasCourseCta = msg.role === "assistant" && msg.content.includes(CTA_TOKEN);
+                // Detect the course-registration CTA sentinel. Optional `:subject` suffix routes
+                // the placement-test CTA to the matching bank (e.g. chinese/programming/finnish).
+                const CTA_RE = /\[\[CTA:COURSE_REGISTRATION(?::([a-z]+))?\]\]/i;
+                const ctaMatch = msg.role === "assistant" ? msg.content.match(CTA_RE) : null;
+                const hasCourseCta = !!ctaMatch;
+                const ctaSubject = ctaMatch?.[1]?.toLowerCase();
+                const placementHref = ctaSubject
+                  ? `/placement-test?subject=${encodeURIComponent(ctaSubject)}`
+                  : "/placement-test";
+                const subjectLabel: Record<string, { vi: string; en: string }> = {
+                  chinese: { vi: "Tiếng Trung", en: "Chinese" },
+                  english: { vi: "Tiếng Anh", en: "English" },
+                  vietnamese: { vi: "Tiếng Việt", en: "Vietnamese" },
+                  finnish: { vi: "Tiếng Phần Lan", en: "Finnish" },
+                  programming: { vi: "Lập trình", en: "Programming" },
+                };
+                const ctaLabel = ctaSubject && subjectLabel[ctaSubject]
+                  ? t(
+                      `🎯 Làm Test Đầu Vào ${subjectLabel[ctaSubject].vi}`,
+                      `🎯 Take ${subjectLabel[ctaSubject].en} Placement Test`,
+                    )
+                  : t("🎯 Làm Test Đầu Vào Ngay", "🎯 Take the Placement Test");
                 const displayContent = hasCourseCta
-                  ? msg.content.replace(CTA_TOKEN, "").trim()
+                  ? msg.content.replace(CTA_RE, "").trim()
                   : msg.content;
                 return (
                   <div key={i} className={`flex flex-col ${msg.role === "user" ? "items-end" : "items-start"}`}>
@@ -1385,11 +1403,11 @@ const ChatBot = () => {
                           type="button"
                           onClick={() => {
                             setOpen(false);
-                            window.location.assign("/placement-test");
+                            window.location.assign(placementHref);
                           }}
                           className="flex-1 rounded-full bg-emerald-500 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-sm transition-all hover:bg-emerald-600 hover:shadow-md active:scale-[0.98]"
                         >
-                          🎯 Làm Test Đầu Vào Ngay
+                          {ctaLabel}
                         </button>
                         <a
                           href="https://zalo.me/0962823800"
