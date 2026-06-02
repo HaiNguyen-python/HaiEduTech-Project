@@ -196,8 +196,8 @@ const PayrollSummary = () => {
                   </TableHeader>
                   <TableBody>
                     {rows.map((r) => (
-                      <>
-                        <TableRow key={r.user_id}>
+                      <Fragment key={r.user_id}>
+                        <TableRow>
                           <TableCell className="font-medium">{r.name}</TableCell>
                           <TableCell className="text-right tabular-nums">{r.entries}</TableCell>
                           <TableCell className="text-right tabular-nums">{r.totalHours.toFixed(2)}</TableCell>
@@ -215,7 +215,7 @@ const PayrollSummary = () => {
                           </TableCell>
                         </TableRow>
                         {r.bonuses.length > 0 && (
-                          <TableRow key={`${r.user_id}-bonuses`} className="bg-amber-500/5 hover:bg-amber-500/5">
+                          <TableRow className="bg-amber-500/5 hover:bg-amber-500/5">
                             <TableCell colSpan={7} className="py-2">
                               <div className="space-y-1.5">
                                 <div className="text-xs font-medium text-muted-foreground">Lịch sử thưởng tháng này:</div>
@@ -239,7 +239,7 @@ const PayrollSummary = () => {
                             </TableCell>
                           </TableRow>
                         )}
-                      </>
+                      </Fragment>
                     ))}
                   </TableBody>
                 </Table>
