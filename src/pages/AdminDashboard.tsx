@@ -64,6 +64,24 @@ const TREND_ICONS = {
   stable: <Minus className="w-4 h-4 text-muted-foreground" />,
 };
 
+// Format a seconds count as "Xh Ym" / "Ym" / "<1m"
+function formatDuration(sec: number): string {
+  if (!sec || sec < 60) return sec > 0 ? "<1m" : "-";
+  const h = Math.floor(sec / 3600);
+  const m = Math.floor((sec % 3600) / 60);
+  return h > 0 ? `${h}h ${m}m` : `${m}m`;
+}
+
+// Format a ms timestamp as relative "Today / Xd ago / DD/MM"
+function formatLastLogin(ts: number, isVi: boolean): string {
+  if (!ts) return "-";
+  const diffDays = Math.floor((Date.now() - ts) / 86400000);
+  if (diffDays <= 0) return isVi ? "Hôm nay" : "Today";
+  if (diffDays === 1) return isVi ? "Hôm qua" : "1d ago";
+  if (diffDays < 30) return `${diffDays}${isVi ? " ngày" : "d ago"}`;
+  return new Date(ts).toLocaleDateString(isVi ? "vi-VN" : "en-GB");
+}
+
 // Export data as CSV or JSON (RFC-4180 compliant escaping)
 function exportData(data: any[], format: "csv" | "json", filename: string) {
   let blob: Blob;
@@ -97,6 +115,10 @@ const AdminDashboard = () => {
   const [studentStates, setStudentStates] = useState<StudentState[]>([]);
   const [selectedStudent, setSelectedStudent] = useState<StudentState | null>(null);
   const [recommendations, setRecommendations] = useState<RLRecommendation[]>([]);
+  // Per-user engagement meta: total study seconds + most recent login timestamp.
+  // Computed from the full activity stream (including system heartbeats / daily_login)
+  // so teachers can see "actual time on platform" not only graded learning attempts.
+  const [userMeta, setUserMeta] = useState<Map<string, { lastLogin: number; totalSeconds: number }>>(new Map());
   const [tabGroup, setTabGroup] = useState<"overview" | "students" | "learning" | "operations">("overview");
   const [activeTab, setActiveTab] = useState<string>("overview");
   const [searchQuery, setSearchQuery] = useState("");
@@ -189,6 +211,19 @@ const AdminDashboard = () => {
     }));
     const learningActivities = allActivities.filter((a) => isLearningActivity(a.activity_type));
     setActivities(learningActivities);
+
+    // Build engagement meta from the FULL activity stream (heartbeats + learning).
+    // - lastLogin: most recent activity timestamp of any kind
+    // - totalSeconds: cumulative time_spent_seconds across every activity
+    const metaMap = new Map<string, { lastLogin: number; totalSeconds: number }>();
+    for (const a of allActivities) {
+      const ts = new Date(a.created_at).getTime();
+      const cur = metaMap.get(a.user_id) || { lastLogin: 0, totalSeconds: 0 };
+      if (ts > cur.lastLogin) cur.lastLogin = ts;
+      cur.totalSeconds += Number(a.time_spent_seconds) || 0;
+      metaMap.set(a.user_id, cur);
+    }
+    setUserMeta(metaMap);
 
     // Compute student states
     const states: StudentState[] = [];
@@ -670,23 +705,23 @@ const AdminDashboard = () => {
                           </TableHeader>
                           <TableBody>
                             {interventionNeeded.map(s => {
-                              const recs = generateRecommendations(s);
-                              const topRec = recs[0];
+                              const recs = generateRecommendations(s).slice(0, 3);
+                              const isVi = t("vi", "en") === "vi";
                               return (
-                                <TableRow key={s.userId} className="cursor-pointer hover:bg-muted/50" onClick={() => handleSelectStudent(s)}>
-                                  <TableCell className="font-medium">{s.fullName}</TableCell>
-                                  <TableCell className="text-center">
+                                <TableRow key={s.userId} className="cursor-pointer hover:bg-muted/50 align-top" onClick={() => handleSelectStudent(s)}>
+                                  <TableCell className="font-medium align-top pt-3">{s.fullName}</TableCell>
+                                  <TableCell className="text-center align-top pt-3">
                                     <span className="font-bold text-destructive">{s.avgScore}</span>
                                   </TableCell>
-                                  <TableCell className="text-center">{TREND_ICONS[s.recentTrend]}</TableCell>
-                                  <TableCell>
+                                  <TableCell className="text-center align-top pt-3">{TREND_ICONS[s.recentTrend]}</TableCell>
+                                  <TableCell className="align-top pt-3">
                                     <div className="flex flex-wrap gap-1">
                                       {s.weakestAreas.slice(0, 2).map(a => (
-                                        <Badge key={a} variant="outline" className="text-xs">{getCategoryLabel(a, t("vi", "en") === "vi")}</Badge>
+                                        <Badge key={a} variant="outline" className="text-xs">{getCategoryLabel(a, isVi)}</Badge>
                                       ))}
                                     </div>
                                   </TableCell>
-                                  <TableCell>
+                                  <TableCell className="align-top pt-3">
                                     <div className="flex gap-1">
                                       {(Object.entries(s.domainBreakdown) as [LearningDomain, { count: number }][])
                                         .filter(([, d]) => d.count > 0)
@@ -695,8 +730,28 @@ const AdminDashboard = () => {
                                         ))}
                                     </div>
                                   </TableCell>
-                                  <TableCell className="text-xs text-muted-foreground min-w-[220px] whitespace-normal break-words leading-snug">
-                                    {topRec ? t(topRec.actionVi, topRec.action) : "-"}
+                                  <TableCell className="min-w-[320px] max-w-[420px] whitespace-normal break-words leading-snug align-top">
+                                    {recs.length === 0 ? (
+                                      <span className="text-muted-foreground text-xs">-</span>
+                                    ) : (
+                                      <ul className="space-y-2">
+                                        {recs.map((r, idx) => (
+                                          <li key={idx} className="flex gap-2 text-xs">
+                                            <span className={`shrink-0 mt-0.5 px-1.5 py-0.5 rounded font-semibold uppercase tracking-wide text-[10px] ${PRIORITY_COLORS[r.priority]}`}>
+                                              {r.priority}
+                                            </span>
+                                            <div className="flex-1 min-w-0">
+                                              <p className="font-semibold text-foreground leading-snug">
+                                                {isVi ? r.actionVi : r.action}
+                                              </p>
+                                              <p className="text-muted-foreground mt-0.5 leading-snug">
+                                                {isVi ? r.detailsVi : r.details}
+                                              </p>
+                                            </div>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    )}
                                   </TableCell>
                                 </TableRow>
                               );
@@ -748,6 +803,8 @@ const AdminDashboard = () => {
                                  <TableHead className="text-center">{t("Writing", "Writing")}</TableHead>
                                  <TableHead className="text-center" title={t("Số ngày kể từ lần Speaking gần nhất", "Days since last speaking")}>{t("Speak (ngày)", "Last Speak")}</TableHead>
                                  <TableHead className="text-center" title={t("Số ngày kể từ lần Writing gần nhất", "Days since last writing")}>{t("Write (ngày)", "Last Write")}</TableHead>
+                                  <TableHead className="text-center" title={t("Tổng thời gian học tích lũy", "Cumulative study time")}>{t("Thời lượng", "Duration")}</TableHead>
+                                  <TableHead className="text-center" title={t("Lần đăng nhập / hoạt động gần nhất", "Most recent login / activity")}>{t("Đăng nhập gần nhất", "Last Login")}</TableHead>
                                   <TableHead className="text-center">{t("Điểm TB", "Avg Score")}</TableHead>
                                   <TableHead className="text-center">{t("Lĩnh vực", "Domains")}</TableHead>
                                   <TableHead className="text-center">{t("Xu hướng", "Trend")}</TableHead>
@@ -764,6 +821,12 @@ const AdminDashboard = () => {
                                   const daysWrite = last && last.lastWrite > 0 ? Math.floor((now - last.lastWrite) / 86400000) : null;
                                   const speakClass = daysSpeak === null ? "text-muted-foreground" : daysSpeak > 14 ? "text-red-600 font-bold" : daysSpeak > 7 ? "text-yellow-600 font-semibold" : "text-green-600";
                                   const writeClass = daysWrite === null ? "text-muted-foreground" : daysWrite > 14 ? "text-red-600 font-bold" : daysWrite > 7 ? "text-yellow-600 font-semibold" : "text-green-600";
+                                  const meta = userMeta.get(state.userId);
+                                  const totalSec = meta?.totalSeconds || 0;
+                                  const lastLoginTs = meta?.lastLogin || 0;
+                                  const loginDays = lastLoginTs ? Math.floor((Date.now() - lastLoginTs) / 86400000) : null;
+                                  const loginClass = loginDays === null ? "text-muted-foreground" : loginDays > 14 ? "text-red-600 font-bold" : loginDays > 7 ? "text-yellow-600 font-semibold" : "text-green-600";
+                                  const durationClass = totalSec >= 3600 ? "text-green-600 font-semibold" : totalSec >= 600 ? "text-foreground" : "text-muted-foreground";
                                   return (
                                     <TableRow
                                       key={state.userId}
@@ -776,6 +839,8 @@ const AdminDashboard = () => {
                                        <TableCell className="text-center tabular-nums">{sumActivityTypeCounts(state.skillBreakdown, WRITING_ACTIVITY_TYPES)}</TableCell>
                                        <TableCell className={`text-center tabular-nums ${speakClass}`}>{daysSpeak === null ? "-" : daysSpeak === 0 ? t("Hôm nay", "today") : `${daysSpeak}d`}</TableCell>
                                        <TableCell className={`text-center tabular-nums ${writeClass}`}>{daysWrite === null ? "-" : daysWrite === 0 ? t("Hôm nay", "today") : `${daysWrite}d`}</TableCell>
+                                       <TableCell className={`text-center tabular-nums ${durationClass}`}>{formatDuration(totalSec)}</TableCell>
+                                       <TableCell className={`text-center tabular-nums text-xs ${loginClass}`}>{formatLastLogin(lastLoginTs, t("vi", "en") === "vi")}</TableCell>
                                       <TableCell className="text-center">
                                         <span className={`font-bold tabular-nums ${state.avgScore >= 7 ? "text-green-600" : state.avgScore >= 5 ? "text-yellow-600" : "text-red-600"}`}>
                                           {state.avgScore > 0 ? state.avgScore : "-"}
