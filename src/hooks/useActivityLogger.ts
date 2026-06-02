@@ -17,10 +17,20 @@ interface ActivityPayload {
 
 // Auto-detect domain from activity type
 function inferDomain(activityType: string): LearningDomain {
-  if (["thpt_exam", "ielts_writing", "ielts_speaking", "conv_english", "conv_english_exercise", "ielts_vocab"].includes(activityType)) return "english";
-  if (["conv_chinese", "conv_chinese_exercise", "hsk_vocab", "pinyin_drill", "hanzi_recognition"].includes(activityType)) return "chinese";
-  if (["python_challenge", "sql_exercise", "coding_quiz"].includes(activityType)) return "programming";
-  return "english"; // default fallback
+  const t = activityType.toLowerCase();
+  // Chinese
+  if (
+    t.startsWith("conv_chinese") || t.startsWith("hsk") || t.startsWith("hskk") ||
+    t === "pinyin_drill" || t === "hanzi_recognition" || t === "speaking_coach_chinese" ||
+    t.includes("chinese")
+  ) return "chinese";
+  // Programming
+  if (
+    t.startsWith("python") || t.startsWith("sql") || t === "coding_quiz" ||
+    t.includes("programming") || t.includes("scratch") || t.includes("ml_") || t.includes("spark")
+  ) return "programming";
+  // English (default)
+  return "english";
 }
 
 export async function logStudentActivity(payload: ActivityPayload) {

@@ -5,22 +5,38 @@ type PageResult = PromiseLike<{ data: unknown[] | null; error: PostgrestError | 
 export const SYSTEM_ACTIVITY_TYPES = new Set(["session_heartbeat", "daily_login"]);
 
 export const SPEAKING_ACTIVITY_TYPES = [
+  // IELTS / PTE / TOEIC speaking
   "ielts_speaking",
   "pte_speaking",
+  "toeic_speaking",
+  // Speaking Coach (actual values written by logger)
+  "speaking_coach_english",
+  "speaking_coach_chinese",
+  "speaking_coach_finnish",
+  "speaking_coach_vietnamese",
+  // Legacy short codes — kept for backward compatibility with older rows
   "speaking_coach_en",
   "speaking_coach_zh",
   "speaking_coach_fi",
   "speaking_coach_vi",
+  // Conversational drills (free + structured exercises)
   "conv_english",
   "conv_chinese",
+  "conv_finnish",
+  "conv_vietnamese",
   "conv_english_exercise",
   "conv_chinese_exercise",
+  // HSKK Chinese speaking
+  "hskk_speaking",
 ];
 
 export const WRITING_ACTIVITY_TYPES = [
   "ielts_writing",
   "pte_writing_essay",
   "pte_writing_summary",
+  "hsk_writing",
+  "toeic_writing",
+  "finnish_writing",
 ];
 
 export function isLearningActivity(activityType?: string | null) {

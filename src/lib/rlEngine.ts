@@ -238,7 +238,7 @@ export function generateRecommendations(state: StudentState): RLRecommendation[]
     const sorted = domainEntries.sort((a, b) => a[1].avgScore - b[1].avgScore);
     const weakest = sorted[0];
     const strongest = sorted[sorted.length - 1];
-    if (strongest[1].avgScore - weakest[0 as any][1].avgScore > 2) {
+    if (strongest[1].avgScore - weakest[1].avgScore > 2) {
       const wLabel = DOMAIN_LABELS[weakest[0] as LearningDomain];
       const sLabel = DOMAIN_LABELS[strongest[0] as LearningDomain];
       recommendations.push({
