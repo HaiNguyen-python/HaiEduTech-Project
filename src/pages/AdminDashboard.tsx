@@ -873,6 +873,8 @@ const AdminDashboard = () => {
                                 })}
                               </TableBody>
                             </Table>
+                            </div>
+                            <ScrollBar orientation="horizontal" />
                           </ScrollArea>
                         )}
                       </CardContent>
