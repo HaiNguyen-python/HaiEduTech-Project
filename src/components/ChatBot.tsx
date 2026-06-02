@@ -639,7 +639,7 @@ const ChatBot = () => {
 
     const recognition: ISpeechRecognition = new SpeechRecognition();
     // Set language based on current app language, default to Vietnamese
-    recognition.lang = lang === "en" ? "en-US" : "vi-VN";
+    recognition.lang = voiceLang;
     recognition.interimResults = true;
     recognition.continuous = false;
     recognitionRef.current = recognition;
