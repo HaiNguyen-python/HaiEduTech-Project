@@ -320,18 +320,25 @@ const ChatBot = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // Re-hydrate whenever the authenticated user changes (login / logout / switch account).
+  // Without this, a user who opens the app while logged-out then logs in would never see
+  // their saved transcript because hydratedRef would already be sealed for the guest state.
+  useEffect(() => {
+    hydratedRef.current = false;
+  }, [chatHistory.userId]);
+
   // Hydrate the saved chat transcript once it arrives from the server
   useEffect(() => {
     if (hydratedRef.current) return;
-    if (chatHistory.initial && chatHistory.initial.length > 0) {
+    if (chatHistory.initial === null) return; // still loading
+    if (chatHistory.initial.length > 0) {
       setMessages(chatHistory.initial);
-      hydratedRef.current = true;
-    } else if (chatHistory.initial && chatHistory.initial.length === 0) {
-      hydratedRef.current = true;
     }
+    hydratedRef.current = true;
   }, [chatHistory.initial]);
 
-  // Persist transcript whenever it changes (debounced inside the hook)
+  // Persist transcript whenever it changes (debounced inside the hook).
+  // Only persist after hydration so we don't clobber the saved row with an empty array.
   useEffect(() => {
     if (!hydratedRef.current) return;
     if (messages.length === 0) return;
@@ -863,6 +870,18 @@ const ChatBot = () => {
     const COURSE_INTENT_RE = /(đăng\s*k[ýy]|ghi\s*danh|h[ọo]c\s*ph[íi]|l[ịi]ch\s*h[ọo]c|khai\s*gi[ảa]ng|mu[ốo]n\s*h[ọo]c|t[ưu]\s*v[ấa]n\s*kh[óo]a|enroll|register|tuition|sign\s*up\s*for|报名|学费|开课|ilmoittautu)/i;
     const isCourseIntent = COURSE_INTENT_RE.test(rawInput);
 
+    // Detect which subject the student wants so the placement-test CTA routes to the right bank.
+    const detectSubject = (text: string): "english" | "chinese" | "vietnamese" | "finnish" | "programming" | null => {
+      const s = text.toLowerCase();
+      if (/(ti[ếe]ng\s*trung|trung\s*qu[ốo]c|hsk|chinese|mandarin|中文|汉语|普通话|kinesisk)/i.test(s)) return "chinese";
+      if (/(ti[ếe]ng\s*vi[ệe]t|vietnamese|vietnam\b)/i.test(s)) return "vietnamese";
+      if (/(ti[ếe]ng\s*ph[ầa]n\s*lan|finnish|finland|suomi|yki)/i.test(s)) return "finnish";
+      if (/(l[ậa]p\s*tr[ìi]nh|programming|coding|python|sql|data\s*engineer|machine\s*learning|ml\b|tin\s*h[ọo]c)/i.test(s)) return "programming";
+      if (/(ti[ếe]ng\s*anh|english|ielts|toeic|cambridge|pte|sat\b|anh\s*ng[ữu])/i.test(s)) return "english";
+      return null;
+    };
+    const intentSubject = detectSubject(rawInput);
+
     let assistantSoFar = "";
 
     try {
@@ -957,14 +976,19 @@ const ChatBot = () => {
     }
 
     // Guarantee CTA pills for course-registration intent, even if the LLM omitted the sentinel.
+    // Encode the detected subject (e.g. chinese|programming) so the CTA routes to the matching placement bank.
     if (isCourseIntent) {
+      const ctaToken = intentSubject
+        ? `[[CTA:COURSE_REGISTRATION:${intentSubject}]]`
+        : `[[CTA:COURSE_REGISTRATION]]`;
       setMessages((prev) => {
         const last = prev[prev.length - 1];
         if (last?.role !== "assistant") return prev;
-        if (last.content.includes("[[CTA:COURSE_REGISTRATION]]")) return prev;
+        // Already has a CTA token of any subject → leave alone
+        if (/\[\[CTA:COURSE_REGISTRATION(:[a-z]+)?\]\]/i.test(last.content)) return prev;
         return prev.map((m, i) =>
           i === prev.length - 1
-            ? { ...m, content: `${m.content.trim()}\n\n[[CTA:COURSE_REGISTRATION]]` }
+            ? { ...m, content: `${m.content.trim()}\n\n${ctaToken}` }
             : m,
         );
       });
@@ -1324,12 +1348,30 @@ const ChatBot = () => {
               )}
 
               {messages.map((msg, i) => {
-                // Detect the course-registration CTA sentinel emitted by the chat edge function.
-                // When present, strip it from the visible text and render enrollment action pills below the bubble.
-                const CTA_TOKEN = "[[CTA:COURSE_REGISTRATION]]";
-                const hasCourseCta = msg.role === "assistant" && msg.content.includes(CTA_TOKEN);
+                // Detect the course-registration CTA sentinel. Optional `:subject` suffix routes
+                // the placement-test CTA to the matching bank (e.g. chinese/programming/finnish).
+                const CTA_RE = /\[\[CTA:COURSE_REGISTRATION(?::([a-z]+))?\]\]/i;
+                const ctaMatch = msg.role === "assistant" ? msg.content.match(CTA_RE) : null;
+                const hasCourseCta = !!ctaMatch;
+                const ctaSubject = ctaMatch?.[1]?.toLowerCase();
+                const placementHref = ctaSubject
+                  ? `/placement-test?subject=${encodeURIComponent(ctaSubject)}`
+                  : "/placement-test";
+                const subjectLabel: Record<string, { vi: string; en: string }> = {
+                  chinese: { vi: "Tiếng Trung", en: "Chinese" },
+                  english: { vi: "Tiếng Anh", en: "English" },
+                  vietnamese: { vi: "Tiếng Việt", en: "Vietnamese" },
+                  finnish: { vi: "Tiếng Phần Lan", en: "Finnish" },
+                  programming: { vi: "Lập trình", en: "Programming" },
+                };
+                const ctaLabel = ctaSubject && subjectLabel[ctaSubject]
+                  ? t(
+                      `🎯 Làm Test Đầu Vào ${subjectLabel[ctaSubject].vi}`,
+                      `🎯 Take ${subjectLabel[ctaSubject].en} Placement Test`,
+                    )
+                  : t("🎯 Làm Test Đầu Vào Ngay", "🎯 Take the Placement Test");
                 const displayContent = hasCourseCta
-                  ? msg.content.replace(CTA_TOKEN, "").trim()
+                  ? msg.content.replace(CTA_RE, "").trim()
                   : msg.content;
                 return (
                   <div key={i} className={`flex flex-col ${msg.role === "user" ? "items-end" : "items-start"}`}>
@@ -1361,11 +1403,11 @@ const ChatBot = () => {
                           type="button"
                           onClick={() => {
                             setOpen(false);
-                            window.location.assign("/placement-test");
+                            window.location.assign(placementHref);
                           }}
                           className="flex-1 rounded-full bg-emerald-500 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-sm transition-all hover:bg-emerald-600 hover:shadow-md active:scale-[0.98]"
                         >
-                          🎯 Làm Test Đầu Vào Ngay
+                          {ctaLabel}
                         </button>
                         <a
                           href="https://zalo.me/0962823800"
