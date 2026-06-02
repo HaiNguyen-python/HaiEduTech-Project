@@ -874,14 +874,58 @@ const AdminDashboard = () => {
                                   )}
                                 </span>
                               </div>
-                              <div className="flex items-center justify-between text-sm">
-                                <span className="text-muted-foreground">{t("Số lần luyện speaking", "Speaking attempts")}</span>
-                                <span className="font-bold">{sumActivityTypeCounts(selectedStudent.skillBreakdown, SPEAKING_ACTIVITY_TYPES)}</span>
-                              </div>
-                              <div className="flex items-center justify-between text-sm">
-                                <span className="text-muted-foreground">{t("Số lần luyện writing", "Writing attempts")}</span>
-                                <span className="font-bold">{sumActivityTypeCounts(selectedStudent.skillBreakdown, WRITING_ACTIVITY_TYPES)}</span>
-                              </div>
+                              {(() => {
+                                const ieltsSpeakingTypes = ["ielts_speaking"];
+                                const ieltsWritingTypes = ["ielts_writing"];
+                                const speakCount = sumActivityTypeCounts(selectedStudent.skillBreakdown, SPEAKING_ACTIVITY_TYPES);
+                                const writeCount = sumActivityTypeCounts(selectedStudent.skillBreakdown, WRITING_ACTIVITY_TYPES);
+                                const ieltsSpeakAvg = avgScoreForActivityTypes(selectedStudent.skillBreakdown, ieltsSpeakingTypes);
+                                const ieltsWriteAvg = avgScoreForActivityTypes(selectedStudent.skillBreakdown, ieltsWritingTypes);
+                                const ieltsSpeakCount = sumActivityTypeCounts(selectedStudent.skillBreakdown, ieltsSpeakingTypes);
+                                const ieltsWriteCount = sumActivityTypeCounts(selectedStudent.skillBreakdown, ieltsWritingTypes);
+                                // IELTS band: 0-10 score → 0-9 band scale (heuristic mapping)
+                                const toBand = (s: number) => Math.round(((s / 10) * 9) * 10) / 10;
+                                const bandColor = (s: number) => s >= 7 ? "bg-green-500" : s >= 5.5 ? "bg-yellow-500" : "bg-orange-500";
+                                return (
+                                  <>
+                                    <div className="flex items-center justify-between text-sm">
+                                      <span className="text-muted-foreground">{t("Số lần luyện speaking", "Speaking attempts")}</span>
+                                      <span className="font-bold">{speakCount}</span>
+                                    </div>
+                                    <div className="flex items-center justify-between text-sm">
+                                      <span className="text-muted-foreground">{t("Số lần luyện writing", "Writing attempts")}</span>
+                                      <span className="font-bold">{writeCount}</span>
+                                    </div>
+                                    {(ieltsSpeakCount > 0 || ieltsWriteCount > 0) && (
+                                      <div className="mt-3 p-3 rounded-lg bg-gradient-to-r from-primary/5 to-emerald-500/5 border border-primary/15 space-y-2">
+                                        <p className="text-xs font-semibold text-foreground">{t("Điểm IELTS ước tính", "Estimated IELTS Band")}</p>
+                                        {ieltsSpeakCount > 0 && (
+                                          <div>
+                                            <div className="flex justify-between text-xs mb-0.5">
+                                              <span className="text-muted-foreground">{t("Speaking", "Speaking")} · {ieltsSpeakCount} {t("bài", "tries")}</span>
+                                              <span className="font-bold tabular-nums">{t("Band", "Band")} {toBand(ieltsSpeakAvg)}</span>
+                                            </div>
+                                            <div className="h-2 bg-muted rounded-full overflow-hidden">
+                                              <div className={`h-full ${bandColor(toBand(ieltsSpeakAvg))} rounded-full transition-all`} style={{ width: `${Math.min(100, (toBand(ieltsSpeakAvg) / 9) * 100)}%` }} />
+                                            </div>
+                                          </div>
+                                        )}
+                                        {ieltsWriteCount > 0 && (
+                                          <div>
+                                            <div className="flex justify-between text-xs mb-0.5">
+                                              <span className="text-muted-foreground">{t("Writing", "Writing")} · {ieltsWriteCount} {t("bài", "tries")}</span>
+                                              <span className="font-bold tabular-nums">{t("Band", "Band")} {toBand(ieltsWriteAvg)}</span>
+                                            </div>
+                                            <div className="h-2 bg-muted rounded-full overflow-hidden">
+                                              <div className={`h-full ${bandColor(toBand(ieltsWriteAvg))} rounded-full transition-all`} style={{ width: `${Math.min(100, (toBand(ieltsWriteAvg) / 9) * 100)}%` }} />
+                                            </div>
+                                          </div>
+                                        )}
+                                      </div>
+                                    )}
+                                  </>
+                                );
+                              })()}
                               {selectedStudent.weakestAreas.length > 0 && (
                                 <div className="pt-2 border-t border-border">
                                   <p className="text-xs font-medium text-muted-foreground mb-1">{t("Điểm yếu", "Weak areas")}:</p>
