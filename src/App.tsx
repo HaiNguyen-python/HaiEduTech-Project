@@ -82,6 +82,7 @@ const VietnameseHistoryLesson = lazy(() => import("./pages/VietnameseHistoryLess
 const LessonDetail = lazy(() => import("./pages/LessonDetail.tsx"));
 const TeacherAdmin = lazy(() => import("./pages/TeacherAdmin.tsx"));
 const TeacherDashboard = lazy(() => import("./pages/TeacherDashboard.tsx"));
+const AssistantDashboard = lazy(() => import("./pages/AssistantDashboard.tsx"));
 const GeneratedLessonView = lazy(() => import("./pages/GeneratedLessonView.tsx"));
 const PythonChallengeList = lazy(() => import("./pages/PythonChallengeList.tsx"));
 const PythonChallengePage = lazy(() => import("./pages/PythonChallenge.tsx"));
