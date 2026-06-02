@@ -1176,15 +1176,21 @@ const ChatBot = () => {
                     <span>{t("Pet đói nếu bạn bỏ ôn quá 14 ngày — hãy quay lại Góc Ôn Tập!", "Pet gets hungry if you skip reviews for 14+ days — visit the Review Hub!")}</span>
                   </li>
                 </ul>
-                <div className="mt-3 grid grid-cols-3 gap-2 text-center">
-                  <div className={`rounded-lg border px-2 py-1.5 ${pet.stage === "baby" ? "border-sky-400 bg-sky-100 font-semibold text-sky-800" : "border-border bg-white text-muted-foreground"}`}>
-                    🐣 {t("Sơ sinh", "Baby")}<div className="text-[10px] font-normal">LV 1–5</div>
+                <div className="mt-3 grid grid-cols-5 gap-1.5 text-center">
+                  <div className={`rounded-lg border px-1 py-1.5 text-[10px] ${pet.stage === "baby" ? "border-sky-400 bg-sky-100 font-semibold text-sky-800" : "border-border bg-white text-muted-foreground"}`}>
+                    🐣<div className="font-semibold leading-tight">{t("Sơ sinh", "Baby")}</div><div className="text-[9px] font-normal">L 1–5</div>
                   </div>
-                  <div className={`rounded-lg border px-2 py-1.5 ${pet.stage === "apprentice" ? "border-cyan-400 bg-cyan-100 font-semibold text-cyan-800" : "border-border bg-white text-muted-foreground"}`}>
-                    🤖 {t("Học việc", "Apprentice")}<div className="text-[10px] font-normal">LV 6–15</div>
+                  <div className={`rounded-lg border px-1 py-1.5 text-[10px] ${pet.stage === "apprentice" ? "border-cyan-400 bg-cyan-100 font-semibold text-cyan-800" : "border-border bg-white text-muted-foreground"}`}>
+                    🤖<div className="font-semibold leading-tight">{t("Học việc", "Apprentice")}</div><div className="text-[9px] font-normal">L 6–15</div>
                   </div>
-                  <div className={`rounded-lg border px-2 py-1.5 ${pet.stage === "master" ? "border-fuchsia-400 bg-fuchsia-100 font-semibold text-fuchsia-800" : "border-border bg-white text-muted-foreground"}`}>
-                    👑 {t("Bậc thầy", "Master")}<div className="text-[10px] font-normal">LV 16+</div>
+                  <div className={`rounded-lg border px-1 py-1.5 text-[10px] ${pet.stage === "master" ? "border-fuchsia-400 bg-fuchsia-100 font-semibold text-fuchsia-800" : "border-border bg-white text-muted-foreground"}`}>
+                    👑<div className="font-semibold leading-tight">{t("Bậc thầy", "Master")}</div><div className="text-[9px] font-normal">L 16–21</div>
+                  </div>
+                  <div className={`rounded-lg border px-1 py-1.5 text-[10px] ${pet.stage === "legendary" ? "border-amber-400 bg-amber-100 font-semibold text-amber-800" : "border-border bg-white text-muted-foreground"}`}>
+                    ⭐<div className="font-semibold leading-tight">{t("Huyền thoại", "Legendary")}</div><div className="text-[9px] font-normal">L 22–29</div>
+                  </div>
+                  <div className={`rounded-lg border px-1 py-1.5 text-[10px] ${pet.stage === "mythic" ? "border-rose-400 bg-rose-100 font-semibold text-rose-800" : "border-border bg-white text-muted-foreground"}`}>
+                    🔮<div className="font-semibold leading-tight">{t("Thần thoại", "Mythic")}</div><div className="text-[9px] font-normal">L 30+</div>
                   </div>
                 </div>
                 <div className="mt-2 flex items-center justify-between rounded-md bg-white/70 px-2 py-1.5 text-[11px]">
