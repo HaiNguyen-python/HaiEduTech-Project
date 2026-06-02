@@ -1239,6 +1239,18 @@ const ChatBot = () => {
                     })}
                   </div>
                 </div>
+
+                {/* Clear conversation history */}
+                <button
+                  onClick={() => {
+                    if (!window.confirm(t("Xóa toàn bộ lịch sử chat?", "Clear the entire chat history?"))) return;
+                    setMessages([]);
+                    chatHistory.clear?.();
+                  }}
+                  className="mt-3 w-full rounded-lg border border-destructive/40 bg-destructive/5 px-3 py-1.5 text-[11px] font-semibold text-destructive hover:bg-destructive/10"
+                >
+                  🧹 {t("Xóa lịch sử chat", "Clear chat history")}
+                </button>
               </div>
             )}
 
