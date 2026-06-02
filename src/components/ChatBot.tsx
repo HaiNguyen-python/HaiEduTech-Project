@@ -955,6 +955,21 @@ const ChatBot = () => {
         },
       ]);
     }
+
+    // Guarantee CTA pills for course-registration intent, even if the LLM omitted the sentinel.
+    if (isCourseIntent) {
+      setMessages((prev) => {
+        const last = prev[prev.length - 1];
+        if (last?.role !== "assistant") return prev;
+        if (last.content.includes("[[CTA:COURSE_REGISTRATION]]")) return prev;
+        return prev.map((m, i) =>
+          i === prev.length - 1
+            ? { ...m, content: `${m.content.trim()}\n\n[[CTA:COURSE_REGISTRATION]]` }
+            : m,
+        );
+      });
+    }
+
     setIsLoading(false);
   };
 
