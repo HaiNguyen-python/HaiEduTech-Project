@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useUserRole } from "@/hooks/useUserRole";
 import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import {
   Shield, Users, BookOpen, TrendingUp, Loader2, BarChart3,
   Brain, AlertTriangle, ChevronRight, ArrowUpRight, ArrowDownRight, Minus,
@@ -107,7 +108,7 @@ function exportData(data: any[], format: "csv" | "json", filename: string) {
 
 const AdminDashboard = () => {
   const { t } = useLanguage();
-  const { user, isTeacher, loading: roleLoading } = useUserRole();
+  const { user, isTeacher, isPureAssistant, loading: roleLoading } = useUserRole();
   const navigate = useNavigate();
 
   const [loadingData, setLoadingData] = useState(true);
@@ -131,10 +132,17 @@ const AdminDashboard = () => {
     domainCounts: { english: 0, chinese: 0, programming: 0 } as Record<LearningDomain, number>,
   });
 
-  // Redirect non-teachers
+  // Redirect non-teachers. Assistants (CTV) must be routed to their own
+  // workspace — they are NOT allowed to see revenue/financial metrics (403).
   useEffect(() => {
-    if (!roleLoading && !isTeacher) navigate("/", { replace: true });
-  }, [roleLoading, isTeacher, navigate]);
+    if (roleLoading) return;
+    if (isPureAssistant) {
+      toast.error("403 — Bạn không có quyền xem báo cáo doanh thu", { description: "Đã chuyển về khu vực Cộng tác viên." });
+      navigate("/assistant", { replace: true });
+      return;
+    }
+    if (!isTeacher) navigate("/", { replace: true });
+  }, [roleLoading, isTeacher, isPureAssistant, navigate]);
 
   // Fetch all data
   const fetchAll = useCallback(async () => {

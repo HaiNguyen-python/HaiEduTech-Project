@@ -19,30 +19,45 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
 
+  // Determine the right landing page based on the user's roles.
+  // Pure assistants (no admin/teacher role) get the assistant workspace.
+  const redirectByRole = async (userId: string) => {
+    const { data } = await supabase.from("user_roles").select("role").eq("user_id", userId);
+    const roles = (data || []).map((r: any) => r.role as string);
+    const isSuperAdmin = roles.includes("admin") || roles.includes("teacher");
+    if (!isSuperAdmin && roles.includes("assistant")) {
+      navigate("/assistant", { replace: true });
+    } else {
+      navigate("/dashboard", { replace: true });
+    }
+  };
+
   // If a session already exists (e.g. user just returned from OAuth redirect),
-  // jump straight to dashboard instead of showing the login form.
+  // route them to the appropriate dashboard instead of showing the login form.
   useEffect(() => {
     let mounted = true;
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
-      if (mounted && session?.user) navigate("/dashboard", { replace: true });
+      if (mounted && session?.user) redirectByRole(session.user.id);
     });
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (mounted && session?.user) navigate("/dashboard", { replace: true });
+      if (mounted && session?.user) redirectByRole(session.user.id);
     });
     return () => { mounted = false; subscription.unsubscribe(); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) return;
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (error) {
       toast({ title: t("Lỗi đăng nhập", "Login Error"), description: error.message, variant: "destructive" });
     } else {
       toast({ title: t("Đăng nhập thành công!", "Login successful!") });
-      navigate("/dashboard");
+      if (data.user) await redirectByRole(data.user.id);
+      else navigate("/dashboard");
     }
   };
 

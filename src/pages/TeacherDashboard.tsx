@@ -6,13 +6,14 @@ import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useUserRole } from "@/hooks/useUserRole";
 import { supabase } from "@/integrations/supabase/client";
-import { Shield, Users, BookOpen, Code2, TrendingUp, Loader2, Sparkles, Library, ThumbsUp, ThumbsDown, BarChart3 } from "lucide-react";
+import { Shield, Users, BookOpen, Code2, TrendingUp, Loader2, Sparkles, Library, ThumbsUp, ThumbsDown, BarChart3, UserCog } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import TeacherAdmin from "@/pages/TeacherAdmin";
 import FeedbackAnalyticsTab from "@/components/admin/FeedbackAnalyticsTab";
 import AttendanceAnalyticsTab from "@/components/admin/AttendanceAnalyticsTab";
+import AssistantManagementTab from "@/components/admin/AssistantManagementTab";
 
 interface Stats {
   totalStudents: number;
@@ -182,6 +183,10 @@ const TeacherDashboard = () => {
                   <BarChart3 className="w-3.5 h-3.5" />
                   {t("Điểm danh", "Attendance")}
                 </TabsTrigger>
+                <TabsTrigger value="assistants" className="gap-1.5">
+                  <UserCog className="w-3.5 h-3.5" />
+                  {t("Cộng tác viên", "Assistants")}
+                </TabsTrigger>
               </TabsList>
 
               {/* Generate Tab - Embed TeacherAdmin */}
@@ -324,6 +329,11 @@ const TeacherDashboard = () => {
               {/* Attendance Tab */}
               <TabsContent value="attendance">
                 <AttendanceAnalyticsTab />
+              </TabsContent>
+
+              {/* Assistant Management Tab */}
+              <TabsContent value="assistants">
+                <AssistantManagementTab />
               </TabsContent>
             </Tabs>
           </motion.div>

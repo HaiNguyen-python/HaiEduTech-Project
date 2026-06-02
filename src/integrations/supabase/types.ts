@@ -611,6 +611,33 @@ export type Database = {
         }
         Relationships: []
       }
+      daily_reports: {
+        Row: {
+          created_at: string
+          feedback: string | null
+          id: string
+          screenshot_urls: string[]
+          user_id: string
+          work_summary: string
+        }
+        Insert: {
+          created_at?: string
+          feedback?: string | null
+          id?: string
+          screenshot_urls?: string[]
+          user_id: string
+          work_summary: string
+        }
+        Update: {
+          created_at?: string
+          feedback?: string | null
+          id?: string
+          screenshot_urls?: string[]
+          user_id?: string
+          work_summary?: string
+        }
+        Relationships: []
+      }
       deadline_reminders_sent: {
         Row: {
           days_before: number
@@ -2415,6 +2442,42 @@ export type Database = {
         }
         Relationships: []
       }
+      time_logs: {
+        Row: {
+          calculated_salary: number | null
+          clock_in: string
+          clock_out: string | null
+          created_at: string
+          duration_hours: number | null
+          id: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          calculated_salary?: number | null
+          clock_in?: string
+          clock_out?: string | null
+          created_at?: string
+          duration_hours?: number | null
+          id?: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          calculated_salary?: number | null
+          clock_in?: string
+          clock_out?: string | null
+          created_at?: string
+          duration_hours?: number | null
+          id?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       toeic_lecture_progress: {
         Row: {
           completed_at: string | null
@@ -2864,6 +2927,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_super_admin: { Args: { _user_id: string }; Returns: boolean }
       move_to_dlq: {
         Args: {
           dlq_name: string
@@ -2883,7 +2947,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "teacher" | "student"
+      app_role: "admin" | "teacher" | "student" | "assistant"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -3011,7 +3075,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "teacher", "student"],
+      app_role: ["admin", "teacher", "student", "assistant"],
     },
   },
 } as const

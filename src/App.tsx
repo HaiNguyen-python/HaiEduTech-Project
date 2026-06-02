@@ -82,6 +82,7 @@ const VietnameseHistoryLesson = lazy(() => import("./pages/VietnameseHistoryLess
 const LessonDetail = lazy(() => import("./pages/LessonDetail.tsx"));
 const TeacherAdmin = lazy(() => import("./pages/TeacherAdmin.tsx"));
 const TeacherDashboard = lazy(() => import("./pages/TeacherDashboard.tsx"));
+const AssistantDashboard = lazy(() => import("./pages/AssistantDashboard.tsx"));
 const GeneratedLessonView = lazy(() => import("./pages/GeneratedLessonView.tsx"));
 const PythonChallengeList = lazy(() => import("./pages/PythonChallengeList.tsx"));
 const PythonChallengePage = lazy(() => import("./pages/PythonChallenge.tsx"));
@@ -363,6 +364,7 @@ const App = () => (
             <Route path="/teacher-admin" element={<LazyRoute><TeacherAdmin /></LazyRoute>} />
             <Route path="/teacher-dashboard" element={<LazyRoute><TeacherDashboard /></LazyRoute>} />
             <Route path="/admin-dashboard" element={<LazyRoute><AdminDashboard /></LazyRoute>} />
+            <Route path="/assistant" element={<LazyRoute><AssistantDashboard /></LazyRoute>} />
             <Route path="/admin/assignments" element={<LazyRoute><AdminAssignments /></LazyRoute>} />
             <Route path="/admin/classes" element={<LazyRoute><AdminClasses /></LazyRoute>} />
             <Route path="/admin/placement-test-results" element={<LazyRoute><AdminPlacementResults /></LazyRoute>} />

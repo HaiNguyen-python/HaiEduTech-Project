@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
-export type AppRole = "admin" | "teacher" | "student";
+export type AppRole = "admin" | "teacher" | "student" | "assistant";
 
 export const useUserRole = () => {
   const [roles, setRoles] = useState<AppRole[]>([]);
@@ -56,6 +56,10 @@ export const useUserRole = () => {
   const isTeacher = roles.includes("teacher") || roles.includes("admin");
   const isAdmin = roles.includes("admin");
   const isStudent = roles.includes("student");
+  const isAssistant = roles.includes("assistant");
+  const isSuperAdmin = roles.includes("admin") || roles.includes("teacher");
+  // Pure assistant = has assistant role but is NOT a super admin
+  const isPureAssistant = isAssistant && !isSuperAdmin;
 
-  return { user, roles, isTeacher, isAdmin, isStudent, loading };
+  return { user, roles, isTeacher, isAdmin, isStudent, isAssistant, isSuperAdmin, isPureAssistant, loading };
 };
