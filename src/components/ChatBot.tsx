@@ -976,14 +976,19 @@ const ChatBot = () => {
     }
 
     // Guarantee CTA pills for course-registration intent, even if the LLM omitted the sentinel.
+    // Encode the detected subject (e.g. chinese|programming) so the CTA routes to the matching placement bank.
     if (isCourseIntent) {
+      const ctaToken = intentSubject
+        ? `[[CTA:COURSE_REGISTRATION:${intentSubject}]]`
+        : `[[CTA:COURSE_REGISTRATION]]`;
       setMessages((prev) => {
         const last = prev[prev.length - 1];
         if (last?.role !== "assistant") return prev;
-        if (last.content.includes("[[CTA:COURSE_REGISTRATION]]")) return prev;
+        // Already has a CTA token of any subject → leave alone
+        if (/\[\[CTA:COURSE_REGISTRATION(:[a-z]+)?\]\]/i.test(last.content)) return prev;
         return prev.map((m, i) =>
           i === prev.length - 1
-            ? { ...m, content: `${m.content.trim()}\n\n[[CTA:COURSE_REGISTRATION]]` }
+            ? { ...m, content: `${m.content.trim()}\n\n${ctaToken}` }
             : m,
         );
       });
