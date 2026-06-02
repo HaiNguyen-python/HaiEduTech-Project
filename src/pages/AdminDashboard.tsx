@@ -783,6 +783,8 @@ const AdminDashboard = () => {
                                  <TableHead className="text-center">{t("Writing", "Writing")}</TableHead>
                                  <TableHead className="text-center" title={t("Số ngày kể từ lần Speaking gần nhất", "Days since last speaking")}>{t("Speak (ngày)", "Last Speak")}</TableHead>
                                  <TableHead className="text-center" title={t("Số ngày kể từ lần Writing gần nhất", "Days since last writing")}>{t("Write (ngày)", "Last Write")}</TableHead>
+                                  <TableHead className="text-center" title={t("Tổng thời gian học tích lũy", "Cumulative study time")}>{t("Thời lượng", "Duration")}</TableHead>
+                                  <TableHead className="text-center" title={t("Lần đăng nhập / hoạt động gần nhất", "Most recent login / activity")}>{t("Đăng nhập gần nhất", "Last Login")}</TableHead>
                                   <TableHead className="text-center">{t("Điểm TB", "Avg Score")}</TableHead>
                                   <TableHead className="text-center">{t("Lĩnh vực", "Domains")}</TableHead>
                                   <TableHead className="text-center">{t("Xu hướng", "Trend")}</TableHead>
