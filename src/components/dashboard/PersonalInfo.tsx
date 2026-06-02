@@ -148,25 +148,58 @@ const PersonalInfo = ({ userId, email }: PersonalInfoProps) => {
       animate={{ opacity: 1, y: 0 }}
       className="max-w-2xl mx-auto"
     >
-      {/* Avatar preview */}
+      {/* Avatar preview + upload */}
       <div className="flex items-center gap-4 mb-6 p-5 rounded-2xl bg-gradient-to-r from-primary/10 to-emerald-500/10 border border-primary/20">
-        {form.avatar_url ? (
-          <img
-            src={form.avatar_url}
-            alt={form.full_name || "Avatar"}
-            className="w-16 h-16 rounded-full object-cover border-2 border-primary"
-            onError={(e) => ((e.currentTarget.style.display = "none"))}
+        <div className="relative group">
+          {form.avatar_url ? (
+            <img
+              src={form.avatar_url}
+              alt={form.full_name || "Avatar"}
+              className="w-20 h-20 rounded-full object-cover border-2 border-primary shadow-sm"
+              onError={(e) => ((e.currentTarget.style.display = "none"))}
+            />
+          ) : (
+            <div className="w-20 h-20 rounded-full bg-primary/20 flex items-center justify-center text-3xl font-bold text-primary border-2 border-primary">
+              {initials}
+            </div>
+          )}
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={uploading}
+            className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-md hover:scale-105 transition disabled:opacity-60"
+            title={t("Đổi ảnh đại diện", "Change avatar")}
+            aria-label={t("Đổi ảnh đại diện", "Change avatar")}
+          >
+            {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Camera className="w-4 h-4" />}
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) handleAvatarUpload(f);
+            }}
           />
-        ) : (
-          <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-2xl font-bold text-primary border-2 border-primary">
-            {initials}
-          </div>
-        )}
-        <div>
-          <p className="text-lg font-bold text-foreground">{form.full_name || t("Học sinh", "Student")}</p>
-          <p className="text-xs text-muted-foreground flex items-center gap-1">
-            <Mail className="w-3 h-3" /> {email}
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-lg font-bold text-foreground truncate">{form.full_name || t("Học sinh", "Student")}</p>
+          <p className="text-xs text-muted-foreground flex items-center gap-1 truncate">
+            <Mail className="w-3 h-3 shrink-0" /> {email}
           </p>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="mt-2 h-7 text-xs gap-1.5"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={uploading}
+          >
+            <Upload className="w-3 h-3" />
+            {uploading ? t("Đang tải...", "Uploading...") : t("Tải ảnh đại diện", "Upload avatar")}
+          </Button>
         </div>
       </div>
 
