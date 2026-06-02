@@ -801,6 +801,12 @@ const AdminDashboard = () => {
                                   const daysWrite = last && last.lastWrite > 0 ? Math.floor((now - last.lastWrite) / 86400000) : null;
                                   const speakClass = daysSpeak === null ? "text-muted-foreground" : daysSpeak > 14 ? "text-red-600 font-bold" : daysSpeak > 7 ? "text-yellow-600 font-semibold" : "text-green-600";
                                   const writeClass = daysWrite === null ? "text-muted-foreground" : daysWrite > 14 ? "text-red-600 font-bold" : daysWrite > 7 ? "text-yellow-600 font-semibold" : "text-green-600";
+                                  const meta = userMeta.get(state.userId);
+                                  const totalSec = meta?.totalSeconds || 0;
+                                  const lastLoginTs = meta?.lastLogin || 0;
+                                  const loginDays = lastLoginTs ? Math.floor((Date.now() - lastLoginTs) / 86400000) : null;
+                                  const loginClass = loginDays === null ? "text-muted-foreground" : loginDays > 14 ? "text-red-600 font-bold" : loginDays > 7 ? "text-yellow-600 font-semibold" : "text-green-600";
+                                  const durationClass = totalSec >= 3600 ? "text-green-600 font-semibold" : totalSec >= 600 ? "text-foreground" : "text-muted-foreground";
                                   return (
                                     <TableRow
                                       key={state.userId}
@@ -813,6 +819,8 @@ const AdminDashboard = () => {
                                        <TableCell className="text-center tabular-nums">{sumActivityTypeCounts(state.skillBreakdown, WRITING_ACTIVITY_TYPES)}</TableCell>
                                        <TableCell className={`text-center tabular-nums ${speakClass}`}>{daysSpeak === null ? "-" : daysSpeak === 0 ? t("Hôm nay", "today") : `${daysSpeak}d`}</TableCell>
                                        <TableCell className={`text-center tabular-nums ${writeClass}`}>{daysWrite === null ? "-" : daysWrite === 0 ? t("Hôm nay", "today") : `${daysWrite}d`}</TableCell>
+                                       <TableCell className={`text-center tabular-nums ${durationClass}`}>{formatDuration(totalSec)}</TableCell>
+                                       <TableCell className={`text-center tabular-nums text-xs ${loginClass}`}>{formatLastLogin(lastLoginTs, t("vi", "en") === "vi")}</TableCell>
                                       <TableCell className="text-center">
                                         <span className={`font-bold tabular-nums ${state.avgScore >= 7 ? "text-green-600" : state.avgScore >= 5 ? "text-yellow-600" : "text-red-600"}`}>
                                           {state.avgScore > 0 ? state.avgScore : "-"}
