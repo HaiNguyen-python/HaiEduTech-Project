@@ -13,7 +13,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import TeacherAdmin from "@/pages/TeacherAdmin";
 import FeedbackAnalyticsTab from "@/components/admin/FeedbackAnalyticsTab";
 import AttendanceAnalyticsTab from "@/components/admin/AttendanceAnalyticsTab";
-import AssistantManagementTab from "@/components/admin/AssistantManagementTab";
+
 
 interface Stats {
   totalStudents: number;
