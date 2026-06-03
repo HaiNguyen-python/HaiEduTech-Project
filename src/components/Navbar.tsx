@@ -275,7 +275,9 @@ const Navbar = () => {
   const navLinks = user
     ? isTeacher
       ? [...baseLinks, { to: "/admin-dashboard", label: t("Quản trị", "Admin"), icon: Shield }]
-      : [...baseLinks, { to: "/dashboard", label: t("Dashboard", "Dashboard"), icon: LayoutDashboard }]
+      : isPureAssistant
+        ? [...baseLinks, { to: "/assistant", label: t("CTV", "Assistant"), icon: Shield }, { to: "/dashboard", label: t("Dashboard", "Dashboard"), icon: LayoutDashboard }]
+        : [...baseLinks, { to: "/dashboard", label: t("Dashboard", "Dashboard"), icon: LayoutDashboard }]
     : baseLinks;
 
   // Hover bridge + intent debounce: opening is instant, closing is delayed
