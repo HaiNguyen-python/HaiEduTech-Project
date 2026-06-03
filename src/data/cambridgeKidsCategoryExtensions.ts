@@ -392,5 +392,9 @@ export const KIDS_CATEGORY_EXTENSIONS: [KidsCategory, string[]][] = [
   ["Descriptions (Adjectives)", ["active","entire","fair","graceful","prehistoric","relieved","selfish","silent","spicy","suspicious","typical","usual","various"]],
   ["Concepts & Society", ["accent","agreement","agriculture","aid","alcohol","arrow sign","assassination","avoidance","bureaucracy","census","decoration","democracy","discrepancy","fashion","frequency","generation","gun","hello","happy birthday","internship","no","patriotism","philosophy","poster","prize","reception","region","republic","translation","yes","present"]],
   ["Business & Money", ["award","collection","gift","membership","prize","present"]],
+  ["Descriptions (Adjectives)", ["asleep","enough"]],
+  ["Concepts & Society", ["deterrent","expression","mixture","dragon legend"]],
+  ["Home & Clothes", ["flag"]],
+  ["Nature & Weather", ["nuclear energy"]],
 ];
 
