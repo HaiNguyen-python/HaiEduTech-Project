@@ -303,7 +303,7 @@ const AdminDashboard = () => {
   // (heartbeat/daily_login) and debounce to prevent refetch storms.
   const refetchTimerRef = useRef<number | null>(null);
   useEffect(() => {
-    if (!isTeacher) return;
+    if (!canAccessDashboard) return;
     const channel = supabase
       .channel("admin-activity-realtime")
       .on(
