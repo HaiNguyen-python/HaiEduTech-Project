@@ -601,7 +601,11 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
   };
 
   // Total sentence count
-  const totalSentences = useMemo(() => config.themes.reduce((sum, th) => sum + th.sentences.length, 0), [config.themes]);
+  const visibleThemes = useMemo(() => {
+    if (language !== "finnish" || levelFilter === "all") return config.themes;
+    return config.themes.filter((th) => th.level === levelFilter);
+  }, [config.themes, language, levelFilter]);
+  const totalSentences = useMemo(() => visibleThemes.reduce((sum, th) => sum + th.sentences.length, 0), [visibleThemes]);
 
   // Theme selection view
   if (!selectedTheme) {
@@ -701,7 +705,7 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Theme cards */}
           <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {config.themes.map((theme) => {
+          {visibleThemes.map((theme) => {
             const scores = themeScores[theme.id] || {};
             const completedCount = theme.sentences.filter((s) => (scores[s.id] || 0) >= 90).length;
             const themeProgress = theme.sentences.length > 0 ? Math.round((completedCount / theme.sentences.length) * 100) : 0;
