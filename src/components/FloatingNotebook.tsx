@@ -394,7 +394,7 @@ const FloatingNotebook = () => {
       {/* Floating button */}
       <motion.button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] right-24 z-[80] w-12 h-12 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:scale-110 transition-transform sm:bottom-6 sm:right-32 sm:w-14 sm:h-14"
+        className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] right-16 z-[80] w-12 h-12 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:scale-110 transition-transform sm:bottom-6 sm:right-20 sm:w-14 sm:h-14"
         whileTap={{ scale: 0.9 }}
         aria-label="Open notebook"
       >
