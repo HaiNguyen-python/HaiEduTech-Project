@@ -383,8 +383,8 @@ export const SKILL_LABEL: Record<Skill, string> = {
  * Scoped to A1–B2 since the bank no longer contains C1/C2 items.
  */
 export function inferCefr(total: number): Cefr {
-  if (total >= 80) return "B2";
-  if (total >= 60) return "B1";
-  if (total >= 38) return "A2";
+  if (total >= 78) return "B2";
+  if (total >= 58) return "B1";
+  if (total >= 37) return "A2";
   return "A1";
 }
