@@ -20,11 +20,13 @@ import { arrangementSentences } from "@/data/arrangementSentences";
 //   [I]/[II]/[III]/[IV] → colored insertion chip
 //   (N) ___            → numbered blank pill (easier on the eye)
 const renderPassageText = (text: string) => {
-  const tokens = text.split(/(__[^_]+__|\[(?:I{1,3}|IV)\]|\(\d{1,2}\)\s*_{2,}|_{3,})/g);
+  const tokens = text.split(/(__[^_]+__|\*\*[^*]+\*\*|\[(?:I{1,3}|IV)\]|\(\d{1,2}\)\s*_{2,}|_{3,})/g);
   return tokens.map((tok, i) => {
     if (!tok) return null;
     const u = tok.match(/^__([^_]+)__$/);
-    if (u) return <u key={i} className="decoration-primary decoration-2 underline-offset-4 font-semibold text-foreground">{u[1]}</u>;
+    if (u) return <mark key={i} className="bg-yellow-200/70 dark:bg-yellow-500/30 px-1 rounded font-semibold text-foreground">{u[1]}</mark>;
+    const b = tok.match(/^\*\*([^*]+)\*\*$/);
+    if (b) return <strong key={i} className="font-bold text-primary bg-primary/10 px-1 rounded">{b[1]}</strong>;
     if (/^\[(I{1,3}|IV)\]$/.test(tok)) {
       return <span key={i} className="inline-flex items-center justify-center min-w-[28px] h-6 px-1.5 mx-0.5 rounded bg-primary/15 text-primary font-bold text-xs align-middle">{tok}</span>;
     }
@@ -305,10 +307,10 @@ const NationalExamRoom = () => {
                       const arrData = arrangementSentences[arrKey];
                       if (!arrData) return null;
                       return (
-                        <div className="ml-11 mb-3 bg-muted/40 rounded-lg p-3 space-y-1.5 border border-border">
-                          <p className="text-xs font-semibold text-primary">{arrData.instruction}</p>
+                        <div className="ml-11 mb-3 bg-muted/40 rounded-lg p-4 space-y-2 border border-border">
+                          <p className="text-sm md:text-base font-semibold text-primary">{arrData.instruction}</p>
                           {Object.entries(arrData.sentences).map(([letter, sentence]) => (
-                            <div key={letter} className="flex gap-2 text-xs leading-relaxed">
+                            <div key={letter} className="flex gap-2 text-sm md:text-base leading-relaxed">
                               <span className="font-bold text-primary flex-shrink-0">{letter}.</span>
                               <span className="text-foreground">{sentence}</span>
                             </div>
@@ -444,11 +446,11 @@ const NationalExamRoom = () => {
 
                   {/* Arrangement question sentences */}
                   {arrData && (
-                    <div className="ml-13 mb-4 bg-muted/40 rounded-xl p-4 space-y-2.5 border border-border">
-                      <p className="text-sm font-semibold text-primary mb-2">{arrData.instruction}</p>
+                    <div className="ml-13 mb-4 bg-muted/40 rounded-xl p-5 space-y-3 border-2 border-primary/30">
+                      <p className="text-base md:text-lg font-bold text-primary mb-3">{arrData.instruction}</p>
                       {Object.entries(arrData.sentences).map(([letter, sentence]) => (
-                        <div key={letter} className="flex gap-2 text-sm leading-relaxed">
-                          <span className="font-bold text-primary flex-shrink-0 w-5">{letter}.</span>
+                        <div key={letter} className="flex gap-3 text-base md:text-lg leading-relaxed font-serif">
+                          <span className="font-bold text-primary flex-shrink-0 w-7 text-lg">{letter}.</span>
                           <span className="text-foreground">{sentence}</span>
                         </div>
                       ))}
