@@ -276,7 +276,11 @@ const Navbar = () => {
     ? isTeacher
       ? [...baseLinks, { to: "/admin-dashboard", label: t("Quản trị", "Admin"), icon: Shield }]
       : isPureAssistant
-        ? [...baseLinks, { to: "/assistant", label: t("CTV", "Assistant"), icon: Shield }, { to: "/dashboard", label: t("Dashboard", "Dashboard"), icon: LayoutDashboard }]
+        ? [...baseLinks,
+            { to: "/admin-dashboard", label: t("Quản trị", "Admin"), icon: Shield },
+            { to: "/assistant", label: t("CTV", "Assistant"), icon: Shield },
+            { to: "/dashboard", label: t("Dashboard", "Dashboard"), icon: LayoutDashboard },
+          ]
         : [...baseLinks, { to: "/dashboard", label: t("Dashboard", "Dashboard"), icon: LayoutDashboard }]
     : baseLinks;
 
