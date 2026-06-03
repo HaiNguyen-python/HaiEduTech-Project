@@ -133,21 +133,19 @@ const AdminDashboard = () => {
     domainCounts: { english: 0, chinese: 0, programming: 0 } as Record<LearningDomain, number>,
   });
 
-  // Redirect non-teachers. Assistants (CTV) must be routed to their own
-  // workspace — they are NOT allowed to see revenue/financial metrics (403).
+  // Access control:
+  //  - Teachers / admins: full access (incl. Income).
+  //  - Pure assistants (CTV): observation access — same tabs minus Income.
+  //  - Everyone else: redirect home.
+  const canAccessDashboard = isTeacher || isPureAssistant;
   useEffect(() => {
     if (roleLoading) return;
-    if (isPureAssistant) {
-      toast.error("403 — Bạn không có quyền xem báo cáo doanh thu", { description: "Đã chuyển về khu vực Cộng tác viên." });
-      navigate("/assistant", { replace: true });
-      return;
-    }
-    if (!isTeacher) navigate("/", { replace: true });
-  }, [roleLoading, isTeacher, isPureAssistant, navigate]);
+    if (!canAccessDashboard) navigate("/", { replace: true });
+  }, [roleLoading, canAccessDashboard, navigate]);
 
   // Fetch all data
   const fetchAll = useCallback(async () => {
-    if (!isTeacher) return;
+    if (!canAccessDashboard) return;
     setLoadingData(true);
     // Fetch students (exclude teachers/admins) and deduplicate by id
     const profiles = await fetchAllRows<{ id: string; full_name: string | null; created_at: string }>((from, to) =>
@@ -297,7 +295,7 @@ const AdminDashboard = () => {
     });
 
     setLoadingData(false);
-  }, [isTeacher]);
+  }, [canAccessDashboard]);
 
   useEffect(() => { fetchAll(); }, [fetchAll]);
 
@@ -305,7 +303,7 @@ const AdminDashboard = () => {
   // (heartbeat/daily_login) and debounce to prevent refetch storms.
   const refetchTimerRef = useRef<number | null>(null);
   useEffect(() => {
-    if (!isTeacher) return;
+    if (!canAccessDashboard) return;
     const channel = supabase
       .channel("admin-activity-realtime")
       .on(
@@ -324,7 +322,7 @@ const AdminDashboard = () => {
       if (refetchTimerRef.current) window.clearTimeout(refetchTimerRef.current);
       supabase.removeChannel(channel);
     };
-  }, [isTeacher, fetchAll]);
+  }, [canAccessDashboard, fetchAll]);
 
   // Select student and generate recommendations
   const handleSelectStudent = (state: StudentState) => {
@@ -543,7 +541,7 @@ const AdminDashboard = () => {
                   { key: "overview", label: t("Tổng quan", "Overview"), icon: Globe, first: "overview" },
                   { key: "students", label: t("Học sinh", "Students"), icon: Users, first: "students" },
                   { key: "learning", label: t("Học tập & AI", "Learning & AI"), icon: Brain, first: "rl-engine" },
-                  { key: "operations", label: t("Vận hành", "Operations"), icon: DollarSign, first: "income" },
+                  { key: "operations", label: t("Vận hành", "Operations"), icon: DollarSign, first: isPureAssistant ? "assistants" : "income" },
                 ] as const).map((g) => {
                   const Icon = g.icon;
                   const active = tabGroup === g.key;
@@ -609,7 +607,9 @@ const AdminDashboard = () => {
                 )}
                 {tabGroup === "operations" && (
                   <>
-                    <TabsTrigger value="income" className="gap-1.5"><DollarSign className="w-3.5 h-3.5" /> {t("Thu nhập", "Income")}</TabsTrigger>
+                    {!isPureAssistant && (
+                      <TabsTrigger value="income" className="gap-1.5"><DollarSign className="w-3.5 h-3.5" /> {t("Thu nhập", "Income")}</TabsTrigger>
+                    )}
                     <TabsTrigger value="assistants" className="gap-1.5"><UserCog className="w-3.5 h-3.5" /> {t("Cộng tác viên", "Assistants")}</TabsTrigger>
                     <TabsTrigger value="schedule" className="gap-1.5"><Clock className="w-3.5 h-3.5" /> {t("Lịch học", "Schedule")}</TabsTrigger>
                     <TabsTrigger value="report-logs" className="gap-1.5"><ClipboardList className="w-3.5 h-3.5" /> {t("Báo cáo Email", "Report Logs")}</TabsTrigger>
@@ -1150,10 +1150,12 @@ const AdminDashboard = () => {
 
 
 
-              {/* ===== INCOME MANAGEMENT TAB ===== */}
-              <TabsContent value="income">
-                <IncomeManagement />
-              </TabsContent>
+              {/* ===== INCOME MANAGEMENT TAB (admin/teacher only) ===== */}
+              {!isPureAssistant && (
+                <TabsContent value="income">
+                  <IncomeManagement />
+                </TabsContent>
+              )}
 
               {/* ===== ASSISTANT MANAGEMENT TAB ===== */}
               <TabsContent value="assistants">
