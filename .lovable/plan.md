@@ -1,78 +1,80 @@
+## Mục tiêu
+Tăng cường & củng cố mảng **Learn Finnish**, trọng tâm là **luyện nói** (Speaking Coach + Roleplay) từ A1 → B1, bám theo định hướng YKI và bổ sung chiều sâu cho ngữ pháp / từ vựng / mock exam.
 
-# Assistant Management & RBAC System
+## Phạm vi
 
-Build a role-based access control system for onboarding external Assistants (Cộng tác viên), with time-tracking, automatic payroll (50,000 VND/hr), and daily reports with screenshot uploads. Teacher Hai stays super_admin with exclusive access to financial/revenue metrics.
+### 1. Speaking Coach (ưu tiên cao nhất)
+**Tình trạng**: 4 nhóm chủ đề Finnish (`finnishThemes` + 3 expansion) ~ 13 themes, mỗi theme ~10 câu. Có ID trùng (`fi-greetings`, `fi-shopping`, `fi-feelings`) giữa file gốc và expansion → gây ghi đè/đếm sai.
 
-## 1. Database (migration)
+**Việc làm**:
+- Tạo `src/data/speakingCoachFinnishExpansion.ts` (file riêng cho Finnish, gọn dễ bảo trì) gom 3 cấp độ rõ ràng:
+  - **A1 cơ bản** (15 câu/theme × 4 theme mới): Numbers/Time (`Numerot ja aika`), Body & Health (`Keho ja terveys`), Home (`Koti`), Food basics (`Ruoka`).
+  - **A2 thường nhật** (15 câu/theme × 4 theme mới): At Doctor (`Lääkärissä`), Apartment hunting (`Asunnon etsintä`), Kela & KKO (`Kela ja viranomaiset`), Small talk (`Small talk`).
+  - **B1 nâng cao** (12 câu/theme × 4 theme mới): Opinions & debate (`Mielipiteet`), Work meeting (`Työpalaveri`), News & society (`Uutiset`), Job interview (`Työhaastattelu`).
+- Mỗi câu có `text`, `translation` (VI), `ipa` cho câu khó, `difficulty` (easy/medium/hard), gắn `theme` mới.
+- Sửa **trùng ID** trong `speakingCoachExpansion2.ts` (đổi `fi-greetings`→`fi-greetings-2`, `fi-feelings`→`fi-feelings-2`, v.v.) hoặc loại bỏ block trùng — chọn loại bỏ vì nội dung trùng chủ đề.
+- Đăng ký file mới vào `speakingCoachData.ts` (themes array của Finnish) — giữ thứ tự theo cấp độ A1 → B1.
+- **Tổng số câu mới**: ~168 câu (đưa tổng số Finnish speaking lên >300 câu).
 
-Existing project already has `user_roles` table with `app_role` enum (`admin`, `teacher`, `student`). Plan:
+### 2. Phân loại theo Level trong UI Speaking Coach
+- Cập nhật `AISpeakingCoach.tsx` để hiển thị **filter cấp độ** (Tất cả / A1 / A2 / B1) cho Finnish (giữ logic hiện tại cho EN/ZH/VI).
+- Mỗi theme Finnish gắn metadata `level: "A1" | "A2" | "B1"` (mở rộng type `SpeakingTheme` với field optional `level?`).
+- Filter chips ở đầu danh sách themes; localStorage nhớ lựa chọn cuối.
 
-- Add `'assistant'` to the `app_role` enum.
-- Treat existing `admin` + `teacher` roles as super_admin (Teacher Hai's account `hainguyen240195@gmail.com` already has teacher role per memory).
-- Create `public.time_logs` (id, user_id, clock_in, clock_out, duration_hours, calculated_salary, status enum 'active'/'completed', created_at).
-- Create `public.daily_reports` (id, user_id, work_summary, feedback, screenshot_urls text[], created_at).
-- Create private storage bucket `report-attachments`.
-- RLS:
-  - `time_logs`: assistant can SELECT/INSERT/UPDATE own rows; super_admin (admin or teacher) can SELECT all.
-  - `daily_reports`: assistant can INSERT/SELECT own; super_admin SELECT all.
-  - Storage RLS on `report-attachments`: user can upload/read own folder (`auth.uid()::text = (storage.foldername(name))[1]`); super_admin can read all.
-- GRANTs on both tables + service_role.
-- Helper function `public.is_super_admin(uuid)` = has_role(admin) OR has_role(teacher).
+### 3. Pronunciation Tips chuyên cho Finnish
+- Thêm khối "Mẹo phát âm tiếng Phần Lan" trong `pronunciationTips` (`speakingCoachData.ts`):
+  - Nguyên âm dài đôi (`tuli` vs `tuuli` vs `tulli`).
+  - Phụ âm đôi (`kuka` vs `kukka`).
+  - Vần `ä / ö / y` và quy tắc hài hoà nguyên âm.
+  - Trọng âm luôn ở âm tiết đầu.
+- Hiển thị khi `language === "finnish"` (component đã có pattern này).
 
-## 2. Super Admin View — new tab in `TeacherDashboard.tsx`
+### 4. Roleplay Chinese-style cho Finnish (củng cố hội thoại)
+- Trong `supabase/functions/roleplay-chat/index.ts`, nâng cấp `systemPrompt` cho Finnish:
+  - Yêu cầu **strict format**: dòng Finnish in đậm + `[ipa thô]` + `(Vietnamese: …)`.
+  - Thêm "Sanasto-vinkki" (2–3 từ vựng then chốt mỗi lượt).
+  - Phân biệt **kirjakieli vs puhekieli** khi sửa lỗi (vd `minä olen` → `mä oon`).
+  - Mức độ thích ứng theo level A1/A2/B1 dựa trên input.
 
-New tab **"Quản lý Cộng tác viên / Assistant Management"** containing 3 sub-sections:
+### 5. Lessons Expansion (củng cố ngữ pháp/đọc)
+- Tạo `src/data/finnishCurriculum/lessonsExpansion6.ts`: 4 bài B1 mới
+  - "Mielipiteen ilmaiseminen" (Diễn đạt quan điểm) — conditional `-isi-`.
+  - "Passiivi arjessa" (Thể bị động trong đời sống).
+  - "Rektio-verbit" (Verb governance — danh từ đi với case nào).
+  - "Yhdyssanat ja sananmuodostus" (Từ ghép & cấu tạo từ).
+- Mỗi bài đủ: theory (FI+EN), 6 grammar examples, 12 vocab, 2 dialogues, 2 fill-in-blank exercises (≥10 câu), 8 quiz MCQ — đúng `<curriculum-validation-standards>`.
+- Export trong `finnishCurriculum/index.ts` và merge vào danh sách hiển thị ở `YkiDashboard` / `FinnishBeginner`.
 
-- **User table**: list profiles with role `student` or `assistant`. Per row: `[Bổ nhiệm CTV]` (insert assistant role) / `[Thu hồi CTV]` (delete assistant role). Search by name.
-- **Payroll Summary**: aggregated current-month table — Assistant name, total hours, total salary (`hours × 50000` VND, formatted vi-VN), entries count.
-- **Received Reports**: timeline of `daily_reports` (newest first) with author, date, summary, feedback, screenshot thumbnail grid → click opens lightbox (reuse existing `Dialog`).
+### 6. Vocabulary Expansion
+- Tạo `vocabularyExpansion6.ts`: 80 từ mới chia 4 module (B1 chủ đề: Työelämä, Yhteiskunta, Media, Ympäristö).
+- Tuân thủ rule "zero duplicates" (kiểm tra với base word của các expansion 1-5 trước khi commit).
 
-## 3. Assistant Admin View — new page `/assistant`
+### 7. QA & dọn dẹp
+- Chạy script ngắn (đếm) để bảo đảm: không trùng ID câu, đếm theme/câu trước-sau, build xanh.
+- Cập nhật memory `mem://features/finnish/speaking-system` ghi nhận số câu mới + có filter A1/A2/B1.
 
-- New route `/assistant` guarded by `useUserRole`: only `assistant` role (and super_admin for preview). Students/anon → redirect home with toast.
-- Login redirect logic: in `Login.tsx`, after sign-in check role → if pure assistant (no admin/teacher), redirect to `/assistant`.
-- Layout: Navbar + clean Tailwind page. NO revenue widgets imported.
-- **Time-Tracking Widget** (top):
-  - Query latest `time_logs` row where status='active' for user.
-  - If none → green `[▶ Bắt Đầu Làm Việc]` button → inserts row with clock_in=now(), status='active'.
-  - If active → red `[⏹ Kết Thúc Công Việc]` + live elapsed timer (updates every second from clock_in). On click: update row with clock_out, duration_hours, calculated_salary = duration_hours × 50000, status='completed'.
-- **My Time Logs (current month)**: table below widget — date, clock_in, clock_out, hours, salary.
-- **Daily Report sub-tab**:
-  - Textarea work_summary, textarea feedback, drag-and-drop image uploader (multiple, ≤5 MB each, image/* only) using `react-dropzone`-style native HTML5 DnD (no new dep needed).
-  - Upload files to `report-attachments/{user_id}/{timestamp}-{name}`, collect public-style signed/public URLs (bucket is private → store path + use `getPublicUrl` after creating a signed URL helper, OR make bucket public-read with RLS). Decision: keep bucket **private**, store object paths in `screenshot_urls`, and use signed URLs on render (1h expiry).
-  - On submit → insert `daily_reports` row, clear form, toast "Gửi báo cáo thành công!".
+## Chi tiết kỹ thuật
 
-## 4. Route guard
+```text
+File mới
+  src/data/speakingCoachFinnishExpansion.ts   ~12 themes, 168 câu, có level
+  src/data/finnishCurriculum/lessonsExpansion6.ts
+  src/data/finnishCurriculum/vocabularyExpansion6.ts
 
-- New `AssistantGuard` component wrapping `/assistant`. 
-- For existing admin-only routes (revenue/income e.g. `AdminDashboard`, income management): add early return if user has `assistant` role but not super_admin → toast "403 - Bạn không có quyền truy cập" and `navigate('/assistant')`.
+File sửa
+  src/data/speakingCoachData.ts          merge expansion mới, thêm tips, dọn trùng
+  src/data/speakingCoachExpansion2.ts    loại bỏ themes Finnish trùng
+  src/data/speakingCoachExpansion.ts     đổi `fi-shopping` còn lại (giữ một bản)
+  src/components/AISpeakingCoach.tsx     thêm Level filter (A1/A2/B1) cho Finnish
+  src/data/finnishCurriculum/index.ts    export 2 file mới
+  supabase/functions/roleplay-chat/index.ts  nâng cấp Finnish system prompt
+  mem://features/finnish/speaking-system  cập nhật ghi chú
+```
 
-## 5. Files to create/edit
+Không động vào: cấu hình auth, RLS, schema DB, các file Supabase auto-gen.
 
-**Created**
-- `supabase/migrations/<ts>_assistant_rbac.sql` — enum value, tables, RLS, grants, storage bucket policies, helper fn.
-- `src/pages/AssistantDashboard.tsx` — main assistant view.
-- `src/components/assistant/TimeTrackingWidget.tsx`
-- `src/components/assistant/MyTimeLogs.tsx`
-- `src/components/assistant/DailyReportForm.tsx`
-- `src/components/admin/AssistantManagementTab.tsx` — wraps the 3 super-admin sections.
-- `src/components/admin/PayrollSummary.tsx`
-- `src/components/admin/ReceivedReportsTimeline.tsx`
-- `src/hooks/useIsAssistant.ts` (small helper)
-- `.lovable/memory/features/admin/assistant-rbac.md` — memory note.
-
-**Edited**
-- `src/hooks/useUserRole.ts` — extend `AppRole` to include `'assistant'`, expose `isAssistant`, `isSuperAdmin`.
-- `src/pages/TeacherDashboard.tsx` — add new tab.
-- `src/pages/Login.tsx` — post-login redirect for pure assistants.
-- `src/App.tsx` — add `/assistant` route.
-- `src/pages/AdminDashboard.tsx` (if exists) — block assistants.
-
-## Technical details
-
-- Storage bucket created via `supabase--storage_create_bucket` tool (private).
-- Salary calc done **server-side via DB trigger** on `time_logs` update (when clock_out set) for tamper-proofing: duration_hours = EXTRACT(EPOCH FROM (clock_out - clock_in))/3600, calculated_salary = duration_hours × 50000. Client also sends the values, trigger overrides.
-- Use existing shadcn `Table`, `Card`, `Tabs`, `Dialog`, `Button`, `Textarea`, `toast`.
-- Currency formatting: `new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })`.
-- All comments in English (per spec).
-- Tailwind tokens only (no raw colors).
+## Kết quả mong đợi
+- Speaking Coach Finnish: từ ~130 câu → **~300 câu**, có lọc theo cấp độ A1/A2/B1, mẹo phát âm chuyên biệt.
+- Roleplay Finnish: phản hồi giàu thông tin hơn (IPA + dịch + tip puhekieli).
+- Bài học YKI: thêm 4 bài B1 chiều sâu + 80 từ vựng B1.
+- Không còn ID theme trùng, build sạch.
