@@ -62,7 +62,9 @@ const NotificationBell = () => {
     setLoading(false);
   };
 
-  // Initial load + realtime subscription
+  // Initial load + realtime subscription. We listen on INSERT specifically
+  // so a newly inserted notification triggers a toast + bell pulse, and
+  // any other change (mark-as-read) just refetches.
   useEffect(() => {
     if (!user) { setItems([]); return; }
     fetchItems();
@@ -70,7 +72,16 @@ const NotificationBell = () => {
       .channel(`notif_${user.id}`)
       .on(
         "postgres_changes",
-        { event: "*", schema: "public", table: "assignment_notifications", filter: `user_id=eq.${user.id}` },
+        { event: "INSERT", schema: "public", table: "assignment_notifications", filter: `user_id=eq.${user.id}` },
+        (payload) => {
+          const row = payload.new as NotificationRow;
+          setItems((cur) => [row, ...cur].slice(0, 30));
+          toast.success(row.title, { description: row.body?.slice(0, 120) });
+        },
+      )
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "assignment_notifications", filter: `user_id=eq.${user.id}` },
         () => fetchItems(),
       )
       .subscribe();
