@@ -327,6 +327,8 @@ const App = () => (
             <Route path="/for-vietnamese-children" element={<Navigate to="/world-playground" replace />} />
             <Route path="/login" element={<LazyRoute><Login /></LazyRoute>} />
             <Route path="/signup" element={<LazyRoute><Signup /></LazyRoute>} />
+            <Route path="/forgot-password" element={<LazyRoute><ForgotPassword /></LazyRoute>} />
+            <Route path="/reset-password" element={<LazyRoute><ResetPassword /></LazyRoute>} />
             <Route path="/ai-library" element={<LazyRoute><AILibrary /></LazyRoute>} />
             <Route path="/learn-vietnamese" element={<LazyRoute><Vietnamese /></LazyRoute>} />
             <Route path="/learn-vietnamese/module/:moduleId" element={<LazyRoute><VietnameseLessonView /></LazyRoute>} />
