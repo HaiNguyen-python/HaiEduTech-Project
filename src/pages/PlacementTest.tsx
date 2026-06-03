@@ -935,7 +935,7 @@ const SpeakPresent = ({ q, recordBlob, hasRecording }: RenderProps) => {
 
   return (
     <div>
-      <p className="text-xs uppercase tracking-wide text-slate-500 mb-2">Presentation Arena · C1</p>
+      <p className="text-xs uppercase tracking-wide text-slate-500 mb-2">Presentation Arena · B2</p>
       <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 mb-5">
         <p className="text-slate-900 leading-relaxed font-medium">{q.prompt}</p>
       </div>
