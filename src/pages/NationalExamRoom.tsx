@@ -446,11 +446,11 @@ const NationalExamRoom = () => {
 
                   {/* Arrangement question sentences */}
                   {arrData && (
-                    <div className="ml-13 mb-4 bg-muted/40 rounded-xl p-4 space-y-2.5 border border-border">
-                      <p className="text-sm font-semibold text-primary mb-2">{arrData.instruction}</p>
+                    <div className="ml-13 mb-4 bg-muted/40 rounded-xl p-5 space-y-3 border-2 border-primary/30">
+                      <p className="text-base md:text-lg font-bold text-primary mb-3">{arrData.instruction}</p>
                       {Object.entries(arrData.sentences).map(([letter, sentence]) => (
-                        <div key={letter} className="flex gap-2 text-sm leading-relaxed">
-                          <span className="font-bold text-primary flex-shrink-0 w-5">{letter}.</span>
+                        <div key={letter} className="flex gap-3 text-base md:text-lg leading-relaxed font-serif">
+                          <span className="font-bold text-primary flex-shrink-0 w-7 text-lg">{letter}.</span>
                           <span className="text-foreground">{sentence}</span>
                         </div>
                       ))}
