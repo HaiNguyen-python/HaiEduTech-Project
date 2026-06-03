@@ -133,17 +133,15 @@ const AdminDashboard = () => {
     domainCounts: { english: 0, chinese: 0, programming: 0 } as Record<LearningDomain, number>,
   });
 
-  // Redirect non-teachers. Assistants (CTV) must be routed to their own
-  // workspace — they are NOT allowed to see revenue/financial metrics (403).
+  // Access control:
+  //  - Teachers / admins: full access (incl. Income).
+  //  - Pure assistants (CTV): observation access — same tabs minus Income.
+  //  - Everyone else: redirect home.
+  const canAccessDashboard = isTeacher || isPureAssistant;
   useEffect(() => {
     if (roleLoading) return;
-    if (isPureAssistant) {
-      toast.error("403 — Bạn không có quyền xem báo cáo doanh thu", { description: "Đã chuyển về khu vực Cộng tác viên." });
-      navigate("/assistant", { replace: true });
-      return;
-    }
-    if (!isTeacher) navigate("/", { replace: true });
-  }, [roleLoading, isTeacher, isPureAssistant, navigate]);
+    if (!canAccessDashboard) navigate("/", { replace: true });
+  }, [roleLoading, canAccessDashboard, navigate]);
 
   // Fetch all data
   const fetchAll = useCallback(async () => {
