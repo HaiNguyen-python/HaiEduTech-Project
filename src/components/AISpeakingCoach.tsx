@@ -238,6 +238,10 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
   const [perfectStreak, setPerfectStreak] = useState(0);
   const [totalPracticed, setTotalPracticed] = useState(0);
   const [isPlayingDemo, setIsPlayingDemo] = useState(false);
+  const [levelFilter, setLevelFilter] = useState<"all" | "A1" | "A2" | "B1">(() => {
+    try { return (localStorage.getItem(`speaking-coach-level-${language}`) as any) || "all"; } catch { return "all"; }
+  });
+  useEffect(() => { try { localStorage.setItem(`speaking-coach-level-${language}`, levelFilter); } catch {} }, [language, levelFilter]);
   
   // Gamification state
   const [stats, setStats] = useState<SpeakingStats>(() => loadStats(language));
