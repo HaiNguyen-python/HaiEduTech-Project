@@ -1113,7 +1113,7 @@ const ChatBot = () => {
             dragMomentum={false}
             dragElastic={0}
             onDragEnd={clampChatIntoView}
-            className={`fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] left-3 right-10 z-[80] flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl sm:bottom-6 sm:left-auto sm:right-12 ${
+            className={`fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] left-3 right-6 z-[80] flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl sm:bottom-6 sm:left-auto sm:right-8 ${
               expanded
                 ? "h-[85vh] max-h-[900px] sm:w-[640px] md:w-[760px] lg:w-[880px]"
                 : "h-[70vh] max-h-[560px] sm:w-[400px]"
