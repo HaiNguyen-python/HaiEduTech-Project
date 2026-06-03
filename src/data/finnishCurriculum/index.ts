@@ -18,3 +18,5 @@ export { finnishVocabExpansion5Modules } from "./vocabularyExpansion5";
 export { finnishLessonExpansion3Modules } from "./lessonsExpansion3";
 export { finnishLessonExpansion4Modules } from "./lessonsExpansion4";
 export { finnishLessonExpansion5Modules } from "./lessonsExpansion5";
+export { finnishLessonExpansion6Modules } from "./lessonsExpansion6";
+export { finnishVocabExpansion6Modules } from "./vocabularyExpansion6";
