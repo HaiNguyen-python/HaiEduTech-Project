@@ -3231,7 +3231,7 @@ export const thptExams2 = [
       },
       {
         "id": 23,
-        "text": "The word **Derided** in the passage is CLOSEST in meaning to:",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"Derided\"?",
         "options": [
           "dismissed",
           "refined",
@@ -3348,7 +3348,7 @@ export const thptExams2 = [
       },
       {
         "id": 32,
-        "text": "The word **Fungible** in the passage is CLOSEST in meaning to:",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"Fungible\"?",
         "options": [
           "interchangeable and tradable with equivalent units",
           "uniquely valuable and irreplaceable",
@@ -3925,7 +3925,7 @@ export const thptExams2 = [
       },
       {
         "id": 32,
-        "text": "The word **Goods internal to it** in the passage is CLOSEST in meaning to:",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"Goods internal to it\"?",
         "options": [
           "external rewards such as prizes",
           "commodities whose value is set by supply-demand",
@@ -4385,7 +4385,7 @@ export const thptExams2 = [
       },
       {
         "id": 23,
-        "text": "The word **Metabolize** in the passage is CLOSEST in meaning to:",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"Metabolize\"?",
         "options": [
           "glorify",
           "process",
@@ -4962,7 +4962,7 @@ export const thptExams2 = [
       },
       {
         "id": 23,
-        "text": "The word **Benign** in the passage is CLOSEST in meaning to:",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"Benign\"?",
         "options": [
           "dangerous",
           "severe",
@@ -5079,7 +5079,7 @@ export const thptExams2 = [
       },
       {
         "id": 32,
-        "text": "The word **Imperialism** in the passage is CLOSEST in meaning to:",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"Imperialism\"?",
         "options": [
           "domination by powerful cultures over weaker ones",
           "equitable sharing of resources",

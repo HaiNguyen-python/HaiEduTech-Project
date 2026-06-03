@@ -1004,7 +1004,7 @@ export const thptExams = [
       },
       {
         "id": 26,
-        "text": "The word **enhance** in the passage is OPPOSITE in meaning to:",
+        "text": "Vocabulary: Which of the following is OPPOSITE in meaning to \"enhance\"?",
         "options": [
           "improve",
           "diminish",
@@ -1121,7 +1121,7 @@ export const thptExams = [
       },
       {
         "id": 35,
-        "text": "The word **facilitate** in the passage is OPPOSITE in meaning to:",
+        "text": "Vocabulary: Which of the following is OPPOSITE in meaning to \"facilitate\"?",
         "options": [
           "enable",
           "impede",
@@ -1147,7 +1147,7 @@ export const thptExams = [
       },
       {
         "id": 37,
-        "text": "The word **integral** in the passage is CLOSEST in meaning to:",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"integral\"?",
         "options": [
           "optional",
           "essential",
@@ -1581,7 +1581,7 @@ export const thptExams = [
       },
       {
         "id": 26,
-        "text": "The word **enhance** in the passage is OPPOSITE in meaning to:",
+        "text": "Vocabulary: Which of the following is OPPOSITE in meaning to \"enhance\"?",
         "options": [
           "improve",
           "diminish",
@@ -1698,7 +1698,7 @@ export const thptExams = [
       },
       {
         "id": 35,
-        "text": "The word **facilitate** in the passage is OPPOSITE in meaning to:",
+        "text": "Vocabulary: Which of the following is OPPOSITE in meaning to \"facilitate\"?",
         "options": [
           "enable",
           "impede",
@@ -1724,7 +1724,7 @@ export const thptExams = [
       },
       {
         "id": 37,
-        "text": "The word **integral** in the passage is CLOSEST in meaning to:",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"integral\"?",
         "options": [
           "optional",
           "essential",
@@ -2275,7 +2275,7 @@ export const thptExams = [
       },
       {
         "id": 35,
-        "text": "The word **facilitate** in the passage is OPPOSITE in meaning to:",
+        "text": "Vocabulary: Which of the following is OPPOSITE in meaning to \"facilitate\"?",
         "options": [
           "enable",
           "impede",
@@ -2301,7 +2301,7 @@ export const thptExams = [
       },
       {
         "id": 37,
-        "text": "The word **integral** in the passage is CLOSEST in meaning to:",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"integral\"?",
         "options": [
           "optional",
           "essential",
@@ -2878,7 +2878,7 @@ export const thptExams = [
       },
       {
         "id": 37,
-        "text": "The word **integral** in the passage is CLOSEST in meaning to:",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"integral\"?",
         "options": [
           "optional",
           "essential",
@@ -3455,7 +3455,7 @@ export const thptExams = [
       },
       {
         "id": 37,
-        "text": "The word **integral** in the passage is CLOSEST in meaning to:",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"integral\"?",
         "options": [
           "optional",
           "essential",
@@ -3889,7 +3889,7 @@ export const thptExams = [
       },
       {
         "id": 26,
-        "text": "The word **enhance** in the passage is OPPOSITE in meaning to:",
+        "text": "Vocabulary: Which of the following is OPPOSITE in meaning to \"enhance\"?",
         "options": [
           "improve",
           "diminish",
@@ -4006,7 +4006,7 @@ export const thptExams = [
       },
       {
         "id": 35,
-        "text": "The word **facilitate** in the passage is OPPOSITE in meaning to:",
+        "text": "Vocabulary: Which of the following is OPPOSITE in meaning to \"facilitate\"?",
         "options": [
           "enable",
           "impede",
@@ -4032,7 +4032,7 @@ export const thptExams = [
       },
       {
         "id": 37,
-        "text": "The word **integral** in the passage is CLOSEST in meaning to:",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"integral\"?",
         "options": [
           "optional",
           "essential",
@@ -4583,7 +4583,7 @@ export const thptExams = [
       },
       {
         "id": 35,
-        "text": "The word **facilitate** in the passage is OPPOSITE in meaning to:",
+        "text": "Vocabulary: Which of the following is OPPOSITE in meaning to \"facilitate\"?",
         "options": [
           "enable",
           "impede",
@@ -4609,7 +4609,7 @@ export const thptExams = [
       },
       {
         "id": 37,
-        "text": "The word **integral** in the passage is CLOSEST in meaning to:",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"integral\"?",
         "options": [
           "optional",
           "essential",
@@ -5043,7 +5043,7 @@ export const thptExams = [
       },
       {
         "id": 26,
-        "text": "The word **enhance** in the passage is OPPOSITE in meaning to:",
+        "text": "Vocabulary: Which of the following is OPPOSITE in meaning to \"enhance\"?",
         "options": [
           "improve",
           "diminish",
@@ -5160,7 +5160,7 @@ export const thptExams = [
       },
       {
         "id": 35,
-        "text": "The word **facilitate** in the passage is OPPOSITE in meaning to:",
+        "text": "Vocabulary: Which of the following is OPPOSITE in meaning to \"facilitate\"?",
         "options": [
           "enable",
           "impede",
@@ -5186,7 +5186,7 @@ export const thptExams = [
       },
       {
         "id": 37,
-        "text": "The word **integral** in the passage is CLOSEST in meaning to:",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"integral\"?",
         "options": [
           "optional",
           "essential",
@@ -5620,7 +5620,7 @@ export const thptExams = [
       },
       {
         "id": 26,
-        "text": "The word **enhance** in the passage is OPPOSITE in meaning to:",
+        "text": "Vocabulary: Which of the following is OPPOSITE in meaning to \"enhance\"?",
         "options": [
           "improve",
           "diminish",
@@ -5737,7 +5737,7 @@ export const thptExams = [
       },
       {
         "id": 35,
-        "text": "The word **facilitate** in the passage is OPPOSITE in meaning to:",
+        "text": "Vocabulary: Which of the following is OPPOSITE in meaning to \"facilitate\"?",
         "options": [
           "enable",
           "impede",
@@ -5763,7 +5763,7 @@ export const thptExams = [
       },
       {
         "id": 37,
-        "text": "The word **integral** in the passage is CLOSEST in meaning to:",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"integral\"?",
         "options": [
           "optional",
           "essential",
