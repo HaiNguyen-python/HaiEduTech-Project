@@ -307,10 +307,10 @@ const NationalExamRoom = () => {
                       const arrData = arrangementSentences[arrKey];
                       if (!arrData) return null;
                       return (
-                        <div className="ml-11 mb-3 bg-muted/40 rounded-lg p-3 space-y-1.5 border border-border">
-                          <p className="text-xs font-semibold text-primary">{arrData.instruction}</p>
+                        <div className="ml-11 mb-3 bg-muted/40 rounded-lg p-4 space-y-2 border border-border">
+                          <p className="text-sm md:text-base font-semibold text-primary">{arrData.instruction}</p>
                           {Object.entries(arrData.sentences).map(([letter, sentence]) => (
-                            <div key={letter} className="flex gap-2 text-xs leading-relaxed">
+                            <div key={letter} className="flex gap-2 text-sm md:text-base leading-relaxed">
                               <span className="font-bold text-primary flex-shrink-0">{letter}.</span>
                               <span className="text-foreground">{sentence}</span>
                             </div>
