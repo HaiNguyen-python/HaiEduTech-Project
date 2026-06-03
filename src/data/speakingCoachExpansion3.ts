@@ -261,13 +261,13 @@ export const finnishExtraThemes3: SpeakingTheme[] = [
     ],
   },
   {
-    id: "fi-health", name: "Terveys (Health)", nameVi: "Sức khỏe", icon: "🏥", level: "B1",
+    id: "fi-health-adv", name: "Terveys (Health)", nameVi: "Sức khỏe", icon: "🏥", level: "B1",
     sentences: [
-      { id: "fi-h1", text: "Minulla on päänsärky ja kuumetta.", translation: "Tôi đau đầu và sốt.", difficulty: "easy", theme: "health" },
-      { id: "fi-h2", text: "Haluaisin varata ajan lääkärille.", translation: "Tôi muốn đặt lịch khám bác sĩ.", difficulty: "medium", theme: "health" },
-      { id: "fi-h3", text: "Ottakaa tätä lääkettä kahdesti päivässä.", translation: "Uống thuốc này hai lần một ngày.", difficulty: "medium", theme: "health" },
-      { id: "fi-h4", text: "Säännöllinen liikunta on hyväksi terveydelle.", translation: "Tập thể dục thường xuyên tốt cho sức khỏe.", difficulty: "medium", theme: "health" },
-      { id: "fi-h5", text: "Mielenterveys on yhtä tärkeä kuin fyysinen terveys.", translation: "Sức khỏe tinh thần quan trọng như thể chất.", difficulty: "hard", theme: "health" },
+      { id: "fi-hadv1", text: "Minulla on päänsärky ja kuumetta.", translation: "Tôi đau đầu và sốt.", difficulty: "easy", theme: "health" },
+      { id: "fi-hadv2", text: "Haluaisin varata ajan lääkärille.", translation: "Tôi muốn đặt lịch khám bác sĩ.", difficulty: "medium", theme: "health" },
+      { id: "fi-hadv3", text: "Ottakaa tätä lääkettä kahdesti päivässä.", translation: "Uống thuốc này hai lần một ngày.", difficulty: "medium", theme: "health" },
+      { id: "fi-hadv4", text: "Säännöllinen liikunta on hyväksi terveydelle.", translation: "Tập thể dục thường xuyên tốt cho sức khỏe.", difficulty: "medium", theme: "health" },
+      { id: "fi-hadv5", text: "Mielenterveys on yhtä tärkeä kuin fyysinen terveys.", translation: "Sức khỏe tinh thần quan trọng như thể chất.", difficulty: "hard", theme: "health" },
     ],
   },
   {
