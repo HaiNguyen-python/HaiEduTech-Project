@@ -375,4 +375,22 @@ export const KIDS_CATEGORY_EXTENSIONS: [KidsCategory, string[]][] = [
     "service","shop","staff","stock","store","subscription","supply","tax","trade","trader",
     "transaction","value","wage","wealth","work","workload","workplace","tip",
   ]],
+
+  // ===== Final cleanup batch for remaining "Other" words =====
+  ["Animals", ["butterfly insect","dolphin show","flute-fish","reptile","species","squid","wildlife","pet"]],
+  ["Food & Drink", ["beef meat","eggplant","garlic","peas","pepper","pudding","roast","spicy","spill","cuisine"]],
+  ["Body, Health & Feelings", ["afflict","alertness","ambition","anticipation","apology","assumption","catastrophe","concern","curiosity","delicate","deteriorate","dialysis","dignity","disaster","elbow pad","fascinate","gaze","glance","graceful","hop","imagination","kneepad","malaria","relieved","satisfy","selfish","silent","suspicious","toe","vaccination"]],
+  ["People & Jobs", ["angel","assistant","member","membership","pirate","vet","ambition","celebrity"]],
+  ["Home & Clothes", ["air conditioning","artefact","artifact","attachment","basement","bin","block","bottom","buckle","cable","clip","cotton","crown","decoration","dust","elevator","entrance","file","gate","gift","hole","hose","ink","lace","mask","material","mop","moustache","net","oar","paddle","pavement","photo","photograph","picnic","plastic","polish","poster","portrait","present","queue","reception","rubbish","sculpture","shadow","shell","stamp","sticker","treasure","wire"]],
+  ["School & Stationery", ["album","comic","diary","dictionary","document","exhibition","fable","fiction","glossary","illustration","non-fiction","sentence","translation","verse"]],
+  ["Nature & Weather", ["acid","astronomy","colony","contaminate","drip","electricity","element","endangered","energy","glare","globe","hemisphere","magic","orbit","pendulum","plastic","prehistoric","region","renewable","science","shadow","spark","urbanization"]],
+  ["Places, Transport & Travel", ["anchor","architecture","backpacking","cruise","delay travel","infrastructure","loop","maze","party","prize"]],
+  ["Sports, Hobbies & Music", ["audition","award","camp","celebration","conversation","party","picnic","score","trophy","virtual reality"]],
+  ["Technology", ["channel","connection","ink","loop","menu","photo","photograph","virtual reality"]],
+  ["Time, Numbers, Colors & Shapes", ["angle","annual","approximately","arrow sign","eventually","forever","fortunately","frequency","generation","immediately","instead","margin","maximise","medieval","minimise","prehistoric","regular","typical","usual","usually","everywhere","opposite"]],
+  ["Actions (Verbs)", ["access","actually","associate","coincide","decrease","delay","eliminate","exaggerate","giggle","hop","miss","scribble","spill","symbolize","internship","camp","clip","collect","polish","prize","roast","stamp"]],
+  ["Descriptions (Adjectives)", ["active","entire","fair","graceful","prehistoric","relieved","selfish","silent","spicy","suspicious","typical","usual","various"]],
+  ["Concepts & Society", ["accent","agreement","agriculture","aid","alcohol","arrow sign","assassination","avoidance","bureaucracy","census","decoration","democracy","discrepancy","fashion","frequency","generation","gun","hello","happy birthday","internship","no","patriotism","philosophy","poster","prize","reception","region","republic","translation","yes","present"]],
+  ["Business & Money", ["award","collection","gift","membership","prize","present"]],
 ];
+
