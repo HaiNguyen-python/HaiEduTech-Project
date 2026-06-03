@@ -109,4 +109,4 @@ for (const [cat, list] of Object.entries(additions)) {
 }
 
 console.log(`\n=== UNASSIGNED: ${unassigned.length} ===`);
-console.log(unassigned.slice(0, 200).join("\n"));
+console.log(unassigned.join("\n"));
