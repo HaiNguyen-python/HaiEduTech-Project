@@ -322,7 +322,7 @@ const AdminDashboard = () => {
       if (refetchTimerRef.current) window.clearTimeout(refetchTimerRef.current);
       supabase.removeChannel(channel);
     };
-  }, [isTeacher, fetchAll]);
+  }, [canAccessDashboard, fetchAll]);
 
   // Select student and generate recommendations
   const handleSelectStudent = (state: StudentState) => {
