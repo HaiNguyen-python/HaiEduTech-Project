@@ -137,7 +137,7 @@ export const thptExams = [
         ],
         "correct": 2,
         "category": "preposition",
-        "explanation": "'Compel someone TO do something'."
+        "explanation": "Cấu trúc 'compel + sb + TO + V-inf / N' = thúc ép ai làm gì. Câu: 'compels individuals TO compulsive checking behaviors' (= dẫn họ đến hành vi kiểm tra liên tục). 'with/for/in' không tạo cụm chuẩn với 'compel sb'."
       },
       {
         "id": 4,
@@ -1291,7 +1291,7 @@ export const thptExams = [
         ],
         "correct": 1,
         "category": "preposition",
-        "explanation": "Cấu trúc động từ + giới từ 'to' phù hợp."
+        "explanation": "Cấu trúc 'encourage + sb + TO + V-inf' = khuyến khích ai làm gì. Câu: 'encourage consistent practice TO strengthen neural pathways' = khuyến khích luyện tập đều đặn để củng cố các đường dẫn thần kinh."
       },
       {
         "id": 4,
@@ -1868,7 +1868,7 @@ export const thptExams = [
         ],
         "correct": 1,
         "category": "preposition",
-        "explanation": "Cấu trúc động từ + giới từ 'to' phù hợp."
+        "explanation": "Cấu trúc 'compel + sb + TO + V-inf' = buộc/thúc ép ai làm gì. Câu: 'compels governments TO (adopt) sustainable development policies' = buộc các chính phủ (áp dụng) chính sách phát triển bền vững. (toward/with/into không đi với 'compel'.)"
       },
       {
         "id": 4,
@@ -2445,7 +2445,7 @@ export const thptExams = [
         ],
         "correct": 1,
         "category": "preposition",
-        "explanation": "Cấu trúc động từ + giới từ 'to' phù hợp."
+        "explanation": "Cấu trúc 'encourage + sb + TO + V-inf' = khuyến khích ai làm gì. Câu: 'encourage cultivators TO embrace regenerative techniques' = khuyến khích nông dân áp dụng kỹ thuật tái sinh."
       },
       {
         "id": 4,
@@ -3022,7 +3022,7 @@ export const thptExams = [
         ],
         "correct": 1,
         "category": "preposition",
-        "explanation": "Cấu trúc động từ + giới từ 'to' phù hợp."
+        "explanation": "Cấu trúc 'commit oneself TO + V-ing' = cam kết / dồn tâm huyết cho việc gì. Câu: 'committed themselves TO establishing guidelines' = đã cam kết thiết lập các quy tắc. Lưu ý: TO ở đây là giới từ nên theo sau là V-ing."
       },
       {
         "id": 4,
@@ -3599,7 +3599,7 @@ export const thptExams = [
         ],
         "correct": 1,
         "category": "preposition",
-        "explanation": "Cấu trúc động từ + giới từ 'to' phù hợp."
+        "explanation": "Cấu trúc 'dedicate oneself TO + V-ing' = dành/cống hiến mình cho việc gì. Câu: 'dedicated themselves TO documenting endangered traditions'. TO là giới từ → theo sau là V-ing."
       },
       {
         "id": 4,
@@ -4176,7 +4176,7 @@ export const thptExams = [
         ],
         "correct": 1,
         "category": "preposition",
-        "explanation": "Cấu trúc động từ + giới từ 'to' phù hợp."
+        "explanation": "Cấu trúc 'commit oneself TO + V-ing' = cam kết làm gì. Câu: 'committed themselves TO raising awareness' = cam kết nâng cao nhận thức. TO là giới từ nên theo sau V-ing."
       },
       {
         "id": 4,
@@ -4753,7 +4753,7 @@ export const thptExams = [
         ],
         "correct": 1,
         "category": "preposition",
-        "explanation": "Cấu trúc động từ + giới từ 'to' phù hợp."
+        "explanation": "Cấu trúc 'dedicate oneself TO + V-ing' = dành tâm huyết cho việc gì. Câu: 'dedicated themselves TO exploring how identity is performed'. TO là giới từ → đi với V-ing."
       },
       {
         "id": 4,
@@ -5330,7 +5330,7 @@ export const thptExams = [
         ],
         "correct": 1,
         "category": "preposition",
-        "explanation": "Cấu trúc động từ + giới từ 'to' phù hợp."
+        "explanation": "Cấu trúc 'dedicate oneself TO + V-ing' = dành tâm huyết cho việc gì. Câu: 'dedicated themselves TO investigating how cultural values shape decision-making'. TO là giới từ → đi với V-ing."
       },
       {
         "id": 4,
