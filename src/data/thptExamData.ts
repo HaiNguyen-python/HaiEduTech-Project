@@ -707,14 +707,14 @@ export const thptExams = [
         "id": 3,
         "text": "",
         "options": [
-          "toward",
-          "to",
-          "with",
-          "into"
+          "perform",
+          "performs",
+          "performing",
+          "performed"
         ],
-        "correct": 1,
-        "category": "preposition",
-        "explanation": "Cấu trúc động từ + giới từ 'to' phù hợp."
+        "correct": 0,
+        "category": "verb-form",
+        "explanation": "Sau cấu trúc 'enable somebody to ___' cần một động từ nguyên mẫu (bare infinitive). 'Perform complex molecular simulations' = thực hiện các mô phỏng phân tử phức tạp. Các đáp án 'performs/performing/performed' đều sai về dạng động từ sau 'to'."
       },
       {
         "id": 4,
