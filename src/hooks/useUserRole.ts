@@ -53,6 +53,27 @@ export const useUserRole = () => {
     };
   }, []);
 
+  // Realtime: refetch role list whenever this user's row in user_roles changes
+  // (admin appoints/revokes CTV → UI updates without re-login).
+  useEffect(() => {
+    if (!user?.id) return;
+    const channel = supabase
+      .channel(`user_roles_${user.id}`)
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "user_roles", filter: `user_id=eq.${user.id}` },
+        async () => {
+          const { data } = await supabase
+            .from("user_roles")
+            .select("role")
+            .eq("user_id", user.id);
+          setRoles((data || []).map((r: any) => r.role as AppRole));
+        },
+      )
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
+  }, [user?.id]);
+
   const isTeacher = roles.includes("teacher") || roles.includes("admin");
   const isAdmin = roles.includes("admin");
   const isStudent = roles.includes("student");

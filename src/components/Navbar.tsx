@@ -55,7 +55,7 @@ const Navbar = () => {
   const { lang, setLang, t } = useLanguage();
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const submenuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const { user, isTeacher } = useUserRole();
+  const { user, isTeacher, isPureAssistant } = useUserRole();
   const { streak } = useStreak();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [upgradeOpen, setUpgradeOpen] = useState(false);
@@ -275,7 +275,9 @@ const Navbar = () => {
   const navLinks = user
     ? isTeacher
       ? [...baseLinks, { to: "/admin-dashboard", label: t("Quản trị", "Admin"), icon: Shield }]
-      : [...baseLinks, { to: "/dashboard", label: t("Dashboard", "Dashboard"), icon: LayoutDashboard }]
+      : isPureAssistant
+        ? [...baseLinks, { to: "/assistant", label: t("CTV", "Assistant"), icon: Shield }, { to: "/dashboard", label: t("Dashboard", "Dashboard"), icon: LayoutDashboard }]
+        : [...baseLinks, { to: "/dashboard", label: t("Dashboard", "Dashboard"), icon: LayoutDashboard }]
     : baseLinks;
 
   // Hover bridge + intent debounce: opening is instant, closing is delayed
