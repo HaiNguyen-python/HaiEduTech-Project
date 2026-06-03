@@ -66,7 +66,7 @@ const SoftwareEngInterview = () => {
       <Navbar />
       <main className="container mx-auto px-4 sm:px-6 pt-6 pb-16">
         <Link
-          to="/programming?pillar=software-eng"
+          to="/programming/software-eng"
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary mb-4"
         >
           <ChevronLeft className="w-4 h-4" />
