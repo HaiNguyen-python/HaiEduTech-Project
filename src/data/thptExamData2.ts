@@ -2967,7 +2967,7 @@ export const thptExams2 = [
         ],
         "correct": 2,
         "category": "preposition",
-        "explanation": "'trial fit to' = thử lắp đặt."
+        "explanation": "Cụm 'prior TO + N/V-ing' = trước khi (làm gì). Câu: 'subsystems undergoing trials prior TO deployment' = các hệ thống con đang thử nghiệm trước khi triển khai. (for/by/away không tạo cụm chuẩn với 'prior'.)"
       },
       {
         "id": 3,
