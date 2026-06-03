@@ -295,7 +295,7 @@ const AdminDashboard = () => {
     });
 
     setLoadingData(false);
-  }, [isTeacher]);
+  }, [canAccessDashboard]);
 
   useEffect(() => { fetchAll(); }, [fetchAll]);
 
