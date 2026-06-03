@@ -3,10 +3,19 @@ import { supabase } from "@/integrations/supabase/client";
 
 export type AppRole = "admin" | "teacher" | "student" | "assistant";
 
+// Module-level cache so navigating between pages does NOT flicker back to
+// "signed out" state while the per-page hook instance re-resolves the session.
+// This was the root cause behind users feeling "logged out" when switching tabs.
+let cachedUser: any = null;
+let cachedRoles: AppRole[] = [];
+let cachedHydrated = false;
+
 export const useUserRole = () => {
-  const [roles, setRoles] = useState<AppRole[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<any>(null);
+  const [roles, setRoles] = useState<AppRole[]>(cachedRoles);
+  // If we've ever hydrated the session this tab, start optimistic (not loading)
+  // so guards relying on `loading` don't briefly redirect to /login.
+  const [loading, setLoading] = useState(!cachedHydrated);
+  const [user, setUser] = useState<any>(cachedUser);
 
   useEffect(() => {
     let mounted = true;
@@ -17,7 +26,9 @@ export const useUserRole = () => {
         .select("role")
         .eq("user_id", userId);
       if (!mounted) return;
-      setRoles((data || []).map((r: any) => r.role as AppRole));
+      const next = (data || []).map((r: any) => r.role as AppRole);
+      cachedRoles = next;
+      setRoles(next);
       setLoading(false);
     };
 
@@ -25,12 +36,15 @@ export const useUserRole = () => {
     // the callback (defer them with setTimeout to avoid deadlocks).
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       const u = session?.user ?? null;
+      cachedUser = u;
+      cachedHydrated = true;
       setUser(u);
       if (u) {
         setTimeout(() => {
           fetchRoles(u.id);
         }, 0);
       } else {
+        cachedRoles = [];
         setRoles([]);
         setLoading(false);
       }
@@ -39,10 +53,14 @@ export const useUserRole = () => {
     // THEN check existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
       const u = session?.user ?? null;
+      cachedUser = u;
+      cachedHydrated = true;
       setUser(u);
       if (u) {
         fetchRoles(u.id);
       } else {
+        cachedRoles = [];
+        setRoles([]);
         setLoading(false);
       }
     });
@@ -67,7 +85,9 @@ export const useUserRole = () => {
             .from("user_roles")
             .select("role")
             .eq("user_id", user.id);
-          setRoles((data || []).map((r: any) => r.role as AppRole));
+          const next = (data || []).map((r: any) => r.role as AppRole);
+          cachedRoles = next;
+          setRoles(next);
         },
       )
       .subscribe();
