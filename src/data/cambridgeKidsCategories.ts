@@ -18,6 +18,8 @@ export type KidsCategory =
   | "Time, Numbers, Colors & Shapes"
   | "Actions (Verbs)"
   | "Descriptions (Adjectives)"
+  | "Concepts & Society"
+  | "Business & Money"
   | "Other";
 
 export const CATEGORY_META: Record<KidsCategory, { emoji: string; vi: string }> = {
@@ -34,6 +36,8 @@ export const CATEGORY_META: Record<KidsCategory, { emoji: string; vi: string }> 
   "Time, Numbers, Colors & Shapes":   { emoji: "⏰",  vi: "Thời gian, Số đếm, Màu sắc & Hình dạng" },
   "Actions (Verbs)":                  { emoji: "🏃",  vi: "Hành động (Động từ)" },
   "Descriptions (Adjectives)":        { emoji: "🌈",  vi: "Mô tả (Tính từ)" },
+  "Concepts & Society":               { emoji: "🧠",  vi: "Khái niệm & Xã hội" },
+  "Business & Money":                 { emoji: "💰",  vi: "Kinh doanh & Tiền bạc" },
   "Other":                            { emoji: "✨",  vi: "Khác" },
 };
 
@@ -243,5 +247,11 @@ export const getCategory = (word: string): KidsCategory => {
 export const CATEGORY_ORDER: KidsCategory[] = [
   "Animals","Food & Drink","Body, Health & Feelings","People & Jobs","Home & Clothes",
   "School & Stationery","Nature & Weather","Places, Transport & Travel","Sports, Hobbies & Music",
-  "Technology","Time, Numbers, Colors & Shapes","Actions (Verbs)","Descriptions (Adjectives)","Other",
+  "Technology","Time, Numbers, Colors & Shapes","Actions (Verbs)","Descriptions (Adjectives)",
+  "Concepts & Society","Business & Money","Other",
 ];
+
+// ===== Comprehensive recategorization of remaining "Other" words =====
+// Import & merge from extension file for readability.
+import { KIDS_CATEGORY_EXTENSIONS } from "./cambridgeKidsCategoryExtensions";
+for (const [cat, words] of KIDS_CATEGORY_EXTENSIONS) add(cat, words);

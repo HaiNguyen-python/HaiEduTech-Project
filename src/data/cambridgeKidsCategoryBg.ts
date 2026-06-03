@@ -18,5 +18,7 @@ export const CATEGORY_BG: Record<KidsCategory, { tint: string; pattern: string[]
   "Time, Numbers, Colors & Shapes":   { tint: "linear-gradient(135deg, #F3F4F6 0%, #D6DAE3 100%)", pattern: ["⏰", "🔢", "🌈", "🟥", "🟡"] },
   "Actions (Verbs)":                  { tint: "linear-gradient(135deg, #FFF4F4 0%, #FFD4D4 100%)", pattern: ["🏃", "🤸", "🦘", "🏊", "🚴"] },
   "Descriptions (Adjectives)":        { tint: "linear-gradient(135deg, #F0FDF4 0%, #BBF7D0 100%)", pattern: ["🌟", "💎", "🌈", "✨", "🎯"] },
+  "Concepts & Society":               { tint: "linear-gradient(135deg, #F5F3FF 0%, #DDD6FE 100%)", pattern: ["🧠", "💭", "🏛️", "🌐", "📜"] },
+  "Business & Money":                 { tint: "linear-gradient(135deg, #FFFBEB 0%, #FDE68A 100%)", pattern: ["💰", "💼", "💳", "📈", "🏦"] },
   "Other":                            { tint: "linear-gradient(135deg, #FAFAFA 0%, #E5E5E5 100%)", pattern: ["✨", "🌟", "💫", "⭐", "🎈"] },
 };
