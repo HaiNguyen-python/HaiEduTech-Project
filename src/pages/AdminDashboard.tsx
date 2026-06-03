@@ -1150,10 +1150,12 @@ const AdminDashboard = () => {
 
 
 
-              {/* ===== INCOME MANAGEMENT TAB ===== */}
-              <TabsContent value="income">
-                <IncomeManagement />
-              </TabsContent>
+              {/* ===== INCOME MANAGEMENT TAB (admin/teacher only) ===== */}
+              {!isPureAssistant && (
+                <TabsContent value="income">
+                  <IncomeManagement />
+                </TabsContent>
+              )}
 
               {/* ===== ASSISTANT MANAGEMENT TAB ===== */}
               <TabsContent value="assistants">
