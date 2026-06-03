@@ -1062,7 +1062,7 @@ const ChatBot = () => {
       {/* ── Floating Chat Button ── */}
       <AnimatePresence>
         {!open && (
-          <div className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] right-4 z-[80] flex flex-col items-end gap-2 sm:bottom-6 sm:right-8">
+          <div className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] right-1 z-[80] flex flex-col items-end gap-2 sm:bottom-6 sm:right-3">
             <AnimatePresence>
               {showTooltip && (
                 <motion.div
