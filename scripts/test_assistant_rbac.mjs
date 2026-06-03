@@ -16,9 +16,10 @@ const TARGET_ID  = "88e4ae19-65ce-4cb5-b89e-f9452b7d5d19"; // CTV candidate
 
 const psql = (sql) => {
   try {
-    const out = execSync(`psql -X -A -t -v ON_ERROR_STOP=1 -c ${JSON.stringify(sql)}`, {
+    const out = execSync(`psql -X -A -t -v ON_ERROR_STOP=1`, {
+      input: sql,
       encoding: "utf8",
-      stdio: ["ignore", "pipe", "pipe"],
+      stdio: ["pipe", "pipe", "pipe"],
     });
     return { ok: true, out: out.trim() };
   } catch (e) {
