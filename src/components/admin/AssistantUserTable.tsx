@@ -54,17 +54,30 @@ const AssistantUserTable = () => {
   const appoint = async (userId: string) => {
     setBusy(userId);
     const { error } = await supabase.from("user_roles").insert({ user_id: userId, role: "assistant" });
+    if (error) { setBusy(null); toast.error("Bổ nhiệm thất bại", { description: error.message }); return; }
+    // Notify the appointed user so they see it on the bell + can jump to /assistant
+    await supabase.from("assignment_notifications").insert({
+      user_id: userId,
+      title: "Bạn đã được bổ nhiệm làm Cộng tác viên 🎉",
+      body: "Chào mừng bạn đến với đội ngũ CTV của HaiEduTech! Truy cập khu vực Cộng tác viên để bắt đầu chấm công và gửi báo cáo hằng ngày.",
+      route: "/assistant",
+    });
     setBusy(null);
-    if (error) { toast.error("Bổ nhiệm thất bại", { description: error.message }); return; }
-    toast.success("Đã bổ nhiệm CTV!");
+    toast.success("Đã bổ nhiệm CTV!", { description: "Đã gửi thông báo tới tài khoản này." });
     load();
   };
 
   const revoke = async (userId: string) => {
     setBusy(userId);
     const { error } = await supabase.from("user_roles").delete().eq("user_id", userId).eq("role", "assistant");
+    if (error) { setBusy(null); toast.error("Thu hồi thất bại", { description: error.message }); return; }
+    await supabase.from("assignment_notifications").insert({
+      user_id: userId,
+      title: "Quyền Cộng tác viên đã được thu hồi",
+      body: "Tài khoản của bạn không còn quyền truy cập khu vực Cộng tác viên. Mọi thắc mắc vui lòng liên hệ thầy Hải.",
+      route: "/dashboard",
+    });
     setBusy(null);
-    if (error) { toast.error("Thu hồi thất bại", { description: error.message }); return; }
     toast.success("Đã thu hồi quyền CTV");
     load();
   };
