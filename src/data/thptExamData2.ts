@@ -1177,7 +1177,7 @@ export const thptExams2 = [
       {
         "id": "p13-2",
         "title": "Vietnam-Laos Parliamentary Cooperation",
-        "text": "Leaders in Hanoi and Vientiane framed legislative cooperation as a strategic scaffold. (7) ____, both sides outlined tools to synchronise oversight. They underlined that institutional learning must be distributed so that (9) ____ committee internalises comparative practice.\n\nFuture work will require a (10) ____ framework. Alongside (11) ____ commitments to protect citizens' rights. Archiving shared experience is intended to reinforce parliamentary (12) ____.",
+        "text": "Leaders in Hanoi and Vientiane framed legislative cooperation as a strategic scaffold. (7) ____, both sides outlined tools to synchronise oversight, aligning national procedures (8) ____ regional benchmarks. They underlined that institutional learning must be distributed so that (9) ____ committee internalises comparative practice.\n\nFuture work will require a (10) ____ framework. Alongside (11) ____ commitments to protect citizens' rights. Archiving shared experience is intended to reinforce parliamentary (12) ____.",
         "questionRange": [
           7,
           12
