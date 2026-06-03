@@ -145,7 +145,7 @@ const AdminDashboard = () => {
 
   // Fetch all data
   const fetchAll = useCallback(async () => {
-    if (!isTeacher) return;
+    if (!canAccessDashboard) return;
     setLoadingData(true);
     // Fetch students (exclude teachers/admins) and deduplicate by id
     const profiles = await fetchAllRows<{ id: string; full_name: string | null; created_at: string }>((from, to) =>
