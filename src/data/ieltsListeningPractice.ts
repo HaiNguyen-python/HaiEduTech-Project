@@ -132,9 +132,9 @@ export const ieltsListeningPracticeSets: ListeningPracticeSet[] = [
     title: "Riverside Park Layout",
     titleVi: "Sơ đồ công viên Riverside",
     context:
-      "You will hear a description of Riverside Park. Use the MAP below to label locations 1-5 with the correct letter A-G. Then answer questions 6-10 about practical information.",
+      "You will hear a description of Riverside Park. Five locations on the map are marked 1-5. Listen carefully and write the letter (A-G) of the facility that is found at each numbered location. Two of the items in the list are NOT on the map. Then answer questions 6-10.",
     contextVi:
-      "Bạn sẽ nghe mô tả công viên Riverside. Dùng BẢN ĐỒ bên dưới gắn nhãn vị trí 1-5 (A-G), sau đó trả lời câu 6-10 về thông tin thực tế.",
+      "Bạn sẽ nghe mô tả công viên Riverside. Trên bản đồ có 5 vị trí được đánh số 1-5. Hãy nghe và viết chữ cái (A-G) tương ứng với CƠ SỞ nằm tại mỗi vị trí. Có 2 mục trong danh sách KHÔNG xuất hiện trên bản đồ. Sau đó trả lời câu 6-10.",
     transcript:
       "Welcome to Riverside Park. Let me describe the layout so you can find your way around.\n" +
       "As you come in through the main entrance at the south, the first thing you'll see immediately on your right is the information centre. That's where you can pick up free maps and event leaflets.\n" +
@@ -168,31 +168,27 @@ export const ieltsListeningPracticeSets: ListeningPracticeSet[] = [
       // Main entrance
       '<rect x="232" y="350" width="56" height="20" fill="#2c3e50"/>' +
       '<text x="260" y="364" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">ENTRANCE</text>' +
-      // Letter markers A-G
-      // A - halfway up main path, on the left (CORRECT for café)
-      '<g><circle cx="232" cy="290" r="16" fill="#fff" stroke="#1e6f3a" stroke-width="2"/><text x="232" y="295" text-anchor="middle" font-size="14" font-weight="800" fill="#1e6f3a">A</text></g>' +
-      // E - just inside entrance, right (CORRECT for info centre)
-      '<g><circle cx="296" cy="332" r="16" fill="#fff" stroke="#1e6f3a" stroke-width="2"/><text x="296" y="337" text-anchor="middle" font-size="14" font-weight="800" fill="#1e6f3a">E</text></g>' +
-      // C - south-west corner (Toilets, distractor)
-      '<g><circle cx="90" cy="335" r="16" fill="#fff" stroke="#1e6f3a" stroke-width="2"/><text x="90" y="340" text-anchor="middle" font-size="14" font-weight="800" fill="#1e6f3a">C</text></g>' +
-      // B - west end of west path (CORRECT for playground)
-      '<g><circle cx="78" cy="210" r="16" fill="#fff" stroke="#1e6f3a" stroke-width="2"/><text x="78" y="215" text-anchor="middle" font-size="14" font-weight="800" fill="#1e6f3a">B</text></g>' +
-      // F - east path, first on the right (CORRECT for picnic area)
-      '<g><circle cx="330" cy="182" r="16" fill="#fff" stroke="#1e6f3a" stroke-width="2"/><text x="330" y="187" text-anchor="middle" font-size="14" font-weight="800" fill="#1e6f3a">F</text></g>' +
-      // G - north-east area (Statue, distractor)
-      '<g><circle cx="438" cy="110" r="16" fill="#fff" stroke="#1e6f3a" stroke-width="2"/><text x="438" y="115" text-anchor="middle" font-size="14" font-weight="800" fill="#1e6f3a">G</text></g>' +
-      // D - north end by the river (CORRECT for boat hire)
-      '<g><circle cx="260" cy="70" r="16" fill="#fff" stroke="#1e6f3a" stroke-width="2"/><text x="260" y="75" text-anchor="middle" font-size="14" font-weight="800" fill="#1e6f3a">D</text></g>' +
+      // Numbered location markers 1-5 (positions only, no item labels)
+      // 1 - just inside entrance, right (answer: E = Information centre)
+      '<g><circle cx="296" cy="332" r="18" fill="#fef3c7" stroke="#b45309" stroke-width="2.5"/><text x="296" y="338" text-anchor="middle" font-size="16" font-weight="800" fill="#b45309">1</text></g>' +
+      // 2 - halfway up main path, left (answer: A = Café)
+      '<g><circle cx="232" cy="290" r="18" fill="#fef3c7" stroke="#b45309" stroke-width="2.5"/><text x="232" y="296" text-anchor="middle" font-size="16" font-weight="800" fill="#b45309">2</text></g>' +
+      // 3 - west end of west path (answer: B = Playground)
+      '<g><circle cx="78" cy="210" r="18" fill="#fef3c7" stroke="#b45309" stroke-width="2.5"/><text x="78" y="216" text-anchor="middle" font-size="16" font-weight="800" fill="#b45309">3</text></g>' +
+      // 4 - east path, first on the right (answer: F = Picnic area)
+      '<g><circle cx="330" cy="182" r="18" fill="#fef3c7" stroke="#b45309" stroke-width="2.5"/><text x="330" y="188" text-anchor="middle" font-size="16" font-weight="800" fill="#b45309">4</text></g>' +
+      // 5 - north end by the river (answer: D = Boat hire)
+      '<g><circle cx="260" cy="70" r="18" fill="#fef3c7" stroke="#b45309" stroke-width="2.5"/><text x="260" y="76" text-anchor="middle" font-size="16" font-weight="800" fill="#b45309">5</text></g>' +
       // Direction hints
       '<text x="55" y="200" font-size="10" fill="#5a4012">west path</text>' +
       '<text x="410" y="200" font-size="10" fill="#5a4012">east path</text>' +
       '</svg>',
     questions: [
-      { type: "matching", prompt: "1. Just inside the main entrance, on the right", answer: "E" },
-      { type: "matching", prompt: "2. Halfway along the main path, on the left", answer: "A" },
-      { type: "matching", prompt: "3. End of the western path", answer: "B" },
-      { type: "matching", prompt: "4. On the eastern path, first on the right", answer: "F" },
-      { type: "matching", prompt: "5. By the river, at the north end", answer: "D" },
+      { type: "matching", prompt: "1. Location marked 1 on the map", answer: "E" },
+      { type: "matching", prompt: "2. Location marked 2 on the map", answer: "A" },
+      { type: "matching", prompt: "3. Location marked 3 on the map", answer: "B" },
+      { type: "matching", prompt: "4. Location marked 4 on the map", answer: "F" },
+      { type: "matching", prompt: "5. Location marked 5 on the map", answer: "D" },
       { type: "fill-in", prompt: "6. Park opens at ___ a.m.", answer: "7" },
       { type: "fill-in", prompt: "7. Park is closed only on ___ Day.", answer: "Christmas" },
       { type: "fill-in", prompt: "8. Dogs must be on a lead in the ___ area.", answer: "playground" },

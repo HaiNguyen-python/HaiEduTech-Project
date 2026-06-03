@@ -83,7 +83,7 @@ export const thptExams = [
       {
         "id": "p1-4",
         "title": "Remote Work Revolution",
-        "text": "The COVID-19 pandemic transformed workplace dynamics. __What initially began as an emergency measure has evolved into a permanent shift in employment practices.__\n\nRemote work offers numerous advantages. Workers enjoy increased flexibility, eliminated commuting time, and improved work-life balance. Companies benefit from reduced overhead costs.\n\nCommunication barriers represent the most significant obstacle. Face-to-face interactions facilitate natural collaboration that virtual meetings struggle to replicate.\n\nTechnology plays a crucial role. Nevertheless, not all roles are suitable, particularly **those** requiring physical presence.",
+        "text": "The COVID-19 pandemic transformed workplace dynamics. __What initially began as an emergency measure has evolved into a permanent shift in employment practices.__\n\nRemote work offers numerous advantages. Workers enjoy increased flexibility, eliminated commuting time, and improved work-life balance. Companies benefit from reduced overhead costs.\n\nCommunication barriers represent the most significant obstacle. Face-to-face interactions facilitate natural collaboration that virtual meetings **struggle** to replicate.\n\nTechnology plays a crucial role. Nevertheless, not all roles are suitable, particularly **those** requiring physical presence.",
         "questionRange": [
           23,
           30
@@ -92,7 +92,7 @@ export const thptExams = [
       {
         "id": "p1-5",
         "title": "Artificial Intelligence Ethics",
-        "text": "[I] AI development has reached unprecedented sophistication levels. [II] As AI systems become increasingly autonomous, society must establish ethical frameworks. [III] The stakes could not be higher. [IV]\n\nLeading companies invest billions while grappling with moral implications. **These** organizations face pressure. Defining 'humanity's best interests' proves complex across diverse cultural values, economic systems, and philosophical perspectives.\n\nAlgorithmic bias is a pressing concern. AI recruitment tools have demonstrated gender bias, while facial recognition systems show racial discrimination. These biases can have devastating consequences.\n\nPrivacy concerns compound these challenges. Tech giants collect unprecedented quantities of user information, creating detailed behavioral profiles that can predict and influence human decisions.",
+        "text": "[I] AI development has reached unprecedented sophistication levels. [II] As AI systems become increasingly autonomous, society must establish ethical frameworks. [III] The stakes could not be higher. [IV]\n\nLeading companies invest billions while grappling with moral implications. **These** organizations face pressure. Defining 'humanity's best interests' proves complex across diverse cultural values, economic systems, and philosophical perspectives.\n\nAlgorithmic bias is a pressing concern. AI recruitment tools have demonstrated gender bias, while facial recognition systems show racial discrimination. These biases can have **devastating** consequences.\n\nPrivacy concerns **compound** **these** challenges. Tech giants collect unprecedented quantities of user information, creating detailed behavioral profiles that can predict and influence human decisions.",
         "questionRange": [
           31,
           40
@@ -427,7 +427,7 @@ export const thptExams = [
       },
       {
         "id": 26,
-        "text": "'struggle' is opposite to:",
+        "text": "The word **struggle** in the passage is OPPOSITE in meaning to:",
         "options": [
           "attempt",
           "succeed",
@@ -440,7 +440,7 @@ export const thptExams = [
       },
       {
         "id": 27,
-        "text": "'those' refers to:",
+        "text": "In the passage, the word **those** refers to:",
         "options": [
           "companies",
           "roles",
@@ -453,7 +453,7 @@ export const thptExams = [
       },
       {
         "id": 28,
-        "text": "Which is TRUE?",
+        "text": "Which of the following statements is TRUE according to the passage?",
         "options": [
           "All jobs suit remote work.",
           "Companies universally prefer remote work.",
@@ -466,7 +466,7 @@ export const thptExams = [
       },
       {
         "id": 29,
-        "text": "Which paragraph discusses technology solutions?",
+        "text": "Which paragraph discusses technology solutions in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -479,7 +479,7 @@ export const thptExams = [
       },
       {
         "id": 30,
-        "text": "Which paragraph mentions the pandemic?",
+        "text": "Which paragraph mentions the pandemic in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -505,7 +505,7 @@ export const thptExams = [
       },
       {
         "id": 32,
-        "text": "Which is NOT a complicating factor?",
+        "text": "According to the passage, which of the following is NOT mentioned as a complicating factor?",
         "options": [
           "cultural values",
           "economic systems",
@@ -518,7 +518,7 @@ export const thptExams = [
       },
       {
         "id": 33,
-        "text": "Which best summarises paragraph 3?",
+        "text": "Which best summarises paragraph 3 of the passage?",
         "options": [
           "Bias can be resolved through better data.",
           "Algorithmic bias perpetuates prejudices with devastating consequences.",
@@ -531,7 +531,7 @@ export const thptExams = [
       },
       {
         "id": 34,
-        "text": "'these' in paragraph 2 refers to:",
+        "text": "In paragraph 2, the word **these** refers to:",
         "options": [
           "governments",
           "organizations",
@@ -544,7 +544,7 @@ export const thptExams = [
       },
       {
         "id": 35,
-        "text": "'devastating' is opposite to:",
+        "text": "The word **devastating** in the passage is OPPOSITE in meaning to:",
         "options": [
           "beneficial",
           "significant",
@@ -557,7 +557,7 @@ export const thptExams = [
       },
       {
         "id": 36,
-        "text": "Which best paraphrases paragraph 4 sentence?",
+        "text": "Which best paraphrases paragraph 4 's key sentence?",
         "options": [
           "Tech companies gather data to predict and shape behavior.",
           "Companies collect data to predict decisions accurately.",
@@ -570,7 +570,7 @@ export const thptExams = [
       },
       {
         "id": 37,
-        "text": "'compound' mostly means:",
+        "text": "The word **compound** in the passage is CLOSEST in meaning to:",
         "options": [
           "simplify",
           "worsen",
@@ -583,7 +583,7 @@ export const thptExams = [
       },
       {
         "id": 38,
-        "text": "Which is TRUE?",
+        "text": "Which of the following statements is TRUE according to the passage?",
         "options": [
           "AI eliminates prejudices.",
           "Companies prioritize ethics over profit.",
@@ -596,7 +596,7 @@ export const thptExams = [
       },
       {
         "id": 39,
-        "text": "What can be inferred?",
+        "text": "What can be inferred from the passage as a whole?",
         "options": [
           "Resolving AI dilemmas requires balancing competing interests.",
           "Historical data is most reliable for unbiased AI.",
@@ -609,7 +609,7 @@ export const thptExams = [
       },
       {
         "id": 40,
-        "text": "Which best summarises the passage?",
+        "text": "Which option best summarises the main idea of the entire passage?",
         "options": [
           "AI raises ethical questions about bias and privacy with pressure to balance innovation and morality.",
           "AI shows bias while privacy threatens democracy.",
@@ -669,7 +669,7 @@ export const thptExams = [
       {
         "id": "thpt-02-p5",
         "title": "Cognitive Enhancement Technology",
-        "text": "[I] Cognitive enhancement technology has emerged as a transformative field addressing the fundamental limitations of human intellectual capacity and memory retention. [II] As neuroscientific understanding advances and brain-computer interfaces become increasingly sophisticated, researchers are developing unprecedented methods for augmenting human cognitive performance. [III] The implications of cognitive enhancement extend far beyond individual improvement. [IV]\n\nPharmaceutical cognitive enhancers require extensive clinical validation while navigating complex ethical considerations regarding human enhancement versus therapeutic intervention. **These** biochemical interventions face scrutiny from bioethicists, regulatory agencies, and philosophical communities concerned about fairness, authenticity, and long-term neurological consequences. However, distinguishing between legitimate medical treatment and elective enhancement proves extraordinarily challenging when examining cognitive disorders, age-related decline, and performance optimization across diverse neurological conditions.\n\n__Neuroplasticity manipulation represents one of the most promising yet controversial approaches in cognitive enhancement research.__ Transcranial stimulation techniques, pharmaceutical nootropics, and neural feedback systems can potentially alter brain structure and function permanently. For instance, memory consolidation drugs have demonstrated remarkable efficacy in laboratory settings, while attention enhancement protocols show significant improvements in cognitive processing speed. These interventions raise profound questions about personal identity when fundamental thinking patterns undergo artificial modification.\n\nSocial inequality concerns amplify these ethical complexities through differential access to cognitive enhancement technologies. Modern enhancement methods require substantial financial investment, creating potential cognitive disparities between socioeconomic classes. Wealthy individuals may access cutting-edge cognitive augmentation while disadvantaged populations remain cognitively unenhanced, potentially exacerbating existing educational and professional inequalities. Critics contend that cognitive enhancement threatens meritocratic principles and social justice, while proponents argue that enhancement technologies could democratize intellectual capabilities and eliminate cognitive disabilities entirely.",
+        "text": "[I] Cognitive enhancement technology has emerged as a transformative field addressing the fundamental limitations of human intellectual capacity and memory retention. [II] As neuroscientific understanding advances and brain-computer interfaces become increasingly sophisticated, researchers are developing unprecedented methods for augmenting human cognitive performance. [III] The implications of cognitive enhancement extend far beyond individual improvement. [IV]\n\nPharmaceutical cognitive enhancers require extensive clinical validation while navigating complex ethical considerations regarding human enhancement versus therapeutic intervention. **These** biochemical interventions face scrutiny from bioethicists, regulatory agencies, and philosophical communities concerned about fairness, authenticity, and long-term neurological consequences. However, distinguishing between legitimate medical treatment and elective enhancement proves extraordinarily challenging when examining cognitive disorders, age-related decline, and performance optimization across diverse neurological conditions.\n\n__Neuroplasticity manipulation represents one of the most promising yet controversial approaches in cognitive enhancement research.__ Transcranial stimulation techniques, pharmaceutical nootropics, and neural feedback systems can potentially alter brain structure and function permanently. For instance, memory consolidation drugs have demonstrated remarkable efficacy in laboratory settings, while attention enhancement protocols show significant improvements in cognitive processing speed. These interventions raise profound questions about personal identity when fundamental thinking patterns undergo artificial modification.\n\nSocial inequality concerns amplify **these** ethical complexities through differential access to cognitive enhancement technologies. Modern enhancement methods require substantial financial investment, creating potential cognitive disparities between socioeconomic classes. Wealthy individuals may access cutting-edge cognitive augmentation while disadvantaged populations remain cognitively unenhanced, potentially exacerbating existing educational and professional inequalities. Critics contend that cognitive enhancement threatens meritocratic principles and social justice, while proponents argue that enhancement technologies could democratize intellectual capabilities and eliminate cognitive disabilities entirely.",
         "questionRange": [
           31,
           40
@@ -913,7 +913,7 @@ export const thptExams = [
       },
       {
         "id": 19,
-        "text": "Choose correct sentence.",
+        "text": "Choose the sentence that is grammatically CORRECT (check subject–verb agreement, voice, and relative clauses):",
         "options": [
           "Researchers who conducted experiments have published findings",
           "Experiments having conducted by researchers published findings",
@@ -1004,7 +1004,7 @@ export const thptExams = [
       },
       {
         "id": 26,
-        "text": "'enhance' is opposite to:",
+        "text": "Vocabulary: Which of the following is OPPOSITE in meaning to \"enhance\"?",
         "options": [
           "improve",
           "diminish",
@@ -1017,7 +1017,7 @@ export const thptExams = [
       },
       {
         "id": 27,
-        "text": "'which' refers to:",
+        "text": "In the passage, the word **which** refers to:",
         "options": [
           "methods",
           "systems",
@@ -1030,7 +1030,7 @@ export const thptExams = [
       },
       {
         "id": 28,
-        "text": "Which is TRUE?",
+        "text": "Which of the following statements is TRUE according to the passage?",
         "options": [
           "All methodologies produce identical results.",
           "Different approaches yield varying effectiveness.",
@@ -1043,7 +1043,7 @@ export const thptExams = [
       },
       {
         "id": 29,
-        "text": "Which paragraph discusses applications?",
+        "text": "Which paragraph discusses applications in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -1056,7 +1056,7 @@ export const thptExams = [
       },
       {
         "id": 30,
-        "text": "Which paragraph mentions future implications?",
+        "text": "Which paragraph mentions future implications in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -1108,7 +1108,7 @@ export const thptExams = [
       },
       {
         "id": 34,
-        "text": "'these' refers to:",
+        "text": "In the passage, the word **these** refers to:",
         "options": [
           "organizations",
           "challenges",
@@ -1121,7 +1121,7 @@ export const thptExams = [
       },
       {
         "id": 35,
-        "text": "'facilitate' is opposite to:",
+        "text": "Vocabulary: Which of the following is OPPOSITE in meaning to \"facilitate\"?",
         "options": [
           "enable",
           "impede",
@@ -1147,7 +1147,7 @@ export const thptExams = [
       },
       {
         "id": 37,
-        "text": "'integral' mostly means:",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"integral\"?",
         "options": [
           "optional",
           "essential",
@@ -1160,7 +1160,7 @@ export const thptExams = [
       },
       {
         "id": 38,
-        "text": "Which is TRUE?",
+        "text": "Which of the following statements is TRUE according to the passage?",
         "options": [
           "Only one approach works.",
           "Multiple perspectives contribute to understanding.",
@@ -1173,7 +1173,7 @@ export const thptExams = [
       },
       {
         "id": 39,
-        "text": "What can be inferred?",
+        "text": "What can be inferred from the passage as a whole?",
         "options": [
           "The field will remain unchanged.",
           "Continued research and collaboration are necessary.",
@@ -1186,7 +1186,7 @@ export const thptExams = [
       },
       {
         "id": 40,
-        "text": "Which best summarises the passage?",
+        "text": "Which option best summarises the main idea of the entire passage?",
         "options": [
           "Complex phenomenon examined through multiple perspectives with ongoing challenges requiring collaborative solutions.",
           "Focuses exclusively on technological solutions.",
@@ -1490,7 +1490,7 @@ export const thptExams = [
       },
       {
         "id": 19,
-        "text": "Choose correct sentence.",
+        "text": "Choose the sentence that is grammatically CORRECT (check subject–verb agreement, voice, and relative clauses):",
         "options": [
           "Researchers who conducted experiments have published findings",
           "Experiments having conducted by researchers published findings",
@@ -1581,7 +1581,7 @@ export const thptExams = [
       },
       {
         "id": 26,
-        "text": "'enhance' is opposite to:",
+        "text": "Vocabulary: Which of the following is OPPOSITE in meaning to \"enhance\"?",
         "options": [
           "improve",
           "diminish",
@@ -1594,7 +1594,7 @@ export const thptExams = [
       },
       {
         "id": 27,
-        "text": "'which' refers to:",
+        "text": "In the passage, the word **which** refers to:",
         "options": [
           "methods",
           "systems",
@@ -1607,7 +1607,7 @@ export const thptExams = [
       },
       {
         "id": 28,
-        "text": "Which is TRUE?",
+        "text": "Which of the following statements is TRUE according to the passage?",
         "options": [
           "All methodologies produce identical results.",
           "Different approaches yield varying effectiveness.",
@@ -1620,7 +1620,7 @@ export const thptExams = [
       },
       {
         "id": 29,
-        "text": "Which paragraph discusses applications?",
+        "text": "Which paragraph discusses applications in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -1633,7 +1633,7 @@ export const thptExams = [
       },
       {
         "id": 30,
-        "text": "Which paragraph mentions future implications?",
+        "text": "Which paragraph mentions future implications in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -1685,7 +1685,7 @@ export const thptExams = [
       },
       {
         "id": 34,
-        "text": "'these' refers to:",
+        "text": "In the passage, the word **these** refers to:",
         "options": [
           "organizations",
           "challenges",
@@ -1698,7 +1698,7 @@ export const thptExams = [
       },
       {
         "id": 35,
-        "text": "'facilitate' is opposite to:",
+        "text": "Vocabulary: Which of the following is OPPOSITE in meaning to \"facilitate\"?",
         "options": [
           "enable",
           "impede",
@@ -1724,7 +1724,7 @@ export const thptExams = [
       },
       {
         "id": 37,
-        "text": "'integral' mostly means:",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"integral\"?",
         "options": [
           "optional",
           "essential",
@@ -1737,7 +1737,7 @@ export const thptExams = [
       },
       {
         "id": 38,
-        "text": "Which is TRUE?",
+        "text": "Which of the following statements is TRUE according to the passage?",
         "options": [
           "Only one approach works.",
           "Multiple perspectives contribute to understanding.",
@@ -1750,7 +1750,7 @@ export const thptExams = [
       },
       {
         "id": 39,
-        "text": "What can be inferred?",
+        "text": "What can be inferred from the passage as a whole?",
         "options": [
           "The field will remain unchanged.",
           "Continued research and collaboration are necessary.",
@@ -1763,7 +1763,7 @@ export const thptExams = [
       },
       {
         "id": 40,
-        "text": "Which best summarises the passage?",
+        "text": "Which option best summarises the main idea of the entire passage?",
         "options": [
           "Complex phenomenon examined through multiple perspectives with ongoing challenges requiring collaborative solutions.",
           "Focuses exclusively on technological solutions.",
@@ -1814,7 +1814,7 @@ export const thptExams = [
       {
         "id": "thpt-04-p4",
         "title": "Ocean Conservation",
-        "text": "The proliferation of ephemeral digital phenomena has fundamentally metamorphosed contemporary cyberculture, engendering unprecedented prospects for transnational interconnectivity whilst concomitantly exposing participants to profound psychological and corporeal jeopardies. __What initially manifested as innocuous recreational diversions has transmuted into an intricate sociological paradigm with comprehensive ramifications for adolescent maturation and communal behavioral modalities.__ Modern **systems**, **which** continue to evolve rapidly, are reshaping the entire field.\n\nViral phenomena proffer ostensible advantageous attributes for digital participation and innovative articulation. Participants encounter ephemeral notoriety, amplified social corroboration, and affiliation with cosmopolitan communities harboring analogous proclivities. Content architects derive exponential follower proliferation, latent monetization prospects, and enhanced personal brandification. Nonetheless, these perceived merits frequently obfuscate underlying psychological dependencies and perilous behavioral configurations necessitating judicious contemplation.\n\nPeer coercion epitomizes the most pernicious facet of viral phenomenon participation. Social media algorithms magnify trending content, fabricating spurious urgency and trepidation regarding exclusion among susceptible users. Numerous adolescents articulate experiencing compulsion to participate in hazardous phenomena to sustain social pertinence, notwithstanding acknowledging prospective repercussions. The psychological manipulation inherent within these platforms exploits fundamental anthropological necessities for acceptance and communal integration.\n\nPsychological wellness implications of viral phenomenon culture manifest increasingly disconcerting. Empirical investigations indicate that excessive social media engagement correlates with heightened anxiety manifestations, depressive symptomatology, and somatic perception distortions. Juveniles juxtaposing themselves against curated digital personas frequently cultivate unrealistic expectations and attenuated self-valorization. Additionally, the habituating nature of social validation through approbation metrics engenders pathological dependencies on extrinsic endorsement for ego-reinforcement.",
+        "text": "The proliferation of ephemeral digital phenomena has fundamentally metamorphosed contemporary cyberculture, engendering unprecedented prospects for transnational interconnectivity whilst concomitantly exposing participants to profound psychological and corporeal jeopardies. __What initially manifested as innocuous recreational diversions has transmuted into an intricate sociological paradigm with comprehensive ramifications for adolescent maturation and communal behavioral modalities.__ Modern **systems**, **which** continue to evolve rapidly, are reshaping the entire field.\n\nViral phenomena proffer ostensible advantageous attributes for digital participation and innovative articulation. Participants encounter ephemeral notoriety, amplified social corroboration, and affiliation with cosmopolitan communities harboring analogous proclivities. Content architects derive exponential follower proliferation, latent monetization prospects, and **enhanced** personal brandification. Nonetheless, these perceived merits frequently obfuscate underlying psychological dependencies and perilous behavioral configurations necessitating judicious contemplation.\n\nPeer coercion epitomizes the most pernicious facet of viral phenomenon participation. Social media algorithms magnify trending content, fabricating spurious urgency and trepidation regarding exclusion among susceptible users. Numerous adolescents articulate experiencing compulsion to participate in hazardous phenomena to sustain social pertinence, notwithstanding acknowledging prospective repercussions. The psychological manipulation inherent within these platforms exploits fundamental anthropological necessities for acceptance and communal integration.\n\nPsychological wellness implications of viral phenomenon culture manifest increasingly disconcerting. Empirical investigations indicate that excessive social media engagement correlates with heightened anxiety manifestations, depressive symptomatology, and somatic perception distortions. Juveniles juxtaposing themselves against curated digital personas frequently cultivate unrealistic expectations and attenuated self-valorization. Additionally, the habituating nature of social validation through approbation metrics engenders pathological dependencies on extrinsic endorsement for ego-reinforcement.",
         "questionRange": [
           23,
           30
@@ -2067,7 +2067,7 @@ export const thptExams = [
       },
       {
         "id": 19,
-        "text": "Choose correct sentence.",
+        "text": "Choose the sentence that is grammatically CORRECT (check subject–verb agreement, voice, and relative clauses):",
         "options": [
           "Researchers who conducted experiments have published findings",
           "Experiments having conducted by researchers published findings",
@@ -2158,7 +2158,7 @@ export const thptExams = [
       },
       {
         "id": 26,
-        "text": "'enhance' is opposite to:",
+        "text": "The word **enhance** in the passage is OPPOSITE in meaning to:",
         "options": [
           "improve",
           "diminish",
@@ -2171,7 +2171,7 @@ export const thptExams = [
       },
       {
         "id": 27,
-        "text": "'which' refers to:",
+        "text": "In the passage, the word **which** refers to:",
         "options": [
           "methods",
           "systems",
@@ -2184,7 +2184,7 @@ export const thptExams = [
       },
       {
         "id": 28,
-        "text": "Which is TRUE?",
+        "text": "Which of the following statements is TRUE according to the passage?",
         "options": [
           "All methodologies produce identical results.",
           "Different approaches yield varying effectiveness.",
@@ -2197,7 +2197,7 @@ export const thptExams = [
       },
       {
         "id": 29,
-        "text": "Which paragraph discusses applications?",
+        "text": "Which paragraph discusses applications in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -2210,7 +2210,7 @@ export const thptExams = [
       },
       {
         "id": 30,
-        "text": "Which paragraph mentions future implications?",
+        "text": "Which paragraph mentions future implications in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -2262,7 +2262,7 @@ export const thptExams = [
       },
       {
         "id": 34,
-        "text": "'these' refers to:",
+        "text": "In the passage, the word **these** refers to:",
         "options": [
           "organizations",
           "challenges",
@@ -2275,7 +2275,7 @@ export const thptExams = [
       },
       {
         "id": 35,
-        "text": "'facilitate' is opposite to:",
+        "text": "Vocabulary: Which of the following is OPPOSITE in meaning to \"facilitate\"?",
         "options": [
           "enable",
           "impede",
@@ -2301,7 +2301,7 @@ export const thptExams = [
       },
       {
         "id": 37,
-        "text": "'integral' mostly means:",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"integral\"?",
         "options": [
           "optional",
           "essential",
@@ -2314,7 +2314,7 @@ export const thptExams = [
       },
       {
         "id": 38,
-        "text": "Which is TRUE?",
+        "text": "Which of the following statements is TRUE according to the passage?",
         "options": [
           "Only one approach works.",
           "Multiple perspectives contribute to understanding.",
@@ -2327,7 +2327,7 @@ export const thptExams = [
       },
       {
         "id": 39,
-        "text": "What can be inferred?",
+        "text": "What can be inferred from the passage as a whole?",
         "options": [
           "The field will remain unchanged.",
           "Continued research and collaboration are necessary.",
@@ -2340,7 +2340,7 @@ export const thptExams = [
       },
       {
         "id": 40,
-        "text": "Which best summarises the passage?",
+        "text": "Which option best summarises the main idea of the entire passage?",
         "options": [
           "Complex phenomenon examined through multiple perspectives with ongoing challenges requiring collaborative solutions.",
           "Focuses exclusively on technological solutions.",
@@ -2391,7 +2391,7 @@ export const thptExams = [
       {
         "id": "thpt-05-p4",
         "title": "Multiculturalism Paradigms",
-        "text": "Multiculturalism paradigms have fundamentally metamorphosed contemporary societal architectures, necessitating unprecedented acclimatizations in governance methodologies, pedagogical frameworks, and social cohesion mechanisms. __What initially manifested as demographic heterogeneity has transmogrified into labyrinthine cultural amalgamations requiring sophisticated integration stratagems and nuanced comprehension of intercultural dynamics.__ Modern **systems**, **which** continue to evolve rapidly, are reshaping the entire field.\n\nPluralistic societies proffer profound advantageous ramifications for both autochthonous populations and expatriate communities. Indigenous inhabitants derive enhanced cultural edification, amplified economic opportunities, and innovative problem-resolution approaches emanating from heterogeneous perspectives. Newcomers procure ameliorated socioeconomic ascendancy, scholastic advancement, and democratic participation whilst contributing specialized competencies and entrepreneurial dynamism. Nevertheless, these beneficiations necessitate deliberate cultivation and comprehensive policy frameworks addressing inherent integration conundrums.\n\nCultural fragmentation constitutes the most formidable impediment within multicultural milieus. Authentic intercultural communication mandates sophisticated linguistic competencies, cultural literacy, and empathetic perspicacity that superficial diversity initiatives fail to cultivate adequately. Additionally, perpetuating social cohesion becomes increasingly labyrinthine when communities maintain distinctive cultural identities whilst participating in communal civic institutions. Numerous immigrant populations experience marginalization and ostracism despite ostensible inclusion policies.\n\nTechnological innovation expedites multicultural integration through digital platforms, translation applications, and virtual cultural exchange programs that transcend geographical and linguistic barriers. Organizations implementing comprehensive multicultural competency training and inclusive communication protocols demonstrate superior adaptation to demographic diversity. Nonetheless, certain cultural practices remain incongruous with predominant societal values, particularly regarding gender parity, religious liberties, and secular governance principles.",
+        "text": "Multiculturalism paradigms have fundamentally metamorphosed contemporary societal architectures, necessitating unprecedented acclimatizations in governance methodologies, pedagogical frameworks, and social cohesion mechanisms. __What initially manifested as demographic heterogeneity has transmogrified into labyrinthine cultural amalgamations requiring sophisticated integration stratagems and nuanced comprehension of intercultural dynamics.__ Modern **systems**, **which** continue to evolve rapidly, are reshaping the entire field.\n\nPluralistic societies proffer profound advantageous ramifications for both autochthonous populations and expatriate communities. Indigenous inhabitants derive **enhanced** cultural edification, amplified economic opportunities, and innovative problem-resolution approaches emanating from heterogeneous perspectives. Newcomers procure ameliorated socioeconomic ascendancy, scholastic advancement, and democratic participation whilst contributing specialized competencies and entrepreneurial dynamism. Nevertheless, these beneficiations necessitate deliberate cultivation and comprehensive policy frameworks addressing inherent integration conundrums.\n\nCultural fragmentation constitutes the most formidable impediment within multicultural milieus. Authentic intercultural communication mandates sophisticated linguistic competencies, cultural literacy, and empathetic perspicacity that superficial diversity initiatives fail to cultivate adequately. Additionally, perpetuating social cohesion becomes increasingly labyrinthine when communities maintain distinctive cultural identities whilst participating in communal civic institutions. Numerous immigrant populations experience marginalization and ostracism despite ostensible inclusion policies.\n\nTechnological innovation expedites multicultural integration through digital platforms, translation applications, and virtual cultural exchange programs that transcend geographical and linguistic barriers. Organizations implementing comprehensive multicultural competency training and inclusive communication protocols demonstrate superior adaptation to demographic diversity. Nonetheless, certain cultural practices remain incongruous with predominant societal values, particularly regarding gender parity, religious liberties, and secular governance principles.",
         "questionRange": [
           23,
           30
@@ -2400,7 +2400,7 @@ export const thptExams = [
       {
         "id": "thpt-05-p5",
         "title": "Ethnic Identity Preservation",
-        "text": "[I] Ethnographic identity preservation has assumed paramount significance in contemporary globalized societies, wherein homogenizing cultural hegemonies menace indigenous traditions and ancestral patrimony systems. __[II] As technological interconnectivity facilitates unprecedented cultural interchange, communities worldwide confront existential quandaries regarding authentic identity perpetuation versus adaptive modernization.__ [III] The ramifications of **these** determinations will ascertain cultural survival trajectories for innumerable ethnic minorities. [IV]\n\nTransnational conglomerates and predominant cultural hegemonies exert immense pressure on minoritarian communities to assimilate mainstream ideologies whilst simultaneously commodifying traditional practices for mercantile exploitation. These entities capitalize on ethnic authenticity through cultural misappropriation, transmogrifying sanctified traditions into marketable commodities divested of spiritual gravitas and historical contextualization. Nevertheless, defining authentic cultural preservation proves extraordinarily labyrinthine when considering dynamic cultural metamorphosis, intergenerational transmission vicissitudes, and exogenous influence assimilation across diverse ethnic constituencies.\n\nCultural revitalization movements epitomize increasingly sophisticated stratagems for perpetuating ethnic distinctiveness whilst engaging contemporary realities. Indigenous communities devise innovative methodologies amalgamating traditional epistemological systems with contemporary pedagogical frameworks and technological applications. For instance, digital archival enterprises preserve moribund languages, whilst cultural immersion curricula transmit ancestral practices to nascent generations.\n\nGlobalization paradoxically menaces and fortifies ethnic identity concomitantly. Contemporary communication technologies enable diaspora communities to perpetuate connections with ancestral homelands, preserving cultural continuity across geographical expanses. Ethnic minorities leverage social media platforms to document traditions, disseminate cultural narratives, and mobilize political advocacy for indigenous prerogatives.",
+        "text": "[I] Ethnographic identity preservation has assumed paramount significance in contemporary globalized societies, wherein homogenizing cultural hegemonies menace indigenous traditions and ancestral patrimony systems. __[II] As technological interconnectivity **facilitates** unprecedented cultural interchange, communities worldwide confront existential quandaries regarding authentic identity perpetuation versus adaptive modernization.__ [III] The ramifications of **these** determinations will ascertain cultural survival trajectories for innumerable ethnic minorities. [IV]\n\nTransnational conglomerates and predominant cultural hegemonies exert immense pressure on minoritarian communities to assimilate mainstream ideologies whilst simultaneously commodifying traditional practices for mercantile exploitation. These entities capitalize on ethnic authenticity through cultural misappropriation, transmogrifying sanctified traditions into marketable commodities divested of spiritual gravitas and historical contextualization. Nevertheless, defining authentic cultural preservation proves extraordinarily labyrinthine when considering dynamic cultural metamorphosis, intergenerational transmission vicissitudes, and exogenous influence assimilation across diverse ethnic constituencies.\n\nCultural revitalization movements epitomize increasingly sophisticated stratagems for perpetuating ethnic distinctiveness whilst engaging contemporary realities. Indigenous communities devise innovative methodologies amalgamating traditional epistemological systems with contemporary pedagogical frameworks and technological applications. For instance, digital archival enterprises preserve moribund languages, whilst cultural immersion curricula transmit ancestral practices to nascent generations.\n\nGlobalization paradoxically menaces and fortifies ethnic identity concomitantly. Contemporary communication technologies enable diaspora communities to perpetuate connections with ancestral homelands, preserving cultural continuity across geographical expanses. Ethnic minorities leverage social media platforms to document traditions, disseminate cultural narratives, and mobilize political advocacy for indigenous prerogatives.",
         "questionRange": [
           31,
           40
@@ -2644,7 +2644,7 @@ export const thptExams = [
       },
       {
         "id": 19,
-        "text": "Choose correct sentence.",
+        "text": "Choose the sentence that is grammatically CORRECT (check subject–verb agreement, voice, and relative clauses):",
         "options": [
           "Researchers who conducted experiments have published findings",
           "Experiments having conducted by researchers published findings",
@@ -2735,7 +2735,7 @@ export const thptExams = [
       },
       {
         "id": 26,
-        "text": "'enhance' is opposite to:",
+        "text": "The word **enhance** in the passage is OPPOSITE in meaning to:",
         "options": [
           "improve",
           "diminish",
@@ -2748,7 +2748,7 @@ export const thptExams = [
       },
       {
         "id": 27,
-        "text": "'which' refers to:",
+        "text": "In the passage, the word **which** refers to:",
         "options": [
           "methods",
           "systems",
@@ -2761,7 +2761,7 @@ export const thptExams = [
       },
       {
         "id": 28,
-        "text": "Which is TRUE?",
+        "text": "Which of the following statements is TRUE according to the passage?",
         "options": [
           "All methodologies produce identical results.",
           "Different approaches yield varying effectiveness.",
@@ -2774,7 +2774,7 @@ export const thptExams = [
       },
       {
         "id": 29,
-        "text": "Which paragraph discusses applications?",
+        "text": "Which paragraph discusses applications in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -2787,7 +2787,7 @@ export const thptExams = [
       },
       {
         "id": 30,
-        "text": "Which paragraph mentions future implications?",
+        "text": "Which paragraph mentions future implications in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -2839,7 +2839,7 @@ export const thptExams = [
       },
       {
         "id": 34,
-        "text": "'these' refers to:",
+        "text": "In the passage, the word **these** refers to:",
         "options": [
           "organizations",
           "challenges",
@@ -2852,7 +2852,7 @@ export const thptExams = [
       },
       {
         "id": 35,
-        "text": "'facilitate' is opposite to:",
+        "text": "The word **facilitate** in the passage is OPPOSITE in meaning to:",
         "options": [
           "enable",
           "impede",
@@ -2878,7 +2878,7 @@ export const thptExams = [
       },
       {
         "id": 37,
-        "text": "'integral' mostly means:",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"integral\"?",
         "options": [
           "optional",
           "essential",
@@ -2891,7 +2891,7 @@ export const thptExams = [
       },
       {
         "id": 38,
-        "text": "Which is TRUE?",
+        "text": "Which of the following statements is TRUE according to the passage?",
         "options": [
           "Only one approach works.",
           "Multiple perspectives contribute to understanding.",
@@ -2904,7 +2904,7 @@ export const thptExams = [
       },
       {
         "id": 39,
-        "text": "What can be inferred?",
+        "text": "What can be inferred from the passage as a whole?",
         "options": [
           "The field will remain unchanged.",
           "Continued research and collaboration are necessary.",
@@ -2917,7 +2917,7 @@ export const thptExams = [
       },
       {
         "id": 40,
-        "text": "Which best summarises the passage?",
+        "text": "Which option best summarises the main idea of the entire passage?",
         "options": [
           "Complex phenomenon examined through multiple perspectives with ongoing challenges requiring collaborative solutions.",
           "Focuses exclusively on technological solutions.",
@@ -2968,7 +2968,7 @@ export const thptExams = [
       {
         "id": "thpt-06-p4",
         "title": "AI in Healthcare",
-        "text": "The integration of artificial intelligence into healthcare systems has precipitated unprecedented transformations in diagnostic precision, therapeutic interventions, and patient outcomes. __What initially emerged as experimental computational tools has evolved into indispensable medical infrastructure, with algorithmic decision-making systems now influencing critical treatment protocols across diverse clinical specialties.__ Modern **systems**, **which** continue to evolve rapidly, are reshaping the entire field.\n\nAI-powered diagnostic platforms demonstrate remarkable capabilities in pattern recognition, anomaly detection, and prognostic modeling. Machine learning algorithms analyze vast datasets encompassing radiological images, laboratory results, and electronic health records with superhuman accuracy. Healthcare providers benefit from enhanced diagnostic confidence, personalized treatment recommendations, and optimized resource allocation strategies. However, these innovations generate considerable controversy regarding long-term ecological consequences and food safety implications.\n\nAlgorithmic opacity represents the most formidable obstacle in AI healthcare implementation. Deep learning networks operate through incomprehensible mathematical processes, making clinical decision-making rationales virtually indecipherable to human practitioners. Additionally, maintaining patient trust becomes increasingly precarious when treatment decisions originate from inscrutable computational systems. Many physicians express apprehension about relinquishing diagnostic authority to artificial entities while patients question the reliability of algorithmically-generated medical recommendations.\n\nCybersecurity vulnerabilities constitute another critical concern in AI healthcare deployment. Sophisticated neural networks require extensive patient data access, creating attractive targets for malicious cyberattacks and data breaches. Healthcare institutions investing in robust cybersecurity infrastructure often experience more secure AI implementation processes. Nevertheless, certain medical specialties remain inherently unsuitable for comprehensive AI integration, particularly those demanding empathetic human interaction and complex ethical decision-making capabilities.",
+        "text": "The integration of artificial intelligence into healthcare systems has precipitated unprecedented transformations in diagnostic precision, therapeutic interventions, and patient outcomes. __What initially emerged as experimental computational tools has evolved into indispensable medical infrastructure, with algorithmic decision-making systems now influencing critical treatment protocols across diverse clinical specialties.__ Modern **systems**, **which** continue to evolve rapidly, are reshaping the entire field.\n\nAI-powered diagnostic platforms demonstrate remarkable capabilities in pattern recognition, anomaly detection, and prognostic modeling. Machine learning algorithms analyze vast datasets encompassing radiological images, laboratory results, and electronic health records with superhuman accuracy. Healthcare providers benefit from **enhanced** diagnostic confidence, personalized treatment recommendations, and optimized resource allocation strategies. However, these innovations generate considerable controversy regarding long-term ecological consequences and food safety implications.\n\nAlgorithmic opacity represents the most formidable obstacle in AI healthcare implementation. Deep learning networks operate through incomprehensible mathematical processes, making clinical decision-making rationales virtually indecipherable to human practitioners. Additionally, maintaining patient trust becomes increasingly precarious when treatment decisions originate from inscrutable computational systems. Many physicians express apprehension about relinquishing diagnostic authority to artificial entities while patients question the reliability of algorithmically-generated medical recommendations.\n\nCybersecurity vulnerabilities constitute another critical concern in AI healthcare deployment. Sophisticated neural networks require extensive patient data access, creating attractive targets for malicious cyberattacks and data breaches. Healthcare institutions investing in robust cybersecurity infrastructure often experience more secure AI implementation processes. Nevertheless, certain medical specialties remain inherently unsuitable for comprehensive AI integration, particularly those demanding empathetic human interaction and complex ethical decision-making capabilities.",
         "questionRange": [
           23,
           30
@@ -2977,7 +2977,7 @@ export const thptExams = [
       {
         "id": "thpt-06-p5",
         "title": "Human-Animal Chimeric Research",
-        "text": "[I] Human-animal chimeric research has transcended scientific fiction to become tangible biotechnological reality, generating unprecedented ethical quandaries about species boundaries and moral consideration. [II] As researchers successfully cultivate organisms containing genetic material from multiple species, humanity confronts profound philosophical questions about consciousness, personhood, and the sanctity of natural order. [III] The ramifications of these biotechnological innovations extend far beyond laboratory confines. [IV]\n\nLeading biomedical institutions are pioneering chimeric technologies while simultaneously wrestling with the moral complexities inherent in creating hybrid organisms. These research facilities face mounting scrutiny from religious authorities, animal rights advocates, and bioethics committees demanding transparent protocols and rigorous oversight mechanisms. However, defining acceptable parameters for interspecies genetic integration proves extraordinarily challenging when considering diverse theological doctrines, philosophical frameworks, and cultural sensitivities across global research communities.\n\nXenotransplantation applications represent the most promising therapeutic avenue for chimeric research. __Scientists engineer porcine organs containing human cellular components to address critical organ shortage crises affecting millions of patients worldwide.__ These innovative procedures could revolutionize transplantation medicine by eliminating immunological rejection responses while providing unlimited organ availability. Nevertheless, introducing animal-derived pathogens into human recipients raises serious zoonotic transmission concerns that could precipitate devastating pandemic scenarios.\n\nConsciousness attribution dilemmas compound **these** ethical challenges significantly. Advanced chimeric organisms possessing enhanced cognitive capabilities blur traditional distinctions between human and non-human entities, raising questions about moral status, rights attribution, and experimentation ethics. Neurobiological chimeras containing substantial human neural tissue might experience subjective consciousness, pain perception, and emotional suffering comparable to human experience.",
+        "text": "[I] Human-animal chimeric research has transcended scientific fiction to become tangible biotechnological reality, generating unprecedented ethical quandaries about species boundaries and moral consideration. [II] As researchers successfully cultivate organisms containing genetic material from multiple species, humanity confronts profound philosophical questions about consciousness, personhood, and the sanctity of natural order. [III] The ramifications of these biotechnological innovations extend far beyond laboratory confines. [IV]\n\nLeading biomedical institutions are pioneering chimeric technologies while simultaneously wrestling with the moral complexities inherent in creating hybrid organisms. These research **facilities** face mounting scrutiny from religious authorities, animal rights advocates, and bioethics committees demanding transparent protocols and rigorous oversight mechanisms. However, defining acceptable parameters for interspecies genetic integration proves extraordinarily challenging when considering diverse theological doctrines, philosophical frameworks, and cultural sensitivities across global research communities.\n\nXenotransplantation applications represent the most promising therapeutic avenue for chimeric research. __Scientists engineer porcine organs containing human cellular components to address critical organ shortage crises affecting millions of patients worldwide.__ These innovative procedures could revolutionize transplantation medicine by eliminating immunological rejection responses while providing unlimited organ availability. Nevertheless, introducing animal-derived pathogens into human recipients raises serious zoonotic transmission concerns that could precipitate devastating pandemic scenarios.\n\nConsciousness attribution dilemmas compound **these** ethical challenges significantly. Advanced chimeric organisms possessing enhanced cognitive capabilities blur traditional distinctions between human and non-human entities, raising questions about moral status, rights attribution, and experimentation ethics. Neurobiological chimeras containing substantial human neural tissue might experience subjective consciousness, pain perception, and emotional suffering comparable to human experience.",
         "questionRange": [
           31,
           40
@@ -3221,7 +3221,7 @@ export const thptExams = [
       },
       {
         "id": 19,
-        "text": "Choose correct sentence.",
+        "text": "Choose the sentence that is grammatically CORRECT (check subject–verb agreement, voice, and relative clauses):",
         "options": [
           "Researchers who conducted experiments have published findings",
           "Experiments having conducted by researchers published findings",
@@ -3312,7 +3312,7 @@ export const thptExams = [
       },
       {
         "id": 26,
-        "text": "'enhance' is opposite to:",
+        "text": "The word **enhance** in the passage is OPPOSITE in meaning to:",
         "options": [
           "improve",
           "diminish",
@@ -3325,7 +3325,7 @@ export const thptExams = [
       },
       {
         "id": 27,
-        "text": "'which' refers to:",
+        "text": "In the passage, the word **which** refers to:",
         "options": [
           "methods",
           "systems",
@@ -3338,7 +3338,7 @@ export const thptExams = [
       },
       {
         "id": 28,
-        "text": "Which is TRUE?",
+        "text": "Which of the following statements is TRUE according to the passage?",
         "options": [
           "All methodologies produce identical results.",
           "Different approaches yield varying effectiveness.",
@@ -3351,7 +3351,7 @@ export const thptExams = [
       },
       {
         "id": 29,
-        "text": "Which paragraph discusses applications?",
+        "text": "Which paragraph discusses applications in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -3364,7 +3364,7 @@ export const thptExams = [
       },
       {
         "id": 30,
-        "text": "Which paragraph mentions future implications?",
+        "text": "Which paragraph mentions future implications in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -3416,7 +3416,7 @@ export const thptExams = [
       },
       {
         "id": 34,
-        "text": "'these' refers to:",
+        "text": "In the passage, the word **these** refers to:",
         "options": [
           "organizations",
           "challenges",
@@ -3429,7 +3429,7 @@ export const thptExams = [
       },
       {
         "id": 35,
-        "text": "'facilitate' is opposite to:",
+        "text": "The word **facilitate** in the passage is OPPOSITE in meaning to:",
         "options": [
           "enable",
           "impede",
@@ -3455,7 +3455,7 @@ export const thptExams = [
       },
       {
         "id": 37,
-        "text": "'integral' mostly means:",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"integral\"?",
         "options": [
           "optional",
           "essential",
@@ -3468,7 +3468,7 @@ export const thptExams = [
       },
       {
         "id": 38,
-        "text": "Which is TRUE?",
+        "text": "Which of the following statements is TRUE according to the passage?",
         "options": [
           "Only one approach works.",
           "Multiple perspectives contribute to understanding.",
@@ -3481,7 +3481,7 @@ export const thptExams = [
       },
       {
         "id": 39,
-        "text": "What can be inferred?",
+        "text": "What can be inferred from the passage as a whole?",
         "options": [
           "The field will remain unchanged.",
           "Continued research and collaboration are necessary.",
@@ -3494,7 +3494,7 @@ export const thptExams = [
       },
       {
         "id": 40,
-        "text": "Which best summarises the passage?",
+        "text": "Which option best summarises the main idea of the entire passage?",
         "options": [
           "Complex phenomenon examined through multiple perspectives with ongoing challenges requiring collaborative solutions.",
           "Focuses exclusively on technological solutions.",
@@ -3798,7 +3798,7 @@ export const thptExams = [
       },
       {
         "id": 19,
-        "text": "Choose correct sentence.",
+        "text": "Choose the sentence that is grammatically CORRECT (check subject–verb agreement, voice, and relative clauses):",
         "options": [
           "Researchers who conducted experiments have published findings",
           "Experiments having conducted by researchers published findings",
@@ -3889,7 +3889,7 @@ export const thptExams = [
       },
       {
         "id": 26,
-        "text": "'enhance' is opposite to:",
+        "text": "Vocabulary: Which of the following is OPPOSITE in meaning to \"enhance\"?",
         "options": [
           "improve",
           "diminish",
@@ -3902,7 +3902,7 @@ export const thptExams = [
       },
       {
         "id": 27,
-        "text": "'which' refers to:",
+        "text": "In the passage, the word **which** refers to:",
         "options": [
           "methods",
           "systems",
@@ -3915,7 +3915,7 @@ export const thptExams = [
       },
       {
         "id": 28,
-        "text": "Which is TRUE?",
+        "text": "Which of the following statements is TRUE according to the passage?",
         "options": [
           "All methodologies produce identical results.",
           "Different approaches yield varying effectiveness.",
@@ -3928,7 +3928,7 @@ export const thptExams = [
       },
       {
         "id": 29,
-        "text": "Which paragraph discusses applications?",
+        "text": "Which paragraph discusses applications in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -3941,7 +3941,7 @@ export const thptExams = [
       },
       {
         "id": 30,
-        "text": "Which paragraph mentions future implications?",
+        "text": "Which paragraph mentions future implications in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -3993,7 +3993,7 @@ export const thptExams = [
       },
       {
         "id": 34,
-        "text": "'these' refers to:",
+        "text": "In the passage, the word **these** refers to:",
         "options": [
           "organizations",
           "challenges",
@@ -4006,7 +4006,7 @@ export const thptExams = [
       },
       {
         "id": 35,
-        "text": "'facilitate' is opposite to:",
+        "text": "Vocabulary: Which of the following is OPPOSITE in meaning to \"facilitate\"?",
         "options": [
           "enable",
           "impede",
@@ -4032,7 +4032,7 @@ export const thptExams = [
       },
       {
         "id": 37,
-        "text": "'integral' mostly means:",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"integral\"?",
         "options": [
           "optional",
           "essential",
@@ -4045,7 +4045,7 @@ export const thptExams = [
       },
       {
         "id": 38,
-        "text": "Which is TRUE?",
+        "text": "Which of the following statements is TRUE according to the passage?",
         "options": [
           "Only one approach works.",
           "Multiple perspectives contribute to understanding.",
@@ -4058,7 +4058,7 @@ export const thptExams = [
       },
       {
         "id": 39,
-        "text": "What can be inferred?",
+        "text": "What can be inferred from the passage as a whole?",
         "options": [
           "The field will remain unchanged.",
           "Continued research and collaboration are necessary.",
@@ -4071,7 +4071,7 @@ export const thptExams = [
       },
       {
         "id": 40,
-        "text": "Which best summarises the passage?",
+        "text": "Which option best summarises the main idea of the entire passage?",
         "options": [
           "Complex phenomenon examined through multiple perspectives with ongoing challenges requiring collaborative solutions.",
           "Focuses exclusively on technological solutions.",
@@ -4122,7 +4122,7 @@ export const thptExams = [
       {
         "id": "thpt-08-p4",
         "title": "Biotechnology in Agriculture",
-        "text": "Agricultural biotechnology represents a paradigmatic shift in humanity's approach to food production, introducing genetically modified organisms that challenge traditional farming methodologies while promising solutions to global hunger crises. __Revolutionary CRISPR gene-editing technologies enable precise modifications to crop genomes, enhancing nutritional content, drought resistance, and pest immunity.__ Modern **systems**, **which** continue to evolve rapidly, are reshaping the entire field.\n\nGenetically modified crops offer substantial advantages for farmers and consumers alike. Producers benefit from increased yields, reduced pesticide dependency, and enhanced climate resilience. Consumers potentially access more nutritious foods with extended shelf life and reduced environmental footprint. However, these innovations generate considerable controversy regarding long-term ecological consequences and food safety implications.\n\nOpponents raise legitimate concerns about genetic modification's unforeseen ramifications on biodiversity and ecosystem stability. Cross-pollination between modified and wild plant species could potentially create invasive hybrid organisms with unpredictable characteristics. Furthermore, corporate monopolization of seed patents threatens traditional farming communities' autonomy and food sovereignty principles.\n\nRegulatory oversight varies dramatically across global jurisdictions. The European Union implements stringent approval processes requiring extensive safety testing, while developing nations often lack adequate regulatory infrastructure. International coordination becomes increasingly crucial as agricultural biotechnology continues expanding, demanding comprehensive scientific assessment protocols and transparent public discourse regarding acceptable risk thresholds.",
+        "text": "Agricultural biotechnology represents a paradigmatic shift in humanity's approach to food production, introducing genetically modified organisms that challenge traditional farming methodologies while promising solutions to global hunger crises. __Revolutionary CRISPR gene-editing technologies enable precise modifications to crop genomes, **enhancing** nutritional content, drought resistance, and pest immunity.__ Modern **systems**, **which** continue to evolve rapidly, are reshaping the entire field.\n\nGenetically modified crops offer substantial advantages for farmers and consumers alike. Producers benefit from increased yields, reduced pesticide dependency, and enhanced climate resilience. Consumers potentially access more nutritious foods with extended shelf life and reduced environmental footprint. However, these innovations generate considerable controversy regarding long-term ecological consequences and food safety implications.\n\nOpponents raise legitimate concerns about genetic modification's unforeseen ramifications on biodiversity and ecosystem stability. Cross-pollination between modified and wild plant species could potentially create invasive hybrid organisms with unpredictable characteristics. Furthermore, corporate monopolization of seed patents threatens traditional farming communities' autonomy and food sovereignty principles.\n\nRegulatory oversight varies dramatically across global jurisdictions. The European Union implements stringent approval processes requiring extensive safety testing, while developing nations often lack adequate regulatory infrastructure. International coordination becomes increasingly crucial as agricultural biotechnology continues expanding, demanding comprehensive scientific assessment protocols and transparent public discourse regarding acceptable risk thresholds.",
         "questionRange": [
           23,
           30
@@ -4131,7 +4131,7 @@ export const thptExams = [
       {
         "id": "thpt-08-p5",
         "title": "Pandemic Economics",
-        "text": "[I] Global pandemics precipitate cascading economic disruptions that transcend geographical boundaries, fundamentally restructuring international trade relationships and exposing vulnerabilities in interconnected supply chains. The delicate equilibrium between epidemic containment and economic preservation presents policymakers with virtually impossible choices. The ramifications extend far beyond immediate health concerns, reshaping civilization's economic trajectory.\n\n__Multinational corporations confront extraordinary challenges as pandemic-induced restrictions disrupt established business models and consumer behavior patterns.__ Tourism, hospitality, and entertainment industries experience catastrophic revenue losses, while technology and pharmaceutical sectors witness unprecedented growth opportunities. **These** dramatic sectoral disparities exacerbate existing economic inequalities, concentrating wealth among already privileged corporations while devastating small enterprises and vulnerable employment sectors.\n\n[II] Labor markets undergo profound transformations during pandemic periods, with remote work arrangements becoming normalized across numerous professional domains. Healthcare systems strain under overwhelming patient volumes while simultaneously creating massive employment opportunities for medical professionals. [III] Conversely, service industries dependent on physical proximity suffer devastating job losses, disproportionately affecting marginalized communities with limited financial reserves.\n\nGovernmental fiscal responses vary considerably across different political economies, reflecting diverse ideological approaches to crisis management and resource allocation. [IV] Developed nations deploy massive stimulus packages and unemployment benefits, while developing countries struggle with limited fiscal capacity and inadequate social safety nets. Central banks implement aggressive monetary policies, including quantitative easing and interest rate reductions, though these measures often benefit wealthy asset holders more than economically vulnerable populations.",
+        "text": "[I] Global pandemics precipitate cascading economic disruptions that transcend geographical boundaries, fundamentally restructuring international trade relationships and exposing vulnerabilities in interconnected supply chains. The delicate equilibrium between epidemic containment and economic preservation presents policymakers with virtually impossible choices. The ramifications extend far beyond immediate health concerns, reshaping civilization's economic trajectory.\n\n__Multinational corporations confront extraordinary challenges as pandemic-induced restrictions disrupt established business models and consumer behavior patterns.__ Tourism, hospitality, and entertainment industries experience catastrophic revenue losses, while technology and pharmaceutical sectors witness unprecedented growth opportunities. **These** dramatic sectoral disparities exacerbate existing economic inequalities, concentrating wealth among already privileged corporations while devastating small enterprises and vulnerable employment sectors.\n\n[II] Labor markets undergo profound transformations during pandemic periods, with remote work arrangements becoming normalized across numerous professional domains. Healthcare systems strain under overwhelming patient volumes while simultaneously creating massive employment opportunities for medical professionals. [III] Conversely, service industries dependent on physical proximity suffer devastating job losses, disproportionately affecting marginalized communities with limited financial reserves.\n\nGovernmental fiscal responses vary considerably across different political economies, reflecting diverse ideological approaches to crisis management and resource allocation. [IV] Developed nations deploy massive stimulus packages and unemployment benefits, while developing countries struggle with limited fiscal capacity and inadequate social safety nets. Central banks implement aggressive monetary policies, including quantitative easing and interest rate reductions, though **these** measures often benefit wealthy asset holders more than economically vulnerable populations.",
         "questionRange": [
           31,
           40
@@ -4375,7 +4375,7 @@ export const thptExams = [
       },
       {
         "id": 19,
-        "text": "Choose correct sentence.",
+        "text": "Choose the sentence that is grammatically CORRECT (check subject–verb agreement, voice, and relative clauses):",
         "options": [
           "Researchers who conducted experiments have published findings",
           "Experiments having conducted by researchers published findings",
@@ -4466,7 +4466,7 @@ export const thptExams = [
       },
       {
         "id": 26,
-        "text": "'enhance' is opposite to:",
+        "text": "The word **enhance** in the passage is OPPOSITE in meaning to:",
         "options": [
           "improve",
           "diminish",
@@ -4479,7 +4479,7 @@ export const thptExams = [
       },
       {
         "id": 27,
-        "text": "'which' refers to:",
+        "text": "In the passage, the word **which** refers to:",
         "options": [
           "methods",
           "systems",
@@ -4492,7 +4492,7 @@ export const thptExams = [
       },
       {
         "id": 28,
-        "text": "Which is TRUE?",
+        "text": "Which of the following statements is TRUE according to the passage?",
         "options": [
           "All methodologies produce identical results.",
           "Different approaches yield varying effectiveness.",
@@ -4505,7 +4505,7 @@ export const thptExams = [
       },
       {
         "id": 29,
-        "text": "Which paragraph discusses applications?",
+        "text": "Which paragraph discusses applications in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -4518,7 +4518,7 @@ export const thptExams = [
       },
       {
         "id": 30,
-        "text": "Which paragraph mentions future implications?",
+        "text": "Which paragraph mentions future implications in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -4570,7 +4570,7 @@ export const thptExams = [
       },
       {
         "id": 34,
-        "text": "'these' refers to:",
+        "text": "In the passage, the word **these** refers to:",
         "options": [
           "organizations",
           "challenges",
@@ -4583,7 +4583,7 @@ export const thptExams = [
       },
       {
         "id": 35,
-        "text": "'facilitate' is opposite to:",
+        "text": "Vocabulary: Which of the following is OPPOSITE in meaning to \"facilitate\"?",
         "options": [
           "enable",
           "impede",
@@ -4609,7 +4609,7 @@ export const thptExams = [
       },
       {
         "id": 37,
-        "text": "'integral' mostly means:",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"integral\"?",
         "options": [
           "optional",
           "essential",
@@ -4622,7 +4622,7 @@ export const thptExams = [
       },
       {
         "id": 38,
-        "text": "Which is TRUE?",
+        "text": "Which of the following statements is TRUE according to the passage?",
         "options": [
           "Only one approach works.",
           "Multiple perspectives contribute to understanding.",
@@ -4635,7 +4635,7 @@ export const thptExams = [
       },
       {
         "id": 39,
-        "text": "What can be inferred?",
+        "text": "What can be inferred from the passage as a whole?",
         "options": [
           "The field will remain unchanged.",
           "Continued research and collaboration are necessary.",
@@ -4648,7 +4648,7 @@ export const thptExams = [
       },
       {
         "id": 40,
-        "text": "Which best summarises the passage?",
+        "text": "Which option best summarises the main idea of the entire passage?",
         "options": [
           "Complex phenomenon examined through multiple perspectives with ongoing challenges requiring collaborative solutions.",
           "Focuses exclusively on technological solutions.",
@@ -4952,7 +4952,7 @@ export const thptExams = [
       },
       {
         "id": 19,
-        "text": "Choose correct sentence.",
+        "text": "Choose the sentence that is grammatically CORRECT (check subject–verb agreement, voice, and relative clauses):",
         "options": [
           "Researchers who conducted experiments have published findings",
           "Experiments having conducted by researchers published findings",
@@ -5043,7 +5043,7 @@ export const thptExams = [
       },
       {
         "id": 26,
-        "text": "'enhance' is opposite to:",
+        "text": "Vocabulary: Which of the following is OPPOSITE in meaning to \"enhance\"?",
         "options": [
           "improve",
           "diminish",
@@ -5056,7 +5056,7 @@ export const thptExams = [
       },
       {
         "id": 27,
-        "text": "'which' refers to:",
+        "text": "In the passage, the word **which** refers to:",
         "options": [
           "methods",
           "systems",
@@ -5069,7 +5069,7 @@ export const thptExams = [
       },
       {
         "id": 28,
-        "text": "Which is TRUE?",
+        "text": "Which of the following statements is TRUE according to the passage?",
         "options": [
           "All methodologies produce identical results.",
           "Different approaches yield varying effectiveness.",
@@ -5082,7 +5082,7 @@ export const thptExams = [
       },
       {
         "id": 29,
-        "text": "Which paragraph discusses applications?",
+        "text": "Which paragraph discusses applications in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -5095,7 +5095,7 @@ export const thptExams = [
       },
       {
         "id": 30,
-        "text": "Which paragraph mentions future implications?",
+        "text": "Which paragraph mentions future implications in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -5147,7 +5147,7 @@ export const thptExams = [
       },
       {
         "id": 34,
-        "text": "'these' refers to:",
+        "text": "In the passage, the word **these** refers to:",
         "options": [
           "organizations",
           "challenges",
@@ -5160,7 +5160,7 @@ export const thptExams = [
       },
       {
         "id": 35,
-        "text": "'facilitate' is opposite to:",
+        "text": "Vocabulary: Which of the following is OPPOSITE in meaning to \"facilitate\"?",
         "options": [
           "enable",
           "impede",
@@ -5186,7 +5186,7 @@ export const thptExams = [
       },
       {
         "id": 37,
-        "text": "'integral' mostly means:",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"integral\"?",
         "options": [
           "optional",
           "essential",
@@ -5199,7 +5199,7 @@ export const thptExams = [
       },
       {
         "id": 38,
-        "text": "Which is TRUE?",
+        "text": "Which of the following statements is TRUE according to the passage?",
         "options": [
           "Only one approach works.",
           "Multiple perspectives contribute to understanding.",
@@ -5212,7 +5212,7 @@ export const thptExams = [
       },
       {
         "id": 39,
-        "text": "What can be inferred?",
+        "text": "What can be inferred from the passage as a whole?",
         "options": [
           "The field will remain unchanged.",
           "Continued research and collaboration are necessary.",
@@ -5225,7 +5225,7 @@ export const thptExams = [
       },
       {
         "id": 40,
-        "text": "Which best summarises the passage?",
+        "text": "Which option best summarises the main idea of the entire passage?",
         "options": [
           "Complex phenomenon examined through multiple perspectives with ongoing challenges requiring collaborative solutions.",
           "Focuses exclusively on technological solutions.",
@@ -5529,7 +5529,7 @@ export const thptExams = [
       },
       {
         "id": 19,
-        "text": "Choose correct sentence.",
+        "text": "Choose the sentence that is grammatically CORRECT (check subject–verb agreement, voice, and relative clauses):",
         "options": [
           "Researchers who conducted experiments have published findings",
           "Experiments having conducted by researchers published findings",
@@ -5620,7 +5620,7 @@ export const thptExams = [
       },
       {
         "id": 26,
-        "text": "'enhance' is opposite to:",
+        "text": "Vocabulary: Which of the following is OPPOSITE in meaning to \"enhance\"?",
         "options": [
           "improve",
           "diminish",
@@ -5633,7 +5633,7 @@ export const thptExams = [
       },
       {
         "id": 27,
-        "text": "'which' refers to:",
+        "text": "In the passage, the word **which** refers to:",
         "options": [
           "methods",
           "systems",
@@ -5646,7 +5646,7 @@ export const thptExams = [
       },
       {
         "id": 28,
-        "text": "Which is TRUE?",
+        "text": "Which of the following statements is TRUE according to the passage?",
         "options": [
           "All methodologies produce identical results.",
           "Different approaches yield varying effectiveness.",
@@ -5659,7 +5659,7 @@ export const thptExams = [
       },
       {
         "id": 29,
-        "text": "Which paragraph discusses applications?",
+        "text": "Which paragraph discusses applications in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -5672,7 +5672,7 @@ export const thptExams = [
       },
       {
         "id": 30,
-        "text": "Which paragraph mentions future implications?",
+        "text": "Which paragraph mentions future implications in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -5724,7 +5724,7 @@ export const thptExams = [
       },
       {
         "id": 34,
-        "text": "'these' refers to:",
+        "text": "In the passage, the word **these** refers to:",
         "options": [
           "organizations",
           "challenges",
@@ -5737,7 +5737,7 @@ export const thptExams = [
       },
       {
         "id": 35,
-        "text": "'facilitate' is opposite to:",
+        "text": "Vocabulary: Which of the following is OPPOSITE in meaning to \"facilitate\"?",
         "options": [
           "enable",
           "impede",
@@ -5763,7 +5763,7 @@ export const thptExams = [
       },
       {
         "id": 37,
-        "text": "'integral' mostly means:",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"integral\"?",
         "options": [
           "optional",
           "essential",
@@ -5776,7 +5776,7 @@ export const thptExams = [
       },
       {
         "id": 38,
-        "text": "Which is TRUE?",
+        "text": "Which of the following statements is TRUE according to the passage?",
         "options": [
           "Only one approach works.",
           "Multiple perspectives contribute to understanding.",
@@ -5789,7 +5789,7 @@ export const thptExams = [
       },
       {
         "id": 39,
-        "text": "What can be inferred?",
+        "text": "What can be inferred from the passage as a whole?",
         "options": [
           "The field will remain unchanged.",
           "Continued research and collaboration are necessary.",
@@ -5802,7 +5802,7 @@ export const thptExams = [
       },
       {
         "id": 40,
-        "text": "Which best summarises the passage?",
+        "text": "Which option best summarises the main idea of the entire passage?",
         "options": [
           "Complex phenomenon examined through multiple perspectives with ongoing challenges requiring collaborative solutions.",
           "Focuses exclusively on technological solutions.",

@@ -424,7 +424,7 @@ export const thptExams2 = [
       },
       {
         "id": 29,
-        "text": "Which paragraph mentions how language itself can influence activism?",
+        "text": "Which paragraph mentions how language itself can influence activism in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -437,7 +437,7 @@ export const thptExams2 = [
       },
       {
         "id": 30,
-        "text": "Which paragraph mentions an Egyptian online community leading to protests?",
+        "text": "Which paragraph mentions an Egyptian online community leading to protests in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -476,7 +476,7 @@ export const thptExams2 = [
       },
       {
         "id": 33,
-        "text": "Which best summarises paragraph 2?",
+        "text": "Which best summarises paragraph 2 of the passage?",
         "options": [
           "Grandiose slogans highlight how AI promises outstrip actual performance.",
           "Technical jargon proves companies lack consumer focus.",
@@ -1001,7 +1001,7 @@ export const thptExams2 = [
       },
       {
         "id": 29,
-        "text": "Which paragraph mentions consumer responses to messaging?",
+        "text": "Which paragraph mentions consumer responses to messaging in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -1014,7 +1014,7 @@ export const thptExams2 = [
       },
       {
         "id": 30,
-        "text": "Which paragraph mentions the importance of consistency?",
+        "text": "Which paragraph mentions the importance of consistency in the passage?",
         "options": [
           "Paragraph 2",
           "Paragraph 1",
@@ -1053,7 +1053,7 @@ export const thptExams2 = [
       },
       {
         "id": 33,
-        "text": "Which best summarises paragraph 2?",
+        "text": "Which best summarises paragraph 2 of the passage?",
         "options": [
           "Banking instability worsened debt crises, compelling supranational interventions with painful consequences.",
           "Rating agencies forced reforms while bailouts revived optimism.",
@@ -1144,7 +1144,7 @@ export const thptExams2 = [
       },
       {
         "id": 40,
-        "text": "Which best summarises the passage?",
+        "text": "Which option best summarises the main idea of the entire passage?",
         "options": [
           "ESFS has permanently eliminated doom loops.",
           "Doom loops are cycles where fiscal weakness, banking fragility, and investor fear reinforce one another.",
@@ -1578,7 +1578,7 @@ export const thptExams2 = [
       },
       {
         "id": 29,
-        "text": "Which paragraph mentions an inversion of usual partisan positions?",
+        "text": "Which paragraph mentions an inversion of usual partisan positions in the passage?",
         "options": [
           "Paragraph 3",
           "Paragraph 1",
@@ -1591,7 +1591,7 @@ export const thptExams2 = [
       },
       {
         "id": 30,
-        "text": "Which paragraph mentions disinviting or blocking speakers?",
+        "text": "Which paragraph mentions disinviting or blocking speakers in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 3",
@@ -1630,7 +1630,7 @@ export const thptExams2 = [
       },
       {
         "id": 33,
-        "text": "Which best summarises paragraph 2?",
+        "text": "Which best summarises paragraph 2 of the passage?",
         "options": [
           "Strict regulation minimizes risks.",
           "Air toxics and poorly controlled waste streams generate serious health and water hazards.",
@@ -1721,7 +1721,7 @@ export const thptExams2 = [
       },
       {
         "id": 40,
-        "text": "Which best summarises the passage?",
+        "text": "Which option best summarises the main idea of the entire passage?",
         "options": [
           "Because offsets are improving, carbon-only focus is sufficient.",
           "The harms of oil and gas extraction persist even under net-zero accounting; planners must move beyond carbon tunnel vision.",
@@ -2155,7 +2155,7 @@ export const thptExams2 = [
       },
       {
         "id": 29,
-        "text": "Which paragraph mentions audience reactions to corporate campaigns?",
+        "text": "Which paragraph mentions audience reactions to corporate campaigns in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -2168,7 +2168,7 @@ export const thptExams2 = [
       },
       {
         "id": 30,
-        "text": "Which paragraph emphasizes cross-functional consistency?",
+        "text": "Which paragraph emphasizes cross-functional consistency in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -2207,7 +2207,7 @@ export const thptExams2 = [
       },
       {
         "id": 33,
-        "text": "Which best summarises paragraph 2?",
+        "text": "Which best summarises paragraph 2 of the passage?",
         "options": [
           "Municipal experiments were ineffective until national bans.",
           "Plastic shaming situates policy within everyday rituals amid mounting waste.",
@@ -2298,7 +2298,7 @@ export const thptExams2 = [
       },
       {
         "id": 40,
-        "text": "Which best summarises the passage?",
+        "text": "Which option best summarises the main idea of the entire passage?",
         "options": [
           "Plastic shaming reconfigures rituals but proves durable only when coupled with infrastructure, incentives, and equity calibration.",
           "Retail shaming alone eradicated single-use plastics.",
@@ -2349,7 +2349,7 @@ export const thptExams2 = [
       {
         "id": "p15-4",
         "title": "Digital Colonialism and Data Governance",
-        "text": "Critics of 'digital colonialism' argue that data extraction replicates older patterns of plunder. Platform capitalisms consolidate market power through proprietary standards. **This** **interoperable standards** represents a defining feature of the current landscape.\n\nRegional reformers propose aligning African data governance with robust international norms. Harmonisation is constitutive of fairness.\n\nYet critics warn that universal templates can smuggle Northern priorities. __Hence, capacity-building must precede compliance.__\n\nA pragmatic compromise has emerged: coalitions co-design policy sandboxes.",
+        "text": "Critics of 'digital colonialism' argue that data extraction replicates older patterns of plunder. Platform capitalisms **consolidate** market power through proprietary standards. **This** **interoperable standards** represents a defining feature of the current landscape.\n\nRegional reformers propose aligning African data governance with robust international norms. Harmonisation is constitutive of fairness.\n\nYet critics warn that universal templates can smuggle Northern priorities. __Hence, capacity-building must precede compliance.__\n\nA pragmatic compromise has emerged: coalitions co-design policy sandboxes.",
         "questionRange": [
           23,
           30
@@ -2358,7 +2358,7 @@ export const thptExams2 = [
       {
         "id": "p15-5",
         "title": "The Workplace Metaverse",
-        "text": "The workplace metaverse promises immersion but inherits liabilities. [I] Early adopters report cognitive load from continuous presence. In short, **Who** here functions as a near-synonym of \"people paying for symbols of status\" in this context.\n\nEconomic behaviour maps onto offline norms. [II] If every meeting is stagecraft, demands for polish may migrate from wardrobes to SDKs.\n\nResearch on virtual-meeting fatigue implicates constant self-view. [III] Organisations report mixed outcomes.\n\nDesigners test 'low-stakes modes.' __[IV] Because tooling can encode power, ethics of interface defaults is a governance question.__",
+        "text": "The workplace metaverse promises immersion but inherits liabilities. [I] Early adopters report cognitive load from continuous presence. In short, **Who** here functions as a near-synonym of \"people paying for symbols of status\" in this context.\n\nEconomic behaviour maps onto offline norms. [II] If every meeting is **stagecraft**, demands for polish may migrate from wardrobes to SDKs.\n\nResearch on virtual-meeting fatigue implicates constant self-view. [III] Organisations report mixed outcomes.\n\nDesigners test 'low-stakes modes.' __[IV] Because tooling can encode power, ethics of interface defaults is a governance question.__",
         "questionRange": [
           31,
           40
@@ -2654,7 +2654,7 @@ export const thptExams2 = [
       },
       {
         "id": 23,
-        "text": "'Consolidate' is closest in meaning to ___.",
+        "text": "The word **Consolidate** in the passage is CLOSEST in meaning to:",
         "options": [
           "disperse",
           "entrench",
@@ -2732,7 +2732,7 @@ export const thptExams2 = [
       },
       {
         "id": 29,
-        "text": "Which paragraph mentions global models may import Northern priorities?",
+        "text": "Which paragraph mentions global models may import Northern priorities in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -2745,7 +2745,7 @@ export const thptExams2 = [
       },
       {
         "id": 30,
-        "text": "Which paragraph highlights auditing the entire data trajectory?",
+        "text": "Which paragraph highlights auditing the entire data trajectory in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -2771,7 +2771,7 @@ export const thptExams2 = [
       },
       {
         "id": 32,
-        "text": "'Stagecraft' mostly means ___.",
+        "text": "The word **Stagecraft** in the passage is CLOSEST in meaning to:",
         "options": [
           "impromptu debate",
           "calculated presentation",
@@ -2784,7 +2784,7 @@ export const thptExams2 = [
       },
       {
         "id": 33,
-        "text": "Which best summarises paragraph 2?",
+        "text": "Which best summarises paragraph 2 of the passage?",
         "options": [
           "Digital goods will eliminate status competition.",
           "Marketplace dynamics around avatars reflect office culture, potentially widening or narrowing inequality.",
@@ -2875,7 +2875,7 @@ export const thptExams2 = [
       },
       {
         "id": 40,
-        "text": "Which best summarises the passage?",
+        "text": "Which option best summarises the main idea of the entire passage?",
         "options": [
           "The metaverse definitively overcomes video-mediated limitations.",
           "Market dynamics echo offline hierarchies; absent guardrails, pressures risk compounding exhaustion, yet designed policies can partially alleviate harms.",
@@ -3231,7 +3231,7 @@ export const thptExams2 = [
       },
       {
         "id": 23,
-        "text": "'Derided' is closest in meaning to ___.",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"Derided\"?",
         "options": [
           "dismissed",
           "refined",
@@ -3309,7 +3309,7 @@ export const thptExams2 = [
       },
       {
         "id": 29,
-        "text": "Which paragraph mentions Paris examples of 'nonuments'?",
+        "text": "Which paragraph mentions Paris examples of 'nonuments' in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -3322,7 +3322,7 @@ export const thptExams2 = [
       },
       {
         "id": 30,
-        "text": "Which paragraph emphasizes reframing sites?",
+        "text": "Which paragraph emphasizes reframing sites in the passage?",
         "options": [
           "Paragraph 2",
           "Paragraph 3",
@@ -3348,7 +3348,7 @@ export const thptExams2 = [
       },
       {
         "id": 32,
-        "text": "'Fungible' mostly means ___.",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"Fungible\"?",
         "options": [
           "interchangeable and tradable with equivalent units",
           "uniquely valuable and irreplaceable",
@@ -3361,7 +3361,7 @@ export const thptExams2 = [
       },
       {
         "id": 33,
-        "text": "Which best summarises paragraph 2?",
+        "text": "Which best summarises paragraph 2 of the passage?",
         "options": [
           "The living shoreline secures both climate mitigation and biodiversity while generating carbon credits.",
           "Construction costs remain unrecoverable.",
@@ -3503,7 +3503,7 @@ export const thptExams2 = [
       {
         "id": "p17-4",
         "title": "Doomscrolling",
-        "text": "Doomscrolling names a habit both ordinary and corrosive: the compulsion to ingest bad news. __In feeds optimized for engagement, catastrophe is scheduling logic.__\n\nThe amygdala rewards hypervigilance with the illusion of control. Yet the very loops that promise mastery unspool attention until ordinary tasks feel grainy. Platforms monetize **this** vigilance.\n\nExtended scrolling is yoked to neck strain, reduced sleep efficiency. Countermeasures are blunt but effective: grayscale displays, notification triage.\n\nDoomscrolling thrives in an attention economy where being 'in the know' functions as currency. This paradox is stark: a practice adopted to feel prepared may make one less able to act.",
+        "text": "Doomscrolling names a habit both ordinary and **corrosive**: the compulsion to ingest bad news. __In feeds optimized for engagement, catastrophe is scheduling logic.__\n\nThe amygdala rewards hypervigilance with the illusion of control. Yet the very loops that promise mastery unspool attention until ordinary tasks feel grainy. Platforms monetize **this** vigilance.\n\nExtended scrolling is yoked to neck strain, reduced sleep efficiency. Countermeasures are blunt but effective: grayscale displays, notification triage.\n\nDoomscrolling thrives in an attention economy where being 'in the know' functions as currency. This paradox is stark: a practice adopted to feel prepared may make one less able to act.",
         "questionRange": [
           23,
           30
@@ -3808,7 +3808,7 @@ export const thptExams2 = [
       },
       {
         "id": 23,
-        "text": "'Corrosive' is closest in meaning to ___.",
+        "text": "The word **Corrosive** in the passage is CLOSEST in meaning to:",
         "options": [
           "destructive through gradual impairment",
           "merely unpleasant but harmless",
@@ -3886,7 +3886,7 @@ export const thptExams2 = [
       },
       {
         "id": 29,
-        "text": "Which paragraph mentions interventions?",
+        "text": "Which paragraph mentions interventions in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -3899,7 +3899,7 @@ export const thptExams2 = [
       },
       {
         "id": 30,
-        "text": "Which paragraph discusses social incentive structure?",
+        "text": "Which paragraph discusses social incentive structure in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -3925,7 +3925,7 @@ export const thptExams2 = [
       },
       {
         "id": 32,
-        "text": "'Goods internal to it' mostly means ___.",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"Goods internal to it\"?",
         "options": [
           "external rewards such as prizes",
           "commodities whose value is set by supply-demand",
@@ -3938,7 +3938,7 @@ export const thptExams2 = [
       },
       {
         "id": 33,
-        "text": "Which best summarises paragraph 2?",
+        "text": "Which best summarises paragraph 2 of the passage?",
         "options": [
           "Critics and proponents agree character is irrelevant.",
           "Hayekian theory proves reciprocity cannot exist.",
@@ -4029,7 +4029,7 @@ export const thptExams2 = [
       },
       {
         "id": 40,
-        "text": "Which best summarises the passage?",
+        "text": "Which option best summarises the main idea of the entire passage?",
         "options": [
           "Critics warn rule-following without character is thin; advocates say fair transactions foster character if norms are enforced.",
           "The virtue economy hinges on institutional scaffolding.",
@@ -4089,7 +4089,7 @@ export const thptExams2 = [
       {
         "id": "p18-5",
         "title": "Counterfeit Goods and Consumer Trust",
-        "text": "Counterfeit goods corrode the tacit contract of brand trust. [I] The harms are cumulative. What makes the threat durable is opacity in production.\n\nEnforcement alone cannot repair confidence. [II] Firms trumpet authenticity labels, yet fraud often follows. Consumers recalibrate expectations.\n\nThe economic toll compounds. __[III] Capital is diverted to litigation.__ Counterfeit operations adapt with entrepreneurial speed.\n\n[IV] The most durable programs braid together verifiable provenance, targeted enforcement, and public education.",
+        "text": "Counterfeit goods corrode the tacit contract of brand trust. [I] The harms are **cumulative**. What makes the threat durable is opacity in production.\n\nEnforcement alone cannot repair confidence. [II] Firms trumpet authenticity labels, yet fraud often follows. Consumers recalibrate expectations.\n\nThe economic toll compounds. __[III] Capital is diverted to litigation.__ Counterfeit operations adapt with entrepreneurial speed.\n\n[IV] The most durable programs braid together verifiable provenance, targeted enforcement, and public education.",
         "questionRange": [
           31,
           40
@@ -4385,7 +4385,7 @@ export const thptExams2 = [
       },
       {
         "id": 23,
-        "text": "'Metabolize' is closest in meaning to ___.",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"Metabolize\"?",
         "options": [
           "glorify",
           "process",
@@ -4463,7 +4463,7 @@ export const thptExams2 = [
       },
       {
         "id": 29,
-        "text": "Which paragraph mentions corporations adopting solidarity style without altering operations?",
+        "text": "Which paragraph mentions corporations adopting solidarity style without altering operations in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -4476,7 +4476,7 @@ export const thptExams2 = [
       },
       {
         "id": 30,
-        "text": "Which paragraph emphasizes the feed's tendency to value speed over endurance?",
+        "text": "Which paragraph emphasizes the feed's tendency to value speed over endurance in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -4502,7 +4502,7 @@ export const thptExams2 = [
       },
       {
         "id": 32,
-        "text": "'Cumulative' mostly means ___.",
+        "text": "The word **Cumulative** in the passage is CLOSEST in meaning to:",
         "options": [
           "fragmented impact",
           "gradual build-up and increasing effect",
@@ -4515,7 +4515,7 @@ export const thptExams2 = [
       },
       {
         "id": 33,
-        "text": "Which best summarises paragraph 2?",
+        "text": "Which best summarises paragraph 2 of the passage?",
         "options": [
           "Despite authentication tools, recurring breaches amplify suspicion.",
           "Once labels are in place, firms rarely face doubt.",
@@ -4606,7 +4606,7 @@ export const thptExams2 = [
       },
       {
         "id": 40,
-        "text": "Which best summarises the passage?",
+        "text": "Which option best summarises the main idea of the entire passage?",
         "options": [
           "Counterfeits are a negligible irritation.",
           "The challenge is consumer indifference.",
@@ -4962,7 +4962,7 @@ export const thptExams2 = [
       },
       {
         "id": 23,
-        "text": "'Benign' is closest in meaning to ___.",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"Benign\"?",
         "options": [
           "dangerous",
           "severe",
@@ -5040,7 +5040,7 @@ export const thptExams2 = [
       },
       {
         "id": 29,
-        "text": "Which paragraph mentions people reinforcing toxic positivity unknowingly?",
+        "text": "Which paragraph mentions people reinforcing toxic positivity unknowingly in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -5053,7 +5053,7 @@ export const thptExams2 = [
       },
       {
         "id": 30,
-        "text": "Which paragraph mentions broader societal consequences?",
+        "text": "Which paragraph mentions broader societal consequences in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -5079,7 +5079,7 @@ export const thptExams2 = [
       },
       {
         "id": 32,
-        "text": "'Imperialism' mostly means ___.",
+        "text": "Vocabulary: Which of the following is CLOSEST in meaning to \"Imperialism\"?",
         "options": [
           "domination by powerful cultures over weaker ones",
           "equitable sharing of resources",
@@ -5092,7 +5092,7 @@ export const thptExams2 = [
       },
       {
         "id": 33,
-        "text": "Which best summarises paragraph 2?",
+        "text": "Which best summarises paragraph 2 of the passage?",
         "options": [
           "Cultural hybridity has been universally welcomed.",
           "Global content guarantees cosmopolitanism.",
@@ -5234,7 +5234,7 @@ export const thptExams2 = [
       {
         "id": "p20-4",
         "title": "Filter Bubbles and Polarization",
-        "text": "The phrase 'filter bubble' has become a rhetorical catch-all. __Yet careful audits suggest a subtler terrain: many users traverse heterogeneous sources.__ **They** — the **bridges** mentioned above — remain central to the debate.\n\nScholars caution against conflating algorithmic curation with ideological indoctrination. While some clusters exhibit self-reinforcing exposure, large-scale studies find limited evidence that personalization alone seals audiences off.\n\nDuring election cycles and crises, these dynamics become more combustible. Counter-measures – labeling, down-ranking – can mitigate harms but raise normative questions.\n\nThe literature urges re-centering institutional responsibility: platforms shape exposure by designing the frictions that enable deliberation.",
+        "text": "The phrase 'filter bubble' has become a rhetorical catch-all. __Yet careful **audits** suggest a subtler terrain: many users traverse heterogeneous sources.__ **They** — the **bridges** mentioned above — remain central to the debate.\n\nScholars caution against conflating algorithmic curation with ideological indoctrination. While some clusters exhibit self-reinforcing exposure, large-scale studies find limited evidence that personalization alone seals audiences off.\n\nDuring election cycles and crises, these dynamics become more combustible. Counter-measures – labeling, down-ranking – can mitigate harms but raise normative questions.\n\nThe literature urges re-centering institutional responsibility: platforms shape exposure by designing the frictions that enable deliberation.",
         "questionRange": [
           23,
           30
@@ -5243,7 +5243,7 @@ export const thptExams2 = [
       {
         "id": "p20-5",
         "title": "Fast Fashion's Environmental Impact",
-        "text": "Fast fashion's appeal rests on speed and novelty. [I] Polyester garments leach microfibers; dye effluents overwhelm rivers. Brands tout capsule 'conscious' lines, yet throughput targets remain unaltered.\n\nSupply chains rely on subcontracting lattices that outstrip oversight. __[II] Claims of circularity, absent durable design, are marketing gloss.__\n\nSocial-media cycles fetishize perpetual newness. [III] Policy can counteract these incentives but enforcement gaps dilute impact.\n\n[IV] Without binding caps on production, sustainability talk risks net-greenwashing. The sector's dependency cannot be reconciled with breakneck turnover unless growth is materially decoupled from throughput.",
+        "text": "Fast fashion's appeal rests on speed and novelty. [I] Polyester garments leach microfibers; dye effluents overwhelm rivers. Brands tout capsule 'conscious' lines, yet throughput targets remain unaltered.\n\nSupply chains rely on subcontracting **lattices** that outstrip oversight. __[II] Claims of circularity, absent durable design, are marketing gloss.__\n\nSocial-media cycles fetishize perpetual newness. [III] Policy can counteract these incentives but enforcement gaps dilute impact.\n\n[IV] Without binding caps on production, sustainability talk risks net-greenwashing. The sector's dependency cannot be reconciled with breakneck turnover unless growth is materially decoupled from throughput.",
         "questionRange": [
           31,
           40
@@ -5539,7 +5539,7 @@ export const thptExams2 = [
       },
       {
         "id": 23,
-        "text": "'Audits' is closest in meaning to ___.",
+        "text": "The word **Audits** in the passage is CLOSEST in meaning to:",
         "options": [
           "denunciations",
           "censures",
@@ -5617,7 +5617,7 @@ export const thptExams2 = [
       },
       {
         "id": 29,
-        "text": "Which paragraph mentions mechanisms to curb misinformation?",
+        "text": "Which paragraph mentions mechanisms to curb misinformation in the passage?",
         "options": [
           "Paragraph 1",
           "Paragraph 2",
@@ -5630,7 +5630,7 @@ export const thptExams2 = [
       },
       {
         "id": 30,
-        "text": "Which paragraph mentions personalization's effects are often exaggerated?",
+        "text": "Which paragraph mentions personalization's effects are often exaggerated in the passage?",
         "options": [
           "Paragraph 4",
           "Paragraph 3",
@@ -5656,7 +5656,7 @@ export const thptExams2 = [
       },
       {
         "id": 32,
-        "text": "'Lattices' mostly means ___.",
+        "text": "The word **Lattices** in the passage is CLOSEST in meaning to:",
         "options": [
           "hierarchical blueprints for promotion",
           "interlocking networks distributing tasks across many actors",
@@ -5669,7 +5669,7 @@ export const thptExams2 = [
       },
       {
         "id": 33,
-        "text": "Which best summarises paragraph 2?",
+        "text": "Which best summarises paragraph 2 of the passage?",
         "options": [
           "The industry's haste encourages subcontracting that evades scrutiny; circularity rhetoric masks absence of durable design.",
           "Transparent procurement has eliminated waste.",
