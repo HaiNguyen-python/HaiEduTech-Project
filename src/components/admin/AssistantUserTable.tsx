@@ -88,67 +88,80 @@ const AssistantUserTable = () => {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="text-base flex items-center justify-between gap-3 flex-wrap">
-          <span>Danh sách học viên & Cộng tác viên</span>
-          <div className="relative w-full sm:w-64">
-            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder="Tìm theo tên..."
-              className="pl-8 h-9 text-sm"
-            />
-          </div>
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        {loading ? (
-          <div className="flex justify-center py-8"><Loader2 className="w-6 h-6 animate-spin text-primary" /></div>
-        ) : (
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Họ tên</TableHead>
-                  <TableHead>Vai trò</TableHead>
-                  <TableHead>Ngày đăng ký</TableHead>
-                  <TableHead className="text-right">Hành động</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filtered.map((r) => (
-                  <TableRow key={r.id}>
-                    <TableCell className="font-medium">{r.full_name || <span className="text-muted-foreground italic">Chưa đặt tên</span>}</TableCell>
-                    <TableCell>
-                      {r.isAssistant ? (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 font-medium">CTV</span>
-                      ) : (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-secondary text-muted-foreground">Student</span>
-                      )}
-                    </TableCell>
-                    <TableCell className="text-sm text-muted-foreground">{new Date(r.created_at).toLocaleDateString("vi-VN")}</TableCell>
-                    <TableCell className="text-right">
-                      {r.isAssistant ? (
-                        <Button size="sm" variant="outline" disabled={busy === r.id} onClick={() => revoke(r.id)} className="gap-1.5">
-                          <UserMinus className="w-3.5 h-3.5" /> Thu hồi CTV
-                        </Button>
-                      ) : (
-                        <Button size="sm" disabled={busy === r.id} onClick={() => appoint(r.id)} className="gap-1.5">
-                          <UserPlus className="w-3.5 h-3.5" /> Bổ nhiệm CTV
-                        </Button>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
-                {filtered.length === 0 && (
-                  <TableRow><TableCell colSpan={4} className="text-center text-sm text-muted-foreground py-6">Không có dữ liệu</TableCell></TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </div>
-        )}
-      </CardContent>
+      <Collapsible open={open} onOpenChange={setOpen}>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base flex items-center justify-between gap-3 flex-wrap">
+            <CollapsibleTrigger className="flex items-center gap-2 group text-left hover:text-primary transition-colors">
+              <Users className="w-4 h-4 text-primary" />
+              <span>Danh sách học viên & Cộng tác viên</span>
+              <span className="text-xs px-2 py-0.5 rounded-full bg-secondary text-muted-foreground font-normal">
+                {rows.length}
+              </span>
+              <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />
+            </CollapsibleTrigger>
+            {open && (
+              <div className="relative w-full sm:w-64">
+                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input
+                  value={q}
+                  onChange={(e) => setQ(e.target.value)}
+                  placeholder="Tìm theo tên..."
+                  className="pl-8 h-9 text-sm"
+                />
+              </div>
+            )}
+          </CardTitle>
+        </CardHeader>
+        <CollapsibleContent>
+          <CardContent>
+            {loading ? (
+              <div className="flex justify-center py-8"><Loader2 className="w-6 h-6 animate-spin text-primary" /></div>
+            ) : (
+              <div className="overflow-x-auto max-h-[60vh] overflow-y-auto">
+                <Table>
+                  <TableHeader className="sticky top-0 bg-card z-10">
+                    <TableRow>
+                      <TableHead>Họ tên</TableHead>
+                      <TableHead>Vai trò</TableHead>
+                      <TableHead>Ngày đăng ký</TableHead>
+                      <TableHead className="text-right">Hành động</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filtered.map((r) => (
+                      <TableRow key={r.id}>
+                        <TableCell className="font-medium">{r.full_name || <span className="text-muted-foreground italic">Chưa đặt tên</span>}</TableCell>
+                        <TableCell>
+                          {r.isAssistant ? (
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 font-medium">CTV</span>
+                          ) : (
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-secondary text-muted-foreground">Student</span>
+                          )}
+                        </TableCell>
+                        <TableCell className="text-sm text-muted-foreground">{new Date(r.created_at).toLocaleDateString("vi-VN")}</TableCell>
+                        <TableCell className="text-right">
+                          {r.isAssistant ? (
+                            <Button size="sm" variant="outline" disabled={busy === r.id} onClick={() => revoke(r.id)} className="gap-1.5">
+                              <UserMinus className="w-3.5 h-3.5" /> Thu hồi CTV
+                            </Button>
+                          ) : (
+                            <Button size="sm" disabled={busy === r.id} onClick={() => appoint(r.id)} className="gap-1.5">
+                              <UserPlus className="w-3.5 h-3.5" /> Bổ nhiệm CTV
+                            </Button>
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                    {filtered.length === 0 && (
+                      <TableRow><TableCell colSpan={4} className="text-center text-sm text-muted-foreground py-6">Không có dữ liệu</TableCell></TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+            )}
+          </CardContent>
+        </CollapsibleContent>
+      </Collapsible>
     </Card>
   );
 };
