@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bell, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useUserRole } from "@/hooks/useUserRole";
 
@@ -61,7 +62,9 @@ const NotificationBell = () => {
     setLoading(false);
   };
 
-  // Initial load + realtime subscription
+  // Initial load + realtime subscription. We listen on INSERT specifically
+  // so a newly inserted notification triggers a toast + bell pulse, and
+  // any other change (mark-as-read) just refetches.
   useEffect(() => {
     if (!user) { setItems([]); return; }
     fetchItems();
@@ -69,7 +72,16 @@ const NotificationBell = () => {
       .channel(`notif_${user.id}`)
       .on(
         "postgres_changes",
-        { event: "*", schema: "public", table: "assignment_notifications", filter: `user_id=eq.${user.id}` },
+        { event: "INSERT", schema: "public", table: "assignment_notifications", filter: `user_id=eq.${user.id}` },
+        (payload) => {
+          const row = payload.new as NotificationRow;
+          setItems((cur) => [row, ...cur].slice(0, 30));
+          toast.success(row.title, { description: row.body?.slice(0, 120) });
+        },
+      )
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "assignment_notifications", filter: `user_id=eq.${user.id}` },
         () => fetchItems(),
       )
       .subscribe();
@@ -110,11 +122,14 @@ const NotificationBell = () => {
         aria-label="Notifications"
         className="relative flex items-center justify-center w-8 h-8 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
       >
-        <Bell className="w-4 h-4" />
+        <Bell className={`w-4 h-4 ${unread > 0 ? "text-rose-500" : ""}`} />
         {unread > 0 && (
-          <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-[16px] px-1 rounded-full bg-rose-500 text-white text-[10px] font-bold leading-[16px] text-center shadow-sm ring-2 ring-background">
-            {unread > 9 ? "9+" : unread}
-          </span>
+          <>
+            <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-[16px] px-1 rounded-full bg-rose-500 text-white text-[10px] font-bold leading-[16px] text-center shadow-sm ring-2 ring-background z-10">
+              {unread > 9 ? "9+" : unread}
+            </span>
+            <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-[16px] rounded-full bg-rose-500 animate-ping opacity-60" />
+          </>
         )}
       </button>
 

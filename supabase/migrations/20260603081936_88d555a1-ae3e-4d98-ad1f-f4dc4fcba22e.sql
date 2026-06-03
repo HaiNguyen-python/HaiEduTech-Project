@@ -1,0 +1,1 @@
+ALTER TABLE public.assignment_notifications REPLICA IDENTITY FULL;
