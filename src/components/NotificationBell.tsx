@@ -122,11 +122,14 @@ const NotificationBell = () => {
         aria-label="Notifications"
         className="relative flex items-center justify-center w-8 h-8 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
       >
-        <Bell className="w-4 h-4" />
+        <Bell className={`w-4 h-4 ${unread > 0 ? "text-rose-500" : ""}`} />
         {unread > 0 && (
-          <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-[16px] px-1 rounded-full bg-rose-500 text-white text-[10px] font-bold leading-[16px] text-center shadow-sm ring-2 ring-background">
-            {unread > 9 ? "9+" : unread}
-          </span>
+          <>
+            <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-[16px] px-1 rounded-full bg-rose-500 text-white text-[10px] font-bold leading-[16px] text-center shadow-sm ring-2 ring-background z-10">
+              {unread > 9 ? "9+" : unread}
+            </span>
+            <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-[16px] rounded-full bg-rose-500 animate-ping opacity-60" />
+          </>
         )}
       </button>
 
