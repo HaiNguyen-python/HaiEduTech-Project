@@ -231,7 +231,7 @@ const Navbar = () => {
       { to: "/programming/cloud-fundamentals", label: t("Cloud Engineer", "Cloud Engineer"), icon: Cloud },
     ] },
     { to: "#prog-software-web-group", label: t("Software & Web Engineering", "Software & Web Engineering"), icon: Code2, groupLabel: "prog-software-web", children: [
-      { to: "/programming?pillar=software-eng", label: t("Software & Web Engineering", "Software & Web Engineering"), icon: Code2 },
+      { to: "/programming/software-eng", label: t("Software & Web Engineering", "Software & Web Engineering"), icon: Code2 },
       { to: "/programming/se-foundations/se-git", label: t("Git Branching Simulator", "Git Branching Simulator"), icon: Workflow },
       { to: "/programming/software-eng-interview", label: t("Software Engineer Interview", "Software Engineer Interview"), icon: MessagesSquare },
     ] },
