@@ -88,30 +88,22 @@ const DailyReportForm = ({ userId, onSubmitted }: Props) => {
       return;
     }
 
-    // 3. Notify all super admins (teacher/admin) so the bell lights up.
+    // 3. Notify all super admins via SECURITY DEFINER RPC.
+    //    Assistants don't have RLS access to list admin user_ids directly,
+    //    so we delegate the fan-out insert to the server.
     try {
       const { data: profile } = await supabase
         .from("profiles")
         .select("full_name")
         .eq("id", userId)
         .maybeSingle();
-      const { data: admins } = await supabase
-        .from("user_roles")
-        .select("user_id")
-        .in("role", ["teacher", "admin"]);
-      const uniqueAdminIds = Array.from(new Set((admins ?? []).map((a: any) => a.user_id)));
-      if (uniqueAdminIds.length > 0) {
-        const name = (profile as any)?.full_name?.trim() || "CTV";
-        const preview = summary.trim().slice(0, 140);
-        await supabase.from("assignment_notifications").insert(
-          uniqueAdminIds.map((adminId) => ({
-            user_id: adminId,
-            title: `📩 Báo cáo mới từ ${name}`,
-            body: preview + (summary.trim().length > 140 ? "…" : ""),
-            route: "/admin-dashboard?tab=assistants",
-          })),
-        );
-      }
+      const name = (profile as any)?.full_name?.trim() || "CTV";
+      const preview = summary.trim().slice(0, 140);
+      await supabase.rpc("notify_super_admins" as any, {
+        p_title: `📩 Báo cáo mới từ ${name}`,
+        p_body: preview + (summary.trim().length > 140 ? "…" : ""),
+        p_route: "/admin-dashboard?tab=assistants",
+      });
     } catch {
       // Non-blocking: report saved even if notify fails.
     }

@@ -107,7 +107,9 @@ const TimeTrackingWidget = ({ userId, onChange }: Props) => {
             Tổng thời lượng
           </div>
           <span className="text-lg font-semibold text-foreground tabular-nums">
-            {durationHours.toFixed(2)} <span className="text-xs font-normal text-muted-foreground">giờ</span>
+            {Math.floor(durationHours)}<span className="text-xs font-normal text-muted-foreground"> giờ </span>
+            {Math.round((durationHours - Math.floor(durationHours)) * 60)}<span className="text-xs font-normal text-muted-foreground"> phút</span>
+            <span className="ml-2 text-xs text-muted-foreground">({durationHours.toFixed(2)}h)</span>
           </span>
         </div>
 

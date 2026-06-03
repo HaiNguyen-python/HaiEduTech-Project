@@ -2964,6 +2964,10 @@ export type Database = {
         }
         Returns: number
       }
+      notify_super_admins: {
+        Args: { p_body: string; p_route?: string; p_title: string }
+        Returns: number
+      }
       read_email_batch: {
         Args: { batch_size: number; queue_name: string; vt: number }
         Returns: {
