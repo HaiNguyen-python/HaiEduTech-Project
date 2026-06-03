@@ -641,6 +641,32 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
           </Button>
         </div>
 
+        {/* Finnish level filter */}
+        {language === "finnish" && (
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs text-muted-foreground font-medium">
+              {t("Cấp độ", "Level")}:
+            </span>
+            {(["all", "A1", "A2", "B1"] as const).map((lv) => (
+              <button
+                key={lv}
+                onClick={() => setLevelFilter(lv)}
+                className={`text-xs px-3 py-1 rounded-full border transition-all ${
+                  levelFilter === lv
+                    ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                    : "bg-background hover:bg-muted border-border"
+                }`}
+              >
+                {lv === "all" ? t("Tất cả", "All") : lv}
+              </button>
+            ))}
+            <span className="text-xs text-muted-foreground ml-1">
+              ({visibleThemes.length} {t("chủ đề", "themes")})
+            </span>
+          </div>
+        )}
+
+
         {/* Badge Panel */}
         <AnimatePresence>
           {showBadgePanel && (
