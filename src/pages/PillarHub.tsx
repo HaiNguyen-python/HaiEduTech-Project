@@ -16,11 +16,20 @@ const PillarHub = () => {
     ? "edtech"
     : location.pathname.endsWith("/nlp")
     ? "nlp"
+    : location.pathname.endsWith("/software-eng")
+    ? "software-eng"
     : null;
 
   const target = useMemo(() => {
     if (!pillarId) return "/programming";
-    const modules = allProgrammingModules.filter((m) => m.course === pillarId);
+    // Software & Web Engineering is built from two specific module ids
+    // rather than a shared `course` key.
+    const modules =
+      pillarId === "software-eng"
+        ? allProgrammingModules.filter(
+            (m) => m.id === "se-foundations" || m.id === "web-dev-foundations",
+          )
+        : allProgrammingModules.filter((m) => m.course === pillarId);
     const firstModule = modules[0];
     const firstLesson = firstModule?.lessons[0];
     if (firstModule && firstLesson) {
