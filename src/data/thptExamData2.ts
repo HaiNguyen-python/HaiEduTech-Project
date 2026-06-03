@@ -1314,7 +1314,7 @@ export const thptExams2 = [
         ],
         "correct": 1,
         "category": "preposition",
-        "explanation": "'align with' = phù hợp với."
+        "explanation": "'align A WITH B' = làm cho A khớp/đồng bộ với B. Câu: 'aligning national procedures WITH regional benchmarks' = đồng bộ hóa quy trình quốc gia với chuẩn khu vực. (at/against/to đều không đi với 'align' trong nghĩa này.)"
       },
       {
         "id": 9,
