@@ -247,5 +247,11 @@ export const getCategory = (word: string): KidsCategory => {
 export const CATEGORY_ORDER: KidsCategory[] = [
   "Animals","Food & Drink","Body, Health & Feelings","People & Jobs","Home & Clothes",
   "School & Stationery","Nature & Weather","Places, Transport & Travel","Sports, Hobbies & Music",
-  "Technology","Time, Numbers, Colors & Shapes","Actions (Verbs)","Descriptions (Adjectives)","Other",
+  "Technology","Time, Numbers, Colors & Shapes","Actions (Verbs)","Descriptions (Adjectives)",
+  "Concepts & Society","Business & Money","Other",
 ];
+
+// ===== Comprehensive recategorization of remaining "Other" words =====
+// Import & merge from extension file for readability.
+import { KIDS_CATEGORY_EXTENSIONS } from "./cambridgeKidsCategoryExtensions";
+for (const [cat, words] of KIDS_CATEGORY_EXTENSIONS) add(cat, words);
