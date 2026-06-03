@@ -75,6 +75,8 @@ const Unsubscribe = lazy(() => import("./pages/Unsubscribe.tsx"));
 const WorldPlayground = lazy(() => import("./pages/WorldPlayground.tsx"));
 const Login = lazy(() => import("./pages/Login.tsx"));
 const Signup = lazy(() => import("./pages/Signup.tsx"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword.tsx"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword.tsx"));
 const AILibrary = lazy(() => import("./pages/AILibrary.tsx"));
 const Vietnamese = lazy(() => import("./pages/Vietnamese.tsx"));
 const VietnameseLessonView = lazy(() => import("./pages/VietnameseLessonView.tsx"));
