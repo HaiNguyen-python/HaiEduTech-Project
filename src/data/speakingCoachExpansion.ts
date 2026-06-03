@@ -151,7 +151,7 @@ export const vietnameseExtraThemes: SpeakingTheme[] = [
 // ---------------- FINNISH ----------------
 export const finnishExtraThemes: SpeakingTheme[] = [
   {
-    id: "fi-restaurant", name: "Ravintolassa", nameVi: "Ở nhà hàng", icon: "🍽️",
+    id: "fi-restaurant", name: "Ravintolassa", nameVi: "Ở nhà hàng", icon: "🍽️", level: "A2",
     sentences: [
       { id: "fi-rs1", text: "Saisinko ruokalistan, kiitos?", translation: "Cho tôi xin thực đơn được không?", difficulty: "easy", theme: "restaurant" },
       { id: "fi-rs2", text: "Otan kahvin ja korvapuustin.", translation: "Tôi gọi một cà phê và một bánh quế.", difficulty: "easy", theme: "restaurant" },
@@ -162,17 +162,17 @@ export const finnishExtraThemes: SpeakingTheme[] = [
     ],
   },
   {
-    id: "fi-shopping", name: "Kaupassa", nameVi: "Đi mua sắm", icon: "🛒",
+    id: "fi-shopping-ext", name: "Kaupassa (jatko)", nameVi: "Đi mua sắm (tiếp)", icon: "🛒", level: "A2",
     sentences: [
-      { id: "fi-sh1", text: "Paljonko tämä maksaa?", translation: "Cái này bao nhiêu?", difficulty: "easy", theme: "shopping" },
-      { id: "fi-sh2", text: "Voinko maksaa kortilla?", translation: "Tôi có thể trả bằng thẻ không?", difficulty: "easy", theme: "shopping" },
-      { id: "fi-sh3", text: "Onko teillä tätä isompaa kokoa?", translation: "Bạn có size lớn hơn không?", difficulty: "medium", theme: "shopping" },
-      { id: "fi-sh4", text: "Haluaisin palauttaa tämän tuotteen.", translation: "Tôi muốn trả lại sản phẩm này.", difficulty: "medium", theme: "shopping" },
-      { id: "fi-sh5", text: "Onko alennusta saatavilla?", translation: "Có giảm giá không?", difficulty: "easy", theme: "shopping" },
+      { id: "fi-shex1", text: "Paljonko tämä maksaa?", translation: "Cái này bao nhiêu?", difficulty: "easy", theme: "shopping" },
+      { id: "fi-shex2", text: "Voinko maksaa kortilla?", translation: "Tôi có thể trả bằng thẻ không?", difficulty: "easy", theme: "shopping" },
+      { id: "fi-shex3", text: "Onko teillä tätä isompaa kokoa?", translation: "Bạn có size lớn hơn không?", difficulty: "medium", theme: "shopping" },
+      { id: "fi-shex4", text: "Haluaisin palauttaa tämän tuotteen.", translation: "Tôi muốn trả lại sản phẩm này.", difficulty: "medium", theme: "shopping" },
+      { id: "fi-shex5", text: "Onko alennusta saatavilla?", translation: "Có giảm giá không?", difficulty: "easy", theme: "shopping" },
     ],
   },
   {
-    id: "fi-weather", name: "Sää", nameVi: "Thời tiết", icon: "⛅",
+    id: "fi-weather", name: "Sää", nameVi: "Thời tiết", icon: "⛅", level: "A1",
     sentences: [
       { id: "fi-w1", text: "Tänään on kaunis päivä.", translation: "Hôm nay là một ngày đẹp.", difficulty: "easy", theme: "weather" },
       { id: "fi-w2", text: "Sataa lunta paljon.", translation: "Tuyết rơi rất nhiều.", difficulty: "easy", theme: "weather" },
@@ -182,13 +182,13 @@ export const finnishExtraThemes: SpeakingTheme[] = [
     ],
   },
   {
-    id: "fi-feelings", name: "Tunteet", nameVi: "Cảm xúc", icon: "💬",
+    id: "fi-feelings-ext", name: "Tunteet (jatko)", nameVi: "Cảm xúc (tiếp)", icon: "💬", level: "A2",
     sentences: [
-      { id: "fi-fl1", text: "Olen iloinen tänään.", translation: "Hôm nay tôi vui.", difficulty: "easy", theme: "feelings" },
-      { id: "fi-fl2", text: "Olen vähän väsynyt.", translation: "Tôi hơi mệt.", difficulty: "easy", theme: "feelings" },
-      { id: "fi-fl3", text: "Mielestäni se on hyvä ajatus.", translation: "Theo tôi đó là ý hay.", difficulty: "medium", theme: "feelings" },
-      { id: "fi-fl4", text: "Olen samaa mieltä kanssasi.", translation: "Tôi đồng ý với bạn.", difficulty: "medium", theme: "feelings" },
-      { id: "fi-fl5", text: "Kiitos avustasi, arvostan sitä todella.", translation: "Cảm ơn sự giúp đỡ của bạn, tôi rất trân trọng.", difficulty: "hard", theme: "feelings" },
+      { id: "fi-flex1", text: "Olen iloinen tänään.", translation: "Hôm nay tôi vui.", difficulty: "easy", theme: "feelings" },
+      { id: "fi-flex2", text: "Olen vähän väsynyt.", translation: "Tôi hơi mệt.", difficulty: "easy", theme: "feelings" },
+      { id: "fi-flex3", text: "Mielestäni se on hyvä ajatus.", translation: "Theo tôi đó là ý hay.", difficulty: "medium", theme: "feelings" },
+      { id: "fi-flex4", text: "Olen samaa mieltä kanssasi.", translation: "Tôi đồng ý với bạn.", difficulty: "medium", theme: "feelings" },
+      { id: "fi-flex5", text: "Kiitos avustasi, arvostan sitä todella.", translation: "Cảm ơn sự giúp đỡ của bạn, tôi rất trân trọng.", difficulty: "hard", theme: "feelings" },
     ],
   },
 ];
