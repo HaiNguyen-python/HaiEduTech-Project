@@ -75,6 +75,8 @@ const Unsubscribe = lazy(() => import("./pages/Unsubscribe.tsx"));
 const WorldPlayground = lazy(() => import("./pages/WorldPlayground.tsx"));
 const Login = lazy(() => import("./pages/Login.tsx"));
 const Signup = lazy(() => import("./pages/Signup.tsx"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword.tsx"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword.tsx"));
 const AILibrary = lazy(() => import("./pages/AILibrary.tsx"));
 const Vietnamese = lazy(() => import("./pages/Vietnamese.tsx"));
 const VietnameseLessonView = lazy(() => import("./pages/VietnameseLessonView.tsx"));
@@ -325,6 +327,8 @@ const App = () => (
             <Route path="/for-vietnamese-children" element={<Navigate to="/world-playground" replace />} />
             <Route path="/login" element={<LazyRoute><Login /></LazyRoute>} />
             <Route path="/signup" element={<LazyRoute><Signup /></LazyRoute>} />
+            <Route path="/forgot-password" element={<LazyRoute><ForgotPassword /></LazyRoute>} />
+            <Route path="/reset-password" element={<LazyRoute><ResetPassword /></LazyRoute>} />
             <Route path="/ai-library" element={<LazyRoute><AILibrary /></LazyRoute>} />
             <Route path="/learn-vietnamese" element={<LazyRoute><Vietnamese /></LazyRoute>} />
             <Route path="/learn-vietnamese/module/:moduleId" element={<LazyRoute><VietnameseLessonView /></LazyRoute>} />
