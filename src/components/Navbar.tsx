@@ -461,6 +461,7 @@ const Navbar = () => {
               {/* Mobile: lang + hamburger - same row as logo */}
               <div className="flex items-center gap-1 lg:hidden">
                 <GlobalSearch variant="icon" />
+                {user && <NotificationBell />}
                 <button onClick={() => setLang(lang === "vi" ? "en" : "vi")} aria-label={lang === "vi" ? "Switch to English" : "Chuyển sang tiếng Việt"} className="text-foreground p-2 rounded-md hover:bg-secondary transition-colors">
                   <Globe className="w-4 h-4" />
                 </button>
