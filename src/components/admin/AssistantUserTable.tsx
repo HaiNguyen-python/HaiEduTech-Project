@@ -20,6 +20,7 @@ const AssistantUserTable = () => {
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState<string | null>(null);
   const [q, setQ] = useState("");
+  const [open, setOpen] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
