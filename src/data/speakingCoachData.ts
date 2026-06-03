@@ -13,6 +13,7 @@ export interface SpeakingTheme {
   name: string;
   nameVi: string;
   icon: string;
+  level?: "A1" | "A2" | "B1";
   sentences: SpeakingSentence[];
 }
 
@@ -270,7 +271,7 @@ const englishThemes: SpeakingTheme[] = [
 // ---- FINNISH ----
 const finnishThemes: SpeakingTheme[] = [
   {
-    id: "fi-greetings", name: "Tervehdykset", nameVi: "Chào hỏi", icon: "👋",
+    id: "fi-greetings", name: "Tervehdykset", nameVi: "Chào hỏi", icon: "👋", level: "A1",
     sentences: [
       { id: "fi-g1", text: "Hei, minun nimeni on Matti.", translation: "Xin chào, tên tôi là Matti.", ipa: "/hei minun nimeni on mɑtːi/", difficulty: "easy", theme: "greetings" },
       { id: "fi-g2", text: "Hauska tavata. Mistä sinä olet kotoisin?", translation: "Rất vui gặp bạn. Bạn đến từ đâu?", difficulty: "easy", theme: "greetings" },
@@ -285,7 +286,7 @@ const finnishThemes: SpeakingTheme[] = [
     ],
   },
   {
-    id: "fi-daily", name: "Arki", nameVi: "Cuộc sống hàng ngày", icon: "🏠",
+    id: "fi-daily", name: "Arki", nameVi: "Cuộc sống hàng ngày", icon: "🏠", level: "A1",
     sentences: [
       { id: "fi-d1", text: "Herään yleensä seitsemältä aamulla.", translation: "Tôi thường thức dậy lúc bảy giờ sáng.", difficulty: "easy", theme: "daily" },
       { id: "fi-d2", text: "Mitä sinä tykkäät tehdä vapaa-ajalla?", translation: "Bạn thích làm gì trong thời gian rảnh?", difficulty: "easy", theme: "daily" },
@@ -300,7 +301,7 @@ const finnishThemes: SpeakingTheme[] = [
     ],
   },
   {
-    id: "fi-services", name: "Palvelut", nameVi: "Dịch vụ công", icon: "🏛️",
+    id: "fi-services", name: "Palvelut", nameVi: "Dịch vụ công", icon: "🏛️", level: "A2",
     sentences: [
       { id: "fi-s1", text: "Haluaisin varata ajan lääkärille.", translation: "Tôi muốn đặt lịch khám bác sĩ.", difficulty: "easy", theme: "services" },
       { id: "fi-s2", text: "Missä on lähin apteekki?", translation: "Hiệu thuốc gần nhất ở đâu?", difficulty: "easy", theme: "services" },
@@ -315,7 +316,7 @@ const finnishThemes: SpeakingTheme[] = [
     ],
   },
   {
-    id: "fi-shopping", name: "Kaupassa", nameVi: "Mua sắm", icon: "🛒",
+    id: "fi-shopping", name: "Kaupassa", nameVi: "Mua sắm", icon: "🛒", level: "A1",
     sentences: [
       { id: "fi-sh1", text: "Paljonko tämä maksaa?", translation: "Cái này giá bao nhiêu?", difficulty: "easy", theme: "shopping" },
       { id: "fi-sh2", text: "Haluaisin ostaa kaksi kiloa omenoita.", translation: "Tôi muốn mua hai cân táo.", difficulty: "easy", theme: "shopping" },
@@ -330,7 +331,7 @@ const finnishThemes: SpeakingTheme[] = [
     ],
   },
   {
-    id: "fi-transport", name: "Liikenne", nameVi: "Giao thông", icon: "🚌",
+    id: "fi-transport", name: "Liikenne", nameVi: "Giao thông", icon: "🚌", level: "A2",
     sentences: [
       { id: "fi-tr1", text: "Anteeksi, missä on linja-autoasema?", translation: "Xin lỗi, bến xe buýt ở đâu?", difficulty: "easy", theme: "transport" },
       { id: "fi-tr2", text: "Haluaisin ostaa menolipun Helsinkiin.", translation: "Tôi muốn mua vé một chiều đến Helsinki.", difficulty: "medium", theme: "transport" },
@@ -883,6 +884,7 @@ const vietnameseThemes: SpeakingTheme[] = [
 import { englishExtraThemes, chineseExtraThemes, vietnameseExtraThemes, finnishExtraThemes } from "./speakingCoachExpansion";
 import { englishExtraThemes2, chineseExtraThemes2, vietnameseExtraThemes2, finnishExtraThemes2 } from "./speakingCoachExpansion2";
 import { englishExtraThemes3, chineseExtraThemes3, vietnameseExtraThemes3, finnishExtraThemes3 } from "./speakingCoachExpansion3";
+import { finnishExtraThemes4 } from "./speakingCoachFinnishExpansion";
 
 export const speakingCoachLanguages: Record<string, SpeakingLanguageConfig> = {
   english: {
@@ -895,7 +897,7 @@ export const speakingCoachLanguages: Record<string, SpeakingLanguageConfig> = {
     lang: "Suomi",
     langCode: "fi",
     speechLang: "fi-FI",
-    themes: [...finnishThemes, ...finnishExtraThemes, ...finnishExtraThemes2, ...finnishExtraThemes3],
+    themes: [...finnishThemes, ...finnishExtraThemes, ...finnishExtraThemes2, ...finnishExtraThemes3, ...finnishExtraThemes4],
   },
   chinese: {
     lang: "中文",
@@ -926,6 +928,10 @@ export const pronunciationTips: Record<string, { sound: string; tip: string; tip
   "/y/": { sound: "y (Finnish)", tip: "Like 'ee' but with rounded lips", tipVi: "Như 'i' nhưng tròn môi" },
   "/ø/": { sound: "ö", tip: "Like 'e' but with rounded lips", tipVi: "Như 'ê' nhưng tròn môi" },
   "/æ/fi": { sound: "ä", tip: "Like English 'a' in 'cat', open and front", tipVi: "Như 'e' mở rộng, âm trước" },
+  "/aa/fi": { sound: "aa (vowel length)", tip: "Hold the vowel twice as long: 'tuli' (fire) vs 'tuuli' (wind)", tipVi: "Giữ nguyên âm dài gấp đôi: tuli (lửa) vs tuuli (gió) — đổi nghĩa hoàn toàn" },
+  "/kk/fi": { sound: "kk (geminate)", tip: "Hold the consonant twice as long: 'kuka' (who) vs 'kukka' (flower)", tipVi: "Phụ âm đôi giữ gấp đôi thời lượng: kuka (ai) vs kukka (bông hoa)" },
+  "/stress/fi": { sound: "Trọng âm", tip: "Stress is ALWAYS on the first syllable in Finnish, no exceptions", tipVi: "Trọng âm LUÔN ở âm tiết đầu — không có ngoại lệ" },
+  "/harmony/fi": { sound: "Vowel harmony", tip: "Back vowels (a/o/u) and front vowels (ä/ö/y) cannot mix in the same word", tipVi: "Nguyên âm sau (a/o/u) và nguyên âm trước (ä/ö/y) không đứng cùng từ — chọn đuôi đúng" },
   // Chinese tones
   "1st": { sound: "ˉ high level", tip: "Keep voice high and steady, like singing a high note", tipVi: "Giữ giọng cao và đều, như hát nốt cao" },
   "2nd": { sound: "ˊ rising", tip: "Voice rises from mid to high, like asking 'huh?'", tipVi: "Giọng đi từ trung lên cao, như hỏi 'hả?'" },

@@ -218,7 +218,7 @@ export const vietnameseExtraThemes3: SpeakingTheme[] = [
 // ============================ FINNISH ============================
 export const finnishExtraThemes3: SpeakingTheme[] = [
   {
-    id: "fi-money", name: "Raha (Money)", nameVi: "Tiền bạc", icon: "💰",
+    id: "fi-money", name: "Raha (Money)", nameVi: "Tiền bạc", icon: "💰", level: "B1",
     sentences: [
       { id: "fi-m1", text: "Paljonko tämä maksaa?", translation: "Cái này giá bao nhiêu?", difficulty: "easy", theme: "money" },
       { id: "fi-m2", text: "Voinko maksaa kortilla?", translation: "Tôi trả bằng thẻ được không?", difficulty: "easy", theme: "money" },
@@ -229,7 +229,7 @@ export const finnishExtraThemes3: SpeakingTheme[] = [
     ],
   },
   {
-    id: "fi-emotions", name: "Tunteet (Feelings)", nameVi: "Cảm xúc", icon: "😊",
+    id: "fi-emotions", name: "Tunteet (Feelings)", nameVi: "Cảm xúc", icon: "😊", level: "B1",
     sentences: [
       { id: "fi-e1", text: "Olen tänään todella iloinen.", translation: "Hôm nay tôi rất vui.", difficulty: "easy", theme: "emotions" },
       { id: "fi-e2", text: "Olen vähän hermostunut.", translation: "Tôi hơi căng thẳng.", difficulty: "easy", theme: "emotions" },
@@ -240,7 +240,7 @@ export const finnishExtraThemes3: SpeakingTheme[] = [
     ],
   },
   {
-    id: "fi-jobinterview", name: "Työhaastattelu (Job Interview)", nameVi: "Phỏng vấn xin việc", icon: "💼",
+    id: "fi-jobinterview", name: "Työhaastattelu (Job Interview)", nameVi: "Phỏng vấn xin việc", icon: "💼", level: "B1",
     sentences: [
       { id: "fi-j1", text: "Kerro lyhyesti itsestäsi.", translation: "Hãy kể ngắn gọn về bản thân.", difficulty: "easy", theme: "job" },
       { id: "fi-j2", text: "Miksi olet kiinnostunut tästä työstä?", translation: "Tại sao bạn quan tâm đến công việc này?", difficulty: "medium", theme: "job" },
@@ -251,27 +251,27 @@ export const finnishExtraThemes3: SpeakingTheme[] = [
     ],
   },
   {
-    id: "fi-shopping", name: "Ostokset (Shopping)", nameVi: "Mua sắm", icon: "🛍️",
+    id: "fi-shopping-adv", name: "Ostokset (Shopping)", nameVi: "Mua sắm nâng cao", icon: "🛍️", level: "B1",
     sentences: [
-      { id: "fi-sh1", text: "Onko teillä tätä pienemmässä koossa?", translation: "Bạn có cái này size nhỏ hơn không?", difficulty: "easy", theme: "shopping" },
-      { id: "fi-sh2", text: "Voinko palauttaa tämän tuotteen?", translation: "Tôi trả lại sản phẩm này được không?", difficulty: "medium", theme: "shopping" },
-      { id: "fi-sh3", text: "Verkkokauppa on yhä suositumpaa.", translation: "Mua sắm online ngày càng phổ biến.", difficulty: "medium", theme: "shopping" },
-      { id: "fi-sh4", text: "Luen arvostelut ennen ostamista.", translation: "Tôi đọc đánh giá trước khi mua.", difficulty: "hard", theme: "shopping" },
-      { id: "fi-sh5", text: "Tämä tuote on alennuksessa tällä viikolla.", translation: "Sản phẩm này đang giảm giá tuần này.", difficulty: "medium", theme: "shopping" },
+      { id: "fi-shadv1", text: "Onko teillä tätä pienemmässä koossa?", translation: "Bạn có cái này size nhỏ hơn không?", difficulty: "easy", theme: "shopping" },
+      { id: "fi-shadv2", text: "Voinko palauttaa tämän tuotteen?", translation: "Tôi trả lại sản phẩm này được không?", difficulty: "medium", theme: "shopping" },
+      { id: "fi-shadv3", text: "Verkkokauppa on yhä suositumpaa.", translation: "Mua sắm online ngày càng phổ biến.", difficulty: "medium", theme: "shopping" },
+      { id: "fi-shadv4", text: "Luen arvostelut ennen ostamista.", translation: "Tôi đọc đánh giá trước khi mua.", difficulty: "hard", theme: "shopping" },
+      { id: "fi-shadv5", text: "Tämä tuote on alennuksessa tällä viikolla.", translation: "Sản phẩm này đang giảm giá tuần này.", difficulty: "medium", theme: "shopping" },
     ],
   },
   {
-    id: "fi-health", name: "Terveys (Health)", nameVi: "Sức khỏe", icon: "🏥",
+    id: "fi-health-adv", name: "Terveys (Health)", nameVi: "Sức khỏe", icon: "🏥", level: "B1",
     sentences: [
-      { id: "fi-h1", text: "Minulla on päänsärky ja kuumetta.", translation: "Tôi đau đầu và sốt.", difficulty: "easy", theme: "health" },
-      { id: "fi-h2", text: "Haluaisin varata ajan lääkärille.", translation: "Tôi muốn đặt lịch khám bác sĩ.", difficulty: "medium", theme: "health" },
-      { id: "fi-h3", text: "Ottakaa tätä lääkettä kahdesti päivässä.", translation: "Uống thuốc này hai lần một ngày.", difficulty: "medium", theme: "health" },
-      { id: "fi-h4", text: "Säännöllinen liikunta on hyväksi terveydelle.", translation: "Tập thể dục thường xuyên tốt cho sức khỏe.", difficulty: "medium", theme: "health" },
-      { id: "fi-h5", text: "Mielenterveys on yhtä tärkeä kuin fyysinen terveys.", translation: "Sức khỏe tinh thần quan trọng như thể chất.", difficulty: "hard", theme: "health" },
+      { id: "fi-hadv1", text: "Minulla on päänsärky ja kuumetta.", translation: "Tôi đau đầu và sốt.", difficulty: "easy", theme: "health" },
+      { id: "fi-hadv2", text: "Haluaisin varata ajan lääkärille.", translation: "Tôi muốn đặt lịch khám bác sĩ.", difficulty: "medium", theme: "health" },
+      { id: "fi-hadv3", text: "Ottakaa tätä lääkettä kahdesti päivässä.", translation: "Uống thuốc này hai lần một ngày.", difficulty: "medium", theme: "health" },
+      { id: "fi-hadv4", text: "Säännöllinen liikunta on hyväksi terveydelle.", translation: "Tập thể dục thường xuyên tốt cho sức khỏe.", difficulty: "medium", theme: "health" },
+      { id: "fi-hadv5", text: "Mielenterveys on yhtä tärkeä kuin fyysinen terveys.", translation: "Sức khỏe tinh thần quan trọng như thể chất.", difficulty: "hard", theme: "health" },
     ],
   },
   {
-    id: "fi-news", name: "Uutiset (News)", nameVi: "Tin tức", icon: "📰",
+    id: "fi-news", name: "Uutiset (News)", nameVi: "Tin tức", icon: "📰", level: "B1",
     sentences: [
       { id: "fi-n1", text: "Kuulitko tämän aamun uutiset?", translation: "Bạn nghe tin sáng nay chưa?", difficulty: "easy", theme: "news" },
       { id: "fi-n2", text: "Sosiaalinen media levittää uutisia nopeasti.", translation: "Mạng xã hội lan tin rất nhanh.", difficulty: "medium", theme: "news" },
