@@ -541,7 +541,7 @@ const AdminDashboard = () => {
                   { key: "overview", label: t("Tổng quan", "Overview"), icon: Globe, first: "overview" },
                   { key: "students", label: t("Học sinh", "Students"), icon: Users, first: "students" },
                   { key: "learning", label: t("Học tập & AI", "Learning & AI"), icon: Brain, first: "rl-engine" },
-                  { key: "operations", label: t("Vận hành", "Operations"), icon: DollarSign, first: "income" },
+                  { key: "operations", label: t("Vận hành", "Operations"), icon: DollarSign, first: isPureAssistant ? "assistants" : "income" },
                 ] as const).map((g) => {
                   const Icon = g.icon;
                   const active = tabGroup === g.key;
