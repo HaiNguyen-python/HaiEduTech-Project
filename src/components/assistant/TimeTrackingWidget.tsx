@@ -1,154 +1,120 @@
-import { useEffect, useState, useCallback } from "react";
+import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Play, Square, Clock, Loader2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { CalendarClock, Loader2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
-
-// Hourly rate (VND) is enforced by the DB trigger; this constant is only
-// for live preview while clocked in.
-const HOURLY_RATE = 50000;
-
-interface ActiveLog {
-  id: string;
-  clock_in: string;
-}
-
-const fmtVnd = (n: number) =>
-  new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND", maximumFractionDigits: 0 }).format(n);
-
-const fmtDuration = (sec: number) => {
-  const h = Math.floor(sec / 3600);
-  const m = Math.floor((sec % 3600) / 60);
-  const s = sec % 60;
-  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
-};
 
 interface Props {
   userId: string;
   onChange?: () => void;
 }
 
+// Returns a `datetime-local` formatted string for the current moment, in local TZ.
+const nowLocal = () => {
+  const d = new Date();
+  d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+  return d.toISOString().slice(0, 16);
+};
+
 const TimeTrackingWidget = ({ userId, onChange }: Props) => {
-  const [active, setActive] = useState<ActiveLog | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [clockIn, setClockIn] = useState<string>(nowLocal());
+  const [clockOut, setClockOut] = useState<string>(nowLocal());
   const [submitting, setSubmitting] = useState(false);
-  const [now, setNow] = useState(Date.now());
 
-  const fetchActive = useCallback(async () => {
-    const { data } = await supabase
-      .from("time_logs")
-      .select("id, clock_in")
-      .eq("user_id", userId)
-      .eq("status", "active")
-      .order("clock_in", { ascending: false })
-      .limit(1)
-      .maybeSingle();
-    setActive(data as ActiveLog | null);
-    setLoading(false);
-  }, [userId]);
+  const durationHours = (() => {
+    if (!clockIn || !clockOut) return 0;
+    const inMs = new Date(clockIn).getTime();
+    const outMs = new Date(clockOut).getTime();
+    if (Number.isNaN(inMs) || Number.isNaN(outMs)) return 0;
+    return Math.max(0, (outMs - inMs) / 3600000);
+  })();
 
-  useEffect(() => {
-    fetchActive();
-  }, [fetchActive]);
-
-  // Live tick every second when clocked in
-  useEffect(() => {
-    if (!active) return;
-    const t = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(t);
-  }, [active]);
-
-  const handleStart = async () => {
-    setSubmitting(true);
-    const { error } = await supabase
-      .from("time_logs")
-      .insert({ user_id: userId, clock_in: new Date().toISOString() });
-    setSubmitting(false);
-    if (error) {
-      toast.error("Không thể bắt đầu", { description: error.message });
+  const handleSubmit = async () => {
+    if (!clockIn || !clockOut) {
+      toast.error("Vui lòng nhập thời gian bắt đầu và kết thúc");
       return;
     }
-    toast.success("Đã bắt đầu phiên làm việc!");
-    fetchActive();
-    onChange?.();
-  };
-
-  const handleStop = async () => {
-    if (!active) return;
-    setSubmitting(true);
-    const { error } = await supabase
-      .from("time_logs")
-      .update({ clock_out: new Date().toISOString() })
-      .eq("id", active.id);
-    setSubmitting(false);
-    if (error) {
-      toast.error("Không thể kết thúc", { description: error.message });
+    const inDate = new Date(clockIn);
+    const outDate = new Date(clockOut);
+    if (outDate <= inDate) {
+      toast.error("Thời gian kết thúc phải sau thời gian bắt đầu");
       return;
     }
-    toast.success("Đã kết thúc và tính lương!");
-    setActive(null);
+    if (outDate.getTime() - inDate.getTime() > 16 * 3600 * 1000) {
+      toast.error("Một phiên không thể dài hơn 16 giờ");
+      return;
+    }
+    setSubmitting(true);
+    // Server-side trigger computes duration_hours, salary and status.
+    const { error } = await supabase.from("time_logs").insert({
+      user_id: userId,
+      clock_in: inDate.toISOString(),
+      clock_out: outDate.toISOString(),
+    });
+    setSubmitting(false);
+    if (error) {
+      toast.error("Không thể ghi nhận phiên làm việc", { description: error.message });
+      return;
+    }
+    toast.success("Đã ghi nhận phiên làm việc");
+    setClockIn(nowLocal());
+    setClockOut(nowLocal());
     onChange?.();
   };
-
-  if (loading) {
-    return (
-      <Card>
-        <CardContent className="p-6 flex items-center justify-center">
-          <Loader2 className="w-6 h-6 animate-spin text-primary" />
-        </CardContent>
-      </Card>
-    );
-  }
-
-  const elapsedSec = active ? Math.max(0, Math.floor((now - new Date(active.clock_in).getTime()) / 1000)) : 0;
-  const previewSalary = active ? (elapsedSec / 3600) * HOURLY_RATE : 0;
 
   return (
-    <Card className="border-border/60 bg-gradient-to-br from-primary/5 via-background to-emerald-500/5">
-      <CardContent className="p-6">
-        <div className="flex items-center gap-2 mb-3">
-          <Clock className="w-5 h-5 text-primary" />
-          <h2 className="text-lg font-semibold text-foreground">Chấm Công / Time Tracking</h2>
+    <Card className="border-border/60 overflow-hidden">
+      <CardHeader className="bg-gradient-to-r from-primary/5 via-background to-emerald-500/5 border-b border-border/60">
+        <CardTitle className="text-base flex items-center gap-2">
+          <CalendarClock className="w-4 h-4 text-primary" />
+          Ghi nhận phiên làm việc
+        </CardTitle>
+        <p className="text-xs text-muted-foreground mt-1">
+          Tự điền khoảng thời gian bạn đã làm việc trong ngày. Hệ thống tự tổng hợp công và lương vào bảng tháng.
+        </p>
+      </CardHeader>
+      <CardContent className="p-6 space-y-5">
+        <div className="grid sm:grid-cols-2 gap-4">
+          <div className="space-y-1.5">
+            <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+              Bắt đầu
+            </label>
+            <Input
+              type="datetime-local"
+              value={clockIn}
+              onChange={(e) => setClockIn(e.target.value)}
+              className="font-mono"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+              Kết thúc
+            </label>
+            <Input
+              type="datetime-local"
+              value={clockOut}
+              onChange={(e) => setClockOut(e.target.value)}
+              className="font-mono"
+            />
+          </div>
         </div>
 
-        {active ? (
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <p className="text-xs text-muted-foreground">Thời gian đang làm</p>
-                <p className="text-3xl font-bold font-mono tabular-nums text-primary">{fmtDuration(elapsedSec)}</p>
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground">Lương dự kiến (50.000đ/giờ)</p>
-                <p className="text-3xl font-bold tabular-nums text-emerald-600">{fmtVnd(previewSalary)}</p>
-              </div>
-            </div>
-            <Button
-              onClick={handleStop}
-              disabled={submitting}
-              size="lg"
-              variant="destructive"
-              className="w-full gap-2"
-            >
-              <Square className="w-5 h-5 fill-current" /> Kết Thúc Công Việc
-            </Button>
+        <div className="flex items-center justify-between rounded-lg border border-border/60 bg-secondary/40 px-4 py-3">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Sparkles className="w-4 h-4 text-primary" />
+            Tổng thời lượng
           </div>
-        ) : (
-          <div className="space-y-3">
-            <p className="text-sm text-muted-foreground">
-              Bấm Bắt Đầu để mở phiên làm việc mới. Hệ thống sẽ tự tính giờ và lương theo mức <b>50.000 VND/giờ</b>.
-            </p>
-            <Button
-              onClick={handleStart}
-              disabled={submitting}
-              size="lg"
-              className="w-full gap-2 bg-emerald-600 hover:bg-emerald-700 text-white"
-            >
-              <Play className="w-5 h-5 fill-current" /> Bắt Đầu Làm Việc
-            </Button>
-          </div>
-        )}
+          <span className="text-lg font-semibold text-foreground tabular-nums">
+            {durationHours.toFixed(2)} <span className="text-xs font-normal text-muted-foreground">giờ</span>
+          </span>
+        </div>
+
+        <Button onClick={handleSubmit} disabled={submitting || durationHours <= 0} size="lg" className="w-full gap-2">
+          {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <CalendarClock className="w-4 h-4" />}
+          Lưu phiên làm việc
+        </Button>
       </CardContent>
     </Card>
   );

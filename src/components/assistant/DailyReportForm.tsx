@@ -82,13 +82,41 @@ const DailyReportForm = ({ userId, onSubmitted }: Props) => {
       screenshot_urls: uploadedPaths,
     });
 
-    setSubmitting(false);
-
     if (insErr) {
+      setSubmitting(false);
       toast.error("Gửi báo cáo thất bại", { description: insErr.message });
       return;
     }
 
+    // 3. Notify all super admins (teacher/admin) so the bell lights up.
+    try {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("full_name")
+        .eq("id", userId)
+        .maybeSingle();
+      const { data: admins } = await supabase
+        .from("user_roles")
+        .select("user_id")
+        .in("role", ["teacher", "admin"]);
+      const uniqueAdminIds = Array.from(new Set((admins ?? []).map((a: any) => a.user_id)));
+      if (uniqueAdminIds.length > 0) {
+        const name = (profile as any)?.full_name?.trim() || "CTV";
+        const preview = summary.trim().slice(0, 140);
+        await supabase.from("assignment_notifications").insert(
+          uniqueAdminIds.map((adminId) => ({
+            user_id: adminId,
+            title: `📩 Báo cáo mới từ ${name}`,
+            body: preview + (summary.trim().length > 140 ? "…" : ""),
+            route: "/admin-dashboard?tab=assistants",
+          })),
+        );
+      }
+    } catch {
+      // Non-blocking: report saved even if notify fails.
+    }
+
+    setSubmitting(false);
     toast.success("Gửi báo cáo thành công!");
     setSummary("");
     setFeedback("");
