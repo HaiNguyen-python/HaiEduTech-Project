@@ -2,7 +2,7 @@
 // Extracted from PDF practice tests (B2-C2 level)
 import { ThptExam } from "./thptExamData";
 
-export const thptExams2: ThptExam[] = [
+export const thptExams2 = [
   {
     "id": "thpt-11",
     "title": "Đề thi thử số 11",
@@ -41,7 +41,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p11-4",
         "title": "Slacktivism and Digital Activism",
-        "text": "Slacktivism is often invoked as a disparaging term for online activism considered lazy or ineffective. Yet many analysts insist that such labeling obscures the constructive role of micro-activism.\n\nHenrik Serup Christensen found no support for the substitution thesis. His analysis indicates that the Internet invigorates real-world mobilization rather than diminishing it. Small gestures function as symbolic openings into citizenship.\n\nOrganizers view micro-gestures as strategically useful. According to Amy Sample Ward, minor actions signal attentiveness. If such behavior is dismissed as meaningless, it may deter recruits.\n\nSocial movements progress through a \"ladder of engagement.\" The Egyptian community \"We Are All Khaled Said\" exemplifies how online outrage can crystallize into organized dissent.",
+        "text": "Slacktivism is often invoked as a disparaging term for online activism considered lazy or ineffective. Yet many analysts insist that such labeling obscures the constructive role of micro-activism.\n\nHenrik Serup Christensen found no support for the substitution thesis. __His analysis indicates that the Internet invigorates real-world mobilization rather than diminishing it.__ Small gestures function as symbolic openings into citizenship.\n\nOrganizers view micro-gestures as strategically useful. According to Amy Sample Ward, minor actions signal attentiveness. If such behavior is dismissed as meaningless, it may deter recruits.\n\nSocial movements progress through a \"ladder of engagement.\" The Egyptian community \"We Are All Khaled Said\" exemplifies how online outrage can crystallize into organized dissent.",
         "questionRange": [
           23,
           30
@@ -50,7 +50,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p11-5",
         "title": "AI Washing: Hype Over Reality",
-        "text": "AI has become a marketing darling. [I] AI washing refers to companies overstating or fabricating the presence of artificial intelligence in their products.\n\nFor consumers and investors, the danger lies in the opacity of these claims. [II] Vague slogans abound, yet hard evidence is rarely forthcoming. Products frequently fail to adapt or improve – hallmarks of authentic machine learning.\n\nThe stakes extend beyond marketing spin. [III] Genuine researchers' work is buried by misleading hype. Regulators such as the FTC have begun to intervene.\n\n[IV] History offers a cautionary script: just as the dot-com bubble punished overzealous startups, so too will AI washing exact its toll. Leadership is not shouting \"AI!\" the loudest but having the courage to admit imperfection while building trust through verifiable progress.",
+        "text": "AI has become a marketing darling. [I] AI washing refers to companies overstating or fabricating the presence of artificial intelligence in their products.\n\nFor consumers and investors, the danger lies in the opacity of these claims. [II] Vague slogans abound, yet hard evidence is rarely forthcoming. Products frequently fail to adapt or improve – hallmarks of authentic machine learning.\n\nThe stakes extend beyond marketing spin. [III] Genuine researchers' work is buried by misleading hype. Regulators such as the FTC have begun to intervene.\n\n[IV] History offers a cautionary script: just as the dot-com bubble punished overzealous startups, so too will AI washing exact its toll. __Leadership is not shouting \"AI!\"__ the loudest but having the courage to admit imperfection while building trust through verifiable progress.",
         "questionRange": [
           31,
           40
@@ -618,7 +618,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p12-4",
         "title": "Virtue Signaling in Marketing",
-        "text": "Contemporary marketing discourse scrutinizes virtue signaling. Modern consumers demand transparency. This shift has prompted organizations to integrate values-based messaging.\n\nVirtue signaling encompasses the deliberate articulation of moral positions. The distinction between authentic commitment and opportunistic positioning remains precarious.\n\nThe proliferation during the pandemic illustrated both potential and pitfalls. Generic messaging frequently appeared formulaic.\n\nSuccessful virtue signaling requires comprehensive integration. Contemporary consumers possess unprecedented access to information.",
+        "text": "Contemporary marketing discourse scrutinizes virtue signaling. Modern consumers demand transparency. This shift has prompted organizations to integrate values-based messaging.\n\nVirtue signaling encompasses the deliberate articulation of moral positions. The distinction between authentic commitment and opportunistic positioning remains precarious.\n\nThe proliferation during the pandemic illustrated both potential and pitfalls. __Generic messaging frequently appeared formulaic.__\n\nSuccessful virtue signaling requires comprehensive integration. Contemporary consumers possess unprecedented access to information.",
         "questionRange": [
           23,
           30
@@ -627,7 +627,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p12-5",
         "title": "The Greek Debt Crisis and Doom Loops",
-        "text": "The Greek debt crisis of 2009–2010 provides a textbook doom loop illustration. [I] The revelation undermined trust and infected perceptions across the eurozone. The spiral was vicious.\n\nInvestor fear translated into systemic banking crisis. [II] The EU established the ESFS. Yet remedies often intensified social costs.\n\nThe concept extends beyond sovereign debt. The 1929 crash exemplified accelerating downward spirals. [III] U.S. banks in 2022 suffered multi-billion-dollar bond losses.\n\nJim Collins popularized the \"flywheel effect\" as the opposite. [IV] Understanding triggers is critical to preventing systemic collapse.",
+        "text": "The Greek debt crisis of 2009–2010 provides a textbook doom loop illustration. [I] The revelation undermined trust and infected perceptions across the eurozone. The spiral was vicious.\n\nInvestor fear translated into systemic banking crisis. [II] The EU established the ESFS. Yet remedies often intensified social costs.\n\nThe concept extends beyond sovereign debt. The 1929 crash exemplified accelerating downward spirals. [III] U.S. banks in 2022 suffered multi-billion-dollar bond losses.\n\nJim Collins popularized the \"flywheel effect\" as the opposite. __[IV] Understanding triggers is critical to preventing systemic collapse.__",
         "questionRange": [
           31,
           40
@@ -1195,7 +1195,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p13-4",
         "title": "Campus Speech Policies",
-        "text": "Campus speech policies have often been justified as safeguards against harm. In some instances, this meant denying microphones to explicit bigotry; in others, the definition expanded.\n\nOver the past decade, campaigns to sanction academics surged. Conservatives styled themselves defenders of unfettered speech, while progressives curbed expression in the name of inclusion. Yet these alignments have proved unstable.\n\nIn recent months, wars abroad and protests at home have inverted familiar talking points. The dispute pivots on who names harm.\n\nThe larger lesson: coalitions recalibrate speech ethics when expressive costs weigh against their own side. The debate is not settled but cyclical.",
+        "text": "Campus speech policies have often been justified as safeguards against harm. In some instances, this meant denying microphones to explicit bigotry; in others, the definition expanded.\n\nOver the past decade, campaigns to sanction academics surged. __Conservatives styled themselves defenders of unfettered speech, while progressives curbed expression in the name of inclusion.__ Yet these alignments have proved unstable.\n\nIn recent months, wars abroad and protests at home have inverted familiar talking points. The dispute pivots on who names harm.\n\nThe larger lesson: coalitions recalibrate speech ethics when expressive costs weigh against their own side. The debate is not settled but cyclical.",
         "questionRange": [
           23,
           30
@@ -1204,7 +1204,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p13-5",
         "title": "Fossil Fuels and Carbon-Neutral Claims",
-        "text": "Some firms market 'carbon-neutral' fuels by pairing combustion with offsets. [I] Investigations have found offset schemes unreliable.\n\nThe supply chain emits criteria pollutants – particulate matter, nitrogen oxides, benzene – linked to heart and lung disease. [II] Roughly 18 million Americans live within a mile of an active oil or gas well.\n\nHarms distribute unevenly. [III] Between 2011 and 2019, 17% of conflicts worldwide were tied to oil and gas. Hispanic residents experienced more flaring than white residents.\n\nBiodiversity is at risk: 327 blocks span ~108 million hectares in the Amazon. [IV] Advocates urge planners to look past 'carbon tunnel vision'.",
+        "text": "Some firms market 'carbon-neutral' fuels by pairing combustion with offsets. [I] Investigations have found offset schemes unreliable.\n\nThe supply chain emits criteria pollutants – particulate matter, nitrogen oxides, benzene – linked to heart and lung disease. [II] Roughly 18 million Americans live within a mile of an active oil or gas well.\n\nHarms distribute unevenly. __[III] Between 2011 and 2019, 17% of conflicts worldwide were tied to oil and gas.__ Hispanic residents experienced more flaring than white residents.\n\nBiodiversity is at risk: 327 blocks span ~108 million hectares in the Amazon. [IV] Advocates urge planners to look past 'carbon tunnel vision'.",
         "questionRange": [
           31,
           40
@@ -1772,7 +1772,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p14-4",
         "title": "Woke Capitalism and Corporate Strategy",
-        "text": "Nowadays strategy discourse scrutinizes how corporations instrumentalize moral vocabularies. The wager is double: values talk can recruit talent and inoculate brands.\n\nCritics argue the boundary between conviction and opportunism is precarious. \"Purpose\" copy can launder routine commerce.\n\nCampaigns that cue solidarity can boomerang when audiences detect performance without substance. Only those embedding redistributive commitments avoid the charge of performativity.\n\nDigital traceability has collapsed corporate opacity. This compresses the time in which firms can reconcile talk and practice.",
+        "text": "Nowadays strategy discourse scrutinizes how corporations instrumentalize moral vocabularies. The wager is double: values talk can recruit talent and inoculate brands.\n\nCritics argue the boundary between conviction and opportunism is precarious. \"Purpose\" copy can launder routine commerce.\n\nCampaigns that cue solidarity can boomerang when audiences detect performance without substance. __Only those embedding redistributive commitments avoid the charge of performativity.__\n\nDigital traceability has collapsed corporate opacity. This compresses the time in which firms can reconcile talk and practice.",
         "questionRange": [
           23,
           30
@@ -1781,7 +1781,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p14-5",
         "title": "Plastic Bag Shaming – Vancouver Grocer",
-        "text": "In 2019, a Vancouver grocer trialed an unconventional nudge: embarrassing bag names. [I] The wager was sociological: embarrassment might make externalities suddenly proximate.\n\nThe experiment unfolded against a broader deluge of plastic waste. [II] Plastic shaming foregrounded ritual: the choreography of queues and packaging choices.\n\nSome shoppers treated bags as ironic collectibles. [III] Platforms amplified both camps. Retailers faced a double bind.\n\nThe more durable pathway braided symbolism with infrastructure. [IV] Ritual and rule converge – habits scaffolded by systems.",
+        "text": "In 2019, a Vancouver grocer trialed an unconventional nudge: embarrassing bag names. [I] The wager was sociological: embarrassment might make externalities suddenly proximate.\n\nThe experiment unfolded against a broader deluge of plastic waste. [II] Plastic shaming foregrounded ritual: the choreography of queues and packaging choices.\n\nSome shoppers treated bags as ironic collectibles. __[III] Platforms amplified both camps.__ Retailers faced a double bind.\n\nThe more durable pathway braided symbolism with infrastructure. [IV] Ritual and rule converge – habits scaffolded by systems.",
         "questionRange": [
           31,
           40
@@ -2349,7 +2349,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p15-4",
         "title": "Digital Colonialism and Data Governance",
-        "text": "Critics of 'digital colonialism' argue that data extraction replicates older patterns of plunder. Platform capitalisms consolidate market power through proprietary standards.\n\nRegional reformers propose aligning African data governance with robust international norms. Harmonisation is constitutive of fairness.\n\nYet critics warn that universal templates can smuggle Northern priorities. Hence, capacity-building must precede compliance.\n\nA pragmatic compromise has emerged: coalitions co-design policy sandboxes.",
+        "text": "Critics of 'digital colonialism' argue that data extraction replicates older patterns of plunder. Platform capitalisms consolidate market power through proprietary standards.\n\nRegional reformers propose aligning African data governance with robust international norms. Harmonisation is constitutive of fairness.\n\nYet critics warn that universal templates can smuggle Northern priorities. __Hence, capacity-building must precede compliance.__\n\nA pragmatic compromise has emerged: coalitions co-design policy sandboxes.",
         "questionRange": [
           23,
           30
@@ -2358,7 +2358,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p15-5",
         "title": "The Workplace Metaverse",
-        "text": "The workplace metaverse promises immersion but inherits liabilities. [I] Early adopters report cognitive load from continuous presence.\n\nEconomic behaviour maps onto offline norms. [II] If every meeting is stagecraft, demands for polish may migrate from wardrobes to SDKs.\n\nResearch on virtual-meeting fatigue implicates constant self-view. [III] Organisations report mixed outcomes.\n\nDesigners test 'low-stakes modes.' [IV] Because tooling can encode power, ethics of interface defaults is a governance question.",
+        "text": "The workplace metaverse promises immersion but inherits liabilities. [I] Early adopters report cognitive load from continuous presence.\n\nEconomic behaviour maps onto offline norms. [II] If every meeting is stagecraft, demands for polish may migrate from wardrobes to SDKs.\n\nResearch on virtual-meeting fatigue implicates constant self-view. [III] Organisations report mixed outcomes.\n\nDesigners test 'low-stakes modes.' __[IV] Because tooling can encode power, ethics of interface defaults is a governance question.__",
         "questionRange": [
           31,
           40
@@ -2926,7 +2926,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p16-4",
         "title": "Monuments and Nonuments",
-        "text": "In cities where statues are draped rather than toppled, remembrance is practiced through hesitation. Plaques acquire footnotes. The politics of caution often signals an ethical refusal.\n\nCurators speak of 'nonuments': sites whose power derives from what no longer stands. Because memory is a choreography, no monument can dictate a single past.\n\nFor critics, the danger is nostalgia masquerading as neutrality. A more demanding civic pedagogy reframes sites rather than sanitizes them.\n\nWhen publics consent to complexity, memorial landscapes can host disagreement. Policy follows: funding cycles reward iterative curation.",
+        "text": "In cities where statues are draped rather than toppled, remembrance is practiced through hesitation. __Plaques acquire footnotes.__ The politics of caution often signals an ethical refusal.\n\nCurators speak of 'nonuments': sites whose power derives from what no longer stands. Because memory is a choreography, no monument can dictate a single past.\n\nFor critics, the danger is nostalgia masquerading as neutrality. A more demanding civic pedagogy reframes sites rather than sanitizes them.\n\nWhen publics consent to complexity, memorial landscapes can host disagreement. Policy follows: funding cycles reward iterative curation.",
         "questionRange": [
           23,
           30
@@ -2935,7 +2935,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p16-5",
         "title": "Blue Carbon Project at Kohfeldt Marsh",
-        "text": "Rice University has initiated a living shoreline project at Kohfeldt Marsh. [I] The initiative merges conservation with carbon credits. [II] This 'blue carbon' approach assigns financial value to marshlands' capacity to sequester CO2.\n\nEach credit representing one metric ton of CO2 may be traded. Without interventions, marsh drowning would unleash greenhouse gases.\n\n[III] BCarbon's origin lies in a stakeholder process at Rice's Baker Institute. Yet critics warn that commodifying marshlands risks subordinating ecological value.\n\n[IV] Living shorelines differ from seawalls. Rock sills and reef modules attenuate wave energy. Scenic Galveston's earlier shoreline demonstrated measurable ecological recovery.",
+        "text": "Rice University has initiated a living shoreline project at Kohfeldt Marsh. [I] The initiative merges conservation with carbon credits. [II] This 'blue carbon' approach assigns financial value to marshlands' capacity to sequester CO2.\n\nEach credit representing one metric ton of CO2 may be traded. __Without interventions, marsh drowning would unleash greenhouse gases.__\n\n[III] BCarbon's origin lies in a stakeholder process at Rice's Baker Institute. Yet critics warn that commodifying marshlands risks subordinating ecological value.\n\n[IV] Living shorelines differ from seawalls. Rock sills and reef modules attenuate wave energy. Scenic Galveston's earlier shoreline demonstrated measurable ecological recovery.",
         "questionRange": [
           31,
           40
@@ -3503,7 +3503,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p17-4",
         "title": "Doomscrolling",
-        "text": "Doomscrolling names a habit both ordinary and corrosive: the compulsion to ingest bad news. In feeds optimized for engagement, catastrophe is scheduling logic.\n\nThe amygdala rewards hypervigilance with the illusion of control. Yet the very loops that promise mastery unspool attention until ordinary tasks feel grainy. Platforms monetize this vigilance.\n\nExtended scrolling is yoked to neck strain, reduced sleep efficiency. Countermeasures are blunt but effective: grayscale displays, notification triage.\n\nDoomscrolling thrives in an attention economy where being 'in the know' functions as currency. This paradox is stark: a practice adopted to feel prepared may make one less able to act.",
+        "text": "Doomscrolling names a habit both ordinary and corrosive: the compulsion to ingest bad news. __In feeds optimized for engagement, catastrophe is scheduling logic.__\n\nThe amygdala rewards hypervigilance with the illusion of control. Yet the very loops that promise mastery unspool attention until ordinary tasks feel grainy. Platforms monetize this vigilance.\n\nExtended scrolling is yoked to neck strain, reduced sleep efficiency. Countermeasures are blunt but effective: grayscale displays, notification triage.\n\nDoomscrolling thrives in an attention economy where being 'in the know' functions as currency. This paradox is stark: a practice adopted to feel prepared may make one less able to act.",
         "questionRange": [
           23,
           30
@@ -3512,7 +3512,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p17-5",
         "title": "Market Virtues and the Virtue Economy",
-        "text": "Markets are often framed as neutral, yet proponents argue they teach habits. [I] Commercial life is a practice with goods internal to it – trust, reciprocity.\n\nPrices compress diverse values. [II] Critics counter that a market rewarding only compliance risks yielding behavior merely in accordance with virtue.\n\nPractice requires boundaries. [III] If 'mutual advantage' is the sole telos, price gouging after earthquakes would be commendable. The virtue economy depends on institutional scaffolding.\n\n[IV] Case studies find firms designing for reciprocity can stabilize cooperation. Yet value-washing persists.",
+        "text": "Markets are often framed as neutral, yet proponents argue they teach habits. [I] Commercial life is a practice with goods internal to it – trust, reciprocity.\n\nPrices compress diverse values. __[II] Critics counter that a market rewarding only compliance risks yielding behavior merely in accordance with virtue.__\n\nPractice requires boundaries. [III] If 'mutual advantage' is the sole telos, price gouging after earthquakes would be commendable. The virtue economy depends on institutional scaffolding.\n\n[IV] Case studies find firms designing for reciprocity can stabilize cooperation. Yet value-washing persists.",
         "questionRange": [
           31,
           40
@@ -4080,7 +4080,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p18-4",
         "title": "Gen-Z Performative Activism",
-        "text": "Gen-Z's public profile is saturated with the rhetoric of solidarity, but the practice often looks more like choreography. Classroom fluency in justice vocabulary has migrated to timelines.\n\nA common defense is that awareness precedes action; yet the algorithm rewards velocity over stamina. Posts cascade during crises only to evaporate. When signaling substitutes for commitment, the pose of care can displace the labor of care.\n\nNone of this renders digital advocacy worthless. Marginalized voices can route around gatekeepers.\n\nThe challenge is to braid visibility to verifiable contribution.",
+        "text": "Gen-Z's public profile is saturated with the rhetoric of solidarity, but the practice often looks more like choreography. __Classroom fluency in justice vocabulary has migrated to timelines.__\n\nA common defense is that awareness precedes action; yet the algorithm rewards velocity over stamina. Posts cascade during crises only to evaporate. When signaling substitutes for commitment, the pose of care can displace the labor of care.\n\nNone of this renders digital advocacy worthless. Marginalized voices can route around gatekeepers.\n\nThe challenge is to braid visibility to verifiable contribution.",
         "questionRange": [
           23,
           30
@@ -4089,7 +4089,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p18-5",
         "title": "Counterfeit Goods and Consumer Trust",
-        "text": "Counterfeit goods corrode the tacit contract of brand trust. [I] The harms are cumulative. What makes the threat durable is opacity in production.\n\nEnforcement alone cannot repair confidence. [II] Firms trumpet authenticity labels, yet fraud often follows. Consumers recalibrate expectations.\n\nThe economic toll compounds. [III] Capital is diverted to litigation. Counterfeit operations adapt with entrepreneurial speed.\n\n[IV] The most durable programs braid together verifiable provenance, targeted enforcement, and public education.",
+        "text": "Counterfeit goods corrode the tacit contract of brand trust. [I] The harms are cumulative. What makes the threat durable is opacity in production.\n\nEnforcement alone cannot repair confidence. [II] Firms trumpet authenticity labels, yet fraud often follows. Consumers recalibrate expectations.\n\nThe economic toll compounds. __[III] Capital is diverted to litigation.__ Counterfeit operations adapt with entrepreneurial speed.\n\n[IV] The most durable programs braid together verifiable provenance, targeted enforcement, and public education.",
         "questionRange": [
           31,
           40
@@ -4657,7 +4657,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p19-4",
         "title": "Toxic Positivity",
-        "text": "Toxic positivity refers to the tendency to valorize relentless optimism at the expense of acknowledging distress. Such messages often operate as mechanisms of invalidation.\n\nGraham Reynolds notes that this cultural script demands cheerfulness even in moments of loss, stigmatizing vulnerability. Unacknowledged emotions resurface in disguised forms.\n\nExpressions such as 'everything happens for a reason' function less as comfort and more as avoidance of discomfort. Susan David characterizes this difference as emotional suppression vs. validation.\n\nResearch demonstrates that consistent invalidation can corrode mental resilience. Individuals are left isolated, unable to process meaning from hardship.",
+        "text": "Toxic positivity refers to the tendency to valorize relentless optimism at the expense of acknowledging distress. __Such messages often operate as mechanisms of invalidation.__\n\nGraham Reynolds notes that this cultural script demands cheerfulness even in moments of loss, stigmatizing vulnerability. Unacknowledged emotions resurface in disguised forms.\n\nExpressions such as 'everything happens for a reason' function less as comfort and more as avoidance of discomfort. Susan David characterizes this difference as emotional suppression vs. validation.\n\nResearch demonstrates that consistent invalidation can corrode mental resilience. Individuals are left isolated, unable to process meaning from hardship.",
         "questionRange": [
           23,
           30
@@ -4666,7 +4666,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p19-5",
         "title": "Mass Media and Cultural Homogenization",
-        "text": "Mass media has emerged as both a conduit of cultural exchange and a catalyst of homogenization. [I] Western pop culture obliterating many indigenous practices illustrates the asymmetry.\n\nScholars debate whether globalization enriches hybridity or erodes distinctiveness. [II] Tomlinson argues global flows privilege dominant powers.\n\nMedia does not simply transmit culture; it reframes it. [III] Corporations standardize products to reach wider audiences, reducing diversity.\n\nStrategies include promoting local content and supporting minority creators. [IV] France and Canada impose quotas. Grassroots initiatives empower marginalized communities.",
+        "text": "Mass media has emerged as both a conduit of cultural exchange and a catalyst of homogenization. __[I] Western pop culture obliterating many indigenous practices illustrates the asymmetry.__\n\nScholars debate whether globalization enriches hybridity or erodes distinctiveness. [II] Tomlinson argues global flows privilege dominant powers.\n\nMedia does not simply transmit culture; it reframes it. [III] Corporations standardize products to reach wider audiences, reducing diversity.\n\nStrategies include promoting local content and supporting minority creators. [IV] France and Canada impose quotas. Grassroots initiatives empower marginalized communities.",
         "questionRange": [
           31,
           40
@@ -5234,7 +5234,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p20-4",
         "title": "Filter Bubbles and Polarization",
-        "text": "The phrase 'filter bubble' has become a rhetorical catch-all. Yet careful audits suggest a subtler terrain: many users traverse heterogeneous sources.\n\nScholars caution against conflating algorithmic curation with ideological indoctrination. While some clusters exhibit self-reinforcing exposure, large-scale studies find limited evidence that personalization alone seals audiences off.\n\nDuring election cycles and crises, these dynamics become more combustible. Counter-measures – labeling, down-ranking – can mitigate harms but raise normative questions.\n\nThe literature urges re-centering institutional responsibility: platforms shape exposure by designing the frictions that enable deliberation.",
+        "text": "The phrase 'filter bubble' has become a rhetorical catch-all. __Yet careful audits suggest a subtler terrain: many users traverse heterogeneous sources.__\n\nScholars caution against conflating algorithmic curation with ideological indoctrination. While some clusters exhibit self-reinforcing exposure, large-scale studies find limited evidence that personalization alone seals audiences off.\n\nDuring election cycles and crises, these dynamics become more combustible. Counter-measures – labeling, down-ranking – can mitigate harms but raise normative questions.\n\nThe literature urges re-centering institutional responsibility: platforms shape exposure by designing the frictions that enable deliberation.",
         "questionRange": [
           23,
           30
@@ -5243,7 +5243,7 @@ export const thptExams2: ThptExam[] = [
       {
         "id": "p20-5",
         "title": "Fast Fashion's Environmental Impact",
-        "text": "Fast fashion's appeal rests on speed and novelty. [I] Polyester garments leach microfibers; dye effluents overwhelm rivers. Brands tout capsule 'conscious' lines, yet throughput targets remain unaltered.\n\nSupply chains rely on subcontracting lattices that outstrip oversight. [II] Claims of circularity, absent durable design, are marketing gloss.\n\nSocial-media cycles fetishize perpetual newness. [III] Policy can counteract these incentives but enforcement gaps dilute impact.\n\n[IV] Without binding caps on production, sustainability talk risks net-greenwashing. The sector's dependency cannot be reconciled with breakneck turnover unless growth is materially decoupled from throughput.",
+        "text": "Fast fashion's appeal rests on speed and novelty. [I] Polyester garments leach microfibers; dye effluents overwhelm rivers. Brands tout capsule 'conscious' lines, yet throughput targets remain unaltered.\n\nSupply chains rely on subcontracting lattices that outstrip oversight. __[II] Claims of circularity, absent durable design, are marketing gloss.__\n\nSocial-media cycles fetishize perpetual newness. [III] Policy can counteract these incentives but enforcement gaps dilute impact.\n\n[IV] Without binding caps on production, sustainability talk risks net-greenwashing. The sector's dependency cannot be reconciled with breakneck turnover unless growth is materially decoupled from throughput.",
         "questionRange": [
           31,
           40
