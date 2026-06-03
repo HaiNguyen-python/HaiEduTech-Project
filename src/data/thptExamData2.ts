@@ -2899,7 +2899,7 @@ export const thptExams2 = [
       {
         "id": "p16-1",
         "title": "Long Thanh Airport Construction",
-        "text": "At Long Thanh, nearly 14,000 engineers work through the four-day recess. Supervisors require that (1) ___ contractor meets deadlines. Equipment has arrived, with subsystems undergoing trial (2) ___. A (3) ___ oversight committee monitors compliance. Projects, (4) ___ integrate modernization, accelerate. Engineers focus on (5) ___ last-minute problems. Quality teams (6) ___ inspectors from regional offices.",
+        "text": "At Long Thanh, nearly 14,000 engineers work through the four-day recess. Supervisors require that (1) ___ contractor meets deadlines. Equipment has arrived, with subsystems undergoing trials prior (2) ___ deployment. A (3) ___ oversight committee monitors compliance. Projects, (4) ___ integrate modernization, accelerate. Engineers focus on (5) ___ last-minute problems. Quality teams (6) ___ inspectors from regional offices.",
         "questionRange": [
           1,
           6
