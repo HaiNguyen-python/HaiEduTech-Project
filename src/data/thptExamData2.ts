@@ -160,7 +160,7 @@ export const thptExams2 = [
         ],
         "correct": 2,
         "category": "preposition",
-        "explanation": "'leading to' = dẫn đến."
+        "explanation": "Cụm 'lead TO + N/V-ing' = dẫn đến điều gì. Câu: 'leading TO its gradual disappearance' = dẫn đến sự biến mất dần. (lead in/on/for không đúng nghĩa 'dẫn đến'.)"
       },
       {
         "id": 9,
@@ -737,7 +737,7 @@ export const thptExams2 = [
         ],
         "correct": 2,
         "category": "preposition",
-        "explanation": "'in response to' = đáp lại."
+        "explanation": "Cụm cố định 'in response TO + N' = để đáp lại / phản ứng với điều gì. Câu: 'in response TO perceived existential threats' = nhằm đáp lại các mối đe dọa sinh tồn được nhìn nhận."
       },
       {
         "id": 9,
@@ -2468,7 +2468,7 @@ export const thptExams2 = [
         ],
         "correct": 2,
         "category": "preposition",
-        "explanation": "'essential to' = cần thiết cho."
+        "explanation": "Cấu trúc 'essential TO + N/V-ing' = thiết yếu để (làm gì). Câu: 'reactors essential TO sustaining China's plans' = các lò phản ứng thiết yếu để duy trì kế hoạch của Trung Quốc. ('for' cũng dùng được, nhưng 'TO' phù hợp hơn khi đi với V-ing chỉ mục đích.)"
       },
       {
         "id": 9,
@@ -3045,7 +3045,7 @@ export const thptExams2 = [
         ],
         "correct": 1,
         "category": "preposition",
-        "explanation": "'Despite the hype' = bất chấp sự thổi phồng."
+        "explanation": "Giới từ 'DESPITE + N' = mặc cho/bất chấp. Câu: 'DESPITE the hype, even optimistic timelines acknowledge decades of trials' = bất chấp sự thổi phồng, ngay cả những mốc lạc quan nhất cũng thừa nhận cần nhiều thập kỷ thử nghiệm. (Beside = bên cạnh; Except = ngoại trừ; Along = dọc theo — đều không phù hợp về nghĩa nhượng bộ.)"
       },
       {
         "id": 9,
@@ -3622,7 +3622,7 @@ export const thptExams2 = [
         ],
         "correct": 0,
         "category": "preposition",
-        "explanation": "'control under which'."
+        "explanation": "Mệnh đề quan hệ với giới từ: 'control UNDER WHICH mixed models can thrive' = sự kiểm soát mà DƯỚI ĐÓ các mô hình hỗn hợp có thể phát triển. 'under control' là cụm cố định nên đứng đầu mệnh đề quan hệ là UNDER. (by/in which/to which không khớp với nghĩa 'điều kiện thuận lợi nhờ sự kiểm soát'.)"
       },
       {
         "id": 9,
@@ -4199,7 +4199,7 @@ export const thptExams2 = [
         ],
         "correct": 1,
         "category": "preposition",
-        "explanation": "'according to'."
+        "explanation": "Cụm cố định 'according TO + sb/N' = theo (ai/cái gì). Câu: 'according TO seismologists' = theo các nhà địa chấn học. ('with/by/as to' không tạo cụm này.)"
       },
       {
         "id": 9,
@@ -4711,7 +4711,7 @@ export const thptExams2 = [
         ],
         "correct": 1,
         "category": "preposition",
-        "explanation": "'on track to' = trên đà."
+        "explanation": "Cụm cố định 'on track TO + V-inf' = đang trên đà làm gì. Câu: 'tourism is on track TO reach 25 million' = du lịch đang trên đà đạt 25 triệu lượt. (with/beyond/through không kết hợp với 'on track'.)"
       },
       {
         "id": 4,
@@ -5353,7 +5353,7 @@ export const thptExams2 = [
         ],
         "correct": 1,
         "category": "preposition",
-        "explanation": "'vary by district'."
+        "explanation": "Cấu trúc 'vary BY + N' = thay đổi tùy theo (yếu tố nào). Câu: 'Condiments vary BY district and season' = gia vị thay đổi tùy quận và mùa. ('vary with' cũng đúng nhưng ngụ ý đồng biến; 'BY' nhấn vào tiêu chí phân loại — phù hợp hơn với 'district and season'.)"
       },
       {
         "id": 9,

@@ -137,7 +137,7 @@ export const thptExams = [
         ],
         "correct": 2,
         "category": "preposition",
-        "explanation": "'Compel someone TO do something'."
+        "explanation": "Cấu trúc 'compel + sb + TO + V-inf / N' = thúc ép ai làm gì. Câu: 'compels individuals TO compulsive checking behaviors' (= dẫn họ đến hành vi kiểm tra liên tục). 'with/for/in' không tạo cụm chuẩn với 'compel sb'."
       },
       {
         "id": 4,
