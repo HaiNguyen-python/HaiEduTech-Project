@@ -13,6 +13,7 @@ export interface SpeakingTheme {
   name: string;
   nameVi: string;
   icon: string;
+  level?: "A1" | "A2" | "B1";
   sentences: SpeakingSentence[];
 }
 
