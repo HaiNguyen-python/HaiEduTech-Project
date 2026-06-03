@@ -55,7 +55,7 @@ const Navbar = () => {
   const { lang, setLang, t } = useLanguage();
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const submenuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const { user, isTeacher } = useUserRole();
+  const { user, isTeacher, isPureAssistant } = useUserRole();
   const { streak } = useStreak();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [upgradeOpen, setUpgradeOpen] = useState(false);
