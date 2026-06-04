@@ -97,7 +97,51 @@ const EnglishDictionaryAdmin = () => {
       toast.error(t("Cần nhập từ và nghĩa tiếng Việt", "Word and Vietnamese definition are required"));
       return;
     }
+  // Generate structured entry from Perplexity AI and auto-fill the form
+  const generateWithAI = async () => {
+    const target = word.trim();
+    if (!target) {
+      toast.error(t("Vui lòng nhập từ trước", "Please enter a word first"));
+      return;
+    }
+    setAiLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("dictionary-ai-generate", {
+        body: { word: target },
+      });
+      if (error || !data || (data as any).error) {
+        throw new Error((data as any)?.error || error?.message || "AI error");
+      }
+      // Auto-fill form fields with sanitized AI output
+      setPhonetic(String(data.phonetic || ""));
+      setPos(String(data.part_of_speech || ""));
+      setViDef(String(data.vietnamese_definition || ""));
+      setEnDef(String(data.english_definition || ""));
+      setExamples(Array.isArray(data.examples) ? data.examples : []);
+      setCollocations(Array.isArray(data.collocations_synonyms) ? data.collocations_synonyms : []);
+      toast.success(t("Đã tạo nội dung — hãy rà soát trước khi lưu", "Generated — please review before saving"));
+    } catch (e: any) {
+      console.error(e);
+      toast.error(t(
+        "Không thể tự động tạo từ vựng, vui lòng thử lại hoặc điền thủ công",
+        "Could not auto-generate, please try again or fill manually"
+      ));
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
+  const submitOne = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!word.trim() || !viDef.trim()) {
+      toast.error(t("Cần nhập từ và nghĩa tiếng Việt", "Word and Vietnamese definition are required"));
+      return;
+    }
     setSubmitting(true);
+    const cleanExamples = examples
+      .map(ex => ({ en: ex.en.trim(), vi: ex.vi.trim() }))
+      .filter(ex => ex.en);
+    const cleanCollocations = collocations.map(c => c.trim()).filter(Boolean);
     const { error } = await supabase.from("english_dictionary").upsert(
       {
         word: word.trim().toLowerCase(),
@@ -105,6 +149,8 @@ const EnglishDictionaryAdmin = () => {
         part_of_speech: pos.trim() || null,
         vietnamese_definition: viDef.trim(),
         english_definition: enDef.trim() || null,
+        examples: cleanExamples,
+        collocations_synonyms: cleanCollocations,
         tag: tag || "General",
       },
       { onConflict: "word" }
@@ -117,8 +163,10 @@ const EnglishDictionaryAdmin = () => {
     }
     toast.success(t("Đã lưu từ vào từ điển!", "Word saved to dictionary!"));
     setWord(""); setPhonetic(""); setPos(""); setViDef(""); setEnDef("");
+    setExamples([]); setCollocations([]);
     loadEntries();
   };
+
 
   const handleDelete = async (id: string) => {
     if (!confirm(t("Xóa từ này?", "Delete this entry?"))) return;
