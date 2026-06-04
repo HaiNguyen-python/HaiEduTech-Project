@@ -448,7 +448,7 @@ sustainable,/səˈsteɪnəbəl/,adjective,"bền vững, có thể duy trì",abl
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
             <BookOpen className="w-5 h-5 text-primary" />
-            {t("Từ điển Anh - Việt (HaiEduTech Official)", "English-Vietnamese Dictionary (HaiEduTech Official)")}
+            {t(cfg.titleVi, cfg.titleEn)}
           </CardTitle>
         </CardHeader>
         <CardContent>
