@@ -56,7 +56,11 @@ const EnglishDictionaryAdmin = () => {
   const [viDef, setViDef] = useState("");
   const [enDef, setEnDef] = useState("");
   const [tag, setTag] = useState("General");
+  const [examples, setExamples] = useState<{ en: string; vi: string }[]>([]);
+  const [collocations, setCollocations] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
+
 
   const [search, setSearch] = useState("");
   const [rows, setRows] = useState<DictRow[]>([]);
