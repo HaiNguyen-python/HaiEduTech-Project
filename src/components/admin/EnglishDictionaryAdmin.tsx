@@ -21,8 +21,65 @@ interface DictRow {
   created_at: string;
 }
 
-const TAGS = ["General", "IELTS", "TOEIC", "Academic", "Business", "Daily"];
+const TAGS = ["General", "IELTS", "TOEIC", "Academic", "Business", "Daily", "AI-Generated"];
 const BATCH_SIZE = 100;
+
+// Dictionary language config: same schema across 4 tables but with localised labels.
+export type DictLang = "en" | "zh" | "fi" | "vi";
+
+interface LangConfig {
+  table: "english_dictionary" | "chinese_dictionary" | "finnish_dictionary" | "vietnamese_dictionary";
+  titleVi: string;
+  titleEn: string;
+  wordLabelVi: string;
+  wordLabelEn: string;
+  placeholder: string;
+  phoneticHint: string;
+  lowercase: boolean; // Only English forces lowercase; others preserve diacritics/Hanzi
+}
+
+const LANG_CONFIGS: Record<DictLang, LangConfig> = {
+  en: {
+    table: "english_dictionary",
+    titleVi: "Từ điển Anh - Việt (HaiEduTech Official)",
+    titleEn: "English-Vietnamese Dictionary (HaiEduTech Official)",
+    wordLabelVi: "Từ tiếng Anh *",
+    wordLabelEn: "English Word *",
+    placeholder: "artificial",
+    phoneticHint: "/ˌɑːrtɪˈfɪʃəl/",
+    lowercase: true,
+  },
+  zh: {
+    table: "chinese_dictionary",
+    titleVi: "Từ điển Trung - Việt (HaiEduTech Official)",
+    titleEn: "Chinese-Vietnamese Dictionary (HaiEduTech Official)",
+    wordLabelVi: "Từ tiếng Trung (Hán tự) *",
+    wordLabelEn: "Chinese Word (Hanzi) *",
+    placeholder: "人工智能",
+    phoneticHint: "rén gōng zhì néng",
+    lowercase: false,
+  },
+  fi: {
+    table: "finnish_dictionary",
+    titleVi: "Từ điển Phần Lan - Việt (HaiEduTech Official)",
+    titleEn: "Finnish-Vietnamese Dictionary (HaiEduTech Official)",
+    wordLabelVi: "Từ tiếng Phần Lan *",
+    wordLabelEn: "Finnish Word *",
+    placeholder: "kestävä",
+    phoneticHint: "/ˈkestævæ/",
+    lowercase: true,
+  },
+  vi: {
+    table: "vietnamese_dictionary",
+    titleVi: "Từ điển Việt (HaiEduTech Official)",
+    titleEn: "Vietnamese Dictionary (HaiEduTech Official)",
+    wordLabelVi: "Từ tiếng Việt *",
+    wordLabelEn: "Vietnamese Word *",
+    placeholder: "bền vững",
+    phoneticHint: "(tùy chọn)",
+    lowercase: false,
+  },
+};
 
 // Minimal CSV parser supporting quoted fields with commas and newlines.
 function parseCSV(text: string): string[][] {
