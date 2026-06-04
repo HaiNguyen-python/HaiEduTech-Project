@@ -38,10 +38,17 @@ Deno.serve(async (req) => {
 
     const normalized = word.toLowerCase();
 
-    // 1) Database-first lookup for English: HaiEduTech Official Dictionary
-    if (lang === "en") {
+    // 1) Database-first lookup for ALL 4 languages from the matching official dictionary
+    const DICT_TABLE: Record<string, string> = {
+      en: "english_dictionary",
+      zh: "chinese_dictionary",
+      fi: "finnish_dictionary",
+      vi: "vietnamese_dictionary",
+    };
+    const tableName = DICT_TABLE[lang];
+    if (tableName) {
       const { data: official } = await admin
-        .from("english_dictionary")
+        .from(tableName)
         .select("word, phonetic, part_of_speech, vietnamese_definition, english_definition, examples, collocations_synonyms, tag")
         .ilike("word", normalized)
         .maybeSingle();
@@ -67,6 +74,7 @@ Deno.serve(async (req) => {
         return Response.json({ entry, lang, source: "haiedutech_official" }, { headers: corsHeaders });
       }
     }
+
 
     const cacheKey = "lk:" + (await sha256Hex(`${lang}|${normalized}`));
     const { data: cached } = await admin
