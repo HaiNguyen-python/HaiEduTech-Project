@@ -169,7 +169,7 @@ const EnglishDictionaryAdmin = ({ lang = "en" }: Props) => {
     setAiLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("dictionary-ai-generate", {
-        body: { word: target },
+        body: { word: target, lang },
       });
       if (error || !data || (data as any).error) {
         throw new Error((data as any)?.error || error?.message || "AI error");
@@ -355,7 +355,7 @@ const EnglishDictionaryAdmin = ({ lang = "en" }: Props) => {
         setBulkCurrent(w);
         try {
           const { data, error } = await supabase.functions.invoke("dictionary-ai-generate", {
-            body: { word: w },
+            body: { word: w, lang },
           });
           if (error || !data || (data as any).error) {
             throw new Error((data as any)?.error || error?.message || "AI error");
