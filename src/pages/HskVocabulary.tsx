@@ -6,7 +6,10 @@ import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle, Dumbbell, Brain } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { hskVocabData, HSK_LEVELS, HSK_CATEGORIES, type HskWord } from "@/data/hskVocab";
+// NOTE: `hskVocabData` is loaded dynamically inside the component below so the
+// heavy ~1.9MB vocab payload no longer blocks the initial page render. Only
+// the lightweight type/constant metadata is imported statically.
+import { HSK_LEVELS, HSK_CATEGORIES, type HskWord } from "@/data/hskVocab/types";
 import HanziStrokeOrder from "@/components/HanziStrokeOrder";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -125,7 +128,7 @@ interface QuizQuestion {
   correct: number;
 }
 
-const HskExercise = ({ masteredWords, t }: { masteredWords: HskWord[]; t: (vi: string, en: string) => string }) => {
+const HskExercise = ({ masteredWords, allWords, t }: { masteredWords: HskWord[]; allWords: HskWord[]; t: (vi: string, en: string) => string }) => {
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
@@ -143,7 +146,7 @@ const HskExercise = ({ masteredWords, t }: { masteredWords: HskWord[]; t: (vi: s
     }
     const size = Math.min(quizSize, masteredWords.length);
     const picked = shuffle(masteredWords).slice(0, size);
-    const distractorPool = hskVocabData;
+    const distractorPool = allWords;
     const modes: QuizMode[] = ["meaning", "hanzi", "pinyin", "listen", "fill", "example"];
 
     const qs: QuizQuestion[] = picked.map((w, i) => {
@@ -472,6 +475,19 @@ const HskExercise = ({ masteredWords, t }: { masteredWords: HskWord[]; t: (vi: s
 };
 
 const HskVocabulary = () => {
+  // Dynamically load the heavy vocab payload so the page shell paints fast.
+  const [hskVocabData, setHskVocabData] = useState<HskWord[]>([]);
+  const [vocabLoading, setVocabLoading] = useState(true);
+  useEffect(() => {
+    let alive = true;
+    import("@/data/hskVocab").then(m => {
+      if (alive) {
+        setHskVocabData(m.hskVocabData);
+        setVocabLoading(false);
+      }
+    });
+    return () => { alive = false; };
+  }, []);
   const { t } = useLanguage();
   const [searchParams, setSearchParams] = useSearchParams();
   const initialTab = searchParams.get("tab") === "radicals" ? "radicals" : "vocabulary";
@@ -609,6 +625,12 @@ const HskVocabulary = () => {
               <div className="flex flex-wrap items-center gap-3 mt-2 text-sm">
                 <span className="text-muted-foreground">{t("Đã thuộc", "Mastered")}: <strong className="text-primary">{mastered.size}</strong></span>
                 <span className="text-muted-foreground">{t("Cần ôn", "Need Review")}: <strong className="text-orange-400">{hskVocabData.length - mastered.size}</strong></span>
+                {vocabLoading && (
+                  <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground animate-pulse">
+                    <span className="w-3 h-3 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                    {t("Đang tải kho từ vựng...", "Loading vocabulary bank...")}
+                  </span>
+                )}
               </div>
             </div>
 
@@ -655,7 +677,7 @@ const HskVocabulary = () => {
             {viewMode === "srs" ? (
               <HskSrsReview allWords={hskVocabData} />
             ) : viewMode === "exercise" ? (
-              <HskExercise masteredWords={hskVocabData.filter(w => mastered.has(w.character))} t={t} />
+              <HskExercise masteredWords={hskVocabData.filter(w => mastered.has(w.character))} allWords={hskVocabData} t={t} />
             ) : (() => {
               const groups = paginated.reduce<Record<string, HskWord[]>>((acc, w) => {
                 (acc[w.category] ||= []).push(w);
