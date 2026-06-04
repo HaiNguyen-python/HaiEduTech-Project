@@ -477,13 +477,13 @@ sustainable,/səˈsteɪnəbəl/,adjective,"bền vững, có thể duy trì",abl
           <CardContent>
             <form onSubmit={submitOne} className="space-y-3">
               <div>
-                <Label htmlFor="dict-word">{t("Từ tiếng Anh *", "English Word *")}</Label>
+                <Label htmlFor="dict-word">{t(cfg.wordLabelVi, cfg.wordLabelEn)}</Label>
                 <div className="flex gap-2">
                   <Input
                     id="dict-word"
                     value={word}
                     onChange={e => setWord(e.target.value)}
-                    placeholder="artificial"
+                    placeholder={cfg.placeholder}
                     maxLength={120}
                     required
                     disabled={aiLoading}
