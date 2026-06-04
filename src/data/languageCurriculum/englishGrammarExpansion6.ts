@@ -26,15 +26,11 @@ export const grammarExpansionModules6: LanguageModule[] = [
         titleEn: "📘 Complete Master Table A→Z (with IPA pronunciation)",
         level: 1,
         difficulty: "beginner",
-        theory: `## 📘 Bảng động từ bất quy tắc đầy đủ — Phiên bản tổng hợp
+        theory: `## 📘 Bảng động từ bất quy tắc đầy đủ A→Z
 
-> **Cách dùng bảng này:** Đây là bảng tham khảo **hoàn chỉnh nhất** với hơn **200 động từ bất quy tắc** thông dụng trong tiếng Anh, sắp xếp theo bảng chữ cái **A → Z**, kèm **phiên âm IPA** chuẩn Anh-Mỹ và **nghĩa tiếng Việt**. Bookmark trang này và quay lại tra cứu mỗi khi cần!
+> Hơn **200 động từ** thông dụng nhất, kèm **IPA** và **nghĩa tiếng Việt**. Bookmark trang này để tra cứu khi cần.
 
-**Chú thích cột:**
-- **V1** = Động từ nguyên mẫu (base form) — dùng với *I/you/we/they* hoặc sau *to / do / does / did / will / can*…
-- **V2** = Quá khứ đơn (past simple) — dùng cho hành động đã xảy ra trong quá khứ.
-- **V3** = Quá khứ phân từ (past participle) — dùng sau *have/has/had* (Perfect) hoặc *be* (Passive).
-- **IPA** = Phiên âm V2/V3 (vì V1 đa số dễ đọc, V2/V3 mới hay sai).
+**V1** = nguyên mẫu · **V2** = quá khứ đơn · **V3** = quá khứ phân từ (dùng sau *have/be*) · **IPA** = phiên âm V2 / V3.
 
 ---
 
