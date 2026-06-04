@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { BookOpen, Upload, Plus, Loader2, Search, Trash2, FileJson, FileSpreadsheet, Sparkles, X } from "lucide-react";
+import { BookOpen, Upload, Plus, Loader2, Search, Trash2, FileJson, FileSpreadsheet, Sparkles, X, Wand2 } from "lucide-react";
 
 interface DictRow {
   id: string;
@@ -71,6 +71,14 @@ const EnglishDictionaryAdmin = () => {
   const [importProgress, setImportProgress] = useState(0);
   const [importTotal, setImportTotal] = useState(0);
   const fileRef = useRef<HTMLInputElement>(null);
+
+  // Bulk AI Generation state
+  const [bulkInput, setBulkInput] = useState("");
+  const [bulkRunning, setBulkRunning] = useState(false);
+  const [bulkDone, setBulkDone] = useState(0);
+  const [bulkTotal, setBulkTotal] = useState(0);
+  const [bulkCurrent, setBulkCurrent] = useState<string>("");
+  const [bulkFailed, setBulkFailed] = useState<string[]>([]);
 
   const loadEntries = async () => {
     setLoading(true);
@@ -251,6 +259,104 @@ const EnglishDictionaryAdmin = () => {
       if (fileRef.current) fileRef.current.value = "";
     }
   };
+
+  // Bulk AI Generation: generate full dictionary entries via Perplexity for a list of raw words
+  const runBulkAI = async () => {
+    // Parse: split by comma OR newline, trim, lowercase, dedupe
+    const raw = bulkInput
+      .split(/[\n,]+/)
+      .map(w => w.trim().toLowerCase())
+      .filter(w => w.length > 0 && w.length <= 100);
+    const words = Array.from(new Set(raw));
+    if (words.length === 0) {
+      toast.error(t("Vui lòng nhập ít nhất một từ", "Please enter at least one word"));
+      return;
+    }
+    if (words.length > 50) {
+      toast.error(t("Tối đa 50 từ mỗi lượt để tránh quá tải", "Max 50 words per run to avoid overload"));
+      return;
+    }
+
+    setBulkRunning(true);
+    setBulkDone(0);
+    setBulkTotal(words.length);
+    setBulkFailed([]);
+    setBulkCurrent("");
+
+    const successRecords: any[] = [];
+    const failed: string[] = [];
+    const CONCURRENCY = 3; // Safe parallel calls to Perplexity to balance speed vs rate limits
+    let cursor = 0;
+
+    const worker = async () => {
+      while (cursor < words.length) {
+        const idx = cursor++;
+        const w = words[idx];
+        setBulkCurrent(w);
+        try {
+          const { data, error } = await supabase.functions.invoke("dictionary-ai-generate", {
+            body: { word: w },
+          });
+          if (error || !data || (data as any).error) {
+            throw new Error((data as any)?.error || error?.message || "AI error");
+          }
+          const viDefVal = String((data as any).vietnamese_definition || "").trim();
+          if (!viDefVal) throw new Error("Empty Vietnamese definition");
+          successRecords.push({
+            word: w,
+            phonetic: String((data as any).phonetic || "").trim() || null,
+            part_of_speech: String((data as any).part_of_speech || "").trim() || null,
+            vietnamese_definition: viDefVal,
+            english_definition: String((data as any).english_definition || "").trim() || null,
+            examples: Array.isArray((data as any).examples) ? (data as any).examples : [],
+            collocations_synonyms: Array.isArray((data as any).collocations_synonyms) ? (data as any).collocations_synonyms : [],
+            tag: "General",
+          });
+        } catch (err) {
+          // Skip failed word but keep processing others
+          console.warn("bulk AI gen failed for", w, err);
+          failed.push(w);
+        } finally {
+          setBulkDone(prev => prev + 1);
+        }
+      }
+    };
+
+    await Promise.all(Array.from({ length: Math.min(CONCURRENCY, words.length) }, () => worker()));
+
+    // Bulk upsert all successful records in one call (safe atomic write)
+    let savedCount = 0;
+    if (successRecords.length > 0) {
+      const { error: upsertErr } = await supabase
+        .from("english_dictionary")
+        .upsert(successRecords, { onConflict: "word" });
+      if (upsertErr) {
+        console.error(upsertErr);
+        toast.error(t("Lỗi khi lưu hàng loạt: ", "Bulk save failed: ") + upsertErr.message);
+      } else {
+        savedCount = successRecords.length;
+      }
+    }
+
+    setBulkFailed(failed);
+    setBulkCurrent("");
+    setBulkRunning(false);
+
+    if (savedCount > 0) {
+      toast.success(
+        t(`Đã tự động tạo và thêm thành công ${savedCount} từ vào từ điển!`,
+          `Successfully generated and added ${savedCount} words to the dictionary!`)
+      );
+      setBulkInput("");
+      loadEntries();
+    }
+    if (failed.length > 0) {
+      toast.warning(
+        t(`${failed.length} từ bị bỏ qua do lỗi API`, `${failed.length} words skipped due to API errors`)
+      );
+    }
+  };
+
 
   const downloadTemplate = (kind: "csv" | "json") => {
     let content = "";
@@ -523,6 +629,67 @@ sustainable,/səˈsteɪnəbəl/,adjective,"bền vững, có thể duy trì",abl
                 <Progress value={importTotal ? (importProgress / importTotal) * 100 : 0} />
               </div>
             )}
+
+            {/* Bulk AI Generation - generate full entries from a list of raw words */}
+            <div className="pt-4 mt-2 border-t border-border space-y-3">
+              <div className="flex items-center gap-2">
+                <Wand2 className="w-4 h-4 text-primary" />
+                <h4 className="text-sm font-semibold text-foreground">
+                  {t("Tạo hàng loạt bằng AI (Perplexity)", "Bulk AI Generation (Perplexity)")}
+                </h4>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                {t(
+                  "Nhập danh sách từ vựng thô (phân cách bằng dấu phẩy hoặc xuống dòng). AI sẽ tự sinh phiên âm, nghĩa Việt, ví dụ, collocations và lưu vào từ điển.",
+                  "Enter raw words (separated by commas or newlines). AI will auto-generate phonetic, Vietnamese meaning, examples, collocations, and save to the dictionary."
+                )}
+              </p>
+              <Textarea
+                value={bulkInput}
+                onChange={e => setBulkInput(e.target.value)}
+                disabled={bulkRunning || importing}
+                rows={4}
+                placeholder={t(
+                  "Ví dụ: artificial, intelligence, machine learning\nsustainable\nresilient",
+                  "Example: artificial, intelligence, machine learning\nsustainable\nresilient"
+                )}
+                maxLength={4000}
+                className="font-mono text-sm"
+              />
+              <Button
+                type="button"
+                onClick={runBulkAI}
+                disabled={bulkRunning || importing || !bulkInput.trim()}
+                className="w-full bg-gradient-to-r from-primary to-emerald-500 text-primary-foreground hover:brightness-110"
+              >
+                {bulkRunning
+                  ? <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  : <Sparkles className="w-4 h-4 mr-2" />}
+                {bulkRunning
+                  ? t(`Đang xử lý ${bulkDone}/${bulkTotal}...`, `Processing ${bulkDone}/${bulkTotal}...`)
+                  : t("✨ Tạo & Nhập tất cả với Perplexity", "✨ Generate & Import All with Perplexity")}
+              </Button>
+
+              {bulkRunning && (
+                <div className="space-y-2">
+                  <Progress value={bulkTotal ? (bulkDone / bulkTotal) * 100 : 0} />
+                  {bulkCurrent && (
+                    <p className="text-xs text-muted-foreground italic">
+                      {t("Đang xử lý:", "Processing:")} <span className="font-mono text-foreground">{bulkCurrent}</span>
+                    </p>
+                  )}
+                </div>
+              )}
+
+              {!bulkRunning && bulkFailed.length > 0 && (
+                <div className="text-xs bg-destructive/10 border border-destructive/30 rounded-md p-2">
+                  <p className="font-medium text-destructive mb-1">
+                    {t(`${bulkFailed.length} từ bị bỏ qua:`, `${bulkFailed.length} words skipped:`)}
+                  </p>
+                  <p className="text-muted-foreground font-mono break-words">{bulkFailed.join(", ")}</p>
+                </div>
+              )}
+            </div>
           </CardContent>
         </Card>
       </div>
