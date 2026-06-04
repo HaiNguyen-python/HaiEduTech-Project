@@ -143,7 +143,7 @@ const EnglishDictionaryAdmin = ({ lang = "en" }: Props) => {
   const loadEntries = async () => {
     setLoading(true);
     const q = supabase
-      .from("english_dictionary")
+      .from(cfg.table as any)
       .select("id, word, phonetic, part_of_speech, vietnamese_definition, english_definition, tag, created_at", { count: "exact" })
       .order("created_at", { ascending: false })
       .limit(50);
@@ -204,9 +204,9 @@ const EnglishDictionaryAdmin = ({ lang = "en" }: Props) => {
       .map(ex => ({ en: ex.en.trim(), vi: ex.vi.trim() }))
       .filter(ex => ex.en);
     const cleanCollocations = collocations.map(c => c.trim()).filter(Boolean);
-    const { error } = await supabase.from("english_dictionary").upsert(
+    const { error } = await supabase.from(cfg.table as any).upsert(
       {
-        word: word.trim().toLowerCase(),
+        word: cfg.lowercase ? word.trim().toLowerCase() : word.trim(),
         phonetic: phonetic.trim() || null,
         part_of_speech: pos.trim() || null,
         vietnamese_definition: viDef.trim(),
@@ -232,7 +232,7 @@ const EnglishDictionaryAdmin = ({ lang = "en" }: Props) => {
 
   const handleDelete = async (id: string) => {
     if (!confirm(t("Xóa từ này?", "Delete this entry?"))) return;
-    const { error } = await supabase.from("english_dictionary").delete().eq("id", id);
+    const { error } = await supabase.from(cfg.table as any).delete().eq("id", id);
     if (error) { toast.error(error.message); return; }
     toast.success(t("Đã xóa", "Deleted"));
     setRows(prev => prev.filter(r => r.id !== id));
@@ -302,7 +302,7 @@ const EnglishDictionaryAdmin = ({ lang = "en" }: Props) => {
       for (let i = 0; i < finalRecords.length; i += BATCH_SIZE) {
         const chunk = finalRecords.slice(i, i + BATCH_SIZE);
         const { error } = await supabase
-          .from("english_dictionary")
+          .from(cfg.table as any)
           .upsert(chunk, { onConflict: "word" });
         if (error) throw error;
         done += chunk.length;
@@ -388,7 +388,7 @@ const EnglishDictionaryAdmin = ({ lang = "en" }: Props) => {
     let savedCount = 0;
     if (successRecords.length > 0) {
       const { error: upsertErr } = await supabase
-        .from("english_dictionary")
+        .from(cfg.table as any)
         .upsert(successRecords, { onConflict: "word" });
       if (upsertErr) {
         console.error(upsertErr);
