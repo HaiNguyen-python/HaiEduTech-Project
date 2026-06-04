@@ -978,6 +978,9 @@ const SuperDictionary = () => {
 
                   {/* Thesaurus Tab */}
                   <TabsContent value="thesaurus" className="space-y-3 mt-0">
+                    <p className="text-[11px] text-muted-foreground bg-muted/40 rounded px-2 py-1">
+                      🇬🇧 {t("Thesaurus chỉ hỗ trợ tiếng Anh.", "Thesaurus is English-only.")}
+                    </p>
                     <div className="flex gap-2">
                       <Input
                         value={thesaurusWord}
