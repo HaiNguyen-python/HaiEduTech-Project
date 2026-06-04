@@ -40,37 +40,34 @@ export default defineConfig(({ mode }) => ({
     },
     rollupOptions: {
       output: {
-        manualChunks: {
-          "vendor-react": ["react", "react-dom", "react-router-dom"],
-          "vendor-ui": [
-            "@radix-ui/react-dialog",
-            "@radix-ui/react-dropdown-menu",
-            "@radix-ui/react-tabs",
-            "@radix-ui/react-select",
-            "@radix-ui/react-popover",
-            "@radix-ui/react-tooltip",
-            "@radix-ui/react-accordion",
-            "@radix-ui/react-scroll-area",
-          ],
-          "vendor-charts": ["recharts"],
-          "vendor-motion": ["framer-motion"],
-          "vendor-supabase": ["@supabase/supabase-js"],
-          "vendor-query": ["@tanstack/react-query"],
-          "vendor-codemirror": [
-            "@uiw/react-codemirror",
-            "@uiw/codemirror-theme-vscode",
-            "@codemirror/lang-python",
-          ],
-          "vendor-tiptap": [
-            "@tiptap/react",
-            "@tiptap/starter-kit",
-            "@tiptap/extension-color",
-            "@tiptap/extension-highlight",
-            "@tiptap/extension-text-style",
-            "@tiptap/extension-underline",
-          ],
-          "vendor-hanzi": ["hanzi-writer"],
-          "vendor-sanitize": ["dompurify"],
+        manualChunks(id) {
+          // Heavy static data — split into separate chunks so page shells load fast
+          if (id.includes("/src/data/hskVocab/")) return "data-hsk-vocab";
+          if (id.includes("/src/data/hskTests/")) return "data-hsk-tests";
+          if (id.includes("/src/data/curriculum/")) return "data-curriculum-programming";
+          if (id.includes("/src/data/vietnamese/")) return "data-vietnamese";
+          if (id.includes("/src/data/finnishCurriculum/")) return "data-finnish-curriculum";
+          if (/\/src\/data\/cambridgeKids/i.test(id)) return "data-cambridge-kids";
+          if (/\/src\/data\/cambridgeLectures/i.test(id)) return "data-cambridge-lectures";
+          if (/\/src\/data\/ielts(Reading|Listening|Full|Lectures|Vocab|Writing|Speaking|Grammar)/i.test(id)) return "data-ielts";
+          if (/\/src\/data\/toeic/i.test(id)) return "data-toeic";
+          if (/\/src\/data\/sat/i.test(id)) return "data-sat";
+          if (/\/src\/data\/thpt/i.test(id)) return "data-thpt";
+          if (/\/src\/data\/programmingLesson/i.test(id)) return "data-programming-lessons";
+
+          // Vendor splits
+          if (id.includes("node_modules")) {
+            if (/[\\/]react-dom[\\/]|[\\/]react-router-dom[\\/]|[\\/]react[\\/]/.test(id)) return "vendor-react";
+            if (id.includes("@radix-ui")) return "vendor-ui";
+            if (id.includes("recharts")) return "vendor-charts";
+            if (id.includes("framer-motion")) return "vendor-motion";
+            if (id.includes("@supabase")) return "vendor-supabase";
+            if (id.includes("@tanstack/react-query")) return "vendor-query";
+            if (id.includes("codemirror")) return "vendor-codemirror";
+            if (id.includes("@tiptap")) return "vendor-tiptap";
+            if (id.includes("hanzi-writer")) return "vendor-hanzi";
+            if (id.includes("dompurify")) return "vendor-sanitize";
+          }
         },
       },
     },
