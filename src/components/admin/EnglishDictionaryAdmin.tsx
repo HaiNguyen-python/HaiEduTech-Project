@@ -279,7 +279,7 @@ const EnglishDictionaryAdmin = ({ lang = "en" }: Props) => {
       // Normalize + filter
       const records = items
         .map((it: any) => ({
-          word: String(it.word || "").trim().toLowerCase(),
+          word: cfg.lowercase ? String(it.word || "").trim().toLowerCase() : String(it.word || "").trim(),
           phonetic: String(it.phonetic || "").trim() || null,
           part_of_speech: String(it.part_of_speech || it.pos || "").trim() || null,
           vietnamese_definition: String(it.vietnamese_definition || it.definition || it.vi || "").trim(),
