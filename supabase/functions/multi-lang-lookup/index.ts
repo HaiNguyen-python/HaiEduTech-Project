@@ -37,6 +37,37 @@ Deno.serve(async (req) => {
     if (!LANG_NAMES[lang]) return Response.json({ error: true, message: "Invalid language" }, { headers: corsHeaders });
 
     const normalized = word.toLowerCase();
+
+    // 1) Database-first lookup for English: HaiEduTech Official Dictionary
+    if (lang === "en") {
+      const { data: official } = await admin
+        .from("english_dictionary")
+        .select("word, phonetic, part_of_speech, vietnamese_definition, english_definition, examples, collocations_synonyms, tag")
+        .ilike("word", normalized)
+        .maybeSingle();
+      if (official) {
+        const examples = Array.isArray(official.examples) ? official.examples : [];
+        const definitions = [{
+          definitionEn: official.english_definition || "",
+          definitionVi: official.vietnamese_definition || "",
+          example: examples[0]?.en || examples[0]?.english || "",
+          exampleVi: examples[0]?.vi || examples[0]?.vietnamese || "",
+        }];
+        const entry = {
+          word: official.word,
+          phonetic: official.phonetic || "",
+          meanings: [{
+            partOfSpeech: official.part_of_speech || "",
+            definitions,
+          }],
+          extraExamples: examples.slice(1),
+          collocations: official.collocations_synonyms || [],
+          tag: official.tag || "General",
+        };
+        return Response.json({ entry, lang, source: "haiedutech_official" }, { headers: corsHeaders });
+      }
+    }
+
     const cacheKey = "lk:" + (await sha256Hex(`${lang}|${normalized}`));
     const { data: cached } = await admin
       .from("dictionary_cache")
@@ -49,6 +80,7 @@ Deno.serve(async (req) => {
         .eq("cache_key", cacheKey).then(() => {});
       return Response.json({ ...cached.payload, cached: true }, { headers: corsHeaders });
     }
+
 
     const KEY = Deno.env.get("PERPLEXITY_API_KEY");
     if (!KEY) return Response.json({ error: true, message: "Lookup service unavailable" }, { headers: corsHeaders });
