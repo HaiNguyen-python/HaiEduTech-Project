@@ -658,6 +658,434 @@ Don't confuse **fell** (V2 of *fall*) with **felt** (V2 of *feel*).
           { question: "The picture has ___ on the wall for ten years.", options: ["hanged", "hung", "hanged up", "hangs"], answer: 1, explanation: "For objects, use hang → hung → hung. 'Hanged' is only for execution." },
           { question: "Who ___ this company in 1998?", options: ["found", "founded", "find", "founds"], answer: 1, explanation: "'found' (to establish) is REGULAR → founded. Don't confuse with 'find → found'." }
         ]
+      },
+
+      // ───────────── LESSON 4 — FULL A→Z REFERENCE ─────────────
+      {
+        id: "irregular-verbs-full-az",
+        title: "Bảng đầy đủ A→Z: 120+ động từ bất quy tắc",
+        titleEn: "Complete A→Z List: 120+ Irregular Verbs",
+        level: 5,
+        difficulty: "advanced",
+        theory: `## Bảng tra cứu đầy đủ động từ bất quy tắc (A → Z)
+
+Đây là danh sách **đầy đủ** các động từ bất quy tắc còn lại (ngoài 30 động từ đã học ở Bài 1) — đủ dùng cho mọi kỳ thi từ THPT, IELTS, TOEIC đến Cambridge. Lưu lại để tra cứu mỗi khi cần.
+
+### 🅰️ A – B
+
+| V1 | V2 | V3 | Nghĩa |
+|---|---|---|---|
+| arise | arose | arisen | phát sinh, nảy sinh |
+| awake | awoke | awoken | thức dậy |
+| bear | bore | borne / born | mang, chịu đựng; sinh ra |
+| beat | beat | beaten | đánh, đập, thắng |
+| become | became | become | trở thành |
+| bend | bent | bent | uốn cong |
+| bet | bet | bet | cá cược |
+| bid | bid | bid | trả giá, ra giá |
+| bind | bound | bound | trói, buộc |
+| bite | bit | bitten | cắn |
+| bleed | bled | bled | chảy máu |
+| blow | blew | blown | thổi |
+| breed | bred | bred | nuôi (động vật), sinh sản |
+| broadcast | broadcast | broadcast | phát sóng |
+| build | built | built | xây dựng |
+| burn | burnt / burned | burnt / burned | đốt, cháy |
+| burst | burst | burst | nổ, vỡ tung |
+
+### 🅲 C – D
+
+| V1 | V2 | V3 | Nghĩa |
+|---|---|---|---|
+| cast | cast | cast | ném, đúc, chiếu (phim) |
+| choose | chose | chosen | chọn |
+| cling | clung | clung | bám chặt |
+| creep | crept | crept | bò, rón rén |
+| deal | dealt | dealt | giao dịch, đối phó |
+| dig | dug | dug | đào |
+| dive | dived / dove | dived | lặn, nhảy xuống |
+| draw | drew | drawn | vẽ; kéo |
+| dream | dreamt / dreamed | dreamt / dreamed | mơ |
+| drive | drove | driven | lái xe |
+
+### 🅴 E – F
+
+| V1 | V2 | V3 | Nghĩa |
+|---|---|---|---|
+| eat | ate | eaten | ăn |
+| fall | fell | fallen | ngã, rơi |
+| feed | fed | fed | cho ăn |
+| flee | fled | fled | chạy trốn |
+| fly | flew | flown | bay |
+| forbid | forbade | forbidden | cấm |
+| forecast | forecast | forecast | dự báo |
+| forget | forgot | forgotten | quên |
+| forgive | forgave | forgiven | tha thứ |
+| freeze | froze | frozen | đóng băng |
+
+### 🅶 G – H
+
+| V1 | V2 | V3 | Nghĩa |
+|---|---|---|---|
+| grind | ground | ground | xay, mài |
+| grow | grew | grown | mọc, trồng, lớn lên |
+| hang | hung | hung | treo (đồ vật) |
+| hide | hid | hidden | giấu, trốn |
+| hit | hit | hit | đánh, va đập |
+| hurt | hurt | hurt | làm đau, đau |
+
+### 🅸 I – L
+
+| V1 | V2 | V3 | Nghĩa |
+|---|---|---|---|
+| input | input | input | nhập (dữ liệu) |
+| kneel | knelt | knelt | quỳ |
+| knit | knit / knitted | knit / knitted | đan |
+| lay | laid | laid | đặt cái gì xuống |
+| lead | led | led | dẫn dắt |
+| lean | leant / leaned | leant / leaned | dựa, nghiêng |
+| leap | leapt / leaped | leapt / leaped | nhảy |
+| learn | learnt / learned | learnt / learned | học |
+| lend | lent | lent | cho mượn |
+| lie | lay | lain | nằm xuống |
+| light | lit / lighted | lit / lighted | thắp sáng |
+| lose | lost | lost | mất, thua |
+
+### 🅼 M – P
+
+| V1 | V2 | V3 | Nghĩa |
+|---|---|---|---|
+| mistake | mistook | mistaken | nhầm lẫn |
+| misunderstand | misunderstood | misunderstood | hiểu sai |
+| overcome | overcame | overcome | vượt qua |
+| overtake | overtook | overtaken | vượt qua (xe) |
+| pay | paid | paid | trả tiền |
+| prove | proved | proven / proved | chứng minh |
+
+### 🆀 Q – S
+
+| V1 | V2 | V3 | Nghĩa |
+|---|---|---|---|
+| quit | quit | quit | bỏ, từ chức |
+| ride | rode | ridden | cưỡi, đạp xe |
+| ring | rang | rung | rung, gọi điện |
+| rise | rose | risen | tăng, mọc lên |
+| run | ran | run | chạy |
+| saw | sawed | sawn / sawed | cưa |
+| seek | sought | sought | tìm kiếm |
+| sell | sold | sold | bán |
+| send | sent | sent | gửi |
+| sew | sewed | sewn / sewed | may, khâu |
+| shake | shook | shaken | rung, lắc |
+| shine | shone | shone | tỏa sáng |
+| shoot | shot | shot | bắn |
+| show | showed | shown / showed | chỉ, cho xem |
+| shrink | shrank | shrunk | co lại |
+| shut | shut | shut | đóng |
+| sing | sang | sung | hát |
+| sink | sank | sunk | chìm |
+| sit | sat | sat | ngồi |
+| slay | slew | slain | giết, hạ gục |
+| sleep | slept | slept | ngủ |
+| slide | slid | slid | trượt |
+| smell | smelt / smelled | smelt / smelled | ngửi, có mùi |
+| sow | sowed | sown / sowed | gieo hạt |
+| speak | spoke | spoken | nói |
+| speed | sped / speeded | sped / speeded | tăng tốc |
+| spell | spelt / spelled | spelt / spelled | đánh vần |
+| spend | spent | spent | tiêu (tiền, thời gian) |
+| spill | spilt / spilled | spilt / spilled | làm đổ |
+| spin | spun | spun | xoay tròn |
+| spit | spat / spit | spat / spit | nhổ, khạc |
+| split | split | split | tách, chia |
+| spoil | spoilt / spoiled | spoilt / spoiled | làm hỏng, nuông chiều |
+| spread | spread | spread | trải ra, lan ra |
+| spring | sprang | sprung | nhảy, bật lên |
+| stand | stood | stood | đứng |
+| steal | stole | stolen | trộm |
+| stick | stuck | stuck | dính, bị mắc kẹt |
+| sting | stung | stung | đốt, chích |
+| stink | stank | stunk | bốc mùi hôi |
+| strike | struck | struck | đánh, gây ấn tượng |
+| swear | swore | sworn | thề, chửi thề |
+| sweep | swept | swept | quét |
+| swim | swam | swum | bơi |
+| swing | swung | swung | đu đưa, xoay |
+
+### 🆃 T – W
+
+| V1 | V2 | V3 | Nghĩa |
+|---|---|---|---|
+| tear | tore | torn | xé, làm rách |
+| throw | threw | thrown | ném |
+| thrust | thrust | thrust | đẩy mạnh |
+| tread | trod | trodden / trod | bước, giẫm |
+| understand | understood | understood | hiểu |
+| undertake | undertook | undertaken | đảm nhận |
+| upset | upset | upset | làm buồn, xáo trộn |
+| wake | woke | woken | thức dậy |
+| wear | wore | worn | mặc, mang (giày, kính) |
+| weep | wept | wept | khóc |
+| wet | wet / wetted | wet / wetted | làm ướt |
+| win | won | won | thắng |
+| wind | wound | wound | quấn, cuộn |
+| withdraw | withdrew | withdrawn | rút (tiền), rút lui |
+| wring | wrung | wrung | vắt (khăn) |
+| write | wrote | written | viết |
+
+### 🎯 Mẹo sử dụng bảng này
+
+1. **Mỗi ngày học 5 động từ mới** từ một section bất kỳ — sau 25 ngày bạn sẽ thuộc hết.
+2. **Đánh dấu (⭐)** những động từ bạn hay dùng trong viết/nói để ưu tiên ôn.
+3. **Lưu ý dạng kép** (burnt/burned, learnt/learned): cả hai đều đúng, *-ed* phổ biến ở Mỹ, *-t* phổ biến ở Anh.
+4. **Cẩn thận với bear/bore/borne vs born**: *born* chỉ dùng khi nói về sinh ra (*I was born in 1995*); *borne* dùng cho các nghĩa khác (*She has borne great pain*).
+5. **forecast/broadcast/cast/cost/cut/hit/hurt/let/put/set/shut/spread**: tất cả đều thuộc nhóm "không đổi" — chỉ cần nhớ V1 là xong cả 3 dạng.`,
+        theoryEn: `## Complete Irregular Verb Reference (A → Z)
+
+This is the **full** list of remaining irregular verbs (beyond the Top 30 from Lesson 1) — enough for every exam from THPT, IELTS, TOEIC to Cambridge. Bookmark this lesson for reference.
+
+### 🅰️ A – B
+
+| V1 | V2 | V3 | Meaning |
+|---|---|---|---|
+| arise | arose | arisen | to occur, come up |
+| awake | awoke | awoken | to wake up |
+| bear | bore | borne / born | to carry / endure; to give birth |
+| beat | beat | beaten | to hit; to defeat |
+| become | became | become | to become |
+| bend | bent | bent | to bend |
+| bet | bet | bet | to bet |
+| bid | bid | bid | to offer a price |
+| bind | bound | bound | to tie |
+| bite | bit | bitten | to bite |
+| bleed | bled | bled | to bleed |
+| blow | blew | blown | to blow |
+| breed | bred | bred | to breed |
+| broadcast | broadcast | broadcast | to broadcast |
+| build | built | built | to build |
+| burn | burnt / burned | burnt / burned | to burn |
+| burst | burst | burst | to burst |
+
+### 🅲 C – D
+
+| V1 | V2 | V3 | Meaning |
+|---|---|---|---|
+| cast | cast | cast | to cast / throw |
+| choose | chose | chosen | to choose |
+| cling | clung | clung | to cling |
+| creep | crept | crept | to creep |
+| deal | dealt | dealt | to deal |
+| dig | dug | dug | to dig |
+| dive | dived / dove | dived | to dive |
+| draw | drew | drawn | to draw; to pull |
+| dream | dreamt / dreamed | dreamt / dreamed | to dream |
+| drive | drove | driven | to drive |
+
+### 🅴 E – F
+
+| V1 | V2 | V3 | Meaning |
+|---|---|---|---|
+| eat | ate | eaten | to eat |
+| fall | fell | fallen | to fall |
+| feed | fed | fed | to feed |
+| flee | fled | fled | to flee |
+| fly | flew | flown | to fly |
+| forbid | forbade | forbidden | to forbid |
+| forecast | forecast | forecast | to forecast |
+| forget | forgot | forgotten | to forget |
+| forgive | forgave | forgiven | to forgive |
+| freeze | froze | frozen | to freeze |
+
+### 🅶 G – H
+
+| V1 | V2 | V3 | Meaning |
+|---|---|---|---|
+| grind | ground | ground | to grind |
+| grow | grew | grown | to grow |
+| hang | hung | hung | to hang (objects) |
+| hide | hid | hidden | to hide |
+| hit | hit | hit | to hit |
+| hurt | hurt | hurt | to hurt |
+
+### 🅸 I – L
+
+| V1 | V2 | V3 | Meaning |
+|---|---|---|---|
+| input | input | input | to input |
+| kneel | knelt | knelt | to kneel |
+| knit | knit / knitted | knit / knitted | to knit |
+| lay | laid | laid | to place sth down |
+| lead | led | led | to lead |
+| lean | leant / leaned | leant / leaned | to lean |
+| leap | leapt / leaped | leapt / leaped | to leap |
+| learn | learnt / learned | learnt / learned | to learn |
+| lend | lent | lent | to lend |
+| lie | lay | lain | to recline |
+| light | lit / lighted | lit / lighted | to light |
+| lose | lost | lost | to lose |
+
+### 🅼 M – P
+
+| V1 | V2 | V3 | Meaning |
+|---|---|---|---|
+| mistake | mistook | mistaken | to mistake |
+| misunderstand | misunderstood | misunderstood | to misunderstand |
+| overcome | overcame | overcome | to overcome |
+| overtake | overtook | overtaken | to overtake |
+| pay | paid | paid | to pay |
+| prove | proved | proven / proved | to prove |
+
+### 🆀 Q – S
+
+| V1 | V2 | V3 | Meaning |
+|---|---|---|---|
+| quit | quit | quit | to quit |
+| ride | rode | ridden | to ride |
+| ring | rang | rung | to ring |
+| rise | rose | risen | to rise |
+| run | ran | run | to run |
+| saw | sawed | sawn / sawed | to saw |
+| seek | sought | sought | to seek |
+| sell | sold | sold | to sell |
+| send | sent | sent | to send |
+| sew | sewed | sewn / sewed | to sew |
+| shake | shook | shaken | to shake |
+| shine | shone | shone | to shine |
+| shoot | shot | shot | to shoot |
+| show | showed | shown / showed | to show |
+| shrink | shrank | shrunk | to shrink |
+| shut | shut | shut | to shut |
+| sing | sang | sung | to sing |
+| sink | sank | sunk | to sink |
+| sit | sat | sat | to sit |
+| slay | slew | slain | to slay |
+| sleep | slept | slept | to sleep |
+| slide | slid | slid | to slide |
+| smell | smelt / smelled | smelt / smelled | to smell |
+| sow | sowed | sown / sowed | to sow |
+| speak | spoke | spoken | to speak |
+| speed | sped / speeded | sped / speeded | to speed |
+| spell | spelt / spelled | spelt / spelled | to spell |
+| spend | spent | spent | to spend |
+| spill | spilt / spilled | spilt / spilled | to spill |
+| spin | spun | spun | to spin |
+| spit | spat / spit | spat / spit | to spit |
+| split | split | split | to split |
+| spoil | spoilt / spoiled | spoilt / spoiled | to spoil |
+| spread | spread | spread | to spread |
+| spring | sprang | sprung | to spring |
+| stand | stood | stood | to stand |
+| steal | stole | stolen | to steal |
+| stick | stuck | stuck | to stick |
+| sting | stung | stung | to sting |
+| stink | stank | stunk | to stink |
+| strike | struck | struck | to strike |
+| swear | swore | sworn | to swear |
+| sweep | swept | swept | to sweep |
+| swim | swam | swum | to swim |
+| swing | swung | swung | to swing |
+
+### 🆃 T – W
+
+| V1 | V2 | V3 | Meaning |
+|---|---|---|---|
+| tear | tore | torn | to tear |
+| throw | threw | thrown | to throw |
+| thrust | thrust | thrust | to thrust |
+| tread | trod | trodden / trod | to tread |
+| understand | understood | understood | to understand |
+| undertake | undertook | undertaken | to undertake |
+| upset | upset | upset | to upset |
+| wake | woke | woken | to wake |
+| wear | wore | worn | to wear |
+| weep | wept | wept | to weep |
+| wet | wet / wetted | wet / wetted | to wet |
+| win | won | won | to win |
+| wind | wound | wound | to wind |
+| withdraw | withdrew | withdrawn | to withdraw |
+| wring | wrung | wrung | to wring |
+| write | wrote | written | to write |
+
+### 🎯 How to use this reference
+
+1. **Learn 5 verbs per day** — finish the entire list in 25 days.
+2. **Star (⭐)** the verbs you use most often in writing/speaking to prioritize review.
+3. **Dual forms** (burnt/burned, learnt/learned): both are correct. *-ed* is more common in American English; *-t* is more common in British English.
+4. **Watch bear/bore/borne vs born**: *born* is only for birth (*I was born in 1995*); *borne* is for other meanings (*She has borne great pain*).
+5. **No-change family**: forecast / broadcast / cast / cost / cut / hit / hurt / let / put / set / shut / spread — just memorize V1 and you have all 3 forms.`,
+        proTips: [
+          "Đừng cố nhớ một lần — chia bảng thành 6 phần (A-B, C-D, E-F…) và học 1 phần mỗi ngày.",
+          "Khi gặp động từ lạ trong bài đọc IELTS/TOEIC, lập tức tra bảng này và viết câu ví dụ.",
+          "Đánh dấu ⭐ những động từ bạn hay sai để ôn lại trong cuối tuần."
+        ],
+        proTipsEn: [
+          "Don't memorize all at once — break the table into 6 chunks (A-B, C-D, E-F…) and learn one per day.",
+          "When you spot an unfamiliar verb in IELTS/TOEIC reading, look it up here and write a personal example.",
+          "Star ⭐ the verbs you frequently miss and review them every weekend."
+        ],
+        vocabulary: [
+          { word: "arise - arose - arisen", meaning: "phát sinh, nảy sinh", example: "A problem has arisen in the schedule.", partOfSpeech: "verb" },
+          { word: "bear - bore - borne/born", meaning: "chịu đựng / sinh ra", example: "She has borne the pain bravely.", partOfSpeech: "verb" },
+          { word: "bite - bit - bitten", meaning: "cắn", example: "The dog has bitten the postman.", partOfSpeech: "verb" },
+          { word: "choose - chose - chosen", meaning: "chọn", example: "I have chosen the blue dress.", partOfSpeech: "verb" },
+          { word: "forget - forgot - forgotten", meaning: "quên", example: "I have forgotten her name.", partOfSpeech: "verb" },
+          { word: "forgive - forgave - forgiven", meaning: "tha thứ", example: "He has forgiven me for the mistake.", partOfSpeech: "verb" },
+          { word: "freeze - froze - frozen", meaning: "đóng băng", example: "The lake has frozen overnight.", partOfSpeech: "verb" },
+          { word: "hide - hid - hidden", meaning: "giấu", example: "She has hidden the gift under the bed.", partOfSpeech: "verb" },
+          { word: "lead - led - led", meaning: "dẫn dắt", example: "He has led the team for five years.", partOfSpeech: "verb" },
+          { word: "pay - paid - paid", meaning: "trả tiền", example: "I have already paid the bill.", partOfSpeech: "verb" },
+          { word: "shake - shook - shaken", meaning: "rung lắc", example: "The earthquake has shaken the city.", partOfSpeech: "verb" },
+          { word: "shoot - shot - shot", meaning: "bắn", example: "The photographer has shot 200 pictures.", partOfSpeech: "verb" },
+          { word: "tear - tore - torn", meaning: "xé rách", example: "She has torn the letter into pieces.", partOfSpeech: "verb" },
+          { word: "wear - wore - worn", meaning: "mặc, đeo", example: "He has worn that watch for ten years.", partOfSpeech: "verb" },
+          { word: "withdraw - withdrew - withdrawn", meaning: "rút (tiền/lui)", example: "She has withdrawn $500 from the bank.", partOfSpeech: "verb" }
+        ],
+        exercises: [
+          {
+            type: "fill-in-blank" as const,
+            instruction: "Điền V2 hoặc V3 đúng từ bảng A→Z",
+            instructionEn: "Fill in the correct V2 or V3 from the A→Z table",
+            sentences: [
+              { text: "He has ___ the same suit for three days. (wear)", textEn: "He has ___ the same suit for three days. (wear)", answer: "worn", hint: "wear → worn (V3)" },
+              { text: "The pipe ___ during the cold night. (burst)", textEn: "The pipe ___ during the cold night. (burst)", answer: "burst", hint: "no change family" },
+              { text: "I have ___ this novel three times. (choose)", textEn: "I have ___ this novel three times. (choose)", answer: "chosen", hint: "choose → chosen (V3)" },
+              { text: "She ___ the entire amount yesterday. (pay)", textEn: "She ___ the entire amount yesterday. (pay)", answer: "paid", hint: "pay → paid (V2 = V3)" },
+              { text: "The thief has ___ all the jewellery. (steal)", textEn: "The thief has ___ all the jewellery. (steal)", answer: "stolen", hint: "steal → stolen (V3)" },
+              { text: "We have ___ his name many times before. (forget)", textEn: "We have ___ his name many times before. (forget)", answer: "forgotten", hint: "forget → forgotten (V3)" },
+              { text: "He ___ the ball into the goal last minute. (shoot)", textEn: "He ___ the ball into the goal last minute. (shoot)", answer: "shot", hint: "shoot → shot (V2 = V3)" },
+              { text: "The earthquake has ___ the whole region. (shake)", textEn: "The earthquake has ___ the whole region. (shake)", answer: "shaken", hint: "shake → shaken (V3)" },
+              { text: "I ___ a strange dream last night. (dream)", textEn: "I ___ a strange dream last night. (dream)", answer: "dreamt", hint: "dream → dreamt or dreamed" },
+              { text: "She has ___ all her savings on a trip. (spend)", textEn: "She has ___ all her savings on a trip. (spend)", answer: "spent", hint: "spend → spent (V2 = V3)" },
+              { text: "He has ___ to be more patient. (swear)", textEn: "He has ___ to be more patient. (swear)", answer: "sworn", hint: "swear → sworn (V3)" },
+              { text: "They have ___ the prisoner free. (set)", textEn: "They have ___ the prisoner free. (set)", answer: "set", hint: "no change family" }
+            ]
+          },
+          {
+            type: "sentence-reorder" as const,
+            instruction: "Sắp xếp câu đúng",
+            instructionEn: "Reorder the sentences correctly",
+            items: [
+              { scrambled: ["The", "river", "has", "frozen", "completely"], correct: "The river has frozen completely.", correctEn: "The river has frozen completely." },
+              { scrambled: ["She", "has", "withdrawn", "from", "the", "competition"], correct: "She has withdrawn from the competition.", correctEn: "She has withdrawn from the competition." },
+              { scrambled: ["He", "tore", "the", "page", "out", "of", "anger"], correct: "He tore the page out of anger.", correctEn: "He tore the page out of anger." },
+              { scrambled: ["The", "team", "has", "overcome", "many", "obstacles"], correct: "The team has overcome many obstacles.", correctEn: "The team has overcome many obstacles." }
+            ]
+          }
+        ],
+        quiz: [
+          { question: "Past participle of 'bite' is:", options: ["bit", "bited", "bitten", "biten"], answer: 2, explanation: "bite → bit → bitten." },
+          { question: "Complete: 'She has ___ a difficult decision.'", options: ["choose", "chose", "chosen", "choosed"], answer: 2, explanation: "After 'has', use V3. choose → chose → chosen." },
+          { question: "Which V3 is correct? 'I have ___ my keys.'", options: ["forgive", "forgave", "forgiven", "forgotten"], answer: 3, explanation: "'forget' → 'forgotten' (you forget keys, not forgive them)." },
+          { question: "Pick the WRONG sentence:", options: ["He has worn glasses since childhood.", "He has wore glasses since childhood.", "He wore glasses yesterday.", "He wears glasses every day."], answer: 1, explanation: "After 'has', use V3 ('worn'), not V2 ('wore')." },
+          { question: "Past simple of 'seek' is:", options: ["seeked", "sought", "sookt", "saught"], answer: 1, explanation: "seek → sought → sought (-ought family)." },
+          { question: "Complete: 'The balloon ___ when it hit the ceiling.'", options: ["burst", "bursted", "bursts", "bursting"], answer: 0, explanation: "'burst' belongs to no-change family — same V1, V2, V3." },
+          { question: "Which is the correct V3 of 'shake'?", options: ["shook", "shaked", "shaken", "shooken"], answer: 2, explanation: "shake → shook → shaken." },
+          { question: "Complete: 'Prices have ___ since last month.'", options: ["risen", "raised", "rose", "raise"], answer: 0, explanation: "rise (intransitive) → risen. 'Prices' rise by themselves; no object." },
+          { question: "Which sentence is correct?", options: ["I have payed the bill.", "I have paid the bill.", "I have paied the bill.", "I have pay the bill."], answer: 1, explanation: "pay → paid → paid (note: NOT 'payed')." },
+          { question: "Past participle of 'tear' (rách) is:", options: ["teared", "tore", "torn", "teard"], answer: 2, explanation: "tear → tore → torn." },
+          { question: "Complete: 'He has ___ a marathon twice.'", options: ["ran", "run", "runned", "running"], answer: 1, explanation: "run → ran → run. V3 of 'run' is 'run' (same as V1!)." },
+          { question: "Which is the correct V2 of 'fly'?", options: ["flied", "flew", "flown", "flyed"], answer: 1, explanation: "fly → flew → flown. ('Flied' only exists in baseball slang.)" }
+        ]
       }
     ]
   }
