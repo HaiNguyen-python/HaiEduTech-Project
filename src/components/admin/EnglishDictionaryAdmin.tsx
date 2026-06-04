@@ -513,7 +513,7 @@ sustainable,/səˈsteɪnəbəl/,adjective,"bền vững, có thể duy trì",abl
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <Label htmlFor="dict-ph">{t("Phiên âm IPA", "Phonetic (IPA)")}</Label>
-                  <Input id="dict-ph" value={phonetic} onChange={e => setPhonetic(e.target.value)} placeholder="/ˌɑːrtɪˈfɪʃəl/" maxLength={80} />
+                  <Input id="dict-ph" value={phonetic} onChange={e => setPhonetic(e.target.value)} placeholder={cfg.phoneticHint} maxLength={80} />
                 </div>
                 <div>
                   <Label htmlFor="dict-pos">{t("Từ loại", "Part of Speech")}</Label>
