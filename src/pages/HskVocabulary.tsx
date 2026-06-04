@@ -6,7 +6,10 @@ import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle, Dumbbell, Brain } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { hskVocabData, HSK_LEVELS, HSK_CATEGORIES, type HskWord } from "@/data/hskVocab";
+// NOTE: `hskVocabData` is loaded dynamically inside the component below so the
+// heavy ~1.9MB vocab payload no longer blocks the initial page render. Only
+// the lightweight type/constant metadata is imported statically.
+import { HSK_LEVELS, HSK_CATEGORIES, type HskWord } from "@/data/hskVocab/types";
 import HanziStrokeOrder from "@/components/HanziStrokeOrder";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
