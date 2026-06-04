@@ -31,9 +31,10 @@ export default defineConfig(({ mode }) => ({
         drop_console: true,
         drop_debugger: true,
       },
-      mangle: {
-        toplevel: true,
-      },
+      // Do not mangle top-level/vendor symbols: Recharts can crash in
+      // production with "Cannot access 'e' before initialization" when
+      // aggressive top-level mangling rewrites lexical declarations.
+      mangle: false,
       format: {
         comments: false,
       },
