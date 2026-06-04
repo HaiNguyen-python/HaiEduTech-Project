@@ -346,7 +346,7 @@ Scroll the Vietnamese section above for the complete A→Z table — it shares t
           { word: "past participle", meaning: "quá khứ phân từ (V3)", example: "Use the past participle after 'have'." },
           { word: "base form", meaning: "nguyên mẫu (V1)", example: "The base form of 'went' is 'go'." }
         ],
-        practice: [
+        exercises: [
           {
             type: "fill-in-blank" as const,
             instruction: "Điền dạng V2 hoặc V3 đúng (tra bảng nếu cần)",
