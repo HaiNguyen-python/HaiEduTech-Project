@@ -625,6 +625,12 @@ const HskVocabulary = () => {
               <div className="flex flex-wrap items-center gap-3 mt-2 text-sm">
                 <span className="text-muted-foreground">{t("Đã thuộc", "Mastered")}: <strong className="text-primary">{mastered.size}</strong></span>
                 <span className="text-muted-foreground">{t("Cần ôn", "Need Review")}: <strong className="text-orange-400">{hskVocabData.length - mastered.size}</strong></span>
+                {vocabLoading && (
+                  <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground animate-pulse">
+                    <span className="w-3 h-3 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                    {t("Đang tải kho từ vựng...", "Loading vocabulary bank...")}
+                  </span>
+                )}
               </div>
             </div>
 
