@@ -28,11 +28,7 @@ export const grammarExpansionModules6: LanguageModule[] = [
         difficulty: "beginner",
         theory: `## 📘 Bảng động từ bất quy tắc đầy đủ A→Z
 
-> Hơn **200 động từ** thông dụng nhất, kèm **IPA** và **nghĩa tiếng Việt**. Bookmark trang này để tra cứu khi cần.
-
-**V1** = nguyên mẫu · **V2** = quá khứ đơn · **V3** = quá khứ phân từ (dùng sau *have/be*) · **IPA** = phiên âm V2 / V3.
-
----
+Tra nhanh **V1 – V2 – V3 – IPA – nghĩa tiếng Việt**. Dùng bảng này làm tài liệu chính để học và ôn tập.
 
 ### 🅰️ A
 
@@ -289,26 +285,7 @@ export const grammarExpansionModules6: LanguageModule[] = [
 | **withhold** | withheld | withheld | /wɪðˈheld/ — /wɪðˈheld/ | giữ lại, từ chối đưa |
 | **withstand** | withstood | withstood | /wɪðˈstʊd/ — /wɪðˈstʊd/ | chịu đựng |
 | **wring** | wrung | wrung | /rʌŋ/ — /rʌŋ/ | vắt (khô) |
-| **write** | wrote | written | /roʊt/ — /ˈrɪtn/ | viết |
-
----
-
-### 💡 6 mẹo "vàng" để ghi nhớ cả bảng
-
-1. **Học theo nhóm vần** thay vì học rời rạc: *sing/swim/drink/ring* cùng nhóm *i → a → u*.
-2. **Học theo cặp đối lập**: *buy/sell*, *give/take*, *lose/win*, *come/go*.
-3. **Học theo chủ đề**: nhóm vận động (*run/swim/ride/drive*), nhóm cảm xúc (*feel/think/mean*), nhóm giao tiếp (*say/tell/speak/hear*).
-4. **Đặt câu thật ngắn** với mỗi động từ — não nhớ ngữ cảnh tốt hơn nhớ danh sách.
-5. **Đọc to phiên âm IPA** — phát âm đúng giúp não tự "khóa" V2/V3 lại.
-6. **Học 10 từ / ngày** trong 20 ngày — đừng cố nhồi nhét 200 từ trong 1 ngày.
-
-### ⚠️ 5 lỗi sai phổ biến cần tránh
-
-- ❌ *I have went to school* → ✅ *I have **gone** to school* (sau **have**, dùng V3).
-- ❌ *He **bringed** flowers* → ✅ *He **brought** flowers* (đừng thêm -ed cho động từ bất quy tắc).
-- ❌ *She **layed** down* → ✅ *She **lay** down* (nằm = lie/lay/lain, không có tân ngữ).
-- ❌ *They **readed** the book* → ✅ *They **read** /red/ the book* (V2 đọc khác V1).
-- ❌ *I **hurted** my knee* → ✅ *I **hurt** my knee* (hurt – hurt – hurt, không đổi).`,
+| **write** | wrote | written | /roʊt/ — /ˈrɪtn/ | viết |`,
         theoryEn: `## 📘 Complete Irregular Verbs Master Table
 
 > **200+ common irregular verbs**, A → Z, with **IPA** and **Vietnamese meanings**. Bookmark for quick lookup.
