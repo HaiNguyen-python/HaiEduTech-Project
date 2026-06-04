@@ -63,11 +63,11 @@ const todayKey = () => new Date().toISOString().slice(0, 10);
 
 const StudentMotivationModal = () => {
   const { user, isStudent, isTeacher, loading } = useUserRole();
-  const { t, language } = useLanguage();
+  const { t, lang } = useLanguage();
   const [open, setOpen] = useState(false);
   const [summary, setSummary] = useState<Summary | null>(null);
   const [quote] = useState(() => {
-    const pool = language === "vi" ? QUOTES_VI : QUOTES_EN;
+    const pool = lang === "vi" ? QUOTES_VI : QUOTES_EN;
     return pool[Math.floor(Math.random() * pool.length)];
   });
 
@@ -118,7 +118,7 @@ const StudentMotivationModal = () => {
   const points = summary.mastered_words_period * 3 + summary.activities_total * 5;
   const hours = Math.round((summary.online_minutes / 60) * 10) / 10;
   const monthLabel = new Date().getMonth() + 1;
-  const title = titleFor(language === "vi" ? "vi" : "en", points);
+  const title = titleFor(lang, points);
 
   const handleShare = async () => {
     const text = t(
@@ -136,8 +136,7 @@ const StudentMotivationModal = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent
-        className="max-w-3xl p-0 border-0 bg-transparent shadow-none"
-        hideClose
+        className="max-w-3xl p-0 border-0 bg-transparent shadow-none [&>button]:hidden"
       >
         <motion.div
           initial={{ scale: 0.85, opacity: 0, y: 20 }}
