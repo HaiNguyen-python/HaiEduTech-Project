@@ -803,6 +803,48 @@ export type Database = {
         }
         Relationships: []
       }
+      english_dictionary: {
+        Row: {
+          collocations_synonyms: Json
+          created_at: string
+          english_definition: string | null
+          examples: Json
+          id: string
+          part_of_speech: string | null
+          phonetic: string | null
+          tag: string | null
+          updated_at: string
+          vietnamese_definition: string
+          word: string
+        }
+        Insert: {
+          collocations_synonyms?: Json
+          created_at?: string
+          english_definition?: string | null
+          examples?: Json
+          id?: string
+          part_of_speech?: string | null
+          phonetic?: string | null
+          tag?: string | null
+          updated_at?: string
+          vietnamese_definition: string
+          word: string
+        }
+        Update: {
+          collocations_synonyms?: Json
+          created_at?: string
+          english_definition?: string | null
+          examples?: Json
+          id?: string
+          part_of_speech?: string | null
+          phonetic?: string | null
+          tag?: string | null
+          updated_at?: string
+          vietnamese_definition?: string
+          word?: string
+        }
+        Relationships: []
+      }
       game_participants: {
         Row: {
           answers_correct: number
