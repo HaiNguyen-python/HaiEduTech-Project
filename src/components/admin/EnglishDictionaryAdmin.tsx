@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { BookOpen, Upload, Plus, Loader2, Search, Trash2, FileJson, FileSpreadsheet } from "lucide-react";
+import { BookOpen, Upload, Plus, Loader2, Search, Trash2, FileJson, FileSpreadsheet, Sparkles, X } from "lucide-react";
 
 interface DictRow {
   id: string;
@@ -56,7 +56,11 @@ const EnglishDictionaryAdmin = () => {
   const [viDef, setViDef] = useState("");
   const [enDef, setEnDef] = useState("");
   const [tag, setTag] = useState("General");
+  const [examples, setExamples] = useState<{ en: string; vi: string }[]>([]);
+  const [collocations, setCollocations] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
+
 
   const [search, setSearch] = useState("");
   const [rows, setRows] = useState<DictRow[]>([]);
@@ -87,6 +91,40 @@ const EnglishDictionaryAdmin = () => {
 
   useEffect(() => { loadEntries(); /* eslint-disable-next-line */ }, []);
 
+  // Generate structured entry from Perplexity AI and auto-fill the form
+  const generateWithAI = async () => {
+    const target = word.trim();
+    if (!target) {
+      toast.error(t("Vui lòng nhập từ trước", "Please enter a word first"));
+      return;
+    }
+    setAiLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("dictionary-ai-generate", {
+        body: { word: target },
+      });
+      if (error || !data || (data as any).error) {
+        throw new Error((data as any)?.error || error?.message || "AI error");
+      }
+      // Auto-fill form fields with sanitized AI output
+      setPhonetic(String(data.phonetic || ""));
+      setPos(String(data.part_of_speech || ""));
+      setViDef(String(data.vietnamese_definition || ""));
+      setEnDef(String(data.english_definition || ""));
+      setExamples(Array.isArray(data.examples) ? data.examples : []);
+      setCollocations(Array.isArray(data.collocations_synonyms) ? data.collocations_synonyms : []);
+      toast.success(t("Đã tạo nội dung — hãy rà soát trước khi lưu", "Generated — please review before saving"));
+    } catch (e: any) {
+      console.error(e);
+      toast.error(t(
+        "Không thể tự động tạo từ vựng, vui lòng thử lại hoặc điền thủ công",
+        "Could not auto-generate, please try again or fill manually"
+      ));
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
   const submitOne = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!word.trim() || !viDef.trim()) {
@@ -94,6 +132,10 @@ const EnglishDictionaryAdmin = () => {
       return;
     }
     setSubmitting(true);
+    const cleanExamples = examples
+      .map(ex => ({ en: ex.en.trim(), vi: ex.vi.trim() }))
+      .filter(ex => ex.en);
+    const cleanCollocations = collocations.map(c => c.trim()).filter(Boolean);
     const { error } = await supabase.from("english_dictionary").upsert(
       {
         word: word.trim().toLowerCase(),
@@ -101,6 +143,8 @@ const EnglishDictionaryAdmin = () => {
         part_of_speech: pos.trim() || null,
         vietnamese_definition: viDef.trim(),
         english_definition: enDef.trim() || null,
+        examples: cleanExamples,
+        collocations_synonyms: cleanCollocations,
         tag: tag || "General",
       },
       { onConflict: "word" }
@@ -113,8 +157,10 @@ const EnglishDictionaryAdmin = () => {
     }
     toast.success(t("Đã lưu từ vào từ điển!", "Word saved to dictionary!"));
     setWord(""); setPhonetic(""); setPos(""); setViDef(""); setEnDef("");
+    setExamples([]); setCollocations([]);
     loadEntries();
   };
+
 
   const handleDelete = async (id: string) => {
     if (!confirm(t("Xóa từ này?", "Delete this entry?"))) return;
@@ -266,8 +312,38 @@ sustainable,/səˈsteɪnəbəl/,adjective,"bền vững, có thể duy trì",abl
             <form onSubmit={submitOne} className="space-y-3">
               <div>
                 <Label htmlFor="dict-word">{t("Từ tiếng Anh *", "English Word *")}</Label>
-                <Input id="dict-word" value={word} onChange={e => setWord(e.target.value)} placeholder="artificial" maxLength={120} required />
+                <div className="flex gap-2">
+                  <Input
+                    id="dict-word"
+                    value={word}
+                    onChange={e => setWord(e.target.value)}
+                    placeholder="artificial"
+                    maxLength={120}
+                    required
+                    disabled={aiLoading}
+                    className="flex-1"
+                  />
+                  <Button
+                    type="button"
+                    onClick={generateWithAI}
+                    disabled={aiLoading || !word.trim()}
+                    className="shrink-0 bg-gradient-to-r from-primary to-emerald-500 text-primary-foreground hover:brightness-110"
+                    title={t("Tự động tạo bằng Perplexity AI", "Auto-generate with Perplexity AI")}
+                  >
+                    {aiLoading
+                      ? <Loader2 className="w-4 h-4 animate-spin" />
+                      : <Sparkles className="w-4 h-4" />}
+                    <span className="ml-1.5 hidden sm:inline">
+                      {aiLoading
+                        ? t("Đang tạo...", "Generating...")
+                        : t("Tạo bằng Perplexity", "Generate with Perplexity")}
+                    </span>
+                  </Button>
+                </div>
               </div>
+
+              {/* Loading overlay state inside form */}
+              <fieldset disabled={aiLoading} className="space-y-3 contents">
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <Label htmlFor="dict-ph">{t("Phiên âm IPA", "Phonetic (IPA)")}</Label>
@@ -286,6 +362,89 @@ sustainable,/səˈsteɪnəbəl/,adjective,"bền vững, có thể duy trì",abl
                 <Label htmlFor="dict-en">{t("Định nghĩa tiếng Anh (tùy chọn)", "English Definition (optional)")}</Label>
                 <Textarea id="dict-en" value={enDef} onChange={e => setEnDef(e.target.value)} rows={2} maxLength={500} />
               </div>
+
+              {/* Examples (JSONB) editor */}
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <Label>{t("Câu ví dụ", "Examples")}</Label>
+                  <button
+                    type="button"
+                    onClick={() => setExamples(prev => [...prev, { en: "", vi: "" }])}
+                    className="text-xs text-primary hover:underline"
+                  >
+                    + {t("Thêm câu", "Add example")}
+                  </button>
+                </div>
+                {examples.length === 0 && (
+                  <p className="text-xs text-muted-foreground italic">
+                    {t("Chưa có ví dụ. Bấm \"Tạo bằng Perplexity\" để tự sinh.", "No examples yet. Use \"Generate with Perplexity\".")}
+                  </p>
+                )}
+                <div className="space-y-2">
+                  {examples.map((ex, i) => (
+                    <div key={i} className="grid grid-cols-1 sm:grid-cols-[1fr_1fr_auto] gap-2 items-start bg-secondary/40 p-2 rounded-md">
+                      <Input
+                        value={ex.en}
+                        onChange={e => setExamples(prev => prev.map((p, idx) => idx === i ? { ...p, en: e.target.value } : p))}
+                        placeholder={t("Câu tiếng Anh", "English sentence")}
+                        maxLength={300}
+                      />
+                      <Input
+                        value={ex.vi}
+                        onChange={e => setExamples(prev => prev.map((p, idx) => idx === i ? { ...p, vi: e.target.value } : p))}
+                        placeholder={t("Bản dịch tiếng Việt", "Vietnamese translation")}
+                        maxLength={300}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setExamples(prev => prev.filter((_, idx) => idx !== i))}
+                        className="p-2 text-muted-foreground hover:text-destructive"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Collocations / Synonyms (JSONB) editor */}
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <Label>{t("Collocations / Đồng nghĩa", "Collocations / Synonyms")}</Label>
+                  <button
+                    type="button"
+                    onClick={() => setCollocations(prev => [...prev, ""])}
+                    className="text-xs text-primary hover:underline"
+                  >
+                    + {t("Thêm", "Add")}
+                  </button>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {collocations.map((c, i) => (
+                    <div key={i} className="flex items-center gap-1 bg-primary/10 rounded-full pl-3 pr-1 py-0.5">
+                      <input
+                        value={c}
+                        onChange={e => setCollocations(prev => prev.map((p, idx) => idx === i ? e.target.value : p))}
+                        className="bg-transparent text-sm text-foreground outline-none w-32"
+                        maxLength={80}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setCollocations(prev => prev.filter((_, idx) => idx !== i))}
+                        className="p-1 text-muted-foreground hover:text-destructive"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </div>
+                  ))}
+                  {collocations.length === 0 && (
+                    <p className="text-xs text-muted-foreground italic">
+                      {t("Chưa có. Sẽ tự điền khi dùng AI.", "None yet. Will auto-fill from AI.")}
+                    </p>
+                  )}
+                </div>
+              </div>
+
               <div>
                 <Label htmlFor="dict-tag">{t("Nhãn", "Tag")}</Label>
                 <select id="dict-tag" value={tag} onChange={e => setTag(e.target.value)}
@@ -293,10 +452,12 @@ sustainable,/səˈsteɪnəbəl/,adjective,"bền vững, có thể duy trì",abl
                   {TAGS.map(tg => <option key={tg} value={tg}>{tg}</option>)}
                 </select>
               </div>
-              <Button type="submit" disabled={submitting} className="w-full">
+              <Button type="submit" disabled={submitting || aiLoading} className="w-full">
                 {submitting ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Plus className="w-4 h-4 mr-2" />}
                 {t("Lưu vào từ điển", "Save to Dictionary")}
               </Button>
+              </fieldset>
+
             </form>
           </CardContent>
         </Card>
