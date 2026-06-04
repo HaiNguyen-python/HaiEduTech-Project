@@ -351,7 +351,7 @@ Scroll the Vietnamese section above for the complete A→Z table — it shares t
             type: "fill-in-blank" as const,
             instruction: "Điền dạng V2 hoặc V3 đúng (tra bảng nếu cần)",
             instructionEn: "Fill in the correct V2 or V3 (consult the table if needed)",
-            items: [
+            sentences: [
               { text: "She has ___ her keys again. (lose)", textEn: "She has ___ her keys again. (lose)", answer: "lost", hint: "lose → V3 (lose/lost/lost)" },
               { text: "The sun ___ at 6 a.m. yesterday. (rise)", textEn: "The sun ___ at 6 a.m. yesterday. (rise)", answer: "rose", hint: "rise → V2 (rise/rose/risen)" },
               { text: "I have ___ to him many times. (speak)", textEn: "I have ___ to him many times. (speak)", answer: "spoken", hint: "speak → V3" },
