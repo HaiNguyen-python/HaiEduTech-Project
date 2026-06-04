@@ -14,25 +14,43 @@ import {
   Move,
   BookmarkPlus,
   Check,
+  Languages,
+  Copy,
+  ArrowRightLeft,
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { motion, AnimatePresence, useDragControls } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 type LookupErrorKind = "notFound" | "busy" | null;
 type SizeMode = "wide";
-type ActiveTab = "dictionary" | "ozdic" | "thesaurus";
+type ActiveTab = "dictionary" | "ozdic" | "thesaurus" | "translate";
+type DictLang = "en" | "zh" | "fi" | "vi";
 
+const LANG_LABEL: Record<DictLang, string> = {
+  en: "🇬🇧 English",
+  zh: "🇨🇳 中文",
+  fi: "🇫🇮 Suomi",
+  vi: "🇻🇳 Tiếng Việt",
+};
+const LANG_OPTIONS: DictLang[] = ["en", "zh", "fi", "vi"];
 
 const RECENT_KEY = "super-dict-recent";
 const POSITION_KEY = "super-dict-position";
 const SIZE_KEY = "super-dict-size";
+const LANG_KEY = "super-dict-lang";
 const MAX_RECENT = 5;
-const SUGGESTIONS = ["ambiguous", "perspective", "significant"];
+const SUGGESTIONS_BY_LANG: Record<DictLang, string[]> = {
+  en: ["ambiguous", "perspective", "significant"],
+  zh: ["学习", "朋友", "希望"],
+  fi: ["kiitos", "ystävä", "oppia"],
+  vi: ["học tập", "hi vọng", "bạn bè"],
+};
 
 // Size limits (px) for resizable panel on lg+
 const DEFAULT_WIDTH = 520;
