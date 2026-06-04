@@ -1,5 +1,5 @@
-// Multi-language word lookup (EN/ZH/FI/VI) powered by Lovable AI Gateway.
-// Returns: phonetic/pinyin, part of speech, 1-4 definitions in English + Vietnamese, examples.
+// Multi-language word lookup (EN/ZH/FI/VI) powered by Perplexity API.
+// Returns: phonetic/pinyin, part of speech, 1-3 definitions in English + Vietnamese, examples.
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -29,14 +29,14 @@ Deno.serve(async (req) => {
       return Response.json({ error: true, message: "Invalid language" }, { headers: corsHeaders });
     }
 
-    const KEY = Deno.env.get("LOVABLE_API_KEY");
+    const KEY = Deno.env.get("PERPLEXITY_API_KEY");
     if (!KEY) {
       return Response.json({ error: true, message: "Lookup service unavailable" }, { headers: corsHeaders });
     }
 
     const system =
       `You are a multilingual dictionary. The user gives a word in ${LANG_NAMES[lang]}. ` +
-      `Return a strict JSON object with this shape:\n` +
+      `Return ONLY a strict JSON object (no markdown, no prose, no citation markers like [1]) with this shape:\n` +
       `{ "word": string, "phonetic": string, "meanings": [ { "partOfSpeech": string, "definitions": [ { "definitionEn": string, "definitionVi": string, "example": string, "exampleVi": string } ] } ], "notFound": boolean }\n` +
       `Rules:\n` +
       `- If the word does not exist in that language, return {"notFound": true} and nothing else.\n` +
@@ -46,43 +46,48 @@ Deno.serve(async (req) => {
       `- For Chinese: "phonetic" must be Pinyin with tone marks; "word" must be the Hanzi.\n` +
       `- For Finnish/English: "phonetic" is IPA in slashes.\n` +
       `- For Vietnamese: "phonetic" may be empty or a rough IPA.\n` +
-      `- Output ONLY the JSON object, no prose, no markdown fences.`;
+      `- Output ONLY the JSON object. No \`\`\`json fences, no extra text, no citation markers.`;
 
-    const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const resp = await fetch("https://api.perplexity.ai/chat/completions", {
       method: "POST",
       headers: { Authorization: `Bearer ${KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
+        model: "sonar",
         messages: [
           { role: "system", content: system },
           { role: "user", content: `Look up the word: ${word}` },
         ],
         temperature: 0.1,
-        response_format: { type: "json_object" },
       }),
     });
 
     if (resp.status === 429) {
       return Response.json({ error: true, message: "Rate limit reached, please wait." }, { headers: corsHeaders });
     }
-    if (resp.status === 402) {
-      return Response.json({ error: true, message: "AI credits exhausted." }, { headers: corsHeaders });
+    if (resp.status === 401 || resp.status === 403) {
+      return Response.json({ error: true, message: "Lookup auth error" }, { headers: corsHeaders });
     }
     if (!resp.ok) {
       const errTxt = await resp.text().catch(() => "");
-      console.error("multi-lang-lookup gateway error", resp.status, errTxt);
+      console.error("multi-lang-lookup perplexity error", resp.status, errTxt);
       return Response.json({ error: true, message: "Lookup service is busy" }, { headers: corsHeaders });
     }
 
     const data = await resp.json();
-    const raw = data?.choices?.[0]?.message?.content || "";
+    let raw: string = data?.choices?.[0]?.message?.content || "";
+    // Clean common wrappers and citation markers
+    raw = raw.replace(/```json|```/g, "").replace(/\[\d+\](?:\[\d+\])*/g, "").trim();
     const match = raw.match(/\{[\s\S]*\}/);
     if (!match) {
+      console.error("multi-lang-lookup no JSON in response", raw.slice(0, 200));
       return Response.json({ notFound: true }, { headers: corsHeaders });
     }
 
     let parsed: any = null;
-    try { parsed = JSON.parse(match[0]); } catch { parsed = null; }
+    try { parsed = JSON.parse(match[0]); } catch (e) {
+      // JSON repair attempt: strip trailing commas
+      try { parsed = JSON.parse(match[0].replace(/,(\s*[}\]])/g, "$1")); } catch { parsed = null; }
+    }
     if (!parsed) {
       return Response.json({ notFound: true }, { headers: corsHeaders });
     }

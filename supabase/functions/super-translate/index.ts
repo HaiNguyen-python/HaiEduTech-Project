@@ -1,4 +1,4 @@
-// Translate sentences or long paragraphs between EN / ZH / FI / VI using Lovable AI Gateway.
+// Translate sentences or long paragraphs between EN / ZH / FI / VI using Perplexity API.
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -32,7 +32,7 @@ Deno.serve(async (req) => {
       return Response.json({ error: true, message: "Invalid target language" }, { headers: corsHeaders });
     }
 
-    const KEY = Deno.env.get("LOVABLE_API_KEY");
+    const KEY = Deno.env.get("PERPLEXITY_API_KEY");
     if (!KEY) {
       return Response.json({ error: true, message: "Translation service unavailable" }, { headers: corsHeaders });
     }
@@ -44,14 +44,14 @@ Deno.serve(async (req) => {
     const system =
       `You are a professional translator. Translate the user's text ${sourceLabel} into ${LANG_NAMES[target]}. ` +
       `Preserve meaning, tone, paragraph breaks, lists, and any HTML/markdown. ` +
-      `Do NOT add commentary, romanization (except where the target spec asks for pinyin), or quotes around the result. ` +
-      `Output ONLY the translation in plain text.`;
+      `Do NOT add commentary, citations, romanization (except where the target spec asks for pinyin), or quotes around the result. ` +
+      `Do NOT include any reference markers like [1], [2]. Output ONLY the plain translation.`;
 
-    const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const resp = await fetch("https://api.perplexity.ai/chat/completions", {
       method: "POST",
       headers: { Authorization: `Bearer ${KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
+        model: "sonar",
         messages: [
           { role: "system", content: system },
           { role: "user", content: text },
@@ -63,17 +63,19 @@ Deno.serve(async (req) => {
     if (resp.status === 429) {
       return Response.json({ error: true, message: "Rate limit reached, please wait a moment." }, { headers: corsHeaders });
     }
-    if (resp.status === 402) {
-      return Response.json({ error: true, message: "AI credits exhausted." }, { headers: corsHeaders });
+    if (resp.status === 401 || resp.status === 403) {
+      return Response.json({ error: true, message: "Translation service auth error" }, { headers: corsHeaders });
     }
     if (!resp.ok) {
       const errTxt = await resp.text().catch(() => "");
-      console.error("super-translate gateway error", resp.status, errTxt);
+      console.error("super-translate perplexity error", resp.status, errTxt);
       return Response.json({ error: true, message: "Translation service is busy" }, { headers: corsHeaders });
     }
 
     const data = await resp.json();
-    const translation = data?.choices?.[0]?.message?.content?.trim() || "";
+    let translation: string = data?.choices?.[0]?.message?.content?.trim() || "";
+    // Strip Perplexity citation markers like [1], [2][3]
+    translation = translation.replace(/\[\d+\](?:\[\d+\])*/g, "").trim();
 
     return Response.json({ translation, target, source }, { headers: corsHeaders });
   } catch (e) {
