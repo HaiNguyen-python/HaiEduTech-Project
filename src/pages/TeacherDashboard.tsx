@@ -333,6 +333,11 @@ const TeacherDashboard = () => {
                 <AttendanceAnalyticsTab />
               </TabsContent>
 
+              {/* English Dictionary Tab */}
+              <TabsContent value="dictionary">
+                <EnglishDictionaryAdmin />
+              </TabsContent>
+
             </Tabs>
           </motion.div>
         </div>
