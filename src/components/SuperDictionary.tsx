@@ -599,7 +599,7 @@ const SuperDictionary = () => {
                       {t("Siêu từ điển", "Super Dictionary")}
                     </p>
                     <p className="text-[10px] text-muted-foreground leading-tight truncate">
-                      {t("Anh - Việt • Collocations • Synonyms", "EN-VI • Collocations • Synonyms")}
+                      {t("Anh • Trung • Phần • Việt · Dịch · Collocations · Synonyms", "EN · ZH · FI · VI · Translate · Collocations · Synonyms")}
                     </p>
                   </div>
                 </div>
