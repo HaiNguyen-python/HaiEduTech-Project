@@ -1,5 +1,7 @@
 // Multi-language word lookup (EN/ZH/FI/VI) powered by Perplexity API.
-// Returns: phonetic/pinyin, part of speech, 1-3 definitions in English + Vietnamese, examples.
+// Cached in dictionary_cache by sha256(lang|word) for repeat-lookup speed.
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -14,6 +16,15 @@ const LANG_NAMES: Record<string, string> = {
   vi: "Vietnamese — provide the diacritic spelling and rough IPA",
 };
 
+async function sha256Hex(s: string): Promise<string> {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
+const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+const admin = createClient(SUPABASE_URL, SERVICE_KEY, { auth: { persistSession: false } });
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
@@ -22,17 +33,25 @@ Deno.serve(async (req) => {
     const word = String(body?.word || "").trim();
     const lang = String(body?.lang || "en").toLowerCase();
 
-    if (!word) {
-      return Response.json({ error: true, message: "Missing word" }, { headers: corsHeaders });
-    }
-    if (!LANG_NAMES[lang]) {
-      return Response.json({ error: true, message: "Invalid language" }, { headers: corsHeaders });
+    if (!word) return Response.json({ error: true, message: "Missing word" }, { headers: corsHeaders });
+    if (!LANG_NAMES[lang]) return Response.json({ error: true, message: "Invalid language" }, { headers: corsHeaders });
+
+    const normalized = word.toLowerCase();
+    const cacheKey = "lk:" + (await sha256Hex(`${lang}|${normalized}`));
+    const { data: cached } = await admin
+      .from("dictionary_cache")
+      .select("payload")
+      .eq("cache_key", cacheKey)
+      .maybeSingle();
+    if (cached?.payload) {
+      admin.from("dictionary_cache")
+        .update({ last_hit_at: new Date().toISOString() })
+        .eq("cache_key", cacheKey).then(() => {});
+      return Response.json({ ...cached.payload, cached: true }, { headers: corsHeaders });
     }
 
     const KEY = Deno.env.get("PERPLEXITY_API_KEY");
-    if (!KEY) {
-      return Response.json({ error: true, message: "Lookup service unavailable" }, { headers: corsHeaders });
-    }
+    if (!KEY) return Response.json({ error: true, message: "Lookup service unavailable" }, { headers: corsHeaders });
 
     const system =
       `You are a multilingual dictionary. The user gives a word in ${LANG_NAMES[lang]}. ` +
@@ -61,12 +80,8 @@ Deno.serve(async (req) => {
       }),
     });
 
-    if (resp.status === 429) {
-      return Response.json({ error: true, message: "Rate limit reached, please wait." }, { headers: corsHeaders });
-    }
-    if (resp.status === 401 || resp.status === 403) {
-      return Response.json({ error: true, message: "Lookup auth error" }, { headers: corsHeaders });
-    }
+    if (resp.status === 429) return Response.json({ error: true, message: "Rate limit reached, please wait." }, { headers: corsHeaders });
+    if (resp.status === 401 || resp.status === 403) return Response.json({ error: true, message: "Lookup auth error" }, { headers: corsHeaders });
     if (!resp.ok) {
       const errTxt = await resp.text().catch(() => "");
       console.error("multi-lang-lookup perplexity error", resp.status, errTxt);
@@ -75,7 +90,6 @@ Deno.serve(async (req) => {
 
     const data = await resp.json();
     let raw: string = data?.choices?.[0]?.message?.content || "";
-    // Clean common wrappers and citation markers
     raw = raw.replace(/```json|```/g, "").replace(/\[\d+\](?:\[\d+\])*/g, "").trim();
     const match = raw.match(/\{[\s\S]*\}/);
     if (!match) {
@@ -84,18 +98,24 @@ Deno.serve(async (req) => {
     }
 
     let parsed: any = null;
-    try { parsed = JSON.parse(match[0]); } catch (e) {
-      // JSON repair attempt: strip trailing commas
+    try { parsed = JSON.parse(match[0]); } catch {
       try { parsed = JSON.parse(match[0].replace(/,(\s*[}\]])/g, "$1")); } catch { parsed = null; }
     }
-    if (!parsed) {
-      return Response.json({ notFound: true }, { headers: corsHeaders });
-    }
+    if (!parsed) return Response.json({ notFound: true }, { headers: corsHeaders });
     if (parsed.notFound) {
+      // Cache "not found" too (short-lived not enforced; cheap entry)
+      admin.from("dictionary_cache")
+        .upsert({ cache_key: cacheKey, kind: "lookup", payload: { notFound: true }, last_hit_at: new Date().toISOString() })
+        .then(() => {});
       return Response.json({ notFound: true }, { headers: corsHeaders });
     }
 
-    return Response.json({ entry: parsed, lang }, { headers: corsHeaders });
+    const payload = { entry: parsed, lang };
+    admin.from("dictionary_cache")
+      .upsert({ cache_key: cacheKey, kind: "lookup", payload, last_hit_at: new Date().toISOString() })
+      .then(() => {});
+
+    return Response.json(payload, { headers: corsHeaders });
   } catch (e) {
     console.error("multi-lang-lookup error", e);
     return Response.json({ error: true, message: "Internal error" }, { headers: corsHeaders });
