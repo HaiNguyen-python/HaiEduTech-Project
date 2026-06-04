@@ -925,6 +925,9 @@ const SuperDictionary = () => {
 
                   {/* Collocation Tab */}
                   <TabsContent value="ozdic" className="space-y-3 mt-0">
+                    <p className="text-[11px] text-muted-foreground bg-muted/40 rounded px-2 py-1">
+                      🇬🇧 {t("Collocations chỉ hỗ trợ tiếng Anh.", "Collocations are English-only.")}
+                    </p>
                     <div className="flex gap-2">
                       <Input
                         value={collocationWord}
