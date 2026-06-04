@@ -1199,6 +1199,10 @@ const AdminDashboard = () => {
               <TabsContent value="report-logs">
                 <ReportLogsTab />
               </TabsContent>
+
+              <TabsContent value="dictionary">
+                <EnglishDictionaryAdmin />
+              </TabsContent>
             </Tabs>
           </motion.div>
         </div>
