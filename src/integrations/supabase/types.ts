@@ -689,6 +689,33 @@ export type Database = {
         }
         Relationships: []
       }
+      dictionary_cache: {
+        Row: {
+          cache_key: string
+          created_at: string
+          hit_count: number
+          kind: string
+          last_hit_at: string
+          payload: Json
+        }
+        Insert: {
+          cache_key: string
+          created_at?: string
+          hit_count?: number
+          kind: string
+          last_hit_at?: string
+          payload: Json
+        }
+        Update: {
+          cache_key?: string
+          created_at?: string
+          hit_count?: number
+          kind?: string
+          last_hit_at?: string
+          payload?: Json
+        }
+        Relationships: []
+      }
       email_send_log: {
         Row: {
           created_at: string
