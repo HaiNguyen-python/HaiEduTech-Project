@@ -146,7 +146,7 @@ const HskExercise = ({ masteredWords, allWords, t }: { masteredWords: HskWord[];
     }
     const size = Math.min(quizSize, masteredWords.length);
     const picked = shuffle(masteredWords).slice(0, size);
-    const distractorPool = hskVocabData;
+    const distractorPool = allWords;
     const modes: QuizMode[] = ["meaning", "hanzi", "pinyin", "listen", "fill", "example"];
 
     const qs: QuizQuestion[] = picked.map((w, i) => {
@@ -475,6 +475,19 @@ const HskExercise = ({ masteredWords, allWords, t }: { masteredWords: HskWord[];
 };
 
 const HskVocabulary = () => {
+  // Dynamically load the heavy vocab payload so the page shell paints fast.
+  const [hskVocabData, setHskVocabData] = useState<HskWord[]>([]);
+  const [vocabLoading, setVocabLoading] = useState(true);
+  useEffect(() => {
+    let alive = true;
+    import("@/data/hskVocab").then(m => {
+      if (alive) {
+        setHskVocabData(m.hskVocabData);
+        setVocabLoading(false);
+      }
+    });
+    return () => { alive = false; };
+  }, []);
   const { t } = useLanguage();
   const [searchParams, setSearchParams] = useSearchParams();
   const initialTab = searchParams.get("tab") === "radicals" ? "radicals" : "vocabulary";
@@ -658,7 +671,7 @@ const HskVocabulary = () => {
             {viewMode === "srs" ? (
               <HskSrsReview allWords={hskVocabData} />
             ) : viewMode === "exercise" ? (
-              <HskExercise masteredWords={hskVocabData.filter(w => mastered.has(w.character))} t={t} />
+              <HskExercise masteredWords={hskVocabData.filter(w => mastered.has(w.character))} allWords={hskVocabData} t={t} />
             ) : (() => {
               const groups = paginated.reduce<Record<string, HskWord[]>>((acc, w) => {
                 (acc[w.category] ||= []).push(w);
