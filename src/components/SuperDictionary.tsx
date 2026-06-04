@@ -816,16 +816,112 @@ const SuperDictionary = () => {
                       t("Không tìm thấy từ này.", "Word not found."),
                     )}
 
-                    <a
-                      href={`https://dictionary.cambridge.org/dictionary/english/${dictSearchWord.trim().toLowerCase() || ""}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1 text-xs text-muted-foreground hover:text-primary hover:underline"
-                    >
-                      <ExternalLink className="w-3 h-3" />
-                      {t("Mở tại Cambridge Dictionary", "Open in Cambridge Dictionary")}
-                    </a>
+                    {dictLang === "en" && (
+                      <a
+                        href={`https://dictionary.cambridge.org/dictionary/english/${dictSearchWord.trim().toLowerCase() || ""}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1 text-xs text-muted-foreground hover:text-primary hover:underline"
+                      >
+                        <ExternalLink className="w-3 h-3" />
+                        {t("Mở tại Cambridge Dictionary", "Open in Cambridge Dictionary")}
+                      </a>
+                    )}
                   </TabsContent>
+
+                  {/* Translate Tab */}
+                  <TabsContent value="translate" className="space-y-3 mt-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <select
+                        value={translateSourceLang}
+                        onChange={(e) => setTranslateSourceLang(e.target.value as DictLang | "auto")}
+                        className="flex-1 min-w-0 h-9 rounded-md border border-border bg-background px-2 text-xs"
+                      >
+                        <option value="auto">{t("Tự nhận diện", "Auto-detect")}</option>
+                        {LANG_OPTIONS.map((l) => <option key={l} value={l}>{LANG_LABEL[l]}</option>)}
+                      </select>
+                      <button
+                        type="button"
+                        onClick={swapTranslateLangs}
+                        disabled={translateSourceLang === "auto"}
+                        className="p-1.5 rounded hover:bg-muted disabled:opacity-40"
+                        title={t("Đảo ngôn ngữ", "Swap languages")}
+                      >
+                        <ArrowRightLeft className="w-3.5 h-3.5" />
+                      </button>
+                      <select
+                        value={translateTargetLang}
+                        onChange={(e) => setTranslateTargetLang(e.target.value as DictLang)}
+                        className="flex-1 min-w-0 h-9 rounded-md border border-border bg-background px-2 text-xs"
+                      >
+                        {LANG_OPTIONS.map((l) => <option key={l} value={l}>{LANG_LABEL[l]}</option>)}
+                      </select>
+                    </div>
+
+                    <Textarea
+                      value={translateInput}
+                      onChange={(e) => setTranslateInput(e.target.value)}
+                      placeholder={t("Nhập câu hoặc đoạn văn cần dịch (tối đa 5000 ký tự)...", "Paste a sentence or paragraph (up to 5000 chars)...")}
+                      rows={5}
+                      maxLength={5000}
+                      className="text-sm resize-y"
+                    />
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[11px] text-muted-foreground">
+                        {translateInput.length} / 5000
+                      </span>
+                      <Button
+                        size="sm"
+                        onClick={handleTranslate}
+                        disabled={translateLoading || !translateInput.trim()}
+                        className="h-9 px-4"
+                      >
+                        {translateLoading ? (
+                          <><Loader2 className="w-4 h-4 mr-1 animate-spin" /> {t("Đang dịch...", "Translating...")}</>
+                        ) : (
+                          <><Languages className="w-4 h-4 mr-1" /> {t("Dịch ngay", "Translate")}</>
+                        )}
+                      </Button>
+                    </div>
+
+                    {translateError && (
+                      <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive">
+                        {translateError}
+                      </div>
+                    )}
+
+                    {translateOutput && (
+                      <div className="rounded-xl border bg-background p-3 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <p className="text-xs font-semibold text-primary uppercase tracking-wide">
+                            {LANG_LABEL[translateTargetLang]}
+                          </p>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              navigator.clipboard.writeText(translateOutput).then(() => {
+                                toast.success(t("Đã sao chép!", "Copied!"));
+                              }).catch(() => toast.error(t("Không thể sao chép", "Copy failed")));
+                            }}
+                            className="p-1 rounded hover:bg-muted text-muted-foreground hover:text-foreground"
+                            title={t("Sao chép", "Copy")}
+                          >
+                            <Copy className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                        <p className="text-sm leading-relaxed text-foreground whitespace-pre-wrap">
+                          {translateOutput}
+                        </p>
+                      </div>
+                    )}
+
+                    {!translateOutput && !translateLoading && !translateError && (
+                      <p className="text-[11px] text-muted-foreground italic">
+                        💡 {t("Hỗ trợ Anh – Trung – Phần Lan – Việt. Có thể dịch câu, đoạn văn, hoặc cả bài đọc ngắn.", "Supports English, Chinese, Finnish, Vietnamese. Translate sentences, paragraphs, or short passages.")}
+                      </p>
+                    )}
+                  </TabsContent>
+
 
                   {/* Collocation Tab */}
                   <TabsContent value="ozdic" className="space-y-3 mt-0">
