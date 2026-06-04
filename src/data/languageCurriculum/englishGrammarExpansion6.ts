@@ -342,9 +342,9 @@ Scroll the Vietnamese section above for the complete A→Z table — it shares t
 - ❌ *They **readed** the book* → ✅ *They **read** /red/ the book*.
 - ❌ *I **hurted** my knee* → ✅ *I **hurt** my knee*.`,
         vocabulary: [
-          { word: "irregular verb", pronunciation: "/ɪˈreɡjələr vɜːrb/", meaning: "động từ bất quy tắc", example: "'Go' is an irregular verb: go – went – gone." },
-          { word: "past participle", pronunciation: "/pæst ˈpɑːrtɪsɪpl/", meaning: "quá khứ phân từ (V3)", example: "Use the past participle after 'have'." },
-          { word: "base form", pronunciation: "/beɪs fɔːrm/", meaning: "nguyên mẫu (V1)", example: "The base form of 'went' is 'go'." }
+          { word: "irregular verb", meaning: "động từ bất quy tắc", example: "'Go' is an irregular verb: go – went – gone." },
+          { word: "past participle", meaning: "quá khứ phân từ (V3)", example: "Use the past participle after 'have'." },
+          { word: "base form", meaning: "nguyên mẫu (V1)", example: "The base form of 'went' is 'go'." }
         ],
         practice: [
           {
