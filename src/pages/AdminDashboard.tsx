@@ -1201,8 +1201,20 @@ const AdminDashboard = () => {
               </TabsContent>
 
               <TabsContent value="dictionary">
-                <EnglishDictionaryAdmin />
+                <Tabs defaultValue="en" className="w-full">
+                  <TabsList className="grid w-full grid-cols-4 max-w-2xl">
+                    <TabsTrigger value="en">🇬🇧 English</TabsTrigger>
+                    <TabsTrigger value="zh">🇨🇳 中文</TabsTrigger>
+                    <TabsTrigger value="fi">🇫🇮 Suomi</TabsTrigger>
+                    <TabsTrigger value="vi">🇻🇳 Tiếng Việt</TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="en" className="mt-4"><EnglishDictionaryAdmin lang="en" /></TabsContent>
+                  <TabsContent value="zh" className="mt-4"><EnglishDictionaryAdmin lang="zh" /></TabsContent>
+                  <TabsContent value="fi" className="mt-4"><EnglishDictionaryAdmin lang="fi" /></TabsContent>
+                  <TabsContent value="vi" className="mt-4"><EnglishDictionaryAdmin lang="vi" /></TabsContent>
+                </Tabs>
               </TabsContent>
+
             </Tabs>
           </motion.div>
         </div>

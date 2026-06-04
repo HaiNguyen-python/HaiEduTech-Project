@@ -349,6 +349,48 @@ export type Database = {
         }
         Relationships: []
       }
+      chinese_dictionary: {
+        Row: {
+          collocations_synonyms: Json
+          created_at: string
+          english_definition: string | null
+          examples: Json
+          id: string
+          part_of_speech: string | null
+          phonetic: string | null
+          tag: string | null
+          updated_at: string
+          vietnamese_definition: string
+          word: string
+        }
+        Insert: {
+          collocations_synonyms?: Json
+          created_at?: string
+          english_definition?: string | null
+          examples?: Json
+          id?: string
+          part_of_speech?: string | null
+          phonetic?: string | null
+          tag?: string | null
+          updated_at?: string
+          vietnamese_definition: string
+          word: string
+        }
+        Update: {
+          collocations_synonyms?: Json
+          created_at?: string
+          english_definition?: string | null
+          examples?: Json
+          id?: string
+          part_of_speech?: string | null
+          phonetic?: string | null
+          tag?: string | null
+          updated_at?: string
+          vietnamese_definition?: string
+          word?: string
+        }
+        Relationships: []
+      }
       class_members: {
         Row: {
           added_at: string
@@ -804,6 +846,48 @@ export type Database = {
         Relationships: []
       }
       english_dictionary: {
+        Row: {
+          collocations_synonyms: Json
+          created_at: string
+          english_definition: string | null
+          examples: Json
+          id: string
+          part_of_speech: string | null
+          phonetic: string | null
+          tag: string | null
+          updated_at: string
+          vietnamese_definition: string
+          word: string
+        }
+        Insert: {
+          collocations_synonyms?: Json
+          created_at?: string
+          english_definition?: string | null
+          examples?: Json
+          id?: string
+          part_of_speech?: string | null
+          phonetic?: string | null
+          tag?: string | null
+          updated_at?: string
+          vietnamese_definition: string
+          word: string
+        }
+        Update: {
+          collocations_synonyms?: Json
+          created_at?: string
+          english_definition?: string | null
+          examples?: Json
+          id?: string
+          part_of_speech?: string | null
+          phonetic?: string | null
+          tag?: string | null
+          updated_at?: string
+          vietnamese_definition?: string
+          word?: string
+        }
+        Relationships: []
+      }
+      finnish_dictionary: {
         Row: {
           collocations_synonyms: Json
           created_at: string
@@ -2789,6 +2873,48 @@ export type Database = {
           reviewed_at?: string
           subject?: string
           user_id?: string
+          word?: string
+        }
+        Relationships: []
+      }
+      vietnamese_dictionary: {
+        Row: {
+          collocations_synonyms: Json
+          created_at: string
+          english_definition: string | null
+          examples: Json
+          id: string
+          part_of_speech: string | null
+          phonetic: string | null
+          tag: string | null
+          updated_at: string
+          vietnamese_definition: string
+          word: string
+        }
+        Insert: {
+          collocations_synonyms?: Json
+          created_at?: string
+          english_definition?: string | null
+          examples?: Json
+          id?: string
+          part_of_speech?: string | null
+          phonetic?: string | null
+          tag?: string | null
+          updated_at?: string
+          vietnamese_definition: string
+          word: string
+        }
+        Update: {
+          collocations_synonyms?: Json
+          created_at?: string
+          english_definition?: string | null
+          examples?: Json
+          id?: string
+          part_of_speech?: string | null
+          phonetic?: string | null
+          tag?: string | null
+          updated_at?: string
+          vietnamese_definition?: string
           word?: string
         }
         Relationships: []

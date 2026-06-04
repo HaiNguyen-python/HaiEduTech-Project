@@ -1,5 +1,5 @@
-// Generate a structured English dictionary entry via Perplexity API.
-// Used by Teacher Admin → English Dictionary form to auto-fill word details.
+// Generate a structured dictionary entry (EN/ZH/FI/VI) via Perplexity API.
+// Used by Teacher Admin → Dictionary forms to auto-fill word details.
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -7,14 +7,63 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
+// Per-language system prompt tailored to lexicographic conventions
+function buildSystemPrompt(lang: string): string {
+  const base =
+    "You are a professional lexicographer for an educational platform. " +
+    "Return ONLY a raw JSON object (no markdown, no prose, no citations like [1]) with exactly this shape: " +
+    `{ "phonetic": "...", "part_of_speech": "noun|verb|adjective|adverb|...", "vietnamese_definition": "...", "english_definition": "...", "examples": [ { "en": "...", "vi": "..." } ], "collocations_synonyms": ["..."] }. ` +
+    "Rules: 2-3 examples; 4-6 collocations/synonyms; Vietnamese must use correct diacritics; no extra fields; JSON only.";
+
+  switch (lang) {
+    case "zh":
+      return (
+        "You are a Chinese-Vietnamese-English lexicographer. The input is a Chinese word (Hanzi). " +
+        base +
+        ' For Chinese: "phonetic" MUST be Pinyin with tone marks. ' +
+        'Each example.en should be the Hanzi sentence (you may append Pinyin in parentheses); example.vi is the Vietnamese translation. ' +
+        '"english_definition" is the English meaning of the Chinese word.'
+      );
+    case "fi":
+      return (
+        "You are a Finnish-Vietnamese-English lexicographer. The input is a Finnish word (give base dictionary form). " +
+        base +
+        ' For Finnish: "phonetic" MUST be IPA in slashes. ' +
+        'example.en is the Finnish sentence; example.vi is the Vietnamese translation. ' +
+        '"english_definition" is the English meaning of the Finnish word.'
+      );
+    case "vi":
+      return (
+        "You are a Vietnamese-English lexicographer. The input is a Vietnamese word or phrase. " +
+        base +
+        ' For Vietnamese: "phonetic" may be empty or rough IPA. ' +
+        '"vietnamese_definition" is a clear Vietnamese explanation/synonym of the word. ' +
+        '"english_definition" is the English translation. ' +
+        'example.en is the Vietnamese sentence; example.vi is the English translation (we reuse the "vi" key for the translation pair).'
+      );
+    case "en":
+    default:
+      return (
+        "You are an English-Vietnamese lexicographer. The input is an English word or phrase. " +
+        base +
+        ' For English: "phonetic" MUST be IPA in slashes. ' +
+        'example.en is the English sentence; example.vi is the Vietnamese translation.'
+      );
+  }
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
     const body = await req.json().catch(() => ({}));
     const word = String(body?.word || "").trim();
-    if (!word || word.length > 100) {
+    const lang = String(body?.lang || "en").toLowerCase();
+    if (!word || word.length > 120) {
       return Response.json({ error: "Invalid word" }, { status: 400, headers: corsHeaders });
+    }
+    if (!["en", "zh", "fi", "vi"].includes(lang)) {
+      return Response.json({ error: "Invalid language" }, { status: 400, headers: corsHeaders });
     }
 
     const KEY = Deno.env.get("PERPLEXITY_API_KEY");
@@ -22,11 +71,7 @@ Deno.serve(async (req) => {
       return Response.json({ error: "Service unavailable" }, { status: 503, headers: corsHeaders });
     }
 
-    const system =
-      "You are a professional English-Vietnamese lexicographer for an educational platform. " +
-      "Given an English word or phrase, return ONLY a raw JSON object (no markdown, no prose, no citations like [1]) with exactly this shape: " +
-      `{ "phonetic": "IPA in slashes", "part_of_speech": "noun|verb|adjective|adverb|...", "vietnamese_definition": "core accurate Vietnamese translation suitable for learners", "english_definition": "simple English definition", "examples": [ { "en": "natural example sentence", "vi": "Vietnamese translation" } ], "collocations_synonyms": ["collocation 1", "synonym 1"] }. ` +
-      "Rules: provide 2-3 examples; provide 4-6 collocations or synonyms; Vietnamese must use correct diacritics; do NOT include any field other than the listed keys; output JSON only.";
+    const system = buildSystemPrompt(lang);
 
     const resp = await fetch("https://api.perplexity.ai/chat/completions", {
       method: "POST",

@@ -38,10 +38,17 @@ Deno.serve(async (req) => {
 
     const normalized = word.toLowerCase();
 
-    // 1) Database-first lookup for English: HaiEduTech Official Dictionary
-    if (lang === "en") {
+    // 1) Database-first lookup for ALL 4 languages from the matching official dictionary
+    const DICT_TABLE: Record<string, string> = {
+      en: "english_dictionary",
+      zh: "chinese_dictionary",
+      fi: "finnish_dictionary",
+      vi: "vietnamese_dictionary",
+    };
+    const tableName = DICT_TABLE[lang];
+    if (tableName) {
       const { data: official } = await admin
-        .from("english_dictionary")
+        .from(tableName)
         .select("word, phonetic, part_of_speech, vietnamese_definition, english_definition, examples, collocations_synonyms, tag")
         .ilike("word", normalized)
         .maybeSingle();
@@ -67,6 +74,7 @@ Deno.serve(async (req) => {
         return Response.json({ entry, lang, source: "haiedutech_official" }, { headers: corsHeaders });
       }
     }
+
 
     const cacheKey = "lk:" + (await sha256Hex(`${lang}|${normalized}`));
     const { data: cached } = await admin
@@ -147,9 +155,9 @@ Deno.serve(async (req) => {
       .upsert({ cache_key: cacheKey, kind: "lookup", payload, last_hit_at: new Date().toISOString() })
       .then(() => {});
 
-    // Auto-build the official English dictionary: persist Perplexity results so future
-    // lookups hit the local database (sub-10ms) and the store grows organically.
-    if (lang === "en" && parsed && !parsed.notFound) {
+    // Auto-build the official dictionary for ALL 4 languages: persist Perplexity results
+    // so future lookups hit the local database (sub-10ms) and the store grows organically.
+    if (tableName && parsed && !parsed.notFound) {
       try {
         const firstMeaning = Array.isArray(parsed.meanings) ? parsed.meanings[0] : null;
         const firstDef = firstMeaning && Array.isArray(firstMeaning.definitions) ? firstMeaning.definitions[0] : null;
@@ -168,8 +176,11 @@ Deno.serve(async (req) => {
               }
             }
           }
-          admin.from("english_dictionary").upsert({
-            word: normalized,
+          // For non-English dictionaries we keep the original headword (Hanzi, Finnish base form,
+          // Vietnamese with diacritics). For English we lowercase to match manual entries.
+          const wordToSave = lang === "en" ? normalized : word;
+          admin.from(tableName).upsert({
+            word: wordToSave,
             phonetic: String(parsed.phonetic || "").trim() || null,
             part_of_speech: String(firstMeaning?.partOfSpeech || "").trim() || null,
             vietnamese_definition: viDef,
@@ -178,11 +189,11 @@ Deno.serve(async (req) => {
             collocations_synonyms: [],
             tag: "AI-Generated",
           }, { onConflict: "word", ignoreDuplicates: true }).then(({ error }) => {
-            if (error) console.warn("english_dictionary auto-save failed", error.message);
+            if (error) console.warn(`${tableName} auto-save failed`, error.message);
           });
         }
       } catch (saveErr) {
-        console.warn("english_dictionary auto-save threw", saveErr);
+        console.warn(`${tableName} auto-save threw`, saveErr);
       }
     }
 
@@ -192,3 +203,4 @@ Deno.serve(async (req) => {
     return Response.json({ error: true, message: "Internal error" }, { headers: corsHeaders });
   }
 });
+

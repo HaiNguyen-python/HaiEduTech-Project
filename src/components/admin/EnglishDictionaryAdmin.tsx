@@ -21,8 +21,65 @@ interface DictRow {
   created_at: string;
 }
 
-const TAGS = ["General", "IELTS", "TOEIC", "Academic", "Business", "Daily"];
+const TAGS = ["General", "IELTS", "TOEIC", "Academic", "Business", "Daily", "AI-Generated"];
 const BATCH_SIZE = 100;
+
+// Dictionary language config: same schema across 4 tables but with localised labels.
+export type DictLang = "en" | "zh" | "fi" | "vi";
+
+interface LangConfig {
+  table: "english_dictionary" | "chinese_dictionary" | "finnish_dictionary" | "vietnamese_dictionary";
+  titleVi: string;
+  titleEn: string;
+  wordLabelVi: string;
+  wordLabelEn: string;
+  placeholder: string;
+  phoneticHint: string;
+  lowercase: boolean; // Only English forces lowercase; others preserve diacritics/Hanzi
+}
+
+const LANG_CONFIGS: Record<DictLang, LangConfig> = {
+  en: {
+    table: "english_dictionary",
+    titleVi: "Từ điển Anh - Việt (HaiEduTech Official)",
+    titleEn: "English-Vietnamese Dictionary (HaiEduTech Official)",
+    wordLabelVi: "Từ tiếng Anh *",
+    wordLabelEn: "English Word *",
+    placeholder: "artificial",
+    phoneticHint: "/ˌɑːrtɪˈfɪʃəl/",
+    lowercase: true,
+  },
+  zh: {
+    table: "chinese_dictionary",
+    titleVi: "Từ điển Trung - Việt (HaiEduTech Official)",
+    titleEn: "Chinese-Vietnamese Dictionary (HaiEduTech Official)",
+    wordLabelVi: "Từ tiếng Trung (Hán tự) *",
+    wordLabelEn: "Chinese Word (Hanzi) *",
+    placeholder: "人工智能",
+    phoneticHint: "rén gōng zhì néng",
+    lowercase: false,
+  },
+  fi: {
+    table: "finnish_dictionary",
+    titleVi: "Từ điển Phần Lan - Việt (HaiEduTech Official)",
+    titleEn: "Finnish-Vietnamese Dictionary (HaiEduTech Official)",
+    wordLabelVi: "Từ tiếng Phần Lan *",
+    wordLabelEn: "Finnish Word *",
+    placeholder: "kestävä",
+    phoneticHint: "/ˈkestævæ/",
+    lowercase: true,
+  },
+  vi: {
+    table: "vietnamese_dictionary",
+    titleVi: "Từ điển Việt (HaiEduTech Official)",
+    titleEn: "Vietnamese Dictionary (HaiEduTech Official)",
+    wordLabelVi: "Từ tiếng Việt *",
+    wordLabelEn: "Vietnamese Word *",
+    placeholder: "bền vững",
+    phoneticHint: "(tùy chọn)",
+    lowercase: false,
+  },
+};
 
 // Minimal CSV parser supporting quoted fields with commas and newlines.
 function parseCSV(text: string): string[][] {
@@ -48,7 +105,10 @@ function parseCSV(text: string): string[][] {
   return rows.filter(r => r.some(x => x.trim().length > 0));
 }
 
-const EnglishDictionaryAdmin = () => {
+interface Props { lang?: DictLang }
+
+const EnglishDictionaryAdmin = ({ lang = "en" }: Props) => {
+  const cfg = LANG_CONFIGS[lang];
   const { t } = useLanguage();
   const [word, setWord] = useState("");
   const [phonetic, setPhonetic] = useState("");
@@ -83,7 +143,7 @@ const EnglishDictionaryAdmin = () => {
   const loadEntries = async () => {
     setLoading(true);
     const q = supabase
-      .from("english_dictionary")
+      .from(cfg.table as any)
       .select("id, word, phonetic, part_of_speech, vietnamese_definition, english_definition, tag, created_at", { count: "exact" })
       .order("created_at", { ascending: false })
       .limit(50);
@@ -91,7 +151,7 @@ const EnglishDictionaryAdmin = () => {
       ? await q.ilike("word", `%${search.trim().toLowerCase()}%`)
       : await q;
     if (!error) {
-      setRows(data as DictRow[] || []);
+      setRows(((data as unknown) as DictRow[]) || []);
       setTotal(count || 0);
     }
     setLoading(false);
@@ -109,7 +169,7 @@ const EnglishDictionaryAdmin = () => {
     setAiLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("dictionary-ai-generate", {
-        body: { word: target },
+        body: { word: target, lang },
       });
       if (error || !data || (data as any).error) {
         throw new Error((data as any)?.error || error?.message || "AI error");
@@ -144,9 +204,9 @@ const EnglishDictionaryAdmin = () => {
       .map(ex => ({ en: ex.en.trim(), vi: ex.vi.trim() }))
       .filter(ex => ex.en);
     const cleanCollocations = collocations.map(c => c.trim()).filter(Boolean);
-    const { error } = await supabase.from("english_dictionary").upsert(
+    const { error } = await supabase.from(cfg.table as any).upsert(
       {
-        word: word.trim().toLowerCase(),
+        word: cfg.lowercase ? word.trim().toLowerCase() : word.trim(),
         phonetic: phonetic.trim() || null,
         part_of_speech: pos.trim() || null,
         vietnamese_definition: viDef.trim(),
@@ -172,7 +232,7 @@ const EnglishDictionaryAdmin = () => {
 
   const handleDelete = async (id: string) => {
     if (!confirm(t("Xóa từ này?", "Delete this entry?"))) return;
-    const { error } = await supabase.from("english_dictionary").delete().eq("id", id);
+    const { error } = await supabase.from(cfg.table as any).delete().eq("id", id);
     if (error) { toast.error(error.message); return; }
     toast.success(t("Đã xóa", "Deleted"));
     setRows(prev => prev.filter(r => r.id !== id));
@@ -219,7 +279,7 @@ const EnglishDictionaryAdmin = () => {
       // Normalize + filter
       const records = items
         .map((it: any) => ({
-          word: String(it.word || "").trim().toLowerCase(),
+          word: cfg.lowercase ? String(it.word || "").trim().toLowerCase() : String(it.word || "").trim(),
           phonetic: String(it.phonetic || "").trim() || null,
           part_of_speech: String(it.part_of_speech || it.pos || "").trim() || null,
           vietnamese_definition: String(it.vietnamese_definition || it.definition || it.vi || "").trim(),
@@ -242,7 +302,7 @@ const EnglishDictionaryAdmin = () => {
       for (let i = 0; i < finalRecords.length; i += BATCH_SIZE) {
         const chunk = finalRecords.slice(i, i + BATCH_SIZE);
         const { error } = await supabase
-          .from("english_dictionary")
+          .from(cfg.table as any)
           .upsert(chunk, { onConflict: "word" });
         if (error) throw error;
         done += chunk.length;
@@ -295,7 +355,7 @@ const EnglishDictionaryAdmin = () => {
         setBulkCurrent(w);
         try {
           const { data, error } = await supabase.functions.invoke("dictionary-ai-generate", {
-            body: { word: w },
+            body: { word: w, lang },
           });
           if (error || !data || (data as any).error) {
             throw new Error((data as any)?.error || error?.message || "AI error");
@@ -328,7 +388,7 @@ const EnglishDictionaryAdmin = () => {
     let savedCount = 0;
     if (successRecords.length > 0) {
       const { error: upsertErr } = await supabase
-        .from("english_dictionary")
+        .from(cfg.table as any)
         .upsert(successRecords, { onConflict: "word" });
       if (upsertErr) {
         console.error(upsertErr);
@@ -388,7 +448,7 @@ sustainable,/səˈsteɪnəbəl/,adjective,"bền vững, có thể duy trì",abl
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
             <BookOpen className="w-5 h-5 text-primary" />
-            {t("Từ điển Anh - Việt (HaiEduTech Official)", "English-Vietnamese Dictionary (HaiEduTech Official)")}
+            {t(cfg.titleVi, cfg.titleEn)}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -417,13 +477,13 @@ sustainable,/səˈsteɪnəbəl/,adjective,"bền vững, có thể duy trì",abl
           <CardContent>
             <form onSubmit={submitOne} className="space-y-3">
               <div>
-                <Label htmlFor="dict-word">{t("Từ tiếng Anh *", "English Word *")}</Label>
+                <Label htmlFor="dict-word">{t(cfg.wordLabelVi, cfg.wordLabelEn)}</Label>
                 <div className="flex gap-2">
                   <Input
                     id="dict-word"
                     value={word}
                     onChange={e => setWord(e.target.value)}
-                    placeholder="artificial"
+                    placeholder={cfg.placeholder}
                     maxLength={120}
                     required
                     disabled={aiLoading}
@@ -453,7 +513,7 @@ sustainable,/səˈsteɪnəbəl/,adjective,"bền vững, có thể duy trì",abl
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <Label htmlFor="dict-ph">{t("Phiên âm IPA", "Phonetic (IPA)")}</Label>
-                  <Input id="dict-ph" value={phonetic} onChange={e => setPhonetic(e.target.value)} placeholder="/ˌɑːrtɪˈfɪʃəl/" maxLength={80} />
+                  <Input id="dict-ph" value={phonetic} onChange={e => setPhonetic(e.target.value)} placeholder={cfg.phoneticHint} maxLength={80} />
                 </div>
                 <div>
                   <Label htmlFor="dict-pos">{t("Từ loại", "Part of Speech")}</Label>
