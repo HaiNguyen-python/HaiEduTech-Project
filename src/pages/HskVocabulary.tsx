@@ -128,7 +128,7 @@ interface QuizQuestion {
   correct: number;
 }
 
-const HskExercise = ({ masteredWords, t }: { masteredWords: HskWord[]; t: (vi: string, en: string) => string }) => {
+const HskExercise = ({ masteredWords, allWords, t }: { masteredWords: HskWord[]; allWords: HskWord[]; t: (vi: string, en: string) => string }) => {
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
