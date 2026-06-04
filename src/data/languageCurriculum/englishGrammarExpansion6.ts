@@ -19,12 +19,364 @@ export const grammarExpansionModules6: LanguageModule[] = [
     category: "grammar",
     language: "english",
     lessons: [
+      // ───────────── LESSON 0 — MASTER REFERENCE TABLE ─────────────
+      {
+        id: "irregular-verbs-master-table",
+        title: "📘 Bảng tổng hợp đầy đủ A→Z (kèm phiên âm IPA)",
+        titleEn: "📘 Complete Master Table A→Z (with IPA pronunciation)",
+        level: 1,
+        difficulty: "beginner",
+        theory: `## 📘 Bảng động từ bất quy tắc đầy đủ — Phiên bản tổng hợp
+
+> **Cách dùng bảng này:** Đây là bảng tham khảo **hoàn chỉnh nhất** với hơn **200 động từ bất quy tắc** thông dụng trong tiếng Anh, sắp xếp theo bảng chữ cái **A → Z**, kèm **phiên âm IPA** chuẩn Anh-Mỹ và **nghĩa tiếng Việt**. Bookmark trang này và quay lại tra cứu mỗi khi cần!
+
+**Chú thích cột:**
+- **V1** = Động từ nguyên mẫu (base form) — dùng với *I/you/we/they* hoặc sau *to / do / does / did / will / can*…
+- **V2** = Quá khứ đơn (past simple) — dùng cho hành động đã xảy ra trong quá khứ.
+- **V3** = Quá khứ phân từ (past participle) — dùng sau *have/has/had* (Perfect) hoặc *be* (Passive).
+- **IPA** = Phiên âm V2/V3 (vì V1 đa số dễ đọc, V2/V3 mới hay sai).
+
+---
+
+### 🅰️ A
+
+| V1 | V2 | V3 | IPA (V2 / V3) | Nghĩa |
+|---|---|---|---|---|
+| **arise** | arose | arisen | /əˈroʊz/ — /əˈrɪzn/ | phát sinh, nảy sinh |
+| **awake** | awoke | awoken | /əˈwoʊk/ — /əˈwoʊkən/ | thức dậy |
+
+### 🅱️ B
+
+| V1 | V2 | V3 | IPA (V2 / V3) | Nghĩa |
+|---|---|---|---|---|
+| **be** | was / were | been | /wʌz, wɜːr/ — /bɪn/ | thì, là, ở |
+| **bear** | bore | borne / born | /bɔːr/ — /bɔːrn/ | mang, chịu đựng; sinh ra |
+| **beat** | beat | beaten | /biːt/ — /ˈbiːtn/ | đánh, đập, thắng |
+| **become** | became | become | /bɪˈkeɪm/ — /bɪˈkʌm/ | trở thành |
+| **begin** | began | begun | /bɪˈɡæn/ — /bɪˈɡʌn/ | bắt đầu |
+| **bend** | bent | bent | /bent/ — /bent/ | uốn cong |
+| **bet** | bet | bet | /bet/ — /bet/ | cá cược |
+| **bid** | bid | bid | /bɪd/ — /bɪd/ | trả giá, ra giá |
+| **bind** | bound | bound | /baʊnd/ — /baʊnd/ | trói, buộc |
+| **bite** | bit | bitten | /bɪt/ — /ˈbɪtn/ | cắn |
+| **bleed** | bled | bled | /bled/ — /bled/ | chảy máu |
+| **blow** | blew | blown | /bluː/ — /bloʊn/ | thổi |
+| **break** | broke | broken | /broʊk/ — /ˈbroʊkən/ | làm vỡ |
+| **breed** | bred | bred | /bred/ — /bred/ | nuôi, sinh sản |
+| **bring** | brought | brought | /brɔːt/ — /brɔːt/ | mang đến |
+| **broadcast** | broadcast | broadcast | /ˈbrɔːdkæst/ — /ˈbrɔːdkæst/ | phát sóng |
+| **build** | built | built | /bɪlt/ — /bɪlt/ | xây dựng |
+| **burn** | burnt / burned | burnt / burned | /bɜːrnt/ — /bɜːrnt/ | đốt, cháy |
+| **burst** | burst | burst | /bɜːrst/ — /bɜːrst/ | nổ, vỡ tung |
+| **buy** | bought | bought | /bɔːt/ — /bɔːt/ | mua |
+
+### 🅲 C
+
+| V1 | V2 | V3 | IPA (V2 / V3) | Nghĩa |
+|---|---|---|---|---|
+| **cast** | cast | cast | /kæst/ — /kæst/ | ném, đúc, chiếu (phim) |
+| **catch** | caught | caught | /kɔːt/ — /kɔːt/ | bắt, chộp |
+| **choose** | chose | chosen | /tʃoʊz/ — /ˈtʃoʊzən/ | chọn, lựa chọn |
+| **cling** | clung | clung | /klʌŋ/ — /klʌŋ/ | bám chặt |
+| **come** | came | come | /keɪm/ — /kʌm/ | đến |
+| **cost** | cost | cost | /kɔːst/ — /kɔːst/ | có giá là |
+| **creep** | crept | crept | /krept/ — /krept/ | bò, rón rén |
+| **cut** | cut | cut | /kʌt/ — /kʌt/ | cắt |
+
+### 🅳 D
+
+| V1 | V2 | V3 | IPA (V2 / V3) | Nghĩa |
+|---|---|---|---|---|
+| **deal** | dealt | dealt | /delt/ — /delt/ | giao dịch, đối phó |
+| **dig** | dug | dug | /dʌɡ/ — /dʌɡ/ | đào |
+| **dive** | dived / dove | dived | /daɪvd, doʊv/ — /daɪvd/ | lặn, nhảy xuống |
+| **do** | did | done | /dɪd/ — /dʌn/ | làm |
+| **draw** | drew | drawn | /druː/ — /drɔːn/ | vẽ; kéo |
+| **dream** | dreamt / dreamed | dreamt / dreamed | /dremt/ — /dremt/ | mơ |
+| **drink** | drank | drunk | /dræŋk/ — /drʌŋk/ | uống |
+| **drive** | drove | driven | /droʊv/ — /ˈdrɪvən/ | lái xe |
+
+### 🅴 E
+
+| V1 | V2 | V3 | IPA (V2 / V3) | Nghĩa |
+|---|---|---|---|---|
+| **eat** | ate | eaten | /eɪt/ — /ˈiːtn/ | ăn |
+
+### 🅵 F
+
+| V1 | V2 | V3 | IPA (V2 / V3) | Nghĩa |
+|---|---|---|---|---|
+| **fall** | fell | fallen | /fel/ — /ˈfɔːlən/ | ngã, rơi |
+| **feed** | fed | fed | /fed/ — /fed/ | cho ăn |
+| **feel** | felt | felt | /felt/ — /felt/ | cảm thấy |
+| **fight** | fought | fought | /fɔːt/ — /fɔːt/ | đánh nhau |
+| **find** | found | found | /faʊnd/ — /faʊnd/ | tìm thấy |
+| **flee** | fled | fled | /fled/ — /fled/ | chạy trốn |
+| **fly** | flew | flown | /fluː/ — /floʊn/ | bay |
+| **forbid** | forbade | forbidden | /fərˈbæd/ — /fərˈbɪdn/ | cấm |
+| **forecast** | forecast | forecast | /ˈfɔːrkæst/ — /ˈfɔːrkæst/ | dự báo |
+| **foresee** | foresaw | foreseen | /fɔːrˈsɔː/ — /fɔːrˈsiːn/ | thấy trước |
+| **forget** | forgot | forgotten | /fərˈɡɒt/ — /fərˈɡɒtn/ | quên |
+| **forgive** | forgave | forgiven | /fərˈɡeɪv/ — /fərˈɡɪvn/ | tha thứ |
+| **freeze** | froze | frozen | /froʊz/ — /ˈfroʊzən/ | đóng băng |
+
+### 🅶 G
+
+| V1 | V2 | V3 | IPA (V2 / V3) | Nghĩa |
+|---|---|---|---|---|
+| **get** | got | got / gotten | /ɡɒt/ — /ˈɡɒtn/ | nhận, lấy, trở nên |
+| **give** | gave | given | /ɡeɪv/ — /ˈɡɪvn/ | đưa, cho |
+| **go** | went | gone | /went/ — /ɡɔːn/ | đi |
+| **grind** | ground | ground | /ɡraʊnd/ — /ɡraʊnd/ | nghiền, xay |
+| **grow** | grew | grown | /ɡruː/ — /ɡroʊn/ | mọc, lớn lên, trồng |
+
+### 🅷 H
+
+| V1 | V2 | V3 | IPA (V2 / V3) | Nghĩa |
+|---|---|---|---|---|
+| **hang** | hung | hung | /hʌŋ/ — /hʌŋ/ | treo (vật) |
+| **have** | had | had | /hæd/ — /hæd/ | có |
+| **hear** | heard | heard | /hɜːrd/ — /hɜːrd/ | nghe |
+| **hide** | hid | hidden | /hɪd/ — /ˈhɪdn/ | giấu |
+| **hit** | hit | hit | /hɪt/ — /hɪt/ | đánh, va |
+| **hold** | held | held | /held/ — /held/ | giữ, nắm |
+| **hurt** | hurt | hurt | /hɜːrt/ — /hɜːrt/ | làm đau, đau |
+
+### 🅸 I – K
+
+| V1 | V2 | V3 | IPA (V2 / V3) | Nghĩa |
+|---|---|---|---|---|
+| **input** | input | input | /ˈɪnpʊt/ — /ˈɪnpʊt/ | nhập (dữ liệu) |
+| **keep** | kept | kept | /kept/ — /kept/ | giữ |
+| **kneel** | knelt | knelt | /nelt/ — /nelt/ | quỳ |
+| **knit** | knit / knitted | knit / knitted | /nɪt/ — /nɪt/ | đan |
+| **know** | knew | known | /njuː/ — /noʊn/ | biết |
+
+### 🅻 L
+
+| V1 | V2 | V3 | IPA (V2 / V3) | Nghĩa |
+|---|---|---|---|---|
+| **lay** | laid | laid | /leɪd/ — /leɪd/ | đặt nằm xuống (cần tân ngữ) |
+| **lead** | led | led | /led/ — /led/ | dẫn đầu |
+| **lean** | leant / leaned | leant / leaned | /lent/ — /lent/ | tựa, dựa |
+| **leap** | leapt / leaped | leapt / leaped | /lept/ — /lept/ | nhảy vọt |
+| **learn** | learnt / learned | learnt / learned | /lɜːrnt/ — /lɜːrnt/ | học |
+| **leave** | left | left | /left/ — /left/ | rời đi, bỏ lại |
+| **lend** | lent | lent | /lent/ — /lent/ | cho mượn |
+| **let** | let | let | /let/ — /let/ | cho phép |
+| **lie** | lay | lain | /leɪ/ — /leɪn/ | nằm (không tân ngữ) |
+| **light** | lit / lighted | lit / lighted | /lɪt/ — /lɪt/ | thắp sáng |
+| **lose** | lost | lost | /lɒst/ — /lɒst/ | mất, thua |
+
+### 🅼 M
+
+| V1 | V2 | V3 | IPA (V2 / V3) | Nghĩa |
+|---|---|---|---|---|
+| **make** | made | made | /meɪd/ — /meɪd/ | làm, chế tạo |
+| **mean** | meant | meant | /ment/ — /ment/ | có nghĩa là |
+| **meet** | met | met | /met/ — /met/ | gặp |
+| **mistake** | mistook | mistaken | /mɪˈstʊk/ — /mɪˈsteɪkən/ | nhầm lẫn |
+| **misunderstand** | misunderstood | misunderstood | /ˌmɪsʌndərˈstʊd/ — /ˌmɪsʌndərˈstʊd/ | hiểu lầm |
+| **mow** | mowed | mown / mowed | /moʊd/ — /moʊn/ | cắt cỏ |
+
+### 🅾️ O – P
+
+| V1 | V2 | V3 | IPA (V2 / V3) | Nghĩa |
+|---|---|---|---|---|
+| **overcome** | overcame | overcome | /ˌoʊvərˈkeɪm/ — /ˌoʊvərˈkʌm/ | vượt qua |
+| **oversee** | oversaw | overseen | /ˌoʊvərˈsɔː/ — /ˌoʊvərˈsiːn/ | giám sát |
+| **overtake** | overtook | overtaken | /ˌoʊvərˈtʊk/ — /ˌoʊvərˈteɪkən/ | vượt qua, đuổi kịp |
+| **pay** | paid | paid | /peɪd/ — /peɪd/ | trả tiền |
+| **prove** | proved | proven / proved | /pruːvd/ — /ˈpruːvən/ | chứng minh |
+| **put** | put | put | /pʊt/ — /pʊt/ | đặt |
+
+### 🆀 Q – R
+
+| V1 | V2 | V3 | IPA (V2 / V3) | Nghĩa |
+|---|---|---|---|---|
+| **quit** | quit | quit | /kwɪt/ — /kwɪt/ | bỏ, từ bỏ |
+| **read** | read | read | /red/ — /red/ | đọc *(viết giống nhau, đọc khác)* |
+| **rebuild** | rebuilt | rebuilt | /ˌriːˈbɪlt/ — /ˌriːˈbɪlt/ | xây lại |
+| **redo** | redid | redone | /ˌriːˈdɪd/ — /ˌriːˈdʌn/ | làm lại |
+| **rewrite** | rewrote | rewritten | /ˌriːˈroʊt/ — /ˌriːˈrɪtn/ | viết lại |
+| **rid** | rid | rid | /rɪd/ — /rɪd/ | tống khứ |
+| **ride** | rode | ridden | /roʊd/ — /ˈrɪdn/ | cưỡi, đi (xe đạp) |
+| **ring** | rang | rung | /ræŋ/ — /rʌŋ/ | rung, gọi điện |
+| **rise** | rose | risen | /roʊz/ — /ˈrɪzn/ | mọc, dâng lên (tự thân) |
+| **run** | ran | run | /ræn/ — /rʌn/ | chạy |
+
+### 🆂 S
+
+| V1 | V2 | V3 | IPA (V2 / V3) | Nghĩa |
+|---|---|---|---|---|
+| **saw** | sawed | sawn / sawed | /sɔːd/ — /sɔːn/ | cưa |
+| **say** | said | said | /sed/ — /sed/ | nói |
+| **see** | saw | seen | /sɔː/ — /siːn/ | nhìn thấy |
+| **seek** | sought | sought | /sɔːt/ — /sɔːt/ | tìm kiếm |
+| **sell** | sold | sold | /soʊld/ — /soʊld/ | bán |
+| **send** | sent | sent | /sent/ — /sent/ | gửi |
+| **set** | set | set | /set/ — /set/ | đặt, sắp xếp |
+| **sew** | sewed | sewn / sewed | /soʊd/ — /soʊn/ | may, khâu |
+| **shake** | shook | shaken | /ʃʊk/ — /ˈʃeɪkən/ | lắc, rung |
+| **shave** | shaved | shaved / shaven | /ʃeɪvd/ — /ˈʃeɪvən/ | cạo (râu) |
+| **shed** | shed | shed | /ʃed/ — /ʃed/ | rụng, đổ (lệ) |
+| **shine** | shone | shone | /ʃoʊn/ — /ʃoʊn/ | tỏa sáng |
+| **shoot** | shot | shot | /ʃɒt/ — /ʃɒt/ | bắn |
+| **show** | showed | shown / showed | /ʃoʊd/ — /ʃoʊn/ | cho xem |
+| **shrink** | shrank | shrunk | /ʃræŋk/ — /ʃrʌŋk/ | co lại |
+| **shut** | shut | shut | /ʃʌt/ — /ʃʌt/ | đóng |
+| **sing** | sang | sung | /sæŋ/ — /sʌŋ/ | hát |
+| **sink** | sank | sunk | /sæŋk/ — /sʌŋk/ | chìm |
+| **sit** | sat | sat | /sæt/ — /sæt/ | ngồi |
+| **sleep** | slept | slept | /slept/ — /slept/ | ngủ |
+| **slide** | slid | slid | /slɪd/ — /slɪd/ | trượt |
+| **smell** | smelt / smelled | smelt / smelled | /smelt/ — /smelt/ | ngửi, có mùi |
+| **sow** | sowed | sown / sowed | /soʊd/ — /soʊn/ | gieo (hạt) |
+| **speak** | spoke | spoken | /spoʊk/ — /ˈspoʊkən/ | nói (ngôn ngữ) |
+| **speed** | sped / speeded | sped / speeded | /sped/ — /sped/ | tăng tốc, phóng nhanh |
+| **spell** | spelt / spelled | spelt / spelled | /spelt/ — /spelt/ | đánh vần |
+| **spend** | spent | spent | /spent/ — /spent/ | tiêu, dành (thời gian) |
+| **spill** | spilt / spilled | spilt / spilled | /spɪlt/ — /spɪlt/ | làm đổ |
+| **spin** | spun | spun | /spʌn/ — /spʌn/ | xoay, quay tròn |
+| **spit** | spat | spat | /spæt/ — /spæt/ | nhổ (nước bọt) |
+| **split** | split | split | /splɪt/ — /splɪt/ | chia, tách |
+| **spoil** | spoilt / spoiled | spoilt / spoiled | /spɔɪlt/ — /spɔɪlt/ | làm hỏng, nuông chiều |
+| **spread** | spread | spread | /spred/ — /spred/ | lan rộng, trải ra |
+| **spring** | sprang | sprung | /spræŋ/ — /sprʌŋ/ | bật lên, nảy |
+| **stand** | stood | stood | /stʊd/ — /stʊd/ | đứng |
+| **steal** | stole | stolen | /stoʊl/ — /ˈstoʊlən/ | trộm cắp |
+| **stick** | stuck | stuck | /stʌk/ — /stʌk/ | dính, gắn |
+| **sting** | stung | stung | /stʌŋ/ — /stʌŋ/ | đốt, chích |
+| **stink** | stank | stunk | /stæŋk/ — /stʌŋk/ | bốc mùi hôi |
+| **strike** | struck | struck | /strʌk/ — /strʌk/ | đánh, đập |
+| **strive** | strove | striven | /stroʊv/ — /ˈstrɪvən/ | nỗ lực |
+| **swear** | swore | sworn | /swɔːr/ — /swɔːrn/ | thề, chửi thề |
+| **sweep** | swept | swept | /swept/ — /swept/ | quét |
+| **swell** | swelled | swollen / swelled | /sweld/ — /ˈswoʊlən/ | sưng lên |
+| **swim** | swam | swum | /swæm/ — /swʌm/ | bơi |
+| **swing** | swung | swung | /swʌŋ/ — /swʌŋ/ | đung đưa |
+
+### 🆃 T
+
+| V1 | V2 | V3 | IPA (V2 / V3) | Nghĩa |
+|---|---|---|---|---|
+| **take** | took | taken | /tʊk/ — /ˈteɪkən/ | lấy, dùng |
+| **teach** | taught | taught | /tɔːt/ — /tɔːt/ | dạy |
+| **tear** | tore | torn | /tɔːr/ — /tɔːrn/ | xé rách |
+| **tell** | told | told | /toʊld/ — /toʊld/ | kể, bảo |
+| **think** | thought | thought | /θɔːt/ — /θɔːt/ | nghĩ |
+| **throw** | threw | thrown | /θruː/ — /θroʊn/ | ném |
+| **thrust** | thrust | thrust | /θrʌst/ — /θrʌst/ | đẩy mạnh |
+| **tread** | trod | trodden / trod | /trɒd/ — /ˈtrɒdn/ | giẫm lên |
+
+### 🆄 U
+
+| V1 | V2 | V3 | IPA (V2 / V3) | Nghĩa |
+|---|---|---|---|---|
+| **undergo** | underwent | undergone | /ˌʌndərˈwent/ — /ˌʌndərˈɡɒn/ | trải qua |
+| **understand** | understood | understood | /ˌʌndərˈstʊd/ — /ˌʌndərˈstʊd/ | hiểu |
+| **undertake** | undertook | undertaken | /ˌʌndərˈtʊk/ — /ˌʌndərˈteɪkən/ | đảm nhận |
+| **upset** | upset | upset | /ʌpˈset/ — /ʌpˈset/ | làm buồn, lật đổ |
+
+### 🆅 W
+
+| V1 | V2 | V3 | IPA (V2 / V3) | Nghĩa |
+|---|---|---|---|---|
+| **wake** | woke | woken | /woʊk/ — /ˈwoʊkən/ | thức dậy |
+| **wear** | wore | worn | /wɔːr/ — /wɔːrn/ | mặc, đội |
+| **weave** | wove | woven | /woʊv/ — /ˈwoʊvən/ | dệt |
+| **weep** | wept | wept | /wept/ — /wept/ | khóc |
+| **wet** | wet / wetted | wet / wetted | /wet/ — /wet/ | làm ướt |
+| **win** | won | won | /wʌn/ — /wʌn/ | thắng |
+| **wind** | wound | wound | /waʊnd/ — /waʊnd/ | cuộn, quấn, lên dây |
+| **withdraw** | withdrew | withdrawn | /wɪðˈdruː/ — /wɪðˈdrɔːn/ | rút lui, rút tiền |
+| **withhold** | withheld | withheld | /wɪðˈheld/ — /wɪðˈheld/ | giữ lại, từ chối đưa |
+| **withstand** | withstood | withstood | /wɪðˈstʊd/ — /wɪðˈstʊd/ | chịu đựng |
+| **wring** | wrung | wrung | /rʌŋ/ — /rʌŋ/ | vắt (khô) |
+| **write** | wrote | written | /roʊt/ — /ˈrɪtn/ | viết |
+
+---
+
+### 💡 6 mẹo "vàng" để ghi nhớ cả bảng
+
+1. **Học theo nhóm vần** thay vì học rời rạc: *sing/swim/drink/ring* cùng nhóm *i → a → u*.
+2. **Học theo cặp đối lập**: *buy/sell*, *give/take*, *lose/win*, *come/go*.
+3. **Học theo chủ đề**: nhóm vận động (*run/swim/ride/drive*), nhóm cảm xúc (*feel/think/mean*), nhóm giao tiếp (*say/tell/speak/hear*).
+4. **Đặt câu thật ngắn** với mỗi động từ — não nhớ ngữ cảnh tốt hơn nhớ danh sách.
+5. **Đọc to phiên âm IPA** — phát âm đúng giúp não tự "khóa" V2/V3 lại.
+6. **Học 10 từ / ngày** trong 20 ngày — đừng cố nhồi nhét 200 từ trong 1 ngày.
+
+### ⚠️ 5 lỗi sai phổ biến cần tránh
+
+- ❌ *I have went to school* → ✅ *I have **gone** to school* (sau **have**, dùng V3).
+- ❌ *He **bringed** flowers* → ✅ *He **brought** flowers* (đừng thêm -ed cho động từ bất quy tắc).
+- ❌ *She **layed** down* → ✅ *She **lay** down* (nằm = lie/lay/lain, không có tân ngữ).
+- ❌ *They **readed** the book* → ✅ *They **read** /red/ the book* (V2 đọc khác V1).
+- ❌ *I **hurted** my knee* → ✅ *I **hurt** my knee* (hurt – hurt – hurt, không đổi).`,
+        theoryEn: `## 📘 Complete Irregular Verbs Master Table
+
+> **How to use this table:** This is the **most complete reference** with **200+ common irregular verbs** in English, arranged **A → Z**, with **IPA pronunciation** (US/UK) and **Vietnamese meanings**. Bookmark this page for quick lookup!
+
+**Column legend:**
+- **V1** = Base form — use with *I/you/we/they* or after *to/do/does/did/will/can*…
+- **V2** = Past simple — for completed past actions.
+- **V3** = Past participle — used after *have/has/had* (Perfect) or *be* (Passive).
+- **IPA** = Pronunciation of V2 / V3 (V1 is usually easy; V2/V3 trip students up).
+
+Scroll the Vietnamese section above for the complete A→Z table — it shares the same V1/V2/V3/IPA columns.
+
+### 💡 6 golden memory tips
+
+1. **Learn by vowel pattern** instead of randomly: *sing/swim/drink/ring* are all *i → a → u*.
+2. **Learn in opposing pairs**: *buy/sell*, *give/take*, *lose/win*, *come/go*.
+3. **Group by theme**: motion (*run/swim/ride/drive*), feeling (*feel/think/mean*), communication (*say/tell/speak/hear*).
+4. **Make a short sentence** for each verb — context locks memory better than lists.
+5. **Read the IPA aloud** — correct pronunciation helps your brain anchor V2/V3.
+6. **10 words / day** over 20 days beats cramming 200 in one night.
+
+### ⚠️ Top 5 mistakes to avoid
+
+- ❌ *I have went to school* → ✅ *I have **gone** to school* (after **have**, use V3).
+- ❌ *He **bringed** flowers* → ✅ *He **brought** flowers*.
+- ❌ *She **layed** down* → ✅ *She **lay** down* (intransitive *lie* = lie/lay/lain).
+- ❌ *They **readed** the book* → ✅ *They **read** /red/ the book*.
+- ❌ *I **hurted** my knee* → ✅ *I **hurt** my knee*.`,
+        vocabulary: [
+          { word: "irregular verb", meaning: "động từ bất quy tắc", example: "'Go' is an irregular verb: go – went – gone." },
+          { word: "past participle", meaning: "quá khứ phân từ (V3)", example: "Use the past participle after 'have'." },
+          { word: "base form", meaning: "nguyên mẫu (V1)", example: "The base form of 'went' is 'go'." }
+        ],
+        exercises: [
+          {
+            type: "fill-in-blank" as const,
+            instruction: "Điền dạng V2 hoặc V3 đúng (tra bảng nếu cần)",
+            instructionEn: "Fill in the correct V2 or V3 (consult the table if needed)",
+            sentences: [
+              { text: "She has ___ her keys again. (lose)", textEn: "She has ___ her keys again. (lose)", answer: "lost", hint: "lose → V3 (lose/lost/lost)" },
+              { text: "The sun ___ at 6 a.m. yesterday. (rise)", textEn: "The sun ___ at 6 a.m. yesterday. (rise)", answer: "rose", hint: "rise → V2 (rise/rose/risen)" },
+              { text: "I have ___ to him many times. (speak)", textEn: "I have ___ to him many times. (speak)", answer: "spoken", hint: "speak → V3" },
+              { text: "He ___ his arm playing football. (break)", textEn: "He ___ his arm playing football. (break)", answer: "broke", hint: "break → V2" },
+              { text: "They have ___ a new house. (build)", textEn: "They have ___ a new house. (build)", answer: "built", hint: "build → V3 (V2 = V3)" },
+              { text: "She ___ the cup on the floor. (drop)*", textEn: "She ___ the cup on the floor.", answer: "dropped", hint: "drop is REGULAR — add -ed" }
+            ]
+          }
+        ],
+        quiz: [
+          { question: "What is V3 of 'choose'?", options: ["choosed", "chose", "chosen", "choose"], answer: 2, explanation: "choose – chose – chosen. After 'have', use V3 = chosen." },
+          { question: "Which row is CORRECT?", options: ["sing – sang – sang", "swim – swam – swum", "ring – rung – rang", "drink – drank – drank"], answer: 1, explanation: "swim – swam – swum follows the i→a→u family." },
+          { question: "'I have ___ my homework.' Choose the correct V3 of 'do'.", options: ["did", "done", "doed", "doing"], answer: 1, explanation: "do – did – done. After 'have', use V3 = done." },
+          { question: "Which verb does NOT change (V1 = V2 = V3)?", options: ["bring", "cost", "drive", "fly"], answer: 1, explanation: "cost – cost – cost. Other no-change verbs: cut, put, set, let, hit, hurt, shut, read (spelling)." },
+          { question: "Complete: 'The thief ___ my wallet.' (steal)", options: ["stealed", "stole", "stolen", "steals"], answer: 1, explanation: "Past simple of 'steal' is 'stole' (steal/stole/stolen)." },
+          { question: "Pick the WRONG sentence:", options: ["She has written a letter.", "He laid the book on the table.", "They have ate dinner.", "The window was broken."], answer: 2, explanation: "After 'have', use V3. 'Ate' is V2 — should be 'eaten': They have eaten dinner." }
+        ]
+      },
+
       // ───────────── LESSON 1 — TOP 30 ESSENTIAL ─────────────
       {
         id: "irregular-verbs-top-30",
         title: "Top 30 động từ bất quy tắc thông dụng nhất",
         titleEn: "Top 30 Most Common Irregular Verbs",
-        level: 1,
+        level: 2,
         difficulty: "beginner",
         theory: `## Top 30 động từ bất quy tắc bạn PHẢI thuộc
 
