@@ -6,6 +6,12 @@ verify_jwt = false
 [functions.dictionary-lookup]
 verify_jwt = false
 
+[functions.super-translate]
+verify_jwt = false
+
+[functions.multi-lang-lookup]
+verify_jwt = false
+
 [functions.scholarship-advisor]
 verify_jwt = false
 
