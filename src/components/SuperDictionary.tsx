@@ -630,14 +630,34 @@ const SuperDictionary = () => {
               {/* Content */}
               <div className="flex-1 overflow-y-auto px-4 py-3">
                 <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as ActiveTab)}>
-                  <TabsList className="w-full h-9 mb-3 sticky top-0 z-10">
-                    <TabsTrigger value="dictionary" className="flex-1 text-sm h-8">📖 {t("Từ điển", "Dictionary")}</TabsTrigger>
-                    <TabsTrigger value="ozdic" className="flex-1 text-sm h-8">🔗 {t("Kết hợp từ", "Collocation")}</TabsTrigger>
-                    <TabsTrigger value="thesaurus" className="flex-1 text-sm h-8">📚 {t("Đồng nghĩa", "Thesaurus")}</TabsTrigger>
+                  <TabsList className="w-full h-9 mb-3 sticky top-0 z-10 grid grid-cols-4">
+                    <TabsTrigger value="dictionary" className="text-xs h-8 px-1">📖 {t("Từ điển", "Dict")}</TabsTrigger>
+                    <TabsTrigger value="translate" className="text-xs h-8 px-1">🌐 {t("Dịch", "Translate")}</TabsTrigger>
+                    <TabsTrigger value="ozdic" className="text-xs h-8 px-1">🔗 {t("Kết hợp", "Colloc")}</TabsTrigger>
+                    <TabsTrigger value="thesaurus" className="text-xs h-8 px-1">📚 {t("Đồng nghĩa", "Syns")}</TabsTrigger>
                   </TabsList>
 
                   {/* Dictionary Tab */}
                   <TabsContent value="dictionary" className="space-y-3 mt-0">
+                    {/* Language picker */}
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <Languages className="w-3.5 h-3.5 text-muted-foreground" />
+                      {LANG_OPTIONS.map((lang) => (
+                        <button
+                          key={lang}
+                          onClick={() => updateDictLang(lang)}
+                          className={`px-2 py-1 rounded-full text-[11px] font-medium border transition-colors ${
+                            dictLang === lang
+                              ? "bg-primary text-primary-foreground border-primary"
+                              : "bg-muted hover:bg-primary/10 border-border text-foreground"
+                          }`}
+                          aria-pressed={dictLang === lang}
+                        >
+                          {LANG_LABEL[lang]}
+                        </button>
+                      ))}
+                    </div>
+
                     <div className="relative">
                       <div className="flex gap-2">
                         <div className="relative flex-1">
@@ -645,7 +665,12 @@ const SuperDictionary = () => {
                             ref={dictInputRef}
                             value={dictSearchWord}
                             onChange={(e) => setDictSearchWord(e.target.value)}
-                            placeholder={t("Nhập từ tiếng Anh...", "Enter an English word...")}
+                            placeholder={
+                              dictLang === "en" ? t("Nhập từ tiếng Anh...", "Enter an English word...") :
+                              dictLang === "zh" ? t("Nhập từ tiếng Trung (Hán tự)...", "Enter a Chinese word (Hanzi)...") :
+                              dictLang === "fi" ? t("Nhập từ tiếng Phần Lan...", "Enter a Finnish word...") :
+                              t("Nhập từ tiếng Việt...", "Enter a Vietnamese word...")
+                            }
                             onKeyDown={(e) => { if (e.key === "Enter") handleDictLookup(dictSearchWord); }}
                             className="h-10 text-sm pr-8"
                           />
@@ -693,7 +718,7 @@ const SuperDictionary = () => {
                           {t("Thử ngay", "Try a word")}
                         </p>
                         <div className="flex flex-wrap gap-1.5">
-                          {SUGGESTIONS.map((w) => (
+                          {SUGGESTIONS_BY_LANG[dictLang].map((w) => (
                             <button
                               key={w}
                               onClick={() => handleQuickLookup(w)}
