@@ -72,6 +72,14 @@ const EnglishDictionaryAdmin = () => {
   const [importTotal, setImportTotal] = useState(0);
   const fileRef = useRef<HTMLInputElement>(null);
 
+  // Bulk AI Generation state
+  const [bulkInput, setBulkInput] = useState("");
+  const [bulkRunning, setBulkRunning] = useState(false);
+  const [bulkDone, setBulkDone] = useState(0);
+  const [bulkTotal, setBulkTotal] = useState(0);
+  const [bulkCurrent, setBulkCurrent] = useState<string>("");
+  const [bulkFailed, setBulkFailed] = useState<string[]>([]);
+
   const loadEntries = async () => {
     setLoading(true);
     const q = supabase
