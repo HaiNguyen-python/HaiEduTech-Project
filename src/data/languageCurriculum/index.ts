@@ -43,6 +43,7 @@ import { grammarExpansionModules2 } from "./englishGrammarExpansion2";
 import { grammarExpansionModules3 } from "./englishGrammarExpansion3";
 import { grammarExtraLessons4, grammarExpansionModules4 } from "./englishGrammarExpansion4";
 import { grammarExpansionModules5 } from "./englishGrammarExpansion5";
+import { grammarExpansionModules6 } from "./englishGrammarExpansion6";
 import { enhanceGrammarModulesWithQuizDepth } from "@/lib/grammarQuizBuilder";
 import type { LanguageModule, LanguageLesson, InteractiveExercise, FillInBlankExercise, SentenceReorderExercise, DictationExercise, MCQExercise, VocabEntry } from "./types";
 
@@ -72,6 +73,7 @@ export const allGrammarModules: LanguageModule[] = enhanceGrammarModulesWithQuiz
   ...grammarExpansionModules3,
   ...grammarExpansionModules4,
   ...grammarExpansionModules5,
+  ...grammarExpansionModules6,
 ]);
 
 // All English modules combined
