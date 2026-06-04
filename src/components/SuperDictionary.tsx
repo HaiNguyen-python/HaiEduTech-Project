@@ -14,25 +14,43 @@ import {
   Move,
   BookmarkPlus,
   Check,
+  Languages,
+  Copy,
+  ArrowRightLeft,
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { motion, AnimatePresence, useDragControls } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 type LookupErrorKind = "notFound" | "busy" | null;
 type SizeMode = "wide";
-type ActiveTab = "dictionary" | "ozdic" | "thesaurus";
+type ActiveTab = "dictionary" | "ozdic" | "thesaurus" | "translate";
+type DictLang = "en" | "zh" | "fi" | "vi";
 
+const LANG_LABEL: Record<DictLang, string> = {
+  en: "🇬🇧 English",
+  zh: "🇨🇳 中文",
+  fi: "🇫🇮 Suomi",
+  vi: "🇻🇳 Tiếng Việt",
+};
+const LANG_OPTIONS: DictLang[] = ["en", "zh", "fi", "vi"];
 
 const RECENT_KEY = "super-dict-recent";
 const POSITION_KEY = "super-dict-position";
 const SIZE_KEY = "super-dict-size";
+const LANG_KEY = "super-dict-lang";
 const MAX_RECENT = 5;
-const SUGGESTIONS = ["ambiguous", "perspective", "significant"];
+const SUGGESTIONS_BY_LANG: Record<DictLang, string[]> = {
+  en: ["ambiguous", "perspective", "significant"],
+  zh: ["学习", "朋友", "希望"],
+  fi: ["kiitos", "ystävä", "oppia"],
+  vi: ["học tập", "hi vọng", "bạn bè"],
+};
 
 // Size limits (px) for resizable panel on lg+
 const DEFAULT_WIDTH = 520;
@@ -70,6 +88,15 @@ const SuperDictionary = () => {
   const [thesaurusError, setThesaurusError] = useState<LookupErrorKind>(null);
 
   const [collocationWord, setCollocationWord] = useState("");
+  const [dictLang, setDictLang] = useState<DictLang>("en");
+
+  // Translate tab state
+  const [translateSourceLang, setTranslateSourceLang] = useState<DictLang | "auto">("auto");
+  const [translateTargetLang, setTranslateTargetLang] = useState<DictLang>("vi");
+  const [translateInput, setTranslateInput] = useState("");
+  const [translateOutput, setTranslateOutput] = useState("");
+  const [translateLoading, setTranslateLoading] = useState(false);
+  const [translateError, setTranslateError] = useState<string | null>(null);
   const [collocationGroups, setCollocationGroups] = useState<{ label: string; items: { phrase: string; vi: string }[] }[]>([]);
   const [collocationLoading, setCollocationLoading] = useState(false);
   const [collocationError, setCollocationError] = useState<LookupErrorKind>(null);
@@ -115,6 +142,20 @@ const SuperDictionary = () => {
     } catch {
       // ignore
     }
+    try {
+      const l = localStorage.getItem(LANG_KEY);
+      if (l && (LANG_OPTIONS as string[]).includes(l)) setDictLang(l as DictLang);
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  const updateDictLang = useCallback((lang: DictLang) => {
+    setDictLang(lang);
+    setDictResult(null);
+    setDictError(null);
+    setDictViTranslations({});
+    try { localStorage.setItem(LANG_KEY, lang); } catch { /* ignore */ }
   }, []);
 
   const persistPosition = useCallback((x: number, y: number) => {
@@ -177,7 +218,7 @@ const SuperDictionary = () => {
     });
   }, []);
 
-  // Dictionary lookup
+  // Dictionary lookup - routes by language. EN → dictionary-lookup, others → multi-lang-lookup (AI).
   const handleDictLookup = useCallback(async (word: string) => {
     if (!word.trim()) return;
     setDictLoading(true);
@@ -186,27 +227,83 @@ const SuperDictionary = () => {
     setDictError(null);
     setSavedWord(null);
     try {
-      const { data, error } = await supabase.functions.invoke("dictionary-lookup", {
-        body: { type: "dictionary", word: word.trim() },
-      });
-      if (error || !data) {
-        setDictError("busy");
-      } else if (data.notFound) {
-        setDictError("notFound");
-      } else if (data.error) {
-        setDictError("busy");
-      } else if (data.entry) {
-        setDictResult(data.entry);
-        setDictViTranslations(data.viTranslations || {});
-        pushRecent(word);
+      if (dictLang === "en") {
+        const { data, error } = await supabase.functions.invoke("dictionary-lookup", {
+          body: { type: "dictionary", word: word.trim() },
+        });
+        if (error || !data) setDictError("busy");
+        else if (data.notFound) setDictError("notFound");
+        else if (data.error) setDictError("busy");
+        else if (data.entry) {
+          setDictResult(data.entry);
+          setDictViTranslations(data.viTranslations || {});
+          pushRecent(word);
+        } else setDictError("notFound");
       } else {
-        setDictError("notFound");
+        const { data, error } = await supabase.functions.invoke("multi-lang-lookup", {
+          body: { word: word.trim(), lang: dictLang },
+        });
+        if (error || !data) setDictError("busy");
+        else if (data.notFound) setDictError("notFound");
+        else if (data.error) setDictError("busy");
+        else if (data.entry) {
+          // Normalize AI shape → same shape as dictionary-lookup.
+          const e = data.entry;
+          const viTranslations: Record<string, string> = {};
+          const meanings = (e.meanings || []).map((m: any, mIdx: number) => ({
+            partOfSpeech: m.partOfSpeech || "",
+            definitions: (m.definitions || []).map((d: any, dIdx: number) => {
+              if (d.definitionVi) viTranslations[`def-${mIdx}-${dIdx}`] = d.definitionVi;
+              if (d.exampleVi) viTranslations[`ex-${mIdx}-${dIdx}`] = d.exampleVi;
+              return { definition: d.definitionEn || d.definitionVi || "", example: d.example || "" };
+            }),
+          }));
+          setDictResult({ word: e.word || word, phonetic: e.phonetic || "", phonetics: [], meanings });
+          setDictViTranslations(viTranslations);
+          pushRecent(word);
+        } else setDictError("notFound");
       }
     } catch {
       setDictError("busy");
     }
     setDictLoading(false);
-  }, [pushRecent]);
+  }, [pushRecent, dictLang]);
+
+  // Translate sentences/paragraphs
+  const handleTranslate = useCallback(async () => {
+    const text = translateInput.trim();
+    if (!text) return;
+    setTranslateLoading(true);
+    setTranslateOutput("");
+    setTranslateError(null);
+    try {
+      const { data, error } = await supabase.functions.invoke("super-translate", {
+        body: { text, source: translateSourceLang, target: translateTargetLang },
+      });
+      if (error || !data) {
+        setTranslateError("Dịch vụ dịch đang bận, hãy thử lại.");
+      } else if (data.error) {
+        setTranslateError(data.message || "Lỗi không xác định.");
+      } else {
+        setTranslateOutput(data.translation || "");
+      }
+    } catch {
+      setTranslateError("Không thể kết nối dịch vụ dịch.");
+    }
+    setTranslateLoading(false);
+  }, [translateInput, translateSourceLang, translateTargetLang]);
+
+  const swapTranslateLangs = () => {
+    if (translateSourceLang === "auto") return;
+    const newSrc = translateTargetLang;
+    const newTgt = translateSourceLang as DictLang;
+    setTranslateSourceLang(newSrc);
+    setTranslateTargetLang(newTgt);
+    if (translateOutput) {
+      setTranslateInput(translateOutput);
+      setTranslateOutput("");
+    }
+  };
 
   // Save current dictionary entry to Student Notebook
   const handleSaveToNotebook = async () => {
@@ -502,7 +599,7 @@ const SuperDictionary = () => {
                       {t("Siêu từ điển", "Super Dictionary")}
                     </p>
                     <p className="text-[10px] text-muted-foreground leading-tight truncate">
-                      {t("Anh - Việt • Collocations • Synonyms", "EN-VI • Collocations • Synonyms")}
+                      {t("Anh • Trung • Phần • Việt · Dịch · Collocations · Synonyms", "EN · ZH · FI · VI · Translate · Collocations · Synonyms")}
                     </p>
                   </div>
                 </div>
@@ -533,14 +630,34 @@ const SuperDictionary = () => {
               {/* Content */}
               <div className="flex-1 overflow-y-auto px-4 py-3">
                 <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as ActiveTab)}>
-                  <TabsList className="w-full h-9 mb-3 sticky top-0 z-10">
-                    <TabsTrigger value="dictionary" className="flex-1 text-sm h-8">📖 {t("Từ điển", "Dictionary")}</TabsTrigger>
-                    <TabsTrigger value="ozdic" className="flex-1 text-sm h-8">🔗 {t("Kết hợp từ", "Collocation")}</TabsTrigger>
-                    <TabsTrigger value="thesaurus" className="flex-1 text-sm h-8">📚 {t("Đồng nghĩa", "Thesaurus")}</TabsTrigger>
+                  <TabsList className="w-full h-9 mb-3 sticky top-0 z-10 grid grid-cols-4">
+                    <TabsTrigger value="dictionary" className="text-xs h-8 px-1">📖 {t("Từ điển", "Dict")}</TabsTrigger>
+                    <TabsTrigger value="translate" className="text-xs h-8 px-1">🌐 {t("Dịch", "Translate")}</TabsTrigger>
+                    <TabsTrigger value="ozdic" className="text-xs h-8 px-1">🔗 {t("Kết hợp", "Colloc")}</TabsTrigger>
+                    <TabsTrigger value="thesaurus" className="text-xs h-8 px-1">📚 {t("Đồng nghĩa", "Syns")}</TabsTrigger>
                   </TabsList>
 
                   {/* Dictionary Tab */}
                   <TabsContent value="dictionary" className="space-y-3 mt-0">
+                    {/* Language picker */}
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <Languages className="w-3.5 h-3.5 text-muted-foreground" />
+                      {LANG_OPTIONS.map((lang) => (
+                        <button
+                          key={lang}
+                          onClick={() => updateDictLang(lang)}
+                          className={`px-2 py-1 rounded-full text-[11px] font-medium border transition-colors ${
+                            dictLang === lang
+                              ? "bg-primary text-primary-foreground border-primary"
+                              : "bg-muted hover:bg-primary/10 border-border text-foreground"
+                          }`}
+                          aria-pressed={dictLang === lang}
+                        >
+                          {LANG_LABEL[lang]}
+                        </button>
+                      ))}
+                    </div>
+
                     <div className="relative">
                       <div className="flex gap-2">
                         <div className="relative flex-1">
@@ -548,7 +665,12 @@ const SuperDictionary = () => {
                             ref={dictInputRef}
                             value={dictSearchWord}
                             onChange={(e) => setDictSearchWord(e.target.value)}
-                            placeholder={t("Nhập từ tiếng Anh...", "Enter an English word...")}
+                            placeholder={
+                              dictLang === "en" ? t("Nhập từ tiếng Anh...", "Enter an English word...") :
+                              dictLang === "zh" ? t("Nhập từ tiếng Trung (Hán tự)...", "Enter a Chinese word (Hanzi)...") :
+                              dictLang === "fi" ? t("Nhập từ tiếng Phần Lan...", "Enter a Finnish word...") :
+                              t("Nhập từ tiếng Việt...", "Enter a Vietnamese word...")
+                            }
                             onKeyDown={(e) => { if (e.key === "Enter") handleDictLookup(dictSearchWord); }}
                             className="h-10 text-sm pr-8"
                           />
@@ -596,7 +718,7 @@ const SuperDictionary = () => {
                           {t("Thử ngay", "Try a word")}
                         </p>
                         <div className="flex flex-wrap gap-1.5">
-                          {SUGGESTIONS.map((w) => (
+                          {SUGGESTIONS_BY_LANG[dictLang].map((w) => (
                             <button
                               key={w}
                               onClick={() => handleQuickLookup(w)}
@@ -694,19 +816,118 @@ const SuperDictionary = () => {
                       t("Không tìm thấy từ này.", "Word not found."),
                     )}
 
-                    <a
-                      href={`https://dictionary.cambridge.org/dictionary/english/${dictSearchWord.trim().toLowerCase() || ""}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1 text-xs text-muted-foreground hover:text-primary hover:underline"
-                    >
-                      <ExternalLink className="w-3 h-3" />
-                      {t("Mở tại Cambridge Dictionary", "Open in Cambridge Dictionary")}
-                    </a>
+                    {dictLang === "en" && (
+                      <a
+                        href={`https://dictionary.cambridge.org/dictionary/english/${dictSearchWord.trim().toLowerCase() || ""}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1 text-xs text-muted-foreground hover:text-primary hover:underline"
+                      >
+                        <ExternalLink className="w-3 h-3" />
+                        {t("Mở tại Cambridge Dictionary", "Open in Cambridge Dictionary")}
+                      </a>
+                    )}
                   </TabsContent>
+
+                  {/* Translate Tab */}
+                  <TabsContent value="translate" className="space-y-3 mt-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <select
+                        value={translateSourceLang}
+                        onChange={(e) => setTranslateSourceLang(e.target.value as DictLang | "auto")}
+                        className="flex-1 min-w-0 h-9 rounded-md border border-border bg-background px-2 text-xs"
+                      >
+                        <option value="auto">{t("Tự nhận diện", "Auto-detect")}</option>
+                        {LANG_OPTIONS.map((l) => <option key={l} value={l}>{LANG_LABEL[l]}</option>)}
+                      </select>
+                      <button
+                        type="button"
+                        onClick={swapTranslateLangs}
+                        disabled={translateSourceLang === "auto"}
+                        className="p-1.5 rounded hover:bg-muted disabled:opacity-40"
+                        title={t("Đảo ngôn ngữ", "Swap languages")}
+                      >
+                        <ArrowRightLeft className="w-3.5 h-3.5" />
+                      </button>
+                      <select
+                        value={translateTargetLang}
+                        onChange={(e) => setTranslateTargetLang(e.target.value as DictLang)}
+                        className="flex-1 min-w-0 h-9 rounded-md border border-border bg-background px-2 text-xs"
+                      >
+                        {LANG_OPTIONS.map((l) => <option key={l} value={l}>{LANG_LABEL[l]}</option>)}
+                      </select>
+                    </div>
+
+                    <Textarea
+                      value={translateInput}
+                      onChange={(e) => setTranslateInput(e.target.value)}
+                      placeholder={t("Nhập câu hoặc đoạn văn cần dịch (tối đa 5000 ký tự)...", "Paste a sentence or paragraph (up to 5000 chars)...")}
+                      rows={5}
+                      maxLength={5000}
+                      className="text-sm resize-y"
+                    />
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[11px] text-muted-foreground">
+                        {translateInput.length} / 5000
+                      </span>
+                      <Button
+                        size="sm"
+                        onClick={handleTranslate}
+                        disabled={translateLoading || !translateInput.trim()}
+                        className="h-9 px-4"
+                      >
+                        {translateLoading ? (
+                          <><Loader2 className="w-4 h-4 mr-1 animate-spin" /> {t("Đang dịch...", "Translating...")}</>
+                        ) : (
+                          <><Languages className="w-4 h-4 mr-1" /> {t("Dịch ngay", "Translate")}</>
+                        )}
+                      </Button>
+                    </div>
+
+                    {translateError && (
+                      <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive">
+                        {translateError}
+                      </div>
+                    )}
+
+                    {translateOutput && (
+                      <div className="rounded-xl border bg-background p-3 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <p className="text-xs font-semibold text-primary uppercase tracking-wide">
+                            {LANG_LABEL[translateTargetLang]}
+                          </p>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              navigator.clipboard.writeText(translateOutput).then(() => {
+                                toast.success(t("Đã sao chép!", "Copied!"));
+                              }).catch(() => toast.error(t("Không thể sao chép", "Copy failed")));
+                            }}
+                            className="p-1 rounded hover:bg-muted text-muted-foreground hover:text-foreground"
+                            title={t("Sao chép", "Copy")}
+                          >
+                            <Copy className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                        <p className="text-sm leading-relaxed text-foreground whitespace-pre-wrap">
+                          {translateOutput}
+                        </p>
+                      </div>
+                    )}
+
+                    {!translateOutput && !translateLoading && !translateError && (
+                      <p className="text-[11px] text-muted-foreground italic">
+                        💡 {t("Hỗ trợ Anh – Trung – Phần Lan – Việt. Có thể dịch câu, đoạn văn, hoặc cả bài đọc ngắn.", "Supports English, Chinese, Finnish, Vietnamese. Translate sentences, paragraphs, or short passages.")}
+                      </p>
+                    )}
+                  </TabsContent>
+
 
                   {/* Collocation Tab */}
                   <TabsContent value="ozdic" className="space-y-3 mt-0">
+                    <p className="text-[11px] text-muted-foreground bg-muted/40 rounded px-2 py-1">
+                      🇬🇧 {t("Collocations chỉ hỗ trợ tiếng Anh.", "Collocations are English-only.")}
+                    </p>
                     <div className="flex gap-2">
                       <Input
                         value={collocationWord}
@@ -757,6 +978,9 @@ const SuperDictionary = () => {
 
                   {/* Thesaurus Tab */}
                   <TabsContent value="thesaurus" className="space-y-3 mt-0">
+                    <p className="text-[11px] text-muted-foreground bg-muted/40 rounded px-2 py-1">
+                      🇬🇧 {t("Thesaurus chỉ hỗ trợ tiếng Anh.", "Thesaurus is English-only.")}
+                    </p>
                     <div className="flex gap-2">
                       <Input
                         value={thesaurusWord}
