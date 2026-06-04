@@ -303,9 +303,14 @@ const Notebook = () => {
             </h1>
             <p className="text-muted-foreground text-sm mt-1">Ghi chú bài học, ý tưởng & bài viết của bạn</p>
           </div>
-          <Button onClick={() => { resetEditor(); setShowEditor(true); }} className="gap-2">
-            <Plus className="w-4 h-4" /> Ghi chú mới
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={handleExportAllPDF} className="gap-2" title="Xuất toàn bộ sổ tay ra PDF">
+              <FileDown className="w-4 h-4" /> Xuất tất cả PDF
+            </Button>
+            <Button onClick={() => { resetEditor(); setShowEditor(true); }} className="gap-2">
+              <Plus className="w-4 h-4" /> Ghi chú mới
+            </Button>
+          </div>
         </div>
 
         {/* Editor */}
