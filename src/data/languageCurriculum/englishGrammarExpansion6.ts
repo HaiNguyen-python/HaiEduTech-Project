@@ -311,15 +311,11 @@ export const grammarExpansionModules6: LanguageModule[] = [
 - ❌ *I **hurted** my knee* → ✅ *I **hurt** my knee* (hurt – hurt – hurt, không đổi).`,
         theoryEn: `## 📘 Complete Irregular Verbs Master Table
 
-> **How to use this table:** This is the **most complete reference** with **200+ common irregular verbs** in English, arranged **A → Z**, with **IPA pronunciation** (US/UK) and **Vietnamese meanings**. Bookmark this page for quick lookup!
+> **200+ common irregular verbs**, A → Z, with **IPA** and **Vietnamese meanings**. Bookmark for quick lookup.
 
-**Column legend:**
-- **V1** = Base form — use with *I/you/we/they* or after *to/do/does/did/will/can*…
-- **V2** = Past simple — for completed past actions.
-- **V3** = Past participle — used after *have/has/had* (Perfect) or *be* (Passive).
-- **IPA** = Pronunciation of V2 / V3 (V1 is usually easy; V2/V3 trip students up).
+**V1** = base form · **V2** = past simple · **V3** = past participle (after *have/be*) · **IPA** = V2 / V3 pronunciation.
 
-Scroll the Vietnamese section above for the complete A→Z table — it shares the same V1/V2/V3/IPA columns.
+The full A→Z table appears above (shared with the Vietnamese view) — same V1 / V2 / V3 / IPA columns.
 
 ### 💡 6 golden memory tips
 
