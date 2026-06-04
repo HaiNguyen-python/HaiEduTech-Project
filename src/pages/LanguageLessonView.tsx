@@ -104,9 +104,7 @@ const LanguageLessonView = () => {
   const isSatLesson = mod.category === "sat";
   const tr = (vi: string, en: string) => (isEnglishGrammarLesson ? en : t(vi, en));
   const lessonTheory = isEnglishGrammarLesson
-    ? (lesson.id === "irregular-verbs-master-table"
-      ? lesson.theory
-      : getEnhancedGrammarTheory(lesson, mod).replace(/^\s*#\s+[^\n]+\n+/, ""))
+    ? getEnhancedGrammarTheory(lesson, mod).replace(/^\s*#\s+[^\n]+\n+/, "")
     : (t(lesson.theory, lesson.theoryEn) || "");
   const grammarDifficultyKeys = ["beginner", "intermediate", "advanced"] as const;
   const lessonSequence = new Map(mod.lessons.map((item, index) => [item.id, index + 1]));

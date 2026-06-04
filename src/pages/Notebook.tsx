@@ -193,43 +193,30 @@ const Notebook = () => {
 
   const getSubjectLabel = (val: string) => SUBJECTS.find(s => s.value === val)?.label ?? val;
 
-  const buildPdfStyles = () => `
-  @page { size: A4; margin: 20mm 18mm 22mm 18mm; }
-  * { box-sizing: border-box; }
-  body { font-family: 'Georgia', 'Segoe UI', serif; color: #1a1a2e; line-height: 1.75; font-size: 12pt; margin: 0; }
-  .cover { height: 257mm; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; page-break-after: always; background: linear-gradient(135deg, #eff6ff 0%, #ecfdf5 100%); border-radius: 12px; padding: 40px; }
-  .cover .logo { font-size: 14pt; letter-spacing: 4px; color: #10b981; font-weight: 700; margin-bottom: 24px; }
-  .cover h1 { font-size: 38pt; background: linear-gradient(90deg, #3B82F6, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0 0 16px; line-height: 1.15; }
-  .cover .subtitle { font-size: 14pt; color: #475569; font-style: italic; margin-bottom: 40px; }
-  .cover .stats { display: flex; gap: 32px; margin-top: 20px; }
-  .cover .stat { background: #fff; padding: 16px 24px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,.06); min-width: 110px; }
-  .cover .stat .num { font-size: 26pt; font-weight: 800; color: #1e40af; display: block; }
-  .cover .stat .lbl { font-size: 9pt; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
-  .cover .meta { margin-top: 40px; color: #64748b; font-size: 11pt; }
-  .toc { page-break-after: always; }
-  .toc h2 { color: #1e40af; border-bottom: 3px solid #10b981; padding-bottom: 10px; font-size: 22pt; }
-  .toc ol { padding-left: 24px; }
-  .toc li { padding: 6px 0; border-bottom: 1px dotted #cbd5e1; font-size: 12pt; }
-  .toc li .ti { font-weight: 600; color: #0f172a; }
-  .toc li .sub { color: #64748b; font-size: 10pt; margin-left: 6px; }
-  .note { page-break-before: always; padding-top: 6px; }
-  .note:first-of-type { page-break-before: auto; }
-  .note h1 { color: #1e40af; border-bottom: 3px solid #10b981; padding-bottom: 8px; margin: 0 0 6px; font-size: 22pt; }
-  .badge { display: inline-block; background: #dbeafe; color: #1e40af; padding: 3px 12px; border-radius: 14px; font-size: 9.5pt; margin-left: 8px; vertical-align: middle; font-family: 'Segoe UI', sans-serif; }
-  .meta { font-size: 10pt; color: #64748b; margin-bottom: 20px; font-family: 'Segoe UI', sans-serif; }
-  .meta strong { color: #0f172a; }
-  .content { text-align: justify; }
-  .content p { margin: 10px 0; }
-  .content hr { border: none; border-top: 1.5px dashed #cbd5e1; margin: 18px 0; }
-  .content strong { color: #0f172a; }
-  .content blockquote { border-left: 4px solid #10b981; padding: 6px 14px; background: #f0fdf4; margin: 12px 0; color: #334155; font-style: italic; }
-  .content code, .content pre { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 10.5pt; }
-  .footer { position: fixed; bottom: 8mm; left: 0; right: 0; text-align: center; font-size: 8.5pt; color: #94a3b8; font-family: 'Segoe UI', sans-serif; }
-  @media print { .cover, .toc, .note { break-inside: avoid; } }
-  `;
-
-  const openPrintWindow = (innerHtml: string, title: string) => {
-    const html = `<!DOCTYPE html><html lang="vi"><head><meta charset="utf-8"><title>${title}</title><style>${buildPdfStyles()}</style></head><body>${innerHtml}<div class="footer">© ${new Date().getFullYear()} HaiEduTech · Sổ Tay Điện Tử · ${title}</div><script>window.addEventListener('load',()=>{setTimeout(()=>window.print(),400);});</script></body></html>`;
+  const handleExportPDF = (note: Notebook & { profile_name?: string }) => {
+    const safeContent = sanitize(note.content || "<p><em>Chưa có nội dung</em></p>");
+    const subjectLabel = getSubjectLabel(note.subject);
+    const updated = format(new Date(note.updated_at), "dd/MM/yyyy HH:mm");
+    const wordCount = stripHtml(note.content).split(/\s+/).filter(Boolean).length;
+    const author = note.profile_name ? `<p><strong>Học sinh:</strong> ${note.profile_name}</p>` : "";
+    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${note.title || "Notebook"}</title>
+<style>
+  @page { size: A4; margin: 18mm; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: #1a1a1a; line-height: 1.7; font-size: 13pt; }
+  h1 { color: #1e40af; border-bottom: 3px solid #10b981; padding-bottom: 8px; margin: 0 0 6px; }
+  .meta { font-size: 10pt; color: #555; margin-bottom: 18px; }
+  .badge { display: inline-block; background: #dbeafe; color: #1e40af; padding: 2px 10px; border-radius: 12px; font-size: 10pt; margin-left: 8px; }
+  hr { border: none; border-top: 2px dashed #cbd5e1; margin: 18px 0; }
+  p { margin: 8px 0; }
+  strong { color: #0f172a; }
+  .footer { margin-top: 30px; padding-top: 12px; border-top: 1px solid #e2e8f0; font-size: 9pt; color: #64748b; text-align: center; }
+</style></head><body>
+<h1>${note.title || "Không tiêu đề"} <span class="badge">${subjectLabel}</span></h1>
+<div class="meta">${author}<p><strong>Cập nhật:</strong> ${updated} · <strong>${wordCount}</strong> từ</p></div>
+<div>${safeContent}</div>
+<div class="footer">© ${new Date().getFullYear()} HaiEduTech · Sổ tay học tập</div>
+<script>window.addEventListener('load',()=>{setTimeout(()=>window.print(),300);});</script>
+</body></html>`;
     const w = window.open("", "_blank");
     if (!w) {
       toast({ title: "Bị chặn popup", description: "Vui lòng cho phép popup để xuất PDF", variant: "destructive" });
@@ -239,35 +226,6 @@ const Notebook = () => {
     w.document.close();
     toast({ title: "Đang tạo PDF 📄", description: "Chọn 'Save as PDF' trong hộp thoại in" });
   };
-
-  const renderNoteBlock = (note: Notebook & { profile_name?: string }) => {
-    const safeContent = sanitize(note.content || "<p><em>Chưa có nội dung</em></p>");
-    const subjectLabel = getSubjectLabel(note.subject);
-    const updated = format(new Date(note.updated_at), "dd/MM/yyyy HH:mm");
-    const wordCount = stripHtml(note.content).split(/\s+/).filter(Boolean).length;
-    const author = note.profile_name ? `<strong>Học sinh:</strong> ${note.profile_name} · ` : "";
-    return `<section class="note"><h1>${note.title || "Không tiêu đề"} <span class="badge">${subjectLabel}</span></h1><div class="meta">${author}<strong>Cập nhật:</strong> ${updated} · <strong>${wordCount}</strong> từ</div><div class="content">${safeContent}</div></section>`;
-  };
-
-  const handleExportPDF = (note: Notebook & { profile_name?: string }) => {
-    openPrintWindow(renderNoteBlock(note), note.title || "Notebook");
-  };
-
-  const handleExportAllPDF = () => {
-    const notes = filterNotes(notebooks);
-    if (notes.length === 0) {
-      toast({ title: "Chưa có ghi chú", description: "Không có ghi chú nào để xuất", variant: "destructive" });
-      return;
-    }
-    const totalWords = notes.reduce((s, n) => s + stripHtml(n.content).split(/\s+/).filter(Boolean).length, 0);
-    const subjects = new Set(notes.map(n => n.subject)).size;
-    const today = format(new Date(), "dd/MM/yyyy");
-    const cover = `<section class="cover"><div class="logo">HAIEDUTECH</div><h1>Sổ Tay Học Tập</h1><div class="subtitle">"Học thông minh • Dẫn đầu kỷ nguyên số"</div><div class="stats"><div class="stat"><span class="num">${notes.length}</span><span class="lbl">Ghi chú</span></div><div class="stat"><span class="num">${totalWords.toLocaleString()}</span><span class="lbl">Từ</span></div><div class="stat"><span class="num">${subjects}</span><span class="lbl">Chủ đề</span></div></div><div class="meta">Xuất ngày ${today}</div></section>`;
-    const toc = `<section class="toc"><h2>📑 Mục Lục</h2><ol>${notes.map(n => `<li><span class="ti">${n.title || "Không tiêu đề"}</span><span class="sub">— ${getSubjectLabel(n.subject)} · ${format(new Date(n.updated_at), "dd/MM/yyyy")}</span></li>`).join("")}</ol></section>`;
-    const body = notes.map(renderNoteBlock).join("");
-    openPrintWindow(cover + toc + body, `So-tay-${today.replace(/\//g, "-")}`);
-  };
-
 
   const filterNotes = (notes: (Notebook & { profile_name?: string })[]) => {
     return notes.filter(n => {
@@ -303,14 +261,9 @@ const Notebook = () => {
             </h1>
             <p className="text-muted-foreground text-sm mt-1">Ghi chú bài học, ý tưởng & bài viết của bạn</p>
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={handleExportAllPDF} className="gap-2" title="Xuất toàn bộ sổ tay ra PDF">
-              <FileDown className="w-4 h-4" /> Xuất tất cả PDF
-            </Button>
-            <Button onClick={() => { resetEditor(); setShowEditor(true); }} className="gap-2">
-              <Plus className="w-4 h-4" /> Ghi chú mới
-            </Button>
-          </div>
+          <Button onClick={() => { resetEditor(); setShowEditor(true); }} className="gap-2">
+            <Plus className="w-4 h-4" /> Ghi chú mới
+          </Button>
         </div>
 
         {/* Editor */}
