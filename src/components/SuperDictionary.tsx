@@ -218,7 +218,7 @@ const SuperDictionary = () => {
     });
   }, []);
 
-  // Dictionary lookup
+  // Dictionary lookup - routes by language. EN → dictionary-lookup, others → multi-lang-lookup (AI).
   const handleDictLookup = useCallback(async (word: string) => {
     if (!word.trim()) return;
     setDictLoading(true);
@@ -227,27 +227,83 @@ const SuperDictionary = () => {
     setDictError(null);
     setSavedWord(null);
     try {
-      const { data, error } = await supabase.functions.invoke("dictionary-lookup", {
-        body: { type: "dictionary", word: word.trim() },
-      });
-      if (error || !data) {
-        setDictError("busy");
-      } else if (data.notFound) {
-        setDictError("notFound");
-      } else if (data.error) {
-        setDictError("busy");
-      } else if (data.entry) {
-        setDictResult(data.entry);
-        setDictViTranslations(data.viTranslations || {});
-        pushRecent(word);
+      if (dictLang === "en") {
+        const { data, error } = await supabase.functions.invoke("dictionary-lookup", {
+          body: { type: "dictionary", word: word.trim() },
+        });
+        if (error || !data) setDictError("busy");
+        else if (data.notFound) setDictError("notFound");
+        else if (data.error) setDictError("busy");
+        else if (data.entry) {
+          setDictResult(data.entry);
+          setDictViTranslations(data.viTranslations || {});
+          pushRecent(word);
+        } else setDictError("notFound");
       } else {
-        setDictError("notFound");
+        const { data, error } = await supabase.functions.invoke("multi-lang-lookup", {
+          body: { word: word.trim(), lang: dictLang },
+        });
+        if (error || !data) setDictError("busy");
+        else if (data.notFound) setDictError("notFound");
+        else if (data.error) setDictError("busy");
+        else if (data.entry) {
+          // Normalize AI shape → same shape as dictionary-lookup.
+          const e = data.entry;
+          const viTranslations: Record<string, string> = {};
+          const meanings = (e.meanings || []).map((m: any, mIdx: number) => ({
+            partOfSpeech: m.partOfSpeech || "",
+            definitions: (m.definitions || []).map((d: any, dIdx: number) => {
+              if (d.definitionVi) viTranslations[`def-${mIdx}-${dIdx}`] = d.definitionVi;
+              if (d.exampleVi) viTranslations[`ex-${mIdx}-${dIdx}`] = d.exampleVi;
+              return { definition: d.definitionEn || d.definitionVi || "", example: d.example || "" };
+            }),
+          }));
+          setDictResult({ word: e.word || word, phonetic: e.phonetic || "", phonetics: [], meanings });
+          setDictViTranslations(viTranslations);
+          pushRecent(word);
+        } else setDictError("notFound");
       }
     } catch {
       setDictError("busy");
     }
     setDictLoading(false);
-  }, [pushRecent]);
+  }, [pushRecent, dictLang]);
+
+  // Translate sentences/paragraphs
+  const handleTranslate = useCallback(async () => {
+    const text = translateInput.trim();
+    if (!text) return;
+    setTranslateLoading(true);
+    setTranslateOutput("");
+    setTranslateError(null);
+    try {
+      const { data, error } = await supabase.functions.invoke("super-translate", {
+        body: { text, source: translateSourceLang, target: translateTargetLang },
+      });
+      if (error || !data) {
+        setTranslateError("Dịch vụ dịch đang bận, hãy thử lại.");
+      } else if (data.error) {
+        setTranslateError(data.message || "Lỗi không xác định.");
+      } else {
+        setTranslateOutput(data.translation || "");
+      }
+    } catch {
+      setTranslateError("Không thể kết nối dịch vụ dịch.");
+    }
+    setTranslateLoading(false);
+  }, [translateInput, translateSourceLang, translateTargetLang]);
+
+  const swapTranslateLangs = () => {
+    if (translateSourceLang === "auto") return;
+    const newSrc = translateTargetLang;
+    const newTgt = translateSourceLang as DictLang;
+    setTranslateSourceLang(newSrc);
+    setTranslateTargetLang(newTgt);
+    if (translateOutput) {
+      setTranslateInput(translateOutput);
+      setTranslateOutput("");
+    }
+  };
 
   // Save current dictionary entry to Student Notebook
   const handleSaveToNotebook = async () => {
