@@ -142,6 +142,20 @@ const SuperDictionary = () => {
     } catch {
       // ignore
     }
+    try {
+      const l = localStorage.getItem(LANG_KEY);
+      if (l && (LANG_OPTIONS as string[]).includes(l)) setDictLang(l as DictLang);
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  const updateDictLang = useCallback((lang: DictLang) => {
+    setDictLang(lang);
+    setDictResult(null);
+    setDictError(null);
+    setDictViTranslations({});
+    try { localStorage.setItem(LANG_KEY, lang); } catch { /* ignore */ }
   }, []);
 
   const persistPosition = useCallback((x: number, y: number) => {
