@@ -91,12 +91,6 @@ const EnglishDictionaryAdmin = () => {
 
   useEffect(() => { loadEntries(); /* eslint-disable-next-line */ }, []);
 
-  const submitOne = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!word.trim() || !viDef.trim()) {
-      toast.error(t("Cần nhập từ và nghĩa tiếng Việt", "Word and Vietnamese definition are required"));
-      return;
-    }
   // Generate structured entry from Perplexity AI and auto-fill the form
   const generateWithAI = async () => {
     const target = word.trim();
