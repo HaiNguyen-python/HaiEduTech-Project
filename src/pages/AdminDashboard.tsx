@@ -54,6 +54,7 @@ import AttendanceAnalyticsTab from "@/components/admin/AttendanceAnalyticsTab";
 import ReportLogsTab from "@/components/admin/ReportLogsTab";
 import AssistantManagementTab from "@/components/admin/AssistantManagementTab";
 import EnglishDictionaryAdmin from "@/components/admin/EnglishDictionaryAdmin";
+import DictionaryLookupsAnalytics from "@/components/admin/DictionaryLookupsAnalytics";
 
 // Priority colors
 const PRIORITY_COLORS = {
@@ -605,6 +606,7 @@ const AdminDashboard = () => {
                     <TabsTrigger value="rl-engine" className="gap-1.5"><Brain className="w-3.5 h-3.5" /> {t("Hệ thống can thiệp", "RL Engine")}</TabsTrigger>
                     <TabsTrigger value="strategy" className="gap-1.5"><TrendingUp className="w-3.5 h-3.5" /> {t("Chiến lược", "Strategy")}</TabsTrigger>
                     <TabsTrigger value="dictionary" className="gap-1.5"><BookOpen className="w-3.5 h-3.5" /> {t("Từ điển Anh", "English Dictionary")}</TabsTrigger>
+                    <TabsTrigger value="dict-insights" className="gap-1.5"><Search className="w-3.5 h-3.5" /> {t("Từ tra nhiều nhất", "Top Lookups")}</TabsTrigger>
                   </>
                 )}
                 {tabGroup === "operations" && (
@@ -1214,6 +1216,12 @@ const AdminDashboard = () => {
                   <TabsContent value="vi" className="mt-4"><EnglishDictionaryAdmin lang="vi" /></TabsContent>
                 </Tabs>
               </TabsContent>
+
+              <TabsContent value="dict-insights">
+                <DictionaryLookupsAnalytics />
+              </TabsContent>
+
+
 
             </Tabs>
           </motion.div>

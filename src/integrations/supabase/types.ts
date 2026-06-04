@@ -758,6 +758,33 @@ export type Database = {
         }
         Relationships: []
       }
+      dictionary_lookups: {
+        Row: {
+          created_at: string
+          id: string
+          lang: string
+          source: string | null
+          user_id: string | null
+          word: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          lang: string
+          source?: string | null
+          user_id?: string | null
+          word: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          lang?: string
+          source?: string | null
+          user_id?: string | null
+          word?: string
+        }
+        Relationships: []
+      }
       email_send_log: {
         Row: {
           created_at: string
@@ -3141,6 +3168,16 @@ export type Database = {
       get_student_summary: {
         Args: { _period?: string; _user_id: string }
         Returns: Json
+      }
+      get_top_dictionary_lookups: {
+        Args: { _days?: number; _lang?: string; _limit?: number }
+        Returns: {
+          lang: string
+          last_looked_up_at: string
+          lookup_count: number
+          unique_users: number
+          word: string
+        }[]
       }
       has_role: {
         Args: {

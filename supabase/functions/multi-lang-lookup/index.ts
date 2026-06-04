@@ -38,6 +38,29 @@ Deno.serve(async (req) => {
 
     const normalized = word.toLowerCase();
 
+    // Fire-and-forget analytics log so admins can see which words students search for.
+    // user_id is best-effort: derived from the caller's Authorization JWT when present.
+    try {
+      let userId: string | null = null;
+      const authHeader = req.headers.get("Authorization") || "";
+      const jwt = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : "";
+      if (jwt) {
+        const { data: u } = await admin.auth.getUser(jwt);
+        userId = u?.user?.id ?? null;
+      }
+      admin.from("dictionary_lookups").insert({
+        word: normalized,
+        lang,
+        user_id: userId,
+        source: "super_dictionary",
+      }).then(({ error }) => {
+        if (error) console.warn("dictionary_lookups insert failed", error.message);
+      });
+    } catch (logErr) {
+      console.warn("dictionary_lookups log threw", logErr);
+    }
+
+
     // 1) Database-first lookup for ALL 4 languages from the matching official dictionary
     const DICT_TABLE: Record<string, string> = {
       en: "english_dictionary",
