@@ -151,7 +151,7 @@ const EnglishDictionaryAdmin = ({ lang = "en" }: Props) => {
       ? await q.ilike("word", `%${search.trim().toLowerCase()}%`)
       : await q;
     if (!error) {
-      setRows(data as DictRow[] || []);
+      setRows(((data as unknown) as DictRow[]) || []);
       setTotal(count || 0);
     }
     setLoading(false);
