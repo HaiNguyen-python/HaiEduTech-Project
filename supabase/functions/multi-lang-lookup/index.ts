@@ -147,6 +147,45 @@ Deno.serve(async (req) => {
       .upsert({ cache_key: cacheKey, kind: "lookup", payload, last_hit_at: new Date().toISOString() })
       .then(() => {});
 
+    // Auto-build the official English dictionary: persist Perplexity results so future
+    // lookups hit the local database (sub-10ms) and the store grows organically.
+    if (lang === "en" && parsed && !parsed.notFound) {
+      try {
+        const firstMeaning = Array.isArray(parsed.meanings) ? parsed.meanings[0] : null;
+        const firstDef = firstMeaning && Array.isArray(firstMeaning.definitions) ? firstMeaning.definitions[0] : null;
+        const viDef = String(firstDef?.definitionVi || "").trim();
+        if (viDef) {
+          // Flatten all definitions into examples array for richer storage
+          const examples: { en: string; vi: string }[] = [];
+          if (Array.isArray(parsed.meanings)) {
+            for (const m of parsed.meanings) {
+              if (Array.isArray(m.definitions)) {
+                for (const d of m.definitions) {
+                  const en = String(d.example || "").trim();
+                  const vi = String(d.exampleVi || "").trim();
+                  if (en) examples.push({ en, vi });
+                }
+              }
+            }
+          }
+          admin.from("english_dictionary").upsert({
+            word: normalized,
+            phonetic: String(parsed.phonetic || "").trim() || null,
+            part_of_speech: String(firstMeaning?.partOfSpeech || "").trim() || null,
+            vietnamese_definition: viDef,
+            english_definition: String(firstDef?.definitionEn || "").trim() || null,
+            examples,
+            collocations_synonyms: [],
+            tag: "AI-Generated",
+          }, { onConflict: "word", ignoreDuplicates: true }).then(({ error }) => {
+            if (error) console.warn("english_dictionary auto-save failed", error.message);
+          });
+        }
+      } catch (saveErr) {
+        console.warn("english_dictionary auto-save threw", saveErr);
+      }
+    }
+
     return Response.json(payload, { headers: corsHeaders });
   } catch (e) {
     console.error("multi-lang-lookup error", e);
