@@ -11,7 +11,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/contexts/LanguageContext";
-import { lazy, Suspense, useEffect, useState, type ReactNode } from "react";
+import { Component, lazy, Suspense, useEffect, useState, type ErrorInfo, type ReactNode } from "react";
 
 // Lazy-loaded route shells (off the critical path for first paint)
 const Index = lazy(() => import("./pages/Index.tsx"));
@@ -53,6 +53,22 @@ const DeferredMount = ({ children, delay = 1200 }: { children: ReactNode; delay?
   }, [delay]);
   return ready ? <Suspense fallback={null}>{children}</Suspense> : null;
 };
+
+class GlobalWidgetErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
+  state = { hasError: false };
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(_error: Error, _info: ErrorInfo) {
+    // Keep the main app usable even if a non-critical floating widget fails.
+  }
+
+  render() {
+    return this.state.hasError ? null : this.props.children;
+  }
+}
 
 
 // Lazy-load all heavy route components for optimal code splitting
@@ -406,17 +422,19 @@ const App = () => (
             <Route path="/unsubscribe" element={<LazyRoute><Unsubscribe /></LazyRoute>} />
             <Route path="*" element={<LazyRoute><NotFound /></LazyRoute>} />
           </Routes>
-          <DeferredMount>
-            <ChatBot />
-            <FloatingNotebook />
-            <LastSessionRecap />
-            <GlobalSuperDictionary />
-            <SessionTracker />
-            <PageViewTracker />
-            <LessonFeedback />
-            <AssignmentReminderModal />
-            <StudentMotivationModal />
-          </DeferredMount>
+          <GlobalWidgetErrorBoundary>
+            <DeferredMount>
+              <ChatBot />
+              <FloatingNotebook />
+              <LastSessionRecap />
+              <GlobalSuperDictionary />
+              <SessionTracker />
+              <PageViewTracker />
+              <LessonFeedback />
+              <AssignmentReminderModal />
+              <StudentMotivationModal />
+            </DeferredMount>
+          </GlobalWidgetErrorBoundary>
 
         </BrowserRouter>
       </TooltipProvider>
