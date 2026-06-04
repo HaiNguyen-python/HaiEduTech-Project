@@ -88,6 +88,15 @@ const SuperDictionary = () => {
   const [thesaurusError, setThesaurusError] = useState<LookupErrorKind>(null);
 
   const [collocationWord, setCollocationWord] = useState("");
+  const [dictLang, setDictLang] = useState<DictLang>("en");
+
+  // Translate tab state
+  const [translateSourceLang, setTranslateSourceLang] = useState<DictLang | "auto">("auto");
+  const [translateTargetLang, setTranslateTargetLang] = useState<DictLang>("vi");
+  const [translateInput, setTranslateInput] = useState("");
+  const [translateOutput, setTranslateOutput] = useState("");
+  const [translateLoading, setTranslateLoading] = useState(false);
+  const [translateError, setTranslateError] = useState<string | null>(null);
   const [collocationGroups, setCollocationGroups] = useState<{ label: string; items: { phrase: string; vi: string }[] }[]>([]);
   const [collocationLoading, setCollocationLoading] = useState(false);
   const [collocationError, setCollocationError] = useState<LookupErrorKind>(null);
