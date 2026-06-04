@@ -260,6 +260,104 @@ const EnglishDictionaryAdmin = () => {
     }
   };
 
+  // Bulk AI Generation: generate full dictionary entries via Perplexity for a list of raw words
+  const runBulkAI = async () => {
+    // Parse: split by comma OR newline, trim, lowercase, dedupe
+    const raw = bulkInput
+      .split(/[\n,]+/)
+      .map(w => w.trim().toLowerCase())
+      .filter(w => w.length > 0 && w.length <= 100);
+    const words = Array.from(new Set(raw));
+    if (words.length === 0) {
+      toast.error(t("Vui lòng nhập ít nhất một từ", "Please enter at least one word"));
+      return;
+    }
+    if (words.length > 50) {
+      toast.error(t("Tối đa 50 từ mỗi lượt để tránh quá tải", "Max 50 words per run to avoid overload"));
+      return;
+    }
+
+    setBulkRunning(true);
+    setBulkDone(0);
+    setBulkTotal(words.length);
+    setBulkFailed([]);
+    setBulkCurrent("");
+
+    const successRecords: any[] = [];
+    const failed: string[] = [];
+    const CONCURRENCY = 3; // Safe parallel calls to Perplexity to balance speed vs rate limits
+    let cursor = 0;
+
+    const worker = async () => {
+      while (cursor < words.length) {
+        const idx = cursor++;
+        const w = words[idx];
+        setBulkCurrent(w);
+        try {
+          const { data, error } = await supabase.functions.invoke("dictionary-ai-generate", {
+            body: { word: w },
+          });
+          if (error || !data || (data as any).error) {
+            throw new Error((data as any)?.error || error?.message || "AI error");
+          }
+          const viDefVal = String((data as any).vietnamese_definition || "").trim();
+          if (!viDefVal) throw new Error("Empty Vietnamese definition");
+          successRecords.push({
+            word: w,
+            phonetic: String((data as any).phonetic || "").trim() || null,
+            part_of_speech: String((data as any).part_of_speech || "").trim() || null,
+            vietnamese_definition: viDefVal,
+            english_definition: String((data as any).english_definition || "").trim() || null,
+            examples: Array.isArray((data as any).examples) ? (data as any).examples : [],
+            collocations_synonyms: Array.isArray((data as any).collocations_synonyms) ? (data as any).collocations_synonyms : [],
+            tag: "General",
+          });
+        } catch (err) {
+          // Skip failed word but keep processing others
+          console.warn("bulk AI gen failed for", w, err);
+          failed.push(w);
+        } finally {
+          setBulkDone(prev => prev + 1);
+        }
+      }
+    };
+
+    await Promise.all(Array.from({ length: Math.min(CONCURRENCY, words.length) }, () => worker()));
+
+    // Bulk upsert all successful records in one call (safe atomic write)
+    let savedCount = 0;
+    if (successRecords.length > 0) {
+      const { error: upsertErr } = await supabase
+        .from("english_dictionary")
+        .upsert(successRecords, { onConflict: "word" });
+      if (upsertErr) {
+        console.error(upsertErr);
+        toast.error(t("Lỗi khi lưu hàng loạt: ", "Bulk save failed: ") + upsertErr.message);
+      } else {
+        savedCount = successRecords.length;
+      }
+    }
+
+    setBulkFailed(failed);
+    setBulkCurrent("");
+    setBulkRunning(false);
+
+    if (savedCount > 0) {
+      toast.success(
+        t(`Đã tự động tạo và thêm thành công ${savedCount} từ vào từ điển!`,
+          `Successfully generated and added ${savedCount} words to the dictionary!`)
+      );
+      setBulkInput("");
+      loadEntries();
+    }
+    if (failed.length > 0) {
+      toast.warning(
+        t(`${failed.length} từ bị bỏ qua do lỗi API`, `${failed.length} words skipped due to API errors`)
+      );
+    }
+  };
+
+
   const downloadTemplate = (kind: "csv" | "json") => {
     let content = "";
     let mime = "";
