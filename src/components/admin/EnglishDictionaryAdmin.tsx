@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { BookOpen, Upload, Plus, Loader2, Search, Trash2, FileJson, FileSpreadsheet, Sparkles, X } from "lucide-react";
+import { BookOpen, Upload, Plus, Loader2, Search, Trash2, FileJson, FileSpreadsheet, Sparkles, X, Wand2 } from "lucide-react";
 
 interface DictRow {
   id: string;
