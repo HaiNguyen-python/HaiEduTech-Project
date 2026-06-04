@@ -13,6 +13,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import TeacherAdmin from "@/pages/TeacherAdmin";
 import FeedbackAnalyticsTab from "@/components/admin/FeedbackAnalyticsTab";
 import AttendanceAnalyticsTab from "@/components/admin/AttendanceAnalyticsTab";
+import EnglishDictionaryAdmin from "@/components/admin/EnglishDictionaryAdmin";
+
 
 
 interface Stats {
