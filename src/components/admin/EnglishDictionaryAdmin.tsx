@@ -105,7 +105,10 @@ function parseCSV(text: string): string[][] {
   return rows.filter(r => r.some(x => x.trim().length > 0));
 }
 
-const EnglishDictionaryAdmin = () => {
+interface Props { lang?: DictLang }
+
+const EnglishDictionaryAdmin = ({ lang = "en" }: Props) => {
+  const cfg = LANG_CONFIGS[lang];
   const { t } = useLanguage();
   const [word, setWord] = useState("");
   const [phonetic, setPhonetic] = useState("");
