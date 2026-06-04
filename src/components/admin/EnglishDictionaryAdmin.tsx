@@ -629,6 +629,67 @@ sustainable,/səˈsteɪnəbəl/,adjective,"bền vững, có thể duy trì",abl
                 <Progress value={importTotal ? (importProgress / importTotal) * 100 : 0} />
               </div>
             )}
+
+            {/* Bulk AI Generation - generate full entries from a list of raw words */}
+            <div className="pt-4 mt-2 border-t border-border space-y-3">
+              <div className="flex items-center gap-2">
+                <Wand2 className="w-4 h-4 text-primary" />
+                <h4 className="text-sm font-semibold text-foreground">
+                  {t("Tạo hàng loạt bằng AI (Perplexity)", "Bulk AI Generation (Perplexity)")}
+                </h4>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                {t(
+                  "Nhập danh sách từ vựng thô (phân cách bằng dấu phẩy hoặc xuống dòng). AI sẽ tự sinh phiên âm, nghĩa Việt, ví dụ, collocations và lưu vào từ điển.",
+                  "Enter raw words (separated by commas or newlines). AI will auto-generate phonetic, Vietnamese meaning, examples, collocations, and save to the dictionary."
+                )}
+              </p>
+              <Textarea
+                value={bulkInput}
+                onChange={e => setBulkInput(e.target.value)}
+                disabled={bulkRunning || importing}
+                rows={4}
+                placeholder={t(
+                  "Ví dụ: artificial, intelligence, machine learning\nsustainable\nresilient",
+                  "Example: artificial, intelligence, machine learning\nsustainable\nresilient"
+                )}
+                maxLength={4000}
+                className="font-mono text-sm"
+              />
+              <Button
+                type="button"
+                onClick={runBulkAI}
+                disabled={bulkRunning || importing || !bulkInput.trim()}
+                className="w-full bg-gradient-to-r from-primary to-emerald-500 text-primary-foreground hover:brightness-110"
+              >
+                {bulkRunning
+                  ? <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  : <Sparkles className="w-4 h-4 mr-2" />}
+                {bulkRunning
+                  ? t(`Đang xử lý ${bulkDone}/${bulkTotal}...`, `Processing ${bulkDone}/${bulkTotal}...`)
+                  : t("✨ Tạo & Nhập tất cả với Perplexity", "✨ Generate & Import All with Perplexity")}
+              </Button>
+
+              {bulkRunning && (
+                <div className="space-y-2">
+                  <Progress value={bulkTotal ? (bulkDone / bulkTotal) * 100 : 0} />
+                  {bulkCurrent && (
+                    <p className="text-xs text-muted-foreground italic">
+                      {t("Đang xử lý:", "Processing:")} <span className="font-mono text-foreground">{bulkCurrent}</span>
+                    </p>
+                  )}
+                </div>
+              )}
+
+              {!bulkRunning && bulkFailed.length > 0 && (
+                <div className="text-xs bg-destructive/10 border border-destructive/30 rounded-md p-2">
+                  <p className="font-medium text-destructive mb-1">
+                    {t(`${bulkFailed.length} từ bị bỏ qua:`, `${bulkFailed.length} words skipped:`)}
+                  </p>
+                  <p className="text-muted-foreground font-mono break-words">{bulkFailed.join(", ")}</p>
+                </div>
+              )}
+            </div>
           </CardContent>
         </Card>
       </div>
