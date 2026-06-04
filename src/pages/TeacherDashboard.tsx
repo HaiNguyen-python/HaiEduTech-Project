@@ -13,6 +13,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import TeacherAdmin from "@/pages/TeacherAdmin";
 import FeedbackAnalyticsTab from "@/components/admin/FeedbackAnalyticsTab";
 import AttendanceAnalyticsTab from "@/components/admin/AttendanceAnalyticsTab";
+import EnglishDictionaryAdmin from "@/components/admin/EnglishDictionaryAdmin";
+
 
 
 interface Stats {
@@ -183,6 +185,10 @@ const TeacherDashboard = () => {
                   <BarChart3 className="w-3.5 h-3.5" />
                   {t("Điểm danh", "Attendance")}
                 </TabsTrigger>
+                <TabsTrigger value="dictionary" className="gap-1.5">
+                  <Library className="w-3.5 h-3.5" />
+                  {t("Từ điển Anh", "English Dictionary")}
+                </TabsTrigger>
               </TabsList>
 
               {/* Generate Tab - Embed TeacherAdmin */}
@@ -325,6 +331,11 @@ const TeacherDashboard = () => {
               {/* Attendance Tab */}
               <TabsContent value="attendance">
                 <AttendanceAnalyticsTab />
+              </TabsContent>
+
+              {/* English Dictionary Tab */}
+              <TabsContent value="dictionary">
+                <EnglishDictionaryAdmin />
               </TabsContent>
 
             </Tabs>
