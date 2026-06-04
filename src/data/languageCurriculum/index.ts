@@ -73,6 +73,7 @@ export const allGrammarModules: LanguageModule[] = enhanceGrammarModulesWithQuiz
   ...grammarExpansionModules3,
   ...grammarExpansionModules4,
   ...grammarExpansionModules5,
+  ...grammarExpansionModules6,
 ]);
 
 // All English modules combined
