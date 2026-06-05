@@ -715,6 +715,7 @@ const ChatBot = () => {
       rec.lang = lang;
       rec.interimResults = true;
       rec.continuous = false;
+      rec.maxAlternatives = 3;
 
       rec.onresult = (event: any) => {
         let interim = "";
@@ -745,8 +746,8 @@ const ChatBot = () => {
     });
 
     recognitionsRef.current = instances;
-    instances.forEach((r) => {
-      try { r.start(); } catch { /* ignore double-start */ }
+    instances.forEach((r, index) => {
+      try { r.start(); } catch { markEnded(langs[index]); }
     });
     setIsRecording(true);
   }, [isRecording, t]);
