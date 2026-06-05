@@ -185,7 +185,7 @@ const ProgrammingLessonPage = () => {
         if (!data?.enhanced_markdown) {
           // Pre-warm cache in background so Deep-Dive is ready when clicked,
           // but DO NOT switch the view away from Original.
-          handleEnhanceTheory(false);
+          handleEnhanceTheory(false, { autoSwitch: false, silent: true });
           return;
         }
         const cleaned = data.enhanced_markdown
