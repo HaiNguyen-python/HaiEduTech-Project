@@ -83,7 +83,7 @@ const LessonFeedback = ({
   }, []);
 
   const canSubmit =
-    !submitting && (attendance !== null || clarity > 0 || aiTool > 0 || confidence > 0 || suggestion.trim().length > 0);
+    !submitting && (attendance !== null || overall > 0 || suggestion.trim().length > 0);
 
   const handleSubmit = async () => {
     if (!canSubmit) return;
