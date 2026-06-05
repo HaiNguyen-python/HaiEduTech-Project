@@ -90,7 +90,7 @@ const VietnameseCulture = () => {
 
                     <Accordion type="single" collapsible className="mb-4">
                       {topic.details.map((d, i) => (
-                        <AccordionItem key={i} value={`item-${i}`} className="border-border/40">
+                        <AccordionItem key={i} value={`item-${i}`} className="border-b-2 border-foreground/20">
                           <AccordionTrigger className="text-sm font-semibold py-2 hover:no-underline">
                             {t(d.heading, d.headingEn)}
                           </AccordionTrigger>
@@ -101,7 +101,7 @@ const VietnameseCulture = () => {
                       ))}
                     </Accordion>
 
-                    <div className="bg-muted/40 rounded-lg p-3">
+                    <div className="bg-muted/40 rounded-lg p-3 border-2 border-foreground/20">
                       <h4 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">
                         📖 {t("Từ vựng", "Vocabulary")}
                       </h4>
