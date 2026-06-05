@@ -1,44 +1,55 @@
+/**
+ * @file SubqueryDiagram.tsx
+ * @description Subquery visual using HTML cards (no tiny SVG text).
+ *              Step badges + colored code blocks for instant readability.
+ */
+
 const SubqueryDiagram = () => (
-  <figure className="not-prose my-6 rounded-xl border border-border bg-card p-4 shadow-sm">
-    <svg viewBox="0 0 380 200" className="w-full h-auto" role="img" aria-label="Subquery flow diagram">
-      {/* Outer query box */}
-      <rect x="10" y="10" width="360" height="180" rx="10" fill="hsl(217 91% 60% / 0.06)" stroke="hsl(217 91% 60%)" strokeWidth="2" strokeDasharray="6 4" />
-      <text x="25" y="32" fontSize="12" fontWeight="700" fill="hsl(217 91% 50%)" fontFamily="monospace">
-        OUTER QUERY
-      </text>
-      <text x="25" y="50" fontSize="11" fill="hsl(var(--foreground))" fontFamily="monospace">
-        SELECT name FROM users
-      </text>
-      <text x="25" y="66" fontSize="11" fill="hsl(var(--foreground))" fontFamily="monospace">
-        WHERE id IN (
-      </text>
+  <figure className="not-prose my-8 rounded-2xl border-2 border-border bg-gradient-to-br from-violet-50 to-purple-50 dark:from-violet-950/30 dark:to-purple-950/20 p-5 shadow-md">
+    <h4 className="text-base font-extrabold text-foreground mb-4 flex items-center gap-2">
+      🔍 Subquery — câu truy vấn lồng nhau
+    </h4>
 
-      {/* Inner query box */}
-      <rect x="40" y="78" width="310" height="70" rx="8" fill="hsl(160 84% 39% / 0.1)" stroke="hsl(160 84% 39%)" strokeWidth="2" />
-      <text x="55" y="98" fontSize="11" fontWeight="700" fill="hsl(160 84% 30%)" fontFamily="monospace">
-        ① INNER QUERY (chạy trước)
-      </text>
-      <text x="55" y="116" fontSize="11" fill="hsl(var(--foreground))" fontFamily="monospace">
-        SELECT user_id FROM orders
-      </text>
-      <text x="55" y="132" fontSize="11" fill="hsl(var(--foreground))" fontFamily="monospace">
-        WHERE total &gt; 1000
-      </text>
+    <div className="space-y-3">
+      {/* Inner query — runs first */}
+      <div className="relative rounded-xl border-2 border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 p-4 shadow-sm">
+        <div className="flex items-center gap-2 mb-2">
+          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-500 text-white text-sm font-extrabold shadow">1</span>
+          <span className="text-sm font-extrabold text-emerald-700 dark:text-emerald-300">INNER QUERY · chạy TRƯỚC</span>
+        </div>
+        <div className="rounded-lg bg-card border border-emerald-200 dark:border-emerald-800 p-3 font-mono text-sm text-foreground leading-relaxed">
+          <span className="text-violet-600 dark:text-violet-400 font-bold">SELECT</span> user_id <span className="text-violet-600 dark:text-violet-400 font-bold">FROM</span> orders<br />
+          <span className="text-violet-600 dark:text-violet-400 font-bold">WHERE</span> total &gt; 1000
+        </div>
+        <div className="mt-2 text-xs text-emerald-700 dark:text-emerald-300 font-semibold">
+          → Trả về danh sách <span className="px-1.5 py-0.5 rounded bg-emerald-200 dark:bg-emerald-800 font-mono">user_id</span>
+        </div>
+      </div>
 
-      <text x="25" y="168" fontSize="11" fill="hsl(var(--foreground))" fontFamily="monospace">
-        ); ② OUTER dùng kết quả trên
-      </text>
+      {/* Arrow */}
+      <div className="flex justify-center">
+        <div className="flex flex-col items-center gap-1">
+          <div className="w-1 h-4 bg-orange-400 rounded" />
+          <div className="text-2xl">⬇️</div>
+          <div className="text-xs font-bold text-muted-foreground">kết quả truyền vào</div>
+        </div>
+      </div>
 
-      {/* Arrow from inner up to IN */}
-      <path d="M 350 90 Q 372 75 365 60" fill="none" stroke="hsl(160 84% 39%)" strokeWidth="2" markerEnd="url(#arrow)" />
-      <defs>
-        <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-          <path d="M 0 0 L 10 5 L 0 10 z" fill="hsl(160 84% 39%)" />
-        </marker>
-      </defs>
-    </svg>
-    <figcaption className="text-xs text-center text-muted-foreground mt-2">
-      Inner query (xanh lá) chạy trước → trả về danh sách id → Outer query (xanh dương) dùng làm điều kiện.
+      {/* Outer query — runs after */}
+      <div className="relative rounded-xl border-2 border-orange-500 bg-orange-50 dark:bg-orange-950/40 p-4 shadow-sm">
+        <div className="flex items-center gap-2 mb-2">
+          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-orange-500 text-white text-sm font-extrabold shadow">2</span>
+          <span className="text-sm font-extrabold text-orange-700 dark:text-orange-300">OUTER QUERY · chạy SAU</span>
+        </div>
+        <div className="rounded-lg bg-card border border-orange-200 dark:border-orange-800 p-3 font-mono text-sm text-foreground leading-relaxed">
+          <span className="text-violet-600 dark:text-violet-400 font-bold">SELECT</span> name <span className="text-violet-600 dark:text-violet-400 font-bold">FROM</span> users<br />
+          <span className="text-violet-600 dark:text-violet-400 font-bold">WHERE</span> id <span className="text-violet-600 dark:text-violet-400 font-bold">IN</span> (<span className="text-emerald-600 dark:text-emerald-400">↑ kết quả Inner</span>)
+        </div>
+      </div>
+    </div>
+
+    <figcaption className="text-sm text-center text-foreground mt-4 font-medium">
+      🟢 Inner query chạy trước → 🟠 Outer query dùng kết quả để lọc dữ liệu cuối cùng
     </figcaption>
   </figure>
 );

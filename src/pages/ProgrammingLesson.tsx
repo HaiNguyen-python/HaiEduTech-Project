@@ -172,7 +172,9 @@ const ProgrammingLessonPage = () => {
   useEffect(() => {
     if (!mod || !lesson) return;
     setEnhancedMd(null);
-    setUseEnhanced(true);
+    // Show ORIGINAL theory by default. Students can opt into AI Deep-Dive
+    // explicitly via the toggle button — do NOT auto-switch them.
+    setUseEnhanced(false);
     supabase
       .from("programming_theory_cache")
       .select("enhanced_markdown, illustrations")
@@ -181,30 +183,30 @@ const ProgrammingLessonPage = () => {
       .maybeSingle()
       .then(({ data }) => {
         if (!data?.enhanced_markdown) {
-          // No cache → auto-trigger AI enhancement (illustrations + deep-dive)
-          // so users never have to click a button.
-          handleEnhanceTheory(false);
+          // Pre-warm cache in background so Deep-Dive is ready when clicked,
+          // but DO NOT switch the view away from Original.
+          handleEnhanceTheory(false, { autoSwitch: false, silent: true });
           return;
         }
-        // Strip Perplexity citation markers like [1][2][3] from previously cached content
         const cleaned = data.enhanced_markdown
           .replace(/\s*\[\d+(?:\s*[,\s]\s*\d+)*\]/g, "")
           .replace(/\n#{1,6}\s*(References|Sources|Citations|Tham khảo|Nguồn)[\s\S]*$/i, "")
           .replace(/[ \t]+([.,;:!?])/g, "$1")
           .replace(/[ \t]{2,}/g, " ");
         setEnhancedMd(cleaned);
-        // If cached markdown is missing inline illustrations, re-enhance to add them.
+        // If cached markdown is missing inline illustrations, refresh in background.
         const hasIllustrations = /!\[[^\]]*\]\([^)]+\)/.test(cleaned);
         if (!hasIllustrations) {
-          handleEnhanceTheory(true);
+          handleEnhanceTheory(true, { autoSwitch: false, silent: true });
         }
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mod, lesson]);
 
-  const handleEnhanceTheory = async (forceRefresh = false) => {
+  const handleEnhanceTheory = async (forceRefresh = false, opts: { autoSwitch?: boolean; silent?: boolean } = {}) => {
     if (!mod || !lesson) return;
-    setEnhanceLoading(true);
+    const { autoSwitch = true, silent = false } = opts;
+    if (!silent) setEnhanceLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("enhance-programming-theory", {
         body: {
@@ -220,13 +222,13 @@ const ProgrammingLessonPage = () => {
       if (error) throw error;
       if (data?.markdown) {
         setEnhancedMd(data.markdown);
-        setUseEnhanced(true);
-        toast.success(data.cached ? "Loaded enhanced theory from cache" : "AI Deep-Dive ready!");
+        if (autoSwitch) setUseEnhanced(true);
+        if (!silent) toast.success(data.cached ? "Loaded enhanced theory from cache" : "AI Deep-Dive ready!");
       }
     } catch (e) {
-      toast.error("Could not enhance theory. Please try again later.");
+      if (!silent) toast.error("Could not enhance theory. Please try again later.");
     }
-    setEnhanceLoading(false);
+    if (!silent) setEnhanceLoading(false);
   };
 
   // Admin-only: pre-generate AI illustrations for every Programming lesson.
