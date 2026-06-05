@@ -190,7 +190,7 @@ const PythonLessonView = () => {
                 {language === "vi" ? "Bài" : "Lesson"} {idx + 1}/{moduleLessons.length}
               </div>
             </div>
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-foreground leading-tight">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-display font-extrabold text-foreground leading-tight tracking-tight">
               {lesson.emoji} {language === "vi" ? lesson.title : lesson.titleEn}
             </h1>
           </motion.div>
