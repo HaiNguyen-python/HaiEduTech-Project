@@ -152,9 +152,7 @@ const LessonFeedback = ({
         setOpen(false);
         setSubmitted(false);
         setAttendance(null);
-        setClarity(0);
-        setAiTool(0);
-        setConfidence(0);
+        setOverall(0);
         setSuggestion("");
       }, 1500);
     } catch (err) {
