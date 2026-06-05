@@ -676,10 +676,10 @@ const FloatingNotebook = () => {
             <div className="flex items-center justify-between px-3 py-2 text-xs" style={{ borderTop: `1px solid ${theme.border}`, color: theme.text, opacity: 0.7 }}>
               <span>{wordCount} từ</span>
               <div className="flex items-center gap-2">
+                <button onClick={handleExportPdf} disabled={!title.trim()} className="p-1.5 rounded-md hover:bg-primary/10 text-primary disabled:opacity-40" title="Xuất PDF">
+                  <Download size={14} />
+                </button>
                 {selectedId && (
-                  <button onClick={handleExportPdf} className="p-1.5 rounded-md hover:bg-primary/10 text-primary" title="Xuất PDF">
-                    <Download size={14} />
-                  </button>
                   <button onClick={handleDelete} className="p-1.5 rounded-md hover:bg-destructive/10 text-destructive" title="Xóa">
                     <Trash2 size={14} />
                   </button>
