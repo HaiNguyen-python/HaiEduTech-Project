@@ -207,16 +207,37 @@ const FUN_FACTS: { vi: string; en: string }[] = [
 ];
 
 // ── Speech Recognition type shim ──
-interface ISpeechRecognition extends EventTarget {
+interface ChatSpeechAlternative {
+  transcript: string;
+}
+
+interface ChatSpeechResult {
+  readonly isFinal: boolean;
+  readonly length: number;
+  [index: number]: ChatSpeechAlternative | undefined;
+}
+
+interface ChatSpeechEvent {
+  readonly results: {
+    readonly length: number;
+    [index: number]: ChatSpeechResult | undefined;
+  };
+}
+
+interface ChatSpeechRecognition extends EventTarget {
   lang: string;
   interimResults: boolean;
   continuous: boolean;
   maxAlternatives?: number;
   start(): void;
   stop(): void;
-  onresult: ((event: any) => void) | null;
-  onerror: ((event: any) => void) | null;
+  onresult: ((event: ChatSpeechEvent) => void) | null;
+  onerror: (() => void) | null;
   onend: (() => void) | null;
+}
+
+interface ChatSpeechRecognitionConstructor {
+  new(): ChatSpeechRecognition;
 }
 
 const ChatBot = () => {
@@ -284,8 +305,7 @@ const ChatBot = () => {
   }, [dragX, dragY]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const tooltipTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const recognitionsRef = useRef<ISpeechRecognition[]>([]);
-  const bestVoiceRef = useRef<{ conf: number; text: string }>({ conf: -1, text: "" });
+  const recognitionsRef = useRef<ChatSpeechRecognition[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const messageTimestamps = useRef<number[]>([]);
 
@@ -604,8 +624,10 @@ const ChatBot = () => {
   };
 
   // ── Voice Input via Web Speech API ──
-  // Auto language detection for Vietnamese / English. Browser confidence is
-  // unreliable, so the final choice is based on transcript language patterns.
+  // Chrome often lets the last started recognizer win, so running vi-VN and
+  // en-US at the same time can make Vietnamese speech come back as English.
+  // Use one Vietnamese-first recognizer, then choose the best VI/EN transcript
+  // alternative from the browser results.
   const toggleRecording = useCallback(() => {
     if (isRecording) {
       recognitionsRef.current.forEach((r) => {
@@ -615,7 +637,11 @@ const ChatBot = () => {
       return;
     }
 
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    const speechWindow = window as unknown as {
+      SpeechRecognition?: ChatSpeechRecognitionConstructor;
+      webkitSpeechRecognition?: ChatSpeechRecognitionConstructor;
+    };
+    const SpeechRecognition = speechWindow.SpeechRecognition || speechWindow.webkitSpeechRecognition;
     if (!SpeechRecognition) {
       setMessages((prev) => [
         ...prev,
@@ -629,15 +655,6 @@ const ChatBot = () => {
       ]);
       return;
     }
-
-    const langs = ["vi-VN", "en-US"] as const;
-    type Lang = typeof langs[number];
-
-    // Per-lang transcript buffers. Final text is preferred; interim text keeps
-    // the input responsive while the browser is still listening.
-    const finals: Record<Lang, string> = { "vi-VN": "", "en-US": "" };
-    const interims: Record<Lang, string> = { "vi-VN": "", "en-US": "" };
-    bestVoiceRef.current = { conf: -1, text: "" };
 
     const wordsOf = (raw: string) => raw
       .toLocaleLowerCase("vi-VN")
@@ -654,7 +671,9 @@ const ChatBot = () => {
       "bài", "bai", "này", "nay", "gì", "gi", "đâu", "dau", "khi", "nào", "nao", "như", "nhu",
       "thế", "the", "được", "duoc", "rồi", "roi", "chưa", "chua", "làm", "lam", "với", "voi",
       "cho", "xin", "chào", "chao", "cảm", "cam", "ơn", "on", "giúp", "giup", "dịch", "dich",
-      "nghĩa", "nghia", "câu", "cau", "từ", "tu", "ngữ", "ngu", "pháp", "phap",
+      "nghĩa", "nghia", "câu", "cau", "từ", "tu", "ngữ", "ngu", "pháp", "phap", "đang", "dang",
+      "đã", "da", "sẽ", "se", "nên", "nen", "cần", "can", "rất", "rat", "nhiều", "nhieu",
+      "ít", "it", "quá", "qua", "ạ", "ơi", "nhé", "nha", "vậy", "vay", "vì", "vi", "sao",
     ]);
 
     const enWords = new Set([
@@ -665,95 +684,78 @@ const ChatBot = () => {
       "please", "help", "explain", "translate", "meaning", "practice", "speak", "write", "read",
     ]);
 
-    const scoreLang = (raw: string, lang: Lang): number => {
+    const cleanTranscript = (raw: string) => raw.replace(/\s+/g, " ").trim();
+
+    const scoreTranscript = (raw: string) => {
       const text = raw.trim();
-      if (!text) return -Infinity;
+      if (!text) return { vi: -Infinity, en: -Infinity, hasViEvidence: false };
       const words = wordsOf(text);
       const wordCount = Math.max(words.length, 1);
       const vietDia = (text.match(
         /[àáảãạâầấẩẫậăằắẳẵặèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđÀÁẢÃẠÂẦẤẨẪẬĂẰẮẲẴẶÈÉẺẼẸÊỀẾỂỄỆÌÍỈĨỊÒÓỎÕỌÔỒỐỔỖỘƠỜỚỞỠỢÙÚỦŨỤƯỪỨỬỮỰỲÝỶỸỴĐ]/g,
       ) || []).length;
+      const strongVietChars = (text.match(/[ăâđêôơưĂÂĐÊÔƠƯ]/g) || []).length;
       const viHits = countMatches(words, viWords);
       const enHits = countMatches(words, enWords);
-      if (lang === "vi-VN") {
-        return 0.25 + viHits / wordCount + Math.min(vietDia / 4, 0.65) - enHits / (wordCount * 1.4) + Math.min(words.length / 12, 0.25);
-      }
-
-      return 0.15 + enHits / wordCount - viHits / wordCount - Math.min(vietDia / 3, 1) + Math.min(words.length / 12, 0.25);
-    };
-
-    const endedLangs = new Set<Lang>();
-    const commitBest = () => {
-      // Pick the transcript whose language-specific score is strongest.
-      let bestText = "";
-      let bestScore = -Infinity;
-      (Object.keys(finals) as Lang[]).forEach((lang) => {
-        const text = finals[lang] || interims[lang];
-        if (!text.trim()) return;
-        const s = scoreLang(text, lang);
-        if (s > bestScore) {
-          bestScore = s;
-          bestText = text;
-        }
-      });
-      if (bestText) {
-        setInput(bestText.trim());
-      }
-    };
-
-    const markEnded = (lang: Lang) => {
-      endedLangs.add(lang);
-      if (endedLangs.size >= langs.length) {
-        commitBest();
-        setIsRecording(false);
-        recognitionsRef.current = [];
-      }
-    };
-
-    const instances: ISpeechRecognition[] = langs.map((lang) => {
-      const rec: ISpeechRecognition = new SpeechRecognition();
-      rec.lang = lang;
-      rec.interimResults = true;
-      rec.continuous = false;
-      rec.maxAlternatives = 3;
-
-      rec.onresult = (event: any) => {
-        let interim = "";
-        let finalText = "";
-        for (let i = 0; i < event.results.length; i++) {
-          const res = event.results[i];
-          let chosen = res[0]?.transcript || "";
-          for (let altIndex = 1; altIndex < res.length; altIndex++) {
-            const alternative = res[altIndex]?.transcript || "";
-            if (scoreLang(alternative, lang) > scoreLang(chosen, lang)) chosen = alternative;
-          }
-          if (res.isFinal) finalText += chosen;
-          else interim += chosen;
-        }
-        if (finalText) finals[lang] = (finals[lang] + " " + finalText).trim();
-        interims[lang] = interim;
-
-        // Live preview: score interim+final transcripts so far and show the
-        // current best in the textarea. Final commit happens in onend.
-        const current = (finals[lang] + " " + interim).trim();
-        const s = scoreLang(current, lang);
-        if (s > bestVoiceRef.current.conf && current) {
-          bestVoiceRef.current = { conf: s, text: current };
-          setInput(current);
-        }
+      const hasViEvidence = vietDia > 0 || strongVietChars > 0 || viHits >= Math.max(1, enHits);
+      return {
+        vi: viHits * 2.2 + vietDia * 1.8 + strongVietChars * 2.5 + Math.min(wordCount / 8, 1),
+        en: enHits * 2.1 - viHits * 1.7 - vietDia * 2.5 - strongVietChars * 3 + Math.min(wordCount / 10, 1),
+        hasViEvidence,
       };
+    };
 
-      rec.onerror = () => markEnded(lang);
+    const chooseAlternative = (result: ChatSpeechResult) => {
+      let chosen = result[0]?.transcript || "";
+      let chosenScore = -Infinity;
+      for (let altIndex = 0; altIndex < result.length; altIndex++) {
+        const alternative = cleanTranscript(result[altIndex]?.transcript || "");
+        if (!alternative) continue;
+        const scores = scoreTranscript(alternative);
+        const score = scores.hasViEvidence ? scores.vi + 8 : Math.max(scores.vi, scores.en);
+        if (score > chosenScore) {
+          chosenScore = score;
+          chosen = alternative;
+        }
+      }
+      return chosen;
+    };
 
-      rec.onend = () => markEnded(lang);
+    let latestTranscript = "";
+    let finalTranscript = "";
+    const rec: ChatSpeechRecognition = new SpeechRecognition();
+    rec.lang = "vi-VN";
+    rec.interimResults = true;
+    rec.continuous = false;
+    rec.maxAlternatives = 5;
 
-      return rec;
-    });
+    rec.onresult = (event: ChatSpeechEvent) => {
+      const parts: string[] = [];
+      let hasFinal = false;
+      for (let i = 0; i < event.results.length; i++) {
+        const res = event.results[i];
+        if (!res) continue;
+        const chosen = chooseAlternative(res);
+        if (chosen) parts.push(chosen);
+        if (res.isFinal) hasFinal = true;
+      }
+      latestTranscript = cleanTranscript(parts.join(" "));
+      if (hasFinal) finalTranscript = latestTranscript;
+      if (latestTranscript) setInput(latestTranscript);
+    };
 
-    recognitionsRef.current = instances;
-    instances.forEach((r, index) => {
-      try { r.start(); } catch { markEnded(langs[index]); }
-    });
+    const finishRecording = () => {
+      const transcript = cleanTranscript(finalTranscript || latestTranscript);
+      if (transcript) setInput(transcript);
+      setIsRecording(false);
+      recognitionsRef.current = [];
+    };
+
+    rec.onerror = finishRecording;
+    rec.onend = finishRecording;
+
+    recognitionsRef.current = [rec];
+    try { rec.start(); } catch { finishRecording(); }
     setIsRecording(true);
   }, [isRecording, t]);
 
@@ -1566,7 +1568,7 @@ const ChatBot = () => {
               />
 
               <div className="flex items-center gap-1.5">
-                {/* Microphone — auto-detects language across VI/EN/ZH/FI */}
+                {/* Microphone — Vietnamese-first voice input with English phrase support */}
                 <div className="flex items-center gap-1 shrink-0 rounded-xl bg-secondary/60 p-1">
                   <button
                     onClick={toggleRecording}
@@ -1576,7 +1578,7 @@ const ChatBot = () => {
                         ? "animate-pulse bg-destructive text-destructive-foreground"
                         : "bg-card text-muted-foreground hover:text-primary"
                     } disabled:opacity-50`}
-                    title={isRecording ? t("Dừng ghi âm", "Stop recording") : t("Nói — tự nhận diện ngôn ngữ", "Speak — auto language detection")}
+                    title={isRecording ? t("Dừng ghi âm", "Stop recording") : t("Nói tiếng Việt hoặc tiếng Anh", "Speak Vietnamese or English")}
                   >
                     {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
                   </button>
