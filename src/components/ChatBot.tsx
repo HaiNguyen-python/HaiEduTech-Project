@@ -637,7 +637,7 @@ const ChatBot = () => {
       return;
     }
 
-    const speechWindow = window as Window & {
+    const speechWindow = window as unknown as {
       SpeechRecognition?: ChatSpeechRecognitionConstructor;
       webkitSpeechRecognition?: ChatSpeechRecognitionConstructor;
     };
