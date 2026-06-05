@@ -181,14 +181,20 @@ const FloatingNotebook = () => {
   }, [editor]);
 
   const handleNew = () => {
+    userCreatingNew.current = true;
     setSelectedId(null);
     setTitle("");
     setSubject("general");
     editor?.commands.setContent("");
     lastSyncedUpdatedAt.current = null;
+    setTimeout(() => {
+      const titleInput = document.querySelector('input[placeholder^="Tiêu đề"]') as HTMLInputElement | null;
+      titleInput?.focus();
+    }, 50);
   };
 
   const handleSelect = (nb: Notebook) => {
+    userCreatingNew.current = false;
     setSelectedId(nb.id);
     setTitle(nb.title);
     setSubject(nb.subject);
