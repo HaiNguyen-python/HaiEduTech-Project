@@ -211,7 +211,7 @@ const VietnameseLessonView = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <main className="pt-6 pb-16">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto max-w-full overflow-hidden px-4 sm:px-6">
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
             <Link to="/learn-vietnamese" className="hover:text-foreground">{t("Tiếng Việt", "Vietnamese")}</Link>
@@ -221,9 +221,9 @@ const VietnameseLessonView = () => {
             <span className="text-foreground font-medium">{t(lesson.title, lesson.titleEn)}</span>
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-8">
+          <div className="grid min-w-0 grid-cols-1 gap-8 lg:grid-cols-[16rem_minmax(0,1fr)]">
             {/* Sidebar: lesson list */}
-            <aside className="lg:w-64 shrink-0">
+            <aside className="min-w-0">
               <h3 className="text-sm font-bold text-foreground mb-3">{t(mod.title, mod.titleEn)}</h3>
               <div className="flex gap-2 overflow-x-auto pb-2 lg:block lg:space-y-1 lg:overflow-visible lg:pb-0">
                 {mod.lessons.map((l) => (
@@ -243,7 +243,7 @@ const VietnameseLessonView = () => {
             </aside>
 
             {/* Main content */}
-            <div className="flex-1 max-w-4xl">
+            <div className="min-w-0 w-full max-w-4xl">
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
                 <div className="mb-6 rounded-2xl border-2 border-destructive/60 bg-card p-5 shadow-sm">
                   <div className="flex flex-wrap items-center gap-3">
