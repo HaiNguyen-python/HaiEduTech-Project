@@ -164,7 +164,7 @@ const PythonLessonView = () => {
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-6 rounded-2xl p-6 bg-gradient-to-br from-primary/5 via-fuchsia-500/5 to-purple-500/10 border border-primary/15"
+            className="mb-6 rounded-2xl p-6 bg-gradient-to-br from-red-500/5 via-fuchsia-500/5 to-purple-500/10 border-2 border-red-500/60 shadow-[0_6px_24px_-8px_rgba(239,68,68,0.35)]"
           >
             <div className="flex items-start justify-between gap-3 flex-wrap mb-3">
               <div className="flex flex-wrap gap-2">
