@@ -670,15 +670,7 @@ const LanguageLessonView = () => {
                     </div>
                   )}
 
-                  {/* Lesson Feedback */}
-                  {selectedLesson && (
-                    <LessonFeedback
-                      lessonId={selectedLesson.id}
-                      moduleId={mod.id}
-                      lessonType={mod.category?.includes("chinese") || mod.id.includes("chinese") || mod.id.includes("hsk") ? "chinese" : "english"}
-                      subject={mod.category || "english"}
-                    />
-                  )}
+                  {/* Lesson Feedback widget rendered globally in App.tsx — do not double-mount here */}
                 </motion.div>
               </div>
             </div>
