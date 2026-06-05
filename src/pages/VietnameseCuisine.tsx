@@ -66,7 +66,7 @@ const VietnameseCuisine = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.05 }}
               >
-                <Card className="h-full hover:shadow-xl transition-shadow border-2 border-red-500/55 shadow-[0_3px_14px_-6px_rgba(239,68,68,0.28)]">
+                <Card className="h-full hover:shadow-xl transition-shadow border-2 border-emerald-500/55 shadow-[0_3px_14px_-6px_rgba(16,185,129,0.28)]">
                   <CardHeader className="pb-3">
                     <div className="flex items-start justify-between gap-2 mb-2">
                       <span className="text-5xl">{dish.emoji}</span>

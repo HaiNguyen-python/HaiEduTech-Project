@@ -180,7 +180,7 @@ const WritingCanvas = ({ letter, onClose }: { letter: string; onClose: () => voi
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-card border-2 border-red-500/50 rounded-xl p-4 mt-4"
+      className="bg-card border-2 border-emerald-500/50 rounded-xl p-4 mt-4"
     >
       <div className="flex items-center justify-between mb-3">
         <h4 className="font-bold text-foreground flex items-center gap-2">
@@ -399,7 +399,7 @@ const VietnameseAlphabet = () => {
                       <h3 className="font-bold text-foreground text-sm">
                         {t(tone.name, tone.nameEn)}
                       </h3>
-                      <span className="inline-block mt-1 text-lg font-mono border-2 border-red-500/50 rounded px-2 py-0.5">
+                      <span className="inline-block mt-1 text-lg font-mono border-2 border-emerald-500/50 rounded px-2 py-0.5">
                         {tone.mark}
                       </span>
                     </div>

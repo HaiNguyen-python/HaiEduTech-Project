@@ -149,15 +149,15 @@ const getEnhancedTheory = (lesson: VietnameseLesson, category: VietnameseModule[
 
 const lessonMarkdownComponents: Components = {
   h2: ({ children }) => <h2 className="mt-8 mb-4 text-2xl font-display font-extrabold leading-tight text-foreground first:mt-0">{children}</h2>,
-  h3: ({ children }) => <h3 className="mt-7 mb-3 border-l-4 border-destructive pl-3 text-xl font-display font-bold leading-snug text-foreground">{children}</h3>,
+  h3: ({ children }) => <h3 className="mt-7 mb-3 border-l-4 border-emerald-500 pl-3 text-xl font-display font-bold leading-snug text-foreground">{children}</h3>,
   p: ({ children }) => <p className="my-3 text-base leading-8 text-foreground sm:text-lg">{children}</p>,
-  ul: ({ children }) => <ul className="my-4 space-y-2 pl-4 text-base text-foreground marker:text-destructive sm:pl-5 sm:text-lg">{children}</ul>,
-  ol: ({ children }) => <ol className="my-4 space-y-2 pl-5 text-base text-foreground marker:font-bold marker:text-destructive sm:pl-6 sm:text-lg">{children}</ol>,
-  li: ({ children }) => <li className="pl-1 leading-8 marker:text-destructive">{children}</li>,
+  ul: ({ children }) => <ul className="my-4 space-y-2 pl-4 text-base text-foreground marker:text-emerald-600 sm:pl-5 sm:text-lg">{children}</ul>,
+  ol: ({ children }) => <ol className="my-4 space-y-2 pl-5 text-base text-foreground marker:font-bold marker:text-emerald-600 sm:pl-6 sm:text-lg">{children}</ol>,
+  li: ({ children }) => <li className="pl-1 leading-8 marker:text-emerald-600">{children}</li>,
   strong: ({ children }) => <strong className="font-extrabold text-foreground">{children}</strong>,
-  table: ({ children }) => <div className="my-5 overflow-x-auto rounded-xl border-2 border-destructive/45"><table className="min-w-[600px] w-full border-collapse text-left text-base text-foreground">{children}</table></div>,
-  th: ({ children }) => <th className="border border-destructive/25 bg-destructive/10 px-4 py-3 font-bold text-foreground">{children}</th>,
-  td: ({ children }) => <td className="border border-destructive/20 px-4 py-3 align-top leading-7 text-foreground">{children}</td>,
+  table: ({ children }) => <div className="my-5 overflow-x-auto rounded-xl border-2 border-emerald-500/45"><table className="min-w-[600px] w-full border-collapse text-left text-base text-foreground">{children}</table></div>,
+  th: ({ children }) => <th className="border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 font-bold text-foreground">{children}</th>,
+  td: ({ children }) => <td className="border border-emerald-500/20 px-4 py-3 align-top leading-7 text-foreground">{children}</td>,
 };
 
 const VietnameseLessonView = () => {
@@ -245,7 +245,7 @@ const VietnameseLessonView = () => {
             {/* Main content */}
             <div className="min-w-0 w-full max-w-4xl">
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-                <div className="mb-6 rounded-2xl border-2 border-destructive/60 bg-card p-5 shadow-sm">
+                <div className="mb-6 rounded-2xl border-2 border-emerald-500/60 bg-card p-5 shadow-sm">
                   <div className="flex flex-wrap items-center gap-3">
                     <Badge className={levelColors[lesson.level]}>{lesson.level}</Badge>
                     <span className="text-sm font-semibold text-muted-foreground">{t(mod.title, mod.titleEn)}</span>
@@ -257,7 +257,7 @@ const VietnameseLessonView = () => {
 
                 {/* Teacher Hai's Tip */}
                 {tip && (
-                  <div className="mb-6 rounded-xl border-2 border-destructive/45 bg-primary/5 p-4 shadow-sm">
+                  <div className="mb-6 rounded-xl border-2 border-emerald-500/45 bg-primary/5 p-4 shadow-sm">
                     <div className="flex items-start gap-3">
                       <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
                         <Lightbulb className="w-4 h-4 text-primary" />
@@ -275,9 +275,9 @@ const VietnameseLessonView = () => {
                 )}
 
                 {/* Theory */}
-                <section className="mb-8 rounded-2xl border-2 border-destructive/60 bg-card p-5 shadow-sm sm:p-7 max-sm:pb-24">
-                  <div className="mb-5 flex items-center gap-3 border-b border-destructive/20 pb-4">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-destructive/10 text-lg">📘</div>
+                <section className="mb-8 rounded-2xl border-2 border-emerald-500/60 bg-card p-5 shadow-sm sm:p-7 max-sm:pb-24">
+                  <div className="mb-5 flex items-center gap-3 border-b border-emerald-500/20 pb-4">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-lg">📘</div>
                     <div>
                       <h2 className="text-xl font-display font-extrabold leading-tight text-foreground sm:text-2xl">
                         {t("Theory rõ ràng", "Clear Theory")}
@@ -341,7 +341,7 @@ const VietnameseLessonView = () => {
                   <h2 className="text-2xl font-display font-extrabold text-foreground mb-4">📝 Quiz</h2>
                   <div className="space-y-5">
                     {lesson.quiz.map((q, qi) => (
-                      <div key={qi} className="bg-card border-2 border-destructive/50 rounded-xl p-5 shadow-sm">
+                      <div key={qi} className="bg-card border-2 border-emerald-500/50 rounded-xl p-5 shadow-sm">
                         <p className="font-semibold text-foreground mb-3 text-base sm:text-lg leading-7">
                           {qi + 1}. {t(q.question, q.questionEn)}
                         </p>
@@ -358,7 +358,7 @@ const VietnameseLessonView = () => {
                                   isCorrect
                                     ? "bg-emerald-50 border-emerald-300 dark:bg-emerald-950/30"
                                     : isWrong
-                                    ? "bg-red-50 border-red-300 dark:bg-red-950/30"
+                                    ? "bg-red-50 border-emerald-300 dark:bg-red-950/30"
                                     : selected
                                     ? "bg-primary/10 border-primary"
                                     : "bg-muted/50 border-border hover:bg-muted"
