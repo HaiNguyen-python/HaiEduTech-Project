@@ -673,7 +673,6 @@ const ChatBot = () => {
       const wordCount = Math.max(words.length, 1);
       const vietDia = (text.match(
         /[àáảãạâầấẩẫậăằắẳẵặèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđÀÁẢÃẠÂẦẤẨẪẬĂẰẮẲẴẶÈÉẺẼẸÊỀẾỂỄỆÌÍỈĨỊÒÓỎÕỌÔỒỐỔỖỘƠỜỚỞỠỢÙÚỦŨỤƯỪỨỬỮỰỲÝỶỸỴĐ]/g,
-      ) || []).length;
       const viHits = countMatches(words, viWords);
       const enHits = countMatches(words, enWords);
       ) || []).length;
