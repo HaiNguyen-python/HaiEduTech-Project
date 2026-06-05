@@ -423,14 +423,7 @@ const Navbar = () => {
                             className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
                             {isTeacher ? <><Shield className="w-3.5 h-3.5" /> {t("Quản trị", "Admin")}</> : <><LayoutDashboard className="w-3.5 h-3.5" /> Dashboard</>}
                           </Link>
-                          <button
-                            onClick={() => { setUserMenuOpen(false); setUpgradeOpen(true); }}
-                            className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-amber-600 dark:text-amber-400 hover:bg-amber-500/10 transition-colors"
-                          >
-                            <Crown className="w-3.5 h-3.5" />
-                            {t("Nâng cấp tài khoản", "Upgrade Account")}
-                            <Sparkles className="w-3 h-3 ml-auto text-amber-500" />
-                          </button>
+                          {/* Upgrade option hidden — all content is fully free */}
                           <div className="border-t border-border my-1" />
                           <button onClick={() => { handleLogout(); setUserMenuOpen(false); }}
                             className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-destructive hover:bg-destructive/10 transition-colors">
