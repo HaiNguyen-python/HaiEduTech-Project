@@ -676,7 +676,6 @@ const ChatBot = () => {
       ) || []).length;
       const viHits = countMatches(words, viWords);
       const enHits = countMatches(words, enWords);
-      ) || []).length;
       const asciiOnly = /^[\x00-\x7f\s.,!?'"()-]+$/.test(text);
 
       if (lang === "vi-VN") {
