@@ -637,7 +637,11 @@ const ChatBot = () => {
       return;
     }
 
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    const speechWindow = window as Window & {
+      SpeechRecognition?: ISpeechRecognitionConstructor;
+      webkitSpeechRecognition?: ISpeechRecognitionConstructor;
+    };
+    const SpeechRecognition = speechWindow.SpeechRecognition || speechWindow.webkitSpeechRecognition;
     if (!SpeechRecognition) {
       setMessages((prev) => [
         ...prev,
@@ -701,7 +705,7 @@ const ChatBot = () => {
       };
     };
 
-    const chooseAlternative = (result: any) => {
+    const chooseAlternative = (result: ISpeechRecognitionResult) => {
       let chosen = result[0]?.transcript || "";
       let chosenScore = -Infinity;
       for (let altIndex = 0; altIndex < result.length; altIndex++) {
@@ -725,11 +729,12 @@ const ChatBot = () => {
     rec.continuous = false;
     rec.maxAlternatives = 5;
 
-    rec.onresult = (event: any) => {
+    rec.onresult = (event: ISpeechRecognitionEvent) => {
       const parts: string[] = [];
       let hasFinal = false;
       for (let i = 0; i < event.results.length; i++) {
         const res = event.results[i];
+        if (!res) continue;
         const chosen = chooseAlternative(res);
         if (chosen) parts.push(chosen);
         if (res.isFinal) hasFinal = true;
