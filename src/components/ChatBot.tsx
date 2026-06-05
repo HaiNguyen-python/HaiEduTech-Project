@@ -624,15 +624,16 @@ const ChatBot = () => {
   };
 
   // ── Voice Input via Web Speech API ──
-  // Auto language detection: run parallel recognizers across VI/EN/ZH/FI and
-  // pick the transcript with the highest confidence. No language picker UI.
+  // Auto language detection: run 4 parallel recognizers (VI/EN/ZH/FI) on the
+  // same mic stream. We score each candidate transcript by its script/diacritics
+  // (Chinese chars, Vietnamese diacritics, Finnish ä/ö, ASCII for EN) instead
+  // of trusting the browser's unreliable `confidence` value.
   const toggleRecording = useCallback(() => {
     if (isRecording) {
       recognitionsRef.current.forEach((r) => {
         try { r.stop(); } catch { /* ignore */ }
       });
-      recognitionsRef.current = [];
-      setIsRecording(false);
+      // Don't clear refs here — onend will commit the best transcript.
       return;
     }
 
@@ -651,9 +652,79 @@ const ChatBot = () => {
       return;
     }
 
+    const langs = ["vi-VN", "en-US", "zh-CN", "fi-FI"] as const;
+    type Lang = typeof langs[number];
+
+    // Per-lang transcript buffers (final-only for scoring; interim used only
+    // for the live preview shown in the input box).
+    const finals: Record<Lang, string> = { "vi-VN": "", "en-US": "", "zh-CN": "", "fi-FI": "" };
+    const interims: Record<Lang, string> = { "vi-VN": "", "en-US": "", "zh-CN": "", "fi-FI": "" };
     bestVoiceRef.current = { conf: -1, text: "" };
-    const langs = ["vi-VN", "en-US", "zh-CN", "fi-FI"];
+
+    const scoreLang = (raw: string, lang: Lang): number => {
+      const text = raw.trim();
+      if (!text) return -Infinity;
+      const len = text.length;
+      const chinese = (text.match(/[\u4e00-\u9fff]/g) || []).length;
+      const vietDia = (text.match(
+        /[àáảãạâầấẩẫậăằắẳẵặèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđÀÁẢÃẠÂẦẤẨẪẬĂẰẮẲẴẶÈÉẺẼẸÊỀẾỂỄỆÌÍỈĨỊÒÓỎÕỌÔỒỐỔỖỘƠỜỚỞỠỢÙÚỦŨỤƯỪỨỬỮỰỲÝỶỸỴĐ]/g,
+      ) || []).length;
+      const finChars = (text.match(/[äöÄÖ]/g) || []).length;
+      const finWords = (text.match(
+        /\b(ja|on|ei|että|minä|sinä|hän|me|te|he|olen|olet|tämä|hyvää|kiitos|moi|hei|terve|mitä|missä|kuka|kiitti|paljon|joo)\b/gi,
+      ) || []).length;
+      const asciiOnly = /^[\x00-\x7f\s.,!?'"()-]+$/.test(text);
+
+      let score = 0;
+      switch (lang) {
+        case "zh-CN":
+          score = chinese > 0 ? 0.5 + chinese / Math.max(len, 1) : -1;
+          break;
+        case "vi-VN":
+          score = vietDia > 0 ? 0.3 + (vietDia * 2) / Math.max(len, 1) : (asciiOnly ? -0.2 : -1);
+          if (chinese > 0) score -= 1;
+          break;
+        case "fi-FI":
+          score = (finChars * 2 + finWords * 1.5) / Math.max(len / 5, 1);
+          if (chinese > 0) score -= 2;
+          if (vietDia > 0) score -= 1;
+          break;
+        case "en-US":
+          // English wins when text is pure ASCII without diacritics.
+          score = asciiOnly && vietDia === 0 && finChars === 0 ? 0.4 : -0.5;
+          if (chinese > 0) score -= 2;
+          break;
+      }
+      // Slight length boost so we don't pick a 1-word recognizer over a full sentence.
+      score += Math.min(len / 80, 0.3);
+      return score;
+    };
+
     let endedCount = 0;
+    const commitBest = () => {
+      // Pick the lang whose final transcript scores highest. Fall back to
+      // interim transcripts if no final results arrived.
+      let bestText = "";
+      let bestScore = -Infinity;
+      let bestLang: Lang = "en-US";
+      (Object.keys(finals) as Lang[]).forEach((lang) => {
+        const text = finals[lang] || interims[lang];
+        if (!text.trim()) return;
+        const s = scoreLang(text, lang);
+        if (s > bestScore) {
+          bestScore = s;
+          bestText = text;
+          bestLang = lang;
+        }
+      });
+      if (bestText) {
+        setInput(bestText.trim());
+      }
+      // Log for visibility while tuning.
+      try {
+        console.debug("[voice] detected", bestLang, "score=", bestScore.toFixed(2), "candidates=", finals);
+      } catch { /* ignore */ }
+    };
 
     const instances: ISpeechRecognition[] = langs.map((lang) => {
       const rec: ISpeechRecognition = new SpeechRecognition();
@@ -662,29 +733,30 @@ const ChatBot = () => {
       rec.continuous = false;
 
       rec.onresult = (event: any) => {
-        let text = "";
-        let confSum = 0;
-        let confCount = 0;
-        let hasFinal = false;
+        let interim = "";
+        let finalText = "";
         for (let i = 0; i < event.results.length; i++) {
           const res = event.results[i];
-          text += res[0].transcript;
-          if (typeof res[0].confidence === "number" && res[0].confidence > 0) {
-            confSum += res[0].confidence;
-            confCount++;
-          }
-          if (res.isFinal) hasFinal = true;
+          if (res.isFinal) finalText += res[0].transcript;
+          else interim += res[0].transcript;
         }
-        const conf = confCount > 0 ? confSum / confCount : (hasFinal ? 0.5 : 0.1);
-        if (conf > bestVoiceRef.current.conf || text.length > bestVoiceRef.current.text.length * 1.5) {
-          bestVoiceRef.current = { conf, text };
-          setInput(text);
+        if (finalText) finals[lang] = (finals[lang] + " " + finalText).trim();
+        interims[lang] = interim;
+
+        // Live preview: score interim+final transcripts so far and show the
+        // current best in the textarea. Final commit happens in onend.
+        const current = (finals[lang] + " " + interim).trim();
+        const s = scoreLang(current, lang);
+        if (s > bestVoiceRef.current.conf && current) {
+          bestVoiceRef.current = { conf: s, text: current };
+          setInput(current);
         }
       };
 
       rec.onerror = () => {
         endedCount++;
         if (endedCount >= langs.length) {
+          commitBest();
           setIsRecording(false);
           recognitionsRef.current = [];
         }
@@ -693,6 +765,7 @@ const ChatBot = () => {
       rec.onend = () => {
         endedCount++;
         if (endedCount >= langs.length) {
+          commitBest();
           setIsRecording(false);
           recognitionsRef.current = [];
         }
@@ -708,6 +781,7 @@ const ChatBot = () => {
     });
     setIsRecording(true);
   }, [isRecording, t]);
+
 
 
   /**
