@@ -62,9 +62,8 @@ const LessonFeedback = ({
   const [open, setOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [attendance, setAttendance] = useState<Attendance>(null);
-  const [clarity, setClarity] = useState(0);
-  const [aiTool, setAiTool] = useState(0);
-  const [confidence, setConfidence] = useState(0);
+  // Single combined rating per user request — replaces three separate Likert rows.
+  const [overall, setOverall] = useState(0);
   const [suggestion, setSuggestion] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
