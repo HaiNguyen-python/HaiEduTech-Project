@@ -148,13 +148,10 @@ const LessonFeedback = ({
           : t("Cảm ơn phản hồi của bạn.", "Thanks for your feedback."),
       });
 
-      setTimeout(() => {
-        setOpen(false);
-        setSubmitted(false);
-        setAttendance(null);
-        setOverall(0);
-        setSuggestion("");
-      }, 1500);
+      // Do not auto-close — let the user close the panel themselves.
+      setAttendance(null);
+      setOverall(0);
+      setSuggestion("");
     } catch (err) {
       console.error("Feedback error:", err);
       toast({
