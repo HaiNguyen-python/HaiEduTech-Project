@@ -293,6 +293,75 @@ const FloatingNotebook = () => {
     toast({ title: "Đã xóa ghi chú" });
   };
 
+  // Export current note as a beautifully formatted PDF.
+  const handleExportPdf = useCallback(async () => {
+    if (!title.trim() && !getContent().trim()) {
+      toast({ title: "Ghi chú trống", variant: "destructive" });
+      return;
+    }
+    try {
+      const [{ default: jsPDF }, html2canvasMod] = await Promise.all([
+        import("jspdf"),
+        import("html2canvas"),
+      ]);
+      const html2canvas = (html2canvasMod as any).default || html2canvasMod;
+
+      // Build a styled offscreen container for rendering.
+      const wrap = document.createElement("div");
+      wrap.style.cssText = `
+        position: fixed; left: -10000px; top: 0;
+        width: 794px; padding: 56px 64px; background: #ffffff;
+        font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+        color: #0f172a; line-height: 1.7;
+      `;
+      const today = new Date().toLocaleDateString("vi-VN", { year: "numeric", month: "long", day: "numeric" });
+      const subjLabel = (subject || "general").replace(/\b\w/g, (c) => c.toUpperCase());
+      wrap.innerHTML = `
+        <div style="border-bottom: 3px solid #3B82F6; padding-bottom: 16px; margin-bottom: 24px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+            <div style="font-size:11px; font-weight:700; letter-spacing:2px; color:#3B82F6; text-transform:uppercase;">HaiEduTech · Sổ tay học sinh</div>
+            <div style="font-size:11px; color:#64748b;">${today}</div>
+          </div>
+          <h1 style="font-size:28px; font-weight:800; margin:6px 0 4px; color:#0f172a;">${(title || "Ghi chú không tiêu đề").replace(/[<>]/g, "")}</h1>
+          <div style="display:inline-block; font-size:11px; font-weight:600; padding:3px 10px; border-radius:999px; background:linear-gradient(90deg,#3B82F6,#10B981); color:#fff;">${subjLabel}</div>
+        </div>
+        <div style="font-size:14px;">${getContent() || "<p><em>Chưa có nội dung</em></p>"}</div>
+        <div style="margin-top:32px; padding-top:12px; border-top:1px solid #e2e8f0; font-size:10px; color:#94a3b8; display:flex; justify-content:space-between;">
+          <span>© ${new Date().getFullYear()} HaiEduTech · haiedutech.com</span>
+          <span>Xuất từ Sổ tay học sinh</span>
+        </div>
+      `;
+      document.body.appendChild(wrap);
+      try {
+        const canvas = await html2canvas(wrap, { scale: 2, backgroundColor: "#ffffff", useCORS: true });
+        const imgData = canvas.toDataURL("image/jpeg", 0.92);
+        const pdf = new jsPDF({ unit: "pt", format: "a4" });
+        const pageW = pdf.internal.pageSize.getWidth();
+        const pageH = pdf.internal.pageSize.getHeight();
+        const imgW = pageW;
+        const imgH = (canvas.height * imgW) / canvas.width;
+        let heightLeft = imgH;
+        let position = 0;
+        pdf.addImage(imgData, "JPEG", 0, position, imgW, imgH);
+        heightLeft -= pageH;
+        while (heightLeft > 0) {
+          position = heightLeft - imgH;
+          pdf.addPage();
+          pdf.addImage(imgData, "JPEG", 0, position, imgW, imgH);
+          heightLeft -= pageH;
+        }
+        const fname = (title || "ghi-chu").replace(/[^\p{L}\p{N}\-_ ]+/gu, "").trim().replace(/\s+/g, "-").slice(0, 60) || "ghi-chu";
+        pdf.save(`${fname}.pdf`);
+        toast({ title: "Đã xuất PDF ✓" });
+      } finally {
+        document.body.removeChild(wrap);
+      }
+    } catch (err) {
+      console.error("PDF export error:", err);
+      toast({ title: "Lỗi xuất PDF", variant: "destructive" });
+    }
+  }, [title, subject, getContent, toast]);
+
   // Auto-save after 2.5s of inactivity (sync-safe). editorTick ensures the
   // effect actually re-fires on every keystroke.
   useEffect(() => {
