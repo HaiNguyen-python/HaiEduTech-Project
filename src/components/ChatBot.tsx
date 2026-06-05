@@ -634,8 +634,8 @@ const ChatBot = () => {
     const langs = ["vi-VN", "en-US"] as const;
     type Lang = typeof langs[number];
 
-    // Per-lang transcript buffers (final-only for scoring; interim used only
-    // for the live preview shown in the input box).
+    // Per-lang transcript buffers. Final text is preferred; interim text keeps
+    // the input responsive while the browser is still listening.
     const finals: Record<Lang, string> = { "vi-VN": "", "en-US": "" };
     const interims: Record<Lang, string> = { "vi-VN": "", "en-US": "" };
     bestVoiceRef.current = { conf: -1, text: "" };
