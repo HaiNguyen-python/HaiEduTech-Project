@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, ChevronRight, Zap, Package, Sparkles, Lightbulb } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import type { Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -12,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import SmartVocabCard from "@/components/SmartVocabCard";
 import { vietnameseLanguageModules } from "@/data/vietnameseCurriculumData";
-import type { VietnameseVocabEntry } from "@/data/vietnamese/types";
+import type { VietnameseLesson, VietnameseModule, VietnameseVocabEntry } from "@/data/vietnamese/types";
 
 // Teacher Hai tips per lesson (keyed by lesson ID)
 const teacherTips: Record<string, { vi: string; en: string }> = {
@@ -72,6 +73,93 @@ const groupVocabulary = (vocabulary: VietnameseVocabEntry[]): VocabGroup[] => {
   return groups;
 };
 
+const stripLeadingMarkdownTitle = (content: string) => content.replace(/^##\s+[^\n]+\n+/, "").trim();
+
+const getCategoryGuidance = (category: VietnameseModule["category"], isVietnamese: boolean) => {
+  if (isVietnamese) {
+    if (category === "grammar") return "Với bài ngữ pháp, hãy nhìn câu theo từng khối: **ai nói / hành động gì / thông tin thêm là gì**. Tiếng Việt ít biến đổi hình thức từ, nên vị trí từ và ngữ cảnh rất quan trọng.";
+    if (category === "vocabulary") return "Với bài từ vựng, đừng học từng từ rời rạc. Hãy học theo **cụm dùng được ngay**: gọi món, hỏi đường, chào hỏi, mua đồ hoặc mô tả cảm xúc trong tình huống thật.";
+    if (category === "reading") return "Với bài đọc hiểu, hãy đọc 2 lượt: lượt 1 nắm ý chính, lượt 2 gạch chân từ khóa, nhân vật, thời gian, địa điểm và thông điệp văn hóa.";
+    return "Với bài văn hóa/dân gian, hãy chú ý tầng nghĩa: nghĩa đen của câu, bài học đạo đức, và cách người Việt dùng câu đó trong đời sống.";
+  }
+
+  if (category === "grammar") return "For grammar lessons, read the sentence in chunks: **who speaks / what action happens / what extra information is added**. Vietnamese changes word forms very little, so word order and context matter.";
+  if (category === "vocabulary") return "For vocabulary lessons, do not memorize isolated words. Learn **ready-to-use chunks** for ordering food, asking directions, greeting people, shopping, or describing feelings in real situations.";
+  if (category === "reading") return "For reading lessons, read twice: first for the main idea, then for keywords, people, time, place, and cultural meaning.";
+  return "For culture and folklore lessons, notice the layers: literal meaning, moral message, and how Vietnamese speakers use the phrase in daily life.";
+};
+
+const buildTheoryStudyGuide = (lesson: VietnameseLesson, category: VietnameseModule["category"], isVietnamese: boolean) => {
+  const examples = lesson.vocabulary
+    .filter((item) => item.example && item.exampleEn)
+    .slice(0, 5);
+  const focusPoints = lesson.quiz
+    .slice(0, 3)
+    .map((q) => (isVietnamese ? q.explanation : q.explanationEn));
+
+  if (isVietnamese) {
+    return `
+
+### Mục tiêu học xong
+- Hiểu quy tắc chính của bài và biết khi nào dùng trong giao tiếp thật.
+- Nhìn được trật tự câu tiếng Việt theo từng phần nhỏ: người nói, hành động, đồ vật/thông tin.
+- Tự tạo được câu ngắn, rõ nghĩa, phù hợp với tình huống hằng ngày.
+
+### Cách hiểu nhanh cho người nước ngoài
+${getCategoryGuidance(category, true)}
+
+### Mẫu câu thực tế
+${examples.map((item) => `- **${item.example}** — ${item.exampleEn}`).join("\n")}
+
+### Lưu ý phát âm và văn hóa
+- Đọc chậm từng cụm 2–4 từ; đừng nuốt dấu thanh vì dấu thanh có thể đổi nghĩa của từ.
+- Khi chưa chắc cách xưng hô, dùng **anh/chị** với người trưởng thành để nghe tự nhiên và lịch sự hơn.
+- Trong giao tiếp đời thường, người Việt thích câu ngắn, trực tiếp, có ngữ điệu thân thiện.
+
+### Tự luyện 3 phút
+${focusPoints.map((point, index) => `- Bước ${index + 1}: ${point}`).join("\n")}`;
+  }
+
+  return `
+
+### Learning goals
+- Understand the main rule and know when to use it in real conversations.
+- Break a Vietnamese sentence into clear chunks: person, action, and extra information.
+- Produce short, natural sentences for daily situations.
+
+### Simple logic for foreign learners
+${getCategoryGuidance(category, false)}
+
+### Real-life sentence models
+${examples.map((item) => `- **${item.example}** — ${item.exampleEn}`).join("\n")}
+
+### Pronunciation and culture notes
+- Speak in small chunks of 2–4 words; tones are essential because a tone change can change meaning.
+- If you are unsure about pronouns, use **anh/chị** with adults to sound polite and natural.
+- In daily speech, Vietnamese favors short, direct sentences with a friendly tone.
+
+### 3-minute practice
+${focusPoints.map((point, index) => `- Step ${index + 1}: ${point}`).join("\n")}`;
+};
+
+const getEnhancedTheory = (lesson: VietnameseLesson, category: VietnameseModule["category"], isVietnamese: boolean) => {
+  const base = stripLeadingMarkdownTitle(isVietnamese ? lesson.theory : lesson.theoryEn);
+  return `${base}${buildTheoryStudyGuide(lesson, category, isVietnamese)}`;
+};
+
+const lessonMarkdownComponents: Components = {
+  h2: ({ children }) => <h2 className="mt-8 mb-4 text-2xl font-display font-extrabold leading-tight text-foreground first:mt-0">{children}</h2>,
+  h3: ({ children }) => <h3 className="mt-7 mb-3 border-l-4 border-destructive pl-3 text-xl font-display font-bold leading-snug text-foreground">{children}</h3>,
+  p: ({ children }) => <p className="my-3 text-base leading-8 text-foreground sm:text-lg">{children}</p>,
+  ul: ({ children }) => <ul className="my-4 space-y-2 pl-4 text-base text-foreground marker:text-destructive sm:pl-5 sm:text-lg">{children}</ul>,
+  ol: ({ children }) => <ol className="my-4 space-y-2 pl-5 text-base text-foreground marker:font-bold marker:text-destructive sm:pl-6 sm:text-lg">{children}</ol>,
+  li: ({ children }) => <li className="pl-1 leading-8 marker:text-destructive">{children}</li>,
+  strong: ({ children }) => <strong className="font-extrabold text-foreground">{children}</strong>,
+  table: ({ children }) => <div className="my-5 overflow-x-auto rounded-xl border-2 border-destructive/45"><table className="min-w-[600px] w-full border-collapse text-left text-base text-foreground">{children}</table></div>,
+  th: ({ children }) => <th className="border border-destructive/25 bg-destructive/10 px-4 py-3 font-bold text-foreground">{children}</th>,
+  td: ({ children }) => <td className="border border-destructive/20 px-4 py-3 align-top leading-7 text-foreground">{children}</td>,
+};
+
 const VietnameseLessonView = () => {
   const { moduleId, lessonId } = useParams();
   const { t } = useLanguage();
@@ -116,12 +204,14 @@ const VietnameseLessonView = () => {
 
   const tip = teacherTips[lesson.id];
   const vocabGroups = groupVocabulary(lesson.vocabulary);
+  const isVietnamese = t("vi", "en") === "vi";
+  const theoryMarkdown = getEnhancedTheory(lesson, mod.category, isVietnamese);
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
       <main className="pt-6 pb-16">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto max-w-full overflow-hidden px-4 sm:px-6">
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
             <Link to="/learn-vietnamese" className="hover:text-foreground">{t("Tiếng Việt", "Vietnamese")}</Link>
@@ -131,16 +221,16 @@ const VietnameseLessonView = () => {
             <span className="text-foreground font-medium">{t(lesson.title, lesson.titleEn)}</span>
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-8">
+          <div className="grid min-w-0 grid-cols-1 gap-8 xl:grid-cols-[16rem_minmax(0,1fr)]">
             {/* Sidebar: lesson list */}
-            <aside className="lg:w-64 shrink-0">
+            <aside className="min-w-0">
               <h3 className="text-sm font-bold text-foreground mb-3">{t(mod.title, mod.titleEn)}</h3>
-              <div className="space-y-1">
+              <div className="flex gap-2 overflow-x-auto pb-2 xl:block xl:space-y-1 xl:overflow-visible xl:pb-0">
                 {mod.lessons.map((l) => (
                   <Link
                     key={l.id}
                     to={`/learn-vietnamese/module/${mod.id}/${l.id}`}
-                    className={`block px-3 py-2 rounded-lg text-sm transition-colors ${
+                    className={`block shrink-0 whitespace-nowrap rounded-lg px-3 py-2 text-sm transition-colors xl:whitespace-normal ${
                       l.id === lesson.id
                         ? "bg-primary/10 text-primary font-medium"
                         : "hover:bg-muted text-muted-foreground"
@@ -153,18 +243,21 @@ const VietnameseLessonView = () => {
             </aside>
 
             {/* Main content */}
-            <div className="flex-1 max-w-3xl">
+            <div className="min-w-0 w-full max-w-4xl">
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-                <div className="flex items-center gap-2 mb-4">
-                  <Badge className={levelColors[lesson.level]}>{lesson.level}</Badge>
-                  <h1 className="text-2xl font-bold text-foreground">
+                <div className="mb-6 rounded-2xl border-2 border-destructive/60 bg-card p-5 shadow-sm">
+                  <div className="flex flex-wrap items-center gap-3">
+                    <Badge className={levelColors[lesson.level]}>{lesson.level}</Badge>
+                    <span className="text-sm font-semibold text-muted-foreground">{t(mod.title, mod.titleEn)}</span>
+                  </div>
+                  <h1 className="mt-3 text-2xl font-display font-extrabold leading-tight text-foreground sm:text-4xl">
                     {t(lesson.title, lesson.titleEn)}
                   </h1>
                 </div>
 
                 {/* Teacher Hai's Tip */}
                 {tip && (
-                  <div className="mb-6 p-4 rounded-xl bg-primary/5 border border-primary/20">
+                  <div className="mb-6 rounded-xl border-2 border-destructive/45 bg-primary/5 p-4 shadow-sm">
                     <div className="flex items-start gap-3">
                       <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
                         <Lightbulb className="w-4 h-4 text-primary" />
@@ -182,17 +275,28 @@ const VietnameseLessonView = () => {
                 )}
 
                 {/* Theory */}
-                <section className="prose prose-sm sm:prose-base dark:prose-invert max-w-none mb-8 prose-headings:font-bold prose-headings:text-foreground prose-p:leading-relaxed prose-strong:text-primary prose-table:my-4 prose-table:border prose-table:border-red-500/40 prose-table:rounded-lg prose-table:overflow-hidden prose-th:bg-red-500/10 prose-th:text-foreground prose-th:font-bold prose-th:p-2 prose-th:border prose-th:border-red-500/30 prose-td:p-2 prose-td:border prose-td:border-red-500/20 prose-td:align-top prose-li:my-1 overflow-x-auto">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{t(lesson.theory, lesson.theoryEn)}</ReactMarkdown>
+                <section className="mb-8 rounded-2xl border-2 border-destructive/60 bg-card p-5 shadow-sm sm:p-7 max-sm:pb-24">
+                  <div className="mb-5 flex items-center gap-3 border-b border-destructive/20 pb-4">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-destructive/10 text-lg">📘</div>
+                    <div>
+                      <h2 className="text-xl font-display font-extrabold leading-tight text-foreground sm:text-2xl">
+                        {t("Theory rõ ràng", "Clear Theory")}
+                      </h2>
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        {t("Quy tắc → ví dụ → lưu ý → tự luyện", "Rule → examples → notes → practice")}
+                      </p>
+                    </div>
+                  </div>
+                  <ReactMarkdown remarkPlugins={[remarkGfm]} components={lessonMarkdownComponents}>{theoryMarkdown}</ReactMarkdown>
                 </section>
 
                 {/* Pro Tips */}
                 {lesson.proTips && lesson.proTips.length > 0 && (
                   <section className="mb-8">
-                    <h2 className="text-lg font-bold text-foreground mb-3">💡 Pro Tips</h2>
+                    <h2 className="text-xl font-display font-extrabold text-foreground mb-3">💡 Pro Tips</h2>
                     <ul className="space-y-2">
                       {(t("vi", "en") === "vi" ? lesson.proTips : lesson.proTipsEn || lesson.proTips).map((tip, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                        <li key={i} className="flex items-start gap-2 text-base leading-7 text-muted-foreground">
                           <span className="text-primary mt-0.5">•</span>
                           {tip}
                         </li>
@@ -204,7 +308,7 @@ const VietnameseLessonView = () => {
                 {/* Smart Vocabulary Cards */}
                 {lesson.vocabulary.length > 0 && (
                   <section className="mb-8">
-                    <h2 className="text-xl font-bold text-foreground mb-5">📖 {t("Từ vựng", "Vocabulary")}</h2>
+                  <h2 className="text-2xl font-display font-extrabold text-foreground mb-5">📖 {t("Từ vựng", "Vocabulary")}</h2>
 
                     {vocabGroups.map((group, gi) => (
                       <div key={gi} className="mb-6">
@@ -234,11 +338,11 @@ const VietnameseLessonView = () => {
 
                 {/* Quiz */}
                 <section className="mb-8">
-                  <h2 className="text-lg font-bold text-foreground mb-4">📝 Quiz</h2>
+                  <h2 className="text-2xl font-display font-extrabold text-foreground mb-4">📝 Quiz</h2>
                   <div className="space-y-5">
                     {lesson.quiz.map((q, qi) => (
-                      <div key={qi} className="bg-card border-2 border-red-500/50 rounded-xl p-5">
-                        <p className="font-semibold text-foreground mb-3">
+                      <div key={qi} className="bg-card border-2 border-destructive/50 rounded-xl p-5 shadow-sm">
+                        <p className="font-semibold text-foreground mb-3 text-base sm:text-lg leading-7">
                           {qi + 1}. {t(q.question, q.questionEn)}
                         </p>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -250,7 +354,7 @@ const VietnameseLessonView = () => {
                               <button
                                 key={oi}
                                 onClick={() => !submitted && setAnswers((p) => ({ ...p, [qi]: oi }))}
-                                className={`text-left p-3 rounded-lg border transition-colors text-sm ${
+                                className={`text-left p-3.5 rounded-lg border transition-colors text-base leading-7 ${
                                   isCorrect
                                     ? "bg-emerald-50 border-emerald-300 dark:bg-emerald-950/30"
                                     : isWrong
@@ -266,7 +370,7 @@ const VietnameseLessonView = () => {
                           })}
                         </div>
                         {submitted && (
-                          <p className="text-xs text-muted-foreground mt-2">
+                          <p className="text-sm text-muted-foreground mt-3 leading-7">
                             💡 {t(q.explanation, q.explanationEn)}
                           </p>
                         )}
