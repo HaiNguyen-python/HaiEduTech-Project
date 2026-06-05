@@ -304,6 +304,8 @@ const ChatBot = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const tooltipTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const recognitionRef = useRef<ISpeechRecognition | null>(null);
+  const recognitionsRef = useRef<ISpeechRecognition[]>([]);
+  const bestVoiceRef = useRef<{ conf: number; text: string }>({ conf: -1, text: "" });
   const fileInputRef = useRef<HTMLInputElement>(null);
   const messageTimestamps = useRef<number[]>([]);
 
