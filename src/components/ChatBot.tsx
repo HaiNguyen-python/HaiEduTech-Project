@@ -1517,7 +1517,7 @@ const ChatBot = () => {
               />
 
               <div className="flex items-center gap-1.5">
-                {/* Microphone + voice language picker (4 languages: VI/EN/ZH/FI) */}
+                {/* Microphone — auto-detects language across VI/EN/ZH/FI */}
                 <div className="flex items-center gap-1 shrink-0 rounded-xl bg-secondary/60 p-1">
                   <button
                     onClick={toggleRecording}
@@ -1527,34 +1527,12 @@ const ChatBot = () => {
                         ? "animate-pulse bg-destructive text-destructive-foreground"
                         : "bg-card text-muted-foreground hover:text-primary"
                     } disabled:opacity-50`}
-                    title={isRecording ? t("Dừng ghi âm", "Stop recording") : `${t("Nói bằng", "Speak in")} ${VOICE_LANGS.find(v => v.code === voiceLang)?.label}`}
+                    title={isRecording ? t("Dừng ghi âm", "Stop recording") : t("Nói — tự nhận diện ngôn ngữ", "Speak — auto language detection")}
                   >
                     {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
                   </button>
-                  <div className="flex items-center gap-0.5" role="radiogroup" aria-label={t("Ngôn ngữ nhận diện", "Recognition language")}>
-                    {VOICE_LANGS.map((v) => (
-                      <button
-                        key={v.code}
-                        type="button"
-                        role="radio"
-                        aria-checked={voiceLang === v.code}
-                        onClick={() => {
-                          setVoiceLang(v.code);
-                          try { localStorage.setItem("chatbot_voice_lang", v.code); } catch { /* ignore */ }
-                        }}
-                        disabled={isRecording}
-                        title={v.label}
-                        className={`flex h-7 w-7 items-center justify-center rounded-md text-sm transition-all ${
-                          voiceLang === v.code
-                            ? "bg-primary/15 ring-2 ring-primary scale-110"
-                            : "opacity-50 hover:opacity-100"
-                        } disabled:cursor-not-allowed`}
-                      >
-                        {v.flag}
-                      </button>
-                    ))}
-                  </div>
                 </div>
+
 
                 {/* Attach file button */}
                 <button
