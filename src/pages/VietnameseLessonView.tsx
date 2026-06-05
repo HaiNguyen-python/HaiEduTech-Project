@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import SmartVocabCard from "@/components/SmartVocabCard";
 import { vietnameseLanguageModules } from "@/data/vietnameseCurriculumData";
-import type { VietnameseLesson, VietnameseVocabEntry } from "@/data/vietnamese/types";
+import type { VietnameseLesson, VietnameseModule, VietnameseVocabEntry } from "@/data/vietnamese/types";
 
 // Teacher Hai tips per lesson (keyed by lesson ID)
 const teacherTips: Record<string, { vi: string; en: string }> = {
@@ -75,7 +75,21 @@ const groupVocabulary = (vocabulary: VietnameseVocabEntry[]): VocabGroup[] => {
 
 const stripLeadingMarkdownTitle = (content: string) => content.replace(/^##\s+[^\n]+\n+/, "").trim();
 
-const buildTheoryStudyGuide = (lesson: VietnameseLesson, isVietnamese: boolean) => {
+const getCategoryGuidance = (category: VietnameseModule["category"], isVietnamese: boolean) => {
+  if (isVietnamese) {
+    if (category === "grammar") return "Với bài ngữ pháp, hãy nhìn câu theo từng khối: **ai nói / hành động gì / thông tin thêm là gì**. Tiếng Việt ít biến đổi hình thức từ, nên vị trí từ và ngữ cảnh rất quan trọng.";
+    if (category === "vocabulary") return "Với bài từ vựng, đừng học từng từ rời rạc. Hãy học theo **cụm dùng được ngay**: gọi món, hỏi đường, chào hỏi, mua đồ hoặc mô tả cảm xúc trong tình huống thật.";
+    if (category === "reading") return "Với bài đọc hiểu, hãy đọc 2 lượt: lượt 1 nắm ý chính, lượt 2 gạch chân từ khóa, nhân vật, thời gian, địa điểm và thông điệp văn hóa.";
+    return "Với bài văn hóa/dân gian, hãy chú ý tầng nghĩa: nghĩa đen của câu, bài học đạo đức, và cách người Việt dùng câu đó trong đời sống.";
+  }
+
+  if (category === "grammar") return "For grammar lessons, read the sentence in chunks: **who speaks / what action happens / what extra information is added**. Vietnamese changes word forms very little, so word order and context matter.";
+  if (category === "vocabulary") return "For vocabulary lessons, do not memorize isolated words. Learn **ready-to-use chunks** for ordering food, asking directions, greeting people, shopping, or describing feelings in real situations.";
+  if (category === "reading") return "For reading lessons, read twice: first for the main idea, then for keywords, people, time, place, and cultural meaning.";
+  return "For culture and folklore lessons, notice the layers: literal meaning, moral message, and how Vietnamese speakers use the phrase in daily life.";
+};
+
+const buildTheoryStudyGuide = (lesson: VietnameseLesson, category: VietnameseModule["category"], isVietnamese: boolean) => {
   const examples = lesson.vocabulary
     .filter((item) => item.example && item.exampleEn)
     .slice(0, 5);
@@ -92,7 +106,7 @@ const buildTheoryStudyGuide = (lesson: VietnameseLesson, isVietnamese: boolean) 
 - Tự tạo được câu ngắn, rõ nghĩa, phù hợp với tình huống hằng ngày.
 
 ### Cách hiểu nhanh cho người nước ngoài
-Tiếng Việt thường ưu tiên **ý rõ trước, ngữ pháp gọn sau**. Hãy đọc câu theo 3 bước: **ai / làm gì / với cái gì hoặc ở đâu**. Nếu câu có từ chỉ thời gian, hãy đặt nó gần đầu câu hoặc ngay trước động từ để người nghe hiểu bối cảnh trước.
+${getCategoryGuidance(category, true)}
 
 ### Mẫu câu thực tế
 ${examples.map((item) => `- **${item.example}** — ${item.exampleEn}`).join("\n")}
@@ -114,7 +128,7 @@ ${focusPoints.map((point, index) => `- Bước ${index + 1}: ${point}`).join("\n
 - Produce short, natural sentences for daily situations.
 
 ### Simple logic for foreign learners
-Vietnamese usually prioritizes **clear meaning before heavy grammar**. Read each sentence in 3 steps: **who / does what / with what or where**. Time words often appear near the beginning or before the verb so the listener gets the context early.
+${getCategoryGuidance(category, false)}
 
 ### Real-life sentence models
 ${examples.map((item) => `- **${item.example}** — ${item.exampleEn}`).join("\n")}
@@ -128,9 +142,9 @@ ${examples.map((item) => `- **${item.example}** — ${item.exampleEn}`).join("\n
 ${focusPoints.map((point, index) => `- Step ${index + 1}: ${point}`).join("\n")}`;
 };
 
-const getEnhancedTheory = (lesson: VietnameseLesson, isVietnamese: boolean) => {
+const getEnhancedTheory = (lesson: VietnameseLesson, category: VietnameseModule["category"], isVietnamese: boolean) => {
   const base = stripLeadingMarkdownTitle(isVietnamese ? lesson.theory : lesson.theoryEn);
-  return `${base}${buildTheoryStudyGuide(lesson, isVietnamese)}`;
+  return `${base}${buildTheoryStudyGuide(lesson, category, isVietnamese)}`;
 };
 
 const lessonMarkdownComponents: Components = {
@@ -191,7 +205,7 @@ const VietnameseLessonView = () => {
   const tip = teacherTips[lesson.id];
   const vocabGroups = groupVocabulary(lesson.vocabulary);
   const isVietnamese = t("vi", "en") === "vi";
-  const theoryMarkdown = getEnhancedTheory(lesson, isVietnamese);
+  const theoryMarkdown = getEnhancedTheory(lesson, mod.category, isVietnamese);
 
   return (
     <div className="min-h-screen bg-background">
