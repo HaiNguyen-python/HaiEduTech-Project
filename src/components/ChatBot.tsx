@@ -669,8 +669,8 @@ const ChatBot = () => {
     const scoreLang = (raw: string, lang: Lang): number => {
       const text = raw.trim();
       if (!text) return -Infinity;
-      const len = text.length;
-      const chinese = (text.match(/[\u4e00-\u9fff]/g) || []).length;
+      const words = wordsOf(text);
+      const wordCount = Math.max(words.length, 1);
       const vietDia = (text.match(
         /[àáảãạâầấẩẫậăằắẳẵặèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđÀÁẢÃẠÂẦẤẨẪẬĂẰẮẲẴẶÈÉẺẼẸÊỀẾỂỄỆÌÍỈĨỊÒÓỎÕỌÔỒỐỔỖỘƠỜỚỞỠỢÙÚỦŨỤƯỪỨỬỮỰỲÝỶỸỴĐ]/g,
       ) || []).length;
