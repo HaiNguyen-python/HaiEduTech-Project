@@ -221,7 +221,7 @@ const LessonFeedback = ({
                   </div>
                 </div>
                 <button
-                  onClick={() => setOpen(false)}
+                  onClick={() => { setOpen(false); setSubmitted(false); }}
                   className="p-1.5 rounded-full hover:bg-white/20 transition-colors"
                   aria-label="Close"
                 >
