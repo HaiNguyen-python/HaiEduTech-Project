@@ -207,10 +207,13 @@ const FloatingNotebook = () => {
   }, [editor]);
 
   const handleNew = () => {
+    // Cancel any pending auto-save so it doesn't fire against the new blank state.
+    if (autoSaveTimer.current) { clearTimeout(autoSaveTimer.current); autoSaveTimer.current = null; }
     userCreatingNew.current = true;
     setSelectedId(null);
     setTitle("");
     setSubject("general");
+    skipNextAutoSave.current = true;
     editor?.commands.setContent("");
     lastSyncedUpdatedAt.current = null;
     setTimeout(() => {
@@ -220,6 +223,8 @@ const FloatingNotebook = () => {
   };
 
   const handleSelect = (nb: Notebook) => {
+    // Cancel any pending auto-save belonging to the previously-open note.
+    if (autoSaveTimer.current) { clearTimeout(autoSaveTimer.current); autoSaveTimer.current = null; }
     userCreatingNew.current = false;
     setSelectedId(nb.id);
     setTitle(nb.title);
