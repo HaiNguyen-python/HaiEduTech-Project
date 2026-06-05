@@ -109,7 +109,7 @@ const buildTheoryStudyGuide = (lesson: VietnameseLesson, category: VietnameseMod
 ${getCategoryGuidance(category, true)}
 
 ### Mẫu câu thực tế
-${examples.map((item) => `- **${item.example}** — ${item.exampleEn}`).join("\n")}
+${examples.map((item) => `- **${item.example}** - ${item.exampleEn}`).join("\n")}
 
 ### Lưu ý phát âm và văn hóa
 - Đọc chậm từng cụm 2–4 từ; đừng nuốt dấu thanh vì dấu thanh có thể đổi nghĩa của từ.
@@ -131,7 +131,7 @@ ${focusPoints.map((point, index) => `- Bước ${index + 1}: ${point}`).join("\n
 ${getCategoryGuidance(category, false)}
 
 ### Real-life sentence models
-${examples.map((item) => `- **${item.example}** — ${item.exampleEn}`).join("\n")}
+${examples.map((item) => `- **${item.example}** - ${item.exampleEn}`).join("\n")}
 
 ### Pronunciation and culture notes
 - Speak in small chunks of 2–4 words; tones are essential because a tone change can change meaning.
