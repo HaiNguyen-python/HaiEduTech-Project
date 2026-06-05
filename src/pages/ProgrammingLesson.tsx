@@ -203,9 +203,10 @@ const ProgrammingLessonPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mod, lesson]);
 
-  const handleEnhanceTheory = async (forceRefresh = false) => {
+  const handleEnhanceTheory = async (forceRefresh = false, opts: { autoSwitch?: boolean; silent?: boolean } = {}) => {
     if (!mod || !lesson) return;
-    setEnhanceLoading(true);
+    const { autoSwitch = true, silent = false } = opts;
+    if (!silent) setEnhanceLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("enhance-programming-theory", {
         body: {
@@ -221,13 +222,13 @@ const ProgrammingLessonPage = () => {
       if (error) throw error;
       if (data?.markdown) {
         setEnhancedMd(data.markdown);
-        setUseEnhanced(true);
-        toast.success(data.cached ? "Loaded enhanced theory from cache" : "AI Deep-Dive ready!");
+        if (autoSwitch) setUseEnhanced(true);
+        if (!silent) toast.success(data.cached ? "Loaded enhanced theory from cache" : "AI Deep-Dive ready!");
       }
     } catch (e) {
-      toast.error("Could not enhance theory. Please try again later.");
+      if (!silent) toast.error("Could not enhance theory. Please try again later.");
     }
-    setEnhanceLoading(false);
+    if (!silent) setEnhanceLoading(false);
   };
 
   // Admin-only: pre-generate AI illustrations for every Programming lesson.
