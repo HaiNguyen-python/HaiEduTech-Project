@@ -254,25 +254,44 @@ const VietnameseLessonView = () => {
           </div>
 
           <div className="grid min-w-0 grid-cols-1 gap-8 xl:grid-cols-[16rem_minmax(0,1fr)]">
-            {/* Sidebar: lesson list */}
+            {/* Sidebar: lesson list - professional, numbered cards */}
             <aside className="min-w-0">
-              <h3 className="text-sm font-bold text-foreground mb-3">{t(mod.title, mod.titleEn)}</h3>
-              <div className="flex gap-2 overflow-x-auto pb-2 xl:block xl:space-y-1 xl:overflow-visible xl:pb-0">
-                {mod.lessons.map((l) => (
-                  <Link
-                    key={l.id}
-                    to={`/learn-vietnamese/module/${mod.id}/${l.id}`}
-                    className={`block shrink-0 whitespace-nowrap rounded-lg px-3 py-2 text-sm transition-colors xl:whitespace-normal ${
-                      l.id === lesson.id
-                        ? "bg-primary/10 text-primary font-medium"
-                        : "hover:bg-muted text-muted-foreground"
-                    }`}
-                  >
-                    {t(l.title, l.titleEn)}
-                  </Link>
-                ))}
+              <div className="mb-3 flex items-center gap-2">
+                <div className="h-7 w-1.5 rounded-full bg-gradient-to-b from-emerald-500 to-emerald-600" />
+                <div>
+                  <h3 className="text-sm font-extrabold tracking-tight text-foreground">{t(mod.title, mod.titleEn)}</h3>
+                  <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                    {mod.lessons.length} {t("bài học", "lessons")}
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-2 overflow-x-auto pb-2 xl:block xl:space-y-1.5 xl:overflow-visible xl:pb-0">
+                {mod.lessons.map((l, idx) => {
+                  const active = l.id === lesson.id;
+                  return (
+                    <Link
+                      key={l.id}
+                      to={`/learn-vietnamese/module/${mod.id}/${l.id}`}
+                      className={`group flex shrink-0 items-center gap-2.5 whitespace-nowrap rounded-xl border px-3 py-2.5 text-sm transition-all xl:whitespace-normal ${
+                        active
+                          ? "border-emerald-500/60 bg-gradient-to-r from-emerald-500/15 to-emerald-500/5 font-semibold text-foreground shadow-[0_2px_10px_-4px_rgba(16,185,129,0.45)]"
+                          : "border-transparent text-muted-foreground hover:border-emerald-500/30 hover:bg-emerald-500/5 hover:text-foreground"
+                      }`}
+                    >
+                      <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-[11px] font-bold transition-colors ${
+                        active
+                          ? "bg-emerald-500 text-white"
+                          : "bg-muted text-muted-foreground group-hover:bg-emerald-500/20 group-hover:text-emerald-700 dark:group-hover:text-emerald-300"
+                      }`}>
+                        {idx + 1}
+                      </span>
+                      <span className="leading-snug">{t(l.title, l.titleEn)}</span>
+                    </Link>
+                  );
+                })}
               </div>
             </aside>
+
 
             {/* Main content */}
             <div className="min-w-0 w-full max-w-4xl">
