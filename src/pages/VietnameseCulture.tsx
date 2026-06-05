@@ -70,7 +70,7 @@ const VietnameseCulture = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.05 }}
               >
-                <Card className="h-full border-border/50 hover:shadow-xl transition-shadow">
+                <Card className="h-full border-2 border-foreground/25 dark:border-foreground/30 hover:shadow-xl hover:border-primary/50 transition-all">
                   <CardContent className="pt-6">
                     <div className="flex items-start gap-4 mb-4">
                       <span className="text-5xl">{topic.emoji}</span>
