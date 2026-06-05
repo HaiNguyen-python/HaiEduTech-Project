@@ -185,6 +185,8 @@ const lessonMarkdownComponents: Components = {
   ol: ({ children }) => <ol className="my-4 space-y-2 pl-5 text-base text-foreground marker:font-bold marker:text-emerald-600 sm:pl-6 sm:text-lg">{children}</ol>,
   li: ({ children }) => <li className="pl-1 leading-8 marker:text-emerald-600">{children}</li>,
   strong: ({ children }) => <strong className="font-extrabold text-foreground">{children}</strong>,
+  em: ({ children }) => <em className="not-italic font-medium text-emerald-700 dark:text-emerald-300">{children}</em>,
+  blockquote: ({ children }) => <blockquote className="my-5 rounded-r-xl border-l-4 border-emerald-500 bg-emerald-50/70 p-4 text-base sm:text-lg leading-8 text-foreground dark:bg-emerald-950/30">{children}</blockquote>,
   table: ({ children }) => <div className="my-5 overflow-x-auto rounded-xl border-2 border-emerald-500/45"><table className="min-w-[600px] w-full border-collapse text-left text-base text-foreground">{children}</table></div>,
   th: ({ children }) => <th className="border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 font-bold text-foreground">{children}</th>,
   td: ({ children }) => <td className="border border-emerald-500/20 px-4 py-3 align-top leading-7 text-foreground">{children}</td>,
