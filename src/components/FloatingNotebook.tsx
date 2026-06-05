@@ -148,6 +148,32 @@ const FloatingNotebook = () => {
   // so auto-save never overwrites newer content (e.g. appended by PhrasePractice).
   const lastSyncedUpdatedAt = useRef<string | null>(null);
   const skipNextAutoSave = useRef(false);
+  // Lock to prevent concurrent saves creating duplicate INSERTs while the
+  // user types quickly (the first INSERT hasn't returned a selectedId yet).
+  const savingRef = useRef(false);
+
+  // localStorage draft mirror — protects against tab close / crash before
+  // the 2.5s debounce fires, and against the "no title yet" silent-skip case.
+  const draftKey = useCallback(
+    (id: string | null) => `notebook-draft-${user?.id || "anon"}-${id ?? "new"}`,
+    [user]
+  );
+  const writeDraft = useCallback(
+    (id: string | null, payload: { title: string; subject: string; content: string }) => {
+      try {
+        const stripped = payload.content.replace(/<[^>]*>/g, "").trim();
+        if (!payload.title.trim() && !stripped) {
+          localStorage.removeItem(draftKey(id));
+          return;
+        }
+        localStorage.setItem(draftKey(id), JSON.stringify({ ...payload, savedAt: Date.now() }));
+      } catch { /* quota / disabled — ignore */ }
+    },
+    [draftKey]
+  );
+  const clearDraft = useCallback((id: string | null) => {
+    try { localStorage.removeItem(draftKey(id)); } catch { /* ignore */ }
+  }, [draftKey]);
 
   const fetchNotebooks = useCallback(async () => {
     if (!user) return;
@@ -181,10 +207,13 @@ const FloatingNotebook = () => {
   }, [editor]);
 
   const handleNew = () => {
+    // Cancel any pending auto-save so it doesn't fire against the new blank state.
+    if (autoSaveTimer.current) { clearTimeout(autoSaveTimer.current); autoSaveTimer.current = null; }
     userCreatingNew.current = true;
     setSelectedId(null);
     setTitle("");
     setSubject("general");
+    skipNextAutoSave.current = true;
     editor?.commands.setContent("");
     lastSyncedUpdatedAt.current = null;
     setTimeout(() => {
@@ -194,6 +223,8 @@ const FloatingNotebook = () => {
   };
 
   const handleSelect = (nb: Notebook) => {
+    // Cancel any pending auto-save belonging to the previously-open note.
+    if (autoSaveTimer.current) { clearTimeout(autoSaveTimer.current); autoSaveTimer.current = null; }
     userCreatingNew.current = false;
     setSelectedId(nb.id);
     setTitle(nb.title);
@@ -236,25 +267,31 @@ const FloatingNotebook = () => {
   }, [selectedId, fetchNotebooks, reloadSelectedNote]);
 
   const handleSave = useCallback(async () => {
-    if (!user || !title.trim()) return;
+    if (!user) return;
+    if (savingRef.current) return; // prevent concurrent inserts → duplicates
     const content = getContent();
-    // Safety: never let an empty/near-empty editor overwrite an existing saved note.
-    // This protects against accidental wipes (e.g. editor re-mount, focus glitch).
     const stripped = content.replace(/<[^>]*>/g, "").trim();
-    if (selectedId && stripped.length < 2) {
-      return;
+    // Auto-generate a title so notes without a manual title still persist.
+    // (Previously, no title meant silent skip → users lost their typing.)
+    let effectiveTitle = title.trim();
+    if (!effectiveTitle) {
+      if (!stripped) return; // truly empty — nothing to save
+      effectiveTitle = `Ghi chú ${new Date().toLocaleString("vi-VN", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}`;
+      setTitle(effectiveTitle);
     }
+    // Safety: never let an empty editor overwrite an existing saved note.
+    if (selectedId && stripped.length < 2) return;
+
+    savingRef.current = true;
     setSaving(true);
     try {
       if (selectedId) {
-        // Sync-safe save: refuse to overwrite if remote is newer than what we last synced.
         const { data: remote } = await supabase
           .from("student_notebooks")
           .select("id, content, updated_at")
           .eq("id", selectedId)
           .maybeSingle();
         if (remote && lastSyncedUpdatedAt.current && remote.updated_at && remote.updated_at > lastSyncedUpdatedAt.current) {
-          // Newer version exists on server - pull it instead of overwriting.
           skipNextAutoSave.current = true;
           const html = remote.content.includes("<") ? remote.content : `<p>${remote.content}</p>`;
           editor?.commands.setContent(html);
@@ -262,28 +299,38 @@ const FloatingNotebook = () => {
           toast({ title: "Đã đồng bộ phiên bản mới hơn từ server" });
         } else {
           const nowIso = new Date().toISOString();
-          const { data: updated } = await supabase
+          const { data: updated, error } = await supabase
             .from("student_notebooks")
-            .update({ title, content, subject, updated_at: nowIso })
+            .update({ title: effectiveTitle, content, subject, updated_at: nowIso })
             .eq("id", selectedId)
             .select("updated_at")
             .single();
+          if (error) throw error;
           lastSyncedUpdatedAt.current = updated?.updated_at ?? nowIso;
+          clearDraft(selectedId);
         }
       } else {
-        const { data } = await supabase.from("student_notebooks").insert({ user_id: user.id, title, content, subject }).select("id, updated_at").single();
+        const { data, error } = await supabase
+          .from("student_notebooks")
+          .insert({ user_id: user.id, title: effectiveTitle, content, subject })
+          .select("id, updated_at")
+          .single();
+        if (error) throw error;
         if (data) {
+          clearDraft(null); // remove the "new" draft now that it has an id
           setSelectedId(data.id);
           lastSyncedUpdatedAt.current = data.updated_at;
         }
       }
       fetchNotebooks();
-      toast({ title: "Đã lưu ghi chú ✓" });
-    } catch {
-      toast({ title: "Lỗi khi lưu", variant: "destructive" });
+    } catch (err) {
+      console.error("Notebook save failed:", err);
+      toast({ title: "Lỗi khi lưu — bản nháp đã được giữ trên thiết bị", variant: "destructive" });
+    } finally {
+      savingRef.current = false;
+      setSaving(false);
     }
-    setSaving(false);
-  }, [user, selectedId, title, subject, getContent, fetchNotebooks, toast, editor]);
+  }, [user, selectedId, title, subject, getContent, fetchNotebooks, toast, editor, clearDraft]);
 
   const handleDelete = async () => {
     if (!selectedId) return;
@@ -364,27 +411,73 @@ const FloatingNotebook = () => {
 
   // Auto-save after 2.5s of inactivity (sync-safe). editorTick ensures the
   // effect actually re-fires on every keystroke.
+  // ALSO mirrors every change to localStorage immediately so a tab close,
+  // network blip or quick close before debounce never loses typing.
   useEffect(() => {
-    if (!open || !user || !title.trim()) return;
+    if (!open || !user) return;
     if (skipNextAutoSave.current) {
       skipNextAutoSave.current = false;
       return;
     }
+    // Immediate local mirror (never debounced — this is the safety net).
+    writeDraft(selectedId, { title, subject, content: getContent() });
     if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
     autoSaveTimer.current = setTimeout(() => {
       handleSave();
     }, 2500);
     return () => { if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current); };
-  }, [editorTick, title, subject, open, user, handleSave]);
+  }, [editorTick, title, subject, open, user, selectedId, handleSave, writeDraft, getContent]);
+
+  // On panel open / login, restore any unsaved draft (typed content that
+  // never made it to the server because the user closed the tab).
+  const draftRestoredRef = useRef(false);
+  useEffect(() => {
+    if (!open || !user || !editor || draftRestoredRef.current) return;
+    try {
+      const raw = localStorage.getItem(draftKey(null));
+      if (!raw) return;
+      const draft = JSON.parse(raw) as { title: string; subject: string; content: string };
+      const stripped = (draft.content || "").replace(/<[^>]*>/g, "").trim();
+      if (!stripped && !draft.title?.trim()) return;
+      // Restore as a new note in progress.
+      userCreatingNew.current = true;
+      setSelectedId(null);
+      setTitle(draft.title || "");
+      setSubject(draft.subject || "general");
+      skipNextAutoSave.current = true;
+      editor.commands.setContent(draft.content || "");
+      lastSyncedUpdatedAt.current = null;
+      draftRestoredRef.current = true;
+      toast({ title: "Đã khôi phục bản nháp chưa lưu" });
+    } catch { /* ignore */ }
+  }, [open, user, editor, draftKey, toast]);
 
   // Flush-save on panel close so quick edits (< debounce window) survive.
   const handleClosePanel = useCallback(() => {
     if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
-    if (user && title.trim()) {
+    if (user) {
       handleSave();
     }
     setOpen(false);
-  }, [user, title, handleSave]);
+  }, [user, handleSave]);
+
+  // Flush on tab close / hide. localStorage mirror is already up-to-date,
+  // and we kick off a final server save fire-and-forget.
+  useEffect(() => {
+    if (!open) return;
+    const flush = () => {
+      writeDraft(selectedId, { title, subject, content: getContent() });
+      if (autoSaveTimer.current) { clearTimeout(autoSaveTimer.current); autoSaveTimer.current = null; }
+      if (user) void handleSave();
+    };
+    const onVis = () => { if (document.visibilityState === "hidden") flush(); };
+    window.addEventListener("pagehide", flush);
+    document.addEventListener("visibilitychange", onVis);
+    return () => {
+      window.removeEventListener("pagehide", flush);
+      document.removeEventListener("visibilitychange", onVis);
+    };
+  }, [open, user, selectedId, title, subject, getContent, handleSave, writeDraft]);
 
   // Drag handlers (mouse)
   const onDragStart = useCallback((e: React.MouseEvent) => {
