@@ -45,16 +45,30 @@ const GlossaryPhrasePractice: React.FC<Props> = ({ phrase, phraseMeaning, taskTy
     }
     setLoading(true);
     setResult(null);
+    // 35s hard timeout so the button never spins forever
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 35000);
     try {
       const { data, error } = await supabase.functions.invoke("grade-phrase-sentence", {
         body: { phrase, phraseMeaning, userSentence: trimmed, taskType },
+        // @ts-ignore - supabase-js forwards signal to underlying fetch
+        signal: controller.signal,
       });
       if (error) throw error;
+      if (!data || typeof (data as GradeResult).score !== "number") {
+        throw new Error("Empty grading response");
+      }
       setResult(data as GradeResult);
-    } catch (e) {
+    } catch (e: any) {
       console.error("Glossary grade error", e);
-      toast.error(t("Không thể chấm điểm lúc này. Thử lại sau.", "Could not grade right now. Please try again."));
+      const aborted = e?.name === "AbortError" || /abort/i.test(e?.message || "");
+      toast.error(
+        aborted
+          ? t("Hệ thống chấm điểm phản hồi chậm. Vui lòng thử lại.", "Grading service is slow. Please try again.")
+          : t("Không thể chấm điểm lúc này. Thử lại sau.", "Could not grade right now. Please try again.")
+      );
     } finally {
+      clearTimeout(timeoutId);
       setLoading(false);
     }
   };
