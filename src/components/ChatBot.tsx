@@ -652,13 +652,13 @@ const ChatBot = () => {
       return;
     }
 
-    const langs = ["vi-VN", "en-US", "zh-CN", "fi-FI"] as const;
+    const langs = ["vi-VN", "en-US"] as const;
     type Lang = typeof langs[number];
 
     // Per-lang transcript buffers (final-only for scoring; interim used only
     // for the live preview shown in the input box).
-    const finals: Record<Lang, string> = { "vi-VN": "", "en-US": "", "zh-CN": "", "fi-FI": "" };
-    const interims: Record<Lang, string> = { "vi-VN": "", "en-US": "", "zh-CN": "", "fi-FI": "" };
+    const finals: Record<Lang, string> = { "vi-VN": "", "en-US": "" };
+    const interims: Record<Lang, string> = { "vi-VN": "", "en-US": "" };
     bestVoiceRef.current = { conf: -1, text: "" };
 
     const scoreLang = (raw: string, lang: Lang): number => {
