@@ -207,7 +207,7 @@ const LessonFeedback = ({
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: 400, opacity: 0 }}
               transition={{ type: "spring", stiffness: 260, damping: 28 }}
-              className="fixed right-10 top-4 sm:top-8 z-50 w-[min(420px,calc(100vw-3.5rem))] max-h-[calc(100vh-2rem)] flex flex-col overflow-hidden rounded-2xl bg-card border-2 border-amber-300/40 shadow-2xl"
+              className="fixed right-6 sm:right-10 top-1/2 -translate-y-[45%] z-50 w-[min(420px,calc(100vw-3.5rem))] max-h-[calc(100vh-2rem)] flex flex-col overflow-hidden rounded-2xl bg-card border-2 border-amber-300/40 shadow-2xl"
             >
               {/* Header */}
               <div className="sticky top-0 flex items-center justify-between gap-2 px-5 py-4 bg-gradient-to-r from-amber-400 to-orange-500 text-white rounded-t-2xl">
@@ -243,10 +243,10 @@ const LessonFeedback = ({
                     >
                       <div className="text-5xl">🎉</div>
                       <p className="font-semibold text-foreground text-base">
-                        {t("Đã ghi nhận!", "Recorded!")}
+                        {t("Cảm ơn phản hồi của bạn!", "Thank you for your feedback.")}
                       </p>
                       <p className="text-sm text-muted-foreground">
-                        {t("Cảm ơn bạn rất nhiều.", "Thank you so much.")}
+                        {t("Mr. Hai rất trân trọng ý kiến của bạn.", "Mr. Hai truly values your input.")}
                       </p>
                     </motion.div>
                   ) : (
