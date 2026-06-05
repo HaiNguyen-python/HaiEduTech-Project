@@ -172,7 +172,9 @@ const ProgrammingLessonPage = () => {
   useEffect(() => {
     if (!mod || !lesson) return;
     setEnhancedMd(null);
-    setUseEnhanced(true);
+    // Show ORIGINAL theory by default. Students can opt into AI Deep-Dive
+    // explicitly via the toggle button — do NOT auto-switch them.
+    setUseEnhanced(false);
     supabase
       .from("programming_theory_cache")
       .select("enhanced_markdown, illustrations")
@@ -181,19 +183,18 @@ const ProgrammingLessonPage = () => {
       .maybeSingle()
       .then(({ data }) => {
         if (!data?.enhanced_markdown) {
-          // No cache → auto-trigger AI enhancement (illustrations + deep-dive)
-          // so users never have to click a button.
+          // Pre-warm cache in background so Deep-Dive is ready when clicked,
+          // but DO NOT switch the view away from Original.
           handleEnhanceTheory(false);
           return;
         }
-        // Strip Perplexity citation markers like [1][2][3] from previously cached content
         const cleaned = data.enhanced_markdown
           .replace(/\s*\[\d+(?:\s*[,\s]\s*\d+)*\]/g, "")
           .replace(/\n#{1,6}\s*(References|Sources|Citations|Tham khảo|Nguồn)[\s\S]*$/i, "")
           .replace(/[ \t]+([.,;:!?])/g, "$1")
           .replace(/[ \t]{2,}/g, " ");
         setEnhancedMd(cleaned);
-        // If cached markdown is missing inline illustrations, re-enhance to add them.
+        // If cached markdown is missing inline illustrations, refresh in background.
         const hasIllustrations = /!\[[^\]]*\]\([^)]+\)/.test(cleaned);
         if (!hasIllustrations) {
           handleEnhanceTheory(true);
