@@ -737,23 +737,9 @@ const ChatBot = () => {
         }
       };
 
-      rec.onerror = () => {
-        endedCount++;
-        if (endedCount >= langs.length) {
-          commitBest();
-          setIsRecording(false);
-          recognitionsRef.current = [];
-        }
-      };
+      rec.onerror = () => markEnded(lang);
 
-      rec.onend = () => {
-        endedCount++;
-        if (endedCount >= langs.length) {
-          commitBest();
-          setIsRecording(false);
-          recognitionsRef.current = [];
-        }
-      };
+      rec.onend = () => markEnded(lang);
 
       return rec;
     });
