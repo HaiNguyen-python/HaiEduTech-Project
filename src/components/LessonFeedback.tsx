@@ -282,22 +282,15 @@ const LessonFeedback = ({
                         </div>
                       </div>
 
-                      {/* Detailed Likert ratings */}
-                      <div className="space-y-3 p-3 rounded-xl bg-muted/40 border border-border">
+                      {/* Single combined Likert per user request */}
+                      <div className="p-3 rounded-xl bg-muted/40 border border-border">
                         <StarRow
-                          label={t("Hôm nay tôi có một bài học rõ ràng.", "I had a clear lesson today.")}
-                          value={clarity}
-                          onChange={setClarity}
-                        />
-                        <StarRow
-                          label={t("Tôi có thể tham gia vào bài học của mình.", "I could take part in my lesson.")}
-                          value={aiTool}
-                          onChange={setAiTool}
-                        />
-                        <StarRow
-                          label={t("Tôi cảm thấy tự tin hơn sau bài học.", "I feel more confident after my lesson.")}
-                          value={confidence}
-                          onChange={setConfidence}
+                          label={t(
+                            "Tôi cảm thấy vui và tự tin sau bài học hôm nay.",
+                            "I feel happy and confident after my lesson today.",
+                          )}
+                          value={overall}
+                          onChange={setOverall}
                         />
                       </div>
 
