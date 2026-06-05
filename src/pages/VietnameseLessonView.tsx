@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, ChevronRight, Zap, Package, Sparkles, Lightbulb } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -181,8 +182,8 @@ const VietnameseLessonView = () => {
                 )}
 
                 {/* Theory */}
-                <section className="prose prose-sm dark:prose-invert max-w-none mb-8">
-                  <ReactMarkdown>{t(lesson.theory, lesson.theoryEn)}</ReactMarkdown>
+                <section className="prose prose-sm sm:prose-base dark:prose-invert max-w-none mb-8 prose-headings:font-bold prose-headings:text-foreground prose-p:leading-relaxed prose-strong:text-primary prose-table:my-4 prose-table:border prose-table:border-red-500/40 prose-table:rounded-lg prose-table:overflow-hidden prose-th:bg-red-500/10 prose-th:text-foreground prose-th:font-bold prose-th:p-2 prose-th:border prose-th:border-red-500/30 prose-td:p-2 prose-td:border prose-td:border-red-500/20 prose-td:align-top prose-li:my-1 overflow-x-auto">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{t(lesson.theory, lesson.theoryEn)}</ReactMarkdown>
                 </section>
 
                 {/* Pro Tips */}
