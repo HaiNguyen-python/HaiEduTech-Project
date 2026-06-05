@@ -240,7 +240,7 @@ const Vietnamese = () => {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: idx * 0.1 }}
-                      className="bg-white/25 dark:bg-card/35 backdrop-blur-sm border border-white/10 dark:border-border rounded-xl p-5 hover:shadow-xl transition-shadow"
+                      className="bg-white/25 dark:bg-card/35 backdrop-blur-sm border-2 border-red-500/50 rounded-xl p-5 hover:shadow-xl transition-shadow"
                     >
                       <div className="flex items-center gap-3 mb-2">
                         <span className="text-2xl">{prog.icon}</span>
@@ -275,7 +275,7 @@ const Vietnamese = () => {
                 <div className="relative z-10 grid sm:grid-cols-2 md:grid-cols-4 gap-4 mt-2 px-5 md:px-8 pb-5">
                   <Link
                     to="/speaking-coach/vietnamese"
-                    className="block bg-white/80 dark:bg-card/90 backdrop-blur-md border border-primary/30 rounded-xl p-5 hover:shadow-lg transition-all group shadow-sm"
+                    className="block bg-white/80 dark:bg-card/90 backdrop-blur-md border-2 border-red-500/55 rounded-xl p-5 hover:shadow-lg transition-all group shadow-sm"
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
@@ -289,7 +289,7 @@ const Vietnamese = () => {
                   </Link>
                   <Link
                     to="/learn-vietnamese/dictation"
-                    className="block bg-white/80 dark:bg-card/90 backdrop-blur-md border border-amber-500/30 rounded-xl p-5 hover:shadow-lg transition-all group shadow-sm"
+                    className="block bg-white/80 dark:bg-card/90 backdrop-blur-md border-2 border-red-500/55 rounded-xl p-5 hover:shadow-lg transition-all group shadow-sm"
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center group-hover:bg-amber-500/20 transition-colors">
@@ -303,7 +303,7 @@ const Vietnamese = () => {
                   </Link>
                   <Link
                     to="/learn-vietnamese/poetry"
-                    className="block bg-white/80 dark:bg-card/90 backdrop-blur-md border border-purple-500/30 rounded-xl p-5 hover:shadow-lg transition-all group shadow-sm"
+                    className="block bg-white/80 dark:bg-card/90 backdrop-blur-md border-2 border-red-500/55 rounded-xl p-5 hover:shadow-lg transition-all group shadow-sm"
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/20 transition-colors">
@@ -317,7 +317,7 @@ const Vietnamese = () => {
                   </Link>
                   <Link
                     to="/learn-vietnamese/alphabet"
-                    className="block bg-white/80 dark:bg-card/90 backdrop-blur-md border border-rose-500/30 rounded-xl p-5 hover:shadow-lg transition-all group shadow-sm"
+                    className="block bg-white/80 dark:bg-card/90 backdrop-blur-md border-2 border-red-500/55 rounded-xl p-5 hover:shadow-lg transition-all group shadow-sm"
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-rose-500/10 flex items-center justify-center group-hover:bg-rose-500/20 transition-colors">
@@ -331,7 +331,7 @@ const Vietnamese = () => {
                   </Link>
                   <Link
                     to="/learn-vietnamese/holidays"
-                    className="block bg-white/80 dark:bg-card/90 backdrop-blur-md border border-red-500/30 rounded-xl p-5 hover:shadow-lg transition-all group shadow-sm"
+                    className="block bg-white/80 dark:bg-card/90 backdrop-blur-md border-2 border-red-500/55 rounded-xl p-5 hover:shadow-lg transition-all group shadow-sm"
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center group-hover:bg-red-500/20 transition-colors">
