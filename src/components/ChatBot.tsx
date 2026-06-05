@@ -676,8 +676,6 @@ const ChatBot = () => {
       ) || []).length;
       const viHits = countMatches(words, viWords);
       const enHits = countMatches(words, enWords);
-      const asciiOnly = /^[\x00-\x7f\s.,!?'"()-]+$/.test(text);
-
       if (lang === "vi-VN") {
         return 0.25 + viHits / wordCount + Math.min(vietDia / 4, 0.65) - enHits / (wordCount * 1.4) + Math.min(words.length / 12, 0.25);
       }
