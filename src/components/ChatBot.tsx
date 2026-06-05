@@ -640,6 +640,32 @@ const ChatBot = () => {
     const interims: Record<Lang, string> = { "vi-VN": "", "en-US": "" };
     bestVoiceRef.current = { conf: -1, text: "" };
 
+    const wordsOf = (raw: string) => raw
+      .toLocaleLowerCase("vi-VN")
+      .normalize("NFC")
+      .match(/[\p{L}\p{M}]+/gu) || [];
+
+    const countMatches = (words: string[], terms: Set<string>) =>
+      words.reduce((total, word) => total + (terms.has(word) ? 1 : 0), 0);
+
+    const viWords = new Set([
+      "tôi", "toi", "mình", "minh", "em", "anh", "chị", "chi", "thầy", "thay", "cô", "co",
+      "bạn", "ban", "là", "la", "của", "cua", "và", "va", "có", "co", "không", "khong",
+      "muốn", "muon", "học", "hoc", "tiếng", "tieng", "việt", "viet", "hôm", "hom", "nay",
+      "bài", "bai", "này", "nay", "gì", "gi", "đâu", "dau", "khi", "nào", "nao", "như", "nhu",
+      "thế", "the", "được", "duoc", "rồi", "roi", "chưa", "chua", "làm", "lam", "với", "voi",
+      "cho", "xin", "chào", "chao", "cảm", "cam", "ơn", "on", "giúp", "giup", "dịch", "dich",
+      "nghĩa", "nghia", "câu", "cau", "từ", "tu", "ngữ", "ngu", "pháp", "phap",
+    ]);
+
+    const enWords = new Set([
+      "i", "you", "we", "they", "he", "she", "it", "am", "is", "are", "was", "were", "be", "been",
+      "the", "and", "or", "but", "because", "with", "for", "from", "to", "of", "in", "on", "at",
+      "what", "where", "when", "why", "how", "who", "which", "can", "could", "would", "should",
+      "want", "need", "learn", "study", "english", "vietnamese", "lesson", "grammar", "word", "sentence",
+      "please", "help", "explain", "translate", "meaning", "practice", "speak", "write", "read",
+    ]);
+
     const scoreLang = (raw: string, lang: Lang): number => {
       const text = raw.trim();
       if (!text) return -Infinity;
