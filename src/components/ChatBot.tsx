@@ -722,8 +722,13 @@ const ChatBot = () => {
         let finalText = "";
         for (let i = 0; i < event.results.length; i++) {
           const res = event.results[i];
-          if (res.isFinal) finalText += res[0].transcript;
-          else interim += res[0].transcript;
+          let chosen = res[0]?.transcript || "";
+          for (let altIndex = 1; altIndex < res.length; altIndex++) {
+            const alternative = res[altIndex]?.transcript || "";
+            if (scoreLang(alternative, lang) > scoreLang(chosen, lang)) chosen = alternative;
+          }
+          if (res.isFinal) finalText += chosen;
+          else interim += chosen;
         }
         if (finalText) finals[lang] = (finals[lang] + " " + finalText).trim();
         interims[lang] = interim;
