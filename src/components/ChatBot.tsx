@@ -207,6 +207,23 @@ const FUN_FACTS: { vi: string; en: string }[] = [
 ];
 
 // ── Speech Recognition type shim ──
+interface ISpeechRecognitionAlternative {
+  transcript: string;
+}
+
+interface ISpeechRecognitionResult {
+  readonly isFinal: boolean;
+  readonly length: number;
+  [index: number]: ISpeechRecognitionAlternative | undefined;
+}
+
+interface ISpeechRecognitionEvent {
+  readonly results: {
+    readonly length: number;
+    [index: number]: ISpeechRecognitionResult | undefined;
+  };
+}
+
 interface ISpeechRecognition extends EventTarget {
   lang: string;
   interimResults: boolean;
@@ -214,9 +231,13 @@ interface ISpeechRecognition extends EventTarget {
   maxAlternatives?: number;
   start(): void;
   stop(): void;
-  onresult: ((event: any) => void) | null;
-  onerror: ((event: any) => void) | null;
+  onresult: ((event: ISpeechRecognitionEvent) => void) | null;
+  onerror: (() => void) | null;
   onend: (() => void) | null;
+}
+
+interface ISpeechRecognitionConstructor {
+  new(): ISpeechRecognition;
 }
 
 const ChatBot = () => {
