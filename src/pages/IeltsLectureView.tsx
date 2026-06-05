@@ -21,6 +21,7 @@ import type { VocabHighlight } from "@/data/ieltsLecturesData";
 import { getLectureQuizWithExtras } from "@/data/ieltsLectureQuizExtras";
 import IeltsLectureDiagram from "@/components/ielts/IeltsLectureDiagram";
 import IeltsLectureExpansionPanel from "@/components/ielts/IeltsLectureExpansionPanel";
+import RichTheoryText from "@/components/ielts/RichTheoryText";
 import { lectureExpansions } from "@/data/ieltsLectureExpansion";
 import SEO from "@/components/SEO";
 
@@ -236,9 +237,8 @@ const IeltsLectureView = () => {
                             <h3 className="text-[18px] font-bold text-foreground mb-1">
                               {t(step.titleVi, step.title)}
                             </h3>
-                            <p className="text-[16px] leading-relaxed text-muted-foreground">
-                              {t(step.descriptionVi, step.description)}
-                            </p>
+                            <RichTheoryText text={t(step.descriptionVi, step.description)} />
+
                             {step.example && (
                               <div className="mt-3 bg-muted/50 rounded-lg p-3 text-sm text-foreground border border-border">
                                 <span className="font-semibold text-primary">💡 Example: </span>
@@ -265,9 +265,8 @@ const IeltsLectureView = () => {
                       <p className="font-semibold text-foreground text-[16px] mb-1">
                         ❌ {t(m.mistakeVi, m.mistake)}
                       </p>
-                      <p className="text-sm text-muted-foreground">
-                        {t(m.whyVi, m.why)}
-                      </p>
+                      <RichTheoryText text={t(m.whyVi, m.why)} className="text-sm text-muted-foreground" />
+
                     </CardContent>
                   </Card>
                 ))}
@@ -285,9 +284,11 @@ const IeltsLectureView = () => {
                       <h3 className="text-lg font-bold text-amber-800 dark:text-amber-300 mb-2">
                         🌟 {t("Bí quyết vàng của Thầy Hải", "Teacher Hai's Golden Secret")}
                       </h3>
-                      <p className="text-[16px] leading-relaxed text-amber-900 dark:text-amber-200">
-                        {t(lecture.goldenSecretVi, lecture.goldenSecret)}
-                      </p>
+                      <RichTheoryText
+                        text={t(lecture.goldenSecretVi, lecture.goldenSecret)}
+                        className="text-[16px] leading-relaxed text-amber-900 dark:text-amber-200"
+                      />
+
                     </div>
                   </div>
                 </CardContent>
