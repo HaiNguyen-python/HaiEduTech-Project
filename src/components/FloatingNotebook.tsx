@@ -148,6 +148,32 @@ const FloatingNotebook = () => {
   // so auto-save never overwrites newer content (e.g. appended by PhrasePractice).
   const lastSyncedUpdatedAt = useRef<string | null>(null);
   const skipNextAutoSave = useRef(false);
+  // Lock to prevent concurrent saves creating duplicate INSERTs while the
+  // user types quickly (the first INSERT hasn't returned a selectedId yet).
+  const savingRef = useRef(false);
+
+  // localStorage draft mirror — protects against tab close / crash before
+  // the 2.5s debounce fires, and against the "no title yet" silent-skip case.
+  const draftKey = useCallback(
+    (id: string | null) => `notebook-draft-${user?.id || "anon"}-${id ?? "new"}`,
+    [user]
+  );
+  const writeDraft = useCallback(
+    (id: string | null, payload: { title: string; subject: string; content: string }) => {
+      try {
+        const stripped = payload.content.replace(/<[^>]*>/g, "").trim();
+        if (!payload.title.trim() && !stripped) {
+          localStorage.removeItem(draftKey(id));
+          return;
+        }
+        localStorage.setItem(draftKey(id), JSON.stringify({ ...payload, savedAt: Date.now() }));
+      } catch { /* quota / disabled — ignore */ }
+    },
+    [draftKey]
+  );
+  const clearDraft = useCallback((id: string | null) => {
+    try { localStorage.removeItem(draftKey(id)); } catch { /* ignore */ }
+  }, [draftKey]);
 
   const fetchNotebooks = useCallback(async () => {
     if (!user) return;
