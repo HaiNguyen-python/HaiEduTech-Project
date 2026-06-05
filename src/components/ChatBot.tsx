@@ -211,6 +211,7 @@ interface ISpeechRecognition extends EventTarget {
   lang: string;
   interimResults: boolean;
   continuous: boolean;
+  maxAlternatives?: number;
   start(): void;
   stop(): void;
   onresult: ((event: any) => void) | null;
@@ -230,26 +231,6 @@ const ChatBot = () => {
   const [showPetInfo, setShowPetInfo] = useState(false);
   const [shake, setShake] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
-  // Persisted voice-recognition language so a Vietnamese student can keep using
-  // Vietnamese voice input even when the UI is in English.
-  const VOICE_LANGS: { code: string; flag: string; label: string }[] = [
-    { code: "vi-VN", flag: "🇻🇳", label: "Tiếng Việt" },
-    { code: "en-US", flag: "🇬🇧", label: "English" },
-    { code: "zh-CN", flag: "🇨🇳", label: "中文" },
-    { code: "fi-FI", flag: "🇫🇮", label: "Suomi" },
-  ];
-  const [voiceLang, setVoiceLang] = useState<string>(() => {
-    if (typeof window === "undefined") return "vi-VN";
-    return localStorage.getItem("chatbot_voice_lang") || "vi-VN";
-  });
-  const cycleVoiceLang = useCallback(() => {
-    setVoiceLang((curr) => {
-      const idx = VOICE_LANGS.findIndex((v) => v.code === curr);
-      const next = VOICE_LANGS[(idx + 1) % VOICE_LANGS.length].code;
-      try { localStorage.setItem("chatbot_voice_lang", next); } catch { /* ignore */ }
-      return next;
-    });
-  }, []);
   const [profanityWarning, setProfanityWarning] = useState(false);
   const [chatLocked, setChatLocked] = useState(false);
   const [studentContext, setStudentContext] = useState<string>("");
@@ -303,7 +284,6 @@ const ChatBot = () => {
   }, [dragX, dragY]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const tooltipTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const recognitionRef = useRef<ISpeechRecognition | null>(null);
   const recognitionsRef = useRef<ISpeechRecognition[]>([]);
   const bestVoiceRef = useRef<{ conf: number; text: string }>({ conf: -1, text: "" });
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -624,10 +604,8 @@ const ChatBot = () => {
   };
 
   // ── Voice Input via Web Speech API ──
-  // Auto language detection: run 4 parallel recognizers (VI/EN/ZH/FI) on the
-  // same mic stream. We score each candidate transcript by its script/diacritics
-  // (Chinese chars, Vietnamese diacritics, Finnish ä/ö, ASCII for EN) instead
-  // of trusting the browser's unreliable `confidence` value.
+  // Auto language detection for Vietnamese / English. Browser confidence is
+  // unreliable, so the final choice is based on transcript language patterns.
   const toggleRecording = useCallback(() => {
     if (isRecording) {
       recognitionsRef.current.forEach((r) => {
@@ -655,50 +633,60 @@ const ChatBot = () => {
     const langs = ["vi-VN", "en-US"] as const;
     type Lang = typeof langs[number];
 
-    // Per-lang transcript buffers (final-only for scoring; interim used only
-    // for the live preview shown in the input box).
+    // Per-lang transcript buffers. Final text is preferred; interim text keeps
+    // the input responsive while the browser is still listening.
     const finals: Record<Lang, string> = { "vi-VN": "", "en-US": "" };
     const interims: Record<Lang, string> = { "vi-VN": "", "en-US": "" };
     bestVoiceRef.current = { conf: -1, text: "" };
 
+    const wordsOf = (raw: string) => raw
+      .toLocaleLowerCase("vi-VN")
+      .normalize("NFC")
+      .match(/[\p{L}\p{M}]+/gu) || [];
+
+    const countMatches = (words: string[], terms: Set<string>) =>
+      words.reduce((total, word) => total + (terms.has(word) ? 1 : 0), 0);
+
+    const viWords = new Set([
+      "tôi", "toi", "mình", "minh", "em", "anh", "chị", "chi", "thầy", "thay", "cô", "co",
+      "bạn", "ban", "là", "la", "của", "cua", "và", "va", "có", "co", "không", "khong",
+      "muốn", "muon", "học", "hoc", "tiếng", "tieng", "việt", "viet", "hôm", "hom", "nay",
+      "bài", "bai", "này", "nay", "gì", "gi", "đâu", "dau", "khi", "nào", "nao", "như", "nhu",
+      "thế", "the", "được", "duoc", "rồi", "roi", "chưa", "chua", "làm", "lam", "với", "voi",
+      "cho", "xin", "chào", "chao", "cảm", "cam", "ơn", "on", "giúp", "giup", "dịch", "dich",
+      "nghĩa", "nghia", "câu", "cau", "từ", "tu", "ngữ", "ngu", "pháp", "phap",
+    ]);
+
+    const enWords = new Set([
+      "i", "you", "we", "they", "he", "she", "it", "am", "is", "are", "was", "were", "be", "been",
+      "the", "and", "or", "but", "because", "with", "for", "from", "to", "of", "in", "on", "at",
+      "what", "where", "when", "why", "how", "who", "which", "can", "could", "would", "should",
+      "want", "need", "learn", "study", "english", "vietnamese", "lesson", "grammar", "word", "sentence",
+      "please", "help", "explain", "translate", "meaning", "practice", "speak", "write", "read",
+    ]);
+
     const scoreLang = (raw: string, lang: Lang): number => {
       const text = raw.trim();
       if (!text) return -Infinity;
-      const len = text.length;
-      const chinese = (text.match(/[\u4e00-\u9fff]/g) || []).length;
+      const words = wordsOf(text);
+      const wordCount = Math.max(words.length, 1);
       const vietDia = (text.match(
         /[àáảãạâầấẩẫậăằắẳẵặèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđÀÁẢÃẠÂẦẤẨẪẬĂẰẮẲẴẶÈÉẺẼẸÊỀẾỂỄỆÌÍỈĨỊÒÓỎÕỌÔỒỐỔỖỘƠỜỚỞỠỢÙÚỦŨỤƯỪỨỬỮỰỲÝỶỸỴĐ]/g,
       ) || []).length;
-      const finChars = (text.match(/[äöÄÖ]/g) || []).length;
-      const finWords = (text.match(
-        /\b(ja|on|ei|että|minä|sinä|hän|me|te|he|olen|olet|tämä|hyvää|kiitos|moi|hei|terve|mitä|missä|kuka|kiitti|paljon|joo)\b/gi,
-      ) || []).length;
-      const asciiOnly = /^[\x00-\x7f\s.,!?'"()-]+$/.test(text);
-
-      let score = 0;
-      switch (lang) {
-        case "vi-VN":
-          score = vietDia > 0 ? 0.3 + (vietDia * 2) / Math.max(len, 1) : (asciiOnly ? -0.2 : -1);
-          if (chinese > 0) score -= 1;
-          break;
-        case "en-US":
-          // English wins when text is pure ASCII without diacritics.
-          score = asciiOnly && vietDia === 0 && finChars === 0 ? 0.4 : -0.5;
-          if (chinese > 0) score -= 2;
-          break;
+      const viHits = countMatches(words, viWords);
+      const enHits = countMatches(words, enWords);
+      if (lang === "vi-VN") {
+        return 0.25 + viHits / wordCount + Math.min(vietDia / 4, 0.65) - enHits / (wordCount * 1.4) + Math.min(words.length / 12, 0.25);
       }
-      // Slight length boost so we don't pick a 1-word recognizer over a full sentence.
-      score += Math.min(len / 80, 0.3);
-      return score;
+
+      return 0.15 + enHits / wordCount - viHits / wordCount - Math.min(vietDia / 3, 1) + Math.min(words.length / 12, 0.25);
     };
 
-    let endedCount = 0;
+    const endedLangs = new Set<Lang>();
     const commitBest = () => {
-      // Pick the lang whose final transcript scores highest. Fall back to
-      // interim transcripts if no final results arrived.
+      // Pick the transcript whose language-specific score is strongest.
       let bestText = "";
       let bestScore = -Infinity;
-      let bestLang: Lang = "en-US";
       (Object.keys(finals) as Lang[]).forEach((lang) => {
         const text = finals[lang] || interims[lang];
         if (!text.trim()) return;
@@ -706,16 +694,20 @@ const ChatBot = () => {
         if (s > bestScore) {
           bestScore = s;
           bestText = text;
-          bestLang = lang;
         }
       });
       if (bestText) {
         setInput(bestText.trim());
       }
-      // Log for visibility while tuning.
-      try {
-        console.debug("[voice] detected", bestLang, "score=", bestScore.toFixed(2), "candidates=", finals);
-      } catch { /* ignore */ }
+    };
+
+    const markEnded = (lang: Lang) => {
+      endedLangs.add(lang);
+      if (endedLangs.size >= langs.length) {
+        commitBest();
+        setIsRecording(false);
+        recognitionsRef.current = [];
+      }
     };
 
     const instances: ISpeechRecognition[] = langs.map((lang) => {
@@ -723,14 +715,20 @@ const ChatBot = () => {
       rec.lang = lang;
       rec.interimResults = true;
       rec.continuous = false;
+      rec.maxAlternatives = 3;
 
       rec.onresult = (event: any) => {
         let interim = "";
         let finalText = "";
         for (let i = 0; i < event.results.length; i++) {
           const res = event.results[i];
-          if (res.isFinal) finalText += res[0].transcript;
-          else interim += res[0].transcript;
+          let chosen = res[0]?.transcript || "";
+          for (let altIndex = 1; altIndex < res.length; altIndex++) {
+            const alternative = res[altIndex]?.transcript || "";
+            if (scoreLang(alternative, lang) > scoreLang(chosen, lang)) chosen = alternative;
+          }
+          if (res.isFinal) finalText += chosen;
+          else interim += chosen;
         }
         if (finalText) finals[lang] = (finals[lang] + " " + finalText).trim();
         interims[lang] = interim;
@@ -745,31 +743,16 @@ const ChatBot = () => {
         }
       };
 
-      rec.onerror = () => {
-        endedCount++;
-        if (endedCount >= langs.length) {
-          commitBest();
-          setIsRecording(false);
-          recognitionsRef.current = [];
-        }
-      };
+      rec.onerror = () => markEnded(lang);
 
-      rec.onend = () => {
-        endedCount++;
-        if (endedCount >= langs.length) {
-          commitBest();
-          setIsRecording(false);
-          recognitionsRef.current = [];
-        }
-      };
+      rec.onend = () => markEnded(lang);
 
       return rec;
     });
 
     recognitionsRef.current = instances;
-    recognitionRef.current = instances[0];
-    instances.forEach((r) => {
-      try { r.start(); } catch { /* ignore double-start */ }
+    instances.forEach((r, index) => {
+      try { r.start(); } catch { markEnded(langs[index]); }
     });
     setIsRecording(true);
   }, [isRecording, t]);
