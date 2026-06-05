@@ -305,7 +305,7 @@ const ChatBot = () => {
   }, [dragX, dragY]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const tooltipTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const recognitionsRef = useRef<ISpeechRecognition[]>([]);
+  const recognitionsRef = useRef<ChatSpeechRecognition[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const messageTimestamps = useRef<number[]>([]);
 
@@ -638,8 +638,8 @@ const ChatBot = () => {
     }
 
     const speechWindow = window as Window & {
-      SpeechRecognition?: ISpeechRecognitionConstructor;
-      webkitSpeechRecognition?: ISpeechRecognitionConstructor;
+      SpeechRecognition?: ChatSpeechRecognitionConstructor;
+      webkitSpeechRecognition?: ChatSpeechRecognitionConstructor;
     };
     const SpeechRecognition = speechWindow.SpeechRecognition || speechWindow.webkitSpeechRecognition;
     if (!SpeechRecognition) {
@@ -705,7 +705,7 @@ const ChatBot = () => {
       };
     };
 
-    const chooseAlternative = (result: ISpeechRecognitionResult) => {
+    const chooseAlternative = (result: ChatSpeechResult) => {
       let chosen = result[0]?.transcript || "";
       let chosenScore = -Infinity;
       for (let altIndex = 0; altIndex < result.length; altIndex++) {
@@ -723,13 +723,13 @@ const ChatBot = () => {
 
     let latestTranscript = "";
     let finalTranscript = "";
-    const rec: ISpeechRecognition = new SpeechRecognition();
+    const rec: ChatSpeechRecognition = new SpeechRecognition();
     rec.lang = "vi-VN";
     rec.interimResults = true;
     rec.continuous = false;
     rec.maxAlternatives = 5;
 
-    rec.onresult = (event: ISpeechRecognitionEvent) => {
+    rec.onresult = (event: ChatSpeechEvent) => {
       const parts: string[] = [];
       let hasFinal = false;
       for (let i = 0; i < event.results.length; i++) {
