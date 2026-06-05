@@ -1478,28 +1478,43 @@ const ChatBot = () => {
               />
 
               <div className="flex items-center gap-1.5">
-                {/* Microphone button + voice language toggle */}
-                <div className="relative shrink-0">
+                {/* Microphone + voice language picker (4 languages: VI/EN/ZH/FI) */}
+                <div className="flex items-center gap-1 shrink-0 rounded-xl bg-secondary/60 p-1">
                   <button
                     onClick={toggleRecording}
                     disabled={isLoading || chatLocked}
-                    className={`flex h-10 w-10 items-center justify-center rounded-xl transition-all ${
+                    className={`flex h-8 w-8 items-center justify-center rounded-lg transition-all ${
                       isRecording
                         ? "animate-pulse bg-destructive text-destructive-foreground"
-                        : "bg-secondary text-muted-foreground hover:bg-secondary/80"
+                        : "bg-card text-muted-foreground hover:text-primary"
                     } disabled:opacity-50`}
                     title={isRecording ? t("Dừng ghi âm", "Stop recording") : `${t("Nói bằng", "Speak in")} ${VOICE_LANGS.find(v => v.code === voiceLang)?.label}`}
                   >
                     {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
                   </button>
-                  <button
-                    onClick={cycleVoiceLang}
-                    disabled={isRecording}
-                    title={t("Đổi ngôn ngữ nhận diện giọng nói", "Change voice recognition language")}
-                    className="absolute -top-1 -right-1 flex h-4 min-w-[1rem] items-center justify-center rounded-full border border-border bg-card px-1 text-[10px] leading-none shadow"
-                  >
-                    {VOICE_LANGS.find(v => v.code === voiceLang)?.flag}
-                  </button>
+                  <div className="flex items-center gap-0.5" role="radiogroup" aria-label={t("Ngôn ngữ nhận diện", "Recognition language")}>
+                    {VOICE_LANGS.map((v) => (
+                      <button
+                        key={v.code}
+                        type="button"
+                        role="radio"
+                        aria-checked={voiceLang === v.code}
+                        onClick={() => {
+                          setVoiceLang(v.code);
+                          try { localStorage.setItem("chatbot_voice_lang", v.code); } catch { /* ignore */ }
+                        }}
+                        disabled={isRecording}
+                        title={v.label}
+                        className={`flex h-7 w-7 items-center justify-center rounded-md text-sm transition-all ${
+                          voiceLang === v.code
+                            ? "bg-primary/15 ring-2 ring-primary scale-110"
+                            : "opacity-50 hover:opacity-100"
+                        } disabled:cursor-not-allowed`}
+                      >
+                        {v.flag}
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Attach file button */}
