@@ -624,9 +624,14 @@ const ChatBot = () => {
   };
 
   // ── Voice Input via Web Speech API ──
+  // Auto language detection: run parallel recognizers across VI/EN/ZH/FI and
+  // pick the transcript with the highest confidence. No language picker UI.
   const toggleRecording = useCallback(() => {
-    if (isRecording && recognitionRef.current) {
-      recognitionRef.current.stop();
+    if (isRecording) {
+      recognitionsRef.current.forEach((r) => {
+        try { r.stop(); } catch { /* ignore */ }
+      });
+      recognitionsRef.current = [];
       setIsRecording(false);
       return;
     }
@@ -646,32 +651,64 @@ const ChatBot = () => {
       return;
     }
 
-    const recognition: ISpeechRecognition = new SpeechRecognition();
-    // Set language based on current app language, default to Vietnamese
-    recognition.lang = voiceLang;
-    recognition.interimResults = true;
-    recognition.continuous = false;
-    recognitionRef.current = recognition;
+    bestVoiceRef.current = { conf: -1, text: "" };
+    const langs = ["vi-VN", "en-US", "zh-CN", "fi-FI"];
+    let endedCount = 0;
 
-    recognition.onresult = (event: any) => {
-      let transcript = "";
-      for (let i = 0; i < event.results.length; i++) {
-        transcript += event.results[i][0].transcript;
-      }
-      setInput(transcript);
-    };
+    const instances: ISpeechRecognition[] = langs.map((lang) => {
+      const rec: ISpeechRecognition = new SpeechRecognition();
+      rec.lang = lang;
+      rec.interimResults = true;
+      rec.continuous = false;
 
-    recognition.onerror = () => {
-      setIsRecording(false);
-    };
+      rec.onresult = (event: any) => {
+        let text = "";
+        let confSum = 0;
+        let confCount = 0;
+        let hasFinal = false;
+        for (let i = 0; i < event.results.length; i++) {
+          const res = event.results[i];
+          text += res[0].transcript;
+          if (typeof res[0].confidence === "number" && res[0].confidence > 0) {
+            confSum += res[0].confidence;
+            confCount++;
+          }
+          if (res.isFinal) hasFinal = true;
+        }
+        const conf = confCount > 0 ? confSum / confCount : (hasFinal ? 0.5 : 0.1);
+        if (conf > bestVoiceRef.current.conf || text.length > bestVoiceRef.current.text.length * 1.5) {
+          bestVoiceRef.current = { conf, text };
+          setInput(text);
+        }
+      };
 
-    recognition.onend = () => {
-      setIsRecording(false);
-    };
+      rec.onerror = () => {
+        endedCount++;
+        if (endedCount >= langs.length) {
+          setIsRecording(false);
+          recognitionsRef.current = [];
+        }
+      };
 
-    recognition.start();
+      rec.onend = () => {
+        endedCount++;
+        if (endedCount >= langs.length) {
+          setIsRecording(false);
+          recognitionsRef.current = [];
+        }
+      };
+
+      return rec;
+    });
+
+    recognitionsRef.current = instances;
+    recognitionRef.current = instances[0];
+    instances.forEach((r) => {
+      try { r.start(); } catch { /* ignore double-start */ }
+    });
     setIsRecording(true);
-  }, [isRecording, voiceLang, t]);
+  }, [isRecording, t]);
+
 
   /**
    * Log a profanity warning to moderation_logs table.
