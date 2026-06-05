@@ -681,21 +681,11 @@ const ChatBot = () => {
       ) || []).length;
       const asciiOnly = /^[\x00-\x7f\s.,!?'"()-]+$/.test(text);
 
-      let score = 0;
-      switch (lang) {
-        case "vi-VN":
-          score = vietDia > 0 ? 0.3 + (vietDia * 2) / Math.max(len, 1) : (asciiOnly ? -0.2 : -1);
-          if (chinese > 0) score -= 1;
-          break;
-        case "en-US":
-          // English wins when text is pure ASCII without diacritics.
-          score = asciiOnly && vietDia === 0 && finChars === 0 ? 0.4 : -0.5;
-          if (chinese > 0) score -= 2;
-          break;
+      if (lang === "vi-VN") {
+        return 0.25 + viHits / wordCount + Math.min(vietDia / 4, 0.65) - enHits / (wordCount * 1.4) + Math.min(words.length / 12, 0.25);
       }
-      // Slight length boost so we don't pick a 1-word recognizer over a full sentence.
-      score += Math.min(len / 80, 0.3);
-      return score;
+
+      return 0.15 + enHits / wordCount - viHits / wordCount - Math.min(vietDia / 3, 1) + Math.min(words.length / 12, 0.25);
     };
 
     let endedCount = 0;
