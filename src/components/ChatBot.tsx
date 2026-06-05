@@ -674,7 +674,7 @@ const ChatBot = () => {
       const vietDia = (text.match(
         /[àáảãạâầấẩẫậăằắẳẵặèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđÀÁẢÃẠÂẦẤẨẪẬĂẰẮẲẴẶÈÉẺẼẸÊỀẾỂỄỆÌÍỈĨỊÒÓỎÕỌÔỒỐỔỖỘƠỜỚỞỠỢÙÚỦŨỤƯỪỨỬỮỰỲÝỶỸỴĐ]/g,
       ) || []).length;
-      const finChars = (text.match(/[äöÄÖ]/g) || []).length;
+      const viHits = countMatches(words, viWords);
       const finWords = (text.match(
         /\b(ja|on|ei|että|minä|sinä|hän|me|te|he|olen|olet|tämä|hyvää|kiitos|moi|hei|terve|mitä|missä|kuka|kiitti|paljon|joo)\b/gi,
       ) || []).length;
