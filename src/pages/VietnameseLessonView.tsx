@@ -150,9 +150,9 @@ const getEnhancedTheory = (lesson: VietnameseLesson, category: VietnameseModule[
 const lessonMarkdownComponents: Components = {
   h2: ({ children }) => <h2 className="mt-8 mb-4 text-2xl font-display font-extrabold leading-tight text-foreground first:mt-0">{children}</h2>,
   h3: ({ children }) => <h3 className="mt-7 mb-3 border-l-4 border-destructive pl-3 text-xl font-display font-bold leading-snug text-foreground">{children}</h3>,
-  p: ({ children }) => <p className="my-3 text-base sm:text-lg leading-8 text-foreground">{children}</p>,
-  ul: ({ children }) => <ul className="my-4 space-y-2 pl-5 text-base sm:text-lg text-foreground marker:text-destructive">{children}</ul>,
-  ol: ({ children }) => <ol className="my-4 space-y-2 pl-6 text-base sm:text-lg text-foreground marker:font-bold marker:text-destructive">{children}</ol>,
+  p: ({ children }) => <p className="my-3 text-base leading-8 text-foreground sm:text-lg">{children}</p>,
+  ul: ({ children }) => <ul className="my-4 space-y-2 pl-4 text-base text-foreground marker:text-destructive sm:pl-5 sm:text-lg">{children}</ul>,
+  ol: ({ children }) => <ol className="my-4 space-y-2 pl-5 text-base text-foreground marker:font-bold marker:text-destructive sm:pl-6 sm:text-lg">{children}</ol>,
   li: ({ children }) => <li className="pl-1 leading-8 marker:text-destructive">{children}</li>,
   strong: ({ children }) => <strong className="font-extrabold text-foreground">{children}</strong>,
   table: ({ children }) => <div className="my-5 overflow-x-auto rounded-xl border-2 border-destructive/45"><table className="min-w-[600px] w-full border-collapse text-left text-base text-foreground">{children}</table></div>,
@@ -250,7 +250,7 @@ const VietnameseLessonView = () => {
                     <Badge className={levelColors[lesson.level]}>{lesson.level}</Badge>
                     <span className="text-sm font-semibold text-muted-foreground">{t(mod.title, mod.titleEn)}</span>
                   </div>
-                  <h1 className="mt-3 text-3xl font-display font-extrabold leading-tight text-foreground sm:text-4xl">
+                  <h1 className="mt-3 text-2xl font-display font-extrabold leading-tight text-foreground sm:text-4xl">
                     {t(lesson.title, lesson.titleEn)}
                   </h1>
                 </div>
@@ -275,7 +275,7 @@ const VietnameseLessonView = () => {
                 )}
 
                 {/* Theory */}
-                <section className="mb-8 rounded-2xl border-2 border-destructive/60 bg-card p-5 shadow-sm sm:p-7">
+                <section className="mb-8 rounded-2xl border-2 border-destructive/60 bg-card p-5 shadow-sm sm:p-7 max-sm:pb-24">
                   <div className="mb-5 flex items-center gap-3 border-b border-destructive/20 pb-4">
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-destructive/10 text-lg">📘</div>
                     <div>
