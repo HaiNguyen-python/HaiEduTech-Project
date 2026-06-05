@@ -459,7 +459,25 @@ const FloatingNotebook = () => {
       handleSave();
     }
     setOpen(false);
-  }, [user, title, handleSave]);
+  }, [user, handleSave]);
+
+  // Flush on tab close / hide. localStorage mirror is already up-to-date,
+  // and we kick off a final server save fire-and-forget.
+  useEffect(() => {
+    if (!open) return;
+    const flush = () => {
+      writeDraft(selectedId, { title, subject, content: getContent() });
+      if (autoSaveTimer.current) { clearTimeout(autoSaveTimer.current); autoSaveTimer.current = null; }
+      if (user) void handleSave();
+    };
+    const onVis = () => { if (document.visibilityState === "hidden") flush(); };
+    window.addEventListener("pagehide", flush);
+    document.addEventListener("visibilitychange", onVis);
+    return () => {
+      window.removeEventListener("pagehide", flush);
+      document.removeEventListener("visibilitychange", onVis);
+    };
+  }, [open, user, selectedId, title, subject, getContent, handleSave, writeDraft]);
 
   // Drag handlers (mouse)
   const onDragStart = useCallback((e: React.MouseEvent) => {
