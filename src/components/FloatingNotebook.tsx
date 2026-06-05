@@ -267,25 +267,31 @@ const FloatingNotebook = () => {
   }, [selectedId, fetchNotebooks, reloadSelectedNote]);
 
   const handleSave = useCallback(async () => {
-    if (!user || !title.trim()) return;
+    if (!user) return;
+    if (savingRef.current) return; // prevent concurrent inserts → duplicates
     const content = getContent();
-    // Safety: never let an empty/near-empty editor overwrite an existing saved note.
-    // This protects against accidental wipes (e.g. editor re-mount, focus glitch).
     const stripped = content.replace(/<[^>]*>/g, "").trim();
-    if (selectedId && stripped.length < 2) {
-      return;
+    // Auto-generate a title so notes without a manual title still persist.
+    // (Previously, no title meant silent skip → users lost their typing.)
+    let effectiveTitle = title.trim();
+    if (!effectiveTitle) {
+      if (!stripped) return; // truly empty — nothing to save
+      effectiveTitle = `Ghi chú ${new Date().toLocaleString("vi-VN", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}`;
+      setTitle(effectiveTitle);
     }
+    // Safety: never let an empty editor overwrite an existing saved note.
+    if (selectedId && stripped.length < 2) return;
+
+    savingRef.current = true;
     setSaving(true);
     try {
       if (selectedId) {
-        // Sync-safe save: refuse to overwrite if remote is newer than what we last synced.
         const { data: remote } = await supabase
           .from("student_notebooks")
           .select("id, content, updated_at")
           .eq("id", selectedId)
           .maybeSingle();
         if (remote && lastSyncedUpdatedAt.current && remote.updated_at && remote.updated_at > lastSyncedUpdatedAt.current) {
-          // Newer version exists on server - pull it instead of overwriting.
           skipNextAutoSave.current = true;
           const html = remote.content.includes("<") ? remote.content : `<p>${remote.content}</p>`;
           editor?.commands.setContent(html);
@@ -293,28 +299,38 @@ const FloatingNotebook = () => {
           toast({ title: "Đã đồng bộ phiên bản mới hơn từ server" });
         } else {
           const nowIso = new Date().toISOString();
-          const { data: updated } = await supabase
+          const { data: updated, error } = await supabase
             .from("student_notebooks")
-            .update({ title, content, subject, updated_at: nowIso })
+            .update({ title: effectiveTitle, content, subject, updated_at: nowIso })
             .eq("id", selectedId)
             .select("updated_at")
             .single();
+          if (error) throw error;
           lastSyncedUpdatedAt.current = updated?.updated_at ?? nowIso;
+          clearDraft(selectedId);
         }
       } else {
-        const { data } = await supabase.from("student_notebooks").insert({ user_id: user.id, title, content, subject }).select("id, updated_at").single();
+        const { data, error } = await supabase
+          .from("student_notebooks")
+          .insert({ user_id: user.id, title: effectiveTitle, content, subject })
+          .select("id, updated_at")
+          .single();
+        if (error) throw error;
         if (data) {
+          clearDraft(null); // remove the "new" draft now that it has an id
           setSelectedId(data.id);
           lastSyncedUpdatedAt.current = data.updated_at;
         }
       }
       fetchNotebooks();
-      toast({ title: "Đã lưu ghi chú ✓" });
-    } catch {
-      toast({ title: "Lỗi khi lưu", variant: "destructive" });
+    } catch (err) {
+      console.error("Notebook save failed:", err);
+      toast({ title: "Lỗi khi lưu — bản nháp đã được giữ trên thiết bị", variant: "destructive" });
+    } finally {
+      savingRef.current = false;
+      setSaving(false);
     }
-    setSaving(false);
-  }, [user, selectedId, title, subject, getContent, fetchNotebooks, toast, editor]);
+  }, [user, selectedId, title, subject, getContent, fetchNotebooks, toast, editor, clearDraft]);
 
   const handleDelete = async () => {
     if (!selectedId) return;
