@@ -652,13 +652,13 @@ const ChatBot = () => {
       return;
     }
 
-    const langs = ["vi-VN", "en-US", "zh-CN", "fi-FI"] as const;
+    const langs = ["vi-VN", "en-US"] as const;
     type Lang = typeof langs[number];
 
     // Per-lang transcript buffers (final-only for scoring; interim used only
     // for the live preview shown in the input box).
-    const finals: Record<Lang, string> = { "vi-VN": "", "en-US": "", "zh-CN": "", "fi-FI": "" };
-    const interims: Record<Lang, string> = { "vi-VN": "", "en-US": "", "zh-CN": "", "fi-FI": "" };
+    const finals: Record<Lang, string> = { "vi-VN": "", "en-US": "" };
+    const interims: Record<Lang, string> = { "vi-VN": "", "en-US": "" };
     bestVoiceRef.current = { conf: -1, text: "" };
 
     const scoreLang = (raw: string, lang: Lang): number => {
@@ -677,17 +677,9 @@ const ChatBot = () => {
 
       let score = 0;
       switch (lang) {
-        case "zh-CN":
-          score = chinese > 0 ? 0.5 + chinese / Math.max(len, 1) : -1;
-          break;
         case "vi-VN":
           score = vietDia > 0 ? 0.3 + (vietDia * 2) / Math.max(len, 1) : (asciiOnly ? -0.2 : -1);
           if (chinese > 0) score -= 1;
-          break;
-        case "fi-FI":
-          score = (finChars * 2 + finWords * 1.5) / Math.max(len / 5, 1);
-          if (chinese > 0) score -= 2;
-          if (vietDia > 0) score -= 1;
           break;
         case "en-US":
           // English wins when text is pure ASCII without diacritics.
