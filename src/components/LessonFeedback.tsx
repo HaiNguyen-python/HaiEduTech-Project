@@ -120,11 +120,11 @@ const LessonFeedback = ({
         );
       }
 
-      // 2) Feedback row (only if ratings/suggestion present)
-      const hasFeedback = clarity > 0 || aiTool > 0 || confidence > 0 || suggestion.trim().length > 0;
+      // 2) Feedback row (only if rating/suggestion present). Single combined rating
+      // maps to all three legacy DB columns so historical analytics keep working.
+      const hasFeedback = overall > 0 || suggestion.trim().length > 0;
       if (hasFeedback) {
-        const fbType: "like" | "dislike" =
-          ((clarity + aiTool + confidence) / 3) >= 3 ? "like" : "dislike";
+        const fbType: "like" | "dislike" = overall >= 3 ? "like" : "dislike";
         await supabase.from("lesson_feedback").insert({
           lesson_id: resolvedLessonId,
           module_id: moduleId || null,
@@ -132,9 +132,9 @@ const LessonFeedback = ({
           feedback_type: fbType,
           subject: subject || resolvedType,
           user_id: user.id,
-          rating_clarity: clarity || null,
-          rating_ai_tool: aiTool || null,
-          rating_confidence: confidence || null,
+          rating_clarity: overall || null,
+          rating_ai_tool: overall || null,
+          rating_confidence: overall || null,
           suggestion: suggestion.trim() || null,
           lesson_title: resolvedTitle,
         } as never);
