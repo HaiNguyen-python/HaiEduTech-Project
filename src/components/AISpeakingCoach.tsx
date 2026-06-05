@@ -137,17 +137,29 @@ const contractionExpansions: Record<string, string> = {
   "let's": "let us", lets: "let us", "he's": "he is", hes: "he is", "she's": "she is", shes: "she is",
 };
 
-// Normalize text for comparison - preserve word boundaries so skipped/extra words do not shift every score to 0%.
+// Normalize text for comparison.
+// For CJK (Chinese/Japanese/Korean) we split per Han character because the text
+// has no spaces — splitting by whitespace caused "100% correct speech" to grade 0%.
+const CJK_RANGE = /[\u3400-\u9fff\uf900-\ufaff]/;
 const normalize = (text: string): string[] => {
   let cleaned = text.toLowerCase().replace(/[’`]/g, "'");
   for (const [variant, expansion] of Object.entries(contractionExpansions)) {
     cleaned = cleaned.replace(new RegExp(`\\b${variant.replace("'", "['’]?")}\\b`, "g"), expansion);
   }
-  return cleaned
+  cleaned = cleaned
     .replace(/[.,!?;:"()（）。，！？、""''…·\[\]{}]/g, " ")
-    .replace(/[\-–-]/g, " ")
-    .split(/\s+/)
-    .filter(Boolean);
+    .replace(/[\-–-]/g, " ");
+  // Detect CJK; if present, split per Han char (ignoring spaces, latin, digits separately).
+  if (CJK_RANGE.test(cleaned)) {
+    const out: string[] = [];
+    for (const ch of cleaned) {
+      if (CJK_RANGE.test(ch)) out.push(ch);
+      // Skip non-CJK noise (whitespace/punct/latin) — Chinese speech recognition
+      // sometimes inserts spaces or transliterations we don't want to grade.
+    }
+    return out;
+  }
+  return cleaned.split(/\s+/).filter(Boolean);
 };
 
 // Levenshtein distance for fuzzy matching
