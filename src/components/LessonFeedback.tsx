@@ -243,10 +243,10 @@ const LessonFeedback = ({
                     >
                       <div className="text-5xl">🎉</div>
                       <p className="font-semibold text-foreground text-base">
-                        {t("Đã ghi nhận!", "Recorded!")}
+                        {t("Cảm ơn phản hồi của bạn!", "Thank you for your feedback.")}
                       </p>
                       <p className="text-sm text-muted-foreground">
-                        {t("Cảm ơn bạn rất nhiều.", "Thank you so much.")}
+                        {t("Mr. Hai rất trân trọng ý kiến của bạn.", "Mr. Hai truly values your input.")}
                       </p>
                     </motion.div>
                   ) : (
