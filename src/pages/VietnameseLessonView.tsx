@@ -221,16 +221,16 @@ const VietnameseLessonView = () => {
             <span className="text-foreground font-medium">{t(lesson.title, lesson.titleEn)}</span>
           </div>
 
-          <div className="grid min-w-0 grid-cols-1 gap-8 lg:grid-cols-[16rem_minmax(0,1fr)]">
+          <div className="grid min-w-0 grid-cols-1 gap-8 xl:grid-cols-[16rem_minmax(0,1fr)]">
             {/* Sidebar: lesson list */}
             <aside className="min-w-0">
               <h3 className="text-sm font-bold text-foreground mb-3">{t(mod.title, mod.titleEn)}</h3>
-              <div className="flex gap-2 overflow-x-auto pb-2 lg:block lg:space-y-1 lg:overflow-visible lg:pb-0">
+              <div className="flex gap-2 overflow-x-auto pb-2 xl:block xl:space-y-1 xl:overflow-visible xl:pb-0">
                 {mod.lessons.map((l) => (
                   <Link
                     key={l.id}
                     to={`/learn-vietnamese/module/${mod.id}/${l.id}`}
-                    className={`block shrink-0 whitespace-nowrap rounded-lg px-3 py-2 text-sm transition-colors lg:whitespace-normal ${
+                    className={`block shrink-0 whitespace-nowrap rounded-lg px-3 py-2 text-sm transition-colors xl:whitespace-normal ${
                       l.id === lesson.id
                         ? "bg-primary/10 text-primary font-medium"
                         : "hover:bg-muted text-muted-foreground"
