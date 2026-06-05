@@ -874,13 +874,7 @@ const ProgrammingLessonPage = () => {
                     </div>
                   )}
 
-                  {/* Lesson Feedback */}
-                  <LessonFeedback
-                    lessonId={lesson.id}
-                    moduleId={mod.id}
-                    lessonType="programming"
-                    subject={mod.course}
-                  />
+                  {/* Lesson Feedback widget rendered globally in App.tsx — do not double-mount here */}
                 </motion.div>
               </div>
             </div>
