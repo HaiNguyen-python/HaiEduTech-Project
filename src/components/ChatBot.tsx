@@ -677,17 +677,9 @@ const ChatBot = () => {
 
       let score = 0;
       switch (lang) {
-        case "zh-CN":
-          score = chinese > 0 ? 0.5 + chinese / Math.max(len, 1) : -1;
-          break;
         case "vi-VN":
           score = vietDia > 0 ? 0.3 + (vietDia * 2) / Math.max(len, 1) : (asciiOnly ? -0.2 : -1);
           if (chinese > 0) score -= 1;
-          break;
-        case "fi-FI":
-          score = (finChars * 2 + finWords * 1.5) / Math.max(len / 5, 1);
-          if (chinese > 0) score -= 2;
-          if (vietDia > 0) score -= 1;
           break;
         case "en-US":
           // English wins when text is pure ASCII without diacritics.
