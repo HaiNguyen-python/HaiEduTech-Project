@@ -398,7 +398,7 @@ const Vietnamese = () => {
                             <Link
                               key={lesson.id}
                               to={`/learn-vietnamese/history/${lesson.id}`}
-                              className="flex items-center justify-between p-3 rounded-lg bg-background/40 backdrop-blur-sm hover:bg-background/60 transition-colors mb-2 border border-border/30"
+                              className="flex items-center justify-between p-3 rounded-lg bg-background/40 backdrop-blur-sm hover:bg-background/60 transition-colors mb-2 border border-foreground/20"
                             >
                               <div className="flex items-center gap-2.5">
                                 <LessonIcon className="w-4 h-4 text-primary shrink-0" />

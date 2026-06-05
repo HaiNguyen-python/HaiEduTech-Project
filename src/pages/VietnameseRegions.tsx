@@ -52,7 +52,7 @@ const VietnameseRegions = () => {
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {countryStats.map((s, i) => (
-                <div key={i} className="bg-card border border-border/50 rounded-lg p-3 hover:border-primary/40 transition-colors">
+                <div key={i} className="bg-card border border-2 border-foreground/25 rounded-lg p-3 hover:border-primary/40 transition-colors">
                   <div className="text-2xl mb-1">{s.icon}</div>
                   <div className="text-xs text-muted-foreground uppercase tracking-wide">{t(s.label, s.labelEn)}</div>
                   <div className="text-sm font-semibold text-foreground mt-0.5">{t(s.value, s.valueEn)}</div>
@@ -74,7 +74,7 @@ const VietnameseRegions = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
               >
-                <Card className="overflow-hidden border-border/50">
+                <Card className="overflow-hidden border-2 border-foreground/25">
                   <div className={`bg-gradient-to-r ${region.color} p-6 text-white`}>
                     <div className="flex items-center gap-3 mb-2">
                       <span className="text-5xl">{region.emoji}</span>
@@ -159,7 +159,7 @@ const VietnameseRegions = () => {
             <div className="grid md:grid-cols-2 gap-4">
               {travelDestinations.map((d, i) => (
                 <motion.div key={d.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
-                  <Card className="h-full border-border/50 hover:border-primary/40 transition-colors">
+                  <Card className="h-full border-2 border-foreground/25 hover:border-primary/40 transition-colors">
                     <CardContent className="p-5">
                       <div className="flex items-start gap-3 mb-3">
                         <span className="text-4xl">{d.emoji}</span>
@@ -229,7 +229,7 @@ const VietnameseRegions = () => {
             <div className="grid md:grid-cols-2 gap-4">
               {festivals.map((f, i) => (
                 <motion.div key={f.id} initial={{ opacity: 0, scale: 0.97 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
-                  <Card className="h-full border-border/50 hover:border-rose-500/40 transition-colors">
+                  <Card className="h-full border-2 border-foreground/25 hover:border-rose-500/40 transition-colors">
                     <CardContent className="p-5">
                       <div className="flex items-start gap-3 mb-2">
                         <span className="text-4xl">{f.emoji}</span>
@@ -273,7 +273,7 @@ const VietnameseRegions = () => {
             <div className="grid md:grid-cols-2 gap-4">
               {travelEssentials.map((e, i) => (
                 <motion.div key={e.id} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
-                  <Card className="h-full border-border/50">
+                  <Card className="h-full border-2 border-foreground/25">
                     <CardContent className="p-5">
                       <div className="flex items-center gap-3 mb-4">
                         <span className="text-3xl">{e.icon}</span>
@@ -281,7 +281,7 @@ const VietnameseRegions = () => {
                       </div>
                       <div className="space-y-2 mb-4">
                         {e.details.map((d, j) => (
-                          <div key={j} className="border-b border-border/40 pb-2 last:border-0">
+                          <div key={j} className="border-b border-2 border-foreground/20 pb-2 last:border-0">
                             <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
                               {t(d.label, d.labelEn)}
                             </div>
