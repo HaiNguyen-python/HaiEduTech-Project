@@ -677,6 +677,9 @@ const FloatingNotebook = () => {
               <span>{wordCount} từ</span>
               <div className="flex items-center gap-2">
                 {selectedId && (
+                  <button onClick={handleExportPdf} className="p-1.5 rounded-md hover:bg-primary/10 text-primary" title="Xuất PDF">
+                    <Download size={14} />
+                  </button>
                   <button onClick={handleDelete} className="p-1.5 rounded-md hover:bg-destructive/10 text-destructive" title="Xóa">
                     <Trash2 size={14} />
                   </button>
