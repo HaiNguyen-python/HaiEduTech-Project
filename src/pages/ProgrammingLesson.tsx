@@ -197,8 +197,7 @@ const ProgrammingLessonPage = () => {
         // If cached markdown is missing inline illustrations, refresh in background.
         const hasIllustrations = /!\[[^\]]*\]\([^)]+\)/.test(cleaned);
         if (!hasIllustrations) {
-          handleEnhanceTheory(true);
-        }
+          handleEnhanceTheory(true, { autoSwitch: false, silent: true });
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mod, lesson]);
