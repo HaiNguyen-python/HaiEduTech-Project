@@ -93,9 +93,9 @@ const buildTheoryStudyGuide = (lesson: VietnameseLesson, category: VietnameseMod
   const examples = lesson.vocabulary
     .filter((item) => item.example && item.exampleEn)
     .slice(0, 5);
-  const focusPoints = lesson.quiz
-    .slice(0, 3)
-    .map((q) => (isVietnamese ? q.explanation : q.explanationEn));
+  const keyWords = lesson.vocabulary.slice(0, 3).map((v) => v.word).filter(Boolean);
+  const firstExample = examples[0];
+  const lessonTitle = isVietnamese ? lesson.title : lesson.titleEn;
 
   if (isVietnamese) {
     return `
@@ -112,12 +112,27 @@ ${getCategoryGuidance(category, true)}
 ${examples.map((item) => `- **${item.example}** - ${item.exampleEn}`).join("\n")}
 
 ### Lưu ý phát âm và văn hóa
-- Đọc chậm từng cụm 2–4 từ; đừng nuốt dấu thanh vì dấu thanh có thể đổi nghĩa của từ.
+- Đọc chậm từng cụm 2-4 từ; đừng nuốt dấu thanh vì dấu thanh có thể đổi nghĩa của từ.
 - Khi chưa chắc cách xưng hô, dùng **anh/chị** với người trưởng thành để nghe tự nhiên và lịch sự hơn.
 - Trong giao tiếp đời thường, người Việt thích câu ngắn, trực tiếp, có ngữ điệu thân thiện.
 
-### Tự luyện 3 phút
-${focusPoints.map((point, index) => `- Bước ${index + 1}: ${point}`).join("\n")}`;
+### Tự luyện 3 phút (làm theo thứ tự)
+**⏱️ Phút 1 - Khởi động phát âm:**
+- Đọc to 3 lần các từ khóa của bài: ${keyWords.map((w) => `**${w}**`).join(", ") || "(các từ trong phần Từ vựng)"}.
+- Chú ý dấu thanh (sắc, huyền, hỏi, ngã, nặng) - hạ giọng hoặc lên giọng đúng chiều.
+- Bấm nút 🔊 ở mỗi thẻ từ vựng để so sánh với giọng chuẩn.
+
+**⏱️ Phút 2 - Ghép câu mẫu:**
+- Lấy câu mẫu này làm khuôn: *"${firstExample?.example ?? "(xem mẫu câu phía trên)"}"*.
+- Thay 1-2 từ trong câu bằng từ của riêng bạn (tên người, đồ vật, địa điểm bạn biết).
+- Nói thành tiếng 3 lần, mỗi lần đổi 1 chi tiết khác nhau.
+
+**⏱️ Phút 3 - Áp dụng tình huống thật:**
+- Tưởng tượng bạn đang ở Việt Nam và cần dùng nội dung "${lessonTitle}" trong đời sống.
+- Viết hoặc nói ra 2 câu hoàn chỉnh dùng đúng quy tắc bài học.
+- Tự chấm: câu có đủ chủ ngữ + động từ + bổ ngữ chưa? Dấu thanh đã rõ ràng chưa?
+
+> 💡 **Mẹo của thầy Hải:** Quay video 30 giây tự nói lại bài học, sau đó nghe lại - bạn sẽ phát hiện ngay các âm chưa rõ và sửa được trong 1 phút.`;
   }
 
   return `
@@ -134,12 +149,27 @@ ${getCategoryGuidance(category, false)}
 ${examples.map((item) => `- **${item.example}** - ${item.exampleEn}`).join("\n")}
 
 ### Pronunciation and culture notes
-- Speak in small chunks of 2–4 words; tones are essential because a tone change can change meaning.
+- Speak in small chunks of 2-4 words; tones are essential because a tone change can change meaning.
 - If you are unsure about pronouns, use **anh/chị** with adults to sound polite and natural.
 - In daily speech, Vietnamese favors short, direct sentences with a friendly tone.
 
-### 3-minute practice
-${focusPoints.map((point, index) => `- Step ${index + 1}: ${point}`).join("\n")}`;
+### 3-minute practice (follow the order)
+**⏱️ Minute 1 - Warm up pronunciation:**
+- Read these key words aloud 3 times: ${keyWords.map((w) => `**${w}**`).join(", ") || "(see Vocabulary section)"}.
+- Watch the tone marks (acute, grave, hook, tilde, dot) - they raise or lower your pitch.
+- Tap the 🔊 button on each vocabulary card to compare with the native voice.
+
+**⏱️ Minute 2 - Build your own sentence:**
+- Use this model: *"${firstExample?.example ?? "(see the sentence models above)"}"*.
+- Replace 1-2 words with your own (a name, an object, a place you know).
+- Say it out loud 3 times, changing one detail each round.
+
+**⏱️ Minute 3 - Apply to a real situation:**
+- Imagine you are in Vietnam and need "${lessonTitle}" right now.
+- Write or speak 2 complete sentences that follow the lesson's rule.
+- Self-check: do you have a subject + verb + extra info? Are the tones clear?
+
+> 💡 **Mr. Hai's tip:** Record a 30-second video of yourself using the lesson, then listen back - you will spot unclear sounds instantly and fix them within a minute.`;
 };
 
 const getEnhancedTheory = (lesson: VietnameseLesson, category: VietnameseModule["category"], isVietnamese: boolean) => {
