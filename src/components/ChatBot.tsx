@@ -746,7 +746,6 @@ const ChatBot = () => {
     });
 
     recognitionsRef.current = instances;
-    recognitionRef.current = instances[0];
     instances.forEach((r) => {
       try { r.start(); } catch { /* ignore double-start */ }
     });
