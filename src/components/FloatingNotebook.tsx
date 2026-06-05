@@ -411,23 +411,51 @@ const FloatingNotebook = () => {
 
   // Auto-save after 2.5s of inactivity (sync-safe). editorTick ensures the
   // effect actually re-fires on every keystroke.
+  // ALSO mirrors every change to localStorage immediately so a tab close,
+  // network blip or quick close before debounce never loses typing.
   useEffect(() => {
-    if (!open || !user || !title.trim()) return;
+    if (!open || !user) return;
     if (skipNextAutoSave.current) {
       skipNextAutoSave.current = false;
       return;
     }
+    // Immediate local mirror (never debounced — this is the safety net).
+    writeDraft(selectedId, { title, subject, content: getContent() });
     if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
     autoSaveTimer.current = setTimeout(() => {
       handleSave();
     }, 2500);
     return () => { if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current); };
-  }, [editorTick, title, subject, open, user, handleSave]);
+  }, [editorTick, title, subject, open, user, selectedId, handleSave, writeDraft, getContent]);
+
+  // On panel open / login, restore any unsaved draft (typed content that
+  // never made it to the server because the user closed the tab).
+  const draftRestoredRef = useRef(false);
+  useEffect(() => {
+    if (!open || !user || !editor || draftRestoredRef.current) return;
+    try {
+      const raw = localStorage.getItem(draftKey(null));
+      if (!raw) return;
+      const draft = JSON.parse(raw) as { title: string; subject: string; content: string };
+      const stripped = (draft.content || "").replace(/<[^>]*>/g, "").trim();
+      if (!stripped && !draft.title?.trim()) return;
+      // Restore as a new note in progress.
+      userCreatingNew.current = true;
+      setSelectedId(null);
+      setTitle(draft.title || "");
+      setSubject(draft.subject || "general");
+      skipNextAutoSave.current = true;
+      editor.commands.setContent(draft.content || "");
+      lastSyncedUpdatedAt.current = null;
+      draftRestoredRef.current = true;
+      toast({ title: "Đã khôi phục bản nháp chưa lưu" });
+    } catch { /* ignore */ }
+  }, [open, user, editor, draftKey, toast]);
 
   // Flush-save on panel close so quick edits (< debounce window) survive.
   const handleClosePanel = useCallback(() => {
     if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
-    if (user && title.trim()) {
+    if (user) {
       handleSave();
     }
     setOpen(false);
