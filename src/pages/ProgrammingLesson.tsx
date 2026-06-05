@@ -569,7 +569,7 @@ const ProgrammingLessonPage = () => {
                   </h1>
 
                   {/* Theory - document-style reading card with extra breathing room */}
-                  <div className="rounded-2xl border border-border bg-card shadow-sm p-6 sm:p-8 lg:p-10">
+                  <div className="rounded-2xl border-2 border-red-500/60 bg-card shadow-[0_8px_30px_-10px_rgba(239,68,68,0.35)] p-6 sm:p-8 lg:p-10 ring-1 ring-red-500/10">
                     <div className="flex items-center justify-between flex-wrap gap-3 mb-5 pb-3 border-b border-border">
                       <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
                         <BookOpen className="w-5 h-5 text-primary" />
