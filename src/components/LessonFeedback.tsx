@@ -62,9 +62,8 @@ const LessonFeedback = ({
   const [open, setOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [attendance, setAttendance] = useState<Attendance>(null);
-  const [clarity, setClarity] = useState(0);
-  const [aiTool, setAiTool] = useState(0);
-  const [confidence, setConfidence] = useState(0);
+  // Single combined rating per user request — replaces three separate Likert rows.
+  const [overall, setOverall] = useState(0);
   const [suggestion, setSuggestion] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -84,7 +83,7 @@ const LessonFeedback = ({
   }, []);
 
   const canSubmit =
-    !submitting && (attendance !== null || clarity > 0 || aiTool > 0 || confidence > 0 || suggestion.trim().length > 0);
+    !submitting && (attendance !== null || overall > 0 || suggestion.trim().length > 0);
 
   const handleSubmit = async () => {
     if (!canSubmit) return;
@@ -121,11 +120,11 @@ const LessonFeedback = ({
         );
       }
 
-      // 2) Feedback row (only if ratings/suggestion present)
-      const hasFeedback = clarity > 0 || aiTool > 0 || confidence > 0 || suggestion.trim().length > 0;
+      // 2) Feedback row (only if rating/suggestion present). Single combined rating
+      // maps to all three legacy DB columns so historical analytics keep working.
+      const hasFeedback = overall > 0 || suggestion.trim().length > 0;
       if (hasFeedback) {
-        const fbType: "like" | "dislike" =
-          ((clarity + aiTool + confidence) / 3) >= 3 ? "like" : "dislike";
+        const fbType: "like" | "dislike" = overall >= 3 ? "like" : "dislike";
         await supabase.from("lesson_feedback").insert({
           lesson_id: resolvedLessonId,
           module_id: moduleId || null,
@@ -133,9 +132,9 @@ const LessonFeedback = ({
           feedback_type: fbType,
           subject: subject || resolvedType,
           user_id: user.id,
-          rating_clarity: clarity || null,
-          rating_ai_tool: aiTool || null,
-          rating_confidence: confidence || null,
+          rating_clarity: overall || null,
+          rating_ai_tool: overall || null,
+          rating_confidence: overall || null,
           suggestion: suggestion.trim() || null,
           lesson_title: resolvedTitle,
         } as never);
@@ -153,9 +152,7 @@ const LessonFeedback = ({
         setOpen(false);
         setSubmitted(false);
         setAttendance(null);
-        setClarity(0);
-        setAiTool(0);
-        setConfidence(0);
+        setOverall(0);
         setSuggestion("");
       }, 1500);
     } catch (err) {
@@ -175,7 +172,7 @@ const LessonFeedback = ({
 
   return (
     <>
-      {/* Floating tab on right edge */}
+      {/* Floating tab on right edge — compact "Feedback" only */}
       <motion.button
         initial={{ x: 60, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
@@ -183,15 +180,15 @@ const LessonFeedback = ({
         whileHover={{ scale: 1.05, x: -2 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setOpen(true)}
-        className="fixed right-0 top-[40%] -translate-y-1/2 z-[60] flex flex-col items-center gap-1.5 px-2 py-3 rounded-l-xl bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-xl shadow-orange-500/30 border-l border-y border-amber-300/50 hover:shadow-2xl"
-        aria-label={t("Điểm danh & phản hồi", "Attendance & Feedback")}
+        className="fixed right-0 top-[40%] -translate-y-1/2 z-[60] flex flex-col items-center gap-1 px-1.5 py-2 rounded-l-lg bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-lg shadow-orange-500/30 border-l border-y border-amber-300/50 hover:shadow-xl"
+        aria-label={t("Phản hồi", "Feedback")}
       >
-        <MessageSquareHeart className="w-5 h-5 shrink-0" />
+        <MessageSquareHeart className="w-4 h-4 shrink-0" />
         <span
-          className="text-[13px] font-extrabold tracking-wider leading-tight"
+          className="text-[11px] font-bold tracking-wide leading-tight"
           style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
         >
-          {t("ĐIỂM DANH & PHẢN HỒI", "ATTENDANCE & FEEDBACK")}
+          {t("PHẢN HỒI", "FEEDBACK")}
         </span>
       </motion.button>
 
@@ -210,7 +207,7 @@ const LessonFeedback = ({
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: 400, opacity: 0 }}
               transition={{ type: "spring", stiffness: 260, damping: 28 }}
-              className="fixed right-14 top-[calc(40vh-3rem)] z-50 w-[min(500px,calc(100vw-4.5rem))] max-h-[calc(80vh+2rem)] flex flex-col overflow-hidden rounded-2xl bg-card border-2 border-amber-300/40 shadow-2xl"
+              className="fixed right-10 top-1/2 -translate-y-1/2 z-50 w-[min(420px,calc(100vw-3.5rem))] max-h-[min(560px,calc(100vh-6rem))] flex flex-col overflow-hidden rounded-2xl bg-card border-2 border-amber-300/40 shadow-2xl"
             >
               {/* Header */}
               <div className="sticky top-0 flex items-center justify-between gap-2 px-5 py-4 bg-gradient-to-r from-amber-400 to-orange-500 text-white rounded-t-2xl">
@@ -285,22 +282,15 @@ const LessonFeedback = ({
                         </div>
                       </div>
 
-                      {/* Detailed Likert ratings */}
-                      <div className="space-y-3 p-3 rounded-xl bg-muted/40 border border-border">
+                      {/* Single combined Likert per user request */}
+                      <div className="p-3 rounded-xl bg-muted/40 border border-border">
                         <StarRow
-                          label={t("Hôm nay tôi có một bài học rõ ràng.", "I had a clear lesson today.")}
-                          value={clarity}
-                          onChange={setClarity}
-                        />
-                        <StarRow
-                          label={t("Tôi có thể tham gia vào bài học của mình.", "I could take part in my lesson.")}
-                          value={aiTool}
-                          onChange={setAiTool}
-                        />
-                        <StarRow
-                          label={t("Tôi cảm thấy tự tin hơn sau bài học.", "I feel more confident after my lesson.")}
-                          value={confidence}
-                          onChange={setConfidence}
+                          label={t(
+                            "Tôi cảm thấy vui và tự tin sau bài học hôm nay.",
+                            "I feel happy and confident after my lesson today.",
+                          )}
+                          value={overall}
+                          onChange={setOverall}
                         />
                       </div>
 
