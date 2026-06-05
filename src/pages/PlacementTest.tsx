@@ -287,8 +287,9 @@ const PlacementTest = () => {
         const { error: upErr } = await supabase.storage
           .from("placement-audio").upload(path, blob, { contentType: "audio/webm" });
         if (!upErr) {
-          const { data } = supabase.storage.from("placement-audio").getPublicUrl(path);
-          audioUrls[Number(qid)] = data.publicUrl;
+          // Store the storage path; consumers create a short-lived signed URL
+          // via supabase.storage.from("placement-audio").createSignedUrl(path, ttl).
+          audioUrls[Number(qid)] = path;
         }
       }
 
