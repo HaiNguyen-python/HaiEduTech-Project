@@ -211,6 +211,7 @@ interface ISpeechRecognition extends EventTarget {
   lang: string;
   interimResults: boolean;
   continuous: boolean;
+  maxAlternatives?: number;
   start(): void;
   stop(): void;
   onresult: ((event: any) => void) | null;
@@ -603,10 +604,8 @@ const ChatBot = () => {
   };
 
   // ── Voice Input via Web Speech API ──
-  // Auto language detection: run 4 parallel recognizers (VI/EN/ZH/FI) on the
-  // same mic stream. We score each candidate transcript by its script/diacritics
-  // (Chinese chars, Vietnamese diacritics, Finnish ä/ö, ASCII for EN) instead
-  // of trusting the browser's unreliable `confidence` value.
+  // Auto language detection for Vietnamese / English. Browser confidence is
+  // unreliable, so the final choice is based on transcript language patterns.
   const toggleRecording = useCallback(() => {
     if (isRecording) {
       recognitionsRef.current.forEach((r) => {
