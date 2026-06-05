@@ -1542,7 +1542,7 @@ const ChatBot = () => {
               />
 
               <div className="flex items-center gap-1.5">
-                {/* Microphone — auto-detects language across VI/EN/ZH/FI */}
+                {/* Microphone — Vietnamese-first voice input with English phrase support */}
                 <div className="flex items-center gap-1 shrink-0 rounded-xl bg-secondary/60 p-1">
                   <button
                     onClick={toggleRecording}
@@ -1552,7 +1552,7 @@ const ChatBot = () => {
                         ? "animate-pulse bg-destructive text-destructive-foreground"
                         : "bg-card text-muted-foreground hover:text-primary"
                     } disabled:opacity-50`}
-                    title={isRecording ? t("Dừng ghi âm", "Stop recording") : t("Nói — tự nhận diện ngôn ngữ", "Speak — auto language detection")}
+                    title={isRecording ? t("Dừng ghi âm", "Stop recording") : t("Nói tiếng Việt hoặc tiếng Anh", "Speak Vietnamese or English")}
                   >
                     {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
                   </button>
