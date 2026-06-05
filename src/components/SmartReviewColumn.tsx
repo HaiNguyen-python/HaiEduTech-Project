@@ -184,22 +184,26 @@ const MicroQuiz = ({
   lang: string;
   onCorrect: (word: string) => void;
 }) => {
-  const [round, setRound] = useState(0); // 0..2
+  // Snapshot 10 questions ONCE per quiz session so removing a word from the
+  // review queue (when correct) does not re-shuffle the question list and
+  // skip ahead unexpectedly.
+  const [questions, setQuestions] = useState<{ word: string; correctIndex: number; options: string[] }[]>([]);
+  const [round, setRound] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
   const [confettiKey, setConfettiKey] = useState(0);
 
-  // Build a stable set of 3 questions from the current queue
-  const questions = useMemo(() => {
-    const pool = queueWords.slice(0, 10);
-    const picks = pool.sort(() => Math.random() - 0.5).slice(0, 3);
-    return picks
+  const buildQuestions = useCallback(() => {
+    const pool = [...queueWords];
+    // Shuffle and take up to 10
+    const picks = pool.sort(() => Math.random() - 0.5).slice(0, 10);
+    const built = picks
       .map(word => {
         const correct = lookupWord(word);
         if (!correct) return null;
         const distractors = allWords
           .filter(c => c.word !== word && c.definition && c.definition !== correct.definitionVi)
           .sort(() => Math.random() - 0.5)
-          .slice(0, 2)
+          .slice(0, 3)
           .map(c => c.definition);
         const options = [correct.definitionVi, ...distractors].sort(() => Math.random() - 0.5);
         return {
@@ -209,23 +213,26 @@ const MicroQuiz = ({
         };
       })
       .filter(Boolean) as { word: string; correctIndex: number; options: string[] }[];
-    // Rebuild when queue head changes or queue length changes meaningfully
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [queueWords.join("|"), allWords.length]);
-
-  useEffect(() => {
+    setQuestions(built);
     setRound(0);
     setPicked(null);
-  }, [questions.length]);
+  }, [queueWords, allWords, lookupWord]);
+
+  // Initial build & rebuild only when the queue identity meaningfully changes
+  // AND we are not mid-quiz. This prevents per-keystroke / per-answer rebuilds.
+  useEffect(() => {
+    if (questions.length === 0) buildQuestions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (questions.length === 0) return null;
   const q = questions[round];
   if (!q) {
     return (
       <div className="rounded-xl border border-emerald-200 dark:border-emerald-900/50 bg-emerald-50 dark:bg-emerald-950/30 p-3 text-center">
-        <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">🎉 Hoàn thành 3 câu!</p>
-        <Button size="sm" variant="ghost" className="mt-1 h-7 text-xs" onClick={() => { setRound(0); setPicked(null); }}>
-          <RefreshCcw className="w-3 h-3 mr-1" /> Thử lại
+        <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">🎉 Hoàn thành {questions.length} câu!</p>
+        <Button size="sm" variant="ghost" className="mt-1 h-7 text-xs" onClick={buildQuestions}>
+          <RefreshCcw className="w-3 h-3 mr-1" /> Thử lại với 10 câu mới
         </Button>
       </div>
     );
@@ -237,16 +244,12 @@ const MicroQuiz = ({
     if (idx === q.correctIndex) {
       setConfettiKey(k => k + 1);
       onCorrect(q.word);
-      setTimeout(() => {
-        setPicked(null);
-        setRound(r => r + 1);
-      }, 1100);
-    } else {
-      setTimeout(() => {
-        setPicked(null);
-        setRound(r => r + 1);
-      }, 1100);
     }
+    // Slower transition (1.8s) so students can read the correct answer
+    setTimeout(() => {
+      setPicked(null);
+      setRound(r => r + 1);
+    }, 1800);
   };
 
   return (
@@ -255,7 +258,7 @@ const MicroQuiz = ({
         <span className="text-[11px] font-bold uppercase tracking-wide text-primary flex items-center gap-1">
           <Sparkles className="w-3 h-3" /> Thử thách nhanh
         </span>
-        <span className="text-[10px] text-muted-foreground">Câu {round + 1}/3</span>
+        <span className="text-[10px] text-muted-foreground">Câu {round + 1}/{questions.length}</span>
       </div>
       <div className="flex items-center gap-2 mb-2">
         <div className="text-base font-bold text-foreground">{q.word}</div>
