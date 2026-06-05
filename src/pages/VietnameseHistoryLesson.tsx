@@ -4,6 +4,7 @@ import { useMemo, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, BookOpen, Clock, ChevronRight, Sword, MapPin, Crown, Shield, Flame, Scroll, Mountain, Ship, Flag, Star, Landmark, GraduationCap, Globe, Sparkles, Volume2, Square, Video } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import type { Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -20,6 +21,19 @@ const segmentIcons = [Scroll, Sword, Crown, Shield, Flame, MapPin, Mountain, Shi
 const getSegmentIcon = (index: number) => {
   const Icon = segmentIcons[index % segmentIcons.length];
   return <Icon className="w-5 h-5 text-primary/70 shrink-0" />;
+};
+
+const historyMarkdownComponents: Components = {
+  h2: ({ children }) => <h2 className="mt-7 mb-3 text-2xl font-display font-extrabold leading-tight text-foreground first:mt-0">{children}</h2>,
+  h3: ({ children }) => <h3 className="mt-6 mb-3 border-l-4 border-destructive pl-3 text-xl font-display font-bold leading-snug text-foreground">{children}</h3>,
+  p: ({ children }) => <p className="my-3 text-base sm:text-lg leading-8 text-foreground">{children}</p>,
+  ul: ({ children }) => <ul className="my-4 space-y-2 pl-5 text-base sm:text-lg text-foreground marker:text-destructive">{children}</ul>,
+  li: ({ children }) => <li className="pl-1 leading-8 marker:text-destructive">{children}</li>,
+  strong: ({ children }) => <strong className="font-extrabold text-foreground">{children}</strong>,
+  em: ({ children }) => <em className="not-italic text-muted-foreground">{children}</em>,
+  table: ({ children }) => <div className="my-5 overflow-x-auto rounded-xl border-2 border-destructive/45"><table className="min-w-[600px] w-full border-collapse text-left text-base text-foreground">{children}</table></div>,
+  th: ({ children }) => <th className="border border-destructive/25 bg-destructive/10 px-4 py-3 font-bold text-foreground">{children}</th>,
+  td: ({ children }) => <td className="border border-destructive/20 px-4 py-3 align-top leading-7 text-foreground">{children}</td>,
 };
 
 const VietnameseHistoryLesson = () => {
@@ -135,7 +149,7 @@ const VietnameseHistoryLesson = () => {
                 <Video className="w-5 h-5 text-primary" />
                 {t("📹 Video minh họa", "📹 Illustrative Video")}
               </h2>
-              <div className="aspect-video w-full rounded-xl overflow-hidden border-2 border-red-500/50 shadow-sm">
+              <div className="aspect-video w-full rounded-xl overflow-hidden border-2 border-destructive/50 shadow-sm">
                 <iframe
                   src={lesson.videoUrl}
                   title={t(lesson.title, lesson.titleEn)}
@@ -184,7 +198,7 @@ const VietnameseHistoryLesson = () => {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true, margin: "-50px" }}
                       transition={{ duration: 0.5, delay: i * 0.1 }}
-                      className="bg-card border-2 border-red-500/50 rounded-xl shadow-sm overflow-hidden"
+                      className="bg-card border-2 border-destructive/50 rounded-xl shadow-sm overflow-hidden"
                     >
                       {/* Segment Title with rotating icon + audio button */}
                       <div className="px-5 pt-5 pb-2 flex items-center gap-2.5">
@@ -219,17 +233,10 @@ const VietnameseHistoryLesson = () => {
 
                         {/* Text */}
                         <div className={`${seg.imageUrl ? 'md:w-[60%]' : 'w-full'} p-5 pt-2 flex items-center`}>
-                          <div className="prose prose-lg dark:prose-invert max-w-none text-foreground leading-loose text-[1.35rem] prose-table:text-base prose-table:border prose-table:border-red-500/40 prose-table:rounded-lg prose-th:bg-red-500/10 prose-th:font-bold prose-th:p-2 prose-th:border prose-th:border-red-500/30 prose-td:p-2 prose-td:border prose-td:border-red-500/20 prose-td:align-top overflow-x-auto" style={{ lineHeight: '1.8' }}>
+                          <div className="max-w-none text-foreground">
                             <ReactMarkdown
                               remarkPlugins={[remarkGfm]}
-                              components={{
-                                strong: ({ children }) => (
-                                  <strong className="text-primary font-bold">{children}</strong>
-                                ),
-                                em: ({ children }) => (
-                                  <em className="text-muted-foreground not-italic text-sm bg-muted px-1.5 py-0.5 rounded">{children}</em>
-                                ),
-                              }}
+                              components={historyMarkdownComponents}
                             >
                               {t(seg.text, seg.textEn)}
                             </ReactMarkdown>
@@ -242,7 +249,7 @@ const VietnameseHistoryLesson = () => {
               </div>
             ) : (
               /* Fallback: single text block for lessons without segments */
-              <div className="bg-card border-2 border-red-500/50 rounded-xl p-6 text-[1.2rem] text-foreground" style={{ lineHeight: '1.9' }}>
+              <div className="bg-card border-2 border-destructive/50 rounded-xl p-6 text-base sm:text-lg leading-8 text-foreground shadow-sm">
                 {t(lesson.story, lesson.storyEn)}
               </div>
             )}
@@ -264,7 +271,7 @@ const VietnameseHistoryLesson = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className="flex items-start gap-4 bg-card border-2 border-red-500/50 rounded-lg p-5"
+                  className="flex items-start gap-4 bg-card border-2 border-destructive/50 rounded-lg p-5 shadow-sm"
                 >
                   <span className="text-base font-bold text-primary whitespace-nowrap min-w-[80px]">
                     {d.year}
@@ -287,7 +294,7 @@ const VietnameseHistoryLesson = () => {
             </h2>
             <div className="space-y-6">
               {lesson.quiz.map((q, qi) => (
-                <div key={qi} className="bg-card border-2 border-red-500/50 rounded-xl p-5">
+                <div key={qi} className="bg-card border-2 border-destructive/50 rounded-xl p-5 shadow-sm">
                   <p className="font-semibold text-foreground mb-3 text-lg">
                     {qi + 1}. {t(q.question, q.questionEn)}
                   </p>
