@@ -323,10 +323,10 @@ const Programming = () => {
                       setActivePillar(p.id);
                     }
                   }}
-                  className={`relative rounded-xl p-4 text-left transition-all duration-300 border active:scale-[0.97] ${
+                  className={`relative rounded-xl p-4 text-left transition-all duration-300 border-2 active:scale-[0.97] ${
                     isActive
-                      ? `${p.bgColor} ${p.borderColor} shadow-md`
-                      : "bg-card border-border hover:border-primary/20 hover:shadow-sm"
+                      ? `${p.bgColor} border-red-500/70 shadow-[0_4px_20px_-4px_rgba(239,68,68,0.35)] ring-1 ring-red-500/20`
+                      : "bg-card border-red-500/40 hover:border-red-500/70 hover:shadow-[0_4px_14px_-4px_rgba(239,68,68,0.3)]"
                   }`}
                 >
                   <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${p.color} flex items-center justify-center text-white mb-3`}>
