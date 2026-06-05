@@ -198,6 +198,7 @@ const ProgrammingLessonPage = () => {
         const hasIllustrations = /!\[[^\]]*\]\([^)]+\)/.test(cleaned);
         if (!hasIllustrations) {
           handleEnhanceTheory(true, { autoSwitch: false, silent: true });
+        }
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mod, lesson]);
