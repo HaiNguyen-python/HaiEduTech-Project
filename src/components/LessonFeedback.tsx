@@ -148,13 +148,10 @@ const LessonFeedback = ({
           : t("Cảm ơn phản hồi của bạn.", "Thanks for your feedback."),
       });
 
-      setTimeout(() => {
-        setOpen(false);
-        setSubmitted(false);
-        setAttendance(null);
-        setOverall(0);
-        setSuggestion("");
-      }, 1500);
+      // Do not auto-close — let the user close the panel themselves.
+      setAttendance(null);
+      setOverall(0);
+      setSuggestion("");
     } catch (err) {
       console.error("Feedback error:", err);
       toast({
@@ -199,7 +196,7 @@ const LessonFeedback = ({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setOpen(false)}
+              onClick={() => { setOpen(false); setSubmitted(false); }}
               className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"
             />
             <motion.div
@@ -224,7 +221,7 @@ const LessonFeedback = ({
                   </div>
                 </div>
                 <button
-                  onClick={() => setOpen(false)}
+                  onClick={() => { setOpen(false); setSubmitted(false); }}
                   className="p-1.5 rounded-full hover:bg-white/20 transition-colors"
                   aria-label="Close"
                 >

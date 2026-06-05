@@ -304,6 +304,8 @@ const ChatBot = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const tooltipTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const recognitionRef = useRef<ISpeechRecognition | null>(null);
+  const recognitionsRef = useRef<ISpeechRecognition[]>([]);
+  const bestVoiceRef = useRef<{ conf: number; text: string }>({ conf: -1, text: "" });
   const fileInputRef = useRef<HTMLInputElement>(null);
   const messageTimestamps = useRef<number[]>([]);
 
@@ -622,9 +624,14 @@ const ChatBot = () => {
   };
 
   // ── Voice Input via Web Speech API ──
+  // Auto language detection: run parallel recognizers across VI/EN/ZH/FI and
+  // pick the transcript with the highest confidence. No language picker UI.
   const toggleRecording = useCallback(() => {
-    if (isRecording && recognitionRef.current) {
-      recognitionRef.current.stop();
+    if (isRecording) {
+      recognitionsRef.current.forEach((r) => {
+        try { r.stop(); } catch { /* ignore */ }
+      });
+      recognitionsRef.current = [];
       setIsRecording(false);
       return;
     }
@@ -644,32 +651,64 @@ const ChatBot = () => {
       return;
     }
 
-    const recognition: ISpeechRecognition = new SpeechRecognition();
-    // Set language based on current app language, default to Vietnamese
-    recognition.lang = voiceLang;
-    recognition.interimResults = true;
-    recognition.continuous = false;
-    recognitionRef.current = recognition;
+    bestVoiceRef.current = { conf: -1, text: "" };
+    const langs = ["vi-VN", "en-US", "zh-CN", "fi-FI"];
+    let endedCount = 0;
 
-    recognition.onresult = (event: any) => {
-      let transcript = "";
-      for (let i = 0; i < event.results.length; i++) {
-        transcript += event.results[i][0].transcript;
-      }
-      setInput(transcript);
-    };
+    const instances: ISpeechRecognition[] = langs.map((lang) => {
+      const rec: ISpeechRecognition = new SpeechRecognition();
+      rec.lang = lang;
+      rec.interimResults = true;
+      rec.continuous = false;
 
-    recognition.onerror = () => {
-      setIsRecording(false);
-    };
+      rec.onresult = (event: any) => {
+        let text = "";
+        let confSum = 0;
+        let confCount = 0;
+        let hasFinal = false;
+        for (let i = 0; i < event.results.length; i++) {
+          const res = event.results[i];
+          text += res[0].transcript;
+          if (typeof res[0].confidence === "number" && res[0].confidence > 0) {
+            confSum += res[0].confidence;
+            confCount++;
+          }
+          if (res.isFinal) hasFinal = true;
+        }
+        const conf = confCount > 0 ? confSum / confCount : (hasFinal ? 0.5 : 0.1);
+        if (conf > bestVoiceRef.current.conf || text.length > bestVoiceRef.current.text.length * 1.5) {
+          bestVoiceRef.current = { conf, text };
+          setInput(text);
+        }
+      };
 
-    recognition.onend = () => {
-      setIsRecording(false);
-    };
+      rec.onerror = () => {
+        endedCount++;
+        if (endedCount >= langs.length) {
+          setIsRecording(false);
+          recognitionsRef.current = [];
+        }
+      };
 
-    recognition.start();
+      rec.onend = () => {
+        endedCount++;
+        if (endedCount >= langs.length) {
+          setIsRecording(false);
+          recognitionsRef.current = [];
+        }
+      };
+
+      return rec;
+    });
+
+    recognitionsRef.current = instances;
+    recognitionRef.current = instances[0];
+    instances.forEach((r) => {
+      try { r.start(); } catch { /* ignore double-start */ }
+    });
     setIsRecording(true);
-  }, [isRecording, voiceLang, t]);
+  }, [isRecording, t]);
+
 
   /**
    * Log a profanity warning to moderation_logs table.
@@ -1478,7 +1517,7 @@ const ChatBot = () => {
               />
 
               <div className="flex items-center gap-1.5">
-                {/* Microphone + voice language picker (4 languages: VI/EN/ZH/FI) */}
+                {/* Microphone — auto-detects language across VI/EN/ZH/FI */}
                 <div className="flex items-center gap-1 shrink-0 rounded-xl bg-secondary/60 p-1">
                   <button
                     onClick={toggleRecording}
@@ -1488,34 +1527,12 @@ const ChatBot = () => {
                         ? "animate-pulse bg-destructive text-destructive-foreground"
                         : "bg-card text-muted-foreground hover:text-primary"
                     } disabled:opacity-50`}
-                    title={isRecording ? t("Dừng ghi âm", "Stop recording") : `${t("Nói bằng", "Speak in")} ${VOICE_LANGS.find(v => v.code === voiceLang)?.label}`}
+                    title={isRecording ? t("Dừng ghi âm", "Stop recording") : t("Nói — tự nhận diện ngôn ngữ", "Speak — auto language detection")}
                   >
                     {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
                   </button>
-                  <div className="flex items-center gap-0.5" role="radiogroup" aria-label={t("Ngôn ngữ nhận diện", "Recognition language")}>
-                    {VOICE_LANGS.map((v) => (
-                      <button
-                        key={v.code}
-                        type="button"
-                        role="radio"
-                        aria-checked={voiceLang === v.code}
-                        onClick={() => {
-                          setVoiceLang(v.code);
-                          try { localStorage.setItem("chatbot_voice_lang", v.code); } catch { /* ignore */ }
-                        }}
-                        disabled={isRecording}
-                        title={v.label}
-                        className={`flex h-7 w-7 items-center justify-center rounded-md text-sm transition-all ${
-                          voiceLang === v.code
-                            ? "bg-primary/15 ring-2 ring-primary scale-110"
-                            : "opacity-50 hover:opacity-100"
-                        } disabled:cursor-not-allowed`}
-                      >
-                        {v.flag}
-                      </button>
-                    ))}
-                  </div>
                 </div>
+
 
                 {/* Attach file button */}
                 <button
