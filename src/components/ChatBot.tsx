@@ -682,13 +682,11 @@ const ChatBot = () => {
       return 0.15 + enHits / wordCount - viHits / wordCount - Math.min(vietDia / 3, 1) + Math.min(words.length / 12, 0.25);
     };
 
-    let endedCount = 0;
+    const endedLangs = new Set<Lang>();
     const commitBest = () => {
-      // Pick the lang whose final transcript scores highest. Fall back to
-      // interim transcripts if no final results arrived.
+      // Pick the transcript whose language-specific score is strongest.
       let bestText = "";
       let bestScore = -Infinity;
-      let bestLang: Lang = "en-US";
       (Object.keys(finals) as Lang[]).forEach((lang) => {
         const text = finals[lang] || interims[lang];
         if (!text.trim()) return;
@@ -696,16 +694,20 @@ const ChatBot = () => {
         if (s > bestScore) {
           bestScore = s;
           bestText = text;
-          bestLang = lang;
         }
       });
       if (bestText) {
         setInput(bestText.trim());
       }
-      // Log for visibility while tuning.
-      try {
-        console.debug("[voice] detected", bestLang, "score=", bestScore.toFixed(2), "candidates=", finals);
-      } catch { /* ignore */ }
+    };
+
+    const markEnded = (lang: Lang) => {
+      endedLangs.add(lang);
+      if (endedLangs.size >= langs.length) {
+        commitBest();
+        setIsRecording(false);
+        recognitionsRef.current = [];
+      }
     };
 
     const instances: ISpeechRecognition[] = langs.map((lang) => {
