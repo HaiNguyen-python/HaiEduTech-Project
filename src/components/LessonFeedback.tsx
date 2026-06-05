@@ -172,7 +172,7 @@ const LessonFeedback = ({
 
   return (
     <>
-      {/* Floating tab on right edge */}
+      {/* Floating tab on right edge — compact "Feedback" only */}
       <motion.button
         initial={{ x: 60, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
@@ -180,15 +180,15 @@ const LessonFeedback = ({
         whileHover={{ scale: 1.05, x: -2 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setOpen(true)}
-        className="fixed right-0 top-[40%] -translate-y-1/2 z-[60] flex flex-col items-center gap-1.5 px-2 py-3 rounded-l-xl bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-xl shadow-orange-500/30 border-l border-y border-amber-300/50 hover:shadow-2xl"
-        aria-label={t("Điểm danh & phản hồi", "Attendance & Feedback")}
+        className="fixed right-0 top-[40%] -translate-y-1/2 z-[60] flex flex-col items-center gap-1 px-1.5 py-2 rounded-l-lg bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-lg shadow-orange-500/30 border-l border-y border-amber-300/50 hover:shadow-xl"
+        aria-label={t("Phản hồi", "Feedback")}
       >
-        <MessageSquareHeart className="w-5 h-5 shrink-0" />
+        <MessageSquareHeart className="w-4 h-4 shrink-0" />
         <span
-          className="text-[13px] font-extrabold tracking-wider leading-tight"
+          className="text-[11px] font-bold tracking-wide leading-tight"
           style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
         >
-          {t("ĐIỂM DANH & PHẢN HỒI", "ATTENDANCE & FEEDBACK")}
+          {t("PHẢN HỒI", "FEEDBACK")}
         </span>
       </motion.button>
 
@@ -207,7 +207,7 @@ const LessonFeedback = ({
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: 400, opacity: 0 }}
               transition={{ type: "spring", stiffness: 260, damping: 28 }}
-              className="fixed right-14 top-[calc(40vh-3rem)] z-50 w-[min(500px,calc(100vw-4.5rem))] max-h-[calc(80vh+2rem)] flex flex-col overflow-hidden rounded-2xl bg-card border-2 border-amber-300/40 shadow-2xl"
+              className="fixed right-10 top-1/2 -translate-y-1/2 z-50 w-[min(420px,calc(100vw-3.5rem))] max-h-[min(560px,calc(100vh-6rem))] flex flex-col overflow-hidden rounded-2xl bg-card border-2 border-amber-300/40 shadow-2xl"
             >
               {/* Header */}
               <div className="sticky top-0 flex items-center justify-between gap-2 px-5 py-4 bg-gradient-to-r from-amber-400 to-orange-500 text-white rounded-t-2xl">
