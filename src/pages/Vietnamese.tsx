@@ -371,7 +371,7 @@ const Vietnamese = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.1 }}
-                    className="border border-border rounded-xl overflow-hidden hover:shadow-lg transition-shadow"
+                    className="border-2 border-red-500/50 rounded-xl overflow-hidden hover:shadow-lg transition-shadow"
                   >
                     <div className={`bg-gradient-to-r ${month.color} p-4`}>
                       <div className="flex items-center gap-2 text-white">
@@ -398,7 +398,7 @@ const Vietnamese = () => {
                             <Link
                               key={lesson.id}
                               to={`/learn-vietnamese/history/${lesson.id}`}
-                              className="flex items-center justify-between p-3 rounded-lg bg-background/40 backdrop-blur-sm hover:bg-background/60 transition-colors mb-2 border border-foreground/20"
+                              className="flex items-center justify-between p-3 rounded-lg bg-background/40 backdrop-blur-sm hover:bg-background/60 transition-colors mb-2 border border-red-500/40"
                             >
                               <div className="flex items-center gap-2.5">
                                 <LessonIcon className="w-4 h-4 text-primary shrink-0" />

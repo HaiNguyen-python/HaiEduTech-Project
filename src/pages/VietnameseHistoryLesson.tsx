@@ -134,7 +134,7 @@ const VietnameseHistoryLesson = () => {
                 <Video className="w-5 h-5 text-primary" />
                 {t("📹 Video minh họa", "📹 Illustrative Video")}
               </h2>
-              <div className="aspect-video w-full rounded-xl overflow-hidden border border-border shadow-sm">
+              <div className="aspect-video w-full rounded-xl overflow-hidden border-2 border-red-500/50 shadow-sm">
                 <iframe
                   src={lesson.videoUrl}
                   title={t(lesson.title, lesson.titleEn)}
@@ -183,7 +183,7 @@ const VietnameseHistoryLesson = () => {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true, margin: "-50px" }}
                       transition={{ duration: 0.5, delay: i * 0.1 }}
-                      className="bg-card border border-border rounded-xl shadow-sm overflow-hidden"
+                      className="bg-card border-2 border-red-500/50 rounded-xl shadow-sm overflow-hidden"
                     >
                       {/* Segment Title with rotating icon + audio button */}
                       <div className="px-5 pt-5 pb-2 flex items-center gap-2.5">
@@ -240,7 +240,7 @@ const VietnameseHistoryLesson = () => {
               </div>
             ) : (
               /* Fallback: single text block for lessons without segments */
-              <div className="bg-card border border-border rounded-xl p-6 text-[1.2rem] text-foreground" style={{ lineHeight: '1.9' }}>
+              <div className="bg-card border-2 border-red-500/50 rounded-xl p-6 text-[1.2rem] text-foreground" style={{ lineHeight: '1.9' }}>
                 {t(lesson.story, lesson.storyEn)}
               </div>
             )}
@@ -262,7 +262,7 @@ const VietnameseHistoryLesson = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className="flex items-start gap-4 bg-card border border-border rounded-lg p-5"
+                  className="flex items-start gap-4 bg-card border-2 border-red-500/50 rounded-lg p-5"
                 >
                   <span className="text-base font-bold text-primary whitespace-nowrap min-w-[80px]">
                     {d.year}
@@ -285,7 +285,7 @@ const VietnameseHistoryLesson = () => {
             </h2>
             <div className="space-y-6">
               {lesson.quiz.map((q, qi) => (
-                <div key={qi} className="bg-card border border-border rounded-xl p-5">
+                <div key={qi} className="bg-card border-2 border-red-500/50 rounded-xl p-5">
                   <p className="font-semibold text-foreground mb-3 text-lg">
                     {qi + 1}. {t(q.question, q.questionEn)}
                   </p>

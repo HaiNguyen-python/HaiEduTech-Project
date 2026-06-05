@@ -578,7 +578,7 @@ const PracticeSection = ({ practice, showEnglish }: { practice: any; showEnglish
             </p>
             {practice.type === "fill-blank" && (
               <input
-                className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-background text-foreground focus:ring-2 focus:ring-primary/50 outline-none"
+                className="w-full border-2 border-red-500/50 rounded-lg px-3 py-2 text-sm bg-background text-foreground focus:ring-2 focus:ring-primary/50 outline-none"
                 placeholder={showEnglish ? "Type your answer..." : "Nhập câu trả lời..."}
                 value={answers[i] || ""}
                 onChange={(e) => !submitted && setAnswers(prev => ({ ...prev, [i]: e.target.value }))}
@@ -587,7 +587,7 @@ const PracticeSection = ({ practice, showEnglish }: { practice: any; showEnglish
             )}
             {practice.type === "reorder" && (
               <input
-                className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-background text-foreground focus:ring-2 focus:ring-primary/50 outline-none"
+                className="w-full border-2 border-red-500/50 rounded-lg px-3 py-2 text-sm bg-background text-foreground focus:ring-2 focus:ring-primary/50 outline-none"
                 placeholder={showEnglish ? "Reorder the words..." : "Sắp xếp lại..."}
                 value={answers[i] || ""}
                 onChange={(e) => !submitted && setAnswers(prev => ({ ...prev, [i]: e.target.value }))}
@@ -596,7 +596,7 @@ const PracticeSection = ({ practice, showEnglish }: { practice: any; showEnglish
             )}
             {practice.type === "match" && (
               <input
-                className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-background text-foreground focus:ring-2 focus:ring-primary/50 outline-none"
+                className="w-full border-2 border-red-500/50 rounded-lg px-3 py-2 text-sm bg-background text-foreground focus:ring-2 focus:ring-primary/50 outline-none"
                 placeholder={showEnglish ? "Type the meaning..." : "Nhập nghĩa..."}
                 value={answers[i] || ""}
                 onChange={(e) => !submitted && setAnswers(prev => ({ ...prev, [i]: e.target.value }))}

@@ -236,7 +236,7 @@ const VietnameseLessonView = () => {
                   <h2 className="text-lg font-bold text-foreground mb-4">📝 Quiz</h2>
                   <div className="space-y-5">
                     {lesson.quiz.map((q, qi) => (
-                      <div key={qi} className="bg-card border border-border rounded-xl p-5">
+                      <div key={qi} className="bg-card border-2 border-red-500/50 rounded-xl p-5">
                         <p className="font-semibold text-foreground mb-3">
                           {qi + 1}. {t(q.question, q.questionEn)}
                         </p>
