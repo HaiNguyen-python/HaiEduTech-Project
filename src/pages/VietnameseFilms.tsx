@@ -26,7 +26,7 @@ const ClipCard = ({ clip }: { clip: FilmClip }) => {
   const [showAnswers, setShowAnswers] = useState(false);
 
   return (
-    <Card className="border-2 border-red-500/55 shadow-[0_3px_14px_-6px_rgba(239,68,68,0.28)]">
+    <Card className="border-2 border-emerald-500/55 shadow-[0_3px_14px_-6px_rgba(16,185,129,0.28)]">
       <CardContent className="pt-6">
         <div className="flex items-start justify-between gap-3 mb-3">
           <div className="flex items-center gap-3">

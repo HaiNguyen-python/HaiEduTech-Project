@@ -93,9 +93,9 @@ const buildTheoryStudyGuide = (lesson: VietnameseLesson, category: VietnameseMod
   const examples = lesson.vocabulary
     .filter((item) => item.example && item.exampleEn)
     .slice(0, 5);
-  const focusPoints = lesson.quiz
-    .slice(0, 3)
-    .map((q) => (isVietnamese ? q.explanation : q.explanationEn));
+  const keyWords = lesson.vocabulary.slice(0, 3).map((v) => v.word).filter(Boolean);
+  const firstExample = examples[0];
+  const lessonTitle = isVietnamese ? lesson.title : lesson.titleEn;
 
   if (isVietnamese) {
     return `
@@ -109,15 +109,30 @@ const buildTheoryStudyGuide = (lesson: VietnameseLesson, category: VietnameseMod
 ${getCategoryGuidance(category, true)}
 
 ### Mẫu câu thực tế
-${examples.map((item) => `- **${item.example}** — ${item.exampleEn}`).join("\n")}
+${examples.map((item) => `- **${item.example}** - ${item.exampleEn}`).join("\n")}
 
 ### Lưu ý phát âm và văn hóa
-- Đọc chậm từng cụm 2–4 từ; đừng nuốt dấu thanh vì dấu thanh có thể đổi nghĩa của từ.
+- Đọc chậm từng cụm 2-4 từ; đừng nuốt dấu thanh vì dấu thanh có thể đổi nghĩa của từ.
 - Khi chưa chắc cách xưng hô, dùng **anh/chị** với người trưởng thành để nghe tự nhiên và lịch sự hơn.
 - Trong giao tiếp đời thường, người Việt thích câu ngắn, trực tiếp, có ngữ điệu thân thiện.
 
-### Tự luyện 3 phút
-${focusPoints.map((point, index) => `- Bước ${index + 1}: ${point}`).join("\n")}`;
+### Tự luyện 3 phút (làm theo thứ tự)
+**⏱️ Phút 1 - Khởi động phát âm:**
+- Đọc to 3 lần các từ khóa của bài: ${keyWords.map((w) => `**${w}**`).join(", ") || "(các từ trong phần Từ vựng)"}.
+- Chú ý dấu thanh (sắc, huyền, hỏi, ngã, nặng) - hạ giọng hoặc lên giọng đúng chiều.
+- Bấm nút 🔊 ở mỗi thẻ từ vựng để so sánh với giọng chuẩn.
+
+**⏱️ Phút 2 - Ghép câu mẫu:**
+- Lấy câu mẫu này làm khuôn: *"${firstExample?.example ?? "(xem mẫu câu phía trên)"}"*.
+- Thay 1-2 từ trong câu bằng từ của riêng bạn (tên người, đồ vật, địa điểm bạn biết).
+- Nói thành tiếng 3 lần, mỗi lần đổi 1 chi tiết khác nhau.
+
+**⏱️ Phút 3 - Áp dụng tình huống thật:**
+- Tưởng tượng bạn đang ở Việt Nam và cần dùng nội dung "${lessonTitle}" trong đời sống.
+- Viết hoặc nói ra 2 câu hoàn chỉnh dùng đúng quy tắc bài học.
+- Tự chấm: câu có đủ chủ ngữ + động từ + bổ ngữ chưa? Dấu thanh đã rõ ràng chưa?
+
+> 💡 **Mẹo của thầy Hải:** Quay video 30 giây tự nói lại bài học, sau đó nghe lại - bạn sẽ phát hiện ngay các âm chưa rõ và sửa được trong 1 phút.`;
   }
 
   return `
@@ -131,15 +146,30 @@ ${focusPoints.map((point, index) => `- Bước ${index + 1}: ${point}`).join("\n
 ${getCategoryGuidance(category, false)}
 
 ### Real-life sentence models
-${examples.map((item) => `- **${item.example}** — ${item.exampleEn}`).join("\n")}
+${examples.map((item) => `- **${item.example}** - ${item.exampleEn}`).join("\n")}
 
 ### Pronunciation and culture notes
-- Speak in small chunks of 2–4 words; tones are essential because a tone change can change meaning.
+- Speak in small chunks of 2-4 words; tones are essential because a tone change can change meaning.
 - If you are unsure about pronouns, use **anh/chị** with adults to sound polite and natural.
 - In daily speech, Vietnamese favors short, direct sentences with a friendly tone.
 
-### 3-minute practice
-${focusPoints.map((point, index) => `- Step ${index + 1}: ${point}`).join("\n")}`;
+### 3-minute practice (follow the order)
+**⏱️ Minute 1 - Warm up pronunciation:**
+- Read these key words aloud 3 times: ${keyWords.map((w) => `**${w}**`).join(", ") || "(see Vocabulary section)"}.
+- Watch the tone marks (acute, grave, hook, tilde, dot) - they raise or lower your pitch.
+- Tap the 🔊 button on each vocabulary card to compare with the native voice.
+
+**⏱️ Minute 2 - Build your own sentence:**
+- Use this model: *"${firstExample?.example ?? "(see the sentence models above)"}"*.
+- Replace 1-2 words with your own (a name, an object, a place you know).
+- Say it out loud 3 times, changing one detail each round.
+
+**⏱️ Minute 3 - Apply to a real situation:**
+- Imagine you are in Vietnam and need "${lessonTitle}" right now.
+- Write or speak 2 complete sentences that follow the lesson's rule.
+- Self-check: do you have a subject + verb + extra info? Are the tones clear?
+
+> 💡 **Mr. Hai's tip:** Record a 30-second video of yourself using the lesson, then listen back - you will spot unclear sounds instantly and fix them within a minute.`;
 };
 
 const getEnhancedTheory = (lesson: VietnameseLesson, category: VietnameseModule["category"], isVietnamese: boolean) => {
@@ -149,15 +179,17 @@ const getEnhancedTheory = (lesson: VietnameseLesson, category: VietnameseModule[
 
 const lessonMarkdownComponents: Components = {
   h2: ({ children }) => <h2 className="mt-8 mb-4 text-2xl font-display font-extrabold leading-tight text-foreground first:mt-0">{children}</h2>,
-  h3: ({ children }) => <h3 className="mt-7 mb-3 border-l-4 border-destructive pl-3 text-xl font-display font-bold leading-snug text-foreground">{children}</h3>,
+  h3: ({ children }) => <h3 className="mt-7 mb-3 border-l-4 border-emerald-500 pl-3 text-xl font-display font-bold leading-snug text-foreground">{children}</h3>,
   p: ({ children }) => <p className="my-3 text-base leading-8 text-foreground sm:text-lg">{children}</p>,
-  ul: ({ children }) => <ul className="my-4 space-y-2 pl-4 text-base text-foreground marker:text-destructive sm:pl-5 sm:text-lg">{children}</ul>,
-  ol: ({ children }) => <ol className="my-4 space-y-2 pl-5 text-base text-foreground marker:font-bold marker:text-destructive sm:pl-6 sm:text-lg">{children}</ol>,
-  li: ({ children }) => <li className="pl-1 leading-8 marker:text-destructive">{children}</li>,
+  ul: ({ children }) => <ul className="my-4 space-y-2 pl-4 text-base text-foreground marker:text-emerald-600 sm:pl-5 sm:text-lg">{children}</ul>,
+  ol: ({ children }) => <ol className="my-4 space-y-2 pl-5 text-base text-foreground marker:font-bold marker:text-emerald-600 sm:pl-6 sm:text-lg">{children}</ol>,
+  li: ({ children }) => <li className="pl-1 leading-8 marker:text-emerald-600">{children}</li>,
   strong: ({ children }) => <strong className="font-extrabold text-foreground">{children}</strong>,
-  table: ({ children }) => <div className="my-5 overflow-x-auto rounded-xl border-2 border-destructive/45"><table className="min-w-[600px] w-full border-collapse text-left text-base text-foreground">{children}</table></div>,
-  th: ({ children }) => <th className="border border-destructive/25 bg-destructive/10 px-4 py-3 font-bold text-foreground">{children}</th>,
-  td: ({ children }) => <td className="border border-destructive/20 px-4 py-3 align-top leading-7 text-foreground">{children}</td>,
+  em: ({ children }) => <em className="not-italic font-medium text-emerald-700 dark:text-emerald-300">{children}</em>,
+  blockquote: ({ children }) => <blockquote className="my-5 rounded-r-xl border-l-4 border-emerald-500 bg-emerald-50/70 p-4 text-base sm:text-lg leading-8 text-foreground dark:bg-emerald-950/30">{children}</blockquote>,
+  table: ({ children }) => <div className="my-5 overflow-x-auto rounded-xl border-2 border-emerald-500/45"><table className="min-w-[600px] w-full border-collapse text-left text-base text-foreground">{children}</table></div>,
+  th: ({ children }) => <th className="border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 font-bold text-foreground">{children}</th>,
+  td: ({ children }) => <td className="border border-emerald-500/20 px-4 py-3 align-top leading-7 text-foreground">{children}</td>,
 };
 
 const VietnameseLessonView = () => {
@@ -222,30 +254,49 @@ const VietnameseLessonView = () => {
           </div>
 
           <div className="grid min-w-0 grid-cols-1 gap-8 xl:grid-cols-[16rem_minmax(0,1fr)]">
-            {/* Sidebar: lesson list */}
+            {/* Sidebar: lesson list - professional, numbered cards */}
             <aside className="min-w-0">
-              <h3 className="text-sm font-bold text-foreground mb-3">{t(mod.title, mod.titleEn)}</h3>
-              <div className="flex gap-2 overflow-x-auto pb-2 xl:block xl:space-y-1 xl:overflow-visible xl:pb-0">
-                {mod.lessons.map((l) => (
-                  <Link
-                    key={l.id}
-                    to={`/learn-vietnamese/module/${mod.id}/${l.id}`}
-                    className={`block shrink-0 whitespace-nowrap rounded-lg px-3 py-2 text-sm transition-colors xl:whitespace-normal ${
-                      l.id === lesson.id
-                        ? "bg-primary/10 text-primary font-medium"
-                        : "hover:bg-muted text-muted-foreground"
-                    }`}
-                  >
-                    {t(l.title, l.titleEn)}
-                  </Link>
-                ))}
+              <div className="mb-3 flex items-center gap-2">
+                <div className="h-7 w-1.5 rounded-full bg-gradient-to-b from-emerald-500 to-emerald-600" />
+                <div>
+                  <h3 className="text-sm font-extrabold tracking-tight text-foreground">{t(mod.title, mod.titleEn)}</h3>
+                  <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                    {mod.lessons.length} {t("bài học", "lessons")}
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-2 overflow-x-auto pb-2 xl:block xl:space-y-1.5 xl:overflow-visible xl:pb-0">
+                {mod.lessons.map((l, idx) => {
+                  const active = l.id === lesson.id;
+                  return (
+                    <Link
+                      key={l.id}
+                      to={`/learn-vietnamese/module/${mod.id}/${l.id}`}
+                      className={`group flex shrink-0 items-center gap-2.5 whitespace-nowrap rounded-xl border px-3 py-2.5 text-sm transition-all xl:whitespace-normal ${
+                        active
+                          ? "border-emerald-500/60 bg-gradient-to-r from-emerald-500/15 to-emerald-500/5 font-semibold text-foreground shadow-[0_2px_10px_-4px_rgba(16,185,129,0.45)]"
+                          : "border-transparent text-muted-foreground hover:border-emerald-500/30 hover:bg-emerald-500/5 hover:text-foreground"
+                      }`}
+                    >
+                      <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-[11px] font-bold transition-colors ${
+                        active
+                          ? "bg-emerald-500 text-white"
+                          : "bg-muted text-muted-foreground group-hover:bg-emerald-500/20 group-hover:text-emerald-700 dark:group-hover:text-emerald-300"
+                      }`}>
+                        {idx + 1}
+                      </span>
+                      <span className="leading-snug">{t(l.title, l.titleEn)}</span>
+                    </Link>
+                  );
+                })}
               </div>
             </aside>
+
 
             {/* Main content */}
             <div className="min-w-0 w-full max-w-4xl">
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-                <div className="mb-6 rounded-2xl border-2 border-destructive/60 bg-card p-5 shadow-sm">
+                <div className="mb-6 rounded-2xl border-2 border-emerald-500/60 bg-card p-5 shadow-sm">
                   <div className="flex flex-wrap items-center gap-3">
                     <Badge className={levelColors[lesson.level]}>{lesson.level}</Badge>
                     <span className="text-sm font-semibold text-muted-foreground">{t(mod.title, mod.titleEn)}</span>
@@ -257,7 +308,7 @@ const VietnameseLessonView = () => {
 
                 {/* Teacher Hai's Tip */}
                 {tip && (
-                  <div className="mb-6 rounded-xl border-2 border-destructive/45 bg-primary/5 p-4 shadow-sm">
+                  <div className="mb-6 rounded-xl border-2 border-emerald-500/45 bg-primary/5 p-4 shadow-sm">
                     <div className="flex items-start gap-3">
                       <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
                         <Lightbulb className="w-4 h-4 text-primary" />
@@ -275,9 +326,9 @@ const VietnameseLessonView = () => {
                 )}
 
                 {/* Theory */}
-                <section className="mb-8 rounded-2xl border-2 border-destructive/60 bg-card p-5 shadow-sm sm:p-7 max-sm:pb-24">
-                  <div className="mb-5 flex items-center gap-3 border-b border-destructive/20 pb-4">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-destructive/10 text-lg">📘</div>
+                <section className="mb-8 rounded-2xl border-2 border-emerald-500/60 bg-card p-5 shadow-sm sm:p-7 max-sm:pb-24">
+                  <div className="mb-5 flex items-center gap-3 border-b border-emerald-500/20 pb-4">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-lg">📘</div>
                     <div>
                       <h2 className="text-xl font-display font-extrabold leading-tight text-foreground sm:text-2xl">
                         {t("Theory rõ ràng", "Clear Theory")}
@@ -341,7 +392,7 @@ const VietnameseLessonView = () => {
                   <h2 className="text-2xl font-display font-extrabold text-foreground mb-4">📝 Quiz</h2>
                   <div className="space-y-5">
                     {lesson.quiz.map((q, qi) => (
-                      <div key={qi} className="bg-card border-2 border-destructive/50 rounded-xl p-5 shadow-sm">
+                      <div key={qi} className="bg-card border-2 border-emerald-500/50 rounded-xl p-5 shadow-sm">
                         <p className="font-semibold text-foreground mb-3 text-base sm:text-lg leading-7">
                           {qi + 1}. {t(q.question, q.questionEn)}
                         </p>
@@ -358,7 +409,7 @@ const VietnameseLessonView = () => {
                                   isCorrect
                                     ? "bg-emerald-50 border-emerald-300 dark:bg-emerald-950/30"
                                     : isWrong
-                                    ? "bg-red-50 border-red-300 dark:bg-red-950/30"
+                                    ? "bg-red-50 border-emerald-300 dark:bg-red-950/30"
                                     : selected
                                     ? "bg-primary/10 border-primary"
                                     : "bg-muted/50 border-border hover:bg-muted"

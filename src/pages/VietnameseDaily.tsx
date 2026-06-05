@@ -62,7 +62,7 @@ const VietnameseDaily = () => {
           </motion.div>
 
           {/* Progress bar */}
-          <Card className="mb-6 border-2 border-red-500/55 shadow-[0_3px_14px_-6px_rgba(239,68,68,0.28)]">
+          <Card className="mb-6 border-2 border-emerald-500/55 shadow-[0_3px_14px_-6px_rgba(16,185,129,0.28)]">
             <CardContent className="pt-6">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm font-semibold text-foreground">
@@ -108,7 +108,7 @@ const VietnameseDaily = () => {
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.25 }}
             >
-              <Card className="border-2 border-red-500/55 shadow-[0_3px_14px_-6px_rgba(239,68,68,0.28)] shadow-lg">
+              <Card className="border-2 border-emerald-500/55 shadow-[0_3px_14px_-6px_rgba(16,185,129,0.28)] shadow-lg">
                 <CardContent className="pt-6">
                   <div className="text-center mb-6">
                     <Badge variant="outline" className="mb-3">

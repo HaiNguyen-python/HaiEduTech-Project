@@ -25,15 +25,15 @@ const getSegmentIcon = (index: number) => {
 
 const historyMarkdownComponents: Components = {
   h2: ({ children }) => <h2 className="mt-7 mb-3 text-2xl font-display font-extrabold leading-tight text-foreground first:mt-0">{children}</h2>,
-  h3: ({ children }) => <h3 className="mt-6 mb-3 border-l-4 border-destructive pl-3 text-xl font-display font-bold leading-snug text-foreground">{children}</h3>,
+  h3: ({ children }) => <h3 className="mt-6 mb-3 border-l-4 border-emerald-500 pl-3 text-xl font-display font-bold leading-snug text-foreground">{children}</h3>,
   p: ({ children }) => <p className="my-3 text-base sm:text-lg leading-8 text-foreground">{children}</p>,
-  ul: ({ children }) => <ul className="my-4 space-y-2 pl-5 text-base sm:text-lg text-foreground marker:text-destructive">{children}</ul>,
-  li: ({ children }) => <li className="pl-1 leading-8 marker:text-destructive">{children}</li>,
+  ul: ({ children }) => <ul className="my-4 space-y-2 pl-5 text-base sm:text-lg text-foreground marker:text-emerald-600">{children}</ul>,
+  li: ({ children }) => <li className="pl-1 leading-8 marker:text-emerald-600">{children}</li>,
   strong: ({ children }) => <strong className="font-extrabold text-foreground">{children}</strong>,
   em: ({ children }) => <em className="not-italic text-muted-foreground">{children}</em>,
-  table: ({ children }) => <div className="my-5 overflow-x-auto rounded-xl border-2 border-destructive/45"><table className="min-w-[600px] w-full border-collapse text-left text-base text-foreground">{children}</table></div>,
-  th: ({ children }) => <th className="border border-destructive/25 bg-destructive/10 px-4 py-3 font-bold text-foreground">{children}</th>,
-  td: ({ children }) => <td className="border border-destructive/20 px-4 py-3 align-top leading-7 text-foreground">{children}</td>,
+  table: ({ children }) => <div className="my-5 overflow-x-auto rounded-xl border-2 border-emerald-500/45"><table className="min-w-[600px] w-full border-collapse text-left text-base text-foreground">{children}</table></div>,
+  th: ({ children }) => <th className="border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 font-bold text-foreground">{children}</th>,
+  td: ({ children }) => <td className="border border-emerald-500/20 px-4 py-3 align-top leading-7 text-foreground">{children}</td>,
 };
 
 const VietnameseHistoryLesson = () => {
@@ -149,7 +149,7 @@ const VietnameseHistoryLesson = () => {
                 <Video className="w-5 h-5 text-primary" />
                 {t("📹 Video minh họa", "📹 Illustrative Video")}
               </h2>
-              <div className="aspect-video w-full rounded-xl overflow-hidden border-2 border-destructive/50 shadow-sm">
+              <div className="aspect-video w-full rounded-xl overflow-hidden border-2 border-emerald-500/50 shadow-sm">
                 <iframe
                   src={lesson.videoUrl}
                   title={t(lesson.title, lesson.titleEn)}
@@ -177,7 +177,7 @@ const VietnameseHistoryLesson = () => {
                 }}
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                   isSpeaking
-                    ? "bg-destructive/10 text-destructive border border-destructive/20"
+                    ? "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20"
                     : "bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20"
                 }`}
               >
@@ -198,7 +198,7 @@ const VietnameseHistoryLesson = () => {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true, margin: "-50px" }}
                       transition={{ duration: 0.5, delay: i * 0.1 }}
-                      className="bg-card border-2 border-destructive/50 rounded-xl shadow-sm overflow-hidden"
+                      className="bg-card border-2 border-emerald-500/50 rounded-xl shadow-sm overflow-hidden"
                     >
                       {/* Segment Title with rotating icon + audio button */}
                       <div className="px-5 pt-5 pb-2 flex items-center gap-2.5">
@@ -249,7 +249,7 @@ const VietnameseHistoryLesson = () => {
               </div>
             ) : (
               /* Fallback: single text block for lessons without segments */
-              <div className="bg-card border-2 border-destructive/50 rounded-xl p-6 text-base sm:text-lg leading-8 text-foreground shadow-sm">
+              <div className="bg-card border-2 border-emerald-500/50 rounded-xl p-6 text-base sm:text-lg leading-8 text-foreground shadow-sm">
                 {t(lesson.story, lesson.storyEn)}
               </div>
             )}
@@ -271,7 +271,7 @@ const VietnameseHistoryLesson = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className="flex items-start gap-4 bg-card border-2 border-destructive/50 rounded-lg p-5 shadow-sm"
+                  className="flex items-start gap-4 bg-card border-2 border-emerald-500/50 rounded-lg p-5 shadow-sm"
                 >
                   <span className="text-base font-bold text-primary whitespace-nowrap min-w-[80px]">
                     {d.year}
@@ -294,7 +294,7 @@ const VietnameseHistoryLesson = () => {
             </h2>
             <div className="space-y-6">
               {lesson.quiz.map((q, qi) => (
-                <div key={qi} className="bg-card border-2 border-destructive/50 rounded-xl p-5 shadow-sm">
+                <div key={qi} className="bg-card border-2 border-emerald-500/50 rounded-xl p-5 shadow-sm">
                   <p className="font-semibold text-foreground mb-3 text-lg">
                     {qi + 1}. {t(q.question, q.questionEn)}
                   </p>
@@ -311,7 +311,7 @@ const VietnameseHistoryLesson = () => {
                             isCorrect
                               ? "bg-emerald-50 border-emerald-300 dark:bg-emerald-950/30 dark:border-emerald-700"
                               : isWrong
-                              ? "bg-red-50 border-red-300 dark:bg-red-950/30 dark:border-red-700"
+                              ? "bg-red-50 border-emerald-300 dark:bg-red-950/30 dark:border-red-700"
                               : selected
                               ? "bg-primary/10 border-primary"
                               : "bg-muted/50 border-border hover:bg-muted"

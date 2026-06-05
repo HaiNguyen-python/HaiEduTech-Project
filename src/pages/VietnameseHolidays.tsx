@@ -36,7 +36,7 @@ const HolidayCard = ({ holiday, index }: { holiday: VietnameseHoliday; index: nu
     >
       <Link
         to={`/learn-vietnamese/holidays/${holiday.id}`}
-        className="block h-full rounded-2xl overflow-hidden border-2 border-red-500/50 bg-card hover:shadow-xl transition-all group"
+        className="block h-full rounded-2xl overflow-hidden border-2 border-emerald-500/50 bg-card hover:shadow-xl transition-all group"
       >
         <div className={`bg-gradient-to-br ${holiday.color} p-6 relative overflow-hidden`}>
           {holiday.image ? (
@@ -193,7 +193,7 @@ const HolidayDetail = ({ holiday }: { holiday: VietnameseHoliday }) => {
         </h2>
         <div className="grid md:grid-cols-2 gap-4">
           {holiday.vocabulary.map((v, i) => (
-            <div key={i} className="p-4 rounded-lg bg-muted/30 border-2 border-red-500/50">
+            <div key={i} className="p-4 rounded-lg bg-muted/30 border-2 border-emerald-500/50">
               <div className="flex items-baseline justify-between mb-1.5">
                 <strong className="text-base text-primary">{v.word}</strong>
               </div>
@@ -219,7 +219,7 @@ const HolidayDetail = ({ holiday }: { holiday: VietnameseHoliday }) => {
             const selected = selectedAnswers[qi];
             const answered = selected !== undefined;
             return (
-              <div key={qi} className="p-5 rounded-xl border-2 border-red-500/50">
+              <div key={qi} className="p-5 rounded-xl border-2 border-emerald-500/50">
                 <p className="font-semibold mb-3 text-foreground">
                   {qi + 1}. {t(q.question, q.questionEn)}
                 </p>

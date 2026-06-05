@@ -1103,7 +1103,7 @@ export const detailedVFFModules: DetailedModule[] = [
           items: [
             { question: "_____ chào hai bác ạ! (I, polite to elders)", answer: "Cháu", explanationEn: "'Cháu' = self-reference to elders, lit. 'grandchild'" },
             { question: "Cháu có chút quà nhỏ _____ hai bác. (respectfully give)", answer: "biếu", explanationEn: "'Biếu' = give respectfully to elders" },
-            { question: "Cháu _____ hai bác ăn cơm ạ. (invite to eat)", answer: "mời", explanationEn: "'Mời' = invite — said before everyone starts eating" },
+            { question: "Cháu _____ hai bác ăn cơm ạ. (invite to eat)", answer: "mời", explanationEn: "'Mời' = invite - said before everyone starts eating" },
             { question: "Tránh tặng _____ _____ (chrysanthemum) vì chỉ dùng đám tang.", answer: "hoa cúc", explanationEn: "Chrysanthemums are funeral flowers in Vietnam" },
           ],
         },
@@ -1123,7 +1123,7 @@ export const detailedVFFModules: DetailedModule[] = [
           { speaker: "You", speakerLabel: "Bạn", vi: "Dạ! (Húp một thìa) Ôi ngon quá bác ơi! Vừa chua vừa ngọt.", en: "Yes! (Sips a spoonful) Oh, it's so delicious, auntie! Both sour and sweet.", literal: "Polite-yes! (Sip one spoon) Oh delicious too-much aunt hey! Both sour both sweet.", keyWords: [{ word: "vừa... vừa...", pronunciation: "vừa... vừa...", meaning: "both... and... (at the same time)", tone: "huyen" }] },
           { speaker: "Mom", speakerLabel: "Mẹ", vi: "Bác gắp cho cháu miếng cá nhé. Ăn nhiều vào!", en: "Let me pick a piece of fish for you. Eat lots!", literal: "Aunt pick-up for grandchild piece fish ok. Eat many enter!", keyWords: [{ word: "gắp", pronunciation: "gắp", meaning: "pick up with chopsticks", tone: "sac" }] },
           { speaker: "You", speakerLabel: "Bạn", vi: "Dạ, cháu cảm ơn bác! Cháu tự gắp được ạ.", en: "Thank you, ma'am! I can pick it up myself.", literal: "Polite-yes, grandchild feel-grace aunt! Grandchild self pick-up receive polite." },
-          { speaker: "Daughter", speakerLabel: "Con gái", vi: "Anh David, đừng cắm đũa vào bát cơm nhé — kiêng lắm đấy!", en: "David, don't stick chopsticks into the rice bowl — it's very taboo!", literal: "Older-brother David, don't stick chopstick enter bowl rice ok — taboo very emphasis!", keyWords: [{ word: "cắm", pronunciation: "cắm", meaning: "to stick/plant vertically", tone: "sac" }, { word: "kiêng", pronunciation: "kiêng", meaning: "taboo/abstain", tone: "ngang" }] },
+          { speaker: "Daughter", speakerLabel: "Con gái", vi: "Anh David, đừng cắm đũa vào bát cơm nhé - kiêng lắm đấy!", en: "David, don't stick chopsticks into the rice bowl - it's very taboo!", literal: "Older-brother David, don't stick chopstick enter bowl rice ok - taboo very emphasis!", keyWords: [{ word: "cắm", pronunciation: "cắm", meaning: "to stick/plant vertically", tone: "sac" }, { word: "kiêng", pronunciation: "kiêng", meaning: "taboo/abstain", tone: "ngang" }] },
           { speaker: "You", speakerLabel: "Bạn", vi: "Vậy à? Cảm ơn em nhắc. Mình đặt đũa lên bàn nhé.", en: "Really? Thanks for reminding me. I'll place chopsticks on the table.", literal: "So polite-question? Feel-grace younger remind. Self place chopstick on table ok." },
           { speaker: "Dad", speakerLabel: "Bố", vi: "Ăn xong nhớ nói 'Cháu ăn xong rồi ạ' để mọi người biết nhé.", en: "When done, remember to say 'I've finished eating' so everyone knows.", literal: "Eat finish remember say 'Grandchild eat finish already polite' for every person know ok." },
         ],
@@ -1161,8 +1161,8 @@ export const detailedVFFModules: DetailedModule[] = [
           {
             title: "Gắp thức ăn cho khách - Lời mời chân thành",
             titleEn: "Picking food for guests - A sincere welcome",
-            content: "Người Việt thể hiện sự hiếu khách bằng cách gắp món ngon vào bát của khách. Bạn không cần ăn hết, nhưng nên cảm ơn và ăn thử. Để lịch sự, bạn cũng có thể gắp thức ăn cho người lớn tuổi hơn — đó là cử chỉ rất đẹp.",
-            contentEn: "Vietnamese show hospitality by picking the best pieces and placing them in a guest's bowl. You don't need to finish everything, but always thank them and at least try a bite. To be polite, you can also pick food for elders — it's considered a beautiful gesture.",
+            content: "Người Việt thể hiện sự hiếu khách bằng cách gắp món ngon vào bát của khách. Bạn không cần ăn hết, nhưng nên cảm ơn và ăn thử. Để lịch sự, bạn cũng có thể gắp thức ăn cho người lớn tuổi hơn - đó là cử chỉ rất đẹp.",
+            contentEn: "Vietnamese show hospitality by picking the best pieces and placing them in a guest's bowl. You don't need to finish everything, but always thank them and at least try a bite. To be polite, you can also pick food for elders - it's considered a beautiful gesture.",
           },
         ],
         practice: {
@@ -1170,10 +1170,10 @@ export const detailedVFFModules: DetailedModule[] = [
           instruction: "Hoàn thành câu giao tiếp bữa cơm gia đình.",
           instructionEn: "Complete the family meal phrases.",
           items: [
-            { question: "Cháu _____ hai bác và cả nhà ăn cơm ạ! (invite)", answer: "mời", explanationEn: "'Mời' = invite — said before everyone starts eating" },
+            { question: "Cháu _____ hai bác và cả nhà ăn cơm ạ! (invite)", answer: "mời", explanationEn: "'Mời' = invite - said before everyone starts eating" },
             { question: "Món canh này _____ chua _____ ngọt. (both... and...)", answer: "vừa vừa", explanationEn: "'Vừa... vừa...' = both... and... at the same time" },
-            { question: "Đừng _____ đũa vào bát cơm nhé! (stick vertically)", answer: "cắm", explanationEn: "'Cắm đũa' is a funeral image — strict taboo" },
-            { question: "Cháu ăn _____ rồi ạ. (finished)", answer: "xong", explanationEn: "'Ăn xong' = finished eating — say this when leaving the table" },
+            { question: "Đừng _____ đũa vào bát cơm nhé! (stick vertically)", answer: "cắm", explanationEn: "'Cắm đũa' is a funeral image - strict taboo" },
+            { question: "Cháu ăn _____ rồi ạ. (finished)", answer: "xong", explanationEn: "'Ăn xong' = finished eating - say this when leaving the table" },
           ],
         },
       },
@@ -1228,8 +1228,8 @@ export const detailedVFFModules: DetailedModule[] = [
           {
             title: "Lì xì - Bao đỏ may mắn",
             titleEn: "Lì xì - The lucky red envelope",
-            content: "Lì xì là phong bao đỏ chứa tiền mới, người lớn tặng cho trẻ em và người chưa lập gia đình để chúc may mắn. Quy tắc: số tiền chẵn (50k, 100k, 200k), tờ tiền mới và phẳng, đưa và nhận bằng HAI TAY, người nhận phải chúc lại người tặng. Không bao giờ mở phong bao trước mặt người tặng — bất lịch sự!",
-            contentEn: "Lì xì is a red envelope with fresh new money, given by adults to children and unmarried people for luck. Rules: even amounts (50k, 100k, 200k VND), crisp new bills, give and receive with BOTH HANDS, and the receiver must wish the giver back. Never open the envelope in front of the giver — it's rude!",
+            content: "Lì xì là phong bao đỏ chứa tiền mới, người lớn tặng cho trẻ em và người chưa lập gia đình để chúc may mắn. Quy tắc: số tiền chẵn (50k, 100k, 200k), tờ tiền mới và phẳng, đưa và nhận bằng HAI TAY, người nhận phải chúc lại người tặng. Không bao giờ mở phong bao trước mặt người tặng - bất lịch sự!",
+            contentEn: "Lì xì is a red envelope with fresh new money, given by adults to children and unmarried people for luck. Rules: even amounts (50k, 100k, 200k VND), crisp new bills, give and receive with BOTH HANDS, and the receiver must wish the giver back. Never open the envelope in front of the giver - it's rude!",
           },
         ],
         practice: {
@@ -1237,9 +1237,9 @@ export const detailedVFFModules: DetailedModule[] = [
           instruction: "Hoàn thành câu chúc Tết và phong tục.",
           instructionEn: "Complete the Tết greetings and customs.",
           items: [
-            { question: "Chúc hai bác năm mới sức khỏe _____ _____. (abundant)", answer: "dồi dào", explanationEn: "'Dồi dào' = abundant — classic Tết phrase" },
+            { question: "Chúc hai bác năm mới sức khỏe _____ _____. (abundant)", answer: "dồi dào", explanationEn: "'Dồi dào' = abundant - classic Tết phrase" },
             { question: "Chúc gia đình an khang _____ _____. (prosperity)", answer: "thịnh vượng", explanationEn: "'An khang thịnh vượng' = peace and prosperity" },
-            { question: "Cháu nhận lì xì _____ _____ _____ ạ. (with both hands)", answer: "bằng hai tay", explanationEn: "Always receive lì xì with both hands — sign of respect" },
+            { question: "Cháu nhận lì xì _____ _____ _____ ạ. (with both hands)", answer: "bằng hai tay", explanationEn: "Always receive lì xì with both hands - sign of respect" },
             { question: "Mùng 1 Tết phải kiêng _____ _____. (sweeping the house)", answer: "quét nhà", explanationEn: "Sweeping on Day 1 = sweeping away the year's luck" },
             { question: "_____ _____ là phong bao đỏ chứa tiền may mắn. (lucky money)", answer: "Lì xì", explanationEn: "'Lì xì' = the iconic red envelope tradition" },
           ],

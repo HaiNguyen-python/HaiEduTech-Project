@@ -132,9 +132,10 @@ export const playVietnameseTts = async (
   const normalized = text.trim();
   if (!normalized) return false;
 
-  const playbackRate = options.playbackRate ?? 0.9;
-  const speechRate = options.speechRate ?? 0.85;
-  const pitch = options.pitch ?? 1.05;
+  // Slower default for clearer Vietnamese pronunciation (tones are critical)
+  const playbackRate = options.playbackRate ?? 0.72;
+  const speechRate = options.speechRate ?? 0.65;
+  const pitch = options.pitch ?? 1.08;
 
   try {
     await playFromProxy(normalized, playbackRate);

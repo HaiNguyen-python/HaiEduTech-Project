@@ -70,7 +70,7 @@ const VietnameseCulture = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.05 }}
               >
-                <Card className="h-full border-2 border-red-500/55 shadow-[0_3px_14px_-6px_rgba(239,68,68,0.28)] dark:border-foreground/30 hover:shadow-xl hover:border-primary/50 transition-all">
+                <Card className="h-full border-2 border-emerald-500/55 shadow-[0_3px_14px_-6px_rgba(16,185,129,0.28)] dark:border-foreground/30 hover:shadow-xl hover:border-primary/50 transition-all">
                   <CardContent className="pt-6">
                     <div className="flex items-start gap-4 mb-4">
                       <span className="text-5xl">{topic.emoji}</span>
@@ -90,7 +90,7 @@ const VietnameseCulture = () => {
 
                     <Accordion type="single" collapsible className="mb-4">
                       {topic.details.map((d, i) => (
-                        <AccordionItem key={i} value={`item-${i}`} className="border-b-2 border-red-500/40">
+                        <AccordionItem key={i} value={`item-${i}`} className="border-b-2 border-emerald-500/40">
                           <AccordionTrigger className="text-sm font-semibold py-2 hover:no-underline">
                             {t(d.heading, d.headingEn)}
                           </AccordionTrigger>
@@ -101,7 +101,7 @@ const VietnameseCulture = () => {
                       ))}
                     </Accordion>
 
-                    <div className="bg-muted/40 rounded-lg p-3 border-2 border-red-500/45">
+                    <div className="bg-muted/40 rounded-lg p-3 border-2 border-emerald-500/45">
                       <h4 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">
                         📖 {t("Từ vựng", "Vocabulary")}
                       </h4>

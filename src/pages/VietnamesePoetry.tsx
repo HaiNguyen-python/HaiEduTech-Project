@@ -154,7 +154,7 @@ const VietnamesePoetry = () => {
                       <div className="flex items-center gap-3">
                         <span className={cn(
                           "text-sm font-bold",
-                          quizScore === exercises.length ? "text-green-500" : quizScore >= exercises.length / 2 ? "text-yellow-500" : "text-destructive"
+                          quizScore === exercises.length ? "text-green-500" : quizScore >= exercises.length / 2 ? "text-yellow-500" : "text-emerald-600"
                         )}>
                           {quizScore}/{exercises.length} {t("đúng", "correct")}
                         </span>
@@ -183,7 +183,7 @@ const VietnamesePoetry = () => {
                                     ? isCorrectOpt
                                       ? "border-green-500 bg-green-500/10 text-green-700"
                                       : selected
-                                        ? "border-destructive bg-destructive/10 text-destructive"
+                                        ? "border-emerald-500 bg-emerald-500/10 text-emerald-600"
                                         : "border-border text-muted-foreground"
                                     : selected
                                       ? "border-primary bg-primary/10 text-primary"
