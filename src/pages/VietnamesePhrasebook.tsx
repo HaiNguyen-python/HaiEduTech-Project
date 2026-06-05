@@ -72,7 +72,7 @@ const VietnamesePhrasebook = () => {
 
             {/* Content */}
             <div>
-              <Card className="border-border/50">
+              <Card className="border-2 border-foreground/25">
                 <CardContent className="pt-6">
                   <div className="flex items-center gap-3 mb-3">
                     <span className="text-4xl">{current.emoji}</span>

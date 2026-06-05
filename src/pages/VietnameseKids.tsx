@@ -72,7 +72,7 @@ const KidsCard = ({ lesson }: { lesson: KidsLesson }) => {
   const [view, setView] = useState<"flashcard" | "grid">("flashcard");
 
   return (
-    <Card className="h-full border-border/50 hover:shadow-xl transition-shadow">
+    <Card className="h-full border-2 border-foreground/25 hover:shadow-xl transition-shadow">
       <CardContent className="pt-6">
         {/* Header */}
         <div className="flex items-start gap-4 mb-4">
@@ -124,7 +124,7 @@ const KidsCard = ({ lesson }: { lesson: KidsLesson }) => {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {lesson.vocabulary.map((v, i) => (
-                <div key={i} className="bg-background/80 rounded-xl p-3 border-2 border-border/40 hover:border-primary/40 transition">
+                <div key={i} className="bg-background/80 rounded-xl p-3 border-2 border-2 border-foreground/20 hover:border-primary/40 transition">
                   <div className="flex items-center gap-3 mb-1">
                     <span className="text-4xl">{v.emoji}</span>
                     <div className="flex-1 min-w-0">
@@ -133,7 +133,7 @@ const KidsCard = ({ lesson }: { lesson: KidsLesson }) => {
                     <SpeakButton text={v.vi} label={`Phát âm ${v.vi}`} />
                   </div>
                   {v.example && (
-                    <div className="flex items-start gap-1.5 mt-2 pt-2 border-t border-border/30">
+                    <div className="flex items-start gap-1.5 mt-2 pt-2 border-t border-foreground/20">
                       <div className="text-sm text-foreground italic leading-snug flex-1 whitespace-pre-wrap">
                         "{v.example}"
                       </div>
