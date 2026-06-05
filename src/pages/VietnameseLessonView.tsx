@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import SmartVocabCard from "@/components/SmartVocabCard";
 import { vietnameseLanguageModules } from "@/data/vietnameseCurriculumData";
-import type { VietnameseVocabEntry } from "@/data/vietnamese/types";
+import type { VietnameseLesson, VietnameseVocabEntry } from "@/data/vietnamese/types";
 
 // Teacher Hai tips per lesson (keyed by lesson ID)
 const teacherTips: Record<string, { vi: string; en: string }> = {
@@ -75,7 +75,7 @@ const groupVocabulary = (vocabulary: VietnameseVocabEntry[]): VocabGroup[] => {
 
 const stripLeadingMarkdownTitle = (content: string) => content.replace(/^##\s+[^\n]+\n+/, "").trim();
 
-const buildTheoryStudyGuide = (lesson: NonNullable<ReturnType<typeof vietnameseLanguageModules[number]["lessons"][number]>>, isVietnamese: boolean) => {
+const buildTheoryStudyGuide = (lesson: VietnameseLesson, isVietnamese: boolean) => {
   const examples = lesson.vocabulary
     .filter((item) => item.example && item.exampleEn)
     .slice(0, 5);
@@ -128,7 +128,7 @@ ${examples.map((item) => `- **${item.example}** — ${item.exampleEn}`).join("\n
 ${focusPoints.map((point, index) => `- Step ${index + 1}: ${point}`).join("\n")}`;
 };
 
-const getEnhancedTheory = (lesson: NonNullable<ReturnType<typeof vietnameseLanguageModules[number]["lessons"][number]>>, isVietnamese: boolean) => {
+const getEnhancedTheory = (lesson: VietnameseLesson, isVietnamese: boolean) => {
   const base = stripLeadingMarkdownTitle(isVietnamese ? lesson.theory : lesson.theoryEn);
   return `${base}${buildTheoryStudyGuide(lesson, isVietnamese)}`;
 };
