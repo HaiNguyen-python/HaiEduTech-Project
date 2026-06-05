@@ -219,7 +219,7 @@ const VietnameseHistoryLesson = () => {
 
                         {/* Text */}
                         <div className={`${seg.imageUrl ? 'md:w-[60%]' : 'w-full'} p-5 pt-2 flex items-center`}>
-                          <div className="prose prose-lg dark:prose-invert max-w-none text-foreground leading-loose text-[1.35rem]" style={{ lineHeight: '1.8' }}>
+                          <div className="prose prose-lg dark:prose-invert max-w-none text-foreground leading-loose text-[1.35rem] prose-table:text-base prose-table:border prose-table:border-red-500/40 prose-table:rounded-lg prose-th:bg-red-500/10 prose-th:font-bold prose-th:p-2 prose-th:border prose-th:border-red-500/30 prose-td:p-2 prose-td:border prose-td:border-red-500/20 prose-td:align-top overflow-x-auto" style={{ lineHeight: '1.8' }}>
                             <ReactMarkdown
                               remarkPlugins={[remarkGfm]}
                               components={{
