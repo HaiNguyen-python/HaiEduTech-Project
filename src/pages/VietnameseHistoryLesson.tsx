@@ -216,7 +216,7 @@ const VietnameseHistoryLesson = () => {
                       </div>
 
                       {/* Content: side-by-side on desktop, stacked on mobile */}
-                      <div className={`flex flex-col ${seg.imageUrl ? (isEven ? 'md:flex-row' : 'md:flex-row-reverse') : ''}`}>
+                        <div className={`flex flex-col ${seg.imageUrl ? (isEven ? 'md:flex-row' : 'md:flex-row-reverse') : ''}`}>
                         {/* Image */}
                         {seg.imageUrl && (
                           <div className="md:w-[40%] shrink-0 p-4">
@@ -232,7 +232,7 @@ const VietnameseHistoryLesson = () => {
                         )}
 
                         {/* Text */}
-                        <div className={`${seg.imageUrl ? 'md:w-[60%]' : 'w-full'} p-5 pt-2 flex items-center`}>
+                        <div className={`${seg.imageUrl ? 'md:w-[60%]' : 'w-full'} p-5 pt-2 flex items-center max-sm:pb-24`}>
                           <div className="max-w-none text-foreground">
                             <ReactMarkdown
                               remarkPlugins={[remarkGfm]}
