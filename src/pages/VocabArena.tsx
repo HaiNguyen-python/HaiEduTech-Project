@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Swords, User, Users, Crown, Heart, Zap, Timer, Skull, ArrowLeft, Gamepad2 } from "lucide-react";
 import { Link } from "react-router-dom";
