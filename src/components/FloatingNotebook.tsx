@@ -460,7 +460,7 @@ const FloatingNotebook = () => {
     if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
     autoSaveTimer.current = setTimeout(() => {
       handleSave();
-    }, 2500);
+    }, 1200);
     return () => { if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current); };
   }, [editorTick, title, subject, open, user, selectedId, handleSave, writeDraft, getContent]);
 
