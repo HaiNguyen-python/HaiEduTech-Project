@@ -28,7 +28,8 @@ import { MapDiagram, ProcessDiagram } from "@/components/Task1Visual";
 import { useUserRole } from "@/hooks/useUserRole";
 import PhrasePractice from "@/components/PhrasePractice";
 import GrammarPractice from "@/components/GrammarPractice";
-import { Sparkles, PenLine, GraduationCap } from "lucide-react";
+import IdeaPractice from "@/components/IdeaPractice";
+import { Sparkles, PenLine, GraduationCap, Lightbulb } from "lucide-react";
 
 // Grading result types (shared with AIGrading)
 interface CriteriaDetail {
