@@ -204,6 +204,24 @@ const VocabExercise = ({ words, pool, t }: {
 
   useEffect(() => { generate(); }, [generate]);
 
+  // Stop any audio when component unmounts
+  useEffect(() => () => { stopVietnameseTts(); }, []);
+
+  // Auto-play the target word when a new question appears (especially for listening)
+  useEffect(() => {
+    if (finished) return;
+    const q = questions[current];
+    if (!q) return;
+    stopVietnameseTts();
+    if (q.type === "listening") {
+      // small delay so the UI swap doesn't clip the audio start
+      const id = setTimeout(() => {
+        void playVietnameseTts(q.word.word, { playbackRate: 0.85, speechRate: 0.55, pitch: 1.05 });
+      }, 250);
+      return () => clearTimeout(id);
+    }
+  }, [current, questions, finished]);
+
   useEffect(() => {
     if (!finished || savedRef.current) return;
     savedRef.current = true;
@@ -221,9 +239,15 @@ const VocabExercise = ({ words, pool, t }: {
   const handleSelect = (idx: number) => {
     if (selected !== null) return;
     setSelected(idx);
-    if (idx === questions[current]?.correct) setScore(s => s + 1);
+    const q = questions[current];
+    if (idx === q?.correct) setScore(s => s + 1);
+    // After answering, play the correct word so learners hear the right pronunciation
+    if (q && q.type !== "listening") {
+      void playVietnameseTts(q.word.word, { playbackRate: 0.9, speechRate: 0.55, pitch: 1.05 });
+    }
   };
   const handleNext = () => {
+    stopVietnameseTts();
     if (current + 1 >= questions.length) setFinished(true);
     else { setCurrent(c => c + 1); setSelected(null); }
   };
