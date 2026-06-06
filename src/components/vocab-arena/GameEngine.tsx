@@ -136,13 +136,15 @@ const GameEngine = ({ questions, lives: initialLives, onGameEnd, onProgress, isS
   const q = questions[current];
   const progress = ((current) / questions.length) * 100;
 
-  // Report current question to parent (for teacher live monitoring)
+  // Report current question + live score to parent (for teacher live monitoring).
+  // Also fires whenever `score` / `correct` change so the teacher leaderboard
+  // updates the instant a student answers, not on the next question advance.
   useEffect(() => {
     if (q && onProgress) {
       onProgress({ index: current, word: q.word.word, score, correct, total: current, streak });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [current, q]);
+  }, [current, q, score, correct, streak]);
 
   // Timer countdown
   useEffect(() => {
