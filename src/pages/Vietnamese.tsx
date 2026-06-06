@@ -274,6 +274,20 @@ const Vietnamese = () => {
                 {/* Extra feature links */}
                 <div className="relative z-10 grid sm:grid-cols-2 md:grid-cols-4 gap-4 mt-2 px-5 md:px-8 pb-5">
                   <Link
+                    to="/learn-vietnamese/vocabulary"
+                    className="block bg-white/80 dark:bg-card/90 backdrop-blur-md border-2 border-emerald-500/55 rounded-xl p-5 hover:shadow-lg transition-all group shadow-sm"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-500/20 transition-colors">
+                        <BookText className="w-5 h-5 text-blue-600" />
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-bold text-foreground">{t("Từ vựng Tiếng Việt", "Vietnamese Vocabulary")}</h3>
+                        <p className="text-xs text-muted-foreground">{t("Ngân hàng từ, flashcard, luyện tập", "Word bank, flashcards, practice")}</p>
+                      </div>
+                    </div>
+                  </Link>
+                  <Link
                     to="/speaking-coach/vietnamese"
                     className="block bg-white/80 dark:bg-card/90 backdrop-blur-md border-2 border-emerald-500/55 rounded-xl p-5 hover:shadow-lg transition-all group shadow-sm"
                   >
