@@ -26,6 +26,18 @@ const VocabArena = () => {
   const { isTeacher, user, loading: roleLoading } = useUserRole();
   const [phase, setPhase] = useState<Phase>("menu");
   const [result, setResult] = useState<GameResult | null>(null);
+  const [directJoinCode, setDirectJoinCode] = useState<string>("");
+
+  // Auto-route to student join screen when arriving via ?room=CODE link.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("room");
+    if (code && code.trim().length >= 4) {
+      setDirectJoinCode(code.trim().toUpperCase().slice(0, 6));
+      setPhase("classroom-student");
+    }
+  }, []);
 
   // Solo settings
   const [soloLevel, setSoloLevel] = useState("all");
