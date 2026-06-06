@@ -94,6 +94,7 @@ const IeltsSampleEssays = lazy(() => import("./pages/IeltsSampleEssays.tsx"));
 const IeltsSampleEssayDetail = lazy(() => import("./pages/IeltsSampleEssayDetail.tsx"));
 const SpeakingPractice = lazy(() => import("./pages/SpeakingPractice.tsx"));
 const IeltsVocabulary = lazy(() => import("./pages/IeltsVocabulary.tsx"));
+const VietnameseVocabulary = lazy(() => import("./pages/VietnameseVocabulary.tsx"));
 const SatVocabulary = lazy(() => import("./pages/SatVocabulary.tsx"));
 const SatExercises = lazy(() => import("./pages/SatExercises.tsx"));
 const SatExams = lazy(() => import("./pages/SatExams.tsx"));
