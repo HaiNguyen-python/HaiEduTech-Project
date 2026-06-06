@@ -259,6 +259,10 @@ const TeacherPanel = ({ onBack }: TeacherPanelProps) => {
   const analytics = getWordAnalytics();
   const finished = participants.filter((p) => p.finished_at).length;
 
+  const joinUrl = typeof window !== "undefined"
+    ? `${window.location.origin}/vocab-arena?room=${roomCode}`
+    : `/vocab-arena?room=${roomCode}`;
+
   return (
     <div className="max-w-2xl mx-auto py-8">
       {/* Room code display */}
@@ -271,14 +275,67 @@ const TeacherPanel = ({ onBack }: TeacherPanelProps) => {
           <button
             onClick={() => {
               navigator.clipboard.writeText(roomCode);
-              toast.success(t("Đã sao chép!", "Copied!"));
+              toast.success(t("Đã sao chép mã!", "Code copied!"));
             }}
             className="p-2 rounded-lg hover:bg-primary/10"
+            title={t("Sao chép mã", "Copy code")}
           >
             <Copy className="w-5 h-5 text-primary" />
           </button>
         </div>
-        <div className="flex items-center justify-center gap-4 mt-3">
+
+        {/* Direct-join link for students */}
+        <div className="mt-4 max-w-md mx-auto rounded-xl border border-primary/20 bg-primary/5 p-3">
+          <p className="text-xs font-semibold text-primary mb-1.5 flex items-center justify-center gap-1">
+            🔗 {t("Link tham gia trực tiếp", "Direct join link")}
+          </p>
+          <div className="flex items-center gap-2">
+            <input
+              readOnly
+              value={joinUrl}
+              onFocus={(e) => e.currentTarget.select()}
+              className="flex-1 min-w-0 text-xs px-2 py-1.5 rounded-md bg-background border border-border text-foreground font-mono truncate"
+            />
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={async () => {
+                try {
+                  await navigator.clipboard.writeText(joinUrl);
+                  toast.success(t("Đã sao chép link! Gửi cho học sinh.", "Link copied! Share with students."));
+                } catch {
+                  toast.error(t("Không sao chép được", "Copy failed"));
+                }
+              }}
+              className="gap-1 shrink-0"
+            >
+              <Copy className="w-3.5 h-3.5" />
+              {t("Sao chép", "Copy")}
+            </Button>
+            {typeof navigator !== "undefined" && (navigator as any).share && (
+              <Button
+                size="sm"
+                onClick={async () => {
+                  try {
+                    await (navigator as any).share({
+                      title: t("Tham gia Vocab Arena", "Join Vocab Arena"),
+                      text: t(`Tham gia phòng ${roomCode}`, `Join room ${roomCode}`),
+                      url: joinUrl,
+                    });
+                  } catch {/* user cancelled */}
+                }}
+                className="shrink-0"
+              >
+                {t("Chia sẻ", "Share")}
+              </Button>
+            )}
+          </div>
+          <p className="text-[10px] text-muted-foreground mt-1.5 text-center">
+            {t("Học sinh mở link → nhập tên → vào phòng ngay", "Students open link → enter name → join instantly")}
+          </p>
+        </div>
+
+        <div className="flex items-center justify-center gap-4 mt-4">
           <span className="text-sm text-muted-foreground flex items-center gap-1">
             <Users className="w-4 h-4" /> {participants.length} {t("người chơi", "players")}
           </span>
