@@ -411,7 +411,13 @@ const VocabArena = () => {
         <Navbar />
         <div className="pt-6 pb-16">
           <div className="container mx-auto px-4">
-            <ClassroomBattle onBack={() => setPhase("menu")} />
+            <ClassroomBattle
+              onBack={() => {
+                setDirectJoinCode("");
+                setPhase("menu");
+              }}
+              initialRoomCode={directJoinCode}
+            />
           </div>
         </div>
         <Footer />
