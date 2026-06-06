@@ -175,15 +175,35 @@ const FloatingNotebook = () => {
     try { localStorage.removeItem(draftKey(id)); } catch { /* ignore */ }
   }, [draftKey]);
 
+  const listSnapshotKey = useCallback(
+    () => `notebook-snapshot-${user?.id || "anon"}`,
+    [user]
+  );
+
   const fetchNotebooks = useCallback(async () => {
     if (!user) return;
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("student_notebooks")
       .select("id, title, content, subject, updated_at")
       .eq("user_id", user.id)
       .order("updated_at", { ascending: false });
-    setNotebooks(data || []);
-  }, [user]);
+    if (error) {
+      // Fallback: restore last known snapshot from localStorage so the user
+      // never sees an empty list because of a transient network/auth error.
+      try {
+        const raw = localStorage.getItem(listSnapshotKey());
+        if (raw) {
+          const snapshot = JSON.parse(raw);
+          if (Array.isArray(snapshot)) setNotebooks(snapshot);
+        }
+      } catch { /* ignore */ }
+      return;
+    }
+    const rows = data || [];
+    setNotebooks(rows);
+    // Snapshot the full list (with content) so we can rebuild offline / on error.
+    try { localStorage.setItem(listSnapshotKey(), JSON.stringify(rows)); } catch { /* ignore */ }
+  }, [user, listSnapshotKey]);
 
   useEffect(() => {
     if (user && open) {
