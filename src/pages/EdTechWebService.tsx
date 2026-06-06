@@ -50,7 +50,7 @@ const requestSchema = z.object({
     .max(20, "Số điện thoại quá dài")
     .regex(/^[0-9+\-\s().]+$/, "Số điện thoại không hợp lệ"),
   subject_taught: z.string().trim().max(120).optional().or(z.literal("")),
-  selected_package: z.enum(["standard", "advanced"]),
+  selected_package: z.enum(["standard", "advanced", "enterprise"]),
   special_requirements: z.string().trim().max(1500).optional().or(z.literal("")),
 });
 
@@ -59,7 +59,7 @@ type FormState = {
   email: string;
   phone: string;
   subject_taught: string;
-  selected_package: "standard" | "advanced";
+  selected_package: "standard" | "advanced" | "enterprise";
   special_requirements: string;
 };
 
@@ -108,32 +108,60 @@ const PACKAGES = [
     id: "standard" as const,
     name: "Gói Standard",
     tagline: "Khởi đầu chuyên nghiệp",
-    priceNote: "Liên hệ báo giá",
+    priceFrom: "Từ 8.000.000₫",
+    priceNote: "Trọn gói · Bàn giao trong 7–10 ngày",
+    monthly: "Bảo trì: 300K₫ / tháng",
     highlight: false,
     icon: Rocket,
+    bestFor: "Phù hợp cho lớp học cá nhân / nhóm dưới 50 học viên.",
     features: [
-      "Website LMS cốt lõi (responsive)",
-      "Hệ thống bài quiz tự động chấm điểm",
-      "Thiết lập tên miền (custom domain)",
-      "Quản lý học viên & nhóm lớp cơ bản",
-      "Hỗ trợ kỹ thuật trong giờ hành chính",
-      "Bàn giao mã nguồn & tài liệu hướng dẫn",
+      "Website LMS responsive (mobile-first)",
+      "Hệ thống quiz tự chấm điểm + lưu lịch sử",
+      "Quản lý học viên & phân lớp cơ bản",
+      "Cài đặt tên miền (.com / .edu.vn / .vn)",
+      "Trang giới thiệu khóa học + form đăng ký",
+      "Hỗ trợ kỹ thuật giờ hành chính (T2–T6)",
+      "Bàn giao mã nguồn & video hướng dẫn quản trị",
     ],
   },
   {
     id: "advanced" as const,
     name: "Gói Advanced AI & Data",
     tagline: "Khuyên dùng cho lớp học hiện đại",
-    priceNote: "Tư vấn theo nhu cầu",
+    priceFrom: "Từ 18.000.000₫",
+    priceNote: "Trọn gói · Bàn giao trong 10–14 ngày",
+    monthly: "Bảo trì + AI Token: 800K₫ / tháng",
     highlight: true,
     icon: Crown,
+    bestFor: "Phù hợp cho trung tâm / lớp học 50–500 học viên cần tự động hóa.",
     features: [
-      "Tất cả tính năng của gói Standard",
-      "Tích hợp AI Chatbot trả lời học sinh 24/7",
+      "Toàn bộ tính năng của gói Standard",
+      "AI Chatbot 24/7 huấn luyện theo tài liệu riêng",
       "Dashboard Learning Analytics nâng cao",
-      "Email subdomain tự động (OTP, nhắc lịch, hóa đơn)",
-      "AI Smart Grading cho bài viết / nói",
-      "Bảo trì ưu tiên & cập nhật tính năng theo quý",
+      "Email subdomain (OTP, hóa đơn, nhắc lịch tự động)",
+      "AI Smart Grading cho bài viết Writing & Speaking",
+      "Tích hợp thanh toán (VNPay / Momo / chuyển khoản)",
+      "Bảo trì ưu tiên 24/7 + cập nhật tính năng theo quý",
+    ],
+  },
+  {
+    id: "enterprise" as const,
+    name: "Gói Enterprise",
+    tagline: "Dành cho trường học & học viện",
+    priceFrom: "Từ 45.000.000₫",
+    priceNote: "Tùy biến sâu · Bàn giao 3–6 tuần",
+    monthly: "Bảo trì + Cloud + AI: thỏa thuận theo SLA",
+    highlight: false,
+    icon: Database,
+    bestFor: "Phù hợp cho trường học / chuỗi trung tâm 500+ học viên.",
+    features: [
+      "Toàn bộ tính năng gói Advanced",
+      "Phân quyền nhiều cấp (Admin / Giáo viên / Phụ huynh / HS)",
+      "Cổng phụ huynh: xem điểm, học phí, lịch học theo thời gian thực",
+      "Tích hợp Google Sheets / Zalo OA / hệ thống điểm danh",
+      "Data Warehouse + BI dashboard riêng",
+      "AI dự đoán học viên nghỉ học & tự gợi ý can thiệp",
+      "SLA cam kết uptime 99.9% · Hỗ trợ ưu tiên 24/7",
     ],
   },
 ];
@@ -206,11 +234,26 @@ const EdTechWebService = () => {
               Độc Quyền
             </h1>
             <p className="mt-6 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Giải pháp tailor-made kết hợp <strong className="text-foreground">15 năm kinh nghiệm sư phạm</strong>{" "}
-              của Thầy Hải và chuyên môn{" "}
-              <strong className="text-foreground">Data Engineering &amp; AI từ Bắc Âu (Phần Lan)</strong>.
-              Dành riêng cho giáo viên muốn dạy học hiện đại, tự động hóa và đo lường được hiệu quả.
+              Giải pháp <strong className="text-foreground">tailor-made</strong> kết hợp{" "}
+              <strong className="text-foreground">15 năm kinh nghiệm sư phạm</strong> của Thầy Hải và{" "}
+              <strong className="text-foreground">3+ năm thực chiến Data Engineering &amp; AI tại Bắc Âu (Phần Lan)</strong>.
+              Không dùng template – mỗi website được xây riêng cho lớp học của quý Thầy/Cô:{" "}
+              <strong className="text-foreground">LMS bảo mật, AI Tutor 24/7, chấm bài tự động</strong>{" "}
+              và dashboard đo lường hiệu quả học tập theo thời gian thực.
             </p>
+            <ul className="mt-5 max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-left text-sm">
+              {[
+                "Tiết kiệm 8–10 giờ chấm bài / tuần",
+                "Tự động gửi điểm & nhắc lịch qua email",
+                "AI giải đáp học viên ngoài giờ học",
+                "Báo cáo phụ huynh tự động hàng tháng",
+              ].map((b) => (
+                <li key={b} className="flex items-start gap-2 text-foreground/90">
+                  <Check className="w-4 h-4 mt-0.5 text-emerald-500 shrink-0" />
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
             <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
               <Button
                 size="lg"
@@ -224,17 +267,33 @@ const EdTechWebService = () => {
                 <a href="#packages">Xem gói dịch vụ</a>
               </Button>
             </div>
-            <div className="mt-10 grid grid-cols-3 gap-4 max-w-xl mx-auto text-center">
+            <div className="mt-10 grid grid-cols-3 gap-4 max-w-2xl mx-auto text-center">
               {[
                 { k: "15+", v: "năm sư phạm" },
-                { k: "AI-Native", v: "ngay từ đầu" },
+                { k: "3+", v: "năm Kỹ sư Dữ liệu & AI" },
                 { k: "24h", v: "phản hồi tư vấn" },
               ].map((s) => (
                 <div key={s.v} className="rounded-xl border border-border bg-card/60 backdrop-blur px-3 py-3">
                   <div className="text-lg sm:text-xl font-bold text-foreground">{s.k}</div>
-                  <div className="text-xs text-muted-foreground">{s.v}</div>
+                  <div className="text-xs text-muted-foreground leading-snug">{s.v}</div>
                 </div>
               ))}
+            </div>
+
+            {/* Trust badges row */}
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-xs text-muted-foreground">
+              <span className="inline-flex items-center gap-1 rounded-full bg-secondary/60 px-3 py-1">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" /> Bảo mật chuẩn EU
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-secondary/60 px-3 py-1">
+                <Database className="w-3.5 h-3.5 text-primary" /> Sở hữu 100% dữ liệu
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-secondary/60 px-3 py-1">
+                <Zap className="w-3.5 h-3.5 text-amber-500" /> Bàn giao nhanh 7–14 ngày
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-secondary/60 px-3 py-1">
+                <Bot className="w-3.5 h-3.5 text-violet-500" /> AI Native ngay từ thiết kế
+              </span>
             </div>
           </motion.div>
         </div>
@@ -282,12 +341,18 @@ const EdTechWebService = () => {
       <section id="packages" className="py-16 sm:py-20">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">Các gói dịch vụ</h2>
+            <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
+              Bảng giá &amp; Các gói dịch vụ
+            </h2>
             <p className="mt-3 text-muted-foreground">
-              Lựa chọn gói phù hợp với quy mô lớp học của bạn. Báo giá chi tiết sẽ được gửi sau khi tư vấn.
+              Giá niêm yết minh bạch. Báo giá cuối cùng sẽ được điều chỉnh theo phạm vi và
+              số lượng tính năng tuỳ biến thực tế của quý Thầy/Cô.
             </p>
+            <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-emerald-500/10 text-emerald-600 px-3 py-1 text-xs font-semibold">
+              <Sparkles className="w-3.5 h-3.5" /> Ưu đãi ra mắt: giảm 15% cho 10 giáo viên đầu tiên
+            </div>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-stretch">
             {PACKAGES.map((p) => (
               <motion.div
                 key={p.id}
@@ -296,7 +361,7 @@ const EdTechWebService = () => {
                 viewport={{ once: true }}
                 className={
                   p.highlight
-                    ? "relative rounded-2xl p-[2px] bg-gradient-to-br from-primary via-emerald-500 to-primary shadow-2xl shadow-primary/20"
+                    ? "relative rounded-2xl p-[2px] bg-gradient-to-br from-primary via-emerald-500 to-primary shadow-2xl shadow-primary/20 lg:-translate-y-2"
                     : "relative"
                 }
               >
@@ -305,7 +370,7 @@ const EdTechWebService = () => {
                     <Crown className="w-3 h-3" /> Khuyên dùng
                   </div>
                 )}
-                <Card className={`h-full ${p.highlight ? "bg-card" : ""}`}>
+                <Card className={`h-full flex flex-col ${p.highlight ? "bg-card" : ""}`}>
                   <CardHeader className="pb-4">
                     <div className="flex items-center gap-3">
                       <div
@@ -320,10 +385,23 @@ const EdTechWebService = () => {
                         <p className="text-xs text-muted-foreground">{p.tagline}</p>
                       </div>
                     </div>
-                    <p className="mt-4 text-2xl font-bold text-foreground">{p.priceNote}</p>
+                    <div className="mt-4">
+                      <p
+                        className={`text-2xl sm:text-3xl font-extrabold ${
+                          p.highlight
+                            ? "bg-gradient-to-r from-primary to-emerald-500 bg-clip-text text-transparent"
+                            : "text-foreground"
+                        }`}
+                      >
+                        {p.priceFrom}
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">{p.priceNote}</p>
+                      <p className="text-xs text-foreground/80 mt-1 font-medium">{p.monthly}</p>
+                    </div>
+                    <p className="mt-3 text-xs text-muted-foreground italic">{p.bestFor}</p>
                   </CardHeader>
-                  <CardContent>
-                    <ul className="space-y-3">
+                  <CardContent className="flex-1 flex flex-col">
+                    <ul className="space-y-3 flex-1">
                       {p.features.map((feat) => (
                         <li key={feat} className="flex items-start gap-2 text-sm text-foreground">
                           <Check
@@ -453,14 +531,17 @@ const EdTechWebService = () => {
                     <Label htmlFor="selected_package">Gói dịch vụ quan tâm *</Label>
                     <Select
                       value={form.selected_package}
-                      onValueChange={(v) => update("selected_package", v as "standard" | "advanced")}
+                      onValueChange={(v) =>
+                        update("selected_package", v as FormState["selected_package"])
+                      }
                     >
                       <SelectTrigger id="selected_package">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="standard">Gói Standard</SelectItem>
-                        <SelectItem value="advanced">Gói Advanced AI &amp; Data (Khuyên dùng)</SelectItem>
+                        <SelectItem value="standard">Gói Standard (từ 8.000.000₫)</SelectItem>
+                        <SelectItem value="advanced">Gói Advanced AI &amp; Data (từ 18.000.000₫)</SelectItem>
+                        <SelectItem value="enterprise">Gói Enterprise (từ 45.000.000₫)</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -531,79 +612,118 @@ const LmsMockup = () => {
     { l: "Điểm TB", v: "8.4", c: "from-amber-500 to-orange-400" },
   ];
   return (
-    <div className="w-full rounded-2xl border border-border bg-gradient-to-br from-slate-900 to-slate-800 shadow-2xl overflow-hidden">
+    <div className="w-full rounded-3xl border border-border bg-gradient-to-br from-sky-50 via-white to-emerald-50 shadow-2xl overflow-hidden">
+      {/* Top browser-style bar */}
+      <div className="flex items-center gap-2 px-4 py-2.5 bg-white/80 border-b border-border backdrop-blur">
+        <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
+        <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+        <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+        <div className="ml-3 flex-1 max-w-md mx-auto rounded-md bg-secondary/60 px-3 py-1 text-[11px] text-muted-foreground text-center truncate">
+          🔒 lop-thay-hai.haiedutech.com
+        </div>
+      </div>
+
       <div className="flex flex-col md:flex-row">
-        {/* Sidebar */}
-        <aside className="w-full md:w-48 lg:w-56 shrink-0 bg-slate-950/60 border-b md:border-b-0 md:border-r border-white/5 p-4">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary to-emerald-500 shrink-0" />
-            <span className="text-white/90 font-semibold text-sm whitespace-nowrap">EduClass</span>
+        {/* Sidebar — light gradient */}
+        <aside className="w-full md:w-52 lg:w-60 shrink-0 bg-gradient-to-b from-primary/95 to-emerald-500/90 text-white p-4">
+          <div className="flex items-center gap-2 mb-5">
+            <div className="w-8 h-8 rounded-lg bg-white/95 flex items-center justify-center shrink-0">
+              <GraduationCap className="w-4 h-4 text-primary" />
+            </div>
+            <span className="font-semibold text-sm whitespace-nowrap">EduClass · Thầy Hải</span>
           </div>
           <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible">
             {menu.map((m, i) => (
               <div
                 key={m}
-                className={`px-3 py-2 rounded-lg text-xs whitespace-nowrap ${
+                className={`px-3 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition-colors ${
                   i === 0
-                    ? "bg-primary/20 text-white border border-primary/40"
-                    : "text-white/60 hover:bg-white/5"
+                    ? "bg-white text-primary shadow"
+                    : "bg-white/10 text-white/90 hover:bg-white/20"
                 }`}
               >
                 {m}
               </div>
             ))}
           </div>
+          <div className="hidden md:block mt-6 rounded-xl bg-white/15 backdrop-blur p-3 text-xs">
+            <div className="font-semibold mb-1">🔥 Chuỗi học</div>
+            <div className="text-white/90">12 ngày liên tiếp</div>
+          </div>
         </aside>
 
         {/* Main */}
-        <main className="flex-1 min-w-0 p-4 sm:p-5 space-y-4">
-          <div className="aspect-video w-full rounded-xl bg-gradient-to-br from-primary/30 via-slate-800 to-emerald-500/30 flex items-center justify-center relative overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(255,255,255,0.1),transparent_50%)]" />
-            <div className="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center shadow-xl">
-              <Play className="w-6 h-6 text-primary fill-primary translate-x-0.5" />
+        <main className="flex-1 min-w-0 p-4 sm:p-6 space-y-4">
+          {/* Vivid video player */}
+          <div className="aspect-video w-full rounded-2xl bg-gradient-to-br from-primary via-violet-500 to-emerald-500 flex items-center justify-center relative overflow-hidden shadow-lg">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.4),transparent_55%),radial-gradient(circle_at_75%_70%,rgba(255,255,255,0.25),transparent_55%)]" />
+            {/* Subtitle bubble */}
+            <div className="absolute top-3 left-3 bg-white/90 backdrop-blur rounded-md px-2 py-1 text-[10px] font-semibold text-foreground shadow">
+              📖 IELTS Reading · Band 7.0+
             </div>
-            <div className="absolute bottom-3 left-3 right-3 h-1 bg-white/20 rounded-full overflow-hidden">
-              <div className="h-full w-2/3 bg-gradient-to-r from-primary to-emerald-400" />
+            <div className="absolute top-3 right-3 bg-emerald-500 text-white rounded-md px-2 py-1 text-[10px] font-bold shadow">
+              HD
+            </div>
+            <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center shadow-2xl ring-4 ring-white/40">
+              <Play className="w-7 h-7 text-primary fill-primary translate-x-0.5" />
+            </div>
+            <div className="absolute bottom-3 left-3 right-3">
+              <div className="h-1.5 bg-white/30 rounded-full overflow-hidden">
+                <div className="h-full w-2/3 bg-gradient-to-r from-amber-300 to-emerald-300" />
+              </div>
+              <div className="flex justify-between text-[10px] text-white/90 mt-1 font-medium">
+                <span>16:12</span>
+                <span>24:00</span>
+              </div>
             </div>
           </div>
+
           <div>
-            <h4 className="text-white font-semibold text-sm sm:text-base">
+            <h4 className="text-foreground font-bold text-sm sm:text-base">
               Bài 12 · IELTS Reading – Skimming &amp; Scanning
             </h4>
-            <p className="text-white/50 text-xs mt-1">Giảng viên: Thầy Hải · 24 phút</p>
+            <p className="text-muted-foreground text-xs mt-1">
+              Giảng viên: Thầy Hải · 24 phút · 🏆 9.2 điểm trung bình
+            </p>
           </div>
+
+          {/* Colorful stat cards */}
           <div className="grid grid-cols-3 gap-2 sm:gap-3">
-            {stats.map((s) => (
-              <div key={s.l} className="rounded-lg bg-white/5 border border-white/10 p-2.5 min-w-0">
-                <div className="text-[10px] text-white/50 uppercase tracking-wider truncate">{s.l}</div>
-                <div className={`text-base sm:text-lg font-bold bg-gradient-to-r ${s.c} bg-clip-text text-transparent`}>
-                  {s.v}
+            {[
+              { l: "Tiến độ", v: "72%", bg: "from-sky-100 to-sky-50", tx: "text-sky-700", border: "border-sky-200" },
+              { l: "Đã làm", v: "9/12", bg: "from-emerald-100 to-emerald-50", tx: "text-emerald-700", border: "border-emerald-200" },
+              { l: "Điểm TB", v: "8.4", bg: "from-amber-100 to-amber-50", tx: "text-amber-700", border: "border-amber-200" },
+            ].map((s) => (
+              <div key={s.l} className={`rounded-xl bg-gradient-to-br ${s.bg} border ${s.border} p-2.5 min-w-0`}>
+                <div className="text-[10px] text-muted-foreground uppercase tracking-wider truncate font-semibold">
+                  {s.l}
                 </div>
+                <div className={`text-lg sm:text-xl font-extrabold ${s.tx}`}>{s.v}</div>
               </div>
             ))}
           </div>
 
-          {/* AI Tutor — inline card (no longer floating/overlapping) */}
-          <div className="rounded-2xl bg-card border border-primary/30 shadow-xl shadow-primary/10 p-3 sm:p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-emerald-500 flex items-center justify-center shrink-0">
+          {/* AI Tutor — vivid card */}
+          <div className="rounded-2xl bg-white border-2 border-primary/30 shadow-xl shadow-primary/10 p-3 sm:p-4">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-emerald-500 flex items-center justify-center shrink-0 shadow-md">
                 <Bot className="w-4 h-4 text-white" />
               </div>
               <div className="min-w-0">
-                <div className="text-xs sm:text-sm font-semibold text-foreground">AI Tutor</div>
-                <div className="text-[10px] text-emerald-500 flex items-center gap-1">
+                <div className="text-sm font-bold text-foreground">AI Tutor · Mr. Hai Bot</div>
+                <div className="text-[10px] text-emerald-600 flex items-center gap-1 font-semibold">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  Online 24/7
+                  Online 24/7 · Trả lời ngay lập tức
                 </div>
               </div>
             </div>
             <div className="space-y-2">
-              <div className="rounded-lg bg-secondary/60 p-2.5 text-[11px] sm:text-xs text-foreground/90 leading-relaxed">
-                “Em chưa hiểu cụm <em>once in a blue moon</em>, thầy ơi.”
+              <div className="rounded-2xl rounded-tl-sm bg-secondary/70 p-2.5 text-[11px] sm:text-xs text-foreground/90 leading-relaxed">
+                🧑‍🎓 “Em chưa hiểu cụm <em>once in a blue moon</em>, thầy ơi.”
               </div>
-              <div className="rounded-lg bg-primary/10 p-2.5 text-[11px] sm:text-xs text-foreground/90 leading-relaxed">
-                Nghĩa là <strong>rất hiếm khi</strong>. Ví dụ:{" "}
-                <em>I see him once in a blue moon.</em>
+              <div className="rounded-2xl rounded-tr-sm bg-gradient-to-br from-primary/10 to-emerald-500/10 border border-primary/15 p-2.5 text-[11px] sm:text-xs text-foreground leading-relaxed">
+                🤖 Nghĩa là <strong>rất hiếm khi</strong>. Ví dụ:{" "}
+                <em>I see him once in a blue moon.</em> – Tôi rất hiếm khi gặp anh ấy.
               </div>
             </div>
           </div>
