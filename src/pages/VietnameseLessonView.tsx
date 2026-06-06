@@ -14,6 +14,15 @@ import { Badge } from "@/components/ui/badge";
 import SmartVocabCard from "@/components/SmartVocabCard";
 import { vietnameseLanguageModules } from "@/data/vietnameseCurriculumData";
 import type { VietnameseLesson, VietnameseModule, VietnameseVocabEntry } from "@/data/vietnamese/types";
+import chibiBeginner from "@/assets/grammar-chibi-beginner.png";
+import chibiIntermediate from "@/assets/grammar-chibi-intermediate.png";
+import chibiAdvanced from "@/assets/grammar-chibi-advanced.png";
+
+const chibiByLevel: Record<string, string> = {
+  beginner: chibiBeginner,
+  intermediate: chibiIntermediate,
+  advanced: chibiAdvanced,
+};
 
 // Teacher Hai tips per lesson (keyed by lesson ID)
 const teacherTips: Record<string, { vi: string; en: string }> = {
