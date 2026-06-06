@@ -577,14 +577,17 @@ const VietnameseVocabulary = () => {
                                   </p>
                                 )}
 
-                                <p className="mt-1.5 break-words italic text-foreground/90" style={{ fontSize: "0.9rem", lineHeight: 1.5 }}>
-                                  <span className="font-bold not-italic text-primary">VD: </span>
-                                  {w.example.split(new RegExp(`(${w.word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "ig")).map((part, i) =>
-                                    part.toLowerCase() === w.word.toLowerCase()
-                                      ? <strong key={i} className="font-extrabold not-italic text-foreground">{part}</strong>
-                                      : <span key={i}>{part}</span>
-                                  )}
-                                </p>
+                                <div className="mt-1.5 flex items-start gap-1.5">
+                                  <p className="break-words italic text-foreground/90 flex-1" style={{ fontSize: "0.9rem", lineHeight: 1.5 }}>
+                                    <span className="font-bold not-italic text-primary">VD: </span>
+                                    {w.example.split(new RegExp(`(${w.word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "ig")).map((part, i) =>
+                                      part.toLowerCase() === w.word.toLowerCase()
+                                        ? <strong key={i} className="font-extrabold not-italic text-foreground">{part}</strong>
+                                        : <span key={i}>{part}</span>
+                                    )}
+                                  </p>
+                                  <SpeakBtn text={w.example} size={14} />
+                                </div>
                                 {w.exampleEn && (
                                   <p className="mt-0.5 break-words italic text-xs text-muted-foreground">{w.exampleEn}</p>
                                 )}
