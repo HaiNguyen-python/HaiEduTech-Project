@@ -73,11 +73,25 @@ const SpeakBtn = ({ text, size = 16 }: { text: string; size?: number }) => {
   );
 };
 
-// ── Flashcard ──
+// ── Flashcard with synced audio (auto-plays word when flipped to back) ──
 const Flashcard = ({ word }: { word: VietnameseBankWord }) => {
   const [flipped, setFlipped] = useState(false);
+
+  // Stop any pending TTS when card unmounts or flips
+  useEffect(() => () => { stopVietnameseTts(); }, []);
+
+  const handleFlip = () => {
+    stopVietnameseTts();
+    const next = !flipped;
+    setFlipped(next);
+    // Auto-play the Vietnamese word when revealing the answer side
+    if (next) {
+      void playVietnameseTts(word.word, { playbackRate: 0.9, speechRate: 0.55, pitch: 1.05 });
+    }
+  };
+
   return (
-    <div className="cursor-pointer" onClick={() => setFlipped(!flipped)}>
+    <div className="cursor-pointer" onClick={handleFlip}>
       {!flipped ? (
         <motion.div
           key="front"
@@ -102,11 +116,21 @@ const Flashcard = ({ word }: { word: VietnameseBankWord }) => {
           className="rounded-xl bg-white dark:bg-card flex flex-col justify-center gap-2 p-6 border-2 border-border shadow-sm"
           style={{ minHeight: "13rem" }}
         >
-          <p className="font-bold text-blue-700 dark:text-blue-300 text-lg">{word.meaning}</p>
+          <div className="flex items-center gap-2">
+            <p className="font-bold text-blue-700 dark:text-blue-300 text-lg flex-1">{word.meaning}</p>
+            <div onClick={e => e.stopPropagation()}>
+              <SpeakBtn text={word.word} size={18} />
+            </div>
+          </div>
           <p className="text-sm text-foreground">{word.meaningEn}</p>
-          <p className="italic text-sm text-foreground/80 mt-2">
-            <span className="not-italic font-bold text-primary">VD: </span>{word.example}
-          </p>
+          <div className="flex items-start gap-2 mt-2">
+            <p className="italic text-sm text-foreground/80 flex-1">
+              <span className="not-italic font-bold text-primary">VD: </span>{word.example}
+            </p>
+            <div onClick={e => e.stopPropagation()}>
+              <SpeakBtn text={word.example} size={16} />
+            </div>
+          </div>
           {word.exampleEn && <p className="text-xs text-muted-foreground italic">{word.exampleEn}</p>}
           <Badge variant="outline" className="w-fit mt-1 text-xs">{word.category}</Badge>
         </motion.div>
