@@ -114,9 +114,29 @@ const ClassroomBattle = ({ onBack, initialRoomCode }: ClassroomBattleProps) => {
     setLoading(false);
   };
 
-  // Subscribe to room status changes
+  const fetchLeaderboard = async () => {
+    if (!roomId) return;
+    const { data, error } = await supabase
+      .from("game_participants")
+      .select("display_name, score, finished_at")
+      .eq("room_id", roomId)
+      .order("score", { ascending: false })
+      .order("finished_at", { ascending: true, nullsFirst: false });
+    if (error) {
+      console.warn("[ClassroomBattle] leaderboard fetch failed", error);
+      return;
+    }
+    if (data) setLeaderboard(data);
+  };
+
+  // Subscribe to room status changes + participants. Realtime alone is not
+  // reliable enough (websocket can drop / buffer), so we also poll every 2s
+  // while the room is active. This is what guarantees students see live
+  // score updates instead of staying stuck at the initial 0-pts snapshot.
   useEffect(() => {
     if (!roomId) return;
+
+    fetchLeaderboard();
 
     const channel = supabase
       .channel(`room-${roomId}`)
@@ -130,37 +150,27 @@ const ClassroomBattle = ({ onBack, initialRoomCode }: ClassroomBattleProps) => {
           }
           if (room.status === "ended") {
             setPhase("results");
+            fetchLeaderboard();
           }
         }
       )
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "game_participants", filter: `room_id=eq.${roomId}` },
-        () => {
-          // Refresh leaderboard
-          fetchLeaderboard();
-        }
+        () => fetchLeaderboard()
       )
       .subscribe();
 
+    // Polling fallback - 2s while active so the leaderboard cannot get stuck.
+    const interval = setInterval(fetchLeaderboard, 2000);
+
     return () => {
       supabase.removeChannel(channel);
+      clearInterval(interval);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomId, phase]);
 
-  const fetchLeaderboard = async () => {
-    if (!roomId) return;
-    const { data } = await supabase
-      .from("game_participants")
-      .select("display_name, score, finished_at")
-      .eq("room_id", roomId)
-      .order("score", { ascending: false });
-    if (data) setLeaderboard(data);
-  };
-
-  useEffect(() => {
-    if (roomId) fetchLeaderboard();
-  }, [roomId]);
 
   // Handle game end
   const handleGameEnd = async (gameResult: GameResult) => {
