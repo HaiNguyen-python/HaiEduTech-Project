@@ -51,6 +51,19 @@ const VocabArena = () => {
     }
   }, []);
 
+  // Prefetch heavy chunks when the user enters a sub-screen so the next click
+  // (Start / Join / Open game) doesn't wait on a network round-trip.
+  useEffect(() => {
+    if (phase === "solo-setup") {
+      import("@/data/ieltsVocabData");
+      import("@/components/vocab-arena/GameEngine");
+    } else if (phase === "classroom-student") {
+      import("@/components/vocab-arena/ClassroomBattle");
+    } else if (phase === "classroom-teacher") {
+      import("@/components/vocab-arena/TeacherPanel");
+    }
+  }, [phase]);
+
   // Solo settings
   const [soloLevel, setSoloLevel] = useState("all");
   const [soloCategory, setSoloCategory] = useState("all");
