@@ -10,6 +10,9 @@ import { vietnameseLessonsExpansionModules } from "./lessonsExpansion";
 import { vocabularyExtrasModules } from "./vocabularyExtras";
 import { vocabularyMegaModules } from "./vocabularyMega";
 import { vocabularyMega2Modules } from "./vocabularyMega2";
+import { vocabularyMega3Modules } from "./vocabularyMega3";
+import { vocabularyMega4Modules } from "./vocabularyMega4";
+import { vocabularyMega5Modules } from "./vocabularyMega5";
 import type { VietnameseVocabEntry } from "./types";
 
 export type VietnameseBankLevel = "beginner" | "intermediate" | "advanced";
@@ -32,6 +35,9 @@ const allModules = [
   ...vocabularyExtrasModules,
   ...vocabularyMegaModules,
   ...vocabularyMega2Modules,
+  ...vocabularyMega3Modules,
+  ...vocabularyMega4Modules,
+  ...vocabularyMega5Modules,
 ];
 
 const seen = new Set<string>();
