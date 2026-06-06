@@ -481,14 +481,17 @@ const EdTechWebService = () => {
                     <Label htmlFor="selected_package">Gói dịch vụ quan tâm *</Label>
                     <Select
                       value={form.selected_package}
-                      onValueChange={(v) => update("selected_package", v as "standard" | "advanced")}
+                      onValueChange={(v) =>
+                        update("selected_package", v as FormState["selected_package"])
+                      }
                     >
                       <SelectTrigger id="selected_package">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="standard">Gói Standard</SelectItem>
-                        <SelectItem value="advanced">Gói Advanced AI &amp; Data (Khuyên dùng)</SelectItem>
+                        <SelectItem value="standard">Gói Standard (từ 8.000.000₫)</SelectItem>
+                        <SelectItem value="advanced">Gói Advanced AI &amp; Data (từ 18.000.000₫)</SelectItem>
+                        <SelectItem value="enterprise">Gói Enterprise (từ 45.000.000₫)</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
