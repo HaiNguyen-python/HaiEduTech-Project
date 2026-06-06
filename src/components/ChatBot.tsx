@@ -370,6 +370,7 @@ const ChatBot = () => {
         ieltsRes,
         attendanceRes,
         streakRes,
+        notebookRes,
       ] = await Promise.all([
         supabase.from("profiles").select("full_name").eq("id", user.id).maybeSingle(),
         supabase.from("user_vocab_mastered").select("subject").eq("user_id", user.id),
@@ -377,7 +378,7 @@ const ChatBot = () => {
           .from("user_vocab_mastered")
           .select("subject, word, reviewed_at")
           .eq("user_id", user.id)
-          .order("reviewed_at", { ascending: true }) // oldest reviews first → best review candidates
+          .order("reviewed_at", { ascending: true })
           .limit(40),
         supabase
           .from("student_activity_log")
@@ -398,6 +399,12 @@ const ChatBot = () => {
           .order("attendance_date", { ascending: false })
           .limit(15),
         supabase.rpc("get_streak_leaderboard"),
+        supabase
+          .from("student_notebooks")
+          .select("title, subject, updated_at")
+          .eq("user_id", user.id)
+          .order("updated_at", { ascending: false })
+          .limit(8),
       ]);
 
       const fullName = (profileRes?.data?.full_name || "").trim() || "Học viên";
@@ -476,8 +483,24 @@ const ChatBot = () => {
       const streakRow = (streakRes?.data || []).find((r: any) => r.user_id === user.id);
       const streakDays = streakRow?.streak_days ?? 0;
 
+      // Recent personal notebook subjects (what the student has been studying privately)
+      const notebooks = (notebookRes?.data || []) as any[];
+      const notebookBlock = notebooks
+        .slice(0, 6)
+        .map((n) => `  - "${(n.title || "(untitled)").slice(0, 60)}" · ${n.subject || "-"} · ${new Date(n.updated_at).toLocaleDateString()}`)
+        .join("\n") || "  - (no notebook entries yet)";
+
+      // Current page context — what the student is looking at RIGHT NOW
+      const currentPath = typeof window !== "undefined" ? window.location.pathname : "/";
+
+      // Pet identity (so the AI uses the student's chosen pet name when relevant)
+      let petName = "Pixel";
+      try { petName = localStorage.getItem("pet_identity_name") || "Pixel"; } catch { /* ignore */ }
+
       const context = [
         `Student name: ${fullName}`,
+        `Current page on HaiEduTech (right now): ${currentPath}`,
+        `Student's AI Pet nickname: ${petName}`,
         `Current study streak: ${streakDays} day(s)`,
         `Mastered vocabulary by subject: ${vocabSummary}`,
         ``,
@@ -497,6 +520,9 @@ const ChatBot = () => {
         ``,
         `Recent class / lesson attendance:`,
         attendanceBlock,
+        ``,
+        `Student's recent personal notebook entries (private study notes — reference only when relevant to their question):`,
+        notebookBlock,
       ].join("\n");
 
       setStudentContext(context);
@@ -1291,7 +1317,8 @@ const ChatBot = () => {
 
             {/* Pet Info Panel — explains how the pet evolves */}
             {showPetInfo && (
-              <div className="border-b border-border bg-gradient-to-br from-sky-50 via-white to-emerald-50 px-4 py-3 text-xs text-foreground">
+              <div className="border-b border-border bg-gradient-to-br from-sky-50 via-white to-emerald-50 px-4 py-3 text-xs text-foreground max-h-[60vh] overflow-y-auto overscroll-contain">
+
                 <div className="mb-2 flex items-center gap-1.5 font-semibold text-primary">
                   <Sparkles className="h-3.5 w-3.5" />
                   {t("Cách Pet AI lên cấp", "How your AI Pet levels up")}
@@ -1362,7 +1389,7 @@ const ChatBot = () => {
                   <div className="mt-3 mb-1.5 text-[11px] font-semibold text-foreground">
                     {t("Chọn hình Pet", "Choose Pet skin")}
                   </div>
-                  <div className="grid grid-cols-4 gap-1.5">
+                  <div className="grid grid-cols-4 gap-1.5 max-h-[220px] overflow-y-auto pr-1">
                     {PET_SKINS.map((s) => {
                       const active = s.id === petId.skinId;
                       return (

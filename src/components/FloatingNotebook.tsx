@@ -175,15 +175,35 @@ const FloatingNotebook = () => {
     try { localStorage.removeItem(draftKey(id)); } catch { /* ignore */ }
   }, [draftKey]);
 
+  const listSnapshotKey = useCallback(
+    () => `notebook-snapshot-${user?.id || "anon"}`,
+    [user]
+  );
+
   const fetchNotebooks = useCallback(async () => {
     if (!user) return;
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("student_notebooks")
       .select("id, title, content, subject, updated_at")
       .eq("user_id", user.id)
       .order("updated_at", { ascending: false });
-    setNotebooks(data || []);
-  }, [user]);
+    if (error) {
+      // Fallback: restore last known snapshot from localStorage so the user
+      // never sees an empty list because of a transient network/auth error.
+      try {
+        const raw = localStorage.getItem(listSnapshotKey());
+        if (raw) {
+          const snapshot = JSON.parse(raw);
+          if (Array.isArray(snapshot)) setNotebooks(snapshot);
+        }
+      } catch { /* ignore */ }
+      return;
+    }
+    const rows = data || [];
+    setNotebooks(rows);
+    // Snapshot the full list (with content) so we can rebuild offline / on error.
+    try { localStorage.setItem(listSnapshotKey(), JSON.stringify(rows)); } catch { /* ignore */ }
+  }, [user, listSnapshotKey]);
 
   useEffect(() => {
     if (user && open) {
@@ -229,7 +249,23 @@ const FloatingNotebook = () => {
     setSelectedId(nb.id);
     setTitle(nb.title);
     setSubject(nb.subject);
-    const html = nb.content.includes("<") ? nb.content : `<p>${nb.content}</p>`;
+    let html = nb.content.includes("<") ? nb.content : `<p>${nb.content}</p>`;
+    // If a local draft exists for this note AND it was saved more recently
+    // than the server's updated_at, restore the draft so unsaved edits are
+    // never lost (e.g. closed tab before debounce fired).
+    try {
+      const raw = localStorage.getItem(draftKey(nb.id));
+      if (raw) {
+        const draft = JSON.parse(raw) as { title: string; subject: string; content: string; savedAt: number };
+        const remoteTime = new Date(nb.updated_at).getTime();
+        if (draft && draft.savedAt && draft.savedAt > remoteTime + 1000) {
+          html = draft.content || html;
+          if (draft.title) setTitle(draft.title);
+          if (draft.subject) setSubject(draft.subject);
+          toast({ title: "Đã khôi phục bản nháp chưa lưu của ghi chú này" });
+        }
+      }
+    } catch { /* ignore */ }
     skipNextAutoSave.current = true;
     editor?.commands.setContent(html);
     lastSyncedUpdatedAt.current = nb.updated_at;
@@ -424,7 +460,7 @@ const FloatingNotebook = () => {
     if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
     autoSaveTimer.current = setTimeout(() => {
       handleSave();
-    }, 2500);
+    }, 1200);
     return () => { if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current); };
   }, [editorTick, title, subject, open, user, selectedId, handleSave, writeDraft, getContent]);
 
