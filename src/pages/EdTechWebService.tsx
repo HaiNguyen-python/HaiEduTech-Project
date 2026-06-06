@@ -507,4 +507,410 @@ const EdTechWebService = () => {
   );
 };
 
+/* -------------------------------------------------------------------------- */
+/* Interactive Portfolio Showcase                                              */
+/* -------------------------------------------------------------------------- */
+
+// Mock learning-progress series for the analytics dashboard tab
+const PROGRESS_SERIES = [
+  { day: "T2", students: 42, lessons: 18 },
+  { day: "T3", students: 51, lessons: 22 },
+  { day: "T4", students: 47, lessons: 25 },
+  { day: "T5", students: 63, lessons: 31 },
+  { day: "T6", students: 70, lessons: 36 },
+  { day: "T7", students: 88, lessons: 42 },
+  { day: "CN", students: 74, lessons: 39 },
+];
+
+// LMS app mockup — sidebar + video player + progress + AI tutor widget
+const LmsMockup = () => (
+  <div className="relative rounded-2xl border border-border bg-gradient-to-br from-slate-900 to-slate-800 shadow-2xl overflow-hidden">
+    <div className="grid grid-cols-12 min-h-[420px]">
+      {/* Sidebar */}
+      <aside className="col-span-3 bg-slate-950/60 border-r border-white/5 p-4 space-y-3">
+        <div className="flex items-center gap-2 mb-4">
+          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary to-emerald-500" />
+          <span className="text-white/90 font-semibold text-sm">EduClass</span>
+        </div>
+        {["Khóa học", "Bài tập", "Lịch học", "Điểm số", "Cộng đồng"].map((m, i) => (
+          <div
+            key={m}
+            className={`px-3 py-2 rounded-lg text-xs ${
+              i === 0
+                ? "bg-primary/20 text-primary-foreground border border-primary/40"
+                : "text-white/60 hover:bg-white/5"
+            }`}
+          >
+            {m}
+          </div>
+        ))}
+      </aside>
+      {/* Main */}
+      <main className="col-span-9 p-5 space-y-4">
+        <div className="aspect-video rounded-xl bg-gradient-to-br from-primary/30 via-slate-800 to-emerald-500/30 flex items-center justify-center relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(255,255,255,0.1),transparent_50%)]" />
+          <div className="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center shadow-xl">
+            <Play className="w-6 h-6 text-primary fill-primary translate-x-0.5" />
+          </div>
+          <div className="absolute bottom-3 left-3 right-3 h-1 bg-white/20 rounded-full overflow-hidden">
+            <div className="h-full w-2/3 bg-gradient-to-r from-primary to-emerald-400" />
+          </div>
+        </div>
+        <div>
+          <h4 className="text-white font-semibold text-sm">Bài 12 · IELTS Reading – Skimming &amp; Scanning</h4>
+          <p className="text-white/50 text-xs mt-0.5">Giảng viên: Thầy Hải · 24 phút</p>
+        </div>
+        <div className="grid grid-cols-3 gap-2">
+          {[
+            { l: "Tiến độ", v: "72%", c: "from-primary to-blue-400" },
+            { l: "Đã làm", v: "9/12", c: "from-emerald-500 to-teal-400" },
+            { l: "Điểm TB", v: "8.4", c: "from-amber-500 to-orange-400" },
+          ].map((s) => (
+            <div key={s.l} className="rounded-lg bg-white/5 border border-white/10 p-2.5">
+              <div className="text-[10px] text-white/50 uppercase tracking-wider">{s.l}</div>
+              <div className={`text-base font-bold bg-gradient-to-r ${s.c} bg-clip-text text-transparent`}>
+                {s.v}
+              </div>
+            </div>
+          ))}
+        </div>
+      </main>
+    </div>
+    {/* Floating AI chatbot widget */}
+    <div className="absolute bottom-4 right-4 w-56 rounded-2xl bg-card border border-primary/30 shadow-2xl shadow-primary/20 p-3">
+      <div className="flex items-center gap-2 mb-2">
+        <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary to-emerald-500 flex items-center justify-center">
+          <Bot className="w-4 h-4 text-white" />
+        </div>
+        <div>
+          <div className="text-xs font-semibold text-foreground">AI Tutor</div>
+          <div className="text-[10px] text-emerald-500 flex items-center gap-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            Online 24/7
+          </div>
+        </div>
+      </div>
+      <div className="rounded-lg bg-secondary/60 p-2 text-[11px] text-foreground/90 leading-snug">
+        “Em chưa hiểu cụm <em>once in a blue moon</em>, thầy ơi.”
+      </div>
+      <div className="mt-1.5 rounded-lg bg-primary/10 p-2 text-[11px] text-foreground/90 leading-snug">
+        Nghĩa là <strong>rất hiếm khi</strong>. Ví dụ: <em>I see him once in a blue moon.</em>
+      </div>
+    </div>
+  </div>
+);
+
+// Assistant time-log & salary mockup
+const AssistantMockup = () => (
+  <div className="rounded-2xl border border-border bg-card shadow-2xl overflow-hidden">
+    <div className="p-5 border-b border-border bg-gradient-to-r from-primary/5 to-emerald-500/5">
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <div>
+          <h4 className="font-semibold text-foreground text-sm">Bảng điều khiển Trợ giảng</h4>
+          <p className="text-xs text-muted-foreground">Phiên làm việc · Hôm nay</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <button className="h-9 px-4 rounded-lg bg-emerald-500 text-white text-xs font-semibold flex items-center gap-1.5">
+            <Clock className="w-3.5 h-3.5" /> Check-in
+          </button>
+          <button className="h-9 px-4 rounded-lg border border-border text-xs font-semibold text-foreground">
+            Check-out
+          </button>
+        </div>
+      </div>
+    </div>
+    <div className="p-5 grid grid-cols-3 gap-3">
+      {[
+        { l: "Giờ làm hôm nay", v: "6.5h", i: Clock, c: "text-primary" },
+        { l: "Lương dự kiến", v: "325K₫", i: DollarSign, c: "text-emerald-500" },
+        { l: "Báo cáo đã gửi", v: "3", i: FileText, c: "text-amber-500" },
+      ].map((s) => (
+        <div key={s.l} className="rounded-lg border border-border p-3">
+          <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-muted-foreground">
+            <s.i className={`w-3 h-3 ${s.c}`} /> {s.l}
+          </div>
+          <div className="text-lg font-bold text-foreground mt-1">{s.v}</div>
+        </div>
+      ))}
+    </div>
+    <div className="p-5 pt-0">
+      <h5 className="text-xs font-semibold text-foreground mb-2">Nhật ký phiên gần đây</h5>
+      <div className="rounded-lg border border-border overflow-hidden text-xs">
+        {[
+          { d: "06/06", in: "08:00", out: "12:00", h: "4.0h", s: "200K₫" },
+          { d: "05/06", in: "13:30", out: "17:00", h: "3.5h", s: "175K₫" },
+          { d: "04/06", in: "08:15", out: "11:45", h: "3.5h", s: "175K₫" },
+        ].map((r, i) => (
+          <div
+            key={i}
+            className={`grid grid-cols-5 px-3 py-2 ${
+              i % 2 === 0 ? "bg-secondary/30" : "bg-background"
+            } text-foreground`}
+          >
+            <span className="text-muted-foreground">{r.d}</span>
+            <span>{r.in}</span>
+            <span>{r.out}</span>
+            <span className="font-medium">{r.h}</span>
+            <span className="text-emerald-600 font-semibold text-right">{r.s}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
+// Admin analytics dashboard mockup with mini recharts line
+const AdminMockup = () => (
+  <div className="rounded-2xl border border-border bg-card shadow-2xl overflow-hidden">
+    <div className="p-5 border-b border-border flex items-center justify-between flex-wrap gap-2">
+      <div>
+        <h4 className="font-semibold text-foreground text-sm">Bảng Quản trị · Học viện</h4>
+        <p className="text-xs text-muted-foreground">Dữ liệu cập nhật theo thời gian thực</p>
+      </div>
+      <span className="text-[10px] px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-600 font-semibold">
+        ● LIVE
+      </span>
+    </div>
+    <div className="p-5 grid grid-cols-3 gap-3">
+      {[
+        { l: "Học viên", v: "1,284", d: "+12%", c: "text-primary" },
+        { l: "Bài giảng", v: "367", d: "+8%", c: "text-emerald-500" },
+        { l: "Quiz hoàn tất", v: "9,842", d: "+24%", c: "text-violet-500" },
+      ].map((s) => (
+        <div key={s.l} className="rounded-lg border border-border p-3">
+          <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{s.l}</div>
+          <div className="text-xl font-bold text-foreground mt-1">{s.v}</div>
+          <div className={`text-[10px] font-semibold ${s.c}`}>{s.d} tuần này</div>
+        </div>
+      ))}
+    </div>
+    <div className="p-5 pt-0">
+      <h5 className="text-xs font-semibold text-foreground mb-2">Tiến độ học tập 7 ngày</h5>
+      <div className="h-44 w-full">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={PROGRESS_SERIES} margin={{ top: 5, right: 8, left: -20, bottom: 0 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+            <XAxis dataKey="day" stroke="hsl(var(--muted-foreground))" fontSize={11} />
+            <YAxis stroke="hsl(var(--muted-foreground))" fontSize={11} />
+            <Tooltip
+              contentStyle={{
+                background: "hsl(var(--card))",
+                border: "1px solid hsl(var(--border))",
+                borderRadius: 8,
+                fontSize: 12,
+              }}
+            />
+            <Line type="monotone" dataKey="students" stroke="hsl(var(--primary))" strokeWidth={2.5} dot={{ r: 3 }} />
+            <Line type="monotone" dataKey="lessons" stroke="#10B981" strokeWidth={2.5} dot={{ r: 3 }} />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  </div>
+);
+
+const PortfolioShowcase = () => {
+  const tabs = [
+    { id: "lms", label: "Giao diện Học viên (LMS)", icon: Monitor, body: <LmsMockup /> },
+    { id: "assistant", label: "Chấm công & Trợ lý", icon: ClipboardList, body: <AssistantMockup /> },
+    { id: "admin", label: "Admin Tổng (Analytics)", icon: LayoutDashboard, body: <AdminMockup /> },
+  ];
+  return (
+    <section className="py-16 sm:py-20">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="text-center max-w-2xl mx-auto mb-10">
+          <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
+            Hệ Thống Tính Năng – Bản Demo Trực Quan
+          </h2>
+          <p className="mt-3 text-muted-foreground">
+            Khám phá những gì quý Thầy/Cô sẽ thực sự nhận được – từ giao diện học viên đến bảng quản trị.
+          </p>
+        </div>
+        <Tabs defaultValue="lms" className="max-w-5xl mx-auto">
+          <TabsList className="w-full h-auto flex flex-wrap justify-center gap-2 bg-secondary/40 p-2 rounded-xl">
+            {tabs.map((t) => (
+              <TabsTrigger
+                key={t.id}
+                value={t.id}
+                className="gap-2 px-4 py-2.5 text-xs sm:text-sm data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-emerald-500 data-[state=active]:text-primary-foreground data-[state=active]:shadow-md"
+              >
+                <t.icon className="w-4 h-4" />
+                {t.label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+          {tabs.map((t) => (
+            <TabsContent key={t.id} value={t.id} className="mt-8">
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                {t.body}
+              </motion.div>
+            </TabsContent>
+          ))}
+        </Tabs>
+      </div>
+    </section>
+  );
+};
+
+/* -------------------------------------------------------------------------- */
+/* Feature Comparison Matrix                                                   */
+/* -------------------------------------------------------------------------- */
+
+const COMPARISON_ROWS: Array<{
+  feature: string;
+  standard: { v: string; ok?: boolean };
+  advanced: { v: string; ok?: boolean };
+}> = [
+  {
+    feature: "Bảo mật & Lưu trữ video bài giảng",
+    standard: { v: "Nhúng cơ bản (YouTube/Vimeo)" },
+    advanced: { v: "Hosting bảo mật, chống tải xuống, watermark", ok: true },
+  },
+  {
+    feature: "Tích hợp Trợ lý AI cho học sinh",
+    standard: { v: "Không có" },
+    advanced: { v: "Chatbot Perplexity/GPT huấn luyện theo tài liệu của Thầy/Cô", ok: true },
+  },
+  {
+    feature: "Phân tích học tập (Learning Analytics)",
+    standard: { v: "Biểu đồ tiến độ cơ bản" },
+    advanced: { v: "AI cảnh báo học sinh yếu, metric hành vi chi tiết", ok: true },
+  },
+  {
+    feature: "Email tự động & Giao dịch",
+    standard: { v: "Thao tác thủ công" },
+    advanced: { v: "Hóa đơn tự động, subdomain email thương hiệu riêng", ok: true },
+  },
+  {
+    feature: "Chấm điểm tự động (quiz/bài tập)",
+    standard: { v: "Trắc nghiệm tự động" },
+    advanced: { v: "AI Smart Grading cho bài viết & nói", ok: true },
+  },
+  {
+    feature: "Bảo trì & Cập nhật tính năng",
+    standard: { v: "Giờ hành chính" },
+    advanced: { v: "Ưu tiên + cập nhật tính năng theo quý", ok: true },
+  },
+];
+
+const ComparisonTable = () => (
+  <div className="mt-14 max-w-5xl mx-auto">
+    <h3 className="text-xl sm:text-2xl font-display font-bold text-foreground text-center mb-2">
+      Bảng So Sánh Tính Năng Giữa Các Gói
+    </h3>
+    <p className="text-center text-sm text-muted-foreground mb-6">
+      Minh bạch hoàn toàn – Quý Thầy/Cô nắm rõ giá trị của từng gói trước khi quyết định.
+    </p>
+    <div className="rounded-2xl border border-border bg-card shadow-sm overflow-x-auto">
+      <Table className="min-w-[640px]">
+        <TableHeader>
+          <TableRow className="bg-secondary/40">
+            <TableHead className="text-foreground font-semibold w-[40%]">
+              Tính năng hệ thống
+            </TableHead>
+            <TableHead className="text-foreground font-semibold text-center">
+              Gói Standard
+            </TableHead>
+            <TableHead className="text-foreground font-semibold text-center">
+              <span className="inline-flex items-center gap-1 text-primary">
+                <Crown className="w-3.5 h-3.5" /> Gói Advanced AI &amp; Data
+              </span>
+            </TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {COMPARISON_ROWS.map((r, i) => (
+            <TableRow key={r.feature} className={i % 2 === 0 ? "" : "bg-secondary/20"}>
+              <TableCell className="font-medium text-sm text-foreground align-top py-4">
+                {r.feature}
+              </TableCell>
+              <TableCell className="text-sm text-muted-foreground text-center align-top py-4">
+                <div className="flex items-start justify-center gap-1.5">
+                  <XIcon className="w-3.5 h-3.5 text-muted-foreground/70 mt-0.5 shrink-0" />
+                  <span>{r.standard.v}</span>
+                </div>
+              </TableCell>
+              <TableCell className="text-sm text-foreground text-center align-top py-4">
+                <div className="flex items-start justify-center gap-1.5">
+                  <Check className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" />
+                  <span className="font-medium">{r.advanced.v}</span>
+                </div>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  </div>
+);
+
+/* -------------------------------------------------------------------------- */
+/* FAQ Section                                                                 */
+/* -------------------------------------------------------------------------- */
+
+const FAQS = [
+  {
+    q: "Tôi không biết gì về công nghệ, mã nguồn (Code) thì có quản lý website được không?",
+    a: "Hoàn toàn được. Hệ thống được bàn giao kèm trang Admin trực quan 100% tiếng Việt, giúp Thầy/Cô đăng tải bài giảng và quản lý lớp học dễ dàng như dùng mạng xã hội mà không cần chạm vào một dòng code nào.",
+  },
+  {
+    q: "Chi phí duy trì website hàng năm gồm những gì và khoảng bao nhiêu?",
+    a: "Chi phí hàng năm chỉ gồm tiền gia hạn Tên miền (Domain) và Máy chủ lưu trữ (Hosting/Cloud). HaiEduTech cam kết tối ưu hạ tầng Server sạch giúp Thầy/Cô tiết kiệm tối đa ngân sách vận hành.",
+  },
+  {
+    q: "Tính năng Trợ lý AI hoạt động như thế nào, tôi có tự nạp kiến thức cho nó được không?",
+    a: "Được ạ. Trong gói Advanced, Trợ lý AI sẽ được cài đặt để đọc hiểu chính xác các bộ giáo trình, file tài liệu hoặc slide bài giảng của riêng Thầy/Cô, từ đó thay Thầy/Cô giải đáp thắc mắc cho học sinh chuẩn 100% theo phong cách sư phạm của mình.",
+  },
+  {
+    q: "Quy trình từ lúc đặt hàng đến khi website đi vào hoạt động mất bao lâu?",
+    a: "Quy trình chuẩn gồm 4 bước: Tiếp nhận yêu cầu & Tư vấn giải pháp → Thiết kế giao diện Demo → Tích hợp Data/AI & Cấu hình tên miền → Nghiệm thu bàn giao & Hướng dẫn sử dụng. Toàn bộ thời gian triển khai gói gọn trong từ 7 đến 14 ngày làm việc.",
+  },
+];
+
+const FaqSection = () => (
+  <section className="py-16 sm:py-20 bg-secondary/30">
+    <div className="container mx-auto px-4 sm:px-6">
+      <div className="max-w-3xl mx-auto">
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-xs font-medium text-primary mb-3">
+            <HelpCircle className="w-3.5 h-3.5" /> FAQ
+          </div>
+          <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
+            Giải Đáp Thắc Mắc Thường Gặp
+          </h2>
+          <p className="mt-3 text-muted-foreground">
+            Những câu hỏi quan trọng nhất từ quý Thầy/Cô trước khi đặt hàng.
+          </p>
+        </div>
+        <Accordion type="single" collapsible className="space-y-3">
+          {FAQS.map((f, i) => (
+            <AccordionItem
+              key={i}
+              value={`faq-${i}`}
+              className="rounded-xl border border-border bg-card px-4 sm:px-5 shadow-sm data-[state=open]:border-primary/40 data-[state=open]:shadow-md transition"
+            >
+              <AccordionTrigger className="text-left text-sm sm:text-base font-semibold text-foreground hover:no-underline py-4">
+                <span className="flex items-start gap-3">
+                  <span className="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-emerald-500 text-white text-xs flex items-center justify-center shrink-0 mt-0.5">
+                    {i + 1}
+                  </span>
+                  {f.q}
+                </span>
+              </AccordionTrigger>
+              <AccordionContent className="text-sm text-muted-foreground leading-relaxed pl-9 pb-4">
+                {f.a}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </div>
+    </div>
+  </section>
+);
+
 export default EdTechWebService;
+
