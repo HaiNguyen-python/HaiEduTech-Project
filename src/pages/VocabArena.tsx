@@ -1,23 +1,35 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, lazy, Suspense } from "react";
 import { motion } from "framer-motion";
-import { Swords, User, Users, Crown, Heart, Zap, Timer, Skull, ArrowLeft, Gamepad2 } from "lucide-react";
+import { Swords, User, Users, Crown, Heart, Zap, Timer, Skull, ArrowLeft, Gamepad2, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useUserRole } from "@/hooks/useUserRole";
-import { ieltsVocabData, IELTS_CATEGORIES, CEFR_LEVELS } from "@/data/ieltsVocabData";
+import { IELTS_CATEGORIES, CEFR_LEVELS } from "@/data/ieltsVocabData";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import GameEngine, { generateQuestions, type GameResult } from "@/components/vocab-arena/GameEngine";
-import GameOver from "@/components/vocab-arena/GameOver";
-import ClassroomBattle from "@/components/vocab-arena/ClassroomBattle";
-import TeacherPanel from "@/components/vocab-arena/TeacherPanel";
-import MiniGames from "@/components/vocab-arena/MiniGames";
-import GameLeaderboard from "@/components/games/GameLeaderboard";
+import type { GameQuestion, GameResult } from "@/components/vocab-arena/GameEngine";
 import { supabase } from "@/integrations/supabase/client";
 import chibiWarrior from "@/assets/chibi-vocab-warrior.png";
 import chibiClassroom from "@/assets/chibi-vocab-classroom.png";
 import chibiGamer from "@/assets/chibi-vocab-gamer.png";
+
+// Heavy sub-screens are split into their own chunks so the menu paints fast.
+// Previously this page eagerly imported MiniGames (~960 lines, 5 games),
+// TeacherPanel, ClassroomBattle, GameEngine, GameLeaderboard AND the full 800-word
+// vocab dataset just to render 3 cards — that's why users saw a long blank load.
+const GameEngine = lazy(() => import("@/components/vocab-arena/GameEngine"));
+const GameOver = lazy(() => import("@/components/vocab-arena/GameOver"));
+const ClassroomBattle = lazy(() => import("@/components/vocab-arena/ClassroomBattle"));
+const TeacherPanel = lazy(() => import("@/components/vocab-arena/TeacherPanel"));
+const MiniGames = lazy(() => import("@/components/vocab-arena/MiniGames"));
+const GameLeaderboard = lazy(() => import("@/components/games/GameLeaderboard"));
+
+const ScreenLoader = () => (
+  <div className="flex items-center justify-center py-24 text-muted-foreground">
+    <Loader2 className="w-6 h-6 animate-spin" />
+  </div>
+);
 
 type Phase = "menu" | "solo-setup" | "solo-playing" | "solo-results" | "classroom-student" | "classroom-teacher" | "mini-games";
 
@@ -39,20 +51,45 @@ const VocabArena = () => {
     }
   }, []);
 
+  // Prefetch heavy chunks when the user enters a sub-screen so the next click
+  // (Start / Join / Open game) doesn't wait on a network round-trip.
+  useEffect(() => {
+    if (phase === "solo-setup") {
+      import("@/data/ieltsVocabData");
+      import("@/components/vocab-arena/GameEngine");
+    } else if (phase === "classroom-student") {
+      import("@/components/vocab-arena/ClassroomBattle");
+    } else if (phase === "classroom-teacher") {
+      import("@/components/vocab-arena/TeacherPanel");
+    }
+  }, [phase]);
+
   // Solo settings
   const [soloLevel, setSoloLevel] = useState("all");
   const [soloCategory, setSoloCategory] = useState("all");
   const [soloCount, setSoloCount] = useState(15);
   const [soloLives, setSoloLives] = useState(3);
-  const [soloQuestions, setSoloQuestions] = useState<ReturnType<typeof generateQuestions>>([]);
+  const [soloQuestions, setSoloQuestions] = useState<GameQuestion[]>([]);
+  const [soloLoading, setSoloLoading] = useState(false);
 
-  const startSolo = useCallback(() => {
-    let pool = ieltsVocabData;
-    if (soloLevel !== "all") pool = pool.filter((w) => w.level === soloLevel);
-    if (soloCategory !== "all") pool = pool.filter((w) => w.category === soloCategory);
-    setSoloQuestions(generateQuestions(pool, soloCount));
-    setResult(null);
-    setPhase("solo-playing");
+  const startSolo = useCallback(async () => {
+    setSoloLoading(true);
+    try {
+      // Dynamic import so the 800-word dataset + GameEngine code only download
+      // when the student actually starts a solo run, not on page open.
+      const [{ ieltsVocabData }, { generateQuestions }] = await Promise.all([
+        import("@/data/ieltsVocabData"),
+        import("@/components/vocab-arena/GameEngine"),
+      ]);
+      let pool = ieltsVocabData;
+      if (soloLevel !== "all") pool = pool.filter((w) => w.level === soloLevel);
+      if (soloCategory !== "all") pool = pool.filter((w) => w.category === soloCategory);
+      setSoloQuestions(generateQuestions(pool, soloCount));
+      setResult(null);
+      setPhase("solo-playing");
+    } finally {
+      setSoloLoading(false);
+    }
   }, [soloLevel, soloCategory, soloCount]);
 
   const handleSoloEnd = async (gameResult: GameResult) => {
@@ -363,8 +400,9 @@ const VocabArena = () => {
                 </div>
               </div>
 
-              <Button onClick={startSolo} size="lg" className="w-full gap-2">
-                <Swords className="w-5 h-5" /> {t("Bắt đầu!", "Start!")}
+              <Button onClick={startSolo} disabled={soloLoading} size="lg" className="w-full gap-2">
+                {soloLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Swords className="w-5 h-5" />}
+                {soloLoading ? t("Đang tải...", "Loading...") : t("Bắt đầu!", "Start!")}
               </Button>
             </motion.div>
           </div>
@@ -381,12 +419,14 @@ const VocabArena = () => {
         <Navbar />
         <div className="pt-6 pb-16">
           <div className="container mx-auto px-4">
-            <GameEngine
-              questions={soloQuestions}
-              lives={soloLives}
-              onGameEnd={handleSoloEnd}
-              isSuddenDeath={soloLives === 1}
-            />
+            <Suspense fallback={<ScreenLoader />}>
+              <GameEngine
+                questions={soloQuestions}
+                lives={soloLives}
+                onGameEnd={handleSoloEnd}
+                isSuddenDeath={soloLives === 1}
+              />
+            </Suspense>
           </div>
         </div>
       </div>
@@ -400,15 +440,17 @@ const VocabArena = () => {
         <Navbar />
         <div className="pt-6 pb-16">
           <div className="container mx-auto px-4">
-            <GameOver
-              result={result}
-              onReplay={startSolo}
-              onHome={() => setPhase("menu")}
-              showAnalytics={result.wordResults}
-            />
-            <div className="max-w-lg mx-auto mt-8 rounded-xl border border-border bg-card/50 p-4">
-              <GameLeaderboard gameType="vocab-arena-solo" currentScore={result.score} />
-            </div>
+            <Suspense fallback={<ScreenLoader />}>
+              <GameOver
+                result={result}
+                onReplay={startSolo}
+                onHome={() => setPhase("menu")}
+                showAnalytics={result.wordResults}
+              />
+              <div className="max-w-lg mx-auto mt-8 rounded-xl border border-border bg-card/50 p-4">
+                <GameLeaderboard gameType="vocab-arena-solo" currentScore={result.score} />
+              </div>
+            </Suspense>
           </div>
         </div>
         <Footer />
@@ -423,13 +465,15 @@ const VocabArena = () => {
         <Navbar />
         <div className="pt-6 pb-16">
           <div className="container mx-auto px-4">
-            <ClassroomBattle
-              onBack={() => {
-                setDirectJoinCode("");
-                setPhase("menu");
-              }}
-              initialRoomCode={directJoinCode}
-            />
+            <Suspense fallback={<ScreenLoader />}>
+              <ClassroomBattle
+                onBack={() => {
+                  setDirectJoinCode("");
+                  setPhase("menu");
+                }}
+                initialRoomCode={directJoinCode}
+              />
+            </Suspense>
           </div>
         </div>
         <Footer />
@@ -444,7 +488,9 @@ const VocabArena = () => {
         <Navbar />
         <div className="pt-6 pb-16">
           <div className="container mx-auto px-4">
-            <TeacherPanel onBack={() => setPhase("menu")} />
+            <Suspense fallback={<ScreenLoader />}>
+              <TeacherPanel onBack={() => setPhase("menu")} />
+            </Suspense>
           </div>
         </div>
         <Footer />
@@ -459,7 +505,9 @@ const VocabArena = () => {
         <Navbar />
         <div className="pt-6 pb-16">
           <div className="container mx-auto px-4">
-            <MiniGames onBack={() => setPhase("menu")} />
+            <Suspense fallback={<ScreenLoader />}>
+              <MiniGames onBack={() => setPhase("menu")} />
+            </Suspense>
           </div>
         </div>
         <Footer />
