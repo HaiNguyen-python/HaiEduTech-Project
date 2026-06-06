@@ -612,79 +612,118 @@ const LmsMockup = () => {
     { l: "Điểm TB", v: "8.4", c: "from-amber-500 to-orange-400" },
   ];
   return (
-    <div className="w-full rounded-2xl border border-border bg-gradient-to-br from-slate-900 to-slate-800 shadow-2xl overflow-hidden">
+    <div className="w-full rounded-3xl border border-border bg-gradient-to-br from-sky-50 via-white to-emerald-50 shadow-2xl overflow-hidden">
+      {/* Top browser-style bar */}
+      <div className="flex items-center gap-2 px-4 py-2.5 bg-white/80 border-b border-border backdrop-blur">
+        <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
+        <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+        <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+        <div className="ml-3 flex-1 max-w-md mx-auto rounded-md bg-secondary/60 px-3 py-1 text-[11px] text-muted-foreground text-center truncate">
+          🔒 lop-thay-hai.haiedutech.com
+        </div>
+      </div>
+
       <div className="flex flex-col md:flex-row">
-        {/* Sidebar */}
-        <aside className="w-full md:w-48 lg:w-56 shrink-0 bg-slate-950/60 border-b md:border-b-0 md:border-r border-white/5 p-4">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary to-emerald-500 shrink-0" />
-            <span className="text-white/90 font-semibold text-sm whitespace-nowrap">EduClass</span>
+        {/* Sidebar — light gradient */}
+        <aside className="w-full md:w-52 lg:w-60 shrink-0 bg-gradient-to-b from-primary/95 to-emerald-500/90 text-white p-4">
+          <div className="flex items-center gap-2 mb-5">
+            <div className="w-8 h-8 rounded-lg bg-white/95 flex items-center justify-center shrink-0">
+              <GraduationCap className="w-4 h-4 text-primary" />
+            </div>
+            <span className="font-semibold text-sm whitespace-nowrap">EduClass · Thầy Hải</span>
           </div>
           <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible">
             {menu.map((m, i) => (
               <div
                 key={m}
-                className={`px-3 py-2 rounded-lg text-xs whitespace-nowrap ${
+                className={`px-3 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition-colors ${
                   i === 0
-                    ? "bg-primary/20 text-white border border-primary/40"
-                    : "text-white/60 hover:bg-white/5"
+                    ? "bg-white text-primary shadow"
+                    : "bg-white/10 text-white/90 hover:bg-white/20"
                 }`}
               >
                 {m}
               </div>
             ))}
           </div>
+          <div className="hidden md:block mt-6 rounded-xl bg-white/15 backdrop-blur p-3 text-xs">
+            <div className="font-semibold mb-1">🔥 Chuỗi học</div>
+            <div className="text-white/90">12 ngày liên tiếp</div>
+          </div>
         </aside>
 
         {/* Main */}
-        <main className="flex-1 min-w-0 p-4 sm:p-5 space-y-4">
-          <div className="aspect-video w-full rounded-xl bg-gradient-to-br from-primary/30 via-slate-800 to-emerald-500/30 flex items-center justify-center relative overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(255,255,255,0.1),transparent_50%)]" />
-            <div className="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center shadow-xl">
-              <Play className="w-6 h-6 text-primary fill-primary translate-x-0.5" />
+        <main className="flex-1 min-w-0 p-4 sm:p-6 space-y-4">
+          {/* Vivid video player */}
+          <div className="aspect-video w-full rounded-2xl bg-gradient-to-br from-primary via-violet-500 to-emerald-500 flex items-center justify-center relative overflow-hidden shadow-lg">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.4),transparent_55%),radial-gradient(circle_at_75%_70%,rgba(255,255,255,0.25),transparent_55%)]" />
+            {/* Subtitle bubble */}
+            <div className="absolute top-3 left-3 bg-white/90 backdrop-blur rounded-md px-2 py-1 text-[10px] font-semibold text-foreground shadow">
+              📖 IELTS Reading · Band 7.0+
             </div>
-            <div className="absolute bottom-3 left-3 right-3 h-1 bg-white/20 rounded-full overflow-hidden">
-              <div className="h-full w-2/3 bg-gradient-to-r from-primary to-emerald-400" />
+            <div className="absolute top-3 right-3 bg-emerald-500 text-white rounded-md px-2 py-1 text-[10px] font-bold shadow">
+              HD
+            </div>
+            <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center shadow-2xl ring-4 ring-white/40">
+              <Play className="w-7 h-7 text-primary fill-primary translate-x-0.5" />
+            </div>
+            <div className="absolute bottom-3 left-3 right-3">
+              <div className="h-1.5 bg-white/30 rounded-full overflow-hidden">
+                <div className="h-full w-2/3 bg-gradient-to-r from-amber-300 to-emerald-300" />
+              </div>
+              <div className="flex justify-between text-[10px] text-white/90 mt-1 font-medium">
+                <span>16:12</span>
+                <span>24:00</span>
+              </div>
             </div>
           </div>
+
           <div>
-            <h4 className="text-white font-semibold text-sm sm:text-base">
+            <h4 className="text-foreground font-bold text-sm sm:text-base">
               Bài 12 · IELTS Reading – Skimming &amp; Scanning
             </h4>
-            <p className="text-white/50 text-xs mt-1">Giảng viên: Thầy Hải · 24 phút</p>
+            <p className="text-muted-foreground text-xs mt-1">
+              Giảng viên: Thầy Hải · 24 phút · 🏆 9.2 điểm trung bình
+            </p>
           </div>
+
+          {/* Colorful stat cards */}
           <div className="grid grid-cols-3 gap-2 sm:gap-3">
-            {stats.map((s) => (
-              <div key={s.l} className="rounded-lg bg-white/5 border border-white/10 p-2.5 min-w-0">
-                <div className="text-[10px] text-white/50 uppercase tracking-wider truncate">{s.l}</div>
-                <div className={`text-base sm:text-lg font-bold bg-gradient-to-r ${s.c} bg-clip-text text-transparent`}>
-                  {s.v}
+            {[
+              { l: "Tiến độ", v: "72%", bg: "from-sky-100 to-sky-50", tx: "text-sky-700", border: "border-sky-200" },
+              { l: "Đã làm", v: "9/12", bg: "from-emerald-100 to-emerald-50", tx: "text-emerald-700", border: "border-emerald-200" },
+              { l: "Điểm TB", v: "8.4", bg: "from-amber-100 to-amber-50", tx: "text-amber-700", border: "border-amber-200" },
+            ].map((s) => (
+              <div key={s.l} className={`rounded-xl bg-gradient-to-br ${s.bg} border ${s.border} p-2.5 min-w-0`}>
+                <div className="text-[10px] text-muted-foreground uppercase tracking-wider truncate font-semibold">
+                  {s.l}
                 </div>
+                <div className={`text-lg sm:text-xl font-extrabold ${s.tx}`}>{s.v}</div>
               </div>
             ))}
           </div>
 
-          {/* AI Tutor — inline card (no longer floating/overlapping) */}
-          <div className="rounded-2xl bg-card border border-primary/30 shadow-xl shadow-primary/10 p-3 sm:p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-emerald-500 flex items-center justify-center shrink-0">
+          {/* AI Tutor — vivid card */}
+          <div className="rounded-2xl bg-white border-2 border-primary/30 shadow-xl shadow-primary/10 p-3 sm:p-4">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-emerald-500 flex items-center justify-center shrink-0 shadow-md">
                 <Bot className="w-4 h-4 text-white" />
               </div>
               <div className="min-w-0">
-                <div className="text-xs sm:text-sm font-semibold text-foreground">AI Tutor</div>
-                <div className="text-[10px] text-emerald-500 flex items-center gap-1">
+                <div className="text-sm font-bold text-foreground">AI Tutor · Mr. Hai Bot</div>
+                <div className="text-[10px] text-emerald-600 flex items-center gap-1 font-semibold">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  Online 24/7
+                  Online 24/7 · Trả lời ngay lập tức
                 </div>
               </div>
             </div>
             <div className="space-y-2">
-              <div className="rounded-lg bg-secondary/60 p-2.5 text-[11px] sm:text-xs text-foreground/90 leading-relaxed">
-                “Em chưa hiểu cụm <em>once in a blue moon</em>, thầy ơi.”
+              <div className="rounded-2xl rounded-tl-sm bg-secondary/70 p-2.5 text-[11px] sm:text-xs text-foreground/90 leading-relaxed">
+                🧑‍🎓 “Em chưa hiểu cụm <em>once in a blue moon</em>, thầy ơi.”
               </div>
-              <div className="rounded-lg bg-primary/10 p-2.5 text-[11px] sm:text-xs text-foreground/90 leading-relaxed">
-                Nghĩa là <strong>rất hiếm khi</strong>. Ví dụ:{" "}
-                <em>I see him once in a blue moon.</em>
+              <div className="rounded-2xl rounded-tr-sm bg-gradient-to-br from-primary/10 to-emerald-500/10 border border-primary/15 p-2.5 text-[11px] sm:text-xs text-foreground leading-relaxed">
+                🤖 Nghĩa là <strong>rất hiếm khi</strong>. Ví dụ:{" "}
+                <em>I see him once in a blue moon.</em> – Tôi rất hiếm khi gặp anh ấy.
               </div>
             </div>
           </div>
