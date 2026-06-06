@@ -270,6 +270,7 @@ const Navbar = () => {
     { to: "/programming", label: t("Học Lập Trình", "Learn Programming"), icon: Code2, subs: programmingSubs, key: "prog" },
     
     { to: "/study-abroad", label: t("Du Học", "Study Abroad"), icon: Briefcase, subs: studyAbroadSubs, key: "abroad" },
+    { to: "/dich-vu-web", label: t("Dịch Vụ Web EdTech", "EdTech Web Service"), icon: Sparkles },
     { to: "/register", label: t("Đăng ký khóa học", "Register"), icon: UserPlus },
   ];
 
