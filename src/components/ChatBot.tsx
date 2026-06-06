@@ -1291,7 +1291,8 @@ const ChatBot = () => {
 
             {/* Pet Info Panel — explains how the pet evolves */}
             {showPetInfo && (
-              <div className="border-b border-border bg-gradient-to-br from-sky-50 via-white to-emerald-50 px-4 py-3 text-xs text-foreground">
+              <div className="border-b border-border bg-gradient-to-br from-sky-50 via-white to-emerald-50 px-4 py-3 text-xs text-foreground max-h-[60vh] overflow-y-auto overscroll-contain">
+
                 <div className="mb-2 flex items-center gap-1.5 font-semibold text-primary">
                   <Sparkles className="h-3.5 w-3.5" />
                   {t("Cách Pet AI lên cấp", "How your AI Pet levels up")}
