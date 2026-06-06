@@ -8,6 +8,7 @@ import { readingModules } from "./readingLessons";
 import { folkloreLanguageModules } from "./folkloreLessons";
 import { vietnameseLessonsExpansionModules } from "./lessonsExpansion";
 import { vocabularyExtrasModules } from "./vocabularyExtras";
+import { vocabularyMegaModules } from "./vocabularyMega";
 import type { VietnameseVocabEntry } from "./types";
 
 export type VietnameseBankLevel = "beginner" | "intermediate" | "advanced";
