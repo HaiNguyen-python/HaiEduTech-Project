@@ -1363,7 +1363,7 @@ const ChatBot = () => {
                   <div className="mt-3 mb-1.5 text-[11px] font-semibold text-foreground">
                     {t("Chọn hình Pet", "Choose Pet skin")}
                   </div>
-                  <div className="grid grid-cols-4 gap-1.5">
+                  <div className="grid grid-cols-4 gap-1.5 max-h-[220px] overflow-y-auto pr-1">
                     {PET_SKINS.map((s) => {
                       const active = s.id === petId.skinId;
                       return (
