@@ -2296,6 +2296,45 @@ export type Database = {
         }
         Relationships: []
       }
+      service_requests: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          phone: string
+          selected_package: string
+          special_requirements: string | null
+          status: Database["public"]["Enums"]["service_request_status"]
+          subject_taught: string | null
+          teacher_name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          phone: string
+          selected_package: string
+          special_requirements?: string | null
+          status?: Database["public"]["Enums"]["service_request_status"]
+          subject_taught?: string | null
+          teacher_name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          phone?: string
+          selected_package?: string
+          special_requirements?: string | null
+          status?: Database["public"]["Enums"]["service_request_status"]
+          subject_taught?: string | null
+          teacher_name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       student_activity_log: {
         Row: {
           activity_id: string | null
@@ -3212,6 +3251,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "teacher" | "student" | "assistant"
+      service_request_status: "new" | "contacted" | "completed"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -3340,6 +3380,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "teacher", "student", "assistant"],
+      service_request_status: ["new", "contacted", "completed"],
     },
   },
 } as const
