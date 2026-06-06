@@ -9,6 +9,7 @@ import { folkloreLanguageModules } from "./folkloreLessons";
 import { vietnameseLessonsExpansionModules } from "./lessonsExpansion";
 import { vocabularyExtrasModules } from "./vocabularyExtras";
 import { vocabularyMegaModules } from "./vocabularyMega";
+import { vocabularyMega2Modules } from "./vocabularyMega2";
 import type { VietnameseVocabEntry } from "./types";
 
 export type VietnameseBankLevel = "beginner" | "intermediate" | "advanced";
@@ -30,6 +31,7 @@ const allModules = [
   ...vietnameseLessonsExpansionModules,
   ...vocabularyExtrasModules,
   ...vocabularyMegaModules,
+  ...vocabularyMega2Modules,
 ];
 
 const seen = new Set<string>();
