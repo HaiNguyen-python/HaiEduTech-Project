@@ -483,8 +483,24 @@ const ChatBot = () => {
       const streakRow = (streakRes?.data || []).find((r: any) => r.user_id === user.id);
       const streakDays = streakRow?.streak_days ?? 0;
 
+      // Recent personal notebook subjects (what the student has been studying privately)
+      const notebooks = (notebookRes?.data || []) as any[];
+      const notebookBlock = notebooks
+        .slice(0, 6)
+        .map((n) => `  - "${(n.title || "(untitled)").slice(0, 60)}" · ${n.subject || "-"} · ${new Date(n.updated_at).toLocaleDateString()}`)
+        .join("\n") || "  - (no notebook entries yet)";
+
+      // Current page context — what the student is looking at RIGHT NOW
+      const currentPath = typeof window !== "undefined" ? window.location.pathname : "/";
+
+      // Pet identity (so the AI uses the student's chosen pet name when relevant)
+      let petName = "Pixel";
+      try { petName = localStorage.getItem("pet_identity_name") || "Pixel"; } catch { /* ignore */ }
+
       const context = [
         `Student name: ${fullName}`,
+        `Current page on HaiEduTech (right now): ${currentPath}`,
+        `Student's AI Pet nickname: ${petName}`,
         `Current study streak: ${streakDays} day(s)`,
         `Mastered vocabulary by subject: ${vocabSummary}`,
         ``,
@@ -504,6 +520,9 @@ const ChatBot = () => {
         ``,
         `Recent class / lesson attendance:`,
         attendanceBlock,
+        ``,
+        `Student's recent personal notebook entries (private study notes — reference only when relevant to their question):`,
+        notebookBlock,
       ].join("\n");
 
       setStudentContext(context);
