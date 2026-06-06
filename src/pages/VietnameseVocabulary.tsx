@@ -341,8 +341,8 @@ const VocabExercise = ({ words, pool, t }: {
 };
 
 const VietnameseVocabulary = () => {
-  const { t, language } = useLanguage();
-  const isEn = language === "en";
+  const { t, lang } = useLanguage();
+  const isEn = lang === "en";
   const [search, setSearch] = useState("");
   const [levelFilter, setLevelFilter] = useState<string>("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
