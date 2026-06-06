@@ -136,10 +136,10 @@ const TeacherPanel = ({ onBack }: TeacherPanelProps) => {
       )
       .subscribe();
 
-    // Polling fallback - runs only while game is active. Stops when room ends.
+    // Polling fallback - 2s while active; stops when game ends.
     const interval = roomStatus === "ended"
       ? null
-      : setInterval(fetchParticipants, 3000);
+      : setInterval(fetchParticipants, 2000);
 
     return () => {
       supabase.removeChannel(channel);
