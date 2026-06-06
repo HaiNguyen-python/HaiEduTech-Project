@@ -12,7 +12,7 @@ import { chineseResources } from "@/data/lessonData";
 import { allChineseModules } from "@/data/languageCurriculum";
 import SongsBanner from "@/components/songs/SongsBanner";
 import { cn } from "@/lib/utils";
-import LanguageDataDashboard from "@/components/LanguageDataDashboard";
+import CollapsibleDataDashboard from "@/components/CollapsibleDataDashboard";
 import KangxiRadicalsBrowser from "@/components/KangxiRadicalsBrowser";
 
 const Chinese = () => {
@@ -128,8 +128,8 @@ const Chinese = () => {
               )}
             </p>
 
-            {/* Interactive Data Dashboard - Overview */}
-            <LanguageDataDashboard language="chinese" />
+            {/* Interactive Data Dashboard - Overview (collapsible) */}
+            <CollapsibleDataDashboard language="chinese" />
 
             <div className="grid md:grid-cols-3 gap-6 mb-16">
               {modules.map((m, i) => (

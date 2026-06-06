@@ -14,7 +14,7 @@ import { allEnglishModules } from "@/data/languageCurriculum";
 import SongsBanner from "@/components/songs/SongsBanner";
 import { cn } from "@/lib/utils";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import LanguageDataDashboard from "@/components/LanguageDataDashboard";
+import CollapsibleDataDashboard from "@/components/CollapsibleDataDashboard";
 
 const English = () => {
   const { t } = useLanguage();
@@ -170,8 +170,8 @@ const English = () => {
               </Link>
             </motion.div>
 
-            {/* Interactive Data Dashboard - Overview */}
-            <LanguageDataDashboard language="english" />
+            {/* Interactive Data Dashboard - Overview (collapsible) */}
+            <CollapsibleDataDashboard language="english" />
 
             {/* Programs */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">

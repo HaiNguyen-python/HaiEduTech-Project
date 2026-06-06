@@ -7,6 +7,7 @@ import { vocabularyModules } from "./vocabularyLessons";
 import { readingModules } from "./readingLessons";
 import { folkloreLanguageModules } from "./folkloreLessons";
 import { vietnameseLessonsExpansionModules } from "./lessonsExpansion";
+import { vocabularyExtrasModules } from "./vocabularyExtras";
 import type { VietnameseVocabEntry } from "./types";
 
 export type VietnameseBankLevel = "beginner" | "intermediate" | "advanced";
@@ -26,6 +27,7 @@ const allModules = [
   ...readingModules,
   ...folkloreLanguageModules,
   ...vietnameseLessonsExpansionModules,
+  ...vocabularyExtrasModules,
 ];
 
 const seen = new Set<string>();

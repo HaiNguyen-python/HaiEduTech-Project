@@ -19,7 +19,7 @@ import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import LanguageDataDashboard from "@/components/LanguageDataDashboard";
+import CollapsibleDataDashboard from "@/components/CollapsibleDataDashboard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import HistoryTimeline from "@/components/HistoryTimeline";
@@ -216,9 +216,9 @@ const Vietnamese = () => {
         <div ref={tabsRef} className="container mx-auto px-6">
             {/* =================== LANGUAGE TAB =================== */}
             <TabsContent value="language">
-              {/* Interactive Data Dashboard - Overview */}
+              {/* Interactive Data Dashboard - Overview (collapsible) */}
               <div className="pt-6">
-                <LanguageDataDashboard language="vietnamese" />
+                <CollapsibleDataDashboard language="vietnamese" />
               </div>
               <div className="relative rounded-2xl overflow-hidden mb-10">
                 {/* Background image */}
