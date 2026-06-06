@@ -21,7 +21,7 @@ import GameLeaderboard from "@/components/games/GameLeaderboard";
 import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import StudyStreakLeaderboard from "@/components/StudyStreakLeaderboard";
 import { supabase } from "@/integrations/supabase/client";
-import { playVietnameseTts } from "@/lib/vietnameseTts";
+import { playVietnameseTts, stopVietnameseTts } from "@/lib/vietnameseTts";
 import {
   vietnameseVocabBank,
   VIETNAMESE_BANK_LEVELS,
