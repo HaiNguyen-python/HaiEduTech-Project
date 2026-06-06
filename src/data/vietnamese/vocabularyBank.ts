@@ -10,6 +10,8 @@ import { vietnameseLessonsExpansionModules } from "./lessonsExpansion";
 import { vocabularyExtrasModules } from "./vocabularyExtras";
 import { vocabularyMegaModules } from "./vocabularyMega";
 import { vocabularyMega2Modules } from "./vocabularyMega2";
+import { vocabularyMega3Modules } from "./vocabularyMega3";
+import { vocabularyMega4Modules } from "./vocabularyMega4";
 import type { VietnameseVocabEntry } from "./types";
 
 export type VietnameseBankLevel = "beginner" | "intermediate" | "advanced";
