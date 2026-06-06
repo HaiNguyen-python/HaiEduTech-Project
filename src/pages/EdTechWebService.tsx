@@ -50,7 +50,7 @@ const requestSchema = z.object({
     .max(20, "Số điện thoại quá dài")
     .regex(/^[0-9+\-\s().]+$/, "Số điện thoại không hợp lệ"),
   subject_taught: z.string().trim().max(120).optional().or(z.literal("")),
-  selected_package: z.enum(["standard", "advanced"]),
+  selected_package: z.enum(["standard", "advanced", "enterprise"]),
   special_requirements: z.string().trim().max(1500).optional().or(z.literal("")),
 });
 
