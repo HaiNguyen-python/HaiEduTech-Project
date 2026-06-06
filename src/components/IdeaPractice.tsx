@@ -34,7 +34,7 @@ import {
 const STORAGE_PREFIX = "ielts-idea-notes:";
 
 const IdeaPractice = () => {
-  const { t, language } = useLanguage();
+  const { t, lang } = useLanguage();
   const [activeCategory, setActiveCategory] = useState<IdeaCategory | "all">("all");
   const [selected, setSelected] = useState<IeltsIdeaTopic | null>(null);
   const [notes, setNotes] = useState("");
@@ -108,7 +108,7 @@ const IdeaPractice = () => {
                     : "bg-background hover:bg-muted border-border"
                 }`}
               >
-                {cat.icon} {language === "vi" ? cat.labelVi : cat.label}
+                {cat.icon} {lang === "vi" ? cat.labelVi : cat.label}
               </button>
             ))}
           </div>
@@ -135,7 +135,7 @@ const IdeaPractice = () => {
                   <ChevronRight className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                 </div>
                 <p className="text-sm leading-relaxed line-clamp-3">
-                  {language === "vi" ? topic.promptVi : topic.prompt}
+                  {lang === "vi" ? topic.promptVi : topic.prompt}
                 </p>
               </button>
             );
@@ -174,7 +174,7 @@ const IdeaPractice = () => {
                     </Badge>
                   </div>
                   <p className="text-sm leading-relaxed font-medium">
-                    {language === "vi" ? selected.promptVi : selected.prompt}
+                    {lang === "vi" ? selected.promptVi : selected.prompt}
                   </p>
                 </div>
 
@@ -192,7 +192,7 @@ const IdeaPractice = () => {
                     >
                       <div className="px-4 py-2 bg-muted/40 border-b">
                         <h4 className="font-semibold text-sm">
-                          {language === "vi" ? side.labelVi : side.label}
+                          {lang === "vi" ? side.labelVi : side.label}
                         </h4>
                       </div>
                       <div className="p-3 space-y-3">
