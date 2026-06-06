@@ -9,7 +9,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import SongsBanner from "@/components/songs/SongsBanner";
-import LanguageDataDashboard from "@/components/LanguageDataDashboard";
+import CollapsibleDataDashboard from "@/components/CollapsibleDataDashboard";
 import finnishBg from "@/assets/finnish-nordic-bg.jpg";
 
 interface ProgramCard {
@@ -139,9 +139,9 @@ const Finnish = () => {
           </div>
         </section>
 
-        {/* Interactive Data Dashboard - Overview */}
+        {/* Interactive Data Dashboard - Overview (collapsible) */}
         <section className="container mx-auto px-4 sm:px-6 pt-10 md:pt-12">
-          <LanguageDataDashboard language="finnish" />
+          <CollapsibleDataDashboard language="finnish" />
         </section>
 
         {/* 4 Program Cards */}

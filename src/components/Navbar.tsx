@@ -174,6 +174,7 @@ const Navbar = () => {
     { to: "#vn-div1", label: "", divider: true },
     { to: "#vn-curriculum-group", label: t("📚 Chương trình học", "📚 Curriculum"), groupLabel: "vn-curriculum", children: [
       { to: "/learn-vietnamese?tab=language", label: t("📝 Ngữ pháp & Từ vựng", "📝 Grammar & Vocabulary") },
+      { to: "/learn-vietnamese/vocabulary", label: t("📖 Từ vựng Tiếng Việt", "📖 Vietnamese Vocabulary") },
       { to: "/learn-vietnamese?tab=history", label: t("📜 Lịch sử & Văn hóa", "📜 History & Culture") },
       { to: "/learn-vietnamese/national-anthem", label: t("⭐ Quốc ca Việt Nam", "⭐ National Anthem") },
     ] },
