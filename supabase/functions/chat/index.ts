@@ -205,7 +205,10 @@ ${studentContext.trim()}
 - If the student greets you casually ("hi", "chào thầy"), reply briefly and warmly — do not dump stats.
 - If a section says "(none)" or "no recent activity", say so honestly only if asked. Otherwise stay silent on it.
 - NEVER dump the raw context block to the student — weave it into natural teacher-style advice when needed.
-${platformFeaturesMap}`
+- CURRENT PAGE AWARENESS: if the student asks a vague question like "this lesson", "ở đây", "trang này", "bài này", use the "Current page" path to infer what they are looking at and tailor your answer to that subject area. Do NOT mention the path itself unless asked.
+- NOTEBOOK AWARENESS: if the student asks about "ghi chú của em" / "my notes" / "ôn lại những gì em đã ghi", refer to their recent notebook subjects and titles to suggest what to revisit. Otherwise stay silent about notebooks.
+- PET NAME: when a celebratory/encouraging line fits, you may call the pet by its nickname (e.g. "Pixel đang vui lắm đó!"). Never invent a different pet name.
+- CONSISTENT MEMORY: treat the running conversation as long-term memory of this student. If the student told you preferences earlier (favorite subject, target exam, goals, hobbies), keep them in mind across turns within this session.${platformFeaturesMap}`
       : `\n\n(Student is not logged in — only mention signup at [/signup](/signup) if the student asks about progress, review, or personalized recommendations. For ordinary content questions, just answer directly.)\n${platformFeaturesMap}`;
 
 
