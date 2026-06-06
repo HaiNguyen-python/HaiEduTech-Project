@@ -333,6 +333,7 @@ const App = () => (
             <Route path="/reset-password" element={<LazyRoute><ResetPassword /></LazyRoute>} />
             <Route path="/ai-library" element={<LazyRoute><AILibrary /></LazyRoute>} />
             <Route path="/learn-vietnamese" element={<LazyRoute><Vietnamese /></LazyRoute>} />
+            <Route path="/learn-vietnamese/vocabulary" element={<LazyRoute><VietnameseVocabulary /></LazyRoute>} />
             <Route path="/learn-vietnamese/module/:moduleId" element={<LazyRoute><VietnameseLessonView /></LazyRoute>} />
             <Route path="/learn-vietnamese/module/:moduleId/:lessonId" element={<LazyRoute><VietnameseLessonView /></LazyRoute>} />
             <Route path="/learn-vietnamese/history/:lessonId" element={<LazyRoute><VietnameseHistoryLesson /></LazyRoute>} />
