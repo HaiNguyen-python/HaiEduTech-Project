@@ -13,6 +13,7 @@ import {
 import { Link as RouterLink } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
+import SmartReviewColumn from "@/components/SmartReviewColumn";
 import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -617,12 +618,30 @@ const VietnameseVocabulary = () => {
             <div className="hidden lg:block w-72 flex-shrink-0 self-start space-y-4">
               <VocabMasteryLeaderboard subject="vietnamese" currentCount={mastered.size} />
               <StudyStreakLeaderboard />
+              <SmartReviewColumn
+                subject="vietnamese"
+                lang="vi-VN"
+                lookupWord={(w) => {
+                  const e = vietnameseVocabBank.find(x => x.word === w);
+                  return e ? { word: e.word, definitionVi: e.meaning, definitionEn: e.meaningEn } : null;
+                }}
+                allWordsForQuiz={vietnameseVocabBank.map(w => ({ word: w.word, definition: w.meaning }))}
+              />
             </div>
           </div>
 
           <div className="lg:hidden mt-6 space-y-4">
             <VocabMasteryLeaderboard subject="vietnamese" currentCount={mastered.size} />
             <StudyStreakLeaderboard />
+            <SmartReviewColumn
+              subject="vietnamese"
+              lang="vi-VN"
+              lookupWord={(w) => {
+                const e = vietnameseVocabBank.find(x => x.word === w);
+                return e ? { word: e.word, definitionVi: e.meaning, definitionEn: e.meaningEn } : null;
+              }}
+              allWordsForQuiz={vietnameseVocabBank.map(w => ({ word: w.word, definition: w.meaning }))}
+            />
           </div>
         </div>
       </div>
