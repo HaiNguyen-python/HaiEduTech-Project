@@ -370,6 +370,7 @@ const ChatBot = () => {
         ieltsRes,
         attendanceRes,
         streakRes,
+        notebookRes,
       ] = await Promise.all([
         supabase.from("profiles").select("full_name").eq("id", user.id).maybeSingle(),
         supabase.from("user_vocab_mastered").select("subject").eq("user_id", user.id),
@@ -377,7 +378,7 @@ const ChatBot = () => {
           .from("user_vocab_mastered")
           .select("subject, word, reviewed_at")
           .eq("user_id", user.id)
-          .order("reviewed_at", { ascending: true }) // oldest reviews first → best review candidates
+          .order("reviewed_at", { ascending: true })
           .limit(40),
         supabase
           .from("student_activity_log")
@@ -398,6 +399,12 @@ const ChatBot = () => {
           .order("attendance_date", { ascending: false })
           .limit(15),
         supabase.rpc("get_streak_leaderboard"),
+        supabase
+          .from("student_notebooks")
+          .select("title, subject, updated_at")
+          .eq("user_id", user.id)
+          .order("updated_at", { ascending: false })
+          .limit(8),
       ]);
 
       const fullName = (profileRes?.data?.full_name || "").trim() || "Học viên";
