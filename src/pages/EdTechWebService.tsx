@@ -59,7 +59,7 @@ type FormState = {
   email: string;
   phone: string;
   subject_taught: string;
-  selected_package: "standard" | "advanced";
+  selected_package: "standard" | "advanced" | "enterprise";
   special_requirements: string;
 };
 
