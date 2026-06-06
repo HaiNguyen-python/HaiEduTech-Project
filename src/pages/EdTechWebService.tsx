@@ -252,17 +252,33 @@ const EdTechWebService = () => {
                 <a href="#packages">Xem gói dịch vụ</a>
               </Button>
             </div>
-            <div className="mt-10 grid grid-cols-3 gap-4 max-w-xl mx-auto text-center">
+            <div className="mt-10 grid grid-cols-3 gap-4 max-w-2xl mx-auto text-center">
               {[
                 { k: "15+", v: "năm sư phạm" },
-                { k: "AI-Native", v: "ngay từ đầu" },
+                { k: "3+", v: "năm Kỹ sư Dữ liệu & AI" },
                 { k: "24h", v: "phản hồi tư vấn" },
               ].map((s) => (
                 <div key={s.v} className="rounded-xl border border-border bg-card/60 backdrop-blur px-3 py-3">
                   <div className="text-lg sm:text-xl font-bold text-foreground">{s.k}</div>
-                  <div className="text-xs text-muted-foreground">{s.v}</div>
+                  <div className="text-xs text-muted-foreground leading-snug">{s.v}</div>
                 </div>
               ))}
+            </div>
+
+            {/* Trust badges row */}
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-xs text-muted-foreground">
+              <span className="inline-flex items-center gap-1 rounded-full bg-secondary/60 px-3 py-1">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" /> Bảo mật chuẩn EU
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-secondary/60 px-3 py-1">
+                <Database className="w-3.5 h-3.5 text-primary" /> Sở hữu 100% dữ liệu
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-secondary/60 px-3 py-1">
+                <Zap className="w-3.5 h-3.5 text-amber-500" /> Bàn giao nhanh 7–14 ngày
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-secondary/60 px-3 py-1">
+                <Bot className="w-3.5 h-3.5 text-violet-500" /> AI Native ngay từ thiết kế
+              </span>
             </div>
           </motion.div>
         </div>
