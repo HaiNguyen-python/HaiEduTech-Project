@@ -387,8 +387,9 @@ const VocabArena = () => {
                 </div>
               </div>
 
-              <Button onClick={startSolo} size="lg" className="w-full gap-2">
-                <Swords className="w-5 h-5" /> {t("Bắt đầu!", "Start!")}
+              <Button onClick={startSolo} disabled={soloLoading} size="lg" className="w-full gap-2">
+                {soloLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Swords className="w-5 h-5" />}
+                {soloLoading ? t("Đang tải...", "Loading...") : t("Bắt đầu!", "Start!")}
               </Button>
             </motion.div>
           </div>
@@ -405,12 +406,14 @@ const VocabArena = () => {
         <Navbar />
         <div className="pt-6 pb-16">
           <div className="container mx-auto px-4">
-            <GameEngine
-              questions={soloQuestions}
-              lives={soloLives}
-              onGameEnd={handleSoloEnd}
-              isSuddenDeath={soloLives === 1}
-            />
+            <Suspense fallback={<ScreenLoader />}>
+              <GameEngine
+                questions={soloQuestions}
+                lives={soloLives}
+                onGameEnd={handleSoloEnd}
+                isSuddenDeath={soloLives === 1}
+              />
+            </Suspense>
           </div>
         </div>
       </div>
@@ -424,15 +427,17 @@ const VocabArena = () => {
         <Navbar />
         <div className="pt-6 pb-16">
           <div className="container mx-auto px-4">
-            <GameOver
-              result={result}
-              onReplay={startSolo}
-              onHome={() => setPhase("menu")}
-              showAnalytics={result.wordResults}
-            />
-            <div className="max-w-lg mx-auto mt-8 rounded-xl border border-border bg-card/50 p-4">
-              <GameLeaderboard gameType="vocab-arena-solo" currentScore={result.score} />
-            </div>
+            <Suspense fallback={<ScreenLoader />}>
+              <GameOver
+                result={result}
+                onReplay={startSolo}
+                onHome={() => setPhase("menu")}
+                showAnalytics={result.wordResults}
+              />
+              <div className="max-w-lg mx-auto mt-8 rounded-xl border border-border bg-card/50 p-4">
+                <GameLeaderboard gameType="vocab-arena-solo" currentScore={result.score} />
+              </div>
+            </Suspense>
           </div>
         </div>
         <Footer />
@@ -447,13 +452,15 @@ const VocabArena = () => {
         <Navbar />
         <div className="pt-6 pb-16">
           <div className="container mx-auto px-4">
-            <ClassroomBattle
-              onBack={() => {
-                setDirectJoinCode("");
-                setPhase("menu");
-              }}
-              initialRoomCode={directJoinCode}
-            />
+            <Suspense fallback={<ScreenLoader />}>
+              <ClassroomBattle
+                onBack={() => {
+                  setDirectJoinCode("");
+                  setPhase("menu");
+                }}
+                initialRoomCode={directJoinCode}
+              />
+            </Suspense>
           </div>
         </div>
         <Footer />
@@ -468,7 +475,9 @@ const VocabArena = () => {
         <Navbar />
         <div className="pt-6 pb-16">
           <div className="container mx-auto px-4">
-            <TeacherPanel onBack={() => setPhase("menu")} />
+            <Suspense fallback={<ScreenLoader />}>
+              <TeacherPanel onBack={() => setPhase("menu")} />
+            </Suspense>
           </div>
         </div>
         <Footer />
@@ -483,7 +492,9 @@ const VocabArena = () => {
         <Navbar />
         <div className="pt-6 pb-16">
           <div className="container mx-auto px-4">
-            <MiniGames onBack={() => setPhase("menu")} />
+            <Suspense fallback={<ScreenLoader />}>
+              <MiniGames onBack={() => setPhase("menu")} />
+            </Suspense>
           </div>
         </div>
         <Footer />
