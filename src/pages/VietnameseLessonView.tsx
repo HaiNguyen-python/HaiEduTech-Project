@@ -14,6 +14,15 @@ import { Badge } from "@/components/ui/badge";
 import SmartVocabCard from "@/components/SmartVocabCard";
 import { vietnameseLanguageModules } from "@/data/vietnameseCurriculumData";
 import type { VietnameseLesson, VietnameseModule, VietnameseVocabEntry } from "@/data/vietnamese/types";
+import chibiBeginner from "@/assets/grammar-chibi-beginner.png";
+import chibiIntermediate from "@/assets/grammar-chibi-intermediate.png";
+import chibiAdvanced from "@/assets/grammar-chibi-advanced.png";
+
+const chibiByLevel: Record<string, string> = {
+  beginner: chibiBeginner,
+  intermediate: chibiIntermediate,
+  advanced: chibiAdvanced,
+};
 
 // Teacher Hai tips per lesson (keyed by lesson ID)
 const teacherTips: Record<string, { vi: string; en: string }> = {
@@ -77,16 +86,51 @@ const stripLeadingMarkdownTitle = (content: string) => content.replace(/^##\s+[^
 
 const getCategoryGuidance = (category: VietnameseModule["category"], isVietnamese: boolean) => {
   if (isVietnamese) {
-    if (category === "grammar") return "Với bài ngữ pháp, hãy nhìn câu theo từng khối: **ai nói / hành động gì / thông tin thêm là gì**. Tiếng Việt ít biến đổi hình thức từ, nên vị trí từ và ngữ cảnh rất quan trọng.";
-    if (category === "vocabulary") return "Với bài từ vựng, đừng học từng từ rời rạc. Hãy học theo **cụm dùng được ngay**: gọi món, hỏi đường, chào hỏi, mua đồ hoặc mô tả cảm xúc trong tình huống thật.";
-    if (category === "reading") return "Với bài đọc hiểu, hãy đọc 2 lượt: lượt 1 nắm ý chính, lượt 2 gạch chân từ khóa, nhân vật, thời gian, địa điểm và thông điệp văn hóa.";
-    return "Với bài văn hóa/dân gian, hãy chú ý tầng nghĩa: nghĩa đen của câu, bài học đạo đức, và cách người Việt dùng câu đó trong đời sống.";
+    if (category === "grammar")
+      return "Bạn hãy đọc câu tiếng Việt theo từng cụm 2-4 từ, đừng dịch từng chữ. Tiếng Việt gần như không biến đổi hình thái: cùng một từ **đi**, **học**, **ăn** dùng được cho mọi ngôi và mọi thì - cái thay đổi là **dấu thời gian** (đã, đang, sẽ) và **trật tự từ**. Khi nắm được khung *Ai - làm gì - ở đâu/khi nào*, bạn nói câu nào cũng tự nhiên.";
+    if (category === "vocabulary")
+      return "Đừng học từ rời. Hãy gom thành **cụm tình huống**: 'cho tôi một…', 'bao nhiêu tiền…', 'tôi muốn…'. Học kiểu này bạn dùng được ngay trong quán phở, ngoài chợ hay khi gọi Grab, không cần ghép câu lại từ đầu.";
+    if (category === "reading")
+      return "Đọc 2 lượt là đủ: **lượt 1** chỉ cần nắm ý chính - chuyện gì, ai, ở đâu. **Lượt 2** mới gạch chân từ khóa, dấu chấm câu và những chỗ tác giả nhấn mạnh. Với người mới, đọc to thành tiếng còn giúp luyện cả phát âm.";
+    return "Với bài văn hóa hay dân gian, hãy đọc theo 3 tầng: **nghĩa đen** của câu, **bài học** mà người Việt rút ra, và **tình huống đời thật** mà người Việt sẽ dùng câu đó. Hiểu đủ ba tầng là bạn nghe người Việt nói chuyện đã có thể 'bắt sóng' được.";
   }
 
-  if (category === "grammar") return "For grammar lessons, read the sentence in chunks: **who speaks / what action happens / what extra information is added**. Vietnamese changes word forms very little, so word order and context matter.";
-  if (category === "vocabulary") return "For vocabulary lessons, do not memorize isolated words. Learn **ready-to-use chunks** for ordering food, asking directions, greeting people, shopping, or describing feelings in real situations.";
-  if (category === "reading") return "For reading lessons, read twice: first for the main idea, then for keywords, people, time, place, and cultural meaning.";
-  return "For culture and folklore lessons, notice the layers: literal meaning, moral message, and how Vietnamese speakers use the phrase in daily life.";
+  if (category === "grammar")
+    return "Read Vietnamese sentences in 2-4 word chunks, not word-by-word. Vietnamese almost never changes word form - the same **đi**, **học**, **ăn** works for every person and tense. What changes is the **time marker** (đã, đang, sẽ) and **word order**. Once you internalise the *Who - does what - where/when* frame, every sentence comes out naturally.";
+  if (category === "vocabulary")
+    return "Don't memorise isolated words. Bundle them into **situation chunks**: 'cho tôi một…', 'bao nhiêu tiền…', 'tôi muốn…'. With chunks you can speak immediately in a phở shop, at the market or when calling a Grab - no rebuilding sentences from scratch.";
+  if (category === "reading")
+    return "Two passes are enough: **pass 1**, just catch the gist - what happens, who, where. **Pass 2**, underline keywords, punctuation, and the writer's emphasis. Beginners gain extra mileage by reading aloud, which also trains pronunciation.";
+  return "For culture or folklore lessons, read on three layers: the **literal meaning**, the **lesson** Vietnamese people draw from it, and the **real-life situations** where they actually use it. Once you cover all three, you'll start to 'tune in' when Vietnamese people talk.";
+};
+
+const buildLearningGoals = (lesson: VietnameseLesson, category: VietnameseModule["category"], isVietnamese: boolean) => {
+  const focus = category === "grammar"
+    ? (isVietnamese ? "quy tắc ngữ pháp" : "the grammar pattern")
+    : category === "vocabulary"
+      ? (isVietnamese ? "nhóm từ vựng" : "the vocabulary set")
+      : category === "reading"
+        ? (isVietnamese ? "đoạn đọc hiểu" : "the reading passage")
+        : (isVietnamese ? "nội dung văn hóa" : "the cultural content");
+
+  if (isVietnamese) {
+    return `> 🎯 **Mục tiêu sau bài học**
+>
+> 1. Hiểu rõ ${focus} và biết **khi nào** thực sự dùng trong giao tiếp hằng ngày.
+> 2. Nghe và đọc được câu mẫu của bài, **đọc đúng dấu thanh**, không bị "lơ lớ".
+> 3. Tự đặt được **ít nhất 3 câu** của riêng bạn theo đúng cấu trúc.
+> 4. Trả lời đúng **4/5 câu quiz** ở cuối bài để xem như đã nắm chắc.
+
+`;
+  }
+  return `> 🎯 **By the end of this lesson, you will**
+>
+> 1. Understand ${focus} clearly and know **when** to use it in everyday talk.
+> 2. Hear and read the lesson's sample sentences with **correct tones** - no flat pronunciation.
+> 3. Build **at least 3 of your own sentences** using the same pattern.
+> 4. Answer **4 out of 5 quiz questions** correctly to confirm you've got it.
+
+`;
 };
 
 const buildTheoryStudyGuide = (lesson: VietnameseLesson, category: VietnameseModule["category"], isVietnamese: boolean) => {
@@ -100,81 +144,76 @@ const buildTheoryStudyGuide = (lesson: VietnameseLesson, category: VietnameseMod
   if (isVietnamese) {
     return `
 
-### Mục tiêu học xong
-- Hiểu quy tắc chính của bài và biết khi nào dùng trong giao tiếp thật.
-- Nhìn được trật tự câu tiếng Việt theo từng phần nhỏ: người nói, hành động, đồ vật/thông tin.
-- Tự tạo được câu ngắn, rõ nghĩa, phù hợp với tình huống hằng ngày.
-
-### Cách hiểu nhanh cho người nước ngoài
+### Cách nắm bài nhanh
 ${getCategoryGuidance(category, true)}
 
-### Mẫu câu thực tế
+### Mẫu câu dùng được ngay
+Đây là các câu thầy chọn sát với bài học, bạn đọc to từng câu rồi thử thay 1 chi tiết bằng từ của riêng mình:
+
 ${examples.map((item) => `- **${item.example}** - ${item.exampleEn}`).join("\n")}
 
 ### Lưu ý phát âm và văn hóa
-- Đọc chậm từng cụm 2-4 từ; đừng nuốt dấu thanh vì dấu thanh có thể đổi nghĩa của từ.
-- Khi chưa chắc cách xưng hô, dùng **anh/chị** với người trưởng thành để nghe tự nhiên và lịch sự hơn.
-- Trong giao tiếp đời thường, người Việt thích câu ngắn, trực tiếp, có ngữ điệu thân thiện.
+- Đọc chậm, ngắt theo cụm 2-4 từ. Đừng "nuốt" dấu thanh vì sai dấu là **đổi nghĩa từ** (ví dụ *ma - má - mà - mả - mã - mạ*).
+- Khi chưa chắc cách xưng hô, cứ dùng **anh** với nam và **chị** với nữ trưởng thành - vừa lịch sự vừa an toàn.
+- Người Việt thích **câu ngắn, trực tiếp**, kèm chút ngữ điệu thân thiện. Câu dài kiểu "sách vở" nghe sẽ hơi xa cách.
+- Cuối câu hỏi thường có **không, à, hả, nhỉ** - đây là "nhạc điệu" của tiếng Việt, đừng bỏ qua.
 
 ### Tự luyện 3 phút (làm theo thứ tự)
 **⏱️ Phút 1 - Khởi động phát âm:**
-- Đọc to 3 lần các từ khóa của bài: ${keyWords.map((w) => `**${w}**`).join(", ") || "(các từ trong phần Từ vựng)"}.
-- Chú ý dấu thanh (sắc, huyền, hỏi, ngã, nặng) - hạ giọng hoặc lên giọng đúng chiều.
-- Bấm nút 🔊 ở mỗi thẻ từ vựng để so sánh với giọng chuẩn.
+- Đọc to 3 lần các từ khóa: ${keyWords.map((w) => `**${w}**`).join(", ") || "(các từ trong phần Từ vựng)"}.
+- Bấm 🔊 ở mỗi thẻ từ vựng và **lặp ngay** sau giọng mẫu - cố bắt chước cả ngữ điệu.
 
 **⏱️ Phút 2 - Ghép câu mẫu:**
-- Lấy câu mẫu này làm khuôn: *"${firstExample?.example ?? "(xem mẫu câu phía trên)"}"*.
-- Thay 1-2 từ trong câu bằng từ của riêng bạn (tên người, đồ vật, địa điểm bạn biết).
-- Nói thành tiếng 3 lần, mỗi lần đổi 1 chi tiết khác nhau.
+- Lấy câu này làm khuôn: *"${firstExample?.example ?? "(xem mẫu câu phía trên)"}"*.
+- Thay 1-2 từ trong câu bằng từ của riêng bạn (tên người, đồ vật, nơi bạn biết).
+- Nói thành tiếng **3 lần**, mỗi lần đổi một chi tiết khác.
 
 **⏱️ Phút 3 - Áp dụng tình huống thật:**
-- Tưởng tượng bạn đang ở Việt Nam và cần dùng nội dung "${lessonTitle}" trong đời sống.
-- Viết hoặc nói ra 2 câu hoàn chỉnh dùng đúng quy tắc bài học.
-- Tự chấm: câu có đủ chủ ngữ + động từ + bổ ngữ chưa? Dấu thanh đã rõ ràng chưa?
+- Tưởng tượng bạn đang ở Việt Nam và cần dùng nội dung "${lessonTitle}" ngay bây giờ.
+- Viết hoặc nói **2 câu hoàn chỉnh** theo đúng cấu trúc bài.
+- Tự chấm: câu có đủ **chủ ngữ + động từ + bổ ngữ** chưa? Dấu thanh đã rõ chưa?
 
-> 💡 **Mẹo của thầy Hải:** Quay video 30 giây tự nói lại bài học, sau đó nghe lại - bạn sẽ phát hiện ngay các âm chưa rõ và sửa được trong 1 phút.`;
+> 💡 **Mẹo của thầy Hải:** Quay một clip 30 giây tự nói lại bài, rồi nghe lại. Bạn sẽ thấy ngay âm nào còn mờ - và sửa được trong đúng 1 phút.`;
   }
 
   return `
 
-### Learning goals
-- Understand the main rule and know when to use it in real conversations.
-- Break a Vietnamese sentence into clear chunks: person, action, and extra information.
-- Produce short, natural sentences for daily situations.
-
-### Simple logic for foreign learners
+### Quick way to grasp the lesson
 ${getCategoryGuidance(category, false)}
 
-### Real-life sentence models
+### Ready-to-use sentence models
+These sentences are hand-picked for this lesson. Read each one aloud, then swap one detail for a word of your own:
+
 ${examples.map((item) => `- **${item.example}** - ${item.exampleEn}`).join("\n")}
 
 ### Pronunciation and culture notes
-- Speak in small chunks of 2-4 words; tones are essential because a tone change can change meaning.
-- If you are unsure about pronouns, use **anh/chị** with adults to sound polite and natural.
-- In daily speech, Vietnamese favors short, direct sentences with a friendly tone.
+- Speak in 2-4 word chunks. Never "swallow" a tone - **wrong tone = different word** (e.g. *ma - má - mà - mả - mã - mạ*).
+- If unsure about pronouns, use **anh** for adult men and **chị** for adult women - polite and safe.
+- Vietnamese prefers **short, direct sentences** with a friendly intonation. Long "bookish" sentences feel distant.
+- Question particles **không, à, hả, nhỉ** at the end carry the "music" of Vietnamese - don't drop them.
 
-### 3-minute practice (follow the order)
+### 3-minute practice (in order)
 **⏱️ Minute 1 - Warm up pronunciation:**
 - Read these key words aloud 3 times: ${keyWords.map((w) => `**${w}**`).join(", ") || "(see Vocabulary section)"}.
-- Watch the tone marks (acute, grave, hook, tilde, dot) - they raise or lower your pitch.
-- Tap the 🔊 button on each vocabulary card to compare with the native voice.
+- Tap 🔊 on each vocabulary card and **repeat immediately** after the native voice - copy the intonation too.
 
 **⏱️ Minute 2 - Build your own sentence:**
 - Use this model: *"${firstExample?.example ?? "(see the sentence models above)"}"*.
 - Replace 1-2 words with your own (a name, an object, a place you know).
-- Say it out loud 3 times, changing one detail each round.
+- Say it out loud **3 times**, swapping one detail each round.
 
 **⏱️ Minute 3 - Apply to a real situation:**
 - Imagine you are in Vietnam and need "${lessonTitle}" right now.
-- Write or speak 2 complete sentences that follow the lesson's rule.
-- Self-check: do you have a subject + verb + extra info? Are the tones clear?
+- Write or speak **2 complete sentences** that follow the lesson's pattern.
+- Self-check: do you have **subject + verb + extra info**? Are the tones clear?
 
-> 💡 **Mr. Hai's tip:** Record a 30-second video of yourself using the lesson, then listen back - you will spot unclear sounds instantly and fix them within a minute.`;
+> 💡 **Mr. Hai's tip:** Record a 30-second clip of yourself doing the lesson, then play it back. You'll spot any unclear sound instantly - and fix it in about a minute.`;
 };
 
 const getEnhancedTheory = (lesson: VietnameseLesson, category: VietnameseModule["category"], isVietnamese: boolean) => {
   const base = stripLeadingMarkdownTitle(isVietnamese ? lesson.theory : lesson.theoryEn);
-  return `${base}${buildTheoryStudyGuide(lesson, category, isVietnamese)}`;
+  const goals = buildLearningGoals(lesson, category, isVietnamese);
+  return `${goals}${base}${buildTheoryStudyGuide(lesson, category, isVietnamese)}`;
 };
 
 const lessonMarkdownComponents: Components = {
@@ -331,15 +370,32 @@ const VietnameseLessonView = () => {
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-lg">📘</div>
                     <div>
                       <h2 className="text-xl font-display font-extrabold leading-tight text-foreground sm:text-2xl">
-                        {t("Theory rõ ràng", "Clear Theory")}
+                        {t("Bài giảng", "Theory")}
                       </h2>
                       <p className="mt-1 text-sm text-muted-foreground">
-                        {t("Quy tắc → ví dụ → lưu ý → tự luyện", "Rule → examples → notes → practice")}
+                        {t("Mục tiêu → quy tắc → ví dụ → tự luyện", "Goals → rule → examples → practice")}
                       </p>
                     </div>
                   </div>
+                  {chibiByLevel[lesson.level] && (
+                    <figure className="mb-5 flex flex-col items-center gap-2 rounded-xl bg-gradient-to-br from-emerald-500/8 via-emerald-500/4 to-transparent p-4 sm:flex-row sm:items-center sm:gap-5 sm:p-5">
+                      <img
+                        src={chibiByLevel[lesson.level]}
+                        alt={t(`Hình minh hoạ bài học ${lesson.level}`, `${lesson.level} lesson illustration`)}
+                        loading="lazy"
+                        className="h-28 w-28 shrink-0 object-contain drop-shadow-md sm:h-32 sm:w-32"
+                      />
+                      <figcaption className="text-center text-sm leading-7 text-muted-foreground sm:text-left sm:text-base">
+                        {t(
+                          `Cùng thầy Hải đi qua bài "${lesson.title}" từng bước - mục tiêu rõ, ví dụ thật, có 3 phút tự luyện ở cuối.`,
+                          `Walk through "${lesson.titleEn}" with Mr. Hai step by step - clear goals, real examples, and a 3-minute practice at the end.`
+                        )}
+                      </figcaption>
+                    </figure>
+                  )}
                   <ReactMarkdown remarkPlugins={[remarkGfm]} components={lessonMarkdownComponents}>{theoryMarkdown}</ReactMarkdown>
                 </section>
+
 
                 {/* Pro Tips */}
                 {lesson.proTips && lesson.proTips.length > 0 && (
