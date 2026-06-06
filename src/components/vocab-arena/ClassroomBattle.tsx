@@ -289,17 +289,32 @@ const ClassroomBattle = ({ onBack, initialRoomCode }: ClassroomBattleProps) => {
             }
           }}
         />
-        {/* Mini leaderboard sidebar */}
-        <div className="fixed top-24 right-4 w-48 rounded-xl bg-card border border-border p-3 hidden lg:block">
-          <h4 className="text-xs font-semibold text-muted-foreground mb-2 flex items-center gap-1">
-            <Crown className="w-3 h-3 text-amber-400" /> Live
+        {/* Mini leaderboard sidebar - live, top 5, current player highlighted */}
+        <div className="fixed top-24 right-4 w-52 rounded-xl bg-card border-2 border-primary/30 p-3 shadow-lg hidden lg:block">
+          <h4 className="text-xs font-bold text-foreground mb-2 flex items-center gap-1.5">
+            <Crown className="w-3.5 h-3.5 text-amber-400" />
+            {t("BXH Trực tiếp", "Live Leaderboard")}
+            <span className="ml-auto inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
           </h4>
-          {leaderboard.slice(0, 5).map((p, i) => (
-            <div key={i} className="flex items-center justify-between text-xs py-1">
-              <span className="text-foreground truncate">{i + 1}. {p.display_name}</span>
-              <span className="text-primary font-bold">{p.score}</span>
-            </div>
-          ))}
+          {leaderboard.slice(0, 5).map((p, i) => {
+            const isMe = p.display_name === (nickname || "").trim().slice(0, 30);
+            return (
+              <div
+                key={i}
+                className={`flex items-center justify-between text-xs py-1 px-1.5 rounded ${
+                  isMe ? "bg-primary/15 ring-1 ring-primary/40" : ""
+                }`}
+              >
+                <span className="text-foreground truncate flex items-center gap-1">
+                  <span className={i === 0 ? "text-amber-500 font-bold" : "text-muted-foreground"}>
+                    {i === 0 ? "👑" : `#${i + 1}`}
+                  </span>
+                  <span className={isMe ? "font-bold" : ""}>{p.display_name}</span>
+                </span>
+                <span className="text-primary font-bold tabular-nums">{p.score}</span>
+              </div>
+            );
+          })}
         </div>
       </div>
     );
@@ -307,34 +322,46 @@ const ClassroomBattle = ({ onBack, initialRoomCode }: ClassroomBattleProps) => {
 
   // RESULTS
   if (result) {
+    const myName = (nickname || "").trim().slice(0, 30);
     return (
       <div>
         <GameOver result={result} onReplay={onBack} onHome={onBack} showAnalytics={result.wordResults} />
         {/* Final leaderboard */}
         <div className="max-w-md mx-auto mt-8">
           <h3 className="text-lg font-bold text-foreground mb-3 flex items-center gap-2">
-            <Trophy className="w-5 h-5 text-amber-400" /> {t("Bảng xếp hạng", "Leaderboard")}
+            <Trophy className="w-5 h-5 text-amber-400" /> {t("Bảng xếp hạng cuối cùng", "Final Leaderboard")}
           </h3>
-          {leaderboard.map((p, i) => (
+          {leaderboard.map((p, i) => {
+            const isMe = p.display_name === myName;
+            return (
             <motion.div
               key={i}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.1 }}
+              transition={{ delay: i * 0.08 }}
               className={`flex items-center justify-between px-4 py-3 rounded-xl border mb-2 ${
-                i === 0 ? "border-amber-500 bg-amber-500/10" : "border-border bg-card"
+                i === 0
+                  ? "border-amber-500 bg-amber-500/10"
+                  : isMe
+                  ? "border-primary bg-primary/10"
+                  : "border-border bg-card"
               }`}
             >
               <div className="flex items-center gap-3">
-                <span className={`text-lg font-bold ${i === 0 ? "text-amber-400" : "text-muted-foreground"}`}>
-                  #{i + 1}
+                <span className={`text-lg font-bold ${i === 0 ? "text-amber-400" : isMe ? "text-primary" : "text-muted-foreground"}`}>
+                  {i === 0 ? "👑" : `#${i + 1}`}
                 </span>
-                <span className="font-semibold text-foreground">{p.display_name}</span>
+                <span className="font-semibold text-foreground">
+                  {p.display_name}
+                  {isMe && <span className="ml-1 text-xs text-primary">({t("bạn", "you")})</span>}
+                </span>
               </div>
-              <span className="font-bold text-primary">{p.score} pts</span>
+              <span className="font-bold text-primary tabular-nums">{p.score} pts</span>
             </motion.div>
-          ))}
+            );
+          })}
         </div>
+
       </div>
     );
   }
