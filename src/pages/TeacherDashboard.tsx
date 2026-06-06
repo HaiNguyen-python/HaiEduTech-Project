@@ -343,6 +343,13 @@ const TeacherDashboard = () => {
                 <EnglishDictionaryAdmin />
               </TabsContent>
 
+              {/* Service Requests (EdTech Web orders) */}
+              <TabsContent value="service-requests">
+                <ServiceRequestsTab />
+              </TabsContent>
+
+
+
             </Tabs>
           </motion.div>
         </div>
