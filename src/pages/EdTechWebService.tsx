@@ -271,7 +271,7 @@ const EdTechWebService = () => {
               {[
                 { k: "15+", v: "năm sư phạm" },
                 { k: "3+", v: "năm Kỹ sư Dữ liệu & AI" },
-                { k: "24h", v: "phản hồi tư vấn" },
+                { k: "✦", v: "Kinh nghiệm liên ngành Sư phạm & Công nghệ" },
               ].map((s) => (
                 <div key={s.v} className="rounded-xl border border-border bg-card/60 backdrop-blur px-3 py-3">
                   <div className="text-lg sm:text-xl font-bold text-foreground">{s.k}</div>
@@ -292,7 +292,7 @@ const EdTechWebService = () => {
                 <Zap className="w-3.5 h-3.5 text-amber-500" /> Bàn giao nhanh 7–14 ngày
               </span>
               <span className="inline-flex items-center gap-1 rounded-full bg-secondary/60 px-3 py-1">
-                <Bot className="w-3.5 h-3.5 text-violet-500" /> AI Native ngay từ thiết kế
+                <Bot className="w-3.5 h-3.5 text-violet-500" /> Luôn tận tâm với các sản phẩm giáo dục
               </span>
             </div>
           </motion.div>
