@@ -275,6 +275,9 @@ const EdTechWebService = () => {
         </div>
       </section>
 
+      {/* Interactive Portfolio / Demo Showcase */}
+      <PortfolioShowcase />
+
       {/* Pricing */}
       <section id="packages" className="py-16 sm:py-20">
         <div className="container mx-auto px-4 sm:px-6">
