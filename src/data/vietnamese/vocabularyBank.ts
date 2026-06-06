@@ -53,6 +53,7 @@ for (const mod of allModules) {
       seen.add(key);
       bank.push({
         ...v,
+        ipa: v.ipa && v.ipa.trim().length > 0 ? v.ipa : vietnameseToIpa(v.word),
         level: (lesson.level as VietnameseBankLevel) || "beginner",
         category: mod.title,
         categoryEn: mod.titleEn,
