@@ -190,6 +190,10 @@ const TeacherDashboard = () => {
                   <Library className="w-3.5 h-3.5" />
                   {t("Từ điển Anh", "English Dictionary")}
                 </TabsTrigger>
+                <TabsTrigger value="service-requests" className="gap-1.5">
+                  <Briefcase className="w-3.5 h-3.5" />
+                  {t("Đơn Đặt Hàng Web", "Web Service Orders")}
+                </TabsTrigger>
               </TabsList>
 
               {/* Generate Tab - Embed TeacherAdmin */}
