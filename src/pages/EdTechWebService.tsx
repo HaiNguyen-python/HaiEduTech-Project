@@ -23,8 +23,20 @@ import {
 } from "@/components/ui/select";
 import {
   Sparkles, Bot, BarChart3, Mail, ShieldCheck, Check, Crown, Rocket,
-  GraduationCap, Database, Zap, Send, Loader2,
+  GraduationCap, Database, Zap, Send, Loader2, Monitor, ClipboardList,
+  LayoutDashboard, Play, MessageCircle, Clock, DollarSign, FileText,
+  HelpCircle, X as XIcon,
 } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Accordion, AccordionContent, AccordionItem, AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
+  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
+} from "@/components/ui/table";
+import {
+  LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid,
+} from "recharts";
 import { supabase } from "@/integrations/supabase/client";
 
 // Strict client-side validation schema. Server-side RLS still applies.
