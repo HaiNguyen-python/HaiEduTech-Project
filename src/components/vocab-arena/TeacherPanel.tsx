@@ -36,37 +36,55 @@ const TeacherPanel = ({ onBack }: TeacherPanelProps) => {
 
   // Create room
   const createRoom = async () => {
+    if (loading) return;
     setLoading(true);
-    const code = genCode();
-    const { data: userData } = await supabase.auth.getUser();
-    if (!userData.user) {
-      toast.error(t("Bạn cần đăng nhập", "Please log in"));
+    try {
+      const { data: userData, error: authErr } = await supabase.auth.getUser();
+      if (authErr || !userData?.user) {
+        toast.error(t("Bạn cần đăng nhập để tạo phòng", "Please log in to create a room"));
+        return;
+      }
+
+      // Retry up to 3 times in case of a rare room_code collision.
+      let lastError: any = null;
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const code = genCode();
+        const { data, error } = await supabase
+          .from("game_rooms")
+          .insert({
+            room_code: code,
+            created_by: userData.user.id,
+            status: "waiting",
+            settings: { level, category, questionCount, lives, type: "vocab_arena" },
+          })
+          .select()
+          .single();
+
+        if (!error && data) {
+          setRoomCode(code);
+          setRoomId(data.id);
+          setRoomStatus("waiting");
+          toast.success(t("Phòng đã tạo!", "Room created!"));
+          return;
+        }
+        lastError = error;
+        // 23505 = unique_violation on room_code → retry with a new code
+        if (error && (error as any).code !== "23505") break;
+      }
+
+      console.error("[VocabArena] createRoom failed", lastError);
+      const msg = lastError?.message || "";
+      if (msg.toLowerCase().includes("row-level security") || msg.toLowerCase().includes("permission")) {
+        toast.error(t("Không có quyền tạo phòng. Vui lòng đăng nhập lại.", "You don't have permission to create a room. Please log in again."));
+      } else {
+        toast.error(t(`Không thể tạo phòng: ${msg || "lỗi không rõ"}`, `Failed to create room: ${msg || "unknown error"}`));
+      }
+    } catch (e: any) {
+      console.error("[VocabArena] createRoom exception", e);
+      toast.error(t(`Lỗi mạng: ${e?.message || "không rõ"}`, `Network error: ${e?.message || "unknown"}`));
+    } finally {
       setLoading(false);
-      return;
     }
-
-    const { data, error } = await supabase
-      .from("game_rooms")
-      .insert({
-        room_code: code,
-        created_by: userData.user.id,
-        status: "waiting",
-        settings: { level, category, questionCount, lives },
-      })
-      .select()
-      .single();
-
-    if (error) {
-      toast.error(t("Không thể tạo phòng", "Failed to create room"));
-      setLoading(false);
-      return;
-    }
-
-    setRoomCode(code);
-    setRoomId(data.id);
-    setRoomStatus("waiting");
-    toast.success(t("Phòng đã tạo!", "Room created!"));
-    setLoading(false);
   };
 
   // Start game
