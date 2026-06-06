@@ -21,7 +21,7 @@ import GameLeaderboard from "@/components/games/GameLeaderboard";
 import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import StudyStreakLeaderboard from "@/components/StudyStreakLeaderboard";
 import { supabase } from "@/integrations/supabase/client";
-import { playVietnameseTts } from "@/lib/vietnameseTts";
+import { playVietnameseTts, stopVietnameseTts } from "@/lib/vietnameseTts";
 import {
   vietnameseVocabBank,
   VIETNAMESE_BANK_LEVELS,
@@ -73,11 +73,25 @@ const SpeakBtn = ({ text, size = 16 }: { text: string; size?: number }) => {
   );
 };
 
-// ── Flashcard ──
+// ── Flashcard with synced audio (auto-plays word when flipped to back) ──
 const Flashcard = ({ word }: { word: VietnameseBankWord }) => {
   const [flipped, setFlipped] = useState(false);
+
+  // Stop any pending TTS when card unmounts or flips
+  useEffect(() => () => { stopVietnameseTts(); }, []);
+
+  const handleFlip = () => {
+    stopVietnameseTts();
+    const next = !flipped;
+    setFlipped(next);
+    // Auto-play the Vietnamese word when revealing the answer side
+    if (next) {
+      void playVietnameseTts(word.word, { playbackRate: 0.9, speechRate: 0.55, pitch: 1.05 });
+    }
+  };
+
   return (
-    <div className="cursor-pointer" onClick={() => setFlipped(!flipped)}>
+    <div className="cursor-pointer" onClick={handleFlip}>
       {!flipped ? (
         <motion.div
           key="front"
@@ -102,11 +116,21 @@ const Flashcard = ({ word }: { word: VietnameseBankWord }) => {
           className="rounded-xl bg-white dark:bg-card flex flex-col justify-center gap-2 p-6 border-2 border-border shadow-sm"
           style={{ minHeight: "13rem" }}
         >
-          <p className="font-bold text-blue-700 dark:text-blue-300 text-lg">{word.meaning}</p>
+          <div className="flex items-center gap-2">
+            <p className="font-bold text-blue-700 dark:text-blue-300 text-lg flex-1">{word.meaning}</p>
+            <div onClick={e => e.stopPropagation()}>
+              <SpeakBtn text={word.word} size={18} />
+            </div>
+          </div>
           <p className="text-sm text-foreground">{word.meaningEn}</p>
-          <p className="italic text-sm text-foreground/80 mt-2">
-            <span className="not-italic font-bold text-primary">VD: </span>{word.example}
-          </p>
+          <div className="flex items-start gap-2 mt-2">
+            <p className="italic text-sm text-foreground/80 flex-1">
+              <span className="not-italic font-bold text-primary">VD: </span>{word.example}
+            </p>
+            <div onClick={e => e.stopPropagation()}>
+              <SpeakBtn text={word.example} size={16} />
+            </div>
+          </div>
           {word.exampleEn && <p className="text-xs text-muted-foreground italic">{word.exampleEn}</p>}
           <Badge variant="outline" className="w-fit mt-1 text-xs">{word.category}</Badge>
         </motion.div>
@@ -180,6 +204,24 @@ const VocabExercise = ({ words, pool, t }: {
 
   useEffect(() => { generate(); }, [generate]);
 
+  // Stop any audio when component unmounts
+  useEffect(() => () => { stopVietnameseTts(); }, []);
+
+  // Auto-play the target word when a new question appears (especially for listening)
+  useEffect(() => {
+    if (finished) return;
+    const q = questions[current];
+    if (!q) return;
+    stopVietnameseTts();
+    if (q.type === "listening") {
+      // small delay so the UI swap doesn't clip the audio start
+      const id = setTimeout(() => {
+        void playVietnameseTts(q.word.word, { playbackRate: 0.85, speechRate: 0.55, pitch: 1.05 });
+      }, 250);
+      return () => clearTimeout(id);
+    }
+  }, [current, questions, finished]);
+
   useEffect(() => {
     if (!finished || savedRef.current) return;
     savedRef.current = true;
@@ -197,9 +239,15 @@ const VocabExercise = ({ words, pool, t }: {
   const handleSelect = (idx: number) => {
     if (selected !== null) return;
     setSelected(idx);
-    if (idx === questions[current]?.correct) setScore(s => s + 1);
+    const q = questions[current];
+    if (idx === q?.correct) setScore(s => s + 1);
+    // After answering, play the correct word so learners hear the right pronunciation
+    if (q && q.type !== "listening") {
+      void playVietnameseTts(q.word.word, { playbackRate: 0.9, speechRate: 0.55, pitch: 1.05 });
+    }
   };
   const handleNext = () => {
+    stopVietnameseTts();
     if (current + 1 >= questions.length) setFinished(true);
     else { setCurrent(c => c + 1); setSelected(null); }
   };
@@ -529,14 +577,17 @@ const VietnameseVocabulary = () => {
                                   </p>
                                 )}
 
-                                <p className="mt-1.5 break-words italic text-foreground/90" style={{ fontSize: "0.9rem", lineHeight: 1.5 }}>
-                                  <span className="font-bold not-italic text-primary">VD: </span>
-                                  {w.example.split(new RegExp(`(${w.word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "ig")).map((part, i) =>
-                                    part.toLowerCase() === w.word.toLowerCase()
-                                      ? <strong key={i} className="font-extrabold not-italic text-foreground">{part}</strong>
-                                      : <span key={i}>{part}</span>
-                                  )}
-                                </p>
+                                <div className="mt-1.5 flex items-start gap-1.5">
+                                  <p className="break-words italic text-foreground/90 flex-1" style={{ fontSize: "0.9rem", lineHeight: 1.5 }}>
+                                    <span className="font-bold not-italic text-primary">VD: </span>
+                                    {w.example.split(new RegExp(`(${w.word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "ig")).map((part, i) =>
+                                      part.toLowerCase() === w.word.toLowerCase()
+                                        ? <strong key={i} className="font-extrabold not-italic text-foreground">{part}</strong>
+                                        : <span key={i}>{part}</span>
+                                    )}
+                                  </p>
+                                  <SpeakBtn text={w.example} size={14} />
+                                </div>
                                 {w.exampleEn && (
                                   <p className="mt-0.5 break-words italic text-xs text-muted-foreground">{w.exampleEn}</p>
                                 )}
