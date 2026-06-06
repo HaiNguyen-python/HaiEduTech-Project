@@ -522,83 +522,96 @@ const PROGRESS_SERIES = [
   { day: "CN", students: 74, lessons: 39 },
 ];
 
-// LMS app mockup — sidebar + video player + progress + AI tutor widget
-const LmsMockup = () => (
-  <div className="relative rounded-2xl border border-border bg-gradient-to-br from-slate-900 to-slate-800 shadow-2xl overflow-hidden">
-    <div className="grid grid-cols-12 min-h-[420px]">
-      {/* Sidebar */}
-      <aside className="col-span-3 bg-slate-950/60 border-r border-white/5 p-4 space-y-3">
-        <div className="flex items-center gap-2 mb-4">
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary to-emerald-500" />
-          <span className="text-white/90 font-semibold text-sm">EduClass</span>
-        </div>
-        {["Khóa học", "Bài tập", "Lịch học", "Điểm số", "Cộng đồng"].map((m, i) => (
-          <div
-            key={m}
-            className={`px-3 py-2 rounded-lg text-xs ${
-              i === 0
-                ? "bg-primary/20 text-primary-foreground border border-primary/40"
-                : "text-white/60 hover:bg-white/5"
-            }`}
-          >
-            {m}
+// LMS app mockup — responsive layout (sidebar collapses on mobile, AI tutor inline)
+const LmsMockup = () => {
+  const menu = ["Khóa học", "Bài tập", "Lịch học", "Điểm số", "Cộng đồng"];
+  const stats = [
+    { l: "Tiến độ", v: "72%", c: "from-primary to-blue-400" },
+    { l: "Đã làm", v: "9/12", c: "from-emerald-500 to-teal-400" },
+    { l: "Điểm TB", v: "8.4", c: "from-amber-500 to-orange-400" },
+  ];
+  return (
+    <div className="w-full rounded-2xl border border-border bg-gradient-to-br from-slate-900 to-slate-800 shadow-2xl overflow-hidden">
+      <div className="flex flex-col md:flex-row">
+        {/* Sidebar */}
+        <aside className="w-full md:w-48 lg:w-56 shrink-0 bg-slate-950/60 border-b md:border-b-0 md:border-r border-white/5 p-4">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary to-emerald-500 shrink-0" />
+            <span className="text-white/90 font-semibold text-sm whitespace-nowrap">EduClass</span>
           </div>
-        ))}
-      </aside>
-      {/* Main */}
-      <main className="col-span-9 p-5 space-y-4">
-        <div className="aspect-video rounded-xl bg-gradient-to-br from-primary/30 via-slate-800 to-emerald-500/30 flex items-center justify-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(255,255,255,0.1),transparent_50%)]" />
-          <div className="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center shadow-xl">
-            <Play className="w-6 h-6 text-primary fill-primary translate-x-0.5" />
+          <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible">
+            {menu.map((m, i) => (
+              <div
+                key={m}
+                className={`px-3 py-2 rounded-lg text-xs whitespace-nowrap ${
+                  i === 0
+                    ? "bg-primary/20 text-white border border-primary/40"
+                    : "text-white/60 hover:bg-white/5"
+                }`}
+              >
+                {m}
+              </div>
+            ))}
           </div>
-          <div className="absolute bottom-3 left-3 right-3 h-1 bg-white/20 rounded-full overflow-hidden">
-            <div className="h-full w-2/3 bg-gradient-to-r from-primary to-emerald-400" />
+        </aside>
+
+        {/* Main */}
+        <main className="flex-1 min-w-0 p-4 sm:p-5 space-y-4">
+          <div className="aspect-video w-full rounded-xl bg-gradient-to-br from-primary/30 via-slate-800 to-emerald-500/30 flex items-center justify-center relative overflow-hidden">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(255,255,255,0.1),transparent_50%)]" />
+            <div className="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center shadow-xl">
+              <Play className="w-6 h-6 text-primary fill-primary translate-x-0.5" />
+            </div>
+            <div className="absolute bottom-3 left-3 right-3 h-1 bg-white/20 rounded-full overflow-hidden">
+              <div className="h-full w-2/3 bg-gradient-to-r from-primary to-emerald-400" />
+            </div>
           </div>
-        </div>
-        <div>
-          <h4 className="text-white font-semibold text-sm">Bài 12 · IELTS Reading – Skimming &amp; Scanning</h4>
-          <p className="text-white/50 text-xs mt-0.5">Giảng viên: Thầy Hải · 24 phút</p>
-        </div>
-        <div className="grid grid-cols-3 gap-2">
-          {[
-            { l: "Tiến độ", v: "72%", c: "from-primary to-blue-400" },
-            { l: "Đã làm", v: "9/12", c: "from-emerald-500 to-teal-400" },
-            { l: "Điểm TB", v: "8.4", c: "from-amber-500 to-orange-400" },
-          ].map((s) => (
-            <div key={s.l} className="rounded-lg bg-white/5 border border-white/10 p-2.5">
-              <div className="text-[10px] text-white/50 uppercase tracking-wider">{s.l}</div>
-              <div className={`text-base font-bold bg-gradient-to-r ${s.c} bg-clip-text text-transparent`}>
-                {s.v}
+          <div>
+            <h4 className="text-white font-semibold text-sm sm:text-base">
+              Bài 12 · IELTS Reading – Skimming &amp; Scanning
+            </h4>
+            <p className="text-white/50 text-xs mt-1">Giảng viên: Thầy Hải · 24 phút</p>
+          </div>
+          <div className="grid grid-cols-3 gap-2 sm:gap-3">
+            {stats.map((s) => (
+              <div key={s.l} className="rounded-lg bg-white/5 border border-white/10 p-2.5 min-w-0">
+                <div className="text-[10px] text-white/50 uppercase tracking-wider truncate">{s.l}</div>
+                <div className={`text-base sm:text-lg font-bold bg-gradient-to-r ${s.c} bg-clip-text text-transparent`}>
+                  {s.v}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* AI Tutor — inline card (no longer floating/overlapping) */}
+          <div className="rounded-2xl bg-card border border-primary/30 shadow-xl shadow-primary/10 p-3 sm:p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-emerald-500 flex items-center justify-center shrink-0">
+                <Bot className="w-4 h-4 text-white" />
+              </div>
+              <div className="min-w-0">
+                <div className="text-xs sm:text-sm font-semibold text-foreground">AI Tutor</div>
+                <div className="text-[10px] text-emerald-500 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  Online 24/7
+                </div>
               </div>
             </div>
-          ))}
-        </div>
-      </main>
-    </div>
-    {/* Floating AI chatbot widget */}
-    <div className="absolute bottom-4 right-4 w-56 rounded-2xl bg-card border border-primary/30 shadow-2xl shadow-primary/20 p-3">
-      <div className="flex items-center gap-2 mb-2">
-        <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary to-emerald-500 flex items-center justify-center">
-          <Bot className="w-4 h-4 text-white" />
-        </div>
-        <div>
-          <div className="text-xs font-semibold text-foreground">AI Tutor</div>
-          <div className="text-[10px] text-emerald-500 flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            Online 24/7
+            <div className="space-y-2">
+              <div className="rounded-lg bg-secondary/60 p-2.5 text-[11px] sm:text-xs text-foreground/90 leading-relaxed">
+                “Em chưa hiểu cụm <em>once in a blue moon</em>, thầy ơi.”
+              </div>
+              <div className="rounded-lg bg-primary/10 p-2.5 text-[11px] sm:text-xs text-foreground/90 leading-relaxed">
+                Nghĩa là <strong>rất hiếm khi</strong>. Ví dụ:{" "}
+                <em>I see him once in a blue moon.</em>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div className="rounded-lg bg-secondary/60 p-2 text-[11px] text-foreground/90 leading-snug">
-        “Em chưa hiểu cụm <em>once in a blue moon</em>, thầy ơi.”
-      </div>
-      <div className="mt-1.5 rounded-lg bg-primary/10 p-2 text-[11px] text-foreground/90 leading-snug">
-        Nghĩa là <strong>rất hiếm khi</strong>. Ví dụ: <em>I see him once in a blue moon.</em>
+        </main>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 // Assistant time-log & salary mockup
 const AssistantMockup = () => (
