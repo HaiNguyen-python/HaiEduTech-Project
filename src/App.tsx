@@ -94,6 +94,7 @@ const IeltsSampleEssays = lazy(() => import("./pages/IeltsSampleEssays.tsx"));
 const IeltsSampleEssayDetail = lazy(() => import("./pages/IeltsSampleEssayDetail.tsx"));
 const SpeakingPractice = lazy(() => import("./pages/SpeakingPractice.tsx"));
 const IeltsVocabulary = lazy(() => import("./pages/IeltsVocabulary.tsx"));
+const VietnameseVocabulary = lazy(() => import("./pages/VietnameseVocabulary.tsx"));
 const SatVocabulary = lazy(() => import("./pages/SatVocabulary.tsx"));
 const SatExercises = lazy(() => import("./pages/SatExercises.tsx"));
 const SatExams = lazy(() => import("./pages/SatExams.tsx"));
@@ -332,6 +333,7 @@ const App = () => (
             <Route path="/reset-password" element={<LazyRoute><ResetPassword /></LazyRoute>} />
             <Route path="/ai-library" element={<LazyRoute><AILibrary /></LazyRoute>} />
             <Route path="/learn-vietnamese" element={<LazyRoute><Vietnamese /></LazyRoute>} />
+            <Route path="/learn-vietnamese/vocabulary" element={<LazyRoute><VietnameseVocabulary /></LazyRoute>} />
             <Route path="/learn-vietnamese/module/:moduleId" element={<LazyRoute><VietnameseLessonView /></LazyRoute>} />
             <Route path="/learn-vietnamese/module/:moduleId/:lessonId" element={<LazyRoute><VietnameseLessonView /></LazyRoute>} />
             <Route path="/learn-vietnamese/history/:lessonId" element={<LazyRoute><VietnameseHistoryLesson /></LazyRoute>} />
