@@ -71,15 +71,18 @@ const matchOnset = (s: string): [string, string] => {
     const rest = s.slice(2);
     if (rest.length === 0) return ["z", "i"];
     const next = rest[0];
-    if ("aăâeêoôơuưy".includes(next)) {
-      // gi + non-i vowel → /z/ + that nucleus
+    // gi + ê → the orthographic "i" of "gi" is the /i/ glide of nucleus "iê"
+    // (e.g. giếng = z + iêng, giết = z + iêt, giền = z + iên).
+    if (next === "ê") return ["z", "i" + rest];
+    if ("aăâeoôơuưy".includes(next)) {
+      // gi + other vowel → /z/ + that nucleus (gia, giúp, gio, giờ, …)
       return ["z", rest];
     }
     if (next === "i") {
       // giiêng style — rare; collapse to /z/ + rest
       return ["z", rest];
     }
-    // gi + consonant (very rare) → /zi/ + rest as coda-only? Treat as /z/ + i + rest
+    // gi + consonant (gì, gỉ, gị) → /z/ + i + coda
     return ["z", "i" + rest];
   }
   for (const [k, v] of ONSETS) if (s.startsWith(k)) return [v, s.slice(k.length)];
