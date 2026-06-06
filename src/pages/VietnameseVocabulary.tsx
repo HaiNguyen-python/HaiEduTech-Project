@@ -13,6 +13,7 @@ import {
 import { Link as RouterLink } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
+import SmartReviewColumn from "@/components/SmartReviewColumn";
 import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
