@@ -29,6 +29,7 @@ const allModules = [
   ...folkloreLanguageModules,
   ...vietnameseLessonsExpansionModules,
   ...vocabularyExtrasModules,
+  ...vocabularyMegaModules,
 ];
 
 const seen = new Set<string>();
