@@ -136,10 +136,10 @@ const TeacherPanel = ({ onBack }: TeacherPanelProps) => {
       )
       .subscribe();
 
-    // Polling fallback - runs only while game is active. Stops when room ends.
+    // Polling fallback - 2s while active; stops when game ends.
     const interval = roomStatus === "ended"
       ? null
-      : setInterval(fetchParticipants, 3000);
+      : setInterval(fetchParticipants, 2000);
 
     return () => {
       supabase.removeChannel(channel);
@@ -449,10 +449,22 @@ const TeacherPanel = ({ onBack }: TeacherPanelProps) => {
       )}
 
       {/* Live leaderboard */}
-      <div className="mb-8">
-        <h3 className="text-lg font-bold text-foreground mb-3">
-          🏆 {t("Bảng xếp hạng", "Leaderboard")}
+      <div className="mb-8 rounded-2xl border-2 border-amber-500/30 bg-gradient-to-br from-amber-500/5 to-primary/5 p-4">
+        <h3 className="text-xl font-bold text-foreground mb-1 flex items-center gap-2">
+          🏆 {t("Bảng xếp hạng trực tiếp", "Live Leaderboard")}
+          {roomStatus !== "ended" && (
+            <span className="ml-auto inline-flex items-center gap-1.5 text-xs font-normal text-emerald-600 dark:text-emerald-400">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              {t("Cập nhật mỗi 2 giây", "Updating every 2s")}
+            </span>
+          )}
         </h3>
+        <p className="text-xs text-muted-foreground mb-4">
+          {t(
+            "Điểm sẽ tự động cập nhật sau mỗi câu trả lời của học sinh.",
+            "Scores update automatically after every student answer.",
+          )}
+        </p>
         {participants.length === 0 ? (
           <p className="text-sm text-muted-foreground text-center py-6">
             {t("Chờ học sinh tham gia...", "Waiting for students...")}
@@ -461,34 +473,44 @@ const TeacherPanel = ({ onBack }: TeacherPanelProps) => {
           participants.map((p, i) => (
             <motion.div
               key={p.id}
+              layout
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
-              className={`flex items-center justify-between px-4 py-3 rounded-xl border mb-2 ${
+              transition={{ delay: i * 0.04 }}
+              className={`flex items-center justify-between px-4 py-3 rounded-xl border-2 mb-2 transition-colors ${
                 i === 0 && roomStatus !== "waiting"
-                  ? "border-amber-500 bg-amber-500/5"
+                  ? "border-amber-500 bg-amber-500/10"
+                  : i === 1 && roomStatus !== "waiting"
+                  ? "border-slate-400/60 bg-slate-400/10"
+                  : i === 2 && roomStatus !== "waiting"
+                  ? "border-orange-500/50 bg-orange-500/10"
                   : "border-border bg-card"
               }`}
             >
-              <div className="flex items-center gap-3">
-                <span className={`text-lg font-bold ${i === 0 ? "text-amber-400" : "text-muted-foreground"}`}>
-                  #{i + 1}
+              <div className="flex items-center gap-3 min-w-0">
+                <span className={`text-xl font-black w-8 text-center ${
+                  i === 0 ? "text-amber-500" : i === 1 ? "text-slate-400" : i === 2 ? "text-orange-500" : "text-muted-foreground"
+                }`}>
+                  {i === 0 && roomStatus !== "waiting" ? "👑" : `#${i + 1}`}
                 </span>
-                <span className="font-semibold text-foreground">{p.display_name}</span>
+                <span className="font-semibold text-foreground truncate">{p.display_name}</span>
               </div>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3 shrink-0">
                 {roomStatus !== "waiting" && (
-                  <span className="text-xs text-muted-foreground">
-                    {p.answers_correct}/{p.answers_total}
+                  <span className="text-xs text-muted-foreground tabular-nums">
+                    ✓ {p.answers_correct}/{p.answers_total}
                   </span>
                 )}
-                <span className="font-bold text-primary">{p.score} pts</span>
-                {p.finished_at && <span className="text-xs text-green-400">✓</span>}
+                <span className="text-lg font-black text-primary tabular-nums min-w-[64px] text-right">
+                  {p.score} <span className="text-xs font-bold text-muted-foreground">pts</span>
+                </span>
+                {p.finished_at && <span className="text-sm text-green-500" title={t("Đã hoàn thành", "Finished")}>✓</span>}
               </div>
             </motion.div>
           ))
         )}
       </div>
+
 
       {/* Word analytics - show after game ends */}
       {roomStatus === "ended" && analytics.length > 0 && (
