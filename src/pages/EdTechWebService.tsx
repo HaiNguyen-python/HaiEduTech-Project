@@ -341,12 +341,18 @@ const EdTechWebService = () => {
       <section id="packages" className="py-16 sm:py-20">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">Các gói dịch vụ</h2>
+            <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
+              Bảng giá &amp; Các gói dịch vụ
+            </h2>
             <p className="mt-3 text-muted-foreground">
-              Lựa chọn gói phù hợp với quy mô lớp học của bạn. Báo giá chi tiết sẽ được gửi sau khi tư vấn.
+              Giá niêm yết minh bạch. Báo giá cuối cùng sẽ được điều chỉnh theo phạm vi và
+              số lượng tính năng tuỳ biến thực tế của quý Thầy/Cô.
             </p>
+            <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-emerald-500/10 text-emerald-600 px-3 py-1 text-xs font-semibold">
+              <Sparkles className="w-3.5 h-3.5" /> Ưu đãi ra mắt: giảm 15% cho 10 giáo viên đầu tiên
+            </div>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-stretch">
             {PACKAGES.map((p) => (
               <motion.div
                 key={p.id}
@@ -355,7 +361,7 @@ const EdTechWebService = () => {
                 viewport={{ once: true }}
                 className={
                   p.highlight
-                    ? "relative rounded-2xl p-[2px] bg-gradient-to-br from-primary via-emerald-500 to-primary shadow-2xl shadow-primary/20"
+                    ? "relative rounded-2xl p-[2px] bg-gradient-to-br from-primary via-emerald-500 to-primary shadow-2xl shadow-primary/20 lg:-translate-y-2"
                     : "relative"
                 }
               >
@@ -364,7 +370,7 @@ const EdTechWebService = () => {
                     <Crown className="w-3 h-3" /> Khuyên dùng
                   </div>
                 )}
-                <Card className={`h-full ${p.highlight ? "bg-card" : ""}`}>
+                <Card className={`h-full flex flex-col ${p.highlight ? "bg-card" : ""}`}>
                   <CardHeader className="pb-4">
                     <div className="flex items-center gap-3">
                       <div
@@ -379,7 +385,20 @@ const EdTechWebService = () => {
                         <p className="text-xs text-muted-foreground">{p.tagline}</p>
                       </div>
                     </div>
-                    <p className="mt-4 text-2xl font-bold text-foreground">{p.priceNote}</p>
+                    <div className="mt-4">
+                      <p
+                        className={`text-2xl sm:text-3xl font-extrabold ${
+                          p.highlight
+                            ? "bg-gradient-to-r from-primary to-emerald-500 bg-clip-text text-transparent"
+                            : "text-foreground"
+                        }`}
+                      >
+                        {p.priceFrom}
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">{p.priceNote}</p>
+                      <p className="text-xs text-foreground/80 mt-1 font-medium">{p.monthly}</p>
+                    </div>
+                    <p className="mt-3 text-xs text-muted-foreground italic">{p.bestFor}</p>
                   </CardHeader>
                   <CardContent>
                     <ul className="space-y-3">
