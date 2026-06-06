@@ -56,15 +56,27 @@ const VocabArena = () => {
   const [soloCategory, setSoloCategory] = useState("all");
   const [soloCount, setSoloCount] = useState(15);
   const [soloLives, setSoloLives] = useState(3);
-  const [soloQuestions, setSoloQuestions] = useState<ReturnType<typeof generateQuestions>>([]);
+  const [soloQuestions, setSoloQuestions] = useState<GameQuestion[]>([]);
+  const [soloLoading, setSoloLoading] = useState(false);
 
-  const startSolo = useCallback(() => {
-    let pool = ieltsVocabData;
-    if (soloLevel !== "all") pool = pool.filter((w) => w.level === soloLevel);
-    if (soloCategory !== "all") pool = pool.filter((w) => w.category === soloCategory);
-    setSoloQuestions(generateQuestions(pool, soloCount));
-    setResult(null);
-    setPhase("solo-playing");
+  const startSolo = useCallback(async () => {
+    setSoloLoading(true);
+    try {
+      // Dynamic import so the 800-word dataset + GameEngine code only download
+      // when the student actually starts a solo run, not on page open.
+      const [{ ieltsVocabData }, { generateQuestions }] = await Promise.all([
+        import("@/data/ieltsVocabData"),
+        import("@/components/vocab-arena/GameEngine"),
+      ]);
+      let pool = ieltsVocabData;
+      if (soloLevel !== "all") pool = pool.filter((w) => w.level === soloLevel);
+      if (soloCategory !== "all") pool = pool.filter((w) => w.category === soloCategory);
+      setSoloQuestions(generateQuestions(pool, soloCount));
+      setResult(null);
+      setPhase("solo-playing");
+    } finally {
+      setSoloLoading(false);
+    }
   }, [soloLevel, soloCategory, soloCount]);
 
   const handleSoloEnd = async (gameResult: GameResult) => {
