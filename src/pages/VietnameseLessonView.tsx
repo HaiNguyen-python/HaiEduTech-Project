@@ -370,15 +370,32 @@ const VietnameseLessonView = () => {
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-lg">📘</div>
                     <div>
                       <h2 className="text-xl font-display font-extrabold leading-tight text-foreground sm:text-2xl">
-                        {t("Theory rõ ràng", "Clear Theory")}
+                        {t("Bài giảng", "Theory")}
                       </h2>
                       <p className="mt-1 text-sm text-muted-foreground">
-                        {t("Quy tắc → ví dụ → lưu ý → tự luyện", "Rule → examples → notes → practice")}
+                        {t("Mục tiêu → quy tắc → ví dụ → tự luyện", "Goals → rule → examples → practice")}
                       </p>
                     </div>
                   </div>
+                  {chibiByLevel[lesson.level] && (
+                    <figure className="mb-5 flex flex-col items-center gap-2 rounded-xl bg-gradient-to-br from-emerald-500/8 via-emerald-500/4 to-transparent p-4 sm:flex-row sm:items-center sm:gap-5 sm:p-5">
+                      <img
+                        src={chibiByLevel[lesson.level]}
+                        alt={t(`Hình minh hoạ bài học ${lesson.level}`, `${lesson.level} lesson illustration`)}
+                        loading="lazy"
+                        className="h-28 w-28 shrink-0 object-contain drop-shadow-md sm:h-32 sm:w-32"
+                      />
+                      <figcaption className="text-center text-sm leading-7 text-muted-foreground sm:text-left sm:text-base">
+                        {t(
+                          `Cùng thầy Hải đi qua bài "${lesson.title}" từng bước - mục tiêu rõ, ví dụ thật, có 3 phút tự luyện ở cuối.`,
+                          `Walk through "${lesson.titleEn}" with Mr. Hai step by step - clear goals, real examples, and a 3-minute practice at the end.`
+                        )}
+                      </figcaption>
+                    </figure>
+                  )}
                   <ReactMarkdown remarkPlugins={[remarkGfm]} components={lessonMarkdownComponents}>{theoryMarkdown}</ReactMarkdown>
                 </section>
+
 
                 {/* Pro Tips */}
                 {lesson.proTips && lesson.proTips.length > 0 && (
