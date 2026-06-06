@@ -354,8 +354,15 @@ const EdTechWebService = () => {
               </motion.div>
             ))}
           </div>
+
+          {/* Feature comparison matrix between the two packages */}
+          <ComparisonTable />
         </div>
       </section>
+
+      {/* FAQ — expandable accordion */}
+      <FaqSection />
+
 
       {/* Why us strip */}
       <section className="py-12 bg-gradient-to-br from-primary/5 via-background to-emerald-500/5 border-y border-border/60">
