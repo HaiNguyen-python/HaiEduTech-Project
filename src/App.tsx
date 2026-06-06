@@ -56,6 +56,7 @@ const DeferredMount = ({ children, delay = 1200 }: { children: ReactNode; delay?
 
 // Lazy-load all heavy route components for optimal code splitting
 const About = lazy(() => import("./pages/About.tsx"));
+const EdTechWebService = lazy(() => import("./pages/EdTechWebService.tsx"));
 const English = lazy(() => import("./pages/English.tsx"));
 const EnglishFunFacts = lazy(() => import("./pages/EnglishFunFacts.tsx"));
 const EnglishIdioms = lazy(() => import("./pages/EnglishIdioms.tsx"));
