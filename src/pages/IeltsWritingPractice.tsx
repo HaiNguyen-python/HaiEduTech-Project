@@ -445,10 +445,14 @@ const IeltsWritingPractice = () => {
 
         {/* Mode Tabs: Essay Writing vs Phrase Practice */}
         <Tabs defaultValue="essay" className="w-full">
-          <TabsList className="grid w-full max-w-2xl grid-cols-3 mb-6">
+          <TabsList className="grid w-full max-w-3xl grid-cols-4 mb-6">
             <TabsTrigger value="essay" className="gap-2">
               <PenLine className="w-4 h-4" />
               {t("Viết bài luận", "Essay Writing")}
+            </TabsTrigger>
+            <TabsTrigger value="idea" className="gap-2">
+              <Lightbulb className="w-4 h-4" />
+              {t("Luyện ý tưởng", "Idea Practice")}
             </TabsTrigger>
             <TabsTrigger value="phrase" className="gap-2">
               <Sparkles className="w-4 h-4" />
@@ -459,6 +463,16 @@ const IeltsWritingPractice = () => {
               {t("Luyện ngữ pháp", "Grammar Practice")}
             </TabsTrigger>
           </TabsList>
+
+          <TabsContent value="idea" className="space-y-4">
+            <p className="text-xs text-muted-foreground mb-2">
+              {t(
+                "Chọn đề Task 2, khám phá ý tưởng theo nhiều góc nhìn (lý do + ví dụ), và luyện phát triển ý của riêng bạn.",
+                "Pick a Task 2 prompt, explore ideas across multiple perspectives (reason + example), and practise developing your own."
+              )}
+            </p>
+            <IdeaPractice />
+          </TabsContent>
 
           <TabsContent value="phrase" className="space-y-4">
             <div className="flex gap-1 bg-muted rounded-lg p-1 w-fit mb-4">
