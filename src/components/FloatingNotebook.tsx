@@ -249,7 +249,23 @@ const FloatingNotebook = () => {
     setSelectedId(nb.id);
     setTitle(nb.title);
     setSubject(nb.subject);
-    const html = nb.content.includes("<") ? nb.content : `<p>${nb.content}</p>`;
+    let html = nb.content.includes("<") ? nb.content : `<p>${nb.content}</p>`;
+    // If a local draft exists for this note AND it was saved more recently
+    // than the server's updated_at, restore the draft so unsaved edits are
+    // never lost (e.g. closed tab before debounce fired).
+    try {
+      const raw = localStorage.getItem(draftKey(nb.id));
+      if (raw) {
+        const draft = JSON.parse(raw) as { title: string; subject: string; content: string; savedAt: number };
+        const remoteTime = new Date(nb.updated_at).getTime();
+        if (draft && draft.savedAt && draft.savedAt > remoteTime + 1000) {
+          html = draft.content || html;
+          if (draft.title) setTitle(draft.title);
+          if (draft.subject) setSubject(draft.subject);
+          toast({ title: "Đã khôi phục bản nháp chưa lưu của ghi chú này" });
+        }
+      }
+    } catch { /* ignore */ }
     skipNextAutoSave.current = true;
     editor?.commands.setContent(html);
     lastSyncedUpdatedAt.current = nb.updated_at;
