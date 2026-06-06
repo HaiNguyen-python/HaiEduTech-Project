@@ -1,23 +1,35 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, lazy, Suspense } from "react";
 import { motion } from "framer-motion";
-import { Swords, User, Users, Crown, Heart, Zap, Timer, Skull, ArrowLeft, Gamepad2 } from "lucide-react";
+import { Swords, User, Users, Crown, Heart, Zap, Timer, Skull, ArrowLeft, Gamepad2, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useUserRole } from "@/hooks/useUserRole";
-import { ieltsVocabData, IELTS_CATEGORIES, CEFR_LEVELS } from "@/data/ieltsVocabData";
+import { IELTS_CATEGORIES, CEFR_LEVELS } from "@/data/ieltsVocabData";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import GameEngine, { generateQuestions, type GameResult } from "@/components/vocab-arena/GameEngine";
-import GameOver from "@/components/vocab-arena/GameOver";
-import ClassroomBattle from "@/components/vocab-arena/ClassroomBattle";
-import TeacherPanel from "@/components/vocab-arena/TeacherPanel";
-import MiniGames from "@/components/vocab-arena/MiniGames";
-import GameLeaderboard from "@/components/games/GameLeaderboard";
+import type { GameQuestion, GameResult } from "@/components/vocab-arena/GameEngine";
 import { supabase } from "@/integrations/supabase/client";
 import chibiWarrior from "@/assets/chibi-vocab-warrior.png";
 import chibiClassroom from "@/assets/chibi-vocab-classroom.png";
 import chibiGamer from "@/assets/chibi-vocab-gamer.png";
+
+// Heavy sub-screens are split into their own chunks so the menu paints fast.
+// Previously this page eagerly imported MiniGames (~960 lines, 5 games),
+// TeacherPanel, ClassroomBattle, GameEngine, GameLeaderboard AND the full 800-word
+// vocab dataset just to render 3 cards — that's why users saw a long blank load.
+const GameEngine = lazy(() => import("@/components/vocab-arena/GameEngine"));
+const GameOver = lazy(() => import("@/components/vocab-arena/GameOver"));
+const ClassroomBattle = lazy(() => import("@/components/vocab-arena/ClassroomBattle"));
+const TeacherPanel = lazy(() => import("@/components/vocab-arena/TeacherPanel"));
+const MiniGames = lazy(() => import("@/components/vocab-arena/MiniGames"));
+const GameLeaderboard = lazy(() => import("@/components/games/GameLeaderboard"));
+
+const ScreenLoader = () => (
+  <div className="flex items-center justify-center py-24 text-muted-foreground">
+    <Loader2 className="w-6 h-6 animate-spin" />
+  </div>
+);
 
 type Phase = "menu" | "solo-setup" | "solo-playing" | "solo-results" | "classroom-student" | "classroom-teacher" | "mini-games";
 
