@@ -234,11 +234,26 @@ const EdTechWebService = () => {
               Độc Quyền
             </h1>
             <p className="mt-6 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Giải pháp tailor-made kết hợp <strong className="text-foreground">15 năm kinh nghiệm sư phạm</strong>{" "}
-              của Thầy Hải và chuyên môn{" "}
-              <strong className="text-foreground">Data Engineering &amp; AI từ Bắc Âu (Phần Lan)</strong>.
-              Dành riêng cho giáo viên muốn dạy học hiện đại, tự động hóa và đo lường được hiệu quả.
+              Giải pháp <strong className="text-foreground">tailor-made</strong> kết hợp{" "}
+              <strong className="text-foreground">15 năm kinh nghiệm sư phạm</strong> của Thầy Hải và{" "}
+              <strong className="text-foreground">3+ năm thực chiến Data Engineering &amp; AI tại Bắc Âu (Phần Lan)</strong>.
+              Không dùng template – mỗi website được xây riêng cho lớp học của quý Thầy/Cô:{" "}
+              <strong className="text-foreground">LMS bảo mật, AI Tutor 24/7, chấm bài tự động</strong>{" "}
+              và dashboard đo lường hiệu quả học tập theo thời gian thực.
             </p>
+            <ul className="mt-5 max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-left text-sm">
+              {[
+                "Tiết kiệm 8–10 giờ chấm bài / tuần",
+                "Tự động gửi điểm & nhắc lịch qua email",
+                "AI giải đáp học viên ngoài giờ học",
+                "Báo cáo phụ huynh tự động hàng tháng",
+              ].map((b) => (
+                <li key={b} className="flex items-start gap-2 text-foreground/90">
+                  <Check className="w-4 h-4 mt-0.5 text-emerald-500 shrink-0" />
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
             <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
               <Button
                 size="lg"
