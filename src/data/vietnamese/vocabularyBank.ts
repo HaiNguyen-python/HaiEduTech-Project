@@ -14,6 +14,7 @@ import { vocabularyMega3Modules } from "./vocabularyMega3";
 import { vocabularyMega4Modules } from "./vocabularyMega4";
 import { vocabularyMega5Modules } from "./vocabularyMega5";
 import type { VietnameseVocabEntry } from "./types";
+import { vietnameseToIpa } from "@/lib/vietnameseIpa";
 
 export type VietnameseBankLevel = "beginner" | "intermediate" | "advanced";
 
@@ -52,6 +53,7 @@ for (const mod of allModules) {
       seen.add(key);
       bank.push({
         ...v,
+        ipa: v.ipa && v.ipa.trim().length > 0 ? v.ipa : vietnameseToIpa(v.word),
         level: (lesson.level as VietnameseBankLevel) || "beginner",
         category: mod.title,
         categoryEn: mod.titleEn,
