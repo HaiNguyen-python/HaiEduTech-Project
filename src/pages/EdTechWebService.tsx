@@ -271,7 +271,7 @@ const EdTechWebService = () => {
               {[
                 { k: "15+", v: "năm sư phạm" },
                 { k: "3+", v: "năm Kỹ sư Dữ liệu & AI" },
-                { k: "24h", v: "phản hồi tư vấn" },
+                { k: "✦", v: "Kinh nghiệm liên ngành Sư phạm & Công nghệ" },
               ].map((s) => (
                 <div key={s.v} className="rounded-xl border border-border bg-card/60 backdrop-blur px-3 py-3">
                   <div className="text-lg sm:text-xl font-bold text-foreground">{s.k}</div>
