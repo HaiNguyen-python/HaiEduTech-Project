@@ -292,7 +292,7 @@ const EdTechWebService = () => {
                 <Zap className="w-3.5 h-3.5 text-amber-500" /> Bàn giao nhanh 7–14 ngày
               </span>
               <span className="inline-flex items-center gap-1 rounded-full bg-secondary/60 px-3 py-1">
-                <Bot className="w-3.5 h-3.5 text-violet-500" /> AI Native ngay từ thiết kế
+                <Bot className="w-3.5 h-3.5 text-violet-500" /> Luôn tận tâm với các sản phẩm giáo dục
               </span>
             </div>
           </motion.div>
