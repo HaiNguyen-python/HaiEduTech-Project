@@ -19,6 +19,17 @@ import chibiPanda from "@/assets/chibi-panda.png";
 import chibiCoder from "@/assets/chibi-coder.png";
 import chibiRocket from "@/assets/chibi-rocket.png";
 import chibiGraduate from "@/assets/chibi-graduate.png";
+import chibiTeacher from "@/assets/chibi-teacher.png";
+import chibiTeacherIelts from "@/assets/chibi-teacher-ielts.png";
+import chibiStudyBoy from "@/assets/chibi-study-boy.png";
+import chibiStudyGirl from "@/assets/chibi-study-girl.png";
+import chibiVocabWarrior from "@/assets/chibi-vocab-warrior.png";
+import chibiVocabGamer from "@/assets/chibi-vocab-gamer.png";
+import chibiQuizTrophy from "@/assets/chibi-quiz-trophy.png";
+import chibiSpeaking from "@/assets/chibi-speaking.png";
+import chibiReading from "@/assets/chibi-reading.png";
+import chibiListening from "@/assets/chibi-listening.png";
+import teacherHaiTraveler from "@/assets/teacher-hai-chibi-traveler.png";
 
 export interface PetSkin {
   id: string;
@@ -27,14 +38,25 @@ export interface PetSkin {
 }
 
 export const PET_SKINS: PetSkin[] = [
-  { id: "mrhai",    label: "Mr. Hai Bot", src: chatbotIcon },
-  { id: "ai",       label: "AI Cyborg",   src: aiChibiRobot },
-  { id: "robot",    label: "Tiny Robot",  src: chibiRobot },
-  { id: "owl",      label: "Wise Owl",    src: chibiOwl },
-  { id: "panda",    label: "Panda",       src: chibiPanda },
-  { id: "coder",    label: "Coder",       src: chibiCoder },
-  { id: "rocket",   label: "Rocket",      src: chibiRocket },
-  { id: "graduate", label: "Graduate",    src: chibiGraduate },
+  { id: "mrhai",      label: "Mr. Hai Bot",   src: chatbotIcon },
+  { id: "ai",         label: "AI Cyborg",     src: aiChibiRobot },
+  { id: "robot",      label: "Tiny Robot",    src: chibiRobot },
+  { id: "owl",        label: "Wise Owl",      src: chibiOwl },
+  { id: "panda",      label: "Panda",         src: chibiPanda },
+  { id: "coder",      label: "Coder",         src: chibiCoder },
+  { id: "rocket",     label: "Rocket",        src: chibiRocket },
+  { id: "graduate",   label: "Graduate",      src: chibiGraduate },
+  { id: "teacher",    label: "Mini Teacher",  src: chibiTeacher },
+  { id: "ielts",      label: "IELTS Coach",   src: chibiTeacherIelts },
+  { id: "study-boy",  label: "Study Boy",     src: chibiStudyBoy },
+  { id: "study-girl", label: "Study Girl",    src: chibiStudyGirl },
+  { id: "warrior",    label: "Vocab Warrior", src: chibiVocabWarrior },
+  { id: "gamer",      label: "Vocab Gamer",   src: chibiVocabGamer },
+  { id: "trophy",     label: "Quiz Champ",    src: chibiQuizTrophy },
+  { id: "speaker",    label: "Speaker",       src: chibiSpeaking },
+  { id: "reader",     label: "Reader",        src: chibiReading },
+  { id: "listener",   label: "Listener",      src: chibiListening },
+  { id: "traveler",   label: "Traveler",      src: teacherHaiTraveler },
 ];
 
 const NAME_KEY = "pet_identity_name";
