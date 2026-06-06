@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Swords, User, Users, Crown, Heart, Zap, Timer, Skull, ArrowLeft, Gamepad2 } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -26,6 +26,18 @@ const VocabArena = () => {
   const { isTeacher, user, loading: roleLoading } = useUserRole();
   const [phase, setPhase] = useState<Phase>("menu");
   const [result, setResult] = useState<GameResult | null>(null);
+  const [directJoinCode, setDirectJoinCode] = useState<string>("");
+
+  // Auto-route to student join screen when arriving via ?room=CODE link.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("room");
+    if (code && code.trim().length >= 4) {
+      setDirectJoinCode(code.trim().toUpperCase().slice(0, 6));
+      setPhase("classroom-student");
+    }
+  }, []);
 
   // Solo settings
   const [soloLevel, setSoloLevel] = useState("all");
@@ -411,7 +423,13 @@ const VocabArena = () => {
         <Navbar />
         <div className="pt-6 pb-16">
           <div className="container mx-auto px-4">
-            <ClassroomBattle onBack={() => setPhase("menu")} />
+            <ClassroomBattle
+              onBack={() => {
+                setDirectJoinCode("");
+                setPhase("menu");
+              }}
+              initialRoomCode={directJoinCode}
+            />
           </div>
         </div>
         <Footer />

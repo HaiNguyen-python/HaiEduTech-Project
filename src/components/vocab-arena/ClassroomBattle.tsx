@@ -9,11 +9,12 @@ import GameOver from "./GameOver";
 
 interface ClassroomBattleProps {
   onBack: () => void;
+  initialRoomCode?: string;
 }
 
-const ClassroomBattle = ({ onBack }: ClassroomBattleProps) => {
+const ClassroomBattle = ({ onBack, initialRoomCode }: ClassroomBattleProps) => {
   const { t } = useLanguage();
-  const [roomCode, setRoomCode] = useState("");
+  const [roomCode, setRoomCode] = useState((initialRoomCode || "").toUpperCase());
   const [nickname, setNickname] = useState(() => localStorage.getItem("arena-nickname") || "");
   const [phase, setPhase] = useState<"join" | "waiting" | "playing" | "results">("join");
   const [error, setError] = useState("");
