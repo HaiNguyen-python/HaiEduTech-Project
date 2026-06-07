@@ -1498,76 +1498,92 @@ const COMPARISON_ROWS: Array<{
   feature: string;
   standard: { v: string; ok?: boolean };
   advanced: { v: string; ok?: boolean };
+  enterprise: { v: string; ok?: boolean };
 }> = [
   {
     feature: "Bảo mật & Lưu trữ video bài giảng",
     standard: { v: "Nhúng cơ bản (YouTube/Vimeo)" },
     advanced: { v: "Hosting bảo mật, chống tải xuống, watermark", ok: true },
+    enterprise: { v: "DRM cấp doanh nghiệp + CDN riêng + watermark động theo user", ok: true },
   },
   {
     feature: "Tích hợp Trợ lý AI cho học sinh",
     standard: { v: "Không có" },
     advanced: { v: "Chatbot Perplexity/GPT huấn luyện theo tài liệu của Thầy/Cô", ok: true },
+    enterprise: { v: "Multi-AI Agent (GPT-5 + Gemini + Claude) + RAG riêng từng môn", ok: true },
   },
   {
     feature: "Phân tích học tập (Learning Analytics)",
     standard: { v: "Biểu đồ tiến độ cơ bản" },
     advanced: { v: "AI cảnh báo học sinh yếu, metric hành vi chi tiết", ok: true },
+    enterprise: { v: "Data Warehouse + BI dashboard riêng + AI dự đoán nghỉ học", ok: true },
   },
   {
     feature: "Email tự động & Giao dịch",
     standard: { v: "Thao tác thủ công" },
     advanced: { v: "Hóa đơn tự động, subdomain email thương hiệu riêng", ok: true },
+    enterprise: { v: "Email server riêng + workflow đa kịch bản (CRM-grade)", ok: true },
   },
   {
     feature: "Chấm điểm tự động (quiz/bài tập)",
     standard: { v: "Trắc nghiệm tự động" },
     advanced: { v: "AI Smart Grading cho bài viết & nói", ok: true },
+    enterprise: { v: "AI Grading tùy biến theo rubric riêng + báo cáo PDF brand", ok: true },
   },
   {
     feature: "Bảo trì & Cập nhật tính năng",
     standard: { v: "Giờ hành chính" },
     advanced: { v: "Ưu tiên + cập nhật tính năng theo quý", ok: true },
+    enterprise: { v: "SLA 24/7 · Kỹ sư phụ trách riêng · cập nhật theo roadmap", ok: true },
   },
   {
     feature: "Tối ưu SEO & Hiệu năng trang",
     standard: { v: "Meta tags cơ bản, PageSpeed ~75" },
     advanced: { v: "Schema EducationalOrganization, PageSpeed 95+, sitemap động", ok: true },
+    enterprise: { v: "Multi-site SEO, edge caching toàn cầu, A/B testing", ok: true },
   },
   {
     feature: "Cổng thanh toán học phí",
     standard: { v: "Chuyển khoản thủ công" },
     advanced: { v: "VNPay / Momo / ZaloPay – đối soát tự động + xuất hóa đơn", ok: true },
+    enterprise: { v: "Đa cổng + Stripe/Paddle quốc tế + đối soát kế toán tự động", ok: true },
   },
   {
     feature: "Phân quyền & Quản trị nhiều cấp",
     standard: { v: "1 cấp Admin duy nhất" },
     advanced: { v: "Admin / Giáo viên / Trợ giảng / Phụ huynh / Học viên", ok: true },
+    enterprise: { v: "RBAC tùy biến không giới hạn + SSO / SAML cho tổ chức", ok: true },
   },
   {
     feature: "Sao lưu & Khôi phục dữ liệu",
     standard: { v: "Thủ công theo yêu cầu" },
     advanced: { v: "Backup tự động hằng ngày, khôi phục 1-click theo mốc thời gian", ok: true },
+    enterprise: { v: "Backup đa vùng (multi-region) + DR plan + audit log", ok: true },
   },
 ];
 
 const ComparisonTable = () => (
-  <div className="mt-14 max-w-5xl mx-auto">
+  <div className="mt-14 max-w-6xl mx-auto">
     <h3 className="text-xl sm:text-2xl font-display font-bold text-foreground text-center mb-2">
       Bảng So Sánh Tính Năng Giữa Các Gói
     </h3>
     <p className="text-center text-sm text-muted-foreground mb-6">
       Minh bạch hoàn toàn – Quý Thầy/Cô nắm rõ giá trị của từng gói trước khi quyết định.
     </p>
-    <div className="rounded-2xl border border-border bg-card shadow-sm overflow-x-auto">
-      <Table className="min-w-[640px]">
+    <div className="rounded-2xl border-2 border-emerald-600/60 bg-card shadow-sm overflow-x-auto">
+      <Table className="min-w-[820px]">
         <TableHeader>
           <TableRow className="bg-secondary/40">
-            <TableHead className="text-foreground font-semibold w-[40%]">Tính năng hệ thống</TableHead>
+            <TableHead className="text-foreground font-semibold w-[32%]">Tính năng hệ thống</TableHead>
             <TableHead className="text-foreground font-semibold text-center">Gói Standard</TableHead>
             <TableHead className="text-foreground font-semibold text-center">
               <span className="inline-flex items-center gap-1 text-primary">
                 <Crown className="w-3.5 h-3.5" /> Gói Advanced AI &amp; Data
+              </span>
+            </TableHead>
+            <TableHead className="text-foreground font-semibold text-center">
+              <span className="inline-flex items-center gap-1 text-emerald-700">
+                <Database className="w-3.5 h-3.5" /> Gói Enterprise
               </span>
             </TableHead>
           </TableRow>
@@ -1586,6 +1602,12 @@ const ComparisonTable = () => (
                 <div className="flex items-start justify-center gap-1.5">
                   <Check className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" />
                   <span className="font-medium">{r.advanced.v}</span>
+                </div>
+              </TableCell>
+              <TableCell className="text-sm text-foreground text-center align-top py-4 bg-emerald-500/5">
+                <div className="flex items-start justify-center gap-1.5">
+                  <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                  <span className="font-semibold">{r.enterprise.v}</span>
                 </div>
               </TableCell>
             </TableRow>
