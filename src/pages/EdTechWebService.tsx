@@ -717,8 +717,74 @@ const EdTechWebService = () => {
               </div>
             </motion.div>
 
+            {/* RIGHT — Live demo carousel */}
+            <motion.div
+              initial={{ opacity: 0, y: 30, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.15 }}
+              className="relative lg:col-span-6 lg:sticky lg:top-24"
+            >
+              <div className="mb-4 flex items-center justify-center lg:justify-start gap-2 text-xs sm:text-sm font-semibold text-emerald-700">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                </span>
+                Bản demo trực tiếp — 6 màn hình chính của hệ thống
+              </div>
 
+              <DemoCarousel />
+
+              {/* Floating badge — top left */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.5 }}
+                className="hidden md:flex absolute -left-4 -top-4 lg:-left-6 lg:-top-5 items-center gap-2.5 rounded-2xl border-2 border-violet-500/40 bg-card/95 backdrop-blur px-3.5 py-2 shadow-2xl z-10"
+              >
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white">
+                  <Bot className="h-4.5 w-4.5" />
+                </div>
+                <div>
+                  <div className="text-sm font-bold text-foreground leading-tight">AI Tutor 24/7</div>
+                  <div className="text-[11px] text-muted-foreground">Trả lời tức thì</div>
+                </div>
+              </motion.div>
+
+              {/* Floating badge — bottom right */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.7 }}
+                className="hidden md:flex absolute -right-4 -bottom-4 lg:-right-6 lg:-bottom-5 items-center gap-2.5 rounded-2xl border-2 border-emerald-500/40 bg-card/95 backdrop-blur px-3.5 py-2 shadow-2xl z-10"
+              >
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 text-white">
+                  <ShieldCheck className="h-4.5 w-4.5" />
+                </div>
+                <div>
+                  <div className="text-sm font-bold text-foreground leading-tight">SSL · RLS</div>
+                  <div className="text-[11px] text-muted-foreground">Bảo mật nâng cao</div>
+                </div>
+              </motion.div>
+
+              {/* Mini feature strip below carousel */}
+              <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-2.5">
+                {[
+                  { icon: Bot, label: "AI Tutor 24/7", color: "text-violet-600", bg: "bg-violet-500/10" },
+                  { icon: ClipboardList, label: "Chấm bài tự động", color: "text-rose-600", bg: "bg-rose-500/10" },
+                  { icon: TrendingUp, label: "Phân tích chuyên sâu", color: "text-primary", bg: "bg-primary/10" },
+                  { icon: Mail, label: "Báo cáo phụ huynh", color: "text-emerald-600", bg: "bg-emerald-500/10" },
+                ].map((f) => (
+                  <div key={f.label} className="rounded-xl border border-border/60 bg-card/70 backdrop-blur p-2.5 flex items-center gap-2 hover:border-primary/40 hover:shadow-md transition">
+                    <div className={`h-8 w-8 rounded-lg ${f.bg} flex items-center justify-center shrink-0`}>
+                      <f.icon className={`h-4 w-4 ${f.color}`} />
+                    </div>
+                    <div className="text-[11px] sm:text-xs font-semibold text-foreground leading-tight">{f.label}</div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
           </div>
+
 
           {/* Stats row */}
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-5xl mx-auto">
