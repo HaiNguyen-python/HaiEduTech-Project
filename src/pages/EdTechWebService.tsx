@@ -1086,8 +1086,8 @@ const SlideMasteryMap = () => (
           { n: "Đỗ Quân", row: [70, 65, 58, 72, 50, 55] },
           { n: "Ng. Linh", row: [88, 82, 78, 85, 75, 80] },
         ].map((r) => (
-          <>
-            <div key={`${r.n}-l`} className="text-muted-foreground truncate text-[10px] flex items-center">{r.n}</div>
+          <Fragment key={r.n}>
+            <div className="text-muted-foreground truncate text-[10px] flex items-center">{r.n}</div>
             {r.row.map((v, i) => {
               const bg = v >= 75 ? "bg-emerald-500" : v >= 60 ? "bg-amber-500" : v >= 45 ? "bg-orange-500" : "bg-rose-500";
               const op = 0.3 + (v / 100) * 0.7;
@@ -1102,7 +1102,7 @@ const SlideMasteryMap = () => (
                 </div>
               );
             })}
-          </>
+          </Fragment>
         ))}
       </div>
     </div>
