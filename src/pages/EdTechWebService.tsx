@@ -724,47 +724,50 @@ const EdTechWebService = () => {
               transition={{ duration: 0.7, delay: 0.15 }}
               className="relative lg:col-span-6 lg:sticky lg:top-24"
             >
-              <div className="mb-4 flex items-center justify-center lg:justify-start gap-2 text-xs sm:text-sm font-semibold text-emerald-700">
+              <div className="mb-4 flex flex-wrap items-center justify-center lg:justify-start gap-x-2 gap-y-1 text-xs sm:text-sm font-semibold text-emerald-700">
                 <span className="relative flex h-2 w-2">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
                 </span>
-                Bản demo trực tiếp — 6 màn hình chính của hệ thống
+                <span>Bản demo trực tiếp — 6 màn hình chính của hệ thống</span>
               </div>
 
-              <DemoCarousel />
+              <div className="relative">
+                <DemoCarousel />
 
-              {/* Floating badge — top left */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.5 }}
-                className="hidden md:flex absolute -left-4 -top-4 lg:-left-6 lg:-top-5 items-center gap-2.5 rounded-2xl border-2 border-violet-500/40 bg-card/95 backdrop-blur px-3.5 py-2 shadow-2xl z-10"
-              >
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white">
-                  <Bot className="h-4.5 w-4.5" />
-                </div>
-                <div>
-                  <div className="text-sm font-bold text-foreground leading-tight">AI Tutor 24/7</div>
-                  <div className="text-[11px] text-muted-foreground">Trả lời tức thì</div>
-                </div>
-              </motion.div>
+                {/* Floating badge — top left (anchored to carousel) */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="hidden md:flex absolute -left-4 -top-5 lg:-left-6 lg:-top-6 items-center gap-2.5 rounded-2xl border-2 border-violet-500/40 bg-card/95 backdrop-blur px-3.5 py-2 shadow-2xl z-10"
+                >
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white">
+                    <Bot className="h-4.5 w-4.5" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-bold text-foreground leading-tight">AI Tutor 24/7</div>
+                    <div className="text-[11px] text-muted-foreground">Trả lời tức thì</div>
+                  </div>
+                </motion.div>
 
-              {/* Floating badge — bottom right */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.7 }}
-                className="hidden md:flex absolute -right-4 -bottom-4 lg:-right-6 lg:-bottom-5 items-center gap-2.5 rounded-2xl border-2 border-emerald-500/40 bg-card/95 backdrop-blur px-3.5 py-2 shadow-2xl z-10"
-              >
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 text-white">
-                  <ShieldCheck className="h-4.5 w-4.5" />
-                </div>
-                <div>
-                  <div className="text-sm font-bold text-foreground leading-tight">SSL · RLS</div>
-                  <div className="text-[11px] text-muted-foreground">Bảo mật nâng cao</div>
-                </div>
-              </motion.div>
+                {/* Floating badge — bottom right (anchored to carousel) */}
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.7 }}
+                  className="hidden md:flex absolute -right-4 -bottom-5 lg:-right-6 lg:-bottom-6 items-center gap-2.5 rounded-2xl border-2 border-emerald-500/40 bg-card/95 backdrop-blur px-3.5 py-2 shadow-2xl z-10"
+                >
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 text-white">
+                    <ShieldCheck className="h-4.5 w-4.5" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-bold text-foreground leading-tight">SSL · RLS</div>
+                    <div className="text-[11px] text-muted-foreground">Bảo mật nâng cao</div>
+                  </div>
+                </motion.div>
+              </div>
+
 
               {/* Mini feature strip below carousel */}
               <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-2.5">
