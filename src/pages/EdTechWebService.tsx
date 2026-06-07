@@ -1893,7 +1893,6 @@ const EdTechWebService = () => {
                     </div>
                     <h3 className="text-lg font-semibold text-foreground mb-3">{t(s.title.vi, s.title.en)}</h3>
                     <ul className="space-y-2">
-                      {t(s.items.vi, s.items.en) as unknown as string[] ? null : null}
                       {(lang === "vi" ? s.items.vi : s.items.en).map((it) => (
                         <li key={it} className="flex items-start gap-2 text-sm text-muted-foreground">
                           <Check className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" /> {it}
