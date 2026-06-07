@@ -8,6 +8,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useState } from "react";
+import onlineClassroomDemo from "@/assets/online-classroom-demo.jpg";
 import { motion } from "framer-motion";
 import { z } from "zod";
 import { toast } from "sonner";
