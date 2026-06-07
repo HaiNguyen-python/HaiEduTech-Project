@@ -1450,7 +1450,7 @@ const EdTechWebService = () => {
     e.preventDefault();
     const parsed = requestSchema.safeParse(form);
     if (!parsed.success) {
-      const firstError = parsed.error.errors[0]?.message ?? "Vui lòng kiểm tra lại thông tin";
+      const firstError = parsed.error.errors[0]?.message ?? t("Vui lòng kiểm tra lại thông tin", "Please check your information again");
       toast.error(firstError);
       return;
     }
@@ -1465,10 +1465,13 @@ const EdTechWebService = () => {
         special_requirements: parsed.data.special_requirements || null,
       });
       if (error) throw error;
-      toast.success("✅ Đã gửi yêu cầu đến Admin của HaiEduTech! Thầy Hải sẽ liên hệ trực tiếp với quý Thầy/Cô trong vòng 24 giờ.");
+      toast.success(t(
+        "✅ Đã gửi yêu cầu đến Admin của HaiEduTech! Thầy Hải sẽ liên hệ trực tiếp với quý Thầy/Cô trong vòng 24 giờ.",
+        "✅ Your request has been sent to HaiEduTech Admin! Mr. Hai will contact you directly within 24 hours."
+      ));
       setForm(INITIAL);
     } catch (err) {
-      toast.error("Có lỗi xảy ra. Vui lòng thử lại sau ít phút.");
+      toast.error(t("Có lỗi xảy ra. Vui lòng thử lại sau ít phút.", "Something went wrong. Please try again in a few minutes."));
     } finally {
       setSubmitting(false);
     }
