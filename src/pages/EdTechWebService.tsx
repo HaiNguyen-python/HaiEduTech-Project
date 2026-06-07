@@ -1492,12 +1492,21 @@ const EdTechWebService = () => {
             >
               <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-xs sm:text-sm font-medium text-primary mb-6 shadow-sm">
                 <Sparkles className="w-4 h-4" />
-                Thiết kế Website Giáo dục – Made by HaiEduTech
+                {t("Thiết kế Website Giáo dục – Made by HaiEduTech", "EdTech Website Design – Made by HaiEduTech")}
               </div>
 
               <h1 className="notranslate font-display font-bold tracking-tight text-foreground leading-[1.05] text-[2rem] sm:text-5xl lg:text-[3rem]">
-                <span className="block">Nâng cao chất lượng</span>
-                <span className="block">giảng dạy với</span>
+                {lang === "vi" ? (
+                  <>
+                    <span className="block">Nâng cao chất lượng</span>
+                    <span className="block">giảng dạy với</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="block">Elevate your teaching</span>
+                    <span className="block">with a</span>
+                  </>
+                )}
                 <span className="mt-2 block bg-gradient-to-r from-primary via-teal-500 to-emerald-500 bg-clip-text text-transparent">
                   Smart Learning &amp;
                 </span>
@@ -1508,29 +1517,39 @@ const EdTechWebService = () => {
 
 
               <p className="notranslate mt-6 text-base sm:text-lg text-foreground/85 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
-                Giải pháp <span className="font-bold text-foreground">"tailor-made"</span> – thiết kế riêng hệ thống
-                LMS theo từng nhu cầu giảng dạy, kết hợp{" "}
-                <span className="font-bold text-foreground">15 năm kinh nghiệm sư phạm</span> của Thầy Hải tại Việt
-                Nam &amp; Phần Lan và{" "}
-                <span className="font-bold text-foreground">3+ năm Data Engineering &amp; AI</span> tại Phần Lan.
+                {lang === "vi" ? (
+                  <>
+                    Giải pháp <span className="font-bold text-foreground">"tailor-made"</span> – thiết kế riêng hệ thống
+                    LMS theo từng nhu cầu giảng dạy, kết hợp{" "}
+                    <span className="font-bold text-foreground">15 năm kinh nghiệm sư phạm</span> của Thầy Hải tại Việt
+                    Nam &amp; Phần Lan và{" "}
+                    <span className="font-bold text-foreground">3+ năm Data Engineering &amp; AI</span> tại Phần Lan.
+                  </>
+                ) : (
+                  <>
+                    A truly <span className="font-bold text-foreground">"tailor-made"</span> LMS – custom-built for the way you teach,
+                    powered by <span className="font-bold text-foreground">15 years of classroom experience</span> in Vietnam &amp; Finland
+                    and <span className="font-bold text-foreground">3+ years of Data Engineering &amp; AI</span> work in Finland.
+                  </>
+                )}
               </p>
 
               <ul className="mt-7 max-w-xl mx-auto lg:mx-0 grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-2.5 text-left text-[14.5px] sm:text-[15px]">
                 {[
-                  "Tiết kiệm 8–10 giờ chấm bài mỗi tuần",
-                  "Không còn nỗi lo học sinh nghỉ học không báo trước",
-                  "AI Tutor trợ giảng học viên ngoài giờ – hết áp lực trả lời tin nhắn 24/7",
-                  "Tự động nhắc lịch học, thu học phí & gửi hoá đơn",
-                  "Báo cáo phụ huynh tự động hàng tháng – tăng tỉ lệ tái đăng ký",
-                  "Quản lý nhiều lớp, nhiều khoá trên 1 dashboard duy nhất",
-                  "Bảo mật tài liệu giảng dạy – chống tải xuống & sao chép trái phép",
-                  "Có thương hiệu riêng (domain & logo) – tăng uy tín chuyên nghiệp",
+                  { vi: "Tiết kiệm 8–10 giờ chấm bài mỗi tuần", en: "Save 8–10 hours of grading every week" },
+                  { vi: "Không còn nỗi lo học sinh nghỉ học không báo trước", en: "No more silent no-shows from students" },
+                  { vi: "AI Tutor trợ giảng học viên ngoài giờ – hết áp lực trả lời tin nhắn 24/7", en: "An AI Tutor handles after-hours questions – no more 24/7 messages" },
+                  { vi: "Tự động nhắc lịch học, thu học phí & gửi hoá đơn", en: "Auto class reminders, tuition collection & invoicing" },
+                  { vi: "Báo cáo phụ huynh tự động hàng tháng – tăng tỉ lệ tái đăng ký", en: "Automated monthly parent reports – higher re-enrollment" },
+                  { vi: "Quản lý nhiều lớp, nhiều khoá trên 1 dashboard duy nhất", en: "Run many classes & courses from one dashboard" },
+                  { vi: "Bảo mật tài liệu giảng dạy – chống tải xuống & sao chép trái phép", en: "Protect your materials – block downloads & unauthorized copying" },
+                  { vi: "Có thương hiệu riêng (domain & logo) – tăng uy tín chuyên nghiệp", en: "Your own brand (domain & logo) – instant professional credibility" },
                 ].map((b) => (
-                  <li key={b} className="flex items-start gap-2 text-foreground/80 font-normal leading-snug">
+                  <li key={b.vi} className="flex items-start gap-2 text-foreground/80 font-normal leading-snug">
                     <span className="mt-[3px] flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 ring-1 ring-emerald-500/30">
                       <Check className="w-2.5 h-2.5 text-emerald-600" strokeWidth={2.5} />
                     </span>
-                    <span>{b}</span>
+                    <span>{t(b.vi, b.en)}</span>
                   </li>
                 ))}
               </ul>
@@ -1542,7 +1561,7 @@ const EdTechWebService = () => {
                   className="bg-gradient-to-r from-primary to-emerald-500 hover:opacity-95 text-primary-foreground shadow-lg shadow-primary/30 h-12 px-8 text-base"
                 >
                   <Send className="w-4 h-4" />
-                  Đăng Ký Tư Vấn Ngay
+                  {t("Đăng Ký Tư Vấn Ngay", "Get a Free Consultation")}
                 </Button>
                 <Button
                   size="lg"
@@ -1550,7 +1569,7 @@ const EdTechWebService = () => {
                   className="h-12 px-8 text-base border-2 border-emerald-500/70 hover:bg-emerald-500/10 text-foreground"
                   asChild
                 >
-                  <a href="#packages">Xem gói dịch vụ</a>
+                  <a href="#packages">{t("Xem gói dịch vụ", "View service packages")}</a>
                 </Button>
               </div>
 
@@ -1558,21 +1577,22 @@ const EdTechWebService = () => {
               <div className="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11.5px] sm:text-xs font-semibold text-foreground/85">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                  <span>Hợp đồng rõ ràng, thanh toán theo 2 đợt (50/50)</span>
+                  <span>{t("Hợp đồng rõ ràng, thanh toán theo 2 đợt (50/50)", "Clear contract · 50/50 two-stage payment")}</span>
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
                   <Database className="w-3.5 h-3.5 text-primary shrink-0" />
-                  <span>Cam kết vận hành hiệu quả</span>
+                  <span>{t("Cam kết vận hành hiệu quả", "Performance guaranteed in production")}</span>
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
                   <Zap className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                  <span>Bàn giao 5–10 ngày</span>
+                  <span>{t("Bàn giao 5–10 ngày", "Delivered in 5–10 days")}</span>
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
                   <Bot className="w-3.5 h-3.5 text-violet-500 shrink-0" />
-                  <span>Tận tâm với từng sản phẩm giáo dục</span>
+                  <span>{t("Tận tâm với từng sản phẩm giáo dục", "Crafted with care for every educator")}</span>
                 </span>
               </div>
+
             </motion.div>
 
             {/* RIGHT — Live demo carousel */}
