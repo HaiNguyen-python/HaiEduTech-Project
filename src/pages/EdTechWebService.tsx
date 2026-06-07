@@ -25,7 +25,8 @@ import {
   Sparkles, Bot, BarChart3, Mail, ShieldCheck, Check, Crown, Rocket,
   GraduationCap, Database, Zap, Send, Loader2, Monitor, ClipboardList,
   LayoutDashboard, Play, MessageCircle, Clock, DollarSign, FileText,
-  HelpCircle, X as XIcon,
+  HelpCircle, X as XIcon, Search, Lock, Cloud, Cpu, Users, School,
+  Building2, Globe, Lightbulb, TrendingUp, Smartphone, Code2,
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
