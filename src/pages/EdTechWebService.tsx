@@ -266,15 +266,15 @@ const EdTechWebService = () => {
                 Cung cấp giải pháp "tailor-made" - thiết kế riêng hệ thống LMS theo từng nhu cầu giảng dạy, kết hợp 15 năm kinh nghiệm sư phạm của Thầy Hải tại Việt Nam &amp; Phần Lan và 3+ năm kinh nghiệm trong ngành Data Engineering &amp; AI tại Phần Lan.
               </span>
               <span className="block mt-4">
-                Không dùng template chung, tạo sự khác biệt &amp; độc đáo, cùng hệ thống LMS bảo mật, AI Tutor 24/7, giao, quản lý &amp; chấm bài tự động và dashboard đo lường hiệu quả học tập theo thời gian thực.
+                Không dùng template chung, tạo sự khác biệt &amp; độc đáo cho mỗi website của thầy cô, cùng hệ thống LMS bảo mật, AI Tutor 24/7, hệ thống giao, quản lý, chấm bài tự động và dashboard đo lường hiệu quả học tập theo thời gian thực.
               </span>
             </p>
             <ul className="mt-5 max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-left text-sm">
               {[
                 "Tiết kiệm 8–10 giờ chấm bài / tuần",
-                "Tự động gửi điểm & nhắc lịch qua email",
-                "AI giải đáp học viên ngoài giờ học",
-                "Báo cáo phụ huynh tự động hàng tháng",
+                "Hỗ trợ tuyển sinh  & nhắc lịch học qua email",
+                "AI Tutor trợ giảng giải đáp học viên ngoài giờ học",
+                "Tạo & Gửi báo cáo phụ huynh tự động hàng tháng",
               ].map((b) => (
                 <li key={b} className="flex items-start gap-2 text-foreground/90">
                   <Check className="w-4 h-4 mt-0.5 text-emerald-500 shrink-0" />
@@ -297,8 +297,8 @@ const EdTechWebService = () => {
             </div>
             <div className="mt-10 grid grid-cols-3 gap-4 max-w-2xl mx-auto text-center">
               {[
-                { k: "15+", v: "năm sư phạm" },
-                { k: "3+", v: "năm Kỹ sư Dữ liệu & AI" },
+                { k: "15+", v: "năm sư phạm tại Việt Nam & Phần Lan" },
+                { k: "3+", v: "năm Kỹ sư Dữ liệu & AI tại Phần Lan" },
                 { k: "✦", v: "Kinh nghiệm liên ngành Sư phạm & Công nghệ" },
               ].map((s) => (
                 <div key={s.v} className="rounded-xl border border-border bg-card/60 backdrop-blur px-3 py-3">
@@ -317,10 +317,10 @@ const EdTechWebService = () => {
                 <Database className="w-3.5 h-3.5 text-primary" /> Sở hữu 100% dữ liệu
               </span>
               <span className="inline-flex items-center gap-1 rounded-full bg-secondary/60 px-3 py-1">
-                <Zap className="w-3.5 h-3.5 text-amber-500" /> Bàn giao nhanh 7–14 ngày
+                <Zap className="w-3.5 h-3.5 text-amber-500" /> Bàn giao nhanh 5–10 ngày
               </span>
               <span className="inline-flex items-center gap-1 rounded-full bg-secondary/60 px-3 py-1">
-                <Bot className="w-3.5 h-3.5 text-violet-500" /> Luôn tận tâm với các sản phẩm giáo dục
+                <Bot className="w-3.5 h-3.5 text-violet-500" /> Luôn tận tâm với từng sản phẩm giáo dục
               </span>
             </div>
           </motion.div>
