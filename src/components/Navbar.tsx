@@ -273,17 +273,12 @@ const Navbar = () => {
     { to: "/dich-vu-web", label: t("Dịch vụ Thiết kế Website", "Website Design Service"), icon: Sparkles },
   ];
 
-  const navLinks = user
-    ? isTeacher
-      ? [...baseLinks, { to: "/admin-dashboard", label: t("Quản trị", "Admin"), icon: Shield }]
-      : isPureAssistant
-        ? [...baseLinks,
-            { to: "/admin-dashboard", label: t("Quản trị", "Admin"), icon: Shield },
-            { to: "/assistant", label: t("CTV", "Assistant"), icon: Shield },
-            { to: "/dashboard", label: t("Dashboard", "Dashboard"), icon: LayoutDashboard },
-          ]
-        : [...baseLinks, { to: "/dashboard", label: t("Dashboard", "Dashboard"), icon: LayoutDashboard }]
+  // Dashboard and Admin entries are intentionally omitted from the main menu —
+  // they are accessible from the user dropdown after login to keep the navbar clean.
+  const navLinks = user && isPureAssistant
+    ? [...baseLinks, { to: "/assistant", label: t("CTV", "Assistant"), icon: Shield }]
     : baseLinks;
+
 
   // Hover bridge + intent debounce: opening is instant, closing is delayed
   // (~350ms) so the cursor can travel through the small gap between the
@@ -420,10 +415,17 @@ const Navbar = () => {
                           exit={{ opacity: 0, y: -4 }}
                           className="absolute right-0 top-full mt-1 w-52 bg-card border border-border rounded-xl shadow-lg z-[100] py-1 overflow-hidden"
                         >
-                          <Link to={isTeacher ? "/admin-dashboard" : "/dashboard"} onClick={() => setUserMenuOpen(false)}
+                          <Link to="/dashboard" onClick={() => setUserMenuOpen(false)}
                             className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
-                            {isTeacher ? <><Shield className="w-3.5 h-3.5" /> {t("Quản trị", "Admin")}</> : <><LayoutDashboard className="w-3.5 h-3.5" /> Dashboard</>}
+                            <LayoutDashboard className="w-3.5 h-3.5" /> Dashboard
                           </Link>
+                          {isTeacher && (
+                            <Link to="/admin-dashboard" onClick={() => setUserMenuOpen(false)}
+                              className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-primary hover:bg-secondary transition-colors">
+                              <Shield className="w-3.5 h-3.5" /> {t("Quản trị", "Admin")}
+                            </Link>
+                          )}
+
                           {/* Upgrade option hidden — all content is fully free */}
                           <div className="border-t border-border my-1" />
                           <button onClick={() => { handleLogout(); setUserMenuOpen(false); }}
