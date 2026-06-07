@@ -224,7 +224,7 @@ const EdTechWebService = () => {
           >
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-xs sm:text-sm font-medium text-primary mb-6">
               <Sparkles className="w-4 h-4" />
-              Dịch Vụ Web EdTech – Made by HaiEduTech
+              Dịch vụ Thiết kế Website – Made by HaiEduTech
             </div>
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground leading-tight">
               Nâng Tầm Lớp Học Với{" "}
