@@ -1801,70 +1801,100 @@ const EdTechWebService = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/5 px-3 py-1 text-xs font-semibold text-emerald-600 mb-3">
-              <Cpu className="w-3.5 h-3.5" /> Công nghệ & Bảo mật
+              <Cpu className="w-3.5 h-3.5" /> {t("Công nghệ & Bảo mật", "Technology & Security")}
             </div>
             <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
-              Cùng kiến trúc với các sản phẩm Đại học Top Châu Âu
+              {t(
+                "Cùng kiến trúc với các sản phẩm Đại học Top Châu Âu",
+                "Built on the same stack as top European University products"
+              )}
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Website của Thầy/Cô được xây trên đúng bộ công nghệ mà các startup EdTech Bắc Âu đang sử dụng – nhanh, bảo
-              mật, dễ mở rộng.
+              {t(
+                "Website của Thầy/Cô được xây trên đúng bộ công nghệ mà các startup EdTech Bắc Âu đang sử dụng – nhanh, bảo mật, dễ mở rộng.",
+                "Your website runs on the same stack Nordic EdTech startups use today – fast, secure and easy to scale."
+              )}
             </p>
           </div>
           <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-5">
             {[
               {
                 icon: Code2,
-                title: "Frontend hiện đại",
-                items: [
-                  "React 18 + Vite (tải dưới 1 giây)",
-                  "TailwindCSS – giao diện đồng nhất",
-                  "Framer Motion – chuyển động mượt",
-                  "Responsive 100% mobile & tablet",
-                ],
+                title: { vi: "Frontend hiện đại", en: "Modern Frontend" },
+                items: {
+                  vi: [
+                    "React 18 + Vite (tải dưới 1 giây)",
+                    "TailwindCSS – giao diện đồng nhất",
+                    "Framer Motion – chuyển động mượt",
+                    "Responsive 100% mobile & tablet",
+                  ],
+                  en: [
+                    "React 18 + Vite (loads in under 1 second)",
+                    "TailwindCSS – consistent UI system",
+                    "Framer Motion – smooth animations",
+                    "100% responsive on mobile & tablet",
+                  ],
+                },
                 color: "from-blue-500/20 to-transparent",
                 ic: "text-blue-600 bg-blue-500/10",
               },
               {
                 icon: Database,
-                title: "Backend & Data",
-                items: [
-                  "Postgres + Row-Level Security",
-                  "Edge Functions phục vụ toàn cầu",
-                  "Realtime sync điểm số & chat",
-                  "Backup tự động hằng ngày",
-                ],
+                title: { vi: "Backend & Dữ liệu", en: "Backend & Data" },
+                items: {
+                  vi: [
+                    "Postgres + Row-Level Security",
+                    "Edge Functions phục vụ toàn cầu",
+                    "Realtime sync điểm số & chat",
+                    "Backup tự động hằng ngày",
+                  ],
+                  en: [
+                    "Postgres + Row-Level Security",
+                    "Globally distributed Edge Functions",
+                    "Realtime sync for scores & chat",
+                    "Daily automated backups",
+                  ],
+                },
                 color: "from-emerald-500/20 to-transparent",
                 ic: "text-emerald-600 bg-emerald-500/10",
               },
               {
                 icon: Bot,
-                title: "AI & Automation",
-                items: [
-                  "Perplexity Sonar Pro / GPT-5 / Gemini 2.5",
-                  "Pyodide chạy Python ngay trên trình duyệt",
-                  "Web Speech API cho luyện nói",
-                  "AI Smart Grading cho Writing/Speaking",
-                ],
+                title: { vi: "AI & Tự động hoá", en: "AI & Automation" },
+                items: {
+                  vi: [
+                    "Perplexity Sonar Pro / GPT-5 / Gemini 2.5",
+                    "Pyodide chạy Python ngay trên trình duyệt",
+                    "Web Speech API cho luyện nói",
+                    "AI Smart Grading cho Writing/Speaking",
+                  ],
+                  en: [
+                    "Perplexity Sonar Pro / GPT-5 / Gemini 2.5",
+                    "Pyodide runs Python right in the browser",
+                    "Web Speech API for speaking practice",
+                    "AI Smart Grading for Writing/Speaking",
+                  ],
+                },
                 color: "from-violet-500/20 to-transparent",
                 ic: "text-violet-600 bg-violet-500/10",
               },
             ].map((s, i) => (
               <motion.div
-                key={s.title}
+                key={s.title.en}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
               >
-                <Card className={`h-full bg-gradient-to-br ${s.color} border-border/70`}>
+                <Card className={`h-full bg-gradient-to-br ${s.color} border-2 border-emerald-500/50 hover:border-emerald-500/80 transition-colors`}>
                   <CardContent className="p-6">
                     <div className={`w-12 h-12 rounded-xl ${s.ic} flex items-center justify-center mb-4`}>
                       <s.icon className="w-6 h-6" />
                     </div>
-                    <h3 className="text-lg font-semibold text-foreground mb-3">{s.title}</h3>
+                    <h3 className="text-lg font-semibold text-foreground mb-3">{t(s.title.vi, s.title.en)}</h3>
                     <ul className="space-y-2">
-                      {s.items.map((it) => (
+                      {t(s.items.vi, s.items.en) as unknown as string[] ? null : null}
+                      {(lang === "vi" ? s.items.vi : s.items.en).map((it) => (
                         <li key={it} className="flex items-start gap-2 text-sm text-muted-foreground">
                           <Check className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" /> {it}
                         </li>
@@ -1875,16 +1905,19 @@ const EdTechWebService = () => {
               </motion.div>
             ))}
           </div>
-          <div className="mt-8 max-w-4xl mx-auto rounded-2xl border border-border bg-card p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <div className="mt-8 max-w-4xl mx-auto rounded-2xl border-2 border-emerald-500/50 bg-card p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center shrink-0">
               <ShieldCheck className="w-6 h-6" />
             </div>
             <div className="flex-1">
-              <h4 className="font-semibold text-foreground mb-1">Cam kết bảo mật cấp Doanh nghiệp</h4>
+              <h4 className="font-semibold text-foreground mb-1">
+                {t("Cam kết bảo mật cấp Doanh nghiệp", "Enterprise-grade Security Commitment")}
+              </h4>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                SSL/TLS 1.3 mặc định · Row-Level Security theo tài khoản · Audit log mọi truy cập admin · Tuân thủ Luật
-                An ninh mạng Việt Nam & nguyên tắc GDPR. Dữ liệu đặt tại data center Singapore / Frankfurt theo lựa chọn
-                của Thầy/Cô.
+                {t(
+                  "SSL/TLS 1.3 mặc định · Row-Level Security theo tài khoản · Audit log mọi truy cập admin · Tuân thủ Luật An ninh mạng Việt Nam & nguyên tắc GDPR. Dữ liệu đặt tại data center Singapore / Frankfurt theo lựa chọn của Thầy/Cô.",
+                  "SSL/TLS 1.3 by default · Per-account Row-Level Security · Full audit log of admin access · Compliant with Vietnam Cybersecurity Law & GDPR principles. Data hosted in Singapore or Frankfurt data centers at your choice."
+                )}
               </p>
             </div>
           </div>
