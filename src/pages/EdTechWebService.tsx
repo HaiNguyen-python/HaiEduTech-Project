@@ -121,61 +121,132 @@ const INITIAL: FormState = {
 const FEATURES = [
   {
     icon: GraduationCap,
-    title: "Hệ thống Quản lý Học liệu (LMS)",
-    desc: "Tự động lưu trữ bài giảng, video khóa học bảo mật, chấm điểm tự động và theo dõi tiến độ chi tiết theo từng học viên.",
-    color: "from-blue-500/20 to-blue-500/5",
+    title: { vi: "Hệ thống Quản lý Học liệu (LMS)", en: "Learning Management System (LMS)" },
+    desc: {
+      vi: "Lưu trữ bài giảng & video khoá học bảo mật, giao bài – chấm điểm tự động, theo dõi tiến độ chi tiết theo từng học viên và từng kỹ năng.",
+      en: "Securely store lessons & course videos, auto-grade assignments, and track each learner's progress skill by skill in real time.",
+    },
     iconBg: "bg-blue-500/10 text-blue-600",
   },
   {
     icon: Bot,
-    title: "Trợ lý AI Hỗ trợ Giảng dạy",
-    desc: "Tích hợp chatbot AI (Perplexity / GPT) tự động giải thích từ vựng, sửa bài viết, trả lời học sinh 24/7 dựa trên tài liệu của giáo viên.",
-    color: "from-emerald-500/20 to-emerald-500/5",
+    title: { vi: "Trợ lý AI Hỗ trợ Giảng dạy", en: "AI Teaching Assistant" },
+    desc: {
+      vi: "Chatbot AI (Perplexity / GPT) huấn luyện theo tài liệu riêng – giải thích từ vựng, sửa bài viết, trả lời học sinh 24/7 đúng phong cách giảng dạy của Thầy/Cô.",
+      en: "An AI chatbot (Perplexity / GPT) trained on your own materials – explains vocabulary, corrects essays, and answers students 24/7 in your teaching voice.",
+    },
     iconBg: "bg-emerald-500/10 text-emerald-600",
   },
   {
     icon: BarChart3,
-    title: "Báo cáo Dữ liệu Thông minh",
-    desc: "Biểu đồ tiến độ, phân tích hành vi học tập và tự động cảnh báo học sinh học yếu để giáo viên can thiệp kịp thời.",
-    color: "from-violet-500/20 to-violet-500/5",
+    title: { vi: "Báo cáo Dữ liệu Thông minh", en: "Smart Learning Analytics" },
+    desc: {
+      vi: "Biểu đồ tiến độ, phân tích hành vi học tập, dự đoán điểm thi và cảnh báo sớm học sinh học yếu để giáo viên can thiệp kịp thời.",
+      en: "Progress dashboards, learning-behavior analytics, score prediction, and early warnings for struggling students so teachers can intervene in time.",
+    },
     iconBg: "bg-violet-500/10 text-violet-600",
   },
   {
+    icon: Brain,
+    title: { vi: "Cá nhân hoá lộ trình bằng Reinforcement Learning", en: "RL-Powered Adaptive Learning Path" },
+    desc: {
+      vi: "Thuật toán RL tự điều chỉnh độ khó, thứ tự bài học và lượng bài tập theo từng học viên – giúp mỗi em học đúng vùng phát triển gần (ZPD).",
+      en: "An RL engine auto-tunes difficulty, lesson order, and homework load per student – keeping every learner inside their Zone of Proximal Development.",
+    },
+    iconBg: "bg-fuchsia-500/10 text-fuchsia-600",
+  },
+  {
+    icon: ClipboardList,
+    title: { vi: "AI Smart Grading – Writing & Speaking", en: "AI Smart Grading – Writing & Speaking" },
+    desc: {
+      vi: "Chấm Writing theo rubric IELTS/TOEIC, chấm Speaking theo phát âm – ngữ điệu, kèm phản hồi chi tiết và đề xuất bài luyện riêng.",
+      en: "Grades Writing on IELTS/TOEIC rubrics and Speaking on pronunciation & intonation, with detailed feedback and tailored practice suggestions.",
+    },
+    iconBg: "bg-rose-500/10 text-rose-600",
+  },
+  {
     icon: Mail,
-    title: "Hạ tầng Email Tự động",
-    desc: "Gửi OTP, hóa đơn, thông báo và nhắc nhở học tập chuyên nghiệp qua subdomain riêng – tăng độ tin cậy thương hiệu.",
-    color: "from-amber-500/20 to-amber-500/5",
+    title: { vi: "Hạ tầng Email Tự động", en: "Automated Email Infrastructure" },
+    desc: {
+      vi: "Gửi OTP, hoá đơn, thông báo và nhắc lịch học chuyên nghiệp qua subdomain riêng – tăng độ tin cậy thương hiệu, giảm vào hộp spam.",
+      en: "Send OTP, invoices, notifications and class reminders from your own subdomain – boosting brand trust and inbox deliverability.",
+    },
     iconBg: "bg-amber-500/10 text-amber-600",
   },
   {
     icon: Monitor,
-    title: "Giao diện Mobile-first & Tốc độ cao",
-    desc: "Tối ưu hiển thị trên điện thoại – nơi 80% học viên truy cập. Đạt điểm Google PageSpeed 90+ giúp SEO tốt và giảm tỉ lệ thoát trang.",
-    color: "from-rose-500/20 to-rose-500/5",
-    iconBg: "bg-rose-500/10 text-rose-600",
+    title: { vi: "Giao diện Mobile-first & Tốc độ cao", en: "Mobile-first, Lightning-Fast UI" },
+    desc: {
+      vi: "Tối ưu cho điện thoại – nơi 80% học viên truy cập. Đạt PageSpeed 90+, hỗ trợ chế độ tối, tăng SEO và giảm tỉ lệ thoát trang.",
+      en: "Optimized for phones – where 80% of learners are. Hits PageSpeed 90+, supports dark mode, improves SEO and lowers bounce rate.",
+    },
+    iconBg: "bg-cyan-500/10 text-cyan-600",
   },
   {
     icon: MessageCircle,
-    title: "Tích hợp Zalo OA & Cộng đồng học viên",
-    desc: "Tự động đẩy thông báo điểm danh, bài tập về Zalo phụ huynh. Tạo diễn đàn nội bộ để học viên hỏi-đáp, nâng cao tỉ lệ giữ chân lớp học.",
-    color: "from-cyan-500/20 to-cyan-500/5",
+    title: { vi: "Tích hợp Zalo OA & Cộng đồng học viên", en: "Zalo OA & Student Community" },
+    desc: {
+      vi: "Đẩy điểm danh, bài tập, kết quả thi về Zalo phụ huynh. Diễn đàn nội bộ hỏi-đáp giúp giữ chân học viên hiệu quả hơn.",
+      en: "Push attendance, homework and exam results straight to parents on Zalo. An in-app forum keeps students engaged and retained.",
+    },
     iconBg: "bg-cyan-500/10 text-cyan-600",
   },
   {
     icon: Search,
-    title: "Tối ưu SEO & Hiện diện trên Google",
-    desc: "Schema.org Education, sitemap tự động, meta tags chuẩn AI-search. Giúp khóa học của Thầy/Cô lên top Google khi phụ huynh tìm kiếm địa phương.",
-    color: "from-indigo-500/20 to-indigo-500/5",
+    title: { vi: "Tối ưu SEO & Hiện diện trên Google", en: "SEO & Google Visibility" },
+    desc: {
+      vi: "Schema.org Education, sitemap tự động, meta-tag chuẩn AI-search. Giúp khoá học của Thầy/Cô lên top Google khi phụ huynh tìm kiếm.",
+      en: "Schema.org Education, auto sitemaps, AI-search-friendly meta tags – so your courses rank on Google when parents search locally.",
+    },
     iconBg: "bg-indigo-500/10 text-indigo-600",
   },
   {
-    icon: Lock,
-    title: "Bảo mật cấp Ngân hàng & Tuân thủ GDPR",
-    desc: "Mã hóa SSL/TLS 1.3, Row-Level Security cho dữ liệu học viên, sao lưu tự động hằng ngày. Hoàn toàn tuân thủ Luật An ninh mạng Việt Nam.",
-    color: "from-slate-500/20 to-slate-500/5",
+    icon: ShieldCheck,
+    title: { vi: "Bảo mật cấp cao & Tuân thủ GDPR", en: "Enterprise-grade Security & GDPR Compliance" },
+    desc: {
+      vi: "Mã hoá SSL/TLS 1.3, Row-Level Security, sao lưu tự động hằng ngày, chống tải xuống – watermark tài liệu. Tuân thủ Luật An ninh mạng Việt Nam.",
+      en: "SSL/TLS 1.3 encryption, Row-Level Security, daily auto-backups, anti-download watermarks. Compliant with Vietnam's cybersecurity law.",
+    },
     iconBg: "bg-slate-500/10 text-slate-600",
   },
+  {
+    icon: Play,
+    title: { vi: "Lớp học Live & Phòng học ảo", en: "Live Classes & Virtual Classroom" },
+    desc: {
+      vi: "Tích hợp livestream HD, bảng trắng, điểm danh tự động, ghi hình lưu lại và phụ đề AI – dạy online như đang đứng lớp thật.",
+      en: "HD livestream, whiteboard, auto attendance, session recording and AI subtitles – teach online just like in a real classroom.",
+    },
+    iconBg: "bg-teal-500/10 text-teal-600",
+  },
+  {
+    icon: Wallet,
+    title: { vi: "Thanh toán & Học phí tự động", en: "Automated Payments & Tuition" },
+    desc: {
+      vi: "Tích hợp VNPay / Momo / chuyển khoản, đối soát doanh thu, nhắc học phí qua email + Zalo, xuất hoá đơn điện tử theo lớp.",
+      en: "VNPay / Momo / bank transfer integration, revenue reconciliation, tuition reminders via email + Zalo, and e-invoices per class.",
+    },
+    iconBg: "bg-emerald-500/10 text-emerald-600",
+  },
+  {
+    icon: Award,
+    title: { vi: "Chứng chỉ Hoàn thành tự động", en: "Auto-issued Certificates" },
+    desc: {
+      vi: "Sinh chứng chỉ PDF có chữ ký số, QR xác thực và mã chống làm giả ngay khi học viên hoàn thành khoá học.",
+      en: "Auto-generate PDF certificates with digital signature, verification QR and anti-forgery codes the moment a learner finishes a course.",
+    },
+    iconBg: "bg-amber-500/10 text-amber-600",
+  },
+  {
+    icon: Gamepad2,
+    title: { vi: "Gamification giữ chân học viên", en: "Gamification That Retains Learners" },
+    desc: {
+      vi: "XP, streak, huy hiệu, bảng xếp hạng tuần và mini-game ôn từ vựng – tăng tỉ lệ hoàn thành bài tập trung bình +38%.",
+      en: "XP, streaks, badges, weekly leaderboards and vocab mini-games – lifting average homework completion by +38%.",
+    },
+    iconBg: "bg-pink-500/10 text-pink-600",
+  },
 ];
+
 
 const PACKAGES = [
   {
