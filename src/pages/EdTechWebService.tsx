@@ -397,6 +397,11 @@ const DemoCarousel = () => {
           {slide.id === "early-warning" && <SlideEarlyWarning />}
           {slide.id === "schedule-finance" && <SlideScheduleFinance />}
           {slide.id === "parent-report" && <SlideParentReport />}
+          {slide.id === "rubric-grading" && <SlideRubricGrading />}
+          {slide.id === "speaking-grading" && <SlideSpeakingGrading />}
+          {slide.id === "live-class" && <SlideLiveClass />}
+          {slide.id === "mastery-map" && <SlideMasteryMap />}
+          {slide.id === "assignment-builder" && <SlideAssignmentBuilder />}
         </motion.div>
       </div>
 
