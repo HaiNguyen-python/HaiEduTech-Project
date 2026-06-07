@@ -492,6 +492,87 @@ const SlideParentReport = () => (
   </div>
 );
 
+const SlideAssignments = () => (
+  <div className="space-y-3">
+    <div className="grid grid-cols-3 gap-3">
+      {[
+        { l: "Cần chấm", v: "12", c: "text-rose-600", bg: "bg-rose-500/10" },
+        { l: "AI đã chấm", v: "184", c: "text-emerald-600", bg: "bg-emerald-500/10" },
+        { l: "Tiết kiệm", v: "9.2h", c: "text-primary", bg: "bg-primary/10" },
+      ].map((s) => (
+        <div key={s.l} className={`rounded-xl border border-border/60 ${s.bg} p-3.5 text-center`}>
+          <div className={`text-xl sm:text-2xl font-bold ${s.c} leading-none`}>{s.v}</div>
+          <div className="text-[11px] text-muted-foreground mt-1.5">{s.l}</div>
+        </div>
+      ))}
+    </div>
+    {[
+      { name: "Trần Minh Anh", task: "IELTS Writing Task 2 — Education", band: "7.0", color: "from-emerald-500 to-primary", status: "AI đã chấm" },
+      { name: "Lê Quang Huy", task: "Reading Practice Test 12", band: "8.5", color: "from-violet-500 to-fuchsia-500", status: "AI đã chấm" },
+      { name: "Phạm Thu Hà", task: "Speaking Part 2 — Hometown", band: "—", color: "from-amber-500 to-rose-500", status: "Chờ Thầy duyệt" },
+    ].map((r) => (
+      <div key={r.name} className="rounded-xl border border-border/60 bg-background/70 p-3 flex items-center gap-3">
+        <div className={`h-9 w-9 shrink-0 rounded-full bg-gradient-to-br ${r.color} flex items-center justify-center text-white text-xs font-bold`}>
+          {r.name.split(" ").map((w) => w[0]).slice(-2).join("")}
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="text-xs sm:text-sm font-semibold text-foreground truncate">{r.task}</div>
+          <div className="text-[11px] text-muted-foreground truncate">{r.name} · {r.status}</div>
+        </div>
+        <div className="text-right shrink-0">
+          <div className="text-base font-bold text-foreground leading-none">{r.band}</div>
+          <div className="text-[10px] text-muted-foreground mt-1">Band</div>
+        </div>
+      </div>
+    ))}
+  </div>
+);
+
+const SlideAnalytics = () => (
+  <div className="space-y-3">
+    <div className="rounded-xl border border-border/60 bg-background/70 p-4">
+      <div className="flex items-center justify-between mb-2">
+        <div className="text-xs sm:text-sm font-semibold text-foreground">Doanh thu 6 tháng gần nhất</div>
+        <div className="text-[11px] text-emerald-600 font-semibold inline-flex items-center gap-1">
+          <TrendingUp className="h-3 w-3" /> +34%
+        </div>
+      </div>
+      <div className="h-32 sm:h-36">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={[{m:"T12",v:18},{m:"T1",v:24},{m:"T2",v:22},{m:"T3",v:31},{m:"T4",v:38},{m:"T5",v:48}]}>
+            <Line type="monotone" dataKey="v" stroke="hsl(var(--primary))" strokeWidth={2.5} dot={{ r: 3, fill: "hsl(var(--primary))" }} />
+            <XAxis dataKey="m" tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} axisLine={false} tickLine={false} />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+    <div className="grid grid-cols-2 gap-3">
+      <div className="rounded-xl border border-border/60 bg-background/70 p-3.5">
+        <div className="text-[11px] text-muted-foreground mb-1">Tỷ lệ hoàn thành</div>
+        <div className="text-2xl font-bold text-emerald-600 leading-none">92%</div>
+        <div className="mt-2 h-1.5 rounded-full bg-muted overflow-hidden">
+          <div className="h-full bg-gradient-to-r from-emerald-500 to-primary" style={{ width: "92%" }} />
+        </div>
+      </div>
+      <div className="rounded-xl border border-border/60 bg-background/70 p-3.5">
+        <div className="text-[11px] text-muted-foreground mb-1">Học viên quay lại</div>
+        <div className="text-2xl font-bold text-primary leading-none">87%</div>
+        <div className="mt-2 h-1.5 rounded-full bg-muted overflow-hidden">
+          <div className="h-full bg-gradient-to-r from-primary to-violet-500" style={{ width: "87%" }} />
+        </div>
+      </div>
+    </div>
+    <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 flex items-start gap-2.5">
+      <Sparkles className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
+      <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
+        <span className="font-semibold">AI gợi ý:</span> Lớp IELTS 6.5 ca tối đang có 3 học viên giảm tiến độ — nên gửi tin nhắn động viên trong 48h tới.
+      </div>
+    </div>
+  </div>
+);
+
+
+
 const EdTechWebService = () => {
   const [form, setForm] = useState<FormState>(INITIAL);
   const [submitting, setSubmitting] = useState(false);
