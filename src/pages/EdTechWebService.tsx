@@ -289,38 +289,43 @@ const DemoCarousel = () => {
   return (
     <div className="relative rounded-2xl border-2 border-emerald-600/80 bg-card/90 backdrop-blur-xl shadow-2xl shadow-emerald-500/25 overflow-hidden">
       {/* Browser chrome */}
-      <div className="flex items-center gap-1.5 px-4 py-3 border-b border-border/60 bg-muted/40">
-        <span className="h-2.5 w-2.5 rounded-full bg-rose-400/80" />
-        <span className="h-2.5 w-2.5 rounded-full bg-amber-400/80" />
-        <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/80" />
-        <div className="ml-3 flex-1 rounded-md bg-background/70 px-3 py-1 text-[10px] sm:text-[11px] text-muted-foreground truncate border border-border/40">
+      <div className="flex items-center gap-1.5 px-4 sm:px-5 py-3 border-b border-border/60 bg-muted/40">
+        <span className="h-3 w-3 rounded-full bg-rose-400/80" />
+        <span className="h-3 w-3 rounded-full bg-amber-400/80" />
+        <span className="h-3 w-3 rounded-full bg-emerald-400/80" />
+        <div className="ml-3 flex-1 rounded-md bg-background/70 px-3 py-1.5 text-[11px] sm:text-xs text-muted-foreground truncate border border-border/40">
           🔒 lop-hoc-cua-thay.edu.vn / {slide.id}
+        </div>
+        <div className="hidden sm:flex items-center gap-1 text-[10px] text-muted-foreground ml-2">
+          <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" /> Live
         </div>
       </div>
 
       {/* Header */}
-      <div className="px-5 sm:px-6 pt-5 pb-3 flex items-center justify-between">
+      <div className="px-6 sm:px-8 pt-6 pb-4 flex items-center justify-between">
         <div>
-          <div className="text-[11px] text-muted-foreground">Hôm nay</div>
-          <div className="text-base sm:text-lg font-semibold text-foreground">{slide.title}</div>
+          <div className="text-xs text-muted-foreground">Hôm nay · {new Date().toLocaleDateString("vi-VN")}</div>
+          <div className="text-lg sm:text-2xl font-semibold text-foreground mt-0.5">{slide.title}</div>
         </div>
-        <div className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-medium border ${badgeClass}`}>
+        <div className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium border ${badgeClass}`}>
           <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse" /> {slide.badge}
         </div>
       </div>
 
       {/* Slide content */}
-      <div className="px-5 sm:px-6 pb-4 min-h-[280px]">
+      <div className="px-6 sm:px-8 pb-6 min-h-[420px] sm:min-h-[480px]">
         <motion.div
           key={slide.id}
           initial={{ opacity: 0, x: 24 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.4 }}
-          className="space-y-3"
+          className="space-y-4"
         >
           {slide.id === "dashboard" && <SlideDashboard />}
           {slide.id === "ai-tutor" && <SlideAITutor />}
           {slide.id === "classes" && <SlideClasses />}
+          {slide.id === "assignments" && <SlideAssignments />}
+          {slide.id === "analytics" && <SlideAnalytics />}
           {slide.id === "parent-report" && <SlideParentReport />}
         </motion.div>
       </div>
