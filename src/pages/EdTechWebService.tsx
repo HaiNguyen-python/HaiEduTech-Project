@@ -593,6 +593,123 @@ const SlideAnalytics = () => (
   </div>
 );
 
+const SlideLessons = () => (
+  <div className="space-y-3">
+    <div className="rounded-xl border border-indigo-500/30 bg-gradient-to-br from-indigo-500/10 via-violet-500/5 to-transparent p-4">
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-2">
+          <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center text-white">
+            <BookOpen className="h-4 w-4" />
+          </div>
+          <div>
+            <div className="text-xs sm:text-sm font-semibold text-foreground">Bài 12 · IELTS Writing Task 2</div>
+            <div className="text-[11px] text-muted-foreground">Chương 3 — Argument Essay</div>
+          </div>
+        </div>
+        <div className="text-[10px] inline-flex items-center gap-1 px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-600 border border-emerald-500/30 font-semibold">
+          <Play className="h-3 w-3" /> Học ngay
+        </div>
+      </div>
+      <div className="mt-3 h-1.5 rounded-full bg-muted overflow-hidden">
+        <div className="h-full bg-gradient-to-r from-indigo-500 to-violet-500" style={{ width: "62%" }} />
+      </div>
+      <div className="mt-1.5 flex items-center justify-between text-[10px] text-muted-foreground">
+        <span>Hoàn thành 62%</span>
+        <span>18 / 29 phút</span>
+      </div>
+    </div>
+    <div className="grid grid-cols-2 gap-3">
+      {[
+        { icon: Play, label: "Video HD", v: "5:32", c: "from-rose-500 to-orange-500" },
+        { icon: FileText, label: "Lý thuyết", v: "1.2k từ", c: "from-emerald-500 to-teal-500" },
+        { icon: ClipboardList, label: "Bài tập", v: "12 câu", c: "from-primary to-sky-500" },
+        { icon: MessageCircle, label: "Hỏi AI", v: "24/7", c: "from-violet-500 to-fuchsia-500" },
+      ].map((b) => (
+        <div key={b.label} className="rounded-xl border border-border/60 bg-background/70 p-3 flex items-center gap-2.5">
+          <div className={`h-8 w-8 rounded-lg bg-gradient-to-br ${b.c} flex items-center justify-center text-white shrink-0`}>
+            <b.icon className="h-4 w-4" />
+          </div>
+          <div className="min-w-0">
+            <div className="text-[10px] text-muted-foreground">{b.label}</div>
+            <div className="text-xs sm:text-sm font-bold text-foreground truncate">{b.v}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+    <div className="rounded-xl border border-indigo-500/30 bg-indigo-500/5 p-3 flex items-start gap-2.5">
+      <Sparkles className="h-4 w-4 text-indigo-600 shrink-0 mt-0.5" />
+      <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
+        <span className="font-semibold">Tương tác cao:</span> mỗi bài đều có flashcards, quiz trắc nghiệm, ghi âm luyện nói và AI chữa lỗi tức thì.
+      </div>
+    </div>
+  </div>
+);
+
+const SlideRLLab = () => (
+  <div className="space-y-3">
+    <div className="rounded-xl border-2 border-teal-500/40 bg-gradient-to-br from-slate-900 via-emerald-950/80 to-slate-900 p-3">
+      <div className="flex items-center justify-between mb-2 text-[11px]">
+        <div className="flex items-center gap-1.5 text-teal-300 font-semibold">
+          <Brain className="h-3.5 w-3.5" /> Self-driving Maze
+        </div>
+        <div className="text-cyan-300">Điểm: <span className="font-black">+38</span></div>
+      </div>
+      <div className="grid grid-cols-4 gap-1.5 aspect-square max-w-[200px] mx-auto">
+        {[
+          ["car","coin","obstacle","empty"],
+          ["empty","empty","coin","empty"],
+          ["empty","obstacle","empty","coin"],
+          ["coin","empty","empty","goal"],
+        ].flat().map((cell, i) => (
+          <div
+            key={i}
+            className={`aspect-square rounded-md flex items-center justify-center text-base ${
+              cell === "goal" ? "bg-emerald-500/30 border border-emerald-300/60" :
+              cell === "obstacle" ? "bg-rose-500/20 border border-rose-400/40" :
+              cell === "coin" ? "bg-amber-400/20 border border-amber-300/40" :
+              cell === "car" ? "bg-cyan-500/20 border border-cyan-300/60" :
+              "bg-slate-800/60 border border-slate-700"
+            }`}
+          >
+            {cell === "coin" && "🪙"}
+            {cell === "obstacle" && "💣"}
+            {cell === "goal" && "🏁"}
+            {cell === "car" && "🚗"}
+          </div>
+        ))}
+      </div>
+    </div>
+    <div className="grid grid-cols-2 gap-3">
+      <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3">
+        <div className="flex items-center justify-between text-[11px] mb-1.5">
+          <span className="flex items-center gap-1 text-foreground"><Coins className="h-3.5 w-3.5 text-amber-600" /> Thưởng / xu</span>
+          <span className="font-bold text-amber-600">+10</span>
+        </div>
+        <div className="h-1.5 rounded-full bg-muted overflow-hidden">
+          <div className="h-full bg-amber-500" style={{ width: "50%" }} />
+        </div>
+      </div>
+      <div className="rounded-xl border border-rose-500/30 bg-rose-500/5 p-3">
+        <div className="flex items-center justify-between text-[11px] mb-1.5">
+          <span className="flex items-center gap-1 text-foreground"><Bomb className="h-3.5 w-3.5 text-rose-600" /> Phạt / bom</span>
+          <span className="font-bold text-rose-600">-5</span>
+        </div>
+        <div className="h-1.5 rounded-full bg-muted overflow-hidden">
+          <div className="h-full bg-rose-500" style={{ width: "25%" }} />
+        </div>
+      </div>
+    </div>
+    <div className="rounded-xl border border-teal-500/30 bg-teal-500/5 p-3 flex items-start gap-2.5">
+      <Target className="h-4 w-4 text-teal-600 shrink-0 mt-0.5" />
+      <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
+        <span className="font-semibold">AI Academy độc quyền:</span> học viên tự tay điều chỉnh thưởng/phạt để dạy AI tránh chướng ngại — kiến thức Reinforcement Learning thật, chơi như game.
+      </div>
+    </div>
+  </div>
+);
+
+
+
 
 
 const EdTechWebService = () => {
