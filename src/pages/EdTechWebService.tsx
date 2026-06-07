@@ -8,6 +8,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useState } from "react";
+import onlineClassroomDemo from "@/assets/online-classroom-demo.jpg";
 import { motion } from "framer-motion";
 import { z } from "zod";
 import { toast } from "sonner";
@@ -242,7 +243,7 @@ const EdTechWebService = () => {
         special_requirements: parsed.data.special_requirements || null,
       });
       if (error) throw error;
-      toast.success("Gửi yêu cầu thành công! Thầy Hải sẽ liên hệ tư vấn cho quý Thầy/Cô trong vòng 24 giờ.");
+      toast.success("✅ Đã gửi yêu cầu đến Admin của HaiEduTech! Thầy Hải sẽ liên hệ trực tiếp với quý Thầy/Cô trong vòng 24 giờ.");
       setForm(INITIAL);
     } catch (err) {
       toast.error("Có lỗi xảy ra. Vui lòng thử lại sau ít phút.");
@@ -294,24 +295,28 @@ const EdTechWebService = () => {
                 </span>
               </h1>
 
-              <p className="notranslate mt-6 text-[15px] sm:text-base text-muted-foreground max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                Giải pháp <span className="font-semibold text-foreground">"tailor-made"</span> – thiết kế riêng hệ thống
+              <p className="notranslate mt-6 text-base sm:text-lg text-foreground/85 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
+                Giải pháp <span className="font-bold text-foreground">"tailor-made"</span> – thiết kế riêng hệ thống
                 LMS theo từng nhu cầu giảng dạy, kết hợp{" "}
-                <span className="font-semibold text-foreground">15 năm kinh nghiệm sư phạm</span> của Thầy Hải tại Việt
+                <span className="font-bold text-foreground">15 năm kinh nghiệm sư phạm</span> của Thầy Hải tại Việt
                 Nam &amp; Phần Lan và{" "}
-                <span className="font-semibold text-foreground">3+ năm Data Engineering &amp; AI</span> tại Phần Lan.
+                <span className="font-bold text-foreground">3+ năm Data Engineering &amp; AI</span> tại Phần Lan.
               </p>
 
-              <ul className="mt-6 max-w-xl mx-auto lg:mx-0 grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-2.5 text-left text-sm">
+              <ul className="mt-7 max-w-xl mx-auto lg:mx-0 grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-3 text-left text-[15px] sm:text-base">
                 {[
-                  "Tiết kiệm 8–10 giờ chấm bài / tuần",
-                  "Hỗ trợ tuyển sinh & nhắc lịch học qua email",
-                  "AI Tutor trợ giảng học viên ngoài giờ học",
-                  "Báo cáo phụ huynh tự động hàng tháng",
+                  "Tiết kiệm 8–10 giờ chấm bài mỗi tuần",
+                  "Không còn nỗi lo học sinh nghỉ học không báo trước",
+                  "AI Tutor trợ giảng học viên ngoài giờ – hết áp lực trả lời tin nhắn 24/7",
+                  "Tự động nhắc lịch học, thu học phí & gửi hoá đơn",
+                  "Báo cáo phụ huynh tự động hàng tháng – tăng tỉ lệ tái đăng ký",
+                  "Quản lý nhiều lớp, nhiều khoá trên 1 dashboard duy nhất",
+                  "Bảo mật tài liệu giảng dạy – chống tải xuống & sao chép trái phép",
+                  "Có thương hiệu riêng (domain & logo) – tăng uy tín chuyên nghiệp",
                 ].map((b) => (
-                  <li key={b} className="flex items-start gap-2 text-foreground/90">
-                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 ring-1 ring-emerald-500/30">
-                      <Check className="w-3 h-3 text-emerald-600" />
+                  <li key={b} className="flex items-start gap-2.5 text-foreground font-semibold">
+                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 ring-2 ring-emerald-500/60">
+                      <Check className="w-3 h-3 text-emerald-700" strokeWidth={3} />
                     </span>
                     <span>{b}</span>
                   </li>
@@ -330,7 +335,7 @@ const EdTechWebService = () => {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="h-12 px-8 text-base border-primary/30 hover:bg-primary/5"
+                  className="h-12 px-8 text-base border-2 border-emerald-500/70 hover:bg-emerald-500/10 text-foreground"
                   asChild
                 >
                   <a href="#packages">Xem gói dịch vụ</a>
@@ -338,18 +343,18 @@ const EdTechWebService = () => {
               </div>
 
               {/* Trust badges */}
-              <div className="mt-7 flex flex-wrap items-center justify-center lg:justify-start gap-2 text-xs text-muted-foreground">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/70 backdrop-blur border border-border/60 px-3 py-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" /> Bảo mật chuẩn EU
+              <div className="mt-7 flex flex-wrap items-center justify-center lg:justify-start gap-2 text-xs sm:text-sm font-semibold text-foreground/85">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/80 backdrop-blur border-2 border-emerald-500/50 px-3 py-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> Bảo mật chuẩn EU
                 </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/70 backdrop-blur border border-border/60 px-3 py-1.5">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/80 backdrop-blur border-2 border-emerald-500/50 px-3 py-1.5">
                   <Database className="w-3.5 h-3.5 text-primary" /> Cam kết vận hành hiệu quả
                 </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/70 backdrop-blur border border-border/60 px-3 py-1.5">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/80 backdrop-blur border-2 border-emerald-500/50 px-3 py-1.5">
                   <Zap className="w-3.5 h-3.5 text-amber-500" /> Bàn giao nhanh sau 5–10 ngày
                 </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/70 backdrop-blur border border-border/60 px-3 py-1.5">
-                  <Bot className="w-3.5 h-3.5 text-violet-500" /> Tận tâm với từng sản phẩm giáo dục & công nghệ
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/80 backdrop-blur border-2 border-emerald-500/50 px-3 py-1.5">
+                  <Bot className="w-3.5 h-3.5 text-violet-500" /> Tận tâm với từng sản phẩm giáo dục &amp; công nghệ
                 </span>
               </div>
             </motion.div>
@@ -362,7 +367,7 @@ const EdTechWebService = () => {
               className="relative"
             >
               {/* Mockup browser card */}
-              <div className="relative rounded-2xl border border-border/70 bg-card/80 backdrop-blur-xl shadow-2xl shadow-primary/10 overflow-hidden">
+              <div className="relative rounded-2xl border-2 border-emerald-500/50 bg-card/80 backdrop-blur-xl shadow-2xl shadow-emerald-500/20 overflow-hidden">
                 <div className="flex items-center gap-1.5 px-4 py-3 border-b border-border/60 bg-muted/40">
                   <span className="h-2.5 w-2.5 rounded-full bg-rose-400/80" />
                   <span className="h-2.5 w-2.5 rounded-full bg-amber-400/80" />
@@ -1231,23 +1236,33 @@ const LmsMockup = () => {
         {/* Main */}
         <main className="flex-1 min-w-0 p-4 sm:p-6 space-y-4">
           {/* Vivid video player */}
-          <div className="aspect-video w-full rounded-2xl bg-gradient-to-br from-primary via-violet-500 to-emerald-500 flex items-center justify-center relative overflow-hidden shadow-lg">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.4),transparent_55%),radial-gradient(circle_at_75%_70%,rgba(255,255,255,0.25),transparent_55%)]" />
+          <div className="aspect-video w-full rounded-2xl relative overflow-hidden shadow-lg border-2 border-emerald-500/60">
+            <img
+              src={onlineClassroomDemo}
+              alt="Lớp học trực tuyến IELTS Reading cùng Thầy Hải"
+              className="absolute inset-0 w-full h-full object-cover"
+              loading="lazy"
+              width={1280}
+              height={768}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-black/25" />
             {/* Subtitle bubble */}
-            <div className="absolute top-3 left-3 bg-white/90 backdrop-blur rounded-md px-2 py-1 text-[10px] font-semibold text-foreground shadow">
+            <div className="absolute top-3 left-3 bg-white/95 backdrop-blur rounded-md px-2.5 py-1 text-[11px] font-bold text-foreground shadow-md">
               📖 IELTS Reading · Band 7.0+
             </div>
-            <div className="absolute top-3 right-3 bg-emerald-500 text-white rounded-md px-2 py-1 text-[10px] font-bold shadow">
-              HD
+            <div className="absolute top-3 right-3 bg-emerald-500 text-white rounded-md px-2.5 py-1 text-[11px] font-extrabold shadow-md">
+              ● LIVE · HD
             </div>
-            <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center shadow-2xl ring-4 ring-white/40">
-              <Play className="w-7 h-7 text-primary fill-primary translate-x-0.5" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center shadow-2xl ring-4 ring-white/50 hover:scale-110 transition-transform">
+                <Play className="w-7 h-7 text-primary fill-primary translate-x-0.5" />
+              </div>
             </div>
             <div className="absolute bottom-3 left-3 right-3">
-              <div className="h-1.5 bg-white/30 rounded-full overflow-hidden">
+              <div className="h-1.5 bg-white/30 rounded-full overflow-hidden backdrop-blur">
                 <div className="h-full w-2/3 bg-gradient-to-r from-amber-300 to-emerald-300" />
               </div>
-              <div className="flex justify-between text-[10px] text-white/90 mt-1 font-medium">
+              <div className="flex justify-between text-[10px] text-white mt-1 font-bold drop-shadow">
                 <span>16:12</span>
                 <span>24:00</span>
               </div>

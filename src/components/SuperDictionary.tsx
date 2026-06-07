@@ -70,6 +70,72 @@ const posChip = (pos: string): string => {
   return "bg-muted text-muted-foreground border-border";
 };
 
+// ──────────────────────────────────────────────────────────────────────────
+// Client-side lookup cache. Repeats (same word + same kind) are served
+// instantly from memory; cold cache hits are persisted to localStorage so
+// they survive page reloads. TTL = 7 days. This is the biggest perf win
+// since most students re-look-up the same words multiple times.
+// ──────────────────────────────────────────────────────────────────────────
+const LOOKUP_CACHE_KEY = "super-dict-cache-v1";
+const LOOKUP_CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+const LOOKUP_CACHE_MAX = 300; // cap entries to avoid bloating localStorage
+type CachedEntry = { t: number; v: any };
+const lookupCache = new Map<string, CachedEntry>();
+let lookupCacheLoaded = false;
+
+const loadLookupCache = () => {
+  if (lookupCacheLoaded) return;
+  lookupCacheLoaded = true;
+  try {
+    const raw = localStorage.getItem(LOOKUP_CACHE_KEY);
+    if (!raw) return;
+    const obj = JSON.parse(raw);
+    const now = Date.now();
+    Object.entries(obj || {}).forEach(([k, val]: [string, any]) => {
+      if (val && typeof val.t === "number" && now - val.t < LOOKUP_CACHE_TTL_MS) {
+        lookupCache.set(k, val);
+      }
+    });
+  } catch {
+    // ignore corrupt cache
+  }
+};
+
+let saveTimer: ReturnType<typeof setTimeout> | null = null;
+const persistLookupCache = () => {
+  if (saveTimer) clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    try {
+      // Keep most recent N entries
+      const entries = Array.from(lookupCache.entries())
+        .sort((a, b) => b[1].t - a[1].t)
+        .slice(0, LOOKUP_CACHE_MAX);
+      const obj: Record<string, CachedEntry> = {};
+      entries.forEach(([k, v]) => (obj[k] = v));
+      localStorage.setItem(LOOKUP_CACHE_KEY, JSON.stringify(obj));
+    } catch {
+      // quota exceeded — drop silently
+    }
+  }, 400);
+};
+
+const getCachedLookup = (key: string): any | null => {
+  loadLookupCache();
+  const hit = lookupCache.get(key);
+  if (!hit) return null;
+  if (Date.now() - hit.t > LOOKUP_CACHE_TTL_MS) {
+    lookupCache.delete(key);
+    return null;
+  }
+  return hit.v;
+};
+
+const setCachedLookup = (key: string, value: any) => {
+  lookupCache.set(key, { t: Date.now(), v: value });
+  persistLookupCache();
+};
+
+
 const SuperDictionary = () => {
   const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
@@ -220,31 +286,55 @@ const SuperDictionary = () => {
 
   // Dictionary lookup - routes by language. EN → dictionary-lookup, others → multi-lang-lookup (AI).
   const handleDictLookup = useCallback(async (word: string) => {
-    if (!word.trim()) return;
+    const w = word.trim();
+    if (!w) return;
     setDictLoading(true);
     setDictResult(null);
     setDictViTranslations({});
     setDictError(null);
     setSavedWord(null);
+
+    // ⚡ Instant cache hit
+    const cacheKey = `dict:${dictLang}:${w.toLowerCase()}`;
+    const cached = getCachedLookup(cacheKey);
+    if (cached) {
+      if (cached.entry) {
+        setDictResult(cached.entry);
+        setDictViTranslations(cached.viTranslations || {});
+        pushRecent(w);
+      } else if (cached.notFound) {
+        setDictError("notFound");
+      }
+      setDictLoading(false);
+      return;
+    }
+
     try {
       if (dictLang === "en") {
         const { data, error } = await supabase.functions.invoke("dictionary-lookup", {
-          body: { type: "dictionary", word: word.trim() },
+          body: { type: "dictionary", word: w },
         });
         if (error || !data) setDictError("busy");
-        else if (data.notFound) setDictError("notFound");
+        else if (data.notFound) {
+          setDictError("notFound");
+          setCachedLookup(cacheKey, { notFound: true });
+        }
         else if (data.error) setDictError("busy");
         else if (data.entry) {
           setDictResult(data.entry);
           setDictViTranslations(data.viTranslations || {});
-          pushRecent(word);
+          pushRecent(w);
+          setCachedLookup(cacheKey, { entry: data.entry, viTranslations: data.viTranslations || {} });
         } else setDictError("notFound");
       } else {
         const { data, error } = await supabase.functions.invoke("multi-lang-lookup", {
-          body: { word: word.trim(), lang: dictLang },
+          body: { word: w, lang: dictLang },
         });
         if (error || !data) setDictError("busy");
-        else if (data.notFound) setDictError("notFound");
+        else if (data.notFound) {
+          setDictError("notFound");
+          setCachedLookup(cacheKey, { notFound: true });
+        }
         else if (data.error) setDictError("busy");
         else if (data.entry) {
           // Normalize AI shape → same shape as dictionary-lookup.
@@ -258,9 +348,11 @@ const SuperDictionary = () => {
               return { definition: d.definitionEn || d.definitionVi || "", example: d.example || "" };
             }),
           }));
-          setDictResult({ word: e.word || word, phonetic: e.phonetic || "", phonetics: [], meanings });
+          const normalized = { word: e.word || w, phonetic: e.phonetic || "", phonetics: [], meanings };
+          setDictResult(normalized);
           setDictViTranslations(viTranslations);
-          pushRecent(word);
+          pushRecent(w);
+          setCachedLookup(cacheKey, { entry: normalized, viTranslations });
         } else setDictError("notFound");
       }
     } catch {
@@ -269,13 +361,22 @@ const SuperDictionary = () => {
     setDictLoading(false);
   }, [pushRecent, dictLang]);
 
-  // Translate sentences/paragraphs
+  // Translate sentences/paragraphs (cached client-side for instant repeats)
   const handleTranslate = useCallback(async () => {
     const text = translateInput.trim();
     if (!text) return;
     setTranslateLoading(true);
     setTranslateOutput("");
     setTranslateError(null);
+
+    const trKey = `tr:${translateSourceLang}:${translateTargetLang}:${text}`;
+    const trCached = getCachedLookup(trKey);
+    if (trCached?.translation) {
+      setTranslateOutput(trCached.translation);
+      setTranslateLoading(false);
+      return;
+    }
+
     try {
       const { data, error } = await supabase.functions.invoke("super-translate", {
         body: { text, source: translateSourceLang, target: translateTargetLang },
@@ -285,7 +386,9 @@ const SuperDictionary = () => {
       } else if (data.error) {
         setTranslateError(data.message || "Lỗi không xác định.");
       } else {
-        setTranslateOutput(data.translation || "");
+        const translation = data.translation || "";
+        setTranslateOutput(translation);
+        if (translation) setCachedLookup(trKey, { translation });
       }
     } catch {
       setTranslateError("Không thể kết nối dịch vụ dịch.");
@@ -359,15 +462,27 @@ const SuperDictionary = () => {
     setSavingNotebook(false);
   };
 
-  // Collocation lookup
+  // Collocation lookup (cached client-side)
   const handleCollocationLookup = async (word: string) => {
-    if (!word.trim()) return;
+    const w = word.trim();
+    if (!w) return;
     setCollocationLoading(true);
     setCollocationGroups([]);
     setCollocationError(null);
+
+    const cKey = `coll:en:${w.toLowerCase()}`;
+    const cCached = getCachedLookup(cKey);
+    if (cCached) {
+      const groups = Array.isArray(cCached.groups) ? cCached.groups : [];
+      setCollocationGroups(groups);
+      if (groups.length === 0) setCollocationError("notFound");
+      setCollocationLoading(false);
+      return;
+    }
+
     try {
       const { data, error } = await supabase.functions.invoke("dictionary-lookup", {
-        body: { type: "collocation", word: word.trim() },
+        body: { type: "collocation", word: w },
       });
       if (error || !data) {
         setCollocationError("busy");
@@ -376,9 +491,8 @@ const SuperDictionary = () => {
       } else {
         const groups = Array.isArray(data.groups) ? data.groups : [];
         setCollocationGroups(groups);
-        if (groups.length === 0) {
-          setCollocationError("notFound");
-        }
+        if (groups.length === 0) setCollocationError("notFound");
+        setCachedLookup(cKey, { groups });
       }
     } catch {
       setCollocationError("busy");
@@ -386,15 +500,27 @@ const SuperDictionary = () => {
     setCollocationLoading(false);
   };
 
-  // Thesaurus lookup
+  // Thesaurus lookup (cached client-side)
   const handleThesaurusLookup = async (word: string) => {
-    if (!word.trim()) return;
+    const w = word.trim();
+    if (!w) return;
     setThesaurusLoading(true);
     setThesaurusResult([]);
     setThesaurusError(null);
+
+    const tKey = `thes:en:${w.toLowerCase()}`;
+    const tCached = getCachedLookup(tKey);
+    if (tCached) {
+      const syns = Array.isArray(tCached.synonyms) ? tCached.synonyms : [];
+      setThesaurusResult(syns);
+      if (syns.length === 0) setThesaurusError("notFound");
+      setThesaurusLoading(false);
+      return;
+    }
+
     try {
       const { data, error } = await supabase.functions.invoke("dictionary-lookup", {
-        body: { type: "thesaurus", word: word.trim() },
+        body: { type: "thesaurus", word: w },
       });
       if (error || !data) {
         setThesaurusError("busy");
@@ -403,9 +529,8 @@ const SuperDictionary = () => {
       } else {
         const syns = Array.isArray(data.synonyms) ? data.synonyms : [];
         setThesaurusResult(syns);
-        if (syns.length === 0) {
-          setThesaurusError("notFound");
-        }
+        if (syns.length === 0) setThesaurusError("notFound");
+        setCachedLookup(tKey, { synonyms: syns });
       }
     } catch {
       setThesaurusError("busy");
