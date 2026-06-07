@@ -263,6 +263,18 @@ const DEMO_SLIDES = [
     badgeColor: "sky" as const,
   },
   {
+    id: "lessons",
+    title: "Bài giảng tương tác",
+    badge: "Interactive · Multimedia",
+    badgeColor: "indigo" as const,
+  },
+  {
+    id: "rl-lab",
+    title: "Reinforcement Learning Lab",
+    badge: "AI Sandbox · Live",
+    badgeColor: "teal" as const,
+  },
+  {
     id: "parent-report",
     title: "Báo cáo phụ huynh",
     badge: "Auto · Hàng tháng",
