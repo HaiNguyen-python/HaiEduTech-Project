@@ -1658,28 +1658,32 @@ const EdTechWebService = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
-              Các tính năng cốt lõi của Website
+              {t("Các tính năng cốt lõi của Website", "Core Website Features")}
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Mỗi website được thiết kế riêng – không phải template – để phục vụ đúng chương trình giảng dạy của bạn.
+              {t(
+                "Mỗi website được thiết kế riêng – không phải template – để phục vụ đúng chương trình giảng dạy của bạn.",
+                "Every website is custom-built – not a template – to fit exactly the way you teach.",
+              )}
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto">
             {FEATURES.map((f, i) => (
               <motion.div
-                key={f.title}
+                key={f.title.vi}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
+                transition={{ delay: i * 0.05 }}
               >
-                <Card className={`h-full relative overflow-hidden border-border/70 bg-gradient-to-br ${f.color}`}>
+                <Card className="h-full relative overflow-hidden border-2 border-emerald-500/40 hover:border-emerald-500/80 bg-card shadow-md hover:shadow-xl hover:shadow-emerald-500/20 hover:-translate-y-1 transition-all duration-300">
+                  <span className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-emerald-500 via-primary to-emerald-500" />
                   <CardContent className="p-6">
-                    <div className={`w-12 h-12 rounded-xl ${f.iconBg} flex items-center justify-center mb-4`}>
+                    <div className={`w-12 h-12 rounded-xl ${f.iconBg} flex items-center justify-center mb-4 ring-1 ring-emerald-500/20`}>
                       <f.icon className="w-6 h-6" />
                     </div>
-                    <h3 className="text-lg font-semibold text-foreground mb-2">{f.title}</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
+                    <h3 className="text-lg font-bold text-foreground mb-2">{t(f.title.vi, f.title.en)}</h3>
+                    <p className="text-sm text-foreground/75 leading-relaxed">{t(f.desc.vi, f.desc.en)}</p>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -1687,6 +1691,7 @@ const EdTechWebService = () => {
           </div>
         </div>
       </section>
+
 
       {/* Industries Served — who we build for */}
 
