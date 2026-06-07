@@ -2081,14 +2081,16 @@ const EdTechWebService = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
-              Bảng giá &amp; Các gói dịch vụ
+              {t("Bảng giá & Các gói dịch vụ", "Pricing & Service Packages")}
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Giá niêm yết minh bạch. Báo giá cuối cùng sẽ được điều chỉnh theo phạm vi và số lượng tính năng tuỳ biến
-              thực tế của quý Thầy/Cô.
+              {t(
+                "Giá niêm yết minh bạch. Báo giá cuối cùng sẽ được điều chỉnh theo phạm vi và số lượng tính năng tuỳ biến thực tế của quý Thầy/Cô.",
+                "Transparent list prices. Your final quote is adjusted to the actual scope and custom features you need.",
+              )}
             </p>
             <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-emerald-500/10 text-emerald-600 px-3 py-1 text-xs font-semibold">
-              <Sparkles className="w-3.5 h-3.5" /> Ưu đãi ra mắt: giảm 15% cho 10 giáo viên đầu tiên
+              <Sparkles className="w-3.5 h-3.5" /> {t("Ưu đãi ra mắt: giảm 15% cho 10 giáo viên đầu tiên", "Launch offer: 15% off for the first 10 teachers")}
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-stretch">
