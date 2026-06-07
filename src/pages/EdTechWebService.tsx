@@ -1718,61 +1718,76 @@ const EdTechWebService = () => {
       <section className="py-14 sm:py-20">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-10">
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-xs font-semibold text-primary mb-3">
-              <Users className="w-3.5 h-3.5" /> Đối tượng phục vụ
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/40 bg-emerald-500/5 px-3 py-1 text-xs font-semibold text-emerald-600 mb-3">
+              <Users className="w-3.5 h-3.5" /> {t("Đối tượng phục vụ", "Who we serve")}
             </div>
             <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
-              Giải pháp may đo cho từng quy mô giáo dục
+              {t("Giải pháp may đo cho từng quy mô giáo dục", "Tailored solutions for every education scale")}
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Dù Thầy/Cô đang dạy 1-1 hay vận hành cả hệ thống trường học, chúng tôi đều có giải pháp phù hợp.
+              {t(
+                "Dù Thầy/Cô đang dạy 1-1 hay vận hành cả hệ thống trường học, chúng tôi đều có giải pháp phù hợp.",
+                "Whether you teach 1-on-1 or run an entire school system, we have the right solution for you."
+              )}
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto">
             {[
               {
                 icon: GraduationCap,
-                title: "Giáo viên tự do",
-                desc: "Lớp luyện thi cá nhân 1-1 hoặc nhóm nhỏ < 50 học viên, cần website chuyên nghiệp để xây thương hiệu cá nhân.",
+                title: { vi: "Giáo viên tự do", en: "Independent Teacher" },
+                desc: {
+                  vi: "Lớp luyện thi cá nhân 1-1 hoặc nhóm nhỏ < 50 học viên, cần website chuyên nghiệp để xây thương hiệu cá nhân.",
+                  en: "1-on-1 or small classes under 50 learners, needing a professional website to build a personal brand.",
+                },
                 color: "from-blue-500/15 to-blue-500/5",
                 ic: "text-blue-600 bg-blue-500/10",
               },
               {
                 icon: School,
-                title: "Trung tâm ngoại ngữ",
-                desc: "50–500 học viên, cần LMS, AI Tutor, quản lý lớp & học phí tự động – thay thế Google Form + Zalo thủ công.",
+                title: { vi: "Trung tâm ngoại ngữ", en: "Language Centers" },
+                desc: {
+                  vi: "50–500 học viên, cần LMS, AI Tutor, quản lý lớp & học phí tự động – thay thế Google Form + Zalo thủ công.",
+                  en: "50–500 learners needing LMS, AI Tutor, automated class & tuition management – replacing manual Google Forms + Zalo.",
+                },
                 color: "from-emerald-500/15 to-emerald-500/5",
                 ic: "text-emerald-600 bg-emerald-500/10",
               },
               {
                 icon: Building2,
-                title: "Trường học & Học viện",
-                desc: "500+ học viên, cần phân quyền đa cấp, cổng phụ huynh, BI dashboard & tích hợp hệ thống điểm danh nội bộ.",
+                title: { vi: "Trường học & Học viện", en: "Schools & Academies" },
+                desc: {
+                  vi: "500+ học viên, cần phân quyền đa cấp, cổng phụ huynh, BI dashboard & tích hợp hệ thống điểm danh nội bộ.",
+                  en: "500+ learners needing multi-level roles, parent portal, BI dashboards and internal attendance integration.",
+                },
                 color: "from-violet-500/15 to-violet-500/5",
                 ic: "text-violet-600 bg-violet-500/10",
               },
               {
                 icon: Globe,
-                title: "EdTech Startup",
-                desc: "Đang xây sản phẩm SaaS giáo dục, cần MVP nhanh trong 14 ngày với hạ tầng AI/Data sẵn sàng mở rộng.",
+                title: { vi: "EdTech Startup", en: "EdTech Startups" },
+                desc: {
+                  vi: "Đang xây sản phẩm SaaS giáo dục, cần MVP nhanh trong 14 ngày với hạ tầng AI/Data sẵn sàng mở rộng.",
+                  en: "Building an EdTech SaaS – needing a fast 14-day MVP with scalable AI/Data infrastructure.",
+                },
                 color: "from-amber-500/15 to-amber-500/5",
                 ic: "text-amber-600 bg-amber-500/10",
               },
             ].map((it, i) => (
               <motion.div
-                key={it.title}
+                key={it.title.en}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
               >
-                <Card className={`h-full bg-gradient-to-br ${it.color} border-border/70`}>
+                <Card className={`h-full bg-gradient-to-br ${it.color} border-2 border-emerald-500/50 hover:border-emerald-500/80 transition-colors`}>
                   <CardContent className="p-6">
                     <div className={`w-12 h-12 rounded-xl ${it.ic} flex items-center justify-center mb-4`}>
                       <it.icon className="w-6 h-6" />
                     </div>
-                    <h3 className="text-base sm:text-lg font-semibold text-foreground mb-2">{it.title}</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{it.desc}</p>
+                    <h3 className="text-base sm:text-lg font-semibold text-foreground mb-2">{t(it.title.vi, it.title.en)}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{t(it.desc.vi, it.desc.en)}</p>
                   </CardContent>
                 </Card>
               </motion.div>
