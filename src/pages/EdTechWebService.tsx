@@ -324,7 +324,7 @@ const EdTechWebService = () => {
               Mỗi website được thiết kế riêng – không phải template – để phục vụ đúng chương trình giảng dạy của bạn.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto">
             {FEATURES.map((f, i) => (
               <motion.div
                 key={f.title}
