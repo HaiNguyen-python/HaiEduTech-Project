@@ -616,48 +616,6 @@ const EdTechWebService = () => {
               </div>
             </motion.div>
 
-            {/* RIGHT — Visual mockup + floating badges */}
-            <motion.div
-              initial={{ opacity: 0, y: 30, scale: 0.96 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.7, delay: 0.15 }}
-              className="relative w-full max-w-[560px] mx-auto lg:max-w-none lg:mx-0 px-2 sm:px-6 lg:px-2"
-            >
-              {/* Mockup browser carousel — 4 demo screens */}
-              <DemoCarousel />
-
-              {/* Floating badge — top, doesn't overlap stats */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.6 }}
-                className="hidden md:flex absolute -left-3 -top-4 items-center gap-2 rounded-xl border-2 border-violet-500/40 bg-card/95 backdrop-blur px-3 py-2 shadow-xl"
-              >
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white">
-                  <Bot className="h-4 w-4" />
-                </div>
-                <div>
-                  <div className="text-[12px] font-bold text-foreground leading-tight">AI Tutor 24/7</div>
-                  <div className="text-[10px] text-muted-foreground">Trả lời tức thì</div>
-                </div>
-              </motion.div>
-
-              {/* Floating badge — bottom right */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.8 }}
-                className="hidden md:flex absolute -right-3 -bottom-4 items-center gap-2 rounded-xl border-2 border-emerald-500/40 bg-card/95 backdrop-blur px-3 py-2 shadow-xl"
-              >
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 text-white">
-                  <ShieldCheck className="h-4 w-4" />
-                </div>
-                <div>
-                  <div className="text-[12px] font-bold text-foreground leading-tight">SSL · RLS</div>
-                  <div className="text-[10px] text-muted-foreground">Bảo mật ngân hàng</div>
-                </div>
-              </motion.div>
-            </motion.div>
 
           </div>
 
