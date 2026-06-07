@@ -361,13 +361,22 @@ const SuperDictionary = () => {
     setDictLoading(false);
   }, [pushRecent, dictLang]);
 
-  // Translate sentences/paragraphs
+  // Translate sentences/paragraphs (cached client-side for instant repeats)
   const handleTranslate = useCallback(async () => {
     const text = translateInput.trim();
     if (!text) return;
     setTranslateLoading(true);
     setTranslateOutput("");
     setTranslateError(null);
+
+    const trKey = `tr:${translateSourceLang}:${translateTargetLang}:${text}`;
+    const trCached = getCachedLookup(trKey);
+    if (trCached?.translation) {
+      setTranslateOutput(trCached.translation);
+      setTranslateLoading(false);
+      return;
+    }
+
     try {
       const { data, error } = await supabase.functions.invoke("super-translate", {
         body: { text, source: translateSourceLang, target: translateTargetLang },
@@ -377,7 +386,9 @@ const SuperDictionary = () => {
       } else if (data.error) {
         setTranslateError(data.message || "Lỗi không xác định.");
       } else {
-        setTranslateOutput(data.translation || "");
+        const translation = data.translation || "";
+        setTranslateOutput(translation);
+        if (translation) setCachedLookup(trKey, { translation });
       }
     } catch {
       setTranslateError("Không thể kết nối dịch vụ dịch.");
