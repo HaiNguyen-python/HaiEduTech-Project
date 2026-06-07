@@ -18,26 +18,48 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
-} from "@/components/ui/select";
-import {
-  Sparkles, Bot, BarChart3, Mail, ShieldCheck, Check, Crown, Rocket,
-  GraduationCap, Database, Zap, Send, Loader2, Monitor, ClipboardList,
-  LayoutDashboard, Play, MessageCircle, Clock, DollarSign, FileText,
-  HelpCircle, X as XIcon, Search, Lock, Cloud, Cpu, Users, School,
-  Building2, Globe, Lightbulb, TrendingUp, Smartphone, Code2,
+  Sparkles,
+  Bot,
+  BarChart3,
+  Mail,
+  ShieldCheck,
+  Check,
+  Crown,
+  Rocket,
+  GraduationCap,
+  Database,
+  Zap,
+  Send,
+  Loader2,
+  Monitor,
+  ClipboardList,
+  LayoutDashboard,
+  Play,
+  MessageCircle,
+  Clock,
+  DollarSign,
+  FileText,
+  HelpCircle,
+  X as XIcon,
+  Search,
+  Lock,
+  Cloud,
+  Cpu,
+  Users,
+  School,
+  Building2,
+  Globe,
+  Lightbulb,
+  TrendingUp,
+  Smartphone,
+  Code2,
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Accordion, AccordionContent, AccordionItem, AccordionTrigger,
-} from "@/components/ui/accordion";
-import {
-  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
-} from "@/components/ui/table";
-import {
-  LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid,
-} from "recharts";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
 import { supabase } from "@/integrations/supabase/client";
 
 // Strict client-side validation schema. Server-side RLS still applies.
@@ -199,8 +221,7 @@ const EdTechWebService = () => {
   const [form, setForm] = useState<FormState>(INITIAL);
   const [submitting, setSubmitting] = useState(false);
 
-  const update = <K extends keyof FormState>(key: K, value: FormState[K]) =>
-    setForm((p) => ({ ...p, [key]: value }));
+  const update = <K extends keyof FormState>(key: K, value: FormState[K]) => setForm((p) => ({ ...p, [key]: value }));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -221,9 +242,7 @@ const EdTechWebService = () => {
         special_requirements: parsed.data.special_requirements || null,
       });
       if (error) throw error;
-      toast.success(
-        "Gửi yêu cầu thành công! Thầy Hải sẽ liên hệ tư vấn cho quý Thầy/Cô trong vòng 24 giờ.",
-      );
+      toast.success("Gửi yêu cầu thành công! Thầy Hải sẽ liên hệ tư vấn cho quý Thầy/Cô trong vòng 24 giờ.");
       setForm(INITIAL);
     } catch (err) {
       toast.error("Có lỗi xảy ra. Vui lòng thử lại sau ít phút.");
@@ -276,7 +295,11 @@ const EdTechWebService = () => {
               </h1>
 
               <p className="notranslate mt-6 text-[15px] sm:text-base text-muted-foreground max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                Giải pháp <span className="font-semibold text-foreground">"tailor-made"</span> – thiết kế riêng hệ thống LMS theo từng nhu cầu giảng dạy, kết hợp <span className="font-semibold text-foreground">15 năm kinh nghiệm sư phạm</span> của Thầy Hải tại Việt Nam &amp; Phần Lan và <span className="font-semibold text-foreground">3+ năm Data Engineering &amp; AI</span> tại Phần Lan.
+                Giải pháp <span className="font-semibold text-foreground">"tailor-made"</span> – thiết kế riêng hệ thống
+                LMS theo từng nhu cầu giảng dạy, kết hợp{" "}
+                <span className="font-semibold text-foreground">15 năm kinh nghiệm sư phạm</span> của Thầy Hải tại Việt
+                Nam &amp; Phần Lan và{" "}
+                <span className="font-semibold text-foreground">3+ năm Data Engineering &amp; AI</span> tại Phần Lan.
               </p>
 
               <ul className="mt-6 max-w-xl mx-auto lg:mx-0 grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-2.5 text-left text-sm">
@@ -304,7 +327,12 @@ const EdTechWebService = () => {
                   <Send className="w-4 h-4" />
                   Đăng Ký Tư Vấn Ngay
                 </Button>
-                <Button size="lg" variant="outline" className="h-12 px-8 text-base border-primary/30 hover:bg-primary/5" asChild>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="h-12 px-8 text-base border-primary/30 hover:bg-primary/5"
+                  asChild
+                >
                   <a href="#packages">Xem gói dịch vụ</a>
                 </Button>
               </div>
@@ -315,13 +343,13 @@ const EdTechWebService = () => {
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" /> Bảo mật chuẩn EU
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-card/70 backdrop-blur border border-border/60 px-3 py-1.5">
-                  <Database className="w-3.5 h-3.5 text-primary" /> Sở hữu 100% dữ liệu
+                  <Database className="w-3.5 h-3.5 text-primary" /> Cam kết vận hành hiệu quả
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-card/70 backdrop-blur border border-border/60 px-3 py-1.5">
-                  <Zap className="w-3.5 h-3.5 text-amber-500" /> Bàn giao 5–10 ngày
+                  <Zap className="w-3.5 h-3.5 text-amber-500" /> Bàn giao nhanh sau 5–10 ngày
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-card/70 backdrop-blur border border-border/60 px-3 py-1.5">
-                  <Bot className="w-3.5 h-3.5 text-violet-500" /> Tận tâm từng sản phẩm
+                  <Bot className="w-3.5 h-3.5 text-violet-500" /> Tận tâm với từng sản phẩm giáo dục & công nghệ
                 </span>
               </div>
             </motion.div>
@@ -357,8 +385,20 @@ const EdTechWebService = () => {
                   <div className="grid grid-cols-3 gap-2">
                     {[
                       { label: "Học viên", value: "248", icon: Users, color: "text-primary", bg: "bg-primary/10" },
-                      { label: "Bài đã chấm", value: "1.2k", icon: ClipboardList, color: "text-emerald-600", bg: "bg-emerald-500/10" },
-                      { label: "AI replies", value: "532", icon: Bot, color: "text-violet-600", bg: "bg-violet-500/10" },
+                      {
+                        label: "Bài đã chấm",
+                        value: "1.2k",
+                        icon: ClipboardList,
+                        color: "text-emerald-600",
+                        bg: "bg-emerald-500/10",
+                      },
+                      {
+                        label: "AI replies",
+                        value: "532",
+                        icon: Bot,
+                        color: "text-violet-600",
+                        bg: "bg-violet-500/10",
+                      },
                     ].map((s) => (
                       <div key={s.label} className="rounded-lg border border-border/60 bg-background/60 p-2.5">
                         <div className={`mb-1.5 inline-flex h-6 w-6 items-center justify-center rounded-md ${s.bg}`}>
@@ -379,12 +419,30 @@ const EdTechWebService = () => {
                     </div>
                     <div className="h-20">
                       <ResponsiveContainer width="100%" height="100%">
-                        <LineChart data={[
-                          { d: "T2", v: 42 }, { d: "T3", v: 55 }, { d: "T4", v: 48 },
-                          { d: "T5", v: 67 }, { d: "T6", v: 72 }, { d: "T7", v: 80 }, { d: "CN", v: 88 },
-                        ]}>
-                          <Line type="monotone" dataKey="v" stroke="hsl(var(--primary))" strokeWidth={2.5} dot={{ r: 2.5, fill: "hsl(var(--primary))" }} />
-                          <XAxis dataKey="d" tick={{ fontSize: 9, fill: "hsl(var(--muted-foreground))" }} axisLine={false} tickLine={false} />
+                        <LineChart
+                          data={[
+                            { d: "T2", v: 42 },
+                            { d: "T3", v: 55 },
+                            { d: "T4", v: 48 },
+                            { d: "T5", v: 67 },
+                            { d: "T6", v: 72 },
+                            { d: "T7", v: 80 },
+                            { d: "CN", v: 88 },
+                          ]}
+                        >
+                          <Line
+                            type="monotone"
+                            dataKey="v"
+                            stroke="hsl(var(--primary))"
+                            strokeWidth={2.5}
+                            dot={{ r: 2.5, fill: "hsl(var(--primary))" }}
+                          />
+                          <XAxis
+                            dataKey="d"
+                            tick={{ fontSize: 9, fill: "hsl(var(--muted-foreground))" }}
+                            axisLine={false}
+                            tickLine={false}
+                          />
                         </LineChart>
                       </ResponsiveContainer>
                     </div>
@@ -427,9 +485,24 @@ const EdTechWebService = () => {
           {/* Stats row */}
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-5xl mx-auto">
             {[
-              { k: "15+", v: "năm sư phạm tại Việt Nam & Phần Lan", icon: GraduationCap, grad: "from-primary/20 to-primary/0" },
-              { k: "3+", v: "năm Kỹ sư Dữ liệu & AI tại Phần Lan", icon: Database, grad: "from-emerald-500/20 to-emerald-500/0" },
-              { k: "✦", v: "Kinh nghiệm liên ngành Sư phạm & Công nghệ", icon: Sparkles, grad: "from-violet-500/20 to-violet-500/0" },
+              {
+                k: "15+",
+                v: "năm kinh nghiệm giảng dạy tại Việt Nam",
+                icon: GraduationCap,
+                grad: "from-primary/20 to-primary/0",
+              },
+              {
+                k: "3+",
+                v: "năm kinh nghiệm về lập trình tại Phần Lan",
+                icon: Database,
+                grad: "from-emerald-500/20 to-emerald-500/0",
+              },
+              {
+                k: "✦",
+                v: "Tâm huyết với các sản phẩm Sư phạm & Công nghệ",
+                icon: Sparkles,
+                grad: "from-violet-500/20 to-violet-500/0",
+              },
             ].map((s) => (
               <div
                 key={s.v}
@@ -503,12 +576,42 @@ const EdTechWebService = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto">
             {[
-              { icon: GraduationCap, title: "Giáo viên tự do", desc: "Lớp luyện thi cá nhân 1-1 hoặc nhóm nhỏ < 50 học viên, cần website chuyên nghiệp để xây thương hiệu cá nhân.", color: "from-blue-500/15 to-blue-500/5", ic: "text-blue-600 bg-blue-500/10" },
-              { icon: School, title: "Trung tâm ngoại ngữ", desc: "50–500 học viên, cần LMS, AI Tutor, quản lý lớp & học phí tự động – thay thế Google Form + Zalo thủ công.", color: "from-emerald-500/15 to-emerald-500/5", ic: "text-emerald-600 bg-emerald-500/10" },
-              { icon: Building2, title: "Trường học & Học viện", desc: "500+ học viên, cần phân quyền đa cấp, cổng phụ huynh, BI dashboard & tích hợp hệ thống điểm danh nội bộ.", color: "from-violet-500/15 to-violet-500/5", ic: "text-violet-600 bg-violet-500/10" },
-              { icon: Globe, title: "EdTech Startup", desc: "Đang xây sản phẩm SaaS giáo dục, cần MVP nhanh trong 14 ngày với hạ tầng AI/Data sẵn sàng mở rộng.", color: "from-amber-500/15 to-amber-500/5", ic: "text-amber-600 bg-amber-500/10" },
+              {
+                icon: GraduationCap,
+                title: "Giáo viên tự do",
+                desc: "Lớp luyện thi cá nhân 1-1 hoặc nhóm nhỏ < 50 học viên, cần website chuyên nghiệp để xây thương hiệu cá nhân.",
+                color: "from-blue-500/15 to-blue-500/5",
+                ic: "text-blue-600 bg-blue-500/10",
+              },
+              {
+                icon: School,
+                title: "Trung tâm ngoại ngữ",
+                desc: "50–500 học viên, cần LMS, AI Tutor, quản lý lớp & học phí tự động – thay thế Google Form + Zalo thủ công.",
+                color: "from-emerald-500/15 to-emerald-500/5",
+                ic: "text-emerald-600 bg-emerald-500/10",
+              },
+              {
+                icon: Building2,
+                title: "Trường học & Học viện",
+                desc: "500+ học viên, cần phân quyền đa cấp, cổng phụ huynh, BI dashboard & tích hợp hệ thống điểm danh nội bộ.",
+                color: "from-violet-500/15 to-violet-500/5",
+                ic: "text-violet-600 bg-violet-500/10",
+              },
+              {
+                icon: Globe,
+                title: "EdTech Startup",
+                desc: "Đang xây sản phẩm SaaS giáo dục, cần MVP nhanh trong 14 ngày với hạ tầng AI/Data sẵn sàng mở rộng.",
+                color: "from-amber-500/15 to-amber-500/5",
+                ic: "text-amber-600 bg-amber-500/10",
+              },
             ].map((it, i) => (
-              <motion.div key={it.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
+              <motion.div
+                key={it.title}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+              >
                 <Card className={`h-full bg-gradient-to-br ${it.color} border-border/70`}>
                   <CardContent className="p-6">
                     <div className={`w-12 h-12 rounded-xl ${it.ic} flex items-center justify-center mb-4`}>
@@ -535,28 +638,56 @@ const EdTechWebService = () => {
               Cùng kiến trúc với các sản phẩm Đại học Top Châu Âu
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Website của Thầy/Cô được xây trên đúng bộ công nghệ mà các startup EdTech Bắc Âu đang sử dụng – nhanh, bảo mật, dễ mở rộng.
+              Website của Thầy/Cô được xây trên đúng bộ công nghệ mà các startup EdTech Bắc Âu đang sử dụng – nhanh, bảo
+              mật, dễ mở rộng.
             </p>
           </div>
           <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-5">
             {[
               {
-                icon: Code2, title: "Frontend hiện đại",
-                items: ["React 18 + Vite (tải dưới 1 giây)", "TailwindCSS – giao diện đồng nhất", "Framer Motion – chuyển động mượt", "Responsive 100% mobile & tablet"],
-                color: "from-blue-500/20 to-transparent", ic: "text-blue-600 bg-blue-500/10",
+                icon: Code2,
+                title: "Frontend hiện đại",
+                items: [
+                  "React 18 + Vite (tải dưới 1 giây)",
+                  "TailwindCSS – giao diện đồng nhất",
+                  "Framer Motion – chuyển động mượt",
+                  "Responsive 100% mobile & tablet",
+                ],
+                color: "from-blue-500/20 to-transparent",
+                ic: "text-blue-600 bg-blue-500/10",
               },
               {
-                icon: Database, title: "Backend & Data",
-                items: ["Postgres + Row-Level Security", "Edge Functions phục vụ toàn cầu", "Realtime sync điểm số & chat", "Backup tự động hằng ngày"],
-                color: "from-emerald-500/20 to-transparent", ic: "text-emerald-600 bg-emerald-500/10",
+                icon: Database,
+                title: "Backend & Data",
+                items: [
+                  "Postgres + Row-Level Security",
+                  "Edge Functions phục vụ toàn cầu",
+                  "Realtime sync điểm số & chat",
+                  "Backup tự động hằng ngày",
+                ],
+                color: "from-emerald-500/20 to-transparent",
+                ic: "text-emerald-600 bg-emerald-500/10",
               },
               {
-                icon: Bot, title: "AI & Automation",
-                items: ["Perplexity Sonar Pro / GPT-5 / Gemini 2.5", "Pyodide chạy Python ngay trên trình duyệt", "Web Speech API cho luyện nói", "AI Smart Grading cho Writing/Speaking"],
-                color: "from-violet-500/20 to-transparent", ic: "text-violet-600 bg-violet-500/10",
+                icon: Bot,
+                title: "AI & Automation",
+                items: [
+                  "Perplexity Sonar Pro / GPT-5 / Gemini 2.5",
+                  "Pyodide chạy Python ngay trên trình duyệt",
+                  "Web Speech API cho luyện nói",
+                  "AI Smart Grading cho Writing/Speaking",
+                ],
+                color: "from-violet-500/20 to-transparent",
+                ic: "text-violet-600 bg-violet-500/10",
               },
             ].map((s, i) => (
-              <motion.div key={s.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
+              <motion.div
+                key={s.title}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+              >
                 <Card className={`h-full bg-gradient-to-br ${s.color} border-border/70`}>
                   <CardContent className="p-6">
                     <div className={`w-12 h-12 rounded-xl ${s.ic} flex items-center justify-center mb-4`}>
@@ -582,7 +713,9 @@ const EdTechWebService = () => {
             <div className="flex-1">
               <h4 className="font-semibold text-foreground mb-1">Cam kết bảo mật cấp Doanh nghiệp</h4>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                SSL/TLS 1.3 mặc định · Row-Level Security theo tài khoản · Audit log mọi truy cập admin · Tuân thủ Luật An ninh mạng Việt Nam & nguyên tắc GDPR. Dữ liệu đặt tại data center Singapore / Frankfurt theo lựa chọn của Thầy/Cô.
+                SSL/TLS 1.3 mặc định · Row-Level Security theo tài khoản · Audit log mọi truy cập admin · Tuân thủ Luật
+                An ninh mạng Việt Nam & nguyên tắc GDPR. Dữ liệu đặt tại data center Singapore / Frankfurt theo lựa chọn
+                của Thầy/Cô.
               </p>
             </div>
           </div>
@@ -591,7 +724,6 @@ const EdTechWebService = () => {
 
       {/* Interactive Portfolio / Demo Showcase */}
       <PortfolioShowcase />
-
 
       {/* Measurable Results — concrete numbers build trust */}
       <section className="py-14 sm:py-20 bg-gradient-to-br from-primary/5 via-background to-emerald-500/5">
@@ -604,7 +736,8 @@ const EdTechWebService = () => {
               Hiệu quả thực tế sau khi triển khai
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Dữ liệu trung bình ghi nhận từ các lớp học của Thầy Hải &amp; các giáo viên đã sử dụng nền tảng HaiEduTech.
+              Dữ liệu trung bình ghi nhận từ các lớp học của Thầy Hải &amp; các giáo viên đã sử dụng nền tảng
+              HaiEduTech.
             </p>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
@@ -618,12 +751,12 @@ const EdTechWebService = () => {
                 key={s.v}
                 className="rounded-2xl border border-border bg-card p-5 text-center shadow-sm hover:shadow-md transition"
               >
-                <div className={`text-3xl sm:text-4xl font-extrabold bg-gradient-to-r ${s.c} bg-clip-text text-transparent`}>
+                <div
+                  className={`text-3xl sm:text-4xl font-extrabold bg-gradient-to-r ${s.c} bg-clip-text text-transparent`}
+                >
                   {s.k}
                 </div>
-                <div className="mt-2 text-xs sm:text-sm text-muted-foreground leading-snug">
-                  {s.v}
-                </div>
+                <div className="mt-2 text-xs sm:text-sm text-muted-foreground leading-snug">{s.v}</div>
               </div>
             ))}
           </div>
@@ -646,11 +779,31 @@ const EdTechWebService = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 max-w-6xl mx-auto">
             {[
-              { n: 1, t: "Tư vấn miễn phí", d: "Phỏng vấn 30 phút để hiểu lớp học & mục tiêu giảng dạy.", icon: MessageCircle },
-              { n: 2, t: "Thiết kế UI/UX", d: "Wireframe + mockup được duyệt trước khi viết code.", icon: LayoutDashboard },
+              {
+                n: 1,
+                t: "Tư vấn miễn phí",
+                d: "Phỏng vấn 30 phút để hiểu lớp học & mục tiêu giảng dạy.",
+                icon: MessageCircle,
+              },
+              {
+                n: 2,
+                t: "Thiết kế UI/UX",
+                d: "Wireframe + mockup được duyệt trước khi viết code.",
+                icon: LayoutDashboard,
+              },
               { n: 3, t: "Phát triển LMS", d: "Xây dựng frontend + backend bảo mật, kiểm thử nội bộ.", icon: Database },
-              { n: 4, t: "Tích hợp AI & Domain", d: "Huấn luyện AI theo tài liệu riêng, cấu hình tên miền + email.", icon: Bot },
-              { n: 5, t: "Nghiệm thu & Đào tạo", d: "Bàn giao mã nguồn, video hướng dẫn quản trị 1-1.", icon: GraduationCap },
+              {
+                n: 4,
+                t: "Tích hợp AI & Domain",
+                d: "Huấn luyện AI theo tài liệu riêng, cấu hình tên miền + email.",
+                icon: Bot,
+              },
+              {
+                n: 5,
+                t: "Nghiệm thu & Đào tạo",
+                d: "Bàn giao mã nguồn, video hướng dẫn quản trị 1-1.",
+                icon: GraduationCap,
+              },
             ].map((step) => (
               <div
                 key={step.n}
@@ -715,9 +868,7 @@ const EdTechWebService = () => {
                       <span key={i}>★</span>
                     ))}
                   </div>
-                  <p className="text-sm text-foreground leading-relaxed flex-1 italic">
-                    “{t.quote}”
-                  </p>
+                  <p className="text-sm text-foreground leading-relaxed flex-1 italic">“{t.quote}”</p>
                   <div className="mt-5 flex items-center gap-3 pt-4 border-t border-border">
                     <div
                       className={`w-11 h-11 rounded-full bg-gradient-to-br ${t.color} text-white font-bold flex items-center justify-center shrink-0`}
@@ -745,9 +896,7 @@ const EdTechWebService = () => {
                 <div className="inline-flex w-20 h-20 rounded-full bg-gradient-to-br from-emerald-500 to-primary text-white items-center justify-center shadow-lg shadow-emerald-500/30">
                   <ShieldCheck className="w-10 h-10" />
                 </div>
-                <p className="mt-3 text-xs font-bold uppercase tracking-wider text-emerald-600">
-                  Cam kết HaiEduTech
-                </p>
+                <p className="mt-3 text-xs font-bold uppercase tracking-wider text-emerald-600">Cam kết HaiEduTech</p>
               </div>
               <div className="md:col-span-2">
                 <h3 className="text-xl sm:text-2xl font-display font-bold text-foreground mb-3">
@@ -773,7 +922,6 @@ const EdTechWebService = () => {
         </div>
       </section>
 
-
       {/* Pricing */}
       <section id="packages" className="py-16 sm:py-20">
         <div className="container mx-auto px-4 sm:px-6">
@@ -782,8 +930,8 @@ const EdTechWebService = () => {
               Bảng giá &amp; Các gói dịch vụ
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Giá niêm yết minh bạch. Báo giá cuối cùng sẽ được điều chỉnh theo phạm vi và
-              số lượng tính năng tuỳ biến thực tế của quý Thầy/Cô.
+              Giá niêm yết minh bạch. Báo giá cuối cùng sẽ được điều chỉnh theo phạm vi và số lượng tính năng tuỳ biến
+              thực tế của quý Thầy/Cô.
             </p>
             <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-emerald-500/10 text-emerald-600 px-3 py-1 text-xs font-semibold">
               <Sparkles className="w-3.5 h-3.5" /> Ưu đãi ra mắt: giảm 15% cho 10 giáo viên đầu tiên
@@ -842,9 +990,7 @@ const EdTechWebService = () => {
                       {p.features.map((feat) => (
                         <li key={feat} className="flex items-start gap-2 text-sm text-foreground">
                           <Check
-                            className={`w-4 h-4 mt-0.5 shrink-0 ${
-                              p.highlight ? "text-emerald-500" : "text-primary"
-                            }`}
+                            className={`w-4 h-4 mt-0.5 shrink-0 ${p.highlight ? "text-emerald-500" : "text-primary"}`}
                           />
                           <span>{feat}</span>
                         </li>
@@ -878,7 +1024,6 @@ const EdTechWebService = () => {
       {/* FAQ — expandable accordion */}
       <FaqSection />
 
-
       {/* Why us strip */}
       <section className="py-12 bg-gradient-to-br from-primary/5 via-background to-emerald-500/5 border-y border-border/60">
         <div className="container mx-auto px-4 sm:px-6">
@@ -907,9 +1052,7 @@ const EdTechWebService = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-2xl mx-auto">
             <div className="text-center mb-8">
-              <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
-                Đăng ký tư vấn miễn phí
-              </h2>
+              <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">Đăng ký tư vấn miễn phí</h2>
               <p className="mt-3 text-muted-foreground">
                 Điền thông tin bên dưới, Thầy Hải sẽ liên hệ tư vấn lộ trình & báo giá phù hợp trong vòng 24 giờ.
               </p>
@@ -968,9 +1111,7 @@ const EdTechWebService = () => {
                     <Label htmlFor="selected_package">Gói dịch vụ quan tâm *</Label>
                     <Select
                       value={form.selected_package}
-                      onValueChange={(v) =>
-                        update("selected_package", v as FormState["selected_package"])
-                      }
+                      onValueChange={(v) => update("selected_package", v as FormState["selected_package"])}
                     >
                       <SelectTrigger id="selected_package">
                         <SelectValue />
@@ -1074,9 +1215,7 @@ const LmsMockup = () => {
               <div
                 key={m}
                 className={`px-3 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition-colors ${
-                  i === 0
-                    ? "bg-white text-primary shadow"
-                    : "bg-white/10 text-white/90 hover:bg-white/20"
+                  i === 0 ? "bg-white text-primary shadow" : "bg-white/10 text-white/90 hover:bg-white/20"
                 }`}
               >
                 {m}
@@ -1128,8 +1267,20 @@ const LmsMockup = () => {
           <div className="grid grid-cols-3 gap-2 sm:gap-3">
             {[
               { l: "Tiến độ", v: "72%", bg: "from-sky-100 to-sky-50", tx: "text-sky-700", border: "border-sky-200" },
-              { l: "Đã làm", v: "9/12", bg: "from-emerald-100 to-emerald-50", tx: "text-emerald-700", border: "border-emerald-200" },
-              { l: "Điểm TB", v: "8.4", bg: "from-amber-100 to-amber-50", tx: "text-amber-700", border: "border-amber-200" },
+              {
+                l: "Đã làm",
+                v: "9/12",
+                bg: "from-emerald-100 to-emerald-50",
+                tx: "text-emerald-700",
+                border: "border-emerald-200",
+              },
+              {
+                l: "Điểm TB",
+                v: "8.4",
+                bg: "from-amber-100 to-amber-50",
+                tx: "text-amber-700",
+                border: "border-amber-200",
+              },
             ].map((s) => (
               <div key={s.l} className={`rounded-xl bg-gradient-to-br ${s.bg} border ${s.border} p-2.5 min-w-0`}>
                 <div className="text-[10px] text-muted-foreground uppercase tracking-wider truncate font-semibold">
@@ -1159,8 +1310,8 @@ const LmsMockup = () => {
                 🧑‍🎓 “Em chưa hiểu cụm <em>once in a blue moon</em>, thầy ơi.”
               </div>
               <div className="rounded-2xl rounded-tr-sm bg-gradient-to-br from-primary/10 to-emerald-500/10 border border-primary/15 p-2.5 text-[11px] sm:text-xs text-foreground leading-relaxed">
-                🤖 Nghĩa là <strong>rất hiếm khi</strong>. Ví dụ:{" "}
-                <em>I see him once in a blue moon.</em> – Tôi rất hiếm khi gặp anh ấy.
+                🤖 Nghĩa là <strong>rất hiếm khi</strong>. Ví dụ: <em>I see him once in a blue moon.</em> – Tôi rất hiếm
+                khi gặp anh ấy.
               </div>
             </div>
           </div>
@@ -1311,11 +1462,7 @@ const PortfolioShowcase = () => {
           </TabsList>
           {tabs.map((t) => (
             <TabsContent key={t.id} value={t.id} className="mt-8">
-              <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-              >
+              <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
                 {t.body}
               </motion.div>
             </TabsContent>
@@ -1399,12 +1546,8 @@ const ComparisonTable = () => (
       <Table className="min-w-[640px]">
         <TableHeader>
           <TableRow className="bg-secondary/40">
-            <TableHead className="text-foreground font-semibold w-[40%]">
-              Tính năng hệ thống
-            </TableHead>
-            <TableHead className="text-foreground font-semibold text-center">
-              Gói Standard
-            </TableHead>
+            <TableHead className="text-foreground font-semibold w-[40%]">Tính năng hệ thống</TableHead>
+            <TableHead className="text-foreground font-semibold text-center">Gói Standard</TableHead>
             <TableHead className="text-foreground font-semibold text-center">
               <span className="inline-flex items-center gap-1 text-primary">
                 <Crown className="w-3.5 h-3.5" /> Gói Advanced AI &amp; Data
@@ -1415,9 +1558,7 @@ const ComparisonTable = () => (
         <TableBody>
           {COMPARISON_ROWS.map((r, i) => (
             <TableRow key={r.feature} className={i % 2 === 0 ? "" : "bg-secondary/20"}>
-              <TableCell className="font-medium text-sm text-foreground align-top py-4">
-                {r.feature}
-              </TableCell>
+              <TableCell className="font-medium text-sm text-foreground align-top py-4">{r.feature}</TableCell>
               <TableCell className="text-sm text-muted-foreground text-center align-top py-4">
                 <div className="flex items-start justify-center gap-1.5">
                   <XIcon className="w-3.5 h-3.5 text-muted-foreground/70 mt-0.5 shrink-0" />
@@ -1489,12 +1630,8 @@ const FaqSection = () => (
           <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-xs font-medium text-primary mb-3">
             <HelpCircle className="w-3.5 h-3.5" /> FAQ
           </div>
-          <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
-            Giải Đáp Thắc Mắc Thường Gặp
-          </h2>
-          <p className="mt-3 text-muted-foreground">
-            Những câu hỏi quan trọng nhất từ quý Thầy/Cô trước khi đặt hàng.
-          </p>
+          <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">Giải Đáp Thắc Mắc Thường Gặp</h2>
+          <p className="mt-3 text-muted-foreground">Những câu hỏi quan trọng nhất từ quý Thầy/Cô trước khi đặt hàng.</p>
         </div>
         <Accordion type="single" collapsible className="space-y-3">
           {FAQS.map((f, i) => (
@@ -1523,4 +1660,3 @@ const FaqSection = () => (
 );
 
 export default EdTechWebService;
-
