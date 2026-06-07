@@ -1236,23 +1236,33 @@ const LmsMockup = () => {
         {/* Main */}
         <main className="flex-1 min-w-0 p-4 sm:p-6 space-y-4">
           {/* Vivid video player */}
-          <div className="aspect-video w-full rounded-2xl bg-gradient-to-br from-primary via-violet-500 to-emerald-500 flex items-center justify-center relative overflow-hidden shadow-lg">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.4),transparent_55%),radial-gradient(circle_at_75%_70%,rgba(255,255,255,0.25),transparent_55%)]" />
+          <div className="aspect-video w-full rounded-2xl relative overflow-hidden shadow-lg border-2 border-emerald-500/60">
+            <img
+              src={onlineClassroomDemo}
+              alt="Lớp học trực tuyến IELTS Reading cùng Thầy Hải"
+              className="absolute inset-0 w-full h-full object-cover"
+              loading="lazy"
+              width={1280}
+              height={768}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-black/25" />
             {/* Subtitle bubble */}
-            <div className="absolute top-3 left-3 bg-white/90 backdrop-blur rounded-md px-2 py-1 text-[10px] font-semibold text-foreground shadow">
+            <div className="absolute top-3 left-3 bg-white/95 backdrop-blur rounded-md px-2.5 py-1 text-[11px] font-bold text-foreground shadow-md">
               📖 IELTS Reading · Band 7.0+
             </div>
-            <div className="absolute top-3 right-3 bg-emerald-500 text-white rounded-md px-2 py-1 text-[10px] font-bold shadow">
-              HD
+            <div className="absolute top-3 right-3 bg-emerald-500 text-white rounded-md px-2.5 py-1 text-[11px] font-extrabold shadow-md">
+              ● LIVE · HD
             </div>
-            <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center shadow-2xl ring-4 ring-white/40">
-              <Play className="w-7 h-7 text-primary fill-primary translate-x-0.5" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center shadow-2xl ring-4 ring-white/50 hover:scale-110 transition-transform">
+                <Play className="w-7 h-7 text-primary fill-primary translate-x-0.5" />
+              </div>
             </div>
             <div className="absolute bottom-3 left-3 right-3">
-              <div className="h-1.5 bg-white/30 rounded-full overflow-hidden">
+              <div className="h-1.5 bg-white/30 rounded-full overflow-hidden backdrop-blur">
                 <div className="h-full w-2/3 bg-gradient-to-r from-amber-300 to-emerald-300" />
               </div>
-              <div className="flex justify-between text-[10px] text-white/90 mt-1 font-medium">
+              <div className="flex justify-between text-[10px] text-white mt-1 font-bold drop-shadow">
                 <span>16:12</span>
                 <span>24:00</span>
               </div>
