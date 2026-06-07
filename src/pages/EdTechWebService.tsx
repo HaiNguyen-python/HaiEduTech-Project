@@ -872,6 +872,317 @@ const SlideScheduleFinance = () => (
   </div>
 );
 
+// ===== Advanced teaching demo slides =====
+
+const SlideRubricGrading = () => (
+  <div className="space-y-3">
+    <div className="rounded-xl border-2 border-rose-500/40 bg-gradient-to-br from-rose-500/10 via-orange-500/5 to-transparent p-3.5">
+      <div className="flex items-center justify-between mb-1.5">
+        <div className="flex items-center gap-2">
+          <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-rose-500 to-orange-500 flex items-center justify-center text-white">
+            <ClipboardList className="h-4 w-4" />
+          </div>
+          <div>
+            <div className="text-xs sm:text-sm font-semibold text-foreground">Bài Writing Task 2 · Trần Minh Anh</div>
+            <div className="text-[11px] text-muted-foreground">Đề: "Online learning vs traditional classroom"</div>
+          </div>
+        </div>
+        <div className="text-right">
+          <div className="text-2xl font-extrabold text-rose-600 leading-none">7.0</div>
+          <div className="text-[10px] text-muted-foreground mt-0.5">Overall Band</div>
+        </div>
+      </div>
+    </div>
+
+    <div className="grid grid-cols-2 gap-2.5">
+      {[
+        { l: "Task Response", v: 7.0, c: "from-rose-500 to-orange-500", note: "Cover đủ ý, ví dụ rõ" },
+        { l: "Coherence", v: 7.5, c: "from-emerald-500 to-teal-500", note: "Linking từ đa dạng" },
+        { l: "Lexical Resource", v: 6.5, c: "from-amber-500 to-orange-500", note: "Lặp từ 'good' 4 lần" },
+        { l: "Grammar Range", v: 7.0, c: "from-primary to-sky-500", note: "Câu phức tốt, vài lỗi nhỏ" },
+      ].map((s) => (
+        <div key={s.l} className="rounded-xl border border-border/60 bg-background/70 p-2.5">
+          <div className="flex items-center justify-between">
+            <div className="text-[11px] font-semibold text-foreground">{s.l}</div>
+            <div className="text-sm font-bold text-foreground">{s.v.toFixed(1)}</div>
+          </div>
+          <div className="mt-1.5 h-1.5 rounded-full bg-muted overflow-hidden">
+            <div className={`h-full bg-gradient-to-r ${s.c}`} style={{ width: `${(s.v / 9) * 100}%` }} />
+          </div>
+          <div className="text-[10px] text-muted-foreground mt-1.5">{s.note}</div>
+        </div>
+      ))}
+    </div>
+
+    <div className="rounded-xl border border-rose-500/30 bg-rose-500/5 p-3 flex items-start gap-2.5">
+      <Sparkles className="h-4 w-4 text-rose-600 shrink-0 mt-0.5" />
+      <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
+        <span className="font-semibold">AI gợi ý sửa lỗi:</span> thay "good" bằng "beneficial / advantageous", chuyển 2 câu đơn ở đoạn 2 thành câu ghép, bổ sung 1 ví dụ thực tế tại Việt Nam. <span className="text-muted-foreground">→ Có thể đạt Band 7.5.</span>
+      </div>
+    </div>
+  </div>
+);
+
+const SlideSpeakingGrading = () => (
+  <div className="space-y-3">
+    <div className="rounded-xl border-2 border-violet-500/40 bg-gradient-to-br from-violet-500/10 via-fuchsia-500/5 to-transparent p-3.5">
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-2">
+          <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center text-white">
+            <MessageCircle className="h-4 w-4" />
+          </div>
+          <div>
+            <div className="text-xs sm:text-sm font-semibold text-foreground">Speaking Part 2 · "Describe a hometown"</div>
+            <div className="text-[11px] text-muted-foreground">Lê Quang Huy · ghi âm 1m48s</div>
+          </div>
+        </div>
+        <div className="text-[10px] inline-flex items-center gap-1 px-2 py-1 rounded-full bg-violet-500/10 text-violet-600 border border-violet-500/30 font-semibold">
+          <Activity className="h-3 w-3 animate-pulse" /> AI scoring
+        </div>
+      </div>
+      <div className="grid grid-cols-4 gap-2 mt-2">
+        {[
+          { l: "Fluency", v: "7.0" },
+          { l: "Lexical", v: "6.5" },
+          { l: "Grammar", v: "7.0" },
+          { l: "Pronun.", v: "6.5" },
+        ].map((s) => (
+          <div key={s.l} className="rounded-lg bg-background/70 border border-border/60 p-2 text-center">
+            <div className="text-base font-bold text-violet-600 leading-none">{s.v}</div>
+            <div className="text-[10px] text-muted-foreground mt-1">{s.l}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div className="rounded-xl border border-border/60 bg-background/70 p-3">
+      <div className="text-[11px] text-muted-foreground mb-2 font-medium">Transcript có highlight phát âm</div>
+      <div className="text-xs sm:text-sm leading-relaxed text-foreground">
+        My hometown is <span className="bg-emerald-500/20 text-emerald-700 px-1 rounded">Hai Phong</span>, a port city in the
+        <span className="bg-rose-500/25 text-rose-700 px-1 rounded mx-1" title="Sai âm /ˈnɔːrðərn/">northern</span>
+        part of <span className="bg-emerald-500/20 text-emerald-700 px-1 rounded">Vietnam</span>. It's
+        <span className="bg-amber-500/25 text-amber-700 px-1 rounded mx-1" title="Trọng âm sai">famous</span>
+        for its seafood and <span className="bg-emerald-500/20 text-emerald-700 px-1 rounded">friendly people</span>.
+      </div>
+      <div className="flex items-center gap-3 mt-2.5 text-[10px] text-muted-foreground">
+        <span className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded bg-emerald-500/60" /> Chuẩn</span>
+        <span className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded bg-amber-500/70" /> Trọng âm</span>
+        <span className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded bg-rose-500/70" /> Sai âm</span>
+      </div>
+    </div>
+
+    <div className="rounded-xl border border-violet-500/30 bg-violet-500/5 p-3 flex items-start gap-2.5">
+      <Sparkles className="h-4 w-4 text-violet-600 shrink-0 mt-0.5" />
+      <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
+        <span className="font-semibold">Bài tập phát âm tự sinh:</span> 6 từ /θ/ /ð/ + 4 cụm trọng âm — học viên luyện lại trong 5 phút, AI chấm lại tự động.
+      </div>
+    </div>
+  </div>
+);
+
+const SlideLiveClass = () => (
+  <div className="space-y-3">
+    <div className="rounded-xl border-2 border-sky-500/40 bg-gradient-to-br from-sky-500/10 via-primary/5 to-transparent p-3.5">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="relative">
+            <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-sky-500 to-primary flex items-center justify-center text-white">
+              <Monitor className="h-4 w-4" />
+            </div>
+            <span className="absolute -top-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-rose-500 ring-2 ring-card animate-pulse" />
+          </div>
+          <div>
+            <div className="text-xs sm:text-sm font-semibold text-foreground">Lớp IELTS 6.5 · Ca tối · LIVE</div>
+            <div className="text-[11px] text-muted-foreground">18 / 20 học viên có mặt · 42:18 đã trôi qua</div>
+          </div>
+        </div>
+        <div className="text-right">
+          <div className="text-sm font-bold text-emerald-600 leading-none">84%</div>
+          <div className="text-[10px] text-muted-foreground mt-0.5">Tập trung TB</div>
+        </div>
+      </div>
+    </div>
+
+    <div className="grid grid-cols-6 gap-1.5">
+      {[
+        { n: "MA", f: 95, c: "emerald" },
+        { n: "QH", f: 88, c: "emerald" },
+        { n: "TH", f: 42, c: "rose" },
+        { n: "KL", f: 76, c: "amber" },
+        { n: "MQ", f: 91, c: "emerald" },
+        { n: "NN", f: 58, c: "amber" },
+        { n: "DT", f: 82, c: "emerald" },
+        { n: "VL", f: 35, c: "rose" },
+        { n: "HP", f: 89, c: "emerald" },
+        { n: "BT", f: 71, c: "amber" },
+        { n: "CK", f: 93, c: "emerald" },
+        { n: "AT", f: 64, c: "amber" },
+      ].map((s) => {
+        const ring = s.c === "emerald" ? "ring-emerald-500/60 bg-emerald-500/15 text-emerald-700"
+          : s.c === "amber" ? "ring-amber-500/60 bg-amber-500/15 text-amber-700"
+          : "ring-rose-500/60 bg-rose-500/15 text-rose-700 animate-pulse";
+        return (
+          <div key={s.n} className={`aspect-square rounded-lg ring-2 ${ring} flex flex-col items-center justify-center`}>
+            <div className="text-[10px] font-bold leading-none">{s.n}</div>
+            <div className="text-[9px] mt-0.5 opacity-80">{s.f}%</div>
+          </div>
+        );
+      })}
+    </div>
+
+    <div className="rounded-xl border border-rose-500/30 bg-rose-500/5 p-3 flex items-start gap-2.5">
+      <AlertTriangle className="h-4 w-4 text-rose-600 shrink-0 mt-0.5" />
+      <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
+        <span className="font-semibold">AI phát hiện:</span> 2 học viên (TH, VL) đang mất tập trung &gt; 6 phút — gợi ý gọi tên ngẫu nhiên, hoặc gửi poll nhanh để kéo lại sự tham gia.
+      </div>
+    </div>
+
+    <div className="grid grid-cols-3 gap-2">
+      {[
+        { l: "Tay giơ", v: "4", icon: HelpCircle, c: "text-primary", bg: "bg-primary/10" },
+        { l: "Poll trả lời", v: "16 / 18", icon: Check, c: "text-emerald-600", bg: "bg-emerald-500/10" },
+        { l: "Chat hỏi", v: "9", icon: MessageCircle, c: "text-violet-600", bg: "bg-violet-500/10" },
+      ].map((s) => (
+        <div key={s.l} className={`rounded-lg ${s.bg} border border-border/60 p-2.5`}>
+          <s.icon className={`h-3.5 w-3.5 ${s.c}`} />
+          <div className="text-sm font-bold text-foreground mt-1 leading-none">{s.v}</div>
+          <div className="text-[10px] text-muted-foreground mt-1">{s.l}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+const SlideMasteryMap = () => (
+  <div className="space-y-3">
+    <div className="rounded-xl border-2 border-indigo-500/40 bg-gradient-to-br from-indigo-500/10 via-violet-500/5 to-transparent p-3.5">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center text-white">
+            <Brain className="h-4 w-4" />
+          </div>
+          <div>
+            <div className="text-xs sm:text-sm font-semibold text-foreground">Skill Mastery · Lớp IELTS 6.5</div>
+            <div className="text-[11px] text-muted-foreground">Cập nhật theo từng bài tập nộp lên</div>
+          </div>
+        </div>
+        <div className="text-[10px] inline-flex items-center gap-1 px-2 py-1 rounded-full bg-indigo-500/10 text-indigo-600 border border-indigo-500/30 font-semibold">
+          12 kỹ năng
+        </div>
+      </div>
+    </div>
+
+    <div className="rounded-xl border border-border/60 bg-background/70 p-3">
+      <div className="text-[11px] text-muted-foreground mb-2 font-medium">Heatmap mức độ thành thạo (xanh = vững, đỏ = yếu)</div>
+      <div className="grid grid-cols-7 gap-1 text-[9px]">
+        <div></div>
+        {["Skim", "Detail", "Para", "Vocab", "T/F", "Match"].map((h) => (
+          <div key={h} className="text-center text-muted-foreground font-medium truncate">{h}</div>
+        ))}
+        {[
+          { n: "Trần Anh", row: [85, 72, 65, 78, 55, 60] },
+          { n: "Lê Huy", row: [92, 88, 80, 75, 70, 82] },
+          { n: "Phạm Hà", row: [45, 38, 52, 60, 35, 42] },
+          { n: "Đỗ Quân", row: [70, 65, 58, 72, 50, 55] },
+          { n: "Ng. Linh", row: [88, 82, 78, 85, 75, 80] },
+        ].map((r) => (
+          <>
+            <div key={`${r.n}-l`} className="text-muted-foreground truncate text-[10px] flex items-center">{r.n}</div>
+            {r.row.map((v, i) => {
+              const bg = v >= 75 ? "bg-emerald-500" : v >= 60 ? "bg-amber-500" : v >= 45 ? "bg-orange-500" : "bg-rose-500";
+              const op = 0.3 + (v / 100) * 0.7;
+              return (
+                <div
+                  key={`${r.n}-${i}`}
+                  className={`aspect-square rounded ${bg} flex items-center justify-center text-white font-bold`}
+                  style={{ opacity: op }}
+                  title={`${r.n} · ${v}%`}
+                >
+                  {v}
+                </div>
+              );
+            })}
+          </>
+        ))}
+      </div>
+    </div>
+
+    <div className="rounded-xl border border-indigo-500/30 bg-indigo-500/5 p-3 flex items-start gap-2.5">
+      <Target className="h-4 w-4 text-indigo-600 shrink-0 mt-0.5" />
+      <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
+        <span className="font-semibold">AI khuyến nghị:</span> mở mini-lesson "True/False/Not Given" cho 3 học viên ô đỏ; Phạm Hà cần kèm 1-1 — yếu toàn diện ở Reading.
+      </div>
+    </div>
+  </div>
+);
+
+const SlideAssignmentBuilder = () => (
+  <div className="space-y-3">
+    <div className="rounded-xl border-2 border-teal-500/40 bg-gradient-to-br from-teal-500/10 via-emerald-500/5 to-transparent p-3.5">
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-2">
+          <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-teal-500 to-emerald-500 flex items-center justify-center text-white">
+            <Send className="h-4 w-4" />
+          </div>
+          <div>
+            <div className="text-xs sm:text-sm font-semibold text-foreground">Giao bài: Reading Practice #18</div>
+            <div className="text-[11px] text-muted-foreground">Hạn nộp: Chủ nhật 21:00 · Tự động chấm</div>
+          </div>
+        </div>
+        <div className="text-[10px] inline-flex items-center gap-1 px-2 py-1 rounded-full bg-teal-500/15 text-teal-700 border border-teal-500/30 font-semibold">
+          3 lớp · 47 HV
+        </div>
+      </div>
+
+      <div className="grid grid-cols-3 gap-2 mt-1">
+        {[
+          { l: "Lớp IELTS 6.5", v: "20 HV", c: "from-primary to-sky-500" },
+          { l: "Lớp IELTS 7.0", v: "15 HV", c: "from-emerald-500 to-teal-500" },
+          { l: "Lớp 1-1 Premium", v: "12 HV", c: "from-violet-500 to-fuchsia-500" },
+        ].map((s) => (
+          <div key={s.l} className={`rounded-lg p-2 text-white bg-gradient-to-br ${s.c}`}>
+            <div className="text-[10px] opacity-90">{s.l}</div>
+            <div className="text-sm font-bold leading-none mt-1">{s.v}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div className="rounded-xl border border-border/60 bg-background/70 p-3">
+      <div className="text-[11px] text-muted-foreground mb-2 font-medium">Cá nhân hoá theo trình độ (AI tự chia đề)</div>
+      {[
+        { l: "Học viên yếu (<6.0)", task: "Passage rút gọn · 8 câu · gợi ý từ vựng", c: "rose", n: 9 },
+        { l: "Học viên trung bình (6.0-6.5)", task: "Passage đầy đủ · 13 câu · không gợi ý", c: "amber", n: 24 },
+        { l: "Học viên khá (≥7.0)", task: "Passage + bonus T/F/NG · 16 câu · giới hạn 20'", c: "emerald", n: 14 },
+      ].map((r) => {
+        const cls = r.c === "rose" ? "border-rose-500/30 bg-rose-500/5"
+          : r.c === "amber" ? "border-amber-500/30 bg-amber-500/5"
+          : "border-emerald-500/30 bg-emerald-500/5";
+        const chip = r.c === "rose" ? "bg-rose-500/15 text-rose-700"
+          : r.c === "amber" ? "bg-amber-500/15 text-amber-700"
+          : "bg-emerald-500/15 text-emerald-700";
+        return (
+          <div key={r.l} className={`rounded-lg border ${cls} p-2.5 flex items-center gap-2.5 mt-1.5 first:mt-0`}>
+            <div className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${chip} shrink-0`}>{r.n} HV</div>
+            <div className="min-w-0 flex-1">
+              <div className="text-[11px] font-semibold text-foreground">{r.l}</div>
+              <div className="text-[10px] text-muted-foreground truncate">{r.task}</div>
+            </div>
+            <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
+          </div>
+        );
+      })}
+    </div>
+
+    <div className="rounded-xl border border-teal-500/30 bg-teal-500/5 p-3 flex items-start gap-2.5">
+      <Zap className="h-4 w-4 text-teal-600 shrink-0 mt-0.5" />
+      <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
+        <span className="font-semibold">Tiết kiệm 9.2h/tuần:</span> 1 lần soạn → AI chia 3 cấp độ → gửi Zalo + email → chấm tự động → trả kết quả + lời nhận xét cá nhân hoá cho từng học viên.
+      </div>
+    </div>
+  </div>
+);
+
 
 
 
