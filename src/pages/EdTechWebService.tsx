@@ -2108,7 +2108,7 @@ const EdTechWebService = () => {
               >
                 {p.highlight && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-primary to-emerald-500 text-primary-foreground text-xs font-bold px-3 py-1 shadow-md">
-                    <Crown className="w-3 h-3" /> Khuyên dùng
+                    <Crown className="w-3 h-3" /> {t("Khuyên dùng", "Recommended")}
                   </div>
                 )}
                 <Card className={`h-full flex flex-col ${p.highlight ? "bg-card" : ""}`}>
