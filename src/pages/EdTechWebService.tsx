@@ -1138,6 +1138,26 @@ const COMPARISON_ROWS: Array<{
     standard: { v: "Giờ hành chính" },
     advanced: { v: "Ưu tiên + cập nhật tính năng theo quý", ok: true },
   },
+  {
+    feature: "Tối ưu SEO & Hiệu năng trang",
+    standard: { v: "Meta tags cơ bản, PageSpeed ~75" },
+    advanced: { v: "Schema EducationalOrganization, PageSpeed 95+, sitemap động", ok: true },
+  },
+  {
+    feature: "Cổng thanh toán học phí",
+    standard: { v: "Chuyển khoản thủ công" },
+    advanced: { v: "VNPay / Momo / ZaloPay – đối soát tự động + xuất hóa đơn", ok: true },
+  },
+  {
+    feature: "Phân quyền & Quản trị nhiều cấp",
+    standard: { v: "1 cấp Admin duy nhất" },
+    advanced: { v: "Admin / Giáo viên / Trợ giảng / Phụ huynh / Học viên", ok: true },
+  },
+  {
+    feature: "Sao lưu & Khôi phục dữ liệu",
+    standard: { v: "Thủ công theo yêu cầu" },
+    advanced: { v: "Backup tự động hằng ngày, khôi phục 1-click theo mốc thời gian", ok: true },
+  },
 ];
 
 const ComparisonTable = () => (
