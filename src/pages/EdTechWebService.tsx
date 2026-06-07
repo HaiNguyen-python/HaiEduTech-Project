@@ -1983,40 +1983,43 @@ const EdTechWebService = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-xs font-semibold text-primary mb-3">
-              <ClipboardList className="w-3.5 h-3.5" /> Quy trình minh bạch
+              <ClipboardList className="w-3.5 h-3.5" /> {t("Quy trình minh bạch", "Transparent Process")}
             </div>
             <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
-              Lộ trình 5 bước · Bàn giao trong 7–14 ngày
+              {t("Lộ trình 5 bước · Bàn giao trong 7–14 ngày", "5-step roadmap · Delivered in 7–14 days")}
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Cam kết tiến độ rõ ràng. Quý Thầy/Cô được duyệt từng giai đoạn trước khi sang bước kế tiếp.
+              {t(
+                "Cam kết tiến độ rõ ràng. Quý Thầy/Cô được duyệt từng giai đoạn trước khi sang bước kế tiếp.",
+                "Clear milestones. You approve each stage before we move to the next."
+              )}
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 max-w-6xl mx-auto">
             {[
               {
                 n: 1,
-                t: "Tư vấn miễn phí",
-                d: "Phỏng vấn 30 phút để hiểu lớp học & mục tiêu giảng dạy.",
+                t: { vi: "Tư vấn miễn phí", en: "Free Consultation" },
+                d: { vi: "Phỏng vấn 30 phút để hiểu lớp học & mục tiêu giảng dạy.", en: "A 30-minute interview to understand your classes & teaching goals." },
                 icon: MessageCircle,
               },
               {
                 n: 2,
-                t: "Thiết kế UI/UX",
-                d: "Wireframe + mockup được duyệt trước khi viết code.",
+                t: { vi: "Thiết kế UI/UX", en: "UI/UX Design" },
+                d: { vi: "Wireframe + mockup được duyệt trước khi viết code.", en: "Wireframes + mockups approved before any code is written." },
                 icon: LayoutDashboard,
               },
-              { n: 3, t: "Phát triển LMS", d: "Xây dựng frontend + backend bảo mật, kiểm thử nội bộ.", icon: Database },
+              { n: 3, t: { vi: "Phát triển LMS", en: "LMS Development" }, d: { vi: "Xây dựng frontend + backend bảo mật, kiểm thử nội bộ.", en: "Build secure frontend + backend, with internal QA." }, icon: Database },
               {
                 n: 4,
-                t: "Tích hợp AI & Domain",
-                d: "Huấn luyện AI theo tài liệu riêng, cấu hình tên miền + email.",
+                t: { vi: "Tích hợp AI & Domain", en: "AI & Domain Integration" },
+                d: { vi: "Huấn luyện AI theo tài liệu riêng, cấu hình tên miền + email.", en: "Train the AI on your materials, configure the domain + email." },
                 icon: Bot,
               },
               {
                 n: 5,
-                t: "Nghiệm thu & Đào tạo",
-                d: "Bàn giao mã nguồn, video hướng dẫn quản trị 1-1.",
+                t: { vi: "Nghiệm thu & Đào tạo", en: "Handover & Training" },
+                d: { vi: "Bàn giao mã nguồn, video hướng dẫn quản trị 1-1.", en: "Source code handover and 1-on-1 admin training videos." },
                 icon: GraduationCap,
               },
             ].map((step) => (
@@ -2030,13 +2033,14 @@ const EdTechWebService = () => {
                 <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center mb-3 ml-auto">
                   <step.icon className="w-5 h-5" />
                 </div>
-                <h3 className="font-semibold text-foreground mb-1.5">{step.t}</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed">{step.d}</p>
+                <h3 className="font-semibold text-foreground mb-1.5">{t(step.t.vi, step.t.en)}</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">{t(step.d.vi, step.d.en)}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
+
 
       {/* Testimonials — social proof from teachers */}
       <section className="py-16 sm:py-20 bg-secondary/30">
