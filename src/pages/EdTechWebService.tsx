@@ -83,6 +83,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
 import { supabase } from "@/integrations/supabase/client";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 // Strict client-side validation schema. Server-side RLS still applies.
 const requestSchema = z.object({
@@ -120,61 +121,132 @@ const INITIAL: FormState = {
 const FEATURES = [
   {
     icon: GraduationCap,
-    title: "Hệ thống Quản lý Học liệu (LMS)",
-    desc: "Tự động lưu trữ bài giảng, video khóa học bảo mật, chấm điểm tự động và theo dõi tiến độ chi tiết theo từng học viên.",
-    color: "from-blue-500/20 to-blue-500/5",
+    title: { vi: "Hệ thống Quản lý Học liệu (LMS)", en: "Learning Management System (LMS)" },
+    desc: {
+      vi: "Lưu trữ bài giảng & video khoá học bảo mật, giao bài – chấm điểm tự động, theo dõi tiến độ chi tiết theo từng học viên và từng kỹ năng.",
+      en: "Securely store lessons & course videos, auto-grade assignments, and track each learner's progress skill by skill in real time.",
+    },
     iconBg: "bg-blue-500/10 text-blue-600",
   },
   {
     icon: Bot,
-    title: "Trợ lý AI Hỗ trợ Giảng dạy",
-    desc: "Tích hợp chatbot AI (Perplexity / GPT) tự động giải thích từ vựng, sửa bài viết, trả lời học sinh 24/7 dựa trên tài liệu của giáo viên.",
-    color: "from-emerald-500/20 to-emerald-500/5",
+    title: { vi: "Trợ lý AI Hỗ trợ Giảng dạy", en: "AI Teaching Assistant" },
+    desc: {
+      vi: "Chatbot AI (Perplexity / GPT) huấn luyện theo tài liệu riêng – giải thích từ vựng, sửa bài viết, trả lời học sinh 24/7 đúng phong cách giảng dạy của Thầy/Cô.",
+      en: "An AI chatbot (Perplexity / GPT) trained on your own materials – explains vocabulary, corrects essays, and answers students 24/7 in your teaching voice.",
+    },
     iconBg: "bg-emerald-500/10 text-emerald-600",
   },
   {
     icon: BarChart3,
-    title: "Báo cáo Dữ liệu Thông minh",
-    desc: "Biểu đồ tiến độ, phân tích hành vi học tập và tự động cảnh báo học sinh học yếu để giáo viên can thiệp kịp thời.",
-    color: "from-violet-500/20 to-violet-500/5",
+    title: { vi: "Báo cáo Dữ liệu Thông minh", en: "Smart Learning Analytics" },
+    desc: {
+      vi: "Biểu đồ tiến độ, phân tích hành vi học tập, dự đoán điểm thi và cảnh báo sớm học sinh học yếu để giáo viên can thiệp kịp thời.",
+      en: "Progress dashboards, learning-behavior analytics, score prediction, and early warnings for struggling students so teachers can intervene in time.",
+    },
     iconBg: "bg-violet-500/10 text-violet-600",
   },
   {
+    icon: Brain,
+    title: { vi: "Cá nhân hoá lộ trình bằng Reinforcement Learning", en: "RL-Powered Adaptive Learning Path" },
+    desc: {
+      vi: "Thuật toán RL tự điều chỉnh độ khó, thứ tự bài học và lượng bài tập theo từng học viên – giúp mỗi em học đúng vùng phát triển gần (ZPD).",
+      en: "An RL engine auto-tunes difficulty, lesson order, and homework load per student – keeping every learner inside their Zone of Proximal Development.",
+    },
+    iconBg: "bg-fuchsia-500/10 text-fuchsia-600",
+  },
+  {
+    icon: ClipboardList,
+    title: { vi: "AI Smart Grading – Writing & Speaking", en: "AI Smart Grading – Writing & Speaking" },
+    desc: {
+      vi: "Chấm Writing theo rubric IELTS/TOEIC, chấm Speaking theo phát âm – ngữ điệu, kèm phản hồi chi tiết và đề xuất bài luyện riêng.",
+      en: "Grades Writing on IELTS/TOEIC rubrics and Speaking on pronunciation & intonation, with detailed feedback and tailored practice suggestions.",
+    },
+    iconBg: "bg-rose-500/10 text-rose-600",
+  },
+  {
     icon: Mail,
-    title: "Hạ tầng Email Tự động",
-    desc: "Gửi OTP, hóa đơn, thông báo và nhắc nhở học tập chuyên nghiệp qua subdomain riêng – tăng độ tin cậy thương hiệu.",
-    color: "from-amber-500/20 to-amber-500/5",
+    title: { vi: "Hạ tầng Email Tự động", en: "Automated Email Infrastructure" },
+    desc: {
+      vi: "Gửi OTP, hoá đơn, thông báo và nhắc lịch học chuyên nghiệp qua subdomain riêng – tăng độ tin cậy thương hiệu, giảm vào hộp spam.",
+      en: "Send OTP, invoices, notifications and class reminders from your own subdomain – boosting brand trust and inbox deliverability.",
+    },
     iconBg: "bg-amber-500/10 text-amber-600",
   },
   {
     icon: Monitor,
-    title: "Giao diện Mobile-first & Tốc độ cao",
-    desc: "Tối ưu hiển thị trên điện thoại – nơi 80% học viên truy cập. Đạt điểm Google PageSpeed 90+ giúp SEO tốt và giảm tỉ lệ thoát trang.",
-    color: "from-rose-500/20 to-rose-500/5",
-    iconBg: "bg-rose-500/10 text-rose-600",
+    title: { vi: "Giao diện Mobile-first & Tốc độ cao", en: "Mobile-first, Lightning-Fast UI" },
+    desc: {
+      vi: "Tối ưu cho điện thoại – nơi 80% học viên truy cập. Đạt PageSpeed 90+, hỗ trợ chế độ tối, tăng SEO và giảm tỉ lệ thoát trang.",
+      en: "Optimized for phones – where 80% of learners are. Hits PageSpeed 90+, supports dark mode, improves SEO and lowers bounce rate.",
+    },
+    iconBg: "bg-cyan-500/10 text-cyan-600",
   },
   {
     icon: MessageCircle,
-    title: "Tích hợp Zalo OA & Cộng đồng học viên",
-    desc: "Tự động đẩy thông báo điểm danh, bài tập về Zalo phụ huynh. Tạo diễn đàn nội bộ để học viên hỏi-đáp, nâng cao tỉ lệ giữ chân lớp học.",
-    color: "from-cyan-500/20 to-cyan-500/5",
+    title: { vi: "Tích hợp Zalo OA & Cộng đồng học viên", en: "Zalo OA & Student Community" },
+    desc: {
+      vi: "Đẩy điểm danh, bài tập, kết quả thi về Zalo phụ huynh. Diễn đàn nội bộ hỏi-đáp giúp giữ chân học viên hiệu quả hơn.",
+      en: "Push attendance, homework and exam results straight to parents on Zalo. An in-app forum keeps students engaged and retained.",
+    },
     iconBg: "bg-cyan-500/10 text-cyan-600",
   },
   {
     icon: Search,
-    title: "Tối ưu SEO & Hiện diện trên Google",
-    desc: "Schema.org Education, sitemap tự động, meta tags chuẩn AI-search. Giúp khóa học của Thầy/Cô lên top Google khi phụ huynh tìm kiếm địa phương.",
-    color: "from-indigo-500/20 to-indigo-500/5",
+    title: { vi: "Tối ưu SEO & Hiện diện trên Google", en: "SEO & Google Visibility" },
+    desc: {
+      vi: "Schema.org Education, sitemap tự động, meta-tag chuẩn AI-search. Giúp khoá học của Thầy/Cô lên top Google khi phụ huynh tìm kiếm.",
+      en: "Schema.org Education, auto sitemaps, AI-search-friendly meta tags – so your courses rank on Google when parents search locally.",
+    },
     iconBg: "bg-indigo-500/10 text-indigo-600",
   },
   {
-    icon: Lock,
-    title: "Bảo mật cấp Ngân hàng & Tuân thủ GDPR",
-    desc: "Mã hóa SSL/TLS 1.3, Row-Level Security cho dữ liệu học viên, sao lưu tự động hằng ngày. Hoàn toàn tuân thủ Luật An ninh mạng Việt Nam.",
-    color: "from-slate-500/20 to-slate-500/5",
+    icon: ShieldCheck,
+    title: { vi: "Bảo mật cấp cao & Tuân thủ GDPR", en: "Enterprise-grade Security & GDPR Compliance" },
+    desc: {
+      vi: "Mã hoá SSL/TLS 1.3, Row-Level Security, sao lưu tự động hằng ngày, chống tải xuống – watermark tài liệu. Tuân thủ Luật An ninh mạng Việt Nam.",
+      en: "SSL/TLS 1.3 encryption, Row-Level Security, daily auto-backups, anti-download watermarks. Compliant with Vietnam's cybersecurity law.",
+    },
     iconBg: "bg-slate-500/10 text-slate-600",
   },
+  {
+    icon: Play,
+    title: { vi: "Lớp học Live & Phòng học ảo", en: "Live Classes & Virtual Classroom" },
+    desc: {
+      vi: "Tích hợp livestream HD, bảng trắng, điểm danh tự động, ghi hình lưu lại và phụ đề AI – dạy online như đang đứng lớp thật.",
+      en: "HD livestream, whiteboard, auto attendance, session recording and AI subtitles – teach online just like in a real classroom.",
+    },
+    iconBg: "bg-teal-500/10 text-teal-600",
+  },
+  {
+    icon: Wallet,
+    title: { vi: "Thanh toán & Học phí tự động", en: "Automated Payments & Tuition" },
+    desc: {
+      vi: "Tích hợp VNPay / Momo / chuyển khoản, đối soát doanh thu, nhắc học phí qua email + Zalo, xuất hoá đơn điện tử theo lớp.",
+      en: "VNPay / Momo / bank transfer integration, revenue reconciliation, tuition reminders via email + Zalo, and e-invoices per class.",
+    },
+    iconBg: "bg-emerald-500/10 text-emerald-600",
+  },
+  {
+    icon: Award,
+    title: { vi: "Chứng chỉ Hoàn thành tự động", en: "Auto-issued Certificates" },
+    desc: {
+      vi: "Sinh chứng chỉ PDF có chữ ký số, QR xác thực và mã chống làm giả ngay khi học viên hoàn thành khoá học.",
+      en: "Auto-generate PDF certificates with digital signature, verification QR and anti-forgery codes the moment a learner finishes a course.",
+    },
+    iconBg: "bg-amber-500/10 text-amber-600",
+  },
+  {
+    icon: Gamepad2,
+    title: { vi: "Gamification giữ chân học viên", en: "Gamification That Retains Learners" },
+    desc: {
+      vi: "XP, streak, huy hiệu, bảng xếp hạng tuần và mini-game ôn từ vựng – tăng tỉ lệ hoàn thành bài tập trung bình +38%.",
+      en: "XP, streaks, badges, weekly leaderboards and vocab mini-games – lifting average homework completion by +38%.",
+    },
+    iconBg: "bg-pink-500/10 text-pink-600",
+  },
 ];
+
 
 const PACKAGES = [
   {
@@ -1357,6 +1429,7 @@ const SlideHR = () => (
 );
 
 const EdTechWebService = () => {
+  const { t, lang } = useLanguage();
   const [form, setForm] = useState<FormState>(INITIAL);
   const [submitting, setSubmitting] = useState(false);
 
@@ -1419,12 +1492,21 @@ const EdTechWebService = () => {
             >
               <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-xs sm:text-sm font-medium text-primary mb-6 shadow-sm">
                 <Sparkles className="w-4 h-4" />
-                Thiết kế Website Giáo dục – Made by HaiEduTech
+                {t("Thiết kế Website Giáo dục – Made by HaiEduTech", "EdTech Website Design – Made by HaiEduTech")}
               </div>
 
               <h1 className="notranslate font-display font-bold tracking-tight text-foreground leading-[1.05] text-[2rem] sm:text-5xl lg:text-[3rem]">
-                <span className="block">Nâng cao chất lượng</span>
-                <span className="block">giảng dạy với</span>
+                {lang === "vi" ? (
+                  <>
+                    <span className="block">Nâng cao chất lượng</span>
+                    <span className="block">giảng dạy với</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="block">Elevate your teaching</span>
+                    <span className="block">with a</span>
+                  </>
+                )}
                 <span className="mt-2 block bg-gradient-to-r from-primary via-teal-500 to-emerald-500 bg-clip-text text-transparent">
                   Smart Learning &amp;
                 </span>
@@ -1435,29 +1517,39 @@ const EdTechWebService = () => {
 
 
               <p className="notranslate mt-6 text-base sm:text-lg text-foreground/85 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
-                Giải pháp <span className="font-bold text-foreground">"tailor-made"</span> – thiết kế riêng hệ thống
-                LMS theo từng nhu cầu giảng dạy, kết hợp{" "}
-                <span className="font-bold text-foreground">15 năm kinh nghiệm sư phạm</span> của Thầy Hải tại Việt
-                Nam &amp; Phần Lan và{" "}
-                <span className="font-bold text-foreground">3+ năm Data Engineering &amp; AI</span> tại Phần Lan.
+                {lang === "vi" ? (
+                  <>
+                    Giải pháp <span className="font-bold text-foreground">"tailor-made"</span> – thiết kế riêng hệ thống
+                    LMS theo từng nhu cầu giảng dạy, kết hợp{" "}
+                    <span className="font-bold text-foreground">15 năm kinh nghiệm sư phạm</span> của Thầy Hải tại Việt
+                    Nam &amp; Phần Lan và{" "}
+                    <span className="font-bold text-foreground">3+ năm Data Engineering &amp; AI</span> tại Phần Lan.
+                  </>
+                ) : (
+                  <>
+                    A truly <span className="font-bold text-foreground">"tailor-made"</span> LMS – custom-built for the way you teach,
+                    powered by <span className="font-bold text-foreground">15 years of classroom experience</span> in Vietnam &amp; Finland
+                    and <span className="font-bold text-foreground">3+ years of Data Engineering &amp; AI</span> work in Finland.
+                  </>
+                )}
               </p>
 
               <ul className="mt-7 max-w-xl mx-auto lg:mx-0 grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-2.5 text-left text-[14.5px] sm:text-[15px]">
                 {[
-                  "Tiết kiệm 8–10 giờ chấm bài mỗi tuần",
-                  "Không còn nỗi lo học sinh nghỉ học không báo trước",
-                  "AI Tutor trợ giảng học viên ngoài giờ – hết áp lực trả lời tin nhắn 24/7",
-                  "Tự động nhắc lịch học, thu học phí & gửi hoá đơn",
-                  "Báo cáo phụ huynh tự động hàng tháng – tăng tỉ lệ tái đăng ký",
-                  "Quản lý nhiều lớp, nhiều khoá trên 1 dashboard duy nhất",
-                  "Bảo mật tài liệu giảng dạy – chống tải xuống & sao chép trái phép",
-                  "Có thương hiệu riêng (domain & logo) – tăng uy tín chuyên nghiệp",
+                  { vi: "Tiết kiệm 8–10 giờ chấm bài mỗi tuần", en: "Save 8–10 hours of grading every week" },
+                  { vi: "Không còn nỗi lo học sinh nghỉ học không báo trước", en: "No more silent no-shows from students" },
+                  { vi: "AI Tutor trợ giảng học viên ngoài giờ – hết áp lực trả lời tin nhắn 24/7", en: "An AI Tutor handles after-hours questions – no more 24/7 messages" },
+                  { vi: "Tự động nhắc lịch học, thu học phí & gửi hoá đơn", en: "Auto class reminders, tuition collection & invoicing" },
+                  { vi: "Báo cáo phụ huynh tự động hàng tháng – tăng tỉ lệ tái đăng ký", en: "Automated monthly parent reports – higher re-enrollment" },
+                  { vi: "Quản lý nhiều lớp, nhiều khoá trên 1 dashboard duy nhất", en: "Run many classes & courses from one dashboard" },
+                  { vi: "Bảo mật tài liệu giảng dạy – chống tải xuống & sao chép trái phép", en: "Protect your materials – block downloads & unauthorized copying" },
+                  { vi: "Có thương hiệu riêng (domain & logo) – tăng uy tín chuyên nghiệp", en: "Your own brand (domain & logo) – instant professional credibility" },
                 ].map((b) => (
-                  <li key={b} className="flex items-start gap-2 text-foreground/80 font-normal leading-snug">
+                  <li key={b.vi} className="flex items-start gap-2 text-foreground/80 font-normal leading-snug">
                     <span className="mt-[3px] flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 ring-1 ring-emerald-500/30">
                       <Check className="w-2.5 h-2.5 text-emerald-600" strokeWidth={2.5} />
                     </span>
-                    <span>{b}</span>
+                    <span>{t(b.vi, b.en)}</span>
                   </li>
                 ))}
               </ul>
@@ -1469,7 +1561,7 @@ const EdTechWebService = () => {
                   className="bg-gradient-to-r from-primary to-emerald-500 hover:opacity-95 text-primary-foreground shadow-lg shadow-primary/30 h-12 px-8 text-base"
                 >
                   <Send className="w-4 h-4" />
-                  Đăng Ký Tư Vấn Ngay
+                  {t("Đăng Ký Tư Vấn Ngay", "Get a Free Consultation")}
                 </Button>
                 <Button
                   size="lg"
@@ -1477,7 +1569,7 @@ const EdTechWebService = () => {
                   className="h-12 px-8 text-base border-2 border-emerald-500/70 hover:bg-emerald-500/10 text-foreground"
                   asChild
                 >
-                  <a href="#packages">Xem gói dịch vụ</a>
+                  <a href="#packages">{t("Xem gói dịch vụ", "View service packages")}</a>
                 </Button>
               </div>
 
@@ -1485,21 +1577,22 @@ const EdTechWebService = () => {
               <div className="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11.5px] sm:text-xs font-semibold text-foreground/85">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                  <span>Hợp đồng rõ ràng, thanh toán theo 2 đợt (50/50)</span>
+                  <span>{t("Hợp đồng rõ ràng, thanh toán theo 2 đợt (50/50)", "Clear contract · 50/50 two-stage payment")}</span>
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
                   <Database className="w-3.5 h-3.5 text-primary shrink-0" />
-                  <span>Cam kết vận hành hiệu quả</span>
+                  <span>{t("Cam kết vận hành hiệu quả", "Performance guaranteed in production")}</span>
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
                   <Zap className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                  <span>Bàn giao 5–10 ngày</span>
+                  <span>{t("Bàn giao 5–10 ngày", "Delivered in 5–10 days")}</span>
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
                   <Bot className="w-3.5 h-3.5 text-violet-500 shrink-0" />
-                  <span>Tận tâm với từng sản phẩm giáo dục</span>
+                  <span>{t("Tận tâm với từng sản phẩm giáo dục", "Crafted with care for every educator")}</span>
                 </span>
               </div>
+
             </motion.div>
 
             {/* RIGHT — Live demo carousel */}
@@ -1585,28 +1678,32 @@ const EdTechWebService = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
-              Các tính năng cốt lõi của Website
+              {t("Các tính năng cốt lõi của Website", "Core Website Features")}
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Mỗi website được thiết kế riêng – không phải template – để phục vụ đúng chương trình giảng dạy của bạn.
+              {t(
+                "Mỗi website được thiết kế riêng – không phải template – để phục vụ đúng chương trình giảng dạy của bạn.",
+                "Every website is custom-built – not a template – to fit exactly the way you teach.",
+              )}
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto">
             {FEATURES.map((f, i) => (
               <motion.div
-                key={f.title}
+                key={f.title.vi}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
+                transition={{ delay: i * 0.05 }}
               >
-                <Card className={`h-full relative overflow-hidden border-border/70 bg-gradient-to-br ${f.color}`}>
+                <Card className="h-full relative overflow-hidden border-2 border-emerald-500/40 hover:border-emerald-500/80 bg-card shadow-md hover:shadow-xl hover:shadow-emerald-500/20 hover:-translate-y-1 transition-all duration-300">
+                  <span className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-emerald-500 via-primary to-emerald-500" />
                   <CardContent className="p-6">
-                    <div className={`w-12 h-12 rounded-xl ${f.iconBg} flex items-center justify-center mb-4`}>
+                    <div className={`w-12 h-12 rounded-xl ${f.iconBg} flex items-center justify-center mb-4 ring-1 ring-emerald-500/20`}>
                       <f.icon className="w-6 h-6" />
                     </div>
-                    <h3 className="text-lg font-semibold text-foreground mb-2">{f.title}</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
+                    <h3 className="text-lg font-bold text-foreground mb-2">{t(f.title.vi, f.title.en)}</h3>
+                    <p className="text-sm text-foreground/75 leading-relaxed">{t(f.desc.vi, f.desc.en)}</p>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -1614,6 +1711,7 @@ const EdTechWebService = () => {
           </div>
         </div>
       </section>
+
 
       {/* Industries Served — who we build for */}
 
@@ -1983,14 +2081,16 @@ const EdTechWebService = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
-              Bảng giá &amp; Các gói dịch vụ
+              {t("Bảng giá & Các gói dịch vụ", "Pricing & Service Packages")}
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Giá niêm yết minh bạch. Báo giá cuối cùng sẽ được điều chỉnh theo phạm vi và số lượng tính năng tuỳ biến
-              thực tế của quý Thầy/Cô.
+              {t(
+                "Giá niêm yết minh bạch. Báo giá cuối cùng sẽ được điều chỉnh theo phạm vi và số lượng tính năng tuỳ biến thực tế của quý Thầy/Cô.",
+                "Transparent list prices. Your final quote is adjusted to the actual scope and custom features you need.",
+              )}
             </p>
             <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-emerald-500/10 text-emerald-600 px-3 py-1 text-xs font-semibold">
-              <Sparkles className="w-3.5 h-3.5" /> Ưu đãi ra mắt: giảm 15% cho 10 giáo viên đầu tiên
+              <Sparkles className="w-3.5 h-3.5" /> {t("Ưu đãi ra mắt: giảm 15% cho 10 giáo viên đầu tiên", "Launch offer: 15% off for the first 10 teachers")}
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-stretch">
@@ -2008,7 +2108,7 @@ const EdTechWebService = () => {
               >
                 {p.highlight && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-primary to-emerald-500 text-primary-foreground text-xs font-bold px-3 py-1 shadow-md">
-                    <Crown className="w-3 h-3" /> Khuyên dùng
+                    <Crown className="w-3 h-3" /> {t("Khuyên dùng", "Recommended")}
                   </div>
                 )}
                 <Card className={`h-full flex flex-col ${p.highlight ? "bg-card" : ""}`}>
@@ -2064,7 +2164,7 @@ const EdTechWebService = () => {
                       }`}
                       variant={p.highlight ? "default" : "outline"}
                     >
-                      Chọn {p.name}
+                      {t(`Chọn ${p.name}`, `Choose ${p.name}`)}
                     </Button>
                   </CardContent>
                 </Card>
