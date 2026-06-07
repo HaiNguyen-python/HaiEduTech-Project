@@ -2798,15 +2798,19 @@ const AdminMockup = () => (
 );
 
 const PortfolioShowcase = () => {
+  const { t } = useLanguage();
   return (
     <section className="py-16 sm:py-20">
       <div className="container mx-auto px-4 sm:px-6">
         <div className="text-center max-w-2xl mx-auto mb-10">
           <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
-            Hệ Thống Tính Năng – Bản Demo Trực Quan
+            {t("Hệ Thống Tính Năng – Bản Demo Trực Quan", "Feature System – Visual Live Demo")}
           </h2>
           <p className="mt-3 text-muted-foreground">
-            Khám phá những gì quý Thầy/Cô sẽ thực sự nhận được – lướt qua 17 màn hình demo của hệ thống.
+            {t(
+              "Khám phá những gì quý Thầy/Cô sẽ thực sự nhận được – lướt qua 17 màn hình demo của hệ thống.",
+              "See exactly what you'll get – swipe through 17 demo screens of the system."
+            )}
           </p>
         </div>
         <div className="max-w-5xl mx-auto">
