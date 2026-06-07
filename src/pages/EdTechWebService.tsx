@@ -463,11 +463,11 @@ const DemoCarousel = () => {
       {/* Header */}
       <div className="px-6 sm:px-8 pt-6 pb-4 flex items-center justify-between">
         <div>
-          <div className="text-xs text-muted-foreground">Hôm nay · {new Date().toLocaleDateString("vi-VN")}</div>
-          <div className="text-lg sm:text-2xl font-semibold text-foreground mt-0.5">{slide.title}</div>
+          <div className="text-xs text-muted-foreground">{t("Hôm nay", "Today")} · {new Date().toLocaleDateString(lang === "vi" ? "vi-VN" : "en-US")}</div>
+          <div className="text-lg sm:text-2xl font-semibold text-foreground mt-0.5">{t(slide.title.vi, slide.title.en)}</div>
         </div>
         <div className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium border ${badgeClass}`}>
-          <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse" /> {slide.badge}
+          <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse" /> {t(slide.badge.vi, slide.badge.en)}
         </div>
       </div>
 
