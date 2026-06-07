@@ -341,18 +341,31 @@ Deno.serve(async (req) => {
       });
     }
 
-    let result: any;
-    if (type === "dictionary") {
-      result = await handleDictionary(word);
-    } else if (type === "collocation") {
-      result = await handleCollocation(word);
-    } else if (type === "thesaurus") {
-      result = await handleThesaurus(word);
-    } else {
+    const validKinds = new Set(["dictionary", "collocation", "thesaurus"]);
+    if (!validKinds.has(type)) {
       return new Response(JSON.stringify({ error: true, message: "Invalid type" }), {
         status: 200,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
+    }
+
+    // ⚡ Server-side cache hit
+    const cached = await readCache(type, word);
+    if (cached) {
+      return new Response(JSON.stringify({ ...cached, cached: true }), {
+        status: 200,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    let result: any;
+    if (type === "dictionary") result = await handleDictionary(word);
+    else if (type === "collocation") result = await handleCollocation(word);
+    else result = await handleThesaurus(word);
+
+    // Persist successful payloads only (avoid caching transient busy/error states)
+    if (result && !result.error) {
+      writeCache(type, word, result);
     }
 
     return new Response(JSON.stringify(result), {
