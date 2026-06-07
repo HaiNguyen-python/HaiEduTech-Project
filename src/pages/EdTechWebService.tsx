@@ -242,88 +242,212 @@ const EdTechWebService = () => {
 
       {/* Hero */}
       <section className="relative overflow-hidden pt-10 pb-16 sm:pt-16 sm:pb-24">
+        {/* Layered ambient background */}
         <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/10 via-background to-emerald-500/10" />
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_20%,hsl(var(--primary)/0.15),transparent_50%),radial-gradient(circle_at_80%_60%,hsl(var(--accent)/0.15),transparent_50%)]" />
-        <div className="container mx-auto px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center"
-          >
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-xs sm:text-sm font-medium text-primary mb-6">
-              <Sparkles className="w-4 h-4" />
-              Dịch vụ Thiết kế Website – Made by HaiEduTech
-            </div>
-            <h1 className="notranslate text-3xl sm:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground leading-tight">
-              <span className="block">Nâng cao chất lượng giảng dạy với</span>
-              <span className="block bg-gradient-to-r from-primary to-emerald-500 bg-clip-text text-transparent">
-                Smart Learning &amp; Teaching System
-              </span>
-            </h1>
-            <p className="notranslate mt-6 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              <span className="block">
-                Cung cấp giải pháp "tailor-made" - thiết kế riêng hệ thống LMS theo từng nhu cầu giảng dạy, kết hợp 15 năm kinh nghiệm sư phạm của Thầy Hải tại Việt Nam &amp; Phần Lan và 3+ năm kinh nghiệm trong ngành Data Engineering &amp; AI tại Phần Lan.
-              </span>
-              <span className="block mt-4">
-                Không dùng template chung, tạo sự khác biệt &amp; độc đáo cho mỗi website của thầy cô, cùng hệ thống LMS bảo mật, AI Tutor 24/7, hệ thống giao, quản lý, chấm bài tự động và dashboard đo lường hiệu quả học tập theo thời gian thực.
-              </span>
-            </p>
-            <ul className="mt-5 max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-left text-sm">
-              {[
-                "Tiết kiệm 8–10 giờ chấm bài / tuần",
-                "Hỗ trợ tuyển sinh  & nhắc lịch học qua email",
-                "AI Tutor trợ giảng giải đáp học viên ngoài giờ học",
-                "Tạo & Gửi báo cáo phụ huynh tự động hàng tháng",
-              ].map((b) => (
-                <li key={b} className="flex items-start gap-2 text-foreground/90">
-                  <Check className="w-4 h-4 mt-0.5 text-emerald-500 shrink-0" />
-                  <span>{b}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-              <Button
-                size="lg"
-                onClick={scrollToForm}
-                className="bg-gradient-to-r from-primary to-emerald-500 hover:opacity-95 text-primary-foreground shadow-lg shadow-primary/30 h-12 px-8 text-base"
-              >
-                <Send className="w-4 h-4" />
-                Đăng Ký Tư Vấn Ngay
-              </Button>
-              <Button size="lg" variant="outline" className="h-12 px-8 text-base" asChild>
-                <a href="#packages">Xem gói dịch vụ</a>
-              </Button>
-            </div>
-            <div className="mt-10 grid grid-cols-3 gap-4 max-w-2xl mx-auto text-center">
-              {[
-                { k: "15+", v: "năm sư phạm tại Việt Nam & Phần Lan" },
-                { k: "3+", v: "năm Kỹ sư Dữ liệu & AI tại Phần Lan" },
-                { k: "✦", v: "Kinh nghiệm liên ngành Sư phạm & Công nghệ" },
-              ].map((s) => (
-                <div key={s.v} className="rounded-xl border border-border bg-card/60 backdrop-blur px-3 py-3">
-                  <div className="text-lg sm:text-xl font-bold text-foreground">{s.k}</div>
-                  <div className="text-xs text-muted-foreground leading-snug">{s.v}</div>
-                </div>
-              ))}
-            </div>
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_15%_15%,hsl(var(--primary)/0.18),transparent_55%),radial-gradient(circle_at_85%_70%,hsl(160_84%_39%/0.18),transparent_55%)]" />
+        <div className="absolute inset-0 -z-10 opacity-[0.04] [background-image:linear-gradient(hsl(var(--foreground))_1px,transparent_1px),linear-gradient(90deg,hsl(var(--foreground))_1px,transparent_1px)] [background-size:42px_42px]" />
+        {/* Floating orbs */}
+        <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 -right-24 h-80 w-80 rounded-full bg-emerald-500/20 blur-3xl" />
 
-            {/* Trust badges row */}
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-xs text-muted-foreground">
-              <span className="inline-flex items-center gap-1 rounded-full bg-secondary/60 px-3 py-1">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" /> Bảo mật chuẩn EU
-              </span>
-              <span className="inline-flex items-center gap-1 rounded-full bg-secondary/60 px-3 py-1">
-                <Database className="w-3.5 h-3.5 text-primary" /> Sở hữu 100% dữ liệu
-              </span>
-              <span className="inline-flex items-center gap-1 rounded-full bg-secondary/60 px-3 py-1">
-                <Zap className="w-3.5 h-3.5 text-amber-500" /> Bàn giao nhanh 5–10 ngày
-              </span>
-              <span className="inline-flex items-center gap-1 rounded-full bg-secondary/60 px-3 py-1">
-                <Bot className="w-3.5 h-3.5 text-violet-500" /> Luôn tận tâm với từng sản phẩm giáo dục
-              </span>
-            </div>
-          </motion.div>
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="grid lg:grid-cols-[1.15fr_1fr] gap-10 lg:gap-14 items-center max-w-7xl mx-auto">
+            {/* LEFT — Copy */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-center lg:text-left"
+            >
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-xs sm:text-sm font-medium text-primary mb-6 shadow-sm">
+                <Sparkles className="w-4 h-4" />
+                Thiết kế Website Giáo dục – Made by HaiEduTech
+              </div>
+
+              <h1 className="notranslate font-display font-bold tracking-tight text-foreground leading-[1.05] text-[2rem] sm:text-5xl lg:text-[3.4rem]">
+                <span className="block">Nâng cao chất lượng</span>
+                <span className="block">giảng dạy với</span>
+                <span className="mt-2 block bg-gradient-to-r from-primary via-teal-500 to-emerald-500 bg-clip-text text-transparent">
+                  Smart Learning &amp;
+                </span>
+                <span className="block bg-gradient-to-r from-primary via-teal-500 to-emerald-500 bg-clip-text text-transparent">
+                  Teaching System
+                </span>
+              </h1>
+
+              <p className="notranslate mt-6 text-[15px] sm:text-base text-muted-foreground max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                Giải pháp <span className="font-semibold text-foreground">"tailor-made"</span> – thiết kế riêng hệ thống LMS theo từng nhu cầu giảng dạy, kết hợp <span className="font-semibold text-foreground">15 năm kinh nghiệm sư phạm</span> của Thầy Hải tại Việt Nam &amp; Phần Lan và <span className="font-semibold text-foreground">3+ năm Data Engineering &amp; AI</span> tại Phần Lan.
+              </p>
+
+              <ul className="mt-6 max-w-xl mx-auto lg:mx-0 grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-2.5 text-left text-sm">
+                {[
+                  "Tiết kiệm 8–10 giờ chấm bài / tuần",
+                  "Hỗ trợ tuyển sinh & nhắc lịch học qua email",
+                  "AI Tutor trợ giảng học viên ngoài giờ học",
+                  "Báo cáo phụ huynh tự động hàng tháng",
+                ].map((b) => (
+                  <li key={b} className="flex items-start gap-2 text-foreground/90">
+                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 ring-1 ring-emerald-500/30">
+                      <Check className="w-3 h-3 text-emerald-600" />
+                    </span>
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+                <Button
+                  size="lg"
+                  onClick={scrollToForm}
+                  className="bg-gradient-to-r from-primary to-emerald-500 hover:opacity-95 text-primary-foreground shadow-lg shadow-primary/30 h-12 px-8 text-base"
+                >
+                  <Send className="w-4 h-4" />
+                  Đăng Ký Tư Vấn Ngay
+                </Button>
+                <Button size="lg" variant="outline" className="h-12 px-8 text-base border-primary/30 hover:bg-primary/5" asChild>
+                  <a href="#packages">Xem gói dịch vụ</a>
+                </Button>
+              </div>
+
+              {/* Trust badges */}
+              <div className="mt-7 flex flex-wrap items-center justify-center lg:justify-start gap-2 text-xs text-muted-foreground">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/70 backdrop-blur border border-border/60 px-3 py-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" /> Bảo mật chuẩn EU
+                </span>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/70 backdrop-blur border border-border/60 px-3 py-1.5">
+                  <Database className="w-3.5 h-3.5 text-primary" /> Sở hữu 100% dữ liệu
+                </span>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/70 backdrop-blur border border-border/60 px-3 py-1.5">
+                  <Zap className="w-3.5 h-3.5 text-amber-500" /> Bàn giao 5–10 ngày
+                </span>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/70 backdrop-blur border border-border/60 px-3 py-1.5">
+                  <Bot className="w-3.5 h-3.5 text-violet-500" /> Tận tâm từng sản phẩm
+                </span>
+              </div>
+            </motion.div>
+
+            {/* RIGHT — Visual mockup + floating badges */}
+            <motion.div
+              initial={{ opacity: 0, y: 30, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.15 }}
+              className="relative"
+            >
+              {/* Mockup browser card */}
+              <div className="relative rounded-2xl border border-border/70 bg-card/80 backdrop-blur-xl shadow-2xl shadow-primary/10 overflow-hidden">
+                <div className="flex items-center gap-1.5 px-4 py-3 border-b border-border/60 bg-muted/40">
+                  <span className="h-2.5 w-2.5 rounded-full bg-rose-400/80" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-amber-400/80" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/80" />
+                  <div className="ml-3 flex-1 rounded-md bg-background/70 px-3 py-1 text-[10px] text-muted-foreground truncate border border-border/40">
+                    🔒 lop-hoc-cua-thay.edu.vn / dashboard
+                  </div>
+                </div>
+                <div className="p-5 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="text-[11px] text-muted-foreground">Hôm nay</div>
+                      <div className="text-sm font-semibold text-foreground">Smart Dashboard</div>
+                    </div>
+                    <div className="flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-1 text-[10px] font-medium text-emerald-600 border border-emerald-500/20">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" /> AI Tutor online
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-2">
+                    {[
+                      { label: "Học viên", value: "248", icon: Users, color: "text-primary", bg: "bg-primary/10" },
+                      { label: "Bài đã chấm", value: "1.2k", icon: ClipboardList, color: "text-emerald-600", bg: "bg-emerald-500/10" },
+                      { label: "AI replies", value: "532", icon: Bot, color: "text-violet-600", bg: "bg-violet-500/10" },
+                    ].map((s) => (
+                      <div key={s.label} className="rounded-lg border border-border/60 bg-background/60 p-2.5">
+                        <div className={`mb-1.5 inline-flex h-6 w-6 items-center justify-center rounded-md ${s.bg}`}>
+                          <s.icon className={`h-3.5 w-3.5 ${s.color}`} />
+                        </div>
+                        <div className="text-base font-bold text-foreground leading-none">{s.value}</div>
+                        <div className="text-[10px] text-muted-foreground mt-1">{s.label}</div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="rounded-lg border border-border/60 bg-background/60 p-3">
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="text-[11px] font-medium text-foreground">Tiến độ học tập 7 ngày</div>
+                      <div className="inline-flex items-center gap-1 text-[10px] text-emerald-600 font-semibold">
+                        <TrendingUp className="h-3 w-3" /> +18%
+                      </div>
+                    </div>
+                    <div className="h-20">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <LineChart data={[
+                          { d: "T2", v: 42 }, { d: "T3", v: 55 }, { d: "T4", v: 48 },
+                          { d: "T5", v: 67 }, { d: "T6", v: 72 }, { d: "T7", v: 80 }, { d: "CN", v: 88 },
+                        ]}>
+                          <Line type="monotone" dataKey="v" stroke="hsl(var(--primary))" strokeWidth={2.5} dot={{ r: 2.5, fill: "hsl(var(--primary))" }} />
+                          <XAxis dataKey="d" tick={{ fontSize: 9, fill: "hsl(var(--muted-foreground))" }} axisLine={false} tickLine={false} />
+                        </LineChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.6 }}
+                className="hidden sm:flex absolute -left-4 top-1/3 items-center gap-2 rounded-xl border border-border/60 bg-card/95 backdrop-blur px-3 py-2 shadow-xl"
+              >
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white">
+                  <Bot className="h-4 w-4" />
+                </div>
+                <div>
+                  <div className="text-[11px] font-semibold text-foreground leading-tight">AI Tutor 24/7</div>
+                  <div className="text-[9px] text-muted-foreground">Trả lời tức thì</div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.8 }}
+                className="hidden sm:flex absolute -right-4 bottom-10 items-center gap-2 rounded-xl border border-border/60 bg-card/95 backdrop-blur px-3 py-2 shadow-xl"
+              >
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 text-white">
+                  <ShieldCheck className="h-4 w-4" />
+                </div>
+                <div>
+                  <div className="text-[11px] font-semibold text-foreground leading-tight">SSL · RLS</div>
+                  <div className="text-[9px] text-muted-foreground">Bảo mật ngân hàng</div>
+                </div>
+              </motion.div>
+            </motion.div>
+          </div>
+
+          {/* Stats row */}
+          <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-5xl mx-auto">
+            {[
+              { k: "15+", v: "năm sư phạm tại Việt Nam & Phần Lan", icon: GraduationCap, grad: "from-primary/20 to-primary/0" },
+              { k: "3+", v: "năm Kỹ sư Dữ liệu & AI tại Phần Lan", icon: Database, grad: "from-emerald-500/20 to-emerald-500/0" },
+              { k: "✦", v: "Kinh nghiệm liên ngành Sư phạm & Công nghệ", icon: Sparkles, grad: "from-violet-500/20 to-violet-500/0" },
+            ].map((s) => (
+              <div
+                key={s.v}
+                className="relative overflow-hidden rounded-2xl border border-border/70 bg-card/70 backdrop-blur p-5 text-center sm:text-left hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10 transition-all"
+              >
+                <div className={`absolute inset-0 bg-gradient-to-br ${s.grad} pointer-events-none`} />
+                <div className="relative flex items-center gap-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-background/80 border border-border/60">
+                    <s.icon className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <div className="text-xl sm:text-2xl font-bold text-foreground leading-none">{s.k}</div>
+                    <div className="text-xs text-muted-foreground leading-snug mt-1.5">{s.v}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
