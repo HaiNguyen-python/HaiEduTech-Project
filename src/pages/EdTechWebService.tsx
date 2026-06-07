@@ -2122,24 +2122,27 @@ const EdTechWebService = () => {
                 <div className="inline-flex w-20 h-20 rounded-full bg-gradient-to-br from-emerald-500 to-primary text-white items-center justify-center shadow-lg shadow-emerald-500/30">
                   <ShieldCheck className="w-10 h-10" />
                 </div>
-                <p className="mt-3 text-xs font-bold uppercase tracking-wider text-emerald-600">Cam kết HaiEduTech</p>
+                <p className="mt-3 text-xs font-bold uppercase tracking-wider text-emerald-600">{t("Cam kết HaiEduTech", "HaiEduTech Commitment")}</p>
               </div>
               <div className="md:col-span-2">
                 <h3 className="text-xl sm:text-2xl font-display font-bold text-foreground mb-3">
-                  Đồng hành tận tâm – bàn giao chuẩn chỉnh, hỗ trợ dài hạn cùng quý Thầy/Cô
+                  {t(
+                    "Đồng hành tận tâm – bàn giao chuẩn chỉnh, hỗ trợ dài hạn cùng quý Thầy/Cô",
+                    "Dedicated partnership – clean handover and long-term support for every teacher"
+                  )}
                 </h3>
                 <ul className="space-y-2 text-sm text-foreground">
                   <li className="flex items-start gap-2">
                     <Check className="w-4 h-4 mt-0.5 text-emerald-500 shrink-0" />
-                    <span>Bàn giao 100% mã nguồn – quý Thầy/Cô sở hữu vĩnh viễn, không khoá vendor.</span>
+                    <span>{t("Bàn giao 100% mã nguồn – quý Thầy/Cô sở hữu vĩnh viễn, không khoá vendor.", "Full source-code handover – you own it forever, no vendor lock-in.")}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <Check className="w-4 h-4 mt-0.5 text-emerald-500 shrink-0" />
-                    <span>Bảo hành sửa lỗi miễn phí 6 tháng sau bàn giao.</span>
+                    <span>{t("Bảo hành sửa lỗi miễn phí 6 tháng sau bàn giao.", "Free 6-month bug-fix warranty after handover.")}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <Check className="w-4 h-4 mt-0.5 text-emerald-500 shrink-0" />
-                    <span>Hợp đồng rõ ràng, xuất hoá đơn VAT, thanh toán theo 2 đợt (50/50).</span>
+                    <span>{t("Hợp đồng rõ ràng, xuất hoá đơn VAT, thanh toán theo 2 đợt (50/50).", "Clear contract, VAT invoices, 50/50 two-stage payment.")}</span>
                   </li>
                 </ul>
               </div>
