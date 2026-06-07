@@ -245,6 +245,18 @@ const DEMO_SLIDES = [
     badgeColor: "primary" as const,
   },
   {
+    id: "assignments",
+    title: "Bài tập & Chấm điểm AI",
+    badge: "Auto grading",
+    badgeColor: "rose" as const,
+  },
+  {
+    id: "analytics",
+    title: "Phân tích chuyên sâu",
+    badge: "Insights AI",
+    badgeColor: "sky" as const,
+  },
+  {
     id: "parent-report",
     title: "Báo cáo phụ huynh",
     badge: "Auto · Hàng tháng",
