@@ -296,6 +296,36 @@ const DEMO_SLIDES = [
     badge: "Auto · Hàng tháng",
     badgeColor: "amber" as const,
   },
+  {
+    id: "rubric-grading",
+    title: "Chấm Writing theo Rubric AI",
+    badge: "IELTS Band Descriptors",
+    badgeColor: "rose" as const,
+  },
+  {
+    id: "speaking-grading",
+    title: "Chấm Speaking · Phát âm AI",
+    badge: "Pronunciation scoring",
+    badgeColor: "violet" as const,
+  },
+  {
+    id: "live-class",
+    title: "Phòng học Live · Theo dõi tập trung",
+    badge: "Live · Engagement AI",
+    badgeColor: "sky" as const,
+  },
+  {
+    id: "mastery-map",
+    title: "Bản đồ năng lực · Skill Mastery",
+    badge: "Knowledge graph",
+    badgeColor: "indigo" as const,
+  },
+  {
+    id: "assignment-builder",
+    title: "Giao bài theo lớp · Cá nhân hoá",
+    badge: "Smart Assign",
+    badgeColor: "teal" as const,
+  },
 ];
 
 const badgeStyles = {
