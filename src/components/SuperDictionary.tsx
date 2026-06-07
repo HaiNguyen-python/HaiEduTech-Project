@@ -520,7 +520,7 @@ const SuperDictionary = () => {
 
     try {
       const { data, error } = await supabase.functions.invoke("dictionary-lookup", {
-        body: { type: "thesaurus", word: word.trim() },
+        body: { type: "thesaurus", word: w },
       });
       if (error || !data) {
         setThesaurusError("busy");
@@ -529,9 +529,8 @@ const SuperDictionary = () => {
       } else {
         const syns = Array.isArray(data.synonyms) ? data.synonyms : [];
         setThesaurusResult(syns);
-        if (syns.length === 0) {
-          setThesaurusError("notFound");
-        }
+        if (syns.length === 0) setThesaurusError("notFound");
+        setCachedLookup(tKey, { synonyms: syns });
       }
     } catch {
       setThesaurusError("busy");
