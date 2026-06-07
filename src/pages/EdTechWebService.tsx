@@ -432,6 +432,7 @@ const badgeStyles = {
 };
 
 const DemoCarousel = () => {
+  const { t, lang } = useLanguage();
   const [idx, setIdx] = useState(0);
   const total = DEMO_SLIDES.length;
 
