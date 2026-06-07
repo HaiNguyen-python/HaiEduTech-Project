@@ -273,17 +273,12 @@ const Navbar = () => {
     { to: "/dich-vu-web", label: t("Dịch vụ Thiết kế Website", "Website Design Service"), icon: Sparkles },
   ];
 
-  const navLinks = user
-    ? isTeacher
-      ? [...baseLinks, { to: "/admin-dashboard", label: t("Quản trị", "Admin"), icon: Shield }]
-      : isPureAssistant
-        ? [...baseLinks,
-            { to: "/admin-dashboard", label: t("Quản trị", "Admin"), icon: Shield },
-            { to: "/assistant", label: t("CTV", "Assistant"), icon: Shield },
-            { to: "/dashboard", label: t("Dashboard", "Dashboard"), icon: LayoutDashboard },
-          ]
-        : [...baseLinks, { to: "/dashboard", label: t("Dashboard", "Dashboard"), icon: LayoutDashboard }]
+  // Dashboard and Admin entries are intentionally omitted from the main menu —
+  // they are accessible from the user dropdown after login to keep the navbar clean.
+  const navLinks = user && isPureAssistant
+    ? [...baseLinks, { to: "/assistant", label: t("CTV", "Assistant"), icon: Shield }]
     : baseLinks;
+
 
   // Hover bridge + intent debounce: opening is instant, closing is delayed
   // (~350ms) so the cursor can travel through the small gap between the
