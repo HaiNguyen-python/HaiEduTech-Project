@@ -270,7 +270,7 @@ const Navbar = () => {
     { to: "/programming", label: t("Học Lập Trình", "Learn Programming"), icon: Code2, subs: programmingSubs, key: "prog" },
     
     { to: "/study-abroad", label: t("Du Học", "Study Abroad"), icon: Briefcase, subs: studyAbroadSubs, key: "abroad" },
-    { to: "/dich-vu-web", label: t("Dịch vụ Thiết kế Website", "Website Design Service"), icon: Sparkles },
+    { to: "/dich-vu-web", label: t("Thiết kế Website Giáo dục", "EdTech Website Design"), icon: Sparkles },
   ];
 
   // Dashboard and Admin entries are intentionally omitted from the main menu —
