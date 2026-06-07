@@ -2333,32 +2333,32 @@ const EdTechWebService = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/40 bg-emerald-500/5 px-3 py-1 text-xs font-semibold text-emerald-600 mb-3">
-              <ShieldCheck className="w-3.5 h-3.5" /> 5 Cam Kết Vàng
+              <ShieldCheck className="w-3.5 h-3.5" /> {t("5 Cam Kết Vàng", "5 Golden Commitments")}
             </div>
             <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
-              Tận tâm với từng sản phẩm giáo dục & công nghệ
+              {t("Tận tâm với từng sản phẩm giáo dục & công nghệ", "Crafted with care for every educational & tech product")}
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Không hứa suông – mỗi cam kết đều được ghi rõ trong hợp đồng.
+              {t("Không hứa suông – mỗi cam kết đều được ghi rõ trong hợp đồng.", "No empty promises – every commitment is written into the contract.")}
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 max-w-6xl mx-auto">
             {[
-              { icon: ShieldCheck, t: "Hoàn tiền 100%", d: "Trong 7 ngày nếu bản demo không đạt yêu cầu." },
-              { icon: Database, t: "Bàn giao mã nguồn", d: "100% code + database thuộc sở hữu Thầy/Cô." },
-              { icon: Clock, t: "Bảo hành 6 tháng", d: "Sửa lỗi miễn phí, hỗ trợ ưu tiên qua Zalo." },
-              { icon: FileText, t: "NDA bảo mật", d: "Ký cam kết không tiết lộ dữ liệu lớp học." },
-              { icon: Bot, t: "Hỗ trợ trọn đời", d: "Cộng đồng giáo viên HaiEduTech miễn phí vĩnh viễn." },
+              { icon: ShieldCheck, t: { vi: "Hoàn tiền 100%", en: "100% Refund" }, d: { vi: "Trong 7 ngày nếu bản demo không đạt yêu cầu.", en: "Within 7 days if the demo doesn't meet expectations." } },
+              { icon: Database, t: { vi: "Bàn giao mã nguồn", en: "Source Code Handover" }, d: { vi: "100% code + database thuộc sở hữu Thầy/Cô.", en: "100% of the code + database belongs to you." } },
+              { icon: Clock, t: { vi: "Bảo hành 6 tháng", en: "6-Month Warranty" }, d: { vi: "Sửa lỗi miễn phí, hỗ trợ ưu tiên qua Zalo.", en: "Free bug fixes and priority Zalo support." } },
+              { icon: FileText, t: { vi: "NDA bảo mật", en: "NDA Confidentiality" }, d: { vi: "Ký cam kết không tiết lộ dữ liệu lớp học.", en: "Signed agreement not to disclose any class data." } },
+              { icon: Bot, t: { vi: "Hỗ trợ trọn đời", en: "Lifetime Support" }, d: { vi: "Cộng đồng giáo viên HaiEduTech miễn phí vĩnh viễn.", en: "Free lifetime access to the HaiEduTech teachers' community." } },
             ].map((g) => (
               <div
-                key={g.t}
+                key={g.t.en}
                 className="rounded-2xl border-2 border-emerald-500/40 bg-card p-5 text-center hover:border-emerald-500/70 hover:-translate-y-1 hover:shadow-lg hover:shadow-emerald-500/15 transition-all"
               >
                 <div className="inline-flex w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500/20 to-primary/20 items-center justify-center mb-3">
                   <g.icon className="w-6 h-6 text-emerald-600" />
                 </div>
-                <h4 className="font-bold text-foreground text-sm sm:text-base mb-1.5">{g.t}</h4>
-                <p className="text-xs text-muted-foreground leading-snug">{g.d}</p>
+                <h4 className="font-bold text-foreground text-sm sm:text-base mb-1.5">{t(g.t.vi, g.t.en)}</h4>
+                <p className="text-xs text-muted-foreground leading-snug">{t(g.d.vi, g.d.en)}</p>
               </div>
             ))}
           </div>
@@ -2374,17 +2374,17 @@ const EdTechWebService = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {[
-              { icon: ShieldCheck, t: "Bảo mật chuẩn EU", d: "Hạ tầng cloud hiện đại, RLS & sao lưu tự động." },
-              { icon: Zap, t: "Bàn giao nhanh", d: "MVP có thể chạy trong 2–4 tuần tùy phạm vi." },
-              { icon: Database, t: "Sở hữu dữ liệu", d: "Toàn bộ dữ liệu lớp học thuộc về quý Thầy/Cô." },
+              { icon: ShieldCheck, t: { vi: "Bảo mật chuẩn EU", en: "EU-grade Security" }, d: { vi: "Hạ tầng cloud hiện đại, RLS & sao lưu tự động.", en: "Modern cloud infrastructure with RLS and automated backups." } },
+              { icon: Zap, t: { vi: "Bàn giao nhanh", en: "Fast Delivery" }, d: { vi: "MVP có thể chạy trong 2–4 tuần tùy phạm vi.", en: "Working MVP in 2–4 weeks depending on scope." } },
+              { icon: Database, t: { vi: "Sở hữu dữ liệu", en: "Data Ownership" }, d: { vi: "Toàn bộ dữ liệu lớp học thuộc về quý Thầy/Cô.", en: "All class data fully belongs to you." } },
             ].map((x) => (
-              <div key={x.t} className="flex items-start gap-3">
+              <div key={x.t.en} className="flex items-start gap-3">
                 <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
                   <x.icon className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-foreground">{x.t}</h4>
-                  <p className="text-sm text-muted-foreground">{x.d}</p>
+                  <h4 className="font-semibold text-foreground">{t(x.t.vi, x.t.en)}</h4>
+                  <p className="text-sm text-muted-foreground">{t(x.d.vi, x.d.en)}</p>
                 </div>
               </div>
             ))}
